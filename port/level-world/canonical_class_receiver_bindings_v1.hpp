@@ -53,6 +53,10 @@ class CanonicalClassReceiverBindingsV1 {
 public:
  CanonicalClassReceiverBindingsV1(CanonicalPropertyMapV1& map,CanonicalReceiverConstructionV1 c):map_(map),construction_(c){}
  CanonicalClassServicesV1 services() noexcept;
+ // Read-only short borrow of the registered receiver for an object already
+ // present in the canonical manager. The caller must copy any callbacks it
+ // needs before allowing source unpublication/erasure.
+ const CanonicalClassReceiverV1* receiver(const CanonicalObjectBorrowV1&,std::string&)const;
  // Called by actual deleting destructor/removal after manager unpublishes it.
  // Duplicate Add discards only its newly constructed identity.
  void erased(std::uintptr_t identity){receivers_.erase(identity);}

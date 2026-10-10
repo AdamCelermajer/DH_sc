@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "owner": "SourceRootScopes",
+  "scope": "Reusable offline host composition of actual source root LevelConfig/Module constructors and opaque child-scope bindings. In-house current-Level/Application context; no original LevelC1, full Level.Init, Module.InitPost, child MGP construction, condition/encounter, PFRoom or mesh-publication claim.",
+  "API": [
+    "build(assets, originalLevelUri, definitions, SourceWorldObjects, error, options)",
+    "load(assets, originalLevelUri, definitions, error, options)",
+    "bind(SourceWorldObjects, error)",
+    "modules()/status()/module_records()/count()/context()"
+  ],
+  "owned_siblings": [
+    "Typed SourceRootScopeContext: moduleId=-1, moduleOffset0, onlineByte5=0",
+    "ModuleRuntimeGlobalsV1 actual constructor counter",
+    "CanonicalPropertyMapV1 with canonical_vec3_origin_v1 position/rotation defaults",
+    "SourceLevelConfig current field and provider lease",
+    "SourceModuleConstruction genuine records and class-provider lease",
+    "CanonicalObjectManagerV1 and actual offline network leaf",
+    "Native DebugSwitches and constrained AssetCatalog/std::FILE read callbacks",
+    "SourceLevelConstruction original captured XML/factory attempt receipts",
+    "Own in-house load-state bytes released by freeing the buffer once; repeated release rejects"
+  ],
+  "actual_cache_verification": {
+    "uri": "original-cache/data/scene/001_swamp.mlx",
+    "source_attempts": 10,
+    "actual_Module_records": 9,
+    "config_records": 1,
+    "module_ID_authority": "Actual completed constructor receiver.module_id(), read through SAME retained SourceModuleConstructionTrace; no importer occurrence suffix/PF array index calculation."
+  },
+  "occurrence_association": {
+    "default": "Unique root declaration name association to existing top-level opaque ActorDefinition.moduleName importer scope. Suffix text is never parsed as a runtime ID.",
+    "ambiguous": "Reject unless SourceRootScopeOptions.hostOccurrenceByElement explicitly maps exact source XML element to an existing opaque host scope.",
+    "conditions": "No actor/map names or gameplay-condition decision in production owner."
+  },
+  "providers": {
+    "Debug": "Actual native settings reader with canonical existing asset file paths and native stdio stream leaves; true file absence follows source absent-file branch. Existing unreadable/unsafe files reject. Caller Debug callback requires retained owner.",
+    "Network": "Concrete owned offline application byte0 executes source_level_config_network_leaf original offline return. Custom manager services require a retained owner and real network-assignment leaf; no positive-online presumed success.",
+    "Files": "Actual parser result rejected on failure. Default host load-state release frees own bytes once. Caller file callbacks require retained owner; their failures propagate and retain reached constructor prefix.",
+    "Unsupported": "Unknown root class constructor, missing reached Module initialization/physical backend and unsupported occurrence associations fail at reached source provider."
+  },
+  "reload_contract": "SourceWorldObjects.load replaces its table and clears bindings. Call existing SourceRootScopes.bind again afterward; constructors and IDs are retained and are not replayed. Binding validates a copy before committing. Keep root owner alive for SAME constructor/manager/provider context lifetime.",
+  "tests": {
+    "source": "port/windows-foundation/tests/source_root_scopes_tests.cpp",
+    "native_result": "PASS fresh rebuilt target",
+    "checks": [
+      "Actual unfiltered root LevelConfig +9 Module constructors",
+      "Typed offline/root reset context remains actual owned -1/0/byte0",
+      "Constructor-derived module room resolves source intro trigger",
+      "Table reload removes scopes; bind restores without constructor replay",
+      "Explicit release-provider failure preserved after9 modules and refuses scope publication",
+      "Ambiguous host association rejected; exact element/opaque occurrence succeeds"
+    ]
+  },
+  "build_dependencies": [
+    "source_root_scopes.cpp",
+    "source_level_construction.cpp",
+    "source_level_config.cpp",
+    "source_module_construction.cpp",
+    "source_module_trace.cpp",
+    "source_world_objects.cpp",
+    "content_paths.cpp",
+    "Actual recovered CanonicalObjectManager/Factory/property/LevelConfig/Module source owners",
+    "canonical_gameobject_base_owner_v1.cpp",
+    "game_object_initialization_owner_v1.cpp",
+    "condition_data_init_v3.cpp",
+    "native_conditions_table_v69.cpp",
+    "native_conditions_runtime_v69.cpp",
+    "Native debug settings and original XML source adapter/load walk dependencies already in foundation_data"
+  ],
+  "parallel_build_note": "Initial standalone link used stale foundation library after sibling owner methods/layouts changed and was invalid. Fresh all-source build supplied actual owner/init/condition implementations; root reports62/62 CTest pass. Independently rebuilt source_root_scopes_tests after final buffer-release implementation and reran successfully.",
+  "files": [
+    {
+      "path": "port\\windows-foundation\\source_root_scopes.hpp",
+      "sha256": "467dace51a834967e266128a599e236241fdfe0c96b25962da16f8de90fa631d"
+    },
+    {
+      "path": "port\\windows-foundation\\source_root_scopes.cpp",
+      "sha256": "d655db267fd68daea8639c944bc0f32dd7883f35c9a43ca1565391acea7f1749"
+    },
+    {
+      "path": "port\\windows-foundation\\tests\\source_root_scopes_tests.cpp",
+      "sha256": "cf4abaf1cfc784c782403f58f9674391be0cacd8360ffe2741bfd25eaaf628d9"
+    }
+  ]
+}

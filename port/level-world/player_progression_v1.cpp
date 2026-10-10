@@ -36,12 +36,18 @@ bool level_up(ProgressionActorV1& a,std::int32_t carry,const ProgressionServices
  ProgressionResultV1& r,std::string& e){
  std::int32_t cap;bool ignored{};if(!maximum(a,s,cap,e))return false;
  auto* p=a.properties;if(asr8(p->resolved[19])>=cap)return true;
+ // LevelUp reloads this exact CharacterDesign row before class recalculation.
+ // Do not let an invalid renderer borrow fall through to the saved-property
+ // defaults: that would award a level while silently dropping authored class
+ // progression (including the visible XP threshold and derived point totals).
+ if(!a.actors||!a.classes||!a.class_count||a.actor_index<0||
+    std::size_t(a.actor_index)>=a.actors->rows.size())
+  return fail(e,"Required LevelUp same actor/class cache provider");
  if(!debug(s,"isTracingChar_Stats",ignored,e))return false;
  if(dh2_property_add(p,19,256)||dh2_property_set_int(p,33,0))return fail(e,"Source LevelUp property prefix failed");
  r.leveled=true;
- if(!a.actors||!a.classes||!a.class_count)return fail(e,"Required LevelUp same actor/class cache provider");
  std::copy_n(p->defaults,224,a.state->base.begin());
- if(a.actor_index>=0&&std::size_t(a.actor_index)<a.actors->rows.size())a.state->base=a.actors->rows[std::size_t(a.actor_index)];
+ a.state->base=a.actors->rows[std::size_t(a.actor_index)];
  if(dh2_class_recalc_base(a.classes,a.class_count,a.state->base.data(),p))return fail(e,"Source LevelUp class recalculation failed");
  if(!s.regen_full)return fail(e,"Required LevelUp source RegenHP/MP provider");
  if(!s.regen_full(a,false,e)||!s.regen_full(a,true,e))return false;

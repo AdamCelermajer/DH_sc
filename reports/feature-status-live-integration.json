@@ -1,0 +1,103 @@
+{
+  "feature": "status_effects_dot_leech",
+  "component_validation": "PASS",
+  "live_integration": "incomplete_genuine_host_owner_publication_required",
+  "feature_complete": false,
+  "owned_files": [
+    "port/windows-foundation/features/status_effects/status_effects.hpp",
+    "port/windows-foundation/features/status_effects/status_effects_tests.cpp",
+    "port/windows-foundation/features/status_effects/status_live_binding.hpp",
+    "port/windows-foundation/features/status_effects/status_live_binding.cpp",
+    "port/windows-foundation/features/status_effects/run_tests.ps1",
+    "port/windows-foundation/features/status_effects/source_status_owners.hpp",
+    "port/windows-foundation/features/status_effects/source_status_owners.cpp",
+    "port/windows-foundation/features/status_effects/source_status_owners_tests.cpp",
+    "port/windows-foundation/features/status_effects/source_status_constructors.asm"
+  ],
+  "source_provenance": {
+    "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "buffs": "port/level-world/reference/character-buffs/original-functions.json",
+    "timer_effects": "port/level-world/reference/character-timer-effects/NOTES.md",
+    "native_effects": "port/level-world/reference/character-native-effects/original-functions.json",
+    "source_differentials": [
+      "port/level-world/reports/character-buffs-arm64-differential.json",
+      "port/level-world/reports/character-timer-effects-arm64-differential.json",
+      "port/level-world/reports/character-dot-attack-arm64-differential.json",
+      "port/level-world/reports/character-native-effects-arm64-differential.json"
+    ],
+    "recovered_routes": "RaiseAIEvent 0x3cbb34 event0x33 -> UpdateRegen 0x3cb77c; event0x34 -> HandleDots 0x3df3f0; PROPS_AddDot 0x3e2720; AddBuff 0x3e232c; source event54 actual Timer user_ref/ID expiry"
+  },
+  "implemented": [
+    "DotTickBinding supplies actual TimerEffectServices16 CalculateResult through dh2_character_dot_calculate_result and FApplyResult through dh2_character_dot_apply over SAME retained DotActor32/PropertyView/shared combat",
+    "Uses CalculateResult entry because TimerEffect has already emitted outer F_DotAttack debug pair",
+    "Synchronous native query and full DotServices are mandatory; foreign character/property bindings fail",
+    "StatusTimerDelivery owns only stable callback context, routes SAME actual TimerStore event54/0x33/0x34, delegates other Character events and growth to original provider",
+    "Native void timer expiry latches first failure on SAME binding; host must inspect failure/error immediately after its sole original Update",
+    "dispatch_skill_status routes native stun/scare/slow, preserves full CombatResult continuation for all other FApplyResult services",
+    "No local ActorState, PropertyState, FSM, timer clock/schedule, damage or health owner created"
+  ],
+  "root_required_api_and_publication": [
+    "Obtain stable SAME actual ActorState and original Character identity, writable PropertyView backed by the world combat sheets, genuine TimerStore32, registered NativeFsm24/NativeEffects32, TimerEffectState32 and actual DotActor32 projection",
+    "Construct stable StatusTimerDelivery(SAME TimerStore32&, original_other_TimerServices32*) before BuffOwner; dh2_character_buffs_create({SAME PropertyView,SAME TimerStore32,&delivery.services(),full BuffServices16}) performs genuine source buff ownership allocation",
+    "BuffServices16 recalculation must execute original class-to-base and all-property resolution; load/release/object/enable must use source effect manager instance lifetime",
+    "Construct DotTickBinding({SAME TimerEffectState32,SAME DotActor32,shared original combat context,full DotServices16,real TimerEffect query services}); put &binding.services() into StatusEffects Borrow.tick_services",
+    "Construct StatusEffects(Borrow) with SAME BuffOwner/property/timer/NativeEffects32 and source SlowReactionBorrowV1/dictionaries; publish delivery.bind(status,error) exactly once",
+    "Bind existing ScriptOwner owner_design_tick to actual CharacterDesign AI_Tick/DoT_Tick and owner_timer_start/stop to SAME TimerStore. Existing recovered CharAI OnInit producer chooses actual durations/repeat/events; helper supplies none",
+    "Root advances SAME timers once per original frame/script-blocking input, then checks delivery.failure()/error(); abort/report on negative latch. Stop all original delivery before clearing/rebinding actors and destroying borrowed callback/owner backing",
+    "Full existing SkillApplyServicesV6 callback calls dispatch_skill_status({target_status,original_continuation},request,response,CombatResult,error). Preserve same source result, properties, hit/attacker handles, debug, text/audio/FX/AI owners",
+    "Regular melee/skill HP/MP leech remains original dh2_character_skill_apply_result_v6 or character_skill_apply_result_v116 over SAME SkillApplyActorV6 owners. Do not reapply damage in an observer or install a second FApplyResult",
+    "Full Character constructor source evidence exists in original ELF and canonical-object factories. Current PlayableActorWorld main binding still does not publish the canonical source graph. Prefer existing canonical owners; never replay the bounded property constructor on an initialized actor."
+  ],
+  "peer_contracts": {
+    "animation": "NativeEffectServices16 force_state/state_event/set_animation must use same actual registered FSM/animator; animation_review confirms no complete nativeFSM provider currently in main",
+    "effects": "effects executor borrows actual CharacterMeshFxOwnerV4; do not reinterpret Buff OID as effect set unless source producer established it; retain original buff instance/manager identity",
+    "audio": "dot_combat_sound must use actual CharSounds/source combat-sound selection, target position/random and Play3D gates; translate authoritative CombatSoundPlayV1 through prepare_3d and SourceAudioRouter.submit"
+  },
+  "tests": {
+    "runner": "port/windows-foundation/features/status_effects/run_tests.ps1",
+    "binary": ".local-inputs/status-effects-live-tests.exe",
+    "result": "PASS original ClassDict Buff_Speed=48 Debuff_Slow=60 AUTO_DOT_01_FIRE=1 duplicate/duration/expiry/reentry/interrupt/death/end/required-service/live-DOT/shared-owner/application-tail/void-timer-failure checks",
+    "live_dot_fixture_scope": "Explicit boundary fixtures exercise original DoT calculation/application kernels and fail at absent full HitFor; fixtures are not live engine callbacks",
+    "checks": [
+      "actual source buff/timer duration and expiry",
+      "original ClassDict inputs",
+      "real self/self direct DoT result/shared combat context",
+      "outer debug emitted once",
+      "required full HitFor failure retains combo prefix",
+      "foreign DoT identity rejects",
+      "application sound continuation failure preserved",
+      "missing FSM never falls through to acceptance",
+      "actual TimerStore Update surfaces negative status through void-expiry failure latch"
+    ]
+  },
+  "live_done_criterion": "A packaged active gameplay run uses these bindings for real world actors, original timer producer/clock and full source CalculateResult/FApplyResult/HitFor/property/FSM/FX/text/audio callbacks; observe positive timed DoT, stun/scare/slow application and expiry, regular HP/MP leech, death/end cleanup on SAME owners with no callback failures. Independent component test PASS does not satisfy this criterion.",
+  "source_constructor_checkpoint": {
+    "validation": "PASS",
+    "scope": "Fresh CharProperties C2 bounded map/4-sheet/shared-temp constructor plus recovered full CharAI OnInit service sequence; no whole Character C1 claim",
+    "source_elf_hash": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "asm": "port/windows-foundation/features/status_effects/source_status_constructors.asm",
+    "exact_original_functions": [
+      "CharProperties C2 0x3df084 size0x90",
+      "CharTimers C2 0x3dbb0c size0x4c reserves20",
+      "CharAI C2 0x3cebf0 size0x160 includes process global AI deque registration",
+      "CharStateMachine C2 0x3c1b58 size0x94",
+      "CharAI OnInit 0x3d12b0 size0x128",
+      "CharProperties ResetAllProperties 0x3defc4",
+      "CharProperties _ResetProperties 0x3def34"
+    ],
+    "character_c1_order": "GameObject->Controllable->Inventory->Timers->AI->Animator->FSM->Properties; later SetCharacter for timers/AI/animator/FSM/properties, then RegisterState0..19. Source CharAI global-deque registration, whole FSM constructor/registration, load/init remain original canonical factory services",
+    "binary": ".local-inputs/status-source-owners-tests.exe",
+    "test_result": "PASS source CharProperties C2 retained sheets/global temporary/map; source CharAI OnInit owner/order/design/old-timer/dead/AIS/failure-prefix checks",
+    "test_scope": "Caller-retained source field fixtures, explicit synthetic default/constants values; native original kernels executed; no live constructor publication or new ARM differential claim",
+    "canonical_discoveries": [
+      "CanonicalCharacterCandidateRecordV60 actor/session/machine/properties/life are existing sole canonical graph",
+      "Player BuffOwner: record.player_script_owner_v62->native_buffs()",
+      "NPC BuffOwner: record.save_connection_v86->borrow_buffs(out,error); actual NPC BuffBindings use session.property_view/timers/native_timer_services",
+      "Actual FSM: actor.machine->native_fsm(); source combat scalar cells: actor.machine->combat_fields()",
+      "NpcRecurringEffectsV1 executes source ticks and SAME CharacterWorldSkillCombatV6.apply; prefer it where canonical world exists",
+      "NpcSkillReactionsV2 executes stun/scare/slow over SAME machine/tables/timers/injury; source missing remaining service failures retained",
+      "SAME process temporary: character_properties_temp_global_v62()"
+    ],
+    "restriction": "Do not run fresh source_status_owners constructor or source OnInit a second time over already initialized canonical graph"
+  }
+}

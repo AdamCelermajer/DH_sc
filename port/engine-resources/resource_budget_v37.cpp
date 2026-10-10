@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <atomic>
 #include <limits>
+#include <sstream>
 #include <stdexcept>
 #include <utility>
 namespace dh2::resources {
@@ -9,6 +10,26 @@ namespace {
 std::atomic<std::uint64_t> next_budget{1};
 constexpr std::size_t kinds=std::size_t(ResourceKindV37::count),scopes=std::size_t(ResourceScopeV37::count);
 bool gpu_kind(ResourceKindV37 k){return k!=ResourceKindV37::cpu_request;}
+const char* kind_name(ResourceKindV37 k){
+ switch(k){case ResourceKindV37::texture:return "texture";case ResourceKindV37::vertex_buffer:return "vertex_buffer";
+ case ResourceKindV37::index_buffer:return "index_buffer";case ResourceKindV37::program:return "program";
+ case ResourceKindV37::framebuffer:return "framebuffer";case ResourceKindV37::renderbuffer:return "renderbuffer";
+ case ResourceKindV37::cpu_request:return "cpu_request";case ResourceKindV37::shader:return "shader";case ResourceKindV37::count:break;}
+ return "invalid";
+}
+const char* scope_name(ResourceScopeV37 s){
+ switch(s){case ResourceScopeV37::world:return "world";case ResourceScopeV37::actor:return "actor";
+ case ResourceScopeV37::equipment:return "equipment";case ResourceScopeV37::fx:return "fx";
+ case ResourceScopeV37::loot:return "loot";case ResourceScopeV37::swf_front:return "swf_front";
+ case ResourceScopeV37::swf_gameplay:return "swf_gameplay";case ResourceScopeV37::shader:return "shader";
+ case ResourceScopeV37::asset_archive:return "asset_archive";case ResourceScopeV37::other:return "other";
+ case ResourceScopeV37::count:break;}return "invalid";
+}
+void append_counts(std::ostringstream& out,const ResourceUsageV37& usage){
+ bool first=true;for(std::size_t i=0;i<kinds;++i)if(usage.objects[i]){
+  out<<(first?"":",")<<kind_name(static_cast<ResourceKindV37>(i))<<'='<<usage.objects[i];first=false;
+ }if(first)out<<"none";
+}
 ResourceUsageV37 footprint(const ResourceChargeV37& c,bool gpu){
  ResourceUsageV37 u;u.cpu_bytes=c.cpu_bytes;u.gpu_bytes=gpu?c.gpu_bytes:0;
  u.objects[std::size_t(c.kind)]=gpu||!gpu_kind(c.kind)?1:0;
@@ -45,7 +66,7 @@ ContextResourceBudgetV37::Record* ContextResourceBudgetV37::find(ResourceTokenV3
  if(token.budget_identity!=identity_||token.slot>=limits_.record_slots)return nullptr;
  auto& r=records_[token.slot];return r.occupied&&r.serial==token.serial?&r:nullptr;
 }
-bool ContextResourceBudgetV37::reject(ResourceKindV37 kind,const char* message,std::string& error){
+bool ContextResourceBudgetV37::reject(ResourceKindV37 kind,const std::string& message,std::string& error){
  ++snapshot_.rejections;if(std::size_t(kind)<kinds)++snapshot_.rejections_by_kind[std::size_t(kind)];error=message;return false;
 }
 void ContextResourceBudgetV37::update_requested_and_peak()noexcept{
@@ -92,11 +113,40 @@ bool ContextResourceBudgetV37::reserve(const ResourceTokenV37* old,const Resourc
  const auto& current=snapshot_.requested;
  if(!fits(current.gpu_bytes,held.gpu_bytes,limits_.gpu_bytes))return reject(c.kind,"V37 aggregate requested GPU byte budget exhausted",error);
  if(!fits(current.cpu_bytes,held.cpu_bytes,limits_.cpu_bytes))return reject(c.kind,"V37 aggregate requested CPU byte budget exhausted",error);
- if(!fits(current.texture_gpu_bytes,held.texture_gpu_bytes,limits_.texture_gpu_bytes))return reject(c.kind,"V37 aggregate texture/mip byte budget exhausted",error);
+ if(!fits(current.texture_gpu_bytes,held.texture_gpu_bytes,limits_.texture_gpu_bytes)){
+  std::ostringstream detail;detail<<"V37 aggregate texture/mip byte budget exhausted: current="
+   <<current.texture_gpu_bytes<<" held="<<held.texture_gpu_bytes
+   <<" limit="<<limits_.texture_gpu_bytes<<" incoming_kind="<<kind_name(c.kind)
+   <<" incoming_scope="<<scope_name(c.scope)<<" live_scopes={";
+  bool first_scope=true;
+  for(std::size_t i=0;i<scopes;++i){
+   const auto bytes=snapshot_.live_by_scope[i].texture_gpu_bytes+snapshot_.pending_by_scope[i].texture_gpu_bytes;
+   if(!bytes)continue;
+   detail<<(first_scope?"":",")<<scope_name(static_cast<ResourceScopeV37>(i))<<'='<<bytes;
+   first_scope=false;
+  }
+  if(first_scope)detail<<"none";
+  detail<<'}';return reject(c.kind,detail.str(),error);
+ }
  if(!fits(current.fx_buffer_gpu_bytes,held.fx_buffer_gpu_bytes,limits_.fx_buffer_gpu_bytes))return reject(c.kind,"V37 aggregate FX VBO/EBO byte budget exhausted (active included)",error);
- for(std::size_t i=0;i<kinds;++i)if(!fits(current.objects[i],held.objects[i],limits_.objects[i]))return reject(c.kind,"V37 resource-kind count budget exhausted",error);
+ for(std::size_t i=0;i<kinds;++i)if(!fits(current.objects[i],held.objects[i],limits_.objects[i])){
+  const auto kind=static_cast<ResourceKindV37>(i);
+  return reject(c.kind,std::string("V37 resource-kind count budget exhausted: kind=")+kind_name(kind)+
+   " current="+std::to_string(current.objects[i])+" held="+std::to_string(held.objects[i])+" limit="+std::to_string(limits_.objects[i]),error);
+ }
  std::uint32_t slot=UINT32_MAX;for(std::uint32_t i=0;i<limits_.record_slots;++i){auto at=(cursor_+i)%limits_.record_slots;if(!records_[at].occupied){slot=at;break;}}
- if(slot==UINT32_MAX)return reject(c.kind,"V37 bounded ownership record capacity exhausted",error);
+ if(slot==UINT32_MAX){
+  std::ostringstream detail;detail<<"V37 bounded ownership record capacity exhausted: incoming_kind="<<kind_name(c.kind)
+   <<" incoming_scope="<<scope_name(c.scope)<<" occupied="<<snapshot_.occupied_records
+   <<" pending_records="<<snapshot_.pending_records<<" record_slots="<<limits_.record_slots<<" live_kinds={";
+  append_counts(detail,snapshot_.live);detail<<"} pending_kinds={";append_counts(detail,snapshot_.pending);detail<<"} live_scopes={";
+  bool first_scope=true;for(std::size_t i=0;i<scopes;++i){const auto& usage=snapshot_.live_by_scope[i];bool any=false;for(auto n:usage.objects)any|=n!=0;if(!any)continue;
+   detail<<(first_scope?"":";")<<scope_name(static_cast<ResourceScopeV37>(i))<<":{";append_counts(detail,usage);detail<<'}';first_scope=false;
+  }if(first_scope)detail<<"none";detail<<"} pending_scopes={";first_scope=true;
+  for(std::size_t i=0;i<scopes;++i){const auto& usage=snapshot_.pending_by_scope[i];bool any=false;for(auto n:usage.objects)any|=n!=0;if(!any)continue;
+   detail<<(first_scope?"":";")<<scope_name(static_cast<ResourceScopeV37>(i))<<":{";append_counts(detail,usage);detail<<'}';first_scope=false;
+  }if(first_scope)detail<<"none";detail<<'}';return reject(c.kind,detail.str(),error);
+ }
  if(serial_==UINT64_MAX)return reject(c.kind,"V37 resource token serial exhausted",error);
  const auto serial=++serial_;auto& r=records_[slot];r={c,held,serial,snapshot_.context_generation,0,true,true,false};
  if(prior)prior->replacement_serial=serial;

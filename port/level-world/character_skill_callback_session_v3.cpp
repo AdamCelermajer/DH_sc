@@ -31,7 +31,23 @@ template<class Session>struct Delivery {
   }else if(q->operation!=callback_call_v3)return -1;
   const auto* name=dh2_script_alias_resolve(v.aliases,q->name);d.count=d.boolean=0;
   const unsigned selected=q->operation==callback_call_v3&&d.operation==skill_check_active_v3?1u:0u;
-  const int status=dh2_script_vm_call_indexed_source_v3(v.vm,name,a,n,selected,observe,&d);
+  // A Session may expose a capability only while its native skill provider is
+  // active. In that case re-enter through the same-VM scoped entry point; a
+  // stale or foreign capability is an admission failure, never a reason to
+  // retry through the unscoped VM API. Calls made outside native callbacks
+  // retain the original unscoped source Call and its projection order.
+  const auto* scope=d.session.current_skill_callback_scope();
+  int status=0;
+  if(scope){
+   if(scope->vm!=v.vm||!dh2_script_callback_scope_valid(scope))return -1;
+   status=dh2_script_callback_call_indexed_source_v112(scope,name,a,n,selected,observe,&d);
+  }else{
+   // A Session getter intentionally hides expired/shadowed capabilities as
+   // null. Do not turn that busy nested state into an attempted unscoped
+   // dispatch; null selects the old path only for an idle VM.
+   if(dh2_script_vm_stack_size(v.vm)<0)return -1;
+   status=dh2_script_vm_call_indexed_source_v3(v.vm,name,a,n,selected,observe,&d);
+  }
   if(status<0){d.error=dh2_script_vm_error(v.vm);return -1;}
   r->source_error=status!=0;r->count=d.count;r->results=++d.token;
   if(status)d.error=dh2_script_vm_error(v.vm);return 0;

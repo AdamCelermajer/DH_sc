@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "status": "native_original_assets_tests_pass_live_integration_pending",
+  "modules": [
+    "retained_sequence_playback.hpp",
+    "retained_sequence_playback.cpp"
+  ],
+  "test": "tests/retained_sequence_playback_tests.cpp",
+  "implementation": {
+    "selection": "OriginalAttackSequence.prepare and phases() reused solely as finite explicit hierarchy compiler and resource/rate validation",
+    "timing": "RetainedAnimationOwner source integer wall timestamps and dh2_timeline_update/notify genuine completion drive each phase",
+    "cadence": "Advance entire wall frame, deliver source events/motion, then select next phase at SAME sampled timestamp. No synthetic subframe remainder is advanced.",
+    "replay": "Pass genuine Completion.extra_ms to select. RetainedPosePlayback applies it only when the selected physical slot retains the same clip resource; different resource initializes at authored start.",
+    "blend_rate_motion": "Original leaf BlendOut, effective leaf/actor rate, MoveGO and retained root policy passed through unchanged",
+    "seeding": "Source session Idle/Walk use seed_sequence original Loop policy. Existing seed(rawloop) remains explicit mechanism compatibility only, not source sequence parity.",
+    "inactive": "advance_seeded delivers SIZE_MAX frames. seed_sequence selects raw timeline loop=false; genuine completion repeats explicit source policy via NewAnim/same-physical-resource extra/root reset at same wall timestamp. Finite seed current_ended remains observable.",
+    "callbacks": "Synchronous detached frame delivery precedes sequence transition. Final closed callback runs after closed state, exactly once; caller selects Idle explicitly.",
+    "validation_only": "binding aggregate alias ranges/markers and phase diagnostic wall fields are never used for live completion/event timing"
+  },
+  "actual_assets_checks": [
+    {
+      "profile": "KnightPlayerBase",
+      "state": "Attack",
+      "group_path": [
+        0
+      ],
+      "phases": 3,
+      "frame_schedule_seconds": [
+        0.016,
+        0.016,
+        0.016,
+        0.016,
+        0.037
+      ],
+      "strike_marker_wall_ms": 335,
+      "strike_marker_lag_ms": 18,
+      "finite_completion_wall_seconds": 1.042,
+      "event_order_lag_slot_generation_motion_vs_independent_retained_owner": "pass"
+    },
+    {
+      "profile": "Swamp_LizadMan_Type1",
+      "state": "Spawn",
+      "phases": 1,
+      "authored_spawn_marker_count": 0,
+      "finite_completion_wall_seconds": 1.361,
+      "source_close_semantics": "decimal34/0x22 scheduler sequence close, mapped to caller closed callback; no invented authored marker",
+      "caller_idle_seed_after_real_completion": true
+    },
+    {
+      "fixture": "Three phases using same real Prince strike resource",
+      "authored_start_ms": 200,
+      "third_same_physical_resource_start_ms": 367,
+      "different_resource_discards_extra": true,
+      "same_physical_resource_consumes_genuine_extra": true
+    }
+  ],
+  "additional_native_checks": [
+    "Idle seeded after final finite close advances retained source clock",
+    "Seeded loop completion does not reclose prior action and completion latch is consumed",
+    "Explicit Injured nonloop seed interrupts finite action and ends through actual retained timeline",
+    "Reentrant begin inside completion-frame callback cannot consume old completion or advance stale phase",
+    "Invalid selected state prepare preserves previous program",
+    "Initial caller Idle -> first phase retains source two-slot blend selection",
+    "Explicit type2 root child choice plays exactly one real-resource phase; omitted choice fails without replacing program",
+    "Actual Prince Walk repeated9 times and Lizard Walk8 times over150 frames at50ms; every event/motion/selection frame equals independently driven retained finite timeline/NewAnim reference",
+    "Every repeat maintains raw timeline loop=false and applies genuine completion extra via physical-slot identity",
+    "Session explicit Walk preserves source rate/BlendOut/MoveGO, advances once per frame, rejects fabricated finite-state infinite repeat, retains moving→attack outgoing clock, and preserves bindings/RNG after save rebind"
+  ],
+  "source_references": [
+    "port/level-world/actor_blended_playback.cpp apply_selection,scene_phase,animator_phase",
+    "port/game-data/animation_scheduler.cpp enter,activate,complete",
+    "port/level-world/visual_timeline.cpp update,notify,extra",
+    "port/windows-foundation/retained_animation_owner.cpp collect",
+    "port/windows-foundation/retained_pose_playback.cpp select,publish"
+  ],
+  "limitations": [
+    "Native source-owner sequencing verified, not integrated live combat/session behavior yet.",
+    "Underlying RetainedAnimationOwner publishes selection unconditionally; original MoveGO/root/timestamp-gated NewAnim selection behavior remains separately documented.",
+    "Default-less root scratch retention requires explicit original root sampler; complete_pose_root_sampler used in tests is complete-pose policy, not universal default-less parity.",
+    "Synchronous legacy event callbacks capable of mutating the timeline during native sampling are not reproduced by detached frame batches; reentry is supported between sampled frames/phase selection.",
+    "Initial incoming timeline can remain zero weight until fade enables sampling, so a large first seeded frame may initialize rather than advance the clip. This behavior is retained, not replaced by duration approximation.",
+    "Finite attack hierarchy loops remain rejected. Source seeded single-leaf type0 loops and explicitly pinned type2 selected leaf repeat are supported; per-cycle type2 RNG reselection is intentionally not supplied.",
+    "Exported Knight Walk maps original1126 walk_slow. Original Run271/1114 exists in source tables but current melee-binding export omits Run; no inferred run alias is bound."
+  ],
+  "binary_sha256": "f26762cf00501c2d795ec2a3ceb81e61bba23793ceaae44e936fe93e2a365cc2",
+  "source_sha256": "32c164de941100bdf67182721fe5324707d60738fd70e8225476d862abbdb4a1",
+  "native_exit_code": 0
+}

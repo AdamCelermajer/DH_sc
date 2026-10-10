@@ -1,0 +1,18 @@
+-- Configuring done (0.1s)
+-- Generating done (1.5s)
+-- Build files have been written to: /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reports/shared-viewport-input-v133/build
+[ 98%] Built target input_core
+[100%] Built target audit
+[ 97%] Built target input_core
+[ 98%] Building CXX object CMakeFiles/snapshot_repro.dir/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/swf_cursor_input.cpp.o
+In file included from /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714/gameswf/gameswf.h:23,
+                 from /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714/gameswf/gameswf_movie_def.h:13,
+                 from /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/swf_cursor_input.cpp:3:
+/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714/base/tu_gc.h: In static member function ‘static void* tu_gc::gc_object_base<garbage_collector>::operator new [](size_t)’:
+/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714/base/tu_gc.h:147:32: warning: ‘operator new’ must not return NULL unless it is declared ‘throw()’ (or ‘-fcheck-new’ is in effect)
+  147 |                         return 0;
+      |                                ^
+[100%] Linking CXX executable snapshot_repro
+[100%] Built target snapshot_repro
+{"validation":"PASS","actual_core_input_cases":19,"constructor_and_assignment_history":5,"native_events":51,"actual_AS_methods":43,"required_provider_and_reentry_guards":6,"whole_original_advance_parity":false,"mismatches":0}
+Former connection-time viewport copy: reproduced missed wide source button

@@ -31,6 +31,12 @@ std::shared_ptr<ui::MenuDialogMessagesV97> dialog_owner_v97(){
  if(dialogs_v97)return dialogs_v97;
  struct Provider {std::weak_ptr<Impl> ui;};auto owner=std::make_shared<Provider>();owner->ui=shared_from_this();
  ui::MenuDialogServicesV97 services;services.owner=owner;
+ services.parse_player_name=[owner](const auto& source,auto& text,auto& e){
+  auto ui=owner->ui.lock();
+  if(!ui||!ui->script_ui_world_v97){e="Required actual dialogue PlayerManager name provider";return false;}
+  const auto pack=ui->localization.pack();
+  return ui->script_ui_world_v97->parse_player_name(source,pack>=4&&pack<=6,text,e);
+ };
  services.localized=[owner](auto id,auto& text,auto& e){
   auto ui=owner->ui.lock();if(!ui){e="Actual dialogue StringManager expired";return false;}
   bool null{};if(!ui->localization.integer_string(id,ui->text_services(),text,null,e))return false;

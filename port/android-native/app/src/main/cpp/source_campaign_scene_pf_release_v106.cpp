@@ -9,6 +9,7 @@
 #include <campaign_navigation_registry_v64.hpp>
 #include <physical_world.hpp>
 #include <character_design_services.hpp>
+#include <gameplay_skybox_material_v25.hpp>
 namespace model_renderer {namespace {
 template<class A,class B>bool same(const std::shared_ptr<A>& a,const std::shared_ptr<B>& b){return a&&b&&a.get()==b.get()&&!a.owner_before(b)&&!b.owner_before(a);}
 struct ScenePfReleaseV106 {
@@ -131,6 +132,9 @@ bool bind_source_campaign_scene_pf_release_v106(const SourceCampaignCandidateBor
   out={c.roots,c.roots->scene_manager_identity_v16()};e.clear();return true;};
  d.scene_virtual68=[t,journal](const LevelReleaseReceiverV1& scene,std::string& e){SourceCampaignCandidateBorrowV55 c;std::shared_ptr<SourceWorldBorrowV61> w;
   if(!t->scope(c,w,e)||!same(scene.owner,c.roots)||scene.identity!=c.roots->scene_manager_identity_v16())return false;
+  // SceneManager's own skybox438 reference is separate from the root's
+  // parent reference. Retire both with its qualified native loader receipt.
+  if(w->skybox_v124){if(!w->skybox_v124->release(e))return false;w->skybox_v124.reset();}
   // Original ObjectManager.Flush/class D0 already removed ordinary visuals.
   //Scene virtual68 drops actual remaining parent references: map group or
   //intrusive batch root. Unknown hookless class roots remain a source error.

@@ -1,0 +1,231 @@
+{
+  "status": "actual_video_downloaded_and_frames_inspected",
+  "source": {
+    "source_url": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+    "title": "Dungeon Hunter 2 (v1.0.3) Part 1 [720p]",
+    "source_version": "1.0.3",
+    "recovered_version": "1.0.2",
+    "video": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\reference-video\\dh2-act1\\Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "format_id": "230",
+    "width": 640,
+    "height": 360,
+    "fps": 30,
+    "duration_seconds": 1331.566667,
+    "skill_yt_dlp_version": "2026.08.19",
+    "download_run_id": "dd29e500612843b9a71aab1120f8506e",
+    "frames": [
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0000s.png",
+        "timestamp_seconds": 0
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0010s.png",
+        "timestamp_seconds": 10
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0020s.png",
+        "timestamp_seconds": 20
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0030s.png",
+        "timestamp_seconds": 30
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0045s.png",
+        "timestamp_seconds": 45
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0060s.png",
+        "timestamp_seconds": 60
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0090s.png",
+        "timestamp_seconds": 90
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0120s.png",
+        "timestamp_seconds": 120
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0180s.png",
+        "timestamp_seconds": 180
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0240s.png",
+        "timestamp_seconds": 240
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0300s.png",
+        "timestamp_seconds": 300
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0360s.png",
+        "timestamp_seconds": 360
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0420s.png",
+        "timestamp_seconds": 420
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0480s.png",
+        "timestamp_seconds": 480
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0540s.png",
+        "timestamp_seconds": 540
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0600s.png",
+        "timestamp_seconds": 600
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0660s.png",
+        "timestamp_seconds": 660
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0720s.png",
+        "timestamp_seconds": 720
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0780s.png",
+        "timestamp_seconds": 780
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0840s.png",
+        "timestamp_seconds": 840
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0900s.png",
+        "timestamp_seconds": 900
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-0960s.png",
+        "timestamp_seconds": 960
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-1020s.png",
+        "timestamp_seconds": 1020
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-1080s.png",
+        "timestamp_seconds": 1080
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-1140s.png",
+        "timestamp_seconds": 1140
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-1200s.png",
+        "timestamp_seconds": 1200
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-1260s.png",
+        "timestamp_seconds": 1260
+      },
+      {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\at-1320s.png",
+        "timestamp_seconds": 1320
+      }
+    ],
+    "extraction_command": "skill ffmpeg.exe -ss <seconds> -i <video> -frames:v 1 <frame>"
+  },
+  "contact_sheet": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\referenceframes\\dh2-act1\\contact-sheet.png",
+  "comparison_scope": "28 still frames inspected; not a complete continuous playthrough viewing",
+  "version_caveat": "Video title specifies v1.0.3, recovered game assets are v1.0.2. Actual cross-version differences have not been established; visible behavior is reference, not proof of exact v1.0.2 behavior.",
+  "observations": [
+    {
+      "seconds": 10,
+      "visible": "Parchment story presentation"
+    },
+    {
+      "seconds": 30,
+      "visible": "Illustrated castle/royal story on parchment"
+    },
+    {
+      "seconds": 45,
+      "visible": "Name entry screen with keyboard"
+    },
+    {
+      "seconds": 60,
+      "visible": "Choose a class screen, Warrior centered"
+    },
+    {
+      "seconds": 90,
+      "visible": "Prince in cage; close cinematic camera"
+    },
+    {
+      "seconds": 120,
+      "visible": "Rene dialogue scene beside cage"
+    },
+    {
+      "seconds": 180,
+      "visible": "Movement tutorial in enclosed stone dungeon with teal lighting"
+    },
+    {
+      "seconds": 240,
+      "visible": "Attack tutorial camera above dungeon floor"
+    },
+    {
+      "seconds": 300,
+      "visible": "Bogworm combat, health/mana HUD, joystick/action controls"
+    },
+    {
+      "seconds": 360,
+      "visible": "Fungus combat on wooden platform beside stone floor"
+    },
+    {
+      "seconds": 480,
+      "visible": "Bogworm Cub combat"
+    },
+    {
+      "seconds": 600,
+      "visible": "Merchant equipment screen"
+    },
+    {
+      "seconds": 660,
+      "visible": "Quest overlay: Defeat the Bogwitch in the Northeast Cavern"
+    },
+    {
+      "seconds": 840,
+      "visible": "Water surface and broken stone platforms"
+    },
+    {
+      "seconds": 960,
+      "visible": "Rene dialogue camera close to actors"
+    },
+    {
+      "seconds": 1020,
+      "visible": "Quest completed overlay"
+    },
+    {
+      "seconds": 1140,
+      "visible": "Mudlord fight in watery cavern"
+    },
+    {
+      "seconds": 1200,
+      "visible": "Rene cinematic dialogue"
+    },
+    {
+      "seconds": 1260,
+      "visible": "Inventory torso armor view"
+    }
+  ],
+  "failed_attempts": [
+    {
+      "run_id": "4b844 (root attempt)",
+      "reason": "HTTP403 after partial download",
+      "format": "best"
+    },
+    {
+      "run_id": "024c74c81fc7486b86f66eb4fcc2118d",
+      "reason": "HTTP403",
+      "format": "18"
+    },
+    {
+      "run_id": "f83d4f60dc05459597c0d260f8da2bc5",
+      "reason": "No longer advertised by extractor",
+      "format": "18 after runtime repair"
+    }
+  ],
+  "repair": "Skill update-runtime.ps1 upgraded local yt-dlp2026.07.04 to2026.08.19; fresh inspect advertised HLS230; downloaded via skill scripts only; no cookies or browser auth used"
+}

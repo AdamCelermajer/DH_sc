@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "api": "features/frontend/creation/runtime_creation_persistence_v1.hpp",
+  "source_inputs": [
+    "original CharacterTable resolved class properties and fresh metadata",
+    "original LootTable, ItemTable, ItemList and caller-owned LootRandom8",
+    "original SkillList/SkillTable rows, fresh PDFL unlocked difficulty, and CharacterDesign skill caps"
+  ],
+  "preserved_state": [
+    "Endurance and Energy remain separate from legacy Intelligence",
+    "source stat and skill points with known flags",
+    "ordered SkillList rows including repeated dictionary skills, rank zero unless a source-context-guarded increment applies",
+    "both initial skill-slot maps indexed by saved row",
+    "class FaeryList and all three five-entry zero-progress difficulty records",
+    "starter item IDs/quantities and source equipment set/slot bindings"
+  ],
+  "persistence_order": [
+    "build detached source profile",
+    "save through save_character to an absent destination",
+    "reload through load_character and compare every projected field",
+    "assign once into the exact caller shared_ptr<CharacterState>",
+    "call the existing start_same_state provider with the same pointer/control block"
+  ],
+  "initial_skill_increment": "The first saved SkillList row is incremented only when source SkillPoints are positive, the actual SkillTable required level is met, and the actual fresh PDFL unlocked difficulty selects a positive original CharacterDesign cap. Focused test reads all three caps from original design_pycst.bin and difficulty from generated PDFL bytes.",
+  "tests": {
+    "creator_command": "ninja -C .local-inputs/frontend-feature-build -j6 runtime_creation_persistence_v1_tests && ctest --test-dir .local-inputs/frontend-feature-build -R ^runtime_creation_persistence_v1_tests$ --output-on-failure",
+    "creator_result": "PASS 1/1; original-asset class profiles, source caps plus missing-cap rank-zero path, full v2 projection, same-owner save/reload/start, missing-source no-mutation, and existing-destination preservation",
+    "schema_command": "ninja -C .local-inputs/windows-foundation-build -j6 save_tests game_save_tests && ctest --test-dir .local-inputs/windows-foundation-build -R ^(save|game_save)$ --output-on-failure",
+    "schema_result": "PASS 2/2; schema-v1 read/no implicit rewrite, schema-v2 roundtrip, duplicate source saved-row identity, corrupt-input/destination preservation"
+  },
+  "limits": [
+    "If original CharacterDesign caps are unavailable, source SkillList ranks remain zero and source points remain available; the helper never invents a rank.",
+    "The generic equipment projection preserves item definition, quantity and slot identity but does not construct native ItemInstance effects, requirements, display names, or gear-recalculated properties.",
+    "Generic save/reload/start is not a NativeStartGame success receipt, completed native InitPost, or FrontendProfileLoan."
+  ]
+}

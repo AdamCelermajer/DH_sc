@@ -1,0 +1,91 @@
+{
+  "status": "read_only_video_audit_complete",
+  "question": "What container-opening/breaking and resulting loot behaviors are directly visible in cached Act 1 footage?",
+  "scope": "Local reference video and read-only recovered campaign/tutorial rows only. No code, build, GUI control, or gameplay reconstruction.",
+  "reference": {
+    "path": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "sha256": "98087EE80F594BCC317144B5DD15EE4B470830B8EB8F5B13BADC24BD9831E502",
+    "video_version": "v1.0.3",
+    "format": "640x360, 30 fps, 1331.566667 seconds",
+    "version_limit": "Recovered campaign/MGP sources inspected here are v1.0.2. Exact source-to-video release equivalence is unproven."
+  },
+  "visual_observations": [
+    {
+      "interval_seconds": [193.0, 205.0],
+      "sequence": "Treasure Chest Tutorial prompt",
+      "frames": [
+        {"time_seconds": 193.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-193.000.png", "sha256": "6C8A81BF03DA3FA154E930192CC7BCD884232C2FF8BA14FB1782E29F6F2E160B", "observation": "Gameplay view and HUD are visible before the chest tutorial panel."},
+        {"time_seconds": 195.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-195.000.png", "sha256": "A82196AC0C2D13ACF6E79F73E64614877A0A27AF8021A22BF470BBA67EA5EE6E", "observation": "A cutscene-style tutorial panel titled TREASURE CHEST TUTORIAL appears. SKIP is visible. The camera centers on a closed chest; ordinary gameplay HUD controls are hidden."},
+        {"time_seconds": 200.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-200.000.png", "sha256": "F279FE6B2239871E5343A966EA0490B7186C770D24F16C3A04B59F5C7A9AE4E6", "observation": "The panel says: 'To open a chest, stand next to it and tap the chest icon.' The chest remains closed in this frame."},
+        {"time_seconds": 205.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-205.000.png", "sha256": "BDA1831E3559FACA4E17C185240EDF74B09130BC7F1781775C47782105E7DE6C", "observation": "The next page says to look for epic chests, which contain superior equipment. Chest remains closed in this frame."}
+      ],
+      "camera_and_input": "Tutorial camera is close and fixed on the chest scene. SKIP remains available. No player touch event is recorded in the video."
+    },
+    {
+      "interval_seconds": [323.0, 327.0],
+      "sequence": "Boardwalk chest changes from closed to open during gameplay",
+      "frames": [
+        {"time_seconds": 323.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-323.000.png", "sha256": "F45230B962BE0CB9A735459E78EF249FC5F766E7F657F0EFA3D54E6CE6EEF950", "observation": "Closed chest is visible on the upper-right end of the boardwalk. The player is in the same scene."},
+        {"time_seconds": 325.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-325.000.png", "sha256": "AAB0E64C0E53295325718DAC1C9C971FE01344DB8D3DB018C6B4FF8231EE51ED", "observation": "The player is next to the still-closed chest; a red ring surrounds its base."},
+        {"time_seconds": 325.5, "file": ".local-inputs/fidelity-containers-audit/frames/frame-325.500.png", "sha256": "99EAA754C21A771901007A8142AB986192DE852DC9546BFF47C1972D945AD6EE", "observation": "Chest lid is open; bright coin-like particles are visible above it. Normal gameplay HUD and joystick/action controls are visible."},
+        {"time_seconds": 326.5, "file": ".local-inputs/fidelity-containers-audit/frames/frame-326.500.png", "sha256": "F9D260A13B028EEA2F2967B5DF9BCAC6ABF316AB240B72C8C4ACFBB37D867502", "observation": "The lid remains open. Green on-screen item text reads VAGRANT BRACERS near the player."},
+        {"time_seconds": 327.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-327.000.png", "sha256": "392777FBAACD5DF303AC1293FB26B679105B6B3B9E8CEF8864D2DD8FA8854C5F", "observation": "Chest remains open as a Bogwomp appears in the same area and combat resumes."}
+      ],
+      "camera_and_input": "High-angle isometric gameplay camera reframes onto the boardwalk. Virtual stick at lower left and action/skill buttons at right are on-screen. Their presence/position is visible; the actual tap that precedes opening is not recorded.",
+      "loot_limit": "VAGRANT BRACERS appears immediately after the open state, but the short clip does not prove the item originated from the chest or that it entered inventory. Combat is beginning in the same area."
+    },
+    {
+      "interval_seconds": [737.5, 740.0],
+      "sequence": "Chest-like container in the water passage",
+      "frames": [
+        {"time_seconds": 737.5, "file": ".local-inputs/fidelity-containers-audit/frames/frame-737.500.png", "sha256": "08CFD90C50973EA1BC7111E7C3FA9446E4FD222FE857F51F268C508F6254896A", "observation": "A small brown, chest-like container is closed near the right wall; player and recent combat aftermath are visible."},
+        {"time_seconds": 738.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-738.000.png", "sha256": "68ED688EB0C5A6D8982BC3F6DFDC5687CBA1D3E6B5C974EAF4D7A6A9975F1754", "observation": "The container is angled and its lid/opening is beginning to show."},
+        {"time_seconds": 738.5, "file": ".local-inputs/fidelity-containers-audit/frames/frame-738.500.png", "sha256": "486C91987236232D2B709791C96204FA521625E30916F81D308713BFAA1DC95E", "observation": "Container appears open beside the player."},
+        {"time_seconds": 739.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-739.000.png", "sha256": "90CFBAE1F51E1B5AE225AA97D9CBB5775A08DA4C502C2A254AD2DEA428377D79", "observation": "The container remains open and an on-screen item label reads IMBUED BOOTS."},
+        {"time_seconds": 740.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-740.000.png", "sha256": "3AD658B59418B9BF403C180343559EEA3E23F47934DFBCFE57C4696FD1104347", "observation": "The container remains open while a Bog Moth is visible in the combat area."}
+      ],
+      "camera_and_input": "High-angle gameplay view tracks the player through shallow water; the virtual stick/action icons remain visible. No touch event is captured.",
+      "loot_limit": "IMBUED BOOTS is a visible item label near the open container. The footage does not independently establish pickup/inventory insertion or source attribution, and combat recently occurred in this area."
+    },
+    {
+      "interval_seconds": [840.0, 853.5],
+      "sequence": "Open chest on a small platform amid combat",
+      "frames": [
+        {"time_seconds": 840.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-840.000.png", "sha256": "BABE9322921A4F5CCC103F7AF19A496D0465DBF64EC1285B96503844B5D21A8C", "observation": "Chest is closed on a small square platform; player stands near its upper edge."},
+        {"time_seconds": 840.5, "file": ".local-inputs/fidelity-containers-audit/frames/frame-840.500.png", "sha256": "3CAF20D1DA46060FC2A1A619F22EEA33206396163191F4D1430CE71EC3C0EB67", "observation": "Chest remains closed, with a red ring around its base."},
+        {"time_seconds": 841.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-841.000.png", "sha256": "F2A4BD1525056C230D5F90B2BF3C85D6EC1D1FE407E75A43A2053F4A28EA8823", "observation": "Chest is open. Several enemies are now visible around the platform."},
+        {"time_seconds": 842.0, "file": ".local-inputs/fidelity-containers-audit/frames/frame-842.000.png", "sha256": "27F55F02F54AE56110F9FB42844C4D3A4BDAE58B3D737AFF137354D3238F3986", "observation": "RUSTED RING text is visible near the open chest during the encounter."},
+        {"time_seconds": 853.5, "file": ".local-inputs/fidelity-containers-audit/frames/frame-853.500.png", "sha256": "C486C761C756280B4E1A336FA2CC5658B305D792167C72F033663C9F7A238A86", "observation": "5 GOLD text is visible near the open chest after the fight moves away."}
+      ],
+      "camera_and_input": "High-angle gameplay camera is stable over the platform; joystick and action buttons are visible. No input event is recorded.",
+      "loot_limit": "Item/gold text is spatially near the chest, but the scene includes enemy activity; clip alone does not establish which source produced each item or confirm pickup."
+    }
+  ],
+  "destructible_container_observations": {
+    "candidate_interval_seconds": [314.0, 316.5],
+    "observation": "A green barrel/urn-shaped fixture is visible near the edge of a stone platform as the player and an NPC fight nearby. The sampled frames do not show a clear hit-to-break transition; the object is not tracked through an unobscured before/after, and the camera changes soon afterward.",
+    "verdict": "No unambiguous urn/pot/barrel destruction or attributed drop was captured in the inspected sequences. The full-video 5-second sweep is coarse and cannot rule out brief missed interactions. Do not assign a source object name or script to this visual candidate."
+  },
+  "source_correlation": {
+    "source_checkpoint": ".local-inputs/windows-source-clock-checkpoint-v17/assets (recovered v1.0.2 set)",
+    "campaign_sha256": "3AB2055920A8B648B16D77AA07B0435CBD899C624F5BE3BCC145E2133C5CDD14",
+    "tutorial_trigger": {
+      "source_mgp": "original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "source_mgp_sha256": "651EAC91518C0A22362C22CB3FFE15972649E259A6AF59D04BA028A90A7BAF31",
+      "authored_trigger": "_prim_TriggerZone in the loaded campaign trigger table calls tutorial_treasure, count=1, delay=0. Its declaration does not establish the live collision/contact event or prove that this v1.0.3 video run used this exact source revision."
+    },
+    "tutorial_sequence": {
+      "tutorial_treasure": "original-campaign.xml script id 54, command 0, kind 78 Script_DoTutorial; string target chest_tuto, tutorial index 8.",
+      "chest_tuto": "original-campaign.xml script id 39 locks all characters, waits 500ms, sets camera target to exact source name _prim_OpenableContainer_2 for 1000ms, then enqueues four authored StartDialog/WaitDialog pairs; returns camera target to LocalPlayer for 1000ms, locks tutorial index 8 and unlocks characters.",
+      "association_limit": "This is an exact v1.0.2 source chain whose camera target/tutorial content is consistent with the v1.0.3 Treasure Chest Tutorial shown at 195–205s. No source-to-video version identity is proven. It does not identify the gameplay chests at 323s, 738s, or 840s."
+    },
+    "tutorial_dispatch_gate": "The kind-78 Script_DoTutorial source caller (IDA export libDungeonHunter2.so pseudocode/0046/00460950.c, 0x460950; reused from the existing tutorial source audit) requires a local character, normal difficulty, enabled persistent tutorial flag and offline mode before starting the named continuation. Those conditions are not observable in this video capture, and the recovered MGP row does not establish which gate admitted this run.",
+    "other_container_catalog_context": "Source-only class inventory says the referenced Act 1 MGP modules contain authored OpenableContainer and DestructibleContainer rows, but no exact mapping from the inspected gameplay chest/barrel-looking visuals to individual object rows is established in this audit. No script is inferred from proximity."
+  },
+  "audit_limits": [
+    "The video shows on-screen virtual stick and action controls but contains no touch telemetry; the specific input that opens a chest is not observable.",
+    "Chest/lid state changes and item labels are visible, but damage/death/combat can overlap with container events; item origin and inventory pickup are not verified.",
+    "No unambiguous barrel/urn/pot breaking sequence was found in the sampled footage; denser review would be needed to rule out brief events.",
+    "No implementation, build, or GUI interaction was performed."
+  ]
+}

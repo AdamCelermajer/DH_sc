@@ -1,0 +1,40 @@
+{
+  "feature": "runtime-skill-cast-prepare-v1",
+  "status": "same-session BashDown OnSkillCheck HasMana result, UseMana preparation, and one source-result hit prefix implemented; full native cast remains unclaimed",
+  "paths": [
+    "port/windows-foundation/features/generic_skills/runtime_skill_cast_prepare_v1.hpp",
+    "port/windows-foundation/features/generic_skills/runtime_skill_cast_prepare_v1.cpp",
+    "port/windows-foundation/features/generic_skills/runtime_skill_activation_session_v1_tests.cpp",
+    "port/windows-foundation/features/generic_skills/run_runtime_skill_activation_session_v1_tests.ps1",
+    "port/windows-foundation/features/generic_skills/README-runtime-skill-cast-prepare-v1.md",
+    "port/windows-foundation/features/generic_skills/runtime_skill_target_query_v1.hpp",
+    "port/windows-foundation/features/generic_skills/runtime_skill_target_query_v1.cpp"
+  ],
+  "source": {
+    "input_action": "NativeHUDSkill source slots 0..2",
+    "fixture_mapping": "KnightPlayerBase SkillList position0 -> saved skill row0 -> NativeHUDSkill slot0 -> SkillTable row7 BashDown -> class token Skill_Warrior_BashDown",
+    "cost": "skills-commons CalcManaCost(CLASS_ID, saved_rank), using the original ClassTables formulas and same actor's resolved property snapshot",
+    "mana_native": "HasMana/UseMana at Character bindings 0x3b78ec/0x3b7864; property41 is MP, property43 Max_MP; Application.byte5/player, GOD_MANA, Character byte14f0, and tracing policy are explicit source facts",
+    "debit": "UseMana mutates same source property41; final isTracingChar_Stats query follows the debit and does not roll back reached effects",
+    "skill_check": "The BashDown OnSkillCheck_Usable callback returns HasMana(mana_cost), false. Cast preparation computes the source-equivalent HasMana bool separately from outer CharAI admission; it does not execute the authored VM callback."
+  },
+  "validation": {
+    "runner": "port/windows-foundation/features/generic_skills/run_runtime_skill_activation_session_v1_tests.ps1",
+    "result": "PASS",
+    "assertions": [
+      "same-session low-MP source-equivalent OnSkillCheck HasMana result is false and leaves property41 unchanged",
+      "exact-cost source-equivalent OnSkillCheck HasMana result is true, then UseMana commits property41 to zero and synchronizes the same actor and CharacterState MP fields",
+      "slot0 resolves through the source-known saved assignment to class-list position0",
+      "unknown/rejected animation admission remains separate and does not play",
+      "source AI Character interact_radius and invalid-ID row8 fallback match the same Session target query",
+      "actual BashDown row7 mask/element and source formula scratch apply one positive same-world HP result at do_skill; duplicate occurrence consumes no RNG or health"
+    ]
+  },
+  "remaining": {
+    "combat": "Connected do_skill test passes actual BashDown row7 mask/element and source SkillAttack mask 0x08000000 through CombatSession::apply_source_result with same-world current category, rank scratch formula, RNG and ActorCombatRuntime basic HP/injury/death application. Not complete native F_ApplyResult (DOT/leech/knockback/stun/slow plus native AI/player/effect/audio/trophy/text tails remain).",
+    "target": "Same Session FrontalFirst/range160 character subset and Character interaction radius are implemented. Production caller still must provide same-actor visible/zonable/zoned/in-zone/interactive facts and preserve active population order. Non-character AttackableOnly objects are outside this world; no actor result stays unknown without their query/absence. Native LookAt controller admission is missing; only its point-math leaf is covered.",
+    "source_behavior_evidence": "See feature README Cast behavior evidence: original v1.0.3 reference frames 4:41.995-4:46.995 directly show facing, selected ring, impact, target HP decrease, streak, damage text and reduced mana; video does not identify BashDown. Cached prince_warrior_bashdown source plus cast-lifecycle-v46 records dispatch gates, Enemy/AttackableOnly/FrontalFirst/range160 Pre order, retained target/LookAt, UseMana, SnS_Level/ApplyPropClass/SkillCombatRoll, and Post ClearTarget.",
+    "cast_receipt": "The focused test routes a real same-session calculated hit/application at the authored marker under fixture admission/query facts; this is not full source-native cast completion. Full F_ApplyResult tails and production admission/target fact providers remain missing.",
+    "admission": "The source-equivalent BashDown OnSkillCheck_Usable HasMana result is implemented/tested for slot0, but the connected animation/hit fixture still supplies outer CharAI/FSM using/casting/instance admission and target visibility/zone/interactivity facts. The authored VM callback and original complete AI_IsSkillUsable admission are not connected to modern Session."
+  }
+}

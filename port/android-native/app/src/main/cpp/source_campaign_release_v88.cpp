@@ -131,6 +131,8 @@ bool source_campaign_save_all_players_v88(const SourceCampaignCandidateBorrowV55
 }
 class SourceCampaignReleaseV88 final {
  friend bool source_campaign_release_complete_v88(const std::shared_ptr<SourceCampaignReleaseV88>&,bool&,bool&,std::string&);
+ friend bool source_campaign_cancel_unload_journal_v135(const std::shared_ptr<SourceCampaignReleaseV88>&,
+  const std::shared_ptr<dh2::loader::CanonicalLevelContextV1>&,std::string&);
  friend bool bind_source_campaign_release_v88(const SourceCampaignCandidateBorrowV55&,SourceCampaignReleaseServicesV88,std::shared_ptr<SourceCampaignReleaseV88>&,std::string&,const SourceCampaignStartupPrefixV114*);
  std::shared_ptr<ReleaseTransportV88> transport_;
  std::shared_ptr<dh2::loader::LevelUnloadSourceV1> unload_;
@@ -139,6 +141,15 @@ class SourceCampaignReleaseV88 final {
 bool source_campaign_release_complete_v88(const std::shared_ptr<SourceCampaignReleaseV88>& owner,bool& unload,bool& destroy,std::string& e){
  unload=destroy=false;if(!owner||!owner->unload_||!owner->destroy_)return missing(e);
  unload=owner->unload_->complete();destroy=owner->destroy_->complete();e.clear();return true;
+}
+bool source_campaign_cancel_unload_journal_v135(const std::shared_ptr<SourceCampaignReleaseV88>& owner,
+ const std::shared_ptr<dh2::loader::CanonicalLevelContextV1>& level,std::string& e){
+ if(!owner||!owner->transport_||!owner->unload_){e="Required existing SAME campaign unload journal for cancellation";return false;}
+ SourceCampaignCandidateBorrowV55 current;std::shared_ptr<SourceWorldBorrowV61> world;
+ if(!owner->transport_->current(current,world,e)||!same(current.level,level)||world->release_v88!=owner)return missing(e);
+ // LevelUnloadSourceV1 caches success and latches a delivered failed prefix;
+ // cancellation never creates another journal or performs GS/Level D1.
+ return owner->unload_->execute(level,e);
 }
 bool borrow_source_campaign_release_candidate_v115(SourceCampaignCandidateBorrowV55& c,std::shared_ptr<SourceWorldBorrowV61>& world,std::string& e){
  if(borrow_source_campaign_candidate_runtime_v61(c,e))return borrow_source_campaign_condition_world_v70(c,world,e);

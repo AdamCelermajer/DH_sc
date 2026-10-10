@@ -1,0 +1,71 @@
+{
+  "status": "same_session_source_movement_replay_verified_no_mismatch",
+  "issue": "Deterministic keyboard W/S alternating reversal; reported slow U-turn and leftward drift",
+  "visual_evidence": {
+    "reference": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "version_caveat": "Reference title is v1.0.3; recovered assets are v1.0.2. No exact version delta is established.",
+    "sequence": [
+      {
+        "timestamps_seconds": [180, 190],
+        "observed": "Movement tutorial overlay in the dungeon. Text says the virtual stick can move the character around; a separate instruction describes touch controls. The gameplay view includes the player and virtual stick.",
+        "evidence_type": "direct video frames sampled at 1-second intervals; the tutorial demonstrates general movement, not a keyboard reversal"
+      },
+      {
+        "timestamps_seconds": [212, 212.5, 213, 213.5],
+        "observed": "Gameplay HUD and virtual stick remain visible with the player on the stone walkway near the equipment tutorial sequence. The sampled frames do not expose input history or a clear alternating 180-degree reversal; no W/S-specific turn rate or lateral drift can be measured.",
+        "evidence_type": "direct video frames sampled at 2 frames/second; no matched reversal inferred"
+      }
+    ],
+    "inference": "The reference establishes camera-relative virtual-stick movement as the mobile interaction. It does not establish whether alternating W/S keyboard intent should be smoothed or whether the observed PC left arc is a defect."
+  },
+  "logic_evidence": {
+    "input": "port/windows-foundation/features/platform_input/semantic_input.cpp:107-114 maps W minus S to move2D.y and normalizes only diagonals above unit length. Default PC policy runs while moving unless the configured run key is held. This is an intentional PC input adaptation; it is not original mobile dispatch.",
+    "caller_order": "port/windows-foundation/main.cpp around the gameplay input block first calls ActorMovement::steer_source_intent with the active camera basis, selects the resulting source locomotion alias, then CombatSession::update advances retained source animation. The retained frame callback delivers authored root motion through MotionHandler before main's source late-rotation step. The next frame's root displacement therefore uses the facing produced by the previous late rotation.",
+    "source": [
+      "GameObject::UpdatePath at 0x3940c0 reads the same heading state; recovered handoff port/windows-foundation/reports/original-actor-heading-live.json records the call to ValidateDirection at 0x525d60 followed by SetHeadingDirection at 0x393be8 even when the validation result is diagnostic.",
+      "Move focus supplies flags 0x23c1 and movement type 0 in port/windows-foundation/original_actor_motion_flags.cpp. The source movement-policy handoff records bit7 as UpdatePath and bit0 as visual-position displacement.",
+      "Character::UpdateRotation at 0x393710 uses resolved property47 and source flag0x20; ordinary rotation is modifier*4pi radians/second. Exact antipodal headings retain the strict source wrap branches in port/level-world/actor_rotation.cpp.",
+      "RootSceneNode displacement at 0x35cf48 rotates local root displacement by the current visual facing. Existing port/windows-foundation/tests/source_reversal_probe.cpp and reports/source-reversal-diagnosis.json reproduce repeated world-left root arcs for alternating source headings without changing runtime code."
+    ],
+    "current_runtime": "main.cpp uses the same actor motor and CombatSession: input intent is steered before the retained visual update; the MotionHandler applies root motion through the chosen collision admission; the late rotation then updates the same ActorState Euler and turn flag. Existing source-reversal-diagnosis.json was a detached kernel/clip probe, so it did not prove this connected Session path."
+  },
+  "expected_behavior": {
+    "preserve": "W and S are opposite camera-forward commands. Source phase order applies each sampled local root delta using current facing, then turns toward the newly requested source heading. The same four W/S segments must use one ActorMovement, one CombatSession, one retained source pose owner, and the selected collision path; no speculative lateral clamp or turn smoothing is introduced.",
+    "test_fixture": "Use actual KnightPlayerBase Run phase/clip and resolved walk/rotation properties, SemanticInput keyboard mapping, one CombatSession retained locomotion owner, a deterministic camera basis, and a clear synthetic floor CollisionScene. Log per-frame key, move2D, desired heading, facing before/after, local root XYZ, requested world XY, admitted XY, collision move/blocked result and actor/motor position agreement.",
+    "scope_limit": "The focused test isolates current input/root/turn integration on clear floor. It is not original native path, dynamic collision, or live campaign verification."
+  },
+  "uncertainties": [
+    "The local v1.0.3 clip uses a virtual stick; it does not encode a reproducible W/S trace or exact reversal intent.",
+    "Recovered data is v1.0.2 and version-specific movement differences are unknown.",
+    "The user's exact executable/build, camera pose, actor stance, starting facing, input cadence, map location, body scale, and wall/floor contact are unspecified.",
+    "The reported behavior is not yet evidence of a source mismatch; source reversals predict lateral arc because root displacement precedes bounded facing updates."
+  ],
+  "verification_plan": {
+    "test": "C++17 connected same-Session deterministic W,S,W,S replay, 45 frames per held key at 60Hz, using actual Run clip and source-resolved walk/rotation rates. Produce CSV rows with heading, local/world deltas, root motion, collision admission and same-actor transform reconciliation.",
+    "branches": "Check each key transition releases the prior key; each frame remains on the same Session/actor/pose owner; count admitted and blocked movement; rerun the fixed trace and require byte-identical CSV. The clear-floor fixture expects no blocked samples and does not cover obstacle rejection.",
+    "claim_boundary": "Report helper/Session proof separately from original-video observation and in-game integration. No main/core/camera changes unless this replay identifies a concrete mismatch against the recovered source order."
+  },
+  "verification_result": {
+    "test": "port/windows-foundation/features/movement_replay/session_wsws_replay_tests.cpp",
+    "runner": "port/windows-foundation/features/movement_replay/run_session_wsws_replay_tests.ps1",
+    "run_result": "PASS twice with byte-identical 180-row CSV",
+    "csv_sha256": "0C64ED797B8BBB84EDD4F40BF09DAD7F0C9F8FDF457DD424EF11386D66963CF4",
+    "actual_run_clip": "original-cache/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+    "actual_run_rate": 1.29999995,
+    "camera_basis": {"right": [0.707106829, 0.707106829], "forward": [-0.707106829, 0.707106829]},
+    "input_trace": "45 frames W, 45 S, 45 W, 45 S at 60Hz; keyboard adapter produced +1,-1,+1,-1 camera-forward intent",
+    "source_root_motion_xy": 2895.37134,
+    "admitted_world_xy": 2895.36841,
+    "camera_left_delta": -468.584869,
+    "collision": {"accepted_frames": 179, "blocked_frames": 0, "fixture": "synthetic clear floor; no wall contacts"},
+    "final_actor_xy": [-488.891479, -173.787659],
+    "same_session": "ActorState and ActorMovement agreed after each connected CombatSession sample; retained pose owner/lease stayed unchanged"
+  },
+  "verification_limits": [
+    "This proves the current connected Session harness reproduces a camera-left arc under the specified alternating keyboard trace; the recovered source order predicts it.",
+    "The original video has no visible W/S input trace and does not establish that this particular turn/path should be straight. No source discrepancy was reproduced.",
+    "The clear-floor test does not verify live campaign PF/path/obstacle admission or the user's exact executable, camera pose, actor start facing, scale, cadence, or location.",
+    "No main/core/camera behavior was edited; this evidence is helper/Session proof, not in-game visual integration acceptance."
+  ],
+  "implementation_edits": "No gameplay implementation changes; added only the evidence report and focused same-Session movement replay test/runner."
+}

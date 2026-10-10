@@ -15,6 +15,8 @@ struct AuthoredSharedMenuServicesV27 {
  std::function<bool(MenuStackV1&,MenuStackRequestV1&,std::string&)> remaining;
  AuthoredMenuDragV68::Dimensions screen_dimensions;
  std::function<bool(AuthoredMenuFieldsV1&,const AuthoredMenuRequestV1&,std::int32_t&,std::string&)> process_lifecycle{};
+ // Actual Application.IsLevelRunning320f5c: GetCurrentLevel31f594 != NULL.
+ std::function<bool(bool&,std::string&)> level_running;
 };
 // PostLoad MenuBase receivers discovered from actual already-loaded movies.
 // Owns receiver fields/projections only; shares ONE MenuManager directory and
@@ -34,7 +36,8 @@ class AuthoredSharedMenuRosterV27 {
 public:
  AuthoredSharedMenuRosterV27(std::shared_ptr<MenuStackOwnerV1>,AuthoredSharedMenuServicesV27);
  ~AuthoredSharedMenuRosterV27();
- bool post_load(SwfMovie&,std::shared_ptr<void> same_movie_lease,std::uint32_t source_flags,std::string&);
+ bool post_load(SwfMovie&,std::uintptr_t same_movie_renderfx,
+  std::shared_ptr<void> same_movie_lease,std::uint32_t source_flags,std::string&);
  bool route(MenuStackV1&,MenuStackRequestV1&,bool& handled,std::string&);
  MenuStackServicesV1 stack_services()noexcept{return {this,dispatch};}
  bool bind_fs_command_services_v114(MenuFSCommandServicesV114,std::string&);

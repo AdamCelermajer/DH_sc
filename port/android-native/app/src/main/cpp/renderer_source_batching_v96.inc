@@ -149,24 +149,32 @@ struct SourceBatchingStagesV96 : std::enable_shared_from_this<SourceBatchingStag
    dh2::loader::BatchNativeServicesV96 native;if(!native_services(native,e)||!current(source,producer,receiver,e))return reject(phase,e,"actual batch resource primitive assembly");
    if(owner||fields.fields->field158)return reject(phase,e,"Level158 changed before original compiler publication");
    owner=std::make_shared<dh2::loader::BatchNodeCompilerSourceV96>(std::move(native));fields.fields->field158=owner->identity();
+  }else if(phase==22){
+   auto compiler=owner;active_compiler=compiler; //Pin a positive delivered receiver through callbacks.
+   if((owner||fields.fields->field158)&&(!compiler||fields.fields->field158!=compiler->identity()))return reject(phase,e,"SAME actual BatchNodeCompiler158");
+   dh2::loader::BatchNativeServicesV96 selection;bool selection_ready{};
+   dh2::loader::BatchListServicesV96 list;
+   list.validate_current=[&](std::string& e){return current(source,producer,receiver,e);};
+   list.native=[&](const dh2::loader::BatchNativeServicesV96*& out,std::string& e){
+    if(compiler){out=&compiler->native_services();return true;}
+    if(!selection_ready){if(!native_services(selection,e))return false;selection_ready=true;}
+    out=&selection;return true;
+   };
+   list.append=[&](const dh2::loader::BatchObjectBorrowV96& actual,std::string& e){
+    //Original3f2e7c first reads158 here. NULL158 is safe only while filtered.
+    if(!compiler||!owner||owner.get()!=compiler.get()||owner.owner_before(compiler)||compiler.owner_before(owner)||fields.fields->field158!=compiler->identity()){
+     e="Required SAME actual BatchNodeCompiler158 for eligible append";return false;
+    }
+    return compiler->append_object(actual,e);
+   };
+   if(!dh2::loader::original_batch_list_v96(producer->canonical->manager,list,e))return reject(phase,e,"original batch-list selection/append");
   }else{
    //Only original _LoadBatchMap has an explicit NULL158 early return.
    if(phase==23&&!fields.fields->field158&&!owner){complete[index]=true;e.clear();return Step::complete;}
    if(!owner||fields.fields->field158!=owner->identity())return reject(phase,e,"SAME actual BatchNodeCompiler158");
    auto compiler=owner;active_compiler=compiler; //Keep the delivered receiver alive through callbacks.
    const auto& native=compiler->native_services();
-   if(phase==22){std::int32_t key{};const dh2::world::CanonicalObjectBorrowV1* object{};
-    for(bool more=producer->canonical->manager.source_ordered_begin_v38(key,object);more;more=producer->canonical->manager.source_ordered_next_v38(key,key,object)){
-     if(!object||!object->identity)continue; //Native NULL-map node => NULL conversion.
-     dh2::target_providers::Handle16 handle;const dh2::world::CanonicalObjectBorrowV1* live{};
-     if(!producer->canonical->manager.get_handle(key,handle,e)||!current(source,producer,receiver,e)||!producer->canonical->manager.resolve_handle_v4(handle,false,live,{},e)||!current(source,producer,receiver,e))return reject(phase,e,"actual ObjectHandle C1/GetHandle/conversion");
-     if(!live)continue;dh2::loader::BatchObjectBorrowV96 actual;
-     if(!native.as_gameobject||!native.as_gameobject(*live,actual,e)||!current(source,producer,receiver,e))return reject(phase,e,"actual selected ObjectHandle->GameObject");
-     bool eligible{};if(!dh2::loader::original_batch_eligible_v96(actual,native,eligible,e)||!current(source,producer,receiver,e))return reject(phase,e,"original batch family/name/Faerie filters");
-     if(eligible&&!compiler->append_object(actual,e))return reject(phase,e,"original compiler vector10 append");
-     if(failed[index]||!current(source,producer,receiver,e))return reject(phase,e,"same ordered batch-list continuation");
-    }
-   }else if(phase==23){if(!compiler->build_map(e))return reject(phase,e,"original recursive node/GameObject map");}
+   if(phase==23){if(!compiler->build_map(e))return reject(phase,e,"original recursive node/GameObject map");}
    else{
     if(!roots||!native.clear_render_lists||!native.clear_render_lists(e)||!current(source,producer,receiver,e))return reject(phase,e,"actual Scene.clearRenderLists");
     roots->source_frame_fields_v67().batching43c_v96=1;roots->source_frame_fields_v67().native_batching43c_produced_v96=true;

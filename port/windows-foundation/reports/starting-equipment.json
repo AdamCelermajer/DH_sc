@@ -1,0 +1,892 @@
+{
+  "status": "exact_source_new_warrior_fixed_loot",
+  "character": "KnightPlayerBase",
+  "character_row": 263,
+  "loot_id": 165,
+  "loot_name": "KnightStartingLoot",
+  "loot": {
+    "roll_type": 0,
+    "num_random_item_probs": 20,
+    "random_entries": [],
+    "fixed_entries": [
+      {
+        "ItemListID": 52,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      },
+      {
+        "ItemListID": 53,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      },
+      {
+        "ItemListID": 54,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      },
+      {
+        "ItemListID": 55,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      },
+      {
+        "ItemListID": 153,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      }
+    ],
+    "subloots": []
+  },
+  "selected_lists": [
+    {
+      "loot_entry": {
+        "ItemListID": 52,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      },
+      "list_name": "KnightStartingSet0",
+      "choices": [
+        {
+          "item_id": 1079,
+          "probability": 1,
+          "quantity": 1,
+          "identifier": "StartingSuit",
+          "properties": {
+            "IconName": "",
+            "PickUpType": 1,
+            "DistType": 1,
+            "SwooshSoundFX": -1,
+            "SwooshFX": -1,
+            "Stackable": 0,
+            "WarriorEquipValue": 1065353216,
+            "MageEquipValue": 1065353216,
+            "RogueEquipValue": 1065353216,
+            "PaladdinEquipValue": 1065353216,
+            "BerserkerEquipValue": 1065353216,
+            "AssassinEquipValue": 1065353216,
+            "ArcherEquipValue": 1065353216,
+            "NecromancerEquipValue": 1065353216,
+            "IllusionistEquipValue": 1065353216,
+            "Name": 1573109,
+            "Material": -1,
+            "ModularModule": "MC_Torso_default_warrior",
+            "AudioVisualID": 8,
+            "Type": 7,
+            "BaseStat": 0,
+            "BaseProp": 0,
+            "BaseElement": 0,
+            "EquipmentSlottingType": 0,
+            "Value": 1,
+            "GoldValueMultiplier": 10,
+            "LevelRequirement": 0,
+            "StrengthRequirement": 0,
+            "DexterityRequirement": 0,
+            "EnduranceRequirement": 0,
+            "EnergyRequirement": 0,
+            "ClassRequirement": 0,
+            "Param1": 512,
+            "Param2": 0,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0
+          },
+          "model": null
+        }
+      ]
+    },
+    {
+      "loot_entry": {
+        "ItemListID": 53,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      },
+      "list_name": "KnightStartingSet1",
+      "choices": [
+        {
+          "item_id": 1073,
+          "probability": 1,
+          "quantity": 1,
+          "identifier": "StartingBoots",
+          "properties": {
+            "IconName": "",
+            "PickUpType": 1,
+            "DistType": 1,
+            "SwooshSoundFX": -1,
+            "SwooshFX": -1,
+            "Stackable": 0,
+            "WarriorEquipValue": 1065353216,
+            "MageEquipValue": 1065353216,
+            "RogueEquipValue": 1065353216,
+            "PaladdinEquipValue": 1065353216,
+            "BerserkerEquipValue": 1065353216,
+            "AssassinEquipValue": 1065353216,
+            "ArcherEquipValue": 1065353216,
+            "NecromancerEquipValue": 1065353216,
+            "IllusionistEquipValue": 1065353216,
+            "Name": 1573111,
+            "Material": -1,
+            "ModularModule": "MC_Feet_default_warrior",
+            "AudioVisualID": 5,
+            "Type": 9,
+            "BaseStat": 0,
+            "BaseProp": 0,
+            "BaseElement": 0,
+            "EquipmentSlottingType": 3,
+            "Value": 1,
+            "GoldValueMultiplier": 10,
+            "LevelRequirement": 0,
+            "StrengthRequirement": 0,
+            "DexterityRequirement": 0,
+            "EnduranceRequirement": 0,
+            "EnergyRequirement": 0,
+            "ClassRequirement": 0,
+            "Param1": 256,
+            "Param2": 0,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0
+          },
+          "model": null
+        }
+      ]
+    },
+    {
+      "loot_entry": {
+        "ItemListID": 54,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      },
+      "list_name": "KnightStartingSet2",
+      "choices": [
+        {
+          "item_id": 1076,
+          "probability": 1,
+          "quantity": 1,
+          "identifier": "StartingGloves",
+          "properties": {
+            "IconName": "",
+            "PickUpType": 1,
+            "DistType": 1,
+            "SwooshSoundFX": -1,
+            "SwooshFX": -1,
+            "Stackable": 0,
+            "WarriorEquipValue": 1065353216,
+            "MageEquipValue": 1065353216,
+            "RogueEquipValue": 1065353216,
+            "PaladdinEquipValue": 1065353216,
+            "BerserkerEquipValue": 1065353216,
+            "AssassinEquipValue": 1065353216,
+            "ArcherEquipValue": 1065353216,
+            "NecromancerEquipValue": 1065353216,
+            "IllusionistEquipValue": 1065353216,
+            "Name": 1573110,
+            "Material": -1,
+            "ModularModule": "MC_Hands_default_warrior",
+            "AudioVisualID": 12,
+            "Type": 8,
+            "BaseStat": 0,
+            "BaseProp": 0,
+            "BaseElement": 0,
+            "EquipmentSlottingType": 4,
+            "Value": 1,
+            "GoldValueMultiplier": 10,
+            "LevelRequirement": 0,
+            "StrengthRequirement": 0,
+            "DexterityRequirement": 0,
+            "EnduranceRequirement": 0,
+            "EnergyRequirement": 0,
+            "ClassRequirement": 0,
+            "Param1": 256,
+            "Param2": 0,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0
+          },
+          "model": null
+        }
+      ]
+    },
+    {
+      "loot_entry": {
+        "ItemListID": 55,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      },
+      "list_name": "KnightStartingSet3",
+      "choices": [
+        {
+          "item_id": 664,
+          "probability": 1,
+          "quantity": 1,
+          "identifier": "Longsword01",
+          "properties": {
+            "IconName": "",
+            "PickUpType": 1,
+            "DistType": 1,
+            "SwooshSoundFX": -1,
+            "SwooshFX": -1,
+            "Stackable": 0,
+            "WarriorEquipValue": 1065353216,
+            "MageEquipValue": 1065353216,
+            "RogueEquipValue": 1073741824,
+            "PaladdinEquipValue": 1065353216,
+            "BerserkerEquipValue": 1065353216,
+            "AssassinEquipValue": 1073741824,
+            "ArcherEquipValue": 1036831949,
+            "NecromancerEquipValue": 1065353216,
+            "IllusionistEquipValue": 1065353216,
+            "Name": 1573161,
+            "Material": -1,
+            "ModularModule": "MC_RWeapon_Longsword_01",
+            "AudioVisualID": 18,
+            "Type": 0,
+            "BaseStat": -1,
+            "BaseProp": -1,
+            "BaseElement": -1,
+            "EquipmentSlottingType": 1,
+            "Value": 1,
+            "GoldValueMultiplier": 100,
+            "LevelRequirement": 0,
+            "StrengthRequirement": 5,
+            "DexterityRequirement": 3,
+            "EnduranceRequirement": 0,
+            "EnergyRequirement": 0,
+            "ClassRequirement": 0,
+            "Param1": 3072,
+            "Param2": 3840,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0
+          },
+          "model": "data/3d/characters/prince/weapons/MC_RWeapon_Longsword_01.bdae"
+        }
+      ]
+    },
+    {
+      "loot_entry": {
+        "ItemListID": 153,
+        "ItemPowerList": -1,
+        "MProb": 0,
+        "NumPowerProbs": -1,
+        "Pct": -1,
+        "Prob": 0,
+        "RProb": 0,
+        "WProb": 0
+      },
+      "list_name": "StartingPotions",
+      "choices": [
+        {
+          "item_id": 925,
+          "probability": 1,
+          "quantity": 5,
+          "identifier": "Potion0",
+          "properties": {
+            "IconName": "",
+            "PickUpType": 1,
+            "DistType": 1,
+            "SwooshSoundFX": -1,
+            "SwooshFX": -1,
+            "Stackable": 1,
+            "WarriorEquipValue": 1065353216,
+            "MageEquipValue": 1065353216,
+            "RogueEquipValue": 1065353216,
+            "PaladdinEquipValue": 1065353216,
+            "BerserkerEquipValue": 1065353216,
+            "AssassinEquipValue": 1065353216,
+            "ArcherEquipValue": 1065353216,
+            "NecromancerEquipValue": 1065353216,
+            "IllusionistEquipValue": 1065353216,
+            "Name": 1573013,
+            "Material": -1,
+            "ModularModule": "",
+            "AudioVisualID": 20,
+            "Type": 14,
+            "BaseStat": 0,
+            "BaseProp": 0,
+            "BaseElement": 0,
+            "EquipmentSlottingType": -1,
+            "Value": 1,
+            "GoldValueMultiplier": 5,
+            "LevelRequirement": 128,
+            "StrengthRequirement": 25600,
+            "DexterityRequirement": 256,
+            "EnduranceRequirement": 25600,
+            "EnergyRequirement": 0,
+            "ClassRequirement": 0,
+            "Param1": 0,
+            "Param2": 0,
+            "Param3": 0,
+            "Param4": 0,
+            "Param5": 0,
+            "Param6": 0
+          },
+          "model": null
+        }
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "uri": "data/pydata/character_properties_extra_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_properties_extra_pystructnames.bin",
+      "bytes": 216467,
+      "sha256": "864d6bcd58ab6671e2354613b50f2fa618bdf8f6adc667020cbc75c20b443d42"
+    },
+    {
+      "uri": "data/pydata/character_properties_pycst.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_properties_pycst.bin",
+      "bytes": 762,
+      "sha256": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52"
+    },
+    {
+      "uri": "data/pydata/character_properties_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "uri": "data/pydata/character_properties_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_properties_pyarraynames.bin",
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "uri": "data/pydata/character_properties_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_properties_pystructnames.bin",
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "uri": "data/pydata/character_classes_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_classes_pystructnames.bin",
+      "bytes": 750,
+      "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+    },
+    {
+      "uri": "data/pydata/character_classes_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_classes_pyarraynames.bin",
+      "bytes": 6607,
+      "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+    },
+    {
+      "uri": "data/pydata/character_classes_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_classes_pyarray.bin",
+      "bytes": 34224,
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+    },
+    {
+      "uri": "data/pydata/character_classes_pycst.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_classes_pycst.bin",
+      "bytes": 251,
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84"
+    },
+    {
+      "uri": "data/pydata/character_models_dictionary_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_models_dictionary_pyarraynames.bin",
+      "bytes": 1755,
+      "sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9"
+    },
+    {
+      "uri": "data/pydata/character_models_dictionary_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\character_models_dictionary_pyarray.bin",
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    {
+      "uri": "data/pydata/item_powers_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\item_powers_pyarray.bin",
+      "bytes": 54443,
+      "sha256": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e"
+    },
+    {
+      "uri": "data/pydata/item_powers_monopoly_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\item_powers_monopoly_pyarray.bin",
+      "bytes": 476,
+      "sha256": "6591e5ca591b63d3c81eb0d4d3811a2f8409f4b835cb64f35dde87bee4f63d4b"
+    },
+    {
+      "uri": "data/pydata/item_powers_monopoly_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\item_powers_monopoly_pystructnames.bin",
+      "bytes": 20,
+      "sha256": "79dab4b044f7f7f614dab597fc280d8d5947b96b3ed672aac1339316ed7d6400"
+    },
+    {
+      "uri": "data/pydata/item_powers_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\item_powers_pyarraynames.bin",
+      "bytes": 23714,
+      "sha256": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66"
+    },
+    {
+      "uri": "data/pydata/item_powers_pycst.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\item_powers_pycst.bin",
+      "bytes": 1414,
+      "sha256": "0bc21dbcee7dfe61394968f758d2eca5c08bd68af04b8ed1d251878b38c4c981"
+    },
+    {
+      "uri": "data/pydata/item_powers_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\item_powers_pystructnames.bin",
+      "bytes": 5747,
+      "sha256": "5875d43e74e9802ac3151d943c2458557e2604383db7d658433508718fbad444"
+    },
+    {
+      "uri": "data/pydata/item_powers_monopoly_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\item_powers_monopoly_pyarraynames.bin",
+      "bytes": 1021,
+      "sha256": "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633"
+    },
+    {
+      "uri": "data/pydata/common_text_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\common_text_pyarray.bin",
+      "bytes": 10167,
+      "sha256": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286"
+    },
+    {
+      "uri": "data/pydata/common_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\common_pyarray.bin",
+      "bytes": 36,
+      "sha256": "0f9b885c10bea3176b7367a5f14d094c53245cf84a5b5402385f42805f7b7eab"
+    },
+    {
+      "uri": "data/pydata/common_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\common_pystructnames.bin",
+      "bytes": 220,
+      "sha256": "b80dba2e514ec2ebca9536be364a0d674995394935da0a982be75fd4b798198f"
+    },
+    {
+      "uri": "data/pydata/common_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\common_pyarraynames.bin",
+      "bytes": 26,
+      "sha256": "fcd984e582ed9b21b08db4edc2ef838a0eab28a00d3b3a00d766a57b16164690"
+    },
+    {
+      "uri": "data/pydata/common_text_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\common_text_pyarraynames.bin",
+      "bytes": 96,
+      "sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b"
+    },
+    {
+      "uri": "data/pydata/common_text_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\common_text_pystructnames.bin",
+      "bytes": 36,
+      "sha256": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad"
+    },
+    {
+      "uri": "data/pydata/common_text_pycst.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\common_text_pycst.bin",
+      "bytes": 155738,
+      "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5"
+    },
+    {
+      "uri": "data/pydata/skills_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\skills_pyarray.bin",
+      "bytes": 11862,
+      "sha256": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6"
+    },
+    {
+      "uri": "data/pydata/skills_pycst.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\skills_pycst.bin",
+      "bytes": 83,
+      "sha256": "302879d1b1bb035380f7be9e87c385ceadbc2e58a94e8f1b9285747a307801f1"
+    },
+    {
+      "uri": "data/pydata/skills_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\skills_pyarraynames.bin",
+      "bytes": 2757,
+      "sha256": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f"
+    },
+    {
+      "uri": "data/pydata/skills_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\skills_pystructnames.bin",
+      "bytes": 233,
+      "sha256": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9"
+    },
+    {
+      "uri": "data/pydata/loot_table_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\loot_table_pyarray.bin",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+    },
+    {
+      "uri": "data/pydata/loot_table_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\loot_table_pyarraynames.bin",
+      "bytes": 39604,
+      "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba"
+    },
+    {
+      "uri": "data/pydata/loot_table_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\pydata\\loot_table_pystructnames.bin",
+      "bytes": 8858,
+      "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+    },
+    {
+      "uri": "data/3d/characters/prince/weapons/mc_rweapon_longsword_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\3d\\characters\\prince\\weapons\\mc_rweapon_longsword_01.bdae",
+      "bytes": 11092,
+      "sha256": "ab502ff4ef77b0e7afa813de71685cac38e85e82327d24da6ef9cc7e002840f7"
+    },
+    {
+      "uri": "data/3d/textures/atlas_weapons_dh2.tga",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\3d\\textures\\atlas_weapons_dh2.tga",
+      "bytes": 524348,
+      "sha256": "5f096c7ddbcf4aff6c3ebcf436fd60efcf023ca275b90f9c89d0721d71b9b6c1"
+    },
+    {
+      "uri": "data/3d/textures/envmap_swamp.tga",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-equipment-assets\\original-cache\\data\\3d\\textures\\envmap_swamp.tga",
+      "bytes": 2108,
+      "sha256": "db73421e085b1068185f7ec04f8a0950fa0cb5a768a0b81953a692cbafd47bb7"
+    }
+  ],
+  "source_evidence": [
+    "port/game-data/reference/player-creation-v2/NOTES.md",
+    "port/game-data/reference/player-creation-v2/original-class-producers.json",
+    "port/game-data/loot_tables_v2.cpp",
+    "port/game-data/items.cpp",
+    "port/game-data/player_gear_effects_v5.cpp",
+    "port/engine-skinning/visual_skin_selection_v6.cpp",
+    "port/engine-skinning/visual_skin_owner_v6.cpp",
+    "port/game-data/item_gear_properties_v5.cpp"
+  ],
+  "attachment": {
+    "mode_0": "anchor_shield_left_offset",
+    "mode_1": "anchor_weapon_right_offset",
+    "mode_2": "anchor_weapon_left_offset",
+    "selection": "Item ModularModule (C++ Item.name) contains Shield -> mode0; Bow -> mode2; otherwise equipment slot1->mode1 slot2->mode2. Exact source rule in player_gear_effects_v5.cpp.",
+    "transform": "weapon world = animated anchor graph node world * weapon instance authored world; offsets embedded in model graph and weapon scene, no numeric correction invented.",
+    "anchors": [
+      {
+        "name": "anchor_weapon_left",
+        "graph_index": 22,
+        "parent_index": 21,
+        "parent_name": "Bip01_L_Hand",
+        "translation": [
+          12.2765999,
+          0.194305003,
+          -0.226026997
+        ],
+        "quaternion": [
+          -0.670560539,
+          0.0188235398,
+          -0.00647979463,
+          0.741587758
+        ],
+        "scale": [
+          1.0,
+          0.999998987,
+          0.999998987
+        ],
+        "rest_world": [
+          0.879779041,
+          -0.0588185154,
+          -0.471731007,
+          0.0,
+          -0.0154086128,
+          0.988265872,
+          -0.151960671,
+          0.0,
+          0.47513327,
+          0.140960768,
+          0.868548751,
+          0.0,
+          135.182159,
+          -2.75171494,
+          231.147507,
+          1.0
+        ]
+      },
+      {
+        "name": "anchor_weapon_left_offset",
+        "graph_index": 23,
+        "parent_index": 22,
+        "parent_name": "anchor_weapon_left",
+        "translation": [
+          -4.50000007e-05,
+          -3.00000011e-06,
+          0.0
+        ],
+        "quaternion": [
+          -0.721178949,
+          -0.0306305699,
+          -0.0316254795,
+          0.691348433
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rest_world": [
+          0.876563787,
+          0.0287465602,
+          -0.480427235,
+          0.0,
+          0.475757748,
+          0.0991052538,
+          0.873974502,
+          0.0,
+          0.0727365464,
+          -0.994661331,
+          0.0731953382,
+          0.0,
+          135.182114,
+          -2.75171518,
+          231.147522,
+          1.0
+        ]
+      },
+      {
+        "name": "anchor_shield_left",
+        "graph_index": 24,
+        "parent_index": 20,
+        "parent_name": "Bip01_L_Forearm",
+        "translation": [
+          25.2560005,
+          0.289368004,
+          4.09606981
+        ],
+        "quaternion": [
+          0.158243567,
+          0.0106310286,
+          -0.0168317184,
+          0.987199366
+        ],
+        "scale": [
+          1.0,
+          0.999998987,
+          0.999998987
+        ],
+        "rest_world": [
+          0.879778981,
+          -0.0588177629,
+          -0.471731275,
+          0.0,
+          -0.117884822,
+          0.934328198,
+          -0.336351991,
+          0.0,
+          0.460534841,
+          0.351525575,
+          0.815068007,
+          0.0,
+          102.884827,
+          1.72881436,
+          253.937347,
+          1.0
+        ]
+      },
+      {
+        "name": "anchor_shield_left_offset",
+        "graph_index": 25,
+        "parent_index": 24,
+        "parent_name": "anchor_shield_left",
+        "translation": [
+          12.9261999,
+          -2.36731005,
+          12.3422003
+        ],
+        "quaternion": [
+          -0.0121339746,
+          -0.745867133,
+          0.664867401,
+          -0.0385535024
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rest_world": [
+          -0.86602664,
+          0.137981713,
+          0.48058328,
+          0.0,
+          -0.49999842,
+          -0.239007175,
+          -0.8323915,
+          0.0,
+          7.59586692e-06,
+          -0.961163759,
+          0.275976747,
+          0.0,
+          120.220108,
+          3.09527898,
+          258.695648,
+          1.0
+        ]
+      },
+      {
+        "name": "anchor_weapon_right",
+        "graph_index": 30,
+        "parent_index": 29,
+        "parent_name": "Bip01_R_Hand",
+        "translation": [
+          12.8504,
+          0.185363993,
+          0.204575002
+        ],
+        "quaternion": [
+          0.00648084935,
+          -0.7415874,
+          0.670560956,
+          -0.0188221913
+        ],
+        "scale": [
+          1.0,
+          0.999998987,
+          0.999998987
+        ],
+        "rest_world": [
+          0.879778504,
+          0.0588162914,
+          0.471732318,
+          0.0,
+          0.0154096559,
+          0.98826617,
+          -0.151957005,
+          0.0,
+          -0.475134522,
+          0.140957981,
+          0.868548632,
+          0.0,
+          -135.68721,
+          -2.78469276,
+          230.876831,
+          1.0
+        ]
+      },
+      {
+        "name": "anchor_weapon_right_offset",
+        "graph_index": 31,
+        "parent_index": 30,
+        "parent_name": "anchor_weapon_right",
+        "translation": [
+          -2.62679005,
+          4.58695984,
+          1.97722995
+        ],
+        "quaternion": [
+          0.0478255078,
+          -0.743175566,
+          0.665177584,
+          -0.0542357005
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rest_world": [
+          -0.939094126,
+          -0.0368149653,
+          -0.341683388,
+          0.0,
+          0.34297958,
+          -0.0378504992,
+          -0.938579202,
+          0.0,
+          0.0216207542,
+          -0.998604238,
+          0.0481716692,
+          0.0,
+          -138.866974,
+          1.87265301,
+          230.65799,
+          1.0
+        ]
+      }
+    ],
+    "weapon_instances": [
+      {
+        "node": "MC_RWeapon_Longsword_01-node",
+        "world": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    ],
+    "decode": "Original Prince BRES decoded using existing scene::load and recovered_content library; nine-digit binary32 serialization. Rest world is reference only; runtime must use animated graph."
+  },
+  "starting_shield": null,
+  "gear_contributions": {
+    "sword_item_664": {
+      "property79_raw": 3072,
+      "property80_raw": 3840,
+      "decoded_q8_damage": [
+        12.0,
+        15.0
+      ]
+    },
+    "armor": {
+      "property71_raw": 1024,
+      "decoded_q8": 4.0
+    },
+    "proof": "item_gear_properties_v5.cpp type0 main hand contributes Param1/2 to property79/80; types7/8/9 contribute Param1 to property71; source property GetFloat uses /256."
+  },
+  "unknowns": [
+    "Auto-equip result must be obtained by original slotting/requirements producer; fixed loot alone proves grants.",
+    "Resolved class and gear stats must use original property kernels rather than assigning these raw contributions as final combat stats."
+  ]
+}

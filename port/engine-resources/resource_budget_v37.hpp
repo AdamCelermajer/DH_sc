@@ -25,8 +25,13 @@ struct ResourceBudgetLimitsV37 {
  std::uint64_t fx_buffer_gpu_bytes=64*mib_v37,cpu_bytes=512*mib_v37;
  std::uint64_t individual_gpu_bytes=128*mib_v37,individual_cpu_bytes=64*mib_v37;
  std::uint64_t bulk_archive_cpu_bytes=512*mib_v37;
- std::array<std::uint32_t,std::size_t(ResourceKindV37::count)> objects{{4096,8192,8192,256,256,256,4096,256}};
- std::uint32_t record_slots=8192;
+ // CPU request tokens are retained per admitted vector/file owner. Their
+ // independent count ceiling matches the hard token-record pool; aggregate
+ // and per-request byte limits still bound memory.
+ std::array<std::uint32_t,std::size_t(ResourceKindV37::count)> objects{{4096,8192,8192,256,256,256,8192,256}};
+ // The all-kind owner pool includes retained world vectors plus live UI/GPU
+ // owners; keep it independent from the per-kind cpu_request ceiling.
+ std::uint32_t record_slots=16384;
 };
 struct ResourceTokenV37 {
  std::uint64_t budget_identity{},serial{};
@@ -79,7 +84,7 @@ class ContextResourceBudgetV37 {
  bool commit(ResourceTokenV37 pending,ResourceTokenV37 replaced,ResourceTokenV37&,std::string&);
  void abort(ResourceTokenV37,ResourceTokenV37)noexcept;
  Record* find(ResourceTokenV37)noexcept;
- bool reject(ResourceKindV37,const char*,std::string&);
+ bool reject(ResourceKindV37,const std::string&,std::string&);
  void update_requested_and_peak()noexcept;
 public:
  explicit ContextResourceBudgetV37(ResourceBudgetLimitsV37 limits={});

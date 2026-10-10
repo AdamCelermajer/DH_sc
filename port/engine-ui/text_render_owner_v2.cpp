@@ -123,6 +123,10 @@ bool TextRenderOwnerV2::units(const std::shared_ptr<text_v1::Font>& f,float& out
 bool TextRenderOwnerV2::height(const std::shared_ptr<text_v1::Font>& f,float& out,std::string& e){return impl_->metrics(f,out,true,e);}
 bool TextRenderOwnerV2::glyph(const std::shared_ptr<text_v1::Font>& f,std::uint16_t code,int size,text_v1::Glyph& out,bool& found,std::string& e){return impl_->glyph(f,code,size,out,found,e);}
 bool TextRenderOwnerV2::clone(const std::shared_ptr<text_v1::Font>& f,std::shared_ptr<text_v1::Font>& out,std::string& e){return impl_->clone(f,out,e);}
+bool TextRenderOwnerV2::clear_fonts_v119(std::string& error){
+ if(impl_->backends.clear_fonts&&!impl_->backends.clear_fonts(error))return false;
+ impl_->faces.clear();impl_->images.clear();impl_->clones.clear();error.clear();return true;
+}
 text_v1::Services TextRenderOwnerV2::layout_services(text_v1::Services s) const {
     auto p=impl_;s.units_per_em=[p](auto& f,float& out,std::string& e){return p->metrics(f,out,false,e);};
     s.font_height=[p](auto& f,float& out,std::string& e){return p->metrics(f,out,true,e);};

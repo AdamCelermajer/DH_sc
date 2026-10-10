@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-09",
+  "status": "implemented_component_verified_main_audio_enrollment_pending",
+  "goal_complete": false,
+  "api": "PlayableActorWorld::random_uniform(bound, output, error)",
+  "authority": "Existing caller-owned CombatRandom reference, already serialized by GameSave; no additional stream or seed.",
+  "implementation": "dh2_combat_random source kernel; ranges through INT32_MAX. Random(0) increments calls and leaves seed unchanged. Larger ranges reject without changing output or RNG.",
+  "verified": [
+    "A draw matches the source kernel and updates the actual external owner.",
+    "Rejected range preserves output, seed and calls.",
+    "Zero-range source behavior is preserved.",
+    "Restoring the stream replays the draw.",
+    "Focused playable_actor_world and game_save CTests pass 2/2.",
+    "CombatSession initializer preserves startup seed and call count.",
+    "Ambiguous RNG config is rejected without replacing live world.",
+    "CombatSession, GameSave and DeferredPopulation focused CTests pass3/3 after selector integration into foundation_data."
+  ],
+  "limitations": [
+    "Exact original application-wide audio/gameplay draw interleaving remains unverified.",
+    "The API is ready for main audio enrollment; it does not establish sound playback in the released executable."
+  ],
+  "startup_handoff": "CombatSessionConfig.initialRandomState accepts caller startup seed/calls after population selection; exactly one explicit state or legacy diagnostic seed is required."
+}

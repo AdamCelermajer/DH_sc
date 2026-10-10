@@ -11,7 +11,7 @@ namespace dh2::android_ui {
 struct ProcessArrayValueV101;
 struct ProcessArrayRowV101 {std::vector<ProcessArrayValueV101> fields;};
 struct ProcessArrayValueV101 {
- enum class Kind {word,byte,half,string,vector};Kind kind{Kind::word};
+ enum class Kind {word,byte,half,float32,string,vector};Kind kind{Kind::word};
  std::uint32_t bits{};std::string text;std::vector<ProcessArrayRowV101> elements;
 };
 struct ProcessArrayGroupV101 {

@@ -1,0 +1,87 @@
+{
+  "feature": "Authored Swamp Lizard spawn admission into the generic enemy CombatSession",
+  "status": "existing components are individually usable; normal authored trigger-to-session composition remains a root integration gap",
+  "visual_evidence": {
+    "reference": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+    "version_caveat": "Supplied reference identifies v1.0.3; local game/content version match is not established.",
+    "observed_frames": [
+      {
+        "seconds": 226,
+        "image": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0226s.png",
+        "observation": "Skip prompt is visible; two green enemy-shaped figures occupy the same corridor, one near the patterned floor and another above/behind the wall. The still does not prove their exact animation phase or identity."
+      },
+      {
+        "seconds": 228,
+        "image": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0228s.png",
+        "observation": "Combat Tutorial overlay is shown with the player below the corridor and an enemy above/behind the wall. This is consistent with a scripted entrance followed by tutorial admission, but does not establish which source actor is visible."
+      },
+      {
+        "seconds": 266,
+        "image": ".local-inputs/referenceframes/dh2-act1/first-combat/at-0266s.png",
+        "observation": "A green enemy corpse lies on the floor near the player, with a gold loot message and gameplay HUD. This is a later visual result, not proof of exact spawn timing or actor identity."
+      }
+    ],
+    "expected_invariant": "The first authored encounter starts from the real one-shot trigger, spawns its two already-declared Lizard actors in script order into the current actor/session owners, and later allows ordinary combat/death. No extra enemy population is needed."
+  },
+  "source_chain": {
+    "authored_trigger": {
+      "asset": "port/windows-foundation/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "name": "_prim_TriggerZone_LizManIntro",
+      "script": "LizardMan_Intro",
+      "triggercount": 1,
+      "triggerdelay": 0,
+      "script_move_out": "",
+      "source_report": "port/windows-foundation/reports/encounter-activation.json"
+    },
+    "trigger_gates": "CanonicalTriggerZoneV22 owns enabled/count/delay, local-player alive/online/door qualification, actual contact and enter edge; it starts the resolved source script once. OriginalCampaignRuntime::trigger_contact retains count/delay/edge/start state after receiving inside and qualified facts; it is not the collision/condition owner.",
+    "script": "LizardMan_Intro indices4 and6 are Script_SpawnCharacter kind30 for _prim_Monster_LizManIntro1 and _prim_Monster_LizManIntro2, separated by source waits500ms and1500ms. The script first runs a common block-save child, locks controllers and changes camera before these spawn calls.",
+    "initial_actor_state": "Both MGP Character declarations have ai_state=Limbus, auto_spawn=0 and ai_state_visible=0. Level::_LoadCharStates0x3eff98 maps Limbus0/PreSpawn17 to PreSpawn17. OriginalActorLifecycle.add derives that state from authored facts; the intro declarations begin disabled/without collision under the source PreSpawn policy.",
+    "spawn_command": "Script_SpawnCharacter Execute45f400 resolves the named Character in the current source module and calls SM_SetSpawnState(false,false). The source transition is PreSpawn17 -> Spawn1; PreSpawn blur enables/revives/enables collisions, Spawn focus sets source flags/selects the authored Spawn sequence/clears target/syncs last target/cancels sneaking, and whole-sequence completion event34 moves Spawn1 -> Idle3.",
+    "references": [
+      "port/windows-foundation/reports/encounter-activation.json",
+      "port/windows-foundation/reports/spawn-placement-source.json",
+      "port/windows-foundation/original_campaign_runtime.cpp",
+      "port/windows-foundation/original_campaign_world_adapter.cpp",
+      "port/windows-foundation/original_actor_lifecycle.cpp",
+      "port/windows-foundation/features/encounters/encounter_services.cpp"
+    ]
+  },
+  "existing_typed_owners": {
+    "trigger_to_script": "CampaignBinding::trigger_script_services(TriggerZoneServicesV22&) resolves the source local script ID and binds start_script to the same OriginalCampaignRuntime with the actual module ID.",
+    "script_to_actor": "OriginalCampaignWorldAdapter::command handles kind30 by calling OriginalCampaignWorldProviders.named_character(name,module,ActorId&,found,error), then OriginalActorLifecycle::spawn(id,error). SourceWorldObjects::named_character already implements source name/module lookup semantics.",
+    "actor_lifecycle": "OriginalActorLifecycle stores a borrowed ActorState* and delegates state, transform, enabled, collision, physical, animation and target effects through OriginalLifecycleServices. Main's existing diagnostic lifecycle setup forwards these effects to ActorPopulation, NativeBodies and the same CombatSession.",
+    "generic_enemy": "RuntimeEnemyControllerV1 consumes the same CombatSession actors after lifecycle permissions admit Idle3. Production bindEnemyAI composes its shared RuntimeEnemyNavigationV1 with the same SourceNavigationWorldStorage, PlayableActorBodies and CollisionScene."
+  },
+  "current_owner_probe": {
+    "commands": [
+      ".local-inputs/windows-encounter-source/feature_encounters_connected_tests.exe .",
+      ".local-inputs/windows-foundation-build/original_campaign_runtime_tests.exe .local-inputs/windows-encounter-source",
+      ".local-inputs/windows-foundation-build/original_campaign_world_adapter_tests.exe .local-inputs/windows-encounter-source",
+      ".local-inputs/windows-foundation-build/original_actor_lifecycle_tests.exe"
+    ],
+    "results": [
+      "Connected canonical Trigger/MGP test passed its actual source-trigger/contact/script-start assertions; the first script then stopped explicitly at the expected unbound block-save provider. It is not LizardMan_Intro live proof.",
+      "Campaign runtime test passed actual LizardMan_Intro source trigger edge/count and command timing with command fixtures.",
+      "World adapter test passed two ordered kind30 source spawns and PreSpawn17 -> Spawn1 using fixture ActorState records.",
+      "Lifecycle test passed the generic same-Actor PreSpawn17 -> Spawn1 -> Idle3 state path with lifecycle effect fixtures."
+    ],
+    "separate_same_session_evidence": "port/windows-foundation/reports/packaged-source-clock-runtime-v9.json records explicit scheduled LizardMan_Intro Spawn commands at frames33/128, both same-session actors reaching Idle3, and subsequent damage/death. This is genuine same-session source Spawn/combat evidence but bypasses normal trigger contact and uses scheduled script replay.",
+    "production_gap": "main.cpp wires scheduled source command replay and diagnostic lifecycle, but does not construct/admit the authored LizardMan_Intro canonical TriggerZone in the same normal-play session. Current passing component tests use fixtures at one or more owner boundaries; there is no test proving trigger contact -> source script -> same-session intro actor spawn -> generic AI/death as a single production path."
+  },
+  "minimal_root_handoff": {
+    "new_feature_api_needed": false,
+    "compose_existing": [
+      "Retain the existing source Module/Character/Trigger records and use the real runtime module ID from constructor receipts.",
+      "Bind the authored TriggerZone's existing CampaignBinding::trigger_script_services to the canonical trigger owner and actual contact/condition/online/local-player services.",
+      "Bind OriginalCampaignWorldProviders.named_character to the same module-scoped actor/ObjectManager identity that backs the current CombatSession ActorState records.",
+      "Register lifecycle records for these exact retained Session actors and route lifecycle effects, Spawn animation completion and combat permissions back into that same session.",
+      "Supply the reached source block-save and camera/controller providers so LizardMan_Intro can proceed through its original prefix instead of skipping ahead to Spawn."
+    ],
+    "do_not": "Do not create a second actor registry, substitute the direct Limbus diagnostic actor, force trigger contact, schedule Spawn by frame, or report a trigger-to-combat pass from component tests."
+  },
+  "uncertainties": [
+    "Reference stills plausibly show the entrance but do not uniquely identify the source Lizard actor or prove continuous animation timing.",
+    "The supplied APK is v1.0.2 and reference is v1.0.3; exact source/content revision equivalence is unproven.",
+    "The authored PreSpawn and Spawn source policies are established; visual pose parity of the normal trigger-driven encounter remains unverified."
+  ]
+}

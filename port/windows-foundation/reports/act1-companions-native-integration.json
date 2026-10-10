@@ -1,0 +1,214 @@
+{
+  "date": "2026-10-09",
+  "status": "source-audited-native-owner-adapter-advanced-runtime-blocked",
+  "scope": "Act 1 named companion identity/attack evidence, same Character master/path/script ownership, and faery ability owner seams",
+  "castor_identity": {
+    "status": "rene-confirmed-castor-link-unresolved",
+    "finding": "The source and local reference footage now positively identify the Swamp priest as Rene: the source placement is _prim_NPC_PriestGood / WanderingPriest / RENE_FOLLOW; the same Swamp PyData event block names that object beside the trace strings Moving Rene and Rene done got moved; and the v1.0.3 reference frame at 120.000 seconds labels the caged priest dialogue speaker RENE. No source/cache string or inspected reference frame establishes that Castor is an alias for Rene. Do not rename this actor Castor or claim Castor==Rene without a separate cross-reference.",
+    "placement": "assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+    "property_row": 419,
+    "resolved_ai_row": 50,
+    "script": "rene",
+    "script_class": "AISExternal: the source name is unprefixed and SetScriptByName routes names not beginning __ to AISExternal",
+    "source_cross_reference": {
+      "swamp_pydata": "assets/original-cache/data/pydata/scripts/001_swamp_pyscripts.bin",
+      "event_byte_offset": 17674,
+      "neighboring_object_reference_byte_offsets": [
+        17693,
+        17853
+      ],
+      "source_trace_strings": [
+        "Moving Rene",
+        "Rene done got moved!!!!!!!!!!!"
+      ],
+      "source_version": "recovered 1.0.2"
+    },
+    "reference_media": {
+      "title": "Dungeon Hunter 2 (v1.0.3) Part 1 [720p]",
+      "source_url": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+      "video_seconds": 120.0,
+      "video_duration_seconds": 1331.566667,
+      "frame": ".local-inputs/referenceframes/dh2-act1/at-0120s.png",
+      "visual_observation": "The dialogue nameplate on the caged priest reads RENE.",
+      "version_relation": "Recovered cache is v1.0.2 while the reference video is v1.0.3; their full version differences have not been established."
+    },
+    "literal_castor_search": "No ASCII Castor match in recovered original-cache or supplied character-script cache. This negative source-string search does not prove that an alternate local nickname was never used in unrecovered material.",
+    "artifact_sha256": {
+      "swamp_priest_placement_mgp": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31",
+      "swamp_pyscripts_bin": "144447bc17c9b5ac530e308cce86490c04191779b66f4b88914f2a6c8adde836",
+      "rene_luac": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7",
+      "reference_video_mp4": "98087ee80f594bcc317144b5dd15ee4b470830b8eb8f5b13badc24bd9831e502",
+      "reference_frame_120s": "8d2417a8ee0b7ed754bb1bc1de1d375b2d961d9f581c0af17bfd5d89fb3a5251"
+    },
+    "evidence_test": "features/companions/source_evidence_tests.py"
+  },
+  "rene_attack": {
+    "status": "source-behavior-verified-native-attack-owner-required",
+    "cache_script_sha256": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7",
+    "behavior": [
+      "rene_OnEnemySpotted accepts a target only when g_is_far is false, then GrabTarget publishes it with SetTarget.",
+      "rene_OnTargetInRangedRange stops moving when source state is CST_MOVE and calls Attack() on the cached current target.",
+      "rene_OnTargetInCloseRange calls Stop() then Attack() on the cached current target.",
+      "Target acquisition and attack are source AI events; this script does not poll for enemies or invent its own attack range."
+    ],
+    "unresolved_native_services": [
+      "The new record-bound V1 callback adapter is not yet enrolled at the root CharAI RaiseAIEvent / selected AIS virtual endpoint; source eligibility/event creation remains in the existing target/master kernels.",
+      "Complete same-Character NPC Cmd_Attack and combat/target/skill callback chain."
+    ]
+  },
+  "same_character_owner_projection": {
+    "implemented_in_owned_feature": [
+      "SourceOwnerBorrow projects the same retained ActorState, Character identity, CharAI pointer fields, runtime PF path list and CharacterScriptSession/ScriptOwner; it creates no actor, Character, VM, path or master.",
+      "Source master remains the recovered AI_SetMaster kernel on same CharAI+0x50/+0x54/+0x55: publish native master identity first; null leaves alive/sight bytes unchanged; nonnull queries source IsDead, same owner/master target-position selector and selected AI row ViewRadius; sight is the strict squared 3D comparison.",
+      "Canonical NPC callback integration now accepts the actual retained V1 CharacterScriptSession/ScriptOwner as well as an explicit V2 owner. Source registration checks same pending/active VM and Character identity; external callback entry rechecks active owner and alias before calling it.",
+      "V1 companion initialization uses session.start() on the same selected AI session, then verifies AISExternal and exact Character identity; it never starts a second owner beside the canonical session.",
+      "dispatch_live_rene_character_event consumes original Character event IDs 9 and 0xa..0x19 for already-projected LiveWorldBindings callers.",
+      "dispatch_source_rene_character_event_v1 is the canonical record-bound V1 endpoint: it borrows the same CampaignFsm path receipt, authenticates record/Character/FSM/path/TargetBindings/CharAI+0x50 and the active AISExternal Session, then sends source target events through that Session's dispatch_target and optional master aliases through the same VM. It neither creates events nor clones or mutates navigation."
+    ],
+    "ready_caller_seams": [
+      "Root canonical owner factory obtains SourceCharacterOwnerAliases for the accepted record; its RetainedCharacterActorV1::session is the V1 session to pass into SourceOwnerBorrow.script_session.",
+      "Pass same CharacterAiPointerFieldsV105, RuntimeState and retained actor lease to project_source_owner after the source PF receiver has published the exact Character identity.",
+      "Call advance_source_companion(world, actor, session, error) at the canonical external-script initialization boundary; invoke bind_source_registration from that same owner's owner_register_binding delivery.",
+      "At root's already-reached selected AIS virtual endpoint, call dispatch_source_rene_character_event_v1 with the same shared CanonicalCharacterCandidateRecordV60, source event ID and original subject identity.",
+      "Keep enemy spotting, target range/sight, and master range/sight production in the existing native source kernels. Their CampaignFsm RaiseEvent route is already the event producer; do not schedule duplicate target/master updates. Follow/movement commands must publish through the existing source controller and OriginalActorNavigation path owners."
+    ],
+    "remaining_lifecycle_gate": "project_source_owner requires runtime.object.user == Character identity. Native C1 prefix exists, but prefix borrowing before InitPF is not enabled without an explicit source lifecycle-phase proof. Full InitPost/InitPF owner publication and root enrollment of the record-bound callback at the existing selected AIS virtual endpoint remain integration requirements.",
+    "files": [
+      "features/companions/source_owner_contract.hpp",
+      "features/companions/source_owner_contract.cpp",
+      "features/companions/source_companion_events.cpp",
+      "features/companions/source_owner_scripts.cpp",
+      "features/companions/live_companions.hpp",
+      "features/companions/live_companion_scripts.cpp"
+    ]
+  },
+  "faery_abilities": {
+    "status": "existing_source_owners-reuse-required",
+    "authority": "The selected faery remains on the same player's PlayerFaeryAssociationV8 backing Character+0x420 / CharAI+0x58; selection flows through the actual Save, CharacterPlayerSkillsV6, Character::ChangeFaery and level placement owner.",
+    "cast": "Use the existing player Skill/SpellScript and FaeryCastOwnerV2 owners for actual spell rows, animation admission, source timing, effects and gameplay outcome. Companion code must not add a second faery actor, selection state, haste/radius rule or timer store.",
+    "evidence": [
+      "coordination/luna-act1/lane-15-handoff.md",
+      "port/level-world/character-menu-faery-connection-v8.hpp",
+      "port/level-world/character-menu-faery-connection-v8.cpp",
+      "port/level-world/level-faery-placement-v8.hpp"
+    ],
+    "runtime_status": "Integrated source ability/effect/audio and save/reload behavior have not been verified on the Act 1 runtime."
+  },
+  "companion_scene_initialization_audit": {
+    "status": "source-placement-representable-scene-state-owned-by-source-script-no-new-initializer-justified",
+    "source_assets": {
+      "swamp_mgp": {
+        "path": ".local-inputs/windows-source-clock-v19-preview-2/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "sha256": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31",
+        "priest": {
+          "name": "_prim_NPC_PriestGood",
+          "position": [793.9, -617.658, 272.064],
+          "gametype": "Character",
+          "template": "NPC",
+          "character_profile": "WanderingPriest",
+          "isGlobal": "1",
+          "activate_cond": "RENE_FOLLOW",
+          "authored_ai_state": null,
+          "authored_ai_state_visible": null,
+          "authored_startanim": null
+        },
+        "faery": {
+          "name": "_prim_Faery",
+          "position": [544.191, 414.689, -108.175],
+          "gametype": "Character",
+          "template": "Faery",
+          "character_profile": "DefaultFairy",
+          "isGlobal": "1",
+          "authored_ai_state": null,
+          "authored_ai_state_visible": null,
+          "authored_startanim": null
+        },
+        "explicit_non_companion_example": "_prim_ActorTroll in this same MGP authors ai_state_visible=0 and ai_state=Limbus. Those values must not be transferred to Priest or Faery."
+      },
+      "canonical_character_defaults": {
+        "source": "port/level-world/canonical_property_declarations_v1.inc",
+        "ai_state": "Character declaration 0x13cc defaults to empty string",
+        "ai_state_visible": "Character declaration 0x13e4 defaults to 1",
+        "cross_check": "port/windows-foundation/reports/live-lifecycle-integration.json.authored_defaults"
+      },
+      "campaign_script": {
+        "path": ".local-inputs/windows-encounter-source/original-campaign.xml",
+        "sha256": "3ab2055920a8b648b16d77aa07b0435cbd899c624f5be3bcc145e2133c5cdd14",
+        "script": "Swamp_Intro",
+        "sequence": [
+          "commands 2-6 position actors via named source waypoints",
+          "commands 12-13 hide _prim_NPC_PriestGood and _prim_Faery",
+          "command 14 plays named idle on _anim_cage_001 (the cage prop, not a generic companion idle) while the actors are hidden",
+          "commands 41-42 explicitly show the Priest and Faery",
+          "command 43 moves Faery to _prim_Waypoint_5",
+          "commands 45-46 play source animation IDs 396 and 377 on Priest and Faery",
+          "command 112 later plays idle_opened on _anim_cage_001"
+        ],
+        "other_scene_setup": "Camp_Intro commands 6-7 position Priest and Faery at _prim_Waypoint_CampIntro_RENE and _prim_Waypoint_CampIntro_FAERY."
+      }
+    },
+    "reference_media": {
+      "source_url": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+      "source_version": "1.0.3",
+      "recovered_source_version": "1.0.2",
+      "video_sha256": "98087ee80f594bcc317144b5dd15ee4b470830b8eb8f5b13badc24bd9831e502",
+      "sampled_frames": [
+        {"time_seconds": 210, "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0210s.png", "sha256": "b6c22b5f9cb7eb7282d9cc15092c14cb2a87abd8ca0362d955a76fd4614144f6", "observation": "During the lead-in, the scene shows the player beside a second figure and a warm point glow; the frame does not distinguish Faery effects from other scene lighting."},
+        {"time_seconds": 212, "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0212s.png", "sha256": "2a37ee5e1577919d96413b200812af3b666c73c859de401968f67100d246e163", "observation": "The priest-like robed figure is visible beside the player, with a glow near it; a single frame cannot establish an idle loop or source placement."},
+        {"time_seconds": 230, "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0230s.png", "sha256": "26e644b55f8f3a7e7f96503a2bc8f70d9bf22fa3ed2bc2af43ee36faf7b5de02", "observation": "Tutorial scene shows a robed figure at lower right; the view does not establish a separate Faery identity, continuous visibility policy, or idle timing."}
+      ],
+      "limit": "Reference is v1.0.3 while recovered source data is v1.0.2; camera cuts, occlusion and script-driven scene changes prevent these sampled frames from establishing a reusable companion idle/visibility default."
+    },
+    "implementation_decision": "No companion-specific generic initializer added. The canonical ActorDefinition path already preserves authored placement/properties; source itself uses waypoint commands for scene relocation and ordered HideActor/ShowActor/PlayActorAnim commands for the intro. A companion override would duplicate authored source state or invent timing/visibility. No follower distance, idle fallback, or forced spawn is introduced.",
+    "evidence_test": "features/companions/scene_source_audit_tests.py"
+  },
+  "companion_campaign_animation_composition": {
+    "status": "generic_same_session_adapter_ready_exact_faery_idle_only_swamp_transition_clip_ids_unresolved",
+    "source_inputs": {
+      "campaign": {
+        "path": ".local-inputs/windows-encounter-source/original-campaign.xml",
+        "sha256": "3ab2055920a8b648b16d77aa07b0435cbd899c624f5be3bcc145e2133c5cdd14"
+      },
+      "animation_bindings": {
+        "path": ".local-inputs/windows-shared-assets/original-melee-bindings.xml",
+        "sha256": "bc29f6ef2ce13f0c9d550835562747e99fc5896ed7ae32a630e496cf86529b94"
+      }
+    },
+    "api": {
+      "header": "features/companions/source_companion_campaign_animation_v1.hpp",
+      "implementation": "features/companions/source_companion_campaign_animation_v1.cpp",
+      "bank_builder": "build_companion_campaign_animation_bank_v1(bindings, loaded_campaign, script_name, exact_source_object_to_same_profile_plans, output, error)",
+      "runtime_adapter": "SourceCompanionCampaignAnimationV1::command",
+      "caller_seam": "At the existing OriginalCampaignRuntime kind45 command callback, offer this adapter first; resolved commands borrow the ActorId already in the same CombatSession and call select_actor_state_leaf. Unresolved records return handled=false for the existing SourceCinematicCommands provider. The adapter adds no trigger, scheduler, Character, actor, or clip.",
+      "runtime_limit": "This generic route composes the existing Session pose clip only. Native Script_PlayActorAnim CharAnimator dictionary/FSM state side effects remain with the source native command owner when required."
+    },
+    "resolved_source_record": {
+      "script": "FaeryIdle (common)",
+      "command_index": 0,
+      "target": "DefaultFairy",
+      "profile": "DefaultFairy",
+      "anim": 686,
+      "next": 686,
+      "slot": 1,
+      "wait": false,
+      "profile_leaf": "Idle sequence variant 0, path [0], animationId 686, loop=-1, data/3D/characters/faeries/animations/faeries_celeste_idle.bdae",
+      "result": "Exact same-profile single visual leaf with no authored source marker events; no clip alias or new resource is invented."
+    },
+    "unresolved_authored_transition_records": {
+      "script": "Swamp_Intro (level)",
+      "priest_example": {"command_index": 45, "target": "_prim_NPC_PriestGood", "profile": "WanderingPriest", "anim": 396, "next": 4294967295, "slot": 2, "reason": "No visual leaf with Anim ID 396 exists in the same-profile session plan."},
+      "faery_example": {"command_index": 46, "target": "_prim_Faery", "profile": "DefaultFairy", "anim": 377, "next": 4294967295, "slot": 3, "reason": "Slot 3 is outside the implemented Idle/Attack mapping; profile also has no visual leaf with Anim ID 377."},
+      "result": "The authored Swamp_Intro Priest/Faery animation commands remain unhandled by this adapter and delegate to the existing source command owner. No replacement IDs or cross-profile mappings were guessed."
+    },
+    "verification": {
+      "command": "port/windows-foundation/features/companions/run_source_companion_campaign_animation_v1_tests.ps1",
+      "result": "passed: loaded source bank composes exact FaeryIdle 686, records Swamp_Intro companion IDs as unresolved, and passes unresolved commands through; resolved playback rejects an uninitialized CombatSession without constructing one.",
+      "same_session_live_playback": "not_run; a live source object-to-ActorId resolver and initialized same-profile DefaultFairy CombatSession are supplied only at root integration."
+    }
+  },
+  "verification": {
+    "original_cache_and_ida_evidence": "passed: source_evidence_tests.py, including exact cache script SHA, WanderingPriest row/AI selection, authored MGP placement/activation, Rene callback aliases/conditional attack branches, master event IDs and source kernel mappings, and AISFaery vtable/native offset checks",
+    "native_compile": "passed: existing source_owner_contract.cpp, source_owner_scripts.cpp and live_companion_scripts.cpp compile as MinGW objects with -Wall -Wextra -Werror (inherited source_clock warning exception); new source_companion_events.cpp passes Android NDK ARM64 C++20 syntax checking with only inherited actor_combat_runtime/Box2D warnings excepted",
+    "runtime": "not_run; no initialized canonical record fixture or root selected-AIS endpoint enrollment is available. Full source Character InitPost/InitPF and complete NPC attack service remain unverified"
+  }
+}

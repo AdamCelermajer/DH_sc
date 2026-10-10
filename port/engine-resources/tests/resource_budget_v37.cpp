@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <utility>
+#include <vector>
 using namespace dh2::resources;
 namespace {unsigned checks;
 void ck(bool value,const std::string& message){if(!value)throw std::runtime_error("V37 check "+std::to_string(checks)+": "+message);++checks;}
@@ -10,6 +11,15 @@ ResourceTokenV37 allocate(ContextResourceBudgetV37& b,ResourceChargeV37 c){Resou
 }
 int main(){try{
  std::string e;ContextResourceBudgetV37 b(tiny());ResourceReservationV37 p;ResourceTokenV37 token;
+ auto texture_limits=tiny();ContextResourceBudgetV37 texture_diagnostic(texture_limits);
+ ck(texture_diagnostic.begin_context(e),e);
+ auto ui_texture=allocate(texture_diagnostic,{ResourceKindV37::texture,ResourceScopeV37::swf_front,450,0});
+ ResourceReservationV37 excess_texture;
+ ck(!texture_diagnostic.reserve_create({ResourceKindV37::texture,ResourceScopeV37::world,200,0},excess_texture,e),
+    "Aggregate texture byte overflow admitted");
+ ck(e.find("current=450 held=200 limit=600 incoming_kind=texture incoming_scope=world")!=std::string::npos&&
+    e.find("live_scopes={swf_front=450}")!=std::string::npos,"Texture rejection omits byte operands or scope census: "+e);
+ ck(texture_diagnostic.release(ui_texture,e),e);
  const ResourceChargeV37 tex{ResourceKindV37::texture,ResourceScopeV37::swf_front,300,100};
  ck(!b.reserve_create(tex,p,e),"GPU admitted without actual context");ck(b.begin_context(e),e);ck(!b.begin_context(e),"Same-context replay accepted");
  ck(b.reserve_create(tex,p,e),e);ck(b.snapshot().pending.gpu_bytes==300&&b.snapshot().live.gpu_bytes==0,"Reservation missing from requested peak");
@@ -62,10 +72,26 @@ int main(){try{
  auto one_name=tiny();one_name.objects[std::size_t(ResourceKindV37::vertex_buffer)]=1;
  ContextResourceBudgetV37 storage(one_name);ck(storage.begin_context(e),e);
  auto same_name=allocate(storage,{ResourceKindV37::vertex_buffer,ResourceScopeV37::fx,200,0});
+ ResourceReservationV37 over_count;ck(!storage.reserve_create({ResourceKindV37::vertex_buffer,ResourceScopeV37::fx,1,0},over_count,e),"Vertex buffer count overflow admitted");
+ ck(e.find("kind=vertex_buffer current=1 held=1 limit=1")!=std::string::npos,"Count rejection omits the exact exceeded kind/current/held/limit: "+e);
+ ck(storage.snapshot().requested.objects[std::size_t(ResourceKindV37::vertex_buffer)]==1,"Rejected count changed requested ownership");
  ck(storage.reserve_replace(same_name,{ResourceKindV37::vertex_buffer,ResourceScopeV37::fx,250,0},ReplacementModeV37::same_object_coexisting_storage,p,e),e);
  ck(storage.snapshot().requested.gpu_bytes==450&&storage.snapshot().requested.objects[std::size_t(ResourceKindV37::vertex_buffer)]==1,"Same-name coexistence peak/count differs");
  ck(p.commit(same_name,e),e);ck(storage.snapshot().live.gpu_bytes==250,"Same-name replacement commit differs");
  ck(storage.release(same_name,e),e);
+ // A scene batch retains several independently admitted CPU vectors per part,
+ // while UI and GPU owners share the same record pool. Keep the all-kind pool
+ // separate from the existing per-kind CPU ceiling.
+ ResourceBudgetLimitsV37 cpu_many;ContextResourceBudgetV37 cpu_owners(cpu_many);
+ ck(cpu_many.objects[std::size_t(ResourceKindV37::cpu_request)]==8192&&cpu_many.record_slots==16384,"CPU kind and shared record ceilings differ from the bounded policy");
+ ck(cpu_owners.begin_context(e),e);std::vector<ResourceTokenV37> cpu_tokens,texture_tokens;cpu_tokens.reserve(8192);texture_tokens.reserve(4096);
+ for(unsigned i=0;i<8192;++i)cpu_tokens.push_back(allocate(cpu_owners,{ResourceKindV37::cpu_request,ResourceScopeV37::world,0,1}));
+ for(unsigned i=0;i<4096;++i)texture_tokens.push_back(allocate(cpu_owners,{ResourceKindV37::texture,ResourceScopeV37::swf_front,0,0}));
+ ck(cpu_owners.snapshot().occupied_records==12288&&cpu_owners.snapshot().live.objects[std::size_t(ResourceKindV37::cpu_request)]==8192,"Shared pool rejected legitimate mixed owners above the old 8192-slot capacity");
+ ck(!cpu_owners.reserve_create({ResourceKindV37::cpu_request,ResourceScopeV37::world,0,1},p,e)&&e.find("kind=cpu_request current=8192 held=1 limit=8192")!=std::string::npos,"Larger shared pool bypassed the independent CPU kind ceiling");
+ for(auto& token:cpu_tokens)ck(cpu_owners.release(token,e),e);
+ for(auto& token:texture_tokens)ck(cpu_owners.release(token,e),e);
+ ck(cpu_owners.snapshot().live.cpu_bytes==0&&cpu_owners.snapshot().occupied_records==0,"CPU/GPU owner stress fixture leaked accounting");
  // Foreign context tokens never release objects with recycled numeric slots.
  ContextResourceBudgetV37 other(tiny());ck(other.begin_context(e),e);auto foreign=allocate(other,tex);auto borrow=foreign;
  ck(!b.release(borrow,e),"Cross-budget owner token accepted");ck(other.release(foreign,e),e);
@@ -77,6 +103,10 @@ int main(){try{
  auto a=allocate(capacity,{ResourceKindV37::framebuffer,ResourceScopeV37::swf_front,0,0});
  auto c=allocate(capacity,{ResourceKindV37::framebuffer,ResourceScopeV37::swf_gameplay,0,0});
  ck(!capacity.reserve_create({ResourceKindV37::cpu_request,ResourceScopeV37::other,0,1},p,e),"Unbounded resource records accepted");
+ ck(e.find("incoming_kind=cpu_request")!=std::string::npos&&e.find("incoming_scope=other")!=std::string::npos&&
+    e.find("occupied=2")!=std::string::npos&&e.find("pending_records=0")!=std::string::npos&&e.find("record_slots=2")!=std::string::npos&&
+    e.find("swf_front:{framebuffer=1}")!=std::string::npos&&e.find("swf_gameplay:{framebuffer=1}")!=std::string::npos,
+    "Record exhaustion diagnostic must census kind, scope and live/pending owners");
  ck(capacity.release(a,e)&&capacity.release(c,e),e);
  std::uint64_t bytes=123;
  ck(checked_resource_bytes_v37(65535,36,bytes,e)&&bytes==2359260,"Vertex estimate differs");

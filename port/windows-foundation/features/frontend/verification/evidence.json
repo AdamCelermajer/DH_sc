@@ -1,0 +1,271 @@
+{
+  "visual_reference": {
+    "observation": "Intro parchment/cinematic only in inspected frames; no original main-menu parity baseline established",
+    "manifest": ".local-inputs/referenceframes/dh2-act1/manifest.json",
+    "host_observation": "Recovered host preview with DEV overlay and clipped upper geometry; not original parity baseline",
+    "video_version": "1.0.3",
+    "recovered_version": "1.0.2",
+    "inspected_frames": [
+      "at-0010s.png",
+      "at-0020s.png",
+      "at-0030s.png"
+    ],
+    "recovered_android_host": ".local-inputs/dh2-final-mainmenu.png"
+  },
+  "verification": {
+    "capture_parser": "PASS P6 comment and binary-leading whitespace/hash fixture",
+    "capture_scope": "Raster integrity/nonblank only; manual visual inspection required",
+    "creation_boundary_checks": "PASS native static Windows executable, -Wall -Wextra -Werror"
+  },
+  "menu_variant_source": "port/engine-ui/source_menu_variant_v132.hpp: width 854 selects dqmenus_droid.swf; physical width 800 selects i9000; others base",
+  "original_movie_stage_twips": [
+    0,
+    9600,
+    0,
+    6400
+  ],
+  "sources": [
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_droid.swf",
+      "sha256": "c114c7d39b7fe0351a93a515c78f9457dda715d78aed6e3bcc3f4895120de421"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/MenusGraphics_droid.tga",
+      "sha256": "c75e8f4df8a9b28fcca7aa819a05cd69e6206d27a391b4364fd67790aeea86c7"
+    },
+    {
+      "path": ".local-inputs/referenceframes/dh2-act1/manifest.json",
+      "sha256": "5d26dda214711824ac17884c8b526d8c74358ecca61e4f149fde5f00642fbdef"
+    },
+    {
+      "path": ".local-inputs/dh2-final-mainmenu.png",
+      "sha256": "6596b570ea1e44ad4d0b354b036d8702f96de6b88cfe36a77c9a3f4db7ee700b"
+    }
+  ],
+  "integration": {
+    "original_capture_path": "main.cpp --frames --capture PPM --fixed-step supports framebuffer captures",
+    "standalone_cmake": "Existing library approach feasible; include trigger contacts and physics archive dependencies",
+    "python": "C:/Users/adamc/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+    "embedded_toolchain_python": "Missing zlib; unsuitable for PNG verifier"
+  },
+  "capture_visual_review": {
+    "class": "Coherent swamp backdrop, Warrior starter appearance and sword visible; ornamental controls visible; text absent; single actor saved-avatar placement only",
+    "name": "Visual defect: keyboard rows show repeated clipped red/gold shield fragments; not usable name-entry keyboard; requires art owner investigation",
+    "parity": "No original main menu/class/name screenshots established; cannot assert original fidelity",
+    "start": "Source textured frame/three button shells visible; labels absent; first-frame info icons repeated",
+    "main": "Textured source frame/buttons/arrows visible; labels/backdrop/actor omitted; first-frame info icons repeated",
+    "capture_integrity": "All four 960x640 exact P6 rasters nonblank, hashes and metrics in .local-inputs/frontend-feature-build/verification/capture-check.json and additional-capture-check.json",
+    "class_source_scene": "Source scene capture visually shows centered Warrior/right Rogue; Mage outside visible view; finite backdrop diagonal cut/black lower-left area; titles/descriptions absent. Confirms scene render, no parity assertion.",
+    "main_backdrop": "Coherent textured swamp with empty-slot preview and source main art; labels absent, first-frame info icons repeated. Exact P6 integrity and nonblank PASS.",
+    "latest_labels": {
+      "integrity": "All PASS strict P6 960x640 nonblank; metrics/hashes in labels-capture-check.json",
+      "supersedes": "Earlier no-label findings; labels are now rasterized but malformed",
+      "findings": [
+        "Source HTML FONT/P/B attributes rendered literally across panels",
+        "Main Single Player label includes literal B tags",
+        "Name field shows empty P ALIGN CENTER markup",
+        "Class title Choose a class readable, description/confirm raw markup",
+        "Name keyboard shield fragments persist"
+      ],
+      "files": [
+        "main-labels.ppm",
+        "name-labels.ppm",
+        "class-rogue-labels.ppm"
+      ],
+      "parity": "Still no original frontend parity baseline established",
+      "visual_result": "FAIL usable typography"
+    },
+    "final_review": {
+      "files": [
+        "main-final.ppm",
+        "name-final.ppm",
+        "class-mage-final.ppm"
+      ],
+      "main": "Swamp backdrop and source ornamental art visible. Single Player/Options/Info rasterized legibly. Static source BOBGRATT/repeated Warrior placeholders remain; More Games contains source ^1 and ^r controls; icons are default info timeline state.",
+      "runtime_gaps": [
+        "Original ActionScript visibility/reflow and keyboard construction not executed",
+        "Source dynamic profile fields/class description/button text not hydrated by original runtime",
+        "No complete native creation service/save transaction connected",
+        "No original frontend screenshot parity baseline established"
+      ],
+      "capture_integrity": "PASS strict 960x640 P6 rasters/nonblank; SHA256 and metrics in final-capture-check.json",
+      "class_mage": "Mage visible centered holding staff, source torso appearance, Rogue left, source animated scene camera; fixes prior Mage absent initialization. Choose a class readable; lower description/confirmation remain source Paragraph_center_14 and BtnText placeholders.",
+      "name": "Enter Name/Accept legible; empty entry field no literal HTML. Keyboard prototype still clipped repeated red/gold fragments, no runtime key labels/layout; not usable name-entry screen.",
+      "resolved": "Prior literal FONT/P/B HTML visual defect fixed by recovered remove_html integration",
+      "overall": "Native textured geometry, English/source-font rasterization and selected-class scene rendering verified. Full interactive original frontend completion or visual parity not established."
+    }
+  },
+  "original_reference_gate": {
+    "main_mismatches": [
+      "Missing saved equipped Archer actor shown by original",
+      "Repeated Warrior/profile placeholders instead of hydrated stats/progression/save time",
+      "Buttons use default info icons rather than sword/settings/Gameloft/info",
+      "MoreGames source formatting controls remain literal",
+      "3:2 capture aspect instead of approximately16:9 original viewport"
+    ],
+    "reference_kind": "User supplied ORIGINAL screenshots; supersedes prior reconstructed Android image and earlier absence of frontend reference",
+    "name_mismatches": [
+      "Swamp scene instead of original dark carved stone backdrop",
+      "Orange Accept instead of original gold Confirm",
+      "Clipped repeated red/gold keyboard shapes instead of full round red QWERTY and numeric key grid",
+      "Keyboard labels missing",
+      "3:2 capture aspect instead of approximately16:9 original viewport"
+    ],
+    "motion_observations": [
+      "CreationPreview MenuOnSelect fires on class index change, never initial Warrior because selected_=0",
+      "Diagnostic scene cursor advances16ms/frame while body advances16.666ms/frame; clocks differ by approximately4percent",
+      "CLASS_SELECTION perspective camera retains base-source aspect 4/3 (bits 0x3faaaaab); its horizontal FOV uses the authored Collada aspect 1.5 only when deriving vertical FOV",
+      "Source scene uses lol_1/2/3_idle and adjacent lol_from_to transitions; screenshot exact source elapsed phase unestablished",
+      "Single original image confirms a pose only, not animation fidelity"
+    ],
+    "class_mismatches": [
+      "Original Rogue foreground attack pose, Warriorleft Mage right all3visible, centered statue",
+      "Prior camera capture only2actors and different centered selected camera stage/time",
+      "Missing source Rogue title/description/Confirm hydration",
+      "3:2 capture aspect instead of approximately16:9 original viewport"
+    ],
+    "prior_capture_evidence": "Integrity PASS establishes only nonblank native rendering; does not satisfy fidelity gate",
+    "original_video_identity": "RadiaGamer7 watermark, video length9:47; name at1:06, class Rogue at1:20; exact URL not established by local original-video metadata or two bounded web queries",
+    "next_comparison_requirements": [
+      "Native viewport16:9 and original content viewport excluding video controls",
+      "Source matching screen/backdrop/key timeline and runtime labels",
+      "Class selection state and source elapsed time identified",
+      "Compare against user original screenshots; do not use reconstructed Android as baseline"
+    ],
+    "status": "FAIL original frontend fidelity",
+    "references": [
+      ".local-inputs/frontend-feature-build/verification/original-main.png",
+      ".local-inputs/frontend-feature-build/verification/original-name.png",
+      ".local-inputs/frontend-feature-build/verification/original-class.png"
+    ]
+  },
+  "runtime_reference_acceptance": {
+    "interaction": {
+      "original_path_script": "PASS native executable SinglePlayer -> text QA rendered -> nameAccept -> class screen",
+      "unit_paths": "PASS independently executed screen_interaction_tests.exe",
+      "save_owner_boundary": "PASS classConfirm fails explicit NativeCreateSaveSlot owner unavailable with exit1",
+      "hardware_limit": "No physical touch device or live UI event acceptance exercised",
+      "event_wiring": "Source verified WM_KEY/WM_CHAR/mouse/WM_TOUCH/WM_KILLFOCUS map into same controller"
+    },
+    "class": {
+      "motion_limit": "Single pose comparison does not prove full animation fidelity; exact Radia original video URL/time alignment unavailable",
+      "remaining": [
+        "Black finite-floor corners and scene boundary remain visible",
+        "Lighting/material response differs from brighter original scene",
+        "Description secondline clipped and original linebreak arrangement differs"
+      ],
+      "accepted": [
+        "Rogue selected attack pose foreground with Warriorleft Mage right all3visible",
+        "Original class title and Confirm bound dynamically",
+        "Source clock now16ms both scene/body per host"
+      ]
+    },
+    "supersedes": "Prior static/no labels/defaulticons/wrongaspect/keyboard fragments findings where expressly resolved; original fidelity remains unpassed",
+    "main": {
+      "accepted": [
+        "Correct sword/settings/Gameloft/info button icons and StartGame/Options/MoreGames/Info labels",
+        "Empty-slot branch no fake savedprofile placeholders"
+      ],
+      "remaining": [
+        "Original provided screenshot is saved equipped Archer branch; actual matching profile absent so cannot claim branch equivalence",
+        "No original empty-slot screenshot baseline"
+      ]
+    },
+    "status": "Partial feature acceptance; ORIGINAL fidelity gate remains FAIL",
+    "name": {
+      "accepted": [
+        "Full red circular QWERTY/numeric keyboard art; shield fragment defect resolved",
+        "Confirm label and field text QA render",
+        "Source SinglePlayer/nameAccept path routes correctly"
+      ],
+      "remaining": [
+        "EnterName title missing",
+        "Plain cracked stone versus original dark carved relief backdrop",
+        "Orange Confirm versus original gold brown",
+        "Oversized keyboard glyphs offset below key circles compared with original centered letters"
+      ]
+    },
+    "capture_report": ".local-inputs/frontend-feature-build/verification/runtime-acceptance-capture-check.json",
+    "native_viewport": "960x540 16:9 now matches reference aspect"
+  },
+  "corrected_original_reference_acceptance": {
+    "status": "Substantial original screen alignment; full fidelity gate still unpassed",
+    "reference_coordination": "video_fidelity confirms suppliedz_Zky7qQdYs is Criss82v1.0.3 22:11.57, distinct from RadiaGamer7 9:47 screenshot source; Radia URL still not established",
+    "captures": [
+      "verification/name-corrected.png",
+      "verification/rogue-corrected.png"
+    ],
+    "name": {
+      "remaining": [
+        "Typography size/width differences visible against supplied original; no source-exact text raster parity established"
+      ],
+      "resolved": [
+        "Original dark carved relief backdrop",
+        "EnterName title",
+        "Gold brown Confirm",
+        "Complete red round QWERTY and numeric keyboard art",
+        "Centered keyletters and Shift arrow"
+      ]
+    },
+    "capture_integrity": "PASS exact960x540 P6 nonblank; hashes in corrected-capture-check.json",
+    "supersedes": "Earlier wrong backdrop/nameKeyboard/title/orangebutton/descriptionclipped/clock/bodymotion failures expressly fixed; source fidelity remaining gaps retained",
+    "motion": {
+      "knight": "9 stablebackground comparisons1536..3840ms; selected body14.733..16.331percent pixels change per256ms",
+      "mage": "9 stablebackground comparisons1536..3840ms; selected body22.197..25.643percent pixels change per256ms",
+      "limit": "Establishes real body motion after camera settles; no original animation parity claim",
+      "visual": "Knight sword-arm/head, Mage raisedstaff/body, Rogue head/arm/two-sword poses change while scene composition stable",
+      "rogue": "3 stablebackground comparisons within1792..3584ms; selected body18.524..30.113percent pixels change",
+      "method": "Independent ROI pixel comparison plus visual sample1536/2816ms; static backgroundROI separated from selected bodyROI",
+      "report": ".local-inputs/frontend-feature-build/verification/showcase-motion-check.json"
+    },
+    "idle": {
+      "limit": "No guessed complete idle; original native idle owner still required. Captured horizon3840ms does not independently establish post-endpoint delivery.",
+      "source_read": "Selection advances no later than source duration; endpoint held while idle_transition_pending; optional idle_provider required, status source-showcase-end-held-idle-owner-required"
+    },
+    "rogue": {
+      "remaining": [
+        "Black lowerleft finite backdrop cutoff",
+        "Bottomright oversized triangular rock/plane corner geometry",
+        "Statue/foliage darker and lower contrast than supplied original; source lighting/material fidelity incomplete"
+      ],
+      "resolved": [
+        "Original broad camera/arrangement: Warriorleft, Rogue foreground two-sword attack, Mage right, statuecenter",
+        "Ornate chooseclass heading",
+        "Rogue title and source two-line description readable with upgrades blue",
+        "Gold Confirm"
+      ],
+      "timing": "Original snapshot Rogue pose compatible with current select showcase, exact source video time alignment unavailable"
+    }
+  },
+  "presentation_readiness": {
+    "comparison_status": "SOURCE_ASSETS_DISTINCT; NO_LIVE_PROVIDER_CHANGE; NO_NEW_CAPTURE",
+    "main_menu_scene": {
+      "source_setup": "MenuMainMenu::SetupScene@0x42c510 loads data/3d/menu/main_menu_charactere_swamp.bdae, constructs the Collada scene and adds the same node to SceneManager.",
+      "asset": "port/android-native/app/src/main/assets/models/main_menu_charactere_swamp.bdae",
+      "sha256": "8a3462863a3d6ca2255d96989d53a21cddfba821e42c8a13e676f10e51d1300b"
+    },
+    "title_intro_movie": {
+      "source_route": "The Android title-intro lifecycle requests original-media/intro.mp4; it is a separate H.264/AAC movie, not the MainMenu BDAE or the Act 1 Swamp conversation cinematic.",
+      "asset": "port/android-native/app/src/main/assets/original-media/intro.mp4",
+      "sha256": "859f2dde32401f996a5faeaf8c914965b5410d0200315c0bfb90d8c71aa59b22"
+    },
+    "act1_opening_swamp_cinematic": {
+      "reference_frame": ".local-inputs/referenceframes/dh2-act1/at-0120s.png",
+      "reference_video": "Dungeon Hunter 2 (v1.0.3) Part 1, timestamp 120 seconds; source URL and manifest are recorded in .local-inputs/referenceframes/dh2-act1/manifest.json",
+      "frame_sha256": "8d2417a8ee0b7ed754bb1bc1de1d375b2d961d9f581c0af17bfd5d89fb3a5251",
+      "visual_distinction": "This Swamp conversation frame shows Rene at a cage, the player character, torchlit stonework and cinematic dialogue/skip UI. The original MainMenu reference is the outdoor Boglands menu stage with a seated statue, equipped Warrior and profile/menu UI. They are distinct authored presentations; the cinematic frame is not the MainMenu comparison target."
+    },
+    "current_preview": {
+      "main_start": "interactive.cpp draws the original swamp scene plus SWF; it does not submit a saved-slot Character/avatar.",
+      "class": "Uses separate CLASS_SELECTION scene, fixed source 4:3 Camera01, and temporary CreationPreview CharacterVisual actors.",
+      "idle": "No bound same-Character CSAnim14 event34 -> SM_SetIdleState(false) provider; source OnSelect endpoint remains held.",
+      "light": "Decoded Omni01 and SourceLightPoint owner contracts are metadata/interfaces; no actual menu SceneManager/ObjectManager/tweaker/CLight-uniform owner composition is bound."
+    },
+    "next_exact_providers": [
+      "Same MainMenu save-slot -> CreatePlayer -> CanonicalCharacterCandidate with completed whole Character InitPost and InitFinal, followed by the existing main-scene visual-packet submission path.",
+      "Same live class Character NativeFsm24/CharacterStateOwner and CSAnim14 event34 delivery into SM_SetIdleState(false), including source stance/equipment and ordinary-idle animation owners.",
+      "Same menu SceneManager first lght node, ObjectManager Spawn LightPoint type19, PlayerLight set/tweaker slot0, automatic-light append, and renderer material CLight uniform owner."
+    ],
+    "capture_gate": "Do not capture a new presentation until one of the actual same-owner providers above changes; the current available Main/Start route is static scene plus UI."
+  }
+}

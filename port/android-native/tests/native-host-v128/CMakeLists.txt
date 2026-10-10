@@ -1,0 +1,31 @@
+cmake_minimum_required(VERSION 3.22)
+project(dh2_native_host_v128 LANGUAGES C CXX)
+get_filename_component(DH2_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." ABSOLUTE)
+if(NOT EXISTS "${DH2_NDK_HEADERS}/jni.h" OR NOT EXISTS "${DH2_NDK_HEADERS}/aaudio/AAudio.h")
+ message(FATAL_ERROR "DH2_NDK_HEADERS must name the installed SDK sysroot/usr/include")
+endif()
+#JNI is VM-neutral. Use the same NDK C++ interface as Android against a real
+#desktop JVM, avoiding fake JNIEnv callbacks or changes to shipping JNI code.
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/ndk-api/aaudio")
+configure_file("${DH2_NDK_HEADERS}/jni.h" "${CMAKE_CURRENT_BINARY_DIR}/ndk-api/jni.h" COPYONLY)
+configure_file("${DH2_NDK_HEADERS}/aaudio/AAudio.h" "${CMAKE_CURRENT_BINARY_DIR}/ndk-api/aaudio/AAudio.h" COPYONLY)
+include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}/ndk-api")
+add_compile_definitions(DH2_NATIVE_HOST_BUILD=1)
+add_compile_options(-O0 -g1)
+set(DH2_NATIVE_HOST_BUILD ON CACHE BOOL "" FORCE)
+set(DH2_OPTIMIZE_NATIVE OFF CACHE BOOL "" FORCE)
+add_library(android STATIC host_platform_v128.cpp)
+set_target_properties(android PROPERTIES POSITION_INDEPENDENT_CODE ON)
+add_library(log ALIAS android)
+target_compile_features(android PRIVATE cxx_std_17)
+target_link_libraries(android PUBLIC EGL GLESv2 z)
+add_subdirectory("${DH2_SOURCE_DIR}/port/android-native/app/src/main/cpp" native)
+#GCC reports the existing compact multi-statement style differently from
+#Android Clang. Preserve warnings and the source; adjust only this host target.
+target_compile_options(dh2_engine_audio PRIVATE -Wno-error=misleading-indentation)
+foreach(target dh2_level_world dh2_native)
+ target_precompile_headers(${target} PRIVATE <algorithm> <array> <cstdint> <functional> <map> <memory> <string> <vector>)
+endforeach()
+#These annotations declare availability/nullability, not application behavior.
+target_compile_definitions(dh2_native PRIVATE "_Nonnull=" "_Nullable=")
+target_compile_options(dh2_native PRIVATE "-D__INTRODUCED_IN(x)=" "-D__DEPRECATED_IN(x)=")

@@ -1,0 +1,50 @@
+{
+  "schema": "play-actor-anim-source-semantics-v1",
+  "scope": "Read-only audit of original Script_PlayActorAnim data and native execution for companion Swamp_Intro records. No runtime code or shared build changed.",
+  "source": {
+    "original_armv7_elf": ".local-inputs/ida-ghidra-review/libDungeonHunter2.so",
+    "original_armv7_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "ida_export": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so",
+    "campaign": ".local-inputs/windows-source-clock-v19-preview-3/assets/original-campaign.xml",
+    "campaign_sha256": "3ab2055920a8b648b16d77aa07b0435cbd899c624f5be3bcc145e2133c5cdd14",
+    "functions": [
+      {"symbol": "Structs::PlayActorAnim::read", "address": "0x500ff4", "pseudocode_sha256": "ecb2395d5b0df56da26babe2f11d904ed9dfbb52a466294bcd8b9bc35b1fc384"},
+      {"symbol": "Script_PlayActorAnim::Init", "address": "0x45a2ec", "pseudocode_sha256": "bba107e7767d79eb39a5385a21c473bc4f06cbf51645aa17f08152bbd936ab1d"},
+      {"symbol": "Script_PlayActorAnim::Execute", "address": "0x45e890", "pseudocode_sha256": "e58b0e4dda733f985e5e7e2ebef44bb8ececcd18d0816232a9f8cfcd6abe4069"},
+      {"symbol": "Script_PlayActorAnim::IsBlocking", "address": "0x459628", "pseudocode_sha256": "5cdae1c2c28fec4cd992a442c0b5eff49a8d66bc2c1673929a065381fbf3e32f"}
+    ]
+  },
+  "layout": {
+    "8": "Anim AnimDict member ID",
+    "12": "Next AnimDict member ID",
+    "16": "FSM slot/state base",
+    "20": "unsigned serialized byte-count for the receiver string; it is not a loop/rate/offset policy",
+    "24": "receiver name string",
+    "28": "Wait bool"
+  },
+  "native_semantics": {
+    "init": "Resolve the authored receiver in the command module; if it is a Character, call CharAnimator::ANIM_AddAnimDictToSet for Anim and Next.",
+    "execute": "Skip execution when skip is true. Otherwise resolve the same authored receiver as Character, write Anim into the AnimTable member at Slot+2 and Next into Slot+8, then call CharStateMachine::SM_SetAnimState(Slot+2, false, true). This source command is an actor/FSM operation; it does not itself expose a loop or playback-rate parameter.",
+    "blocking": "Only when Wait is true and source object/Character resolve, compare the source animation-state value Slot+2 with the character's current state (with source's alive/state guard). Swamp_Intro companion commands set Wait=false.",
+    "slot": "The authored slot is consumed as an FSM state base, with the reached state Slot+2 and paired AnimTable write at Slot+8. It is not a generic pose slot alias."
+  },
+  "swamp_intro": [
+    {"command": 45, "receiver": "_prim_NPC_PriestGood", "anim": 396, "next": 4294967295, "slot": 2, "receiver_byte_count": 20, "wait": false},
+    {"command": 46, "receiver": "_prim_Faery", "anim": 377, "next": 4294967295, "slot": 3, "receiver_byte_count": 11, "wait": false}
+  ],
+  "loop_rate_and_policy": {
+    "396": "No matching sequence record in the selected original AnimationTables data. The BDAE/AnimDict mapping exists, but its loop/rate policy is not supplied by this command or established by the animation-table sequence data.",
+    "377": "No matching sequence record in the selected original AnimationTables data. Exact BDAE is available in the original cache archive, but its loop/rate policy is not supplied by this command or established by the animation-table sequence data.",
+    "686": "Existing exact same-session FaeryIdle source sequence is AnimDict 686 / Faeries_Idle sequence 196, loop=-1 and step rate 1.0. The current source-plan-backed FaeryIdle path is safe for this authored idle only.",
+    "no_default": "No general loop/rate default is inferred from AnimDict IDs or raw BDAE availability."
+  },
+  "same_session_playback": {
+    "686": "Available through the existing exact source AnimationTables visual plan and same-session FaeryIdle selector.",
+    "396_377": "Not available through the current generic CombatSession source-plan selector: those IDs have no source AnimationTables sequence in the selected DefaultFairy/WanderingPriest plans. A direct source-faithful playback path must preserve the original Character's loaded CharAnimator AnimDict set, AnimTable slot writes, and CharStateMachine transition, or a separately proven same-session API must expose the corresponding source AnimDict/FSM policy. Do not create a pose sequence, infer rate/loop, or use another slot/ID."
+  },
+  "verification": {
+    "test": "features/companions/play_actor_anim_source_semantics_v1_source_test.py",
+    "result": "PASS: original ELF/pseudocode hashes, read layout, native call flow, and exact Swamp_Intro records (including receiver string byte lengths) checked.",
+    "build": "No build run or needed; this is a source audit test."
+  }
+}

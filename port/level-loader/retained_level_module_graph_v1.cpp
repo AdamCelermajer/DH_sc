@@ -90,7 +90,7 @@ bool RetainedLevelModuleGraphV1::prepare_floors(std::string& e){
     if(!status_.root_complete||status_.initialized!=modules_.size())return fail(at,"Required actual Module InitPost before floor post_load",e);
     if(status_.floors_prepared){status_.stage=RetainedModulePreparationStageV1::floors_prepared;return true;}
     BusyGuard guard(busy_);if(floor_attempted_)return fail(at,"SAME floor post_load was already attempted",e);floor_attempted_=true;
-    if(!floors::post_load(*input_.floors,e)||!input_.rooms->publish_collision_bounds(e))return fail(at,e,e);
+    if(!input_.rooms->post_load_source_v122(e))return fail(at,e,e);
     if(status_.stage==RetainedModulePreparationStageV1::failed){e=status_.error;return false;}
     status_.floors_prepared=true;status_.stage=RetainedModulePreparationStageV1::floors_prepared;return true;
 }

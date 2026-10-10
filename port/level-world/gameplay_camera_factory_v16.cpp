@@ -43,6 +43,8 @@ bool CameraProceduralNodeV16::add_to_root(std::string& e){
 bool CameraProceduralNodeV16::remove_from_root(std::string& e){auto manager=manager_.lock();if(!manager){e="Required live same camera root manager";return false;}if(!parentec_)return remove_animators(e);return manager->release_visual_root(identity(),e);}
 bool CameraProceduralNodeV16::set_data(float fov,float aspect,float near,float far,std::string& e){if(!alive_){e="Released camera SetData";return false;}view_.fov=fov;view_.aspect=aspect;view_.near_plane=near;view_.far_plane=far;view_.up={0,0,1};return true;}
 bool CameraProceduralNodeV16::set_planes(float near,float far,std::string& e){if(!alive_){e="Released camera near/far setters";return false;}view_.near_plane=near;view_.far_plane=far;return true;}
+bool CameraProceduralNodeV16::set_clip_start(float value,std::string& e){if(!alive_){e="Released actual CameraLevel SetClipStart vtable+304";return false;}view_.near_plane=value;e.clear();return true;}
+bool CameraProceduralNodeV16::set_clip_end(float value,std::string& e){if(!alive_){e="Released actual CameraLevel SetClipEnd vtable+308";return false;}view_.far_plane=value;e.clear();return true;}
 bool CameraProceduralNodeV16::set_position(const PointV2& p,std::string& e){if(!alive_){e="Released camera SetPosition";return false;}std::copy(p.begin(),p.end(),graph_.graph[0].translation);flags11c_|=0x40u;return scene::update_world(graph_,e);}
 bool CameraProceduralNodeV16::set_target(const PointV2& p,std::string& e){if(!alive_){e="Released camera SetTarget";return false;}view_.target=p;return true;}
 bool CameraProceduralNodeV16::set_up(const PointV2& p,std::string& e){if(!alive_){e="Released camera SetUpVector";return false;}view_.up=p;return true;}

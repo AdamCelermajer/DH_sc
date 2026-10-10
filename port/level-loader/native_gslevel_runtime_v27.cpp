@@ -2,7 +2,7 @@
 namespace dh2::loader {
 bool NativeGSLevelRuntimeV27::prepare_loading(std::function<bool(std::uint32_t&,std::string&)> online,std::string& error){
  if(attempted_||loading_||!globals_){error="Required fresh retained GS Loading binding";return false;}
- loading_=std::make_unique<CanonicalLevelLoadingV26>(globals_->borrow(globals_),std::move(online));
+ loading_=std::make_shared<CanonicalLevelLoadingV26>(globals_->borrow(globals_),std::move(online));
  error.clear();return true;
 }
 bool NativeGSLevelRuntimeV27::construct(LevelSourceRequestV1 request,GSLevelArgumentsV2 arguments,

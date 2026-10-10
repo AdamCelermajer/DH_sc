@@ -6,6 +6,7 @@
 #include "source_campaign_fx_v77.hpp"
 #include "source_campaign_physical_filter_v105.hpp"
 #include "source_campaign_projectile_methods_v112.hpp"
+#include "source_campaign_module_rooms_v91.hpp"
 #include <module_room_zone_connection_v91.hpp>
 #include <canonical_gameobject_graph_v68.hpp>
 #include <cstring>
@@ -24,8 +25,13 @@ bool source_campaign_noncharacter_is_zonable_v105(const SourceCampaignCandidateB
  // Exact captured primary vptr+c4. Container/AnimatedDecor branch tail-
  // calls qualified GameObject.MeetCondition38ab60 (literal1).
  if(named(name,"Dummy")||named(name,"SpawnPoint")||named(name,"SpawnSpot")||named(name,"RoomZone")||named(name,"Projectile")||named(name,"LaserTypeProjectile")){value=false;return true;}
- if(named(name,"AnimatedDecor")||named(name,"OpenableContainer")||named(name,"DestructibleContainer")||named(name,"TriggerZone")||named(name,"TriggerZoneExitLevel")||named(name,"TriggerObject")||named(name,"TriggerTrap")||named(name,"SoundEmitter")||named(name,"Door")){value=true;return true;}
- if(named(name,"Decor")||named(name,"CheckpointZone")||named(name,"QuestMoveInZone")){
+ if(named(name,"AnimatedDecor")||named(name,"OpenableContainer")||named(name,"TriggerZone")||named(name,"TriggerZoneExitLevel")||named(name,"TriggerObject")||named(name,"TriggerTrap")||named(name,"SoundEmitter")||named(name,"Door")){value=true;return true;}
+ // DestructibleContainer inherits Container::IsZonable (IDA 0x39f534),
+ // which delegates to GameObject::MeetCondition (IDA 0x38ab60, true).
+ if(named(name,"DestructibleContainer")){value=true;return true;}
+ // Module vptr964518+c4 selects inherited GameObject.IsZonable3883b8.
+ // Its typed graph borrower above preserves the actual authored byte2ed.
+ if(named(name,"Module")||named(name,"Block")||named(name,"Decor")||named(name,"CheckpointZone")||named(name,"QuestMoveInZone")){
   const auto raw=a.byte(0x2ed);if(!raw){e="Required actual GameObject.IsZonable2ed";return false;}value=(*raw^1u)!=0;return true;}
  e=std::string("Required selected nonCharacter IsZonable c4 for ")+name;return false;
 }
@@ -44,6 +50,7 @@ bool source_campaign_noncharacter_remote_v105(const SourceCampaignCandidateBorro
 }
 bool source_campaign_noncharacter_sync_visibility_v105(const SourceCampaignCandidateBorrowV55& scope,std::uintptr_t id,std::string& e){
  dh2::world::ObjectUpdateActorV102 a;const char* name{};if(!object(scope,id,a,name,e))return false;
+ if(named(name,"Module")||named(name,"Block"))return source_campaign_module_sync_visibility_v94(scope.actual_world,id,e);
  const auto slot=a.pointer(0x2d8);if(!slot){e="Required SAME VisualObject2d8";return false;}if(!*slot)return true;
  const auto visible=a.byte(0x80);if(!visible){e="Required produced actual visible80";return false;}
  bool value=*visible!=0;

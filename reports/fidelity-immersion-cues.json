@@ -1,0 +1,161 @@
+{
+  "status": "bounded_original_reference_audit_not_fidelity_acceptance",
+  "date": "2026-10-09",
+  "original_url": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+  "video_version": "1.0.3",
+  "recovered_source_version": "1.0.2",
+  "scope": "Individual timestamped pixels in two combat excerpts and two cinematic excerpts, plus recovered source definitions. No continuous whole-game audit.",
+  "answer": "Recovered original source includes authored camera-shake animation and conditional critical-hit camera animation. Direct reference pixels confirm sword/attack trails, local hit bursts, floating damage/MISS feedback and scripted cinematic framing. Specific visible camera-shake amplitude/frequency and hitpause are not yet independently measured.",
+  "direct_pixel_observations": [
+    {
+      "seconds": [
+        274.7,
+        274.9
+      ],
+      "cue": "sword_trail",
+      "confidence": "direct visible",
+      "observed": "Pale blue/white crescent follows sword swing near warrior and Bog Moth; later frame has local green spray,red hit burst and white15 floating damage.",
+      "frames": [
+        ".local-inputs/fidelity-video-v18/immersion/at-274.700.png",
+        ".local-inputs/fidelity-video-v18/immersion/at-274.900.png"
+      ],
+      "limit": "Pixel evidence does not identify source animation/effect row or which simultaneous attacker produced each burst."
+    },
+    {
+      "seconds": [
+        274.9,
+        275.1
+      ],
+      "cue": "hit_feedback",
+      "confidence": "direct visible",
+      "observed": "Local red burst near warrior/target and green spray around moth; white damage number and yellow MISS text. HUD and floor remain visually readable; these frames do not show a whole-screen solid flash.",
+      "frames": [
+        ".local-inputs/fidelity-video-v18/immersion/at-274.900.png",
+        ".local-inputs/fidelity-video-v18/immersion/at-275.100.png"
+      ],
+      "limit": "Absence of whole-screen flash in these frames is not proof none exists elsewhere."
+    },
+    {
+      "seconds": [
+        357.5,
+        357.7
+      ],
+      "cue": "large_enemy_attack_trail",
+      "confidence": "direct visible",
+      "observed": "TRUNGUS target label; large actor arm/body attack changes, golden sweeping light/trail beside it,red local hit burst on warrior and MISS text.",
+      "frames": [
+        ".local-inputs/fidelity-video-v18/immersion/at-357.500.png",
+        ".local-inputs/fidelity-video-v18/immersion/at-357.700.png"
+      ],
+      "limit": "Actor pose change alone does not prove hit-recoil selection; attack/motion/reaction overlap requires source or precise event trace."
+    },
+    {
+      "seconds": [
+        267,
+        273,
+        274
+      ],
+      "cue": "cinematic_camera",
+      "confidence": "direct visible",
+      "observed": "Two moths at close scripted angle; SKIP/HUD-hidden framing, later camera includes warrior, then gameplay HUD restored with Bog Moth target.",
+      "frames": [
+        ".local-inputs/fidelity-video-v18/reference-267.png",
+        ".local-inputs/fidelity-video-v18/reference-273.png",
+        ".local-inputs/fidelity-video-v18/reference-274.png"
+      ],
+      "limit": "Scripted pan/framing is not camera shake."
+    },
+    {
+      "seconds": [
+        349,
+        352,
+        354,
+        355
+      ],
+      "cue": "large_enemy_cinematic",
+      "confidence": "direct visible",
+      "observed": "LiveHUD before encounter,close largeenemy framing withSKIP during rise/landing,thenHUD restored.",
+      "frames": [
+        ".local-inputs/fidelity-video-v18/reference-349.png",
+        ".local-inputs/fidelity-video-v18/reference-352.png",
+        ".local-inputs/fidelity-video-v18/reference-354.png",
+        ".local-inputs/fidelity-video-v18/reference-355.png"
+      ],
+      "limit": "Earlier labelFungus corrected by live357.5 targetlabelTRUNGUS. Source TrollReturn association still uses exactresource/route confirmation."
+    }
+  ],
+  "uncertainty": {
+    "skill_cues": "Inspected sword crescent and goldenenemy trail not certified as player skill activation; no input/icon/event match established.",
+    "existing_still_labels": "Legacy minute filenames and fps/tile contacts are orientation aids; use individually extracted -ss frames for exacttimestamp claims. Some legacy filenames did not match expected minute state.",
+    "hit_recoil": "Changing poses/red bursts observed; isolated reaction animation timing is not established from simultaneous attacks.",
+    "camera_shake": "Combat excerpts show actor movement and some camera motion; no independently registered static-background oscillation measurement performed. Do not label follow/centering or cinematic pan as shake. Source cam_shake_horiz usage is stronger than video-only classification here.",
+    "hitpause": "30fps original capture and short dense tile sequences cannot prove engine hitstop from repeated/held frames. No proven source freeze/hitpause in inspected hitFX kernels. Do not introduce generic hitpause."
+  },
+  "source_camera_definitions": [
+    {
+      "claim": "Original authored shake/critical resources exist; no claim everyattack invokes them.",
+      "evidence": "port/level-world/reports/android-native-owner-tests/gameplay-camera-table-v4/receipt.json",
+      "definition": "Actual Default/MiniMap/SwampCam CamAnimSet rows resolve shake44 to data/3D/camera/animations/common/cam_shake_horiz.bdae and crit45 to camera_crithit_0.bdae."
+    },
+    {
+      "claim": "Original conditional criticalcamera invocation, actual authoredtransform controls amplitude/timing.",
+      "evidence": "port/android-native/app/src/main/cpp/original_ui_session.cpp:822",
+      "definition": "F_ApplyResult conditional outcomes8,attackerplayer path calls criticalcamera. Same CurrentLevel/Camera128/sourceactor,CanPlayShakeAnim40f980; player gate num_local_players(false)==1 and source_is_local_player_v61; read actuallook,CamAnimSetTable[source_animation_row80].crit,play_animation(crit,0,true)."
+    },
+    {
+      "claim": "shake84 is animation-blockingstate and does not by itself prove visible shake.",
+      "evidence": "port/level-world/gameplay_camera_level_v4.cpp:5",
+      "definition": "PlayAnimation sets controller clipindex and byte10 before actualPlay; successfulanimation sets shake84; completioncallback clears it."
+    },
+    {
+      "claim": "Authored scripted shake invocation in TrollReturn; exactframe shake still unmeasured.",
+      "evidence": ".local-inputs/windows-source-clock-checkpoint-v17/assets/original-campaign.xml TrollReturn command11",
+      "definition": "PlayCamera scalar8=44,scalar12=1; camera worker actualtable resolves44 to cam_shake_horiz.bdae."
+    },
+    {
+      "claim": "Original animation event requests shake; host routing/event locality still needs integrationverification.",
+      "evidence": "port/windows-foundation/reports/melee-source-binding.json",
+      "definition": "big_lizardman_dying_01.bdae marker an_camera/cam_shake_horiz at authored533ms(sample534ms)."
+    }
+  ],
+  "source_fx_definitions": {
+    "skillfx": "Original _SetAnimStep3ca8e4 suffix uses AnimationStep.fx+anchor_fx; original selected BashDown164/ColdRay150/JumpKick160 rows. fx_ markers originalCharAI_OnAnimEvent3d4434.",
+    "hitfx": "F_ApplyResult3b1648/3b1cd0 -> skill_apply_hit_fx_v6 -> sameowner CharacterCombatFxRuntimeV4/application -> character_combat_hit_fx_v4. category!=-1 selects category+124 else cachedresolved[7],fallbackrow0,dead?blood_death:blood; exacttargetposition/rotation before PlayAnimFXSet.",
+    "limits": "Native resources/kernel support exists; rootdrawing integration pending in effectsworker. No proven global tint/flash/freeze/hitpause in these kernels.",
+    "provenance": "effects_feature sourceaudit"
+  },
+  "audio": {
+    "channels": 2,
+    "old_video_streams": "Existing local MP4 ffprobe onlyh264video,noaudio.",
+    "heard_verified": false,
+    "source_evidence": "CharacterCombatSoundV1 uses exact death/hit/attackerimpact lists,MP_MinimalRandoms,Random(count,false),targetposition,Play3D; MothIntro sourceordinal363->UID459 sfx_cutscene_moth.wav available; TrollReturn328->252 sfx_cave_troll_smash_ground.wav absent originalZIP. Native WinMM smoke plays originalswordswing232->UID22 and hardware advances0->36987; transport evidence only.",
+    "download_run_id": "90c0ce099bf8499f954e64f18cd3a2d2",
+    "limitation": "functions.audio returned: audio content omitted because you do not support audio input. Download/codecpresence cannot establish subjective audiblecues.",
+    "inspect_run_id": "86ee6c3caaa948759fed7e9003130837",
+    "skill": "C:/Users/adamc/.codex/skills/download-media/SKILL.md",
+    "sample_rate": 48000,
+    "path": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/fidelity-video-v18/immersion/audio/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].opus",
+    "bytes": 24624550,
+    "codec": "opus",
+    "acquired": true,
+    "excerpts": [
+      {
+        "end": 277,
+        "start": 267,
+        "path": ".local-inputs/fidelity-video-v18/immersion/audio/moth-267-277.wav"
+      },
+      {
+        "end": 359,
+        "start": 349,
+        "path": ".local-inputs/fidelity-video-v18/immersion/audio/trungus-349-359.wav"
+      }
+    ],
+    "sha256": "de1916f5f5c29aa441277f1537db618330b1b720b6b73058085412db492ac14c"
+  },
+  "next_bounded_checks": [
+    "Audition extractedaudio through audio-capablereviewer/human; record cue onset and avoid asserting everyhit alwaysplayssound.",
+    "Register staticfloor/worldpoints across impact/crit/landingframes to isolate oscillatoryshake fromfollow; correlate exact sourcecamera animation invocation.",
+    "Trace sameowner criticalconditions,selectedcamera resource,cursor andcompletion alongside matchedoriginalframes.",
+    "Do not add generic globalflash orhitpause absent originalsource/visible proof."
+  ]
+}

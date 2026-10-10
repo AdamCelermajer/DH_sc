@@ -1,0 +1,29 @@
+{
+  "status": "native_original_character_pose_seam_pass",
+  "test": "tests/character_pose_seam_tests.cpp",
+  "original_asset": "models/prince_modular.bdae",
+  "node_count": 35,
+  "apis": {
+    "sample_local_pose": "Samples a named original clip at an explicit authored millisecond without changing the live scene, clip clock or root-delta history",
+    "apply_local_pose": "Publishes validated local SRT, rebuilds hierarchy, applies existing source root-helper compensation and rebuilds skin palettes/vertices/normals without advancing the clip clock"
+  },
+  "checks": [
+    "Independent original idle/walk samples leave live geometry and motion clocks unchanged",
+    "Published 400ms original walk pose matches a separately sampled real CharacterVisual",
+    "Original two-slot half fade yields intermediate skinned geometry",
+    "Original fade endpoint matches incoming real walk geometry",
+    "Wrong node IDs, nonfinite poses and outside-range samples reject without replacing valid output",
+    "Subsequent live idle update does not inherit independently sampled walk root displacement"
+  ],
+  "root_audit": {
+    "visible_population_models": 24,
+    "additional_original_models": ["skeleton","ghost","slime"],
+    "population_policy": "All 24 visible models select original root_camera, with rest Z near 0",
+    "additional_policy": "Skeleton/ghost select root_camera; slime selects root_character; all have zero root rest Z",
+    "nonzero_bip_fallback_model_observed": false,
+    "preserved": "No speculative rest-height offsets or actor-specific root compensation were added",
+    "source_gap": "The captured uncommon no-helper branch differs from the ordinary helper-parent branch. A future genuine nonzero fallback model requires original helper-admission/owner-pivot evidence before assigning that branch."
+  },
+  "integration_gap": "Outgoing slot clocks/events, blended root-applicator deltas and NPC attack MoveGO displacement remain with the host playback/movement integration. This seam publishes pose geometry only.",
+  "checkpoint": "Existing cached package 0a411 was not modified by this work"
+}

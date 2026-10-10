@@ -1,0 +1,55 @@
+{
+  "status": "shared_retained_source_hit_callback_integration_verified",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v14",
+  "executable_sha256": "788269c9cc70c83314d4aaab789a124e44a3b936f1e45f26ffcb4ccb516d49b5",
+  "component_tests_passed": 65,
+  "ctest_seconds": 1.72,
+  "package_files_verified": 550,
+  "rendered_cases_verified": 16,
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v14.json",
+  "save_rejection_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v14.json",
+  "live_changes": [
+    "CombatVisualBinding update_source lends one nonescaping marker sink during actual retained advancement; the original named helper consumes the hit before the subsequent state-event service",
+    "CombatSystem consumes the SAME runtime generation, world actor and target; health, receipt and explicitly bound victim reaction/death pose are available before helper returns",
+    "Session uses a scoped borrowed sink restored on success or failure; actual original retained state-forwarding test observes already-reduced health and published damage receipt",
+    "Duplicate/stale events, callback interruption/replacement, old completion and ignored failures have native tests. Empty consumer errors normalize to a failure without rolling back reached damage",
+    "Live helper receipts record synchronousHit=1; verifier checks a same-frame same-actor same-name synchronous source helper for every logged damage delivery across all16 scenarios"
+  ],
+  "component_only_changes": [
+    "Recovered Attack focus prefix uses actual flags/gate storage and live attack-delay getter; blur operations preserve Stop/timer/body lookup/pin order, including two live Attack delay reads. Full focus/blur live ownership remains pending",
+    "Recovered GameObject motion prefix borrows actual prior/current position and Euler cells and invokes Path then Rotation then SubObjects then TargetPosition; required reached services fail honestly. This coordinator is component-tested and not wired to fake absent root services"
+  ],
+  "observed_timing_changes": {
+    "static_combat": "Authored hit frames13/76/192, damage amounts, HP157.457 and RNG2808983/38 preserved",
+    "moving_combat": "Hit frames78/141/204 preserved. Immediate victim pose publication changes blended travel slightly: player sourceXY519.183/worldXY467.262 and NPC sourceXY425.828/worldXY383.246",
+    "spawn_combat": "In diagnostic actor iteration, the victim reaction can now advance in its own turn during the hit frame. Return attacks move from180/238/296 to179/237/295 with identical authored hit lag7 and damage16.4688/17.0273/14.0039. This is scoped callback ordering evidence, not original global Level chronology acceptance."
+  },
+  "source_reports": [
+    "port/windows-foundation/reports/synchronous-damage-v14.json",
+    "port/windows-foundation/reports/source-motion-flags-v14.json",
+    "port/windows-foundation/reports/original-actor-motion-frame-v14.json",
+    "port/windows-foundation/reports/source-focus-transition-integration-audit-v14.json"
+  ],
+  "previous_v13_preserved": true,
+  "previous_v12_preserved": true,
+  "limits": [
+    "Manual player Move heading and late rotation are live; full source focus/controller/path/avoidance/physics/contact/frame integration remains incomplete. Earlier visual root motion must be staged for source UpdateSubObjects before whole-frame fidelity can be claimed.",
+    "Complete source GameObject InitPost/InitFinal, debug/allocator/saved fields, source body policies and death collision continuations remain incomplete",
+    "Root source Module constructor scopes are now live. MGP child receiver construction, positive conditions/activation, Module InitPost/InitFinal and complete Level construction remain incomplete",
+    "Original encounter activation, aggro/sneak, complete controller/FSM and hierarchical scheduler delivery remain incomplete",
+    "Retained hit damage and bound victim poses now apply synchronously before named state forwarding; complete source F_ApplyResult/AIS/FSM reentry, combos, status/DOT/leech and full skills remain incomplete.",
+    "Equipment appearance/refresh, priest reference mismatch, fairy particles and companion behavior remain incomplete",
+    "Full original HUD/menus/audio/effects/materials/fog/lighting/cinematic coverage and continuous matched-state reference fidelity remain incomplete",
+    "Campaign lifecycle/controller/animation transient state persistence is explicitly rejected before durable save writes",
+    "Initial begin/select-time markers retain explicit seed-queue fallback; source sink delivery is synchronous only during scoped runtime advancement. Structural runtime replacement/clear/unbind inside callback is unsupported.",
+    "Legacy and source actor sample ordering is diagnostic runtime ordering; it does not establish original global Level traversal chronology."
+  ],
+  "capture_review": {
+    "images": [
+      ".local-inputs/windows-source-clock-checkpoint-v14/moving-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v14/spawn-verification.png"
+    ],
+    "scope": "Actual final moving fight and Spawn captures inspected: world, player, original enemy/corpse and health/mana art present. Continuous matched-state reference and complete renderer/gameplay fidelity remain unaccepted."
+  }
+}

@@ -1,0 +1,11 @@
+# Skills Active color source audit
+
+The latest root capture, `.local-inputs/v19-frontend-hotfix/current-gui/rogue-skills.png`, shows the Skills page with the selected `Heel Strike` description. `[ACTIVE]` is black while the rest of the description is cream. This is direct screenshot evidence of the reported failure, not a test-generated rendering.
+
+The source movie is `dqcharmenu_droid.swf` (the source-field table records SHA-256 `43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0`). The description is page sprite 496, DefineEditText character 466, flags `0xed32` (HTML, word-wrap, multiline). `main.cpp` resolves that source row and routes it through `menu_text_layout_v1`; the parser preserves nested font colors as styled runs and draws each run with its parsed RGBA. The source art/API fields therefore permit the green tag to reach the renderer.
+
+The actual `original-cache/data/text/gameplaymenus.english` corpus stores this label as `^1Active^r`, including in the `Heel Strike` description. `HudTextV1::preload_impl` converts caret colors with `localization_colors`; that converter requests `FontTextColors.one` and formats it as uppercase six-digit RGB. The source value is `10289050` (`0x9cff9a`), producing `<font color="#9CFF9A">Active</font>`. The constants are in `data/fonts_pycst.bin`. Before this fix, `MenuLocalization::load` only loaded `common_text_pycst.bin`. `dh2_script_constants_get` returns success with value zero for a missing key, so the converter silently produced `#000000`, matching the black Active text in the screenshot.
+
+The bounded fix merges the common-text and font constants into the existing `MenuLocalization::Impl::constants` owner before `HudTextV1` loads strings. It does not add a cache or hardcode the color. Focused verification reads the real GameplayMenus corpus bytes and exercises both its `^1Active^r` conversion and the existing shared text owner. Root must build the current source and capture the integrated Skills page again; this audit and the focused source test do not claim that a new GUI screenshot has already passed.
+
+Current/next skill details remain a separate source-data problem: the combat formula result is not a UI formatter result. No values are synthesized by this color fix.

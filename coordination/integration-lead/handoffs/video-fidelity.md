@@ -1,0 +1,23 @@
+# Video fidelity handoff, 2026-10-09
+
+Checkpoint ready. No package/source edits. Owned reports: `reports/fidelity-video-audit-v18.json`, `reports/fidelity-integration-criteria.json`, `reports/fidelity-immersion-cues.json`; captures under `.local-inputs/fidelity-video-v18`. Stop current worker here; further work should use human-requested GPT-6 Luna HIGH.
+
+Reference URL https://www.youtube.com/watch?v=z_Zky7qQdYs is Criss82 v1.0.3 22-minute footage. Recovered source/assets are v1.0.2; actual version differences not established. Other user's RadiaGamer7 9:47 screenshots have unidentified URL and must not be conflated.
+
+Exact individual pixels (authoritative): 267/273 seconds show two moths in cinematic; 274 HUD restored. 349 liveHUD;352/354 close largeenemy cinematic;355 HUD restored. Target357.5 reads TRUNGUS, correcting earlier generic Fungus label. Initial provisional third-moth count discarded. Legacy minute filenames and fps/tile contact sheets are orientation only: some frame selection/state offsets were discovered; individually viewed -ss images take priority.
+
+Menus individually verified:335 Torso,340 Hands,370 Feet,390 Inventoryoverview,391 Stats(points2),393 Stats(points0),396 SkillsHeadSplitter,398 BattleHardened,399 InnerStrength. Actual files `.local-inputs/fidelity-video-v18/reference-<time>.png`. Stats and Skills/Inventory occupy whole640x360viewport; compare matched state/class/equipment/source timeline/viewport and masks. Character-state worker has exact corrections.
+
+Default v17 population13loaded/enabled,deferred0,48skipped; authored50Character+11SpawnPoint=61. Skips24unknowncondition,20symbolic(14CommonType1/6CommonType2),4SpawnPointpolicy. Diagnostic20loaded/7initialdeferred/15finallyenabled does not prove normal route. Full61 actorattributes/module/status/reason in audit. Actual MothIntro18 route one-shot `_prim_MothMovieTriggerZone`; twoFakeMoth actors,originalposition/look/actoranims332/333/sound363/camera334,finalposition/idle/look/camera55/unlock/end. LizardManIntro17 is separate source script. TrollReturn37 with `_prim_Monster_53_03_001` has camera44 resolved by camera worker to cam_shake_horiz.
+
+Immersion direct pixel pairs `.local-inputs/fidelity-video-v18/immersion/at-274.700.png`/`at-274.900.png`/`at-275.100.png`: sword crescent, green spray/redlocalburst,damage15/MISS. `at-357.500.png`/`at-357.700.png`: largeenemy attackgoldentrail/redlocalburst/MISS. These do not prove globalflash,hitpause or isolate reactionanimation. No independent static-background registration yet to prove shake amplitude/frequency versus follow/centering/pan.
+
+Source camera proof: actualCamAnimSet rows shake44=`cam_shake_horiz.bdae`,crit45=`camera_crithit_0.bdae`; F_ApplyResult outcomes8/player -> gated CanPlayShakeAnim40f980 -> actual row.crit PlayAnimation(crit,0,true), sameCamera128/sourceplayer. `port/android-native/app/src/main/cpp/original_ui_session.cpp:822`. `shake84` is animationblockingstate,not visualshakeproof. TrollReturn scriptPlayCamera44 is an authoredshakeinvocation. `big_lizardman_dying_01.bdae` marker `an_camera/cam_shake_horiz` at533ms. Do not add generic shake everyhit. Effectsworker reports authenticHitFX/categoryselection/skillAnimationStep fx+anchor and event routing,rootdrawpending; no proven full-screen tint/freeze/hitpause in these kernels.
+
+Audio acquisition succeeded with download-media skill, inspect run `86ee6c3caaa948759fed7e9003130837`, download run `90c0ce099bf8499f954e64f18cd3a2d2`. Export exactfile:
+
+`C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/fidelity-video-v18/immersion/audio/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].opus`
+
+24,624,550 bytes SHA256 `de1916f5f5c29aa441277f1537db618330b1b720b6b73058085412db492ac14c`,Opus48kHzstereo. Excerpts `moth-267-277.wav`, `trungus-349-359.wav` in same directory,mono16kHz10seconds. Existing originalMP4 has onlyh264video. functions.audio rejectedaudition with literal `audio content omitted because you do not support audio input`; **no listened/audio-cue claim permitted**. Download staging cleaned automatically,no temporaryrunleft. Nativeaudio worker sourceMoth sound363->UID459 available;TrollReturn328->252 absent ZIP;sword232->UID22 WinMM transportverified,not gameplayparity.
+
+Next bounded task: audio-capable reviewer/human auditions two WAVs and records timestamped cue onset; optional bounded static-worldpoint registration around impacts/landing to discriminate shake versus follow. Sourcecamera invocation/cursor/criticalgate trace should align with originalpairs. Controlled repeated180degree originaljoystick reversal still missing; do not speculativefix rotationkernel. Root owns finalpackageverification and acceptance.

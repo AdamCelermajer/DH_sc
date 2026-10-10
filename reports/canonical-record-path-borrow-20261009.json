@@ -1,0 +1,31 @@
+{
+  "status": "record_path_loan_added_compile_checks_pass_runtime_fixture_unavailable",
+  "date": "2026-10-09",
+  "feature": {
+    "api": "model_renderer::borrow_source_campaign_character_path_v105(shared_ptr<CanonicalCharacterCandidateRecordV60>, SourceCharacterPathBorrowV105&, string&)",
+    "files": [
+      "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.hpp",
+      "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.cpp"
+    ],
+    "loan_fields": ["owner", "record_lease", "context_lease", "character", "machine", "path"],
+    "semantics": "Returns the exact existing actor.runtime.path owned by the stored CampaignFsm route scratch. It creates no path, copies no path fields, and does not mutate or replace route storage. Both existing world/id overload and new record overload return the same fully pinned typed loan.",
+    "authentication": [
+      "record is nonnull and not failed",
+      "the same record retains the actual actor, object, machine, and fsm_context_v101",
+      "stored CampaignFsmV101 authenticates record pointer equality and its own exact stored context identity",
+      "NativeFsm24 character matches the actor object identity",
+      "path storage/count/capacity/owned/reserved values match the existing FSM-owned route scratch rules"
+    ],
+    "lifetime": "The record lease pins the actor/path; the context lease pins the same FSM. Consumers must hold the loan while using path and reacquire after actor/FSM replacement. Existing owner remains as a compatibility pin."
+  },
+  "contract_test": {
+    "path": "port/windows-foundation/features/actor_frame/source_character_owner_factory_path_borrow_contract.cpp",
+    "kind": "compile-only public signature and typed-loan field assertions",
+    "result": "PASS with LLVM-MinGW C++20 -Wall -Wextra -Werror"
+  },
+  "native_compile": {
+    "android": "PASS; source_campaign_character_fsm_v101.cpp compiled with Android NDK 29.0.14206865 for aarch64-linux-android24 under -Wall -Wextra -Werror (suppressing legacy Box2D unused-value warnings).",
+    "windows": "PASS; source_campaign_character_fsm_v101.cpp compiled to x86-64 COFF with llvm-mingw-20261006-ucrt-x86_64."
+  },
+  "runtime": "Not run. A contract fixture would require a genuine initialized CanonicalCharacterCandidateRecordV60 with a stored CampaignFsmV101 and canonical path backing. The root-owned test/build closure was not edited; no synthetic actor/FSM/path was introduced."
+}

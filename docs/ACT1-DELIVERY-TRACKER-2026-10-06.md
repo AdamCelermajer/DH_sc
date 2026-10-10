@@ -1,6 +1,56 @@
 # Playable Act 1 delivery tracker
 
-## Current delivery gate - 7 October
+## Superseding device replay — 9 October 2026, 00:54 local
+
+Current acceptance record: [two-scenario replay](../coordination/luna-act1/flow-replay-2026-10-09.md). APK `79dfdd62ac0687827087335d76b010aa1b76a55cd7f36ec94972404436bbc9f3` compiled for both ABIs and was tested on emulator-5554. Existing Warrior slot0 reaches Stage26 texture/mip budget failure. Creation reaches the class chooser, but Back has a missing class-scene root and Confirm reverses local-player/save-slot arguments. Mage preview and empty-slot avatar clearing are observed working; expected Name stone backdrop remains absent. New source repairs are pending a new integrated build and replay. Gameplay movement/combat/chest/loot/XP/save-reload remain unverified; the first playable milestone is **not accepted**. Older entries below are historical.
+
+## Live refresh — 8 October, 17:37 local
+
+The 17:13 status below is superseded. The newest device run is still the 15:44 capture: launch → splash → main menu → Single Player → authored loading screen, followed by repeated Stage 17 `MarkAsFlying` errors during SwampKing initialization (stall, no observed crash). The Stage 10 RoomZone error in the older 09:03 V176 log is stale; the later run advanced beyond it. The 16:51 APK (`748C25EE1D5FC7FA7FBEE02ABB0DE8EDDBF2588F79941BCC45AC29656202472C`) is newer than all runtime evidence and has not been launched. No emulator/device/Android build is active. RAM at 17:37 was 10.28 GiB free / 31.83 GiB; wait for the configured 12.5 GiB emulator/build admission threshold while preserving the 15 GiB guest cap and 60-minute watchdog.
+
+Highest current-source blocker: Stage17 calls `GetPyOID("AnimDict","swampking_idle")` during `RegisterAnims`. The valid process-table entry is ID 1328, but the character VM's six-table `CharacterGameDesign::Snapshot` rejects it; a dedicated implementation lane is connecting the real retained process arrays. Stage17 now propagates required provider failures, and its regression passes 13,196 checks while explicitly proving the production AnimDict gap; Stage18 passes 95 checks. The observed `MarkAsFlying` error was from the older APK; its fix is in the untested 16:51 APK. Touch input has now been wired to the canonical Candidate FSM with original HeadTo/MoveTo ordering; only strict syntax checks have run, so device movement is unverified. Until the AnimDict provider is fixed and the rebuilt APK replayed, the next runtime failure remains unknown. Combat, chest/loot/XP, and save/reload have no end-to-end device acceptance.
+
+The static checklist was revalidated now: 1,156 rows, 535 implemented / 465 partial / 21 disconnected / 133 missing / 2 unclear; all runtime columns remain `not_run`. Compiled evidence is only the 16:51 both-ABI APK. Focused tests are host/source evidence (including Stage17 13,196 checks, Stage18 95 checks, XP 22,446 checks at O1 and O2 with sanitizers, QuickSave 16 checks, skill AI 99,825 checks, preview 275 checks, creation continuation and 357-block SWF comparison); they do not upgrade runtime status. One implementation lane remains active and root owns integration. The first playable Act 1 milestone remains **not accepted**.
+
+The earlier 15:04 name-confirm crash is real: logcat records GL-thread `SIGABRT` when `Authored menu scene has no retained active preview camera` escaped, after `NativePushMenu` reported a missing authored class text field. Current source-level continuation coverage verifies the renderer returns a scoped error for a missing camera, and the SWF confirmation continuation tests pass; that does not establish the exact device name-entry/Confirm/save/relaunch path on the 16:51 APK.
+
+## Current delivery gate - 8 October
+
+The latest debug APK is `port/android-native/app/build/outputs/apk/debug/app-debug.apk`, built 8 October 2026 at 16:51 local, SHA-256 `748C25EE1D5FC7FA7FBEE02ABB0DE8EDDBF2588F79941BCC45AC29656202472C` (632,616,710 bytes). The last device captures show launch → splash → full-surface main menu → Single Player → authored loading screen, then a Stage 17 stall: SwampKing initialization calls missing script global `MarkAsFlying` (IDA callback `0x00390900`). That older run stalled; it did not crash. Current source now connects `MarkAsFlying`, `RegisterAnim`, and first-frame `GetPropHP`/`GetHP` to the same actor navigation, animator, and resolved HP state; the successful 16:51 build compiles these fixes for both Android ABIs, but no post-build emulator run has verified runtime behavior. The current source also wires DestructibleContainer InitFinal, frame/update, interaction, and PODecor/SetPhysical; the earlier suspected source gap was stale, while runtime selection/execution remains unproved. The guarded emulator launch was refused before process creation: free RAM was 10.73 GiB against a 12.5 GiB preflight requirement. The latest 17:13 host snapshot is 10.57 GiB free, still below the selected admission threshold. The configured run remains capped at 15 GiB and 60 minutes, with a 2.5 GiB free-RAM floor. No emulator, ADB device, build, or worker lane is running.
+
+The first playable Act 1 milestone remains **not accepted**. No evidence proves Swamp entry, controllable movement, combat, chest/loot/XP, or save/reload. The current source audit finds no earlier mandatory gap on the default offline melee route; NPC ranged attacks and online network sends remain explicit unsupported branches. The previous observed Stage17 blocker is now source-fixed and compiled, so the next actionable blocker is to safely replay the new APK; its first runtime error is not yet known. Lane 25’s ASan/UBSan harness remains blocked by a stale frozen-library hash gate, while strict syntax checks and the integrated Android build passed. Older V128 host-integration notes below are historical and are not the current gate. The menu/splash visual lane is separate from Act 1; the original breathing animation remains required and device proof is pending. The validated behavior audit checklist has 1,156 checks (535 implemented, 465 partial, 21 disconnected, 133 missing, 2 unclear); all 1,156 runtime fields remain `not_run`. The increase from 534/466 is the source-level correction to `LW-0066`, not a runtime pass.
+
+The working tree currently has 259 tracked modified files and 3,969 untracked files (4,228 file-level status rows). It includes source/tests, evidence, and generated outputs; 3,492 untracked entries are reports/build/evidence outputs. Preserve the tree; a source/evidence checkpoint is advisable before the next integration, with generated outputs excluded. Do not treat that checkpoint or any source-level lane result as milestone acceptance.
+
+## Historical delivery gate - 7 October
+
+Latest checkpoint supersedes the V124 note below: V126 passed table and trophy
+loading, then stopped at pre-World InfoHUD saved-option routing. That adapter
+is corrected in source. The emulator is stopped; broad host checking now
+passes the full archive, all70 table streams and218 malformed count/EOF cases
+in7.59s at approximately50MiB peak runner RSS. Startup/menu/preview dependency
+audits are complete as source reviews, with remaining execution gaps recorded
+in `docs/STARTUP-BROAD-CHECK-2026-10-07.md`. The whole application has not yet
+been run on the host, and no main-menu/gameplay/Act1 acceptance is claimed.
+
+Coordinating session current checkpoint: V124 x86_64 bundled APK built and
+installed, SHA256 `39b9671bdcc32774719216c5a7f4d4b53b6fb3107d247c4b4ebbfc0bed1f90ad`.
+Fresh launch mounts all6833 original-cache files. It passes the corrected
+animation stream and stops at `faeries_pyarray.bin / FaeryTable`, invalid
+string length at byte0x55. IDA/cache review identifies the preceding
+FaeryListTable descriptor as the cause (`ii` instead of counted `[i]`).
+The remaining registration schema batch is under the single data owner.
+Current source additionally connects actual V121 camera/retained preview
+Character GPU transport, V122 service/FX compilation, dialogue name parsing,
+original offline script-message suppression and canonical NPC command/melee
+providers. These later behaviors are not yet gameplay-verified.
+The single authoritative ledger and exact source ownership are in
+`coordination/luna-act1/ledger.md` and `assignments.json`; all24 actual worker
+runtime records confirm GPT-6 Luna/high. No Act1/menu/Swamp/combat/save-reload
+acceptance or final ARM64 phone package is claimed. V124 evidence:
+`.local-inputs/act1-coordinator-v124-package.log`, `-live.log`, `-live.png`.
+
+### Earlier V120 baseline
 
 Latest checkpoint: V120 startup source built, linked, packaged and installed on
 the visible emulator. First-boot GSInit is now connected to the

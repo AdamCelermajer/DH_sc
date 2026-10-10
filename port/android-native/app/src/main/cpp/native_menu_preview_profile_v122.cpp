@@ -80,6 +80,12 @@ bool finish_native_menu_preview_profile_v122(const std::shared_ptr<dh2::applicat
  services.current_difficulty=[settings](auto& out,auto& e){out=settings->current_difficulty_v67();e.clear();return true;};
  auto weak=std::weak_ptr<dh2::world::CanonicalCharacterCandidateRecordV60>(r.shared_from_this());
  services.actor=[weak](auto& out,auto& e){auto r=weak.lock();if(!r||!r->equipment||r->equipment->inventory()!=r->inventory37c){e="Retired preview writer Character/Gear";return false;}out.receiver=r;out.properties=r->equipment->property_view();out.inventory=r->inventory37c;return true;};
+ auto weak_quests=std::weak_ptr<dh2::character::CharacterMenuQuestsV51>(p->quest_owner);
+ services.quest_save_data=[weak,weak_quests](auto id,auto& stream,auto& e){
+  auto r=weak.lock();auto quests=weak_quests.lock();
+  if(!r||!quests||quests->save()!=r->save){e="Required SAME preview Save/Quest persistence owner";return false;}
+  return quests->save_quest(id,stream,e);
+ };
  const auto online=app->get_online_loading_v55();services.remaining={p->domain.owner,[online](const auto& q,auto& out,auto& e){if(q.operation==dh2::data::PlayerSaveWriteOpV1::online&&online){out.flag=online->byte5()!=0;e.clear();return true;}e="Required positive preview SG_Save network/checkpoint producer";return false;}};
  p->writer=std::make_shared<dh2::character::CharacterMenuCampaignSaveV50>(r.load,p->profile,std::move(services));return p->writer->bind(e);
 }

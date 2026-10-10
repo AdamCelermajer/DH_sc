@@ -1,0 +1,59 @@
+﻿{
+    "validation":  "PASS",
+    "profile":  "RoguePlayerBase",
+    "source_profile":  "Original CharacterTable row; actual CharacterTable/ClassTables resolution supplies baseline HP/MP and FaeryList ID.",
+    "behavior":  "Separate write/verify process invocations exercise SaveStore schema3 and GameSave v1 file encode/decode. GameSave restore uses an exact compatible Rogue actor binding.",
+    "investigation":  "This is an internal persistence invariant with no direct visible action. Its visible consumer invariant is that character stats, currency, equipment, skill mapping, and Faery selection after restore match the saved state; no gameplay screenshot/video or GUI runtime verification is claimed.",
+    "fixture_values":  "Rogue HP/MP and maxima come from current Original CharacterTable/ClassTables. XP=123456, gold=7890, point counts, inventory/gear instance labels, rank values, slots, and selected Faery slot/state/level are explicit codec test specimens; they are not asserted as native starter/reward values. The Rogue FaeryList ID alone is source-row-derived.",
+    "matrix":  {
+                   "validation":  "PASS",
+                   "profile":  "RoguePlayerBase",
+                   "fresh_process_decode":  true,
+                   "save_store":  true,
+                   "game_save_restore":  true,
+                   "hp_mp_source_derived":  true,
+                   "xp_gold":  true,
+                   "gear_instances":  true,
+                   "skill_ranks_slots":  true,
+                   "faery_selection":  true,
+                   "legacy_unknowns":  true,
+                   "failure_atomicity":  true
+               },
+    "persisted_fields":  [
+                             "HP/MP and maxima",
+                             "integer XP and gold",
+                             "inventory instance/definition/quantity",
+                             "gear slot/item instance/equipment set/source slot",
+                             "skill IDs/ranks and saved-row hotbar slots",
+                             "source-known flags",
+                             "FaeryList/current selection/per-slot state and level"
+                         ],
+    "legacy":  "Handcrafted SaveStore schema1 decode confirms omitted endurance/energy, points, skill slots and Faery metadata remain unknown/default; no values are inferred. Existing readers promote schema1 to current in-memory CharacterState and do not retain an original-version tag.",
+    "failure_atomicity":  "Truncated reads leave SaveStore CharacterState and GameSave output sentinels unchanged. Invalid writes leave existing file bytes unchanged. Rejected GameSave level route leaves CharacterState, actor and RNG unchanged.",
+    "source_evidence":  {
+                            "save_store":  "port/windows-foundation/save_store.cpp encode writes DH SAVE format1 + CharacterState schema; schema2 adds source points/skill slots/Faery, schema3 adds CQPG. decode builds a local candidate and moves it into caller output only after validation; save writes/flushed temporary then atomically replaces the destination.",
+                            "game_save":  "port/windows-foundation/game_save.cpp snapshot includes CharacterState, level URI, controlled ActorId, caller RNG, actors and four property sheets; v2 adds objects/components, v3 adds optional physical presence. load_game uses a detached candidate and validates before assignment. restore_game_save checks exact level/roster/actor identity/equipment/binding before world replace, then assigns CharacterState.",
+                            "original_profile":  "OriginalCharacterTable/ClassTables load through load_original_property_tables; RoguePlayerBase is resolved by build_original_combat_properties and its resolved properties36/38/41/43 supply test profile HP/MP and maxima. CharacterTable FaeryList is read by name and retained as an opaque source list ID.",
+                            "skills":  "Existing Rogue source skill tests identify SkillList position0 as JumpKick and source saved slots index CharacterState::skills rows. This codec matrix uses explicit rank values as serialization specimens and does not claim rank2 is a native starter rank. Original SkillList/native skill unlock queries remain a caller-side producer concern.",
+                            "faery":  "Faery list ID is source row-derived; the test sets a known current slot and state/level values to verify exact persistence. It does not claim a native starter unlock or resolve localized Faery content."
+                        },
+    "integration_gates":  [
+                              "The production caller must save the exact current canonical CharacterState and, for live checkpoints, capture the same PlayableActorWorld and level URI; character-only SaveStore load does not rebuild actors, combat bindings or gear source records.",
+                              "GameSave restore only admits the same level, actor IDs/definitions, class/faction/persistent identity, attacks, equipped bindings, combat facts and world-object visuals; changed equipment/profile needs a future source-aware reconstruction path.",
+                              "The test proves codec and restore component behavior only. It does not prove native PlayerSavegame/GS save ownership, filesystem profile selection, source native gear-instance reconstruction, or GUI integration."
+                          ],
+    "source_sha256":  {
+                          "port/windows-foundation/features/campaign_save/profile_persistence_matrix_v1_tests.cpp":  "a44aa843e04760f6c9ff92aa22bf82d7e0132b24ddf037e8631763882e16fe82",
+                          "port/windows-foundation/save_store.cpp":  "2cde8e769759922230f49573f53b79890bf717f283ebf6432306cd687f3a600f",
+                          "port/windows-foundation/save_store.hpp":  "d9e8cf5f48a5db872643c916c2a2caf7a8c52050fb69ba406f0f3ef0107544a0",
+                          "port/windows-foundation/game_save.cpp":  "0fb36656a838574150d4ada5d06a06b1b2c895ed0f6fd698453474285c5c77b3",
+                          "port/windows-foundation/game_save.hpp":  "f5a2be7de07265c1d3c8c5b64b9a8ed05159625384d1d868792df72b8b0868ee",
+                          "port/windows-foundation/character_state.cpp":  "a1684af3268ea1de8b27f392c0f3b3a2b0eb84ea5b027e41af36a9d3e31679e0",
+                          "port/windows-foundation/character_state.hpp":  "8ada381725c1648dd07aece2f63dbe08adf92c0eedfa2c82d3d74824b4c2f286",
+                          "port/windows-foundation/original_combat_properties.cpp":  "90553ff75d618f194e87816042cfd18817ffec02b92272005cf3d9645ffedca9",
+                          "port/windows-foundation/playable_actor_world.cpp":  "d62e36ba2aa80e87709feb201c7015683df8fd29d01320fa7abbebf02e66ad84",
+                          "port/windows-foundation/reports/runtime-skill-animation-bank-v1.json":  "f8c3eb9d4a84b5d50c659227c89ed6843f22b3af849c46d7238350313bdb4f8c"
+                      },
+    "original_binary_sha256":  "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "shared_source_assets":  "815ace4b5921f86e59c05f2b6c25f80de39a4195f3a09bdfc93020b6f024dce2"
+}

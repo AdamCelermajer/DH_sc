@@ -30,6 +30,11 @@ class ApplicationPlayerManagerBootstrapV59 final :public std::enable_shared_from
  std::shared_ptr<void> predecessor_buffers_provider_;
  std::function<bool(PlayerInfoFieldsV1&,std::shared_ptr<PlayerInfoSkillBuffersV26>&,std::string&)> predecessor_buffers_;
  std::shared_ptr<void> remaining_provider_;PlayerManagerServicesV1 remaining_{};
+ // Native campaign transport metadata, not source PM fields. The independent
+ // provider may retain a completed Spawn prefix, so World expiration alone is
+ // not retirement proof; its weak source-slot validator must also accept it.
+ std::weak_ptr<void> remaining_campaign_;
+ std::function<bool(std::string&)> remaining_campaign_retired_;
  PlayerManagerBootstrapPhaseV59 phase_{PlayerManagerBootstrapPhaseV59::allocated};
  std::uint32_t service_depth_{};bool busy_{},profile_input_pending_{};std::uint8_t observed_controller_connected_{};
  std::string error_;
@@ -52,12 +57,22 @@ public:
  // all other controllers, network users or controller removal). This is its
  // original first offline AddPlayer prefix, with mandatory upstream queries.
  bool source_first_local_add_prefix(const FirstLocalControllerServicesV59&,std::string&);
+ // Exact synchronous prefix used by dqmenus' NativeAssignSaveSlotToPlayer:
+ // first-local PlayerInfo publication, then selected664 on that same owner.
+ bool assign_selected_save_slot_v70(std::int32_t local_index,std::int32_t selected_slot,
+  const FirstLocalControllerServicesV59&,std::string&);
  // Modern front-end transport after the actual menu selection/file read.
  // Publishes only its selected slot into the existing offline PlayerInfo;
  // Character construction and Save::SetSlot remain later source operations.
  bool publish_selected_save_slot_v67(std::int32_t local_index,std::int32_t selected_slot,std::string&);
  bool publish_selected_profile_v68(std::int32_t local_index,std::int32_t selected_slot,std::int32_t actual_character_row,std::string&);
  bool bind_remaining(std::shared_ptr<void>,PlayerManagerServicesV1,std::string&);
+ // Replace only a retired campaign's continuation on this SAME idle PM. Generic
+ // bind_remaining continues to reject foreign owners. Neither API replays C1,
+ // resets PlayerInfo/count fields, nor performs original Character teardown.
+ bool bind_campaign_remaining(const std::shared_ptr<void>& campaign,
+  std::shared_ptr<void> provider,PlayerManagerServicesV1,
+  std::function<bool(std::string&)> campaign_retired,std::string&);
  bool bind_existing_buffers(std::shared_ptr<void>,
   std::function<bool(PlayerInfoFieldsV1&,std::shared_ptr<PlayerInfoSkillBuffersV26>&,std::string&)>,std::string&);
  // Native lifetime transport for existing runtime unique_ptr consumers. SAME

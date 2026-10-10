@@ -1,0 +1,648 @@
+{
+  "staging_root": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache",
+  "assets": [
+    {
+      "uri": "data/pydata/character_properties_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\character_properties_pyarraynames.bin",
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "uri": "data/pydata/character_properties_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\character_properties_pystructnames.bin",
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "uri": "data/pydata/character_models_dictionary_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\character_models_dictionary_pyarray.bin",
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    {
+      "uri": "data/pydata/character_properties_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "uri": "data/pydata/character_templates_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\character_templates_pyarraynames.bin",
+      "bytes": 3227,
+      "sha256": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0"
+    },
+    {
+      "uri": "data/pydata/character_templates_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\character_templates_pyarray.bin",
+      "bytes": 2516,
+      "sha256": "815ace4b5921f86e59c05f2b6c25f80de39a4195f3a09bdfc93020b6f024dce2"
+    },
+    {
+      "uri": "data/pydata/animations_pyarraynames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\animations_pyarraynames.bin",
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    {
+      "uri": "data/pydata/animations_pystructnames.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\animations_pystructnames.bin",
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    {
+      "uri": "data/pydata/animations_dictionary_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    {
+      "uri": "data/pydata/animations_pyarray.bin",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\pydata\\animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "uri": "data/3d/characters/npcs/priest_good.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\priest_good.bdae",
+      "bytes": 42136,
+      "sha256": "880ed0be28e158dc62779a1fd5f9874cbd39fb68edc31af69972aceb8979e8bf"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_template_anim.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_template_anim.bdae",
+      "bytes": 19908,
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_idle_shield_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_idle_shield_02.bdae",
+      "bytes": 14996,
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_combo_01.bdae",
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_pre_combo_02.bdae",
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_combo_02.bdae",
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_combo_02_to_idle.bdae",
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_dying_01.bdae",
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    },
+    {
+      "uri": "data/3d/characters/npcs/prisoner.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\prisoner.bdae",
+      "bytes": 76684,
+      "sha256": "e77dd02716e81dbe9694d757d90ae2376e160f21294e48fbc1602a2a0ed742e5"
+    },
+    {
+      "uri": "data/3d/characters/npcs/animations/prisoner_idle_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\animations\\prisoner_idle_02.bdae",
+      "bytes": 18500,
+      "sha256": "15d8c26f5a826d01f7b5925189167290e998b39c8a8d9c479a6cf9496c90c5de"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_walk_slow.bdae",
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_pre_combo_01_moving.bdae",
+      "bytes": 6984,
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_combo_01_moving.bdae",
+      "bytes": 8164,
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_post_combo_01_moving.bdae",
+      "bytes": 8924,
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_pre_combo_02_moving.bdae",
+      "bytes": 7012,
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_combo_02_moving.bdae",
+      "bytes": 8056,
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_post_combo_02_moving.bdae",
+      "bytes": 8524,
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_pre_combo_03_moving.bdae",
+      "bytes": 6808,
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_combo_03_moving.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_combo_03_moving.bdae",
+      "bytes": 8236,
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1"
+    },
+    {
+      "uri": "data/3d/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\prince_1hand_post_combo_03_moving.bdae",
+      "bytes": 9044,
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8"
+    },
+    {
+      "uri": "data/3d/characters/npcs/animations/prisoner_idle_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\animations\\prisoner_idle_01.bdae",
+      "bytes": 17100,
+      "sha256": "9d8765263fefe58f6cfa264c98aa050739df2a95acdaa1dacb8846dfd4b1593e"
+    },
+    {
+      "uri": "data/3d/characters/faeries/faeries_02_celeste.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\faeries\\faeries_02_celeste.bdae",
+      "bytes": 59684,
+      "sha256": "841531e0cba192d00898309e7dc53b0b56445c9e72e71d22163178ae3f6ebe22"
+    },
+    {
+      "uri": "data/3d/characters/faeries/animations/faeries_template_anim.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\faeries\\animations\\faeries_template_anim.bdae",
+      "bytes": 36124,
+      "sha256": "158c70e424ba14fd0ba73dc7fe83f35e3c7758e6455166341a6fc174af0f4204"
+    },
+    {
+      "uri": "data/3d/characters/faeries/animations/faeries_celeste_idle.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\faeries\\animations\\faeries_celeste_idle.bdae",
+      "bytes": 27104,
+      "sha256": "f993bfb319bf50c2166773f70abd27dc834e6792bd2ad9dda90efaf16311ec10"
+    },
+    {
+      "uri": "data/3d/characters/faeries/animations/faeries_celeste_walk.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\faeries\\animations\\faeries_celeste_walk.bdae",
+      "bytes": 35816,
+      "sha256": "e28cf3f0333decaedfccf7aba7d0e39e0dbd1b9d5e212c3bf69357a400e24c55"
+    },
+    {
+      "uri": "data/3d/characters/faeries/animations/faeries_celeste_spell_cast.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\faeries\\animations\\faeries_celeste_spell_cast.bdae",
+      "bytes": 25564,
+      "sha256": "f1e20ce7e87def7e99b03e66a8011f4420846549c50f1e334f9bc5198e63d16f"
+    },
+    {
+      "uri": "data/3d/characters/troll/troll_swamp.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\troll_swamp.bdae",
+      "bytes": 70344,
+      "sha256": "fd5d995cc2ff52d21d87b2f28fd1cb10f054e4206db6811bf019502430091a98"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_template_anim.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_template_anim.bdae",
+      "bytes": 16272,
+      "sha256": "72a4d23569bd6f72de677d025b1ce058586f23cddf24ddd645abd90b67de4b45"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_idle.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_idle.bdae",
+      "bytes": 15676,
+      "sha256": "aeb1e742afb36365b853a26154fbc9b778e0a30a95b1a452083db13db2e732ae"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_walk.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_walk.bdae",
+      "bytes": 11808,
+      "sha256": "2ccbad1d1de5b5c994475a7761b981791f58e8bd9e7699bee898df8a282fedcb"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_pre_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_pre_attack_01.bdae",
+      "bytes": 8164,
+      "sha256": "5fa8a2884d03ab9af4a568fd7e717cc47b49fa6f6ce397958b6f53c5e5275e97"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_attack_01.bdae",
+      "bytes": 9048,
+      "sha256": "d1345421b868849cc4498b2617c03c8ec4d53de73e70ff7378df7ef9cc472687"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_post_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_post_attack_01.bdae",
+      "bytes": 8500,
+      "sha256": "0cf117e758f3718f7bcf4d1374ffc2223fab0ec60fe4adcd58efe627e454d93b"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_pre_attack_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_pre_attack_02.bdae",
+      "bytes": 7928,
+      "sha256": "cd451b064e475a04009404f6ff804649354ae69ce93b39563d547db3c6d7c003"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_attack_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_attack_02.bdae",
+      "bytes": 8564,
+      "sha256": "54b0d19d01d127cf3f9a815212e04f57f92e5a68583cec65826b86dba0a50dce"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_post_attack_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_post_attack_02.bdae",
+      "bytes": 9184,
+      "sha256": "49400018d974eb23e5fee6b8e19d9335d9249489a54804f3ee047c557cfe48aa"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_pre_attack_03.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_pre_attack_03.bdae",
+      "bytes": 7896,
+      "sha256": "f74bb845165e6234e43a88b0e7019484cdaa6340b49a3b611aea51f46ef0a2a2"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_attack_03.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_attack_03.bdae",
+      "bytes": 7908,
+      "sha256": "44afc27fd8d02531295e1a533e974e890d7ae91137c60a65c4254a18b4758c96"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_post_attack_03.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_post_attack_03.bdae",
+      "bytes": 9720,
+      "sha256": "3bcda01f87f63c749108c8a2e44b0e99362c57455386043c0eed7709eb28cee1"
+    },
+    {
+      "uri": "data/3d/characters/troll/animations/troll_swamp_dying.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\troll\\animations\\troll_swamp_dying.bdae",
+      "bytes": 16676,
+      "sha256": "80b16a1ae23980871e6395e70148e22699cae4a82e6c5668eb168e16a25b440f"
+    },
+    {
+      "uri": "data/3d/characters/moth/moth.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\moth.bdae",
+      "bytes": 73432,
+      "sha256": "c1ef1fef10e8ae846845734d1808eabe8acd219ad2f0d0b710dc70a9dcafbc7c"
+    },
+    {
+      "uri": "data/3d/characters/moth/animations/moth_template_anim.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\animations\\moth_template_anim.bdae",
+      "bytes": 17748,
+      "sha256": "50aaaa2727c11bd28322d907b8e961f3ede6e0d9ae79520256c59278d181e48c"
+    },
+    {
+      "uri": "data/3d/characters/moth/animations/moth_idle_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\animations\\moth_idle_01.bdae",
+      "bytes": 15896,
+      "sha256": "0f9a37ef7e97f5834e6fa083fb80a59c8d21fdea4c8c6cc96268f3215479179d"
+    },
+    {
+      "uri": "data/3d/characters/moth/animations/moth_idle_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\animations\\moth_idle_02.bdae",
+      "bytes": 15936,
+      "sha256": "16cd25cabb373b319185dcdd66cdd373de9cb2f8f9368afa0546a4ae29f501fa"
+    },
+    {
+      "uri": "data/3d/characters/moth/animations/moth_walk_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\animations\\moth_walk_01.bdae",
+      "bytes": 16928,
+      "sha256": "4413061ff7fd54dd4e08a58327beb84a3d5540162d20bb19a1b8870795e402fe"
+    },
+    {
+      "uri": "data/3d/characters/moth/animations/moth_walk_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\animations\\moth_walk_02.bdae",
+      "bytes": 16772,
+      "sha256": "e101727d3288b8bd5eaaf4057aab5dd14584512f845ed09f633c31a8dea69eea"
+    },
+    {
+      "uri": "data/3d/characters/moth/animations/moth_pre_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\animations\\moth_pre_attack_01.bdae",
+      "bytes": 17088,
+      "sha256": "8909bbbc32deb1ec8df5411f9a849e861d0d365795243adf628011dcf8b5ac5d"
+    },
+    {
+      "uri": "data/3d/characters/moth/animations/moth_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\animations\\moth_attack_01.bdae",
+      "bytes": 17264,
+      "sha256": "dbf8f7964563775e18e13c874a8710cce457664e4b269c438800b5bb0a59c82b"
+    },
+    {
+      "uri": "data/3d/characters/moth/animations/moth_post_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\animations\\moth_post_attack_01.bdae",
+      "bytes": 18244,
+      "sha256": "79ead2c3a542309d27f9b35ecb39e86ce4d03ebdbb8c2adf0d39e3e1d7b71ac1"
+    },
+    {
+      "uri": "data/3d/characters/moth/animations/moth_dying_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\moth\\animations\\moth_dying_01.bdae",
+      "bytes": 16944,
+      "sha256": "369c261a9a1b6691e1f4dcf4c9b7f36635a0f6c9f0766000afc22807055f48ab"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/lizardman.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\lizardman.bdae",
+      "bytes": 68540,
+      "sha256": "acd6ff9ce6f2bad967cbdd8f015536304980443333fb3b7f8c735a450911acde"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/lizardman_template_anim.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\lizardman_template_anim.bdae",
+      "bytes": 26572,
+      "sha256": "e16b85a4c10ab24e38aea9966a417a49155c258ffbbd13a614d4de0c6d20ebd1"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/lizardman_idle_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\lizardman_idle_01.bdae",
+      "bytes": 35556,
+      "sha256": "c9c64c805495459da201947f19eb4dbae598e1f8843d0054f8c09dbec5b407f6"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/lizardman_walk_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\lizardman_walk_01.bdae",
+      "bytes": 13536,
+      "sha256": "8d687c16a9424285f495aba63ee623af2d37b1c0d8629e9cc7cd22373528b896"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/lizardman_pre_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\lizardman_pre_attack_01.bdae",
+      "bytes": 6696,
+      "sha256": "25b0cd37c2156298affcd337036ed987a60737b0de5b6a2e5cde1b3d0e9e61b1"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/lizardman_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\lizardman_attack_01.bdae",
+      "bytes": 11520,
+      "sha256": "6013cf3fc40bedebd08bf1315ecdd78a0899acb04ea85af3157f6b7a27c23993"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/lizardman_post_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\lizardman_post_attack_01.bdae",
+      "bytes": 8076,
+      "sha256": "7842a020af319c8d678153b1241322c652c1feb97be4c546bd61629a89f6a863"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/lizardman_dying_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\lizardman_dying_01.bdae",
+      "bytes": 12292,
+      "sha256": "d71cde5d2ce5e18bde7c3d5542c63016ccc2c9900d22f48e6ce048ffd06ea8a8"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/lizardman_big.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\lizardman_big.bdae",
+      "bytes": 71668,
+      "sha256": "e107edc11ae1aa0d69dbbee19153dd4b5ae3925d9a0850eac3f3478f40804e7b"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/big_lizardman_idle_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\big_lizardman_idle_01.bdae",
+      "bytes": 35064,
+      "sha256": "4e0ff63a7bfaa187b02381660869409f7a9406ca2eabe6dba6f73a9479387e81"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/big_lizardman_walk_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\big_lizardman_walk_01.bdae",
+      "bytes": 12624,
+      "sha256": "0dc81dd2dabc3fa0b6a25eb3456489442ad3a4736b87f57932a985812b35aa16"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/big_lizardman_pre_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\big_lizardman_pre_attack_01.bdae",
+      "bytes": 8280,
+      "sha256": "370385103ad1c1714c5ceb7f260cc7934c5f38cd3674147eda6194abd3a57ab7"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/big_lizardman_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\big_lizardman_attack_01.bdae",
+      "bytes": 8468,
+      "sha256": "363a7eb8810e1ab722623ae06ee44b785692dac1a1ef18b581030d0b20f36262"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/big_lizardman_post_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\big_lizardman_post_attack_01.bdae",
+      "bytes": 9548,
+      "sha256": "164d6f7f202cff4c377767d1ded21aad2e1ba7cefdf44992cfb01e802a7a3d89"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/big_lizardman_pre_attack_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\big_lizardman_pre_attack_02.bdae",
+      "bytes": 8848,
+      "sha256": "52ca9c638e27c4d1e46ea1b3c528657907945f824b20e5d9a3b5d52aa9c59e5e"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/big_lizardman_attack_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\big_lizardman_attack_02.bdae",
+      "bytes": 8784,
+      "sha256": "b7b4f013b6d80085938382be720ab048ce372a486361ef26e0d230d898645720"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/big_lizardman_post_attack_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\big_lizardman_post_attack_02.bdae",
+      "bytes": 8880,
+      "sha256": "cb777adca9ccb2d63c834aa95b05f3d12ff4cfb5e751b7904a106ad12fa55e47"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/animations/big_lizardman_dying_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\lizardman\\animations\\big_lizardman_dying_01.bdae",
+      "bytes": 16376,
+      "sha256": "efe4b4ee53cd971dde2392078d7ff0e9db5ca83722f029c6cd6caacef070278f"
+    },
+    {
+      "uri": "data/3d/characters/npcs/animations/npc_m_idle_standing.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\animations\\npc_m_idle_standing.bdae",
+      "bytes": 16372,
+      "sha256": "8b496e423812d92d6036be7a0fae08cbd9ae5f1af637593636547a7b6a9cdfb2"
+    },
+    {
+      "uri": "data/3d/characters/npcs/animations/npc_m_bored.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\animations\\npc_m_bored.bdae",
+      "bytes": 41176,
+      "sha256": "3defd2437ef5a93dc433461ec09d8fed4a629e54cdb449f3362dacdce19e2efb"
+    },
+    {
+      "uri": "data/3d/characters/npcs/animations/npc_m_waiting.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\animations\\npc_m_waiting.bdae",
+      "bytes": 30668,
+      "sha256": "3deebb7b28d826d10f110929d9dfd2ac7633428a17789dd19a65faceb3b4b563"
+    },
+    {
+      "uri": "data/3d/characters/npcs/animations/npc_m_lookingaround.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\animations\\npc_m_lookingaround.bdae",
+      "bytes": 21784,
+      "sha256": "160694aedb70b122917e2bc3f9fed0fae67cefb221ccee26688fa4171027c834"
+    },
+    {
+      "uri": "data/3d/characters/npcs/animations/prisoner_idle_03.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\animations\\prisoner_idle_03.bdae",
+      "bytes": 25448,
+      "sha256": "e4ba7c824ea589c90f7640beffed30f7e2f868eaab993729899c6048fc88b3d0"
+    },
+    {
+      "uri": "data/3d/characters/invisible_man/invisible_man.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\invisible_man\\invisible_man.bdae",
+      "bytes": 960,
+      "sha256": "30a4c5431d8b53137f8eb1d87c9a166d13df5438a92fec2c14c4fa8781843d7e"
+    },
+    {
+      "uri": "data/3d/characters/swampking/swampking.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\swampking.bdae",
+      "bytes": 68908,
+      "sha256": "8f19f222bcfff6a5c4df93463310922e1b780026005c00c3cfecbee889233a81"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_template_anim.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_template_anim.bdae",
+      "bytes": 21676,
+      "sha256": "45aa57ff3f34e1462dd6c0334c00d84d4c8b0db99599dba0f6ad2ecf6fdc36b2"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_idle.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_idle.bdae",
+      "bytes": 30676,
+      "sha256": "ffcf9cb668087d22cca36cf3ab2ac4b22c2192e33e4c29eae8a0179798860a47"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_swim_big.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_swim_big.bdae",
+      "bytes": 10896,
+      "sha256": "08ab4699e65b590799a0a8f23b9a14773830430a486c4a4ce9652b85d0e3fa12"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_swim_small.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_swim_small.bdae",
+      "bytes": 11896,
+      "sha256": "ab78e49d9c2e97f9e610321ab33bbb7a4e26650424c31e3439851736beae6c88"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_pre_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_pre_attack_01.bdae",
+      "bytes": 12128,
+      "sha256": "a78b0268932a96423a35ff09f6f2ea0133b6934f6c5d218272e220a06f931f86"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_attack_01.bdae",
+      "bytes": 14156,
+      "sha256": "0fdeca56a0b09e22216e62c81799b7f2c263d44295492fe82e2ca56bc68f7255"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_post_attack_01.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_post_attack_01.bdae",
+      "bytes": 14420,
+      "sha256": "4c8a2046f04f6ec3221fbd5df53e89e88186bb4d764067b318b1e476251b0eb8"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_pre_attack_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_pre_attack_02.bdae",
+      "bytes": 14604,
+      "sha256": "a71e308527d30db8be0e99613ab2681674d63024af98ba60a169d949ac26c741"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_attack_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_attack_02.bdae",
+      "bytes": 13884,
+      "sha256": "24d9629cb5fdce54f80d948881af379fac3e2ee2384028538a76c13af021c40f"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_post_attack_02.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_post_attack_02.bdae",
+      "bytes": 12088,
+      "sha256": "b7eb20401021bde48985386485a0de66f1b8ef66bf5b062fa1bac6b76f050474"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_pre_attack_03.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_pre_attack_03.bdae",
+      "bytes": 14604,
+      "sha256": "8eb4f6843d984d487a58f137d1b1635751344ea07a19704be9d8bb77031871b0"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_attack_03.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_attack_03.bdae",
+      "bytes": 11320,
+      "sha256": "d7366204553035c07827f9018b09673b7051a3df66bdf1ec54adc0bfebf174ed"
+    },
+    {
+      "uri": "data/3d/characters/swampking/animations/swampking_post_attack_03.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\swampking\\animations\\swampking_post_attack_03.bdae",
+      "bytes": 12860,
+      "sha256": "a89b05fb41795cf7ce8ebb131710993cf2a53e6dd7eb4cc4a485ff7de2465fab"
+    },
+    {
+      "uri": "data/3d/characters/npcs/edward_with_weapon.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\edward_with_weapon.bdae",
+      "bytes": 118864,
+      "sha256": "8dda01234f264e28d88cf7f8af426c7be48bb331f979bf38cf3ce4743e5ee413"
+    },
+    {
+      "uri": "data/3d/characters/npcs/king.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\king.bdae",
+      "bytes": 90092,
+      "sha256": "ab88071ce3acf45a85a2aec003819e7c0b30b70b8ebb2612d34c05265aae34f1"
+    },
+    {
+      "uri": "data/3d/characters/npcs/animations/king_anim_template.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\animations\\king_anim_template.bdae",
+      "bytes": 72252,
+      "sha256": "ddf8912cda33ae4726bbfdf311d52651076e0d882ddd44753de47fc726d4f763"
+    },
+    {
+      "uri": "data/3d/characters/npcs/animations/cs_madruk_end_scene07_king.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\npcs\\animations\\cs_madruk_end_scene07_king.bdae",
+      "bytes": 21096,
+      "sha256": "ad6712789b01e3677a584de8cba664eb8b9dc11d9398694a432d401c24afea2c"
+    },
+    {
+      "uri": "data/3d/characters/prince/prince_modular.bdae",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-population-assets\\original-cache\\data\\3d\\characters\\prince\\prince_modular.bdae",
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    }
+  ],
+  "cache": "C:/Users/adamc/Downloads/Dungeon-Hunter-2-HD-v1-0-2-cache.zip"
+}

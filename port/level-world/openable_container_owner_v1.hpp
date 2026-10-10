@@ -51,8 +51,9 @@ struct OpenableContainerServicesV1 {
     std::function<bool(const std::string&,std::int32_t&,std::string&)> resolve_item_name;
     std::function<bool(std::uintptr_t,bool&,std::string&)> is_character;
     std::function<bool(std::uintptr_t,std::int32_t,bool&,std::int16_t&,std::string&)> find_key;
-    // Source RemoveItemByID(key), NOT a manufactured quantity subtraction.
-    std::function<bool(std::uintptr_t,std::int32_t,bool&,std::string&)> remove_key;
+    // Source Unlock calls ItemInventory::TryConsuming(key_id,key_qty).
+    // This must mutate the same Character inventory and preserve its source effects.
+    std::function<bool(std::uintptr_t,std::int32_t,std::int32_t,bool&,std::string&)> consume_key;
     std::function<bool(std::int32_t,std::uintptr_t,std::int32_t,bool,std::string&)> drop_loot_table;
     std::function<bool(const char*,std::uintptr_t,const char*,std::string&)> script_call;
     // Complete nullable manager capture -> actual GetSound -> raw precache.
@@ -73,6 +74,10 @@ public:
     bool source_set_state_v91(std::uint8_t value,std::string& e){return set_state(value,e);}
     bool source_keep_physics_v91(bool&,std::string&);
     bool source_detach_physical_v91(std::string&);
+    // Original Container::IsAnimated virtual (libDungeonHunter2.so 0x39f37c)
+    // is a literal return-1 body. Called on this retained Openable/Container
+    // receiver when its VisualObject::SetParent dispatches to its parent.
+    bool source_is_animated_v166() const noexcept{return true;}
     bool is_locked() const;
     bool is_interactive(bool disabled81) const;
     static constexpr std::int32_t loot_fixed_num_powers() noexcept{return -1;} // source39f35c

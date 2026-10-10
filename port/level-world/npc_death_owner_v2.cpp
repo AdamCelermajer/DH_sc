@@ -19,6 +19,11 @@ void NpcDeathOwnerV2::refresh_dispatch()noexcept{
 int NpcDeathOwnerV2::invoke(void* p,AIDeathState64* d,const AIDeathRequest48* q){
  auto& t=*static_cast<NpcDeathOwnerV2*>(p);
  if(!q||d!=t.b_.death||!t.coherent()){t.error_="Required SAME NPC death/AI/FSM/target/timer/skill graph";return -1;}
+ // AI_SetDead stores both stopped timer IDs as -1 immediately before its
+ // reciprocal aggro callbacks. Publish that source prefix now so a nested
+ // Script/AI delivery cannot observe the stale pre-death IDs.
+ if(q->service==ai_death_clear_all_aggro&&t.s_.publish_timer_ids)
+  t.s_.publish_timer_ids(t.s_.context);
  bool okay=false;
  switch(q->service){
  case ai_death_group:

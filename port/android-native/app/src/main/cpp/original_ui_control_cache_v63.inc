@@ -11,12 +11,21 @@ struct SourceControlCacheV63 {
  bool initialize(ui::SwfAsGraph& graph,std::uintptr_t fx,std::int32_t style,ui::AuthoredJoystickStateV1& joystick,std::uint8_t& initialized,std::string& e){
   ui::SwfAsValue root;if(!graph.root_value(root,e))return false;
   auto find=[&](const ui::SwfAsValue& base,const char* path,ui::SwfAsValue& out){ui::AuthoredMenuSearchIndexV1 index;bool found{};
-   if(!index.initialize(graph,base,e)||!index.find(path,out,found,e))return false;if(!found)out={};return true;};
+   if(!index.initialize(graph,base,e)||!index.find(path,out,found,e))return false;
+   // RenderFX::Find7a9160 falls back to the SAME root.find_target after its
+   // display-name searches miss. _root is an AS alias, not a literal name in
+   // the SearchIndex paths assembled from unnamed native root characters.
+   if(!found||!out.identity()){
+    if(!graph.find_target(root,path,out,e))return false;
+    found=out.identity()!=0;
+   }
+   if(!found||!out.identity()){e=std::string("HUDControls required source target missing: ")+path;return false;}return true;};
   auto object=[&](const ui::SwfAsValue& value,gameswf::character*& out){out=nullptr;if(!value.identity())return true;gameswf::as_object* raw{};
    if(!graph.borrow_object(value,raw,e))return false;if(!raw||!raw->is(gameswf::character::m_class_id)){e="HUDControls cache Find returned non-character";return false;}out=static_cast<gameswf::character*>(raw);return true;};
   auto assign=[&](std::uint32_t offset,const ui::SwfAsValue& value,const char* path,const ui::SwfAsValue& base){gameswf::character* raw{};if(!object(value,raw))return false;
    auto& c=cache.at(slot(offset));c.character=raw;if(path)c.path8=path;c.render20=fx;c.root24=base.identity();return true;};
-  ui::SwfAsValue hud;if(!find(root,("_root.menu_HUD_"+std::to_string(style)).c_str(),hud)||!assign(0x388,hud,nullptr,{}))return false;
+  ui::SwfAsValue hud;const auto hud_path=("_root.menu_HUD_"+std::to_string(style));
+  if(!find(root,hud_path.c_str(),hud)||!assign(0x388,hud,nullptr,{}))return false;
   auto refresh=[&](std::uint32_t offset,const char* path,const ui::SwfAsValue& base){ui::SwfAsValue value;
    return find(base.identity()?base:root,path,value)&&assign(offset,value,path,base);};
   if(!refresh(0x1c,"HUDelements.controls.controls.Joystick.stick",hud)||

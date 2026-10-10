@@ -1,0 +1,64 @@
+{
+  "status": "exact original subset; unavailable cues not substituted",
+  "entries": [
+    {
+      "path": "data/pydata/sdd_dungeon_hunter_2_iphone_pyarray.bin",
+      "size": 5108,
+      "sha256": "fb02b0ce7bc6d3e5ac38d1c72ed07006a00f68de04ec8d3568b652a9dfc33784"
+    },
+    {
+      "path": "data/pydata/sdd_dungeon_hunter_2_iphone_pyarraynames.bin",
+      "size": 15457,
+      "sha256": "b4853f80a9b39070c6e5dcf6920ad05dbeacbd6c8428aee861ffb38e3dd4184d"
+    },
+    {
+      "path": "data/sounds/sfx_cutscene_moth.wav",
+      "size": 374376,
+      "sha256": "47d1460f473d1b7da29a9ea4f4aab598cda900980b6e1b7e8dbf06c338da4258"
+    },
+    {
+      "path": "data/sounds/sfx_swoosh_sword_1_22.wav",
+      "size": 15836,
+      "sha256": "b4119576a8bd3f6536698b7d0b1f50a1ae2459182f3f55e15c9ad3bf79b1e779"
+    },
+    {
+      "path": "data/sounds/sfx_swoosh_sword_2_22.wav",
+      "size": 12226,
+      "sha256": "ba296cc0e8a6d2406137eb184b083567765c3435fa0b2a31edef2171f209e7b5"
+    },
+    {
+      "path": "data/sounds/sounds.xml",
+      "size": 102135,
+      "sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e"
+    }
+  ],
+  "source_streams": "port/engine-audio/reference/source-bindings-v38 exact original Sounds streams",
+  "source_pack": ".local-inputs/audio-v34/cache/sounds.xml",
+  "source_samples": ".local-inputs/audio-v34/cache exact filenames",
+  "accepted_source_ordinals": [
+    {
+      "ordinal": 232,
+      "uid": 22,
+      "name": "WeaponSwoosh1"
+    },
+    {
+      "ordinal": 233,
+      "uid": 23,
+      "name": "WeaponSwoosh2"
+    },
+    {
+      "ordinal": 363,
+      "uid": 459,
+      "name": "sfx_cutscene_moth"
+    }
+  ],
+  "unavailable": [
+    {
+      "ordinal": 328,
+      "uid": 252,
+      "name": "sfx_cave_troll_smash_ground",
+      "filename": "sfx_cave_troll_smash_ground.wav",
+      "reason": "absent in audio-v34/cache and canonical game cache ZIP; preserve unavailable diagnostic"
+    }
+  ]
+}

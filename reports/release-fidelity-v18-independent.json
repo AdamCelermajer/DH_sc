@@ -1,0 +1,110 @@
+{
+  "audit": "independent packaged v18 release fidelity",
+  "date": "2026-10-09",
+  "evaluator": "LunaHIGH",
+  "verdict": "replacement v18 menu/text subset verified; whole-game release acceptance not established",
+  "package": {
+    "path": ".local-inputs/windows-source-clock-checkpoint-v18",
+    "source_sha256": "79e566435081650206a03ecb028736a97770fa28d38722438a1a90645e7819d8",
+    "source_file_count": 572,
+    "reported_ctest": "75/75 passed",
+    "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v18.json",
+    "runtime_report_status": "diagnostic_packaged_runtime_verified_fidelity_incomplete",
+    "runtime_report_package_files_verified": 572,
+    "superseded": false,
+    "supersedes_candidate": "235823bb25942a3df73f1dcbfcc98605db1f301b718c14c78ca2c9e73c5011f5",
+    "previous_candidate_failure": "The old candidate's resized 4:3 Stats capture clipped or dropped glyph letters because the glyph cache key omitted raster width and actual RGBA/image dimensions. That failure is retained as history and does not describe the replacement captures.",
+    "menu_text_report": "port/windows-foundation/reports/packaged-menu-combat-text-v18.json"
+  },
+  "visual_evidence": [
+    {
+      "capture": ".local-inputs/windows-source-clock-checkpoint-v18/menu-verification.png",
+      "observation": "The live Stats page uses the source menu frame, portrait, tab strip, left attribute rows and right statistics panel. Pixel inspection shows a coherent full-window composition at 1200x720. It is a fresh diagnostic Warrior profile: header PLAYER / WARRIOR LVL: 1, 0 points, Strength 10, unlike reference-391/393 (CRISP82 / Warrior Lvl: 2, 2 or 0 points and different attributes). Therefore this is layout/render evidence, not matched-state visual parity."
+    },
+    {
+      "capture": ".local-inputs/windows-source-clock-checkpoint-v18/menu-wide-verification.ppm",
+      "sha256": "2dfac70097ab11766b8c7d39811a9caca62d01c39d175fdeaad30aa290bc4b54",
+      "observation": "At 1600x900 after a logged resize, the Stats art and text still fill the window without letterboxing. The viewport implementation uses source FlashCamera SetBounds mode 0 behavior: independent width and height scales from 480x320, with zero translation; release hit tests divide by those same independent axis scales."
+    },
+    {
+      "capture": ".local-inputs/windows-source-clock-checkpoint-v18/menu-four-three-verification.ppm",
+      "sha256": "c023ccd79beebd8c560e4e6e4a5d29a294fdc9d3c72465402a6f569793439c73",
+      "observation": "PASS for glyph legibility at 960x720 after resize. I inspected the full frame: Stats, Player, Warrior Lvl: 1, HP/MP/EXP, Points Left 0, Strength 10, Dexterity 5, Endurance 8, Energy 3, R-DAM 13–17, Attack Rating 69, Melee Crit 5%, Defense Rating 36, Armor 4, and all Resistances labels/values are complete and readable. The selected Stats tab is red and the zero-points presentation is gray, consistent with source frame style. This is a fresh diagnostic profile, not a matched-state recreation of reference-391/393."
+    },
+    {
+      "capture": ".local-inputs/windows-source-clock-checkpoint-v18/menu-four-three-fresh-verification.ppm",
+      "sha256": "4ea5000b51ae26b6a53dd86a40aa62e2dae2e75e71f8d5b63bddcb4197a5cd61",
+      "observation": "PASS as a fresh 960x720 baseline. All Stats labels and numeric fields listed above remain fully legible; class header and selected red Stats tab are intact, with Points Left 0 displayed. Independent raw PPM comparison against the resized capture found zero changed channel values in verifier crop [120,310,410,365] (the full Strength label/value region): 47,850 channel values compared, 0 changed. Full frames differ in unrelated pixels, so this crop result is not represented as a whole-frame equality."
+    },
+    {
+      "capture": ".local-inputs/windows-source-clock-checkpoint-v18/combat-text-verification.ppm",
+      "sha256": "54433b410050fbb34aa71ed387665a188d4b7008bfb9f710da0572c274c01e0e",
+      "observation": "At 1201x720, the engaged Bogwomp scene displays complete yellow 32 and orange Miss labels. The text remains readable in the fresh-resolution screenshot; the matching result log reports source damage of 32.2539 and zero-damage Miss."
+    },
+    {
+      "capture": ".local-inputs/windows-source-clock-checkpoint-v18/combat-text-resize-verification.ppm",
+      "sha256": "02e3c35465efe2a0fb089cb44f00768afef0cad60ed94d26a26ecc564d92f26c",
+      "observation": "Rendered combat includes yellow damage number 32 and orange Miss near the engaged Bogwomp after resizing to 1600x900. The log associates them with synchronous original melee results (32.2539 damage and zero-damage Miss) and reports two labels over 39 drawn frames. This demonstrates the scoped result-to-presentation path; full original CUI call order remains incomplete."
+    },
+    {
+      "capture": ".local-inputs/windows-source-clock-checkpoint-v18/combat-text-restore-verification.ppm",
+      "sha256": "073e3691c9997ae9a0455ae71fc8dc7352cd0278f34b52d649b0346223af02e3",
+      "observation": "The restore run logs damage, Miss, a lethal 16-damage result, then successful checkpoint restoration at frame 130. Its report confirms three captured results and a clean exit. This is a deterministic diagnostic combat/save path, not campaign save acceptance."
+    },
+    {
+      "capture": ".local-inputs/windows-source-clock-checkpoint-v18/default-run-verification.ppm",
+      "observation": "The fresh default route shows a rendered swamp walkway, player portrait/health/mana and multiple placed characters. The camera/actor arrangement is not matched to an identified reference frame, and the full mobile HUD controls are absent. It supports a default-world rendering claim only; the source video audit still says normal entrances and population selection are unresolved."
+    }
+  ],
+  "source_contract_checks": {
+    "menu_source_art": {
+      "file": "port/windows-foundation/features/character_menu/original_art.cpp",
+      "sha256": "41AFAE0D4B7C65F2319588689AFFF40047FEC9ED825739498960C3D1AAD4C2D1",
+      "result": "Matches the requested frozen art identity."
+    },
+    "class_header": "The live menu locates the same player's definition_id in the original CharacterTable names, reads ClassString at source field index 5, localizes its numeric string ID, and constructs class + localized level label + saved level. The diagnostic capture's PLAYER / Warrior Lvl: 1 is consistent with its fresh fixture and is not the CRISP82 reference save. The field's tests also verify ClassID differs from the CharacterTable row index, so those indices must not be conflated.",
+    "presentation_observer": "PlayableActorWorld calls the optional result observer synchronously after original damage resolution and before queuing the result. Observer failure records a presentation diagnostic; it does not reject damage or suppress the original result. The host drains and prints those diagnostics. The live adapter's observer snapshots the result and pre-motion target position; tests check unchanged HP, same-frame idempotence, zero-damage not fabricating Miss, caller-owned frame time, and clear-on-reload. This validates a read-only presentation seam, not complete original HUD scheduling/CUI order.",
+    "faery_release_gate": "NOT READY: reports/feature-faery-menu.json still marks live integration NOT RUN and requires same-player Save/FaeryTable, difficulty, actual unlock/localization query owners, and ChangeFaery callback. README.txt explicitly says Equipment, Skills and Faery remain in development. The Faery provider's art checks are not a bound live page."
+  },
+  "latest_runtime_evidence": {
+    "default_run": "default-run-verification.log and its PPM capture record a fresh default route and source movement checks. The screenshot shows the starting world but lacks matched route, player-state and HUD comparison against a reference frame.",
+    "combo": "combo-held, combo-release, combo-accepted-release and combo-blocked logs/captures exercise deterministic source combo windows and accepted continuation; they do not establish native callback reentry, normal encounter routing or whole-game combat fidelity.",
+    "campaign_population": "The package README and fidelity-video-audit-v18 continue to record unresolved authored conditions, symbolic Swamp_CommonType1/2 selection and normal entrance trigger/script admission. Default diagnostics load 13 enabled actors; diagnostic spawn is not normal campaign execution.",
+    "movement": "Original source rotation and the scoped manual heading continuation are present, but the video audit explicitly leaves controlled W/S reversal timing, root-delta projection and complete controller/FSM/path/physics frame parity unresolved. No shake behavior is added without matched evidence."
+  },
+  "replacement_review": {
+    "status": "complete for the packaged Stats glyph/resize subset; whole-game and remaining root checks still pending",
+    "required_pixel_checks": [
+      "PASS: inspected both resized and fresh 960x720 menu captures at full resolution; all Stats labels and full words are legible.",
+      "Reviewed default and restore captures: both show gameplay with the menu closed, so they provide no menu glyph evidence. The Stats capture remains a different diagnostic profile from reference frames 391/393.",
+      "Resize correctness is supported by direct 4:3 capture review and the exact fresh-versus-resized Strength crop pixel comparison; this does not establish other viewport/font cases."
+    ],
+    "new_candidate_identity": "79e566435081650206a03ecb028736a97770fa28d38722438a1a90645e7819d8",
+    "new_candidate_runtime_verifier": "PASS; 572 package files verified; reports/packaged-source-clock-runtime-v18.json",
+    "new_candidate_ui_text_verifier": "PASS; six packaged menu/combat-text cases; reports/packaged-menu-combat-text-v18.json",
+    "remaining_root_validation": "Root reports two negative-save probes PASS for this hash; its combo/default five-case session (1265) was still running when this independent capture audit completed."
+  },
+  "release_blockers": [
+    {
+      "severity": "high",
+      "gap": "No matched-state direct video comparison for the Stats capture; diagnostic name, level and stats differ from reference frames 391 and 393."
+    },
+    {
+      "severity": "high",
+      "gap": "Character menu release coverage is Stats-only. Equipment, Skills and Faery remain unbound or incomplete; Faery's live same-owner readiness gate is not satisfied."
+    },
+    {
+      "severity": "high",
+      "gap": "Normal campaign entrance triggers, source conditions and symbolic enemy template selection remain unresolved; diagnostic spawn does not prove the original route."
+    },
+    {
+      "severity": "high",
+      "gap": "Whole-game/video fidelity, complete movement composition, AI/navigation/physics, full HUD/audio/effects/cinematics, and representative later maps/classes/bosses remain outside the demonstrated release scope."
+    },
+    {
+      "severity": "medium",
+      "gap": "Combat text captures prove authentic result selection and source styles for the scoped diagnostic combat, while full CUI call ordering and campaign-driven HUD behavior remain incomplete."
+    }
+  ],
+  "conclusion": "The 79e566...7819d8 replacement fixes the specific 4:3 resized menu glyph defect: both fresh and resized 960x720 captures are fully legible, and the Strength label/value crop matches byte-for-byte across all RGB channels. The earlier 235823...11f5 capture remains a documented failure and is superseded. This closes only the inspected Stats resize/glyph issue. Equipment, Skills, Faery live integration, normal campaign entrances/population, matched-state movement/video parity, and whole-game coverage remain incomplete; package/component passes do not establish release acceptance."
+}

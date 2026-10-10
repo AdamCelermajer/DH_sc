@@ -1,0 +1,87 @@
+{
+  "source": "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\menus\\dqmenus.swf",
+  "source_sha256": "3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5",
+  "bitmaps": [
+    {
+      "bitmap_id": 1,
+      "width": 2048,
+      "height": 1024,
+      "source_tag": 20,
+      "compressed_payload_sha256": "97a2e9c1228934630688ee862f1a2c32ca3a9539c57b316f32efc70887f65a7d",
+      "asset": "source_bitmap_1.tga",
+      "sha256": "e1f5aeed663da6295a72fac129304505e18ec4fd78eec335ce6d26a45cd5ff4c"
+    },
+    {
+      "bitmap_id": 8,
+      "width": 1024,
+      "height": 1024,
+      "source_tag": 36,
+      "compressed_payload_sha256": "66299dabffd41368c7b714f122d3c70de8a1f2d925dbe86bd46c422b3b3a65a0",
+      "asset": "source_bitmap_8.tga",
+      "sha256": "e406ed876a25f88a21846c65e16050e822c24cdb660e1b7c01f2fefbedd1ff11"
+    },
+    {
+      "bitmap_id": 15,
+      "width": 512,
+      "height": 512,
+      "source_tag": 36,
+      "compressed_payload_sha256": "ede7543b4a33ddefed75683948adb8e9d181837269df3867dfcb193d66e15961",
+      "asset": "source_bitmap_15.tga",
+      "sha256": "bdd00a567c82df18ed31409bedfa7d4becc5d9505af078143e02e584a2d44d2f"
+    },
+    {
+      "bitmap_id": 44,
+      "width": 512,
+      "height": 512,
+      "source_tag": 36,
+      "compressed_payload_sha256": "220bed372d31c2afb6020024f0e16d27184218c99c8d938474941ccee0508a57",
+      "asset": "source_bitmap_44.tga",
+      "sha256": "4628431171942082b6674b028b3a19f8131d26ac0c806fc06c29caa258d22325"
+    },
+    {
+      "bitmap_id": 52,
+      "width": 1024,
+      "height": 1024,
+      "source_tag": 36,
+      "compressed_payload_sha256": "9ad54d0861f76bb477eda25e6024d4830a79b6d3d5af7d2f0949f0ee158a9471",
+      "asset": "source_bitmap_52.tga",
+      "sha256": "5ceb1e236aa212bc39a60d047a797d8fd3d9c65bc9ce1c3bb504b5c1aae45efb"
+    },
+    {
+      "bitmap_id": 62,
+      "width": 1024,
+      "height": 1024,
+      "source_tag": 36,
+      "compressed_payload_sha256": "36678faaa3638b2575557d173eba577a8e0f5ff6ef5887aa1c8bbfda883faace",
+      "asset": "source_bitmap_62.tga",
+      "sha256": "14e80405943888f8fc91c52f6718f24d17246e8c0191d3a8beca4634176fcab4"
+    },
+    {
+      "bitmap_id": 98,
+      "width": 512,
+      "height": 512,
+      "source_tag": 36,
+      "compressed_payload_sha256": "2f046149b8053cd89dcc812e931055425d7a79b12938b8fb0481a0e1fd155714",
+      "asset": "source_bitmap_98.tga",
+      "sha256": "5c1c83794c0649b157de33d0c3af47ccf0572635ec902d89e90b625a58949601"
+    },
+    {
+      "bitmap_id": 431,
+      "width": 1024,
+      "height": 1024,
+      "source_tag": 36,
+      "compressed_payload_sha256": "28f9ca4c70190f264b84d1a06061f5909658ded1740076e103ecba946c51c794",
+      "asset": "source_bitmap_431.tga",
+      "sha256": "5ceb1e236aa212bc39a60d047a797d8fd3d9c65bc9ce1c3bb504b5c1aae45efb"
+    },
+    {
+      "bitmap_id": 448,
+      "width": 256,
+      "height": 256,
+      "source_tag": 36,
+      "compressed_payload_sha256": "286c74e6b056829ca0bb7fbdbe20103c6b1440e59e58a94a7644a91d5fed8540",
+      "asset": "source_bitmap_448.tga",
+      "sha256": "32fbd4345bc5bdb8f8b54214e748057dc79e1058617f9d012b52b4e7f1dd4a98"
+    }
+  ]
+}

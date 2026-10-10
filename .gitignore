@@ -30,3 +30,9 @@ port/**/reports/**/*.mp4
 port/**/reports/**/*.zip
 port/**/reports/**/*.ppm
 *.ppm
+
+# Android emulator logs (bulky, regenerable)
+port/android-native/reports/**/*.log
+port/engine-resources/reports/**/*-O1
+port/engine-resources/reports/**/*-O2
+port/engine-resources/reports/**/fixture-O[12]

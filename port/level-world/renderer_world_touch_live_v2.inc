@@ -15,10 +15,18 @@ struct RendererWorldTouchLiveV2 {
   const ui::OwnedHudSettingsV1* settings{};
   const data::DesignSettingsProjection176* design{};
   std::function<bool(std::uint32_t,bool&,std::string&)> debug;
+  // Direct Character::Ctrl_HeadTo/MoveTo point virtuals selected by the
+  // original Ctrl_Click press/release branch; this retains the same player,
+  // controller, and PFWorld route owners.
+  std::function<bool(const std::array<float,3>&,bool,std::string&)> source_click_move_v20;
   // When the live source camera is connected, use its unmodified engine
   // frustum ray. GPU-only depth/orientation conversion is not a picking input.
   std::function<bool(std::int32_t,std::int32_t,std::array<float,3>&,std::array<float,3>&,std::string&)> source_screen_ray_v20;
  } same;
+ bool invoke_source_click_move_v20(const std::array<float,3>& point,bool released,std::string& error){
+  if(!same.source_click_move_v20){error="Required same-player Character Ctrl_Click point virtual";return false;}
+  return same.source_click_move_v20(point,released,error);
+ }
  bool dispatch(float x,float y,bool released,bool& floor_hit,std::string& error){
   floor_hit=false;
   if(!same.world||!same.floors||!same.machine||!same.target||!same.design||!same.blocked||!same.forced){error="World touch requires same World/Floor/State/Target/Design/controller owners";return false;}
@@ -77,10 +85,12 @@ struct RendererWorldTouchLiveV2 {
   // Preserve row bits; these floats are immutable per synchronous dispatch.
   float enemy{},friendly{},generic{};std::memcpy(&enemy,&same.design->words[0x2c/4],4);std::memcpy(&friendly,&same.design->words[0x50/4],4);std::memcpy(&generic,&same.design->words[0x54/4],4);
   click.enemy_radius2c=&enemy;click.friend_radius50=&friendly;click.object_radius54=&generic;click.debug=same.debug;
-  // Current DACT adoption registers Characters only. Do not invent a generic
-  // ObjectManager tree or successful click-to-move producer when reached.
-  click.objects=[](bool,std::uintptr_t&,std::uintptr_t&,std::string& e){e="Required canonical generic ObjectManager click tree (DACT development adapter)";return false;};
-  click.move=[](const std::array<float,3>&,bool,std::string& e){e="Required source Ctrl_Click movement continuation";return false;};
+  // The current retained World graph registers only Characters. Its generic
+  // ObjectManager projection is empty, so the original secondary object scan
+  // reaches its sentinel without inventing generic objects.
+  click.objects=[](bool first,std::uintptr_t& cursor,std::uintptr_t& id,std::string&){cursor=first?0:cursor;id=0;return true;};
+  click.excluded_type_name="Character";
+  click.move=[&](const std::array<float,3>& p,bool released,std::string& e){return invoke_source_click_move_v20(p,released,e);};
   auto fields=pending.borrow(same.target->owner?same.target->owner->identity:0,*same.target,same.target_services);
   return world_click_target_v1(fields,point,released,click,error);
  }

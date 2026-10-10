@@ -242,7 +242,13 @@ bool GameObjectSceneRootRegistryV1::retire_source_cached_aliases_v106(std::strin
  // scene-phase error. This adds no source animation/counter advancement.
  if(!drain_parent_prefixes_v110(0,e))return false;
  collected_roots_v69_.clear();update_nodes_v102_.clear();update_nodes_produced_v102_=false;
- source_clear_preloaded_scenes_v81();notify_hierarchy_changed();e.clear();return true;
+ source_clear_preloaded_scenes_v81();notify_hierarchy_changed();
+ // Only the completed empty clear releases a previous campaign's failure.
+ // Native drops may republish roots/receipts; retain the latch in that case.
+ if(scene_busy_v69_||!children_.empty()||!parent_prefixes_v110_.empty()){
+  e="Scene clear callbacks retained actual root/reference delivery";return false;
+ }
+ scene_failed_v69_=false;scene_error_v69_.clear();e.clear();return true;
 }
 }
 

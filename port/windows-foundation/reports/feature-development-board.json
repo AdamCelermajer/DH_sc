@@ -1,0 +1,265 @@
+{
+  "date": "2026-10-09",
+  "goal_complete": false,
+  "policy": "Features develop in parallel. Release priority and fidelity gates are separate from development activity. Component evidence does not establish live/runtime/reference completion.",
+  "developers": 23,
+  "root_ownership": [
+    "main.cpp",
+    "CMakeLists.txt",
+    "shared core integration",
+    "packaged releases"
+  ],
+  "next_release_priority": [
+    "canonical native owner publication",
+    "mob combat/AI and death-to-loot/XP loop",
+    "full character menu integration continuing in parallel"
+  ],
+  "subsequent_integration_priority": [
+    "class skills",
+    "equipment/inventory/skill tabs",
+    "audio/effects and companions"
+  ],
+  "tracks": [
+    {
+      "feature": "character_menu",
+      "owner": "/root/character_state",
+      "owned_path": "port/windows-foundation/features/character_menu",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "v18_stats_subset_verified_full_equipment_skills_faery_incomplete",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "skills_animation",
+      "owner": "/root/animation_review",
+      "owned_path": "port/windows-foundation/features/skills_animation",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "combo_chain",
+      "owner": "/root/windows_portability",
+      "owned_path": "port/windows-foundation/features/combo_chain",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "v17_source_combo_subset_verified_full_consumers_incomplete",
+      "reference_acceptance": "incomplete",
+      "integration_report": "port/windows-foundation/reports/controls-combo-integration-v17.json"
+    },
+    {
+      "feature": "enemy_ai",
+      "owner": "/root/synchronous_damage_v14",
+      "owned_path": "port/windows-foundation/features/enemy_ai",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "combat_text",
+      "owner": "/root/asset_catalog",
+      "owned_path": "port/windows-foundation/features/combat_text",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "v18_live_text_subset_verified_full_native_call_order_incomplete",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "actor_frame",
+      "owner": "/root/original_character",
+      "owned_path": "port/windows-foundation/features/actor_frame",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "navigation",
+      "owner": "/root/original_scene",
+      "owned_path": "port/windows-foundation/features/navigation",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "cinematics",
+      "owner": "/root/camera_timeline",
+      "owned_path": "port/windows-foundation/features/cinematics",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "portrait_alignment",
+      "owner": "/root/asset_tests",
+      "owned_path": "port/windows-foundation/hud_geometry.cpp",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "verified_v16_bounded_subset_full_feature_incomplete",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "acceptance",
+      "owner": "/root/acceptance_audit",
+      "owned_path": "port/windows-foundation/reports/feature-acceptance.json",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "encounters",
+      "owner": "/root/act1_inventory",
+      "owned_path": "port/windows-foundation/features/encounters",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "loot",
+      "owner": "/root/packaging",
+      "owned_path": "port/windows-foundation/features/loot",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "campaign_save",
+      "owner": "/root/save_store",
+      "owned_path": "port/windows-foundation/features/campaign_save",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "platform_input",
+      "owner": "/root/toolchain",
+      "owned_path": "port/windows-foundation/features/platform_input",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "verified_v16_bounded_subset_full_feature_incomplete",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "inventory",
+      "owner": "/root/inventory_feature",
+      "owned_path": "port/windows-foundation/features/inventory",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "equipment",
+      "owner": "/root/equipment_feature",
+      "owned_path": "port/windows-foundation/features/equipment",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "skill_ui",
+      "owner": "/root/skill_ui_feature",
+      "owned_path": "port/windows-foundation/features/skill_ui",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "audio",
+      "owner": "/root/audio_feature",
+      "owned_path": "port/windows-foundation/features/audio",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "effects",
+      "owner": "/root/effects_feature",
+      "owned_path": "port/windows-foundation/features/effects",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "status_effects",
+      "owner": "/root/status_feature",
+      "owned_path": "port/windows-foundation/features/status_effects",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "companions",
+      "owner": "/root/companions_feature",
+      "owned_path": "port/windows-foundation/features/companions",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "quests",
+      "owner": "/root/quests_feature",
+      "owned_path": "port/windows-foundation/features/quests",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    },
+    {
+      "feature": "interactions",
+      "owner": "/root/interaction_feature",
+      "owned_path": "port/windows-foundation/features/interactions",
+      "development_status": "in_development",
+      "code_present": true,
+      "runtime_acceptance": "not_accepted",
+      "reference_acceptance": "incomplete"
+    }
+  ],
+  "latest_verified_release": ".local-inputs/windows-source-clock-checkpoint-v18",
+  "latest_release_report": "port/windows-foundation/reports/menu-combat-text-integration-v18.json",
+  "future_frontend": {
+    "lead": "/root/frontend_orchestrator",
+    "workers": 6,
+    "path": "port/windows-foundation/features/frontend",
+    "status": "in_development_reference_gate_failed_until_fixed",
+    "original_reference_images": [
+      "C:/Users/adamc/AppData/Local/Temp/codex-clipboard-cd4abf24-31d5-45e1-843f-57fc5947883a.png",
+      "C:/Users/adamc/AppData/Local/Temp/codex-clipboard-1954b4a7-1f7d-49e0-8fbc-9b4255683759.png",
+      "C:/Users/adamc/AppData/Local/Temp/codex-clipboard-1428e82b-433b-4258-95e0-363d0a1cc049.png"
+    ],
+    "requirements": [
+      "original main menu scene/buttons/profile projection",
+      "original name entry and keyboard",
+      "actual class selection showcase/transition/idle animations",
+      "independent clickable native run and original-reference visual comparison"
+    ]
+  },
+  "character_menu_contract": {
+    "complete": false,
+    "required_pages": [
+      "Stats",
+      "full Equipment",
+      "full Skills",
+      "full Faery",
+      "Quest",
+      "Map"
+    ],
+    "orchestration_owner": "/root/integration_lead",
+    "acceptance": "Full contents/actions plus packaged runtime and original-reference verification required for every page."
+  },
+  "act1_required_coverage": "port/windows-foundation/reports/act1-feature-coverage.json"
+}

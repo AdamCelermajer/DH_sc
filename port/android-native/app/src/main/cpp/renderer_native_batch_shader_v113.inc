@@ -18,16 +18,21 @@ bool update_native_batch_attributes_v113(const dh2::world::NativeBatchPartV111& 
  if(!draw.native_shader_v113||!draw.native_shader_v113->program){e="Actual compiled shader owner absent";return false;}auto& gpu=*draw.native_shader_v113;
  for(const auto& binding:gpu.program->attributes()){
   const auto slot=binding.source_slot;const auto& stream=part.attributes.at(slot);const auto n=part.vertices.size();
-  if(stream.values.size()!=n||!stream.components||stream.components>4){e="Actual selected shader requires absent source attribute "+std::to_string(slot);return false;}
+  const bool default_color=slot==2&&dh2::world::native_batch_default_color_v113(part);
+  if(!default_color&&(stream.values.size()!=n||!stream.components||stream.components>4)){
+   e="Actual selected shader "+part.pass_v112.vertex_file+" requires absent source attribute "+std::to_string(slot)+
+    " (node="+std::to_string(part.source_node)+", primitive="+std::to_string(part.source_primitive_v111)+")";return false;
+  }
   dh2::resources::CpuVectorCapacityV41 charge;std::vector<std::array<float,4>> values;
   if(!dh2::resources::reserve_cpu_vector_v41(values,charge,dh2::android_resources::budget_lease_v39(),dh2::resources::ResourceScopeV37::world,n,e))return false;values.resize(n);
-  const auto width=slot==0?3u:stream.components;
-  for(std::size_t i=0;i<n;++i){values[i]=stream.values[i];
-   if(slot==0)std::copy_n(part.vertices[i].position,3,values[i].data());
-   else if(slot==1&&!part.quantized_normal.empty()){for(unsigned k=0;k<3;++k)values[i][k]=float(part.quantized_normal.at(i)[k])/32767.f;}
-   else if(slot==4&&!part.quantized_uv.empty())std::copy_n(part.vertices[i].uv,2,values[i].data());
-   else if(!stream.quantized_components.empty()){for(unsigned k=0;k<width;++k)values[i][k]=float(stream.quantized_components.at(i)[k])*stream.quantized_scale[k]+stream.quantized_offset[k];}
-   else if((slot==2||slot==3)&&stream.source_type==1){for(unsigned k=0;k<width;++k)values[i][k]/=255.f;}
+  const auto width=slot==0?3u:default_color?4u:stream.components;
+  for(std::size_t i=0;i<n;++i){if(default_color)std::copy_n(part.vertices[i].color,4,values[i].data());
+   else{values[i]=stream.values[i];if(slot==0)std::copy_n(part.vertices[i].position,3,values[i].data());
+    else if(slot==1&&!part.quantized_normal.empty()){for(unsigned k=0;k<3;++k)values[i][k]=float(part.quantized_normal.at(i)[k])/32767.f;}
+    else if(slot==4&&!part.quantized_uv.empty())std::copy_n(part.vertices[i].uv,2,values[i].data());
+    else if(!stream.quantized_components.empty()){for(unsigned k=0;k<width;++k)values[i][k]=float(stream.quantized_components.at(i)[k])*stream.quantized_scale[k]+stream.quantized_offset[k];}
+    else if((slot==2||slot==3)&&stream.source_type==1){for(unsigned k=0;k<width;++k)values[i][k]/=255.f;}
+   }
   }
   if(gpu.attributes[slot])buffer_subdata_v41(gpu.attributes[slot],GL_ARRAY_BUFFER,buffer_bytes_v41(values.size(),sizeof(values[0])),values.data(),dh2::resources::ResourceScopeV37::world);
   else buffer_storage_v41(gpu.attributes[slot],GL_ARRAY_BUFFER,buffer_bytes_v41(values.size(),sizeof(values[0])),values.data(),part.dynamic_v112?GL_DYNAMIC_DRAW:GL_STATIC_DRAW,dh2::resources::ResourceScopeV37::world);
@@ -65,7 +70,8 @@ bool submit_native_batch_shader_v113(const Draw& draw,const Matrix& wvp,std::str
  const Matrix identity{1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
  //The compiled vertex stream is already world-space, so World is the actual
  //identity transform of this compiled node, not an invented actor pose.
- std::array<Matrix,57> matrices{};matrices[35]=identity;matrices[36]=submitted_view;matrices[37]=submitted_projection_v113;matrices[38]=submitted_view;matrices[39]=wvp;
+ std::array<Matrix,57> matrices{};matrices[35]=draw.local_world_v124?draw.placement:identity;matrices[36]=submitted_view;matrices[37]=submitted_projection_v113;
+ matrices[38]=draw.local_world_v124?dh2::scene::multiply(submitted_view,draw.placement):submitted_view;matrices[39]=wvp;
  for(auto pair:{std::pair<unsigned,unsigned>{40,35},{41,36},{42,39},{43,38},{44,39},{54,37}})if(!inverse_batch_v113(matrices[pair.second],matrices[pair.first],e))return false;
  for(auto pair:{std::pair<unsigned,unsigned>{45,40},{46,41},{47,42},{48,43},{49,44},{50,35},{51,36},{52,38},{53,39},{55,37},{56,54}})matrices[pair.first]=transpose_batch_v113(matrices[pair.second]);
  std::vector<float> float_cells;std::vector<std::int32_t> int_cells;std::array<float,4> light_cells{};std::array<float,4> fog_color;

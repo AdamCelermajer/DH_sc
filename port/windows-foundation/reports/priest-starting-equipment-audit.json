@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "question": "Can PriestStartingLoot192/default NPC equipment/module or item material substitutions explain the red robe versus white/gold reference?",
+  "status": "starting_loot_equipment_path_excluded",
+  "conclusion": "The exact supplied cache PriestStartingLoot192 has no items, entries or subloots. The original AddLoot returns with an empty selected-entry vector; no item, gear model, material or costume can be produced from this loot. Reviewed default initialization does not supply a missing priest wardrobe. Appearance mismatch remains unresolved, and a cache/version mismatch is still only a hypothesis.",
+  "loot192": {
+    "name": "PriestStartingLoot",
+    "RollType": 0,
+    "NumRandomItemProbs": 20,
+    "FixedLootEntries": [],
+    "RandomLootEntries": [],
+    "SubLoots": [],
+    "note": "NumRandomItemProbs20 is a probability-table reference/value; it does not create random entries when the entry vector is empty."
+  },
+  "priest_properties": {
+    "source": ".local-inputs/windows-shared-assets/annotated-profiles.json",
+    "character": "WanderingPriest",
+    "model": "data/3D/characters/npcs/Priest_good.bdae",
+    "Loot": 192,
+    "ModularVisual": -1
+  },
+  "native_findings": [
+    {
+      "address": "0x3b395c",
+      "function": "Character::_InitEquipment",
+      "finding": "Existing inventory invokes INV_UpdateSkin. Otherwise property9 Loot passes to AddLoot; only generated equippable items enter auto-equip. Empty starting loot produces no equipment."
+    },
+    {
+      "address": "0x40407c",
+      "function": "ItemInventory::AddLoot",
+      "finding": "Calls _AddLootTable and immediately returns if selected-entry vector is empty; item creation/difficulty replacements and material-bearing Item records occur afterward."
+    },
+    {
+      "address": "0x4039a0",
+      "function": "ItemInventory::_AddLootTable",
+      "finding": "Appends fixed entries, processes random entries only when their vector count is nonzero, recurses only over actual SubLoots. Loot192 has zero count in all three branches; no default filler item selection."
+    },
+    {
+      "address": "0x3b4d60",
+      "function": "Character::InitPost",
+      "finding": "Direct _InitEquipment call is inside PlayerManager::IsLocalPlayer condition. NPC Priest does not receive local-player equipment initialization through this caller."
+    },
+    {
+      "address": "0x3a999c",
+      "function": "Character::INV_UpdateSkin",
+      "finding": "Iterates equipped slots; authored item module strings select modular categories for torso/feet/hands/head and weapon attachments. Unequipped categories use __naked; no priest diffuse texture/robe material replacement branch found."
+    },
+    {
+      "address": "0x470e18",
+      "function": "VisualObject::SetModularSkin",
+      "finding": "No operation without modular node or category id==-1; otherwise selects category module. No diffuse/material recoloring here."
+    },
+    {
+      "address": "0x470e5c",
+      "function": "VisualObject::GetModularCategoryId",
+      "finding": "Returns -1 when no modular skinned node is present."
+    }
+  ],
+  "evidence": {
+    "probe_source": "port/windows-foundation/reports/priest-loot-probe.cpp",
+    "probe_output": "port/windows-foundation/reports/priest-loot-probe.txt",
+    "native_parser": [
+      "port/game-data/items.cpp",
+      "port/game-data/loot_tables_v2.cpp"
+    ],
+    "cache_inputs": [
+      {
+        "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarray.bin",
+        "bytes": 284104,
+        "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+      },
+      {
+        "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarraynames.bin",
+        "bytes": 39604,
+        "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba"
+      },
+      {
+        "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pystructnames.bin",
+        "bytes": 8858,
+        "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+      }
+    ],
+    "native_sources": [
+      {
+        "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003b\\003b395c.c",
+        "sha256": "81ab64e6df33875c0c889b6c37b53b5275fa95b4eb6ad52af1c229780c6fa1a8"
+      },
+      {
+        "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0040\\0040407c.c",
+        "sha256": "c64f05936430a70c9cec6e83e7ff746add99b84109ebb2e2bca14ec5a6a4b277"
+      },
+      {
+        "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0040\\004039a0.c",
+        "sha256": "a38a4d272f90c4ed99d9d6090ff082ae83a6c9f121924bf6385abd20344214b2"
+      },
+      {
+        "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003a\\003a999c.c",
+        "sha256": "f37356b6d4f84d6f09fb81f19fa0df0bafc3265fac4c7e0ffb0e3d49ac51dfa7"
+      },
+      {
+        "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003b\\003b4d60.c",
+        "sha256": "5513692c59634349e22656f9f0c59f9e77550c9b6c120ec8a10dbce15d01ab07"
+      },
+      {
+        "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003f\\003ffd54.c",
+        "sha256": "fd2e22f99e0371009ca2bd465ac3582115f19fcd552230b800546fd8cfc48dfb"
+      },
+      {
+        "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0047\\00470e18.c",
+        "sha256": "5f6f3b0525e6fda1774475cc12474e70b19eae35e06054c11ce4ac2805237ffa"
+      },
+      {
+        "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0047\\00470e5c.c",
+        "sha256": "c7d95aff9ab9c0872815fff686bda3fccc84520570cfc8a1f989416ee455ec4e"
+      },
+      {
+        "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0047\\004718f0.c",
+        "sha256": "83693c496850b606f2e488fd9a3b340d489ebc6e6fbeb35eb4b7e6f54810e152"
+      }
+    ]
+  },
+  "init_equipment_direct_code_xrefs": [
+    {
+      "from": "0x3b54e0",
+      "to": "0x3b395c",
+      "type": 17,
+      "is_code": true,
+      "function": "0x3b4d60",
+      "caller": "Character::InitPost(void)"
+    },
+    {
+      "from": "0x429748",
+      "to": "0x3b395c",
+      "type": 17,
+      "is_code": true,
+      "function": "0x428f38",
+      "caller": "MenuCharacterSelect::Show(void)"
+    }
+  ],
+  "limits": [
+    "No global absence claim for all script-command, material-factory, saved inventory or manually equipped runtime paths.",
+    "The previously audited model has one skinned priest mesh, white vertex colors, a single authored UV set, and source atlas002; this audit does not alter these.",
+    "Same-version reference/cache provenance must be established before claiming a version gap."
+  ],
+  "source_modifications": "New probe/report only; no gameplay, material, UV, recolor, transform or actor-specific patches."
+}

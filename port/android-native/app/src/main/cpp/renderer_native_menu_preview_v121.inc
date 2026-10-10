@@ -23,7 +23,9 @@ struct NativeMenuFxDebugV121 {
  std::shared_ptr<SourceApplicationDebugTransportV61> source;
  std::shared_ptr<dh2::fx::DebugModules> modules;
 };
+struct NativeMenuSceneNodeV121;
 std::map<std::uintptr_t,std::weak_ptr<NativeMenuRendererDomainV121>> menu_renderer_domains_v121;
+std::weak_ptr<NativeMenuSceneNodeV121> class_selection_scene_node_v121;
 struct NativeMenuPropertyProviderV121 {
  std::shared_ptr<dh2::character::CharacterGameDesign> design;
  dh2::world::CanonicalPropertyMapV1 map;
@@ -46,7 +48,7 @@ std::map<std::uintptr_t,std::weak_ptr<NativeMenuPropertyProviderV121>> menu_prop
 struct NativeMenuSceneNodeV121:std::enable_shared_from_this<NativeMenuSceneNodeV121> {
  std::shared_ptr<NativeMenuRendererDomainV121> domain;
  std::uint32_t flags11c{0x60f},references{1};std::uintptr_t parentec{},manager110{};
- bool alive{true},local_visible{true},parent_visible{true};
+ bool alive{true},local_visible{true},parent_visible{true},has_modular_node_v114{};
  bool drop(std::string& e){
   if(!alive||!references){e="Menu scene node reference already retired";return false;}
   if(references==1&&parentec){e="Menu scene node still owns its source parent";return false;}
@@ -60,6 +62,17 @@ struct NativeMenuSceneNodeV121:std::enable_shared_from_this<NativeMenuSceneNodeV
   root.notify_visibility=[self](bool value,auto& e){if(!self->alive){e="Retired native menu scene visibility";return false;}self->parent_visible=value;e.clear();return true;};
   root.remove_animators=[self](auto& e){if(!self->alive){e="Retired native menu scene animator";return false;}player=dh2::animation::Player{};e.clear();return true;};
   root.scene_manager_changed=[self](auto id,auto& e){if(!self->alive){e="Retired native menu scene manager";return false;}self->manager110=id;e.clear();return true;};
+  // This receiver is the one retained menu-preview scene root produced by
+  // construct_scene above. Its authored BRES graph is consumed as renderer
+  // geometry/animation in this owner; it does not publish child
+  // CModularSkinnedMeshSceneNode receivers into SceneManager. SearchByType
+  // must still visit this root and observe its genuine empty descendant list
+  // before reaching a later Character VisualObject's modular node.
+  root.modular_receivers_v114=[self](auto& out,auto& e){
+   out.clear();if(!self->alive||!self->domain->current(e)){if(e.empty())e="Retired native menu modular-search root";return false;}
+   if(self->has_modular_node_v114){e="Menu BRES contains a modular node without a retained SceneManager child owner";return false;}
+   e.clear();return true;
+  };
   root.scene_phase_v69=[self](auto,auto& e){
    if(!self->alive||!self->domain->current(e))return false;
    // Rendering samples the SAME existing authored animation cursor. No second
@@ -146,6 +159,37 @@ bool borrow_native_menu_preview_domain_v121(const std::shared_ptr<dh2::applicati
   e.clear();return true;
  }catch(const std::exception& failure){e=failure.what();return false;}
 }
+bool register_class_selection_scene_root_v121(std::string& e){
+ if(!class_scene){e="Class-selection SceneManager root requires the loaded CLASS_SELECTION scene";return false;}
+ std::shared_ptr<dh2::application::ApplicationServicesOwnerV5> app;
+ if(!borrow_actual_application_services_v5(app,e)||!app)return false;
+ auto domain_entry=menu_renderer_domains_v121.find(app->identity());
+ auto native=domain_entry==menu_renderer_domains_v121.end()?nullptr:domain_entry->second.lock();
+ if(!native||!native->current(e)){if(e.empty())e="Required actual class-selection renderer resource domain";return false;}
+ auto camera=native->cameras.lock();auto scene=camera?camera->roots():nullptr;
+ if(!scene){e="Required same process SceneManager for CLASS_SELECTION root";return false;}
+ if(auto previous=class_selection_scene_node_v121.lock()){
+  if(previous->alive){
+   dh2::world::GameObjectSceneRootBorrowV1 registered;
+   if(scene->borrow_registered_root_v110(reinterpret_cast<std::uintptr_t>(previous.get()),registered,e)&&
+      registered.owner.get()==previous.get()&&previous->manager110==scene->scene_manager_identity_v16()){
+    e.clear();return true;
+   }
+   if(e.empty())e="Retained class-selection node is not the registered SceneManager root";
+   return false;
+  }
+ }
+ try{
+  auto node=std::make_shared<NativeMenuSceneNodeV121>();node->domain=native;
+  const auto root=node->borrow();
+  if(!scene->add_child(root,e))return false;
+  class_selection_scene_node_v121=node;
+  if(!node->drop(e))return false; //release CColladaDatabase constructor reference; SceneManager owns the root loan
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Class-selection SceneManager root published | root %zu | manager %zu",
+   static_cast<std::size_t>(root.identity),static_cast<std::size_t>(scene->scene_manager_identity_v16()));
+  e.clear();return true;
+ }catch(const std::exception& failure){e=failure.what();return false;}
+}
 bool build_native_menu_preview_renderer_services_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>& app,
  AAssetManager* assets,const std::string& directory,NativeMenuPreviewServicesV121& out,std::string& e){
  MenuPreviewProcessDomainV121 domain;if(!borrow_native_menu_preview_domain_v121(app,assets,directory,domain,e))return false;
@@ -167,15 +211,29 @@ bool build_native_menu_preview_renderer_services_v121(const std::shared_ptr<dh2:
  // The native backend shares its actual texture ownership ledger instead of
  // maintaining a second untracked C2D cache. Sweep only genuinely unused GPU
  // allocations; retained UI/movie textures survive both cleanup operations.
- out.free_textures=[](auto& e){return clean_native_graphics_v50(e);};out.clean_glitch=out.free_textures;
+ out.free_textures=[](auto& e){release_native_menu_geometry_v123(false);return clean_native_graphics_v50(e);};out.clean_glitch=out.free_textures;
  out.load_physics=[native](float x,float y,float right,float bottom,auto& e){if(!native->current(e)||!actor_world.cleanup_delivery_idle_v106()){if(e.empty())e="Menu physics load overlaps native delivery";return false;}const float bounds[]{x,y,right,bottom};actor_world.load(bounds);e.clear();return true;};
+ out.physical_world_ready=[native](bool& ready,auto& e){if(!native->current(e))return false;ready=actor_world.backend()!=nullptr;e.clear();return true;};
  out.construct_scene=[native](const char* file,MenuPreviewSceneV121& result,auto& e){
   result={};if(!file||!native->current(e))return false;
   if(auto previous=menu_scene_node_v121.lock();previous&&previous->alive){e="Previous authored menu scene has not reached D1";return false;}
   if(source_campaign_active_v55()){e="Menu scene construction precedes actual campaign retirement";return false;}
-  try{auto bytes=read(native->assets,file,"models");const auto report=load(bytes.data(),bytes.size(),native->assets);
+  // The source constructor receives its original game URI, while this APK
+  // packages the one authored preview model under assets/models/.
+  constexpr const char* source_uri="data/3d/menu/main_menu_charactere_swamp.bdae";
+  constexpr const char* packaged_name="main_menu_charactere_swamp.bdae";
+  if(std::strcmp(file,source_uri)!=0){e=std::string("Unsupported native main-menu scene URI: ")+file;return false;}
+  try{auto bytes=read(native->assets,packaged_name,"models");dh2::resources::BresView source_model{};bool has_modular{};
+   if(dh2_bres_open(&source_model,bytes.data(),bytes.size())!=dh2::resources::BresError::ok||
+      !dh2::skinning::VisualSkinResourcesV6::source_has_modular_v114(source_model,has_modular,e)){
+    if(e.empty())e="Menu preview BRES modular-node inspection failed";return false;
+   }
+   auto* const loaded_physics=actor_world.backend();
+   if(!loaded_physics){e="Main-menu scene construction requires its source-loaded PhysicalWorld";return false;}
+   const auto report=load_model_geometry_v121(bytes.data(),bytes.size(),native->assets,false);
    if(report.find("3D upload OK")!=0){e=report;return false;}
-   auto node=std::make_shared<NativeMenuSceneNodeV121>();node->domain=native;menu_scene_node_v121=node;
+   if(actor_world.backend()!=loaded_physics){e="Main-menu scene construction replaced its source-loaded PhysicalWorld";return false;}
+   auto node=std::make_shared<NativeMenuSceneNodeV121>();node->domain=native;node->has_modular_node_v114=has_modular;menu_scene_node_v121=node;
    result.owner=node;result.identity=reinterpret_cast<std::uintptr_t>(node.get());result.root=node->borrow();
    result.drop_constructor_reference=[node](auto& e){return node->drop(e);};
    menu_persona_class=-1;menu_background=true;e.clear();return true;
@@ -184,13 +242,23 @@ bool build_native_menu_preview_renderer_services_v121(const std::shared_ptr<dh2:
  out.selected_scene_root=[native](auto& id,auto& e){
   id=0;if(!native->current(e))return false;
   if(!class_scene){e.clear();return true;}
-  auto node=menu_scene_node_v121.lock();
-  if(!node||!node->alive){e="Actual selection scene lacks its retained native root loan";return false;}
+  auto node=class_selection_scene_node_v121.lock();
+  auto camera=native->cameras.lock();auto scene=camera?camera->roots():nullptr;
+  dh2::world::GameObjectSceneRootBorrowV1 registered;
+  if(!node||!node->alive||!scene||node->manager110!=scene->scene_manager_identity_v16()||
+     !scene->borrow_registered_root_v110(reinterpret_cast<std::uintptr_t>(node.get()),registered,e)||
+     registered.owner.get()!=node.get()){
+   if(e.empty())e="Actual CLASS_SELECTION scene lacks its retained native root loan";return false;
+  }
   id=reinterpret_cast<std::uintptr_t>(node.get());e.clear();return true;
  };
  out.remove_selected_root=[native](auto id,auto& e){
   auto camera=native->cameras.lock();auto roots=camera?camera->roots():nullptr;
   if(!native->current(e)||!roots){if(e.empty())e="Lost selection SceneManager";return false;}
+  auto node=class_selection_scene_node_v121.lock();
+  if(class_scene&&(!node||reinterpret_cast<std::uintptr_t>(node.get())!=id)){
+   e="Select.Hide attempted to release a foreign CLASS_SELECTION root";return false;
+  }
   return roots->release_visual_root(id,e);
  };
  out.create_player=[weak=std::weak_ptr<dh2::application::ApplicationServicesOwnerV5>(app),assets,directory](auto slot,auto fresh,auto& result,auto& e){auto same=weak.lock();return same&&create_native_menu_preview_player_v121(same,assets,directory,slot,fresh,result,e);};

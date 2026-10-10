@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "status": "probed_no_visual_hacks",
+  "scope": "Priest UV sets/material bindings; prisoner ghost appearance; original modular default policy; actual APK version",
+  "artifacts": [
+    "port/windows-foundation/reports/npc-content-probe.cpp",
+    "port/windows-foundation/reports/npc-content-probe.txt",
+    "port/windows-foundation/reports/npc-texture-probe.cpp",
+    "port/windows-foundation/reports/npc-texture-probe.txt"
+  ],
+  "probes": {
+    "native_compiler": "LLVM-MinGW clang++23.1.3 static C++17",
+    "content_probe": "Source BRES geometry primitives/18 semantic slots and authored instance material bindings",
+    "texture_probe": "Original shared decoder RGBA alpha histogram; bounding UV rectangles only, not exact raster coverage",
+    "outcome": "compiled_and_executed"
+  },
+  "source_version": {
+    "method": "Android SDK36.0.0 aapt.exe dump badging exact supplied APK",
+    "apk": ".local-inputs/ida-apk-export-2026-10-07/inputs/Dungeon-Hunter-2-HD-v1-0-2.apk",
+    "actual_package": "com.gameloft.android.GAND.GloftD2SS",
+    "versionCode": 102,
+    "versionName": "1.0.2",
+    "cache_manifest": ".local-inputs/windows-shared-assets/manifest.json",
+    "cache_limit": "Per-file URI/bytes/hash manifest has no independent cache version marker reviewed here. APK1.0.2 does not prove cache content version."
+  },
+  "uv_binding": {
+    "priest": "Only populated semantics0 position,1 normal,2 RGBA and4 UV0. No second UV set to select. Instance diffuse binding targets atlas002 and matches primitive-symbol fallback for this asset.",
+    "prisoner": "Only semantics0,1,2,4. Primitive diffuse and alpha bound to atlas001; all vertex alpha255. Existing bindings match symbol fallback for these two primitives.",
+    "generic_decoder_risk": "Skinned CharacterVisual does not carry instance.materials, resolving first global material by primitive symbol. COLLADA allows a symbol target with different ID; correct these generic bindings where source proves alternate target. Probes do not show this mismatch for priest/prisoner.",
+    "shader_limit": "A complete original GPU attribute-binding proof was not newly recovered. Single UV set limits alternate-UV explanations; no UV flip or actor-specific remap justified."
+  },
+  "modular_defaults": {
+    "profiles_source": ".local-inputs/windows-shared-assets/annotated-profiles.json",
+    "values": [
+      {
+        "ModelFile": 74,
+        "Loot": 192,
+        "character": "WanderingPriest",
+        "ModularVisual": -1
+      },
+      {
+        "ModelFile": 79,
+        "Loot": -1,
+        "character": "Prisonier",
+        "ModularVisual": -1
+      },
+      {
+        "ModelFile": 79,
+        "Loot": -1,
+        "character": "Prisonier2",
+        "ModularVisual": -1
+      }
+    ],
+    "finding": "Prisonier and Prisonier2 do not enter main ModularVisual>=0 warrior selector policy. That policy remains unsuitable as a general NPC default but is not this prisoner cause.",
+    "native_policy": {
+      "address": "0x3b395c",
+      "function": "Character::_InitEquipment",
+      "behavior": "If inventory already populated call INV_UpdateSkin. Otherwise load property9 Loot through AddLoot and auto-equip equippable items; defaults come from authored loot/equipment rules, not global player-warrior selection.",
+      "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003b/003b395c.c"
+    },
+    "remaining": "Priest Loot192 item contents not decoded in this scoped probe; no demonstrated wardrobe remap rule. Prisoner loot-1 has no default equipment selection here."
+  },
+  "prisoner_diagnosis": {
+    "image": ".local-inputs/windows-shared-checkpoint/startup-verification.png",
+    "inspected": true,
+    "logs": ".local-inputs/windows-shared-checkpoint/startup-notices.log",
+    "missing_texture_messages": "none observed",
+    "diffuse": "atlas_skinned_characters_animdecor_gameobjects_001.tga",
+    "global_alpha": {
+      "partial": 58157,
+      "zero": 18288,
+      "opaque": 972131
+    },
+    "uv_rectangle_alpha": {
+      "partial": 645,
+      "zero": 152,
+      "opaque": 15205
+    },
+    "material_policy_risk": "Renderer infers transparency from any alpha anywhere in shared atlas; thus otherwise opaque diffuse ranges may blend and disable depth writes because unrelated atlas regions contain alpha. Source technique/material blend policy should determine pass; global atlas alpha is not sufficient.",
+    "confidence": "Actual binding/UV/alpha counts high; renderer policy risk confirmed from source; root cause of gray/ghost body not established without targeted same-pose render comparison."
+  },
+  "recommendations": [
+    "Do not assign every modular NPC the player warrior controller selector. Resolve authored model categories/equipment via source data.",
+    "Preserve actual skinned instance-material binding metadata for generic symbols.",
+    "Compare prisoner diffuse/alpha primitives with source blend/depth state and texture-region coverage; do not diagnose texture load failure from screenshot alone.",
+    "Keep priest UVs, atlas and colors unchanged pending actual source rule or version-matched asset evidence."
+  ],
+  "implementation_changes": "No production sources modified. New diagnostic probes and reports only."
+}

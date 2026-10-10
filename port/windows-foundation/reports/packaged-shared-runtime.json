@@ -1,0 +1,45 @@
+{
+  "status": "diagnostic_packaged_runtime_verified_fidelity_incomplete",
+  "goal_complete": false,
+  "executable_sha256": "0a4114f7efe6c5c72ff8222f232e311551dced5aa06d45a0cdcc698053ae6703",
+  "package_files_verified": 524,
+  "baseline_executable_preserved": true,
+  "runtime_checks": [
+    {
+      "log": ".local-inputs/windows-shared-checkpoint/verification.log",
+      "required_observations": [
+        "Damage frame=11 attacker=7118915781085668844",
+        "Damage frame=74 attacker=18446744073709551615",
+        "Damage frame=180 attacker=18446744073709551615",
+        "removed=14.0039 dead=1",
+        "Saved live checkpoint frame=210 HP=157.457 RNG=2808983/38",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Rendered frames=360; clean shutdown",
+        "938.285,255 grounded=1"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-shared-checkpoint/resume-verification.log",
+      "required_observations": [
+        "Restored live checkpoint frame=0 HP=157.457 RNG=2808983/38",
+        "Rendered frames=30; clean shutdown",
+        "HP=0/47.5 target=0 action=5"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-shared-checkpoint/startup-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=1279.79,-201.095,255 grounded=1",
+        "HP=165.098/165.098 target=0 action=0"
+      ]
+    }
+  ],
+  "limits": [
+    "Explicit diagnostic stationary AI; original encounter activation remains unverified",
+    "Initial full phase groups are connected; combo chaining, blend/cadence and attack travel remain incomplete",
+    "Navigation/body/visibility/target-selection policies and continuous reference fidelity remain incomplete",
+    "Companion behavior, status/DOT/leech, full UI/effects/audio/campaign remain incomplete"
+  ]
+}

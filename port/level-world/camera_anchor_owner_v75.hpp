@@ -46,6 +46,9 @@ public:
  bool reset(std::string&);bool update(std::string&);
  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
  const CameraAnchorFieldsV75& fields()const noexcept{return fields_;}
+ // GameObject::SetPosition reads the attached Anchor at +0x0c and applies
+ // the same XYZ delta to this exact source subobject.
+ float* source_position_c()noexcept{return constructed_?fields_.position_c.data():nullptr;}
  bool constructed()const noexcept{return constructed_;}
 };
 }

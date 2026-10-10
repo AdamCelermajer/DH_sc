@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-09",
+  "status": "released_playable_preview_fidelity_incomplete",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-v19-preview-2",
+  "launcher": "Play.cmd",
+  "immediate_combat_launcher": "Test-enemy-combat.cmd",
+  "executable_sha256": "f061185b6a75c445c23cad7bfa0cd189991e8dcc4b17ed2c9188ed79ac092de4",
+  "manifest_files_verified": 575,
+  "new_playable_behavior": [
+    "Bound enemies acquire targets, approach and attack through shared generic controller, floor/navigation, animation and combat systems.",
+    "Authored NPC root motion no longer depends on manual keyboard movement strength.",
+    "Near-enemy diagnostic launcher permits immediate combat testing."
+  ],
+  "verified": {
+    "foundation_ctest": "79/79; .local-inputs/v19-ai-enrollment-regression.log",
+    "packaged_enemy_runtime": "port/windows-foundation/reports/v19-preview-2-enemy-runtime.json",
+    "packaged_baseline_runtime": "port/windows-foundation/reports/v19-preview-2-baseline-runtime.json",
+    "packaged_cases": 8,
+    "enemy_approach": "180 frames: enemy y938.285 to y413.373, player HP165.098 to149.371.",
+    "fight": "600 frames: enemy damages player, three original player swing hit events kill enemy at frame191; enemy HP0, target0, death action5.",
+    "baseline": "Original stationary combat, save/reload/content reload, separate-process resume, startup movement/camera, floor boundary and character panel open/close observations pass.",
+    "visual_inspection": "Actual packaged enemy-approach framebuffer inspected: source world, player/enemy, original HUD and damage feedback present. This is not matched-reference fidelity acceptance."
+  },
+  "limitations": [
+    "Only bound population participates; complete original encounter activation and full mob population remain incomplete.",
+    "Diagnostic starting position is not original campaign progression.",
+    "Exact original AI scheduling/search order, detours and dynamic avoidance remain incomplete.",
+    "Audio, effects and frontend creation have component implementations but are not enrolled in this executable.",
+    "Complete character pages, companions, cinematics, loot/XP integration and full art/gameplay fidelity remain incomplete."
+  ],
+  "preserved": [".local-inputs/windows-source-clock-checkpoint-v18", ".local-inputs/windows-source-clock-v19-preview-1"]
+}

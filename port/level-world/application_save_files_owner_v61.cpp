@@ -1,6 +1,9 @@
 #include "application_save_files_owner_v61.hpp"
 #include "application_services_owner_v5.hpp"
 #include <stdexcept>
+#ifdef _WIN32
+#include <filesystem>
+#endif
 namespace dh2::application {
 namespace {
 template<class A,class B> bool same_owner(const std::shared_ptr<A>& a,const std::shared_ptr<B>& b)noexcept{
@@ -26,8 +29,15 @@ bool ApplicationServicesOwnerV5::publish_source_save_files_v61(std::shared_ptr<A
 bool ApplicationSaveFilesOwnerV61::acquire(const std::shared_ptr<ApplicationServicesOwnerV5>& app,
  const std::string& directory,std::shared_ptr<ApplicationSaveFilesOwnerV61>& out,std::string& e,
  std::shared_ptr<level::PrivateSaveFileTransportV45> old_files,std::shared_ptr<level::SavegameJobsOwnerV2> old_jobs){
- if(!app||directory.empty()||directory.front()!='/'||directory.find('\0')!=std::string::npos){
-  e="Required actual Application and Android getFilesDir path";return false;
+ if(!app||directory.empty()||directory.find('\0')!=std::string::npos){
+  e="Required actual Application and absolute private files directory";return false;
+ }
+#ifdef _WIN32
+ if(!std::filesystem::u8path(directory).is_absolute()){
+#else
+ if(directory.front()!='/'){
+#endif
+  e="Required actual Application and absolute private files directory";return false;
  }
  if(bool(old_files)!=bool(old_jobs)){e="Existing private FileManager/jobs must be adopted together, never replaced";return false;}
  if(const auto& current=app->source_save_files_v61()){
@@ -47,7 +57,7 @@ bool ApplicationSaveFilesOwnerV61::acquire(const std::shared_ptr<ApplicationServ
  auto owner=std::shared_ptr<ApplicationSaveFilesOwnerV61>(new ApplicationSaveFilesOwnerV61(app));
  if(old_files){owner->files_=std::move(old_files);owner->jobs_=std::move(old_jobs);}
  else{
-  // The existing transport performs actual bounded POSIX read/write/backup/
+  // The existing transport performs actual bounded platform read/write/backup/
   // close. The existing source job constructor starts with an empty list;
   // no fake file/Save/Gear/profile receiver is produced by this binding.
   owner->files_=std::make_shared<level::PrivateSaveFileTransportV45>(directory,private_save_budget);

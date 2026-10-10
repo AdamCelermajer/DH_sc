@@ -31,6 +31,8 @@ public:
  int invoke(const StateOwnerRequest48&);
  // Original Idle Focus/Blur use isTracingCharState before any state effects.
  int idle_behavior(std::uint32_t source_function);
+ // Original PreSpawn Focus/Blur have the same prefix before their effects.
+ int pre_spawn_behavior(std::uint32_t source_function);
  std::uint64_t loads()const noexcept{return loads_;}
  std::uint64_t queries()const noexcept{return queries_;}
  std::uint64_t destructions()const noexcept{return destructions_;}

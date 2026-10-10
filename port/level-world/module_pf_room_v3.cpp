@@ -38,6 +38,19 @@ bool ModulePFRoomsV3::publish_collision_bounds(std::string& error){
  for(const auto& room:rooms_)world_->collision_rooms[room->id].bounds=room->bounds;
  world_->collision_world.bounds=bounds_;return true;
 }
+bool ModulePFRoomsV3::post_load_source_v122(std::string& e){
+ if(post_load_failed_v122_){e=post_load_failure_v122_;return false;}
+ auto fail=[&]{post_load_failed_v122_=true;if(post_load_failure_v122_.empty())post_load_failure_v122_=e.empty()?"PFWorld PostLoad failed; reached prefix retained":e;e=post_load_failure_v122_;return false;};
+ if(post_load_busy_v122_){e="PFWorld PostLoad reentered";return fail();}
+ if(!world_||!native_storage_v106_){e="Required SAME retained PFWorld PostLoad owner";return fail();}
+ post_load_busy_v122_=true;struct Busy{bool& value;~Busy(){value=false;}}busy{post_load_busy_v122_};
+ try{
+  bool work{};if(!native_storage_v106_->begin_post_load_v122(*world_,work,e))return fail();
+  if(!work){e.clear();return true;} // Native state0/2 return without room work.
+  if(!floors::post_load(*world_,e)||!publish_collision_bounds(e)||post_load_failed_v122_)return fail();
+  e.clear();return true;
+ }catch(const std::exception& ex){e=ex.what();return fail();}catch(...){e="PFWorld PostLoad provider threw; reached prefix retained";return fail();}
+}
 bool ModulePFRoomsV3::load(const resources::BresView& view,std::shared_ptr<void> resource,
  ModuleStaticSceneV2& visual,unsigned id,const std::string& name,
  std::shared_ptr<ModulePFRoomV3>& out,std::string& error){

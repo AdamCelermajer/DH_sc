@@ -34,6 +34,11 @@ struct NativeMenuPreviewServicesV121 {
  std::function<bool(std::string&)> current,remove_all_scene_nodes,flush_objects,flush_animation_sets;
  std::function<bool(std::string&)> free_textures,clean_glitch;
  std::function<bool(float,float,float,float,std::string&)> load_physics;
+ // True only when the same process PhysicalWorld currently has a backend.
+ // A retained menu scene may outlive renderer teardown, so the slot-change
+ // callback uses this to recover that exact process world before creating a
+ // new preview Character.
+ std::function<bool(bool&,std::string&)> physical_world_ready;
  std::function<bool(const char*,MenuPreviewSceneV121&,std::string&)> construct_scene;
  //Actual native selection-scene owner; NULL is observed from that resource
  //domain, never guessed from an unwritten source CharacterSelect+c4 word.
@@ -58,6 +63,10 @@ class NativeMenuPreviewV121;
 bool borrow_native_menu_preview_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,
  std::shared_ptr<NativeMenuPreviewV121>&,std::string&);
 bool native_menu_preview_main_hide_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,std::string&);
+// MenuCharacterSelect::Show begins by destroying MainMenu's same scene and
+// avatar camera, then saves and clears its source save-slot byte (no music stop).
+bool native_menu_preview_select_show_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,
+ std::int32_t& saved_slot,std::string&);
 bool native_menu_preview_select_hide_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,
  std::int32_t selected_slot,std::uintptr_t actual_select_root,std::string&);
 //The source Front NativeSetSaveSlot callback can borrow these SAME lifecycle
@@ -65,6 +74,7 @@ bool native_menu_preview_select_hide_v121(const std::shared_ptr<dh2::application
 bool native_menu_avatar_services_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,
  dh2::ui::MenuAvatarPreviewServicesV1&,std::shared_ptr<void>&,std::string&);
 bool native_menu_preview_prepare_main_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,std::string&);
+bool native_menu_preview_update_main_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,std::string&);
 bool native_menu_preview_destroy_scene_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,std::string&);
 bool native_menu_preview_destroy_avatar_camera_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,std::string&);
 bool native_menu_preview_camera_v121(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,

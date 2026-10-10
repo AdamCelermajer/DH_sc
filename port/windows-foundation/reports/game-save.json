@@ -1,0 +1,50 @@
+{
+  "status": "PASS native Windows actual-original-data live checkpoint tests",
+  "format": "Separate DHGAME magic/version1; existing CharacterState DHSAVE format untouched",
+  "files": [
+    "game_save.hpp",
+    "game_save.cpp",
+    "tests/game_save_tests.cpp"
+  ],
+  "durable_data": [
+    "Validated CharacterState",
+    "Exact level URI",
+    "Controlled actor stable ID and persistent identity",
+    "Complete actor ID/definition roster",
+    "World transforms and live HP/MP including enemy deaths",
+    "Four original raw224 base/saved/gear/resolved property sheets",
+    "Original equipment combat facts and actual main ItemRecord",
+    "Explicit player/targetable traits",
+    "Exact host RNG seed/call count"
+  ],
+  "transient_policy": "Capture/load resets action to idle/dead, elapsed0, target0, original state-1 and combo0. Attacks/cooldowns/animation cursors are host reset work, not persisted control state.",
+  "capture": "Copies actual shared world, synchronizes live signed256 HP/MP into current resolved/saved contribution and controlled CharacterState vitals. Does not invent loot/XP/world progression or fixture balance values.",
+  "validation": "Version1, finite/ranged vitals/transforms, raw-vital consistency, CharacterState inventory/equipment links, collection4096/string1024 limits, duplicate actor IDs, controlled persistent identity and live-vital consistency. Total file limit64MiB. Full-file64-bit integrity checksum rejects accidental corruption.",
+  "restore": "Version1 strict checkpoint policy checks loaded level and complete stable ID/definition roster, authorized attack/action-group ID set, class/faction/persistent identity, player/targetability role, exact equipped source slot/definition/instance references, main item record, equipment combat facts/full gear sheet and original source fields0/1/2/3/4/26. All checks precede temporary-registry/RNG commit. Changed host loadout/action-group bindings reject transactionally; future host-aware recomputation can relax this policy.",
+  "write": "Validates/encodes before file mutation; writes exclusive sibling temporary on Windows, flushes buffers, atomically replaces destination; failure removes only owned temporary. Other platforms use sibling temporary and filesystem rename.",
+  "tested": [
+    "Actual cached Knight/sword664 and lizard properties",
+    "All original raw sheets and item record roundtrip",
+    "Moved player pose/live damage restored",
+    "Enemy death remains dead",
+    "Exact advanced RNG restored",
+    "Transient attack/target cleared",
+    "Duplicate ID and unsupported-version saves preserve existing file",
+    "Wrong-definition same-ID and wrong-level restore rejection",
+    "Corrupt/truncated loads preserve supplied output",
+    "Failed transactional registry restore preserves old actor/RNG",
+    "Old leaf authorization versus rebuilt action-group authorization rejected without changing host capability/RNG",
+    "Same-ID faction changed to genuine original lizard faction rejected without mutation",
+    "Original saved sword664 versus currently rendered dagger370 rejected; current dagger stats remain bound",
+    "Changed equipped original source reference and player role rejected transactionally",
+    "Compatible source bindings still restore successfully after rejected attempts"
+  ],
+  "host_integration": [
+    "F5 capture/save_game to separate live checkpoint path",
+    "F9 load then restore against currently loaded matching content roster",
+    "Clear CombatSystem runs/cooldowns and animation cursors on successful restore; reacquire player/population actor pointers",
+    "Reapply restored inventory/equipment visual selection and HUD from durable actor/CharacterState data",
+    "Content revision/hashes are future schema additions; version1 validates exact level URI and actor ID/definition provenance",
+    "No quest/door/world-object persistence yet; this bounded checkpoint persists shared actor world state"
+  ]
+}

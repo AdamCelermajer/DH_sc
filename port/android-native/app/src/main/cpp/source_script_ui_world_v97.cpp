@@ -8,6 +8,7 @@
 #include "script_manager_owner_v52.hpp"
 #include "renderer_native_menu_prefix_v62.hpp"
 #include "model_renderer.hpp"
+#include "localization.hpp"
 namespace dh2::android_ui {namespace {
 const char* running_name9a5fd8{}; //original source BSS pointer
 std::weak_ptr<loader::ScriptManagerOwnerV52> running_name_owner;
@@ -35,6 +36,16 @@ bool SourceScriptUiWorldV97::player_name(std::uintptr_t character,std::string& o
  if(!*record->save_fields->save_slot14e8()){out.clear();e.clear();return true;}
  if(!record->save||record->save->character()!=character||*record->save_fields->save_slot14e8()!=reinterpret_cast<std::uintptr_t>(record->save.get()))return required(e,"SAME selected Save/PNAM owner");
  out=record->save->name();e.clear();return true;
+}
+bool SourceScriptUiWorldV97::parse_player_name(const std::string& input,bool add_space,std::string& out,std::string& e)const{
+ std::uintptr_t character{};if(!player_character(character,e))return false;
+ if(!character){out=input;e.clear();return true;}
+ std::string name;
+ if(!player_name(character,name,e))return false;
+ //ParsePlayerName is StringManager::parse(..., "$player", SG_GetPlayerName()).
+ //Use the same token semantics and locale spacing rule as the existing HUD
+ //string path. It mutates only after the actual selected Save name resolves.
+ return ui::localization_player(input,name,add_space,out,e);
 }
 bool SourceScriptUiWorldV97::style_name(std::int32_t style,std::string& out,std::string& e)const{
  const auto world=world_.lock();if(!world||!world->design)return required(e,"SAME process game-design constant table");
@@ -68,6 +79,15 @@ const char* source_running_script_name_v97()noexcept{
  return nullptr;
 }
 bool SourceScriptUiWorldV97::send_script_message(bool,std::int32_t,std::int32_t,std::string& e)const{
+ const auto application=application_.lock();
+ const auto online=application?application->get_online_loading_v55():nullptr;
+ if(!online)return required(e,"same Application.GetOnline receiver");
+ //Script_ExitCutSceneMode::Execute branches on COnline.byte5 before it
+ //constructs CMsgScriptCmd or calls CMessaging::SendMsg. ScriptManager's
+ //StartScript/SkipScript use the same offline suppression. Therefore the
+ //offline network-message leaf is a real no-op success; only an online call
+ //needs the still-unbound positive message transport.
+ if(!online->byte5()){e.clear();return true;}
  return required(e,"positive CMsgScriptCmd constructor/network SendMessage transport");
 }
 bool SourceScriptUiWorldV97::store_controller_global(std::uint8_t value,std::string& e)const{

@@ -162,7 +162,11 @@ public:
 };
 inline bool bind_stage33_restore_v1(LifecycleServicesV36& loading,std::weak_ptr<CanonicalLevelContextV1> level,Stage33RestoreServicesV1 services,std::string& e){
  if(loading.stage_body[33]){e="Stage33 actual body already bound; refusing replacement";return false;}
- if(level.expired()||!services.owner||services.actual_application.expired()){e="Required actual Level/Application and independent restore authority";return false;}
+ auto actual_level=level.lock();auto actual_application=services.actual_application.lock();
+ const auto same_owner=[](const auto& a,const auto& b){return a&&b&&!a.owner_before(b)&&!b.owner_before(a);};
+ if(!actual_level||!services.owner||!actual_application||same_owner(services.owner,actual_level)||same_owner(services.owner,actual_application)){
+  e="Required actual Level/Application and independent restore authority";return false;
+ }
  auto body=std::make_shared<Stage33RestoreBodyV1>(std::move(level),std::move(services));
  loading.stage_body[33]=[body=std::move(body)](std::string& error){return body->step(error);};e.clear();return true;
 }

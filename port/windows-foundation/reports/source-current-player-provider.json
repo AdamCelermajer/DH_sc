@@ -1,0 +1,39 @@
+{
+  "status": "feature_binding_ready_root_integration_pending",
+  "source_semantics": {
+    "inventory_operation_label": "current_player (legacy enum name)",
+    "0x4043cc": "Application::GetCurrentLevel at 0x31f594 through the existing NativeGSLevelRuntimeV27/SAME s_level owner",
+    "0x4043dc": "A second Application::GetCurrentLevel query; requires the same still-published Level C1 and reads its actual +0x118 mode/difficulty field",
+    "0x4043a8": "The existing Application-owned PlayerManager C1 signed character-count field at +0x6c4"
+  },
+  "implementation": {
+    "header": "features/inventory/source_current_player_provider_v1.hpp",
+    "source": "features/inventory/source_current_player_provider_v1.cpp",
+    "api": "SourceFixedLootCurrentLevelProviderV1(application, existing_source_current_level_backend, error); route its query_callback from the host OwnedInventoryServicesV4 dispatcher",
+    "owner_checks": [
+      "backend graph Application matches the exact retained ApplicationServicesOwnerV5",
+      "backend owns the same NativeGSLevelGlobalsV27/runtime pair",
+      "PlayerManagerBootstrapV59 belongs to that same Application and exposes its initialized manager count field",
+      "the second Level query must return the same current Level C1 as the first query"
+    ],
+    "null_level": "Only the actual empty GS s_level slot produces identity zero; missing owner or failed query is an error"
+  },
+  "verification": {
+    "strict_llvm_mingw_syntax": "PASS",
+    "native_negative_binding_test": "PASS: absent Application/backend and PM query cannot be accepted or converted to a fabricated count",
+    "positive_root_graph_execution": "pending root dispatcher wiring; existing NativeGSLevelRuntimeV27 and SourceCurrentLevelBackendV1 tests cover the source s_level/current-owner path"
+  },
+  "difficulty_variant_source_path": {
+    "caller": "PlayerEquipmentRenderOwnerV1::grant handles add_loot, reads the same Character property9, then calls FreshInventoryOwnedV4::add_fixed_loot; this is the native equipment-inventory path, not a UI-side rewrite.",
+    "oracle": "LootCreationV8::add performs the recovered AddLoot variant selection after its 0x4043cc current-Level query and conditional 0x4043dc difficulty read.",
+    "selection": "For difficulty 1, choose base item ID + 1 only when the real ItemTable identifier is exactly base identifier + _Hard. For difficulty 2, choose base ID + 2 only when the identifier is exactly base + _VeryHard. Otherwise keep the base ID. Existing LootCreationV8's bypass flag suppresses both substitutions; Character initial fixed loot has no such bypass flag.",
+    "shared_helper_api": "dh2::data::select_loot_item_variant_v8(const ItemTable&, int32_t base_id, int32_t difficulty, bool bypass_difficulty_variant, int32_t& selected_id, std::string& error), defined inline in port/game-data/loot_creation_v8.hpp and used by both LootCreationV8 and FreshInventoryOwnedV4.",
+    "implementation": "PASS: shared ItemTable identifier suffix resolver is called by both source kernels. FreshInventoryOwnedV4 preserves the 0x4043cc current-Level query, conditional second query at 0x4043dc, then source item creation and original insertion ordering. LootCreationV8 retains its original bypass behavior and RNG ordering.",
+    "native_test": "PASS: actual cached ItemTable coverage exercises difficulty 0/1/2, exact and mismatched neighboring suffixes, bypass, hard/very-hard ItemInstance IDs, metadata-based value, insertion, exact source callback order, and genuine empty-current-Level behavior."
+  },
+  "remaining_gaps": [
+    "Root must retain/pass the same SourceCurrentLevelBackendV1 and route these two AddLoot query operations through the provider callback.",
+    "The source callback dispatcher still needs root wiring to provide the shared current-Level backend in production; feature provider and native fixture confirm the query contract, but do not prove the positive complete root graph path.",
+    "The existing native menu bootstrap still reports update_pf incomplete; this provider does not resolve that separate source dependency."
+  ]
+}

@@ -21,6 +21,9 @@ struct NpcDeathServicesV2 {
  // Real selected AIS source dispatcher. Scope is a borrowed same-VM capability.
  bool(*ais)(void*,std::uintptr_t receiver,std::uintptr_t source_method,
             std::uintptr_t attacker,const dh2_script_callback_scope*,std::string&){};
+ // Publish CharAI's in-place timer-ID reset before reciprocal aggro callbacks
+ // can synchronously reenter this Character's source Script/AI owner.
+ void(*publish_timer_ids)(void*){};
 };
 // Whole original CharAI::OnDied -> AI_SetDead, composing the native source
 // target, FSM, TimerStop, reciprocal Aggro and actual SkillOwner cleanups.

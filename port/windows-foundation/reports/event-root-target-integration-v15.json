@@ -1,0 +1,48 @@
+{
+  "status": "source_event_before_displacement_and_own_target_cache_verified",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v15",
+  "executable_sha256": "2a90a252c3d54233daf52c443abe7a08295c710a85cde3af50bbcc4b18763cc0",
+  "component_tests_passed": 67,
+  "ctest_seconds": 2.03,
+  "package_files_verified": 550,
+  "rendered_cases_verified": 16,
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v15.json",
+  "save_rejection_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v15.json",
+  "live_changes": [
+    "Retained named events and synchronous hit/state forwarding precede corresponding motion handler; actual source clip test observes hit then motion in the same frame",
+    "Own target node180/cache184 belong to same ActorState and never alias combat target_id. Actual case-insensitive NAME lookup uses loaded visual hierarchy; cache absolute callback uses same compensated model/render placement",
+    "Reload/restore rebind actual scene node tokens. Canonical saves clear tokens/derived cache; raw transient token/cache save requests reject before durable replacement",
+    "Leased native SubObjects borrow exposes same actor/destination/bounds/source pointer slots and actual native receiver; removal/reinitialization tested"
+  ],
+  "component_only": [
+    "SubObjects adapter tests actual native body/original floor/PF/staged visual fixture and reached failure effects. Full live canonical visual root/camera/focus is still pending",
+    "Actual SwampKing authored target_node tests non-null world/cache, crossactor token rejection and reload invalidation. Packaged actor models all prove NULL own target nodes (3 or7 actors)"
+  ],
+  "source_reports": [
+    "port/windows-foundation/reports/original-actor-target-position-v15.json",
+    "port/windows-foundation/reports/original-actor-subobjects-v15.json",
+    "port/windows-foundation/reports/visual-root-frame-staging-v15.json"
+  ],
+  "limits": [
+    "Manual player Move heading and late rotation are live; full source focus/controller/path/avoidance/physics/contact/frame integration remains incomplete. Earlier visual root motion must be staged for source UpdateSubObjects before whole-frame fidelity can be claimed.",
+    "Complete source GameObject InitPost/InitFinal, debug/allocator/saved fields, source body policies and death collision continuations remain incomplete",
+    "Root source Module constructor scopes are now live. MGP child receiver construction, positive conditions/activation, Module InitPost/InitFinal and complete Level construction remain incomplete",
+    "Original encounter activation, aggro/sneak, complete controller/FSM and hierarchical scheduler delivery remain incomplete",
+    "Retained hit damage and bound victim poses now apply synchronously before named state forwarding; complete source F_ApplyResult/AIS/FSM reentry, combos, status/DOT/leech and full skills remain incomplete.",
+    "Equipment appearance/refresh, priest reference mismatch, fairy particles and companion behavior remain incomplete",
+    "Full original HUD/menus/audio/effects/materials/fog/lighting/cinematic coverage and continuous matched-state reference fidelity remain incomplete",
+    "Campaign lifecycle/controller/animation transient state persistence is explicitly rejected before durable save writes",
+    "Initial begin/select-time markers retain explicit seed-queue fallback; source sink delivery is synchronous only during scoped runtime advancement. Structural runtime replacement/clear/unbind inside callback is unsupported.",
+    "Legacy and source actor sample ordering is diagnostic runtime ordering; it does not establish original global Level traversal chronology.",
+    "Own target cache live cases prove authored-node absence; non-null original boss model is component-tested. Full original InitFinal/node absolute scene owner and UI caller integration remain incomplete."
+  ],
+  "previous_v14_preserved": true,
+  "capture_review": {
+    "images": [
+      ".local-inputs/windows-source-clock-checkpoint-v15/startup-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v15/moving-verification.png"
+    ],
+    "scope": "Actual final captures inspected for original world/player/companions/enemy corpse/HUD; matched-state continuous reference comparison remains incomplete."
+  }
+}

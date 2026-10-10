@@ -24,7 +24,7 @@ def snapshot():
         "expected_owner": {"pid": 100, "create_time_filetime": 1000},
         "owner": process(100, created=1000, image="python.exe", parent=1),
         "system": {"commit_total_bytes": 12*wd.GIB, "commit_limit_bytes": 64*wd.GIB,
-                   "physical_available_bytes": 32*wd.GIB},
+                   "physical_available_bytes": 32*wd.GIB, "physical_total_bytes": 64*wd.GIB},
         "job_process_ids": [10], "job_members": [process(10)],
         "qemu": [process(10), process(20)], "elapsed_seconds": 0.5}
 
@@ -45,17 +45,32 @@ class PureDecisionTests(unittest.TestCase):
         self.assertEqual(wd.evaluate(value, wd.Limits())["action"], "continue")
 
     def test_requested_paging_preserves_commit_identity_and_job_stops(self):
-        value=snapshot();value["system"]["physical_available_bytes"]=1
+        value=snapshot();value["system"]["physical_available_bytes"]=3*wd.GIB
         limits=wd.Limits(allow_physical_pressure=True)
         self.assertEqual(wd.evaluate(value,limits)["action"],"continue")
         value["system"]["commit_total_bytes"]=49*wd.GIB
         self.assertIn("system_commit_headroom",wd.evaluate(value,limits)["reasons"])
-        value=snapshot();value["system"]["physical_available_bytes"]=1
+        value=snapshot();value["system"]["physical_available_bytes"]=3*wd.GIB
         value["job_members"][0]["private_bytes"]=5*wd.GIB
         self.assertIn("owned_job_private_limit",wd.evaluate(value,limits)["reasons"])
         value=snapshot();value["owner"]=None
         self.assertEqual(wd.evaluate(value,limits)["action"],"terminate")
         with self.assertRaises(ValueError):wd.Limits(allow_physical_pressure=1).validate()
+
+    def test_98_percent_host_ram_cutoff_is_mandatory_even_with_pressure_override(self):
+        limits = wd.Limits(allow_physical_pressure=True)
+        value = snapshot()
+        value["system"]["physical_available_bytes"] = int(64*wd.GIB*0.020001)
+        self.assertEqual(wd.evaluate(value, limits)["action"], "continue")
+        value["system"]["physical_available_bytes"] = int(64*wd.GIB*0.02)
+        result = wd.evaluate(value, limits)
+        self.assertEqual(result["action"], "terminate")
+        self.assertIn("physical_memory_used_percent", result["reasons"])
+        self.assertGreaterEqual(result["observations"]["physical_used_percent"], 98)
+        value["system"]["physical_available_bytes"] = int(64*wd.GIB*0.019)
+        self.assertIn("physical_memory_used_percent", wd.evaluate(value, limits)["reasons"])
+        with self.assertRaises(ValueError):
+            wd.Limits(max_physical_used_percent=101).validate()
 
     def test_independent_all_qemu_aggregate(self):
         value = snapshot(); value["qemu"][1]["private_bytes"] = 22*wd.GIB
@@ -143,7 +158,10 @@ class FakeAPI:
         self.cycle += 1
         if self.failure == "metrics" and self.cycle >= 2:
             raise OSError("Explicit fixture monitoring access failure")
-        return snapshot()["system"]
+        result = snapshot()["system"]
+        if self.failure == "physical" and self.cycle >= 2:
+            result["physical_available_bytes"] = int(result["physical_total_bytes"] * 0.01)
+        return result
 
 
 class ProtocolTests(unittest.TestCase):
@@ -162,9 +180,9 @@ class ProtocolTests(unittest.TestCase):
 
     def tearDown(self): self.temporary.cleanup()
 
-    def run_monitor(self, api):
+    def run_monitor(self, api, limits=None):
         with patch.object(wd.time, "sleep", return_value=None), patch("builtins.print"):
-            return wd.monitor(self.manifest, self.telemetry, self.receipt, self.ready, wd.Limits(), api=api)
+            return wd.monitor(self.manifest, self.telemetry, self.receipt, self.ready, limits or wd.Limits(), api=api)
 
     def test_ready_and_clean_completion(self):
         api = FakeAPI(); self.assertEqual(self.run_monitor(api), 0)
@@ -189,6 +207,14 @@ class ProtocolTests(unittest.TestCase):
                 # API exists or is invoked. The named job contains only PID10.
                 if failure != "metrics":
                     self.assertEqual(receipt["last_snapshot"]["job_process_ids"], [10])
+
+    def test_98_percent_ram_stops_the_verified_job_even_in_pressure_mode(self):
+        api = FakeAPI("physical")
+        limits = wd.Limits(allow_physical_pressure=True)
+        self.assertEqual(self.run_monitor(api, limits), 2)
+        self.assertEqual(api.terminated, [api.job])
+        receipt = json.loads(self.receipt.read_text())
+        self.assertIn("physical_memory_used_percent", receipt["last_snapshot"]["decision"]["reasons"])
 
     def test_unverified_target_never_arms_or_terminates_job(self):
         for failure in ("membership", "target_identity"):

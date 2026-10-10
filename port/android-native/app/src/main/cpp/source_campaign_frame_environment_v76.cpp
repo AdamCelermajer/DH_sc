@@ -35,7 +35,7 @@ bool borrow_source_campaign_frame_environment_v76(const SourceCampaignCandidateB
   if(!lease->scratch->borrow(paths,actors,lease->navigation->registry().floor_capacity,lease->workspace,prepared.workspace,e)||
      !borrow_application_dt_v93(prepared.dt_ms,e))return false;
   prepared.geometry=&lease->floors->collision_world;prepared.graph=&lease->floors->graph;
-  prepared.registry=&lease->navigation->registry();prepared.motion_policy=&lease->scratch->motion();
+  prepared.registry=&lease->navigation->registry();prepared.motion_policy=&lease->floors->source_motion_policy_v95;
   prepared.actual_scope=std::move(lease);out=std::move(prepared);e.clear();return true;
  }catch(const std::exception& failure){e=failure.what();return false;}
 }

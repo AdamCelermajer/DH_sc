@@ -1,0 +1,28 @@
+{
+  "status": "shared_controller_runtime_verified_physical_loading_components_verified",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v8",
+  "component_tests_passed": 54,
+  "packaged_runtime_cases": 12,
+  "package_files_verified": 543,
+  "executable_sha256": "6ff5be22148caf2204b2db122fff3aef0135efe432d2bde4ae5bdab8f769e7a8",
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v8.json",
+  "save_rejection_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v8.json",
+  "live_additions": [
+    "Campaign controller commands bind independently of Spawn lifecycle",
+    "Player and diagnostic enemy attack requests share the original controller admission kernel; blocked requests cannot mutate attack target/facing before admission",
+    "Ordinary forced/network defaults are explicit current in-house controller state; full source Character/FSM/network behavior remains incomplete"
+  ],
+  "component_additions": [
+    "Lightweight source physical owner uses original body definitions and real Box2D, shared borrowed position/property storage and recovered SetPosition rules; actual-cache player radius113.6996 and lizard63 game units verified",
+    "Source Level construction uses unfiltered recovered traversal; reached original LevelConfig constructor provider failure is preserved; no fabricated module IDs"
+  ],
+  "limits": [
+    "Production physical PF/filter/contact/debug providers remain unbound to the playable world",
+    "Actual complete level construction and original encounter activation remain incomplete",
+    "Heading/target input still uses preview admission; forced movement/casts/Stop/full FSM/backend remain incomplete",
+    "Authored pose/events continue under lock; complete source animation event/FSM routing still incomplete",
+    "Original art/material/camera progress does not establish continuous matched-state reference fidelity"
+  ],
+  "previous_v7_preserved": true
+}

@@ -23,6 +23,7 @@ public:
   std::function<std::shared_ptr<RetainedGameObjectVisualV1>(std::uintptr_t)> actual_visual_borrow,
   RetainedGameObjectDecorServicesV1 actual_source);
  void bind(DecorServicesV15&);
+ bool create_door_physical(std::string&);
  // Scoped borrow of the body already assigned to SAME physical2dc.
  // Caller retains both returned receiver pin and this connection authority.
  bool borrow_native_body(std::uintptr_t,std::shared_ptr<void>&,physical::NativeBody*&,std::string&);

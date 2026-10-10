@@ -116,6 +116,18 @@ struct RendererSourceCandidateV55 {
   auto graph_services=std::move(in.module_graph);
   if(graph_services.rooms||graph_services.candidate){error="Source Module graph must borrow this sole canonical candidate/PF owner";return false;}
   graph_services.rooms=candidate->rooms;graph_services.candidate=candidate->canonical;
+  auto source_application=in.application->application;
+  if(!source_application){error="Required actual Application services for Module spawn checks";return false;}
+  graph_services.spawn_application.application_lease=source_application;
+  graph_services.spawn_application.random=source_application->source_random_v62().get();
+  graph_services.spawn_application.online_byte5=[application=source_application](bool& online,std::string& e){
+   auto source=application->get_online_loading_v55();if(!source){e="Required actual Application COnline owner";return false;}
+   online=source->byte5()!=0;e.clear();return true;
+  };
+  graph_services.mark_for_deletion=[weak=std::weak_ptr<SourceWorldBorrowV61>(in.world)](CanonicalGameObjectBaseOwnerV1& base,std::string& e){
+   auto world=weak.lock();if(!world||!world->canonical_world){e="Released actual Module ObjectManager owner";return false;}
+   return world->canonical_world->manager.source_mark_for_deletion_v89(base.identity(),e);
+  };
   if(graph_services.visual.roots&&graph_services.visual.roots!=in.roots){error="Source Module visual uses foreign SceneManager roots";return false;}
   graph_services.visual.roots=in.roots;
   // SAME actual V54 device witness, independent of high-performance flags.

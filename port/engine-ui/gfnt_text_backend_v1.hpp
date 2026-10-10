@@ -30,6 +30,7 @@ public:
  GfntTextBackendV1(GfntTextServicesV1,std::shared_ptr<void> actual_resource_owner);
  bool face(const text_v1::Font&,TextBitmapFaceV2&,std::string&);
  bool glyph(const TextBitmapFaceV2&,std::uint16_t,std::int32_t,text_v1::Glyph&,std::string&);
+ bool clear_fonts(std::string&);
  TextFontBackendsV2 backends();
 };
 // Original bitmap_font_entity::get_char_image7c59dc wrapper after GFNT raster.

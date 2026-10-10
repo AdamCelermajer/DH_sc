@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-09",
+  "status": "texture_override_queue_native_wgl_verified",
+  "released": false,
+  "goal_complete": false,
+  "implementation": [
+    "render_queue.hpp",
+    "render_queue.cpp"
+  ],
+  "test": "tests/source_material_pass_tests.cpp",
+  "ctest": "source_material_pass:1/1 passed",
+  "gpu": {
+    "opaque_blue": 255,
+    "alpha_blue": 75
+  },
+  "checks": [
+    "Wrong texture count leaves existing queue unchanged.",
+    "Caller texture changes actual GPU output.",
+    "Source vertex/range buffers and original material texture remain unchanged.",
+    "Original source opaque/alpha blend and depth-write states preserved.",
+    "Two ranges keep separate supplied textures and opaque draw order.",
+    "Queue drains after flush.",
+    "Mesh without authored ranges renders with one caller texture without fabricating source ranges."
+  ],
+  "limits": [
+    "Production equipment appearance acceptance is owned by the live equipment integration, not this renderer-only test.",
+    "Preview6 remains frozen and excludes this development overload."
+  ]
+}

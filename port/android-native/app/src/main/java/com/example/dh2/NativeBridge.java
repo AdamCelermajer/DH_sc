@@ -6,6 +6,9 @@ final class NativeBridge {
     static native String buildInfo();
     static native String initialize(android.content.res.AssetManager assets);
     static native void audioActivityV40(long owner,long sequence,boolean resumed,boolean windowFocused,boolean granted,boolean destroyed);
+    // Android focus-loss delivery. MainActivity queues this on the GLSurfaceView
+    // thread before pausing that surface, preserving native Level/World owners.
+    static native String sourceApplicationPauseSaveV1();
     static native boolean audioSourceReadyV40();
     static native long audioApplicationReserveV42();
     static native long audioApplicationOwnerV42();

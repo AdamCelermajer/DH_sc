@@ -1,0 +1,69 @@
+{
+  "status": "manual_native_pass_shared_source_rest_body_plan",
+  "live_native_body_created": false,
+  "files": [
+    "port/windows-foundation/original_actor_body_plan.hpp",
+    "port/windows-foundation/original_actor_body_plan.cpp",
+    "port/windows-foundation/tests/original_actor_body_plan_tests.cpp"
+  ],
+  "purpose": "Reusable all-actor source factory/rest bounds and original body radius plan; source component selection/property/AI/name/static facts supplied. No actor class/map/weapon specialcases.",
+  "input": "CharacterVisualConfig actual model/controller policy; original resolved PropertyState and AiTables; admitted source initial XYZ and degree rotation; actual source name/static84/owner identity. previous_flat is actual source prior producer byte.",
+  "output": "Owned original rest mesh/relative/absolute source boxes; exact controller component bindings/count; original AI ID/type/IsPlayer; physical enabled/circular bool and group/category/mask scalar metadata; game-unit circular radius. No pointer-bearing body definition, fake physical receiver, NativeBody or live pose retained.",
+  "selection": {
+    "explicit": "Every nonempty unique explicit ID must exist in actual source controller library and map to source modular category node or actual nonmodular serialized controller instance. Unknown, duplicate, ambiguous/missing bindings reject atomically.",
+    "substring": "Matches exact controller IDs; empty matches reject; conflicts with explicit/default selection reject.",
+    "modular": "Requires explicit controller IDs, substring or authored defaults; no class/equipment fallback. Serialized defaults decoded by original modular descriptors; available category modules mapped to exact authored group nodes.",
+    "defaults": "Serialized modular defaults selected plus visible actual nonmodular controllers, matching source visual policy",
+    "counts": "expected_controller_count must match actual selected controller IDs; no silent omission",
+    "rigid": "Existing OriginalActorBounds source CalcMeshBox includes authored rigid instances independently of CharacterVisual.include_static_instances rendering flag, preserving current main body producer. Render-only rigid inclusion is not a physical shape selector."
+  },
+  "source_rules": {
+    "scale": "Original base12/13/14 factor bits and resolved collision property16 via OriginalActorBounds source producer; no repeat scaling",
+    "rest": "calculate(...,nullptr) explicitly source factory/rest cache, initial admitted rotation/placement applied once. No animation sampling or perframe bbox recompute.",
+    "ai": "Resolved property1, source fallback8 for invalid index",
+    "is_player": "Original IsPlayer: nonzero type true only type1; type0 iff exact case-sensitive source name begins PlayerCharacter",
+    "body": "Stack-local dh2_character_body_config delegates source type/static/player precedence and enabled shape/filter/radius math. Temporary input/newphysical pointer never escapes returned plan.",
+    "radius": "For enabled circle only: exact definition.radius in physics units times100. Disabled/polygon report circularfalse and radius_game_units0; cannot silently use circular movement for polygon."
+  },
+  "source_evidence": [
+    "port/level-world/loot_source_fields_v47.cpp loot_character_is_player_v47",
+    "port/level-world/character_body_config.cpp",
+    "port/windows-foundation/modular_defaults.cpp",
+    "port/windows-foundation/original_character.cpp controller selection",
+    "port/windows-foundation/original_actor_bounds.cpp",
+    "port/level-world/character_world_npc_bounds_v1.cpp",
+    "port/level-world/character_scene.cpp"
+  ],
+  "validation": [
+    "Actual original property/class/AI cache arrays loaded and resolved for KnightPlayerBase and Swamp_LizadMan_Type1",
+    "Actual original selected player and lizard BDAE model library/controllers",
+    "Authored NPC initial Z rotation89.6209 degrees fixture passed into generic source rest producer",
+    "Independent original bounds and dh2_character_body_config agree exactly with plan",
+    "Unknown explicit IDs/controller count mismatch fail atomically preserving existing plan",
+    "Source type0 nameprefix case/position rules verified",
+    "Special source static84 polygon explicitly excludes circular radius",
+    "Manual native executable passed"
+  ],
+  "observed": [
+    {
+      "row": "KnightPlayerBase",
+      "controller_count": 4,
+      "rotation_z_degrees": 89.6209,
+      "radius_game_units_rounded": 113.901
+    },
+    {
+      "row": "Swamp_LizadMan_Type1",
+      "controller_count": 1,
+      "rotation_z_degrees": 89.6209,
+      "radius_game_units_rounded": 63.3559
+    }
+  ],
+  "fixtures": [
+    "The model/class row and source initial rotation are test input fixtures; no class/map branches in helper",
+    "Static84 is explicit test input zero/one; production must obtain actual source byte",
+    "Player fixture explicitly selected four default warrior controllers; helper derives no warrior selector"
+  ],
+  "integration": "Root may bind the owned boxes to sole actual source physical owner and use radius_game_units for admitted circle-only controller setup. Preserve cached bounds across animation; use source position update to translate them. Native allocation, PF publication and source live lifecycle remain separate components.",
+  "command": ".local-inputs/windows-encounter-source/original_actor_body_plan_tests.exe .local-inputs/windows-shared-assets",
+  "dependencies": "Existing original_actor_bounds/modular_defaults/recovered BRES/scene/skinning/math/properties/AI and dh2_character_body_config; no additional body backend or retained VM hierarchy for planning."
+}

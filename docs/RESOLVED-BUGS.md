@@ -1,0 +1,9 @@
+# Resolved Bugs — Act 1
+
+Stable IDs are retained here after the fix passes its integrated gate. This is not release acceptance: Preview9 remains the only accepted release unless root records a later package acceptance. Related open issues remain in [the active tracker](BUGS-AND-IMPLEMENTATION.md).
+
+| ID | Resolved behavior | Focused/source evidence | Integrated evidence | Remaining boundary |
+|---|---|---|---|---|
+| B014 | Ordinary XP rewards no longer restore stale sheet HP/MP; the live actor vitals sync into the candidate sheet before progression, while a real level-up still uses the source refill branch. | `run_runtime_death_rewards_v1_tests.ps1` passes two non-level awards, actual threshold crossing, and strict SaveStore reload. Independent review passed. | Frozen `ACB532…ADC6038` includes the normal 480-frame Rogue XP 8→16, kill/body-removal and F5/R/F9 HP/RNG preservation run. | Preview9 does not include the fix; next package still needs the broader profile save matrix and root acceptance. |
+| B017 | Skills Active text renders source green; Grey anchor follows the emitted class icon and preserves source alpha/geometry. | Source text/menu tests and Rogue level-1/rank-0 regression pass. | Frozen `ACB532…ADC6038` direct Skills capture shows green Active and 16 rows. | Level/prerequisite chains and subclass art remain separate open issues B020/B021. Preview9 remains accepted. |
+| B031 | Physical-presence save/reload no longer recreates removed bodies or replays death/reward End34. | GameSave v3 true/false/unknown, v1/v2 no-inference, restore atomicity tests pass. | Frozen `9C40` run verifies two kills/rewards/End34 and 80 post-restore frames without body/reward replay. | Preview9 does not include the fix; preserve user saves and carry the evidence into the next candidate. |

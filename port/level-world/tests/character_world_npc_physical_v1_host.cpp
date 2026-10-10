@@ -98,6 +98,21 @@ int main(int argc,char** argv){try{
  }
  check(interactive==11);
  for(auto& actor:actors){auto& n=*actor;check(!character_npc_external_init_final_v1(*n.session,0xdead,error));check(n.session->combat_state()==n.life&&n.owner->state().current==3);}
+ // Authored __npc__ selects AISDefault. Its source virtual16 completes
+ // without calling Lua, including when an OnInitFinal function is present.
+ {
+  const auto row=std::find_if(d.ai()->rows.begin(),d.ai()->rows.end(),[](const auto& value){return value.script=="__npc__";});check(row!=d.ai()->rows.end());
+  auto properties=std::make_shared<dh2::data::PropertyState>(*actors.front()->properties);properties->resolved[1]=std::int32_t(row-d.ai()->rows.begin());
+  CharacterScriptSessionInput input{};input.identity=0x300000001ull;input.name="DefaultNpc";input.properties=properties;input.combat=std::make_shared<dh2::data::CombatActorState>();input.source_is_character=1;input.common={common.data(),common.size()};input.host=&host;input.level=&level;
+  auto session=CharacterScriptSession::create(design.borrow(),input,error);check(session&&session->start()==0);const auto view=active(*session);check(view.kind==script_default);
+  const char script[]="fabricated_final_calls=0;function OnInitFinal()fabricated_final_calls=fabricated_final_calls+1 end";
+  check(!dh2_script_vm_load(view.vm,script,sizeof(script)-1,"@default-final-regression"));
+  check(!dh2_script_alias_add(view.aliases,"OnInitFinal","OnInitFinal"));
+  check(!character_npc_external_init_final_v1(*session,0xdead,error));
+  check(character_npc_external_init_final_v1(*session,view.identity,error)&&error.empty());
+  check(character_npc_external_init_final_v1(*session,view.identity,error)&&error.empty());
+  check(get(view.vm,"fabricated_final_calls").number==0&&active(*session).identity==view.identity);
+ }
  check(character_light_set_id_v1("PlayerLight")==0&&character_light_set_id_v1("SceneLight")==1&&character_light_set_id_v1("CameraLight")==2&&character_light_set_id_v1("MonsterLight")==3&&character_light_set_id_v1("absent")==0);
  auto object_properties=file((root+"/port/level-world/reference/character-world-npc-object-v1/crypt01-object-properties.bin").c_str());CharacterWorldNpcPropertiesV1 property_loader;
  check(property_loader.load(object_properties.data(),object_properties.size(),digest,keys));
@@ -192,6 +207,7 @@ int main(int argc,char** argv){try{
  <<",\"genuine_native_bodies_created_destroyed\":12,\"missing_PF_tail_preserves_body_prefix\":true"
  <<",\"source_InitPhysical_complete_actors\":11,\"full_InitFinal_current_Crypt_domain\":true"
  <<",\"actual_InitFinal_VM_dispatches\":11,\"source_scene_bridge\":true,\"common_Random_borrowed\":true"
+ <<",\"authored_default_InitFinal_noop_without_Lua\":true"
  <<",\"same_FSM_property_life_target_AI_controller\":true,\"same_paused_byte\":true"
  <<",\"source_collision_clock_fixture\":true,\"byte80_explicit_fixture\":false"
  <<",\"source_visible_default_producer\":true,\"moving_state_ID_fixture\":true,\"full_NPC_AI\":false}\n";return 0;

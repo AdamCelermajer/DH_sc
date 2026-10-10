@@ -6,11 +6,11 @@ world::GameObjectInitializationServicesV1 WorldItemGraphV3::initialization(){aut
 WorldItemGraphV3::WorldItemGraphV3(std::shared_ptr<RetainedWorldItemObjectV1> item,physical::NativeWorld& world,WorldItemGraphServicesV3 s)
  :item_(std::move(item)),services_(std::move(s)),visual_(item_,services_.visual,initialization()),physical_(*item_,world,services_.physical),world_(world){}
 bool WorldItemGraphV3::visibility(bool requested,std::string& e){
- auto& b=item_->base();const bool visible=requested&&b.lifecycle().enabled8a;
- if(!b.store_byte(0x80,visible?1:0,e))return false;
+ auto& b=item_->base();const auto visible=requested?b.lifecycle().enabled8a:std::uint8_t{0};
+ if(!b.store_byte(0x80,visible,e))return false;
  auto* pointer=b.pointer(0x2d8);if(!pointer){e="Required same Item visual field";return false;}if(!*pointer)return true;
  auto v=visual_.visual();if(!v){e="Required same Item visibility visual";return false;}
- bool effective=visible;if(effective&&!b.lifecycle().non_zonable2ed&&b.lifecycle().zoning2ee&&!b.lifecycle().entered2f0)effective=false;
+ bool effective=visible!=0;if(effective&&!b.lifecycle().non_zonable2ed&&b.lifecycle().zoning2ee&&!b.lifecycle().entered2f0)effective=false;
  return v->set_root_local_visibility_v3(effective,e);
 }
 bool WorldItemGraphV3::filter(bool enabled,std::string& e){
@@ -53,6 +53,7 @@ bool WorldItemGraphV3::route(const WorldItemRequestV1& q,std::int32_t& result,bo
  case WorldItemOperationV1::set_physical:
   if(pending_physical_assignment_){if(!physical_.assign(e))return false;pending_physical_assignment_=false;return true;}
   return physical_.detach(e);
+ case WorldItemOperationV1::set_visible:return visibility(q.flag,e);
  case WorldItemOperationV1::enable:{auto& b=item_->base();world::ObjectEnableConditionBorrowV2 borrow{b.byte(0x8a),b.integer(0xec),b.byte(0xf1),b.pointer(0xa8),b.byte(0xac)};auto s=services_.enable;s.context=this;s.enabled_event=[](void* p,bool value,std::string& error){return static_cast<WorldItemGraphV3*>(p)->enable_event(value,error);};return world::object_set_enable_v2(borrow,s,q.flag,e);}
  case WorldItemOperationV1::remove_all:
   if(!q.flag){e="Required source RemoveAllItems(false) equipped-item continuation";return false;}

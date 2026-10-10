@@ -78,10 +78,12 @@ bool GfntTextBackendV1::glyph(const TextBitmapFaceV2& face,std::uint16_t code,
  if(!next.image){error="GFNT source cache did not deliver registered image";return false;}
  selected->glyphs.emplace(key,next);out=std::move(next);return true;
 }
+bool GfntTextBackendV1::clear_fonts(std::string& error){faces_.clear();resources_.clear();error.clear();return true;}
 TextFontBackendsV2 GfntTextBackendV1::backends(){
  TextFontBackendsV2 result;
  result.bitmap_face=[this](const auto& f,auto& out,std::string& e){return face(f,out,e);};
  result.bitmap_glyph=[this](const auto& f,auto code,auto size,auto& out,std::string& e){return glyph(f,code,size,out,e);};
+ result.clear_fonts=[this](std::string& e){return clear_fonts(e);};
  return result;
 }
 }

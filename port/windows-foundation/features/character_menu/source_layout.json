@@ -1,0 +1,173 @@
+{
+  "source": "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\menus\\dqcharmenu_droid.swf",
+  "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+  "frame_policy": "actual source defaultStats328+386; selected main tab icon sampled at frame32 for Stats/Inventory/Skills/Faery (full source alpha); Faery page art/content comes from its independent provider; source stat-training sprite316 frame10 when resolved Stat_Points property148 is zero; otherwise idle frame0; detail/resistance named frames retained; other AS dynamics unavailable",
+  "viewport": "actualFlashCamera mode0 independentaxisstretch; nofitletterbox",
+  "mask_applications": [],
+  "excluded": [
+    {
+      "path": "menu_CharacterSheetNew/Energy/btn_train_energy/anim_glow/1",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_CharacterSheetNew/Endurance/btn_train_endurance/anim_glow/1",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_CharacterSheetNew/Dexterity/btn_train_dexterity/anim_glow/1",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_CharacterSheetNew/Strength/btn_train_strength/anim_glow/1",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_CharacterSheetNew/Energy/btn_train_energy/anim_glow/1",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_CharacterSheetNew/Endurance/btn_train_endurance/anim_glow/1",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_CharacterSheetNew/Dexterity/btn_train_dexterity/anim_glow/1",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_CharacterSheetNew/Strength/btn_train_strength/anim_glow/1",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/btn_add/anim_glow/1",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill0/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill1/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill2/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill3/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill5/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill4/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill6/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill7/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill8/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill9/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill10/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill11/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill12/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill13/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill14/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/btn_skill15/locked",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill0/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill1/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill2/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill3/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill4/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill5/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill6/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill7/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill8/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill9/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill10/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill11/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill12/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill13/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill14/untrained",
+      "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_SkillTreeSheetNew/buttons/skill15/untrained",
+      "reason": "mask/color/filter branch excluded"
+    }
+  ]
+}

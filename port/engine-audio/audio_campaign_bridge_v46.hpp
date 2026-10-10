@@ -1,5 +1,5 @@
 #pragma once
-#include "integration-v42/application/native_audio_application_v42.hpp"
+#include "integration-v42/audio_application_manager_v42.hpp"
 #include "audio_source_command_v40.hpp"
 #include "../level-loader/canonical_level_context_v1.hpp"
 #include <functional>
@@ -24,10 +24,29 @@ struct AudioCampaignServicesV46 {
  AudioRandomV34 actual_vox_random;
  std::shared_ptr<const std::vector<std::uint8_t>> exact_legacy_listener_stream;
 };
+// Platform-owned Application playback publisher. `target` must be the exact
+// captured manager being used by the bridge. The callback context is retained
+// at its actual object address; it must not own the target manager or provider.
+// Detach is an expected-owner clear, so a stale bridge cannot clear a newer
+// campaign publication on the same process manager.
+struct AudioGameplayPublisherV46 {
+ using Publish=bool(*)(void*,const AudioGameplaySourcesV40&,
+                       const std::shared_ptr<void>&,std::string&);
+ using DetachExpected=bool(*)(void*,const AudioApplicationBorrowV42&,
+                              const std::shared_ptr<void>&,bool&,std::string&);
+ AudioApplicationBorrowV42 target;
+ std::shared_ptr<void> context_owner;
+ void* context{};
+ Publish publish{};
+ DetachExpected detach_expected{};
+};
 // One actual campaign lease publishes providers to the persistent Application
 // manager. Lifecycle/phase/settings facts are read, never copied into readiness.
 class AudioCampaignBridgeV46:public std::enable_shared_from_this<AudioCampaignBridgeV46> {
  AudioApplicationBorrowV42 manager_;AudioCampaignServicesV46 services_;
+ std::shared_ptr<void> publisher_context_owner_;void* publisher_context_{};
+ AudioGameplayPublisherV46::DetachExpected detach_expected_{};
+ bool published_{};
  std::vector<AudioListenerRowV38>listeners_;std::uint64_t epoch_{};
  std::array<float,3>posted_volumes_{};bool volumes_posted_{};
  std::thread::id producer_{std::this_thread::get_id()};std::string failure_;
@@ -37,6 +56,12 @@ class AudioCampaignBridgeV46:public std::enable_shared_from_this<AudioCampaignBr
  bool current(std::shared_ptr<dh2::loader::CanonicalLevelContextV1>&,std::string&);
 public:
  static std::shared_ptr<AudioCampaignBridgeV46> publish(AudioCampaignServicesV46,std::string&);
+ static std::shared_ptr<AudioCampaignBridgeV46> publish_on_owner(
+  AudioApplicationBorrowV42,AudioCampaignServicesV46,AudioGameplayPublisherV46,std::string&);
+ // Explicitly clear this exact publication before shutting down its manager.
+ // A callback failure retains all owner/context pins for a retry; destruction
+ // does not silently alter process publication state.
+ bool unpublish_expected(std::string&);
  bool submit(AudioCategoryV46,const character::CombatSoundPlayV1&,std::int64_t actual_event_ns,std::string&);
  bool source_prefix_without_clock(const character::CombatSoundPlayV1&,std::string&);
  bool take_receipt(AudioReceiptV34&);

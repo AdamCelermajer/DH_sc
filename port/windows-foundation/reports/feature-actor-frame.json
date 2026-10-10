@@ -1,0 +1,46 @@
+{
+  "status": "native_verified_canonical_visual_root_and_late_motion_prefix_component",
+  "files": ["features/actor_frame/actor_visual_root.hpp", "features/actor_frame/actor_visual_root.cpp", "features/actor_frame/tests/actor_visual_root_tests.cpp"],
+  "scope": "Canonical separately owned visual root and source-backed late actor motion-prefix adapter. No main/Core/CMake edits, duplicated actor/PF/path/FSM/property owner, global physics Step or whole frame parity claim.",
+  "api": {
+    "namespace": "dh::foundation::features",
+    "root": "Shared ActorVisualRoot, bind(ActorVisualRootBindings,error), stage_displacement(vector<Vec3> rawDeltas, sampledRoot, moved,error), subobjects_visual(), render_placement(), submit(gameToRender,actualMeshMatrixSubmit,error)",
+    "frame": "reconcile_actor_frame(root,OriginalActorMotionFrameBorrow,actualPathRotationTargetServices,OriginalActorSubobjectsInput,ActorFrameResult,error)",
+    "camera": "actor_frame_can_move_towards(shared actual PlayerManagerOwnerV1,LevelCanMoveServicesV108,position,heading,accepted,error)"
+  },
+  "source_evidence": {
+    "earlier_displacement": "port/level-world/visual_motion.cpp dh2_visual_displace: sum per-slot source deltas, scale root XY, zero raw Z, original quaternion transform, mutate visual root position and helper compensation. Does not publish GameObject position.",
+    "late_order": "GameObject.Update38cbe8: source previous190/19c snapshots, UpdatePath38ccc4, UpdateRotation38cccc, UpdateSubObjects38ccd4, UpdateTargetPosition38ccdc. Feature delegates original_actor_motion_frame rather than creating a second scheduler.",
+    "late_position": "GameObject.UpdateSubObjects3943cc selects Visual.ApplyPosition after earlier path/rotation; original_actor_subobjects adapter invokes whole SAME source SetPosition/native/PF services and reconciles actual visual root.",
+    "visual_empty_leaves": "IDA00470cf0 VisualObject.Update and00470ccc VisualObject.ApplyRotation each empty body. Only caller-supplied exact endpoint IDs admit these empty leaves; other endpoints need actual services.",
+    "rotation": "VisualObject.SyncRotation472948 reads owner Euler16c; dh2_visual_rotation uses source(Y,-X,-Z) quaternion construction. Source-radian owner fields required; no fresh displacement rotation using late yaw.",
+    "scale": "VisualObject.SyncScaling472860 reads owner120. SetScaling4727ac compares all3 values, stores changed scale, then CalcMeshBox and ApplyMeshBox. Feature requires actual changed_mesh_bounds continuation when this tail is reached and preserves stored-scale prefix on failure.",
+    "count_first": "Level.CanMoveTowards3f94f4 first reads PlayerManager count6c4 and returns true for count1 before GetOnline, camera parent, settings, cooperative players or screen projection. Existing level_can_move_towards_v108 kernel reused. Feature overrides count callback with SAME initialized PlayerManagerOwnerV1.character_count_field, not constant1 or actor population size."
+  },
+  "ownership_and_render_contract": {
+    "canonical_storage": "Root owns only dh2::visual::Root and its renderer Mat4. ActorState/model/actualvisual2d8 slot have explicit shared leases and identity checks. Actor positions remain unchanged during stage_displacement, even though render submission uses the staged root matrix.",
+    "actual_model": "Existing CharacterVisual is borrowed, not decoded or sampled again by the feature. Animated models must enable source root compensation; otherwise bind rejects double visual displacement. CharacterVisual compensated posed vertices already include helper cancellation, so render placement multiplies only owner root TRS, not helper twice.",
+    "source_scale": "Caller supplies actual root scale and scale120 producer. Source game/model coordinates retained. Initial root XYZ/quaternion/helper presence and exact visual endpoints must come from actual constructor/InitPost/model admission, not type-specific guesses.",
+    "render_submission": "submit(gameToRender,callback) composes external coordinate conversion with canonical root matrix and sends actual model meshes plus that matrix to renderer or queue. Host must stop deriving body/equipment/camera visual transforms solely from ActorState placement.",
+    "subobjects": "Concrete receiver identity/position_ac, absolute matrix, SyncRotation, SyncScaling and proved base leaves supplied by root. Whole GameObject.SetPosition remains host actual bodypool setter; configure that setter's visual_sync_position to root.sync_position, preserving source nested visual synchronization.",
+    "late_services": "Actual path/heading, rotation and own-target cache services remain mandatory reached callbacks. Root wrapper neither filters Move/Idle/Attack nor derives source flags from action. Actual borrowed flags520 and actual validating-camera/native/floor/auxiliary services remain input authority.",
+    "lifecycle": "Root model/actor leases must be rebuilt after actor/model registry replacement. Acquire current source native/PF/slot borrow for frame entry. Physical replacement during bounded source invocation remains explicit unsupported failure; no ghost native body."
+  },
+  "native_test": {
+    "result": "PASS",
+    "assets": "Real KnightPlayerBase source properties, Prince model/template/Walk clip, source rest body plan, actual Box2D2.0.1 body, authored Swamp module floor and sole PF/obstacle registry.",
+    "early": "Samples real Walk100ms, stages raw original delta and sampled root, verifies actor position remains old while actual decoded mesh submission receives changed root placement.",
+    "late": "Original snapshot sees old actor position; actual pool.manualHeading copies old actor point to same PF; recovered actor_rotation kernel uses real resolved rotation speed; canonical quaternion changes late. SubObjects then reconciles visual position/floor/native and actual authored own-node target callback follows.",
+    "count": "Actual PlayerManagerOwnerV1 owns registry and count6c4. Explicit AddCharacter receiver fixture publishes borrowed SAME actor identity/count field. Count1 CanMoveTowards succeeds with online/camera/screen dependencies absent. This proves branch ordering and real retained registry count transport, not full source AddCharacter initialization/network runtime.",
+    "failure": "Unknown visual endpoint fails; changed-scale missing mesh-box tail fails preserving root scale store. Gameplay HP/target and immutable sheets remain unchanged. Pool release detaches registry obstacle.",
+    "compiler": "New feature and test compile C++17 -Wall -Wextra -Werror. Existing player_manager_owner_v1.cpp compiled separately with its preexisting misleading-indentation warning demoted; no worker edits to that source.",
+    "dependencies": "foundation_data/recovered_content/trigger/content_xml/Box2D; recovered player_manager_owner_v1.cpp, player_manager_loot_queries_v8.cpp and level_can_move_towards_v108.cpp if not already linked."
+  },
+  "remaining": [
+    "Live renderer/Core hookup is parent-owned and pending. Test submission observes actual mesh/matrix transport, not a WGL pixel capture or main gameplay execution.",
+    "Original in-sampler event callbacks/full focus owners, source global admission/prefix/tails, native contact/FSM and global world Step remain independent gaps.",
+    "SubObjects recovered kernel snapshots policy/presence rather than reproducing all original reentrant getter timing. Its observable native BodyState does not claim actual force/torque internals.",
+    "Source scale changes need real cached mesh-box/body-bound publication callback. Feature deliberately fails that reached tail when host cannot supply it.",
+    "Count route requires actual initialized PlayerManagerOwnerV1; world actor count, hardcoded single player, or unbound registry is rejected as authority. Cooperative camera/online/viewport branches still require actual reached providers."
+  ]
+}

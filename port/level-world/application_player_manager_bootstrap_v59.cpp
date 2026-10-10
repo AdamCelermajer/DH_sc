@@ -1,5 +1,6 @@
 #include "application_player_manager_bootstrap_v59.hpp"
 #include "application_services_owner_v5.hpp"
+#include <exception>
 namespace dh2::player {
 ApplicationPlayerManagerBootstrapV59::ApplicationPlayerManagerBootstrapV59(const std::shared_ptr<application::ApplicationServicesOwnerV5>& app)
  :lifetime_(std::make_shared<ProviderLifetime>()) {lifetime_->application=app;}
@@ -95,6 +96,45 @@ bool ApplicationPlayerManagerBootstrapV59::source_first_local_add_prefix(const F
    if(e.empty())e="Required SAME existing local-map PlayerInfo0";
    phase_=PlayerManagerBootstrapPhaseV59::first_local_failed;error_=e;return false;
   }
+  // IDA's _CheckLocalControllers first tests IsPlayerInLocalMap(0), then
+  // skips _AddPlayer when that map key already exists. GetLocalPlayer(0,false)
+  // independently enumerates only PlayerInfo records with local66c set. A
+  // non-local record under internal key 0 therefore makes the source prefix
+  // finish without producing a local player; surface that exact mismatch here
+  // rather than reporting a successful first-local setup and failing later
+  // when NativeAssignSaveSlotToPlayer resolves the PlayerManager sentinel.
+  if(!current->local66c){
+   auto& manager=actual_runtime_->manager();
+   std::int32_t total=-1,local_any=-1,local_with_character=-1;
+   const bool have_total=manager.num_players(total,e);
+   std::string count_error=e;e.clear();
+   const bool have_local_any=manager.num_local_players(false,local_any,e);
+   if(!e.empty()){if(!count_error.empty())count_error+="; ";count_error+="local_count="+e;}e.clear();
+   const bool have_local_with_character=manager.num_local_players(true,local_with_character,e);
+   if(!e.empty()){if(!count_error.empty())count_error+="; ";count_error+="local_with_character="+e;}e.clear();
+   PlayerInfoFieldsV1* resolved{};const bool resolved_ok=manager.get_local_player(0,false,resolved,e);
+   if(!e.empty()){if(!count_error.empty())count_error+="; ";count_error+="get_local="+e;}e.clear();
+   PlayerInfoFieldsV1* sentinel{};const bool sentinel_ok=manager.get_by_internal(-1,false,sentinel,e);
+   if(!e.empty()){if(!count_error.empty())count_error+="; ";count_error+="sentinel="+e;}e.clear();
+   e="First-local setup skipped AddPlayer because internal ID 0 is mapped to a non-local PlayerInfo"
+     " {mapped internal670="+std::to_string(current->internal670)+
+     ", local66c="+std::to_string(current->local66c)+
+     ", save_slot664="+std::to_string(current->save_slot664)+
+     "; total_players="+(have_total?std::to_string(total):"unavailable")+
+     "; local_players_no_character="+(have_local_any?std::to_string(local_any):"unavailable")+
+     "; local_players_with_character="+(have_local_with_character?std::to_string(local_with_character):"unavailable")+
+     "; get_local_0_false="+(resolved_ok?"ok":"failed")+
+     ", same_as_sentinel="+((resolved_ok&&sentinel_ok&&resolved==sentinel)?"true":"false")+
+     ", internal670="+(resolved_ok&&resolved?std::to_string(resolved->internal670):"unavailable")+
+     ", local66c="+(resolved_ok&&resolved?std::to_string(resolved->local66c):"unavailable")+
+     ", save_slot664="+(resolved_ok&&resolved?std::to_string(resolved->save_slot664):"unavailable")+
+     "; sentinel_lookup="+(sentinel_ok?"ok":"failed")+
+     ", internal670="+(sentinel_ok&&sentinel?std::to_string(sentinel->internal670):"unavailable")+
+     ", local66c="+(sentinel_ok&&sentinel?std::to_string(sentinel->local66c):"unavailable")+
+     ", save_slot664="+(sentinel_ok&&sentinel?std::to_string(sentinel->save_slot664):"unavailable")+
+     (count_error.empty()?"":"; query_errors="+count_error)+"}";
+   phase_=PlayerManagerBootstrapPhaseV59::first_local_failed;error_=e;return false;
+  }
   profile_input_pending_=current->save_slot664==-1;
   phase_=PlayerManagerBootstrapPhaseV59::first_local_retained;e.clear();return true;
  }
@@ -111,14 +151,42 @@ bool ApplicationPlayerManagerBootstrapV59::publish_selected_save_slot_v67(std::i
  bool online{};if(!network_enabled(online,e))return false;
  if(online){e="Selected local profile requires actual offline PlayerInfo";return false;}
  PlayerInfoFieldsV1* player{};
- if(!actual_runtime_->manager().get_local_player(index,false,player,e)||!player||
-    !player->local66c||player->internal670<0||player->character660){
-  if(e.empty())e="Selected slot requires existing local PlayerInfo before Character publication";return false;
+ if(!actual_runtime_->manager().get_local_player(index,false,player,e))return false;
+ if(!player){e="Selected slot requires an actual local PlayerInfo receiver";return false;}
+ if(!player->local66c||player->internal670<0){
+  auto& manager=actual_runtime_->manager();std::int32_t total=-1,locals=-1;
+  const bool have_total=manager.num_players(total,e);std::string query_errors=e;e.clear();
+  const bool have_locals=manager.num_local_players(false,locals,e);
+  if(!e.empty()){if(!query_errors.empty())query_errors+="; ";query_errors+="local_count="+e;}e.clear();
+  PlayerInfoFieldsV1* internal_zero{};const bool have_zero=manager.get_by_internal(0,false,internal_zero,e);
+  if(!e.empty()){if(!query_errors.empty())query_errors+="; ";query_errors+="internal0="+e;}e.clear();
+  PlayerInfoFieldsV1* sentinel{};const bool have_sentinel=manager.get_by_internal(-1,false,sentinel,e);
+  if(!e.empty()){if(!query_errors.empty())query_errors+="; ";query_errors+="sentinel="+e;}e.clear();
+  e="Selected slot resolved to the PlayerManager sentinel/non-local PlayerInfo"
+    " {local_index="+std::to_string(index)+", selected_slot="+std::to_string(slot)+
+    ", total_players="+(have_total?std::to_string(total):"unavailable")+
+    ", local_players="+(have_locals?std::to_string(locals):"unavailable")+
+    ", resolved_internal670="+std::to_string(player->internal670)+
+    ", resolved_local66c="+std::to_string(player->local66c)+
+    ", resolved_save_slot664="+std::to_string(player->save_slot664)+
+    ", same_as_sentinel="+((have_sentinel&&sentinel==player)?"true":"false")+
+    ", internal0="+(have_zero&&internal_zero?std::to_string(internal_zero->internal670):"unavailable")+
+    ", internal0_local="+(have_zero&&internal_zero?std::to_string(internal_zero->local66c):"unavailable")+
+    ", internal0_slot="+(have_zero&&internal_zero?std::to_string(internal_zero->save_slot664):"unavailable")+
+    (query_errors.empty()?"":"; query_errors="+query_errors)+"}";return false;
+ }
+ if(player->character660){
+  e="Selected slot reached after Character660 publication; preserve the live Character owner";return false;
  }
  if(player->save_slot664!=-1&&player->save_slot664!=slot){
   e="A different profile already owns this PlayerInfo; require actual player removal";return false;
  }
  player->save_slot664=slot;profile_input_pending_=false;e.clear();return true;
+}
+bool ApplicationPlayerManagerBootstrapV59::assign_selected_save_slot_v70(std::int32_t index,std::int32_t slot,
+ const FirstLocalControllerServicesV59& controllers,std::string& e){
+ if(!source_first_local_add_prefix(controllers,e))return false;
+ return publish_selected_save_slot_v67(index,slot,e);
 }
 bool ApplicationPlayerManagerBootstrapV59::publish_selected_profile_v68(std::int32_t index,std::int32_t slot,std::int32_t selected_class,std::string& e){
  if(selected_class<0){e="Required actual selected-profile PCLS row";return false;}
@@ -131,6 +199,32 @@ bool ApplicationPlayerManagerBootstrapV59::bind_remaining(std::shared_ptr<void> 
  if(remaining_provider_&&(remaining_provider_.get()!=owner.get()||remaining_.context!=s.context||remaining_.invoke!=s.invoke||
     remaining_provider_.owner_before(owner)||owner.owner_before(remaining_provider_))){e="PlayerManager continuation belongs to a different source owner";return false;}
  remaining_provider_=std::move(owner);remaining_=s;e.clear();return true;
+}
+bool ApplicationPlayerManagerBootstrapV59::bind_campaign_remaining(const std::shared_ptr<void>& campaign,
+ std::shared_ptr<void> provider,PlayerManagerServicesV1 s,
+ std::function<bool(std::string&)> retired,std::string& e){
+ if(!available(e)||busy_||service_depth_||actual_runtime_->source_transport_active_v59()||
+    !campaign||!provider||s.context!=provider.get()||!s.invoke||!retired||
+    (!provider.owner_before(campaign)&&!campaign.owner_before(provider))){
+  if(e.empty())e="Required idle SAME PM and independent actual campaign continuation";return false;
+ }
+ const auto same=[](const auto& a,const auto& b){return a&&b&&a.get()==b.get()&&!a.owner_before(b)&&!b.owner_before(a);};
+ if(remaining_provider_&&same(remaining_provider_,provider)&&remaining_.context==s.context&&
+    remaining_.invoke==s.invoke&&same(remaining_campaign_.lock(),campaign)){e.clear();return true;}
+ if(remaining_provider_&&(!remaining_campaign_retired_||same(remaining_campaign_.lock(),campaign))){
+  e="PlayerManager continuation requires a different campaign after authentic prior retirement";return false;
+ }
+ // Pin the old descriptor while checking its weak source-slot witness. Reentry
+ // cannot replace it, and a failed validator leaves the whole binding intact.
+ auto previous=remaining_provider_;
+ busy_=true;struct Scope{bool& busy;~Scope(){busy=false;}}scope{busy_};
+ if(previous){
+  try{if(!remaining_campaign_retired_(e)){if(e.empty())e="Prior PlayerManager campaign has not retired";return false;}}
+  catch(const std::exception& failure){e=failure.what();return false;}
+  catch(...){e="PlayerManager campaign retirement witness threw";return false;}
+ }
+ remaining_campaign_=campaign;remaining_campaign_retired_=std::move(retired);
+ remaining_=s;remaining_provider_=std::move(provider);e.clear();return true;
 }
 bool ApplicationPlayerManagerBootstrapV59::bind_existing_buffers(std::shared_ptr<void> owner,
  std::function<bool(PlayerInfoFieldsV1&,std::shared_ptr<PlayerInfoSkillBuffersV26>&,std::string&)> get,std::string& e){

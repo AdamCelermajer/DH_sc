@@ -1,0 +1,28 @@
+{
+  "feature": "RuntimeEffectsRendererV1",
+  "validation": "PASS",
+  "runner": "port/windows-foundation/features/effects/runtime_effects_renderer_v1_tests.py",
+  "test": "port/windows-foundation/features/effects/runtime_effects_renderer_v1_tests.cpp",
+  "source_result": {
+    "validation": "PASS",
+    "checks": 9,
+    "queued_packets": 1,
+    "gpu_calls": 0,
+    "wgl_created": false
+  },
+  "source_sha256": {
+    "port/windows-foundation/features/effects/runtime_effects_renderer_v1_tests.cpp": "8761bd90a03d5ee3bdfa6bb2cacc7471dea265a55a2950aa255e26135f51d9d1",
+    "port/windows-foundation/features/effects/runtime_effects_renderer_v1.cpp": "a716c01c68d20570a2b98eaeedaf76d29bb0ca453ad78ee8c4be7d0ac39d2e93",
+    "port/windows-foundation/renderer.cpp": "b152499a6701e1a29460b9bd40038619438228e69db1f1f01d2e7c06e155f648"
+  },
+  "claims": {
+    "actual_root_renderer_callbacks_bound": true,
+    "exact_shared_frames_retained_until_drain": true,
+    "invalid_source_packets_rejected": true,
+    "gpu_calls": false,
+    "wgl_context_created": false,
+    "draw_and_finish_and_drain_runtime_path_executed": true,
+    "global_scene_manager_ordering": "caller inserts draw_queued at its established render slot"
+  },
+  "wgl_integration_report": "port/windows-foundation/features/effects/runtime-effects-renderer-wgl-report.json"
+}

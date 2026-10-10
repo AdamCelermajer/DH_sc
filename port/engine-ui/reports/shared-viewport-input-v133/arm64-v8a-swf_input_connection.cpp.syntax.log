@@ -1,0 +1,8 @@
+In file included from C:\Users\adamc\Desktop\workspace\DH_sc\port\engine-ui\swf_input_connection.cpp:8:
+C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1/gameswf/gameswf_text.h:234:9: warning: 'gameswf::edit_text_character::get_root' hides overloaded virtual function [-Woverloaded-virtual]
+  234 |                 root* get_root();
+      |                       ^
+C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714/gameswf/gameswf_object.h:100:33: note: hidden overloaded virtual function 'gameswf::as_object::get_root' declared here: different qualifiers ('const' vs unqualified)
+  100 |                 exported_module virtual root* get_root() const;
+      |                                               ^
+1 warning generated.

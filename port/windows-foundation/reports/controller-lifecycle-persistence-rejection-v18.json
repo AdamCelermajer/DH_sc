@@ -1,0 +1,18 @@
+{
+  "status": "expected_runtime_rejections_verified",
+  "goal_complete": false,
+  "executable_sha256": "79e566435081650206a03ecb028736a97770fa28d38722438a1a90645e7819d8",
+  "save_sha256": "978ce6165490ee1174ce0661a10adb9e12963a7f607c1ca12bd9fe290d85e826",
+  "checks": [
+    {
+      "name": "controller-save-rejection",
+      "exit_code": 1,
+      "durable_save_preserved": true
+    },
+    {
+      "name": "lifecycle-save-rejection",
+      "exit_code": 1,
+      "durable_save_preserved": true
+    }
+  ]
+}

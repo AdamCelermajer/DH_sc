@@ -1,0 +1,58 @@
+{
+  "feature": "original main menu and character creation",
+  "status": "interactive_source_host_handoff_original_reference_gate_open",
+  "prior_diagnostic": "FAILED original reference fidelity; reconstructed Android output is not a visual target",
+  "ownership": "features/frontend, feature report and local build only; root main/core/CMake and accepted releases untouched",
+  "handoff": "coordination/integration-lead/handoffs/frontend.md",
+  "native_executable": ".local-inputs/frontend-feature-build/dh-frontend-diagnostic.exe",
+  "exe_sha256": "fb0652c2289985beb3e4baf1d22a9d78ea53805e02840ce7f49a6cd82eced0e5",
+  "tests": {
+    "latest_build": "PASS with canonical navigation, endpoint hold and light metadata",
+    "latest_components": "8/8 PASS in 0.75 seconds; ctest-components-latest.log",
+    "prior_isolated_complete_suite": "8/8 PASS in 4.93 seconds including native Win32 event smoke; ctest.log",
+    "native_smoke": "Real own-HWND mouse down/up, WM_CHAR QA and Return, all three classes after source input gates; reached explicit missing create-slot service. One earlier concurrent run failed; isolated reruns passed."
+  },
+  "current_captures": [
+    "name-corrected.png",
+    "rogue-corrected.png",
+    "name-corrected-1080.ppm"
+  ],
+  "motion_previews": [
+    "showcase-knight.mp4",
+    "showcase-rogue.mp4",
+    "showcase-mage.mp4"
+  ],
+  "reference_acceptance": {
+    "name": "Original ornate background, red QWERTY/numbers, gold Confirm, Shift arrow and heading repaired; typography/scale differences remain",
+    "class": "Actual foreground showcase plus Warrior/Rogue/Mage lineup, header, class title/colored description/Confirm; native body motion independently verified after camera settles",
+    "main": "Correct source icons/empty-slot state; supplied saved Archer branch cannot be accepted without actual same-profile input",
+    "pixel_parity": "NOT claimed"
+  },
+  "implemented": [
+    "Complete retained generic dqmenus.swf graph with nine exact embedded textures and source stop frames",
+    "Interactive Win32 key/text/mouse/touch source-hit controller; source animation input gate",
+    "Source profile tokens, creation metadata and exact name/class navigation",
+    "Borrow-only SAME CharacterState canonical navigation boundary; no successful save/launch provider",
+    "Native MenuOnSelect clips and destination camera transitions; authored dummy transform; original 4:3 aspect verified from ARM ELF",
+    "Source endpoints held at Knight/Rogue 5000 ms and Mage 5366 ms; actual idle provider required, no stand-in idle",
+    "Exact source class-light metadata only; no fake LightPoint/material binding"
+  ],
+  "remaining": [
+    "Actual canonical Character factory, native stats/skills/effects projection and indexed save-slot/campaign/start owners",
+    "Actual SAME Character/NativeFsm24/CharacterStateOwner ordinary idle after CSAnim event34",
+    "Actual first Omni/LightPoint/PlayerLightSet/VisualObject/CMaterial uniform owner graph",
+    "Finite authored floor/foreground differences and material/lighting response against original reference",
+    "Complete AVM lifecycle, source masks/reflow/device text formatting and physical touch acceptance",
+    "Original saved Archer profile/campaign input unavailable"
+  ],
+  "source_docs": [
+    "creation/FULL-CREATION-OWNERS.md",
+    "flow/CANONICAL-INTEGRATION.md",
+    "preview/SOURCE_IDLE_AND_LIGHT_OWNERS.md",
+    "preview/CAMERA_ASPECT_PROOF.md",
+    "preview/SCENE_COVERAGE_PROOF.md",
+    "art/assets/source_bitmap_receipt.json",
+    "verification/evidence.json"
+  ],
+  "persistence": "No user-profile writes; complete creation/save/start owners fail explicitly. Local outputs and staged views only."
+}

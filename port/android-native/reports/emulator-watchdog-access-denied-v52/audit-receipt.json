@@ -1,0 +1,182 @@
+{
+  "scope": "Guard/shutdown access-denied reconciliation only; no emulator or workload processes started/stopped.",
+  "source_artifacts": {
+    "manifest.json": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\emulator-guards-v36\\20261008-232731-56bffac1.manifest.json",
+    "telemetry.jsonl": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\emulator-guards-v36\\20261008-232731-56bffac1.telemetry.jsonl",
+    "watchdog.json": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\emulator-guards-v36\\20261008-232731-56bffac1.watchdog.json",
+    "emulator.log": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\emulator-guards-v36\\20261008-232731-56bffac1.emulator.log"
+  },
+  "observed": {
+    "avd": "Medium_Phone_API_37.0",
+    "preflight_qemu": [],
+    "last_good_line": 254,
+    "last_good_utc": "2026-10-08T20:31:51Z",
+    "last_good_elapsed_seconds": 259.39100000000326,
+    "last_good_owned_qemu": [
+      {
+        "pid": 113580,
+        "parent_pid": 206692,
+        "image": "qemu-system-x86_64.exe",
+        "create_time_filetime": 134359648516969231,
+        "private_bytes": 4286062592,
+        "working_set_bytes": 2980376576,
+        "handles": 983,
+        "alive": true
+      }
+    ],
+    "last_good_shutdown_helpers": [
+      {
+        "pid": 11784,
+        "parent_pid": 113580,
+        "image": "cmd.exe",
+        "create_time_filetime": 134359651103753335,
+        "private_bytes": 6955008,
+        "working_set_bytes": 7725056,
+        "handles": 90,
+        "alive": true
+      },
+      {
+        "pid": 52580,
+        "parent_pid": 11784,
+        "image": "emulator.exe",
+        "create_time_filetime": 134359651103908223,
+        "private_bytes": 11190272,
+        "working_set_bytes": 12050432,
+        "handles": 170,
+        "alive": true
+      },
+      {
+        "pid": 103600,
+        "parent_pid": 113580,
+        "image": "cmd.exe",
+        "create_time_filetime": 134359651103815242,
+        "private_bytes": 6934528,
+        "working_set_bytes": 7725056,
+        "handles": 90,
+        "alive": true
+      },
+      {
+        "pid": 208004,
+        "parent_pid": 113580,
+        "image": "cmd.exe",
+        "create_time_filetime": 134359651103043216,
+        "private_bytes": 6754304,
+        "working_set_bytes": 7684096,
+        "handles": 90,
+        "alive": true
+      },
+      {
+        "pid": 280568,
+        "parent_pid": 208004,
+        "image": "adb.exe",
+        "create_time_filetime": 134359651103202223,
+        "private_bytes": 3506176,
+        "working_set_bytes": 13135872,
+        "handles": 172,
+        "alive": true
+      },
+      {
+        "pid": 301500,
+        "parent_pid": 103600,
+        "image": "emulator.exe",
+        "create_time_filetime": 134359651103927278,
+        "private_bytes": 11132928,
+        "working_set_bytes": 12038144,
+        "handles": 170,
+        "alive": true
+      }
+    ],
+    "failure_line": 255,
+    "failure_utc": "2026-10-08T20:31:52Z",
+    "failure_elapsed_seconds": 260.4219999999914,
+    "failure_errors": [
+      "RuntimeError: Unresolved access denied for pid=180060; census_present=True; job_member=False; fresh_image='qemu-system-x86_64.exe'"
+    ],
+    "failure_decision": {
+      "action": "terminate",
+      "reasons": [
+        "monitoring_unavailable"
+      ],
+      "observations": {
+        "invalid_snapshot": "Incomplete named-job process metrics"
+      }
+    },
+    "failure_job_pids": [
+      206692,
+      106156,
+      113580,
+      156592,
+      208004,
+      280568,
+      11784,
+      103600,
+      52580,
+      301500
+    ],
+    "failure_physical_used_percent": 69.00829961935014,
+    "failure_commit_headroom_gib": 43.35017395019531,
+    "pid180060_sampled_metric_count": 0,
+    "pid180060_cim_query": "Absent during this audit. No historical parent/create-time/command line saved.",
+    "verified_job_termination_succeeded": true
+  },
+  "attribution": {
+    "proven": "Owned main QEMU PID was 113580, not 180060; 180060 was census-visible and absent from named-job PID list at denial.",
+    "unproven": "Whether 180060 was a transient shutdown child, exited process object, failed child creation or reused PID, and why named job excluded it.",
+    "inference": "Shutdown-only emulator.exe/cmd.exe/adb.exe descendants make a transient helper race plausible; absent identity evidence prevents definitive attribution."
+  },
+  "change": {
+    "new_diagnostics": "Original census metadata plus each fresh census candidate and bounded named-job PID list; records survive incomplete snapshots.",
+    "yield_eligibility": "Original and fresh emulator/QEMU image and parent match, and fresh authoritative named job excludes PID.",
+    "acceptance": "Fresh census AND named-job query exclude PID; no zero/stale metric substitution.",
+    "bound": "At most three fresh census/job passes per denied PID, two 75ms planned sleeps, shared 150ms deadline across one snapshot. OS scheduling/API delays can exceed elapsed deadline; no renewed wait after it expires. The existing OpenProcess retry adds one 25ms planned sleep on initial access denial; this patch changes only the census reconciliation budget.",
+    "fatal": "Persistent candidate, any listed job PID, changed image/parent, unavailable verification or exhausted budget.",
+    "runtime_verification": "Not attempted; no emulator/process launch or shutdown."
+  },
+  "validation": {
+    "focused_v51_v52": {
+      "tests": 20,
+      "failures": 0,
+      "errors": 0
+    },
+    "current_v36": {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0
+    },
+    "broader_watchdog": {
+      "tests": 56,
+      "failures": 8,
+      "errors": 1,
+      "cause": "Old v42/v45 fake system snapshots omit physical_total_bytes required by pre-existing RAM cutoff."
+    },
+    "baseline_control": {
+      "tests": 25,
+      "failures": 8,
+      "errors": 1,
+      "method": "Replacing reconciliation with direct process_snapshot reproduces same legacy fixture failures."
+    },
+    "py_compile": "PASS",
+    "git_diff_check": "PASS",
+    "combined_final_injected_suite": {
+      "tests": 74,
+      "failures": 0,
+      "errors": 0,
+      "passed": true,
+      "command": "py -3.10 injected unittest loader: test_watchdog*.py + test_emulator_watchdog_v36.py"
+    },
+    "legacy_fixture_repair": "Added physical_total_bytes=32*GIB to v42/v45 fake system snapshots only."
+  },
+  "references": [
+    "https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects",
+    "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess",
+    "https://learn.microsoft.com/en-us/windows/win32/procthread/terminating-a-process"
+  ],
+  "sha256": {
+    "port\\android-native\\tools\\emulator_watchdog_v36.py": "048b6856ffabd1e6e3cc79bd3cb27e1b4ec70fabf76f49929a10f887589cda73",
+    "port\\android-native\\tools\\tests\\test_watchdog_access_denied_shutdown_v52.py": "b5bc58299670c2c19afba4ef5bf8f02c487873be9b5a4e6c9cb524594540255b",
+    "port\\android-native\\tools\\tests\\test_watchdog_child_exit_v42.py": "bf65dd64032a59daa56900218e6bb1e7a3797708f38342674c74066001028f93",
+    "port\\android-native\\tools\\tests\\test_watchdog_membership_v45.py": "1cb25b43be215672090c3bf8591aa3dd6e2049fbc312c4270a32390aca7223f6",
+    ".local-inputs\\emulator-guards-v36\\20261008-232731-56bffac1.telemetry.jsonl": "3151b4201ec5cc01337a9b1f404e7920f62f7c31a0d40b6a5df0eb951d8bffd5",
+    ".local-inputs\\emulator-guards-v36\\20261008-232731-56bffac1.watchdog.json": "4b86e255a7fdf0a6dc7b2ffa770a86a7d056ab4ebbf02e3222d548468239aebc"
+  }
+}

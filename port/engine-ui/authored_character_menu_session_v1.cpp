@@ -51,4 +51,23 @@ bool authored_character_movie_operation_v1(SwfAsGraph& graph,AuthoredCharacterSt
  }
  error="Operation requires its original application/stack service";return false;
 }
+bool authored_character_option_custom_level_running_v1(SwfAsGraph& graph,AuthoredCharacterStateV1& state,
+ const char* name,const std::function<bool(bool&,std::string&)>& level_running,std::string& error){
+ if(!state.fields||!name){error="Required actual MenuBase.Options cached-character receiver";return false;}
+ SwfAsValue context;bool live{};
+ if(!state.weak_character_v59.borrow(graph,context,live,error))return false;
+ // DebugCachedCharacter.RefreshCache427ca0 uses the current menu context;
+ // when NULL it uses this movie's root RenderFX.Find overload instead.
+ if(!live&&!graph.root_value(context,error))return false;
+ AuthoredMenuSearchIndexV1 index;SwfAsValue target;bool found{};
+ if(!index.initialize(graph,context,error)||!index.find(name,target,found,error))return false;
+ gameswf::character* actual{};
+ if(!found){error="Required actual Options character: "+std::string(name);return false;}
+ if(!character(graph,target,actual,error))return false;
+ bool running{};
+ if(!level_running||!level_running(running,error)){
+  if(error.empty())error="Required actual Application.IsLevelRunning service";return false;
+ }
+ actual->set_visible(running);return true;
+}
 }

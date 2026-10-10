@@ -1,0 +1,34 @@
+{
+  "status": "released_verified_controls_and_source_combo_subset",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v17",
+  "executable_sha256": "c1713329afa44790b53b2ce8a5a3d9ed3545b4bd0b770104d7d4500bab983706",
+  "manifest_files": 559,
+  "ctest_passed": 73,
+  "runtime_cases": 23,
+  "legacy_runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v17.json",
+  "combo_and_default_run_report": "port/windows-foundation/reports/packaged-source-combo-v17.json",
+  "negative_save_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v17.json",
+  "input_test_log": ".local-inputs/v17-input-verification/ctest-v17.log",
+  "verified": [
+    "Default running uses original retained Run clip/rate/root displacement; Shift held/released semantic actions select walk/run.",
+    "Held controller commands produce authored root groups0,1,2 with three distinct strike resources and one action generation.",
+    "Immediate release produces one swing; previously accepted continuation survives release and produces next swing.",
+    "Controller blocking prevents further continuation; skipped recovery does not emit stale markers.",
+    "Original damage outcomes, same target health ownership and synchronous hit ordering retained.",
+    "Native interruption and detached save restore clear transient continuation/target/index; fresh attack starts root0 and saved CombatRandom remains exact.",
+    "All18 prior packaged runtime checks and two unsupported-save rejection checks pass; v16 EXE hash preserved."
+  ],
+  "inspected_captures": [
+    ".local-inputs/windows-source-clock-checkpoint-v17/swing-1.png",
+    ".local-inputs/windows-source-clock-checkpoint-v17/swing-2.png",
+    ".local-inputs/windows-source-clock-checkpoint-v17/swing-3.png"
+  ],
+  "visual_inspection": "Three distinct original attack poses and original-art HUD/world inspected. No matched-state original gameplay fidelity acceptance claimed.",
+  "limits": [
+    "PC physical keyboard playthrough and Android runtime remain outside these automated cases.",
+    "Live source preattack/look/sticky/heading/OOI and target search ownership remains incomplete; unsupported frontal/ranged/network branches reject.",
+    "Restore resets transient combo state rather than continuing a saved mid-swing cursor.",
+    "Full actor focus/FSM/path/physics ordering, skills, complete enemy AI, frontend and campaign fidelity remain incomplete."
+  ]
+}

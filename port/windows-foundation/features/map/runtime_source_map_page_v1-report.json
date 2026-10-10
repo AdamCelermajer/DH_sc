@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-10",
+  "feature": "character-menu Map page source projection leaf",
+  "status": "feature_helper_partial_not_integrated",
+  "goal_complete": false,
+  "visual_evidence": {
+    "original_movie": ".local-inputs/ui-layout-discovery/dqcharmenu_droid.swf",
+    "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+    "page": "menu_MapSheet sprite 655",
+    "actual_observation": "Original SWF tag/tree evidence identifies RenderMap character 601 at matrix [1.26568603515625,0,0,1.182342529296875,281,982] twips; MapIconsDynamic 614; MapName 617; Legend and ResetZoom controls are character 623.",
+    "reference_capture": "No rendered original character-menu Map page screenshot/frame was available to this task. SWF placement evidence is not a visual capture or pixel acceptance."
+  },
+  "logic_evidence": {
+    "map_tab_route": "port/engine-ui/reference/character-menu-flow-v1/authored-actions.txt, source action offset 0x0000ee4f: btnMapTab invokes NativePushMenu('menu_MapSheet').",
+    "map_actions": "Same authored-actions export, MapSheet actions near 0x0002a58c and 0x0002a636: btn_Legend calls NativeShowMinimapLegend and opens LegendPopup; btn_ResetZoom calls NativeResetMapZoom(0.0). No per-marker click/selection callback was recovered.",
+    "map_show_projection": "IDA pseudocode 0045/00455138.c (MenuCharMenu_Map::Show, 0x455138) partitions visited RoomZones, visits Level objects, applies source visibility, aggregates/expands bounds, produces source icon families and creates MapCamera.",
+    "map_render_projection": "IDA pseudocode 0045/00454108.c (RenderMap, 0x454108) updates the source map camera, hides/restores the world around icon rendering, and renders the source RenderMap rectangle. CameraBase::GetScreenCoord is 0040/0040f714.c; marker families are produced in 0045/004548ac.c, 0045/00454a08.c, 0045/00454fb8.c, 0045/00454d5c.c and 0045/00454b8c.c.",
+    "source_icon_families": "Known producers: 0, 1, 2, 3, 4, 7, 10, 11, 12, and 14-17. Reserved families 5, 6, 8, 9 and 13 have no recovered Show producer. Existing map_ui source report records each family predicate."
+  },
+  "expected_behavior": {
+    "page": "Open and close the original MapSheet; render authored page art through the caller's retained source owner; project only marker records furnished by actual source owners on the same borrowed campaign and current camera frame.",
+    "input": "Dispatch only the original Legend and ResetZoom controls through source owner callbacks. A map-marker pointer release has no selection action because none is present in recovered source ActionScript/native producers.",
+    "geometry": "Use the actual ScreenArt RenderMap rectangle and the original CameraBase view/projection source map projection. No generated map, arbitrary scale, rectangular replacement or marker coordinates are created by this leaf."
+  },
+  "implementation": {
+    "api": "RuntimeSourceMapPageV1::open/close/frame/release in runtime_source_map_page_v1.hpp/.cpp",
+    "pushed_menu_provider": {
+      "api": "RuntimeSourceMapMenuProviderV1::register_with(RegisterSourcePushedMenuV1, error) in runtime_source_map_menu_provider_v1.hpp/.cpp. It installs callable open/close/visible/frame/release handlers at the exact authored symbol menu_MapSheet and exposes append_current_player_marker(const CombatSession&, markers, error), which delegates to source_map_append_current_player_marker_v1.",
+      "lifetime": "The registry must not retain the callback bundle beyond the RuntimeSourceMapPageV1 lifetime. The caller passes the current gameplay CombatSession explicitly for family3 collection; the provider does not claim that the legacy SourceMapBorrowV1.local_player token aliases that Session lease.",
+      "controls": "Release delegates to the existing page leaf, which recognizes only authored btn_Legend and btn_ResetZoom contours and routes them through the same page borrow. No marker click behavior was added.",
+      "integration": "This is a callable feature adapter only. The main menu registry and a production MapSheet page ServicesV1 collector still need to register the callbacks and invoke the family3 helper against the same current gameplay Session."
+    },
+    "campaign_identity": "Page rendering goes through existing map_ui::PresenterV1; markers are collected against a fresh SourceMapBorrowV1 and the borrow is rechecked after projection. Camera projection requires the caller's held frame lease and matching active SceneManager/CameraBase identities.",
+    "generic_main_marker_provider": {
+      "api": "source_map_current_player_marker_v1(const CombatSession&, SourceMarkerV1&, error) in runtime_source_map_actor_markers_v1.hpp/.cpp",
+      "composition_api": "source_map_append_current_player_marker_v1(const CombatSession&, vector<SourceMarkerV1>&, error) synchronously appends only the source family-3 local-player marker, after validating the current Session actor/world/traits/binding lease; it rejects a duplicate same-family/source-id marker without changing the vector.",
+      "source_family": 3,
+      "owner": "Reads CombatSession::player_id(), the same session PlayableActorWorld::traits(id), and the same world ActorState::transform.position; the emitted marker retains CombatSession::actor_binding_lease(). It checks that the actor pointer is the same record returned by that world, exact is_player trait, finite coordinates, update serial and binding-lease identity before publishing. Active combat/animation pose ownership is not a gate; the map marker is sourced from the live player world transform.",
+      "coverage": "Only the local-player family is produced. Generic PlayableActorWorld actors, traits and WorldObject transforms do not expose the exact recovered predicates for families 0,1,2,4,7,10,11,12,14-17 (quest, typed exits/objects, monster/merchant/questgiver, remote-player or PFWorld RoomExit), so those families remain absent rather than inferred from names/profile IDs.",
+      "not_integrated": "The owning page collector can synchronously call source_map_append_current_player_marker_v1 from its current CombatSession. The caller must ensure that is the same current gameplay Session as its frame. This feature cannot prove identity against the legacy SourceMapBorrowV1.local_player token, whose canonical Character owner has no published alias to the generic Session lease. No main/CMake wiring was changed."
+    },
+    "asset_identity": "Every frame/release validates original SWF hash and sprite id against the caller's retained-resource identity callback and requires ScreenArt RenderMap/Legend/ResetZoom regions.",
+    "reserved_markers": "Only source-known family IDs are admitted. Unknown/reserved family IDs are omitted; known IDs require a live owner and finite source coordinates."
+  },
+  "uncertainties_and_gaps": [
+    "The generic main owners expose authored ActorPopulation definitions/enrollment order, SourceModuleFloors/navigation, and live CombatSession transforms, but no complete typed current RoomZone visited/bounds list or exact Level-object bounds/visibility list. Parsed declarations and PF room metadata do not establish native RoomZone::HasBeenVisited/HasInside results; they are not substituted for those source facts. RuntimeSourceMapPageV1 still requires the full canonical SourceMapBorrowV1 and source Show/RenderMap/action owners, so the generic Session helper does not make that legacy page leaf independently playable.",
+    "Only local-player family3 is currently sourced from the generic main session. Monster, merchant, questgiver, remote-player, objective, typed map exit/object and PFWorld room-exit families require exact source classification/target/bounds predicates not represented by the generic actor/world fields. No marker was inferred from ActorDefinition.name, profileId, or a gametype string.",
+    "The family3 append helper is a caller-consumable collector component, but no production page collector currently composes it with the visible page and no same-session Map page integration or visual capture has run. The feature still does not claim readiness or playable integration.",
+    "The caller still must bind Map.Show/Hide and source map camera lifecycle to the same Level, player, save, quests, event owner and actual application zoom service.",
+    "Source map camera identity/frame publication and original marker producers are not connected to a production caller. The feature API rejects camera frame mismatch but cannot create missing source providers.",
+    "No per-marker click behavior was found in source. Marker selection remains absent by design; this is not a PC input adaptation or a gameplay selection feature.",
+    "No rendered original Map page reference or same-profile runtime capture was available; source geometry and helper tests do not prove visual fidelity or playable page integration."
+  ],
+  "verification": {
+    "cxx17_runtime_leaf_compile": "PASS: local llvm-mingw g++ -std=c++17 -Wall -Wextra -Werror -c runtime_source_map_page_v1.cpp",
+    "cxx17_lifecycle_action_test": "PASS: runtime_source_map_page_v1_tests.cpp covers source-owner open/close, duplicate/repeated lifecycle rejection, authored Legend/ResetZoom release routing, outside release no-op and release-after-close rejection. Synthetic ScreenArt controls in this lifecycle test are contract fixtures, not game geometry or a source render test.",
+    "source_kernel_test": "PASS: existing source_map_kernel_v1_tests.cpp covers original camera/matrix/map-rectangle math and frame identity guards.",
+    "original_resource_and_source_tests": "PASS: py -3 -m unittest port/windows-foundation/features/map/test_runtime_source_map_page_v1.py port/windows-foundation/features/map_ui/test_map_ui_source_resources.py port/windows-foundation/features/map_ui/test_map_ui_source_providers.py (10 tests).",
+    "generic_main_marker_contract": "PASS: `port/windows-foundation/features/map/run_runtime_source_map_actor_markers_v1_tests.ps1` links the provider with the current coherent Windows Foundation archives, initializes an actual KnightPlayerBase CombatSession from source assets, verifies same-session player/world/trait and retained actor-lease identity, appends the actual ActorState position as family3, and rejects duplicate or unbound-session composition without mutating existing output. `py -3 -m unittest port/windows-foundation/features/map/test_runtime_source_map_actor_markers_v1.py port/windows-foundation/features/map/test_runtime_source_map_page_v1.py` passes 5 source/resource tests. No production Map page caller or visual capture was run.",
+    "pushed_menu_adapter": "PASS: extended the linked source marker runner to register the exact menu_MapSheet symbol, reject duplicate registration, route open/close and authored Legend/ResetZoom releases through the existing page with the same captured SourceMapBorrow owners, and append the actual current Session family3 marker. Duplicate and unbound Session appends fail without mutating output. The hit contours in this linked fixture are synthetic routing fixtures; exact action symbols are separately checked against the original SWF ActionScript source tests.",
+    "runtime_visual": "NOT RUN; no GUI reservation requested and no production map caller exists."
+  }
+}

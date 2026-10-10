@@ -4,7 +4,7 @@ namespace dh2::world {
 // Separated actual PODecor constructor and GameObject SetPhysicalObject phases.
 // Same base/visual/world; no second actor, PF, pose or source registry.
 class CanonicalPodDecorBodyV49 {
- CanonicalGameObjectBaseOwnerV1& base_;RetainedGameObjectVisualV1& visual_;
+ CanonicalGameObjectBaseOwnerV1& base_;RetainedGameObjectVisualV1* visual_{};
  physical::NativeWorld& world_;RetainedGameObjectDecorServicesV1 services_;
  const std::uintptr_t owner8_;std::uint8_t disabled26_{};
  physical::NativeBody native_{};physical::WorldObject transport_{};
@@ -20,9 +20,14 @@ class CanonicalPodDecorBodyV49 {
 public:
  CanonicalPodDecorBodyV49(CanonicalGameObjectBaseOwnerV1&,RetainedGameObjectVisualV1&,
   physical::NativeWorld&,RetainedGameObjectDecorServicesV1);
+ // Door3e7fac calls PhysicalObject C2 directly, then installs the SAME
+ // _ZTV7PODecor+8 (968f88). It does not call PODecor's visual constructor.
+ CanonicalPodDecorBodyV49(CanonicalGameObjectBaseOwnerV1&,
+  physical::NativeWorld&,RetainedGameObjectDecorServicesV1);
  ~CanonicalPodDecorBodyV49();
  CanonicalPodDecorBodyV49(const CanonicalPodDecorBodyV49&)=delete;
  bool construct(std::string&);
+ bool construct_door(std::string&);
  bool assign(bool source_pin,std::string&);
  bool release(std::string&);
  CanonicalGameObjectBaseOwnerV1& source_base()noexcept{return base_;}

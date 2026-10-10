@@ -1,0 +1,197 @@
+{
+  "source": "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\menus\\dqcharmenu_droid.swf",
+  "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+  "mapping_source": "authored-actions.txt Init439 InvSlotId assignments; btimg gotoAndStop source category labels424",
+  "slots": [
+    {
+      "slot": 0,
+      "button": "btn_torso",
+      "category": "torso",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        -14.0,
+        1203.0
+      ],
+      "shapes": [
+        397,
+        401,
+        415
+      ],
+      "text_fields": [
+        425
+      ]
+    },
+    {
+      "slot": 1,
+      "button": "btn_main_hand",
+      "category": "main_hand",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        -14.0,
+        2217.0
+      ],
+      "shapes": [
+        397,
+        401,
+        416
+      ],
+      "text_fields": [
+        425
+      ]
+    },
+    {
+      "slot": 2,
+      "button": "btn_off_hand",
+      "category": "off_hand",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        -14.0,
+        3231.0
+      ],
+      "shapes": [
+        397,
+        401,
+        417
+      ],
+      "text_fields": [
+        425
+      ]
+    },
+    {
+      "slot": 3,
+      "button": "btn_feet",
+      "category": "feet",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        5523.0,
+        4252.0
+      ],
+      "shapes": [
+        428,
+        401,
+        422
+      ],
+      "text_fields": [
+        432
+      ]
+    },
+    {
+      "slot": 4,
+      "button": "btn_hands",
+      "category": "hands",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        5523.0,
+        2224.0
+      ],
+      "shapes": [
+        428,
+        401,
+        420
+      ],
+      "text_fields": [
+        432
+      ]
+    },
+    {
+      "slot": 5,
+      "button": "btn_ring1",
+      "category": "ring",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        -14.0,
+        4245.0
+      ],
+      "shapes": [
+        397,
+        401,
+        418
+      ],
+      "text_fields": [
+        425
+      ]
+    },
+    {
+      "slot": 6,
+      "button": "btn_ring2",
+      "category": "ring",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        -14.0,
+        5261.0
+      ],
+      "shapes": [
+        397,
+        401,
+        418
+      ],
+      "text_fields": [
+        425
+      ]
+    },
+    {
+      "slot": 7,
+      "button": "btn_head",
+      "category": "head",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        5523.0,
+        1210.0
+      ],
+      "shapes": [
+        428,
+        401,
+        419
+      ],
+      "text_fields": [
+        432
+      ]
+    },
+    {
+      "slot": 8,
+      "button": "btn_waist",
+      "category": "waist",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        5523.0,
+        3238.0
+      ],
+      "shapes": [
+        428,
+        401,
+        421
+      ],
+      "text_fields": [
+        432
+      ]
+    }
+  ],
+  "excluded": []
+}

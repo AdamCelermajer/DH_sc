@@ -64,6 +64,24 @@ bool CanonicalDecorPhysicalConnectionV49::release(std::string& e){
   if(bodies_.find(*it)!=bodies_.end()&&!destroy(*it,e))return false;
  creation_order_.clear();return true;
 }
+bool CanonicalDecorPhysicalConnectionV49::create_door_physical(std::string& e){
+ auto lease=parent_lease_.lock();if(!lease){e="Required SAME Door receiver lease";return false;}
+ auto source=source_;
+ source.destroy_previous=[this](std::uintptr_t id,std::string& error){
+  if(bodies_.find(id)!=bodies_.end())return destroy(id,error);
+  if(!source_.destroy_previous){error="Required actual previous Door PhysicalObject destructor";return false;}
+  return source_.destroy_previous(id,error);
+ };
+ auto body=std::make_unique<CanonicalPodDecorBodyV49>(base_,physics_,std::move(source));
+ const auto id=reinterpret_cast<std::uintptr_t>(body.get());bodies_.emplace(id,std::move(body));creation_order_.push_back(id);
+ // Retain the allocation and publish genuine owner8 before CreateShape;
+ // constructor/assignment failures drain through the existing native journal.
+ if(!associations_.constructed_pod(*bodies_.at(id),lease,e)||!bodies_.at(id)->construct_door(e))return false;
+ if(!assign(id,false,e))return false;
+ // SetPhysicalObject's MP_NoPhysics branch genuinely invokes this fresh D0.
+ if(!bodies_.at(id)->assigned())return destroy(id,e);
+ return true;
+}
 bool CanonicalDecorPhysicalConnectionV49::source_filter_borrow_v105(std::uintptr_t id,physical::NativePhysicalFilterBorrowV1& out,std::string& e){
  auto same=parent_lease_.lock();const auto* slot=base_.pointer(0x2dc);const auto body=bodies_.find(id);
  if(!same||!slot||*slot!=id||body==bodies_.end()||!body->second){e="Required SAME actual PODecor source filter owner";return false;}

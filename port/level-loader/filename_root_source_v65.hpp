@@ -23,6 +23,7 @@ class FilenameRootRouteV65 {
  bool busy_{},close_reentered_{};AssignedRootRouteV64 assigned_;
  LifecycleStepV36 fail(std::string& e){phase_=Phase::failed;if(error_.empty())error_=e.empty()?"Actual filename source prefix failed":e;e=error_;return LifecycleStepV36::failed;}
  bool close_done_{},close_owner_invalid_{};
+ bool complete_absent_{}; // Explicit caller policy; no assigned source is fabricated.
  // Close can yield after consuming native handle metadata. Keep the SAME
  // independent owner until genuine completion; never restore a retired handle.
  std::shared_ptr<void> close_pin_;std::uintptr_t close_identity_{};
@@ -66,7 +67,7 @@ class FilenameRootRouteV65 {
   }
  }
 public:
- explicit FilenameRootRouteV65(FilenameSourceLeavesV65 leaves):leaves_(std::move(leaves)){
+ explicit FilenameRootRouteV65(FilenameSourceLeavesV65 leaves,bool complete_absent=false):leaves_(std::move(leaves)),complete_absent_(complete_absent){
   LevelRootFilenameServicesV52 route;route.actual_filesystem_owner=leaves_.owner;
   route.is_using_uncompiled_data=leaves_.is_using_uncompiled_data;
   route.open_resource=[this](const std::string& name,bool& found,std::string& canonical,std::string& e){
@@ -130,7 +131,13 @@ public:
    if(phase_==Phase::fresh){
     if(level->constructor_fields_v3().field140||level->assigned_source_owner_slot_v65()){e="Fresh filename source cannot adopt a foreign assigned receiver";return fail(e);}
     name_=name;level_seen_=level;
-    if(!resolver_->resolve(name,canonical_,nullptr,e)||phase_==Phase::failed)return fail(e);
+    const auto resolved=resolver_->resolve_source(name,canonical_,nullptr,e);
+    if(phase_==Phase::failed||resolved==LevelFilenameResolutionV52::failed)return fail(e);
+    if(resolved==LevelFilenameResolutionV52::absent){
+     if(!complete_absent_){e="Original Level.LoadFile filename attempts absent from actual filesystem";return fail(e);}
+     //Original3f3e40 returns1 without constructing/copied140 or invoking a parser.
+     phase_=Phase::complete;e.clear();return LifecycleStepV36::complete;
+    }
     if(!copy_stream_to_level140_v65(*level,opened_,leaves_.copy,e)||phase_==Phase::failed)return fail(e);
     expected_=level->assigned_source_owner_slot_v65();expected_identity_=level->constructor_fields_v3().field140;phase_=Phase::close_source;
    }

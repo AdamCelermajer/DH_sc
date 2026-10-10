@@ -69,7 +69,24 @@ bool model_renderer::enroll_native_process_primary1_v98(
   };
   if(!compose_native_primary1_scope_v98(platform_services,continuation,error))return false;
   dh2::ui::SwfServices application;application.context=self.get();application.native_owner=self->leases;
-  application.native_action=NativeCharacterMenuV4::native;application.native_actions={"NativeReloadSkills"};
+  application.native_action=NativeCharacterMenuV4::native;
+  // These are actual function-call operands in dqcharmenu_droid, not every
+  // Native* string in its constant pools. Query/action calls go through the
+  // same CharacterPanelSession; navigation uses the process MenuManager.
+  application.native_actions={
+   "NativeReloadSkills","NativeChangeRolloverInputBehavior",
+   "NativePushMenu","NativePopMenu","NativePopAllAbove","NativePopAllMenus",
+   "NativeEquipSkill","NativeGetPlayerStats","NativeGetSkillDetails",
+   "NativeHUDGetActiveFaery","NativeHUDGetIsFaeryUnlocked","NativeHUDSetActiveFaery",
+   "NativeInvAutoEquipSlot","NativeInvDropItem","NativeInvEquipItem",
+   "NativeInvGetEquipedItem","NativeInvGetHasOffHandWeapon","NativeInvGetHasTwoHandedWeapon",
+   "NativeInvGetItemDetails","NativeInvGetItemsListForSlot","NativeInvGetPlayerGold",
+   "NativeInvTransmuteItem","NativeInvUnequipItem","NativeSaveGame",
+   "NativeSkillGetEquipedSkillsIDs","NativeSkillsGetSkillPointsLeft",
+   "NativeSkillsTrainSkill","NativeStatsAssignPoint","NativeSwapEquipment",
+   "NativeGetNumPotions","NativeGetStringNumPotions","NativeGetParsedString",
+   "NativePlaySoundFX","NativeBackToHud"
+  };
   // No HUD load: source primary3 can genuinely be NULL at Level stage12.
   if(!original_ui.character_panel_services(application,platform_services,error,false))return false;
   platform_services.shared_stack_v27=self->shared_stack_v27;platform_services.maximum_occurrences=256;

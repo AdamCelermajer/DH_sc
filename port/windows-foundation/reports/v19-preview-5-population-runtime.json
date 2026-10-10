@@ -1,0 +1,25 @@
+{
+  "status": "packaged_population_persistence_and_moth_combat_verified",
+  "goal_complete": false,
+  "executable_sha256": "c9e2444a08307c6721b45dab670d84de296695d855d4873c302817fe0b129b66",
+  "manifest_files_verified": 1575,
+  "cases": [
+    {
+      "case": "population",
+      "frames": 120,
+      "population_visuals": 33,
+      "combat_actors": 23
+    },
+    {
+      "case": "populated-combat",
+      "frames": 240,
+      "population_visuals": 33,
+      "combat_actors": 23
+    }
+  ],
+  "limits": [
+    "28 authored declarations still gated or unsupported.",
+    "Explicit first authored NPC attack groups; complete randomized attack choice/cadence remains incomplete.",
+    "Moth test uses diagnostic placement; original campaign activation and matched-reference fidelity are not established."
+  ]
+}

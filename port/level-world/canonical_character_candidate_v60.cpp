@@ -329,13 +329,16 @@ bool CanonicalCharacterCandidateRecordV60::initialize_loaded_script(std::uint32_
  npc_loaded_init_v70=std::make_unique<character::CharacterDeferredScript>(*actor->session);
  const character::CharacterInitServices16 callbacks{this,[](void* raw,character::CharacterScriptSession& session,const character::ScriptLifecycleRequest32& q){
   auto& r=*static_cast<CanonicalCharacterCandidateRecordV60*>(raw);
-  if(!r.actor||r.actor->session.get()!=&session||q.subject!=r.actor->object->identity||!r.npc_skills_v84)return -1;
+  // InitScriptProcess passes Character as subject only to _InitHpMp.
+  // SetSkillsAndSpells/UpdateAllSkills retain their receiver via this session.
+  if(!r.actor||!r.actor->object||r.actor->session.get()!=&session||session.timers().owner!=r.actor->object->identity||!r.npc_skills_v84)return -1;
+  if(q.service==character::script_refresh_vitals&&q.subject!=r.actor->object->identity)return -1;
   if(q.service==character::script_refresh_vitals){character::ScriptInitVitals24 result{};const character::ScriptInitVitals32 request{q.subject,&session.property_view(),*r.services.effect_services};return dh2_character_script_init_vitals(&result,&request)==1?0:-1;}
   const int code=q.service==character::script_configure_skills?r.npc_skills_v84->configure():q.service==character::script_update_skills?r.npc_skills_v84->update():-1;
   if(code<0){r.error=r.npc_skills_v84->error();return -1;}return 0;
  }};
  const int result=npc_loaded_init_v70->initialize_loaded_v70(final,callbacks);
- if(result<0){e=npc_loaded_init_v70->error();return false;}return true;
+ if(result<0){e=npc_loaded_init_v70->error();if(!error.empty()){if(!e.empty())e+="; ";e+=error;}return false;}return true;
 }
 int CanonicalCharacterCandidateRecordV60::source_load_n_init_v106(std::uint32_t final,std::string& e){
  if(final>1||!actor||!actor->object)return -1;
@@ -345,14 +348,15 @@ int CanonicalCharacterCandidateRecordV60::source_load_n_init_v106(std::uint32_t 
  if(!npc_loaded_init_v70)npc_loaded_init_v70=std::make_unique<character::CharacterDeferredScript>(*actor->session);
  const character::CharacterInitServices16 callbacks{this,[](void* raw,character::CharacterScriptSession& session,const character::ScriptLifecycleRequest32& q){
   auto& r=*static_cast<CanonicalCharacterCandidateRecordV60*>(raw);
-  if(r.actor->session.get()!=&session||q.subject!=r.actor->object->identity||!r.npc_skills_v84)return -1;
+  if(!r.actor||!r.actor->object||r.actor->session.get()!=&session||session.timers().owner!=r.actor->object->identity||!r.npc_skills_v84)return -1;
+  if(q.service==character::script_refresh_vitals&&q.subject!=r.actor->object->identity)return -1;
   if(q.service==character::script_refresh_vitals){character::ScriptInitVitals24 result{};
    const character::ScriptInitVitals32 request{q.subject,&session.property_view(),*r.services.effect_services};return dh2_character_script_init_vitals(&result,&request)==1?0:-1;}
   const int result=q.service==character::script_configure_skills?r.npc_skills_v84->configure():q.service==character::script_update_skills?r.npc_skills_v84->update():-1;
   if(result<0)r.error=r.npc_skills_v84->error();return result<0?-1:0;
  }};
  const int result=npc_loaded_init_v70->load_and_init(final,callbacks);
- if(result<0){e=npc_loaded_init_v70->error();return result;}
+ if(result<0){e=npc_loaded_init_v70->error();if(!error.empty()){if(!e.empty())e+="; ";e+=error;}return result;}
  character::ScriptSessionView active{};
  if(actor->session->owner().active(active)){actor->ai_events.active=active.identity;actor->ai_events.ais_virtuals=character::character_script_source_virtuals_v101(active.kind);
   if(!actor->ai_events.ais_virtuals){e="Required actual selected AIS constructor table after frame loading";return -2;}}
@@ -590,6 +594,12 @@ bool CanonicalCharacterCandidateRecordV60::init_service(void* raw,const characte
   if(!r.services.models){e="Required actual Character model dictionary";return false;}
   auto actual=r.services.model_name;actual.receiver=r.actor;
   actual.is_faery=[&r](bool& value,std::string& error){const auto* ai=actual_ai(r);if(!ai){error="Required actual Character IsFaerie AiProps";return false;}value=ai->type==3;return true;};
+  actual.faery_master418=[&r](std::uintptr_t& master,std::string& error){
+   if(!r.actor||!r.actor->source_ai_pointers_v105()){
+    error="Required SAME Character CharAI master at +0x418";return false;
+   }
+   master=r.actor->source_ai_pointers_v105()->master50;error.clear();return true;
+  };
   actual.is_player=[&r](bool& value,std::string& error){return r.is_player(value,error);};
   actual.is_local_player=[&r](bool& value,std::string& error){if(!r.services.is_local_player){error="Required actual PM local model predicate";return false;}return r.services.is_local_player(r.actor->object->identity,value,error);};
   return character::character_model_name_v62(r.properties->resolved[3],*r.init_fields.properties_id13c8,*r.services.models,actual,out.text,e);
@@ -704,12 +714,19 @@ bool CanonicalCharacterCandidateRecordV60::close_after_unpublication(std::string
  if(player_script_owner_v62){player_script_owner_v62.reset();actor->detach_player_script_lifecycle_v62();}
  npc_loaded_init_v70.reset();npc_skills_v84.reset();
  if(actor&&actor->session)actor->session.reset();
- projectile_bindings_v112.reset();combat_bindings_v115.reset();fsm_context_v101.reset();if(actor)actor->bodies={};
+ projectile_bindings_v112.reset();combat_bindings_v115.reset();
  if(inventory_transferred&&!equipment_released){
   if(!services.release_player_equipment){e="Required SAME player Skill/Gear teardown before borrowed Character visual destruction";return false;}
   if(!services.release_player_equipment(*this,e))return false;equipment_released=true;prepared_equipment_v60=nullptr;
  }
- if(visual&&!visual->close(e))return false;visual.reset();profile_bootstrap.reset();quest_sync_owner.reset();load.reset();preview_profile_v122.reset();save.reset();
+ // Keep the SAME process/campaign FSM alive while the Character visual
+ // detaches its CharAnimator and retires the animation-set user. That source
+ // teardown can deliver a final authored animation event through the
+ // playback observer; releasing fsm_context before this point leaves the
+ // observer installed with no actual owner.
+ if(visual&&!visual->close(e))return false;visual.reset();
+ fsm_context_v101.reset();if(actor)actor->bodies={};
+ profile_bootstrap.reset();quest_sync_owner.reset();load.reset();preview_profile_v122.reset();save.reset();
  // Embedded conditions clear while the actual Character storage is retained.
  // On failure the same record and remaining compiled slot survive for teardown.
  if(actor){GameObjectInitializationFieldsV62 same;

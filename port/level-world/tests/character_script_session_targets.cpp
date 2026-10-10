@@ -41,6 +41,7 @@ struct Provider {
  ScriptCommandBindings40 commands{&command_state,{this,command,command_number},nullptr};
  unsigned command_calls=0,controller_calls=0,path_queries=0;bool fail_command=false;
  DebugSwitches* debug=dh2_character_debug_create();unsigned debug_opens=0,target_calls=0,scoped_calls=0;
+ unsigned top_global_calls=0;bool top_global_empty=false;
  DebugFileServices24 debug_files{this,open,close};DebugLevelBinding16 debug_binding{debug,&debug_files};
  LevelServices16 level_services{&debug_binding,dh2_character_debug_level_service};
  HostContextBindings16 host{{this,host_service}};bool fail_target=false;
@@ -90,6 +91,12 @@ struct Provider {
   check(!dh2_script_callback_call_discard_source(self.commands.scope,"ObservedCommand",nullptr,0));return 0;
  }
  static int methods(void* p,std::uintptr_t id,const dh2_script_object_method** out,std::uint32_t* count){const char* unused;if(type(p,id,&unused))return 1;return dh2::gameobject_lua::dh2_gameobject_lua_methods(out,count,dh2::gameobject_lua::character);}
+ static int gameplay(void* raw,std::uint32_t address,dh2_script_function* function,void** context){auto& self=*static_cast<Provider*>(raw);if(address!=0x38eb68u)return 0;
+  *function=[](void* raw,const dh2_script_value*,std::uint32_t,dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char*,std::size_t)->int{auto& self=*static_cast<Provider*>(raw);if(!out||!returned)return -1;++self.top_global_calls;
+   if(self.top_global_empty){if(capacity<1)return -1;*returned=1;out[0]={};return 0;}
+   if(capacity<5)return -1;*returned=5;out[0]={};out[0].type=DH2_SCRIPT_SOURCE_OBJECT;out[0].identity=self.other_owner.identity;
+   out[1]={};out[1].type=DH2_SCRIPT_NUMBER;out[1].number=12.5f;out[2]={};out[2].type=DH2_SCRIPT_NUMBER;out[2].number=90.0f;
+   out[3]={};out[3].type=DH2_SCRIPT_BOOLEAN;out[3].boolean=1;out[4]={};out[4].type=DH2_SCRIPT_NUMBER;out[4].number=0.0f;return 0;};*context=&self;return 1;}
  static int invoke(void* p,const dh2_script_callback_scope* scope,std::uintptr_t id,std::uint32_t address,const dh2_script_value*,std::uint32_t,dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* error,std::size_t size){auto& self=*static_cast<Provider*>(p);check(dh2_script_callback_scope_valid(scope)&&capacity);++source_methods;const char* type_name;if(type(p,id,&type_name))return 1;
   if(address==0x38ebe4)return dh2::gameobject_lua::dh2_gameobject_lua_get_id(out,returned,id);
   if(address==0x3b6c7c)return dh2::gameobject_lua::dh2_gameobject_lua_get_target(out,returned,id==self.owner.identity?&self.target:&self.other);
@@ -102,10 +109,11 @@ int main(int argc,char** argv){try{
  check(argc==4);Inputs raw(argv[1]);auto common=file(argv[2]),monster=file(argv[3]);CharacterGameDesign design;std::string error;check(design.initialize(raw.input,error));auto d=design.borrow();Provider provider(d);
  auto found=std::find(d.characters()->names.begin(),d.characters()->names.end(),"Crypt_Skeleton");check(found!=d.characters()->names.end());CharacterScriptSessionInput in;in.identity=provider.owner.identity;in.name="source_target_fixture";in.source_is_character=1;
  in.properties=std::make_shared<dh2::data::PropertyState>();in.combat=std::make_shared<dh2::data::CombatActorState>();dh2::data::reset_properties(*d.rules(),*in.properties,&d.characters()->rows[found-d.characters()->names.begin()]);check(dh2::data::recalc_properties_with_class(*d.classes(),*d.rules(),*in.properties,error));
- in.common={common.data(),common.size()};in.external={monster.data(),monster.size()};in.host=&provider.host;in.level=&provider.level_services;in.target=&provider.bindings;in.state_machine=&provider.fsm;in.objects=&provider.objects;
+ in.common={common.data(),common.size()};in.external={monster.data(),monster.size()};in.host=&provider.host;in.level=&provider.level_services;in.target=&provider.bindings;in.state_machine=&provider.fsm;in.objects=&provider.objects;in.gameplay_context=&provider;in.gameplay_binding=Provider::gameplay;
  auto session=CharacterScriptSession::create(design.borrow(),in,error);check(session&&error.empty());provider.session=session.get();check(!session->start()&&session->error().empty());ScriptSessionView view{};check(session->owner().active(view));provider.vm=view.vm;
- unsigned supported=0;for(const auto& entry:session->registrations())if(entry.supported)++supported;check(supported==34);
- load(view.vm,"seen=0; projected=0; function ObservedTarget(object) assert(type(object)=='table' and object:GetID()==object._this); seen=seen+1 end; function ArgumentProbe(object) if object==nil then nil_argument=true else assert(type(object)=='table' and object:GetID()==object._this); argument_id=object:GetID() end; return setmetatable({}, {__index=function(_,key) assert(key=='_this'); projected=projected+1; return argument_id end}) end; assert(not HasTarget() and GetTarget()==nil); assert(type(GetID())=='userdata'); assert(GetState()==3 and GetStateTime()==123); assert(select('#',SetTarget(nil))==0); assert(not HasTarget())");
+ unsigned supported=0;for(const auto& entry:session->registrations())if(entry.supported)++supported;check(supported==36);
+ load(view.vm,"seen=0; projected=0; function ObservedTarget(object) assert(type(object)=='table' and object:GetID()==object._this); seen=seen+1 end; function ArgumentProbe(object) if object==nil then nil_argument=true else assert(type(object)=='table' and object:GetID()==object._this); argument_id=object:GetID() end; return setmetatable({}, {__index=function(_,key) assert(key=='_this'); projected=projected+1; return argument_id end}) end; assert(not HasTarget() and GetTarget()==nil); assert(type(GetID())=='userdata'); assert(GetState()==3 and GetStateTime()==123); assert(select('#',SetTarget(nil))==0); assert(not HasTarget()); local top,distance,angle,is_character,reserved=GetTargetListTop(); assert(type(top)=='table' and top:GetID()==top._this); assert(distance==12.5 and angle==90 and is_character==true and reserved==0); assert(select('#',GetTargetListTop())==5)");check(provider.top_global_calls==2);
+ provider.top_global_empty=true;load(view.vm,"local top=GetTargetListTop(); assert(select('#',GetTargetListTop())==1 and top==nil)");check(provider.top_global_calls==4);provider.top_global_empty=false;
  dh2_script_value argument{};argument.type=DH2_SCRIPT_SOURCE_OBJECT;argument.identity=provider.other_owner.identity;
  check(dh2_script_vm_call_discard_source(view.vm,"ArgumentProbe",&argument,1)==-1);++guards;
  check(!dh2_script_vm_call_discard_source_objects(view.vm,"ArgumentProbe",&argument,1));
@@ -136,7 +144,7 @@ int main(int argc,char** argv){try{
  // genuine Controller/Character/PathTo kernels to a declared failed-FindPath
  // fixture. This proves command routing, not scene movement or full combat.
  in.commands=&provider.commands;auto command_session=CharacterScriptSession::create(design.borrow(),in,error);check(command_session&&error.empty());provider.session=command_session.get();check(!command_session->start());check(command_session->owner().active(view));provider.vm=view.vm;provider.target.target=0;
- unsigned command_supported=0;for(const auto& entry:command_session->registrations())if(entry.supported)++command_supported;check(command_supported==40);
+ unsigned command_supported=0;for(const auto& entry:command_session->registrations())if(entry.supported)++command_supported;check(command_supported==42);
  load(view.vm,"seen=0; command_seen=0; command_projected=0; function ObservedTarget(object) assert(type(object)=='table'); seen=seen+1 end; function ObservedCommand() command_seen=command_seen+1; return setmetatable({}, {__index=function(_,key) assert(key=='_this'); command_projected=command_projected+1 end}) end");
  check(!command_session->dispatch_target(1,provider.other_owner.identity));check(provider.command_calls==1&&provider.controller_calls==1&&provider.path_queries==1&&!provider.commands.scope&&!provider.bindings.scope);
  load(view.vm,"saved=GetTarget(); assert(HasTarget() and seen==1 and command_seen==1 and command_projected==1); assert(not HasPath()); assert(select('#',HeadTo(saved))==0); MoveTo(saved); Stop(); Attack(saved); assert(command_seen==5 and command_projected==5)");

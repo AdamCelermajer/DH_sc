@@ -1,0 +1,424 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"addr\":\"0x428f38\",\"code\":\"int __fastcall MenuCharacterSelect::Show(MenuCharacterSelect *this)\\n{\\n  MenuCharacterSelect *v1; // r6\\n  MenuMainMenu *Instance; // r0\\n  MenuMainMenu *v3; // r0\\n  MenuMainMenu *v4; // r0\\n  MenuMainMenu *v5; // r0\\n  MenuMainMenu *v6; // r0\\n  MenuMainMenu *v7; // r0\\n  int result; // r0\\n  gameswf::character *v9; // r7\\n  int v10; // r0\\n  int SceneNodeFromType; // r0\\n  void (__fastcall *v12)(int, _DWORD *); // r3\\n  int v13; // r0\\n  int v14; // r2\\n  int v15; // r9\\n  char *Object; // r0\\n  char *v17; // r4\\n  char *v18; // r8\\n  int v19; // r7\\n  char *v20; // r10\\n  int v21; // r0\\n  _DWORD *v22; // r0\\n  int v23; // r3\\n  unsigned int v24; // r4\\n  int v25; // r0\\n  _DWORD **v26; // r3\\n  const char *v27; // r0\\n  char *v28; // r0\\n  const char *v29; // r7\\n  signed int v30; // r5\\n  char *v31; // r7\\n  glitch::scene::ISceneNode *v32; // r7\\n  void (__fastcall *v33)(glitch::scene::ISceneNode *, int); // r8\\n  int v34; // r0\\n  void (__fastcall *v35)(glitch::scene::ISceneNode *, int); // r8\\n  int v36; // r0\\n  void (__fastcall *v37)(glitch::scene::ISceneNode *, int); // r6\\n  int v38; // r0\\n  int Animators; // r0\\n  int v40; // r0\\n  MenuCharacterSelect *v41; // r4\\n  int v42; // r10\\n  MenuCharacterSelect *v43; // r7\\n  char *v44; // r0\\n  VisualObject *v45; // r5\\n  int v46; // r5\\n  int v47; // r6\\n  int v48; // r0\\n  int *SceneNodeFromName; // r6\\n  int v50; // r9\\n  int CharAnimTableId; // r0\\n  void (__fastcall *v52)(int, _BYTE *); // r9\\n  void (__fastcall *v53)(int, int); // r9\\n  int v54; // r0\\n  int v55; // r3\\n  int *v56; // r0\\n  void (__fastcall *v57)(int, int); // r6\\n  int v58; // r0\\n  MenuFX *v59; // r4\\n  gameswf::character *CurrentMenuContext; // r0\\n  MenuCharacterSelect *v61; // r6\\n  DebugCachedCharacter *v62; // r7\\n  MenuFX *v63; // r8\\n  gameswf::character *v64; // r0\\n  DebugCachedCharacter *v65; // r0\\n  RenderFX *v66; // r7\\n  char *v67; // r1\\n  const char *v68; // r1\\n  RenderFX *v69; // r4\\n  char *v70; // r1\\n  const char *v71; // r1\\n  int v72; // r6\\n  int v73; // r0\\n  int v74; // r6\\n  int v75; // r0\\n  unsigned int v76; // r3\\n  unsigned int v77; // r11\\n  size_t v78; // r11\\n  char *v79; // r0\\n  _BYTE *v80; // r1\\n  char *v81; // r9\\n  size_t v82; // r10\\n  char **v83; // r10\\n  int v84; // [sp+Ch] [bp-178h]\\n  MenuCharacterSelect *v85; // [sp+30h] [bp-154h]\\n  _DWORD v86[4]; // [sp+54h] [bp-130h] BYREF\\n  _BYTE v87[12]; // [sp+64h] [bp-120h] BYREF\\n  char *v88[3]; // [sp+70h] [bp-114h] BYREF\\n  char *v89[3]; // [sp+7Ch] [bp-108h] BYREF\\n  void *p; // [sp+88h] [bp-FCh] BYREF\\n  int v91; // [sp+8Ch] [bp-F8h]\\n  int v92; // [sp+90h] [bp-F4h]\\n  int v93[3]; // [sp+94h] [bp-F0h] BYREF\\n  int v94[3]; // [sp+A0h] [bp-E4h] BYREF\\n  int v95[3]; // [sp+ACh] [bp-D8h] BYREF\\n  float v96[3]; // [sp+B8h] [bp-CCh] BYREF\\n  char *v97[3]; // [sp+C4h] [bp-C0h] BYREF\\n  _DWORD v98[3]; // [sp+D0h] [bp-B4h] BYREF\\n  char v99[8]; // [sp+DCh] [bp-A8h] BYREF\\n  char s[64]; // [sp+E4h] [bp-A0h] BYREF\\n  char v101[32]; // [sp+124h] [bp-60h] BYREF\\n  char v102[32]; // [sp+144h] [bp-40h] BYREF\\n  std::priv::_String_base<char,std::allocator<char> > v103; // [sp+164h] [bp-20h] BYREF\\n\\n  v1 = this; /*0x428f54*/\\n  Instance = (MenuMainMenu *)MenuMainMenu::GetInstance(this); /*0x428f68*/\\n  v3 = (MenuMainMenu *)MenuMainMenu::DestroyScene(Instance); /*0x428f6c*/\\n  v4 = (MenuMainMenu *)MenuMainMenu::GetInstance(v3); /*0x428f70*/\\n  v5 = (MenuMainMenu *)MenuMainMenu::DestroyAvatarCamera(v4); /*0x428f74*/\\n  v6 = (MenuMainMenu *)MenuMainMenu::GetInstance(v5); /*0x428f78*/\\n  *((_DWORD *)v1 + 88) = MenuMainMenu::mSavegameSlot; /*0x428f88*/\\n  v7 = (MenuMainMenu *)MenuMainMenu::GetInstance(v6); /*0x428f8c*/\\n  MenuMainMenu::m_isDestroyed = 1; /*0x428f98*/\\n  MenuMainMenu::GetInstance(v7); /*0x428f9c*/\\n  MenuMainMenu::mSavegameSlot = -1; /*0x428fa0*/\\n  result = (*(int (__fastcall **)(MenuCharacterSelect *))(*(_DWORD *)v1 + 60))(v1); /*0x428fb0*/\\n  if ( result )\\n  {\\n    MenuBase::Show(v1); /*0x428fe0*/\\n    *((_DWORD *)v1 + 60) = -1; /*0x428fe8*/\\n    DebugSwitches::load((DebugSwitches *)&DebugSwitches::s_inst); /*0x429000*/\\n    v103._M_finish = (char *)&v103; /*0x42900c*/\\n    v103._M_start_of_storage._M_data = (char *)&v103; /*0x429010*/\\n    std::priv::_String_base<char,std::allocator<char>>::_M_allocate_block(&v103, 0x1Du); /*0x429014*/\\n    v103._M_finish = (char *)memcpy(v103._M_start_of_storage._M_data, \\\"isTracingMenuCharacterSelect\\\", 0x1Cu) + 28; /*0x429034*/\\n    *v103._M_finish = 0; /*0x42903c*/\\n    DebugSwitches::GetSwitch((DebugSwitches *)&DebugSwitches::s_inst, (const std::string *)&v103); /*0x429044*/\\n    std::priv::_String_base<char,std::allocator<char>>::_M_deallocate_block(&v103); /*0x42904c*/\\n    v9 = (gameswf::character *)RenderFX::Find(*((RenderFX **)v1 + 1), \\\"class_select\\\"); /*0x429068*/\\n    *((_BYTE *)v9 + 156) = 1; /*0x42906c*/\\n    RenderFX::SetEnabled(*((RenderFX **)v1 + 1), v9, 1); /*0x42907c*/\\n    RenderFX::RegisterDisplayCallback(*((_DWORD *)v1 + 1), v9, MenuCharacterSelect::RenderClassSelectPane, v1); /*0x429094*/\\n    glitch::collada::CColladaDatabase::CColladaDatabase( /*0x4290ac*/\\n      (glitch::collada::CColladaDatabase *)v99,\\n      \\\"data/3D/OptimizedMaxFiles/CLASS_SELECTION.bdae\\\",\\n      (glitch::collada::CColladaFactory *)&ColladaFactory::s_factory);\\n    v10 = glitch::collada::CColladaDatabase::constructScene( /*0x4290cc*/\\n            (glitch::collada::CColladaDatabase *)v99,\",\"line_count\":140,\"total_lines\":401,\"truncated\":true,\"cursor\":{\"next\":140},\"refs\":[{\"addr\":\"0x42c35c\",\"name\":\"_ZN12MenuMainMenu11GetInstanceEv\"},{\"addr\":\"0x42bebc\",\"name\":\"_ZN12MenuMainMenu12DestroySceneEv\"},{\"addr\":\"0x42baec\",\"name\":\"_ZN12MenuMainMenu19DestroyAvatarCameraEv\"},{\"addr\":\"0x999808\",\"name\":\"_ZN12MenuMainMenu13mSavegameSlotE\"},{\"addr\":\"0x99980c\",\"name\":\"_ZN12MenuMainMenu13m_isDestroyedE\"},{\"addr\":\"0x425450\",\"name\":\"_ZN8MenuBase4ShowEv\"},{\"addr\":\"0x337888\",\"name\":\"_ZN13DebugSwitches4loadEv\"},{\"addr\":\"0x9a1d18\",\"name\":\"_ZN13DebugSwitches6s_instE\"},{\"addr\":\"0x31167c\",\"name\":\"_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj\"},{\"addr\":\"0x30e868\",\"name\":\"memcpy\"},{\"addr\":\"0x8c9800\",\"name\":\"aIstracingmenuc\",\"string\":\"isTracingMenuCharacterSelect\"},{\"addr\":\"0x337a88\",\"name\":\"_ZN13DebugSwitches9GetSwitchERKSs\"},{\"addr\":\"0x3139ac\",\"name\":\"_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv\"},{\"addr\":\"0x7a9160\",\"name\":\"_ZN8RenderFX4FindEPKc\"},{\"addr\":\"0x8c97c0\",\"name\":\"aClassSelect\",\"string\":\"class_select\"},{\"addr\":\"0x7aba0c\",\"name\":\"_ZN8RenderFX10SetEnabledEPN7gameswf9characterEb\"},{\"addr\":\"0x7a7e80\",\"name\":\"_ZN8RenderFX23RegisterDisplayCallbackEPN7gameswf9characterEPFvRNS0_12render_stateEPvES5_\"},{\"addr\":\"0x428b74\",\"name\":\"_ZN19MenuCharacterSelect21RenderClassSelectPaneERN7gameswf12render_stateEPv\"},{\"addr\":\"0x60f25c\",\"name\":\"_ZN6glitch7collada16CColladaDatabaseC1EPKcPNS0_15CColladaFactoryE\"},{\"addr\":\"0x8c9820\",\"name\":\"aData3dOptimize\",\"string\":\"data/3D/OptimizedMaxFiles/CLASS_SELECTION.bdae\"},{\"addr\":\"0x9a1ed8\",\"name\":\"_ZN14ColladaFactory9s_factoryE\"},{\"addr\":\"0x61b9e8\",\"name\":\"_ZNK6glitch7collada16CColladaDatabase14constructSceneEPNS_5video12IVideoDriverE\"},{\"addr\":\"0x99f73c\",\"name\":\"dword_99F73C\"},{\"addr\":\"0x596f6c\",\"name\":\"_ZN6glitch5scene10ISceneNode20getSceneNodeFromTypeENS0_17E_SCENE_NODE_TYPEE\"},{\"addr\":\"0x597154\",\"name\":\"_ZN6glitch5scene10ISceneNode11setPositionEfff\"},{\"addr\":\"0x5890c0\",\"name\":\"_ZN6glitch5scene13CSceneManager15setActiveCameraEPNS0_16ICameraSceneNodeE\"},{\"addr\":\"0x589508\",\"name\":\"_ZN6glitch5scene13CSceneManager15setAmbientLightERKNS_5video7SColorfE\"},{\"addr\":\"0x34b724\",\"name\":\"_ZN13ObjectManager5SpawnEPKcS1_bb\"},{\"addr\":\"0x99f764\",\"name\":\"dword_99F764\"},{\"addr\":\"0x8c0368\",\"name\":\"aLightpoint\",\"string\":\"LightPoint\"},{\"addr\":\"0x8c9850\",\"name\":\"aCharselectligh\",\"string\":\"charselectLight\"},{\"addr\":\"0x33fdc0\",\"name\":\"_ZN12ObjectHandle9GetObjectEb\"},{\"addr\":\"0x40b498\",\"name\":\"_ZN9LightBase12setLightNodeEPN6glitch5scene15CLightSceneNodeE\"},{\"addr\":\"0x40b828\",\"name\":\"_ZN10LightPoint13AssignTweakerEii\"},{\"addr\":\"0x310568\",\"name\":\"_Z11GlitchAllocjN6glitch6memory13E_MEMORY_HINTE\"},{\"addr\":\"0x30df38\",\"name\":\"memmove\"},{\"addr\":\"0x310450\",\"name\":\"_Z10GlitchFreePv\"},{\"addr\":\"0x40b3c8\",\"name\":\"_ZN9LightBase14SetAttenuationE7Point3DIfE\"},{\"addr\":\"0x40b720\",\"name\":\"_ZN9LightBase15SetAmbientColorE7Point3DIfE\"},{\"addr\":\"0x40b674\",\"name\":\"_ZN9LightBase15SetDiffuseColorE7Point3DIfE\"},{\"addr\":\"0x40b5c8\",\"name\":\"_ZN9LightBase16SetSpecularColorE7Point3DIfE\"},{\"addr\":\"0x60fb54\",\"name\":\"_ZNK6glitch7collada16CColladaDatabase17constructAnimatorEv\"},{\"addr\":\"0x428078\",\"name\":\"_ZN19MenuCharacterSelect7SetAnimEPKc\"},{\"addr\":\"0x8c9790\",\"name\":\"aLol1Idle\",\"string\":\"lol_1_idle\"},{\"addr\":\"0x598dd4\",\"name\":\"_ZN6glitch5scene10ISceneNode21getSceneNodesFromTypeENS0_17E_SCENE_NODE_TYPEERSt6vectorIPS1_NS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE\"},{\"addr\":\"0x30ebd4\",\"name\":\"LC_API_STRSTR_0\"},{\"addr\":\"0x8c9860\",\"name\":\"aDummyGameobjec\",\"string\":\"dummy_gameobject_\"},{\"addr\":\"0x30e814\",\"name\":\"strcspn\"},{\"addr\":\"0x8cd490\",\"name\":\"aSlot0\",\"string\":\"slot >= 0\"},{\"addr\":\"0x0\",\"name\":\"dword_0\"},{\"addr\":\"0x30e004\",\"name\":\"fprintf\"},{\"addr\":\"0xa365c0\",\"name\":\"__sF\"},{\"addr\":\"0x8be3e0\",\"name\":\"aAssertSFailedS\",\"string\":\"ASSERT(%s) FAILED: %s:%d\\n\"},{\"addr\":\"0x8c9878\",\"name\":\"aLen132\",\"string\":\"len + 1 < 32\"},{\"addr\":\"0x8c9668\",\"name\":\"aProjectVs2005G_97\",\"string\":\"..\\\\..\\\\project_vs2005\\\\Game/..\\\\..\\\\sources\\\\Game\\\\Menus\\\\MenuCharacterSelect.cpp\"},{\"addr\":\"0x99f914\",\"name\":\"gAssertLevel\"},{\"addr\":\"0x30de24\",\"name\":\"LC_API_STRNCPY_0\"},{\"addr\":\"0x30eae4\",\"name\":\"sprintf\"},{\"addr\":\"0x8c9888\",\"name\":\"aData3dGameobje_0\",\"string\":\"data/3D/GameObjects/%s.bdae\"},{\"addr\":\"0x8c98a8\",\"name\":\"aS02d\",\"string\":\"%s_%02d\"},{\"addr\":\"0x8c0488\",\"name\":\"aAnimateddecor\",\"string\":\"AnimatedDecor\"},{\"addr\":\"0x33fee4\",\"name\":\"_ZN12ObjectHandlecvP10GameObjectEv\"},{\"addr\":\"0x394d34\",\"name\":\"_ZN10GameObject15SetVisualObjectEPKcS1_b\"},{\"addr\":\"0x8cb7d8\",\"name\":\"aLastMenuMultil\",\"string\":\"\\n\\n ***************************Last menu_MultiLogin::  \\n\\n\"},{\"addr\":\"0x597094\",\"name\":\"_ZNK6glitch5scene10ISceneNode12getAnimatorsEv\"},{\"addr\":\"0x8c98b0\",\"name\":\"aSD\",\"string\":\"%s_%d\"},{\"addr\":\"0x8c98b8\",\"name\":\"aPlayerCs\",\"string\":\"Player_CS\"},{\"addr\":\"0x8c03d0\",\"name\":\"aPlayer\",\"string\":\"Player\"},{\"addr\":\"0x33ff54\",\"name\":\"_ZN12ObjectHandlecvP9CharacterEv\"},{\"addr\":\"0x8c98c8\",\"name\":\"aData3dCharacte\",\"string\":\"data/3D/characters/prince/prince_modular.bdae\"},{\"addr\":\"0x471368\",\"name\":\"_ZN12VisualObject10SetVisibleEb\"},{\"addr\":\"0x3fa188\",\"name\":\"_ZN6Arrays19GetMemberIDByStringINS_14CharacterTableEEEiPKc\"},{\"addr\":\"0x8c7038\",\"name\":\"aRogueplayerbas_1\",\"string\":\"RoguePlayerBase\"},{\"addr\":\"0x3e0854\",\"name\":\"_ZN14CharProperties28LoadPropertiesForClassSelectEi\"},{\"addr\":\"0x5984f4\",\"name\":\"_ZN6glitch5scene10ISceneNode20getSceneNodeFromNameEPKc\"},{\"addr\":\"0x8c9908\",\"name\":\"aDummyRogue\",\"string\":\"dummy_Rogue\"},{\"addr\":\"0x8c6fe8\",\"name\":\"aMageplayerbase_1\",\"string\":\"MagePlayerBase\"},{\"addr\":\"0x8c9918\",\"name\":\"aDummyMage\",\"string\":\"dummy_Mage\"},{\"addr\":\"0x8c3d68\",\"name\":\"aKnightplayerba\",\"string\":\"KnightPlayerBase\"},{\"addr\":\"0x8c98f8\",\"name\":\"aDummyWarrior\",\"string\":\"dummy_Warrior\"},{\"addr\":\"0x3b395c\",\"name\":\"_ZN9Character14_InitEquipmentEv\"},{\"addr\":\"0x3c9f4c\",\"name\":\"_ZN12CharAnimator15SetAnimationSetEv\"},{\"addr\":\"0x9a6444\",\"name\":\"_ZN6Arrays13CharAnimTable7membersE\"},{\"addr\":\"0x3a3228\",\"name\":\"_ZNK9Character18GetCharAnimTableIdEv\"},{\"addr\":\"0x3c1aa8\",\"name\":\"_ZN16CharStateMachine15SM_SetAnimStateEibb\"},{\"addr\":\"0x597180\",\"name\":\"_ZNK6glitch5scene10ISceneNode19getAbsolutePositionEv\"},{\"addr\":\"0x42204c\",\"name\":\"_ZNK8MenuBase21GetCurrentMenuContextEv\"},{\"addr\":\"0x427ca0\",\"name\":\"_ZN20DebugCachedCharacter12RefreshCacheEPKcP6MenuFXPN7gameswf9characterE\"},{\"addr\":\"0x8c9928\",\"name\":\"aBtnRight\",\"string\":\"btn_right\"},{\"addr\":\"0x8c9938\",\"name\":\"aBtnLeft\",\"string\":\"btn_left\"},{\"addr\":\"0x427d50\",\"name\":\"_ZN20DebugCachedCharacter7GetCharEv\"},{\"addr\":\"0x7a929c\",\"name\":\"_ZN8RenderFX10SetVisibleEPKcb\"},{\"addr\":\"0x619474\",\"name\":\"_ZN6glitch7collada16CColladaDatabaseD1Ev\"}]}"
+      }
+    ],
+    "structuredContent": {
+      "addr": "0x428f38",
+      "code": "int __fastcall MenuCharacterSelect::Show(MenuCharacterSelect *this)\n{\n  MenuCharacterSelect *v1; // r6\n  MenuMainMenu *Instance; // r0\n  MenuMainMenu *v3; // r0\n  MenuMainMenu *v4; // r0\n  MenuMainMenu *v5; // r0\n  MenuMainMenu *v6; // r0\n  MenuMainMenu *v7; // r0\n  int result; // r0\n  gameswf::character *v9; // r7\n  int v10; // r0\n  int SceneNodeFromType; // r0\n  void (__fastcall *v12)(int, _DWORD *); // r3\n  int v13; // r0\n  int v14; // r2\n  int v15; // r9\n  char *Object; // r0\n  char *v17; // r4\n  char *v18; // r8\n  int v19; // r7\n  char *v20; // r10\n  int v21; // r0\n  _DWORD *v22; // r0\n  int v23; // r3\n  unsigned int v24; // r4\n  int v25; // r0\n  _DWORD **v26; // r3\n  const char *v27; // r0\n  char *v28; // r0\n  const char *v29; // r7\n  signed int v30; // r5\n  char *v31; // r7\n  glitch::scene::ISceneNode *v32; // r7\n  void (__fastcall *v33)(glitch::scene::ISceneNode *, int); // r8\n  int v34; // r0\n  void (__fastcall *v35)(glitch::scene::ISceneNode *, int); // r8\n  int v36; // r0\n  void (__fastcall *v37)(glitch::scene::ISceneNode *, int); // r6\n  int v38; // r0\n  int Animators; // r0\n  int v40; // r0\n  MenuCharacterSelect *v41; // r4\n  int v42; // r10\n  MenuCharacterSelect *v43; // r7\n  char *v44; // r0\n  VisualObject *v45; // r5\n  int v46; // r5\n  int v47; // r6\n  int v48; // r0\n  int *SceneNodeFromName; // r6\n  int v50; // r9\n  int CharAnimTableId; // r0\n  void (__fastcall *v52)(int, _BYTE *); // r9\n  void (__fastcall *v53)(int, int); // r9\n  int v54; // r0\n  int v55; // r3\n  int *v56; // r0\n  void (__fastcall *v57)(int, int); // r6\n  int v58; // r0\n  MenuFX *v59; // r4\n  gameswf::character *CurrentMenuContext; // r0\n  MenuCharacterSelect *v61; // r6\n  DebugCachedCharacter *v62; // r7\n  MenuFX *v63; // r8\n  gameswf::character *v64; // r0\n  DebugCachedCharacter *v65; // r0\n  RenderFX *v66; // r7\n  char *v67; // r1\n  const char *v68; // r1\n  RenderFX *v69; // r4\n  char *v70; // r1\n  const char *v71; // r1\n  int v72; // r6\n  int v73; // r0\n  int v74; // r6\n  int v75; // r0\n  unsigned int v76; // r3\n  unsigned int v77; // r11\n  size_t v78; // r11\n  char *v79; // r0\n  _BYTE *v80; // r1\n  char *v81; // r9\n  size_t v82; // r10\n  char **v83; // r10\n  int v84; // [sp+Ch] [bp-178h]\n  MenuCharacterSelect *v85; // [sp+30h] [bp-154h]\n  _DWORD v86[4]; // [sp+54h] [bp-130h] BYREF\n  _BYTE v87[12]; // [sp+64h] [bp-120h] BYREF\n  char *v88[3]; // [sp+70h] [bp-114h] BYREF\n  char *v89[3]; // [sp+7Ch] [bp-108h] BYREF\n  void *p; // [sp+88h] [bp-FCh] BYREF\n  int v91; // [sp+8Ch] [bp-F8h]\n  int v92; // [sp+90h] [bp-F4h]\n  int v93[3]; // [sp+94h] [bp-F0h] BYREF\n  int v94[3]; // [sp+A0h] [bp-E4h] BYREF\n  int v95[3]; // [sp+ACh] [bp-D8h] BYREF\n  float v96[3]; // [sp+B8h] [bp-CCh] BYREF\n  char *v97[3]; // [sp+C4h] [bp-C0h] BYREF\n  _DWORD v98[3]; // [sp+D0h] [bp-B4h] BYREF\n  char v99[8]; // [sp+DCh] [bp-A8h] BYREF\n  char s[64]; // [sp+E4h] [bp-A0h] BYREF\n  char v101[32]; // [sp+124h] [bp-60h] BYREF\n  char v102[32]; // [sp+144h] [bp-40h] BYREF\n  std::priv::_String_base<char,std::allocator<char> > v103; // [sp+164h] [bp-20h] BYREF\n\n  v1 = this; /*0x428f54*/\n  Instance = (MenuMainMenu *)MenuMainMenu::GetInstance(this); /*0x428f68*/\n  v3 = (MenuMainMenu *)MenuMainMenu::DestroyScene(Instance); /*0x428f6c*/\n  v4 = (MenuMainMenu *)MenuMainMenu::GetInstance(v3); /*0x428f70*/\n  v5 = (MenuMainMenu *)MenuMainMenu::DestroyAvatarCamera(v4); /*0x428f74*/\n  v6 = (MenuMainMenu *)MenuMainMenu::GetInstance(v5); /*0x428f78*/\n  *((_DWORD *)v1 + 88) = MenuMainMenu::mSavegameSlot; /*0x428f88*/\n  v7 = (MenuMainMenu *)MenuMainMenu::GetInstance(v6); /*0x428f8c*/\n  MenuMainMenu::m_isDestroyed = 1; /*0x428f98*/\n  MenuMainMenu::GetInstance(v7); /*0x428f9c*/\n  MenuMainMenu::mSavegameSlot = -1; /*0x428fa0*/\n  result = (*(int (__fastcall **)(MenuCharacterSelect *))(*(_DWORD *)v1 + 60))(v1); /*0x428fb0*/\n  if ( result )\n  {\n    MenuBase::Show(v1); /*0x428fe0*/\n    *((_DWORD *)v1 + 60) = -1; /*0x428fe8*/\n    DebugSwitches::load((DebugSwitches *)&DebugSwitches::s_inst); /*0x429000*/\n    v103._M_finish = (char *)&v103; /*0x42900c*/\n    v103._M_start_of_storage._M_data = (char *)&v103; /*0x429010*/\n    std::priv::_String_base<char,std::allocator<char>>::_M_allocate_block(&v103, 0x1Du); /*0x429014*/\n    v103._M_finish = (char *)memcpy(v103._M_start_of_storage._M_data, \"isTracingMenuCharacterSelect\", 0x1Cu) + 28; /*0x429034*/\n    *v103._M_finish = 0; /*0x42903c*/\n    DebugSwitches::GetSwitch((DebugSwitches *)&DebugSwitches::s_inst, (const std::string *)&v103); /*0x429044*/\n    std::priv::_String_base<char,std::allocator<char>>::_M_deallocate_block(&v103); /*0x42904c*/\n    v9 = (gameswf::character *)RenderFX::Find(*((RenderFX **)v1 + 1), \"class_select\"); /*0x429068*/\n    *((_BYTE *)v9 + 156) = 1; /*0x42906c*/\n    RenderFX::SetEnabled(*((RenderFX **)v1 + 1), v9, 1); /*0x42907c*/\n    RenderFX::RegisterDisplayCallback(*((_DWORD *)v1 + 1), v9, MenuCharacterSelect::RenderClassSelectPane, v1); /*0x429094*/\n    glitch::collada::CColladaDatabase::CColladaDatabase( /*0x4290ac*/\n      (glitch::collada::CColladaDatabase *)v99,\n      \"data/3D/OptimizedMaxFiles/CLASS_SELECTION.bdae\",\n      (glitch::collada::CColladaFactory *)&ColladaFactory::s_factory);\n    v10 = glitch::collada::CColladaDatabase::constructScene( /*0x4290cc*/\n            (glitch::collada::CColladaDatabase *)v99,",
+      "line_count": 140,
+      "total_lines": 401,
+      "truncated": true,
+      "cursor": {
+        "next": 140
+      },
+      "refs": [
+        {
+          "addr": "0x42c35c",
+          "name": "_ZN12MenuMainMenu11GetInstanceEv"
+        },
+        {
+          "addr": "0x42bebc",
+          "name": "_ZN12MenuMainMenu12DestroySceneEv"
+        },
+        {
+          "addr": "0x42baec",
+          "name": "_ZN12MenuMainMenu19DestroyAvatarCameraEv"
+        },
+        {
+          "addr": "0x999808",
+          "name": "_ZN12MenuMainMenu13mSavegameSlotE"
+        },
+        {
+          "addr": "0x99980c",
+          "name": "_ZN12MenuMainMenu13m_isDestroyedE"
+        },
+        {
+          "addr": "0x425450",
+          "name": "_ZN8MenuBase4ShowEv"
+        },
+        {
+          "addr": "0x337888",
+          "name": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "addr": "0x9a1d18",
+          "name": "_ZN13DebugSwitches6s_instE"
+        },
+        {
+          "addr": "0x31167c",
+          "name": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+        },
+        {
+          "addr": "0x30e868",
+          "name": "memcpy"
+        },
+        {
+          "addr": "0x8c9800",
+          "name": "aIstracingmenuc",
+          "string": "isTracingMenuCharacterSelect"
+        },
+        {
+          "addr": "0x337a88",
+          "name": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "addr": "0x3139ac",
+          "name": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+        },
+        {
+          "addr": "0x7a9160",
+          "name": "_ZN8RenderFX4FindEPKc"
+        },
+        {
+          "addr": "0x8c97c0",
+          "name": "aClassSelect",
+          "string": "class_select"
+        },
+        {
+          "addr": "0x7aba0c",
+          "name": "_ZN8RenderFX10SetEnabledEPN7gameswf9characterEb"
+        },
+        {
+          "addr": "0x7a7e80",
+          "name": "_ZN8RenderFX23RegisterDisplayCallbackEPN7gameswf9characterEPFvRNS0_12render_stateEPvES5_"
+        },
+        {
+          "addr": "0x428b74",
+          "name": "_ZN19MenuCharacterSelect21RenderClassSelectPaneERN7gameswf12render_stateEPv"
+        },
+        {
+          "addr": "0x60f25c",
+          "name": "_ZN6glitch7collada16CColladaDatabaseC1EPKcPNS0_15CColladaFactoryE"
+        },
+        {
+          "addr": "0x8c9820",
+          "name": "aData3dOptimize",
+          "string": "data/3D/OptimizedMaxFiles/CLASS_SELECTION.bdae"
+        },
+        {
+          "addr": "0x9a1ed8",
+          "name": "_ZN14ColladaFactory9s_factoryE"
+        },
+        {
+          "addr": "0x61b9e8",
+          "name": "_ZNK6glitch7collada16CColladaDatabase14constructSceneEPNS_5video12IVideoDriverE"
+        },
+        {
+          "addr": "0x99f73c",
+          "name": "dword_99F73C"
+        },
+        {
+          "addr": "0x596f6c",
+          "name": "_ZN6glitch5scene10ISceneNode20getSceneNodeFromTypeENS0_17E_SCENE_NODE_TYPEE"
+        },
+        {
+          "addr": "0x597154",
+          "name": "_ZN6glitch5scene10ISceneNode11setPositionEfff"
+        },
+        {
+          "addr": "0x5890c0",
+          "name": "_ZN6glitch5scene13CSceneManager15setActiveCameraEPNS0_16ICameraSceneNodeE"
+        },
+        {
+          "addr": "0x589508",
+          "name": "_ZN6glitch5scene13CSceneManager15setAmbientLightERKNS_5video7SColorfE"
+        },
+        {
+          "addr": "0x34b724",
+          "name": "_ZN13ObjectManager5SpawnEPKcS1_bb"
+        },
+        {
+          "addr": "0x99f764",
+          "name": "dword_99F764"
+        },
+        {
+          "addr": "0x8c0368",
+          "name": "aLightpoint",
+          "string": "LightPoint"
+        },
+        {
+          "addr": "0x8c9850",
+          "name": "aCharselectligh",
+          "string": "charselectLight"
+        },
+        {
+          "addr": "0x33fdc0",
+          "name": "_ZN12ObjectHandle9GetObjectEb"
+        },
+        {
+          "addr": "0x40b498",
+          "name": "_ZN9LightBase12setLightNodeEPN6glitch5scene15CLightSceneNodeE"
+        },
+        {
+          "addr": "0x40b828",
+          "name": "_ZN10LightPoint13AssignTweakerEii"
+        },
+        {
+          "addr": "0x310568",
+          "name": "_Z11GlitchAllocjN6glitch6memory13E_MEMORY_HINTE"
+        },
+        {
+          "addr": "0x30df38",
+          "name": "memmove"
+        },
+        {
+          "addr": "0x310450",
+          "name": "_Z10GlitchFreePv"
+        },
+        {
+          "addr": "0x40b3c8",
+          "name": "_ZN9LightBase14SetAttenuationE7Point3DIfE"
+        },
+        {
+          "addr": "0x40b720",
+          "name": "_ZN9LightBase15SetAmbientColorE7Point3DIfE"
+        },
+        {
+          "addr": "0x40b674",
+          "name": "_ZN9LightBase15SetDiffuseColorE7Point3DIfE"
+        },
+        {
+          "addr": "0x40b5c8",
+          "name": "_ZN9LightBase16SetSpecularColorE7Point3DIfE"
+        },
+        {
+          "addr": "0x60fb54",
+          "name": "_ZNK6glitch7collada16CColladaDatabase17constructAnimatorEv"
+        },
+        {
+          "addr": "0x428078",
+          "name": "_ZN19MenuCharacterSelect7SetAnimEPKc"
+        },
+        {
+          "addr": "0x8c9790",
+          "name": "aLol1Idle",
+          "string": "lol_1_idle"
+        },
+        {
+          "addr": "0x598dd4",
+          "name": "_ZN6glitch5scene10ISceneNode21getSceneNodesFromTypeENS0_17E_SCENE_NODE_TYPEERSt6vectorIPS1_NS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE"
+        },
+        {
+          "addr": "0x30ebd4",
+          "name": "LC_API_STRSTR_0"
+        },
+        {
+          "addr": "0x8c9860",
+          "name": "aDummyGameobjec",
+          "string": "dummy_gameobject_"
+        },
+        {
+          "addr": "0x30e814",
+          "name": "strcspn"
+        },
+        {
+          "addr": "0x8cd490",
+          "name": "aSlot0",
+          "string": "slot >= 0"
+        },
+        {
+          "addr": "0x0",
+          "name": "dword_0"
+        },
+        {
+          "addr": "0x30e004",
+          "name": "fprintf"
+        },
+        {
+          "addr": "0xa365c0",
+          "name": "__sF"
+        },
+        {
+          "addr": "0x8be3e0",
+          "name": "aAssertSFailedS",
+          "string": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "addr": "0x8c9878",
+          "name": "aLen132",
+          "string": "len + 1 < 32"
+        },
+        {
+          "addr": "0x8c9668",
+          "name": "aProjectVs2005G_97",
+          "string": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Menus\\MenuCharacterSelect.cpp"
+        },
+        {
+          "addr": "0x99f914",
+          "name": "gAssertLevel"
+        },
+        {
+          "addr": "0x30de24",
+          "name": "LC_API_STRNCPY_0"
+        },
+        {
+          "addr": "0x30eae4",
+          "name": "sprintf"
+        },
+        {
+          "addr": "0x8c9888",
+          "name": "aData3dGameobje_0",
+          "string": "data/3D/GameObjects/%s.bdae"
+        },
+        {
+          "addr": "0x8c98a8",
+          "name": "aS02d",
+          "string": "%s_%02d"
+        },
+        {
+          "addr": "0x8c0488",
+          "name": "aAnimateddecor",
+          "string": "AnimatedDecor"
+        },
+        {
+          "addr": "0x33fee4",
+          "name": "_ZN12ObjectHandlecvP10GameObjectEv"
+        },
+        {
+          "addr": "0x394d34",
+          "name": "_ZN10GameObject15SetVisualObjectEPKcS1_b"
+        },
+        {
+          "addr": "0x8cb7d8",
+          "name": "aLastMenuMultil",
+          "string": "\n\n ***************************Last menu_MultiLogin::  \n\n"
+        },
+        {
+          "addr": "0x597094",
+          "name": "_ZNK6glitch5scene10ISceneNode12getAnimatorsEv"
+        },
+        {
+          "addr": "0x8c98b0",
+          "name": "aSD",
+          "string": "%s_%d"
+        },
+        {
+          "addr": "0x8c98b8",
+          "name": "aPlayerCs",
+          "string": "Player_CS"
+        },
+        {
+          "addr": "0x8c03d0",
+          "name": "aPlayer",
+          "string": "Player"
+        },
+        {
+          "addr": "0x33ff54",
+          "name": "_ZN12ObjectHandlecvP9CharacterEv"
+        },
+        {
+          "addr": "0x8c98c8",
+          "name": "aData3dCharacte",
+          "string": "data/3D/characters/prince/prince_modular.bdae"
+        },
+        {
+          "addr": "0x471368",
+          "name": "_ZN12VisualObject10SetVisibleEb"
+        },
+        {
+          "addr": "0x3fa188",
+          "name": "_ZN6Arrays19GetMemberIDByStringINS_14CharacterTableEEEiPKc"
+        },
+        {
+          "addr": "0x8c7038",
+          "name": "aRogueplayerbas_1",
+          "string": "RoguePlayerBase"
+        },
+        {
+          "addr": "0x3e0854",
+          "name": "_ZN14CharProperties28LoadPropertiesForClassSelectEi"
+        },
+        {
+          "addr": "0x5984f4",
+          "name": "_ZN6glitch5scene10ISceneNode20getSceneNodeFromNameEPKc"
+        },
+        {
+          "addr": "0x8c9908",
+          "name": "aDummyRogue",
+          "string": "dummy_Rogue"
+        },
+        {
+          "addr": "0x8c6fe8",
+          "name": "aMageplayerbase_1",
+          "string": "MagePlayerBase"
+        },
+        {
+          "addr": "0x8c9918",
+          "name": "aDummyMage",
+          "string": "dummy_Mage"
+        },
+        {
+          "addr": "0x8c3d68",
+          "name": "aKnightplayerba",
+          "string": "KnightPlayerBase"
+        },
+        {
+          "addr": "0x8c98f8",
+          "name": "aDummyWarrior",
+          "string": "dummy_Warrior"
+        },
+        {
+          "addr": "0x3b395c",
+          "name": "_ZN9Character14_InitEquipmentEv"
+        },
+        {
+          "addr": "0x3c9f4c",
+          "name": "_ZN12CharAnimator15SetAnimationSetEv"
+        },
+        {
+          "addr": "0x9a6444",
+          "name": "_ZN6Arrays13CharAnimTable7membersE"
+        },
+        {
+          "addr": "0x3a3228",
+          "name": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "addr": "0x3c1aa8",
+          "name": "_ZN16CharStateMachine15SM_SetAnimStateEibb"
+        },
+        {
+          "addr": "0x597180",
+          "name": "_ZNK6glitch5scene10ISceneNode19getAbsolutePositionEv"
+        },
+        {
+          "addr": "0x42204c",
+          "name": "_ZNK8MenuBase21GetCurrentMenuContextEv"
+        },
+        {
+          "addr": "0x427ca0",
+          "name": "_ZN20DebugCachedCharacter12RefreshCacheEPKcP6MenuFXPN7gameswf9characterE"
+        },
+        {
+          "addr": "0x8c9928",
+          "name": "aBtnRight",
+          "string": "btn_right"
+        },
+        {
+          "addr": "0x8c9938",
+          "name": "aBtnLeft",
+          "string": "btn_left"
+        },
+        {
+          "addr": "0x427d50",
+          "name": "_ZN20DebugCachedCharacter7GetCharEv"
+        },
+        {
+          "addr": "0x7a929c",
+          "name": "_ZN8RenderFX10SetVisibleEPKcb"
+        },
+        {
+          "addr": "0x619474",
+          "name": "_ZN6glitch7collada16CColladaDatabaseD1Ev"
+        }
+      ]
+    },
+    "isError": false
+  },
+  "id": 1
+}

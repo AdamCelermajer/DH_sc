@@ -46,6 +46,15 @@ struct NativeBatchPartV111 {
  std::vector<std::array<std::int16_t,2>> quantized_uv;
  std::vector<std::array<std::int16_t,3>> quantized_normal;
 };
+// NativeBatchVertexV111 carries an explicit white default color. The source
+// compiler leaves attributes[2] absent when the mesh has no color stream, but
+// shader variants may still consume color. Only treat a genuinely absent
+// color stream as this authored transport default; quantized or malformed
+// streams must continue through the regular validation path.
+inline bool native_batch_default_color_v113(const NativeBatchPartV111& part) noexcept {
+ const auto& color=part.attributes[2];
+ return color.source_type==0&&color.components==0&&color.values.empty()&&color.quantized_components.empty();
+}
 struct NativeBatchGpuServicesV111 {
  std::shared_ptr<void> owner;
  std::function<bool(const std::shared_ptr<NativeBatchMeshV110>&,std::string&)> upload;
@@ -95,4 +104,16 @@ struct NativeBatchCompileServicesV111 {
 bool native_compile_scene_v111(const std::vector<loader::BatchNodeBorrowV96>&,
  const std::shared_ptr<NativeBatchMeshV110>&,const NativeBatchCompileServicesV111&,
  const loader::BatchLinkedCallbackV96&,std::string&);
+inline bool resolve_material_binding_v111(const std::vector<scene::InstanceMaterialBindingV1>& bindings,
+ const std::string& symbol,scene::Material& out,std::string& e){
+ if(symbol.empty()){e="Empty source primitive material symbol";return false;}
+ const scene::InstanceMaterialBindingV1* match=nullptr;
+ for(const auto& binding:bindings)if(binding.symbol==symbol){
+  if(match){e="Duplicate source material-symbol binding";return false;}
+  match=&binding;
+ }
+ if(!match){e="Missing source material-symbol binding";return false;}
+ if(match->target.id.empty()){e="Missing source material target ID";return false;}
+ out=match->target;e.clear();return true;
+}
 }

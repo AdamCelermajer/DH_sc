@@ -15,6 +15,7 @@ public:
  static bool create(const model_renderer::SourceCampaignCandidateBorrowV55&,std::shared_ptr<SourceScriptUiWorldV97>&,std::string&);
  bool player_character(std::uintptr_t&,std::string&)const;
  bool player_name(std::uintptr_t,std::string&,std::string&)const;
+ bool parse_player_name(const std::string&,bool,std::string&,std::string&)const;
  bool style_name(std::int32_t,std::string&,std::string&)const;
  bool before_stop_message(std::string&)const;
  bool before_stop_dialog(std::string&)const;

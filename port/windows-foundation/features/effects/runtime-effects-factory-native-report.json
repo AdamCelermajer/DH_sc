@@ -1,0 +1,559 @@
+{
+  "feature": "RuntimeEffectsFactoryV1",
+  "validation": "PASS",
+  "private_archive_snapshot_sha256": {
+    "native.a": "610b18074d8c7558d18c0ff4a6381615912351d51379f431bf2d8be12798095a",
+    "libfoundation_data.a": "11073de9d36dc90291812c7461c9f6f65cbb98243b81f32d99a8532d3a73e7ab",
+    "libcontent_xml.a": "2708501e0e40329102003fd92734d08a9557d4673654b41a57eb5d8b8b010af9",
+    "libdh2_freetype237.a": "dff79e8ace6ba1d44a888eae596cc666188524d8afe9ccfda958e9789061b808",
+    "librecovered_trigger_contacts.a": "70d5696b9a36a20365180f2eadb717dbdbebb22b41da784f319605c36349ac8a",
+    "librecovered_content.a": "631dfcec4e726d40db4d0fc5a3185fdf57b54569543f2b7b853f46a51fdc724e",
+    "physics-backend/libdh2_box2d_201.a": "1dedf142b571cf67e03bc3d0e8eebd9614a915d3e92a2bab104b97392bab374b"
+  },
+  "runner": "port/windows-foundation/features/effects/runtime_effects_factory_native_tests.py",
+  "test": "port/windows-foundation/features/effects/runtime_effects_factory_native_tests.cpp",
+  "source_result": {
+    "validation": "PASS",
+    "session_actor": 65537,
+    "source_set": "swoosh_prince_1hand_combo_01",
+    "source_fx_event_seeded": false,
+    "playable_weapon_source": {
+      "item": "Longsword01",
+      "item_table_index": 664,
+      "same_session_main_hand_equipped": true,
+      "item_record_words_5_6": [
+        -1,
+        -1
+      ],
+      "same_session_traits_main_item_words_5_6": [
+        -1,
+        -1
+      ],
+      "source_precedence": "main-hand ItemRecord FX; then offhand only if main FX is -1; then AnimTable step.fx only if both item FX values are -1",
+      "actual_selected_fx_source": "AnimTable step.fx fallback"
+    },
+    "source_starter_item_fx_audit": [
+      {
+        "profile": "RoguePlayerBase",
+        "main_item": "Dagger01",
+        "main_item_table_index": 370,
+        "main_same_session_bound": true,
+        "main_item_record_words_5_6": [
+          -1,
+          -1
+        ],
+        "traits_main_item_words_5_6": [
+          -1,
+          -1
+        ],
+        "main_item_fx_set_name": "",
+        "off_item": "Dagger01",
+        "off_item_table_index": 370,
+        "off_actor_state_slot_bound": true,
+        "same_session_offhand_configuration_matches": true,
+        "session_dual_wield_fact": true,
+        "session_off_damage_class": 3,
+        "session_equipment": [
+          "main_hand:Dagger01",
+          "off_hand:Dagger01"
+        ],
+        "off_item_record_words_5_6": [
+          -1,
+          -1
+        ],
+        "off_item_fx_set_name": ""
+      },
+      {
+        "profile": "MagePlayerBase",
+        "main_item": "Staff01",
+        "main_item_table_index": 1025,
+        "main_same_session_bound": true,
+        "main_item_record_words_5_6": [
+          479,
+          -1
+        ],
+        "traits_main_item_words_5_6": [
+          479,
+          -1
+        ],
+        "main_item_fx_set_name": "",
+        "off_item": "",
+        "off_item_table_index": -1,
+        "off_actor_state_slot_bound": true,
+        "same_session_offhand_configuration_matches": true,
+        "session_dual_wield_fact": false,
+        "session_off_damage_class": -1,
+        "session_equipment": [
+          "main_hand:Staff01"
+        ],
+        "off_item_record_words_5_6": [
+          -1,
+          -1
+        ],
+        "off_item_fx_set_name": ""
+      }
+    ],
+    "source_packets": 1,
+    "bashdown_source_fx": {
+      "actor": 65537,
+      "sequence": 347,
+      "step": 0,
+      "occurrence": 2,
+      "source_set_id": 164,
+      "source_set_name": "skill_dh2_prince_warrior_bash_down",
+      "exact_bdae_uri": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+      "mesh_packets": 3,
+      "particle_packets": 2,
+      "test_camera_calls": 24,
+      "same_session": true,
+      "duplicate_suppressed": true
+    },
+    "destroyed_session_current_lease_and_camera_adapter_rejected": true,
+    "same_session_factory_identity_checked": true,
+    "foreign_detached_and_rebound_factory_identity_rejected": true,
+    "step_fx_occurrence": {
+      "actor": 65537,
+      "sequence": 470,
+      "step": 1,
+      "occurrence": 1,
+      "source_set_id": 253,
+      "source_set_name": "swoosh_prince_1hand_combo_01",
+      "source_set_type": 0,
+      "fresh_manager": true,
+      "step_created_source_instance": true,
+      "same_session": true,
+      "duplicate_suppressed": true
+    },
+    "wgl_diagnostic_cpu_packet": {
+      "vertex_count": 38,
+      "world_aabb_min": [
+        -126.24099,
+        -389.54501,
+        7.1791101
+      ],
+      "world_aabb_max": [
+        294.302,
+        126.267,
+        472.76099
+      ],
+      "world_aabb_extent": [
+        420.54299,
+        515.81201,
+        465.58188
+      ],
+      "vertex_color_min": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "vertex_color_max": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "transformed_normal_abs_dot_view_z_range": [
+        0.41529307,
+        0.84157881
+      ],
+      "mean_transformed_normal_abs_dot_view_z": 0.60472873,
+      "material": {
+        "color": [
+          0.58431375,
+          0.58431375,
+          0.58431375,
+          1
+        ],
+        "texture_id": 101,
+        "transparent": true,
+        "additive": true,
+        "alpha_reference": 0,
+        "source_pass": {
+          "blend": true,
+          "blend_source": 1,
+          "blend_destination": 1,
+          "depth_test": true,
+          "depth_write": false,
+          "cull": false,
+          "cull_face": 1029,
+          "front_face": 2305,
+          "alpha_test": false
+        }
+      },
+      "authored_uv_matrix": {
+        "base_bres_scene_material_2d": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "animated_matrix_used_for_bake_2d": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "matrix_order": "AuthoredFxMeshGraphV32 sample replaces per-material matrix from source TextureTransform20V1 track; draw_sources applies current matrix to source UV exactly once"
+      },
+      "decoded_texture_alpha_range": [
+        0,
+        255
+      ],
+      "projected_triangle_diagnostics": {
+        "camera": "WGL bounds-derived camera: 640x480, vertical FOV 60deg, eye +Z at 2.8x packet extent",
+        "uv_source": "actual packet UVs after source texture matrix bake; no second matrix application",
+        "triangle_count": 36,
+        "degenerate_world_triangles": 0,
+        "degenerate_projected_triangles": 0,
+        "sum_projected_triangle_area_pixels": 7522.5206,
+        "covered_pixel_centers_with_overdraw": 7534,
+        "unique_sampled_texture_texels": 1216,
+        "black_bilinear_rgb_samples": 7524,
+        "bilinear_rgb_channel_min": 0,
+        "bilinear_rgb_channel_max": 2.5921325,
+        "texture_dimensions": [
+          512,
+          512
+        ]
+      },
+      "source_timeline_phases": {
+        "initial": {
+          "current_ms": 0,
+          "start_ms": 0,
+          "end_ms": 333,
+          "visible": true,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            0.71113598,
+            0.015435
+          ],
+          "uv_max": [
+            0.99141097,
+            0.98738903
+          ]
+        },
+        "view_found": true,
+        "sampled_later_phases": [
+          {
+            "absolute_ms": 83,
+            "packet_count": 1,
+            "uv_samples": 74,
+            "nonblack_uv_samples": 0,
+            "max_texture_channel": 0,
+            "max_modulated_channel": 0,
+            "projected_area_pixels": 7522.5206,
+            "world_aabb_min": [
+              -126.24099,
+              -389.54501,
+              7.1791101
+            ],
+            "world_aabb_max": [
+              294.302,
+              126.267,
+              472.76099
+            ],
+            "material_color": [
+              0.58431375,
+              0.58431375,
+              0.58431375,
+              1
+            ],
+            "uv_min": [
+              1.711136,
+              0.015435
+            ],
+            "uv_max": [
+              1.991411,
+              0.98738903
+            ],
+            "animated_matrix_2d": [
+              1,
+              0,
+              0,
+              1,
+              1,
+              0
+            ]
+          },
+          {
+            "absolute_ms": 167,
+            "packet_count": 1,
+            "uv_samples": 74,
+            "nonblack_uv_samples": 0,
+            "max_texture_channel": 0,
+            "max_modulated_channel": 0,
+            "projected_area_pixels": 7522.5206,
+            "world_aabb_min": [
+              -126.24099,
+              -389.54501,
+              7.1791101
+            ],
+            "world_aabb_max": [
+              294.302,
+              126.267,
+              472.76099
+            ],
+            "material_color": [
+              0.58431375,
+              0.58431375,
+              0.58431375,
+              1
+            ],
+            "uv_min": [
+              1.711136,
+              0.015435
+            ],
+            "uv_max": [
+              1.991411,
+              0.98738903
+            ],
+            "animated_matrix_2d": [
+              1,
+              0,
+              0,
+              1,
+              1,
+              0
+            ]
+          },
+          {
+            "absolute_ms": 250,
+            "packet_count": 1,
+            "uv_samples": 74,
+            "nonblack_uv_samples": 0,
+            "max_texture_channel": 0,
+            "max_modulated_channel": 0,
+            "projected_area_pixels": 7522.5206,
+            "world_aabb_min": [
+              -126.24099,
+              -389.54501,
+              7.1791101
+            ],
+            "world_aabb_max": [
+              294.302,
+              126.267,
+              472.76099
+            ],
+            "material_color": [
+              0.58431375,
+              0.58431375,
+              0.58431375,
+              1
+            ],
+            "uv_min": [
+              1.711136,
+              0.015435
+            ],
+            "uv_max": [
+              1.991411,
+              0.98738903
+            ],
+            "animated_matrix_2d": [
+              1,
+              0,
+              0,
+              1,
+              1,
+              0
+            ]
+          },
+          {
+            "absolute_ms": 316,
+            "packet_count": 1,
+            "uv_samples": 74,
+            "nonblack_uv_samples": 0,
+            "max_texture_channel": 0,
+            "max_modulated_channel": 0,
+            "projected_area_pixels": 7522.5206,
+            "world_aabb_min": [
+              -126.24099,
+              -389.54501,
+              7.1791101
+            ],
+            "world_aabb_max": [
+              294.302,
+              126.267,
+              472.76099
+            ],
+            "material_color": [
+              0.58431375,
+              0.58431375,
+              0.58431375,
+              1
+            ],
+            "uv_min": [
+              1.711136,
+              0.015435
+            ],
+            "uv_max": [
+              1.991411,
+              0.98738903
+            ],
+            "animated_matrix_2d": [
+              1,
+              0,
+              0,
+              1,
+              1,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    "cpu_uploads": 5,
+    "camera_driver_requests": 0,
+    "live_gl_upload": false
+  },
+  "actual_step_entry_fx": {
+    "proof": {
+      "actor": 65537,
+      "sequence": 470,
+      "step": 1,
+      "occurrence": 1,
+      "source_set_id": 253,
+      "source_set_name": "swoosh_prince_1hand_combo_01",
+      "source_set_type": 0,
+      "fresh_manager": true,
+      "step_created_source_instance": true,
+      "same_session": true,
+      "duplicate_suppressed": true
+    },
+    "duplicate_occurrence_suppressed": true,
+    "same_session_manager_step_dispatch": true,
+    "same_session_packet_frame_after_step": true,
+    "packet_evidence_scope": "Fresh manager had zero FX instances before the actual step; source set creation and post-step packet frame are attributed to that step.",
+    "step_specific_rendered_packets_verified": true,
+    "presentation_composition": "RuntimeSessionAudioV1 audio first, registered FX observer afterward"
+  },
+  "warrior_base_first_skill_fx": {
+    "proof": {
+      "actor": 65537,
+      "sequence": 347,
+      "step": 0,
+      "occurrence": 2,
+      "source_set_id": 164,
+      "source_set_name": "skill_dh2_prince_warrior_bash_down",
+      "exact_bdae_uri": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+      "mesh_packets": 3,
+      "particle_packets": 2,
+      "test_camera_calls": 24,
+      "same_session": true,
+      "duplicate_suppressed": true
+    },
+    "source_note": "port/windows-foundation/features/effects/warrior-bashdown-fx-evidence.md",
+    "skill_admission_or_user_key_mapping": false,
+    "same_session_retained_animation_root_and_step": true,
+    "actual_source_set_and_resource": true,
+    "mesh_and_particle_packet_kinds": true,
+    "test_camera_fixture": "Identity CPU camera used only to materialize source particle packets; live source camera fidelity is unverified.",
+    "live_gl_or_current_preview_route": false
+  },
+  "link_inputs": {
+    "root_native_archive": ".local-inputs/windows-effects-feature-native/archive-snapshot/native.a",
+    "windows_foundation_archive": ".local-inputs/windows-effects-feature-native/archive-snapshot/libfoundation_data.a",
+    "additional_foundation_archives": [
+      ".local-inputs/windows-effects-feature-native/archive-snapshot/libcontent_xml.a",
+      ".local-inputs/windows-effects-feature-native/archive-snapshot/libdh2_freetype237.a",
+      ".local-inputs/windows-effects-feature-native/archive-snapshot/librecovered_trigger_contacts.a",
+      ".local-inputs/windows-effects-feature-native/archive-snapshot/librecovered_content.a",
+      ".local-inputs/windows-effects-feature-native/archive-snapshot/physics-backend/libdh2_box2d_201.a"
+    ],
+    "compiled_feature_sources": [
+      "port/windows-foundation/features/effects/runtime_effects_factory_native_tests.cpp",
+      "port/windows-foundation/features/effects/runtime_effects_factory_v1.cpp",
+      "port/windows-foundation/features/effects/runtime_combat_effects_v1.cpp",
+      "port/windows-foundation/features/effects/runtime_swing_fx_observer_v1.cpp",
+      "port/windows-foundation/features/skills_animation/skill_animation_program.cpp",
+      "port/windows-foundation/features/effects/effects_executor.cpp",
+      "port/windows-foundation/features/effects/effects_render_bridge.cpp",
+      "port/windows-foundation/features/effects/effects_material_binding.cpp",
+      "port/level-world/character_authored_resource_v32.cpp",
+      "port/level-world/character_authored_fx_forces_v4.cpp",
+      "port/level-world/character_fx_floor_query_v3.cpp",
+      "port/level-world/character_animation_step_fx_v2.cpp",
+      "port/level-world/authored_fx_mesh_graph_v32.cpp",
+      "port/level-world/authored_fx_nonrender_geometry_v32.cpp",
+      "port/level-world/authored_fx_transform_v5.cpp",
+      "port/scene-materials/particle_scene_v1.cpp",
+      "port/engine-skinning/skinning.cpp",
+      "port/engine-animation/animation.cpp",
+      "port/engine-animation/component_applicator.cpp",
+      "port/engine-animation/particle_scalar_animation_v6.cpp",
+      "port/engine-animation/particle_cloud_runtime_v1.cpp",
+      "port/engine-animation/particle_cloud_runtime_v3.cpp",
+      "port/engine-animation/particle_deflector_v1.cpp",
+      "port/engine-animation/particle_force_scene_v2.cpp",
+      "port/engine-animation/particle_bound_forces_v4.cpp",
+      "port/engine-animation/particle_resource_init_v2.cpp",
+      "port/engine-animation/particle_cloud_models_v1.cpp",
+      "port/engine-animation/particle_billboard_v1.cpp",
+      "port/engine-animation/particle_force_scene_v1.cpp",
+      "port/engine-animation/particle_scene_color_v1.cpp",
+      "port/engine-animation/particle_factory.cpp",
+      "port/engine-animation/particle_random_v1.cpp",
+      "port/engine-animation/particle_emission.cpp",
+      "port/engine-animation/particle_box_v2.cpp",
+      "port/engine-animation/material_color.cpp",
+      "port/engine-animation/material_color_v3.cpp",
+      "port/engine-animation/particle_parameter.cpp",
+      "port/engine-animation/particle_resource_init_v32.cpp",
+      "port/engine-animation/particle_billboard_v32.cpp",
+      "port/windows-foundation/asset_catalog.cpp",
+      "port/windows-foundation/content_paths.cpp",
+      "port/windows-foundation/texture_loader.cpp",
+      "port/windows-foundation/source_material_pass.cpp",
+      "port/windows-foundation/actor_lighting.cpp",
+      "port/engine-textures/textures.cpp",
+      "port/engine-textures/pvrtc.cpp",
+      "port/scene-materials/scene.cpp",
+      "port/scene-materials/effect_render_pass_v4.cpp",
+      "port/level-loader/vendor/tinyxml/tinyxml.cpp",
+      "port/level-loader/vendor/tinyxml/tinyxmlerror.cpp",
+      "port/level-loader/vendor/tinyxml/tinyxmlparser.cpp",
+      "port/level-loader/vendor/tinyxml/tinystr.cpp"
+    ]
+  },
+  "cpu_packet_test": {
+    "fake_texture_upload": true,
+    "live_gl_upload": false,
+    "actual_camera_or_driver_substitution": false,
+    "bashdown_test_camera": "identity CPU camera; source particle color branch explicitly source_white",
+    "queue_submission": "explicit root submit callback received the same retained packet frame"
+  },
+  "destroyed_session_lease_regression": {
+    "validation": "PASS",
+    "apis": [
+      "RuntimeEffectsFactoryV1::Impl::current_lease",
+      "RuntimeEffectsFactoryV1::Impl::camera_adapter"
+    ],
+    "session_destroyed_before_api_calls": true,
+    "both_rejected_before_raw_session_access": true
+  },
+  "claims": {
+    "same_session_pose_visual_scene": true,
+    "original_effect_tables_and_resource": true,
+    "original_resource_sha256": "af8ef8a2dc4d6da7c369964aa7d1fed08859ea4ba1d6062ac6796f11a936180b",
+    "original_texture_sha256": "28d2da9ef8dc3c03ecca6969cca7a35c9f3cf6e1b4bd92dc8bfc4752e41f09e3",
+    "source_resource_uri_overlay": ".local-inputs/windows-effects-feature-native/source-effect-uri-root",
+    "named_fx_event_seeded": false,
+    "source_manager_advance": true,
+    "original_mesh_packets": true,
+    "live_gl": false
+  }
+}

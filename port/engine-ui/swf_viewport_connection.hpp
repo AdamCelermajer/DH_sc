@@ -29,6 +29,7 @@ public:
     bool bind(SwfViewportLease,const ViewportState64&,const SwfViewportDriver&,std::string&);
     void release() noexcept;
     bool bound() const noexcept;
+    bool owns_root(const gameswf::root* root) const noexcept {return bound()&&lease_.root==root;}
     const ViewportState64& state() const noexcept {return state_;}
     bool set_viewport(const std::int32_t xywh[4],std::string&);
     bool set_bounds(const std::int32_t xywh[4],std::int32_t mode,std::string&);

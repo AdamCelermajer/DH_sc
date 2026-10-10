@@ -1,0 +1,84 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated source batch only; no shared CMake or APK mutation.",
+  "android_compiler": "NDK29.0.14206865 clang++",
+  "android_flags": [
+    "--target=aarch64-linux-android28 or x86_64-linux-android28",
+    "-std=c++17",
+    "-O2",
+    "-shared",
+    "-fPIC",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384"
+  ],
+  "android_sources": [
+    "port/engine-ui/game_option_table_v1.cpp",
+    "port/engine-ui/owned_hud_settings_v1.cpp",
+    "port/engine-ui/settings_native_files_v1.cpp",
+    "port/engine-ui/settings_language_scene_v1.cpp",
+    "port/engine-ui/localization.cpp",
+    "port/engine-ui/hud_startup_callbacks.cpp"
+  ],
+  "android_binary_sha256": {
+    ".local-inputs/hud-owned-settings-v1/libsettings_bundle_arm64.so": "64b69a8255e62de9d800b94ea1fd811752eb4f564ec626292904f7dede2e7387",
+    ".local-inputs/hud-owned-settings-v1/libsettings_x86_64.so": "691466f5d1696f366cc244aec6a76c68786bbf2e5fdba0f466714415eb1fa17b"
+  },
+  "host_compiler": "WSL g++15.2.0",
+  "host_flags": [
+    "-std=c++17",
+    "-O2",
+    "-g",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer"
+  ],
+  "host_targets": {
+    "owned_settings_v1_audit": {
+      "test": "port/engine-ui/tests/owned_settings_v1.cpp",
+      "sources": [
+        "port/engine-ui/game_option_table_v1.cpp",
+        "port/engine-ui/owned_hud_settings_v1.cpp",
+        "port/engine-ui/settings_native_files_v1.cpp",
+        "port/engine-ui/settings_language_scene_v1.cpp",
+        "port/engine-ui/localization.cpp",
+        "port/engine-ui/hud_startup_callbacks.cpp"
+      ],
+      "arguments": [
+        "port/engine-ui/reference/owned-hud-settings-v1/fixtures.bin",
+        ".local-inputs/design-settings",
+        "port/android-native/app/src/main/assets/original-cache/data/pydata",
+        ".local-inputs/hud-owned-settings-v1/native-file-test"
+      ]
+    },
+    "settings_language_scene_v1_audit": {
+      "test": "port/engine-ui/tests/settings_language_scene_v1.cpp",
+      "sources": [
+        "port/engine-ui/settings_language_scene_v1.cpp"
+      ],
+      "arguments": [
+        "port/engine-ui/reference/owned-hud-settings-v1/language-scene-fixtures.bin"
+      ]
+    }
+  },
+  "source_sha256": {
+    "port/engine-ui/game_option_table_v1.hpp": "5dd3edbc9a5f1e4fd568f7513b90e6f37964023b3aecd6e421d1be494e8ada93",
+    "port/engine-ui/game_option_table_v1.cpp": "8ffd204eba23339675b635c415deb9cfa9f397d45fe264cbfc3142fc31f7debf",
+    "port/engine-ui/owned_hud_settings_v1.hpp": "22d32d0e81c70a4966f986b6da1e8def5499859c77063d92eeea71afc27c3155",
+    "port/engine-ui/owned_hud_settings_v1.cpp": "9cc1cf9ba79272159ccea80f12649c752b0744c74b2bf0a8c1685382759e7269",
+    "port/engine-ui/settings_native_files_v1.hpp": "be40fa0f68685ead0ab31c93cf95116dd3014bc95a7eee1dd0273de1f01413d3",
+    "port/engine-ui/settings_native_files_v1.cpp": "65730369ba3d42944abc7785f2c216db07c92d2f27a7aa4b918f6534925691a3",
+    "port/engine-ui/settings_language_scene_v1.hpp": "29d560ffd3c50eb87eb948f097f9a69822486b0480d249d2d38c84499a5d62a5",
+    "port/engine-ui/settings_language_scene_v1.cpp": "d94d0b06cc58e2df0094dc46603e7c6aa0ce11b60cc7d465cd79b8873d6d5fea",
+    "port/engine-ui/tests/owned_settings_v1.cpp": "837cb42bb2655496e5d38f3515ae77223f7a4e790132c1a1f55e0f2b010c5a6f",
+    "port/engine-ui/tests/settings_language_scene_v1.cpp": "f58ff5e1ffb8ad4d5d780ee101a21358b836c3cf86fb52fa73185963cc7c2434",
+    "port/engine-ui/tests/owned_settings_v1_differential.py": "481ebdb96c75fe98df40bdad0dbe120c001e972d9fba6f457eb275b9cecca626",
+    "port/engine-ui/tests/settings_language_scene_v1_differential.py": "6077b0722de2aefe4bf7d49019bdab00540cd6b356db7b0d6b5d4a6874581a7b",
+    "port/engine-ui/tests/run_owned_settings_v1_host.py": "fe10a5f90faf168d3f0252244fda487c66715fb1a0acc26638210fddb701a489",
+    "port/engine-ui/localization.hpp": "48433e35464d7fc14118de3d60a5323766a22c8116761e61eb605809187bbc8c",
+    "port/engine-ui/localization.cpp": "b519ab31e8553ccc808822fc1c9f846ebdff5f9e608eb31cd2fe3245d2860611",
+    "port/engine-ui/hud_startup_callbacks.hpp": "6300fe64f2b505079634f19b6aa41bb92720323873092924e6f48097d5b25e9f",
+    "port/engine-ui/hud_startup_callbacks.cpp": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5"
+  }
+}

@@ -11,6 +11,11 @@ bool CanonicalOpenableGraphV21::source_filter_borrow_v105(std::uintptr_t id,phys
 namespace {bool required(const char* name,std::string& e){e=std::string("Required actual OpenableContainer graph ")+name;return false;}}
 CanonicalOpenableGraphV21::CanonicalOpenableGraphV21(CanonicalOpenableGraphServicesV21 s)
  :services_(std::move(s)),receiver_(services_.world,runtime_,container_services()){
+ // Keep the parent virtual on the exact service object used to construct this
+ // retained VisualObject. Container::IsAnimated is a source return-1 leaf.
+ services_.visual.parent_is_animated=[this](bool& animated,std::string& e){
+  animated=receiver_.receiver().source_is_animated_v166();e.clear();return true;
+ };
  visual_=std::make_shared<RetainedSceneVisualConnectionV3>(receiver_.base(),services_.visual,services_.roots);
  assets_=std::make_unique<GameObjectVisualAssetOwnerV1>(receiver_.base(),visual_->services(visual_));
  initialization_=std::make_unique<GameObjectInitializationOwnerV1>(receiver_.base(),initialization_services());

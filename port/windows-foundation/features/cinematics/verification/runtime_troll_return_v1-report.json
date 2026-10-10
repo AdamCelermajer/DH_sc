@@ -1,0 +1,77 @@
+{
+  "status": "native_troll_return_provider_ready_live_enrollment_pending",
+  "date": "2026-10-09",
+  "scope": "New Windows-foundation TrollReturn provider. Reuses the caller's loaded OriginalCampaignRuntime and CombatSession; creates no scheduler, animation clock, source trigger, map schedule, or alternate actor/FSM owner.",
+  "files": {
+    "header": "port/windows-foundation/features/cinematics/runtime_troll_return_v1.hpp",
+    "implementation": "port/windows-foundation/features/cinematics/runtime_troll_return_v1.cpp",
+    "test": "port/windows-foundation/features/cinematics/runtime_troll_return_v1_tests.cpp",
+    "runner": "port/windows-foundation/features/cinematics/run_runtime_troll_return_v1_tests.ps1",
+    "mob_jump_evidence": "port/windows-foundation/features/cinematics/verification/mob_jump_v19-report.json"
+  },
+  "source_contract": {
+    "campaign": {
+      "file": ".local-inputs/windows-source-clock-checkpoint-v17/assets/original-campaign.xml",
+      "sha256": "3AB2055920A8B648B16D77AA07B0435CBD899C624F5BE3BCC145E2133C5CDD14",
+      "script": "level TrollReturn, found by name in the caller's exact OriginalCampaignRuntime",
+      "trigger_key": "port\\windows-foundation\\assets\\original-cache\\data\\3d\\modules\\swamp\\mgp\\obj_1of4_brdwalk_nse_00.mgp::_prim_TriggerZone_001",
+      "trigger_policy": "OriginalCampaignRuntime::trigger_contact receives real inside/qualified/module facts and owns the source edge, triggercount=1, triggerdelay=0, and script start. The helper does not synthesize overlap or call start directly."
+    },
+    "actor_and_clips": {
+      "bindings_file": ".local-inputs/windows-source-clock-checkpoint-v17/assets/original-melee-bindings.xml",
+      "bindings_sha256": "BC29F6EF2CE13F0C9D550835562747E99FC5896ED7AE32A630E496CF86529B94",
+      "actor_profile": "Troll",
+      "source_actor": "_prim_Monster_53_03_001",
+      "source_sequence": {"state": "Attack", "variant": 0, "id": 707, "name": "Troll_Attack1H"},
+      "redirect": {"id": 706, "type": 1, "loop": 0},
+      "runtime_commands": [
+        {"command_index": 8, "kind": 45, "animation_id": 1377, "wait": true, "path": [2, 0], "uri": "data/3D/characters/troll/animations/troll_swamp_pre_attack_03.bdae", "sha256": "F74BB845165E6234E43A88B0E7019484CDAA6340B49A3B611AEA51F46EF0A2A2"},
+        {"command_index": 9, "kind": 45, "animation_id": 1359, "wait": false, "path": [2, 1], "uri": "data/3D/characters/troll/animations/troll_swamp_attack_03.bdae", "sha256": "44AFC27FD8D02531295E1A533E974E890D7AE91137C60A65C4254A18B4758C96"},
+        {"command_index": 12, "kind": 45, "animation_id": 1373, "wait": true, "path": [2, 2], "uri": "data/3D/characters/troll/animations/troll_swamp_post_attack_03.bdae", "sha256": "3BCDA01F87F63C749108C8A2E44B0E99362C57455386043C0EED7709EB28CEE1"}
+      ],
+      "clip_bank": "build_troll_return_source_bank_v1 returns these three additional alias/path pairs for the same Troll visual. They must be merged into the actual Troll actor profile's sourceAnimationClips/visual before CombatSession::initialize. The plan also retains all nine authored Attack leaves so RetainedSequencePlayback sees contiguous source hierarchy container indices, but only the three clip leaves used by TrollReturn are required in this additional preload list.",
+      "motion": "Each source leaf has authored moveGO=1 and speed=1.2999999523162842. The same initialized visual needs its authored motion root and the same CombatSession navigation/collision motion handler before execution. The helper never advances animation itself."
+    },
+    "camera_and_host_effects": {
+      "camera_command": "TrollReturn command 11 is existing kind-5 PlayCamera ID44 wait=1; the helper forwards it through fallback_command unchanged to the existing SourceCinematicCommands/actual current-Level Default camera owner.",
+      "camera_resource": "data/3D/camera/animations/common/cam_shake_horiz.bdae; SHA256 9fa611486a45eade5aeb34a134baea01f89bc0924e1a4fed1944a6ed86a3af69; ID44 is registered and active in the actual loaded Default row.",
+      "verification": "The current `source-camera-admission-tests-updated.exe` was run and confirmed actual Default row 44 registered/active, with authored 334 remaining unmapped/no-play.",
+      "host_providers": "Global actor lock, SetCameraTarget/MoveActor, PM/UI cutscene mode and HUD, Input/SKIP/abort, and all other authored commands remain delegated to their existing same-owner providers. The helper requires fallback_command and does not create or unlock those owners."
+    },
+    "sound": "Source command 7 is PlaySound kind13 asset328 / UID252 `sfx_cave_troll_smash_ground.wav`, absent in the recovered cache. Original Script_PlaySound is void and ignores playback return, so missing playback is diagnostic and not an unconditional TrollReturn progression failure. No audio is synthesized or downloaded."
+  },
+  "implementation_behavior": {
+    "scoping": "The provider recognizes only the exact PlayActorAnim command object addresses from the loaded TrollReturn script. It validates the authored actor receiver, source ID, wait field, Troll Attack leaf path and same loaded campaign owner; unrelated commands are forwarded to the supplied existing cinematic callback.",
+    "actor_mapping": "Each execute resolves the exact authored source object name and module to an ActorId already registered in the passed CombatSession. The callback returns the same object name/module/session and a retained shared actor_binding_lease; the helper verifies that lease against the exact session, then retains the name/module/ActorId/lease and retained pose through completion. Generic animation does not construct or require a canonical native Character object. Missing resolver, mismatched name/module/session/lease, or missing retained pose fails explicitly.",
+    "playback": "Each command starts only its authored Troll Attack leaf through CombatSession::play_actor_source_sequence on the same actor pose owner. OriginalAttackSequence uses source phase speed/path metadata. CombatSession::update remains the only animation clock and uses the session's existing motion service.",
+    "wait": "Wait=1 IsBlocking reads current_ended from the exact retained pose owner; wait=0 remains nonblocking. Update is a no-op for this provider because it cannot advance a second clock. Completion verifies the same session lease, ActorId and retained pose. Source commands later restore idle/camera/lock in their authored order.",
+    "skip": "A reached sampled skip suppresses that authored PlayActorAnim and records an explicit skipped command so wait queries return nonblocking without requiring a nonexistent animation handle. Actual skip/input state remains supplied by the existing source owner.",
+    "markers": "Every reached retained animation marker is forwarded through the required same-session animation-event provider. The implementation does not infer that a marker means the video player was hit."
+  },
+  "verification": {
+    "runner": "port/windows-foundation/features/cinematics/run_runtime_troll_return_v1_tests.ps1",
+    "native_test": "PASS on the refreshed Foundation build. Statically linked with pinned LLVM-MinGW C++17. Test loaded original campaign and melee data, checked the exact one-shot trigger key, IDs/wait/path mapping and three real clip resources, initialized a CombatSession from the actual Troll source profile with preloaded clips, started via OriginalCampaignRuntime::trigger_contact, ran pre/attack/post commands through the same retained pose owner/session update and verified source motion and animation event callbacks. It verifies a missing resolver and a mismatched module mapping fail explicitly without requiring a native Character, and camera44 passes unchanged to the existing owner callback.",
+    "focused_connected_rerun": {
+      "date": "2026-10-09",
+      "result": "PASS; run_runtime_troll_return_v1_tests.ps1 rebuilt seven foundation_data units and relinked the archive against the root schema-v2 source tree, then freshly compiled/linked and ran the TrollReturn fixture successfully. The simplified resolver and failure-path assertions were rerun against this same archive set (incremental Foundation build reported no work).",
+      "archive_set": [
+        {"path": ".local-inputs/windows-foundation-build/libfoundation_data.a", "size_bytes": 7951288, "last_write_utc": "2026-10-09T14:02:41.7675727Z", "sha256": "53F9CBF0094779140B8513F5D2A91AB8497ED6EA89022B3107EC375B1E198109"},
+        {"path": ".local-inputs/windows-foundation-build/librecovered_content.a", "size_bytes": 1066068, "last_write_utc": "2026-10-09T09:03:38.2028648Z", "sha256": "1A9A7AC0338CB09E624756B6607290C7FE9D6DC28C410B58CC6988490198D4A2"},
+        {"path": ".local-inputs/windows-foundation-build/libcontent_xml.a", "size_bytes": 101606, "last_write_utc": "2026-10-09T09:03:36.5886957Z", "sha256": "6A6989F7F5322665AC3B01B12749DA7889F92CB6A2CB4CBFA27B87F66710541E"},
+        {"path": ".local-inputs/windows-foundation-build/libdh2_freetype237.a", "size_bytes": 707294, "last_write_utc": "2026-10-09T09:03:41.3415431Z", "sha256": "90FD32F96BC3974D57D6AC22D68C501F58FF9A68003ADB5409B244AFA26540B4"}
+      ],
+      "scope_note": "Fixture links the refreshed foundation_data archive and the listed companion archives; it consumes authored source assets from the unchanged local original-cache. The focused resolver contract maps exact source object name/module to a same-session ActorId and retained actor_binding_lease; this does not add production campaign enrollment."
+    },
+    "camera_fixture": "PASS. The existing actual camera admission executable reports Default row 44 registered and active; source 334 remains native no-play.",
+    "warnings": "Compile suppresses the existing actor_combat_runtime.hpp missing-field-initializers warning for unrelated source_clock initialization; changed helper/test compile with Wall/Wextra/Wpedantic."
+  },
+  "limits_and_remaining_providers": [
+    "This is a focused source/session provider test, not a production level run. The fixture's explicit exact-name/module-to-ActorId resolver maps to the test CombatSession and retains its actor_binding_lease; no root production source world-object resolver is claimed.",
+    "Root must merge the three returned clip aliases into the same actual Troll profile before Session initialization, then publish the initialized CombatSession and its same navigation/collision motion handler.",
+    "Root must feed actual TriggerZone overlap/eligibility/module into this same loaded OriginalCampaignRuntime and bind this command sink into the existing SourceCampaignDispatch cinematic lane while retaining the helper for the callback lifetime. The caller-owned resolver still must provide the real source object name/module to the same-session ActorId mapping.",
+    "The enclosing campaign's move/target, lock, HUD/Input/SKIP/abort, audio13/14, and remaining command services must be supplied by their real owners. The focused test does not tick the full source script through these unrelated providers or claim a full cinematic completion.",
+    "Camera44 acceptance proves the existing camera owner fixture, while this feature test proves same-reference fallback delegation; production command-lane enrollment remains pending.",
+    "No player-hit/contact consequence is claimed from the cinematic or animation marker."
+  ],
+  "next_bounded_task": "After root publishes the source object name/module-to-CombatSession ActorId resolver and pre-init clip-bank hook, wire this provider into the existing SourceCampaignDispatch lane and add a same-level TriggerZone→TrollReturn acceptance fixture using actual module overlap, same Default camera44, source HUD/skip owners and same CombatSession motion handler. Keep the root-owned integration outside these feature paths."
+}

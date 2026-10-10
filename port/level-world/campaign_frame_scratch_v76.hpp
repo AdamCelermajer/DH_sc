@@ -24,10 +24,8 @@ class CampaignFrameScratchV76 {
  };
  std::mutex mutex_;
  std::vector<std::shared_ptr<Entry>> entries_;
- MotionPolicy motion_{};
 public:
- CampaignFrameScratchV76();
- const MotionPolicy& motion()const noexcept{return motion_;}
+ CampaignFrameScratchV76()=default;
  bool borrow(std::uint32_t path_segments,std::uint32_t avoidance_actors,
   std::uint32_t registry_floor_capacity,std::shared_ptr<void>&,
   ControllerWorkspace*&,std::string&);

@@ -1,0 +1,52 @@
+{
+  "goal_complete": false,
+  "status": "shared_combat_source_clock_runtime_tested_fidelity_incomplete",
+  "package": ".local-inputs/windows-source-clock-checkpoint-v3",
+  "package_verification": "reports/packaged-source-clock-runtime-v3.json",
+  "component_tests": 40,
+  "source_implementation": [
+    "Two retained source clip clocks, authored outgoing BlendOut, original local SRT mixing and actual skin publication",
+    "Serialized current/outgoing events and all-slot root delta histories with exact dynamic/default-less root sampling",
+    "Finite source phase completion and physical-slot same-resource replay extra; different resources discard overshoot",
+    "ActorCombatRuntime source event/completion services validate content separately from the actual playback clock",
+    "Player and NPC share the same phase, damage, reaction, death and collision service boundaries",
+    "Authored template default library is retained for dynamic channels",
+    "NPC modular selection uses serialized category defaults plus referenced auxiliary instances; explicit controller IDs remain caller data"
+  ],
+  "runtime_evidence": {
+    "static_player_damage_frames": [76, 134, 192],
+    "npc_damage_frames": [13, 43],
+    "moving_player_damage_frames": [78, 141, 204],
+    "moving_player_source_xy": 519.153,
+    "moving_player_world_xy": 467.236,
+    "npc_death_source_xy": 443.059,
+    "npc_death_world_xy": 398.753,
+    "save_frame": 210,
+    "content_reload_frame": 250,
+    "restore_frame": 300,
+    "independent_process_restore_frames": 30,
+    "startup_movement_frames": 90,
+    "scope": "Native diagnostic stationary AI with original data, source clocks and rendered original assets. Source encounter activation and matched original/reference play remain unverified."
+  },
+  "save_policy": {
+    "version": 1,
+    "transients": "Already specified idle/dead normalization; not original save-file compatibility or exact animation-state persistence",
+    "saved_corpse": "Saved transform and terminal source death pose; no replayed displacement. Native regression covers source rebind and continued updates.",
+    "bug_fixed": "Restoring a corpse previously restarted moving Died clips, replaying the death trajectory after content reload and save restore."
+  },
+  "camera_and_campaign": {
+    "camera_transition": "Source target transitions and direct camera publication preserving damping velocity are component-tested with actual camera assets",
+    "actor_anchor": "Source AnchorForward/constants and look-vector helper component-tested; actual live HeadingState provider not yet connected",
+    "campaign": "70 original scripts and two timed encounter spawns verified through interpreter callbacks; live world/UI/spawn providers still pending"
+  },
+  "remaining": [
+    "Player locomotion handoff into retained animation ownership",
+    "Original NewAnim selection gates and synchronous event callback reentry",
+    "Outer combo policy, complete state/skill/equipment changes and authored FX/audio",
+    "Original navigation, dynamic body collision, visibility and manual target policy",
+    "Source encounter/spawn/AI and condition providers",
+    "Live camera heading/anchor provider and cinematic command integration",
+    "Rene robe/reference mismatch remains unresolved; no recolor or offset introduced",
+    "Matched-state original art and gameplay acceptance for all milestones"
+  ]
+}

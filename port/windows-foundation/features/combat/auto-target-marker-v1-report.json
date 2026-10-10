@@ -1,0 +1,80 @@
+{
+  "bug_ids": ["B004", "B029"],
+  "status": "focused_policy_passed; production_integration_pending",
+  "owner": "b004_auto_target_fresh; integration lead owns normal renderer caller; root owns CombatSession target state",
+  "visual_evidence": {
+    "original_reference": "Dungeon Hunter 2 v1.0.3 Part 1, local video .local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4; sampled contact sheet .local-inputs/reference-video/dh2-act1/target-retention-sequence-281-291.png",
+    "observed_sequence": "Frames sampled 281.0–290.5 seconds at 0.5-second intervals show the red ring/name/health on a living Bogwomp while sword poses and MISS/damage feedback change. The ring later moves after the first enemy is downed. This video has no visible input events, so it does not prove Space release.",
+    "current_build_reproduction": "Frozen DA4C runtime outputs .local-inputs/v19-frontend-hotfix/pc-skill-space/target-release.png and target-auto-release-preview.png are the same Rogue/Bogwomp scene. The explicit Tab selection image displays ring/name/health after release; the no-Tab implicit Space/release image shows the same living Bogwomp without the ring/name/health. target-release.log final player target is ActorId 7118915781085668844; target-auto-release.log final player target is 0. Both logs report Bogwomp HP 16.7969/47.5. This establishes an input-path difference in the frozen build, not the source-correct expected target state.",
+    "frozen_executable_sha256": "DA4C672F396B61C16AB917706BE9443991C7CBFEC9449EE3E178DE4B0B2CAA0D",
+    "limits": "The source video is v1.0.3 while the recovered ELF/data are v1.0.2. The frozen PC run is an adapted input path and is not an original-game capture."
+  },
+  "logic_evidence": {
+    "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "references": [
+      "port/level-world/reports/target-art-v28/independent-source-review.md",
+      "port/level-world/character_target_marker_v28.cpp",
+      "port/level-world/reference/character-retained-frame/direct-calls.json",
+      "port/level-world/reference/world-touch-target-v1/original-source.asm",
+      "port/level-world/reference/prince-live-ai/NOTES.md"
+    ],
+    "source_behavior": "CharacterTargetMarkerV28::update uses Character+0x40c (CharAI last_target) as the preferred presentation candidate. If it is null or equals the player identity, it falls back to Character+0x14a4 (object of interest); if the fallback is also null/self, the owned marker is hidden. This does not assert that marker candidate equals current AI target, and the marker source intentionally has no alive filter. Character::Update calls UpdateObjectOfInterest at 0x3ac0b4. UpdateObjectOfInterest at 0x3abb9c validates the current OOI, refreshes on the source 500 ms timer, and runs its source candidate query. Candidate iteration/filtering and a genuine OOI projection remain caller-owned.",
+    "current_callers": "The recovered Android campaign frame passes target.last_target and source_ooi14a4 into CharacterTargetMarkerV28. Windows foundation main.cpp currently draws the world ring and projected target HUD from CombatSession::selectedactor() alone (main.cpp around lines 2805 and 2821). The current frozen DA4C player target_id reflects the current AI selection only; no last-target/OOI pair is projected to that renderer. CharacterTargetMarkerV28 preserves its current selection when the actual GetInteractionType provider returns a negative type; this helper does not model that subsequent lifecycle behavior. The source marker has no fabricated alive filter; AnimatedFX dead-anchor cleanup and source AI/OOI lifecycle own disappearance."
+  },
+  "expected_behavior": {
+    "visible": "Keep the authored world target indicator synchronized with source marker inputs across implicit attack completion. Resolve presentation candidate from last target first, then OOI when last target is null or self. Resolve the candidate through the caller's actual actor and interaction providers; preserve source marker lifecycle and interaction-type behavior.",
+    "gameplay": "Do not force current target to remain alive/sticky solely to preserve a ring. Native Space release is not a source clear. Preserve explicit skill Post/ClearTarget and dead/invalid-target behavior. The candidate resolver is presentation-only and cannot reacquire or mutate combat target state.",
+    "minimal_implementation": "The new pure auto_target_marker_v1 resolver encodes the exact source candidate precedence over borrowed identities and reports which field won. The caller must provide genuine source/current last-target and OOI identities and validate them with its real actor interaction provider."
+  },
+  "verification_plan": [
+    "Focused helper tests for last-target precedence, null/self fallback to OOI, and null/self hide behavior.",
+    "Production integration must independently observe current target, last target, OOI, selected actor and visible ring; cover implicit attack release, explicit Tab selection, source skill Post clear, target death, and no candidate.",
+    "Run the normal executable with an isolated profile and capture the ring and target HUD after each boundary; record exact frozen build."
+  ],
+  "verification": {
+    "runner": "port/windows-foundation/features/combat/run_auto_target_marker_v1_tests.ps1",
+    "result": "PASS: C++17 optimized strict build and six branch checks",
+    "scope": "Pure candidate selection only; no combat target mutation, actor lookup, renderer integration, or UI image verification."
+  },
+  "state_matrix": [
+    {
+      "case": "Implicit Space-acquired target; host sticky-player-selection remains unset",
+      "current_session_target": "Ends null at attack completion in target-auto-release.log; enemy remains alive",
+      "source_marker_candidate": "Use last_target when nonnull, otherwise OOI; current Windows foundation caller currently supplies neither field distinctly",
+      "status": "DA4C repro observed; source-field integration pending"
+    },
+    {
+      "case": "Explicit Tab target selection",
+      "current_session_target": "ActorId 7118915781085668844 remains after release in target-release.log",
+      "source_marker_candidate": "last_target takes precedence when present; OOI is fallback only",
+      "status": "DA4C ring/name/health visible; PC Tab is a host adaptation, not recovered Ctrl_Click"
+    },
+    {
+      "case": "External/source ClearTarget, including skill Post",
+      "current_session_target": "Source clear must clear current/last target and remain cleared in the same-frame test",
+      "source_marker_candidate": "Fallback to OOI; helper must not resurrect combat target state",
+      "status": "Existing isolated Skill Post fixture checks current target clear; same-frame presentation/OOI integration remains pending"
+    },
+    {
+      "case": "Target death",
+      "current_session_target": "Source AI lifecycle owns current/last target cleanup; target identity must be observed separately",
+      "source_marker_candidate": "Candidate resolution does not filter life; source marker/FX lifecycle owns dead-anchor disappearance",
+      "status": "Existing Session invalid-target regression passes; integrated ring/death sequence remains pending"
+    },
+    {
+      "case": "No usable last-target or OOI candidate",
+      "current_session_target": "May be null",
+      "source_marker_candidate": "None; hide marker",
+      "status": "Pure helper branches pass"
+    }
+  ],
+  "uncertainties": [
+    "Original marker's source current/last/OOI inputs are clear, but the complete Character OOI candidate iteration and all source interaction families are not wired into the Windows foundation.",
+    "The original v1.0.3 video does not expose Space/touch/key state; recovered code/data are v1.0.2.",
+    "The PC Space/Tab bindings are deliberate host adaptations. Their input UI does not establish native touch-control semantics."
+  ],
+  "implementation_and_acceptance": {
+    "this_task": "Added a pure presentation candidate policy and focused branch test; no CombatSession, main, CMake, renderer, save, or shared game-output edits.",
+    "remaining_gate": "This helper is not a B004/B029 closure. Lead must bind genuine last-target/OOI providers into the normal Windows presentation path, and root/lead must complete integrated gameplay/runtime and visual tests."
+  }
+}

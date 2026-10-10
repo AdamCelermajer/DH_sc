@@ -1,0 +1,37 @@
+{
+  "status": "component_and_packaged_runtime_tested_full_fidelity_incomplete",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v18",
+  "executable_sha256": "79e566435081650206a03ecb028736a97770fa28d38722438a1a90645e7819d8",
+  "manifest_files": 572,
+  "ctest_passed": 75,
+  "positive_runtime_cases": 29,
+  "negative_persistence_checks": 2,
+  "evidence": [
+    "port/windows-foundation/reports/packaged-source-clock-runtime-v18.json",
+    "port/windows-foundation/reports/packaged-menu-combat-text-v18.json",
+    "port/windows-foundation/reports/packaged-source-combo-v18.json",
+    "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v18.json",
+    "reports/release-fidelity-v18-independent.json"
+  ],
+  "changes": [
+    "Original Stats artwork uses full-window independent X/Y source scaling and matching pointer coordinates.",
+    "Stats details, training controls and class/level localization read shared original state and arithmetic.",
+    "Scrolling combat text uses original font, styles, colors and genuine damage outcomes; presentation failure does not veto damage.",
+    "Glyph texture identity includes actual raster image dimensions/data; resized 4:3 Strength pixels exactly match a fresh 4:3 window.",
+    "Default run, Shift walk and held-space three-swing source combo remain verified."
+  ],
+  "character_menu_complete": false,
+  "required_menu_pages": [
+    "Stats",
+    "full Equipment",
+    "full Skills",
+    "full Faery"
+  ],
+  "limits": [
+    "Full Equipment, Skills and Faery contents/actions still require canonical native owner bindings and packaged acceptance.",
+    "Faery remains gated while native save/unlock/selection providers are unavailable.",
+    "Current combat-text callback and frame scheduling do not establish complete original FApplyResult/CUI ordering.",
+    "Whole-game AI, population, cinematics, audio/effects, frontend and matched-state visual/gameplay fidelity remain incomplete."
+  ]
+}

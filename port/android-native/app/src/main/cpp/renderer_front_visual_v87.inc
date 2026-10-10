@@ -1,5 +1,6 @@
 // Frozen front-v87 visual owners; shared root renderer and GPU lifetime.
 bool menu_background=false,class_scene=false;
+bool menu_background_character_visible_v137=true;
 int class_camera_node=-1,class_selected=-1,class_clip_start=0,class_clip_end=0,class_clip_cursor=0;
 struct ClassClip {std::string name;int start,end;};std::vector<ClassClip> class_clips;
 std::string class_clip_name;
@@ -136,7 +137,7 @@ Matrix class_camera(int width,int height){
  Matrix projection{1/(tangent*aspect),0,0,0,0,1/tangent,0,0,0,0,-(far+near)/(far-near),-1,0,0,-2*far*near/(far-near),0};
  return dh2::scene::multiply(projection,view);
 }
-Matrix menu_camera(){
+[[maybe_unused]] Matrix menu_camera(){
   // MenuMainMenu::CreateAvatarCamera, ARM 0x42bf68..0x42c0bc.
   // Position (0,-900,150), target (0,0,225), Z up; original camera
   // setters specify aspect bits 0x3fd578e9 and FOV bits 0x3f3579c8.

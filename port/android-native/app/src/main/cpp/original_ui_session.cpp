@@ -1,4 +1,5 @@
 #include "original_ui_session.hpp"
+#include "character_debug_stdio_v136.hpp"
 #include "original_ui_assets.hpp"
 #include "swf_gpu.hpp"
 #include "swf_hud_freetype_provider.hpp"
@@ -41,6 +42,7 @@
 #include "combat_flash_inputs_v1.hpp"
 #include "source_campaign_character_frame_v111.hpp"
 #include "source_campaign_combat_v115.hpp"
+#include "renderer_native_menu_prefix_v62.hpp"
 #include <gameplay_camera_application_v23.hpp>
 #include "flash_anim_manager_v92.hpp"
 #include "authored_gameplay_hud_v1.hpp"
@@ -52,15 +54,22 @@
 #include <optional>
 #include "swf_menu_parsed_string_v1.hpp"
 #include "authored_hud_options_bridge_v1.hpp"
+#include "swf_menu_options.hpp"
+#include "port/engine-audio/integration-v42/audio_application_manager_v42.hpp"
 #include "authored_joystick_v1.hpp"
 #include "hud_manager_core.hpp"
+#include "hud_manager_core_v2.hpp"
 #include "renderfx_text_connection.hpp"
+#include "swf_source_movie_v1.hpp"
+#include "swf_frame_connection.hpp"
+#include "menu_native_event_v1.hpp"
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_function.h"
 #include "gameswf/gameswf_sound.h"
 #include "authored_menu_character_projection_v4.hpp"
 #include "math.hpp"
 #include "character_menu_as_bridge_v1.hpp"
+#include "authored_character_application_v1.hpp"
 #include "character_panel_session_v1.hpp"
 #include "gameplay_hud.hpp"
 #include "textures.hpp"
@@ -73,6 +82,7 @@
 #include <limits>
 #include <map>
 #include <cmath>
+#include <mutex>
 #include <stdexcept>
 #include <utility>
 
@@ -81,15 +91,26 @@ namespace {
 constexpr const char* tag="DH2Native";
 constexpr const char* panel="_root.menu_HUD_0.HUDelements.HealthBars.player";
 constexpr const char* hud_sha="a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238";
+std::mutex process_arrays_owner_mutex_v101;
+std::weak_ptr<SourceProcessArraysV101> process_arrays_owner_v101;
 struct AssetClose {void operator()(AAsset* value)const{if(value)AAsset_close(value);}};
 struct ConstantsDelete {void operator()(dh2_script_constants* value)const{dh2_script_constants_destroy(value);}};
 struct DebugDelete {void operator()(character::DebugSwitches* value)const{dh2_character_debug_destroy(value);}};
 }
 struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
+    struct MessageInputLeaseV124 {std::weak_ptr<Impl> ui;};
     AAssetManager* manager{};
     OriginalUiAssets assets;
     SwfGpu gpu;
     std::string directory,font_failure,provider_failure;
+    std::weak_ptr<application::ApplicationServicesOwnerV5> process_application_v109;
+    std::shared_ptr<ui::AuthoredCharacterApplicationV1> process_startup_v109;
+    std::unique_ptr<ui::CharacterMenuAsBridgeV1> process_startup_bridge_v109;
+    OriginalUiGameplaySettingsActionsV1 gameplay_settings_actions_v1;
+    ui::SourceMenuVariantV132 process_variant_v132{};
+    bool source_movies_v132{};
+    const char* selected_hud_digest_v132()const{return source_movies_v132?process_variant_v132.hud_digest:hud_sha;}
+    bool base_hud_v132()const{return source_movies_v132&&process_variant_v132.base_hud;}
     std::unique_ptr<dh2_script_constants,ConstantsDelete> constants{dh2_script_constants_create()};
     std::shared_ptr<character::DebugSwitches> debug{dh2_character_debug_create(),DebugDelete{}};
     character::DebugFileServices24 debug_files{this,debug_open,debug_close};
@@ -143,6 +164,11 @@ struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
     // the last movie and its reachable ActionScript graph have been released.
     std::unique_ptr<ui::SwfTextFontPlatformV1> fonts;
     std::shared_ptr<ui::SwfMovie> movie;
+    std::shared_ptr<ui::SwfInputHistory> swf_input_history;
+    ui::SwfFrameConnection* swf_frames{}; // borrowed from the retained movie service owner
+    std::uint32_t swf_input_selection{};
+    ui::MenuNativeEventV1 message_input_events;
+    std::optional<int> message_input_pointer;
     bool hud_deleted_v94=false;
     std::shared_ptr<void> source_menu_owner_v94;
     std::unique_ptr<ui::PlayerStatusHud> status;
@@ -167,6 +193,7 @@ struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
     ui::HudAttackHeldFieldsV46 attack_controls_v46;
     ui::MenuInfoHudOwnerV62 source_info_hud_v62;
     std::unique_ptr<ui::HudManagerCore> source_hud_core_v62;
+    std::unique_ptr<ui::HudManagerCoreV2> source_hud_base_core_v132;
     ui::HudAdvanceOwner source_hud_advance_v62;
     std::weak_ptr<void> source_cached_target_lifetime_v107;
     std::uintptr_t source_cached_target_projection_v107{};
@@ -179,6 +206,7 @@ struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
     ui::HudControlsServicesV62 source_controls_v62;
     std::uintptr_t source_controls_root658_v62{}; //actual C1 store41b0c8
     std::uint8_t source_controls_cache8_v62{}; //actual C1 store41af38
+    std::uint8_t source_controls_touch_byte8_v1{}; //HUDControls::Touch source +8 reset
     std::weak_ptr<events::EventManagerOwnerV12> source_controls_events_v62;
     bool source_controls_constructor_attempted_v62{},source_controls_constructed_v62{};
     ui::SwfAsGraph* source_hud_graph_v62{};std::string* source_hud_error_v62{};
@@ -186,6 +214,15 @@ struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
 #include "original_ui_control_cache_v63.inc"
 #include "original_ui_control_event_v68.inc"
     std::uint64_t held_dispatches_v46{};
+    bool cancel_gameplay_pointers_v124(std::string& error){
+        using Control=ui::AuthoredHudControlV1;
+        const bool owned_joystick=std::any_of(hud_pointers.begin(),hud_pointers.end(),[](const auto& entry){return entry.second==Control::joystick;});
+        cancel_attack_v46();
+        for(const auto& entry:hud_pointers)if(entry.second==Control::faery)model_renderer::player_gameplay_action(3,0);
+        hud_pointers.clear();world_pointers.clear();model_renderer::world_touch_cancel();
+        const auto live=model_renderer::player_gameplay_binding();
+        return !owned_joystick||ui::authored_joystick_release_v1(joystick,live.active&&live.controller.controller,joystick_services(),error);
+    }
     bool dispatch_attack_v46(std::string& error){
         if(!attack_controls_v46.held9)return true;
         const auto live=model_renderer::player_gameplay_binding();
@@ -260,6 +297,29 @@ struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
         if(self.driver_width<=0||self.driver_height<=0){error="HUD surface dimensions unavailable";return false;}
         width=self.driver_width;height=self.driver_height;return true;
     }
+    static bool message_input_accepts(void*,ui::SwfEvent48&,bool& accepted,std::string&){
+        // MenuBase::CanHandleEvent returns true for the retained HUD movie.
+        accepted=true;return true;
+    }
+    static bool message_input_native_event(void* context,ui::SwfEvent48& event,std::string& error){
+        auto retained=static_cast<MessageInputLeaseV124*>(context)->ui.lock();
+        if(!retained){error="Retained HUD input owner expired";return false;}
+        // The tutorial/dialogue buttons are authored SWF handlers. The native
+        // MenuBase event stage keeps its constructor state here: no drag,
+        // rollover, or dead zones are installed for this gameplay HUD.
+        ui::MenuNativeEventServicesV1 services;services.context=context;
+        services.raw_position=[](void* raw,int& x,int& y,std::string& e){
+            auto owner=static_cast<MessageInputLeaseV124*>(raw)->ui.lock();
+            if(!owner){e="Retained HUD input owner expired";return false;}
+            return owner->movie&&owner->movie->input_raw_position(x,y,e);
+        };
+        return retained->message_input_events.base(event,services,error);
+    }
+    static bool message_input_advance(void* context,gameswf::root* root,float seconds,bool flag,std::string& error){
+        auto retained=static_cast<MessageInputLeaseV124*>(context)->ui.lock();
+        if(!retained||!retained->swf_frames){error="Required retained HUD source frame owner";return false;}
+        return retained->swf_frames->advance(root,seconds,flag,error);
+    }
     bool viewport(int width,int height,std::string& error){
         if(width<=0||height<=0){error="Invalid HUD surface dimensions";return false;}
         if(driver_width==width&&driver_height==height&&last_width==width&&last_height==height)return true;
@@ -304,7 +364,7 @@ struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
         return !handle||std::fclose(reinterpret_cast<std::FILE*>(handle))?1:0;
     }
     bool debug_load(std::string& error) {
-        const int status=dh2_character_debug_load(debug.get(),&debug_files);
+        const int status=character::load_debug_stdio_v136(debug.get(),&debug_files,directory.c_str());
         if(status<0){error="Required UI DebugSwitches load failed: "+std::to_string(status);return false;}return true;
     }
     bool debug_query(const char* key,std::string& error) {
@@ -484,38 +544,63 @@ struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
         if(!initialize_process_text_v101(error))return false;
         movie=std::make_shared<ui::SwfMovie>();hud_deleted_v94=false;ui::SwfServices services;
         services.context=this;services.read=movie_read;services.texture=texture;services.image=image;
+        services.release_image_v119=[this](const ui::SwfTexture& t,std::string& e){return gpu.source_remove_image_v119(t,e);};
         services.draw=draw;services.stencil=stencil;services.native_call=native;services.diagnostic=diagnostic;
         gameplay_queries=std::make_unique<CharacterPanelSessionV1>(manager);
         gameplay_bridge=std::make_unique<ui::CharacterMenuAsBridgeV1>(shared_from_this(),[this](const char* name,ui::CharacterMenuCallV1& call,std::string& e){return gameplay_call(name,call,e);});
         services.native_actions={"NativeSkillGetEquipedSkillsIDs","NativeGetSkillDetails","NativeHUDGetActiveFaery",
              "NativeHUDSkill","NativeHUDSpell","NativeUsePotion","NativeSwapEquipment","NativeGetOptionParameters","NativeUseIpodPlayer",
-             "NativeGetNextStatusMessage","NativeGetNextDialogMessage","NativeGetNextAchievementMessage",
+             "NativeSetOptions","NativeSaveSettings","NativeEnterOptionMenu","NativeRefreshHudManager",
+             "NativeOptionFX","NativeOptionMusic","NativeIsJapaneseVersion","NativeIsKorean",
+             "NativeChangeRolloverInputBehavior",
+             "NativeGetNextStatusMessage","NativeGetNextTutorialMessage","NativeGetNextDialogMessage","NativeGetNextAchievementMessage",
              "NativeSkipAchievementMessage","NativeStopMessage"};
         services.native_action=gameplay_native;services.native_owner=shared_from_this();
-        fonts=std::make_unique<ui::SwfTextFontPlatformV1>(ui::SwfFontServices{this,source_font_read_gfnt_v1,font_diagnostic},services,shared_from_this(),initialize_gfnt_backend_v1(),1.f);
+        // dqshared's startup actions run while primary3 is being loaded,
+        // before MenuManager.Init phase25 installs the complete name table.
+        // They address the process Application, with no Player requirement.
+        if(process_startup_bridge_v109){
+            services.native_actions.emplace_back("NativeIsMultiplayerEnabled");
+            services.native_actions.emplace_back("NativeLoadSettings");
+        }
+        ui::SwfServices observed_services;ui::SwfSourceFrameBorrowV1 source_frames;
+        if(!ui::source_movie_services_v1(services,observed_services,error)||
+           !ui::source_movie_frame_borrow_v1(observed_services,source_frames,error)||
+           !source_frames.history||!source_frames.frames){if(error.empty())error="Required retained HUD input/frame observer";return false;}
+        swf_input_history=source_frames.history;swf_frames=source_frames.frames;
+        fonts=std::make_unique<ui::SwfTextFontPlatformV1>(ui::SwfFontServices{this,source_font_read_gfnt_v1,font_diagnostic},observed_services,shared_from_this(),initialize_gfnt_backend_v1(),1.f);
         fonts->policy().renderer_feature=[this](const ui::edit_text_display_v1::Command& command,std::string& error){
             if(command.kind==ui::edit_text_display_v1::Command::grid_fit){gpu.set_grid_fit(command.enabled);return true;}
             error="Required original text render-cache connection";return false;
         };
-        if(!movie->load({"data/menus/dqshared_droid.swf"},"data/menus/dqhud_droid.swf",fonts->services(),error))return false;
+        if(!movie->load({source_movies_v132?process_variant_v132.uri[0]:"data/menus/dqshared_droid.swf"},source_movies_v132?process_variant_v132.uri[3]:"data/menus/dqhud_droid.swf",fonts->services(),error))return false;
         // Paired slot3 aliases the SAME camera payload already used by this
         // retained HUD viewport. The envelope weakly borrows this generation.
         menu_camera_v93=std::make_shared<ui::MenuFlash2DCameraOwnerV93>(
           reinterpret_cast<std::uintptr_t>(movie.get()),driver_width,driver_height,shared_from_this(),camera);
-        const ui::ViewportState64 seed{{0,9600,0,6400},{0,0,480,320},{0,0,480,320},1.f,0,0};
+        const auto& movie_rect=process_variant_v132.movie_rect;
+        const ui::ViewportState64 seed{{movie_rect[0],movie_rect[1],movie_rect[2],movie_rect[3]},{0,0,480,320},{0,0,480,320},1.f,0,0};
         const std::int32_t hud_bounds[]{0,0,driver_width,driver_height};
         if(!movie->connect_viewport(seed,{this,orientation,dimensions},error)||
            !movie->update_viewport(camera,error)||!movie->set_source_bounds(hud_bounds,2,error)||!movie->advance(0,error))return false;
+        auto input_owner=std::make_shared<MessageInputLeaseV124>();input_owner->ui=shared_from_this();
+        ui::SwfInputCoreServices message_input;message_input.owner=input_owner;message_input.context=input_owner.get();
+        message_input.native_receiver=reinterpret_cast<std::uintptr_t>(input_owner.get());
+        message_input.can_handle_event=message_input_accepts;message_input.native_event=message_input_native_event;
+        message_input.advance=message_input_advance;
+        if(!movie->connect_input("_root",swf_input_history,0,swf_input_selection,
+            {this,orientation,dimensions},message_input,error))return false;
+        message_input_events.render_bound=true;
         ui::SwfClipInfo clip;
-        if(!movie->clip(panel,clip,error)||clip.id!=157){error="Required original health/mana parent differs";return false;}
+        if(!movie->clip(panel,clip,error)||clip.id!=(base_hud_v132()?161:157)){error="Required selected original health/mana parent differs";return false;}
         if(!font_failure.empty()){error=font_failure;return false;}
         status=std::make_unique<ui::PlayerStatusHud>(*movie);
-        if(!status->bind(hud_sha,error))return false;
-        enemy=std::make_unique<ui::EnemyStatusHudV1>(*movie,ui::EnemyHudTextServicesV1{this,integer_string});
+        if(!status->bind(selected_hud_digest_v132(),error))return false;
+        enemy=std::make_unique<ui::EnemyStatusHudV1>(*movie,ui::EnemyHudTextServicesV1{this,integer_string},base_hud_v132());
         auto manager=flash_manager.lock();if(!manager){error="Required process FlashAnimManager host";return false;}
         if(!manager->bind_hud(movie,shared_from_this(),ui::CombatFlashProjectionV1{this,combat_project,combat_rectangle},error))return false;
         combat_flash=manager->backend();
-        gameplay=std::make_unique<ui::AuthoredGameplayHudV1>(*movie,source_action_icon108_v62);gameplay_activated=false;
+        gameplay=std::make_unique<ui::AuthoredGameplayHudV1>(*movie,source_action_icon108_v62,base_hud_v132());gameplay_activated=false;
         if(!source_loadmenu3&&!manager->scan_hud(error))return false;
         __android_log_print(ANDROID_LOG_INFO,tag,"Source combat flash connected | styles %zu | same retained HUD/font/viewport | Level load-process producer pending",combat_flash->queue().styles().size());
         loaded=true;return true;
@@ -527,10 +612,13 @@ struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
             else if(manager->backend()->bound_movie_v92()==id){if(!manager->discard_unscanned_hud(id,error))return false;}
         }
         cancel_attack_v46();
+        message_input_pointer.reset();
         hud_pointers.clear();world_pointers.clear();model_renderer::world_touch_cancel();joystick={};model_renderer::authored_hud_heading(0,0,false);
         hurt_pulse.release();hurt_reported_frame=hurt_reported_outer=-1;
         status_timeline.release();
-        gpu.abort();gameplay.reset();combat_flash.reset();enemy.reset();status.reset();movie.reset();fonts.reset();gfnt_text_backend_v1.reset();gameplay_bridge.reset();gameplay_queries.reset();loaded=false;selected=false;gameplay_activated=false;
+        gpu.abort();gameplay.reset();combat_flash.reset();enemy.reset();status.reset();movie.reset();
+        swf_input_history.reset();swf_frames=nullptr;swf_input_selection=0;message_input_events={};
+        fonts.reset();gfnt_text_backend_v1.reset();gameplay_bridge.reset();gameplay_queries.reset();loaded=false;selected=false;gameplay_activated=false;
         if(menu_camera_v93)menu_camera_v93->deleted=true;
         menu_camera_v93.reset();
         pending_text.clear();borrowed_combat_string.clear();reported_combat_active=0;
@@ -607,6 +695,12 @@ bool OriginalUiSession::load_process_arrays_stage_v101(bool& complete,std::strin
 bool OriginalUiSession::process_arrays_borrow_v101(std::shared_ptr<SourceProcessArraysV101>& out,std::string& error){
  out.reset();if(!impl_->manager||!impl_->process_arrays_v101){error="Required actual initialized process PyDataArrays";return false;}
  out=impl_->process_arrays_v101;error.clear();return true;
+}
+bool OriginalUiSession::current_process_arrays_borrow_v101(std::shared_ptr<SourceProcessArraysV101>& out,std::string& error){
+ out.reset();std::lock_guard<std::mutex> lock(process_arrays_owner_mutex_v101);
+ out=process_arrays_owner_v101.lock();
+ if(!out){error="Required SAME initialized process PyDataArrays owner";return false;}
+ error.clear();return true;
 }
 #include "original_ui_process_trophies_v119.inc"
 bool OriginalUiSession::status_messages_v26(std::shared_ptr<ui::MenuStatusMessagesV26>& out,std::string& error){
@@ -964,12 +1058,26 @@ bool OriginalUiSession::refresh_message_caches_stage26_v66(std::string& error){
 bool OriginalUiSession::complete_refresh_stage26_v66(std::string& error){
     if(!impl_->loaded||!impl_->movie){error="Required actual new HUD for source completeRefresh";return false;}
     return impl_->movie->menu_action_script(nullptr,[](void*,ui::SwfAsGraph& graph,std::string& e){
-        ui::SwfAsValue root,hud,result;bool callable{};
-        if(!graph.root_value(root,e)||!graph.find_target(root,"menu_HUD_0",hud,e))return false;
-        if(!hud.identity()){e="Required authored source menu_HUD_0 character";return false;}
-        if(!graph.invoke(hud,hud,"completeRefresh",{},result,callable,e))return false;
-        if(!callable){e="Required source HUD completeRefresh ActionScript";return false;}return true;
+        // Source3f7068 ignores RenderFX::InvokeASCallback's result, including
+        // a missing target/method. The packaged HUD has no completeRefresh
+        // definition. Preserve that source result and actual parent environment;
+        // graph/native delivery failures still propagate through this scope.
+        return graph.invoke_renderfx("menu_HUD_0","completeRefresh",{},e);
     },error);
+}
+bool OriginalUiSession::refresh_settings_hud_manager_v1(std::string& error){
+    auto& self=*impl_;
+    // NativeRefreshHudManager first clears InfoHUDManager+4, then executes HUDControls::Touch.
+    self.source_info_hud_v62.fields().initialized=false;
+    self.joystick.center_y=0; // source +18
+    self.source_controls_touch_byte8_v1=0;
+    self.attack_controls_v46.held9=0; // source +9
+    self.joystick.active=0; // source +0A
+    self.joystick.center_x=0; // source +14
+    const auto player=model_renderer::player_gameplay_binding();
+    if(!player.active){error.clear();return true;} // Actual local-player GetLocalPlayer null branch.
+    if(!player.character||!player.controller.controller){error="HUDControls::Touch lost the actual current local Player/Controller";return false;}
+    return model_renderer::authored_hud_command(nullptr,true,error);
 }
 bool OriginalUiSession::display_fast_travel_v83(bool visible,const char* localized,const char* level,std::int32_t entry,std::string& error){
  if(!impl_->loaded||!impl_->movie){error="Required SAME source HUD primary3/root140 for DisplayFastTravel";return false;}
@@ -1032,6 +1140,10 @@ bool OriginalUiSession::character_swap_hud_v4(const char* callback,std::string& 
  error="Unsupported source equipment-swap HUD callback";return false;
 }
 OriginalUiSession::~OriginalUiSession(){
+    {
+        std::lock_guard<std::mutex> lock(process_arrays_owner_mutex_v101);
+        if(process_arrays_owner_v101.lock()==impl_->process_arrays_v101)process_arrays_owner_v101.reset();
+    }
     // Process-manager backend outlives the HUD unique resource generation.
     // Clear its actual binding/pins before disposing this slot's facade.
     if(impl_->movie){
@@ -1051,10 +1163,40 @@ OriginalUiSession::~OriginalUiSession(){
     impl_->menu_camera_v93.reset();
 }
 bool OriginalUiSession::initialize(AAssetManager* manager,std::string& error) {
-    try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager,resources::ResourceScopeV37::swf_gameplay);impl_->report_frame=true;error.clear();return true;}
+    try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager,resources::ResourceScopeV37::swf_gameplay);impl_->report_frame=true;
+        {std::lock_guard<std::mutex> lock(process_arrays_owner_mutex_v101);process_arrays_owner_v101=impl_->process_arrays_v101;}
+        error.clear();return true;}
     catch(const std::exception& e){error=e.what();impl_->selected=false;return false;}
 }
 void OriginalUiSession::bind_platform_music(std::function<bool(std::int32_t&,std::string&)> callback){impl_->platform_music=std::move(callback);}
+bool OriginalUiSession::bind_process_application_v109(
+ const std::shared_ptr<application::ApplicationServicesOwnerV5>& app,
+ const std::shared_ptr<ui::AuthoredCharacterApplicationV1>& callbacks,
+ OriginalUiGameplaySettingsActionsV1 settings_actions,std::string& error){
+ auto& self=*impl_;
+ std::shared_ptr<application::ApplicationServicesOwnerV5> actual;
+ if(!app||!callbacks||!model_renderer::borrow_actual_application_services_v5(actual,error)||actual!=app||!app->source_settings4c_v67()){
+  if(error.empty())error="HUD startup requires SAME retained process Application/App4c callbacks";return false;
+ }
+ if(self.process_startup_bridge_v109){
+  if(self.process_application_v109.lock()!=app||self.process_startup_v109!=callbacks){error="HUD startup Application callback authority changed";return false;}
+  self.gameplay_settings_actions_v1=std::move(settings_actions);
+  error.clear();return true;
+ }
+ if(self.movie){error="HUD startup callbacks must be bound before primary3 construction";return false;}
+ const auto settings=app->source_settings4c_v67();
+ const auto weak=std::weak_ptr<application::ApplicationServicesOwnerV5>(app);
+ self.process_startup_bridge_v109=std::make_unique<ui::CharacterMenuAsBridgeV1>(callbacks,
+  [weak,settings,callbacks](const char* name,auto& call,auto& e){
+   auto application=weak.lock();std::shared_ptr<application::ApplicationServicesOwnerV5> current;
+   if(!application||!model_renderer::borrow_actual_application_services_v5(current,e)||current!=application||application->source_settings4c_v67()!=settings){
+    if(e.empty())e="HUD startup lost SAME process Application/App4c receiver";return false;
+   }
+   return callbacks->dispatch(name,call,e);
+  });
+ self.process_application_v109=app;self.process_startup_v109=callbacks;
+ self.gameplay_settings_actions_v1=std::move(settings_actions);error.clear();return true;
+}
 bool OriginalUiSession::load_health_panel(const std::string& directory,std::string& error) {
     impl_->selected=false;
     impl_->live_player=false;
@@ -1209,15 +1351,31 @@ bool OriginalUiSession::character_panel_services(const ui::SwfServices& applicat
 }
 bool OriginalUiSession::hud_pointer(int action,int pointer,float x,float y,std::string& command,std::string& error){
     auto& self=*impl_;command.clear();error.clear();
+    const bool message_active=self.dialog_owner_v97()->active()||self.auxiliary_messages_v97.tutorial_count()!=0;
+    if(action==3&&self.message_input_pointer){
+        if(!self.movie||!self.movie->input_cancel(x,y,error))return false;
+        self.message_input_pointer.reset();
+    }
+    if(self.message_input_pointer){
+        if(pointer!=*self.message_input_pointer)return true;
+        if(!self.movie||!self.movie->input_cursor({x,y,0.f,action==2?0:1},error))return false;
+        if(action==2)self.message_input_pointer.reset();
+        return true;
+    }
+    if(message_active&&action==0){
+        if(!self.movie||!self.swf_input_history){error="Active HUD message has no retained SWF input connection";return false;}
+        if(!self.movie->input_cursor({x,y,0.f,1},error))return false;
+        self.message_input_pointer=pointer;return true;
+    }
+    if(action==3){
+        if(!overlays_player()||!self.gameplay_activated||!self.gameplay)return true;
+        return self.cancel_gameplay_pointers_v124(error);
+    }
+    // A modal authored message owns the screen for this gesture. Secondary
+    // touches cannot leak through into movement or gameplay HUD controls.
+    if(message_active)return true;
     if(!overlays_player()||!self.gameplay_activated||!self.gameplay)return true;
     using Control=ui::AuthoredHudControlV1;
-    if(action==3){
-        const bool owned_joystick=std::any_of(self.hud_pointers.begin(),self.hud_pointers.end(),[](const auto& entry){return entry.second==Control::joystick;});
-        self.cancel_attack_v46();
-        for(const auto& entry:self.hud_pointers){if(entry.second==Control::faery)model_renderer::player_gameplay_action(3,0);}
-        self.hud_pointers.clear();self.world_pointers.clear();model_renderer::world_touch_cancel();const auto live=model_renderer::player_gameplay_binding();
-        return !owned_joystick||ui::authored_joystick_release_v1(self.joystick,live.active&&live.controller.controller,self.joystick_services(),error);
-    }
     if(action==0){
         if(self.hud_pointers.count(pointer)||self.world_pointers.count(pointer))return true;
         for(unsigned i=0;i<9;++i){
@@ -1368,7 +1526,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
         const auto live=model_renderer::player_gameplay_binding();
         if(!live.active||!live.save||!live.settings||!live.attack_fields||live.attack_fields->owner!=live.character||live.attack_fields->object_of_interest_type<-128||live.attack_fields->object_of_interest_type>127)throw std::runtime_error("Authored HUD lost the same live player/settings/OOI owner");
         if(!self.gameplay_activated){
-            if(!self.gameplay->bind(self.hud_style,error)||!self.status->bind(hud_sha,self.gameplay->menu_path().c_str(),error)||!self.gameplay->activate(error))throw std::runtime_error(error);
+            if(!self.gameplay->bind(self.hud_style,error)||!self.status->bind(self.selected_hud_digest_v132(),self.gameplay->menu_path().c_str(),error)||!self.gameplay->activate(error))throw std::runtime_error(error);
             float width{};
             if(!self.gameplay->joystick_background_width(width,error)||!ui::authored_joystick_initialize_v1(self.joystick,width,error))throw std::runtime_error(error);
             self.gameplay_activated=true;

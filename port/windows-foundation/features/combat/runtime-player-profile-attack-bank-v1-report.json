@@ -1,0 +1,61 @@
+{
+  "feature": "profile-bound source Rogue/Mage outgoing attack visual banks",
+  "module": "features/combat/runtime_player_profile_attack_bank_v1.hpp/.cpp",
+  "status": "implementation_and_focused_real_asset_test_passed; production_wiring_pending",
+  "visual_evidence": {
+    "reference": "Dungeon Hunter 2 v1.0.3 Part 1, sampled frames from the existing combo-chain handoff; source tables/assets are v1.0.2",
+    "frames": [
+      {
+        "timestamps_seconds": [274.7, 274.8, 274.9, 275.0, 275.1, 275.2],
+        "files": ".local-inputs/fidelity-video-v18/immersion/at-274.700.png through at-275.200.png",
+        "observation": "A player fights a Bog Moth. Across consecutive frames the visible sword pose changes and MISS/damage text appears. This supports preserving changing authored attack presentation and misses; these images do not establish Rogue or Mage identity, equipped weapon, input timing, or a specific AnimTable root."
+      },
+      {
+        "timestamps_seconds": [281.995, 282.495, 283.278, 283.995, 284.495, 284.995, 285.495, 285.995, 286.328, 286.995, 287.495, 287.995],
+        "files": ".local-inputs/referenceframes/dh2-act1/target-combo-v1/at-*.png",
+        "observation": "Bogwomp combat has repeated pose changes and MISS/numeric hit text. The sampled sequence does not identify the player class or prove the exact Rogue dual-dagger or Mage staff source branch."
+      }
+    ],
+    "inference": "These frames motivate preserving authored attack-bank clips and metadata. Profile-specific root selection is established by source data below, not inferred from these frames."
+  },
+  "logic_evidence": {
+    "source_assets": ".local-inputs/windows-source-clock-v19-preview-9/assets (recovered v1.0.2)",
+    "profile_and_equipment_rows": [
+      "RoguePlayerBase is ActorProfile row325, CharAnimTable 50, prince modular model, and Rogue skin customization. Actual Dagger01 mainhand plus Dagger01 offhand resolves source stance2 through the existing ItemTable/equipment/stance path.",
+      "MagePlayerBase is ActorProfile row290, CharAnimTable 49, prince modular model, and Mage skin customization. Actual Staff01 mainhand resolves source stance3 through the existing ItemTable/equipment/stance path."
+    ],
+    "original_state_selection": [
+      "The prior source handoff records CSAttack::OnFocus at 0x3c404c selecting CharAnimTable Attack field+4 only when predecessor state is4 (Move), otherwise AttackStatic field+8. It adds GetAnimStance (0x3a53e0) only when the corresponding stanced-list mask bit is enabled: 0x40 for moving Attack, 0x80 for AttackStatic.",
+      "Rogue dual-wield stance2 selects moving root250 Human_Attack_02_Dual and static root245 Human_AttackStatic_02_Dual. Both roots are Type1, Loop0 and contain four ordered authored groups with three leaves each; moving redirects to 167-170 and static to 171-174.",
+      "Mage Staff stance3 selects moving root251 Human_Attack_03_Staff and static root246 Human_AttackStatic_03_Staff. Both are Type1, Loop0 and redirect through 651 / 654 to the same authored wand clip ID1218, data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae. This visual table data alone does not establish that Mage input should be admitted as melee or projectile combat."
+    ],
+    "command_admission": [
+      "The prior IDA handoff records v2Controller::Cmd_Attack at 0x405b04 applying blocked/locked gates before the controllable virtual call, Character::Ctrl_Attack at 0x3ad87c calling AI_DoMeleeAttack at 0x3d01ac, and source dead/attack-enabled/range gates in that path.",
+      "This feature does not create or admit commands. The existing combo planner accepts an already-resolved equipment stance and explicit predecessor state; this bank helper invokes it once with predecessor4 and once with predecessor3 so the production caller can use its own current-state choice."
+    ],
+    "existing_consumers": "RuntimePlayerComboChainV1 reads the source AnimTable and animation dictionary and produces OriginalCombatVisualPlan sequences, named clips, policies and rates. OriginalAttackSequence/CombatSession remain owners of playback, markers and results. CharacterVisualConfig clips must be installed before CharacterVisual::load; root owns the CombatSession optional-bank integration and hand-marker policy.",
+    "implementation_boundary": "The new helper combines the two exact state banks only when profile ID, model path, role, clip aliases and authored rates are compatible. It keeps profile visual configuration and skin, rejects a Knight profile fallback, returns source Type/Loop policies, and creates no RNG choice, input request, hit outcome, target change, marker routing or Mage combat classification."
+  },
+  "expected_behavior": "When the production caller has an admitted attack request, its own predecessor state chooses this profile's moving Attack or AttackStatic bank. Rogue dual-dagger and Mage staff state roots resolve from their actual class CharAnimTable and equipment stance; authored source order, clip URIs, rates, blend values, MoveGO values, Type, Loop and redirects remain intact. This helper supplies a same-profile pre-load bank; it does not claim the bank is integrated or the class attack is playable.",
+  "uncertainties": [
+    "The video is v1.0.3 and the reconstructed profiles/tables/clips are v1.0.2; no matching v1.0.3 source data is available here.",
+    "The sampled video does not reveal exact class, weapon, controller predecessor state, command admission, or the class-specific root used.",
+    "Mage's source staff attack animation is present, but whether gameplay should admit it as a melee request or route it through a projectile/ranged owner remains outside this visual-bank feature.",
+    "The new builder's focused real-asset test is not yet run. Root owns the live CombatSession binding; production-path and visual runtime verification remain separate gates."
+  ],
+  "focused_verification_plan": [
+    "Load actual ActorProfileLibrary, ItemTable, script stance constants, CharAnimTable, animation dictionary and clip assets.",
+    "Resolve Rogue Dagger01/Dagger01 to table50 stance2 and assert state roots250/245, Type1/Loop0, twelve ordered phases per state, authored leaf paths and existing source clip metadata.",
+    "Resolve Mage Staff01 to table49 stance3 and assert roots251/246, Type1/Loop0, redirects651/654, shared clip1218 and authored metadata.",
+    "Verify both banks merge with their own profile visual config without changing model/skin/aliases; reject Knight-profile fallback and wrong-table equipment; preserve output on failure.",
+    "Verify caller boundary remains explicit: moving and static are separately tagged source selections and neither is chosen based on inferred input or Mage combat classification."
+  ],
+  "verification": {
+    "runner": "features/combat/run_runtime_player_profile_attack_bank_v1_tests.ps1",
+    "language_mode": "strict C++17, -Wall -Wextra -Werror",
+    "build_output": ".local-inputs/runtime-player-profile-attack-bank-v1-build",
+    "shared_build_policy": "Runner snapshots input archives from the coherent shared build into its private output directory, checking source archive SHA-256 before and after each copy; compile output stays private.",
+    "result": "PASS: Rogue Dagger01/Dagger01 resolved table50 stance2 and roots250/245 with 12 ordered leaves per state; Mage Staff01 resolved table49 stance3 and roots251/246 with exact wand clip. Source root/redirect Type/Loop policies, visual config model/skin, named clip union, and Knight fallback rejection passed under strict C++17 -Wall -Wextra -Werror.",
+    "production_runtime_or_visual_capture": "not run; root owns CombatSession integration and this feature-only task does not change the main/controller path"
+  }
+}

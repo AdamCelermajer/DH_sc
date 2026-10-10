@@ -1,0 +1,72 @@
+{
+  "status": "source-backed-sequence-plan-and-isolated-source-test-pass",
+  "feature": "TrollReturn authored actor sequence through the existing CombatSession source-animation path",
+  "visual_evidence": {
+    "reference": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "sha256": "98087EE80F594BCC317144B5DD15EE4B470830B8EB8F5B13BADC24BD9831E502",
+    "version": "v1.0.3 video; recovered source assets are v1.0.2, equivalence unproven",
+    "inspected_interval_seconds": [349.5, 355.0],
+    "frame_sampling": "Direct local decodes at 350.000, 350.500, 351.000, 351.500, 352.000, 352.500, 353.000, 353.500, 354.000, 354.500, and 355.000 seconds; additional context inspected in 349-356 at 4 fps.",
+    "observations": [
+      {"time_seconds": 350.5, "observation": "SKIP and a location card are on screen; a large gray troll-like actor is in the boardwalk scene with its weapon lowered. HUD is hidden."},
+      {"time_seconds": 352.0, "observation": "SKIP remains visible. The actor is hunched over the planks with its weapon near the boardwalk."},
+      {"time_seconds": 354.0, "observation": "SKIP remains visible. The actor has bent farther over the boardwalk and its weapon is angled down toward the planks."},
+      {"time_seconds": 355.0, "observation": "Gameplay HUD has returned; the large actor remains visible at the encounter."}
+    ],
+    "bounded_interpretation": "The continuous sampled scene is consistent with the source TrollReturn actor cinematic and attack montage. These frames do not establish exact trigger-contact, ground/player contact, a player hit, or the exact instant of an attack impact. The sampled actor is crouched/bent over the boards; the images do not prove a clear airborne jump.",
+    "evidence_files": [
+      {"path": ".local-inputs/fidelity-troll-jump-audit/349-356-4fps.png", "sha256": "7AFD9DB25CFAA7CABB51709A94C6A12D13026366E39C6FAC4EB82366C4A2FC54"},
+      {"path": ".local-inputs/fidelity-troll-jump-audit/exact-frames/frame-350.500.png", "sha256": "599DC2986142989CFC47B8672798E7732D44A68D699415F974DA777FDA433F88", "observation": "SKIP/location-card phase and actor visible."},
+      {"path": ".local-inputs/fidelity-troll-jump-audit/exact-frames/frame-352.000.png", "sha256": "1AECF389AD551F81CCC0705E262303B765AE8522061282E3E8ACA1CA7B3A75A5", "observation": "Actor/weapon pose above boardwalk."},
+      {"path": ".local-inputs/fidelity-troll-jump-audit/exact-frames/frame-354.000.png", "sha256": "E62ACDC00381BF5C1C253BCC205856B45441B9E3685A92129F29031338561E6D", "observation": "Actor/weapon lower over the planks."},
+      {"path": ".local-inputs/fidelity-troll-jump-audit/exact-frames/frame-355.000.png", "sha256": "6DBEA017396855B9CDF9348C9ABC7435BB3306CBB29616C2474CEA314B42C463", "observation": "Gameplay HUD restored."}
+    ]
+  },
+  "source_rows": {
+    "campaign": {"path": ".local-inputs/windows-source-clock-checkpoint-v17/assets/original-campaign.xml", "sha256": "3AB2055920A8B648B16D77AA07B0435CBD899C624F5BE3BCC145E2133C5CDD14"},
+    "trigger_mgp": {"path": ".local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp", "sha256": "CBC2C661B6EB393A024B8ECBF03A6ADA2F7950FB35A5DFBF116ED8C444DB69C2"},
+    "trigger": {"object": "_prim_TriggerZone_001", "script": "TrollReturn", "count": 1, "delay": 0, "activation_condition": "No activate_cond is authored. The declaration does not prove runtime eligibility/contact."},
+    "campaign_commands": [
+      {"script_row": 1, "operation": "LockCharacter(All)"},
+      {"script_row": 2, "operation": "MoveActor exact Troll object to _prim_Waypoint_TrollWalkTo", "authored_speed": 26},
+      {"script_row": 4, "operation": "SetCameraTarget exact Troll object", "duration_ms": 1500},
+      {"script_row": 5, "operation": "Wait", "milliseconds": 2600},
+      {"script_row": 7, "operation": "PlaySound", "asset_id": 328, "asset": "sfx_cave_troll_smash_ground.wav", "recovered_asset": "missing"},
+      {"script_row": 8, "operation": "PlayActorAnim", "animation_id": 1377, "wait": true},
+      {"script_row": 9, "operation": "PlayActorAnim", "animation_id": 1359, "wait": false},
+      {"script_row": 11, "operation": "PlayCamera", "camera_id": 44, "wait": true},
+      {"script_row": 12, "operation": "PlayActorAnim", "animation_id": 1373, "wait": true},
+      {"script_row": 14, "operation": "MoveActor"},
+      {"script_row": 16, "operation": "SetCameraTarget(LocalPlayer)", "duration_ms": 500},
+      {"script_row": 17, "operation": "UnlockCharacter(All)"}
+    ],
+    "animation_bindings": [
+      {"id": 1377, "uri": "data/3D/characters/troll/animations/troll_swamp_pre_attack_03.bdae", "MoveGO": 1, "speed": 1.3, "source_range_ms": [0, 566], "sampled_root_delta": [-14.3029, -32.288, 0], "sampled_xy_path_length": 91.8515},
+      {"id": 1359, "uri": "data/3D/characters/troll/animations/troll_swamp_attack_03.bdae", "MoveGO": 1, "speed": 1.3, "source_range_ms": [566, 1333], "sampled_root_delta": [26.896, 22.7529, 0], "sampled_xy_path_length": 35.2291},
+      {"id": 1373, "uri": "data/3D/characters/troll/animations/troll_swamp_post_attack_03.bdae", "MoveGO": 1, "speed": 1.3, "source_range_ms": [1000, 2000], "sampled_root_delta": [-12.5897, 9.53256, 0], "sampled_xy_path_length": 15.7914}
+    ],
+    "camera": {"id": 44, "uri": "data/3D/camera/animations/common/cam_shake_horiz.bdae", "source_row": "loaded Default camera table contains active row 44", "limit": "Selection is source-authored; no perceptible shake amplitude is inferred from video."}
+  },
+  "activation_path_and_gates": {
+    "source_trigger_update": "port/level-world/canonical_trigger_zone_v22.cpp:45-46,63-75: CanActivate requires remaining authored count, timer <= 0 and enabled lifecycle; update obtains local player, early-outs for dead local player, applies source local/online/door gates, prunes/tests collision contacts, detects enter/exit edge, and starts the source script on the authored edge. One-shot activation consumes the count. The MGP declaration alone is not proof these runtime facts occur for this object.",
+    "script_start": "CanonicalTriggerZoneV22::start_once checks ScriptManager IsRunning and calls StartScript(scriptId, room64) if not running. The update path skips dead local players; honors open-source door state, authored count/delay, enabled lifecycle, online/virtual gates; updates/prunes collision contacts; counts player AABB contact; applies source local-only contact checks; and starts the script only on the enter edge. Exact live enrollment of this MGP object and module/room in the current app remains unverified.",
+    "campaign_adapter": "OriginalCampaignRuntime::trigger_contact receives explicit inside/qualified/module values. It ignores unqualified contact; requires TriggerZone type; enforces count/delay and enter/exit edge state; resolves the authored script name and starts it if not already running. TrollReturnRuntimeV1::trigger_contact forwards to that campaign API; this helper is not the collision/qualification owner.",
+    "sequence_execution": "TrollReturnRuntimeV1::command matches only the three exact PlayActorAnim command objects from the loaded TrollReturn script. It resolves the exact authored actor name/module to an ActorId already owned by the same initialized CombatSession, then calls CombatSession::play_actor_source_sequence. Animation events and completion keep the same ActorId, retained pose owner, and session lease. Non-animation rows, including camera 44 and cutscene lock/return commands, delegate to the existing cinematic command owner. This is an additive provider on the generic actor/session path; it adds no scheduler, time clock, trigger geometry, contact, or camera behavior.",
+    "line_evidence": [
+      "port/level-world/canonical_trigger_zone_v22.cpp:45-46",
+      "port/level-world/canonical_trigger_zone_v22.cpp:63-75",
+      "port/windows-foundation/original_campaign_runtime.cpp:85-95",
+      "port/windows-foundation/features/cinematics/runtime_troll_return_v1.cpp:181-248",
+      "port/windows-foundation/combat_session.hpp:207",
+      "port/windows-foundation/combat_session.cpp:1107"
+    ]
+  },
+  "implementation_and_verification": {
+    "source_backed_plan": "Existing TrollReturnSourceBankV1 compiles the loaded TrollReturn animation command leaves into the same Troll visual's source hierarchy/rates and records exact command-index, wait-bit, source path, URI and alias. Existing TrollReturnRuntimeV1 routes those records through CombatSession's retained source-animation sequence path; other campaign commands stay on the existing cinematic owner.",
+    "focused_test": {"path": "port/windows-foundation/features/cinematics/runtime_troll_jump_sequence_v1_tests.cpp", "runner": "port/windows-foundation/features/cinematics/run_runtime_troll_jump_sequence_v1_tests.ps1", "result": "PASS, pinned C++17 LLVM-MinGW compile/link and test over the actual loaded original campaign, melee bindings, MGP, BDAE root curves and camera command rows."},
+    "test_asserts": ["Exact loaded TrollReturn trigger attributes and script identity", "Actual camera target and PlayCamera44 rows", "Exact actor animation IDs/order/wait bits and MoveGO/speed source metadata", "Actual source BDAE root sampling and 60-step delta telescope to source root endpoints", "MGP data exists in the tested source catalog"],
+    "not_verified": ["Physical TriggerZone object admission/enrollment into the current live module/session", "Actual collision/contact and trigger edge during normal play", "Actor-to-session resolver wiring in production", "Rendered cinematic/skip/HUD/camera experience in the live app", "Player damage or exact strike/contact time", "Coordinate conversion from sampled BDAE root motion to world/video pixels"],
+    "integration_api": "Use build_troll_return_source_bank_v1(...) before CombatSession initialization so its additional_clips join the same Troll visual; construct TrollReturnRuntimeV1 with existing-cinematic fallback, exact source-object-to-session actor resolver and original animation-event forwarder; route only loaded campaign command dispatch and real qualified trigger contact to it. Keep real TriggerZone as the trigger owner. No main/CMake/core/GUI integration was made.",
+    "test_output": ["pre id=1377 range=0..566 root_delta=-14.3029,-32.288,0 xy_travel=91.8515", "attack id=1359 range=566..1333 root_delta=26.896,22.7529,0 xy_travel=35.2291", "post id=1373 range=1000..2000 root_delta=-12.5897,9.53256,0 xy_travel=15.7914"]
+  }
+}

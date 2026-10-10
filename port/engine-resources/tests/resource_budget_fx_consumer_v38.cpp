@@ -17,7 +17,7 @@ namespace dh2::android_resources {
 ContextResourceBudgetV37& budget_v38(){return ledger;}
 void release_v38(ResourceTokenV37& token){if(!token)return;std::string e;if(!ledger.release(token,e))throw std::runtime_error(e);}
 }
-struct FakeCache {unsigned receipt{17};};
+struct FakeCache {unsigned receipt{17};unsigned resets{};void reset_buffers_v41(){++resets;}};
 struct EffectGpuResourceV4 {
  GLuint vertices{},indices{};ResourceTokenV37 vertex_budget_v38,index_budget_v38;
  std::size_t vertex_capacity{},index_capacity{};std::uint64_t budget_generation_v38{},last_seen{};

@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <string>
 #include <vector>
+#include <memory>
 namespace dh2::ui {
 struct LoadingHintRowV1 { std::uint32_t avatar_id{},string_id{}; };
 struct LoadingHintRandomV1 { std::uint32_t seed{},debug_calls{}; };
@@ -31,6 +32,9 @@ struct LoadingMenuStateServicesV1 {
  // Must verify identity and expected state on the retained owner, then commit
  // the transition there. A detached/cached state word is not a valid provider.
  bool (*advance_level_state)(void*,std::uintptr_t,std::uint32_t expected,std::uint32_t next,std::string&){};
+ // Retained process movies can deliver these callbacks after GS destruction.
+ // Own the callback context independently of the GS/World containing it.
+ std::shared_ptr<void> context_owner;
 };
 bool loading_menu_read_progress_v1(const LoadingMenuStateServicesV1&,std::int32_t&,std::string&);
 bool loading_menu_finish_v1(const LoadingMenuStateServicesV1&,bool& advanced,std::string&);
@@ -49,6 +53,7 @@ struct LoadingMenuMultiplayerServicesV1 {
  bool (*player_field_4e5)(void*,std::uintptr_t,std::uint8_t&,std::string&){};
  bool (*manager_field_71a)(void*,std::uint8_t&,std::string&){};
  bool (*player_field_505)(void*,std::uintptr_t,std::uint8_t&,std::string&){};
+ std::shared_ptr<void> context_owner;
 };
 bool loading_menu_multiplayer_completed_v1(const LoadingMenuMultiplayerServicesV1&,bool&,std::string&);
 bool loading_menu_multiplayer_host_v1(const LoadingMenuMultiplayerServicesV1&,bool&,std::string&);

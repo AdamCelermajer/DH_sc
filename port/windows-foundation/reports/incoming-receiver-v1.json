@@ -1,0 +1,29 @@
+{
+  "status": "same_session_tests_and_normal_rogue_incoming_runtime_passed",
+  "source_note": "reports/incoming-receiver-v1.md",
+  "source_policy": "Opt-in receiveDamage on no-outgoing actor with exact Injury/Died bank; MP_MinimalRandoms false selects a flat Type2 leaf through one shared normal RNG draw, true selects step0 without RNG",
+  "visual_limit": "Original Warrior sequence375.25-376.25 only; no original Rogue/Mage injury/death footage parity",
+  "component_test": {
+    "runner": "tools/run_combat_session_incoming_receiver_tests.ps1",
+    "log": ".local-inputs/session-incoming-receiver-test/run.log",
+    "executable_sha256": "E735384F7A96344D63D07B7BD395854D55288B77496CABE89851F07D783B6CD3",
+    "cases": 8,
+    "exit_code": 0,
+    "content": "Actual Rogue/Mage profiles and gear, actual retained Lizard attack marker damage, exact same-Session original formula and random state",
+    "fixture_limit": "Clear-LOS fixture for enemy query; ratings135/182 controlled only to exercise otherwise-zero Injury outcomes, without fabricated DamageEvent injection",
+    "branches": ["All three Injury leaves for both classes", "MinimalRandoms step0/no draw", "3000ms suppression/no selection reroll", "Duplicate result suppression", "Source death, retained owner and terminal corpse save/rebind", "No outgoing player attack records/commands", "Invalid missing-death capability atomic rejection"],
+    "review": "bug_gate_review reran earlier06DACE frozen binary and inspected source/strict role guards; no core defect found. Root reran all8 cases on current source after additive attack-bank changes, current hash above"
+  },
+  "integrated_runtime": {
+    "executable": ".local-inputs/v19-frontend-hotfix/profile-projection/candidate-incoming-1/dh-foundation.exe",
+    "executable_sha256": "769F8A65451A724EA7021CA0A2CDE4B49F63ECBD75436BB7DC298EFFA46F17BB",
+    "log": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-incoming-lifecycle.log",
+    "result": "Lead own-window360 exit0; nearby Lizard source markers reduce Rogue HP146.797 to87.8555. F5_320, reload340 and F9_350 preserve HP87.8555 and RNG2037220/96 under unchanged strict role matching. Root read current log and independently verified frozen executable hash",
+    "mage_log": ".local-inputs/v19-frontend-hotfix/profile-projection/mage-incoming-normal.log",
+    "mage_capture": ".local-inputs/v19-frontend-hotfix/profile-projection/mage-incoming-normal.png",
+    "mage_result": "Lead own-window360 exit0; nearby Lizard markers reduce HP141 to82.0586. Root read log and inspected rendered original robe/staff/HUD. Visible body overlap remains measured contact/physics gap",
+    "not_claimed": "Normal class death footage, complete class attacks, active cast interruption, or original encounter activation"
+  },
+  "remaining": ["Normal Mage incoming and both class death captures", "Corrected target-position query production cast rerun", "Explicit old targetable=false world-checkpoint capability migration", "Full source result statuses and live source Debug override", "Source encounter admission", "Outgoing class combat and visible effects"],
+  "release": "Development only; Preview9 remains accepted"
+}

@@ -1,0 +1,34 @@
+{
+  "feature": "RuntimeCombatEffectsV1",
+  "status": "SOURCE_COMPOSITION_READY_WITH_ROOT_PROVIDERS_PENDING",
+  "source_owner": "CombatSession",
+  "source_actor_identity": "ActorId",
+  "same_pose_visual": "CombatSession::retained_actor_pose(actor) and CombatSession::retained_actor_visual_borrow(actor) are both required; the latter returns the exact Entry.visual from that session.",
+  "event_route": "Root calls event(actor, RetainedAnimationEvent, occurrence_ordinal) after the original event28 consumer/forwarding. Only authored fx_ events enter RetainedEffectsAdapter; the same ActorId is used as the stable effects actor key.",
+  "update_route": "Root calls update(source_frame, source_absolute_ms, source_app_dt) once per source frame. The same dt reaches CharacterMeshFxOwnerV4::scene_frame before manager_frame; the session pose is not advanced here.",
+  "socket_route": "socket_world delegates authored node and local offset to the exact Entry.visual returned by CombatSession::retained_actor_visual_borrow for an actor with a current retained pose. The returned matrix is authored model space; host placement is applied by the existing actor/render owner.",
+  "render_route": "prepare_render_frame composes EffectsRenderBridge and retains weak frame-loan witnesses. Session lease renewal is refused until root render queue loans have drained.",
+  "renewal_route": "When CombatSession::actor_binding_lease changes, prior ActorId event tokens and anchor attachments are released before work resumes on the new binding.",
+  "changed_files": [
+    "port/windows-foundation/features/effects/runtime_combat_effects_v1.hpp",
+    "port/windows-foundation/features/effects/runtime_combat_effects_v1.cpp",
+    "port/windows-foundation/features/effects/runtime_combat_effects_v1_tests.py",
+    "port/windows-foundation/features/effects/runtime-combat-effects-v1-report.json"
+  ],
+  "verification": {
+    "runtime_combat_effects_v1_tests.py": "PASS: strict LLVM-MinGW Windows COFF syntax compile plus source contract checks",
+    "existing_effects_source_and_render_suite": "PASS: effects run_tests.py --render; 14,909 checks, 6 actual source sets, 185 render packets, 6 original texture uploads; live GL upload false"
+  },
+  "remaining_root_providers": [
+    "Construct CharacterMeshFxOwnerV4 with the exact live actor Scene from the same CombatSession CharacterVisual and same source EffectsTables/asset owners.",
+    "Provide the original App dt and source absolute time/frame token; invoke the FX event after the real event28 source consumer.",
+    "Bind actual source MeshFxServices anchor/debug/floor providers and the original EffectsTables/resource factory.",
+    "Bind source material/texture upload and root render queue ordering, keeping each EffectRenderFrame loan until queue flush.",
+    "Do not treat this adapter's authored model-space socket matrix as a source ObjectManager subobject identity; the original actor/socket anchor provider remains required for anchored sets."
+  ],
+  "not_claimed": [
+    "No source Character, FSM, Application, or second actor pose is constructed.",
+    "No effect set, particle, socket, table row, or position is invented.",
+    "No live SceneManager draw ordering, texture upload, or rendered FX readiness is established by the source contract test."
+  ]
+}

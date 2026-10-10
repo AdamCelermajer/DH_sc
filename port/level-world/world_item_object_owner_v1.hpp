@@ -7,7 +7,10 @@ enum class WorldItemOperationV1 { game_init_post, apply_mesh_box, visual_item_ma
  drop_sound, create_decor_physical, set_physical, enable, remove_all,
  set_position, set_destination, game_update, is_at_destination, stop,
  tooltip_visible, tooltip_position, hide_tooltip, tooltip_update,
- collision_interact_type, is_local_player, is_moving, show_tooltip };
+ collision_interact_type, is_local_player, is_moving, show_tooltip,
+ // Append to preserve existing operation values. Source virtual40 never
+ // changes condition enabled8a or invokes Enabled/Disabled virtual44/48.
+ set_visible };
 struct WorldItemRequestV1 {
  WorldItemOperationV1 operation{};std::uintptr_t object{},character{};
  data::LootTemporaryInventoryV8* inventory{};data::ItemInstanceV1* item{};

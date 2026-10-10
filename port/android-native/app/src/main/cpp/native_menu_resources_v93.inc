@@ -1,4 +1,6 @@
 #include <optional>
+#include <authored_menu_localization_v1.hpp>
+#include <menu_stack_actions_v1.hpp>
 // Included after native_gslevel_menu_v27.inc. One directory and four actual
 // primary/camera slots serve Update, Unload and front draw transport.
 namespace {
@@ -54,6 +56,27 @@ struct NativeMenuResourcesV93 {
   }
   e="Menu operation receiver is no longer in its actual primary slot";return false;
  }
+ bool derived_front_path(std::uintptr_t render_id,const std::string& name,std::uintptr_t character_id,
+                        std::string& out,std::string& e)const{
+  out.clear();auto native=resolve(e);if(!native)return false;
+  for(std::uint32_t slot=0;slot<4;++slot){dh2::ui::MenuMovieBorrowV58 q;if(!movie_slot(slot,q,e))return false;
+   if(q.identity!=render_id)continue;std::uint32_t actual_slot{};dh2::ui::SwfMovie* movie{};std::shared_ptr<void> pin;
+   if(!typed_movie(q,actual_slot,movie,pin,e)||actual_slot!=slot||!movie)return false;
+   struct Find {const std::string& name;std::uintptr_t character;std::string& path;bool found{};
+    static bool run(void* raw,dh2::ui::SwfAsGraph& graph,std::string& e){auto& q=*static_cast<Find*>(raw);
+     dh2::ui::SwfAsValue root;if(!graph.root_value(root,e))return false;dh2::ui::AuthoredMenuSearchIndexV1 index;
+     if(!index.initialize(graph,root,e))return false;
+     for(const auto& entry:index.entries())if(entry.name==q.name){gameswf::as_object* object{};
+      if(!graph.borrow_object(entry.character,object,e))return false;
+      if(reinterpret_cast<std::uintptr_t>(object)!=q.character)continue;
+      q.path=entry.path;q.found=true;return true;
+     }
+     e="Derived MenuBase has no same-character PostLoad front clip path";return false;
+    }} find{name,character_id,out};
+   return movie->menu_action_script(&find,Find::run,e)&&find.found;
+  }
+  e="Derived MenuBase path lost its actual front movie slot";return false;
+ }
  bool finish_primary1_clear_v98(std::string& e){
   if(!primary1_clear_v98){e="Missing admitted actual primary1 post-D0 clear receipt";return false;}
   auto native=resolve(e);auto manager=primary1_clear_v98->manager.lock();
@@ -97,9 +120,14 @@ struct NativeMenuResourcesV93 {
     auto* state=render->states[j];
     if(!state||state->render!=render){e="Front state lost its actual render";return false;}
     auto* fields=native->shared_roster_v27->receiver_fields_v59(state->identity);
+    if(!fields)fields=model_renderer::native_derived_menu_fields_v67(state->identity);
     const auto* path=native->shared_roster_v27->receiver_path_v93(state->identity);
-    if(!fields||!path||path->empty()){e="Required actual PostLoad front clip path";return false;}
-    if(fields->visible74)out.push_back({slot,render->identity,*path});
+    std::string derived_path;
+    if((!fields||!path||path->empty())&&fields&&fields==model_renderer::native_derived_menu_fields_v67(state->identity)&&
+       fields->render==render->identity&&state->character&&state->character->live&&state->character->identity){
+     if(!derived_front_path(render->identity,fields->name,state->character->identity,derived_path,e))return false;
+    }else if(!fields||!path||path->empty()){e="Required actual PostLoad front clip path";return false;}
+    if(fields->visible74)out.push_back({slot,render->identity,derived_path.empty()?*path:derived_path});
    }
   }
   e.clear();return true;
@@ -203,7 +231,19 @@ bool model_renderer::prepare_native_menu_lifecycle_v93(std::shared_ptr<void> wor
   return panel->source_movie_virtual10_v93(q.identity,dt,flag,e);
  };
  if(!bind_native_menu_postmovie_v62(world,unload,update,error))return false;
- if(!front_ui.claim_menu_transport_v93(manager,[resources](auto& draws,auto& e){return resources->draws(draws,e);},error))return false;
+ if(!front_ui.claim_menu_transport_v93(manager,[resources](auto& draws,auto& e){return resources->draws(draws,e);},
+  [resources](const char* name,const gameswf::fn_call& call,std::string& e){
+   auto native=resources->resolve(e);if(!native||!native->shared_roster_v27)return false;
+   dh2::ui::MenuStackActionsGraphV1 graph;graph.owner=native->shared_stack_v27;
+   graph.instance=[native](auto*& out,auto&){out=native->shared_stack_v27.get();return true;};
+   graph.lifecycle=native->shared_roster_v27->stack_services();
+   dh2::ui::MenuStackActionsV1 navigation(std::move(graph));
+   dh2::ui::CharacterMenuAsBridgeV1 bridge(native->leases,[&](const char* action,auto& args,auto& error){return navigation.dispatch(action,args,error);});
+   const bool delivered=bridge.dispatch(name,call,e);
+   if(!delivered&&!native->shared_roster_v27->error().empty())e=native->shared_roster_v27->error();
+   __android_log_print(delivered?ANDROID_LOG_INFO:ANDROID_LOG_WARN,tag,"Original process menu navigation | action %s | delivered %d | active renders %u | error %s",name,delivered,native->shared_stack_v27->view()->count,e.c_str());
+   return delivered;
+  },error))return false;
  native->source_front_claimed_v93=true;
  if(!original_ui.claim_menu_transport_v93(manager,error))return false;
  native->source_hud_claimed_v93=true;

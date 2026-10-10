@@ -3,8 +3,10 @@
 #include "character_game_design.hpp"
 #include "character_target_bindings.hpp"
 #include "../game-data/combat_application.hpp"
+#include "../game-data/loot_tables_v2.hpp"
 #include "../script-runtime/script_object_bridge.h"
 #include <array>
+#include <functional>
 #include <map>
 #include <memory>
 #include <string>
@@ -36,6 +38,10 @@ class CharacterScriptObjects {
  DebugSwitches* debug_;
  const DebugFileServices24* files_;
  std::vector<std::int32_t> ai_types_;
+ // The source Application's one process Random channel 0. Shared by every
+ // Character receiver and pinned through an aliasing lease to its real owner.
+ std::shared_ptr<data::LootRandom8V2> source_random_channel0_v125_;
+ std::function<bool(bool&,std::string&)> online_byte5_v125_;
  std::map<std::uintptr_t,std::shared_ptr<ScriptCharacterObject>> records_;
  dh2_script_object_services services_{this,type,methods,invoke};
  static int type(void*,std::uintptr_t,const char**);
@@ -53,6 +59,14 @@ public:
  // Modern Lua facade publication of the SAME canonical C1 object. No new
  // Character/target/properties/life or source ObjectManager Add is performed.
  bool publish_existing_v62(const std::shared_ptr<ScriptCharacterObject>&,std::string&);
+ // Host identity loan retirement after the SAME native Character/VM D0 and
+ // ObjectManager unpublication. Caller supplies its exact captured receiver.
+ bool retire_native_receiver_v123(std::uintptr_t,const std::shared_ptr<ScriptCharacterObject>&,std::string&);
+ // Bind the exact App-owned channel-0 RNG and its GetOnline byte5 query once.
+ // Online _Rand needs the original ReturnValues+0xfc seed, so invoke rejects
+ // online calls until that separate receiver is reconstructed.
+ bool bind_source_random_channel0_v125(std::shared_ptr<data::LootRandom8V2>,
+  std::function<bool(bool&,std::string&)>,std::string&);
  const dh2_script_object_services& services() const noexcept{return services_;}
 };
 }

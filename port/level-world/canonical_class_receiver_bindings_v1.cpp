@@ -6,7 +6,10 @@ CanonicalClassReceiverV1* CanonicalClassReceiverBindingsV1::find(const Canonical
 }
 bool CanonicalClassReceiverBindingsV1::construct(void* p,const CanonicalFactoryEntryV1& f,const CanonicalSourceObjectRequestV1& q,CanonicalObjectBorrowV1& out,std::string& e){
  auto& s=*static_cast<CanonicalClassReceiverBindingsV1*>(p);
- auto callback=!std::strcmp(f.name,"Character")?s.construction_.character:!std::strcmp(f.name,"OpenableContainer")?s.construction_.openable_container:!std::strcmp(f.name,"AnimatedDecor")?s.construction_.animated_decor:nullptr;
+ // Original factory340800 is shared by Character and Player catalog aliases.
+ // Both retain the same genuine Character constructor/property receiver; the
+ // factory subsequently publishes the selected source class-name20 alias.
+ auto callback=(!std::strcmp(f.name,"Character")||!std::strcmp(f.name,"Player"))?s.construction_.character:!std::strcmp(f.name,"OpenableContainer")?s.construction_.openable_container:!std::strcmp(f.name,"AnimatedDecor")?s.construction_.animated_decor:nullptr;
  if(!callback){e="required actual registered class construction: ";e+=f.name;return false;}
  CanonicalClassReceiverV1 r;
  const bool ok=callback(s.construction_.context,q,r,e);
@@ -32,4 +35,21 @@ bool CanonicalClassReceiverBindingsV1::position(void* p,const CanonicalObjectBor
 bool CanonicalClassReceiverBindingsV1::set_position(void* p,const CanonicalObjectBorrowV1& o,const std::array<float,3>& v,bool update,std::string& e){auto* r=static_cast<CanonicalClassReceiverBindingsV1*>(p)->find(o,e);if(!r)return false;if(!r->set_position){e="required actual source SetPosition continuation";return false;}return r->set_position(v,update,e);}
 bool CanonicalClassReceiverBindingsV1::unknown(void* p,const char* n,std::string& e){auto& s=*static_cast<CanonicalClassReceiverBindingsV1*>(p);if(!s.construction_.unknown_type_debug){e="required actual unknown-type Debug provider";return false;}return s.construction_.unknown_type_debug(s.construction_.context,n,e);}
 CanonicalClassServicesV1 CanonicalClassReceiverBindingsV1::services()noexcept{return {this,construct,init_properties,set_template,defaults,overrides,init_post,is_game_object,position,set_position,unknown};}
+const CanonicalClassReceiverV1* CanonicalClassReceiverBindingsV1::receiver(
+ const CanonicalObjectBorrowV1& object,std::string& error)const{
+ if(!object.identity||!object.lease){error="required canonical receiver identity/lease for read-only lookup";return nullptr;}
+ auto found=receivers_.find(object.identity);
+ if(found==receivers_.end()){error="required registered actual class receiver";return nullptr;}
+ const auto& retained=found->second;
+ if(retained.object.identity!=object.identity||!retained.object.lease||
+    retained.object.lease.get()!=object.lease.get()||
+    retained.object.lease.owner_before(object.lease)||object.lease.owner_before(retained.object.lease)||
+    retained.object.shared_handle!=object.shared_handle||
+    retained.object.class_name20!=object.class_name20||
+    retained.object.context!=object.context){
+  error="read-only class receiver lookup escaped the same raw identity/handle/lease";return nullptr;
+ }
+ if(!retained.properties){error="required actual typed property receiver";return nullptr;}
+ error.clear();return &retained;
+}
 }

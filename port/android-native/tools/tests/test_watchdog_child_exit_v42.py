@@ -12,7 +12,7 @@ class API:
   self.queries=queries;self.query_count=0;self.sequences=sequences or {};self.reads={}
   self.records={100:record(100,1000,image='python.exe'),10:record(10,2000),11:record(11,3000),12:record(12,4000),20:record(20,5000)}
   self.census=census or [100,10]
- def system_snapshot(self):return {'commit_total_bytes':8*wd.GIB,'commit_limit_bytes':64*wd.GIB,'physical_available_bytes':16*wd.GIB}
+ def system_snapshot(self):return {'commit_total_bytes':8*wd.GIB,'commit_limit_bytes':64*wd.GIB,'physical_available_bytes':16*wd.GIB,'physical_total_bytes':32*wd.GIB}
  def enumerate_processes(self):return {p:self.records[p]for p in self.census}
  def job_process_ids(self,handle):
   v=self.queries[min(self.query_count,len(self.queries)-1)];self.query_count+=1;return list(v)

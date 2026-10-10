@@ -6,6 +6,8 @@
 #include "loot_root_publishers_v49.hpp"
 #include "renderer_private_save_read_v39.hpp"
 #include "model_renderer.hpp"
+#include "original_ui_session.hpp"
+#include "source_process_arrays_v101.hpp"
 #include "renderer_menu_preview_domain_v121.hpp"
 #include "native_menu_preview_player_v122.hpp"
 #include "source_process_objects_v121.hpp"
@@ -68,6 +70,7 @@
 #include "canonical_decor_physical_connection_v49.hpp"
 #include "renderer_decor_floor_v77.hpp"
 #include "retained_generic_animator_v21.hpp"
+#include "container_animation_connection_v21.hpp"
 #include "game_object_spawn_probability_v1.hpp"
 #include "game_object_relative_box_v3.hpp"
 #include "character_world_npc_object_v1.hpp"
@@ -87,6 +90,7 @@
 #include "../level-loader/native_level_application_v25.hpp"
 #include "../level-loader/native_root_loading_connection_v50.hpp"
 #include "source_campaign_runtime_v61.hpp"
+#include <gameplay_skybox_draw_source_v124.hpp>
 #include <script_command_receivers_v59.hpp>
 #include "source_campaign_player_removal_v114.hpp"
 #include "source_campaign_character_fsm_v101.hpp"
@@ -145,6 +149,7 @@
 #include "navigation_avoidance.hpp"
 #include "navigation_producers.hpp"
 #include "navigation_heading.hpp"
+#include "navigation_motion.hpp"
 #include "actor_runtime.hpp"
 #include "actor_blended_playback.hpp"
 #include "physical_world.hpp"
@@ -284,6 +289,7 @@
 #include "authored_camera_basis_v22.hpp"
 #include "selected_world_camera_config_v20.hpp"
 #include "character_script_objects.hpp"
+#include "openable_container_source_services_v126.hpp"
 #include "navigation_producers.hpp"
 #include <GLES2/gl2.h>
 #include <android/log.h>
@@ -329,7 +335,8 @@ struct Draw{GLuint vertices=0,indices=0,diffuse=0,alpha=0;GLsizei count=0;unsign
  GLenum uv_type_v111{GL_FLOAT};GLsizei vertex_stride_v111{sizeof(Vertex)};std::size_t uv_offset_v111{offsetof(Vertex,uv)},color_offset_v111{offsetof(Vertex,color)};
  std::weak_ptr<dh2::world::RetainedMeshNodeV91> source_mesh_v111;std::uint32_t source_primitive_v111{};
  std::optional<dh2::scene::EffectRenderPassV4> source_pass_v112;
- std::shared_ptr<NativeBatchGpuStateV113> native_shader_v113;};
+ std::shared_ptr<NativeBatchGpuStateV113> native_shader_v113;
+ bool local_world_v124{};std::uint32_t shadow_cascade_v124{};};
 std::vector<Draw> draws;std::vector<GLuint> images;GLuint program=0;
 Matrix submitted_camera{};int submitted_width{},submitted_height{};
 Matrix submitted_view{},submitted_projection_v113{};std::array<float,3> submitted_eye{};
@@ -339,6 +346,7 @@ void apply_combat_text_v1(const dh2::data::CombatResult&,std::uintptr_t,std::uin
 void clear_combat_fx_gpu(bool discard_context);
 void clear_retained_loot_gpu_v27(bool discard_context);
 void release_source_geometry_gpu_v64(bool context_lost);
+void release_native_menu_geometry_v123(bool context_lost);
 void draw_combat_fx_v4();
 void begin_gameplay_camera_release_v20();
 void finish_gameplay_camera_release_v20();
@@ -933,6 +941,14 @@ std::vector<std::uint8_t> read(AAssetManager* assets,const std::string& name,con
   while(done<bytes.size()){const auto got=AAsset_read(a,bytes.data()+done,bytes.size()-done);if(got<=0){AAsset_close(a);throw std::runtime_error("Short asset read");}done+=got;}
   AAsset_close(a);return bytes;
 }
+int process_array_design_lookup_v101(void* context,std::uint32_t kind,const char* group,const char* key,std::int32_t* out){
+ if(!context||kind!=1||!group||!key||!out)return 1;
+ try{
+  std::int32_t value=-1;std::string error;
+  if(!static_cast<dh2::android_ui::SourceProcessArraysV101*>(context)->get_member_id(group,key,value,error))return 1;
+  *out=value;return 0;
+ }catch(...){return 1;}
+}
 std::shared_ptr<dh2::character::CharacterGameDesign> load_game_design(AAssetManager* assets){
  std::array<std::array<std::vector<std::uint8_t>,3>,5> raw;
  const char* groups[]={"character_properties","character_classes","ai","ai_factions","levels"};
@@ -948,7 +964,12 @@ std::shared_ptr<dh2::character::CharacterGameDesign> load_game_design(AAssetMana
  for(const auto& value:constants)constant_views.push_back({value.data(),value.size()});
  inputs.constants=constant_views.data();inputs.constant_count=constant_views.size();
  auto result=std::make_shared<dh2::character::CharacterGameDesign>();std::string error;
- if(!result->initialize(inputs,error))throw std::runtime_error("Persistent design load failed: "+error);
+ std::shared_ptr<dh2::android_ui::SourceProcessArraysV101> process_arrays;
+ dh2_script_design_bindings process_design{};std::shared_ptr<void> process_design_owner;
+ if(dh2::android_ui::OriginalUiSession::current_process_arrays_borrow_v101(process_arrays,error)){
+  process_design={process_arrays.get(),process_array_design_lookup_v101,0};process_design_owner=process_arrays;
+ }
+ if(!result->initialize(inputs,process_design,std::move(process_design_owner),error))throw std::runtime_error("Persistent design load failed: "+error);
  return result;
 }
 std::shared_ptr<dh2::data::DesignSettingsOwner> load_design_settings(AAssetManager* assets){
@@ -1273,7 +1294,7 @@ bool borrow_application_dt_v93(std::uint32_t& out,std::string& error){
  out=fields.dt8c;error.clear();return true;
 }
 void reset_context(){
- release_source_geometry_gpu_v64(true);
+ release_native_menu_geometry_v123(true);release_source_geometry_gpu_v64(true);
  if(source_campaign_runtime_active_v61()){
   // Context replacement retires GPU names only. Canonical Level, actors,
   // physics bodies, camera sessions, scripts, inventory and saves remain live.
@@ -1285,7 +1306,7 @@ void reset_context(){
   return;
  }
  begin_gameplay_camera_release_v20();class_preview_actors.clear();menu_background=class_scene=false;clear_retained_loot_gpu_v27(true);clear_combat_fx_gpu(true);if(player_equipment)player_equipment->detach_visual();equipment_draws.clear();equipment_images.clear();equipment_parts.clear();equipment_draw_part.clear();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();resume_world=resume_world||world_mode;if(world_mode){saved_actors.clear();for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.kind==1)saved_actors.push_back(actor);}world_mode=false;move_x=move_y=0;draws.clear();images.clear();object_groups.clear();world_objects.clear();prince_locomotion=dh2::actor::BlendedPlayback{};prince_visual={};prince_attack_clips.clear();prince_animation_bank={};scene_clock=0;inspected_object=-1;current_scene={};player=dh2::animation::Player{};walk_player=dh2::animation::Player{};level={};program=0;enabled=false;discard_model_textures_v40();discard_generic_buffers_v41();}
-void deactivate(){release_source_geometry_gpu_v64(false);begin_gameplay_camera_release_v20();release_class_previews();menu_background=class_scene=false;clear_retained_loot_gpu_v27(false);clear_combat_fx_gpu(false);clear_npc_death_owners_v2();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();player_skills_runtime.reset();release_canonical_world_v4(live_script_world);if(player_equipment)player_equipment->detach_visual();player_equipment.reset();equipment_platform.reset();release(equipment_draws,equipment_images);equipment_parts.clear();equipment_draw_part.clear();enabled=false;world_mode=false;resume_world=false;move_x=move_y=0;}
+void deactivate(){release_native_menu_geometry_v123(false);release_source_geometry_gpu_v64(false);begin_gameplay_camera_release_v20();release_class_previews();menu_background=class_scene=false;clear_retained_loot_gpu_v27(false);clear_combat_fx_gpu(false);clear_npc_death_owners_v2();native_actor_ready=false;actor_world.clear();prince_body={};finish_gameplay_camera_release_v20();player_skills_runtime.reset();release_canonical_world_v4(live_script_world);if(player_equipment)player_equipment->detach_visual();player_equipment.reset();equipment_platform.reset();release(equipment_draws,equipment_images);equipment_parts.clear();equipment_draw_part.clear();enabled=false;world_mode=false;resume_world=false;move_x=move_y=0;}
 bool active(){return enabled;}
 void set_character_panel_open(bool value){character_panel_open=value&&world_mode;move_x=move_y=0;source_hud_heading_active=false;last_frame=std::chrono::steady_clock::now();__android_log_print(ANDROID_LOG_INFO,"DH2Native","Character overlay simulation pause | open %d | same live World",character_panel_open);}
 void set_enemy_ai(bool value){enemy_ai_enabled=value;__android_log_print(ANDROID_LOG_INFO,"DH2Native","Enemy AI configured | automatic melee %d",value);}
@@ -1306,7 +1327,7 @@ void set_time(int milliseconds){
   if(milliseconds<0){epoch=std::chrono::steady_clock::now()-std::chrono::milliseconds(sampled_ms-player.start);frozen=false;}
   else{sampled_ms=std::clamp(milliseconds,player.start,player.end);frozen=true;}
 }
-std::string load(const std::uint8_t* bytes,std::size_t size,AAssetManager* assets){
+static std::string load_model_geometry_v121(const std::uint8_t* bytes,std::size_t size,AAssetManager* assets,bool release_world_owners){
   ModelPublicationScopeV50 publication_scope;
   release_class_previews();menu_background=class_scene=false;
   if(player_equipment)player_equipment->detach_visual();
@@ -1384,10 +1405,16 @@ std::string load(const std::uint8_t* bytes,std::size_t size,AAssetManager* asset
     const float extent[3]{high[0]-low[0],high[1]-low[1],high[2]-low[2]};
     float next_radius=std::sqrt(extent[0]*extent[0]+extent[1]*extent[1]+extent[2]*extent[2])*.5f;
     if(!std::isfinite(next_radius)||next_radius<.001f)throw std::runtime_error("Degenerate scene bounds");
-    begin_gameplay_camera_release_v20();
+    // A standalone model preview replaces the development World. The source
+    // MenuMainMenu::SetupScene (0x42c510) instead loads PhysicalWorld first,
+    // then constructs its BDAE scene in that SAME process. Geometry publication
+    // must not tear down the physics/camera owners that source just prepared.
+    if(release_world_owners)begin_gameplay_camera_release_v20();
     release_objects(object_groups);world_objects.clear();inspected_object=-1;release(draws,images);draws=std::move(candidate);images=std::move(textures);radius=next_radius;
-    native_actor_ready=false;actor_world.clear();prince_body={};
-    finish_gameplay_camera_release_v20();
+    if(release_world_owners){
+     native_actor_ready=false;actor_world.clear();prince_body={};
+     finish_gameplay_camera_release_v20();
+    }
     world_mode=false;resume_world=false;move_x=move_y=0;source_hud_heading=false;source_hud_heading_active=false;
     for(unsigned i=0;i<3;++i)center[i]=(low[i]+high[i])*.5f;
     yaw=-1.57f;pitch=.35f;zoom=1;enabled=true;
@@ -1395,6 +1422,9 @@ std::string load(const std::uint8_t* bytes,std::size_t size,AAssetManager* asset
     char report[384];std::snprintf(report,sizeof(report),"3D upload OK | %zu draws | %u triangles | %zu textures\n%u animation tracks | %u skipped | Preview lighting. Drag to orbit.",draws.size(),triangles,images.size(),player.track_count(),player.skipped);
     __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s | nodes %u | skipped nongeometry instances %u | skin draws %zu | segments %u",report,current_scene.nodes,current_scene.ignored_instances,std::count_if(draws.begin(),draws.end(),[](const Draw& d){return !d.skin.nodes.empty();}),player.segment_count());return report;
   }catch(const std::exception& e){release(candidate,textures);__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Model load failed: %s",e.what());return std::string("Model load failed: ")+e.what();}
+}
+std::string load(const std::uint8_t* bytes,std::size_t size,AAssetManager* assets){
+ return load_model_geometry_v121(bytes,size,assets,true);
 }
 void move_axis(float x,float y){
   source_hud_heading=false;source_hud_heading_active=false;
@@ -2203,7 +2233,46 @@ namespace {
 #include "renderer_campaign_music_v101.inc"
 namespace {
 #include "renderer_source_geometry_v64.inc"
+#include "renderer_menu_geometry_v123.inc"
 } // anonymous namespace: producer bindings are public exports.
+bool retire_native_menu_character_draws_v123(const std::shared_ptr<void>& process_domain,
+ std::uintptr_t identity,std::string& error){
+ if(!process_domain||!identity){error="Required actual menu process domain/Character identity for renderer retirement";return false;}
+ std::shared_ptr<NativeMenuRendererDomainV121> matched;
+ for(auto& entry:menu_renderer_domains_v121){
+  auto domain=entry.second.lock();
+  if(domain&&std::shared_ptr<void>(domain)==process_domain){matched=std::move(domain);break;}
+ }
+ if(!matched||!matched->current(error)){
+  if(error.empty())error="Character renderer retirement addressed a different process menu domain";
+  return false;
+ }
+ auto app=matched->application.lock();
+ auto source=app?app->source_objects_v121():nullptr;
+ if(!source){error="Character renderer retirement requires the same process ObjectManager";return false;}
+ const auto& manager=source->manager();
+ const auto published=std::find(manager->characters().begin(),manager->characters().end(),identity)!=manager->characters().end();
+ const auto orphaned=std::find(manager->source_orphan4_v108().begin(),manager->source_orphan4_v108().end(),identity)!=manager->source_orphan4_v108().end();
+ if(!published&&!orphaned){
+  error="Character renderer retirement requires the same published or authentic native-orphan receiver";return false;
+ }
+ auto gpu_domain=menu_preview_gpu_v123.world.lock();
+ if(!gpu_domain){
+  // No GPU actor map has ever been attached to a process menu scene, so this
+  // identity cannot have submitted a retained menu draw.
+  error.clear();return true;
+ }
+ if(gpu_domain!=matched){error="Character renderer retirement reached another process GPU domain";return false;}
+ auto at=menu_preview_gpu_v123.actors.find(identity);
+ if(at==menu_preview_gpu_v123.actors.end()){
+  // The source menu renderer creates an entry only when this identity was
+  // submitted in a prior frame; absence is the genuine cold/no-draw case.
+  error.clear();return true;
+ }
+ release_source_actor_gpu_v64(at->second,false);
+ menu_preview_gpu_v123.actors.erase(at);
+ error.clear();return true;
+}
 #include "renderer_campaign_producers_v46.inc"
 namespace {
 #include "renderer_player_character_panel_v3.inc"
@@ -2242,6 +2311,7 @@ bool connect_character_panel_runtime_impl(const dh2::android_ui::CharacterPanelM
 }
 #include "renderer_authored_effect_scene_v5.inc"
 #include "renderer_native_batch_shader_v113.inc"
+#include "renderer_source_skybox_v124.inc"
 #include "renderer_audio_delivery_v46.inc"
 #include "renderer_combat_sound_v2.inc"
 #include "renderer_player_aggro_v2.inc"
@@ -2463,6 +2533,13 @@ void PlayerSkillsRuntime::bind_world_touch(PlayerSkillsRuntime& t){
  b.machine=&prince_state;b.target=&t.world->player_object->target;b.target_services=t.world->player_object->binding.services;
  b.submitted_camera=submitted_camera.data();b.width=&submitted_width;b.height=&submitted_height;
  b.source_screen_ray_v20=gameplay_camera_ray_v20;
+ b.source_click_move_v20=[](const std::array<float,3>& point,bool released,std::string& error){
+  SourceCampaignCandidateBorrowV55 candidate;PlayerGameplayBinding player;
+  if(!borrow_source_campaign_candidate_v55(candidate,error)||
+     !borrow_source_campaign_player_gameplay_v67(candidate.actual_world,player,error)||
+     !player.active||!player.character){if(error.empty())error="Required same live source-candidate player";return false;}
+  return source_campaign_character_click_point_v120(candidate.actual_world,player.character,point.data(),released,error);
+ };
  b.blocked=&controller_global_blocked;b.forced=&prince_controller_forced;b.settings=t.world->saved_options.get();
  const auto row=t.world->settings.row_index("Default");if(row<0)throw std::runtime_error("Actual Default DesignSettings row missing");
  b.design=&t.world->settings.rows().at(row);
@@ -3016,6 +3093,7 @@ bool draw_source_campaign_geometry_v64(int width,int height,std::string& error)t
  if(!update_source_campaign_light_set_v113(actual.actual_world,error)||!advance_source_scene_v69(error)||!capture_source_campaign_modules_v64(frames,error))return false;
  prepare_source_module_frames_v64(frames);
  prepare_source_actor_frames_v64(actual);
+ if(!prepare_source_skybox_v124(actual,error))return false;
  prepare_source_object_frames_v68();restore_source_batch_uploads_v111(actual);
  if(!prepare_source_campaign_fx_draw_v77(actual,error))return false;
  bool native_context_force{};
@@ -3394,7 +3472,8 @@ void draw(int width,int height){
     std::string error;if(!playback.sample(current_scene,sampled_ms,error)){animation_failed=true;__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Animation sample failed: %s",error.c_str());}
     if(world_mode&&!prince_visual.update_world(current_scene,error))throw std::runtime_error(error);
   }
-  const auto projection=class_scene?class_camera(width,height):menu_background?menu_camera():world_mode?submit_gameplay_camera_v20(width,height):camera(width,height);glUseProgram(program);
+  if(!menu_background&&!menu_preview_gpu_v123.actors.empty())release_native_menu_geometry_v123(false);
+  const auto projection=menu_background?native_menu_projection_v123():class_scene?class_camera(width,height):world_mode?submit_gameplay_camera_v20(width,height):camera(width,height);glUseProgram(program);
   submitted_camera=projection;submitted_width=width;submitted_height=height;
    {dh2::perf::Scope perf_fx(dh2::perf::Phase::fx_prepare);if(world_mode&&player_skills_runtime&&current_application_tick){
     if(player_skills_runtime->combat_fx_frame(std::int32_t(scene_clock),current_application_dt))throw std::runtime_error("Source CombatFX frame failed: "+player_skills_runtime->error);
@@ -3424,7 +3503,22 @@ void draw(int width,int height){
     // Native actor joints already include owner * helper * authored graph.
     const auto transform=b.environment?dh2::scene::multiply(projection,b.placement):b.skin.nodes.empty()?dh2::scene::multiply(projection,current_scene.graph[b.node].world):projection;submit(b,transform);
   }}
+  if(menu_background){
+   if(menu_background_character_visible_v137){
+    // A saved slot's PCLS is resolved by FrontUiSession and selects the same
+    // authored class actor/starting equipment used by the character chooser.
+    // The native Character still owns save/game state, but drawing its saved
+    // Gear here can make a Mage profile look like a Warrior when that save has
+    // Warrior equipment. Keep the class-specific authored idle (including its
+    // breathing animation) as the menu presentation. Empty slots clear the
+    // class selector and therefore submit no avatar.
+    if(menu_persona_class>=0){
 #include "renderer_front_draw_v87.inc"
+    }else draw_native_menu_character_v123(projection);
+   }
+  }else {
+#include "renderer_front_draw_v87.inc"
+  }
   previous_draw_v35=nullptr;
   for(const auto& b:equipment_draws)submit(b,dh2::scene::multiply(projection,b.placement));
   if(world_mode){dh2::perf::Scope perf_actors(dh2::perf::Phase::actors);for(auto& group:object_groups){

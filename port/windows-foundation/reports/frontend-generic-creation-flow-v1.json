@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "public_service_api": "features/frontend/creation/runtime_creation_flow_adapter_v1.hpp",
+  "runtime_result_api": "features/frontend/frontend_runtime_v1.hpp",
+  "flow": [
+    "Confirm selects one empty slot/request, source-builds a detached profile, saves and reloads it, validates the full projection, and publishes once into the caller's shared CharacterState.",
+    "Confirm returns to menu_StartGame; it does not invoke start_same_state or create a gameplay receipt.",
+    "StartGame repeats assignment for the exact selected slot and passes the exact same CharacterState shared owner plus selected difficulty to the start callback.",
+    "Only successful Navigator StartGame delivery produces generic_gameplay_started with the exact shared state, selected slot and save path identity.",
+    "Existing-profile Start reads only the path returned for the exact selected slot through load_character; missing/corrupt files fail without create fallback or state publication."
+  ],
+  "native_separation": "Generic start receipts do not satisfy FrontendRuntimeResultV1::gameplay_ready(), do not carry CanonicalCharacterCandidateRecordV60, and are not native StartGame/InitPost receipts.",
+  "tests": {
+    "focused_command": "ninja -C .local-inputs/frontend-feature-build -j6 && ctest --test-dir .local-inputs/frontend-feature-build -R '^(runtime_creation_flow_adapter_v1_tests|frontend_runtime_v1_tests)$' --output-on-failure",
+    "focused_result": "PASS 2/2; Confirm staging without start, delayed StartGame, same state/control-block and save identity, explicit existing file, missing file no-fallback, generic/native result separation",
+    "full_frontend_command": "ctest --test-dir .local-inputs/frontend-feature-build -E '^frontend_native_event_smoke$' --output-on-failure",
+    "full_frontend_result": "PASS 14/14 non-GUI tests"
+  },
+  "root_dependencies": [
+    "Construct RuntimeCreationFlowServicesV1 from root's actual source data, caller shared CharacterState, true empty-slot request/path selector, selected-existing-slot path provider, same-slot assignment provider, and same-state start provider.",
+    "Set FrontendRunConfigV1.selected_slot from the real selected slot/in-use state.",
+    "Root owns main/CMake callsite and platform asset/service pin wiring."
+  ]
+}

@@ -1,12 +1,12 @@
 #include "audio_native_session_v42.hpp"
-#ifndef DH2_AUDIO_NATIVE_SESSION_FIXTURE
+#if defined(__ANDROID__) && !defined(DH2_AUDIO_NATIVE_SESSION_FIXTURE)
 #include "../integration-v40/focus/audio_control_v40.hpp"
 #endif
 #include <stdexcept>
 namespace dh2::audio {
 namespace {
 std::atomic<AudioNativeSessionV42*> active_session{nullptr};
-#ifndef DH2_AUDIO_NATIVE_SESSION_FIXTURE
+#if defined(__ANDROID__) && !defined(DH2_AUDIO_NATIVE_SESSION_FIXTURE)
 class RealControl final:public AudioSessionControlOwnerV40 {
     AudioControlV40 control_;
 public:
@@ -16,10 +16,18 @@ public:
     bool close_succeeded()const noexcept override{return control_.close_succeeded();}
     bool ready()const noexcept override{return control_.ready_for_current_source();}
 };
+std::unique_ptr<AudioSessionControlOwnerV40> construct_android_control(
+ void*,AudioMixerV34& mixer,AudioClockV40& clock,AudioLifecycleGateV40& gate,std::string& error){
+ error.clear();return std::make_unique<RealControl>(mixer,clock,gate);
+}
 #endif
 }
 AudioNativeSessionV42::AudioNativeSessionV42(std::uintptr_t manager,AudioGameplaySourcesV40 sources,
- std::shared_ptr<void> lease,AudioLifecycleGateV40& gate):manager_(manager),originals_(sources),provider_lease_(std::move(lease)),gate_(gate){}
+ std::shared_ptr<void> lease,AudioLifecycleGateV40& gate):manager_(manager),originals_(sources),provider_lease_(std::move(lease)),
+ control_factory_(default_audio_session_control_factory_v42()),gate_(gate){}
+AudioNativeSessionV42::AudioNativeSessionV42(std::uintptr_t manager,AudioGameplaySourcesV40 sources,
+ std::shared_ptr<void> lease,AudioLifecycleGateV40& gate,AudioSessionControlFactoryV42 factory)
+ :manager_(manager),originals_(sources),provider_lease_(std::move(lease)),control_factory_(std::move(factory)),gate_(gate){}
 #ifdef DH2_AUDIO_NATIVE_SESSION_FIXTURE
 AudioNativeSessionV42::AudioNativeSessionV42(std::uintptr_t manager,AudioGameplaySourcesV40 sources,
  std::shared_ptr<void> lease,AudioLifecycleGateV40& gate,Factory factory,void* context)
@@ -34,6 +42,11 @@ bool AudioNativeSessionV42::producer(std::string& error)const {
 }
 bool AudioNativeSessionV42::initialize(std::string& error,std::chrono::milliseconds timeout) {
     if(!producer(error))return false;
+    if(!control_factory_.valid()
+#ifdef DH2_AUDIO_NATIVE_SESSION_FIXTURE
+       &&!factory_
+#endif
+       ){error="Required actual platform audio control factory";return false;}
     if(initialization_attempted_){error="Native audio session initialization is single-use; keep failed owners or construct a new owner after verified teardown";return false;}
     initialization_attempted_=true;
     if(runtime_||worker_.joinable()||claimed_){error="Existing audio session must complete close/join/drain before a new initialization";return false;}
@@ -130,17 +143,20 @@ bool AudioNativeSessionV42::shutdown(std::string& error,std::chrono::millisecond
     if(worker_.joinable())worker_.join();
     control_joined_.store(true,std::memory_order_release);
     if(runtime_&&!runtime_->finalize_after_output_closed({&runtime_->mixer(),&close_completed_,&control_joined_},error))return false;
-    runtime_.reset();provider_lease_.reset();active_session.store(nullptr);claimed_=false;error.clear();return true;
+    runtime_.reset();provider_lease_.reset();control_factory_={};active_session.store(nullptr);claimed_=false;error.clear();return true;
 }
 void AudioNativeSessionV42::control_thread() {
     std::unique_ptr<AudioSessionControlOwnerV40> control;
     try {
+        std::string construction_error;
 #ifdef DH2_AUDIO_NATIVE_SESSION_FIXTURE
-        if(!factory_)throw std::runtime_error("Required explicit borrowed control fixture");
-        control=factory_(factory_context_,runtime_->mixer(),runtime_->clock(),gate_);
-#else
-        control=std::make_unique<RealControl>(runtime_->mixer(),runtime_->clock(),gate_);
+        if(factory_)control=factory_(factory_context_,runtime_->mixer(),runtime_->clock(),gate_);
+        else
 #endif
+        if(control_factory_.valid())control=control_factory_.construct(control_factory_.context,
+            runtime_->mixer(),runtime_->clock(),gate_,construction_error);
+        else throw std::runtime_error("Required actual platform audio control factory");
+        if(!control&&!construction_error.empty())throw std::runtime_error(construction_error);
         if(!control)throw std::runtime_error("Control owner construction returned no owner");
     } catch(const std::exception& failure) {
         std::lock_guard<std::mutex> lock(mutex_);worker_error_=failure.what();startup_known_=true;startup_ok_=false;
@@ -174,5 +190,13 @@ void AudioNativeSessionV42::control_thread() {
         changed_.wait(lock,[]{return false;});
     }
     lock.unlock();control.reset(); // same thread that constructed the output
+}
+
+AudioSessionControlFactoryV42 default_audio_session_control_factory_v42() noexcept{
+#if defined(__ANDROID__) && !defined(DH2_AUDIO_NATIVE_SESSION_FIXTURE)
+    return {construct_android_control,nullptr,{}};
+#else
+    return {};
+#endif
 }
 }

@@ -1,0 +1,48 @@
+{
+  "status": "focused actual-table, equipment, disk and same-world checkpoint tests pass; production integration pending",
+  "visible_invariant": "Selected character health, mana, attributes and progression survive gameplay start and equipment recalculation; menus and combat read the same source properties.",
+  "visual_context": "User Rogue equipment/profile screenshots and existing profile-slots-main-2 and current-abi Rogue captures. These establish the selected character and equipment presentation, not property-cell correctness.",
+  "logic_evidence": [
+    "port/game-data/reference/properties/original-functions.json: original CharProperties Set/Add/ResetSavedProperties kernels; port/game-data/properties.cpp preserves source type32 saved contributions and delta Add semantics",
+    "port/game-data/reference/classes/original-functions.json: PROPS_ApplyClassToSheet; existing recalc_properties_with_class consumer",
+    "runtime_creation_persistence_v1.cpp: actual resolve_original_fresh_player -> CharacterState attributes/vitals/known points",
+    "main startup currently copies profile vitals to ActorState without projecting source saved contributions; EquipmentAdapter subsequently consumes those source cells",
+    "save_store.cpp stores integer XP; GameSave stores the full source sheets, including Q8 XP remainder",
+    "Source Character init 0x3b4ec4-0x3b4edc: LoadBaseProperties then Recalc(true); loaded branch 0x3b517c-0x3b519c: LoadBase then LoadGears then Recalc",
+    "Source UpdateBaseProperties 0x3e087c-0x3e08a4: ResetBase, LoadBase, Recalc(true); LoadBase copies actual CharacterTable row. Reapplying additive class formulas to already-derived base is not intended. act1_loot_luna independently audited source callers."
+  ],
+  "implementation": "Atomic projection into prepared same-class, same-level source sheets with actual gear. Rebuild derived base from authored row/level, preserve saved contributions/gear/facts. Use source Add deltas for known canonical fields; recompute class maxima and check current vitals. Preserve matching live XP fraction.",
+  "test_plan": "Actual Knight/Rogue/Mage tables: sentinel startup -> fresh/partial profile, known/unknown fields, points and XP, matching Q8 remainder, repeated projection, source gear unequip/re-equip, isolated disk roundtrip, wrong class/level and invalid-vital output preservation.",
+  "uncertainties": [
+    "Character-only saves cannot reconstruct an XP fraction they never stored.",
+    "Startup base rebuild is distinct from original UpdateGearsProperties0x3e08a8 (ResetGears/LoadGears/Recalc, no ResetBase). Source gear refresh legitimately accumulates additive property164 Spell_Rating_Dodge. EquipmentAdapter/source formula kernels are unchanged; the projection is not a live gear-normalization API.",
+    "Production main publication and GUI verification remain a separate lead-owned gate."
+  ],
+  "verification": {
+    "runner": "tools/run_player_profile_properties_tests.ps1",
+    "result": "PASS",
+    "output": ".local-inputs/player-profile-properties-test/run.log",
+    "executable_sha256": "92177519D98C38A9596DC44242071DC579AC8F66E0736922B8B12BAFAF5B9466",
+    "implementation_sha256": "8DE6F4ABF854A5E7ABFFA995C14A0F5B0A8925E05E0404F1CFDB4ECCBB382A72",
+    "test_sha256": "F1171DEA1BB9440384428074101CCA9FD7DAA52F3C6680E4075A4B01ADBD5406",
+    "integrated_main": "pending"
+  },
+  "integrated_rogue_receipt": {
+    "result": "PASS isolated production Rogue selected-profile vitals, Unequip/Auto, F5/R/F9",
+    "executable_sha256": "8635E151F9F2F5CF6BDE85629178C9108F961AEF81AFD728BB3C10C5311CCAFF",
+    "log": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-projected.log",
+    "args": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-projected.args",
+    "health": 146.796875,
+    "mana": 40.25,
+    "equipment_revisions": [
+      6,
+      7,
+      8
+    ],
+    "save_frame": 40,
+    "reload_frame": 80,
+    "restore_frame": 100,
+    "restored_rng": "8504954/20",
+    "limitations": "Rogue fresh profile XP/points zero here; nonzero progression and other-class production restart remain separate. Skill key1 has a different active-roster admission issue."
+  }
+}

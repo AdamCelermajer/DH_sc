@@ -1,0 +1,70 @@
+{
+  "feature": "RuntimeEnemyNavigationV1",
+  "status": "same-session navigation/LOS composition implemented; root CombatSession provider hookup remains",
+  "ownership": {
+    "actor_and_target": "the same ActorState records and target_id in CombatSession::world()",
+    "pf_and_geometry_identity": "the same actor PFObject plus its retained sewn floor and obstacle bindings; checked against the supplied SourceNavigationWorldStorage",
+    "route_cache": "small per-ActorId PathObject cache; dropped when actor binding lease changes or target position/id changes",
+    "collision": "caller-retained current CollisionScene loaded from original static helper geometry",
+    "movement": "ActorState transform is not translated by this adapter; retained root motion and PlayableActorBodies.move_grounded remain movement owners",
+    "animation": "explicit caller-supplied authored walk/idle aliases and choices selected through CombatSession's existing retained pose clock"
+  },
+  "implementedPolicy": {
+    "los": "finite segment test against actual loaded _colbox_ triangles; endpoint contacts are excluded; floor helper triangles do not occlude",
+    "route": "dh2::floors::find_path over the supplied same sewn world with original PF flags/radius; dh2_nav_move_path advances its retained per-actor PathObject",
+    "approach": "validate each current owner-to-waypoint segment against actual loaded _colbox_ triangles; blocked segments select idle. Otherwise apply original PFWorld ValidateDirection to the heading using this actor's retained PF position/radius/flags and the same sewn floor world's CollisionWorld, then LookTowards and select caller-provided retained walk locomotion; no direct position writes",
+    "boundary_heading": "source Character construction defaults validate_boundary to 1; an explicit ActorState source_validate_boundary452 value overrides that default. The source direction diagnostic bit is ignored while any original edge-slide mutation is still published, matching UpdatePath",
+    "stop": "drop the actor route and select caller-provided retained idle locomotion when the combat pose is not owned",
+    "tracked_target_retention": "source strict ViewRadius test for an already tracked target; collision LOS remains an acquisition gate only",
+    "attack_handoff": "controller invokes stop once on approach-to-melee transition before request_actor_attack, and does not repeat stop during an owned attack pose"
+  },
+  "blurRouteReleaseAudit": {
+    "source": [
+      "port/level-world/reference/move-state/NOTES.md",
+      "port/level-world/reference/physical-controls/NOTES.md",
+      "port/level-world/reference/navigation-path/NOTES.md",
+      "port/level-world/reference/navigation-controller/NOTES.md",
+      ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0039/003938f8.c"
+    ],
+    "source_order": "CSMove::OnBlur calls GameObject::Stop then Pin. GameObject::Stop calls PFWorld::DropPath first; for a nonempty path DropPath copies current PF position into requested target, then GameObject Stop copies its position into destination, clears movement/path-request and heading-active state and zeroes heading direction. Physical Stop follows only when the physical object exists and the virtual moving predicate is nonzero.",
+    "modern_seam": "RuntimeEnemyNavigationV1::release_route(CombatSession&, ActorId, error) erases only this adapter\u2019s cached route after validating a live same-Session actor. It does not select Idle, sample/select animation, mutate ActorState/PF/physical fields, or reproduce DropPath\u2019s nonempty-path requested-target copy. Root/main own accepted transition policy and actual physical Stop.",
+    "focused_test_plan": "The private native regression uses the actual live Swamp lizard/player records in one CombatSession, loads the authored Swamp floor BRES, builds/sews its floor graph, and attaches the same graph/storage to the lizard\u2019s actual PlayableActorBodies PF object. approach builds a nonempty route before failing closed at the unavailable initialized source locomotion bank. release_route is checked for no actor transform/action/target/pose-ownership change, then approach is called again and must rebuild the route. Empty-route idempotence and unknown actor rejection are also checked.",
+    "status": "Implemented and privately tested. Route release/rebuild is verified on the same Session actor and sewn Swamp floor/PF owners. This fixture does not prove the source requested-target copy or full GameObject.Stop; it also reaches the explicitly missing source locomotion-bank boundary after route construction."
+  },
+  "unsupported_or_unverified": [
+    "CollisionScene loader omits hidden or conditional modules until their existing loader admits them, and does not include dynamic actors or other non-mesh occluders.",
+    "LOS endpoints use ActorState positions; native target-node/eye-height and interaction-query semantics are not proven.",
+    "Source navigation cadence, search ordering, route tie-breaking, special avoidance and list60 policy remain unclaimed.",
+    "The shared floor route kernel does not expose alternate path search constrained by _colbox_ geometry here; a blocked waypoint is rejected and stopped, not replanned around a static obstacle.",
+    "No original controller Debug DisableWallAvoidance provider is connected; generic monster movement uses the recovered Character boundary-validation default.",
+    "The caller must pass the exact SourceNavigationWorldStorage used by PlayableActorBodies.initialize_navigation and the currently loaded scene collision; the adapter fails when either identity or geometry readiness cannot be verified.",
+    "The adapter does not bind itself into root CombatSession::ActorDecisionProvider, load locomotion clips, or execute a native Character Level InitPost lifecycle."
+  ],
+  "changedPaths": [
+    "port/windows-foundation/features/enemy_ai/run_runtime_enemy_navigation_route_release_v1_tests.py",
+    "port/windows-foundation/features/enemy_ai/run_runtime_enemy_navigation_v1_tests.py",
+    "port/windows-foundation/features/enemy_ai/runtime-enemy-navigation-v1-report.json",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_controller_v1.cpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_controller_v1_tests.cpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_navigation_v1.cpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_navigation_v1.hpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_navigation_v1_tests.cpp",
+    "port/windows-foundation/playable_actor_bodies.cpp",
+    "port/windows-foundation/playable_actor_bodies.hpp"
+  ],
+  "verification": {
+    "command": "py -3 port/windows-foundation/features/enemy_ai/run_runtime_enemy_navigation_v1_tests.py",
+    "result": "PASS",
+    "stdout": "runtime enemy navigation PASS blocked=1 clear=2 source_floor_route=1 source_boundary_slide=1 missing_geometry=closed",
+    "evidence": "The Windows native test queries a finite segment through actual CollisionScene triangle storage, proves authored wall blocking, clear space, endpoint exclusion, and fail-closed uninitialized geometry. It also loads an original swamp floor BRES, builds and sews its floor graph, proves source ValidateDirection slides a heading at an authored floor boundary, routes between connected authored graph nodes through SourceNavigationWorldStorage, and advances the result with dh2_nav_move_path.",
+    "controllerCommand": "py -3 port/windows-foundation/features/enemy_ai/run_runtime_enemy_controller_v1_tests.py",
+    "controllerResult": "PASS",
+    "controllerStdout": "runtime enemy controller PASS scanLOS=5 attackRequests=2 stopEvents=4 targetDeaths=1",
+    "controllerEvidence": "Asset-backed CombatSession regression verifies a target moves from approach into melee, the shared stop callback runs once before attack ownership, attack pose/cooldown does not repeatedly select locomotion, clear LOS beyond the authored ViewRadius clears the target, and out-of-sight/dead targets stop before target_id cleanup.",
+    "routeReleaseCommand": "py -3 port/windows-foundation/features/enemy_ai/run_runtime_enemy_navigation_route_release_v1_tests.py",
+    "routeReleaseResult": "PASS",
+    "routeReleaseStdout": "runtime enemy controller PASS scanLOS=1 attackRequests=3 stopEvents=3 targetDeaths=1 routeRelease=1",
+    "routeReleaseEvidence": "Private output and copied archives only. The regression uses the actual authored Swamp floor BRES and graph attached to the same actor PF; it verifies a nonempty cached route, route-cache-only release without actor/action/target/pose-owner changes, subsequent route rebuild, idempotent empty release, and unknown actor rejection. approach intentionally fails closed at the absent initialized source locomotion bank after route construction."
+  },
+  "nextRootHookup": "Construct one RuntimeEnemyNavigationV1 with the current loaded CollisionScene, PlayableActorBodies, same SourceNavigationWorldStorage and exact authored NPC walk/idle choices; install make_runtime_enemy_navigation_services_v1(...) into make_runtime_enemy_decision_provider_v1(...), then install that provider on the same CombatSession."
+}

@@ -1,0 +1,18 @@
+{
+  "feature": "authored source audio transport and native PC output",
+  "status": "implemented transport; foundation producer integration and audible fidelity remain incomplete",
+  "files": ["features/audio/feature_audio.hpp", "features/audio/feature_audio.cpp", "features/audio/winmm_output.hpp", "features/audio/winmm_output.cpp", "features/audio/audio_tests.cpp"],
+  "reused_original_services": ["AudioCatalogV34 exact XML labels/UID/events", "AudioSampleBankV34 exact data/sounds/ URI and sample pin retirement", "AudioSampleV34 RIFF PCM/IMA and VXN segmented original decoder", "AudioMixerV34 authored frame scheduling, priority banks, loop/stop and terminal receipts", "AndroidAudioOutputV34 existing real AAudio endpoint"],
+  "source_commands": ["SoundAutoGen generated ordinal must map through AudioSourceBindingsV38 before catalog UID submission", "Play versus Play3D/event selection remains source owner authority", "audio_named_animation_sound_v38 preserves original sfx_ lookup and manager-before-position order", "audio_animation_swoosh_v38 remains original swoosh producer", "canonical Character combat/voice and Level music/ambient owners remain authoritative", "No generic footstep/hit marker synthesizes a sound"],
+  "exact_resource_examples": [
+    {"label":"WeaponSwoosh1", "uid":22, "filename":"sfx_swoosh_sword_1_22.wav"},
+    {"label":"FootstepWalkStone1", "uid":72, "filename":"sfx_fs_walk_stone_1_22.wav"},
+    {"label":"CharacterHurt1", "uid":38, "filename":"sfx_character_hurt_1.wav"},
+    {"label":"sfx_telepoint_loop", "uid":177, "filename":"sfx_telepoint_loop.wav"},
+    {"label":"SwampHubAmbientMusic", "uid":467, "filename":"m_level_swamp_sfx_swamp.vxn"},
+    {"label":"SwampMerchantCampMusic", "uid":505, "filename":"m_safe_zone_01_sfx_swamp.wav"}
+  ],
+  "validation": {"compiler":"local llvm-mingw clang++ C++17 static Windows executable", "exit_code":0, "checks":["actual original sounds.xml exact mapping", "actual original swing sample decoded", "authored frame1024 delayed start", "same occurrence delivered once", "Stop terminal receipt", "generation retirement", "actual original portal sample loops beyond source duration", "missing platform backend returns required failure"]},
+  "required_integration": ["Root CMake adds five existing engine-audio cpp sources and two feature cpp sources; Windows links winmm", "Root owns actual authored event to output-frame clock and canonical producer enrollment", "Mixer must be heap allocated due to large inline sample caches", "WinMM update requires regular control-thread pumping", "No native device or audible parity run claimed", "Android AAudio requires API26+ and actual lifecycle attachment", "Original JNI large-sound/online branches and unsupported VXN transition continuations remain explicit required services"],
+  "source_evidence": ["port/engine-audio/reports and reference/source-bindings-v38", "port/level-world/reference/audio-source-v34/sounds.xml", "docs/NATIVE-AUDIO-CAMPAIGN-INTEGRATION.md", ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/functions.jsonl: VoxSoundManager LoadSound3699fc/StopSound369fec/Play36b80c"]
+}

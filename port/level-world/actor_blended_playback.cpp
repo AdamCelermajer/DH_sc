@@ -1,6 +1,7 @@
 #include "actor_blended_playback.hpp"
 #include "visual_anim_controller_owner_v4.hpp"
 #include "../engine-animation/animation_blend.hpp"
+#include "../engine-animation/component_applicator.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -150,6 +151,7 @@ bool BlendedPlayback::source_rebind_render_v109(const ClipBank& bank,const anima
  compiled=std::move(next.compiled);compiled_bank=next.compiled_bank;
  game_registration=std::move(next.game_registration);engine_dictionary_ids=std::move(next.engine_dictionary_ids);
  node_identities=std::move(next.node_identities);target_values=std::move(next.target_values);root_target=next.root_target;
+ target_dirty=std::move(next.target_dirty);
  target_enabled=std::move(next.target_enabled);
  for(auto& slot:slots){slot.compiled_clip=slot.clip_id<0?-1:engine_index(slot.clip_id);slot.key_cursors.clear();}
  e.clear();return true;
@@ -167,8 +169,11 @@ bool BlendedPlayback::bind_compiled(animation::TransformSet&& next,const ClipBan
  std::vector<TargetValues> buffers;std::int32_t reference=-1;
  for(std::size_t i=0;i<next.targets().size();++i){
   const auto& target=next.targets()[i];
-  if((target.type!=1&&target.type!=5&&target.type!=10)||
-     target.components!=(target.type==5?4u:3u)){
+  const bool quaternion=target.type==5||target.type==9;
+  if((target.type<1||target.type>4)&&!quaternion&&target.type!=10){
+   error="Blended target requires an unreconstructed applicator";return false;
+  }
+  if(target.components!=(quaternion?4u:3u)){
    error="Blended target requires an unreconstructed applicator";return false;
   }
   buffers.push_back({std::vector<float>(target.components*2,0.f)});
@@ -177,6 +182,7 @@ bool BlendedPlayback::bind_compiled(animation::TransformSet&& next,const ClipBan
  std::vector<std::string> identities;for(const auto& n:authored.graph)identities.push_back(n.id);
  if(!occurrence_mapping){game_registration.clear();engine_dictionary_ids.clear();}
  compiled=std::move(next);compiled_bank=&bank;target_values=std::move(buffers);
+ target_dirty.assign(authored.graph.size(),0);
  node_identities=std::move(identities);root_target=reference;
  target_enabled.assign(compiled.targets().size(),1);
  for(auto& slot:slots)slot.key_cursors.assign(compiled.targets().size(),0);
@@ -284,7 +290,8 @@ bool BlendedPlayback::start(const data::AnimationTables& tables,int sequence,dat
  const data::AnimationSelectionServices services{
   &context,
   [](void* raw,data::AnimationScheduler&,std::uint32_t id){static_cast<ReplayContext*>(raw)->playback->scheduler_event(id);},
-  [](void* raw,data::AnimationScheduler&){auto& c=*static_cast<ReplayContext*>(raw);return c.playback->apply_selection(*c.bank,*c.visual,*c.scene,*c.error);}
+  [](void* raw,data::AnimationScheduler&){auto& c=*static_cast<ReplayContext*>(raw);return c.playback->apply_selection(*c.bank,*c.visual,*c.scene,*c.error);},
+  selection_policy_v126.context?&selection_policy_v126:nullptr,&error
  };
  return scheduler.start_with_services(tables,sequence,random,error,services);
 }
@@ -356,13 +363,20 @@ bool BlendedPlayback::animate(std::uint32_t absolute,bool reset,std::uint32_t ph
   const auto& descriptor=compiled.targets()[target];
   if(!target_enabled[target]||descriptor.node==UINT32_MAX)continue;
   if(descriptor.node>=scene.graph.size()){error="Blended target node is absent";return false;}
-  float value[4]{};const auto* input=target_values[target].values.data();
-  const auto result=descriptor.type==5?dh2_animation_blend_quaternion(value,input,blend.weights,2):
-                                     dh2_animation_blend_vector3(value,input,blend.weights,2);
-  if(result){error="Typed blended contribution rejected";return false;}
+  const auto* input=target_values[target].values.data();
   auto& node=scene.graph[descriptor.node];
-  auto* out=descriptor.type==1?node.translation:descriptor.type==5?node.quaternion:node.scale;
-  std::copy(value,value+descriptor.components,out);
+  if(descriptor.type>=2&&descriptor.type<=4){
+   if(animation::apply_blended_component(node,target_dirty[descriptor.node],descriptor.type,input,blend.weights,2)){
+    error="Blended position-component applicator rejected";return false;
+   }
+  }else{
+   float value[4]{};const bool quaternion=descriptor.type==5||descriptor.type==9;
+   const auto result=quaternion?dh2_animation_blend_quaternion(value,input,blend.weights,2):
+                                 dh2_animation_blend_vector3(value,input,blend.weights,2);
+   if(result){error="Typed blended contribution rejected";return false;}
+   auto* out=descriptor.type==1?node.translation:quaternion?node.quaternion:node.scale;
+   std::copy(value,value+descriptor.components,out);
+  }
  }
  float scratch[3]{},sum[3]{};
  for(std::uint32_t index=0;root_target>=0&&index<2;++index){
@@ -417,7 +431,8 @@ bool BlendedPlayback::animator_phase(const data::AnimationTables& tables,data::A
  const data::AnimationSelectionServices selection{
   &context,
   [](void* raw,data::AnimationScheduler&,std::uint32_t id){static_cast<Context*>(raw)->p->scheduler_event(id);},
-  [](void* raw,data::AnimationScheduler&){auto& c=*static_cast<Context*>(raw);return c.p->apply_selection(*c.bank,*c.visual,*c.scene,*c.error);}
+  [](void* raw,data::AnimationScheduler&){auto& c=*static_cast<Context*>(raw);return c.p->apply_selection(*c.bank,*c.visual,*c.scene,*c.error);},
+  selection_policy_v126.context?&selection_policy_v126:nullptr,&error
  };
  const data::AnimationCompletionServices services{
   &context,

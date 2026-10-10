@@ -1,0 +1,45 @@
+{
+  "feature": "interactions",
+  "status": "source_bridge_verified_host_integration_required",
+  "sources": [
+    "Character::Ctrl_UseOOI 0x3ad690",
+    "Character::ForceUseOOI 0x3ad5ac",
+    "Character::UseOOI 0x3ad614",
+    "v2Controller::Cmd_UseOOI 0x4057fc",
+    "CharAI::AI_IsInInteractionRange 0x3d4f98",
+    "Door::IsInteractive 0x3e74a8",
+    "port/level-world/openable_container_owner_v1.cpp",
+    "port/level-world/openable_container_interaction_v2.cpp",
+    "Character::Interact 0x3a4d78",
+    "EventManager::RaiseAsync 0x339090 -> Raise 0x338ebc"
+  ],
+  "ownership": "Borrowed canonical ObjectManager receiver, live Character cells and existing OpenableContainer owner; no duplicate world/inventory/campaign",
+  "dispatch": "Live source type handlers; absent handlers explicitly unsupported",
+  "verified": [
+    "force flag255 overrides controller lock/global block",
+    "online service absence fails",
+    "remote/current-AI-target/idle/moving Character admission",
+    "3D interaction distance and inclusive boundaries",
+    "node2e8 radius bypass and threshold80",
+    "interaction type8 threshold0",
+    "ARM fcmple NaN rejection",
+    "68 actual original cache rows",
+    "chest key quantity and consumption gate",
+    "state4 noninteractive/unlocked",
+    "canonical live type changes alter dispatch",
+    "NPC quest snapshots and RaiseAsync -> FSM -> event5 -> merchant/cleaner native UI source ordering",
+    "NPC partial failure preserves source prefix",
+    "Native Windows SAME EventManagerOwnerV12 TalkToNPC source payload and GameEventQuestBorrowV75 projection delivery; no alternate queue",
+    "NPC menu service helper linked existing native engine UI; live PlayerInfo678 borrows, captured RenderFX mismatch and unconstructed SwfMovie failure tests passed"
+  ],
+  "validation": "Native Windows llvm-mingw17 O2 static interaction and NPC coordinator tests passed; native NPC source EventManager/projection integration test passed with existing event_manager_owner_v12/game_event_runtime_v75/game_event_manager_v50",
+  "integration_remaining": [
+    "root CMake/main-loop registration",
+    "live online merchant/action5 network prefix",
+    "same-owner item, NPC/native UI, lever/portal authored script handlers",
+    "source actor/world range provider wiring",
+    "Root SAME retained NPC receiver/FSM/UI/GameEvent RaiseAsync borrows for npc_interact coordinator",
+    "Root genuine MenuManager current RenderFX/SWF and PlayerInfo678 owner providers"
+  ],
+  "fidelity_complete": false
+}

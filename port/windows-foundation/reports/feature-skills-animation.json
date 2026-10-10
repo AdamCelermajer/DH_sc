@@ -1,0 +1,24 @@
+{
+  "feature": "class-skills-animation",
+  "status": "development-adapter-native-tests-passed-not-live-integrated",
+  "original_library_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "authoritative_handoff": ".local-inputs/ida-apk-export-2026-10-07/HANDOFF-TO-MAIN-SESSION.txt",
+  "files": ["features/skills_animation/source_skill_animation.hpp", "features/skills_animation/source_skill_animation.cpp", "features/skills_animation/source_skill_animation_tests.cpp", "features/skills_animation/README.md"],
+  "source_entries": {
+    "Usable": "0x3d8358", "Active": "0x3d85d4", "Begin": "0x3d86bc", "End": "0x3d8474", "Use": "0x3d8868", "Cancel": "0x3d84e0",
+    "AI_Focus": "0x3d808c", "AI_Event": "0x3d8bf8", "AI_Blur": "0x3d8b7c",
+    "CSSkill_Focus": "0x3c4480", "CSSkill_Blur": "0x3c434c", "CSSkill_Event": "0x3c0ac8", "CSSkill_Update": "0x3c0018",
+    "HasMana": "0x3b78ec", "UseMana": "0x3b7864"
+  },
+  "borrowed_authorities": ["actual SkillAIContextV3 owner/slots/current/continued/last/script_step", "same SkillStateV4 and FSM State", "pinned original SkillTables", "actor slot-to-global-row resolver", "caller animation tables/RNG", "required synchronous native/Lua/FSM/effects providers"],
+  "owned_authorities": [],
+  "api": ["declarations(Borrow,SkillListName,output,error)", "SourceSkillAnimation::command(nativeOperation,actorSlot,sourceAnswer)", "state_operation(nativeOperation,index,moving,payload,force)", "authored_event(originalName)", "animation_start(AnimationTables,borrowedRandom,AnimationStart,error,randomEnabled)"],
+  "real_cases": [
+    {"skill": "BashDown", "row": 7, "animation_sequence": 347, "sequence_name": "Knight_BashDown", "moving_byte": 1, "type": 0, "script": "prince_warrior_bashdown", "lists": ["Knight", "KnightBerserker", "KnightPaladin"], "clip": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae", "fx": 164, "speed": 1.3, "move_go": true, "blend_out": 100, "marker": "do_skill", "authored_ms": 700, "dispatch_ms": 700},
+    {"skill": "ColdRay", "row": 14, "animation_sequence": 413, "sequence_name": "Mage_ColdRay", "moving_byte": 0, "type": 0, "script": "prince_mage_coldray", "lists": ["Mage", "MageIllusionist", "MageNecromancer"], "clip": "data/3D/characters/prince/animations/skill_dh2_prince_mage_cold_ray.bdae", "fx": 150, "speed": 1.3, "move_go": true, "blend_out": 100, "marker": "do_skill", "authored_ms": 366, "dispatch_ms": 367},
+    {"skill": "JumpKick", "row": 56, "animation_sequence": 521, "sequence_name": "Rogue_JumpKick", "moving_byte": 1, "type": 0, "script": "prince_rogue_jump_kick", "lists": ["Rogue", "RogueArcher", "RogueAssassin"], "clip": "data/3D/characters/prince/animations/skill_dh2_prince_rogue_jump_kick.bdae", "fx": 160, "speed": 1.3, "move_go": true, "blend_out": 100, "marker": "do_skill", "authored_ms": 733, "dispatch_ms": 734}
+  ],
+  "test": {"executable": ".local-inputs/source_skill_animation_tests.exe", "result": "PASS", "compiler": "LLVM MinGW clang C++17 -O1 -static -Wall -Wextra", "proof": ["real original SkillList membership across nine classes", "three original source sequence/clip metadata and BRES markers", "native denial leaves existing animation/state selection untouched", "source stance-mask addition/raw moving byte", "exact do_skill routes same AI Use", "non-Skill do_skill ignored and Cast requires other-state provider", "missing prefix FX service fails explicitly", "foreign actor rejected", "partial transition failure retains native prefix"], "non_claim": "Fixture services are not real Lua mana/target/damage/FX gameplay; no live main integration. This bank contains no Type1/Type2 Skill rows."},
+  "integration_requirements": ["wire existing actual actor SkillAI/SkillState/VM and original FSM transition/focus providers", "read actual slot mapping and unlocked levels from same saved/native skill owner", "forward source animation sequence to same retained animation owner rather than ordinary clip select", "dispatch markers once at original callback phase before movement", "bind original Lua mana, target search, damage, buffs, effects and Post cleanup", "wire interruption/finite closure and save/hotbar persistence", "retain source Cast other-state handling as explicit provider"],
+  "limitations": ["full v15 source focus/frame ordering remains incomplete", "initial animation selection helper does not execute completion or random reselection", "no spell state implementation", "no synthesized admission, mana, targets, HP, cooldown or animation timeline", "no claim all 127 Skill scripts work in live campaign"]
+}

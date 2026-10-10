@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-09",
+  "status": "actual_native_family_visual_loaded_script_initialization_incomplete",
+  "goal_complete": false,
+  "test": "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_test.cpp",
+  "runtime_log": "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_build/runtime.txt",
+  "clean_native_compile_link_run": "passed",
+  "native_exit": 0,
+  "verified": [
+    "Actual original 001_swamp module geometry produces nine PF rooms and sixteen sewn floor records under explicit diagnostic geometry admission.",
+    "Typed Windows backend lifetime retains the same navigation storage, SceneManager roots, original CharacterCandidateCacheV62 and canonical manager observation.",
+    "Resource cache uses real flat PyData, shared original-cache URI files and original CharacterTemplates-v35 schema inputs.",
+    "Both Character and Player factory aliases use that same cache's model, animation and loot tables.",
+    "Original WanderingPriest model resolves Priest_good BRES and loads through the actual native family visual owner.",
+    "Source visual2d8 equals the actual retained visual pointer; source scene instances and skinned meshes exist.",
+    "Same actual Character PF producer callback receives the shared world/registry after mesh bounds are applied.",
+    "Inherited initialization proceeds to the genuine missing NPC script cache/target/controller/timer service boundary.",
+    "Both factory aliases release the actual loaded failed-prefix visual through RetainedCharacterFamilyVisualV6::close: same visual2d8 clears, original root releases, animator closes, and shared SceneManager returns to empty before the next actor loads.",
+    "Failed-prefix teardown runs only after proving no physical owner and the original absent-floor sentinel; repeated visual close succeeds without replaying initialization."
+  ],
+  "limitations": [
+    "This fixture validates both factory aliases using the same original WanderingPriest row; it is not a completed campaign player class/profile.",
+    "No complete InitPost/InitFinal, native script/controller/timer bootstrap or completed-character loan claimed.",
+    "Source PF absent-floor guard is legitimate; positive obstacle registration is not established by visual loading.",
+    "No gameplay rendering reference comparison or enrollment of native family visuals in main's actor loop yet.",
+    "Failed-prefix visual teardown is verified; full published-record/manager removal and physical/PF teardown of an initialized actor remain a separate lifetime verification requirement.",
+    "V18 remains the accepted package; no v19 release accepted."
+  ],
+  "next_action": "Bind original script assets plus same target/controller/timer and actor/FSM source owners before completing canonical initialization and exposing menu/skill gameplay."
+}

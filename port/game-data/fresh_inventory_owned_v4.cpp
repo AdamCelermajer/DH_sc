@@ -1,4 +1,5 @@
 #include "fresh_inventory_owned_v4.hpp"
+#include "loot_creation_v8.hpp"
 #include <cstring>
 #include <stdexcept>
 namespace dh2::data {
@@ -24,8 +25,9 @@ bool FreshInventoryOwnedV4::add_fixed_loot(std::int32_t id,const OwnedInventoryS
  if(selected.empty()){if(!trace(0x404574)||!trace(0x4045a4)||!trace(0x4041f8)||!trace(0x404228))return false;e.clear();return true;}
  if(!trace(0x4042fc)||!trace(0x40432c))return false;OwnedInventoryResponseV4 out;
  for(const auto& chosen:selected){auto type=item_type(*chosen.row);if(type==13){e="Required gold-loot valuation unavailable";return false;}std::int32_t repeats=1;auto distribution=chosen.row->record.words[4];if(distribution==2||distribution==3){if(!deliver(s,OwnedInventoryOperationV4::player_count,0x4043a8,nullptr,nullptr,0,0,out,e))return false;repeats=out.value;if(repeats<=0)continue;if(repeats>1024){e="Source player count exceeds owned budget";return false;}}
-  for(std::int32_t j=0;j<repeats;++j){if(!deliver(s,OwnedInventoryOperationV4::current_player,0x4043cc,nullptr,nullptr,0,0,out,e))return false;if(out.identity){if(!deliver(s,OwnedInventoryOperationV4::current_player,0x4043dc,nullptr,nullptr,1,0,out,e))return false;if(out.value!=0){e="Required difficulty-name item variant lookup unavailable";return false;}}
-   std::unique_ptr<ItemInstanceV1> owned;if(!create_item(chosen.id,1,owned,s,e))return false;auto* instance=owned.get();
+  for(std::int32_t j=0;j<repeats;++j){std::int32_t difficulty=0;if(!deliver(s,OwnedInventoryOperationV4::current_level,0x4043cc,nullptr,nullptr,0,0,out,e))return false;if(out.identity){if(!deliver(s,OwnedInventoryOperationV4::current_level,0x4043dc,nullptr,nullptr,1,0,out,e))return false;difficulty=out.value;}
+   std::int32_t source_item_id;if(!select_loot_item_variant_v8(tables_.items(),chosen.id,difficulty,false,source_item_id,e))return false;
+   std::unique_ptr<ItemInstanceV1> owned;if(!create_item(source_item_id,1,owned,s,e))return false;auto* instance=owned.get();
    std::int8_t qty;std::memcpy(&qty,&chosen.quantity,1);if(qty==-2)qty=99;if(qty<0){e="SetQty requires original negative Debug continuation";return false;}instance->quantity=std::uint16_t(qty);
    auto* valued=item(tables_.items(),instance->id);if(!valued||item_type(*valued)==13){e="Item effects changed ID into unsupported valuation continuation";return false;}auto value=std::uint32_t(valued->record.words[27])*std::uint32_t(valued->record.words[28]);for(const auto& power:instance->powers){(void)power;e="Item effects supplied unrecovered powered valuation";return false;}std::memcpy(&instance->value,&value,4);if(!deliver(s,OwnedInventoryOperationV4::update_name,0x402128,instance,nullptr,0,0,out,e))return false;
    auto* inserted=item(tables_.items(),instance->id);if(!inserted){e="Item effects changed ID outside genuine ItemTable";return false;}auto inserted_type=item_type(*inserted);

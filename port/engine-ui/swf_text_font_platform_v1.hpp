@@ -50,5 +50,8 @@ public:
     bool diagnostic_available() const;
     bool enqueue(std::weak_ptr<SwfEditTextFieldV1>,std::string&);
     bool flush_buffered_text(std::string&);
+    // Clear the per-player source glyph/font projections after the caller has
+    // blanked edit fields in this player's actual root.
+    bool source_reset_fonts_v119(std::string&);
 };
 }

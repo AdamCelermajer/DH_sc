@@ -1,0 +1,39 @@
+{
+  "feature": "runtime-skill-animation-bank-v1",
+  "status": "feature-owned-source-bank-and-connected-fixture-pass-production-caller-pending",
+  "paths": [
+    "port/windows-foundation/features/generic_skills/runtime_skill_animation_bank_v1.hpp",
+    "port/windows-foundation/features/generic_skills/runtime_skill_animation_bank_v1.cpp",
+    "port/windows-foundation/features/generic_skills/runtime_skill_activation_session_v1_tests.cpp",
+    "port/windows-foundation/features/generic_skills/run_runtime_skill_activation_session_v1_tests.ps1",
+    "port/windows-foundation/features/generic_skills/README-runtime-skill-cast-prepare-v1.md"
+  ],
+  "api": {
+    "build": "build_runtime_skill_animation_bank_v1(request, base_plan, output, error)",
+    "merge": "merge_runtime_skill_animation_bank_v1(bank, visual_plan, sequence_policies, error)",
+    "hotbar_source": "CharacterState source-known saved assignments 0..2 -> source SkillList position/saved row -> SkillTable.Anim -> authored AnimationTables sequence/clip URIs",
+    "faery_cast_clip": "Optional same-actor property2-resolved CharAnimTable fields[31] Spells[4] Cast root; selection/current Faery identity remains a separate source provider",
+    "preinit": "Merge the compiled CharacterVisualConfig clip additions, source sequences and policies before CharacterVisual initialization; optional current-class roots enumerate each nonnegative SkillTable.Anim independent of rank/assignment, while per-slot entries retain exact source selection state",
+    "optional_class_roots": "request.preload_current_class_roots=true enumerates the exact active source SkillList; missing optional clip closures are retained as per-position diagnostics and do not invalidate assigned roots",
+    "fresh_slot_resolution": "resolve_runtime_skill_animation_slot_v1 rereads the current saved assignment/rank and resolves it to the preloaded root; do not reuse the bank's pre-initialization hotbar snapshot after training/remapping"
+  },
+  "validation": {
+    "strict_syntax": "PASS: llvm-mingw clang++ -std=c++17 -Wall -Wextra -Werror -Wno-missing-field-initializers",
+    "runner": "port/windows-foundation/features/generic_skills/run_runtime_skill_activation_session_v1_tests.ps1",
+    "result": "PASS",
+    "fixture": "Original Knight SkillTables and CharacterTable; all nonnegative active-list Anim roots preloaded before visual initialization regardless of rank/assignment; level-3 GroundSlam and level-6 Charge learned through source points and SaveStore roundtrips on the same CharacterState and initialized Session; fresh slot-to-root resolution after training/remapping; empty slot1 rejects without shifting; missing optional assets produce per-position diagnostics while assigned BashDown remains loaded; actual Spells[4] root; same-session do_skill Use/Post with mana/HP/RNG and duplicate checks",
+    "build_outputs": "Private output directory; refreshed shared archives read-only"
+  },
+  "key_mapping_audit": {
+    "source_contract": "authored_gameplay_hud_v1_handoff.md: NativeHUDSkill(slot) accepts source slots 0/1/2; Android bridge passes numeric index unchanged to Save::skill_in_slot(index)",
+    "current_pc_transport": "SemanticInput defaults keys 1/2/3 to skill indexes 0/1/2; live dispatch forwards the index unchanged",
+    "resolved_mapping": "key1->saved slot0, key2->saved slot1, key3->saved slot2",
+    "rogue_middle_slot": "The audited Rogue SaveStore profile has set0 and set1 source slot0 both selecting saved row0 JumpKick rank1; source slot1 is empty and rejects without mutation. The visible middle cell is not logical saved slot1, so there is no shift.",
+    "uncertainty": "These PC key bindings are a new explicit transport mapping; no original PC numeric-key handler was found. Production hotkey wiring remains lead-owned."
+  },
+  "remaining": {
+    "production_callsite": "Lead builds and merges this bank from the same live CharacterState/table owners before CharacterVisual initialization, then calls resolve_runtime_skill_animation_slot_v1 at dispatch time for the current saved hotbar slot.",
+    "faery": "The optional Spells[4] entry is an authored Cast animation bank root, not active Faery row/script admission. Root caller must retain the Faery adapter and route only its real state7 do_spell event.",
+    "cast_scope": "The feature fixture proves same-session Warrior source progression, SaveStore roundtrips, post-init training/assignment, fresh slot/root mapping, and retained marker Use/Post for three assigned slots. Full F_ApplyResult tails and the production hotkey caller remain outside this feature fixture."
+  }
+}

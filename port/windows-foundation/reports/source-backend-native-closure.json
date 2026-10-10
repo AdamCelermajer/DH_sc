@@ -1,0 +1,86 @@
+{
+  "status": "strict_windows_native_link_pass_runtime_provider_not_constructed",
+  "date": "2026-10-09",
+  "target": "Windows x86_64 UCRT ABI using bundled llvm-mingw clang++",
+  "scope": [
+    "port/windows-foundation/features/actor_frame/source_backend_native_closure.py",
+    "port/windows-foundation/features/actor_frame/source_backend_native_closure_test.cpp",
+    "port/windows-foundation/features/actor_frame/source_backend_native_closure_build/",
+    "port/windows-foundation/reports/source-backend-native-closure.json"
+  ],
+  "result": {
+    "actual_definition_units_compiled": 75,
+    "compile_failures": [],
+    "link_exit": 0,
+    "unresolved_symbols": [],
+    "executable": "port/windows-foundation/features/actor_frame/source_backend_native_closure_build/source_backend_native_closure_test.exe",
+    "probe_execution": "exit 0 with bundled LLVM toolchain bin on PATH. Main only takes addresses of the actual bind_backend_character_fsm_v1, context register/unregister, and current-Level methods. It creates no application, World, Level, Character, FSM or callbacks.",
+    "link_diagnostics": "port/windows-foundation/features/actor_frame/source_backend_native_closure_build/link-errors.txt",
+    "compile_and_link_manifest": "port/windows-foundation/features/actor_frame/source_backend_native_closure_build/build.json"
+  },
+  "strict_reproduction": {
+    "command": "C:/Users/adamc/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe port/windows-foundation/features/actor_frame/source_backend_native_closure.py",
+    "compiler": ".local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe",
+    "flags": [
+      "-std=c++20", "-Dfinite=_finite", "-include exception",
+      "-Wall -Wextra -Werror -Wno-unused-value",
+      "-ffunction-sections -fdata-sections -flto=thin"
+    ],
+    "forced_translation_units": [
+      "port/windows-foundation/features/actor_frame/source_backend_native_closure_test.cpp",
+      "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.cpp",
+      "port/windows-foundation/features/actor_frame/source_campaign_backend_v1.cpp",
+      "port/windows-foundation/features/actor_frame/source_current_level_backend_v1.cpp"
+    ],
+    "added_portable_audio_units": [
+      "port/engine-audio/integration-v42/audio_native_session_v42.cpp",
+      "port/windows-foundation/features/audio/windows_source_session_control_v1.cpp",
+      "port/windows-foundation/features/audio/winmm_output.cpp",
+      "port/windows-foundation/features/audio/feature_audio.cpp"
+    ],
+    "bridge_units": [
+      "port/engine-audio/audio_campaign_bridge_v46.cpp",
+      "port/engine-audio/audio_application_manager_v42.cpp",
+      "port/engine-audio/audio_gameplay_runtime_v42.cpp",
+      "port/engine-audio/audio_gameplay_runtime_v40.cpp",
+      "port/engine-audio/audio_source_bindings_v38.cpp",
+      "port/engine-audio/audio_listener_rows_v38.cpp",
+      "port/engine-audio/audio_clock_v40.cpp",
+      "port/engine-audio/audio_source_command_v40.cpp",
+      "port/engine-audio/audio_catalog_v34.cpp",
+      "port/engine-audio/audio_bank_v34.cpp",
+      "port/engine-audio/audio_mixer_v34.cpp",
+      "port/engine-audio/audio_native_envelope_v34.cpp",
+      "port/engine-audio/audio_sample_v34.cpp",
+      "port/engine-audio/audio_spatial_v34.cpp",
+      "port/engine-audio/vox_source_fields_v38.cpp",
+      "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.cpp"
+    ],
+    "link_archives_read_only": [
+      "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_build/native.a",
+      ".local-inputs/windows-foundation-build/libfoundation_data.a",
+      ".local-inputs/windows-foundation-build/librecovered_content.a",
+      ".local-inputs/windows-foundation-build/libcontent_xml.a"
+    ],
+    "link_libraries": ["-lopengl32", "-luser32", "-lgdi32", "-lwinmm"]
+  },
+  "resolved_boundary": {
+    "prior_remaining_symbols": 10,
+    "former_android_jni_symbols": "No longer referenced in the Windows build: the existing Android registry adapter is compiled only under __ANDROID__, while Windows publication uses typed AudioGameplayPublisherV46::publish_on_owner.",
+    "former_native_session_symbols": "Resolved by the actual portable AudioNativeSessionV42 implementation together with the explicit WindowsSourceSessionControlV1 WinMM factory. No AAudio or JNI/NDK implementation was imported.",
+    "remaining_symbols": []
+  },
+  "no_level_menu_audit": {
+    "actual_process_owner": "AudioApplicationManagerV42 and raw-UID precache are process-level owners available before a current Level; they are not a campaign/menu playback provider.",
+    "available_gameplay_composer": "AudioLevelGameplayV67::compose requires selected_level and same-Level camera, roots, config, settings, Play and listener providers. AudioCampaignBridgeV46::publish_on_owner also requires a selected Level identity and current-Level provider.",
+    "backend_menu_path": "SourceCampaignBackendContextV1 is registered around an existing campaign candidate/current-Level graph. Its audio callback requires that context and the same retained bridge/manager. It has no no-Level menu registration path.",
+    "conclusion": "No actual source menu/no-Level playback consumer/provider is available to this closure. Do not manufacture a Level or infer menu playback from process-manager construction. The source Play3D no-Level/status guard remains native behavior."
+  },
+  "runtime_boundary": {
+    "status": "No root graph publication or gameplay runtime acceptance claimed.",
+    "reason": "The executable is a link probe only. It does not register SourceCampaignBackendContextV1 or construct the required live Application/World/factory/current-Level graph; provider services are not invoked.",
+    "full_root_graph_publication": "Pending",
+    "playable_audio": "Not demonstrated by this closure. The separate V46 owner test establishes publication association only; its real C1 fixture has state130=0 and its actual source submit takes the original no-play status return with zero voices."
+  },
+  "next_source_provider": "Root must provide the genuine existing no-Level menu audio consumer, if one is intended, or continue from an actual campaign Level load/status and its real listener/general/emitter providers. No synthetic Level or successful callback is supplied."
+}

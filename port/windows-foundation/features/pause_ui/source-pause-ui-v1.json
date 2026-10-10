@@ -1,0 +1,103 @@
+{
+  "schema": "source-pause-ui-v1",
+  "status": "source_projection_and_action_audit_complete",
+  "scope": "Feature-owned source references and action projection only. Escape/pause/resume main wiring and live application GUI acceptance belong to root/lead.",
+  "evidence_note": {
+    "visual_evidence": "The audited v1.0.3 reference video frame at 00:05:00 shows the circular pause control at the upper-left of active gameplay HUD. It corroborates control role/location only; it does not show the pause transition, and it is not v1.0.2 pixel-parity evidence. The page and confirmation artwork are recovered directly from the v1.0.2 original SWF, not from a main-app screenshot.",
+    "logic_evidence": "In original dqhud_droid.swf sprite756 FRAME 0, the menu onShow bytecode at offsets 0x28979..0x2898c unconditionally sets this.buttons.btn_Debug._visible=false. The same onShow handler localizes Continue/Help/Multiplayer/Options/Main Menu, chooses Single or Multi from NativeIsMultiplayerGame, and plays the authored Idle timeline. The page button actions and confirmation Yes/No routes are retained in native_action_flow above.",
+    "admission_and_visibility_gates": "Pause page is selected at source show stop frame14; the unconditional onShow visibility assignment excludes the whole btn_Debug branch, including its default BtnText field and hit contour. Source Cheats do not become substitute controls: their fill alpha composes to zero in the exported source frame. Multiplayer is included only on the authored Multi frame. The helper creates no menu state, pause/audio side effects, or application-exit behavior.",
+    "expected_reusable_behavior": "Render the source HUD pause mark and source page/confirmation art with authored text and triangle hit contours; allow the existing menu owner to route Continue, Main Menu confirmation, Yes, and No. Keep Help/Options/Multiplayer as explicit caller-owned routes.",
+    "uncertainties": "The available reference is v1.0.3 while the recovered SWF is v1.0.2. The source-only frame and route tests do not prove integrated rendering, pause-state transitions, Escape behavior, or GUI hit testing; lead/root still own those checks.",
+    "focused_verification": "Reparse the original SWF, verify the bytecode visibility assignment and source hash, assert btn_Debug art/text/hits are absent in Single and Multi frames, check authored triangle counts and representative hit contours, and strict-compile the three feature translation units. Integrated main-window visual QA remains pending with lead/root."
+  },
+  "source_art": {
+    "swf": "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_droid.swf",
+    "swf_bytes": 224739,
+    "swf_sha256": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+    "gameplay_hud": {"path": "_root.menu_HUD_0", "character_id": 470},
+    "normal_pause_control": {
+      "path": "_root.menu_HUD_0.HUDelements.btn_mainmenu",
+      "character_id": 85,
+      "button_art_path": "_root.menu_HUD_0.HUDelements.btn_mainmenu.btimg",
+      "button_art_character_id": 77,
+      "display_depth": 11,
+      "xy_twips": [670, 1878],
+      "icon_art_path": "_root.menu_HUD_0.HUDelements.btn_mainmenu.btimg.HudChar",
+      "icon_art_character_id": 41
+    },
+    "pause_page": {"path": "_root.menu_Ingame", "character_id": 756},
+    "pause_button_container": {"path": "_root.menu_Ingame.buttons", "character_id": 755},
+    "confirmation_page": {"path": "_root.menu_hud_confirm", "character_id": 699},
+    "original_assets_are_rendered_by_existing_swf_movie_graph": true
+  },
+  "authored_button_projection": [
+    {"path": "_root.menu_Ingame.buttons.btn_MENU_CONTINUE", "character_id": 531, "depth": 13, "xy_twips": [90, -67], "label_symbol": "MENU_CONTINUE", "english": "Continue", "action": "resume_game"},
+    {"path": "_root.menu_Ingame.buttons.btn_MENU_HELP", "character_id": 531, "depth": 7, "xy_twips": [90, 819], "label_symbol": "MENU_HELP", "english": "Help", "action": "open_help"},
+    {"path": "_root.menu_Ingame.buttons.btn_Multiplayer", "character_id": 754, "depth": 31, "xy_twips": [-7289, 1114], "label_symbol": "MENU_MULTIPLAYER", "english": "Multiplayer", "action": "open_multiplayer", "state_dependent": true},
+    {"path": "_root.menu_Ingame.buttons.btn_MENU_OPTIONS", "character_id": 531, "depth": 1, "xy_twips": [90, 1767], "label_symbol": "MENU_OPTIONS", "english": "Options", "action": "open_options"},
+    {"path": "_root.menu_Ingame.buttons.btn_MENU_MAIN_MENU", "character_id": 531, "depth": 19, "xy_twips": [90, 2653], "label_symbol": "MENU_MAIN_MENU", "english": "Main Menu", "action": "request_main_menu_confirmation"},
+    {"path": "_root.menu_hud_confirm.WarningBox.btn_yes", "character_id": 697, "depth": 10, "xy_twips": [270, 1185], "label_symbol": "GAMEPLAYMENUS_ACCEPT", "english": "Yes", "action": "confirm_return_to_main_menu"},
+    {"path": "_root.menu_hud_confirm.WarningBox.btn_no", "character_id": 697, "depth": 16, "xy_twips": [2782, 1185], "label_symbol": "GAMEPLAYMENUS_REFUSE", "english": "No", "action": "cancel_confirmation"}
+  ],
+  "native_action_flow": {
+    "open_from_gameplay": ["NativeChangeRolloverInputBehavior(true, 3, 2)", "LocationsMenu.gotoAndPlay(\"Hide\")", "NativePushState(\"menu_Ingame\")", "NativePauseAllSounds()", "NativePlaySoundFX(\"MenuBack\", 1)", "stop parent btn_charactermenu.anim_levelup"],
+    "pause_page_on_show": ["InIGM = true", "NativePauseMusic()", "NativeShowStatusBar(true, 1)", "localize authored button label symbols", "NativeIsMultiplayerGame() selects btn_Multiplayer state Multi or Single"],
+    "continue": ["NativeChangeRolloverInputBehavior(false, 3, 2)", "NativeShowStatusBar(false, 1)", "NativePopAllMenus()", "NativePlaySoundFX(\"MenuBack\", 1)", "NatvieResumeAllSounds()", "replay original HUD anim_levelup clips", "InIGM = false", "NativeBackToHud()"],
+    "options": ["NativeShowStatusBar(false, 1)", "NativePushMenu(\"menu_Options\")", "NativePlaySoundFX(\"MenuSelect\", 1)", "NativeAwayFromHud()"],
+    "help": ["NativePushMenu(\"menu_HelpButtons\")", "NativePlaySoundFX(\"MenuSelect\", 1)", "NativeAwayFromHud()"],
+    "multiplayer": ["NativePushMenu(\"menu_MultiplayerLobbyMulti\")", "NativePlaySoundFX(\"MenuSelect\", 1)", "NativeAwayFromHud()"],
+    "main_menu_request": ["sets confirmation message symbol GLOBAL_ASK_FOR_MAINMENU", "NativePushMenu(\"menu_hud_confirm\")", "NativePlaySoundFX(\"MenuConfirm\", 1)"],
+    "cancel_confirmation": ["NativePlaySoundFX(\"MenuBack\", 1)", "NativePopMenu()"],
+    "confirm_return_to_main_menu": ["NativeShowStatusBar(false, 1)", "NativePopAllMenus()", "NativeChangeRolloverInputBehavior(false, 3, 2)", "NativeGoToMainMenu()"],
+    "exit_semantics": "The authored page says Main Menu and asks Return to main menu?; Yes enters NativeGoToMainMenu. It does not define application/process exit."
+  },
+  "reference_video": {
+    "source": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+    "title_version": "1.0.3",
+    "recovered_asset_version": "1.0.2",
+    "video_path": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "video_sha256": "98087ee80f594bcc317144b5dd15ee4b470830b8eb8f5b13badc24bd9831e502",
+    "timestamp_seconds": 300,
+    "frame_path": ".local-inputs/referenceframes/dh2-act1/first-combat/at-0300s.png",
+    "frame_sha256": "2dc4d26541fc19f2511b035f10aab7977997f3cd73a71db496dabbbd236baf19",
+    "observation": "Active gameplay shows a small circular pause mark at the upper-left of the HUD, matching the source btn_mainmenu / HudChar pause control role and location. This checks control identification/location only; the clip is v1.0.3 and does not establish v1.0.2 pixel parity or demonstrate opening the pause page."
+  },
+  "source_hashes": {
+    "action_dump": {"path": ".local-inputs/swf-layout-trigger/dqhud_droid-actions.txt", "sha256": "fdef41abfcedf0225faccada8e2ea0ed6f589e26dcf799a6493072e83d0b4664"},
+    "first_frame_paths": {"path": ".local-inputs/ui-layout-discovery/first-frame-paths.json", "sha256": "7381fe4299881a8331819b2afc3cab129e9cc11901e902483fb661cba3c4bf2b"},
+    "authored_hud_live_tree": {"path": ".local-inputs/authored-hud-live-tree.txt", "sha256": "f005cf16dd52ead9d2fd0b1ad1919b6a525a6322bdf0b610615b8d7ed59bdbe2"},
+    "menu_english": {"path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.english", "sha256": "50e01954a9104b7b3c08bcbab0985c1e516cc873645854cc6fbdaa65a9fad101"},
+    "global_english": {"path": "port/android-native/app/src/main/assets/original-cache/data/text/global.english", "sha256": "020a1779505fda2387cd4b2506aa0ac2ae04d7467405edb10eaeefdff3049e568"},
+    "gameplaymenus_english": {"path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.english", "sha256": "ce07a456aaf8a8d914b210e62e40a5606bcc9a3a40348c958063bcc10e3c4000"}
+  },
+  "portable_api": {
+    "header": "features/pause_ui/source_pause_ui_v1.hpp",
+    "implementation": "features/pause_ui/source_pause_ui_v1.cpp",
+    "entry_point": "source_pause_ui_v1()",
+    "behavior": "Returns immutable original SWF clip/button references, localized label symbols, authored display depth/position, conditional multiplayer state flag and semantic action enums. It performs no route, pause, audio, or menu side effects."
+  },
+  "render_projection_v1": {
+    "header": "features/pause_ui/source_pause_ui_render_v1.hpp",
+    "implementation": "features/pause_ui/source_pause_ui_render_v1.cpp",
+    "generated_art": "features/pause_ui/source_pause_ui_art_v1.cpp",
+    "exporter": "features/pause_ui/export_source_pause_ui_art_v1.py",
+    "receipt": "features/pause_ui/source-pause-ui-art-v1.json",
+    "entry_points": ["source_pause_ui_frame_v1(surface, multiplayer)", "source_pause_ui_hit_test_v1(frame, source_x, source_y)", "source_pause_ui_route_v1(frame, hit)"],
+    "frame_data": "Returns standard frontend::art::ScreenArt triangles/text fields/hit regions in authored 480x320 coordinates. It exports HUD pause button 85, pause page 756 and confirmation page 699 from the original dqhud_droid SWF. All used source bitmap IDs are 1 and resolve to data/3d/textures/MenusGraphics_droid.tga; source font 7 resolves to data/Fontin SmallCaps.ttf.",
+    "timeline_selection": "HUD button idle stop frame4 and authored HUDPause icon from onLoad; menu_Ingame show stop frame14 plus button Idle stops and source Single/Multi state; confirmation show stop frame13 plus button idle stops.",
+    "hit_test": "The source clips have no named hitzone child. Hit regions are exact triangles from the rendered source fills within each authored button clip, not invented rectangular bounds.",
+    "route_projection": "Root-callable commands only: open pause page, Continue/resume, open main-menu confirmation, Yes/NativeGoToMainMenu and No/cancel. Help, Multiplayer, Options and non-actionable source controls remain diagnostics; the helper performs none of the menu/audio/pause effects itself."
+  },
+  "verification": {
+    "test": "features/pause_ui/source_pause_ui_v1_source_test.py",
+    "command": "py -3 port/windows-foundation/features/pause_ui/source_pause_ui_v1_source_test.py",
+    "result": "PASS: original SWF and locale data hashes, SWF movie ids and placements, ActionScript action names, and reference-video HUD control evidence.",
+    "build": "No build or app/main/core/CMake changes."
+  },
+  "render_projection_verification": {
+    "test": "features/pause_ui/source_pause_ui_render_v1_source_test.py",
+    "command": "py -3 port/windows-foundation/features/pause_ui/source_pause_ui_render_v1_source_test.py",
+    "result": "PASS: reparses the audited SWF, checks source hash and generated payload, exact source triangle/text/hit counts and UVs, HUDPause/Idle/Show frame policy, multiplayer state, contour-centroid hit tests, and supported route projection.",
+    "build": "Strict standalone compile of all three feature translation units with the installed llvm-mingw clang++ is recorded in this receipt; no shared Foundation build was started."
+  }
+}

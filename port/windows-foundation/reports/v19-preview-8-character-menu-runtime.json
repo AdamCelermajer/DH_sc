@@ -1,0 +1,21 @@
+{
+  "status": "packaged_character_menu_cases_passed",
+  "goal_complete": false,
+  "executable_sha256": "9703c4925707beadbc8b3032b2c6d24d7ec74435ecd822d22b11d25b3936d926",
+  "cases": [
+    {
+      "case": "equipment-lifecycle",
+      "status": "passed",
+      "capture": "equipment-lifecycle-verification.ppm"
+    },
+    {
+      "case": "skills-selection",
+      "status": "passed",
+      "capture": "skills-selection-verification.ppm"
+    }
+  ],
+  "limits": [
+    "Skills pixels require inspection; positive skill spending is not tested.",
+    "Equipment full-page fidelity, character preview, drop and transmute remain incomplete."
+  ]
+}

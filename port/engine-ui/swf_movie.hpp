@@ -67,6 +67,9 @@ struct SwfServices {
  //Typed real engine leaf; owner retained by native_owner, no replacement root.
  std::function<bool(const SwfAsLease&,bool,std::string&)> source_text_buffering_v98;
  std::function<bool(std::string&)> source_continue_v98; //SAME source Session failure/scope gate
+ // RenderFX.ClearFonts: retire only this renderer's text images/cache and
+ // blank its live edit fields. The exact texture owner performs removal.
+ std::function<bool(const SwfTexture&,std::string&)> release_image_v119;
  //Scoped original fscommand(character*,command,arg) transport. The facade
  //checks the originating character's actual player before this callback.
  //Dispatch occurs only for actual positive RenderFX listenerfc; the exact
@@ -132,6 +135,8 @@ class SwfMovie {
  // PostLoad/RegisterState visibility stage only; does not fabricate native
  // menu instances, run Create, or install stack/lifecycle ownership.
  bool hide_menu_state_clips(std::vector<std::string>& names,std::string&);
+ // Original RenderFX.ClearFonts on this exact player/root.
+ bool source_reset_fonts_v119(std::string&);
  // Live connections retain the exact Impl graph and execute inside its core
  // Scope. Authored source bounds replace the inspection viewport setter.
  bool connect_viewport(const ViewportState64&,const SwfViewportDriver&,std::string&);

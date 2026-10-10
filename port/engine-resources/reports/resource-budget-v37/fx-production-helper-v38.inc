@@ -27,7 +27,7 @@ static void upload_effect_storage_v38(EffectGpuResourceV4& resource,GLenum targe
  if(!dh2::android_resources::budget_v38().reserve_replace(token,{kind,ResourceScopeV37::fx,bytes,0},ReplacementModeV37::same_object_coexisting_storage,candidate,error)){
   // Admission failure never touched GL. Retain old names/storage/charges,
   // but invalidate the CPU dirty receipt so a later retry resubmits geometry.
-  resource.geometry_cache={};throw std::runtime_error("FX storage admission: "+error);
+  resource.geometry_cache.reset_buffers_v41();throw std::runtime_error("FX storage admission: "+error);
  }
  try{
   glBufferData(target,bytes,data,GL_DYNAMIC_DRAW);check("Source effect admitted storage upload");
@@ -37,7 +37,7 @@ static void upload_effect_storage_v38(EffectGpuResourceV4& resource,GLenum targe
   // Discard both names and their exact charges before reporting the failure;
   // a later retry must rebuild geometry rather than reuse stale dirty flags.
   candidate.abort();release_effect_buffers_v38(resource,false);
-  resource.geometry_cache={};throw;
+  resource.geometry_cache.reset_buffers_v41();throw;
  }
 }
 // Bounded modern GPU cache. Active source entries are never evicted; idle

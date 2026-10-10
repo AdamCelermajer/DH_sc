@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "scope": "Exact shared cache XML light declarations and reference attributes; excludes waypoint names that merely contain Spot/Light.",
+  "parsed_documents": 21,
+  "declarations": [
+    {
+      "path": "data/3d/light/swamp.lightset_xml",
+      "tag": "GameObject",
+      "attributes": {
+        "type": "Light",
+        "name": "_prim_PlayerLight",
+        "position": "0.0,0.0,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,229.0,0.0",
+        "rotation": "0.0,0.0,0.0",
+        "radius": "3.5",
+        "attenuation": "0.265625,0.0,0.132813",
+        "ambientColor": "255.0,255.0,255.0",
+        "diffuseColor": "255.0,255.0,255.0",
+        "specularColor": "255.0,255.0,255.0",
+        "gametype": "LightPoint",
+        "attachedTo": "Player",
+        "attachedOffset": "0.0,0.0,200.0",
+        "automatic": "1",
+        "_templateName": "PlayerLight"
+      }
+    },
+    {
+      "path": "data/3d/light/swamp_es_1_1.lightset_xml",
+      "tag": "GameObject",
+      "attributes": {
+        "type": "Light",
+        "name": "_prim_PlayerLight",
+        "position": "0.0,0.0,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,229.0,0.0",
+        "rotation": "0.0,0.0,0.0",
+        "radius": "3.5",
+        "attenuation": "0.15625 ,0.0,0.484375",
+        "ambientColor": "255.0,255.0,255.0",
+        "diffuseColor": "255.0,255.0,255.0",
+        "specularColor": "255.0,255.0,255.0",
+        "gametype": "LightPoint",
+        "attachedTo": "Player",
+        "attachedOffset": "0.0,0.0,200.0",
+        "automatic": "1",
+        "_templateName": "PlayerLight"
+      }
+    }
+  ],
+  "references": [
+    {
+      "path": "data/scene/001_swamp.mlx",
+      "element": "GameObject",
+      "attribute": "light_set",
+      "value": "data/3D/Light/swamp.lightset_xml"
+    },
+    {
+      "path": "data/scene/001_swamp.mlx",
+      "element": "GameObject",
+      "attribute": "fixed_light_set",
+      "value": "data/3D/Light/swamp_es_1_1.lightset_xml"
+    }
+  ],
+  "parse_errors": [],
+  "note": "References/declarations do not assign runtime LightManager slots or infer MonsterLight shader constants."
+}

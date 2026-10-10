@@ -18,8 +18,6 @@ struct SourceLoadingApplicationFieldsV55 {
  // SAME process Application.GoToMainMenu cells. C1 32d874 stores ab=1;
  // b0 has no C1 store and begins zero in the original static BSS instance.
  std::uint8_t byte_ab{1};std::int32_t event_b0{};
- //Produced only by the real source Stage32 warm-start stores.
- std::uint8_t byte94_v95{};bool native_byte94_produced_v95{};
  std::uint8_t handle_cheats_inGame9f640a{};
  std::uint32_t g_bigI9f6890{},g_bigV9f688c{};
  // Original GS.Update phase4 writes these real process LuaScript globals.

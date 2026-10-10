@@ -1,0 +1,45 @@
+{
+  "status": "input_component_and_rendered_movement_pass_live_combo_pending",
+  "release_accepted": false,
+  "semantic_input_test": "ctest -R ^semantic_input$: PASS; default-run, held-Shift-walk, release-Shift-run, idle-no-run, legacy preference",
+  "rendered_movement": [
+    {
+      "mode": "default-run",
+      "exit": 0,
+      "position": [
+        "Actor final position=1573.77,-203.944,255 grounded=1"
+      ],
+      "summary": [
+        "Rendered frames=90; clean shutdown",
+        "Motion final actor=6946165196097391975 enabledSegments=90 disabledSegments=0 sourceXY=0 worldXY=0",
+        "Motion final actor=7118915781085668844 enabledSegments=90 disabledSegments=0 sourceXY=0 worldXY=0",
+        "Motion final actor=18446744073709551615 enabledSegments=91 disabledSegments=0 sourceXY=888.992 worldXY=518.686"
+      ]
+    },
+    {
+      "mode": "explicit-walk",
+      "exit": 0,
+      "position": [
+        "Actor final position=1324.6,-198.633,255 grounded=1"
+      ],
+      "summary": [
+        "Rendered frames=90; clean shutdown",
+        "Motion final actor=6946165196097391975 enabledSegments=90 disabledSegments=0 sourceXY=0 worldXY=0",
+        "Motion final actor=7118915781085668844 enabledSegments=90 disabledSegments=0 sourceXY=0 worldXY=0",
+        "Motion final actor=18446744073709551615 enabledSegments=91 disabledSegments=0 sourceXY=276.028 worldXY=248.425"
+      ]
+    }
+  ],
+  "runtime_evidence": ".local-inputs\\v17-input-verification\\result.json",
+  "limits": [
+    "Rendered fixtures provide controller movement intent; held Shift preference is covered by actual semantic input tests, not a physical keyboard session.",
+    "Combo integration and packaged v17 regression verification remain pending."
+  ],
+  "source_sha256": {
+    "port/windows-foundation/main.cpp": "4d4cd1b786d06299aa2d5483f062fa97d6d8a19cc382e9924356b0ffc0038280",
+    "port/windows-foundation/features/platform_input/semantic_input.cpp": "5b0b6e1ff6e42d9493f0459159ff3f04bcb27d9d4ea695f84dafa3b2e68e37bf",
+    "port/windows-foundation/features/platform_input/semantic_input.hpp": "f277127ff53068ee98f163ac127a987652405d35e714c9fafea76c1a67d7ad6f",
+    "port/windows-foundation/features/platform_input/semantic_input_tests.cpp": "0b6dfa930c6eb8b8a9710a2283ecbc281a14e7ffc33538e85da5b742f7c98728"
+  },
+  "exe_sha256": "efe0a3b3e0cd02b9506fa515562907643bd8b2d3ff34a6fe39eb7484c66e7b18"
+}

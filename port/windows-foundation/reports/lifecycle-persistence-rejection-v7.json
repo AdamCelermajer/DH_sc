@@ -1,0 +1,9 @@
+{
+  "status": "expected_runtime_rejection_verified",
+  "goal_complete": false,
+  "executable_sha256": "028dfb1c69a484ce7c3beee50cd587e1c8831d58178853d3dc6801d4063aa5f2",
+  "exit_code": 1,
+  "existing_live_save_unchanged": true,
+  "save_sha256": "11d7ac28f207db31ad1c6ffe4d20aa6ac6549583cf192abe08b6fcc29b80f6e9",
+  "scope": "Unserialized campaign lifecycle state rejected before writing explicitly supplied existing durable save"
+}

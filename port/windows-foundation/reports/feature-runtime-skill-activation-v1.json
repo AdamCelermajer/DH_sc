@@ -1,0 +1,56 @@
+{
+  "feature": "runtime_skill_activation_v1",
+  "status": "source-table request, BashDown target/mana prefixes, and connected one-hit result application implemented; full native cast remains unavailable",
+  "source_evidence": {
+    "headsplitter_row": {
+      "character_table_source": "actual CharacterTable SkillTree resolves KnightPlayerBase to source SkillList Knight",
+      "class_skill_position": 0,
+      "skill_table_id": 7,
+      "skill_table_name": "BashDown",
+      "skill_table_script": "prince_warrior_bashdown",
+      "skill_table_animation_root": 347,
+      "sequence_name": "Knight_BashDown",
+      "sequence_policy": "type 0, loop 0",
+      "authored_marker": "do_skill"
+    },
+    "source_skill_script": {
+      "path": ".local-inputs/character-skill-session-v2/cache/data/scripts/skills/prince_warrior_bashdown.luac",
+      "sha256": "d9f41ce04e8e9c632df2377571ff85f76aacad168bb0bebdb111ccb6f8f4dde3",
+      "OnSkillUpdate_": "GetCurrentSkillInfo(); set SnS_Level; mana_cost = CalcManaCost(CLASS_ID, rank)",
+      "OnSkillCheck_": "return HasMana(mana_cost), false",
+      "OnPreSkill_": "Enemy + AttackableOnly + FrontalFirst, TargetListSearch(160), optional LookAt, then UseMana(mana_cost)",
+      "OnSkill_": "if retained target exists, apply Skill_Warrior_BashDown properties and call SkillCombatRoll"
+    },
+    "native_admission": [
+      {
+        "symbol": "CharAI::AI_IsSkillUsable(unsigned)",
+        "address": "0x3d8358",
+        "rule": "Rejects while source FSM is casting, when script process is absent, for invalid/unpopulated skill rows, or when CharAISkillScript::OnSkillCheck_Usable returns false."
+      },
+      {
+        "symbol": "CharAISkillScript::OnSkillCheck_Usable()",
+        "address": "0x3da9dc",
+        "rule": "Calls Lua SetSkill then OnSkillCheck and reads the returned Lua boolean; this exact source callback is not present on generic CharacterState/SkillTables."
+      },
+      {
+        "symbol": "Character::_DoSkill(arguments)",
+        "address": "0x3b8bd8",
+        "rule": "Maps the class SkillList position to the same CharAI skill index and calls AI_UseSkill."
+      }
+    ]
+  },
+  "implementation": {
+    "resolve": "Reads the active source SkillList and exact saved rank from the same CharacterState; requires known positive rank and source level availability; reads SkillTable.Anim as the root ID.",
+    "visual_playback": "Verifies the preloaded OriginalCombatVisualPlan and sequence policy contain that exact root; routes through the supplied actor's existing CombatSession::play_actor_source_sequence with caller-owned selection and callbacks.",
+    "cast_gate": "The isolated visual adapter still requires a named source admission fact. The connected application test supplies an explicit fixture admission input; it does not claim modern production wiring to original AI_IsSkillUsable/FSM/cooldown/Script Check.",
+    "state_mutation": "Visual playback does not mutate CharacterState; the separate same-session BashDown source prefix now returns the source-equivalent OnSkillCheck HasMana bool and commits UseMana property41 only after a positive check.",
+    "target_query": "Character subset of BashDown Enemy/AttackableOnly, FrontalFirst, TargetListSearch(160) over same Session actor order/position/heading/properties. Character target interaction radius comes from same source sheet resolved[1] AI row via original ai_props including row8 fallback. LookAt point leaf updates same ActorState heading; target remains Lua-local and target_id is unchanged.",
+    "source_hit": "At the authored do_skill marker, the connected fixture passes actual BashDown SkillTable row7 Flags/ElementalType, source SkillAttack mask bit 0x08000000, same-owner weapon category, and same-owner SnS_Level/ApplyPropClass scratch formula into CombatSession::apply_source_result. Same-world RNG/result calculation and ActorCombatRuntime basic health/injury/death application execute; duplicate occurrence is idempotent."
+  },
+  "verification": {
+    "table_test": "PASS: actual original CharacterTable and SkillTables resolve Knight position 0 → BashDown row 7 → Anim root 347; rank-zero, unknown-rank, invalid-position, unknown/rejected/accepted-admission classification, and no-state-mutation checks pass.",
+    "session_test": "PASS: isolated asset-backed Session runner covers FrontalFirst selection; Character AI interaction radius and row8 fallback; source query predicate short-circuit/failure/range branches; source-equivalent OnSkillCheck HasMana false/true then UseMana; and a row7 BashDown source result at do_skill with positive same-world HP removal and duplicate no-RNG/no-health-change. Outer AI admission and target object predicate facts are fixture inputs. Full native AI admission and full F_ApplyResult/effect tails are not claimed.",
+    "playback_claim": "The test applies one source-calculated BashDown basic hit at its authored marker after the source-equivalent HasMana result; outer CharAI/FSM admission and target visibility/zone/interactivity facts remain fixture inputs. It does not execute the authored VM callback or prove production admission, complete native F_ApplyResult/effects, or complete cast lifecycle.",
+    "evidence_boundary": "Fixture admission and target visibility/zone/interactivity facts are explicit. Production CharAI/FSM admission, same-actor modern visibility/zone/interactivity providers, non-character object enumeration, native LookAt controller admission, and full F_ApplyResult tails are not established."
+  }
+}

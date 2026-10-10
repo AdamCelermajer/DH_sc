@@ -1,0 +1,710 @@
+{
+  "schema_version": 1,
+  "audit_state": "tracking_feature_development",
+  "overall_release_acceptance": "incomplete",
+  "goal_scope": "Reusable whole-game systems with original visual and gameplay fidelity",
+  "baseline": {
+    "package": ".local-inputs/windows-source-clock-checkpoint-v15",
+    "sha256": "2a90a252c3d54233daf52c443abe7a08295c710a85cde3af50bbcc4b18763cc0",
+    "component_tests_passed": 67,
+    "manifest_files_verified": 550,
+    "rendered_receipts": 16,
+    "expected_save_rejections": 2,
+    "fidelity_complete": false,
+    "rule": "Preserve this baseline; later source or component-only additions do not inherit baseline runtime acceptance."
+  },
+  "stage_definitions": {
+    "assigned": "Owner and writable paths explicitly assigned; no implementation claim.",
+    "source_implemented": "Source/data interfaces reviewed and original versus development policy distinguished.",
+    "component_tested": "Focused executed tests with recorded compiler, source revision and actual-data or fixture scope.",
+    "runtime_integrated": "Connected executable behavior exercised with logs/captures and matching source/EXE hashes.",
+    "reference_compared": "Actual original/video frames and matched runtime states inspected with version/viewport/equipment/timing qualifications.",
+    "release_accepted": "All applicable gates satisfied; full gameplay and visual contract remains required."
+  },
+  "release_gates": [
+    {
+      "id": "ownership",
+      "required": "Feature has one source owner and public interface; root owns main/CMake integration, HUD alignment owner controls HUD geometry. Changes outside ownership need explicit coordination."
+    },
+    {
+      "id": "source_data",
+      "required": "Identify original resource IDs, serialized units, selection rules and unsupported branches. Fixture constants, forced conditions and diagnostic placements remain explicit."
+    },
+    {
+      "id": "single_authority",
+      "required": "Use same ActorState/World/property authority and retained clock. Borrow each actual original RNG owner/stream (AnimationRandom, application channels, combat source as proved); never collapse distinct streams or create new seeded substitutes."
+    },
+    {
+      "id": "lifetime",
+      "required": "Borrowed actors/visuals/native bodies/providers survive callbacks. Detach before roster replacement; rebind or fail before use. Generation guards reject obsolete completion/event/motion delivery."
+    },
+    {
+      "id": "events",
+      "required": "Preserve synchronous source event order, failures, state forwarding, actor reactions and root-motion chronology. Do not replace exact callbacks with timers or duplicate queued hits."
+    },
+    {
+      "id": "durability",
+      "required": "Persist new authoritative state with explicit schema/content compatibility and reset policy, or reject saves/restores before mutation while providers are unpersisted. Test existing-file preservation and reload/restart."
+    },
+    {
+      "id": "component",
+      "required": "Executed checks cover actual original data where available and relevant edge/failure cases. Fixture tests prove mechanisms only."
+    },
+    {
+      "id": "runtime",
+      "required": "Root-integrated build executes feature alongside existing movement/combat/HUD/source clocks. Record baseline regressions, live values, source/EXE identity, clean shutdown and negative cases."
+    },
+    {
+      "id": "visual_gameplay",
+      "required": "Inspect matched original/reference state for appearance, equipment, pose/timing, camera, lighting/material/FX, HUD and observable gameplay. Original asset loading alone is not parity."
+    },
+    {
+      "id": "package",
+      "required": "Package final EXE/assets with manifest hashes and verify actual runtime receipts against that exact package; preserve prior accepted checkpoint."
+    }
+  ],
+  "cross_feature_risks": [
+    {
+      "id": "clock_pose_ownership",
+      "risk": "Combo, skills, reactions, AI, cinematics and companions may compete with retained player/NPC clocks.",
+      "integration_rule": "One sampling owner per actor/action; transitions and outgoing events preserve source generations."
+    },
+    {
+      "id": "damage_status_order",
+      "risk": "Skills/status/DOT/leech/loot/XP may mutate victim or attacker during synchronous source hit/state-forward callback.",
+      "integration_rule": "Consume full source result through one shared authority; guard reentry and callback lifetime; no duplicate direct health application."
+    },
+    {
+      "id": "inventory_equipment_save",
+      "risk": "Menus, starting loot, equipment visuals/combat facts and save compatibility may diverge.",
+      "integration_rule": "One item-instance inventory and source loadout binding; update visual/body/stat consumers together or transactionally reject incompatible restore."
+    },
+    {
+      "id": "campaign_conditions",
+      "risk": "Quests, spawning, doors, dialogue, triggers and cinematics may each own unrelated condition facts.",
+      "integration_rule": "Use source scheduler/condition/module identity and explicit providers; do not infer active state from map names or actor visibility."
+    },
+    {
+      "id": "physics_floor_context",
+      "risk": "PF user/body/filter/contact and source module room IDs may be substituted by rendering geometry/ordinal guesses.",
+      "integration_rule": "Preserve distinct source receiver identities; actual Step/AIS services remain required for collision acceptance."
+    },
+    {
+      "id": "hud_alignment",
+      "risk": "Concurrent UI changes may overwrite HUD geometry or display stale derived actor values.",
+      "integration_rule": "HUD geometry changes belong to assigned owner; read live canonical vitals/target/inventory and source art/layout."
+    },
+    {
+      "id": "audio_fx_lifecycle",
+      "risk": "Attack/death/cinematic events may spawn effects or audio twice or leave stale handles after restore.",
+      "integration_rule": "Key delivery by source event/generation, own handles explicitly and define restore/reload cleanup."
+    }
+  ],
+  "features": [
+    {
+      "id": "combo_chain",
+      "owner": "/root/windows_portability",
+      "path": "port/windows-foundation/features/combo_chain",
+      "source_status": "source_implemented_bounded_adapter",
+      "component_status": "component_tested_reported_receipt",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "SameAttackState/AnimatorCursor/AnimationRandom; synchronousOnOperation",
+      "gates": [
+        "Root bind source scheduler/retainedowner and same animationRNG",
+        "Prove reentry and SetStep/SkipNext before source completion",
+        "No detached cursor replay after synchronous callback changes generation"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-combo-chain.json"
+      ]
+    },
+    {
+      "id": "skills_animation",
+      "owner": "/root/animation_review",
+      "path": "port/windows-foundation/features/skills_animation",
+      "source_status": "header/interface reviewed; implementation in-flight",
+      "component_status": "receipt_available_scope_pending_review",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "Borrow SkillTables/SkillAIContext/SkillState; actual actor-slot resolver",
+      "gates": [
+        "Do not map SkillList ordinal to actorSlot",
+        "Bind actual source mana/cooldown/movement/animation/rate/events once",
+        "Audit namespace/API dh2::foundation against root dh::foundation adapters"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-skills-animation.json"
+      ]
+    },
+    {
+      "id": "navigation",
+      "owner": "/root/original_scene",
+      "path": "port/windows-foundation/features/navigation",
+      "source_status": "source_implemented_bounded_adapter",
+      "component_status": "component_tested_reported_receipt",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "Borrow same PF/controller/floorlease/RouteResult, realDebugsearch getter",
+      "gates": [
+        "Source DropPath,targetpublication,search order before admittedcommand",
+        "Keep actualmodule/PF identities; no fallback rebuiltnav world",
+        "Matchedclick/movement/path/avoidance encounter"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-navigation.json"
+      ]
+    },
+    {
+      "id": "actor_frame",
+      "owner": "/root/original_character",
+      "path": "port/windows-foundation/features/actor_frame",
+      "source_status": "header/interface reviewed; implementation in-flight",
+      "component_status": "receipt_available_scope_pending_review",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "ActorVisualRoot separate fromActorXYZ; sameSubObjects/lateMotion",
+      "gates": [
+        "Renderer must consume rootplacement not duplicate ActorXYZ",
+        "Events precede stage-displacement; sourceApplyPosition controls publication",
+        "Do not ordinary update after retainedowner; phase provider lifetime acrossreload"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-actor-frame.json"
+      ]
+    },
+    {
+      "id": "character_menu",
+      "owner": "/root/character_state",
+      "path": "port/windows-foundation/features/character_menu",
+      "source_status": "source_art_presenter_implemented",
+      "component_status": "component_tested_receipt",
+      "runtime_status": "runtime_integrated_bounded_v16",
+      "reference_status": "native_capture_inspected_originalgame_matched_reference_not_accepted",
+      "release_status": "bounded_UI_subset_verified_full_feature_incomplete",
+      "api": "Perframe borrowed live actor/properties/character; originalart/hitzones/text",
+      "gates": [
+        "OriginalSWF267/328/439/496 sourcefirstframe art480x320",
+        "Rootportrait click→menu/tab/close modal transport; nativepresenter tests do not prove liveclick",
+        "SameActorState liveHP/properties/CharacterState andactualinventory/skill callbacks",
+        "HUDglyph/font/localization/viewport hitzones runtime plus matchedscreens"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-character-menu.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v16.json"
+      ]
+    },
+    {
+      "id": "audio",
+      "owner": "/root/audio_feature",
+      "path": "port/windows-foundation/features/audio",
+      "source_status": "source_implemented_bounded_adapter",
+      "component_status": "component_tested_reported_receipt",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "pending",
+      "gates": [
+        "Original source/interface review",
+        "Focused actualdata check",
+        "Root integrated runtime/persistence/reference evidence"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-audio.json"
+      ]
+    },
+    {
+      "id": "cinematics",
+      "owner": "/root/camera_timeline",
+      "path": "port/windows-foundation/features/cinematics",
+      "source_status": "source_script_camera_bridge",
+      "component_status": "component_tested_reported_receipt",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "Borrowcampaign/control/camera/world/actor providers",
+      "gates": [
+        "Rootscene/camera frame advances exactlyonce per genuine timestamp; no doubletick_scripts camera",
+        "SourceWait skipignored/controlblocking andpositiveactorFSM/EnterExitUI/network providers required",
+        "Existingstagedcameraresources/idlecommand only; no inventedtracks orcompletecinematic claim",
+        "Audio/dialog/tutorial/spawn effects missingproviders fail; matched originalsequence runtime needed"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-cinematics.json"
+      ]
+    },
+    {
+      "id": "combat_text",
+      "owner": "/root/asset_catalog",
+      "path": "port/windows-foundation/features/combat_text",
+      "source_status": "in-flight observed directory; not yet reviewed",
+      "component_status": "not_run",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "pending",
+      "gates": [
+        "Original source/interface review",
+        "Focused actualdata check",
+        "Root integrated runtime/persistence/reference evidence"
+      ]
+    },
+    {
+      "id": "companions",
+      "owner": "/root/companions_feature",
+      "path": "port/windows-foundation/features/companions",
+      "source_status": "source_implemented_borrowed_source_Lua",
+      "component_status": "component_tested_actual_source_scripts_owner_receipt",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "Borrow sameActorState/master/controller target/path/scriptglobalcells",
+      "gates": [
+        "ActualWanderingPriest419→AI50→rene sourcecompiledcache verified; follower/attacking_follower/rene hashes",
+        "NativeRene masteracquisition/haste token/collision/MoveToPath/Warp fallback/source200ms timer/callbackcleanup prefix tests pass",
+        "RootInvoke/CMake/sameActor/property/AI/buff services and Faerynative selector required",
+        "ReneOnInitFinal level producer missing; preserve source condition/master/skin authority",
+        "No livecompanion dialogue/skill/effects/matchedfollowing parity; persist scriptcells or reject"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-companions.json"
+      ]
+    },
+    {
+      "id": "effects",
+      "owner": "/root/effects_feature",
+      "path": "port/windows-foundation/features/effects",
+      "source_status": "source_implemented_borrowedFXowner",
+      "component_status": "component_tested_realasset_sanitizer_owner_receipt",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "Borrow CharacterMeshFxOwnerV4; marker/actualAnimationStartphase/play_set/advance/draw/release_actor",
+      "gates": [
+        "Strictnative +ASanUBSan71630checks/73sourcebindings61URIs/7636mesh2235particle metadata ownerreceipt",
+        "Noauthorednodes viciousstrike resource continuation explicit; no replacement asset",
+        "Fullfx_ sourcebeforestateforward/root; sourceFXManager clock and outgoing slots correct",
+        "Swoosh once sourcegate shared audio producer; no duplicate phaseevents",
+        "Rootfixture anchor/camera andrenderer live=false; FaeryGlow producer unresolved",
+        "Quiescent reload/actoranchor cleanup; no runtime/reference release"
+      ],
+      "evidence": [
+        "reports/feature-effects.json",
+        "port/windows-foundation/features/effects/README.md"
+      ]
+    },
+    {
+      "id": "enemy_ai",
+      "owner": "/root/synchronous_damage_v14",
+      "path": "port/windows-foundation/features/enemy_ai",
+      "source_status": "source_translation_and_aggro_adapter",
+      "component_status": "component_tested_actual_Lua51_1408_differential",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "dispatch_monster_event borrowed actualActor/target/scriptglobals; optionalsourceUpdateAggro",
+      "gates": [
+        "Actualoriginalmonsterscript Lua5.1 differential1408orderedoperations/statecases verified",
+        "RootsourceCharAI event/aggro/MyTurn/applicationRandom0 providers required",
+        "Skill/Buff/Flee/MoveTo sameadmittedservices; no privatepollingradius/FSM",
+        "No liveactivation/collision/path/master/targetnode completeness ormatchedAI parity"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-enemy-ai.json"
+      ]
+    },
+    {
+      "id": "equipment",
+      "owner": "/root/equipment_feature",
+      "path": "port/windows-foundation/features/equipment",
+      "source_status": "source_implemented_originalkernels",
+      "component_status": "component_tested_owner_reported",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "EquipmentAdapter borrows sameCharacterState/ActorState/OriginalActorProperties/ItemTable/PropertyDatabase; equip(instance),unequip(slot),refresh",
+      "gates": [
+        "Original automaticv3/gearv5/class/vitalclamp; actualcache4starteritems100swaps ownerreported",
+        "Root bind SAMESession combat sheets not detachedOriginalActorProperties copy",
+        "Visual resolver preprepare thenatomicownership/statcommit; publish sourceBodyPlan refresh/nativebounds accordingly",
+        "Repeatedsource classapply modifies16475; refresh at actualproducer only, not menu perframe",
+        "Absentstackidentity/inactiveset/sourcepowerIDs cannot be fabricated or silentlysaved"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-equipment.json"
+      ]
+    },
+    {
+      "id": "interactions",
+      "owner": "/root/interaction_feature",
+      "path": "port/windows-foundation/features/interactions",
+      "source_status": "source_bridge_host_unbound",
+      "component_status": "component_tested68actualcache_rows",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "BorrowcanonicalObjectManager/Character/OpenableContainer +typeddispatch",
+      "gates": [
+        "Actualsourcecontrolforce/network/3Drange68cache rows/keyconsume/typechange tests",
+        "RootUseOOI command/sourceActorWorldRange andtypehandlers required",
+        "Merchant/network/NPCnativeUI/leverportal/scripts/items actualowner callbacks missing",
+        "Do not route missinghandler to successfulgeneric interaction; persistence/quest/item prefix retained"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-interactions.json"
+      ]
+    },
+    {
+      "id": "inventory",
+      "owner": "/root/inventory_feature",
+      "path": "port/windows-foundation/features/inventory",
+      "source_status": "source_implemented_bounded_foundation_bridge",
+      "component_status": "component_tested_owner_receipt_available",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "BorrowPresenter(CharacterState&, ItemTable); present/select/sort/pickup/drop/currency",
+      "gates": [
+        "Root addcpp/testCMake and actualmenu Name/IconName provider",
+        "Equipment ownsun/equip; packaging worldspawn+valuations",
+        "Bareitem bridge excludes originalpowers/value/potionlimits/twosets/signed16/Debug/audio/notifications",
+        "Actual1322rowmetadata +syntheticstorageboundaries componentpass; no binarydifferential orruntime/reference proof"
+      ],
+      "evidence": [
+        "reports/feature-inventory.json"
+      ]
+    },
+    {
+      "id": "loot",
+      "owner": "/root/packaging",
+      "path": "port/windows-foundation/features/loot",
+      "source_status": "sourcekernels_and_worldinventory_bridges",
+      "component_status": "component_tested339actualtables423fixedentries",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "Borrow sourceLoot/PowerTables/RNG +WorldLootItemRuntime/LiveOwner/temporaryinventoryreceiver",
+      "gates": [
+        "Originalgive-all noRNG, inventoryfull retainsitem, duplicatepickup noextraeffect/sourceprefixretryguard tests",
+        "Rootactualsourcequery/text/power/value/world/inventory/questgold tails required",
+        "Respect actualrng owner streams; no fabricatedpowers/quantity/dropbalances",
+        "Completepoweredgenerationdifferential notrerun; no standaloneplayableloot/runtime/reference acceptance"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-loot.json"
+      ]
+    },
+    {
+      "id": "platform_input",
+      "owner": "/root/toolchain",
+      "path": "port/windows-foundation/features/platform_input",
+      "source_status": "source_implemented_bounded_adapter",
+      "component_status": "component_tested_reported_receipt",
+      "runtime_status": "runtime_integrated_bounded_v16",
+      "reference_status": "not_run",
+      "release_status": "bounded_UI_subset_verified_full_feature_incomplete",
+      "api": "pending",
+      "gates": [
+        "Original source/interface review",
+        "Focused actualdata check",
+        "Root integrated runtime/persistence/reference evidence"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-platform-input.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v16.json"
+      ]
+    },
+    {
+      "id": "quests",
+      "owner": "/root/quests_feature",
+      "path": "port/windows-foundation/features/quests",
+      "source_status": "source_implemented_shared_sourcekernels",
+      "component_status": "component_tested_owner_receipt_available",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "Borrow sameCharacterMenuQuestsV51; resolve/list/progress/compile/update/prerequisites; CampaignRuntime bridge; actualQESTwriter",
+      "gates": [
+        "Finalnative fulladapter/campaignbridge closure64rows x6 passes",
+        "RewardList source stop-on-false; missingreward/condition/objective/frame/expiredscriptowner failures required",
+        "Rootsamequest/native/campaign owner publication absent",
+        "QESTwriter seam tocampaign_save contract verified only; no liveworldpublish",
+        "Actualquestcompletion/unlock/reward/menu/reference gameplay remains unaccepted"
+      ],
+      "evidence": [
+        "reports/feature-quests.json"
+      ]
+    },
+    {
+      "id": "skill_ui",
+      "owner": "/root/skill_ui_feature",
+      "path": "port/windows-foundation/features/skill_ui",
+      "source_status": "source_implemented_bounded_adapter",
+      "component_status": "component_tested_reported_receipt",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "pending",
+      "gates": [
+        "Original source/interface review",
+        "Focused actualdata check",
+        "Root integrated runtime/persistence/reference evidence"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-skill-ui.json"
+      ]
+    },
+    {
+      "id": "status_effects",
+      "owner": "/root/status_feature",
+      "path": "port/windows-foundation/features/status_effects",
+      "source_status": "in-flight observed directory; not yet reviewed",
+      "component_status": "component_tested_owner_receipt_available",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "pending",
+      "gates": [
+        "Root bind sameoriginalBuff/timer/property/FSMservices andCMake",
+        "ActualClassDictSpeed48/Slow60/FireDOT1 componenttests pass;199+1ms expiry; duplicate/foreign/reentry/missingprovider reject",
+        "Tick0x33/0x34 needs genuineCalculateResult/fullFApplyResult; no tick/leech/FXruntimeclaim",
+        "Define durablebuff/timerstate or guard saves before mutation; stopownedtimer death/end"
+      ],
+      "evidence": [
+        "reports/feature-status-effects.json"
+      ]
+    },
+    {
+      "id": "campaign_save",
+      "owner": "/root/save_store",
+      "path": "port/windows-foundation/features/campaign_save",
+      "source_status": "partial_source_adapters",
+      "component_status": "component_tested_fixture_source_kernels",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "CanonicalGameSave candidate +QEST/ObjectBase fragments andpreparedrestore",
+      "gates": [
+        "No fileformat/atomicfilesystem orwholeworldlivecommit yet",
+        "Rootversion2schema/checksum/atomicwrite with explicitv1policy",
+        "Requiredsourcecoverage/revision rejects missinglifecycle/trigger/script/eventcodecs",
+        "QESTfixture exactsourcefieldorder/genuinewriters/loaders; not realcampaignruntime",
+        "Detachedallowners staged thenone noexceptpublish; no sequentiallivenativeloaders"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-campaign-save.json"
+      ]
+    },
+    {
+      "id": "portrait_alignment",
+      "owner": "/root/asset_tests",
+      "path": "port/windows-foundation/hud_geometry.cpp",
+      "source_status": "source_art_derived_correction_implemented",
+      "component_status": "component_tested_receipt",
+      "runtime_status": "runtime_integrated_bounded_v16",
+      "reference_status": "not_run",
+      "release_status": "bounded_UI_subset_verified_full_feature_incomplete",
+      "api": "original_hud_portrait_bounds(style) exactaperture; compose translatespaint only",
+      "gates": [
+        "ExistingAndroid art-derived correction, not originalActionScript parity",
+        "Rootfinalintegratedcapture afterHudCharpaint offset correction",
+        "Portraitdraw/hitbox shareorigin +height/320scale; preserveUVs/topology/border",
+        "12class/layout geometrytests; matched user/reference viewport screenshot needed"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-portrait-alignment.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v16.json"
+      ]
+    },
+    {
+      "id": "acceptance",
+      "owner": "/root/acceptance_audit",
+      "path": "port/windows-foundation/reports/feature-acceptance.json",
+      "source_status": "assigned_inflight",
+      "component_status": "receipt_available_scope_pending_review",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "pending",
+      "gates": [
+        "Source/API review",
+        "Component receipt",
+        "Root runtime/persistence/reference proof"
+      ],
+      "evidence": [
+        "port/windows-foundation/reports/feature-acceptance.json"
+      ]
+    },
+    {
+      "id": "encounters",
+      "owner": "/root/act1_inventory",
+      "path": "port/windows-foundation/features/encounters",
+      "source_status": "assigned_inflight",
+      "component_status": "not_run",
+      "runtime_status": "not_run",
+      "reference_status": "not_run",
+      "release_status": "incomplete",
+      "api": "pending",
+      "gates": [
+        "Source/API review",
+        "Component receipt",
+        "Root runtime/persistence/reference proof"
+      ]
+    }
+  ],
+  "notes": [
+    "Feature-to-owner assignments are pending explicit root mapping; directory presence alone is not acceptance.",
+    "All five milestone contract statuses remain incomplete.",
+    "Audit owns this report, MILESTONES.md and shared-checkpoint-acceptance.json only; no engine/main/CMake changes.",
+    "Initial observed5feature APIs reviewed. No focused execution/runtime/reference acceptance yet; owner mapping pending.",
+    "Audio/combo/navigation/platforminput/skillUI standalone receipt scopes reviewed; no rootruntime/reference release inherited. Companion25branchcomponent ownerreport only; source/globalcell lifetime/persistence needed.",
+    "Root feature-development-board owner mapping loaded. Observed21feature dirs plus portrait/quality ownership tracked; developer count23 is root declaration, not feature release count.",
+    "Portrait geometry/character menu presenter/campaign-save receipts reviewed. Portrait live aftercapture pending; menu callbacks rootpending; campaignsnapshot tests fixture sourcekernels and no fileformat/liveworldcommit.",
+    "Inventory/status/quest receipts located at repository-root reports/, evidence pointers corrected without moving owner files.",
+    "GameSave actor-registry replacement requires feature borrower rebinding; menu tab/open state alone does not retain actor pointers. Distinct original RNG streams must remain distinct, rather than a generic shared combat seed.",
+    "EnemyAI actualLua5.1 1408case differential andLoot339table/423fixedentries receipts reviewed. Required positive runtime services remain missing; component detail does not elevate release.",
+    "v16 bounded UI release independently inspected:portrait/profile/Stats/close/modal semantics verified; OSphysicalclick notmanualverified; 58art/AS/fullmenu missing. Otherfeature standalone components remain independent. Frontend oldprototype fails originalgameonly reference gate.",
+    "v17requirements prepared from combo/semanticinput source; no packaged v17/runtime acceptance claimed. Source-boundary release and crossleaf dedup risks sent root.",
+    "Finalv17pendingtemplate populated afteractualdefault_run receipt. Independently checked73CTestlog/EXEhash andthreeoriginalswingcaptures; rootfinalmanifest559 and23nativecases receipt acceptedatboundedmechanism scope only. All5fullfidelity milestones remainincomplete."
+  ],
+  "ownership_board": "port/windows-foundation/reports/feature-development-board.json",
+  "declared_parallel_developers": 23,
+  "next_release_priority": [
+    "portrait alignment",
+    "portrait click and original character menu",
+    "shared modal input"
+  ],
+  "current_bounded_release": {
+    "version": "v16",
+    "package": ".local-inputs/windows-source-clock-checkpoint-v16",
+    "sha256": "86d7a287ca63140962e9423cd94e88dbe3c016b647fc7803a21ead7faf89848d",
+    "ctest": 71,
+    "files": 555,
+    "rendered": 18,
+    "save_rejections": 2,
+    "receipt": "port/windows-foundation/reports/packaged-source-clock-runtime-v16.json",
+    "full_fidelity": false,
+    "v15_preserved_hash_verified": true
+  },
+  "frontend_reference_gate": {
+    "status": "FAILED_previous_reconstructed_prototype",
+    "valid_reference": "User originalgame images only",
+    "work": "Frontend/classcreation correction active; component/source receipts do not pass appearance gate",
+    "runtime_full_fidelity": "incomplete"
+  },
+  "pending_v17_template": {
+    "status": "bounded_packaged_controls_combo_verified_full_fidelity_incomplete",
+    "exe_sha256": "c1713329afa44790b53b2ce8a5a3d9ed3545b4bd0b770104d7d4500bab983706",
+    "component_receipt": ".local-inputs/v17-input-verification/ctest-v17.log",
+    "packaged_receipt": "port/windows-foundation/reports/packaged-source-combo-v17.json",
+    "checks": [
+      {
+        "id": "default_run_shift_walk",
+        "required": "Actualsemantic move defaults run; heldShift selects originalWalk and release restoresRun. Capture sourceclip/rate/NewAnim repeats/roottravel; explicitlegacywalk mode separate.",
+        "status": "bounded_component_and_default_run_runtime_pass",
+        "qualification": "Shift/legacy mapping componenttested; actualphysicalkeyboard notmanuallyinspected; default-run exactpackaged fixturepass."
+      },
+      {
+        "id": "held_combo",
+        "required": "Delivered heldSpace uses authentic Type1rootgroups0→1→2 with correct pre/strike/recovery callbacks/cursor overrides and same attackclock. NPCType2 preserves actual AnimationRandom selection.",
+        "status": "runtime_pass_Type1_player",
+        "qualification": "Heldroot0/1/2 andthreeoriginalstrike URIs onegeneration; Type2originalRNG scope separate component/source requirement, not NPCfullAI runtimeparity."
+      },
+      {
+        "id": "release_boundaries",
+        "required": "No pre/recovery buffering; release stops sourceallowed root boundary, allowing previouslyacceptedcontinued bit as original. Fresh attack resets root0/continued/last appropriately.",
+        "status": "runtime_pass_source_boundary_cases",
+        "qualification": "Earlyrelease root0; acceptedcontinuation release roots0/1. Noinstantabort claim."
+      },
+      {
+        "id": "markers_generation",
+        "required": "Every selected strike occurrence delivers one authoredhit. Skipped recovery emits no new markers/motion. Dedup distinguishes different leaves/slots/groups sharing markerindex/name. Stale source callback cannot affect replacement action.",
+        "status": "component_and_runtime_bounded_pass",
+        "qualification": "Three selectedstrikes produce three actual receipts at26/59/91; secondzero result is deliveredsourcehit, not skipped/duplicate. Skippedphase/staleguard componentproof."
+      },
+      {
+        "id": "block_interrupt_reset",
+        "required": "Blocked newrequests retain admitted pose/markers/source ordering; actual interruption resets source attack state/cursor/cooldown at departure. Modal/focus/reset paths neitherbuffer extraattacks norleave holds.",
+        "status": "component_and_blocked_runtime_bounded_pass",
+        "qualification": "Blockedcase root0; original look/preAttack/sticky/heading/OOI/fullFSM stilldiagnostic ormissing."
+      },
+      {
+        "id": "save_reload",
+        "required": "Midchain save policy explicit safe reset or rejection; no duplicated damage/root/continued state on save/reload/separateprocess. Unpersisted provider rejects before mutation; existing filehash unchanged.",
+        "status": "baseline_runtime_and_negative_guard_pass",
+        "qualification": "Baseline save/restore clears transientcombo rather thanresuming midswing; provider-save errors preserve583411...9a177."
+      },
+      {
+        "id": "baseline_regressions",
+        "required": "Preserve allv16PF/radii/nativeBodies/sourcefloors/lifecycle/camera/event-before-motion/targetcache/synchronoushits/UIopen-close/portrait/template checks on exactnewpackagedEXE. Oldv16hash unchanged.",
+        "status": "runtime_pass_18baseline_exactpackage",
+        "qualification": "559manifestfiles/18legacychecks andv16preserved perrootreceipt; physicalmanualtests remainunrun."
+      },
+      {
+        "id": "visual_reference",
+        "required": "Actually inspect defaultRun/ShiftWalk and threeoriginalstrike poses/transitions against source/reference sequence; matched conditions and unsupported Look/preAttack/AS/fullFSM remain qualified.",
+        "status": "local_three_pose_capture_inspected_reference_incomplete",
+        "qualification": "Independently viewed27/60/92swingcaptures:distinctposes andworld/HUD/target art intact; no matchedoriginalvideo/gameplayacceptance."
+      }
+    ],
+    "known_partial_services": [
+      "ClearNonSticky diagnostic noncharacter/stickyowner unsupported",
+      "ControllerLook/preAttackmodifier consumers remain explicit gaps",
+      "SourceglobalFSM/reentry/frame chronology andmatchedparity not established"
+    ],
+    "no_inherited_acceptance": true,
+    "verified_release": {
+      "tests": 73,
+      "files": 559,
+      "baseline_rendered": 18,
+      "combo_cases": 4,
+      "default_run_cases": 1,
+      "total_native_cases": 23,
+      "negative_save_cases": 2,
+      "hash_independently_verified": true,
+      "default_run": {
+        "frames": 90,
+        "source_travel": 888.992,
+        "world_travel": 518.686,
+        "position": [
+          1573.77,
+          -203.944,
+          255
+        ]
+      },
+      "held_groups": [
+        0,
+        1,
+        2
+      ],
+      "early_release_groups": [
+        0
+      ],
+      "accepted_release_groups": [
+        0,
+        1
+      ],
+      "blocked_groups": [
+        0
+      ],
+      "action_generations": "Eachcase retained samegeneration1",
+      "original_clips": [
+        "prince_1hand_combo_01.bdae",
+        "prince_1hand_combo_02.bdae",
+        "prince_1hand_combo_03.bdae"
+      ],
+      "capture_inspected": [
+        "swing-1.png",
+        "swing-2.png",
+        "swing-3.png"
+      ],
+      "physical_keyboard_manually_verified": false,
+      "matched_reference_parity": false
+    },
+    "overall_full_contract": "incomplete"
+  }
+}

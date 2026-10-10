@@ -1,4 +1,5 @@
 #include "canonical_item_factory_v2.hpp"
+#include <algorithm>
 #include <cstring>
 #include <new>
 #include <stdexcept>

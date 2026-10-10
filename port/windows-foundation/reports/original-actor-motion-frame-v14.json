@@ -1,0 +1,33 @@
+{
+  "status": "verified_borrowed_original_motion_phase_prefix_ready_not_full_frame",
+  "module": "original_actor_motion_frame.hpp/.cpp",
+  "api": "update_original_actor_motion_frame(OriginalActorMotionFrameBorrow,OriginalActorMotionFrameServices,OriginalActorMotionFrameResult,error)",
+  "borrow": "Actual stable ActorState lease/pointer/identity and explicit caller-owned previous-position190/previous-Euler19c cells. These snapshots differ from PFObject cachedPosition1e0; no copy of actor health, target, FSM, path or properties is owned.",
+  "source": {
+    "function": "GameObject::Update0x38cbe8",
+    "ida": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0038/0038cbe8.c",
+    "reference": "port/level-world/reference/frame-order/NOTES.md",
+    "snapshot": "0x38cc90..0x38ccbc copies current actor160/Euler16c into previous190/19c before all motion services. Recovered word-store order preserved: previousEulerZ, previousPosX/Y, previousEulerX/Y, previousPosZ.",
+    "ordered_calls": ["0x38ccc4 UpdatePath", "0x38cccc UpdateRotation", "0x38ccd4 UpdateSubObjects", "0x38ccdc UpdateTargetPosition"]
+  },
+  "scope": {
+    "entry": "Explicit bounded prefix entry AFTER actual GameObject profiling/Debug TraceUpdateGameObjectOnce/global count/pending-action virtual prefix; caller owns actor eligibility and preceding Character timer/AI/FSM/animator phase.",
+    "exit": "Stops before RequireOnlineUpdate0x38cce4 and conditional idle-sound tail. Result complete_prefix is deliberately not whole GameObject.Update or global frame completion.",
+    "policy": "Runs reached services in source order for all admitted actors. Does not skip Idle/Attack/Dead or perform a Move-only rotation gate. Source flags/controller/visual policy belongs inside actual callbacks.",
+    "services": "All four reached callbacks required lazily. Missing/failing callback stops exact reached phase and preserves snapshot/earlier callback effects; no successful placeholder. Runtime and actor leases keep actual shared authority alive."
+  },
+  "anticipated_live_hookup": {
+    "path": "Bind actual PlayableActorBodies borrowed UpdatePath or explicitly scoped manual heading continuation; keep source flags520/boundary452 and source Debug provenance.",
+    "rotation": "Bind original rotation getter/kernel and actual visual synchronization; call for every admitted actor and let real source policy decide. No adapter-owned state whitelist.",
+    "subobjects": "Must supply genuine source UpdateSubObjects native/visual/floor/auxiliary services. v13 immediate motor root-motion publication is not this complete source service and cannot be labelled so.",
+    "target": "Must bind source target node/cache pointer lookup and UpdateTargetPosition continuation on same owner; no target-position no-op until actual null-target source slot is proved.",
+    "root_timing": "Earlier Scene RootSceneNode animation changes visual root position. GameObject position is applied inside later UpdateSubObjects, so snapshots/path PFcopy see prior GameObject position. A correct live hookup must stage earlier visual/root motion for SubObjects; simply running this prefix after v13 immediate ActorState motion publication does not recover source timing."
+  },
+  "native_test": {
+    "file": "tests/original_actor_motion_frame_tests.cpp",
+    "compiler": "Standalone -std=c++17 -Wall -Wextra -Werror native PASS",
+    "checks": "Same actor/snapshot fields, exact phase order across moving/attacking/idle/dead, source snapshot before callback mutations, preserved HP/target authority, lazy unbound SubObjects/Path failures and failing Rotation with exact completed-mask/phase and retained source prefix, malformed alias rejection, IEEE sign/NaN payload word preservation",
+    "fixture": "Explicit executable host service fixture changes observable borrowed fields/cache at each phase. This proves coordinator behavior, not actual path/rotation/physics/target implementations or original whole-frame oracle parity."
+  },
+  "limitations": "Live root integration pending missing actual SubObjects/target services and source global admission/prefix/tail owners. No forced native World Step, duplicate gameplay authority, CMake/main/package changes, or claim of complete source frame/physics/campaign behavior."
+}

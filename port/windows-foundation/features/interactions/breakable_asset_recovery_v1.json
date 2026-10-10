@@ -1,0 +1,59 @@
+{
+  "validation": "PASS",
+  "scope": "Read-only provenance audit and exact-source test staging for the authored Act 1 breakable BDAE; no runtime code or fallback asset",
+  "authored_reference": {
+    "destructible_declaration": "Swamp_Normal_DestructibleBarrel",
+    "destructible_row": 30,
+    "visual_dictionary_id": 70,
+    "visual_dictionary_name": "go_swamp_urn_breakable",
+    "loot_table_id": 9,
+    "object_script": "moth_spawn_container"
+  },
+  "canonical_source_cache": {
+    "path": "C:/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+    "sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/gameobjects/go_swamp_urn_breakable.bdae",
+    "member_bytes": 43828,
+    "member_sha256": "534b1f5c99e1d005ffa9c7970412e496a062783b1b847abeeefcd1420f18706a"
+  },
+  "apk_sources": {
+    "original_apk": {
+      "path": ".local-inputs/ida-apk-export-2026-10-07/inputs/Dungeon-Hunter-2-HD-v1-0-2.apk",
+      "sha256": "32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200",
+      "direct_bdae_member": false,
+      "note": "The original APK carries native/app files; this game cache is external."
+    },
+    "full_cache_apk": {
+      "path": ".local-inputs/fsm-v166-installed-base.apk",
+      "sha256": "f17226636e29ffa4b5a2122d332ee83dd579ba21ffa98f9fb2b62e9d696460cf",
+      "embedded_cache_member": "assets/dh2-original-cache.zip",
+      "embedded_cache_bytes": 433189197,
+      "embedded_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+      "embedded_bdae_sha256": "534b1f5c99e1d005ffa9c7970412e496a062783b1b847abeeefcd1420f18706a"
+    },
+    "apk_survey": "All 14 APK files under .local-inputs were checked for a loose member containing swamp_urn_breakable; none did. The full-cache APK above embeds the exact canonical ZIP."
+  },
+  "decoded_roots": {
+    "searched": [
+      ".local-inputs",
+      "port",
+      "C:/Users/adamc/Downloads/dungeonhunter2"
+    ],
+    "preexisting_matches_outside_feature_test_cache": 0,
+    "isolated_stage": "port/windows-foundation/features/interactions/test-assets/go_swamp_urn_breakable.bdae",
+    "stage_bytes": 43828,
+    "stage_sha256": "534b1f5c99e1d005ffa9c7970412e496a062783b1b847abeeefcd1420f18706a"
+  },
+  "native_source_bank_and_interaction_test": {
+    "runner": "port/windows-foundation/features/interactions/run_session_container_interactions_tests.ps1",
+    "asset_audit_runner": "port/windows-foundation/features/interactions/run_breakable_asset_recovery_v1.ps1",
+    "bres_parser": "BRES view + scene loader + current dh2::animation::Player",
+    "source_player_tracks": 11,
+    "authored_clips": ["activate", "idle", "idleactive"],
+    "activate_bounds_ms": [166, 1899],
+    "opened_marker_ms": 266,
+    "interaction_route": "The parsed authored opened event is delivered to the same-session SessionDestructibleInteractionV1 callback. Native fixture verifies one DestroyGameObject callback, original table9 source selector invocation and one OnOpen script call; duplicate event delivery does not repeat quest/script effects.",
+    "limits": "Drop sink, quest service and script service are explicit native fixture endpoints. This verifies original BDAE ingestion and callback routing, not production world-item publication, the moth summon runtime, or complete retained visual rendering."
+  },
+  "reproduction": "Run port/windows-foundation/features/interactions/run_breakable_asset_recovery_v1.ps1"
+}

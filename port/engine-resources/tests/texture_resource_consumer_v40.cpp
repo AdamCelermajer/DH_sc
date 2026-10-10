@@ -121,6 +121,7 @@ void glDeleteBuffers(GLsizei,const GLuint*){}
 }
 static void check(const char*){if(glGetError()!=GL_NO_ERROR)throw std::runtime_error("Injected GL OOM");}
 struct Draw {GLuint vertices{},indices{};};
+static void release_buffer_v41(GLuint,bool){}
 #include "../../android-native/app/src/main/cpp/renderer_model_texture_budget_v40.inc"
 #include "../reports/texture-resource-v40/actual-effect-owner.inc"
 std::map<std::string,std::shared_ptr<EffectGpuTextureV4>> effect_gpu_textures_v4;
@@ -183,6 +184,7 @@ int main(int argc,char** argv){try{
  start();inject_context_loss(unrelated,unrelated_name,actor_bindings);thrown=false;try{upload(assets,"tiny.tga",names,owned);}catch(const std::exception&){thrown=true;}
  ck(thrown&&names.empty()&&owned.empty()&&model_texture_charges_v40.empty()&&driver.textures.count(unrelated_name)&&ledger->snapshot().live.cpu_bytes==0&&ledger->snapshot().live.gpu_bytes==1,"Model context-loss cleanup deleted unrelated recycled name");clear_unrelated(unrelated,unrelated_name);
  start();const auto equipped=upload(assets,"tiny.tga",names,owned,&cache,ResourceScopeV37::equipment);ck(driver.textures.count(equipped)&&ledger->snapshot().live_by_scope[std::size_t(ResourceScopeV37::equipment)].gpu_bytes==64,"Actual original-cache equipped texture scope wrong");release(draws,owned);names.clear();empty();
+ start();const auto aliased=upload(assets,"alias.tga",names,owned,&cache,ResourceScopeV37::world);ck(driver.textures.count(aliased)&&zip_admissions==1&&encoded_allocations==1,"Logical BRES texture name did not resolve its original PVR2-prefixed cache member");release(draws,owned);names.clear();empty();
  start();const auto stored=upload(assets,"stored.tga",names,owned,&cache,ResourceScopeV37::loot);ck(driver.textures.count(stored)&&zip_admissions==1&&encoded_allocations==1,"Actual stored ZIP entry bypassed pre-payload admission");release(draws,owned);names.clear();empty();
  // Same reset composition as source: explicit lost-context loot cleanup first,
  // followed by remaining generic world/actor registry discard.

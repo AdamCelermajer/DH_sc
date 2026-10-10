@@ -1,0 +1,20 @@
+{
+  "status": "packaged_frontend_input_and_profile_handoff_verified",
+  "goal_complete": false,
+  "executable_sha256": "ac8bdb552a8c33ab9e08cabd0f7e40662eaad52b9a6083e0bd048e1533a37250",
+  "cases": [
+    {
+      "case": "frontend-create",
+      "gameplay_frames": 120,
+      "shared_state_handoff": true
+    },
+    {
+      "case": "frontend-load",
+      "gameplay_frames": 120,
+      "shared_state_handoff": true
+    }
+  ],
+  "limits": [
+    "Mage/rogue combat and complete opening cinematic remain incomplete."
+  ]
+}

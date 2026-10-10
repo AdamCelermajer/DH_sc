@@ -1,0 +1,202 @@
+{
+  "status": "providers_and_actual_fsm_windows_link_pass",
+  "date": "2026-10-09",
+  "api": "SourceCampaignBackendContextV1::register_current(ctx,error), unregister_current(ctx); root externally retains ctx, weak thread-local registry; never retain context from record/FSM/Session",
+  "files": [
+    "port/windows-foundation/features/actor_frame/source_campaign_backend_v1.hpp",
+    "port/windows-foundation/features/actor_frame/source_campaign_backend_v1.cpp"
+  ],
+  "ownership": "No Actor/FSM/Level/manager/pose is created. Context retains caller existing candidate, existing World facade, existing factory/current-level adapter and real typed Level/target/FX/audio pins. Fresh lookup calls factory.find and selected published ObjectManager IsCharacter; validates same World, manager, actor and native FSM Character. Root must release context before native graph teardown, after unregistering. Never store context in retained records.",
+  "direct_callbacks": [
+    "borrow_source_campaign_candidate_v55",
+    "borrow_source_campaign_condition_world_v70",
+    "borrow_source_campaign_character_v62",
+    "source_campaign_object_as_character_v114",
+    "borrow_source_campaign_object_base_v77",
+    "source_campaign_character_set_visible_v96",
+    "source_campaign_character_sync_visibility_v86",
+    "source_campaign_character_command_look_v114"
+  ],
+  "native_ordering": "Visibility stores actual visible80 via source_set_visible80_v96 then synchronizes actual Visual2d8 root using real player/AI/zoned fields. Look uses same active controller native command kernel, source target180/visible80/position160 and native LookAt point kernel before writing actual heading. ObjectBase comes from existing canonical GameObject graph.",
+  "typed_reached_services": "Level zoning/interact/noncharacter/Limbus callbacks require same current typed Level pin and actual caller providers. AI-turn/aggro require same actual CharacterWorldRuntimeV1 target pin and callbacks. FX requires aliasing shared_ptr retaining actual CharacterMeshFxOwnerV4 enclosing owner. Audio borrows caller actual nullable captured Application manager; submit validates real AudioCampaignBridgeV46 world/manager, uses actual authored timestamp scope, or original prefix_without_clock path. No successful fake FX/audio submission.",
+  "provider_symbols": [
+    "submit_campaign_audio_v46",
+    "borrow_source_campaign_fx_v77",
+    "source_campaign_limbus_body_v118",
+    "source_campaign_ai_is_my_turn_v105",
+    "borrow_actual_application_audio_v42",
+    "borrow_source_campaign_candidate_v55",
+    "borrow_source_campaign_character_v62",
+    "source_campaign_character_zoning_v108",
+    "borrow_source_campaign_object_base_v77",
+    "source_campaign_character_interact_v114",
+    "source_campaign_object_as_character_v114",
+    "source_campaign_character_aggro_event_v84",
+    "source_campaign_character_clear_aggro_v84",
+    "source_campaign_character_set_visible_v96",
+    "borrow_source_campaign_condition_world_v70",
+    "source_campaign_noncharacter_interact_v114",
+    "source_campaign_character_command_look_v114",
+    "source_campaign_character_sync_visibility_v86"
+  ],
+  "missing_provider_definitions": [],
+  "compile": {
+    "source_campaign_backend_v1.cpp": {
+      "exit": 0,
+      "stderr": ""
+    },
+    "source_campaign_character_fsm_v101.cpp": {
+      "exit": 0,
+      "stderr": ""
+    },
+    "source_backend_link_test.cpp": {
+      "exit": 0,
+      "stderr": ""
+    },
+    "native_link": {
+      "exit": 0,
+      "stderr": ""
+    },
+    "contract": {
+      "exit": 0,
+      "stderr": ""
+    }
+  },
+  "link_probe": "source_backend_link_test only takes actual bind_backend_character_fsm_v1 address, forces real CampaignFSM TU into executable link against existing native.a + foundation libraries. It constructs no receiver and is not a runtime proof.",
+  "remaining_native_undefined_count": 0,
+  "remaining_native_undefined": [],
+  "renderer_undefined": [],
+  "runtime": "Focused IsCharacter null and missing-context executable PASS; no registered genuine graph positive/lease-mutation/InitPost/InitFinal/gameplay acceptance claimed.",
+  "next_actual_provider_gap": "Root must register existing graph and populate seven concrete native-body forwarding seams plus real FX/audio services; no remaining undefined in latest linker probe. Full normal-path runtime and visual acceptance still required.",
+  "scope": "Only new backend hpp/cpp, source_backend_* test/artifact files, and this report edited. Shared source, native fixture, CMake, root build closure untouched.",
+  "hashes": {
+    "port/windows-foundation/features/actor_frame/source_campaign_backend_v1.hpp": "3a4d0d1d4c46add398fb180ee9efc8ef9e2b60ab407a1dbdc4a23997e5263f60",
+    "port/windows-foundation/features/actor_frame/source_campaign_backend_v1.cpp": "184206ac0cfee4ece7cee9bcf2b5e0442129200e86e88237e8db35f9e25bf968"
+  },
+  "evidence_audit_20261009": {
+    "scope": "Internal callback infrastructure. Existing recovered source is reused; no footage requirement is invented for registry/lifetime plumbing. Visible consumer invariants are source actor targeting/heading, zone visibility, TalkToNPC interaction, authored FX/audio and Limbus hide/respawn. No direct original gameplay footage was inspected by this worker and no visual equivalence is claimed.",
+    "logic_evidence": [
+      "source_campaign_character_fsm_v101.cpp:620 Limbus state0 body;995/1058 AI MyTurn;1016 skill target OnAggro;1082 clear;1175 AI enable/disable zoning;1343/1362/1407 FX;1461 selected actual IsCharacter then Character/nonCharacter interaction;1629 attack/monster audio category.",
+      "source_campaign_script_actor_v96.cpp:38-97 source target180/visible80/position160 and active controller378 identity before native controller_look_object/LookAt kernel;303-321 visible80 store then source Visual2d8 synchronization with player/AI type3/zoned2ee/inzone2f0 gates.",
+      "source_campaign_character_interaction_v114.cpp:29-37 original null id is successful out0 before World scope; positive lookup requires selected ObjectManager lease and IsCharacter virtual, copies entry before call.40-89 Character.Interact state!=13 samples current Level before quest event, constants TalkToNPC then SetInteract, TalkToNPC2fa, AI merchant/cleaner and actual PM/UI gates.",
+      "source_campaign_character_zoning_v108.cpp:15-55 actual inherited mutable 2ee/2f0/2f4/2d8 fields, Room/ModuleRoomZone owner or retained generic Room, ObjectManager no-room membership, updating85, visibility and qualified zone event before native enable/disable zoning kernels.",
+      "source_campaign_ai_queue_v105.cpp:10-40 selected registered CharAI receiver resolved through actual manager character list; forced/global-blocked/locked controller, dead/player/follower/faerie/zoned/remote fields.43-54 same constructor queue advanced by actual App dt then IsMyTurn; CharacterWorldRuntime target pin alone does not implement queue policy.",
+      "source_campaign_script_ai_v118.cpp:69-101 CSLimbus event0x3bffe8, focus0x3c2e58, blur0x3c2be4; Debug trace gate, flags reset/visible false, actual respawn property11/1481/530 and online gate/timer47, reciprocal aggro; blur controller unlock/visible true, initial position1450/rotation145c/revive and AI group.",
+      "source_campaign_death_rewards_v84.cpp:394-410 published death_rewards_v84 owner dispatches notify_aggro/clear_aggro; existing World target runtime alone is insufficient.",
+      "audio_campaign_bridge_v46.cpp:113-117 original no-clock prefix validates producer/captured manager and runs VoxPlay3D owner gates. submit uses actual event clock scope, category and same bridge World. No fallback playback."
+    ],
+    "visual_evidence": "Existing reports/cinematic-live-integration.json reference section reuses reports/fidelity-video-audit-v18.json: movie frames267/273 show moths with HUD hidden/SKIP and274 shows gameplay restored. This supplies a consumer visibility invariant only; it does not prove this callback adapter or source zoning/Limbus/FX timing. Direct reference/runtime comparisons remain feature-owned gaps.",
+    "expected_reusable_invariant": "Borrow published same-owner actors/services per reached call, preserve source null/no-op and admission branches, mutate actual source heading/visibility through recovered kernels, retain selected receiver across synchronous virtual mutation. Original consumer behavior remains in reusable native leaves; no parallel gameplay state or generic wrapper is needed.",
+    "uncertainties": [
+      "No live registered backend call has run.",
+      "Seven service entries are forwarding seams, not implemented native bodies. Root must publish concrete original-owner methods; never bind a seam to its same model_renderer symbol, which would recurse.",
+      "Original footage for Limbus/zone/aggro/FX timing not inspected in this bounded infrastructure task. Feature visual verification still required."
+    ],
+    "focused_test_defined_before_correction": "Actual exported object-as-character: id0 with no registered context -> true,out0,error cleared; positive missing context -> false/typed error; with real manager selected callback erasing its own publication, selected lease remains alive until virtual returns. Also duplicate current registration and World/Level mismatch failures; each reached missing service fails while unreached missing service does not gate registration. Positive real record and visual/LookAt branch tests require initialized root graph.",
+    "bug": {
+      "name": "null IsCharacter short-circuit and selected receiver lifetime",
+      "implementation_owner": "/root/workforce_dispatcher/source_backend_callbacks_sol",
+      "reviewer": "/root/integration_lead",
+      "status": "source correction compiled; actual exported null/missing-context runtime branches PASS; positive selected-entry mutation/lease runtime test not run, needs registered genuine backend",
+      "source": "source_campaign_character_interaction_v114.cpp:29-37"
+    },
+    "verification_layers": {
+      "investigation": "recovered callers/native source inspected; no direct new footage inspection",
+      "implementation": "8 direct adapters,3 real typed FX/audio paths,7 forwarding service seams",
+      "isolated": "Strict COFF providers/actualFSM/contract compile PASS; actualFSM link PASS against latest root-updated native archive;18/18 exported callback audit PASS; actual IsCharacter null and missing-context runtime branches PASS",
+      "integrated": "not run",
+      "remaining": "root owner publication and7 concrete native-body service entries; positive same-record/virtual mutation lease, duplicate/current-Level/World mismatch and reached-missing-service tests, normal production/visual verification"
+    }
+  },
+  "caller_side_requirements": [
+    {
+      "callbacks": [
+        "borrow_source_campaign_candidate_v55",
+        "borrow_source_campaign_condition_world_v70",
+        "borrow_source_campaign_character_v62",
+        "source_campaign_object_as_character_v114",
+        "borrow_source_campaign_object_base_v77",
+        "source_campaign_character_command_look_v114",
+        "source_campaign_character_set_visible_v96",
+        "source_campaign_character_sync_visibility_v86"
+      ],
+      "need": "Register root-retained existing graph once with same App/World/factory/ObjectManager/roots/cache/floors/currentGS backend. Publish existing World facade design/debug/cache/target/settings and canonical GameObject graph. Direct bodies already implemented; no new generic wrapper/Actor/FSM/Level is necessary.",
+      "admission": "campaign mode exact live nonNULL candidate/services/current Level; menu mode actual fresh empty GS slot. Character lookup requires published real record/manager selected Character/native machine identity. Unregister and release before graph teardown; never capture context in record/FSM/Session.",
+      "test": "Genuine root graph resolves canonical record and checks same field pointers; World/current Level mismatch and duplicate registration rejection; selected virtual unpublishes receiver and lease lives through return; visible80/zone gates and blocked/unblocked LookAt branches."
+    },
+    {
+      "callbacks": [
+        "source_campaign_character_zoning_v108"
+      ],
+      "need": "services.level plus services.zoning concrete existing Character/RoomZone/ObjectManager native zoning body",
+      "consumer": "AI Update enable/disable zoning at FSM1175",
+      "admission": "mutable2ee/2f0/2f4/2d8, actual Room389, membership/no-room lists, updating85, qualified zone events/visibility",
+      "test": "enable/disable/duplicate transition in actual room, inactive-room visibility, missing Room after reached prefix; compare state/membership/events"
+    },
+    {
+      "callbacks": [
+        "source_campaign_character_interact_v114",
+        "source_campaign_noncharacter_interact_v114"
+      ],
+      "need": "services.level plus interact/noncharacter_interact actual Level GameEvent/FSM/Item-container virtual98/PM-UI leaves",
+      "consumer": "FSM1461 selects target IsCharacter; Character source3a4fa4",
+      "admission": "state13 suppresses quest prefix; current Level sampled before TalkToNPC constants and immediate event; SetInteract then TalkToNPC2fa gate; merchant/cleaner AI/PM/UI or real Item/container owner",
+      "test": "NPC repeat/talk already active, merchant/cleaner and ordinary NPC, actual container/item versus wrong-type, missing reached UI preserves prior prefix"
+    },
+    {
+      "callbacks": [
+        "source_campaign_limbus_body_v118"
+      ],
+      "need": "services.level+limbus actual existing state owner body with Debug/online/sessionTimers47/aggro/initial transform/revive/AI group services",
+      "consumer": "FSM620 state0; source functions3bffe8/3c2e58/3c2be4",
+      "admission": "focus resets flags/hides, mode530+respawn1481/property11 timer/online gates; blur unlocks/restores visibility+transform+revive+group",
+      "test": "focus/blur with/without respawn and session timer, exact event no-op, online branch typed failure; real visible timing comparison"
+    },
+    {
+      "callbacks": [
+        "source_campaign_ai_is_my_turn_v105"
+      ],
+      "need": "services.targets same CharacterWorldRuntimeV1 PLUS ai_turn genuine constructor-registered WorldAIQueue service; advance actual queue using App dt",
+      "consumer": "FSM995/1058 master/aggro turn",
+      "admission": "target runtime pin alone insufficient; registered AI identity and actual controller/dead/player/follower/faerie/zoned/remote fields",
+      "test": "two registered AIs across queue advance, forced/locked/dead/remote/follower exclusions and unregistered AI failure"
+    },
+    {
+      "callbacks": [
+        "source_campaign_character_aggro_event_v84",
+        "source_campaign_character_clear_aggro_v84"
+      ],
+      "need": "services.targets plus aggro/clear_aggro methods of published SourceCampaignDeathRewardsV84 (notify_aggro/clear_aggro) with real maps/VM recipients",
+      "consumer": "FSM1016 target notification and1082 clear",
+      "admission": "same receiver/source_bit/directed owner-target/scope and original reciprocal map/selected callback order",
+      "test": "reciprocal set/clear, absent other, exact scope recipient and reached missing VM"
+    },
+    {
+      "callbacks": [
+        "borrow_source_campaign_fx_v77"
+      ],
+      "need": "aliasing shared actual CharacterMeshFxOwnerV4 retaining real enclosing owner/libraries/animationScene/resource factory",
+      "consumer": "FSM1343/1362/1407 authored animation FX",
+      "admission": "sameWorld loaded source resources and existing owner; absent service failure only when FX reached",
+      "test": "nonFX tick with absent pin allowed; reached exact authored FX event succeeds/unknown resource failure; owner survives synchronous callback"
+    },
+    {
+      "callbacks": [
+        "borrow_actual_application_audio_v42",
+        "submit_campaign_audio_v46"
+      ],
+      "need": "actual captured nullable App audio manager and actual AudioCampaignBridgeV46 published for same World/Level/settings/RNG/camera, authentic authored monotonic scope",
+      "consumer": "FSM1629 attack versus monster category",
+      "admission": "actual nullable getter, captured manager identity retained, real producer/clock or recovered no-clock gates prefix, no fallback playback",
+      "test": "nullable manager/no reached sound, missing/mismatched bridge, valid authored event receipt/category and no-clock gate branches"
+    }
+  ],
+  "new_implementation_needed": "No additional generic context or graph. Seven function slots need concrete native-owner implementation only where existing methods cannot be wired directly; recover/expose direct same-owner entrypoints in owning modules instead of binding same adapter symbol (recursive). Direct callbacks and real FX/audio typed submission paths need root wiring/test, not another wrapper.",
+  "historical_link_probe": "Earlier same-day existing archive probe had54 undefined native symbols and zero renderer symbols; latest root-updated native archive resolves all54. No closure sources changed by this worker.",
+  "focused_null_test": {
+    "link_exit": 0,
+    "link_stderr": "",
+    "runtime_exit": 0,
+    "runtime_output": "PASS actual exported IsCharacter null and missing-context branches\n"
+  }
+}

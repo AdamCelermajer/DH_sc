@@ -1,0 +1,93 @@
+{
+  "status": "reusable-source-command-and-native-camera-track-adapter-native-pass",
+  "modules": [
+    "features/cinematics/source_cinematics.hpp",
+    "features/cinematics/source_cinematics.cpp"
+  ],
+  "test": "features/cinematics/source_cinematics_tests.cpp",
+  "api": {
+    "commands": "SourceCinematicCommands.command(phase,authoredCommand,module,sourceSkip,handled,blocking,error); scene_phase(actualSourceTimestamp,error)",
+    "session": "SourceCinematicSession(shared loaded OriginalCampaignRuntime,providers); start(originalScript,module,received,error); tick_scripts(actualSourceDeltaMs,error); input(skip/cancel,error); state(); skip_active()",
+    "composition": "Session binds existing source campaign scheduler admission/random/remaining effects; handles selected cinematic kinds only. Root supplies actual frame schedule and source input state. No source script, camera, World, controller or RNG is cloned."
+  },
+  "source_commands": {
+    "kind1_2": "Complete Enter/ExitCutSceneMode PM/player/UI/network side effects require explicit cutsceneMode provider; blocking is source literal false. No local automatic UI or control-state substitutes.",
+    "kind4": "Script_SetCamera Execute455678 and IsBlocking literal no-op/false.",
+    "kind5": "PlayCamera460110 authored animation8, wait12; skip calls actual camera.play_idle; regular native CameraLevel.play_animation(id,0,false) writes controller clipc/byte10, sets84 only when actual native registration play succeeds. Blocking459370 reads SAME84; no wait is literal false.",
+    "kind6": "SetCameraClip45c670 reads near12 before far8, positive authored bounds and loaded-default -2 sentinel, nonpositive unchanged. Source NULL current camera/level branches accepted only through actual borrow.",
+    "kind7": "WaitCamera45c5e8 Debug-only Execute and45932c blocking SAME84. No extra fabricated duration.",
+    "kind8": "Existing CampaignCameraAdapter exact target transition/skip/wait20 semantics and recovered transition kernel reused; prior actual anchor and duration8, authored return target retained. Adapter must be bound to SAME active camera by root.",
+    "kind24_25": "LockCharacter45dda0 skip early exit only on lock. Source Debug followed by exact All global controller-block cell or source ObjectManager module-scoped object/AsChar/actual locked8 field; Unlock always executes. No Boolean shadow copy.",
+    "kind45": "PlayActorAnim skip early exit; authored name24 module lookup, retained source handle, AsChar, exact first8/second12/base16 animation IDs delivered to actual FSM service. wait28 false no query; true resolves SAME cached/frame handle twice and requires actual animation state. No timer inferred from IDs.",
+    "updates": "Source base ScriptCmdImpl.Update45562c literal BXLR except Wait, handled by existing OriginalCampaignRuntime. Wait skip is intentionally ignored per recovered Wait45c438."
+  },
+  "lifecycle": {
+    "state": "ready/running/finished/cancelled/failed; source admission denial stays ready without start event; one accepted run per session, nonreentrant commands",
+    "finish": "Observes all source contexts terminal after actual source tick; does not automatically unlock, select player, stop animations, or invoke Exit. Authored script commands perform those effects.",
+    "input": "Explicit actual source input/admission provider returns source skip flag for later commands. Command-specific skip semantics retained; no universal seek/end shortcut.",
+    "cancel": "Requires actual abort/world-restoration provider before marking cancelled; exclusive schedule is then quarantined. This is explicit host cancellation, not a reconstructed original ScriptManager stop/reset; source contexts are not silently rewritten.",
+    "failed": "Reached missing providers poison original campaign execution and emit failed observation; no success placeholders or rollback.",
+    "ownership": "Providers weakly borrow containing World/Application; actual command references must remain stable through Execute/IsBlocking/Update phases. Session pins caller-loaded bank; caller must not reload/rebind while session uses it. Source native camera requires explicit close before SceneManager teardown."
+  },
+  "verification": {
+    "native": "PASS",
+    "compiler": "portable Windows clang++ C++17 -static -Wall -Wextra -Wpedantic; zero warnings",
+    "executable": ".local-inputs/windows-camera-assets/source-cinematics-tests.exe",
+    "original_scripts": 70,
+    "camera_clip_end_ms": 33,
+    "checks": [
+      "Actual original LizardMan_Intro Lock/Unlock All commands write borrowed cell and source lock skip avoids Debug/write",
+      "Actual authored1000ms target transition native kernel midpoint500 and source skip LocalPlayer return0",
+      "Actual original MothIntro camera idle command selects native original BDAE clip0; source timeline at authored end33 completion clears84 and releases wait",
+      "Actual original FaeryIdle missing-object NULL source leaf yields session start/finish observations",
+      "Actual full introductory script stops honestly at missing first common-script effect rather than manufacturing full cutscene completion",
+      "Source skip admission, missing abort refusal and explicit host abort/quarantine lifecycle"
+    ],
+    "host_boundaries": "Test declares Application/device/Debug/SceneManager/active-slot services and PM admission/input/restoration fixtures. Native original cache tables/BDAE, animation registration/scene/CameraLevel/controller/timeline and source campaign scheduling execute real recovered code. Actor/FSM positive playback and full Enter/Exit services remain explicit unexecuted production dependencies."
+  },
+  "assets": [
+    {
+      "path": ".local-inputs/windows-encounter-source/original-campaign.xml",
+      "bytes": 256905,
+      "sha256": "3ab2055920a8b648b16d77aa07b0435cbd899c624f5be3bcc145e2133c5cdd14"
+    },
+    {
+      "path": ".local-inputs/windows-camera-assets/data/3d/camera/cameratests.bdae",
+      "bytes": 1244,
+      "sha256": "7c469d135ebc99943576c2b269bea6869d38d99231fa29e42433b58e1b5a8638"
+    },
+    {
+      "path": ".local-inputs/windows-camera-assets/data/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    }
+  ],
+  "additional_dependencies": [
+    "../level-world/gameplay_camera_runtime_v11.cpp",
+    "../level-world/gameplay_camera_animator_v10.cpp",
+    "../level-world/gameplay_camera_level_v4.cpp",
+    "../level-world/gameplay_camera_design_v5.cpp",
+    "../level-world/gameplay_camera_matrix_v8.cpp",
+    "../engine-animation/animation_registration.cpp",
+    "Existing original_campaign_runtime/campaign_camera_adapter and recovered scene/target/timeline/data libraries"
+  ],
+  "source_evidence": [
+    "port/android-native/app/src/main/cpp/source_campaign_script_execution_v96.cpp:source cutscene/player/UI, lock, camera, actor animation execution and blocking",
+    "port/level-loader/script_execution_control_v96.cpp:source Wait45c438 skip ignored",
+    "port/level-loader/script_command_execution_v96.cpp:literal blocking/update source bodies",
+    "port/level-world/gameplay_camera_level_v4.cpp",
+    "port/level-world/gameplay_camera_animator_v10.cpp",
+    "port/level-world/gameplay_camera_runtime_v11.cpp",
+    "port/level-world/reference/gameplay-camera-v1/symbols.json",
+    "port/level-world/reference/prince-live-ai/reference/original-functions.asm:Lock45dda0"
+  ],
+  "remaining": [
+    "Root integration must bind live control/camera/world/actor providers; no main/CMake modifications made by this track.",
+    "Full Enter/Exit player/UI/network flow and positive actual actor animation/FSM providers required before cinematic production acceptance.",
+    "Only existing staged camera resources and authored idle command exercised; no invented camera tracks/timing or claim all original camera animations available.",
+    "Existing OriginalCampaignRuntime is bounded foundation scheduler, not complete original ScriptManager online/debug/input admission. Those remaining services stay explicit.",
+    "Audio/dialog/tutorial/spawn/remaining common-script effects delegate exact existing campaign service; missing providers fail.",
+    "Root alone advances target camera frame and native scene phase once per real source timestamp; session tick_scripts does not duplicate camera frame scheduling."
+  ],
+  "changes": "Only new assigned features/cinematics files and reports/feature-cinematics.json. No main/core/CMake changes, no extra assets copied."
+}

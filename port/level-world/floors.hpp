@@ -12,6 +12,9 @@ namespace dh2::floors {
 // addresses; neither APK assets nor original ABI service pointers are retained.
 struct Record {
  std::string name;unsigned room=0,geometry=0;
+ // PFFloor word at source offset +32. PFWorld::FlagFloorAsDeadEnd mutates
+ // bit 1 here; it is distinct from the authored CanPathOn type at +36.
+ std::uint32_t source_flags32{};
  selector::Matrix clone{};floor_source::Flags flags{};octree::Box local{},world{},bounds{};
  std::vector<collision::Triangle> triangles,retained,selected;
  std::vector<octree::Node> octants;std::vector<unsigned> indices,scratch,selected_ids;
@@ -19,6 +22,11 @@ struct Record {
  Record()=default;Record(const Record&)=delete;Record& operator=(const Record&)=delete;
 };
 struct World {
+ // SAME PFWorld C1 source cells: float90=100, byte94=0. MotionPolicy's
+ // uint32 override is the normalized byte projection used by the kernel ABI.
+ // Keep it on this receiver so Stage32 stores and ValidatePosition reads
+ // share an authority; frame scratch must never supply a copied policy.
+ navigation::MotionPolicy source_motion_policy_v95{100.f,0};
  std::vector<std::unique_ptr<Record>> records;std::vector<selector::Floor> selectors;
  std::vector<navigation::Node> nodes;std::vector<navigation::Edge> edges;
  std::vector<navigation::InvalidNode> invalid;std::vector<unsigned> validation;

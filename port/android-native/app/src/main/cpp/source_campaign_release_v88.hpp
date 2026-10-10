@@ -23,6 +23,10 @@ bool borrow_source_campaign_release_candidate_v115(SourceCampaignCandidateBorrow
 bool prepare_source_campaign_startup_release_v115(const SourceCampaignStartupPrefixV114&,std::string&);
 bool prepare_source_campaign_release_v108(const SourceCampaignCandidateBorrowV55&,std::string&);
 bool source_campaign_release_complete_v88(const std::shared_ptr<SourceCampaignReleaseV88>&,bool& unload,bool& destroy,std::string&);
+// Loader cancellation consumes the SAME enrolled unload journal. GS remains
+// the later HUD-close/Level D1/current-slot destruction authority.
+bool source_campaign_cancel_unload_journal_v135(const std::shared_ptr<SourceCampaignReleaseV88>&,
+ const std::shared_ptr<dh2::loader::CanonicalLevelContextV1>&,std::string&);
 bool source_campaign_save_all_players_v88(const SourceCampaignCandidateBorrowV55&,
  bool original_disable_flag,std::string&);
 //Fresh Continue input: matching jobs flush precedes each base/backup file

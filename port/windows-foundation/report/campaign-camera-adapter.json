@@ -1,0 +1,82 @@
+{
+  "status": "source-supported-adapter-native-tests-passed",
+  "implementation": "campaign_camera_adapter.hpp/.cpp",
+  "handled_commands": {
+    "kind8": "Script_SetCameraTarget Execute460004, IsBlocking4592cc",
+    "kind4": "Script_SetCamera Execute at455678 is literal BX LR; no invented camera asset switch"
+  },
+  "first_encounter_data": {
+    "script": "LizardMan_Intro",
+    "source": ".local-inputs/windows-encounter-source/original-campaign.xml",
+    "return_command": {
+      "index": 9,
+      "wait": false,
+      "duration_ms": 1000,
+      "name": "LocalPlayer"
+    },
+    "target_object": {
+      "local_position": [
+        2236.86011,
+        314.779999,
+        255.716003
+      ],
+      "gametype": "Dummy",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "resulting_position": [
+        -3763.13989,
+        314.779999,
+        255.716003
+      ],
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "source": "port/level-world/reference/swamp-families-v14/dummy-declarations.json"
+    },
+    "target_command": {
+      "index": 2,
+      "wait": false,
+      "duration_ms": 1000,
+      "name": "_prim_Waypoint_NewCamSpot"
+    }
+  },
+  "semantics": {
+    "null_target": "SetTarget(GameObject*,...) ignores NULL",
+    "local_alias": "CanonicalObjectManager source port matches Player and LocalPlayer to real GetLocalPlayer(0,true)",
+    "damping": "Transition bypasses damping and preserves existing damping velocity; normal follow resumes after transition guard sees remaining<0",
+    "named_lookup": "Original CameraTarget SetTarget(name) at411b38 calls ObjectManager.GetObjectByName(name,-1,false,...) at411b7c. Global object context, not current script module.",
+    "unresolved_name": "No-op, previous camera target retained",
+    "skip": "Execute skip forces duration0",
+    "anchor": "GetCameraAnchorPosition uses actual nonnull anchor2e0 AnchorBase+c, otherwise actual position160. Dummy world position includes module offset. No invented player height.",
+    "positive_duration": "Start point is previous TARGET current camera anchor; if no prior target, original Vec3 origin. Duration comes only from command scalar8.",
+    "update": "Before each transition frame: if remaining>=0, subtract unsigned Application dt, reinterpret signed32, query current destination anchor, use recovered linear transition kernel",
+    "scheduler": "Camera tick once per application frame. Script command Update phase itself does not advance timer.",
+    "blocking": "wait scalar20 nonzero AND remaining>0",
+    "empty_name": "Script Execute resolves local player0 Character660 directly"
+  },
+  "integration": {
+    "native_test_executable": ".local-inputs/windows-camera-assets/campaign-camera-adapter-tests.exe",
+    "original_camera_requirement": "update_anchor(anchor,dtMs,applyDamping,error): direct root write for transition without resetting animation clock or damping velocity; regular source update afterward",
+    "compile": "C++17 -ffp-contract=off",
+    "result": "PASS, no compiler warnings",
+    "test": "tests/campaign_camera_adapter_tests.cpp",
+    "output": "CampaignCameraFrame anchor, applyDamping, hasTarget",
+    "required_source": "port/level-world/gameplay_camera_target_v2.cpp"
+  },
+  "evidence": [
+    "port/level-world/reference/gameplay-camera-v1/original-source.asm:1849",
+    "port/level-world/reference/gameplay-camera-v1/original-source.asm:593",
+    "port/level-world/reference/gameplay-camera-v1/original-source.asm:4235",
+    "port/level-world/gameplay_camera_target_v2.cpp",
+    "port/level-world/gameplay_camera_anchor_v6.cpp",
+    "port/level-world/canonical_object_manager_v1.cpp",
+    "port/android-native/app/src/main/cpp/source_campaign_script_execution_v96.cpp:411"
+  ],
+  "boundaries": [
+    "Adapter requires caller to provide same object identity and actual anchor lookup; it does not claim NPC/actor anchor producers exist",
+    "PlayCameraAnimation/WaitCamera and clip-plane commands require their own verified providers",
+    "No map-specific names occur in engine implementation",
+    "No easing, world-radius distance, extra target height or guessed duration"
+  ]
+}

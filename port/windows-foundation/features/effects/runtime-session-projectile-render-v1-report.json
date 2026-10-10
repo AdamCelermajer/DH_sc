@@ -1,0 +1,68 @@
+{
+  "status": "feature-owned-cpu-render-payload-verified-not-production-wired",
+  "scope": {
+    "owned_files": [
+      "port/windows-foundation/features/effects/runtime_session_projectile_render_v1.hpp",
+      "port/windows-foundation/features/effects/runtime_session_projectile_render_v1.cpp",
+      "port/windows-foundation/features/effects/runtime_session_projectile_render_v1_tests.cpp",
+      "port/windows-foundation/features/effects/run_runtime_session_projectile_render_v1_tests.ps1"
+    ],
+    "out_of_scope": [
+      "main.cpp, CMake, CombatSession/core, shared renderer implementation",
+      "WGL/GPU execution and frame capture"
+    ]
+  },
+  "source_evidence": {
+    "projectile": "Existing Mage source evidence identifies MagePlayerBase row290, Staff01 ItemRecord row1025, ProjectileTable row20 FireWandProjectile, ProjectileDict model1 `data/3D/projectiles/elemental_bolt_fire.bdae`, speed20 and timer1000. The render helper accepts that exact model URI and leaves other projectile URI packets unresolved.",
+    "asset": {
+      "uri": "data/3D/projectiles/elemental_bolt_fire.bdae",
+      "sha256": "ed088c54626650ccd9d778bab6eb4f8078fe98caa38c2b257aa885a82e461041",
+      "decoded_original_scene": {
+        "nodes": 7,
+        "instances": 1,
+        "vertices": 4,
+        "triangles": 2,
+        "ranges": 1,
+        "bounds": {
+          "minimum": [-179.432, -174.523, 31.1655],
+          "maximum": [144.609, -174.523, 355.207]
+        }
+      }
+    },
+    "material_and_texture": {
+      "material": "_7_-_Default",
+      "technique": "default",
+      "diffuse": "fx_radial_white.tga",
+      "texture_sha256": "3e9b0cc09505efcb18af67df69da286639949e4b4eaba87386858bb77c7121e6",
+      "decoded_image": "128x128 RGBA8",
+      "source_pass": {
+        "blend": true,
+        "blend_source": "GL_ONE (1)",
+        "blend_destination": "GL_ONE (1)",
+        "depth_test": true,
+        "depth_write": false,
+        "cull": true
+      },
+      "diffuse_color": [0.917647, 0.603922, 0, 1]
+    }
+  },
+  "implementation": {
+    "api": "RuntimeSessionProjectileRenderV1::load/prepare/submit in runtime_session_projectile_render_v1.hpp/.cpp",
+    "data_flow": "Consumes the existing RuntimeSessionProjectileV1::visuals() value packets; decodes the exact BDAE through OriginalScene, matches every OriginalMaterial to the retained BRES Scene material, binds each actual material/pass through a caller callback, and produces a retained Renderer::Mesh + world-matrix packet. The world matrix uses packet position and yaw. Mesh and source asset leases are retained through frame submission. Packet UVs are copied from OriginalScene once; the test confirms the [0,1] authored UV range is unchanged.",
+    "unknown_assets": "An unrecognized source projectile URI is reported unresolved and blocks RenderQueue submission; no substitute mesh, pass, texture, or projectile is selected.",
+    "production_callsite": "No RuntimeSessionProjectileV1 or RuntimeSessionProjectileRenderV1 caller currently exists in main.cpp. The existing root Renderer path is main.cpp:2416 Renderer::beginFrame, main.cpp:2420 RenderQueue construction, and main.cpp:2452 queue.flush(renderer, activeCamera), followed by the separately queued source-effects draw at main.cpp:2453. A lead-owned caller can prepare current projectile visuals after update and submit these draw meshes into that same RenderQueue before its flush, using the current camera. No main wiring was changed here."
+  },
+  "validation": {
+    "runner": "port/windows-foundation/features/effects/run_runtime_session_projectile_render_v1_tests.ps1",
+    "result": "PASS actual FireWandProjectile row20 URI through OriginalScene decode, source BRES material identity, COMMON pass decode, actual diffuse texture CPU decode, one 4-vertex/6-index retained draw packet, source transform, submit callback retention, and fail-closed unknown URI.",
+    "texture_upload": "The CPU test assigns a synthetic nonzero texture handle only after decoding original RGBA pixels. It makes no GPU upload or visible-pixel claim.",
+    "archive": {
+      "libfoundation_data_sha256": "8187a4531057db2aff87c39357463c3774dfebed04473ebd88cd17882dba5d05"
+    }
+  },
+  "remaining": [
+    "Lead-owned main must update the existing same-Session projectile runtime and submit returned packets to the existing RenderQueue at the callsite above.",
+    "The live material callback must use the current renderer's actual texture upload/release service; the test callback is CPU-only.",
+    "No WGL draw, pixel capture, production launch caller, or on-screen Mage projectile has been verified."
+  ]
+}

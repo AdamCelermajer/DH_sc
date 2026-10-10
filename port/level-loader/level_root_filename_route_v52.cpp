@@ -9,11 +9,18 @@ bool original_level_uses_uncompiled_v52(bool nonempty,const std::string& name){
 }
 bool LevelRootFilenameResolverV52::resolve(const std::string& name,std::string& canonical,
  LevelRootFilenameTraceV52* trace,std::string& error){
- if(busy_){error="Source Level filename resolver reentered on owning runtime thread";return false;}
+ const auto result=resolve_source(name,canonical,trace,error);
+ if(result==LevelFilenameResolutionV52::absent)error="Original Level.LoadFile filename attempts absent from actual filesystem";
+ return result==LevelFilenameResolutionV52::found;
+}
+LevelFilenameResolutionV52 LevelRootFilenameResolverV52::resolve_source(const std::string& name,std::string& canonical,
+ LevelRootFilenameTraceV52* trace,std::string& error){
+ using R=LevelFilenameResolutionV52;
+ if(busy_){error="Source Level filename resolver reentered on owning runtime thread";return R::failed;}
  struct Guard{bool& b;explicit Guard(bool& flag):b(flag){b=true;}~Guard(){b=false;}} guard(busy_);
  try{
-  if(!services_.actual_filesystem_owner||!services_.is_using_uncompiled_data||!services_.open_resource){error="Required actual Application filename mode and filesystem openResource owners";return false;}
-  if(name.empty()||name.find('\0')!=std::string::npos){error="Source Level filename outside proven nonempty C-string domain";return false;}
+  if(!services_.actual_filesystem_owner||!services_.is_using_uncompiled_data||!services_.open_resource){error="Required actual Application filename mode and filesystem openResource owners";return R::failed;}
+  if(name.empty()||name.find('\0')!=std::string::npos){error="Source Level filename outside proven nonempty C-string domain";return R::failed;}
   const auto compiled=compiled_level_paths_v1(name);LevelRootFilenameTraceV52 next;
   auto attempt=[&](const std::string& candidate,bool& found,std::string& uri){
    next.open_resource_queries.push_back(candidate);uri.clear();found=false;
@@ -24,17 +31,17 @@ bool LevelRootFilenameResolverV52::resolve(const std::string& name,std::string& 
   std::size_t index{};
   for(const char* prefix:{"","data/","data/scene/","data/3d/modules/"}){
    const std::string raw=std::string(prefix)+name;next.mode_queries.push_back(raw);bool uncompiled{};
-   if(!services_.is_using_uncompiled_data(raw,uncompiled,error))return false;
+   if(!services_.is_using_uncompiled_data(raw,uncompiled,error))return R::failed;
    bool found{};std::string uri;
    if(uncompiled){
-    if(!attempt(raw,found,uri))return false;
-    if(found){canonical=std::move(uri);if(trace)*trace=std::move(next);error.clear();return true;}
+    if(!attempt(raw,found,uri))return R::failed;
+    if(found){canonical=std::move(uri);if(trace)*trace=std::move(next);error.clear();return R::found;}
    }
-   if(!attempt(compiled[index++],found,uri))return false;
-   if(found){canonical=std::move(uri);if(trace)*trace=std::move(next);error.clear();return true;}
+   if(!attempt(compiled[index++],found,uri))return R::failed;
+   if(found){canonical=std::move(uri);if(trace)*trace=std::move(next);error.clear();return R::found;}
   }
   if(trace)*trace=std::move(next);
-  error="Original Level.LoadFile filename attempts absent from actual filesystem";return false;
- }catch(const std::exception& e){error=e.what();return false;}
+  error.clear();return R::absent;
+ }catch(const std::exception& e){error=e.what();return R::failed;}
 }
 } // namespace dh2::loader

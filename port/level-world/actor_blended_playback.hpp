@@ -42,6 +42,7 @@ class BlendedPlayback {
  std::vector<std::int32_t> engine_dictionary_ids;
  std::vector<std::string> node_identities;
  std::vector<TargetValues> target_values;
+ std::vector<std::uint32_t> target_dirty;
  std::int32_t root_target=-1;
  float global_speed=1;
  std::int32_t pending_sequence=-1;
@@ -57,6 +58,7 @@ class BlendedPlayback {
                     bool occurrence_mapping=false);
 public:
  data::AnimationScheduler scheduler;
+ data::AnimationSelectionPolicyServicesV126 selection_policy_v126{};
  animation::BlenderState blend{0,0,0,0,0,0,{1,0}};
  std::array<PlaybackSlot,2> slots;
  // Aggregate applicator capture precedes pose; actor pending is raised only

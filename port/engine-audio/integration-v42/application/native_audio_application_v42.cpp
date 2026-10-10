@@ -126,6 +126,7 @@ bool ensure_application_audio_v42(JNIEnv* env,jobject assets,std::string& error)
 }
 bool borrow_application_audio_v42(dh2::audio::AudioApplicationBorrowV42& out,std::string& error) {
     auto& state=registry();std::lock_guard<std::mutex> lock(state.mutex);
+    if(state.close_requested){error="Application audio owner shutdown pending; complete its producer barrier before borrowing";return false;}
     if(state.building||!state.construction_error.empty()){error=state.construction_error.empty()?"Application audio construction pending":state.construction_error;return false;}
     out.manager=state.manager;error.clear();return true; // actual nullable global
 }

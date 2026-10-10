@@ -67,7 +67,17 @@ public:
   updates.stage=[weak_self](auto stage,auto& manager,std::string& error){auto actual=weak_self.lock();if(!actual){error="Released SAME PM stage callback";return false;}return actual->stage(stage,manager,error);};
   self->update_=std::make_unique<dh2::player::PlayerManagerUpdateOwnerV70>(*pm->manager(),std::move(updates));
   dh2::player::PlayerManagerServicesV1 remaining_services{self.get(),remaining};
-  if(!pm->bind_remaining(self,remaining_services,e))return false;
+  // Completed native retirement clears these SAME World-owned wrappers only
+  // after genuine GS/Level release and native unpublication. PM keeps its real
+  // manager/PlayerInfo owners across Worlds; replace only the old callback bag.
+  std::weak_ptr<WorldScriptContext> weak_world=std::static_pointer_cast<WorldScriptContext>(candidate.actual_world);
+  auto retired=[weak_world](std::string& error){auto prior=weak_world.lock();
+   if(prior&&(prior->native_loading_v50||prior->native_gslevel_v27||prior->native_level_c1_v25)){
+    error="Prior source PlayerManager campaign retains actual GS/loading/Level wrappers";return false;
+   }
+   error.clear();return true;
+  };
+  if(!pm->bind_campaign_remaining(candidate.actual_world,self,remaining_services,std::move(retired),e))return false;
   return model_renderer::bind_source_player_manager_update_v70(candidate,pm,self,[weak_self](std::string& error){auto actual=weak_self.lock();if(!actual){error="Released SAME source PM Update delivery";return false;}return actual->update_->update(error);},e);
  }
 };

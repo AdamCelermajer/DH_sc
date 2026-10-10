@@ -24,10 +24,8 @@ bool LootCreationV8::add(std::int32_t table,std::int32_t value_bonus,std::int32_
    if(level.present){if(!query(LootCreationOperationV8::current_level,0x4043dc,level))return false;if(!level.present){e="Required still-live source current level after second query";return false;}difficulty=level.value;}
    auto id=std::int32_t(info.id);const auto& items=tables_.items();
    if(id<0||std::size_t(id)>=items.rows.size()){e="Required actual signed AddLoot item identity";return false;}
-   if(!bypass&&std::uint32_t(id+2)<items.rows.size()&&(difficulty==1||difficulty==2)){
-    auto variant=id+difficulty;const char* suffix=difficulty==1?"_Hard":"_VeryHard";
-    if(items.identifiers[std::size_t(variant)]==items.identifiers[std::size_t(id)]+suffix){id=variant;info.id=std::int16_t(id);info.item=&items.rows[std::size_t(id)];}
-   }
+   std::int32_t selected_id;if(!select_loot_item_variant_v8(items,id,difficulty,bypass,selected_id,e))return false;
+   id=selected_id;info.id=std::int16_t(id);info.item=&items.rows[std::size_t(id)];
    if(!s.create){e="Required original ItemInstance constructor provider";return false;}
    if(!s.create(s.context,id,pending_,e))return false;
    if(!pending_||pending_->id!=id){e="Source ItemInstance constructor did not produce actual requested item";return false;}

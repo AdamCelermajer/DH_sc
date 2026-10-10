@@ -4,6 +4,7 @@
 #include <cerrno>
 #include <cmath>
 #include <cstdio>
+#include <limits>
 #include <string>
 #include <sys/stat.h>
 namespace dh2::ui {
@@ -12,6 +13,24 @@ bool swf_front_pending_start_v1(const gameswf::fn_call& fn,std::int32_t& difficu
     const double value=fn.arg(0).to_number();
     if(!std::isfinite(value)||value<0||value>2){error="Unsafe authored launch difficulty";return false;}
     difficulty=static_cast<std::int32_t>(value);error.clear();return true;
+}
+
+bool swf_front_assign_save_slot_args_v1(const gameswf::fn_call& fn,std::int32_t& local_index,
+    std::int32_t& selected_slot,std::string& error){
+    if(fn.nargs!=2||!fn.env||!fn.arg(0).is_number()||!fn.arg(1).is_number()){
+        error="Malformed NativeAssignSaveSlotToPlayer AS call";return false;
+    }
+    // fn_call::arg(n) indexes from the top of the ActionScript operand stack.
+    const double local=fn.arg(1).to_number();
+    const double slot=fn.arg(0).to_number();
+    if(!std::isfinite(local)||!std::isfinite(slot)||
+       local<double(std::numeric_limits<std::int32_t>::min())||local>=2147483648.0||
+       slot<double(std::numeric_limits<std::int32_t>::min())||slot>=2147483648.0){
+        error="Unsafe NativeAssignSaveSlotToPlayer integer arguments";return false;
+    }
+    local_index=static_cast<std::int32_t>(local);
+    selected_slot=static_cast<std::int32_t>(slot);
+    error.clear();return true;
 }
 
 bool swf_front_create_save_slot_v1(const gameswf::fn_call& fn,void* context,

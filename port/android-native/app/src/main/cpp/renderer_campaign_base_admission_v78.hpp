@@ -8,7 +8,8 @@ namespace model_renderer {
 inline bool auxiliary_base_class_v78(const char* name)noexcept{
  if(!name)return false;
  constexpr const char* classes[]{"Dummy","SpawnPoint","Decor","AnimatedDecor","TriggerZone",
-  "CheckpointZone","Door","TriggerObject","TriggerZoneExitLevel","QuestMoveInZone","SoundEmitter"};
+  "CheckpointZone","Door","TriggerObject","TriggerZoneExitLevel",
+  "QuestMoveInZone","SoundEmitter","DestructibleContainer"};
  for(const auto* candidate:classes)if(!std::strcmp(name,candidate))return true;
  return false;
 }

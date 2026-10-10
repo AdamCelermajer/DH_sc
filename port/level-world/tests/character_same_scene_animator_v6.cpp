@@ -55,7 +55,13 @@ int main(int argc,char** argv){try{
   animator.playback().observer={nullptr,[](void*,actor::BlendedPlayback&,const actor::BlendedPlaybackEvent&){}};animator.playback().selection_fx_v2={nullptr,[](void*,actor::BlendedPlayback&,const data::AnimationStep&,std::string&){return true;}}; // declared event/FX fixture, not gameplay success
   check(animator.start(animation,idle,random,1.f,error),error);
   auto* scene_identity=&visual->scene();for(unsigned ms=0;ms<1200;ms+=33){check(animator.scene_phase(ms,error)&&animator.animator_phase(animation,random,1.f,error),error);check(&visual->scene()==scene_identity&&actor->object->properties==properties&&state->flags==flags,"same scene/property/FSM authorities");for(auto& skin:visual->skinned_meshes())check(skin.positions.size()==skin.source_positions.size(),"same retained skin resampled");++frames;}
-  check(pf_calls>0&&manager->roots().size()==1,"bounds/PF fixture plus sole root");check(assets.set_visual(std::uintptr_t{},error),error);check(!animator.ready()&&manager->roots().empty()&&actor->source_visual()==0,"source root teardown removes actual animator before receiver release");++families;
+  check(pf_calls>0&&manager->roots().size()==1,"bounds/PF fixture plus sole root");
+  // Root onUnbind/drop must not manufacture gameplay StopClip, even when the
+  // Character still owns an open sequence and its FSM/Gear may be retiring.
+  animator.playback().sequence_closed=0;
+  animator.playback().observer={nullptr,[](void*,actor::BlendedPlayback&,const actor::BlendedPlaybackEvent&){throw std::runtime_error("render detach synthesized a Character animation event");}};
+  check(assets.set_visual(std::uintptr_t{},error),error);check(!animator.ready()&&manager->roots().empty()&&actor->source_visual()==0,"source root teardown removes actual animator before receiver release");
+  check(animator.playback().sequence_closed==0&&state->flags==flags,"source render detach preserves Character sequence/FSM state");++families;
  }
  std::cout<<"{\"validation\":\"PASS\",\"checks\":"<<checks<<",\"actual_families\":"<<families<<",\"same_scene_frames\":"<<frames<<",\"external_PF_Debug_FX_fixtures\":true}"<<std::endl;
  }catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}}

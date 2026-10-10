@@ -120,6 +120,7 @@ bool SourceCampaignCharacterPanelV95::action_graph(const model_renderer::PlayerG
  if(!check(p,e))return false;
  auto self=shared_from_this();g.owner=self;g.equipment=p.gear;g.skills=p.skills;g.save=p.save;
  g.skill_tables=p.skill_tables;g.skill_list_index=p.skill_list_index;
+ g.class_spec_characters=p.design.characters();
  g.save_binding=[self](auto& save,const auto& skills,auto& error){
   model_renderer::PlayerGameplayBinding current;if(!self->player(current,error))return false;
   if(&save!=current.save||skills.identity()!=current.skills)return required("same native skill Save binding",error);
@@ -148,6 +149,67 @@ bool SourceCampaignCharacterPanelV95::action_graph(const model_renderer::PlayerG
   if(!self->player(current,error))return false;
   if(!self->services_.swap_hud)return required("actual HUD AS swap continuation",error);
   return self->services_.swap_hud(name,error);
+ };
+ g.class_spec_local_player=[self](std::uintptr_t& identity,auto& error){
+  identity=0;model_renderer::PlayerGameplayBinding current;if(!self->player(current,error))return false;
+  const auto& online=self->selected_.character->services.online_byte5;bool connected{};
+  if(!online||!online(connected,error))return required("actual Application online flag for NativeSelectClassSpec",error);
+  if(connected)return required("online PlayerManager::GetLocalPlayer vector (unsupported)",error);
+  player::PlayerInfoFieldsV1* info{};
+  if(!self->services_.players->manager()->get_local_player(0,true,info,error))return false;
+  identity=info?info->character660:0;
+  if(identity&&identity!=current.character)return required("same selected local Character receiver",error);
+  return true;
+ };
+ g.class_spec_load_properties=[self](std::int32_t row,auto& error){
+  model_renderer::PlayerGameplayBinding current;if(!self->player(current,error))return false;
+  const auto* characters=current.design.characters();const auto* formulas=current.design.class_rows();
+  auto state=current.gear->properties();auto* view=current.gear->property_view();
+  if(!characters||!formulas||!view||row<0||std::size_t(row)>=characters->rows.size())
+   return required("same selected Character's class-select property row and rules",error);
+  // CharProperties::LoadBaseProperties + RecalcProperties(1), on the actual
+  // selected PropertyState/View so live saved/gear/buff sheets stay attached.
+  state->base=characters->rows[std::size_t(row)];
+  if(formulas->empty()||dh2_class_recalc_base(formulas->data(),std::uint32_t(formulas->size()),state->base.data(),view))
+   return required("same selected Character's LoadPropertiesForClassSelect/RecalcProperties",error);
+  error.clear();return true;
+ };
+ g.class_spec_reload_skills=[self](auto& error){
+  struct Reload {
+   std::shared_ptr<SourceCampaignCharacterPanelV95> self;std::string detail;
+   static int selected(void* raw,data::PlayerSavegameV1* save,std::uintptr_t character,const std::vector<std::int32_t>** out){
+    auto& s=*static_cast<Reload*>(raw);model_renderer::PlayerGameplayBinding current;std::string e;
+    if(!out||!s.self->player(current,e)||!current.skills||!current.skill_list_index||current.save!=save||current.character!=character){s.detail=e.empty()?"AI_ReloadSkills lost same selected Character/Save":e;return -1;}
+    const auto index=*current.skill_list_index;const auto& lists=current.skill_tables.lists();
+    if(index<0||std::size_t(index)>=lists.size()){s.detail="AI_ReloadSkills selected class skill-list index unsupported";return -1;}
+    *out=&lists[std::size_t(index)];return 0;
+   }
+   static int load(void* raw,data::PlayerSavegameV1* save,std::uint32_t mask){
+    auto& s=*static_cast<Reload*>(raw);model_renderer::PlayerGameplayBinding current;std::string e;
+    if(!s.self->player(current,e)||current.save!=save||!s.self->selected_.character->load||
+       !s.self->selected_.character->load->load(std::int32_t(mask),e)){
+     s.detail=e.empty()?"AI_ReloadSkills same Save.Load(8) delivery failed":e;return -1;
+    }return 0;
+   }
+  } context{self,{}};
+  model_renderer::PlayerGameplayBinding current;if(!self->player(current,error))return false;
+  dh2::character::skills::SkillSaveReloadServicesV6 reload{&context,Reload::selected,Reload::load};
+  if(!current.skills||current.skills->native_reload_skills(&reload)!=1){
+   if(error.empty())error=current.skills?current.skills->error():"Required same selected Character AI_ReloadSkills owner";
+   if(!context.detail.empty())error+="; "+context.detail;return false;
+  }
+  error.clear();return true;
+ };
+ g.class_spec_save=[self](auto& error){
+  model_renderer::PlayerGameplayBinding current;if(!self->player(current,error))return false;
+  if(!self->selected_.character->load||current.save!=&self->selected_.character->load->save())
+   return required("same selected Character SG_Save authority",error);
+  const auto profile=self->selected_.character->load->profile();
+  if(profile.identity&&(!self->services_.writer||!self->services_.writer->ready()))
+   return required("already registered same selected-profile SG_Save writer",error);
+  data::PlayerSaveWriteOwnerV1 writer(self->selected_.character->load,
+   self->services_.writer?self->services_.writer->write_services():data::PlayerSaveWriteServicesV1{});
+  return writer.save(error);
  };
  // CharacterMenuActionsOwner executes the existing complete IncSkill kernel
  // against these SAME saved rows, source constants, properties and byte store.

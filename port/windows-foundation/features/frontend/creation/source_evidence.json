@@ -1,0 +1,120 @@
+{
+  "status": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "menu_order": [
+    "KnightPlayerBase",
+    "RoguePlayerBase",
+    "MagePlayerBase"
+  ],
+  "initial_class_token": "KnightPlayerBase",
+  "initial_player_level": 1,
+  "initial_campaign_level_row": 41,
+  "profile_section_tags": [
+    "LEPT",
+    "LNAM",
+    "LUSP",
+    "PCLS",
+    "PDFL",
+    "PLVL",
+    "PNAM"
+  ],
+  "dynamic_class_text": {
+    "MENU_CLASS_00": "Warrior",
+    "MENU_CLASS_01": "Rogue",
+    "MENU_CLASS_02": "Mage",
+    "MENU_KNIGHT_DESC": "The Warrior relies on his strength and endurance to survive.\nUpgrades to ^2Berserker^r or ^2Crusader^r.",
+    "MENU_ROGUE_DESC": "A finesse fighter, the Rogue favors speed and precision over power. Upgrades to ^2Death Walker^r or ^2Archer^r.",
+    "MENU_MAGE_DESC": "Learned in forbidden arts, the Mage uses both Faerie and Dark Energy. Upgrades to ^2Shadowmancer^r or ^2Illusionist^r.",
+    "MENU_CONFIRM": "Confirm",
+    "MENU_MENUTITLE_CHOOSE_CLASS": "Choose a class"
+  },
+  "specialization_color_rgb": "#9ADEFF",
+  "source_font_colors": {
+    "zero": "#FFFFFF",
+    "one": "#9CFF9A",
+    "two": "#9ADEFF",
+    "three": "#D49AFF",
+    "four": "#FFE89A",
+    "five": "#00FFFF",
+    "six": "#FF0000",
+    "seven": "#666666",
+    "eight": "#333333",
+    "nine": "#AAAAAA"
+  },
+  "source_color_reset": "^r emits </font>, restoring enclosing authored HTML/TextField style",
+  "font_color_decoder": "Direct little-endian group/key/value decode of actual fonts_pycst.bin, cross-checked with frozen cache inventory",
+  "source_stat_fields": {
+    "149": "Stat_Strength",
+    "150": "Stat_Dexterity",
+    "151": "Stat_Endurance",
+    "152": "Stat_Energy"
+  },
+  "full_projection_blocker": "Shared intelligence has no proved source property. Native zero-rank skills/slot maps/faeries/quests/difficulty require retained native owner and explicit shared projection.",
+  "dynamic_profile_fields": "Name/level from SAME CharacterState; real saved-profile service supplies class StrID, act/location/difficulty/date. No illustrative level22 or David profile.",
+  "style_source": "Match original art TextField by authored receiver path; retain its font_id/source_height/rgba/layout. Native class_title absent from first frame requires actual noninitial-frame art recovery.",
+  "complete_creation_service_available": false,
+  "live_ida_mcp": "127.0.0.1:8746 connection refused; static export used",
+  "scope": "Class/menu/profile metadata only. No resolved balance fallback, unlock mapping, profile writes or whole creation parity claim.",
+  "inputs": [
+    {
+      "path": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0042/00428cc0.c",
+      "sha256": "8c9762819b17a8dc44b312304ebc9084645ccbcbbda0c11daec6a4c4140751bd"
+    },
+    {
+      "path": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0042/00428498.c",
+      "sha256": "fdf4559126d248c8e1dfb209615ee130d614bc29ca026eacbfdd5e09cdad260e"
+    },
+    {
+      "path": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0042/004220a0.c",
+      "sha256": "36e51e90cdaac8c762bb561d9c694dbb8b733e33541c06ff6ee4c1735a416a0c"
+    },
+    {
+      "path": "port/game-data/reference/player-creation-v2/original-class-producers.json",
+      "sha256": "d91e4680ab380f1ec1eb1a8a1b1f4474e2b9c36e3eeb0a2578e3676814df4f62"
+    },
+    {
+      "path": "port/game-data/reference/fresh-player-profile-v1/original-creation.json",
+      "sha256": "30442c97b6d6779d14f4281258aa5770eb1c4a0124882f0907d0630ee53de8b4"
+    },
+    {
+      "path": ".local-inputs/actors/character_properties_pyarraynames.bin",
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.symbols",
+      "sha256": "95213f4b9c9a3f04c604a29a7586e26992fd81b1f08a3460d24cc9e1f321323b"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.english",
+      "sha256": "50e01954a9104b7b3c08bcbab0985c1e516cc873645854cc6fbdaa65a9fad101"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.symbols",
+      "sha256": "7a933388893c6963b537791fbaf240660b5e39ef1c54741f98dd21ba5b89e136"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.english",
+      "sha256": "ce07a456aaf8a8d914b210e62e40a5606bcc9a3a40348c958063bcc10e3c4000"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/global.symbols",
+      "sha256": "5eb997db344a3a5241d26486b4edb19b3fda8a4f1fdeadf2b8c91514a848f3ac"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/text/global.english",
+      "sha256": "020a1779505fda2387cd4b2506aa0ac2ae04d7467405edb10eaefdff3049e568"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/fonts_pycst.bin",
+      "sha256": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa"
+    },
+    {
+      "path": ".local-inputs/actors/character_properties_pystructnames.bin",
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "path": "port/script-runtime/reference/design-bindings/cache-constant-inventory.json",
+      "sha256": "56bb8cdfbae307b885f53ce25f5b9151739a244e6649f22e92baf2bdb89d6582"
+    }
+  ]
+}

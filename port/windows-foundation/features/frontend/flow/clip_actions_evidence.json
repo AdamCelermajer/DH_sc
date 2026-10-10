@@ -1,0 +1,262 @@
+{
+  "source": "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\menus\\dqmenus.swf",
+  "sha256": "3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5",
+  "clip_actions": [
+    {
+      "sprite": "sprite28",
+      "frame": 0,
+      "placement": "limits",
+      "character": 23,
+      "event_flags": 262144,
+      "offset": 3823376,
+      "actions": [
+        {
+          "offset": 3823376,
+          "op": "push_data",
+          "length": 16,
+          "values": [
+            "clickzone",
+            5
+          ]
+        },
+        {
+          "offset": 3823395,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 3823396,
+          "op": "push_data",
+          "length": 12,
+          "values": [
+            "disabled",
+            false
+          ]
+        },
+        {
+          "offset": 3823411,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 3823412,
+          "op": "push_data",
+          "length": 23,
+          "values": [
+            "easeOutForce",
+            1.5
+          ]
+        },
+        {
+          "offset": 3823438,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 3823439,
+          "op": "push_data",
+          "length": 17,
+          "values": [
+            "target",
+            "content"
+          ]
+        },
+        {
+          "offset": 3823459,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 3823460,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            "xscroll",
+            false
+          ]
+        },
+        {
+          "offset": 3823474,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 3823475,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            "yscroll",
+            true
+          ]
+        },
+        {
+          "offset": 3823489,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 3823490,
+          "op": "<end>",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "sprite": "sprite241",
+      "frame": 0,
+      "placement": "AllServers",
+      "character": 28,
+      "event_flags": 262144,
+      "offset": 8291462,
+      "actions": [
+        {
+          "offset": 8291462,
+          "op": "push_data",
+          "length": 12,
+          "values": [
+            "disabled",
+            false
+          ]
+        },
+        {
+          "offset": 8291477,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 8291478,
+          "op": "<end>",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "sprite": "sprite291",
+      "frame": 0,
+      "placement": "limits",
+      "character": 23,
+      "event_flags": 262144,
+      "offset": 8324045,
+      "actions": [
+        {
+          "offset": 8324045,
+          "op": "push_data",
+          "length": 16,
+          "values": [
+            "clickzone",
+            5
+          ]
+        },
+        {
+          "offset": 8324064,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 8324065,
+          "op": "push_data",
+          "length": 12,
+          "values": [
+            "disabled",
+            false
+          ]
+        },
+        {
+          "offset": 8324080,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 8324081,
+          "op": "push_data",
+          "length": 23,
+          "values": [
+            "easeOutForce",
+            1.5
+          ]
+        },
+        {
+          "offset": 8324107,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 8324108,
+          "op": "push_data",
+          "length": 17,
+          "values": [
+            "target",
+            "content"
+          ]
+        },
+        {
+          "offset": 8324128,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 8324129,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            "xscroll",
+            false
+          ]
+        },
+        {
+          "offset": 8324143,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 8324144,
+          "op": "push_data",
+          "length": 11,
+          "values": [
+            "yscroll",
+            true
+          ]
+        },
+        {
+          "offset": 8324158,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 8324159,
+          "op": "<end>",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "sprite": "sprite306",
+      "frame": 0,
+      "placement": "AllServers",
+      "character": 291,
+      "event_flags": 262144,
+      "offset": 8331724,
+      "actions": [
+        {
+          "offset": 8331724,
+          "op": "push_data",
+          "length": 12,
+          "values": [
+            "disabled",
+            false
+          ]
+        },
+        {
+          "offset": 8331739,
+          "op": "set_var",
+          "length": 0
+        },
+        {
+          "offset": 8331740,
+          "op": "<end>",
+          "length": 0
+        }
+      ]
+    }
+  ]
+}

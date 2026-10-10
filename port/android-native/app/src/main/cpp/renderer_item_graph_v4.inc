@@ -58,6 +58,9 @@ struct RendererItemGraphAdaptersV4 {
    if(!equipment_platform||equipment_platform->world!=world){e="Required current same World Item cache";return false;}
    return equipment_platform->cache.read(uri.c_str(),found,bytes,e);
   };
+  // The retained receiver is ItemObject, whose virtual80 IsAnimated at
+  // 0x3ebbfc returns true. Do not substitute the base GameObject result.
+  services.visual.parent_is_animated=[](bool& animated,std::string& e){animated=true;e.clear();return true;};
   services.initialization.owner=world;
   if(source_campaign_active_v55()){
    SourceCampaignCandidateBorrowV55 condition_scope;

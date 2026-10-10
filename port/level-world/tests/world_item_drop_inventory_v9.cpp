@@ -15,7 +15,7 @@ struct Fixture {
  static bool operation(void* raw,const WorldItemRequestV1& q,std::int32_t&,std::string& e){auto& f=*static_cast<Fixture*>(raw);auto& item=*f.objects.at(q.object);
   switch(q.operation){
    case WorldItemOperationV1::game_init_post:++f.init_once;return true; // Declared absent visual InitPost fixture.
-   case WorldItemOperationV1::enable:item.base().lifecycle().updating85=q.flag;return true; // Declared world enable fixture.
+   case WorldItemOperationV1::set_visible:return item.base().store_byte(0x80,q.flag?item.base().lifecycle().enabled8a:0,e); // Declared source virtual40 fixture; manager owns byte85.
    case WorldItemOperationV1::remove_all:return item.inventory().remove_all_owned_v2(nullptr,nullptr,e);
    case WorldItemOperationV1::set_physical:return true; // Declared body endpoint.
    case WorldItemOperationV1::set_position:std::copy_n(q.position,3,item.base().vector3(0x160));std::copy_n(q.position,3,item.base().vector3(0x1a8));f.order.push_back("position");return true;

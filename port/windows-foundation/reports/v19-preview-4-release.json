@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-09",
+  "status": "released_playable_original_combat_audio_preview",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-v19-preview-4",
+  "launcher": "Play.cmd",
+  "combat_launchers": ["Test-enemy-combat.cmd", "Test-populated-combat.cmd"],
+  "executable_sha256": "165009b757698209a834233e26717080b08763e78eae67b460a58b2954ed96be",
+  "manifest_files_verified": 828,
+  "original_wav_files": 244,
+  "foundation_ctest": "80/80; .local-inputs/v19-schema3-animation-only-regression.log",
+  "packaged_runtime_cases": 12,
+  "new_playable_behavior": [
+    "Original hit/hurt audio uses one WinMM output, current player/camera listener and the shared saved gameplay RNG.",
+    "Audio survives gameplay save, content reload and restore; presentation alone no longer rejects checkpoints.",
+    "Populated-world resume launcher now initializes the matching33-visual/23-combat-actor world before loading.",
+    "The source-backed enemy boundary-direction correction is included."
+  ],
+  "evidence": {
+    "audio": "reports/v19-preview-4-audio-runtime.json",
+    "population": "reports/v19-preview-4-population-runtime.json",
+    "enemy": "reports/v19-preview-4-enemy-runtime.json",
+    "baseline": "reports/v19-preview-4-baseline-runtime.json",
+    "populated_resume": "Package population-resume-verification.log: restored frame0, HP165.098/RNG8504954/20,33visuals,30frames clean shutdown.",
+    "audio_output": "420frame case:7 original voices started/completed,0 diagnostics,1 output initialization; WAVs verified identical to original audio-v34/cache."
+  },
+  "core_only": [
+    "Schema3 carries bounded owner-validated CQPG quest bytes; older schema1/2 saves remain unknown for this field. Quest menu is not enrolled.",
+    "Animation-only actor mode passes actual Priest/Faery source idle/sequence/rebind tests without attack IDs. Main companion enrollment and full companion persistence remain pending."
+  ],
+  "limitations": [
+    "Swing step-entry cues, music and complete global audio remain incomplete; no perceptual reference parity claim.",
+    "28 declarations remain gated/unsupported; original campaign/trigger/cinematic coverage is incomplete.",
+    "Explicit first NPC attack groups, dynamic avoidance and matched visual/gameplay fidelity remain incomplete.",
+    "Full character pages, frontend creation, effects and companion behavior remain subsequent integrations."
+  ],
+  "preserved": [".local-inputs/windows-source-clock-checkpoint-v18", ".local-inputs/windows-source-clock-v19-preview-1", ".local-inputs/windows-source-clock-v19-preview-2", ".local-inputs/windows-source-clock-v19-preview-3"]
+}

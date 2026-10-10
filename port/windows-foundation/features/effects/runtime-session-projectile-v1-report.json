@@ -1,0 +1,54 @@
+{
+  "status": "feature_owned_same_session_projectile_continuation_verified_not_production_wired",
+  "scope": {
+    "owned_files": [
+      "port/windows-foundation/features/effects/runtime_session_projectile_v1.hpp",
+      "port/windows-foundation/features/effects/runtime_session_projectile_v1.cpp",
+      "port/windows-foundation/features/effects/runtime_session_projectile_frame_v1.hpp",
+      "port/windows-foundation/features/effects/runtime_session_projectile_frame_v1.cpp",
+      "port/windows-foundation/features/effects/runtime_session_projectile_render_v1.hpp",
+      "port/windows-foundation/features/effects/runtime_session_projectile_render_v1.cpp",
+      "port/windows-foundation/features/effects/runtime_session_projectile_v1_tests.cpp",
+      "port/windows-foundation/features/effects/run_runtime_session_projectile_v1_tests.ps1"
+    ],
+    "out_of_scope": [
+      "CombatSession/core/main/CMake changes",
+      "native ProjectileManager/ObjectManager/Visual/PF object graph",
+      "shared foundation build outputs and GUI"
+    ]
+  },
+  "source_evidence": {
+    "state5_caller": "CharAI::_OnAnimEvent at 0x3d4434 admits state-5 attack_ranged/attack_mainhand/do_skill only after CanRangeAttack and spawns the selected Projectile row; state-6 do_skill is a separate caller.",
+    "set_info": "Projectile::SetInfo at 0x3e58cc reads the selected row, owner look and target position, projectile_node origin when present, velocity/damping/timer/max-distance and dictionary model. State-5 passes from_node=false and normal target is NULL.",
+    "update": "Projectile::Update at 0x3e51b0 processes a queued hit callback before GameObject::Update, then applies speed damping, timer decrement, and speed/timer/max-distance/PF expiry checks. GameObject::UpdateSubObjects at 0x3943cc writes the virtual speed directly as Box2D XY velocity. PhysicalWorld::update at 0x34bd08 steps with App dt seconds; Level::Update at 0x3f82d8 calls that step before ObjectManager::Update, so each new velocity command moves on the next source frame.",
+    "contact": "Projectile::OnCollision at 0x3e55b4 filters dead/pending, owner/self, dedicated target and (when FriendlyFire is false and owner has CharAI) AI_IsEnemy before queuing a callback for the next update.",
+    "result": "_HandleProjectile at 0x3cc280 first calls owner CharAI::OnProjectileHit (vtable+0xac), then on Character peers loads projectile byte+0x37c into F_MeleeAttack's second bool with offhand=false; it then calls F_ApplyResult. The callback returns (outcomes & 3) != 0 for continuation. Projectile::SetInfo at 0x3e58cc copies ProjectileTable byte+0x1d to projectile+0x37c; actual 72-byte row projection maps offset29 to ProjectileTable field8 `magic`, so Staff01 row20 uses critical=true. F_MeleeAttack at 0x3b3368 therefore uses mask0x5554a (otherwise0x22aab5), offhand bit0x04000000 is absent, selected current mainhand Item word37 supplies category, element=-1 and direct_amount=0 enter F_CalculateResult at0x3b34e4. Launch itself produces no result.",
+    "actual_mage_source": "MagePlayerBase row290 uses AnimTable49. Staff01 row1025 selects ProjectileTable row20 FireWandProjectile, model1 data/3D/projectiles/elemental_bolt_fire.bdae, speed20, timer1000, max_distance=-1. The authored skill_dh2_prince_mage_wand_attack.bdae has do_skill at 134ms.",
+    "source_units": "Projectile::GetSpeed at 0x3e4da8 returns the row speed unchanged; inherited GameObject::IsUpdatingPositionFromPhysics at 0x34006c returns true. GameObject::UpdateSubObjects at 0x3943cc passes GetSpeed directly to PhysicalObject::setLinearVelocity; source 0x46e918 stores the value unchanged. PhysicalObject::getPosition at 0x46e818 multiplies Box2D positions by100 and setPosition at 0x46ea80 divides game XY by100. Modern dh2_native_body_set_linear has the same direct velocity behavior and dh2_native_body_query multiplies positions by100. Thus row20 speed20 represents about2000 game XY units/second; physical integration is XY only, z remains owner/source position."
+  },
+  "feature_contract": {
+    "entry": "RuntimeSessionProjectileV1::launch_state5(tables, request, accepted, projectile_id, error)",
+    "identity": "Launch identity is same-Session ActorId plus retained event generation plus caller occurrence. Duplicate occurrence returns its existing projectile id without creating another record. Binding lease renewal clears projectile state and launch keys.",
+    "owned_state": "Only projectile position, normalized forward, source speed/timer, the prior-frame Box2D-unit XY velocity, source visual data, and pending contact identity are owned. Each non-paused frame first integrates the prior XY velocity at100 game units per Box2D unit, then records this frame's source speed command, then applies damping/timer; Z is unchanged. ActorState/HP/pose/target/FSM and source RNG remain with their Session/source owners.",
+    "contact_result": "Actual contact is supplied as a typed same-Session ActorId event. Contact filters require source AI_IsEnemy provider where source requires it. `runtime_session_projectile_melee_hit_v1` reads the actual selected ProjectileTable row's field8 magic byte and the caller's current inventory mainhand ItemTable word37; it emits the recovered mask/category/element/direct-amount inputs. The runtime calls CombatSession::apply_source_result only on the following update, using that Session's shared RNG/result owner, and follows actual low outcome bits for continuation.",
+    "render": "visuals() returns a value packet containing original model URI and current position/forward/yaw; it creates no renderer object. Expiry and character-impact packets retain distinct source FX/sound fields.",
+    "frame_adapter": "runtime_session_projectile_frame_v1 performs current-binding sync, one update, post-update revalidation, impact/result consumption, current visual snapshot, pre-submit revalidation, and the renderer module's existing submit callback. It creates no contact and does not infer impact from launch, distance, or overlap. A render failure returns false with updated/consumed values retained in output, so callers handle them without replaying simulation."
+  },
+  "validation": {
+    "runner": "port/windows-foundation/features/effects/run_runtime_session_projectile_v1_tests.ps1",
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File port/windows-foundation/features/effects/run_runtime_session_projectile_v1_tests.ps1",
+    "result": "PASS same-Session Staff01 row20 state5 launch, retained occurrence, real NativeWorld unit/cadence comparison, paused/dt/timer, direct result/RNG parity, frame ordering, material/URI fail-closed, stale/destroyed Session guards",
+    "fixture_notes": "Strict C++17 -Wall -Wextra -Werror private executable compiles the current CombatSession TU and links copied read-only archives under .local-inputs/runtime-session-projectile-v1/private-libs; assets are a private overlay. Actual Mage wand BDAE marker and current Staff01 ItemTable row are decoded. The16ms fixture steps a genuine NativeWorld body before runtime update, writes row20 velocity after that step, then compares next-frame runtime XY displacement with dh2_native_body_query using a pitched normalized forward vector; both use32*forward.xy game units and runtime Z remains unchanged. This verifies XY units and phase cadence, not a production fixed16ms cadence. The projectile hit provider uses actual ProjectileTable row20 field8 magic and current inventory mainhand Item word37. A direct `dh2_combat_melee` calculation from the same Session combat sheets, equipment facts, and pre-hit RNG matches all ten fields in the Session pending resolution, applied receipt amount/outcomes/mask, and post-hit shared RNG. Frame tests verify launch/no-contact creates no impact/result; paused dt preserves position and submits a retained draw frame; a typed contact result/impact is consumed once before the next render submit; material refusal is fail-closed with output retained; unknown URI cannot submit; stale/destroyed Session frames do not submit. Unknown URI is tested at renderer input because current Mage row20 is the only projectile row reachable through this live Staff01 caller. Session callback/lifecycle coverage remains bounded to the existing `apply_source_result` prefix."
+  },
+  "known_limits": [
+    "Not called from production Main/CombatSession named-event input path yet; the host must pass the actual retained event, live current properties/equipment/item-table projection, projectile_node/look pose loan and actual source occurrence.",
+    "Production must bind the source AI_IsEnemy query and live current inventory/item-row loan at impact, then call the feature semantic helper; the test AI_IsEnemy provider is a fixture.",
+    "The original owner CharAI::OnProjectileHit callback precedes F_MeleeAttack/F_ApplyResult. This feature does not yet reproduce its class-specific AI callback side effects, nor full original F_ApplyResult status/aggro/HitFor/presentation effects; only the exact F_MeleeAttack result inputs and the current same-Session result/application prefix are covered.",
+    "Production must bind a material/pass provider and existing RenderQueue callback, queue each draw mesh/world transform, and retain its shared RuntimeSessionProjectileRenderFrameV1 until after queue.flush; the CPU fixture uses a synthetic texture handle and does not verify GPU upload or visible pixels.",
+    "Current main.cpp call order is Renderer::beginFrame at2461, RenderQueue construction at2465, and queue.flush at2497. The submit callback needs access to that frame's queue before the flush and must hold the frame lease through flush because RenderQueue stores mesh pointers. No production main wiring is included.",
+    "Modern movement now matches source XY velocity units and Step-before-object-update cadence, but still integrates a value record rather than using a projectile body in the Session world. Exact native collision response, walls/floor/room expiry, target-lock following, noncharacter activators, and other projectile rows are not claimed.",
+    "Source App dt is read per update and PhysicalWorld::update converts it to seconds; evidence does not establish a fixed16ms app cadence. The test uses16ms only as a reproducible same-step comparison.",
+    "For actual Mage Staff01 row20 max_distance is -1, so its tested expiry is timer-driven; no range-expiry claim is made for that row.",
+    "The 1.0.3 Mage wand animation BDAE marker is verified, while the supplied cache/source PyData is 1.0.2; cross-version equivalence beyond the checked row and marker is unverified."
+  ]
+}

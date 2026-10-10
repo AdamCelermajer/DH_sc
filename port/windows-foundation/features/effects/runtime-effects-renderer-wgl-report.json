@@ -1,0 +1,84 @@
+{
+  "feature": "RuntimeSwingFxObserverV1 diagnostic WGL run",
+  "validation": "FAIL",
+  "source_result": {
+    "validation": "FAIL",
+    "failure_stage": "WGL framebuffer readback",
+    "changed_pixels": 7,
+    "threshold": ">10",
+    "source_set_id": 253,
+    "source_packets": 1,
+    "source_material": {
+      "texture_handle": 1,
+      "material_color": [
+        0.584314,
+        0.584314,
+        0.584314,
+        1
+      ],
+      "additive": true,
+      "transparent": true,
+      "vertex_color_min": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "vertex_color_max": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "uv_min": [
+        0.711136,
+        0.015435
+      ],
+      "uv_max": [
+        0.991411,
+        0.987389
+      ],
+      "source_pass": {
+        "blend": true,
+        "blend_source": 1,
+        "blend_destination": 1,
+        "depth_test": true,
+        "depth_write": false,
+        "cull": false,
+        "alpha_test": false
+      }
+    },
+    "texture": {
+      "uploaded": true,
+      "handle": 1,
+      "width": 64,
+      "height": 64,
+      "rgb_min": [
+        0,
+        0,
+        0
+      ],
+      "rgb_max": [
+        132,
+        214,
+        255
+      ]
+    },
+    "actual_texture_handles": [
+      1
+    ],
+    "renderer_clear_rgb_min": [
+      9,
+      11,
+      15
+    ],
+    "renderer_clear_rgb_max": [
+      9,
+      11,
+      15
+    ],
+    "framebuffer_capture": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-effects-renderer-wgl/runtime-effects-renderer-wgl-smoke.ppm"
+  },
+  "fresh_framebuffer": ".local-inputs/windows-effects-renderer-wgl/runtime-effects-renderer-wgl-smoke.ppm",
+  "raw_run_log": ".local-inputs/windows-effects-renderer-wgl/run.log"
+}

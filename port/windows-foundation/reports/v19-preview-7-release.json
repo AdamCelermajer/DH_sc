@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-09",
+  "status": "released_playable_equipment_and_skills_selection_preview",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-v19-preview-7",
+  "launcher": "Play.cmd",
+  "direct_gameplay_launcher": "Play-swamp.cmd",
+  "executable_sha256": "2a27d0434cb81c88ba918847e55c48fd1e39464e0ed8f9ca07c2e3229f1a32a2",
+  "manifest_files_verified": 1576,
+  "foundation_ctest": "80/80; .local-inputs/v19-preview-7-regression.log",
+  "packaged_runtime_cases": 8,
+  "new_playable_behavior": [
+    "Original-art equipment selection/details, unequip and re-equip update the same character, actor and rendered weapon attachment.",
+    "Current equipped state survives save/content reload/disk restore; separate development empty-weapon case also passes.",
+    "Skills selection displays original localized name, wrapped base description, rank and saved slot icon.",
+    "Fresh zero-point skill training is rejected without spending or changing rank."
+  ],
+  "evidence": [
+    "reports/v19-preview-7-integration-candidate.json",
+    "reports/v19-preview-7-frontend-runtime.json",
+    "reports/v19-preview-7-character-menu-runtime.json",
+    "reports/v19-preview-7-companion-runtime.json",
+    "reports/v19-preview-7-audio-runtime.json",
+    "reports/v19-preview-7-population-runtime.json",
+    "Packaged skills-selection-verification.png inspected: fullscreen source art, Headsplitter and wrapped description."
+  ],
+  "limitations": [
+    "Equipment central character preview is missing; detail/list text overlap and incomplete actions remain.",
+    "Arbitrary restore across changed live equipment has not been validated; the compatibility guard can reject it.",
+    "Positive production skill training and skill combat execution are not accepted.",
+    "Offline character menu currently allows world time to advance; source pause behavior is proven and a fix is next.",
+    "Quest/faery pages, full campaign/cinematics, companion behavior and complete effects/audio remain incomplete.",
+    "Source enemy Sound474 asset remains unavailable; three step diagnostics are distinct from zero hit-audio diagnostics.",
+    "28 authored declarations remain gated or unsupported; matched-reference fidelity remains unverified."
+  ],
+  "preserved": ".local-inputs/windows-source-clock-v19-preview-6"
+}

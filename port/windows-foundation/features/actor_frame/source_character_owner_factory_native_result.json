@@ -1,0 +1,123 @@
+{
+  "status": "actual_357_unit_Player_Character_InitPost_renderer_policy_prefix_pass_visual_world_PF_pending",
+  "escalation_reason": "Authorized architecture/source-closure escalation after bounded Luna attempt achieved facade syntax compilation only; genuine cross-owner V60 native dependency closure and constructor aliases required. Routine follow-up work returns to Luna.",
+  "owner": "features/actor_frame/source_character_owner_factory* only; no root/main/CMake/shared-core/assets changes",
+  "build": {
+    "driver": "features/actor_frame/source_character_owner_factory_native_build.py",
+    "compiler": ".local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe",
+    "source_units": 355,
+    "closure": "features/actor_frame/source_character_owner_factory_native_closure.json",
+    "native_link": "PASS",
+    "clean_source_recompile": "PASS",
+    "compile_errors": {},
+    "runtime_exit": 0,
+    "runtime": "Character actual V60 native C1 retained, failed visual prefix aliases PASS\nPlayer actual V60 native C1 retained, failed visual prefix aliases PASS\nCharacter actual V60 whole constructor capsule and uninitialized loans PASS\nPlayer actual V60 whole constructor capsule and uninitialized loans PASS\nNo completed InitPost/InitFinal/visual readiness or host publication claimed\nCharacter actual source PropertyMap registration/empty-template/default/override prefix PASS; actual process Add/offline network; inherited ConditionData/cache and app RNG spawn prefix reached, stopped at Device::IsHighPerformance\nPlayer actual source PropertyMap registration/empty-template/default/override prefix PASS; through retained receiver; Player class-dispatch slot absent\n\nnative_exit=0\n"
+  },
+  "cache": {
+    "path": ".local-inputs/publication/checkpoint/port/android-native/app/src/main/assets/data",
+    "sha256": {
+      "character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+      "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+      "character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+      "character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+      "character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+      "ai_pyarray.bin": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+      "ai_pyarraynames.bin": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+      "ai_pystructnames.bin": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82",
+      "ai_factions_pyarray.bin": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d",
+      "ai_factions_pyarraynames.bin": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211",
+      "ai_factions_pystructnames.bin": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15",
+      "levels_pyarray.bin": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+      "levels_pyarraynames.bin": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+      "levels_pystructnames.bin": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705",
+      "loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+      "animations_dictionary_pyarraynames.bin": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+      "animations_dictionary_pyarray.bin": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+      "v2conditions_pyarray.bin": "52b9f3d7d15182a0b5c5daa11bcba2720e9be752f1db5f0bcde054b6a5911f53",
+      "v2conditions_pyarraynames.bin": "029b7b9253386078a87988344907a71de1a68ba105a034ff6ea48a0a3490ae9d",
+      "v2conditions_pystructnames.bin": "94efc18c04974aca9fb3560333f7ca2702d519a52584a1c5be1b8fbf3cd6c080",
+      "sounds_pyarraynames.bin": "7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f"
+    },
+    "condition_cache_path": ".local-inputs/windows-shared-assets/original-cache/data/pydata"
+  },
+  "proven": [
+    "Real CanonicalCharacterCandidateFactoryV60::construct executes for Character and Player exact factory340800 catalog aliases.",
+    "Actual CharacterGameDesign/PyData/Loot original caches, real LootRandom8V2, source name lease, original fresh-canonical actor C1 and native construct_fields used; no V4 owner used.",
+    "Intentional visual-provider test fault occurs after actual PropertyState reset, actor C1, inventory37c, Save/faery associations, ScriptCharacterObject, controller/FSM/state-change construction. Native factory retains SAME failed record and facade refuses both loans.",
+    "Real native SceneManager registry + animation-set cache + original animation dictionary admit actual RetainedCharacterFamilyVisualV6/CharacterSameSceneAnimatorV6 constructors and original position owner. No fake visual readiness, VM, FSM or completed flags.",
+    "Admitted uninitialized whole constructor loans validate SAME identity/property backing/life/inventory/FSM/visual2d8/position160/NULL Save; completed loans reject. Stale alias copies for identity/property-view/visual2d8/Save reject.",
+    "Constructor consumes zero RNG calls; cache stays empty; actual animator set_id=-1 and ready=false; visual2d8 stays NULL.",
+    "Using actual Character PropertyMap declarations and RetainedCharacterActor typed property writers, the source init_properties -> empty SetTemplate -> load_defaults -> load_overrides sequence runs against the same Character and Player V60 owners. It writes a real source name, charpropsname, and position; property-array/view, inventory37c, and NativeFsm24 aliases remain the exact constructor owners.",
+    "Character Load callbacks are executed through CanonicalClassReceiverBindingsV1/CanonicalClassServicesV1. That dispatcher has no Player alias callback; Player's same PropertyMap operations are exercised directly through its retained CanonicalClassReceiverV1 properties API, and the missing dispatcher slot is reported rather than stubbed.",
+    "For Character, SourceProcessObjectsV121::acquire creates and publishes the actual Application-owned process ObjectManager. CanonicalObjectFactoryAttemptV1 reaches complete through real Add, the process owner's offline AssignObjectNetworkId branch reading ApplicationServicesOwnerV5.get_online_loading_v55()->byte5==0, and PropertyMap Load. Add retains expected first key1/count1/next-key2. No manager/network callback is supplied by the test.",
+    "Actual Character InitPost is invoked once using a same-actor inherited field borrower, the decoded original Arrays::v2Conditions table and NativeConditionRuntimeV69/ConditionDataInitServicesV3, the actual Arrays::Sounds logical-name group, the same Application-owned Debug and Random owners, and the same Application COnline byte5. Both actual embedded ConditionData C1 fields are visited and remain untested/compiled-null on their source empty/Invalid names; native spawn probability consumes one channel0 RNG call, stores the eligible cached roll on the actor, then stops at the first missing authentic Device::IsHighPerformance provider. No device value or callback is supplied."
+  ],
+  "load_prefix": {
+    "status": "Character source attempt through actual offline Add, PropertyMap Load, inherited ConditionData initialization and source spawn-probability prefix passed; first missing Device::IsHighPerformance provider retained",
+    "operations": [
+      "init_properties",
+      "set_template with actual empty-string fast path",
+      "load_defaults",
+      "load_overrides",
+      "actual inherited InitPost entry",
+      "both embedded ConditionData source initialization branches",
+      "actual offline application RNG spawn-probability check"
+    ],
+    "proven_fields": [
+      "Character name at +0x30",
+      "charpropsname at +0x13b0",
+      "position at +0x160",
+      "ConditionData name/pointer/tested cells at +0x90/+0xa8/+0xac and +0xb4/+0xcc/+0xd0",
+      "spawn roll cached at actor +0x270; same Application channel0 call count advances once",
+      "min_difficulty source CString is empty, so no difficulty-name table lookup is synthesized"
+    ],
+    "same_owners": [
+      "PropertyState and PropertyView backing arrays",
+      "FreshInventoryOwnedV4 inventory37c",
+      "NativeFsm24"
+    ],
+    "not_claimed": [
+      "online AssignObjectNetworkId path",
+      "nonempty _templateName LoadTemplate assertion-policy path",
+      "InitPost completion",
+      "InitFinal",
+      "Device::IsHighPerformance result",
+      "visual or PF initialization",
+      "InitPost completion"
+    ]
+  },
+  "minimal_integratable_owner": "Genuine V60 Character/Player constructor/Add/load/condition/RNG prefix and root renderer quality policy; next actual shared WorldScriptContext, roots, sewn floors::World and navigation::ObstacleRegistry service graph for native family visual/updatePF. No opaque make_shared<int> world readiness or successful no-op PF.",
+  "boundaries": [
+    "No InitPost or InitFinal success test or host/gameplay success claim.",
+    "No completed-loan positive test, player_save_final failing-tail once1395 replay test, PM PlayerInfo/Save kind/Gear or native skill-VM completion verification: these require real source initialization providers.",
+    "SceneManager/cache are actual native empty constructor owners. PF, render/cache reads, animation registration, script host, inherited conditions, physical and persistence services must be bound by source host before reached initialization; empty constructor owners do not imply readiness.",
+    "Only the genuine offline AssignObjectNetworkId branch is reached; online Add still requires the actual process/world online receiver.",
+    "The actual Character InitPost reached inherited ConditionData initialization and CheckSpawnProbability using the same actor storage, original decoded conditions, actual App Random channel0 and offline COnline byte5. It stops at the missing Application Device::IsHighPerformance service before visual/PF; this is a failed prefix, not successful InitPost.",
+    "Actual source condition names for this selected actor are empty/Invalid, so the original ConditionData branch leaves compiled list pointers NULL and does not claim positive ConditionList allocation/evaluation. Its exact original table/runtime owners are nevertheless bound for real nonempty rows.",
+    "No difficulty-name list is provided: the selected actor source min_difficulty field is empty, so original lookup is not reached. Actual source Sounds logical names are supplied; this actor idle_sound field remains empty."
+  ],
+  "historical_355_unit_prefix": {
+    "note": "Previous build/runtime and load_prefix below are historical, superseded by root Player dispatch and Renderer policy integration receipts.",
+    "device_missing_and_player_slot_absent_claims_current": false
+  },
+  "latest_root_evidence": {
+    "dispatch": "reports/player-factory-dispatch-integration.json",
+    "renderer_policy": "reports/renderer-game-object-quality-integration.json",
+    "source_units": 357,
+    "native_runtime_exit": 0,
+    "foundation_tests": 78,
+    "first_required_leaf": "Required SAME family Character/World/SceneManager/PF owners",
+    "proven": "Both Character and Player catalog aliases traverse actual receiver/Add/PropertyMap/ConditionData/App RNG and actual same-context WGL renderer Full/ReducedOptional visual policy into existing native LoadVisual.",
+    "scope": "GameObject optional asset-load policy is an honest in-house observable equivalent; exact original Device driver-vtable/global capability execution not claimed.",
+    "still_not_claimed": [
+      "complete visual/PF initialization",
+      "InitPost completion",
+      "InitFinal",
+      "completed Player profile/Save/Gear/skills",
+      "host publication"
+    ]
+  }
+}

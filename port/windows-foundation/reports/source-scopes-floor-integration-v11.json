@@ -1,0 +1,48 @@
+{
+  "status": "live_source_constructor_scopes_scoped_spawn_and_original_floor_world_probe_verified",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v11",
+  "executable_sha256": "1ba769dab3a64ba422d191bac1782f45825f4f2bc93286a878432140813950e5",
+  "component_tests_passed": 63,
+  "package_files_verified": 549,
+  "rendered_cases_verified": 15,
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v11.json",
+  "save_rejection_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v11.json",
+  "live_changes": [
+    "Generic SourceRootScopes retains actual root LevelConfig/Module constructors and binds source-derived Module IDs to existing authored object scopes; reload rebuilds current source construction",
+    "Module context is read from the exact bound authored object; scheduled original Spawn replay in owning module1 retains the same actor IDs/hit timing/lifecycle as global diagnostic replay",
+    "Optional source-floor probe constructs actual original factory/cache floor geometry, nine PF rooms and sixteen original floor records; applies proven ResetPositionFromFile before placement",
+    "Module IDs, inherited source room64 and PF room indices remain separate; final startup actor source floor query hits255"
+  ],
+  "component_changes": [
+    "ConditionData Init/Clear uses same Module fields and genuine118-row condition arena; all cached Modules reach next CheckSpawnProbability boundary; positive named row mechanism tested without pretending campaign condition evaluation",
+    "Typed contact seam routes exact37..3c event/prefix through caller-owned CharAI/FSM services; native Pin/Unpin source mass behavior verified, but main contacts remain explicitly unbound"
+  ],
+  "source_reports": [
+    "port/windows-foundation/reports/source-root-scopes.json",
+    "port/windows-foundation/report/source-module-construction.json",
+    "port/windows-foundation/reports/playable-actor-bodies.json",
+    "port/windows-foundation/reports/source-module-floors.json"
+  ],
+  "limits": [
+    "Movement collision, vertical obstacle sweep and floor solving remain approximate; native world Step and contact continuations are not wired",
+    "Full source InitFinal/PF registration, debug providers, allocator/saved fields and death collision policies remain incomplete",
+    "Root source Module constructor scopes are now live. MGP child receiver construction, positive conditions/activation, Module InitPost/InitFinal and complete Level construction remain incomplete",
+    "Original PF floor rooms/records are runtime-probed with explicit diagnostic admission; the playable movement solver has not yet adopted that world",
+    "Original encounter activation, aggro/sneak, complete controller/FSM and hierarchical scheduler delivery remain incomplete",
+    "Damage uses diagnostic queued application; synchronous source damage/reentrant effects, combos, status/DOT/leech and full skills remain incomplete",
+    "Equipment appearance/refresh, priest reference mismatch, fairy particles and companion behavior remain incomplete",
+    "Full original HUD/menus/audio/effects/materials/fog/lighting/cinematic coverage and continuous matched-state reference fidelity remain incomplete",
+    "Campaign lifecycle/controller/animation transient state persistence is explicitly rejected before durable save writes"
+  ],
+  "capture_review": {
+    "images": [
+      ".local-inputs/windows-source-clock-checkpoint-v11/spawn-scoped-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v11/source-floor-verification.png"
+    ],
+    "scope": "Final actual rendered captures inspected; no matched-state reference parity acceptance"
+  },
+  "previous_v10_preserved": true,
+  "ctest_seconds": 1.88,
+  "final_verification": "Final relinked EXE:63CTest,549manifest files,15 rendered runs and2 persistence rejection checks pass"
+}

@@ -1,0 +1,42 @@
+{
+  "status": "PASS native Windows original-data-backed provider probe",
+  "module": "original_combat_properties.hpp/.cpp",
+  "test": "tests/original_combat_properties_tests.cpp",
+  "shared_scope": "Same actor-ID property bindings, equipment query facts and original melee calculation for Knight/Rogue/Mage and NPC attackers/defenders. No actor-name damage branch.",
+  "dependencies": ["game-data/combat.cpp", "game-data/combat_result.cpp", "game-data/item_gear_properties_v5.cpp", "game-data/properties.cpp", "game-data/class_tables.cpp", "game-data/items.cpp for cache loading"],
+  "source": {
+    "result": "Character::_F_CalculateResult 0x3b2638; exact recovered melee masks via dh2_combat_melee",
+    "bonus": "CharProperties::PROPS_GetBonusDamage 0x3df8ac",
+    "rng": "Random::GetRandom 0x3af6d8; host supplies actual original stream seed/state",
+    "gear_powers": "Original 0..48 item-power jump table at0x3e3308",
+    "equipment_facts": "port/level-world/player_equipment_queries_v1.cpp: category itemword37, twohand mainword26=-4, shield offword22=6",
+    "validated_prior_combat": "port/game-data/reports/combat-arm64-differential.json:23792 original comparisons,0 mismatches",
+    "validated_prior_result": "port/game-data/reports/combat-result-arm64-differential.json:9792 original result/RNG comparisons,0 mismatches",
+    "validated_prior_gear": "port/game-data/reports/item-gear-properties-v5-arm64-differential.json:4037 original comparisons,0 mismatches"
+  },
+  "pipeline": [
+    "Start original raw CharacterTable base with supplied campaign/spawn level, original defaults/types",
+    "Apply exact original equipped ItemRecord stats and explicitly supplied generated power entries to gear sheet",
+    "Apply original class formulas once to raw base with uncached property reads seeing gear contributions",
+    "Resolve complete224 property sheet; fresh-spawn refill is explicit",
+    "Bind complete per-actor snapshot and equipment/state/combo facts; source ID specifies main/offhand and alternate original melee flag",
+    "Call original dh2_combat_melee; preserve miss/dodge/block/critical/status outcome bits, DOT, leech, element and RNG state",
+    "Convert successful final raw damage signed256 to float; successful miss/dodge returns zero; health application remains shared CombatSystem"
+  ],
+  "actual_original_data_probe": {
+    "starter_weapon": {"item_id":664,"item_type":0,"category":0,"raw_min":3072,"raw_max":3840,"range": "12..15 before class contribution"},
+    "warrior_fixed_equipped_items": [1079,1073,1076,664],
+    "warrior_resolved": {"damage_min_raw":3072,"damage_max_raw":4096,"damage_range":"12..16 after original class/stat contribution","defense_raw":1024},
+    "victim": "Swamp_LizadMan_Type1 original class18 level1 defenseRaw0",
+    "repeatability_probe": {"seed":1234,"seed_is_test_input_not_claimed_campaign_seed":true,"attempts":100,"hits":89,"miss_or_dodge":11,"rng_draws":823,"final_damage_observed":"14.05859375..33.21484375 including original bonuses/crit"},
+    "additional_cases": ["NPC attacking player through same provider", "Rogue original dual dagger370 offhand mask", "Mage original staff1025", "replayed identical RNG versus increased defense", "missing sources and removed actors preserve output/RNG"]
+  },
+  "remaining_integration": [
+    "Host must load actual ItemTable and bind actual equipped item records, generated powers and equipment selectors",
+    "Host must supply original gameplay RNG stream, state ID and combo-hit count; default -1/0 facts are explicit unbound facts, not guessed state mapping",
+    "Rebind resolved sheet on gear/stat/buff/difficulty changes; bind_actor accepts complete externally resolved snapshot for existing buffs",
+    "CombatWorld adapter can delegate resolve and consume resolution.damage; complete outcome must additionally feed status, leech, DOT and reaction lifecycle",
+    "Alternate melee original buff removal side effect is deliberately a separate lifecycle consumer",
+    "Range, target eligibility, animation markers, sound/FX and actor health updates remain shared existing systems; provider calculates damage only"
+  ]
+}

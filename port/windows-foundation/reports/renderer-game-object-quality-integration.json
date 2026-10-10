@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-09",
+  "status": "actual_wgl_renderer_policy_native_initpost_boundary_verified_full_actor_initialization_incomplete",
+  "goal_complete": false,
+  "implementation": [
+    "port/windows-foundation/renderer.hpp",
+    "port/windows-foundation/renderer.cpp"
+  ],
+  "policy": {
+    "owner": "Existing initialized Windows Renderer",
+    "default": "Full original visual assets",
+    "alternative": "ReducedOptional",
+    "scope": "Original GameObject inherited InitPost visual omission decision only",
+    "source_effect": "A missing visual is omitted only when selected quality is reduced and source facultative byte60 plus byte10c are nonzero.",
+    "byte10c_name": "not established",
+    "portability": "Explicit in-house visual-loading policy; no Android driver identity, original Device virtual execution or hardware performance claim.",
+    "guards": "Renderer must be successfully initialized; current HDC/HGLRC/thread must match its recorded owner. Unknown policy rejects without changing caller output."
+  },
+  "verification": {
+    "wgl_test": "port/windows-foundation/tests/renderer_visual_quality_tests.cpp",
+    "passed": [
+      "Actual WGL Full and ReducedOptional selections",
+      "Uninitialized, foreign-thread, foreign-context, absent-context and invalid-policy rejection",
+      "Actual original context restore preserves selected quality"
+    ],
+    "ctest_passed": 78,
+    "ctest_failed": 0,
+    "ctest_log": ".local-inputs/renderer-visual-policy-ctest.log",
+    "native_factory_clean_compile_link_run": "passed",
+    "native_factory_log": "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_build/runtime.txt",
+    "native_factory_boundary": "Both Character and Player pass same actual WGL Renderer quality callback inside inherited InitPost and reach the existing native family visual loader. It fails at required SAME World/SceneManager/PF ownership."
+  },
+  "remaining": [
+    "Publish the same world/scene-manager/PF owners and real family visual asset services.",
+    "Complete native LoadVisual/Sync, animation registration, body/PF and InitFinal before canonical actor publication.",
+    "Other original Device consumers, including audio/batching/pacing, retain their separate source contracts.",
+    "No completed-character loan or packaged v19 gameplay acceptance claimed."
+  ],
+  "accepted_release_preserved": ".local-inputs/windows-source-clock-checkpoint-v18"
+}

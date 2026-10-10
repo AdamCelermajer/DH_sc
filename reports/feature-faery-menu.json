@@ -1,0 +1,442 @@
+{
+  "feature": "original character menu faery page",
+  "status": "Source-backed Faery page and Celest cast helper/coordinator path pass focused same-CombatSession tests; root production menu/action registration and visual acceptance remain pending.",
+  "source": {
+    "movie": "port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+    "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+    "stage": [
+      480,
+      320
+    ],
+    "page": {
+      "name": "menu_FaerySheet",
+      "character_id": 547,
+      "placement_twips": [
+        3585,
+        1092
+      ]
+    },
+    "sibling_menu_tabs": [
+      {
+        "button": "btnQuestLogTab",
+        "named_frame": "LogMap",
+        "source_page": "menu_QuestLogSheetNEW",
+        "character_id": 599
+      },
+      {
+        "button": "btnMapTab",
+        "named_frame": "Map",
+        "source_page": "menu_MapSheet",
+        "character_id": 655
+      }
+    ],
+    "generated_art": "port/windows-foundation/features/faery_menu/original_art.cpp",
+    "art_counts": {
+      "static_bitmap_batches": 2,
+      "selected_faery_frame_variants": 5,
+      "fields": 4,
+      "element_icons": 0,
+      "slot_hit_contours": 5,
+      "faery_tab_hit_contour": 1,
+      "slot_hit_test": "slot_at authored-coordinate helper returns exact 0..4 from exported source contours; outside returns -1",
+      "button_state_variants": 15,
+      "note": "Two page batches (panel and trim), five selected img_Faery frames, and 15 button frames (idle/focused/locked per slot); element icons are embedded in each button-state frame, not separate page art."
+    },
+    "fields": [
+      "menu_FaerySheet/faery_desc/text",
+      "menu_FaerySheet/faery_spell/text",
+      "menu_FaerySheet/FaeryNameText/text",
+      "menu_FaerySheet/menu_title/txt_title"
+    ],
+    "interactive_source": {
+      "ActionScript": "port/engine-ui/reference/character-menu-flow-v1/authored-actions.json",
+      "sha256": "d74d36824da766177ba0b431a5e12f3c800b289e1c325edef7200b2771afd8d9",
+      "block": "root/sprite547 frame0 offsets145279..149394",
+      "callbacks": [
+        "GetFaeryIsUnlocked -> NativeHUDGetIsFaeryUnlocked",
+        "GetActiveFaery -> NativeHUDGetActiveFaery",
+        "onRelease -> NativeHUDSetActiveFaery"
+      ],
+      "localized_content": [
+        "GAMEPLAYMENUS_FAERY_n_DESC",
+        "GAMEPLAYMENUS_FAERY_n_SPELL",
+        "GAMEPLAYMENUS_FAERY_nB",
+        "GAMEPLAYMENUS_FAERY"
+      ],
+      "slot_order": [
+        "Celest",
+        "Rocky",
+        "Wetty",
+        "Windy",
+        "Hotty"
+      ]
+    },
+    "texture": {
+      "bitmap_id": 1,
+      "alias": "menus/MenusGraphics_droid.tga",
+      "shape_id": 538,
+      "fill_kind": "0x42",
+      "source_uv": {
+        "u": [
+          -0.0007921033,
+          0.1695100999
+        ],
+        "v": [
+          0.8346608189,
+          0.9999943743
+        ]
+      },
+      "note": "Original UVs are preserved, including the slight authored edge overrun."
+    },
+    "first_default_list_table_ids": [
+      2,
+      4,
+      5,
+      6,
+      3
+    ],
+    "selection_id_semantics": "Save/current faery and Character::ChangeFaery use menu/save slot indices 0..4. Map those slots separately through the actual first FaeryList IDs above.",
+    "faery_frames": {
+      "sprite_character_id": 543,
+      "selection_source": "NativeHUDGetActiveFaery -> actual Save current faery slot (0..4)",
+      "image_frames": "Exported separately from the source-named Celest/Rocky/Wetty/Windy/Hotty frames; selected source slot chooses exact corresponding frame.",
+      "shape_ids_by_slot": [
+        538,
+        540,
+        541,
+        542,
+        539
+      ],
+      "atlas_alias": "menus/MenusGraphics_droid.tga; exact source UVs retained.",
+      "on_show": "AS sets btimg and btimg2 to Blank, so neither placeholder image is shown; selected faery art comes only from source named img_Faery frames."
+    },
+    "common_composition": {
+      "character_menu_background_shape": 90,
+      "character_menu_art3_batches": 3,
+      "side_trim_shape": 546,
+      "transparent_pixels": 0,
+      "partial_alpha_pixels": 1197,
+      "decoded_atlas_pixels": 153600,
+      "composition": "menu_CharacterMenu art3 remains beneath menu_FaerySheet after NativePopAllAbove; CharacterSheetNew is popped, not retained.",
+      "opaque_pixels": 152403,
+      "page_shape": 497,
+      "background_authored_bounds": [
+        -0.25,
+        480.45,
+        -0.2,
+        319.8
+      ],
+      "CharacterSheetNew_retained": false
+    },
+    "button_timeline": {
+      "idle_frame": 0,
+      "locked_overlay_shape": 535,
+      "action_script_gotoAndStop_locked": 17,
+      "character_id": 536,
+      "locked_click": "All five onRelease callbacks call NativeHUDSetActiveFaery(slot,0) without an unlock guard; the visual locked frame does not disable selection.",
+      "selected_precedence": "GetActiveFaery runs after unlock loop and applies Focused to the saved active slot, even if its unlock result is false.",
+      "locked_overlay_rgba": [
+        0,
+        0,
+        0,
+        0.7019607843
+      ],
+      "locked_frame": 16,
+      "focused_frame": 9
+    },
+    "upgrade_unlock_semantics": "NativeHUDGetIsFaeryUnlocked(slot) controls the locked button frame. NativeHUDGetActiveFaery returns Save current slot and Upgraded=(saved faery level>0); Upgraded selects localized name suffix B. The source Faery page has no unlock or upgrade mutation action; its only gameplay action is choosing a slot.",
+    "native_continuation": "Original NativeHUDSetActiveFaery(slot,player) resolves the same Player Save slot, then Character::ChangeFaery stores the raw slot in current-faery for the fresh difficulty and calls the same Player CharAI UpdateAllSkills. If same CharAI+58 / Character+420 contains a faery, source then calls its actual GetCharModelName, SetVisualObject(model,NULL,true), and ANIM_AddSetToRenderObject. Native HUD then queries actual current Level twice and calls Level.PlaceFaeryAndFollowers with that selected Character; it does not make a second HUD refresh callback. CharacterPlayerSkillsV6 and its faery SpellScript/skill vectors own abilities; the Faery menu spell string is localized presentation. The original Faery page contains no ability cast, unlock, upgrade, or animation mutation button.",
+    "hotty_fx_asset_overlay": {
+      "source_archive": "C:\\Users\\adamc\\Downloads\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+      "source_archive_sha256": "3FDF4E4C21D45A780A7C35FB4042ABDE0E88E76BF75416AAD1F227481560B679",
+      "exact_cache_uris": [
+        {
+          "uri": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/spell_dh2_faery_fire.bdae",
+          "bytes": 14788,
+          "sha256": "E000AE3169DB48BF7F726C945EFC989F69FC152CB26827FA588ECA64B8F88135",
+          "private_overlay": ".local-inputs/hotty-fx-overlay-v1/com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/spell_dh2_faery_fire.bdae"
+        },
+        {
+          "uri": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_faery_fire.bdae",
+          "bytes": 33092,
+          "sha256": "91FB8FA21F71ACB38279FDB03A441115D9DB7CDF26A425F2B08E60C80422D66A",
+          "private_overlay": ".local-inputs/hotty-fx-overlay-v1/com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_faery_fire.bdae"
+        },
+        {
+          "uri": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_hotty.bdae",
+          "bytes": 8204,
+          "sha256": "20F24C13DA52EECCD65E5C1D9E1622EAE02EB17C8ADD83893C7470DD2E5CE59D",
+          "private_overlay": ".local-inputs/hotty-fx-overlay-v1/com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_hotty.bdae"
+        },
+        {
+          "uri": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_hotty.bdae",
+          "bytes": 9444,
+          "sha256": "E80741DB58A592071F0FE0F4683A2FB4CEC3D5E6C0872A32251EF7266D742FDA",
+          "private_overlay": ".local-inputs/hotty-fx-overlay-v1/com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_hotty.bdae"
+        }
+      ],
+      "private_test_asset_root": ".local-inputs/hotty-session-assets-v1",
+      "proof": "The runner reads these exact canonical archive entries, stages them byte-identically into isolated roots, and verifies every SHA-256 before linking the connected fixture."
+    }
+  },
+  "providers": {
+    "implementation": [
+      "port/windows-foundation/features/faery_menu/faery_menu.hpp",
+      "port/windows-foundation/features/faery_menu/faery_menu.cpp",
+      "port/windows-foundation/features/faery_menu/export_source.py",
+      "port/windows-foundation/features/faery_menu/source_swf_geometry.py",
+      "port/windows-foundation/features/faery_menu/original_art.cpp",
+      "port/windows-foundation/features/faery_menu/native_binding_v1.hpp",
+      "port/windows-foundation/features/faery_menu/native_binding_v1.cpp",
+      "port/windows-foundation/features/faery_menu/source_text_v1.cpp",
+      "port/windows-foundation/features/faery_menu/source_faery_ability_binding_v1.hpp",
+      "port/windows-foundation/features/faery_menu/source_faery_ability_binding_v1.cpp",
+      "port/windows-foundation/features/faery_menu/tests/source_faery_ability_tests.cpp"
+    ],
+    "frame_inputs": "Actual same-player Save, retained FaeryTables::Borrow, fresh source difficulty, owner identity validator, original faery unlock query, original localized text owner.",
+    "selection": "Required callback to existing CharacterMenuFaeryActionsV1 / Character::ChangeFaery. activate_slot dispatches even when unlock query is false because original onRelease does not gate clicks; native source owner decides outcome.",
+    "state": "Frame carries actual selected Save slot, first FaeryList record IDs separately, per-slot real unlock results and saved levels, exact source idle/focused/locked button art and locked alpha geometry. Selected source image batch is exposed in faery_visual.",
+    "root_seam": "content_callback(Bindings) appends original static page art, exact selected img_Faery frame, and exact field geometry/value results only for character_menu::Tab::faery. Root owns Tab dispatch, tab-header art, actual player/difficulty/unlock/localization services, and binding to CharacterMenuFaeryActionsV1.",
+    "release_contract": "Create Bindings after same-owner Save, FaeryTable Borrow, actual unlock/text query owners and CharacterMenuFaeryActions owner are ready. Capture retained provider owner in content_callback for each Frame; use slot_at(screenX/(width/480),screenY/(height/320)) for authored hit routing, then dispatch NativeHUDSetActiveFaery(slot,0) once through the same queries owner and refresh frame. Clear callback and destroy provider before Save/Profile reload; rebuild from restored same-owner Save and table borrow.",
+    "localized_field_mapping": {
+      "slot_to_symbol_index": [
+        1,
+        4,
+        2,
+        3,
+        5
+      ],
+      "fields": {
+        "faery_desc/text": "GAMEPLAYMENUS_FAERY_<slot symbol>_DESC",
+        "faery_spell/text": "GAMEPLAYMENUS_FAERY_<slot symbol>_SPELL",
+        "FaeryNameText/text": "GAMEPLAYMENUS_FAERY_<slot symbol>B when actual Upgraded (saved level >0), otherwise GAMEPLAYMENUS_FAERY_<slot symbol>",
+        "menu_title/txt_title": "GAMEPLAYMENUS_FAERIES_TITLE"
+      }
+    },
+    "source_composition": "bind_source_page_provider_v1 adapts existing Faery Bindings to character_menu::SourcePageProviderV1: ready probes present, append uses content_callback(Tab::faery), release routes through exact source hit contours and activate_slot. The provider preserves the canonical selected-character owner token.",
+    "text_binding": "source_text_symbol_v1 maps source menu slots [0,1,2,3,4] through symbols [1,4,2,3,5]; DESCRIPTION/SPELL/title use existing HudTextV1::native_string; B suffix only when same Save faery level >0.",
+    "query_binding": "NativeHUDGetIsFaeryUnlocked and NativeHUDSetActiveFaery dispatch through the same existing CharacterMenuQueriesOwnerV1 built from the passed CharacterMenuQueriesGraphV1. Authored clicks always send (slot,player=0) with no unlock guard.",
+    "source_ability_binding": {
+      "scope": "Source-backed cast-state and active-Faery ability seam. It does not add upgrade/unlock/cast UI and does not create an actor, follower, FSM, spell instance, animation, event, or cast completion.",
+      "same_owner_requirements": "Canonical V60 selected-character lease; same Character identity/Save slot and Profile/Load receiver; same CharAI+58 / Character+420 association; same FaeryTables snapshot and first list [2,4,5,6,3]; same Actions/Queries/CharacterMenu Faery action owners; same V6 Player skills/spells owner and Save; same loaded AnimationTables/property2; same actual Gear stance producer and same State coordinator.",
+      "active_ability": "Fresh same difficulty selects Save current_faery slot 0..4. Character property29 resolves the current FaeryList with source invalid-index fallback list0; the mapped Faery row must retain word8 == slot. word7 and script bytes are copied as authored row facts. V6 state.spells[slot] is borrowed nullable; null remains the source spell callback no-op.",
+      "cast_state_source": "Original SM_SetCastState from libDungeonHunter2.so at 0x3c6394..0x3c6480 obtains Character::GetCharAnimTableId (property2 with fallback17), validates the loaded CharAnimTable, checks slot against row+0x84 Spells count and reads row+0x88+4*slot (AnimationTables.characters[].fields[31]). It queries AnimStancedAnim/SL__LIST_IPHONE; only bit 0x400000 reads AnimStances/COUNT_IPHONE, actual same Player Gear stance and Character::GetAnimStance. Source writes signed sequence + stance using 32-bit wrap to the same Character State.animation_override. Invalid table/short slot returns without mutation. Stored -1 is kept as a real source sequence value.",
+      "state_dispatch": "Typed CastStateSinkV1 must be the selected-character lease and the exact State address inside the same retained Actor FSM. source_set_cast_state_v1 dispatches event 0xc356 to the supplied same-state coordinator, as RaiseStateEvent or SetState(7,...), after setting animation_override. The sink is mandatory; the binding has no duplicate FSM and does not synthesize state changes.",
+      "authored_spell_event": "source_faery_animation_event_v1 requires the caller to provide the real existing animator TriggeredEvent; only exact name do_spell while same machine current state == 7 calls CharacterPlayerSkillsV6::native_instance_callback_v68(kind=1,slot,skill_use_v3). That is the source Spell Use VM callback. Other marker/state combinations are source no-ops. A null V6 instance retains its original no-op; callback/provider errors are surfaced. The seam does not claim or force completed spell execution.",
+      "cast_animation_owner": "Reads record.services.animation_tables, the canonical Character property2 and same Player V6 Session constants. If the authored stanced mask is clear, no Gear stance is queried. If set, it uses same CharacterMenu Actions Gear equipment stance_facts plus source stance kernel.",
+      "host_gap": "Root must provide the real cast-state sink and route the existing animator event callback into source_faery_animation_event_v1 using its borrowed TriggeredEvent. Current Windows native test graph does not contain a completed canonical Player/Profile/Save/V6 VM/World event loop, so active ability selection, State dispatch, real VM Use, animation playback, world/target and persistence are not runtime-accepted here. Existing V6 required native/world services still fail at their own missing-provider boundary.",
+      "private_getter_request": "None. Canonical record exposes the same V6 owner, Save, actor machine/State, properties and loaded AnimationTables. NativeOwnerInput carries the host-proven same FaeryTables Borrow; its list/faery vector identities are checked against canonical record.services.faeries_v70. No separate hidden getter or duplicate table owner is introduced.",
+      "source_basis": "port/android-native/reference/faery-gameplay-v1/original-functions.asm::_ZN16CharStateMachine15SM_SetCastStateEjPvb @ 0x3c6394..0x3c6480, cross-checked against port/android-native/app/src/main/cpp/renderer_player_cast_v2.inc. CastAnim is the already-loaded source CharAnimTable Spells sequence, not a CharacterModel URI lookup. `CanonicalCharacterCandidateRecordV60::services.models` is only the character model URI dictionary; this path correctly reads the same `services.animation_tables` used by the retained visual set/animator. Existing same-actor visual/animator remains responsible for consuming the override after source state dispatch."
+    },
+    "character_state_page_v1": {
+      "header": "port/windows-foundation/features/faery_menu/character_state_page_v1.hpp",
+      "implementation": "port/windows-foundation/features/faery_menu/character_state_page_v1.cpp",
+      "test": "port/windows-foundation/features/faery_menu/tests/character_state_page_tests.cpp",
+      "api": "CharacterStateFaeryBindingsV1 -> present_character_state_faery_v1 / bind_character_state_faery_provider_v1 -> SourcePageProviderV1 -> SourceCompositionV1(Tab::faery)",
+      "owner_contract": "Requires retained owner token, same CharacterState pointer validator, actual FaeryTables::Borrow, fresh difficulty 0..2, and required source localization callback. Optional same-owner Debug UnlockAllFaeries callback supplies the original debug override fact. Uses CharacterState.source_faery_list_id and same CharacterState.faery_by_difficulty rows; it does not require Native InitPost or SkillAI.",
+      "table_inputs": [
+        {
+          "path": ".local-inputs/character-script-assets-v1/bootstrap-cache/data/pydata/faeries_pyarray.bin",
+          "sha256": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a",
+          "bytes": 699
+        },
+        {
+          "path": ".local-inputs/character-script-assets-v1/bootstrap-cache/data/pydata/faeries_pyarraynames.bin",
+          "sha256": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+          "bytes": 253
+        },
+        {
+          "path": ".local-inputs/character-script-assets-v1/bootstrap-cache/data/pydata/faeries_pystructnames.bin",
+          "sha256": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b",
+          "bytes": 113
+        }
+      ],
+      "actual_lists": {
+        "DEFAULT": [
+          2,
+          4,
+          5,
+          6,
+          3
+        ],
+        "Knight": [
+          1,
+          13,
+          14,
+          15,
+          7
+        ],
+        "Mage": [
+          1,
+          13,
+          14,
+          15,
+          7
+        ],
+        "Rogue": [
+          1,
+          13,
+          14,
+          15,
+          7
+        ]
+      },
+      "table_projection": "For each actual FaeryList row exposes record ID/key, Description/Elemental/ModelFile/Name symbol IDs, SpellScript, SpellType, Type, saved state and saved level. Validates source row Elemental and Type against original page slot embedded icon/order [2,3,1,4,0].",
+      "unlock_projection": "Matches NativeHUDGetIsFaeryUnlocked: debug UnlockAllFaeries true OR saved state byte exactly 1. If source state is unknown, status is Unknown; if debug fact is absent, any non-1 byte is Unknown. It is Locked only with a genuine debug-false fact.",
+      "selection_projection": "Unknown source faery state rejects clicks without write. With source-known state, current slot in 0..4, and valid actual five-slot list, a slot click may select even when its visual is locked, matching the authored SWF callback. Local fixture fallback changes only faery_by_difficulty[freshBoundDifficulty].current_faery. Production should provide activate_slot to dispatch existing same-owner SetActiveFaery action; it must own the actual Save/current-difficulty and affected skill/faery/Level continuation. The page provider does not fabricate a completion receipt for those external owners.",
+      "rendering": "Appends original page static geometry, actual row-aligned button frames and lock overlay, selected named img_Faery frame, original page field geometry, and values through required localization callback. Unknown non-selected button state emits no fabricated idle/locked visual; selected Focused frame has original source precedence.",
+      "runtime_boundary": "Root binds the existing same-owner activate_slot callback for live use. Without it, provider release is a validated projection-only current-slot cell commit and is not accepted as full native SetActiveFaery. Source native action performs Save slot store, UpdateAllSkills, then its actual faery Character visual/retarget and current HUD interface continuation; a callback failure after the Save prefix is not rolled back by the page adapter.",
+      "source_state_knowledge": "CharacterState has one source_faery_state_known flag shared across three difficulty rows, so it cannot distinguish a known selection with unknown progress for a specific difficulty. Adapter follows this existing representation and does not infer extra knowledge.",
+      "production_action_callback": "CharacterStateFaeryBindingsV1.activate_slot is optional for fixture-only projection. Root supplies the existing same-owner NativeHUDSetActiveFaery/CharacterMenuFaeryActions callback; when present provider release dispatches it after same-character/table/list/state validation, preserving source UpdateAllSkills/visual/Level continuation. Direct single-cell mutation is retained only as the focused source projection fixture path.",
+      "actual_localization_test": {
+        "owner": "MenuLocalization from features/character_menu/menu_text.hpp",
+        "asset_root": ".local-inputs/windows-main-frontend-v1/assets",
+        "load_call": "MenuLocalization.load(assets,\"original-cache/data\",0,error); bind_profile(&same CharacterState)",
+        "assets": [
+          {
+            "path": ".local-inputs/windows-main-frontend-v1/assets/original-cache/data/pydata/common_text_pyarray.bin",
+            "sha256": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286",
+            "bytes": 10167
+          },
+          {
+            "path": ".local-inputs/windows-main-frontend-v1/assets/original-cache/data/pydata/common_text_pyarraynames.bin",
+            "sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+            "bytes": 96
+          },
+          {
+            "path": ".local-inputs/windows-main-frontend-v1/assets/original-cache/data/pydata/common_text_pystructnames.bin",
+            "sha256": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad",
+            "bytes": 36
+          },
+          {
+            "path": ".local-inputs/windows-main-frontend-v1/assets/original-cache/data/pydata/common_text_pycst.bin",
+            "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5",
+            "bytes": 155738
+          },
+          {
+            "path": ".local-inputs/windows-main-frontend-v1/assets/original-cache/data/text/menu.english",
+            "sha256": "50e01954a9104b7b3c08bcbab0985c1e516cc873645854cc6fbdaa65a9fad101",
+            "bytes": 23878
+          }
+        ],
+        "verified_values": {
+          "GAMEPLAYMENUS_FAERIES_TITLE": "Faeries",
+          "GAMEPLAYMENUS_FAERY_1_DESC": "Lightning Faerie",
+          "GAMEPLAYMENUS_FAERY_1": "Celeste – Normal Form",
+          "GAMEPLAYMENUS_FAERY_1B": "Celeste – Awakened Form",
+          "GAMEPLAYMENUS_FAERY_5B": "Avalon – Awakened Form"
+        },
+        "scope": "Actual English source labels are read through MenuLocalization and same CharacterState; no fake string table or fallback label. Slot4 uses localized symbol index5 and stays a page selection action, not cast success."
+      },
+      "slot4_cast_boundary": {
+        "page_action": "Authored Faery page slot4 is menu/Save current-faery index4. DEFAULT list slot4 maps to row3 Fake_Hotty with an empty SpellScript; class-specific lists map it to playable row7 Hotty (`faerie_hotty`). The only page action is NativeHUDSetActiveFaery/Character::ChangeFaery selection.",
+        "separate_cast_action": "Source NativeHUDSpell() has no arguments and dispatches through the same active player/Faery skill owner. It is not invoked by the Faery page slot click.",
+        "required_cast_continuation": "Same retained Faery HasSpellCooldown + HasMana checks, TargetListSearch range600/800, actual spell cooldown/mana mutations, ApplyPropClass(Spell_Fire_1 + skill_level), per-target SpellCombatRoll (object targets twice), target FX.",
+        "acceptance": "NOT CLAIMED: existing V6 kernel only exposes SkillCombatRoll; a complete same-owner SpellCombatRoll/effect service and authored cast result are not currently bound."
+      }
+    }
+  },
+  "validation": {
+    "source_export": "PASS: exact SWF page placement; 2 static page batches; five named img_Faery frames; 15 exact button state frames (five slots x idle/focused/locked), source locked overlay geometry, 4 edit fields, parent faery-tab hit region and five slot hit contours; no unsupported art branches.",
+    "native_art": "PASS: C++17 source-art executable checks static batches, finite geometry+UV, exact embedded element icons in idle/focused/locked frames, locked shape535 alpha/mesh/anchor, exact field paths/font/bounds, five actual frame shape IDs, all five source slot contours and hit projection, outside/non-finite rejection, and parent-tab bounds.",
+    "compile": "PASS: strict C++17 -Wall -Wextra -Werror syntax check for faery_menu.cpp and generated original_art.cpp.",
+    "live_integration": "NOT RUN: completed canonical Player/ProfileBootstrap/native query/action/text/Level graph remains absent from the current Windows native fixture.",
+    "timeline": "PASS: source fixture confirms unlock queries cover slots 0..4, original frame17 locked branch, selection-focused state, Blank placeholders, upgrade name state, and all five locked-looking slot callbacks still dispatch NativeHUDSetActiveFaery with no unlock guard.",
+    "composition": "PASS source stack routing and geometry/atlas sample: CharacterMenu art3 shape90 spans authored 480x320 background; decoded atlas projection has 152403 fully opaque pixels, 1197 partial-alpha pixels, and 0 transparent pixels. Faery page 547 overlays it; CharacterSheetNew is popped.",
+    "native_owner_acceptance": "NOT RUN: no genuine completed same-player owner tuple is currently available in the native fixture. Source factory test is an actual V60 constructor + PropertyMap/ConditionData/spawn prefix, then stops at missing Device::IsHighPerformance; Player dispatch slot is absent. It does not expose completed Load/ProfileBootstrap/Save rows/PlayerSkillV6/query/action owners.",
+    "native_binding_compile": "PASS: absolute LLVM llvm-mingw-20261006-ucrt-x86_64 clang++ compiled native_binding_v1.cpp and source_text_v1.cpp to x86_64 Windows COFF objects with -Wall -Wextra -Werror (legacy headers required -Wno-unused-value -Dfinite=_finite; existing CharacterMenuQueries source required -Wno-missing-field-initializers for the link probe).",
+    "native_binding_link_closure": {
+      "direct_link_attempt": "NOT CLOSED: linked the two Faery COFF objects plus source Faery art, CharacterMenu Actions/Queries/FaeryActions, CharacterPlayerSkillsV6, FaeryTables, and existing Windows libfoundation_data/content libraries with the existing native-binding contract test as executable. LLD reached the true owners and reported absent Windows-target link inputs; no fake stubs were added.",
+      "required_project_objects": [
+        "port/level-world/player_equipment_render_owner_v1.cpp",
+        "port/level-world/character_script_session_v3.cpp",
+        "port/game-data/player_savegame_v1.cpp",
+        "port/engine-ui/character_menu_stats_owner_v1.cpp",
+        "the actual CharacterMenu skill/save/gear/provider sources and their data/service dependencies"
+      ],
+      "first_unresolved_owner_symbols": [
+        "PlayerEquipmentRenderOwnerV1::inventory/ready/properties/property_view/equip/unequip/swap",
+        "PlayerSavegameV1::faery_level/current_faery/skill_level/set_skill_in_slot/set_skill_level",
+        "CharacterScriptSessionV3::properties/property_view/timers/constant",
+        "SkillTables::Borrow::lists/skills",
+        "character_menu_assign_stat_v1",
+        "dh2_player_increment_skill_v2"
+      ],
+      "interpretation": "Windows foundation_data does not yet contain the existing native player graph owners required by this new callback. The COFF objects are valid, but there is no link-accepted runtime binding and CMake registration belongs to root."
+    },
+    "native_owner_stages": {
+      "page_projection": "Requires a genuinely prepared and published Profile/Save with initialized same-difficulty faery rows, exact canonical CharAI+58/Character+420 association, the same borrowed FaeryTables snapshot, and the existing query/action/text owners. Source NativeHUDGetIsFaeryUnlocked reaches CharacterMenuQueriesOwnerV1::player(..., skills=true), which calls CharacterMenuActionsOwnerV1::validate_graph(true) and also requires its live skill/equipment backing plus Debug unlock providers; no whole-record init_complete or ProfileBootstrap.finished writer-tail receipt is independently imposed by the Faery binding.",
+      "selection": "Authored slot click always dispatches NativeHUDSetActiveFaery(slot,0), including a locked-looking slot. Existing same-graph CharacterMenuFaeryActionsV1::set_active validates the live graph, stores current-faery into this same Save at fresh difficulty, then calls same CharacterPlayerSkillsV6 UpdateAllSkills. Only after that source prefix does it resolve the actual Character+420 faery, model/visual/animation continuation, then current Level and PlaceFaeryAndFollowers. A missing continuation owner fails at its source stage, with already-completed source prefix retained; no UI unlock guard or fabricated companion is inserted.",
+      "table_identity": "NativeState checks that passed FaeryTables::Borrow references are the same underlying lists/faeries vector objects as record.services.faeries_v70, and checks authored source list IDs [2,4,5,6,3]. Construction must pass the same Borrow used by the V6/faery owner; V6 currently exposes no Borrow getter. CharacterMenuQueriesOwnerV1 similarly exposes no graph getter, so input must be the exact graph used to construct the passed query owner, checked via its public owner/action/faery-action references. These host construction contracts are sufficient; no getter request is made.",
+      "profile_preparation": "ProfileBootstrapV59 has no prepared-state accessor. Host must invoke binding only after prepare() succeeds; adapter independently checks the published Profile identity, Load/Profile identity, same Save, and Save slot pointer but deliberately does not require the final ProfileBootstrap.finished writer tail."
+    },
+    "source_ability_binding_compile": "PASS: source_faery_ability_binding_v1.cpp compiles to x86_64 Windows COFF under LLVM-MinGW C++17 -Wall -Wextra -Werror with repository include roots.",
+    "source_ability_facts_test": "PASS: source_faery_ability_tests.exe covers source invalid slot no-op/no-write, authored Spells slot indexing, stance conditional bit, stored -1 sequence and 32-bit addition wrap. This is a pure reached-source facts test, not a fake Player/VM integration fixture.",
+    "source_ability_timeline_test": "PASS: existing source_timeline_tests.py confirms five source slots, exact frame17 locked visual and authored locked-looking button releases still dispatch NativeHUDSetActiveFaery.",
+    "source_ability_runtime": "NOT RUN: no completed native Player graph / actual authored animator callback loop / accepted State sink in the Windows host; compile and pure source facts do not prove live spell use or completed cast.",
+    "character_state_page_test": "PASS: strict Windows LLVM-MinGW C++17 executable linked actual FaeryTables and MenuLocalization readers. Uses extracted source Faery tables plus actual frontend common_text arrays/constants/menu.english; verifies all four source lists/20 links and fields, actual English title/name/description/spell strings, selected saved-level B suffix (including slot4 Avalon Awakened Form), three difficulty rows, tri-state unlock facts, original slot art semantics, locked-looking authored release/action routing exactly once, outside-hit no-op, invalid-current rejection, and same-owner SourceComposition frame composition.",
+    "character_state_page_compile": "PASS: focused C++17 test built with -Wall -Wextra -Werror against actual FaeryTables/MenuLocalization sources and ran successfully; original art and source timeline fixtures also PASS.",
+    "character_state_page_live_action": "NOT ACCEPTED: production action owner must be provided in CharacterStateFaeryBindingsV1.activate_slot; focused test exercises the no-action projection fixture path only.",
+    "hotty_source": {
+      "faerie_hotty_luac_sha256": "74203596081458abf514627c81f8c914990026b6cd35e1ea5f7bc8532e0e2cb5",
+      "source_spell_asm_sha256": "79bbabc0a6ace8f98360696fafeb30cf194c84fa5cebfe84938c2372da4bc01c",
+      "source_spell_pseudocode_sha256": "d968883dcc818bad35e5b55507380aa0a438f3b39862f5e1b15c659a9c63bd90",
+      "source_scalar_kernel_sha256": "de37788729dabcd53afa6ca9bf5f918229979b8624ae20e11dd1499b267ead61",
+      "faery_row": "Actual class-specific Knight/Mage/Rogue list slot4 maps to source row7 Hotty with SpellScript faerie_hotty. DEFAULT slot4 instead maps to scriptless Fake_Hotty row3 and is not a playable spell.",
+      "spell_level_and_cost": "GetCurrentSpellInfo is capped at 1. The script declares MANA_BASE={ToFixed(10),ToFixed(20)}, MANA_PLVL={ToFixed(0.2),ToFixed(0.2)} and cost=MANA_BASE+MulFixed(MANA_PLVL,player Level). The recovered source ToFixed truncates float to integer before <<8, so ToFixed(0.2)==0 and actual fixed cost is 2560/5120 (10/20), with no player-level slope.",
+      "target_and_pre": "OnSkillCheck requires not HasSpellCooldown and HasMana. OnPreSkill sets Enemy/AttackableOnly/NoSort, searches 600/800, then UseMana and SetSpellCooldown; cooldown comes from GetInt(Faery_Cooldown), with source fallback 5000ms and negative values clamped to zero.",
+      "combat_roll": "For a Character target, SpellCombatRoll obtains the same Save current Faery row SpellType (Faery row scalar word7), calls F_SpellAttack(mask=0x1005554A, weapon_category=-1, element=SpellType, direct_amount=0), then the same F_ApplyResult(...,false). Object targets enter the target object's source vtable path, not this Character formula.",
+      "spell_asm_source": ".local-inputs/faery-spell-original-functions.asm at _F_SpellAttack 0x3b3004 and _SpellCombatRoll 0x3b92a4.",
+      "spell_pseudocode_source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c at Character::F_SpellAttack and Character::_SpellCombatRoll.",
+      "visual_evidence": {
+        "reference": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+        "sampled_seconds": [
+          475,
+          480,
+          485,
+          490,
+          495,
+          500
+        ],
+        "observed": "Original gameplay footage shows the player and an enemy in the HUD scene, target health/feedback and yellow/orange burst effects across these samples.",
+        "inference_limit": "The sampled footage does not identify the selected Faery or prove that the visible burst is Hotty; exact Hotty VFX timing/attribution remains unverified."
+      },
+      "expected_hotty_behavior": "NativeHUDSpell has local-controller/CTRL admission and issues Cmd_BeginCast(false)/Cmd_EndCast(false). The source Faery skill checks HasSpellCooldown and HasMana; OnPre performs Enemy/AttackableOnly/NoSort Search at 600/800, then UseMana and SetSpellCooldown. Hotty OnSkill loops the retained list in order and sets SnS_Level and calls ApplyPropClass(Spell_Fire_1+rank) once after OnPre and before the ordered target loop, then calls SpellCombatRoll for each target. Character targets roll once; target FX is selected only when the returned AttackResult amount is positive. GameObject targets roll twice and take their separate unconditional target-FX branch. The connected portable test proves the same CombatSession Character hit/application prefix and positive branch predicate, not the NativeHUDSpell/CharAI animation-state/marker timing or GameObject branch. This ordering is visible directly in actual recovered source `.local-inputs/character-skill-session-v2/cache/data/scripts/skills/faerie_hotty.luac`, OnSkill_ lines: SetProp(SnS_Level), ApplyPropClass(CLASS_ID+skill_level), then repeat targets.",
+      "cast_unknowns": "The connected source path is exercised through the active Mage CharAnimTable bankSpells[4] sequence: CombatSession retains the actual do_spell marker, which routes state7 Use through RuntimeSkillCastCoordinatorV1. Current Character query preserves caller-supplied ActorPopulation enrollment order and explicitly declares Character-only scope; this matches NoSort intent without claiming native intrusive-pointer order. Non-character GameObject enumeration/application and full original F_ApplyResult secondary effects/status remain unsupported. Production root callback registration, original Hotty render attribution, and GPU packet proof remain outstanding. Exact Hotty FX BDAEs are source-recovered and hash-staged; CPU/no-GPU factory instance creation is proven. Original Fire2-vs-base same result is source-correct under mask 0x1005554A because CF class-selection bits remain clear.",
+      "focused_cast_test_plan": "The connected strict C++17 fixture initializes one real CombatSession and its persistent CharacterState/player ActorId, uses actual Mage FaeryList row7 Hotty for slot4, then fresh Mage slot0 row1 Celest and the exact CharAnimTable.Spells[0] Cast clip. Celest covers retained state7 do_spell, two same-session SpellCombatRoll calls, no-mana/cooldown rejection, complete empty-target use, duplicate suppression and the lethal-first formula-only second roll. Remaining gaps are production main callback registration, GPU/render attribution, GameObject targets, and full F_ApplyResult secondary effects.",
+      "effects_table_hashes": {
+        "effects_pyarray.bin": "9A743E51E4BA098A63FD274EE890EFEAF0DC6F750D51FC53FD9EF2C01695F71B",
+        "effects_pyarraynames.bin": "F91B3EF914E6840C4339C1AF32446C5F3D24605AAA4A9403A797CC941EDBC043",
+        "effects_pystructnames.bin": "D4296263D954714D560083E058DA3FF4D87D4B35FA7C796C4E88618F4CB2CC2B",
+        "effects_dictionary_pyarray.bin": "E0162462ED31315A637B3F784E6957949054855357CF09431E5249DB5C42D294",
+        "effects_dictionary_pyarraynames.bin": "8227757B4E18E10F898E0693EEB1B728B024E8B4675162F97C5FBB6647B910F2"
+      }
+    },
+    "hotty_cast_preparation_test": "PASS: strict C++17 focused runner loads actual Character/Class/Property/AI/Faery/Effects tables and faerie_hotty.luac. Same-world tests cover 600/800 source-effective range, playable Mage list2 slot4 to Hotty row7/script, rank/cost, MP/cooldown, missing order and unsupported object domain rejected before mutation, complete authored-world-order Character query, and resolve_source_result with mask0x1005554A/category -1/selected SpellType/Spell_Fire_2 scratch sheet. The fixture does not initialize CombatSession or exercise apply_source_result; also covers GetTargetPosition node/cache parity: null node ignores constructor zero cache and nonzero node selects authored cached position",
+    "hotty_cast_runtime": "PARTIAL, connected coordinator path: the typed NativeHUDSpell arm executes OnPre/UseMana, actual active bankSpells[4] retained do_spell Use and same-world results, then authored completion. The Use TU has no RuntimeEffectsFactory link dependency; an optional typed FX sink delegates to the concrete same-owner factory adapter. Connected fixtures pass both with exact Player_Pre/positive-target CPU instances and with no FX sink (same do_spell/result/completion continue and missing-FX diagnostics survive). Production root callback registration remains pending; shared apply_source_result covers basic HP/Injury/death only, and full source F_ApplyResult/GameObject paths remain unsupported.",
+    "hotty_effects_binding": "PARTIAL: exact Hotty_Level_1_Player_Pre/Target rows resolve from actual EffectsTables. `HottyRuntimeEffectsDispatchV1` is the concrete optional sink and checks `RuntimeEffectsFactoryV1::is_bound_to(the exact CombatSession)` before FX manager mutation. The ordered Use/result TU has no factory dependency and records missing/failed FX diagnostically without gating source hits. Connected fixture proves same-session/persistent-CharacterState owner acceptance, foreign Session rejection, actual source FX instance creation, and null-sink non-veto behavior. Exact BDAEs are hash-staged; CPU/no-GPU instance creation does not prove rendered packets.",
+    "hotty_effects_test": "PASS: strict C++17 focused runner loads actual EffectsTables and asserts exact type0 Hotty names and canonical cache BDAE paths. Isolated session runner verifies staged canonical BDAE SHA-256 values before compiling and creating both actual source FX instances via a RuntimeEffectsFactory bound to the same live CharacterState-owned CombatSession. No GPU packet/render claim.",
+    "hotty_effects_runtime": "PARTIAL: exact canonical Hotty Player_Pre and Target BDAEs are staged and hash-verified. The connected fixture binds RuntimeEffectsFactoryV1 to the exact live CombatSession player Scene whose ActorState.persistent_character_id matches the same CharacterState.id; both source FX rows create actual instances through CPU/no-GPU sinks. The source Visual FX manager/resource owner is exercised, but no GPU packet, visible frame or Hotty attribution is claimed.",
+    "hotty_live_cast_evidence_before_edit": "Visual evidence reused from hotty_source.visual_evidence: original v1.0.3 video sampled at 475/480/485/490/495/500s; player/enemy HUD and orange/yellow bursts observed, but Hotty attribution remains unproven. Logic source: pseudocode-all.c SHA-256 d968883d... at _SpellCombatRoll 0x003b92a4 reads current selected Faery, accepts Character userdata kinds2/7, calls F_SpellAttack(same Character, Faery row SpellType word7, extra0) then F_ApplyResult(...,false), and returns AttackResult.amount. Hotty Lua source SHA-256 74203596... confirms Character target once, target FX iff returned integer >0; GameObject target twice and target FX unconditional. Source sequence evidence is the active Mage CharAnimTable Spells[4] entry and canonical prince_spell_pre_hotty/prince_spell_hotty clips; the connected same-session fixture sees actual retained do_spell and routes state7 Use through the coordinator. GameObject and full F_ApplyResult remain unsupported; the source scene/UI video still does not prove Hotty visual attribution.",
+    "hotty_connected_session_test": "PASS after source-row correction: isolated strict C++17 runner uses the actual Mage class list2 slot4 row7 Hotty/`faerie_hotty`, not DEFAULT row3 Fake_Hotty. The previous DEFAULT/Fake_Hotty fixture was scriptless and its playable-Hotty identity claim is withdrawn. The corrected run retains the same live CombatSession, persistent CharacterState, actual tables, state7 do_spell, same-world hit/RNG, duplicate suppression, and source FX factory instance creation with exact BDAE hashes. This pass does not imply GPU packet/render attribution or GameObject/full F_ApplyResult coverage.",
+    "celest_source_evidence": "PASS source audit and fresh-profile mapping: Knight/Mage/Rogue class-specific lists1/2/3 have slot0 row1 Celest/faerie_celest, current_faery=0 and all saved Faery state/level pairs zero; spell admission does not consult saved unlock flags. DEFAULT list slot4 row3 Fake_Hotty is scriptless; playable Hotty is row7/faerie_hotty.",
+    "celest_connected_session_test": "PASS isolated C++17 runner on one same CombatSession/Mage CharacterState/profile/table set. Uses exact CharAnimTable.Spells[0] `prince_spell_channeling.bdae` (private staged SHA-256 1350178E7A87B8868FB6E4D34ACFCE79E27A77674058AA09DDD8625BB6F596EC), routes retained state7 do_spell through the coordinator, applies two same-session results and completes; duplicate event is no-op. Also verifies 10 MP debit, mana/cooldown rejection, empty-target completion with no RNG/HP effect, lethal first roll plus formula-only second calculation, duplicate calculation suppression, and non-veto missing-FX diagnostics. No rendered/GPU Celest effect or original cast visual acceptance is claimed.",
+    "hotty_target_position_source_audit": "PASS, source audit + focused regression: original GameObject::GetTargetPosition at 0x3935dc (.local-inputs/character-state-discovery/look-at/reference/original-functions.asm) loads node180 first; if null it returns transform+0x160 without consulting cache184; only a non-null node reaches byte80/cache184 selection. The constructor helper original_target_position_ctor_prefix seeds node=0 and cache={0,0,0}, so optional-cache presence alone was not proof of a selected target point. Both Hotty exact-list validation and ordered query now select cache only for nonzero node plus known cache, otherwise transform. Focused actual-table runner covers null-node zero-cache off-range rejection in both paths and nonzero-node cached-position inclusion. No separate footage claim: this is target-search geometry with no independently rendered visual counterpart. The modern actor model still does not carry source byte80 as a separate field; nonzero-node cache selection is the supported cached-node branch in this scoped regression."
+  },
+  "dependencies": {
+    "save_action": "port/engine-ui/character_menu_faery_actions_v1.cpp",
+    "menu_queries": "port/engine-ui/character_menu_queries_owner_v1.cpp",
+    "faery_connection": "port/level-world/character_menu_faery_connection_v8.cpp",
+    "placement": "port/level-world/level_faery_placement_v8.cpp",
+    "table_reader": "port/game-data/faery_tables.cpp",
+    "table_fixture": "port/game-data/tests/faery_tables.cpp"
+  },
+  "limitations": [
+    "Live bindings and gameplay rendering remain root-owned and have not been executed: same actual Save/FaeryTable snapshot, current difficulty, NativeHUD faery unlock query, localized text owner, and CharacterMenuFaeryActionsV1 selection callback are required.",
+    "Source page offers unlock/upgrade display only, no mutation action. NativeHUDGetActiveFaery supplies selected slot and upgraded state (saved level > 0); source spells and descriptions are localized display fields.",
+    "The native Faery world model and Level.PlaceFaeryAndFollowers remain owned by CharacterMenuFaeryServicesV8; this page provider makes no fabricated companion or model state.",
+    "Production CharacterStateFaeryBindingsV1 registration remains a root callsite task. Root must bind the same CharacterState pointer, actual FaeryTables borrow, fresh difficulty/debug policy, MenuLocalization.symbol callback, and same-owner activation callback into SourceComposition. Slot4 Hotty selection is separate from skill cast success.",
+    "Hotty preparation/application is connected in an isolated same-CombatSession fixture using the valid Mage list2 row7 Hotty/`faerie_hotty`, with exact cost/debit/cooldown, 600/800 Character target ordering, same-world source hit and duplicate suppression. The shared RuntimeSkillCastCoordinator routes retained state7 `do_spell`; state6 `do_skill` is not valid for spells. Exact Hotty BDAEs are privately hash-staged and CPU/no-GPU source instances are exercised, but no GPU packet/visible attribution is claimed. GameObject double rolls and complete F_ApplyResult secondary behavior remain unsupported. This is a modern Character-only host scope, not historical intrusive pointer-order parity or global GameObject coverage."
+  ],
+  "limitation": "Owner acceptance and live selection persistence remain blocked on these source-owned producers; no synthetic unlock, initialized faery, Save, PlayerInfo, faery actor, text, difficulty, or gameplay state is admitted."
+}

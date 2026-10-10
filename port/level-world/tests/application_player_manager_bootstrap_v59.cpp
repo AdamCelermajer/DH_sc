@@ -62,6 +62,10 @@ void fresh(){
  PlayerInfoFieldsV1* dummy{};check(boot->get_by_internal(-1,false,dummy,e));check(dummy&&dummy->save_slot664==-1&&dummy->character660==0);
  check_buffers(*boot,*dummy);const auto dummy_net=boot->network()->borrow(*dummy);check(dummy_net&&dummy_net->owner1a0==-1);
  std::int32_t n{};check(boot->manager()->num_players(n,e)&&n==0);
+ // A no-entry manager resolves GetLocalPlayer(0,false) to the constructor
+ // sentinel. Slot publication must reject it without changing sentinel state.
+ check(!boot->publish_selected_save_slot_v67(0,2,e));
+ check(e.find("sentinel/non-local PlayerInfo")!=std::string::npos&&dummy->save_slot664==-1);
  Input input;input.gamepads=-7; // source clamps; still requires GetGamepad(0)
  input.fail_count=true;check(!boot->source_first_local_add_prefix(input.services(),e));check(input.order==std::vector<int>{1});
  input.fail_count=false;input.fail_zero=true;input.order.clear();check(!boot->source_first_local_add_prefix(input.services(),e));check(input.order==std::vector<int>({1,2}));
@@ -78,6 +82,16 @@ void fresh(){
  PlayerInfoFieldsV1* local{};check(boot->get_local_player(0,false,local,e));check(local&&local!=dummy);
  check(local->internal670==0&&local->controller_local674==-1&&local->controller668==0&&local->local66c==1);
  check(local->friendly678==0&&local->local_remote67c==0&&local->character660==0&&local->save_slot664==-1);
+ local->character660=0x12345678;
+ check(!boot->publish_selected_save_slot_v67(0,2,e));
+ check(e.find("after Character660 publication")!=std::string::npos&&local->character660==0x12345678&&local->save_slot664==-1);
+ local->character660=0;
+ check(boot->publish_selected_save_slot_v67(0,2,e));check(local->save_slot664==2&&!boot->profile_input_pending());
+ check(boot->publish_selected_save_slot_v67(0,2,e));check(local->save_slot664==2);
+ check(!boot->publish_selected_save_slot_v67(0,1,e));check(local->save_slot664==2&&!e.empty());
+ local->save_slot664=-1;
+ check(!boot->publish_selected_save_slot_v67(-1,2,e));check(local->save_slot664==-1&&!e.empty());
+ check(!boot->publish_selected_save_slot_v67(0,4,e));check(local->save_slot664==-1&&!e.empty());
  check(*boot->count_field()==0);check(boot->manager()->num_players(n,e)&&n==1);check(boot->manager()->num_local_players(true,n,e)&&n==0);
  PlayerInfoFieldsV1* needs_character{};check(boot->get_local_player(0,true,needs_character,e));check(needs_character==dummy);
  check_buffers(*boot,*local);const auto local_net=boot->network()->borrow(*local);check(local_net&&local_net->receiver==local);
@@ -132,6 +146,46 @@ void changed_loan_owner(){
  PlayerInfoFieldsV1* record{};check(!boot->get_by_internal(-1,false,record,e));
  check(displaced->manager().source_initialized_v59()); // observed publication invalidated, no owner reset
 }
+void internal_zero_nonlocal(){
+ auto app=std::make_shared<App>();MatchingLocalSelectionOwnerV4 matching;std::shared_ptr<Boot> boot;std::string e;
+ check(Boot::create_fresh(app,matching,boot,e));check(app->publish_source_player_manager_v59(boot,e));
+ check(boot->manager()->add_player(0,-1,0,false,e));
+ PlayerInfoFieldsV1* mapped{};check(boot->get_by_internal(0,false,mapped,e));
+ check(mapped&&mapped->internal670==0&&!mapped->local66c);
+ Input input;input.gamepads=1;
+ // IDA IsPlayerInLocalMap(0) is key membership, so the source first-local
+ // prefix skips AddPlayer here. Its local-player enumeration then resolves
+ // to the sentinel; report the mismatch instead of fabricating/promoting a row.
+ check(!boot->source_first_local_add_prefix(input.services(),e));
+ check(e.find("internal ID 0 is mapped to a non-local PlayerInfo")!=std::string::npos);
+ check(e.find("mapped internal670=0, local66c=0, save_slot664=-1")!=std::string::npos);
+ check(e.find("total_players=1; local_players_no_character=0; local_players_with_character=0")!=std::string::npos);
+ check(e.find("get_local_0_false=ok, same_as_sentinel=true, internal670=-1, local66c=1, save_slot664=-1")!=std::string::npos);
+ check(e.find("sentinel_lookup=ok, internal670=-1, local66c=1, save_slot664=-1")!=std::string::npos);
+ check(boot->phase()==PlayerManagerBootstrapPhaseV59::first_local_failed);
+ PlayerInfoFieldsV1* sentinel{};check(boot->get_local_player(0,false,sentinel,e));
+ check(sentinel&&sentinel!=mapped&&sentinel->internal670==-1&&sentinel->local66c==1);
+ check(!boot->publish_selected_save_slot_v67(0,2,e));
+ check(e.find("sentinel/non-local PlayerInfo")!=std::string::npos&&mapped->save_slot664==-1&&sentinel->save_slot664==-1);
+}
+void selected_slot_authored_callback_route(){
+ auto app=std::make_shared<App>();MatchingLocalSelectionOwnerV4 matching;std::shared_ptr<Boot> boot;std::string e;
+ check(Boot::create_fresh(app,matching,boot,e));check(app->publish_source_player_manager_v59(boot,e));
+ auto input=std::make_shared<dh2::input::SourceInputManagerV60>();
+ // This is the production synchronous prefix behind the SWF's literal
+ // NativeAssignSaveSlotToPlayer(0, SlotID) after NativeCreateSaveSlot.
+ check(boot->assign_selected_save_slot_v70(0,3,input->first_local_services(),e));
+ PlayerInfoFieldsV1 *selected{},*sentinel{};
+ check(boot->get_local_player(0,false,selected,e));check(boot->get_by_internal(-1,false,sentinel,e));
+ check(selected&&selected!=sentinel&&selected->internal670==0&&selected->local66c==1);
+ check(selected->save_slot664==3&&selected->character660==0);
+ std::int32_t locals{};check(boot->manager()->num_local_players(false,locals,e)&&locals==1);
+ // Replay of the exact callback is idempotent for the same chosen slot.
+ check(boot->assign_selected_save_slot_v70(0,3,input->first_local_services(),e));
+ check(boot->get_local_player(0,false,selected,e)&&selected->save_slot664==3);
+ check(!boot->assign_selected_save_slot_v70(0,2,input->first_local_services(),e));
+ check(selected->save_slot664==3&&e.find("different profile")!=std::string::npos);
+}
 void online(){
  auto app=std::make_shared<App>();MatchingLocalSelectionOwnerV4 matching;std::shared_ptr<Boot> boot;std::string e;
  check(Boot::create_fresh(app,matching,boot,e));check(app->publish_source_player_manager_v59(boot,e));
@@ -148,4 +202,5 @@ void online(){
  app->get_online_loading_v55()->set_is_online_game(0);std::int32_t count{};check(boot->manager()->num_players(count,e)&&count==0);
 }
 }
-int main(){try{fresh();adoption();changed_loan_owner();online();std::cout<<"{\"status\":\"PASS\",\"checks\":"<<checks<<",\"whole_AddCharacter\":false,\"whole_InputManager\":false}\n";}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
+int main(){try{fresh();internal_zero_nonlocal();selected_slot_authored_callback_route();adoption();changed_loan_owner();online();std::cout<<"{\"status\":\"PASS\",\"checks\":"<<checks<<",\"whole_AddCharacter\":false,\"whole_InputManager\":false}\n";}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
+

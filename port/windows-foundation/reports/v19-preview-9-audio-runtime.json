@@ -1,0 +1,199 @@
+{
+  "status": "packaged_original_audio_and_persistence_verified",
+  "goal_complete": false,
+  "executable_sha256": "ac8bdb552a8c33ab9e08cabd0f7e40662eaad52b9a6083e0bd048e1533a37250",
+  "manifest_files_verified": 1580,
+  "original_wav_count": 244,
+  "frames": 420,
+  "source_sounds": [
+    29,
+    31,
+    29,
+    31,
+    121,
+    121,
+    122
+  ],
+  "dispatched": 7,
+  "started_voices": 10,
+  "diagnostics": 0,
+  "output_initializations": 1,
+  "limits": [
+    "Original longsword step-entry swooshes play; complete global audio and music remain incomplete.",
+    "Perceptual/reference audio parity is not verified.",
+    "Existing finite voices may finish across world reload; source world-stop parity remains unverified.",
+    "Source enemy attack sound474 references an unavailable sfx_lizardman_attack_1.wav; no substitute is played."
+  ],
+  "step_sources": [
+    {
+      "sequence": 370,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 366,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 366,
+      "step": 1,
+      "sound": 474,
+      "status": 4,
+      "detail": "Unavailable original audio asset: data/sounds/sfx_lizardman_attack_1.wav; Required source Vox Play3D operation 9"
+    },
+    {
+      "sequence": 370,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 366,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 366,
+      "step": 1,
+      "sound": 474,
+      "status": 4,
+      "detail": "Unavailable original audio asset: data/sounds/sfx_lizardman_attack_1.wav; Required source Vox Play3D operation 9"
+    },
+    {
+      "sequence": 370,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 366,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 243,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 470,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 366,
+      "step": 1,
+      "sound": 474,
+      "status": 4,
+      "detail": "Unavailable original audio asset: data/sounds/sfx_lizardman_attack_1.wav; Required source Vox Play3D operation 9"
+    },
+    {
+      "sequence": 366,
+      "step": 2,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 243,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 470,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 470,
+      "step": 1,
+      "sound": 289,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 243,
+      "step": 1,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 471,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 471,
+      "step": 1,
+      "sound": 289,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 243,
+      "step": 2,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 472,
+      "step": 0,
+      "sound": -1,
+      "status": 1,
+      "detail": ""
+    },
+    {
+      "sequence": 472,
+      "step": 1,
+      "sound": 289,
+      "status": 1,
+      "detail": ""
+    }
+  ],
+  "step_playback_diagnostics": [
+    {
+      "sequence": 366,
+      "step": 1,
+      "sound": 474,
+      "status": 4,
+      "detail": "Unavailable original audio asset: data/sounds/sfx_lizardman_attack_1.wav; Required source Vox Play3D operation 9"
+    },
+    {
+      "sequence": 366,
+      "step": 1,
+      "sound": 474,
+      "status": 4,
+      "detail": "Unavailable original audio asset: data/sounds/sfx_lizardman_attack_1.wav; Required source Vox Play3D operation 9"
+    },
+    {
+      "sequence": 366,
+      "step": 1,
+      "sound": 474,
+      "status": 4,
+      "detail": "Unavailable original audio asset: data/sounds/sfx_lizardman_attack_1.wav; Required source Vox Play3D operation 9"
+    }
+  ]
+}

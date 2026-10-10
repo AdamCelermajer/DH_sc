@@ -36,6 +36,12 @@
     "value": "LocalPlayer"
   },
   {
+    "add_instruction": "0x34aec0",
+    "literal": "0x34b05c",
+    "address": "0x8c0400",
+    "value": "isTracingObjectManager"
+  },
+  {
     "add_instruction": "0x34b4bc",
     "literal": "0x34b51c",
     "address": "0x8c0438",

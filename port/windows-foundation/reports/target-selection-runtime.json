@@ -1,0 +1,30 @@
+{
+  "module": "target_selection_runtime.hpp/.cpp",
+  "status": "native Windows compile and tests passed",
+  "test": "tests/target_selection_runtime_tests.cpp",
+  "binary": ".local-inputs/windows-toolchain/target-selection-runtime-tests.exe",
+  "bindings": "ActorState identity, resolved OriginalActorProperties faction, explicit player classification, visible/targetable/zone state, capabilities, target offset, interaction radius, source melee radius. Rebind when properties or flags change; registry and actors remain borrowed.",
+  "original_rules": [
+    "Faction fallback 10 and signed row enemy/friend decisions: port/game-data/ai.cpp and port/level-world/character_world_ai_relationship_v1.cpp.",
+    "Hostile player/player exclusions; different faction numbers do not imply enemies.",
+    "Heading {sin(rotation),-cos(rotation),0}, cone radians, center distance minus target and source radius: port/level-world/character_target_search_v5.cpp."
+  ],
+  "configurable_runtime_extensions": [
+    "Cursor world ray sphere picking uses the explicit supplied interaction radius and original CollisionScene triangles.",
+    "Nearest, next, and previous selection use stable distance then actor-ID ordering; this is explicit runtime policy rather than a claim of original input ordering.",
+    "Actor heading cone is the default. Optional camera cone projects the real view vector into XY; selecting never changes actor facing or camera state.",
+    "Optional line of sight is disabled by default; original search has no raycast gate.",
+    "Optional nearest fallback on ray miss is disabled by default.",
+    "Camera cursor ray uses a normalized right-handed view basis and vertical FOV with NDC coordinates."
+  ],
+  "verified": [
+    "Original heading and radius-subtracted range boundaries",
+    "Faction enemy/friend filtering and player pair exclusion",
+    "Invalid faction fallback10 and stale-binding rejection",
+    "Actor and camera cone selection; actor heading remains unchanged",
+    "Cycle wrap, dead-target clearing, direct and ray selection",
+    "Real collision triangle occlusion for cursor rays and opt-in direct LOS",
+    "Center/right camera ray basis and degenerate view rejection"
+  ],
+  "integration": "Add target_selection_runtime.cpp to foundation_data. No main, CMake, camera, renderer, or HUD edits were made. Hosts consume SelectionOutput.selectedId/aim and bind target-ring or HUD rendering separately."
+}

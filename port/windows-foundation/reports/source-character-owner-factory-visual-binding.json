@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "status": "actual_candidate_cache_bres_read_and_native_visual_pf_provider_staged_visual_load_not_executed",
+  "scope": "Actual source cache/model resolution, native asset-reader test, and additive visual/PF provider. No cache asset was copied or staged.",
+  "provider_api": {
+    "header": "port/windows-foundation/features/actor_frame/source_character_owner_factory_visual_binding.hpp",
+    "implementation": "port/windows-foundation/features/actor_frame/source_character_owner_factory_visual_binding.cpp",
+    "context": "SourceCharacterOwnerFactoryVisualWorldV1(nav, roots, cache, canonical_manager)",
+    "wiring": [
+      "Assign visual_world->lifetime() to CanonicalCharacterCandidateServicesV60.world.",
+      "Install services.visual=[visual_world](record,out,error){ return visual_world->bind(record,out,error); }.",
+      "The context strongly pins navigation, roots, and candidate cache. The Application-owned CanonicalObjectManager is observed weakly to avoid a context/record/manager retain cycle."
+    ],
+    "bind_boundary": "The visual provider runs at V60 C1 construction before InitPost writes model290; bind does not inspect or initialize model/xref strings. It preserves root-supplied animation manager/dictionary/registration/selection/events/FX services."
+  },
+  "fixture": {
+    "native_test": "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_test.cpp",
+    "definition": "WanderingPriest",
+    "property_table": "CharacterProperties",
+    "property_row": 419,
+    "property_row_name": "WanderingPriest",
+    "model_field": {
+      "index": 3,
+      "name": "ModelFile",
+      "value": 74
+    },
+    "model_dictionary": {
+      "index": 74,
+      "key": "priest_good",
+      "value": "data/3D/characters/npcs/Priest_good.bdae"
+    },
+    "source_actor_fields": {
+      "model_290": "data/3D/characters/npcs/Priest_good.bdae, produced by CharacterGenericInitPostOwnerV61 after GetCharModelName (0x3a54d4)",
+      "xref_2a8": "empty source C1 string; no fixture or CharacterProperties field supplies an alternate subscene"
+    },
+    "resolution_path": [
+      "CanonicalCharacterCandidateRecordV60 dispatches 0x3a54d4 using properties.resolved[3] and the actual Character model dictionary.",
+      "CharacterGenericInitPostOwnerV61 stores the returned URI in the same actor's model290 string.",
+      "RetainedCharacterActorV1::visual_strings_v6 borrows the same actor model290/xref2a8 strings.",
+      "CharacterVisualAssetOwnerV6::load_visual requests that exact model URI and xref from its retained asset reader."
+    ]
+  },
+  "asset": {
+    "uri": "data/3D/characters/npcs/Priest_good.bdae",
+    "original_cache": {
+      "path": ".local-inputs/windows-shared-assets/original-cache/data/3d/characters/npcs/priest_good.bdae",
+      "bytes": 42136,
+      "sha256": "880ed0be28e158dc62779a1fd5f9874cbd39fb68edc31af69972aceb8979e8bf"
+    },
+    "reference_cache_copy": {
+      "path": ".local-inputs/publication/checkpoint/port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/priest_good.bdae",
+      "bytes": 42136,
+      "sha256": "880ed0be28e158dc62779a1fd5f9874cbd39fb68edc31af69972aceb8979e8bf",
+      "matches_original_cache": true
+    },
+    "native_fixture_pydata_root": ".local-inputs/publication/checkpoint/port/android-native/app/src/main/assets/data",
+    "native_fixture_pydata_root_contains_model_uri": false,
+    "reader_root_for_asset": ".local-inputs/windows-shared-assets/original-cache",
+    "native_cache_test": {
+      "source": "port/windows-foundation/features/actor_frame/source_character_owner_factory_visual_binding_asset_test.cpp",
+      "result": "PASS: CharacterCandidateCacheV62 loaded and its files().read returned the 42,136-byte valid Priest_good BRES",
+      "reader_roots": [
+        ".local-inputs/publication/checkpoint/port/android-native/app/src/main/assets/data (fixture PyData)",
+        ".local-inputs/windows-shared-assets/original-cache (original-cache fallback and BRES)",
+        ".local-inputs/publication/checkpoint/session-contributions/level-loader/source/port/level-loader/reference/character-templates-v35 (missing CharacterTemplate schema)"
+      ],
+      "qualification": "The reader is an explicit layered source reader used by this test, not evidence that the fixture PyData directory alone is a complete source cache."
+    }
+  },
+  "visual_pf_composition": {
+    "candidate_world_identity": "CharacterFamilyVisualServicesV6.world must equal record.services.world exactly. A typed in-house Windows backend lifetime context can own the same navigation capsule, roots, candidate cache, and canonical manager; this visual leaf only checks the non-null/equal lifetime token and does not downcast it. Later actual Level/script providers remain separate.",
+    "scene_manager": "Capture the same shared GameObjectSceneRootRegistryV1 used by the retained source visual connection.",
+    "navigation": "Capture the one shared SourceNavigationWorldStorage. It must already retain the actual sewn floors::World and its sole obstacle registry/storage; do not create another registry for the visual actor.",
+    "update_pf": "Weak-lock the same CanonicalCharacterCandidateRecordV60, then call canonical_character_update_pf_v62(*record, nav->floors->collision_world, nav->registry, error). The capsule and registry stay strongly pinned by the callback. This is the source Character PF producer, not a no-op callback.",
+    "visual_asset_owner": "Set RetainedGameObjectVisualServicesV1.owner to record.services.world and read_asset to the SAME candidate cache's ScriptAssetServicesV1 reader, rooted at the actual original-cache root. Let RetainedCharacterVisualConnectionV5 supply same-registry root registration, force-register, destruction, and root GameObject identity services.",
+    "callback_order": [
+      "RetainedCharacterFamilyVisualV6::bind borrows visual fields and model/xref strings from the same actor and invokes the actual UpdatePFObject callback when the source mesh bounds are applied.",
+      "CharacterVisualAssetOwnerV6::load_visual requests model290/xref2a8.",
+      "RetainedCharacterVisualConnectionV5 constructs the retained visual from the actual BRES bytes and registers its root in the captured same SceneManager.",
+      "The visual applies its mesh bounds to the same Character and invokes canonical_character_update_pf_v62 through the shared navigation capsule."
+    ]
+  },
+  "not_proven": [
+    "The current native fixture still uses std::make_shared<int>(1) for services.world; it is not a typed in-house backend lifetime context and retains none of navigation, roots, candidate cache, or canonical manager.",
+    "The native fixture's provided PyData root has no model BRES at the resolved URI. The separately located original-cache BRES was read and opened through CharacterCandidateCacheV62 in the owned asset test, but not yet loaded by the native factory fixture.",
+    "No native visual LoadVisual, root registration, mesh-bounds UpdatePF, PF obstacle insertion, full SceneManager rendering registration, or completed InitPost is claimed.",
+    "SourceNavigationWorldStorage must be given the same actual sewn floor authority and used without duplicate floor/obstacle storage; this report does not fabricate or publish that Level context."
+  ],
+  "evidence": {
+    "model_resolution_sources": [
+      "port/game-data/data.cpp: load_characters and load_dictionary preserve source row and dictionary indexes.",
+      "port/level-world/character_model_name_v62.cpp: Character model ID to dictionary value resolution.",
+      "port/level-world/canonical_character_candidate_v60.cpp: 0x3a54d4 dispatch reads properties.resolved[3].",
+      "port/level-world/character_generic_initpost_owner_v61.cpp: source 0x3a54d4 result stored at model290."
+    ],
+    "input_cache_hashes": {
+      "character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+      "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+      "character_models_dictionary_pyarraynames.bin": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+      "character_models_dictionary_pyarray.bin": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    "model_bres_hash_verified_against_two_local_roots": true
+  },
+  "validation": {
+    "provider_compile": "PASS: bundled clang++ C++20 -Wall -Wextra -Werror",
+    "asset_test_compile": "PASS: bundled clang++ C++20 -Wall -Wextra -Werror",
+    "asset_test_runtime": "PASS: cache load and actual Priest_good BRES read/open",
+    "full_native_factory_visual_LoadVisual": "not run; root owns native_test/build/closure"
+  }
+}

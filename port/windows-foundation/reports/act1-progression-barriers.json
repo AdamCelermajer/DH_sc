@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-09",
+  "status": "source_command_bridge_added_live_world_integration_required",
+  "scope": "Act 1 authored progression doors and the reusable source OpenDoor/CloseDoor command path",
+  "source_authority": {
+    "original_data": "port/windows-foundation/assets/original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+    "original_scripts": "port/windows-foundation/reports/encounter-source-scripts.json",
+    "original_condition_names": "port/windows-foundation/assets/original-cache/data/pydata/v2conditions_pyarraynames.bin",
+    "original_command_assembly": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/full-listing.asm",
+    "reference_video": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "reference_video_audit": "reports/fidelity-video-audit-v18.json",
+    "version_note": "The supplied video is v1.0.3. Its differences from recovered v1.0.2 source are not established; authored conditions and commands below are source facts."
+  },
+  "authored_swamp_progression": [
+    {
+      "source_identity": "merchantcamp_ruins_swe_00.mgp::_prim_TriggerObject",
+      "source_type": "TriggerObject",
+      "source_properties": {
+        "script": "open_SwampKingDoor",
+        "activate_cond": "Invalid",
+        "unlock_cond": "IsAfter_Swamp_KillWitch2",
+        "data": "Lever_Swamp"
+      },
+      "script_identity": "level script id 53 open_SwampKingDoor",
+      "script_commands": [
+        {
+          "ordinal": 0,
+          "class": "Script_OpenDoor",
+          "kind": 54,
+          "target": "_prim_SwampDoor_FIRE",
+          "wait": 0
+        },
+        {
+          "ordinal": 1,
+          "class": "Script_Wait",
+          "kind": 26,
+          "duration_ms": 0
+        },
+        {
+          "ordinal": 2,
+          "class": "Script_OpenDoor",
+          "kind": 54,
+          "target": "_prim_SwampDoor",
+          "wait": 0
+        }
+      ],
+      "condition_provenance": "IsAfter_Swamp_KillWitch2 is an exact authored v2conditions name in the original condition name table. The named UnlockCondition source evaluation value is not decoded in this report.",
+      "confidence": "exact authored source association"
+    },
+    {
+      "source_identity": "merchantcamp_ruins_swe_00.mgp::_prim_SwampDoor_FIRE",
+      "source_type": "Door",
+      "source_properties": {
+        "data": "Swamp_Door_Ruins_FIRE",
+        "opened": 0,
+        "activate_cond": "Invalid",
+        "idle_sound": "sfx_magical_wall_loop"
+      },
+      "scripted_by": "open_SwampKingDoor command 0",
+      "confidence": "exact authored source association"
+    },
+    {
+      "source_identity": "merchantcamp_ruins_swe_00.mgp::_prim_SwampDoor",
+      "source_type": "Door",
+      "source_properties": {
+        "data": "Swamp_Door_Ruins",
+        "opened": 0,
+        "activate_cond": "Invalid"
+      },
+      "scripted_by": "open_SwampKingDoor command 2",
+      "confidence": "exact authored source association"
+    },
+    {
+      "progression_quest": "Swamp_KillWitch",
+      "quest_source": "Actual Swamp quest table; start zone _prim_WitchQuestStart; kill objective type 0, object id 435, count 1.",
+      "related_script": "SwampScripts.Swamp_Witch_Activate",
+      "relation_to_door": "The quest name is part of the source UnlockCondition name. A video-matched witch-to-door or waterfall sequence is not claimed."
+    }
+  ],
+  "waterfall_recollection": {
+    "status": "unverified",
+    "source_search": "No waterfall-named declaration or waterfall condition was found in the original Swamp gameplay and visual module source files. The Swamp source does contain the Witch cave route and the witch-gated Lever_Swamp to two Door script above.",
+    "video_evidence": "Local referenceframes minute-015 shows the Bogwitch Champion in a water cavern and minute-017 shows quest completion. Those stills do not establish that a visible water feature blocks an exit or that a waterfall changes state after the quest. The remembered waterfall barrier is not accepted as source identity."
+  },
+  "native_source_bridge": {
+    "files": [
+      "port/windows-foundation/features/progression_barriers/source_door_commands.hpp",
+      "port/windows-foundation/features/progression_barriers/source_door_commands.cpp"
+    ],
+    "reuses": [
+      "CanonicalObjectManagerV1 named lookup and typed source receiver borrow",
+      "CanonicalDoorV27 source_opened_v91/source_closed_v91 transition on the same receiver",
+      "CanonicalDoorV27 source_state3a8 state for the original blocking query",
+      "OriginalCampaignCommand and CampaignCommandPhase source command representation"
+    ],
+    "implemented_source_rules": [
+      "Kinds 54/55 are handled; unrelated commands remain unhandled.",
+      "OpenDoor/CloseDoor execute performs the required tracing service, resolves authored target by name and module, and affects only canonical type_f4 == 2.",
+      "Missing and non-Door targets clear the retained command target and complete without a fabricated Door.",
+      "The authored byte at command offset 20 controls blocking. The original command waits until the same Door source state is 1 or 3.",
+      "Update preserves the original ScriptCmd base no-op; door animation and physical effects remain owned by CanonicalDoorV27 providers."
+    ],
+    "compile": "clang++ -std=c++17 -fsyntax-only passed for source_door_commands.cpp using the configured LLVM-MinGW toolchain."
+  },
+  "remaining_live_native_services": [
+    "The actual TriggerObject constructor, source unlock-condition initialization/evaluation, collision/contact/interact route, and script start in the same campaign/module. TriggerObject is among the additional source classes identified in port/level-loader/reports/swamp-connected-class-gaps.json.",
+    "A production resolver from the SAME canonical manager Door borrow to its SAME retained CanonicalDoorV27 owner, plus source command binding in the live campaign runtime.",
+    "The actual DebugSwitches Load/GetSwitch isTracingScriptCmd provider required by Script_OpenDoor/CloseDoor.",
+    "CanonicalDoor startup providers: actual Arrays::Doors and GameObjectDict; visual controller callback registration and mesh bounds; door physical creation/assignment and filter; PFWorld dead-end/floor flags; and source Door sound manager.",
+    "ConditionRuntime providers for same current Level, local Character/Save quest-sync, and live Quest/Event state, including the actual source evaluation of IsAfter_Swamp_KillWitch2.",
+    "Actual source persistence and reload of Door open state, quest state and world/PF state."
+  ],
+  "acceptance_limit": "The bridge compiles but is not wired to the root executable or a production manager/door/condition provider. No live progression barrier, unlock, waterfall, persistence, or packaged Act 1 acceptance is claimed."
+}

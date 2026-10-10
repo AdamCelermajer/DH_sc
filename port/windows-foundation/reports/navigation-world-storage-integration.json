@@ -1,0 +1,9 @@
+{
+  "status": "actual_live_floor_world_storage_verified_native_actor_binding_incomplete",
+  "goal_complete": false,
+  "executable_sha256": "f4a5c790699ef8e3d254de84d3a673d79fca051760862fe75f6d06fe39538988",
+  "source": "port/windows-foundation/source_navigation_world_storage.hpp",
+  "runtime_log": ".local-inputs/navigation-world-storage-verification/default-run.log",
+  "same_navigation_behavior": "Default-run final grounded position/source/world travel match accepted v18 exactly",
+  "remaining": "Native canonical actor records must borrow this same sewn world and sole registry before family visual publication."
+}

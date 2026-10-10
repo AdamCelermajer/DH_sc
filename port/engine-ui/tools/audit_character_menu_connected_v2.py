@@ -19,6 +19,7 @@ primary+=['port/engine-ui/character_menu_skill_authority_v1.hpp',
  'port/engine-ui/tests/character_menu_connected_as_host_v2.hpp',
  'port/level-world/tests/character_player_skills_v3.cpp']
 current={name:digest(ROOT/name) for name in primary}
+current['port/windows-foundation/features/skill_ui/native_skill_services.hpp']=digest(ROOT/'port/windows-foundation/features/skill_ui/native_skill_services.hpp')
 if '--capture-sources' in sys.argv:
  (OUT/'compile-inputs.json').write_text(json.dumps(current,indent=2)+'\n')
  print(json.dumps({'primary_compile_input_files':len(current)}))
@@ -26,11 +27,13 @@ if '--capture-sources' in sys.argv:
 compiled=json.loads((OUT/'compile-inputs.json').read_text())
 assert current==compiled,'Primary sources changed during build; repeat affected build before audit'
 fixture=json.loads((OUT/'fixture-source.json').read_text())
-for name,sha in fixture['generated'].items():assert digest(ROOT/name)==sha
+for name,sha in fixture['generated'].items():assert digest(ROOT/name.replace('\\','/'))==sha
 runs={}
 for mode in ('SAN','O2'):
  result=OUT/f'result-{mode}.json';data=json.loads(result.read_text())
  assert data['validation']=='PASS' and data['real_retained_AS_transport'] and data['actual_AS_inventory_lists']
+ assert data['all_class_position_skill_detail_queries']==data['successful_skill_detail_queries']==48
+ assert data['unsupported_skill_detail_globals']==[]
  assert not data['authored_character_menu_flow']
  runs[mode]={'result':data,'result_sha256':digest(result),'executable_sha256':digest(OUT/f'menu-{mode}')}
 assert runs['SAN']['result']==runs['O2']['result']
@@ -42,6 +45,7 @@ for stem in ('character_menu_stats_owner_v1','character_menu_actions_owner_v1','
 sources+=['port/engine-ui/character_menu_skill_authority_v1.hpp',
  'port/engine-ui/tests/character_menu_connected_v2.cpp',
  'port/engine-ui/tests/character_menu_connected_as_host_v2.hpp',
+ 'port/windows-foundation/features/skill_ui/native_skill_services.hpp',
  'port/engine-ui/tools/prepare_character_menu_connected_v2.py',
  'port/engine-ui/tools/build_character_menu_connected_v2.sh',
  'port/engine-ui/tools/audit_character_menu_connected_v2.py']

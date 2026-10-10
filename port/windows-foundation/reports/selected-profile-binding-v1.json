@@ -1,0 +1,35 @@
+{
+  "status": "selected_profile_service_ready",
+  "scope": "frontend-owned selected slot/profile preparation for an existing canonical Character Save",
+  "files": [
+    "port/windows-foundation/features/frontend/creation/selected_profile_binding_v1.hpp",
+    "port/windows-foundation/features/frontend/creation/selected_profile_binding_v1.cpp",
+    "port/windows-foundation/features/frontend/creation/selected_profile_binding_v1_tests.cpp",
+    "port/windows-foundation/features/frontend/creation/run_selected_profile_binding_v1_tests.ps1"
+  ],
+  "source_order": [
+    "Require the selected slot, same-Character direct Save slot field, and actual SetSlot receipt.",
+    "Read dh2_NNN.savegame through ApplicationSaveFilesOwnerV61::read_save, which flushes matching Application jobs.",
+    "Construct CampaignSaveProfileV45 from the exact same files()->services() and jobs() pair.",
+    "Require the profile cache bytes to equal the read_save receipt exactly.",
+    "Populate CharacterProfileBootstrapInputsV59 with the same Save/Load, typed file receipt, profile, slot, and prior SetSlot receipt; existing V59 owns Load1/2/4 ordering."
+  ],
+  "validation": {
+    "compiler": "pinned LLVM-MinGW x86_64",
+    "flags": "C++17 -Wall -Wextra -Werror -static",
+    "checks": [
+      "same Application FileManager/jobs owner",
+      "selected file read and exact CampaignSaveProfile cache match",
+      "same Character Save/Load and direct Save slot; no PlayerInfo preview Save",
+      "cross-Save SetSlot receipt rejected before profile construction",
+      "one-shot retained prefix rejects replay"
+    ],
+    "source_profile_bootstrap_loads_executed": false,
+    "existing_character_profile_bootstrap_v59_remains_load_owner": true
+  },
+  "limits": [
+    "The helper does not create or persist a new indexed profile; NativeCreateSaveSlot must already have written it.",
+    "The caller must supply the actual source SetSlot receipt and source callback, plus genuine Character/Save reader dependencies.",
+    "This result is a prepared bootstrap input/profile cache only; it does not claim Load1/2/4, Gear readiness, full InitPost, or live menu acceptance."
+  ]
+}

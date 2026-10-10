@@ -32,7 +32,7 @@ int main(){try{
  f.dead=0;f.online=true;f.hosting=false;check(quick.execute(level,true,f.error)&&!f.save_calls,f.error);
  f.hosting=true;f.suppress=1;check(quick.execute(level,true,f.error)&&!f.save_calls,f.error);
  f.suppress=0;f.online=false;check(quick.execute(level,true,f.error),f.error);check(f.save_calls==1&&f.checkpoint==f.position&&f.flag==7&&quick.receipt().saved,"Actual checkpoint/temporary flag/save/restore sequence differs");
- f.fail_save=true;check(!quick.execute(level,true,f.error)&&f.flag==0&&quick.receipt().phase==PlayerQuickSavePhaseV29::save,"Save failure erased reached prefix");
+ f.fail_save=true;check(!quick.execute(level,true,f.error)&&f.flag==7&&!quick.receipt().saved&&quick.receipt().phase==PlayerQuickSavePhaseV29::save,"QuickSave must restore Save39 after a failed LevelSave::Save");
  // Source restores captured old flag to a freshly reread actual Save_ec.
  Fixture g;g.phase=38;g.replace_save=true;PlayerLevelQuickSaveV29 replace(g.services());PlayerQuickSaveLevelV29 other{g.lease,0x100000003ULL,&g.saved,&g.phase};
  check(replace.execute(other,true,g.error),g.error);check(g.saved==g.alternate&&g.alternate_flag==7,"QuickSave restored flag to a stale receiver");

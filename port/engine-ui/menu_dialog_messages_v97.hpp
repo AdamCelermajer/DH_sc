@@ -27,6 +27,7 @@ struct MenuDialogServicesV97 {
  std::function<bool(std::int32_t,std::string&,std::string&)> localized;
  std::function<bool(std::int32_t,std::int32_t&,std::string&)> actor_text_id;
  std::function<bool(std::int32_t,std::string&,std::string&)> style_name;
+ std::function<bool(const std::string&,std::string&,std::string&)> parse_player_name;
  std::function<bool(const char*,std::int32_t,std::string&)> invoke;
  const char* skip_method{}; //original static BSSNULL, not a guessed callback
  const char* start_method{"StartDialog"};

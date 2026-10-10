@@ -1,0 +1,39 @@
+{
+  "status": "PASS actual-original-asset native CombatSession tests with typed source command admission",
+  "scope": "Original controller attack wrapper around existing explicit diagnostic attack body; complete Character/FSM/network owners are not claimed",
+  "api": {
+    "facts": "DiagnosticControllerAdmissionFacts{owner_id,controllable,global_blocked,local_locked,forced,network_enabled}",
+    "bind": "set_diagnostic_controller_admission_provider(fresh_actor_facts_provider, actual_network_mode_provider)",
+    "clear": "clear_diagnostic_controller_admission_provider() drops transient bindings without interrupting pose/target",
+    "state": "uses_diagnostic_controller_admission()",
+    "ai": "original_ai_tables() returns pointer to SAME world-owned original AiTables; no copy/new ownership"
+  },
+  "ordering": [
+    "Player fresh attack and enabled diagnostic AI requests both enter the same command_request path",
+    "Fresh caller projection must name same owner actor and nonzero controllable token",
+    "Exact original_controller_attack/dh2_character_cmd_attack byte flags gate before actual network-mode query",
+    "Blocked source void no-op returns success without nearest selection, target publication, turn, animation restart, damage/RNG or interruption",
+    "Admitted controllable dispatch invokes existing diagnostic target/turn/begin body; normal frame pose/event advancement remains independent of command gate",
+    "Online with source network-enabled flag rejects explicitly before body because no actual speculative melee/rollback/packet backend is supplied"
+  ],
+  "checkpoint": "Admission and network-mode providers are transient. validate_lifecycle_checkpoint rejects while either is registered. Caller must explicitly clear/reconstruct its providers; clear does not cancel admitted ongoing poses. Ordinary unbound diagnostic package saves remain unchanged.",
+  "actual_test_coverage": [
+    "Existing source visual/stat/marker/group/retained clock/save/lifecycle tests remain passing",
+    "Globally blocked/local locked player and AI do not query network or mutate target/turn/pose",
+    "Forced raw255 player bypasses global/local gates while blocked AI remains unaffected",
+    "Forced AI passes same kernel while locked player remains blocked",
+    "After an action is admitted, newly blocked requests leave source pose running and actual authored hit markers deliver normally",
+    "Blocked command tests use actual retained source phase clock frames, not flattened virtual marker time as wall-clock assumption",
+    "Unpersisted controller provider checkpoint rejected; explicit clear preserves retained owner and target",
+    "Unsupported enabled online branch fails without target/turn/RNG mutation"
+  ],
+  "root_main_integration": [
+    "Bind only for source-command replay mode after Session.initialize; leave ordinary diagnostic package unbound until actual controller owner policy exists",
+    "Fresh facts provider reads current global/local flags and explicit current forced policy, sets owner_id=actor.id, controllable token from actual in-house owner",
+    "Network provider reads actual foundation runtime's offline mode; do not claim original network-manager restoration",
+    "Remove root blanket attack-bit clearing; Session owns exact source gate for both player and AI requests",
+    "Motor/heading/target-input filtering stays separately qualified until complete source heading/target command owners are bound",
+    "Checkpoint attempts in registered controller replay reject unless transient owners are explicitly cleared/reconstructed; no silent control flag persistence"
+  ],
+  "verification": "Native Windows override build linked current session/tests against existing foundation libraries. Entire combat_session_tests probe passed. No main/CMake files edited."
+}

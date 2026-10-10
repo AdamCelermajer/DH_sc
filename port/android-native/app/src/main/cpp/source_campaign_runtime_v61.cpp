@@ -1,7 +1,9 @@
 #include "source_campaign_retirement_v88.hpp"
 #include "source_campaign_startup_abort_v114.hpp"
 #include "source_campaign_release_v88.hpp"
+#include "source_campaign_cancel_unload_v135.hpp"
 #include "source_campaign_runtime_v61.hpp"
+#include "character_debug_stdio_v136.hpp"
 #include "source_process_objects_v121.hpp"
 #include "source_campaign_ai_queue_v105.hpp"
 #include <area_transition_request_v114.hpp>
@@ -20,6 +22,7 @@
 #include <stage_loader_audio_v94.hpp>
 #include "native_source_script_ui_v98.hpp"
 #include "source_campaign_script_runtime_v99.hpp"
+#include "source_campaign_script_actor_v96.hpp"
 #include "source_campaign_save_objects_v86.hpp"
 #include "source_campaign_items_v88.hpp"
 #include "source_campaign_file_io_v65.hpp"
@@ -45,10 +48,12 @@
 #include "character_game_design.hpp"
 #include "character_design_services.hpp"
 #include "gameplay_camera_application_v23.hpp"
+#include "gameplay_skybox_material_v25.hpp"
 #include "application_player_manager_bootstrap_v59.hpp"
 #include "application_spawn_random_owner_v4.hpp"
 #include "visual_fx_manager_libraries_v63.hpp"
 #include "campaign_navigation_registry_v64.hpp"
+#include "module_pf_actor_connection_v3.hpp"
 #include "renderer_native_menu_prefix_v62.hpp"
 #include "renderer_native_menu_load_v98.hpp"
 #include "source_campaign_terminal_v97.hpp"
@@ -77,6 +82,13 @@
 #include <tuple>
 #include <utility>
 namespace model_renderer {
+namespace {
+// RootSceneNode::updateAbsolutePosition (original 0x35c27c) increments one
+// process-global 32-bit diagnostic before delegating to ISceneNode. Keep the
+// native successor on the same process lifetime; SceneManager's render
+// cadence counter is a different field and must not be borrowed here.
+std::uint32_t source_root_absolute_update_counter_v69{};
+}
 bool borrow_source_campaign_physical_services_v90(const std::shared_ptr<SourceWorldBorrowV61>& world,
  dh2::world::CanonicalZonePhysicalServicesV82& out,std::string& e){
  if(!world||!world->physical_services_v90){e="Required actual composed native physical services";return false;}
@@ -86,6 +98,7 @@ bool borrow_source_campaign_physical_services_v90(const std::shared_ptr<SourceWo
 // lends THIS completed candidate, rather than constructing a Crypt actor.
 bool bind_campaign_character_providers_v62(AAssetManager*,const SourceCampaignCandidateBorrowV55&,std::string&);
 namespace {
+bool bind_source_campaign_post_init_native_v134(const SourceCampaignCandidateBorrowV55&,std::string&);
 struct RendererSourceFactoryCoreV55 {
  std::shared_ptr<SourceCanonicalBorrowV61> canonical;
  std::unique_ptr<dh2::world::CanonicalLevelModuleBindingsV2> modules;
@@ -158,6 +171,32 @@ struct RendererSourceCandidateV55 {
   auto graph_services=std::move(in.module_graph);
   if(graph_services.rooms||graph_services.candidate){error="Source Module graph must borrow this sole canonical candidate/PF owner";return false;}
   graph_services.rooms=candidate->rooms;graph_services.candidate=candidate->canonical->owner;
+  if(!graph_services.init_pf_object){
+   graph_services.init_pf_object=[pin=graph_services.candidate,floors=in.floors,navigation=candidate->navigation](
+     CanonicalGameObjectBaseOwnerV1& base,bool flag,const float* position,float radius,std::uintptr_t identity,std::string& e){
+    ModulePFActorConnectionV3 connection(base,pin,&floors->collision_world,&navigation->registry());
+    return connection.init(flag,position,radius,identity,e);
+   };
+  }
+  if(!graph_services.update_pf){
+   graph_services.update_pf=[pin=graph_services.candidate,floors=in.floors,navigation=candidate->navigation](
+     CanonicalGameObjectBaseOwnerV1& base,std::string& e){
+    ModulePFActorConnectionV3 connection(base,pin,&floors->collision_world,&navigation->registry());
+    return connection.update(e);
+   };
+  }
+  auto source_application=in.application->application;
+  if(!source_application){error="Required actual Application services for Module spawn checks";return false;}
+  graph_services.spawn_application.application_lease=source_application;
+  graph_services.spawn_application.random=source_application->source_random_v62().get();
+  graph_services.spawn_application.online_byte5=[application=source_application](bool& online,std::string& e){
+   auto source=application->get_online_loading_v55();if(!source){e="Required actual Application COnline owner";return false;}
+   online=source->byte5()!=0;e.clear();return true;
+  };
+  graph_services.mark_for_deletion=[weak=std::weak_ptr<SourceWorldBorrowV61>(in.world)](CanonicalGameObjectBaseOwnerV1& base,std::string& e){
+   auto world=weak.lock();if(!world||!world->canonical_world){e="Released actual Module ObjectManager owner";return false;}
+   return world->canonical_world->manager.source_mark_for_deletion_v89(base.identity(),e);
+  };
   if(graph_services.visual.roots&&graph_services.visual.roots!=in.roots){error="Source Module visual uses foreign SceneManager roots";return false;}
   graph_services.visual.roots=in.roots;
   graph_services.visual.retire_root_gpu_v107=[weak=std::weak_ptr<SourceWorldBorrowV61>(in.world)](std::uintptr_t root,std::string& e){auto w=weak.lock();if(!w){e="Retired actual Module GPU release scope";return false;}return retire_source_campaign_root_geometry_v106(w->owner,root,e);};
@@ -206,7 +245,7 @@ struct RendererSourceCandidateV55 {
   assets::ZipAssetPackV1 archive;
   if(!in.application->archive(archive,error))return false;
   auto classes=candidate->transport->services();
-  if(!RetainedLevelModuleGraphV1::create({archive,in.level,candidate->canonical->owner,&candidate->canonical->manager,classes,
+  if(!RetainedLevelModuleGraphV1::create({archive,in.level,candidate->canonical->manager_lease,&candidate->canonical->manager,classes,
         std::move(in.file_services),candidate->graph,in.floors,candidate->rooms},candidate->preparation,error))return false;
   if(!candidate->preparation->bind_module_record_provider_v44(core,[weak=std::weak_ptr<RendererSourceFactoryCoreV55>(core)](const auto& object,std::shared_ptr<CanonicalModuleRecordV2>& record,std::string& e){
     auto source=weak.lock();if(!source){e="Source Module factory released";return false;}
@@ -440,7 +479,7 @@ std::shared_ptr<SourceWorldBorrowV61> source_script_world_v62(
 bool source_debug_load_v55(const std::weak_ptr<SourceWorldBorrowV61>& weak,std::string& error){
  auto world=weak.lock();
  if(!world||!world->debug){error="Required same Application Debug source owner";return false;}
- const auto result=dh2_character_debug_load(world->debug.get(),world->debug_files);
+ const auto result=dh2::character::load_debug_stdio_v136(world->debug.get(),world->debug_files,world->files_directory.c_str());
  if(result!=1){error="Original DebugSwitches.load failed in bounded source domain: "+std::to_string(result);return false;}
  error.clear();return true;
 }
@@ -479,6 +518,11 @@ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
  current_world->source_pf_floors_v115=candidate.floors;
  candidate.map=std::make_shared<world::SceneManagerMapOwnerV2>(candidate.roots);
  current_world->source_pf_map_v115=candidate.map;
+ candidate.pf_debug.owner=current_world->debug;
+ candidate.pf_debug.query=[weak](const char* key,bool& value,std::string& e){
+  return source_debug_load_v55(weak,e)&&source_debug_switch_v55(weak,key,value,e);
+ };
+ candidate.pf_debug.clock_ms=[](std::uint32_t& value,std::string& e){return borrow_application_time_v68(value,e);};
  candidate.config.owner=state.world->files_owner;
  candidate.config.debug_switch=[weak](const char* key,bool& value,std::string& e){return source_debug_switch_v55(weak,key,value,e);};
  // Actual arrays/sound catalog and remaining canonical class routes must be
@@ -490,6 +534,8 @@ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
   if(!read(name,found,*result,e))return false;
   bytes=found?result:nullptr;e.clear();return true;
  };
+ candidate.module_graph.visual.owner=current_world->files_owner;
+ candidate.module_graph.visual.root_update_counter=&source_root_absolute_update_counter_v69;
  candidate.unknown_type_debug=[](const char* name,std::string& e){
   if(!name){e="Required unknown source factory type CString";return false;}
   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source unknown factory type | %s",name);e.clear();return true;
@@ -544,6 +590,13 @@ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
   return model_renderer::clean_native_graphics_v50(e);
  };
  if(!model_renderer::bind_root_stage0_sound_v44(out.stage0,error))return false;
+ // Install before SourceLoading.create wraps file/assigned-prefix cleanup.
+ // The real release journal is enrolled after adoption and borrowed only at
+ // cancellation reach; neither closure retains its containing World/Level.
+ out.source.external.cancel_and_unload=source_campaign_cancel_unload_v135(weak,
+  std::weak_ptr<CanonicalLevelContextV1>(actual),[](const auto& world,const auto& level,std::string& e){
+   return source_campaign_cancel_unload_journal_v135(world->release_v88,level,e);
+  });
  // This aliases the SAME process backend already used by native bodies. Stage5
  // invokes its actual load exactly once; no second PhysicalWorld is allocated.
  out.physical_world=state.world->physical_world;
@@ -558,7 +611,8 @@ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
  out.prefix.debug_out_loading_step=[](std::uint32_t phase,std::string& e){
   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original loading step | %u",phase);e.clear();return true;
  };
- out.early_debug={current_world->debug,out.prefix.debug_instance_get_switch};
+ out.early_debug={current_world->debug,out.prefix.debug_instance_get_switch,out.prefix.debug_load};
+ out.source.stage10_trace=[debug=out.early_debug](std::string& e){return early_loading_trace_v46(debug,e);};
  if(!bind_source_stage18_stage32_v95(current_world,state.candidate,actual,out.early_debug,out.source,error))return false;
  if(!bind_source_batching_stages_v96(current_world,state.candidate,actual,out.early_debug,out.source,error))return false;
  if(!bind_source_batch_resources_v110(current_world,state.candidate,actual,error))return false;
@@ -689,11 +743,11 @@ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
   return LifecycleStepV36::complete;
  };
  std::shared_ptr<ScriptManagerOwnerV52> scripts;
- out.source.external.stage_body[26]=[weak,level=std::weak_ptr<CanonicalLevelContextV1>(actual),debug=out.early_debug](std::string& e){
+ out.source.external.stage_body[26]=[weak,level=std::weak_ptr<CanonicalLevelContextV1>(actual)](std::string& e){
   auto world=weak.lock();auto source=level.lock();
   if(!world||!source||source->constructor_fields_v3().field130!=26){e="Stage26 requires SAME actual World/Level";return LifecycleStepV36::failed;}
   SourceCampaignCandidateBorrowV55 candidate;
-  if(!early_loading_trace_v46(debug,e)||!borrow_source_campaign_candidate_runtime_v61(candidate,e)||
+  if(!borrow_source_campaign_candidate_runtime_v61(candidate,e)||
      candidate.actual_world!=world->owner||!bind_native_source_script_ui_v98(candidate,e)||
      !model_renderer::source_native_loadmenu3_v62(world->owner,e)||
      !model_renderer::bind_native_character_reward_text_v114(world->owner,e)||
@@ -706,7 +760,7 @@ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
  };
  if(!borrow_source_script_manager_v55(state.world,source_script_factory_v62(state.world),scripts,error)||
     !bind_source_stage8_v55(state.candidate,actual,scripts,out.early_debug,out.source,error)||
-    !bind_source_stage9_v94(state.world,state.candidate,actual,out.source,error)||
+    !bind_source_stage9_v94(state.world,state.candidate,actual,out.early_debug,out.source,error)||
     !bind_source_stage15_audio_v94(state.world,state.candidate,actual,out.early_debug,borrow_source_resource_prefix_v95,out.source,error))return false;
  out.frame.actual_debug_owner=current_world->debug;
  out.frame.debug_load=out.prefix.debug_load;
@@ -774,6 +828,13 @@ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
 bool borrow_source_campaign_world_owner_v104(std::shared_ptr<void>& out,std::string& e){
  return borrow_source_campaign_world_owner_impl_v104(out,e);
 }
+bool borrow_source_campaign_skybox_v124(const std::shared_ptr<void>& expected,
+ std::shared_ptr<dh2::camera::GameplaySkyboxPipelineV25>& out,std::string& e){
+ out.reset();
+ if(!source_campaign_v55||!source_campaign_v55->world||
+    source_campaign_v55->world->owner!=expected){e="Skybox borrow addressed another campaign World";return false;}
+ out=source_campaign_v55->world->skybox_v124;e.clear();return true;
+}
 bool borrow_source_campaign_admission_v104(const std::shared_ptr<void>& world,std::shared_ptr<SourceCampaignAdmissionV104>& out,std::string& e){
  return borrow_source_campaign_admission_impl_v104(world,out,e);
 }
@@ -840,8 +901,9 @@ bool start_source_campaign_runtime_v61(AAssetManager* assets,
  const auto difficulty=std::size_t(state->profile->metadata.selected_difficulty);
  auto tables=state->world->design->borrow();const auto* levels=tables.levels();
  const auto row=prepared_transition?prepared_transition->destination_row:state->profile->metadata.location.levels[difficulty];
- if(!levels||row<0||std::size_t(row)>=levels->levels.size()){
-  error="Required authentic selected LNAM/default row";state->failed=true;state->failure=error;return false;
+ if(!levels||row<0||std::size_t(row)>=levels->levels.size()||
+    levels->level_names.size()!=levels->levels.size()){
+  error="Required authentic selected LNAM/default row with aligned level-name table";state->failed=true;state->failure=error;return false;
  }
  if(prepared_transition){
   std::int32_t original_row=-1;const dh2::data::LevelRecord* original_record{};
@@ -922,6 +984,7 @@ bool start_source_campaign_runtime_v61(AAssetManager* assets,
  if(!borrow_source_campaign_candidate_runtime_v61(candidate,error)||
     !prepare_source_campaign_release_v108(candidate,error)||
     !bind_campaign_character_providers_v62(assets,candidate,error)||
+    !bind_source_campaign_post_init_native_v134(candidate,error)||
     !prepare_source_campaign_character_preload_v81(candidate,error)||
     !prepare_source_campaign_script_start_v99(candidate,error)||
     !bind_source_campaign_early_gameplay_v107(candidate,error)){
@@ -1121,6 +1184,22 @@ bool bind_source_campaign_post_init_services_v66(const SourceCampaignCandidateBo
   return dh2::player::source_post_init_characters_v66(*pm,*application,services,e);
  };
  return bind_source_campaign_post_init_runtime_v66(actual.actual_world,pm,std::move(body),error);
+}
+namespace {
+bool bind_source_campaign_post_init_native_v134(const SourceCampaignCandidateBorrowV55& candidate,std::string& e){
+ std::shared_ptr<SourceWorldBorrowV61> world;
+ if(!borrow_source_campaign_condition_world_v70(candidate,world,e)||!world||!world->player_manager){
+  if(e.empty())e="Required SAME campaign PM before source PostInit enrollment";return false;
+ }
+ dh2::player::PlayerManagerPostInitServicesV66 services;
+ services.provider=world->player_manager;
+ services.verify_specialization=[weak=std::weak_ptr<SourceWorldBorrowV61>(world)](std::uintptr_t id,std::string& e){
+  auto current=weak.lock();
+  if(!current){e="Expired SAME campaign World before VerifySpecialization";return false;}
+  return source_campaign_character_verify_specialization_v134(current->owner,id,e);
+ };
+ return bind_source_campaign_post_init_services_v66(candidate,std::move(services),e);
+}
 }
 bool advance_source_scene_v69(std::string& error){
  SourceCampaignCandidateBorrowV55 actual;
@@ -1477,6 +1556,10 @@ bool tick_source_campaign_runtime_v61(std::string& error){
   if(!state.world||!state.world->native_loading_v50||!*state.world->native_loading_v50){
    error="Required actual pinned loading owner for source cancellation";return false;
   }
+  // SourceLoading closes/captures parser prefixes before its inner unload
+  // callback. Standalone cancellation must quiesce before that entire drain.
+  bool pending{};if(!source_campaign_cancel_admission_v135(state.world,pending,error))return false;
+  if(pending){error.clear();return true;}
   const auto status=(*state.world->native_loading_v50)->drain_cancel(error);
   if(status==dh2::loader::LifecycleStatusV36::failed)return false;
   if(status==dh2::loader::LifecycleStatusV36::cancelled){state.cancelling=false;state.cancelled=true;}
@@ -1513,6 +1596,7 @@ bool request_source_campaign_cancel_runtime_v61(std::string& error){
  }
  auto& state=*source_campaign_v55;
  if(state.cancelled){error="Source cleanup already drained; require original GS destruction";return false;}
+ bool pending{};if(!source_campaign_cancel_admission_v135(state.world,pending,error))return false;
  (*state.world->native_loading_v50)->request_cancel();state.cancelling=true;error.clear();return true;
 }
 

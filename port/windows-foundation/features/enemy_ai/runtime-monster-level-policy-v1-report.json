@@ -1,0 +1,60 @@
+{
+  "validation": "PASS",
+  "scope": "Recover and test the source dynamic-level policy for one actual Act 1 Swamp Character row. This policy helper performs no actor mutation and no RNG; live owner selection remains upstream.",
+  "visual_evidence": {
+    "reference": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0238s.png and at-0240s.png",
+    "observed": "The frames show a player and a nearby hostile figure during the attack tutorial. They show no numeric enemy level and do not identify the figure as Swamp_LizadMan_Type1.",
+    "limit": "Level selection has no direct visible indicator in these frames; visual evidence does not validate this numeric policy."
+  },
+  "logic_evidence": {
+    "script": ".local-inputs/character-script-owner-extension/monster.luac",
+    "script_flow": [
+      "monster_OnInit calls OnInit, initializes script globals, reads saved position, then reads CharacterProperties.LevelMax, LevelMin, and LevelOffset through GetProp followed by FromFixed.",
+      "It next calls GetHostPlayerLevel, GetHostPlayerDifficulty, initializes m_lvl from the host level, and calls GetCurrentLevelRange(pl_diff), in that order.",
+      "Only LevelMax > -1 enters dynamic selection. If the returned range maximum exists and is > -1, the host level is clamped inclusively to the current range; otherwise it is clamped inclusively to authored LevelMin/LevelMax. The offset is added after clamping, then ToFixed and SetLevel are called.",
+      "There is no RNG in this OnInit level block. GetRand(0,100) appears later for skill-use chance, outside initialization."
+    ],
+    "host_player_level": "LuaScript::_GetHostPlayerLevel at 0x37cc00 ignores arguments, asks PlayerManager::GetHostingPlayer, reads the returned PlayerInfo signed cached level at +0x330, and pushes it as an integer. The manager selection gates are documented in port/level-world/reference/character-host-context/NOTES.md: debug-client false selects local internal ID 0; debug-client true selects the hosting ID only with the captured network gates. GetPlayerByInternalID returns the embedded manager+8 fallback for sentinel ID -1 or an absent local entry. A null host player is not a source fallback; missing receiver is a provider failure. The wrapper reads the cache; it does not call Character::GetLevel.",
+    "difficulty_and_ranges": "GetHostPlayerDifficulty at 0x37cb8c reads current Level+0x118, returning 0 only when current Level is null. GetCurrentLevelRange at 0x37f1f0 dereferences current Level without a null guard; row -1 returns (-1,-1), missing/non-numeric tier chooses tier 0, numeric tier uses source float-to-signed-int truncation, tiers 0/1/2 select their actual Level row, and other tiers return zero values. A missing Level is provider/data failure, not the (-1,-1) sentinel.",
+    "set_level": "Character::_SetLevel at 0x3b73a4 applies signed __aeabi_f2iz conversion to the fixed-point argument, compares only an upper bound against CharacterDesign/MaxLevelDVeryHard, and writes base property 19. The actual cached constant is 100. It then executes class/property recalc and HP/MP refill; the test uses the existing SetLevel owner. Source ToFixed first truncates/saturates float32 to signed int32, then shifts left eight with 32-bit wrap. Source FromFixed returns two values: arithmetic-shifted signed integer first, then signed-int conversion scaled by 1/256; Lua's single-value `FromFixed(GetProp(...))` assignment consumes the first value.",
+    "source_data": "Actual decoded CharacterProperties and ClassTable rows resolve Swamp_LizadMan_Type1 at Character row 360. Actual SWAMP LevelTable ranges (min,max) are tier0 1..4, tier1 40..41, tier2 70..71. That Character row resolves LevelMin=1, LevelMax=3, LevelOffset=0."
+  },
+  "implementation": {
+    "api": "resolve_runtime_monster_level_v1(inputs, output, error)",
+    "files": [
+      "port/windows-foundation/features/enemy_ai/runtime_monster_level_policy_v1.hpp",
+      "port/windows-foundation/features/enemy_ai/runtime_monster_level_policy_v1.cpp"
+    ],
+    "semantics": "Consumes only already-delivered source reads in source order, applies the conditional current-range/authored-range clamp and post-clamp offset, and returns the float passed to the actual ToFixed kernel. Missing source reads fail closed. RNG, SetLevel cap, Character mutation, property recalculation, and live manager/Application selection stay in their existing owners."
+  },
+  "verification": {
+    "command": "py -3 port/windows-foundation/features/enemy_ai/run_runtime_monster_level_policy_v1_tests.py",
+    "result": "PASS character=Swamp_LizadMan_Type1 characterRow=360 levelRow=SWAMP levelBounds=1,4;40,41;70,71 authoredLevelMin=1 authoredLevelMax=3 levelOffset=0 difficultyTiers=0,1,2 sourceInitCases=7 setLevelCalls=7 dynamicRngDraws=0 maxCap=100 baseProperty19=true",
+    "coverage": "The focused runner builds a private genuine Lua 5.1 source runtime, executes the actual monster_OnInit body, uses the actual source GetHostPlayerLevel/GetHostPlayerDifficulty/GetCurrentLevelRange wrapper implementation with borrowed owner projections, and composes actual source ToFixed/FromFixed and Character::SetLevel. Cases cover below/inside/above tier0, tier1 and tier2 bounds, the source (-1,-1) no-range sentinel, and an invalid tier that returns zero values and selects the authored fallback. Seven OnInit executions observe zero RNG calls; actual base property19 is checked after each source SetLevel. A separate over-cap call checks the source cap and base-property assignment.",
+    "runtime_integration": "This is source-executing and native-kernel test coverage, not a live gameplay claim. PlayerManager/Application selection is supplied as a borrowed HostPlayer projection, and the active level identity is supplied by a test owner; neither is selected from a live session in this test."
+  },
+  "uncertainties": [
+    "No numeric level is legible in the inspected gameplay frames, and no frame proves this exact row's selected level.",
+    "Live Application debug/network state, PlayerManager host selection, active Level row/difficulty, and the actual host PlayerInfo cache producer are outside this feature test; source lookup semantics and native wrapper behavior are recovered and tested separately.",
+    "No scaling, probability, or extra level RNG rule was found or added. Invalid difficulty tiers use the source wrapper's zero-return behavior; a missing current Level remains a failed provider rather than a guessed fallback."
+  ],
+  "source_sha256": {
+    "port/windows-foundation/features/enemy_ai/runtime_monster_level_policy_v1.hpp": "b3c33443c88d7b23e9972cd55594b426efe019059a5348c94da63d28a76f64ca",
+    "port/windows-foundation/features/enemy_ai/runtime_monster_level_policy_v1.cpp": "05a3ba59a6cacee3dff4da6f3c2bafcfb5bd45b8803f64b88b8dfed77887de44",
+    "port/windows-foundation/features/enemy_ai/runtime_monster_level_policy_v1_tests.cpp": "3ee4e9f94504f21ae226a354bb97c95819f61a5225f9430623bb87bfa5de786a",
+    "port/windows-foundation/features/enemy_ai/run_runtime_monster_level_policy_v1_tests.py": "326b0d4c6b73cf0caccd55335401c7a3f97e91d8acacfcfd68efb0e70aff53fc",
+    "port/level-world/reference/character-host-context/NOTES.md": "d12e3a3f77559b5c0428c60d939559b5367ee5beae7888365d799ecd89f1f356",
+    "port/level-world/reference/character-level/NOTES.md": "43514948b7a1ac1e5068b6d00393e865a270d8c983c835dd741192dc60d3b8a5",
+    ".local-inputs/character-script-owner-extension/monster.luac": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+    ".local-inputs/windows-shared-assets/original-cache/data/pydata/character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    ".local-inputs/windows-shared-assets/original-cache/data/pydata/character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    ".local-inputs/windows-shared-assets/original-cache/data/pydata/character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    ".local-inputs/windows-shared-assets/original-cache/data/pydata/character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    ".local-inputs/windows-shared-assets/original-cache/data/pydata/character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    ".local-inputs/windows-shared-assets/original-cache/data/pydata/character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "port/android-native/app/src/main/assets/data/levels_pyarray.bin": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+    "port/android-native/app/src/main/assets/data/levels_pyarraynames.bin": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+    "port/android-native/app/src/main/assets/data/levels_pystructnames.bin": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705",
+    "port/android-native/app/src/main/assets/data/design_pycst.bin": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
+  }
+}

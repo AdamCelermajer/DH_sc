@@ -1,0 +1,79 @@
+{
+  "status": "component_native_ctest_pass_live_providers_pending",
+  "concrete_gaps": [
+    "ActorPopulation policy currently excludes hidden source actors; they need retained disabled instances instead of exclusion.",
+    "CombatSession requiredAIState and diagnosticAIEnabled capture source-string filters; dynamic lifecycle permission provider absent.",
+    "Main/sourcecommand and retainedanimation callbacks not wired by this component.",
+    "Full combat states4/5/11/12/etc remain existing runtime owners, not implemented here.",
+    "Positive respawn timers and multiplayer/AI event9 auto-spawn fail closed or require another original owner.",
+    "Idle suppression and allgroup state-owner effects outside this bounded simple initial spawning path remain host providers."
+  ],
+  "supported_actual_states": [
+    0,
+    1,
+    3,
+    17
+  ],
+  "live_encounter_verified": false,
+  "same_actor": "Registry borrows the SAME ActorState pointer, never copies live health/transform/target/action state",
+  "providers": [
+    "Source floor height query",
+    "Setflags",
+    "Enable/disable Character and retained visuals",
+    "Restore stored initial position/rotation",
+    "Revive property/HP/MP state",
+    "ClearAggro",
+    "Select source state animation (PreSpawn fallback to Spawn frozen when absent)",
+    "ClearAndSyncTarget",
+    "CancelSneaking",
+    "Init/RemovePhysical",
+    "Enable/DisableCollisions",
+    "Source state-change event29 carrying previous state"
+  ],
+  "validation": [
+    "Native CTest41 pass",
+    "source preset0 -> actual17",
+    "source floor snap258 retained",
+    "exact PreSpawn blur source order",
+    "no premature combat during Spawn",
+    "interactive physical creation once",
+    "whole finished transition Idle",
+    "same-state reentry blur/focus not suppressed",
+    "Limbus restores original anchor",
+    "missing source facts rejected"
+  ],
+  "CTest": "original_actor_lifecycle",
+  "runtime_integration": [
+    "Register known source definitions before creating script callback receivers",
+    "Campaign kind30 invokes lifecycle.spawn(stableActorID)",
+    "Source full-animation completion routes to lifecycle.animation_finished(stableActorID)",
+    "Source is_interactive animation event routes to lifecycle.animation_event",
+    "Render and combat consult enabled/status; live combat additionally requires source alive/target eligibility",
+    "Clear lifecycle registry alongside CombatSession.detach_for_restore before replacing world actor pointers"
+  ],
+  "tests": "port/windows-foundation/tests/original_actor_lifecycle_tests.cpp",
+  "source_order": {
+    "SpawnFinished": "Whole source sequence completion event34 -> Idle3",
+    "SpawnBlur": "InitPhysical unless already interactive0x2000",
+    "IdleFocus": "flags0x2380 -> sourceIdle animation",
+    "Fade": "Original StartFadeIn body empty; no new alpha fade",
+    "LimbusBlur": "Enable -> restore initialposition -> restore initialrotation -> Revive",
+    "PreSpawnFocus": "flags0x1300 -> sourcePreSpawn animation or Spawn fallback -> freeze fallback speed0 -> RemovePhysical -> optionally disable -> disablecollisions",
+    "LimbusFocus": "flags0 -> disable -> source respawn timer when supported -> ClearAggro",
+    "PreSpawnBlur": "Enable -> Revive -> EnableCollisions",
+    "SpawnFocus": "flags0x241 -> sourceSpawn animation -> ClearTarget+SyncLastTarget -> CancelSneaking; carriedPreSpawn interactive bit retained"
+  },
+  "source_initialization": {
+    "proof": "port/level-world/reference/character-state-owner-initialization-alias/NOTES.md",
+    "source_string": "Limbus",
+    "owner_boundary": "CharacterStateOwner.initialize_level(preset,services)",
+    "preset_id": 0,
+    "actual_loaded_state": 17,
+    "source_caller": "Level::_LoadCharStates0x3eff98",
+    "same_state": "Original _SetState always blur/focus/notifies, even same state. No same-state shortcut."
+  },
+  "module": [
+    "port/windows-foundation/original_actor_lifecycle.hpp",
+    "port/windows-foundation/original_actor_lifecycle.cpp"
+  ]
+}

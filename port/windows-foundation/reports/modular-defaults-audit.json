@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "status": "source_serialized_defaults_provider_verified",
+  "question": "Does ModularVisual raw enum choose Warrior/Rogue/Mage/NPC default modules, and should NPCs inherit local player skin?",
+  "finding": "No raw-enum to class-string mapping was established. Source modular mesh initialization selects stored category default URI from the model. Prince stores __naked defaults; warrior/rogue/mage clothing are available modules selected later by item inventory. NPCs must not inherit player controller substring.",
+  "provider": {
+    "header": "port/windows-foundation/modular_defaults.hpp",
+    "source": "port/windows-foundation/modular_defaults.cpp",
+    "API": "decode_modular_defaults(bytes, outputCategories, error)",
+    "policy": "Decode tag13 per scene node. Resolve each stored default URI using original getModuleId category-order search, then apply the returned category-local index to its initialized category. No class/NPC/model-name assumptions. Nonmodular returns empty; unresolved default selects empty; reject invalid index/external refs/extra descriptor array; failure preserves output."
+  },
+  "original_policy": [
+    {
+      "address": "0x649120",
+      "function": "CModularSkinnedMesh constructor",
+      "finding": "Uses serialized category default URI to getModuleId and calls setCategoryModule for each category. No Character class input."
+    },
+    {
+      "address": "0x3b395c",
+      "function": "Character::_InitEquipment",
+      "finding": "Reads Loot property9, creates items, auto-equips eligible items; updates skin from inventory if already populated."
+    },
+    {
+      "address": "0x3b4d60",
+      "function": "Character::InitPost",
+      "finding": "Direct _InitEquipment call gated by IsLocalPlayer. Non-player content retains authored/model/equipment state; no copying local player selector."
+    },
+    {
+      "address": "0x3a999c",
+      "function": "Character::INV_UpdateSkin",
+      "finding": "Reads equipped Item ModularModule string, selects category module or __placeholder, uses __naked when unequipped; weapons attach separately."
+    }
+  ],
+  "native_probe": {
+    "output": "port/windows-foundation/reports/modular-defaults-probe.txt",
+    "prince_categories": [
+      {
+        "category": "MC_Feet",
+        "default_uri": "#MC_Feet__naked-mesh-skin",
+        "available_count": 43
+      },
+      {
+        "category": "MC_Hands",
+        "default_uri": "#MC_Hands__naked-mesh-skin",
+        "available_count": 43
+      },
+      {
+        "category": "MC_Head",
+        "default_uri": "#MC_Head__naked-mesh-skin",
+        "available_count": 43
+      },
+      {
+        "category": "MC_Torso",
+        "default_uri": "#MC_Torso__naked-mesh-skin",
+        "available_count": 43
+      }
+    ],
+    "priest_categories": 0
+  },
+  "class_variants": {
+    "warrior": "MC_{Feet,Hands,Torso}_default_warrior-mesh-skin",
+    "rogue": "MC_{Feet,Hands,Torso}_default_rogue-mesh-skin",
+    "mage": "MC_{Feet,Hands,Torso}_default_mage-mesh-skin",
+    "note": "These are verified available original controller IDs, not serialized defaults or a guessed enum map."
+  },
+  "tests": {
+    "source": "port/windows-foundation/tests/modular_defaults_tests.cpp",
+    "result": "PASS",
+    "checks": [
+      "Four source Prince categories select exact naked defaults",
+      "Each category has43 original module controllers",
+      "Warrior/Rogue/Mage clothing IDs exist and are not selected without inventory",
+      "Priest nonmodular yields empty, no borrowed player skin",
+      "Malformed/truncated resources reject preserving caller output"
+    ]
+  },
+  "evidence": [
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0064\\00649120.c",
+      "sha256": "826498f9e49294288dad26ea8910123fcdd2bfc86b3f8b6741d505c08073845b"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0047\\00470e18.c",
+      "sha256": "5f6f3b0525e6fda1774475cc12474e70b19eae35e06054c11ce4ac2805237ffa"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0047\\00470e5c.c",
+      "sha256": "c7d95aff9ab9c0872815fff686bda3fccc84520570cfc8a1f989416ee455ec4e"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003a\\003a999c.c",
+      "sha256": "f37356b6d4f84d6f09fb81f19fa0df0bafc3265fac4c7e0ffb0e3d49ac51dfa7"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003b\\003b395c.c",
+      "sha256": "81ab64e6df33875c0c889b6c37b53b5275fa95b4eb6ad52af1c229780c6fa1a8"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003b\\003b4d60.c",
+      "sha256": "5513692c59634349e22656f9f0c59f9e77550c9b6c120ec8a10dbce15d01ab07"
+    },
+    {
+      "path": "port\\android-native\\app\\src\\main\\assets\\models\\prince_modular.bdae",
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "path": ".local-inputs\\windows-shared-assets\\original-cache\\data\\3d\\characters\\npcs\\priest_good.bdae",
+      "sha256": "880ed0be28e158dc62779a1fd5f9874cbd39fb68edc31af69972aceb8979e8bf"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0064\\006474b8.c",
+      "sha256": "ae4ea44d7a2bed24496d0fa5221d04aced4ba6919e7ab7ec49821d1623d08d56"
+    }
+  ],
+  "limitations": [
+    "No source-proven raw ModularVisual enum mapping established; do not add such a switch based only on property labels.",
+    "Provider returns exact controller IDs. CharacterVisual/main integration must support explicit selected controller IDs; root owns those edits.",
+    "Extra modular descriptor arrays and external controller URIs reject pending a real resolver/factory implementation."
+  ]
+}

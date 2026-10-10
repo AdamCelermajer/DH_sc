@@ -1,0 +1,15 @@
+{
+  "staged": [
+    "models/prince_modular.bdae",
+    "animations/prince_template_anim.bdae",
+    "animations/prince_idle_shield.bdae",
+    "animations/prince_walk_1hand.bdae",
+    "animations/prince_1hand_combo_01.bdae",
+    "textures"
+  ],
+  "cache": [
+    "data/3d/textures",
+    "data/scene/001_swamp.mlx",
+    "data/3d/modules/swamp/swamp.bdae"
+  ]
+}

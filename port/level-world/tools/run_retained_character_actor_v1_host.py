@@ -1,7 +1,7 @@
 from pathlib import Path
 import subprocess,json,hashlib
 root=Path(__file__).resolve().parents[3];unix='/mnt/c/Users/adamc/Desktop/workspace/DH_sc'
-sources=['port/level-world/'+x for x in ['retained_character_actor_v1.cpp','canonical_object_factory_v1.cpp','canonical_property_map_v1.cpp','character_world_npc_state_owner_v1.cpp','character_world_npc_initialization_v1.cpp','character_state_owner_extensions.cpp','character_state_owner_behavior.cpp','character_state_owner_frame.cpp','tests/retained_character_actor_v1.cpp']]
+sources=['port/level-world/'+x for x in ['retained_character_actor_v1.cpp','canonical_object_factory_v1.cpp','canonical_property_map_v1.cpp','canonical_gameobject_base_owner_v1.cpp','character_kill_fields_v21.cpp','character_set_position_v7.cpp','character_world_npc_state_owner_v1.cpp','character_world_npc_initialization_v1.cpp','character_state_owner_extensions.cpp','character_state_owner_behavior.cpp','character_state_owner_frame.cpp','character_world_ai_queue_v1.cpp','character_idle_events.cpp','tests/retained_character_actor_v1.cpp']]
 snapshot=root/'.local-inputs/character-menu-native-v1-host/snapshot'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 closure={p.name:sha(p) for p in snapshot.iterdir() if p.suffix in('.so','.a')}

@@ -14,7 +14,14 @@ world::CanonicalClassReceiverV1* CanonicalReceiverTransportV1::find(
     const world::CanonicalObjectBorrowV1& object,std::string& error){
     auto at=receivers_.find(object.identity);
     if(!object.identity||!object.lease||at==receivers_.end()){
-        missing("retained identity/lease",error);return nullptr;
+        missing("retained identity/lease",error);
+        if(!missing_receiver_diagnostic_emitted_){
+            error+=" (identity=";error+=std::to_string(static_cast<unsigned long long>(object.identity));
+            error+=", lease=";error+=object.lease?"present":"missing";
+            error+=", retained=";error+=std::to_string(receivers_.size());error+=")";
+            missing_receiver_diagnostic_emitted_=true;
+        }
+        return nullptr;
     }
     return &at->second;
 }

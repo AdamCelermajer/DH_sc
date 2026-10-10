@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "feature": "same-Session finite Injury/Died End34 completion regression",
+  "status": "same_session_actual_clip_test_pass; live_game_visual_verification_pending",
+  "evidence": {
+    "visual": {
+      "original_reference": "No original gameplay sequence or screenshot for the reported death pose was supplied in this task, and the specific actor/version/timecode are unknown. Do not claim a visual original-runtime match.",
+      "native_asset_sequence": "The new same-Session test advances the actual Swamp_LizadMan_Type1 Injury clip continuously in 16ms updates for its 1033ms authored timeline and Died clip for its 800ms authored timeline. Died root motion is sampled through the terminal frame; observed baseline MoveGO displacement is 425.063 XY units. This is reconstructed-runtime evidence, not original gameplay footage.",
+      "asset_identity": "reports/session-pose-step-v1.json identifies profile property row360 and Injured row377 / Died row374, both step0. Died AnimDict811; Injury AnimDict816. reports/npc-root-motion-source.json gives the Died source root range 0-800ms."
+    },
+    "logic": {
+      "injury_admission": "F_ApplyResult tests outcome bit0x10; SM_SetInjureState at 0x3c5d84 enforces the positive 3000ms Character+0x14fc gate and selects the Injury state/clip. port/level-world/tests/player_injury_same_fsm_v7.cpp proves the registered FSM11 End event 0x22 routes to Idle3 after the source empty CSInjured::OnEvent at 0x3c0044.",
+      "death_admission": "SM_SetDeadState at 0x3c58c8 selects ordinary Died field+0x1c into machine+0x28 before Dead state12 focus. CSDead::OnUpdate at 0x3c004c is empty. CSDead::OnEvent at 0x3c4c3c handles event0x22 by calling SetPhysicalObject(null,false). Source-state method evidence is in port/level-world/reference/character-state/NOTES.md and character-state-methods/NOTES.md.",
+      "animator_close": "AnimatorSet completion at 0x3672c8 / AnimatorBlender completion at 0x366628 sets pending completion, and Applicator CheckCallback at 0x36440c later calls the installed callback. CharAnimator::__Callback at 0x3c90ec only marks the pending flag; actual state/sequence completion is handled in its later update. Source scheduler notification mapping and existing close behavior are recorded in reports/original-actor-animation-events.json.",
+      "implementation": "RetainedSequenceServices.seeded_closed is now the finite seeded leaf close seam. RetainedSequencePlayback invokes it only after a genuine final completion when no configured source repeat remains, and sets its one-shot latch before calling the borrowed callback. CombatSession binds it to numeric animation event0x22. Existing full advance closed/finished behavior is unchanged. ActorCombatRuntime still releases Injured at source current_ended and holds Died; End34 dispatch uses the same actor's registered source state consumer."
+    },
+    "expected": "A finite admitted Injured leaf emits one numeric End34 at its authored completion and does not invoke the Dead state's physical-removal behavior. A finite Died leaf emits one numeric End34 only at its authored completion; the Dead state's registered handler may then remove its physical body. HP reaching zero selects Died but is not itself a completion event. Completion does not replay during terminal updates or save restore. Source loops/repeats do not emit a finite-close End34 per intermediate cycle.",
+    "uncertainties": [
+      "No original gameplay clip/timestamps prove the reported actor's visible animation continuity or all version behavior.",
+      "The source Dead handler's SetPhysicalObject body and the complete registered FSM/state service are external to this test. The fixture observes the same-actor numeric/state-event dispatch and verifies that Injury does not route through the Dead handler; it does not fake a physical body or the FSM11->Idle3 registration. That source registration is independently proven by player_injury_same_fsm_v7.cpp.",
+      "Available source assets are recovered v1.0.2; matching the reported v1.0.3 gameplay remains unverified."
+    ]
+  },
+  "test": {
+    "source": "port/windows-foundation/features/combat/death_end_regression_tests.cpp",
+    "runner": "tools/run_combat_session_death_end_regression_tests.ps1",
+    "build": "C++17 strict Windows compile; the runner compiles the current CombatSession and RetainedSequencePlayback translation units alongside the foundation archive so playback ABI changes are not taken from a stale library object.",
+    "scenarios": [
+      "Actual source melee calculation admits nonlethal Injury bit0x10; assert no End34 at HP change or before the 1033ms authored clip boundary, then exactly one numeric End34 notification/state event.",
+      "Instrument same-actor state event routing and verify Injury does not enter the Dead state handler or issue a dead physical-removal effect.",
+      "Apply an actual lethal source result to the lizard; assert HP0 and selected Died at start have no End34, then exactly one End34 at the actual 800ms Died current_ended boundary.",
+      "Verify continuous actual Died clip/root samples, terminal updates without replay, and save rebind with unchanged corpse transform and no completion replay."
+    ],
+    "baseline_run": {
+      "command": "powershell -ExecutionPolicy Bypass -File tools/run_combat_session_death_end_regression_tests.ps1",
+      "compile": "PASS: C++17 strict Windows compile; current combat_session.cpp and retained_sequence_playback.cpp are compiled from source together, with remaining dependencies from the coherent foundation archive.",
+      "observed": [
+        "Injury clip=actor-2/Injured/sequence-0/phase-0 authored_ms=1033 wall_s=1.056 End34_virtual=1 End34_state=1 DeadHandlerCalls=0",
+        "Died completed authored_ms=800 wall_s=0.832 End34_virtual=2 End34_state=2 motion_samples=104 travel_xy=425.063",
+        "PASS Injury End34=1/no Dead effect; Died End34=1 at authored end/no replay after restore; actual lizard clips"
+      ],
+      "receipt": ".local-inputs/session-death-end-regression-test/run.log",
+      "test_source_sha256": "31D10CE164CC17428556CEE97D713F99EF3A296B2CF2E9633EBA0E35B2A3DB61",
+      "test_executable_sha256": "A4D0B7744255332BEACBAF34CA638C07E47C6B26A8CC28A90B4F9DF2E3FEAB24",
+      "runner_sha256": "BD63BC72B56E1DD17B0BF3B34497DFD345970BFDE4E445DB988E6B265EAB6BDA",
+      "retained_sequence_playback_sha256": "641E95E9BE6C4521FB938793100742B5E05041932271EFD4FCAEB1CE7B740EFC",
+      "combat_session_sha256": "12A066342BCCD33055CD75485F0DB3A5EEB019CAD965A376414F9B52FBEC084D",
+      "note": "The baseline test passed admission/no-early-end/terminal/restore checks but exposed the missing seeded close. The first integration rerun exposed a test predicate that sampled after End34 but before checking current_ended; the test was corrected to allow an event in the completion sample. Final rerun passed. This proves the same-Session native path, not an in-game scene or original video match."
+    }
+  }
+}

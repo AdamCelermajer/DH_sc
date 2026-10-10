@@ -4,6 +4,7 @@
 #include "condition_data_init_v3.hpp"
 #include "game_object_visual_asset_owner_v1.hpp"
 #include "game_object_set_position_v2.hpp"
+#include "application_spawn_random_owner_v4.hpp"
 #include "module_pf_room_v3.hpp"
 namespace dh2::world {
 struct CanonicalModuleGraphServicesV3 {
@@ -11,6 +12,9 @@ struct CanonicalModuleGraphServicesV3 {
  std::shared_ptr<ModulePFRoomsV3> rooms; // SAME floor world/map owner
  RetainedModuleVisualServicesV3 visual;
  ConditionDataInitServicesV3 conditions;
+ CanonicalSpawnApplicationServicesV4 spawn_application;
+ std::function<bool(CanonicalGameObjectBaseOwnerV1&,std::string&)> mark_for_deletion;
+ std::function<bool(CanonicalGameObjectBaseOwnerV1&,bool,const float*,float,std::uintptr_t,std::string&)> init_pf_object;
  GameObjectSetPositionServicesV2 position;
  std::function<bool(const std::string&,std::shared_ptr<const std::vector<std::uint8_t>>&,bool&,std::string&)> read_asset;
  std::function<bool(CanonicalGameObjectBaseOwnerV1&,std::string&)> update_pf;

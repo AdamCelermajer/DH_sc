@@ -209,11 +209,17 @@ bool borrow_character_menu_application_v4(dh2::ui::HudTextV1&,std::shared_ptr<vo
 bool draw_character_inventory_preview_v4(int,int,std::string&);
 bool character_menu_player_v4(std::int32_t,bool remote_or_include,bool local,std::uintptr_t&,std::string&);
 std::string load_menu_background(AAssetManager*);
-void draw_menu_background(int width,int height);
+// EnterName retains the authored environment without submitting the saved avatar.
+void draw_menu_background(int width,int height,bool show_character=true);
 bool select_menu_persona(int class_index,AAssetManager*,std::string&);
 std::string load_class_scene(AAssetManager*);
 bool select_class_scene(int class_index,int dt_ms,std::string&);
 bool class_scene_active();
+// MenuCharacterSelect::Show owns a distinct CLASS_SELECTION SceneManager root
+// from the MainMenu swamp root. Publish its native root loan after the class
+// renderer has loaded the authored BRES so Select.Hide can release the same
+// root before SceneManager.RemoveAll.
+bool register_class_selection_scene_root_v121(std::string&);
 bool class_scene_input_enabled();
 void draw_class_scene(int width,int height);
 void reset_context();

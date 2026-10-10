@@ -1,0 +1,362 @@
+{
+  "date": "2026-10-10",
+  "feature": "act1_interactions",
+  "status": "feature_native_source_interaction_and_modern_GameSave_component_restore_verified; production_world_enrollment_and_OBJS_caller_unverified",
+  "fidelity_complete": false,
+  "scope": [
+    "authored OpenableContainer chest input/open animation/event/loot path",
+    "authored DestructibleContainer breakable input/staged animation/event/loot path",
+    "Act 1 conditional breakable contents and persistent state",
+    "NPC interaction and source Character event5 integration dependencies"
+  ],
+  "owned_changes": [
+    "port/windows-foundation/features/interactions/container_receiver_bindings.hpp",
+    "port/windows-foundation/features/interactions/container_live_loot_binding.hpp",
+    "port/windows-foundation/features/interactions/container_source_pipeline_v21.hpp",
+    "port/windows-foundation/features/interactions/container_receiver_bindings_tests.cpp",
+    "port/windows-foundation/features/interactions/run_container_receiver_bindings_tests.ps1",
+    "port/windows-foundation/features/interactions/source_container_loot_v1.hpp",
+    "port/windows-foundation/features/interactions/source_container_loot_v1.cpp",
+    "port/windows-foundation/features/interactions/session_openable_interaction_v1.hpp",
+    "port/windows-foundation/features/interactions/session_openable_interaction_v1.cpp",
+    "port/windows-foundation/features/interactions/session_destructible_interaction_v1.hpp",
+    "port/windows-foundation/features/interactions/session_destructible_interaction_v1.cpp",
+    "port/windows-foundation/features/interactions/session_container_interactions_tests.cpp",
+    "port/windows-foundation/features/interactions/run_session_container_interactions_tests.ps1",
+    "port/windows-foundation/features/interactions/README.md",
+    "port/windows-foundation/features/interactions/breakable_asset_recovery_v1.json",
+    "port/windows-foundation/features/interactions/test-assets/go_swamp_urn_breakable.bdae",
+    "port/windows-foundation/features/interactions/breakable_asset_recovery_v1.json",
+    "port/windows-foundation/features/interactions/test-assets/go_swamp_urn_breakable.bdae",
+    "port/windows-foundation/features/interactions/world_object_container_state_v1.hpp",
+    "port/windows-foundation/features/interactions/world_object_container_state_v1.cpp",
+    "port/windows-foundation/features/loot/runtime_world_item_adapter_v1.hpp",
+    "port/windows-foundation/features/loot/runtime_world_item_adapter_v1.cpp",
+    "port/windows-foundation/features/interactions/session_world_item_consumer_v1_tests.cpp",
+    "port/windows-foundation/features/interactions/session_container_game_save_v1_tests.cpp",
+    "port/windows-foundation/features/interactions/run_session_container_game_save_v1_tests.ps1",
+    "port/windows-foundation/features/interactions/session_container_retained_visual_v1.hpp",
+    "port/windows-foundation/features/interactions/session_container_retained_visual_v1.cpp",
+    "port/windows-foundation/features/interactions/session_container_live_visual_integration_tests.cpp",
+    "port/windows-foundation/features/interactions/run_session_container_live_visual_integration_tests.ps1",
+    "port/windows-foundation/features/interactions/session_container_modern_drop_v1.hpp",
+    "port/windows-foundation/features/interactions/session_container_modern_drop_v1.cpp",
+    "port/windows-foundation/features/interactions/session_container_modern_openable_v1.hpp",
+    "port/windows-foundation/features/interactions/session_container_modern_openable_v1.cpp",
+    "port/windows-foundation/features/interactions/session_authored_openable_scene_v1.hpp",
+    "port/windows-foundation/features/interactions/session_authored_openable_scene_v1.cpp"
+  ],
+  "bridge": {
+    "active_generic_owner": "SessionContainerModernOpenableV1 now composes one exact authored Openable object over SessionOpenableInteractionV1, the current WorldObject/7-byte component, SessionContainerRetainedVisualV1 callbacks, and SessionContainerModernDropV1's scoped Session RNG plus same RuntimeWorldItemAdapter store. It validates/delegates opener IDs through a caller-owned same-session resolver. Source admission/condition/audio/physical/inventory/script/quest policy remains explicit and fail-closed; no ActorState/HP, second world, store, or RNG is created.",
+    "historical_reference_only": "container_receiver_bindings.hpp, container_live_loot_binding.hpp, and container_source_pipeline_v21.hpp document the prior Canonical receiver/WorldLootGameplay experiment. They are not the active generic integration contract and do not establish production readiness.",
+    "source": "LiveReceiverBindings::deliver -> existing CanonicalObjectManagerV1 publication",
+    "destructible_factory_go_id": 1,
+    "destructible_declaration": "DestructibleContainer",
+    "destructible_action": "CanonicalDestructibleContainerV16::interact(actor,error)",
+    "animation": "prepare_destructible_animation_v21 / prepare_openable_animation_v21 before receiver construction, then attach that receiver before InitPost; callbacks use the current retained visual animator",
+    "event_delivery": "existing retained generic animator authored event stream; no timer or synthesized marker",
+    "loot": "The active generic test uses SourceContainerLootV1 with the same caller-supplied source loot/power snapshots and shared LootRandom8V2, then publishes exact selected borrowed item and entry records to RuntimeWorldItemAdapterV1. World-item pickup uses RuntimeWorldItemInteractionV1 against the same store and source-owned CharacterState inventory. Type13 gold and unsupported gear/power rows remain fail-closed; no WorldLootGameplayV23/native receiver path is required or claimed by this generic lane.",
+    "source_pipeline": "container_source_pipeline_v21.hpp atomically composes retained V21 animation event/completion bindings and the original DropLootTable callback on Openable/Destructible source service bundles before receiver construction. Duplicate endpoints are rejected; missing required world loot ownership leaves input services unchanged. The returned binding must attach to that same canonical receiver before InitPost.",
+    "duplicate_effect_policy": "The retained authored opened marker drives the source event once; replay is suppressed by the same-session interaction lifecycle. Each published world item is atomically picked at most once by the existing generic store."
+  },
+  "original_act1_evidence": {
+    "destructible_rows": 37,
+    "swamp_destructible_declarations": 9,
+    "rows": [
+      {
+        "name": "Swamp_NoMoth_DestructibleBarrel",
+        "table_row": 29,
+        "visual_dictionary_id": 70,
+        "visual_dictionary_name": "go_swamp_urn_breakable",
+        "loot_table_id": 9,
+        "sound_id": 325,
+        "keep_physics": false,
+        "object_script": ""
+      },
+      {
+        "name": "Swamp_Normal_DestructibleBarrel",
+        "table_row": 30,
+        "visual_dictionary_id": 70,
+        "visual_dictionary_name": "go_swamp_urn_breakable",
+        "loot_table_id": 9,
+        "sound_id": 325,
+        "keep_physics": false,
+        "object_script": "moth_spawn_container"
+      }
+    ],
+    "visual_uri": "Exact canonical BDAE recovered from the original cache ZIP and staged only in the isolated interaction test cache; see features/interactions/breakable_asset_recovery_v1.json for member path and hashes.",
+    "event_names_from_source": [
+      "opened",
+      "fx"
+    ],
+    "source_animation_actions": [
+      "prespawn",
+      "spawn",
+      "idle",
+      "activate",
+      "idleactive"
+    ],
+    "chest_bres": {
+      "source_asset": ".local-inputs/publication/checkpoint/reference/openable-container-v1/cache/go_chest_swamp.bdae",
+      "activate_clip_ms": [
+        166,
+        1266
+      ],
+      "opened_event_time_ms": 233,
+      "native_event_dispatch_first_ms": 234,
+      "evidence": "The owned Windows native test parses the actual BRES clip and event tables and verifies a single source opened event at its authored boundary. The existing canonical_openable_graph_v21 test receipt drives the same event path through the actual retained visual/controller for all three source chest visuals; its DropLoot callback remains an explicit owner-boundary fixture."
+    },
+    "breakable_authored_clip_names": "Verified from the exact recovered source BDAE: activate, idle, idleactive. The activate clip spans 166–1899 ms; authored opened event is 266 ms.",
+    "conditional_mob": {
+      "script": "moth_spawn_container",
+      "source_asset": ".local-inputs/character-script-assets-v1/bootstrap-cache/data/scripts/objects/moth_spawn_container.luac",
+      "bytes": 1538,
+      "sha256": "68c87e4eb16ec991e0929be9e1bb71e93e9606c966b46848ee88edba32508d93",
+      "manifest": ".local-inputs/character-script-assets-v1/expected-script-sha.tsv row 79",
+      "source_behavior": "OnOpen sets prob_spawn=25, samples GetRand(0,100), and only when the result is strictly below 25 calls Summon(GetPyOID('CharacterTable','Swamp_Moth_Minions'), true, 0, 0, 0, true); if actor is non-NULL it then calls DealDamages(actor, GameObjectDamager Level01Damage, Elemental Fire). The NoMoth row has no object script.",
+      "runtime_status": "Authored conditional semantics are recovered; source CharacterScriptSession registers GetRand but has no _Summon binding. Runtime integration must use the same existing world/actor/RNG/zone owners and preserve the source strict <25 test. No unconditional spawn or replacement RNG is installed."
+    },
+    "money": "Native LootTablesV2 confirms table9 Barrel_Level_01 has roll_type 0 and repeats table124 Gold_01 three times. Row124 has child lists GoldLevel_01 and PotionLoot, resolving to GoldStack01 (item418, type13) and Potion0 (item925, type14); each selected item has quantity1 and probability1. Relative child-entry weights are not substantiated and are not claimed. This establishes authored child contents, not a guaranteed currency amount; live shared Loot RNG, GoldStack valuation, and AddItemInstance conversion determine final result."
+  },
+  "existing_source_kernels": [
+    "CanonicalOpenableContainerV1 + OpenableContainerOwnerV1 preserve key, state, and original opened event behavior.",
+    "CanonicalDestructibleContainerV16 preserves staged hits, source quest event sites, activate playback, opened marker, loot table selection, original object script call, and destruction/stat tail.",
+    "Container animation V21 supplies callbacks from the retained visual animator; actual authored chest assets and event/completion order are already covered by the level-world V21 native test.",
+    "DestructibleContainerDataConnectionV16 resolves the same original GameObjectDictionaryV11 snapshot and writes the selected asset URI into the same canonical base CString290.",
+    "npc_source_services.hpp binds Character event5 through the existing CharacterIdleEvents/FSM and TalkToNPC RaiseAsync through the captured same Level EventManager."
+  ],
+  "validation": {
+    "same_session_interaction_test": "Native Windows link and execution passed with the pinned LLVM-MinGW toolchain and refreshed archives. Reproduce with port/windows-foundation/features/interactions/run_session_container_interactions_tests.ps1. The actual chest BRES opened marker drives the ActorState-backed owner and neutral WorldObject-backed owner. The object path selects exact table rows using the same caller-owned LootRandom8, publishes into the existing RuntimeWorldItemAdapter through publish_source_object_drop, and verifies source ActorId/opener/WorldObject transform in the store and render_items packet. The marker is one-shot; completion persists state4. A second input and a new retained event generation after completed state4 are suppressed without another drop or RNG draw. The table9 consumer runner also resolves actual source itemdrop geometry, material passes and decoded textures. The breakable row30 BDAE dispatches its authored marker. Production Level enrollment and original OBJS tuple caller remain unintegrated.",
+    "new_bridge_test": "Native Windows link and execution passed with the pinned LLVM-MinGW 20261006 toolchain plus the existing libfoundation_data.a, librecovered_content.a, and libcontent_xml.a archives. Reproduce with port/windows-foundation/features/interactions/run_container_receiver_bindings_tests.ps1. The test parses actual go_chest_swamp.bdae activate=[166,1266], opened=233ms, dispatches once at 234ms, and verifies that an absent canonical WorldLootGameplayV23 owner fails closed for both openable and destructible atomic V21+DropLoot pipeline compositions without partially installing callbacks. Four pre-existing Box2D unused-expression warnings remain.",
+    "test_domain": "Actual CanonicalObjectManagerV1 and CanonicalDestructibleContainerV16 with original 37-row table fixture and source Swamp data_desc. The native test proves GO_ID1 manager publication and resolver borrow retain the same receiver identity; source action stops at the first real missing receiver service, retained visual/root required by source SetState.",
+    "animation_binding_test": "Actual V21 destructible and openable connection functions are linked. Test proves both service bundles are prepared before receiver construction, then attached to those same native receivers without resolving or fabricating a visual. It does not claim authored clip/event playback.",
+    "actual_chest_graph_test": "port/level-world/reports/android-native-owner-tests/canonical-openable-callback-v21/receipt.json records PASS for CanonicalOpenableGraphV21 over the actual source chest visuals, same GO_ID7 runtime/base/class, V21 nonloop named controller, source InitPost/InitFinal, authored marker/completion delivery and teardown. The receipt explicitly identifies PF/RNG/device/condition/Debug/light/script/Update and DropLoot owner endpoints as declared fixtures; this is not a production loot award proof.",
+    "npc_quest_integration_test": "port/windows-foundation/features/quests/npc_talk_objective_integration_test.cpp passed. It calls interactions::bind_npc_quest_raise against the same Level EventManager projected by bind_source_quest_event_projection_v108 and a real native ObjectiveRuntime listener over the original 64 Quest rows; Abbey_Rescue TalkToNPC synchronously changes that Save-owned Objective and preserves source network/deferred-detach order. It is a shared-service native fixture, not a full profile/session acceptance test.",
+    "prior_interactions_native": "existing interactions_tests.cpp, NPC source-service test, and NPC native UI helper test are documented in features/interactions/README.md.",
+    "prior_destructible_source": "canonical-destructible-container-v16 handoff reports original constructor/lifecycle and 477 native owner checks; its external World providers are declared observation fixtures, not live application acceptance.",
+    "full_live_acceptance": false,
+    "source_outcomes_and_store_test": "Table227 chest sweep: 4096 deterministic seeds observed 56 ItemTable rows; exact chest records reach the existing store, and unsupported gear/pickup categories fail without inventory mutation. Neutral-object chest marker records publish in the same store at actual WorldObject position. The separate object-origin table9 fixture selects Potion0 item925 and GoldStack01 item418 into that store; with the explicit fixture value input and same RNG, source render packets resolve original Potion static and Gold skinned geometry, itemdrops material passes and decoded atlas texture leases, then the existing pickup path succeeds once. Relative child-entry weights/final currency amount are not asserted.",
+    "game_save_container_component_test": "Native Windows C++17 strict link and execution passed using run_session_container_game_save_v1_tests.ps1, existing foundation archives and actual shared source assets. The test loads the authored 001_swamp chest and destructible barrel definitions, pairs their exact stable IDs/names to neutral WorldObjects, and saves/restores both exact seven-byte components through GameSave v2. Both state2->3->4 components survive capture_game_save/save_game/load_game/restore_game_save, decode state4/idleactive, preserve source placement and consume no RNG. Current generic ActorDefinition data contains no native room64; the source tuple resolver fails closed rather than assigning a fixture room. Existing interaction tests still cover rejection of ambiguous duplicate (gametype,name,room) definitions with a distinct stable ID. Original OBJS serialization/room resolution is not claimed.",
+    "session_object_visual_loot_integration_test": "Native strict Windows C++17 link and execution passed using run_session_container_live_visual_integration_tests.ps1. The fixture composes the actual 001_swamp chest ObjectId 4308955945491066525 through SessionContainerModernOpenableV1 over the exact WorldObject/state component, retained visual callbacks, same scoped Session RNG and existing item store. The recovered urn ObjectId 17396591008448001070 continues through the explicit typed Destructible owner. Authored opened markers route through the original source owners/selectors; stored packets retain exact ObjectIds/transforms/material/decoded texture leases. It saves/restores both state4 components through GameSave v2 and silently restores idleactive without event/drop replay; the stale pre-restore Openable binding rejects input. The fixture supplies zero as opener gold bonus and source policy/actor resolver callbacks; production must supply exact value and source-policy providers. Material upload/submission is a CPU lease/callback fixture, not GPU or actual RenderQueue proof. Urn OnOpen is validated as the exact source request only; `_Summon` runtime is not claimed. Production Level enrollment/OBJS tuple caller remains unintegrated.",
+    "session_container_modern_drop_api": {
+      "header": "port/windows-foundation/features/interactions/session_container_modern_drop_v1.hpp",
+      "implementation": "port/windows-foundation/features/interactions/session_container_modern_drop_v1.cpp",
+      "contract": "create(CombatSession&, inputs{same LootTables/Powers/entry owners, existing RuntimeWorldItemAdapter, optional exact opener gold-bonus resolver}); services(out) creates an owner-pinned SourceContainerLootServicesV1 whose selection runs synchronously inside PlayableActorWorld::with_loot_random and whose selected item is published through RuntimeWorldItemAdapterV1::publish_source_object_drop using the current WorldObject transform. GoldStack requires an explicit opener bonus provider; no ActorState/HP or second RNG/store is created.",
+      "non_goals": "This binds source drop selection/publication only. It does not supply or implement source interaction admission, conditions, audio, physical detach, Level/quest projection, script runtime, or original OBJS room import; these remain typed caller requirements and the interaction owners fail closed when required leaves are absent.",
+      "runner": "port/windows-foundation/features/interactions/run_session_container_live_visual_integration_tests.ps1",
+      "validation": "PASS strict C++17 linked actual chest/urn fixture and existing source interaction runner; same-session opened markers publish via scoped Session RNG into the existing store, state4 GameSave restore is silent, and old Session-bound adapter rejects use after restore."
+    },
+    "session_object_visual_native_runner": "port/windows-foundation/features/interactions/run_session_container_live_visual_integration_tests.ps1",
+    "modern_openable_binding_api": {
+      "header": "port/windows-foundation/features/interactions/session_container_modern_openable_v1.hpp",
+      "implementation": "port/windows-foundation/features/interactions/session_container_modern_openable_v1.cpp",
+      "factory": "SessionContainerModernOpenableV1::create(session, authored_definition, AssetCatalog, retained_visual_owner, existing_modern_drop_owner, typed_source_policy, output, error)",
+      "operations": [
+        "initialize_admitted(error)",
+        "interact(current_opener_ObjectId,error)",
+        "animation_event(authored_event,error)",
+        "animation_finished(current_generation,active,error)",
+        "restore_silently(error)",
+        "init_post(error; legacy full-prefix path only)"
+      ],
+      "contract": "Validates current exact ObjectId/definition/name/model/finite transform and the 7-byte component; requires retained-visual and drop owners to share this Session lease and resolve the identical WorldObject pointer. The row-backed mode requires the original Openable table plus an explicit prior-admission receipt bound to this Session lease/ObjectId/definition/data_desc, derives the authored row index and original constructor defaults, and restores state394. initialize_admitted silently registers retained callbacks without rerunning ObjectBase CheckSpawnProbability or GameObject InitPost. Other opener IDs use a typed same-session resolver; retained visual and same-store/scoped-RNG drop callbacks compose over existing owners. init_post remains available only for a caller that truly owns the full original admission/Base InitPost prefix; it must not be used after row-backed admission.",
+      "restore": "Discard the old binding after GameSave restore, refresh/rebind the retained visual silently, create a new binding against the new Session lease, and call restore_silently. State2 installs fresh event/completion callbacks without InitPost; state4 installs a ready one-shot guard without callbacks, rejects input, and ignores opened-marker replay.",
+      "validation": "PASS strict C++17 linked actual authored chest fixture; exact original Openable row and constructor defaults derive under a same-Session prior-admission receipt; missing receipt rejects even for a current WorldObject. initialize_admitted did not rerun InitPost/CheckSpawnProbability; source opened marker selected and published loot through same store/RNG; state4 GameSave restore recreated the binder silently, rejected input and stale opened marker without store mutation, and old binding rejected use after lease replacement."
+    },
+    "modern_openable_policy_audit_and_test_plan": {
+      "visual_evidence": "The exact authored chest BRES fixture already records activate [166,1266] ms and opened at 233 ms; the retained same-session integration test advances the actual source clip through that marker. This follow-up changes pre-input policy initialization, so no new visual timing or animation behavior is proposed.",
+      "logic_evidence": [
+        "Original source handoff `port/level-loader/vendor/connected-owners-1b96f4edb021619d/reference/openable-container-v1/eligibility-source.asm`: GameObject::MeetCondition at 0x38ab60 is a literal true return. GameObject::CheckSpawnProbability at 0x38bd64 reads native ObjectBase data_id/probability fields, an ObjectHandle->Character/IsPlayer result, online byte/manager state and original Random; on some branches it marks that same ObjectBase for deletion.",
+        "Original Openable constructor captures `openable-source.asm` 0x3a1cb0 and `container-base-source.asm` 0x3a0788: Container begins at state394=2, death_reset390=0 and opener398=0; Openable initializes key name empty, key_id=-1, key_qty=1, key_consume=true. InitPost still calls CheckSpawnProbability before reading the original row and base InitPost.",
+        "Exact authored 001_swamp `_prim_OpenableContainer_03` has gametype OpenableContainer, data_desc Swamp_Normal_Chest and condition_desc Invalid. Original Openable row 58 resolves Swamp_Normal_Chest to visual47/loot227/sound33/KeepPhysics=true; GameObjectDict row47 resolves the actual `data/3D/GameObjects/go_chest_swamp.bdae` source visual."
+      ],
+      "expected_behavior": "For a caller-proven already-admitted current WorldObject, initialize only original constructor-backed Openable fields and its exact Openable table row; restore state394 from the saved component, bind retained visuals silently, and never rerun CheckSpawnProbability or GameObject InitPost. The root enrollment owner remains responsible for the prior source admission and must supply its typed receipt. Missing later source callback leaves still reject before unsupported side effects.",
+      "uncertainties": [
+        "Neutral WorldObject/CombatSession does not carry ObjectBase data_id, spawn-probability fields, ObjectHandle GetHandle/AsCharacter/IsPlayer behavior, original online manager state, or MarkForDeletion ownership. A zero-random/always-visible callback would not reproduce CheckSpawnProbability.",
+        "The source ObjectBase/GameObject InitPost prefix, actual same-level quest/current-level room owner, audio, physical attach/detach, and script runtime are not supplied by the modern WorldObject/CombatSession APIs."
+      ],
+      "focused_test_plan": "PASS strict C++17 linked test over the exact admitted chest definition, original Openable table, retained BRES visual and current Session. It checks row58/visual47/loot227/sound33/KeepPhysics=true plus original Openable constructor defaults and saved state394; missing admission receipt rejects even though the WorldObject exists. initialize_admitted binds callbacks without calling CheckSpawnProbability or GameObject InitPost; opened marker still routes through the same scoped RNG/store; GameSave state4 rebind remains silent and suppresses stale input/marker. This does not claim to implement loader admission or unprovided source callbacks.",
+      "decision": "Implemented the approved bounded row-backed path for explicitly already-admitted current WorldObjects. The typed receipt is a caller-owned statement bound to the exact Session lease/ObjectId/definition/data_desc; root enrollment must produce it only after source admission. It does not model native ObjectBase probability/online/handle/deletion behavior and does not rerun those gates. Current main still has no production object-enrollment/activation caller. Actual source audio, physical, inventory/key, quest/event, script and complete Level admission providers remain caller gaps; the strict fixture exercises those service seams without claiming production ownership."
+    },
+    "session_object_visual_bres_assets": [
+      {
+        "path": "port/windows-foundation/features/interactions/test-assets/go_swamp_urn_breakable.bdae",
+        "authored_opened_ms": 266,
+        "clips": [
+          "activate",
+          "idle",
+          "idleactive"
+        ],
+        "sha256": "534b1f5c99e1d005ffa9c7970412e496a062783b1b847abeeefcd1420f18706a"
+      },
+      {
+        "authored_opened_ms": 233,
+        "path": ".local-inputs/publication/checkpoint/reference/openable-container-v1/cache/go_chest_swamp.bdae"
+      }
+    ],
+    "root_callable_visual_handoff": {
+      "restore": "refresh_after_restore(error), then restore_authored_object(definition, assets, error); state2 selects idle and state4 selects idleactive silently from the seven-byte WorldObject component",
+      "current_world": "Validates and reacquires the existing mutable WorldObject from CombatSession::world()->find_object(stableId), checks same id/name/model and finite transform; binds CombatSession::bind_object_visual",
+      "method": "SessionContainerRetainedVisualV1::bind_authored_object(const ActorDefinition&, const AssetCatalog&, std::string&)",
+      "full_source_owner_factory": false,
+      "modern_openable_partial_factory": "SessionContainerModernOpenableV1::create composes the actual neutral source object, retained visual and same-session drop path. It is not a complete production owner because source policy/quest leaves and opener resolution remain host supplied; Destructible still uses explicit services.",
+      "required_host_inputs": [
+        "Openable/Destructible source table and fields",
+        "current ActorDefinition + WorldObject/object-component resolver",
+        "same-session actor_binding_lease",
+        "source condition/physical/audio/script/quest providers",
+        "the same PlayableActorWorld scoped RNG loan and existing RuntimeWorldItemAdapterV1 store (composed by SessionContainerModernDropV1)",
+        "exact opener property value for type13 GoldStack; absent provider rejects GoldStack",
+        "source admission/condition/audio/physical/quest/script callbacks (still production host requirements)"
+      ],
+      "asset_lifetime": "AssetCatalog::read returns owned bytes synchronously and CombatSession::bind_object_visual decodes/retains the resulting CharacterVisual/BRES scene; this visual binder does not retain a borrowed AssetCatalog pointer. Root must keep AssetCatalog source roots available for future rebind after restore and for source material bindings, whose owner performs later texture/effect reads."
+    },
+    "authored_openable_scene_collection": "Strict Windows C++17 private link and execution passed with fresh current Session/World archives via features/interactions/run_session_container_live_visual_integration_tests.ps1. SessionAuthoredOpenableSceneV1::bind / bind_session_authored_openable_scene_v1 takes immutable source ActorDefinitions, caller-issued successful SessionSourceObjectAdmissionReceiptV1 records, exact OpenableContainerTableV1 + original row-name bytes, AssetCatalog, existing retained-visual and SessionContainerModernDrop owners, and a retained typed policy/visual-row provider owner. Actual 001_swamp Swamp_Normal_Chest ObjectId 4308955945491066525 is admitted then enrolled through the collector; the collector retains the same WorldObject and routes explicit input to original BRES callbacks, shared Session RNG and existing RuntimeWorldItemAdapter store. Tests reject missing admission receipt, duplicate receipt, ambiguous source row-name mapping and missing same-Level Quest RaiseAsync provider before visual/callback publication. Existing state4 GameSavev2 restore test remains separate and proves silent idleactive restore/no replay; original OBJS import is not claimed. Source scene has four Swamp_Normal_Chest rows and one SwampCave_Normal_Chest row; no pot is Openable. Main still must supply full live scene admission and exact online/current-Level/quest/audio/physical/script/key providers; this helper does not prove those callback fixtures are production-backed. No GPU, native ObjectManager, or full production enrollment claim."
+  },
+  "first_missing_canonical_services": [
+    "Production host must enroll authored neutral pots/chests/barrels as WorldObjects in the shared ObjectId namespace and initialize source base/state component bytes from actual source definitions; this feature owns no Level scene enrollment.",
+    "Host must supply the original current-session retained visual/event/completion owner and actual source save/restore/reset routing. Modern v2 GameSave now saves/restores the feature component in a real disk roundtrip; production Level enrollment, original OBJS read/write and the Level death-reset gate remain unintegrated.",
+    "Production source opener/killer property services must compute any source-dependent item value and power creation before calling the store; the store requires a pre-resolved gold value and rejects missing values. Chest equipment still needs original Gear/power pickup services.",
+    "The moth_spawn_container script requires same-Level _Summon and DealDamages bindings to existing world/actor/zone/combat owners and the script session RNG; only the strict <25 branch and authored arguments are verified.",
+    "OBJS rebind uses exact (gametype,map_name,room) and fails on ambiguity; production must supply the current room resolver and verify the authored tuple. Door state3a8 is outside the container component.",
+    "Full original factory/session startup and complete Act1 enrollment/save-load/render acceptance remain outside these focused native fixtures."
+  ],
+  "unverified": [
+    "Complete production session startup and original MGP/Swamp neutral-object enrollment in the Windows app.",
+    "Rendering/retention of chest and breakable visuals in a full live Act1 session; the native interaction test parses actual BRES/BDAE and dispatches authored events.",
+    "moth_spawn_container execution through a live same-world script session, including same-manager spawn and actor-hit damage tail.",
+    "Final currency amount and unsupported weighted child probabilities; source item valuation and same-store gold pickup are fixture-verified.",
+    "Chest equipment pickup through original Gear/power services.",
+    "One-time effects and open/breakable save/load across a complete live Act1 session."
+  ],
+  "neutral_worldobject_container_persistence": {
+    "component_key": "dh2.source-container.objs.v1",
+    "wire_payload_bytes": 7,
+    "wire_fields": [
+      {
+        "bytes": 1,
+        "payload_offset": 0,
+        "source_field": "GameObject visible80"
+      },
+      {
+        "bytes": 1,
+        "payload_offset": 1,
+        "source_field": "GameObject enabled8a"
+      },
+      {
+        "bytes": 4,
+        "payload_offset": 2,
+        "source_field": "GameObject archetype270 little-endian u32"
+      },
+      {
+        "bytes": 1,
+        "payload_offset": 6,
+        "source_field": "Openable/Destructible state394 u8"
+      }
+    ],
+    "outer_OBJS_identity": "gametype string, map_name string, room u32, payload length u64, then whole object Save payload; modern stable ObjectId is not serialized",
+    "save_source": "port/level-world/level_savegame_objects_v2.cpp and port/level-world/object_save_restore_v3.cpp",
+    "restore_source": "port/level-loader/noncharacter_save_connection_v89.hpp",
+    "restore_order": "Read current Level f3/f4 and death_reset390 before base/payload. If !death_reset && (f3 || f4), return without reading payload. Otherwise restore GameObject base, archetype check and visibility sync, read state394, SetState; state2 plays idle; state4 applies derived KeepPhysics physical detach then idleactive. No opened marker/loot/OnOpen replay.",
+    "door": "Door uses same 6-byte GameObject prefix plus state3a8 u32 for 10 derived bytes; restore calls Opened(false) for state 1 or 3, Closed(false) otherwise. Not represented by this container component.",
+    "object_test": "Object-only actual chest BRES flow: state2, interact state3, authored opened marker once, existing-store publication with exact position, render packet position validation, completion state4, duplicate marker suppression, and a second input/new visual generation suppressed at state4. Also validates exact seven-byte encoding, malformed size, field preservation, and state2/state4 visual selection. Separate object-origin table9 fixture captures original material passes/textures.",
+    "source_key_mapping": "The current 001_swamp ActorDefinition/WorldObject data directly pairs stable ObjectId, gametype, authored name, module/source identity and transform for the exact chest and barrel. It does not contain the native room64 saved by Level OBJS. The source tuple helper accepts a host resolver and fails closed when room data is absent; existing tests reject ambiguity when two definitions share the same (gametype,map_name,room). Production room resolution remains unverified.",
+    "unknowns": [
+      "No production neutral WorldObject Level enrollment or source-field seeding integration yet.",
+      "Original Level OBJS serialization/import and its production (gametype,map_name,room) resolver are not exercised end-to-end; the modern GameSave v2 route is exercised separately.",
+      "Death-reset Level gate is documented from source but not composed into neutral feature restore.",
+      "Gold value bonus derived from opener/source properties must be supplied by production caller before object store publication; the focused renderer fixture uses an explicit value input."
+    ],
+    "breakable_asset_sha256": "534b1f5c99e1d005ffa9c7970412e496a062783b1b847abeeefcd1420f18706a",
+    "modern_game_save_test": "run_session_container_game_save_v1_tests.ps1 performs real GameSave v2 capture, disk save/load, and atomic restore for actual authored Swamp chest and barrel WorldObjects with their exact seven-byte components. It confirms stable IDs pair to current authored definitions; missing source room64 fails closed. Original Level OBJS serialization and room resolution are not claimed."
+  },
+  "authored_openable_scene_inventory": {
+    "source_scene": "001_swamp.mlx through load_actor_definitions; 5 authored OpenableContainer declarations",
+    "placements": [
+      {
+        "stableId": "3793993835479868115",
+        "name": "_prim_OpenableContainer_2",
+        "data_desc": "Swamp_Normal_Chest",
+        "model": "go_chest_swamp.bdae",
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source": "obj_4of4_brdwalk_sw_00.mgp",
+        "position": [
+          -2198.67,
+          935.187,
+          250
+        ]
+      },
+      {
+        "stableId": "10465308567753670143",
+        "name": "_prim_OpenableContainer_1",
+        "data_desc": "Swamp_Normal_Chest",
+        "model": "go_chest_swamp.bdae",
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source": "obj_4of4_brdwalk_sw_00.mgp",
+        "position": [
+          1826.65,
+          1796.04,
+          12
+        ]
+      },
+      {
+        "stableId": "4250407964323872496",
+        "name": "_prim_OpenableContainer_001_001",
+        "data_desc": "Swamp_Normal_Chest",
+        "model": "go_chest_swamp.bdae",
+        "module": "obj_1of4_brdwalk_nse_00_2",
+        "source": "obj_1of4_brdwalk_nse_00.mgp",
+        "position": [
+          -6098.5,
+          5071.34,
+          250
+        ]
+      },
+      {
+        "stableId": "4308955945491066525",
+        "name": "_prim_OpenableContainer_03",
+        "data_desc": "Swamp_Normal_Chest",
+        "model": "go_chest_swamp.bdae",
+        "module": "corner_ruin_ws_00_3",
+        "source": "corner_ruin_ws_00.mgp",
+        "position": [
+          -7013.42,
+          12982.7,
+          250
+        ]
+      },
+      {
+        "stableId": "12293889950418612385",
+        "name": "_prim_OpenableContainer",
+        "data_desc": "SwampCave_Normal_Chest",
+        "model": "go_chest_swamp.bdae",
+        "module": "merchantcamp_ruins_swe_00_4",
+        "source": "merchantcamp_ruins_swe_00.mgp",
+        "position": [
+          -14328.3,
+          12891.3,
+          250
+        ]
+      }
+    ],
+    "table_rows": [
+      {
+        "keep_physics": true,
+        "name": "Swamp_Normal_Chest",
+        "loot": 227,
+        "visual": 47,
+        "sound": 33,
+        "row": 58
+      },
+      {
+        "keep_physics": true,
+        "name": "SwampCave_Normal_Chest",
+        "loot": 223,
+        "visual": 47,
+        "sound": 33,
+        "row": 55
+      }
+    ],
+    "exclusions": "The loaded 001_swamp scene has no OpenableContainer pot; destructible urn is a separate owner. The helper scans only current WorldObjects and requires an explicit prior-admission receipt; declarations absent from the current world are skipped. Main scene enrollment and live providers remain unverified."
+  }
+}

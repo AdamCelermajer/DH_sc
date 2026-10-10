@@ -1,8 +1,30 @@
 #include "physical_world.hpp"
 #include <cmath>
+#include <exception>
 #include <stdexcept>
 namespace {
 using namespace dh2::physical;
+struct CharacterCreationFailureV1 {
+ NativeWorld* world{};std::string error;CharacterCreationFailureV1* previous{};
+};
+thread_local CharacterCreationFailureV1* active_character_creation_v1{};
+struct CharacterCreationScopeV1 {
+ CharacterCreationFailureV1 failure;
+ explicit CharacterCreationScopeV1(NativeWorld* world){
+  failure.world=world;failure.previous=active_character_creation_v1;active_character_creation_v1=&failure;
+ }
+ ~CharacterCreationScopeV1(){active_character_creation_v1=failure.previous;}
+};
+bool latch_character_creation_failure_v1(NativeWorld* world,const char* message){
+ for(auto* active=active_character_creation_v1;active;active=active->previous)if(active->world==world){
+  if(active->error.empty())active->error=message;return true;
+ }
+ return false;
+}
+std::string exception_message_v1(const std::exception_ptr& error){
+ try{if(error)std::rethrow_exception(error);}catch(const std::exception& e){return e.what();}catch(...){return "unknown native body construction exception";}
+ return "unknown native body construction exception";
+}
 bool valid(const WorldObject* o){return !o||!o->reserved;}
 bool valid(const Filter& f){return f.present<=1;}
 bool default_filter(const Filter& a,const Filter& b){
@@ -52,15 +74,26 @@ extern "C" int dh2_physical_world_step_arguments(float* dt,unsigned* iterations,
 }
 namespace dh2::physical {
 void NativeWorld::load(const float bounds[4]){
+ std::string error;load(bounds,{},error);
+}
+bool NativeWorld::load(const float bounds[4],const std::function<bool(std::string&)>& after_clear,std::string& error){
  if(!bounds||!std::isfinite(bounds[0])||!std::isfinite(bounds[1])||!std::isfinite(bounds[2])||!std::isfinite(bounds[3])||bounds[0]>=bounds[2]||bounds[1]>=bounds[3])throw std::invalid_argument("Invalid physical world bounds");
- clear();b2AABB aabb;aabb.lowerBound.Set(bounds[0],bounds[1]);aabb.upperBound.Set(bounds[2],bounds[3]);
+ clear();if(after_clear&&!after_clear(error))return false;
+ b2AABB aabb;aabb.lowerBound.Set(bounds[0],bounds[1]);aabb.upperBound.Set(bounds[2],bounds[3]);
  world_=std::make_unique<b2World>(aabb,b2Vec2(0,0),true);
  world_->SetBoundaryListener(this);world_->SetContactFilter(this);world_->SetContactListener(this);world_->SetDestructionListener(this);
+ error.clear();return true;
 }
 void NativeWorld::clear(){DeliveryV106 delivery(mutation_depth_v106_);world_.reset();}
 void NativeWorld::update(std::uint32_t milliseconds){
  if(!world_)throw std::logic_error("Physical world not loaded");
- DeliveryV106 delivery(step_depth_v106_);float dt;unsigned iterations;dh2_physical_world_step_arguments(&dt,&iterations,milliseconds);world_->Step(dt,iterations);
+ if(step_depth_v106_||contact_depth_v106_||filter_depth_v106_)throw std::logic_error("Physical world update cannot reenter callback delivery");
+ step_error_.clear();DeliveryV106 delivery(step_depth_v106_);float dt;unsigned iterations;
+ dh2_physical_world_step_arguments(&dt,&iterations,milliseconds);world_->Step(dt,iterations);
+ // Required host services may fail. Do not unwind through Box2D::Step while
+ // its backend lock is set: finish that physical step, stop later gameplay
+ // delivery, then report the first reached failure without replaying it.
+ if(!step_error_.empty())throw std::runtime_error(step_error_);
 }
 b2Body* NativeWorld::create(const b2BodyDef* definition){DeliveryV106 delivery(mutation_depth_v106_);return definition&&world_?world_->CreateBody(definition):nullptr;}
 void NativeWorld::destroy(b2Body*& body){DeliveryV106 delivery(mutation_depth_v106_);if(body){if(!world_)throw std::logic_error("Physical world not loaded");world_->DestroyBody(body);}body=nullptr;}
@@ -74,20 +107,57 @@ b2Body* NativeWorld::create_character(const CharacterBodyConfig& c,WorldObject* 
  definition.allowSleep=c.body.allow_sleep;definition.isSleeping=c.body.is_sleeping;
  definition.fixedRotation=c.body.fixed_rotation;definition.isBullet=c.body.bullet;
  auto* body=world_->CreateBody(&definition);if(!body)return nullptr;
- b2CircleDef circle;b2PolygonDef polygon;b2ShapeDef* s=c.shape.kind?static_cast<b2ShapeDef*>(&polygon):static_cast<b2ShapeDef*>(&circle);
- s->userData=owner;s->isSensor=c.shape.sensor;s->friction=c.shape.friction;s->restitution=c.shape.restitution;s->density=c.shape.density;
- s->filter.groupIndex=c.shape.group_index;s->filter.categoryBits=c.shape.category_bits;s->filter.maskBits=c.shape.mask_bits;
- if(c.shape.kind){polygon.vertexCount=c.shape.vertex_count;for(unsigned i=0;i<c.shape.vertex_count;++i)polygon.vertices[i].Set(c.shape.vertices[2*i],c.shape.vertices[2*i+1]);}
- else {circle.localPosition.Set(c.shape.local_position[0],c.shape.local_position[1]);circle.radius=c.shape.radius;}
- body->CreateShape(s);body->SetMassFromShapes();
- if(c.pinned){b2MassData mass;mass.mass=0;mass.I=0;mass.center=body->GetLocalCenter();body->SetMass(&mass);}
+ std::exception_ptr operation_failure;std::string creation_failure;
+ {
+  // Box2D synchronously asks the world filter from CreateShape's broadphase
+  // proxy insertion. Latch that callback failure, finish the locked-free
+  // native operation, then destroy this still-owned partial body below.
+  CharacterCreationScopeV1 creation(this);
+  try{
+   b2CircleDef circle;b2PolygonDef polygon;b2ShapeDef* s=c.shape.kind?static_cast<b2ShapeDef*>(&polygon):static_cast<b2ShapeDef*>(&circle);
+   s->userData=owner;s->isSensor=c.shape.sensor;s->friction=c.shape.friction;s->restitution=c.shape.restitution;s->density=c.shape.density;
+   s->filter.groupIndex=c.shape.group_index;s->filter.categoryBits=c.shape.category_bits;s->filter.maskBits=c.shape.mask_bits;
+   if(c.shape.kind){polygon.vertexCount=c.shape.vertex_count;for(unsigned i=0;i<c.shape.vertex_count;++i)polygon.vertices[i].Set(c.shape.vertices[2*i],c.shape.vertices[2*i+1]);}
+   else {circle.localPosition.Set(c.shape.local_position[0],c.shape.local_position[1]);circle.radius=c.shape.radius;}
+   body->CreateShape(s);body->SetMassFromShapes();
+   if(c.pinned){b2MassData mass;mass.mass=0;mass.I=0;mass.center=body->GetLocalCenter();body->SetMass(&mass);}
+  }catch(...){operation_failure=std::current_exception();}
+  creation_failure=creation.failure.error;
+  if(operation_failure||!creation_failure.empty()){
+   b2Body* partial=body;
+   try{destroy(partial);}catch(const std::exception& cleanup){
+    const auto original=operation_failure?exception_message_v1(operation_failure):creation_failure;
+    throw std::runtime_error(original+"; partial character body cleanup failed: "+cleanup.what());
+   }catch(...){
+    const auto original=operation_failure?exception_message_v1(operation_failure):creation_failure;
+    throw std::runtime_error(original+"; partial character body cleanup failed with unknown exception");
+   }
+  }
+ }
+ if(operation_failure)std::rethrow_exception(operation_failure);
+ if(!creation_failure.empty())throw std::runtime_error(creation_failure);
  return body;
 }
-bool NativeWorld::ShouldCollide(b2Shape* a,b2Shape* b){DeliveryV106 delivery(filter_depth_v106_);const auto x=shape(a),y=shape(b);return dh2_physical_world_should_collide(&x,&y)==1;}
+bool NativeWorld::latch_step_failure(const char* message){
+ if(!step_depth_v106_)return false;
+ if(step_error_.empty())step_error_=message;return true;
+}
+bool NativeWorld::ShouldCollide(b2Shape* a,b2Shape* b){
+ DeliveryV106 delivery(filter_depth_v106_);if(step_depth_v106_&&!step_error_.empty())return false;
+ try{const auto x=shape(a),y=shape(b);return dh2_physical_world_should_collide(&x,&y)==1;}
+ catch(const std::exception& failure){if(!latch_step_failure(failure.what())&&!latch_character_creation_failure_v1(this,failure.what()))throw;return false;}
+ catch(...){if(!latch_step_failure("Physical collision filter threw")&&!latch_character_creation_failure_v1(this,"Physical collision filter threw"))throw;return false;}
+}
+void NativeWorld::deliver_contact(ContactEvent event,const WorldContact& contact){
+ if(step_depth_v106_&&!step_error_.empty())return;
+ try{if(dh2_physical_world_contact(&contact,static_cast<unsigned>(event)))throw std::logic_error("Incomplete physical contact services");}
+ catch(const std::exception& failure){if(!latch_step_failure(failure.what())&&!latch_character_creation_failure_v1(this,failure.what()))throw;}
+ catch(...){if(!latch_step_failure("Physical contact consumer threw")&&!latch_character_creation_failure_v1(this,"Physical contact consumer threw"))throw;}
+}
 void NativeWorld::dispatch(ContactEvent event,const b2ContactPoint* p){
  DeliveryV106 delivery(contact_depth_v106_);
  WorldObject owners[2];WorldContact c{{shape(p->shape1,&owners[0]),shape(p->shape2,&owners[1])},{p->position.x,p->position.y}};
- if(dh2_physical_world_contact(&c,static_cast<unsigned>(event)))throw std::logic_error("Incomplete physical contact services");
+ deliver_contact(event,c);
 }
 void NativeWorld::Add(const b2ContactPoint* p){dispatch(ContactEvent::add,p);}
 void NativeWorld::Persist(const b2ContactPoint* p){dispatch(ContactEvent::persist,p);}
@@ -95,6 +165,6 @@ void NativeWorld::Remove(const b2ContactPoint* p){dispatch(ContactEvent::remove,
 void NativeWorld::Result(const b2ContactResult* p){
  DeliveryV106 delivery(contact_depth_v106_);
  WorldObject owners[2];WorldContact c{{shape(p->shape1,&owners[0]),shape(p->shape2,&owners[1])},{0,0}};
- if(dh2_physical_world_contact(&c,3))throw std::logic_error("Incomplete physical result services");
+ deliver_contact(ContactEvent::result,c);
 }
 }

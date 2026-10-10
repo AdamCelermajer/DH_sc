@@ -1,0 +1,95 @@
+{
+  "status": "native_CTest53_pass_source_math_real_native_bodies",
+  "live_encounter_verified": false,
+  "component": "Lightweight foundation OriginalActorPhysical; exact source body definitions and SetPosition kernel, real NativeWorld/Box2D2.0.1. No retained VM/ScriptSession/FSM dependency or second HP/target state.",
+  "ownership": {
+    "borrowed": "Actor lifetime, identity, sole actor position160/destination1a8, actual attached2e0/visual2d8 slots, resolved original PropertyView/AiTables and actual NativeWorld",
+    "owned": "One actual NativeBody; one source physical2dc slot; source relative144/absolute12c backing; original WorldObject callback transport; initialized definition and diagnostic phase",
+    "bounds": "bind_bounds accepts source-produced OriginalActorBoundsResult and requires its absolute box equal its relative box plus SAME borrowed actor position. No mesh indexed bbox/radius heuristic.",
+    "leases": "Create owner with make_shared. actor_borrow/physical_borrow retain physical owner itself; it pins original actor/world/data leases. Caller data lease must cover property sheets, rules and AI lifetime."
+  },
+  "source_order": [
+    "Decode actual resolved property1 AI ID; original fallback8 for out-of-range ID",
+    "Required typed IsPlayer(type/archetype) and static84 source producers",
+    "dh2_character_body_config from source-produced absolute X/Y box and actor XY",
+    "If body enabled: actual MP_NoCollisions query, exact source config with original group override -666, real NativeWorld.create_character shape/mass/pin",
+    "Actual MP_NoPhysics query after allocation; true destroys new body and skips assignment/PF as source",
+    "Publish SAME initialized receiver into physical2dc; invoke required actual PF callback; failure retains reached prefix",
+    "SetPosition pure source kernel: attached anchor delta, actorXYZ publication, absolute=relative+XYZ, actual native SetXForm gameXY*.01, visual SyncPosition when nonzero, destination update when requested"
+  ],
+  "radius": "CharacterBodyConfig radius = max(actual owner absolute width,height)*.01*.5. NativeBody stores physics units; original GetRadius/native query multiplies100. Collision scale already applied by source bounds producer; no repeated application.",
+  "proofs": [
+    {
+      "row": "KnightPlayerBase",
+      "ai_type": 1,
+      "group": -1,
+      "category": 4,
+      "mask": 3455,
+      "native_radius": 1.1369964,
+      "game_radius": 113.69964,
+      "actual_model": "models/prince_modular.bdae",
+      "bounds": "Four explicit original default warrior skin controllers; source joint/cache bounds",
+      "static84": "Explicit zero fixture",
+      "is_player": "Source type1 true"
+    },
+    {
+      "row": "Swamp_LizadMan_Type1",
+      "ai_type": 4,
+      "group": 2,
+      "category": 16,
+      "mask": 3391,
+      "native_radius": 0.63,
+      "game_radius": 63,
+      "actual_model": "original-cache/data/3d/characters/lizardman/lizardman.bdae",
+      "static84": "Explicit zero fixture",
+      "is_player": "Source nonzero type4 false"
+    }
+  ],
+  "validation": [
+    "Real original property/class/AI cache arrays loaded and resolved for both rows",
+    "Actual source bounds from original BDAE assets",
+    "Actual Box2D bodies/shapes created and physical2dc published",
+    "Native observation proves source gameXY250,375 -> physicsXY2.5,3.75",
+    "SAME actorXYZ/destination and live borrowed AABB reflect SetPosition; physical borrow resolves SAME real NativeBody",
+    "Real destruction clears actual body and source physical2dc",
+    "CTest53 passes"
+  ],
+  "fixtures": [
+    "Static84 zero, debug MP switches false and PF callback are explicit test fixtures; tests do not prove their production providers",
+    "Filter/contact providers deliberately fail if reached; tests do not simulate gameplay collision dispatch or source AIS",
+    "IsPlayer type0 archetype branch explicitly unsupported by test fixture",
+    "Actor position/destination/attached/visual slots are fixture-owned storage; runtime API borrows actual host owner storage"
+  ],
+  "source_dependencies": [
+    "port/level-world/character_body_config.cpp",
+    "port/level-world/character_set_position_v7.cpp",
+    "port/level-world/native_body.cpp",
+    "port/level-world/physical_world.cpp",
+    "port/physics-backend/box2d-2.0.1",
+    "port/windows-foundation/original_actor_bounds.cpp"
+  ],
+  "reference_equivalence": [
+    "port/level-world/character_world_physical_v62.cpp initialize_source source order",
+    "port/level-world/retained_character_position_owner_v7.cpp source body publication and position binding",
+    "port/level-world/character_live_body_projection_v62.cpp original AI fallback/type, IsPlayer and actual bounds inputs"
+  ],
+  "integration_contract": [
+    "Keep actual actor transform/property owners alive; pass their sole position/destination/attached/visual pointers and valid rules/AI sheets",
+    "Generate OriginalActorBounds with exact original component selection and source properties12/13/14/16 at that actor placement; bind before native initialize",
+    "Supply production static84/IsPlayer/MP_NoCollisions/MP_NoPhysics/PF/filter/contact providers; no successful no-op placeholders",
+    "Route source physical body position through owner.set_position; an independent preview motor position is not source position authority",
+    "Use actor_borrow+physical_borrow for original_trigger_peer_provider; contact Begin/Persist/End supplied via real physical callbacks to source owner adapter",
+    "Release before replacing world/provider backends; release is native destruction/detachment, not a claim of whole Character SetPhysicalObject replacement/PF cleanup"
+  ],
+  "limits": [
+    "Whole PF publication/update cleanup/gameplay collision policy remains caller-owned and unverified live",
+    "WorldObject filter delegates actual provider; it must preserve actual source AIS enabled/group/mask semantics rather than treating any object as collidable",
+    "Class ownership and model component provenance are caller responsibility; wrapper does not invent player equipment or AI archetype",
+    "No actual first encounter activation or source timer/camera/campaign integration claim"
+  ],
+  "files": [
+    "port/windows-foundation/original_actor_physical.hpp",
+    "port/windows-foundation/original_actor_physical.cpp",
+    "port/windows-foundation/tests/original_actor_physical_tests.cpp"
+  ]
+}

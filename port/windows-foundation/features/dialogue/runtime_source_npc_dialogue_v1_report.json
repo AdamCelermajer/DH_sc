@@ -1,0 +1,53 @@
+{
+  "purpose": "Verify the Act 1 Crypt TalkToNPC target against the actual CharacterTable and separately verify the localized StringID. The test must not join a target to a speaker without an authored route.",
+  "implementation_claim": "source table mapping gate plus isolated caller-supplied text projection; no production caller or in-game dialogue admission is claimed",
+  "source_route": {
+    "quest": "Crypt02_explore (decoded source Quest act=1)",
+    "talk_objective_type": "v2QuestObjectiveType.TalkToNPC (actual constant 5)",
+    "npc_identity": 348,
+    "dialogue_symbol": "GRAVEYARD_CRYPT_INTRO_CELESTE_1",
+    "dialogue_string_id": 393217,
+    "route_join_note": "The Quest target is a CharacterProperties/CharacterTable key, not a scene actor instance ID: the original Character.Interact payload copies CharProps13c8 into QE_TalkToNPC.id18, and the source CharacterTable key 348 is SisterEllen. GRAVEYARD_CRYPT_INTRO_CELESTE_1 resolves to a localized StringID only. No script command joins that key to this line; the fixture rejects a Celeste attribution.",
+    "target_property_row": "CharacterTable row 348 = SisterEllen; no Celeste row is present",
+    "identity_join_accepted": false,
+    "gate": "An actual Crypt02 scene actor declaration with its CharacterProperties key plus its source script/dialogue command selecting StringID 393217 is required. The available Crypt01 MGP provenance contains no Celeste actor and is not a complete Crypt02 instance mapping.",
+    "crypt01_scene_actor_mapping_present": false
+  },
+  "visual_evidence": {
+    "reference": ".local-inputs/referenceframes/dh2-act1/at-0120s.png and at-0960s.png from the existing v1.0.3 reference-video receipt",
+    "observation": "At 120 s, caged priest dialogue shows nameplate RENE and line text; at 960 s, close-up dialogue again labels RENE. These frames establish the user-visible dialogue layout (speaker name and localized line together), but do not depict the tested Crypt/Celeste route.",
+    "inference_limit": "The inspected footage is v1.0.3; decoded source/cache is v1.0.2. No Crypt-specific gameplay frame was inspected in this bounded task."
+  },
+  "logic_evidence": [
+    "port/android-native/app/src/main/cpp/source_campaign_character_interaction_v114.cpp:52-60 resolves the actual TalkToNPC constant and reads the same Character TalkToNPC2fa gate; the full Character.Interact caller preserves state!=13 and current-Level / quest-event ordering.",
+    "source_campaign_character_interaction_v114.cpp:47-50 copies the retained Character CharProps13c8 into the QE_TalkToNPC id18 field; game_event_runtime_v75.cpp:147-152 uses the authored TalkToNPC target for the Character2fa marker scan. This establishes the target namespace as the CharacterProperties key, not an actor-instance ID or a dialogue selector.",
+    "port/level-loader/game_event_runtime_v75.cpp:147-152 preserves the source TalkToNPC compiled-object and first-matching Character talk-flag gates; it does not select dialogue text.",
+    "port/windows-foundation/reports/encounter-source-scripts.json: Camp_Intro command indices 12-15 are StartDialog/WaitDialog in source order; common_text_pycst maps string IDs 2031649-2031653 to the SWAMP camp-intro speaker rows.",
+    "port/windows-foundation/features/quests/character_quest_progress_v1.cpp query validates the same CharacterState owner and source row; source_quest_log_services_v1 uses the same active state range 6..12 and HudText integer StringID provider."
+  ],
+  "expected_behavior": "For a reached TalkToNPC response route, keep the accepted NPC identity, exact same Character quest owner/state, and source-localized dialogue string together; do not mutate quest state or invent fallback dialogue.",
+  "uncertainties": [
+    "The decoded main Quest table has no Dialog-type objective rows and only four TalkToNPC objective rows; the TalkToNPC event/objective path carries the authored CharacterTable key but does not select a particular dialogue row.",
+    "No integrated production caller or live initialized source Character/Session was exercised.",
+    "The available Crypt01 MGP/object provenance includes a WanderingPriest Character and monster rows, not a Celeste actor; it is not the complete Crypt02 actor table. The required Crypt02 MGP actor record and script StartDialog/StringID route remain missing."
+  ],
+  "verification": {
+    "compile_exit": 0,
+    "compile_stderr": "",
+    "runtime_exit": 0,
+    "runtime_stdout": "PASS source-table mapping gate: Crypt02_explore target 348 -> SisterEllen; Celeste StringID 393217 is not an actor mapping\n",
+    "runtime_stderr": ""
+  },
+  "source_scene_inventory": {
+    "path": "port/android-native/app/src/main/assets/worlds/crypt01-provenance.json",
+    "sha256": "a38bbcfbde007bd328de9152ea1e5499a97903f472b36c9ccbac37f36de94126",
+    "layout": "x07_crypt_backup.mlx",
+    "rooms": 8,
+    "objects": 166,
+    "character_objects": 32,
+    "celeste_character_declarations": 0,
+    "actor_id_348_to_celeste_declarations": 0,
+    "procedural_rules_executed": false,
+    "scope_note": "This authentic Crypt01 MGP-derived inventory is incomplete for Crypt02 and provides no actor/script route linking target 348 to StringID 393217."
+  }
+}

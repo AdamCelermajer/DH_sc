@@ -1,0 +1,98 @@
+{
+  "status": "PASS: actual original cached CharacterTable/ClassTable executed with native Windows probe",
+  "helper": "original_actor_properties.hpp/.cpp",
+  "scope": "same original Character/Class formula resolution for players and NPCs; no fixture balance defaults",
+  "source_files": [
+    "port/game-data/properties.cpp",
+    "port/game-data/class_tables.cpp",
+    "port/game-data/class_preview_setup.cpp",
+    "port/game-data/reference/properties/property-rules.json",
+    "port/level-world/character_level.cpp",
+    "port/level-world/move_state.cpp",
+    "port/level-world/actor_rotation.cpp",
+    "port/level-world/character_scene.cpp",
+    "port/level-world/character_body_config.cpp",
+    "port/level-world/canonical_character_pf_v62.cpp"
+  ],
+  "binding_pipeline": [
+    "Use original CharacterTable row, defaults row0 and types row1; retain all 224 words",
+    "Preserve base level19 unless caller supplies actual encoded spawn/campaign level",
+    "Apply class ID26 through existing recalc_properties_with_class; original formula graph has ARM32 wrapping and fixed-point operations",
+    "Resolve base/saved/gear sheets using original per-property type rules",
+    "Explicit fresh-spawn refill adds difference from HP36 to Max_HP38 and MP41 to Max_MP43; never applied silently to saved characters",
+    "Project only known accessor representations; preserve raw sheet for other consumers"
+  ],
+  "property_mapping": {
+    "0_AIFaction": "signed raw table ID, not /256",
+    "16_Collision_Scale": "plain percent raw*.01, not /256; applied only when model bounds are not already scaled",
+    "19_Level": "fixed-point raw; original integer getter arithmetic-shifts eight",
+    "26_ClassID": "signed raw table ID, not /256",
+    "36_HP_38_Max_HP_41_MP_43_Max_MP": "resolved signed256 values; base rows may contain -1 sentinels until original class formulas/default rules execute",
+    "46_Speed_Modifier_Walk_47_Speed_Modifier_Rotation": "max(0,1+(resolvedRaw/256)*.01); percent modifiers, not world-units speed",
+    "12_13_14_visual_scale": "raw base percent with original XY*.009 and Z*.01; NOT /256"
+  },
+  "movement": {
+    "turn": "actor_rotation.cpp uses speed multiplier * float bits0x41490fdb (~4pi rad/s), dt_ms*.001; original flag0x20 yields instant turn sentinel -1",
+    "walk_run": "No recovered independent world-units walk/run constant. Must derive authored animation root displacement and clip timing; host constant speeds remain development tuning",
+    "collision_radius": "Physical body's planar diameter derives actual projected visual bounds; character_body_config uses max(width,height)*.5 in physics units then PF radius multiplies100. Nonphysical PF uses min(Xextent,Yextent)*.5. Do not substitute a single universal radius",
+    "collision_height": "Derived model/bounds Z extent; original planar physics body does not expose a standalone universal character capsule height",
+    "navigation_obstacle": "Original Character PF leaves yield 50 and20 in obstacle init; these are NOT established as movement maxStep/maxDrop equivalents",
+    "max_step": "No verified equivalent bound to simple movement controller; keep explicitly development-configured",
+    "slope_max_drop": "No verified constants bound to simple movement controller; keep explicitly development-configured"
+  },
+  "remaining_gaps": [
+    "Starting equipment contributions not applied; these are class/base values before equipment, buffs, difficulty or co-op modifiers",
+    "NPC spawn lifecycle must explicitly choose refill; raw currentHP may remain sentinel before init",
+    "MP-less NPC sentinel -1 must be treated by content policy, never silently replaced by guessed resource",
+    "Animation root-motion displacement and actual bound body geometry still needed for original movement tuning"
+  ],
+  "actual_cache_results": [
+    {
+      "class_id": 77,
+      "faction_id": 11,
+      "mp_raw": 6976,
+      "mp": 27.25,
+      "fresh_level": 1,
+      "hp": 165.09765625,
+      "row": "KnightPlayerBase",
+      "hp_raw": 42265
+    },
+    {
+      "class_id": 120,
+      "faction_id": 11,
+      "mp_raw": 10304,
+      "mp": 40.25,
+      "fresh_level": 1,
+      "hp": 146.796875,
+      "row": "RoguePlayerBase",
+      "hp_raw": 37580
+    },
+    {
+      "class_id": 94,
+      "faction_id": 11,
+      "mp_raw": 20096,
+      "mp": 78.5,
+      "fresh_level": 1,
+      "hp": 141,
+      "row": "MagePlayerBase",
+      "hp_raw": 36096
+    },
+    {
+      "level_raw": 256,
+      "max_hp": 47.5,
+      "class_id": 18,
+      "max_mp": 22,
+      "row": "Swamp_LizadMan_Type1",
+      "current_hp_raw_before_refill": -1,
+      "fresh_spawn_refill_explicit": true
+    },
+    {
+      "mp_is_unresolved_sentinel": true,
+      "mp_raw": -1,
+      "row": "WanderingPriest",
+      "class_id": 248,
+      "hp": 12000
+    }
+  ],
+  "fresh_player_level_source": "port/game-data/fresh_player_profile_v1.cpp original PLVL metadata=1; helper uses raw256"
+}

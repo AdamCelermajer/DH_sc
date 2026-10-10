@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-09",
+  "status": "required_incomplete",
+  "goal_complete": false,
+  "scope": "Reusable whole-game systems, validated through original Act 1; this list is required coverage, not an exhaustive full-game inventory.",
+  "release_owner": "/root",
+  "orchestration_owner": "/root/integration_lead",
+  "worker_policy": "Bounded ordinary tasks use GPT-6 Luna HIGH; difficult tasks may escalate to GPT-6.1 Sol MEDIUM with recorded reason. Root and integration lead retain current models.",
+  "reference": {
+    "video": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+    "source_handoff": ".local-inputs/ida-apk-export-2026-10-07/HANDOFF-TO-MAIN-SESSION.txt"
+  },
+  "requirements": [
+    {
+      "id": "mob_combat_ai",
+      "name": "Enemy combat and AI",
+      "development_track": "enemy_ai",
+      "status": "incomplete",
+      "acceptance": "Original aggro, movement, targeting, attacks, hit timing, reactions and death; enemies and player share canonical actor/combat owners."
+    },
+    {
+      "id": "rewards",
+      "name": "Drops, looting, money and XP",
+      "development_track": "loot",
+      "status": "incomplete",
+      "acceptance": "Authored drop tables, probability and conditions; pickup grants real inventory/currency/XP once, with source leveling and durable save behavior."
+    },
+    {
+      "id": "skills_weapon_effects",
+      "name": "Skills, attack animation and weapon effects",
+      "development_track": "skills_animation",
+      "status": "incomplete",
+      "acceptance": "Original skill/attack clips and event markers drive effects; source weapon data selects sword trails, staff/ranged projectiles, damage and audio."
+    },
+    {
+      "id": "breakables",
+      "name": "Breakable pots and contained rewards or mobs",
+      "development_track": "interactions",
+      "status": "incomplete",
+      "acceptance": "Render authored objects, destruction state/animation and source conditional contents through shared spawn/reward systems; no assumed always-spawn policy."
+    },
+    {
+      "id": "chests",
+      "name": "Chests and opening animations",
+      "development_track": "interactions",
+      "status": "incomplete",
+      "acceptance": "Original interaction, eligibility, opening sequence and reward timing; prevent repeated rewards and restore original persistent open state."
+    },
+    {
+      "id": "tutorials_cinematics",
+      "name": "Tutorial HUD and cinematics at authored triggers",
+      "development_track": "cinematics",
+      "status": "incomplete",
+      "acceptance": "Original progression/area triggers drive prompts, camera, actor clips, HUD visibility and control transitions; no diagnostic frame schedules."
+    },
+    {
+      "id": "global_audio",
+      "name": "Audio throughout gameplay and UI",
+      "development_track": "audio",
+      "status": "incomplete",
+      "acceptance": "Original IDs and event timing for combat, skills, projectiles, impacts, deaths, loot, interactions, UI, companions, cinematics, ambience and music; unavailable assets remain documented."
+    },
+    {
+      "id": "quests_npcs",
+      "name": "Quests, NPC interaction and quest menu",
+      "development_track": "quests",
+      "status": "incomplete",
+      "acceptance": "Original objectives, dialogue, NPC services, completion/rewards and progression use same live quest/event state projected into the character-menu Quest page."
+    },
+    {
+      "id": "map_ui",
+      "name": "HUD minimap and character-menu Map page",
+      "development_track": "character_menu",
+      "status": "incomplete",
+      "acceptance": "Original map assets, projection, player/quest/NPC markers and source visibility/update rules; consistent full-window rendering and hits."
+    },
+    {
+      "id": "companions",
+      "name": "Castor and faery following and AI",
+      "development_track": "companions",
+      "status": "incomplete",
+      "acceptance": "Source follow/master ownership, navigation, encounter behavior, target validity and save lifecycle; verify named Castor identity and whether/when he attacks."
+    },
+    {
+      "id": "faery_abilities",
+      "name": "Faery abilities, animations and effects",
+      "development_track": "companions",
+      "status": "incomplete",
+      "acceptance": "Selection/unlocks and source abilities drive actual companion animation, timing, effects/audio and gameplay result through shared owners."
+    },
+    {
+      "id": "world_animation_progression",
+      "name": "Animated world objects and progression barriers",
+      "development_track": "encounters",
+      "status": "incomplete",
+      "acceptance": "Generic authored object animation/enable state and quest/boss conditions support gates and barriers across all maps; persist and restore original state."
+    }
+  ],
+  "unverified_user_recollections": [
+    {
+      "claim": "Castor follows and may attack",
+      "status": "verify_source_identity_and_original_behavior"
+    },
+    {
+      "claim": "A waterfall blocks exit until a witch is killed",
+      "status": "verify_actual_object_boss_condition_animation_and_trigger"
+    }
+  ],
+  "shared_acceptance": [
+    "Use original art, animation, gameplay rules and timing.",
+    "Observe real authored conditions and probabilities.",
+    "Verify integrated behavior, visual/reference appearance and save/reload across relevant states.",
+    "Component readiness does not establish packaged completion."
+  ],
+  "recommended_delivery_order": [
+    "Publish canonical actor, inventory, quest and source UI owners needed by feature adapters.",
+    "Prove enemy engage/attack/death -> authored drop -> pickup -> XP/currency/inventory -> save/restore loop.",
+    "Add source skills, weapon effects/projectiles and their audio while full Equipment/Skills/Faery/Quest/Map pages continue in parallel.",
+    "Connect pots/chests, NPC/quest interactions and companions through the same owners.",
+    "Connect authored tutorials/cinematics, progression barriers and complete audio coverage; validate connected Act 1 playthrough."
+  ]
+}

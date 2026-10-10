@@ -54,6 +54,21 @@ public:
  bool activate(std::string&);
  bool play_idle(std::string&);
  bool set_target(std::uintptr_t,std::int32_t,std::string&);
+ // Original LevelConfig values captured during this SAME camera load. The
+ // Script_SetCameraClip -2 sentinels use these integer fields before invoking
+ // the source float plane setters below.
+ bool source_clip_defaults_v120(std::int32_t& near_plane,std::int32_t& far_plane,std::string&)const;
+ bool set_clip_start(float,std::string&);
+ bool set_clip_end(float,std::string&);
+ // Additive original Map CreateMapCamera receivers on this same CameraLevel.
+ // Fields +133/+136/+140 configure map mode/requested zoom/automatic zoom.
+ // SetData writes source +316 horizontal-FOV-or-magnification/+312 aspect/
+ // +304/+308 clips then virtual +276 up=(0,0,1);
+ // the separate vector setter models the caller's subsequent +276 override.
+ bool source_map_fields_v1(std::uint8_t byte133,std::uint32_t word136,float float140,std::string&);
+ bool source_set_data_v1(float horizontal_fov_or_mag316,float aspect312,float clip_start304,
+                         float clip_end308,bool unused,std::string&);
+ bool source_set_camera_vector_v1(const PointV2&,std::string&);
  bool update(std::string&);
  bool scene_phase(std::uint32_t source_timestamp,std::string&);
  bool source_update_absolute_v67(std::string&);

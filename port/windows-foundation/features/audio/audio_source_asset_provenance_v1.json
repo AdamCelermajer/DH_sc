@@ -1,0 +1,105 @@
+{
+  "schema": "audio-source-asset-provenance-v1",
+  "scope": "Exact local asset inventory for requested lizard combat sounds and Rogue Quickness/Roundhouse animation inputs. This is a lookup record, not package staging.",
+  "version_provenance": {
+    "audio_metadata": "Recovered source-bindings-v38 / audio-v34 metadata; exact upstream game-content version not established.",
+    "character_animation_capsule": "character-visual-v6 source manifest/cache; exact upstream game-content version not established.",
+    "apk_checked": "Dungeon Hunter 2 HD v1.0.2, SHA-256 32C2D027B585A42547311CD95DA6A3975FDB3174E663E513D42A7F49D1A4C200; APK contains bootstrap metadata rather than the full downloaded content set."
+  },
+  "missing_exact_audio_resources": [
+    {
+      "sound_source_id": 474,
+      "event_uid": 282,
+      "name": "sfx_lizardman_attack_1",
+      "resource": "data/sounds/sfx_lizardman_attack_1.wav",
+      "bank": 5,
+      "group": 5,
+      "format": "pcm",
+      "status": "missing",
+      "searched": [
+        ".local-inputs/audio-v34/cache",
+        ".local-inputs/windows-shared-assets/original-cache",
+        ".local-inputs/ida-apk-export-2026-10-07/inputs/Dungeon-Hunter-2-HD-v1-0-2.apk (225 entries)",
+        "workspace files under .local-inputs and port by exact filename"
+      ],
+      "bytes": null,
+      "sha256": null,
+      "decoder_support": "Unknown for this absent WAV; SoundManager metadata declares PCM but supplies no sample bytes or WAV format fields."
+    },
+    {
+      "sound_source_id": 477,
+      "event_uid": 284,
+      "name": "sfx_lizardman_hurt",
+      "resource": "data/sounds/sfx_lizardman_hurt.wav",
+      "bank": 5,
+      "group": 5,
+      "format": "pcm",
+      "status": "missing",
+      "searched": [
+        ".local-inputs/audio-v34/cache",
+        ".local-inputs/windows-shared-assets/original-cache",
+        ".local-inputs/ida-apk-export-2026-10-07/inputs/Dungeon-Hunter-2-HD-v1-0-2.apk (225 entries)",
+        "workspace files under .local-inputs and port by exact filename"
+      ],
+      "bytes": null,
+      "sha256": null,
+      "decoder_support": "Unknown for this absent WAV; SoundManager metadata declares PCM but supplies no sample bytes or WAV format fields."
+    },
+    {
+      "sound_source_id": 476,
+      "event_uid": 285,
+      "name": "sfx_lizardman_die",
+      "resource": "data/sounds/sfx_lizardman_die.wav",
+      "bank": 5,
+      "group": 5,
+      "format": "pcm",
+      "status": "missing",
+      "searched": [
+        ".local-inputs/audio-v34/cache",
+        ".local-inputs/windows-shared-assets/original-cache",
+        ".local-inputs/ida-apk-export-2026-10-07/inputs/Dungeon-Hunter-2-HD-v1-0-2.apk (225 entries)",
+        "workspace files under .local-inputs and port by exact filename"
+      ],
+      "bytes": null,
+      "sha256": null,
+      "decoder_support": "Unknown for this absent WAV; SoundManager metadata declares PCM but supplies no sample bytes or WAV format fields."
+    }
+  ],
+  "exact_animation_inputs": [
+    {
+      "source_sequence_id": 524,
+      "sequence_name": "Rogue_Quickness",
+      "resource": "data/3d/characters/prince/animations/skill_dh2_prince_rogue_quickness.bdae",
+      "local_path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_quickness.bdae",
+      "source_manifest": "port/level-world/reference/character-visual-v6/source-manifest.json (fixture_assets)",
+      "bytes": 11764,
+      "sha256": "261f8c8215f8e19407517f4cdbf9e4929a5f84ba69a55d2cb5ea18601c0d4d00",
+      "decoder_support": "The native dh2::animation::Player BRES/event/track decoder accepts this exact file with MissingTargets::ignore. This verifies container and track/event decoding only; no authored prince scene was provided to prove pose binding/rendering."
+    },
+    {
+      "source_sequence_id": 525,
+      "sequence_name": "Rogue_Roundhouse",
+      "resource": "data/3d/characters/prince/animations/skill_dh2_prince_rogue_roundhouse.bdae",
+      "local_path": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_roundhouse.bdae",
+      "source_manifest": "port/level-world/reference/character-visual-v6/source-manifest.json (fixture_assets)",
+      "bytes": 20660,
+      "sha256": "2d49b491e980e2d4f11828edf88c8e803931389a5289b9903a07f9a259a52950",
+      "decoder_support": "The native dh2::animation::Player BRES/event/track decoder accepts this exact file with MissingTargets::ignore. This verifies container and track/event decoding only; no authored prince scene was provided to prove pose binding/rendering."
+    }
+  ],
+  "resource_alias_overlay": [
+    {
+      "resource": "data/3d/characters/prince/animations/skill_dh2_prince_rogue_quickness.bdae",
+      "source_cache_relative_path": "data/3d/characters/prince/animations/skill_dh2_prince_rogue_quickness.bdae",
+      "cache_root": "port/level-world/reference/character-visual-v6/cache",
+      "operation": "resolve existing exact source bytes; do not copy or rewrite"
+    },
+    {
+      "resource": "data/3d/characters/prince/animations/skill_dh2_prince_rogue_roundhouse.bdae",
+      "source_cache_relative_path": "data/3d/characters/prince/animations/skill_dh2_prince_rogue_roundhouse.bdae",
+      "cache_root": "port/level-world/reference/character-visual-v6/cache",
+      "operation": "resolve existing exact source bytes; do not copy or rewrite"
+    }
+  ],
+  "alias_policy": "The skill BDAEs already occupy their source-relative resource paths in the committed v6 source cache and match the source manifest. The overlay is a path resolution record only. No WAV alias is created because no exact lizard WAV exists."
+}

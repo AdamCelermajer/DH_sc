@@ -65,6 +65,21 @@ std::shared_ptr<WorldScriptContext> create_source_world_v55(AAssetManager* asset
   auto world=std::make_shared<WorldScriptContext>(tables.design,tables.settings,tables.skills,tables.effects,
     profile->private_directory,selected_logical_level,actual_debug);
   world->source_application_v55=application;
+  // GameObject::_Rand calls source Application GetOnline then the SAME
+  // process Random globals. Pin channel 0 by aliasing the Application-owned
+  // random facet; never create actor-local RNG state. The online query keeps
+  // the same weak Application edge and reports online ReturnValues+0xfc as
+  // unsupported inside CharacterScriptObjects until that receiver is owned.
+  const auto& random_owner=application->source_random_v62();
+  if(!random_owner){error="Required actual source Application Random owner";return {};}
+  std::shared_ptr<dh2::data::LootRandom8V2> random_channel0(random_owner,&random_owner->channel(0));
+  const std::weak_ptr<dh2::application::ApplicationServicesOwnerV5> weak_application=application;
+  if(!world->objects->bind_source_random_channel0_v125(std::move(random_channel0),
+    [weak_application](bool& online,std::string& e){
+     const auto actual=weak_application.lock();if(!actual){e="Actual source Application expired before GameObject::_Rand";return false;}
+     const auto owner=actual->get_online_loading_v55();if(!owner){e="Required actual same-Application GetOnline byte5";return false;}
+     online=owner->byte5()!=0;e.clear();return true;
+    },error))return {};
   world->canonical_world=std::make_shared<RendererCanonicalWorldV4>(*world);
   error.clear();return world;
  }catch(const std::exception& failure){error=failure.what();return {};}

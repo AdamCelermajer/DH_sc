@@ -1,0 +1,73 @@
+{
+  "status": "same_owner_backend_binder_added_android_arm64_and_windows_coff_compile_pass",
+  "date": "2026-10-09",
+  "scope": "Added an additive backend FSM binder to the existing CampaignFsmV101 owner. Existing campaign and process binders remain intact. No new FSM, actor, property, controller, timer store, or root test/closure was added.",
+  "change": {
+    "header": "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.hpp",
+    "implementation": "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.cpp",
+    "api": "bind_backend_character_fsm_v1(record, sameApplication, sameWorldLease, sameSewnFloors, sameObstacleRegistry, output, error)",
+    "owner": "The overload constructs the same private CampaignFsmV101 and stores it in record.fsm_context_v101 under the existing once-only gate. It retains the actual Application, World lease, and sewn floors; the PF geometry is the floors' existing collision world and the registry is the actual caller-owned registry protected by the World lease.",
+    "validation": [
+      "rejects duplicate FSM publication",
+      "requires nonnull actual Application, World lease, sewn floors, record World, canonical object manager, actor, machine, and controller",
+      "requires record.services.world.get() == sameWorldLease.get()",
+      "requires the preexisting actor machine to name the same Character identity",
+      "uses the existing CampaignFsmV101::bind path, including its real debug, animation-table, PF, command, timer, and native-state providers"
+    ],
+    "unchanged_paths": [
+      "bind_campaign_character_fsm_v101 still requires the renderer's actual SourceCampaignCandidateBorrowV55 and actual campaign navigation owner",
+      "bind_process_character_fsm_v121 still supports process Characters using the existing process PF owner"
+    ],
+    "npc_input": "The new SourceCharacterOwnerFactoryNpcContextV1 feature remains a caller-side composition point. Call it after same-cache assets are projected and before construct_script; inject bind_campaign_character_npc_events_v101. It requires the backend binder to have already published this sole FSM."
+  },
+  "compile_validation": {
+    "android": {
+      "compiler": "Android NDK 29.0.14206865 aarch64-linux-android24-clang++",
+      "flags": "C++17, -fPIC, -Wall -Wextra -Werror -Wno-unused-value",
+      "result": "PASS; source_campaign_character_fsm_v101.cpp compiled to ELF64 AArch64 relocatable object"
+    },
+    "windows": {
+      "compiler": "llvm-mingw-20261006-ucrt-x86_64 clang++",
+      "target": "x86_64-w64-windows-gnu",
+      "flags": "C++17 COFF object; -Dfinite=_finite",
+      "result": "PASS; llvm-readobj identified COFF-x86-64 / IMAGE_FILE_MACHINE_AMD64"
+    },
+    "runtime": "Not run. The object-factory test/build closure and root native test are root-owned and were not changed. No initialized NPC Session or complete InitPost/InitFinal acceptance is claimed."
+  },
+  "existing_model_renderer_undefined_callbacks": [
+    "submit_campaign_audio_v46",
+    "borrow_source_campaign_fx_v77",
+    "source_campaign_limbus_body_v118",
+    "source_campaign_ai_is_my_turn_v105",
+    "borrow_actual_application_audio_v42",
+    "borrow_source_campaign_candidate_v55",
+    "borrow_source_campaign_character_v62",
+    "source_campaign_character_zoning_v108",
+    "borrow_source_campaign_object_base_v77",
+    "source_campaign_character_interact_v114",
+    "source_campaign_object_as_character_v114",
+    "source_campaign_character_aggro_event_v84",
+    "source_campaign_character_clear_aggro_v84",
+    "source_campaign_character_set_visible_v96",
+    "borrow_source_campaign_condition_world_v70",
+    "source_campaign_noncharacter_interact_v114",
+    "source_campaign_character_command_look_v114",
+    "source_campaign_character_sync_visibility_v86"
+  ],
+  "genuine_windows_provider_composition": {
+    "composition_object": "Create one typed SourceCampaignBackendContextV1 around the already-live Windows backend. Keep leases to the actual ApplicationServicesOwnerV5, current CanonicalLevelContextV1/level, CanonicalObjectManagerV1, CanonicalCharacterCandidateFactoryV60, SceneRootRegistry, sewn floors/route graph and its ObstacleRegistry, CharacterCandidateCacheV62, script asset cache, same-world CharacterScriptObjects facade, real FX owner, and real AudioApplicationBorrowV42. Do not store a pointer to the CanonicalCharacterCandidateRecord from a context retained by that record.",
+    "candidate_and_world_borrows": "Implement borrow_source_campaign_candidate_v55 and borrow_source_campaign_condition_world_v70 as fresh typed borrows from that context's already-produced owners. The candidate borrow must preserve current Level/Application/floors/navigation/ObjectManager identities; the condition-world borrow must return the same design, debug, cache, target runtime, and settings. Never reconstruct a parallel WorldScriptContext or infer current Level from an actor.",
+    "character_and_object_borrows": "Implement borrow_source_campaign_character_v62 through the same candidate factory's find(identity), holding the exact record lease and checking actor/object/native machine identity. Use the same CanonicalObjectManager and SceneRootRegistry for ObjectBase, object-as-character, and noncharacter-object resolution; reject missing/wrong-type receivers rather than synthesizing them.",
+    "target_controller_ai_and_visibility": "Route zoning, interact, command-look, aggro/clear-aggro, SetVisible, sync-visibility, AI-turn, and Limbus body callbacks through the same record/actor/AI queue/physical owner and same current Level services. Each adapter must preserve native source ordering and return the actual delivery result; the FSM callback must not become an alternate actor lookup or command state.",
+    "fx_and_audio": "Borrow the real same-World FX manager with its retaining lease. Borrow the actual nullable Application audio manager via AudioApplicationBorrowV42 and submit through the existing AudioCampaignBridgeV46/ApplicationAudioManagerV42 path while retaining the captured manager and World for the call. Missing/initial-null owners follow source nullable semantics; do not stub successful playback or FX registration.",
+    "portability_boundary": "Most existing callback definitions are in the Android renderer/source files and carry hidden global-current-candidate assumptions. The Windows backend should provide adapters that consume an explicit typed backend-context loan; for any callback whose implementation still requires the global renderer candidate, add a typed backend entrypoint in its owning source module or keep that reached behavior explicitly unavailable. Do not satisfy unresolved symbols with empty bodies or no-op providers.",
+    "remaining_external_requirements": [
+      "actual Windows root's current Level/candidate mapping and real Level services",
+      "same source cache/design/AI rows and CharacterCandidateCacheV62",
+      "same canonical ObjectManager/Factory/SceneRootRegistry publications",
+      "same sewn floors, route world/workspace and obstacle registry",
+      "actual Character script cache, host context, controller and Session timer-expiry binder",
+      "real FX manager and nullable Application audio manager"
+    ]
+  }
+}

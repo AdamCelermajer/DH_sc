@@ -24,6 +24,8 @@ bool character_npc_external_init_final_v1(CharacterScriptSession& session,std::u
  error.clear();
  ScriptSessionView view{};
  if(!active||!session.owner().active(view)||view.identity!=active){error="required same published AISExternal unavailable";return false;}
+ // AISDefault::OnInitFinal3dbe80 is BX LR, even with a Lua alias present.
+ if(view.kind==script_default)return true;
  if(view.kind!=script_monster&&view.kind!=script_external){error="required source AIS OnInitFinal class dispatch unavailable";return false;}
  std::uint32_t lua_error=0;
  const int result=session.owner().call_discard(active,"OnInitFinal",nullptr,0,lua_error);

@@ -1,6 +1,10 @@
 // Functional Application.CleanGlitch adaptation over the EXISTING native
 // renderer. UI/font/FX allocations remain in their directly retained RAII
 // owners. No nonexistent original shader-baker/material cache is fabricated.
+#include "renderer_native_cleanup_retention_v125.inc"
+namespace {
+void retain_native_geometry_cleanup_owners_v125(std::set<std::uint32_t>&,std::set<std::uint32_t>&);
+}
 bool clean_native_graphics_v50(std::string& error){
  static bool busy=false,failed=false;
  if(busy||failed){error="Native graphics cleanup reentered or prior release failed";return false;}
@@ -15,12 +19,7 @@ bool clean_native_graphics_v50(std::string& error){
  try{
   std::set<std::uint32_t> texture_uses,buffer_uses;
   auto owning_images=[&](const auto& names){for(auto name:names)if(name)texture_uses.insert(name);};
-  auto bindings=[&](const auto& batches){for(const auto& draw:batches){
-   if(draw.diffuse)texture_uses.insert(draw.diffuse);
-   if(draw.alpha)texture_uses.insert(draw.alpha);
-   if(draw.vertices)buffer_uses.insert(draw.vertices);
-   if(draw.indices)buffer_uses.insert(draw.indices);
-  }};
+  auto bindings=[&](const auto& batches){for(const auto& draw:batches)retain_native_draw_resources_v125(draw,texture_uses,buffer_uses);};
   owning_images(images);bindings(draws);
   owning_images(equipment_images);bindings(equipment_draws);
   for(const auto& group:object_groups)bindings(group.draws);
@@ -30,6 +29,7 @@ bool clean_native_graphics_v50(std::string& error){
   }
   owning_images(loot_gpu_textures_v27);
   for(const auto& item:loot_gpu_records_v27)bindings(item.second.draws);
+  retain_native_geometry_cleanup_owners_v125(texture_uses,buffer_uses);
   auto validate=[&](std::uint32_t name,const auto& owner,std::string& e){
    if(!name||owner.budget!=ledger||owner.generation!=context.generation){
     e="Native cleanup allocation is outside the SAME live context";return false;

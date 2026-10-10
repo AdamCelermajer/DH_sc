@@ -1,0 +1,74 @@
+{
+  "status": "shared_manual_move_heading_and_late_rotation_verified",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v13",
+  "executable_sha256": "8cb0b30f1cfbcebd8c5ab7256b08cf799af6075c92172c8f20529b99d7a7084d",
+  "component_tests_passed": 64,
+  "ctest_seconds": 2.06,
+  "package_files_verified": 550,
+  "rendered_cases_verified": 16,
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v13.json",
+  "save_rejection_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v13.json",
+  "live_changes": [
+    "Manual Move heading copies same actor XYZ to actual PF cache, reads actual source flags/boundary/Debug policy, preserves source active-bit and SetHeadingDirection order, and ignores the ValidateDirection diagnostic bool as the original does",
+    "Recovered Character constructor boundary cell and Move focus prefix populate transient shared motion cells; unknown or unsupported focus state is not synthesized",
+    "Sampled root motion precedes manual heading and source late Character rotation. Actor Euler, desired heading, existing Session turn storage and resolved properties are borrowed directly; visual sync receives that same Euler",
+    "Save canonicalization removes transient source motion cells; raw transient cells are rejected before durable writes"
+  ],
+  "changed_movement_evidence": {
+    "walk90": {
+      "source_xy": 276.028,
+      "world_xy": 248.425,
+      "heading_checks": 60,
+      "slides": 44,
+      "late_rotations": 60,
+      "pf_solves": 91,
+      "accepted": 60,
+      "clamped": 0
+    },
+    "run90": {
+      "source_xy": 888.992,
+      "world_xy": 518.686,
+      "heading_checks": 60,
+      "slides": 45,
+      "late_rotations": 60,
+      "accepted": 40,
+      "clamped": 20
+    },
+    "boundary700": {
+      "heading_checks": 650,
+      "slides": 100,
+      "late_rotations": 650,
+      "pf_solves": 712,
+      "accepted": 118,
+      "clamped": 542
+    }
+  },
+  "component_only": [
+    "Original full UpdatePath bindings require actual caller-owned controller/path/workspace/scene; this component is tested but full live frame/path/avoidance integration remains incomplete"
+  ],
+  "source_reports": [
+    "port/windows-foundation/reports/original-actor-heading-live.json",
+    "port/windows-foundation/reports/source-motion-flags.json",
+    "port/windows-foundation/reports/source-movement-policy-audit.json"
+  ],
+  "previous_v12_preserved": true,
+  "limits": [
+    "Manual player Move heading and late rotation now use shared source storage; full focus tails/controller/FSM/path/frame coordination, avoidance, dynamic collisions, native Step and contacts remain incomplete",
+    "Complete source GameObject InitPost/InitFinal, debug/allocator/saved fields, source body policies and death collision continuations remain incomplete",
+    "Root source Module constructor scopes are now live. MGP child receiver construction, positive conditions/activation, Module InitPost/InitFinal and complete Level construction remain incomplete",
+    "Original encounter activation, aggro/sneak, complete controller/FSM and hierarchical scheduler delivery remain incomplete",
+    "Damage uses diagnostic queued application; synchronous source damage/reentrant effects, combos, status/DOT/leech and full skills remain incomplete",
+    "Equipment appearance/refresh, priest reference mismatch, fairy particles and companion behavior remain incomplete",
+    "Full original HUD/menus/audio/effects/materials/fog/lighting/cinematic coverage and continuous matched-state reference fidelity remain incomplete",
+    "Campaign lifecycle/controller/animation transient state persistence is explicitly rejected before durable save writes"
+  ],
+  "capture_review": {
+    "images": [
+      ".local-inputs/windows-source-clock-checkpoint-v13/startup-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v13/run-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v13/floor-boundary-verification.png"
+    ],
+    "scope": "Actual final captures inspected: world, player, companion visuals and health/mana HUD present. Long boundary capture places player at wall edge; full decor collision remains pending. Continuous matched-state original visual/gameplay parity is not accepted."
+  }
+}

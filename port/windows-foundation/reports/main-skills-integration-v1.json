@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-09",
+  "owner": "/root/integration_lead",
+  "status": "main_source_skills_render_enrolled_actions_partial",
+  "full_menu_complete": false,
+  "binary_sha256": "93ed428d955f54708165d887f2b4225a2129b18607d6f9f83d6756076994c076",
+  "proof": {
+    "args": ".local-inputs/windows-main-frontend-v1/skills-main.args",
+    "log": ".local-inputs/windows-main-frontend-v1/skills-main.txt",
+    "capture": ".local-inputs/windows-main-frontend-v1/skills-main.png",
+    "frames": 35,
+    "skills_drawn_frames": 30,
+    "selection_frame": 5,
+    "capture_inspected": true
+  },
+  "behavior": [
+    "Same selected CharacterState and original CharacterTable/SkillTables list.",
+    "Source SWF class icons, saved rank1 first/rank0 remaining, original points0.",
+    "Readiness-gated tab and original contour hit selection.",
+    "Original StringID names; missing conditional descriptions remain empty."
+  ],
+  "limitations": [
+    "Positive production training/persistence continuation not proven; fresh source profile has zero skill points.",
+    "Dynamic current/next descriptions and some static page labels remain absent.",
+    "Equipment detail text overlaps and central character preview is blank.",
+    "Faery/Quest/Map production caller integration remains incomplete.",
+    "No full menu or matched-reference acceptance."
+  ],
+  "preserved_release": "v19-preview-5",
+  "presentation_correction": {
+    "earlier_capture": "world/NPC bleed through source SWF transparency; not accepted",
+    "fix": "opaque full-viewport backdrop before original character-menu overlay",
+    "fresh_runtime": "35 frames exit0 after terminal coherent build",
+    "fresh_pixels_inspected": "no gameplay visible behind Skills art"
+  },
+  "development_interactions": {
+    "selection_log": ".local-inputs/windows-main-frontend-v1/skills-select.txt",
+    "selection_capture": ".local-inputs/windows-main-frontend-v1/skills-select.png",
+    "training_log": ".local-inputs/windows-main-frontend-v1/skills-actions.txt",
+    "actual_selected_name": "HEADSPLITTER",
+    "source_base_description_wrapped": true,
+    "fresh_points": 0,
+    "training_rejections": 2,
+    "positive_production_spend_proven": false
+  }
+}

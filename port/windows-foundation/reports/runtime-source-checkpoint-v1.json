@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "status": "existing_game_save_transition_adapter_component_only",
+  "scope": "Bind an already-admitted authored transition destination to the existing canonical GameSave/SaveStore file without extending its schema.",
+  "changed_files": [
+    "port/windows-foundation/features/campaign/runtime_source_checkpoint_v1.hpp",
+    "port/windows-foundation/features/campaign/runtime_source_checkpoint_v1.cpp",
+    "port/windows-foundation/features/campaign/runtime_source_checkpoint_v1_tests.cpp",
+    "port/windows-foundation/features/campaign/run_runtime_source_checkpoint_v1_tests.ps1"
+  ],
+  "visual_evidence": {
+    "reference": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "observed_frames": [
+      { "time_seconds": 660, "observation": "New Quest card names Defeat the Bogwitch in the Northeast Cavern." },
+      { "time_seconds": 670, "observation": "Gameplay continues on a wooden boardwalk with a live enemy; no door state is visible." },
+      { "time_seconds": 680, "observation": "The area title reads The Boglands North Wilderness." },
+      { "time_seconds": 720, "observation": "Loading screen appears." },
+      { "time_seconds": 730, "observation": "Gameplay resumes in a water-cavern environment." },
+      { "time_seconds": 740, "observation": "Combat continues in the water-cavern environment." }
+    ],
+    "claim_limit": "The sequence supports a visible world/load transition before subsequent cave gameplay. It does not show the boardwalk exit interaction, entrypoint placement, Witch-gated door opening, or persistence across an actual reload."
+  },
+  "authored_source": {
+    "transition": {
+      "module": "port/windows-foundation/assets/original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "object": "_prim_ExitLevelZone",
+      "type": "TriggerZoneExitLevel",
+      "destination_member": "SWAMP_CAVE_WITCH_A",
+      "entrypointID": 0,
+      "fasttravel": "a01_SWAMP_CAMP"
+    },
+    "separate_barrier_context": {
+      "module": "port/windows-foundation/assets/original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "trigger": "Lever_Swamp / open_SwampKingDoor",
+      "unlock_condition": "IsAfter_Swamp_KillWitch2",
+      "doors": ["Swamp_Door_Ruins_FIRE", "Swamp_Door_Ruins"],
+      "initial_opened": 0,
+      "relationship": "This is a distinct authored Act1 barrier and is not asserted to be the boardwalk-to-cave transition seen in the video."
+    },
+    "version_uncertainty": "The supplied reference is v1.0.3 while recovered assets/decompilation are identified as v1.0.2; equivalence is not established."
+  },
+  "logic_and_write_read_order": {
+    "transition": "AreaTransitionRequestV114 validates the real selected profile/actor, exact LevelList destination and source difficulty before acceptance. AreaTransitionSequenceV114 closes old admission, drains/retire old native owners, starts the native destination, then waits for native completion. The request projection itself does not persist a checkpoint.",
+    "source_level_save": "Level::QuickSave at 0x3f059c queries the actual local PlayerInfo before its save/phase/dead guards; on the source save branch it copies Character position +0x160 to checkpoint +0x1468 and related save positions, then invokes the same Save_ec writer with source Save39 handling. Level::SG_SavePlayer at 0x3efa54 calls the Character's actual Save owner, stores the current Level entrypoint into that player save, then invokes the source player save writer.",
+    "source_metadata": "PlayerSaveMetadataWriterV45 writes existing LNAM (date and three level/seed/act triples), LEPT (three entrypoints), and LUSP (three raw spawn bytes). CharacterMenuProfileLoadV51 dispatches the same tags to PlayerSavegameV1::load_location/load_entry_points/load_spawn_points.",
+    "source_gate": "The authored Swamp King lever unlock condition is IsAfter_Swamp_KillWitch2. The exact condition runtime and durable Door state remain separate source owners.",
+    "door_save": "NonCharacterSaveConnectionV89 serializes the same Door state3a8 as a u32 after GameObject base; restore reads it and invokes Opened(false) for states 1/3 or Closed(false) otherwise. This adapter does not own or invoke that native receiver."
+  },
+  "existing_host_save_authority": {
+    "format": "Existing GameSave v1 and save_game/load_game in port/windows-foundation/game_save.cpp.",
+    "durable_fields_used": ["level_uri", "same CharacterState including existing CQPG bytes", "controlled actor roster/transforms", "combat RNG"],
+    "write_behavior": "save_game validates the complete candidate and atomically replaces the same file with checksum protection; load_game validates into a detached candidate and publishes only after full decode/validation.",
+    "not_added": ["checkpoint schema fields", "source entrypoint", "LNAM/LEPT/LUSP", "native Door state3a8", "private runtime FSM state"]
+  },
+  "implementation": {
+    "api": "SourceTransitionV1 identifies the real source module/object/destination member and caller-resolved destination URI/entrypoint. save_runtime_source_checkpoint_v1 accepts only a valid existing GameSave whose level_uri exactly equals that admitted destination, then delegates to save_game. load_runtime_source_checkpoint_v1 delegates to load_game, checks the same exact destination, and publishes output only on success. Receipt explicitly reports source_entrypoint_persisted=false.",
+    "expected_behavior": "After an admitted transition has reached its destination and an existing canonical GameSave has been captured, save and reload preserve the same destination level URI, CharacterState, actor state and RNG through the already existing host save. No original source-only field is inferred or synthesized.",
+    "remaining_gap": "The existing GameSave does not contain Door state3a8 or PlayerSavegame LNAM/LEPT/LUSP, so this component cannot prove the Witch gate or exact source entrypoint is durable across reload. It is not a source-faithful campaign checkpoint and does not replace QuickSave/SG_SaveLocalPlayer or the native profile Save owner."
+  },
+  "verification": {
+    "command": "port/windows-foundation/features/campaign/run_runtime_source_checkpoint_v1_tests.ps1",
+    "compiler": "Pinned LLVM-MinGW, C++17, static foundation_data/recovered_content/content_xml/dh2_freetype237 archives.",
+    "result": "PASS, 19 assertions.",
+    "coverage": [
+      "Checks the actual boardwalk MGP transition object, destination member, entrypoint and fast-travel key, and separately checks the actual Witch-gated barrier source identity.",
+      "Captures a GameSave from the actual KnightPlayerBase/ItemTable/world fixture at the admitted cave destination; saves and reloads with existing SaveStore.",
+      "Verifies destination, character identity/inventory, actor transform and RNG roundtrip.",
+      "Rejects a mismatched transition destination while leaving the output save and receipt unchanged."
+    ],
+    "not_verified": ["production main integration", "native level/object save/load", "door/gate state after reload", "exact native entrypoint restore", "live visual checkpoint/reload"]
+  },
+  "root_caller_contract": "After the source transition completes and the caller has captured the existing GameSave from the same CharacterState/PlayableActorWorld, build SourceTransitionV1 from the accepted source request (including its resolved destination definition) and call save_runtime_source_checkpoint_v1. On reload, call load_runtime_source_checkpoint_v1 with the same route before restoring that canonical GameSave. Do not use this adapter to stand in for native Level QuickSave, SG_SaveLocalPlayer, PlayerSavegame metadata, or Door save/load."
+}

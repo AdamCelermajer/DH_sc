@@ -1,5 +1,6 @@
 #pragma once
 #include "lifecycle_v36.hpp"
+#include <cstdint>
 #include <memory>
 #include <functional>
 #include <string>
@@ -31,9 +32,19 @@ template<class Manager> class CanonicalInitPostV38 {
  using Services=CanonicalInitPostServicesV38<Manager>;
  using Actor=typename Services::Actor;using Handle=typename Services::Handle;
  std::shared_ptr<void> manager_pin_;Manager& manager_;Services services_;
- std::size_t module_cursor_{};std::int32_t key_{};bool end_{true},failed_{},finished_{},busy_{};
+ std::size_t module_cursor_{};std::int32_t key_{};std::uintptr_t diagnostic_identity_{};
+ std::uint32_t diagnostic_phase_{};bool diagnostic_has_map_key_{},end_{true},failed_{},finished_{},busy_{};
  std::string error_;
- LifecycleStepV36 fail(const char* missing){failed_=true;if(error_.empty())error_=std::string("Required actual InitPost provider: ")+missing;return LifecycleStepV36::failed;}
+ LifecycleStepV36 fail(const char* missing){
+  failed_=true;
+  std::string context=" [Stage10 InitPost phase="+std::to_string(diagnostic_phase_);
+  if(diagnostic_has_map_key_)context+=" map_key="+std::to_string(key_);
+  context+=" receiver_identity="+std::to_string(diagnostic_identity_)+
+   " operation="+(missing?missing:"unknown")+"]";
+  if(error_.empty())error_=std::string("Required actual InitPost provider: ")+(missing?missing:"unknown");
+  error_+=context;
+  return LifecycleStepV36::failed;
+ }
  template<class F,class... A> bool call(const F& fn,A&&... args){return fn&&fn(std::forward<A>(args)...,error_)&&!failed_;}
  void reset_cursor(){const Actor* ignored{};end_=!manager_.source_ordered_begin_v38(key_,ignored);}
  bool advance_cursor(){const Actor* ignored{};end_=!manager_.source_ordered_next_v38(key_,key_,ignored);return true;}
@@ -47,22 +58,27 @@ public:
   struct Guard{bool& b;Guard(bool& v):b(v){b=true;}~Guard(){b=false;}} guard(busy_);
   auto& phase=manager_.source_init_phase7c_v38();
   if(phase==0){module_cursor_=0;reset_cursor();phase=1;}
+  diagnostic_identity_=0;diagnostic_has_map_key_=false;
   if(module_cursor_==manager_.modules().size()){
    if(phase==1){phase=2;reset_cursor();++phase;}
   }else if(phase==1){
+   diagnostic_phase_=phase;
+   diagnostic_identity_=manager_.modules()[module_cursor_];
    if(!services_.load_module)return fail("Module.LoadModule");
-   const auto result=services_.load_module(manager_.modules()[module_cursor_],error_);
+   const auto result=services_.load_module(diagnostic_identity_,error_);
    if(failed_)return LifecycleStepV36::failed;
    if(result==LifecycleStepV36::pending)return result;
    if(result!=LifecycleStepV36::complete)return fail("Module.LoadModule");
    if(failed_)return LifecycleStepV36::failed;++module_cursor_;
   }
+  diagnostic_phase_=phase;
   if(end_){
    ++phase;if(phase!=4){finished_=true;return LifecycleStepV36::complete;}
    reset_cursor();for(auto offset:{0x2cu,0x44u,0x34u})if(!call(services_.clear_list,offset))return fail("clear actual lists2c/44/34");
    return LifecycleStepV36::pending;
   }
   const Actor* object{};if(!manager_.source_ordered_entry_v38(key_,object))return fail("current actual registry node erased");
+  diagnostic_has_map_key_=true;diagnostic_identity_=object?object->identity:0;
   if(phase==3){
    Handle handle{};const Actor* resolved{};
    if(!call(services_.make_handle,object,handle))return fail("ObjectHandle constructor");

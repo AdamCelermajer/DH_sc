@@ -1,0 +1,70 @@
+{
+  "schema": "source-companion-animation-bank-v1",
+  "source": {
+    "campaign": ".local-inputs/windows-source-clock-v19-preview-3/assets/original-campaign.xml",
+    "campaign_sha256": "3ab2055920a8b648b16d77aa07b0435cbd899c624f5be3bcc145e2133c5cdd14",
+    "dictionary_names": ".local-inputs/windows-source-clock-v19-preview-3/assets/data/animations_dictionary_pyarraynames.bin",
+    "dictionary_names_sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+    "dictionary_values": ".local-inputs/windows-source-clock-v19-preview-3/assets/original-cache/data/pydata/animations_dictionary_pyarray.bin",
+    "dictionary_values_sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+    "animation_tables": ".local-inputs/windows-source-clock-v19-preview-3/assets/original-cache/data/pydata/animations_pyarray.bin",
+    "animation_tables_sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    "animation_table_names": ".local-inputs/windows-source-clock-v19-preview-3/assets/original-cache/data/pydata/animations_pyarraynames.bin",
+    "animation_table_names_sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+    "animation_table_schema": ".local-inputs/windows-source-clock-v19-preview-3/assets/original-cache/data/pydata/animations_pystructnames.bin",
+    "animation_table_schema_sha256": "d4e19b0e688c51b2d7bccdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+  },
+  "script_records": [
+    {
+      "script": "Swamp_Intro",
+      "command_index": 45,
+      "class": "Script_PlayActorAnim",
+      "source_object": "_prim_NPC_PriestGood",
+      "profile": "WanderingPriest",
+      "anim_dict_id": 396,
+      "next_id": 4294967295,
+      "slot": 2,
+      "offset20_raw": 20,
+      "wait_raw": 0,
+      "dictionary_name": "cs_swamp_intro_priest_scene05",
+      "dictionary_path": "data/3D/characters/npcs/animations/cs_swamp_intro_priest_scene05.bdae",
+      "asset": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/npcs/animations/cs_swamp_intro_priest_scene05.bdae",
+      "asset_bytes": 39880,
+      "asset_sha256": "912986b33e45f324a6a3949ade5c479dd6a3ee3b4023f78949847cbb75386315",
+      "animation_table_references": [],
+      "loop_rate": "none is authored by Script_PlayActorAnim; AnimDict IDs 396/377 have no source AnimationTables sequence; offset20 is receiver-name byte count",
+      "prepared_alias": "source-animdict-396-cs_swamp_intro_priest_scene05",
+      "preinit_clip": true
+    },
+    {
+      "script": "Swamp_Intro",
+      "command_index": 46,
+      "class": "Script_PlayActorAnim",
+      "source_object": "_prim_Faery",
+      "profile": "DefaultFairy",
+      "anim_dict_id": 377,
+      "next_id": 4294967295,
+      "slot": 3,
+      "offset20_raw": 11,
+      "wait_raw": 0,
+      "dictionary_name": "cs_swamp_intro_faery_scene05",
+      "dictionary_path": "data/3D/characters/faeries/animations/cs_swamp_intro_faery_scene05.bdae",
+      "asset": null,
+      "animation_table_references": [],
+      "loop_rate": "none is authored by Script_PlayActorAnim; AnimDict IDs 396/377 have no source AnimationTables sequence; offset20 is receiver-name byte count",
+      "prepared_alias": "source-animdict-377-cs_swamp_intro_faery_scene05",
+      "preinit_clip": false,
+      "status": "exact BDAE absent from selected local caches; do not substitute FaeryIdle 686 or another Swamp Faery clip"
+    }
+  ],
+  "existing_faery_idle": {
+    "anim_dict_id": 686,
+    "dictionary_name": "faeries_celeste_idle",
+    "same_profile_animation_table_sequence": 196,
+    "sequence_name": "Faeries_Idle",
+    "sequence_loop": -1,
+    "step_rate": 1.0,
+    "preserve_existing_owner": "source_companion_campaign_animation_v1 FaeryIdle command and existing animationOnly profile"
+  },
+  "result": "Swamp_Intro 396 and 377 resolve exactly through AnimDict, not through AnimationTables as character sequence IDs. Added pre-init loading only for the exact available Priest BDAE. No loop/rate/alias substitutions or script scheduling semantics were synthesized."
+}

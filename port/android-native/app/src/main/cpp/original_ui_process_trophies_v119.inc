@@ -56,12 +56,8 @@ bool OriginalUiSession::process_trophy_services_v119(
      !group->names_loaded||!group->members_loaded){
    e="Required actual GSInit3-loaded process TrophyTable before GSInit11";return false;
   }
-  //Schemas are native retained compiler metadata, as in the SAME process
-  //Arrays loader. Original record/name files use the shared APK cache reader.
-  if(!std::strcmp(uri,"data/pydata/trophies_pystructnames.bin")){
-   if(!provider->ui->raw_asset("data/trophies_pystructnames.bin",bytes,e))return false;
-   found=true;return true;
-  }
+  //Records, names and the authored Trophy schema all reside under data/pydata
+  //in the SAME original archive. Preserve the caller's full logical URI.
   return provider->ui->original(uri,found,bytes,e);
  };
  services.files=[provider](std::shared_ptr<application::ApplicationSaveFilesOwnerV61>& files,std::string& e){

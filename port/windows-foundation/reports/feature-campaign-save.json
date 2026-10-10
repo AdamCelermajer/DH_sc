@@ -1,0 +1,31 @@
+{
+  "feature": "campaign_save",
+  "status": "partial_source_adapters_and_transaction_boundary_verified_not_integrated",
+  "files": ["features/campaign_save/campaign_snapshot.hpp", "features/campaign_save/campaign_snapshot.cpp", "features/campaign_save/campaign_snapshot_tests.cpp", "features/campaign_save/FORMAT-MIGRATION.md"],
+  "scope": {
+    "canonical_authority": "Existing GameSave/CharacterState inventory, actors, property sheets and RNG reused exactly once in candidate snapshot",
+    "implemented": ["exact required-source coverage and source-revision validation", "source QEST collection writer adapter", "detached actual QuestSavegame/QuestPersistenceOwner loader", "source produced ObjectBase visibility/enabled writer fragment", "whole-world prepared restore interface with noexcept publication contract"],
+    "unsupported_rejected": ["actor lifecycle source remainder", "trigger-zone source remainder", "running script context", "game event source state", "private OriginalCampaignRuntime FSM/trigger shadows", "missing codecs/producers/definitions"]
+  },
+  "validation": {
+    "status": "pass",
+    "compiler": "native llvm-mingw clang++ C++17 -Wall -Wextra -Werror; pre-existing original QuestPersistence aggregate warnings suppressed for combined link",
+    "data": "Constructed fixture table in exact original v2Quest field order, decoded and owned by actual source QuestTablesPersistenceV51; genuine native persistence writers/loaders used",
+    "checked": ["quest state/objective completed/quantity roundtrip across different reconstructed native character identities", "QEST truncation/count mismatch/trailing rejection preserves detached output", "ObjectBase wire exactly two source bytes", "unproduced visibility rejected", "canonical inventory not duplicated", "missing lifecycle requirement rejects without replacing output", "prepare does not mutate live fixture state", "wrong revision preserves existing prepared stage/live state", "explicit noexcept fixture publication succeeds"],
+    "not_claimed": ["real campaign gameplay checkpoint", "actual whole-world native graph commit", "file format serialization or filesystem atomic replacement", "all source owner registration/rebinding coverage"]
+  },
+  "source_evidence": [
+    {"path": "port/level-world/player_save_collections_writer_v45.cpp", "meaning": "Actual source QEST save difficulty/index/objective/progress order; SAME regular/volatile selector semantics"},
+    {"path": "port/game-data/quest_savegame_v1.cpp", "meaning": "Actual source QEST load mutates reached prefix and can return success on count mismatch; detached staging additionally rejects incomplete consumption/count mismatch"},
+    {"path": "port/game-data/quest_persistence_v51.cpp", "meaning": "Source quest save/load uses state and definition-dependent completed/quantity objective cells; no native identity serialization"},
+    {"path": "port/level-world/object_save_restore_v3.cpp", "meaning": "ObjectBase wire visible80/enabled8a and deserialize invalidation of source condition tested caches"},
+    {"path": "port/windows-foundation/game_save.cpp", "meaning": "Current ordinary checkpoint normalization/validation cannot stand in for full source world reconstruction"}
+  ],
+  "integration_required": [
+    "Root-owned version2 core format migration, checksum/atomic write and explicit version1 policy",
+    "Authoritative source-world inventory producer enumerating every required fragment and stable owner revision",
+    "Actual lifecycle, trigger/script/event native serializers and detached restore factories; current reserved requirements deliberately fail",
+    "Shared native quest/profile adapter stages complete objective/condition registration and canonical inventory graph together",
+    "Root-owned single whole-world staged publish preserving failure atomicity; no sequential live native loader calls"
+  ]
+}

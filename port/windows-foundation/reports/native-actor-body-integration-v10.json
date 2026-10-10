@@ -1,0 +1,41 @@
+{
+  "status": "shared_source_body_plans_native_actor_bodies_and_lifecycle_runtime_verified",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v10",
+  "executable_sha256": "39d6d4b014bba2505ff7145646ede56fc18e1c9f592297ae2e1dcaa8c918e01d",
+  "component_tests_passed": 61,
+  "ctest_seconds": 6.33,
+  "package_files_verified": 544,
+  "rendered_cases_verified": 13,
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v10.json",
+  "save_rejection_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v10.json",
+  "live_changes": [
+    "Shared source rest-box/body configuration uses actual loaded player and registered NPC visuals, authored rotations and properties; NPC motor radii now use source plans",
+    "Native bodies borrow the same actor positions and read-only properties; every present body in thirteen runs has exact source actor XY *.01 physical coordinates",
+    "Fresh constructor navigation user0 gate preserved before InitFinal; source collision filter reads actual state/enabled/group/mask",
+    "Spawn removal/reinitialization destroys/recreates actual bodies: in-flight native0 becomes completed native1",
+    "Ordinary save210/reload250/load300 and separate-process resume release/rebuild body ownership safely",
+    "Exact absolute-bounds float rebase fixes translated-radius cancellation without epsilon or live-pose substitution"
+  ],
+  "component_changes": [
+    "Actual cached root constructs one LevelConfig and nine Module receivers with source-derived IDs 0..8; next InitPost fails explicitly at missing ConditionData::Init"
+  ],
+  "limits": [
+    "Movement collision, vertical obstacle sweep and floor solving remain approximate; native world Step and contact continuations are not wired",
+    "Full source InitFinal/PF registration, debug providers, allocator/saved fields and death collision policies remain incomplete",
+    "Actual root Module constructors are component verified; live main room IDs, MGP children, conditions and complete level construction remain incomplete",
+    "Original encounter activation, aggro/sneak, complete controller/FSM and hierarchical scheduler delivery remain incomplete",
+    "Damage uses diagnostic queued application; synchronous source damage/reentrant effects, combos, status/DOT/leech and full skills remain incomplete",
+    "Equipment appearance/refresh, priest reference mismatch, fairy particles and companion behavior remain incomplete",
+    "Full original HUD/menus/audio/effects/materials/fog/lighting/cinematic coverage and continuous matched-state reference fidelity remain incomplete",
+    "Campaign lifecycle/controller/animation transient state persistence is explicitly rejected before durable save writes"
+  ],
+  "capture_review": {
+    "images": [
+      ".local-inputs/windows-source-clock-checkpoint-v10/startup-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v10/controller-active-verification.png"
+    ],
+    "scope": "Actual final rendered captures inspected; world/player/enemy/HUD present, no matched-state reference parity acceptance"
+  },
+  "previous_v9_preserved": true
+}

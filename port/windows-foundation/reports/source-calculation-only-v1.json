@@ -1,0 +1,17 @@
+{
+  "status": "PASS actual Session lethal continuation exact source result/RNG/dedup and unchanged corpse; Celest caller integration pending",
+  "source_evidence": "features/faery_menu/celest_source_evidence_v1.md and original faerie_celest Lua: two unconditional SpellCombatRoll calls per Character. _SpellCombatRoll0x3b92a4 calls F_SpellAttack0x3b3004 then F_ApplyResult each time. HitFor ignores already-dead receiver health mutation; formula/RNG still run. Actual original-result provider already separates calculation from health.",
+  "design": "Explicit calculation-only continuation validates same Session actors/lease and source occurrence. It shares existing source-hit dedup and same World RNG/sheets; permits already-dead receiver formula calculation, emits full resolution evidence but no damage/reaction/death event. Ordinary hit admission remains unchanged.",
+  "verification_plan": "Real Session Knight/Lizard: lethal admitted first occurrence, compare second dead-target calculation to original provider on identical sheets/RNG, unchanged dead HP/pose, two distinct occurrences and no duplicate/stale/foreign/detached reroll. Presentation failure cannot veto committed formula prefix.",
+  "limits": "Supports the reached source calculation prefix. Full F_ApplyResult secondary statuses, scripts and visual parity remain separately tracked. Celest owner must connect exact second occurrence and FX ordering.",
+  "verification": {
+    "runner": "tools/run_combat_session_source_hit_tests.ps1",
+    "result": "PASS",
+    "log": ".local-inputs/session-source-hit-test/run.log",
+    "executable_sha256": "AEA3985764D741E55A52589A1F2E29CD631B69E82055D2B98AD072C56ECB24B6",
+    "ordinary_hit_gate": "unchanged",
+    "dead_target_health_mutation": false,
+    "foreign_detached_rebound": "rejected",
+    "presentation_failure": "nonvetoing"
+  }
+}

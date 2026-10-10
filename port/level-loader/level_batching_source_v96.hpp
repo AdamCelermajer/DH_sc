@@ -73,6 +73,15 @@ struct BatchNativeServicesV96 {
  //Only exceptional __aeabi_d2iz domain needs imported native conversion.
  std::function<bool(double,std::int32_t&,std::string&)> exceptional_d2iz;
 };
+//Stage22 borrows selection leaves only for a populated map entry. Original
+//3f2e7c reads compiler158 only at an eligible append; an empty/filtered list
+//therefore needs no compiler. The reached append still owns its SAME158 check.
+struct BatchListServicesV96 {
+ std::function<bool(std::string&)> validate_current;
+ std::function<bool(const BatchNativeServicesV96*&,std::string&)> native;
+ std::function<bool(const BatchObjectBorrowV96&,std::string&)> append;
+};
+bool original_batch_list_v96(world::CanonicalObjectManagerV1&,const BatchListServicesV96&,std::string&);
 //Native successor of ORIGINAL batch::BatchNodeCompiler at SAME Level158.
 //No alternate Scene/World/mesh. Root34 is the actual supplied CBatchSceneNode.
 class BatchNodeCompilerSourceV96 {

@@ -5,8 +5,9 @@ static int source_animation_sound_v4(PlayerSkillsRuntime& t,std::int32_t id){
  if(!t.world||!t.world->player_object){t.error="Required same animation Vox/Character owner";return -1;}
  CapturedProducerAudioV46 captured{t,{},dh2::audio::AudioCategoryV46::attack};
  if(!borrow_actual_application_audio_v42(captured.application,t.error))return -1;
+ const auto manager=captured.application.identity();
  const float* position=nullptr;if(!PlayerSkillsRuntime::heading_position(&t,t.world->player_object->identity,position,t.error))return -1;
- return submit_captured_audio_v46(captured,dh2::audio::audio_world_request_v38(captured.application.identity(),0,id,{position[0],position[1],position[2]}));
+ return submit_captured_audio_v46(captured,dh2::audio::audio_world_request_v38(manager,0,id,{position[0],position[1],position[2]}));
 }
 static int source_named_animation_sound_v38(PlayerSkillsRuntime& t,std::uintptr_t character,const char* suffix){
  if(t.audio_source_bindings_v38.rows().empty()){t.error="Required generated source sound-name table";return -1;}

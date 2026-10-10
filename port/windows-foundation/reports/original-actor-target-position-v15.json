@@ -1,0 +1,31 @@
+{
+  "status": "source-grounded adapter and actual CharacterVisual named-node producer; host placement/frame order integration remains caller-owned",
+  "source_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "evidence": {
+    "GameObject_ctor_0x38c398": "own node180=0 at38c448; cache184/188/18c=0 at38c430/434/438",
+    "GameObject_InitFinal_0x38cd48": "after actual VisualObject::Sync and actual visual+8 scene root, getSceneNodeFromName(root,target_node) assigns own node180; absent visual/root skips assignment",
+    "GameObject_Update_0x38cbe8": "UpdatePath -> UpdateRotation -> UpdateSubObjects -> UpdateTargetPosition -> RequireOnlineUpdate",
+    "GameObject_UpdateTargetPosition_0x393d74": "own node180==NULL retains cache; otherwise getAbsolutePosition0x597180 snapshots node54/58/5c XYZ, then writes owner188/18c/184 Y,Z,X; no enabled80 test or combat target read",
+    "GameObject_GetTargetPosition_0x3935dc": "node180 && actual owner byte80 selects cache184; otherwise SAME position160",
+    "ISceneNode_getSceneNodeFromName_0x5984f4": "case-insensitive actual NAME comparison, current node before authored children, first depth-first match; no id/sid aliases",
+    "existing_selector_oracle": "port/level-world/reports/character-world-target-position-v1-arm64-differential.json PASS1024 zero mismatches"
+  },
+  "implementation": {
+    "ownership": "borrows caller-owned optional own node180/cache184 and SAME position160; never uses ActorState.target_id",
+    "producers": "explicit constructor prefix; reached InitFinal named-node assignment prefix; actual absolute-scene-position callback",
+    "CharacterVisual_source_target_node": "direct actual authored graph lookup NAME target_node, source case-insensitive first depth-first match; current readonly scene::Node address token or proved absentNULL; unloaded fails",
+    "CharacterVisual_source_target_node_world": "validates token against same current visual matched node before returning actual root-motion-compensated model world; before host placement; token borrowed until reload/destruction, caller reacquires after successful reload",
+    "unknown": "unknown own node fails rather than claiming NULL; missing selected cache fails; successful actual update establishes cache",
+    "failure": "retains reached external callback effects, preserves cache on failed absolute query and output pointer on failed selection",
+    "values": "source float bits preserved including signed zero and NaN; no finite clamp",
+    "scope": "named lookup prefix excludes preceding InitFinal spawn/visual/light/PF effects; target update excludes online and sound frame tail"
+  },
+  "minimum_live_integration": [
+    "Root owns one actual source node180 and cache184 per shared actor, initialized only through explicit construction/actual scene binding producers.",
+    "Bind actual own authored target_node from loaded visual hierarchy using source named lookup, with explicit known absence if lookup proves no node.",
+    "Supply absolute transform from that actual node after current UpdateSubObjects; actor origin or combat target position is not a substitute.",
+    "Get selector borrows SAME actual position160 and enabled80 owner. Do not derive no-target from combat target_id zero.",
+    "CharacterVisual supplies actual named-node lookup and compensated model matrix. Root must combine SAME actor placement used by rendering to produce absolute world XYZ, explicitly a host visual placement adapter; full native InitFinal/rootstage timing remains unclaimed."
+  ],
+  "validation": "native PASS with actual windows-shared-assets: independent decode proves prince_modular NAMEtarget_node absent and swampking NAMEtarget_node present; actual boss world/cache, actor-token isolation, update stability, failed reload retention, successful reload invalidation; unknown/NULL/nonNULL, constructor/named lookup, all256 enabled bytes, callback failure effects, output pointer identity, NaN bits"
+}

@@ -1,0 +1,43 @@
+{
+  "status": "native_windows_syntax_compile_pass_live_session_not_claimed",
+  "date": "2026-10-09",
+  "scope": "Added a record-backed NPC Session context loan and post-construction validator. No changes were made to the existing FSM source pair, root native test, build closure, or AndroidWorld bootstrap.",
+  "feature": {
+    "header": "port/windows-foundation/features/actor_frame/source_character_owner_factory_npc_context.hpp",
+    "implementation": "port/windows-foundation/features/actor_frame/source_character_owner_factory_npc_context.cpp",
+    "entrypoint": "bind_source_character_owner_factory_npc_context_v1(record,input,providers,out,error)",
+    "post_construction_validator": "validate_source_character_owner_factory_npc_session_v1(loan,error)",
+    "ownership": "Retains the exact canonical record, same source World lease, and existing host-context lease. It creates no actor, controller, target, FSM, Session, or timer store. The host-context owner is required not to retain the record, preventing an ownership cycle.",
+    "checks": [
+      "provider world lease is the identical `record.services.world` object",
+      "record is a live NPC with the retained actor, object, controller, machine, FSM context, properties, and life",
+      "actor identity aliases its shared handle, object properties/life, and NativeFsm24 character/state",
+      "TargetBindings48.state and TargetOwner16 point to the same object target/owner, whose owner identity is this Character",
+      "record.services.controller and actor.controller project the same controller and Character identity",
+      "existing input aliases, if supplied, match the same properties/life/temp/target/FSM/host/level/object providers",
+      "the injected actual FSM event binder installs timer-expiry, command refresh/services, motion, animation, and gameplay providers",
+      "after script construction, Session timer owner and PropertyView sheets/resolved storage alias the same record"
+    ],
+    "timer_lifetime": "The binder's TimerServices32 expiry callback belongs to the retained CampaignFsm and raises the same NativeFsm with the synchronous Timer32 pointer. CharacterScriptSession later creates its own actual TimerStore and native timer-growth wrapper; the helper does not allocate timers or retain stack-backed callbacks.",
+    "provider_call_order": "Use from CanonicalCharacterCandidateServicesV60::npc_script after the same-cache provider fills common/external/include byte spans and before RetainedCharacterActorV1::construct_script. The source renderer binds the existing FSM earlier through services.state. Validate the borrow immediately after construct_script creates actor.session."
+  },
+  "required_external_providers": {
+    "assets": "Same ScriptAssetServices/cache and SkillTables lease, actual common and selected AI script bytes, include-file snapshot, and the same resolved AI row at properties.resolved[1].",
+    "host": "Strong host-context lease built from the same source World and Application, plus its HostContextBindings16 and actual LevelServices16 projections.",
+    "objects": "Actual same-world dh2_script_object_services facade.",
+    "controller": "CanonicalCharacterCandidateServicesV60::controller projection and retained actor.controller, both for this actor identity.",
+    "fsm_and_expiry": "Already-bound sole CampaignFsmV101; caller injects bind_campaign_character_npc_events_v101, which owns command refresh/motion/animation/gameplay and TimerServices32 expiry.",
+    "session": "RetainedCharacterActorV1::construct_script creates the actual CharacterScriptSession; its own CharTimers storage must have this Character as owner."
+  },
+  "fsm_bootstrap_audit": {
+    "campaign_entry": "bind_campaign_character_fsm_v101 is the Act1 path when the actual SourceCampaignCandidateBorrowV55 is available. It requires same record World, Application, actual sewn floors and CampaignNavigationRegistry.",
+    "process_entry": "bind_process_character_fsm_v121 preserves the sole CampaignFsmV101 owner and accepts a real process PF lease/geometry/registry, but leaves floors_ null. Existing Character.FindPath explicitly fails without actual sewn floors, so it must not be represented as Act1/campaign-complete.",
+    "portable_backend_need": "If the clean backend cannot provide an authentic SourceCampaignCandidateBorrowV55, the smallest same-owner extension is an additive FSM constructor/binder taking the actual Application, same-world lease, actual sewn floors, and same native ObstacleRegistry. It must initialize existing CampaignFsmV101 fields and once-only storage, never construct a second FSM. This extension was not implemented because the task restricted edits to the new NPC context feature/report."
+  },
+  "validation": {
+    "command": "llvm-mingw clang++ -std=c++20 -Dfinite=_finite -Wall -Wextra -Werror -Wno-unused-value -fsyntax-only with existing level-world/game-data/renderer dependency include paths and Box2D include path",
+    "result": "PASS",
+    "warnings": "Clean with strict warnings; `-Wno-unused-value` suppresses legacy Box2D's existing unused-expression warnings.",
+    "runtime": "Not run. The current genuine Windows owner-factory test reaches actual LoadVisual and fails at the next real boundary, `Required actual NPC script cache/target/controller/timer inputs`; no initialized Session was published for this helper."
+  }
+}

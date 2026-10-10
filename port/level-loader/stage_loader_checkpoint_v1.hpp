@@ -1,5 +1,6 @@
 #pragma once
 #include "stage_loader_save_restore_v1.hpp"
+#include "level_get_spawn_point_v1.hpp"
 #include <canonical_spawn_point_v15.hpp>
 #include <canonical_object_manager_v1.hpp>
 #include <cstring>
@@ -53,31 +54,12 @@ class LevelCheckpointOrchestrationV1 final {
   out=services_.level_save.lock();const auto& actual=fields.fields->save_ec;
   if(!out||!actual||actual.get()!=out.get()||!same(actual,out)||out->owner().fields().level8!=reinterpret_cast<const void*>(loading.identity)){e="Required SAME live LevelEC checkpoint save runtime";return false;}return true;
  }
- // Original GetSpawnPoint3ef614: iterate signed registry order, construct and
- // resolve handle(false), type13, actual visible8a, entrypoint374==Level110.
+ // Original GetSpawnPoint3ef614, including its residual type13 return value.
  bool spawn(LevelConstructorBorrowV3& fields,const std::shared_ptr<void>& app,const LifecycleBorrowV36& loading,std::shared_ptr<world::CanonicalSpawnPointV15>& out,std::string& e){
   std::shared_ptr<world::CanonicalObjectManagerV1> objects;if(!services_.objects||!services_.objects(app,objects,e)||!objects||!current(loading,34,e))return false;
-  out.reset();std::int32_t key{};const world::CanonicalObjectBorrowV1* actor{};bool found=objects->source_ordered_begin_v38(key,actor);
-  while(found){
-   if(actor){
-    target_providers::Handle16 handle{};
-    if(!services_.make_handle||!services_.make_handle(actor,handle,e)||!current(loading,34,e))return false;
-    const world::CanonicalObjectBorrowV1* resolved{};
-    if(!objects->resolve_handle_v4(handle,false,resolved,{},e))return false;
-    if(resolved){
-     if(!resolved->type_f4){e="Required actual spawn lookup typeF4";return false;}
-     if(*resolved->type_f4==13){
-      std::shared_ptr<world::CanonicalSpawnPointV15> actual;
-      if(!services_.spawn_point||!services_.spawn_point(*resolved,actual,e)||!current(loading,34,e))return false;
-      if(!actual||actual->base().identity()!=resolved->identity||!same(actual,resolved->lease)){e="Required SAME mapped SpawnPoint receiver/lease";return false;}
-      const auto* visible=actual->base().byte(0x8a);if(!visible){e="Required actual SpawnPoint byte8a";return false;}
-      if(*visible&&actual->entrypoint()==fields.fields->level110){out=std::move(actual);return true;}
-     }
-    }
-   }
-   found=objects->source_ordered_next_v38(key,key,actor);
-  }
-  return true; // Genuine absent spawn point; caller follows original fallback.
+  return source_get_spawn_point_v1(objects,fields.fields->level110,
+   services_.make_handle,services_.spawn_point,
+   [&](std::string& error){return current(loading,34,error);},out,e);
  }
 public:
  LevelCheckpointOrchestrationV1(std::weak_ptr<CanonicalLevelContextV1> level,CheckpointServicesV1 services):level_(std::move(level)),services_(std::move(services)){}

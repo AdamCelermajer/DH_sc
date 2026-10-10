@@ -1,4 +1,5 @@
 #include "native_menu_preview_character_services_v122.hpp"
+#include "source_campaign_character_fsm_v101.hpp"
 #include "actual_device_android_v54.hpp"
 #include "canonical_character_candidate_v60.hpp"
 #include "canonical_character_pf_v62.hpp"
@@ -102,6 +103,16 @@ bool compose_native_menu_preview_character_resources_v122(
  s.world=d.owner;s.design=d.design.get();s.canonical_objects=d.objects;s.physical_world=d.physical;
  s.models=&cache->models();s.animation_tables=&cache->animation_tables();s.loot_tables=&cache->loot();s.skills=d.skills->borrow();
  s.character_templates_v78=cache->templates_v78();s.debug=d.debug.get();s.debug_files=d.debug_files;
+ s.state=[resources](Record& r,auto& out,std::string& e){
+  // FSM services are borrowed before CandidateActor.construct_fields publishes
+  // object/machine. The later inherited-resource boundary observes that object.
+  if(!resources->current(e)||!r.actor||r.services.world!=resources->domain.owner||
+   r.services.canonical_objects!=resources->domain.objects){
+   if(e.empty())e="Required SAME process Character resource loan at FSM C1";return false;
+  }
+  return bind_process_character_fsm_v121(r,resources->application.lock(),resources,
+   resources->pf_geometry,resources->pf_obstacles,out,e);
+ };
  s.model_name.high_performance=borrow_actual_device_high_performance_v54;
  if(!s.initial_height)s.initial_height=[resources](const float* p,bool& found,float& height,std::string& e){
   if(!resources->current(e))return false;dh2::navigation::HeightHit hit{};

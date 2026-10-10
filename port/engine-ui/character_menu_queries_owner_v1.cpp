@@ -158,6 +158,12 @@ bool CharacterMenuQueriesOwnerV1::dispatch(const char* name,CharacterMenuCallV1&
   if(!graph_.save_actions||graph_.save_actions->bindings().actions!=graph_.actions){e="Required same-graph NativeSaveGame owner unavailable";return false;}
   return graph_.save_actions->save(e);
  }
+ if(equal("NativeSelectClassSpec")){
+  double spec;if(!number(c,0,spec,e))return false;
+  // NativeSelectClassSpec is void: preserve the existing AS result. The
+  // authored menu_confirm2 action supplies 0 for Spec1 and 1 for Spec2.
+  return graph_.actions->select_class_spec(integer(spec),e);
+ }
  if(equal("NativeHUDSetActiveFaery")){
   if(count!=2||c.arguments[0].kind!=2||std::isnan(c.arguments[0].number)||c.arguments[1].kind!=2)return true;
   std::uintptr_t actor;if(!player(integer(c.arguments[1].number),false,false,actor,e))return false;if(!actor)return true;
@@ -243,6 +249,20 @@ bool CharacterMenuQueriesOwnerV1::dispatch(const char* name,CharacterMenuCallV1&
   double index;if(!number(c,0,index,e))return false;std::uintptr_t actor;if(!player(integer(index),false,false,actor,e))return false;if(actor)return graph_.actions->swap(e);
   if(!g.swap_hud){e="Source swap HUD continuation required even for absent player";return false;}return g.swap_hud("DisplayRightHud",e)&&g.swap_hud("FillActionIcon",e);
  }
+ if(equal("NativeSkillsTrainSkill")){
+  // Authored SWF calls (skill position, IncSkill test flag, player index).
+  // Keep the older two-number semantic adapter as a mutation-only alias for
+  // existing native callers; it must never reinterpret the flag as false.
+  if(count!=2&&count!=3)return true;
+  double skill_number{},player_number{};bool test_only=false;
+  if(!number(c,0,skill_number,e))return false;
+  if(count==3){if(!boolean(c,1,test_only,e)||!number(c,2,player_number,e))return false;}
+  else if(!number(c,1,player_number,e))return false;
+  std::uintptr_t actor;if(!player(integer(player_number),false,true,actor,e))return false;if(!actor)return true;
+  const auto row=integer(skill_number);
+  if(count==3&&test_only){bool accepted=false;if(!graph_.actions->probe_train_skill(row,accepted,e))return false;c.result=CharacterMenuValueV1::flag(accepted);return true;}
+  std::int32_t points;if(!graph_.actions->train_skill(row,points,e))return false;c.result=CharacterMenuValueV1::numeric(points);return true;
+ }
  if(equal("NativeInvGetPlayerGold")){
   CharacterMenuGoldServicesV4 services;services.owner=graph_.owner;
   services.player=[this](std::int32_t index,bool remote,std::uintptr_t& actor,std::string& e){return player(index,remote,false,actor,e);};
@@ -250,13 +270,13 @@ bool CharacterMenuQueriesOwnerV1::dispatch(const char* name,CharacterMenuCallV1&
   services.parse_integer=[this](const char* format,std::int32_t amount,std::string& out,std::string& e){if(!graph_.text){e="Required same HudText gold formatter";return false;}return character_menu_potion_integer_text_v4(*graph_.text,graph_.text_environment,format,amount,out,e);};
   return character_menu_gold_call_v4(c,services,e);
  }
- unsigned arity=0;if(equal("NativeInvEquipItem")||equal("NativeEquipSkill"))arity=3;else if(equal("NativeInvUnequipItem")||equal("NativeStatsAssignPoint")||equal("NativeSkillsTrainSkill"))arity=2;else if(equal("NativeSkillsGetSkillPointsLeft"))arity=1;
- if(arity){if(count!=arity)return true;for(auto& v:c.arguments)if(v.kind!=2||std::isnan(v.number))return true;std::uintptr_t actor;bool requires_skills=equal("NativeEquipSkill")||equal("NativeSkillsTrainSkill")||equal("NativeSkillsGetSkillPointsLeft");if(!player(integer(c.arguments.back().number),false,requires_skills,actor,e))return false;if(!actor)return true;
+ unsigned arity=0;if(equal("NativeInvEquipItem")||equal("NativeEquipSkill"))arity=3;else if(equal("NativeInvUnequipItem")||equal("NativeStatsAssignPoint"))arity=2;else if(equal("NativeSkillsGetSkillPointsLeft"))arity=1;
+ if(arity){if(count!=arity)return true;for(auto& v:c.arguments)if(v.kind!=2||std::isnan(v.number))return true;std::uintptr_t actor;bool requires_skills=equal("NativeEquipSkill")||equal("NativeSkillsGetSkillPointsLeft");if(!player(integer(c.arguments.back().number),false,requires_skills,actor,e))return false;if(!actor)return true;
   auto first=integer(c.arguments[0].number);if(equal("NativeInvEquipItem"))return graph_.actions->equip(std::uint32_t(first),std::uint32_t(integer(c.arguments[1].number)),e);
   if(equal("NativeInvUnequipItem"))return graph_.actions->unequip(std::uint32_t(first),e);
   if(equal("NativeStatsAssignPoint")){if(!graph_.actions->assign_stat(std::uint32_t(first),e))return false;c.result={};return true;}
   if(equal("NativeEquipSkill"))return graph_.actions->equip_skill(first,integer(c.arguments[1].number),e);
-  std::int32_t result;if(equal("NativeSkillsTrainSkill")){if(!graph_.actions->train_skill(first,result,e))return false;c.result=CharacterMenuValueV1::numeric(result);return true;}
+  std::int32_t result;
   if(equal("NativeSkillsGetSkillPointsLeft")){if(!graph_.actions->skill_points(result,e))return false;c.result=CharacterMenuValueV1::numeric(result);return true;}
   c.result=CharacterMenuValueV1::numeric(g.equipment->inventory()->gold());return true;
  }

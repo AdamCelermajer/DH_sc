@@ -42,6 +42,19 @@ struct CharacterScriptSessionInput {
  // Optional original Lua command wrappers. Controller/path/combat queries
  // remain genuine borrowed providers; a session never fabricates movement.
  ScriptCommandBindings40* commands=nullptr;
+ // Same GameObject PFObject capability bits used by MarkAsFlying/Swimming
+ // and IsFlying/Swimming globals. The receiver is the session's actual actor;
+ // absent producers keep these callbacks explicitly unavailable.
+ struct MotionCapabilityServicesV1 {
+  void* context=nullptr;
+  // address is one of the four original GameObject callback entrypoints.
+  // For setters, *value is input; for queries, the provider writes it.
+  int(*invoke)(void*,std::uint32_t address,std::uint32_t* value)=nullptr;
+ } motion_capabilities{};
+ struct AnimationRegistrationServicesV1 {
+  void* context=nullptr;
+  int(*register_dictionary)(void*,std::int32_t)=nullptr;
+ } animation_registration{};
  // Expiry is genuine caller ownership. Without it initialization can create
  // timers, but update_timers rejects without changing timer state.
  const TimerServices32* timer_services=nullptr;

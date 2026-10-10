@@ -1,0 +1,32 @@
+{
+  "status": "development_components_and_scoped_live_controller_verified",
+  "goal_complete": false,
+  "component_tests_passed": 52,
+  "executable_sha256": "1a5b2e5267977f57d6f9a32793da32be8b6d046ca3f416b91da60fb90e11bb9c",
+  "accepted_package_preserved": ".local-inputs/windows-source-clock-checkpoint-v7",
+  "native_controller_diagnostic": {
+    "configuration": ".local-inputs/windows-controller-integration/controller-independent.args",
+    "log": ".local-inputs/windows-controller-integration/controller-independent.log",
+    "exit_code": 0,
+    "observed": "Original global controller lock/unlock replay suppresses initial player travel and attacks without Spawn lifecycle configuration"
+  },
+  "source_components": [
+    "port/windows-foundation/reports/original-controller-commands.json",
+    "port/windows-foundation/reports/source-actor-camera-anchors.json",
+    "port/windows-foundation/reports/trigger-contact-source.json",
+    "port/windows-foundation/report/source-module-construction-trace.json"
+  ],
+  "limits": [
+    "Command admission is not full source FSM acceptance; main still filters initial player requests rather than executing all source controller bodies",
+    "Actual physical body and position field owners are not published by current playable world",
+    "Retained module record bridge still requires the real level graph providers in the playable executable",
+    "NPC camera anchor slot authority is required; no blanket no-anchor assumption",
+    "Full encounter activation and matched-state visual/gameplay fidelity remain incomplete"
+  ],
+  "actual_module_record_probe": {
+    "executable": ".local-inputs/windows-camera-assets/source-module-record-bridge-tests.exe",
+    "sha256": "4e7ce9a7ac194a0391e93c7c265dd393947d8ed7f6abdd8f50e292691093e567",
+    "exit_code": 0,
+    "scope": "Two actual recovered Module constructors assign IDs0/1 through one globals owner; source declaration identity, real position refresh and aliasing record lifetime verified. Level/declaration/InitPost boundaries declared; no authored live level traversal proven"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "status": "adapter_implemented_standalone_tests_pass",
+  "limitations": [
+    "Android touch transport is supported as semantic API, not an Android platform rebuild",
+    "Root must provide authored HUD/menu hit tests and original joystick conversion",
+    "Skill edges are requests only; actual skills/cooldowns/admission remain downstream",
+    "PC keys are intentional new mapping; original touch source remains unchanged",
+    "Tests do not certify in-game UI/touch fidelity"
+  ],
+  "verification": {
+    "compiler": "LLVM-MinGW clang23.1.3",
+    "binary": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-foundation-build\\semantic_input_tests.exe",
+    "result": "PASS",
+    "command": "clang++ -std=c++17 -static -Wall -Wextra -Werror features/platform_input/semantic_input.cpp features/platform_input/semantic_input_tests.cpp -o semantic_input_tests.exe"
+  },
+  "semantics": [
+    "PC and touch produce same action/edge frame",
+    "Attack aggregate held across simultaneous sources",
+    "Press/hold/release and subframe taps preserved",
+    "Stable pointer capture persists dragging outside",
+    "Release/cancel including coordinate-free Android cancel clears holds",
+    "Authored-hit menu clicks require release on same item",
+    "Menu modal blocks gameplay, cancels captures, requires held key release",
+    "Level disabled clears all gameplay; controller blocked masks movement and selection but preserves attack for actual command gates",
+    "Focus loss releases held gameplay",
+    "No Win32/Android headers/backend edits"
+  ],
+  "files": [
+    "features/platform_input/semantic_input.hpp",
+    "features/platform_input/semantic_input.cpp",
+    "features/platform_input/semantic_input_tests.cpp",
+    "features/platform_input/README.md"
+  ],
+  "source_evidence": [
+    "port/engine-ui/hud_attack_control_v46.hpp",
+    "port/engine-ui/hud_attack_control_v46.cpp",
+    "port/engine-ui/authored_gameplay_hud_v1.cpp",
+    "port/engine-ui/hud_manager.cpp"
+  ],
+  "integration_status": "Root owns main/input_actions/platform_win32/CMake; adapter not yet independently verified wired into running game",
+  "live_dispatch": {
+    "verification": "Strict C++17 -Wall -Wextra -Werror: source HUD OOI choice, actual controller block, disabled-level gate, skill begin/end edges, fresh borrow, identity/missing endpoint rejection PASS",
+    "integration": "Not declared live-wired in current game; root owns main and production CMake",
+    "files": [
+      "features/platform_input/live_dispatch.hpp",
+      "features/platform_input/live_dispatch.cpp",
+      "features/platform_input/live_dispatch_tests.cpp",
+      "features/platform_input/live_dispatch_test_support.cpp",
+      "features/platform_input/LIVE_INTEGRATION.md"
+    ],
+    "status": "implemented_standalone_offline_source_kernel_tests_pass",
+    "source_kernels": [
+      "hud_attack_control_v46.cpp",
+      "character_use_ooi_v47.cpp"
+    ],
+    "borrow": "Fresh leased same actor/native Character/controller per dispatch; no retained private owner",
+    "required_host_api": "Actual leased HUD held fields/services + same ControllerUseOoiV47 + actual skill controller callbacks + authored gameplay hit shapes",
+    "limitation": "Offline fixture test only; test-only rejecting Lua binding endpoints must never enter production"
+  },
+  "source_owner_contract": {
+    "files": [
+      "features/platform_input/source_owner_contract.hpp",
+      "features/platform_input/source_owner_contract.cpp",
+      "features/platform_input/authored_geometry.cpp",
+      "features/platform_input/source_owner_contract_tests.cpp"
+    ],
+    "public_seams": [
+      "authored_action_cache_v62",
+      "bind_hud_world_v62",
+      "hud_controls_native_event_v68",
+      "hud_controls_update_v62",
+      "construct_hud_controls_v62",
+      "loadmenu3_controls_store_v62",
+      "retire_hud_campaign_v104"
+    ],
+    "status": "contract_implemented_strict_tests_pass_actual_host_dependency_identified",
+    "integration_limit": "Actual live retained HUD borrower/current-Level/native controller public seam remains required in Windows. No Androidowner/backend changed, no new HUD state created.",
+    "actual_owner": "OriginalUiSession::Impl attack_controls_v46 + joystick; public whole event/update methods",
+    "verification": "Strict C++17 source_owner_contract_tests PASS; authored_geometry strict object compile PASS",
+    "lifecycle": "InputOwnerEpoch cancellation -> release OLD owners -> publish new epoch; failed delivery preserves pending release; stale actor/epoch rejected",
+    "level_gate": "Fresh actual Application.CurrentLevel -> same leased MenuLevelBorrowV58.byte198, no rendered-scene inference"
+  }
+}

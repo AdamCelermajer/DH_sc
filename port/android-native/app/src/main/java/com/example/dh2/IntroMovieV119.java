@@ -26,7 +26,7 @@ final class IntroMovieV119 {
     private AssetFileDescriptor descriptor;
     private File staged;
     private long generation;
-    private boolean terminal=true,prepared,paused;
+    private boolean terminal=true,prepared,paused,started;
 
     IntroMovieV119(Activity activity,FrameLayout parent){this.activity=activity;this.parent=parent;}
     void show(long request,String name){
@@ -39,9 +39,9 @@ final class IntroMovieV119 {
         FrameLayout.LayoutParams button=new FrameLayout.LayoutParams(-2,-2,Gravity.BOTTOM|Gravity.RIGHT);overlay.addView(skip,button);
         parent.addView(overlay,new FrameLayout.LayoutParams(-1,-1));overlay.bringToFront();
         surface.getHolder().addCallback(new SurfaceHolder.Callback(){
-            public void surfaceCreated(SurfaceHolder holder){try{if(player!=null){player.setDisplay(holder);if(prepared&&!paused)player.start();}else prepareIfReady();}catch(IllegalStateException error){finish(3,error.toString());}}
+            public void surfaceCreated(SurfaceHolder holder){try{if(player!=null){player.setDisplay(holder);startIfReady();}else prepareIfReady();}catch(IllegalStateException error){finish(3,error.toString());}}
             public void surfaceChanged(SurfaceHolder holder,int format,int width,int height){}
-            public void surfaceDestroyed(SurfaceHolder holder){try{if(player!=null){if(prepared)player.pause();player.setDisplay(null);}}catch(IllegalStateException error){finish(3,error.toString());}}
+            public void surfaceDestroyed(SurfaceHolder holder){try{if(player!=null){if(started){player.pause();started=false;}player.setDisplay(null);}}catch(IllegalStateException error){finish(3,error.toString());}}
         });
         io.execute(()->{
             AssetFileDescriptor fd=null;File file=null;
@@ -66,7 +66,7 @@ final class IntroMovieV119 {
         if(terminal||player!=null||surface==null||!surface.getHolder().getSurface().isValid()||(descriptor==null&&staged==null))return;
         try{
             player=new MediaPlayer();player.setDisplay(surface.getHolder());
-            player.setOnPreparedListener(actual->{if(terminal||actual!=player)return;prepared=true;NativeBridge.introMovieEventV119(generation,0,null);if(!paused)try{actual.start();}catch(IllegalStateException error){finish(3,error.toString());}});
+            player.setOnPreparedListener(actual->{if(terminal||actual!=player)return;prepared=true;NativeBridge.introMovieEventV119(generation,0,null);startIfReady();});
             player.setOnCompletionListener(actual->{if(actual==player&&!terminal)finish(1,null);});
             player.setOnErrorListener((actual,what,extra)->{if(actual==player&&!terminal)finish(3,"Android intro MediaPlayer error "+what+"/"+extra);return true;});
             if(descriptor!=null){player.setDataSource(descriptor.getFileDescriptor(),descriptor.getStartOffset(),descriptor.getLength());close(descriptor);descriptor=null;}
@@ -74,16 +74,20 @@ final class IntroMovieV119 {
             player.prepareAsync();
         }catch(Exception error){finish(3,error.toString());}
     }
+    private void startIfReady(){
+        if(terminal||paused||!prepared||started||player==null||surface==null||!surface.getHolder().getSurface().isValid())return;
+        try{player.start();started=true;}catch(IllegalStateException error){finish(3,error.toString());}
+    }
     private static void close(AssetFileDescriptor fd){if(fd!=null)try{fd.close();}catch(Exception ignored){}}
     private void finish(int result,String error){
         if(terminal)return;terminal=true;
-        if(player!=null){player.setOnPreparedListener(null);player.setOnCompletionListener(null);player.setOnErrorListener(null);player.release();player=null;}
+        if(player!=null){player.setOnPreparedListener(null);player.setOnCompletionListener(null);player.setOnErrorListener(null);player.release();player=null;}started=false;
         close(descriptor);descriptor=null;if(staged!=null){staged.delete();staged=null;}
         if(overlay!=null){parent.removeView(overlay);overlay=null;}surface=null;
         NativeBridge.introMovieEventV119(generation,result,error);
     }
-    void pause(){paused=true;if(prepared&&player!=null&&!terminal)try{player.pause();}catch(IllegalStateException error){finish(3,error.toString());}}
-    void resume(){paused=false;if(prepared&&player!=null&&!terminal&&surface!=null&&surface.getHolder().getSurface().isValid())try{player.start();}catch(IllegalStateException error){finish(3,error.toString());}}
+    void pause(){paused=true;if(started&&player!=null&&!terminal)try{player.pause();started=false;}catch(IllegalStateException error){finish(3,error.toString());}}
+    void resume(){paused=false;startIfReady();}
     void skip(){if(!terminal)finish(2,null);}
     boolean visible(){return !terminal;}
     void destroy(){if(!terminal)finish(3,"Actual intro Activity destroyed before completion");io.shutdownNow();}

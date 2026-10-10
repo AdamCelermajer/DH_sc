@@ -32,10 +32,20 @@ bool AnimationScheduler::enter_with_services(const AnimationTables& table,std::i
  const auto& sequence=table.sequences[id];
  if(sequence.steps.empty()||sequence.steps.size()>10000)throw std::runtime_error("Animation scheduler has invalid step count");
  stack.resize(depth+1);stack[depth].sequence=id;stack[depth].loops=sequence.loop;
+ if(services.policy){
+  if(!services.error)return false;
+  if(!services.policy->context||!services.policy->trace||!services.policy->random_enabled){
+   *services.error="Required original CharAnimator Debug selection policy";return false;
+  }
+  if(!services.policy->trace(services.policy->context,*services.error))return false;
+ }
  if(services.event)services.event(services.context,*this,0x24);
  // _SetAnim retains its authored sequence pointer across event24. Its live
  // current frame may have been changed by a synchronous metadata swap.
- const unsigned index=sequence.type==2&&enabled?dh2_animation_random(&random.seed,&random.calls,sequence.steps.size()):0;
+ bool random_enabled=enabled;
+ if(sequence.type==2&&services.policy&&
+    !services.policy->random_enabled(services.policy->context,random_enabled,*services.error))return false;
+ const unsigned index=sequence.type==2&&random_enabled?dh2_animation_random(&random.seed,&random.calls,sequence.steps.size()):0;
  return activate_with_services(table,index,random,enabled,services);
 }
 bool AnimationScheduler::activate_with_services(const AnimationTables& table,std::uint32_t index,

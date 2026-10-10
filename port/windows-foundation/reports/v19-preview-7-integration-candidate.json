@@ -1,0 +1,17 @@
+{
+  "candidate": "v19-preview-7",
+  "executable": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\v19-equipment-skills-preview7-freeze\\dh-foundation.exe",
+  "sha256": "2a27d0434cb81c88ba918847e55c48fd1e39464e0ed8f9ca07c2e3229f1a32a2",
+  "accepted_development_cases": [
+    "Equipment select/unequip/re-equip/save40/content-reload80/disk-restore100,120frames",
+    "Empty-weapon save40/content-reload80/disk-restore100,120frames",
+    "Skills source contour selection/localized base description wrap,35frames",
+    "Skills Train rejects fresh0points,2button attempts"
+  ],
+  "focused_combat_session_ctest": "PASS1/1 after current-world equipment traits plus explicit lifecycle targetability correction",
+  "limitations": [
+    "Equipment details overlapping text; central preview blank.",
+    "Skills positive production progression and dynamic descriptions not yet proven.",
+    "No full-menu or matched-reference acceptance."
+  ]
+}

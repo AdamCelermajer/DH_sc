@@ -1,0 +1,53 @@
+{
+  "status": "shared_live_original_floor_position_and_pf_lifecycle_runtime_verified",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v12",
+  "executable_sha256": "dcab66002f85e5379e516317bf8f4a9b66143e7113eecd373df69099806e405d",
+  "component_tests_passed": 63,
+  "ctest_seconds": 1.97,
+  "package_files_verified": 550,
+  "rendered_cases_verified": 16,
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v12.json",
+  "save_rejection_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v12.json",
+  "live_changes": [
+    "Late navigation attachment initializes the SAME per-actor PFObject using actual original floor world and source bounds; native body radius and actual obstacle registry then update",
+    "Player and NPC animation root motion share original ValidatePosition and world-owned height policy; source admitted/clamped XYZ publish into same actor/AABB/native body, with no preview sweep/axis-slide fallback",
+    "Root movement does not use heading ValidateDirection as a veto; the original UpdatePath ignores that bool and reapplies its mutated heading in a separate phase",
+    "Physical remove/reinit and clear update actual obstacle entries; ordinary reload/restore rebuild real PF ownership before later movement",
+    "Lifecycle floor queries and final diagnostic observations now use original first-hit world query rather than preview nearest-height policy"
+  ],
+  "changed_movement_evidence": {
+    "walk90": "Original authored sourceXY276.028 unchanged; source worldXY59.1969 at1138.32,-199.164,255;17 accepted and43clamped",
+    "run90": "SourceXY888.992 unchanged; worldXY144.493 at1211.08,-199.58,255;13accepted47clamped",
+    "boundary700": "712 solves,19accepted641clamped; final source floorhit255 and PF/body/actor publication",
+    "reason": "Exact requestedXY1140.5708,-196.916412 has zero original floor0 triangles containing it; both Z255 and255.000061 miss cached/world/raw triangle queries. Expanded source Zbounds include both. Preview immediate axis sliding differs from source position clamp; no epsilon introduced",
+    "heading_limit": "Original separate heading kernel slides the tested diagonal to4.44151449,-0,-0; full source heading/path/rotation coordinator remains unintegrated"
+  },
+  "component_changes": [
+    "Source Module probability uses caller-owned application-lifetime two-channel RNG and actual manager/visibility callbacks; nine authored defaults consume shared channel0 and reach Device::IsHighPerformance as next missing service, not complete initialization"
+  ],
+  "source_reports": [
+    "port/windows-foundation/reports/original-actor-navigation-live.json",
+    "port/windows-foundation/reports/playable-actor-bodies.json",
+    "port/windows-foundation/report/source-module-construction.json"
+  ],
+  "limits": [
+    "Original floor position/radius/obstacle leaves are live; full heading/path/frame coordination, source avoidance, dynamic actor/decor collision, native Step and contact AIS remain incomplete",
+    "Complete source GameObject InitPost/InitFinal, debug/allocator/saved fields, source body policies and death collision continuations remain incomplete",
+    "Root source Module constructor scopes are now live. MGP child receiver construction, positive conditions/activation, Module InitPost/InitFinal and complete Level construction remain incomplete",
+    "Original encounter activation, aggro/sneak, complete controller/FSM and hierarchical scheduler delivery remain incomplete",
+    "Damage uses diagnostic queued application; synchronous source damage/reentrant effects, combos, status/DOT/leech and full skills remain incomplete",
+    "Equipment appearance/refresh, priest reference mismatch, fairy particles and companion behavior remain incomplete",
+    "Full original HUD/menus/audio/effects/materials/fog/lighting/cinematic coverage and continuous matched-state reference fidelity remain incomplete",
+    "Campaign lifecycle/controller/animation transient state persistence is explicitly rejected before durable save writes"
+  ],
+  "previous_v11_preserved": true,
+  "capture_review": {
+    "images": [
+      ".local-inputs/windows-source-clock-checkpoint-v12/startup-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v12/moving-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v12/floor-boundary-verification.png"
+    ],
+    "scope": "Final actual boundary/moving-combat captures inspected for world/player/enemy/HUD; continuous matched-state reference parity remains incomplete"
+  }
+}

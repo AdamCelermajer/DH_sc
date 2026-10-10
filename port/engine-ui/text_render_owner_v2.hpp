@@ -13,6 +13,7 @@ struct TextFontBackendsV2 {
     std::function<bool(const TextBitmapFaceV2&,std::uint16_t,std::int32_t,
                        text_v1::Glyph&,std::string&)> bitmap_glyph;
     std::function<bool(const text_v1::Font&,std::uint16_t,TextEmbeddedGlyphV2&,std::string&)> embedded_glyph;
+    std::function<bool(std::string&)> clear_fonts;
 };
 // Owns one actual FT2.3.7 face per resolved font and one uploaded native image
 // per glyph/size. The same face supplies layout metrics, raster and identity.
@@ -35,6 +36,7 @@ public:
     // Embedded glyphs, kerning,
     // owner movie and Font3 zones are intentionally not inherited.
     bool clone(const std::shared_ptr<text_v1::Font>&,std::shared_ptr<text_v1::Font>&,std::string&);
+    bool clear_fonts_v119(std::string&);
     // Add the owned renderer and font producers to a caller's complete source
     // graph services. Caller supplies root scale, real kerning/image/preload,
     // font resolution, color transform, cache regions and embedded shape draw.

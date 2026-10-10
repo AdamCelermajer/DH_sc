@@ -1,0 +1,55 @@
+{
+  "status": "portrait_alignment_and_original_art_character_panel_runtime_verified",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v16",
+  "executable_sha256": "86d7a287ca63140962e9423cd94e88dbe3c016b647fc7803a21ead7faf89848d",
+  "component_tests_passed": 71,
+  "ctest_seconds": 2.29,
+  "package_files_verified": 555,
+  "rendered_cases_verified": 18,
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v16.json",
+  "save_rejection_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v16.json",
+  "live_changes": [
+    "Original portrait translation uses the previously verified Android alpha-paint center correction; keeps original art, scale, UVs and border. All12class/style pairs tested and exporter preserves correction",
+    "Mouse profile release or C opens same original-art character panel; exact shared HUD aperture uses identical height-fit scale. Source tab/back contours and ESC close use shared PC/touch input",
+    "Menu projects actual ActorState health/mana and resolved original stats/name/points/XP; no additional character/inventory/stat owner",
+    "English labels load original symbol/corpus files. Source font103/287 uses original Fontin SmallCaps and source plain-text baseline/alignment, tested against recovered text layout",
+    "Modal input cancels captures and consumes gameplay actions including scripted diagnostics; release rearm and source attack intent gates have semantic input tests"
+  ],
+  "rendered_menu_evidence": {
+    "open": "Profile pointer down/up fixture frame5: opened1/drawn55/open1 across60renderedframes",
+    "close": "Same profile input plus ESC edge frame35: opened1/drawn30/open0 across60renderedframes",
+    "transport_limit": "Actual client mouse WndProc/capture/focus and cursor adapter wired. Native OS manual physical-click exercise not newly claimed; same pointer route is executed by packaged fixture."
+  },
+  "capture_review": {
+    "images": [
+      ".local-inputs/windows-source-clock-checkpoint-v16/startup-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v16/menu-verification.png",
+      ".local-inputs/windows-source-clock-checkpoint-v16/menu-close-verification.png"
+    ],
+    "scope": "Actual final portrait alignment and stats panel/open-close captures inspected. This proves current display; full original gameplay-reference/menu parity remains incomplete."
+  },
+  "feature_development_board": "port/windows-foundation/reports/feature-development-board.json",
+  "source_reports": [
+    "port/windows-foundation/reports/feature-portrait-alignment.json",
+    "port/windows-foundation/reports/feature-character-menu.json",
+    "port/windows-foundation/reports/feature-platform-input.json",
+    "port/windows-foundation/features/character_menu/source_text_v16.json"
+  ],
+  "limits": [
+    "Manual player Move heading and late rotation are live; full source focus/controller/path/avoidance/physics/contact/frame integration remains incomplete. Earlier visual root motion must be staged for source UpdateSubObjects before whole-frame fidelity can be claimed.",
+    "Complete source GameObject InitPost/InitFinal, debug/allocator/saved fields, source body policies and death collision continuations remain incomplete",
+    "Root source Module constructor scopes are now live. MGP child receiver construction, positive conditions/activation, Module InitPost/InitFinal and complete Level construction remain incomplete",
+    "Original encounter activation, aggro/sneak, complete controller/FSM and hierarchical scheduler delivery remain incomplete",
+    "Retained hit damage and bound victim poses now apply synchronously before named state forwarding; complete source F_ApplyResult/AIS/FSM reentry, combos, status/DOT/leech and full skills remain incomplete.",
+    "Equipment appearance/refresh, priest reference mismatch, fairy particles and companion behavior remain incomplete",
+    "Full original HUD/menus/audio/effects/materials/fog/lighting/cinematic coverage and continuous matched-state reference fidelity remain incomplete",
+    "Campaign lifecycle/controller/animation transient state persistence is explicitly rejected before durable save writes",
+    "Initial begin/select-time markers retain explicit seed-queue fallback; source sink delivery is synchronous only during scoped runtime advancement. Structural runtime replacement/clear/unbind inside callback is unsupported.",
+    "Legacy and source actor sample ordering is diagnostic runtime ordering; it does not establish original global Level traversal chronology.",
+    "Own target cache live cases prove authored-node absence; non-null original boss model is component-tested. Full original InitFinal/node absolute scene owner and UI caller integration remain incomplete.",
+    "Character panel is an original-art development subset: source AS visibility/reflow, omitted solid/mask/filter branches, other-tab dynamic content/mutations, complete pause/menu flow and gameplay-reference parity remain incomplete."
+  ],
+  "previous_v15_preserved": true,
+  "frontend_reference_gate": "Earlier standalone frontend failed original-gameplay comparison; lead+six workers correct actual scene/AS layout/name entry/class showcase animations against userprovided original images. It is not the reference for this game."
+}

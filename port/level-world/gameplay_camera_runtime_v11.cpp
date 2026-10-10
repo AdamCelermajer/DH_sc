@@ -36,6 +36,14 @@ bool GameplayCameraRuntimeV11::load(const CameraLoadV11& input,std::string& e){
  s.target.root_position=[this](PointV2& out,std::string& error){return scene_->root_position(out.data(),error);};
  s.target.root_set_position=[this](const PointV2& p,std::string& error){return scene_->set_root_position(p.data(),error);};
  s.camera_set_position=[this](const PointV2& p,std::string& error){return scene_->set_camera_instance_position(camera_,p.data(),error);};
+ s.camera_set_clip_start=[this](float value,std::string& error){
+  if(!scene_||closed_){error="Required same retained CameraLevel near-plane owner";return false;}
+  view_.near_plane=value;error.clear();return true;
+ };
+ s.camera_set_clip_end=[this](float value,std::string& error){
+  if(!scene_||closed_){error="Required same retained CameraLevel far-plane owner";return false;}
+  view_.far_plane=value;error.clear();return true;
+ };
  s.active_is_this=[this](bool& active,std::string& error){if(!services_.is_active){error="Required process CameraBase active identity";return false;}return services_.is_active(reinterpret_cast<std::uintptr_t>(this),active,error);};
  s.zoom_bounds=[this](bool mode,float& lower,float& upper,std::string& error){return source_zoom_bounds_v5(services_.design,mode,lower,upper,error);};
  s.controller_present=true;s.controller_clip_indexc=&animator_->clip_indexc;s.controller_byte10=&animator_->byte10;
@@ -52,6 +60,44 @@ bool GameplayCameraRuntimeV11::load(const CameraLoadV11& input,std::string& e){
 bool GameplayCameraRuntimeV11::activate(std::string& e){if(!loaded_||closed_){e="Required loaded camera activation";return false;}if(!services_.activate){e="Required original CameraBase/SceneManager activation";return false;}return services_.activate(reinterpret_cast<std::uintptr_t>(this),scene_,camera_,e);}
 bool GameplayCameraRuntimeV11::play_idle(std::string& e){if(!loaded_||closed_){e="Required loaded CameraLevel idle";return false;}return level_->play_animation(services_.tables->cameras[row_].idle,0,false,e);}
 bool GameplayCameraRuntimeV11::set_target(std::uintptr_t actor,std::int32_t ms,std::string& e){if(!loaded_||closed_){e="Required loaded CameraLevel target";return false;}return level_->target().set_target(actor,ms,e);}
+bool GameplayCameraRuntimeV11::source_clip_defaults_v120(std::int32_t& near_plane,std::int32_t& far_plane,std::string& e)const{
+ if(!loaded_||closed_||!level_||!scene_){e="Required same loaded CameraLevel and retained LevelConfig clip fields";return false;}
+ near_plane=input_.near_plane;far_plane=input_.far_plane;e.clear();return true;
+}
+bool GameplayCameraRuntimeV11::set_clip_start(float value,std::string& e){
+ if(!loaded_||closed_||!level_){e="Required same loaded CameraLevel near-plane receiver";return false;}
+ return level_->set_clip_start(value,e);
+}
+bool GameplayCameraRuntimeV11::set_clip_end(float value,std::string& e){
+ if(!loaded_||closed_||!level_){e="Required same loaded CameraLevel far-plane receiver";return false;}
+ return level_->set_clip_end(value,e);
+}
+bool GameplayCameraRuntimeV11::source_map_fields_v1(std::uint8_t byte133,std::uint32_t word136,float float140,std::string& e){
+ if(!loaded_||closed_||!scene_||!level_){e="Required same loaded Map CameraLevel fields133/136/140";return false;}
+ // CameraLevel::Update reads +133 as map-mode, while HandleZoom reads the
+ // float words at +136/+140 as requested and automatic zoom. Keep these in
+ // this runtime's existing source-shaped LevelState, not in shadow fields.
+ level_->fields().mode85=byte133!=0;
+ level_->fields().automatic_zoom8c=float140;
+ level_->fields().requested_zoom88=source_float(word136);
+ e.clear();return true;
+}
+bool GameplayCameraRuntimeV11::source_set_data_v1(float horizontal_fov_or_mag,float aspect,float near_plane,float far_plane,bool unused,std::string& e){
+ (void)unused; // CameraBase::SetData's bool parameter is not read in its body.
+ if(!loaded_||closed_||!scene_||!level_){e="Required same loaded CameraBase SetData receiver";return false;}
+ // Original CameraBase::SetData invokes virtual +316 then +312, before the
+ // CameraLevel near/far virtuals at +304/+308; +276 is its source up vector.
+ // The loaded source camera record distinguishes horizontal FOV from
+ // magnification by camera kind; this owner's view field stores that exact
+ // +316 scalar, while +312 is the separately-authored aspect.
+ view_.fov=horizontal_fov_or_mag;view_.aspect=aspect;
+ if(!level_->set_clip_start(near_plane,e)||!level_->set_clip_end(far_plane,e))return false;
+ return source_set_camera_vector_v1({0.0f,0.0f,1.0f},e);
+}
+bool GameplayCameraRuntimeV11::source_set_camera_vector_v1(const PointV2& vector,std::string& e){
+ if(!loaded_||closed_||!scene_||!level_){e="Required same loaded CameraBase virtual +276 vector receiver";return false;}
+ view_.up=vector;e.clear();return true;
+}
 bool GameplayCameraRuntimeV11::update(std::string& e){if(!loaded_||closed_){e="Required loaded CameraLevel update";return false;}return level_->update(e);}
 bool GameplayCameraRuntimeV11::scene_phase(std::uint32_t timestamp,std::string& e){if(!loaded_||closed_){e="Required retained camera SceneManager animation phase";return false;}return animator_->scene_phase(timestamp,e);}
 bool GameplayCameraRuntimeV11::source_update_absolute_v67(std::string& e){

@@ -47,8 +47,9 @@ class EventManagerOwnerV12 {
  std::list<PendingEventV12> queue20_;
  std::list<DelayedInfo> delayed28_;
  std::uint64_t next_token_{1}; // host identity for stable native registration nodes
- unsigned dispatch_depth_{};bool updating_{},failed_{};
+ unsigned dispatch_depth_{};bool updating_{},failed_{};std::string failed_reason_;
  bool ready(std::string&)const;
+ void latch_failure(const std::string&,const char* fallback);
 public:
  explicit EventManagerOwnerV12(std::uintptr_t actual_base_identity);
  ~EventManagerOwnerV12();

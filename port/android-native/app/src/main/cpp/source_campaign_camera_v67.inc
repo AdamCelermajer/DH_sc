@@ -133,7 +133,19 @@ bool source_load_camera_v67(const std::shared_ptr<SourceWorldBorrowV61>& world,
   present=false;e.clear();return true; // genuine no-connected-input loop
  };
  bindings.overview.keyboard=[](const auto&,auto&,std::string& e){e="Required original keyboard event payload";return false;};
- bindings.positive_skybox=[](const auto&,std::string& e){e="Required actual source skybox mesh/root owner";return false;};
+ bindings.positive_skybox=[weak](const std::string& file,std::string& e){
+  auto world=weak.lock();auto roots=world&&world->canonical_world?world->canonical_world->scene_roots_v20:nullptr;
+  if(!world||!roots||!world->files_owner||!world->read){e="Required SAME campaign skybox file/root owners";return false;}
+  if(!world->skybox_v124){
+   SkyboxLoadServicesV24 services;services.actual_resource_owner=world->files_owner;services.same_roots=roots;
+   services.read=[weak](const auto& path,auto& bytes,bool& found,auto& e){auto world=weak.lock();
+    if(!world||!world->read){e="Retired actual skybox filesystem";return false;}
+    return world->read(skybox_resource_uri_v124(path),found,bytes,e);
+   };
+   world->skybox_v124=std::make_shared<GameplaySkyboxPipelineV25>(std::move(services));
+  }
+  return world->skybox_v124->add(file,e);
+ };
  bindings.publish_overview12c=[level_weak](std::uintptr_t id,std::string& e){auto actual=level_weak.lock();
   if(!actual||!id||actual->constructor_fields_v3().field12c){e="Invalid/replayed actual Level12c camera publication";return false;}
   actual->constructor_borrow_v3().fields->field12c=id;e.clear();return true;

@@ -52,9 +52,9 @@ bool bootstrap_loading_v27(std::shared_ptr<void> actual_world,
   if(status){e=platform->failure();return false;}return true;};
  shared_roster_v27=std::make_unique<dh2::ui::AuthoredSharedMenuRosterV27>(shared_stack_v27,std::move(roster));
  // Source PostLoad order: base0, current-character1(absent), main2, HUD3.
- if(!shared_roster_v27->post_load(*base,leases->base,0x84,error)||
-    !shared_roster_v27->post_load(*main,leases->main,0x84,error)||
-    !shared_roster_v27->post_load(*hud,leases->hud,4,error))return false;
+ if(!shared_roster_v27->post_load(*base,reinterpret_cast<std::uintptr_t>(base),leases->base,0x84,error)||
+    !shared_roster_v27->post_load(*main,reinterpret_cast<std::uintptr_t>(main),leases->main,0x84,error)||
+    !shared_roster_v27->post_load(*hud,reinterpret_cast<std::uintptr_t>(hud),leases->hud,4,error))return false;
  if(!shared_stack_v27->seal(reinterpret_cast<std::uintptr_t>(hud),reinterpret_cast<std::uintptr_t>(base),*bootstrap_services_v27.globals,error))return false;
  bootstrap_complete_v27=true;return true;
 }

@@ -135,19 +135,19 @@ bool native_compile_scene_v111(const std::vector<loader::BatchNodeBorrowV96>& ro
    }
    if(native->native_destroyed_v106||!native->source_resource_v93||!native->source_image_v93.bytes||!source.materials_v111)return needed(e,"Actual compile BRES/mesh/material owner");
    assets::Mesh input;if(dh2_mesh_open(&input,&native->source_image_v93,native->fields->geometry)!=assets::Error::ok)return needed(e,"Actual compile mesh stream");
-   std::vector<scene::Material> materials;if(!source.materials_v111(materials,e)||materials.size()!=input.primitives)return needed(e,"Actual compile primitive material count");
+   std::vector<scene::InstanceMaterialBindingV1> bindings;if(!source.materials_v111(bindings,e)||bindings.size()!=input.primitives)return needed(e,"Actual compile primitive material-binding count");
    if(!finite(native->fields->world.data(),16))return needed(e,"Nonfinite actual compile cached matrix");
-   for(std::uint32_t p=0;p<input.primitives;++p){assets::Primitive primitive;
-    if(dh2_mesh_primitive(&input,p,&primitive)!=assets::Error::ok||primitive.collada_type||primitive.index_count%3||materials[p].id!=primitive.material)return needed(e,"Actual compile triangle/material binding");
-    scene::EffectRenderPassV4 pass;if(!s.material_pass_v112(native->source_image_v93,materials[p],pass,e))return false;
-    auto values=std::make_shared<NativeBatchMaterialValuesV113>();if(!s.material_values_v113||!s.material_values_v113(native->source_image_v93,materials[p],*values,e))return false;
+   for(std::uint32_t p=0;p<input.primitives;++p){assets::Primitive primitive;scene::Material material;
+    if(dh2_mesh_primitive(&input,p,&primitive)!=assets::Error::ok||primitive.collada_type||primitive.index_count%3||!primitive.material||!resolve_material_binding_v111(bindings,primitive.material,material,e))return needed(e,"Actual compile triangle/material binding");
+    scene::EffectRenderPassV4 pass;if(!s.material_pass_v112(native->source_image_v93,material,pass,e))return false;
+    auto values=std::make_shared<NativeBatchMaterialValuesV113>();if(!s.material_values_v113||!s.material_values_v113(native->source_image_v93,material,*values,e))return false;
     std::shared_ptr<NativeMaterialLightsV113> material_lights;if(!s.material_lights_v113||!s.material_lights_v113(native,p,values,material_lights,e)||!material_lights)return needed(e,"Actual material construction/light-reference owner absent");
     std::array<assets::Attribute,18> streams{};for(unsigned a=0;a<18;++a)if(primitive.attributes[a]>=0){
      if(dh2_mesh_attribute(&input,primitive.attributes[a],&streams[a])!=assets::Error::ok||!streams[a].components||streams[a].components>4)return needed(e,"Actual compile attribute descriptor/vector width");
     }
     if(!streams[0].data||streams[0].components!=3)return needed(e,"Actual compiled position stream requires recovered XYZ; homogeneous four-component transform producer absent");
     for(std::uint32_t cursor=0;cursor<primitive.index_count;){
-     NativeBatchPartV111 part;part.material=materials[p];part.source_node=node.identity;part.segment=mesh->compiler_segments().size();
+     NativeBatchPartV111 part;part.material=material;part.source_node=node.identity;part.segment=mesh->compiler_segments().size();
      part.pass_v112=pass;
      part.material_values_v113=values;
      part.material_lights_v113=material_lights;

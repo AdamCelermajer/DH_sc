@@ -72,7 +72,8 @@ public:
   actor_={m.object->identity,reinterpret_cast<std::uintptr_t>(&m.machine->native_fsm()),&m.session->timers()};
   death_={m.ai_events.ai,&actor_,&m.object->target,source_group34,0,nullptr,UINT32_MAX,UINT32_MAX,0};
   AggroClearActorBorrowV2 relations{};if(!actor(this,m.object->identity,relations,error_))throw std::runtime_error(error_);
-  owner_=std::make_unique<NpcDeathOwnerV2>(NpcDeathBorrowV2{&death_,&m.ai_events,&m.object->binding,relations,state_.get(),skills_.get()},NpcDeathServicesV2{{this,actor,notify},this,nullptr,ais});
+  owner_=std::make_unique<NpcDeathOwnerV2>(NpcDeathBorrowV2{&death_,&m.ai_events,&m.object->binding,relations,state_.get(),skills_.get()},NpcDeathServicesV2{{this,actor,notify},this,nullptr,ais,
+   [](void* p){auto& t=*static_cast<RendererNpcDeathV2*>(p);auto& lifecycle=t.m_.session->owner().lifecycle();std::memcpy(&lifecycle.timer33,&t.death_.timer0,4);std::memcpy(&lifecycle.timer34,&t.death_.timer1,4);}});
   buffs_=dh2_character_buffs_create(&buff_bindings_);
   if(!buffs_)throw std::runtime_error("Required sole NPC BuffOwner over retained CharProperties/CharTimers");
  }

@@ -44,6 +44,18 @@ struct NativeQuestRuntimeV76::Record {
 };
 NativeQuestRuntimeV76::NativeQuestRuntimeV76(std::weak_ptr<character::CharacterMenuQuestsV51> q,
  NativeQuestRuntimeServicesV76 s):quests_(std::move(q)),services_(std::move(s)){}
+bool quest_reward_sequence_v108(std::uintptr_t owner,
+ const std::vector<data::QuestRewardDefinitionV51>& rewards,
+ const std::function<bool(std::uintptr_t,const data::QuestRewardDefinitionV51&,bool&,std::string&)>& give,
+ std::string& e){
+ if(!give){e="Required original RewardList::Give callback";return false;}
+ for(const auto& reward:rewards){
+  bool source_result{};
+  if(!give(owner,reward,source_result,e))return false;
+  if(!source_result)break; //RewardList::Give returns at the first virtual false.
+ }
+ e.clear();return true;
+}
 bool NativeQuestRuntimeV76::fail(std::string& e,const char* fallback){
  if(!failed_){failed_=true;failure_=e.empty()?fallback:e;}e=failure_;return false;
 }
@@ -189,7 +201,7 @@ bool NativeQuestRuntimeV76::set_state_v108(Record& r,const std::shared_ptr<chara
  }
  case 7:return frame_v108_.current_quest&&frame_v108_.current_quest(-1,-1,e)&&exec(5);
  case 8:return marker(r,q.end,8,e)&&exec(13);
- case 9:if(!remove(q.end))return false;for(auto& o:q.objectives)if(!remove(o))return false;return exec(3)&&frame_v108_.current_act&&frame_v108_.current_act(q.definition->act,-1,e);
+ case 9:for(auto& o:q.objectives)if(!remove(o))return false;return exec(3)&&frame_v108_.current_act&&frame_v108_.current_act(q.definition->act,-1,e);
  case 10:return registration(q.end,true)&&exec(8);
  case 11:return exec(12);
  case 12:{if(!exec(2))return false;std::vector<data::QuestRewardDefinitionV51> rewards;for(const auto& reward:r.rewards)if(reward.enabled8)rewards.push_back(*reward.data_c);
@@ -222,11 +234,9 @@ bool NativeQuestRuntimeV76::update_quest_v108(std::uintptr_t identity,std::strin
     if(!script_v108(r,3,false,running,e))return fail(e,"Quest completion script wait");
     proceed=!running;
     if(proceed){
-     for(const auto& reward:r.rewards){
-      if(!reward.enabled8)continue;
-      bool given;
-      if(!frame_v108_.give_reward||!frame_v108_.give_reward(reward.owner10,*reward.data_c,given,e))return fail(e,"Quest Reward.Give");
-     }
+      std::vector<data::QuestRewardDefinitionV51> rewards;
+      for(const auto& reward:r.rewards)if(reward.enabled8)rewards.push_back(*reward.data_c);
+      if(!quest_reward_sequence_v108(q.character_owner,rewards,frame_v108_.give_reward,e))return fail(e,"Quest Reward.Give");
      q.rewards_enabled5c=0;
      bool online;
      if(!frame_v108_.online||!frame_v108_.online(online,e))return fail(e,"Quest online gate");

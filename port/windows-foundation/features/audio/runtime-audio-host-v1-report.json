@@ -1,0 +1,41 @@
+{
+  "feature": "RuntimeAudioHostV1",
+  "status": "native-linked-winmm-source-asset-pass",
+  "owned_paths": [
+    "port/windows-foundation/features/audio/runtime_audio_host_v1.hpp",
+    "port/windows-foundation/features/audio/runtime_audio_host_v1.cpp",
+    "port/windows-foundation/features/audio/runtime_audio_host_v1_tests.cpp",
+    "port/windows-foundation/features/audio/run_runtime_audio_host_v1_tests.ps1",
+    "port/windows-foundation/features/audio/runtime-audio-host-v1-report.json"
+  ],
+  "production_contract": {
+    "owners": "RuntimeAudioHostV1 composes one AudioNativeSessionV42, its one windows_source_session_control_v1 WinMM control, one recovered AudioGameplayRuntimeV42, and the caller's exact asset root/provider lease. It constructs no second runtime, mixer, output, clock, or RNG.",
+    "focus_and_clock": "Caller publishes monotonically sequenced window activity through AudioLifecycleGateV40. The control owner performs real WinMM pause/restart and publishes same-output device TIME_SAMPLES/QPC. The host exposes only a ready clock snapshot from that runtime.",
+    "combat_audio": "make_combat_audio creates RuntimeCombatAudioV1 over this exact AudioNativeSessionV42, supplied CombatSession and actual CharSounds table. Caller owns observer installation and supplies shared CombatSession RNG/MP_MinimalRandoms services.",
+    "typed_gameplay_policy": "The pure Play3D source branch order is disabled, current Level, online/network mute, negative ordinal, platform route or source row, event-native versus bank-info, trace query, emit. The source compares current Level+0x130 to decimal38; Level frame-order evidence identifies normal loaded gameplay phase 0x26. The typed modern adapter maps gameplay_active to `gameplay_loaded` (0x26) and inactive to inactive, with the retained generic provider/session identity. It does not claim a canonical native Level/GS owner or source-phase parity.",
+    "winmm_route": "Windows WinMM is not the original Android/JAVA_SOUNDS platform route, so platform_route returns false; a reached platform_play fails closed.",
+    "emitter_state": "The host initializes source manager general from original boot fields then the reached Vox manager initialization setter (distance model 4, doppler factor 1, speed-over-doppler 343.3). Fresh emitter gain and pitch start at original 1.0/1.0 and remain mutable via producer-thread setters. Each command still requires a caller-provided current listener/camera snapshot with matching nonzero world/listener epochs; no camera is synthesized. Native initial state comes from caller facts and remains required for native sound rows.",
+    "asset_failure": "Exact URI loading has no alias/substitution fallback. Existing RuntimeCombatAudioV1 classifies reached missing assets as playback_diagnostic, preserving the source ignored-playback-failure boundary. Troll source ordinal328 remains unavailable and unchanged."
+  },
+  "verification": {
+    "command": "powershell -ExecutionPolicy Bypass -File port/windows-foundation/features/audio/run_runtime_audio_host_v1_tests.ps1",
+    "result": "PASS strict LLVM-MinGW C++17 native link/run using actual staged source audio assets and real WinMM hardware. Source ordinal232 selected the actual original swing sample and produced a started-channel receipt; TIME_SAMPLES advanced within one output generation; activity focus loss invalidated clock and paused output, focus regain resumed same generation; disabled, online-muted and inactive gates short-circuited in source order; missing listener failed source command closed; original Troll ordinal328 reported its exact unavailable WAV without substitute; RuntimeCombatAudioV1 factory constructed; checked shutdown/join/drain succeeded.",
+    "limits": "Provider facts and camera/listener geometry in the linked test are explicit generic fixtures. This verifies the host contract and hardware/source-data linkage; it does not establish production window-state, camera, listener, world epoch, online/mute, trace, DSP-setting, RNG, or gameplay observer providers, audible parity, or native GS/Level ownership."
+  },
+  "remaining_caller_inputs": [
+    "Actual window owner/sequence/resumed/focus/grant/destroyed state.",
+    "A retained generic gameplay-context identity and typed gameplay-active, audio-disabled, online/network-muted, tracing snapshot; this adapter is not a native GS/Level pointer claim.",
+    "Current camera/listener vectors, distance and rolloff values, and matching world/listener epochs.",
+    "Actual mutable source manager general and emitter gain/pitch setters when original source settings change.",
+    "Actual native initial state for native-format source rows.",
+    "Same source event-selection RNG, shared CombatSession RNG and optional offline MP_MinimalRandoms policy from actual source data.",
+    "Caller-owned CombatSession observer installation and exact source assets/cache root."
+  ],
+  "fixture_boundaries": {
+    "no_root_enrollment": true,
+    "no_canonical_gs_or_level_pointer": true,
+    "no_second_audio_runtime_or_rng": true,
+    "no_asset_328_substitution": true,
+    "no_audible_parity_claim": true
+  }
+}

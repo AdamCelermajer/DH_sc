@@ -1,0 +1,6 @@
+FILE port/android-native/app/src/main/assets/models/prince_modular.bdae
+prince_modular-node	MC_Feet	#MC_Feet__naked-mesh-skin	MC_Feet__naked-mesh-skin	43
+prince_modular-node	MC_Hands	#MC_Hands__naked-mesh-skin	MC_Hands__naked-mesh-skin	43
+prince_modular-node	MC_Head	#MC_Head__naked-mesh-skin	MC_Head__naked-mesh-skin	43
+prince_modular-node	MC_Torso	#MC_Torso__naked-mesh-skin	MC_Torso__naked-mesh-skin	43
+FILE .local-inputs/windows-shared-assets/original-cache/data/3d/characters/npcs/priest_good.bdae

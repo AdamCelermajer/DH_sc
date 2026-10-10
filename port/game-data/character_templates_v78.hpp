@@ -16,6 +16,10 @@ class CharacterTemplateTableV78 final {
  bool ready_{};
 public:
  bool load(Bytes records,Bytes names,Bytes schema,std::string&);
+ // Fixed source Name/CharInfo layout; callers with decoded records/names need
+ // no separately staged schema file. The explicit-schema overload still
+ // validates external metadata when supplied.
+ bool load(Bytes records,Bytes names,std::string&);
  bool ready()const noexcept{return ready_;}
  const auto& rows()const noexcept{return rows_;}
  const auto& names()const noexcept{return names_;}

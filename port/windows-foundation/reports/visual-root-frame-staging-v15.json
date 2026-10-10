@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "status": "read_only_source_phase_audit_integration_not_implemented",
+  "scope": "Generic original visual root accumulation, marker callback phase and late UpdateSubObjects reconciliation",
+  "source_hashes": {
+    "main": "0e01fea5d26c51d85529d1c18ca703f4b07595ed36959b926e44c895669a1ce7",
+    "session": "c8dc2c40f34f2261d9bd204ac034badba14bba69435e89f6235a7b905e898cdd",
+    "retained": "4eab1271de1029eda648f687efeb99a8a8ce5a10626ff03c458823c5ac5e53fe",
+    "subobjects": "c40a9f4967d7f9c26217037cdc062bef7495dd605f331a42db659d2b6d60c3fd"
+  },
+  "early_findings": [
+    "Current MotionHandler immediately admits root motion through ActorMovement, publishes actor.transform.position and nativeBodies.set_position, before named marker events are dispatched. This collapses visual accumulation, game position admission and physical transform into one stage.",
+    "Original early Scene animation moves a DISTINCT VisualObject Root.position. GameObject.position160 and physical body transform are reconciled later; no fake visual-position getter may return actor position.",
+    "CharacterVisual owns compensated model/skeleton pose and root-track sampling, but currently has no independent actor-placement visual root. Renderer main supplies actor placement externally from ActorState.",
+    "Current source marker damage is synchronous at the Session callback, but that callback occurs after pose publication and immediate root-position admission. This is still later than original marker position/pose observation.",
+    "Source HandleDisplacement rotates/scales raw authored XY by actual visual root quaternion/scale, sets Z positive zero, and does not contain the motor analog-intent multiplier. That extra multiplier must not be silently called original visual-root math."
+  ],
+  "original_order": {
+    "scene_slot": [
+      "Advance current weighted timeline with source timestamp; completion callback latches pending",
+      "Dispatch original marker callbacks immediately for that retained event manager",
+      "Only after callback sample slot transform channels; callbacks can change live slot/weight gates before subsequent slot",
+      "Normalize/apply blended pose; sample shared default-less root scratch across physical slots; calculate weighted delta histories",
+      "RootSceneNode.HandleDisplacement0x35cf48: update VISUAL root.position using source quaternion/scale and authored XY; compensate animated/helper local root",
+      "Update world scene matrices"
+    ],
+    "game_frame": [
+      "Early scene/timeline/callback/root stage above",
+      "Game-state dispatch and PhysicalWorld Step",
+      "Character timers/AI/FSM/animation selection; NewAnim replay at already sampled timestamp",
+      "GameObject.UpdatePath then UpdateRotation0x393710",
+      "GameObject.UpdateSubObjects0x3943cc reconciles visual/game/physics and bounds/auxiliary"
+    ]
+  },
+  "subobjects_sequence": [
+    "VisualObject.Update0x470cf0 is genuinely empty; do NOT advance retained timelines a second time here",
+    "PhysicalObject.Update is an actual body service, not a visual position alias",
+    "Sample arrival from current game XY vs destination/path target, strict squared distance<6400",
+    "For awake body, only physical XY differences>1 replace game XY; exactly-one floor policy validates this replacement. Accepted physics position suppresses visual ApplyPosition",
+    "Apply original physical destination velocity policy if requested; otherwise set XY velocity zero",
+    "If PositionFromVisual and visual exists and physics not accepted: Visual.ApplyPosition0x47124c reads DISTINCT visual root; GameObject setter updates game position/auxiliary/AABB/body request and SyncPosition; wake body",
+    "Visual.SyncPosition copies final game XYZ into DISTINCT visual root, dirty bit8 and actual absolute-position backend; a physical body receives subsequent final game transform request",
+    "Apply visual rotation branch (base empty), or accepted awake physical angle; source visual rotation sync uses Euler(Y,-X,-Z) conversion, then scaling sync",
+    "When floor policy=false, trailing camera/floor validation occurs AFTER rotation/scaling; corrected body transform and second visual SyncPosition follow rejection/correction",
+    "Arrival resets destination to final game position; final AABB uses local bounds+gameXYZ; auxiliary and target-node caches update afterward"
+  ],
+  "required_actual_borrows": [
+    {
+      "name": "VisualRoot",
+      "cells": "dh2::visual::Root position/quaternion/scale + animated/helper/secondary translations, presence and dirty flags",
+      "rule": "Canonical rendered visual-instance root. Distinct from ActorState and native body. Renderer/scene world backend MUST read this same storage; no stage-only phantom visual."
+    },
+    {
+      "name": "GameObject",
+      "cells": "Game position160, Euler16c..174, heading178/1b8, destination1a8, source local/absolute bounds, PF cached position+24",
+      "rule": "Borrow existing actor/source owner fields via explicit transport projection with synchronous publication. PF previous-position cache is separate and refreshed by actual source validation."
+    },
+    {
+      "name": "PhysicalObject",
+      "cells": "Sole POCharacter/native BodyState and TransformRequest; awake/pin/filter/velocity/query state",
+      "rule": "Reuse PlayableActorBodies same actor/body/world. Genuine physical service publishes SetXForm/velocity/wake at kernel-selected boundary."
+    },
+    {
+      "name": "SourcePolicies",
+      "cells": "Actual flags520 virtual getters, ValidatePosition/floor/camera policy, actual source speed, visual/body presence",
+      "rule": "Use actual owner/focus fields; do not choose position-from-visual based on in-house CharacterAction."
+    },
+    {
+      "name": "AnimatedLocalRoot",
+      "cells": "Current actual animated local translation selected by original GetAnimRoot, helper presence",
+      "rule": "Read actual blended node pose, not the raw delta scratch, actor position or root rest origin."
+    }
+  ],
+  "concrete_integration_path": {
+    "existing_kernel_route": "Use actor_runtime.cpp GenericVisualBorrowV4 + update_gameobject_v4, or an explicit borrowed-root staged adapter using dh2_visual_displace and dh2_subobjects_update_source_v69. Existing kernels already define phase/service semantics.",
+    "proposed_adapter_api": [
+      "BorrowedVisualRootStages ctor(actual dh2::visual::Root&, actual GameObject/subobjects backing + optional same body/transform + genuine services)",
+      "accumulate_scene_root(raw ordered/weighted animator delta, actual animated local translation, source displacement enabled): native dh2_visual_displace ONLY; do not navigate/publish ActorState/physical position here",
+      "sync_rotation_late(actual Euler): native dh2_visual_rotation into SAME visual root quaternion, then real scene/root absolute update; no actor/physical angle alias",
+      "update_subobjects_late(actual decoded policy + body views + source floor/camera/aux providers): native subobjects kernel; GameObject/body/visual writes occur only at original callbacks",
+      "visual placement accessor returns canonical visual root used by renderer, not ActorState.transform"
+    ],
+    "root_wiring_tasks": [
+      "Introduce renderer-owned actor visual placement root initialized by genuine source SyncPosition/SyncRotation/scaling calls; assign root services to actual CharacterVisual/model draw placement.",
+      "Keep CharacterVisual compensated model-space meshes + external visual placement ONCE, OR bake owner/helper into scene world skin palette and draw identity. Never use both placement paths or double helper compensation.",
+      "Rewire retained frame effects to preserve marker observation BEFORE early root accumulation; until sampler callback seam exists, reordered detached events fix only position ordering, not pose-sensitive FX or synchronous in-sampler reentry.",
+      "Early accumulated visual root uses prior visual quaternion. Later command/facing updates must not retroactively rotate that displacement.",
+      "Run real PhysicalWorld step and body update at proper phase, then late subobjects resolves awake physics acceptance vs visual root.",
+      "Use actual source floor validation only in the kernel-selected early/trailing branch, not an eager navigation solve for every animation delta.",
+      "Actual visual update callback is its proved empty source body; it must not call CharacterVisual.update or retained.advance and double sample wall time.",
+      "Record marker-observed game position, visual-root before/after accumulation, body transform timing and final synced root on actual player/NPC assets."
+    ]
+  },
+  "callback_and_damage_implications": [
+    "actor_blended_playback.advance_slot calls observer while old pose/root and old GameObject position are still live, before compiled transform sampling for that slot.",
+    "Current RetainedPosePlayback publishes blended pose before RetainedAnimationOwner.collect records events. Session retained_services currently calls MotionHandler first and named_animation_event second.",
+    "To restore range/damage position semantics first, stop MotionHandler from publishing game/physical position early; keep game position unchanged until late ApplyPosition/physics reconciliation.",
+    "To restore visual-root observation semantics, deliver marker events before accumulating root.position.",
+    "Full pose-sensitive FX/socket/reentry semantics require an in-sampler synchronous callback seam and rereading live slot generation/weight gates. Merely reordering a detached final batch cannot claim that parity.",
+    "NewAnim selection frames also have immediate source callbacks/root-reset effects; retain source timestamp+1 reset/current sampling and physical same-resource extra, not an independent deferred synthetic delta queue."
+  ],
+  "meaningful_acceptance_checks": [
+    "Marker range query observes previous game XYZ even when current animation frame contains a large lunge",
+    "Early visual root displacement leaves GameObject/body unchanged until late source policy permits ApplyPosition",
+    "Late awake physical displacement>1 wins and suppresses visual ApplyPosition; rejected floor point uses corrected body transform",
+    "Move/Attack floor-policy0 invokes trailing validation after rotation/scaling; Idle floor-policy1 does not invent the same trailing solve",
+    "Prior visual yaw rotates early root; later GameObject rotation affects only subsequent source displacement, and sync-rotation gates are respected",
+    "Source root/helper compensation appears exactly once in meshes/equipment/renderer placement",
+    "Actual player and NPC roots share same staging/physical owner; no duplicate body, private pose clock or fake visual=actor getter",
+    "Damage/controller reentry cannot advance/publish a second wall sample or corrupt a newly installed retained cursor"
+  ],
+  "limitations": [
+    "Read-only audit; no new source adapter/runtime edits or new acceptance executions performed.",
+    "No new staged visual adapter was created because current live CharacterVisual has no independent actor-placement root borrow. A wrapper defaulting visual.position to ActorState would hide the principal missing owner.",
+    "Existing native visual/subobjects/actor-runtime kernels and independent instruction proofs establish reusable boundaries, not current main integration.",
+    "Original full frame source focus/path/physics/subobjects staging remains incomplete; v13 source primitives do not establish whole-game scheduler parity."
+  ],
+  "source_addresses": {
+    "handle_displacement": "0x35cf48",
+    "calculate_delta": "0x364444",
+    "reset_delta": "0x3644cc",
+    "visual_update_empty": "0x470cf0",
+    "visual_apply_position": "0x47124c",
+    "visual_set_rotation": "0x472874",
+    "visual_sync_rotation": "0x472948",
+    "update_rotation": "0x393710",
+    "update_subobjects": "0x3943cc"
+  },
+  "references": [
+    "port/level-world/visual_motion.cpp",
+    "port/level-world/subobjects_update.cpp",
+    "port/level-world/actor_runtime.cpp GenericVisualBorrowV4/Bridge",
+    "port/level-world/actor_blended_playback.cpp advance_slot/animate",
+    "port/level-world/reference/visual-motion/NOTES.md",
+    "port/level-world/reference/subobjects-update/NOTES.md",
+    "port/level-world/reference/actor-rotation/NOTES.md",
+    "port/windows-foundation/retained_pose_playback.cpp",
+    "port/windows-foundation/retained_animation_owner.cpp",
+    "port/windows-foundation/combat_session.cpp retained_services"
+  ]
+}

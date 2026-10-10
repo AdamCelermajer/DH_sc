@@ -1,0 +1,41 @@
+{
+  "status": "ready",
+  "architecture": "x86_64",
+  "compiler_version": "clang 23.1.3",
+  "compiler": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-toolchain\\llvm-mingw-20261006-ucrt-x86_64\\bin\\clang++.exe",
+  "c_compiler": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-toolchain\\llvm-mingw-20261006-ucrt-x86_64\\bin\\clang.exe",
+  "cmake": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe",
+  "ninja": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+  "acquisition": {
+    "size_bytes": 190836485,
+    "type": "portable-local-no-global-install",
+    "checksum_verified": true,
+    "release_page": "https://github.com/mstorsjo/llvm-mingw/releases/tag/20261006",
+    "directory": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-toolchain\\llvm-mingw-20261006-ucrt-x86_64",
+    "release": "20261006",
+    "sha256": "317492c456aa27ee607a5919f1d2d38dcdc1112516a24d0bf4b00d078f52d17a",
+    "asset_url": "https://github.com/mstorsjo/llvm-mingw/releases/download/20261006/llvm-mingw-20261006-ucrt-x86_64.zip"
+  },
+  "verification": {
+    "probe_binary": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-toolchain\\win32-smoke.exe",
+    "static_cpp_runtime": true,
+    "probe_source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-toolchain\\win32-smoke.cpp",
+    "native_executable_ran": true,
+    "pointer_bytes": 8,
+    "import_summary": "Windows system KERNEL32 and UCRT API sets only; no libc++ or libunwind DLL dependency",
+    "native_win32_cpp_compiled": true
+  },
+  "compatibility": [
+    "Existing reconstructed C++17 sources generally portable; production renderer/decoder source scan found no GCC-only attributes or POSIX includes in selected reusable kernels.",
+    "Existing module CMake files unconditionally specify GCC flags, and some add Unix-only audit tests/linker wrap options. New foundation target should compile selected reusable source files directly.",
+    "For MSVC alternative gate -Wall/-Wextra/-Werror to /W4 and /WX, use /fp:strict for floating-point fidelity, replace Unix-only test APIs, and export symbols explicitly or use static libraries.",
+    "LLVM-MinGW supports existing GNU-style warning and floating-point flags. Use -static for executable runtime portability; Windows system UCRT remains an OS dependency.",
+    "No usable MSVC/Windows SDK/MinGW was installed in standard directories, user caches, or D: before portable acquisition. Android NDK clang existed but lacked native Windows SDK/sysroot."
+  ],
+  "commands": {
+    "build": "& <cmake> --build .local-inputs/windows-foundation-build --parallel 4",
+    "configure": "& <cmake> -S port/windows-foundation -B .local-inputs/windows-foundation-build -G Ninja -DCMAKE_MAKE_PROGRAM=<ninja> -DCMAKE_CXX_COMPILER=<compiler> -DCMAKE_C_COMPILER=<c_compiler> -DCMAKE_BUILD_TYPE=Release",
+    "win32_link_libraries": "user32 gdi32 opengl32 (as renderer implementation requires)",
+    "standalone": "& <compiler> -std=c++17 -static source.cpp -o program.exe"
+  }
+}

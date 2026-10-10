@@ -70,8 +70,8 @@
                 if(!self.source_cached_target_produced_v107||self.source_cached_target_projection_v107!=q->subject){e="InfoHUD Flush requires actual cached-target weak lifetime receipt";return 0;}
                 out->value=!self.source_cached_target_lifetime_v107.expired();e.clear();return 1;
             }
-            if(self.source_hud_graph_v62&&self.source_hud_core_v62){
-                const auto core=self.source_hud_core_v62->dispatch(*q,*out,e);if(core>=0)return core;
+            if(self.source_hud_graph_v62&&(self.source_hud_core_v62||self.source_hud_base_core_v132)){
+                const auto core=self.base_hud_v132()?self.source_hud_base_core_v132->dispatch(*q,*out,e):self.source_hud_core_v62->dispatch(*q,*out,e);if(core>=0)return core;
             }
             if(!self.source_hud_transport_v62||!self.source_hud_world_v62){e="Required actual InfoHUD world operation "+std::to_string(static_cast<unsigned>(q->operation));return 0;}
             return self.source_hud_world_v62(*q,*out,e);
@@ -90,10 +90,16 @@
         struct Run{Impl& self;decltype(invoke)& fn;
             static bool apply(void* raw,ui::SwfAsGraph& graph,std::string& e){auto& q=*static_cast<Run*>(raw);ui::SwfAsValue root;gameswf::as_object* object{};
                 if(!graph.root_value(root,e)||!graph.borrow_object(root,object,e)||!object||!object->is(gameswf::character::m_class_id)){if(e.empty())e="InfoHUD actual root character unavailable";return false;}
-                if(!q.self.source_hud_core_v62)q.self.source_hud_core_v62=std::make_unique<ui::HudManagerCore>();
                 const ui::HudSpriteCoreServices services{&q.self,source_hud_notify_v62,source_hud_sound_v62,source_hud_pause_v62};
-                if(!q.self.source_hud_core_v62->bind(static_cast<gameswf::character*>(object),hud_sha,services,e))return false;
-                q.self.source_hud_core_v62->required_operations(&q.self,source_hud_text_v62);
+                if(q.self.base_hud_v132()){
+                    if(!q.self.source_hud_base_core_v132)q.self.source_hud_base_core_v132=std::make_unique<ui::HudManagerCoreV2>();
+                    if(!q.self.source_hud_base_core_v132->bind(static_cast<gameswf::character*>(object),q.self.selected_hud_digest_v132(),services,e))return false;
+                    q.self.source_hud_base_core_v132->required_operations(&q.self,source_hud_text_v62);
+                }else{
+                    if(!q.self.source_hud_core_v62)q.self.source_hud_core_v62=std::make_unique<ui::HudManagerCore>();
+                    if(!q.self.source_hud_core_v62->bind(static_cast<gameswf::character*>(object),q.self.selected_hud_digest_v132(),services,e))return false;
+                    q.self.source_hud_core_v62->required_operations(&q.self,source_hud_text_v62);
+                }
                 return q.fn(&graph);
             }} run{*this,invoke};
         return movie->menu_action_script(&run,Run::apply,e);

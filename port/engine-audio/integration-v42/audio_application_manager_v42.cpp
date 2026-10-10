@@ -32,6 +32,22 @@ std::shared_ptr<AudioApplicationManagerV42> AudioApplicationManagerV42::create(
  }
  error.clear();return next;
 }
+std::shared_ptr<AudioApplicationManagerV42> AudioApplicationManagerV42::create(
+ AudioGameplaySourcesV40 sources,std::shared_ptr<void> lease,bool disabled,std::string&error,
+ AudioSessionControlFactoryV42 factory){
+ auto next=std::shared_ptr<AudioApplicationManagerV42>(new AudioApplicationManagerV42(disabled));
+ next->session_=std::make_shared<AudioNativeSessionV42>(next->identity(),sources,std::move(lease),
+  application_audio_gate_v40(),std::move(factory));
+ if(!next->session_->initialize(error)){
+  const std::string construction_error=error;std::string close_error;
+  if(!next->session_->shutdown(close_error)){
+   static auto* retained=new std::vector<std::shared_ptr<AudioApplicationManagerV42>>;
+   retained->push_back(next);error=construction_error+"; retained failed owner: "+close_error;return {};
+  }
+  next->session_.reset();error=construction_error;return {};
+ }
+ error.clear();return next;
+}
 bool AudioApplicationManagerV42::set_actual_disabled(bool value,std::string&error){
  if(!producer(error))return false;
  if(closing_){error="Application SoundManager closing";return false;}

@@ -1,0 +1,20 @@
+{
+  "status": "implemented-and-verified",
+  "api": "dh::foundation::frontend::creation::load_runtime_creation_source_v1(AssetCatalog, caller-owned LootRandom8V2 adapter, RuntimeCreationSourceOwnerV1&, error)",
+  "owners": [
+    "OriginalPropertyDatabase parsed from original CharacterTable and CharacterClass raw/name/schema buffers",
+    "LootTablesV2 parsed from original LootTable raw/name/schema buffers",
+    "SkillTables parsed from original SkillList/Skill raw/name/schema buffers",
+    "CharacterDesign caps loaded from original design_pycst.bin"
+  ],
+  "source_hash_receipts": "13 lowercase SHA-256 receipts retain the relative asset path and byte count; hashing and parsing use the same in-memory source bytes.",
+  "character_design_caps": {
+    "MaxSkillLevelBNormal": 10,
+    "MaxSkillLevelCHard": 15,
+    "MaxSkillLevelDVeryHard": 20
+  },
+  "random_policy": "Stores only a pointer to the caller-owned LootRandom8V2 adapter. Does not allocate, seed, or advance it.",
+  "publication": "All owners, cap values and receipts are assembled in a temporary snapshot and assigned to output only after full validation. Failed load leaves output unchanged.",
+  "actual_asset_test": "PASS against extracted original shared assets; confirms all 13 known SHA-256 values, real table dimensions, positive CharacterDesign caps, borrows, caller RNG identity/state, and failure atomicity.",
+  "scope": "No duplicate profile/save/player/world logic and no root main/CMake/shared CharacterState changes."
+}

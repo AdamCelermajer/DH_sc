@@ -1,4 +1,5 @@
 #include "canonical_container_target_v104.hpp"
+#include <algorithm>
 #include <cstring>
 #include <stdexcept>
 namespace dh2::world {

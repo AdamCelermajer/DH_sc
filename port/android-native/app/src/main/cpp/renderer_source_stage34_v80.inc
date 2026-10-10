@@ -124,6 +124,17 @@ bool compose_source_stage33_stage34_v80(const std::shared_ptr<SourceWorldBorrowV
  if(!native33.online_byte5)native33.online_byte5=online;
  if(!native34.online_byte5)native34.online_byte5=online;
  if(!native34.checkpoint.online_byte5)native34.checkpoint.online_byte5=online;
+ if(!native33.floor_height)native33.floor_height=[scope_world,weak_candidate](const std::array<float,3>& point,float& height,bool& found,std::string& e){
+  std::shared_ptr<SourceWorldBorrowV61> w;auto c=weak_candidate.lock();
+  auto floors=c&&c->rooms?c->rooms->world():nullptr;
+  if(!scope_world(w,e)||!floors||w->source_pf_floors_v115!=floors){
+   if(e.empty())e="Required SAME retained PFWorld floor geometry lease";return false;
+  }
+  dh2::navigation::HeightHit hit{};hit.height=height;
+  const int status=dh2_nav_world_height(&hit,&floors->collision_world,point.data(),0);
+  if(status<0){e="Actual PFWorld.GetFloorHeightAt failed";return false;}
+  found=status!=0;if(found)height=hit.height;e.clear();return true;
+ };
  if(!native33.player_manager)native33.player_manager=[manager](const auto& app,RestorePlayerManagerBorrowV1& out,std::string& e){
   std::shared_ptr<player::ApplicationPlayerManagerBootstrapV59> pm;if(!manager(app,pm,e))return false;
   auto* fields=pm->manager()->source_frame_fields_v68();if(!fields){e="Required actual PlayerManager C1 frame cells";return false;}
@@ -185,6 +196,16 @@ bool compose_source_stage33_stage34_v80(const std::shared_ptr<SourceWorldBorrowV
   std::shared_ptr<SourceWorldBorrowV61> w;if(!scope_world(w,e)||!w->canonical_world||!actor||!actor->shared_handle){e="Required actual published actor handle C1 source";return false;}
   return w->canonical_world->manager.get_handle(actor->shared_handle->key,out,e);
  };
+ // The typed auxiliary catalog is published after bootstrap assembles this
+ // body. Borrow its existing live loan at the reached GetSpawnPoint leaf.
+ if(!native34.checkpoint.spawn_point)native34.checkpoint.spawn_point=[scope_world](const auto& actor,auto& out,std::string& e){
+  out.reset();std::shared_ptr<SourceWorldBorrowV61> world;
+  if(!scope_world(world,e))return false;
+  auto bag=world->stage34_native_v80;
+  if(!bag||!bag->checkpoint.spawn_point){e="Required actual late-enrolled checkpoint SpawnPoint borrower";return false;}
+  auto borrow=bag->checkpoint.spawn_point;
+  return borrow(actor,out,e);
+ };
  if(!native33.set_use_spawn_point)native33.set_use_spawn_point=[scope_world,record,block](const auto& c,bool value,std::string& e){
   SourceCampaignCharacterBorrowV62 actual;std::shared_ptr<SourceWorldBorrowV61> w;
   if(!c.same_source(c.identity)||!record(c.identity,actual,e)||(!block(c.owner,actual.character)&&!block(c.owner,actual.character->actor))||!scope_world(w,e))return false;
@@ -240,6 +261,11 @@ bool compose_source_stage33_stage34_v80(const std::shared_ptr<SourceWorldBorrowV
   transport.timer=[](std::uint32_t& time,std::string& error){return borrow_application_time_v68(time,error);};
   return roots->source_update_v102(delta,optimized,transport,e);
  };
+ //Stage21 calls the SAME Scene.update before its compiled-batching gate.
+ //Expose the composed primitive on the existing public bag as well as the
+ //private Stage34 body; preserve any previously enrolled native provider.
+ if(source_world->stage34_native_v80&&!source_world->stage34_native_v80->scene_virtual60)
+  source_world->stage34_native_v80->scene_virtual60=native34.scene_virtual60;
  //The original material/light refresh bodies are literal leaves. Supply
  //their real behavior after validating the same actual Level receiver.
  if(!native34.update_light_set)native34.update_light_set=[scope_world,weak_level](const auto& level,bool force,std::int32_t flags,std::string& e){

@@ -25,6 +25,7 @@ class CanonicalModuleFilesV1 final : public std::enable_shared_from_this<Canonic
     std::uint32_t occurrence_{UINT32_MAX};
     std::size_t discard_cursor_{};
     bool module_started_{},captured_context_{},file_pending_{},dispatching_{};
+    bool complete_absent_level_file_{};
     bool failed_{},discard_requested_{},owner_released_{},discarded_{},discarding_{};
     CanonicalModuleFilesV1(assets::ZipAssetPackV1,world::CanonicalObjectManagerV1&,
         world::CanonicalClassServicesV1,CanonicalFileSourceServicesV1,
@@ -51,7 +52,9 @@ public:
     bool begin_module(std::uint32_t occurrence,std::string&);
     // Direct Level.LoadFile uses the SAME native stream/parser/cleanup relay
     // and does not mutate original Module placement fields18c/160.
-    bool begin_level_file(std::string&);
+    // Stage9 opts into original all-attempts-absent completion. Other callers
+    // keep their existing required-resource contract by default.
+    bool begin_level_file(std::string&,bool complete_absent=false);
     // Owns this relay and therefore its same-Level field lifetime. The callback
     // uses a weak relay capture, preventing a self-owned callback cycle.
     world::ModuleLevelLoadBorrowV1 load_borrow();

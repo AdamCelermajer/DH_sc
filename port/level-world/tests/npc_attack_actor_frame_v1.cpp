@@ -23,6 +23,7 @@ struct Actor {
 };
 struct Fixture {
  Facts facts{};std::vector<Request> requests;bool online{},reject_diagnostic{};unsigned online_calls{};
+ const dh2_script_callback_scope* expected_scope{};
  std::array<float,3> target{},look{{0,-1,0}};
  static void body(void* p,State* s,const Request* q){auto& t=*static_cast<Fixture*>(p);t.requests.push_back(*q);if(q->service==set_animation)s->current_animation=q->argument[0];}
  static int remaining(void*,StateOwnerMachine40*,const StateOwnerRequest48* q,StateOwnerResponse8*){
@@ -36,7 +37,7 @@ struct Fixture {
  static bool radius(void*,std::uintptr_t,float& out,std::string&){out=20;return true;}
  static bool query(void*,std::uintptr_t,std::uintptr_t,WorldAIAttackQueryV1 q,std::int32_t& out,std::string&){out=q==WorldAIAttackQueryV1::CharacterCanRangeAttack?0:1;return true;}
  static int backend(void* p,const AttackRequest32* q,AttackResponse16* out,const dh2_script_callback_scope* scope,std::string&){
-  auto& t=*static_cast<Fixture*>(p);assert(!scope);
+  auto& t=*static_cast<Fixture*>(p);assert(scope==t.expected_scope);
   if(q->service==attack_diagnostic){if(t.reject_diagnostic)return -1;out->word=0;return 0;}
   if(q->service==attack_frontal_angle){out->word=90;return 0;}return -1;
  }
@@ -69,9 +70,14 @@ int main(int argc,char** argv){
  animation_ai.owner=npc.search.identity;animation_ai.owner_byte14a8=-1;
  NpcAttackCommandOwnerV1 attack({&world,&targets,&machine,&controller,&animation_ai,nullptr,nullptr},
   {&f,Fixture::is_online,Fixture::backend,{&f,Fixture::query},Fixture::radius},16);
- assert(attack.command(enemy.search.identity,nullptr)==0);
+ dh2_script_callback_scope prior_scope{nullptr,5},callback_scope{nullptr,7};
+ targets.scope=&prior_scope;f.expected_scope=&callback_scope;
+ // Null is the source request: the same NPC command owner performs authored
+ // candidate search, installs that target, and dispatches the same FSM event.
+ assert(attack.command(0,&callback_scope)==0);
  assert(machine.state().current==5&&machine.state().flags==0x2341&&machine.state().current_animation==7);
- assert(target.target==enemy.search.identity&&animation_ai.target==target.target&&!targets.scope);
+ assert(target.target==enemy.search.identity&&animation_ai.target==target.target&&targets.scope==&prior_scope);
+ targets.scope=nullptr;f.expected_scope=nullptr;
  assert(!f.requests.empty()); // Source Focus/Blur bodies ran through real FSM.
  controller.locked=1;const auto calls=f.online_calls;assert(!attack.command(0,nullptr)&&f.online_calls==calls);controller.locked=0;
  f.online=true;assert(attack.command(0,nullptr)<0&&attack.error().find("network byte")!=std::string::npos);f.online=false;

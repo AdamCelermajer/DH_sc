@@ -1,0 +1,204 @@
+{
+  "character_animation_row": 48,
+  "character_animation_name": "PlayerKnight",
+  "states": {
+    "Walk": {
+      "id": 280,
+      "name": "Human_Walk_00_1H",
+      "loop": -1,
+      "type": 0,
+      "steps": [
+        {
+          "AnchorFX": true,
+          "Anim": 1126,
+          "BlendOut": 0,
+          "Cam": -1,
+          "CamDir": false,
+          "FX": -1,
+          "MoveGO": true,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": false,
+          "target": "data/3D/characters/prince/animations/prince_walk_slow.bdae"
+        }
+      ]
+    },
+    "Run": {
+      "id": 271,
+      "name": "Human_Run_00_1H",
+      "loop": -1,
+      "type": 0,
+      "steps": [
+        {
+          "AnchorFX": true,
+          "Anim": 1114,
+          "BlendOut": 0,
+          "Cam": -1,
+          "CamDir": false,
+          "FX": -1,
+          "MoveGO": true,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": false,
+          "target": "data/3D/characters/prince/animations/prince_walk_1hand.bdae"
+        }
+      ]
+    },
+    "Walk180": null,
+    "Run180": null,
+    "WalkSneak": {
+      "id": 527,
+      "name": "Rogue_Sneak_Walk",
+      "loop": -1,
+      "type": 0,
+      "steps": [
+        {
+          "AnchorFX": true,
+          "Anim": 1093,
+          "BlendOut": 100,
+          "Cam": -1,
+          "CamDir": false,
+          "FX": -1,
+          "MoveGO": true,
+          "RandomCam": [],
+          "Redir": 0,
+          "Sound": -1,
+          "Speed": 1.2999999523162842,
+          "Swoosh": false,
+          "target": "data/3D/characters/prince/animations/prince_rogue_sneak_walk.bdae"
+        }
+      ]
+    },
+    "RunSneak": null
+  },
+  "stances": [
+    {
+      "sequence": 271,
+      "name": "Human_Run_00_1H",
+      "clip_id": 1114,
+      "path": "data/3D/characters/prince/animations/prince_walk_1hand.bdae",
+      "speed": 1.2999999523162842,
+      "move_go": true,
+      "loop": -1
+    },
+    {
+      "sequence": 272,
+      "name": "Human_Run_01_2H",
+      "clip_id": 1117,
+      "path": "data/3D/characters/prince/animations/prince_walk_2hand.bdae",
+      "speed": 1.2000000476837158,
+      "move_go": true,
+      "loop": -1
+    },
+    {
+      "sequence": 273,
+      "name": "Human_Run_02_Dual",
+      "clip_id": 1120,
+      "path": "data/3D/characters/prince/animations/prince_walk_dual.bdae",
+      "speed": 1.2999999523162842,
+      "move_go": true,
+      "loop": -1
+    },
+    {
+      "sequence": 274,
+      "name": "Human_Run_03_Staff",
+      "clip_id": 1114,
+      "path": "data/3D/characters/prince/animations/prince_walk_1hand.bdae",
+      "speed": 1.2999999523162842,
+      "move_go": true,
+      "loop": -1
+    },
+    {
+      "sequence": 275,
+      "name": "Human_Run_04_Bow",
+      "clip_id": 1123,
+      "path": "data/3D/characters/prince/animations/prince_walk_ranged.bdae",
+      "speed": 1.2999999523162842,
+      "move_go": true,
+      "loop": -1
+    },
+    {
+      "sequence": 280,
+      "name": "Human_Walk_00_1H",
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae",
+      "speed": 1.2999999523162842,
+      "move_go": true,
+      "loop": -1
+    },
+    {
+      "sequence": 281,
+      "name": "Human_Walk_01_2H",
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae",
+      "speed": 1.2999999523162842,
+      "move_go": true,
+      "loop": -1
+    },
+    {
+      "sequence": 282,
+      "name": "Human_Walk_02_Dual",
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae",
+      "speed": 1.2999999523162842,
+      "move_go": true,
+      "loop": -1
+    },
+    {
+      "sequence": 283,
+      "name": "Human_Walk_03_Staff",
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae",
+      "speed": 1.2999999523162842,
+      "move_go": true,
+      "loop": -1
+    },
+    {
+      "sequence": 284,
+      "name": "Human_Walk_04_Bow",
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae",
+      "speed": 1.2999999523162842,
+      "move_go": true,
+      "loop": -1
+    }
+  ],
+  "staged": [
+    {
+      "destination": ".local-inputs\\windows-shared-assets\\animations\\prince_walk_1hand.bdae",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "destination": ".local-inputs\\windows-shared-assets\\animations\\prince_walk_slow.bdae",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967"
+    }
+  ],
+  "scope": "Source states and stance clip bindings; no invented sprint alias. Animation playback speeds equal 1.3 but Walk/Run use different authored motion clips. Gameplay velocity must follow root motion/source movement configuration, not same-speed aliases.",
+  "source_tables": [
+    {
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarraynames.bin",
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    {
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    }
+  ],
+  "registration_evidence": "port/engine-animation/reference/prince-registration/probe.json",
+  "cache_prince_run_or_sprint_named_files": []
+}

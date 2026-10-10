@@ -1,0 +1,56 @@
+{
+  "feature": "RuntimeEnemyControllerV1",
+  "status": "default same-session monster controller and navigation/LOS adapter implemented and installed by production CombatSession hookup",
+  "ownership": {
+    "world": "CombatSession::world() only",
+    "actor": "ActorState in the session's PlayableActorWorld; target_id is sole target authority",
+    "combat_properties": "OriginalCombatProperties from that same PlayableActorWorld",
+    "ai": "selected original AiProps row; handles script == monster",
+    "attack": "CombatSession::request_actor_attack(id, target_id, dt, error)",
+    "restore": "per-ActorId route/aggro/elapsed bookkeeping clears when actor_binding_lease changes",
+    "animation": "optional stop hook; attack/idle pose progression stays inside CombatSession"
+  },
+  "implementedPolicy": {
+    "scan": "same-world stable actor-ID snapshot",
+    "radius": "source AiProps.view_radius_no_aggro for no-target scan and strict AiProps.view_radius for tracked-target retention",
+    "geometry": "dh2_ai_range source kernel, strict authored radius comparison; retained target sight arithmetic matches character_target_sight",
+    "candidate_filters": [
+      "same-world original faction, alive, targetable eligibility",
+      "source signed sneak comparison: owner resolved[199] >= candidate resolved[198]",
+      "required live level/interaction LOS hook"
+    ],
+    "target_loss": "default dead/missing/ineligible/out-of-sight target cleanup; optional shared stop callback runs before target_id is cleared",
+    "approach": "required shared navigation/locomotion callback when a candidate is acquired or target is out of original melee reach",
+    "attack": "original PlayableActorWorld melee-range gate followed by CombatSession::request_actor_attack",
+    "special_actions": "optional source skill/buff callback; absent callback is counted unsupported and does not suppress basic melee"
+  },
+  "known_source_differences": [
+    "Native _UpdateAggro uses MyTurn, App.GetDt, Random200 and per-actor delay fields. This default controller currently evaluates once per session decision tick; source cadence and random jitter are not reproduced.",
+    "Native list60 Search preserves scene/object-search ordering and its exact geometric/interact pipeline. Default selection scans a stable ActorId snapshot and uses dh2_ai_range, faction eligibility and the signed sneak gate; ordering is not claimed source-identical.",
+    "Native aggro threat lists, friend/neutral events and source ClearAggro/AddAggro bookkeeping are not represented. ActorState.target_id remains the only target record.",
+    "Ranged, skill-tree, buff, flee and non-monster script policies remain unsupported; basic original melee is available independently."
+  ],
+  "changedPaths": [
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_controller_v1.hpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_controller_v1.cpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_controller_v1_tests.cpp",
+    "port/windows-foundation/features/enemy_ai/run_runtime_enemy_controller_v1_tests.py",
+    "port/windows-foundation/features/enemy_ai/runtime-enemy-controller-v1-report.json"
+  ],
+  "verification": {
+    "command": "py -3 port/windows-foundation/features/enemy_ai/run_runtime_enemy_controller_v1_tests.py",
+    "result": "PASS",
+    "stdout": "runtime enemy controller PASS scanLOS=5 attackRequests=2 stopEvents=4 targetDeaths=1",
+    "evidence": "Asset-backed Windows native CombatSession test source-loads the exact static Swamp Lizard declaration, preserves its stableId and authored transform, resolves its level through the existing source monster-level policy with the actual SWAMP LevelTable/LevelRange row, and uses the same live source actor/property records for radius/faction/signed-sneak/range checks, target acquisition, approach-to-melee handoff, request_actor_attack, and target-death cleanup. LOS and approach are controlled fixture services in this focused controller test; the production bindEnemyAI path separately composes RuntimeEnemyNavigationV1 with the same SourceNavigationWorldStorage, PlayableActorBodies, CollisionScene and CombatSession. The root's packaged 180-frame Swamp runtime is separate end-to-end evidence for production movement and attack."
+  },
+  "remaining_root_hooks": [
+    "Source-authored ActorPopulation admission does not yet execute the native Limbus -> PreSpawn17 -> Spawn lifecycle before generic enemy decision ticks.",
+    "Intro LizMan actors are auto_spawn=0 and require the LizardMan_Intro trigger/Script_SpawnCharacter path to admit them into the existing ActorLifecycle and CombatSession owners.",
+    "If closer native parity is required, replace the documented cadence and candidate ordering differences with the actual source MyTurn/Random200 and list60 owners."
+  ],
+  "scopeLimits": [
+    "No duplicate World, ActorState, FSM, AI owner, navigation, RNG or attack implementation was introduced.",
+    "The focused controller test injects LOS and approach services; it does not claim geometry behavior from that fixture. Production navigation is separately bound and exercised by the packaged Swamp runtime.",
+    "This report does not claim native InitPost, source TriggerZone/Script_SpawnCharacter admission, exact native aggro cadence/order, ranged/special skills or complete combat/death lifecycle."
+  ]
+}

@@ -1,0 +1,154 @@
+FILE .local-inputs/windows-shared-assets/original-cache/data/3d/characters/lizardman/lizardman.bdae
+MATERIAL 0 id=ColorMaterial_00B11C1C file= effect=#ProfileCOMMON_ColorMaterial_00B11C1C-fx1302961559_lizardman
+ DEFAULT_RENDER blend=0 src=1 dst=0 depth=1 write=1 cull=1
+ TECHNIQUE index=0 name=default passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE= FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=
+ TECHNIQUE index=1 name=fog passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define FOG
+  FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define FOG
+ 
+ TECHNIQUE index=2 name=lighting passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define LIGHTING
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define LIGHTING
+
+ TECHNIQUE index=3 name=fog & lighting passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define FOG
+ #define LIGHTING
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define FOG
+ #define LIGHTING
+
+MATERIAL 1 id=Material__37 file=GL_Diffuse_L1_VC_iPhone.bdae effect=#Multilight-fx
+ PARAM Ambient_Color type=6
+ PARAM Object_Alpha type=4
+ PARAM Diffuse type=11
+ PARAM AlphaMap type=11
+ PARAM LightMap type=11
+ PARAM Specular type=11
+ PARAM Spec_Level type=4
+ PARAM Spec_Saturation type=4
+ PARAM Glossiness type=4
+ PARAM _light0attenuation type=6
+ PARAM _light0diffusecolor type=6
+ PARAM _light0specularcolor type=6
+ PARAM ambient-color type=7
+ PARAM diffuse-color type=7
+ PARAM specular-color type=7
+ PARAM emission-color type=7
+ PARAM shininess type=4
+ PARAM texture-matrix type=10
+ PARAM alpha-ref type=4
+ PARAM light0 type=19
+ PARAM Multilight-fx-profile_GLES/CurrentTechnique type=20 technique=L1_Vc_----_----_----_----_----
+ PARAM Multilight-fx-profile_GLES2/CurrentTechnique type=20 technique=L1_Vc_----_Sp_----_----_----
+MATERIAL 2 id=Material__38 file=GL_Diffuse_L1_VC_iPhone.bdae effect=#Multilight-fx
+ PARAM Ambient_Color type=6
+ PARAM Object_Alpha type=4
+ PARAM Diffuse type=11
+ PARAM AlphaMap type=11
+ PARAM LightMap type=11
+ PARAM Specular type=11
+ PARAM Spec_Level type=4
+ PARAM Spec_Saturation type=4
+ PARAM Glossiness type=4
+ PARAM _light0attenuation type=6
+ PARAM _light0diffusecolor type=6
+ PARAM _light0specularcolor type=6
+ PARAM ambient-color type=7
+ PARAM diffuse-color type=7
+ PARAM specular-color type=7
+ PARAM emission-color type=7
+ PARAM shininess type=4
+ PARAM texture-matrix type=10
+ PARAM alpha-ref type=4
+ PARAM light0 type=19
+ PARAM Multilight-fx-profile_GLES/CurrentTechnique type=20 technique=L1_Vc_Al_----_----_----_----
+ PARAM Multilight-fx-profile_GLES2/CurrentTechnique type=20 technique=L1_Vc_Al_Sp_----_----_----
+MATERIAL 3 id=additive file= effect=#ProfileCOMMON_additive-fx1302961559_lizardman
+ DEFAULT_RENDER blend=1 src=1 dst=1 depth=1 write=0 cull=1
+ PARAM __irrlicht_Additive type=0
+ PARAM __irrlicht_Diffuse_color type=7
+ PARAM diffuse-sampler type=11
+ PARAM transparent-sampler type=11
+ TECHNIQUE index=0 name=default passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define ADDITIVEBLEND
+ 
+ TECHNIQUE index=1 name=fog passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+#define FOG
+  FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define FOG
+ #define ADDITIVEBLEND
+ 
+ TECHNIQUE index=2 name=lighting passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+#define LIGHTING
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define LIGHTING
+#define ADDITIVEBLEND
+ 
+ TECHNIQUE index=3 name=fog & lighting passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+#define FOG
+ #define LIGHTING
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define FOG
+ #define LIGHTING
+#define ADDITIVEBLEND
+ 
+MATERIAL 4 id=alpha file= effect=#ProfileCOMMON_alpha-fx1302961559_lizardman
+ DEFAULT_RENDER blend=1 src=770 dst=771 depth=1 write=0 cull=1
+ PARAM diffuse-sampler type=11
+ PARAM transparent-sampler type=11
+ TECHNIQUE index=0 name=default passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+
+ TECHNIQUE index=1 name=fog passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+#define FOG
+  FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define FOG
+ 
+ TECHNIQUE index=2 name=lighting passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+#define LIGHTING
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define LIGHTING
+
+ TECHNIQUE index=3 name=fog & lighting passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+#define FOG
+ #define LIGHTING
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define FOG
+ #define LIGHTING
+
+MATERIAL 5 id=diffuse file= effect=#ProfileCOMMON_diffuse-fx1302961559_lizardman
+ DEFAULT_RENDER blend=0 src=1 dst=0 depth=1 write=1 cull=1
+ PARAM diffuse-sampler type=11
+ TECHNIQUE index=0 name=default passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+
+ TECHNIQUE index=1 name=fog passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+#define FOG
+  FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define FOG
+ 
+ TECHNIQUE index=2 name=lighting passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+#define LIGHTING
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define LIGHTING
+
+ TECHNIQUE index=3 name=fog & lighting passes=1
+ VS=ProfileCOMMON_emul_VS.glsl PREAMBLE=#define TEXTURED
+#define FOG
+ #define LIGHTING
+ FS=ProfileCOMMON_emul_FS.glsl FPREAMBLE=#define TEXTURED
+#define FOG
+ #define LIGHTING
+

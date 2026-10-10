@@ -188,7 +188,12 @@ bool RetainedGameObjectVisualV1::initialize(const char* model,const char* xref,s
  // sets a source node bool. Optimized static transform baking is separate.
  if(!fields_.static84)return missing("SAME parent source static84",e);
  bool dynamic=*fields_.static84==0;
- if(!dynamic){if(!services_.parent_is_animated)return missing("parent IsAnimated virtual",e);if(!services_.parent_is_animated(dynamic,e))return false;}
+ if(!dynamic){if(!services_.parent_is_animated){
+   missing("parent IsAnimated virtual",e);
+   const char* parent_class=base_?base_->class_name20():"Character field borrow";
+   e+=" | parent "+std::to_string(fields_.identity)+" | class "+(parent_class?parent_class:"unproduced")+" | model "+model+" | xref "+xref;
+   return false;
+  }if(!services_.parent_is_animated(dynamic,e))return false;}
  // Source IsAnimated precedes Sync in the static branch.
  if(!sync(e))return false;
  if(!dynamic){if(!optimize_static_v76(e))return false;}
@@ -354,7 +359,7 @@ bool RetainedGameObjectVisualV1::sample(bool reset,std::string& e){
  return update_skinned_meshes(e);
 }
 BaseNamedAnimationBorrowV1 RetainedGameObjectVisualV1::named_animation(std::shared_ptr<void> lease){
- BaseNamedAnimationBorrowV1 b;b.owner=std::move(lease);if(!root_present_||!animated_)return b;
+ BaseNamedAnimationBorrowV1 b;b.owner=std::move(lease);if(!root_present_)return b;
  b.timeline=&timeline_;b.scene_flags11c=&binding_.root.flags;b.timeline_library_count=static_cast<std::int32_t>(clips_.size());
  b.applicator_extra_ms=&completion_.extra_ms;
  auto find=[this](const char* name,std::int32_t& v,std::string& e){if(!name)return missing("clip name",e);v=-1;for(std::size_t i=0;i<clips_.size();++i)if(clips_[i].name==name){v=static_cast<std::int32_t>(i);break;}return true;};

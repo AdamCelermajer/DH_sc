@@ -132,10 +132,21 @@ struct Loader {
             Instance instance{r.field(p),node_index,geometry,world,{}};
             instance.controller=controller;
             const auto n=r.w(g+12),bindings=r.w(g+16);r.array(bindings,n,60);
+            // The instance_material rows are the targets, while the runtime
+            // binding key is each geometry primitive's authored material
+            // symbol. Keep both domains together for the retained Module
+            // mesh borrower/compiler, just as the general scene loader does.
+            assets::Mesh mesh{};
+            if(dh2_mesh_open(&mesh,&r.v,geometry)!=assets::Error::ok||mesh.primitives!=n)
+                throw std::runtime_error("Actual Module material binding/primitive domain differs");
             for(unsigned j=0;j<n;++j){
                 const auto b=bindings+60*j;
                 if(r.w(b))throw std::runtime_error("External material binding not supported");
+                assets::Primitive primitive{};
+                if(dh2_mesh_primitive(&mesh,j,&primitive)!=assets::Error::ok||!primitive.material)
+                    throw std::runtime_error("Actual Module source primitive material symbol missing");
                 instance.materials.push_back(r.find(Library::material,r.field(b+4)));
+                instance.material_symbols_v1.push_back({primitive.material});
             }
             s.instances.push_back(std::move(instance));instance_visibility.push_back(visible?1u:0u);
         }

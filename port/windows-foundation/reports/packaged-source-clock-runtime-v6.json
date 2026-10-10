@@ -1,0 +1,87 @@
+{
+  "status": "diagnostic_packaged_runtime_verified_fidelity_incomplete",
+  "goal_complete": false,
+  "executable_sha256": "b6d781b9333b5a1b09fe9501b42a73e3099cbbca6b32e8dff161dbaaa07f117b",
+  "package_files_verified": 536,
+  "retained_source_clock": true,
+  "retained_player_locomotion": true,
+  "source_spawn_command_replay": true,
+  "baseline_executable_preserved": true,
+  "runtime_checks": [
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v6/verification.log",
+      "required_observations": [
+        "Damage frame=13 attacker=7118915781085668844",
+        "Damage frame=76 attacker=18446744073709551615",
+        "Damage frame=192 attacker=18446744073709551615",
+        "removed=14.0039 dead=1",
+        "Saved live checkpoint frame=210 HP=157.457 RNG=2808983/38",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Rendered frames=360; clean shutdown",
+        "938.285,255 grounded=1"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v6/resume-verification.log",
+      "required_observations": [
+        "Restored live checkpoint frame=0 HP=157.457 RNG=2808983/38",
+        "Rendered frames=30; clean shutdown",
+        "HP=0/47.5 target=0 action=5"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v6/startup-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=1272.13,-199.164,255 grounded=1",
+        "HP=165.098/165.098 target=0 action=0",
+        "Actor camera anchor final=1453.15,-18.1449,255",
+        "sourceXY=276.028 worldXY=193.002"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v6/moving-verification.log",
+      "required_observations": [
+        "Rendered frames=360; clean shutdown",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Damage frame=78 attacker=18446744073709551615",
+        "Damage frame=204 attacker=18446744073709551615",
+        "sourceXY=519.174 worldXY=467.256",
+        "sourceXY=425.828 worldXY=383.244",
+        "Retained source animation clock actor=18446744073709551615"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v6/spawn-inflight-verification.log",
+      "required_observations": [
+        "Source command frame=33 script=LizardMan_Intro index=4 kind=30",
+        "Rendered frames=95; clean shutdown",
+        "name=_prim_Monster_LizManIntro1 state=1 enabled=1 physical=0 collisions=1",
+        "name=_prim_Monster_LizManIntro2 state=17 enabled=0 physical=0 collisions=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v6/spawn-verification.log",
+      "required_observations": [
+        "Source command frame=33 script=LizardMan_Intro index=4 kind=30",
+        "Source command frame=128 script=LizardMan_Intro index=6 kind=30",
+        "Lifecycle whole sequence finished actor=11259224883678223927 state=3",
+        "Lifecycle whole sequence finished actor=4660011647479645029 state=3",
+        "Damage frame=131 attacker=11259224883678223927",
+        "Damage frame=296 attacker=18446744073709551615",
+        "removed=14.0039 dead=1",
+        "Population final enabled=15 deferredInitially=7 loaded=20",
+        "Rendered frames=400; clean shutdown"
+      ]
+    }
+  ],
+  "limits": [
+    "Explicit diagnostic stationary AI; original encounter activation remains unverified",
+    "Lifecycle replay uses explicitly scheduled serialized Spawn commands in global context-1; full original trigger/module/cutscene/UI flow and campaign persistence remain incomplete",
+    "Player locomotion shares source pose ownership; original controller/attack heading command gates and outer combo chaining remain incomplete",
+    "Navigation/body/visibility/target-selection policies and continuous reference fidelity remain incomplete",
+    "Companion behavior, status/DOT/leech, full UI/effects/audio/campaign remain incomplete"
+  ]
+}

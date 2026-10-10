@@ -1,0 +1,21 @@
+{
+  "capability": "Synchronous scoped menu character viewport",
+  "status": "implemented and isolated WGL tested; main equipment integration pending",
+  "api": "Renderer::withViewport(x,y,width,height,camera,drawContent)",
+  "coordinates": "OpenGL bottom-left pixel origin",
+  "runner": "tools/run_renderer_viewport_tests.ps1",
+  "verification": {
+    "strict_static_build": "PASS",
+    "hidden_own_WGL_context": "PASS",
+    "inherited_scissor_intersection": "PASS",
+    "all_128_by_128_pixels_contained": "PASS",
+    "menu_color_preserved_on_entry": "PASS",
+    "normal_and_throw_state_restoration": "PASS",
+    "invalid_and_disjoint_callback_rejection": "PASS"
+  },
+  "limitations": [
+    "No actual equipment character capture yet",
+    "Callback must draw synchronously and must not call beginFrame or resize",
+    "Cleared pane depth is intentionally not restored; surrounding depth remains untouched"
+  ]
+}

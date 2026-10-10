@@ -1,0 +1,38 @@
+{
+  "status": "PASS bounded runtime implementation and targeted native test",
+  "api": "CombatVisualBinding::update_source(double, const SourceCombatMarkerSink&, string&) appended after hold_terminal; optional and source-clock-only",
+  "source_proof": [
+    "port/level-world/reference/character-ai-events/reference/original-functions.asm: event0x28 at0x3cbe80 calls0x3d4434, saves result0x3cbe88, then common state forwarding0x3cbe58",
+    "port/level-world/reference/character-melee-animation-event-v1/original-functions.asm and NOTES.md: state5 nonranged main/offhand invokes OnAttack; default AIS reaches F_MeleeAttack0x3b3368 then F_ApplyResult0x3b10b4 before helper returns1 at0x3d45a4",
+    "port/windows-foundation/retained_sequence_playback.cpp: advance samples retained frame then deliver before take_completion/closed; generation guard permits source callback selection without old completion"
+  ],
+  "implementation": [
+    "Sink applies CombatSystem::consume_marker to same existing world actor and runtime attack generation within retained callback",
+    "Damage receipt enters update caller vector before following state callback; explicit target reaction/death binding is selected synchronously",
+    "Synchronous source branch never invokes take_source_events; legacy branch remains available",
+    "Source timers advance once to actual endpoint sample; no invented subframe lag subtraction",
+    "Old source callback generation cannot damage replacement action or finish it through old completion",
+    "Sink failure latches even when host ignores return; earlier applied effects and receipts remain"
+  ],
+  "tests": [
+    "actor_combat_runtime_tests.exe PASS after final edit",
+    "Immediate target HP/hurt action/react pose and receipt visible before modeled stateforward",
+    "Duplicate stream event applies once; interrupt/rebegin suppresses stale stream and old completion",
+    "Ignored sink provider failure remains false with earlier hit retained",
+    "Existing source queue, departure timer, legacy marker, corpse restore, lethal/interrupt/rate tests pass",
+    "Exact empty-error counterexample PASS: second target reaction visual.select returns false with empty error; host clears error and ignores sink false; runtime still fails with nonempty normalized error, both applied hits/receipts retained (HP4, events2), attacker interrupted"
+  ],
+  "ownership": [
+    "port/windows-foundation/actor_combat_runtime.hpp",
+    "port/windows-foundation/actor_combat_runtime.cpp",
+    "port/windows-foundation/tests/actor_combat_runtime_tests.cpp"
+  ],
+  "limitations": [
+    "Runtime guarantees synchronous source helper boundary only when caller supplies update_source and invokes sink synchronously; root owns Session integration",
+    "Events emitted by initial begin/select before runtime assigns selected attack pose remain explicit seed-edge limitation; root retains initial queue fallback",
+    "Mixed legacy subframe and synchronous source bindings cannot claim global original LevelTraversal chronology; source delivery follows actual runtime binding iteration/sample and monotonic timer clock",
+    "Generic diagnostic CombatSystem damage/reaction is not full original F_ApplyResult or complete AIS/FSM reentry; existing source consumers supply their own effects",
+    "Callback must not structurally unbind or clear runtime while its binding is being updated; callback sink must not escape update_source call",
+    "No claim that callback selection proves all original same-owner AIS continuations; retained generation guards protect old completion only"
+  ]
+}

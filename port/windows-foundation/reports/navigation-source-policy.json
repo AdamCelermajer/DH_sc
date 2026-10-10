@@ -1,0 +1,57 @@
+{
+  "status": "source audit; no new ARM differential run performed",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "ida_handoff": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/assembly-functions.asm",
+  "finding": "Requiring all eight radius footprint samples to have floor support is not the original navigation policy and can reject valid authored spawn positions.",
+  "ground_selection": {
+    "entry": "PFWorld::ValidatePosition at 0x525d84",
+    "source": "port/level-world/navigation_motion.cpp:58",
+    "behavior": "Queries a single candidate position. Tries cached floor, cached room, then world. Validates floor type flags and height delta; accepts by updating candidate Z and object position/normal or clamps to previous object position.",
+    "footprint_ring": false,
+    "radius_parameter": false,
+    "ida_evidence": "0x525de8 moves candidate point pointer R5 into R1; 0x525df4 calls PFFloor::GetFloorHeightAt. No ring or radius samples. Same pointer continues through room/world fallbacks."
+  },
+  "boundary_direction": {
+    "entry": "PFWorld::ValidateDirection(Point3D&,Point3D const&,float,uint) at 0x525944",
+    "source": "port/level-world/navigation_motion.cpp:91",
+    "behavior": "Finds current center triangle, normalizes direction and probes center plus direction times 10 original game units. If unsupported, tries sliding along intersected edges of the current triangle. Floor traits gate admissibility.",
+    "radius_argument_used": false,
+    "ida_evidence": "Incoming radius is R3 under ARM ABI; 0x525974 overwrites R3 with stack triangle pointer before any read/save. 0x5259f0 normalizes direction; 0x5259f4..0x525a2c multiplies its components by float10; 0x525a8c queries one resulting center point.",
+    "object_overload": "0x525d60 forwards object center, radius and flags to the overload; forwarding does not mean radius affects its body."
+  },
+  "controller_policy": {
+    "source": "port/level-world/navigation_controller.cpp",
+    "behavior": "Boundary validation is gated by controller.validate_boundary and debug skip policy; separate avoid_obstacles policy handles PF obstacle avoidance. A generic preview should not conflate those policies with floor footprint containment."
+  },
+  "body_geometry": {
+    "sources": ["port/level-world/character_scene.cpp:29", "port/level-world/character_scene.cpp:41", "port/level-world/character_body_config.cpp:24", "port/level-world/character_live_body_projection_v6.cpp:18"],
+    "skin_bounds": "CharacterSkinBounds unions cached joint-transformed authored joint boxes, or joint translations when boxes absent. Equipment/model provider selection and parent scaling feed the bound.",
+    "owner_bounds": "Collision_Scale property16/100 applies unless marker already scaled; shared owner-bound padding/translation produces absolute bounds.",
+    "physical_radius": "Original 2D body radius is 0.5*max(absolute xmax-xmin, absolute ymax-ymin)*0.01 in physics units. The physical body is XY, fixed rotation; it is independent of floor-height footprint admission.",
+    "vertical_height": "Original 2D body config has no vertical bodyHeight field. A 3D preview raycast height may be derived from source zmax-zmin as an approximation, but is not the original floor selection policy."
+  },
+  "existing_validation": {
+    "report": "port/level-world/reports/navigation-motion-arm64-differential.json",
+    "comparisons": 2353,
+    "position_cases": 573,
+    "direction_cases": 768,
+    "mismatches": 0,
+    "qualification": "Pre-existing checked-in differential evidence, not rerun during this audit."
+  },
+  "movement_owner_action": "Remove unconditional radius-ring floor containment. Ground the candidate center, enforce configured/source height and floor-type rules; treat actual physics/path obstacles separately. Preserve missing-collider limitations; do not invent walls or spawn exceptions.",
+  "remaining_fidelity_limits": [
+    "Foundation CollisionScene currently chooses nearest height across all floor triangles rather than original cached-floor/room/first-hit traversal.",
+    "Foundation floor-type flags and navigation boundary edge-slide are not yet fully connected.",
+    "Tested source modules contain floor geometry but no colbox helpers; other authored gameplay colliders require their owners."
+  ],
+  "stationary_grounding_diagnostic": {
+    "actual_actor_position": [-6852.641, 938.285, 250],
+    "diagnostic_player_position": [-6752.641, 938.285, 250],
+    "original_floor_triangle": 115,
+    "height": 255,
+    "symmetric_caps_tested": [50, 100, 1000, 1000000],
+    "result": "Both coordinates hit the original floor for every tested cap. They require only a five-unit upward correction, within preview up50/drop200 caps.",
+    "cause": "ActorMovement::setPosition resets grounded=false. apply_root_motion returns early for idle motionScale<=0, so the steer/root-motion integration does not run supported/advance at rest. This is stationary synchronization, not missing original geometry or an oversized height cap.",
+    "fix_policy": "Evaluate candidate center support for stationary root-motion updates using the existing configured caps. No source geometry edits, cap relaxation, synthetic floor or spawn exception needed."
+  }
+}

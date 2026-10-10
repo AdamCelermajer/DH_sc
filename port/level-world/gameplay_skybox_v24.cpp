@@ -14,16 +14,22 @@ bool diffuse_uri(const dh2::resources::BresView&v,std::uint32_t material,std::st
 extern "C" void dh2_skybox_transform_v24(float*m,const float*eye,const float*near){m[12]=eye[0];m[13]=eye[1];m[14]=eye[2];const float scale=*near+*near;m[0]=m[5]=m[10]=scale;}
 extern "C" void dh2_skybox_clear_depth_write_v24(std::uint32_t*flags,std::uint8_t*dirty){const auto old=*flags;*flags=old&~0x100000u;if(old&0x100000u)*dirty=1;}
 namespace dh2::camera {
-struct SkyboxNodeV24::ParentLease {std::shared_ptr<SkyboxNodeV24> node;~ParentLease(){if(node){std::string error;node->drop(error);}}};
 SkyboxNodeV24::SkyboxNodeV24(std::shared_ptr<SkyboxResourceV24>r,std::vector<SkyboxMaterialRendererBorrowV24>m,std::shared_ptr<world::GameObjectSceneRootRegistryV1>roots):resource_(std::move(r)),materials_(std::move(m)),roots_(roots){}
 bool SkyboxNodeV24::construct_tail(std::string&e){if(!resource_||resource_->buffers.empty()){e="Required actual skybox CMeshSceneNode mesh/material0";return false;}const auto index=resource_->buffers[0].material;if(index>=materials_.size()||!materials_[index].owner||!materials_[index].flags4||!materials_[index].dirty30){e="Required SAME original skybox material RenderPass flags/dirty owner";return false;}dh2_skybox_clear_depth_write_v24(materials_[index].flags4,materials_[index].dirty30);return true;}
 bool SkyboxNodeV24::grab(std::string&e){if(!alive_||!references_){e="Released actual skybox reference";return false;}++references_;return true;}
 bool SkyboxNodeV24::drop(std::string&e){if(!alive_||!references_){e="Required live source skybox drop";return false;}--references_;if(!references_){if(parentec_){e="Skybox source drop reached registered parent at zero";return false;}alive_=false;materials_.clear();resource_.reset();}return true;}
-bool SkyboxNodeV24::attach(std::string&e){auto roots=roots_.lock();if(!alive_||!roots){e="Required actual skybox SAME SceneManager root";return false;}if(parentec_){e="Skybox already has a source parent";return false;}if(!grab(e))return false;auto parent=std::make_shared<ParentLease>();parent->node=shared_from_this();world::GameObjectSceneRootBorrowV1 b;b.owner=parent;b.identity=identity();b.flags11c=&flags11c_;b.parentec=&parentec_;std::weak_ptr<SkyboxNodeV24> weak=shared_from_this();
+bool SkyboxNodeV24::attach(std::string&e){auto roots=roots_.lock();if(!alive_||!roots){e="Required actual skybox SAME SceneManager root";return false;}if(parentec_){e="Skybox already has a source parent";return false;}world::GameObjectSceneRootBorrowV1 b;b.owner=shared_from_this();b.identity=identity();b.flags11c=&flags11c_;b.parentec=&parentec_;std::weak_ptr<SkyboxNodeV24> weak=shared_from_this();
+ b.acquire_parent_reference_v110=[weak](auto& e){auto node=weak.lock();if(!node){e="Retired skybox parent grab";return false;}return node->grab(e);};
+ b.release_parent_reference_v110=[weak](auto& e){auto node=weak.lock();if(!node){e="Retired skybox parent drop";return false;}return node->drop(e);};
  b.notify_visibility=[weak](bool visible,std::string&error){auto node=weak.lock();if(!node){error="Released skybox visibility receiver";return false;}node->parent121_=visible;if(node->local120_&&node->parent121_)node->flags11c_|=1;else node->flags11c_&=~1u;return true;};
  b.remove_animators=[weak](std::string&error){auto node=weak.lock();if(!node){error="Released skybox animator receiver";return false;}return true;}; // actual wrapper C1 owns an empty animator list
  b.modular_receivers_v114=[weak](auto&,std::string& e){if(weak.expired()){e="Retired actual skybox type search";return false;}e.clear();return true;}; //actual Skybox node owns mesh buffers, no CModularSkinnedMeshSceneNode children
  b.scene_manager_changed=[weak](std::uintptr_t manager,std::string&error){auto node=weak.lock();if(!node){error="Released skybox manager receiver";return false;}node->manager110_=manager;return true;};
+ b.scene_phase_v69=[weak](std::uint32_t,std::string& e){auto node=weak.lock();
+  if(!node||!node->alive_){e="Retired skybox scene-phase receiver";return false;}
+  // Static CMeshSceneNode: empty animator list; active-camera world matrix
+  // belongs to SkyBoxMeshSceneNode::render, not the source animate phase.
+  e.clear();return true;};
  return roots->add_child(std::move(b),e);
 }
 bool SkyboxNodeV24::detach(std::string&e){if(!parentec_)return true;auto roots=roots_.lock();if(!roots){e="Required SAME skybox parent removal owner";return false;}return roots->release_visual_root(identity(),e);}

@@ -45,6 +45,8 @@ struct CharacterGameDesign::Snapshot {
  data::DesignRegistry16 registry{};
  Constants constants{dh2_script_constants_create()};
  std::vector<GameDesignConstantLoad24> constant_loads;
+ dh2_script_design_bindings process_design{};
+ std::shared_ptr<void> process_design_owner;
  dh2_script_design_bindings design{this,&lookup,0};
  static int lookup(void* opaque,std::uint32_t kind,const char* group,const char* key,std::int32_t* out){
   auto* s=static_cast<Snapshot*>(opaque);
@@ -53,7 +55,14 @@ struct CharacterGameDesign::Snapshot {
   if(kind!=1)return 1;
   bool supported=false;
   for(const auto& r:s->registrations)if(!std::strcmp(r.group,group)){supported=true;break;}
-  if(!supported)for(const char* name:original_registered_names)if(!std::strcmp(name,group))return 1;
+  if(!supported){
+   for(const char* name:original_registered_names)if(!std::strcmp(name,group)){
+    if(!s->process_design.lookup)return 1;
+    std::int32_t value=-1;
+    if(s->process_design.lookup(s->process_design.context,kind,group,key,&value))return 1;
+    *out=value;return 0;
+   }
+  }
   return dh2_game_design_tables_lookup(&s->registry,kind,group,key,out);
  }
  void finish_names(std::string& error){
@@ -71,9 +80,15 @@ struct CharacterGameDesign::Snapshot {
  }
 };
 bool CharacterGameDesign::initialize(const GameDesignInputs256& input,std::string& error){
+ return initialize(input,dh2_script_design_bindings{},std::shared_ptr<void>{},error);
+}
+bool CharacterGameDesign::initialize(const GameDesignInputs256& input,
+ const dh2_script_design_bindings& process_design,std::shared_ptr<void> provider_owner,std::string& error){
  error.clear();
  if(snapshot_&&snapshot_.use_count()!=1){error="Design snapshot has live borrowers";return false;}
  if(input.reserved||input.constant_count>4096||(input.constant_count&&!input.constants)){error="Invalid design input descriptor";return false;}
+ if(process_design.reserved||((process_design.lookup==nullptr)!=(process_design.context==nullptr))||
+    (process_design.lookup&&!provider_owner)) {error="Invalid retained process PyDataArrays provider";return false;}
  try{
   const GameDesignTableInput48* sources[]={&input.characters,&input.classes,&input.ai,&input.factions,&input.levels};
   std::size_t total=0;
@@ -81,6 +96,7 @@ bool CharacterGameDesign::initialize(const GameDesignInputs256& input,std::strin
   for(auto* source:sources)for(auto stream:{source->records,source->names,source->schema})preflight(stream);
   for(std::uint32_t i=0;i<input.constant_count;++i)preflight(input.constants[i]);
   auto next=std::make_shared<Snapshot>();if(!next->constants)throw std::runtime_error("Constant map allocation failed");
+  next->process_design=process_design;next->process_design_owner=std::move(provider_owner);
   for(unsigned i=0;i<5;++i){const data::Bytes fields[]={sources[i]->records,sources[i]->names,sources[i]->schema};for(unsigned j=0;j<3;++j)next->inputs[i][j]=copy(fields[j]);}
   for(std::uint32_t i=0;i<input.constant_count;++i)next->constant_inputs.push_back(copy(input.constants[i]));
   auto stream=[&](unsigned i,unsigned j){return bytes(next->inputs[i][j]);};

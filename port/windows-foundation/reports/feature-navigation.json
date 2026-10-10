@@ -1,0 +1,37 @@
+{
+  "feature": "generic source destination, chase and decor PF producer bridge",
+  "status": "bounded source/native producers implemented; root runtime integration pending",
+  "files": ["features/navigation/source_commands.hpp", "features/navigation/source_commands.cpp", "features/navigation/source_commands_tests.cpp"],
+  "sole_authorities": {
+    "actor_pf": "PlayableActorBodies::navigation(id), borrowed read-only for route flags/radius/current position",
+    "floor_world": "caller-owned SAME dh2::floors::World",
+    "controller": "caller-owned SAME OriginalActorPathBindings controller/path/workspace/publication",
+    "registry": "caller-owned SAME ObstacleRegistry; no replacement world or map"
+  },
+  "destination": {
+    "api": "find_source_destination",
+    "kernel": "dh2_nav_find_path_source_v1",
+    "requirements": ["initialized sole PF receiver", "actual sewn graph", "bounded path/result storage", "reached source search-enabled producer", "actual admitted command publication"],
+    "failure_semantics": "Missing providers reject. Reached source policy failure preserves original DropPath/store-target prefix. found=false remains failed search rather than successful arrival."
+  },
+  "chase": {
+    "api": "update_source_chase",
+    "kernel": "PlayableActorBodies::update_path -> OriginalActorNavigation::update_path -> dh2_nav_update_path_source_v69",
+    "avoidance": "Existing source_policy controls avoid_obstacles. Reached avoidance requires actual AvoidanceScene/SAME registry and actors; no generic default or new balance."
+  },
+  "decor": {
+    "api": "update_source_decor_obstacle",
+    "kernel": "dh2_nav_update_game_object",
+    "source_evidence": ["port/level-world/navigation_producers.cpp", "port/level-world/canonical_podecor_body_v49.cpp", "port/level-world/decor_body_config.cpp"],
+    "generic_decor": "ProducerClass::game_object is not a PF obstacle. Actual PODecor bodies participate in NativeWorld separately. Never infer obstacle class or shape from visual floor/module meshes.",
+    "special_classes": "Containers/liftables/traps require proved concrete producer class; physical radius/assignment must come from their actual source native owner.",
+    "physical_construction": "CanonicalPodDecorBodyV49 construct/assign requires original retained base/visual and NativeWorld callbacks. Feature does not construct substitutes; missing source class/physical registration remains a blocker."
+  },
+  "verification": {
+    "syntax": "passed with native Windows compiler and existing foundation includes",
+    "native_asset_test": "passed against shared original assets: nine actual source module constructor traces, original floor graph, original direct route, sole PF field projection, reached-policy prefix, decor constructor-null prefix and missing-service rejection",
+    "fixtures": "Admission and command publication callbacks are declared test fixture boundaries. No campaign or AIS success is inferred.",
+    "command": "features/navigation/source_commands_tests.cpp linked with existing native foundation archives; output actualSourceModules=9 realFloorRoute=true solePFProjection=true reachedPolicyFailurePrefix=true"
+  },
+  "remaining": ["Root must integrate actual command/path lifecycle and source providers", "Source state determines chase destination/search limit and cadence", "Actual gameplay decor physical construction/registration not supplied by this feature", "NativeWorld Step/contact delivery remains frame-owner work", "This feature does not claim complete enemy AI, combat or campaign movement"]
+}

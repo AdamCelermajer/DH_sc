@@ -1,0 +1,159 @@
+{
+  "feature": "skill_ui",
+  "validation": "PASS bounded host presenter tests, strict compilation of the same-owner probe binder/action/query sources, and connected-v2 native ASan/O2 acceptance against a fresh current-source snapshot.",
+  "owned_files": [
+    "features/skill_ui/skill_ui.hpp",
+    "features/skill_ui/skill_ui.cpp",
+    "features/skill_ui/skill_ui_tests.cpp",
+    "features/skill_ui/original_skill_art.hpp",
+    "features/skill_ui/original_skill_art.cpp",
+    "features/skill_ui/original_skill_presenter.cpp",
+    "features/skill_ui/original_skill_art_tests.cpp",
+    "features/skill_ui/export_skill_art.py",
+    "features/skill_ui/source_skill_art.json",
+    "features/skill_ui/native_skill_details.hpp",
+    "features/skill_ui/native_skill_details.cpp",
+    "features/skill_ui/native_skill_services.hpp",
+    "features/skill_ui/native_skill_services.cpp"
+  ],
+  "api": "dh::foundation::skill_ui::Presenter pins existing SkillTables Borrow and borrows Services; view/select/train(source_flag)/assign/append",
+  "source_probe_contract": "Presenter::probe_training reports provider failure separately from accepted=false; bind_live_player_services delegates to CharacterMenuActionsOwnerV1::probe_train_skill, whose native query uses the complete same-graph test_only=true source kernel. Presenter::train(false) remains the mutating path.",
+  "authoritative_state": "Services character/progress/slots/increment/assign retain Character, PlayerSavegame and property ownership. Presenter retains only selected list position and per-frame projections.",
+  "source_evidence": [
+    {
+      "address": "0x3bc5c0",
+      "function": "Character::GetCharSkillListId",
+      "behavior": "owner class-list ID; invalid ID falls back to authored list3"
+    },
+    {
+      "address": "0x3bc784",
+      "function": "Character::GetCharSkill",
+      "behavior": "native skill ID is position in class SkillList, which maps to global SkillTable row"
+    },
+    {
+      "address": "0x3bc9ec",
+      "function": "Character::CanIncrementSkill",
+      "behavior": "requires runtime skill progression backing and recovered level limit; delegated, no fabricated rank limit"
+    },
+    {
+      "address": "0x3bca84",
+      "function": "Character::IsSkillEquippable",
+      "behavior": "source availability, SkillAssignable word18 != -1, and saved level >0; delegated to owner"
+    },
+    {
+      "address": "0x43d548",
+      "function": "NativeSkillsTrainSkill",
+      "behavior": "authored skill selection probes NativeSkillsTrainSkill(skill position, true, player) through the complete IncSkill test path; the authored add click uses the mutating false path. CharacterMenuActionsOwnerV1::probe_train_skill now runs the exact source test_only=true kernel over the retained owner provider, and CharacterMenuQueriesOwnerV1 returns an ordinary AS boolean false for a source rejection. The two-number semantic adapter remains mutation-only."
+    },
+    {
+      "address": "0x43d63c",
+      "function": "NativeEquipSkill",
+      "behavior": "source IsSkillEquippable guards SG_SetSkillInSlot"
+    },
+    {
+      "address": "0x445a10",
+      "function": "NativeGetSkillDetails",
+      "behavior": "actual localization/AI info/difficulty services required for current and next descriptions"
+    },
+    {
+      "address": "0x3b6fa4",
+      "function": "Character::_HasShield",
+      "behavior": "registered original source global; calls ItemInventory::HasShield at 0x400110 and pushes one Lua boolean through ReturnValues::pushBoolean at 0x37c7e4. Feature binding resolves the selected off-hand item from the same live menu inventory and returns true only for original item record word22 == 6; missing metadata for a present item is a required-provider failure."
+    },
+    {
+      "address": "0x421720",
+      "function": "MenuBase::FS_GetPlayerClass",
+      "behavior": "selected local Character::SG_GetPlayerClass row is converted by playerClassAsStrID 0x41f834 then StringManager::getString; source family string supports only original base class rows"
+    },
+    {
+      "address": "0x421980",
+      "function": "MenuBase::FS_GetPlayerClass2",
+      "behavior": "returns playerClassAsStr 0x4218e4 source lower-case family label; original mapping is limited to base classes"
+    },
+    {
+      "address": "CharacterTable.SkillTree",
+      "function": "original CharacterTable metadata field",
+      "behavior": "authored row template metadata; feature can inspect it for diagnostics but live Character::GetCharSkillListId remains list authority because properties may override the class-row value"
+    }
+  ],
+  "original_art": {
+    "provider": "character_menu::original_menu_art(Tab::skills)",
+    "source": "data/menus/dqcharmenu_droid.swf",
+    "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+    "field_prefix": "menu_SkillTreeSheetNew",
+    "dynamic_icons": "Implemented exact78 sprite79 labels,105 source tree/drag/slot placements across class493 frames. Frame resolver reproduces source MenuBase::FS_GetPlayerClass2/playerClassAsStr branch for base saved rows and fails on unsupported rows; current Character::GetCharSkillListId remains active skill-list authority. 36 source hit contours per class including16 tree+16drag+3hotbar+train."
+  },
+  "actual_class_lists_verified": [
+    "Knight",
+    "KnightBerserker",
+    "KnightPaladin",
+    "Mage",
+    "MageIllusionist",
+    "MageNecromancer",
+    "Rogue",
+    "RogueArcher",
+    "RogueAssassin"
+  ],
+  "test": {
+    "compiler": "WSL g++ C++17 -O1 -Wall -Wextra -Werror -Wno-misleading-indentation",
+    "actual_lists": 36,
+    "actual_records": 127,
+    "actual_skill_references": 213,
+    "actual_source_class_rows_checked": 55,
+    "mutation_spy_calls": 2,
+    "source_probe_spy_calls": 5,
+    "checks": [
+      "actual row/name/icon order",
+      "actual CharacterTable.SkillTree metadata inspection and separate active source-list selection",
+      "authored class-row SkillTree metadata read separately from active source list authority",
+      "exact original class-frame row switch for supported base rows and rejection of specialization rows unsupported by playerClassAsStr",
+      "class-position mutation IDs",
+      "full-source probe operation is represented separately from provider failure; selected append invokes the source eligibility probe while unselected append does not",
+      "training/assignment owner rejection",
+      "saved slot bounds",
+      "invalid class ID source fallback",
+      "missing required services",
+      "atomic view failure"
+    ],
+    "service_spies_are_policy_fixtures": true
+  },
+  "connected_probe_acceptance": {
+    "fixture": "port/engine-ui/tests/character_menu_connected_v2.cpp",
+    "added_source_checks": [
+      "three-argument [skill_position, true, player_index] returns a boolean true and leaves saved rank, saved points and potion-capacity store unchanged",
+    "the same source probe at the source saved-rank cap returns boolean false successfully and leaves the rank/points/capacity store unchanged",
+    "three-argument [skill_position, false, player_index] performs the actual source training transaction and returns remaining points",
+    "the authored NativeEquipSkill(slot_id, class_skill_position, player_id) call updates actual Save hotbar slots 0, 1 and 2 through the same CharacterMenuActionsOwnerV1, CharacterPlayerSkillsV3 and Save graph",
+    "NativeSkillGetEquipedSkillsIDs returns all three saved slot positions; each Save skill ID is checked against original SkillList[class_position], and the selected row's V3 runtime AI script is checked against that same SkillTable record",
+    "all 48 class-position rows across the three supported base-class SkillLists were queried through NativeGetSkillDetails on the same actual player VM; every row returned nine source members with icon and saved rank matching the source SkillTable/Save row",
+    "the feature HasShield override composes over existing CharacterSkillNativeReadOnlyBindingsV6, reads the selected off-hand from the actual Gear inventory, returns exactly one Lua boolean from the original item type field, and enables the Warrior Charge details row; no unsupported native globals were reached for the 48 queries"
+    ],
+  "build_script_added_provider_sources": [
+    "port/engine-ui/character_menu_potion_text_v4.cpp",
+    "port/engine-ui/character_menu_gold_v4.cpp",
+    "port/level-loader/area_transition_request_v114.cpp"
+  ],
+  "execution_status": "PASS: fresh native snapshot rebuilt from current source with the existing character_script_session_targets_host.cmake provider hook; the connected fixture uses the original cached font resolver and retained source font platform before SwfMovie construction; ASan with leak detection and O2 both report same_graph_classes=3, whole_training_transactions=3, same_graph_actions=33, all_class_position_skill_detail_queries=48, successful_skill_detail_queries=48, unsupported_skill_detail_globals=[], actual_skill_members=432, and real_retained_AS_transport=true.",
+  "source_action_call_contract": {
+    "NativeEquipSkill": "SlotID, SkillID (class-list position), playerId; authored SWF function arguments recovered in dqcharmenu_droid.swf root/sprite496 at offset 137466",
+    "NativeGetSkillDetails": "SkillID (class-list position), object receiver, playerId 0; native details fill SkillIcon/SkillAssignedToSlot and localized source fields"
+  },
+  "persistence_boundary": "PlayerSavegameV1 decodes the source skill section and owns changed ranks/slots in memory; there is no standalone skill/slot encoder. Disk persistence requires the same-profile PlayerSaveWriteOwnerV1 and its genuine whole-profile save_all provider, which this connected fixture does not construct or claim.",
+  "remaining_skill_detail_boundary": "All 48 class-position rows across the three supported base-class skill lists passed through the same NativeGetSkillDetails owner with no unsupported source globals. Specialization class frames remain unsupported by the original playerClassAsStr branch; these connected checks do not claim their separate menu page composition."
+  },
+  "unsupported_services": [
+    "runtime binding to existing CharacterMenuQueriesOwnerV1 plus actual NativeGetStringFromSymbol",
+    "complete V60/InitPost player graph: current native factory fixture stops at Device::IsHighPerformance before InitPost completion, so it does not provide initialized CharacterPlayerSkillsV6, loaded Save skill rows/slots or the authored menu action/query graph",
+    "original playerClassAsStr provides no class frame for specialization rows; those remain explicitly unsupported",
+    "animated focus/glow, dynamicGrey/Lock overlays and original drag gesture beyondrelease"
+  ],
+  "fidelity_milestones": "all incomplete; preserves v15 baseline 67 tests/16 runs, does not count bounded service tests as fidelity completion",
+  "original_art_test": {
+    "classes": 9,
+    "compiler": "WSL g++ C++17 warnings-as-errors",
+    "actual_player_skill_icons": 144,
+    "original_icon_labels": 78,
+    "source_hit_centroids": 108,
+    "validation": "PASS"
+  }
+}

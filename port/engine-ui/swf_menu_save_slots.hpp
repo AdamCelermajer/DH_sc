@@ -6,6 +6,11 @@ namespace gameswf {struct fn_call;struct as_object;}
 namespace dh2::ui {
 // Front-only pending-loader callback; does not assign or mutate a Player.
 bool swf_front_pending_start_v1(const gameswf::fn_call&,std::int32_t& difficulty,std::string& error);
+// NativeAssignSaveSlotToPlayer is authored as (localIndex, SlotID). GameSWF's
+// fn_call::arg(0) indexes the last pushed/source argument, so decode the actual
+// callback stack as local=arg(1), slot=arg(0).
+bool swf_front_assign_save_slot_args_v1(const gameswf::fn_call&,std::int32_t& local_index,
+    std::int32_t& selected_slot,std::string& error);
 // Front-only fresh-profile producer. The returned slot is independent from
 // canonical gameplay assignment/start, which retains separate ownership.
 bool swf_front_create_save_slot_v1(const gameswf::fn_call&,void*,

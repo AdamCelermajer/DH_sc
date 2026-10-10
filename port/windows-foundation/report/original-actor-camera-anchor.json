@@ -1,0 +1,103 @@
+{
+  "status": "source-anchor-provider-kernel-verified-host-input-binding-remains-explicit",
+  "modules": [
+    "original_actor_camera_anchor.hpp",
+    "original_actor_camera_anchor.cpp"
+  ],
+  "test": "tests/original_actor_camera_anchor_tests.cpp",
+  "producer": {
+    "publication": "GameObject::SetCameraAnchor394378 stores created Anchor receiver in2e0",
+    "getter": "GetCameraAnchorPosition3943b8 selects AnchorBase.position+c when2e0 nonnull, otherwise position160",
+    "initCam": "Character::InitCam3b4bc4",
+    "forward": "Recovered CameraAnchorOwnerV75 reused unchanged",
+    "root_camera": "Name selected by original visual root-motion SceneBinding. No evidence linking that bone transform to InitCam AnchorBase/AnchorForward.",
+    "configuration": {
+      "group": "CharacterDesign",
+      "resource": "data/design_pycst.bin",
+      "threshold": 0.5,
+      "distance_per_update": 17,
+      "conversion": "threshold integer50 multiplied by source float0.01",
+      "maximum": 640,
+      "no_dt_scaling": "Normal forward AnchorForward branch increments by17 per update, preserving source frame-cadence behavior"
+    },
+    "socket": false,
+    "branch": "UseStaticCamera true creates AnchorBase; false creates AnchorForward"
+  },
+  "debug_switch": {
+    "config_api": "load_original_actor_camera_anchor_config takes caller-supplied actual debug switch value; does not invent runtime flag",
+    "resource": "DebugSwitches.savegame",
+    "absent_UseStaticCamera": "false -> AnchorForward",
+    "existing_file": "Must read actual DebugSwitches.savegame; do not assume absent value when present",
+    "absent_file_semantics": "Source DebugSwitches::GetSwitch inserts unknown name byte0, reloads, then rereads; NULL read handle leaves inserted0",
+    "source": "port/level-world/character_design_services.cpp get16 and load105"
+  },
+  "frame_inputs": {
+    "heading": "Desired source HeadingState direction1b8, independent from current visual bounded rotation",
+    "attacking": "SM_IsAttacking state5",
+    "heading_active": "set_heading_unchecked projects XY/Z0, active if squared length exceeds bits0x38d1b717; normalize only squared length>1",
+    "look_at": "GetLookAtVec393ae4 uses sinf(current EulerZ174), sign-bit-negated cosf(current EulerZ174), z0. Helper provided.",
+    "physical_position": "Actual Character/GameObject position160 after displacement/collision. Wrapper translates attached Anchor+c by the same XYZ delta before source auxiliary update.",
+    "moving": "SM_IsMoving(false) states4 or19",
+    "binding_gap": "Current host mover/action flags can supply a documented approximation until actual source heading and FSM states are retained. Do not claim desired heading equals bounded visual facing."
+  },
+  "attack_effect": {
+    "current_basic_attack_data": {
+      "leaf_clips": [
+        968,
+        956,
+        964
+      ],
+      "redirects": [
+        467,
+        468,
+        469
+      ],
+      "selected_name": "OneHandedAttack01",
+      "implication": "This selected basic attack requests no authored camera clip replacement or camera direction action. Continue gameplay camera while updating source AnchorForward.",
+      "all_cam_dir": false,
+      "root_name": "Human_Attack_00_1H",
+      "root_sequence": 248,
+      "all_random_cam_arrays_empty": true,
+      "selected_sequence": 467,
+      "table": "actual animations_pyarray.bin with original names/schema/dictionary",
+      "all_cam_ids": -1
+    },
+    "broader_boundary": "No assertion that skills, critical hits or other attack paths lack camera actions.",
+    "stationary_attack": "If headingActive and source attacking: targetlead halfmaximum320",
+    "idle_after_engaged": "Forward distance cap0.4*640=256, oriented along previous lookAt; not a fabricated return-to-zero interpolation"
+  },
+  "verification": {
+    "warnings": 0,
+    "assertions": [
+      "Actual design constants640/17/50 decode",
+      "No invented Z offset",
+      "Stationary attack halfdistance320",
+      "Idle cap256",
+      "Moving increments17 independent of dt",
+      "Heading reversal quarter-speed reduction",
+      "Static anchor direct position",
+      "Euler0 LookAt minusY",
+      "Invalid constants rejected"
+    ],
+    "compile": "C++17 -static -ffp-contract=off -Wall -Wextra -Wpedantic",
+    "attack_probe": ".local-inputs/windows-camera-assets/attack-cam-probe.exe",
+    "executable": ".local-inputs/windows-camera-assets/original-actor-camera-anchor-tests.exe",
+    "native": "PASS"
+  },
+  "dependencies": [
+    "original_actor_camera_anchor.cpp",
+    "../level-world/camera_anchor_owner_v75.cpp",
+    "../script-runtime/script_constants.cpp"
+  ],
+  "source_evidence": [
+    "port/level-world/reference/player-initialization-v29/original-functions.asm:353",
+    "port/android-native/app/src/main/cpp/source_campaign_anchor_v75.cpp:80",
+    "port/level-world/camera_anchor_owner_v75.cpp",
+    "port/level-world/gameplay_camera_anchor_v6.cpp",
+    "port/android-native/app/src/main/cpp/renderer_character_campaign_lookup_v62.inc:90",
+    "port/level-world/navigation_heading.cpp",
+    "port/level-world/character_heading_owner_v1.cpp",
+    "port/level-world/visual_motion.cpp:75",
+    "port/windows-foundation/reports/original-attack-sequence.json"
+  ]
+}

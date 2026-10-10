@@ -1,0 +1,43 @@
+{
+  "status": "packaged_source_walk_run_and_floor_verified",
+  "goal_complete": false,
+  "executable_sha256": "ac8bdb552a8c33ab9e08cabd0f7e40662eaad52b9a6083e0bd048e1533a37250",
+  "cases": [
+    {
+      "mode": "walk",
+      "source_sequence": 280,
+      "timeline_ms": 603,
+      "initial_position": [
+        1090.75,
+        -212.202,
+        255.0
+      ],
+      "final_position": [
+        985.634,
+        -198.633,
+        255.0
+      ],
+      "grounded": true
+    },
+    {
+      "mode": "run",
+      "source_sequence": 271,
+      "timeline_ms": 603,
+      "initial_position": [
+        1090.75,
+        -212.202,
+        255.0
+      ],
+      "final_position": [
+        857.143,
+        -198.473,
+        255.0
+      ],
+      "grounded": true
+    }
+  ],
+  "limits": [
+    "Knight current/empty gear enrollment only; other class combat is incomplete.",
+    "Matched-reference movement appearance and complete navigation fidelity remain unverified."
+  ]
+}

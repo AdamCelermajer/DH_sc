@@ -1,0 +1,26 @@
+{
+  "status": "native warning-clean tests PASS with actual original source corpus",
+  "api": "menu_text.hpp/.cpp: original_menu_font(id), layout_menu_text(field,actualRunAdvance,baseline,error), explicit actual-font/root-scale overload, MenuLocalization.load/label/symbol",
+  "evidence": {
+    "actual_dqcharmenu_fonts": "DefineFont3 IDs103 flags04 and287 flags05, NAME Fontin SmallCaps, HasLayout0; regular/bold style identity retained",
+    "font_constructor": "actual gameswf::font C1 0x7cf8d8 writes font descent+58/leading+5c zero; source read populates layout metrics only when HasLayout",
+    "font_file": "actual get_fontfile0x42b38c default Latin branch data/<NAME>.ttf, style flags do not add bold suffix here; language4 Japanese and5 Korean override branches remain caller language choice",
+    "actual_format": "gameswf::edit_text_character::format_text0x78efb8 clears x/y0 and delegates append_text0x78cb90 then align_line0x78a398. This differs from stock GameSWF vendor baseline which adds RECT minima.",
+    "first_line": "Recovered text_layout_v1.cpp append_text: x=max0(left+indent), y=textheight+(font.leading-font.descent)*textheight/(actualRootScale*1024*(DefineFont3?20:1)); paragraph leading affects subsequent lines, not first baseline. Actual103/287 metricdelta0 cancels root scale.",
+    "alignment": "Recovered align_line extra=((RECT.xmax-RECT.xmin)-rightMargin)-actualEndX-80twips; centre extra/2, right extra; field.matrix transforms record coordinates. No rect-min offset or halfheight invented.",
+    "static_labels": "Actual CharacterSheetNew source Init actions77070..77299: PointsLeftText->GAMEPLAYMENUS_POINTS_LEFT, attribute field names->GAMEPLAYMENUS_STRENGTH/DEXTERITY/ENDURANCE/ENERGY, actual Title.txt_title->MENU_HELP_04_TITLE. menu_title.txt_title->GAMEPLAYMENUS_CHARACTER_SHEET_TITLE is separate and not guessed as current retained Title."
+  },
+  "native_test": {
+    "sources": "menu_text_tests.cpp + menu_text.cpp + character_menu.cpp + original_art.cpp + port/engine-ui/text_layout_v1.cpp (test compares actual source kernel); link existingfoundation_data libraries",
+    "argv": "port/android-native/app/src/main/assets (full original corpus); windows-shared-assets currently lacks needed SYMBOLS corpus",
+    "checks": "known-sourcefont regular/bold/HasLayout; signed/negative RECT minima; firstline leading ignored; exacttransform; actualborrowedfont2/font3units; unknownfont and wrongidentity reject; actualsourceEnglishSTRENGTH and TitleSymbol; actualfields compared with recovered align_line; transactionalcorpusreload and missingSymbol no fake notfound text"
+  },
+  "root_integration": {
+    "production_source": "Add only menu_text.cpp to foundation_data; actual existing localization/content/scriptconstants compiled there. Add recovered text_layout_v1.cpp ONLY to menu_text_tests target if it is not already linked.",
+    "glyphs": "existing targetFont loaded original data/Fontin SmallCaps.ttf can raster field text at actual sourceheight; MenuFontDefinition returns same file for103/287 and retains stylemetadata. layout_menu_text receives genuine run.advance; root transforms glyph.x/y by field.matrix linear part, adds returned authored baseline, then Frame.transform. No additional halfheight/RECTmin offsets.",
+    "localized_labels": "MenuLocalization.load(actualassets,actualdataRoot,languagePack0,error), then Bindings.text(path,value,error) calls labels.label(path,&sameCharacterState,value,error). Unknownpaths empty-success; proved staticlabels require real corpus lookup; no hardcoded Englishfallback.",
+    "stage_assets": "Original common_text four pydata files; gameplaymenus.symbols+gameplaymenus.english; menu.symbols+menu.english for Title; global.english for Localization.defaults decimal/thousands symbols. Source resource filenames follow actual common_text source table.",
+    "state": "Localization owns only source text caches; sameprofile is borrowed per lookup and cleared afterward; no gameplay model copy. Debug endpoint is explicit standalone text decoder adapter, not claimed actual game DebugSwitches owner."
+  },
+  "scope": "Exact proved first-line prefix/alignment plus actual source lookup. Full source wrapping/HTML/letterspacing/kerning, multiline record reflow and complete RenderFX/GameSWF callbacks remain actual formatter/glyph owner. Explicit metrics overload requires actualrootScale; known103/287 no-layout metrics0 path requires no fabricated root owner."
+}

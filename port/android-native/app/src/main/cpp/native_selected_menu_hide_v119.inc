@@ -124,7 +124,8 @@ bool model_renderer::native_selected_menu_hide_v119(std::uintptr_t id,std::strin
     if(!front||!front->hide(*background,e))return false;
     return native_menu_preview_main_hide_v121(app,e);
    }
-   return native_menu_preview_select_hide_v121(app,selected->select160,0,e);
+   if(!native_menu_preview_select_hide_v121(app,selected->select160,0,e))return false;
+   return front_ui.process_class_select_hide_v87(selected->fields.render,e);
   case MenuSingletonKindV67::merchant:{
    if(!merchant_pane_camera_v119.destroy(e)||!native_process_menu_base_hide_v119(id,e))return false;
    std::uintptr_t character{};if(!selected_hide_local_v119(character,e))return false;

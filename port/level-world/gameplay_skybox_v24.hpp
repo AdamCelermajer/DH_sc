@@ -50,7 +50,6 @@ struct SkyboxRenderServicesV24 {
  std::function<bool(const SkyboxResourceV24&,const SkyboxBufferV24&,std::string&)> draw_buffer;
 };
 class SkyboxNodeV24:public std::enable_shared_from_this<SkyboxNodeV24> {
- struct ParentLease;
  std::shared_ptr<SkyboxResourceV24> resource_;
  std::vector<SkyboxMaterialRendererBorrowV24> materials_;
  std::weak_ptr<world::GameObjectSceneRootRegistryV1> roots_;

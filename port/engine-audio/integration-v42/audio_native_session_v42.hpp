@@ -2,6 +2,7 @@
 #include "../integration-v40/focus/audio_lifecycle_gate_v40.hpp"
 #include "../audio_gameplay_runtime_v42.hpp"
 #include "../integration-v40/focus/audio_native_session_v40.hpp"
+#include "audio_session_control_factory_v42.hpp"
 #include <condition_variable>
 #include <chrono>
 #include <memory>
@@ -15,6 +16,7 @@ class AudioNativeSessionV42 {
     const std::uintptr_t manager_;
     AudioGameplaySourcesV40 originals_;
     std::shared_ptr<void> provider_lease_;
+    AudioSessionControlFactoryV42 control_factory_;
     AudioLifecycleGateV40& gate_;
     std::unique_ptr<AudioGameplayRuntimeV42> runtime_;
     std::thread worker_;
@@ -36,6 +38,9 @@ class AudioNativeSessionV42 {
 public:
     AudioNativeSessionV42(std::uintptr_t actual_manager,AudioGameplaySourcesV40,
                          std::shared_ptr<void> actual_provider_lease,AudioLifecycleGateV40&);
+    AudioNativeSessionV42(std::uintptr_t actual_manager,AudioGameplaySourcesV40,
+                         std::shared_ptr<void> actual_provider_lease,AudioLifecycleGateV40&,
+                         AudioSessionControlFactoryV42);
 #ifdef DH2_AUDIO_NATIVE_SESSION_FIXTURE
     // Explicit borrowed test driver only; absent from production public API.
     AudioNativeSessionV42(std::uintptr_t,AudioGameplaySourcesV40,std::shared_ptr<void>,AudioLifecycleGateV40&,Factory,void*);

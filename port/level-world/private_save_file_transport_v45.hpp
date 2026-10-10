@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <mutex>
 namespace dh2::level {
-// Android getFilesDir transport; source framing/backup/commit belongs to the
+// Private files transport for Android/POSIX and Windows; source framing/backup/commit belongs to the
 // Savegame owners. This budget is explicit platform policy, not source maximum.
 class PrivateSaveFileTransportV45 : public std::enable_shared_from_this<PrivateSaveFileTransportV45> {
  std::string directory_;std::uint64_t budget_;

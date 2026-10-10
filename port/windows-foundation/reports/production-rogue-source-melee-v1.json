@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "status": "PASS scoped production",
+  "executable": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-source-bank/candidate-vitals-3/dh-foundation.exe",
+  "sha256": "35685D2217BE888EE45466FA3A50AA971DEB207258E33575F5408EC3F05A71C4",
+  "cases": [
+    {
+      "name": "standing source dual attack and checkpoint",
+      "log": "standing.log",
+      "frames": 420,
+      "initial_clip": "animations/prince_dual_pre_combo_01.bdae",
+      "main_off_events": true,
+      "xp": 16,
+      "hp": 121.7421875,
+      "save_frame": 340,
+      "reload_frame": 380,
+      "restore_frame": 400,
+      "rng_seed": 1605374,
+      "rng_calls": 162
+    },
+    {
+      "name": "moving source dual attack and checkpoint",
+      "log": "moving.log",
+      "frames": 420,
+      "initial_clip": "animations/prince_dual_pre_combo_01_moving.bdae",
+      "main_off_events": true,
+      "xp": 8,
+      "hp": 96.51953125,
+      "save_frame": 340,
+      "reload_frame": 380,
+      "restore_frame": 400,
+      "rng_seed": 8651185,
+      "rng_calls": 177
+    },
+    {
+      "name": "normal source main-menu return and profile restart",
+      "exit_log": "xp-exit.log",
+      "restart_log": "xp-restart.log",
+      "yes_frame": 450,
+      "profile": "xp-exit-profile.save",
+      "profile_sha256": "D479DB8D2394CE565F9C9084B0B28E937ABE3DA7A122CEBD54D62AF449D9D141",
+      "restart_hp": 121.7421875,
+      "restart_xp": 16,
+      "next_kill_xp": 24,
+      "final_hp": 104.5546875
+    }
+  ],
+  "evidence_root": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-source-bank/candidate-vitals-3",
+  "prior_temporal_pngs": [
+    ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-source-bank/standing-attack24.png",
+    ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-source-bank/moving-attack24.png"
+  ],
+  "prior_temporal_executable_sha256": "BE16B3600A5761AC6DB44E4EB45AF473F66DA22EB618D150FAD5BEEF1C0614EF",
+  "remaining": [
+    "Current initial-gear bank only; later live equipment bank replacement remains open",
+    "Old animation-only gameplay checkpoint capability migration is explicit; no relaxed matching",
+    "Physical Step/contact/pin/source position phase not production-bound",
+    "No GPU itemdrop, pickup or world-item persistence claim",
+    "No Mage melee fallback/ranged projectile acceptance",
+    "Charge current Use geometry exceeds range and is behind; physics investigation remains open",
+    "Original frame-matched attack/clank/full-status fidelity not closed"
+  ]
+}

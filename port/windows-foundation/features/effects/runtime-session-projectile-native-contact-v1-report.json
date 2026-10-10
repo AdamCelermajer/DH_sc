@@ -1,0 +1,42 @@
+{
+  "feature": "runtime-session-projectile-native-contact-v1",
+  "status": "feature-owned producer and focused same-session test pass",
+  "owned_files": [
+    "runtime_session_projectile_contacts_v1.hpp",
+    "runtime_session_projectile_contacts_v1.cpp",
+    "runtime-session-projectile-native-contact-evidence.md",
+    "runtime_session_projectile_v1.hpp",
+    "runtime_session_projectile_v1.cpp",
+    "runtime_session_projectile_render_v1.hpp",
+    "runtime_session_projectile_render_v1.cpp",
+    "runtime_session_projectile_v1_tests.cpp",
+    "run_runtime_session_projectile_v1_tests.ps1"
+  ],
+  "runtime_contract": {
+    "launch": "After accepted state-5 launch, register_projectile(runtimeProjectileId, renderer, sourceIdentity, error). It resolves the retained row20 visual, decodes the actual projectile BDAE bounds, applies the original MP_NoCollisions group policy, and creates a bullet sensor in the caller's existing NativeWorld.",
+    "frame_order": [
+      "Register source projectile body before its next NativeWorld Step.",
+      "Run the single existing PlayableActorBodies::step_world / NativeWorld Step.",
+      "Call after_world_step(frame) to publish native XY and preserve source collision occurrences queued by ShouldCollide.",
+      "Call RuntimeSessionProjectileV1::update(frame, appDt, paused) to drain queued hits before projectile update/timer logic.",
+      "Call after_runtime_update() to publish the next-step Box2D velocity and unregister terminal/expired bodies.",
+      "Skip world and projectile hooks together on paused frames."
+    ],
+    "source_shape": "Circle sensor radius=0.01*0.5*max(authored BDAE AABB X,Y), center=GameObject position XY*0.01, bullet=true, category=32, mask=0x51f, group=0 or -666 from MP_NoCollisions.",
+    "peer_resolution": "The caller supplies PlayableActorBodies::resolve_physical_actor plus original visible80 and MP_NoCollisions providers; no arbitrary context cast or synthetic distance hit is used.",
+    "hit_order": "For a reached Character contact, the runtime requires source_owner_on_projectile_hit and invokes it with the captured owner/peer/row/marker occurrence before source_hit_semantics constructs F_MeleeAttack inputs. The impact packet exposes the exact full OriginalMeleeResolution from the just-produced same-Session pending resolution and the source F_ApplyResult fourth argument (false).",
+    "lease_behavior": "Source identity tokens are valid only while Session lifetime and actor-binding lease match. Expiry, unregister, binding renewal, and owner destruction remove sensor bodies and stale identity mappings."
+  },
+  "verification": {
+    "runner": "features/effects/run_runtime_session_projectile_v1_tests.ps1",
+    "result": "PASS same-Session Mage Staff01 row20 actual Box2D overlap, one registered peer resolution, required owner-hit-before-F_Melee order and fail-closed missing-provider prefix, shared CombatSession result receipt plus exact OriginalMeleeResolution payload/F_ApplyResult flag, BDAE-derived radius, sensor/bullet/filter fields, source 20-unit/second displacement cadence, timer expiry removal, binding-renewal cleanup, and source RNG parity suite.",
+    "build_isolation": "Runner copied stable archives to its private .local-inputs/runtime-session-projectile-v1 directory. No shared archive, CMake, core, main, or physical-filter source was modified."
+  },
+  "explicit_gaps": [
+    "The feature requires the host to bind the exact owner CharAI::OnProjectileHit/AIS callback; it only enforces its position and supplies the current typed Character peer occurrence.",
+    "Full F_ApplyResult status/aggro/kill/presentation effects are not implemented; the impact packet carries the full calculation for a source-specific result-tail provider.",
+    "There is no normal main.cpp enrollment/caller.",
+    "Non-character source Activate interactions remain outside this Character-peer bridge.",
+    "Renderer/GPU submission remains the existing renderer consumer's responsibility."
+  ]
+}

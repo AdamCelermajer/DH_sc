@@ -39,6 +39,16 @@ struct NativeMenuPrefixProviderV62 {
   if(!out||source.identity!=reinterpret_cast<std::uintptr_t>(out)){e="Actual MenuFX slot/facade identity differs";return false;}
   return true;
  }
+ bool reset_fonts(std::string& e)const{
+  for(std::uint32_t slot=0;slot<4;++slot){
+   dh2::ui::MenuMovieBorrowV58 source;if(!movie_slot||!movie_slot(slot,source,e))return false;
+   if(!source.identity)continue;
+   dh2::ui::SwfMovie* actual{};std::shared_ptr<void> lease;
+   if(!movie(slot,source,actual,lease,e)||!actual||!lease){if(e.empty())e="Required SAME populated RenderFX slot owner";return false;}
+   if(!actual->source_reset_fonts_v119(e))return false;
+  }
+  e.clear();return true;
+ }
  bool debug_load(std::string& e)const{NativeCharacterMenuV4* native{};if(!resolve(native,e))return false;std::int32_t ignored{};return native->debug(nullptr,ignored,e);}
  bool debug_switch(const char* key,bool& out,std::string& e)const{NativeCharacterMenuV4* native{};if(!resolve(native,e))return false;std::int32_t value{};if(!native->debug(key,value,e))return false;out=value!=0;return true;}
  bool register_debug(dh2::ui::MenuDebugHudOwnerV62& debug,std::string& e){
@@ -114,6 +124,7 @@ struct NativeMenuPrefixProviderV62 {
   written=true;e.clear();return true;
  }
 };
+std::weak_ptr<NativeMenuPrefixProviderV62> source_menu_font_reset_provider_v119;
 }
 dh2::ui::AuthoredMenuFieldsV1* model_renderer::native_debug_menu_fields_v62(std::uintptr_t id)noexcept{
  auto* debug=source_menu_process_v62->existing_debug_hud();return debug&&debug->fields().identity==id?&debug->fields():nullptr;
@@ -133,6 +144,8 @@ bool model_renderer::bind_native_menu_prefix_v62(std::shared_ptr<void> world,
  auto provider=std::make_shared<NativeMenuPrefixProviderV62>();provider->world=world;provider->manager=authored_character_menu->shared_stack_v27;
  provider->process_scope_v104=authored_character_menu->process_directory_ready_v104;
  provider->application=app;provider->movie_slot=update.movie_slot;
+ source_menu_font_reset_provider_v119=provider;
+ if(!front_ui.bind_process_font_cache_reset_v119(model_renderer::native_reset_process_menu_fonts_v119,e))return false;
  MenuManagerPrefixServicesV62 services;services.actual_manager=manager;services.process=source_menu_process_v62;
  services.current_level=[](auto& out,auto& e){dh2::loader::CanonicalCurrentLevelBorrowV1 current;if(!borrow_current_native_level_v27(current,e))return false;
   out={};if(current){out.actual_owner=current.level();out.identity=current.identity();out.byte198=&current.level()->constructor_fields_v3().byte198;}return true;};
@@ -162,6 +175,11 @@ bool model_renderer::bind_native_menu_prefix_v62(std::shared_ptr<void> world,
  update.menu_is_visible=[visible](auto id,bool& out,auto& e){if(auto* f=native_debug_menu_fields_v62(id)){out=f->visible74!=0;e.clear();return true;}return visible&&visible(id,out,e);};
  update.menu_virtual1c=[selected_update](auto id,auto& e){if(native_debug_menu_fields_v62(id)){auto* debug=source_menu_process_v62->existing_debug_hud();return debug&&debug->update(e);}return selected_update&&selected_update(id,e);};
  update.source_prefix=[prefix,gameplay_debug](bool& early,std::int32_t& dt,auto& e){return prefix->update(early,dt,e);};e.clear();return true;
+}
+bool model_renderer::native_reset_process_menu_fonts_v119(std::string& e){
+ auto provider=source_menu_font_reset_provider_v119.lock();
+ if(!provider){e="Required SAME process MultiMenuManager renderer directory for ResetFonts";return false;}
+ return provider->reset_fonts(e);
 }
 bool model_renderer::prepare_actual_gameplay_debug_v67(const std::shared_ptr<void>& world,std::string& e){
  if(!world||!authored_character_menu||authored_character_menu->leases->world!=world){e="Required SAME current gameplay/menu World";return false;}

@@ -10,7 +10,14 @@ bool source_campaign_character_controller_update_v107(const std::shared_ptr<void
    !borrow_source_campaign_character_v62(world,id,actual,e)||!actual.character->actor)return false;
  auto& record=*actual.character;auto& actor=*record.actor;
  if(!actor.controller){e="Required source Character.Controller378";return false;}
- if(!record.player_controllers_v70)return actor.controller->source_default_update_v107(e);
+ if(!record.player_controllers_v70){
+  // Character C1's default v2Controller is also published on players, then
+  // local AddCharacter replaces it with the SAME MixedController. Do not
+  // silently run the NPC virtual when a player's attachment is missing.
+  bool player{};if(!record.is_player(player,e)){if(e.empty())e="Required actual Character.IsPlayer before controller Update";return false;}
+  if(player){e="Required actual player MixedController attachment for Character.Controller378";return false;}
+  return actor.controller->source_default_update_v107(e);
+ }
  if(actor.controller->identity()!=record.player_controllers_v70->identity()||
    record.controllable374_v70.controller378!=actor.controller->identity()){e="Selected controller does not match SAME Mixed/Character378";return false;}
  auto input=candidate.application->source_input_manager_v60();if(!input){e="Required actual InputManager singleton for mixed Update";return false;}

@@ -20,7 +20,7 @@ bool CharacterLootItemManagerV8::spawn_source_v9(LootInventorySourceV9& inventor
  const auto count=inventory.count();if(!services.invoke){e="Required original InitAgain source-inventory transport";return false;}
  if(!services.invoke(services.context,{q,&inventory},e))return false;
  if(inventory.count()+1!=count){e="Source ItemObject InitAgain did not transfer one actual item";return false;}
- q.operation=LootItemOperationV8::enable;q.flag=true;if(!invoke(q,e))return false;
+ q.operation=LootItemOperationV8::set_visible;q.flag=true;if(!invoke(q,e))return false;
  *slot.object.enabled85=1;slot.active=true;out=slot.object;return true;
 }
 }

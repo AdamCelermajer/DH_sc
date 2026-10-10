@@ -1,0 +1,44 @@
+{
+  "feature": "Same-session enemy geometry overlap regression",
+  "status": "source-backed overlap reproduced; no RuntimeEnemyNavigation spacing policy change justified",
+  "investigation_before_test": {
+    "visual": {
+      "capture": ".local-inputs/v19-frontend-hotfix/profile-projection/mage-incoming-normal.png",
+      "run_arguments": ".local-inputs/v19-frontend-hotfix/profile-projection/mage-incoming-normal.args",
+      "run_log": ".local-inputs/v19-frontend-hotfix/profile-projection/mage-incoming-normal.log",
+      "observed": "The capture shows the Mage among two overlapping green Lizard meshes. The image alone does not establish their exact collision centers, whether they are in contact, or the source response. Runtime log positions and retained body radii provide that measurement."
+    },
+    "source_logic": {
+      "monster_melee_stop": "Original monster_OnTargetInMeleeRange calls Stop before DoSkill/Attack. Stop routes through the current controller and source stop event; it is not a general inter-actor spacing rule.",
+      "movement": "Native controller Cmd_MoveTo asks its current path owner for a route to the target object; Cmd_Stop invokes the current stop owner and Character event0x3f. RuntimeEnemyNavigationV1 uses the same actor PFObject, sewn floor route, static _colbox_ checks, boundary heading and retained locomotion. It has no actor-to-actor avoidance policy or extra radius.",
+      "contact": "Source Character bodies have real NPC collision callbacks that resolve the same peer owner and raise source AI collision events. AISExternal constructor has mutable collision counters at +0xbc/+0xc0; the exact collision owner is documented in port/level-world/reference/character-world-npc-collision-v1/integration.md. Source body filters for Mage Player and Swamp Lizard permit their categories to meet; see reports/actor-physical-source.json.",
+      "current_runtime_boundary": "The captured run logs actual NativeBody allocation and position synchronization, but each bind states `world Step remains unbound`; it does not execute NativeWorld Step/contact dispatch. Current NPC translation is admitted by shared floor/root-motion position services, not a dynamic-body separation solver."
+    },
+    "expected_behavior": "Keep source MoveTo/Stop and authored melee handoff. Dynamic body contact and its source callback should be delivered by the same physical world and registered actor owners. Do not offset actors, choose a crowd radius, relocate actors, or add a second path/avoidance authority.",
+    "uncertainties": [
+      "The visual is one still, so it cannot show whether a native contact would separate the actors over subsequent frames.",
+      "The reference/device source revision match is not established; no new original-video timing claim is made for this Mage capture.",
+      "The packaged log records actor positions and source-derived radii after 360 frames, but this is not proof of native solver correctness because World Step is explicitly absent."
+    ],
+    "focused_test_plan": "Analyze the exact same-session Mage capture log: bind the three named ActorState final positions to their retained source NativeBody radii, compute pairwise 2D penetration using those source body circles, verify the run reports source NativeBody allocation and the explicit unbound World Step boundary, then report each pair. The probe is a reproducible current-gap regression, not a passing claim that separation is solved."
+  },
+  "measured_current_capture": {
+    "player": {"actor_id": "18446744073709551615", "profile": "MagePlayerBase", "position": [-6852.64, 860.0, 255.0], "native_body_radius_game_units": 113.718},
+    "lizard_a": {"actor_id": "7118915781085668844", "source_name": "_prim_Monster_3_05_313_356_14_33_13_179_13_38", "profile": "Swamp_LizadMan_Type1", "position": [-6867.41, 859.521, 255.0], "native_body_radius_game_units": 63.0},
+    "lizard_b": {"actor_id": "4141719441445850732", "source_name": "_prim_LizTemplate_03", "profile": "Swamp_LizadMan_Type1_Respawn", "position": [-6800.7, 840.693, 255.0], "native_body_radius_game_units": 80.5176},
+    "reported_body_overlap": "All three pairwise circle center distances are less than the sums of their actual retained body radii. This is diagnostic of the missing dynamic solver/contact step in this run, not evidence for a new AI avoidance radius."
+  },
+  "verification": {
+    "test": "port/windows-foundation/features/enemy_ai/runtime_enemy_overlap_regression_v1.py",
+    "command": "py -3 port/windows-foundation/features/enemy_ai/runtime_enemy_overlap_regression_v1.py",
+    "result": "PASS known-gap reproduction",
+    "stdout": [
+      "same-session enemy geometry GAP reproduced; native world Step is unbound",
+      "player/lizard_a penetration=161.940 distance=14.778 radii=113.718+63.000",
+      "player/lizard_b penetration=138.823 distance=55.412 radii=113.718+80.518",
+      "lizard_a/lizard_b penetration=74.202 distance=69.316 radii=63.000+80.518"
+    ],
+    "future_acceptance_mode": "Pass a fresh runtime log as the positional argument and --require-separated; it fails while any pair remains overlapped."
+  },
+  "production_handoff": "Implement/enable one source-faithful shared NativeWorld Step and registered Character contact callback path for the existing PlayableActorBodies owners, then rerun this exact Mage capture and the geometry probe. RuntimeEnemyController/Navigation remain unchanged unless source AI later proves a separate avoidance branch."
+}

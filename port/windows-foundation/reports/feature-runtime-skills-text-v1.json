@@ -1,0 +1,39 @@
+{
+  "feature": "runtime_skills_text_v1",
+  "status": "implemented_and_host_tested",
+  "source_evidence": {
+    "native_function": {
+      "symbol": "NativeGetSkillDetails",
+      "address": "0x445a10",
+      "reference": "port/engine-ui/reference/character-menu-native-v1/original-functions.json"
+    },
+    "static_fields": {
+      "SkillName": "SkillTable scalar word 16 / byte offset 0x40; nonnegative OID goes through StringManager::getString, negative OID yields empty string.",
+      "SkillDescription": "SkillTable scalar word 13 / byte offset 0x34; nonnegative OID goes through StringManager::getString, negative OID yields empty string."
+    },
+    "dynamic_fields": {
+      "SkillCurrLevel": "SkillTable word 12 / byte offset 0x30, then native rank-dependent AI/property formatting.",
+      "SkillNextLevel": "SkillTable word 17 / byte offset 0x44, then native next-rank AI/property formatting.",
+      "FairieDependantText": "When set, native current/next OIDs are offset by the current faerie row's source value before localization. This does not alter SkillName or base SkillDescription.",
+      "generic_behavior": "Current/next values remain absent because this generic provider has no source CharAI::AI_SkillInfo/property-varargs owner. No dynamic text or fallback prose is fabricated."
+    }
+  },
+  "implementation": {
+    "api": "RuntimeSkillsTextProviderV1::bind(CharacterTable, SkillTables::Borrow, MenuLocalization, same CharacterState, ServicesV1)",
+    "localization": "Reuses MenuLocalization::string_id and its already-bound HudText/StringManager cache for actual OIDs.",
+    "owner_check": "The callback rejects a CharacterState reference other than the exact bound profile; immutable SkillTables Borrow is retained by the callback.",
+    "composition": "Installs only when ServicesV1.localized_text is empty; caller-provided source text adapters are preserved."
+  },
+  "verification": {
+    "fixture": "Actual shared CharacterTable, SkillTables, and original localization corpus; all 127 source SkillTable rows visited.",
+    "result": "PASS: 73 actual localized names and 73 base descriptions; 0 source rows set FairieDependantText.",
+    "coverage": [
+      "actual SkillName and SkillDescription OID projections",
+      "negative OID preserves source empty-string behavior",
+      "same CharacterState owner enforcement",
+      "caller-owned localized_text callback preservation",
+      "dynamic current/next descriptions explicitly unsupported without native AI/property formatter"
+    ],
+    "build": "clang++ -std=c++17 -Wall -Wextra -Werror against the configured foundation_data host archive"
+  }
+}

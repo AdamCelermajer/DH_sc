@@ -1,0 +1,31 @@
+{
+  "status": "canonical_original_assets_staged",
+  "released": false,
+  "goal_complete": false,
+  "files": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/gameobjects/itemdrops.bdae",
+      "path": ".local-inputs\\windows-main-frontend-v1\\assets\\data\\3d\\gameobjects\\itemdrops.bdae",
+      "bytes": 225424,
+      "sha256": "c4d783a23a158b4e52687d8ed718c584ee5ad90a325e0111c8da95ae86937610"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_audiovisual_pyarray.bin",
+      "path": ".local-inputs\\windows-main-frontend-v1\\assets\\data\\loot_audiovisual_pyarray.bin",
+      "bytes": 1022,
+      "sha256": "f9a6e2c45bad836955d63290d51d2ec811a5003b7fa2c82df907fae5aa44084d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_audiovisual_pyarraynames.bin",
+      "path": ".local-inputs\\windows-main-frontend-v1\\assets\\data\\loot_audiovisual_pyarraynames.bin",
+      "bytes": 356,
+      "sha256": "1bf13745689a198ee516fb1463637e274e6a583e1f31783333ef50944f38a5be"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_audiovisual_pystructnames.bin",
+      "path": ".local-inputs\\windows-main-frontend-v1\\assets\\data\\loot_audiovisual_pystructnames.bin",
+      "bytes": 42,
+      "sha256": "86984964c123debae476a20a8c6d0c54fab46bd905d09ee82849b062ab4a3248"
+    }
+  ]
+}

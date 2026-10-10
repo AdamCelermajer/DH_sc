@@ -1,0 +1,37 @@
+{
+  "feature": "campaign_save_writer_binding",
+  "status": "same_profile_writer_binding_implemented_compile_verified_runtime_binding_pending_initialized_player_profile",
+  "files": [
+    "features/campaign_save/save_writer_binding_v1.hpp",
+    "features/campaign_save/save_writer_binding_v1.cpp",
+    "features/campaign_save/save_writer_binding_tests.cpp",
+    "features/campaign_save/run_save_writer_binding_tests.ps1"
+  ],
+  "implementation": {
+    "path": "CanonicalCharacterCandidateRecordV60 -> its completed CharacterProfileBootstrapV59 -> its existing CharacterMenuCampaignSaveV50 -> existing PlayerSaveWriteOwnerV1::save",
+    "same_owner_checks": [
+      "same candidate Save and SaveLoad authority",
+      "same completed profile bootstrap and published Save+8 profile",
+      "same ready Gear inventory and Character identity",
+      "same ready PlayerSkills Save owner",
+      "same faery association and initialized Save faery rows",
+      "same regular/volatile Quest owner and Save",
+      "same retained PlayerSaveWriteOwnerV1 authority at each save call"
+    ],
+    "native_sections": "Delegates to the existing bound CharacterMenuCampaignSaveV50 and CampaignSaveProfileV45 registration: named PNAM/PLVL/SKIL/FAES/CFEE, metadata, GEAR, PROP, LVLS, QEST and FTVL. This module defines no wire codecs or replacement profile/save owners.",
+    "missing_providers": "The native save owner remains authoritative for online, local-hosting, synchronization, checkpoint and volatile quest branches; absent reached providers fail through existing required-service errors."
+  },
+  "validation": {
+    "binding_compile": "PASS; LLVM-MinGW strict C++17 Wall/Wextra/Werror compile",
+    "api_compile_test": "PASS; missing-candidate rejection contract compiles",
+    "existing_save_write_owner": "PASS; Linux ASan+UBSan and O2 source harness, same Save/profile identity, original offline call order, recursion guards, 17 native named-section byte cases",
+    "existing_source_owner_capture": "PASS; rows=64 collections=2 unsupported-rejection=2 expired-lease=1",
+    "new_binding_runtime": "Not exercised: the actual initialized canonical player/profile provider is still being completed by the integration lead; this module deliberately rejects an initialized-prefix candidate."
+  },
+  "not_claimed": [
+    "fresh indexed profile byte producer or profile/cache construction",
+    "full live canonical player initialization",
+    "online/network/volatile provider completeness",
+    "filesystem persistence receipt or whole-world campaign save acceptance"
+  ]
+}

@@ -27,6 +27,9 @@ MAX_JOB_PROCESSES = 4096
 MEMBERSHIP_DIAGNOSTIC_PID_LIMIT = 64
 EXIT_DRAIN_DELAY_SECONDS = 0.075
 EXIT_DRAIN_WAIT_BUDGET_SECONDS = 0.15
+ACCESS_DENIED_CENSUS_DELAY_SECONDS = 0.075
+ACCESS_DENIED_CENSUS_WAIT_BUDGET_SECONDS = 0.15
+FAST_PHYSICAL_MEMORY_POLL_SECONDS = 0.1
 QEMU_IMAGES = {"emulator.exe", "emulator-headless.exe"}
 
 
@@ -38,10 +41,15 @@ class Limits:
     min_physical_available_bytes: int = 6 * GIB
     timeout_seconds: float = 1200.0
     allow_physical_pressure: bool = False
+    max_physical_used_percent: int = 98
 
     def validate(self):
         if not isinstance(self.allow_physical_pressure, bool):
             raise ValueError("Physical-pressure policy must be explicit boolean")
+        if (isinstance(self.max_physical_used_percent, bool)
+                or not isinstance(self.max_physical_used_percent, int)
+                or not 1 <= self.max_physical_used_percent <= 100):
+            raise ValueError("Physical-memory stop percentage must be an integer from 1 to 100")
         for name in ("soft_job_bytes", "aggregate_qemu_bytes",
                      "min_commit_headroom_bytes", "min_physical_available_bytes"):
             if isinstance(getattr(self, name), bool) or not isinstance(getattr(self, name), int) or getattr(self, name) <= 0:
@@ -53,6 +61,15 @@ class Limits:
 def is_emulator_image(image: str) -> bool:
     name = Path(image.replace("\\", "/")).name.casefold()
     return name in QEMU_IMAGES or (name.startswith("qemu") and name.endswith(".exe"))
+
+
+def physical_memory_used_percent(system: dict) -> float:
+    available = system["physical_available_bytes"]
+    total = system["physical_total_bytes"]
+    if (isinstance(available, bool) or not isinstance(available, int) or available < 0 or
+            isinstance(total, bool) or not isinstance(total, int) or total <= 0 or available > total):
+        raise ValueError("Invalid physical-memory counters")
+    return 100.0 * (total - available) / total
 
 
 def evaluate(snapshot: dict, limits: Limits) -> dict:
@@ -76,9 +93,11 @@ def evaluate(snapshot: dict, limits: Limits) -> dict:
         commit = system["commit_total_bytes"]
         limit = system["commit_limit_bytes"]
         physical = system["physical_available_bytes"]
+        physical_total = system["physical_total_bytes"]
         if any(isinstance(x, bool) or not isinstance(x, int) or x < 0
-               for x in (commit, limit, physical)) or not limit:
+               for x in (commit, limit, physical, physical_total)) or not limit or not physical_total or physical > physical_total:
             raise ValueError("Invalid system byte counters")
+        physical_used_percent = physical_memory_used_percent(system)
         members = snapshot["job_members"]
         qemu = snapshot["qemu"]
         def total(records):
@@ -112,6 +131,8 @@ def evaluate(snapshot: dict, limits: Limits) -> dict:
             "aggregate_qemu_private_bytes": aggregate,
             "commit_headroom_bytes": headroom,
             "physical_available_bytes": physical,
+            "physical_total_bytes": physical_total,
+            "physical_used_percent": physical_used_percent,
             "job_process_count": len(members),
             "qemu_process_count": len(qemu),
             "owned_handles": sum(p["handles"] for p in members),
@@ -125,6 +146,8 @@ def evaluate(snapshot: dict, limits: Limits) -> dict:
             reasons.append("system_commit_headroom")
         if physical < limits.min_physical_available_bytes and not limits.allow_physical_pressure:
             reasons.append("physical_available_floor")
+        if physical_used_percent >= limits.max_physical_used_percent:
+            reasons.append("physical_memory_used_percent")
         if elapsed >= limits.timeout_seconds:
             reasons.append("monitor_timeout")
         if not reasons and not members:
@@ -132,6 +155,14 @@ def evaluate(snapshot: dict, limits: Limits) -> dict:
     except (KeyError, TypeError, ValueError, OverflowError) as error:
         reasons.append("monitoring_unavailable")
         observations["invalid_snapshot"] = str(error)[:300]
+    if snapshot.get("complete") is not True:
+        # Failed collection cannot establish a zero-QEMU total. Preserve its
+        # primary error alongside the secondary missing-job-metrics symptom.
+        errors = snapshot.get("errors")
+        if isinstance(errors, list) and errors:
+            observations["monitoring_error"] = str(errors[0])[:500]
+        observations["qemu_metrics_complete"] = False
+        observations["qemu_process_count"] = None
     return {"action": "terminate" if reasons else "continue",
             "reasons": list(dict.fromkeys(reasons)), "observations": observations}
 
@@ -143,6 +174,13 @@ class ProcessGone(Exception):
 
     def diagnostic(self):
         return {"pid": self.pid, "reason": self.reason, **self.details}
+
+
+class ProcessAccessDenied(OSError):
+    """Persistent query denial, kept distinct for bounded census/job recheck."""
+    def __init__(self, pid):
+        super().__init__(5, f"Windows API failed: OpenProcess(query limited, pid={pid})")
+        self.pid = pid
 
 
 class WindowsAPI:
@@ -253,13 +291,7 @@ class WindowsAPI:
 
     def process_snapshot(self, pid, metadata=None):
         # Query metadata only; no memory writes, suspension, or VM inspection.
-        handle = self.open_process(0x1000, False, pid)
-        if not handle:
-            if C.get_last_error() == 87:
-                # This is NOT creation/exit proof. Only a later authoritative
-                # job query excluding this PID can reconcile its missing data.
-                raise ProcessGone(pid, "OpenProcess_ERROR_INVALID_PARAMETER")
-            raise self.error("OpenProcess(query limited)")
+        handle = self.open_process_limited(pid)
         try:
             code = W.DWORD()
             if not self.get_exit(handle, C.byref(code)):
@@ -292,6 +324,34 @@ class WindowsAPI:
             return result
         finally:
             self.close(handle)
+
+    def open_process_limited(self, pid):
+        """Open for query, retrying one transient access-denied race only.
+
+        Access denied is never treated as evidence that a process exited. A
+        second denial raises an explicit unresolved error; only the caller's
+        fresh census/job reconciliation can establish departure. The watchdog
+        fails closed when it cannot account for a live job/QEMU process.
+        """
+        for attempt in range(2):
+            handle = self.open_process(0x1000, False, pid)
+            if handle:
+                return handle
+            code = C.get_last_error()
+            if code == 87:
+                # This is NOT creation/exit proof. Only a later authoritative
+                # job query excluding this PID can reconcile its missing data.
+                raise ProcessGone(pid, "OpenProcess_ERROR_INVALID_PARAMETER")
+            if code == 5 and attempt == 0:
+                # A process can exit and its PID be recycled between the
+                # Toolhelp census and OpenProcess. Give that transition one
+                # short interval to settle; persistent denial remains fatal.
+                time.sleep(0.025)
+                continue
+            if code == 5:
+                raise ProcessAccessDenied(pid)
+            raise self.error(f"OpenProcess(query limited, pid={pid})")
+        raise self.error(f"OpenProcess(query limited, pid={pid})")
 
     def open_job(self, name):
         handle = self.open_named_job(JOB_OBJECT_QUERY | JOB_OBJECT_TERMINATE, False, name)
@@ -393,17 +453,103 @@ def system_qemu_snapshot(api=None):
     return result
 
 
+def process_snapshot_reconciled(api, pid, metadata, job_handle, reconciliation=None):
+    """Reconcile persistent access denial only with fresh census and job proof.
+
+    Access denied never implies exit by itself. A PID is treated as departed
+    only when both a new Toolhelp census and a new authoritative named-job
+    query exclude it. An unlisted same-image/parent emulator gets at most two
+    short census yields, sharing one deadline for the entire snapshot. This
+    never substitutes zero/stale metrics for a process still present anywhere.
+    Any failed or conflicting observation remains fatal.
+    """
+    try:
+        return api.process_snapshot(pid, metadata)
+    except ProcessAccessDenied as error:
+        state = reconciliation if reconciliation is not None else {
+            "deadline": None, "diagnostics": []}
+        original = dict(metadata or {})
+        diagnostic = {"pid": pid, "previous_census": original, "passes": [],
+                      "wait_seconds": 0.0, "outcome": "unresolved"}
+        if len(state["diagnostics"]) < MEMBERSHIP_DIAGNOSTIC_PID_LIMIT:
+            state["diagnostics"].append(diagnostic)
+        for attempt in range(3):
+            try:
+                fresh_processes = api.enumerate_processes()
+                fresh_members = set(api.job_process_ids(job_handle))
+            except Exception as verify_error:
+                diagnostic["reconciliation_error"] = f"{type(verify_error).__name__}: {verify_error}"[:300]
+                raise RuntimeError(
+                    f"Unresolved access denied for pid={pid}; fresh reconciliation failed: "
+                    f"{type(verify_error).__name__}: {verify_error}"
+                ) from error
+            census_present = pid in fresh_processes
+            job_member = pid in fresh_members
+            fresh = fresh_processes.get(pid)
+            diagnostic["passes"].append({"pass": attempt + 1,
+                "census_present": census_present, "job_member": job_member,
+                "fresh_census": dict(fresh) if fresh is not None else None,
+                "job_process_count": len(fresh_members),
+                "job_process_ids": sorted(fresh_members)[:MEMBERSHIP_DIAGNOSTIC_PID_LIMIT]})
+            if not census_present and not job_member:
+                diagnostic["outcome"] = "absent_from_fresh_census_and_named_job"
+                raise ProcessGone(
+                    pid,
+                    "AccessDenied_absent_from_fresh_census_and_named_job",
+                    census_present=False, job_member=False,
+                    previous_image=original.get("image"),
+                    reconciliation_passes=attempt + 1,
+                    reconciliation_wait_seconds=diagnostic["wait_seconds"],
+                ) from error
+            fresh_image = fresh.get("image") if fresh is not None else None
+            # Parent/image metadata is NOT creation identity or ownership proof.
+            # It only narrows eligibility to wait; absence from BOTH authorities
+            # remains the sole condition that permits omission of this PID.
+            matching_candidate = (not job_member and fresh is not None and
+                isinstance(original.get("image"), str) and
+                is_emulator_image(original["image"]) and
+                fresh_image == original["image"] and
+                isinstance(original.get("parent_pid"), int) and
+                fresh.get("parent_pid") == original["parent_pid"])
+            if not matching_candidate or attempt == 2:
+                break
+            now = time.monotonic()
+            if state["deadline"] is None:
+                state["deadline"] = now + ACCESS_DENIED_CENSUS_WAIT_BUDGET_SECONDS
+            wait = min(ACCESS_DENIED_CENSUS_DELAY_SECONDS,
+                       max(0.0, state["deadline"] - now))
+            if wait <= 0:
+                diagnostic["wait_budget_exhausted"] = True
+                break
+            started_wait = time.monotonic()
+            time.sleep(wait)
+            diagnostic["wait_seconds"] += max(0.0, time.monotonic() - started_wait)
+        raise RuntimeError(
+            f"Unresolved access denied for pid={pid}; census_present={census_present}; "
+            f"job_member={job_member}; fresh_image={fresh_image!r}; "
+            f"reconciliation_passes={len(diagnostic['passes'])}"
+        ) from error
+
+
 def collect_snapshot(api, manifest, job_handle, start, manifest_path, manifest_digest):
     value = {"wall_time_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "elapsed_seconds": time.monotonic() - start,
         "expected_owner": {"pid": manifest["launcher_pid"], "create_time_filetime": manifest["launcher_create_time"]},
         "complete": True, "errors": [], "job_members": [], "qemu": [], "owned_process_tree": [],
         "job_process_ids": [], "manifest_unchanged": False,
-        "job_membership_passes": []}
+        "job_membership_passes": [], "access_denied_reconciliations": [],
+        "qemu_metrics_complete": False, "qemu_census_count": None,
+        "qemu_census_candidates": []}
+    access_denied_state = {"deadline": None,
+                          "diagnostics": value["access_denied_reconciliations"]}
     try:
         value["manifest_unchanged"] = hashlib.sha256(manifest_bytes(manifest_path)).hexdigest() == manifest_digest
         value["system"] = api.system_snapshot()
         processes = api.enumerate_processes()
+        qemu_candidates = {pid: p for pid, p in processes.items() if is_emulator_image(p["image"])}
+        value["qemu_census_count"] = len(qemu_candidates)
+        value["qemu_census_candidates"] = [qemu_candidates[pid]
+            for pid in sorted(qemu_candidates)[:MEMBERSHIP_DIAGNOSTIC_PID_LIMIT]]
         # Reuse the existing census: bounded image counts identify a host-wide
         # process surge without another process, memory probe or command line.
         image_counts = {}
@@ -418,7 +564,7 @@ def collect_snapshot(api, manifest, job_handle, start, manifest_path, manifest_d
         members = api.job_process_ids(job_handle)
         value["job_process_ids"] = members
         selected = set(members) | {manifest["launcher_pid"]}
-        selected.update(pid for pid, p in processes.items() if is_emulator_image(p["image"]))
+        selected.update(qemu_candidates)
         # Snapshot launcher descendants, with creation ordering checked below.
         tree = {manifest["launcher_pid"]}
         for _ in range(64):
@@ -436,9 +582,15 @@ def collect_snapshot(api, manifest, job_handle, start, manifest_path, manifest_d
         owner_pid = manifest["launcher_pid"]
         for pid in [owner_pid, *sorted(selected - {owner_pid})]:
             try:
-                metrics[pid] = api.process_snapshot(pid, processes.get(pid))
+                metrics[pid] = process_snapshot_reconciled(
+                    api, pid, processes.get(pid), job_handle, access_denied_state
+                )
                 if pid == owner_pid:
                     value["owner"] = metrics[pid]
+                if is_emulator_image(metrics[pid]["image"]):
+                    # These are current partial observations, never a complete
+                    # aggregate until the entire collection succeeds below.
+                    value["qemu"].append(metrics[pid])
             except ProcessGone:
                 gone.add(pid)
         value["qemu"] = [p for p in metrics.values() if is_emulator_image(p["image"])]
@@ -468,7 +620,9 @@ def collect_snapshot(api, manifest, job_handle, start, manifest_path, manifest_d
             sampled = {}
             for pid in final_members:
                 try:
-                    current = api.process_snapshot(pid, processes.get(pid))
+                    current = process_snapshot_reconciled(
+                        api, pid, processes.get(pid), job_handle, access_denied_state
+                    )
                 except ProcessGone as error:
                     previous = metrics.get(pid)
                     gone_creation = error.details.get("create_time_filetime")
@@ -566,6 +720,7 @@ def collect_snapshot(api, manifest, job_handle, start, manifest_path, manifest_d
                 break
         value["owned_process_tree"] = [metrics[pid] for pid in sorted(admitted) if pid in metrics]
         value["gone_enumerated_pids"] = sorted(gone)
+        value["qemu_metrics_complete"] = True
     except Exception as error:
         value["complete"] = False
         value["errors"].append(f"{type(error).__name__}: {error}"[:500])
@@ -657,7 +812,38 @@ def monitor(manifest_path, telemetry_path, receipt_path, ready_path, limits,
                 atomic_json(receipt_path, dict(result, status="armed", first_snapshot=latest))
                 atomic_json(ready_path, ready)
                 armed = True
-            time.sleep(poll_seconds)
+            # Full telemetry includes a process-tree/member census and stays
+            # at the configured cadence. Check the cheap host RAM counters
+            # between those samples so a short spike cannot hide for a whole
+            # census interval before the unchanged hard percentage cutoff.
+            poll_deadline = time.monotonic() + poll_seconds
+            while True:
+                remaining = poll_deadline - time.monotonic()
+                if remaining <= 0:
+                    break
+                time.sleep(min(FAST_PHYSICAL_MEMORY_POLL_SECONDS, remaining))
+                fast_system = api.system_snapshot()
+                fast_used = physical_memory_used_percent(fast_system)
+                if fast_used >= limits.max_physical_used_percent:
+                    fast_observation = {
+                        "physical_available_bytes": fast_system["physical_available_bytes"],
+                        "physical_total_bytes": fast_system["physical_total_bytes"],
+                        "physical_used_percent": fast_used,
+                        "max_physical_used_percent": limits.max_physical_used_percent,
+                    }
+                    latest["fast_physical_memory_stop"] = {
+                        "wall_time_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                        "elapsed_seconds": time.monotonic() - start,
+                        "observations": fast_observation,
+                    }
+                    latest["decision"] = {"action": "terminate",
+                        "reasons": ["physical_memory_used_percent"],
+                        "observations": fast_observation}
+                    telemetry.append(latest)
+                    result["status"] = "terminated_by_guard"
+                    break
+            if result["status"] == "terminated_by_guard":
+                break
     except BaseException as error:
         result["status"] = "monitoring_failed" if verified else "bootstrap_failed"
         result["error"] = f"{type(error).__name__}: {error}"[:700]
@@ -697,13 +883,15 @@ def main():
     parser.add_argument("--min-physical-available-gib", type=float, default=6.0)
     parser.add_argument("--timeout-seconds", type=float, default=1200.0)
     parser.add_argument("--allow-physical-pressure", action="store_true")
+    parser.add_argument("--max-physical-used-percent", type=int, default=98)
     parser.add_argument("--telemetry-limit-bytes", type=int, default=8*MIB)
     args = parser.parse_args()
     amounts = (args.soft_job_gib, args.aggregate_qemu_gib,
                args.min_commit_headroom_gib, args.min_physical_available_gib)
     if any(not math.isfinite(x) or x <= 0 for x in amounts):
         parser.error("GiB thresholds must be finite and positive")
-    limits = Limits(*(int(x*GIB) for x in amounts), args.timeout_seconds, args.allow_physical_pressure)
+    limits = Limits(*(int(x*GIB) for x in amounts), args.timeout_seconds,
+                     args.allow_physical_pressure, args.max_physical_used_percent)
     return monitor(args.manifest, args.telemetry, args.receipt, args.ready, limits,
                    args.poll_seconds, args.telemetry_limit_bytes)
 

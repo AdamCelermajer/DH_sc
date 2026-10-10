@@ -1,0 +1,15 @@
+{
+  "release": "V19 Preview 1",
+  "package": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-source-clock-v19-preview-1",
+  "executable_sha256": "ca781647451547e5952d342b71f483170477292f3869017d2160eb1781062e83",
+  "manifest_files": 572,
+  "positive_runtime_cases": 29,
+  "negative_save_cases": 2,
+  "v18_preserved_files": 572,
+  "goal_complete": false,
+  "final_v19_accepted": false,
+  "scope": "Current playable development executable; recent native canonical profile/Gear work remains integration-test-only.",
+  "new_playable_scope": "Shared source navigation/world lifetime integration; visible behavior largely matches V18.",
+  "native_work_not_enrolled": "Canonical Save/profile/property/mask2/Gear prepare/mask4, complete Equipment/Skills/Faery/Quest pages, native initial grants and active skills.",
+  "notes": "Own startup/save files; verification save archived before delivery; V18 package untouched."
+}

@@ -19,7 +19,7 @@ struct SourceBatchGpuV111 {std::weak_ptr<dh2::world::NativeBatchMeshV110> source
 struct SourceActorGpuV64 {
  std::weak_ptr<dh2::world::CanonicalCharacterCandidateRecordV60> record;
  std::uintptr_t visual_identity{},root_identity{};
- bool modular{},geometry_built{};
+ bool modular{},geometry_built{},menu_preview_trace_logged_v123{};
  std::unique_ptr<dh2::world::RetainedVisualDrawV27> retained;
  std::vector<Draw> batches;
  std::vector<GLuint> private_images;
@@ -30,7 +30,7 @@ struct SourceActorGpuV64 {
 // Native GPU transport of registered actual primitives. It holds lookup keys,
 // never pointers into vectors that skin/equipment updates can replace.
 struct SourceDrawSubmissionV69 {
- enum Kind {module,actor,object,compiled} kind{};
+ enum Kind {module,actor,object,compiled,skybox} kind{};
  SourceModuleMeshKeyV64 module_key;
  std::uintptr_t identity{};
  std::size_t primitive{};
@@ -45,6 +45,9 @@ struct SourceGeometryGpuV64 {
  std::map<std::uintptr_t,SourceActorGpuV64> actors;
  std::map<std::uintptr_t,SourceActorGpuV64> objects;
  std::map<std::uintptr_t,SourceBatchGpuV111> compiled;
+ std::weak_ptr<dh2::camera::SkyboxNodeV24> skybox_node_v124;
+ std::vector<Draw> skybox_draws_v124;
+ bool skybox_ready_v124{};
  std::map<std::string,std::shared_ptr<NativeBatchProgramV113>> batch_programs_v113;
  std::map<std::string,GLuint> texture_cache;
  std::vector<GLuint> textures;
@@ -57,13 +60,15 @@ SourceGeometryGpuV64 source_geometry_gpu_v64;
 void release_native_batch_shader_v113(Draw&,bool);
 bool submit_native_batch_shader_v113(const Draw&,const Matrix&,std::string&);
 bool update_native_batch_attributes_v113(const dh2::world::NativeBatchPartV111&,Draw&,std::string&);
+bool prepare_source_skybox_v124(const SourceCampaignCandidateBorrowV55&,std::string&);
+bool submit_source_skybox_v124(std::size_t,const Matrix&,std::string&);
 void release_source_actor_gpu_v64(SourceActorGpuV64& actor,bool lost){
  for(auto& batch:actor.batches){release_buffer_v41(batch.vertices,lost);release_buffer_v41(batch.indices,lost);}
  for(auto image:actor.private_images)release_model_texture_v40(image,lost);
  actor={};
 }
-void release_source_geometry_gpu_v64(bool lost){
- auto& gpu=source_geometry_gpu_v64;
+void release_geometry_gpu_v123(SourceGeometryGpuV64& gpu,bool lost){
+ for(auto& batch:gpu.skybox_draws_v124){release_native_batch_shader_v113(batch,lost);release_buffer_v41(batch.vertices,lost);release_buffer_v41(batch.indices,lost);}
  for(auto& entry:gpu.meshes)for(auto& batch:entry.second.batches){
   release_buffer_v41(batch.vertices,lost);release_buffer_v41(batch.indices,lost);
  }
@@ -74,6 +79,7 @@ void release_source_geometry_gpu_v64(bool lost){
  for(auto texture:gpu.textures)release_model_texture_v40(texture,lost);
  gpu={};
 }
+void release_source_geometry_gpu_v64(bool lost){release_geometry_gpu_v123(source_geometry_gpu_v64,lost);}
 bool same_source_geometry_v64(const SourceCampaignCandidateBorrowV55& actual){
  const auto& gpu=source_geometry_gpu_v64;
  const auto state=dh2::android_resources::budget_lease_v39()->context_state_v41();
@@ -170,9 +176,9 @@ void prepare_source_module_frames_v64(const std::vector<dh2::loader::ModuleDrawF
   }
  }
 }
-void sync_source_retained_frames_v68(SourceActorGpuV64& target,
+void sync_source_retained_frames_v68(SourceGeometryGpuV64& gpu,SourceActorGpuV64& target,
  const std::shared_ptr<dh2::world::RetainedGameObjectVisualV1>& visual){
- auto& gpu=source_geometry_gpu_v64;std::string error;
+ std::string error;
   if(!target.retained->refresh(error))throw std::runtime_error(error);
   const auto& parts=target.retained->parts();
   const auto& materials=visual->scene().materials;
@@ -214,6 +220,10 @@ void sync_source_retained_frames_v68(SourceActorGpuV64& target,
      batch.cpu_geometry_v41.vertices.data(),dh2::resources::ResourceScopeV37::world);
   }
   target.geometry_built=true;
+}
+void sync_source_retained_frames_v68(SourceActorGpuV64& target,
+ const std::shared_ptr<dh2::world::RetainedGameObjectVisualV1>& visual){
+ sync_source_retained_frames_v68(source_geometry_gpu_v64,target,visual);
 }
 void prepare_source_actor_frames_v64(const SourceCampaignCandidateBorrowV55& actual){
  auto& gpu=source_geometry_gpu_v64;std::string error;
@@ -349,6 +359,15 @@ bool source_primitive_compiled_v111(const Draw& original){
 }
 void rebuild_source_drawlist_transport_v69(){
  auto& gpu=source_geometry_gpu_v64;std::vector<SourceDrawSubmissionV69> submissions;std::string error_v111;
+ // SkyBoxMeshSceneNode registers pass2, priority INT_MAX, buffer index+1.
+ // It precedes the existing solid/world submissions and writes no depth.
+ if(auto node=gpu.skybox_node_v124.lock()){
+  if(!node->register_buffers(true,[&](const dh2::camera::SkyboxQueueEntryV24& entry,std::string& e){
+   if(entry.pass!=2||entry.priority!=INT32_MAX||entry.flags||!entry.buffer_parameter||
+      entry.buffer_parameter>gpu.skybox_draws_v124.size()){e="Invalid actual skybox registration";return false;}
+   submissions.push_back({SourceDrawSubmissionV69::skybox,{},node->identity(),entry.buffer_parameter-1});return true;
+  },error_v111))throw std::runtime_error(error_v111);
+ }
  for(const auto& module:gpu.meshes)for(std::size_t i=0;i<module.second.batches.size();++i)
   if(!source_primitive_compiled_v111(module.second.batches[i]))submissions.push_back({SourceDrawSubmissionV69::module,module.first,0,i});
  for(const auto& actor:gpu.actors)for(std::size_t i=0;i<actor.second.batches.size();++i)
@@ -368,7 +387,12 @@ void refresh_source_drawlist_transport_v69(){
  auto& gpu=source_geometry_gpu_v64;
  if(!gpu.drawlist_registered_v69)throw std::runtime_error("Cached source scene list has not been registered");
  for(auto& submission:gpu.registered_draws){
-  if(submission.kind==SourceDrawSubmissionV69::module){
+  if(submission.kind==SourceDrawSubmissionV69::skybox){
+   auto node=gpu.skybox_node_v124.lock();
+   if(!node||node->identity()!=submission.identity||submission.primitive>=gpu.skybox_draws_v124.size())
+    throw std::runtime_error("Cached source skybox retired before registration");
+   submission.visible=node->source_enabled138()!=0;
+  }else if(submission.kind==SourceDrawSubmissionV69::module){
    const auto found=gpu.meshes.find(submission.module_key);
    if(found==gpu.meshes.end()||submission.primitive>=found->second.batches.size())
     throw std::runtime_error("Cached source module primitive was retired before registration");
@@ -444,6 +468,10 @@ void submit_source_drawlist_transport_v69(const Matrix& camera,const Draw*& prev
  if(!gpu.drawlist_registered_v69)throw std::runtime_error("Actual scene primitive list has not been registered");
  for(const auto& submission:gpu.registered_draws){
   if(!submission.visible&&submission.kind!=SourceDrawSubmissionV69::compiled)continue;
+  if(submission.kind==SourceDrawSubmissionV69::skybox){std::string e;
+   if(!submit_source_skybox_v124(submission.primitive,camera,e))throw std::runtime_error(e);
+   previous=&gpu.skybox_draws_v124.at(submission.primitive);continue;
+  }
   const Draw* batch{};
   if(submission.kind==SourceDrawSubmissionV69::module){
    const auto found=gpu.meshes.find(submission.module_key);

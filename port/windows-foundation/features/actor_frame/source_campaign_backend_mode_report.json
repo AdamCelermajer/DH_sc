@@ -1,0 +1,52 @@
+{
+  "purpose": "Exercise explicit menu/campaign source backend admission against the real empty native GS global/runtime and existing candidate/world borrow helpers.",
+  "runtime_claim": true,
+  "no_mock_current_callback": true,
+  "retroactive_source_audit": {
+    "scope": "Internal source callback context with no direct visual counterpart; it admits source consumers over the same native owners and does not implement a gameplay scene.",
+    "source_callers_and_gates": [
+      "source_campaign_character_interaction_v114.cpp: Character.Interact returns before Level admission for source state 13; other calls sample the current Level, resolve the actual TalkToNPC constant, then preserve the original event/SetInteract/TalkToNPC2fa and merchant/cleaner PM/UI gates.",
+      "source_campaign_character_zoning_v108.cpp: source room/module-room ownership, ObjectManager membership, updating and zone visibility gates precede the existing zoning kernel.",
+      "source_campaign_script_actor_v96.cpp: source LookAt and visibility synchronization consume the same Character/World owner; these direct consumers are valid before a current campaign Level exists.",
+      "The mode path only changes admission of the existing callback adapters. It never creates a replacement World, Character, Level, manager, floor graph or FSM."
+    ],
+    "lifetime_and_admission": "SourceCampaignBackendContextV1 pins the candidate/world/character factory/current-Level backend and explicit services; its thread-local registry is weak and root must externally retain the context. Menu admission verifies the same pristine NativeGS global/runtime and empty s_level without calling current(). Campaign admission requires exact nonnull candidate/services/current Level and rechecks the live lease. Reached zoning/interact/Limbus/campaign-audio adapters recheck campaign Level. Direct owner lookup/visibility/look may use menu mode.",
+    "expected_consumer_invariant": "Direct source object lookup and immediate heading/visibility behavior remain usable with a candidate Level during menu/bootstrap; any callback whose original path reaches Level-owned state requires that exact current GS Level. Both modes preserve actual ObjectManager/World identity and source callback bodies.",
+    "uncertainties": [
+      "No reference image or frame directly represents this admission/lifetime helper. Existing original consumer evidence is used as the invariant it supports; this is not visual parity proof.",
+      "The native test proves the empty-slot menu prefix and callback rejection boundary, not a registered live game World or complete campaign behavior.",
+      "Production caller/root ownership integration and live visual consumer verification remain outside this focused feature test."
+    ],
+    "focused_validation": "The native test constructs an actual NativeGSLevelGlobalsV27 with s_level=null and its owning runtime, plus existing candidate/world borrow helpers. It validates menu admission/direct borrow, confirms a reached zoning callback is rejected before its service runs, then confirms campaign mode fails with the preserved live-empty GS error. Both contract and executable compiled; native link and runtime passed.",
+    "verification_layers": {
+      "source_audit": "caller and level/mode gates inspected; no direct visual counterpart",
+      "compile": "strict native closure rebuild, source_campaign_backend_v1.cpp exit 0",
+      "isolated_runtime": "passed with actual empty GS slot and same-owner graph",
+      "integrated_runtime_visual": "not claimed"
+    }
+  },
+  "results": {
+    "existing_native_closure": {
+      "exit": 0,
+      "stdout": "LINK PASS C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\windows-foundation\\features\\actor_frame\\source_backend_native_closure_build\\source_backend_native_closure_test.exe\n",
+      "stderr": ""
+    },
+    "source_campaign_backend_mode_contract_test.cpp": {
+      "exit": 0,
+      "stderr": ""
+    },
+    "source_campaign_backend_mode_native_test.cpp": {
+      "exit": 0,
+      "stderr": ""
+    },
+    "native_link": {
+      "exit": 0,
+      "stderr": ""
+    },
+    "native_runtime": {
+      "exit": 0,
+      "stdout": "PASS: verified empty source GS slot admits menu candidate lookup; campaign-only callbacks and campaign mode still require live Level\n",
+      "stderr": ""
+    }
+  }
+}

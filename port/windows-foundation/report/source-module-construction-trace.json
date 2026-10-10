@@ -1,0 +1,157 @@
+{
+  "status": "typed-actual-module-receiver-trace-ready-current-level-traversal-unverified",
+  "modules": [
+    "source_module_trace.hpp",
+    "source_module_trace.cpp"
+  ],
+  "test": "tests/source_module_trace_tests.cpp",
+  "production_provider": {
+    "no_counter": "Trace owns no module ID counter and never parses occurrence suffix",
+    "runtime_id": "Read actual CanonicalModuleV1.module_id(), recovered Module40c",
+    "source_identity": "Explicit source URI + original XML element + retained file load occurrence. Repeated resource loads must use distinct occurrences.",
+    "receiver_identity": "Read same module.base().identity(), retain actual receiver shared owner",
+    "entry": "SourceModuleConstructionTrace.observe(SourceModuleOccurrence, shared_ptr<CanonicalModuleV1>, error)",
+    "host_identity": "Opaque host child-occurrence spelling from ActorDefinition.moduleName; source constructor callback must associate the actual declaration with this host identity.",
+    "position": "Read same module.base().runtime().subobjects.position160",
+    "callbacks": "Invoke from SAME canonical source constructor/property/load path; mutable placement may be refreshed after source overrides. Load callbacks continue to use same ID in Level18c."
+  },
+  "binding": {
+    "no_partial_binding": "An invalid batch is rejected during prevalidation before original room binding map mutation",
+    "behavior": "Re-read same receiver ID; validate all existing bind_module calls against a copy; commit binding map mutations in serialized loader context without replacing ActorDefinition storage",
+    "conflict_rejection": [
+      "Missing actual receiver/read provider",
+      "Empty source/host occurrence",
+      "Duplicate ID across receivers",
+      "One host/source occurrence reused for another receiver",
+      "Actual immutable runtime ID mutation",
+      "Nonfinite actual source position",
+      "Unsupported negative/wrapped runtime ID",
+      "Unknown/conflicting host child occurrence"
+    ],
+    "lifetime": "Trace retains same source receiver; per-Level owner should hold trace and reset/discard it with that Level rather than mixing sessions.",
+    "method": "trace.bind(SourceWorldObjects,error)"
+  },
+  "source_construction_evidence": {
+    "reset": "LevelC1 resets original Module::s_moduleId to0",
+    "store_receiver40c": "0x38a0e4",
+    "function": "ModuleC1 0x389fa8",
+    "increment_global": "0x38a0e8",
+    "read_global": "0x38a0d8",
+    "child_scope": "module_load_v1 publishes actual receiver ID to same Level.object_module_id18c while loading gameplay then visual XML. Source ObjectFactory registers children with runtime_module_id as room64."
+  },
+  "native_tests": {
+    "status": "PASS",
+    "warnings": 0,
+    "executable": ".local-inputs/windows-camera-assets/source-module-trace-tests.exe",
+    "build": "C++17 -static -Wall -Wextra -Wpedantic, new module + current content libraries",
+    "receiver_inputs": "Declared test fixtures, not actual original runtime receivers",
+    "checks": [
+      "ID41 bound to host#900 proves no ordinal parsing",
+      "Repeated same source URI/element distinguished by retained file occurrence",
+      "Same exact receiver occurrence refresh idempotent",
+      "Room-scoped actual ID41/58 named lookups",
+      "Mutable source placement refresh",
+      "ID mutation rejection",
+      "Crossreceiver ID and occurrence conflicts",
+      "Invalid/bounded receiver failures",
+      "Failed batch leaves original scopes unbound"
+    ],
+    "actual_canonical_accessor_overload": "Positive recovered ModuleC1/base C1 construction and observe_record executed independently; complete Level/Act1 traversal not claimed"
+  },
+  "exact_remaining": [
+    "Existing ActorDefinition XML traversal is not full canonical constructor traversal. It only treats gametype Module as module while source factory routes both Module and Block; it recursively loads selected primary references and does not execute all original type filters, constructor allocations, alternate XML choice, and source pending-load phases.",
+    "Root must deliver actual canonical Module construction/property/load receipts to this provider, OR separately prove a complete equivalent constructor traversal. Do not bind current #ordinal as runtimeID.",
+    "Specific original Act1 IDs have not been captured by this native trace. Current level mapping remains unavailable until real source callbacks are delivered.",
+    "No main, population, session, original canonical constructor, or world object implementation was changed."
+  ],
+  "evidence": [
+    "port/level-world/reference/canonical-object-factory-v1/original-source.asm:8512",
+    "port/level-world/canonical_level_config_module_v1.cpp:74",
+    "port/level-world/canonical_level_config_module_v1.hpp:106",
+    "port/level-world/module_xml_selection_v1.cpp:28",
+    "port/level-loader/level_constructor_v3.cpp:49",
+    "port/level-loader/canonical_source_adapter_v1.cpp:46",
+    "port/level-world/canonical_object_factory_v1.cpp:19",
+    "port/windows-foundation/actor_definitions.cpp:161",
+    "port/windows-foundation/source_world_objects.cpp:16",
+    "port/level-world/canonical_level_module_bindings_v2.cpp:28",
+    "port/level-loader/retained_level_module_graph_v1.cpp:30",
+    "port/level-loader/level_file_walk_v1.cpp",
+    "port/level-loader/object_entry_v1.cpp",
+    "port/level-loader/canonical_cached_file_v1.cpp:23",
+    "port/level-world/game_object_initialization_owner_v1.hpp"
+  ],
+  "retained_record_integration": {
+    "status": "Added source-record overload; no synthetic traversal performed",
+    "access": "RetainedLevelModuleGraphV1.modules() holds shared_ptr<CanonicalModuleRecordV2>. root_file().attempts() journals SAME actual canonical source requests.",
+    "association": "CanonicalLevelModuleBindingsV2.construct stores record.declaration=q.source_lease. Match a completed factory attempt source().request().source_lease to this exact declaration owner and pointer, not to element ordinal equality or name.",
+    "entry": "trace.observe_record(occurrence, record, matchedRequest.source_lease, error)",
+    "ownership": "borrow_source_module_record aliases shared_ptr<CanonicalModuleV1>(record,record->receiver.get()), preserving unique receiver ownership. This exact pattern already appears in canonical_level_module_bindings_v2.cpp bind_gameobject_loading_v95.",
+    "guards": "observe_record rejects missing record/receiver/declaration, distinct declaration pointer, and distinct shared ownership before observing any ID.",
+    "stage": "Observe completed source factory results; source collect_modules only admits Module/Block results when stage==complete and actual ObjectManager GO_ID5 receiver identity is retained.",
+    "id": "Read record.receiver.module_id(); source class constructor assigned40c. No new or copied counter exists on trace.",
+    "latest_native_test": "PASS: independent actual recovered ModuleC1 retained-record test executed in addition to standard generic transport tests"
+  },
+  "exact_loader_route": {
+    "root": "RetainedLevelModuleGraphV1 constructor creates CanonicalCachedFileV1 with ObjectEntryRouteV1::level and no type filter.",
+    "root_walk": "level_file_walk_v1 visits direct children of each matching original top-level Level root, in retained source order, with pending polling and actual parser/release continuation; not generic recursive DOM traversal.",
+    "admission": "object_entry_v1 preserves missing gametype unsafe Level domain, original Player exclusion, missing attributes, exact known factory lookup and real unknown-type Debug path. Module and Block use the same constructor.",
+    "factory_order": "Construct -> same ObjectManager Add -> InitProperties -> optional template -> defaults -> overrides -> early LevelConfig InitPost -> gameobject module-offset SetPosition. Any missing reached callback stops the actual unfiltered walk.",
+    "graph_collection": "collect_modules observes completed attempts afterward. It does not filter construction or create replacement IDs.",
+    "module_load": "Actual source Stage10 load_module invokes load_source_module_v38 over the retained actual receiver ID; Module::Load chooses original alternate XML, sets same Level18c/160, delivers MGP/MVP complete polls, then resets those fields."
+  },
+  "next_live_integration_steps": [
+    "Provide the SAME fresh canonical Level/global Module counter and source manager/property/class dispatch owners. Use existing source constructor path, not ActorDefinition recursion.",
+    "Run the retained unfiltered root Level walk with complete class admission. If a prior reached class/default/publication provider fails, preserve the source failure instead of continuing directly to later Modules.",
+    "From graph.modules(), find the completed root_file.attempt whose source_lease is the same record.declaration. Build source URI/element/file-occurrence identity from that retained request.",
+    "Associate host child occurrence with that exact declaration occurrence; emit trace.observe_record. Never use host #suffix as the ID.",
+    "trace.bind(worldObjects) after actual source records are observed; commands and triggers then use each child original room64/runtime_module_id mapping.",
+    "Keep property/load/visual/floor preparation separate: a constructor ID receipt alone does not certify trigger geometry or whole Module InitPost. Preserve v7 behavior until actual source provider boundaries are bound."
+  ],
+  "missing_foundation_providers": [
+    "Foundation does not currently own the actual CanonicalLevelContextV1/ModuleRuntimeGlobalsV1 source constructor session used by retained canonical graph.",
+    "A real CanonicalPropertyMapV1 and complete relevant class constructor/default/override dispatch are required for the unfiltered original root walk; a Module-only XML filter changes source admission/order.",
+    "Module constructor module_services needs SAME receiver-backed set_position and GameObjectInitializationServices; reached LevelConfig InitPost needs actual Debug and config publication.",
+    "After constructor receipt, Module InitPost/InitFinal need actual condition/spawn/device/visual/light/PF services and Module visual/physical/root-bounds/generated-RoomZone services. Those are not represented by invented successful no-op callbacks.",
+    "For complete module MGP/MVP loading, original alternate XML selection needs the shared actual RNG; source file parser/load/release/pending lifecycle must be retained.",
+    "Host ActorDefinition.moduleName association to exact source occurrence remains a caller producer. Its recursive element ordinal alone is not proof of source retained-file element equivalence."
+  ],
+  "positive_actual_record_test": {
+    "status": "NATIVE_PASS",
+    "executable": ".local-inputs/windows-camera-assets/source-module-record-bridge-tests.exe",
+    "macro": "DH_FOUNDATION_SOURCE_MODULE_CTOR_TEST",
+    "main_foundation_ctest": "Optional path not enabled in standard CMake/CTest; independently compiled and run",
+    "actual_executed": [
+      "CanonicalModuleV1 constructor",
+      "CanonicalGameObjectBaseOwnerV1 constructor",
+      "Shared ModuleRuntimeGlobals ID assignment/increment",
+      "observe_record SAME declaration lease positive path",
+      "Wrong declaration lease rejection",
+      "Actual receiver position160 refresh",
+      "Alias owner preserves unique receiver after external owner reset",
+      "World scope lookup from actual constructed IDs"
+    ],
+    "assertions": "Two recovered constructors assign IDs0/1, shared nextID2; host #900/#9 never interpreted",
+    "explicit_boundaries": [
+      "Global initial value0 supplied; complete LevelC1 reset/publication not executed",
+      "Declaration leases are fixtures; original XML parser/source requests not executed",
+      "InitPost services retained empty and never called; no fake successful callbacks",
+      "No full defaults/property/load traversal, RNG selection or geometry readiness",
+      "No current Act1 mapping acceptance"
+    ],
+    "standalone_extra_source_dependencies": [
+      "canonical_level_config_module_v1.cpp",
+      "canonical_gameobject_base_owner_v1.cpp",
+      "game_object_initialization_owner_v1.cpp",
+      "navigation_objects.cpp",
+      "navigation_motion.cpp",
+      "navigation_world.cpp",
+      "selector.cpp",
+      "navigation_search.cpp",
+      "octree.cpp",
+      "collision.cpp"
+    ],
+    "source_files_changed": "Owned source_module_trace.hpp/.cpp, tests/source_module_trace_tests.cpp and this report only",
+    "preserving_v7": "No main/CMake/session/population/live provider changes"
+  }
+}

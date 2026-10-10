@@ -1,0 +1,45 @@
+{
+  "issue": "Released v17 alternating W/S causes a slow U-turn and lateral drift",
+  "release_sha256": "c1713329afa44790b53b2ce8a5a3d9ed3545b4bd0b770104d7d4500bab983706",
+  "status": "Primary-source mechanism reproduced with exact v17 assets; matched original gameplay reversal remains unverified",
+  "implementation_edits": "None; added only tests/source_reversal_probe.cpp and this report",
+  "primary_sources": [
+    "port/level-world/navigation_heading.cpp and reference/navigation-heading/original-functions.json: original LookTowards/SetHeadingDirection",
+    "port/level-world/actor_rotation.cpp and reference/actor-rotation/NOTES.md: original UpdateRotation at0x393710, property47 multiplier, strict antipodal branches",
+    "port/level-world/move_state.cpp and character_state.cpp: Move focus flags0x23c1 select bounded turn and visual position",
+    "port/level-world/visual_motion.cpp: original quaternion/root displacement retains current facing",
+    "port/level-world/reference/actor-rotation/NOTES.md: captured full frame positions early scene/root displacement before late UpdatePath0x38ccc4, UpdateRotation0x38cccc, UpdateSubObjects0x38ccd4",
+    "port/windows-foundation/main.cpp: released-style root displacement precedes the late source rotation publication"
+  ],
+  "mechanism": [
+    "Original ordinary rotation speed is resolved modifier multiplied by4pi radians/sec; modifier1 gives a180-degree reversal in roughly250ms.",
+    "Original heading convention is local -Y forward. Exactly +Y with x0 gives heading -pi; exactly -Y gives heading0.",
+    "Strict >pi/<-pi wrapping preserves both exact antipodal signs. Alternating those headings traverses -pi/2 on both reversals.",
+    "Root motion continues along the current visual facing during that turn, before the late rotation update. A local -Y stride at -pi/2 displaces world -X.",
+    "This source mechanism can therefore produce the same lateral arc repeatedly without an added lateral clamp or input bug. Screen-left depends on the camera basis."
+  ],
+  "deterministic_fixture": {
+    "asset_root": ".local-inputs/windows-source-clock-checkpoint-v17/assets",
+    "actor": "Original KnightPlayerBase level1 resolved source properties",
+    "selected_state": "Original Run first source step",
+    "source_clip": "original-cache/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+    "source_rate": 1.29999995,
+    "rotation_multiplier": 1,
+    "input": "Axis-aligned W/S alternating every45frames at60Hz;225frames total",
+    "collision": "Unobstructed admitted floor, isolating turn/root math from level/PF wall clamps",
+    "scale": "Unit source scale; numbers are source units, not the packaged actor's scaled screen distance",
+    "first_reversal_settled_frames": 15,
+    "four_reversal_world_minus_x_delta": -618.972961,
+    "total_local_root_distance": 3662.50684,
+    "motor_vs_direct_original_quaternion_displacement_max_difference": 0.000183105469,
+    "csv": ".local-inputs/windows-toolchain/source-reversal-probe.csv",
+    "binary": ".local-inputs/windows-toolchain/source-reversal-probe.exe"
+  },
+  "inference": "The observed U-turn/drift has a recovered-source explanation and is reproduced without changing the runtime. This rules against blaming an arbitrary new trig/lateral clamp in the isolated case. It does not establish original user-experience intent or exact live magnitude.",
+  "remaining_verification": [
+    "Reference video uses a virtual joystick; no defensible matched exact180-degree reversal has yet been identified.",
+    "Actual level floor/wall admission, body Step, manual boundary heading, camera basis and actor scale may alter the packaged magnitude.",
+    "The full source live frame remains incompletely reconstructed; matching individual kernels does not prove whole-game behavior."
+  ],
+  "recommended_next_step": "Run a matched original-game reversal on an open floor with comparable heading/input magnitude. Compare turn time and cross-track drift before selecting any fidelity fix or explicitly requested modern movement policy."
+}

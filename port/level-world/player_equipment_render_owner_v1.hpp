@@ -13,12 +13,15 @@ namespace dh2::player {
 class PlayerEquipmentRenderOwnerV1;
 enum class EquipmentWorldQueryV1 : std::uint32_t {
  online=0x7fd794,online_player_record=0x36eea8,current_player=0x31f594,
- current_difficulty=1,player_count=0x4043a8,remotely_updated=0x33dd10
+ current_level=0x31f594,current_level_difficulty=1,character_count=0x4043a8,
+ current_difficulty=current_level_difficulty,player_count=character_count,remotely_updated=0x33dd10
 };
 struct EquipmentWorldServicesV1 {
  void* context{};
  // Fresh source query each delivery. identity is full native Character identity;
- // scalar is the source bool/record/difficulty/count. No offline default here.
+ // scalar is the source bool/record/difficulty/count. current_level reads the
+ // actual process current-Level slot, difficulty reads its +118, and count
+ // reads PlayerManager+6c4. No inferred player or offline default here.
  bool(*invoke)(void*,EquipmentWorldQueryV1,std::uintptr_t subject,
                std::uintptr_t& identity,std::int32_t& scalar,std::string&){};
 };
@@ -92,6 +95,10 @@ public:
  bool load_source_inventory_v122(data::Bytes,data::InventoryLoadReceiptV1&,std::string&);
  bool ready()const noexcept;
  const data::FreshInventoryOwnedV4* inventory()const noexcept;
+ // Borrows the existing item-text service authority created during Gear
+ // preparation. Null until preparation succeeds; no new text/cache owner.
+ // The Gear and its source service leases must outlive the borrowed pointer.
+ const ui::ItemTextOwnerV5* item_text_owner_v1()const noexcept;
  const std::shared_ptr<data::PropertyState>& properties()const noexcept;
  data::PropertyView* property_view()noexcept; // same backing; live buffs may bind
  bool auto_equip(std::uint32_t,std::int32_t& result,std::string&);

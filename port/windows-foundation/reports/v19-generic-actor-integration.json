@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-09",
+  "status": "main_executable_enemy_approach_and_attack_runtime_verified_release_verification_pending",
+  "goal_complete": false,
+  "implemented": [
+    "ActorDecisionProvider runs on the existing CombatSession and issues attacks through request_actor_attack using shared admission, turning, cooldowns and original animation markers.",
+    "bind_actor_locomotion and select_actor_locomotion support any bound actor; player methods are wrappers over the same implementation.",
+    "Session update advances selected locomotion for enemies and player through the same retained animation/event/root-motion owner.",
+    "Main executable --enemy-ai enrolls the generic controller and sewn-floor navigation/scene collision services, refreshing the controller after navigation-world restore.",
+    "Authored AI/combat displacement uses explicit root-motion admission independent of manual keyboard input strength, preserving the manual multiplier."
+  ],
+  "verified": [
+    "Actual original LizardMan attack reaches its authored hit after 0.15 seconds through the gameplay decision callback with stationary diagnostic AI disabled.",
+    "Enemy idle locomotion retains the same pose owner and advances its original timeline instead of being reset by the player-only path.",
+    "Unbound actor and invalid command interval are rejected; combat-session, source-session-program and combo tests pass.",
+    "Actual Swamp executable near-enemy test exits 0 after 180 fixed-step frames: NPC y938.285 to y413.373; player health165.098 to149.371. Runtime log .local-inputs/v19-ai-development-test/near-enemy-motion.log.",
+    "Full current foundation CTest passes 79/79 after schema2, enemy enrollment, authored motion and audio update-serial changes."
+  ],
+  "limitations": [
+    "Native MyTurn/random cadence, exact original search ordering, dynamic avoidance and obstacle detours remain unverified or incomplete.",
+    "Near-enemy test uses an explicit diagnostic player placement; it does not establish original encounter triggers or full Swamp population.",
+    "No accepted package was changed or new preview released by this work."
+  ],
+  "regression_log": ".local-inputs/v19-ai-enrollment-regression.log"
+}

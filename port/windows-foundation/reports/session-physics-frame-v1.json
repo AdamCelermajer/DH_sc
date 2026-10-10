@@ -1,0 +1,36 @@
+{
+  "status": "shared_physics_primitives_real_same_session_tests_pass_production_composition_incomplete",
+  "source_and_visual_note": "reports/session-physics-frame-v1.md",
+  "implementation": "Same registered NativeWorld once per explicit current frame/dt, typed registered physical-context resolution, awake source >1 XY import and actual PF floor acceptance/clamp through existing whole position setter",
+  "callback_error_policy": "Latch first filter/contact failure during Step, suppress later gameplay delivery, let Box2D unlock normally, then report failure; same failed frame cannot replay reached prefix",
+  "verification": {
+    "runner": "tools/run_playable_actor_physics_frame_tests.ps1",
+    "log": ".local-inputs/playable-actor-physics-frame-test/run.log",
+    "executable_sha256": "366C6534407FC857A5330376EDD9824B9AA069935D4FA83FC6EA3533BF7A36C5",
+    "exit_code": 0,
+    "source_content": "Actual Mage/Lizard body plans in one CombatSession; original Swamp BRES floor plus real sewn floor/PF and obstacle owner",
+    "cases": ["real overlapping-body contact", "once-per-frame Step and inconsistent/stale/foreign-owner rejection", "sleeping flag separate from pin/mass", "same Actor position/AABB publication preserving Z/destination/gameplay sheets/HP/action/target/RNG", "actual valid-floor acceptance", "outside-floor point clamped to last valid PF position", "missing navigation rejects without changing actor/body/output", "reentrant release refusal", "callback error prefix retained without same-frame replay"],
+    "root_review": "Root inspected test implementation, exact PASS log and executable hash"
+  },
+  "motion_phase_verification": {
+    "runner": "tools/run_combat_session_motion_phase_tests.ps1",
+    "log": ".local-inputs/session-motion-phase-test/run.log",
+    "executable_sha256": "6F734CC3111B3E37993E41DB81FE510988777F42098A205FC8F9EE432C349A72",
+    "exit_code": 0,
+    "source_content": "Real Rogue moving attack bank with nonzero authored roots, same-Session Lizard, NativeWorld bodies and original Swamp floor/PF",
+    "cases": ["same-frame source hit/result/RNG precede ordered motion phase", "accepted physical XY suppresses authored roots", "no-import branch applies retained source roots", "one current-actor callback including no samples and zero dt", "reentry/mode/reinitialize/checkpoint/detach guards", "failed callback prefix and motion batch never replay", "restore requires fresh motion-phase binding before frame advance"],
+    "root_review": "Inspected test source, exact PASS log and final executable hash; test steps physics inside its phase and is not a claim of original global Level ordering or production composition"
+  },
+  "physical_stop_verification": {
+    "api": "PlayableActorBodies.stop_physical(id,currentLookup,stopped,error)",
+    "runner": "tools/run_playable_actor_physics_frame_tests.ps1 -BuildRoot .local-inputs/playable-actor-physics-stop-test",
+    "log": ".local-inputs/playable-actor-physics-stop-test/run.log",
+    "executable_sha256": "EEA8F2F77BEE874836D8AA1843CA143F294271E6376C303D01A1FA314E6E9A65",
+    "exit_code": 0,
+    "cases": ["actual same-Session native linear/angular zero and sleep", "current ActorXY reseat preserving angle/mass/pin", "Actor/destination/HP/target/action/RNG preserved", "stale actor and Step reentry reject before effects", "actually removed body succeeds with stopped=false", "existing physical frame/PF floor/failure-prefix regressions still pass"],
+    "scope": "Physical part only. Lead owns actual source DropPath/destination/heading prefix and physical-position predicate; no whole GameObject Stop or production gameplay claim.",
+    "fixture_correction": "New Stop correctly sleeps the real body; subsequent existing solver fixture using raw Box2D velocity setters needed explicit WakeUp. NativeBodyObservation XY is physical units and assertion compares ActorXY times0.01."
+  },
+  "remaining": ["Accepted source Move/Attack focus/blur pin and whole Stop policy", "Actual modern AIS contact snapshot/effect providers", "Production Step and correct per-actor position publication phase", "Fresh normal gameplay overlap/movement GPU verification"],
+  "release": "Infrastructure development evidence; normal gameplay collision gate remains open"
+}

@@ -25,12 +25,18 @@ struct CampaignEventsTransportV75 {
   if(!id)return required("SafeGetCharPropsId source NULL dereference",e);
   std::shared_ptr<SourceWorldBorrowV61> actual;if(!resolve(actual,e))return false;
   SourceCampaignCharacterBorrowV62 borrowed;if(!borrow_source_campaign_character_v62(actual->owner,id,borrowed,e)||!borrowed.character)return false;
-  auto* cell=borrowed.character->init_fields.properties_id13c8;
+  auto& record=*borrowed.character;
+  // SafeGetCharPropsId reaches Character's post-init property field. Some
+  // event subjects are queried before their ordinary InitAll delivery, so
+  // produce the SAME retained field view the source owner exposes first.
+  if(!record.init_fields.properties_id13c8&&
+     (!record.actor||!record.actor->init_post_fields(record.init_fields,e)))return false;
+  auto* cell=record.init_fields.properties_id13c8;
   if(!cell)return required("SAME produced Character13c8",e);
   if(*cell!=-1){out=*cell;e.clear();return true;}
   dh2::character::NpcInitPostRequestV1 request;request.source_entry=0x3b3d38;request.subject=id;
   dh2::character::NpcInitPostResponseV1 response;
-  if(!dh2::world::CanonicalCharacterCandidateRecordV60::init_service(borrowed.character.get(),request,response,e))return false;
+  if(!dh2::world::CanonicalCharacterCandidateRecordV60::init_service(&record,request,response,e))return false;
   out=response.value;e.clear();return true;
  }
  dh2::loader::GameEventRuntimeServicesV75 services(const std::shared_ptr<CampaignEventsTransportV75>& self){

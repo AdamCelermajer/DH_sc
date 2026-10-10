@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "milestone": "M1 general Windows game foundations; original Act 1 content used for validation",
+  "audit_state": "final",
+  "overall_status": "pass",
+  "status_definitions": {
+    "pass": "Required behavior has been exercised with evidence at the stated verification scope.",
+    "fail": "An attempted acceptance check demonstrated missing or incorrect required behavior.",
+    "not_run": "No adequate acceptance execution evidence has been reviewed; source or unit checks alone do not establish integrated acceptance."
+  },
+  "scope_constraints": [
+    "Scene/module loading, rendering, cameras and character animation accept supplied content rather than map-specific implementations.",
+    "Original Act 1 assets are validation inputs; the foundation architecture is for the whole game.",
+    "Camera timeline is a general presentation mechanism, not acceptance of complete original cinematics.",
+    "Character defaults are foundation fixtures rather than recovered original gameplay balance.",
+    "Combat, quests, NPC behavior, bosses and whole-game campaign progression remain later work.",
+    "World/campaign persistence is later scope; this checkpoint verifies character data across process restart."
+  ],
+  "requirements": [
+    {
+      "id": "1A",
+      "requirement": "Windows EXE opens a window, accepts input and discovers or accepts an asset folder",
+      "status": "pass",
+      "source_evidence": [
+        "port/windows-foundation/platform_win32.cpp",
+        "port/windows-foundation/asset_catalog.cpp"
+      ],
+      "execution_evidence": [
+        ".local-inputs/windows-foundation-verification/world.log",
+        ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+        ".local-inputs/windows-foundation-final-verification/verification.json"
+      ],
+      "remaining": "Mechanism accepted: native open, process-owned key messages/focus reset, asset discovery and clean exit. Physical keyboard/mouse interaction manually untested."
+    },
+    {
+      "id": "1B",
+      "requirement": "General scene/module inputs render original geometry/materials with a controllable development camera",
+      "status": "pass",
+      "source_evidence": [
+        "port/windows-foundation/renderer.cpp",
+        "port/windows-foundation/texture_loader.cpp",
+        "port/windows-foundation/camera.cpp",
+        "port/windows-foundation/original_scene.cpp"
+      ],
+      "execution_evidence": [
+        ".local-inputs/windows-foundation-build/level-fixed.png",
+        ".local-inputs/windows-foundation-final-verification/verification.json"
+      ],
+      "remaining": "Mechanism accepted: generic level/module loading, textured scene GPU output, camera units and native timeline poses. Complete original material/light/effect fidelity and physical free-camera interaction remain pending."
+    },
+    {
+      "id": "1C",
+      "requirement": "Data-driven character model/clip loading displays original validation character and development controls select idle/walk/attack",
+      "status": "pass",
+      "source_evidence": [
+        "port/windows-foundation/original_character.hpp",
+        "port/windows-foundation/original_character.cpp"
+      ],
+      "execution_evidence": [
+        ".local-inputs/windows-foundation-build/character.png",
+        ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+        ".local-inputs/windows-foundation-final-verification/verification.json"
+      ],
+      "remaining": "Mechanism accepted: data-driven model and named clips, three pose updates in native character probe, textured actor visible in scene. Manual 1/2/3 switching and broad NPC/boss/cinematic actor coverage remain untested."
+    },
+    {
+      "id": "1D",
+      "requirement": "General short camera timeline moves, rotates and cuts within a supplied scene",
+      "status": "pass",
+      "source_evidence": [
+        "port/windows-foundation/camera.cpp",
+        "port/windows-foundation/tests/camera_tests.cpp"
+      ],
+      "execution_evidence": [
+        ".local-inputs/windows-foundation-verification/verification.json",
+        ".local-inputs/windows-foundation-verification/timeline_before_cut.png",
+        ".local-inputs/windows-foundation-verification/timeline_after_cut.png",
+        ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+        ".local-inputs/windows-foundation-final-verification/verification.json"
+      ],
+      "remaining": "General mechanism accepted; complete original cinematic reconstruction remains later scope."
+    },
+    {
+      "id": "1E",
+      "requirement": "Identity/class/stats/XP/inventory/equipment/skills/unlocks survive save, application close and reopen",
+      "status": "pass",
+      "source_evidence": [
+        "port/windows-foundation/character_state.hpp",
+        "port/windows-foundation/save_store.cpp",
+        "port/windows-foundation/tests/save_tests.cpp"
+      ],
+      "execution_evidence": [
+        "port/windows-foundation/reports/save-test.json",
+        ".local-inputs/windows-foundation-verification/save_write.log",
+        ".local-inputs/windows-foundation-verification/save_restart.log",
+        ".local-inputs/windows-foundation-package-verification/verification.json",
+        ".local-inputs/windows-foundation-final-verification/verification.json"
+      ],
+      "remaining": "All field families roundtrip in tests; separate packaged process restores modified name. Campaign save compatibility/persistence remains later scope."
+    },
+    {
+      "id": "1F",
+      "requirement": "Packaged build integrates 1A-1E, resizes, loads/unloads scene and exits cleanly outside development workspace",
+      "status": "pass",
+      "source_evidence": [],
+      "execution_evidence": [
+        ".local-inputs/windows-foundation-package-verification/verification.json",
+        ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+        ".local-inputs/windows-foundation-final-verification/verification.json"
+      ],
+      "remaining": "Mechanism accepted: final portable package smoke, actor-in-scene capture, unload/reload at frame15, window resize/reopen probe, save process restart, clean shutdown. Physical interactive complete playthrough remains untested."
+    }
+  ],
+  "notes": [
+    "Initial audit records code presence only. No integrated runtime acceptance has yet been reviewed.",
+    "User corrected scope to whole-game general foundations. Asset-specific presets are acceptable at the content boundary; hardcoded model/clip/map behavior inside general adapters is not.",
+    "Latest reviewed CTest execution: 5/5 passed (save, camera, asset, level_manifest, original_character). Main timeline toggle now restores free camera on T.",
+    "Native and portable-package receipts status pass reviewed. Before/after5-second camera-cut images independently inspected; world remains visible at different poses. Full interactive input coverage is not established by automated receipts.",
+    "Final packaged executable hash verified in final receipt; six CTest suites pass, including process-owned window keydown/up/focus clearing and resize/reopen. Final integrated reload log records content unload/reload at frame15 and clean shutdown after30 frames."
+  ],
+  "component_verification": [
+    {
+      "component": "Native Windows toolchain",
+      "status": "pass",
+      "evidence": "port/windows-foundation/reports/toolchain.json",
+      "scope": "64-bit native Win32 C++ smoke executable compiles/runs; does not verify foundation game window"
+    },
+    {
+      "component": "Asset catalog",
+      "status": "pass",
+      "evidence": "port/windows-foundation/reports/asset-test.json",
+      "scope": "Fixture and original asset-root discovery/read/inventory tests; not decoding/rendering"
+    },
+    {
+      "component": "Character save store",
+      "status": "pass",
+      "evidence": "port/windows-foundation/reports/save-test.json",
+      "scope": "Roundtrip and malformed-input/atomic replacement suite; not native application process restart"
+    },
+    {
+      "component": "Camera and level manifest",
+      "status": "pass",
+      "evidence": ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+      "scope": "Camera unit suite; generic level manifest fixture and original nine-module placements decode"
+    },
+    {
+      "component": "Original character decode/animation",
+      "status": "pass",
+      "evidence": ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+      "scope": "Original model four meshes, 487 vertices, 1758 indices; three animated clips; finite meshes and reload/move cases; no GPU display"
+    },
+    {
+      "component": "Native window lifecycle",
+      "status": "pass",
+      "evidence": ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+      "scope": "Native 640x480 open, resize 800x600, WGL destruction, reopen320x240, invalid resize rejected"
+    }
+  ],
+  "architecture_review": {
+    "status": "pass_at_checkpoint_scope",
+    "scene_inputs": "Generic BDAE scene and authored module selector/placement accepted",
+    "character_inputs": "Model/template paths, arbitrary named clip bank and loop/one-shot selection supplied through configuration; preview enum retained as convenience",
+    "open_items": [
+      "Full original rendering material/effect/lighting coverage remains incomplete; generalized architecture does not imply all original effect domains supported."
+    ],
+    "evidence": [
+      "port/windows-foundation/original_scene.hpp",
+      "port/windows-foundation/original_character.hpp",
+      "port/windows-foundation/reports/animation-review.json",
+      "port/windows-foundation/reports/render-review.json",
+      "port/windows-foundation/main.cpp"
+    ]
+  },
+  "visual_verification": [
+    {
+      "check": "Original validation level static rendering",
+      "status": "pass",
+      "evidence": ".local-inputs/windows-foundation-build/level-fixed.png",
+      "observation": "1280x720 native capture visibly contains textured connected module terrain/architecture. Broad framing and dark appearance leave material fidelity, transparency and camera interaction pending."
+    },
+    {
+      "check": "Original validation character static rendering",
+      "status": "pass",
+      "evidence": ".local-inputs/windows-foundation-build/character.png",
+      "observation": "1280x720 native capture visibly contains coherent textured Prince model. A single still does not establish animation transitions or full clip playback."
+    },
+    {
+      "check": "Integrated textured actor in original validation scene",
+      "status": "pass",
+      "evidence": ".local-inputs/windows-foundation-final-verification/integrated.png",
+      "observation": "Independently inspected native capture shows coherent textured Prince placed within textured authored world after unload/reload. Collision, gameplay, quests and original lighting are not established."
+    }
+  ],
+  "checkpoint": {
+    "status": "pass",
+    "scope": "General native foundation mechanisms verified through automated probes and inspected GPU captures",
+    "build_receipt": ".local-inputs/windows-foundation-final-verification/verification.json",
+    "package_receipt": ".local-inputs/windows-foundation-final-verification/verification.json",
+    "verified_sha256": "13ffc4ceb4c80a6b84882fc2d92fa800f509cb8d074767637993f517fbdb3bde",
+    "final_rebuild_pending": false,
+    "package_manifest": ".local-inputs/windows-foundation-preview/package-manifest.json"
+  },
+  "acceptance_scope": "Automated general-foundation mechanism checkpoint. Full original renderer coverage and complete interactive/gameplay milestone are not accepted by this report.",
+  "full_game_status": "incomplete",
+  "manual_interactive_status": "not_run",
+  "outstanding_coverage": [
+    "Physical keyboard/mouse control and manual complete interaction checks were not run.",
+    "Renderer supports the checkpoint material subset; full original effects, dynamic lighting, skybox and all transparency cases require later coverage.",
+    "Validation world instantiates geometry, not module gameplay objects, quests, campaign predicates or NPC/boss behavior.",
+    "Original complete cinematics, dialogue/audio playback and camera track reconstruction are not implemented or accepted here.",
+    "Exact original NewGame opening selection remains historically unverified in bounded asset audit."
+  ]
+}

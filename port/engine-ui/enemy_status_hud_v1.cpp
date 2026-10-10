@@ -6,8 +6,10 @@
 #include <cstring>
 #include <algorithm>
 namespace dh2::ui {
-namespace {constexpr const char* sha="a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238";}
-EnemyStatusHudV1::EnemyStatusHudV1(SwfMovie& movie,EnemyHudTextServicesV1 text):movie_(movie),text_(text){}
+namespace {constexpr const char* sha="a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238";
+constexpr const char* base_sha="3ab455733367acf657df6eaaec39c93fed34cbcf519255e02cf488c07a96f2bb";}
+EnemyStatusHudV1::EnemyStatusHudV1(SwfMovie& movie,EnemyHudTextServicesV1 text,bool base_hud):movie_(movie),text_(text),base_hud_(base_hud){}
+int EnemyStatusHudV1::core_dispatch(const HudManagerRequest& q,HudManagerResponse& out,std::string& e){return base_hud_?base_core_.dispatch(q,out,e):core_.dispatch(q,out,e);}
 EnemyStatusHudV1::~EnemyStatusHudV1()=default;
 bool EnemyStatusHudV1::notify(void* p,gameswf::sprite_instance* s,std::string& e){return static_cast<EnemyStatusHudV1*>(p)->advance_.notify(s,e);}
 bool EnemyStatusHudV1::sound(void*,std::uintptr_t& out,std::string&){out=reinterpret_cast<std::uintptr_t>(gameswf::get_sound_handler());return true;}
@@ -29,7 +31,7 @@ int EnemyStatusHudV1::text_operation(void* p,const HudManagerRequest& q,HudManag
 int EnemyStatusHudV1::service(void* p,HudManagerState* state,const HudManagerRequest* q,HudManagerResponse* out){
  auto& self=*static_cast<EnemyStatusHudV1*>(p);
  if(!self.borrow_||!self.error_||!q||!out)return 0;
- const int core=self.core_.dispatch(*q,*out,*self.error_);
+ const int core=self.core_dispatch(*q,*out,*self.error_);
  if(core>=0){
   if(core==1&&q->operation==HudManagerOperation::visible)self.visible_=q->value!=0;
   if(core==1&&q->operation==HudManagerOperation::goto_frame&&q->index==22){
@@ -55,16 +57,21 @@ bool EnemyStatusHudV1::apply(void* p,SwfAsGraph& graph,std::string& error){
   SwfAsValue value;gameswf::as_object* root=nullptr;
   if(!graph.root_value(value,error)||!graph.borrow_object(value,root,error))return false;
   if(!root||!root->is(gameswf::character::m_class_id)){error="Enemy HUD actual movie root unavailable";return false;}
-  if(!self.core_.bind(static_cast<gameswf::character*>(root),sha,{&self,notify,sound,pause},error))return false;
-  self.core_.required_operations(&self,text_operation);
+  if(self.base_hud_){
+   if(!self.base_core_.bind(static_cast<gameswf::character*>(root),base_sha,{&self,notify,sound,pause},error))return false;
+   self.base_core_.required_operations(&self,text_operation);
+  }else{
+   if(!self.core_.bind(static_cast<gameswf::character*>(root),sha,{&self,notify,sound,pause},error))return false;
+   self.core_.required_operations(&self,text_operation);
+  }
   HudManagerResponse response;
    const auto menu="_root.menu_HUD_"+std::to_string(self.hud_style_);
    HudManagerRequest root_query{HudManagerOperation::root_lookup,0,0,0,0,0,menu.c_str(),nullptr,{0,0,0},0};
-   if(self.core_.dispatch(root_query,response,error)!=1||!response.identity){error="Enemy HUD selected authored root unavailable";return false;}
+   if(self.core_dispatch(root_query,response,error)!=1||!response.identity){error="Enemy HUD selected authored root unavailable";return false;}
   const auto base=response.identity;
   for(unsigned i=19;i<=22;++i){
     HudManagerRequest init{HudManagerOperation::cache_initialize,i,0,0,base,self.state_.render_fx,hud_manager_cache_path(i,self.hud_style_),nullptr,{0,0,0},0};
-   if(self.core_.dispatch(init,response,error)!=1)return false;
+   if(self.core_dispatch(init,response,error)!=1)return false;
   }
   self.bound_=true;
  }
@@ -106,16 +113,16 @@ bool EnemyStatusHudV1::update(const EnemyHudWorldBorrowV1& borrow,std::string& e
 bool EnemyStatusHudV1::present(void* p,SwfAsGraph&,std::string& error){
  auto& self=*static_cast<EnemyStatusHudV1*>(p);HudManagerResponse out;
  HudManagerRequest get{HudManagerOperation::cache_get,19,0,0,0,0,nullptr,nullptr,{0,0,0},0};
- if(self.core_.dispatch(get,out,error)!=1||!out.identity){error="Required authored enemy HUD clip";return false;}
+ if(self.core_dispatch(get,out,error)!=1||!out.identity){error="Required authored enemy HUD clip";return false;}
  auto* clip=reinterpret_cast<gameswf::character*>(out.identity);
  const bool alive=self.target_&&!self.presentation_.dead&&self.presentation_.raw_hp>0&&self.presentation_.raw_max_hp>0&&self.presentation_.on_screen;
  if(!alive){clip->set_visible(false);self.visible_=false;self.presentation_hidden_=true;return true;}
- if(self.presentation_hidden_){HudManagerRequest show{HudManagerOperation::goto_label,19,0,0,out.identity,self.state_.render_fx,"Show",nullptr,{0,0,0},0};if(self.core_.dispatch(show,out,error)!=1)return false;self.presentation_hidden_=false;}
+ if(self.presentation_hidden_){HudManagerRequest show{HudManagerOperation::goto_label,19,0,0,out.identity,self.state_.render_fx,"Show",nullptr,{0,0,0},0};if(self.core_dispatch(show,out,error)!=1)return false;self.presentation_hidden_=false;}
  clip->set_visible(true);self.visible_=true;
- get.index=22;if(self.core_.dispatch(get,out,error)!=1||!out.identity)return false;
+ get.index=22;if(self.core_dispatch(get,out,error)!=1||!out.identity)return false;
  const auto frame=enemy_hud_hp_frame_v2(self.presentation_.raw_hp,self.presentation_.raw_max_hp);
  HudManagerRequest go{HudManagerOperation::goto_frame,22,frame,0,out.identity,self.state_.render_fx,nullptr,nullptr,{0,0,0},0};
- if(self.core_.dispatch(go,out,error)!=1)return false;
+ if(self.core_dispatch(go,out,error)!=1)return false;
  auto* bar=reinterpret_cast<gameswf::sprite_instance*>(go.subject);self.hp_frame_=bar->m_current_frame;return enemy_hud_anchor_v2(clip,self.root_anchor_,error,self.visible_root_);
 }
 }

@@ -171,10 +171,29 @@ std::string CharacterPanelSessionV1::snapshot(const model_renderer::PlayerGamepl
  }catch(const std::exception& failure){return "{\"ready\":false,\"error\":"+quote(failure.what())+"}";}}
 std::string CharacterPanelSessionV1::action(const model_renderer::PlayerGameplayBinding& p,int operation,int index,int slot){try{
  if(!coherent(p)||!p.life||p.life->dead)return "Character action unavailable";
- if(operation==0)return model_renderer::player_equipment_action(0,index,-1);
- if(operation==1)return model_renderer::player_equipment_action(2,-1,slot);
- if(operation==5)return model_renderer::player_equipment_action(3,-1,-1);
- Context context(p);ui::CharacterMenuActionsOwnerV1 actions(context.actions());std::string error;
+ if(operation==0){
+  if(index<0)return "Invalid inventory item";
+  std::int32_t result=0;std::string error;
+  if(!p.gear->auto_equip(static_cast<std::uint32_t>(index),result,error))
+   return "Equipment action failed: "+error;
+  return "Equipment updated";
+ }
+ Context context(p);std::string error;
+ auto graph=context.actions();
+ if(gameplay_services_.actions&&(!gameplay_services_.owner||!gameplay_services_.actions(p,graph,error)))
+  return "Character action failed: "+(error.empty()?std::string("live campaign action provider unavailable"):error);
+ if(graph.equipment!=p.gear||graph.skills.identity()!=p.skills||graph.save!=p.save)
+  return "Character action failed: supplemental provider replaced the live profile authority";
+ ui::CharacterMenuActionsOwnerV1 actions(std::move(graph));
+ if(operation==1){
+  if(slot<0||slot>=9)return "Invalid equipment slot";
+  if(!actions.unequip(static_cast<std::uint32_t>(slot),error))return "Equipment action failed: "+error;
+  return "Equipment updated";
+ }
+ if(operation==5){
+  if(!actions.swap(error))return "Equipment action failed: "+error;
+  return "Equipment set changed";
+ }
  if(operation==2){if(index<0||index>3)return "Invalid stat";if(p.gear->properties()->resolved[148]<=0)return "No unspent stat points";if(!actions.assign_stat(unsigned(index),error))return "Stat action failed: "+error;return "Stat point assigned";}
  if(operation==3){if(index<0||unsigned(index)>=p.save->skills().size())return "Invalid skill";std::int32_t points=0;if(!actions.train_skill(index,points,error))return "Skill training failed: "+error;return "Skill training completed; points left "+std::to_string(points);}
  if(operation==4){if(index<0||unsigned(index)>=p.save->skills().size()||slot<0||slot>2)return "Invalid skill slot";if(!actions.equip_skill(slot,index,error))return "Skill equipment failed: "+error;return p.save->skill_in_slot(slot)==index?"Skill assigned to slot "+std::to_string(slot+1):"Skill is not learned or assignable";}

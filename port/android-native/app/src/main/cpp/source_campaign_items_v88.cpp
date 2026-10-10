@@ -141,6 +141,10 @@ class SourceCampaignItemsV88 final:public std::enable_shared_from_this<SourceCam
   auto item=s->gameplay_->items()->factory().find(receiver.base().identity());if(!item||item.get()!=&receiver){e="Required SAME source Item graph";return false;}
   out.visual.owner=s->provider_;std::weak_ptr<SourceWorldBorrowV61> weak=w;
   out.visual.read_asset=[weak](const auto& uri,auto& bytes,bool& found,auto& e){auto w=weak.lock();if(!w||!w->read){e="Released Item visual APK transport";return false;}return w->read(uri,found,bytes,e);};
+  // ItemObject virtual80 is IsAnimated3ebbfc (mov r0,#1; bx lr).
+  // This is the campaign Item factory's service packet, before the live owner
+  // copies it into the retained VisualObject registry.
+  out.visual.parent_is_animated=[](bool& animated,std::string& e){animated=true;e.clear();return true;};
   out.initialization.owner=s->provider_;if(!bind_campaign_item_conditions_v75(c,item,out,e))return false;
   std::weak_ptr<SourceCampaignItemsV88> owner=s;
   out.initialization.check_spawn_probability=[owner,item](std::int32_t& roll,std::string& e){auto s=owner.lock();std::shared_ptr<SourceWorldBorrowV61> w;SourceCampaignCandidateBorrowV55 c;if(!s||!s->current(w,c,e))return false;
@@ -173,7 +177,7 @@ class SourceCampaignItemsV88 final:public std::enable_shared_from_this<SourceCam
  static bool frame(void* p,dh2::character::WorldItemGraphV3& graph,dh2::character::WorldItemFrameServicesV5& out,std::string& e){
   auto s=self(p,e);std::shared_ptr<SourceWorldBorrowV61> w;SourceCampaignCandidateBorrowV55 c;if(!s||!s->current(w,c,e)||!c.floors||!c.navigation_registry)return false;
   if(!w->frame_scratch_v76)w->frame_scratch_v76=std::make_shared<dh2::navigation::CampaignFrameScratchV76>();
-  auto& entry=s->frames_[graph.receiver_v4().base().identity()];out.geometry=&c.floors->collision_world;out.paths=&c.floors->graph;out.obstacles=&c.navigation_registry->registry();out.motion=&w->frame_scratch_v76->motion();out.roots=c.roots;
+   auto& entry=s->frames_[graph.receiver_v4().base().identity()];out.geometry=&c.floors->collision_world;out.paths=&c.floors->graph;out.obstacles=&c.navigation_registry->registry();out.motion=&c.floors->source_motion_policy_v95;out.roots=c.roots;
   if(!w->frame_scratch_v76->borrow(graph.receiver_v4().runtime().path.count,0,out.obstacles->floor_capacity,entry.workspace,out.workspace,e))return false;
   if(s->leaves_.frame&&!s->leaves_.frame(graph,out,e))return false;
   if(!out.online.online_byte5)out.online={s->provider_.get(),online,nullptr,nullptr};

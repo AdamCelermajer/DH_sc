@@ -1,0 +1,1096 @@
+{
+  "feature": "effects",
+  "validation": "PASS",
+  "test_exit_code": 0,
+  "stdout": "PASS | data/3D/interface/spell_dh2_hurt_wind.bdae\nPASS | data/3D/interface/spell_dh2_hurt_fire.bdae\nPASS | data/3D/interface/spell_dh2_hurt_water.bdae\nPASS | data/3D/interface/spell_dh2_hurt_lightning.bdae\nPASS | data/3D/interface/spell_dh2_hurt_earth.bdae\nPASS | data/3D/interface/spell_dh2_hurt_wind.bdae\nPASS | data/3D/interface/skill_dh2_monster_root_troll_flaminite_firespit.bdae\nPASS | data/3D/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae\nPASS | data/3D/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae\nPASS | data/3D/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae\nPASS | data/3D/interface/skill_dh2_monster_dark_queen2ndform_projectile.bdae\nPASS | data/3D/interface/skill_dh2_monster_dragon_attack_01.bdae\nPASS | data/3D/interface/skill_dh2_monster_dragon_attack_02.bdae\nPASS | data/3D/interface/skill_dh2_monster_dragon_attack_03.bdae\nPASS | data/3D/interface/skill_dh2_monster_dragon_intimidate_01.bdae\nPASS | data/3D/interface/skill_dh2_monster_dragon_intimidate_02.bdae\nPASS | data/3D/interface/skill_dh2_monster_dragon_intimidate_03.bdae\nPASS | data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae\nPASS | data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae\nPASS | data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae\nPASS | data/3D/interface/skill_dh2_monster_madrukfinal_attack_melee_01.bdae\nPASS | data/3D/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae\nPASS | data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae\nPASS | data/3D/interface/skill_dh2_monster_madrukfinal_laser_start.bdae\nPASS | data/3D/interface/skill_dh2_monster_root_troll_charge.bdae\nPASS | data/3D/interface/skill_dh2_monster_lighthouse_melee.bdae\nPASS | data/3D/interface/skill_dh2_monster_lighthouse_special_effect.bdae\nPASS | data/3D/interface/cs_swamp_intro_01_bloodsplat_prisoner.bdae\nPASS | data/3D/interface/cs_swamp_intro_02_bloodsplat_prisoner.bdae\nPASS | data/3D/interface/spell_dh2_hurt_fire.bdae\nPASS | data/3D/interface/spell_dh2_hurt_water.bdae\nPASS | data/3D/interface/spell_dh2_hurt_lightning.bdae\nPASS | data/3D/interface/spell_dh2_hurt_earth.bdae\nPASS | data/3D/interface/spell_dh2_hurt_wind.bdae\nPASS | data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae\nPASS | data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae\nPASS | data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_cyclone.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae\nPASS | data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae\nPASS | data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae\nPASS | data/3D/interface/skill_dh2_prince_rogue_quickness.bdae\nPASS | data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae\nREQUIRED | data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae | FX resource data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae: Particle scene has no authored nodes\nPASS | data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae\nPASS | data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae\nPASS | data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae\nPASS | data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae\nPASS | data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae\nPASS | data/3D/interface/skill_dh2_prince_warrior_charge.bdae\nPASS | data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae\nPASS | data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae\nPASS | data/3D/interface/skill_prince_rogue_twinstrike.bdae\nPASS | data/3D/interface/skill_prince_rogue_viciousstrike.bdae\nPASS | data/3D/interface/spell_dh2_hurt_earth.bdae\nPASS | data/3D/interface/spell_dh2_hurt_fire.bdae\nPASS | data/3D/interface/spell_dh2_hurt_lightning.bdae\nPASS | data/3D/interface/spell_dh2_hurt_water.bdae\nPASS | data/3D/interface/spell_dh2_hurt_wind.bdae\nPASS | data/3D/interface/swoosh_prince_1hand_combo_01.bdae\nPASS | data/3D/interface/swoosh_prince_1hand_combo_02.bdae\nPASS | data/3D/interface/swoosh_prince_1hand_combo_03.bdae\nPASS | data/3D/interface/swoosh_prince_2hand_combo_01.bdae\nPASS | data/3D/interface/swoosh_prince_2hand_combo_02.bdae\nPASS | data/3D/interface/swoosh_prince_dual_combo_01.bdae\nPASS | data/3D/interface/swoosh_prince_dual_combo_02.bdae\nPASS | data/3D/interface/swoosh_prince_dual_combo_03.bdae\n{\"validation\":\"PASS\",\"checks\":71630,\"actual_resources\":73,\"mesh_draw_sources\":7636,\"particle_draw_sources\":2235,\"unsupported_actual_resources\":1,\"live_renderer\":false,\"anchor_and_camera_fixture\":true}\n",
+  "stderr": "",
+  "required_original_continuations": [
+    "REQUIRED | data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae | FX resource data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae: Particle scene has no authored nodes"
+  ],
+  "sources": {
+    "port/windows-foundation/features/effects/effects_executor_tests.cpp": "bf0a186d46a68cf77ab5bc05c5d104038e7a9e0749a3a7b7a4dbf5164ec4b14d",
+    "port/windows-foundation/features/effects/effects_executor.cpp": "bb95ca23216260407a1efea5e065e0d81795801307bdc2a477b0409c8f4ad9a3",
+    "port/level-world/character_authored_resource_v32.cpp": "11076a12633ce6a0e70253fdc0b4ff66fe4ccb233e4c15321d4c3da781db1d27",
+    "port/level-world/authored_fx_mesh_graph_v32.cpp": "6a7ccc060e29ad4944da1a495ede9faae976c22820a40d13b309c815b231e6b4",
+    "port/level-world/authored_fx_nonrender_geometry_v32.cpp": "a912ddf16a1cd9dde9558f44d039a8ea4fc87fe708a281ebcbd596948b6f2f6d",
+    "port/level-world/character_mesh_fx_owner_v4.cpp": "9646837a1e87db48b4e10107cec58e950e5e80648287ec07bfbfefe30aa73754",
+    "port/level-world/visual_fx_manager_libraries_v63.cpp": "de3d5ba697b2f263bd25b3ef5149f93b3aac1cdd1d5bf223d32ab89d95a5aa63",
+    "port/level-world/character_fx_state_v1.cpp": "9524b8a833b249dad57d182fb42b7ba4b2b2cae76cd1ffcdbfbde6920e1d8fb1",
+    "port/level-world/character_animation_step_fx_v2.cpp": "a6c654fade608a2e7f2a5beef96a30dc26be472f5e4c24fd82178f18c6defa2c",
+    "port/level-world/authored_fx_transform_v5.cpp": "6d17e9e0ab9457a1d44df91ef5681c3c3a47cacb943dfb4bd4d00852667a81d7",
+    "port/level-world/character_authored_fx_forces_v4.cpp": "3502dfca8cfb24684a49df5643869f5c85d7122a37f9892f318100d06fadc96e",
+    "port/level-world/source_fx_node_matrix_v4.cpp": "e5649ef21d3d25c1f8e55054d87973cc5fac1ad11248be30268f6d9406804501",
+    "port/level-world/fx_texture_animation_v1.cpp": "4ddcc9d2e384af51d8827643cd7ad26971b221726b1a93ebc402fb56812db9fc",
+    "port/level-world/character_fx_kernels_v1.cpp": "74292efbf3136dcd7aca614e9879107d1273f7b79821d67bd71065cbf34f5e6d",
+    "port/engine-animation/particle_scalar_animation_v6.cpp": "e122a17a0e2b7ea4bb7913def1335698017b37628a4a508330dd3c580431d058",
+    "port/engine-animation/particle_cloud_runtime_v1.cpp": "76a3accf7a3998d9bcfe0b6317549a2390e0a4fc3cd40331aea38a12293b854e",
+    "port/engine-animation/particle_cloud_runtime_v3.cpp": "f4b1c102bf7c6c5f2fdbe2c5d78e7f851baa40b29616e7e58626160aaae3f2ba",
+    "port/engine-animation/particle_deflector_v1.cpp": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff",
+    "port/engine-animation/particle_force_scene_v2.cpp": "09c33c0c578fa3c1424c812d6ed97c5ae836480e40ee9be6743ad10385a04c58",
+    "port/engine-animation/particle_bound_forces_v4.cpp": "9d9f1dc4c7b05a2f0b3117d31fb5bd072dc4cb238f50ae487dc3edf16816aa68",
+    "port/engine-animation/particle_resource_init_v2.cpp": "2006759c93a39d11d55d159cdcebf415c536d47c249af4521a565e44b9a1d1f1",
+    "port/engine-animation/particle_cloud_models_v1.cpp": "575ee1aa9c64832ceec3a84c4e71a6990474605a790d84f807a9cea82787d747",
+    "port/engine-animation/particle_billboard_v1.cpp": "665a84f44d7a8692d585210151107d63aba702c354553ba510f43e8d6f3f8054",
+    "port/engine-animation/particle_force_scene_v1.cpp": "18aac135155440e53d62fb12b77a6afae24aff970783c350d136501226a3c274",
+    "port/engine-animation/particle_scene_color_v1.cpp": "5d057236d3a7da54d7a116e893885b660b7c2dea51d2975e3f52e6990048c106",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/engine-animation/particle_random_v1.cpp": "10841976082e5959fc2c72e7ea4e7799c9c64bd012038887a6b700644423e3c0",
+    "port/engine-animation/particle_emission.cpp": "2da6f88c0d8ffc306e7e557fe92887b8a42a621d809c37f38f05f6a7573d776f",
+    "port/engine-animation/particle_box_v2.cpp": "3e31bb713f0d1f26ba5fe4004f31a7a99d9c8a10e342c6e409ca143c1f36ee6a",
+    "port/engine-animation/material_color.cpp": "240bab4957913bbd41082d7b8ab5d13d804e09c8bbaa0e98a7bd7c511e92ef51",
+    "port/engine-animation/material_color_v3.cpp": "41deb9b53027cb815919fc0bace3a338b4d8b2afb6a7c29f2ccda5577ac5f2eb",
+    "port/engine-animation/particle_resource_init_v32.cpp": "d1689290a55ac75e8b294e3e2410850391e39e8d2795dc128cb0a6cb8aad7b54",
+    "port/engine-animation/particle_billboard_v32.cpp": "61433cab652840a91c95ae365345f2dcba46b2acbe48a000e6d01228b5194caa",
+    "port/scene-materials/particle_scene_v1.cpp": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc",
+    "port/scene-materials/scene.cpp": "2a85422137cae551bb2742f495a3694f3203451b2266660ebd4db0bcd550825f",
+    "port/engine-skinning/skinning.cpp": "ec5bdda6fbb982856d28f2aa288e16663935628648937971c9026689fec7fd90",
+    "port/engine-animation/animation.cpp": "968352af9ffb1f1aacba6d6efb4f821beef933b96774abaff8077efea18e26f8",
+    "port/engine-animation/component_applicator.cpp": "9abca1a630447b10b7ea871f66af1e523511af5328fd03189e8be13dd1bb57bd"
+  },
+  "actual_assets": [
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_00.bdae",
+      "sha256": "f0f6bb3a6799294e6a0c34de719e5c08b7d8f38d4bc3974abee73115a8a1b7f6"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_01.bdae",
+      "sha256": "ab1f34ae1c0231a2a2ad5dabfbde349205ab82fedce4b14911c5b2047e586b04"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_02.bdae",
+      "sha256": "016a676b45a9d75ac5f0cf39e10ce5689096ccf1995d4600861186666df73e07"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dark_queen2ndform_projectile.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_03.bdae",
+      "sha256": "c07166af37ad4d6939f62db0ed9f8f57159012e464f2b77a14d4b730d3daeaaa"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_01.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_04.bdae",
+      "sha256": "b3d3d14829a76fb5d1a2f6ca7e54e38efa181146d4065ed923a906830c52d0af"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_02.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_05.bdae",
+      "sha256": "7b721e0454499b23c08c851942c3ce4f57fc6ccd8c4503a84fe65566ce43c7fa"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_03.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_06.bdae",
+      "sha256": "1a74b8cd645b5a62df0d0d849952f722b47b53f7ea97abb567d0249beb779d90"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_01.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_07.bdae",
+      "sha256": "f12fd64bd4da6507c1b210532e796e3894e905b87d4b6d573d04c399227fff26"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_02.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_08.bdae",
+      "sha256": "f6f4879cbd4064eca6cecabb072635e6eb381b1e99e8d046d7edb1684ff34f12"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_03.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_09.bdae",
+      "sha256": "9b1ab2eab19ec3dd0f534a7a7b61df1de4b96e802c8375c885eb078aa261c15e"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_lighthouse_melee.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_10.bdae",
+      "sha256": "c78a664b520ba59b32d6556e327a036746c88796b3fb05e964d6250a3edb7faf"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_lighthouse_special_effect.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_11.bdae",
+      "sha256": "e540421312c357e78350b24b39d739061ae05ba2388f467c1b0f05acadc46b3b"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_attack_melee_01.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_12.bdae",
+      "sha256": "195ab93329212f1317c190da73fcce09196158164bd5ffb29603d1db0fb26864"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_13.bdae",
+      "sha256": "43cf7b9e32dc7cf7682d77ecc2c6a2347184f7f8315ee945b4c398595c98bf1e"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_14.bdae",
+      "sha256": "16dbfbb7e8aa3120c03db5147a5418eacf4c548af02b3937c099e942e9575ed3"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_start.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_15.bdae",
+      "sha256": "8ca2e4dbed2e24118bac851c842efbd41b93410bd69ca757f1008ee74049d105"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_charge.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_16.bdae",
+      "sha256": "3955a176721c3629d5c61138195878dd9e8f05ad00c6498e498f38acb65094d2"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_17.bdae",
+      "sha256": "404fa288abb83fce820a6daa8e3b95dc49b704fb0638215e7f5194d10ab0b3c1"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_18.bdae",
+      "sha256": "b13e28c2ab80f53436d6f4673be0abd6a6d281b4717101e65cd4c4be25b2ab39"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_flaminite_firespit.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_19.bdae",
+      "sha256": "8a829848c1d6cb060dd4b9f8ee557b74fcabc47e4212f847680625844d6fcbef"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_20.bdae",
+      "sha256": "5ac3759d38828ceeabec82da531551a8c4d8405602c11a8a5d892298fbbb0a2c"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_21.bdae",
+      "sha256": "df5949273178514c56b7c36b8fc86872e1e93e26b2de2b0c035196eded7dd620"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_22.bdae",
+      "sha256": "4f631738a350f2af593b9bb42177c3e04fce9d0a4f1be671d5560c2311a0e8d3"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_23.bdae",
+      "sha256": "db9b3ec2a98e0092d3b342ff91e9fa6ef531149cab5d0b8c20c3d1a56746b3ae"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_24.bdae",
+      "sha256": "0f4f057d6e2d49a434fe0f714f863c34e1fc894affa28efc79cab148bfc2b167"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_25.bdae",
+      "sha256": "566e505ddbea2c028fa6a0035adf840295236b112219f4421974c4e6c6b5ef81"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_26.bdae",
+      "sha256": "507c27b61fd198c8e0ccacf30d568d9a9c7ee5351d054fbb0416f161b73cfb70"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_27.bdae",
+      "sha256": "86bf06d20c11014f2b8209f4a6090f8be31607e85aa78d210c05cae0180742f4"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_28.bdae",
+      "sha256": "400a7f48e704138087441a29cf7f79365a19519a9ff8cbf7cf47ad78d306a6be"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_29.bdae",
+      "sha256": "b8f5a6063b50fbd288a609b7fdfefd3c09c291cdefeebf53111bee988d21b2e4"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_30.bdae",
+      "sha256": "6d83fde03477ac7a2d819f634043cd18a0995878466e55c95f9ae9bca68e256e"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_31.bdae",
+      "sha256": "a693ed51a7432dec4ac8c5cdff26754dcce83bd280f8b9b6ef960409907d0721"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_32.bdae",
+      "sha256": "5d918f432e3970a50b3798fbf26686a5df0dcb902c3d47c877c128639ecf430c"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_33.bdae",
+      "sha256": "2c269390c1675394f81393f0988fe050197382fedcefad595ce69eb917cfcf74"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_34.bdae",
+      "sha256": "14a5f50e9d3ea7fb3b9df6b675fe89e0cbe4fc35969ccb2337f3cdd4f091695d"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_35.bdae",
+      "sha256": "306053d3483a2822bd5ce9d5daefe50e098e72c7e2d098ad56e38feb08bc0c38"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_36.bdae",
+      "sha256": "ed0c2873f8c2fdbe60031ed1ac1d0c22a9d4b19ae48cfae7e54eb2ad6bd70d6d"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_37.bdae",
+      "sha256": "bfe0a384dd7d4d89e8a39ea62bf052b15e0d3c953472f3f95e95e49446c45207"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_38.bdae",
+      "sha256": "21a31d374a80b9b6f7d1f9b7f273c62459dde9bfd9a2fabfa629fc2fae83a483"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_39.bdae",
+      "sha256": "db062ce2f63406656dee399e312b17416d9e7139890facb44c754a5f3171883b"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_40.bdae",
+      "sha256": "3b4ab3392f887d3036498b2005362ae227ad19972094ed18a77bfc65e70f2a2b"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_41.bdae",
+      "sha256": "d6f8b20823b97bdf09b205b7b3b22d011b2eb5ccbd191bc073f86d9e5d126e3a"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_charge.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_42.bdae",
+      "sha256": "10a9a78be5882e87ce921d2ec2649b0163d351148b8e23a054e934a3cdf87bfe"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_43.bdae",
+      "sha256": "17cbcd5d103dc7e57fbd22890a48712890d18a5836fd96bc2a345d2a5ee8762c"
+    },
+    {
+      "uri": "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_44.bdae",
+      "sha256": "37a71a99ef80c172bb39d571c55475474e497ffe8080c112905b6e6fedbb811a"
+    },
+    {
+      "uri": "data/3d/interface/bloodsplat.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/bloodsplat.bdae",
+      "sha256": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b"
+    },
+    {
+      "uri": "data/3d/interface/bloodsplat_hero.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/bloodsplat_hero.bdae",
+      "sha256": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25"
+    },
+    {
+      "uri": "data/3d/interface/bloodzombie.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/bloodzombie.bdae",
+      "sha256": "4b73c02eb3e99ad90c70d20b20f1f45e42013ecdf8c1b3ea8245e1f3b4e4260c"
+    },
+    {
+      "uri": "data/3d/interface/camera_crithit_0.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_0.bdae",
+      "sha256": "2c9cc5443ec8b654cedc0c94eea4820376ce0816928249543bc704911d94b169"
+    },
+    {
+      "uri": "data/3d/interface/camera_crithit_135.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_135.bdae",
+      "sha256": "96cff61ffb18bb0b71b66734776cbd83473e00057969517d651ae427c51156c3"
+    },
+    {
+      "uri": "data/3d/interface/camera_crithit_180.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_180.bdae",
+      "sha256": "0ef214fd882c875659c33cb30ca16f70443bd46d9b415b13b8e7a20f9688fe23"
+    },
+    {
+      "uri": "data/3d/interface/camera_crithit_225.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_225.bdae",
+      "sha256": "445f0c6a829523dc41685755a5ecc7b941f5a801239d83b707970c50d5348468"
+    },
+    {
+      "uri": "data/3d/interface/camera_crithit_270.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_270.bdae",
+      "sha256": "e17782aad4a8f77b8534c5ab18ce8b8ce789e412283d37d8fa0c422bf9c31a10"
+    },
+    {
+      "uri": "data/3d/interface/camera_crithit_315.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_315.bdae",
+      "sha256": "89556ab086e90791ecfcfae35466e825fc131bd76610c752f53e101308f601d7"
+    },
+    {
+      "uri": "data/3d/interface/camera_crithit_45.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_45.bdae",
+      "sha256": "f35233063d319089c427a86b8b12f1d9d25bdcad989e04784d44ae313d19c5f3"
+    },
+    {
+      "uri": "data/3d/interface/camera_crithit_90.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_90.bdae",
+      "sha256": "1589e19dc416da8de801864c8229cb420251edef7698caa8f689d75ddd908c3b"
+    },
+    {
+      "uri": "data/3d/interface/cs_swamp_intro_01_bloodsplat_prisoner.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/cs_swamp_intro_01_bloodsplat_prisoner.bdae",
+      "sha256": "9b589bdbedf4804a8c1c4b2fdc17c4987f73e535fef8d32af36bfa9590a66ecb"
+    },
+    {
+      "uri": "data/3d/interface/cs_swamp_intro_02_bloodsplat_prisoner.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/cs_swamp_intro_02_bloodsplat_prisoner.bdae",
+      "sha256": "f4fda7392f119d8ebdb4017636bc5a26f5cf2df73dcec726d4291b1101140da2"
+    },
+    {
+      "uri": "data/3d/interface/prince_rogue_pre_twinstrike.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/prince_rogue_pre_twinstrike.bdae",
+      "sha256": "ed243c53f71b0fb0747b9c6774506cb249a2c68eed33769fd49ce7f8e6314198"
+    },
+    {
+      "uri": "data/3d/interface/prince_rogue_pre_viciousstrike.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/prince_rogue_pre_viciousstrike.bdae",
+      "sha256": "c6e5eb01a1c166a258075715cbced934cc6b81c04fdc213bfaf84df7a3569003"
+    },
+    {
+      "uri": "data/3d/interface/prince_rogue_twinstrike.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/prince_rogue_twinstrike.bdae",
+      "sha256": "8c417a9a878400f91fe6480ffb58be0276d02ee897c3b6903b48bbc8a2c4d78e"
+    },
+    {
+      "uri": "data/3d/interface/prince_rogue_viciousstrike.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/prince_rogue_viciousstrike.bdae",
+      "sha256": "40c07a2d3292365139bb1a4234308f8a033be8694c02474fb5056e6ab9f64486"
+    },
+    {
+      "uri": "data/3d/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/skill_dh2_prince_rogue_vicious_strike.bdae",
+      "sha256": "f5bdab87e02875d343840377e580afdce3dbbf0db35938baa17d5910ebbdb6b6"
+    },
+    {
+      "uri": "data/3d/interface/skill_prince_rogue_twinstrike.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/skill_prince_rogue_twinstrike.bdae",
+      "sha256": "d708736f43df9160597545a57f1ef081a9d69e80f410a6089d9f1fd132d085d8"
+    },
+    {
+      "uri": "data/3d/interface/skill_prince_rogue_viciousstrike.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/skill_prince_rogue_viciousstrike.bdae",
+      "sha256": "e9b7ce89b1d0f3aa4cb117e9ae2cd5b72b3fdf64ae94c5e27331953bf3d41986"
+    },
+    {
+      "uri": "data/3d/interface/skybox_blood.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/skybox_blood.bdae",
+      "sha256": "cd6d289eb3570a1c659445f3a8b4cd68f2e272f00ec4e02b4b5112f85aed7564"
+    },
+    {
+      "uri": "data/3d/interface/swoosh_prince_1hand_combo_01.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_1hand_combo_01.bdae",
+      "sha256": "af8ef8a2dc4d6da7c369964aa7d1fed08859ea4ba1d6062ac6796f11a936180b"
+    },
+    {
+      "uri": "data/3d/interface/swoosh_prince_1hand_combo_02.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_1hand_combo_02.bdae",
+      "sha256": "896e1c5247fd596086b855f2ba1ba278f7a7f5899af7bc947b43207255083f84"
+    },
+    {
+      "uri": "data/3d/interface/swoosh_prince_1hand_combo_03.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_1hand_combo_03.bdae",
+      "sha256": "7c3722015b676caf02a2b8fa9c1b546694cbe0e0e46f36697a72b989ea0d3dcd"
+    },
+    {
+      "uri": "data/3d/interface/swoosh_prince_2hand_combo_01.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_2hand_combo_01.bdae",
+      "sha256": "f83cda55840fb079deff300345f3a707884a503df0b5ff4766680f4f9a9b0693"
+    },
+    {
+      "uri": "data/3d/interface/swoosh_prince_2hand_combo_02.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_2hand_combo_02.bdae",
+      "sha256": "eb9596b6dedabe6ee686e56846b587b43d7643e8b264b3a8f27297bd25318aca"
+    },
+    {
+      "uri": "data/3d/interface/swoosh_prince_dual_combo_01.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_dual_combo_01.bdae",
+      "sha256": "6ae153971f5d3ecb7f8b590efa108b012604e4be5180591ad24918580a24f0ce"
+    },
+    {
+      "uri": "data/3d/interface/swoosh_prince_dual_combo_02.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_dual_combo_02.bdae",
+      "sha256": "098874d437c9ef3bc381511a9a1c5f97d793bbed454490e5784d3df43fc63c71"
+    },
+    {
+      "uri": "data/3d/interface/swoosh_prince_dual_combo_03.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_dual_combo_03.bdae",
+      "sha256": "5859e4deefcc264b299ae7ee85f66acbf788df9c44c1e888402c5c0e494d0c99"
+    },
+    {
+      "uri": "data/3d/interface/ugly_dog_blood.bdae",
+      "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/ugly_dog_blood.bdae",
+      "sha256": "37cb83f3ef5d2676e45b218c62535302621788c660030821fc8bec576697135d"
+    },
+    {
+      "uri": "data/3d/interface/bloodsplat.bdae",
+      "path": ".local-inputs/combat-hit-fx-v1/bloodsplat.bdae",
+      "sha256": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b"
+    },
+    {
+      "uri": "data/3d/interface/bloodsplat_hero.bdae",
+      "path": ".local-inputs/combat-hit-fx-v1/bloodsplat_hero.bdae",
+      "sha256": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25"
+    },
+    {
+      "uri": "data/3d/interface/spell_dh2_hurt_earth.bdae",
+      "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_earth.bdae",
+      "sha256": "18d31293a92286841fbdc43499b2c0d34025c247a46d0953f19b46aed6737e9b"
+    },
+    {
+      "uri": "data/3d/interface/spell_dh2_hurt_fire.bdae",
+      "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_fire.bdae",
+      "sha256": "b48d8f0bd4f5884d04bdfd79050549a0541d98375a3febe384fe5dbee31ca152"
+    },
+    {
+      "uri": "data/3d/interface/spell_dh2_hurt_lightning.bdae",
+      "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_lightning.bdae",
+      "sha256": "5599f7f6e9ad117285eb315c575799b60abb26ac6918789f172c0cb127e0eea4"
+    },
+    {
+      "uri": "data/3d/interface/spell_dh2_hurt_water.bdae",
+      "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_water.bdae",
+      "sha256": "76a4029a4f815023c347318abfdc76e74e42bf76914e5b7d031408c2c83da62a"
+    },
+    {
+      "uri": "data/3d/interface/spell_dh2_hurt_wind.bdae",
+      "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_wind.bdae",
+      "sha256": "ef04637089e92c71fc0e1d4859292c6e3fc3590a5b0f70260ccb0d7cc490850e"
+    }
+  ],
+  "native_windows_strict_compile": [
+    {
+      "source": "port/windows-foundation/features/effects/effects_executor_tests.cpp",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "source": "port/windows-foundation/features/effects/effects_executor.cpp",
+      "exit_code": 0,
+      "stderr": ""
+    }
+  ],
+  "runtime_backend": "borrowed CharacterMeshFxOwnerV4, source resource factory V32",
+  "live_renderer_integrated": false,
+  "same_scene_anchor_camera_fixture": true,
+  "unsupported": [
+    "Missing original resources explicitly reject; no replacements.",
+    "FaeryGlow source producer is not established by EffectsTables.",
+    "Equipment Swoosh gate and actual socket identity must be supplied by original producer.",
+    "Renderer must submit source mesh/particle metadata in actual SceneManager order."
+  ],
+  "passed_original_set_bindings": 73,
+  "distinct_passed_original_uris": [
+    "data/3D/interface/cs_swamp_intro_01_bloodsplat_prisoner.bdae",
+    "data/3D/interface/cs_swamp_intro_02_bloodsplat_prisoner.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen2ndform_projectile.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_attack_01.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_attack_02.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_attack_03.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_intimidate_01.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_intimidate_02.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_intimidate_03.bdae",
+    "data/3D/interface/skill_dh2_monster_lighthouse_melee.bdae",
+    "data/3D/interface/skill_dh2_monster_lighthouse_special_effect.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_attack_melee_01.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_laser_start.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_charge.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_flaminite_firespit.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_charge.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+    "data/3D/interface/skill_prince_rogue_twinstrike.bdae",
+    "data/3D/interface/skill_prince_rogue_viciousstrike.bdae",
+    "data/3D/interface/spell_dh2_hurt_earth.bdae",
+    "data/3D/interface/spell_dh2_hurt_fire.bdae",
+    "data/3D/interface/spell_dh2_hurt_lightning.bdae",
+    "data/3D/interface/spell_dh2_hurt_water.bdae",
+    "data/3D/interface/spell_dh2_hurt_wind.bdae",
+    "data/3D/interface/swoosh_prince_1hand_combo_01.bdae",
+    "data/3D/interface/swoosh_prince_1hand_combo_02.bdae",
+    "data/3D/interface/swoosh_prince_1hand_combo_03.bdae",
+    "data/3D/interface/swoosh_prince_2hand_combo_01.bdae",
+    "data/3D/interface/swoosh_prince_2hand_combo_02.bdae",
+    "data/3D/interface/swoosh_prince_dual_combo_01.bdae",
+    "data/3D/interface/swoosh_prince_dual_combo_02.bdae",
+    "data/3D/interface/swoosh_prince_dual_combo_03.bdae"
+  ],
+  "same_actor_scene_native_validation": {
+    "campaign_live": false,
+    "sha256": "c0d22ae083eea750cdc5bb4c1dc31946940a11e5c7534b87d60a77f06587b56b",
+    "actual_faery_rigid_glow_indices": 12,
+    "actual_faery_rigid_glow_vertices": 8,
+    "actual_prince_scene_nodes": 35,
+    "source": "port/windows-foundation/features/effects/effects_scene_borrow_tests.cpp",
+    "actual_posed_hand_attachment": true,
+    "checks": 29,
+    "actual_faery_embedded_cloud_nodes": 3,
+    "lifecycle_detach_fixture": true,
+    "validation": "PASS",
+    "same_actor_clock": true
+  },
+  "faery_source_continuation": {
+    "static_glow_same_character_visual_test": "PASS",
+    "source_material": "fx_particles_additive",
+    "no_named_effect_set_invented": true,
+    "source_texture": "atlas_fx_particles_001.tga",
+    "embedded_cloud_runtime_on_same_actor_scene": "required",
+    "original_rigid_glow_proven": true,
+    "source": "original-cache/data/3d/characters/faeries/faeries_02_celeste.bdae"
+  },
+  "render_stream_validation": {
+    "feature": "effects",
+    "validation": "PASS",
+    "test_exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"checks\":14909,\"source_sets_rendered\":6,\"actual_render_packets\":185,\"exact_vertices\":6372,\"exact_indices\":14424,\"original_texture_uploads\":6,\"retained_events\":12,\"native_renderer_fixture\":true,\"live_gl_upload\":false}\n",
+    "stderr": "",
+    "required_original_continuations": [],
+    "passed_original_set_bindings": 0,
+    "distinct_passed_original_uris": [],
+    "sources": {
+      "port/windows-foundation/features/effects/effects_render_stream_tests.cpp": "853788ff1b6b5e8c5c7da6f1e1545952e0bda847e439cc1339017b50d20443d6",
+      "port/windows-foundation/features/effects/effects_executor.cpp": "bb95ca23216260407a1efea5e065e0d81795801307bdc2a477b0409c8f4ad9a3",
+      "port/windows-foundation/features/effects/effects_render_bridge.cpp": "666c2120d2035ab31903b07d06ec7d8961b3cebd05f5717f14e6fcec22507927",
+      "port/windows-foundation/features/effects/effects_material_binding.cpp": "4bc1fe12cc75e659690f3008a849549170ffaef51839df463dcbac14cc0c9d69",
+      "port/level-world/character_authored_resource_v32.cpp": "11076a12633ce6a0e70253fdc0b4ff66fe4ccb233e4c15321d4c3da781db1d27",
+      "port/level-world/authored_fx_mesh_graph_v32.cpp": "6a7ccc060e29ad4944da1a495ede9faae976c22820a40d13b309c815b231e6b4",
+      "port/level-world/authored_fx_nonrender_geometry_v32.cpp": "a912ddf16a1cd9dde9558f44d039a8ea4fc87fe708a281ebcbd596948b6f2f6d",
+      "port/level-world/character_mesh_fx_owner_v4.cpp": "9646837a1e87db48b4e10107cec58e950e5e80648287ec07bfbfefe30aa73754",
+      "port/level-world/visual_fx_manager_libraries_v63.cpp": "de3d5ba697b2f263bd25b3ef5149f93b3aac1cdd1d5bf223d32ab89d95a5aa63",
+      "port/level-world/character_fx_state_v1.cpp": "9524b8a833b249dad57d182fb42b7ba4b2b2cae76cd1ffcdbfbde6920e1d8fb1",
+      "port/level-world/character_animation_step_fx_v2.cpp": "a6c654fade608a2e7f2a5beef96a30dc26be472f5e4c24fd82178f18c6defa2c",
+      "port/level-world/authored_fx_transform_v5.cpp": "6d17e9e0ab9457a1d44df91ef5681c3c3a47cacb943dfb4bd4d00852667a81d7",
+      "port/level-world/character_authored_fx_forces_v4.cpp": "3502dfca8cfb24684a49df5643869f5c85d7122a37f9892f318100d06fadc96e",
+      "port/level-world/source_fx_node_matrix_v4.cpp": "e5649ef21d3d25c1f8e55054d87973cc5fac1ad11248be30268f6d9406804501",
+      "port/level-world/fx_texture_animation_v1.cpp": "4ddcc9d2e384af51d8827643cd7ad26971b221726b1a93ebc402fb56812db9fc",
+      "port/level-world/character_fx_kernels_v1.cpp": "74292efbf3136dcd7aca614e9879107d1273f7b79821d67bd71065cbf34f5e6d",
+      "port/engine-animation/particle_scalar_animation_v6.cpp": "e122a17a0e2b7ea4bb7913def1335698017b37628a4a508330dd3c580431d058",
+      "port/engine-animation/particle_cloud_runtime_v1.cpp": "76a3accf7a3998d9bcfe0b6317549a2390e0a4fc3cd40331aea38a12293b854e",
+      "port/engine-animation/particle_cloud_runtime_v3.cpp": "f4b1c102bf7c6c5f2fdbe2c5d78e7f851baa40b29616e7e58626160aaae3f2ba",
+      "port/engine-animation/particle_deflector_v1.cpp": "f42482ebb0dc064e32c9c87691d6cbe69d4350502aaffb4dea5d6559ad921fff",
+      "port/engine-animation/particle_force_scene_v2.cpp": "09c33c0c578fa3c1424c812d6ed97c5ae836480e40ee9be6743ad10385a04c58",
+      "port/engine-animation/particle_bound_forces_v4.cpp": "9d9f1dc4c7b05a2f0b3117d31fb5bd072dc4cb238f50ae487dc3edf16816aa68",
+      "port/engine-animation/particle_resource_init_v2.cpp": "2006759c93a39d11d55d159cdcebf415c536d47c249af4521a565e44b9a1d1f1",
+      "port/engine-animation/particle_cloud_models_v1.cpp": "575ee1aa9c64832ceec3a84c4e71a6990474605a790d84f807a9cea82787d747",
+      "port/engine-animation/particle_billboard_v1.cpp": "665a84f44d7a8692d585210151107d63aba702c354553ba510f43e8d6f3f8054",
+      "port/engine-animation/particle_force_scene_v1.cpp": "18aac135155440e53d62fb12b77a6afae24aff970783c350d136501226a3c274",
+      "port/engine-animation/particle_scene_color_v1.cpp": "5d057236d3a7da54d7a116e893885b660b7c2dea51d2975e3f52e6990048c106",
+      "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+      "port/engine-animation/particle_random_v1.cpp": "10841976082e5959fc2c72e7ea4e7799c9c64bd012038887a6b700644423e3c0",
+      "port/engine-animation/particle_emission.cpp": "2da6f88c0d8ffc306e7e557fe92887b8a42a621d809c37f38f05f6a7573d776f",
+      "port/engine-animation/particle_box_v2.cpp": "3e31bb713f0d1f26ba5fe4004f31a7a99d9c8a10e342c6e409ca143c1f36ee6a",
+      "port/engine-animation/material_color.cpp": "240bab4957913bbd41082d7b8ab5d13d804e09c8bbaa0e98a7bd7c511e92ef51",
+      "port/engine-animation/material_color_v3.cpp": "41deb9b53027cb815919fc0bace3a338b4d8b2afb6a7c29f2ccda5577ac5f2eb",
+      "port/engine-animation/particle_resource_init_v32.cpp": "d1689290a55ac75e8b294e3e2410850391e39e8d2795dc128cb0a6cb8aad7b54",
+      "port/engine-animation/particle_billboard_v32.cpp": "61433cab652840a91c95ae365345f2dcba46b2acbe48a000e6d01228b5194caa",
+      "port/scene-materials/particle_scene_v1.cpp": "17478ad94c482c5225c67585a8310e8a89ec740b73a25a7fe452b104a69ac2fc",
+      "port/scene-materials/scene.cpp": "2a85422137cae551bb2742f495a3694f3203451b2266660ebd4db0bcd550825f",
+      "port/engine-skinning/skinning.cpp": "ec5bdda6fbb982856d28f2aa288e16663935628648937971c9026689fec7fd90",
+      "port/engine-animation/animation.cpp": "968352af9ffb1f1aacba6d6efb4f821beef933b96774abaff8077efea18e26f8",
+      "port/engine-animation/component_applicator.cpp": "9abca1a630447b10b7ea871f66af1e523511af5328fd03189e8be13dd1bb57bd",
+      "port/windows-foundation/asset_catalog.cpp": "cf51b6de1344dc282167c327ff070bb01f647d0886d5816d47b246adb3668f5f",
+      "port/windows-foundation/content_paths.cpp": "b8931b5cb1063980863d686337a7102a8581d96078d8b041e27964912e1d90a5",
+      "port/windows-foundation/texture_loader.cpp": "d170e53f1a57313dad14284a12adcd5c01257a55f4abc73dbfcb3ec4735ecc8e",
+      "port/windows-foundation/source_material_pass.cpp": "226d6af84ff3e10002077fc9a43e41efc73c24fdeba1526d8cdeea74423e8d5c",
+      "port/windows-foundation/actor_lighting.cpp": "278734a3ed7ebb347c19d9d8cb8d5a978a137b1a896df82564cdebd9214355a9",
+      "port/engine-textures/textures.cpp": "80264623322fd3262ceeebe1473711ebf5c9546a1f2028d0915c17d5572eb7cb",
+      "port/engine-textures/pvrtc.cpp": "dd88a34faff7b5741da77be72a49c0668e75f5aa57c146a3ea7c51817228d575",
+      "port/scene-materials/effect_render_pass_v4.cpp": "eaca1eb604e4b1198603a6d4cebfae82d3364f2cf9e163c7d44f93491f600d29",
+      "port/scene-materials/blood_render_pass_v3.cpp": "c485048ba315ee65fac71169ca8de9f573f9d608e7cefe149c03d65998921b45",
+      "port/level-loader/vendor/tinyxml/tinyxml.cpp": "9ee7ceb204f2f30fe6eb92294999a68437a872c70b0cbf69dc74ee1ce94b1cac",
+      "port/level-loader/vendor/tinyxml/tinyxmlerror.cpp": "2367fc5035030390fd2d420501ed9aff5a5d32c59f3c5b1efb9a769d469ed926",
+      "port/level-loader/vendor/tinyxml/tinyxmlparser.cpp": "1dd6068847ee18697e559b7876136bcaaf3c9eca58c28863320e8a21c8f4aeb5",
+      "port/level-loader/vendor/tinyxml/tinystr.cpp": "220612a57261e51016670678a1474e28c3eecb30b0544cf16efb9851ecb4cb5b"
+    },
+    "actual_assets": [
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_00.bdae",
+        "sha256": "f0f6bb3a6799294e6a0c34de719e5c08b7d8f38d4bc3974abee73115a8a1b7f6"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_01.bdae",
+        "sha256": "ab1f34ae1c0231a2a2ad5dabfbde349205ab82fedce4b14911c5b2047e586b04"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_02.bdae",
+        "sha256": "016a676b45a9d75ac5f0cf39e10ce5689096ccf1995d4600861186666df73e07"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dark_queen2ndform_projectile.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_03.bdae",
+        "sha256": "c07166af37ad4d6939f62db0ed9f8f57159012e464f2b77a14d4b730d3daeaaa"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_01.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_04.bdae",
+        "sha256": "b3d3d14829a76fb5d1a2f6ca7e54e38efa181146d4065ed923a906830c52d0af"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_02.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_05.bdae",
+        "sha256": "7b721e0454499b23c08c851942c3ce4f57fc6ccd8c4503a84fe65566ce43c7fa"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dragon_attack_03.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_06.bdae",
+        "sha256": "1a74b8cd645b5a62df0d0d849952f722b47b53f7ea97abb567d0249beb779d90"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_01.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_07.bdae",
+        "sha256": "f12fd64bd4da6507c1b210532e796e3894e905b87d4b6d573d04c399227fff26"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_02.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_08.bdae",
+        "sha256": "f6f4879cbd4064eca6cecabb072635e6eb381b1e99e8d046d7edb1684ff34f12"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_dragon_intimidate_03.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_09.bdae",
+        "sha256": "9b1ab2eab19ec3dd0f534a7a7b61df1de4b96e802c8375c885eb078aa261c15e"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_lighthouse_melee.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_10.bdae",
+        "sha256": "c78a664b520ba59b32d6556e327a036746c88796b3fb05e964d6250a3edb7faf"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_lighthouse_special_effect.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_11.bdae",
+        "sha256": "e540421312c357e78350b24b39d739061ae05ba2388f467c1b0f05acadc46b3b"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_attack_melee_01.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_12.bdae",
+        "sha256": "195ab93329212f1317c190da73fcce09196158164bd5ffb29603d1db0fb26864"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_13.bdae",
+        "sha256": "43cf7b9e32dc7cf7682d77ecc2c6a2347184f7f8315ee945b4c398595c98bf1e"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_14.bdae",
+        "sha256": "16dbfbb7e8aa3120c03db5147a5418eacf4c548af02b3937c099e942e9575ed3"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_madrukfinal_laser_start.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_15.bdae",
+        "sha256": "8ca2e4dbed2e24118bac851c842efbd41b93410bd69ca757f1008ee74049d105"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_root_troll_charge.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_16.bdae",
+        "sha256": "3955a176721c3629d5c61138195878dd9e8f05ad00c6498e498f38acb65094d2"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_17.bdae",
+        "sha256": "404fa288abb83fce820a6daa8e3b95dc49b704fb0638215e7f5194d10ab0b3c1"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_18.bdae",
+        "sha256": "b13e28c2ab80f53436d6f4673be0abd6a6d281b4717101e65cd4c4be25b2ab39"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_root_troll_flaminite_firespit.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_19.bdae",
+        "sha256": "8a829848c1d6cb060dd4b9f8ee557b74fcabc47e4212f847680625844d6fcbef"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_20.bdae",
+        "sha256": "5ac3759d38828ceeabec82da531551a8c4d8405602c11a8a5d892298fbbb0a2c"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_21.bdae",
+        "sha256": "df5949273178514c56b7c36b8fc86872e1e93e26b2de2b0c035196eded7dd620"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_22.bdae",
+        "sha256": "4f631738a350f2af593b9bb42177c3e04fce9d0a4f1be671d5560c2311a0e8d3"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_23.bdae",
+        "sha256": "db9b3ec2a98e0092d3b342ff91e9fa6ef531149cab5d0b8c20c3d1a56746b3ae"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_24.bdae",
+        "sha256": "0f4f057d6e2d49a434fe0f714f863c34e1fc894affa28efc79cab148bfc2b167"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_25.bdae",
+        "sha256": "566e505ddbea2c028fa6a0035adf840295236b112219f4421974c4e6c6b5ef81"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_26.bdae",
+        "sha256": "507c27b61fd198c8e0ccacf30d568d9a9c7ee5351d054fbb0416f161b73cfb70"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_27.bdae",
+        "sha256": "86bf06d20c11014f2b8209f4a6090f8be31607e85aa78d210c05cae0180742f4"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_28.bdae",
+        "sha256": "400a7f48e704138087441a29cf7f79365a19519a9ff8cbf7cf47ad78d306a6be"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_29.bdae",
+        "sha256": "b8f5a6063b50fbd288a609b7fdfefd3c09c291cdefeebf53111bee988d21b2e4"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_30.bdae",
+        "sha256": "6d83fde03477ac7a2d819f634043cd18a0995878466e55c95f9ae9bca68e256e"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_31.bdae",
+        "sha256": "a693ed51a7432dec4ac8c5cdff26754dcce83bd280f8b9b6ef960409907d0721"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_32.bdae",
+        "sha256": "5d918f432e3970a50b3798fbf26686a5df0dcb902c3d47c877c128639ecf430c"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_33.bdae",
+        "sha256": "2c269390c1675394f81393f0988fe050197382fedcefad595ce69eb917cfcf74"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_34.bdae",
+        "sha256": "14a5f50e9d3ea7fb3b9df6b675fe89e0cbe4fc35969ccb2337f3cdd4f091695d"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_35.bdae",
+        "sha256": "306053d3483a2822bd5ce9d5daefe50e098e72c7e2d098ad56e38feb08bc0c38"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_36.bdae",
+        "sha256": "ed0c2873f8c2fdbe60031ed1ac1d0c22a9d4b19ae48cfae7e54eb2ad6bd70d6d"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_37.bdae",
+        "sha256": "bfe0a384dd7d4d89e8a39ea62bf052b15e0d3c953472f3f95e95e49446c45207"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_38.bdae",
+        "sha256": "21a31d374a80b9b6f7d1f9b7f273c62459dde9bfd9a2fabfa629fc2fae83a483"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_39.bdae",
+        "sha256": "db062ce2f63406656dee399e312b17416d9e7139890facb44c754a5f3171883b"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_40.bdae",
+        "sha256": "3b4ab3392f887d3036498b2005362ae227ad19972094ed18a77bfc65e70f2a2b"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_41.bdae",
+        "sha256": "d6f8b20823b97bdf09b205b7b3b22d011b2eb5ccbd191bc073f86d9e5d126e3a"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_warrior_charge.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_42.bdae",
+        "sha256": "10a9a78be5882e87ce921d2ec2649b0163d351148b8e23a054e934a3cdf87bfe"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_43.bdae",
+        "sha256": "17cbcd5d103dc7e57fbd22890a48712890d18a5836fd96bc2a345d2a5ee8762c"
+      },
+      {
+        "uri": "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/general-v5/asset_44.bdae",
+        "sha256": "37a71a99ef80c172bb39d571c55475474e497ffe8080c112905b6e6fedbb811a"
+      },
+      {
+        "uri": "data/3d/interface/bloodsplat.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/bloodsplat.bdae",
+        "sha256": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b"
+      },
+      {
+        "uri": "data/3d/interface/bloodsplat_hero.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/bloodsplat_hero.bdae",
+        "sha256": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25"
+      },
+      {
+        "uri": "data/3d/interface/bloodzombie.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/bloodzombie.bdae",
+        "sha256": "4b73c02eb3e99ad90c70d20b20f1f45e42013ecdf8c1b3ea8245e1f3b4e4260c"
+      },
+      {
+        "uri": "data/3d/interface/camera_crithit_0.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_0.bdae",
+        "sha256": "2c9cc5443ec8b654cedc0c94eea4820376ce0816928249543bc704911d94b169"
+      },
+      {
+        "uri": "data/3d/interface/camera_crithit_135.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_135.bdae",
+        "sha256": "96cff61ffb18bb0b71b66734776cbd83473e00057969517d651ae427c51156c3"
+      },
+      {
+        "uri": "data/3d/interface/camera_crithit_180.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_180.bdae",
+        "sha256": "0ef214fd882c875659c33cb30ca16f70443bd46d9b415b13b8e7a20f9688fe23"
+      },
+      {
+        "uri": "data/3d/interface/camera_crithit_225.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_225.bdae",
+        "sha256": "445f0c6a829523dc41685755a5ecc7b941f5a801239d83b707970c50d5348468"
+      },
+      {
+        "uri": "data/3d/interface/camera_crithit_270.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_270.bdae",
+        "sha256": "e17782aad4a8f77b8534c5ab18ce8b8ce789e412283d37d8fa0c422bf9c31a10"
+      },
+      {
+        "uri": "data/3d/interface/camera_crithit_315.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_315.bdae",
+        "sha256": "89556ab086e90791ecfcfae35466e825fc131bd76610c752f53e101308f601d7"
+      },
+      {
+        "uri": "data/3d/interface/camera_crithit_45.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_45.bdae",
+        "sha256": "f35233063d319089c427a86b8b12f1d9d25bdcad989e04784d44ae313d19c5f3"
+      },
+      {
+        "uri": "data/3d/interface/camera_crithit_90.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/camera_crithit_90.bdae",
+        "sha256": "1589e19dc416da8de801864c8229cb420251edef7698caa8f689d75ddd908c3b"
+      },
+      {
+        "uri": "data/3d/interface/cs_swamp_intro_01_bloodsplat_prisoner.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/cs_swamp_intro_01_bloodsplat_prisoner.bdae",
+        "sha256": "9b589bdbedf4804a8c1c4b2fdc17c4987f73e535fef8d32af36bfa9590a66ecb"
+      },
+      {
+        "uri": "data/3d/interface/cs_swamp_intro_02_bloodsplat_prisoner.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/cs_swamp_intro_02_bloodsplat_prisoner.bdae",
+        "sha256": "f4fda7392f119d8ebdb4017636bc5a26f5cf2df73dcec726d4291b1101140da2"
+      },
+      {
+        "uri": "data/3d/interface/prince_rogue_pre_twinstrike.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/prince_rogue_pre_twinstrike.bdae",
+        "sha256": "ed243c53f71b0fb0747b9c6774506cb249a2c68eed33769fd49ce7f8e6314198"
+      },
+      {
+        "uri": "data/3d/interface/prince_rogue_pre_viciousstrike.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/prince_rogue_pre_viciousstrike.bdae",
+        "sha256": "c6e5eb01a1c166a258075715cbced934cc6b81c04fdc213bfaf84df7a3569003"
+      },
+      {
+        "uri": "data/3d/interface/prince_rogue_twinstrike.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/prince_rogue_twinstrike.bdae",
+        "sha256": "8c417a9a878400f91fe6480ffb58be0276d02ee897c3b6903b48bbc8a2c4d78e"
+      },
+      {
+        "uri": "data/3d/interface/prince_rogue_viciousstrike.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/prince_rogue_viciousstrike.bdae",
+        "sha256": "40c07a2d3292365139bb1a4234308f8a033be8694c02474fb5056e6ab9f64486"
+      },
+      {
+        "uri": "data/3d/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/skill_dh2_prince_rogue_vicious_strike.bdae",
+        "sha256": "f5bdab87e02875d343840377e580afdce3dbbf0db35938baa17d5910ebbdb6b6"
+      },
+      {
+        "uri": "data/3d/interface/skill_prince_rogue_twinstrike.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/skill_prince_rogue_twinstrike.bdae",
+        "sha256": "d708736f43df9160597545a57f1ef081a9d69e80f410a6089d9f1fd132d085d8"
+      },
+      {
+        "uri": "data/3d/interface/skill_prince_rogue_viciousstrike.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/skill_prince_rogue_viciousstrike.bdae",
+        "sha256": "e9b7ce89b1d0f3aa4cb117e9ae2cd5b72b3fdf64ae94c5e27331953bf3d41986"
+      },
+      {
+        "uri": "data/3d/interface/skybox_blood.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/skybox_blood.bdae",
+        "sha256": "cd6d289eb3570a1c659445f3a8b4cd68f2e272f00ec4e02b4b5112f85aed7564"
+      },
+      {
+        "uri": "data/3d/interface/swoosh_prince_1hand_combo_01.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_1hand_combo_01.bdae",
+        "sha256": "af8ef8a2dc4d6da7c369964aa7d1fed08859ea4ba1d6062ac6796f11a936180b"
+      },
+      {
+        "uri": "data/3d/interface/swoosh_prince_1hand_combo_02.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_1hand_combo_02.bdae",
+        "sha256": "896e1c5247fd596086b855f2ba1ba278f7a7f5899af7bc947b43207255083f84"
+      },
+      {
+        "uri": "data/3d/interface/swoosh_prince_1hand_combo_03.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_1hand_combo_03.bdae",
+        "sha256": "7c3722015b676caf02a2b8fa9c1b546694cbe0e0e46f36697a72b989ea0d3dcd"
+      },
+      {
+        "uri": "data/3d/interface/swoosh_prince_2hand_combo_01.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_2hand_combo_01.bdae",
+        "sha256": "f83cda55840fb079deff300345f3a707884a503df0b5ff4766680f4f9a9b0693"
+      },
+      {
+        "uri": "data/3d/interface/swoosh_prince_2hand_combo_02.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_2hand_combo_02.bdae",
+        "sha256": "eb9596b6dedabe6ee686e56846b587b43d7643e8b264b3a8f27297bd25318aca"
+      },
+      {
+        "uri": "data/3d/interface/swoosh_prince_dual_combo_01.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_dual_combo_01.bdae",
+        "sha256": "6ae153971f5d3ecb7f8b590efa108b012604e4be5180591ad24918580a24f0ce"
+      },
+      {
+        "uri": "data/3d/interface/swoosh_prince_dual_combo_02.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_dual_combo_02.bdae",
+        "sha256": "098874d437c9ef3bc381511a9a1c5f97d793bbed454490e5784d3df43fc63c71"
+      },
+      {
+        "uri": "data/3d/interface/swoosh_prince_dual_combo_03.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/swoosh_prince_dual_combo_03.bdae",
+        "sha256": "5859e4deefcc264b299ae7ee85f66acbf788df9c44c1e888402c5c0e494d0c99"
+      },
+      {
+        "uri": "data/3d/interface/ugly_dog_blood.bdae",
+        "path": "port/level-world/reference/shared-target-facing-v1/cache/melee-v8/ugly_dog_blood.bdae",
+        "sha256": "37cb83f3ef5d2676e45b218c62535302621788c660030821fc8bec576697135d"
+      },
+      {
+        "uri": "data/3d/interface/bloodsplat.bdae",
+        "path": ".local-inputs/combat-hit-fx-v1/bloodsplat.bdae",
+        "sha256": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b"
+      },
+      {
+        "uri": "data/3d/interface/bloodsplat_hero.bdae",
+        "path": ".local-inputs/combat-hit-fx-v1/bloodsplat_hero.bdae",
+        "sha256": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25"
+      },
+      {
+        "uri": "data/3d/interface/spell_dh2_hurt_earth.bdae",
+        "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_earth.bdae",
+        "sha256": "18d31293a92286841fbdc43499b2c0d34025c247a46d0953f19b46aed6737e9b"
+      },
+      {
+        "uri": "data/3d/interface/spell_dh2_hurt_fire.bdae",
+        "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_fire.bdae",
+        "sha256": "b48d8f0bd4f5884d04bdfd79050549a0541d98375a3febe384fe5dbee31ca152"
+      },
+      {
+        "uri": "data/3d/interface/spell_dh2_hurt_lightning.bdae",
+        "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_lightning.bdae",
+        "sha256": "5599f7f6e9ad117285eb315c575799b60abb26ac6918789f172c0cb127e0eea4"
+      },
+      {
+        "uri": "data/3d/interface/spell_dh2_hurt_water.bdae",
+        "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_water.bdae",
+        "sha256": "76a4029a4f815023c347318abfdc76e74e42bf76914e5b7d031408c2c83da62a"
+      },
+      {
+        "uri": "data/3d/interface/spell_dh2_hurt_wind.bdae",
+        "path": ".local-inputs/combat-hit-fx-v1/spell_dh2_hurt_wind.bdae",
+        "sha256": "ef04637089e92c71fc0e1d4859292c6e3fc3590a5b0f70260ccb0d7cc490850e"
+      }
+    ],
+    "native_windows_strict_compile": [
+      {
+        "source": "port/windows-foundation/features/effects/effects_render_stream_tests.cpp",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "source": "port/windows-foundation/features/effects/effects_executor.cpp",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "source": "port/windows-foundation/features/effects/effects_render_bridge.cpp",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "source": "port/windows-foundation/features/effects/effects_material_binding.cpp",
+        "exit_code": 0,
+        "stderr": ""
+      }
+    ],
+    "runtime_backend": "borrowed CharacterMeshFxOwnerV4, source resource factory V32",
+    "live_renderer_integrated": false,
+    "same_scene_anchor_camera_fixture": true,
+    "unsupported": [
+      "Missing original resources explicitly reject; no replacements.",
+      "FaeryGlow source producer is not established by EffectsTables.",
+      "Equipment Swoosh gate and actual socket identity must be supplied by original producer.",
+      "Renderer must submit source mesh/particle metadata in actual SceneManager order."
+    ]
+  },
+  "native_renderer_smoke": {
+    "actual_packets": 3,
+    "changed_pixels": 2030,
+    "vertices": 108,
+    "native_wgl_renderer": true,
+    "source": "port/windows-foundation/features/effects/effects_native_renderer_tests.cpp",
+    "validation": "PASS",
+    "original_textures": 5,
+    "framing": "diagnostic camera, unchanged original source geometry/texture/pass",
+    "fixture": ".local-inputs/windows-effects-feature/render-fixture.bin",
+    "source_sha256": "fe76920153f3dd5fb10713e6a67a1202adff66c537cb807f90e1dfe86d4fb139",
+    "campaign_live": false,
+    "indices": 294,
+    "framebuffer": ".local-inputs/windows-effects-feature/native-fx-frame.png",
+    "binary_sha256": "c1d229afd5b45f567a89eb6785d97c02a2d66d478bfd520814d9410df4a3a9c8"
+  },
+  "handoff": "coordination/integration-lead/handoffs/effects.md",
+  "worker_state": "stopped_for_exclusive_luna_high_successor"
+}

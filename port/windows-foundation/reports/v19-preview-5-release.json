@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-09",
+  "status": "released_playable_frontend_preview",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-v19-preview-5",
+  "launcher": "Play.cmd",
+  "direct_gameplay_launcher": "Play-swamp.cmd",
+  "executable_sha256": "c9e2444a08307c6721b45dab670d84de296695d855d4873c302817fe0b129b66",
+  "manifest_files_verified": 1575,
+  "original_wav_files": 244,
+  "foundation_ctest": "80/80 passed after companion disk-save fix",
+  "packaged_runtime_cases": 5,
+  "new_playable_behavior": [
+    "Original-art frontend opens from the main executable.",
+    "Real mouse/name input creates a warrior profile and starts the same gameplay window/state.",
+    "Separate-process profile loading starts the populated world without rewriting the profile.",
+    "Mage/rogue creation, appearance and movement are development-tested; combat remains unavailable.",
+    "Direct-to-swamp launcher and existing combat diagnostics are preserved."
+  ],
+  "evidence": [
+    "reports/v19-preview-5-frontend-runtime.json",
+    "reports/v19-preview-5-population-runtime.json",
+    "reports/v19-preview-5-audio-runtime.json"
+  ],
+  "limitations": [
+    "Full Act 1 is incomplete.",
+    "Full equipment/skills/faery/quest page enrollment remains incomplete.",
+    "28 source declarations remain gated or unsupported.",
+    "Companion behavior, loot/XP, scripted cinematics, opening cinematic, global audio and effects remain incomplete.",
+    "Selected-class ordinary idle/stance, lighting and matched-reference fidelity remain incomplete."
+  ],
+  "preserved": ".local-inputs/windows-source-clock-v19-preview-4"
+}

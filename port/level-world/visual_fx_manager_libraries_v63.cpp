@@ -31,7 +31,11 @@ bool VisualFxManagerLibrariesV63::reject(const std::string& reason,std::string& 
 }
 bool VisualFxManagerLibrariesV63::query(std::uint32_t operation,const char* name,std::uint32_t& value,std::string& error){
  const auto app=debug_.application.lock();if(!app||!debug_.invoke){error="Actual App/Debug FX library service expired";return false;}
- return debug_.invoke(operation,name,value,error);
+ const bool result=debug_.invoke(operation,name,value,error);
+ // A provider may swallow a nested mutation's rejection. Preserve that first
+ // failure before another Debug leaf or the source byte4 store can run.
+ if(failed_){error=failure_;return false;}
+ return result;
 }
 bool VisualFxManagerLibrariesV63::module(bool& enabled,std::string& error){
  std::uint32_t value{};

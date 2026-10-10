@@ -1,0 +1,16 @@
+error: unable to rename temporary 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_gpu_submission_v37-bdbc2e-0f8f3799.o.tmp' to output file 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_gpu_submission_v37-bdbc2e.o': 'Permission denied'
+1 error generated.
+error: unable to rename temporary 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_gpu-fea5e9-f444cb12.o.tmp' to output file 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_gpu-fea5e9.o': 'Permission denied'
+1 error generated.
+error: unable to rename temporary 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/authored_shader_program-37b98b-1cb01dff.o.tmp' to output file 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/authored_shader_program-37b98b.o': 'Permission denied'
+1 error generated.
+error: unable to rename temporary 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_vertex_cache_v36-a80d80-43047c31.o.tmp' to output file 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_vertex_cache_v36-a80d80.o': 'Permission denied'
+1 error generated.
+error: unable to rename temporary 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_grid_snap_v1-b7626c-e9b0a3a0.o.tmp' to output file 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_grid_snap_v1-b7626c.o': 'Permission denied'
+1 error generated.
+error: unable to rename temporary 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_texture-044c13-ba442250.o.tmp' to output file 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/swf_texture-044c13.o': 'Permission denied'
+1 error generated.
+error: unable to rename temporary 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/shader_sources-00bae9-a7af0e1d.o.tmp' to output file 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/shader_sources-00bae9.o': 'Permission denied'
+1 error generated.
+error: unable to rename temporary 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/sha256-5a5c84-dfbe7139.o.tmp' to output file 'C:/Users/adamc/AppData/Local/Packages/sandbox.{e09a7f3f-dd88-4809-a837-b2bd95f72502}/AC/Temp/sha256-5a5c84.o': 'Permission denied'
+1 error generated.

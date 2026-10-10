@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "status": "implemented_component_and_native_GPU_verified",
+  "scope": "Explicit selected local COMMON material renderpass states, not lighting",
+  "source_audit": "port/windows-foundation/reports/common-factory-audit.json",
+  "source": "Actual lizardman.bdae local COMMON effect selected default technique, decoded using existing effect_render_pass_v4 richpass kernel",
+  "changes": [
+    "Material optional SourceMaterialPass is authoritative over atlas-alpha and vertex-alpha inference.",
+    "Renderer uses actual source blend factors, depth test/write/function, cull/frontface and source ALPHATEST admission.",
+    "Source opaque diffuse remains opaque with depth writes even on alpha-containing atlases.",
+    "Actual COMMON additive uses ONE/ONE; alpha uses SRC_ALPHA/ONE_MINUS_SRC_ALPHA.",
+    "CharacterVisual resolves actual instance material ID to local COMMON selected technique; records selected metadata technique and preserves pose/cache code.",
+    "Unknown external GLES/material families retain prior fallback.",
+    "Fallback draws and new frame reset depth/cull/winding/alpha/blend state to prevent source-pass leakage.",
+    "Exact selected COMMON shader/preamble classified CommonUnlit disables generic GL lighting independent of Color0 presence. Conditional/unknown and known-lit variants retain existing fallback; no light evaluation added."
+  ],
+  "api": {
+    "descriptor": "renderer.hpp SourceMaterialPass, Material.sourcePass optional",
+    "selected_technique": "Native default technique index0 unless declared serialized type20 override resolves actual existing technique",
+    "header": "port/windows-foundation/source_material_pass.hpp",
+    "result": "notCommon / applied / invalid",
+    "function": "resolve_common_material_pass(BresView, materialId, CommonMaterialPass, error)"
+  },
+  "files": [
+    "port/windows-foundation/renderer.hpp",
+    "port/windows-foundation/renderer.cpp",
+    "port/windows-foundation/source_material_pass.hpp",
+    "port/windows-foundation/source_material_pass.cpp",
+    "port/windows-foundation/original_character.cpp",
+    "port/windows-foundation/tests/source_material_pass_tests.cpp"
+  ],
+  "native_test": {
+    "actual_original_fixture": "lizardman.bdae source diffuse/alpha/additive pass states and external Material__38 no-guess retention",
+    "result": "PASS",
+    "state_leak_checks": "Explicit depth-disabled/GL_ALWAYS/CW/frontcull/alpha-test descriptor followed by fallback; depthLEQUAL/testenabled/backcull/CCW/alphaoff/depthwriteTRUE verified. Next-frame baseline restored.",
+    "test_target": "source_material_pass",
+    "actor_binding": "CharacterVisual loaded localCOMMONdiffuse with authoritative descriptor and metadata technique default",
+    "GPU": "Actual Win32/WGL; partial-alpha2x2texture and vertexalpha0.25. Source opaque/red255, additiveONE/ONE/red255, sourcealpha/red40.",
+    "known_unlit": "Actual Lizard main body COMMON default shader confirms unlit. Derived real-body fixture removes only Color0 semantic; resulting range remains unlit. Conditional preamble classifiedUnsupported and knownLIGHTING classifiedCommonLit."
+  },
+  "regression": {
+    "command": "ctest -R source_material_pass|original_character|character_pose_seam|root_pivot|skinned_material_binding --output-on-failure",
+    "failed": 0,
+    "passed": 5,
+    "includes": "Prince animation and reload safety, rootstride/pivot, source pose seam, skinned binding override"
+  },
+  "integration": "Root registered module/kernels and native test in CMake. Production package re-render and complete suite remain root integration checks.",
+  "limits": [
+    "Static scene decoder does not yet attach localCOMMON sourcepass descriptors; actor/equipment CharacterVisual path now does.",
+    "No light values/LightSet evaluations/color/UV/pose/asset-selection changes. Only exact selected sourceCOMMON default-unlit admission corrected.",
+    "NonCOMMON/externalGLES and unsupported multipass families retain fallback.",
+    "Different blend equations require a real extension backend and are rejected for admitted COMMON passes.",
+    "Source pass states do not establish complete shader/fog/light/material fidelity or video parity."
+  ],
+  "coordination": "Renderer ownership coordinated with render_core; CharacterVisual material seam changed only after original_character release; root owns CMake/main."
+}

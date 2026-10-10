@@ -68,7 +68,7 @@ bool RetainedWorldItemObjectV1::pool_operation(const LootItemRequestV8& r,std::s
  switch(r.operation){
  case LootItemOperationV8::init_once:return init_once(static_cast<std::int32_t>(r.index),error);
  case LootItemOperationV8::init_again:if(!r.inventory){error="Required source pool transfer inventory";return false;}return init_again(*r.inventory,r.index,r.character,error);
- case LootItemOperationV8::enable:return call(WorldItemOperationV1::enable,error,0,nullptr,0,r.flag);
+ case LootItemOperationV8::set_visible:return call(WorldItemOperationV1::set_visible,error,0,nullptr,0,r.flag);
  case LootItemOperationV8::remove_all:return call(WorldItemOperationV1::remove_all,error,0,nullptr,0,r.flag);
  case LootItemOperationV8::physical:return call(WorldItemOperationV1::set_physical,error,0,nullptr,0,r.flag);
  case LootItemOperationV8::position:return call(WorldItemOperationV1::set_position,error,0,r.vector,0,r.flag);

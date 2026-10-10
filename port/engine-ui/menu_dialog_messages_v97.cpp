@@ -34,21 +34,29 @@ bool DialogActorsV97::decode(const std::vector<std::uint8_t>& records,const std:
 }
 const DialogActorRowV97* DialogActorsV97::row(std::int32_t index)const noexcept{return initialized_&&index>=0&&std::size_t(index)<rows_.size()?&rows_[std::size_t(index)]:nullptr;}
 MenuDialogMessagesV97::MenuDialogMessagesV97(MenuDialogServicesV97 services):services_(std::move(services)){}
+namespace {
+bool parse_player(const MenuDialogServicesV97& services,const std::string& input,std::string& output,std::string& e){
+ if(!services.owner||!services.parse_player_name){e="Required same-campaign ParsePlayerName provider";return false;}
+ return services.parse_player_name(input,output,e);
+}
+}
 bool MenuDialogMessagesV97::construct(std::int32_t first,std::int32_t text,std::int32_t style,
  std::int32_t actor,DialogMsgV97& out,std::string& e){
  if(!services_.owner||!services_.localized){e="Required SAME StringManager for DialogMsg C1";return false;}
- if(!services_.localized(first,out.title0,e))return false;
- if(!services_.localized(text,out.message18,e))return false;
+ std::string title,message;
+ if(!services_.localized(first,title,e)||!services_.localized(text,message,e))return false;
+ if(!parse_player(services_,title,out.title0,e)||!parse_player(services_,message,out.message18,e))return false;
  out.style30=style;out.actor34.clear(); //4344e0 then source empty CString34
  if(actor>=0){std::int32_t name{};
   if(!services_.actor_text_id||!services_.actor_text_id(actor,name,e)){if(e.empty())e="Required actual DialogActors row/name10";return false;}
-  if(!services_.localized(name,out.actor34,e))return false;
+  std::string localized;if(!services_.localized(name,localized,e)||!parse_player(services_,localized,out.actor34,e))return false;
  }e.clear();return true;
 }
 bool MenuDialogMessagesV97::construct_strings_v108(const std::string& title,const std::string& text,std::int32_t style,std::int32_t actor,DialogMsgV97& out,std::string& e){
  //Original strings overload433ea8 uses the same SetActorName branch.
- out.title0=title;out.message18=text;out.style30=style;out.actor34.clear();
- if(actor>=0){std::int32_t name;if(!services_.owner||!services_.actor_text_id||!services_.localized||!services_.actor_text_id(actor,name,e)||!services_.localized(name,out.actor34,e))return false;}
+ if(!parse_player(services_,title,out.title0,e)||!parse_player(services_,text,out.message18,e))return false;
+ out.style30=style;out.actor34.clear();
+ if(actor>=0){std::int32_t name;std::string localized;if(!services_.owner||!services_.actor_text_id||!services_.localized||!services_.actor_text_id(actor,name,e)||!services_.localized(name,localized,e)||!parse_player(services_,localized,out.actor34,e))return false;}
  e.clear();return true;
 }
 bool MenuDialogMessagesV97::enqueue(const DialogMsgV97& message,std::int32_t context,bool start,std::string& e){

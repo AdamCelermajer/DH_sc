@@ -1,0 +1,80 @@
+{
+  "module": "combat_session.hpp/.cpp",
+  "status": "native Windows source integration tests passed",
+  "test": "tests/combat_session_tests.cpp",
+  "source_asset_root": ".local-inputs/windows-shared-assets",
+  "verified_result": {
+    "actors": 2,
+    "player_original_max_health": 165.098,
+    "target_original_max_health": 47.5,
+    "authored_player_markers": 1,
+    "original_health_removed_with_item_row_664": 32.2539,
+    "bounded_original_turn_10ms_radians": 0.125664
+  },
+  "verified": [
+    "Required diagnostic RNG seed and explicit source sequence/variant/leaf paths",
+    "Original property rows, class resolution, original item gear records, directed factions and strict melee reach",
+    "Original attack_mainhand marker-driven damage through shared actor/runtime records",
+    "Player host animation aliases/root-motion config retained; population visual scale/placement retained",
+    "NPC action disabled unless explicit diagnostic AI is enabled AND required authored ai_state matches",
+    "Actual original heading and rotation kernels limit facing change without translation or instant snapping",
+    "Stable world actor records and original source rate/cooldown departure policy",
+    "Live GameSave disk roundtrip with detached old bindings, replacement actor pointers, configured death cursor restart, target/action/cooldown reset and exact RNG retention",
+    "Failed wrong-level restore can safely rebind the original live roster",
+    "Optional source phase-group actions execute real Knight and Lizard pre/strike/recovery groups with three phases each; NPC repeated authored damage markers both retained",
+    "Fullgroup virtual markers align the actual strike pose; effective phase rate uses actual-gear resolved PROPS_AttackSpeed48 times source leaf speed",
+    "Fullgroup save restore reparses schedules using restored property48, retains stable callback owners, and restarts subsequent player and NPC action pre phases without RNG consumption"
+  ],
+  "integration": {
+    "add_foundation_source": "combat_session.cpp",
+    "add_recovered_sources": ["../level-world/actor_rotation.cpp", "../level-world/navigation_heading.cpp"],
+    "player_pose_owner": "owns_pose(player_id) means combat owns sampling",
+    "population_pose_owner": "owns_population_pose(stableId) means session owns all bound NPC sampling, including explicit source idle rates",
+    "lifetime": "Player visual and population actors must outlive the session and must not be relocated/reloaded while bound. Reinitialize/teardown before reloading scene actors.",
+    "restore_order": "detach_for_restore BEFORE restore_game_save or world.replace_actors; rebind_after_restore after either success or failure. Detached updates reject; old runtime pointers are released before replacement."
+  },
+  "target_retention_evidence": {
+    "status": "source/video investigation recorded; focused actual CombatSession target-retention test passed",
+    "visual_reference": {
+      "file": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+      "observations": [
+        "At 281.995, 282.495, and 283.278 seconds, the selected Bogwomp's red ring/name remain through successive player hits, including a visible MISS.",
+        "At 285.495 seconds the first Bogwomp is dead on the floor and the name/ring are on a second living Bogwomp; the second target remains through the 286.328 attack streak and 286.995 damage number.",
+        "These frames show retention through hits and visible transfer after a kill in this encounter. They do not establish movement/out-of-sight behavior or the exact retargeting cause."
+      ],
+      "version_limit": "Video is v1.0.3; recovered ELF/source used below is v1.0.2. Version-equivalent behavior is not established."
+    },
+    "logic_evidence": {
+      "clear_nonsticky": "CharAI::_ClearNonStickyTarget at 0x3d8d70 returns when AI sticky byte +0x4b is nonzero; otherwise it calls AI_SetTarget(null,false) at 0x3d6890 then AI_SyncLastTarget at 0x3d49c4.",
+      "callers": "CharAI::_OnAnimStepEnd_Attack at 0x3d3e44 calls ClearNonStickyTarget at 0x3d3f2c on its noncontinued last-step branch and at 0x3d3f88 when the continuation/range gate stops the sequence. The branch also emits source events 0x1b/0x1c as captured in port/level-world/reference/character-animation-ai/reference/original-functions.asm.",
+      "sticky_producers": "Character::Ctrl_Click at 0x3addc8 writes sticky=1 at 0x3ae084. HUDControls::Update at 0x41a780 clears it at 0x41a9d8 on the held-attack/no-OOI branch. The Windows Tab target-select input is a deliberate host input adaptation, not this recovered producer.",
+      "explicit_skill_clears": "Authored BashDown and GroundSlam Post callbacks call ClearTarget unconditionally; Charge calls it only when not TargetInMeleeRange. These are separate explicit source operations and must continue to clear. See port/level-world/reference/character-skill-state-v4/cast-lifecycle-v46.md.",
+      "current_windows_path": "CombatSession::selectedactor resolves only the player ActorState.target_id. In the Windows renderer, 3D ring and HUD target label/HP require a nonnull live selectedactor, and HUD additionally requires successful camera projection. Thus target_id loss and presentation omission are separate observations.",
+      "finish_path": "The diagnostic CombatSystem finish/interrupt clears ActorState.target_id during action teardown; the session-level patch retains the manually selected player ActorId through action/combo completion without changing CombatSystem or ActorCombatRuntime."
+    },
+    "expected_reusable_behavior": "A manual player target remains selected through ordinary attack and combo finish while it remains a live eligible target. Existing explicit source ClearTarget, target death, actor removal, and invalid/ineligible target clearing remain effective. Presentation may hide ring/label for an offscreen target while selection remains set.",
+    "uncertainties": [
+      "The user report did not specify an actor, timestamp, input path, or whether the underlying ActorState.target_id or only the ring disappeared.",
+      "The reference sequence does not exercise moving out of sight. Original player OutOfSight behavior is distinct from monster scripts that clear current target; no global LOS/range-retention rule is inferred.",
+      "The current session does not enroll the full original HUD/OOI owner; Tab selection is the current host adaptation."
+    ],
+    "planned_verification": {
+      "test": "port/windows-foundation/tests/combat_session_target_retention_tests.cpp",
+      "cases": [
+        "Actual source-combo CombatSession retains the same player target_id and selectedactor after the action releases its pose.",
+        "The same live target lies outside a test camera projection while selectedactor remains valid, distinguishing HUD omission from target loss.",
+        "An explicit target clear between frames and a dead target are not restored from the sticky selection record."
+      ],
+      "result": "PASS: run_combat_session_target_retention_tests.ps1; actual source-combo session retained target_id/selectedactor at action finish, the same live target failed the offscreen HUD projection predicate, and explicit-clear/dead-target cases remained cleared.",
+      "integrated_runtime_visual": "Not yet run; this focused source test does not claim a live game/render capture."
+    }
+  },
+  "explicit_limits": [
+    "Leaf compatibility is diagnostic; optional sequenceAction uses explicit source group/type2 choices. Player combo chaining, original frame overshoot discard, and two-slot pose blending remain gaps.",
+    "Stationary diagnostic NPC behavior does not claim campaign activation, navigation, chasing, or script execution.",
+    "Generated item powers, full original DOT/status/leech/FX/quest lifecycle application remain host gaps. Full result payloads are exposed.",
+    "Original idle3/move4/attack5/dead12 states are synchronized; reaction/casting state producer is logged as unresolved.",
+    "Source rotation rate and heading kernels are used; attack-specific rotation lock/snap flag ownership remains unresolved.",
+    "The test supplies explicit placement and source choices; it is not a complete original Act 1 encounter test."
+  ]
+}

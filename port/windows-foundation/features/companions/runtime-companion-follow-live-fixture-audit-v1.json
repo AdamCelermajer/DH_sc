@@ -1,0 +1,67 @@
+{
+  "schema": "runtime-companion-follow-live-fixture-audit-v1",
+  "result": "not_constructible_from_current_connected_owner",
+  "audited_at": "2026-10-10T00:35:29+03:00",
+  "scope": "Read-only feasibility audit for connecting runtime_companion_follow_v1 to an actual initialized animationOnly CombatSession. No synthetic lease fixture, runtime edit, or shared build was added.",
+  "source_actor_evidence": {
+    "swamp_mgp": {
+      "path": ".local-inputs/windows-source-clock-v19-preview-3/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "size": 9232,
+      "sha256": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31",
+      "records": {
+        "_prim_Faery": {"profile": "DefaultFairy", "activation_fact": "no Priest-style RENE_FOLLOW predicate on this record"},
+        "_prim_NPC_PriestGood": {"profile": "WanderingPriest", "activate_cond": "RENE_FOLLOW"}
+      }
+    },
+    "current_population_owner": {
+      "files": [
+        {"path": "port/windows-foundation/actor_population.hpp", "sha256": "3cc87b779566b072a32775365687343d8e9443be882af73bda8d282aeeeb9c7b"},
+        {"path": "port/windows-foundation/actor_population.cpp", "sha256": "b6743287160b665382eeca995bb1538c43a750dacb026206a3157464c42fbcfbf"}
+      ],
+      "finding": "ActorPopulation parses the authored definition and only instantiates it after its caller-supplied PopulationPolicy returns include or deferred. The workspace has no connected RENE_FOLLOW evaluator/event owner for this test. Unconditional inclusion would bypass the authored Priest activation gate, so it is not used as a fixture shortcut."
+    }
+  },
+  "connected_owner_audit": {
+    "combat_session": {
+      "files": [
+        {"path": "port/windows-foundation/combat_session.hpp", "sha256": "e3f833964b6d394e48b739852f305fb73d38b9e56791f1cfcc263344e0ae4933"},
+        {"path": "port/windows-foundation/combat_session.cpp", "sha256": "a4310c91ecec88047405aedcdcdf487f10b4c016503af65b1845350cc160790f"}
+      ],
+      "finding": "CombatSession can initialize animationOnly actors from an ActorPopulation and owns their ActorState, retained pose and session lease. Its exposed API does not produce follower callback events or the source Character HasMaster/master fields."
+    },
+    "native_companion_owner": {
+      "files": [
+        {"path": "port/windows-foundation/features/companions/live_companions.hpp", "sha256": "830bd9b85784aa2b7a4df1b385f6361314a1e1deba49dec3324eebccdc0bf1a8"},
+        {"path": "port/windows-foundation/features/companions/live_companions.cpp", "sha256": "b6aa918c1eff06fd742b04ee3e2ef7e5c863f235dd9b989edb631f847a2aa86e"}
+      ],
+      "finding": "The existing script bridge requires a same-Character native identity, CharacterScriptSession/ScriptOwner, CharAI master fields, TargetBindings, PF path and source operation providers. It authenticates actual reached events but does not bind them to an animationOnly CombatSession record or provide a session-event generation token."
+    },
+    "follow_policy": {
+      "path": "port/windows-foundation/features/companions/runtime_companion_follow_v1.hpp",
+      "sha256": "713132b87283451f0b3d61dc7fcaa5f943ac268a635c5abfec6a5d206193d67f",
+      "finding": "The planner consumes caller-provided HasMaster, master ActorId and current-state facts, then projects source follower operations. It is not an executor and does not take/revalidate the live CombatSession at callback time."
+    },
+    "current_campaign_fixture": {
+      "path": "port/windows-foundation/features/companions/source_companion_campaign_animation_v1_tests.cpp",
+      "sha256": "f31e845ab15f64cd416bd1b8ca34867dfc4f517cd96ff436e16fa91a5e2ddedd",
+      "finding": "The companion campaign test builds actual source visual plans but deliberately leaves CombatSession uninitialized; it asserts that resolved animations require an initialized owner. It does not instantiate source actors."
+    }
+  },
+  "missing_caller_facts": [
+    "An activation decision for the Priest's authored RENE_FOLLOW gate, supplied by the real source selector rather than forced inclusion.",
+    "A same-owner bridge that resolves each exact authored companion name/profile to the currently enrolled animationOnly ActorId, ActorState, retained pose and current CombatSession lease.",
+    "The actual active CharacterScriptSession and source HasMaster/master object fields for the same companion Character; these facts are not represented by CombatSession ActorState.",
+    "A reached follower callback event plus its current session/actor generation identity. The existing projection API has no stale-event token or live-session revalidation parameter.",
+    "A concrete source movement/path executor if the decision is to be applied. Testing only operation projection would not demonstrate changed state or rejected/stale event preservation in a connected owner."
+  ],
+  "decision": "Do not add a connected fixture until the real selection/CharacterScriptSession-to-animationOnly-record caller supplies the facts above. Building the session by manually forcing the gated Priest into ActorPopulation, or supplying a synthetic master/CharacterScriptSession/lease, would fail the requested source-ownership criterion.",
+  "verification": {
+    "performed": [
+      "Read-only inspection of CombatSession::initialize and animationOnly profile handling.",
+      "Read-only inspection of ActorPopulation policy and exact source Swamp MGP rows.",
+      "Read-only inspection of live companion CharacterScriptSession/CharAI/TargetBindings/PF owner requirements.",
+      "Read-only inspection of the existing companion campaign test's uninitialized-session boundary."
+    ],
+    "build_or_runtime_test": "Not run; the connected-owner inputs are absent and no synthetic fixture was created."
+  }
+}

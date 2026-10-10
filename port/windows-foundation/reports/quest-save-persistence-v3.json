@@ -1,0 +1,10 @@
+{
+  "status": "portable_quest_codec_transport_verified_menu_enrollment_pending",
+  "goal_complete": false,
+  "field": "CharacterState.source_quest_progress_cqpg",
+  "character_schema": 3,
+  "scope": "SaveStore and nested CharacterState in GameSave preserve length-delimited CQPG bytes. Empty is unknown; no fresh quest states are inferred by loading an older save.",
+  "validation": "128KiB cap, CQPG version1, same character ID, bounded rows, six origin/count/current-index envelopes, truncation and trailing-data checks. Quest owner still verifies actual table row count when decoding.",
+  "verified": ["Schema2 SaveStore migration leaves unknown bytes and preserves original file.", "Schema1 GameSave migration leaves unknown bytes.", "Both save paths roundtrip codec bytes.", "Wrong quest owner cannot overwrite a save.", "Truncated quest data preserves destination.", "Fresh full foundation suite80/80 passes."],
+  "remaining": "Fresh-character factory initializes actual source QuestProgress explicitly; gameplay/page writes accepted state changes through codec; main menu routing remains pending."
+}

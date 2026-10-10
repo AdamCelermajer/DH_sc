@@ -9,8 +9,11 @@ int CharacterDeferredScript::service(void* context,ScriptLifecycleState64* state
  const ScriptLifecycleRequest32* request,ScriptLifecycleResponse16*){
  auto& invocation=*static_cast<Invocation*>(context);auto& adapter=*invocation.adapter;
  if(state!=&adapter.session_->owner().lifecycle())return -1;
- if(request->service==script_refresh_vitals||request->service==script_configure_skills||request->service==script_update_skills)
-  return invocation.services->invoke(invocation.services->context,*adapter.session_,*request);
+ if(request->service==script_refresh_vitals||request->service==script_configure_skills||request->service==script_update_skills){
+  const int result=invocation.services->invoke(invocation.services->context,*adapter.session_,*request);
+  if(result&&adapter.error_.empty())adapter.error_="Required InitScriptProcess service "+std::to_string(request->service)+" failed";
+  return result;
+ }
  if(request->service!=script_ai_init_post&&request->service!=script_ai_init_final)return -1;
  // Execute the real CharAI wrapper projection, which reloads active separately
  // for Post and Final. No retained view/reference survives the Lua callback.

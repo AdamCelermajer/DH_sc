@@ -1,3 +1,4 @@
+#include <cstdlib>
 // Concrete source audio providers on the SAME persistent Application manager.
 // Include after renderer_campaign_audio_v46; no player/HUD projection is used.
 namespace {
@@ -16,9 +17,10 @@ struct CampaignAudioSourceLeaseV68 {
  }
  static bool random(void*raw,int&out){auto&self=*static_cast<CampaignAudioSourceLeaseV68*>(raw);std::string e;
   if(!self.current(e))return false;
-  // Original Vox event and pitched paths call process libc rand. Do not seed
-  // or substitute Random::s_seed, a copied combat stream or a private engine.
-  out=std::rand();return out>=0;
+  // Original Vox event selection and the pitched-emitter modifier both call
+  // process lrand48(). Do not seed or substitute rand(), Random::s_seed, a
+  // copied combat stream or a private engine.
+  const auto draw=::lrand48();out=static_cast<int>(draw);return draw>=0;
  }
  bool emitter(const dh2::audio::AudioSoundV34&sound,const dh2::audio::AudioGroupV34&group,
   bool positioned,float&gain,float&pitch,int&native,std::string&e){

@@ -1,0 +1,937 @@
+{
+  "schema_version": 1,
+  "audit_state": "current_snapshot_complete_goal_incomplete",
+  "checkpoint": "shared-actor-and-fidelity",
+  "contract": "port/windows-foundation/MILESTONES.md",
+  "scope": "Reusable whole-game systems; original Swamp is validation content only",
+  "overall_acceptance": "incomplete",
+  "fidelity_gate": "reference_compare_required",
+  "status_definitions": {
+    "source_implemented": "Implementation exists and source has been reviewed; no execution claim.",
+    "component_tested": "Focused automated or native component checks executed with evidence.",
+    "runtime_tested": "Integrated executable behavior exercised with logs/captures.",
+    "reference_compared": "Timestamped original/reference frames or behavior actually inspected against comparable runtime state.",
+    "incomplete": "Requirement not yet established at all necessary scopes.",
+    "blocked": "Required evidence unavailable due to a documented external blocker."
+  },
+  "reference": {
+    "metadata_receipt": "port/windows-foundation/reports/reference-video.json",
+    "video_url": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+    "title_version": "v1.0.3",
+    "recovered_input_version": "v1.0.2",
+    "frames_inspected": true,
+    "status": "reference_frames_inspected_qualitative_art_comparison_only",
+    "warning": "Video metadata, source artwork provenance and loaded original assets do not establish visual parity.",
+    "inspected_timestamps_seconds": [
+      60,
+      90,
+      120,
+      180,
+      300
+    ],
+    "actual_download": {
+      "width": 640,
+      "height": 360,
+      "fps": 30,
+      "aspect": "16:9",
+      "local_previous_capture": "1280x720",
+      "version_difference": "reference1.0.3 vs recovered1.0.2"
+    }
+  },
+  "milestones": [
+    {
+      "id": 1,
+      "name": "Populated world",
+      "status": "incomplete",
+      "source_status": "source_implemented",
+      "component_status": "component_tested",
+      "runtime_status": "runtime_tested",
+      "reference_status": "not_run",
+      "source_evidence": [
+        "port/windows-foundation/actor_definitions.hpp",
+        "port/windows-foundation/reports/population-source.json",
+        "port/windows-foundation/reports/population-assets.json",
+        "port/windows-foundation/actor_profiles.cpp",
+        "port/windows-foundation/tools/export_actor_profiles.py"
+      ],
+      "execution_evidence": [
+        ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+        ".local-inputs/windows-foundation-build/movement-hud.png",
+        "port/windows-foundation/reports/shared-progress.json"
+      ],
+      "remaining": [
+        "Live root IDs/scopedSpawn/floorworld verified; full sourcechildloading/ModuleInitPost/device/probability campaign admission remains partial",
+        "ApplicationRNG9defaultprobability draws componentverified thenmissingDevice.IsHighPerformance",
+        "Companion/appearance/fullAI/controllerFSM and matched campaign reference incomplete"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Movement and camera",
+      "status": "incomplete",
+      "source_status": "source_implemented",
+      "component_status": "component_tested",
+      "runtime_status": "runtime_tested",
+      "reference_status": "not_run",
+      "source_evidence": [
+        "port/windows-foundation/input_actions.hpp",
+        "port/windows-foundation/collision_scene.cpp",
+        "port/windows-foundation/gameplay_camera.cpp",
+        "port/windows-foundation/actor_movement.cpp",
+        "port/windows-foundation/original_camera_config.cpp",
+        "port/windows-foundation/reports/root-pivot-source.json",
+        "port/windows-foundation/reports/navigation-source-policy.json"
+      ],
+      "execution_evidence": [
+        ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+        ".local-inputs/windows-foundation-build/movement-hud.png",
+        "port/windows-foundation/reports/integrated-locomotion.json",
+        "port/windows-foundation/reports/packaged-motion-runtime.json",
+        ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log"
+      ],
+      "remaining": [
+        "Generic manualMove sourceheading and late rotation nowlive with exactborrowed flags/debug/Euler/heading",
+        "FullFSM/focus tails/path/avoidance/nativeStep/contact/frame coordinator incomplete",
+        "Matched movement/camera/physics/visual reference acceptance missing"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Equipment targeting and minimal HUD",
+      "status": "incomplete",
+      "source_status": "source_implemented",
+      "component_status": "component_tested",
+      "runtime_status": "runtime_tested",
+      "reference_status": "reference_compared_qualitative_art_only",
+      "source_evidence": [
+        "port/windows-foundation/targeting.cpp",
+        "port/windows-foundation/overlay_renderer.cpp",
+        "port/windows-foundation/reports/hud-source.json",
+        "port/windows-foundation/equipment_visual.cpp",
+        "port/windows-foundation/hud_geometry.cpp",
+        "port/windows-foundation/reports/starting-equipment.json"
+      ],
+      "execution_evidence": [
+        ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+        ".local-inputs/windows-foundation-build/movement-hud.png",
+        ".local-inputs/windows-foundation-build/shared-target-hud.png",
+        "port/windows-foundation/reports/target-selection-runtime.json"
+      ],
+      "remaining": [
+        "Portraitalpha alignment/profile modal Stats subset now liveverified",
+        "58art branches/fullASvisibility/reflow/inventory/skill mutation/projectors incomplete",
+        "Originalequipment/shader/FX/HUD/layout/typography/fullsourceUI and matchedreference evidence incomplete"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Shared combat",
+      "status": "incomplete",
+      "source_status": "source_implemented",
+      "component_status": "component_tested",
+      "runtime_status": "runtime_tested",
+      "reference_status": "not_run",
+      "source_evidence": [
+        "port/windows-foundation/combat_system.cpp",
+        "port/windows-foundation/tests/animation_markers_tests.cpp",
+        "port/windows-foundation/combat_session.cpp",
+        "port/windows-foundation/reports/original-combat-properties.json",
+        "port/windows-foundation/reports/combat-session.json",
+        "port/windows-foundation/reports/original-attack-sequence.json"
+      ],
+      "execution_evidence": [
+        ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+        ".local-inputs/windows-foundation-build/shared-target-hud.png",
+        ".local-inputs/windows-foundation-build/shared-player-death.png"
+      ],
+      "remaining": [
+        "Bounded synchronous hits beforestateforward and sourceevents beforemotion verified; fullFApplyResult/AIS/status/skills/reentry/hierarchy/globalframe incomplete",
+        "Own/targetVisualNAME cache proven negative runtime and positiveboss component; no positiveboss liveclaim",
+        "SubObject adapter component-only; independentvisualRoot/fullfocus/camera unbound",
+        "Matched continuous gameplay/art/audio/fidelity incomplete"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Integrated checkpoint",
+      "status": "incomplete",
+      "source_status": "source_implemented",
+      "component_status": "component_tested",
+      "runtime_status": "runtime_tested",
+      "reference_status": "not_run",
+      "source_evidence": [
+        "port/windows-foundation/main.cpp",
+        "port/windows-foundation/game_save.cpp"
+      ],
+      "execution_evidence": [
+        "port/windows-foundation/reports/game-save.json",
+        "port/windows-foundation/reports/combat-session.json",
+        ".local-inputs/windows-npc-motion/moving-verification.log",
+        "port/windows-foundation/reports/packaged-shared-runtime-next.json",
+        "port/windows-foundation/reports/packaged-motion-runtime.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v3.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v5.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v6.json",
+        "port/windows-foundation/reports/live-lifecycle-integration.json",
+        "port/windows-foundation/reports/lifecycle-persistence-rejection.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v7.json",
+        "port/windows-foundation/reports/lifecycle-persistence-rejection-v7.json",
+        "port/windows-foundation/reports/source-camera-run-material-integration.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v8.json",
+        "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v8.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v9.json",
+        "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v9.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v10.json",
+        "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v10.json",
+        "port/windows-foundation/reports/native-actor-body-integration-v10.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v11.json",
+        "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v11.json",
+        "port/windows-foundation/reports/source-scopes-floor-integration-v11.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v12.json",
+        "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v12.json",
+        "port/windows-foundation/reports/original-floor-motion-integration-v12.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v13.json",
+        "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v13.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v14.json",
+        "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v14.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v15.json",
+        "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v15.json",
+        "port/windows-foundation/reports/packaged-source-clock-runtime-v16.json",
+        "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v16.json"
+      ],
+      "remaining": [
+        "v16EXE/555files/18rendered and2safesaveerrors verified; preservebaseline",
+        "23tracks code/components received; onlyportrait/menu/platformsubset liveintegrated",
+        "Frontend previousreferencegate failed; full5fidelity milestones remain incomplete"
+      ]
+    }
+  ],
+  "data_audit": [
+    {
+      "subject": "Character persistence fixture",
+      "source": "port/windows-foundation/character_state.hpp",
+      "finding": "Default character vitals/class values explicitly foundation fixtures; may not be promoted to original actor gameplay stats."
+    },
+    {
+      "subject": "Gameplay camera configuration",
+      "source": "port/windows-foundation/gameplay_camera.hpp",
+      "finding": "Distance/pitch/FOV/smoothing defaults explicitly development values. configureFromPose preserves supplied camera pose but does not recover original gameplay camera."
+    },
+    {
+      "subject": "Authored actor conditions",
+      "source": "port/windows-foundation/reports/population-source.json",
+      "finding": "Priest declaration has activate_cond RENE_FOLLOW. Source loader preserving condition does not establish conditional runtime presence."
+    },
+    {
+      "subject": "Combat damage",
+      "source": "port/windows-foundation/combat_system.hpp",
+      "finding": "Damage source bindings require supplied resolution; formula/data unavailable must fail. Probe fixture damage values may not be labeled original."
+    },
+    {
+      "subject": "Collision step/drop policies",
+      "source": "port/windows-foundation/collision_scene.hpp",
+      "finding": "Default floor maxStepUp100/maxDrop2000 are not proven original movement rules. ActorMovementConfig receives explicit supplied policy; integration provenance required."
+    },
+    {
+      "subject": "Actor property resolution",
+      "source": "port/windows-foundation/reports/actor-property-binding.json",
+      "finding": "Source-grounded Character/Class formula helper distinguishes raw IDs, fixed-point HP/MP/level and percent scales; integrated numeric output still pending. Walk/run/step/slope/drop constants are not recovered and must remain explicit development settings."
+    },
+    {
+      "subject": "Shared combat tests",
+      "source": "port/windows-foundation/tests/combat_system_tests.cpp",
+      "finding": "Damage11/7, health100, radius0.5, range2 and cooldown0.5 are explicitly synthetic fixtures. Component passes prove mechanism behavior, not original balance or integrated enemy combat."
+    },
+    {
+      "subject": "Movement tests",
+      "source": "port/windows-foundation/tests/actor_movement_tests.cpp",
+      "finding": "Walk4/run8/body dimensions/step0.5/slope30 are explicitly synthetic fixtures. Component passes cannot accept original movement appearance/speed/collision."
+    },
+    {
+      "subject": "HUD art",
+      "source": "port/windows-foundation/hud_art.hpp",
+      "finding": "Original bitmap regions alone omit original contours, placements, masks and animation; actual HUD art/layout acceptance requires inspected integrated output and reference state."
+    },
+    {
+      "subject": "PlayerKnight movement mapping",
+      "source": "Root original animation-table discovery; asset_catalog",
+      "finding": "Original WALK is prince_walk_slow; RUN is prince_walk_1hand; bothSpeed1.3. Filenames cannot establish state semantics. Previous root-pivot walk label/movement capture must not be used to claim correct walk speed."
+    },
+    {
+      "subject": "Current original source fight choices",
+      "source": "port/windows-foundation/reports/combat-session.json",
+      "finding": "Source damage/gear/factions/attack rates/markers now resolved and native-tested. Explicit player relocation near authored Lizard and stationary Limbus diagnosticAI must not be labeled original campaign spawning/AI or complete combo behavior."
+    }
+  ],
+  "notes": [
+    "Previous foundation acceptance remains separate and unchanged.",
+    "This initial source snapshot is in-flight. Runtime and frame receipts are pending root integration.",
+    "Reference frames60/90/120/180seconds independently inspected. This establishes actual reference observations, not runtime parity.",
+    "Component test source inspected: fixture numeric values explicitly labeled; no original-balance acceptance inferred.",
+    "Reviewed CTest01:44:12/12 pass; component classifications updated, integrated/reference acceptance remains incomplete.",
+    "Latest source audited02:22:original camera/root motion/equipment/HUD integrated; real shared fight remains unconnected. Runtime movement supplied by root and capture independently inspected; fidelity gate not passed.",
+    "Reviewed02:23 CTest:16/16pass after center-floor assertion repair. Root discovered actual WALK/RUN binding/rate; prior runtime movement retained explicit mechanism-only qualifier.",
+    "Current source audit confirms CombatSession/marker/source-damage/targetHUD/live-save paths integrated. Runtime bidirectional enemy fight, death and save metrics reported by root; captures independently inspected. Qualitative source-art comparison is separate from matched appearance parity. Goal acceptance remains incomplete.",
+    "Reviewed moving-verification.log and args: actual playerAttack root travel/native damage/save/reload/restore pass. NPC configuredroot supported but current firstLizard attackXYdelta0; no movingAI claim.33componentchecks pass incl retained realmesh and campaign70scripts; both liveintegration pending. All5milestones stayincomplete.",
+    "Latest34CTest03:53pass includes genuine NPC root sampling. Current531file motion package hash independently computed and matches receipt3cee9ef644b87f2df912653f325a26db4cfd08a3d9497895d62ca6e81f38d57d; four native runtime receipts retained. All five milestone statuses remain incomplete.",
+    "Latest40CTestPASS verified in native log. Live source retained-phase implementation reviewed inCombatSession; v3EXEhash independently confirmed. Static/moving/native save+resume logs inspected. Expected532file/fourreceipt final root verifier not yet available at audit read. All5fidelitymilestones incomplete.",
+    "Final v3package verifier now independently inspected:532files/four native receipts PASS, source retainedclock true, startup original WALK final1279.79,-201.095,255 and clean native state. Current snapshot audit finalized; allfivefidelitymilestones/goal remain incomplete.",
+    "Final v5 supersedes intermediate raw-loop v4. 41tests/four rendered receipts/532files pass; desired-heading forwardcamera and finite NewAnim repeats now live. Narrow main audit found no double advance: retained locomotion avoids ordinary visualStep; callback avoids duplicate locomotion steering and owns source root application; live input/dt storage survives selection callbacks. All5fidelitymilestones incomplete.",
+    "Current v6 receipt inspected:44CTest/536files/six rendered cases pass, EXEhash independently confirmedb6d781...117b. Enabled update/render/combat gating and all lifecycle save/reload guards reviewed; no concrete integration blocker. Historical v5 preserved. All5fullfidelitymilestones incomplete.",
+    "Final root source freeze confirmed44tests3.90s/sixrenderedv6cases. Expected saveframe80 rejection exits1 before write, existing explicit gameplay.save hash unchanged; independently inspected rejection receipt. No seventh successful rendered case claimed.",
+    "Final v7 report independently inspected:50tests/541files/ten rendered diagnostics PASS; EXEhash independently computed028dfb...aa5f2. Run/Dummy/controller-initial gate/rest jointbounds/COMMON pass are bounded progress. Bodydefault COMMON unlit; auxiliary shadow not body-light proof. All5fullfidelity milestones remain incomplete.",
+    "Final v7 lifecycle expected-error save rejection receipt inspected:exit1 and prior durable save11d7ac28 unchanged; distinct from ten successful rendered cases. Root inspected final camera/spawn captures qualitatively; no reference-parity acceptance.",
+    "Finalv8report independently inspected:54tests/543files/12rendered diagnosticsPASS; hash6ff5...9e7a8 independently confirmed. Controller/lifecycle TWO saveerrors preserveSHA11d7ac28. Source body/Level construction kept component-only; forced backend not claimed. All5milestones incomplete.",
+    "Finalv9 report independently inspected57tests/544files/13rendered receipts, hash6b573d...01a2a9 independently computed. Two expected provider-save errors preserve durableSHA11d7ac28. Nav/config body and event qualifications explicit; all5fidelitymilestones incomplete.",
+    "Finalroot confirms active-lock marker routing/closure and sourceplayer radius assertions across13cases; v8hash preserved. Rejection guard includes lifecycle/controller/animation state; NPCmotor stillindexed, no completebody/PF/trigger claim.",
+    "Finalv10report independently inspected61CTest/544files/13nativecasesPASS; EXE39d6...e01d independently verified. Source player+NPCbodyplan/native body position/publication and lifecycle recreation progress recorded. Previousv9 preserved. All5fullfidelitymilestones incomplete.",
+    "Finalv10two expectedexit1 provider-save rejections independently inspected; existingdurableSHA11d7ac28 unchanged. Root finalPNGQA qualitative only; no reference parity claim. Current docs finalized, all5milestones incomplete.",
+    "Finalv11 independently inspected63CTest/549files/15rendered receipts plus2expectedsaveerrors preserveSHA11d7ac28. Finalrelinked hash1ba769...3950e5 independently computed; v10preserved. Sourcefloor/rootIDs progress kept distinct from solver/fullInitPost/campaign. All5milestones incomplete.",
+    "Finalv12 receipts/hash independently inspected63tests1.97s/550files/16rendered casesPASS andtwo expectedsaveerrors. Movementdifference actualXYsourcefloorboundary, notprecisionerror; bothZqueries miss withZbounds valid. Noepsilon/rootdirectionveto claimed. SourceFloor v11probe-only limitation superseded by v12sharedValidatePosition; all5milestones incomplete.",
+    "Finalv13 receipts independently inspected64tests/550files/16rendered cases andtwo safeerrors; v13hash8cb0...a7084d andpreservedv12dcab...e405d independently verified. Move-only headingflags/debug/boundedlateRotation progress separated from fullFSM/path/avoidance/Step/contact/frame and fidelity. All5incomplete.",
+    "Finalv14packaged receipt65CTest/550files/16renderedPASS; synchronoushits verifier used. Hash788269...d49b5 andpreservedv13 independently confirmed. Twoexpectederrors preservecurrentdurable583411...9a177. Earlierhistoricalqueuedamage gap superseded by bounded synchronous sink; fullsourceAIS/frame/fidelity stillincomplete. All5incomplete.",
+    "v15baseline finalized67CTest/550files/16rendered+2safeerrors. Final2a90...63cc0 andpreservedv14hash independently verified. Own-targetnode knownNULL runtime distinct fromboss positivecomponent; SubObjects notmainintegrated. All5incomplete.",
+    "Finalv16receipt71CTest/555files/18rendered+2safeerrors independently inspected. EXE86d7...89848d andpreservedv152a90...63cc0 independently computed. NativeStats screenshot independently viewed; sourceart/readablevalues present but58branches/fullAS/Tabmutations/inventoryskills/fidelity incomplete. Frontend validreference originalgame only, not reconstructedprototype. All5incomplete."
+  ],
+  "preliminary_reference_observations": [
+    {
+      "timestamp": 120,
+      "reference": "Prince with sword/shield, Rene, glowing faery at cage in dialogue presentation",
+      "local": ".local-inputs/windows-foundation-final-verification/integrated.png",
+      "comparison": "Previous foundation capture lacks visible equipment and other actors; camera/gameplay scenario unmatched; population parity not accepted"
+    },
+    {
+      "timestamp": 180,
+      "reference": "Overhead movement tutorial with Prince weapon, Rene, glowing faery and tutorial overlay",
+      "comparison": "Prior development framing, lighting and UI differ. New matched population/movement/HUD runtime evidence required."
+    }
+  ],
+  "component_receipt": {
+    "evidence": ".local-inputs/windows-foundation-build/Testing/Temporary/LastTest.log",
+    "timestamp": "Finalv16 71CTestpass2.29s",
+    "passed": 71,
+    "failed": 0,
+    "limits": [
+      "Synchronous bounded sourcehit callback live; fullF_ApplyResult/AIS/status/DOT/leech/skills/globalLevel frame incomplete.",
+      "NewAttackfocus/Blur/motionframe prefixes component-only, no livefullfocus/frame claim.",
+      "Existing fullFSM/physicsStep/contact/path/AI/campaign/audio/FX/persistence/matchedfidelity incomplete."
+    ]
+  },
+  "integrated_runtime_snapshot": {
+    "scope": "Original root-motion, original camera wrapper, population, equipment and HUD snapshot; not shared-gameplay acceptance",
+    "capture": ".local-inputs/windows-foundation-build/movement-hud.png",
+    "capture_inspected": true,
+    "population_visuals": 13,
+    "authored_declarations": 61,
+    "skipped": 48,
+    "spawn": [
+      1090.75,
+      -212.202,
+      258
+    ],
+    "fixed_step_seconds": 0.016,
+    "render_frames": 90,
+    "movement_frames": 60,
+    "scripted_moves": [
+      {
+        "input": [
+          1,
+          0
+        ],
+        "final": [
+          1559.43,
+          -204.728,
+          255
+        ],
+        "grounded": true
+      },
+      {
+        "input": [
+          0,
+          1
+        ],
+        "final": [
+          624.744,
+          -190.527,
+          255
+        ],
+        "grounded": true
+      }
+    ],
+    "camera": {
+      "distance": 3132.3,
+      "fov": 24.616,
+      "aspect": 1.66775
+    },
+    "metrics_provenance": "Root integration report; source and capture independently inspected",
+    "visual_findings": [
+      "Prior population screenshot remains historical. New shared-target-hud.png visibly shows original sword, actor/enemy, target ring, localized Bogwomp name/level1 and health bar.",
+      "Known priest/faery/material/lighting gaps remain; no matched reference state."
+    ],
+    "movement_fidelity_qualification": "Superseded by reports/integrated-locomotion.json: original WALKprince_walk_slow and RUNprince_walk_1hand loaded with source1.2999999523162842. Native WALK90frames/60move verified source root travel to1279.79,-201.095,255; no matched movement/collision/video parity claim."
+  },
+  "persistence_gap": {
+    "status": "runtime_tested_partial",
+    "source": "port/windows-foundation/main.cpp",
+    "finding": "DHGAME strict same-source state synchronizes shared actor transforms/vitals/raw sheets/gear/RNG/deaths. Source-clock v3 save/reload/restore and separate-process resume verified; canonical corpse terminalhold removes repeated death motion after restore. Final532file/four native receipt verifier PASS independently inspected. World/campaign persistence and dynamic loadout replay remain incomplete."
+  },
+  "shared_fight_runtime": {
+    "scope": "Native original-data diagnostic; relocated player near authored enemy, stationary gated AI; not original campaign encounter",
+    "enemy_profile": "Original first-source Lizard/Bogwomp",
+    "enemy_position": [
+      -6852.641,
+      938.285,
+      250
+    ],
+    "player_position": [
+      -6752.641,
+      938.285,
+      250
+    ],
+    "singleleaf": {
+      "npc_hit_frame": 6,
+      "player_health_before": 165.098,
+      "player_health_after": 157.457,
+      "player_damage": [
+        16.4688,
+        17.0273,
+        14.0039
+      ],
+      "enemy_initial_health": 47.5,
+      "enemy_dead_frame": 95
+    },
+    "fullgroup": {
+      "npc_hit_frames": [
+        11,
+        41
+      ],
+      "player_hit_frames": [
+        74,
+        127,
+        180
+      ],
+      "enemy_dead_frame": 180,
+      "qualification": "Explicit source pre/strike/recovery group0; not whole original combo behavior",
+      "rate": "ResolvedPROPS_AttackSpeed48 times actual source leaf rate"
+    },
+    "playerdeath": {
+      "frames": 2000,
+      "dead_frame": 1098,
+      "health": 0,
+      "target": 0,
+      "capture": ".local-inputs/windows-foundation-build/shared-player-death.png",
+      "capture_inspected": true
+    },
+    "target_hud": {
+      "frame": 88,
+      "capture": ".local-inputs/windows-foundation-build/shared-target-hud.png",
+      "capture_inspected": true,
+      "observed": "Bogwomp localized name, level1, target ring and live health displayed; original FontinSmallCaps viaFT2.3.7"
+    },
+    "save_restore": {
+      "save_frame": 220,
+      "restore_frame": 320,
+      "health": 157.457,
+      "rng_seed": 2808983,
+      "rng_calls": 38,
+      "enemy_death_retained": true
+    },
+    "metrics_provenance": "Root executed native diagnostic reports; source and listed captures independently inspected"
+  },
+  "latest_reference_comparison": {
+    "reference_frame": ".local-inputs/referenceframes/dh2-act1/at-0300s.png",
+    "reference_timestamp_seconds": 300,
+    "local_frame": ".local-inputs/windows-foundation-build/shared-target-hud.png",
+    "comparison_status": "reference_compared_qualitative_art_not_fidelity_pass",
+    "observed_matches": [
+      "Recognizable Bogwomp label and orange level1 badge/health bar",
+      "Original red target-ring appearance",
+      "Original portrait/redHP/blueMP and FontinSmallCaps letter appearance"
+    ],
+    "unmatched_state": [
+      "Different player/enemy position, camera framing, HP and attack pose",
+      "Reference has companion/effects/damage numbers/redvignette/actionicons/joystick absent in local",
+      "Reference640x360/source1.0.3 versus local1280x720/recovered1.0.2"
+    ],
+    "conclusion": "Actual frames independently inspected; source art recognizable but no matched-state appearance, timing or complete HUD/FX fidelity acceptance"
+  },
+  "current_attack_motion_runtime": {
+    "evidence": ".local-inputs/windows-npc-motion/moving-verification.log",
+    "arguments": ".local-inputs/windows-npc-motion/moving-verification.args",
+    "scope": "Actual generic Attack source binding replaces earlier AttackStatic; diagnostic stationary Lizard AI",
+    "npc_motion_root": "Swamp_LizadMan_Type1=auto",
+    "npc_initial_attack_xy_delta": 0,
+    "npc_moving_claim": false,
+    "player_hit_frames": [
+      76,
+      134,
+      192
+    ],
+    "damage_removed": [
+      16.4688,
+      17.0273,
+      14.0039
+    ],
+    "enemy_dead_frame": 192,
+    "save_frame": 210,
+    "restore_frame": 300,
+    "reload_frame": 250,
+    "player_health": 157.457,
+    "rng_seed": 2808983,
+    "rng_calls": 38,
+    "render_frames": 360,
+    "final_player_position": [
+      -6852.87,
+      937.209,
+      255
+    ],
+    "grounded": true,
+    "clean_shutdown": true,
+    "qualification": "Source Attack root travel mechanism verified; not NPC chase/navigation/complete combo/reference cadence acceptance",
+    "packaged_motion_metrics": {
+      "player_source_xy_travel": 621.495,
+      "player_world_xy_travel": 559.345,
+      "npc_enabled_segments": 70,
+      "npc_disabled_segments": 0,
+      "npc_source_xy_travel": 0,
+      "npc_world_xy_travel": 0,
+      "evidence": ".local-inputs/windows-motion-checkpoint/moving-verification.log",
+      "qualification": "NPC source walk root travel component verified separately; configured attack phases are genuinely zeroXY, so runtime no NPC moving claim"
+    }
+  },
+  "preserved_package_runtime": {
+    "receipt": "port/windows-foundation/reports/packaged-shared-runtime-next.json",
+    "exe_sha256": "6c4d5eb6b8f3b16c221c2d36faebf6dd8a600c0377bfb83fb477a72e11c8fd64",
+    "files_verified": 529,
+    "processes": [
+      "verification",
+      "resume-verification",
+      "startup-verification"
+    ],
+    "scope": "Preserved prior diagnostic package; current moving Attack changes are later source/build",
+    "baseline_preserved": true
+  },
+  "next_full_scope_gates": [
+    {
+      "priority": 1,
+      "system": "Live playback fidelity",
+      "work": "Synchronous hit sink now applies actorHP/receipt/victimpose beforestateforward. CompleteF_ApplyResult/AIS/status/skills/reentry/hierarchy/beginmarkeredge and sourceglobalframe chronology; integrate componentfocus/frame prefix only when actual providers exist."
+    },
+    {
+      "priority": 2,
+      "system": "Original populated campaign",
+      "work": "Serialized Spawn diagnostic replay and finite lifecycle sequence now live. Connect full original trigger/module context/camera/dialogue/UI flow and actual body/AI providers; persist lifecycle/campaign state safely."
+    },
+    {
+      "priority": 3,
+      "system": "Movement/camera/targeting",
+      "work": "Move-only sourceheading/lateEuler nowlive. Complete originalFSM/focus tails/path/avoidance/frame and nativeStep/contactAIS without replacing source position/heading authorities; compare matched movement footage."
+    },
+    {
+      "priority": 4,
+      "system": "Visual/gameplay parity",
+      "work": "Capture matched viewport/state/location/equipment reference sequences; address priest/faery/light/material/FX/HUD/action indicators and compare movement/hit/death timings"
+    },
+    {
+      "priority": 5,
+      "system": "Delivery durability",
+      "work": "v5 package verifies532files/four rendered native receipts; preserve hashes and repeat after campaign/lifecycle updates. Campaign/world durability remains absent."
+    }
+  ],
+  "current_package_runtime": {
+    "receipt": "port/windows-foundation/reports/packaged-motion-runtime.json",
+    "package": ".local-inputs/windows-motion-checkpoint",
+    "exe_sha256": "3cee9ef644b87f2df912653f325a26db4cfd08a3d9497895d62ca6e81f38d57d",
+    "exe_hash_independently_verified": true,
+    "files_verified": 531,
+    "native_receipts": [
+      "verification.log",
+      "resume-verification.log",
+      "startup-verification.log",
+      "moving-verification.log"
+    ],
+    "scope": "Current build packaged and four diagnostic native receipts verified; fidelity/campaign goal incomplete",
+    "prior_checkpoints_preserved": true
+  },
+  "latest_source_clock_runtime": {
+    "package": ".local-inputs/windows-source-clock-checkpoint-v16",
+    "exe_sha256": "86d7a287ca63140962e9423cd94e88dbe3c016b647fc7803a21ead7faf89848d",
+    "exe_hash_independently_verified": true,
+    "expected_files": 532,
+    "package_verifier_receipt": "port/windows-foundation/reports/packaged-source-clock-runtime-v16.json",
+    "runtime_logs": [
+      "verification.log",
+      "moving-verification.log",
+      "resume-verification.log",
+      "startup-verification.log"
+    ],
+    "startup_log_status": "pass; inspected startup-verification.log",
+    "source_clock": "Original retained phase/timeline completion kernel now owns actual player/NPC attack, NPC idle/reaction/death",
+    "static_hit_frames": {
+      "npc": [
+        13,
+        43
+      ],
+      "player": [
+        76,
+        134,
+        192
+      ]
+    },
+    "moving_player_hit_frames": [
+      78,
+      141,
+      204
+    ],
+    "npc_death_motion": {
+      "source_xy": 443.059,
+      "world_xy": 398.753,
+      "qualification": "Death animation root travel, not chase or walking AI"
+    },
+    "moving_save_reload": {
+      "save": 210,
+      "reload": 250,
+      "restore": 300,
+      "hp": 157.457,
+      "seed": 2808983,
+      "calls": 38,
+      "final_grounded": true,
+      "render_frames": 360,
+      "clean_shutdown": true
+    },
+    "corpse_restore": "Canonical version1 terminalhold prevents death-root replay; native separate-process resume leaves saved corpse stable",
+    "source_seams": [
+      "Exact dynamic root sampler integrated",
+      "TemplateDefaultLibrary integrated",
+      "NPC modular metadata/category defaults and visible auxiliary included; no player skin inheritance"
+    ],
+    "verified_files": 555,
+    "native_receipt_count": 18,
+    "retained_locomotion": {
+      "status": "component_and_packaged_runtime_tested",
+      "owner": "Player Idle/Walk and combat share CombatSession retained source owner",
+      "repeat": "Finite timeline LoopFALSE completion invokes NewAnim, same-slot extra and root reset; v4 raw loop intermediate superseded",
+      "startup_final_position": [
+        1272.13,
+        -199.164,
+        255
+      ],
+      "camera_anchor": [
+        1453.15,
+        -18.1449,
+        255
+      ],
+      "source_xy": 276.028,
+      "world_xy": 193.002,
+      "heading": "Desired heading seam mapped to live forward ActorCam.AnchorForward source constants",
+      "limits": [
+        "Type2 Idle pinned; original per-cycle random reselection missing",
+        "Finite original Run binding/repeats now live",
+        "Initial-idle controller request suppression tested; full lock/Stop/forced/cast/sourceFSM gates not established"
+      ]
+    }
+  },
+  "live_lifecycle_audit": {
+    "receipt": "port/windows-foundation/reports/packaged-source-clock-runtime-v6.json",
+    "status": "source_component_and_diagnostic_runtime_verified",
+    "source_lookup": "SourceWorldObjects exact names/global context with explicit module-ID binding; no occurrence suffix inference",
+    "population": "Deferred visuals retained disabled; update/draw and shared combat permission honor enabled/body/collision flags",
+    "source_replay": "Serialized LizardMan_Intro Spawn commands indices4/6 replayed at frames33/128 in GLOBALcontext-1",
+    "runtime": "Spawn1 enabled with physical absent until whole finite sequence complete; second remains disabledPreSpawn17; both reachIdle3; subsequent original damage/death native run",
+    "loaded": 20,
+    "initially_deferred": 7,
+    "finally_enabled": 15,
+    "save_policy": "Capture, F5, F9, startup restore and content reload validate lifecycleCheckpoint before detach/replacement. Registered lifecycle/provider state rejected because persistence not implemented.",
+    "provider_lifetimes": "Function-scope population/lifecycle/flags maps/adapter and stored callbacks inspected; no concrete lifetime blocker found",
+    "limits": [
+      "Scheduled command replay diagnostic; live module IDs/trigger/cinematic/UI progression unproven",
+      "Body presence flags and original rest joint bounds now used; actual physical solver/aggro/sneak/fullFSM remain separate",
+      "Lifecycle/campaign persistence unsupported and safely rejected"
+    ],
+    "rejection_check": {
+      "receipt": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v16.json",
+      "status": "expected_runtime_rejection_verified",
+      "save_frame": 80,
+      "exit_code": 1,
+      "existing_save_unchanged": true,
+      "sha256": "58341105838e596e79692b039beabcdfb62ca1fa2d27fa96e99ae9009dc9a177",
+      "qualification": "Twoexpectedexit1 currentv14save attempts preserve583411...9a177; separate from16successful renders"
+    },
+    "fidelity_qualifications": [
+      "Last managed source Spawn state and subsequent combat5/12 are not a unified full sourceFSM/flags owner",
+      "Absent ai_state uses original empty13cc and absent visible uses original1 at13e4"
+    ]
+  },
+  "v7_bounded_features": {
+    "status": "source_component_and_diagnostic_runtime_verified",
+    "evidence": [
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v7.json",
+      "port/windows-foundation/reports/run-binding-export.json",
+      "port/windows-foundation/reports/original-actor-bounds.json",
+      "port/windows-foundation/reports/source-material-pass-fix.json",
+      "port/windows-foundation/reports/trigger-contact-source.json",
+      "port/windows-foundation/report/source-module-construction-trace.json",
+      "port/windows-foundation/reports/visual-reference-v6.json"
+    ],
+    "features": [
+      "Authored finite Run repeats",
+      "Source camera Dummy transition/return with original damping owner",
+      "Initial-idle controller request suppression",
+      "Original factory/rest joint-box bounds translated with live position",
+      "Selected COMMON blend/depth and proven body unlit technique"
+    ],
+    "limits": [
+      "Bounds do not replace physical solver",
+      "Live level module IDs/trigger contacts unproved; trace remains component-only",
+      "Full lock/Stop/forced/cast/FSM behavior not established",
+      "Material pass does not prove shader/fog/light parity; auxiliary lit shadow does not establish body lighting",
+      "Reference v6 still audit is historical bounded comparison, not new matched v7 video acceptance"
+    ]
+  },
+  "v8_controller_physical_construction": {
+    "evidence": [
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v8.json",
+      "port/windows-foundation/reports/controller-session-admission.json",
+      "port/windows-foundation/reports/actor-physical-source.json",
+      "port/windows-foundation/report/source-level-construction.json"
+    ],
+    "live_controller": "Player and enabled diagnosticAI attack requests use exact source admission before explicit diagnostic target/turn/body. Active pose/markers continue under subsequent block.",
+    "native_lock": "Bothroles initially blocked; first enemyDamage73 afterunlock60; no playerDamage90frames. Independent lock without Spawn has noDamage/noTravel.",
+    "forced": "Forced gate component-tested only; no forced gameplay backend main claim",
+    "physical": "Source lightweight body rule/nativeBox2D component tests actualKnight113.7/Lizard63 radii and positiontranslation; productionPF/filter/contact/debug not bound, no livephysics claim",
+    "construction": "Actual unfiltered recovered Level walk component-tested; first actualcache LevelConfig constructor missing. No complete liveLevel/moduleID claim",
+    "persistence": "Controller/lifecycle providers transient; two expectedexit1 saveattempts beforewrite preserve existingSHA11d7ac28"
+  },
+  "v9_animation_navigation_config": {
+    "status": "bounded_source_component_and_live_routing_verified",
+    "evidence": [
+      "port/windows-foundation/reports/original-actor-animation-events.json",
+      "port/windows-foundation/reports/actor-navigation-source.json",
+      "port/windows-foundation/report/source-level-config.json",
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v9.json"
+    ],
+    "live": [
+      "Player motor radius113.7 from originalrestjointbounds and CharacterBodyConfig",
+      "Genuine named marker maps event28 through sourceCharAI dispatcher before controller gate",
+      "Genuine finite closure22 routed"
+    ],
+    "limits": [
+      "No native playerbody publication in main; NPCmotor radius/height/solver remain preview",
+      "Source damage still diagnosticqueued; full synchronous damage-before-stateforward/reentry incomplete",
+      "Numeric24..27/23hierarchy unbound",
+      "Navigation actualBRES/Box2D/PFregistry componenttested but room0/staticchildpose/bounds fixtures; no complete liveLevel",
+      "Actualcache sourceLevelConfig now constructs and walks to missing nextModule; no full Level/moduleID claim",
+      "Existing GameplayCamera900/4200 settings parity checked; no new live clipbug/fix claim"
+    ],
+    "active_lock_evidence": "Lock20..60: genuine enemy named0x28 atframe43 reaches helper3 thenstate0 withcontrollerBlocked1; queuedDamage43 follows withmiss0. Finiteclosure22 logged34 in ordinaryfight. This verifies named routing gate order, not synchronous damage-before-stateforward."
+  },
+  "v10_body_module_scope": {
+    "evidence": [
+      "port/windows-foundation/reports/actor-body-plan-source.json",
+      "port/windows-foundation/reports/playable-actor-bodies.json",
+      "port/windows-foundation/reports/original-actor-collision-filter.json",
+      "port/windows-foundation/report/source-module-construction.json",
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v10.json"
+    ],
+    "live": "SharedBodyPlan player/allregisteredCombatNPC based on actual loadedVisual.configuration; nativebodies enabled; source actor-position/readonlyproperties and sourceconstructorPFuser0-beforeInitFinal used",
+    "physicalXY": "All body-present13cases actualNativeBodyXY equalsactorXY*.01",
+    "lifecycle": "remove/init destroys/recreates actualNativebody; inflightSpawn native0 and completeSpawn native1 verified",
+    "save": "Save210/reload250/load300 and separate-processresume release/rebuild bodies",
+    "radius": "Exactsource absolute-float cancellation rebase; noepsilon/livepose substitute",
+    "filter": "Pure source state0/10/enabled/group/mask getters; exact nativeobject toggle only",
+    "module_component": "Unfiltered actual root1LevelConfig+9Module constructors emit real IDs/positions/properties; nextConditionData.Init missing",
+    "limits": [
+      "NPCmotor radii now source; height/solver/PF/contact/Step/debug and complete collision continuations missing",
+      "Source allocator/savedfields/deathfilter/wholeFSM flags incomplete",
+      "No live mainLevelIDs/MGPchildren/ModuleInitPost/full construction claim"
+    ]
+  },
+  "v11_source_scopes_floor_scope": {
+    "evidence": [
+      "port/windows-foundation/reports/source-scopes-floor-integration-v11.json",
+      "port/windows-foundation/reports/source-root-scopes.json",
+      "port/windows-foundation/reports/source-module-floors.json",
+      "port/windows-foundation/report/source-module-construction.json",
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v11.json"
+    ],
+    "live": [
+      "Genuine root constructor scopes bind actualModuleIDs to host definitions and rebuild onR",
+      "Generic modulecontext reads actualbinding; scopedSpawn diagnostic authoredmodule1",
+      "Optional original factory/cache sourcefloor probe usesResetPositionFromFile,9PFrooms16floors; finalstartup query255"
+    ],
+    "identities": "Module40c/inheritedroom64/PFregistryindex remain separate",
+    "component": "118conditionrows sourceInit/Clear nowreaches CheckSpawnProbability; exacttypedcontact37..3c andpinmass tested",
+    "limits": [
+      "Originalsourcefloor solver not adopted; optional probe geometry admission explicit",
+      "No completeModuleInitPost/MGPchild/fullLevel/campaign admission claim",
+      "Typedcontacts/pinmass component-only; noStep/SAMEAIS/contact/eventcontinuations missing",
+      "CompleteAI/controllerFSM/FX/audio/persistence/matchedfidelity remain incomplete"
+    ]
+  },
+  "v12_original_floor_motion": {
+    "status": "shared_live_source_position_admission_verified",
+    "evidence": [
+      "port/windows-foundation/reports/original-floor-motion-integration-v12.json",
+      "port/windows-foundation/reports/original-actor-navigation-live.json",
+      "port/windows-foundation/reports/playable-actor-bodies.json",
+      "port/windows-foundation/report/source-module-construction.json",
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v12.json"
+    ],
+    "live": "SAME peractorPF lateattachment, actual9rooms16floors/radius/obstacle registry; player+NPC root uses sourceValidatePosition/worldheight; admittedXYZ updatesactor/AABB/nativebody. No previewsweep/axesfallback.",
+    "lifecycle": "R/F9 PFowners rebuilt; actualregistry physicalremove/init toggles; lifecycle/finalheight useoriginalfirsthit",
+    "walk90": {
+      "source_xy": 276.028,
+      "world_xy": 59.1969,
+      "accepted": 17,
+      "clamped": 43
+    },
+    "run90": {
+      "source_xy": 888.992,
+      "world_xy": 144.493,
+      "accepted": 13,
+      "clamped": 47
+    },
+    "boundary700": "641sourceclamps; actualXY1140.5708,-196.916412 outsideallsourcefloortriangles atbothZ255/255.000061; expandedZboundsinclude both, independentdoublecontains0. TrueXYboundary, notprecisionerror/noepsilon.",
+    "heading": "ValidateDirection is not root veto. OriginalUpdatePath heading phase ignoresbool and reuseschangedheading; separate tested slide kernel exists but full coordinator unintegrated",
+    "module_probability": "SharedapplicationRNG9draws/default100 accepted\u00e2\u2020\u2019nextDevice::IsHighPerformance missing; componentonly/nofullInitPost",
+    "limits": [
+      "Fullheading/path/rotation/frame/avoidance coordination incomplete",
+      "NativeStep/contactAIS/dynamicactor/decorcollisions incomplete",
+      "Fullcampaign/controllerFSM/FX/audio/worldpersistence/matchedfidelity incomplete"
+    ]
+  },
+  "v13_manual_heading_rotation": {
+    "status": "bounded_generic_manual_move_heading_and_late_rotation_live",
+    "evidence": [
+      "port/windows-foundation/reports/original-actor-heading-live.json",
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v13.json"
+    ],
+    "authority": "SourceMove focus-prefix flag/movementcells, actualDebugboundary getter, SAMEActorEuler/heading/Sessionturnstorage+resolved224/actualflags; visual callback publishes sameEuler",
+    "order": "After sampled root, generic manualMove-only continuation callssourceheading; ignores direction diagnosticbool and publishes changedheading, then real late rotation",
+    "walk60": "checks44/slides60/lateRotations60;PF91accepted60clamped0",
+    "run60": "checks60/slides45/lateRotations60",
+    "long650": "checks650/slides100/lateRotations650;PF712accepted118clamped542",
+    "limits": [
+      "Move-only prefix not fullFSM/focus tails/controller gates",
+      "Complete path/avoidance/nativeStep/contact/frame coordination missing",
+      "Matched visual/gameplay fidelity remains incomplete"
+    ],
+    "previous_exe_preserved_verified": "v12dcab66002f85e5379e516317bf8f4a9b66143e7113eecd373df69099806e405d"
+  },
+  "v14_synchronous_hit_scope": {
+    "status": "source_component_and_native_runtime_verified_bounded",
+    "evidence": [
+      "port/windows-foundation/reports/synchronous-damage-v14.json",
+      "port/windows-foundation/reports/source-motion-flags-v14.json",
+      "port/windows-foundation/reports/original-actor-motion-frame-v14.json",
+      "port/windows-foundation/reports/source-focus-transition-integration-audit-v14.json",
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v14.json"
+    ],
+    "live": "Source helper sink applies SAMEactorHP/receipt/boundvictimreaction-death before source stateforward; direct realcallback test observes newHP/receipt",
+    "guards": "Stalegeneration/closure andduplicateevents rejected; sinkfailwithnoerror/ignoredfailure latched; earlier valid effects retained",
+    "legacy": "Legacyqueue unchanged; sourcebegin initialmarkerqueueedge explicit",
+    "moving": {
+      "player_source_xy": 519.183,
+      "player_world_xy": 467.262,
+      "npc_source_xy": 425.828,
+      "npc_world_xy": 383.246,
+      "hit_frames": [
+        78,
+        141,
+        204
+      ]
+    },
+    "spawn": "Earlier sameframevictimpose publication moves returnattacks179/237/295 from180/238/296, damage/RNG unchanged",
+    "component_only": "NewAttackfocusprefix/exactBlurbody/motionframe prefix tests; no livefocus/frame admission",
+    "limits": [
+      "FullF_ApplyResult/AIS/FSM/status/DOT/leech/skills not implemented",
+      "ActualglobalLevel chronology not established",
+      "Sourcecallback initialmarkeredge and full reentry/hierarchy remain partial",
+      "No matched reference visual/gameplay fidelity"
+    ]
+  },
+  "v15_target_cache_event_order": {
+    "status": "bounded_source_component_and_runtime_verified",
+    "evidence": "port/windows-foundation/reports/packaged-source-clock-runtime-v15.json",
+    "live": "Source events before rootmotion; actualVisualNAME own/targetnode cache lookup with reloadrestore/canonicaltargetfields/rawsave guards",
+    "event_timing": "Hitframes/RNGunchanged",
+    "negative_runtime": "Packaged hierarchies lack target_node:3or7knownNULL dependingroster; no positive targetnode runtimeclaim",
+    "positive_component": "Actualboss model nonnull targetnode componenttested",
+    "subobjects": "Sourceadapter/native/PF/stagedvisualfixture component67tested; notmainwired/noindependentvisualRoot/fullfocus/camera",
+    "limits": [
+      "Crossfeature integration not yet built",
+      "Continuous matchedstatefidelity incomplete"
+    ]
+  },
+  "v16_profile_menu_subset": {
+    "status": "bounded_live_UI_development_release_verified",
+    "evidence": [
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v16.json",
+      ".local-inputs/windows-source-clock-checkpoint-v16/menu-verification.png",
+      "port/windows-foundation/reports/feature-portrait-alignment.json",
+      "port/windows-foundation/reports/feature-character-menu.json",
+      "port/windows-foundation/reports/feature-platform-input.json"
+    ],
+    "portrait": "Androidsource alpha-center delta(+2.0041,-3.04455)sourcepixels;12class/style checks preserveUV/scale/art/border",
+    "input": "PCportrait/C sharedSemanticInputsurface; scriptedpointerdown/upframe5 uses samehitcallback; OSphysicalclick notmanuallyinspected",
+    "menu": "Originalart/liveStats English/sourceTTFfonts103/287; menuopen60draw55open1 andESCclose35draw30open0",
+    "modal": "PC+touch/held/modalcapture/controller noattack source tests; rootmask follows diagnostic overrides",
+    "capture_inspected": true,
+    "limits": [
+      "58solid/mask/filterart branches absent",
+      "ASvisibility/reflow/otherTabMutations/bag/skillsprojection/fullUI flow incomplete",
+      "DevelopmentStats not originalgameplaymatchedreferenceaccepted",
+      "Frontend/classcreation separate; previousprototype referencegateFAILED; onlyoriginalgameuserimages validreference"
+    ]
+  },
+  "v17_controls_combo_subset": {
+    "status": "component_and_packaged_runtime_tested_full_fidelity_incomplete",
+    "evidence": "port/windows-foundation/reports/controls-combo-integration-v17.json",
+    "ctest_passed": 73,
+    "runtime_cases": 23,
+    "executable_sha256": "c1713329afa44790b53b2ce8a5a3d9ed3545b4bd0b770104d7d4500bab983706",
+    "limits": [
+      "PC physical keyboard playthrough and Android runtime remain outside these automated cases.",
+      "Live source preattack/look/sticky/heading/OOI and target search ownership remains incomplete; unsupported frontal/ranged/network branches reject.",
+      "Restore resets transient combo state rather than continuing a saved mid-swing cursor.",
+      "Full actor focus/FSM/path/physics ordering, skills, complete enemy AI, frontend and campaign fidelity remain incomplete."
+    ]
+  },
+  "v18_menu_combat_text_subset": {
+    "status": "component_and_packaged_runtime_tested_full_fidelity_incomplete",
+    "goal_complete": false,
+    "package": ".local-inputs/windows-source-clock-checkpoint-v18",
+    "executable_sha256": "79e566435081650206a03ecb028736a97770fa28d38722438a1a90645e7819d8",
+    "manifest_files": 572,
+    "ctest_passed": 75,
+    "positive_runtime_cases": 29,
+    "negative_persistence_checks": 2,
+    "evidence": [
+      "port/windows-foundation/reports/packaged-source-clock-runtime-v18.json",
+      "port/windows-foundation/reports/packaged-menu-combat-text-v18.json",
+      "port/windows-foundation/reports/packaged-source-combo-v18.json",
+      "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v18.json",
+      "reports/release-fidelity-v18-independent.json"
+    ],
+    "changes": [
+      "Original Stats artwork uses full-window independent X/Y source scaling and matching pointer coordinates.",
+      "Stats details, training controls and class/level localization read shared original state and arithmetic.",
+      "Scrolling combat text uses original font, styles, colors and genuine damage outcomes; presentation failure does not veto damage.",
+      "Glyph texture identity includes actual raster image dimensions/data; resized 4:3 Strength pixels exactly match a fresh 4:3 window.",
+      "Default run, Shift walk and held-space three-swing source combo remain verified."
+    ],
+    "character_menu_complete": false,
+    "required_menu_pages": [
+      "Stats",
+      "full Equipment",
+      "full Skills",
+      "full Faery"
+    ],
+    "limits": [
+      "Full Equipment, Skills and Faery contents/actions still require canonical native owner bindings and packaged acceptance.",
+      "Faery remains gated while native save/unlock/selection providers are unavailable.",
+      "Current combat-text callback and frame scheduling do not establish complete original FApplyResult/CUI ordering.",
+      "Whole-game AI, population, cinematics, audio/effects, frontend and matched-state visual/gameplay fidelity remain incomplete."
+    ]
+  }
+}

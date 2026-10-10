@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-09",
+  "status": "actual_source_programs_session_tested_native_skill_gameplay_unbound",
+  "goal_complete": false,
+  "development_executable": ".local-inputs/windows-foundation-build/dh-foundation.exe",
+  "accepted_release_preserved": ".local-inputs/windows-source-clock-checkpoint-v18",
+  "implementation": [
+    "port/windows-foundation/combat_session.hpp",
+    "port/windows-foundation/combat_session.cpp",
+    "port/windows-foundation/features/skills_animation/skill_animation_program.cpp"
+  ],
+  "tests": {
+    "ctest_total": 76,
+    "failed": 0,
+    "full_suite_log": ".local-inputs/source-skill-session-ctest.log",
+    "final_extended_case_log": ".local-inputs/source-session-program-native.log",
+    "source_test": "port/windows-foundation/tests/source_session_program_tests.cpp"
+  },
+  "verified": [
+    "Original Knight_BashDown347, Mage_ColdRay413 and Rogue_JumpKick521 clips execute in actual CombatSession, each with one do_skill and one whole completion.",
+    "Same player retained pose owner and session advancement clock survive all three programs and return to original Idle.",
+    "Original NPC source bank uses actual Swamp_LizadMan_Type1 model/animation clips with separate external-npc aliases; two attack_mainhand markers and whole completion retain same NPC owner.",
+    "Explicit per-profile sourceAnimationClips loads bank before player or NPC visual initialization.",
+    "Identical alias/resource pairs merge; conflicting pairs reject without replacing live session graph.",
+    "Motion reaches existing session handler; detached sessions reject playback; transient lifecycle save remains rejected."
+  ],
+  "content_inputs": [
+    ".local-inputs/windows-shared-assets/original-cache/data/pydata/animations_pyarray.bin",
+    ".local-inputs/actors/animations_dictionary_pyarraynames.bin",
+    ".local-inputs/windows-melee-bindings/original-melee-bindings.xml",
+    "port/windows-foundation/features/skills_animation/original_skill_clip_staging_receipt.json"
+  ],
+  "limits": [
+    "Three class skill clips are animation-program coverage on one original Prince body, not proof of class progression or skill admission.",
+    "do_skill consumer in this fixture observes authored delivery; real Lua skill damage/mana/FX/FSM remains required.",
+    "NPC external bank uses original NPC attack animation, not a claim that Prince class skills belong to that NPC.",
+    "No gameplay hotbar input, source class lookup, skill cooldown, native owner publication or v19 packaged acceptance yet."
+  ]
+}

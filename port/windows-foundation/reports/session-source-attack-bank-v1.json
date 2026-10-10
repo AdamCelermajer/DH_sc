@@ -1,0 +1,46 @@
+{
+  "status": "source_attack_bank_selected_profile_and_xp_vitals_production_routes_pass_remaining_class_physics_fidelity_gates_open",
+  "source_and_visual_note": "reports/session-source-attack-bank-v1.md",
+  "implementation": "Same-profile Attack/AttackStatic bank in existing pose owner; per-marker main/offhand calculation; state4 selects moving root after admission; selected CharacterState properties projected before player binding",
+  "verification": {
+    "runner": "tools/run_combat_session_source_attack_bank_tests.ps1",
+    "log": ".local-inputs/session-source-attack-bank-test/run.log",
+    "executable_sha256": "644D6C6753BCF863A304A139F0A77BB3B8561C0FEFF755C2975C0688A1D2FDC1",
+    "exit_code": 0,
+    "content": "Actual Rogue table50 dual Dagger01 occurrences, static245/moving250 roots, 12 static leaves, four held groups, 8 original named hand events",
+    "result": "Each hand matches complete original result and exact shared RNG from same current sheets; preserves actor/pose/gear/lease/target; strict save/rebind without replay; invalid bank/state/policy/model/alias/marker rejection preserves live Session",
+    "fixture_limit": "Lizard source level20 keeps continuity target alive; level1 early death legitimately ends chain. No Act1 balance or full class parity claim",
+    "selected_profile": "refill=false full-combat startup preserves partial HP/MP, XP8/stat2/skill3, gear and persistent identity; class/level/vital mismatch preserves live Session/RNG; borrowed profile is not retained",
+    "admission": "Blocked/out-of-range commands do not select roots; held-input changes keep the same action/root/pose",
+    "independent_review": "bug_gate_review source-reviewed new seams and reran644D with all four PASS lines; no concrete defect",
+    "regressions": "Source-hit payload/dedup/death/lease, incoming8 and equipment multiplicity all PASS on current source"
+  },
+  "baseline_after_motion_phase_seam": {
+    "executable_sha256": "9BCD4C4CA7ED4DF1BB0C28B666D895A5F509603714AC480BAC467CD3061DF7D3",
+    "runner": "tools/run_combat_session_source_attack_bank_tests.ps1",
+    "result": "All four baseline PASS lines on current Session source; deferred phase opt-in is independently tested separately",
+    "artifact_note": "Runner output path is refreshed; earlier644D receipt identifies the pre-phase source and independent review"
+  },
+  "production_failure_reproduced": {"executable_sha256":"D59F7089B617830C44798FAE1978321DD87A516E53CACABA0A6A8C3A60D57469", "log":".local-inputs/v19-frontend-hotfix/profile-projection/rogue-source-bank/standing.log", "cause":"Save projection occurred after initialize, but full combat validates authored negative current-vital sentinel during world binding", "fix":"Existing equipped profile projection before binding; strict validation unchanged"},
+  "production_attack_receipt": {
+    "executable_sha256": "BE16B3600A5761AC6DB44E4EB45AF473F66DA22EB618D150FAD5BEEF1C0614EF",
+    "standing_log": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-source-bank/standing-prebind-2.log",
+    "moving_log": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-source-bank/moving-prebind-2.log",
+    "standing_first_root": "frame1 source245 prince_dual_pre_combo_01.bdae",
+    "moving_first_root": "frame3 source250 prince_dual_pre_combo_01_moving.bdae",
+    "evidence": "420-frame normal runs exit0, actual main/off named results and positive damage; root verified frozen hash/log clips and standing/moving attack24 original Rogue model/daggers/target-ring captures",
+    "limitation": "F5/R/F9 mechanics complete but health acceptance withheld: nonlevel kill XP copies stale source vital36 and silently heals player. Loot owner implementing full current vital synchronization; no release acceptance"
+  },
+  "production_xp_vitals_fix": {
+    "executable_sha256": "35685D2217BE888EE45466FA3A50AA971DEB207258E33575F5408EC3F05A71C4",
+    "directory": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-source-bank/candidate-vitals-3",
+    "standing": "420frames exit0; damage25.0547 retained; XP8 then16; F5_340/R380/F9_400 HP121.742 and RNG1605374/162",
+    "moving": "420frames exit0; XP8; F5/R/F9 HP96.5195 and RNG8651185/177",
+    "normal_main_menu_restart": "PauseHUD430/MainMenu440/Yes450 saves HP121.742/MP40.25/XP16; separate process prebind starts same HP and XPraw4096; next real source kill81 grants XP24 while health falls to104.555",
+    "root_review": "Verified frozen EXE hash and exact standing/moving/xp-exit/xp-restart log entries; earlier BE16 receipts preserved as reproduced failure evidence",
+    "component_scope": "Independent feature tests also cover spent MP12.25 then5.25, source sheet equality, actual threshold-crossing level-up refill and strict SaveStore reload",
+    "limitations": "No live equipment attack-bank change, Mage outgoing projectile, container/item GPU pickup, complete source state focus or production physics acceptance claim"
+  },
+  "remaining": ["Live equipment bank changes", "Mage projectile admission/render/hit", "Matching original Rogue combat footage", "Full state focus/blur physical policy composition"],
+  "release": "Development only; Preview9 remains accepted"
+}

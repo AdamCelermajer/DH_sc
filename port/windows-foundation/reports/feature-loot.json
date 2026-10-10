@@ -1,0 +1,46 @@
+{
+  "feature": "loot",
+  "status": "native_source_kernel_and_reusable_bridges",
+  "files": [
+    "features/loot/original_loot.hpp",
+    "features/loot/original_loot.cpp",
+    "features/loot/original_loot_world.cpp",
+    "features/loot/tests.cpp"
+  ],
+  "original_sources": [
+    "port/game-data/loot_creation_v8.cpp",
+    "port/game-data/loot_table_selection_v8.cpp",
+    "port/game-data/loot_item_selection_v8.cpp",
+    "port/game-data/loot_power_creation_v7.cpp",
+    "port/game-data/loot_temporary_inventory_v8.cpp",
+    "port/game-data/loot_inventory_transfer_v10.cpp",
+    "port/level-world/world_loot_item_runtime_v1.cpp",
+    "port/level-world/world_item_live_owner_v5.cpp",
+    "port/level-world/world_item_pickup_inventory_v10.cpp"
+  ],
+  "behavior": {
+    "caller_owned_random": true,
+    "actual_borrowed_loot_and_power_tables": true,
+    "authored_quantities_retained": true,
+    "original_power_and_value_creation": "LootCreationV8 delegates exact source selection, variant, power, value and localized item construction through required live providers",
+    "canonical_world_bridge": "optional; borrows existing WorldLootItemRuntimeV1 and WorldItemLiveOwnerV5; creates no alternate pool or identities",
+    "clean_inventory_bridge": "transfer_drop borrows caller-owned temporary item inventory and actual destination receivers",
+    "pickup_transfer_flags": {"force": false, "convertGold": true},
+    "inventory_full": "caller eligibility gate retains actual world item before mutation",
+    "duplicate_empty_pickup": "idempotent; no duplicate transfer, gold, or quest effects",
+    "failed_transfer_prefix": "actual reached ownership retained; native owner rejects destructive retry",
+    "missing_providers": "explicit failure; no accepted dummy effects",
+    "invented_balances_or_map_branches": false
+  },
+  "validation": {
+    "native_test_executable": ".local-inputs/windows-foundation-loot-tests.exe",
+    "original_fixture_directory": ".local-inputs/items-discovery",
+    "original_loot_tables": 339,
+    "authored_fixed_item_entries_checked": 423,
+    "checks_passed": ["actual fixed item IDs and quantities", "borrowed table identities", "give-all expansion does not consume RNG", "missing-table guard", "inventory-full retention", "duplicate pickup", "same item ownership transfer", "quest and gold tails", "required provider failure", "reached transfer failure retry guard"],
+    "source_core_syntax": "PASS",
+    "canonical_world_bridge_syntax": "PASS with existing Box2D finite=_finite Windows definition",
+    "complete_powered_generation_differential": "not rerun in this feature; requires full original text/power/world services",
+    "runtime_integration": "caller must supply live original query/text/power/inventory providers; source files do not claim standalone playable loot"
+  }
+}

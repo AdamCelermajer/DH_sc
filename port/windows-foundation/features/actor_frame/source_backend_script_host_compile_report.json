@@ -1,0 +1,26 @@
+{
+  "purpose": "Windows x64 COFF compile and typed contract check for the additive backend script-host provider",
+  "runtime_claim": false,
+  "native_runtime_acceptance": {
+    "status": "not_run",
+    "reason": "No genuine integrated fixture currently publishes the same Application PM plus same constructed SourceCurrentLevelBackendV1 under one source World lease. The test intentionally does not substitute a fake manager, GS slot, current Level, or debug owner.",
+    "existing_component_coverage": "source_current_level_backend_native_test.cpp exercises actual GS Level C1/current slot/stale-borrow checks; character_host_context.cpp exercises native host ABI and ordered range rereads/tier boundaries; application_player_manager_bootstrap_v59.cpp exercises actual PM owner/PlayerInfo managed-field producer. A composed SourceBackendScriptHostV1 execution remains a root integration test requirement."
+  },
+  "provider_requirements": [
+    "same retained ApplicationServicesOwnerV5 published on SourceCurrentLevelGraphV1.application",
+    "actual Application PlayerManager and online host selector whenever online byte5 is nonzero",
+    "selected PlayerInfo identity borrowed from that PM network and managed_fields_produced_v70",
+    "same loaded LevelTables with LevelProjection72 words 12..17 readable as LevelRangeRow24",
+    "same Application DebugSwitches and retained DebugFileServices24 callback owner"
+  ],
+  "results": {
+    "source_backend_script_host_v1.cpp": {
+      "exit": 0,
+      "stderr": ""
+    },
+    "source_backend_script_host_contract_test.cpp": {
+      "exit": 0,
+      "stderr": ""
+    }
+  }
+}

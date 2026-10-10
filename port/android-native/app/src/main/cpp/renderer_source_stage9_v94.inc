@@ -6,6 +6,7 @@ struct SourceLightsetStage9V94 {
  std::weak_ptr<dh2::loader::CanonicalLevelContextV1> level;
  std::weak_ptr<dh2::resources::ContextResourceBudgetV37> device;
  std::uint64_t device_generation{};
+ dh2::loader::Stage9TracePrefixV53 trace;
  std::unique_ptr<dh2::loader::Stage9BodyV53> body;
  bool failed{},busy{};std::string failure;
  dh2::loader::LifecycleStepV36 reject(std::string& e,const char* leaf){
@@ -32,6 +33,7 @@ struct SourceLightsetStage9V94 {
   if(failed){e=failure;return LifecycleStepV36::failed;}
   if(busy)return reject(e,"non-reentrant native LightSet delivery");
   busy=true;struct Guard{bool& flag;~Guard(){flag=false;}} guard{busy};
+  if(!trace.step(e)||failed)return reject(e,"original Stage9 Debug.GetInstance/GetSwitch prefix");
   std::shared_ptr<SourceWorldBorrowV61> actual;std::shared_ptr<RendererSourceCandidateV55> producer;std::shared_ptr<CanonicalLevelContextV1> context;
   if(!current(actual,producer,context,e))return reject(e,"SAME current Stage9 producer");
   if(!body){
@@ -75,12 +77,22 @@ struct SourceLightsetStage9V94 {
     value=(static_cast<std::uint32_t>(type)&7u)!=0;return true;
    };
    const auto begun=std::make_shared<bool>(false); //delivery metadata, no Module/Level field
-   services.load_module_file_step=[files,begun,validate](const std::string& uri,const char* tag,std::string& e){
+   const auto relay_failure_logged=std::make_shared<bool>(false); //one diagnostic per reached failure
+   services.load_module_file_step=[files,begun,relay_failure_logged,validate](const std::string& uri,const char* tag,std::string& e){
     if(!validate(e))return LifecycleStepV36::failed;
     //Original Level.LoadFile(file,"Module") does not invoke Module.Load or
     //write18c/160. Begin a LEVEL occurrence in the SAME native relay instead.
-    if(!*begun){if(!files->begin_level_file(e))return LifecycleStepV36::failed;*begun=true;}
-    bool loaded{};if(!files->load_file(uri,tag,loaded,e))return LifecycleStepV36::failed;
+    if(!*begun){if(!files->begin_level_file(e,true))return LifecycleStepV36::failed;*begun=true;}
+    bool loaded{};
+    if(!files->load_file(uri,tag,loaded,e)){
+     if(!*relay_failure_logged){
+      __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Stage9 Module file relay failed | uri=%s | root=%s | loaded=%d | nested=%s",
+       uri.c_str(),tag?tag:"<null>",loaded?1:0,e.empty()?"<empty>":e.c_str());
+      *relay_failure_logged=true;
+     }
+     return LifecycleStepV36::failed;
+    }
     if(!validate(e))return LifecycleStepV36::failed;
     return loaded?LifecycleStepV36::complete:LifecycleStepV36::pending;
    };
@@ -94,11 +106,12 @@ struct SourceLightsetStage9V94 {
 };
 static bool bind_source_stage9_v94(const std::shared_ptr<SourceWorldBorrowV61>& world,
  const std::shared_ptr<RendererSourceCandidateV55>& candidate,const std::shared_ptr<dh2::loader::CanonicalLevelContextV1>& level,
- dh2::loader::SourceLoadingInputsV43& loading,std::string& e){
+ dh2::loader::EarlyLoadingDebugV46 debug,dh2::loader::SourceLoadingInputsV43& loading,std::string& e){
  if(!world||!candidate||!candidate->preparation||candidate->preparation->level()!=level||!level||loading.external.stage_body[9]){
   e="Stage9 requires SAME retained candidate/Level and empty actual body slot";return false;
  }
  auto source=std::make_shared<SourceLightsetStage9V94>();source->world=world;source->candidate=candidate;source->level=level;
+ source->trace=dh2::loader::Stage9TracePrefixV53(std::move(debug));
  loading.external.stage_body[9]=[source](std::string& e){
   try{return source->step(e);}catch(const std::exception& exception){e=exception.what();return source->reject(e,"native LightSet exception prefix");}
   catch(...){e="Actual Stage9 provider threw";return source->reject(e,"native LightSet exception prefix");}

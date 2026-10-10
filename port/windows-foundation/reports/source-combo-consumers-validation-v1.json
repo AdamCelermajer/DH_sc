@@ -1,0 +1,21 @@
+{
+  "status": "source_combo_consumers_native_test_passed",
+  "scope": "Focused consumer validation only; not root-integrated or packaged release verification.",
+  "executable": ".local-inputs/windows-foundation-build/source_combo_consumers_tests.exe",
+  "test_source": "port/windows-foundation/features/combo_chain/source_combo_consumers_tests.cpp",
+  "test_exit_code": 0,
+  "runtime": "Genuine dh2_script_runtime DLL/import library from port/windows-foundation/features/enemy_ai/script-build; no VM stubs.",
+  "assertions": [
+    "Original controller LookAt gate and forced bypass publish source heading from actual target position.",
+    "Sticky ClearNonSticky returns before target services; nonsticky calls original dh2_character_clear_target and publishes canonical target views.",
+    "Deep setter failure preserves original prefix mutations and does not fabricate target publication.",
+    "Preattack eligibility precedes active AIS reload; rejected target and null active AIS do not invoke virtual; reached missing active AIS/virtual fail explicitly.",
+    "Same-owner flags528, heading1b5, OOI14a4 and signed type14a8 refresh preserves combo continuation/index/finisher.",
+    "Consumer leaves retained SetStep cursor ownership unhandled."
+  ],
+  "root_integration_hook": "port/windows-foundation/combat_session.cpp: CombatSession::Impl::combo_boundary providers.onOperation callback at existing ClearNonSticky dispatch. Bind ConsumerBindings to the existing canonical records/providers and call SourceComboConsumers::execute for look, preattack, and clear-nonsticky operations before the current diagnostic clear fallback; return handled operations synchronously, leave retained cursor operations with retained_boundary.",
+  "limits": [
+    "This focused executable does not prove CombatSession integration or packaged release.",
+    "No movement or W/S reversal changes were made."
+  ]
+}

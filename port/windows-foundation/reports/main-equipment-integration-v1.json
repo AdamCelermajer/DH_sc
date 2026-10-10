@@ -1,0 +1,75 @@
+{
+  "owner": "/root/integration_lead",
+  "full_equipment_page_complete": false,
+  "render_capture": ".local-inputs/windows-main-frontend-v1/equipment-main.png",
+  "detail_capture": ".local-inputs/windows-main-frontend-v1/equipment-select.png",
+  "equipment_actions": {
+    "log": ".local-inputs/windows-main-frontend-v1/equipment-lifecycle.txt",
+    "frames": 120,
+    "equipment_counts": [
+      4,
+      3,
+      4
+    ],
+    "attachment_counts": [
+      1,
+      0,
+      1
+    ],
+    "save_frame": 40,
+    "content_reload_frame": 80,
+    "disk_restore_frame": 100,
+    "exit_code": 0,
+    "health": 165.098,
+    "rng_seed": 1234,
+    "rng_calls": 0
+  },
+  "empty_weapon_restore": {
+    "status": "actual_main_runtime_pass",
+    "log": ".local-inputs/windows-main-frontend-v1/equipment-empty.txt",
+    "args": ".local-inputs/windows-main-frontend-v1/equipment-empty.args",
+    "equipment_count": 3,
+    "weapon_attachment_count": 0,
+    "save_frame": 40,
+    "reload_frame": 80,
+    "restore_frame": 100,
+    "frames": 120,
+    "health": 165.098,
+    "rng": [
+      1234,
+      0
+    ],
+    "exit_code": 0
+  },
+  "limitations": [
+    "Original detail text overlaps.",
+    "Central preview/title area blank.",
+    "Drop and transmute remain explicit unsupported gameplay-owner requests.",
+    "Initial equipment domain supports source authored unpowered definitions."
+  ],
+  "lifetime_correction": "Leave existing page while actor lease is alive; immediately rebuild same-owner page and attachment receipts after content/disk replacement.",
+  "populated_lifecycle_incident": {
+    "unaccepted_preview8_exit": "access violation0xc0000005",
+    "root_cause": "Equipment Impl current dereferenced raw prior CombatSession before verifying expired weak actor lease.",
+    "main_fix": "Unregister source page and destroy Equipment binding/attachments before Session replacement; rebind after restore.",
+    "exact_packaged_args": ".local-inputs/windows-source-clock-v19-preview-8/equipment-lifecycle-verification.args",
+    "three_consecutive_pass_logs": [
+      ".local-inputs/windows-source-clock-v19-preview-8/equipment-lifecycle-retired-1.log",
+      ".local-inputs/windows-source-clock-v19-preview-8/equipment-lifecycle-retired-2.log",
+      ".local-inputs/windows-source-clock-v19-preview-8/equipment-lifecycle-retired-3.log"
+    ],
+    "actual_actor_count": 25,
+    "frames": 120,
+    "save_reload_restore_frames": [
+      40,
+      80,
+      100
+    ],
+    "health": 165.098,
+    "rng": [
+      8504954,
+      20
+    ],
+    "feature_defense": "weak actor lease checked before raw Session dereference; strict destroyed-owner ready/query regressionPASS"
+  }
+}

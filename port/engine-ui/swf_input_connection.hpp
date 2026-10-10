@@ -34,7 +34,7 @@ public:
  // All four initial cursors are constructor zeros, enabled1, strongslotsnull.
  bool bind(SwfViewportLease,const ViewportState64&,const SwfViewportDriver&,
            std::shared_ptr<SwfInputHistory>,gameswf::character* context,
-           std::uint32_t flags,std::uint32_t& selection,const SwfInputCoreServices&,std::string&,std::shared_ptr<SwfControllerStorageV91> = {});
+           std::uint32_t flags,std::uint32_t& selection,const SwfInputCoreServices&,std::string&,std::shared_ptr<SwfControllerStorageV91> = {},std::shared_ptr<SwfViewportConnection> = {});
  void release()noexcept;
  bool bound()const noexcept;
  bool focus(gameswf::character*,std::uint32_t,std::string&);

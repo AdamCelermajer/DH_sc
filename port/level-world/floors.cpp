@@ -61,7 +61,7 @@ bool build_graph(World& world,std::string& error){
 }
 bool post_load(World& world,std::string& error){
  error.clear();try{
-  require(!world.sewn&&world.floor_graphs.size()==world.records.size()&&!world.records.empty(),"Invalid floor post-load state");
+  require(!world.sewn&&world.floor_graphs.size()==world.records.size(),"Invalid floor post-load state");
   unsigned room_count=0,boundary_capacity=1;for(unsigned i=0;i<world.records.size();++i){require(world.records[i]->room<512,"Native floor room limit exceeded");room_count=std::max(room_count,world.records[i]->room+1);boundary_capacity=std::max(boundary_capacity,world.floor_graphs[i].invalid_count);}
   std::vector<std::vector<unsigned>> groups(room_count);std::vector<octree::Box> bounds(room_count);
   for(unsigned i=0;i<world.records.size();++i){const auto room=world.records[i]->room;const auto& floor=world.floor_graphs[i];auto& box=bounds[room];

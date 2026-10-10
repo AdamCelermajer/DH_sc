@@ -1,8 +1,12 @@
 #pragma once
 #include "../character_menu_as_bridge_v1.hpp"
 #include "../swf_movie.hpp"
+#include "../swf_text_font_platform_v1.hpp"
+#include "../swf_font_resolver.hpp"
 #include "gameswf/gameswf_function.h"
 #include "gameswf/gameswf_as_classes/as_array.h"
+#include <cstdio>
+#include <cstring>
 #include <fstream>
 #include <iterator>
 #include <algorithm>
@@ -43,6 +47,36 @@ struct ConnectedMenuASHostV2 {
   }
   static bool draw(void*,const dh2::ui::SwfDraw&,std::string&){return true;}
   static bool stencil(void*,const float*,std::uint8_t,bool& result,std::string&){result=false;return true;}
+  static int font_resolver(void* p,dh2::ui::FontResolveRequest40* request){
+   auto& self=*static_cast<Provider*>(p);
+   switch(request->kind){
+    case dh2::ui::FontResolveService::debug_load:
+    case dh2::ui::FontResolveService::debug_get_switch:return 0;
+    case dh2::ui::FontResolveService::language:request->value=0;return 0;
+    case dh2::ui::FontResolveService::rewrite_path:{
+     const std::string source=request->text?request->text:"";
+     const std::string prefix="cache/data/";
+     if(source.rfind(prefix,0)!=0)return -1;
+     const std::string path=self.directory+"/../"+source.substr(prefix.size());
+     if(path.size()>=request->capacity)return -1;
+     std::memcpy(request->buffer,path.c_str(),path.size()+1);return 0;
+    }
+    case dh2::ui::FontResolveService::open_read:
+     request->value=reinterpret_cast<std::uintptr_t>(std::fopen(request->text,"rb"));return 0;
+    case dh2::ui::FontResolveService::close_read:
+     return std::fclose(reinterpret_cast<std::FILE*>(request->value));
+   }
+   return -1;
+  }
+  static bool font_read(void* p,const char* name,bool bold,bool italic,
+                        std::vector<std::uint8_t>& bytes,std::string& error){
+   char path[4096];dh2::ui::FontResolveOutput32 output{path,sizeof path,0,0,0};
+   dh2::ui::FontResolveInput24 input{name,"cache/",std::uint32_t(bold),std::uint32_t(italic)};
+   dh2::ui::FontResolveServices16 resolver{p,font_resolver};
+   if(dh2_swf_font_resolve(&output,&input,&resolver)!=0||!output.found){error="Original retained menu font unavailable";return false;}
+   std::ifstream file(path,std::ios::binary);if(!file){error="Resolved original menu font vanished";return false;}
+   bytes.assign(std::istreambuf_iterator<char>(file),{});return true;
+  }
   static bool localization(void*,const char* name,const std::vector<dh2::ui::SwfValue>& args,dh2::ui::SwfValue& result,std::string& error){
    if(std::string(name)!="NativeGetStringFromSymbol"){error="Unowned legacy menu callback";return false;}
    result.kind=dh2::ui::SwfValue::text;result.string=args.empty()?"":args[0].string;return true;
@@ -64,6 +98,7 @@ struct ConnectedMenuASHostV2 {
  // Provider owns no graph handle, so the facade and pins cannot form a cycle.
  std::shared_ptr<Provider> provider;
  dh2::ui::SwfAsValue root_value,object_value,array_value;
+ std::unique_ptr<dh2::ui::SwfTextFontPlatformV1> font_platform;
  dh2::ui::SwfMovie movie;
  ConnectedMenuASHostV2(dh2::ui::CharacterMenuQueriesOwnerV1& queries,
                       std::shared_ptr<void> game,const std::string& directory){
@@ -78,6 +113,15 @@ struct ConnectedMenuASHostV2 {
    "NativeEquipSkill","NativeSkillGetEquipedSkillsIDs","NativeStatsAssignPoint",
    "NativeInvUnequipItem","NativeInvEquipItem","NativeSwapEquipment",
    "NativeInvGetItemsListForSlot","NativeInvAutoEquipSlot","NativeHUDGetIsFaeryUnlocked"};
+  dh2::ui::TextFontBackendsV2 backends;
+  backends.bitmap_face=[](const auto&,auto& face,std::string&){face={};return true;};
+  font_platform=std::make_unique<dh2::ui::SwfTextFontPlatformV1>(
+   dh2::ui::SwfFontServices{provider.get(),Provider::font_read,nullptr},services,provider,backends,1.f);
+  font_platform->policy().renderer_feature=[](const auto& command,std::string& error){
+   if(command.kind==dh2::ui::edit_text_display_v1::Command::grid_fit)return true;
+   error="Connected source menu has no renderer feature provider";return false;
+  };
+  services=font_platform->services();
   std::string error;
   check(movie.load({"dqshared_droid.swf"},"dqhud_droid.swf",services,error),error);
   check(movie.action_script(this,[](void* p,dh2::ui::SwfAsGraph& graph,std::string& failure){

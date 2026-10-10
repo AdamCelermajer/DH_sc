@@ -6,6 +6,7 @@ class RetainedCharacterActorV1;
 class CanonicalNpcSkillsV84 final {
  std::unique_ptr<skills::CharacterSkillSessionServices> services_;
  std::unique_ptr<skills::CharacterSkillOwner> owner_;
+ mutable std::string error_;
  skills::SkillAIStateV3 ai_fields_v115_{};bool ai_fields_produced_v115_{};
 public:
  CanonicalNpcSkillsV84(RetainedCharacterActorV1&,data::SkillTables::Borrow,
@@ -18,6 +19,6 @@ public:
  int cleanup_skills(){return owner_->cleanup_skills();}
  int cleanup_spells(){return owner_->cleanup_spells();}
  int unload_script_v105(RetainedCharacterActorV1&,bool final);
- const std::string& error()const noexcept{return owner_->error();}
+ const std::string& error()const noexcept;
 };
 }

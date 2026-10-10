@@ -1,0 +1,47 @@
+{
+  "status": "verified_genuine_lizard_state_roots_and_template_default_library_order",
+  "source_root_calls": {
+    "reference": "port/level-world/reference/visual-motion/original-functions.asm",
+    "primary": "_EnableDisplacement 0x35d4f0..0x35d4f4 passes false to GetAnimRoot and stores animated reference +0x1f0",
+    "secondary": "0x35d4f8..0x35d504 passes true and stores +0x1f4, then clears it if identical to primary",
+    "owner_policy": "auto=false is correct for NPC and player motion; true is a secondary skeletal root, not a separate NPC policy"
+  },
+  "source_state_gates": {
+    "references": ["port/level-world/reference/character-state/NOTES.md", "port/level-world/reference/character-state-methods/original-functions.asm", "port/level-world/reference/character-spawn-body/NOTES.md"],
+    "Attack": "focus flags 0x2341 preserves position-from-visual bit0",
+    "Injured": "CSInjured OnFocus 0x3c347c..0x3c3490 writes flags0x2b41 then SM_SetAnim(-1), preserving bit0",
+    "Dead": "focus flags0x241 (player adds0x2000), StopLoop(false), preserves bit0; does not imply stopping authored displacement",
+    "Spawn": "focus flags0x241, source Spawn animation, preserves bit0; no explicit speed-zero setter",
+    "Limbus": "focus flags0 disables via virtual service; blur restores saved position/rotation and revives",
+    "leaf": "selected authored MoveGO enables/disables RootNewAnim displacement; all tested Lizard state leaves have MoveGO1"
+  },
+  "dynamic_defaults_fix": {
+    "implementation": "Retain configured template Player as default_library and compile every actor clip bank through original TransformSet::compile_dynamic with that library",
+    "evidence": "character_same_scene_animator_v6 add_template/set_default and playback.compile_dynamic(registration); engine-animation original DefaultReader uses per-clip DB with template-library fallback",
+    "regression": "Reverse clip bank order; identical root coordinates and complete local SRT at start/mid/end for Idle,Walk,Spawn,Injured,Died,first Attack pre/strike/recovery",
+    "skin_regression": "Independent source pose application equals live restart+70ms skinned vertices for all eight clips, without moving live clocks or histories",
+    "removed_bug": "Spawn root no longer depends on whether Idle or Spawn is first compiled clip; original per-clip static root [15.2176,20.568,0.000091] retained"
+  },
+  "source_sampler": {
+    "api": "CharacterVisual::sample_source_root_translation(name,absolute_source_ms,Vec3& scratch,error)",
+    "rule": "Last dynamic full-vector position/type1 binding on selected motion root, as original BlendedPlayback bind_compiled",
+    "defaults": "Original dynamic sampler preserves incoming shared scratch when a record is default-less; no model-rest fallback invented",
+    "absent_target": "Explicit unsupported error; does not fabricate displacement",
+    "comparison": "Exact equality with complete-pose root sampler at start/mid/end on all tested genuine Lizard clips with template DB supplied"
+  },
+  "genuine_actor": "Swamp_LizadMan_Type1",
+  "measurements": {
+    "units": "Raw authored root coordinates, before source host XY scale/rotation/floor/collision. Travel is sum of 60 diagnostic sample XY lengths, not net displacement.",
+    "Idle": {"range_ms":[0,6000],"speed":1,"delta":[0,0,0],"travel_xy":0},
+    "Walk": {"range_ms":[0,1066],"speed":1.3,"delta":[-0.00000190735,-334.21,0],"travel_xy":339.246},
+    "Spawn": {"range_ms":[0,1733],"speed":1.3,"origin":[15.2176,20.568,0.000091],"delta":[0,0,0],"travel_xy":0},
+    "Injured": {"range_ms":[0,1033],"speed":1,"delta":[0,0,0],"travel_xy":0},
+    "Died": {"range_ms":[0,800],"speed":1,"origin":[0.548971,21.3614,0.000091],"delta":[79.6437,355.437,0],"travel_xy":445.691,"scaled_xy_delta_at_source_scale0_9":[71.6794,319.893]},
+    "Attack0": {"range_ms":[0,100],"delta":[0,0,0],"travel_xy":0},
+    "Attack1": {"range_ms":[100,933],"delta":[0,0,0],"travel_xy":0},
+    "Attack2": {"range_ms":[933,1399],"delta":[0,0,0],"travel_xy":0},
+    "Spawn600ms": "Indexed skin model-local Z[-386.689,-130.915]; real skeletal pose below ground independent of zero root-camera displacement"
+  },
+  "remaining_live_diagnosis": "Live wholefight sourceXY1329.18 cannot be explained by a single sampled death curve alone. Requires runtime phase/replay/retained-slot trace; repeated death curves are a hypothesis, not proven. No arbitrary dead-motion clamp, actor offset or root-selection override added.",
+  "verification": "tests/npc_root_sample_tests.cpp strict native -Wall -Wextra -Werror compile and genuine assets PASS; old cached packages unchanged"
+}

@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 project(dh2_native_app LANGUAGES CXX)
+option(DH2_NATIVE_HOST_BUILD "Build the real native application with desktop platform adapters" OFF)
 # Keep the integrated build within the shared host's RAM while the visible
 # emulator runs. Ninja otherwise chooses its own compiler concurrency.
 set_property(GLOBAL APPEND PROPERTY JOB_POOLS dh2_compile=2)
@@ -107,6 +108,7 @@ target_sources(dh2_level_world PRIVATE
   "${DH2_SOURCE_DIR}/port/level-world/level_can_move_towards_v108.cpp")
 target_sources(dh2_level_world PRIVATE "${DH2_SOURCE_DIR}/port/level-world/gameobject_stop_source_v111.cpp")
 target_sources(dh2_native PRIVATE
+  source_application_pause_save_v1.cpp
   "${DH2_SOURCE_DIR}/port/engine-audio/audio_clock_v40.cpp"
   "${DH2_SOURCE_DIR}/port/engine-audio/audio_source_command_v40.cpp"
   "${DH2_SOURCE_DIR}/port/engine-audio/audio_campaign_bridge_v46.cpp"
@@ -127,13 +129,19 @@ target_compile_definitions(dh2_native PRIVATE DH2_ENABLE_LOAD_DIAGNOSTICS=$<BOOL
 if(DH2_ENABLE_LOAD_DIAGNOSTICS)
   target_compile_definitions(dh2_native PRIVATE DH2_LOAD_DIAGNOSTICS_QA_REQUEST_V39=$<BOOL:${DH2_REQUEST_LOAD_DIAGNOSTICS_QA}>)
 endif()
-target_compile_options(dh2_native PRIVATE -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+target_compile_options(dh2_native PRIVATE -Wall -Wextra -fno-fast-math -ffp-contract=off)
+if(NOT DH2_NATIVE_HOST_BUILD)
+ target_compile_options(dh2_native PRIVATE -Werror)
+endif()
 target_include_directories(dh2_native PRIVATE "${DH2_SOURCE_DIR}/port/engine-ui"
   "${DH2_SOURCE_DIR}/port/engine-math"
   "${DH2_SOURCE_DIR}/port/engine-resources"
   "${DH2_SOURCE_DIR}/port/level-loader"
   "${DH2_SOURCE_DIR}/port/scene-materials")
-target_link_options(dh2_native PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined -Wl,--error-limit=0)
+target_link_options(dh2_native PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined)
+if(NOT DH2_NATIVE_HOST_BUILD)
+ target_link_options(dh2_native PRIVATE -Wl,--error-limit=0)
+endif()
 target_link_libraries(dh2_native PRIVATE dh2_engine_textures dh2_scene_materials dh2_level_world dh2_script_runtime dh2_engine_ui dh2_gameswf_headers dh2_engine_audio android log GLESv2 EGL z dl)
 target_sources(dh2_native PRIVATE source_campaign_conditions_v70.cpp source_campaign_quests_v76.cpp source_script_ui_world_v97.cpp renderer_campaign_conditions_v75.cpp
   source_campaign_zones_v83.cpp
@@ -160,7 +168,10 @@ target_sources(dh2_native PRIVATE source_campaign_conditions_v70.cpp source_camp
   source_process_zoom_v119.cpp
   native_menu_preview_v121.cpp
   native_menu_preview_player_v122.cpp
+  native_menu_preview_lifecycle_v123.cpp
   native_menu_preview_character_services_v122.cpp
+  native_menu_preview_services_v122.cpp
+  native_menu_preview_fx_initialization_v122.cpp
   native_menu_preview_profile_v122.cpp
   source_campaign_script_environment_v120.cpp
   source_campaign_script_runtime_v99.cpp

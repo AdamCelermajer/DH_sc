@@ -1,0 +1,116 @@
+{
+  "reference": ".local-inputs/referenceframes/dh2-act1/at-0120s.png",
+  "local": ".local-inputs/windows-foundation-build/population-v2.png",
+  "reference_observations": [
+    "Rene wears gray/white robe with gold details in original reference.",
+    "Original faery appears as compact bright gold/white winged glow beside cage."
+  ],
+  "local_observations": [
+    "Priest torso/head resemble reference but lower robe is darkred/gold.",
+    "Large teal scene rays cross prison area; these are not evidence that faery source geometry itself is oversized."
+  ],
+  "texture_orientation": {
+    "loader": "port/windows-foundation/texture_loader.cpp",
+    "decoder": "port/engine-textures/textures.cpp",
+    "upload": "port/windows-foundation/renderer.cpp",
+    "behavior": "Decoder yields top-row-first RGBA; renderer uploads rows unchanged; authored UVs map V=0 to first decoded row.",
+    "existing_proof": "port/engine-textures/reports/differential.json documents pixel agreement with original ARM decoder; no full atlas byte-equivalence claim newly made here.",
+    "flip_assessment": "A global V flip maps priest UV bounding region into demon artwork and is not supported by present source evidence.",
+    "source_fix": "No loader orientation change justified."
+  },
+  "priest": {
+    "source": ".local-inputs/windows-population-assets/original-cache/data/3d/characters/npcs/priest_good.bdae",
+    "source_sha256": "880ed0be28e158dc62779a1fd5f9874cbd39fb68edc31af69972aceb8979e8bf",
+    "controller": "_mesh_Bad_Priest_skinned_batch-mesh-skin",
+    "geometry": 0,
+    "primitive_material": "diffuse",
+    "vertices": 250,
+    "indices": 1020,
+    "texture": "atlas_skinned_characters_animdecor_gameobjects_002.tga",
+    "texture_sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309",
+    "texture_dimensions": [
+      1024,
+      1024
+    ],
+    "uv_bounds": [
+      0.125977,
+      0.375,
+      0.500238,
+      0.625
+    ],
+    "matrix": "identity",
+    "effect_file": "",
+    "technique": "",
+    "alpha_map": "",
+    "instance_materials": [
+      2
+    ],
+    "decoded_region": "Approximately atlas pixels129..384,512..640: Rene head/gray upper robe plus red/gold bands and darkred body portions.",
+    "elsewhere_in_atlas": "White/gold lower-robe artwork exists roughly at512..640,896..1024. This is a visual observation, not a valid alternate UV mapping.",
+    "staging": "All three staged atlas002 files in windows-foundation-assets, windows-foundation-preview/assets and windows-shared-assets have identical SHA256.",
+    "archive_search": "Owner cache zip has one NPC priest_good.bdae and no alternate NPC priest model matching priest*.bdae; one separate priest cinematic exists in interface folder.",
+    "diagnosis": "Reference/content mismatch remains unresolved. Neither generic matrix correction nor global V inversion explains this identity-matrix source model.",
+    "prohibited_workaround": "Do not recolor this actor or arbitrarily relocate its UVs to desired atlas artwork."
+  },
+  "faery": {
+    "source": ".local-inputs/windows-population-assets/original-cache/data/3d/characters/faeries/faeries_02_celeste.bdae",
+    "source_sha256": "841531e0cba192d00898309e7dc53b0b56445c9e72e71d22163178ae3f6ebe22",
+    "body_texture": "atlas_dh2_game_objects_001.tga",
+    "body_uv_bounds": [
+      0.502664,
+      0.622425,
+      0.877969,
+      0.996081
+    ],
+    "body_materials": [
+      "diffuse",
+      "additive"
+    ],
+    "body_matrix": "identity",
+    "static_glow_texture": "atlas_fx_particles_001.tga",
+    "static_glow_material": "fx_particles_additive",
+    "static_glow_uv_bounds": [
+      0.12827,
+      0.246775,
+      0.628695,
+      0.746809
+    ],
+    "static_glow_vertices": 8,
+    "static_glow_indices": 12,
+    "source_particle_nodes": [
+      "GL_PCloud04-node",
+      "GL_PCloud06-node",
+      "GL_PCloud07-node"
+    ],
+    "generic_supported": [
+      "Diffuse texture sampling",
+      "RGBA vertex tint",
+      "Source-alpha additive blending",
+      "Unlit material path",
+      "Static glow mesh"
+    ],
+    "generic_missing": [
+      "Source particle-cloud creation/emission/lifetime and their authored animation",
+      "Source glow/wing animation and camera-facing effect behavior where declared",
+      "Reference-matched light and exposure evaluation"
+    ],
+    "limits": "Node names indicate source effect content; emitter runtime behavior not established by this material audit. Bloom is only a reference appearance observation, not a proven required shader."
+  },
+  "matrix_semantics": {
+    "source": "port/level-world/character_authored_particle_fx_v4.cpp:65",
+    "formula": "ProfileCOMMON_emul_VS: TextureMatrix0 * vec4(TexCoord0,1,0)",
+    "implication": "That source technique uses matrix components8/9 for UV offset; plain vec4(uv,0,1) uses12/13. Dispatch must follow actual source shader/technique rather than assuming one convention applies everywhere.",
+    "identity_assets": "Priest and faery inspected material matrices are identity; correcting generic matrix application cannot by itself fix their appearance."
+  },
+  "native_probe": {
+    "compiler": "LLVM-MinGW clang++20261006",
+    "result": "pass",
+    "captured_materials": "FILE .local-inputs/windows-population-assets/original-cache/data/3d/characters/npcs/priest_good.bdae\r\nMATERIAL additive diffuse=atlas_skinned_characters_animdecor_gameobjects_002.tga alpha= effect= technique= additive=1 alphaRef=0 color=0.588,0.588,0.588,1, matrix=1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,\r\nMATERIAL alpha diffuse=atlas_skinned_characters_animdecor_gameobjects_002.tga alpha= effect= technique= additive=0 alphaRef=0 color=1,1,1,1, matrix=1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,\r\nMATERIAL diffuse diffuse=atlas_skinned_characters_animdecor_gameobjects_002.tga alpha= effect= technique= additive=0 alphaRef=0 color=1,1,1,1, matrix=1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,\r\nINSTANCE _mesh_Bad_Priest_skinned_batch-node geometry=0 skin=0 materials=2,\r\nNODE Bip01-node properties=\r\nNODE Bip01_Footsteps-node properties=\r\nNODE Bip01_Pelvis-node properties=\r\nNODE Bip01_Spine-node properties=\r\nNODE Bip01_L_Thigh-node properties=\r\nNODE Bip01_L_Calf-node properties=\r\nNODE Bip01_L_Foot-node properties=\r\nNODE Bip01_R_Thigh-node properties=\r\nNODE Bip01_R_Calf-node properties=\r\nNODE Bip01_R_Foot-node properties=\r\nNODE Bip01_Spine1-node properties=\r\nNODE Bip01_Neck-node properties=\r\nNODE Bip01_Head-node properties=\r\nNODE Bip01_L_Clavicle-node properties=\r\nNODE Bip01_L_UpperArm-node properties=\r\nNODE Bip01_L_Forearm-node properties=\r\nNODE Bip01_L_Hand-node properties=\r\nNODE Bip01_R_Clavicle-node properties=\r\nNODE Bip01_R_UpperArm-node properties=\r\nNODE Bip01_R_Forearm-node properties=\r\nNODE Bip01_R_Hand-node properties=\r\nNODE VisualSceneNode properties=\r\nNODE _mesh_Bad_Priest_skinned_batch-copy properties=\r\nNODE _mesh_Bad_Priest_skinned_batch-node properties=\r\nNODE root_camera-node properties=\r\nPRIMITIVE geometry=0 symbol=diffuse vertices=250 indices=1020 uv=0.125977,0.500238..0.375,0.625\r\nFILE .local-inputs/windows-population-assets/original-cache/data/3d/characters/faeries/faeries_02_celeste.bdae\r\nMATERIAL additive diffuse=atlas_dh2_game_objects_001.tga alpha= effect= technique= additive=1 alphaRef=0 color=0.588,0.588,0.588,1, matrix=1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,\r\nMATERIAL alpha diffuse=atlas_dh2_game_objects_001.tga alpha= effect= technique= additive=0 alphaRef=0 color=1,1,1,1, matrix=1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,\r\nMATERIAL bolt2 diffuse=fx_spell_lightning_sparks.tga alpha= effect= technique= additive=1 alphaRef=0 color=0.854902,0.772549,0.396078,1, matrix=1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,\r\nMATERIAL diffuse diffuse=atlas_dh2_game_objects_001.tga alpha= effect= technique= additive=0 alphaRef=0 color=1,1,1,1, matrix=1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,\r\nMATERIAL fx_particles_additive diffuse=atlas_fx_particles_001.tga alpha= effect= technique= additive=1 alphaRef=0 color=0.588,0.588,0.588,1, matrix=1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,\r\nINSTANCE _mesh_Faerie_Celeste_skinned_batch-node geometry=0 skin=0 materials=3,0,\r\nINSTANCE _mesh_glow_nobatch-node_PIVOT geometry=1 skin=-1 materials=4,\r\nNODE _mesh_Faerie_Celeste_skinned_batch-node properties=\r\nNODE root_camera-node properties=\r\nNODE root_character-node properties=\r\nNODE GL_PCloud04-node properties=\r\nNODE GL_PCloud06-node properties=\r\nNODE GL_PCloud07-node properties=\r\nNODE IK_LWing-node properties=\r\nNODE IK_RWing-node properties=\r\nNODE bip_faerie_GLOW-node properties=\r\nNODE _mesh_glow_nobatch-node properties=\r\nNODE _mesh_glow_nobatch-node_PIVOT properties=\r\nNODE bip_left_wing_swoosh-node properties=\r\nNODE bip_pelvis_faerie-node properties=\r\nNODE IK_Lfoot-node properties=\r\nNODE IK_Rfoot-node properties=\r\nNODE LL_Kneepoint-node properties=\r\nNODE RL_Kneepoint-node properties=\r\nNODE bip_left_thigh-node properties=\r\nNODE bip_left_calf-node properties=\r\nNODE bip_LL_NUB-node properties=\r\nNODE bip_right_thigh-node properties=\r\nNODE bip_right_calf-node properties=\r\nNODE bip_RL_NUB-node properties=\r\nNODE bip_right_wing_swoosh-node properties=\r\nNODE bip_torso_faerie-node properties=\r\nNODE bip_head-node properties=\r\nNODE bip_left_arm_faerie-node properties=\r\nNODE bip_left_arm_faerie_mirrored_-node properties=\r\nNODE bip_left_wing_faerie-node properties=\r\nNODE bip_LW_NUB-node properties=\r\nNODE bip_right_wing_faerie-node properties=\r\nNODE bip_RW_NUB-node properties=\r\nPRIMITIVE geometry=0 symbol=diffuse vertices=158 indices=384 uv=0.502664,0.877969..0.622425,0.996081\r\nPRIMITIVE geometry=0 symbol=additive vertices=158 indices=66 uv=0.512846,0.879235..0.622384,0.975504\r\nPRIMITIVE geometry=1 symbol=fx_particles_additive vertices=8 indices=12 uv=0.12827,0.628695..0.246775,0.746809\r\n",
+    "decoded_atlases": [
+      "atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "atlas_skinned_characters_animdecor_gameobjects_003.tga",
+      "atlas_fx_particles_001.tga"
+    ],
+    "limits": "CPU source-content audit and image inspection only; no matched-camera GPU difference measurement."
+  }
+}

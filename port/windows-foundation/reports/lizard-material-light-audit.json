@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "status": "native_material_binding_and_source_xml_probe_complete",
+  "scope": "Exact Lizard body and auxiliary material binding, normals/vertex-color/UV ranges, shared light declarations. No renderer edits or guessed lights/shaders.",
+  "body": {
+    "model": "data/3d/characters/lizardman/lizardman.bdae",
+    "instance": "_mesh_lizardman_skinned_batch-node",
+    "controller": 0,
+    "primitive_symbol": "diffuse",
+    "bound_material_id": "diffuse",
+    "diffuse": "atlas_skinned_characters_animdecor_gameobjects_001.tga",
+    "alpha_map": "",
+    "effect_file": "",
+    "effect_uri": "#ProfileCOMMON_diffuse-fx1302961559_lizardman",
+    "technique": "",
+    "material_color": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "texture_matrix": "identity",
+    "alpha_reference": 0,
+    "additive": false,
+    "backface": false,
+    "normals": {
+      "type": 6,
+      "components": 3,
+      "ranges": [
+        [
+          -0.999383,
+          0.995882
+        ],
+        [
+          -0.99963,
+          0.997732
+        ],
+        [
+          -0.999722,
+          0.999412
+        ]
+      ]
+    },
+    "vertex_colors": {
+      "type": 1,
+      "components": 4,
+      "vertices": 391,
+      "min": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "max": [
+        255,
+        255,
+        255,
+        255
+      ]
+    },
+    "UV0": {
+      "type": 6,
+      "components": 2,
+      "min": [
+        0.376049,
+        0.001953
+      ],
+      "max": [
+        0.498638,
+        0.123872
+      ]
+    }
+  },
+  "material_library_risk": "Material__37 and Material__38 carry GL_Diffuse_L1_VC_iPhone metadata but skin primitive does not bind them. Material__38 is bound by auxiliary static _mesh_shadow_nobatch-node, with alpha texture atlas_dh2_game_objects_001_alpha.tga and L1_Vc_Al_Sp_----_----_----. Selecting first multilight library material for skin is unsupported.",
+  "source_lights": {
+    "report": "port/windows-foundation/reports/source-light-declarations.json",
+    "XML_documents": 21,
+    "XML_light_declarations": 2,
+    "XML_declaration_type": "PlayerLight only",
+    "scene_light_instance_counts": {
+      "lizardman.bdae": 0,
+      "lizardman_big.bdae": 0,
+      "swamp.bdae": 0
+    },
+    "limit": "Neither XML PlayerLight nor absence of local BRES light instances establishes LightManager MonsterLight slot3 contents. Runtime source binding must be recovered."
+  },
+  "shader_path_limit": "Body uses ProfileCOMMON diffuse; this probe does not establish which native shader/effect the runtime COMMON factory selects. Empty effect-file/technique is source data, not evidence of unlit shading or permission to substitute generic OpenGL lighting.",
+  "probe": {
+    "source": "port/windows-foundation/reports/lizard-material-probe.cpp",
+    "output": "port/windows-foundation/reports/lizard-material-probe.txt",
+    "execution": "Native Windows original BRES/scene/mesh decoder PASS"
+  },
+  "evidence": [
+    {
+      "uri": "data/3d/characters/lizardman/lizardman.bdae",
+      "bytes": 68540,
+      "sha256": "acd6ff9ce6f2bad967cbdd8f015536304980443333fb3b7f8c735a450911acde"
+    },
+    {
+      "uri": "data/3d/characters/lizardman/lizardman_big.bdae",
+      "bytes": 71668,
+      "sha256": "e107edc11ae1aa0d69dbbee19153dd4b5ae3925d9a0850eac3f3478f40804e7b"
+    },
+    {
+      "uri": "data/3d/modules/swamp/swamp.bdae",
+      "bytes": 5585024,
+      "sha256": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d"
+    },
+    {
+      "uri": "data/3d/light/swamp.lightset_xml",
+      "bytes": 485,
+      "sha256": "967f4add7548c9e2004ad32e51333615eaa7550f18c04426a9ec58cd7a445986"
+    },
+    {
+      "uri": "data/3d/light/swamp_es_1_1.lightset_xml",
+      "bytes": 485,
+      "sha256": "699a13c8ecd6fa3d76b35193ba3dff0456cfd68779707f996f612d0312fb242a"
+    },
+    {
+      "uri": "data/scene/001_swamp.mlx",
+      "bytes": 6788,
+      "sha256": "e3694600f07184567efcdecb79826da8bfe7aa09b7f1505b1bc13eb1eb68a041"
+    }
+  ],
+  "source_modifications": "New report/probe only."
+}

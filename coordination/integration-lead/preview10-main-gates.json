@@ -1,0 +1,186 @@
+{
+  "release": "Preview10 development; Preview9 remains accepted",
+  "freeze_allowed": false,
+  "user_gate": "Every confirmed reported error must be fixed before the next preview; objects are Preview11.",
+  "review_owner": "/root/bug_gate_review + /root",
+  "main_cmake_owner": "/root/integration_lead",
+  "sessions": [
+    {
+      "worker": "frontend_luna",
+      "session": "finished",
+      "proof": "Actual DB0E own-HWND profile-slots-main-2 phase17 PASS: first models, selected Rogue/Knight, arrows, refusal, recoverable exact-path rename, repeat Confirm, metadata blanking and Achievements label",
+      "follow_up": "Class ground clear-color coverage holes remain source/version gate; no safe camera adjustment"
+    },
+    {
+      "worker": "equipment_luna",
+      "session": "finished",
+      "proof": "Current-ABI frozen E11BBF real source Details6->Unequip7->Auto8 PASS rev6->7->8 exact IID restored and two attachments; enabled Transmute PNG shows one label; source-panes1FBA narrow pane/glyph PASS",
+      "follow_up": "CD84 actual Rogue source projection and Unequip/Auto/F5/R/F9 pass: HP146.797/MP40.25 retained; item power coverage and cross-process progression remain separate"
+    },
+    {
+      "worker": "act1_map_luna",
+      "session": "active",
+      "proof": "Same-pose packet helper PASS; actual1FBA Rogue Details pane/current Daggers capture PASS; CD84 gear lifecycle PASS",
+      "follow_up": "Separate source Celest FX adapter CPU fixture active; no Celest production GPU claim"
+    },
+    {
+      "worker": "character_menu_luna",
+      "session": "active",
+      "proof": "Actual gray/E9DD selectedRogue source rank0 Grey overlays +greenACTIVE +Current/Next values PASS. Source11 UIassignability and all48 Rogue-tree cells tested; base placeholders explain lower panel F242 actual sourcebuttonGroundSlam/Charge training +mapping/points afterstrictrestore visiblyPASS; UpgradeSkill label visible onlevel6Charge.",
+      "follow_up": "Standalone profile saveafterspend/exit durability, subclass transition and unsupported dynamic descriptions remain."
+    },
+    {
+      "worker": "skill_menu_luna",
+      "session": "active",
+      "proof": "Actual immutable CD84 Rogue PC key1 -> saved source0 JumpKick: MP40.25->30.25, target HP47.5->44.2539 at frame37, RNG20->29, completes59; key2 empty rejects unchanged; temporal captures20/38/60 inspected F242 KnightPC1/2 actualpositiveUse,mana,sourceRNG,strictF5/R/F9 pass; sourceUItrainedGroundSlam/mapping persists.",
+      "follow_up": "Actual Charge PC3 emptyquery despite nearbyattacker investigated; moving/currentgear outgoing class banks/full resulttails remain."
+    },
+    {
+      "worker": "faery_menu_luna",
+      "session": "active",
+      "proof": "F242 actual Celest key4 boundFX PASS360, do_spell26 two near-target results, completion64, earlycheckpoint rejects; expiredF5_320/R340/F9_350 strict role/vitals/RNG same. Temporal20/27/65 inspected actual lightning.",
+      "follow_up": "Rectangular ground FX edge source material fidelity review; full status tails and class physical overlap remain. No perfect original FX parity."
+    },
+    {
+      "worker": "act1_companions_luna",
+      "session": "finished",
+      "proof": "Actual pause240 frozen gameplay/device-clock proof and source-panes pause-no-resume55 source HUD/MainMenu/No/Continue PASS F242 source HUD10/MainMenu20/Yes30 normal save prefix and frontend60 return PASS; separate processprofileReload oneframeHP146.797 retained.",
+      "follow_up": "Active cast/timer menu-exit persistence semantic branch open; Escape dedicated input variants remaining."
+    },
+    {
+      "worker": "act1_enemy_luna",
+      "session": "finished",
+      "proof": "Core calculated injury/death and incoming receiver tests pass. Current769F Rogue360 real nearby Lizard markers reduce HP146.797 to87.8555; F5_320/R340/F9_350 restores same HP/RNG.",
+      "follow_up": "Forced source Injury branches are core-tested only; class outgoing attacks and exact user-specific death/clank visual regression remain."
+    },
+    {
+      "worker": "act1_loot_luna",
+      "session": "finished",
+      "proof": "Production fresh-start Knight source kill124 -> XP8/recipient1/drop1 once, F5save600/F9restore760 and Stats8/100 PASS on3674 target-details freeze; original source sheets/RNG retained",
+      "follow_up": "Standalone profile XP/points startup projection and frontend cross-process Load policy; drop render/pickup/persistence remain unintegrated"
+    },
+    {
+      "worker": "act1_interactions_luna",
+      "session": "finished",
+      "proof": "drop geometry/store bridge test; scene enrollment audit only",
+      "follow_up": "Preview11 generic registry-only object seam + visible source chest/pot interact/render; not a current main fix"
+    }
+  ],
+  "gates": [
+    {
+      "error": "Frontend first Rogue model, saved-profile metadata/placeholders, repeated Confirm, arrows and Remove",
+      "implementation_owner": "frontend_luna + integration_lead",
+      "status": "Actual DB0E own-HWND profile-slots-main-2 phase17 PASS: first models, selected Rogue/Knight, arrows, refusal, recoverable exact-path rename, repeat Confirm, metadata blanking and Achievements label. Class ground clear-color coverage holes remain source/version gate; no safe camera adjustment"
+    },
+    {
+      "error": "Rogue Run and CharacterMenu unavailable",
+      "implementation_owner": "integration_lead",
+      "status": "Rogue/Mage own class movement/HUD/CharacterMenu production PASS, no Knight bank fallback. Current35685 Rogue fresh current Daggers source moving/static250/245/main-off attacks and incoming damage, earned XP and F5/R/F9 preserve real partial HP; canonical profile restart/nextkill PASS. Mage outgoing wand remains ranged pipeline pending. Later changed-gear attack-bank replacement and physical contact/source-phase composition remain open."
+    },
+    {
+      "error": "Skills Active color, empty labels, source cell/chains, real 1/2/3 and Faery4 actions",
+      "implementation_owner": "character_menu_luna + skill_menu_luna + faery_menu_luna + integration_lead",
+      "status": "Fresh Gray/green Active/current-next/selected action labels source UI verified. F242 source-button GroundSlam Train/Assign, source157 points, rank/hotbar/profile restart PASS; PC1 BashDown, PC2 positive GroundSlam, Rogue PC1 JumpKick and emptyPC2, saved CelestPC4 mana/results/GPU temporal20/27/65/expired strict checkpoint PASS. ChargePC3 trains/maps/debits/plays but current Use32 caster1239 vs Lizard921 gives range317.9/behind; source-preserving physics investigation open. Full result tails/subclass transition and matched FX ground-edge fidelity remain separate incomplete scope."
+    },
+    {
+      "error": "Equipment Transmute duplication/font/background/icon, Auto-equip label and actual current-gear 3D panel",
+      "implementation_owner": "equipment_luna + act1_map_luna + integration_lead",
+      "status": "Actual source Details-pane clipping/order, field glyph affine/font spacing, Auto-equip label and click→same IID/render receipt, enabled one Transmute+Value and source-disabled variant PASS. Current Rogue class/currentgear real Daggers model in opaque pane verified; source HP/MP and Unequip/Auto/F5/R/F9 preserved after vitals fix. Generated powers/value and dynamic outgoing bank refresh after future gear changes remain explicit."
+    },
+    {
+      "error": "Dedicated Pause menu, Escape resume without unexpected quit",
+      "implementation_owner": "act1_companions_luna + integration_lead",
+      "status": "Actual source HUD/Continue/No and normal MainMenuYes save/profile return proven. Frozen35685 own-PID native WM_KEYDOWN/UP Escape opensPause1/resumes18, process exits0 normally300; all25 HP/position/pose snapshots equal and updateSerial1 held for17pauseframes. Active cast/timer exit persistence remains explicitly open."
+    },
+    {
+      "error": "Actual kill XP",
+      "implementation_owner": "act1_loot_luna + integration_lead",
+      "status": "Fresh35685 Rogue original source standing/moving kills give XP8/16 while preserving actual incoming damage. F5/R/F9 source currentHP/MP/RNG match. Normal sourcePauseYes saves canonicalHP121.742/XP16; separateprocess starts same values and nextkill→XP24/HP104.555. No diagnostic level/loot override; pickup/render/world-item persistence remains unintegrated."
+    },
+    {
+      "error": "Target loss/clanky attacks/death midair/dodge and positive-hit interruption",
+      "implementation_owner": "root + act1_enemy_luna and source audit workers",
+      "status": "Read-only source divergences sent to root. Optional genuine combat outcome carrier and Injure-bit reaction fix now implementation-owned; no main runtime acceptance yet. Death XY-motion gap is distinct from unproven user-specific midair cause."
+    }
+  ],
+  "sandbox_evidence": {
+    "rogue": ".local-inputs/v19-frontend-hotfix/rogue-create.log",
+    "mage": ".local-inputs/v19-frontend-hotfix/mage-create.log",
+    "user_process": "PID68552 was never controlled or terminated",
+    "user_saves": "No existing user save was modified; test profiles are fresh sandbox files. Confirmed removal implementation uses recoverable sibling rename.",
+    "current_gui_binary_sha256": "8DFF8A3B60EF0B8D79900AE733CEA4E4054D8C7F810C02CF2770F0505B3E1712",
+    "current_rogue_log": ".local-inputs/v19-frontend-hotfix/current-gui/rogue-current.log",
+    "latest_frozen_gui_sha256": "F2429458E5FA914547E9F5E226268AB142093D1F0318CEDF1639DA241BE979E6",
+    "latest_details": ".local-inputs/v19-frontend-hotfix/source-panes/rogue-details.png",
+    "latest_skills": ".local-inputs/v19-frontend-hotfix/gray/rogue-skills.png",
+    "current_gear_actions": ".local-inputs/v19-frontend-hotfix/current-abi/rogue-auto-equip.log",
+    "enabled_transmute": ".local-inputs/v19-frontend-hotfix/current-abi/rogue-transmute-enabled.png",
+    "fresh_xp": ".local-inputs/v19-frontend-hotfix/target-details/knight-fresh-xp.log",
+    "fresh_xp_capture": ".local-inputs/v19-frontend-hotfix/target-details/knight-fresh-xp.png",
+    "fresh_xp_binary_sha256": "3674EF1696EDE4E563C8AA876EF00DBCE2F8350A0447EC2E97619EB5E640055E",
+    "historical_action_failure_before_vital_fix": ".local-inputs/v19-frontend-hotfix/source-panes/rogue-unequip-auto-equip.log",
+    "incoming_log": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-incoming-normal.log",
+    "incoming_capture": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-incoming-normal.png",
+    "incoming_lifecycle": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-incoming-lifecycle.log",
+    "celest_current": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-celest-fx-expired.log",
+    "celest_visible": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-celest-fx-frame27.png",
+    "pause_yes": ".local-inputs/v19-frontend-hotfix/profile-projection/pause-yes-rogue.log",
+    "pause_returned": ".local-inputs/v19-frontend-hotfix/profile-projection/pause-yes-menu-captures/returned-main-menu.png"
+  },
+  "deferred": "Loot drop rendering/openable/destructible scene enrollment are Preview11 components; no current playable-object claim.",
+  "profile_projection_current": {
+    "implementation": "Production initializeCombat publishes selected CharacterState into source sheets via tested helper; old ActorState-only overlay removed",
+    "build": "Coherent32799 55tasks PASS; Session/profile83/multiplicity84/departure85/incoming87 5/6PASS; training86 fixture root failure assigned",
+    "executable_sha256": "769F8A65451A724EA7021CA0A2CDE4B49F63ECBD75436BB7DC298EFFA46F17BB",
+    "log": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-incoming-lifecycle.log",
+    "proven": "CD84 actual Rogue source HP/MP projection and gear F5/R/F9 PASS.769F actual incoming damage plus F5_320/R340/F9_350 same HP87.8555/RNG2037220/96 PASS.",
+    "remaining": "Current actual earned XP/profile health cross-process restart and nextkill now PASS on35685; strict checkpoint role migration remains explicit."
+  },
+  "skill_keys_current": {
+    "bank": "Pre-init current-class roots/fresh slot resolver integrated and coherent compiled",
+    "coordinator": "F242 actual PC1 BashDown, PC2 trained GroundSlam, Rogue JumpKick and empty PC2, saved Celest4 pose/results/GPU/expired strict checkpoint PASS; PC3 Charge source Use subset branch remains under investigation.",
+    "mapping": "1->saved source0, 2->source1, 3->source2, 4->Faery spell. Rogue physical middle cell does not remap source0.",
+    "mana": "Original ordinary constructor defaults false/off adopted; same source Debug owner queried for actual GOD_MANA. Current Rogue source mana debit validated.",
+    "release": "F242 actual key4 source pose/results/FX plus expired strictF5/R/F9 PASS. Knight1-3 source-button training/currentgear attacks and full resulttails, rectangulargroundFX fidelity remain gates.",
+    "knight_current": "F242 actual sourceUItrain/assign GroundSlam source1 thenPC2 positive2.33984; sourcefreeBashDown PC1 positive2.28906, mana/RNG/F5/R/F9 pass. ReopenedSkills showsrank1/points1. Charge sourceUItrain/assign source2/mana/pose pass butemptyUse targets/conditionalPost needs sourceinvestigation. Separate normal PauseYes230 canonical profile save then fresh process load resolves saved GroundSlam source1 without retrain/remap; PC2 mana21.75->13.75, both exit0 (knight-training-exit/restart.logs)."
+  },
+  "rogue_outgoing_current": {
+    "implementation": "Main current-gear dual source banks250/245, admitted moving/static state selection and original main/off marker routing integrated; prebind selected CharacterState vitals projection fixes initial validation",
+    "frozen_sha256": "35685D2217BE888EE45466FA3A50AA971DEB207258E33575F5408EC3F05A71C4",
+    "production_result": "candidate-vitals-3 standing/moving420 EXIT0 with original moving/static clips, both hand hit events, source kills/XP and actual reduced HP preserved at F5/R/F9. standingHP121.742/XP16/RNG1605374/162; movingHP96.5195/XP8/RNG8651185/177. Normal PauseYes canonical profile then separate process startsXP16/HP121.742, nextkill givesXP24/finalHP104.555.",
+    "remaining": "Later live gear-bank replacement, strict old animationOnly-role checkpoint capability migration, physical Step/contact/source-phase composition and full result tails remain explicit.",
+    "physics": "Core body frame and motion-phase90 tests PASS; production Step/contact/pin/position composition not enrolled"
+  },
+  "death_end_current": {
+    "executable_sha256": "3F31F063DA7692B57FC291E4B9EB58FC837DD0BB38241E1CC7D83F8C4BBDE161",
+    "artifacts": ".local-inputs/v19-frontend-hotfix/death-end-main/rogue-kill.args/.log/.png",
+    "production": "Normal source Rogue killframe81 XP8; actual authored End34serial134 physical1->0, retained1; same actor finaldeadHP0/physical0,180frames exit0",
+    "checks": "Coherent current seeded/death/contact closure compiled; full CTest92/92 PASS25.02s. No production physical Step enabled.",
+    "remaining": "Original matched midair-death visual parity remains unproven; completed body absence now persists in the separate current receipt, without HP0 inference"
+  },
+  "physical_presence_current": {
+    "executable_sha256": "9C40A52EC493EDE7EC371898AF00AB06641BF35797360B07A41D43523D1CC663",
+    "artifacts": ".local-inputs/v19-frontend-hotfix/physical-presence-restore/rogue-kill-restore.args/.log/.png",
+    "result": "PASS:480frames exit0; kills81/220 XP8/16, genuine End34serial134/273 actual body1->0. F5_340/R380/F9_400 preserve body0 for both dead actors and HP114.129/RNG8509664/163; 80postrestoreframes no End/reward replay, both finalphysical0.",
+    "owner": "Root reconstructible callback classification and admitted teardown; lead actual body-fact validator and fresh lease rebinding. Legacy volatile guards remain enforced.",
+    "checks": "Current154-task coherentbuildPASS; focused12/12PASS16.78s including94. Full94/94 PASS25.70s.",
+    "prior_failure": "183DE physical-presence-main receipt preserved: save/reload/restore rejected before explicit reconstructible notification ownership was implemented.",
+    "remaining": "Middeath animation continuity, original matched corpse fidelity, physical Step/contact/pin/source-phase and itemdrop GPU/pickup remain separate gates."
+  },
+  "motion_refresh_current": {
+    "executable_sha256": "BA618DAAFEFD4588F0EF7BC5B9268E431C3469679E0BA5BA54877DB75986A0C4",
+    "build": "58045 coherent178targets PASS; focused10/10 PASS; subsequent full coherent CTest90/90 PASS25.31s including isolated renderer/material tests",
+    "skills_capture": ".local-inputs/v19-frontend-hotfix/motion-refresh/rogue-skills.png",
+    "skills_args_log": ".local-inputs/v19-frontend-hotfix/motion-refresh/rogue-skills.args/.log",
+    "skills_visual": "Fresh own-window7frames exit0: sourcegreenActive, Grey rank0 cells, Current/Next details and blank base specialization rows inspected lead+sourceowner. Gameplay paused2frames atserial5. No additional cast/training mutation claim.",
+    "remaining": "Production physical source state Pin/Unpin/Stop/contact/controller phase composition; root finite Died End34; full result tails and original camera/version comparison remain. Preview10 not released."
+  },
+  "physical_frame_current": {
+    "executable_sha256": "FC19C04BE1A7F74E3044A1C9A366B060FB0CA18E35D384808B844311F2D67592",
+    "artifacts": ".local-inputs/v19-frontend-hotfix/source-physical-state-fixed/rogue-kill-restore.args/.log/.png/receipt.json",
+    "normal_result": "PASS exit0: real25actor physical pipeline Step480/import9/suppressedRoots10; target1 commits once; kills81/220 XP8/16 End34 once each; F5_340/R380/F9_400 retain HP114.129 RNG8509664/163/body0 without replay",
+    "skill_result": "FrozenFC19 key1 JumpKick source0 and emptykey2 PASS; real timer48 storage+expiry logged; saved Celest4 state7 do_spell26/Post64 PASS with actual mana/results",
+    "tests": "99/100 current compiled suite, presentation-only generic completion core85 open",
+    "remaining": "Rebuild root85 fix + current-state flag-validator correction; prove pending10ms checkpoint rejection/quiescent save and pause; Charge/moving-root/fidelity gates remain. No release acceptance."
+  }
+}

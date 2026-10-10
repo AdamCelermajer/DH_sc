@@ -1,0 +1,81 @@
+{
+  "tutorial_provider": {
+    "gate": "player available, difficulty0, persistent flag enabled, offline",
+    "persist": "Consume actual tutorialflag then saveSettings immediately only when settings menuID17 open; otherwise threaded source save provider",
+    "continuation": "Resolve source name including common scripts, StartScript(id,-1,true) if found",
+    "evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/00460950.c",
+    "disabled": "Explicit normal no-op; no forced tutorial execution"
+  },
+  "controller_rules": {
+    "special_token": "All is recovered generic engine selector syntax, not a map/profile name special case",
+    "evidence": [
+      ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/0045dda0.c",
+      ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/0045dc80.c"
+    ],
+    "Lock": "Kind24; skippedLock no-op; operand All case-insensitive controls global v2Controller::s_blocked, otherwise named actor controller byte8",
+    "Unlock": "Kind25; All case-sensitive controls global blocked flag, otherwise named actor controller byte8"
+  },
+  "unsupported": [
+    "PlayCamera5 and other command kinds need additional source provider; fail explicitly",
+    "Full original DebugSwitches side effects are not emulated",
+    "Typed idle/scripted/selectors/stop/menus/save implementations remain host owners",
+    "Tutorial UI/dialogue blocking requires real typed provider",
+    "Original physical/sourceClearAggro effects remain lifecycle providers and must fail if unbound"
+  ],
+  "tests": "port/windows-foundation/tests/original_campaign_world_adapter_tests.cpp",
+  "live_encounter_verified": false,
+  "sources": [
+    "port/windows-foundation/original_campaign_world_adapter.hpp",
+    "port/windows-foundation/original_campaign_world_adapter.cpp"
+  ],
+  "idle_provider": {
+    "gate": "Original callback excludes dead, actual Limbus0, AwaitingToSpawn17",
+    "evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/0045971c.c",
+    "wait": "waitForAnim=!skip; adapter does not replace original wait owner with immediate lifecycle.put_idle"
+  },
+  "source_lookup": {
+    "spawn_kind": 30,
+    "call": "ObjectManager::GetObjectByName(name,contextModule,nullptr,create=false), then Character handle conversion",
+    "module_ordinal_proven": false,
+    "evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/0045f400.c",
+    "context": "Actual script context module; global only when caller supplies -1",
+    "source_string_offset": 12,
+    "unbound_provider": "Failure, never missing object substituted",
+    "missing_object": "Source genuine no-op when handle cannot convert to Character"
+  },
+  "validation": [
+    "Actual original firstencounter XML executes through runtime+typed worldadapter+lifecycle",
+    "Two source Intro actors remainactual PreSpawn17 until timed sourceSpawn commands",
+    "Module context7 testfixture preserved, not a claimed original ordinal",
+    "All lock affects global controller only",
+    "Source camera two operands/order delegated",
+    "Disabled tutorial unchanged; enabled tutorial starts real source continuation and consumes/saves",
+    "WaitForAnim provider retains state1 until actualsequence completion event",
+    "Skipped Lock and Lock/Unlock case distinction",
+    "Missing lookup and unsupported PlayCamera fail explicitly"
+  ],
+  "typed_api": "OriginalCampaignWorldAdapter(lifecycle,camera*); bind(providers); bind_runtime(runtime); command(phase,sourceCommand,currentModule,skip,blocking,error)",
+  "supported_kinds": [
+    1,
+    2,
+    4,
+    8,
+    10,
+    12,
+    22,
+    23,
+    24,
+    25,
+    30,
+    31,
+    32,
+    39,
+    69,
+    70,
+    77,
+    78,
+    79
+  ],
+  "status": "native_ctest42_pass_component_only",
+  "callback_scope": "Test providers are typed controlled world-effect fixtures. Test does not claim GPU, physics, full save/network/menu effects or live main integration."
+}

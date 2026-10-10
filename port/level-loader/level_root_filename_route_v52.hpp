@@ -13,6 +13,7 @@ struct LevelRootFilenameServicesV52 {
  std::function<bool(const std::string&,bool& found,std::string& canonical,std::string&)> open_resource;
 };
 struct LevelRootFilenameTraceV52 {std::vector<std::string> mode_queries,open_resource_queries;};
+enum class LevelFilenameResolutionV52 {found,absent,failed};
 class LevelRootFilenameResolverV52 {
  LevelRootFilenameServicesV52 services_;bool busy_{};
 public:
@@ -21,6 +22,10 @@ public:
  // stream bypasses this original branch; do not resolve its rule as Level XML.
  bool resolve(const std::string& original_C1_name,std::string& canonical,
               LevelRootFilenameTraceV52* trace,std::string& error);
+ // All successful found=false attempts are a separate source outcome. Actual
+ // mode/open failures remain failed; the legacy bool resolver still rejects absence.
+ LevelFilenameResolutionV52 resolve_source(const std::string&,std::string&,
+                                         LevelRootFilenameTraceV52*,std::string&);
 };
 // Original320678 scalar body: nonempty source cc/d0 range plus case-sensitive
 // substring in [.mlx,.mgp,.mvp,.xml]. Range must be borrowed from SAME Application.

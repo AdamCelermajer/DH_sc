@@ -30,6 +30,10 @@ int StateOwnerDebugDiagnostics::idle_behavior(std::uint32_t source){
  if(source!=0x3c3020&&source!=0x3c2d3c)return -1;
  const int status=begin("isTracingCharState");return status?status:end();
 }
+int StateOwnerDebugDiagnostics::pre_spawn_behavior(std::uint32_t source){
+ if(source!=0x3c688c&&source!=0x3c67d4)return -1;
+ const int status=begin("isTracingCharState");return status?status:end();
+}
 CharacterIdleEvents::CharacterIdleEvents(CharacterStateOwner& states,CharacterAnimationInstance& animation,
  const data::AnimationTables& tables,data::AnimationRandom& random,const Facts& facts,
  AIEventState64& ai,AnimationAIState96& animation_ai,float speed,const IdleEventProviders& providers)

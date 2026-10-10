@@ -1,0 +1,36 @@
+{
+  "status": "PASS native Windows actual-original-data adapter tests",
+  "files": ["playable_actor_world.hpp", "playable_actor_world.cpp", "tests/playable_actor_world_tests.cpp"],
+  "scope": "Generic CombatWorld bridge; stable live actor registry shared by players and NPCs, owned original AI/faction tables and original melee damage snapshots",
+  "runtime_random_policy": "Constructor requires host-owned CombatRandom reference. No default/invented seed. clear retains same stream and its current state.",
+  "eligibility": {
+    "alive": "Both live registry actors must have positive health and action other than dead; removed/self/untargetable victims rejected",
+    "relationships": "Calls original ai_enemy using directed original signed faction relationship entries; only negative values mean hostile, missing entries are nonhostile",
+    "players": "Explicit ownership traits feed original both-player exclusion",
+    "fallback": "Original ai_enemy fallback faction10 retained for out-of-range IDs; unequal IDs never imply enemies"
+  },
+  "geometry": {
+    "reach": "Calls original dh2_attack_melee_radius with resolved AI property1, original fallback row8, actual main ItemRecord word39, and original ranged type4/5 handling",
+    "target_radius": "Returns original target melee reach, not physical-body collision radius",
+    "distance": "Calls original dh2_attack_melee_distance: strictly (ownerReach+targetReach)^2 > 3D squared distance; exact boundary excluded",
+    "source": "port/level-world/character_attack_geometry.cpp"
+  },
+  "damage_and_events": "resolve_damage rejects invalid eligibility/range without consuming RNG, delegates source-bound original melee provider, returns float damage and queues full original outcome/status/DOT/leech payload plus actor IDs/source/marker. Host drains through take_resolutions and applies lifecycle effects.",
+  "registry": "std::map stable addresses across insertion; duplicates rejected; remove clears other actors' target references; clear drops registry/events while retaining source bindings and RNG state",
+  "original_test_results": {
+    "cached_files": "Original CharacterTable, ClassTable, ItemTable, AI and faction arrays",
+    "pair": "KnightPlayerBase original faction11 -> Swamp_LizadMan_Type1 faction7",
+    "pair_hostile": true,
+    "source_reach": 200,
+    "victim_reach": 200,
+    "rng_seed": "1234 supplied solely as deliberate test input, not claimed campaign seed",
+    "verified": ["stable actor pointers", "duplicate rejection", "full result drain", "strict boundary", "vertical range", "both-player exclusion", "untargetable/dead actors", "removed target cleanup", "actual asymmetric original faction relationship", "failed original table loading preserves old tables", "clear retains host RNG"]
+  },
+  "remaining_host_work": [
+    "Host binds actual level/population IDs, original actor ownership/targetability, item records and complete gear/stat snapshots",
+    "Host supplies original stream seed/state and original combo/state facts",
+    "Host rebinding handles stat/gear/buff changes; adapter does not silently invent missing resource/vital values",
+    "Host consumes queued outcomes for reactions, statuses, DOT/leech and alternate buff-removal lifecycle",
+    "CombatSystem attack definitions must use source reach for maximum_range; camera/selection/animation remain separate generic systems"
+  ]
+}

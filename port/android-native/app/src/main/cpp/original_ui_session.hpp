@@ -10,9 +10,11 @@
 #include "authored_character_panel_v2.hpp"
 #include "multi_menu_resource_v93.hpp"
 #include "menu_postmovie_v62.hpp"
+#include "source_menu_variant_v132.hpp"
 
+namespace gameswf {struct fn_call;}
 namespace dh2::data {struct QuestRewardDefinitionV51;}
-namespace dh2::ui {class FlashAnimManagerV92;class AuthoredGameplayHudV1;struct HudTextEnvironmentV1;}
+namespace dh2::ui {class FlashAnimManagerV92;class AuthoredGameplayHudV1;class AuthoredCharacterApplicationV1;struct HudTextEnvironmentV1;}
 namespace model_renderer {struct SourceDeathRewardsLeavesV84;}
 namespace model_renderer {struct SourceCampaignItemLeavesV88;}
 namespace dh2::android_ui {struct SourceScriptUiLeavesV96;}
@@ -20,6 +22,16 @@ namespace dh2::android_ui {class SourceProcessArraysV101;}
 namespace dh2::android_ui {struct ProcessTrophyServicesV100;}
 namespace dh2::loader {struct LevelDestroyServicesV1;}
 namespace dh2::android_ui {
+struct OriginalUiGameplaySettingsActionsV1 {
+    std::function<bool(std::string&)> load;
+    std::function<bool(std::string&)> save;
+    std::function<bool(std::string&)> enter;
+    std::function<bool(std::string&)> refresh_hud;
+    bool japanese_build=false;
+};
+// Route the gameplay HUD's rollover native through the live source
+// MenuManager/primary1 RenderFX owner in native_app.cpp.
+bool dispatch_process_menu_rollover_v1(const char*,const gameswf::fn_call&,std::string&);
 // Retained authored HUD owner. Movie/font/texture CPU state survives GL
 // recreation; the connected status view borrows actual world properties.
 class OriginalUiSession {
@@ -32,6 +44,10 @@ public:
     void bind_platform_music(std::function<bool(std::int32_t&,std::string&)>);
     bool load_health_panel(const std::string& private_directory,std::string&);
     bool source_load_hud_primary_v63(const std::string& private_directory,std::string&);
+    bool bind_process_application_v109(const std::shared_ptr<application::ApplicationServicesOwnerV5>&,
+                                      const std::shared_ptr<ui::AuthoredCharacterApplicationV1>&,
+                                      OriginalUiGameplaySettingsActionsV1,std::string&);
+    bool select_process_hud_v132(const ui::SourceMenuVariantV132&,std::string&);
     bool source_scan_loaded_hud_v63(std::uintptr_t,std::string&);
     bool attach_player(const std::string& private_directory,std::string&);
     bool activate_source_player_v67(const model_renderer::PlayerGameplayBinding&,
@@ -75,6 +91,9 @@ public:
                                            bool& complete,std::string&);
     bool load_process_arrays_stage_v101(bool& complete,std::string&);
     bool process_arrays_borrow_v101(std::shared_ptr<SourceProcessArraysV101>&,std::string&);
+    // Borrow the one initialized source process owner from renderer code that
+    // has no reference to native_app's private OriginalUiSession instance.
+    static bool current_process_arrays_borrow_v101(std::shared_ptr<SourceProcessArraysV101>&,std::string&);
     bool process_trophy_services_v119(const std::shared_ptr<application::ApplicationServicesOwnerV5>&,
                                       ProcessTrophyServicesV100&,std::string&);
     bool process_cache_read_v119(const std::string&,bool& found,std::vector<std::uint8_t>&,
@@ -86,6 +105,9 @@ public:
     bool quest_completed_dialog_v108(std::int32_t title,std::int32_t style,const std::vector<data::QuestRewardDefinitionV51>&,std::string&);
     bool refresh_message_caches_stage26_v66(std::string&);
     bool complete_refresh_stage26_v66(std::string&);
+    // NativeRefreshHudManager43a810: invalidate InfoHUD's actual initialized
+    // byte, touch the same HUDControls state, and stop its live local player.
+    bool refresh_settings_hud_manager_v1(std::string&);
     bool display_fast_travel_v83(bool,const char* localized,const char* level,std::int32_t entry,std::string&);
     bool source_integer_string_v83(std::int32_t,std::string&,std::string&);
     bool enqueue_tutorial_v118(const std::shared_ptr<void>&,std::int32_t,std::int32_t,std::string&);

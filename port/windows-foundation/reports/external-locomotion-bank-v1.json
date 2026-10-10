@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-09",
+  "status": "external_source_locomotion_bank_binding_component_verified",
+  "released": false,
+  "goal_complete": false,
+  "implementation": "CombatSession::bind_actor_locomotion_from_bank",
+  "test": "tests/combat_session_tests.cpp",
+  "checks": [
+    "External logical state supplied with actual source Idle metadata and preloaded original resource.",
+    "Binding copies metadata and survives caller bank lifetime.",
+    "Unloaded clip rebind rejects without destroying existing alias binding.",
+    "Same retained pose owner advances on CombatSession clock.",
+    "Original source loop/type/rate/blend validation retained."
+  ],
+  "limits": [
+    "Staff/dual/other source stance graph projection separately tested by runtime_player_locomotion_program_v1; actual main stance switching remains to be enrolled and runtime-verified.",
+    "This does not preload new clips or change attack selection.",
+    "Preview6 remains frozen and excludes this development API."
+  ]
+}

@@ -62,6 +62,46 @@ struct Reader {
 };
 struct Loader {
     Reader r;Scene& s;std::vector<unsigned> path;bool include_hidden{};AuthoredVisibilityV76* visibility{};
+    void camera_instance(std::uint32_t node_index,std::uint32_t instance){
+        r.at(instance,8);
+        if(r.w(instance))throw std::runtime_error("External authored camera instance needs its actual database transport");
+        const auto camera_index=r.find(Library::camera,r.field(instance+4));
+        const auto camera=r.item(Library::camera,camera_index);r.at(camera,28);
+        Scene::CameraInstanceV1 parsed;parsed.node_index=node_index;parsed.camera=camera_index;
+        parsed.id=r.field(camera);parsed.kind=r.w(camera+4);
+        parsed.horizontal_fov_or_mag=r.f(camera+8);parsed.aspect=r.f(camera+12);
+        parsed.znear=r.f(camera+16);parsed.zfar=r.f(camera+20);
+        parsed.target_uri=r.field(camera+24,true);
+        s.cameras_v1.push_back(std::move(parsed));
+    }
+    void light_instance(std::uint32_t node_index,std::uint32_t instance){
+        r.at(instance,8);
+        if(r.w(instance))throw std::runtime_error("External authored light instance needs its actual database transport");
+        const auto uri=r.field(instance+4);
+        // The shipped skybox BRES files attach the conventional ambient
+        // environment URI to VisualSceneNode but contain no light-library
+        // record. It is a scene-global ambient marker, not a local SLight
+        // instance to materialize here.
+        if(uri=="#ambient-environment-light"
+           &&dh2_bres_library_count(&r.v,Library::light)==0)return;
+        const auto light_index=r.find(Library::light,uri);
+        const auto row=r.item(Library::light,light_index);r.at(row,24);
+        Scene::LightInstanceV113 parsed;parsed.node_index=node_index;parsed.light=light_index;
+        parsed.id=r.field(row);parsed.type=r.w(row+8);
+        const auto* color=r.at(row+12,4);
+        for(unsigned i=0;i<4;++i)parsed.authored_color[i]=color[i];
+        auto intensity_bits=r.w(row+16);std::memcpy(&parsed.intensity,&intensity_bits,4);
+        if(!std::isfinite(parsed.intensity))throw std::runtime_error("Nonfinite authored light intensity");
+        parsed.intensity/=255.f;
+        for(unsigned i=0;i<4;++i)parsed.color[i]=float(parsed.authored_color[i])*parsed.intensity;
+        const auto data=r.w(row+20);
+        if(parsed.type==1||parsed.type==2){
+            if(!data)throw std::runtime_error("Missing authored point/spot light parameters");
+            parsed.parameter_count=parsed.type==1?3:5;
+            for(unsigned i=0;i<parsed.parameter_count;++i)parsed.parameters[i]=r.f(data+4*i);
+        }
+        s.lights_v113.push_back(std::move(parsed));
+    }
     void materials(){
         const unsigned n=dh2_bres_library_count(&r.v,Library::material);
         if(n>4096)throw std::runtime_error("Too many materials");
@@ -118,11 +158,8 @@ struct Loader {
         for(unsigned i=0;i<count;++i){
             auto a=base+8*i;
             const auto tag=r.w(a);
-            if(tag==4){ //CColladaDatabase.constructNode61b664, instance-light URI.
-                const auto link=r.w(a+4);r.at(link,8);
-                if(r.w(link))throw std::runtime_error("External authored light instance needs its actual database transport");
-                s.lights_v113.push_back({node_index,r.find(Library::light,r.field(link+4))});continue;
-            }
+            if(tag==1){camera_instance(node_index,r.w(a+4));continue;}
+            if(tag==4){light_instance(node_index,r.w(a+4));continue;}
             if(tag!=3&&tag!=2){++s.ignored_instances;continue;}
             auto g=r.w(a+4);r.at(g,24);
             if(r.w(g))throw std::runtime_error("External geometry not supported");
@@ -136,10 +173,18 @@ struct Loader {
             Instance instance{r.field(p),node_index,geometry,world,{}};
             instance.controller=controller;
             const auto n=r.w(g+12),bindings=r.w(g+16);r.array(bindings,n,60);
+            assets::Mesh mesh{};
+            if(dh2_mesh_open(&mesh,&r.v,geometry)!=assets::Error::ok||n!=mesh.primitives)
+                throw std::runtime_error("Instance material binding/primitive domain differs");
             for(unsigned j=0;j<n;++j){
                 const auto b=bindings+60*j;
                 if(r.w(b))throw std::runtime_error("External material binding not supported");
-                instance.materials.push_back(r.find(Library::material,r.field(b+4)));
+                assets::Primitive primitive{};
+                if(dh2_mesh_primitive(&mesh,j,&primitive)!=assets::Error::ok||!primitive.material)
+                    throw std::runtime_error("Missing source primitive material symbol");
+                const auto material=r.find(Library::material,r.field(b+4));
+                instance.materials.push_back(material);
+                instance.material_symbols_v1.push_back({primitive.material});
             }
             if(visible||include_hidden){s.instances.push_back(std::move(instance));if(visibility){visibility->mesh_local.push_back(1);visibility->mesh_effective.push_back(visible?1u:0u);}}
         }

@@ -9,6 +9,7 @@ struct SwfMenuOptionServicesV1 {
     bool (*string_by_id)(void*,std::int32_t,std::string&,std::string&){};
     bool (*observe_sharp_language)(void*,std::int32_t,std::string&){};
     bool (*apply_option)(void*,const char*,std::int32_t,std::string&){};
+    bool (*reset_fonts)(void*,std::string&){};
     bool (*load)(void*,std::string&){};
     bool (*save)(void*,std::string&){};
     bool (*enter)(void*,std::string&){};

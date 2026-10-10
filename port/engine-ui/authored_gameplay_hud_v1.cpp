@@ -49,8 +49,9 @@ bool AuthoredGameplayHudV1::bind(std::int32_t style,std::string& error){
  if(style<0||style>3){error="Actual HUDStyle outside authored Android layouts";return false;}
  style_=style;menu_="_root.menu_HUD_"+std::to_string(style);elements_=menu_+".HUDelements";
  const auto c=elements_+".controls.controls.";
+ const bool static_skills=base_hud_?style<=1:style>=2;
  controls_={elements_+".btn_mainmenu",elements_+".btn_charactermenu",elements_+".HealthBars.btn_potion",c+"btn_spell",
- c+(style>=2?"btn_skill1":"list.btn_0"),c+(style>=2?"btn_skill2":"list.btn_pre0"),c+(style>=2?"btn_skill3":"list.btn_post0"),c+"btn_interact",c+"Joystick"};
+ c+(static_skills?"btn_skill1":"list.btn_0"),c+(static_skills?"btn_skill2":"list.btn_pre0"),c+(static_skills?"btn_skill3":"list.btn_post0"),c+"btn_interact",c+"Joystick"};
  SwfClipInfo info;for(const auto& path:controls_)if(!movie_.clip(path.c_str(),info,error)){style_=-1;return false;}
  if(!movie_.clip((controls_[8]+".stick").c_str(),info,error)){style_=-1;return false;}
  stick_rest_[0]=info.local.value[2];stick_rest_[1]=info.local.value[5];
@@ -101,7 +102,7 @@ bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,std:
  if(!frame(controls_[1]+".btimg.HudChar",portrait,error)||!movie_.set_visible((controls_[1]+".anim_levelup").c_str(),infos[15]!=0,error)||!movie_.set_visible(controls_[8].c_str(),dpad,error))return false;
  if(!frame(controls_[3]+".CoolDown",std::max(infos[6]-1,0),error)||!movie_.set_visible((controls_[3]+".Grey").c_str(),!infos[7],error))return false;
  for(unsigned n=0;n<3;++n){unsigned slot=n;
-  if(style_<2){ // Rolling list buttons carry their actual authored SlotId.
+  if(base_hud_?style_>1:style_<2){ // Rolling list buttons carry their actual authored SlotId.
    struct Slot{const std::string* path;unsigned* slot;};Slot q{&controls_[4+n],&slot};
    if(!movie_.action_script(&q,[](void* p,SwfAsGraph& g,std::string& e){auto& q=*static_cast<Slot*>(p);SwfAsValue root,v,id;bool found{};double number{};
     if(!g.root_value(root,e)||!g.find_target(root,q.path->c_str(),v,e)||!g.get_member(v,"SlotId",id,found,e)||!found||!g.to_number(id,number,e)){if(e.empty())e="Required rolling HUD SlotId";return false;}

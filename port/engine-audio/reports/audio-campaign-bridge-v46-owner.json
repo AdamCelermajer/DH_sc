@@ -1,0 +1,80 @@
+{
+  "feature": "AudioCampaignBridgeV46 typed owner publication",
+  "status": "native linked ownership proof passed; playable campaign remains unavailable",
+  "implementation": {
+    "files": [
+      "port/engine-audio/audio_campaign_bridge_v46.hpp",
+      "port/engine-audio/audio_campaign_bridge_v46.cpp"
+    ],
+    "api": "publish_on_owner captures the exact AudioApplicationBorrowV42 and a typed publisher whose context pointer equals the retained context owner's address. It rejects manager pointer/control-block mismatch before invoking the publisher. unpublish_expected uses expected-owner detach; failure retains callback pins for retry, and successful detach releases them without clearing a newer publication.",
+    "platforms": "The existing Android registry adapter remains in the Android-only compilation path. Portable Windows compilation no longer imports the JNI application header; callers must supply the typed publisher."
+  },
+  "native_validation": {
+    "runner": "port/engine-audio/tests/run_audio_campaign_bridge_v46_owner_test.py",
+    "test": "port/engine-audio/tests/audio_campaign_bridge_v46_owner_test.cpp",
+    "build_output": "port/engine-audio/tests/audio_campaign_bridge_v46_owner_build/",
+    "result": "PASS; all listed translation units compiled with Windows clang C++20 -Wall -Wextra -Werror, the executable linked against source_character_owner_factory_native_build/native.a plus the current Windows foundation archives, and native runtime exited 0.",
+    "coverage": [
+      "Genuine CharacterGameDesign and SourceCurrentLevelBackendV1 native GS/Level C1 fixture; original C1 loading field state130 remains 0.",
+      "Real AudioApplicationManagerV42 with original source sound bindings/assets, exact sounds_pyarray.bin listener stream, the same V42 runtime/mixer/clock/lifecycle gate, and WindowsSourceSessionControlV1/WinMM output.",
+      "Windows no-factory creation fails with the required actual platform control factory diagnostic.",
+      "Typed publication rejects same raw manager pointer with a different shared control block before callback effects; valid publication retains the exact bridge lease; newer publication replaces it; stale detach preserves the newer lease; failed detach retains ownership and retries; successful expected detach clears only its publication.",
+      "With source C1 status130=0, original Play3D submit returns through the source status early-return and records zero voices. The status was not changed. A direct call to the retained source-command callback fails at the exact missing leaf: Required actual reached SetListenerPos on SAME camera node."
+    ],
+    "runtime_claims": "Publication proves owner association only. It does not prove playable campaign audio or a completed source Level. The C1 status early-return is a successful original no-op, not a sound submission. The direct command callback identifies its next absent listener service outside that status guard."
+  },
+  "source_service_boundary": {
+    "exact_next_submit_leaf": "Native GS/Level C1 source loading status field state130 is 0, so original VoxPlay3D requires 38 and returns before its network, listener, general-initialize, emitter, and sound command services.",
+    "exact_direct_command_leaf": "The source camera listener service is unavailable; no same-Level SetListenerPos authority is installed.",
+    "not_supplied": [
+      "Source Level Load/loaded status 38 continuation",
+      "Actual same-Level camera/listener SetListenerPos provider",
+      "Completed original Vox Initialize/general and settings owner",
+      "Source network mute, emitter modifier, and source random providers"
+    ],
+    "next_work": "Continue only from the genuine source Level load/status and actual campaign services; do not synthesize state130=38, general initialization, or readiness."
+  },
+  "reproduction": {
+    "python": "C:/Users/adamc/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+    "command": "python port/engine-audio/tests/run_audio_campaign_bridge_v46_owner_test.py",
+    "toolchain": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe",
+    "linked_source_additions": [
+      "port/engine-audio/integration-v42/audio_application_manager_v42.cpp",
+      "port/engine-audio/integration-v42/audio_native_session_v42.cpp",
+      "port/engine-audio/audio_gameplay_runtime_v42.cpp",
+      "port/engine-audio/audio_gameplay_runtime_v40.cpp",
+      "port/engine-audio/audio_clock_v40.cpp",
+      "port/engine-audio/audio_source_bindings_v38.cpp",
+      "port/engine-audio/audio_listener_rows_v38.cpp",
+      "port/engine-audio/audio_source_command_v40.cpp",
+      "port/engine-audio/audio_spatial_v34.cpp",
+      "port/engine-audio/vox_source_fields_v38.cpp",
+      "port/engine-audio/audio_catalog_v34.cpp",
+      "port/engine-audio/audio_bank_v34.cpp",
+      "port/engine-audio/audio_sample_v34.cpp",
+      "port/engine-audio/audio_mixer_v34.cpp",
+      "port/engine-audio/audio_native_envelope_v34.cpp",
+      "port/engine-audio/integration-v40/focus/audio_lifecycle_gate_v40.cpp",
+      "port/windows-foundation/features/audio/windows_source_session_control_v1.cpp",
+      "port/windows-foundation/features/audio/winmm_output.cpp",
+      "port/level-world/vox_play3d_owner_v2.cpp",
+      "port/level-world/vox_music_state_owner_v1.cpp",
+      "port/level-loader/native_level_application_v25.cpp",
+      "port/level-loader/level_constructor_bindings_v4.cpp",
+      "port/level-loader/native_gslevel_runtime_v27.cpp",
+      "port/level-loader/canonical_level_context_v1.cpp",
+      "port/level-world/generic_lua_script_owner_v13.cpp",
+      "port/level-world/level_savegame_owner_v1.cpp",
+      "port/level-world/level_savegame_runtime_v1.cpp",
+      "port/windows-foundation/features/actor_frame/source_current_level_backend_v1.cpp"
+    ],
+    "link_libraries": [
+      "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_build/native.a",
+      ".local-inputs/windows-foundation-build/libfoundation_data.a",
+      ".local-inputs/windows-foundation-build/librecovered_content.a",
+      ".local-inputs/windows-foundation-build/libcontent_xml.a",
+      "-lopengl32 -luser32 -lgdi32 -lwinmm"
+    ]
+  },
+  "broader_backend_closure": "Not performed in this slice. The separate source_backend_native_closure.py rerun to the actual backend binder remains the next assigned task after this report is handed off."
+}

@@ -1,0 +1,17 @@
+{
+  "status": "verified_generic_original_getter_provider_ready",
+  "source": {
+    "getter": "GameObject::GetCameraAnchorPosition0x3943b8 reads same actor2e0; nonnull returns AnchorBase+c, null returns actor160",
+    "recovered_kernel": "port/level-world/gameplay_camera_anchor_v6.cpp source_camera_anchor_v6",
+    "getter_evidence": "port/level-world/reference/gameplay-camera-v1/handoff.md",
+    "constructor_evidence": "port/level-world/reference/character-set-position-v7/inherited-position-constructor-original.json attached2e0=0",
+    "init_cam": "Character::InitCam0x3b4bc4 in player-initialization-v29/original-functions.asm creates AnchorBase or AnchorForward based actual Debug switch, then SetCameraAnchorObject394378. PlayerManager captured callsites0x371e30/0x372140/0x372510 invoke it. No unconditional NPC InitCam path proved here.",
+    "position_update": "GameObject::SetPosition393db4 translates attached+c by owner delta; provider borrows current attached point instead of independently resetting/synthesizing it"
+  },
+  "contract": "SourceActorCameraAnchorInput requires admitted actual GameObject position160, stable actor ownership lease/identity and known actual anchor2e0. Explicit known zero publishes current actor position; nonzero requires matching retained AnchorBase+c resolver. Missing present-anchor provider fails and does not fall back. Caller supplies current admitted gameplay transform, no visual model/bone projection.",
+  "nonplayer_policy": "Generic known-null source slot works for NPC/monster/faery without manufacturing an anchor. NPC registration must retain actual constructor/null slot or source setter-produced receiver; actor type/name/map never determines the fallback.",
+  "integration": "Register sourceObjects.anchor for every admitted actor using stable world entry lease/id, current authoritative gameplay position and source anchor slot. Player actual forward/base receiver may be supplied through anchor_position_c; preserve existing OriginalActorCameraAnchor lifecycle. Never call InitCam merely because a camera targets an NPC.",
+  "tests": "tests/source_actor_camera_anchors_tests.cpp covers known-null branch without callback, admitted movement, exact attached receiver, missing provider rejection and no output mutation on failure",
+  "dependencies": ["source_actor_camera_anchors.cpp", "../level-world/gameplay_camera_anchor_v6.cpp"],
+  "limitations": "This wrapper recovers getter selection only; it does not synthesize actor constructor ownership, execute InitCam/anchor creation/deletion, or prove all historical scripts/NPC anchor mutation callsites. These remain explicit caller-owned services."
+}

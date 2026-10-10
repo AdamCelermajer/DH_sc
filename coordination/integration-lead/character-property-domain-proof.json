@@ -1,0 +1,19 @@
+{
+  "source": ".local-inputs\\actors\\character_properties_pystructnames.bin",
+  "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+  "parser": "game-data/data.cpp Reader::strings format, first CharacterTable fields section",
+  "verified_fields": {
+    "2": "AnimTable",
+    "7": "Effects",
+    "8": "Sounds",
+    "9": "Loot",
+    "19": "Level",
+    "33": "XP",
+    "34": "Max_XP",
+    "35": "Value_XP",
+    "148": "Stat_Points",
+    "157": "Skill_Points"
+  },
+  "meaning": "Sounds8 differs from Loot9; use same resolved property domain, do not reuse loot as audio index",
+  "get_char_sounds_native_branch_proof": "worker follow-up pending; fallback2 from original table adapter must be checked"
+}

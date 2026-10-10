@@ -1,0 +1,771 @@
+{
+  "feature": "RuntimeSwingFxObserverV1 source step WGL attempt",
+  "validation": "FAILED",
+  "runner": "port/windows-foundation/features/effects/runtime_effects_renderer_wgl_smoke.py",
+  "test": "port/windows-foundation/features/effects/runtime_effects_renderer_wgl_smoke.cpp",
+  "execution": {
+    "exec_session_id": 53092,
+    "command": "py -3 port/windows-foundation/features/effects/runtime_effects_renderer_wgl_smoke.py",
+    "run_count": 1,
+    "compile_only": "PASS",
+    "terminal_exit_code": 1
+  },
+  "source_step": {
+    "fresh_manager_before_step": 0,
+    "sequence": 470,
+    "step": 1,
+    "occurrence": 1,
+    "set_id": 253,
+    "set_name": "swoosh_prince_1hand_combo_01",
+    "type": 0
+  },
+  "reached_checks": {
+    "actual_session_step_observed": true,
+    "step_created_source_instance": true,
+    "same_session_packet_prepared": true,
+    "original_texture_uploaded": true,
+    "root_renderer_queue_retained": true,
+    "renderer_draw_and_finish_drain": true,
+    "gl_error_check": "PASS",
+    "changed_pixels_threshold": "> 10"
+  },
+  "failure": {
+    "stage": "WGL framebuffer readback",
+    "message": "check 51: Original source swoosh produced no framebuffer changes",
+    "changed_pixels": 7,
+    "changed_pixels_upper_bound": 7,
+    "exact_count_unavailable_reason": null
+  },
+  "read_only_cpu_packet_diagnostics": {
+    "source": "Fresh-manager linked CPU replay of the same actual CombatSession 470:1 step.fx=253 path; not a WGL framebuffer measurement.",
+    "vertex_count": 38,
+    "world_aabb": {
+      "min": [
+        -126.24099,
+        -389.54501,
+        7.1791101
+      ],
+      "max": [
+        294.302,
+        126.267,
+        472.76099
+      ],
+      "extent": [
+        420.54299,
+        515.81201,
+        465.58188
+      ]
+    },
+    "vertex_rgba_min": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "vertex_rgba_max": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "decoded_source_texture_alpha_min_max": [
+      255,
+      255
+    ],
+    "material": {
+      "color": [
+        0.58431375,
+        0.58431375,
+        0.58431375,
+        1
+      ],
+      "transparent": true,
+      "additive": true,
+      "alpha_reference": 0,
+      "source_pass": {
+        "blend": true,
+        "blend_source": 1,
+        "blend_destination": 1,
+        "depth_test": true,
+        "depth_write": false,
+        "cull": false,
+        "cull_face": 1029,
+        "front_face": 2305,
+        "alpha_test": false
+      }
+    },
+    "transformed_normal_abs_dot_view_plus_z_range": [
+      0.41529307,
+      0.84157881
+    ],
+    "mean_transformed_normal_abs_dot_view_plus_z": 0.60472873,
+    "wgl_camera_frustum_from_test_formula": {
+      "target": [
+        84.030505,
+        -131.639005,
+        239.97005005
+      ],
+      "eye_z": 1684.24367805,
+      "nearest_aabb_depth": 1211.48268805,
+      "farthest_aabb_depth": 1677.06456795,
+      "vertical_half_span_at_nearest": 699.44985606,
+      "horizontal_half_span_at_nearest": 932.59980809,
+      "aabb_half_width": 210.271495,
+      "aabb_half_height": 257.906005,
+      "far_plane": 10316.2402,
+      "assessment": "AABB lies within computed bounds; its normals are not edge-on and sampled vertex/texture alpha is fully opaque. These facts do not explain the \u00e2\u2030\u00a410 WGL changed-pixel result."
+    },
+    "projected_triangle_diagnostics": {
+      "camera": "WGL bounds-derived camera: 640x480, vertical FOV 60deg, eye +Z at 2.8x packet extent",
+      "uv_source": "actual packet UVs after source texture matrix bake; no second matrix application",
+      "triangle_count": 36,
+      "degenerate_world_triangles": 0,
+      "degenerate_projected_triangles": 0,
+      "sum_projected_triangle_area_pixels": 7522.5206,
+      "covered_pixel_centers_with_overdraw": 7534,
+      "unique_sampled_texture_texels": 1216,
+      "black_bilinear_rgb_samples": 7524,
+      "bilinear_rgb_channel_min": 0,
+      "bilinear_rgb_channel_max": 2.5921325,
+      "texture_dimensions": [
+        64,
+        64
+      ]
+    },
+    "assessment": "No world/projected degenerate triangles. The authored, already-baked UV footprint samples nearly black RGB over the projection, making the source texture/pass a plausible cause of the 7 changed pixels; this is CPU projection evidence, not a second WGL result.",
+    "source_timeline_phases": {
+      "initial": {
+        "current_ms": 0,
+        "start_ms": 0,
+        "end_ms": 333,
+        "visible": true,
+        "packet_count": 1,
+        "uv_samples": 74,
+        "nonblack_uv_samples": 0,
+        "max_texture_channel": 0,
+        "max_modulated_channel": 0,
+        "material_color": [
+          0.58431375,
+          0.58431375,
+          0.58431375,
+          1
+        ],
+        "uv_min": [
+          0.71113598,
+          0.015435
+        ],
+        "uv_max": [
+          0.99141097,
+          0.98738903
+        ]
+      },
+      "view_found": true,
+      "sampled_later_phases": [
+        {
+          "absolute_ms": 83,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ]
+        },
+        {
+          "absolute_ms": 167,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ]
+        },
+        {
+          "absolute_ms": 250,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ]
+        },
+        {
+          "absolute_ms": 316,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ]
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "fresh_ppm_written": true,
+    "configured_ppm_path": ".local-inputs/windows-effects-renderer-wgl/runtime-effects-renderer-wgl-smoke.ppm",
+    "existing_ppm_is_stale": false,
+    "no_live_gl_claim": true,
+    "fresh_ppm_status": "FAIL",
+    "fresh_ppm_status_sidecar_contains_raw_json_path_escape": true,
+    "fresh_ppm_status_sidecar_rewritten_with_valid_json": true
+  },
+  "policy": "The single authorized WGL run is terminal. No second GUI run was launched.",
+  "diagnostic_rerun": {
+    "validation": "FAIL",
+    "changed_pixels": 7,
+    "threshold": ">10",
+    "failure_stage": "WGL framebuffer readback",
+    "source_material": {
+      "texture_handle": 1,
+      "material_color": [
+        0.584314,
+        0.584314,
+        0.584314,
+        1
+      ],
+      "additive": true,
+      "transparent": true,
+      "vertex_color_min": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "vertex_color_max": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "uv_min": [
+        0.711136,
+        0.015435
+      ],
+      "uv_max": [
+        0.991411,
+        0.987389
+      ],
+      "source_pass": {
+        "blend": true,
+        "blend_source": 1,
+        "blend_destination": 1,
+        "depth_test": true,
+        "depth_write": false,
+        "cull": false,
+        "alpha_test": false
+      }
+    },
+    "texture": {
+      "uploaded": true,
+      "handle": 1,
+      "width": 64,
+      "height": 64,
+      "rgb_min": [
+        0,
+        0,
+        0
+      ],
+      "rgb_max": [
+        132,
+        214,
+        255
+      ]
+    },
+    "actual_texture_handles": [
+      1
+    ],
+    "renderer_clear_rgb_min": [
+      9,
+      11,
+      15
+    ],
+    "renderer_clear_rgb_max": [
+      9,
+      11,
+      15
+    ],
+    "fresh_framebuffer_capture": ".local-inputs/windows-effects-renderer-wgl/runtime-effects-renderer-wgl-smoke.ppm",
+    "fresh_framebuffer_status": ".local-inputs/windows-effects-renderer-wgl/runtime-effects-renderer-wgl-smoke.ppm.status.json",
+    "raw_run_log": ".local-inputs/windows-effects-renderer-wgl/run.log",
+    "runner_parser_failure": "Initial diagnostic JSON contained an unescaped Windows path; diagnostic fields and capture were recovered from the preserved raw run log.",
+    "no_additional_wgl_run": true,
+    "projected_triangle_diagnostics": {
+      "camera": "WGL bounds-derived camera: 640x480, vertical FOV 60deg, eye +Z at 2.8x packet extent",
+      "uv_source": "actual packet UVs after source texture matrix bake; no second matrix application",
+      "triangle_count": 36,
+      "degenerate_world_triangles": 0,
+      "degenerate_projected_triangles": 0,
+      "sum_projected_triangle_area_pixels": 7522.5206,
+      "covered_pixel_centers_with_overdraw": 7534,
+      "unique_sampled_texture_texels": 1216,
+      "black_bilinear_rgb_samples": 7524,
+      "bilinear_rgb_channel_min": 0,
+      "bilinear_rgb_channel_max": 2.5921325,
+      "texture_dimensions": [
+        64,
+        64
+      ]
+    },
+    "source_timeline_phases": {
+      "initial": {
+        "current_ms": 0,
+        "start_ms": 0,
+        "end_ms": 333,
+        "visible": true,
+        "packet_count": 1,
+        "uv_samples": 74,
+        "nonblack_uv_samples": 0,
+        "max_texture_channel": 0,
+        "max_modulated_channel": 0,
+        "material_color": [
+          0.58431375,
+          0.58431375,
+          0.58431375,
+          1
+        ],
+        "uv_min": [
+          0.71113598,
+          0.015435
+        ],
+        "uv_max": [
+          0.99141097,
+          0.98738903
+        ]
+      },
+      "view_found": true,
+      "sampled_later_phases": [
+        {
+          "absolute_ms": 83,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ]
+        },
+        {
+          "absolute_ms": 167,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ]
+        },
+        {
+          "absolute_ms": 250,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ]
+        },
+        {
+          "absolute_ms": 316,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ]
+        }
+      ]
+    },
+    "readback_assessment": "Actual WGL changed_pixels=7; CPU projection has 36 nondegenerate triangles and samples nearly black authored texture RGB at the exact baked UVs. This plausibly explains low additive output; no WGL rerun or source override was used."
+  },
+  "source_asset_sampler_uv_audit": {
+    "validation": "PASS",
+    "source_texture_uri": "data/3d/textures/fx_weapon_trail_blue_gradual.tga",
+    "original_texture_sha256": "28d2da9ef8dc3c03ecca6969cca7a35c9f3cf6e1b4bd92dc8bfc4752e41f09e3",
+    "uploaded_uri_overlay_sha256": "28d2da9ef8dc3c03ecca6969cca7a35c9f3cf6e1b4bd92dc8bfc4752e41f09e3",
+    "original_texture_bytes": 2108,
+    "uploaded_overlay_bytes": 2108,
+    "texture_bytes_identical": true,
+    "source_effect_uri": "data/3d/interface/swoosh_prince_1hand_combo_01.bdae",
+    "source_effect_sha256": "af8ef8a2dc4d6da7c369964aa7d1fed08859ea4ba1d6062ac6796f11a936180b",
+    "effect_uri_overlay_sha256": "af8ef8a2dc4d6da7c369964aa7d1fed08859ea4ba1d6062ac6796f11a936180b",
+    "effect_resource_bytes_identical": true,
+    "sampler_addressing": {
+      "source_renderer_policy": "GL_REPEAT for S and T",
+      "source_renderer_evidence": "port/windows-foundation/renderer.cpp Renderer::createTexture sets GL_TEXTURE_WRAP_S/T to GL_REPEAT",
+      "source_texture_consumer_evidence": "port/engine-resources/tests/texture_resource_consumer_v40.cpp verifies source FX MIN=GL_LINEAR_MIPMAP_NEAREST, MAG=GL_LINEAR, WRAP_S/T=GL_REPEAT",
+      "wgl_upload_path": "same Renderer::createTexture; diagnostic handle 1"
+    },
+    "authored_uv_path": {
+      "source_track_name": "diffuse-sampler-matrix",
+      "source_track_sampled_by": "AuthoredFxMeshGraphV32::sample using source TextureTransform20V1 / dh2_fx_texture_matrix_v1",
+      "application": "AuthoredFxMeshGraphV32::draw_sources applies matrix to UV stream once before packet creation",
+      "packet_contract": "Effect packet UVs are the baked snapshot; diagnostic does not apply matrix again",
+      "repeat_semantics": "later sample U shift +1 is equivalent under source GL_REPEAT; V unchanged"
+    },
+    "source_material_flags": {
+      "blend": true,
+      "blend_source": 1,
+      "blend_destination": 1,
+      "additive": true,
+      "transparent": true,
+      "depth_test": true,
+      "depth_write": false,
+      "cull": false,
+      "alpha_test": false,
+      "material_color": [
+        0.58431375,
+        0.58431375,
+        0.58431375,
+        1
+      ]
+    },
+    "unresolved_fields": [],
+    "authored_uv_matrix_differential": {
+      "source_effect_sha256": "af8ef8a2dc4d6da7c369964aa7d1fed08859ea4ba1d6062ac6796f11a936180b",
+      "source_texture_sha256": "28d2da9ef8dc3c03ecca6969cca7a35c9f3cf6e1b4bd92dc8bfc4752e41f09e3",
+      "bres_scene_material_base_2d": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "sampled_track_matrix_2d": {
+        "0ms": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "83ms": [
+          1,
+          0,
+          0,
+          1,
+          1,
+          0
+        ],
+        "167ms": [
+          1,
+          0,
+          0,
+          1,
+          1,
+          0
+        ],
+        "250ms": [
+          1,
+          0,
+          0,
+          1,
+          1,
+          0
+        ],
+        "316ms": [
+          1,
+          0,
+          0,
+          1,
+          1,
+          0
+        ]
+      },
+      "composition_and_application": "BRES material base is identity. AuthoredFxMeshGraphV32 samples the source diffuse-sampler-matrix TextureTransform20V1 track, replaces the per-material matrix, then draw_sources applies that matrix to source UVs once before packet creation. The observed +1 U is the authored offset_u; no base atlas scale or translation is discarded.",
+      "repeat_result": "With verified GL_REPEAT S/T, +1 U is exactly texture-period equivalent; this is not a double-bake or omitted atlas-scale symptom.",
+      "evidence": "runtime-effects-factory-native-report.json wgl_diagnostic_cpu_packet.authored_uv_matrix and source_timeline_phases.sampled_later_phases; port/level-world/authored_fx_mesh_graph_v32.cpp; port/level-world/fx_texture_animation_v1.cpp; port/level-world/character_fx_kernels_v1.cpp"
+    }
+  },
+  "playable_weapon_source": {
+    "item": "Longsword01",
+    "item_table_index": 664,
+    "same_session_main_hand_equipped": true,
+    "item_record_words_5_6": [
+      -1,
+      -1
+    ],
+    "same_session_traits_main_item_words_5_6": [
+      -1,
+      -1
+    ],
+    "source_precedence": "main-hand ItemRecord FX; then offhand only if main FX is -1; then AnimTable step.fx only if both item FX values are -1",
+    "actual_selected_fx_source": "AnimTable step.fx fallback"
+  },
+  "playable_weapon_interpretation": {
+    "source_selection": "The linked fixture was the actual main-hand Longsword01 source row (ItemTable index 664), not a generic no-item fixture. Its source ItemRecord words[5/6] and the same CombatSession main-item traits both equal [-1,-1].",
+    "precedence": "Original source uses main-hand SwooshFX first, queries offhand only when main SwooshFX is -1, and permits AnimTable step.fx only when both item FX values are -1. This session has no offhand, so actual AnimTable step.fx 253 is selected as the source fallback.",
+    "visual_scope": "The 7-pixel WGL result is for the actual Longsword01 no-item-FX fallback dispatch and exact source resources. It does not establish native-game visual equivalence beyond the verified source branch/material/mesh packet."
+  },
+  "source_starter_weapon_fx_audit": {
+    "validation": "PASS",
+    "basis": "Actual LootTable starter rows plus separately initialized same-class CombatSessions using the same source ItemTable and CharacterTable/Class-specific melee profile; output captured by linked native test.",
+    "source_precedence": "Item word[6] is SwooshFX. Source tries main-hand ItemRecord FX, checks offhand only if main FX is -1, and permits the selected AnimTable step.fx only if both are -1. Item word[5] is SwooshSoundFX, not an EffectsTable set ID.",
+    "starter_rows_and_session_bindings": [
+      {
+        "profile": "RoguePlayerBase",
+        "main_item": "Dagger01",
+        "main_item_table_index": 370,
+        "main_same_session_bound": true,
+        "main_item_record_words_5_6": [
+          -1,
+          -1
+        ],
+        "traits_main_item_words_5_6": [
+          -1,
+          -1
+        ],
+        "main_item_fx_set_name": "",
+        "off_item": "Dagger01",
+        "off_item_table_index": 370,
+        "off_actor_state_slot_bound": false,
+        "same_session_offhand_configuration_matches": true,
+        "session_dual_wield_fact": true,
+        "session_off_damage_class": 3,
+        "session_equipment": [
+          "main_hand:Dagger01"
+        ],
+        "off_item_record_words_5_6": [
+          -1,
+          -1
+        ],
+        "off_item_fx_set_name": ""
+      },
+      {
+        "profile": "MagePlayerBase",
+        "main_item": "Staff01",
+        "main_item_table_index": 1025,
+        "main_same_session_bound": true,
+        "main_item_record_words_5_6": [
+          479,
+          -1
+        ],
+        "traits_main_item_words_5_6": [
+          479,
+          -1
+        ],
+        "main_item_fx_set_name": "",
+        "off_item": "",
+        "off_item_table_index": -1,
+        "off_actor_state_slot_bound": true,
+        "same_session_offhand_configuration_matches": true,
+        "session_dual_wield_fact": false,
+        "session_off_damage_class": -1,
+        "session_equipment": [
+          "main_hand:Staff01"
+        ],
+        "off_item_record_words_5_6": [
+          -1,
+          -1
+        ],
+        "off_item_fx_set_name": ""
+      }
+    ],
+    "item_specific_effect_table_set_ids": [],
+    "reachable_fallback": "The exact item rows provide no SwooshFX override. The linked real Knight session observed AnimTable sequence 470 step 1 selecting EffectsTable set 253 (swoosh_prince_1hand_combo_01); Rogue/Mage starter records therefore do not replace that source fallback. Their class-specific step selection remains sourced from their own AnimTable progression.",
+    "rogue_same_name_offhand_projection": "Source CombatSession config applies both mainItemId and offItemId Dagger01 to the original combat properties (dual_wield=true; off_damage_class=3). ActorState equipment is name-deduplicated and projects only main_hand:Dagger01, with no off_hand ActorState entry; PlayableActorTraits contains main_item only. This is a source-session representation limitation. Both Dagger01 rows have word[6]=-1, so the missing duplicate offhand row does not hide an item FX override.",
+    "mage_sound_note": "Staff01 word[5]=479 is its SwooshSoundFX; word[6]=-1 means it is not an EffectsTable FX override. Its same-session main_item traits match the exact row; offhand absent and dual_wield=false.",
+    "uv_brightness_comparison": {
+      "item_override_comparison": "No item-specific EffectTable set exists for either starter, so there is no alternate authored item-set UV footprint to compare. Their only available FX path is the source AnimTable step fallback.",
+      "fallback_set_id": 253,
+      "fallback_set_name": "swoosh_prince_1hand_combo_01",
+      "fallback_texture_sha256": "28d2da9ef8dc3c03ecca6969cca7a35c9f3cf6e1b4bd92dc8bfc4752e41f09e3",
+      "fallback_source_effect_sha256": "af8ef8a2dc4d6da7c369964aa7d1fed08859ea4ba1d6062ac6796f11a936180b",
+      "uv_evidence": "Actual fallback packet UVs, matrix baked once and sampled with GL_REPEAT: 74 probes black at initial and each of 83/167/250/316 ms; projected raster samples 7524/7534 black and max texture channel 2.592/255. No alternate brighter item set is present."
+    },
+    "limits": [
+      "Rogue/Mage sessions were initialized with actual class profiles and starter bindings to audit ItemTable/traits/combat facts; their attack step was not separately advanced or rendered.",
+      "Only the existing actual Knight AnimTable step 470:1 produced the packet and single WGL result (7 changed pixels). No visual claim is made for an unobserved Rogue/Mage attack packet."
+    ]
+  }
+}

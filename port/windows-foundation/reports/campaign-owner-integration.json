@@ -1,0 +1,14 @@
+{
+  "status": "native_actual_quest_codec_registry_verified_not_complete_campaign_save",
+  "files": ["features/campaign_save/source_owner_capture.hpp", "features/campaign_save/source_owner_capture.cpp", "features/campaign_save/source_owner_capture_tests.cpp", "features/campaign_save/run_source_owner_tests.ps1", "features/campaign_save/CAMPAIGN-OWNER-INTEGRATION.md"],
+  "existing_change": "campaign_snapshot.hpp reserves unavailable player_profile_source_v1 codec7; existing capture/restore rejects it",
+  "authority": "Registers SAME CharacterMenuQuestsV51/PlayerSavegameV1 and actual caller Character lease; calls fresh writer0/1 views. No copied live collection, new profile or second inventory/actor graph.",
+  "verified": {"compiler": "native llvm-mingw clang C++17", "strict_new_module": "-Wall -Wextra -Werror PASS", "closure_link": "PASS against actual native quest/condition/event/source stream kernels and existing foundation archives", "run": "PASS rows64 collections2 unsupported-rejection2 expired-lease1", "actual_data": "port/level-world/reference/character-menu-profile-v51/cache/v2quests_pyarray.bin and names", "fixtures": "Character identity/lease and revision-token value; not initialized gameplay Character"},
+  "root_api": "make_shared<SourceOwnerCapture>(); add_quest_collections(sameNativeQuestOwner, actualCharacterLease, stableRegularVolatileKeys, actualManifestRevision); require_unsupported for every registered fragment lacking complete codecs; feed services() into existing capture_campaign_snapshot/prepare_campaign_restore.",
+  "staging_scope": "Payload validation constructs detached QuestPersistence cells with exact table counts/full consumption; native condition/objective registration and whole-character/profile staging/publication remain required external graph factory.",
+  "publication": "Root builds one detached complete canonical/native graph, registers staged quest native dispatch against that SAME staged owner and publishes via single PreparedCampaignRestore.commit noexcept. No sequential live loaders.",
+  "authentic_create_slot_dependency": "NativeCreateSaveSlot seven metadata sections and fresh property224 resolution are insufficient. Actual indexed SaveC1/SGLoad/SGSave plus complete candidate Character/PlayerInfo/inventory37c/skills/faeries/quests/native services must finish before frontend create/assign/start enables.",
+  "representation_gaps": ["CharacterState cannot carry rank-zero native skills/two slot sets/faery/difficulty/quest cells", "Source stats149..152 Strength/Dexterity/Endurance/Energy have no proved Intelligence projection", "Complete PlayerSave source codec remains unavailable"],
+  "remaining": ["Root canonical source factory and quests canonical graph publication", "Full profile/lifecycle/trigger/script/game-event codecs", "Version2 filesystem format migration/atomic save", "Live campaign restore/restart and reference fidelity"],
+  "goal_complete": false
+}

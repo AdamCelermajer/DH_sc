@@ -28,6 +28,13 @@ struct CharacterMenuActionsGraphV1 {
     // NativeSwapEquipment reaches these even when its selected player is null.
     // Caller supplies exact retained HUD AS receiver and original numeric arg.
     std::function<bool(const char*,std::string&)> swap_hud;
+    // NativeSelectClassSpec's source order: select the same local player,
+    // load/recalculate its authored CharacterProperties row, reload AI skills,
+    // then SG_Save. The production adapter binds these to the retained graph.
+    std::function<bool(std::uintptr_t&,std::string&)> class_spec_local_player;
+    std::function<bool(std::int32_t,std::string&)> class_spec_load_properties;
+    std::function<bool(std::string&)> class_spec_reload_skills,class_spec_save;
+    const data::CharacterTable* class_spec_characters{};
 };
 // Whole action coordinator for the in-game menu's gear, skill-slot, training
 // and stat assignment sections. This is separate from query field production
@@ -48,9 +55,14 @@ public:
     bool equip(std::uint32_t slot,std::uint32_t item,std::string&);
     bool unequip(std::uint32_t slot,std::string&);
     bool swap(std::string&);
+    bool select_class_spec(std::int32_t,std::string&);
     bool assign_stat(std::uint32_t stat,std::string&);
     bool equip_skill(std::int32_t slot,std::int32_t row,std::string&);
     bool train_skill(std::int32_t row,std::int32_t& points_left,std::string&);
+    // NativeSkillsTrainSkill's authored three-argument probe passes true to
+    // IncSkill. This runs the complete source test_only path on the same live
+    // graph and reports an ordinary source rejection as accepted=false.
+    bool probe_train_skill(std::int32_t row,bool& accepted,std::string&);
     // The authored callback APPENDS three saved row numbers to its supplied
     // AS array, then reports bool true. It never clears or replaces the array.
     bool append_equipped_skills(const std::function<bool(std::int32_t,std::string&)>&,std::string&);

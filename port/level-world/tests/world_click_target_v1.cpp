@@ -26,7 +26,7 @@ struct Fixture {
   s.neutral=[this](std::uintptr_t,std::uintptr_t,bool& out,std::string&){calls.push_back("neutral");out=false;return true;};
   s.enemy=[this](std::uintptr_t,std::uintptr_t,bool& out,std::string&){calls.push_back("enemy");out=true;return true;};
   s.nearby=[this](std::uintptr_t,const std::array<float,3>& p,float value,bool& out,std::string&){assert(value==radius);const float box[6]{9,19,29,11,21,31};out=world_click_nearby_v1(box,p.data(),value);calls.push_back("nearby");return true;};
-  s.object_type_name5c=[](std::uintptr_t id,const char*& name,std::string&){name=id==3?"Block":"Chest";return true;};
+  s.object_type_name5c=[](std::uintptr_t id,const char*& name,std::string&){name=id==3?"Character":"Chest";return true;};
   s.debug=[this](std::uint32_t site,bool& out,std::string&){calls.push_back("debug:"+std::to_string(site));out=option;return true;};
   s.move=[this](const std::array<float,3>&,bool released,std::string&){calls.push_back(released?"release_move":"move");return true;};return s;
  }
@@ -39,7 +39,7 @@ int main(){const std::array<float,3> point{10,20,30};std::string e;
  {Fixture f;f.target_failure=dh2::character::target_owner_ai_id;auto fields=f.fields();assert(!world_click_target_v1(fields,point,false,f.services(),e)&&f.clicked==1&&f.target.candidate==2&&f.target.target==2);}
  {Fixture f;f.chars.clear();f.mode=true;auto fields=f.fields();assert(world_click_target_v1(fields,point,false,f.services(),e)&&f.target.target==0&&f.calls.back()=="debug:"+std::to_string(0x3ae208));}
  {Fixture f;f.chars.clear();auto fields=f.fields();assert(world_click_target_v1(fields,point,false,f.services(),e)&&f.calls.back()=="move"&&f.target.target==0&&f.target.last_target==0);}
- {Fixture f;f.chars.clear();f.objects={3,4};auto fields=f.fields();assert(world_click_target_v1(fields,point,true,f.services(),e)&&f.target.target==4&&f.clicked==0);}// Block excluded; actual generic receiver chosen
+ {Fixture f;f.chars.clear();f.objects={3,4};auto fields=f.fields();assert(world_click_target_v1(fields,point,true,f.services(),e)&&f.target.target==4&&f.clicked==0);}// Character excluded by the source literal; actual generic receiver chosen
  {Fixture f;auto fields=f.fields();auto services=f.services();services.neutral={};assert(!world_click_target_v1(fields,point,false,services,e)&&f.target.target==0&&f.pending==0&&e.find("AI_IsNeutral")!=std::string::npos);}
  const float box[6]{-1,-1,-1,1,1,1},edge[3]{51,51,51};assert(world_click_nearby_v1(box,edge,1));float invalid[3]{0,0,std::numeric_limits<float>::quiet_NaN()};assert(!world_click_nearby_v1(box,invalid,1));
  std::cout<<"world Ctrl_Click PASS same fields/whole target setter + declared world predicates; no live input binding claim\n";

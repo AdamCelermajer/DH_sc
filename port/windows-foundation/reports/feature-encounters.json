@@ -1,0 +1,259 @@
+{
+  "status": "manual_native_pass_connected_condition_actual_child_trigger_script_start",
+  "scope": "Reusable world encounters and actor admission for all authored maps; no map, actor-profile, encounter-name or frame-number branches.",
+  "live_frames_replaced": false,
+  "files": [
+    "port/windows-foundation/features/encounters/encounter_services.hpp",
+    "port/windows-foundation/features/encounters/encounter_services.cpp",
+    "port/windows-foundation/features/encounters/trigger_constructors.hpp",
+    "port/windows-foundation/features/encounters/trigger_constructors.cpp",
+    "port/windows-foundation/features/encounters/connected_tests.cpp",
+    "port/windows-foundation/features/encounters/Feature.cmake",
+    "port/windows-foundation/features/encounters/README.md",
+    "port/windows-foundation/features/encounters/npc_profile_binding.hpp",
+    "port/windows-foundation/features/encounters/npc_profile_binding.cpp",
+    "port/windows-foundation/features/encounters/npc_profile_tests.cpp",
+    "port/windows-foundation/features/encounters/fixtures/character_templates_pystructnames.bin",
+    "port/windows-foundation/features/encounters/activation_bindings.hpp",
+    "port/windows-foundation/features/encounters/activation_bindings.cpp",
+    "port/windows-foundation/features/encounters/module_graph_binding.hpp"
+  ],
+  "connected_subset": [
+    "Actual SourceRootScopes constructor Module40c/position/context used for child MGP request",
+    "Actual original MGP XML borrowed through CanonicalSourceBindingV1; actual declaration lease/element/context retained",
+    "CanonicalBoundSourceAttempt/ObjectManager execute real Trigger constructor/name/room/property/default/template/override/offset transport",
+    "Actual ConditionData initialized from original v2Conditions cache into SAME canonical Trigger source compiled/tested cells",
+    "Exact TestEnableCondition source kernel updates SAME enabled8a after source quest/save-sync/difficulty/disable evaluation and required source event callback",
+    "Exact canonical trigger update contacts SAME player AABB through original IsTouching; disabled false condition produces no script start",
+    "Enabled contact starts authored source level script once, source local2 translated to campaign global17 with actual Module0 scope",
+    "Original campaign executes source common-script scheduling and fails explicitly at unbound block-save effect; no fake complete cutscene claim"
+  ],
+  "APIs": {
+    "admission": "Admission(actualNativeConditionRuntime, AdmissionServices).initialize(base,8c/b0); test_enable/base,test_disable(base,markTested,outEnabled). Reuses source cells and exact original kernels, never shadow enabled/condition state.",
+    "constructors": "TriggerConstructors({world_owner,properties,previous,source_services}).services() integrates with actual canonical factory. Other classes delegate to actual predecessor or fail. record(actualIdentity) yields retained runtime/receiver/declaration owner.",
+    "campaign": "CampaignBinding(actualRuntime,actualWorldAdapter,CampaignSourceServices).bind + trigger_script_services before source Trigger ctor. Source local level-array IDs and runtime common+level global IDs translated generically.",
+    "lifecycle": "Spawn30 delegates through actual OriginalCampaignWorldAdapter to OriginalActorLifecycle; no named actors/gates in feature. Actual actor lookup/source lifecycle/physics/visual providers remain required."
+  },
+  "identity_lifetime": [
+    "Actual MGP context runtime_module_id from constructed module; host occurrence suffix never parsed",
+    "Returned ObjectManager object aliases TriggerRecord lease, pinning actual RuntimeState/CanonicalTriggerZone/declaration. Existing properties source lease must match exact control block on overrides",
+    "Feature CampaignBinding must live as long as campaign/trigger callback transport; runtime/world/condition/save scopes remain sibling owners",
+    "Source callbacks must weakly borrow stable TriggerRecord to avoid cycles"
+  ],
+  "source_enable_rules": [
+    "Local Character/Save quest-sync byte14 gate: when character exists and save absent/unsynchronized, preserve existing enabled8a, do not forcefalse or assume true",
+    "Original minimum difficulty-1 maps0; disable_f1 and actual current Level difficulty118 apply",
+    "Untested nonnull compiled condition evaluates actual ConditionList; accepted+mark true writes actual tested_ac",
+    "Selected virtual44/48 follows enabled8a mutation; missing effect callback fails with reached prefix",
+    "Exact disable condition false path disables owner/marks tested_d0; no invented condition polarity"
+  ],
+  "native_trace": {
+    "authored_condition": "IsBefore_Gothicus2Survivors",
+    "trigger": "_prim_TriggerZone_001",
+    "script": "Door_Inspection_South",
+    "source_module": 0,
+    "script_level_local": 2,
+    "script_runtime_global": 17,
+    "false_condition_denied": true,
+    "quest_sync_gate_preserved": true,
+    "overlap_started_once": true,
+    "unsupported_effect": "Unbound original campaign provider: block save"
+  },
+  "fixtures": [
+    "Quest/event/player/save/difficulty transport values are explicitly fixture-owned original-type fields, changed by source condition operands; no production quest state claim",
+    "Offline networking transport supplied with actual online-byte0; exact RequireOnlineUpdate kernel takes its real offline branch",
+    "LoadTemplate assertion9 handler records assertion and returns as fixture; no template file loader invented",
+    "Empty-model/null-visual test transport allowed only exact authored empty source model and source visual0; any positive model fails explicitly",
+    "Script command-initialization flags and skip policy supplied as zero/false transport fixtures. Production must provide actual flags/skip, not reuse this assumption",
+    "Player position/AABB fields are live fixture source backing; no real game controller or collision solver claim",
+    "Enabled-event test callback writes actual receiver updating85 as transport fixture; production selected source virtual44/48 effects remain required",
+    "Only actual authored conditional Trigger constructed in this native test; no assertion of whole MGP/MVP actor factory walk or full cutscene execution"
+  ],
+  "missing_live_providers": [
+    "Source Module InitPost/child MGP/MVP loading admission phase and canonical action receiver constructors for Character/Dummy/other classes",
+    "Actual PlayerInfo660/PlayerSavegame14 quest-sync and quest/event/current-Level condition sources",
+    "Actual selected enabled/disabled event effects, source phase/mark-tested policy and source updating membership",
+    "Original script flags/skip initialization and PM/network script-start admission",
+    "Actual actor Spawn30 lookup/registration/source lifecycle/visual/physical services",
+    "Block-save/save/cutscene/UI/camera/tutorial and other reached script command providers"
+  ],
+  "fail_closed": "Feature supplies no default accept-all condition, source flags, script-start, actor lookup, animation or command effect provider. Existing condition arena cannot be reinitialized over compiled identities; missing callback/table/receiver/declaration fails. Source-native empty condition/table name miss semantics remain exact kernel behavior.",
+  "dependencies": [
+    "features/encounters/encounter_services.cpp",
+    "features/encounters/trigger_constructors.cpp",
+    "port/level-world/object_enable_condition_v2.cpp",
+    "test/source offline leaf port/level-world/gameobject_online_update_v5.cpp",
+    "Existing native_conditions_v69, canonical trigger/property/factory/manager/XML, campaign runtime/world adapter, lifecycle and contact source libraries"
+  ],
+  "source_evidence": [
+    "port/level-world/object_enable_condition_v2.cpp",
+    "port/level-world/native_conditions_runtime_v69.cpp",
+    "port/level-world/condition_data_init_v3.cpp",
+    "port/level-world/canonical_object_factory_v1.cpp",
+    "port/level-loader/canonical_source_adapter_v1.cpp",
+    "port/level-world/canonical_trigger_zone_v22.cpp",
+    "port/windows-foundation/original_campaign_runtime.cpp",
+    "port/windows-foundation/original_campaign_world_adapter.cpp"
+  ],
+  "next_integration": "Root can include features/encounters/Feature.cmake, compose TriggerConstructors with its actual child loader services, wire Admission at exact source enable/disable phase, and bind canonical contacts/campaign tick to source player state and actual command providers. Explicit diagnostic frame33/128 remains untouched until those live providers are supplied.",
+  "verification": ".local-inputs/windows-encounter-source/feature_encounters_connected_tests.exe . passed",
+  "loading_transport": "Actual CanonicalObjectLoadingFieldsV95 borrows pinned TriggerRecord source archetype48/enabled8a/minimum_ec/disable_f1/compiled a8,cc/tested ac,d0. Source IsUpdatable38aac0 is literaltrue. InitFinal delegates to actual canonical Trigger owner and fails at missing reached PF/other services; no readiness success fabricated.",
+  "normal_play_entrance_audit": {
+    "normal_play_fixed": false,
+    "reference": {
+      "video": "z_Zky7qQdYs",
+      "moth_entrance_seconds": [
+        267,
+        273.75
+      ],
+      "fungus_entrance_seconds": [
+        349.5,
+        354.5
+      ],
+      "evidence": "reports/fidelity-video-audit-v18.json",
+      "source_association": "video_fidelity source/video audit establishes MothIntro18 + _prim_MothMovieTriggerZone; TrollReturn source effects are identified but Fungus complete live binding remains unproved"
+    },
+    "startup_inventory": {
+      "rendered": 13,
+      "declarations": 61,
+      "skipped": 48,
+      "unknown_condition": 24,
+      "symbolic_template_notice": 20,
+      "spawnpoint_policy_notice": 4
+    },
+    "runtime_gap": "Main currently evaluates explicit CLI condition sets, drops symbolic profiles, defers auto_spawn=0, and runs campaign only from scheduled explicit source command replay. No feature condition/contact/script owner is connected to normal walking.",
+    "moth_source": {
+      "script": "MothIntro",
+      "source": ".local-inputs/windows-encounter-source/original-campaign.xml",
+      "trigger": "_prim_MothMovieTriggerZone",
+      "trigger_module_local_position": [
+        1488.29,
+        -42.526,
+        257.356
+      ],
+      "count": 1,
+      "spawn_names": [
+        "_prim_Monster_FakeMoth_01",
+        "_prim_Monster_FakeMoth_02"
+      ],
+      "actor_animation_ids": [
+        332,
+        333
+      ],
+      "camera_animation_ids": [
+        334,
+        55
+      ],
+      "third_visible_actor": "Unresolved original ambient actor provenance; no invented third movie actor permitted."
+    },
+    "required_effect_kinds": {
+      "5": "original camera animation",
+      "13": "original sound",
+      "40": "original scripted GoTo and wait ownership",
+      "41": "source LookAt",
+      "45": "source character animation and command wait policy",
+      "46": "source teleport",
+      "39": "source StopActor"
+    },
+    "same_owners_required": [
+      "Actual canonical MGP child receiver owns compiled condition/tested/enabled cells in shared NativeConditionRuntime arena",
+      "Actual saved quest/event/difficulty/sync fields, not CLI truth set",
+      "Actual player source body absolute AABB borrowed by canonical contact provider",
+      "Actual Module constructor context ID and same canonical named object registry",
+      "Same ActorPopulation/live actor lifecycle/physical/visual/AI authority; scripted commands may not use shadow receiver copies",
+      "Same source campaign command state/camera/time/input locks/save/tutorial/sound owners"
+    ],
+    "source_preset_rule": "Level::_LoadCharStates maps source Limbus0 and PreSpawn17 presets to actual PreSpawn17; lifecycle must preserve this distinction.",
+    "implementable_stages": [
+      "Borrow same original template caches and RNG to resolve authored NPC profile without admitting it",
+      "Construct source Trigger owners in actual module context using TriggerConstructors and same condition arena",
+      "Bind actual quest/save gates, same player body contacts, campaign start and real command providers",
+      "Retain source hidden actors and source lifecycle enrollment, then Spawn30 or source animation command changes actual same actor",
+      "Run normal route contact/camera/spawn trace; only then retire explicit diagnostic frame schedules"
+    ]
+  },
+  "npc_template_binding": {
+    "status": "manual_native_pass",
+    "source_kernels": [
+      "port/game-data/character_templates_v78.cpp",
+      "port/level-world/character_props_id_owner_v1.cpp",
+      "dh2_loot_v2_random"
+    ],
+    "api": "select_npc_profile(CharacterTable, CharacterTemplateTableV78, actual char_template, actual charpropsname, same13c8, same13ca, sameRandom, selection, error)",
+    "semantics": [
+      "NPC-only explicit API; actual player IsPlayer must be established by caller before using it",
+      "Original weighted array members and duplicates retained",
+      "char_template precedes charpropsname as source does",
+      "Actor signed16 cache13c8 selected once; subsequent query consumes no RNG",
+      "Actual template cache13ca updated by reached SafeGetCharPropsTemplateId",
+      "Unknown/empty/out-of-range result fails explicitly retaining source cache; no fallback/reroll/model availability bias",
+      "Authored properties, condition/spawn admission and live property state are not changed"
+    ],
+    "native_result": {
+      "authored_symbolic_characters": 21,
+      "default_policy_symbolic_notices": 20,
+      "original_templates": 121,
+      "rng_calls_first_queries": 21,
+      "cached_second_queries_extra_calls": 0,
+      "seed": "12345 explicit test fixture, not recovered application seed"
+    },
+    "schema": {
+      "bytes": 28,
+      "original_zip_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_templates_pystructnames.bin",
+      "staged": "port/windows-foundation/features/encounters/fixtures/character_templates_pystructnames.bin"
+    },
+    "runtime_integration_missing": "ActorPopulation optional runtime-selected-profile provider must borrow same caches/random and consume selected name/row separately from authored declaration; parent owns population integration."
+  },
+  "source_activation_bindings": {
+    "status": "manual_native_connected_actual_MGP_Trigger_PASS",
+    "api": "bind_source_activation(ActivationReceiver{external scope, weak actual base resolver}, shared Admission, actual CanonicalSpawnApplicationServicesV4, actual GameObjectInitializationServicesV1, error)",
+    "source_order": {
+      "GameObject_InitPost": "ObjectBase::InitPost compiles8c/b0 and difficulty lookup, then CheckSpawnProbability before transform normalization and visual construction",
+      "GameObject_InitFinal": "Check same cached spawn, reject disabled81, then reached PF/visual/light/root providers",
+      "Module_InitPost": "Inherited source InitPost; actual visual ApplyMeshBox/optional physical; PF LoadRoom; generated source RoomZone with module backlink",
+      "Character_InitFinal": "Once1395 stored before source probability; inherited final; AI selected type follower handling; original light; actual CharAI OnInitFinal"
+    },
+    "probability_source": "port/level-world/application_spawn_random_owner_v4.cpp and game_object_spawn_probability_v1.cpp",
+    "probability_rules": [
+      "Same actor cache270 initial-1, probability274 and actual Handle-AsChar-IsPlayer branch",
+      "Player cache-2 bypass; cached NPC calls consume no RNG",
+      "Same application channel0/channel1 selected by actual online5/network108/ownerfc; source Random bound99",
+      "Accepted NPC cache becomes-2",
+      "Rejected NPC SetVisible(false), source Delete byte82=2 and disabled81=1, then byte82=0 and actual manager MarkForDeletion"
+    ],
+    "connected_receipt": {
+      "actual_original_MGP_Trigger_ctor": true,
+      "same_condition_arena": true,
+      "actual_module_scope": true,
+      "accepted_cache270": -2,
+      "application_channel0_draws": 1,
+      "hardcoded_probability_removed": true,
+      "offline_handle_transports": "Explicit fixture: Trigger IsPlayer false, online5 false",
+      "failed_spawn_deletion": "Fixture fails explicitly if unexpectedly reached; live providers must bind actual effects"
+    },
+    "integration_requests": [
+      "One application-lifetime ApplicationSpawnRandomOwnerV4 with actual external source writers borrowing SAME channels; do not initialize per actor/level",
+      "Actual child constructor services install binder before ctor and weakly resolve actual receiver at InitPost",
+      "Shared Admission with actual canonical condition arena and live quest/event/save/difficulty gates",
+      "Failed spawn callbacks update SAME visual and ObjectManager deletion queue",
+      "Actual source phase caller invokes receiver InitPost/InitFinal; binder does not manufacture success for transform/visual/PF/module RoomZone"
+    ],
+    "honest_boundary": "Current SourceRootScopes constructs module scope but does not run Module InitPost/InitFinal complete graph. No normal-play enable/spawn claim. NPC lifecycle activation waits actual same Character/live actor authority."
+  },
+  "module_graph_construction_bridge": {
+    "status": "native_header_compile_pass_only_not_live_linked_graph",
+    "api": "bind_module_graph_construction(actual SourceModuleConstructionProviders&, externally retained CanonicalModuleGraphV3, same NativeConditionRuntimeV69, error)",
+    "behavior": "Adopts SAME condition arena only before graph construction; installs construction-time initialization -> exact graph.bind(actual module record). No module duplication, PF duplication, admission or phase scheduler.",
+    "upstream_blocker": "SourceRootScopeOptions does not expose/pass SourceModuleConstructionProviders.initialization/conditions/spawnApplication into root construction. Existing receiver services are constructor-captured and cannot be retrofitted.",
+    "minimal_root_change": "Expose typed actual module construction provider customization BEFORE constructing SourceModuleConstruction, retain graph beside same root/module manager, invoke actual existing source child factory/initialization delivery; do not replay constructors.",
+    "services_required": [
+      "ModulePFRoomsV3 owns SAME floors::World and SceneManagerMapOwnerV2",
+      "RetainedModuleVisual actual root registry, driver source fact, SceneManager modular search, root update counter and UpdatePF",
+      "Shared NativeConditionRuntimeV69 + SAME application random/network/manager spawn-deletion",
+      "Actual generated RoomZone spawn through SAME canonical manager and actual zone init backlink",
+      "Actual PF InitObject/UpdatePF and Device/high performance/light source services reached by InitPost/Final"
+    ],
+    "authority_warning": "SourceModuleFloors standalone diagnostic floor registry is separate from ModulePFRoomsV3. Select one actual floor authority; do not publish both into the same world.",
+    "unsupported_live": "Actual canonical child Character receiver lifecycle/AI/physics/camera command bridge still absent. No complete normal-play population acceptance."
+  }
+}

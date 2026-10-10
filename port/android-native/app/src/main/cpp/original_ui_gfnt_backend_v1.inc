@@ -18,6 +18,9 @@ static bool gfnt_read_v1(void* raw,const char* uri,std::vector<std::uint8_t>& ou
  return static_cast<Impl*>(raw)->assets.read(uri,out,error);
 }
 ui::TextFontBackendsV2 initialize_gfnt_backend_v1(){
+ // Shared/main font platforms retain backends() callbacks to this object.
+ // Loading another movie must not delete the backend of a retained renderer.
+ if(gfnt_text_backend_v1)return gfnt_text_backend_v1->backends();
  const ui::GfntTextServicesV1 services{this,&source_bitmap_cache_width_v1,
   &source_bitmap_cache_height_v1,gfnt_resolve_v1,gfnt_read_v1,nullptr};
  gfnt_text_backend_v1=std::make_unique<ui::GfntTextBackendV1>(services,shared_from_this());

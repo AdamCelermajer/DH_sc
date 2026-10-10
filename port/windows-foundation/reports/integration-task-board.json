@@ -1,0 +1,1111 @@
+{
+  "updated": "2026-10-09",
+  "owner": "/root/integration_lead",
+  "scope": "Development integration orchestration; root retains goal, priorities, release builds/packages and final verification",
+  "policy": "Keep actionable real features developing. Components do not establish live acceptance. Missing providers fail; no fabricated FSM/timers, all-enable population, map/frame schedules or guessed art.",
+  "protected_files": [
+    "port/windows-foundation/main.cpp",
+    "port/windows-foundation/CMakeLists.txt",
+    "port/windows-foundation/playable_actor_world.cpp",
+    "port/windows-foundation/playable_actor_world.hpp",
+    "shared assets",
+    "accepted packages"
+  ],
+  "accepted_release": {
+    "path": ".local-inputs/windows-source-clock-checkpoint-v18",
+    "sha256": "79e566435081650206a03ecb028736a97770fa28d38722438a1a90645e7819d8",
+    "tests": 75,
+    "files": 572,
+    "runtime_cases": 29,
+    "negative_saves": 2,
+    "modified": false,
+    "scope": "Verified Stats and combat-text subset; full character menu incomplete",
+    "receipt": "port/windows-foundation/reports/menu-combat-text-integration-v18.json",
+    "previous_release_preserved": ".local-inputs/windows-source-clock-checkpoint-v17"
+  },
+  "tasks": [
+    {
+      "id": "combat_text",
+      "owner": "/root/asset_catalog",
+      "owned_path": "port/windows-foundation/features/combat_text",
+      "status": "v18_scoped_render_accepted_full_native_SCT_boundary_incomplete",
+      "dependencies": "Original SCT later in full FApplyResult than current presentation ResolutionObserver; full native CUI source boundary and reference",
+      "done_criterion": "Source font512/style and damage/MISS/BLOCK live draw matched to footage",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "movement",
+      "owner": "/root/integration_lead/combo_luna",
+      "owned_path": "port/windows-foundation/features/combo_chain",
+      "status": "genuine_Lua_link_source_consumer_tests_PASS_root_hook_pending",
+      "dependencies": "Controlled video/source comparison before any change",
+      "done_criterion": "Repeated W/S reversal parity with source rotation/heading and no speculative drift fix",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "previous_owner": "/root/windows_portability",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "id": "encounters",
+      "owner": "/root/act1_inventory",
+      "owned_path": "port/windows-foundation/features/encounters",
+      "status": "source_templates_and_actual_trigger_InitPost_activation_tests_pass_Module_graph_dependency_active",
+      "dependencies": "Actual conditions, symbolic templates, authored trigger activation, spawn policies",
+      "done_criterion": "Normal play activates original authored actors/cinematics without CLI or frame schedules",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Original template21 rows + activation_bindings.hpp SAME8c/b0 conditions and cached270 probability source InitPost channel0 call",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "character_menu",
+      "owner": "/root/integration_lead/character_menu_luna",
+      "owned_path": "port/windows-foundation/features/character_menu",
+      "status": "source_header_active_disabled_art_frozen_component_PASS_readonly_quests_map_requirements_audit",
+      "dependencies": "SAME Character/Save/Gear owners and inventory/equipment/skill tabs",
+      "done_criterion": "Source mode0 X/Y scale, full viewport solids/masks and actual tabs/mutations matched",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "previous_owner": "/root/character_state",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "id": "inventory",
+      "owner": "/root/integration_lead/inventory_luna",
+      "owned_path": "port/windows-foundation/features/inventory",
+      "status": "active_native_Gear_existing_Text_Power_inventory_index_binding",
+      "dependencies": "Character-menu lead SAME item instance publication",
+      "done_criterion": "Actual item operations preserve powers/stats and update original menu",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "id": "equipment",
+      "owner": "/root/integration_lead/equipment_luna",
+      "owned_path": "port/windows-foundation/features/equipment",
+      "status": "active_native_Gear_main_page_binding_and_source_sheet_transaction",
+      "dependencies": "Character-menu lead SAME Gear refresh ownership",
+      "done_criterion": "Equip/unequip updates original appearance/stats and menu",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "previous_owner": "/root/equipment_feature",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "id": "skill_ui",
+      "owner": "/root/integration_lead/skill_menu_luna",
+      "owned_path": "port/windows-foundation/features/skill_ui",
+      "status": "active_fresh_native_closure_three_arg_train_probe_mutation_acceptance",
+      "dependencies": "Character-menu lead and retained skill owner",
+      "done_criterion": "Original skills projection and actual upgrades/casts use SAME owner",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "id": "class_skills",
+      "owner": "/root/integration_lead/skill_session_luna",
+      "owned_path": "port/windows-foundation/features/skills_animation",
+      "status": "actual_record_loan_consumer_COFF_compile_ready_completed_graph_pending",
+      "dependencies": "Session mutablePropertyView/SkillAI/SkillState/retained admission API",
+      "done_criterion": "Real original class skill sequence/controller/state effects on existing actors",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "session_skill_animation.hpp, whole original AnimTable347/413/521 compiler; _SkillEvent/event_v3 source marker routing; native_skill_lua_services composes actual CharacterScriptSessionV3/CharacterSkillOwnerV6/NativeFSM24 callbacks and native command factories",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "asset_staging_receipt": "port/windows-foundation/features/skills_animation/original_skill_clip_staging_receipt.json",
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "id": "audio",
+      "owner": "/root/integration_lead/audio_luna",
+      "owned_path": "port/windows-foundation/features/audio",
+      "status": "actual_single_runtime_WinMM_adapter_strict_link_smoke_PASS_root_authorities_pending",
+      "dependencies": "Root real AudioGameplaySourcesV40 gates/source command authority; one AudioGameplayRuntimeV42 with real WinMM hardware/QPC clocks; exact sound328 absent",
+      "done_criterion": "Original sound events and campaign sound on actual live source clock",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "previous_owner": "/root/audio_feature",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "id": "effects",
+      "owner": "/root/effects_feature",
+      "owned_path": "port/windows-foundation/features/effects",
+      "status": "active_development",
+      "dependencies": "Actual native fx marker/attachment/particle services",
+      "done_criterion": "Native effect geometry/particles attached and driven by original events",
+      "root_requests": "CharacterVisual::retained_scene_borrow landed by root; actual owner test/use active. Root renderer material/queue callbacks pending",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "companions",
+      "owner": "/root/companions_feature",
+      "owned_path": "port/windows-foundation/features/companions",
+      "status": "live_adapter_tested_exact_AI_SetMaster_kernel_in_development",
+      "dependencies": "Original priest/faery AI/path/skill/timer owners",
+      "done_criterion": "Source companion behavior including particles on actual owner graph",
+      "root_requests": "CharacterVisual scene getter landed; PopulationActor.visual/master/path/script owner borrows pending",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "quests",
+      "owner": "/root/quests_feature",
+      "owned_path": "port/windows-foundation/features/quests",
+      "status": "active_development",
+      "dependencies": "Root lacks actual canonical PlayerInfo/Character/PlayerSavegameV1/CharacterMenuQuests/native Condition/Objective graph; source sync14/SG_Update publication",
+      "done_criterion": "Live authored objectives progress through unlock/reward/save; whole-owner restore",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "interactions",
+      "owner": "/root/interaction_feature",
+      "owned_path": "port/windows-foundation/features/interactions",
+      "status": "whole_NPC_and_real_event5_QE_raise_services_tests_pass_native_UI_binding_active",
+      "dependencies": "Complete retained CharacterUseOoiV47/ControllerUseOoiV47; canonical item/chest and NPC owner",
+      "done_criterion": "Actual source controller admission/range dispatch publishes item/chest/NPC effects",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "platform_input",
+      "owner": "/root/toolchain",
+      "owned_path": "port/windows-foundation/features/platform_input",
+      "status": "live_dispatch_tested_actual_authored_geometry_and_owner_epoch_contract_ready",
+      "dependencies": "Existing OriginalUiSession whole native event/update + SAME authored_action_cache lease; actual Level MenuLevelBorrowV58 byte198; actual commands",
+      "done_criterion": "PC/touch intents route actual original admission and source HUD OOI selection",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "enemy_ai",
+      "owner": "/root/integration_lead/enemy_ai_live_integration",
+      "owned_path": "port/windows-foundation/features/enemy_ai",
+      "status": "live_binding_component_tested_native_AIS_prefix_dependency_active",
+      "dependencies": "Fresh SAME ActorState/PropertyView/TargetState48/source State/controller/path/clock/RNG/lease; native AISMonster program receipt; external script session cannot impersonate native",
+      "done_criterion": "Actual selected monster callbacks/aggro move/skill/attack existing actors",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "character-script-kinds/NOTES.md: all76 authored AI rows; Script monster selects AISExternal; distinct native AISMonster overrides original3dd4cc/3dd550/3dd500",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "status",
+      "owner": "/root/integration_lead/status_live_integration",
+      "owned_path": "port/windows-foundation/features/status_effects",
+      "status": "native_DOT_and_source_timer_delivery_tests_pass_constructor_publication_dependency_active",
+      "dependencies": "Genuine source owner initialization; DOT full HitFor services; timer callback failures surfaced; root owner graph publication",
+      "done_criterion": "Synchronous status/DOT/leech/expiry effects on SAME actor owners",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "cinematics",
+      "owner": "/root/integration_lead/cinematic_live_integration",
+      "owned_path": "port/windows-foundation/features/cinematics",
+      "status": "active_development",
+      "dependencies": "Command5/45/46/41/40 source camera/animation/teleport/look/move; command13 audio",
+      "done_criterion": "Normal-play BogMoth/Fungus authored cutscene, HUD/SKIP and exact actors",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "frontend",
+      "owner": "/root/integration_lead/frontend_luna",
+      "owned_path": "port/windows-foundation/features/frontend",
+      "status": "active_development",
+      "dependencies": "SAME profile CreateSaveSlot/StartGame, source idle FSM and material/light/floor",
+      "done_criterion": "Native original-art main/name/class flow creates actual same profile and starts game",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "Existing feature source kernels, original pycache/IDA and supplied original footage; exact references recorded in worker reports",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation",
+      "previous_owner": "/root/frontend_orchestrator",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "id": "reference",
+      "owner": "/root/video_fidelity",
+      "owned_path": "reports/fidelity-integration-criteria.json",
+      "status": "source_and_pixel_verified_criteria_updated",
+      "dependencies": "Matched state/input capture and actual source provenance",
+      "done_criterion": "Continuous original-video criteria prove relevant runtime fidelity",
+      "root_requests": "Main/CMake/playable owner publication only after precise worker API request; no worker edits",
+      "source_provenance": "reports/fidelity-integration-criteria.json; exact original267/273 TWO movieMoths, HUD274; original349 HUD,352/354 cinematic,355 HUD; Stats391/393",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "campaign_save",
+      "owner": "/root/acceptance_audit",
+      "owned_path": "port/windows-foundation/features/campaign_save",
+      "status": "active_development",
+      "dependencies": "Whole actual Character/Save/Gear/quests/campaign graph; frontend real save-slot creation",
+      "done_criterion": "Capture/stage complete actual source owners and atomic same graph publication; unsupported fragments reject",
+      "root_requests": "Precise owner graph factory and publication API; no root/package edits",
+      "source_provenance": "campaign_snapshot and original complete source save-owner codecs; worker report records exact kernels",
+      "runtime_accepted": false,
+      "reference_accepted": false,
+      "model_transition": "Old writer checkpointed/transitioning; next worker LunaHIGH unless specific recorded escalation"
+    },
+    {
+      "id": "source_character_factory",
+      "owner": "/root/integration_lead/source_factory_luna",
+      "owned_path": "port/windows-foundation/features/actor_frame/source_character_owner_factory*",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high",
+      "status": "concrete_visual_PF_provider_COFFERrorClean_actual_candidate_cache_BRES_test_PASS_root_full_LoadVisual_pending",
+      "dependencies": "Actual source V60 design/cache/loot/RNG + visual/load/InitPost/final native services; root host publication",
+      "done_criterion": "Genuine complete source Character/PlayerInfo/FSM/ScriptOwner/property graph aliases and actual safe native whole InitFinal, no cloned ActorState",
+      "root_requests": "Root granted unique path; host core publication exclusive",
+      "native_receipt": "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_result.json",
+      "runtime_accepted": false
+    },
+    {
+      "id": "faery_menu",
+      "owner": "/root/integration_lead/faery_menu_luna",
+      "owned_path": "port/windows-foundation/features/faery_menu",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high",
+      "status": "active_same_native_queries_actions_Save_FaeryTables_binding",
+      "dependencies": "Character-menu source Tab route; genuine faery selection/unlock/ability/native Save owner",
+      "done_criterion": "Independent original art/live values/source actions/save/reference page acceptance; no invented unlocks",
+      "runtime_accepted": false,
+      "reference_accepted": false
+    }
+  ],
+  "unassigned_dependencies": [
+    {
+      "id": "actor_frame_navigation",
+      "path": "port/windows-foundation/features/actor_frame",
+      "reason": "Root retained owner publication dependency; no grant to mutate root core"
+    }
+  ],
+  "frontend_children": "Frontend lead reactivated creation_data/menu_flow/creation_preview/frontend_verify; art/input completed; observed23 running total",
+  "stale_legacy_owners": [
+    "/root/status_feature",
+    "/root/synchronous_damage_v14",
+    "/root/camera_timeline",
+    "/root/original_character",
+    "/root/original_scene",
+    "/root/packaging",
+    "/root/save_store"
+  ],
+  "sources_read": [
+    "port/windows-foundation/MILESTONES.md",
+    "port/windows-foundation/reports/feature-development-board.json",
+    "port/windows-foundation/reports/shared-progress.json",
+    "reports/feature-quests.json",
+    "features interactions/platform_input/frontend/enemy_ai/encounters/loot READMEs and source owner headers"
+  ],
+  "owner_dependency_report": "coordination/integration-lead/owner-dependencies.md",
+  "development_evidence": {
+    "accepted_release_unchanged": true,
+    "root_gui": [
+      ".local-inputs/v18-integration-verification/fullscreen-menu.png",
+      ".local-inputs/v18-integration-verification/combat-text.png"
+    ],
+    "scope": "Development build, not accepted package; full menu and original SCT/native CUI incomplete"
+  },
+  "model_policy": {
+    "effective": "2026-10-09 latest human steering",
+    "root_and_integration_lead": "Keep current models",
+    "worker_default": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    "escalation": {
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "medium",
+      "rule": "Specific failed bounded attempt, ambiguous recovered source, unsafe native integration or cross-owner architecture; record reason/output then routine work returns Luna"
+    },
+    "transition": "Old writers checkpoint then interrupt before exclusive replacement. Do not restart broad full-history workers.",
+    "escalations": [
+      {
+        "owner": "/root/integration_lead/enemy_ai_live_integration",
+        "reason": "Unsafe SAME VM nested DoSkill capability/source V1 skill-owner adaptation; incorrect scope risks VM/state lifetime",
+        "status": "completed_stopped",
+        "outputs": "Genuine Lua nested reentry tests PASS; scoped_skill_callback/external_monster_scoped + handoff/enemy-ai.md"
+      },
+      {
+        "owner": "/root/integration_lead/native_factory_prefix_escalation",
+        "reason": "Bounded Luna strict syntax attempt could not execute genuine V60 constructor; native alias/failure-order proof needs missing source fixture/dependency closure across owners, unsafe architecture",
+        "status": "completed_stopped",
+        "owned_path": "port/windows-foundation/features/actor_frame/source_character_owner_factory*",
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "medium",
+        "done_criterion": "Actual original-resource V60 native constructor execution/failure alias proof or precise smallest unrecovered source kernel; return routine followups Luna",
+        "outputs": "Real original-resource V60 constructor four native cases PASS; deterministic347-unit source closure rebuild/link/runtime0; native_result.json; no InitPost/Final claims"
+      }
+    ],
+    "transition_status": "complete_all_old_writers_stopped"
+  },
+  "model_transition_roster": [
+    {
+      "feature": "character_menu",
+      "old_owner": "/root/character_state",
+      "new_owner": "/root/integration_lead/character_menu_luna",
+      "status": "replaced_active",
+      "new_model": "gpt-6-luna",
+      "new_reasoning_effort": "high",
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "equipment",
+      "old_owner": "/root/equipment_feature",
+      "new_owner": "/root/integration_lead/equipment_luna",
+      "status": "replacement_active_full_menu_page",
+      "new_model": "gpt-6-luna",
+      "new_reasoning_effort": "high",
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "audio",
+      "old_owner": "/root/audio_feature",
+      "new_owner": "/root/integration_lead/audio_luna",
+      "status": "replacement_bounded_task_completed_pending_host_or_next_assignment",
+      "new_model": "gpt-6-luna",
+      "new_reasoning_effort": "high",
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "source_character_factory",
+      "old_owner": "/root/integration_lead/source_character_owner_factory",
+      "new_owner": "/root/integration_lead/source_factory_luna",
+      "status": "Luna_routine_Load_prefix_after_completed_escalation",
+      "new_model": "gpt-6-luna",
+      "new_reasoning_effort": "high",
+      "old_writer_stopped": true,
+      "current_owner": "/root/integration_lead/source_factory_luna",
+      "current_model": "gpt-6-luna",
+      "current_reasoning_effort": "high",
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "combo",
+      "old_owner": "/root/windows_portability",
+      "new_owner": "/root/integration_lead/combo_luna",
+      "status": "replacement_bounded_task_completed_pending_host_or_next_assignment",
+      "new_model": "gpt-6-luna",
+      "new_reasoning_effort": "high",
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "inventory",
+      "old_owner": "/root/inventory_feature",
+      "new_owner": "/root/integration_lead/inventory_luna",
+      "status": "replacement_active_full_menu_page",
+      "new_model": "gpt-6-luna",
+      "new_reasoning_effort": "high",
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "quests",
+      "old_owner": "/root/quests_feature",
+      "new_owner": null,
+      "status": "stopped_ready_next_bounded_Luna",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "status",
+      "old_owner": "/root/integration_lead/status_live_integration",
+      "new_owner": null,
+      "status": "stopped_pending_real_owner_root_binding",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "cinematic",
+      "old_owner": "/root/integration_lead/cinematic_live_integration",
+      "new_owner": null,
+      "status": "stopped_ready_next_bounded_Luna",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "enemy_ai",
+      "old_owner": "/root/integration_lead/enemy_ai_live_integration",
+      "new_owner": null,
+      "status": "escalation_completed_stopped_next_routine_Luna",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "skills",
+      "old_owner": "/root/animation_review",
+      "new_owner": null,
+      "status": "stopped_ready_next_bounded_Luna",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "companions",
+      "old_owner": "/root/companions_feature",
+      "new_owner": null,
+      "status": "stopped_ready_next_bounded_Luna",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "campaign_save",
+      "old_owner": "/root/acceptance_audit",
+      "new_owner": null,
+      "status": "stopped_pending_source_graph",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "encounters",
+      "old_owner": "/root/act1_inventory",
+      "new_owner": null,
+      "status": "stopped_checkpointed_next_routine_Luna",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "video_fidelity",
+      "old_owner": "/root/video_fidelity",
+      "new_owner": null,
+      "status": "stopped_reference_report_ready_next_Luna_if_needed",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "combat_text",
+      "old_owner": "/root/asset_catalog",
+      "new_owner": null,
+      "status": "completed_pending_root_source_timing",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "platform_input",
+      "old_owner": "/root/toolchain",
+      "new_owner": null,
+      "status": "completed_pending_actual_HUD_owner",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "interactions",
+      "old_owner": "/root/interaction_feature",
+      "new_owner": null,
+      "status": "completed_pending_actual_menu_FSM_owner",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "effects",
+      "old_owner": "/root/effects_feature",
+      "new_owner": null,
+      "status": "stopped_checkpointed_next_routine_Luna",
+      "new_model": null,
+      "new_reasoning_effort": null,
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "frontend_lead",
+      "old_owner": "/root/frontend_orchestrator",
+      "new_owner": "/root/integration_lead/frontend_luna",
+      "status": "replaced_active_source_light_prefix",
+      "new_model": "gpt-6-luna",
+      "new_reasoning_effort": "high",
+      "old_writer_stopped": true,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "frontend_child_creation_data",
+      "old_owner": "/root/frontend_orchestrator/creation_data",
+      "old_writer_stopped": true,
+      "status": "completed_checkpointed_no_pending_process_next_task_LunaHIGH",
+      "new_owner": null,
+      "new_model": null,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "frontend_child_creation_preview",
+      "old_owner": "/root/frontend_orchestrator/creation_preview",
+      "old_writer_stopped": true,
+      "status": "completed_checkpointed_no_pending_process_next_task_LunaHIGH",
+      "new_owner": null,
+      "new_model": null,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "frontend_child_frontend_input",
+      "old_owner": "/root/frontend_orchestrator/frontend_input",
+      "old_writer_stopped": true,
+      "status": "completed_checkpointed_no_pending_process_next_task_LunaHIGH",
+      "new_owner": null,
+      "new_model": null,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "frontend_child_frontend_verify",
+      "old_owner": "/root/frontend_orchestrator/frontend_verify",
+      "old_writer_stopped": true,
+      "status": "completed_checkpointed_no_pending_process_next_task_LunaHIGH",
+      "new_owner": null,
+      "new_model": null,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "frontend_child_menu_art",
+      "old_owner": "/root/frontend_orchestrator/menu_art",
+      "old_writer_stopped": true,
+      "status": "completed_checkpointed_no_pending_process_next_task_LunaHIGH",
+      "new_owner": null,
+      "new_model": null,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "frontend_child_menu_flow",
+      "old_owner": "/root/frontend_orchestrator/menu_flow",
+      "old_writer_stopped": true,
+      "status": "completed_checkpointed_no_pending_process_next_task_LunaHIGH",
+      "new_owner": null,
+      "new_model": null,
+      "next_model": "gpt-6-luna",
+      "next_reasoning_effort": "high"
+    },
+    {
+      "feature": "skill_ui",
+      "new_owner": "/root/integration_lead/skill_menu_luna",
+      "new_model": "gpt-6-luna",
+      "new_reasoning_effort": "high",
+      "status": "new_bounded_full_menu_page_active",
+      "old_writer_stopped": true
+    },
+    {
+      "feature": "faery_menu",
+      "new_owner": "/root/integration_lead/faery_menu_luna",
+      "new_model": "gpt-6-luna",
+      "new_reasoning_effort": "high",
+      "status": "new_bounded_full_menu_page_active",
+      "old_writer_stopped": true
+    }
+  ],
+  "character_menu_requirement": {
+    "scope": "FULL original character menu; Stats-only release is a verified subset",
+    "explicit_pages": [
+      "stats",
+      "equipment",
+      "skills",
+      "faery"
+    ],
+    "other_icons": "Actual source QuestLogSheetNEW599/MapSheet655 identified; read-only native action/data/save/Level dependency audit active",
+    "page_acceptance_dimensions": [
+      "original_art",
+      "live_authoritative_values",
+      "source_actions",
+      "save_restore_behavior",
+      "original_reference_proof"
+    ],
+    "whole_menu_complete": false,
+    "pages": [
+      {
+        "id": "stats",
+        "owner": "/root/integration_lead/character_menu_luna",
+        "art": "root development source full viewport/386/solids verified; selected heart/disabled color pending",
+        "live_authoritative_values": "source projected Stats verified subset",
+        "source_actions": "actual training owner pending",
+        "save_restore_behavior": "root source subset reload tests pending",
+        "original_reference_proof": "391/393 partial; header/state colors pending"
+      },
+      {
+        "id": "equipment",
+        "owner": "/root/integration_lead/equipment_luna",
+        "art": "nine original source slots+Details456 mainpage testsPASS",
+        "live_authoritative_values": "binding same actual sheets/item IDs pending root",
+        "source_actions": "original equip/unequip adapter prepared; live routing pending",
+        "save_restore_behavior": "same owner publication/reacquire pending",
+        "original_reference_proof": "335/340/370/390 runtime comparison pending"
+      },
+      {
+        "id": "skills",
+        "owner": "/root/integration_lead/skill_menu_luna",
+        "art": "original144icons108hits78labels componentPASS",
+        "live_authoritative_values": "same actual skill ranks/points owner required",
+        "source_actions": "source select/assign/train services pending live binding",
+        "save_restore_behavior": "real skill owner persistence required",
+        "original_reference_proof": "396/398/399 pending live source page"
+      },
+      {
+        "id": "faery",
+        "owner": "/root/integration_lead/faery_menu_luna",
+        "art": "original547 ninebatches fourfields fivehits including bitmap1 image sourceUV componentPASS",
+        "live_authoritative_values": "actual saved selection/unlocks/abilities source authority required",
+        "source_actions": "original faery selection/unlock/ability services discovery active",
+        "save_restore_behavior": "same faery/native save owner required",
+        "original_reference_proof": "original page/time capture required"
+      }
+    ]
+  },
+  "native_bootstrap_frontier": {
+    "root_verified_tests": 79,
+    "proven": [
+      "Actual Character/Player C1 catalog/manager/PropertyMap/ConditionData/App RNG",
+      "Same sewn nav/cache/SceneManager family BRES load and failed-prefix visual teardown",
+      "Windows original save transport and same Application file/job authority",
+      "Same Save14e8 name/slot/mask1 and LoadBase/recalc/mask2 persistent collections",
+      "Gear prepare/mask4: prepared true, ready false, inventory empty",
+      "Root native31875 passed: Gear ready=true; StartingSuit/Boots/Gloves/Longsword and Potionqty5; same primary item pointer and exact sheet restore; five draw views; whole actor InitPost false"
+    ],
+    "next_required": [],
+    "components_ready_not_live": [
+      "Current-Level same GS C1/+150/+118: 446 ASan/UBSan/leak checks",
+      "Campaign backend18/18 callbacks: 54 other native link definitions remain",
+      "Optional retained-frame event ordinal and exact WinMM/QPC sample: linked test passes, no production caller"
+    ],
+    "root_owner": "main/CMake/native factory fixture/build closure/release",
+    "role": "Preserved source/reference proofs, no blanket gameplay prerequisite",
+    "latest_verified": "Root clean446 same World target directory, empty GS, FSM/path prefix; no whole InitPost claim; portable audio/native closure complete"
+  },
+  "full_menu_acceptance": {
+    "complete": false,
+    "required_pages": [
+      "Stats",
+      "Equipment",
+      "Skills",
+      "Faery",
+      "Quest",
+      "Map"
+    ],
+    "each_page_requires": [
+      "authored original art",
+      "same authoritative generic CharacterState/Session values",
+      "source-backed gameplay actions",
+      "same generic save/load behavior",
+      "runtime and original reference comparison"
+    ],
+    "unbound_page_policy": "Preserve currently valid page and report required provider before selecting unbound content",
+    "frozen_v18_art": true,
+    "scope_receipt": "port/windows-foundation/reports/act1-feature-coverage.json"
+  },
+  "act1_scope": {
+    "source": "port/windows-foundation/reports/act1-feature-coverage.json",
+    "complete": false,
+    "priority": "Canonical shared native owners -> mob combat/death/reward loop, alongside full menu",
+    "tracks": {
+      "enemy_ai": "act1_enemy_luna: source lifecycle and existing V1 DoSkill binding; InitPost Stage6 pending",
+      "loot_money_xp": "act1_loot_luna: reuse CharacterLootLiveV22/KillRewardsV31/ProgressionWorldV23; live Level150/itempool145/Gear/save pending",
+      "pots_chests_NPC": "act1_interactions_luna: canonical container + actual source animation/scripts/conditional loot; some asset/script bytes absent",
+      "quests_Quest_page": "act1_quests_luna: actual QuestLog and SAME Level objective/event projection; live bootstrap/rewards pending",
+      "minimap_Map_page": "act1_map_luna: source655 geometry; actual Show/RenderMap projection and camera/markers still required",
+      "companions": "act1_companions_luna: real V1 source master/FSM/Lua ownership; Castor identity/attack unverified",
+      "cinematics_tutorials": "act1_cinematic_luna: authored campaign camera/trigger/HUD owners required; no frame schedules",
+      "event_audio": "audio_luna: one real V42 + hardware output, source ignored playback-return boundaries; live enrollment pending",
+      "skills_trails_projectiles": "skill_session_luna: actual Session clips proved; native VM/FSM/mana/damage binding pending, effects enrollment required",
+      "progression_barriers": "Source verification and native animation/condition owner assignment still required; witch/waterfall recollection unverified"
+    },
+    "rules": "Reusable whole-game systems, original probabilities/conditions; no guessed timings, all-mob activation or fake readiness"
+  },
+  "model_transition_complete": true,
+  "current_worker_policy": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "active_escalations": 0,
+    "root_and_lead_exempt": true
+  },
+  "active_assignments": [
+    {
+      "owner": "/root/integration_lead/equipment_luna",
+      "task": "Native Gear action binding and actual source sheets",
+      "path": "features/equipment",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/inventory_luna",
+      "task": "Existing Gear Text and SourceItemResources presentation binding",
+      "path": "features/inventory",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/skill_menu_luna",
+      "task": "Fresh current-ABI native connected train probe/mutation fixture",
+      "path": "features/skill_ui and exclusive named WSL snapshot",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/faery_menu_luna",
+      "task": "Same native query/action/Save/FaeryTables page binding",
+      "path": "features/faery_menu",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_enemy_luna",
+      "task": "Real scoped DoSkill0x3b8bd8 admission and genuine VM regression",
+      "path": "character_script_session.cpp Impl::binding exact branch + features/enemy_ai",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_interactions_luna",
+      "task": "Actual container native link/run; NPC quest event connection",
+      "path": "features/interactions",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_quests_luna",
+      "task": "SAME EventManager/Objectives TalkToNPC source integration fixture",
+      "path": "features/quests",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_map_luna",
+      "task": "Recover real Show/RenderMap/camera source kernels",
+      "path": "features/map_ui",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_barriers_luna",
+      "task": "Original progression Door identities/conditions/animation owner binding",
+      "path": "features/progression_barriers",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    }
+  ],
+  "ready_native_skill_binding": {
+    "receipt": "port/windows-foundation/features/skills_animation/canonical_session_skill_binding.json",
+    "verification": "Real Windows COFF object + actual typed canonical record loan contract compile; exact link closure recorded",
+    "state": "frozen_ready_for_completed_native_graph_publication",
+    "runtime_accepted": false
+  },
+  "shared_navigation_storage": {
+    "source": "port/windows-foundation/source_navigation_world_storage.hpp",
+    "receipt": "reports/navigation-world-storage-integration.json",
+    "root_verification": "Actual main default90 position exact v18 parity; SAME sewn floors and one obstacle registry",
+    "scope": "Typed PF lifetime capsule, not complete source Level; native graph must borrow SAME capsule"
+  },
+  "next_visual_asset": {
+    "report": "port/windows-foundation/reports/source-character-owner-factory-visual-binding.json",
+    "source": "CharacterProperties419 ModelFile field3=74 -> model dictionary74 priest_good",
+    "uri": "data/3D/characters/npcs/Priest_good.bdae",
+    "actual_file": ".local-inputs/windows-shared-assets/original-cache/data/3d/characters/npcs/priest_good.bdae",
+    "bytes": 42136,
+    "sha256": "880ed0be28e158dc62779a1fd5f9874cbd39fb68edc31af69972aceb8979e8bf",
+    "staged": false,
+    "fixture_pydata_root_contains_asset": false
+  },
+  "visual_binding_ready": {
+    "header": "port/windows-foundation/features/actor_frame/source_character_owner_factory_visual_binding.hpp",
+    "implementation": "port/windows-foundation/features/actor_frame/source_character_owner_factory_visual_binding.cpp",
+    "verification": "Strict C++20 COFF provider compile; actual CandidateCache layered source reader and Priest BRES runtime test PASS",
+    "ownership": "Strong SAME nav/roots/cache; weak Application-owned canonical manager freshly locked; weak same record PF callback",
+    "scope": "Concrete source service composition; no full LoadVisual or PF registration claim before root native fixture"
+  },
+  "canonical_skill_loan_portability": {
+    "report": "reports/canonical-skill-context-portability.json",
+    "verification": "Existing source FSM TU Windows COFF compile with temporary platform type declarations and finite alias",
+    "unresolved_android_JNI_symbols": 0,
+    "unresolved_native_symbols": 259,
+    "renderer_callbacks": 18,
+    "scope": "Record overload avoids Android world lookup; actual initialized context and native provider link closure still required"
+  },
+  "npc_quest_objective_connection": {
+    "test": "features/quests/npc_talk_objective_integration_test.cpp",
+    "verification": "Actual64Quest rows Abbey_Rescue SAME Save/Objective/Level EventManager synchronous scoped QE_TalkToNPC mutation and listener order PASS; independent interactions rerun PASS",
+    "not_proven": [
+      "full Player profile",
+      "full quest state transition",
+      "reward ordering"
+    ]
+  },
+  "integration_assignment_snapshot": [
+    {
+      "owner": "/root/integration_lead/equipment_luna",
+      "task": "Native Gear action binding and actual source sheets",
+      "path": "features/equipment",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/inventory_luna",
+      "task": "Existing Gear Text and SourceItemResources presentation binding",
+      "path": "features/inventory",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/skill_menu_luna",
+      "task": "Fresh current-ABI native connected train probe/mutation fixture",
+      "path": "features/skill_ui and exclusive named WSL snapshot",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/faery_menu_luna",
+      "task": "Same native query/action/Save/FaeryTables page binding",
+      "path": "features/faery_menu",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_enemy_luna",
+      "task": "Real scoped DoSkill0x3b8bd8 admission and genuine VM regression",
+      "path": "character_script_session.cpp Impl::binding exact branch + features/enemy_ai",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_interactions_luna",
+      "task": "Actual container native link/run; NPC quest event connection",
+      "path": "features/interactions",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_quests_luna",
+      "task": "SAME EventManager/Objectives TalkToNPC source integration fixture",
+      "path": "features/quests",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_map_luna",
+      "task": "Recover real Show/RenderMap/camera source kernels",
+      "path": "features/map_ui",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_barriers_luna",
+      "task": "Original progression Door identities/conditions/animation owner binding",
+      "path": "features/progression_barriers",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    }
+  ],
+  "workforce_authority": "/root/workforce_dispatcher; live roster: coordination/workforce-dispatcher/utilization.json",
+  "interim_preview": {
+    "path": ".local-inputs/windows-source-clock-v19-preview-1",
+    "sha256": "ca781647451547e5952d342b71f483170477292f3869017d2160eb1781062e83",
+    "files": 572,
+    "positive_cases": 29,
+    "negative_saves": 2,
+    "final_v19_accepted": false,
+    "scope": "Playable navigation World lifetime; native profile/Gear stages unexposed"
+  },
+  "provider_implementation_queue": [
+    {
+      "owner": "/root/integration_lead/act1_enemy_luna",
+      "task": "Same sewn floor/obstacle modern navigation and LOS",
+      "paths": "NEW features/enemy_ai/runtime_enemy_navigation_v1.*",
+      "status": "active",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/audio_luna",
+      "task": "Per-hit audio observer facts and occurrence dedupe",
+      "paths": "features/audio/runtime_combat_audio_v1.*",
+      "status": "delegated; tests await coherent schema2 rebuild",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/frontend_luna",
+      "task": "Connect generic creator/existing save selection to callable menu outcome",
+      "paths": "features/frontend/creation/runtime_creation_persistence_v1.*",
+      "status": "delegated; creator/schema terminal",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    {
+      "owner": "/root/integration_lead/act1_map_luna",
+      "task": "Actual source FX manager factory over same retained scene and semantic runtime policies",
+      "paths": "NEW features/effects/runtime_effects_factory_v1.*",
+      "status": "active; exact retained visual accessor landed",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    }
+  ],
+  "architecture_policy": "Human-authorized clean generic runtime. Original art/assets/gameplay are acceptance criteria; native graph work is reference, not a blanket production gate.",
+  "schema2_frontier": {
+    "status": "shared serializers terminal; creator active",
+    "owner": "/root/integration_lead/frontend_luna",
+    "fields": [
+      "Endurance/Energy and known flag",
+      "source stat/skill points",
+      "rank zero skills",
+      "two-set row slot bindings",
+      "equipment set/slot",
+      "FaeryList and 3x5 progress/current selections"
+    ],
+    "migration": "v1 promotes in memory with unknown flags false; no implicit write",
+    "verification": "Root schema2 full79 CTests PASS11206; creator/save/game_save focused pass after duplicate source-row validation; final full family relink required after stable shared hashes",
+    "shared_core_sha256": {
+      "character_state.cpp": "0D8644BACD92D0E58B48D9E6F2A40708307E68646B7265E466987EE192F0B07C",
+      "character_state.hpp": "45DD4F70986AE250D0A77C6D885688399468C739C0BAF5D50653856125B48957"
+    }
+  },
+  "generic_runtime_frontier": {
+    "root_ready": [
+      "ActorDecisionProvider before animation",
+      "request_actor_attack original timing/cooldown/markers",
+      "generic actor locomotion",
+      "external source clip sequences",
+      "retained event ordinal and paired audio clock",
+      "pending world hit-resolution read-only queue available before motion",
+      "exact retained actor CharacterVisual lease-guarded borrow"
+    ],
+    "enemy": "Root enrolled --enemy-ai with same nav storage/body/collision and allactor walk/idle; root build96850/runtime verification pending. Controller/view retention/nav focused tests pass; static detour/dynamic avoidance/source cadence limits explicit.",
+    "audio": "Occurrence dedupe changed-QPC test PASS; real pending world queue now unblocks exact hit/death/position before-motion dispatcher; fresh connected proof active",
+    "creation": "Creator terminal: actual source Endurance/Energy/points/ordered SkillList duplicates/slots/faery/starter loot+autoequip; save+game_save2/2, frontend13/13, creator1/1. Generic menu callable flow composition delegated next.",
+    "cinematic": "Same-name/module to same Session ActorId resolver terminal PASS with fresh schema2 archives; native Character pointer gate removed; caller enrollment pending"
+  },
+  "latest_playable_preview": {
+    "path": ".local-inputs/windows-source-clock-v19-preview-6",
+    "receipt": "port/windows-foundation/reports/v19-preview-6-release.json",
+    "files": 1576,
+    "ctests": 80,
+    "packaged_cases": 7,
+    "visuals": 33,
+    "combat_actors": 25,
+    "audio_included": true,
+    "menu_default": true,
+    "skills_view_only": true,
+    "modified": false
+  },
+  "current_audio_integration": {
+    "owner": "/root/integration_lead",
+    "status": "source_step_swing_main_runtime_passed_pending_preview6",
+    "receipt": "port/windows-foundation/reports/main-combat-audio-development-v1.json",
+    "main_cmake": "lead_owned_skills_equipment_integration",
+    "save_restore": "actual_main_save40_reload80_restore100_passed",
+    "swing": "three_source_entries_470_471_472_dispatched_10_hardware_voices_source474_missing_asset_three_diagnostics",
+    "perceptual_parity": false
+  },
+  "current_build_frontier": "Released Preview6 immutable93ed. New main Equipment page real source names/slots/potions rendered35frames PASS; source body actions/lifecycle not yet accepted. Interactive Skills select+saved active slot passed; generic progression and static text integrated, wrapping pending.",
+  "preview7_candidate": {
+    "status": "frozen_waiting_root_packaged_acceptance",
+    "executable": ".local-inputs/v19-equipment-skills-preview7-freeze/dh-foundation.exe",
+    "sha256": "2a27d0434cb81c88ba918847e55c48fd1e39464e0ed8f9ca07c2e3229f1a32a2",
+    "scope": [
+      "Equipment source selection/equip/unequip and full/empty save-reload-restore",
+      "Skills source selection/static description wrapping/zero-points train rejection"
+    ],
+    "limitations": [
+      "Equipment detail text overlap and central preview blank",
+      "Positive Skills spend not production-proven",
+      "Offline gameplay modal pause source verified but not candidate7 implemented"
+    ]
+  }
+}

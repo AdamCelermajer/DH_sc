@@ -171,11 +171,10 @@ bool AuthoredSharedMenuRosterV27::delete_receiver_v59(std::uintptr_t id,std::str
  if(projection){projection->character=nullptr;projection->saved_focus=nullptr;}
  r.retired_v104=true;receivers_.erase(it);return true;
 }
-bool AuthoredSharedMenuRosterV27::post_load(SwfMovie& movie,std::shared_ptr<void> lease,std::uint32_t flags,std::string& error){
+bool AuthoredSharedMenuRosterV27::post_load(SwfMovie& movie,std::uintptr_t render_id,std::shared_ptr<void> lease,std::uint32_t flags,std::string& error){
  if(!stack_||!services_.owner||!services_.fields||!services_.debug||!lease){error="Required real shared movie/MenuManager/PostLoad providers";return false;}
- const auto render_id=reinterpret_cast<std::uintptr_t>(&movie);
- if(!stack_->render(render_id)){error="Required same movie RenderFX registration before PostLoad";return false;}
- struct Call {AuthoredSharedMenuRosterV27& self;SwfMovie& movie;std::shared_ptr<void> lease;std::uint32_t flags;
+ if(!render_id||!stack_->render(render_id)){error="Required same movie RenderFX registration before PostLoad";return false;}
+ struct Call {AuthoredSharedMenuRosterV27& self;SwfMovie& movie;std::uintptr_t render;std::shared_ptr<void> lease;std::uint32_t flags;
   static bool run(void* p,SwfAsGraph& graph,std::string& e){auto& c=*static_cast<Call*>(p);auto& self=c.self;
    SwfAsValue root;if(!graph.root_value(root,e))return false;AuthoredMenuSearchIndexV1 index;if(!index.initialize(graph,root,e))return false;
    for(const auto& entry:index.entries()){
@@ -189,7 +188,10 @@ bool AuthoredSharedMenuRosterV27::post_load(SwfMovie& movie,std::shared_ptr<void
     r->fields.owned7d=1; // PostLoad42f298; MenuBase C1 leaves it zero.
     // Retain the reached constructor/catalog prefix before registration.
     self.receivers_.push_back(std::move(owned));
-    AuthoredCharacterRegistrationServicesV1 registration;registration.owner=r->lease;registration.render=reinterpret_cast<std::uintptr_t>(&c.movie);
+    // PostLoad receives the actual RenderFX owner identity from the native
+    // load receipt. SwfMovie is only its facade and has a different identity
+    // on primary1; MenuFX::RegisterState must append to that same owner.
+    AuthoredCharacterRegistrationServicesV1 registration;registration.owner=r->lease;registration.render=c.render;
     registration.append_state=[&self,r](auto& f,auto& e){return self.stack_->register_menu_live_v27(f.identity,f.render,f.name,&r->character,0,0,e);};
     registration.find=[&index](const char* name,auto& out,bool& found,auto& e){return index.find(name,out,found,e);};
     registration.bind_weak_context=[r,&graph](auto&,const auto& value,auto& e){gameswf::as_object* object{};return graph.borrow_object(value,object,e)&&authored_menu_stack_character_v4(object,r->flags,{},r->character,e);};
@@ -201,7 +203,7 @@ bool AuthoredSharedMenuRosterV27::post_load(SwfMovie& movie,std::shared_ptr<void
     if(!registered)return false;
     auto* projected=self.stack_->registered_menu_v27(r->fields.identity);if(projected)projected->valid_menu=r->fields.valid7c;
    }return true;
-  }} call{*this,movie,std::move(lease),flags};return movie.menu_action_script(&call,Call::run,error);
+  }} call{*this,movie,render_id,std::move(lease),flags};return movie.menu_action_script(&call,Call::run,error);
 }
 bool AuthoredSharedMenuRosterV27::lifecycle(Receiver& r,const AuthoredMenuRequestV1& q,std::int32_t& result,std::string& error){
  auto& fields=*services_.fields;
@@ -223,6 +225,8 @@ bool AuthoredSharedMenuRosterV27::lifecycle(Receiver& r,const AuthoredMenuReques
  if(q.operation==AuthoredMenuOperationV1::unregister_listener)return fields.unregister_listener(r.fields.identity,[this](auto& e){std::int32_t value{};return services_.debug(nullptr,value,e);},error);
  struct Call {AuthoredSharedMenuRosterV27& self;Receiver& r;const AuthoredMenuRequestV1& q;
   static bool run(void* p,SwfAsGraph& graph,std::string& e){auto& c=*static_cast<Call*>(p);
+   if(c.q.operation==AuthoredMenuOperationV1::option_custom_level_running)
+    return authored_character_option_custom_level_running_v1(graph,c.r.state,c.q.text,c.self.services_.level_running,e);
    if(c.q.operation==AuthoredMenuOperationV1::register_deadzones){AuthoredMenuCharacterBorrowV3* root{};
     if(!c.r.projection.root(graph,c.r.fields.name,root,e))return false;AuthoredMenuDeadZoneServicesV3 s;
     s.debug=[&](auto& de){std::int32_t value{};return c.self.services_.debug(nullptr,value,de);};

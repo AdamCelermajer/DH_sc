@@ -32,7 +32,17 @@ std::shared_ptr<dh2::resources::AdmittedVectorV40> read_model_texture_v40(AAsset
  if(original){
   bool found=false;
   const auto admit=[&](std::uint32_t bytes,std::string& why){return result->admission.reserve(ledger,scope,bytes,why);};
-  if(!original->read_admitted("data/3d/textures/"+name,found,result->bytes,admit,error)||!found)
+  if(!original->read_admitted("data/3d/textures/"+name,found,result->bytes,admit,error))
+   throw std::runtime_error("Original equipped texture unavailable: "+name+" | "+error);
+  // Original mobile cache entries may carry the platform-selected PVR2
+  // variant prefix while BRES material records retain the logical basename.
+  // Match the production alias used when packaging actor textures: ask for
+  // the logical name first, then retry its PVR2 cache member before failing.
+  if(!found&&name.rfind("pvr2_",0)!=0){
+   if(!original->read_admitted("data/3d/textures/pvr2_"+name,found,result->bytes,admit,error))
+    throw std::runtime_error("Original equipped texture unavailable: "+name+" | "+error);
+  }
+  if(!found)
    throw std::runtime_error("Original equipped texture unavailable: "+name+" | "+error);
  }else{
   auto path=name;std::transform(path.begin(),path.end(),path.begin(),[](unsigned char c){return char(std::tolower(c));});

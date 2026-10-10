@@ -1,0 +1,233 @@
+{
+  "status": "actual-cache-root-Module-condition-and-shared-application-spawn-native-pass",
+  "modules": [
+    "source_module_construction.hpp",
+    "source_module_construction.cpp"
+  ],
+  "test": "tests/source_module_construction_tests.cpp",
+  "implementation": "Recovered CanonicalLevelModuleBindingsV2 handles Module/Block using same actual globals/property map; LevelConfig and other classes delegate to preserved source predecessor. No Module-only source-file filter and no second config authority.",
+  "position": "Recovered character_set_position_v7 borrows actual Module base position160, relative/absoluteAABB, destination1a8 and actual attached2e0/physical2dc/visual2d8 pointers. NULL source branches perform actual logical stores; positive branches require supplied real backends.",
+  "initpost": "SAME Module weak record borrow invokes genuine condition_data_init_v3 for offsets8c/b0. Optional independent NativeConditionRuntimeV69 owns real decoded Arrays rows and ConditionList allocations; absence admits only exact empty/Invalid and NULL-clear source leaves. InitPost next missing service remains failure.",
+  "actual_cache": {
+    "resource": "port/windows-foundation/assets/original-cache/data/scene/001_swamp.mlx",
+    "root_traversal": "COMPLETE, unfiltered original Level child walk",
+    "factory_attempts": 10,
+    "actual_level_config": 1,
+    "actual_modules": 9,
+    "shared_counter_after_root": 9,
+    "receipts": [
+      {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "name": "obj_4of4_brdwalk_sw_00_0",
+        "id": 0
+      },
+      {
+        "position": [
+          -6000,
+          0,
+          0
+        ],
+        "name": "obj_3of4_brdwalk_sw_00_1",
+        "id": 1
+      },
+      {
+        "position": [
+          -6000,
+          6000,
+          0
+        ],
+        "name": "obj_1of4_brdwalk_nse_00_2",
+        "id": 2
+      },
+      {
+        "position": [
+          -6000,
+          12000,
+          0
+        ],
+        "name": "corner_ruin_ws_00_3",
+        "id": 3
+      },
+      {
+        "position": [
+          -12000,
+          12000,
+          0
+        ],
+        "name": "merchantcamp_ruins_swe_00_4",
+        "id": 4
+      },
+      {
+        "position": [
+          -12000,
+          18000,
+          0
+        ],
+        "name": "corner_brdwalk_se_00_5",
+        "id": 5
+      },
+      {
+        "position": [
+          -6000,
+          18000,
+          0
+        ],
+        "name": "deadend_brdwalk_w_00_7",
+        "id": 6
+      },
+      {
+        "position": [
+          -18000,
+          12000,
+          0
+        ],
+        "name": "bossroom_ruins_ns__8",
+        "id": 7
+      },
+      {
+        "position": [
+          0,
+          6000,
+          0
+        ],
+        "name": "obj_2of4_brdwalk_sw_00_9",
+        "id": 8
+      }
+    ],
+    "ids": "Read each actual constructed Module40c; no name suffix or host #ordinal parsed as runtime ID.",
+    "host_scope": "Explicit callback returns exact existing ActorDefinition child occurrence. Test matches unique retained Module name to importer child identity format; it treats spelling only as host identity and validates uniqueness.",
+    "source_records": "SAME original declaration leases retained, actual receiver identities verified, same global advances once per actual completed Module construction.",
+    "initialization_next_gap": "Required original GameObject Device::IsHighPerformance provider"
+  },
+  "verification": {
+    "native": "PASS",
+    "executable": ".local-inputs/windows-camera-assets/source-module-construction-tests.exe",
+    "new_provider_compile": "C++17 -Wall -Wextra -Wpedantic, zero warnings",
+    "source_walk_checks": [
+      "Same source LevelConfig owner published",
+      "Nine actual Module constructors consume shared counter",
+      "Actual descriptor/default/override path executes",
+      "Actual inherited destination and AABB stores match source position",
+      "SourceWorldObjects scoped trigger and scripted spawn definitions admitted using actual Module1",
+      "Positive synthetic physical pointer refuses missing real backend and preserves position/bounds failure prefix",
+      "Additional Block alias source walk executes same constructor/counter and actual position overrides",
+      "Nine actual cached root Modules advance past exact empty condition branches to CheckSpawnProbability",
+      "Actual original condition table decode and named source row positive allocation/Init/Clear",
+      "Missing native evaluation transport refuses player/level state fabrication",
+      "Table name miss and Invalid exact no-call branches, NULL repeat clear, foreign receiver release rejection",
+      "Actual Module canonical AsChar returns NULL; nonplayer classification proved",
+      "Source default cached270=-1/probability274=100 on all nine cached root Modules; SAME offline application channel0 consumed once each, no deletion",
+      "Failed probability0 actual-field fixtures preserve source cached270/visible80/Delete disabled81/continuation82 prefixes",
+      "Missing manager failure does not invent retry: cached failed roll bypasses omitted mark operation",
+      "Fresh failed fixture marks exact registered source Module identity in SAME manager deletion3c list; no duplicates on cached result",
+      "Missing actual online byte fails before RNG/cache writes; synthetic positive visual pointer refuses missing SyncVisibility before Delete",
+      "Foreign manager rejected by receiver registration contract; explicit online/network/ownerfc scalar fixture selects SAME application channel1"
+    ],
+    "block_test": "Synthetic separate source root appended Block constructor on same actual counter: ID9 then counter10. Not part of original nine-Module root receipt.",
+    "boundaries": "Fresh Level/counter initial state, parser/release callbacks and offline runtime mode are explicit test boundaries. Module/class/property/position algorithms and original cached root bytes run source-backed owners."
+  },
+  "api": {
+    "methods": "services(), lease(), record(actualIdentity,out,error), records(), clear_conditions(actualIdentity,error), check_spawn_probability(actualIdentity,roll,probability,error)",
+    "providers": "SourceModuleConstructionProviders(candidate/global/predecessor owners, actual globals, same property map, prior source callbacks, optional positive position backends/actual InitPost services); optional SAME independent NativeConditionRuntimeV69 conditions appended to provider aggregate; appended shared SourceModuleSpawnApplication borrowing applicationOwner/random/onlineByte5, weak SAME manager, optional real positive visual SyncVisibility",
+    "source_loading_binding": "SourceLevelConstruction.classes=module.services; classesOwner=module.lease; moduleRecord callback delegates module.record; explicit hostOccurrence resolves same declaration to existing child scope."
+  },
+  "additional_dependencies_beyond_source_level_config": [
+    "../level-world/canonical_level_module_bindings_v2.cpp",
+    "../level-world/character_set_position_v7.cpp",
+    "headers ../level-loader/canonical_loading_receiver_v95.hpp and canonical_point3d_globals_v1.hpp",
+    "../level-world/condition_data_init_v3.cpp",
+    "../level-world/native_conditions_table_v69.cpp",
+    "../level-world/native_conditions_runtime_v69.cpp",
+    "include ../game-data for data.hpp",
+    "../level-world/application_spawn_random_owner_v4.cpp",
+    "../game-data/loot_tables_v2.cpp (dh2_loot_v2_random; uses existing items/data library)"
+  ],
+  "remaining": [
+    "Actual root construction scope IDs are now verified for the original cached root; this does not certify whole Level.Init.",
+    "Nine original root Modules genuinely execute condition no-call leaves and source spawn100 using SAME shared application channel0, store cached270=-2, then stop at Device::IsHighPerformance. No Device/LoadVisual success or whole Module.InitPost readiness is invented. Later real visual/PF/RoomZone/module child loading remains unbound.",
+    "Original Module.Load child MGP/MVP selection, complete source child class construction and trigger geometry are later phases, not performed by this bounded root constructor owner.",
+    "SourceWorldObjects entries in current test are authored definitions with actual constructor-derived scopes; their Character/TriggerZone receiver construction and live activation are separate acceptance.",
+    "Retain provider/current-Level/candidate as sibling owners and run real unpublication/cleanup on failures. No rollback, copied world or fake visual/body identity is supplied."
+  ],
+  "source_evidence": [
+    "port/level-world/canonical_level_module_bindings_v2.cpp",
+    "port/level-world/canonical_level_config_module_v1.cpp:74",
+    "port/level-world/canonical_property_map_v1.cpp",
+    "port/level-world/canonical_level_config_module_declarations_v1.inc",
+    "port/level-world/character_set_position_v7.cpp",
+    "port/level-world/canonical_point3d_globals_v1.hpp",
+    "port/level-loader/level_file_walk_v1.cpp",
+    "port/level-world/module_xml_selection_v1.cpp",
+    "port/level-world/condition_data_init_v3.cpp:33e528 Init and 33e654 Clear",
+    "port/level-world/native_conditions_table_v69.cpp:original Arrays read4b8dec/readNames4b15f8 and struct readers",
+    "port/level-world/native_conditions_runtime_v69.cpp:ConditionList C14786f0/AssignPyData478914/native factory969258/D1478eac",
+    "port/level-world/game_object_initialization_owner_v1.cpp:ObjectBase InitPost33ec0c then GameObject InitPost38be5c",
+    "port/level-world/application_spawn_random_owner_v4.cpp:canonical CheckSpawnProbability38bd64",
+    "port/level-world/reference/application-spawn-random-v4/handoff.md and original-functions.asm",
+    "port/game-data/loot_tables_v2.cpp:Random.GetRandom401afc signed bound99 algorithm",
+    "port/level-world/canonical_gameobject_base_owner_v1.cpp:GameObject AsChar NULL; default270/274; Delete33ddb4 and fc signed source word",
+    "port/level-world/canonical_object_manager_v1.cpp:MarkForDeletion3432f8 source list3c",
+    "port/level-world/canonical_module_graph_v3.cpp:Module inherited spawn binding/NULL source SyncVisibility"
+  ],
+  "changes": "Assigned module provider/header/test/report only for v12 shared application spawn work; prior exact condition receipts and constructor behavior retained. No main/CMake/sourceRoot edits and no new assets.",
+  "condition_assets": {
+    "archive": "C:/Users/adamc/Downloads/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+    "archive_bytes": 433189197,
+    "receipts": [
+      {
+        "resource": "data/pydata/v2conditions_pyarray.bin",
+        "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2conditions_pyarray.bin",
+        "bytes": 2796,
+        "sha256": "52b9f3d7d15182a0b5c5daa11bcba2720e9be752f1db5f0bcde054b6a5911f53",
+        "added": [
+          ".local-inputs\\windows-shared-assets\\original-cache\\data\\pydata\\v2conditions_pyarray.bin",
+          "port\\windows-foundation\\assets\\original-cache\\data\\pydata\\v2conditions_pyarray.bin"
+        ]
+      },
+      {
+        "resource": "data/pydata/v2conditions_pyarraynames.bin",
+        "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2conditions_pyarraynames.bin",
+        "bytes": 2789,
+        "sha256": "029b7b9253386078a87988344907a71de1a68ba105a034ff6ea48a0a3490ae9d",
+        "added": [
+          ".local-inputs\\windows-shared-assets\\original-cache\\data\\pydata\\v2conditions_pyarraynames.bin",
+          "port\\windows-foundation\\assets\\original-cache\\data\\pydata\\v2conditions_pyarraynames.bin"
+        ]
+      },
+      {
+        "resource": "data/pydata/v2conditions_pystructnames.bin",
+        "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2conditions_pystructnames.bin",
+        "bytes": 758,
+        "sha256": "94efc18c04974aca9fb3560333f7ca2702d519a52584a1c5be1b8fbf3cd6c080",
+        "added": [
+          ".local-inputs\\windows-shared-assets\\original-cache\\data\\pydata\\v2conditions_pystructnames.bin",
+          "port\\windows-foundation\\assets\\original-cache\\data\\pydata\\v2conditions_pystructnames.bin"
+        ]
+      }
+    ],
+    "file_count_delta_per_asset_root": 3,
+    "byte_delta_per_asset_root": 6343
+  },
+  "condition_lifetime": "Init callbacks capture weak actual Module record and independent condition services owner. Owner retains SAME native runtime. clear_conditions pins actual record across ordered clears; no automatic retry/rollback or successful cleanup on failure. Caller must run clear before dropping initialized receivers; arena metadata teardown is separate from source embedded destruction.",
+  "positive_condition_verification": {
+    "decoded_rows": 118,
+    "source_row": "DW_Statue",
+    "receiver": "actual first retained root Module base",
+    "fields": "Names90/b4 and compileda8/cc",
+    "test_override": "Only positive mechanism test assigns original authored row name into retained Module fields; cached root remains verified empty names before this explicit test override.",
+    "result": "Two distinct real native ConditionList allocations, original AssignPyData, missing actual evaluation transport failure, ordered positive destruction and zeroed pointer cells; destroyed receiver no longer evaluable."
+  },
+  "spawn_application": {
+    "api": "SourceModuleSpawnApplication applicationOwner; ApplicationSpawnRandomOwnerV4* random; const uint8_t* onlineByte5; weak CanonicalObjectManagerV1 manager; syncVisibility(base,actualVisual,error)",
+    "lifetime": "SourceModuleConstruction pins explicit shared application context. Each Module init callback weakly borrows context and record. Source application Random state is never allocated/copied by Module or Level owner. Context must borrow enclosing manager/visual scope weakly.",
+    "classification": "SAME actual base canonical AsChar callback returns NULL; original Module is not a Character/Player. No player shortcut or independently asserted XML classification.",
+    "random": "Canonical CheckSpawnProbability selects application channel0 offline; channel1 only online byte5 && network108!=-1 && signed ownerfc!=0. Fresh draw bound99 then cache270; accepted roll100 stores -2. Cache prevents additional draws.",
+    "failure": "Failed fresh roll stores270, SetVisible(false) writes80 then exact NULL visual no-call or requires actual positive SyncVisibility, Delete writes82=2/81=1, continuation82=0, SAME manager MarkForDeletion appends exact actual identity. Missing reached providers preserve prefixes; cached follow-up does not retry.",
+    "tests": "Nine actual cache defaults consume channel0 exactly9. Explicit failure/online mechanism fixtures operate retained source fields separately from authored defaults. Synthetic positive visual123 exercises refusal only and never creates a receiver.",
+    "startup_boundary": "Native test uses one explicit application-lifetime source random owner starting source BSS seed/counter0 and actual offline byte0. Later original application seed writers/network transitions must mutate these SAME fields; no universal runtime offline or seed assumption claimed."
+  }
+}

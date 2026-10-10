@@ -1,0 +1,56 @@
+{
+  "status": "bounded_authored_phase_executor_native_tests_pass",
+  "modules": ["original_attack_sequence.hpp","original_attack_sequence.cpp"],
+  "test": "tests/original_attack_sequence_tests.cpp",
+  "selection": {
+    "type1": "Sequential source children in hierarchy order",
+    "type2": "Explicit source-path child choice; no inferred RNG choice",
+    "type0": "Source first-step behavior",
+    "redirect1": "Mandatory exported sequence policy lookup by redirect animationId",
+    "group_boundary": "Caller may select an explicit redirected subtree; outer combo chaining remains caller-owned",
+    "unsupported": ["nonzero sequence loops","nonvisual or symbolic leaf steps","unknown selected sequence types","missing redirect policy","zero playback rates"]
+  },
+  "source_evidence": {
+    "sequence_policy": "port/game-data/animation_scheduler.cpp enter/activate/complete",
+    "leaf_rate": "port/level-world/actor_blended_playback.cpp set_speed multiplies actor global speed by selected leaf speed",
+    "redirect_rates": "Redirect parent step rates are not multiplied into the selected leaf rate",
+    "blend": "apply_selection calls dh2_blender_begin(selected.blend_out) before clip lookup; blend duration is separate from source clip range",
+    "marker_meaning": "port/level-world/character_melee_animation_event_v1.cpp recognizes attack_mainhand; executor preserves names without assigning combat damage"
+  },
+  "timeline": {
+    "visual": "Pre/strike/recovery advance with source leaf rates and continuous wall-time remainder across phase boundaries",
+    "markers": "Owned original BRES marker thresholds map through the same phase/rate schedule; virtual wall milliseconds use first reachable integer boundary",
+    "identity": "Every aggregate occurrence retains a unique ordered stream index, with phase/source marker metadata available separately",
+    "runtime_binding": "Virtual action CombatVisualBinding range starts at zero; caller clip_rates for virtual alias must be identity because source phase rates are applied internally",
+    "restart": "Required explicit restart_clip service; source CharacterVisual restart resets even a repeated selected clip"
+  },
+  "actual_original_asset_check": {
+    "actor": "KnightPlayerBase",
+    "root_sequence": {"id":248,"name":"Human_Attack_00_1H","type":1,"loop":0},
+    "selected_group_path": [0],
+    "redirect_sequence_id": 467,
+    "phase_count": 3,
+    "phase_rate": 1.2999999523162842,
+    "marker_name": "attack_mainhand",
+    "marker_wall_seconds": 0.256923086,
+    "virtual_marker_ms": 257,
+    "marker_has_strike_pose_before_dispatch": true,
+    "recovery_completes": true
+  },
+  "additional_checks": [
+    "Two source type2 groups select exactly one",
+    "Variable phase rates carry subframe wall remainder at incoming rate",
+    "Redirect speed fixture99 does not compound leaf rate",
+    "Blend100 does not reduce clip duration",
+    "Outgoing end marker precedes incoming start marker at boundary",
+    "Repeated action restarts first clip",
+    "Unsupported or incomplete preparation preserves previous program"
+  ],
+  "fidelity_gaps": [
+    "Original frame-cadence handoff initializes a different next clip at its transition frame and can discard that frame's overshoot. This clean continuous subframe executor is not bit-exact to that legacy cadence.",
+    "Original two-slot pose blending and outgoing slot events are not implemented here. Blend metadata remains available; no fade shortening is substituted.",
+    "Selection FX, combo input gates, source callbacks, live per-action rate changes and outer combo progression remain caller-owned.",
+    "Source MoveGO metadata is preserved; actor displacement consumption across phase updates needs integration by the host.",
+    "Virtual integer marker/finish interface adds less than one millisecond of boundary quantization to a continuous source phase schedule."
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "status": "staged_verified",
+  "scope": "Root exact grant: three original skill clips and required animations aliases only",
+  "accepted_packages_modified": false,
+  "files": [
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reference\\character-visual-v6\\cache\\data\\3d\\characters\\prince\\animations\\skill_dh2_prince_warrior_bash_down.bdae",
+      "destination": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-shared-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\skill_dh2_prince_warrior_bash_down.bdae",
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b",
+      "bytes": 15528,
+      "existed": false
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reference\\character-visual-v6\\cache\\data\\3d\\characters\\prince\\animations\\skill_dh2_prince_warrior_bash_down.bdae",
+      "destination": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-shared-assets\\animations\\skill_dh2_prince_warrior_bash_down.bdae",
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b",
+      "bytes": 15528,
+      "existed": false
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reference\\character-visual-v6\\cache\\data\\3d\\characters\\prince\\animations\\skill_dh2_prince_mage_cold_ray.bdae",
+      "destination": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-shared-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\skill_dh2_prince_mage_cold_ray.bdae",
+      "sha256": "4dec51ccd295acc468232d7a12f10c47ca06f87877370a2e3ba90770aa32b213",
+      "bytes": 10452,
+      "existed": false
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reference\\character-visual-v6\\cache\\data\\3d\\characters\\prince\\animations\\skill_dh2_prince_mage_cold_ray.bdae",
+      "destination": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-shared-assets\\animations\\skill_dh2_prince_mage_cold_ray.bdae",
+      "sha256": "4dec51ccd295acc468232d7a12f10c47ca06f87877370a2e3ba90770aa32b213",
+      "bytes": 10452,
+      "existed": false
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reference\\character-visual-v6\\cache\\data\\3d\\characters\\prince\\animations\\skill_dh2_prince_rogue_jump_kick.bdae",
+      "destination": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-shared-assets\\original-cache\\data\\3d\\characters\\prince\\animations\\skill_dh2_prince_rogue_jump_kick.bdae",
+      "sha256": "7db240e6e3d9660964c86b6218b0c6d5436afa35e8e1a653aa1487d6222dbdf8",
+      "bytes": 12576,
+      "existed": false
+    },
+    {
+      "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reference\\character-visual-v6\\cache\\data\\3d\\characters\\prince\\animations\\skill_dh2_prince_rogue_jump_kick.bdae",
+      "destination": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-shared-assets\\animations\\skill_dh2_prince_rogue_jump_kick.bdae",
+      "sha256": "7db240e6e3d9660964c86b6218b0c6d5436afa35e8e1a653aa1487d6222dbdf8",
+      "bytes": 12576,
+      "existed": false
+    }
+  ]
+}

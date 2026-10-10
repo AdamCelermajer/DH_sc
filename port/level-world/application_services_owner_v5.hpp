@@ -57,7 +57,12 @@ class ApplicationServicesOwnerV5 {
  // It is also the sole mutable NativeSetCurrentDifficulty+0c authority.
  std::shared_ptr<ui::OwnedHudSettingsV1> source_settings4c_v67_;
  std::array<std::shared_ptr<PlayerLightTweakerOwnerV90>,4> source_tweakers58_v90_{};
+ // Application C1 32d79c writes pending invitation bytes ee/10e to zero.
+ // Network invitation producers are not yet represented by this owner.
+ std::uint8_t source_invitation_ee_{},source_invitation10e_{};
 public:
+ std::uint8_t source_invitation_ee()const noexcept{return source_invitation_ee_;}
+ std::uint8_t source_invitation10e()const noexcept{return source_invitation10e_;}
  ApplicationServicesOwnerV5()=default;
  bool initialize_source_resource_prefix_v95(std::string&);
  bool borrow_source_resource_prefix_v95(ProcessResourcePrefixBorrowV95&,std::string&)const;

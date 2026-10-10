@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-09",
+  "status": "released_playable_swing_companion_skills_view_preview",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-v19-preview-6",
+  "launcher": "Play.cmd",
+  "direct_gameplay_launcher": "Play-swamp.cmd",
+  "executable_sha256": "93ed428d955f54708165d887f2b4225a2129b18607d6f9f83d6756076994c076",
+  "manifest_files_verified": 1576,
+  "foundation_ctest": "80/80; .local-inputs/v19-preview-6-regression.log",
+  "packaged_runtime_cases": 7,
+  "new_playable_behavior": [
+    "Original three-swing step-entry swoosh sounds, using original item override selection.",
+    "Priest/faery original Idle advances through the shared Session and survives gameplay save/reload/restore.",
+    "Skills view uses original art/icons and saved ranks/points.",
+    "Opaque full-viewport character menu backing hides underlying gameplay."
+  ],
+  "evidence": [
+    "reports/v19-preview-6-frontend-runtime.json",
+    "reports/v19-preview-6-companion-runtime.json",
+    "reports/v19-preview-6-audio-runtime.json",
+    "reports/v19-preview-6-population-runtime.json",
+    "Package skills-verification.log:35 frames,30 menu frames; skills-verification.png inspected."
+  ],
+  "audio": {
+    "output_initializations": 1,
+    "started_voices": 10,
+    "hit_observer_diagnostics": 0,
+    "step_playback_diagnostics": 3,
+    "missing_source_sound": "474:data/sounds/sfx_lizardman_attack_1.wav"
+  },
+  "limitations": [
+    "Skills view only: body selection/details, training and slot assignment are incomplete in this frozen executable.",
+    "Equipment/faery/quest pages and full Act1 remain incomplete.",
+    "Companion following/combat/abilities and intro scripted placement/cinematics remain incomplete.",
+    "Source Sound474 missing asset; no substitute.",
+    "Matched-reference visual/gameplay/audio fidelity remains unverified."
+  ],
+  "preserved": ".local-inputs/windows-source-clock-v19-preview-5"
+}

@@ -1,0 +1,68 @@
+{
+  "audit": "windows-foundation-portability",
+  "date": "2026-10-09",
+  "scope": "Read-only source inspection of existing asset, scene, animation, skinning, texture modules; no compilation performed by this audit.",
+  "conclusion": "The minimal asset/scene/animation/skinning/texture implementation uses standard C++17 and can be compiled as a curated static library for a native Windows application. Existing module CMake files should not be imported wholesale.",
+  "minimum_sources": {
+    "scene_mesh": [
+      "port/engine-resources/resources.cpp",
+      "port/asset-payloads/payloads.cpp",
+      "port/engine-math/math.cpp",
+      "port/scene-materials/scene.cpp"
+    ],
+    "animation_additions": [
+      "port/engine-animation/animation.cpp",
+      "port/engine-animation/angle_interpreter.cpp",
+      "port/engine-animation/events.cpp",
+      "port/engine-animation/event_track.cpp"
+    ],
+    "cpu_skinning_additions": ["port/engine-skinning/skinning.cpp"],
+    "texture_decode": [
+      "port/engine-textures/textures.cpp",
+      "port/engine-textures/pvrtc.cpp"
+    ],
+    "optional_zip": ["port/asset-payloads/zip_asset_pack_v1.cpp"]
+  },
+  "dependencies": {
+    "language": "C++17",
+    "minimum_external": [],
+    "optional_zip": ["zlib"],
+    "graphics": "Core decoding and CPU skinning require no OpenGL, EGL, Android, or Vulkan API. The new Windows rendering backend supplies graphics upload and drawing."
+  },
+  "existing_build_incompatibilities": [
+    {
+      "files": ["port/scene-materials/CMakeLists.txt", "port/engine-animation/CMakeLists.txt", "port/engine-skinning/CMakeLists.txt", "port/engine-textures/CMakeLists.txt"],
+      "issue": "Existing libraries are SHARED with no Windows DLL export annotations or export-all-symbols configuration; MSVC links may not expose public interfaces.",
+      "recommendation": "Compile the minimum source set into a STATIC library in the Windows foundation target."
+    },
+    {
+      "files": ["port/scene-materials/CMakeLists.txt", "port/engine-animation/CMakeLists.txt", "port/engine-skinning/CMakeLists.txt", "port/engine-textures/CMakeLists.txt"],
+      "issue": "Unconditional GNU-style -Wall/-Wextra/-fno-fast-math/-ffp-contract=off flags are not appropriate for MSVC.",
+      "recommendation": "Use compiler-conditional flags, e.g. /W4 and /fp:precise for MSVC. Avoid fast-math."
+    },
+    {
+      "files": ["port/engine-animation/CMakeLists.txt"],
+      "issue": "Non-Android branch creates differential audit executables using dlopen/dlfcn and GNU --wrap linker options. These are not needed for the game runtime.",
+      "recommendation": "Exclude audit targets from the Windows game target; select runtime source files directly."
+    },
+    {
+      "files": ["port/engine-skinning/CMakeLists.txt"],
+      "issue": "visual_skin_inventory_v6_audit imports game-data/level-world/engine-ui/script-runtime target dependencies, expanding the build far beyond the simple character demonstration.",
+      "recommendation": "Start with skinning.cpp and animation Player; defer original visual ownership and equipment orchestration."
+    },
+    {
+      "files": ["port/asset-payloads/tests/zip_asset_pack_v1.cpp"],
+      "issue": "ZIP test backing uses POSIX fcntl/unistd APIs. The production ZipAssetPackV1 implementation itself accepts a platform-neutral positional-read callback.",
+      "recommendation": "Provide Windows or std::ifstream backing if mounting ZIPs; simplest first milestone uses extracted directory assets."
+    }
+  ],
+  "runtime_constraints": [
+    "BresView, Mesh, Attribute, and Primitive are borrowed immutable views; keep the original resource byte buffer alive while they are used.",
+    "BRES parsing preserves serialized 32-bit offsets without widening or casting source bytes to native pointer layouts; use these readers rather than relocating ARM32 data in place.",
+    "animation::Player owns its animation bytes and rest pose; load against the same scene node identifiers, then sample in milliseconds and recompute world transforms.",
+    "Skin::nodes maps joints to Scene graph nodes. palette() followed by positions() supplies CPU-skinned positions; directions_v113() supplies direction/normal transforms.",
+    "Scene includes authored camera and light metadata. Camera node world matrices remain the renderer/timeline caller's responsibility.",
+    "Texture decoder handles PVRTC and supported TGA formats on the CPU, allowing RGBA upload without relying on desktop GPU PVRTC extension support.",
+    "Source inspection alone does not prove a successful native Windows compile or renderer integration."
+  ]
+}

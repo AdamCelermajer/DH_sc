@@ -9,9 +9,42 @@
 #include "character_animation_step_fx_v2.hpp"
 #include "audio_animation_swoosh_v38.hpp"
 #include "audio_world_producer_v38.hpp"
+#include "vox_play3d_owner_v2.hpp"
 #include "canonical_point3d_globals_v1.hpp"
 #include <algorithm>
 namespace model_renderer {namespace {
+bool submit_menu_preview_animation_sound_v122(
+ const dh2::audio::AudioApplicationBorrowV42& captured,
+ dh2::world::CanonicalCharacterCandidateRecordV60& record,
+ const dh2::character::CombatSoundPlayV1& play,std::string& error){
+ struct Prefix {const dh2::audio::AudioApplicationBorrowV42& audio;
+  dh2::world::CanonicalCharacterCandidateRecordV60& record;std::string& error;};
+ if(!captured.manager||!captured.manager->runtime_on_producer()||!record.services.debug||!record.services.debug_files){
+  error="Required same process preview Vox/Debug owners";return false;
+ }
+ Prefix prefix{captured,record,error};
+ // Keep the request context alive for the synchronous owner call.
+ dh2::sound::VoxPlay3DOwnerV2 owner({&prefix,[](void* raw,const dh2::sound::VoxPlay3DRequestV2& q,
+   dh2::sound::VoxPlay3DResponseV2& out){
+   auto& p=*static_cast<Prefix*>(raw);using O=dh2::sound::VoxPlay3DOperationV2;
+   if(!q.play||q.play->manager!=p.audio.identity())return -1;
+   if(q.operation==O::disabled){std::uint32_t disabled{};
+    const int loaded=dh2_character_debug_load(p.record.services.debug,p.record.services.debug_files);
+    if(loaded!=1){p.error="Preview Vox Play3D Debug.Load(IsDisablingSounds) status "+std::to_string(loaded);return -1;}
+    const int queried=dh2_character_debug_get(&disabled,p.record.services.debug,"IsDisablingSounds",p.record.services.debug_files);
+    if(queried!=1){p.error="Preview Vox Play3D Debug.GetSwitch(IsDisablingSounds) status "+std::to_string(queried);return -1;}
+    out.value=std::int32_t(disabled);return 0;
+   }
+   if(q.operation==O::current_level){dh2::loader::CanonicalCurrentLevelBorrowV1 current;
+    if(!borrow_current_native_level_v27(current,p.error))return -1;out.identity=current.identity();out.value=0;
+    if(current){dh2::loader::CanonicalLevelContextV1::LoadingFieldsV26 fields;
+     if(!current.level()->loading_fields_v26(fields,p.error)||!fields.state130)return -1;out.value=std::int32_t(*fields.state130);}
+    return 0;
+   }
+   p.error="Required actual process preview Vox Play3D continuation "+std::to_string(unsigned(q.operation));return -1;
+  }});
+ const int result=owner.play(play);if(result){if(error.empty())error=owner.error();return false;}error.clear();return true;
+}
 struct CombatDeliveryV112 {
  std::shared_ptr<void> world;
  std::shared_ptr<const dh2::character::CharacterCandidateCacheV62> cache;
@@ -42,8 +75,15 @@ struct StepDeliveryV100 {
   bool player{};if(!record.is_player(player,error))return false;
   // Capture the source SoundManager before the position callback. Null and
   // negative IDs are delivered to the real source Play3D prefix, not skipped.
-  return submit_campaign_audio_v46(player?dh2::audio::AudioCategoryV46::attack:dh2::audio::AudioCategoryV46::monster,
-   captured,record.services.world,dh2::audio::audio_world_request_v38(captured.identity(),0,id,p),error);
+  const auto play=dh2::audio::audio_world_request_v38(captured.identity(),0,id,p);
+  SourceCampaignCandidateBorrowV55 campaign;std::string ignored;
+  if(borrow_source_campaign_candidate_v55(campaign,ignored)&&campaign.actual_world==record.services.world)
+   return submit_campaign_audio_v46(player?dh2::audio::AudioCategoryV46::attack:dh2::audio::AudioCategoryV46::monster,
+    captured,record.services.world,play,error);
+  // Menu preview records belong to NativeMenuRendererDomainV121, not a
+  // WorldScriptContext. Their real process Debug receiver is carried on the
+  // record services; never static-cast that distinct owner to World.
+  return submit_menu_preview_animation_sound_v122(captured,record,play,error);
  }
  bool play(int set,const float* p,const float* rotation,std::uintptr_t anchor){
   std::shared_ptr<void> lease;dh2::fx::CharacterMeshFxOwnerV4* manager{};

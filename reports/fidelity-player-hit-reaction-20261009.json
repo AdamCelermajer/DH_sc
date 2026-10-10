@@ -1,0 +1,95 @@
+{
+  "status": "bounded_timestamped_reference_review",
+  "date": "2026-10-09",
+  "claim_under_review": "Player damage does not always stun or interrupt the player's ongoing attack.",
+  "scope": "Direct video observation of the 375-376 second Bog Moth fight and relevant original-source reaction gates. This is not a whole-game or all-hits claim.",
+  "video": {
+    "url": "https://www.youtube.com/watch?v=z_Zky7qQdYs&t=377s",
+    "local_path": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "sha256": "98087ee80f594bcc317144b5dd15ee4b470830b8eb8f5b13badc24bd9831e502",
+    "format": "H.264, 640x360, 30 fps; local stream has video only",
+    "source_version_caveat": "The observed video is v1.0.3. Recovered source/assets are v1.0.2; whether they differ is not established."
+  },
+  "method": {
+    "window_seconds": [365, 385],
+    "direct_frames": "Extracted and individually inspected local-video frames at quarter-second intervals from 375.000 through 381.000, plus a 20-frame 8 fps sequence covering 374.000-376.375 and focused crops at 375.750/376.000.",
+    "frame_timing": "The original is 30 fps. Requested timestamps correspond to the nearest decoded frame (within one source frame); 8 fps sequence is for pose ordering, not sub-frame event timing.",
+    "hud_check": "Compared the red player-health fill endpoint in the fixed top-left HUD region across directly extracted 640x360 frames. Approximate endpoint moves from x=170 at 375.250 to x=167 at 375.500 and remains at x=167 through 376.250; small antialiasing/compression error is possible."
+  },
+  "observations": [
+    {
+      "seconds": 375.250,
+      "evidence": ".local-inputs/fidelity-hit-reaction-audit/375_250.png",
+      "observation": "Bog Moth is labeled and has the red selection ring. Warrior is in close melee range with sword raised/extended.",
+      "classification": "direct pixels"
+    },
+    {
+      "seconds": 375.500,
+      "evidence": ".local-inputs/fidelity-hit-reaction-audit/375_500.png",
+      "observation": "White damage 15 is positioned over the Bog Moth, not over the Warrior. Player-health red-fill endpoint is about three native pixels shorter than at 375.250. A green hit effect is around the moth.",
+      "classification": "direct pixels; health-bar decrement is measured from the HUD"
+    },
+    {
+      "seconds": 375.625,
+      "evidence": ".local-inputs/fidelity-hit-reaction-audit/fight-374-376375.png",
+      "observation": "In the 8 fps sequence, Warrior body and sword position continue changing after the observed HUD decrement; the player is not frozen in a single pose.",
+      "classification": "direct sampled pose sequence"
+    },
+    {
+      "seconds": 375.750,
+      "evidence": ".local-inputs/fidelity-hit-reaction-audit/375_750.png; .local-inputs/fidelity-hit-reaction-audit/player-hit-375750-376000.png",
+      "observation": "A local red burst overlaps the Warrior/close-combat area while the sword remains in an active pose. The hit effect overlaps nearby actors, so its visual origin is not independently attributable from this frame alone.",
+      "classification": "direct pixels; source of burst uncertain"
+    },
+    {
+      "seconds": 375.875,
+      "evidence": ".local-inputs/fidelity-hit-reaction-audit/fight-374-376375.png",
+      "observation": "Warrior's sword/body pose changes again; no full-screen hit overlay or static held pose is visible.",
+      "classification": "direct sampled pose sequence"
+    },
+    {
+      "seconds": 376.000,
+      "evidence": ".local-inputs/fidelity-hit-reaction-audit/376_000.png",
+      "observation": "White damage 17 is again positioned over the Bog Moth. The Warrior remains in melee with sword moving through a different pose; the player's red health bar remains at its shorter endpoint.",
+      "classification": "direct pixels"
+    },
+    {
+      "seconds": 376.250,
+      "evidence": ".local-inputs/fidelity-hit-reaction-audit/376_250.png",
+      "observation": "White 15/17 damage feedback remains over the Bog Moth, whose health is nearly depleted. Warrior and sword continue through another pose while the red player-health bar remains shortened.",
+      "classification": "direct pixels"
+    },
+    {
+      "seconds": 376.500,
+      "evidence": ".local-inputs/fidelity-hit-reaction-audit/376_500.png",
+      "observation": "Level-up tutorial overlay begins after the fight; subsequent samples through 381 seconds are tutorial, so they do not add combat-hit evidence.",
+      "classification": "direct pixels"
+    }
+  ],
+  "bounded_conclusion": "This short episode is consistent with the Warrior taking a small amount of damage while continuing a changing melee attack sequence against the Bog Moth. The white 15/17 values belong to the moth and must not be reported as player damage. Player damage is inferred from the player-health bar decrement, with a nearby local red burst as supporting but not actor-attributed evidence. The video does not establish the exact incoming hit frame, attacker callback, animation clip, or that all player hits avoid interruption; no confirmed stun/knockback reaction is isolated here.",
+  "source_correlation": [
+    {
+      "claim": "The source can conditionally invoke an injured-state request rather than unconditionally interrupting on every damage result.",
+      "evidence": "Original ELF reference/character-skill-combat-v6/original-functions.asm: Character::F_ApplyResult at 0x3b10b4 / 0x3b1cd0 tests AttackResult outcome bit 0x10 before calling CharStateMachine::SM_SetInjureState at 0x3c5d84 (calls at 0x3b1924 and 0x3b0358). The current source projection has the same outcome gate in character_skill_application_v116.cpp:105.",
+      "limit": "The clip does not expose the AttackResult outcome word for this particular hit."
+    },
+    {
+      "claim": "Repeat injury-state entry is gated for 3000 ms in the reconstructed source path.",
+      "evidence": "player_injure_state_v7.cpp:11-15 returns when the same Character source gate +0x14fc is already positive; on an accepted request it writes 3000. player_injure_state_v7.cpp:49 subtracts the frame dt while the gate is positive.",
+      "limit": "This source behavior is not mapped to the specific video hit because the clip provides no gate value or source trace."
+    }
+  ],
+  "artifacts": {
+    "inspected_pose_sequence": ".local-inputs/fidelity-hit-reaction-audit/fight-374-376375.png",
+    "health_bar_comparison": ".local-inputs/fidelity-hit-reaction-audit/healthbar-375-376.png",
+    "focused_combat_crop": ".local-inputs/fidelity-hit-reaction-audit/player-hit-375750-376000.png",
+    "overview": ".local-inputs/fidelity-hit-reaction-audit/overview-365-385.png"
+  },
+  "implementation": "The bounded video observation alone does not justify universal hit-reaction changes. A separate reusable calculated-result application seam was added and focused native tests pass; normal Session-to-Faery/skill integration remains pending.",
+  "calculated_result_application_scope": {
+    "source_proof": "A source-computed CombatResult is already the output of F_CalculateResult; the application seam must consume its damage and full outcome word without rerunning F_CalculateResult, RNG, range checks, or source query. F_ApplyResult's basic damage/injury/death branch is the implemented scope; the independently owned DOT, leech, fear, stun, knockback, and slow application paths are not covered by this seam.",
+    "expected_behavior": "Only explicit outcome bit 0x10 requests the shared source Injure gate/reaction. Miss/Dodge/Block or positive HP loss alone do not infer Injure. Preserve every outcome bit, including slow bit 0x100, as a 32-bit optional value. Lethal applied damage enters the existing death path. Attack cursor, target, cooldown, and attacker pose are not changed by applying a calculated result.",
+    "validation": "`actor_combat_runtime_tests` passed after rebuilding `foundation_data`. Direct calculated hits preserve full 32-bit outcome and mask values, apply health once, leave both attack cursors/targets/cooldowns unchanged for non-Injure outcomes, share the source Injury gate/reaction for bit 0x10, and enter the existing death pose on lethal damage. Invalid input leaves health unchanged. This is focused native seam coverage, not live Session-to-Faery/skill integration.",
+    "evidence_limit": "The v1.0.3 visual episode remains bounded and does not prove this result word or exact callback for the observed player HP decrement. Source behavior and the native seam must not be presented as a live spell integration until Session wiring is exercised."
+  }
+}

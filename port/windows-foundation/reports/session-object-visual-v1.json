@@ -1,0 +1,26 @@
+{
+  "status": "PASS actual same-Session neutral visual/callback/save lifecycle; production GPU/interaction integration pending",
+  "invariant": "Neutral authored objects use the same world IDs, original render meshes and Session frame advancement, without becoming combat characters. Their opened/completion callbacks reach source container owners once; restore does not replay opening.",
+  "evidence": [
+    "reports/embedded-object-visual-v1.json: actual chest/urn source meshes, named clip bounds and original event timing; retained actor regression",
+    "level-world/container_animation_connection_v21.cpp: named container clips explicitly use loop=false; completion passes source timeline.loop!=0 and the authored event callback",
+    "level-world/base_named_animation_controller_v1.cpp: unknown named clip rejects without mutation; accepted play sets scene bit0x200",
+    "level-world/openable_container_owner_v1.cpp: state3 clears scene0x400; other states set it; completion state3->4 plays idleactive and inactive timeline can clear0x200",
+    "level-world/gameobject_scene_binding_v1.hpp and retained_gameobject_visual_v1.cpp: source root flags0x60f; update skips if cull400 and invisible1, or update200 absent"
+  ],
+  "design": "Presentation entries are a subset of existing WorldObject IDs inside CombatSession. No ActorState/property sheet/faction is created. Existing embedded CharacterVisual and RetainedAnimationOwner supply poses/events; Session.update advances each registered object once in registration order. Transient callbacks/poses are discarded on detach; feature owner rebinds the saved stable pose.",
+  "test_plan": "Actual source level chest/urn definitions plus original BDAEs in one real Session: no combat actor admission, original opened timing, completion->idleactive through callbacks, zero-dt pause, source update flags, missing clip rejection, removal, callback failure/no replay, detach/stale borrow rejection and saved component restore/silent pose rebind.",
+  "limits": [
+    "Production GPU draw/enrollment, physical interactions, scripts/loot services and complete container state import remain separate host integration."
+  ],
+  "verification": {
+    "runner": "tools/run_combat_session_object_visual_tests.ps1",
+    "result": "PASS",
+    "log": ".local-inputs/session-object-visual-test/run.log",
+    "executable_sha256": "C5DD128898B3413A1382207E5150AD0CA710714D265E59AB94D834FCA750C800",
+    "no_fake_character": true,
+    "failed_consumer_no_replay": "PASS",
+    "removal_during_callback": "PASS",
+    "main_gpu": "pending"
+  }
+}

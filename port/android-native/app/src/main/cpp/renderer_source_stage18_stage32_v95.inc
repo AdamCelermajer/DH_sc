@@ -75,8 +75,13 @@ struct SourceCharacterWarmStartV95 {
    color[index]=(*rgb)[index];
   }
   color[3]=1.0f;roots->source_set_ambient_v67(color);
-  auto& application=source->application->source_loading_v55();
-  application.byte94_v95=1;application.native_byte94_produced_v95=true;
+  //3f7778 caches the SAME PFWorld receiver, then3f7780 writes its byte94.
+  //This is not Application+94: all current navigation consumers borrow this
+  //receiver's float90/byte94 projection without a frame-scratch copy.
+  auto floors=factory->rooms?factory->rooms->world():nullptr;
+  if(!floors||source->source_pf_floors_v115!=floors)
+   return reject(32,e,"SAME actual PFWorld90/94 motion policy receiver");
+  floors->source_motion_policy_v95.ignore_height_delta=1;
   //No RAII reset: native failure after this store retains94==1. The original
   //zero store happens only AFTER object/AI/physical bodies authentically finish.
   auto services=source->gameplay_services_v66;
@@ -86,7 +91,7 @@ struct SourceCharacterWarmStartV95 {
   if(!services->update_objects(1.0f,e)||failed32||!current(32,source,factory,receiver,e))return reject(32,e,"SAME ObjectManager.Update(float1)");
   if(!source_campaign_ai_inc_queue_v105(source->owner,e)||failed32||!current(32,source,factory,receiver,e))return reject(32,e,"actual CharAI.IncUpdateQueue");
   if(!services->physical_update||!services->physical_update(e)||failed32||!current(32,source,factory,receiver,e))return reject(32,e,"actual PhysicalWorld.update with produced App8c");
-  source->application->source_loading_v55().byte94_v95=0;
+  floors->source_motion_policy_v95.ignore_height_delta=0;
   //Only Camera128.virtual10 is in this native prefix. No zoom/overview,
   //absolute-node/updateFog/FX/Script/Save/sound/frame-envelope replay here.
   if(!receiver->constructor_fields_v3().field128||!services->camera_update)

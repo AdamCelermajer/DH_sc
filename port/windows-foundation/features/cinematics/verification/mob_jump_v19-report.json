@@ -1,0 +1,135 @@
+{
+  "status": "source_grounded_candidate_association",
+  "date": "2026-10-09",
+  "question": "Which visible Act 1 mob jump matches the source-authored event?",
+  "verdict": {
+    "best_match": "TrollReturn / video target label TRUNGUS (called Fungus in an older audit)",
+    "confidence": "strong source/visual association; exact v1.0.3 playback-to-v1.0.2 recovered source equivalence is not established",
+    "reason": "The reference’s close SKIP cinematic at approximately 349.5-354.5s shows a large troll-like actor rising and driving down toward the boardwalk. The source has a one-shot TrollReturn trigger, the exact Troll actor receiver, a pre-attack/attack/post-attack animation chain, and active camera row 44. The earlier 267-274s clip is a distinct two-Bog-Moth introduction, not the large mob jump."
+  },
+  "reference_video": {
+    "path": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "sha256": "98087EE80F594BCC317144B5DD15EE4B470830B8EB8F5B13BADC24BD9831E502",
+    "format": "H.264, 640x360, 30 fps, 1331.566667 seconds; no audio stream",
+    "timebase_note": "The video is v1.0.3. Available recovered campaign assets are v1.0.2; this report does not assert exact binary/version equivalence."
+  },
+  "visual_evidence": {
+    "jump_candidate": {
+      "interval_seconds": [349.5, 354.5],
+      "precision": "Approximate segment from the 4-fps dense sample; direct frames establish phase bounds, not the exact trigger-contact frame.",
+      "observations": [
+        {"second": 349, "observation": "Live gameplay HUD before the cutscene."},
+        {"second": 352, "observation": "SKIP visible; large gray troll-like actor is rising/leaning over the boardwalk."},
+        {"second": 354, "observation": "SKIP visible; actor and weapon are driven down toward the boardwalk. Exact ground/player contact is not reliably visible in this frame."},
+        {"second": 355, "observation": "Gameplay HUD restored; large actor remains in the encounter."},
+        {"second": 357.5, "observation": "Reference target label reads TRUNGUS, supporting the name correction from the older Fungus description."}
+      ],
+      "evidence": [
+        {"path": ".local-inputs/fidelity-video-v18/348-35775-sheet.jpg", "sha256": "9A1E5BFDE8EB2F06687A2A5856E35A295377B68B998FA635880C8734A4704"},
+        {"path": ".local-inputs/fidelity-video-v18/reference-352.png", "sha256": "1AECF389AD551F81CCC0705E262303B765AE8522061282E3E8ACA1CA7B3A75A5"},
+        {"path": ".local-inputs/fidelity-video-v18/reference-354.png", "sha256": "E62ACDC00381BF5C1C253BCC205856B45441B9E3685A92129F29031338561E6D"},
+        {"path": ".local-inputs/fidelity-video-v18/reference-355.png", "observation": "HUD-restored phase frame; its hash is recorded in fidelity-video-audit-v18.json."}
+      ],
+      "contact": "No exact impact/contact frame or player-hit event is established by these sampled images. The source animation names and ordering imply an attack sequence; they do not prove the reference player was struck."
+    },
+    "distinct_moth_clip": {
+      "interval_seconds": [267, 274],
+      "observation": "Frames 267 and 273 show two Bog Moths during a HUD-hidden SKIP cinematic; frame 274 has restored HUD and a BogMoth target. These are the authored FakeMoth01/02 pair and do not match the large troll jump.",
+      "evidence": {"path": ".local-inputs/fidelity-video-v18/moth-267-27375.jpg", "sha256": "1757F2B9B5703C2468AAD0838CDCA4A64030ABDBD0AAEE219411BC5CA6C5F5D6"}
+    }
+  },
+  "source_authorship": {
+    "source_checkpoint": ".local-inputs/windows-source-clock-checkpoint-v17/assets",
+    "campaign_file": {"path": "original-campaign.xml", "sha256": "3AB2055920A8B648B16D77AA07B0435CBD899C624F5BE3BCC145E2133C5CDD14"},
+    "melee_bindings_file": {"path": "original-melee-bindings.xml", "sha256": "BC29F6EF2CE13F0C9D550835562747E99FC5896ED7AE32A630E496CF86529B94"},
+    "troll_trigger_module": {"path": "original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp", "sha256": "CBC2C661B6EB393A024B8ECBF03A6ADA2F7950FB35A5DFBF116ED8C444DB69C2"},
+    "troll_trigger": {
+      "object": "_prim_TriggerZone_001",
+      "script": "TrollReturn (campaign script id 37)",
+      "module": "obj_1of4_brdwalk_nse_00",
+      "position": [828.573, -1522.05, 257.332],
+      "scale": [3.55219, 1.0, 1.0],
+      "rotation_z": -25.1947,
+      "trigger_count": 1,
+      "trigger_delay": 0,
+      "source_activation": "The trigger declaration has no explicit activate_cond. Exact player-contact/eligibility behavior is owned by the original trigger runtime and is not established from the declaration alone."
+    },
+    "actor": {
+      "object": "_prim_Monster_53_03_001",
+      "profile": "Troll",
+      "template": "Monster",
+      "position": [1584.23, 167.458, 256.625],
+      "rotation_z": -20.6059,
+      "spawn_prob": 100,
+      "auto_spawn": "not authored on this object",
+      "source_semantics_limit": "spawn_prob=100 is the source field value; it is not evidence of automatic all-spawn or of the runtime’s population/admission result. No trigger or schedule was synthesized for this report."
+    },
+    "script_order": [
+      {"index": 1, "command": "LockCharacter", "kind": 24, "scope": "All"},
+      {"index": 2, "command": "MoveActor", "kind": 40, "actor": "_prim_Monster_53_03_001", "target": "_prim_Waypoint_TrollWalkTo", "speed_authored": 26},
+      {"index": 3, "command": "Wait", "kind": 26, "milliseconds": 50},
+      {"index": 4, "command": "SetCameraTarget", "kind": 8, "actor": "_prim_Monster_53_03_001", "duration_ms": 1500},
+      {"index": 5, "command": "Wait", "kind": 26, "milliseconds": 2600},
+      {"index": 6, "command": "StopActor", "kind": 39, "actor": "_prim_Monster_53_03_001"},
+      {"index": 7, "command": "PlaySound", "kind": 13, "asset_id": 328},
+      {"index": 8, "command": "PlayActorAnim", "kind": 45, "animation_id": 1377, "actor": "_prim_Monster_53_03_001", "wait": true},
+      {"index": 9, "command": "PlayActorAnim", "kind": 45, "animation_id": 1359, "actor": "_prim_Monster_53_03_001", "wait": false},
+      {"index": 10, "command": "Wait", "kind": 26, "milliseconds": 300},
+      {"index": 11, "command": "PlayCamera", "kind": 5, "camera_id": 44, "wait": true},
+      {"index": 12, "command": "PlayActorAnim", "kind": 45, "animation_id": 1373, "actor": "_prim_Monster_53_03_001", "wait": true},
+      {"index": 13, "command": "Wait", "kind": 26, "milliseconds": 250},
+      {"index": 14, "command": "MoveActor", "kind": 40, "actor": "_prim_Monster_53_03_001", "target": "_prim_Waypoint_TrollWalkTo", "speed_authored": 26},
+      {"index": 15, "command": "PutCharacterInIdle", "kind": 31, "actor": "_prim_Monster_53_03_001"},
+      {"index": 16, "command": "SetCameraTarget", "kind": 8, "target": "LocalPlayer", "duration_ms": 500},
+      {"index": 17, "command": "UnlockCharacter", "kind": 25, "scope": "All"}
+    ],
+    "animation_binding": [
+      {"id": 1377, "meaning": "troll_swamp_pre_attack_03", "path": "data/3D/characters/troll/animations/troll_swamp_pre_attack_03.bdae", "sha256": "F74BB845165E6234E43A88B0E7019484CDAA6340B49A3B611AEA51F46EF0A2A2", "step": 0, "speed": 1.3, "blend_out_ms": 100, "move_game_object": true},
+      {"id": 1359, "meaning": "troll_swamp_attack_03", "path": "data/3D/characters/troll/animations/troll_swamp_attack_03.bdae", "sha256": "44AFC27FD8D02531295E1A533E974E890D7AE91137C60A65C4254A18B4758C96", "step": 1, "speed": 1.3, "blend_out_ms": 100, "move_game_object": true},
+      {"id": 1373, "meaning": "troll_swamp_post_attack_03", "path": "data/3D/characters/troll/animations/troll_swamp_post_attack_03.bdae", "sha256": "3BCDA01F87F63C749108C8A2E44B0E99362C57455386043C0EED7709EB28CEE1", "step": 2, "speed": 1.3, "blend_out_ms": 100, "move_game_object": true}
+    ],
+    "camera": {
+      "id": 44,
+      "path": "data/3D/camera/animations/common/cam_shake_horiz.bdae",
+      "sha256": "9fa611486a45eade5aeb34a134baea01f89bc0924e1a4fed1944a6ed86a3af69",
+      "same_loaded_default_row": true,
+      "registered_and_active": true,
+      "interpretation": "The source selects this authored camera animation. The sampled reference is not sufficient to measure perceptible shake amplitude."
+    },
+    "audio": {
+      "command": 13,
+      "asset_id": 328,
+      "uid": 252,
+      "resource": "sfx_cave_troll_smash_ground.wav",
+      "availability": "missing in recovered cache",
+      "runtime_effect": "Original Script_PlaySound ignores the underlying playback return; missing asset/playback is not an unconditional TrollReturn progression blocker. Keep the original operation/diagnostics; do not replace it with synthetic sound or make the cinematic fail solely on playback return."
+    }
+  },
+  "moth_source_crosscheck": {
+    "trigger_module": {"path": "original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp", "sha256": "2EC6CE7053701E9903E4E41F7496F317B7CCF0257A10543797C51919F02A5C41"},
+    "trigger": "_prim_MothMovieTriggerZone; MothIntro id 18; trigger_count=1; trigger_delay=0; no explicit activate_cond",
+    "script_pair": ["_prim_Monster_FakeMoth_01", "_prim_Monster_FakeMoth_02"],
+    "actor_animation_ids": [332, 333],
+    "camera_calls": [{"id": 334, "wait": true}, {"id": 55, "wait": false}],
+    "camera_334": "Dictionary path is data/3D/camera/animations/cs_moth_intro/cs_moth_intro.bdae, but the actual loaded source Default.cam_anims table does not contain 334; original PlayCamera takes its native unmapped no-play path. Do not force-add 334 based on this video or the script ID.",
+    "not_all_spawn": "The two FakeMoth actors are explicitly spawned by MothIntro commands; no automatic all-spawn behavior is inferred."
+  },
+  "live_source_requirements_to_root": [
+    "Enroll the source-authored TrollReturn script from its real one-shot TriggerZone contact in the same canonical ScriptManager/session with the retained module and receive context; do not start it from a diagnostic schedule.",
+    "Bind command 40/41/46/45 to canonical actor transform/FSM/animation owners; bind command 13/14 to canonical AudioRuntime while preserving Script_PlaySound ignored-return behavior; bind command 5/8 through the same actual Default camera owner and source recipient/context.",
+    "Use the true source SKIP/Input/cutscene-mode owner, player-lock owner and gameplay HUD visibility owner. Restore camera target, lock state, HUD/input mode and retained actor state at the existing source command callbacks/skip path.",
+    "Preserve command order and exact actor identities; animation IDs must resolve through original animation bindings. Command 328 missing playback is diagnostic but not a script-blocking return.",
+    "Do not add a generated jump schedule, force-register missing Moth camera 334, infer universal spawn, or substitute a new FSM/queue."
+  ],
+  "unresolved": [
+    "Exact video frame of trigger contact and whether the player is hit/contacted cannot be established from sampled frames.",
+    "Source asset checkpoint is recovered 1.0.2; reference video identifies 1.0.3. The source-backed association is strong, but exact version equivalence remains unproven.",
+    "No live original trigger-to-canonical ScriptManager campaign enrollment or production actor/FSM/HUD/skip provider is demonstrated by this evidence package."
+  ],
+  "related_reports": [
+    "reports/fidelity-video-audit-v18.json",
+    "reports/fidelity-immersion-cues.json",
+    "reports/cinematic-live-integration.json",
+    "reports/act1-cinematic-native-integration.json"
+  ]
+}

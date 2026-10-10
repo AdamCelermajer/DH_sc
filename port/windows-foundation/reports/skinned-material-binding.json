@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "status": "fixed_native_verified",
+  "problem": "Skinned character adapter resolves primitive material symbol globally rather than using authored instance-material target",
+  "test_source": "port/windows-foundation/tests/skinned_material_binding_tests.cpp",
+  "fixture": "Original priest BRES copy with only instance target changed from #diffuse to #additive. Geometry primitive symbol remains diffuse; global diffuse record intact.",
+  "pre_fix_native_result": "FAIL: Skin ignored authored instance override in favor of primitive symbol",
+  "source_rule": "COLLADA instance_material symbol identifies primitive slot; target material ID can differ. Scene loader already resolves authored slot mapping into instance.materials.",
+  "planned_scope": "Carry matching instantiated controller material vector through skinned Binding. Keep orphan-controller fallback for explicitly selected Prince modules without serialized visible instance; no hidden admission, alpha policy, UV or recolor changes.",
+  "post_fix_result": "PASS authored skinned override diffuse symbol -> additive target; original priest/prisoner bindings preserved",
+  "coordination": "Production seam released by original_character owner before edit; root owns CMake registration",
+  "regression_checks": [
+    "Original Prince character_probe PASS:4 meshes487 vertices1758 indices,3 moving clips, move/reload/loop safety",
+    "Root pivot/source stride test PASS",
+    "Character pose seam snapshot/apply test PASS"
+  ]
+}

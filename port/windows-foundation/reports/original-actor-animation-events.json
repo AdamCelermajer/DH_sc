@@ -1,0 +1,37 @@
+{
+  "status": "PASS native Windows source-kernel event routing and actual-asset shared CombatSession tests",
+  "new_component": "original_actor_animation_events.hpp/.cpp",
+  "source_dependency": "port/level-world/character_ai_events.cpp",
+  "mapping_evidence": {
+    "authored_names": "actor_playback.cpp dh2_actor_event_handoff maps EVERY authored TriggeredEvent(name,lag) to event0x28; raw names are never numeric22..27",
+    "named_gate_order": "CharAI RaiseAIEvent case28 at0x3cbe80 calls AIS_ANIM_EVENT0x3d4434 before generic controller/global gate; full character_ai_events.cpp kernel reused",
+    "named_return": "AIS_ANIM_EVENT common exit0x3d45a4 movr0,#1 thenreturn; named handler forwards state event even for unknown strings",
+    "source_semantics": "character_melee_animation_event_v1.cpp proves prefixes ev_/an_/fx_/sfx_ precede state check; state5 melee mainhand/offhand vs ranged projectile, state6 do_skill, state7 do_spell, state13 interact",
+    "numeric_notifications": "AnimationScheduler enter_with_services emits24; activate_with_services emits26; source completion emits27 step-end,25 group-end,23 repeat/unwind,22 root closure. These are scheduler lifecycle notifications, not BDAE strings",
+    "closure": "actor_playback.cpp dh2_actor_sequence_close emits22 once with nullpayload. Session now routes genuine final retained finite-program closed callback through exact numeric kernel"
+  },
+  "shared_live_integration": [
+    "Retained frame names route through exact source28 dispatcher with same live actor, combat property ownership, current source-controller flags and existing lifecycle/original-state facts",
+    "No second FSM: live original state comes current registered lifecycle state or existing ActorState action/property projection",
+    "Source28 named helper classifies exact proved markers; only state5 non-ranged main/off markers enter existing diagnostic damage queue",
+    "Command/global/local locks do not suppress direct named damage events. Source28 helper runs then same-actor state consumer with retained authored name/lag",
+    "Genuine retained finite-group closure produces numeric22 end-virtual then state forwarding even under locks",
+    "Public deliver_original_animation_notification accepts genuine host scheduler22..27 with fresh flags and live state getter; explicit consumers supply actual begin/end acceptance/results",
+    "Unbound diagnostic numeric begin/end consumers cause no invented impact/acceptance; no automatic skill cancellation, heading reset or second FSM",
+    "Registered notification consumers remain transient and reject checkpoint/restore until explicitly cleared"
+  ],
+  "tests": {
+    "standalone": "all8 forced/global/local combinations verify authored attack_mainhand remains event28 helper→state; source lag remains intact; exact state/prefix/ranged classification",
+    "native_session": "Actual original player/lizard retained clips route named damage28 under newly blocked commands; genuine finite closure22 verified under lock; player and enemy numeric26 blocked/forced ordering, same live ownership, no invented state effects, transient checkpoint rejection",
+    "regression": "Entire existing combat_session_tests suite remains passing: shared stats/damage, retained clocks/groups, source motion, saves, lifecycle and command admission"
+  },
+  "explicit_remaining_gaps": [
+    "RetainedSequencePlayback flattens preselected hierarchy and exposes final closed callback but lacks genuine hierarchical scheduler24..27/23 hook. Adapter does not fabricate notifications from phase/name guesses; full scheduler provider must call typed API",
+    "Seeded idle/death repetition/closure lacks complete scheduler notifications; only actual finite-program closed callback currently emits22 automatically",
+    "Exact source28 routing is present, but full Lua/AIS prefix FX/audio/skill/spell/projectile/interact owners remain separate consumers; classification does not implement their missing effects",
+    "Existing diagnostic damage queue still applies collected markers in ActorCombatRuntime; complete original synchronous damage-before-state-forward/reentrant owner application remains a fidelity gap",
+    "Numeric callback bridge forwards actual registered consumers; diagnostic default has no full original FSM, AIS step/index/combo or skill lifecycle implementation",
+    "Native logical source ownership tokens are shared existing actor/property/entry bindings, not original ARM32 overlays or a newly invented FSM"
+  ],
+  "root_integration": "Compile new original_actor_animation_events.cpp and existing character_ai_events.cpp into foundation_data; add pure test original_actor_animation_events_tests. No main/CMake edits made. Root can inspect original_animation_dispatches() and register same-owner notification/state consumers."
+}

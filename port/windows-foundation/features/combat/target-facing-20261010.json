@@ -1,0 +1,77 @@
+{
+  "bug_id": "target-facing-20261010",
+  "status": "root_core_fix_focused_regression_passed;_normal_game_gui_acceptance_pending",
+  "reported_context": {
+    "description": "User reported that selecting/targeting an enemy in the current combat test did not make the character face it.",
+    "build": "unknown",
+    "user_test_timestamp": "unknown; no build or test timestamp was supplied",
+    "selection_vs_attack": "The source does not turn merely because a target was selected. Facing is expected after an attack state is admitted and while that state remains active."
+  },
+  "visual_evidence": {
+    "reference": "Dungeon Hunter 2 v1.0.3 Part 1, local decoded frames from the original video",
+    "frames": [
+      {
+        "time_seconds": 375.5,
+        "file": ".local-inputs/fidelity-hit-reaction-audit/375_500.png",
+        "observation": "A red target ring is visible around the Bog Moth while the player is in a sword-strike pose. This establishes target selection concurrent with combat; it does not show what selection alone does."
+      },
+      {
+        "time_seconds": 376.0,
+        "file": ".local-inputs/fidelity-hit-reaction-audit/376_000.png",
+        "observation": "The player and enemy are in changed poses in the next sampled frame, with damage text over the enemy. This is consistent with continued combat presentation, but these half-second samples do not establish exact turn rate or continuous per-frame heading."
+      }
+    ],
+    "inference": "The visuals support checking target-facing during an admitted attack. The frames do not prove immediate rotation on target selection or quantify the rotation interpolation."
+  },
+  "source_logic": {
+    "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "selection_and_admission": [
+      "Character::Ctrl_Click 0x3addc8 selects an eligible Character by whole CharAI::AI_SetTarget(target,false); the recovered movement-controller audit confirms selection does not run its movement tail and this path does not call LookAt.",
+      "v2Controller::Cmd_Attack 0x405b04 checks global blocked and local locked unless forced, then dispatches controllable virtual+0x38. Character::Ctrl_Attack 0x3ad87c calls CharAI::AI_DoMeleeAttack 0x3d01ac with mode=false.",
+      "CSAttack::OnFocus 0x3c404c selects the source moving/static Attack bank based on previous state and authored stance masks. It does not itself establish the per-frame target turn."
+    ],
+    "facing_during_attack": [
+      "CSAttack::OnUpdate 0x3c14f8 calls GameObject::LookAt(owner,target) on every Attack-state update, then refreshes attack speed only if the property changed.",
+      "CSAttack::OnEvent 0x3c1288 handles event26: if Character target+0x408 exists, it obtains GameObject::GetTargetPosition and calls GameObject::LookAt; with no target, only the ranged-weapon plus owner-byte+0x1b5 branch uses SetHeadingDirection.",
+      "CharAI::_OnAnimStepBegin 0x3d4204 dispatches Attack state5 to _OnAnimStepBegin_Attack 0x3d4044. At depth0 that consumer raises Character event0x1a with the step word; depth1 calls controller Cmd_LookAt(owner+0x408). CharAI event routing then reaches the active state handler. Thus step-begin facing is additional to CSAttack::OnUpdate, not a target-selection side effect.",
+      "v2Controller::Cmd_LookAt(GameObject*) 0x4052bc applies its original global/local/forced gates and dispatches virtual+0x14. Character::Ctrl_LookAt 0x3ad9ac reaches GameObject::LookAt; the recovered target-facing proof documents that LookAt updates desired heading and source rotation integration publishes the bounded physical Euler turn."
+    ],
+    "turning_math": "CombatSession::Impl::turn in port/windows-foundation/combat_session.cpp:729-745 uses dh2_nav_look_towards to derive the live target heading and dh2_actor_update_rotation with the resolved rotation modifier and integer milliseconds. It publishes the resulting rotation to ActorState::transform.rotation[2]; it does not snap."
+  },
+  "current_path_finding": {
+    "selection": "CombatSession::update cycles target at combat_session.cpp:1382. This is selection-only and currently leaves facing unchanged, consistent with recovered selection logic.",
+    "attack_admission": "Diagnostic attack admission turns before request in diagnostic_attack_body at combat_session.cpp:848. The source-combo bridge also calls turn when attack_set_attack_state is reached at combat_session.cpp:933. The controller gates and source attack owner still control whether that service is reached.",
+    "held_attack_gap_and_fix": "Before the root fix, the generic frame's attack-facing turn was an `else if`, skipped for input.attack=true. Root now calls turn for every active attacking ActorState at combat_session.cpp:1395 independent of held input. Entry::rotationUpdateSerial and the update_serial guard in turn() ensure admission plus active-update paths consume at most one dt budget per frame; restore resets that serial. The feature regression passes this path for both real player profiles.",
+    "event26_gap": "The source event26 path is documented above; this feature regression validates the reusable bounded per-frame update and does not claim the retained attack sequence dispatches a new event26 state callback.",
+    "host_rotation_overwrite": "CombatSession::update writes the caller-provided facing into ActorState at combat_session.cpp:1369 before command/turn processing. The existing combo test feeds the prior ActorState rotation back on subsequent frames (runtime_player_combo_chain_v1_tests.cpp:294-296), so stale host facing does not explain that fixture's missing held-input turn. A production caller that keeps passing an older constant would independently erase the prior frame's rotation and must feed back the published transform."
+  },
+  "current_fixture_and_verification": {
+    "fixture": "features/combat/runtime_player_combo_chain_v1_tests.cpp uses actual authored KnightPlayerBase player data and a Swamp_LizadMan_Type1 source actor. The current fixture puts the target at (0,-100,0) with initial yaw0; the recovered navigation heading formula makes this cardinal bearing heading0, so it is aligned and is NOT meaningful facing regression evidence. Selection, target_id and selectedactor are asserted separately. This is a Knight profile fixture, not a Rogue profile fixture.",
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File port/windows-foundation/features/combat/run_runtime_player_combo_chain_v1_tests.ps1 -BuildRoot .local-inputs/target-facing-20261010-private-build",
+    "result": "PASS existing combo/selection assertions; this test does not assert target-facing or compare rendered pose heading with a source target heading. It is not a target-facing regression result.",
+    "build_isolation": "The focused runner linked copied archives from `.local-inputs/windows-foundation-build` in `.local-inputs/target-facing-20261010-private-build`; shared build outputs were not written.",
+    "new_focused_regression": "features/combat/target_facing_regression_tests.cpp and run_target_facing_regression_tests.ps1 cover actual KnightPlayerBase and RoguePlayerBase source profiles with actual Swamp_LizadMan_Type1 actors, selection-only no-turn, positive-dt admission compared exactly with one source dh2_actor_update_rotation step (proving no double advance and no snap), held active attack tracking compared with subsequent source rotation-kernel steps toward +pi/4 and then a live retarget at -pi/4, plus unchanged target identity, attack ownership/generation and combat RNG.",
+    "runner_command": "powershell -NoProfile -ExecutionPolicy Bypass -File port/windows-foundation/features/combat/run_target_facing_regression_tests.ps1",
+    "runner_result": "PASS KnightPlayerBase and RoguePlayerBase each tracked the actual same-session Swamp_LizadMan_Type1 target from +pi/4 toward -pi/4 during held attack input; selection stayed yaw0; generation and RNG were preserved.",
+    "regression_executable_sha256": "AC56040DDD8A8C41B8A29569FC343E7DEB93E8E4641C4D688EA53B3C6540EF71",
+    "private_build": ".local-inputs/target-facing-20261010-private-build; runner copied the needed archives from .local-inputs/windows-foundation-build and produced the executable privately. No shared build output was written."
+  },
+  "expected_behavior_and_minimal_fix": {
+    "expected": "Target selection alone updates the selected target and should not force a turn. Once the source Attack state is admitted, facing tracks the live target through the source desired-heading and bounded rotation policy while the actor remains in Attack; no unconditional turn should be added to moving, casting, hurt or dead actors.",
+    "candidate_core_owner": "Integration lead/root owns port/windows-foundation/combat_session.cpp. This is outside the permitted feature-only write scope, so no implementation was made.",
+    "minimal_seam": "Root implemented a bounded turn for each active attacking frame regardless of held input, while a per-frame rotationUpdateSerial prevents admission and active-frame paths from applying the same elapsed budget twice. The actor's live target_id remains authoritative; existing target/actor/range validity gates remain in turn(). The separate authored event26 callback remains an additional source step-boundary path and is not claimed wired by this regression.",
+    "alternative_integration_check": "The Windows main render path statically consumes ActorState heading: after Session updates it passes the player actor rotation to ActorMovement::setFacingRadians (main.cpp:2589); the source-heading branch copies actor.rotation into sourceVisualYaw for the nonmoving player (main.cpp:2619); player actorWorld uses that published source yaw or the motor facing (main.cpp:2700); NPC placement uses live ActorState rotation (main.cpp:2724). Static review found no stale-facing overwrite in those presentation consumers. The Android main renderer has a separate prince_runtime source heading path and does not call CombatSession::turn. GUI confirmation is still required."
+  },
+  "focused_regression_plan": [
+    "For both actual KnightPlayerBase and RoguePlayerBase profile rows, place the player at (0,0,0), a real Swamp_LizadMan_Type1 target at (100,-100,0), and initialize player yaw0. The recovered `navigation_heading.cpp` formula `atan(x/-y)` yields desired heading +π/4 for this bearing. Assert targetSelect changes target_id/selectedactor but not yaw.",
+    "Admit an attack at dt0 and assert no instant yaw snap. During the active source Attack pose, continue delivering attack input across positive-dt frames while feeding the just-published player rotation back as the next facing argument; assert rotation advances boundedly toward +π/4 under the source rotation speed, and the rendered CharacterVisual root/model orientation corresponds to the same actor transform.",
+    "Repeat with a second non-collinear target at (-100,-100,0), whose desired heading is -π/4, retarget during an active swing, and verify the next active frame follows the live target without changing actor identity or selection bookkeeping.",
+    "Negative cases: no active attack (selection only), moving, cast/state7, hurt, dead actor, invalid/dead/out-of-range target; assert no attack-facing turn outside original gates."
+  ],
+  "uncertainties": [
+    "The exact reported test build, class, held-input sequence, target bearing, and observation timestamp were not supplied; all remain unknown.",
+    "Original footage is v1.0.3 while the recovered source/assets are v1.0.2. The native function addresses are from the local exported ELF hash above.",
+    "No integrated preview capture was available for this report. Current source-only Knight/Lizard test validates target selection and combo scheduling, not a visually rendered target-facing result; Rogue/Lizard runtime regression remains required.",
+    "The original exact controller/app event order for the user's reported test has not been captured. The core callsite mismatch is source-backed, but user impact must be confirmed with the explicit held-attack regression before declaring the bug fixed."
+  ]
+}

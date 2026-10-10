@@ -1,0 +1,50 @@
+{
+  "feature": "canonical_session_skill_binding",
+  "status": "portable typed-loan consumer implemented; initialized-source runtime acceptance pending",
+  "scope": "The record adapter validates a completed SourceCharacterOwnerAliases loan against the public typed campaign FSM loan, constructs NativeSkillLuaServices V1/V3 directly from its actual references, installs those AI/state delegates in SessionSkillServices, and binds source-plan playback directly to CombatSession::play_actor_source_sequence.",
+  "callback_transport": "V1 delegates to the existing scoped helper; V3 uses the same original SkillCallback state machine with indexed source returns and same-VM scope validation. Scope is fetched for each synchronous callback and never retained.",
+  "lifetime": "The Session and NativeSkillLuaServices must outlive SessionSkillAnimation. The typed FSM loan's record/context pins are retained by the fresh-borrow closure. SessionSkillAnimation's actor_binding_lease remains the host-lifecycle witness, not a source Character field.",
+  "does_not_create": [
+    "CharacterSkillOwner or CharacterSkillOwnerV6",
+    "SkillAIContextV3 or SkillStateV4",
+    "NativeFsm24 or FSM state",
+    "PropertyState or PropertyView",
+    "VM, slots, or private owner graph"
+  ],
+  "typed_source_loan": "model_renderer::SourceCampaignCharacterSkillContextBorrowV1 now exposes the same record/FSM pins, machine, native Session V1/V3, Session PropertyView, pinned SkillTables Borrow, exact-one V1/V3 instance owner, FSM-owned SkillAIContextV3 and SkillStateV4, and original AI/state service callbacks. A record-based overload avoids requiring an Android World lookup when the caller already has the canonical record.",
+  "host_mapping": "The caller must supply a fresh Host ActorId to native Character identity resolver. The binding validates that mapping against completed-character aliases each borrow and rejects identity changes; it never assumes the integer domains match.",
+  "fresh_borrow_api": "make_canonical_session_skill_borrower<Loan> accepts a source identity resolver and a typed record-based loan callback. Every SessionSkillAnimation borrow reacquires completed aliases and the current typed FSM loan, then retains the refreshed record/FSM pins through the next synchronous use. make_canonical_session_skill_actor creates the initial host/native actor view from the same authenticated loan.",
+  "native_service_api": "bind_canonical_native_skill_services consumes the loan's actual Session, instance owner, SkillTables Borrow, NativeFsm24, AI/State context, and source providers; it does not copy any of them. It also installs the same-owner scoped callback transports and same-CombatSession pose/completion handlers.",
+  "remaining_runtime_requirements": [
+    "A genuinely completed InitPost/InitFinal graph and an active selected source Session are required; prefix-only or uninitialized records reject.",
+    "The caller must provide actual source animation selection, source row/hotbar/native-index providers and required host leaves not supplied by NativeSkillLuaServices.",
+    "Live initialized-record acceptance through the portable Windows CombatSession and Android campaign source graph remains unverified."
+  ],
+  "integration_boundary": "No alternate VM, instance vector, FSM, state, or property owner is created. The binder does not register a new source VM/FSM or claim a complete gameplay cast. SessionSkillServices.play uses CombatSession's existing retained actor pose owner; completion checks that retained timeline's ended state. Source AI/State operation must still come from the canonical typed loan.",
+  "verification": {
+    "compile_contract": "canonical_session_skill_binding_contract_tests.cpp instantiates the binder templates using the real model_renderer::SourceCampaignCharacterSkillContextBorrowV1 type and compiles with C++17 clang syntax-only.",
+    "windows_object": "canonical_session_skill_binding.cpp compiled to a Windows COFF object with the configured absolute LLVM clang++. Direct unresolved-symbol inspection confirms the existing foundation_data/session/script-runtime closure listed below; this is an object/compile-contract check, not a linked or runtime acceptance claim.",
+    "direct_link_closure": [
+      "windows-foundation/combat_session.cpp",
+      "windows-foundation/retained_pose_playback.cpp",
+      "windows-foundation/features/skills_animation/native_skill_lua_services.cpp",
+      "windows-foundation/features/skills_animation/native_skill_lua_services_v1.cpp",
+      "windows-foundation/features/enemy_ai/scoped_skill_callback.cpp",
+      "level-world/character_skill_callbacks_v3.cpp",
+      "level-world/character_script_session.cpp",
+      "level-world/character_script_session_v3.cpp",
+      "level-world/character_script_owner_v2.cpp",
+      "script-runtime/script_runtime.c",
+      "script-runtime/script_runtime_return_v3.c",
+      "script-runtime/script_function_alias.cpp"
+    ],
+    "record_consumer_closure": "The record adapter templates instantiate in the real consumer; the typed loan implementation is level-world/source_campaign_character_fsm_v101.cpp and must link with the existing canonical record/factory closure. No missing-symbol stubs are used.",
+    "runtime": "No canonical initialized-character runtime fixture is claimed in this feature test. Genuine completed InitPost graph / selected source Session publication remains the live blocker. Root's CombatSession program test covers retained pose playback and marker boundary; source graph initialization and full gameplay cast remain separate gates.",
+    "sha256": {
+      "canonical_session_skill_binding.hpp": "ba85480af2767bd352fdba82f3c73efee3bdf4df40199bd5cd7b33a7918217be",
+      "canonical_session_skill_binding.cpp": "5f3265b64dcfbe309c2061d105715e3cd88f8ca12ff046a73fab722dd334d5d8",
+      "canonical_session_skill_binding_record.hpp": "81a64f666e57b1096bf0c649cd2a5f67920844d153a077b76c33fca1c4c4d228",
+      "canonical_session_skill_binding_contract_tests.cpp": "b009c77f7bd40f30a6dfbf78da2f5faf8be581033a24318868ce698e628fd293"
+    }
+  }
+}

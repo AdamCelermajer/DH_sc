@@ -1,0 +1,29 @@
+{
+  "status": "feature-owned indexed-slot phases and typed assignment/start receipt contracts implemented",
+  "files": [
+    "port/windows-foundation/features/frontend/creation/source_indexed_slot_service_v1.hpp",
+    "port/windows-foundation/features/frontend/creation/source_indexed_slot_service_v1.cpp",
+    "port/windows-foundation/features/frontend/creation/source_indexed_slot_service_v1_tests.cpp",
+    "port/windows-foundation/features/frontend/creation/run_source_indexed_slot_service_v1_tests.ps1"
+  ],
+  "source_phases": {
+    "NativeCreateSaveSlot": "Find first actual free indexed slot using campaign_profile_exists_v1; produce original fresh metadata from the real CharacterTable and caller-supplied source timer/date; frame/write through the same ApplicationSaveFilesOwnerV61 SavegameJobs; flush, read back exact bytes, parse with PlayerProfileIndexV1 and load_menu_profile_metadata_v1. Returns a metadata receipt only.",
+    "NativeAssignSaveSlotToPlayer": "Calls assign_selected_save_slot_v70 on the existing ApplicationPlayerManagerBootstrapV59, with caller-supplied native local index and same first-local controller providers. Only after that succeeds does it reread get_local_player(local_index,false), verify the same PlayerInfo+0x664 slot, and mint a distinct assignment receipt pinned to the PlayerManager. The receipt can be revalidated against the current map/slot.",
+    "NativeStartGame_creation_completion": "Requires prior metadata and assignment prefixes, then calls an injected typed native continuation. It is the only phase that returns a canonical selected profile loan.",
+    "FrontendSourceStartReceiptV1 adaptation": "A separate source_native_start_success provider must return typed evidence. The adapter verifies exact completed candidate and Save slot, the live assignment receipt, current GS Level identity and lease, SAME candidate World/ObjectManager, and a typed World/ObjectManager Add receipt whose manager map lookup still resolves the exact Character actor. Only then does it adapt to FrontendSourceStartReceiptV1."
+  },
+  "success_checks": [
+    "CanonicalCharacterCandidateRecordV60 is the returned FrontendProfileLoanV1 record.",
+    "Candidate must be nonfailed and init_complete with actual actor, Save, Load, finished CharacterProfileBootstrap, and ready SAME Gear owner.",
+    "SelectedProfileBindingV1 must read the exact same Application file bytes/slot; bootstrap must retain the same Save, Load, CampaignSaveProfile, direct Save slot field, and delivered Gear.",
+    "Native continuation must return a publication lifetime lease; missing or incomplete candidate cannot report gameplay readiness.",
+    "Each create/assign/completion phase is one-shot. Failure prefixes are retained and cannot be replayed by this service.",
+    "Assignment and start use distinct receipts; generic candidate publication cannot stand in for either operation."
+  ],
+  "verification": {
+    "command": "port/windows-foundation/features/frontend/creation/run_source_indexed_slot_service_v1_tests.ps1",
+    "result": "PASS syntax check and native contract test; checks=23. Test creates and publishes a real same-Application PlayerManager, executes assign_selected_save_slot_v70 with controller test inputs, rereads the actual local PlayerInfo+0x664, creates/revalidates its typed receipt, and covers wrong slot/local index/PM/PlayerInfo, stale slot, canonical-record control-block mismatch, wrong start slot, and no gameplay success without a start receipt.",
+    "scope_limit": "The test does not invoke a full Windows Character C1/InitPost/StartGame graph. Current front_ui_session NativeStartGame only sets launch_pending after selected-profile readback; no actual source StartGame success owner is available. Therefore source_native_start_success is intentionally unconfigured, adapt_native_start returns an explicit unavailable error, and no FrontendSourceStartReceiptV1 is fabricated. The host must supply the real Character continuation and actual StartGame receipt producer."
+  },
+  "integration_contract": "Wire flow create_save to create_metadata and assign_save to assign_selected_slot. Native start integration first supplies complete_native_creation for actual Character C1/Save::SetSlot/SelectedProfileBinding/profile bootstrap/InitPost/publication, then supplies source_native_start_success only when an actual StartGame owner can produce typed success evidence. The current `front_ui_session_v87.cpp` NativeStartGame path is not that owner: it validates/readbacks the selected profile and sets launch_pending."
+}

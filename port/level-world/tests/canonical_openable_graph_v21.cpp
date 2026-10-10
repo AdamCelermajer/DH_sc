@@ -37,7 +37,7 @@ int main(int argc,char** argv){try{
   s.container.resolve_row=[&](const auto& name,auto& id,auto& out,auto& error){return table.resolve(name,id,out,error);};
   s.container.visual_asset=[&](std::int32_t id,auto&){const char* uri=id==47?"data/3D/GameObjects/go_chest_swamp.bdae":id==48?"data/3D/GameObjects/go_chest_swamp_big.bdae":id==49?"data/3D/GameObjects/go_chest_swamp_rotten.bdae":nullptr;if(!uri)throw std::runtime_error("source Visuals47/48/49 mismatch");*same.lock()->receiver().base().string(0x290)=uri;return true;}; // Exact original dictionary rows.
   s.container.meet_condition=[](bool& out,auto&){out=true;return true;}; // Explicit condition evaluation fixture.
-  s.container.has_sound_manager=[](bool& out,auto&){out=false;return true;}; // Explicit NULL manager fixture.
+  s.container.precache_complete_source_v42=[&](auto& error){auto actual=same.lock();if(!actual)throw std::runtime_error("lost SAME precache receiver");std::int32_t id{};OpenableContainerRowV1 row;if(!table.resolve(actual->receiver().fields().data_desc,id,row,error))return false;if(id<0||row.sound!=33)throw std::runtime_error("wrong actual source precache sound");return true;}; // Declared captured-manager precache boundary.
   s.container.load_object_script=[](const char* script,const char* directory,auto&){if(!script||*script||std::string(directory)!="data/scripts/objects/")throw std::runtime_error("unexpected actual source script");return true;}; // Declared script loader delivery, not production fallback.
   s.container.source_on_interact=[&](auto&){++updates;return true;}; // Declared generic Update boundary.
   s.container.has_script=[](bool& out,auto&){out=false;return true;}; // Explicit NULL script boundary fixture.
@@ -47,10 +47,13 @@ int main(int argc,char** argv){try{
   auto& receiver=graph->receiver();receiver.fields().data_desc=row_name;
   auto fields=receiver.properties().fields;
   if(!fields.write_vector3(fields.context,0x120,{1,1,1},e)||!fields.write_vector3(fields.context,0x160,{100,200,250},e))throw std::runtime_error(e);
-  auto factory=graph->factory_receiver();if(!factory.init_post(e))throw std::runtime_error(e);
+  auto factory=graph->factory_receiver();
+  if(factory.object.identity!=receiver.base().identity())throw std::runtime_error("factory/openable receiver identity mismatch");
+  if(!factory.init_post(e))throw std::runtime_error(e);
   auto visual=graph->visual();if(!visual||!visual->ready()||!visual->marker().found||roots->roots().size()!=1)throw std::runtime_error("missing actual chest scene/marker");
   if(visual->timeline().loop)throw std::runtime_error("Container source loop0 lost");
   if(!graph->init_final(e)||!*receiver.base().pointer(0x2dc))throw std::runtime_error(e.empty()?"missing actual PODecor assignment":e);
+  if(updates!=1)throw std::runtime_error("Openable Stage17 InitFinal did not call the same receiver's GameObject::Update boundary exactly once");
   if(!graph->frame(0,e))throw std::runtime_error(e);
   const unsigned before=drops;
   if(!receiver.receiver().interact_base(0x1234,e))throw std::runtime_error(e);

@@ -3,6 +3,12 @@
 #include "native_conditions_v69.hpp"
 #include "../level-loader/game_event_runtime_v75.hpp"
 namespace dh2::world {
+// RewardList::Give stops at the first Reward::Give returning false. Callback
+// transport success and the original reward result are separate outcomes.
+bool quest_reward_sequence_v108(std::uintptr_t owner,
+ const std::vector<data::QuestRewardDefinitionV51>& rewards,
+ const std::function<bool(std::uintptr_t,const data::QuestRewardDefinitionV51&,bool&,std::string&)>& give,
+ std::string&);
 struct NativeQuestFrameServicesV108 {
  std::shared_ptr<void> provider;
  std::function<bool(bool&,std::string&)> frame_gate;

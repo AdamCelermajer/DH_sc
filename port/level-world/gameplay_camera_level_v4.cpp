@@ -9,6 +9,14 @@ bool GameplayCameraLevelV4::play_animation(std::int32_t id,std::int32_t clip_ind
  if(!services_.controller_play){e="Required same source AnimSetController Play";return false;}bool played;if(!services_.controller_play(id,played,e))return false;if(!played)return true;
  state_.shake84=true;if(!hold){state_.requested_zoom88=0;state_.automatic_zoom8c=1;}state_.hold_zoom_a4=hold;return true;
 }
+bool GameplayCameraLevelV4::set_clip_start(float value,std::string& e){
+ if(!services_.camera_set_clip_start){e="Required same actual CameraLevel SetClipStart vtable+304";return false;}
+ return services_.camera_set_clip_start(value,e);
+}
+bool GameplayCameraLevelV4::set_clip_end(float value,std::string& e){
+ if(!services_.camera_set_clip_end){e="Required same actual CameraLevel SetClipEnd vtable+308";return false;}
+ return services_.camera_set_clip_end(value,e);
+}
 bool GameplayCameraLevelV4::handle_zoom(std::string& e){
  if(!services_.debug_infinite_zoom){e="Required actual Debug InfiniteZoom";return false;}bool infinite;if(!services_.debug_infinite_zoom(infinite,e))return false;
  if(infinite){state_.applied_zoom90=state_.requested_zoom88;return true;}if(state_.zoom_locked86)return true;

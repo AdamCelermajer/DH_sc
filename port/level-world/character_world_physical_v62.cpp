@@ -44,11 +44,16 @@ void CharacterWorldPhysicalV62::velocity(void* p,float* xy){
 bool CharacterWorldPhysicalV62::initialize_source(physical::NpcBodyRequest request,const ProjectionV62& supplied){
  const ProjectionV62* projection=&supplied;const bool source_debug=true;
  error_.clear();
- if(phase_||native_.body||!world_.backend()||request.previous_physical||!object_.properties||
- request.properties!=&properties_||properties_.base!=object_.properties->base.data()||
- properties_.resolved!=object_.properties->resolved.data()||!object_.life||!collision_.receiver){
-  error_="NPC physical initialization requires fresh body and same World/script/property/life owner";return false;
+ if(phase_||native_.body){error_="NPC physical initialization requires a fresh body receiver";return false;}
+ if(!world_.backend()){error_="NPC physical initialization requires the same loaded PhysicalWorld backend";return false;}
+ if(request.previous_physical){error_="NPC physical initialization requires null previous-physical input";return false;}
+ if(!object_.properties||request.properties!=&properties_||
+    properties_.base!=object_.properties->base.data()||
+    properties_.resolved!=object_.properties->resolved.data()){
+  error_="NPC physical initialization requires the same Character/property owner";return false;
  }
+ if(!object_.life){error_="NPC physical initialization requires the same Character life owner";return false;}
+ if(!collision_.receiver){error_="NPC physical initialization requires the same Character script/collision receiver";return false;}
  request.owner=reinterpret_cast<void*>(object_.identity);request.new_physical=&native_;
  if(source_debug){request.collision_group_override=0;request.disable_physical=0;}
  auto project=[&](){if(projection){if(!*projection){error_="Required same live Character body projection";return false;}return (*projection)(request,projection_,error_);}error_="Required actual live Character body projection";return false;};

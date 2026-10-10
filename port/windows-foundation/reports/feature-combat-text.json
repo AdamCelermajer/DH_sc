@@ -1,0 +1,386 @@
+{
+  "schema_version": 1,
+  "status": "native_selector_and_same_session_live_adapter_tests_PASS",
+  "feature": "Floating combat damage numbers and MISS/BLOCK/DODGE/status words",
+  "API": {
+    "selector": "select_combat_text(PlayableCombatResolution, original CombatTextServicesV1, owned display events, error)",
+    "design": "CombatTextDesign.load(actual assets, actual Debug/current-player/name query services,error); native constant/localized adapters",
+    "presenter": "enqueue(event, actual camera Project, viewport scaleXY,error), update_ms(dt, native interval,error), geometry(original HudGlyphFont, scaleXY, owned glyph quads,error)"
+  },
+  "source_outcomes": {
+    "Miss": "outcomes bit1, prioritized return; original INGAME_ATTACK_MISS localized Miss, anim_sct_block, MissColor",
+    "Dodge": "outcomes bit2 after Miss, prioritized return; localized Dodge",
+    "Block": "outcomes bit4; localized Block can be followed by numeric partial damage",
+    "Critical": "outcomes bit8 chooses crit styles; damage color reflects target player flag",
+    "Zero": "raw amount<=0 suppresses numeric event but never generates MISS/BLOCK merely from zero. Positive raw amount<256 legitimately displays source integer0.",
+    "Numeric": "Original requested amount >>8, not float health_removed. Source frame positions use target GetTargetPosition plus relative bounds height, and query attacker GetTargetPosition as source does.",
+    "Other": "Follower suppresses all; fear/slow source property scaled-word gates retained; dual/offhand and DOT masks preserve actual original style selection."
+  },
+  "source_design_colors": {
+    "BlockColor": -33024,
+    "CritDamageColor": -256,
+    "DamageColor": -1,
+    "DodgeColor": -33024,
+    "FearColor": -33024,
+    "MissColor": -33024,
+    "PlayerCritDamageColor": -256,
+    "PlayerDamageColor": -53200,
+    "QR_Gold": -256,
+    "QR_XP": -16711936,
+    "SlowColor": -33024,
+    "StunColor": -33024,
+    "XPColor": -15804022
+  },
+  "presentation": {
+    "source_swf": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\menus\\dqhud_droid.swf",
+    "source_swf_sha256": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+    "stage": [
+      480,
+      320
+    ],
+    "fps": 30.0,
+    "gameplay_interval_ms": 33,
+    "interval_policy": "Original update uses strict timer>interval. During source load phases2..26 interval33; otherwise int1000/source_fps. Caller supplies actual phase-selected interval.",
+    "styles": [
+      {
+        "name": "anim_sct_normaldamage",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          24.9
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 30
+      },
+      {
+        "name": "anim_sct_xp",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          24.9
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 30
+      },
+      {
+        "name": "anim_sct_normaldamageleft",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          24.9
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 16
+      },
+      {
+        "name": "anim_sct_normaldamageright",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          24.9
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 16
+      },
+      {
+        "name": "anim_sct_crit",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          36.25
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 20
+      },
+      {
+        "name": "anim_sct_critleft",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          36.25
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 20
+      },
+      {
+        "name": "anim_sct_critright",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          36.25
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 20
+      },
+      {
+        "name": "anim_sct_block",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          24.05
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 16
+      },
+      {
+        "name": "anim_sct_stun",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          24.05
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 16
+      },
+      {
+        "name": "anim_sct_dot",
+        "font": 512,
+        "height": 16.0,
+        "bounds": [
+          -2.0,
+          289.75,
+          -2.0,
+          24.05
+        ],
+        "align": 2,
+        "metrics": [
+          911.0,
+          215.0,
+          102.0
+        ],
+        "frames": 16
+      }
+    ],
+    "font": "Fontin SmallCaps",
+    "font_id": 512,
+    "font_glyphs": "Source Font512 has zero embedded glyphs; genuine Fontin SmallCaps FreeType2.3.7 raster supplies advances/bearings, source SWF layout metrics supply centered field baseline.",
+    "motion": "All200 actual source placement matrices exported, including source critical scale and left/right motion. Camera projects once when enqueued as original Flash queue does. Viewport rescaling follows source HUD coordinates.",
+    "fade": "Native CombatFlashSwf draw overrides text cxform after goto_frame. Alpha multiplier1 plus ARGB alpha saturates source field alpha; presenter preserves glyph coverage and does not invent a linear fade. Finite source frame_count expires each label.",
+    "capacity": 12,
+    "ownership": "Owned text/glyph quads, no original SWF clone ownership copied. Saturated style-specific8 clone aliasing/stale-text quirks are not duplicated; strings>46 reject explicitly."
+  },
+  "original_art": "No generated images, system-font substitution, recolor or imagegen. Exact original font and SWF authoring metadata used.",
+  "tests": {
+    "source": "port\\windows-foundation\\features\\combat_text\\tests.cpp",
+    "result": "native static Windows executable PASS strict compile",
+    "checks": [
+      "Actual native constants + English StringManager Miss/Dodge/Block values/colors",
+      "Zero damage has no fabricated outcome label",
+      "Block plus positive damage emits word and number in original order",
+      "MISS priority beats Block/number",
+      "Critical dual-left and DOT styles from source flags",
+      "Follower suppression",
+      "Target bounds height applied",
+      "Actual original FT glyphs and source SWF frame movement",
+      "12-context admission/drop, finite expiry, invalid interval rejection"
+    ],
+    "live_source": "features/combat_text/live_tests.cpp",
+    "live_result": "Fresh CMake combat_text_live_tests target native PASS",
+    "live_checks": [
+      "Real shared-source CombatSession/gear/AI/animation bindings and World.resolve_damage observer",
+      "Presentation does not mutate HP",
+      "Frozen captured source point/height survives later SAME actor motion",
+      "Authentic source localization/font glyphs render via borrowed callback",
+      "Same caller ticket performs no duplicate clock work",
+      "Missing selected source Level phase rejects",
+      "clear_for_reload removes stale receipts/active labels"
+    ]
+  },
+  "integration_dependencies": [
+    "features/combat_text/combat_text.cpp",
+    "features/combat_text/combat_text_design.cpp",
+    "port/level-world/character_combat_text_v1.cpp",
+    "Existing HudGlyphFont + native FreeType2.3.7",
+    "Existing native localization/script_constants/content_paths sources",
+    "Exact source assets in features/combat_text/assets; copy original files into normal original-cache namespace or provide feature asset root for CombatTextDesign",
+    "features/combat_text/combat_text_live.cpp",
+    "port/engine-ui/combat_flash_inputs_v1.cpp"
+  ],
+  "limits": [
+    "Root owns main/CMake/runtime/GPU wiring. Feature native rendering geometry and real resolution observer tested. Packaged screenshot/production native-provider binding verification remains root-owned.",
+    "Caller actor queries must provide genuine source follower/target-position/bounds/equipment/property/player traits. DamageEvent alone cannot prove MISS/BLOCK.",
+    "Native localization requires actual Debug and current-player/name queries; missing services fail explicitly. No invented words/colors on missing data."
+  ],
+  "evidence": [
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003a\\003af77c.c",
+      "sha256": "aa8ed4208fd19fb5c8e50cfeed5b6e9e76b7be9831e08b9458ec1bca78c9f6f0"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003b\\003b10b4.c",
+      "sha256": "182c708ac7d9383bf882a7846a72e3156848ca16a96f28cbdc36ab3450f88673"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0041\\004138ac.c",
+      "sha256": "142a7eb6612a487336863df96bae82f854f170e7cb07eea5225d13d5b082b696"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0041\\00413a28.c",
+      "sha256": "14690840da801d0bef5949e5936a9220874045c1569fdd7d23abec5591a25266"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0041\\00414260.c",
+      "sha256": "b070b8710a32bb899b9a54c289c14a747712841fb93ed84e4759ad2facb9c219"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0039\\003935dc.c",
+      "sha256": "512403b22668c368c08f0d4db789adb7eb6f1b5e15be8ef1b26e9b39061bbe8b"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003a\\003a307c.c",
+      "sha256": "7755c6d97cf37bb2680efe1e5370b2eb87c0b55bfb5458fdcccbef5072cddf6f"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003a\\003a3054.c",
+      "sha256": "f0a7c9d18005a511c21e118f9fc2024cb4b347d1be33d0ab87e75ee8623a96e2"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\003a\\003a49f0.c",
+      "sha256": "176c220fd1ab1e4a0a720db9094b9adf528bfb6f747e0bb059bcdd91a411e130"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0040\\0040019c.c",
+      "sha256": "d8f5f8ec0d8e761789438a838bea3021d63024b61a76e7f66cdedc26dae122f7"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0040\\00400158.c",
+      "sha256": "fd613c60eae16e57d8f3bc337ae6493ab4f62df9b452f395d6e202ff4f5a6071"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\007a\\007a9dd0.c",
+      "sha256": "e113505899251837c7942a7f02aead1eca4fbe2f5259bb7c836dd5e69f01bbc8"
+    }
+  ],
+  "asset_manifest": [
+    {
+      "uri": "data/pydata/common_text_pycst.bin",
+      "bytes": 155738,
+      "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5"
+    },
+    {
+      "uri": "data/pydata/design_pycst.bin",
+      "bytes": 3999,
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
+    },
+    {
+      "uri": "data/pydata/common_text_pyarray.bin",
+      "bytes": 10167,
+      "sha256": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286"
+    },
+    {
+      "uri": "data/pydata/common_text_pyarraynames.bin",
+      "bytes": 96,
+      "sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b"
+    },
+    {
+      "uri": "data/pydata/common_text_pystructnames.bin",
+      "bytes": 36,
+      "sha256": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad"
+    },
+    {
+      "uri": "data/text/ingame.english",
+      "bytes": 6100,
+      "sha256": "445b1ea59be3f9a9a39753afda8f16825840a67982336c072e2b11a7769f2bff"
+    }
+  ],
+  "live_adapter": {
+    "header": "features/combat_text/combat_text_live.hpp",
+    "source": "features/combat_text/combat_text_live.cpp",
+    "binding": "load(actualAssets,SAME CombatSession,CombatTextLiveServices,error)",
+    "native_actor_queries": {
+      "follower": "SAME world combat properties resolved AI index -> SAME original AiTables.Type==2; source IsFollower3a307c/GetCharType3a3054.",
+      "dual": "SAME combat_properties(id).facts.dual_wield; recovered original equipment.HasOffHandWeapon slot2 type!=6.",
+      "property": "SAME actor resolved raw224 property sheet; no second combat/stat owner.",
+      "is_player": "Source AI.Type nonzero branch: Type==1. AI.Type0 uses already-bound genuine ownership/archetype trait, not guessed actor ID.",
+      "target_position": "Caller SAME original GetTargetPosition3935dc: node180 && enabled80 selects184, else own160.",
+      "bounds_height": "Caller SAME source relative bbox: maxZ158-minZ14c (relative_box[5]-[2]), not mesh height or absolute box."
+    },
+    "synchronous_capture": "Set services.synchronous_resolution_capture=true or delivery=synchronous_snapshot; wire SAME World ResolutionObserver to capture_resolution/capture_synchronous_result for every actual result. Captures original style/text/color/point immediately; after_* never reads Session.resolutions again in this mode.",
+    "after_update_mode": "Without genuine observer, adapter can consume current Session.resolutions after each actual update; this mode is explicitly later than source hit callback and not claimed as original timing.",
+    "timing_qualification": "Root observer after originaldamage.resolve before HP application freezes point before subsequent host marker motion. Original F_ApplyResult3b10b4 calls HitFor before scrolling text399. Adapter observer is earlier than complete original result-effects sequence; pending snapshot projection occurs after frame with current actual camera, not full original CUI synchronous projection timing.",
+    "clock": "One caller update ticket prevents duplicate receipt or clock advancement. Host path uses actual caller dtMs and source movie30fps interval33; does not fabricate original Application/Level fields. Source path uses combat_flash_tick_inputs_v1 borrowed actual dt/selectedLevel/loadPhase; missing phase for positive Level fails. No independent HP/RNG, frame timer owner or simulation clock introduced.",
+    "font": "Generated source Font512 metadata exports actual data/Fontin SmallCaps.ttf lookup and source30fps; font loaded from actual AssetCatalog original TTF, not system substitution.",
+    "renderer": "glyph_draw callback borrows actual source-font glyph images + quad XY + ARGB-derived RGBA. Main renderer owns GPU texture cache and projection.",
+    "receipts": "Optional read-only display_event callback and captured_events latest immutable display receipt for native/packaged audit. No extra semantic producer.",
+    "reset": "clear_for_reload clears pending/active/captured events and caller serial state; borrowed session/world lookups reacquired every query after restore/reload."
+  },
+  "production_verification": {
+    "screenshot": ".local-inputs/v18-integration-verification/combat-text.png",
+    "sha256": "eb2137186b07841815139efadddbda35781d02a516c6e9581ca47e91c49a6f07",
+    "observed": "Production renderer shows yellow critical 32 and orange localized Miss above live target. Uses root SAME-session resolution observer, actual camera and original font glyph callback.",
+    "style_coverage": "Fresh combat_text_tests PASS: all ten source SWF styles rasterized with genuine Font512/Fontin SmallCaps16 on every authored frame, exact finite expiration, native ARGB alpha override. Numeric, left/right, critical, block, stun, DOT and XP clips covered without asserting unsupported gameplay producers.",
+    "limits": "Observer captures before HP application, earlier than complete original FApplyResult; projection remains after-frame. Native Flash clone ownership and full result-effect ordering are not claimed."
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "source": "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\menus\\dqcharmenu_droid.swf",
+  "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+  "slots": [
+    {
+      "button": "btn_torso",
+      "source_slot": 0,
+      "icon_label": "torso",
+      "icon_frame": 0,
+      "icon_shapes": [
+        415
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_torso/txtZone/text"
+      ]
+    },
+    {
+      "button": "btn_main_hand",
+      "source_slot": 1,
+      "icon_label": "main_hand",
+      "icon_frame": 1,
+      "icon_shapes": [
+        416
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_main_hand/txtZone/text"
+      ]
+    },
+    {
+      "button": "btn_off_hand",
+      "source_slot": 2,
+      "icon_label": "off_hand",
+      "icon_frame": 2,
+      "icon_shapes": [
+        417
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_off_hand/txtZone/text"
+      ]
+    },
+    {
+      "button": "btn_feet",
+      "source_slot": 3,
+      "icon_label": "feet",
+      "icon_frame": 7,
+      "icon_shapes": [
+        422
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_feet/txtZone/text"
+      ]
+    },
+    {
+      "button": "btn_hands",
+      "source_slot": 4,
+      "icon_label": "hands",
+      "icon_frame": 5,
+      "icon_shapes": [
+        420
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_hands/txtZone/text"
+      ]
+    },
+    {
+      "button": "btn_ring1",
+      "source_slot": 5,
+      "icon_label": "ring",
+      "icon_frame": 3,
+      "icon_shapes": [
+        418
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_ring1/txtZone/text"
+      ]
+    },
+    {
+      "button": "btn_ring2",
+      "source_slot": 6,
+      "icon_label": "ring",
+      "icon_frame": 3,
+      "icon_shapes": [
+        418
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_ring2/txtZone/text"
+      ]
+    },
+    {
+      "button": "btn_waist",
+      "source_slot": 7,
+      "icon_label": "waist",
+      "icon_frame": 6,
+      "icon_shapes": [
+        421
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_waist/txtZone/text"
+      ]
+    },
+    {
+      "button": "btn_head",
+      "source_slot": 8,
+      "icon_label": "head",
+      "icon_frame": 4,
+      "icon_shapes": [
+        419
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_head/txtZone/text"
+      ]
+    },
+    {
+      "button": "btn_potions",
+      "source_slot": 9,
+      "icon_label": "potions",
+      "icon_frame": 8,
+      "icon_shapes": [
+        423
+      ],
+      "text_fields": [
+        "menu_InventorySheetMain/inv_anim/btn_potions/txtZone/text"
+      ]
+    }
+  ],
+  "character_panes": [
+    {
+      "path": "_root.menu_InventorySheetMain.avatarpane",
+      "root_depth": 571,
+      "child_depth": 1,
+      "shape_id": 217,
+      "shape_depth": 1,
+      "shape_bounds_twips": [
+        0,
+        4822,
+        0,
+        948
+      ],
+      "matrix": [
+        0.688720703125,
+        0.0,
+        0.0,
+        4.1150054931640625,
+        155.05,
+        87.7
+      ],
+      "bounds": [
+        155.05,
+        87.7,
+        321.1005615234375,
+        282.7512603759766
+      ],
+      "after_role": "",
+      "before_role": "menu_InventorySheetMain/3/"
+    },
+    {
+      "path": "_root.menu_InventorySheetDetails.avatarpane",
+      "root_depth": 750,
+      "child_depth": 235,
+      "shape_id": 217,
+      "shape_depth": 1,
+      "shape_bounds_twips": [
+        0,
+        4822,
+        0,
+        948
+      ],
+      "matrix": [
+        0.4281069226562977,
+        0.0,
+        0.0,
+        4.103954453021288,
+        219.27300338745118,
+        66.2637451171875
+      ],
+      "bounds": [
+        219.27300338745118,
+        66.2637451171875,
+        322.48958243988454,
+        260.79118619039656
+      ],
+      "after_role": "menu_InventorySheetDetails/btn_AutoEquip/",
+      "before_role": "menu_InventorySheetDetails/237/"
+    }
+  ],
+  "detail_transmute": {
+    "sprite456_frame": 0,
+    "display_list_depth": 212,
+    "child_sprite": 449,
+    "states": [
+      {
+        "label": "idle",
+        "frame": 0,
+        "fields": [
+          "ButtonName/text",
+          "ValueText/value",
+          "ValueBox/value"
+        ]
+      },
+      {
+        "label": "disabled",
+        "frame": 23,
+        "fields": [
+          "ButtonName/text",
+          "ValueText/value",
+          "ValueBox/value"
+        ]
+      }
+    ],
+    "policy": "Only selected item equipped state chooses sprite449 disabled; ordinary selected item uses idle. ButtonName, ValueText and ValueBox remain separate source fields; absent ItemTransmuteValueString is blank."
+  },
+  "policy": "Settled inv_anim frame12 equals originalframe0. Categoryicons sprite424 label assignments. Original ItemTable IconName empty; no item-specific icons invented. Original colored fills exposed only for genuine ItemColor provider."
+}

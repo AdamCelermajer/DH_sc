@@ -1,0 +1,34 @@
+{
+  "status": "shared_animation_and_player_radius_runtime_verified_navigation_levelconfig_components_verified",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v9",
+  "executable_sha256": "6b573dc5a04f30b149994c5686c1a658b7d144a973cdd3b6a00b3b4ed101a2a9",
+  "component_tests_passed": 57,
+  "package_files_verified": 544,
+  "rendered_cases_verified": 13,
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v9.json",
+  "save_rejection_report": "port/windows-foundation/reports/controller-lifecycle-persistence-rejection-v9.json",
+  "live_changes": [
+    "Player movement radius113.7 uses original factory/rest joint AABB and exact CharacterBodyConfig circle rules instead of indexed-render geometry; height and solve policy remain preview",
+    "Authored named markers route as event0x28 through source CharAI dispatcher before controller gates; active NPC hit atframe43 remains delivered while global lockactive20..60",
+    "Genuine finite program closure routes event0x22 with source end/state ordering; no fabricated hierarchy notifications"
+  ],
+  "component_changes": [
+    "OriginalActorNavigation composes exact constructoruser0 earlygate, source InitPF/full extent, actual floor graph and obstacle/native radius update",
+    "Source LevelConfig factory/default/override/InitPost and actual current configslot now execute on originalcache; unfiltered root next failsatModule constructor",
+    "Standalone LevelConfig camera settings match already-working OriginalGameplayCamera900/4200; no clip-plane correction claimed"
+  ],
+  "limits": [
+    "Native player body publication and live physical collision/trigger dispatch are not wired to playablemain",
+    "NPC movement radius, vertical obstacle sweep and floor solver still use preview policy",
+    "Full module constructors/source room identities/level conditions and actual encounter activation remain incomplete",
+    "Damage still uses diagnostic queued application; source synchronous damage-before-stateforward and reentrant effects remain incomplete",
+    "Actual numeric23/24/25/26/27 hierarchical scheduler delivery and complete source FSM remain incomplete",
+    "Fog/ambient exports are available but source full material/GLES/effect/lighting/reference fidelity not accepted"
+  ],
+  "capture_review": {
+    "image": ".local-inputs/windows-source-clock-checkpoint-v9/controller-active-verification.png",
+    "scope": "Actual new rendered capture inspected for original world/player/enemy/HUD; no matched-state reference parity acceptance"
+  },
+  "previous_v8_preserved": true
+}

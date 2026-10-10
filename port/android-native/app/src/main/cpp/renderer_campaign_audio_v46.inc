@@ -77,8 +77,11 @@ bool submit_campaign_audio_v46(dh2::audio::AudioCategoryV46 category,const dh2::
   dh2::sound::VoxPlay3DOwnerV2 prefix({&early,[](void*raw,const dh2::sound::VoxPlay3DRequestV2&q,dh2::sound::VoxPlay3DResponseV2&out){
    auto&ctx=*static_cast<Early*>(raw);using O=dh2::sound::VoxPlay3DOperationV2;
    if(q.operation==O::disabled){std::uint32_t flag{};
-    if(!ctx.world->debug||dh2_character_debug_load(ctx.world->debug.get(),&ctx.world->debug_files)!=1||
-       dh2_character_debug_get(&flag,ctx.world->debug.get(),"IsDisablingSounds",&ctx.world->debug_files)!=1)return -1;
+    if(!ctx.world->debug){ctx.error="Early source Vox Play3D disabled gate lost SAME World Debug owner";return -1;}
+    const int loaded=dh2_character_debug_load(ctx.world->debug.get(),&ctx.world->debug_files);
+    if(loaded!=1){ctx.error="Early source Vox Play3D Debug.Load(IsDisablingSounds) status "+std::to_string(loaded);return -1;}
+    const int queried=dh2_character_debug_get(&flag,ctx.world->debug.get(),"IsDisablingSounds",&ctx.world->debug_files);
+    if(queried!=1){ctx.error="Early source Vox Play3D Debug.GetSwitch(IsDisablingSounds) status "+std::to_string(queried);return -1;}
     out.value=flag;return 0;
    }
    if(q.operation==O::current_level){dh2::loader::CanonicalCurrentLevelBorrowV1 current;

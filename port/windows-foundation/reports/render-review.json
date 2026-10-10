@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "reviewer": "render_review",
+  "scope": [
+    "renderer.hpp",
+    "renderer.cpp",
+    "platform_win32.hpp",
+    "platform_win32.cpp",
+    "original_scene.cpp",
+    "texture_loader.hpp",
+    "main.cpp"
+  ],
+  "method": "Static source review plus inspection of supplied native WGL captures scene.png, level-fixed.png and character.png. Reviewer did not operate window interactively.",
+  "status": "reviewed_with_material_limitations",
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "correctness",
+      "summary": "Opaque and transparent geometry need global passes",
+      "status": "fixed",
+      "evidence": "Renderer exposes RenderPass selector; main renders all scene and character opaque geometry before transparent geometry."
+    },
+    {
+      "id": "R2",
+      "severity": "correctness",
+      "summary": "Transparency sorting is per mesh; cross-mesh ordering remains limited",
+      "status": "partially_fixed",
+      "evidence": "Renderer now sorts transparent range bounding-box centers along camera forward after transform. main submits scene then character meshes, so transparent ranges cannot sort globally across those meshes.",
+      "recommendation": "Document approximate per-mesh sorting or add global transparent draw queue."
+    },
+    {
+      "id": "R3",
+      "severity": "fidelity",
+      "summary": "Original material capabilities exceed initial renderer",
+      "status": "renderer_extended_host_metadata_pending",
+      "evidence": "Renderer now supports alphaReference, additive, binary/partial diffuse alpha classification and vertex-color modulation. Scene UV transforms are applied. Latest main still assigns diffuse only; authored alpha masks require host composition and alphaReference/additive propagation.",
+      "recommendation": "Finish host metadata and alpha-mask composition; validate against a textured scene capture."
+    }
+  ],
+  "checked_invariants": [
+    "View matrix follows column-major OpenGL look-at convention.",
+    "Index bounds are checked before glDrawElements.",
+    "Vertex array byte offsets and stride match standard-layout Vertex.",
+    "Renderer restores depth writes after transparent geometry and before clearing each frame.",
+    "WGL context is created and made current before renderer initialization.",
+    "Win32 teardown releases current context before deleting context, releasing DC, and destroying window.",
+    "Focus loss clears held keys; Alt+F4 remains available through DefWindowProc.",
+    "WM_SIZE tracks client dimensions and minimized state."
+  ],
+  "visible_verification_checklist": [
+    "Launch packaged EXE and confirm original Act 1 environment is visible with correctly oriented textures.",
+    "Orbit camera around opaque and transparent surfaces; confirm walls occlude correctly and foliage has no solid rectangles.",
+    "Resize, maximize, minimize, and restore; confirm aspect ratio updates and render returns.",
+    "Play camera timeline through movement and cuts; confirm camera does not flip or produce blank frames.",
+    "Switch idle, walk, and attack; confirm animated character remains visible with textures and no exploding geometry.",
+    "Hold movement, switch focus away and back; confirm movement stops on focus loss.",
+    "Close via window X and Alt+F4; reopen and confirm clean startup."
+  ],
+  "verification_note": "Checklist describes required visual checks; none are marked passed by static review.",
+  "integration_review": [
+    "Window/context remains alive through renderer use and explicit texture destruction.",
+    "Resize reapplies viewport and projection using current client dimensions.",
+    "Minimized loop resets timing before skipping frame; restore avoids huge timeline jumps.",
+    "Screenshot captures GL_BACK before SwapBuffers and reverses pixel rows for PPM top-to-bottom output.",
+    "Root fixed T timeline toggle; useTimeline selects free-camera pose after toggling off.",
+    "Character is drawn at identity; combined world framing may leave character outside useful visible area."
+  ],
+  "visual_evidence": [
+    {
+      "observation": "Early capture plain white cuboid/plane; not original scene acceptance evidence.",
+      "status": "superseded",
+      "path": ".local-inputs/windows-foundation-build/scene.png"
+    },
+    {
+      "observation": "Assembled textured swamp geometry, bridges and structures visible from overview. Dark, zoomed-out presentation. Confirms geometry/texture GPU output; still does not prove camera controls, animation, original opening framing or final material fidelity.",
+      "status": "scene_GPU_display_observed",
+      "path": ".local-inputs/windows-foundation-build/level-fixed.png"
+    },
+    {
+      "observation": "Textured Prince model clearly visible with coherent body geometry and pose. Single image does not establish moving animation or all three clips.",
+      "status": "character_GPU_display_observed",
+      "path": ".local-inputs/windows-foundation-build/character.png"
+    }
+  ],
+  "resolved_followups": [
+    "Renderer pass selector and host global opaque-then-transparent passes.",
+    "Original scene authored UV transform.",
+    "Per-mesh transparent range center sorting.",
+    "Renderer cutout/additive handling and texture alpha classification.",
+    "Renderer vertex alpha pass/blend detection after reviewer feedback."
+  ]
+}

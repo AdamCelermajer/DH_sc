@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-09",
+  "status": "released_playable_direct_equipment_and_source_locomotion_preview",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-v19-preview-9",
+  "launcher": "Play.cmd",
+  "direct_gameplay_launcher": "Play-swamp.cmd",
+  "executable_sha256": "ac8bdb552a8c33ab9e08cabd0f7e40662eaad52b9a6083e0bd048e1533a37250",
+  "manifest_files_verified": 1580,
+  "foundation_ctest": "80/80; .local-inputs/v19-preview-9-regression.log",
+  "packaged_runtime_cases": 13,
+  "new_playable_behavior": [
+    "Direct-Swamp characters have explicit equipment slot/instance metadata; Equipment actions and save/reload work without frontend creation.",
+    "Current/empty Knight gear selects source Idle/Walk/Run banks with preloaded clips on the same pose owner.",
+    "Source movement speed is retained with the current actor modifier; the legacy clip-rate is not multiplied a second time.",
+    "Future locomotion bindings can update during a combat-owned pose; pose selection still cannot steal the attack."
+  ],
+  "evidence": [
+    "reports/v19-preview-9-integration-candidate.json",
+    "reports/v19-preview-9-frontend-runtime.json",
+    "reports/v19-preview-9-character-menu-runtime.json",
+    "reports/v19-preview-9-character-menu-direct-runtime.json",
+    "reports/v19-preview-9-menu-pause-runtime.json",
+    "reports/v19-preview-9-companion-runtime.json",
+    "reports/v19-preview-9-audio-runtime.json",
+    "reports/v19-preview-9-population-runtime.json",
+    "reports/v19-preview-9-locomotion-runtime.json"
+  ],
+  "limitations": [
+    "Main runtime acceptance covers Knight current/empty equipment. Dual/staff stance switching is component-tested, not accepted class combat.",
+    "Equipment character preview/detail layout and positive skill execution remain incomplete.",
+    "Arbitrary restore across changed live equipment is not accepted.",
+    "Loot/XP and original drop geometry are component-tested but not yet enrolled in this executable.",
+    "Swing FX253 reaches the original GPU pipeline but its near-black source UV footprint changes only7 diagnostic pixels; no visible trail fidelity claim.",
+    "Companion behavior, quests/faery pages, full campaign/cinematics and complete audio/effects remain incomplete.",
+    "28 authored declarations remain gated/unsupported and matched-reference fidelity remains unverified."
+  ],
+  "preserved": ".local-inputs/windows-source-clock-v19-preview-8"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "expected_runtime_rejections_verified",
+  "goal_complete": false,
+  "executable_sha256": "6ff5be22148caf2204b2db122fff3aef0135efe432d2bde4ae5bdab8f769e7a8",
+  "save_sha256": "11d7ac28f207db31ad1c6ffe4d20aa6ac6549583cf192abe08b6fcc29b80f6e9",
+  "checks": [
+    {
+      "name": "controller-save-rejection",
+      "exit_code": 1,
+      "durable_save_preserved": true,
+      "log": ".local-inputs/windows-controller-integration/controller-save-rejection-v8.log"
+    },
+    {
+      "name": "lifecycle-save-rejection",
+      "exit_code": 1,
+      "durable_save_preserved": true,
+      "log": ".local-inputs/windows-controller-integration/lifecycle-save-rejection-v8.log"
+    }
+  ]
+}

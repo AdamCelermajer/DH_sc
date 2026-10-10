@@ -1,0 +1,32 @@
+{
+  "status": "PASS native Windows exact source-prefix/policy tests",
+  "files": ["original_actor_motion_flags.hpp", "original_actor_motion_flags.cpp", "tests/source_motion_flags_tests.cpp"],
+  "ownership": "References to caller's SAME optional flags520, movement-type and boundary452 fields. No ActorState/main/session/CMake edits or second FSM/target owner.",
+  "scope": "Supported constructor/focus/store PREFIXES only, not complete Character constructor, state focus, FSM, movement UpdateType, animation selection or body pin/unpin",
+  "source_prefixes": {
+    "move": "original_motion_focus_prefix(move,...) invokes actual dh2_move_focus_begin: writes0x23c1 and movement_type0. It does not execute remainder UpdateType/animation/unpin.",
+    "idle": "Exact CSIdle::OnFocus prefix in character_state.cpp: only actual idle_suppressed byte0 writes0x2380. Any nonzero byte returns before flag write; existing flags/unknown presence and movement type remain untouched.",
+    "lifecycle": "original_motion_source_set_flags directly stores caller-supplied actual NewFlags/set_flags effect. No state-ID or animation-name derivation.",
+    "unsupported": "Any other focus enum rejects before mutating cells/output. Attack/hurt/dead/skill/scare/stun flags require their actual source focus/effect producer.",
+    "Character_boundary_ctor": "original_character_motion_ctor_prefix initializes ONLY inherited GameObject byte+452(0x1c4) to1. Base GameObject constructor default0 is overwritten by Character constructor; neither is a motion-flags default."
+  },
+  "constructor_proof": {
+    "source": "port/level-world/reference/character-idle-startup/reference/original-functions.asm",
+    "base": "GameObjectC2 entry0x38c398; movr5,#0; strbr5,[owner,#0x1c4] at0x38c480",
+    "Character_C1": "entry0x3aa1b4 calls base; movfp,#1 at0x3aa248; strbfp,[owner,#0x1c4] at0x3aa5ec",
+    "Character_C2": "entry0x3a9340 calls base; movfp,#1 at0x3a93d4; strbfp,[owner,#0x1c4] at0x3a9778",
+    "decompile": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c Character::Character agrees BYTE(owner+452)=1"
+  },
+  "policy": "original_motion_policy fails when actual flags are absent. Uses dh2_move_policy and dh2_move_rotation_speed against SAME resolved224 sheet. Preserves source flag0x20 negative1 instant rotation and original property47 percent clamp. Actual flags0 is valid known source value, distinct from unknown.",
+  "boundary_getter": "original_motion_boundary_validation requires present raw source byte value0..255; nonzero means true. Missing/invalid cell preserves supplied output and returns failure.",
+  "tests": ["unknown flags policy rejects", "suppressed Idle retains unknown fields", "actual Move kernel flags/type stores", "suppressed Idle preserves actual prior Move flags/type", "unsuppressed Idle changes flags only", "exact decoded Idle/path/floor and original rotation2 multiplier", "unsupported focus and aliased flags/type cells reject atomically", "explicit source setter preserves actual Attack mask without claiming Attack focus", "actual bit20 instant override", "negative percent clamp", "known flags0 vs missing", "Character ctor boundary1 initializes no flags/type", "unknown/invalid boundary rejection and explicit boundary0"],
+  "dependencies": ["port/level-world/move_state.cpp"],
+  "root_integration": [
+    "Root adds one shared optional source flags word and optional movement-type/boundary cells, then passes refs to these helpers.",
+    "Actual OriginalActorLifecycle.set_flags writes the shared cell through source setter; actual Character construction invokes boundary ctor prefix.",
+    "Explicit PC adapter enters proven Move/Idle prefix boundary once per supported transition. Do not select focus prefix from animation names or recompute raw flags by state ID every frame.",
+    "Restrict new heading/rotation path to supported locomotion until other actual focus producers are applied. Do not overwrite unrelated raw flag modifications or pretend full source focus/pin/animation effects occurred.",
+    "Manual heading borrows actual shared flags/cell; original motion policy getter consumes same resolved props. Unknown facts remain explicit failures.",
+    "Checkpoint must serialize/reconstruct or reject unpersisted source field owners consistently; helpers introduce no hidden owner or save defaults."
+  ]
+}

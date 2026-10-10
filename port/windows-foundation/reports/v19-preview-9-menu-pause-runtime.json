@@ -1,0 +1,22 @@
+{
+  "status": "packaged_offline_menu_pause_and_resume_verified",
+  "goal_complete": false,
+  "executable_sha256": "ac8bdb552a8c33ab9e08cabd0f7e40662eaad52b9a6083e0bd048e1533a37250",
+  "frames": 240,
+  "paused_frames": 75,
+  "frozen_actor_count": 5,
+  "paused_session_serial": 5,
+  "final_session_serial": 165,
+  "audio_device_samples_during_pause": [
+    6080,
+    41920
+  ],
+  "resumed_damage_frames": [
+    131,
+    161
+  ],
+  "limits": [
+    "Offline gameplay pause only; online state is not implemented.",
+    "Original voice stopping policy and full menu fidelity remain unverified."
+  ]
+}

@@ -50,6 +50,14 @@ public:
   auto inner=std::make_shared<Domain>(Domain::links);
   initialized4_=1;inner_=std::move(inner);inner48_=reinterpret_cast<std::uintptr_t>(inner_.get());e.clear();return true;
  }
+ // PFWorld::PostLoad5226cc owns this SAME field: only state1 enters the
+ // body, and its state2 store precedes room inspection and all link work.
+ bool begin_post_load_v122(floors::World& actual,bool& work,std::string& e){
+  work=false;auto world=world_.lock();
+  if(!world||world.get()!=&actual){e="Required SAME PFWorld PostLoad storage owner";return false;}
+  if(initialized4_==1){initialized4_=2;work=true;}
+  e.clear();return true;
+ }
  bool lend(floors::World& actual,std::uintptr_t id,
   std::function<bool(std::string&)> erase_objects,PFWorldFlushFieldsV1& out,std::string& e){
   auto world=world_.lock();if(!world||world.get()!=&actual||id!=identity()||!erase_objects){e="Required SAME native PF storage and actual floor-object registry";return false;}

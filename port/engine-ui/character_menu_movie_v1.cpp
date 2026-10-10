@@ -15,7 +15,12 @@ struct CharacterMenuMovieV1::Provider {
  SwfServices source;
  static Provider& self(void* p){return *static_cast<Provider*>(p);}
  static bool begin_source(const SwfServices& s,std::string& e){return !s.source_continue_v98||s.source_continue_v98(e);}
- static bool finish_source(const SwfServices& s,bool ok,std::string& e){if(s.source_continue_v98&&!s.source_continue_v98(e))return false;return ok;}
+ static bool finish_source(const SwfServices& s,bool ok,std::string& e){
+  const auto failure=ok?std::string{}:e;
+  if(s.source_continue_v98&&!s.source_continue_v98(e))return false;
+  if(!ok)e=failure; // Successful scope checks may clear the provider's error.
+  return ok;
+ }
  static bool read(void* p,const char* uri,std::vector<std::uint8_t>& bytes,std::string& error){auto& s=self(p).source;if(!begin_source(s,error))return false;return finish_source(s,s.read&&s.read(s.context,uri,bytes,error),error);}
  static bool texture(void* p,const char* name,int w,int h,SwfTexture& out,std::string& error){auto& s=self(p).source;if(!begin_source(s,error))return false;return finish_source(s,s.texture&&s.texture(s.context,name,w,h,out,error),error);}
  static bool image(void* p,int w,int h,unsigned channels,const std::uint8_t* pixels,int pitch,SwfTexture& out,std::string& error){auto& s=self(p).source;if(!begin_source(s,error))return false;return finish_source(s,s.image&&s.image(s.context,w,h,channels,pixels,pitch,out,error),error);}

@@ -20,6 +20,7 @@
 #include "base/tu_file.h"
 #include "base/image.h"
 #include <cmath>
+#include <algorithm>
 #include <limits>
 #include <exception>
 #include <set>
@@ -311,11 +312,15 @@ bool SwfMovie::source_register_native_actions_v119(const std::vector<std::string
  auto owner=impl_;if(!owner||!owner->player||!action_script_||!owner->service.native_owner||!owner->service.native_action){e="Required actual source native AS registration provider";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
  std::vector<std::string> actual;
- for(const auto& name:names)if(name!="NativeGetStringFromSymbol")actual.push_back(name);
+ for(const auto& name:names)if(name!="NativeGetStringFromSymbol"&&
+    std::find(owner->service.native_actions.begin(),owner->service.native_actions.end(),name)==owner->service.native_actions.end())actual.push_back(name);
  //The facade's existing NativeGetStringFromSymbol is the real process text
- //transport, installed at player C1. Preserve it when original registration
- //reaches the same name; other source callbacks keep this player/provider.
- return action_script_->install_native(actual,e)&&owner->finish(e);
+ //transport, installed at player C1. Preserve it and the already installed
+ //movie-bootstrap callbacks when original phase25 reaches the full name table.
+ //Append only after successful installation so retries remain idempotent.
+ if(!action_script_->install_native(actual,e)||!owner->finish(e))return false;
+ owner->service.native_actions.insert(owner->service.native_actions.end(),actual.begin(),actual.end());
+ return true;
 }
 bool SwfMovie::source_preload_glyphs_v119(const char* path,const char* codes,std::string& e){
  auto owner=impl_;if(!owner||!owner->root||!path||!codes){e="Required actual source glyph/movie request";return false;}
@@ -366,6 +371,24 @@ bool SwfMovie::hide_menu_state_clips(std::vector<std::string>& names,std::string
  for(auto*c:clips){result.emplace_back(c->get_name().c_str());c->set_visible(false);}
  if(!owner->finish(e))return false;
  names=std::move(result);return true;
+}
+bool SwfMovie::source_reset_fonts_v119(std::string& e){
+ auto owner=impl_;if(!owner||!owner->root){e="Required loaded RenderFX root for ClearFonts";return false;}
+ // NativeSetOptions can arrive from this movie's ActionScript dispatch;
+ // ResetFonts synchronously re-enters the same RenderFX owner in source.
+ Impl::Scope scope(owner.get(),true);if(!scope.entered){e="SWF core busy";return false;}
+ std::function<void(gameswf::character*)> clear=[&](gameswf::character* c){
+  if(c->is(gameswf::edit_text_character::m_class_id))
+   static_cast<gameswf::edit_text_character*>(c)->set_text_value("");
+  if(c->is(gameswf::sprite_instance::m_class_id)){
+   auto* sprite=static_cast<gameswf::sprite_instance*>(c);
+   for(int i=0;i<sprite->m_display_list.size();++i)clear(sprite->m_display_list.get_character(i));
+  }
+ };
+ clear(owner->root->get_root_movie());
+ if(auto platform=SwfTextFontPlatformV1::for_player(owner->player.get_ptr()))
+  if(!platform->source_reset_fonts_v119(e))return false;
+ return owner->finish(e);
 }
 bool SwfMovie::connect_viewport(const ViewportState64& seed,const SwfViewportDriver& driver,std::string&e){
  auto owner=impl_;if(!owner||!owner->root){e="SWF movie not loaded";return false;}
@@ -447,7 +470,7 @@ bool SwfMovie::connect_input(const char* path,std::shared_ptr<SwfInputHistory> h
   if(original.source_can_handle_event_v68)return original.source_can_handle_event_v68(event,out,e);
   if(!original.can_handle_event){e="Required original CanHandleEvent receiver";return false;}return original.can_handle_event(original.context,event,out,e);
  };
- if(!input->bind({owner,owner->root.get_ptr()},viewport_->state(),driver,std::move(history),context,flags,selection,forwarded,e,owner->controllers))return false;
+ if(!input->bind({owner,owner->root.get_ptr()},viewport_->state(),driver,std::move(history),context,flags,selection,forwarded,e,owner->controllers,viewport_))return false;
  input_=std::move(input);return owner->finish(e);
 }
 bool SwfMovie::advance_frames(std::int32_t milliseconds,SwfFrameConnection& frames,std::string& e){

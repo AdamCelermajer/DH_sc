@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(dh2_level_world LANGUAGES CXX)
+if(NOT TARGET dh2_engine_textures)
+ add_subdirectory(../engine-textures "${CMAKE_CURRENT_BINARY_DIR}/engine-textures")
+endif()
 if(NOT TARGET dh2_script_runtime)
  add_subdirectory(../script-runtime "${CMAKE_CURRENT_BINARY_DIR}/script-runtime")
 endif()
@@ -56,7 +59,7 @@ target_sources(dh2_level_world PRIVATE
  character_loot_actor_binding_v31.cpp character_loot_pickup_fx_v32.cpp
  character_progression_world_v23.cpp character_kill_contributor_event_v23.cpp
  character_kill_level_events_v23.cpp character_head_object_v2.cpp
- canonical_character_pf_v62.cpp player_level_quicksave_v29.cpp
+ canonical_character_pf_v62.cpp player_level_quicksave_v29.cpp application_pause_save_v1.cpp
  gameobject_update_prefix_v23.cpp character_candidate_cache_v62.cpp
  player_xp_text_v1.cpp character_world_npc_physical_v1.cpp
  character_world_npc_collision_v1.cpp player_progression_v1.cpp
@@ -88,6 +91,8 @@ target_sources(dh2_level_world PRIVATE
  gameplay_camera_zoom_v17.cpp gameplay_camera_overview_v18.cpp gameplay_camera_load_v19.cpp
  gameplay_camera_picking_v20.cpp gameplay_camera_basis_v21.cpp authored_camera_basis_v22.cpp
  gameplay_camera_application_v23.cpp)
+target_sources(dh2_level_world PRIVATE gameplay_skybox_v24.cpp gameplay_skybox_material_v25.cpp)
+target_link_libraries(dh2_level_world PRIVATE dh2_engine_textures dh2_scene_materials)
 add_library(dh2_camera_xml_v20 STATIC
  ../level-loader/vendor/tinyxml/tinyxml.cpp ../level-loader/vendor/tinyxml/tinyxmlparser.cpp
  ../level-loader/vendor/tinyxml/tinyxmlerror.cpp ../level-loader/vendor/tinyxml/tinystr.cpp)
@@ -271,6 +276,7 @@ target_sources(dh2_level_world PRIVATE character_collision_lifecycle_v1.cpp nati
 target_sources(dh2_level_world PRIVATE canonical_object_manager_v1.cpp canonical_object_factory_v1.cpp
  retained_character_actor_v1.cpp openable_container_owner_v1.cpp openable_container_interaction_v2.cpp)
 target_sources(dh2_level_world PRIVATE canonical_property_map_v1.cpp canonical_gameobject_base_owner_v1.cpp
+ module_pf_actor_connection_v3.cpp
  canonical_class_receiver_bindings_v1.cpp
  character_npc_initpost_owner_v1.cpp game_object_initialization_owner_v1.cpp
  game_object_visual_asset_owner_v1.cpp game_object_spawn_probability_v1.cpp
@@ -377,6 +383,15 @@ target_link_libraries(dh2_level_world PUBLIC dh2_engine_skinning dh2_game_data d
 if(ANDROID)
  target_link_options(dh2_level_world PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined -Wl,--error-limit=0)
 else()
+ add_executable(native_batch_sampler_binding_v113_audit tests/native_batch_sampler_binding_v113.cpp)
+ target_compile_features(native_batch_sampler_binding_v113_audit PRIVATE cxx_std_17)
+ add_executable(native_batch_default_color_v113_audit tests/native_batch_default_color_v113.cpp)
+ target_compile_features(native_batch_default_color_v113_audit PRIVATE cxx_std_17)
+ target_link_libraries(native_batch_default_color_v113_audit PRIVATE dh2_level_world)
+ add_executable(application_pause_save_v1_audit tests/application_pause_save_v1.cpp)
+ target_link_libraries(application_pause_save_v1_audit PRIVATE dh2_level_world)
+ add_executable(quest_reward_sequence_v108_audit tests/quest_reward_sequence_v108.cpp)
+ target_link_libraries(quest_reward_sequence_v108_audit PRIVATE dh2_level_world)
  add_executable(source_input_manager_v60_audit tests/source_input_manager_v60.cpp)
  target_link_libraries(source_input_manager_v60_audit PRIVATE dh2_level_world)
  add_executable(player_equipment_render_owner_v1_audit tests/player_equipment_render_owner_v1.cpp)
@@ -527,7 +542,7 @@ else()
  add_executable(object_target_events_audit tests/object_target_events.cpp)
  target_link_libraries(object_target_events_audit PRIVATE dh2_level_world ${CMAKE_DL_LIBS})
  add_executable(character_script_session_targets_audit tests/character_script_session_targets.cpp)
- target_link_libraries(character_script_session_targets_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
+ target_link_libraries(character_script_session_targets_audit PRIVATE dh2_level_world dh2_engine_ui dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
  add_executable(character_timer_effects_audit tests/character_timer_effects.cpp)
  target_link_libraries(character_timer_effects_audit PRIVATE dh2_level_world dh2_game_data dh2_script_runtime ${CMAKE_DL_LIBS})
  add_executable(gameobject_lua_representation_audit tests/gameobject_lua_representation.cpp)

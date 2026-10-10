@@ -1,0 +1,25 @@
+{
+  "status": "test_source_added_pending_build_integration",
+  "test_source": "port/windows-foundation/features/skills_animation/session_native_program_tests.cpp",
+  "scope": "Real CombatSession and original Skill row7/BashDown root347; SessionSkillAnimation's play service forwards directly to CombatSession::play_actor_source_sequence and exercises retained slot reuse, original marker callback boundary, completion, caller metadata copy, same-session loan rejection, unloaded-root rejection, and missing-provider rejection.",
+  "source_inputs": [
+    "original-cache/data/pydata/skills_pyarray.bin",
+    "original-cache/data/pydata/skills_pyarraynames.bin",
+    "original-cache/data/pydata/skills_pystructnames.bin",
+    "original-cache/data/pydata/animations_pyarray.bin",
+    "original-cache/data/pydata/animations_pyarraynames.bin",
+    "original-cache/data/pydata/animations_pystructnames.bin",
+    "original-cache/data/pydata/animations_dictionary_pyarray.bin",
+    ".local-inputs/actors/animations_dictionary_pyarraynames.bin",
+    "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae"
+  ],
+  "native_boundary": "The test supplies explicit callback fixtures around borrowed SkillAI/FSM descriptors. It does not claim an actual registered native VM, FSM transition, complete gameplay cast, mana, target, damage, FX, or live source owner integration.",
+  "build_status": "Not compiled or run by this change; root owns CMake/compiler integration.",
+  "required_link_dependencies": [
+    "features/skills_animation/session_skill_animation.cpp",
+    "features/skills_animation/source_skill_animation.cpp",
+    "../level-world/character_skill_ai_v3.cpp",
+    "../level-world/character_skill_state_v4.cpp",
+    "../game-data/skill_tables.cpp"
+  ]
+}

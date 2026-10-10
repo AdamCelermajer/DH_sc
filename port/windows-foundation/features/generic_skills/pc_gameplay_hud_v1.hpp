@@ -1,0 +1,53 @@
+#pragma once
+
+#include "pc_skill_hud_projection_v1.hpp"
+#include "../frontend/art/original_art.hpp"
+#include "../platform_input/semantic_input.hpp"
+
+#include <array>
+#include <string>
+
+namespace dh::foundation::generic_skills {
+
+// Caller supplies the placement in the frontend's authored 480x320 stage.
+// The circles and key legends are an explicit PC adaptation; the icons remain
+// original SkillIcon artwork. No Android HUD placement is inferred here.
+struct PcGameplayHudCirclePlacementV1 {
+    float center_x{};
+    float center_y{};
+    float radius{};
+    std::array<float, 4> key_label_bounds{}; // xmin,xmax,ymin,ymax, stage pixels
+};
+
+struct PcGameplayHudLayoutV1 {
+    // Physical left/middle/right. The source slot identity is checked against
+    // the projected PC frame, never encoded into the hit result.
+    std::array<PcGameplayHudCirclePlacementV1, 3> skills{};
+    PcGameplayHudCirclePlacementV1 faery{};
+    PcGameplayHudCirclePlacementV1 potion{};
+    float key_label_height = 13.0f;
+};
+
+struct PcGameplayHudPresentationV1 {
+    frontend::art::ScreenArt art;
+    // Stable five-control ordering: PC skills1/2/3, Faery key4, potion key5.
+    std::array<platform_input::Hit, 5> actions{};
+};
+
+// Builds source-icon triangles, explicit PC circle/ring backing, numeric key
+// legends and matching circular pointer geometry. On failure, output is intact.
+bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1&,
+                                unsigned source_class_frame,
+                                const PcGameplayHudLayoutV1&,
+                                PcGameplayHudPresentationV1&,
+                                std::string& error);
+
+// Input is in the same 480x320 authored stage as the packet. Physical hits
+// return PC semantic controls/keys; source slot permutation happens later in
+// pc_skill_number_to_source_slot_v1, exactly once.
+bool pc_gameplay_hud_hit_test_v1(const PcGameplayHudPresentationV1&,
+                                 float stage_x, float stage_y,
+                                 platform_input::Hit&,
+                                 std::string& error);
+
+} // namespace dh::foundation::generic_skills

@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "status": "read_only_audit_missing_full_focus_transition_integration",
+  "scope": "Whole-game generic source Idle/Move/Attack focus and blur ownership; v13 live input path",
+  "source_hashes": {
+    "main": "0e01fea5d26c51d85529d1c18ca703f4b07595ed36959b926e44c895669a1ce7",
+    "session": "53e09b5e0705af1cf379766c8ba1a00faff72ad65a0cbae97e149104ffc08122",
+    "state_bodies": "73d08ae28e2fea576bfc03d5377c5d096be5fc07f1d33ae228227d06495d10c6",
+    "state_owner": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820"
+  },
+  "current_live_findings": [
+    "main sourceHeadingRotation branch enters only Move focus prefix after Session.update when in-house CharacterAction is moving. sourceMoveFocusActive prevents repeated prefix within that branch.",
+    "On other in-house actions main clears source_flags520/source_movement_type rather than running actual outgoing Blur and incoming Focus. Unknown is honest, but Idle and Attack source policy remains unavailable.",
+    "Session live_original_state and facts still derive3/4/5/12 from in-house CharacterAction except explicit lifecycle override. This is a diagnostic state projection, not genuine StateInfo/FSM selection provenance.",
+    "select_player_locomotion directly seeds named authored leaf/repetition. Runtime begin directly begins configured attack program. Their preserved retained clocks are useful animation backends, but those selections do not execute state focus services.",
+    "Session target turning executes original rotation math with diagnostic visual gates1/1 before attack pose advancement; v13 manual Move path uses actual shared flags late. Full focus integration must prevent a second rotation operation per actor/frame.",
+    "Source flags/policy prefix helpers explicitly document unsupported UpdateType, full Stop, body pin/unpin and blur/focus; extending their mask enum does not satisfy those missing effects."
+  ],
+  "source_transition": {
+    "address": "0x3c1938 CharStateMachine::_SetState",
+    "order": [
+      "Capture previous source StateInfo ID and requested next before callback",
+      "Outgoing OnBlur at0x3c1988 even when requested ID equals previous",
+      "Lookup/publish incoming source StateInfo/current-present; reset elapsed only if IDs differ",
+      "Incoming OnFocus at0x3c19f8 using captured previous/event/payload",
+      "Character.RaiseEvent0x1d(previous), source Character RaiseEvent0x3a4d5c; synchronous reentry permitted"
+    ],
+    "source_owner": "port/level-world/character_state_owner.cpp dh2_character_state_owner_transition",
+    "body_composition": "character_state_owner_behavior.cpp dispatches isolated focus_body/blur_body/event_body only; must not call legacy whole transition inside owner or duplicate blur/focus/event1d"
+  },
+  "states": [
+    {
+      "id": 3,
+      "name": "Idle",
+      "focus_address": "0x3c3020",
+      "blur_address": "0x3c2d3c",
+      "focus": [
+        "Read ACTUAL idle_suppressed byte Character+0x538; nonzero returns without flag/animation writes",
+        "flags520=0x2380",
+        "ANIM_Set source Idle table+0x28 with stance mask2"
+      ],
+      "blur": [
+        "Clear Character+0x538 byte"
+      ],
+      "missing_live": "Actual suppression cell and complete animation service not supplied by v13 prefix path"
+    },
+    {
+      "id": 4,
+      "name": "Move",
+      "focus_address": "0x3c3bf8",
+      "blur_address": "0x3c3aa4",
+      "focus": [
+        "flags520=0x23c1; movement_type53c=0",
+        "Call UpdateType0x3c0f18; source player heading-squared threshold hysteresis or nonplayer type0->walk1",
+        "On type change cache original WalkSpeed; ANIM_Set Walk table+0x94 mask0x10 or Run table+0x70 mask0x20; ANIM_SetSpeed afterwards",
+        "Unpin actual existing physical body AFTER animation/speed calls"
+      ],
+      "blur": [
+        "Call COMPLETE GameObject.Stop, preserving visual rotation and refreshing live heading facts",
+        "Pin actual existing body AFTER Stop"
+      ],
+      "missing_live": "Only first mask/type stores run. Full source Stop/PF path cancellation, UpdateType thresholds, ANIM_Set/Speed and pin/unpin are absent from live transition"
+    },
+    {
+      "id": 5,
+      "name": "Attack",
+      "focus_address": "0x3c404c",
+      "blur_address": "0x3c3f74",
+      "focus": [
+        "flags520=0x2341; if original GetAttackDelay nonzero, OR source mask528 bit1",
+        "Player: captured predecessor4 chooses moving Attack table+4; otherwise AttackStatic+8. Nonplayer: choose static unless raw static sequence=-1",
+        "ANIM_Set with correct stance mask0x40 moving or0x80 static",
+        "Existing body unpin for moving or pin for static",
+        "Cache original attack speed52c; ANIM_SetSpeed; CancelSneaking"
+      ],
+      "blur": [
+        "If original delay nonzero, start timer(delay,0,event0x2a,null)",
+        "Pin actual existing body"
+      ],
+      "missing_live": "Configured static/moving diagnostic action selection is not captured-previous-state source focus. Departure cooldown alone does not produce actual mask/timer event/body effects"
+    }
+  ],
+  "required_borrowed_cells": [
+    {
+      "cells": "Canonical source StateInfo/current pointer, current-present, elapsed_ms",
+      "required_owner": "One CharacterStateOwner/NativeFsm source owner tied to existing actor identity. In-house CharacterAction becomes a display/action projection when this path is enabled, never the source transition selector."
+    },
+    {
+      "cells": "flags520, mask528, cached_speed52c, idle_suppressed538, movement_type53c, stopped_attacking442",
+      "required_owner": "SAME source State cells used by focus, predicates, motion policy and live animation event routing. Do not maintain parallel authoritative optional ActorState flag words and StateOwner.State flags."
+    },
+    {
+      "cells": "GameObject heading vector1b8, active byte1b5, target angle178, Euler16c..174, last turn17c",
+      "required_owner": "Existing shared motor/actor/Session turn borrow. Stop refreshes live Facts heading BEFORE subsequent focus; rotation stays unchanged by Stop."
+    },
+    {
+      "cells": "PhysicalObject presence and StateOwnerMachine.physical identity",
+      "required_owner": "Sole existing PlayableActorBodies actual POCharacter/native body. Body changes update both live body-present and machine physical borrow before callbacks return."
+    },
+    {
+      "cells": "Source table sequence IDs/stance/masks, DesignSettings walk/run thresholds, resolved224 properties46/48, AttackDelay",
+      "required_owner": "OriginalAnimationTables/DesignSettings/actual equipped actor property sheets. Named alias choice or Shift key is not a replacement for source UpdateType hysteresis."
+    },
+    {
+      "cells": "Character+441 can_interrupt and+544 interaction, controller/global/forced/network facts",
+      "required_owner": "Explicit actual producer leases; StateOwnerBehaviorPredicate8 requires real fields. Missing source facts remain unsupported."
+    }
+  ],
+  "required_services": [
+    "stop: whole GameObject.Stop, including source navigation/path/physical effects and live heading publication; ActorMovement.stopDesiredHeading is only local stores",
+    "pin/unpin: existing PlayableActorBodies.set_pinned, using actual body presence; never a replacement POCharacter",
+    "set_animation: map ORIGINAL sequence ID to existing complete visual plan and RetainedSequencePlayback, preserving slots/NewAnim/event/root policy",
+    "set_speed: source global actor multiplier from WalkSpeed/AttackSpeed, composed once with selected leaf rate; update both retained timelines",
+    "swap_animation: actual source sequence-stack shape-preserving ANIM_Swap for attack event0x1c, with selected branch retained across callback",
+    "start_timer: live owned timer delivering Character event0x2a and clearing actual mask bit via source route; diagnostic cooldown is not that event producer",
+    "cancel_sneaking: actual existing character/inventory/visual effects provider",
+    "raise_event: actual Character->CharAI/state event route, with synchronous nested state changes and fail-at-prefix behavior; never a logging-only no-op"
+  ],
+  "next_implementable_step": {
+    "title": "Bounded source focus/blur adapter for supported Idle/Move/Attack states against sole actor source owner",
+    "tasks": [
+      "Introduce stable same-actor source owner/borrow/context with proved constructor/initial-level provenance. Route explicit admitted source state events through StateOwner, not CharacterAction-to-flags mapping.",
+      "Bind character_state_owner_behavior to stable mutable Facts/body services/predicate producer context; callbacks refresh live producers before returning. Unsupported state families must use actual remaining provider or fail.",
+      "Implement Stop + existing-body pin/unpin + original sequence ID selection/SetSpeed + owned timer/event route in original callback order. Reuse retained animation and existing PF/body owners.",
+      "Remove duplicate direct locomotion/attack selection on this opted-in path; source ANIM_Set service becomes the selection point. Require complete Run source export when UpdateType selects source Run.",
+      "Split/stage Session early scene/retained pose/root sampling from late admitted command/AI/state/animator selection. Focus/new selection occurs at already sampled wall timestamp, not before advancing a new clip with the full old frame interval.",
+      "After late source focus/UpdatePath, execute the single original rotation and subobject phase using SAME flags/Euler/turn fields. No second turn or retroactive root rotation.",
+      "Reject or serialize new authoritative source owner masks/timers/focus state in save rebind; never reconstruct them by in-house action labels."
+    ],
+    "bounded_acceptance": [
+      "Exact Idle->Move trace: Idle blur suppression clear, Move flag/type, UpdateType animation/speed, body unpin, event1d(previous3)",
+      "Exact Move->Attack trace: Stop and body pin before Attack writes; moving Attack chosen from captured prior4; then unpin/speed/cancel/event1d",
+      "Attack->Idle trace: original timer2a+pin before Idle flags/ANIM_Set; mask clears only on actual timer event, not Idle transition",
+      "Same-state Move transition proves Stop updates live heading before UpdateType; same-state Idle suppression semantics preserved",
+      "Nested event1d->completion22 reentry yields final Idle once without duplicate outer state effects",
+      "Source body pin status, selected original sequence/rates, live flags and retained wall timestamp trace checked on actual assets for player and NPC"
+    ]
+  },
+  "limitations": [
+    "Read-only audit; no runtime/source edits or new execution validation performed.",
+    "Recovered source body/StateOwner composition has existing original differential/sanitizer evidence; v13 live adapter does not execute that whole focus pipeline.",
+    "Actor lifecycle0/1/17 wrapper is currently a separate bounded effect owner. Calling its whole transition from a StateOwner focus callback would duplicate blur/focus/event1d; integrate isolated lifecycle focus/blur bodies or retain an explicit unsupported boundary.",
+    "Body service callback ABI is synchronous void; a new host adapter must explicitly stop/fail on unavailable effects rather than record an error and accept following effects.",
+    "Current infinite type2 Idle pins an explicit caller-chosen leaf; source per-cycle RNG reselection remains separate."
+  ],
+  "references": [
+    "port/level-world/reference/character-state/NOTES.md",
+    "port/level-world/reference/character-state/original-functions.json",
+    "port/level-world/reference/character-state/reference/original-functions.asm",
+    "port/level-world/reference/character-state-owner-behavior/NOTES.md",
+    "port/level-world/character_state_owner_data.inc",
+    "port/level-world/reference/actor-rotation/NOTES.md",
+    "port/windows-foundation/reports/source-motion-flags.json"
+  ]
+}

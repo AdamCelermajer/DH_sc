@@ -1,0 +1,43 @@
+# B003: Knight BashDown Post → Space regression (v1)
+
+## Status
+
+Investigation and isolated Session test complete; no runtime patch made. The reported stuck-state behavior is **not reproduced** in the tested Knight BashDown coordinator/Session path when an in-range living target exists. The same test exposes a distinct targetless-attack parity difference, which is not enough to explain the report. Normal executable/controller-caller verification remains open; B003 is not closed.
+
+## Original behavior evidence
+
+**Visual sequence.** Reused the supplied `Dungeon Hunter 2 (v1.0.3) Part 1` reference and the decoded sequence documented in `docs/TARGETING-SKILL-REFERENCE-2026-10-06.md`: 4:41.995, 4:43.278, 4:44.995, and 4:46.328 (local stills under `.local-inputs/referenceframes/dh2-act1/target-combo-v1/`). Across those stills, the Warrior is near a Bogwomp; later frames show a red target ring, a visible hit/miss reaction, changed combat poses, and a bright strike streak. This supports visual continuity of targeting/combat, but still frames do not prove Space input, key-release behavior, exact skill identity, or a continuous state transition. The footage is v1.0.3; the recovered cache is v1.0.2, so version differences remain possible.
+
+**Skill source.** The recovered cast lifecycle in `port/level-world/reference/character-skill-state-v4/cast-lifecycle-v46.md` identifies Knight BashDown's Pre as Enemy/AttackableOnly, FrontalFirst, range 160; Use attacks the captured Lua-local target once; Post unconditionally invokes ClearTarget. The Lua-local target is distinct from the CharAI target. In native code, `runtime_skill_cast_coordinator_v1.cpp` retires the matching occurrence before running Post, and its retained completion applies BashDown's ClearTarget to the same Session actor. `combat_session.cpp:567-579` clears the source sequence before invoking its retained `finished` callback.
+
+**Attack caller and gates.** The recovered caller audit `port/level-world/reference/prince-live-attack/NOTES.md` identifies `v2Controller::Cmd_Attack` at `0x405b04` and its forced/global-block/locked gates; the ordinary call reaches `Character::Ctrl_Attack` at `0x3ad87c`, then `CharAI::AI_DoMeleeAttack` at `0x3d01ac`. That routine returns for a dead owner or owner+`0x528` bit0, and redirects ranged-capable actors to `AI_DoRangeAttack` at `0x3d076c`. Otherwise it updates continued-attack state, searches/assigns a target when needed, and may use the owner's OOI fallback. For mode=false, a non-null target must pass current-target melee range; a null target proceeds to `SM_SetAttackState` at `0x3c6488`, whose ordinary path raises C354 at `0x3c5684`. The audit explicitly retains target search, range, FSM and controller service boundaries; it is not full native/live parity.
+
+The tested Session call is narrower than that recovered controller. `CombatSession::update` at `combat_session.cpp:1394` calls `command_request`; absent a configured `controllerAdmissionProvider`, `command_request` uses `diagnostic_attack_body` (`:842-859`), which uses target-required `request` (`:832-840`). Main's keyboard/semantic input translation reaches `CombatSession::update`, but the isolated test does not execute original `Cmd_Attack` gates or prove the production provider configuration. The source targetless behavior therefore sets a parity question for the Session diagnostic path; it does not by itself establish the cause of B003.
+
+## Expected behavior and focused verification
+
+For BashDown with a living in-range target, Post must retire the skill occurrence, apply authored ClearTarget, and restore neutral action. A released/neutral frame followed by a new PC Space press should acquire an eligible in-range target and enter the normal attack sequence; key release should let that sequence finish. Space held during the managed skill must not replace its owned source sequence. When there is no valid target, source `AI_DoMeleeAttack` may still enter its attack state after the documented gates; this separate branch is checked without assuming damage occurs.
+
+Before testing, the focused observable check was defined as a real Knight BashDown row7 Use/Post through `RuntimeSkillCastCoordinatorV1` and the same `CombatSession`: hold Space through the skill, observe Post/action/target retirement, send neutral release, press Space against a living target, observe target/action/range, release and observe completion. Then wait beyond the basic-attack cooldown, remove all candidate targets, and check the source-backed targetless branch.
+
+## Implementation and isolated results
+
+No production source was changed. `port/windows-foundation/features/generic_skills/run_post_skill_attack_regression_v1.ps1` generates a private copy of `runtime_skill_activation_session_v1_tests.cpp`, injects the focused branch, copies link archives into a per-process private `.local-inputs/post-skill-attack-regression-v1/build-*` directory, and compiles directly against current source including the real coordinator and `combat_session.cpp`. It hash-checks that the canonical test source was not modified. The test uses in-memory Session actors and a diagnostic attack admission path; it is not an EXE or visual runtime test.
+
+Focused output:
+
+```text
+PASS PC visual mapping regression: key1 rejects empty source2; key2 selects middle-circle source0 JumpKick row0/root521.
+PASS B003 Knight BashDown held-through-skill, released/neutral, then Space: target=2 action=Attack
+PASS B003 Knight BashDown coordinator/Post, Space reacquisition, and released attack completion
+```
+
+The default B003 runner is now a clean PASS. It proves the living-target path, including held input during Skill6, same-coordinator Post, neutral release, fresh Space reacquisition, attack admission, and return to Idle after release. Targetless source parity is an optional, separate diagnostic (`-RunTargetlessDiagnostic`) and does not fail B003 acceptance. That diagnostic fails in current `CombatSession`: it stays Idle, unlike recovered `AI_DoMeleeAttack` null-target path after its earlier gates. This is reported as a separate source-parity observation, not claimed as the original user repro. Canonical source test SHA256 remained `5F3EA50C2F07A7F3AFC3442D1C552FD699C6981DB8F15FEC1AE953154E6FB4EA`; runner SHA256 is now `E725A321439872E5DEE11D9B83225A99D2D6BCDF7086EBB3A017E1770E40BEBF`.
+
+The B003-only rerun exited 0 and compiled to private executable SHA256 `35C125591C5C3AE1E13A944FE1AE5067DDAB3CD221F7FB4C8AEA0D13043146F5`. The optional targetless diagnostic was separately run and failed only at its expected targetless assertion (private executable SHA256 `1B4744341667DCA4E82F059D83768A398003C649501BEFD3B7E4661993184979`). An independent reviewer confirmed the code/source claims and reran the final default runner successfully via PowerShell call-operator invocation (private executable SHA256 `01B6205A65484D23BC8D55B2E4F2958AE508C568D6ACF58B41B9D3F45C15D473`; runner and canonical-source hashes match those above). Their `powershell -File` child invocation still reports a stale-anchor exception, which I could not reproduce in the shared checkout: the searched coordinator anchor is present at line 1240 and call-operator invocations compile successfully. Build directories are process-specific to avoid concurrent-run output collisions.
+
+## Remaining gaps / handoff
+
+The actual reported failure still needs reproduction on the normal host path with a fresh isolated save/window, mapped physical Space, and the source-correct Knight BashDown slot/skill. Check the real input edge/held/release sequence, controller-admission provider, current/preferred/selected targets, and action/sequence ownership independently. Do not infer a permanent stale skill lock from this test: the tested Session clears the BashDown sequence and successfully attacks a live target afterward.
+
+Root owns `combat_session.cpp`; integration lead owns main/build and normal executable testing. Root should decide whether to change the target-required diagnostic Session path or keep this regression as a non-B003 parity gap. Lead still needs a frozen normal-executable test with visuals/state capture for the user's actual reproduction. No user save or live game window was used or changed.

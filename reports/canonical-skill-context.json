@@ -1,0 +1,39 @@
+{
+  "status": "native_context_loan_compiled",
+  "date": "2026-10-09",
+  "scope": {
+    "files": [
+      "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.hpp",
+      "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.cpp"
+    ],
+    "exports": [
+      "model_renderer::borrow_source_campaign_character_skill_context_v1(shared_ptr<CanonicalCharacterCandidateRecordV60>, out, error)",
+      "model_renderer::borrow_source_campaign_character_skill_context_v1(world, canonical_character_id, out, error)"
+    ],
+    "identity_mapping": "The record-based overload is the portable entry point. The host remains responsible for mapping its actor ID to the canonical record; native code does not equate those identities."
+  },
+  "source_identity": {
+    "record_field": "CanonicalCharacterCandidateRecordV60::fsm_context_v101",
+    "actor_identity": "RetainedCharacterActorV1::object->identity",
+    "machine_identity": "RetainedCharacterActorV1::machine->native_fsm().character",
+    "skill_state": "The existing CampaignFsmV101::skill_ projection used by source skill dispatch",
+    "skill_ai_context": "A refreshed view over the same actual SkillAIOwnerV3, SkillOwner State40, and SkillAIStateV3 fields"
+  },
+  "loan": {
+    "strong_pins": ["CanonicalCharacterCandidateRecordV60", "stored CampaignFsmV101"],
+    "typed_fields": ["character", "NativeFsm24", "CharacterScriptSession (V1) or CharacterScriptSessionV3 (V3)", "session-owned PropertyView", "same-record SkillTables::Borrow", "CharacterSkillOwner (V1) or CharacterSkillOwnerV6 (V3)", "SkillAIContextV3", "SkillStateV4", "SkillAIServices16V3", "SkillStateServices16V4"],
+    "same_owner_checks": ["stored FSM belongs to supplied record", "machine and actor identities match", "exactly one V1/V3 session and instance owner is present", "Session timer/property aliases match the same Character and PropertyState", "SkillOwner State40 owner matches", "source SkillAI fields belong to that owner", "skill table Borrow is present"],
+    "lifetime": "Callbacks are synchronous. Reacquire after actor, FSM, session, or skill-owner replacement. Service callbacks reject a replaced FSM and revalidate same-character field identity.",
+    "readiness": "No readiness is created or asserted. NPC borrowing requires the constructor-produced AI field record. Missing actual owners fail with a required-provider error."
+  },
+  "validation": {
+    "command": "cmake --build port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a --target dh2_native -j 4",
+    "result": "PASS: ARM64 Android native target linked after the record-based overload and session/property/table fields were added (59 build steps).",
+    "warnings": "Unrelated existing warnings in engine-ui sources; the changed FSM translation unit compiled without diagnostics.",
+    "constructed_context_identity_test": "Not run: available native constructor evidence stops before a completed InitPost/initialized skill session; no genuine initialized-context fixture was available. No synthetic SkillAIContextV3 or SkillStateV4 was used as evidence."
+  },
+  "integration_boundary": {
+    "required_consumers": ["NativeSkillLuaServicesV1", "NativeSkillLuaServices"],
+    "device_acceptance": "Not established. Source InitPost remains device-blocked; this report does not claim a ready player/NPC skill session."
+  }
+}

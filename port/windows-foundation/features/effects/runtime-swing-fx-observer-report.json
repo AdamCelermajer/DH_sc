@@ -1,0 +1,330 @@
+{
+  "feature": "RuntimeSwingFxObserverV1",
+  "validation": "PASS",
+  "runner": "port/windows-foundation/features/effects/runtime_effects_factory_native_tests.py",
+  "adapter_header": "port/windows-foundation/features/effects/runtime_swing_fx_observer_v1.hpp",
+  "adapter_source": "port/windows-foundation/features/effects/runtime_swing_fx_observer_v1.cpp",
+  "actual_session_step": {
+    "actor": 65537,
+    "sequence": 470,
+    "step": 1,
+    "occurrence": 1,
+    "source_set_id": 253,
+    "source_set_name": "swoosh_prince_1hand_combo_01",
+    "source_set_type": 0,
+    "fresh_manager": true,
+    "step_created_source_instance": true,
+    "same_session": true,
+    "duplicate_suppressed": true
+  },
+  "source_packet_diagnostic": {
+    "vertex_count": 38,
+    "world_aabb_min": [
+      -126.24099,
+      -389.54501,
+      7.1791101
+    ],
+    "world_aabb_max": [
+      294.302,
+      126.267,
+      472.76099
+    ],
+    "world_aabb_extent": [
+      420.54299,
+      515.81201,
+      465.58188
+    ],
+    "vertex_color_min": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "vertex_color_max": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "transformed_normal_abs_dot_view_z_range": [
+      0.41529307,
+      0.84157881
+    ],
+    "mean_transformed_normal_abs_dot_view_z": 0.60472873,
+    "material": {
+      "color": [
+        0.58431375,
+        0.58431375,
+        0.58431375,
+        1
+      ],
+      "texture_id": 101,
+      "transparent": true,
+      "additive": true,
+      "alpha_reference": 0,
+      "source_pass": {
+        "blend": true,
+        "blend_source": 1,
+        "blend_destination": 1,
+        "depth_test": true,
+        "depth_write": false,
+        "cull": false,
+        "cull_face": 1029,
+        "front_face": 2305,
+        "alpha_test": false
+      }
+    },
+    "authored_uv_matrix": {
+      "base_bres_scene_material_2d": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "animated_matrix_used_for_bake_2d": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "matrix_order": "AuthoredFxMeshGraphV32 sample replaces per-material matrix from source TextureTransform20V1 track; draw_sources applies current matrix to source UV exactly once"
+    },
+    "decoded_texture_alpha_range": [
+      0,
+      255
+    ],
+    "projected_triangle_diagnostics": {
+      "camera": "WGL bounds-derived camera: 640x480, vertical FOV 60deg, eye +Z at 2.8x packet extent",
+      "uv_source": "actual packet UVs after source texture matrix bake; no second matrix application",
+      "triangle_count": 36,
+      "degenerate_world_triangles": 0,
+      "degenerate_projected_triangles": 0,
+      "sum_projected_triangle_area_pixels": 7522.5206,
+      "covered_pixel_centers_with_overdraw": 7534,
+      "unique_sampled_texture_texels": 1216,
+      "black_bilinear_rgb_samples": 7524,
+      "bilinear_rgb_channel_min": 0,
+      "bilinear_rgb_channel_max": 2.5921325,
+      "texture_dimensions": [
+        512,
+        512
+      ]
+    },
+    "source_timeline_phases": {
+      "initial": {
+        "current_ms": 0,
+        "start_ms": 0,
+        "end_ms": 333,
+        "visible": true,
+        "packet_count": 1,
+        "uv_samples": 74,
+        "nonblack_uv_samples": 0,
+        "max_texture_channel": 0,
+        "max_modulated_channel": 0,
+        "material_color": [
+          0.58431375,
+          0.58431375,
+          0.58431375,
+          1
+        ],
+        "uv_min": [
+          0.71113598,
+          0.015435
+        ],
+        "uv_max": [
+          0.99141097,
+          0.98738903
+        ]
+      },
+      "view_found": true,
+      "sampled_later_phases": [
+        {
+          "absolute_ms": 83,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 167,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 250,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 316,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.711136,
+            0.015435
+          ],
+          "uv_max": [
+            1.991411,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "source_facts": {
+    "step_swoosh": true,
+    "step_anchor_fx": true,
+    "animation_step_fx": 253,
+    "main_item_words_5_6": [
+      -1,
+      -1
+    ],
+    "source_set": "swoosh_prince_1hand_combo_01",
+    "effects_table_type": 0
+  },
+  "deduplication": "Same binding lease + stable ActorId + original step occurrence; exact replay suppressed.",
+  "packet_boundary": {
+    "fresh_manager_step_specific_packet_and_lease": true,
+    "step_set_specific_packet_delta_verified": true,
+    "live_gl_or_wgl": false
+  },
+  "composition_api": "RuntimeSessionAudioV1::add_step_entry_presentation_observer(step_entry_observer(), error); audio runs first."
+}

@@ -48,7 +48,7 @@ struct PlayerEquipmentRenderOwnerV1::Impl {
    case O::skin:return s.skin(e);
    case O::validate_hp_mp:return s.gear->validate_hp_mp(e);
    case O::debug_load:case O::debug_query:return s.debug(q.operation==O::debug_load,q.name,out.value,e);
-   case O::current_player:{std::uintptr_t id;std::int32_t value;if(!s.query(q.argument?EquipmentWorldQueryV1::current_difficulty:EquipmentWorldQueryV1::current_player,id,value,e))return false;out.identity=id;out.value=value;return true;}
+   case O::current_level:{std::uintptr_t id;std::int32_t value;if(!s.query(q.argument?EquipmentWorldQueryV1::current_level_difficulty:EquipmentWorldQueryV1::current_level,id,value,e))return false;out.identity=id;out.value=value;return true;}
    case O::player_count:return s.query(EquipmentWorldQueryV1::player_count,out.identity,out.value,e);
    default:if(s.input.required.invoke)return s.input.required.invoke(s.input.required.context,inventory,q,out,e);e="Required equipment continuation unavailable at source "+std::to_string(q.source_caller);return false;
   }
@@ -64,7 +64,7 @@ struct PlayerEquipmentRenderOwnerV1::Impl {
   switch(q.operation){
    case O::debug_load:case O::debug_query:return s.debug(q.operation==O::debug_load,q.name,out.value,e);
    case O::update_name:case O::update_stats:case O::update_requirements:{if(!q.item){e="Drop text requires actual transferred item";return false;}auto t=s.item_text->services();if(q.operation==O::update_name)return item_update_name_v5(*q.item,t,e);if(q.operation==O::update_stats)return item_update_stats_v5(*q.item,t,e);return item_update_requirements_v5(*q.item,t,e);}
-   case O::current_player:return s.query(q.argument?EquipmentWorldQueryV1::current_difficulty:EquipmentWorldQueryV1::current_player,out.identity,out.value,e);
+   case O::current_level:return s.query(q.argument?EquipmentWorldQueryV1::current_level_difficulty:EquipmentWorldQueryV1::current_level,out.identity,out.value,e);
    case O::player_count:return s.query(EquipmentWorldQueryV1::player_count,out.identity,out.value,e);
    default:if(s.input.required.invoke)return s.input.required.invoke(s.input.required.context,inventory,q,out,e);
     e="Required NULL-character drop inventory continuation "+std::to_string(q.source_caller);return false;
@@ -178,6 +178,9 @@ bool PlayerEquipmentRenderOwnerV1::load_saved_section_v59(Bytes bytes,InventoryL
  return s.inventory->load_saved_section_v50(bytes,s.power_source_v88().names(),s.effects(),receipt,e)&&receipt.completed;
 }
 bool PlayerEquipmentRenderOwnerV1::ready()const noexcept{return impl_->ready;}
+const ui::ItemTextOwnerV5* PlayerEquipmentRenderOwnerV1::item_text_owner_v1()const noexcept{
+ return impl_->prepared_v60?impl_->item_text.get():nullptr;
+}
 bool PlayerEquipmentRenderOwnerV1::load_source_inventory_v122(Bytes bytes,InventoryLoadReceiptV1& receipt,std::string& e){
  auto& s=*impl_;receipt={};
  if(!s.ready||s.running||!s.inventory||!s.gear||!s.visual){e="Required nonreentrant SAME live Gear for source inventory load";return false;}

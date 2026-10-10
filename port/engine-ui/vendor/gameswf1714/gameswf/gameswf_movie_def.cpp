@@ -387,8 +387,19 @@ namespace gameswf
 	// kept in this object.
 	{
 		tu_string	n = name;
-		assert(m_named_frames.get(n, NULL) == false);	// frame should not already have a name (?)
-		m_named_frames.add(n, get_loading_frame());	// stores 0-based frame #
+		int currently_assigned = 0;
+		if (m_named_frames.get(n, &currently_assigned) == true)
+		{
+			log_error("add_frame_name(%d, '%s') -- frame name already assigned to frame %d; overriding\n",
+				get_loading_frame(),
+				name,
+				currently_assigned);
+			m_named_frames.set(n, get_loading_frame());	// stores 0-based frame #
+		}
+		else
+		{
+			m_named_frames.add(n, get_loading_frame());	// stores 0-based frame #
+		}
 	}
 
 	void	movie_def_impl::set_jpeg_loader(jpeg::input* j_in)

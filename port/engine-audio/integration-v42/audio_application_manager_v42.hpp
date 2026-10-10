@@ -39,6 +39,11 @@ public:
   ,Factory fixture_factory=nullptr,void* fixture_context=nullptr
 #endif
  );
+ // Explicit production platform control. The exact factory context is pinned
+ // by AudioNativeSessionV42 until output closure, worker join, and final drain.
+ static std::shared_ptr<AudioApplicationManagerV42> create(AudioGameplaySourcesV40,
+  std::shared_ptr<void> actual_provider_lease,bool actual_disabled,std::string&,
+  AudioSessionControlFactoryV42);
  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
  bool disabled()const noexcept{return disabled_;}
  bool source_producer_ready_v94(std::string&)const;

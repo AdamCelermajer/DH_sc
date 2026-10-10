@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-09",
+  "status": "native_adapter_session_boundary_tested_full_skill_gameplay_incomplete",
+  "goal_complete": false,
+  "release": "development_after_v18_not_packaged",
+  "implementation": [
+    "port/windows-foundation/combat_session.hpp",
+    "port/windows-foundation/combat_session.cpp",
+    "port/windows-foundation/features/skills_animation/session_skill_animation.cpp"
+  ],
+  "verified": [
+    "Original SkillTable Knight position0 resolves row7 BashDown and AnimTable root347 Knight_BashDown.",
+    "Actual SessionSkillAnimation CSSkill animation selection calls CombatSession::play_actor_source_sequence.",
+    "Same retained pose/slot storage executes the original do_skill marker and whole completion.",
+    "Absent loaded roots and missing play provider reject.",
+    "Session actor binding lease expires on detach/replacement and renews only after successful restore rebind.",
+    "Skill adapter compares current registry pointers before dereferencing borrowed actor storage.",
+    "Detached and rebound sessions reject the old native skill adapter, even when actor addresses are unchanged."
+  ],
+  "verification": {
+    "ctest_passed": 77,
+    "ctest_failed": 0,
+    "log": ".local-inputs/session-skill-binding-ctest.log",
+    "test": "port/windows-foundation/features/skills_animation/session_native_program_tests.cpp"
+  },
+  "limitations": [
+    "FSM/AI callbacks and native skill fields are explicit boundary fixtures; no genuine initialized SkillAI/FSM/Lua gameplay claim.",
+    "Fixture property sheets are independent test inputs, not completed canonical player publication.",
+    "Actual skill admission, mana, targets, damage, cooldowns, effects/audio and hotbar still need native source providers.",
+    "V18 package remains the accepted release; this development change is not a v19 release."
+  ]
+}

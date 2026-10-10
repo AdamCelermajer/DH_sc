@@ -1,0 +1,25 @@
+{
+  "feature": "runtime_skill_mana_v1",
+  "status": "source-table CalcManaCost projection implemented; full cast action still requires native same-owner admission/target/effect services",
+  "source_evidence": {
+    "skills_commons": "CalcManaCost delegates to SetTempProps(CLASS_ID, rank), then GetProp(SnS_ManaCost, true). SetTempProps resets the source temp sheet, writes ToFixed(rank) to SnS_Level and applies the authored class row.",
+    "property_ids": {
+      "MP": 41,
+      "Max_MP": 43,
+      "SnS_Level": 172,
+      "SnS_ManaCost": 173
+    },
+    "to_fixed": "Original ToFixed does signed float-to-int conversion followed by a wrapping 32-bit left shift by 8.",
+    "class_token": "Skill_Warrior_BashDown is read from the authored BashDown script CLASS_ID declaration and resolved in the actual ClassTables name array."
+  },
+  "implementation": {
+    "api": "dh::foundation::generic_skills::evaluate_skill_mana_cost_v1(ClassTables, PropertyRules, same-actor resolved PropertySheet, authored CLASS_ID token, saved rank)",
+    "behavior": "Builds a source-default scratch sheet, applies the exact fixed rank and real class formula row with the same resolved player sheet as buff input, then returns raw property173.",
+    "mutation": "No mutation to CharacterState or the borrowed resolved property sheet.",
+    "not_implemented": "HasMana/UseMana bypass policies and same-owner MP debit; target selection/LookAt; cooldown for scripts that define one; skill FSM; SkillCombatRoll/application and other script effects."
+  },
+  "verification": {
+    "command": "port/windows-foundation/features/generic_skills/run_runtime_skill_mana_v1_tests.ps1",
+    "result": "PASS actual original CharacterTable/ClassTables at BashDown ranks 0, 1, 2, 7, 65535; formula output matches independent source-table projection; current property sheet unchanged; unknown class and rank 65536 rejected."
+  }
+}

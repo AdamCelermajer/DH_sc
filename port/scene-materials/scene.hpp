@@ -17,6 +17,13 @@ struct Material {
     float alpha_ref=0;
     bool additive=false, backface=false;
 };
+// A COLLADA instance_material is keyed by the geometry's primitive symbol,
+// then points at a material record whose ID can be different from that symbol.
+struct InstanceMaterialBindingV1 {
+    std::string symbol;
+    Material target;
+};
+struct InstanceMaterialSymbolV1 {std::string symbol;};
 // Actual per-node/per-mesh source storage. A retained child can own these
 // cells independently; scene vectors are views over the SAME live cells.
 struct VisibilityV91 {std::uint8_t local120{1},parent121{1};};
@@ -28,17 +35,17 @@ struct MeshFieldsV91 {
 };
 struct InstanceStorageV91 {
  std::string node;std::uint32_t node_index{},geometry{};
- std::array<float,16> world{};std::vector<std::uint32_t> materials;std::int32_t controller{-1};
+ std::array<float,16> world{};std::vector<std::uint32_t> materials;std::vector<InstanceMaterialSymbolV1> material_symbols_v1;std::int32_t controller{-1};
  MeshFieldsV91 mesh_fields;std::uint8_t detached{};
  std::string native_name24;std::uintptr_t parentec{}; // Actual IMeshSceneNode C1-empty name and parent.
 };
 struct Instance {
 private:std::shared_ptr<InstanceStorageV91> storage_;
  explicit Instance(std::shared_ptr<InstanceStorageV91> p):storage_(std::move(p)),node(storage_->node),node_index(storage_->node_index),
-  geometry(storage_->geometry),world(storage_->world),materials(storage_->materials),controller(storage_->controller){}
+  geometry(storage_->geometry),world(storage_->world),materials(storage_->materials),material_symbols_v1(storage_->material_symbols_v1),controller(storage_->controller){}
 public:
  std::string& node;std::uint32_t& node_index;std::uint32_t& geometry;
- std::array<float,16>& world;std::vector<std::uint32_t>& materials;std::int32_t& controller;
+ std::array<float,16>& world;std::vector<std::uint32_t>& materials;std::vector<InstanceMaterialSymbolV1>& material_symbols_v1;std::int32_t& controller;
  Instance():Instance(std::make_shared<InstanceStorageV91>()){}
  Instance(std::string name,std::uint32_t index,std::uint32_t mesh,std::array<float,16> matrix,
   std::vector<std::uint32_t> slots,std::int32_t skin=-1):Instance(){node=std::move(name);node_index=index;geometry=mesh;world=matrix;materials=std::move(slots);controller=skin;}
@@ -100,10 +107,29 @@ using MeshFieldsViewV91=SourceFieldViewV91<Instance,MeshFieldsV91,&InstanceStora
 using MeshDetachViewV91=SourceFieldViewV91<Instance,std::uint8_t,&InstanceStorageV91::detached>;
 
 struct Scene {
-    struct LightInstanceV113 {std::uint32_t node_index{},light{};};
+    // Parsed COLLADA camera instances. These preserve the authored camera
+    // record attached to a node; they do not register a native SceneManager camera.
+    struct CameraInstanceV1 {
+        std::uint32_t node_index{},camera{},kind{};
+        std::string id,target_uri;
+        float horizontal_fov_or_mag{},aspect{},znear{},zfar{};
+    };
+    // Parsed COLLADA SLight data attached to a node. `color` follows the
+    // source importer's authored-byte * (float intensity / 255) calculation.
+    // `parameters` holds three attenuation values for point lights and those
+    // values plus cutoff/exponent for spot lights.
+    struct LightInstanceV113 {
+        std::uint32_t node_index{},light{},type{};
+        std::string id;
+        std::array<std::uint8_t,4> authored_color{};
+        float intensity{},color[4]{};
+        std::array<float,5> parameters{};
+        std::uint8_t parameter_count{};
+    };
     std::vector<Material> materials;
     std::vector<Instance> instances;
-    std::vector<LightInstanceV113> lights_v113; //same authored instance-light tag4 and node graph
+    std::vector<CameraInstanceV1> cameras_v1;
+    std::vector<LightInstanceV113> lights_v113;
     std::vector<Node> graph;
     unsigned nodes=0, ignored_instances=0;
 };

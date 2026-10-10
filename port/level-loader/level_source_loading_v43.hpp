@@ -22,6 +22,9 @@ struct SourceLoadingInputsV43 {
  // Source spelling and the resolved resource identity stay distinct.
  std::function<bool(const std::string&,std::string&,std::string&)> resolve_filename;
  world::ModuleXmlServicesV1 module_xml;
+ // Original Stage10 GetInstance/GetSwitch(isTracingLevel_Loading), once
+ // before its map1c counter snapshot and resumable InitPost body.
+ std::function<bool(std::string&)> stage10_trace;
  CanonicalInitPostServicesV38<world::CanonicalObjectManagerV1> object_services;
  // Real remaining stage bodies, progress and teardown. Leave7/10 and after7 empty.
  LifecycleServicesV36 external;

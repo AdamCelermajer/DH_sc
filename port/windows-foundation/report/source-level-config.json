@@ -1,0 +1,114 @@
+{
+  "status": "actual-cache-LevelConfig-construction-properties-InitPost-native-pass",
+  "modules": [
+    "source_level_config.hpp",
+    "source_level_config.cpp"
+  ],
+  "test": "tests/source_level_config_tests.cpp",
+  "provider_route": "Source factory LevelConfig340ca8 -> recovered CanonicalLevelConfigV1 -> SAME CanonicalPropertyMapV1 InitProperties/SetTemplate(if present)/defaults/actual XML overrides -> original early InitPost -> concrete shared current config field",
+  "owned_current_field": "SourceLevelConfigSlot.config holds the SAME constructed receiver; source factory publication identity is checked. This is an in-house field writer, not certification of all original Level.SetLevelConfig music/UI/global side effects.",
+  "runtime_debug": "source_level_config_debug_switch retains supplied actual Debug owner and file provider, uses recovered load/query and optional original existing-file stream parser. No hardcoded switch answers.",
+  "network_leaf": {
+    "positive": "Nonzero requires a distinct whole online provider; helper refuses it",
+    "offline": "Byte0 reaches343274 and returns without writes",
+    "test_boundary": "Explicit offline runtime byte supplied as test boundary, not an unconditional successful callback",
+    "source": "ObjectManager.AssignObjectNetworkId3431c0 first queries actual Online.byte5",
+    "owner": "Actual application lease and byte pointer required; missing provider cannot masquerade as offline"
+  },
+  "standalone_helper": {
+    "excludes": "No preceding/following unrelated declarations, Module construction, full source traversal, runtime room IDs, or full Level.SetLevelConfig effects claimed",
+    "identity": "Published current receiver must match SAME manager actual factory handle identity",
+    "api": "load_original_level_config(assets, levelURI, SourceLevelConfigProviders, SAME manager, SourceLevelSettings, error)",
+    "failure": "Missing/reached callbacks remain exact source failures; no no-op class construction",
+    "scope": "Select single unambiguous LevelConfig direct child in original Level root and execute actual canonical factory registration/property/InitPost",
+    "providers": "Actual property sources, Debug/files, Level lease and current field stay explicit",
+    "duplicates": "Bounded helper rejects ambiguous multiple declarations; this is extraction scope, not a claim original full loader rejects them"
+  },
+  "actual_cache": {
+    "attempts": 2,
+    "settings": {
+      "clear_color_raw": [
+        0,
+        0,
+        0
+      ],
+      "fog_end": 5800,
+      "fog_color_raw": [
+        1,
+        14,
+        0
+      ],
+      "far": 4200,
+      "ambient_source_conversion": "Authored0.5/255 from original InitPost",
+      "camera_file": "data/3D/camera/CameraTests.bdae",
+      "near": 900,
+      "camera_name": "PlayerCamera_Default",
+      "camera_animation_set": "Default",
+      "fog_start": 4000,
+      "fog_direction_mask": [
+        0,
+        0,
+        1
+      ]
+    },
+    "full_unfiltered_prefix": "First LevelConfig completed; next actual Module fails because its real constructor provider is absent",
+    "next_error": "Level::_LoadFromXML service: Required actual next source constructor: Module",
+    "uri": "port/windows-foundation/assets/original-cache/data/scene/001_swamp.mlx",
+    "debug_query_count": 4,
+    "module_counter_remains": 0
+  },
+  "projection_audit": {
+    "source": "GameplayCameraRuntimeV11.Load sets float near/far from selected LevelConfig fields294/298 and overrides authored BDAE clip planes",
+    "current_main": "Root verified main already overwrites active camera near/far from OriginalGameplayCamera.config(); generic .5/100000 belongs to fallback/free camera",
+    "conclusion": "No live clip-plane rendering bug or fix claimed",
+    "parity": "Native actual-cache canonical LevelConfig settings matched existing OriginalGameplayCamera file/node/animation-set/near/far exactly",
+    "units": "Direct original asset world units; no distance/radius normalization",
+    "source_evidence": [
+      "port/level-world/gameplay_camera_runtime_v11.cpp",
+      "port/android-native/app/src/main/cpp/source_campaign_camera_v67.inc",
+      "port/level-world/selected_world_camera_config_v20.cpp"
+    ]
+  },
+  "verification": {
+    "source_compile": "C++17 -Wall -Wextra -Wpedantic, zero warnings",
+    "executable": ".local-inputs/windows-camera-assets/source-level-config-tests.exe",
+    "boundary_fixtures": "Already-created Level lease, parser/release callbacks and explicit offline mode are test boundaries; class/property/Debug algorithms and actual cache bytes execute source-backed implementations",
+    "native": "PASS",
+    "tests": [
+      "Actual original full root passes LevelConfig then fails next Module",
+      "Canonical descriptor/default/override/InitPost source fields",
+      "Concrete shared current receiver publication",
+      "Four actual runtime Debug queries",
+      "Bounded standalone settings helper succeeds on same original cache",
+      "Existing OriginalGameplayCamera config parity",
+      "Missing Debug fails at InitPost after overrides",
+      "Module counter remains untouched",
+      "Online-positive and missing actual application owner rejected"
+    ]
+  },
+  "additional_dependencies_beyond_source_level_construction": [
+    "../level-world/canonical_property_map_v1.cpp",
+    "../level-world/canonical_level_config_module_v1.cpp",
+    "../level-world/canonical_gameobject_base_owner_v1.cpp",
+    "../level-world/game_object_initialization_owner_v1.cpp",
+    "../level-world/navigation_objects.cpp",
+    "../level-world/navigation_motion.cpp",
+    "../level-world/navigation_world.cpp",
+    "../level-world/selector.cpp",
+    "../level-world/navigation_search.cpp",
+    "../level-world/octree.cpp",
+    "../level-world/collision.cpp",
+    "../level-world/character_design_services.cpp",
+    "existing asset_catalog/content_paths/content libraries"
+  ],
+  "source_boundaries": [
+    "Recovered CanonicalLevelConfig includes an explicitly documented safety correction for original indeterminate87; reused unchanged",
+    "CanonicalPropertyMap _templateName cloning compatibility correction is reused unchanged when reached",
+    "Nonempty template invokes existing original LoadTemplate assertion provider; no new external template parser or successful assertion no-op",
+    "Vector dfog_colors FromString requires actual original diagnostic30f010 when reached; caller must supply meaningful diagnostic emitter",
+    "Renderer fog/ambient application is future integration; this module exports source values only",
+    "Current full original root still needs next Module and later reached class/property/initialization providers",
+    "Original full LevelC1/config/music/UI publication not claimed; no VM or full runtime graph imported"
+  ],
+  "changes": "New module/tests/report only; no main/CMake or original source changes"
+}

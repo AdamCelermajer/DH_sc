@@ -10,6 +10,7 @@ RetainedCharacterActorV1::RetainedCharacterActorV1(std::uintptr_t id,std::shared
  handle_={0,UINT32_MAX,id};
  class_name20_=class_name_.c_str();
  source_bools_[0x81]=0; // Whole ObjectBase C1 33f15c oracle: disabled81=0.
+ source_bools_[0x83]=0; // ObjectBase DeclareProperties: isUnderlay defaults false; Stage22 reads this byte for every GameObject.
  source_bools_[0x84]=0; // Whole ObjectBase ctor verified before InitProperties.
  source_bools_[0x118]=0; // ObjectBaseC1 33f2c8 remote-update byte constructor0.
  // CharacterC1 3a9594 stores r6=-1 (3a93d8) into signed source byte14a8.

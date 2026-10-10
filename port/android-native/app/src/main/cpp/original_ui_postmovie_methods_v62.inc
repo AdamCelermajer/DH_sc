@@ -1,3 +1,8 @@
+bool OriginalUiSession::select_process_hud_v132(const ui::SourceMenuVariantV132& variant,std::string& e){
+ auto& self=*impl_;
+ if(self.movie||self.source_movies_v132||!variant.uri[0]||!variant.uri[3]||!variant.hud_digest){e="Source HUD selection requires fresh actual primary3";return false;}
+ self.process_variant_v132=variant;self.source_movies_v132=true;e.clear();return true;
+}
 bool OriginalUiSession::source_load_hud_primary_v63(const std::string& directory,std::string& e){
  auto& self=*impl_;
  if(directory.empty()||directory.front()!='/'||!self.manager||self.movie||self.menu_camera_v93){e="LoadMenu3 requires private directory and retired actual HUD primary/camera slots";return false;}
@@ -130,7 +135,7 @@ bool OriginalUiSession::construct_hud_controls_v62(std::shared_ptr<events::Event
 bool OriginalUiSession::loadmenu3_info_store_v62(std::uintptr_t expected,std::string& e){
  auto& self=*impl_;if(!self.movie||expected!=reinterpret_cast<std::uintptr_t>(self.movie.get())){e="LoadMenu3 InfoHUD store requires SAME newly loaded primary3";return false;}
  self.source_info_hud_v62.source_render_store_v62(expected); //source mutation before initialization failure
- self.source_hud_core_v62.reset();self.source_hud_advance_v62=ui::HudAdvanceOwner{};
+ self.source_hud_core_v62.reset();self.source_hud_base_core_v132.reset();self.source_hud_advance_v62=ui::HudAdvanceOwner{};
  return self.source_info_run_v62(ui::HudManagerEntry::initialize,e);
 }
 bool OriginalUiSession::loadmenu3_controls_store_v62(std::uintptr_t expected,std::string& e){

@@ -1,0 +1,84 @@
+{
+  "status": "source_tutorial_prompt_projection_native_test_pass",
+  "feature": "Movement tutorial prompt sequence from the same loaded OriginalCampaignRuntime",
+  "reference_video": {
+    "path": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "sha256": "98087EE80F594BCC317144B5DD15EE4B470830B8EB8F5B13BADC24BD9831E502",
+    "version_note": "Reference is v1.0.3; the inspected recovered campaign/UI source is v1.0.2. Exact release equivalence is not established.",
+    "frames": [
+      {
+        "time_seconds": 177,
+        "path": ".local-inputs/fidelity-tutorial-slice/frame-177.png",
+        "sha256": "4D8D550CCF2CC21C543A5D72490D98008E632D7AE36A5D7AF67A606F0B9B7D1E",
+        "observation": "SKIP control and tutorial-scene actors are visible; no lower tutorial panel is visible yet."
+      },
+      {
+        "time_seconds": 180,
+        "path": ".local-inputs/fidelity-tutorial-slice/frame-180.png",
+        "sha256": "EAAA556C87E4E6D57A29D6C2322B5A498F8F2D76D0D26E798B492A4D44518E32",
+        "observation": "A TUTORIAL panel titled Movement Tutorial appears over the scene, with SKIP at upper left."
+      },
+      {
+        "time_seconds": 183,
+        "path": ".local-inputs/fidelity-tutorial-slice/frame-183.png",
+        "sha256": "DB4428D408938BF3B281899AF7A2D69B87165F3B5B16836D0C5DBB818A7742D6",
+        "observation": "The panel shows: If you've set your controls to the Virtual Stick, you can use it to move around."
+      }
+    ],
+    "sampling_limit": "These are three timestamped stills, not a frame-by-frame timing or trigger-contact determination."
+  },
+  "source_rows": {
+    "asset": ".local-inputs/windows-source-clock-checkpoint-v17/assets/original-campaign.xml",
+    "sha256": "3AB2055920A8B648B16D77AA07B0435CBD899C624F5BE3BCC145E2133C5CDD14",
+    "caller": {
+      "script": "Movement_Tuto",
+      "script_id_in_source_scope": 19,
+      "command_index": 0,
+      "kind": 78,
+      "class": "Script_DoTutorial",
+      "string_offset_12": "Movement_Tuto2",
+      "tutorial_index_offset_16": 6
+    },
+    "prompt_script": {
+      "script": "Movement_Tuto2",
+      "script_id_in_source_scope": 20,
+      "scope": "level",
+      "dialog_wait_pairs": [
+        {"dialog_index": 5, "wait_index": 6, "kind_pair": [10, 12], "source_words_8_12_16": [49, 4, 2097188]},
+        {"dialog_index": 7, "wait_index": 8, "kind_pair": [10, 12], "source_words_8_12_16": [49, 14, 2097189]},
+        {"dialog_index": 9, "wait_index": 10, "kind_pair": [10, 12], "source_words_8_12_16": [49, 4, 2097190]},
+        {"dialog_index": 11, "wait_index": 12, "kind_pair": [10, 12], "source_words_8_12_16": [49, 15, 2097191]}
+      ],
+      "native_order_context": "Rows 0-4 precede the first dialog: Wait(1000), ExecScript(common id 1), LockCharacter(All), Wait(4000), FlushMessages. Rows 13-16 are Wait(500), LockTutorial(index 6), UnlockCharacter(All), ExecScript(common id 3). The projection adds no timing or command."
+    },
+    "activation": "The loaded campaign trigger table has no TriggerZone script reference named Movement_Tuto or Movement_Tuto2. Movement_Tuto is an authored named script whose actual external start/entry condition is not established here. Kind 78 executes only under the recovered local-player, normal-difficulty, enabled-save-flag, and offline gates; no gameplay trigger is invented.",
+    "jump_monster_cross_reference": "The separate TrollReturn slice remains defined by the existing mob_jump_v19 report: TriggerZone _prim_TriggerZone_001, script TrollReturn, camera command kind 5/id 44, reference footage around 349.5-354.5s. This movement tutorial projection is not attached to TrollReturn or its trigger."
+  },
+  "source_logic": {
+    "DoTutorial": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/00460950.c (Script_DoTutorial::Execute, 0x460950). Reads local player 0; requires character, normal difficulty, tutorial byte enabled, and offline state. On success resolves and starts the named script (module -1, received=true), clears that tutorial byte, then saves immediately only when lastOpenMenuID==17; otherwise starts the settings update job.",
+    "StartDialog": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/00460fe8.c (Script_StartDialog::Execute, 0x460fe8). Source creates/enqueues the original DialogMsg through MenuMessageManager<DialogMsg,1>; exact UI parsing/localization stays with that original menu owner.",
+    "WaitDialog": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/004598d8.c (Script_WaitDialog::IsBlocking, 0x4598d8) reads CurrentLevel::hasActiveDialog. This is why the projection pairs each actual StartDialog row with its actual following WaitDialog row without assigning a synthetic duration.",
+    "existing_ui_primitive": "port/engine-ui/menu_dialog_messages_v97.hpp: MenuDialogMessagesV97 owns the original retained dialog queue and source start/skip callbacks. The projection does not own or duplicate that queue."
+  },
+  "implementation": {
+    "files": [
+      "port/windows-foundation/features/tutorials/runtime_source_tutorial_v1.hpp",
+      "port/windows-foundation/features/tutorials/runtime_source_tutorial_v1.cpp",
+      "port/windows-foundation/features/tutorials/runtime_source_tutorial_v1_tests.cpp",
+      "port/windows-foundation/features/tutorials/run_runtime_source_tutorial_v1_tests.ps1"
+    ],
+    "api": "Build SourceTutorialTimelineV1::build_movement_tutorial from the caller's loaded OriginalCampaignRuntime. prompts() exposes exact dialog/wait indices, pointers, and authored scalar words. matches_command() is pointer-identity scoped to those loaded rows; the integrator can route matches through the same existing campaign command/UI owners. The campaign runtime remains the only scheduler, and MenuDialogMessagesV97 remains the only dialog queue/UI owner.",
+    "no_core_or_main_changes": true
+  },
+  "verification": {
+    "command": "port/windows-foundation/features/tutorials/run_runtime_source_tutorial_v1_tests.ps1",
+    "result": "PASS; C++17 pinned LLVM-MinGW compile/link and test over loaded original-campaign.xml source rows.",
+    "assertions": [
+      "Exact Movement_Tuto kind-78 named continuation and tutorial index 6",
+      "Four exact StartDialog/WaitDialog rows and source words from loaded Movement_Tuto2",
+      "Prompt command matching uses actual command object addresses; an unrelated row stays unmatched",
+      "The source trigger table contains no Movement_Tuto or Movement_Tuto2 trigger; activation remains unclaimed"
+    ],
+    "not_verified": "No new live runtime enrollment, tutorial localization/render capture, user-input skip test, or normal-play trigger activation is claimed. The test verifies a source projection only."
+  }
+}

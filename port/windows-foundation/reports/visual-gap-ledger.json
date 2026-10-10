@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "goal": "Original visual and gameplay fidelity at shared actor checkpoint",
+  "reference": {
+    "url": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+    "title": "Dungeon Hunter 2 (v1.0.3) Part 1 [720p]",
+    "metadata_source": "port/windows-foundation/reports/reference-video.json",
+    "frames_inspected": [
+      {
+        "timestamp_seconds": null,
+        "scope": "overview of timestamped extracted stills, not continuous video viewing",
+        "path": ".local-inputs/referenceframes/dh2-act1/contact-sheet.png"
+      },
+      {
+        "timestamp_seconds": 120,
+        "scope": "full reference still",
+        "path": ".local-inputs/referenceframes/dh2-act1/at-0120s.png"
+      },
+      {
+        "timestamp_seconds": 180,
+        "scope": "full reference still",
+        "path": ".local-inputs/referenceframes/dh2-act1/at-0180s.png"
+      },
+      {
+        "timestamp_seconds": 300,
+        "scope": "full reference still",
+        "path": ".local-inputs/referenceframes/dh2-act1/at-0300s.png"
+      }
+    ],
+    "comparison_status": "preliminary_unmatched_still_comparison",
+    "version_difference": "Reference title v1.0.3; recovered asset documentation v1.0.2. Record differences before parity claims.",
+    "acquisition_evidence": ".local-inputs/referenceframes/dh2-act1/manifest.json",
+    "actual_format": {
+      "height": 360,
+      "width": 640,
+      "note": "Source title says 720p, acquired stream is 640x360. Local screenshot 1280x720; aspect ratios match.",
+      "format_id": "230",
+      "fps": 30
+    }
+  },
+  "integrated_evidence": [
+    {
+      "path": ".local-inputs/windows-foundation-final-verification/integrated.png",
+      "kind": "single screenshot",
+      "inspected": true,
+      "observation": "Prince is clearly rendered on textured swamp floor, with architecture and water visible. No weapon/shield attachment, HUD, target marker or other actors visible in this capture. This describes the inspected checkpoint only.",
+      "reference_timestamp": null,
+      "status": "runtime_display_observed_not_compared"
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "camera",
+      "status": "preliminary_unmatched_still_comparison",
+      "required": "Framing, FOV, tilt, actor screen position, follow lag, zoom, camera motion/cuts",
+      "method": "Select reference and local clips of same location, actor position and movement path; compare landmarks and actor screen occupancy at matched aspect ratio, then trace motion over time.",
+      "required_evidence": "Timestamped reference frames and local clips with camera pose/FOV/viewport logged",
+      "current_limit": "Current integrated frame uses development framing; no original camera parity established"
+    },
+    {
+      "id": "lighting",
+      "status": "preliminary_unmatched_still_comparison",
+      "required": "Brightness, ambient tint, local light placement, water/character light response and shadows",
+      "method": "Compare same view and materials under matched game state; sample floor/actor/background patches, inspect over movement.",
+      "required_evidence": "Timestamped reference frame, local frame and lighting configuration",
+      "current_limit": "Fixed ambient/directional baseline plus original vertex color is not evidence of original light/shadow behavior"
+    },
+    {
+      "id": "scale_placement_attachments",
+      "status": "preliminary_unmatched_still_comparison",
+      "required": "Actor height versus floor/architecture, floor contact, facing, NPC/mob placement, weapon/shield/armor attachments",
+      "method": "Compare landmark ratios and feet contact; use original placement definitions and bone attachment transforms alongside reference close-ups.",
+      "required_evidence": "Original actor/equipment definitions, actor world matrices, same-view reference and local frames",
+      "current_limit": "Single Prince visible without weapon/shield; multi-actor placement and attachment parity unverified"
+    },
+    {
+      "id": "animation",
+      "status": "not_compared",
+      "required": "Idle/walk/run/stance/attack poses, clip choice, playback rate, transitions, root displacement and event timing",
+      "method": "Capture fixed-step frame sequences; align named animation start and visible hit/contact moments against reference. Compare body and attachment silhouettes and measured durations.",
+      "required_evidence": "Timestamped reference clip, local clip, selected animation, sample time, event and hit logs",
+      "current_limit": "Single still establishes pose display only; no reference timing or hit alignment"
+    },
+    {
+      "id": "materials",
+      "status": "not_compared",
+      "required": "Diffuse/alpha textures, UVs, cutout, blending, additive, vertex colors, culling, depth order and original effect coverage",
+      "method": "Inspect foreground foliage/water/transparency overlaps at multiple camera angles; compare matched reference frames and record unsupported effect types.",
+      "required_evidence": "Material/texture/effect identifiers, reference/local matched frames and renderer diagnostics",
+      "current_limit": "Generic fixed-function renderer with approximate center sorting; asset provenance is not effect parity"
+    },
+    {
+      "id": "hud_targeting",
+      "status": "preliminary_unmatched_still_comparison",
+      "required": "Health/mana bars, target indicators, icons, layout, sizing and truthfulness of displayed values",
+      "method": "Match viewport and reference gameplay state; compare icon/layout proportions, target identity and values against authoritative actor state.",
+      "required_evidence": "Reference timestamps during targeting/damage, local frames and authoritative health/mana/target logs",
+      "current_limit": "HUD and target indicators absent from inspected integrated capture"
+    },
+    {
+      "id": "effects_audio_cinematics",
+      "status": "preliminary_unmatched_still_comparison",
+      "required": "Attack/cast/hit/death effects, particle placement/lifetime, cinematic presentation and synchronized audio",
+      "method": "Align event start and lifecycle in reference/local clips; inspect effect anchors, fade, size, sound starts and camera cuts.",
+      "required_evidence": "Timestamped event clips, original effect/audio definitions and local event logs",
+      "current_limit": "No event or cinematic reference sequence inspected"
+    },
+    {
+      "id": "observable_gameplay",
+      "status": "not_compared",
+      "required": "Movement speed/turning/collision, targeting range, attack cadence, reactions/death and interaction behavior",
+      "method": "Replay matched scenarios and record actor positions/actions/targets/hits over time; distinguish walkthrough observations from hidden rules.",
+      "required_evidence": "Timestamped reference scenario plus deterministic local replay and authored rules",
+      "current_limit": "Still image cannot demonstrate gameplay parity"
+    }
+  ],
+  "transform_review": {
+    "status": "source_reviewed_integration_pending",
+    "evidence": [
+      "port/windows-foundation/render_queue.cpp",
+      "port/windows-foundation/main.cpp"
+    ],
+    "findings": [
+      "RenderQueue copies each actor transform and applies it to transparent range center before camera-depth sorting. Mesh buffers must remain alive and unchanged until flush.",
+      "Latest main still submits one character through translation only and has not integrated RenderQueue; multiple actor rotation/scale/bone attachment transforms are pending.",
+      "New RenderQueue source gathers all scene/actor ranges and sorts transformed centers globally; latest main reviewed has not adopted it. Intersecting transparent geometry remains approximated."
+    ]
+  },
+  "acceptance": "Timestamped stills have now been inspected. Findings are preliminary unmatched-state observations; no dimension has reached matched-state fidelity acceptance. Continuous animation/gameplay/timing/audio remain not_compared.",
+  "timestamped_findings": [
+    {
+      "id": "F1",
+      "status": "observed_unmatched_state_difference",
+      "reference_timestamps_seconds": [
+        180,
+        300
+      ],
+      "local_evidence": ".local-inputs/windows-foundation-final-verification/integrated.png",
+      "dimension": "camera",
+      "limit": "Different actor position and scenario; do not derive exact FOV or follow rules from this comparison.",
+      "finding": "Local development shot is closer/lower than reference tutorial/gameplay stills; floor tile projection and actor screen occupancy differ."
+    },
+    {
+      "id": "F2",
+      "status": "observed_checkpoint_gap",
+      "reference_timestamps_seconds": [
+        120,
+        180
+      ],
+      "local_evidence": ".local-inputs/windows-foundation-final-verification/integrated.png",
+      "dimension": "scale_placement_attachments",
+      "limit": "Equipment and actor presence are scenario/state dependent; use authored state before populating.",
+      "finding": "Shield visible on Prince at120s; raised sword visible at180s. Local inspected Prince has no visible sword/shield. Rene and glowing faery visible in reference prison scene; absent from local screenshot."
+    },
+    {
+      "id": "F3",
+      "status": "observed_checkpoint_gap",
+      "reference_timestamps_seconds": [
+        120,
+        180,
+        300
+      ],
+      "local_evidence": ".local-inputs/windows-foundation-final-verification/integrated.png",
+      "dimension": "lighting",
+      "limit": "No matched camera, exposure or exact light measurement; do not claim all ambient lighting mismatches.",
+      "finding": "Reference has strong luminous faery/bloom-like glow and bright nearby floor/stone; local frame has teal floor coloration but no luminous companion."
+    },
+    {
+      "id": "F4",
+      "status": "observed_checkpoint_gap",
+      "reference_timestamps_seconds": [
+        300
+      ],
+      "local_evidence": ".local-inputs/windows-foundation-final-verification/integrated.png",
+      "dimension": "hud_targeting",
+      "limit": "Desktop inputs may differ; original visual presentation still needs explicit adaptation decisions.",
+      "finding": "Gameplay reference shows portrait/health/mana at upper-left, joystick lower-left, action icons right, Bogwomp label/HP and red target ring, damage numbers. Local inspected screenshot has none of those overlays."
+    },
+    {
+      "id": "F5",
+      "status": "observed_checkpoint_gap",
+      "reference_timestamps_seconds": [
+        120,
+        180,
+        300
+      ],
+      "local_evidence": ".local-inputs/windows-foundation-final-verification/integrated.png",
+      "dimension": "effects_audio_cinematics",
+      "limit": "Static reference and local stills cannot establish lifetime, attack cadence, event timing or audio.",
+      "finding": "120s dialogue overlay/skip control and180s tutorial overlay visible;300s sword swing arc and red edge damage vignette visible. No such event/overlay shown locally."
+    }
+  ],
+  "current_checkpoint_update": {
+    "date": "2026-10-09",
+    "package": ".local-inputs/windows-source-clock-v19-preview-2",
+    "evidence": [
+      "reports/v19-preview-2-release.json",
+      "reports/v19-shared-player-death-runtime.json",
+      "reports/checkpoint-requirements.json"
+    ],
+    "inspected_current_captures": [
+      ".local-inputs/windows-source-clock-v19-preview-2/enemy-approach-verification.png",
+      ".local-inputs/v19-player-death-development-test/player-death.png"
+    ],
+    "observations": "Current integrated captures contain original-art HUD, source player/enemy models, weapon attachment, shared damage feedback and retained death pose. Earlier absence observations below describe their historical captures, not current executable capabilities.",
+    "acceptance": "No matched-reference visual/gameplay parity acceptance is established by these diagnostic captures."
+  }
+}

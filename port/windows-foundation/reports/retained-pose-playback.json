@@ -1,0 +1,32 @@
+{
+  "module": "retained_pose_playback",
+  "status": "standalone_verified_pose_only_not_live_integrated",
+  "validation": {
+    "native_compiler": "llvm-mingw clang++ C++17 -Wall -Wextra -Werror",
+    "tests": "retained_pose_playback_tests.cpp",
+    "real_assets": ["prince_modular.bdae", "prince_template_anim.bdae", "prince_idle_shield.bdae", "prince_walk_1hand.bdae"],
+    "checked": ["actual compensated skinned mesh publication", "retained outgoing and incoming clocks", "fresh incoming timeline first weighted initialization", "wall-time outgoing100ms fade", "paused source rate does not pause wall fade", "SetScale visits zero-weight retained slots", "one-shot terminal hold", "source loop bounds", "same physical slot same clip replay extra with loop enabled", "visual ordinary clock isolation", "unknown clip and invalid interval preserve pose/owner", "explicit sample records and slot generations"]
+  },
+  "source_evidence": [
+    {"path": "port/level-world/actor_blended_playback.cpp", "function": "BlendedPlayback::apply_selection", "meaning": "original begin blend precedes new resource, same physical slot previous clip identity determines start+extra replay independent of loop, SetScale visits both slots"},
+    {"path": "port/level-world/actor_blended_playback.cpp", "function": "BlendedPlayback::animate", "meaning": "only nonzero weight timelines are advanced and sampled, normalization and local typed transforms precede world/skin publication"},
+    {"path": "port/level-world/visual_timeline.cpp", "function": "dh2_timeline_update", "meaning": "fresh timeline initializes when first reached; original float seconds/scales; end notification is strict crossing rather than exact endpoint; loop wrap and one-shot clamp delegated unchanged"},
+    {"path": "port/level-world/animation_blender.cpp", "meaning": "incoming fade uses outgoing retained BlendOut and unsigned wall timestamp differences; incoming BlendOut stored for next departure"}
+  ],
+  "integration": {
+    "select": "select(clip, loop, source_rate, incoming_blend_out_ms, error, optional_same_slot_extra_ms)",
+    "advance": "advance(wall_seconds,error) independently samples local poses and publishes them; do not call CharacterVisual ordinary select/update afterward",
+    "rate": "set_source_rate changes both retained source timeline scales; rate0 pauses clips but wall fades continue",
+    "owner_records": "samples expose physical slot, clip, generation, previous/current source milliseconds, wall timestamp, blend weight, first initialization/end transitions and source frame duration",
+    "source_rate_input": "host resolves leaf/sequence/actor source multiplier; this module does not invent or compound class rates",
+    "pose_seam": "CharacterVisual sample_local_pose/apply_local_pose reuses actual local transform, hierarchy, compensation, palette and skinning code"
+  },
+  "boundaries": [
+    "No main/session/sequence edits; current executable integration belongs to root.",
+    "This is a pose owner only. No authored marker callbacks, root-motion integration, AI action transition or completion-driven sequence scheduling is silently synthesized.",
+    "Host maintains per-slot marker cursors, source root delta histories and action/sequence generations from explicit owner records. CharacterVisual ordinary root_motion_delta may be stale; do not consume it as retained playback motion.",
+    "Reentry, old manager detached callback completion, same-resource alias identities and dynamic AnimationSet registration/default policy are not reproduced by this clip-name owner.",
+    "Failure prevalidates resource/rates and preserves module state; malformed selection does not reproduce the legacy blend-before-missing-resource failure side effect.",
+    "Clock uses integer uint32 source timestamps with bounded finite wall input. Full long-duration signed source clock wrap behavior is delegated, not separately proven."
+  ]
+}

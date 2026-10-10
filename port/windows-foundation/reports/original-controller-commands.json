@@ -1,0 +1,40 @@
+{
+  "status": "PASS native Windows source-kernel-backed command admission tests; full gameplay owner integration pending",
+  "files": ["original_controller_commands.hpp", "original_controller_commands.cpp", "tests/original_controller_commands_tests.cpp"],
+  "source_dependencies": ["port/level-world/character_controller_commands.cpp", "port/level-world/character_ai_attack.cpp", "port/level-world/character_animation_events.cpp"],
+  "source_addresses": {
+    "Cmd_LookAt_object": "0x4052bc",
+    "Cmd_MoveTo_object": "0x405540",
+    "Cmd_Stop": "0x40559c",
+    "Character_Ctrl_Stop": "0x3ad890",
+    "Character_Ctrl_MoveTo_object": "0x3ad9e4",
+    "Character_Ctrl_HeadTowards": "0x3adb60",
+    "GameObject_Stop": "0x3938f8"
+  },
+  "admission": "forced bypasses global-blocked/local-locked wrapper gates; absent forced, either gate blocks owner dispatch. Uses original raw byte flags0..255. Admitted means wrapper reached body, not FSM acceptance/animation change.",
+  "command_order": {
+    "move_object": "Original controller gates then Character remote query BEFORE null-target test; if local/non-null, target-position query then PathTo",
+    "move_point": "Verified NPC command order: wrapper gates, remote query, PathTo supplied point; no implicit target or action reset",
+    "look_object": "Controller gates then null-target no-op, target-position query, actual LookAt point owner",
+    "stop": "Controller gates then remote query; local path invokes COMPLETE GameObject.Stop backend before Character event0x3f. No attack interruption or loop cancellation invented",
+    "heading": "Verified controller gates then supplied COMPLETE Character heading body. Body remains required: zero-vector threshold precedes skill/cast state6/7 checks; target-facing clear and heading event0 preserve original order",
+    "attack": "Exact dh2_character_cmd_attack gates, live network-mode query, optional source speculative melee/target rollback/send, actual controllable dispatch. Complete backend services required; source void backend errors remain host-latched",
+    "animation": "Exact dh2_character_animation_event_route; event22/23 end virtual + state forwarding before generic gates, blocked begin/end26/27 still forward state event. Forced bypass applies to callback selection only, not automatic action acceptance"
+  },
+  "test_coverage": ["all8 forced/global/local combinations", "raw255 blocked/forced flags", "malformed flags above255", "missing owner/body masked only where source gates mask them", "attack missing-service rejection before gate", "remote-before-null movement", "remote point/Stop no-op", "Stop body-before-event0x3f", "offline network query before attack dispatch", "locked animation ends still delivered", "animation begin live-state callback order", "unsupported notification rejection"],
+  "precise_host_integration": [
+    "Remove blanket clearing of movement/attack/heading input based on global blocked/local lock. Retain commands until each exact wrapper is called with fresh controller flag/owner projections",
+    "Map object MoveTo/LookAt/Stop to original_controller_object_command with actual target-position, remote, PathTo/LookAt, full GameObject.Stop and event backend",
+    "Map direct point movement to original_controller_move_point; map directional input to original_controller_heading only after binding whole source heading owner. Forced does not imply heading during skill/cast is accepted",
+    "Map Session attack admission to original_controller_attack only after actual network mode/controllable Character attack and FSM producers exist. For offline preview supply actual offline query, not an unconditional fabricated predicate",
+    "Deliver animation22..27 through original_controller_animation_event independently of command blocking. Preserve synchronous live state getter and begin/end callback return semantics",
+    "Refresh source projections before every command and after callback mutation. Inspect backend's latched error for void AttackServices; admitted is not success of target search or FSM transition",
+    "Do not call CombatSystem.interrupt or replace idle/attack action merely because Stop wrapper was admitted. Full Stop and event0x3f ownership decides its actual effect"
+  ],
+  "bounded_gaps": [
+    "Full heading body remains explicit existing CharacterHeadingOwnerV1 dependency; this component provides its source wrapper gate, not a partial substitute",
+    "Complete GameObject.Stop/path/body policy remains backend responsibility; no simplified generic Stop invented",
+    "Full actor FSM and network/speculative command services are not reconstructed by this admission component",
+    "Point movement reuses source wrapper gate only and preserves verified NPC command body order; frontend numeric/vector validation remains separate"
+  ]
+}

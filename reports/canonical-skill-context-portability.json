@@ -1,0 +1,60 @@
+{
+  "status": "windows_coff_compile_pass_native_link_closure_not_attempted",
+  "date": "2026-10-09",
+  "scope": "Portability audit of the existing CampaignFsmV101 constructor and typed record-based skill-context loan. No production source was changed in this follow-up.",
+  "translation_unit": "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.cpp",
+  "compile": {
+    "compiler": ".local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe",
+    "target": "x86_64-w64-windows-gnu",
+    "mode": "C++17 COFF object compile",
+    "result": "PASS",
+    "artifact": ".local-inputs/runtime-test-20261009/fsm-context-portability.obj",
+    "artifact_format": "llvm-readobj reports COFF-x86-64, IMAGE_FILE_MACHINE_AMD64, 64-bit",
+    "platform_header_adaptation": "Used the NDK's platform-neutral jni.h and an opaque AAssetManager forward declaration in a temporary .local-inputs include directory. The object has no undefined JNI, Java_*, Android, AAssetManager, or ANative symbols. No Android implementations or unresolved-symbol stubs were linked.",
+    "legacy_box2d_adaptation": "-Dfinite=_finite is needed for the repository's legacy Box2D header against the Windows CRT.",
+    "warnings": "Four unused-expression warnings originate in legacy Box2D headers."
+  },
+  "context_creation": {
+    "single_owner": "CampaignFsmV101 is the existing sole FSM context stored in CanonicalCharacterCandidateRecordV60::fsm_context_v101. The typed loan does not create or replace it.",
+    "campaign_entry": {
+      "function": "model_renderer::bind_campaign_character_fsm_v101",
+      "required_actual_inputs": ["same CanonicalCharacterCandidateRecordV60", "same SourceCampaignCandidateBorrowV55 and World", "ApplicationServicesOwnerV5", "campaign Floors/sewn navigation and registry", "actual record services and actor machine"]
+    },
+    "process_entry": {
+      "function": "model_renderer::bind_process_character_fsm_v121",
+      "required_actual_inputs": ["same CanonicalCharacterCandidateRecordV60", "same ApplicationServicesOwnerV5", "strong process PF lease", "process CollisionWorld and ObstacleRegistry", "actual record World and CanonicalObjectManager"]
+    },
+    "loan_entry": {
+      "function": "model_renderer::borrow_source_campaign_character_skill_context_v1(shared_ptr<Record>, out, error)",
+      "behavior": "Authenticates the supplied record against its already-stored CampaignFsmV101 and borrows its actual Session, PropertyView, SkillTables Borrow, SkillOwner, machine, and FSM-owned skill projections. A bare record with no stored FSM fails. This overload does not perform a World lookup or equate host actor IDs with native Character identities."
+    }
+  },
+  "link_closure": {
+    "object_undefined_symbol_count": 259,
+    "android_platform_undefined_symbols": 0,
+    "renderer_callbacks_undefined_symbols": 18,
+    "renderer_callback_symbols": [
+      "submit_campaign_audio_v46",
+      "borrow_source_campaign_fx_v77",
+      "source_campaign_limbus_body_v118",
+      "source_campaign_ai_is_my_turn_v105",
+      "borrow_actual_application_audio_v42",
+      "borrow_source_campaign_candidate_v55",
+      "borrow_source_campaign_character_v62",
+      "source_campaign_character_zoning_v108",
+      "borrow_source_campaign_object_base_v77",
+      "source_campaign_character_interact_v114",
+      "source_campaign_object_as_character_v114",
+      "source_campaign_character_aggro_event_v84",
+      "source_campaign_character_clear_aggro_v84",
+      "source_campaign_character_set_visible_v96",
+      "borrow_source_campaign_condition_world_v70",
+      "source_campaign_noncharacter_interact_v114",
+      "source_campaign_character_command_look_v114",
+      "source_campaign_character_sync_visibility_v86"
+    ],
+    "interpretation": "The Windows foundation target does not currently compile/link this translation unit. The record loan itself avoids the Android World lookup, but its owner is created by the renderer's campaign/process bind path. Linking the full existing translation unit also requires its model_renderer callbacks plus the level-world, script, animation, audio, effects, physics, player-manager, and canonical-record implementations; it is not a pure-record-only or windows-foundation-only link."
+  },
+  "recommendation": "Do not create a Windows-side second FSM or owner. For live integration, keep the existing CampaignFsmV101 constructor/binder as the only producer, let the host's explicit ActorId-to-canonical-record callback supply the already-published record, and invoke the record-based loan. A Windows runtime that must construct this graph needs the same native CampaignFsmV101 implementation and its actual model_renderer provider closure compiled into its native target through a platform-neutral boundary. The COFF compile shows this source file does not itself require Android link symbols; the unresolved boundary is the renderer/native-owner provider graph.",
+  "runtime_acceptance": "Not claimed. No completed InitPost/InitFinal record with an active selected source Session was published for this audit."
+}

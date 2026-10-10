@@ -1,0 +1,79 @@
+{
+  "status": "native-owner-composition-prepared-not-host-published",
+  "owner_files": [
+    "features/actor_frame/source_character_owner_factory.hpp",
+    "features/actor_frame/source_character_owner_factory.cpp"
+  ],
+  "authority": [
+    "port/level-world/canonical_character_candidate_v60.cpp: CanonicalCharacterCandidateFactoryV60::construct factory340800",
+    "port/level-world/retained_character_actor_v1.cpp: fresh_canonical C1 source33f15c/38c2c4/3a9594; construct_fields",
+    "port/level-world/canonical_character_candidate_v60.cpp: initialize and initialize_final_v70 source virtual58",
+    "port/level-world/character_world_npc_state_owner_v1.hpp: sole CharacterStateOwner/NativeFsm24",
+    "port/level-world/character_profile_bootstrap_v59.hpp: existing SAME Save/Gear bootstrap",
+    "port/level-world/reference/canonical-character-family-v4/property-constructor-source.asm",
+    "port/level-world/reference/character-state-owner-initialization-alias/reference/original-functions.asm"
+  ],
+  "whole_prefix": "Existing world CanonicalCharacterCandidateFactoryV60 constructs sole native actor + property + inventory37c + controller/FSM + visual capsule + position owner; returned receiver is constructor prefix, before original PropertyMap Load/Add/InitPost/InitFinal.",
+  "first_required_external_frontier": "Actual SceneManager/cache/CharAnimator provider at construct bind_visual; native state provider required at reached initialize paths.",
+  "identity_checks": [
+    "same actor/object/canonical identity",
+    "same base/saved/gear/resolved backing",
+    "same life",
+    "same inventory37c",
+    "same NativeFsm24+character",
+    "same visual2d8 and position160",
+    "same Save14e8/skill VM save",
+    "same complete player equipment inventory"
+  ],
+  "order": "Root original canonical class bindings own property/template/default/override/Add/InitPost; factory wraps only original virtual58 and records successful whole delivery. Once1395 alone is explicitly insufficient; failed final delivery poisons continuation to avoid retry accepting the early once write.",
+  "lifetime": "Shared actual candidate graph pinned in loans and source callbacks; shared delivery ledger survives facade destruction. Native factory retains its failed constructor prefix. No ActorState/FSM/VM/Save duplication.",
+  "validation": {
+    "compile": {
+      "status": "strict syntax compile passed",
+      "compiler": ".local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe",
+      "flags": "-std=c++20 -Dfinite=_finite -Wall -Wextra -Werror -fsyntax-only",
+      "source": "port/windows-foundation/features/actor_frame/source_character_owner_factory.cpp",
+      "include_roots": [
+        "port/level-world",
+        "port/game-data",
+        "port/engine-textures",
+        "port/engine-ui",
+        "port/engine-animation",
+        "port/engine-skinning",
+        "port/physics-backend/box2d-2.0.1/Include (system)",
+        "port/level-loader",
+        "port/level-loader/vendor/tinyxml",
+        "port/scene-materials"
+      ],
+      "result": "exit 0; Box2D vendor warnings suppressed as system headers"
+    },
+    "native_tests": {
+      "status": "native constructor, actual offline Add, PropertyMap Load, ConditionData and source spawn-prefix passed; first Device::IsHighPerformance boundary verified",
+      "evidence": "features/actor_frame/source_character_owner_factory_native_result.json; 355 source units compiled and linked from source_character_owner_factory_native_build.py; runtime exit 0",
+      "passed": [
+        "Real V60 Character/Player constructor aliases and visual capsule retained; failed visual prefix and stale aliases reject.",
+        "Character uses the actual Application-owned SourceProcessObjectsV121 manager and ApplicationServicesOwnerV5 online byte5; the genuine offline AssignObjectNetworkId path performs no mutation, then CanonicalObjectFactoryAttempt completes real Add and Character PropertyMap init/template/default/override/position order.",
+        "Native name +0x30, charpropsname +0x13b0 and position +0x160 load while the same PropertyState/View, inventory37c and FSM remain aliased; Add key/count/next-key are 1/1/2.",
+        "Character actual InitPost reaches the same actor inherited ConditionData fields and spawn check using original v2Conditions NativeConditionRuntime, Application Random channels, source Sounds names, Application Debug and COnline byte5. Both embedded fields take their actual empty/Invalid path; one actual channel0 roll is cached on the actor. The exact first missing leaf is real Application Device::IsHighPerformance; no response is fabricated."
+      ],
+      "unmet_leaves": [
+        "Player catalog dispatch is not represented in CanonicalReceiverConstructionV1 and must be wired to the same Character factory/receiver path by root.",
+        "Nonempty template text requires the real LoadTemplate assertion-policy/debug provider; only the actual empty-string fast path is exercised.",
+        "Actual Application Device::IsHighPerformance provider, followed by original visual/PF/remaining Character InitPost services.",
+        "Nonempty ConditionData source names would use the bound actual condition cache/runtime; this selected source prefix reaches only its empty/Invalid branches. Difficulty lookup is not reached because min_difficulty is empty; idle_sound lookup is not reached because idle_sound is empty."
+      ],
+      "claim": "Character source factory attempt through actual offline Add, PropertyMap Load and actual inherited ConditionData/spawn-probability prefix reaches the Device::IsHighPerformance boundary. InitPost/InitFinal completion, Player dispatch, full-root graph publication and gameplay success are not claimed."
+    }
+  },
+  "required_root_contract": [
+    "bind existing shared native factory, never instantiate parallel one",
+    "compile full native owner dependency closure",
+    "preserve original canonical Load/Add/InitPost ordering",
+    "use returned wrapped virtual58",
+    "validate actual PM PlayerInfo and same native Save kind/index",
+    "bind actual conditions/objectives/quest event manager",
+    "bind actual PF/visual/camera/RNG owners",
+    "complete detached whole graph validation then root single commit",
+    "do not flatten native save into CharacterState or ordinary GameSave checkpoint"
+  ]
+}

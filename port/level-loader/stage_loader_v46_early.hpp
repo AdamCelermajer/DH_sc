@@ -56,6 +56,9 @@ inline constexpr const char* level_loading_trace_key_v46="isTracingLevel_Loading
 struct EarlyLoadingDebugV46 {
  std::shared_ptr<void> actual_owner;
  std::function<bool(const char*,bool&,std::string&)> get_instance_and_switch;
+ // Stage5 PhysicalWorld::load reaches a separate DebugSwitches.load before
+ // its own GetSwitch. Borrow the same Debug owner; no second transport.
+ std::function<bool(std::string&)> load{};
 };
 inline bool early_loading_trace_v46(const EarlyLoadingDebugV46& debug,std::string& error){
  if(!debug.actual_owner||!debug.get_instance_and_switch){error="Required actual DebugSwitches.GetInstance/GetSwitch(isTracingLevel_Loading)";return false;}

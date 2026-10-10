@@ -1,0 +1,61 @@
+{
+  "feature": "skill-ui",
+  "status": "source-art-and-presenter-tested-live-player-adapter-prepared-root-integration-pending",
+  "files": [
+    "port/windows-foundation/features/skill_ui/skill_ui.hpp",
+    "port/windows-foundation/features/skill_ui/skill_ui.cpp",
+    "port/windows-foundation/features/skill_ui/native_skill_services.hpp",
+    "port/windows-foundation/features/skill_ui/native_skill_services.cpp",
+    "port/windows-foundation/features/skill_ui/native_skill_details.hpp",
+    "port/windows-foundation/features/skill_ui/native_skill_details.cpp",
+    "port/windows-foundation/features/skill_ui/original_skill_art.hpp",
+    "port/windows-foundation/features/skill_ui/original_skill_art.cpp",
+    "port/windows-foundation/features/skill_ui/source_skill_art.json",
+    "port/windows-foundation/features/skill_ui/original_skill_presenter.cpp",
+    "port/windows-foundation/features/skill_ui/skill_ui_tests.cpp",
+    "port/windows-foundation/features/skill_ui/original_skill_art_tests.cpp"
+  ],
+  "art_source": {
+    "file": "port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+    "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+    "skill_icon_labels": 78,
+    "placements": 105,
+    "class_frames": ["Warrior", "Rogue", "Mage"],
+    "hit_zones_per_class": 36
+  },
+  "live_player_contract": {
+    "actions": "Existing CharacterMenuActionsOwnerV1 over the same retained CharacterPlayerSkills V3/V6, Save, equipment and properties graph",
+    "details": "Existing CharacterMenuQueriesOwnerV1 NativeGetSkillDetails route, including actual temporary sheet, source text parsing, saved rank, unlocked state, assignable state and localized fields",
+    "training": "CharacterMenuActionsOwnerV1::train_skill -> source IncSkill and existing update/recalculation services",
+    "assignment": "CharacterMenuActionsOwnerV1::equip_skill -> same saved slots and skill update services",
+    "slot_mapping": "Class SkillList positions and saved slot positions; never global SkillTable IDs",
+    "required_providers": ["same original SkillTables snapshot", "NativeGetPlayerClass 0/1/2 frame", "source StringManager symbol resolver", "actual action/query owners"],
+    "npc_v1": "CanonicalNpcSkillsV84 is not an accepted CharacterMenu player Save/action owner; no V1 NPC owner is substituted"
+  },
+  "validation": {
+    "result": "PASS",
+    "compiler": "llvm-mingw clang++ C++17 -Wall -Wextra -Werror",
+    "skill_ui_tests": {
+      "actual_skill_lists": 36,
+      "actual_skill_references": 213,
+      "source_selection_hit_dispatch": true,
+      "selection_detail_projection_and_no_selection_clear": true,
+      "action_mutation_spy_calls": 2,
+      "progression_policy_fabricated": false
+    },
+    "original_skill_art_tests": {
+      "original_skill_icons": 144,
+      "source_hit_zone_centroids": 108,
+      "source_icon_states": 78
+    },
+    "native_skill_services_compile": "PASS",
+    "live_gameplay_action_execution": false,
+    "connected_root_menu_runtime_or_screenshot": false
+  },
+  "root_work_remaining": [
+    "Add native_skill_services.cpp to the root-owned Windows CMake target.",
+    "Bind source class frame and StringManager providers from the actual CharacterMenu graph and pass a Borrow from the same SkillTables instance.",
+    "Compose skill art/text before the root renders the Skills tab and route release coordinates through the source transform.",
+    "Run the connected original-player menu path; this report does not claim end-to-end character-menu completion."
+  ]
+}

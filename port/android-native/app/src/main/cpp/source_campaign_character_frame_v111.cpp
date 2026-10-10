@@ -38,7 +38,7 @@ bool spot(Record& r,const SourceCampaignCandidateBorrowV55& scope,std::string& e
  if(!f.spot_fx14cc)return true;
  if(!f.spot_enabled14c8){if(!fx->drop(f.spot_fx14cc,e))return false;if(!f.spot_fx14cc)return true;}
  dh2::navigation::PositionResult result{};
- if(dh2_nav_validate_position(&result,&scope.floors->collision_world,nullptr,f.spot14b0,nullptr)){e="Actual SpotTarget PFWorld ValidatePosition failed";return false;}
+ if(dh2_nav_validate_position(&result,&scope.floors->collision_world,nullptr,f.spot14b0,&scope.floors->source_motion_policy_v95)){e="Actual SpotTarget PFWorld ValidatePosition failed";return false;}
  if(!result.valid){std::copy_n(f.previous_spot14bc,3,f.spot14b0);return true;}
  std::copy_n(f.spot14b0,3,f.previous_spot14bc);
  return fx->marker_rotation_v70(f.spot_fx14cc,f.spot14b0,e)&&fx->marker_sync_v83(f.spot_fx14cc,false,e);

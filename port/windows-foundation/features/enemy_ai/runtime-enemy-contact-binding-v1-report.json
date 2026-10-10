@@ -1,0 +1,76 @@
+{
+  "status": "feature-owned same-Session contact composition now runs the recovered CancelSneaking kernel and controller pause/timer31 path; native source-object parity and production Stop/buff-owner wiring remain external",
+  "api": {
+    "header": "port/windows-foundation/features/enemy_ai/runtime_enemy_contact_binding_v1.hpp",
+    "implementation": "port/windows-foundation/features/enemy_ai/runtime_enemy_contact_binding_v1.cpp",
+    "composition": "Construct RuntimeEnemyContactBindingV1 with a live CombatSession and current controller projection services; pass services() to the existing physics::RuntimeSessionContactOwnerV1. The contact owner remains the only contact callback dispatcher and ActorState.target_id remains the only modern current-target authority.",
+    "required_current_projection": [
+      "same-Session controller identity token",
+      "known source preferred-target value",
+      "actual Application frame and GetDt milliseconds",
+      "source controller paused byte",
+      "explicit selected-AIS policy: absent or inherited_default"
+    ],
+    "required_reached_services": [
+      "source Debug::Load and IsTracingPlayersCollision",
+      "real DelBuff146 record-removal continuation only when the same-ActorRuntime buff registry contains that key",
+      "source SkillTables borrow for positive Special_Sneak list traversal; actual skill script vector/Active/Pre providers only when an authored eligible skill is reached",
+      "same-controller Stop continuation for the collision threshold; pause/timer31 state is retained on callback failure"
+    ]
+  },
+  "evidence": [
+    {
+      "source": "port/level-world/reference/character-script-collision/NOTES.md",
+      "facts": "AISDefault collision admits only current FSM movement states 4 and 19; it reads current and preferred target snapshots; player/enemy contact reaches CancelSneaking; collision accumulation is gated by current Application frame and controller-owned paused byte, and uses actual integer GetDt milliseconds."
+    },
+    {
+      "source": "port/level-world/reference/character-target-bindings/NOTES.md",
+      "facts": "AI_SetTarget(0x3d6890) first writes preferred target. Flags0 additionally conditionally clears Character+0x14d0, executes case-sensitive debug lookups, writes current target, calls GetCharAIId, updates last-target and changed byte, queries IsDead, and stores raw alive/sight bytes. The modern adapter intentionally applies only the current-target effect needed by RuntimeEnemyController; it does not claim whole setter parity."
+    },
+    {
+      "source": "port/level-world/reference/character-script-collision/NOTES.md plus character-script-kinds references",
+      "facts": "AISPlayerIPhone and external AIS classes inherit AISDefault collision slots. The API explicitly supports inherited-default policy for both player and non-player actors; it does not infer the policy from an actor profile/script name. Unknown/unsupported policy fails closed."
+    },
+    {
+      "source": "port/level-world/reference/character-cancel-sneaking/NOTES.md",
+      "facts": "CancelSneaking invokes source buff deletion key 146, then sets byte 415, then reads signed raw Special_Sneak property 198 (>0); only then it traverses actual ordered SkillTables and may call the first eligible script's Active/Pre methods. The same RuntimeEnemyController ActorRuntime now owns byte415 and an initially empty per-actor key→record registry. `track_contact_buff` publishes explicit current-owner record identities; an actual record requires the caller's source buff-removal continuation and is removed from the projection after successful delivery. Empty registry lookup is a genuine no-record result. Positive Special_Sneak with absent tables or a reached missing script callback fails closed. If Active returns true, the adapter reloads the same current script vector before Pre. The real cache has no skill row with cancellation flag 0x02000000, so Active/Pre are unreachable in this fixture."
+    },
+    {
+      "source": "port/level-world/reference/character-script-update/NOTES.md",
+      "facts": "AISDefault's source threshold is unsigned collision_ms > 199. Its reached AI_PauseUpdate starts timer event31 for 1000ms and sets the paused byte before controller Stop; the source counter resets only after that continuation. Timer event31 clears only the paused byte. The feature controller retains the reached pause/timer prefix and collision counter if Stop fails, and timer expiry advances once per distinct Session serial using the actual caller dt_ms."
+    },
+    {
+      "source": "port/level-world/reference/character-target-update/NOTES.md; .local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003c/003cb908.c; pseudocode/003d/003d4ed8.c; reference/character-target-bindings/NOTES.md",
+      "facts": "Tracked-target CharAI::_UpdateTarget at 0x3cb908 invokes AI_IsInSight(target) at 0x3d4ed8. That helper reads both current GetTargetPosition vectors and calls the float-radius overload at 0x3d4ea0, which tests strict squared 3D distance against the squared authored AI ViewRadius. No static collision ray is present. The controller now applies its existing dead/same-world eligibility/radius gates to retained targets without requiring navigation can_see; untracked acquisition continues to use can_see."
+    }
+  ],
+  "tests": {
+    "source": "port/windows-foundation/features/enemy_ai/runtime_enemy_contact_binding_v1_tests.cpp",
+    "runner": "port/windows-foundation/features/enemy_ai/run_runtime_enemy_contact_binding_v1_tests.py",
+    "command": "py -3 port/windows-foundation/features/enemy_ai/run_runtime_enemy_contact_binding_v1_tests.py",
+      "result": "Fresh ActorState/Session-v3 focused runner passed: py -3 port/windows-foundation/features/enemy_ai/run_runtime_enemy_contact_binding_v1_tests.py. It retains an in-radius tracked target and attacks with can_see=false and zero LOS calls; it still clears out-of-radius/dead tracked targets and rejects untracked acquisition when can_see=false. The existing physics contact runner also passed against refreshed archives: & port/windows-foundation/features/physics/run_runtime_session_contact_v1_tests.ps1. Strict C++17 syntax-only checks passed for the controller and focused test."
+  },
+  "limits": [
+    "The focused test invokes physical_event with same-Session ActorIds directly; it does not prove collision geometry or production physics contact admission.",
+    "The test uses one explicit active-record provider to prove key146/record ordering. Production must wire current same-actor buff record publication/removal through track_contact_buff and delete_buff_record; no source buff container is fabricated by the Session.",
+    "No actual-cache Skill row has the cancellation flag 0x02000000, so the full Active→Pre tail and its live-script reload behavior remain untested in this fixture; current code fails closed if missing providers become reached.",
+    "The controller Stop test callback proves ordering and retained failure prefix; production must bind it to the actual shared navigation/locomotion Stop owner. Main must run begin_contact_frame and process_contact_pause on the real Session frame loop.",
+    "The controller projection provider is an explicit caller dependency; production must supply current source controller identity, preferred target, Application frame, GetDt, pause byte, and selected AIS inheritance from live owners.",
+    "AI_SetTarget full source side effects remain unimplemented in this modern adapter: preferred-target storage, Character+0x14d0 conditional clear, DebugSwitches queries, GetCharAIId, last-target/changed bytes, IsDead and IsInSight writes. No notification event is fabricated.",
+    "The source paused byte here means the AIS controller pause timer state, not application/global pause."
+  ],
+  "changed_paths": [
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_contact_binding_v1.hpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_contact_binding_v1.cpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_contact_binding_v1_tests.cpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_controller_v1.hpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_controller_v1.cpp",
+    "port/windows-foundation/features/enemy_ai/runtime_enemy_contact_projection_v1.hpp",
+    "port/windows-foundation/features/enemy_ai/run_runtime_enemy_contact_binding_v1_tests.py",
+    "port/windows-foundation/features/enemy_ai/runtime-enemy-contact-binding-v1-report.json",
+    "port/windows-foundation/features/physics/runtime_session_contact_v1.hpp",
+    "port/windows-foundation/features/physics/runtime_session_contact_v1.cpp",
+    "port/windows-foundation/features/physics/runtime_session_contact_v1_tests.cpp",
+    "port/windows-foundation/features/physics/run_runtime_session_contact_v1_tests.ps1"
+  ]
+}

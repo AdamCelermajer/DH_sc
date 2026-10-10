@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-09",
+  "status": "main_and_packaged_population_persistence_moth_combat_verified",
+  "goal_complete": false,
+  "flag": "--population-templates",
+  "source_inputs": [
+    "character_templates_pyarray.bin",
+    "character_templates_pyarraynames.bin",
+    "CharacterTable",
+    "ActorProfileLibrary",
+    "caller startup CombatRandom"
+  ],
+  "implementation": [
+    "Fixed typed Name/CharInfo decoder overload accepts real records/names without requiring a separately staged schema fixture.",
+    "Main supplies real source tables and shared startup RNG to ActorPopulation's optional selector.",
+    "Population retains source condition/probability/activation gates and original actor stable IDs.",
+    "CombatSession receives the resulting seed/call count through initialRandomState.",
+    "Content reload deterministically rebuilds initial template choices before the existing saved-world restore."
+  ],
+  "verified": [
+    "Source asset test passes weighted symbolic selection, unknown-condition gating and missing-RNG gating.",
+    "Every fixed-layout decoded template name, member ID and weight equals the explicit-schema decoder's output.",
+    "All four authored template character choices have exported source profiles in the current asset set."
+  ],
+  "runtime_test_configuration": ".local-inputs/v19-population-development-test/startup.args",
+  "limitations": [
+    "Current populated executable is released as V19Preview3; full original campaign activation remains incomplete.",
+    "Main source combat choices remain supplied configuration; template selection does not invent attack policy.",
+    "Full original condition/trigger/cinematic progression remains incomplete."
+  ],
+  "runtime_evidence": "reports/v19-preview-3-population-runtime.json"
+}

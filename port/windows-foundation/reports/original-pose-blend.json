@@ -1,0 +1,32 @@
+{
+  "module": "original_pose_blend",
+  "status": "standalone_verified_not_live_integrated",
+  "validation": {
+    "native_compiler": "llvm-mingw clang++ C++17 -Wall -Wextra -Werror",
+    "tests": "original_pose_blend_tests.cpp",
+    "real_assets": ["prince_modular.bdae", "prince_walk_1hand.bdae", "prince_idle_shield.bdae"],
+    "real_nodes": 35,
+    "different_real_pose_nodes": 23,
+    "checked": ["outgoing BlendOut controls incoming fade", "100ms wall fade", "zero-weight slot sampling gates", "source quaternion slerp and vector kernels", "zero-duration transition", "invalid sampler preserves blend/output", "real local SRT mixing", "hierarchy and instance world update", "native node storage retained", "invalid apply preserves scene", "exact incoming endpoint"]
+  },
+  "source_evidence": [
+    {"path": "port/level-world/animation_blender.cpp", "function": "dh2_blender_begin", "meaning": "remaining receives previously stored duration, incoming duration retained for next departure"},
+    {"path": "port/level-world/animation_blender.cpp", "function": "dh2_blender_update_weights", "meaning": "unsigned absolute wall timestamp difference decrements remaining fade"},
+    {"path": "port/level-world/actor_blended_playback.cpp", "function": "BlendedPlayback::animate", "meaning": "nonzero slots sampled in physical slot order, normalization follows sampling, typed local transforms precede world/palette/skin"},
+    {"path": "port/engine-animation/animation_blend.cpp", "function": "dh2_animation_blend_quaternion", "meaning": "ordered source quaternion slerp with exact weight-one copy; vector kernels used for position and scale"},
+    {"path": "port/level-world/tests/actor_blended_playback.cpp", "meaning": "genuine Idle BlendOut100 determines incoming Move fade; Move BlendOut0 retained for next transition"}
+  ],
+  "integration_plan": [
+    "Expose CharacterVisual sampling of complete local SRT poses at explicit source milliseconds without mutating its live clock.",
+    "Expose CharacterVisual apply_local_pose: call apply_scene_pose then rebuild skin palettes, deformed normals and mesh vertices through the existing skinning path.",
+    "One shared owner binds two retained clip timelines. On phase/attack/react/death/locomotion selection call select with incoming authored BlendOut and bind the current physical slot.",
+    "Evaluate with absolute wall milliseconds and sample each requested retained slot at its independently advanced source time. Source SetScale changes both retained timelines; fade itself remains wall time.",
+    "Dispatch authored events and completion from retained timelines separately; root histories need per-slot source deltas weighted by the same source blend weights before motion consumption."
+  ],
+  "limitations": [
+    "No CharacterVisual or main edits performed by this module owner; current executable does not use this module yet.",
+    "Sampler owns source timelines, cached track defaults, marker dispatch, root-motion histories and clip-completion notifications. This module does not claim full AnimatorBlender lifecycle parity.",
+    "Complete SRT snapshots must already reflect authored template/default/channel policies; blending full snapshots does not reproduce missing-target registration semantics by itself.",
+    "Root displacement must be blended per-slot from source delta histories; deriving displacement from mixed pose translation alone is insufficient."
+  ]
+}

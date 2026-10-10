@@ -1,24 +1,38 @@
 #pragma once
 #include "stage_loader_v38_init_post.hpp"
 #include <map>
+#include <exception>
 #include "lifecycle_v36_counter_borrow.hpp"
 namespace dh2::loader {
 // One reached source state10 body. Its counter reads actual map1c ONCE before
 // InitPost's resumable loop, including original reserved null0. Not count50.
 template<class Manager> class Stage10BodyV38 {
  LifecycleBorrowV36 level_;Manager& manager_;
- CanonicalInitPostV38<Manager> dispatcher_;bool counter_produced_{},failed_{};
+ CanonicalInitPostV38<Manager> dispatcher_;std::function<bool(std::string&)> trace_;
+ bool trace_completed_{},counter_produced_{},failed_{},busy_{};
  std::string error_;
+ LifecycleStepV36 fail(const char* reason){failed_=true;if(error_.empty())error_=reason;return LifecycleStepV36::failed;}
 public:
  Stage10BodyV38(LifecycleBorrowV36 level,std::shared_ptr<void> actual_manager_pin,
-  Manager& manager,CanonicalInitPostServicesV38<Manager> services):
-  level_(std::move(level)),manager_(manager),dispatcher_(std::move(actual_manager_pin),manager,std::move(services)){}
+  Manager& manager,CanonicalInitPostServicesV38<Manager> services,std::function<bool(std::string&)> trace):
+  level_(std::move(level)),manager_(manager),dispatcher_(std::move(actual_manager_pin),manager,std::move(services)),trace_(std::move(trace)){}
  const std::string& error()const noexcept{return error_;}
  LifecycleStepV36 step(){
   if(failed_)return LifecycleStepV36::failed;
-  if(!level_.actual_level_owner||!level_.fields.state130||*level_.fields.state130!=10||!level_.fields.current138){failed_=true;error_="Require actual retained Level state10 fields";return LifecycleStepV36::failed;}
+  if(busy_)return fail("Stage10 reentered; reached prefix retained");
+  busy_=true;struct Busy{bool& value;~Busy(){value=false;}}busy{busy_};
+  if(!level_.actual_level_owner||!level_.fields.state130||*level_.fields.state130!=10||!level_.fields.current138)return fail("Require actual retained Level state10 fields");
+  if(!trace_completed_){
+   if(!trace_)return fail("Required actual Stage10 GetInstance/GetSwitch(isTracingLevel_Loading)");
+   try{std::string reached;if(!trace_(reached)||failed_){if(!failed_&&!reached.empty())error_=std::move(reached);return fail("Original Stage10 loading trace failed");}}
+   catch(const std::exception& ex){if(!failed_)error_=ex.what();return fail("Original Stage10 loading trace threw");}
+   catch(...){return fail("Original Stage10 loading trace threw");}
+   if(*level_.fields.state130!=10)return fail("Stage10 loading trace changed actual loading state");
+   trace_completed_=true;
+  }
   if(!counter_produced_){*level_.fields.current138=manager_.source_map_size1c_v38();counter_produced_=true;}
-  const auto result=dispatcher_.step();if(result==LifecycleStepV36::failed){failed_=true;error_=dispatcher_.error();}return result;
+  const auto result=dispatcher_.step();if(failed_)return LifecycleStepV36::failed;
+  if(result==LifecycleStepV36::failed){failed_=true;error_=dispatcher_.error();}return result;
  }
 };
 // Concrete retained Module.LoadModule provider. Preparation is the actual

@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-09",
+  "status": "source_kernels_ready_live_root_owner_bindings_required",
+  "goal_complete": false,
+  "scope": "Act 1 genuine NPC death reward, source drop generation, canonical world item, single-delivery pickup, same live inventory/currency and source XP/level-up path.",
+  "native_source": {
+    "library_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "reward_table_getter": {
+      "symbol": "_ZNK9Character7GetLootEv",
+      "address": "0x3a2fcc",
+      "behavior": "Reads Character+0x101c (resolved property word 9); no synthesized table ID or fixed-point conversion."
+    },
+    "reward_table_setter": "No standalone Character loot-table setter was recovered in the captured source functions. The source Character/property initialization owner must provide the actual initialized Character+0x101c value; live binding currently maps the retained Character property view to resolved[9]. Do not set a table from NPC name, Act 1 identity, or a guessed default.",
+    "death_drop_caller": {
+      "symbol": "_ZNK9Character8DropLootEP10GameObject",
+      "address": "0x3a5ae4",
+      "behavior": "Passes the getter result, dying Character, attacker, owner index -1 and stack flag false to ItemObject::DropLootTable."
+    },
+    "table_drop": {
+      "symbol": "_ZN10ItemObject13DropLootTableEiPK10GameObjectS2_ib",
+      "address": "0x3ecba0",
+      "behavior": "Original authored table drop and condition/probability path."
+    },
+    "kill_order": "Character::Kill (0x3a5b18) calls DropLoot only for current Level word +0x150 == 0, before participant events and XP distribution. Ctrl_Kill raises victim event 2 after Kill returns. Failed reward service prefixes must not be followed by a fabricated death-event tail."
+  },
+  "existing_reusable_owners": {
+    "foundation_binding": "SourceDeathRewardBindingV1 retains exactly one CharacterKillRewardsLiveV31 and attaches it to the existing CharacterKillProductionServicesV23 only after WorldLootGameplayV23 reports ready and exposes its existing CharacterLootLiveV22 + WorldItemLiveOwnerV5. It creates no gameplay authority or second item pool.",
+    "foundation": [
+      "OriginalLootFlow borrows actual LootTables, LootPowerResources, ItemPowerTables and caller-owned LootRandom8V2; it generates through LootCreationV8 into LootTemporaryInventoryV8.",
+      "transfer_drop preserves source AddItemInstance(force=false, convertGold=true), then captured item-ID quest tail and AddGold(0); fullness is evaluated before mutation and reached failures retain their source prefix."
+    ],
+    "canonical_world": [
+      "CharacterLootLiveV22 owns composition only and borrows the existing CharacterWorldRuntimeV1, PlayerManagerOwnerV1, Application LootRandom8V2 and bound WorldLootItemRuntimeV1/ItemObject pool.",
+      "CharacterLootLiveV22::route handles only the original kill_drop_loot service; it resolves the same Character's actual resolved[9], composes CharacterLootDropV8 + WorldItemLootCreationV10, and publishes to the already-bound canonical pool.",
+      "WorldItemPickupInventoryV10 must borrow the same live PlayerEquipmentRenderOwnerV1 and call its source AddItemInstance / AddGold authority; inventory resolver IDs are projection IDs and must be refreshed after transfer."
+    ],
+    "xp": [
+      "Character::DistributeXP at 0x3bf828 is the native XP caller after credited-killer selection in Character::Kill.",
+      "CharacterKillRewardsLiveV31 routes kill_distribute_xp to CharacterProgressionWorldV23, which executes original recipient/range/difficulty scaling and calls progression_give_xp_v1.",
+      "The source XP mutation is property AddInt index 33; source level-up increments index 19, resets XP index 33, recalculates class properties, regenerates vitals, and saves through the supplied source services. XP text/level presentation and achievement tails remain required when reached."
+    ],
+    "quest_event": "Kill constructs typed Kill/Clear quest events from source constants and calls EventManager::RaiseAsync at 0x339090; the recovered tail branches synchronously to Raise at 0x338ebc. The event is stack-backed and listeners must receive the actual payload synchronously. Positive Level GameEvents/listener state is still a required source owner.",
+    "money_event": "Drop pickup runs original ItemInventory/GEAR AddItemInstance with convertGold=true; same live gear owner performs source gold valuation and AddGold. The temporary NULL-character loot inventory itself reports gold=0 and AddGold(0) is only the captured TransferInventoryTo tail, not an NPC gold reward setter."
+  },
+  "proven_tests": {
+    "source_death_reward_binding_compile": "PASS: source_death_reward_binding_v1.cpp compiles as C++17 with -Wall -Wextra -Werror; only upstream pre-existing misleading-indentation and Box2D unused-value warning classes are suppressed. This is a translation-unit syntax/type check, not a link or live actor-graph test.",
+    "loot_creation_original_audit": "PASS: port/game-data/tests/loot_creation_v8.cpp runs complete AddLoot over all 339 actual table rows and verifies each created ItemInstance id, signed quantity, value, powers and shared RNG result; item text/power owners and cache-backed item definitions are real, with explicit player-count/current-level and storage receivers. See port/game-data/reference/loot-creation-v8/original-audit.json.",
+    "foundation_native_test": "PASS: actual fixed table item IDs/quantities and borrowed identity; table-independent pickup fullness retention, same ItemInstance transfer, duplicate-empty no-op, source quest/gold tails, required-provider failure and reached-failure retry guard; see port/windows-foundation/reports/feature-loot.json.",
+    "scope_limit": "Foundation pickup test constructs a bare ItemInstance fixture. The separate original AddLoot test proves actual generated powered instances remain owned by the actual NULL-character temporary inventory. Neither test proves insertion into a live canonical ItemObject, real player Gear, or durable save graph. The original AddLoot differential controls player-count/current-level and storage service boundaries."
+  },
+  "root_ready_minimal_flow": [
+    "Bind the actual initialized Level word +0x150, Character+0x101c/resolved[9], source Character metadata/properties/position, and the same retained PlayerManager/World graph.",
+    "Retain one CharacterLootLiveV22 and bind it once to the already initialized canonical Item145 pool; preload its actual source audiovisual/power/text/query providers and same Application RNG.",
+    "Call SourceDeathRewardBindingV1::bind with the ready WorldLootGameplayV23, same CharacterProgressionWorldV23, a strong lease for the same root graph, and the remaining real Kill service router. Pass the resulting CharacterKillProductionServicesV23 plus the same CanonicalLevelContextV1-backed KillLevelProviderV23 to the existing production owner, then route actual lethal Hit through whole Ctrl_Kill once.",
+    "On pickup, use the exact live Item interaction and WorldItemPickupInventoryV10 providers; resolve the same actual ItemInstance pointer/index through SourceInventoryInstanceResolver, then refresh projection and let the existing GEAR save owner persist the resulting source inventory/currency mutation.",
+    "Preserve the reached Kill/drop/XP/quest/item prefix on failure and reject retry; do not manually award at animation/death notification time."
+  ],
+  "live_blockers": [
+    "CanonicalLevelContextV1 exposes the C1-backed KillLevel16/+0x150 producer and the KillLevelProviderV23 validates completed C1 and same-Level identity. Root still must publish and pass the actual current GSLevel slot/lease to that provider; a stand-alone prepared or un-published Level is not the live source Level.",
+    "Root has not supplied complete actual ItemManager 145-object DropAndAwardLoot / ItemObject InitAgain / reached VoxPlay3D tails and same live player inventory pickup services.",
+    "The live progression binding still requires the actual same Level, difficulty and Save actors plus positive LevelUp regeneration/save/presentation and XP text/achievement providers.",
+    "The foundation death-reward binding has a strict native syntax pass but no linked root-owned live graph fixture; no end-to-end Act 1 runtime proof currently joins lethal NPC Kill -> authored drop -> actual powered ItemInstance -> canonical pool -> same Gear/currency -> saved reload."
+  ]
+}

@@ -2,8 +2,10 @@
 #include "character_target_providers.hpp"
 #include "gameobject_lua_representation.hpp"
 #include "character_spatial_bindings.hpp"
+#include <cmath>
 #include <cstdio>
 #include <cstring>
+#include <limits>
 #include <stdexcept>
 namespace dh2::character {
 ScriptCharacterObject::ScriptCharacterObject(std::uintptr_t id,std::string text,
@@ -38,6 +40,24 @@ bool CharacterScriptObjects::publish_existing_v62(const std::shared_ptr<ScriptCh
  if(object->binding.services.context||object->binding.services.invoke){e="Canonical Character target facade already bound elsewhere";return false;}
  object->binding.services={this,target};records_.emplace(object->identity,object);e.clear();return true;
 }
+bool CharacterScriptObjects::retire_native_receiver_v123(std::uintptr_t id,const std::shared_ptr<ScriptCharacterObject>& object,std::string& e){
+ const auto at=records_.find(id);
+ if(!object||object->identity!=id||at==records_.end()||at->second!=object||object->binding.services.context!=this||object->binding.services.invoke!=target){e="Required SAME native Character Lua facade at retirement";return false;}
+ object->binding.services={};records_.erase(at);e.clear();return true;
+}
+bool CharacterScriptObjects::bind_source_random_channel0_v125(
+ std::shared_ptr<data::LootRandom8V2> random,std::function<bool(bool&,std::string&)> online,
+ std::string& e){
+ if(!random||!online){e="Required same-Application Random channel 0 and GetOnline byte5";return false;}
+ if(source_random_channel0_v125_){
+  if(source_random_channel0_v125_.get()!=random.get()){
+   e="Character Lua objects already borrow a different Application Random channel 0";return false;
+  }
+  if(!online_byte5_v125_){e="Bound source Random owner has no GetOnline byte5 query";return false;}
+  e.clear();return true;
+ }
+ source_random_channel0_v125_=std::move(random);online_byte5_v125_=std::move(online);e.clear();return true;
+}
 int CharacterScriptObjects::type(void* p,std::uintptr_t id,const char** out){
  return p&&static_cast<CharacterScriptObjects*>(p)->find(id)?
   gameobject_lua::dh2_gameobject_lua_type(out,gameobject_lua::character):1;
@@ -50,9 +70,61 @@ int CharacterScriptObjects::invoke(void* p,const dh2_script_callback_scope* scop
  std::uintptr_t id,std::uint32_t source,const dh2_script_value* arguments,std::uint32_t count,
  dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* error,std::size_t size){
  if(!p||!dh2_script_callback_scope_valid(scope)||!out||!capacity||!returned)return 1;
- auto object=static_cast<CharacterScriptObjects*>(p)->find(id);if(!object)return 1;
+ auto* self=static_cast<CharacterScriptObjects*>(p);auto object=self->find(id);if(!object)return 1;
  if(source==0x38ebe4)return gameobject_lua::dh2_gameobject_lua_get_id(out,returned,id);
  if(source==0x3b6c7c)return gameobject_lua::dh2_gameobject_lua_get_target(out,returned,&object->target);
+ // Lua Character:IsDead / :IsPlayer are the GameObject wrapper callbacks,
+ // not ObjectBase::IsDead/IsPlayer and not the native Character entrypoints
+ // used as their virtual targets. IDA: GameObject::_IsDead (0x38ea48)
+ // dispatches Character::IsDead (0x3a2ed4); _IsPlayer (0x38e9f0)
+ // dispatches Character::IsPlayer (0x3a49f0). Both read this same retained
+ // Character's live state. Returning BOOLEAN models pushBoolean in the
+ // wrapper, including nonzero source IsDead bytes.
+ if(source==0x38ea48){
+  *out={};out->type=DH2_SCRIPT_BOOLEAN;out->boolean=object->life->dead!=0;*returned=1;return 0;
+ }
+ if(source==0x38e9f0){
+  if(self->ai_types_.size()<=8){*returned=0;if(error&&size)std::snprintf(error,size,"Required source Character IsPlayer AI fallback row");return 1;}
+  auto ai_id=object->properties->resolved[1];
+  if(ai_id<0||static_cast<std::size_t>(ai_id)>=self->ai_types_.size())ai_id=8;
+  const auto type=self->ai_types_[static_cast<std::size_t>(ai_id)];
+  // Exact Character::IsPlayer order: any nonzero AI type decides the result;
+  // only type zero checks whether the name contains "PlayerCharacter".
+  const bool is_player=type?type==1:std::strstr(object->name.c_str(),"PlayerCharacter")!=nullptr;
+  *out={};out->type=DH2_SCRIPT_BOOLEAN;out->boolean=is_player;*returned=1;return 0;
+ }
+ if(source==0x393310){
+  *returned=0;if(count&&!arguments)return 1;
+  std::uint32_t minimum=0,bound=100;
+  auto to_uinteger=[&](const dh2_script_value& value,std::uint32_t& result){
+   if(value.type!=DH2_SCRIPT_NUMBER||!std::isfinite(value.number))return false;
+   const double truncated=std::trunc(static_cast<double>(value.number));
+   if(truncated<static_cast<double>(std::numeric_limits<std::int32_t>::min())||
+      truncated>static_cast<double>(std::numeric_limits<std::uint32_t>::max()))return false;
+   if(truncated<0){const auto signed_value=static_cast<std::int32_t>(truncated);result=static_cast<std::uint32_t>(signed_value);}
+   else result=static_cast<std::uint32_t>(truncated);
+   return true;
+  };
+  if(count==1){if(!to_uinteger(arguments[0],bound))return 0;}
+  else if(count==2){std::uint32_t maximum{};if(!to_uinteger(arguments[0],minimum)||!to_uinteger(arguments[1],maximum))return 0;bound=maximum-minimum;}
+  // IDA GameObject::_Rand (0x393310): one integer means [0,n), two mean
+  // [minimum,maximum), all other arities default to [0,100). Offline it calls
+  // Random::GetRandom(maximum-minimum,false), adds minimum, and increments the
+  // same process debug counter even when the bound is zero.
+  bool online=false;
+  std::string online_error;
+  if(!self->online_byte5_v125_||!self->online_byte5_v125_(online,online_error)){
+   *returned=0;if(error&&size)std::snprintf(error,size,"%s",online_error.empty()?"Required actual same-Application GetOnline byte5":online_error.c_str());return 1;
+  }
+  if(online){*returned=0;if(error&&size)std::snprintf(error,size,"Online GameObject::_Rand requires original ReturnValues+0xfc seed owner");return 1;}
+  if(!self->source_random_channel0_v125_){*returned=0;if(error&&size)std::snprintf(error,size,"Required same-Application Random channel 0");return 1;}
+  std::int32_t signed_bound{};std::memcpy(&signed_bound,&bound,sizeof(bound));std::int32_t draw{};
+  if(dh2_loot_v2_random(self->source_random_channel0_v125_.get(),signed_bound,&draw)){
+   *returned=0;if(error&&size)std::snprintf(error,size,"Original offline GameObject::_Rand provider failed");return 1;
+  }
+  const std::uint32_t result_bits=minimum+static_cast<std::uint32_t>(draw);std::int32_t result{};std::memcpy(&result,&result_bits,sizeof(result));
+  out[0]={};out[0].type=DH2_SCRIPT_NUMBER;out[0].number=static_cast<float>(result);*returned=1;return 0;
+ }
  if(source==0x38e700){
   // ObjectMethod captures self._this before projecting its other arguments.
   // Resolve that retained Character and read its live raw point now, rather

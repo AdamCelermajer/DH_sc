@@ -1,0 +1,37 @@
+{
+  "status": "component_and_packaged_runtime_verified_fidelity_incomplete",
+  "package": ".local-inputs/windows-source-clock-checkpoint-v5",
+  "executable_sha256": "26e7725cb8babd5047c967ff71907a660d3387397ddf0c1910f03ea3ae47d535",
+  "validation": {"ctest_passed":41,"packaged_inputs_verified":532,"rendered_runs":4,"receipt":"packaged-source-clock-runtime-v5.json"},
+  "goal_complete": false,
+  "scope": "Reusable actor movement, retained source animation ownership and camera anchor services",
+  "source_features": [
+    "Desired XY heading uses recovered navigation heading arithmetic and remains separate from bounded visual facing",
+    "Explicit player idle/walk bindings select original state leaves, rates, BlendOut and MoveGO",
+    "One CombatSession clock advances player locomotion and combat through the same retained animation owner",
+    "Original finite timeline completion reselects infinite single-leaf sequences through NewAnim, preserving same-slot extra and source root reset instead of raw clip looping",
+    "Original actor camera anchor reads actual admitted position, desired heading and original GetLookAtVec convention",
+    "Forward camera constants load from original design_pycst.bin, preserving increment per update",
+    "Camera whole milliseconds retain fractional elapsed time between host updates",
+    "Stored synchronous motion providers retain live input and dt storage across selection/update boundaries"
+  ],
+  "explicit_policy": {
+    "camera_debug_switch": "--original-actor-anchor forward|static supplies caller-resolved UseStaticCamera result; current package explicitly supplies absent-debug-save forward branch",
+    "locomotion_binding": "--combat-locomotion ALIAS:STATE:VARIANT:LEAF_PATH supplies original metadata selection, with resolved source movement modifier applied once",
+    "run": "Original Knight Run exists, but current exported binding file omits that state; retained Shift remains disabled until a source binding is supplied",
+    "host_zero_input": "Zero nonattack movement intent applies local Stop stores; original input dispatch gates remain incomplete",
+    "collision": "Existing indexed-render body approximation, ground-center admission and axis sliding remain explicitly incomplete source navigation policies"
+  },
+  "component_only": [
+    "Generic lifecycle owns actual states0/1/3/17 and source effect callbacks; authored Limbus preset0 initializes as PreSpawn17",
+    "Live campaign spawning, actor enable/collision providers and full-animation lifecycle callbacks remain unwired"
+  ],
+  "fidelity_limits": [
+    "Source controller block/force, skill/cast and attack heading command producers are incomplete",
+    "Camera movement/attack facts currently come from shared host action mapping; full source FSM remains incomplete",
+    "Synchronous original callback reentry and outer combo chaining remain incomplete",
+    "Current type2 Idle selection pins the explicitly supplied leaf; per-cycle original random variant reselection remains incomplete",
+    "Original Run binding exporter extension remains pending",
+    "Continuous matched-state video/art/gameplay acceptance remains incomplete"
+  ]
+}

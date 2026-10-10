@@ -1,0 +1,121 @@
+{
+  "feature": "CelestTargetFxDispatchV1",
+  "validation": "PASS_C17_SOURCE_DISPATCH_FULL_CPU_FIXTURE_AND_NO_NATIVE_A_LINK",
+  "source": {
+    "script": "faerie_celest.luac",
+    "source_effect_table": "AnimatedEffectTable, represented by the original EffectsTables set-name/row arrays",
+    "effects_table_projection": "port/game-data/reference/effects-tables/original-reader-projection.json",
+    "effects_table_projection_source_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "player_pre": {
+      "name": "Celest_Level_1_Player",
+      "set_id_in_source_projection": 14,
+      "row": {
+        "force_cache": 1,
+        "loop": 0,
+        "type": 0,
+        "step_file": 76,
+        "play_time": -1,
+        "orient_with_anchor": 1,
+        "scale_with_anchor": 1,
+        "self_illum": 1,
+        "speed_bits": 1073322394
+      },
+      "resource_uri": "data/3D/interface/skill_dh2_faery_lightning.bdae",
+      "resource_sha256": "441444ec34ac2d0a6a06917b4ff27e26691c8466b7de29d4df369274d9a968a0",
+      "source_call": "OnPreSkill_ calls Player after its reached target search and mana/cooldown prefix"
+    },
+    "target_main": {
+      "name": "Celest_Level_1_Main",
+      "set_id_in_source_projection": 13,
+      "row": {
+        "force_cache": 1,
+        "loop": 0,
+        "type": 0,
+        "step_file": 199,
+        "play_time": -1,
+        "orient_with_anchor": 0,
+        "scale_with_anchor": 0,
+        "self_illum": 1,
+        "speed_bits": 1065353216
+      },
+      "resource_uri": "data/3D/interface/spell_dh2_faery_lightning.bdae",
+      "resource_sha256": "24de71141c46541f930841055880000446eb77a0c100dc09abad92550012b3e",
+      "source_call": "OnSkill_ calls Main for each Character target after the two ordered SpellCombatRoll calls"
+    }
+  },
+  "adapter": {
+    "header": "port/windows-foundation/features/effects/celest_target_fx_dispatch_v1.hpp",
+    "source": "port/windows-foundation/features/effects/celest_target_fx_dispatch_v1.cpp",
+    "factory_call": "RuntimeEffectsFactoryV1::is_bound_to(session), runtime().synchronize_session_binding, then manager().play_set with the exact resolved source row and current same-session anchor position",
+    "status_claim": "source_instance_created only; manager source-set creation, not render packets or GPU output",
+    "failure_policy": "Celest source gameplay prefix remains non-veto; adapter errors are captured as CelestEffectStatusV1::dispatch_failed by the existing Faery helper",
+    "unknown_or_missing_source_data": "fail closed; no synthesized effects or replacement assets"
+  },
+  "link_closure": {
+    "adapter_direct_dependencies": [
+      "RuntimeEffectsFactoryV1::is_bound_to",
+      "RuntimeCombatEffectsV1::synchronize_session_binding",
+      "CharacterMeshFxOwnerV4::play_set",
+      "Faery CelestTargetFxDispatchV1 interface vtable"
+    ],
+    "factory_heavy_fixture_sources": "The proven native factory fixture compiles RuntimeEffectsFactoryV1/RuntimeCombatEffectsV1, EffectsExecutor/RenderBridge/MaterialBinding, CharacterMeshFxOwnerV4 and authored resource/force/floor/step/mesh-graph/transform owners, particle scene/skinning/animation runtime, particle support TUs, asset/content/material/texture/scene loaders, and tinyxml. It links native.a and the foundation_data, content_xml, freetype, trigger_contacts, recovered_content and Box2D archives.",
+    "production_minimality": "A private full-feature fixture linked successfully with native.a omitted and no stubs. In addition to the prior runner source list, the exact source-owned TU additions required by the unresolved-symbol probe were character_fx_kernels_v1.cpp, character_fx_state_v1.cpp, visual_fx_manager_libraries_v63.cpp, source_fx_node_matrix_v4.cpp, fx_texture_animation_v1.cpp, character_path_commands.cpp, game-data/skill_tables.cpp, and visual_fx_preload.cpp. This is a source-proven no-native-archive closure, though it intentionally includes the linked test fixture's broader gameplay and asset-loader closure rather than claiming a minimal main target. Main must include the runtime effect factory/render owners and these kernel/manager/source projection owners (or a library target built from them); no native.a is required by this probe.",
+    "no_native_archive_link": {
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .local-inputs/celest-no-native-link-audit.ps1",
+      "result": "PASS_LINK_ONLY",
+      "native_archive_in_libraries": false,
+      "stubs_added": false,
+      "output_sha256": "69ca57c4a808be0c36a050b0a81c1a2286db87ec1d2ffc35327bf625cd02b7a9",
+      "extra_source_owned_translation_units": [
+        "port/level-world/character_fx_kernels_v1.cpp",
+        "port/level-world/character_fx_state_v1.cpp",
+        "port/level-world/visual_fx_manager_libraries_v63.cpp",
+        "port/level-world/source_fx_node_matrix_v4.cpp",
+        "port/level-world/fx_texture_animation_v1.cpp",
+        "port/level-world/character_path_commands.cpp",
+        "port/game-data/skill_tables.cpp",
+        "port/level-world/visual_fx_preload.cpp"
+      ],
+      "definitions": {
+        "dh2_fx_data_v1_and_texture_matrix": "character_fx_kernels_v1.cpp",
+        "dh2_fx_play_update_drop_and_animation_state": "character_fx_state_v1.cpp",
+        "fx_library_precache_and_flush": "visual_fx_manager_libraries_v63.cpp",
+        "fx_set_effect_registration": "visual_fx_preload.cpp",
+        "scene_and_source_trs_matrices": "source_fx_node_matrix_v4.cpp",
+        "authored_texture_animation_sampling": "fx_texture_animation_v1.cpp",
+        "SkillTables_Borrow_accessors": "game-data/skill_tables.cpp",
+        "Character_LookAt_Point": "character_path_commands.cpp"
+      }
+    },
+    "coherent_archive_sha256": {
+      "native_archive_not_linked": "610b18074d8c7558d18c0ff4a6381615912351d51379f431bf2d8be12798095a",
+      "foundation_data": "fbaf9e0f541e977f4bf62254d90985607ee6bcacdc4bba3ee52b234c920b9d832",
+      "content_xml": "6a6989f7f5322665ac3b01b12749da7889f92cb6a2cb4cbfa27b87f66710541e",
+      "freetype": "90fd32f96bc3974d57d6ac22d68c501f58ff9a68003adb5409b244afa26540b4",
+      "trigger_contacts": "055fb8c2216e3a3196d745f83f046a2bb4207dd1fbcb7aa14fb587a209528d08",
+      "recovered_content": "1a9a7ac0338cb09e624756b6607290c7fe9d6dc28c410b58cc6988490198d4a2",
+      "box2d_201": "1dedf142b571cf67e03bc3d0e8eebd9614a915d3e92a2bab104b97392bab374b"
+    }
+  },
+  "compile_only": {
+    "validation": "PASS",
+    "command": "clang++ -std=c++17 -Wall -Wextra -Werror -Wno-missing-field-initializers -fsyntax-only celest_target_fx_dispatch_v1.cpp hotty_session_cast_v1_tests.cpp",
+    "live_session_or_link_claim": false
+  },
+  "integration_test": {
+    "test": "port/windows-foundation/features/faery_menu/tests/hotty_session_cast_v1_tests.cpp",
+    "runner": "port/windows-foundation/features/faery_menu/run_hotty_session_cast_v1_tests.ps1",
+    "coverage_added": [
+      "resolve and verify the two exact original source names",
+      "same-CombatSession factory dispatch for Player_Pre",
+      "same-CombatSession Main dispatch through the existing ordered source Use helper after both result occurrences",
+      "CPU source-instance receipt only; no visual or GPU claim"
+    ],
+    "last_attempt": "PASS. The full linked fixture exercised the current-slot bankSpells[4] Hotty cast with its exact plan, sequence policies, state/variant/group path and frame-begin timer provider; the same retained callback performed source Use and completion. It also passed the no-FX cast, actual source Mage slot0 Celest two-result path, target FX source-instance dispatch, and empty-target cases. Celest-only remains an explicitly scoped adapter/result-order branch. CPU/source instance creation only; no render packet or GPU claim.",
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File port/windows-foundation/features/faery_menu/run_hotty_session_cast_v1_tests.ps1",
+    "output": "PASS connected Hotty state7 do_spell and ordinary source Mage slot0 Celest double-roll same-Session behavior; CPU-only source BDAE instance creation verified",
+    "exe_sha256": "35e34c1b16d0a97ec7a247d402faf9d5d424a7a49efbb5c6d1ad17c7a6864a49",
+    "test_fixture_source_change": "Provide spell_bank.plan/.policies and exact bankSpells selections in the request; pass callbacks into coordinator begin instead of replaying an already active sequence; use CombatSession frame-begin provider to advance source cooldown/coordinator timers before animation events."
+  },
+  "gpu_or_visual_claim": false
+}

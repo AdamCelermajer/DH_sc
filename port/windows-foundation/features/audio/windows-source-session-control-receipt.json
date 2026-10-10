@@ -1,0 +1,35 @@
+{
+  "status": "Windows production control factory implemented and hardware-linked",
+  "factory_api": {
+    "header": "port/engine-audio/integration-v42/audio_session_control_factory_v42.hpp",
+    "descriptor": "AudioSessionControlFactoryV42 carries a production construct function, borrowed context, and shared context_owner pin.",
+    "session": "AudioNativeSessionV42 accepts the descriptor additively and retains its context owner until checked output closure, control thread join, and V42 final drain succeed.",
+    "application_manager": "AudioApplicationManagerV42 has an additive create overload accepting the explicit descriptor; existing API remains source-compatible.",
+    "default_policy": "Android retains AudioControlV40 as its default under __ANDROID__. Platforms without a default, including Windows, fail with Required actual platform audio control factory."
+  },
+  "windows_control": {
+    "path": "port/windows-foundation/features/audio/windows_source_session_control_v1.hpp/.cpp",
+    "factory": "dh2::audio::windows_source_session_control_v1()",
+    "ownership": "Dedicated NativeSessionV42 control thread constructs WinmmAudioOutput over the same V42 mixer; publishes the same V42 AudioClockV40; checks the same AudioLifecycleGateV40 source epoch/focus; no PlatformSourceAudio or second runtime is created.",
+    "lifecycle": "WinMM open, actual focus pause/restart, TIME_SAMPLES/QPC clock publication, close_checked, worker join, and producer-side AudioGameplayRuntimeV42 final drain are covered."
+  },
+  "validation": {
+    "runner": "port/windows-foundation/features/audio/run_windows_source_session_control_tests.ps1",
+    "compiler": "LLVM-MinGW clang++ C++17 -O2 -Wall -Wextra -Werror -static; linked Windows control, AudioNativeSessionV42, V42 runtime, WinMM, and winmm.",
+    "result": "PASS",
+    "checks": [
+      "Windows default without a supplied factory fails explicitly.",
+      "Pinned production Windows factory starts one native session and reaches focused WinMM readiness.",
+      "The same V42 clock publishes a valid generation, TIME_SAMPLES position, QPC monotonic timestamp, and 48 kHz rate.",
+      "Lifecycle focus loss pauses output and marks the same generation clock unready; focus restoration resumes and publishes a newer QPC sample.",
+      "Successful shutdown proves checked device close, control-thread join, V42 receipt/stop drain, runtime release, and release of the pinned factory context."
+    ],
+    "compile_only": "Native session and application manager translation units pass strict LLVM-MinGW compile in production and DH2_AUDIO_NATIVE_SESSION_FIXTURE modes."
+  },
+  "boundaries": [
+    "No root main/CMake/native fixture edits.",
+    "No production campaign source gates/settings/RNG/order changes.",
+    "No Android default control behavior change.",
+    "The Windows control is available through an explicit factory descriptor; no root caller enrollment is claimed."
+  ]
+}

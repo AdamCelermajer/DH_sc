@@ -48,6 +48,9 @@ bool swf_menu_settings_action(const char* action,const gameswf::fn_call& fn,cons
         // C++ conversion of out-of-range doubles.
         const auto value=std::isnan(n)?0:n>=2147483647.0?INT32_MAX:n<=-2147483648.0?INT32_MIN:static_cast<std::int32_t>(n);
         if(!s.apply_option(s.context,name.c_str(),value,error))return false;
+        // NativeSetOptions -> MenuManager::ResetFonts is conditional on the
+        // exact Language key and runs after the option owner applies it.
+        if(name=="Language"&&s.reset_fonts&&!s.reset_fonts(s.context,error))return false;
         const auto current=s.settings->option(name.c_str()),id=s.settings->option_string(name.c_str());std::string text;
         if(std::uint32_t(id)-std::uint32_t(current)!=0xffffffffu){
             if(!s.string_by_id){error="Required option StringManager backend unavailable";return false;}

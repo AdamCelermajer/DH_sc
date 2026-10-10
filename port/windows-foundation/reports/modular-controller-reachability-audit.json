@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "controller_reachability_proved",
+  "finding": "Prince contains173 library controllers.172 belong to four modular categories; four are selected serialized defaults. The only uncategorized controller172 is _mesh_shadow-mesh-skin, referenced by visible root scene _mesh_shadow-node. There are no12 uncategorized legacy class-preview controllers in this asset.",
+  "render_policy": {
+    "modular_node": "Original ctor0x649120 selects categories; updateBuffer0x6483c8 combines only live selected category module resources, not every controller from library.",
+    "other_scene_nodes": "Scene roots separately construct ordinary tag2 skin instances via createSkinNode0x35087c. Real visible references outside category selection remain separate source objects.",
+    "safe_generic_admission": "For authored modular defaults admit selected category IDs plus uncategorized controller IDs referenced by visible original scene instances. Never admit unrelated uninstantiated controller library records.",
+    "counts": "Authored-default actor can have4 category body controllers +1 separately referenced auxiliary shadow controller. Explicit body controller_ids of4 yields4; expecting4 total while preserving visible auxiliary source geometry is inconsistent.",
+    "limit": "This probe does not prove final frame shadow visibility after every original runtime material/light/shadow initialization; no arbitrary shadow deletion or invented render pass is justified."
+  },
+  "source_material": {
+    "id": "Material__38",
+    "diffuse": "atlas_dh2_game_objects_001.tga",
+    "effect": "GL_Diffuse_L1_VC_iPhone.bdae",
+    "technique": "L1_Vc_Al_Sp_----_----_----",
+    "alpha": 1
+  },
+  "probe": {
+    "source": "port/windows-foundation/reports/modular-controller-reachability-probe.cpp",
+    "output": "port/windows-foundation/reports/modular-controller-reachability-probe.txt",
+    "result": "native Windows compiled and executed"
+  },
+  "evidence": [
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0064\\00649120.c",
+      "sha256": "826498f9e49294288dad26ea8910123fcdd2bfc86b3f8b6741d505c08073845b"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0064\\006483c8.c",
+      "sha256": "eabfc703670b08afea77b5403d0b26786cd01affce538985b5734f920f404466"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0035\\0035087c.c",
+      "sha256": "8818fb21694d0364be5cbe81a7bd8797258d44132d4cfc57bd29a277ad98cea5"
+    },
+    {
+      "path": ".local-inputs\\ida-apk-export-2026-10-07\\libraries\\libDungeonHunter2.so\\pseudocode\\0035\\0035a9c8.c",
+      "sha256": "6bb539d53d05b275340823a594bdfbea263e891d8b78fafb1033d7ff21aaa91a"
+    }
+  ],
+  "source_edits": "New probe/report only; root owns CharacterVisual implementation."
+}

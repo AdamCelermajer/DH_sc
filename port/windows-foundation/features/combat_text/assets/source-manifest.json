@@ -1,0 +1,32 @@
+[
+  {
+    "uri": "data/pydata/common_text_pycst.bin",
+    "bytes": 155738,
+    "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5"
+  },
+  {
+    "uri": "data/pydata/design_pycst.bin",
+    "bytes": 3999,
+    "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
+  },
+  {
+    "uri": "data/pydata/common_text_pyarray.bin",
+    "bytes": 10167,
+    "sha256": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286"
+  },
+  {
+    "uri": "data/pydata/common_text_pyarraynames.bin",
+    "bytes": 96,
+    "sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b"
+  },
+  {
+    "uri": "data/pydata/common_text_pystructnames.bin",
+    "bytes": 36,
+    "sha256": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad"
+  },
+  {
+    "uri": "data/text/ingame.english",
+    "bytes": 6100,
+    "sha256": "445b1ea59be3f9a9a39753afda8f16825840a67982336c072e2b11a7769f2bff"
+  }
+]

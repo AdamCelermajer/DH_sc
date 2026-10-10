@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-09",
+  "status": "native_v59_behavior_decorator_available_live_provider_enrollment_gap",
+  "scope": "windows-foundation/features/cinematics only; no root main/core/CMake/assets/package edits",
+  "source_trigger_and_selection": {
+    "moth": {
+      "trigger": "swamp _prim_MothMovieTriggerZone, triggercount=1, delay=0, script=MothIntro",
+      "source": "port/level-world/reference/trigger-zone-v22/swamp-declarations.json:398-444",
+      "camera_command": "MothIntro command index 12, kind 5 PlayCamera, authored animation ID 334, wait=1",
+      "level_config": "001_swamp.mlx omits camera_animset, camera_file, and camera_name; canonical LevelConfig declaration defaults camera_animset to Default at offset 0x264, while camera_file/name default empty",
+      "selection_owner": "GameplayCameraRuntimeV11::load exact-matches the borrowed LevelConfig animation_set against the actual CamAnimSetTable names and retains that row. GameplayCameraAnimationManagerV10::register_camera admits only that row's template, idle, shake, crit, and cam_anims entries. PlayCamera only plays IDs present in that registered set.",
+      "actual_default_row_result": "Dictionary ID 334 resolves to data/3D/camera/animations/cs_moth_intro/cs_moth_intro.bdae, but 334 is not a cam_anims member of the loaded original Default row; source PlayCamera consequently takes the native unmapped no-play path. No resource is to be force-added based on its script ID or the video."
+    },
+    "trungus": {
+      "script": "TrollReturn command index 11, kind 5 PlayCamera, authored animation ID 44, wait=1",
+      "actual_default_row_result": "ID 44 is registered in the same actual Default row and resolves to data/3D/camera/animations/common/cam_shake_horiz.bdae; loaded resource SHA256 9fa611486a45eade5aeb34a134baea01f89bc0924e1a4fed1944a6ed86a3af69.",
+      "association": "TrollReturn is the source-backed clip caller. It does not prove that the surrounding video jump/landing segment is caused by this clip."
+    }
+  },
+  "runtime_path_and_dependencies": {
+    "camera_owner": "App post-init publishes GameplayCameraApplicationV23 through native_camera_services_v20. Its initialized V23 borrows same Application services, actual dictionary/file reader, process camera slot and scene roots. World load uses same actual CamAnimSetTable, LevelConfig and same World V19 CameraLevel; source admission borrows rather than creates a second camera.",
+    "camera_init_leaf": "GameplayCameraRuntimeV11::load -> exact CamAnimSetTable row selection -> CameraAnimationManagerV10::create/register_camera -> actual AnimDict path read/BRES/clip registration -> AnimatorSet attach -> source PlayCamera -> actual scene timestamp completion clears source byte84.",
+    "root_registration_caller": "Root App post-init must initialize/publish native_camera_services_v20. Root World load must pass the parsed canonical LevelConfig (including inherited Default when omitted), exact original AnimationTables and same World lease to GameplayCameraApplicationV23::load. After source command admission, root advances actual scene_phase(timestamp) once per source scene timestamp and calls SourceCinematicSession::tick_scripts with source delta; teardown calls begin_world_release, physical/PF cleanup, flush_animation_sets, then release_world_owners in source order.",
+    "session_trigger_caller": "The original Swamp trigger contact/activation owner must start the already-loaded MothIntro script with the trigger's retained module context and real received/local eligibility. The trigger-zone declaration is source data only; diagnostic scheduled starts are not acceptance.",
+    "other_mandatory_cinematic_services": [
+      "same canonical ObjectManager -> Character conversion, live actor field leases and actual actor/FSM services for commands 40/41/45/46",
+      "actual Application PlayerManager, ScriptManager, current Level, HUD StartCutscene/StopCutscene and online peer/message methods for SourceCutsceneMode Enter/Exit; no shadow UI booleans",
+      "actual source SKIP owner/input state, source command scheduling and abort/world restoration for cancellation",
+      "source audio command owner; Troll asset 328/UID252 remains absent, while Moth 363/UID459 is available",
+      "MothIntro also enters common-script/other campaign command paths; every reached source effect requires its original service"
+    ],
+    "tutorial_path": "Original trigger kind78 uses player available + normal difficulty + enabled persistent tutorial flag + offline eligibility; starts its authored named continuation, consumes the source tutorial byte and saves settings. `tutorial_treasure` invokes `chest_tuto`; CombatTuto is a separate authored continuation. Tutorial message UI must use the existing native tutorial/message queue and actual HUD AS/localization owners; no forced tutorial start.",
+    "tutorial_ui_owner": "port/engine-ui/menu_dialog_messages_v97.hpp owns the retained message queue and menu_message_cache_v66 maps tutorial delivery to onTutorialMessage. Current Windows-foundation trigger/campaign runtime has a typed tutorial gate/continuation but no live callback binding to the actual currentLevel HUD/message queue."
+  },
+  "same_runtime_dispatch": {
+    "helper": "port/windows-foundation/features/cinematics/source_campaign_dispatch_v1.hpp/.cpp",
+    "purpose": "Composes typed campaign command providers into one existing OriginalCampaignRuntime command callback; it allocates no second runtime, scheduler, queue, or FSM.",
+    "order": "SourceCinematicCommands -> SourceDoorCommands -> CanonicalSourceAudioAdapter campaign callback -> caller's remaining existing authored effects.",
+    "state": "Each reached command samples source skip once and forwards the same command/module/phase. Audio command13/14 additionally receives the actual received flag and sampled authored event timestamp in nanoseconds. Existing admission and RNG callbacks are retained when the runtime is bound.",
+    "ignored_returns": "Audio adapter's source-ignored playback failure behavior is preserved: once the actual audio runtime/row/authority is admitted, missing authored audio returns handled success with a diagnostic. Fatal authority/row failures still propagate. Door IsBlocking uses its own retained exact receiver and source states; no timer or duplicate wait owner is introduced.",
+    "test": "port/windows-foundation/features/cinematics/source_campaign_dispatch_v1_tests.cpp validates command routing order, same skip/module/source-time forwarding, remaining-provider fallback, and explicit failure when mandatory audio ownership is absent. Stubs test only the mux; underlying cinematic, Door, and audio component tests own production semantics.",
+    "windows_root_binder": "After CampaignBinding::bind has installed its admission/random/trigger-script continuations on the existing OriginalCampaignRuntime, root can bind that same runtime with SourceCampaignDispatchV1 while supplying the same admission/random callbacks and a remaining callback that directly invokes the existing authored world/effect dispatch with the already sampled skip. Keep CampaignBinding alive; its trigger_script_services and tick continue to reference that same runtime instance.",
+    "native_android_binder": "Actual canonical Level ScriptManager is ApplicationServicesOwnerV5::source_script_manager_v52(). source_campaign_script_execution_v96.cpp obtains this manager, creates ScriptCommandBehaviorV59 effects with private execute/blocking lambdas, wraps them with script_execution_control_v96, binds those behaviors to parsed receivers via bind_parsed_script_execution_v96(*manager,...), then binds the scheduler on that same manager. CheckedCommandBorrowV59 carries the same canonical receiver and parsed ScriptCommandDataV52. SourceCampaignDispatchV1 instead consumes OriginalCampaignCommand records from OriginalCampaignRuntime; no current conversion/composition API joins those owners.",
+    "exact_native_extension_point": "The only composition location is the private effects.execute/effects.blocking construction inside source_campaign_script_execution_v96.cpp (execute begins at line 152, blocking at 432, binding at 453-455). The effects object and prior callbacks are local and not returned, passed to a caller, or exposed on ScriptManagerOwnerV52. bind_parsed_script_execution_v96 replaces receiver Execute/IsBlocking/Update callbacks; it cannot recover or decorate already bound callbacks. A safe adapter needs an explicit binder parameter/hook that decorates the V59 behavior before bind_parsed_script_execution_v96, plus the same Application manager binding; a new standalone helper cannot install itself into the current binder.",
+    "remaining_gap": "Root has not published the matching typed V59 Door/camera/actor/UI/audio adapters and NativeScriptManager callsite enrollment. The Windows mux is reusable dispatch composition, not proof that root or Android native owner currently reaches it.",
+    "native_v59_borrow_result": {
+      "actual_manager": "ScriptManagerOwnerV52 is obtained from the same Application in the native binder; it publicly exposes parsed commands and bind_scheduler_v96, but no behavior getter/decorator.",
+      "actual_receivers": "bind_parsed_script_execution_v96 loops current manager.commands(), validates canonical_receiver_v96, same receiver identity, and same retained ScriptCommandDataV52, then calls bind_execution_v96.",
+      "scheduler": "Native binder calls bind_scheduler_v96 on that same manager only after parsed command binding; scheduler service callbacks are private locals and no borrowed binding token is exposed.",
+      "incompatible_helper_input": "SourceCampaignDispatchV1 accepts OriginalCampaignCommand values/references from a distinct OriginalCampaignRuntime. A command snapshot bridge would lose/reassign pointer-keyed command lifetime used by cinematic/Door state and would not expose the native binder private prior callbacks for fallback.",
+      "required_api": "A typed decorate_source_campaign_behavior callback or explicit V59 command-dispatch service parameter on bind_source_campaign_script_execution_v96, invoked before bind_parsed_script_execution_v96, with the binder-owned manager/parsed receivers and source scheduler identity. Without it, no safe new-file-only adapter exists.",
+      "conclusion": "Stopped before adding source_campaign_command_borrow_v1.hpp/.cpp or a wrapper. No live campaign enrollment claimed."
+    },
+    "native_v59_behavior_decorator": {
+      "binder_api": "source_campaign_script_execution_v96.hpp adds optional SourceScriptBehaviorDecoratorV96 after the existing actor-leaves parameter, preserving old callers. The native binder invokes it on the fully script_execution_control_v96-composed behavior before bind_parsed_script_execution_v96 and then bind_scheduler_v96.",
+      "owner_identity": "The hook receives the exact shared_ptr<ScriptManagerOwnerV52> obtained from the Application, const reference to the exact local scheduler service bundle (same scheduler.owner binding retained by the manager), and mutable V59 behavior. Binder checks the same Application manager after decoration.",
+      "parsed_identity": "Binder snapshots source command identity, actual receiver pointer, canonical V59 receiver, retained data pointer, skip/kind/data-c cell pointer identities, and iteration order before the hook; it rejects changes before parsed binding.",
+      "native_feature_helper": "port/windows-foundation/features/cinematics/source_campaign_native_behavior_v96.hpp/.cpp composes typed callbacks over CheckedCommandBorrowV59. It validates membership of the exact receiver/data/skip/kind/data pointer tuple in the supplied ScriptManager and holds only weak manager/scheduler/Application leases; provider owner is retained by the decorated callbacks.",
+      "callback_order": "For reached Execute/IsBlocking/Update, typed provider runs first; handled=true returns. handled=false delegates to the binder existing native body. Provider failures propagate without fallback. Existing skip/module and blocking results pass through unchanged.",
+      "test": "source_campaign_native_behavior_v96_tests.cpp loads actual V59 PlayCamera and Wait parsed records into ScriptManagerOwnerV52, applies the decorator before bind_parsed_script_execution_v96 and scheduler binding, asserts same receiver/data and scheduler owner, provider-before-existing callback order, skip/module forwarding, missing provider owner/callback failures, provider failure without fallback, and failure after manager lifetime ends. Static LLVM MinGW C++17 link/run passes.",
+      "live_enrollment": "Current callsites native_source_script_ui_v98.inc and source_campaign_script_runtime_v99.cpp still use existing arguments and therefore do not provide a SourceScriptBehaviorDecoratorV96. The hook and contract are available; no live campaign provider enrollment is claimed.",
+      "next_required_providers": "Root must supply a decorator using actual V59 command providers for cinematic camera and actor/FSM commands, Door54/55, canonical audio13/14, and actual receive/source-time context; existing source cutscene PM/UI, skip/input/abort, current-Level HUD/tutorial-message owners and trigger-driven script admission remain separate live integration dependencies."
+    }
+  },
+  "acceptance_fixture": {
+    "file": "port/windows-foundation/features/cinematics/source_camera_admission_tests.cpp",
+    "added_assertions": [
+      "selected loaded CameraLevel row is the actual table member named Default",
+      "MothIntro334 dictionary path is exact, absent from Default.cam_anims, and observed as source no-play",
+      "TrollReturn44 is registered and active in that same loaded Default row with the exact common shake asset path"
+    ],
+    "existing_fixture_boundary": "Uses actual Application/V23/V19/AnimationTables, manager registration, camera timeline/completion and teardown. Its Level camera model bytes and device/viewport/Debug/actor/PM leaves remain explicit fixtures; it is not a live swamp-camera or authored-trigger acceptance."
+  },
+  "verification": {
+    "extended_fixture_syntax": "Windows LLVM clang++ C++17 -Wall -Wextra -Wpedantic -fsyntax-only passed with level-world, engine-animation, engine-resources, engine-skinning, game-data, level-loader and windows-foundation include roots.",
+    "extended_fixture_native": "Rebuilt from the updated test/source and actual Application/V23/V19/animation table/camera owner sources with Windows LLVM clang++ C++17 static; executable .local-inputs/windows-camera-assets/source-camera-admission-tests-updated.exe passes. Output asserts Default-row 334 source no-play and 44 registered/active before source timeline retirement.",
+    "dispatch_test": "Windows LLVM clang++ C++17 static -Wall -Wextra -Wpedantic build and run of source_campaign_dispatch_v1_tests.exe passes. This is a mux test with route stubs, not a complete source campaign acceptance.",
+    "existing_warnings": "Camera fixture rebuild reports the existing event_manager_owner_v12.cpp:41 and resource_budget_v37.cpp:31 misleading-indentation warnings; no warnings in changed dispatch/helper/test files.",
+    "live_acceptance": false
+  },
+  "remaining_blocker": "No genuine root App/World/trigger/SKIP/HUD/Character/FSM runtime is published into this Windows-foundation task. The original Moth LevelConfig selects Default, and the true row proves 334 unmapped; the current camera owner cannot manufacture an authored resource or change that source outcome. Next advancement requires root registration of the actual same-owner services and live original trigger contact, plus mandatory UI/FSM providers."
+}

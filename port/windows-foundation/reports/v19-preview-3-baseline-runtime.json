@@ -1,0 +1,108 @@
+{
+  "status": "diagnostic_packaged_runtime_verified_fidelity_incomplete",
+  "goal_complete": false,
+  "executable_sha256": "0baba8bf711e8463a92899e76ddb2753800c02f5520c58de2261ad4dcae0f600",
+  "package_files_verified": 578,
+  "retained_source_clock": true,
+  "retained_player_locomotion": true,
+  "source_spawn_command_replay": false,
+  "source_run_camera_initial_input_lock": false,
+  "shared_controller_attack_admission": false,
+  "original_named_animation_routing": false,
+  "source_player_body_radius": false,
+  "native_actor_bodies_before_initfinal": false,
+  "live_root_constructor_scopes": false,
+  "original_pf_floor_motion": true,
+  "original_manual_heading_late_rotation": true,
+  "synchronous_source_hit_callbacks": true,
+  "authored_own_target_node_cache": false,
+  "portrait_character_menu_development_panel": true,
+  "baseline_executable_preserved": true,
+  "runtime_checks": [
+    {
+      "log": ".local-inputs/windows-source-clock-v19-preview-3/verification.log",
+      "required_observations": [
+        "Damage frame=13 attacker=7118915781085668844",
+        "Damage frame=76 attacker=18446744073709551615",
+        "Damage frame=192 attacker=18446744073709551615",
+        "removed=14.0039 dead=1",
+        "Saved live checkpoint frame=210 HP=157.457 RNG=2808983/38",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Rendered frames=360; clean shutdown",
+        "938.285,255 grounded=1",
+        "Original floor motion bound actors=",
+        "Navigation final actor=18446744073709551615 pfUser=18446744073709551615 radius=113.7",
+        "synchronousHit=1",
+        "Source manual heading final checks="
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-v19-preview-3/resume-verification.log",
+      "required_observations": [
+        "Restored live checkpoint frame=0 HP=157.457 RNG=2808983/38",
+        "Rendered frames=30; clean shutdown",
+        "HP=0/47.5 target=0 action=5",
+        "Original floor motion bound actors=",
+        "Navigation final actor=18446744073709551615 pfUser=18446744073709551615 radius=113.7",
+        "Source manual heading final checks="
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-v19-preview-3/startup-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=1324.6,-198.633,255 grounded=1",
+        "HP=165.098/165.098 target=0 action=0",
+        "Actor camera anchor final=1580.6,-198.633,255",
+        "sourceXY=276.028 worldXY=248.425",
+        "Original floor motion bound actors=",
+        "Navigation final actor=18446744073709551615 pfUser=18446744073709551615 radius=113.7",
+        "Source manual heading final checks=",
+        "Source manual heading final checks=60 slides=44 lateRotations=60",
+        "Source PF motion final actor=18446744073709551615 solves=91 accepted=60 clamped=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-v19-preview-3/floor-boundary-verification.log",
+      "required_observations": [
+        "Rendered frames=700; clean shutdown",
+        "Source floor final actor=18446744073709551615 hit=1 height=255",
+        "Source PF motion final actor=18446744073709551615 solves=712 accepted=118 clamped=542",
+        "Original floor motion bound actors=",
+        "Navigation final actor=18446744073709551615 pfUser=18446744073709551615 radius=113.7",
+        "Source manual heading final checks=",
+        "Source manual heading final checks=650 slides=100 lateRotations=650"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-v19-preview-3/menu-verification.log",
+      "required_observations": [
+        "Character menu opened frame=5 via profile input",
+        "Character menu final opened=1 drawn=55 open=1",
+        "Rendered frames=60; clean shutdown",
+        "Actor final position=1090.75,-212.202,255 grounded=1",
+        "Source manual heading final checks="
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-v19-preview-3/menu-close-verification.log",
+      "required_observations": [
+        "Character menu opened frame=5 via profile input",
+        "Character menu final opened=1 drawn=30 open=0",
+        "Rendered frames=60; clean shutdown",
+        "Actor final position=1090.75,-212.202,255 grounded=1",
+        "Source manual heading final checks="
+      ]
+    }
+  ],
+  "limits": [
+    "Explicit diagnostic stationary AI; original encounter activation remains unverified",
+    "Lifecycle replay uses explicitly scheduled serialized Spawn commands in global context-1; full original trigger/module/cutscene/UI flow and campaign persistence remain incomplete",
+    "Player locomotion shares source pose ownership; original controller/attack heading command gates and outer combo chaining remain incomplete",
+    "Manual player Move heading and late rotation are live; full focus/controller/path/physics coordination, dynamic collisions and continuous reference fidelity remain incomplete",
+    "Retained hit effects are synchronous during source advancement; complete original damage/AIS/FSM reentry, seed-time event handling and global actor chronology remain incomplete",
+    "Companion behavior, status/DOT/leech, full UI/effects/audio/campaign remain incomplete",
+    "Original-art character panel is a development subset: equipment/skills mutations, full AS visibility/reflow, complete masks/art/typography and reference parity remain incomplete"
+  ]
+}

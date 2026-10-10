@@ -7,7 +7,7 @@ bool CharacterLootItemManagerV8::despawn(Slot& slot,std::string& e){
  if(!o.category3ac||!o.enabled85){e="Required same retained ItemObject category/enabled fields";return false;}
  auto category=*o.category3ac;if(category<0||std::size_t(category)>=categories_.size())return true;
  Slot* actual{};for(auto& s:categories_[std::size_t(category)].slots)if(s.object.identity==o.identity){actual=&s;break;}if(!actual)return true;
- actual->active=false;LootItemRequestV8 q{LootItemOperationV8::enable,&o};q.flag=false;if(!invoke(q,e))return false;
+ actual->active=false;LootItemRequestV8 q{LootItemOperationV8::set_visible,&o};q.flag=false;if(!invoke(q,e))return false;
  q.operation=LootItemOperationV8::remove_all;q.flag=true;if(!invoke(q,e))return false;
  q.operation=LootItemOperationV8::physical;q.flag=false;if(!invoke(q,e))return false;
  *o.enabled85=0;return true;
@@ -44,7 +44,7 @@ bool CharacterLootItemManagerV8::spawn(data::LootTemporaryInventoryV8& inventory
  q.operation=LootItemOperationV8::destination;q.vector=destination;if(!invoke(q,e))return false;
  q.operation=LootItemOperationV8::init_again;q.vector=nullptr;q.inventory=&inventory;q.index=index;q.character=character;q.audiovisual=&audiovisual_.rows()[std::size_t(category)];
  const auto count=inventory.items().size();if(!invoke(q,e))return false;if(inventory.items().size()+1!=count){e="Source ItemObject InitAgain did not transfer one actual loot item";return false;}
- q.operation=LootItemOperationV8::enable;q.flag=true;q.inventory=nullptr;if(!invoke(q,e))return false;
+ q.operation=LootItemOperationV8::set_visible;q.flag=true;q.inventory=nullptr;if(!invoke(q,e))return false;
  *slot.object.enabled85=1;slot.active=true;out=slot.object;return true;
 }
 bool CharacterLootItemManagerV8::despawn(std::uintptr_t id,std::string& e){e.clear();if(running_){e="Unsupported ItemManager DeSpawn reentry";return false;}running_=true;struct Reset{bool& b;~Reset(){b=false;}}reset{running_};for(auto& c:categories_)for(auto& s:c.slots)if(s.object.identity==id)return despawn(s,e);return true;}

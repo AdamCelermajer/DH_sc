@@ -1,0 +1,99 @@
+{
+  "feature": "inventory",
+  "status": "source-ui-and-descriptor-components-tested-runtime-integration-pending",
+  "owner": "CharacterState.inventory and CharacterState.gold borrowed; no duplicate persistent owner",
+  "files": [
+    "port/windows-foundation/features/inventory/inventory_feature.hpp",
+    "port/windows-foundation/features/inventory/inventory_feature.cpp",
+    "port/windows-foundation/features/inventory/inventory_feature_tests.cpp",
+    "port/windows-foundation/features/inventory/README.md",
+    "port/windows-foundation/features/inventory/inventory_menu.hpp",
+    "port/windows-foundation/features/inventory/inventory_menu.cpp",
+    "port/windows-foundation/features/inventory/inventory_details.hpp",
+    "port/windows-foundation/features/inventory/inventory_details.cpp",
+    "port/windows-foundation/features/inventory/source_instance_resolver.hpp",
+    "port/windows-foundation/features/inventory/source_instance_resolver.cpp",
+    "port/windows-foundation/features/inventory/source_character_inventory_binding.hpp",
+    "port/windows-foundation/features/inventory/source_character_inventory_binding.cpp",
+    "port/windows-foundation/features/inventory/source_character_item_resources.hpp",
+    "port/windows-foundation/features/inventory/source_character_item_resources.cpp",
+    "port/windows-foundation/features/inventory/source_character_item_resources_tests.cpp",
+    "port/windows-foundation/features/inventory/inventory_native_instance_tests.cpp",
+    "port/windows-foundation/features/inventory/source_item_descriptors.hpp",
+    "port/windows-foundation/features/inventory/source_item_descriptors.cpp",
+    "port/windows-foundation/features/inventory/original_inventory_art.cpp",
+    "port/windows-foundation/features/inventory/export_inventory_art.py",
+    "port/windows-foundation/features/inventory/source_inventory_layout.json",
+    "port/windows-foundation/features/inventory/inventory_menu_tests.cpp",
+    "port/windows-foundation/features/inventory/inventory_source_tests.cpp"
+  ],
+  "api": "dh::foundation::inventory::Presenter(CharacterState&, const dh2::data::ItemTable&); present, select, sort, pickup, drop, credit_gold, debit_gold",
+  "source_metadata": "Original1322-row ItemTable Type,Stackable,word17nameOID; raw Item.name is model URI and must not display; all IconName strings empty; actual SWF424 categoryicon frames exported",
+  "validation": {
+    "result": "PASS",
+    "compiler": "bundled llvm-mingw g++ C++17 -Wall -Wextra -Werror -static",
+    "test_runs": 5,
+    "original_table_rows": 1322,
+    "coverage": [
+      "actual stackable and nonstackable rows",
+      "merge preserves owned instance",
+      "duplicate/malformed identity rejection",
+      "unknown source row rejection",
+      "gold-loot service rejection",
+      "source icon metadata",
+      "sort preserves saved order",
+      "selection follows identity and clears on removal",
+      "equipped-drop rejection",
+      "partial stack drop",
+      "invalid quantity rejection",
+      "stack and gold overflow rejection",
+      "insufficient currency",
+      "atomic failed frame output"
+    ],
+    "original_engine_differential": false,
+    "source_ui": "PASS strictC++17 Wall Wextra Werror:10actualcategoryicons/hitcontours/fields; trueMenuLocalization HudTextV1 originalcorpus,StrID constants,508ef4varargs; Longsword01 UselessBlade/Damage12-15,Potions3; actualPowerTables add_power descriptionlease; Details4568source listplacements andactualID navigation; no runtime screenshot proof"
+  },
+  "unsupported_original_services": [
+    "Root must publish a typed completed-V60-record to SourceItemResourcesV88 borrower; no opaque services_lease_v62 downcast is permitted",
+    "Source signed16 wrapping/Debug policy for foundationstorage",
+    "Goldloot valuation",
+    "Potioncapacity mutation/twoequipmentset persistent state",
+    "Worlddrop spawn/delete atomicservice",
+    "Native generated-instance equipmentranking andsourceHTML/fontpalette/statusbutton runtime sink"
+  ],
+  "integration": "See coordination/integration-lead/handoffs/inventory.md and featureREADME: rootmain/CMake soleowner, equipmentMenuselection borrowed, actual sharedsource textcache andoriginaldescriptorproducers, no saveformat change",
+  "details_page_composition": {
+    "selection_owner": "Existing equipment_menu::Presenter is borrowed for both selected source slot and selected actual instance ID; DetailsPresenter owns only open/closed visibility",
+    "state_and_table": "Actual CharacterState and original ItemTable borrowed; names/requirements/stats/power descriptions bound through actual ItemTextOwnerV5 and original descriptor producers",
+    "frame_layers": "Removes stale menu_InventorySheetMain and menu_InventorySheetDetails art/text/solids; appends original 456 details panel plus settled 108 list rows",
+    "source_solids": "Generated actual source: one avatar-pane panel solid and one solid for each visible row; frame order is panel, then visible source rows; each solid preserves recovered after_bitmap_role anchor",
+    "values": "Source tests observe actual Useless Blade, Damage 12 - 15, real original power text, and Potions: 3 from the shared localization cache/environment and formatter",
+    "save": "No details/menu frame operation mutates the persistent inventory, equipment, powers, currency, or save schema",
+    "receipt": "Strict native inventory_source_tests PASS against staged original Character/Item/Power and localization assets; tests verify stale layer replacement, source solid order/anchors, item field binding, arrow selection identity, and all five source mutation-action hit contours"
+  },
+  "details_action_routes": {
+    "equip": "Return DetailAction::equip; root invokes the existing equipment_menu::Presenter::equip_selected / EquipmentAdapter owner",
+    "unequip": "Return DetailAction::unequip; root invokes the existing equipment_menu::Presenter::unequip_selected_slot / EquipmentAdapter owner",
+    "drop": "Return DetailAction::drop; root must bind the actual world-drop owner plus confirmation and atomic world-item service",
+    "transmute": "Return DetailAction::transmute; missing original action owner must remain an explicit unavailable-source gate",
+    "auto_equip": "Return DetailAction::auto_equip; missing original action owner must remain an explicit unavailable-source gate",
+    "mutation_policy": "DetailsPresenter only returns source hit commands; it does not perform gameplay mutations or introduce a second selection owner"
+  },
+  "native_instance_resolver": {
+    "api": "SourceCharacterInventoryBinding(factory, character_identity, SourceItemResourcesBorrow); bind_initial; invalidate_before_native_mutation; refresh_after_native_mutation; rebind_after_gear_restore; projection_bound; resolver_callback",
+    "native_source": "Feature binder calls SourceCharacterOwnerFactory::borrow_completed_character on each lookup, verifies exact completed V60 record/prepared ready Gear/inventory37c, obtains Gear::item_text_owner_v1(), and borrows that record's typed SourceItemResourcesV88 presentation() owner. Root must publish the typed record-resource association; services_lease_v62 is not downcast.",
+    "identity_mapping": "CharacterState stable instance IDs map to actual source GEAR row order; every bind checks original ItemTable definition, signed16 quantity and list membership. No ItemInstance power/value/identified fields are synthesized or copied.",
+    "mutation_lifecycle": "Invalidate before every native inventory mutation so existing leases stop acting; refresh after projection updates; GEAR restore creates a fresh resolver and remaps IDs to restored pointers. A failed refresh leaves projection invalid. projection_bound includes valid empty inventory.",
+    "native_index": "SourceInstanceLease exposes the actual current FreshInventoryOwnedV4 item-vector index and pointer for Gear actions; lease pins canonical and source-service owners; owns() rechecks live membership and order.",
+    "source_save": "Original GEAR format remains unchanged and has no instance UUID. Stable projected IDs rebind by actual GEAR row order after native source load.",
+    "receipt": "Strict C++17 -Wall -Wextra -Werror native fixture passed with actual FreshInventoryOwnedV4 create/add, original Item/Power/localization owners, native GEAR writer-to-V4-reader roundtrip, actual powered descriptors, stable IDs/order/quantity, pre-mutation lease invalidation and post-mutation refresh, graph pin lifetime, and expired-owner rejection. It does not fabricate a completed Character/Player Save graph: native bootstrap still has unresolved update_pf and root's typed SourceItemResources publication is missing."
+  },
+  "typed_source_item_resources": {
+    "api": "SourceCharacterItemResourcesV1::configure_gear_inputs(record, existing_SourceItemResourcesV88, PlayerEquipmentRenderInputsV1, exact_HudTextEnvironment, existing_host_pins); borrower() supplies SourceCharacterInventoryBinding",
+    "source": "Reuse the existing source-campaign item owner loaded once from the same CharacterCandidateCacheV62 Loot, CharacterGameDesign borrow, and actual World HudText/files providers. The helper never constructs SourceItemResourcesV88 or ItemPresentationOwnerV5.",
+    "gear_contract": "Publish exact resource association before configure_equipment/transfer/Load4; Gear inputs receive immutable Loot/Power borrows and exact text environment from that resource/provider. A typed pin holder retains resource and pre-existing Gear host service leases.",
+    "test": "source_character_item_resources_tests.cpp loads actual CandidateCache, CharacterGameDesign, MenuLocalization, and SourceItemResources owners. Strict syntax compile passes; root full native closure must compile/run because standalone foundation archives omit V60 out-of-line destructor dependencies.",
+    "integration_gap": "Root equipment_inputs still must publish and retain the registry association. Native completed-player bootstrap remains blocked at update_pf; no completed V60 player/save graph is fabricated by this component test."
+  },
+  "fidelity": "Explicit bare-item foundation storage bridge. Does not claim original ItemInventory service-owner parity. No invented balance, map or class branch. View sorting is foundation convenience. Existing global fidelity-incomplete status preserved."
+}

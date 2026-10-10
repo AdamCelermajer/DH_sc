@@ -1,0 +1,50 @@
+{
+  "status": "source_diagnosed_with_standalone_gpu_captures",
+  "generic_fix": {
+    "description": "Bake original material UV matrix into actor vertices once",
+    "formula": "u=t0*u+t4*v+t8; v=t1*u+t5*v+t9",
+    "source": "Original ProfileCOMMON shader TextureMatrix0 * vec4(uv,1,0)",
+    "limitation": "Other original shader families can use a different homogeneous UV vector. Audited priest/faery matrices are identity."
+  },
+  "priest": {
+    "asset": "data/3D/characters/npcs/Priest_good.bdae",
+    "serialized_node": "_mesh_Bad_Priest_skinned_batch-node",
+    "controller": "_mesh_Bad_Priest_skinned_batch-mesh-skin",
+    "instances": 1,
+    "controllers": 1,
+    "vertices": 250,
+    "triangles": 340,
+    "material": "diffuse",
+    "serialized_instance_material_index": 2,
+    "diffuse": "atlas_skinned_characters_animdecor_gameobjects_002.tga",
+    "alpha_map": "",
+    "texture_matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+    "uv_min": [0.125977,0.500238],
+    "uv_max": [0.375,0.625],
+    "snapshot": ".local-inputs/windows-foundation-build/priest-textured-standalone.png",
+    "opposite_camera_snapshot": ".local-inputs/windows-foundation-build/priest-opposite.png",
+    "finding": "Standalone source model and atlas reproduce red/black lower robe. Identity UV matrix rules out missing texture-matrix application as the cause for this asset. This differs from supplied original gameplay frame with white/gold lower robe.",
+    "unresolved": "Source asset/version or original runtime texture/UV override needs evidence. No inferred actor-specific recoloring or replacement was applied."
+  },
+  "faery": {
+    "asset": "data/3D/characters/faeries/faeries_02_celeste.bdae",
+    "controller": "_mesh_Faerie_Celeste_skinned_batch-mesh-skin",
+    "instances": 2,
+    "controllers": 1,
+    "vertices_per_primitive": 158,
+    "triangle_counts": [128,22],
+    "materials": ["diffuse","additive"],
+    "diffuse": "atlas_dh2_game_objects_001.tga",
+    "texture_matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+    "uv_min": [0.502664,0.877969],
+    "uv_max": [0.622425,0.996081],
+    "sampled_model_bounds": [[-92.8057,-11.8016,230.012],[94.3147,60.1961,360.163]],
+    "snapshot": ".local-inputs/windows-foundation-build/faery-textured-standalone.png",
+    "finding": "Standalone actor is a compact silhouette with gold wing glow. Giant teal planes in population capture do not occur in the isolated actor capture, so they require separate environment/effect investigation."
+  },
+  "diagnostic_sources": [
+    "port/windows-foundation/tests/actor_material_probe.cpp",
+    "port/windows-foundation/tests/actor_snapshot.cpp"
+  ],
+  "preserved": "No hardcoded priest/faery texture changes, color remaps, mesh removal or feature hiding"
+}

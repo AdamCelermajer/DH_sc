@@ -6,6 +6,8 @@
 #include "source_campaign_quests_v76.hpp"
 #include <canonical_character_candidate_v60.hpp>
 #include <canonical_gameobject_graph_v68.hpp>
+#include <character_world_runtime_v1.hpp>
+#include <character_world_target_owner_v1.hpp>
 #include <character_authored_resource_v6.hpp>
 #include <character_authored_fx_forces_v4.hpp>
 #include <character_fx_floor_sync_v29.hpp>
@@ -87,7 +89,27 @@ public:
    if(!value){e="Required actual FX anchor byte";return false;}q.result=*value;return true;
   }
   if(q.operation==O::anchor_position){
-   std::copy_n(actor?actor->runtime.subobjects.position:base->runtime().subobjects.position,3,q.point);return true;
+   const float* position=nullptr;
+   if(record){
+    auto targets=record->services.world_targets;dh2::character::skills::WorldTargetActorBorrowV1 source{};
+    if(!targets||targets->actor(q.identity,&source)||!source.position||!source.target_node||
+       (*source.target_node&&!source.target_enabled)){
+     e="Required SAME Character GetTargetPosition source fields";return false;
+    }
+    position=dh2::character::skills::dh2_world_target_position_v1(
+     source.position,source.cached_target_position,*source.target_node,source.target_enabled?*source.target_enabled:0);
+   }else{
+    const auto* target_node=base->pointer(0x180);const auto* world_position=base->vector3(0x160);
+    if(!target_node||!world_position){e="Required SAME GameObject GetTargetPosition source fields";return false;}
+    if(*target_node){const auto* enabled=base->byte(0x80);
+     if(!enabled){e="Required actual GameObject target enable byte80";return false;}
+     if(*enabled){const auto* cached=base->vector3(0x184);
+      if(!cached){e="Required actual enabled GameObject target position184";return false;}position=cached;
+     }else position=world_position;
+    }else position=world_position;
+   }
+   if(!position){e="Required actual GetTargetPosition result";return false;}
+   std::copy_n(position,3,q.point);return true;
   }
   if(q.operation==O::anchor_scale){
    if(actor){std::array<float,3> value;if(!actor->source_scale(value,e))return false;std::copy(value.begin(),value.end(),q.point);return true;}

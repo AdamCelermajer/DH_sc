@@ -1,0 +1,559 @@
+{
+  "status": "development_acceptance_criteria_not_final_verification",
+  "date": "2026-10-09",
+  "evidence_report": "reports/fidelity-video-audit-v18.json",
+  "authority": "Original video for visible behavior; recovered v1.0.2 source/data for authored execution. Video v1.0.3, difference not established. No proof from asset loading alone.",
+  "exact_script_requirements": [
+    {
+      "commands": [
+        {
+          "class_name": "Script_BlockSaveGame",
+          "exact_xml": "<command index=\"0\" kind=\"70\" className=\"Script_BlockSaveGame\"><scalar offset=\"4\" bits=\"70\" /></command>",
+          "kind": "70",
+          "index": "0"
+        },
+        {
+          "class_name": "Script_FlushMessages",
+          "exact_xml": "<command index=\"1\" kind=\"79\" className=\"Script_FlushMessages\"><scalar offset=\"4\" bits=\"79\" /></command>",
+          "kind": "79",
+          "index": "1"
+        },
+        {
+          "class_name": "Script_MarkCharacterAsScripted",
+          "exact_xml": "<command index=\"2\" kind=\"32\" className=\"Script_MarkCharacterAsScripted\"><scalar offset=\"4\" bits=\"32\" /><scalar offset=\"8\" bits=\"1\" /><scalar offset=\"12\" bits=\"3\" /><string offset=\"16\" value=\"All\" /></command>",
+          "kind": "32",
+          "index": "2"
+        },
+        {
+          "class_name": "Script_HideFlash",
+          "exact_xml": "<command index=\"3\" kind=\"23\" className=\"Script_HideFlash\"><scalar offset=\"4\" bits=\"23\" /><scalar offset=\"8\" bits=\"0\" /><scalar offset=\"12\" bits=\"3\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"HUD\" /></command>",
+          "kind": "23",
+          "index": "3"
+        },
+        {
+          "class_name": "Script_ShowFlash",
+          "exact_xml": "<command index=\"4\" kind=\"22\" className=\"Script_ShowFlash\"><scalar offset=\"4\" bits=\"22\" /><scalar offset=\"8\" bits=\"0\" /><scalar offset=\"12\" bits=\"17\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"menu_skipcutscene\" /></command>",
+          "kind": "22",
+          "index": "4"
+        },
+        {
+          "class_name": "Script_LockCharacter",
+          "exact_xml": "<command index=\"5\" kind=\"24\" className=\"Script_LockCharacter\"><scalar offset=\"4\" bits=\"24\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "24",
+          "index": "5"
+        },
+        {
+          "class_name": "Script_StopActor",
+          "exact_xml": "<command index=\"6\" kind=\"39\" className=\"Script_StopActor\"><scalar offset=\"4\" bits=\"39\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "39",
+          "index": "6"
+        },
+        {
+          "class_name": "Script_EnterCutSceneMode",
+          "exact_xml": "<command index=\"7\" kind=\"1\" className=\"Script_EnterCutSceneMode\"><scalar offset=\"4\" bits=\"1\" /></command>",
+          "kind": "1",
+          "index": "7"
+        }
+      ],
+      "scope": "common",
+      "id": "1",
+      "name": "BeginScriptedCutScene"
+    },
+    {
+      "commands": [
+        {
+          "class_name": "Script_PutCharacterInIdle",
+          "exact_xml": "<command index=\"0\" kind=\"31\" className=\"Script_PutCharacterInIdle\"><scalar offset=\"4\" bits=\"31\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "31",
+          "index": "0"
+        },
+        {
+          "class_name": "Script_WaitDialog",
+          "exact_xml": "<command index=\"1\" kind=\"12\" className=\"Script_WaitDialog\"><scalar offset=\"4\" bits=\"12\" /></command>",
+          "kind": "12",
+          "index": "1"
+        },
+        {
+          "class_name": "Script_ShowFlash",
+          "exact_xml": "<command index=\"2\" kind=\"22\" className=\"Script_ShowFlash\"><scalar offset=\"4\" bits=\"22\" /><scalar offset=\"8\" bits=\"0\" /><scalar offset=\"12\" bits=\"3\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"HUD\" /></command>",
+          "kind": "22",
+          "index": "2"
+        },
+        {
+          "class_name": "Script_HideFlash",
+          "exact_xml": "<command index=\"3\" kind=\"23\" className=\"Script_HideFlash\"><scalar offset=\"4\" bits=\"23\" /><scalar offset=\"8\" bits=\"0\" /><scalar offset=\"12\" bits=\"17\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"menu_skipcutscene\" /></command>",
+          "kind": "23",
+          "index": "3"
+        },
+        {
+          "class_name": "Script_MarkCharacterAsScripted",
+          "exact_xml": "<command index=\"4\" kind=\"32\" className=\"Script_MarkCharacterAsScripted\"><scalar offset=\"4\" bits=\"32\" /><scalar offset=\"8\" bits=\"0\" /><scalar offset=\"12\" bits=\"3\" /><string offset=\"16\" value=\"All\" /></command>",
+          "kind": "32",
+          "index": "4"
+        },
+        {
+          "class_name": "Script_UnlockCharacter",
+          "exact_xml": "<command index=\"5\" kind=\"25\" className=\"Script_UnlockCharacter\"><scalar offset=\"4\" bits=\"25\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "25",
+          "index": "5"
+        },
+        {
+          "class_name": "Script_ExitCutSceneMode",
+          "exact_xml": "<command index=\"6\" kind=\"2\" className=\"Script_ExitCutSceneMode\"><scalar offset=\"4\" bits=\"2\" /></command>",
+          "kind": "2",
+          "index": "6"
+        },
+        {
+          "class_name": "Script_SaveGame",
+          "exact_xml": "<command index=\"7\" kind=\"69\" className=\"Script_SaveGame\"><scalar offset=\"4\" bits=\"69\" /></command>",
+          "kind": "69",
+          "index": "7"
+        }
+      ],
+      "scope": "common",
+      "id": "3",
+      "name": "EndScriptedCutScene"
+    },
+    {
+      "commands": [
+        {
+          "class_name": "Script_ExecScript",
+          "exact_xml": "<command index=\"0\" kind=\"0\" className=\"Script_ExecScript\"><scalar offset=\"4\" bits=\"0\" /><scalar offset=\"8\" bits=\"1\" /><scalar offset=\"12\" bits=\"1\" /><scalar offset=\"16\" bits=\"0\" /><scalar offset=\"24\" bits=\"1\" /><array offset=\"20\" /></command>",
+          "kind": "0",
+          "index": "0"
+        },
+        {
+          "class_name": "Script_LockCharacter",
+          "exact_xml": "<command index=\"1\" kind=\"24\" className=\"Script_LockCharacter\"><scalar offset=\"4\" bits=\"24\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "24",
+          "index": "1"
+        },
+        {
+          "class_name": "Script_SpawnCharacter",
+          "exact_xml": "<command index=\"2\" kind=\"30\" className=\"Script_SpawnCharacter\"><scalar offset=\"4\" bits=\"30\" /><scalar offset=\"8\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Monster_FakeMoth_01\" /></command>",
+          "kind": "30",
+          "index": "2"
+        },
+        {
+          "class_name": "Script_SpawnCharacter",
+          "exact_xml": "<command index=\"3\" kind=\"30\" className=\"Script_SpawnCharacter\"><scalar offset=\"4\" bits=\"30\" /><scalar offset=\"8\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Monster_FakeMoth_02\" /></command>",
+          "kind": "30",
+          "index": "3"
+        },
+        {
+          "class_name": "Script_SetActorPosition",
+          "exact_xml": "<command index=\"4\" kind=\"46\" className=\"Script_SetActorPosition\"><scalar offset=\"4\" bits=\"46\" /><scalar offset=\"8\" bits=\"27\" /><scalar offset=\"16\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Waypoint_MothSpot_XYZ\" /><string offset=\"20\" value=\"_prim_Monster_FakeMoth_01\" /></command>",
+          "kind": "46",
+          "index": "4"
+        },
+        {
+          "class_name": "Script_SetActorPosition",
+          "exact_xml": "<command index=\"5\" kind=\"46\" className=\"Script_SetActorPosition\"><scalar offset=\"4\" bits=\"46\" /><scalar offset=\"8\" bits=\"27\" /><scalar offset=\"16\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Waypoint_MothSpot_XYZ\" /><string offset=\"20\" value=\"_prim_Monster_FakeMoth_02\" /></command>",
+          "kind": "46",
+          "index": "5"
+        },
+        {
+          "class_name": "Script_LookActor",
+          "exact_xml": "<command index=\"6\" kind=\"41\" className=\"Script_LookActor\"><scalar offset=\"4\" bits=\"41\" /><scalar offset=\"8\" bits=\"29\" /><scalar offset=\"16\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Waypoint_MothSpotLookTo\" /><string offset=\"20\" value=\"_prim_Monster_FakeMoth_01\" /></command>",
+          "kind": "41",
+          "index": "6"
+        },
+        {
+          "class_name": "Script_LookActor",
+          "exact_xml": "<command index=\"7\" kind=\"41\" className=\"Script_LookActor\"><scalar offset=\"4\" bits=\"41\" /><scalar offset=\"8\" bits=\"29\" /><scalar offset=\"16\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Waypoint_MothSpotLookTo\" /><string offset=\"20\" value=\"_prim_Monster_FakeMoth_02\" /></command>",
+          "kind": "41",
+          "index": "7"
+        },
+        {
+          "class_name": "Script_SetCameraTarget",
+          "exact_xml": "<command index=\"8\" kind=\"8\" className=\"Script_SetCameraTarget\"><scalar offset=\"4\" bits=\"8\" /><scalar offset=\"8\" bits=\"0\" /><scalar offset=\"12\" bits=\"27\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"_prim_Waypoint_MothSpot_XYZ\" /></command>",
+          "kind": "8",
+          "index": "8"
+        },
+        {
+          "class_name": "Script_PlayActorAnim",
+          "exact_xml": "<command index=\"9\" kind=\"45\" className=\"Script_PlayActorAnim\"><scalar offset=\"4\" bits=\"45\" /><scalar offset=\"8\" bits=\"332\" /><scalar offset=\"12\" bits=\"4294967295\" /><scalar offset=\"16\" bits=\"2\" /><scalar offset=\"20\" bits=\"25\" /><scalar offset=\"28\" bits=\"0\" /><string offset=\"24\" value=\"_prim_Monster_FakeMoth_01\" /></command>",
+          "kind": "45",
+          "index": "9"
+        },
+        {
+          "class_name": "Script_PlaySound",
+          "exact_xml": "<command index=\"10\" kind=\"13\" className=\"Script_PlaySound\"><scalar offset=\"4\" bits=\"13\" /><scalar offset=\"8\" bits=\"0\" /><scalar offset=\"12\" bits=\"0\" /><scalar offset=\"13\" bits=\"0\" /><scalar offset=\"16\" bits=\"363\" /></command>",
+          "kind": "13",
+          "index": "10"
+        },
+        {
+          "class_name": "Script_PlayActorAnim",
+          "exact_xml": "<command index=\"11\" kind=\"45\" className=\"Script_PlayActorAnim\"><scalar offset=\"4\" bits=\"45\" /><scalar offset=\"8\" bits=\"333\" /><scalar offset=\"12\" bits=\"4294967295\" /><scalar offset=\"16\" bits=\"3\" /><scalar offset=\"20\" bits=\"25\" /><scalar offset=\"28\" bits=\"0\" /><string offset=\"24\" value=\"_prim_Monster_FakeMoth_02\" /></command>",
+          "kind": "45",
+          "index": "11"
+        },
+        {
+          "class_name": "Script_PlayCamera",
+          "exact_xml": "<command index=\"12\" kind=\"5\" className=\"Script_PlayCamera\"><scalar offset=\"4\" bits=\"5\" /><scalar offset=\"8\" bits=\"334\" /><scalar offset=\"12\" bits=\"1\" /></command>",
+          "kind": "5",
+          "index": "12"
+        },
+        {
+          "class_name": "Script_SetActorPosition",
+          "exact_xml": "<command index=\"13\" kind=\"46\" className=\"Script_SetActorPosition\"><scalar offset=\"4\" bits=\"46\" /><scalar offset=\"8\" bits=\"25\" /><scalar offset=\"16\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Waypoint_MothSpot01\" /><string offset=\"20\" value=\"_prim_Monster_FakeMoth_01\" /></command>",
+          "kind": "46",
+          "index": "13"
+        },
+        {
+          "class_name": "Script_SetActorPosition",
+          "exact_xml": "<command index=\"14\" kind=\"46\" className=\"Script_SetActorPosition\"><scalar offset=\"4\" bits=\"46\" /><scalar offset=\"8\" bits=\"25\" /><scalar offset=\"16\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Waypoint_MothSpot02\" /><string offset=\"20\" value=\"_prim_Monster_FakeMoth_02\" /></command>",
+          "kind": "46",
+          "index": "14"
+        },
+        {
+          "class_name": "Script_PutCharacterInIdle",
+          "exact_xml": "<command index=\"15\" kind=\"31\" className=\"Script_PutCharacterInIdle\"><scalar offset=\"4\" bits=\"31\" /><scalar offset=\"8\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Monster_FakeMoth_01\" /></command>",
+          "kind": "31",
+          "index": "15"
+        },
+        {
+          "class_name": "Script_PutCharacterInIdle",
+          "exact_xml": "<command index=\"16\" kind=\"31\" className=\"Script_PutCharacterInIdle\"><scalar offset=\"4\" bits=\"31\" /><scalar offset=\"8\" bits=\"25\" /><string offset=\"12\" value=\"_prim_Monster_FakeMoth_02\" /></command>",
+          "kind": "31",
+          "index": "16"
+        },
+        {
+          "class_name": "Script_LookActor",
+          "exact_xml": "<command index=\"17\" kind=\"41\" className=\"Script_LookActor\"><scalar offset=\"4\" bits=\"41\" /><scalar offset=\"8\" bits=\"11\" /><scalar offset=\"16\" bits=\"25\" /><string offset=\"12\" value=\"LocalPlayer\" /><string offset=\"20\" value=\"_prim_Monster_FakeMoth_01\" /></command>",
+          "kind": "41",
+          "index": "17"
+        },
+        {
+          "class_name": "Script_LookActor",
+          "exact_xml": "<command index=\"18\" kind=\"41\" className=\"Script_LookActor\"><scalar offset=\"4\" bits=\"41\" /><scalar offset=\"8\" bits=\"11\" /><scalar offset=\"16\" bits=\"25\" /><string offset=\"12\" value=\"LocalPlayer\" /><string offset=\"20\" value=\"_prim_Monster_FakeMoth_02\" /></command>",
+          "kind": "41",
+          "index": "18"
+        },
+        {
+          "class_name": "Script_SetCameraTarget",
+          "exact_xml": "<command index=\"19\" kind=\"8\" className=\"Script_SetCameraTarget\"><scalar offset=\"4\" bits=\"8\" /><scalar offset=\"8\" bits=\"0\" /><scalar offset=\"12\" bits=\"11\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"LocalPlayer\" /></command>",
+          "kind": "8",
+          "index": "19"
+        },
+        {
+          "class_name": "Script_PlayCamera",
+          "exact_xml": "<command index=\"20\" kind=\"5\" className=\"Script_PlayCamera\"><scalar offset=\"4\" bits=\"5\" /><scalar offset=\"8\" bits=\"55\" /><scalar offset=\"12\" bits=\"0\" /></command>",
+          "kind": "5",
+          "index": "20"
+        },
+        {
+          "class_name": "Script_UnlockCharacter",
+          "exact_xml": "<command index=\"21\" kind=\"25\" className=\"Script_UnlockCharacter\"><scalar offset=\"4\" bits=\"25\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "25",
+          "index": "21"
+        },
+        {
+          "class_name": "Script_ExecScript",
+          "exact_xml": "<command index=\"22\" kind=\"0\" className=\"Script_ExecScript\"><scalar offset=\"4\" bits=\"0\" /><scalar offset=\"8\" bits=\"1\" /><scalar offset=\"12\" bits=\"3\" /><scalar offset=\"16\" bits=\"0\" /><scalar offset=\"24\" bits=\"1\" /><array offset=\"20\" /></command>",
+          "kind": "0",
+          "index": "22"
+        }
+      ],
+      "scope": "level",
+      "id": "18",
+      "name": "MothIntro"
+    },
+    {
+      "commands": [
+        {
+          "class_name": "Script_ExecScript",
+          "exact_xml": "<command index=\"0\" kind=\"0\" className=\"Script_ExecScript\"><scalar offset=\"4\" bits=\"0\" /><scalar offset=\"8\" bits=\"1\" /><scalar offset=\"12\" bits=\"1\" /><scalar offset=\"16\" bits=\"0\" /><scalar offset=\"24\" bits=\"1\" /><array offset=\"20\" /></command>",
+          "kind": "0",
+          "index": "0"
+        },
+        {
+          "class_name": "Script_LockCharacter",
+          "exact_xml": "<command index=\"1\" kind=\"24\" className=\"Script_LockCharacter\"><scalar offset=\"4\" bits=\"24\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "24",
+          "index": "1"
+        },
+        {
+          "class_name": "Script_SetCameraTarget",
+          "exact_xml": "<command index=\"2\" kind=\"8\" className=\"Script_SetCameraTarget\"><scalar offset=\"4\" bits=\"8\" /><scalar offset=\"8\" bits=\"1000\" /><scalar offset=\"12\" bits=\"25\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"_prim_Waypoint_NewCamSpot\" /></command>",
+          "kind": "8",
+          "index": "2"
+        },
+        {
+          "class_name": "Script_Wait",
+          "exact_xml": "<command index=\"3\" kind=\"26\" className=\"Script_Wait\"><scalar offset=\"4\" bits=\"26\" /><scalar offset=\"8\" bits=\"500\" /></command>",
+          "kind": "26",
+          "index": "3"
+        },
+        {
+          "class_name": "Script_SpawnCharacter",
+          "exact_xml": "<command index=\"4\" kind=\"30\" className=\"Script_SpawnCharacter\"><scalar offset=\"4\" bits=\"30\" /><scalar offset=\"8\" bits=\"26\" /><string offset=\"12\" value=\"_prim_Monster_LizManIntro1\" /></command>",
+          "kind": "30",
+          "index": "4"
+        },
+        {
+          "class_name": "Script_Wait",
+          "exact_xml": "<command index=\"5\" kind=\"26\" className=\"Script_Wait\"><scalar offset=\"4\" bits=\"26\" /><scalar offset=\"8\" bits=\"1500\" /></command>",
+          "kind": "26",
+          "index": "5"
+        },
+        {
+          "class_name": "Script_SpawnCharacter",
+          "exact_xml": "<command index=\"6\" kind=\"30\" className=\"Script_SpawnCharacter\"><scalar offset=\"4\" bits=\"30\" /><scalar offset=\"8\" bits=\"26\" /><string offset=\"12\" value=\"_prim_Monster_LizManIntro2\" /></command>",
+          "kind": "30",
+          "index": "6"
+        },
+        {
+          "class_name": "Script_Wait",
+          "exact_xml": "<command index=\"7\" kind=\"26\" className=\"Script_Wait\"><scalar offset=\"4\" bits=\"26\" /><scalar offset=\"8\" bits=\"2000\" /></command>",
+          "kind": "26",
+          "index": "7"
+        },
+        {
+          "class_name": "Script_UnlockCharacter",
+          "exact_xml": "<command index=\"8\" kind=\"25\" className=\"Script_UnlockCharacter\"><scalar offset=\"4\" bits=\"25\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "25",
+          "index": "8"
+        },
+        {
+          "class_name": "Script_SetCameraTarget",
+          "exact_xml": "<command index=\"9\" kind=\"8\" className=\"Script_SetCameraTarget\"><scalar offset=\"4\" bits=\"8\" /><scalar offset=\"8\" bits=\"1000\" /><scalar offset=\"12\" bits=\"11\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"LocalPlayer\" /></command>",
+          "kind": "8",
+          "index": "9"
+        },
+        {
+          "class_name": "Script_ExecScript",
+          "exact_xml": "<command index=\"10\" kind=\"0\" className=\"Script_ExecScript\"><scalar offset=\"4\" bits=\"0\" /><scalar offset=\"8\" bits=\"1\" /><scalar offset=\"12\" bits=\"3\" /><scalar offset=\"16\" bits=\"0\" /><scalar offset=\"24\" bits=\"1\" /><array offset=\"20\" /></command>",
+          "kind": "0",
+          "index": "10"
+        },
+        {
+          "class_name": "Script_DoTutorial",
+          "exact_xml": "<command index=\"11\" kind=\"78\" className=\"Script_DoTutorial\"><scalar offset=\"4\" bits=\"78\" /><scalar offset=\"8\" bits=\"10\" /><scalar offset=\"16\" bits=\"7\" /><string offset=\"12\" value=\"CombatTuto\" /></command>",
+          "kind": "78",
+          "index": "11"
+        }
+      ],
+      "scope": "level",
+      "id": "17",
+      "name": "LizardMan_Intro"
+    },
+    {
+      "commands": [
+        {
+          "class_name": "Script_ExecScript",
+          "exact_xml": "<command index=\"0\" kind=\"0\" className=\"Script_ExecScript\"><scalar offset=\"4\" bits=\"0\" /><scalar offset=\"8\" bits=\"1\" /><scalar offset=\"12\" bits=\"1\" /><scalar offset=\"16\" bits=\"0\" /><scalar offset=\"24\" bits=\"1\" /><array offset=\"20\" /></command>",
+          "kind": "0",
+          "index": "0"
+        },
+        {
+          "class_name": "Script_LockCharacter",
+          "exact_xml": "<command index=\"1\" kind=\"24\" className=\"Script_LockCharacter\"><scalar offset=\"4\" bits=\"24\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "24",
+          "index": "1"
+        },
+        {
+          "class_name": "Script_MoveActor",
+          "exact_xml": "<command index=\"2\" kind=\"40\" className=\"Script_MoveActor\"><scalar offset=\"4\" bits=\"40\" /><scalar offset=\"8\" bits=\"26\" /><scalar offset=\"16\" bits=\"1\" /><scalar offset=\"20\" bits=\"23\" /><scalar offset=\"28\" bits=\"0\" /><string offset=\"12\" value=\"_prim_Waypoint_TrollWalkTo\" /><string offset=\"24\" value=\"_prim_Monster_53_03_001\" /></command>",
+          "kind": "40",
+          "index": "2"
+        },
+        {
+          "class_name": "Script_Wait",
+          "exact_xml": "<command index=\"3\" kind=\"26\" className=\"Script_Wait\"><scalar offset=\"4\" bits=\"26\" /><scalar offset=\"8\" bits=\"50\" /></command>",
+          "kind": "26",
+          "index": "3"
+        },
+        {
+          "class_name": "Script_SetCameraTarget",
+          "exact_xml": "<command index=\"4\" kind=\"8\" className=\"Script_SetCameraTarget\"><scalar offset=\"4\" bits=\"8\" /><scalar offset=\"8\" bits=\"1500\" /><scalar offset=\"12\" bits=\"23\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"_prim_Monster_53_03_001\" /></command>",
+          "kind": "8",
+          "index": "4"
+        },
+        {
+          "class_name": "Script_Wait",
+          "exact_xml": "<command index=\"5\" kind=\"26\" className=\"Script_Wait\"><scalar offset=\"4\" bits=\"26\" /><scalar offset=\"8\" bits=\"2600\" /></command>",
+          "kind": "26",
+          "index": "5"
+        },
+        {
+          "class_name": "Script_StopActor",
+          "exact_xml": "<command index=\"6\" kind=\"39\" className=\"Script_StopActor\"><scalar offset=\"4\" bits=\"39\" /><scalar offset=\"8\" bits=\"23\" /><string offset=\"12\" value=\"_prim_Monster_53_03_001\" /></command>",
+          "kind": "39",
+          "index": "6"
+        },
+        {
+          "class_name": "Script_PlaySound",
+          "exact_xml": "<command index=\"7\" kind=\"13\" className=\"Script_PlaySound\"><scalar offset=\"4\" bits=\"13\" /><scalar offset=\"8\" bits=\"0\" /><scalar offset=\"12\" bits=\"0\" /><scalar offset=\"13\" bits=\"0\" /><scalar offset=\"16\" bits=\"328\" /></command>",
+          "kind": "13",
+          "index": "7"
+        },
+        {
+          "class_name": "Script_PlayActorAnim",
+          "exact_xml": "<command index=\"8\" kind=\"45\" className=\"Script_PlayActorAnim\"><scalar offset=\"4\" bits=\"45\" /><scalar offset=\"8\" bits=\"1377\" /><scalar offset=\"12\" bits=\"4294967295\" /><scalar offset=\"16\" bits=\"0\" /><scalar offset=\"20\" bits=\"23\" /><scalar offset=\"28\" bits=\"1\" /><string offset=\"24\" value=\"_prim_Monster_53_03_001\" /></command>",
+          "kind": "45",
+          "index": "8"
+        },
+        {
+          "class_name": "Script_PlayActorAnim",
+          "exact_xml": "<command index=\"9\" kind=\"45\" className=\"Script_PlayActorAnim\"><scalar offset=\"4\" bits=\"45\" /><scalar offset=\"8\" bits=\"1359\" /><scalar offset=\"12\" bits=\"4294967295\" /><scalar offset=\"16\" bits=\"0\" /><scalar offset=\"20\" bits=\"23\" /><scalar offset=\"28\" bits=\"0\" /><string offset=\"24\" value=\"_prim_Monster_53_03_001\" /></command>",
+          "kind": "45",
+          "index": "9"
+        },
+        {
+          "class_name": "Script_Wait",
+          "exact_xml": "<command index=\"10\" kind=\"26\" className=\"Script_Wait\"><scalar offset=\"4\" bits=\"26\" /><scalar offset=\"8\" bits=\"300\" /></command>",
+          "kind": "26",
+          "index": "10"
+        },
+        {
+          "class_name": "Script_PlayCamera",
+          "exact_xml": "<command index=\"11\" kind=\"5\" className=\"Script_PlayCamera\"><scalar offset=\"4\" bits=\"5\" /><scalar offset=\"8\" bits=\"44\" /><scalar offset=\"12\" bits=\"1\" /></command>",
+          "kind": "5",
+          "index": "11"
+        },
+        {
+          "class_name": "Script_PlayActorAnim",
+          "exact_xml": "<command index=\"12\" kind=\"45\" className=\"Script_PlayActorAnim\"><scalar offset=\"4\" bits=\"45\" /><scalar offset=\"8\" bits=\"1373\" /><scalar offset=\"12\" bits=\"4294967295\" /><scalar offset=\"16\" bits=\"0\" /><scalar offset=\"20\" bits=\"23\" /><scalar offset=\"28\" bits=\"1\" /><string offset=\"24\" value=\"_prim_Monster_53_03_001\" /></command>",
+          "kind": "45",
+          "index": "12"
+        },
+        {
+          "class_name": "Script_Wait",
+          "exact_xml": "<command index=\"13\" kind=\"26\" className=\"Script_Wait\"><scalar offset=\"4\" bits=\"26\" /><scalar offset=\"8\" bits=\"250\" /></command>",
+          "kind": "26",
+          "index": "13"
+        },
+        {
+          "class_name": "Script_MoveActor",
+          "exact_xml": "<command index=\"14\" kind=\"40\" className=\"Script_MoveActor\"><scalar offset=\"4\" bits=\"40\" /><scalar offset=\"8\" bits=\"26\" /><scalar offset=\"16\" bits=\"1\" /><scalar offset=\"20\" bits=\"23\" /><scalar offset=\"28\" bits=\"0\" /><string offset=\"12\" value=\"_prim_Waypoint_TrollWalkTo\" /><string offset=\"24\" value=\"_prim_Monster_53_03_001\" /></command>",
+          "kind": "40",
+          "index": "14"
+        },
+        {
+          "class_name": "Script_PutCharacterInIdle",
+          "exact_xml": "<command index=\"15\" kind=\"31\" className=\"Script_PutCharacterInIdle\"><scalar offset=\"4\" bits=\"31\" /><scalar offset=\"8\" bits=\"23\" /><string offset=\"12\" value=\"_prim_Monster_53_03_001\" /></command>",
+          "kind": "31",
+          "index": "15"
+        },
+        {
+          "class_name": "Script_SetCameraTarget",
+          "exact_xml": "<command index=\"16\" kind=\"8\" className=\"Script_SetCameraTarget\"><scalar offset=\"4\" bits=\"8\" /><scalar offset=\"8\" bits=\"500\" /><scalar offset=\"12\" bits=\"11\" /><scalar offset=\"20\" bits=\"0\" /><string offset=\"16\" value=\"LocalPlayer\" /></command>",
+          "kind": "8",
+          "index": "16"
+        },
+        {
+          "class_name": "Script_UnlockCharacter",
+          "exact_xml": "<command index=\"17\" kind=\"25\" className=\"Script_UnlockCharacter\"><scalar offset=\"4\" bits=\"25\" /><scalar offset=\"8\" bits=\"3\" /><string offset=\"12\" value=\"All\" /></command>",
+          "kind": "25",
+          "index": "17"
+        },
+        {
+          "class_name": "Script_ExecScript",
+          "exact_xml": "<command index=\"18\" kind=\"0\" className=\"Script_ExecScript\"><scalar offset=\"4\" bits=\"0\" /><scalar offset=\"8\" bits=\"1\" /><scalar offset=\"12\" bits=\"3\" /><scalar offset=\"16\" bits=\"0\" /><scalar offset=\"24\" bits=\"1\" /><array offset=\"20\" /></command>",
+          "kind": "0",
+          "index": "18"
+        }
+      ],
+      "scope": "level",
+      "id": "37",
+      "name": "TrollReturn"
+    }
+  ],
+  "script_video_mapping": [
+    {
+      "requirements": "Module-local one-shot _prim_MothMovieTriggerZone contact; construct actual scoped trigger and deferred FakeMoth01/02; BeginScriptedCutScene hides HUD and exposes SKIP via actual common script; original position/look transforms; actor animation332/333, sound363 and camera334 resolved to actual resources; honor blocking/completion; restore final mothspots,Idle,playerlook/cameratarget/camera55,UnlockAll,EndScriptedCutScene. Two movie moths directly confirmed in individual frames267/273; provisional third-actor inference discarded.",
+      "confidence": "source-supported association",
+      "script": "MothIntro",
+      "video_seconds": [
+        267,
+        274
+      ]
+    },
+    {
+      "requirements": "Resolve _prim_Monster_53_03_001 and actual trigger route; source MoveActor/Wait50/SetCameraTarget1500/Wait2600/Stop; actor animations1377,1359,1373 and camera44 blocking semantics; returnIdle,cameraLocalPlayer500,unlock/end. Do not accept this source association solely on visible model.",
+      "confidence": "candidate inference from Troll profile and matching scripted jump, needs resource/route confirmation",
+      "script": "TrollReturn",
+      "video_seconds": [
+        350,
+        355
+      ]
+    },
+    {
+      "requirements": "Actual one-shot trigger _prim_TriggerZone_LizManIntro; begin/lock,CameraTargetNewCamSpot1000,Wait500,SpawnIntro1,Wait1500,SpawnIntro2,Wait2000,unlock,cameraLocalPlayer1000,end,CombatTuto. This separate source script is not the mothvideo entrance.",
+      "confidence": "direct source, no timestamp association accepted",
+      "script": "LizardMan_Intro"
+    }
+  ],
+  "character_menu_captures": [
+    {
+      "pixels_individually_verified": true,
+      "file": ".local-inputs/fidelity-video-v18/reference-335.png",
+      "seconds": 335,
+      "state": "Torso item detail"
+    },
+    {
+      "pixels_individually_verified": true,
+      "file": ".local-inputs/fidelity-video-v18/reference-340.png",
+      "seconds": 340,
+      "state": "Hands item detail"
+    },
+    {
+      "pixels_individually_verified": true,
+      "file": ".local-inputs/fidelity-video-v18/reference-370.png",
+      "seconds": 370,
+      "state": "Feet item detail"
+    },
+    {
+      "pixels_individually_verified": true,
+      "file": ".local-inputs/fidelity-video-v18/reference-390.png",
+      "seconds": 390,
+      "state": "Inventory overview"
+    },
+    {
+      "pixels_individually_verified": true,
+      "file": ".local-inputs/fidelity-video-v18/reference-391.png",
+      "seconds": 391,
+      "state": "Stats Warrior level2 points2"
+    },
+    {
+      "pixels_individually_verified": true,
+      "file": ".local-inputs/fidelity-video-v18/reference-393.png",
+      "seconds": 393,
+      "state": "Stats Warrior level2 points0"
+    },
+    {
+      "pixels_individually_verified": true,
+      "file": ".local-inputs/fidelity-video-v18/reference-396.png",
+      "seconds": 396,
+      "state": "Skills HeadSplitter"
+    },
+    {
+      "pixels_individually_verified": true,
+      "file": ".local-inputs/fidelity-video-v18/reference-398.png",
+      "seconds": 398,
+      "state": "Skills BattleHardened"
+    },
+    {
+      "pixels_individually_verified": true,
+      "file": ".local-inputs/fidelity-video-v18/reference-399.png",
+      "seconds": 399,
+      "state": "Skills InnerStrength"
+    }
+  ],
+  "matched_state_capture_protocol": {
+    "viewport": "Capture entire client viewport at actual reference aspect640x360, plus intended desktop aspect. Record viewport dimensions, authored source stage dimensions, scale mode and clip/mask bounds. Compare normalized geometry; avoid cropping that conceals unused margins or background.",
+    "movement": "Controlled W1s/S1s repeated10cycles, reverse initialheading, and non-antipodal directions. Trace input,targetheading,currentheading,rotationmodifier,rootdelta local/world,acceptedworlddelta,path/collision slide,focusflags,clip/blend and ordered sourceframe phases. Fullviewport recording plus trajectory. Original exact180degree joystick sequence still missing; kernel trace pass is not reference movement acceptance.",
+    "population": "At freshstart,firstcombat,mothentrance,Fungusentrance,chestopening,merchantapproach andbacktracking capture visible mobtype/count/positions; dump all module declarations with exact selectedprofile/template/probabilityroll/conditionstate,enabled/deferred/dead/destroyed status and reason. Separate visualpopulation,combatboundpopulation,SpawnPoints and player. Version or seed differences require explicit qualification.",
+    "menu": "Open through live normal gameplay. Capture Stats leftallocation/rightdetails, all source detailbuttonstates, Skilltree+mapping+selecteddescription, Inventoryoverview with3Dhero, RightHand/Ring/Feetdetails. Record class,level,equipment,selectedtab/detail,points,scroll and source timeline/frame. Compare source fonts,textures,layout,mask,hittest to actual screenshot; progress-dependent values need matched state.",
+    "cutscene": "At actual authored trigger contact capture precontact,beginUIlock/stop/saveblock,first actorframe,each source wait/batch transition,camera movement,apex/landing,completion,last cinematic frame,first unlocked HUDframe. Trace moduleoccurrence,trigger stableID/scriptstartcount,actor stableID,source commandindex,timestamp,animationphase/cursor,roottransform,cameraowner,lock/save/scriptedflags. Verify camera/audio/animation completion and SKIP produce source terminalstate."
+  },
+  "prohibited_shortcuts": [
+    "Video timestamp/frame scheduled encounter injection",
+    "Enable all authoredactors",
+    "Map-specific movement/rotation/activation fixes",
+    "Assetloading or nativeunitpasses claimed as full art/gameplay fidelity",
+    "Third visible moth hardcoded from screenshot without authoredprovenance"
+  ],
+  "release_acceptance": "Root owns final package verification. These criteria identify required evidence; none marked passed by this read-only audit."
+}

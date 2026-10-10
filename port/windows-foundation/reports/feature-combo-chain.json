@@ -1,0 +1,50 @@
+{
+  "feature": "consecutive source attacks and combo chaining",
+  "module": "features/combo_chain/source_combo_chain.hpp/.cpp",
+  "integration": "features/combo_chain/INTEGRATION.md",
+  "status": "native Windows source, retained-playback, and live CombatSession tests passed; root owns packaged release verification",
+  "source_implementations": [
+    "port/level-world/character_ai_attack.cpp: original melee continued-input acceptance and controller dispatch",
+    "port/level-world/character_attack_animation_v1.cpp: exact original attack step begin/end flags and callbacks",
+    "port/game-data/animation_selection.cpp: original Type2 selection/RNG",
+    "port/game-data/animation_scheduler.cpp: live source callback cursor overrides and completion ordering",
+    "port/level-world/character_state.cpp: moving/static selection, attack state departure timer and state events"
+  ],
+  "source_rules": [
+    "Input while IsAttacking and last byte nonzero returns without buffering continuation.",
+    "Inner pre step0 and final recovery set last1; strike step1 of three sets last0.",
+    "Repeated delivered held input during strike sets one continued boolean, not a queued hit count.",
+    "Live-target strike end may SkipNext recovery; source rereads target after virtual death lookup.",
+    "Root end consumes continued. No continuation stops nonranged chain through ClearNonSticky and SetStep(count).",
+    "Type1 initial selection starts at source step0. Type2 uses original AnimationRandom, not CombatRandom or a fresh seed.",
+    "Fresh attack after interruption resets continued via the original input owner, not a fabricated constructor/reset policy."
+  ],
+  "actual_data_verified": {
+    "KnightPlayerBase_AttackStatic": "Original Type1 root with three distinct authored strike URIs",
+    "Swamp_LizadMan_Type1_Attack": "Original Type2 root; repeated starts consume actual animation RNG and choose multiple authored root steps"
+  },
+  "tests": [
+    "Pre/strike/recovery continuation windows",
+    "Undelivered input versus press versus repeated held delivery",
+    "Ordered source root progression and released-chain stop",
+    "Source interruption and fresh command reset",
+    "Target death and callback reentry",
+    "Actual varied Knight strike data and original NPC Type2 RNG",
+    "Same retained two-slot owner/clock: full-root held input selects groups0/1/2, release one, controller block one, interruption fresh root0",
+    "Live CombatSession: three source groups share one action generation and all three repeated-name hit receipts survive deduplication",
+    "Live release after accepted continuation completes the second group, then stops",
+    "Capture accepted continuation midstrike; safe save restore resets unpersisted continuation/index/target, then fresh held input starts root0 without RNG consumption"
+  ],
+  "live_session_test": "features/combo_chain/combat_session_combo_tests.cpp",
+  "live_receipts": {
+    "held_hit_groups": [0,1,2],
+    "released_hit_groups": [0],
+    "accepted_then_released_hit_groups": [0,1],
+    "controller_blocked_hit_groups": [0],
+    "held_original_health_removed": 1.73828,
+    "notes": "Unarmed source Knight and real source Lizard stats used. Original misses/dodges are preserved; three receipts do not imply three positive-damage hits."
+  },
+  "session_opt_in": "CombatSessionProfile.sourceCombo=true, retainedPhaseClock=true, sequenceAction.group_path empty. Legacy scoped diagnostics retain their behavior.",
+  "trace_api": "CombatSession.combo_boundaries(): actor/generation/beginning/depth/step/count/source_clip; source_attack_state(): same retained AI fields.",
+  "limits": "Actual in-house melee target/stat/controller/death providers are wired. Flags528/heading/OOI and target-search policies default to explicitly logged diagnostic projections; actual frontal-heading/ranged/online backends reject when reached. Controller look, preattack modifier/finisher effects, and sticky-target ownership remain explicit host gaps. This is not a claim of complete original combat parity."
+}

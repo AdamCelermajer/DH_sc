@@ -4,8 +4,29 @@
 #include <source_menu_consumption_v121.hpp>
 #include <array>
 #include <cmath>
+#include <cstring>
 namespace {
 [[maybe_unused]] void source_menu_consume_event_v120(NativeCharacterMenuV4& native){native.fields.source_consume_event_v120();}
+// Original byte_99F7D7 starts at zero and MenuMainMenu::Show sets it after
+// its startup work. It admits input to movie slot 2; it is independent of the
+// campaign animation-scaling flag used by the actor playback owners.
+bool source_main_menu_input_enabled_v120{};
+// GSInit installs menu_splash as the initial live primary-2 state before
+// MenuMainMenu::Show has had an opportunity to publish byte_99F7D7. The
+// authored Continue button must still receive input so it can request the
+// main-menu transition; ordinary primary-2 states remain behind the original
+// Show gate.
+bool source_initial_splash_input_allowed_v120(NativeCharacterMenuV4& native,std::uintptr_t movie){
+ if(!native.shared_stack_v27||!movie)return false;
+ auto* render=native.shared_stack_v27->render(movie);
+ if(!render||!render->states||!render->count)return false;
+ auto* active=render->states[render->count-1];
+ return active&&active->name&&!std::strcmp(active->name,"menu_splash");
+}
+struct NativeMenuCurrentEventScopeV120 {
+ std::uintptr_t& current;
+ ~NativeMenuCurrentEventScopeV120(){current=0;}
+};
 bool source_menu_application_event_v119(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>& app,
  NativeCharacterMenuV4& native,const dh2::events::EventBorrowV12& event,std::int32_t& result,std::string& e){
  result=0;
@@ -14,6 +35,7 @@ bool source_menu_application_event_v119(const std::shared_ptr<dh2::application::
  bool disabled{};if(!debug("IsDeactivatingFlashMenus",disabled))return false;if(disabled){e.clear();return true;}
  if(!debug("IsDeactivatingFlashMenusUpdate",disabled))return false;if(disabled){e.clear();return true;}
  native.fields.source_event_consumed_ac_v120()=0;native.fields.source_current_event_b4_v120()=event.identity;
+ NativeMenuCurrentEventScopeV120 current_event{native.fields.source_current_event_b4_v120()};
  if(!event.identity){e.clear();return true;}
  dh2::ui::SourceMenuConsumptionV121 consumption(&native,[](void* raw,std::string& error){source_menu_consume_event_v120(*static_cast<NativeCharacterMenuV4*>(raw));error.clear();return true;});
  if(!event.get_type){e="Required actual IEvent.GetType";return false;}
@@ -29,7 +51,7 @@ bool source_menu_application_event_v119(const std::shared_ptr<dh2::application::
  if(kind==4){if(!input(payload))return false;cursor=payload.index_c;pressed=payload.pressed10;}
  else {if(!type(kind))return false;if(kind==5){if(!input(payload))return false;cursor=payload.index_c;pressed=1;}
   else {if(!type(kind))return false;key=kind==7;if(key&&!input(payload))return false;}}
- if((kind==4||kind==5)&&(static_cast<std::uint32_t>(cursor)>3u||(cursor&&native.fields.manager_multitouch110_v4()))){native.fields.source_current_event_b4_v120()=0;result=1;e.clear();return true;}
+ if((kind==4||kind==5)&&(static_cast<std::uint32_t>(cursor)>3u||(cursor&&native.fields.manager_multitouch110_v4()))){result=1;e.clear();return true;}
  auto provider=source_postmovie_v62.lock();auto directory=provider?provider->directory:nullptr;
  if(!directory){e="Required SAME four-movie process directory";return false;}
  if(key){
@@ -48,12 +70,12 @@ bool source_menu_application_event_v119(const std::shared_ptr<dh2::application::
  for(std::uint32_t slot=0;slot<4;++slot){dh2::ui::MenuMovieBorrowV58 receipt;if(!directory->movie_slot(slot,receipt,e))return false;if(!receipt.identity)continue;
   if(slot!=3){bool game{};if(!in_game(game))return false;if(game)continue;if(slot==2&&cursor>0)continue;}
   else {dh2::ui::MenuMovieBorrowV58 main;if(!directory->movie_slot(2,main,e))return false;auto* render=main.identity&&native.shared_stack_v27?native.shared_stack_v27->render(main.identity):nullptr;if(main.identity&&!render){e="Actual main movie lacks SAME source state-array loan";return false;}if(render&&render->count)break;bool game{};if(!in_game(game))return false;if(!game)break;}
-  if(slot==2){auto online=app->get_online_loading_v55();if(!online){e="Required actual GetOnline for main input";return false;}if(online->byte5()){e="Required original Matching byte28 main-menu input gate";return false;}if(!dh2::world::source_animation_scaling_enabled_v99())continue;}
+  if(slot==2){auto online=app->get_online_loading_v55();if(!online){e="Required actual GetOnline for main input";return false;}if(online->byte5()){e="Required original Matching byte28 main-menu input gate";return false;}if(!source_main_menu_input_enabled_v120&&!source_initial_splash_input_allowed_v120(native,receipt.identity))continue;}
   dh2::ui::SwfMovie* movie{};std::shared_ptr<void> pin;if(!directory->movie(slot,receipt,movie,pin,e)||!movie||!pin)return false;
   if(!movie->input_cursor_slot_v120({x,y,0.f,pressed},static_cast<std::uint32_t>(cursor),e))return false;
   if(native.fields.source_event_consumed_ac_v120()==1)break;
  }
- result=native.fields.source_event_consumed_ac_v120();native.fields.source_current_event_b4_v120()=0;e.clear();return true;
+ result=native.fields.source_event_consumed_ac_v120();e.clear();return true;
 }
 // Android frontend pointer identities are mapped to the actual TouchScreen
 // slots. This transport does not claim to run the original platform queue.

@@ -1,0 +1,59 @@
+{
+  "feature": "runtime_skill_progression_v1",
+  "status": "implemented_and_host_tested",
+  "source_evidence": [
+    {
+      "symbol": "Character::IsSkillAvailable(int) const",
+      "address": "0x3bca50",
+      "rule": "Character level is at least SkillTable.Level (word 8) for the active class-skill position."
+    },
+    {
+      "symbol": "Character::IsSkillEquippable(int) const",
+      "address": "0x3bca84",
+      "rule": "Skill is available, SkillTable word 18 is not -1, and its saved rank is above zero."
+    },
+    {
+      "symbol": "Character::CanIncrementSkill(int)",
+      "address": "0x3bc9ec",
+      "rule": "Saved per-position rank is no greater than character level minus SkillTable.Level (word 8)."
+    },
+    {
+      "symbol": "Character::IncSkill(int, bool)",
+      "address": "0x3bcc58",
+      "rule": "The native caller additionally requires a skill point and current rank below the unlocked-difficulty CharacterDesign MaxSkillLevel constant; mutation consumes one point and increments the saved rank."
+    }
+  ],
+  "design_caps": {
+    "source": "port/windows-foundation/reports/runtime-creation-source-loader-v1.json",
+    "constants": {
+      "MaxSkillLevelBNormal": 10,
+      "MaxSkillLevelCHard": 15,
+      "MaxSkillLevelDVeryHard": 20
+    },
+    "runtime_input": "Caller supplies the actual unlocked difficulty and all three source-loaded caps; missing caps leave training unknown and fail closed."
+  },
+  "implementation": {
+    "state_owner": "The caller's existing CharacterState is read and mutated in place; no native VM, profile, or copied progression owner is created.",
+    "source_rows": "Class SkillTree, active saved SkillList order, SkillTable requirement/type, and saved rank are resolved from actual source tables and the same CharacterState.",
+    "mutation": "After every gate passes, decrement source_skill_points and increment only the matched saved skill rank. Rejections leave points, ranks, and slot mappings unchanged."
+  },
+  "authored_action_order": {
+    "source": "character-menu-flow-v1 authored-actions.txt, root/sprite496 btn_add.onRelease around 0x21b89",
+    "first_spend": "When AddedStatsThisTurn is false and useSkillPoint is false, call NativeSaveGame before NativeSkillsTrainSkill(skillId, player=0), then set useSkillPoint true.",
+    "later_spends": "Skip NativeSaveGame and call NativeSkillsTrainSkill(skillId, player=0) directly.",
+    "probe": "The skill-button onUp call supplies the third argument true; this is the nonmutating IncSkill probe. The btn_add training call supplies two arguments, so the source flag defaults false and mutates."
+  },
+  "verification": {
+    "fixture": "Actual Android-cache CharacterTable and SkillTables; KnightPlayerBase active SkillList; actual SkillTable row 51.",
+    "checks": [
+      "available and unavailable character-level branches",
+      "rank-zero CanIncrement and non-equippable behavior",
+      "rank-positive IsSkillEquippable source predicate",
+      "one-point/one-rank training with unchanged saved slots",
+      "zero-point and CharacterDesign-cap rejection with state snapshots unchanged",
+      "missing-cap unknown state and fail-closed mutation"
+    ],
+    "build": "clang++ -std=c++17 -Wall -Wextra -Werror -O2",
+    "result": "runtime skill progression PASS"
+  }
+}

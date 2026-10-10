@@ -1,0 +1,81 @@
+{
+  "status": "feature_owned_source_spawn_planner_tested",
+  "scope": "Reusable source-backed static ActorDeclaration probability planning over existing ActorPopulation selections; no factory or actor lifecycle integration",
+  "evidence": {
+    "visual": {
+      "reference": "Original Act 1 video, local extracted frames under .local-inputs/referenceframes/dh2-act1/",
+      "observed_frames": [
+        {
+          "time_seconds": 238,
+          "file": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0238s.png",
+          "observation": "A player is visible near the center with one green enemy near the upper-left of the play area."
+        },
+        {
+          "time_seconds": 240,
+          "file": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0240s.png",
+          "observation": "The same camera composition shows the player and an enemy while a tutorial overlay is active."
+        },
+        {
+          "time_seconds": 252,
+          "file": ".local-inputs/referenceframes/dh2-act1/first-combat/at-0252s.png",
+          "observation": "The tutorial says to resume attacking; an enemy remains visible in the upper-left."
+        }
+      ],
+      "limit": "These frames establish an Act 1 player/enemy encounter in context. They do not expose source entity names or prove that the visible enemy is either of the two declarations selected for the data fixture, nor do they prove a whole-level enemy count."
+    },
+    "authored_swamp_case": {
+      "level": "original-cache/data/scene/001_swamp.mlx",
+      "declarations": [
+        {
+          "name": "_prim_MothTemplate_01",
+          "module": "obj_3of4_brdwalk_sw_00_1",
+          "position": [-116.524, 2601.66, 259.286],
+          "template": "Swamp_CommonType2",
+          "spawn_prob": 100
+        },
+        {
+          "name": "_prim_MothTemplate_02",
+          "module": "obj_3of4_brdwalk_sw_00_1",
+          "position": [151.396, 2601.66, 259.286],
+          "template": "Swamp_CommonType2",
+          "spawn_prob": 100
+        }
+      ],
+      "gates": "Neither row has an authored activate_cond or deactivate_cond. Both are loaded through the existing CharacterTable/CharacterTemplateTableV78 ActorPopulation selector; duplicate weighted template slots and source Character/template cache IDs are retained.",
+      "unknown_example": "_prim_MothTemplate_13 has activate_cond=Invalid and remains unknown/out of plan."
+    },
+    "source_logic": {
+      "decision_kernel": "port/level-world/game_object_spawn_probability_v1.cpp: game_object_check_spawn_probability_v1 reuses a non--1 cached roll, assigns the source -2 sentinel for player objects, and for a fresh non-player roll calls the actual shared Random channel with bound 99. A fresh pass caches/returns -2; a failure preserves the sampled roll and runs visibility/delete/manager-mark effects.",
+      "native_addresses": "GameObject::CheckSpawnProbability is 0x38bd64. Original InitPost at 0x38be5c calls it at 0x38be6c then compares returned signed result with GameObject+0x274 and exits when result >= probability. A second source caller at 0x3b49b0 uses the same strict signed comparison. Therefore the planner admits only sentinel -2 or roll < signed probability.",
+      "difficulty_and_counts": "The original monster Lua initialization obtains host-player level, current Level difficulty and the current level-range row for dynamic actor level selection (port/level-world/reference/character-design-services/NOTES.md; host/difficulty producers documented in port/level-world/reference/character-host-context/NOTES.md). Current player count is the retained PlayerManager+0x6c4 field; class counts are derived from actual current manager players and Character base IDs 263/290/325 (port/level-world/reference/character-loot-world-v8/renderer-integration.md). No source evidence found ties difficulty, current player count, or class counts to multiplying these static authored declaration counts, so this planner does not do so."
+    }
+  },
+  "implementation": {
+    "api": "plan_source_population_v1(SourcePopulationPlannerInputV1, output, error)",
+    "behavior": "Matches declarations to already-selected PopulationActor rows by stableId and verifies sourceId; preserves authored placement, profile ID, selected Character row and template cache. Caller activation/condition decisions remain explicit. Unknown/deferred/excluded and absent selections are never materialized. The canonical GameObject kernel receives caller-owned source RNG pointers; planner snapshots roll cache and byte82 and captures failed-spawn lifecycle requests as diagnostics only.",
+    "files": [
+      "port/windows-foundation/features/enemy_ai/runtime_source_population_v1.hpp",
+      "port/windows-foundation/features/enemy_ai/runtime_source_population_v1.cpp",
+      "port/windows-foundation/features/enemy_ai/runtime_source_population_v1_tests.cpp",
+      "port/windows-foundation/features/enemy_ai/run_runtime_source_population_v1_tests.py"
+    ]
+  },
+  "verification": {
+    "runner": "py -3 port/windows-foundation/features/enemy_ai/run_runtime_source_population_v1_tests.py",
+    "result": "PASS actualMoths=2 playerSentinelNoDraw=true sharedNpcDraws=2 strictThreshold=73 unknownActivationGated=true",
+    "language_standard": "C++17",
+    "observations": [
+      "Both authored Swamp Moth declarations resolved through actual source actor definitions, CharacterTable, CharacterTemplateTableV78, ActorProfileLibrary, and existing ActorPopulation selection.",
+      "The two non-player declarations consumed exactly one shared source RNG draw each at bound 99 and passed spawn_prob=100.",
+      "A source player fact produced cached/returned -2 with no RNG draw; a previously cached -2 also avoids additional draws.",
+      "A deterministic source fixture proved signed strict roll < probability: equal rejected, next larger probability admitted; failure lifecycle calls were reported without mutating a live actor.",
+      "Authored placement, stable identity, and selected Character/template row cache values were preserved; Invalid activation remained unknown."
+    ]
+  },
+  "limits": [
+    "This is a feature planner and isolated asset-backed test, not production population wiring or an integrated live encounter runtime.",
+    "Activation/deactivation, network player detection and source object field borrows are supplied by the eventual canonical caller; the planner does not emulate or guess these services.",
+    "Diagnostic visibility/delete/mark flags are not executed against the source manager; lifecycle execution remains with the real object owner.",
+    "No player/class/difficulty-based count scaling was found or implemented."
+  ]
+}

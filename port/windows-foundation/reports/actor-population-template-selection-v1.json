@@ -1,0 +1,44 @@
+{
+  "status": "source_backed_selector_and_asset_test_passed",
+  "implementation": [
+    "port/windows-foundation/actor_population.hpp",
+    "port/windows-foundation/actor_population.cpp"
+  ],
+  "source_semantics": {
+    "template_table": "CharacterTemplateTableV78, authored source table name Charater_Templates",
+    "lookup": "safe_template_id followed by preset for the same authored template name",
+    "choice": "caller-supplied shared RNG selects one ordered signed16 CharacterTable row index; duplicate member IDs remain weighted",
+    "profile": "selected CharacterTable row name resolves through the existing ActorProfileLibrary",
+    "identity": "ActorDefinition and stableId remain unchanged; selected character/template IDs are retained as cache facts",
+    "reference": "port/level-world/character_props_id_owner_v1.cpp character_safe_props_id_v1 uses a source CharPropsArray span and shared source RNG, preserving signed16 selected IDs"
+  },
+  "scope": {
+    "swamp_symbolic_declarations": 21,
+    "actionable_templates": {
+      "Swamp_CommonType1": 14,
+      "Swamp_CommonType2": 6
+    },
+    "excluded_unknown_activation": {
+      "name": "_prim_MothTemplate_13",
+      "activate_cond": "Invalid",
+      "policy": "remains caller-gated; selector does not enable or instantiate it"
+    },
+    "caller_gates_preserved": [
+      "activate/deactivate conditions",
+      "spawn_prob",
+      "auto_spawn",
+      "special population conditions"
+    ]
+  },
+  "verification": {
+    "runner": "py -3 port/windows-foundation/tests/run_actor_population_template_selection_tests.py",
+    "result": "PASS symbolicTemplateRow=93 selectedCharacterRow=361 weightedBound=5 externalDraws=1 unknownConditionGated=true missingRngGated=true",
+    "fixture": "actual Swamp actor definition, CharacterTable, CharacterTemplateTableV78, ActorProfileLibrary, and original visual assets",
+    "also_proves": [
+      "final authored weighted slot resolves to Swamp_LizadMan_Type1_Respawn",
+      "unknown activation remains gated",
+      "missing shared RNG fails closed with a per-actor notice"
+    ]
+  },
+  "integration_boundary": "The optional PopulationTemplateSelectionV1 input is not wired by the root population caller in this task. Production use requires passing the actual shared CharacterTable, CharacterTemplateTableV78, and source RNG callback. No root main/CMake files were changed."
+}

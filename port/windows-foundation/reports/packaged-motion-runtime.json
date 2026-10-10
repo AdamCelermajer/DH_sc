@@ -1,0 +1,56 @@
+{
+  "status": "diagnostic_packaged_runtime_verified_fidelity_incomplete",
+  "goal_complete": false,
+  "executable_sha256": "3cee9ef644b87f2df912653f325a26db4cfd08a3d9497895d62ca6e81f38d57d",
+  "package_files_verified": 531,
+  "baseline_executable_preserved": true,
+  "runtime_checks": [
+    {
+      "log": ".local-inputs/windows-motion-checkpoint/verification.log",
+      "required_observations": [
+        "Damage frame=11 attacker=7118915781085668844",
+        "Damage frame=74 attacker=18446744073709551615",
+        "Damage frame=180 attacker=18446744073709551615",
+        "removed=14.0039 dead=1",
+        "Saved live checkpoint frame=210 HP=157.457 RNG=2808983/38",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Rendered frames=360; clean shutdown",
+        "938.285,255 grounded=1"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-motion-checkpoint/resume-verification.log",
+      "required_observations": [
+        "Restored live checkpoint frame=0 HP=157.457 RNG=2808983/38",
+        "Rendered frames=30; clean shutdown",
+        "HP=0/47.5 target=0 action=5"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-motion-checkpoint/startup-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=1279.79,-201.095,255 grounded=1",
+        "HP=165.098/165.098 target=0 action=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-motion-checkpoint/moving-verification.log",
+      "required_observations": [
+        "Rendered frames=360; clean shutdown",
+        "Actor final position=-6852.87,937.209,255 grounded=1",
+        "sourceXY=621.495 worldXY=559.345",
+        "Motion final actor=7118915781085668844 enabledSegments=70 disabledSegments=0 sourceXY=0 worldXY=0",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38"
+      ]
+    }
+  ],
+  "limits": [
+    "Explicit diagnostic stationary AI; original encounter activation remains unverified",
+    "Initial full phase groups and MoveGO motion service are connected; combo chaining and live blend/cadence remain incomplete",
+    "Navigation/body/visibility/target-selection policies and continuous reference fidelity remain incomplete",
+    "Companion behavior, status/DOT/leech, full UI/effects/audio/campaign remain incomplete"
+  ]
+}

@@ -1,6 +1,7 @@
 #pragma once
 #include "hud_manager.hpp"
 #include "hud_manager_core.hpp"
+#include "hud_manager_core_v2.hpp"
 #include "hud_advance_owner.hpp"
 #include "swf_movie.hpp"
 #include "enemy_hud_presentation_v2.hpp"
@@ -23,7 +24,7 @@ struct EnemyHudTextServicesV1 {
 extern "C" int dh2_ui_hud_enemy_v1(HudManagerState*,HudManagerActor*,const HudManagerServices*) noexcept;
 class EnemyStatusHudV1 {
 public:
- explicit EnemyStatusHudV1(SwfMovie&,EnemyHudTextServicesV1);
+ explicit EnemyStatusHudV1(SwfMovie&,EnemyHudTextServicesV1,bool base_hud=false);
  ~EnemyStatusHudV1();
   bool update(const EnemyHudWorldBorrowV1&,std::string&,std::int32_t hud_style=0);
  std::uintptr_t target()const{return target_;}
@@ -35,6 +36,9 @@ private:
  SwfMovie& movie_;
  EnemyHudTextServicesV1 text_;
  HudManagerCore core_;
+ HudManagerCoreV2 base_core_;
+ bool base_hud_{};
+ int core_dispatch(const HudManagerRequest&,HudManagerResponse&,std::string&);
  HudAdvanceOwner advance_;
  HudManagerState state_{};
  const EnemyHudWorldBorrowV1* borrow_{};

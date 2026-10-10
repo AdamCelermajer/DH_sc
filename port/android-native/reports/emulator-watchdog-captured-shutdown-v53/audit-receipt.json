@@ -1,0 +1,157 @@
+{
+  "scope": "Repeated guarded-emulator shutdown access-denied failure only. No emulator started/stopped. Current run artifacts preserved.",
+  "classification": "Shutdown-correlated unresolved process census child; recorded failure is the intended fail-closed policy, not evidence of a guard safety regression. Harmless natural shutdown remains unproven.",
+  "run_stem": "20261009-000556-8ab434e6",
+  "artifact_sha256_before": {
+    "manifest.json": "3e2318b3c48d32afed0807eaf9890ac722b9a14c2124e07c3a655a360097d5ec",
+    "telemetry.jsonl": "c4e6aacc9f51222a564982cea767e7854f57efd789f80cd3e9f413d27d3aaaa8",
+    "watchdog.json": "14b92a7febbc445e2a8ec7b74f2530b9cf396e8e9dfca7ebb98580f899cd176c",
+    "launcher.json": "cf9af6cfec592fa4e56867f365b7e051663c46b640a9b496a457b79552d7445d",
+    "emulator.log": "49f785b18368b9f09cf7fe99934fb3586c525753329e001f2450431859d4ed73",
+    "emulator-errors.log": "3287089d8c512aee00d7a96aeb1b8d155fc6a7e5eb73a6deeb79dfa9ab0a9267",
+    "ready.json": "09c406a3ec9a6886f7888007a29c02dd1121062e3553c20006102e6a35513ddf",
+    "watchdog-errors.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "artifact_sha256_after": {
+    "manifest.json": "3e2318b3c48d32afed0807eaf9890ac722b9a14c2124e07c3a655a360097d5ec",
+    "telemetry.jsonl": "c4e6aacc9f51222a564982cea767e7854f57efd789f80cd3e9f413d27d3aaaa8",
+    "watchdog.json": "14b92a7febbc445e2a8ec7b74f2530b9cf396e8e9dfca7ebb98580f899cd176c",
+    "launcher.json": "cf9af6cfec592fa4e56867f365b7e051663c46b640a9b496a457b79552d7445d",
+    "emulator.log": "49f785b18368b9f09cf7fe99934fb3586c525753329e001f2450431859d4ed73",
+    "emulator-errors.log": "3287089d8c512aee00d7a96aeb1b8d155fc6a7e5eb73a6deeb79dfa9ab0a9267",
+    "ready.json": "09c406a3ec9a6886f7888007a29c02dd1121062e3553c20006102e6a35513ddf",
+    "watchdog-errors.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "all_run_artifacts_unchanged": true,
+  "observed": {
+    "last_good_telemetry_line": 202,
+    "failure_telemetry_line": 203,
+    "last_good_utc": "2026-10-08T21:09:22Z",
+    "failure_utc": "2026-10-08T21:09:23Z",
+    "last_good_main_qemu": [
+      {
+        "pid": 45340,
+        "parent_pid": 21908,
+        "image": "qemu-system-x86_64.exe",
+        "create_time_filetime": 134359671570552036,
+        "private_bytes": 3917328384,
+        "working_set_bytes": 2664038400,
+        "handles": 1086,
+        "alive": true
+      }
+    ],
+    "failure_elapsed_seconds": 206.71900000001187,
+    "failure_decision": {
+      "action": "terminate",
+      "reasons": [
+        "monitoring_unavailable"
+      ],
+      "observations": {
+        "invalid_snapshot": "Incomplete named-job process metrics"
+      }
+    },
+    "failure_reconciliation": [
+      {
+        "pid": 131028,
+        "previous_census": {
+          "pid": 131028,
+          "parent_pid": 45340,
+          "image": "qemu-system-x86_64.exe"
+        },
+        "passes": [
+          {
+            "pass": 1,
+            "census_present": true,
+            "job_member": false,
+            "fresh_census": {
+              "pid": 131028,
+              "parent_pid": 45340,
+              "image": "qemu-system-x86_64.exe"
+            },
+            "job_process_count": 8,
+            "job_process_ids": [
+              21908,
+              45340,
+              77708,
+              81360,
+              82868,
+              190036,
+              244172,
+              287516
+            ]
+          },
+          {
+            "pass": 2,
+            "census_present": true,
+            "job_member": false,
+            "fresh_census": {
+              "pid": 131028,
+              "parent_pid": 45340,
+              "image": "qemu-system-x86_64.exe"
+            },
+            "job_process_count": 8,
+            "job_process_ids": [
+              21908,
+              45340,
+              77708,
+              81360,
+              82868,
+              190036,
+              244172,
+              287516
+            ]
+          },
+          {
+            "pass": 3,
+            "census_present": true,
+            "job_member": false,
+            "fresh_census": {
+              "pid": 131028,
+              "parent_pid": 45340,
+              "image": "qemu-system-x86_64.exe"
+            },
+            "job_process_count": 8,
+            "job_process_ids": [
+              21908,
+              45340,
+              77708,
+              81360,
+              82868,
+              190036,
+              244172,
+              287516
+            ]
+          }
+        ],
+        "wait_seconds": 0.14000000001396984,
+        "outcome": "unresolved"
+      }
+    ],
+    "failure_physical_used_percent": 72.76481743641436,
+    "failure_commit_headroom_gib": 42.00333786010742,
+    "child_metric_samples": 0,
+    "termination_succeeded": true,
+    "subsequent_empty_census": "Reported by parent after guard termination; does not prove natural child disappearance before termination."
+  },
+  "change": {
+    "type": "Diagnostic-only. No retry budget, guard limit, exit acceptance, named-job termination or game behavior change.",
+    "partial_metrics": "Already sampled QEMU metrics survive aborted collection; qemu_metrics_complete stays false.",
+    "unknown_total": "Decision qemu_process_count is null for incomplete snapshots, rather than implying confirmed zero.",
+    "census_evidence": "Save bounded QEMU census candidate metadata plus full candidate count.",
+    "primary_failure": "Include underlying unresolved PID error in decision observations alongside incomplete-member symptom.",
+    "refused_inference": "Parent PID is metadata, not creation identity/exit proof. No omission or longer grace justified by later empty census."
+  },
+  "validation": {
+    "captured_scenario_tests": 6,
+    "combined_injected_tests": 80,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  },
+  "source_sha256": "45e2cc164332ec446fcd5d95f57c79bdeefc297a801dc2c550a59cb7254d7db6",
+  "test_sha256": "84a97ba34b7176aa67c87aa3e560b19bc4a56a186392282f33c4498abab39ce7",
+  "references": [
+    "https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects",
+    "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess"
+  ]
+}

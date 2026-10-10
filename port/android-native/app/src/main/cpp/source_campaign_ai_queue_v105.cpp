@@ -26,7 +26,7 @@ bool queue_query(void* raw,std::uintptr_t ai,dh2::character::WorldAIQueueQueryV1
  if(query==Q::Player){bool player{};if(!record.is_player(player,e))return false;value=player;return true;}
  if(query==Q::Zoned){bool zonable{};if(!source_campaign_character_is_zonable_v104(context.world,actor.object->identity,zonable,e))return false;value=zonable;return true;}
  if(query==Q::Follower||query==Q::Faerie){const auto* rows=record.design.ai();std::int32_t id{};
-  if(!rows||dh2_character_target_ai_id(&id,record.properties->resolved.data(),static_cast<std::uint32_t>(rows->rows.size()))){e="Required actual queue GetCharAIId";return false;}
+  if(!rows||!record.properties||dh2_character_target_ai_id(&id,record.properties->resolved.data(),static_cast<std::uint32_t>(rows->rows.size()))){e="Required actual queue GetCharAIId and CharacterProperties";return false;}
   const auto* row=dh2::data::ai_props(*rows,id);if(!row){e="Required actual queue GetCharType row";return false;}value=row->type==(query==Q::Follower?2:3);return true;
  }
  dh2::world::GameObjectInitializationFieldsV62 fields;if(!actor.inherited_initialization_fields_v62(receiver.character,fields,e))return false;

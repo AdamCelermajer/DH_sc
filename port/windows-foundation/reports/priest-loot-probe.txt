@@ -1,0 +1,1 @@
+LOOT	192	PriestStartingLoot	0	20	0	0	0

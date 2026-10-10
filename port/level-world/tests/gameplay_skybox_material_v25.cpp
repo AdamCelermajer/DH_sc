@@ -1,4 +1,5 @@
 #include "../gameplay_skybox_material_v25.hpp"
+#include "../gameplay_skybox_draw_source_v124.hpp"
 #include <fstream>
 #include <iterator>
 #include <iostream>
@@ -8,11 +9,22 @@ using namespace dh2;
 struct MaterialFieldsFixture {std::uint32_t flags{0xffffffffu};std::uint8_t dirty{7};};
 int main(int argc,char**argv){try{if(argc!=2)return 2;const std::string path=argv[1];std::string e;auto roots=std::make_shared<world::GameObjectSceneRootRegistryV1>();auto scope=std::make_shared<int>(1);
  camera::SkyboxLoadServicesV24 services;services.actual_resource_owner=scope;services.same_roots=roots;
- services.read=[&](const std::string&uri,auto&bytes,bool&found,auto&){const auto split=uri.find_last_of("/\\");std::ifstream f(path+"/"+uri.substr(split+1),std::ios::binary);found=bool(f);if(found)bytes.assign(std::istreambuf_iterator<char>(f),{});return true;};
+ services.read=[&](const std::string&authored,auto&bytes,bool&found,auto&){const auto uri=camera::skybox_resource_uri_v124(authored);assert(uri.find(':')==std::string::npos);const auto split=uri.find_last_of("/\\");std::ifstream f(path+"/"+uri.substr(split+1),std::ios::binary);found=bool(f);if(found)bytes.assign(std::istreambuf_iterator<char>(f),{});return true;};
  camera::GameplaySkyboxPipelineV25 owner(services);unsigned assets=0,buffers=0,draws=0;
+ std::shared_ptr<camera::SkyboxNodeV24> previous_node;
  for(const auto*file:{"skybox_swamp.bdae","skybox_blood.bdae","skybox_under.bdae","skybox_darktemple.bdae","skybox_wind.bdae"}){
   if(!owner.add(file,e))throw std::runtime_error(e);auto node=owner.current();assert(node&&node->source_references()==2&&node->source_culling118()==0&&roots->roots().size()==1);
+  if(previous_node)assert(previous_node->source_references()==0&&!previous_node->resource());
+  previous_node=node;
   const auto resource=node->resource();assert(resource&&resource->buffers.size()==1&&resource->textures.size()==1&&!resource->textures[0]->rgba.empty());
+  assert(roots->source_scene_phase_v69(assets+1,assets+1,e));
+  world::NativeBatchPartV111 draw_source;
+  if(!camera::skybox_draw_source_v124(owner,*resource,0,draw_source,e))throw std::runtime_error(e);
+  assert(draw_source.vertices.size()==resource->buffers[0].positions.size());
+  assert(draw_source.indices.size()==resource->buffers[0].indices.size());
+  assert(!draw_source.pass_v112.depth_write&&draw_source.material_values_v113);
+  assert(draw_source.attributes[0].components==3&&draw_source.attributes[4].components==2);
+  assert(draw_source.material_values_v113->sampler_bindings.at("Sampler0")=="diffuse-sampler");
   assert(resource->textures[0]->rgba.size()==std::size_t(resource->textures[0]->width)*resource->textures[0]->height*4);
   assert(owner.add("",e)&&owner.current()==node);assert(owner.add("actual-absent-skybox.bdae",e)&&owner.current()==node);
   std::shared_ptr<camera::SkyboxMaterialV25> actual_material;assert(owner.material(*resource,0,actual_material,e));assert(actual_material->techniques().size()==4);
@@ -31,6 +43,7 @@ int main(int argc,char**argv){try{if(argc!=2)return 2;const std::string path=arg
   queue.clear();std::cout<<file<<" vertices="<<resource->buffers[0].positions.size()<<" indices="<<resource->buffers[0].indices.size()<<" texture="<<resource->textures[0]->uri<<" size="<<resource->textures[0]->width<<'x'<<resource->textures[0]->height<<'\n';++assets;
  }
  assert(owner.release(e)&&roots->roots().empty()&&!owner.current());assert(owner.release(e));
+ assert(previous_node->source_references()==0&&!previous_node->resource());
  camera::GameplaySkyboxPipelineV25 missing({});assert(!missing.add("skybox_swamp.bdae",e)&&!missing.current());
  std::cout<<"Positive skybox assets="<<assets<<" buffers="<<buffers<<" draws="<<draws<<" PASS; actual source CPU material/pass tables; GPU callbacks declared fixtures\n";
  }catch(const std::exception&e){std::cerr<<e.what()<<'\n';return 1;}}

@@ -244,6 +244,12 @@ struct ActorLeavesV96 {
   if(skills->native_reload_skills(&services)!=1||skills->update()!=1){if(e.empty())e=skills->error();return required("whole AI_ReloadSkills/UpdateAllSkills",e);}
   q.source_entry=0x3e0810;q.argument0=1;if(!dh2::world::CanonicalCharacterCandidateRecordV60::init_service(&r,q,response,e))return false;
   if(!r.equipment||r.equipment.get()!=r.prepared_equipment_v60||!r.equipment->check_item_requirements_v1(e))return required("SAME INV_CheckItemsRequirements",e);
+  return verify_specialization(id,e);
+ }
+ // Character.VerifySpecialization3bd000 is also called directly by PM at
+ // source stage26; it must not replay ReloadSkills/buffs/equipment prefixes.
+ bool verify_specialization(std::uintptr_t id,std::string& e){
+  SourceCampaignCharacterBorrowV62 actor;if(!character(id,actor,e))return false;auto& r=*actor.character;
   const auto get_save=[&](const dh2::data::PlayerSavegameV1*& save){
    save=nullptr;if(!r.save_fields)return required("actual SG getter14e8 slot",e);
    const auto source=*r.save_fields->save_slot14e8();if(!source)return true;
@@ -269,6 +275,9 @@ bool actor_context_v116(const std::shared_ptr<void>& world,ActorLeavesV96& servi
     !borrow_source_campaign_condition_world_v70(c,source,e))return false;
  services.world=source;return true;
 }
+}
+bool source_campaign_character_verify_specialization_v134(const std::shared_ptr<void>& world,std::uintptr_t id,std::string& e){
+ ActorLeavesV96 services;return actor_context_v116(world,services,e)&&services.verify_specialization(id,e);
 }
 bool source_campaign_character_play_animation_v116(const std::shared_ptr<void>& world,std::uintptr_t id,std::int32_t first,std::int32_t second,std::int32_t base,std::string& e){
  ActorLeavesV96 services;return actor_context_v116(world,services,e)&&services.play(id,first,second,base,e);

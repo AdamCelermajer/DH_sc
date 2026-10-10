@@ -6,11 +6,15 @@
 #include "character_skill_target_binding_v46.hpp"
 #include "character_script_source_virtuals_v101.hpp"
 #include "character_ai_state_changed_vm.hpp"
+#include "character_animation_selection_debug_v126.hpp"
 #include "character_animation_event_owner_v1.hpp"
 #include "npc_animation_event_owner_v1.hpp"
 #include "character_melee_animation_event_v1.hpp"
 #include "character_idle_update.hpp"
 #include "character_heading_owner_v1.hpp"
+#include "character_script_commands.hpp"
+#include "navigation_objects.hpp"
+#include "navigation_heading.hpp"
 #include "character_collision_lifecycle_v1.hpp"
 #include "campaign_navigation_registry_v64.hpp"
 #include "application_player_manager_bootstrap_v59.hpp"
@@ -24,6 +28,8 @@
 #include "faery_cast_state_v2.hpp"
 #include "character_script_call_timer.hpp"
 #include "character_world_attack_geometry_v1.hpp"
+#include "npc_attack_command_owner_v1.hpp"
+#include "character_design_services.hpp"
 #include "character_ai_groups_v87.hpp"
 #include "canonical_character_spawn_select_v87.hpp"
 #include "canonical_character_pf_v62.hpp"
@@ -55,6 +61,8 @@
 #include "character_knockback_reaction_v1.hpp"
 #include <design_settings.hpp>
 #include <algorithm>
+#include <cmath>
+#include <cstdio>
 #include <cstring>
 #include <stdexcept>
 namespace model_renderer {namespace {
@@ -69,14 +77,29 @@ namespace target_providers=dh2::target_providers;
 using Record=dh2::world::CanonicalCharacterCandidateRecordV60;
 class CampaignFsmV101 {
  Record& r_;
+ CharacterAnimationSelectionDebugV126 animation_debug_v126_{r_.services.debug,r_.services.debug_files};
  std::weak_ptr<dh2::application::ApplicationServicesOwnerV5> application_;
+ std::shared_ptr<dh2::application::ApplicationServicesOwnerV5> backend_application_lease_v1_;
  std::shared_ptr<dh2::floors::World> floors_;
  std::shared_ptr<dh2::navigation::CampaignNavigationRegistryV64> navigation_;
+ std::shared_ptr<void> process_pf_lease_;
+ // Clean-backend campaign binding pins the same native World separately from
+ // the record so its borrowed PF registry/context remain alive with this FSM.
+ std::shared_ptr<void> backend_world_lease_v1_;
+ const dh2::navigation::CollisionWorld* pf_geometry_{};
+ dh2::navigation::ObstacleRegistry* pf_registry_{};
  std::shared_ptr<dh2::world::CanonicalObjectManagerV1> objects_;
  std::unique_ptr<CharacterWorldAttackGeometryV1> geometry_;
+ std::unique_ptr<NpcAttackCommandOwnerV1> npc_attack_;
+ ControllerCommandState32* npc_attack_controller_{};
  std::unique_ptr<CharacterWorldTargetFrameV2> target_frame_v108_;
  std::map<std::uintptr_t,std::unique_ptr<std::string>> debug_strings_;
  SkillStateV4 skill_{};
+ // Refreshed loan view over the actor's actual SkillAI owner, slots and AI
+ // fields. The original source context is a per-call local, so this stable
+ // member carries only its exact current projections while a strong FSM loan
+ // is held by SourceCampaignCharacterSkillContextBorrowV1.
+ SkillAIContextV3 skill_ai_context_v3_{};
  PreSpawnState48 pre_spawn_{};
  std::vector<std::array<std::int32_t,40>> pre_spawn_rows_v108_;
  PreSpawnServices16 pre_spawn_services_v108_{this,pre_spawn_service_v108};
@@ -86,6 +109,16 @@ class CampaignFsmV101 {
  AIEventServices24 events_{this,ai_service,63,0};
  SkillStateServices16V4 skill_services_{this,skill_service};
  TimerServices32 timer_expiry_v102_{this,[](void* raw,std::uintptr_t id,std::int32_t event,Timer32* timer){auto& t=*static_cast<CampaignFsmV101*>(raw);if(id!=t.r_.actor->object->identity||!timer||!t.raise(static_cast<unsigned>(event),reinterpret_cast<std::uintptr_t>(timer)))t.unavailable("Required SAME canonical CharTimer event delivery");},nullptr,0};
+ ScriptCommandState48 script_command_state_{};
+ ScriptCommandBindings40 script_commands_{};
+ struct NpcScriptBinding {CampaignFsmV101* owner{};std::uint32_t address{};};
+ std::map<std::uint32_t,NpcScriptBinding> npc_script_bindings_;
+ std::vector<target_search::Target24> npc_script_target_heap_;
+ target_search::List40 npc_script_targets_{};
+ std::uint32_t npc_script_character_filter_{},npc_script_object_filter_{};
+ void* previous_gameplay_context_{};
+ int(*previous_gameplay_binding_)(void*,std::uint32_t,dh2_script_function*,void**){};
+ std::array<float,3> script_look_{};
  std::unique_ptr<CharacterCollisionLifecycleV1> collisions_;
  std::unique_ptr<CharacterAnimationEventOwnerV1> player_events_;
  std::unique_ptr<NpcAnimationEventOwnerV1> npc_events_;
@@ -122,6 +155,84 @@ class CampaignFsmV101 {
   services.object_kind=[](void* raw,std::uintptr_t id,std::int32_t* out){auto& t=*static_cast<CampaignFsmV101*>(raw);if(!out)return -1;std::int32_t key{};const dh2::world::CanonicalObjectBorrowV1* object{};
    bool found=t.objects_->source_ordered_begin_v38(key,object);while(found){if(object&&object->identity==id&&object->type_f4){*out=static_cast<std::int32_t>(*object->type_f4);return 0;}found=t.objects_->source_ordered_next_v38(key,key,object);}return -1;};
   geometry_=std::make_unique<CharacterWorldAttackGeometryV1>(*r_.services.world_targets,*r_.design.ai(),*r_.services.debug,*r_.services.debug_files,services);return true;
+ }
+ static bool attack_online(void* raw,bool& online,std::string& error){
+  auto& t=*static_cast<CampaignFsmV101*>(raw);
+  if(!t.r_.services.online_byte5){error="Required actual same-World online byte+5";return false;}
+  return t.r_.services.online_byte5(online,error);
+ }
+ static bool attack_melee_radius(void* raw,std::uintptr_t id,float& radius,std::string& error){
+  auto& t=*static_cast<CampaignFsmV101*>(raw);
+  return t.geometry()&&t.geometry_->melee_radius(id,radius,error);
+ }
+ static int attack_backend(void* raw,const AttackRequest32* q,AttackResponse16* out,
+  const dh2_script_callback_scope*,std::string& error){
+  auto& t=*static_cast<CampaignFsmV101*>(raw);
+  if(!q||!out||!t.r_.actor||!t.r_.actor->object){error="Malformed same-Character NPC attack request";return -1;}
+  switch(q->service){
+   case attack_frontal_angle:{
+    std::int32_t angle{};
+    if(!t.constant("CharacterDesign","Attack_FrontalAngle",angle)){
+     error="Required actual CharacterDesign/Attack_FrontalAngle";return -1;
+    }
+    std::memcpy(&out->word,&angle,sizeof(angle));return 0;
+   }
+   case attack_diagnostic:{
+    const char* key=nullptr;
+    switch(q->argument0){
+     case 0x3d0294:case 0x3d03c0:key="isTracingCharAICommands";break;
+     case 0x3d0354:case 0x3d0630:case 0x3d06b4:case 0x3d0538:key="isTracingChar_MeleePotentialTarget";break;
+     default:error="Unknown original NPC attack diagnostic call site";return -1;
+    }
+    if(!t.r_.services.debug||!t.r_.services.debug_files||
+       dh2_character_debug_load(t.r_.services.debug,t.r_.services.debug_files)!=1||
+       dh2_character_debug_get(&out->word,t.r_.services.debug,key,t.r_.services.debug_files)!=1){
+     error="Required same-World NPC attack DebugSwitches query";return -1;
+    }
+    return 0;
+   }
+   case attack_range_redirect:
+    error="Required same-Character NPC AI_DoRangeAttack owner";return -1;
+   case attack_network_send:
+    error="Required same-World CMsgControllerAction network send owner";return -1;
+   default:
+    error="Required same-Character NPC attack continuation service "+std::to_string(q->service);return -1;
+  }
+ }
+ bool ensure_npc_attack(){
+  ControllerCommandState32* command{};
+  if(!controller(command)||!geometry()||!r_.actor->machine||!r_.services.world_targets||!r_.actor->object)
+   return fail("Required same-Character NPC attack World/Target/FSM/controller/geometry");
+  auto& actor=*r_.actor;const auto id=actor.object->identity;
+  auto* heading=actor.source_heading_enabled412_v101();auto* click=actor.source_click_fields_v101();
+  if(!heading||!click)return fail("Required actual Character412/413 attack AI fields");
+  actor.animation_ai.owner=id;actor.animation_ai.controller=command->controller;
+  actor.animation_ai.target=actor.object->target.target;actor.animation_ai.look_target=actor.object->target.target;
+  actor.animation_ai.owner_flags=state().flags;actor.animation_ai.seeking=*heading;
+  actor.animation_ai.target_sticky=click->click_target413;
+  if(!id||command->owner!=id||!actor.object->binding.state||!actor.object->binding.state->owner||
+     actor.object->binding.state->owner->identity!=id||actor.machine->native_fsm().character!=id||
+     actor.animation_ai.owner!=id)
+   return fail("NPC attack requires identical same-Character World/Target/controller/FSM/AI owners");
+  command->locked=state().controller_locked;
+  if(npc_attack_&&npc_attack_controller_==command)return true;
+  npc_attack_.reset();npc_attack_controller_=nullptr;
+  NpcAttackCommandBorrowV1 borrow{r_.services.world_targets.get(),&actor.object->binding,
+   actor.machine.get(),command,&actor.animation_ai,&actor.source_ooi14a4,nullptr};
+  NpcAttackCommandServicesV1 services{this,attack_online,attack_backend,geometry_->queries(),attack_melee_radius};
+  try{npc_attack_=std::make_unique<NpcAttackCommandOwnerV1>(borrow,services);}
+  catch(const std::exception& e){return fail(e.what());}
+  npc_attack_controller_=command;return true;
+ }
+ bool command_attack(std::uintptr_t requested){
+  if(!ensure_npc_attack())return false;
+  const auto* scope=r_.player_script_owner_v62
+   ?r_.player_script_owner_v62->session().current_skill_callback_scope()
+   :r_.actor->session?r_.actor->session->current_skill_callback_scope():nullptr;
+  if(npc_attack_->command(requested,scope)==0)return true;
+  if(!npc_attack_->error().empty())r_.error=npc_attack_->error();
+  else fail("Canonical same-Character NPC attack command failed");
+  return false;
  }
  bool selected(){auto& a=*r_.actor;ScriptSessionView v;
   const bool exists=r_.player_script_owner_v62?r_.player_script_owner_v62->session().owner().active(v):a.session&&a.session->owner().active(v);
@@ -189,6 +300,7 @@ class CampaignFsmV101 {
  bool animation(int sequence){
   if(sequence==-1){sequence=state().animation_override;state().animation_override=-1;}
   if(!r_.visual||!r_.visual->animator()||!r_.services.animation_tables||!r_.services.random)return fail("Required SAME animation/table/Random owner");
+  playback().selection_policy_v126=animation_debug_v126_.services();
   auto& source=*r_.services.random;data::AnimationRandom random{source.seed,source.calls};auto* previous=r_.animation_random_inflight_v101;r_.animation_random_inflight_v101=&random;
   struct Commit{Record& r;data::AnimationRandom& random;data::AnimationRandom* previous;~Commit(){r.services.random->seed=random.seed;r.services.random->calls=random.calls;r.animation_random_inflight_v101=previous;}}commit{r_,random,previous};
   if(!r_.visual->animator()->start(*r_.services.animation_tables,sequence,random,1.f,r_.error))return false;state().current_animation=sequence;return true;
@@ -201,7 +313,13 @@ class CampaignFsmV101 {
   //callbacks can publish412 independently during every other event.
   if(event==0x32)*heading=static_cast<std::uint8_t>(r_.actor->ai_events.seeking);
   r_.actor->ai_events.seeking=*heading;
-  if(status)return fail("Required canonical Character/CharAI event continuation");return true;
+  if(status){
+   if(r_.error.empty())r_.error=std::string("Required canonical Character/CharAI event continuation: event ")+
+    std::to_string(event)+" status "+std::to_string(status)+" phase "+std::to_string(result.phase)+
+    " service "+std::to_string(result.last_service)+" calls "+std::to_string(result.service_calls);
+   return false;
+  }
+  return true;
  }
  PlayerInjureServicesV7 injury_services_v115(){
   PlayerInjureServicesV7 source;source.context=this;
@@ -296,14 +414,16 @@ class CampaignFsmV101 {
   if(dh2_character_look_at_point(&source,p))return false;r_.actor->runtime.rotation.heading_angle=source.heading_angle;return true;
  }
  bool remote(bool& out){const auto* raw=r_.actor->source_bool_field(0x118);if(!raw)return fail("Required source ObjectBase remotely-updated118");out=r_.actor->machine->combat_fields().network_id!=-1||*raw;return true;}
- bool move(const float* point,bool command_gate=true){ControllerCommandState32* control{};if(!controller(control))return false;
-  if(command_gate&&!control->forced&&(control->global_blocked||control->locked))return true;
+ bool move(const float* point,bool command_gate=true){
+  if(command_gate){ControllerCommandState32* control{};if(!controller(control))return false;
+   if(!control->forced&&(control->global_blocked||control->locked))return true;}
   bool remotely_updated{};if(!remote(remotely_updated))return false;if(remotely_updated)return true;
   dh2::world::GameObjectInitializationFieldsV62 fields;if(!r_.actor->inherited_initialization_fields_v62(r_.actor,fields,r_.error))return false;
   auto* stat=fields.byte?fields.byte(0x84):nullptr;auto* limit=fields.integer?fields.integer(0x26c):nullptr;
   if(!stat||!limit)return fail("Required source PathTo static84/limit26c cells");auto& path=r_.actor->runtime.path;
   PathToState40 value{r_.actor->object->identity,*stat,path.count!=0,static_cast<unsigned>(*limit),0,{path.target[0],path.target[1],path.target[2]},0};
-  const PathToServices16 callbacks{this,[](void* raw,const PathToRequest32* q,std::uint32_t* out){auto& t=*static_cast<CampaignFsmV101*>(raw);if(!q||!out||!t.floors_||!t.floors_->sewn||q->owner!=t.r_.actor->object->identity)return -1;
+  const PathToServices16 callbacks{this,[](void* raw,const PathToRequest32* q,std::uint32_t* out){auto& t=*static_cast<CampaignFsmV101*>(raw);if(!q||!out||q->owner!=t.r_.actor->object->identity)return -1;
+   if(!t.floors_||!t.floors_->sewn)return t.fail("Required actual sewn floor graph at Character.FindPath"),-1;
    auto& runtime=t.r_.actor->runtime;if(runtime.object.user!=q->owner){t.fail("Required actual InitPFObject before source FindPath");return -1;}
    const auto capacity=std::uint64_t(t.floors_->graph.node_count)+1;if(capacity>65536){t.fail("Canonical route storage admission exceeded");return -1;}
    if(!runtime.path.segments){if(runtime.path.count)return -1;t.route_segments_.resize(capacity);runtime.path.segments=t.route_segments_.data();runtime.path.capacity=static_cast<unsigned>(capacity);}
@@ -313,6 +433,24 @@ class CampaignFsmV101 {
    const dh2::navigation::FindSourceServicesV1 source{&t,[](void* raw,std::uint32_t* out){auto& t=*static_cast<CampaignFsmV101*>(raw);return out&&t.r_.services.path_policy_v101&&t.r_.services.path_policy_v101(*out,t.r_.error)?0:-1;}};
    const int status=dh2_nav_find_path_source_v1(&request,&source);if(status){t.r_.error="Canonical FindPath status "+std::to_string(status)+"; "+t.r_.error;return -1;}*out=result.found;return 0;}};
   PathToResult16 result;return dh2_character_path_to(&result,&value,point,&callbacks)==0;
+ }
+ bool click_point_v120(const float* point,bool released){
+  if(!point)return fail("Required actual Ctrl_Click floor point");
+  // Ctrl_Click3addc8 dispatches +0xe4 on press to Ctrl_HeadTo(Point)3adac8
+  // and +0xec on release to Ctrl_MoveTo(Point)3ada30. Preserve the recovered
+  // HeadTo body order: remote gate, heading vector, canonical destination,
+  // then Character event0. The release continuation is remote then PathTo.
+  if(released)return move(point,false); // Ctrl_MoveTo(Point): remote then PathTo, no Cmd_* gate.
+  bool remotely_updated{};if(!remote(remotely_updated))return false;if(remotely_updated)return true;
+  auto& actor=*r_.actor;const float* origin=actor.runtime.subobjects.position;
+  const float direction[3]{point[0]-origin[0],point[1]-origin[1],point[2]-origin[2]};
+  dh2::navigation::set_heading_unchecked(actor.runtime.controller.heading,direction,1);
+  actor.runtime.rotation.heading_angle=actor.runtime.controller.heading.angle;
+  state().heading_active=actor.runtime.controller.heading.active;
+  // GameObject+1a8 is controller.destination. Character frame projection
+  // refreshes subobjects.destination from this canonical source cell.
+  std::copy_n(point,3,actor.runtime.controller.destination);
+  return raise(0,0); // SetHeadingDirection, SetDestination, Character.RaiseEvent(0).
  }
  int timer(unsigned duration,int repeat,int event){if(r_.player_script_owner_v62)return r_.player_script_owner_v62->session().start_timer(duration,repeat,event)>=0?0:-1;
   if(r_.actor->session)return dh2_character_timer_start(&r_.actor->session->timers(),duration,repeat,event,0,&r_.actor->session->native_timer_services())>=0?0:-1;return -1;
@@ -406,7 +544,7 @@ class CampaignFsmV101 {
       dh2_character_debug_get(&no_physics,r.services.debug,"MP_NoPhysics",r.services.debug_files)<0)return -1;
     if(no_physics)return 0;
     if(r.actor->position_fields_v7().physical2dc){if(!r.physical_owner_v62||!r.physical_owner_v62->release()){if(r.physical_owner_v62)e=r.physical_owner_v62->error();return -1;}r.physical_owner_v62.reset();}
-    return dh2::world::canonical_character_update_pf_v62(r,t.floors_->collision_world,t.navigation_->registry(),e)?0:-1;
+    return dh2::world::canonical_character_update_pf_v62(r,*t.pf_geometry_,*t.pf_registry_,e)?0:-1;
    }
    case pre_spawn_enable:return source_campaign_character_set_visible_v96(r.services.world,q->character,q->argument0!=0,e)?0:-1;
    case pre_spawn_revive:return r.revive_v70(0,0,e)?0:-1;
@@ -421,10 +559,58 @@ class CampaignFsmV101 {
   }
  }
  static int skill_service(void* p,SkillStateV4* s,const SkillStateRequest32V4* q,SkillStateResponse16V4* out){
-  if(!p||!s||!q||!out)return -1;auto& t=*static_cast<CampaignFsmV101*>(p);auto* heading=t.r_.actor->source_heading_enabled412_v101();if(!heading)return -1;
+  if(!p||!s||!q||!out)return -1;auto& t=*static_cast<CampaignFsmV101*>(p);
+  if(t.r_.fsm_context_v101.get()!=p||!t.r_.actor||!t.r_.actor->object||!t.r_.actor->machine||
+     s!=&t.skill_||s->state!=&t.state()||s->character!=t.r_.actor->object->identity)return -1;
+  auto* heading=t.r_.actor->source_heading_enabled412_v101();if(!heading)return -1;
   *heading=s->heading_enabled;
   struct Reload{SkillStateV4& state;std::uint8_t* source;~Reload(){state.heading_enabled=*source;}}reload{*s,heading};
   return t.skill_operation(s,*q,*out);
+ }
+ static int skill_ai_loan_service(void* p,SkillAIContextV3* actual,const SkillAIRequest32V3* q,SkillAIResponse32V3* out){
+  auto& t=*static_cast<CampaignFsmV101*>(p);
+  if(!q||!out||actual!=&t.skill_ai_context_v3_||!t.r_.actor||!t.r_.actor->object||
+     t.r_.fsm_context_v101.get()!=p||
+     q->character!=t.r_.actor->object->identity||actual->owner!=&t.r_.skill_owner_view_v68||
+     !actual->slots||!actual->fields)return -1;
+  if(t.r_.player_script_owner_v62){
+   auto* instances=t.r_.player_script_owner_v62->native_skill_owner();
+   if(!instances||actual->slots!=&instances->state()||actual->fields!=&t.r_.player_script_owner_v62->skill_ai()||
+      actual->script_step!=t.r_.player_script_owner_v62->session().owner().lifecycle().load_step)return -1;
+  }else if(!t.r_.npc_skills_v84||actual->slots!=&t.r_.npc_skills_v84->owner().state()||
+    actual->fields!=t.r_.npc_skills_v84->source_ai_fields_v115()||!t.r_.actor->session||
+    actual->script_step!=t.r_.actor->session->owner().lifecycle().load_step)return -1;
+  switch(q->operation){
+   case skill_ai_using_v3:case skill_ai_casting_v3:{
+    if(!t.r_.actor->machine)return -1;int current{};
+    if(dh2_character_native_fsm_get_integer(&current,&t.r_.actor->machine->native_fsm(),0)!=1)return -1;
+    out->word=current==(q->operation==skill_ai_using_v3?6:7);return 0;
+   }
+   case skill_ai_row_v3:{
+    t.skill_.state=&t.state();t.skill_.character=q->character;
+    SkillStateRequest32V4 request{skill_state_row_v4,0,q->index,0,0,0};
+    SkillStateResponse16V4 response{};if(t.skill_operation(&t.skill_,request,response))return -1;
+    out->row=reinterpret_cast<const dh2::data::SkillProjection76*>(response.identity);return 0;
+   }
+   case skill_ai_callback_v3:{
+    unsigned value{};int status=-1;
+    if(t.r_.player_script_owner_v62)status=skill_callback_session_v3(t.r_.player_script_owner_v62->session(),
+     reinterpret_cast<const Instance32*>(q->subject),q->value,&value,t.r_.error);
+    else if(t.r_.actor->session)status=skill_callback_session_v3(*t.r_.actor->session,
+     reinterpret_cast<const Instance32*>(q->subject),q->value,&value,t.r_.error);
+    out->word=value;return status;
+   }
+   case skill_ai_set_state_v3:{
+    t.skill_.state=&t.state();t.skill_.character=q->character;
+    t.skill_.physical=t.r_.actor->position_fields_v7().physical2dc;
+    return t.skill_dispatch(skill_state_select_v4,q->index,q->value,0);
+   }
+   case skill_ai_player_v3:{bool player{};if(!t.r_.is_player(player,t.r_.error))return -1;out->word=player;return 0;}
+   case skill_ai_stop_loop_v3:t.playback().stop_loop(q->value!=0);return 0;
+   default:
+    if(t.r_.services.skill_ai_v101&&t.r_.services.skill_ai_v101(t.r_,*q,*out,t.r_.error))return 0;
+    return t.fail("Required positive canonical SkillAI source service"),-1;
+  }
  }
  static int remaining(void* p,StateOwnerMachine40* machine,const StateOwnerRequest48* q,StateOwnerResponse8*){
   auto& t=*static_cast<CampaignFsmV101*>(p);if(!q||machine!=&t.r_.actor->machine->owner().machine())return -1;
@@ -512,12 +698,71 @@ class CampaignFsmV101 {
  }
  static int prepare(void* p,const StateOwnerRequest48& q){auto& t=*static_cast<CampaignFsmV101*>(p);
   if(q.operation!=state_owner_focus&&q.operation!=state_owner_event)return 0;
-  return t.refresh(q.state)?0:-1;
+  if(t.refresh(q.state))return 0;
+  if(t.r_.error.empty())t.r_.error="Required canonical FSM prepare: state "+std::to_string(q.state)+
+   " operation "+std::to_string(q.operation)+" source "+std::to_string(q.source_function)+
+   " event "+std::to_string(q.event)+" equipment "+std::to_string(t.r_.prepared_equipment_v60!=nullptr);
+  return -1;
  }
  static int update_prepare(void* p){auto& t=*static_cast<CampaignFsmV101*>(p);return t.refresh(t.state().current)?0:-1;}
 public:
+ bool borrow_skill_context(const std::shared_ptr<Record>& record_lease,SourceCampaignCharacterSkillContextBorrowV1& out,std::string& error){
+  out={};auto actor=r_.actor;
+  if(!record_lease||record_lease.get()!=&r_||r_.fsm_context_v101.get()!=this||!actor||!actor->object||!actor->machine||!r_.properties||
+     !actor->object->identity||actor->machine->native_fsm().character!=actor->object->identity){
+   error="Required SAME canonical Character/FSM/Session skill context";return false;
+  }
+  const auto id=actor->object->identity;
+  auto* ai_owner=static_cast<SkillAIOwnerV3*>(nullptr);auto* slots=static_cast<dh2::character::skills::State40*>(nullptr);
+  auto* fields=static_cast<SkillAIStateV3*>(nullptr);CharacterSkillOwner* instances_v1=nullptr;
+  CharacterSkillOwnerV6* instances_v3=nullptr;std::int32_t script_step{};
+  dh2::character::CharacterScriptSession* session_v1=nullptr;
+  dh2::character::CharacterScriptSessionV3* session_v3=nullptr;
+  dh2::data::PropertyView* property_view=nullptr;
+  if(r_.player_script_owner_v62){
+   auto& player=*r_.player_script_owner_v62;instances_v3=player.native_skill_owner();
+   if(!instances_v3){error="Required actual same-player SkillOwnerV6";return false;}
+   session_v3=&player.session();property_view=&session_v3->property_view();
+   if(session_v3->timers().owner!=id||session_v3->properties()!=r_.properties||
+      property_view->resolved!=r_.view.resolved||property_view->resolved!=r_.properties->resolved.data()){
+    error="Required same-player Session/PropertyView aliases";return false;
+   }
+   ai_owner=&r_.skill_owner_view_v68;slots=const_cast<dh2::character::skills::State40*>(&instances_v3->state());
+   fields=&player.skill_ai();script_step=session_v3->owner().lifecycle().load_step;
+  }else{
+   if(!r_.npc_skills_v84||!actor->session){error="Required actual same-NPC SkillOwner/Session";return false;}
+   session_v1=actor->session.get();property_view=&session_v1->property_view();
+   if(session_v1->timers().owner!=id||session_v1->properties()!=r_.properties||
+      property_view->resolved!=r_.view.resolved||property_view->resolved!=r_.properties->resolved.data()){
+    error="Required same-NPC Session/PropertyView aliases";return false;
+   }
+   instances_v1=&r_.npc_skills_v84->owner();slots=const_cast<dh2::character::skills::State40*>(&instances_v1->state());
+   fields=r_.npc_skills_v84->source_ai_fields_v115();
+   if(!fields){error="Required source-produced same-NPC SkillAI fields";return false;}
+   script_step=session_v1->owner().lifecycle().load_step;
+  }
+  if(!ai_owner||!slots||!fields||ai_owner->character!=id||ai_owner->reserved||
+     slots->owner!=id||!r_.services.skills||!property_view||
+     ((instances_v1!=nullptr)==(instances_v3!=nullptr))||
+     ((session_v1!=nullptr)==(session_v3!=nullptr))||
+     !actor->object->binding.state||!actor->object->binding.state->owner||
+     actor->object->binding.state->owner->identity!=id){
+   error="SkillAI context fields do not belong to the same canonical Character";return false;
+  }
+  ai_owner->flags=actor->machine->state().flags;skill_ai_context_v3_={ai_owner,slots,fields,script_step,0};
+  auto* heading=actor->source_heading_enabled412_v101();
+  if(!heading){error="Required actual same-Character heading field for SkillStateV4";return false;}
+  skill_.state=&actor->machine->state();skill_.character=id;skill_.physical=actor->position_fields_v7().physical2dc;
+  skill_.target=actor->object->target.target;skill_.last_target=actor->object->target.last_target;skill_.heading_enabled=*heading;
+  out.record_lease=std::static_pointer_cast<void>(record_lease);
+  out.context_lease=r_.fsm_context_v101;out.character=id;out.machine=&actor->machine->native_fsm();
+  out.session_v1=session_v1;out.session_v3=session_v3;out.property_view=property_view;out.skill_tables=r_.services.skills;
+  out.instances_v1=instances_v1;out.instances_v3=instances_v3;out.ai=&skill_ai_context_v3_;out.state=&skill_;
+  out.ai_services={this,skill_ai_loan_service};out.state_services=skill_services_;return true;
+ }
  bool set_idle_state_v116(bool mode){state().idle_suppressed=mode?1:0;return r_.actor->machine->transition(3,-1,0)>=0;}
  bool set_anim_state_v116(int animation,bool event_end,bool update_end){r_.actor->publish_anim_state_flags_v116(event_end,update_end);state().animation_override=animation;return r_.actor->machine->transition(14,-1,0)>=0;}
+ bool source_click_point_v120(const float* point,bool released){return click_point_v120(point,released);}
  bool command_move_v116(std::uintptr_t target){const float* p{};return position(target,p)&&move(p);}
  bool control_stop_v116(){bool is_remote{};if(!remote(is_remote))return false;if(is_remote)return true;return stop()&&raise(0x3f,0);}
  bool set_limbus_v118(bool mode){r_.actor->publish_limbus_mode_v118(mode);int current{};if(dh2_character_native_fsm_get_integer(&current,&r_.actor->machine->native_fsm(),0)!=1)return false;if(current==0||current==17||current==16)state().elapsed_ms=0;return r_.actor->machine->transition(0,-1,0)>=0;}
@@ -557,7 +802,19 @@ public:
    status=character_defensive_state_v1(&borrow,request.attacker,request.flags!=0,request.service==skill_apply_block_v6?DefensiveAnimationV1::blocking:DefensiveAnimationV1::dodging,&source);
   }if(status!=1)return -1;out={};return 1;
  }
- CampaignFsmV101(Record& record,const SourceCampaignCandidateBorrowV55& source):r_(record),application_(source.application),floors_(source.floors),navigation_(source.navigation_registry),objects_(source.objects){/*412 is borrowed at the actual method boundary.*/}
+ CampaignFsmV101(Record& record,const SourceCampaignCandidateBorrowV55& source):r_(record),application_(source.application),floors_(source.floors),navigation_(source.navigation_registry),objects_(source.objects){
+  if(floors_)pf_geometry_=&floors_->collision_world;
+  if(navigation_)pf_registry_=&navigation_->registry();
+ }
+ CampaignFsmV101(Record& record,const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>& app,
+  const std::shared_ptr<void>& lease,const dh2::navigation::CollisionWorld& geometry,dh2::navigation::ObstacleRegistry& registry)
+  :r_(record),application_(app),process_pf_lease_(lease),pf_geometry_(&geometry),pf_registry_(&registry),objects_(record.services.canonical_objects){}
+ CampaignFsmV101(Record& record,const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>& app,
+  const std::shared_ptr<void>& world_lease,const std::shared_ptr<dh2::floors::World>& floors,
+  dh2::navigation::ObstacleRegistry& registry)
+  :r_(record),application_(app),backend_application_lease_v1_(app),floors_(floors),backend_world_lease_v1_(world_lease),
+   pf_geometry_(floors?&floors->collision_world:nullptr),pf_registry_(&registry),
+   objects_(record.services.canonical_objects){}
  ~CampaignFsmV101(){
   //Native scratch retirement after source unpublication/VM close. Do not
   //leave actor PF aliases pointing into the soon-to-be-destroyed route owner.
@@ -566,7 +823,7 @@ public:
   }
  }
  bool bind(WorldNpcStateServicesV1& out){
-  if(!r_.actor||!r_.services.debug||!r_.services.debug_files||!floors_||!navigation_)return fail("Required actual canonical FSM resource graph");
+  if(!r_.actor||!r_.services.debug||!r_.services.debug_files||!pf_geometry_||!pf_registry_)return fail("Required actual canonical FSM resource graph");
   r_.actor->diagnostics=std::make_unique<StateOwnerDebugDiagnostics>(*r_.services.debug,*r_.services.debug_files);
   r_.actor->bodies={this,body_service};out.remaining_methods={this,remaining};out.outer={this,frame};
   if(!r_.services.animation_tables)return fail("Required actual effect CharAnim tables");for(const auto& row:r_.services.animation_tables->characters){if(row.fields.size()<=32||row.fields[32].size()!=1||row.fields[29].size()!=1)return fail("Required authored Stunned/Scared scalar rows");stunned_v115_.push_back(row.fields[32][0]);scared_v115_.push_back(row.fields[29][0]);}
@@ -588,13 +845,129 @@ public:
    t.skill_.state=&t.state();t.skill_.character=q->character;t.skill_.physical=t.r_.actor->position_fields_v7().physical2dc;
    return t.skill_dispatch(skill_state_select_v4,q->index,q->value,0);}};return true;
  }
- bool bind_npc(CharacterScriptSessionInput& input){input.timer_services=&timer_expiry_v102_;return true;}
- bool borrow_path(SourceCharacterPathBorrowV105& out){
+ static int script_command_invoke(void* raw,ScriptCommandState48* state,const ScriptCommandRequest40* q,const float** out){
+  auto& t=*static_cast<CampaignFsmV101*>(raw);if(!state||state!=&t.script_command_state_||!q||!out)return -1;
+  *out=nullptr;
+  switch(q->service){
+   case script_controller_stop:return t.command_stop()?0:-1;
+   case script_controller_move_object:return t.command_move_v116(q->target)?0:-1;
+   case script_controller_head_point:return t.command_heading(q->point)?0:-1;
+   case script_controller_move_point:return t.move(q->point)?0:-1;
+   // v2Controller::Cmd_Attack against this candidate's same World/Target/FSM.
+   case script_controller_attack:return t.command_attack(q->target)?0:-1;
+   case script_target_position:return t.position(q->subject,*out)?0:-1;
+   case script_look_vector:{const float angle=t.r_.actor->runtime.rotation.rotation[2];t.script_look_={std::sin(angle),-std::cos(angle),0.f};*out=t.script_look_.data();return 0;}
+   default:return -1;
+  }
+ }
+ static int script_command_number(void*,const dh2_script_value* value,float* out){
+  if(!value||!out)return -1;if(value->type==DH2_SCRIPT_NUMBER){*out=value->number;return 0;}
+  if(value->type==DH2_SCRIPT_BOOLEAN){*out=value->boolean?1.f:0.f;return 0;}
+  if(value->type==DH2_SCRIPT_NIL){*out=0.f;return 0;}return -1;
+ }
+ static int script_motion_capability(void* raw,std::uint32_t address,std::uint32_t* value){
+  if(!raw||!value||*value>1)return -1;auto& t=*static_cast<CampaignFsmV101*>(raw);
+  if(!t.r_.actor)return -1;auto& object=t.r_.actor->runtime.object;
+  if(address==0x390900u)return dh2_nav_object_set_flying(&object,*value);
+  if(address==0x39088cu)return dh2_nav_object_set_swimming(&object,*value);
+  if(address==0x38ea94u){const int result=dh2_nav_object_is_flying(&object);if(result<0)return -1;*value=static_cast<std::uint32_t>(result);return 0;}
+  if(address==0x38ea74u){const int result=dh2_nav_object_is_swimming(&object);if(result<0)return -1;*value=static_cast<std::uint32_t>(result);return 0;}
+  return -1;
+ }
+ static int script_register_animation_dict(void* raw,std::int32_t id){
+  if(!raw)return -1;auto& t=*static_cast<CampaignFsmV101*>(raw);
+  auto* animator=t.r_.visual?t.r_.visual->animator():nullptr;
+  if(!animator){t.fail("Required SAME Character CharAnimator for RegisterAnim");return -1;}
+  std::string error;if(!animator->source_add_animation_dict_v116(id,error)){
+   t.r_.error=error.empty()?"Actual Character CharAnimator AddAnimDictToSet failed":error;return -1;
+  }
+  return 0;
+ }
+ static int npc_script_gameplay_binding(void*,std::uint32_t,dh2_script_function*,void**);
+ static int npc_script_gameplay_call(void*,const dh2_script_value*,std::uint32_t,dh2_script_value*,std::uint32_t,std::uint32_t*,char*,std::size_t);
+ static int script_commands_refresh(void* raw){
+  auto& t=*static_cast<CampaignFsmV101*>(raw);ControllerCommandState32* command{};
+  if(!t.controller(command)||!t.r_.actor->object->target.owner||t.r_.actor->object->target.owner->identity!=t.r_.actor->object->identity)return -1;
+  auto& actor=*t.r_.actor; t.state().controller_locked=command->locked;
+  t.script_command_state_={actor.object->identity,command->controller,actor.object->target.target,
+   actor.runtime.subobjects.position,dh2::world::canonical_vec3_k_v1().data(),actor.runtime.path.count,0};
+  return 0;
+ }
+ bool bind_npc(CharacterScriptSessionInput& input){
+  if(!script_commands_refresh(this)){input.commands=&script_commands_;input.commands_refresh_context=this;input.commands_refresh=script_commands_refresh;
+   script_commands_={&script_command_state_,{this,script_command_invoke,script_command_number},nullptr};
+   input.motion_capabilities={this,script_motion_capability};
+   input.animation_registration={this,script_register_animation_dict};
+   previous_gameplay_context_=input.gameplay_context;previous_gameplay_binding_=input.gameplay_binding;
+   input.gameplay_context=this;input.gameplay_binding=npc_script_gameplay_binding;
+   input.timer_services=&timer_expiry_v102_;return true;}
+  return fail("Required SAME canonical controller/target for NPC script commands");
+ }
+ int npc_script_bind(std::uint32_t address,dh2_script_function* function,void** context){
+  static constexpr std::uint32_t callbacks[]{0x390690u,0x390624u,0x390548u,0x38fcf0u,0x38e970u,0x38eb68u,0x38fbb8u,0x3b8ed8u,0x3b8098u,0x3b8bd8u};
+  for(auto candidate:callbacks)if(candidate==address){auto& binding=npc_script_bindings_[address];binding={this,address};*function=npc_script_gameplay_call;*context=&binding;return 1;}return 0;
+ }
+ int npc_script_call(std::uint32_t address,const dh2_script_value* args,std::uint32_t count,dh2_script_value* out,std::uint32_t capacity,std::uint32_t* written){
+  auto need=[&](std::uint32_t n){if(!written||capacity<n)return false;*written=n;return true;};
+  auto number=[&](std::uint32_t i,float& value){if(i>=count||args[i].type!=DH2_SCRIPT_NUMBER)return false;value=args[i].number;return true;};
+  if(!written||(!args&&count)||(!out&&capacity))return -1;*written=0;
+  switch(address){
+   case 0x390690u:case 0x390624u:{float value{};if(!number(0,value))return 0;if(address==0x390690u)npc_script_character_filter_=static_cast<std::uint32_t>(value);else npc_script_object_filter_=static_cast<std::uint32_t>(value);return 0;}
+   case 0x390548u:{float value{};if(!number(0,value))return 0;const auto mode=static_cast<std::int32_t>(value);npc_script_targets_.sort=mode==1?1u:mode==2?2u:0u;npc_script_targets_.count=0;return 0;}
+   case 0x38fcf0u:{float radius{};if(!number(0,radius))return 0;
+    // The authored SwampKing path sets Player/NONE/ClosestFirst and calls the
+    // one-radius overload. Other overloaded TargetListSearch forms remain strict.
+    if(count!=1||npc_script_character_filter_!=128u||npc_script_object_filter_!=2u)return -1;
+    if(!r_.services.world_targets||!objects_||r_.services.world_targets->refresh())return -1;
+    WorldTargetActorBorrowV1 owner{};if(r_.services.world_targets->actor(r_.actor->object->identity,&owner)||!owner.search)return -1;
+    if(npc_script_target_heap_.empty()){
+     const auto capacity=std::max<std::size_t>(objects_->characters().size(),1u);if(capacity>65536)return -1;
+     npc_script_target_heap_.resize(capacity);
+     const auto services=r_.services.world_targets->targets().search_services();
+     if(target_search::dh2_target_list_init(&npc_script_targets_,npc_script_target_heap_.data(),static_cast<std::uint32_t>(capacity),owner.search,npc_script_targets_.sort,&services))return -1;
+    }
+    const auto services=r_.services.world_targets->targets().search_services();
+    if(target_search::dh2_target_search_policy_v108(&npc_script_targets_,&r_.services.world_targets->registry(),radius,3.1415927410125732421875f,128u,2u,&services)){r_.error=r_.services.world_targets->targets().error();return -1;}
+    return 0;
+   }
+   case 0x38e970u:if(!need(1))return -1;out[0]={};out[0].type=DH2_SCRIPT_BOOLEAN;out[0].boolean=npc_script_targets_.count==0;return 0;
+   case 0x38eb68u:{if(!npc_script_targets_.count){if(!need(1))return -1;out[0]={};return 0;}
+    if(!need(5))return -1;const auto& top=npc_script_targets_.heap[0];out[0]={};out[0].type=DH2_SCRIPT_SOURCE_OBJECT;out[0].identity=top.identity;
+    out[1]={};out[1].type=DH2_SCRIPT_NUMBER;out[1].number=top.distance;std::uint32_t degree_bits=0x42652ee0u;float degrees{};std::memcpy(&degrees,&degree_bits,4);
+    out[2]={};out[2].type=DH2_SCRIPT_NUMBER;out[2].number=top.angle*degrees;out[3]={};out[3].type=DH2_SCRIPT_BOOLEAN;out[3].boolean=top.flags&1u;out[4]={};out[4].type=DH2_SCRIPT_NUMBER;return 0;
+   }
+   case 0x38fbb8u:if(!npc_script_targets_.count)return 0;{target_search::Target24 popped{};return target_search::dh2_target_pop(&npc_script_targets_,&popped)?-1:0;}
+   case 0x3b8ed8u:{if(!count||(args[0].type!=DH2_SCRIPT_IDENTITY&&args[0].type!=DH2_SCRIPT_SOURCE_OBJECT))return 0;
+    return source_campaign_character_command_look_v114(r_.services.world,r_.actor->object->identity,args[0].identity,r_.error)?0:-1;}
+   case 0x3b8098u:{if(count<2||(args[0].type!=DH2_SCRIPT_IDENTITY&&args[0].type!=DH2_SCRIPT_SOURCE_OBJECT)||args[1].type!=DH2_SCRIPT_NUMBER)return 0;
+    return add_aggro_v108(args[0].identity,args[1].number)?0:-1;}
+   case 0x3b8bd8u:{if(!count||args[0].type!=DH2_SCRIPT_NUMBER)return 0;const float requested=args[0].number;
+    if(!std::isfinite(requested)||requested<0.f||static_cast<double>(requested)>static_cast<double>(UINT32_MAX))return -1;
+    unsigned ignored{};return npc_skill_ai_v115(skill_ai_use_v3,static_cast<unsigned>(requested),ignored);}
+   default:return 0;
+  }
+ }
+ bool borrow_path(const std::shared_ptr<Record>& record_lease,SourceCharacterPathBorrowV105& out){
+  out={};
+  auto actor=r_.actor;
+  if(!record_lease||record_lease.get()!=&r_||r_.fsm_context_v101.get()!=this||
+     !actor||!actor->object||!actor->machine||!actor->object->identity||
+     actor->machine->native_fsm().character!=actor->object->identity)
+   return fail("Required same-record CampaignFsmV101 path owner");
   auto& path=r_.actor->runtime.path;
   if(path.count>path.capacity||path.owned>1||path.owned>path.count||path.reserved)return fail("Malformed SAME native Character path prefix");
   if(path.segments){if(path.segments!=route_segments_.data()||path.capacity!=route_segments_.size())return fail("Character PF path is not the actual retained route scratch");}
   else if(path.count||path.capacity||path.owned)return fail("Character PF path lost its actual caller storage");
-  out.owner=r_.shared_from_this();out.path=&path;return true;
+  const auto identity=actor->object->identity;
+  out.owner=std::static_pointer_cast<void>(record_lease);
+  out.record_lease=std::static_pointer_cast<void>(record_lease);
+  out.context_lease=r_.fsm_context_v101;out.character=identity;
+  out.machine=&actor->machine->native_fsm();out.path=&path;return true;
+ }
+ bool borrow_path(SourceCharacterPathBorrowV105& out){
+  auto record_lease=r_.weak_from_this().lock();
+  if(!record_lease){out={};return fail("Required retained canonical record lease for Character path");}
+  return borrow_path(record_lease,out);
  }
  bool update_timers(unsigned dt,unsigned blocked){
   if(r_.player_script_owner_v62){const int code=r_.player_script_owner_v62->update_timers(dt,blocked);if(code<0)r_.error=r_.player_script_owner_v62->error();return code==1;}
@@ -644,7 +1017,15 @@ public:
      default:return -1;
    }}};
   unsigned bits;std::memcpy(&bits,&amount,4);SkillAggroOwnerV6 actor{r_.actor->object->identity,own->outgoing()};SkillAggroTargetV6 target{id,peer->incoming()};SkillAggroOutputV6 result;
-  return dh2_character_skill_aggro_v6(&result,&actor,&target,bits,1,&services)==0||fail("Actual source AddAggro delivery failed");
+  if(dh2_character_skill_aggro_v6(&result,&actor,&target,bits,1,&services))return fail("Actual source AddAggro delivery failed");
+  float added{};std::memcpy(&added,&result.returned_bits,4);
+  // Character::_AddAggro loads and queries this ignored diagnostic only after
+  // the actual AI_AddAggro result compares strictly greater than zero.
+  if(added>0.f&&r_.services.debug&&r_.services.debug_files){
+   (void)dh2_character_debug_load(r_.services.debug,r_.services.debug_files);
+   std::uint32_t ignored{};(void)dh2_character_debug_get(&ignored,r_.services.debug,"isTracingThreatChange",r_.services.debug_files);
+  }
+  return true;
  }
  bool search_aggro_v108(bool tracked,float radius,unsigned flags,std::vector<AggroFrameTargetV108>& out){
   if(!objects_||!r_.services.world_targets)return fail("Required SAME source Character list/target directory");
@@ -1037,7 +1418,14 @@ int CampaignFsmV101::ai_service(void* raw,AIEventState64* ai,const AIEventReques
   //The logical CSSkill body consumes the authored string; ARM OnEvent gets
   //the TriggeredEvent record and loads its string member. Keep that producer.
   if(q->event==0x28&&payload)payload=reinterpret_cast<std::uintptr_t>(reinterpret_cast<const animation::TriggeredEvent*>(payload)->name);
-  const auto code=t.r_.actor->machine->event(static_cast<int>(q->event),payload);*out=static_cast<unsigned>(code);return code<0?-1:0;
+  const auto code=t.r_.actor->machine->event(static_cast<int>(q->event),payload);*out=static_cast<unsigned>(code);
+  if(code<0&&t.r_.error.empty()){
+   const auto& machine=t.r_.actor->machine->owner().machine();
+   const auto* current=machine.current_index>=0&&static_cast<unsigned>(machine.current_index)<machine.state_count?&machine.states[machine.current_index]:nullptr;
+   t.r_.error="Required canonical FSM event: code "+std::to_string(code)+" event "+std::to_string(q->event)+
+    " state "+std::to_string(current?current->id:-1)+" source "+std::to_string(current?current->on_event:0);
+  }
+  return code<0?-1:0;
  }
  if(q->service==ai_event_timer_id){if(q->callee!=0x3db288)return -1;const auto* store=t.r_.player_script_owner_v62?&t.r_.player_script_owner_v62->session().timers():t.r_.actor->session?&t.r_.actor->session->timers():nullptr;
   if(!store)return -1;for(unsigned i=0;i<store->count;++i)if(q->subject==reinterpret_cast<std::uintptr_t>(store->slots+i)){*out=store->slots[i].id;return 0;}return -1;
@@ -1103,7 +1491,7 @@ int CampaignFsmV101::ai_service(void* raw,AIEventState64* ai,const AIEventReques
    if(!t.collisions_){WorldNpcObjectServicesV1 services;services.context=&t;
     services.physical=[](void* raw)->dh2::physical::NativeBody*{auto& t=*static_cast<CampaignFsmV101*>(raw);if(!t.r_.actor->position_fields_v7().physical2dc)return nullptr;if(!t.r_.physical_owner_v62)t.unavailable("Required source physical2dc collision receiver");return &t.r_.physical_owner_v62->native();};
     services.method=[](void* raw,WorldNpcObjectMethodV1 method,std::string& error){auto& t=*static_cast<CampaignFsmV101*>(raw);if(!t.r_.physical_owner_v62)return -1;const bool okay=method==WorldNpcObjectMethodV1::EnablePhysicalFilter?t.r_.physical_owner_v62->enable_filter():method==WorldNpcObjectMethodV1::DisablePhysicalFilter?t.r_.physical_owner_v62->disable_filter():false;if(!okay)error=t.r_.physical_owner_v62->error();return okay?0:-1;};
-    services=character_pf_services_v1(services);t.collisions_=std::make_unique<CharacterCollisionLifecycleV1>(t.r_.actor->runtime.object,&t.floors_->collision_world,t.navigation_->registry(),q->subject,services);
+    services=character_pf_services_v1(services);t.collisions_=std::make_unique<CharacterCollisionLifecycleV1>(t.r_.actor->runtime.object,t.pf_geometry_,*t.pf_registry_,q->subject,services);
    }
    if(!(q->operation==0x394a3c?t.collisions_->enable():t.collisions_->disable())){t.r_.error=t.collisions_->error();return -1;}return 0;
   }
@@ -1112,9 +1500,58 @@ int CampaignFsmV101::ai_service(void* raw,AIEventState64* ai,const AIEventReques
  t.r_.error="Required canonical AI event source "+std::to_string(q->callee)+" service "+std::to_string(q->service);return -1;
 }
 }
+int CampaignFsmV101::npc_script_gameplay_binding(void* raw,std::uint32_t address,dh2_script_function* function,void** context){
+ if(!raw||!function||!context)return -1;auto& owner=*static_cast<CampaignFsmV101*>(raw);
+ if(owner.previous_gameplay_binding_){const int selected=owner.previous_gameplay_binding_(owner.previous_gameplay_context_,address,function,context);if(selected<0||selected>1)return -1;if(selected)return 1;}
+ return owner.npc_script_bind(address,function,context);
+}
+int CampaignFsmV101::npc_script_gameplay_call(void* raw,const dh2_script_value* args,std::uint32_t count,dh2_script_value* out,std::uint32_t capacity,std::uint32_t* written,char* error,std::size_t error_capacity){
+ if(!raw)return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;auto& binding=*static_cast<NpcScriptBinding*>(raw);if(!binding.owner)return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;
+ const int status=binding.owner->npc_script_call(binding.address,args,count,out,capacity,written);
+ if(!status)return 0;if(error&&error_capacity){const auto& message=binding.owner->r_.error;const char* text=message.empty()?"Required same-World NPC script target/search service":message.c_str();std::snprintf(error,error_capacity,"%s",text);}return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;
+}
 bool bind_campaign_character_fsm_v101(Record& record,const SourceCampaignCandidateBorrowV55& source,WorldNpcStateServicesV1& output,std::string& error){
  if(record.fsm_context_v101||record.services.world!=source.actual_world||!source.application){error="Required once-only SAME canonical FSM construction";return false;}
+ if(!source.floors||!source.navigation_registry){error="Required actual campaign FSM floor/navigation graph";return false;}
  auto owner=std::make_shared<CampaignFsmV101>(record,source);record.fsm_context_v101=owner;if(!owner->bind(output)){error=record.error;return false;}return true;
+}
+bool bind_process_character_fsm_v121(Record& record,const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>& app,
+ const std::shared_ptr<void>& lease,const dh2::navigation::CollisionWorld& geometry,dh2::navigation::ObstacleRegistry& registry,
+ WorldNpcStateServicesV1& output,std::string& error){
+ if(record.fsm_context_v101||!app||!lease||!record.services.world||!record.services.canonical_objects){error="Required once-only SAME process Character FSM construction";return false;}
+ auto owner=std::make_shared<CampaignFsmV101>(record,app,lease,geometry,registry);record.fsm_context_v101=owner;
+ if(!owner->bind(output)){error=record.error;return false;}return true;
+}
+bool bind_backend_character_fsm_v1(Record& record,
+ const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>& app,
+ const std::shared_ptr<void>& world_lease,
+ const std::shared_ptr<dh2::floors::World>& floors,
+ dh2::navigation::ObstacleRegistry& registry,
+ WorldNpcStateServicesV1& output,std::string& error){
+ if(record.fsm_context_v101||!app||!world_lease||!record.services.world||
+    record.services.world.get()!=world_lease.get()||!floors||!floors->sewn||
+    !record.services.canonical_objects||!record.actor||!record.actor->object||
+    !record.actor->machine||!record.actor->controller||
+    record.actor->machine->native_fsm().character!=record.actor->object->identity){
+  error="Required once-only same-world campaign backend Character FSM inputs";return false;
+ }
+ auto owner=std::make_shared<CampaignFsmV101>(record,app,world_lease,floors,registry);
+ record.fsm_context_v101=owner;
+ if(!owner->bind(output)){error=record.error;return false;}
+ error.clear();return true;
+}
+bool borrow_source_campaign_character_skill_context_v1(const std::shared_ptr<void>& world,std::uintptr_t id,SourceCampaignCharacterSkillContextBorrowV1& out,std::string& error){
+ out={};SourceCampaignCharacterBorrowV62 actual;
+ if(!borrow_source_campaign_character_v62(world,id,actual,error))return false;
+ return borrow_source_campaign_character_skill_context_v1(actual.character,out,error);
+}
+bool borrow_source_campaign_character_skill_context_v1(const std::shared_ptr<Record>& record,SourceCampaignCharacterSkillContextBorrowV1& out,std::string& error){
+ out={};if(!record||!record->actor||!record->actor->object||!record->fsm_context_v101){
+  error="Required retained canonical Character record/actor/FSM";return false;
+ }
+ auto owner=std::static_pointer_cast<CampaignFsmV101>(record->fsm_context_v101);
+ if(!owner){error="Required typed stored canonical CampaignFsmV101";return false;}
+ return owner->borrow_skill_context(record,out,error);
 }
 bool bind_campaign_character_player_events_v101(Record& record,PlayerSkillGameplayServicesV3& out,std::string& error){auto owner=std::static_pointer_cast<CampaignFsmV101>(record.fsm_context_v101);if(!owner){error="Required actual canonical FSM before player VM binding";return false;}return owner->bind_player(out);}
 bool bind_campaign_character_npc_events_v101(Record& record,CharacterScriptSessionInput& input,std::string& error){auto owner=std::static_pointer_cast<CampaignFsmV101>(record.fsm_context_v101);if(!owner){error="Required actual canonical FSM before NPC VM binding";return false;}return owner->bind_npc(input);}
@@ -1153,6 +1590,12 @@ bool borrow_source_campaign_character_path_v105(const std::shared_ptr<void>& wor
  SourceCampaignCharacterBorrowV62 actual;if(!borrow_source_campaign_character_v62(world,id,actual,e)||!actual.character->fsm_context_v101)return false;
  auto owner=std::static_pointer_cast<CampaignFsmV101>(actual.character->fsm_context_v101);if(!owner->borrow_path(out)){e=actual.character->error;return false;}return true;
 }
+bool borrow_source_campaign_character_path_v105(const std::shared_ptr<Record>& record,SourceCharacterPathBorrowV105& out,std::string& e){
+ out={};if(!record||record->failed||!record->actor||!record->actor->object||!record->actor->machine||!record->fsm_context_v101){e="Required retained canonical Character record/actor/FSM path";return false;}
+ auto owner=std::static_pointer_cast<CampaignFsmV101>(record->fsm_context_v101);
+ if(!owner||!owner->borrow_path(record,out)){e=record->error.empty()?"Required typed same-record CampaignFsmV101 path":record->error;return false;}
+ e.clear();return true;
+}
 bool source_campaign_character_drop_path_v105(const std::shared_ptr<void>& world,std::uintptr_t id,std::string& e){
  SourceCharacterPathBorrowV105 actual;if(!borrow_source_campaign_character_path_v105(world,id,actual,e))return false;
  if(dh2_nav_drop_path(actual.path)){e="Actual Character PFObject.DropPath rejected retained storage";return false;}return true;
@@ -1160,6 +1603,11 @@ bool source_campaign_character_drop_path_v105(const std::shared_ptr<void>& world
 bool source_campaign_character_command_stop_v101(const std::shared_ptr<void>& world,std::uintptr_t id,std::string& error){SourceCampaignCharacterBorrowV62 actual;if(!borrow_source_campaign_character_v62(world,id,actual,error)||!actual.character->fsm_context_v101)return false;auto owner=std::static_pointer_cast<CampaignFsmV101>(actual.character->fsm_context_v101);const bool result=owner->command_stop();if(!result)error=actual.character->error;return result;}
 bool source_campaign_character_set_anim_state_v116(const std::shared_ptr<void>& world,std::uintptr_t id,std::int32_t animation,bool event_end,bool update_end,std::string& error){SourceCampaignCharacterBorrowV62 actual;if(!borrow_source_campaign_character_v62(world,id,actual,error)||!actual.character->fsm_context_v101)return false;auto owner=std::static_pointer_cast<CampaignFsmV101>(actual.character->fsm_context_v101);if(!owner->set_anim_state_v116(animation,event_end,update_end)){error=actual.character->error;return false;}return true;}
 bool source_campaign_character_command_move_v116(const std::shared_ptr<void>& world,std::uintptr_t id,std::uintptr_t target,std::string& error){SourceCampaignCharacterBorrowV62 actual;if(!borrow_source_campaign_character_v62(world,id,actual,error)||!actual.character->fsm_context_v101)return false;auto owner=std::static_pointer_cast<CampaignFsmV101>(actual.character->fsm_context_v101);if(!owner->command_move_v116(target)){error=actual.character->error;return false;}return true;}
+bool source_campaign_character_click_point_v120(const std::shared_ptr<void>& world,std::uintptr_t id,const float* point,bool released,std::string& error){
+ SourceCampaignCharacterBorrowV62 actual;if(!borrow_source_campaign_character_v62(world,id,actual,error)||!actual.character->fsm_context_v101)return false;
+ auto owner=std::static_pointer_cast<CampaignFsmV101>(actual.character->fsm_context_v101);
+ if(!owner->source_click_point_v120(point,released)){error=actual.character->error;return false;}return true;
+}
 bool source_campaign_character_control_stop_v116(const std::shared_ptr<void>& world,std::uintptr_t id,std::string& error){SourceCampaignCharacterBorrowV62 actual;if(!borrow_source_campaign_character_v62(world,id,actual,error)||!actual.character->fsm_context_v101)return false;auto owner=std::static_pointer_cast<CampaignFsmV101>(actual.character->fsm_context_v101);if(!owner->control_stop_v116()){error=actual.character->error;return false;}return true;}
 bool source_campaign_character_set_limbus_v118(const std::shared_ptr<void>& world,std::uintptr_t id,bool mode,std::string& error){SourceCampaignCharacterBorrowV62 actual;if(!borrow_source_campaign_character_v62(world,id,actual,error)||!actual.character->fsm_context_v101)return false;auto owner=std::static_pointer_cast<CampaignFsmV101>(actual.character->fsm_context_v101);if(!owner->set_limbus_v118(mode)){error=actual.character->error;return false;}return true;}
 bool source_campaign_character_command_heading_v101(const std::shared_ptr<void>& world,std::uintptr_t id,const float* direction,std::string& error){SourceCampaignCharacterBorrowV62 actual;if(!borrow_source_campaign_character_v62(world,id,actual,error)||!actual.character->fsm_context_v101)return false;auto owner=std::static_pointer_cast<CampaignFsmV101>(actual.character->fsm_context_v101);const bool result=owner->command_heading(direction);if(!result)error=actual.character->error;return result;}

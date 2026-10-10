@@ -20,6 +20,11 @@ std::string load_class_scene(AAssetManager* assets){
    class_clips.push_back({reinterpret_cast<const char*>(bytes.data()+name),int(word(p+4)),int(word(p+8))});
   }
   class_scene=true;class_selected=-1;class_clip_name.clear();class_pane_frames=0;frozen=true;
+  std::string root_error;
+  if(!register_class_selection_scene_root_v121(root_error)){
+   class_scene=false;
+   throw std::runtime_error("Class selection SceneManager root publication failed: "+root_error);
+  }
    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original class scene connected | clips %zu | tracks %u | body previews %zu | weapons and lighting pending",class_clips.size(),player.track_count(),class_preview_actors.size());
   return report;
  }catch(const std::exception& e){class_scene=false;return std::string("Class scene failed: ")+e.what();}
@@ -70,10 +75,59 @@ bool select_menu_persona(int index,AAssetManager* assets,std::string& error){
  catch(const std::exception& failure){error=failure.what();return false;}
  error.clear();return true;
 }
-void draw_menu_background(int width,int height){
-  if(!menu_background||!active())throw std::runtime_error("Menu swamp renderer unavailable");
-  const int w=std::min(width,height*3/2),h=std::min(height,width*2/3);
-  glViewport((width-w)/2,(height-h)/2,w,h);
-  draw(w,h);
-  glViewport(0,0,width,height);
+void draw_menu_background(int width,int height,bool show_character){
+  if(!menu_background||!active()||width<=0||height<=0)throw std::runtime_error("Menu swamp renderer unavailable");
+  // Both the scene pass and the following SWF layers own the full physical
+  // surface. A pane may have left scissoring enabled before this call, and a
+  // nested draw may change it again. Publish the same surface on every exit,
+  // including a retired preview camera or a GPU exception.
+  struct FrontSurface {
+   int width,height;
+   void apply()const{glDisable(GL_SCISSOR_TEST);glViewport(0,0,width,height);}
+   FrontSurface(int w,int h):width(w),height(h){apply();}
+   ~FrontSurface(){apply();}
+  } surface(width,height);
+  // The EnterName overlay must not retain the previously selected avatar.
+  // This is draw admission only; the native Character and Save stay owned by
+  // the original menu lifecycle. Restore admission even if a GPU leaf fails.
+  struct AvatarAdmission {
+   bool previous;
+   explicit AvatarAdmission(bool visible):previous(menu_background_character_visible_v137){menu_background_character_visible_v137=visible;}
+   ~AvatarAdmission(){menu_background_character_visible_v137=previous;}
+  } admission(show_character);
+  // The scene and retained SWF cover the same physical surface. The original
+  // camera's fixed authored aspect must follow that viewport during submission
+  // to avoid stretching; retain its FOV, pose, planes and animation ownership.
+  std::shared_ptr<dh2::application::ApplicationServicesOwnerV5> app;std::string error;
+  std::shared_ptr<dh2::camera::CameraProceduralNodeV16> camera;
+  dh2::camera::CameraViewV11 source;bool present{};
+  if(!borrow_actual_application_services_v5(app,error)||
+     !native_menu_preview_camera_v121(app,camera,error)||
+     !native_menu_preview_camera_view_v121(app,source,present,error))
+    throw std::runtime_error(error.empty()?"Menu swamp camera unavailable":error);
+  if(!error.empty())throw std::runtime_error(error);
+  static bool reported_missing_preview_camera=false;
+  if(!camera&&!present){
+   // MenuCharacterSelect::Show destroys MainMenu's scene and active preview
+   // camera before its own Show/Front pane callback runs. If a later authored
+   // leaf rejects that transition, the stack can still ask Front to draw the
+   // underlying Main/EnterName clips. Preserve those SWF layers and input UI;
+   // absence of the transient 3D camera must not abort the GL thread.
+   if(!reported_missing_preview_camera){
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+     "Menu background 3D skipped: retained Main preview camera is absent during menu transition; continuing SWF layers");
+    reported_missing_preview_camera=true;
+   }
+   return;
+  }
+  if(!camera||!present)throw std::runtime_error("Menu preview camera owner/view disagree");
+  reported_missing_preview_camera=false;
+  struct CameraRestore {
+   std::shared_ptr<dh2::camera::CameraProceduralNodeV16> camera;
+   dh2::camera::CameraViewV11 source;
+   ~CameraRestore(){std::string ignored;camera->set_data(source.fov,source.aspect,source.near_plane,source.far_plane,ignored);camera->set_up(source.up,ignored);}
+  } restore{camera,source};
+  if(!camera->set_data(source.fov,float(width)/float(height),source.near_plane,source.far_plane,error)||
+     !camera->set_up(source.up,error))throw std::runtime_error(error);
+  draw(width,height);
 }

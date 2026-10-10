@@ -15,6 +15,7 @@
 #include "renderer_character_campaign_v62.hpp"
 #include "application_player_manager_bootstrap_v59.hpp"
 #include "renderer_native_menu_prefix_v62.hpp"
+#include "native_menu_preview_v121.hpp"
 #include "captured_menu_lease_v101.hpp"
 #include "script_manager_owner_v52.hpp"
 #include "native_source_script_ui_v98.hpp"
@@ -34,6 +35,7 @@
 #include "authored_shader_program.hpp"
 #include "original_ui_session.hpp"
 #include "front_ui_session_v87.hpp"
+#include "front_loading_render_policy_v1.hpp"
 #include "character_panel_session_v1.hpp"
 #include "gameplay_hud.hpp"
 #include "gameplay_icons.hpp"
@@ -99,6 +101,21 @@ std::string errors(const char* operation){
 jstring result(JNIEnv* env,const std::string& text){return env->NewStringUTF(text.c_str());}
 }
 #include "native_application_audio_v45.inc"
+namespace dh2::android_ui {
+bool dispatch_process_menu_rollover_v1(const char* name,const gameswf::fn_call& call,std::string& error){
+ if(!name||std::strcmp(name,"NativeChangeRolloverInputBehavior")){
+  error="Unexpected process-menu rollover callback";return false;
+ }
+ if(!authored_character_menu||!character_panel){
+  error="Required live Level12 MenuManager/primary1 owner for HUD rollover";return false;
+ }
+ auto* panel=character_panel->authored_native_v4();
+ if(!panel||panel->source_stack_v4()!=authored_character_menu->shared_stack_v27.get()){
+  error="Gameplay HUD rollover lost the same primary1 MenuManager";return false;
+ }
+ return NativeCharacterMenuV4::native(authored_character_menu.get(),name,call,error);
+}
+}
 bool model_renderer::borrow_actual_menu_device_v1(dh2::ui::MenuDeviceFactsV1& facts,std::string& error){
  return front_ui.menu_device_borrow_v4(facts,error);
 }
@@ -398,7 +415,21 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
       original_ui_error=failure;return;
     }
   }
-  if(model_renderer::source_campaign_scene_active_v67()){
+  const auto render_phase=dh2::android_ui::front_loading_render_phase_v1(
+    model_renderer::source_campaign_active_v55(),model_renderer::source_campaign_scene_active_v67());
+  if(render_phase==dh2::android_ui::FrontLoadingRenderPhaseV1::source_loading){
+    std::string error;
+    if(!front_ui.render_game_loading(surface_width,surface_height,error)){
+      const auto failure="Source loading menu render: "+error;
+      __android_log_print(ANDROID_LOG_ERROR,tag,"%s",failure.c_str());
+      // Preserve the first reached loader error, such as Stage 10, as the
+      // user-visible status while still reporting renderer failures in logcat.
+      if(original_ui_error.empty())original_ui_error=failure;
+    }
+    return;
+  }
+  if(render_phase==dh2::android_ui::FrontLoadingRenderPhaseV1::gameplay){
+    front_ui.deactivate(); // Only the actual scene handoff retires front drawing.
     std::string error;
     if(authored_character_menu&&authored_character_menu->opened){
       if(!authored_character_menu->frame(error))original_ui_error="Character menu: "+error;
@@ -425,6 +456,14 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
       if(!native_process_ready_v119()){
         original_ui_error="Play requires completed original first-boot process initialization";
         front_launch_report=original_ui_error;return;
+      }
+      // Source MainMenu::Hide removes its preview scene and avatar, then
+      // flushes the SAME process ObjectManager/AnimSetManager before campaign
+      // World construction replaces the service receiver.
+      if(!model_renderer::native_menu_preview_main_hide_v121(application_services_v5,error)){
+        original_ui_error="Source campaign menu teardown: "+error;
+        front_launch_report=original_ui_error;
+        __android_log_print(ANDROID_LOG_ERROR,tag,"%s",original_ui_error.c_str());return;
       }
       // Consume after AS dispatch returns. Source GS constructs a fresh
       // candidate from the exact selected profile; it never loads the Crypt
@@ -462,7 +501,10 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
     }
     return;
   }
-  if(model_renderer::active()){
+  // The menu preview renderer is still retained while GS builds its loading
+  // scene. Main.Hide has already retired its preview camera, so do not submit
+  // that stale menu renderer during the campaign loading interval.
+  if(model_renderer::active()&&!model_renderer::source_campaign_active_v55()){
     try {
       if(original_ui.overlays_player()){
         dh2::perf::Scope perf_prepare(dh2::perf::Phase::hud_prepare);
@@ -679,6 +721,30 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_originalM
  if(pointer>0)return nullptr;
  return Java_com_example_dh2_NativeBridge_originalMenuTouch(env,cls,x,y,phase==1?2:phase==2?1:phase);
 }
+#if defined(DH2_NATIVE_HOST_BUILD) && DH2_NATIVE_HOST_BUILD
+//Observation only: the desktop harness executes the SAME JNI init/draw/input
+//entrypoints. Exposing retained phase counters never bypasses a source stage.
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_HostRunner_snapshot(JNIEnv* env,jclass){
+ const auto startup=native_process_startup_v119;
+ const auto stage=startup&&startup->source?startup->source->stage():-1;
+ const auto menu=startup?std::int64_t(startup->menu_stage_bc):-1;
+ std::string active="[";bool first=true;
+ if(authored_character_menu&&authored_character_menu->shared_stack_v27){
+  const auto* stack=authored_character_menu->shared_stack_v27->view();
+  if(stack&&stack->renders&&stack->count<=stack->capacity)for(std::uint32_t i=0;i<stack->count;++i){
+   const auto* render=stack->renders[i];if(!render||!render->states||render->count>render->capacity)continue;
+   for(std::uint32_t j=0;j<render->count;++j){const auto* state=render->states[j];if(!state||!state->name)continue;
+    if(!first)active+=",";first=false;active+='"';
+    for(const char* p=state->name;*p;++p){if(*p=='"'||*p=='\\')active+='\\';active+=*p;}active+='"';
+   }
+  }
+ }
+ active+="]";
+ return result(env,"{\"gsinit_stage\":"+std::to_string(stage)+",\"menu_init_phase\":"+std::to_string(menu)+
+  ",\"startup_ready\":"+(native_process_ready_v119()?"true":"false")+
+  ",\"main_state_active\":"+(front_ui.main_menu_state_active_v114()?"true":"false")+",\"active_menus\":"+active+"}");
+}
+#endif
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeOriginalMenuAudio(JNIEnv* env,jclass){auto value=front_ui.consume_menu_audio();return value.empty()?nullptr:result(env,value);}
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeOriginalMenuSound(JNIEnv* env,jclass){auto value=front_ui.consume_menu_sound();return value.empty()?nullptr:result(env,value);}
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeFrontLaunch(JNIEnv* env,jclass){if(front_launch_report.empty())return nullptr;const auto value=std::move(front_launch_report);front_launch_report.clear();return result(env,value);}

@@ -13,7 +13,7 @@ struct CharacterProfileBootstrapInputsV59 {
  std::shared_ptr<data::PlayerSaveLoadOwnerV1> load;
  std::shared_ptr<level::CampaignSaveProfileV45> profile;
  std::shared_ptr<const void> selected_file_lease;
- data::Bytes selected_file_bytes;
+ data::Bytes selected_file_bytes{};
  std::int32_t selected_slot{-1};
  std::uintptr_t character{};
  std::shared_ptr<void> actual_source_cells_lease;

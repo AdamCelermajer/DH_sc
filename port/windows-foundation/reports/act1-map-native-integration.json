@@ -1,0 +1,169 @@
+{
+  "date": "2026-10-09",
+  "feature": "map_ui",
+  "status": "source_adapter_partial_live_integration_blocked",
+  "goal_complete": false,
+  "source": {
+    "menu": "MenuCharMenu_Map",
+    "map_page": "menu_MapSheet",
+    "map_page_sprite": 655,
+    "map_tab_action_offset": "0x0000ee4f",
+    "map_swf": "port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+    "map_swf_sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+    "render_map_character": 601,
+    "render_map_authored_matrix_twips": [
+      1.26568603515625,
+      0.0,
+      0.0,
+      1.182342529296875,
+      281,
+      982
+    ],
+    "map_name_character": 617,
+    "icons_container_character": 615,
+    "dynamic_icons_character": 614,
+    "legend_button_character": 623,
+    "reset_zoom_button_character": 623
+  },
+  "implemented": [
+    "Added a fail-closed Source Map presenter contract requiring fresh same-campaign Level, RoomZone, camera, local player, Character, save, quest and event leases.",
+    "The presenter delegates exact RenderMap projection, source camera Show/Hide, NativeShowMinimapLegend and NativeResetMapZoom behavior to actual source-owner adapters.",
+    "Readiness rejects any SWF or MapSheet identity other than the original Droid movie sprite655.",
+    "Added an original-resource test that validates the actual SWF bytes, source RenderMap canvas transform and authored dynamic target/control placements.",
+    "Added a typed source RoomZone adapter over completed CanonicalRoomZoneFactoryV3 records. It calls the same receiver\u2019s source_has_been_visited_v104 (Module::visited3fc through the retained runtime lender) and source_has_inside_v104 (same absolute RoomZone AABB), and pins that canonical record for the Map.Show pass.",
+    "Added feature-owned map camera adapter that uses the same GameplayCameraRuntimeV11 CameraViewV11 view/projection matrices, checks a retained frame lease plus active SceneManager and CameraBase identities before and after view acquisition, and composes with the recovered CameraBase screen transform and authored RenderMap rectangle.",
+    "Added narrow additive GameplayCameraRuntimeV11 source setters for CameraLevel byte133/word136/float140, CameraBase SetData (+316 FOV, +312 aspect, +304/+308 clips, +276 up vector), and the subsequent Map CreateMapCamera +276 up-vector override."
+  ],
+  "existing_native_owner": {
+    "component": "port/engine-ui/menu_postmovie_v62.* MenuMapOwnerV62",
+    "proven": [
+      "Exact menu_MapSheet registration and lookups for MapIconsDummy, MapName and RenderMap.",
+      "Source-shaped storage for the 18 map icon families and cleanup of only actual registered weak icon receivers.",
+      "Native reset/legend control bindings and Map Hide's existing camera restoration entry path."
+    ],
+    "not_proven": [
+      "MenuCharMenu_Map.Show / RenderMap live source projection.",
+      "Map camera creation, target and destruction service binding; current Hide rejects positive Map camera1e8.",
+      "Positive live player, NPC, exit, objective or current-objective icon producers.",
+      "RoomZone visitation/bounds collection connected to the current canonical Level.",
+      "Same-save/current-quest/event marker owner projection or original page capture.",
+      "No caller currently supplies the exact live Level+36 RoomZone records / Level+244 object walk to the typed feature adapter; the source registry traversal remains absent."
+    ]
+  },
+  "recovered_source_kernels": {
+    "provenance": {
+      "original_elf": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so",
+      "pseudocode_exports": {
+        "MenuCharMenu_Map::Show@0x455138": "pseudocode/0045/00455138.c, SHA-256 38ecc65d1f8f3ed88703a16f6c0c7d96894c9add94887bffe25aa9731df3a38d",
+        "MenuCharMenu_Map::UpdateMapCamera@0x45310c": "pseudocode/0045/0045310c.c, SHA-256 1220c1296af20584d20ec5298c41918d396331cfaf49a79913a68ff835ffd87c",
+        "MenuCharMenu_Map::GetMapScreenCoord@0x45389c": "pseudocode/0045/0045389c.c, SHA-256 fb411f40127871e1649e02f357f54c677460a4209a2f5d1af3f215c2cae2ece0",
+        "MenuCharMenu_Map::RenderMap@0x454108": "pseudocode/0045/00454108.c, SHA-256 998cca4d4514520a07876477f696dda168acd4530f630389f9053ad172408f1c",
+        "MenuCharMenu_Map::CreateMapCamera@0x45351c": "pseudocode/0045/0045351c.c, SHA-256 7201a04eebe478f031391008d7796058e0d6b325a4e62ed53d27b60f1fc7866c",
+        "MenuCharMenu_Map::RenderAllIcons@0x454030": "pseudocode/0045/00454030.c, SHA-256 514bf6e745f64801a03633dbf195b16885d03dce6838c6379885fc0291630be8",
+        "MenuCharMenu_Map::ShowObjectivesIcons@0x4548ac": "pseudocode/0045/004548ac.c, SHA-256 9c22bef6bf308cbbb46b5c537a0e0a3e0d9cfc1c3b27d1715818db8475e2839d",
+        "MenuCharMenu_Map::ShowPlayersIcons@0x454a08": "pseudocode/0045/00454a08.c, SHA-256 867df59594c7e802d9792577dd205a9657aa8c1b200f661186460068378d12c7",
+        "MenuCharMenu_Map::ShowNpcIcons@0x454fb8": "pseudocode/0045/00454fb8.c, SHA-256 70297f51760c38ccb4de01bd09f2c0c374c7559edf6c0b7a862f83c51096595e",
+        "MenuCharMenu_Map::ShowMapExitsIcons@0x454d5c": "pseudocode/0045/00454d5c.c, SHA-256 74d823bb323d0e11df63511af7dc87f746db7540be0bf74f925e2adbf21282a2",
+        "MenuCharMenu_Map::ShowRoomExitsIcons@0x454b8c": "pseudocode/0045/00454b8c.c, SHA-256 05046dcbae69e4b23eba35fa09b7a8fdcf87036741459ab94a7ac6e39444809b",
+        "MenuCharMenu_Map::DuplicateIcon@0x454504": "pseudocode/0045/00454504.c, SHA-256 be7a8b647490a28955278894877c7f80a1edfc958b1e5ac9c65d3e4a6e1de5bc",
+        "CameraBase::GetScreenCoord@0x40f714": "pseudocode/0040/0040f714.c, SHA-256 e91c31b86ec72a040b34b0abd920c92a45317b6405ce3cb3b42adfd66bded421",
+        "CameraBase::SetData@0x40e9a8": "pseudocode/0040/0040e9a8.c, SHA-256 3db2a0477e26c464b25e9d2f4d6cbf4707fe2012ebe8bcf7aa83deb4af44f612",
+        "CameraLevel::Update@0x410390": "pseudocode/0041/00410390.c, SHA-256 4fe5b4033df9b3478b75184e452298034913d2fa9071ed5b4f5513eb8a59acf6",
+        "CameraLevel::HandleZoom@0x410218": "pseudocode/0041/00410218.c, SHA-256 2668660334c240e0932054d46ac0f4f02150882dee135e3f3807ee3376fe919a"
+      }
+    },
+    "fields": {
+      "bounds_min_xy": [
+        212,
+        216
+      ],
+      "bounds_max_xy": [
+        224,
+        228
+      ],
+      "local_player_xyz": [
+        236,
+        240,
+        244
+      ],
+      "icon_family_vectors_begin": 260,
+      "icon_family_count": 18,
+      "map_camera_pointer": 488,
+      "legend_visibility_byte": 484
+    },
+    "implemented_math": [
+      "Show partitions live RoomZones by HasBeenVisited, tests each actual Level object's bounds center against visited RoomZones through the original HasInside callback, applies that result to object visibility, unions admitted bounds and expands each planar min/max by one complete source span.",
+      "UpdateMapCamera clamps camera translation plus current-player XY to the expanded source bounds and preserves camera Z translation.",
+      "GetMapScreenCoord maps actual CameraBase screen coordinates through the source gameswf rectangle in [left,right,top,bottom] order, including source Y inversion; source_map_project_marker_v1 composes the live CameraBase callback with this transform for positions returned by actual marker producers.",
+      "CreateMapCamera camera byte133=1, word136=0, float140=1, damping disabled, SetData constants, plus source SetData vector (0,0,1) and subsequent CameraLevel subobject vtable+276 override (-1,1,0) are recorded and applied in source order.",
+      "Map CameraLevel configuration is applied through the same loaded GameplayCameraRuntimeV11: byte133 enters the existing source map-mode update path, word136 is decoded as the requested-zoom float, and float140 enters automatic zoom; source Update/HandleZoom read those same semantic fields. SetData +316 stores the source camera horizontal-FOV-or-magnification scalar, +312 aspect, +304/+308 clip planes, and +276 up vector, then the direct map up-vector override. CameraBase::SetData bool arg is ignored by original body."
+    ],
+    "still_requires_actual_owners": [
+      "Current Level RoomZone list at source Level+36 with real HasBeenVisited/HasInside calls.",
+      "Current Level object collection at source Level+244 and each source virtual world-bounds/visibility operation.",
+      "CameraLevel allocation/load/animation, same local Character target, RenderFX attachment and same application ZoomHandler connection.",
+      "Actual CameraBase::GetScreenCoord result from each original world marker position.",
+      "Actual player/NPC/exit/objective producer inputs and source-owned marker children/visibility.",
+      "A live-Level RoomZone+object registry borrower. Canonical room and object APIs exist by identity/manager, but no published API enumerates source Level offsets +36/+244 as the original ordered collections.",
+      "The SAME map SceneManager matrix provider for source vtable+112 selectors 0 and 2; GameplayCameraRuntimeV11 currently provides eye/target and a derived CameraView, not these actual SceneManager outputs.",
+      "A caller must bind SourceMapCameraFrameV1 to the current actual frame lease and read active SceneManager + CameraBase identities during that frame; no feature caller currently publishes that runtime binding."
+    ],
+    "source_marker_families": {
+      "family_count": 18,
+      "source_icon_producers": {
+        "0": "current-quest objective positions; same local Character current quest -> native objective owners -> Vector3DFList positions",
+        "1": "source object type 13; current map id match, visible byte138, inside visited room",
+        "2": "source object type 14; visible byte138, inside visited room",
+        "3": "local Character position; offline/single-player player icon",
+        "4": "visible in-world Character classified by Character::IsMonster",
+        "7": "remote online player Character positions",
+        "10": "visible in-world Character with source questgiver byte762 set and byte763 clear",
+        "11": "visible in-world Character classified by Character::IsMerchant",
+        "12": "visible/visited source object type 12",
+        "14-17": "RoomExit records from source PFWorld room-exit list; one family per source direction code and offset tested against visited/unvisited RoomZones"
+      },
+      "reserved_without_Show_producer_in_recovered_functions": [
+        "5",
+        "6",
+        "8",
+        "9",
+        "13"
+      ],
+      "source_rendering": "RenderAllIcons iterates all 18 vectors; types >=4 except 7/8/9 are rendered with zero minimum scale; 7/8/9 use the local-player zoom scale. RenderIconType disables actual child visibility if scale <= 0.1 and projects each source position through CameraBase::GetScreenCoord.",
+      "note": "These are source family indices/producer predicates, not invented coordinates or populated markers. Unused indices remain reserved."
+    }
+  },
+  "runtime_readiness": {
+    "ready": false,
+    "reason": "The canonical root graph does not currently publish all Map.Show/RenderMap/camera/icon source providers. The feature rejects readiness instead of supplying invented rooms, markers, coordinates or scales.",
+    "same_owner_requirement": [
+      "Level",
+      "RoomZone registry",
+      "camera",
+      "local player",
+      "Character",
+      "save",
+      "quests",
+      "events"
+    ]
+  },
+  "validation": {
+    "original_resource_canvas_projection_test": "PASS; actual SWF sprite655 RenderMap placement/tag and original child/control identities verified",
+    "source_kernel_tests": "PASS; C++17 standalone test covers source bounds aggregation/expansion, camera XY clamp/Z preservation, CameraBase matrix projection, active-frame identity and map-rectangle projection",
+    "live_world_projection": "not_connected; actual current frame identity/lease binding and same-Level +36/+244 source collections are not published by a caller",
+    "live_level_projection": "not_connected; no same-Level +36/+244 registry borrower",
+    "original_runtime_capture": "not_available",
+    "pixel_acceptance": "pending",
+    "typed_room_zone_adapter_source_check": "PASS; three tests verify actual CanonicalRoomZone source methods, original marker producer pseudocode calls, and source 18-family render loop",
+    "typed_room_zone_cpp_syntax": "PASS; g++ C++17 -Wall -Wextra -Werror syntax compile, allowing a pre-existing misleading-indentation warning in gameobject_target_list_owner_v107.hpp",
+    "camera_base_screen_coord_source_kernel": "PASS; standalone C++17 source-kernel test verifies selectors 0 then 2, source projection*view order, homogeneous divide, and singular-W rejection",
+    "map_camera_set_data_adapter": "PASS; feature source test verifies byte/zoom field mapping against original CameraLevel Update/HandleZoom, SetData virtual order, and post-SetData vector override; runtime TU syntax-compiled",
+    "runtime_camera_frame_adapter": "PASS; source adapter consumes same CameraViewV11 matrices and checks active camera/SceneManager identities on the held frame before and after matrix borrow"
+  },
+  "acceptance_needed": [
+    "Bind Show/RenderMap to the same current canonical Level, visited RoomZones, camera and local player/Character.",
+    "Connect actual source object/NPC/exit and current-quest objective marker producers to existing MenuMapOwnerV62 icon families.",
+    "Verify Show creates and targets the source map camera and Hide restores the Level camera/player target through the actual camera owner.",
+    "Exercise authored btn_Legend and btn_ResetZoom with the original localized sheet, and capture the original page and connected runtime on a named level/profile/network mode."
+  ]
+}

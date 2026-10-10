@@ -1,0 +1,35 @@
+{
+  "status": "PASS native Windows source post-debug focus-prefix/blur-body tests; live full-focus hookup remains explicit caller work",
+  "owned_files": ["original_actor_motion_flags.hpp", "original_actor_motion_flags.cpp", "tests/source_motion_flags_tests.cpp"],
+  "old_API": "v13 constructor/Move/Idle/set_flags/policy functions unchanged",
+  "new_API": {
+    "Attack_focus_prefix": "original_motion_attack_focus_prefix(optionalflags520,optionalattackGate528,actualGetAttackDelay,result,error)",
+    "blur_body": "original_motion_blur_body(idle|move|attack,actualoptionalidleSuppressed538,borrowedSourceServices,result,error)",
+    "partial_failure": "Source stores and callback side effects already reached remain; results expose flags_written/attack_gate_written or blur phase/service count. Unsupported/aliased malformed requests reject before effects."
+  },
+  "actual_ASM_evidence": {
+    "source": "port/level-world/reference/character-state/reference/original-functions.asm",
+    "Attack_focus": "CSAttack.OnFocus0x3c404c: post-debug MOV2341/STR owner+520 at3c40ac/3c40b0, GetAttackDelay0x3a3438 at3c40b8, conditional owner+528 OR1 at3c40c0..3c40cc",
+    "Move_blur": "CSMove.OnBlur0x3c3aa4: post-debug GameObject.Stop0x3938f8 at3c3b08, THEN fresh owner+2dc load3c3b0c, Pin0x46eb20 if present at3c3b18",
+    "Attack_blur": "CSAttack.OnBlur0x3c3f74: first GetAttackDelay at3c3fd8; if nonzero, SECOND GetAttackDelay at3c4014; TMR_Start0x3dbe24 at3c4030 uses second result, repeat0,event2a,payload0; THEN fresh body+2dc3c3fe4 and pin3c3ff0",
+    "Idle_blur": "CSIdle.OnBlur0x3c2d3c: post-debug zero store to byte538 at3c2d9c..3c2da0",
+    "Idle_focus": "CSIdle.OnFocus0x3c3020: suppression byte538 returns before flags2380/Idle animation selection",
+    "Move_focus": "CSMove.OnFocus0x3c3bf8: flags23c1/movement_type0 prefix then UpdateType/animation/speed then body unpin",
+    "Attack_focus_remainder": "After prefix, actual IsPlayer/priorstate4 or missing AttackStatic chooses moving/static animation, pin/unpin, resolved attack speed, CancelSneaking. Not implemented by this prefix component."
+  },
+  "important_new_fact": "Attack blur deliberately rereads live attack delay after the first nonzero branch. A second result0 STILL starts source timer(duration0) because branch decision used first result. Cached State.Facts attack_delay abstraction cannot express this re-read; new borrowed callback reconstruction follows actual ASM.",
+  "scope": "Helpers start at the verified post-debug gameplay body boundary. Original DebugSwitch load/get/string trace prefix is not represented. No new FSM/state ID mapping, target owner, animation-name derivation, or full native focus claim.",
+  "minimum_live_callbacks": [
+    "Call actual old-state blur at an explicit transition boundary, BEFORE publishing/focusing new state. Retain source flags through blur; no source blur here clears them.",
+    "Move blur needs COMPLETE SAME GameObject.Stop, not Ctrl_Stop/event3f or guessed CombatSystem interruption: DropPath, destination=current position, clear actual heading/path fields, source-eligible body Stop. Then query actual body+2dc and pin if still present.",
+    "Idle blur clears actual idle_suppressed538. Idle focus must read that actual byte and preserve previous flags if suppressed.",
+    "Attack blur requires real current GetAttackDelay producer and SAME timer owner. Event2a expiry/attack-gate clearing is separate ownership; do not invent a duration or clear gate immediately.",
+    "Attack focus prefix requires actual attack-gate528 cell only when nonzero delay reads it. Missing gate after flag store is a reached provider failure, not authority to substitute zero.",
+    "Full Move focus additionally needs actual UpdateType player thresholds/heading magnitude/previous movement type, authored stance/Walk/Run selection, speed and body unpin.",
+    "Full Attack focus additionally needs previous source state and actual IsPlayer/AttackStatic availability, selected original animation hierarchy, body pin/unpin, attack speed and CancelSneaking.",
+    "After genuine source blur/focus, state-change notification1d carries previous state. This component does not publish current state or manufacture transition acceptance."
+  ],
+  "v13_replacement_advice": "Replace blanket nonmoving motion-cell clearing only where actual transition owner can invoke correct blur/focus producers. Move->Idle requires Stop/pin then Idle conditional focus; Move->Attack requires Move blur then source Attack focus (which may unpin again). Unsupported hurt/dead/skill focus still needs real producers; do not derive masks from ActorAction/current integer every frame.",
+  "native_tests": ["Attack flags written before live delay query", "zero delay preserves unknown gate", "nonzero missing gate preserves reached flags", "Attack gate OR preserves other bits", "missing delay owner preserves prefix", "Move Stop->fresh body->pin", "Stop removes body and avoids pin", "Idle blur clears only suppression", "Attack delay31->7 uses second value", "Attack delay31->0 still starts timer0", "zero delay and absent body need no timer/pin", "missing body after Stop/timer retains reached effects and phase", "present body with missing pin reports reached failure"],
+  "dependencies": "No additional native library source dependencies beyond existing move_state.cpp; original bodies reconstructed narrowly from pinned ASM. No main/Session/ActorState/CMake edits."
+}

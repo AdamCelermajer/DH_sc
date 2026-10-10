@@ -1,0 +1,78 @@
+{
+  "status": "packaged_menu_and_combat_text_subset_verified",
+  "goal_complete": false,
+  "executable_sha256": "79e566435081650206a03ecb028736a97770fa28d38722438a1a90645e7819d8",
+  "checks": [
+    {
+      "case": "menu-wide-verification",
+      "exit_code": 0,
+      "capture_dimensions": [
+        1600,
+        900
+      ],
+      "capture_sha256": "2dfac70097ab11766b8c7d39811a9caca62d01c39d175fdeaad30aa290bc4b54"
+    },
+    {
+      "case": "menu-four-three-verification",
+      "exit_code": 0,
+      "capture_dimensions": [
+        960,
+        720
+      ],
+      "capture_sha256": "c023ccd79beebd8c560e4e6e4a5d29a294fdc9d3c72465402a6f569793439c73"
+    },
+    {
+      "case": "menu-four-three-fresh-verification",
+      "exit_code": 0,
+      "capture_dimensions": [
+        960,
+        720
+      ],
+      "capture_sha256": "4ea5000b51ae26b6a53dd86a40aa62e2dae2e75e71f8d5b63bddcb4197a5cd61"
+    },
+    {
+      "case": "combat-text-verification",
+      "exit_code": 0,
+      "capture_dimensions": [
+        1201,
+        720
+      ],
+      "capture_sha256": "54433b410050fbb34aa71ed387665a188d4b7008bfb9f710da0572c274c01e0e"
+    },
+    {
+      "case": "combat-text-restore-verification",
+      "exit_code": 0,
+      "capture_dimensions": [
+        1201,
+        720
+      ],
+      "capture_sha256": "073e3691c9997ae9a0455ae71fc8dc7352cd0278f34b52d649b0346223af02e3"
+    },
+    {
+      "case": "combat-text-resize-verification",
+      "exit_code": 0,
+      "capture_dimensions": [
+        1600,
+        900
+      ],
+      "capture_sha256": "02e3c35465efe2a0fb089cb44f00768afef0cad60ed94d26a26ecc564d92f26c"
+    }
+  ],
+  "resize_glyph_pixels_match_fresh_viewport": {
+    "region": [
+      120,
+      310,
+      410,
+      365
+    ],
+    "dimensions": [
+      960,
+      720
+    ]
+  },
+  "limits": [
+    "Full equipment, skills, faery and other menu pages remain incomplete.",
+    "Combat result positions snapshot before motion, earlier than the full original F_ApplyResult text call; projection uses the later current camera.",
+    "Source visibility/state recovery and matched original reference inspection remain separate from these runtime checks."
+  ]
+}

@@ -20,16 +20,16 @@ struct RendererCanonicalWorldV4 {
  explicit RendererCanonicalWorldV4(WorldScriptContext& w):world(&w),
   process_objects_v121(actual_process_objects_v121(w)),
   manager_owner(process_objects_v121?process_objects_v121->manager():
-   std::make_shared<dh2::world::CanonicalObjectManagerV1>(dh2::world::CanonicalObjectManagerServicesV1{this,local_player,nullptr,nullptr,nullptr,assign_network,language_added})),
+   std::make_shared<dh2::world::CanonicalObjectManagerV1>(dh2::world::CanonicalObjectManagerServicesV1{this,local_player,nullptr,missing_name_debug,nullptr,assign_network,language_added})),
   manager(*manager_owner),
-  properties({this,&dh2::world::canonical_vec3_origin_v1(),nullptr,point3_list_diagnostic,this,constant_integer}),
+  properties({this,&dh2::world::canonical_vec3_origin_v1(),load_template_assertion,point3_list_diagnostic,this,constant_integer}),
   publication(manager){
   if(process_objects_v121){
    //Independent weak liveness loan: the process singleton never owns this
    //World or relies on a raw callback context after its real facade retires.
    auto pin=std::make_shared<std::weak_ptr<void>>(services_alive_v121);
    const std::weak_ptr<void> alive=services_alive_v121;std::string e;
-   if(!process_objects_v121->bind_services({this,local_player,nullptr,nullptr,nullptr,assign_network,language_added},pin,
+   if(!process_objects_v121->bind_services({this,local_player,nullptr,missing_name_debug,nullptr,assign_network,language_added},pin,
     [alive](std::string& e){if(alive.expired()){e="Retired actual canonical ObjectManager service receiver";return false;}e.clear();return true;},e))
     throw std::runtime_error(e);
   }
@@ -43,6 +43,20 @@ struct RendererCanonicalWorldV4 {
   }
   error.clear();return true;
  }
+ static bool load_template_assertion(void*,std::string& error){
+  auto assertion=dh2::world::SourceAssertionProcessV76::borrow();
+  if(!assertion||!assertion->source_level()){
+   error="Required actual process PropertyMap assertion mode";return false;
+  }
+  const auto mode=*assertion->source_level();
+  if(mode==2){
+   // Original LoadTemplate stores through NULL in assertion mode 2. Preserve
+   // that failure boundary without reproducing the process crash in native code.
+   error="Original PropertyMap::LoadTemplate assertion(9) deliberate NULL-store";return false;
+  }
+  if(mode==1)return assertion->report("..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\PropertyMap\\PropertyMapTemplates.cpp",9,"false",error);
+  error.clear();return true;
+ }
  static bool point3_list_diagnostic(void*,const char* text,std::string& error){
   if(!text){error="Required source Point3D list diagnostic CString";return false;}
   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original property parse diagnostic | %s",text);return true;
@@ -50,8 +64,11 @@ struct RendererCanonicalWorldV4 {
  static bool language_added(void* p,std::int32_t key,const dh2::world::CanonicalObjectBorrowV1& actor,std::uintptr_t character,std::string& error){
   auto& self=*static_cast<RendererCanonicalWorldV4*>(p);
   if(!actor.type_f4){error="Required same canonical language type_f4";return false;}
-  if(*actor.type_f4==14){error="Required actual type14 localization-valid819 owner";return false;}
-  return self.language_registry.source_added({key,actor.identity,actor.lease,actor.type_f4,nullptr,character},error);
+  // ObjectManager's localization projection borrows the receiver's real +0x819
+  // validity byte for type 14. Carry the canonical field through unchanged;
+  // the registry only dereferences it when the source type is 14.
+  return self.language_registry.source_added({key,actor.identity,actor.lease,actor.type_f4,
+      actor.type14_localization_valid819,character},error);
  }
  static bool local_player(void* p,std::uintptr_t& out,std::string& e){
   auto& self=*static_cast<RendererCanonicalWorldV4*>(p);
@@ -73,6 +90,19 @@ struct RendererCanonicalWorldV4 {
   if(!player_skills_runtime->player_manager->manager().get_local_player(0,true,player,e))return false;
   if(!player||player->character660!=self.world->player_object->identity){e="Source local PlayerInfo character660 differs from canonical player";return false;}
   out=player->character660;return true;
+ }
+ static bool missing_name_debug(void* p,std::string& e){
+  auto& self=*static_cast<RendererCanonicalWorldV4*>(p);
+  if(!self.world||!self.world->debug){e="Required SAME source ObjectManager Debug owner";return false;}
+  std::uint32_t tracing{};
+  if(dh2_character_debug_load(self.world->debug.get(),&self.world->debug_files)!=1||
+     dh2_character_debug_get(&tracing,self.world->debug.get(),"isTracingObjectManager",&self.world->debug_files)!=1){
+   e="Required original ObjectManager Debug load/query";return false;
+  }
+  // GetObjectByName's not-found path reaches this real policy query before
+  // its optional trace formatting. This service has no name/stream receiver,
+  // so it reports the source query result without fabricating a host log.
+  (void)tracing;e.clear();return true;
  }
  static bool assign_network(void* p,dh2::world::CanonicalObjectBorrowV1&,std::string& e){
   auto& self=*static_cast<RendererCanonicalWorldV4*>(p);

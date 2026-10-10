@@ -4,6 +4,7 @@
 #include "renderer_character_campaign_v62.hpp"
 #include "source_campaign_death_rewards_v84.hpp"
 #include "source_campaign_fx_v77.hpp"
+#include "renderer_native_gslevel_v27.hpp"
 #include "source_campaign_character_fsm_v101.hpp"
 #include "source_campaign_character_interaction_v114.hpp"
 #include "source_process_trophies_v100.hpp"
@@ -26,6 +27,8 @@
 #include <script_manager_owner_v52.hpp>
 #include <algorithm>
 #include <cstring>
+#include <cmath>
+#include <limits>
 #include <map>
 #include <cstdio>
 #include <stdexcept>
@@ -200,7 +203,8 @@ public:
   const auto target=r->actor->object->target.target;std::uintptr_t character{};std::shared_ptr<SourceWorldBorrowV61> world;if(!current(world)||!source_campaign_object_as_character_v114(world->owner,target,character,error_))return false;if(character&&!enroll(character))return false;
   auto& ai=r->actor->ai_events;const std::uint32_t address=ai.active&&ai.ais_virtuals?static_cast<std::uint32_t>(ai.ais_virtuals[0xa8/4]):0;
   WorldMeleeAttackBorrowV1 fields{id,&r->actor->object->target.target,&r->actor->object->target.target,&ai.active,&address,r->inventory37c};
-  if(!sync_random(false))return false;++delivery_depth_;struct Exit{SourceCampaignCombatV115& t;~Exit(){t.sync_random(true);t.publish();--t.delivery_depth_;}}exit{*this};
+  const auto* previous_scope=scope_;scope_=r->player_script_owner_v62?r->player_script_owner_v62->session().current_skill_callback_scope():r->actor->session?r->actor->session->current_skill_callback_scope():nullptr;
+  if(!sync_random(false)){scope_=previous_scope;return false;}++delivery_depth_;struct Exit{SourceCampaignCombatV115& t;const dh2_script_callback_scope* previous;~Exit(){t.sync_random(true);t.publish();--t.delivery_depth_;t.scope_=previous;}}exit{*this,previous_scope};
   CharacterWorldMeleeAttackV1 attack(*combat_,*targets_,context_,random_,fields,geometry_->queries(),{});
   const int result=attack.attack(q.index,q.step,q.offhand);if(!sync_random(false))return false;if(result){error_=attack.error();return false;}return true;
  }
@@ -237,7 +241,77 @@ bool borrow(const std::shared_ptr<void>& actual,std::shared_ptr<SourceWorldBorro
 struct ScriptBindingV115 {
  std::weak_ptr<void> world;std::uintptr_t character{};void* previous_context{};
  int(*previous)(void*,std::uint32_t,dh2_script_function*,void**){};
+ struct AudioCallback {ScriptBindingV115* owner{};std::uint32_t address{};};
+ AudioCallback audio[3]{};
+ static int audio_index(std::uint32_t address){return address==0x37e420?0:address==0x37e578?1:address==0x37e730?2:-1;}
+ static int source_int(const dh2_script_value& value,std::int32_t& out){
+  if(value.type!=DH2_SCRIPT_NUMBER||!std::isfinite(value.number)||
+     double(value.number)<double(std::numeric_limits<std::int32_t>::min())||
+     double(value.number)>double(std::numeric_limits<std::int32_t>::max()))return -1;
+  out=static_cast<std::int32_t>(value.number);return 0;
+ }
+ static int source_fail(char* error,std::size_t size,const char* text){
+  if(error&&size)std::snprintf(error,size,"%s",text);return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;
+ }
+ static bool source_bool(const dh2_script_value& value,bool& out){if(value.type!=DH2_SCRIPT_BOOLEAN)return false;out=value.boolean!=0;return true;}
+ static bool source_name(const dh2_script_value* args,std::uint32_t count,const char*& name){
+  if(!count||!args||args[0].type!=DH2_SCRIPT_STRING||!args[0].text)return false;
+  name=args[0].text;return true;
+ }
+ static int unavailable_sound_is_source_noop(const dh2::audio::AudioApplicationBorrowV42& manager,int id){
+  auto* runtime=manager.manager?manager.manager->runtime_on_producer():nullptr;
+  const auto* row=runtime?runtime->bindings().row(id):nullptr;
+  return row&&runtime->source_slot_unavailable_v100(row->uid)&&!runtime->source_slot_ready_v94(row->uid);
+ }
+ static int audio_call(void* raw,const dh2_script_value* args,std::uint32_t count,
+  dh2_script_value* values,std::uint32_t capacity,std::uint32_t* written,char* error,std::size_t size){
+  auto& route=*static_cast<AudioCallback*>(raw);auto& self=*route.owner;
+  if(!written||(count&&!args)||(capacity&&!values))return source_fail(error,size,"Malformed source character audio global");
+  *written=0;const auto address=route.address;
+  try{
+   auto world=self.world.lock();SourceCampaignCandidateBorrowV55 candidate;std::string diagnostic;
+   if(!world||!borrow_source_campaign_candidate_v55(candidate,diagnostic)||candidate.actual_world!=world){
+    if(diagnostic.empty())diagnostic="Retired SAME campaign for character audio global";return source_fail(error,size,diagnostic.c_str());}
+   // PlaySound's fourth boolean argument is tested before sound-name lookup.
+   if(address==0x37e578&&count>3){bool stop_music{};
+    if(!source_bool(args[3],stop_music))return source_fail(error,size,"Required original PlaySound fourth boolean");
+    if(stop_music&&!stop_campaign_music_v117(world,0,diagnostic))return source_fail(error,size,diagnostic.c_str());
+   }
+   const char* name{};if(!source_name(args,count,name))return source_fail(error,size,"Required original character audio sound name");
+   std::int32_t id{};if(!campaign_sound_index_v115(world,name,id,diagnostic))return source_fail(error,size,diagnostic.c_str());
+   if(id<0){if(error&&size)error[0]=0;return 0;} // Native GetMemberIDByString miss returns before later arguments/Vox.
+   if(address==0x37e730){
+    if(count<2)return source_fail(error,size,"Required original StopSound fade argument");std::int32_t fade{};
+    if(source_int(args[1],fade))return source_fail(error,size,"Required original StopSound signed integer fade");
+    if(!stop_campaign_sound_v106(world,id,fade,diagnostic))return source_fail(error,size,diagnostic.c_str());
+   }else if(address==0x37e420){
+    if(count<2)return source_fail(error,size,"Required original PlayMusic fade argument");std::int32_t fade{};
+    if(source_int(args[1],fade))return source_fail(error,size,"Required original PlayMusic signed integer fade");
+    dh2::audio::AudioApplicationBorrowV42 manager;
+    if(!borrow_actual_application_audio_v42(manager,diagnostic)||!manager.manager){
+     if(diagnostic.empty())diagnostic="Required SAME source music owner";return source_fail(error,size,diagnostic.c_str());}
+    if(!play_campaign_music_v101(world,id,true,false,fade,diagnostic)&&!unavailable_sound_is_source_noop(manager,id))
+     return source_fail(error,size,diagnostic.c_str());
+    dh2::loader::CanonicalCurrentLevelBorrowV1 current;
+    if(!borrow_current_native_level_v27(current,diagnostic))return source_fail(error,size,diagnostic.c_str());
+    if(current&&current.level()==candidate.level){const auto fields=current.level()->config_fields();
+     if(fields.music11c&&*fields.music11c==id&&
+       !set_campaign_music_state_v101(world,manager.manager->music_fields_on_producer().ambient_31?"ambient":"combat",diagnostic))
+      return source_fail(error,size,diagnostic.c_str());}
+   }else if(address==0x37e578){
+    bool enabled=false;std::int32_t fade=0;
+    if(count>1&&!source_bool(args[1],enabled))return source_fail(error,size,"Required original PlaySound second boolean");
+    if(count>2&&source_int(args[2],fade))return source_fail(error,size,"Required original PlaySound third signed integer");
+    dh2::audio::AudioApplicationBorrowV42 manager;
+    if(!borrow_actual_application_audio_v42(manager,diagnostic)||!manager.manager){if(diagnostic.empty())diagnostic="Required SAME source Play SoundManager";return source_fail(error,size,diagnostic.c_str());}
+    if(!play_campaign_plain_sound_v115(world,id,enabled,fade,0,false,diagnostic)&&!unavailable_sound_is_source_noop(manager,id))
+     return source_fail(error,size,diagnostic.c_str());
+   }else return source_fail(error,size,"Unexpected source character audio callback");
+  }catch(const std::exception& e){return source_fail(error,size,e.what());}
+  if(error&&size)error[0]=0;return 0;
+ }
  static int select(void* raw,unsigned address,dh2_script_function* function,void** context){if(!raw||!function||!context)return -1;auto& t=*static_cast<ScriptBindingV115*>(raw);
+  const auto audio=audio_index(address);if(audio>=0){t.audio[audio]={&t,address};*function=audio_call;*context=&t.audio[audio];return 1;}
   if(address!=0x3b9fbc)return t.previous?t.previous(t.previous_context,address,function,context):0;
   *function=invoke;*context=&t;return 1;
  }

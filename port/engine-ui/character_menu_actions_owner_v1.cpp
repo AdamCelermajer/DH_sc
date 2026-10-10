@@ -50,6 +50,37 @@ bool CharacterMenuActionsOwnerV1::swap(std::string& e){
     if(!graph_.swap_hud){e="source NativeSwapEquipment requires actual HUD AS callbacks";return false;}
     return graph_.swap_hud("DisplayRightHud",e)&&graph_.swap_hud("FillActionIcon",e);
 }
+bool CharacterMenuActionsOwnerV1::select_class_spec(std::int32_t spec,std::string& e){
+    if(!skills(e))return false;
+    auto& g=graph_;
+    std::uintptr_t local{};
+    if(!g.class_spec_local_player||!g.class_spec_local_player(local,e)){
+        if(e.empty())e="Source NativeSelectClassSpec requires actual local PlayerManager receiver";
+        return false;
+    }
+    if(!local)return true; // Original GetLocalPlayer null-character branch.
+    if(local!=g.equipment->inventory()->character()||local!=g.save->character()){
+        e="NativeSelectClassSpec selected a different Character than this menu graph";return false;
+    }
+    const auto current=g.save->class_id();
+    if(current<0||!g.class_spec_characters||std::size_t(current)>=g.class_spec_characters->rows.size()){
+        e="NativeSelectClassSpec requires a valid saved CharacterProperties row";return false;
+    }
+    const auto target=std::int32_t(std::uint32_t(current)+std::uint32_t(spec)+1u);
+    if(target<0||std::size_t(target)>=g.class_spec_characters->rows.size()){
+        e="NativeSelectClassSpec target falls outside the authored CharacterProperties table";return false;
+    }
+    if(!g.class_spec_load_properties||!g.class_spec_reload_skills||!g.class_spec_save){
+        e="NativeSelectClassSpec requires live property, AI_ReloadSkills and SG_Save continuations";return false;
+    }
+    // IDA order: LoadPropertiesForClassSelect(target), SG_SetPlayerClass(target),
+    // AI_ReloadSkills(), SG_Save(). Reached mutations intentionally remain if
+    // a later source continuation fails; do not roll the class/property state back.
+    if(!g.class_spec_load_properties(target,e))return false;
+    g.save->set_player_class(target);
+    if(!g.class_spec_reload_skills(e))return false;
+    return g.class_spec_save(e);
+}
 bool CharacterMenuActionsOwnerV1::assign_stat(std::uint32_t stat,std::string& e){
     if(!equipment(e))return false;
     if(stat>3){e.clear();return true;} // original NativeStatsAssignPoint no-op dispatch
@@ -79,6 +110,17 @@ bool CharacterMenuActionsOwnerV1::train_skill(std::int32_t row,std::int32_t& poi
     if(rc){e="source menu IncSkill required service failed";return false;}
     // Source ignores IncSkill's bool and rereads the live remaining points.
     return skill_points(points,e);
+}
+bool CharacterMenuActionsOwnerV1::probe_train_skill(std::int32_t row,bool& accepted,std::string& e){
+    if(!skills(e))return false;
+    player::InitialGrantServices16V2 native{this,increment_service};const auto& provider=graph_.increment.invoke?graph_.increment:native;
+    std::int32_t result{};
+    // test_only=true preserves the exact source order through points,
+    // availability, difficulty cap, saved row and CanIncrementSkill, then
+    // returns the original boolean without mutating properties or Save.
+    auto rc=dh2_player_increment_skill_v2(&result,graph_.equipment->inventory()->character(),row,1,&provider);
+    if(rc){e="source menu IncSkill test probe required service failed";return false;}
+    accepted=result!=0;e.clear();return true;
 }
 bool CharacterMenuActionsOwnerV1::can_increment(std::uint32_t row,bool& out,std::string& e)const{
     if(!skills(e))return false;

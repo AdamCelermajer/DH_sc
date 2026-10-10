@@ -1,0 +1,59 @@
+{
+  "status": "diagnostic_packaged_runtime_verified_fidelity_incomplete",
+  "goal_complete": false,
+  "executable_sha256": "082de1b2a7a1c6a1eb6d8264f57008f8f2b062c2b382d2a7909b92f60b0e6ba7",
+  "package_files_verified": 532,
+  "retained_source_clock": true,
+  "baseline_executable_preserved": true,
+  "runtime_checks": [
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v3/verification.log",
+      "required_observations": [
+        "Damage frame=13 attacker=7118915781085668844",
+        "Damage frame=76 attacker=18446744073709551615",
+        "Damage frame=192 attacker=18446744073709551615",
+        "removed=14.0039 dead=1",
+        "Saved live checkpoint frame=210 HP=157.457 RNG=2808983/38",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Rendered frames=360; clean shutdown",
+        "938.285,255 grounded=1"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v3/resume-verification.log",
+      "required_observations": [
+        "Restored live checkpoint frame=0 HP=157.457 RNG=2808983/38",
+        "Rendered frames=30; clean shutdown",
+        "HP=0/47.5 target=0 action=5"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v3/startup-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=1279.79,-201.095,255 grounded=1",
+        "HP=165.098/165.098 target=0 action=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v3/moving-verification.log",
+      "required_observations": [
+        "Rendered frames=360; clean shutdown",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Damage frame=78 attacker=18446744073709551615",
+        "Damage frame=204 attacker=18446744073709551615",
+        "sourceXY=519.153 worldXY=467.236",
+        "sourceXY=443.059 worldXY=398.753",
+        "Retained source animation clock actor=18446744073709551615"
+      ]
+    }
+  ],
+  "limits": [
+    "Explicit diagnostic stationary AI; original encounter activation remains unverified",
+    "Initial full phase groups and MoveGO motion service are connected; outer combo chaining and player locomotion handoff remain incomplete",
+    "Navigation/body/visibility/target-selection policies and continuous reference fidelity remain incomplete",
+    "Companion behavior, status/DOT/leech, full UI/effects/audio/campaign remain incomplete"
+  ]
+}

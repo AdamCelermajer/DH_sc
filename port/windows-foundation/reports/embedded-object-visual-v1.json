@@ -1,0 +1,33 @@
+{
+  "status": "PASS actual original chest/urn geometry, retained pose/events/completion and existing actor regression; production object enrollment pending",
+  "invariant": "Pots/chests render their original geometry and change pose through their authored named scene clips. The opened event and completion come from the same retained playback that supplies the visible pose.",
+  "visual_context": "User requested original visible pots/chests and opening/breaking animations. Existing interactions source investigation/README and breakable_asset_recovery_v1 retain actual original scene provenance. This infrastructure does not claim live scene placement or original-video visual parity.",
+  "source_evidence": [
+    "features/interactions/README.md: original chest activate166-1266ms/opened233ms dispatch234ms",
+    "features/interactions/breakable_asset_recovery_v1.json: exact original-cache urn SHA534b1f5c...; activate166-1899ms/opened266ms; 11 authored player tracks",
+    "Existing BRES animation_clip records own name/start/end; original container interaction calls named activate, idle and idleactive through the attached visual",
+    "Original RetainedPosePlayback/timeline and RetainedAnimationOwner EventTrack sampling already provide source-clock pose, events and completion; reuse them without a gameplay timer",
+    "level-world/reference/decor-scene/NOTES.md: source SearchByName0x352b74 _colbox_ prefix/CalcMeshBox0x47211c physics helpers. Exclude their rigid draw meshes while retaining authored graph; existing actors unchanged. Authored urn shadow mesh is retained."
+  ],
+  "implementation": "Add named embedded-scene loading to existing CharacterVisual without changing CharacterVisualConfig layout. Decode authored clip ranges, sample existing original scene/player/materials, and validate retained event bindings against the exact embedded name/range.",
+  "verification_plan": "Actual original chest/urn: all embedded names/ranges; original textured mesh data; idle->activate pose changes; source opened once at its effective event boundary; completion once; zero-time pause; idleactive restore with no opened replay; failed reload/name/range preserves live visual. Rerun existing retained actor tests.",
+  "limitations": [
+    "CPU mesh/retained-clock evidence is separate from production GPU/world enrollment and player interactions.",
+    "Does not invent gameplay object movement, collision, rewards or state transitions."
+  ],
+  "verification": {
+    "runner": "tools/run_embedded_object_visual_tests.ps1",
+    "result": "PASS",
+    "output": ".local-inputs/embedded-object-visual-test/run.log",
+    "executable_sha256": "1BFC9E27851113C66AB85B740585F25214C4C73ED41887001EED9F48F9FBED03",
+    "chest_sha256": "3387A4E39FF726B01AAC29B2788F6AB64C97E0F37CA034C7C5C00545B9155E00",
+    "urn_sha256": "534B1F5C99E1D005FFA9C7970412E496A062783B1B847ABEEEFCD1420F18706A",
+    "geometry_meshes_each": 2,
+    "opened_wall_ms": [
+      68,
+      102
+    ],
+    "existing_retained_actor_regression": "PASS",
+    "production_gpu": "pending"
+  }
+}

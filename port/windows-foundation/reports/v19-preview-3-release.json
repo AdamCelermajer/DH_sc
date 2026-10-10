@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-09",
+  "status": "released_playable_population_preview_fidelity_incomplete",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-v19-preview-3",
+  "launcher": "Play.cmd",
+  "new_combat_launcher": "Test-populated-combat.cmd",
+  "previous_combat_launcher": "Test-enemy-combat.cmd",
+  "executable_sha256": "0baba8bf711e8463a92899e76ddb2753800c02f5520c58de2261ad4dcae0f600",
+  "manifest_files_verified": 578,
+  "foundation_ctest": "80/80; .local-inputs/v19-population-regression.log",
+  "packaged_runtime_cases": 10,
+  "new_playable_behavior": [
+    "Original weighted character-template selection adds20 authored mobs, increasing loaded visuals13→33 and shared combat actors3→23.",
+    "All four authored template character profiles are supplied through data; lizards and moths share existing animation, floor/navigation, targeting and damage systems.",
+    "Population startup draws continue into combat's saved RNG without resetting seed/calls.",
+    "Content reload reconstructs deterministic initial selection before restoring live actors and RNG."
+  ],
+  "verified": {
+    "population_and_moth_combat": "port/windows-foundation/reports/v19-preview-3-population-runtime.json",
+    "existing_enemy_combat": "port/windows-foundation/reports/v19-preview-3-enemy-runtime.json",
+    "baseline_save_movement_menu": "port/windows-foundation/reports/v19-preview-3-baseline-runtime.json",
+    "visual": "Actual populated-combat framebuffer inspected: source moth/player models and original HUD present. No matched-reference visual acceptance."
+  },
+  "limitations": [
+    "28 declarations remain gated or unsupported; full original campaign/trigger population is incomplete.",
+    "Supplied NPC attack configuration selects an explicit first authored group; complete original random attack selection/cadence remains incomplete.",
+    "Diagnostic moth encounter placement does not establish original progression.",
+    "Dynamic avoidance is incomplete; multiple enemies can overlap.",
+    "Audio, effects, full character pages, companions and cinematics remain incomplete or await main enrollment.",
+    "The later enemy navigation direction-validation patch is not included in this frozen executable."
+  ],
+  "preserved": [".local-inputs/windows-source-clock-checkpoint-v18", ".local-inputs/windows-source-clock-v19-preview-1", ".local-inputs/windows-source-clock-v19-preview-2"]
+}

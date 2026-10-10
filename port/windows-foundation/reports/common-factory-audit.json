@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "status": "source_factory_and_serialized_pass_verified_backend_not_changed",
+  "conclusion": "Actual lizard body is serialized local COMMON effect. Factory construction uses technique0 default, TEXTURED only, absent a CurrentTechnique override. LightSet assignment does not by itself activate LIGHTING. Rich source pass states contradict current atlas-driven transparency and additive heuristics.",
+  "correction": "Prior visual-reference-v6 lighting gap statement was too strong: presence of LightSet initialization does not prove body shader LIGHTING. The missing capability is authoritative material/shader/pass selection metadata, rather than arbitrary actor illumination.",
+  "probe": {
+    "method": "Actual BRES material/effect/technique/pass metadata plus existing original-instruction richpass conversion kernel",
+    "input": ".local-inputs/windows-shared-assets/original-cache/data/3d/characters/lizardman/lizardman.bdae",
+    "source": "port/windows-foundation/reports/common-factory-probe.cpp",
+    "output": "port/windows-foundation/reports/common-factory-probe.txt",
+    "native_executable": ".local-inputs/windows-toolchain/common-factory-probe.exe",
+    "executed": true
+  },
+  "body": {
+    "techniques": [
+      {
+        "defines": "TEXTURED",
+        "index": 0,
+        "shader": "ProfileCOMMON_emul_VS.glsl / ProfileCOMMON_emul_FS.glsl",
+        "name": "default"
+      },
+      {
+        "defines": "TEXTURED,FOG",
+        "index": 1,
+        "name": "fog"
+      },
+      {
+        "defines": "TEXTURED,LIGHTING",
+        "index": 2,
+        "name": "lighting"
+      },
+      {
+        "defines": "TEXTURED,FOG,LIGHTING",
+        "index": 3,
+        "name": "fog & lighting"
+      }
+    ],
+    "current_technique_override": "none",
+    "default_pass": {
+      "blend": false,
+      "cull": true,
+      "depth_write": true,
+      "blend_src": 1,
+      "blend_dst": 0,
+      "depth": true
+    },
+    "effect": "#ProfileCOMMON_diffuse-fx1302961559_lizardman",
+    "material": "diffuse",
+    "effect_file": "",
+    "parameters": [
+      "diffuse-sampler"
+    ],
+    "material_index": 5,
+    "instance": "_mesh_lizardman_skinned_batch-node"
+  },
+  "other_actual_passes": [
+    {
+      "default_pass": {
+        "dst": 771,
+        "cull": true,
+        "src": 770,
+        "blend": true,
+        "depth_write": false
+      },
+      "material": "alpha",
+      "meaning": "SRC_ALPHA / ONE_MINUS_SRC_ALPHA"
+    },
+    {
+      "default_pass": {
+        "dst": 1,
+        "cull": true,
+        "src": 1,
+        "blend": true,
+        "depth_write": false
+      },
+      "material": "additive",
+      "meaning": "ONE / ONE"
+    }
+  ],
+  "factory_path": [
+    {
+      "behavior": "Delegates generic CColladaFactory",
+      "name": "ColladaFactory::createMaterial",
+      "address": "0x3506e0"
+    },
+    {
+      "behavior": "Creates renderer from effect and creates material using serialized parameters",
+      "name": "CColladaFactory::createMaterial",
+      "address": "0x6323d0"
+    },
+    {
+      "behavior": "Effect list/cache with generic renderer factory",
+      "name": "CColladaFactory::createMaterialRenderer",
+      "address": "0x636c8c"
+    },
+    {
+      "behavior": "Driver profile flags select GLES2 traits",
+      "name": "glitch::collada::createMaterialRenderer",
+      "address": "0x636b6c"
+    },
+    {
+      "behavior": "Creates serialized technique/pass shader programs",
+      "name": "createMaterialRendererForProfile<SProfileGLES2Traits>",
+      "address": "0x6361e8"
+    },
+    {
+      "behavior": "Allocates material; type20 serialized CurrentTechnique may overwrite technique byte using getTechniqueID",
+      "name": "glitch::collada::createMaterial",
+      "address": "0x631ce8"
+    },
+    {
+      "behavior": "State first byte explicitly0 before richer allocator",
+      "name": "CMaterial::allocate(renderer,name)",
+      "address": "0x5cc0a0"
+    },
+    {
+      "behavior": "Stores state first byte into material+8 current technique",
+      "name": "CMaterial constructor",
+      "address": "0x5cbc70"
+    },
+    {
+      "behavior": "Applies light parameters to each material; does not select technique",
+      "name": "SceneManager::UpdateLightSet",
+      "address": "0x3549a0"
+    },
+    {
+      "behavior": "Toggles default/fog and lit/fog-lit families based on fog admission; no inspected default->lighting promotion",
+      "name": "SceneManager::ChangeCommonTechnique",
+      "address": "0x3551e4"
+    },
+    {
+      "behavior": "Routes non GL_Diffuse/GL_Blend3Map/GL_ColorEffects/GL_Decal renderers to ChangeCommonTechnique",
+      "name": "SceneManager::ResetCommonTechniqueToDefault",
+      "address": "0x355484"
+    }
+  ],
+  "shader_semantics": {
+    "lit_variant": "Optional LIGHTING overwrites vColor0 with emission+(SceneAmbient+Ambient)*ambient+Diffuse*DiffuseColor+Specular*specular, and uses unnormalized transformedNormal. Different fromGL_DiffuseL1VC.",
+    "source_fragment": "port/android-native/app/src/main/assets/shaders/ProfileCOMMON_emul_FS.glsl",
+    "uv": "TextureMatrix0*vec4(TexCoord0,1,0)",
+    "alpha_test": "Only whenALPHATEST define present; actual defaultdiffuse lacks define.",
+    "source_vertex": "port/android-native/app/src/main/assets/shaders/ProfileCOMMON_emul_VS.glsl",
+    "default": "Color0*DiffuseColor, then fragment texture multiplication. No normals or LightSet evaluated withoutLIGHTING."
+  },
+  "confirmed_current_mismatches": [
+    "Renderer atlas-wide any-partial-alpha classification blends actual opaqueCOMMONdiffuse and disables its source depth writes.",
+    "Renderer generic additive usesSRC_ALPHA/ONE, while actualCOMMONadditive default serializesONE/ONE.",
+    "Current material metadata does not retain selected localCOMMON technique/pass/defines, forcing heuristics."
+  ],
+  "limits": [
+    "Native ARM GPU runtime technique changes not executed during this audit; construction and reviewed mutation paths plus serialized source metadata establish defaults.",
+    "Do not assignauxiliaryGL_DiffuseL1VC shadow material to lizardbody.",
+    "Version1.0.2 assets vs video1.0.3 remains comparison scope uncertainty.",
+    "No generic fixed light/tint/recolor/UV change justified."
+  ],
+  "coordination": "Root/render_core received exact source states. render_core owns renderer and actor_lighting; reviewer made new probe/report only."
+}

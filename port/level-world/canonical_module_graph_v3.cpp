@@ -34,9 +34,54 @@ bool CanonicalModuleGraphV3::bind(const std::shared_ptr<CanonicalModuleRecordV2>
  error.clear();if(!record||entries_.count(record.get())||!services_.candidate||!services_.rooms)return missing("fresh record/world owners",error);
  auto entry=std::make_shared<Entry>();entry->record=record;entries_[record.get()]=entry;
  std::weak_ptr<CanonicalModuleGraphV3> weak=shared_from_this();std::weak_ptr<Entry> weak_entry=entry;
+ // The Module graph owns the actual candidate/world lifetime. Some production
+ // module-platform providers supply specialized leaves without setting the
+ // generic GameObject initialization lease; the source Module still reaches
+ // ObjectBase::InitPost, so keep its real graph candidate as the fallback pin.
+ if(!init.owner)init.owner=services_.candidate;
  auto actor=[weak_entry](std::string& e)->CanonicalGameObjectBaseOwnerV1*{auto entry=weak_entry.lock();auto record=entry?entry->record.lock():nullptr;if(!record||!record->receiver){e="Released canonical Module receiver";return nullptr;}return &record->receiver->base();};
  auto lookup=[weak_entry](std::uintptr_t id,std::string& e){auto entry=weak_entry.lock();if(entry){auto p=entry->visuals.find(id);if(p!=entry->visuals.end())return p->second;}e="Required SAME retained Module visual receiver";return std::shared_ptr<RetainedModuleVisualV3>{};};
  init.condition_init=[weak,actor](std::uint32_t offset,std::string& e){auto graph=weak.lock();auto* base=actor(e);if(!graph||!base)return false;return condition_data_init_v3(*base,offset,graph->services_.conditions,e);};
+ // Module construction bypasses the generic non-character binder, but the
+ // original Module C1 still reaches inherited GameObject::InitPost and its
+ // same-receiver CheckSpawnProbability call. Bind that inherited call through
+ // the campaign's single Application Random/online owner, preserving any
+ // platform implementation that already supplied the callback.
+ if(!init.check_spawn_probability)init.check_spawn_probability=[weak,actor](std::int32_t& roll,std::string& e){
+  auto graph=weak.lock();auto* base=actor(e);if(!graph||!base)return false;
+  auto spawn=graph->services_.spawn_application;
+  if(!spawn.handle_as_player)spawn.handle_as_player=[base](bool& player,std::string& e){
+   auto object=base->canonical({});std::uintptr_t character{};
+   if(!object.as_character||!object.as_character(object.context,character,e))return false;
+   if(character){e="Module GameObject unexpectedly cast as Character";return false;}player=false;e.clear();return true;
+  };
+  if(!spawn.set_visible_false)spawn.set_visible_false=[weak,base](std::string& e){
+   auto graph=weak.lock();if(!graph||!base->store_byte(0x80,0,e))return false;
+   return graph->source_sync_visibility_v94(base->identity(),e);
+  };
+  if(!spawn.mark_for_deletion&&graph->services_.mark_for_deletion)
+   spawn.mark_for_deletion=[callback=graph->services_.mark_for_deletion,base](std::string& e){return callback(*base,e);};
+  std::int32_t probability{};return canonical_check_spawn_probability_v4(*base,spawn,roll,probability,e);
+ };
+ if(!init.set_visible)init.set_visible=[weak,actor](bool visible,std::string& e){
+  auto graph=weak.lock();auto* base=actor(e);if(!graph||!base)return false;
+  visible=visible&&base->lifecycle().enabled8a;
+  if(!base->store_byte(0x80,visible?1:0,e))return false;
+  return graph->source_sync_visibility_v94(base->identity(),e);
+ };
+ if(!init.init_pf_object)init.init_pf_object=[weak,actor](bool flag,const float* position,float radius,std::uintptr_t identity,std::string& e){
+  auto graph=weak.lock();auto* base=actor(e);if(!graph||!base)return false;
+  if(!graph->services_.init_pf_object)return graph->missing("actual PFWorld InitObject",e);
+  return graph->services_.init_pf_object(*base,flag,position,radius,identity,e);
+ };
+ if(!init.light_set_id){
+  auto names=services_.visual.roots?services_.visual.roots->source_light_names_v89():nullptr;
+  std::weak_ptr<LightSetNameOwnerV3> weak_names=names;
+  init.light_set_id=[weak_names](const std::string& name,std::int32_t& id,std::string& e){
+   auto names=weak_names.lock();if(!names){e="Released actual Module Scene LightSet names";return false;}
+   id=names->get_id(name);e.clear();return true;
+  };
+ }
  init.update_pf_object=[weak,actor](std::string& e){auto graph=weak.lock();auto* base=actor(e);if(!graph||!base)return false;if(!graph->services_.update_pf)return graph->missing("actual UpdatePFObject",e);return graph->services_.update_pf(*base,e);};
  init.set_position=[weak,actor,lookup](const float* p,bool destination,std::string& e){auto graph=weak.lock();auto* base=actor(e);if(!graph||!base)return false;auto position=graph->services_.position;position.visual_sync=[lookup](std::uintptr_t id,std::string& e){auto visual=lookup(id,e);return visual&&visual->sync(e);};return game_object_set_position_v2(*base,p,destination,position,e);};
  init.visual_sync=[lookup](std::uintptr_t id,std::string& e){auto visual=lookup(id,e);return visual&&visual->sync(e);};
@@ -51,7 +96,14 @@ bool CanonicalModuleGraphV3::bind(const std::shared_ptr<CanonicalModuleRecordV2>
     auto& base=record->receiver->base();if(base.identity()!=parent)return graph->missing("constructor parent identity",e);
     if(!graph->services_.read_asset)return graph->missing("actual declared BRES transport",e);
     std::shared_ptr<const std::vector<std::uint8_t>> bytes;bool found=false;if(!graph->services_.read_asset(model,bytes,found,e))return false;
-    auto services=graph->services_.visual;services.update_pf=[weak,weak_entry](std::string& e){auto graph=weak.lock();auto entry=weak_entry.lock();auto record=entry?entry->record.lock():nullptr;if(!graph||!record||!record->receiver)return false;if(!graph->services_.update_pf)return graph->missing("actual UpdatePFObject",e);return graph->services_.update_pf(record->receiver->base(),e);};
+    auto services=graph->services_.visual;
+    if(!services.modular_meshes)services.modular_meshes=[weak](std::vector<std::uintptr_t>& out,std::string& e){
+     out.clear();auto graph=weak.lock();auto manager=graph?graph->services_.visual.roots:nullptr;
+     if(!manager)return graph?graph->missing("same SceneManager modular-mesh search",e):(e="Retired canonical Module graph during modular search",false);
+     skinning::SourceModularSkinBorrowV114 selected;if(!manager->source_find_modular_v114(selected,e))return false;
+     if(selected.mesh)out.push_back(selected.mesh->identity());e.clear();return true;
+    };
+    services.update_pf=[weak,weak_entry](std::string& e){auto graph=weak.lock();auto entry=weak_entry.lock();auto record=entry?entry->record.lock():nullptr;if(!graph||!record||!record->receiver)return false;if(!graph->services_.update_pf)return graph->missing("actual UpdatePFObject",e);return graph->services_.update_pf(record->receiver->base(),e);};
     auto visual=std::make_shared<RetainedModuleVisualV3>(base,std::move(services));entry->visuals[visual->identity()]=visual;
     if(found){bool selected=false;if(!visual->initialize(bytes,xref.c_str(),selected,e))return false;}else if(!visual->source_asset_miss(e))return false;
     out=visual->identity();return true;

@@ -1,0 +1,84 @@
+{
+  "schema": "runtime-companion-follow-v1",
+  "status": "source_policy_kernel_and_same_session_plan_complete",
+  "source_version": "Recovered game data v1.0.2; visual reference video v1.0.3",
+  "sources": {
+    "mgp": {
+      "path": ".local-inputs/windows-source-clock-v19-preview-2/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "sha256": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31",
+      "objects": {
+        "_prim_NPC_PriestGood": {"profile": "WanderingPriest", "activate_cond": "RENE_FOLLOW", "position": [793.9, -617.658, 272.064]},
+        "_prim_Faery": {"profile": "DefaultFairy", "position": [544.191, 414.689, -108.175]}
+      }
+    },
+    "character_properties": {
+      "pyarray": {"path": ".local-inputs/actors/character_properties_pyarray.bin", "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"},
+      "pyarraynames": {"path": ".local-inputs/actors/character_properties_pyarraynames.bin", "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"},
+      "pystructnames": {"path": ".local-inputs/actors/character_properties_pystructnames.bin", "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"},
+      "rows": {
+        "WanderingPriest": {"AI": 50, "AnimTable": 47, "HP": -1, "Max_HP": -1, "MP": -1, "Max_MP": -1, "LevelOffset": 512},
+        "DefaultFairy": {"AI": 20, "AnimTable": 23, "HP": 153600, "Max_HP": 153600, "MP": -1, "Max_MP": -1}
+      },
+      "vitals_policy": "Raw source property words are evidence only. Plan construction does not copy, resolve, normalize, or mutate the active session ActorState vitals. Priest HP sentinel values remain unresolved here."
+    },
+    "ai_table": {
+      "pyarray": {"path": ".local-inputs/ai-data/ai_pyarray.bin", "sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc"},
+      "pyarraynames": {"path": ".local-inputs/ai-data/ai_pyarraynames.bin", "sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a"},
+      "rows": {
+        "20": {"name": "Faery", "script": "follower", "type": 3, "LeashDistance": 1500.0},
+        "50": {"name": "Rene", "script": "rene", "type": 2, "LeashDistance": 1500.0}
+      },
+      "leash_policy": "The source LeashDistance values are recorded but this helper does not reinterpret them as a follow offset, threshold, or movement schedule."
+    },
+    "animations": {
+      "pyarray": {"path": ".local-inputs/actors/animations_pyarray.bin", "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"},
+      "pyarraynames": {"path": ".local-inputs/actors/animations_pyarraynames.bin", "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"},
+      "policy": "The source AnimTable indices 47 and 23 are retained in the plan identities. Existing animationOnly CombatSession remains the sole pose owner and clock. This follow kernel selects no clip and does not assign rate/loop semantics to Swamp_Intro AnimDict IDs 396/377."
+    },
+    "scripts": {
+      "follower_script": {"path": "port/windows-foundation/features/companions/reference/follower.luac", "sha256": "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d"},
+      "rene_script": {"path": "port/windows-foundation/features/companions/reference/rene.luac", "sha256": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7"}
+    }
+  },
+  "follow_policy": {
+    "follower.luac": {
+      "friend_spotted": "SetMaster(friend) and cache it only if HasMaster() is false.",
+      "master_out_of_range": "If GetState() is not AIStates.Move, issue MoveTo(g_master); then always ClearTarget(). MoveTo delegates to the source Character/controller path owner; this helper does not query or replace path state.",
+      "master_out_of_sight": "WarpBehind(g_master); no ClearTarget call is authored in this callback.",
+      "master_in_ranged_close_melee_range": "Stop().",
+      "unregistered_events": "No plan command; the source script registers no other callback for this event class."
+    },
+    "rene.luac": {
+      "policy": "Kept distinct and not emulated by the generic follower kernel. Its far/catching-up/target gates, HasPath-to-WarpTo fallback, Buff_Rene_Haste apply/remove, collision toggles, and 200ms caught-up timer remain with the existing Rene source owner."
+    },
+    "formation": {
+      "finding": "No separate formation-offset table or companion-specific static follow offset was found in the inspected extracted source corpus. Camp_Intro instead assigns the named _prim_Waypoint_CampIntro_RENE and _prim_Waypoint_CampIntro_FAERY positions. The Swamp placement coordinates above are authored starting placements, not follow offsets.",
+      "policy": "No offset, radius, leash threshold, animation rate, or per-frame movement schedule is invented."
+    }
+  },
+  "visual_evidence": {
+    "video": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "frames": [
+      {"time_seconds": 210, "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0210s.png", "sha256": "b6c22b5f9cb7eb7282d9cc15092c14cb2a87abd8ca0362d955a76fd4614144f6", "observation": "Active gameplay HUD; player is near the chest and a white-robed character is visible lower in the scene."},
+      {"time_seconds": 212, "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0212s.png", "sha256": "2a37ee5e1577919d96413b200812af3b666c73c859de401968f67100d246e163", "observation": "Active gameplay HUD; player and a white-robed character are both visible on the tiled floor with space between them."},
+      {"time_seconds": 230, "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0230s.png", "sha256": "26e644b55f8f3a7e7f96503a2bc8f70d9bf22fa3ed2bc2af43ee36faf7b5de02", "observation": "A tutorial overlay is present; this is a later scene state and does not establish a continuous follow trajectory."}
+    ],
+    "scope": "These v1.0.3 stills corroborate that a white-robed actor can appear in the gameplay scene. They do not identify it conclusively as the v1.0.2 Priest/Faery, prove continuous movement, or establish a position offset. Source behavior is taken from the recovered v1.0.2 Lua and tables."
+  },
+  "implementation": {
+    "header": "port/windows-foundation/features/companions/runtime_companion_follow_v1.hpp",
+    "source": "port/windows-foundation/features/companions/runtime_companion_follow_v1.cpp",
+    "behavior": "Builds an exact Priest/Faery same-session animationOnly actor plan from caller-borrowed ActorState/retained-pose/session-lease identities. Projects only the follower.luac event command sequence for the actual Faery AI20 record. The Priest AI50 rene callback returns an explicit unsupported-policy result for its existing distinct owner.",
+    "effects": "No actor spawning, movement, path mutation, transform/vitals/target mutation, combat admission, event generation, timer, or pose clock."
+  },
+  "verification": {
+    "source_evidence_test": "py -3 port/windows-foundation/features/companions/runtime_companion_follow_v1_source_test.py",
+    "isolated_cpp17_test": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/runtime_companion_follow_v1_tests.exe",
+    "isolated_compile": "llvm-mingw clang++.exe -std=c++17 -Wall -Wextra -Werror -Wpedantic runtime_companion_follow_v1.cpp runtime_companion_follow_v1_tests.cpp",
+    "isolated_cpp17_test_result": "PASS",
+    "source_evidence_test_result": "PASS",
+    "test_fixture_scope": "The C++17 unit test supplies ActorState objects, retained-pose sentinels, and a shared Session-lease identity as focused borrow fixtures. It does not initialize or run a live CombatSession.",
+    "integrated_runtime_or_gui": "Not tested; no main/CMake or shared build change was made."
+  },
+  "remaining_boundary": "The caller must enroll the two same-session animationOnly actors and call this command projection only when the actual follower CharacterScript callback is reached. Original event production, movement/path execution, Native AISFaery/Rene ownership, and full gameplay follow trajectory remain owned by existing source Character/AI systems."
+}

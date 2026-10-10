@@ -1,0 +1,44 @@
+{
+  "status": "verified_native_pf_visual_borrow_adapter_component_only",
+  "module": "original_actor_subobjects.hpp/.cpp",
+  "api": "update_original_actor_subobjects(OriginalActorSubobjectsInput,OriginalActorSubobjectsResult,error)",
+  "source": {
+    "function": "GameObject::UpdateSubObjects0x3943cc",
+    "pseudocode": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0039/003943cc.c",
+    "kernel": "port/level-world/subobjects_update.cpp dh2_subobjects_update_source_v69",
+    "reference": "port/level-world/reference/subobjects-update/",
+    "order": "Visual.Update, physical.Update; native position reconciliation/velocity; Visual.ApplyPosition when selected and not accepted; wake; visual SyncPosition; native position; visual/native rotation; visual SyncRotation/SyncScaling; conditional camera/floor validation; destination arrival; cached absolute AABB; actual attached auxiliary/camera continuation.",
+    "floor": "IsValidatingFloor==1 selects native reconciliation validation; its inverse selects the later floor branch. Move23c1 reaches trailing validation; Idle2380 does not. No unconditional per-state floor snap.",
+    "position": "Visual.ApplyPosition delegates whole SAME GameObject.SetPosition; the concrete visual root is separate earlier-stage storage. ValidatePosition false is a result with a mutated/clamped point, not transaction rollback. Native source SetXForm false remains ignored by its original caller.",
+    "setter": "Character.SetPosition393db4/38aac8/393600 source whole setter bound by host, preserving physical2dc/visual2d8 services and cached bounds. Adapter does not replace it with actor XYZ copying."
+  },
+  "authority": {
+    "actor": "Borrows SAME ActorState position/Euler; identity and position160 pointer checked. No HP, target, FSM, properties or gameplay path copy.",
+    "body": "OriginalActorSubobjectsBorrow leases actual owner destination, relative/absolute source bounds, attached/visual/physical pointer slots and mutable SAME assigned NativeBody. Actual slot0 requires native=null. Reacquire after lifecycle replacement.",
+    "navigation": "Explicit borrowed actual PFObject and actual PathObject, shared floorWorld and stable obstacle registry. Floor admission calls source_motion_policy_v95 on SAME PF; no extra defaults, private path, heading gate, preview floor fallback, solver or World.Step.",
+    "visual": "Identity-checked actual receiver lease and concrete staged root position_ac. SyncPosition writes that receiver storage and requires actual absolute-transform publication; other reached visual services must be supplied.",
+    "failure": "Required reached callbacks fail immediately and preserve actual reached prefix. Original-kernel invocation is interrupted rather than continuing after a failure latch. Missing floor/native/camera/auxiliary services do not become success placeholders. Getter facts are explicit optional source input data; flags and reached trailing-camera policy facts validated before invocation."
+  },
+  "test": {
+    "file": "tests/original_actor_subobjects_tests.cpp",
+    "native": "Strict C++17 -Wall -Wextra -Werror static executable PASS with original shared assets.",
+    "actual": "KnightPlayerBase source tables, prince_modular source rest-box selection, real original Box2D2.0.1 native body, authored Swamp floor BRES, sole late-initialized PFObject and actual obstacle registry.",
+    "fixture": "Explicit house visual placement cells and renderer-placement matrix plus actual decoded CharacterVisual. Its service callbacks update the concrete receiver; they are executable transport fixtures, not proof of original VisualObject.Update/rotation/scaling implementation or live main hookup. Authored module floor uses explicit unoptimized child TRS fixture; no campaign static-optimization producer claim.",
+    "checks": [
+      "Earlier staged visual root differs from actual ActorState, then ApplyPosition publishes through whole source setter before trailing floor correction.",
+      "Actual actor, PF cached point, native XY, concrete visual root and placement agree after accepted source floor result.",
+      "False source floor admission publishes original clamped PF point and visual/native correction.",
+      "Missing SyncRotation stops before scaling/trailing-floor continuation, preserving earlier actual ApplyPosition effects.",
+      "Actual physical removal slot0 and reinitialization retain SAME actor/PF authority without manufactured native receiver.",
+      "Idle policy neither applies new staged root nor requires unconditional trailing floor services.",
+      "Unknown actual flags fail; HP/target and immutable source property sheets remain same authority; release detaches obstacles."
+    ]
+  },
+  "limits": [
+    "Component only. Root live v15 has not admitted a full UpdateSubObjects hookup without canonical visual root/camera/full focus policy owners.",
+    "Recovered kernel snapshots decoded policy and visual/auxiliary presence for this bounded invocation. Original getters occur at multiple points after callbacks; reentrant policy/presence changes are not reproduced. Physical assignment change within invocation fails with retained prefix.",
+    "BodyState is a temporary observable native view, not a second native body. Native force/torque/internal sleep histories are not exposed by backend observation and their initialized transport zeros are not proof of actual native force/torque.",
+    "Virtual GetSpeed is an explicit sampled source getter fact. Dynamic getter reentrancy is not captured; unavailable reached getter fails.",
+    "No whole frame/Character/AI/contact/physics Step or campaign parity claim. Main/CMake/package files untouched by this worker."
+  ]
+}

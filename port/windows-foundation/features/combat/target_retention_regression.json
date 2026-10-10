@@ -1,0 +1,64 @@
+{
+  "bug_id": "target-retention-20261010",
+  "status": "feature_regression_passed;_production_preview_visual_acceptance_pending",
+  "owner": "root owns CombatSession production source; target_retention_luna owns this isolated feature regression and evidence report",
+  "visual_evidence": {
+    "reference": "Dungeon Hunter 2 v1.0.3 Part 1, local video .local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "sampled_sequence": {
+      "times_seconds": "281.0 through 290.5 at 0.5-second intervals; contact sheet .local-inputs/reference-video/dh2-act1/target-retention-sequence-281-291.png",
+      "method": "Decoded local video at 2 fps and visually inspected the complete 4-by-5 contact sheet. These are temporal samples from a 30 fps source, not every gameplay frame.",
+      "observations": [
+        "At about 282 seconds a living Bogwomp has its red ground ring and name/health display. The ring remains under the same visible living enemy across subsequent samples while the player occupies changing sword poses and MISS/damage feedback appears.",
+        "The ring later changes to another living enemy as the original target is downed; the dead enemy remains visible on the floor. This shows that target presentation can persist between sampled attack poses and can move on target change/death."
+      ],
+      "limits": "The recording does not expose keyboard/touch events, so it cannot prove the attack button was released at any sample. It is v1.0.3 footage while the recovered ELF/data are v1.0.2. The observed ring is visual evidence only; target pointer, native callback and exact transition time are not visible."
+    },
+    "current_renderer_mapping": "Current Windows foundation main.cpp uses CombatSession::selectedactor() for both the world target marker (around line 2756) and projected target HUD (around line 2772). This code linkage establishes which live Session selection drives the UI; the regression checks actor selection and projection separately, not an opened production window or rendered screenshot."
+  },
+  "logic_evidence": {
+    "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "references": [
+      "port/level-world/reference/prince-live-ai/NOTES.md and reference/original-functions.asm",
+      "port/level-world/reference/character-target-bindings/NOTES.md and reference/original-functions.asm",
+      "port/level-world/reference/character-skill-state-v4/cast-lifecycle-v46.md and skill-lua-v46.json",
+      "port/level-world/reference/character-target-update/NOTES.md"
+    ],
+    "caller_and_admission": [
+      "Character::Ctrl_Click at 0x3addc8 is a real selection producer: it calls AI_SetTarget for an eligible clicked Character and sets sticky-target byte CharAI+0x4b to 1 (write at 0x3ae084). Selection alone does not imply that an attack command is admitted.",
+      "v2Controller::Cmd_Attack at 0x405b04 applies the source global-blocked/local-lock/forced gates before controllable dispatch. Character::Ctrl_Attack at 0x3ad87c delegates to CharAI::AI_DoMeleeAttack at 0x3d01ac with mode=false; Ctrl_Attack itself does not null-check the target or implement a cooldown.",
+      "AI_DoMeleeAttack checks owner IsDead, Character+0x528 bit0, then ranged capability. With an existing target it calls AI_CanAttack at 0x3d67f4; that predicate checks enemy classification, ItemInventory::CanMeleeAttack and melee range, or the actual ranged-capability/range branch. If the current target cannot be used or is null, the caller searches through the original TargetList/registry path; accepted candidates are assigned by AI_SetTarget. It also tests source last-step, OOI and heading/continuation conditions before later combat actions. A held/released PC key is not a replacement for these source gates.",
+      "Character::AI_SetTarget at 0x3d6890 writes candidate CharAI+0x3c and, in false mode, updates current/last and source sight/alive bytes. Character::_ClearTarget at 0x3b5690 performs SetTarget(null,false) and then AI_SyncLastTarget at 0x3d49c4. AI_SetTarget(null,false) alone does not clear last-target, so the wrapper's sync is meaningful.",
+      "_ClearNonStickyTarget at 0x3d8d70 returns immediately when CharAI+0x4b is nonzero. Otherwise it performs AI_SetTarget(null,false) and AI_SyncLastTarget. HUDControls::Update at 0x41a780 has a separate held-attack/no-object-of-interest branch: it sends Cmd_Attack with null and writes the then-null target argument to the sticky byte at 0x41a9d8. The PC Space-to-attack mapping is an intentional input adaptation; key-up itself must not synthesize Character::_ClearTarget.",
+      "Actual cached SkillTable row7 is Knight BashDown (`prince_warrior_bashdown.luac`); row56 is Rogue JumpKick (`prince_rogue_jump_kick.luac`). BashDown Post calls ClearTarget unconditionally. GroundSlam Post also clears unconditionally. Charge Post calls TargetInMeleeRange and clears only when false. Their Lua target-list selections and damage targets are not automatically the retained CharAI target.",
+      "CharAI::_UpdateTarget at 0x3cb908 has awaiting-spawn/limbus early gates, interactive-target clear, target-death/revival and sight/range event delivery. Those transitions and the selected AIS/caller determine lifecycle effects. The target-retention regression does not replace them with a generic keep-alive rule."
+    ]
+  },
+  "expected_behavior": {
+    "pc_adaptation": "Space sets InputActions.attack while held. Releasing it lets an admitted source attack finish and does not itself clear the player selection. The same living eligible ActorId should remain in target_id/selectedactor between separate Space presses. The target marker and target HUD read this same selectedactor; camera projection can hide the HUD while selection is still live.",
+    "source_skill_clear": "Honor each skill's authored Post exactly. BashDown/GroundSlam clear current and last target through ClearTarget; Charge keeps its target only when its source melee-range predicate returns true. Do not restore a target after a source clear merely because it was selected before the skill.",
+    "next_attack": "After a skill Post clears target, the next admitted Space command may acquire a living in-range enemy through the original attack target search. Attack gates, current heading/search order, hostility, range, target life, class/weapon rules and source cooldown determine whether an attack or reacquisition occurs.",
+    "cleanup": "Dead/invalid targets and explicit source clears remain cleared. A rendered marker/HUD absence must be diagnosed separately from ActorState.target_id/selectedactor and from a target that is simply outside the current projection."
+  },
+  "focused_verification_plan": [
+    "In a fresh same-session Knight/Lizard fixture, select target2, deliver held Space, release it before attack completion, then allow a second Space press after the first sequence ends. Check target_id and selectedactor throughout and after each command.",
+    "Use actual Knight BashDown SkillTable row7 and the same session's player target. Exercise Begin/Focus/Pre, authored do_skill Use, and Blur/Post through SourceSkillAnimation. Confirm the Post clear stays cleared across a neutral Session frame; the next Space command may reacquire the same still-living in-range Lizard only through the source attack path.",
+    "Check dead-target invalidation and the offscreen projection case. Keep visual selection, combat target authority, and projected HUD visibility as separate observations."
+  ],
+  "verification": {
+    "runner": "port/windows-foundation/features/combat/run_target_retention_regression_tests.ps1",
+    "command": "& port/windows-foundation/features/combat/run_target_retention_regression_tests.ps1",
+    "result": "PASS. Fresh in-memory CombatSession with actual KnightPlayerBase, Longsword01, and a living authored Swamp_LizadMan_Type1 actor retained ActorId2 across held Space, release, source sequence completion, and a separate second attack. The actual cached BashDown row7 passed native SourceSkillAnimation Begin/Focus/Pre, do_skill→Use and Blur/Post dispatch. Post callback provider published ClearTarget to the Session actor; after a neutral frame target remained null, and the next Space command reacquired the same live in-range target. Dead-target cleanup and offscreen projection versus selectedactor passed. Actual Rogue JumpKick row56 was resolved and checked in SkillTables.",
+    "build_isolation": "Strict C++17 -O2 -DNDEBUG -Wall -Wextra -Werror build in .local-inputs/target-retention-regression-build; runner copies the shared foundation archives into that private build after checking source archive SHA-256 before and after copying. No shared game save, main/CMake file, or user window was touched.",
+    "limits": "The SkillAI/State adapter and actual SkillTable row are exercised in the same regression, but the external Lua callback provider is a fixture; it publishes the known Post ClearTarget effect directly to ActorState. This is not execution of the original Lua VM, the native Character SetTarget/SyncLastTarget owner, an integrated production input path, or a production-window visual capture. The feature regression verifies the current root-owned CombatSession source; this agent changed no production Session or renderer code."
+  },
+  "uncertainties": [
+    "The user's exact preview binary, class, input sequence, target distance, and timestamp for the loss report were not provided.",
+    "Original video is v1.0.3; local source ELF and cached SkillTable/script assets are v1.0.2. Cross-version equality is not established.",
+    "Visual samples cannot prove Space release. Original source held-attack/no-OOI input behavior comes from the HUDControls caller and is distinct from the deliberate PC key mapping.",
+    "Rogue JumpKick row56 was resolved, but this regression's playable Session is KnightPlayerBase. A Rogue production Session key path and rendered target lifecycle remain separate acceptance work."
+  ],
+  "implementation_and_acceptance": {
+    "this_task": "Investigation, feature-only same-session regression and evidence report complete. Existing root-owned Session retention logic passes this focused test; no production source was edited by this feature worker.",
+    "remaining_gate": "Root/lead must compare the exact current preview's target_id, selectedactor, source AI target fields, skill callback state, and rendered ring/HUD through release, between attacks, skill Post, retarget and death. Do not claim the bug fixed for all production paths from this host fixture alone."
+  }
+}

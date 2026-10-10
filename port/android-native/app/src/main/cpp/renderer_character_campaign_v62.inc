@@ -33,6 +33,26 @@ bool bind_campaign_character_providers_v62(AAssetManager* assets,const SourceCam
  services.melee_animation_v101=[](auto& record,const auto& request,auto& response,auto& error){return source_campaign_melee_event_v115(record.services.world,record.actor->object->identity,request,response,error);};
  services.remaining=[](auto& record,const auto& request,auto&,std::string& error){
   if(request.source_entry==0x3b4834)return source_campaign_character_init_light_material_v113(record.services.world,record.actor->object->identity,error);
+  if(request.source_entry==0x3b49f8){
+   // InitFinal3b49f8..3b4a84 selects ONE local player's Character660.
+   // This rejoins the common light/CharAI/local-player tail at3b4a88;
+   // Level.PlaceFaeryAndFollowers3f0898 is a different list operation.
+   SourceCampaignCandidateBorrowV55 actual;std::shared_ptr<SourceWorldBorrowV61> world;
+   if(!record.actor||!record.actor->object||request.subject!=record.actor->object->identity||
+      !borrow_source_campaign_candidate_v55(actual,error)||actual.actual_world!=record.services.world||!actual.application||
+      !borrow_source_campaign_condition_world_v70(actual,world,error)||!world||!world->player_manager||
+      world->player_manager!=actual.application->source_player_manager_v59()){
+    if(error.empty())error="Required SAME current Character InitFinal PlayerManager";return false;
+   }
+   dh2::player::PlayerInfoFieldsV1* info{};
+   if(!world->player_manager->get_local_player(0,true,info,error)||!info){if(error.empty())error="Required source GetLocalPlayer(0,true) PlayerInfo";return false;}
+   const auto character=info->character660;if(!character){error.clear();return true;}
+   std::array<float,3> direction{},position{};
+   if(!source_campaign_character_look_at_v68(record.services.world,character,direction,error)||
+      !source_campaign_character_target_position_v114(record.services.world,character,position,error))return false;
+   for(unsigned axis=0;axis<3;++axis)direction[axis]=direction[axis]+position[axis];
+   return record.set_position(direction,true,error);
+  }
   error="Required original canonical Character InitPost continuation "+std::to_string(request.source_entry);return false;
  };
  services.destroy_character_save_v107=[weak=std::weak_ptr<WorldScriptContext>(world)](auto& record,std::uintptr_t captured,std::string& error){
@@ -202,13 +222,21 @@ bool bind_campaign_character_providers_v62(AAssetManager* assets,const SourceCam
  std::weak_ptr<WorldScriptContext> weak_world=world;
  services.npc_script=[weak_world,weak_app](auto& record,auto& input,auto& error){
   auto same=weak_world.lock();if(!same||!same->script_files||!same->objects||!record.actor||!record.actor->object){error="Required SAME canonical NPC World script cache and object facade";return false;}
-  // AISExternal's bundled monster program is the existing source resource,
-  // not a copied Crypt session. Session construction binds this receiver's
-  // own identity, property sheets, FSM and delayed field at its source point.
-  const auto* external=same->script_files.find("data/scripts/ai/monster.luac");
-  if(!external){error="Actual cached AISExternal monster program unavailable";return false;}
-  input.common=same->script_files.common();input.external={external->data(),external->size()};
-  if(!same->script_files.session_files("data/scripts/ai/monster.luac",input.include_files,error))return false;
+  // Match the SAME resolved AI row used by CharacterScriptSession; never
+  // publish monster bytecode under an unrelated companion/boss script name.
+  const auto design=same->design->borrow();
+  const auto* ai=record.properties&&design.ai()?dh2::data::ai_props(*design.ai(),record.properties->resolved[1]):nullptr;
+  if(!ai){error="Required actual NPC resolved AI row before script resource selection";return false;}
+  std::string external_path;input.common=same->script_files.common();input.external={};
+  if(!ai->script.empty()&&ai->script.rfind("__",0)!=0){
+   external_path="data/scripts/ai/"+ai->script;
+   const char* suffix=std::strstr(ai->script.c_str(),".lua");
+   if(!suffix)external_path+=".luac";else if(std::strncmp(suffix,".luac",5))external_path+='c';
+   const auto* external=same->script_files.find(external_path);
+   if(!external){error="Actual cached selected NPC script unavailable: "+external_path;return false;}
+   input.external={external->data(),external->size()};
+  }
+  if(!same->script_files.session_files(external_path,input.include_files,error))return false;
   input.temporary=dh2::character::character_properties_temp_global_v62();
     auto app=weak_app.lock();if(!app){error="Released SAME App before canonical script host binding";return false;}
   if(!record.host_context_v70)record.host_context_v70=std::make_shared<RendererCanonicalHostContextV70>(same,app);
@@ -300,6 +328,9 @@ bool bind_campaign_character_providers_v62(AAssetManager* assets,const SourceCam
   output.visual.read_asset=[cache](const std::string& path,std::vector<std::uint8_t>& bytes,bool& found,std::string& error){return cache->files().read(path,found,bytes,error);};
   std::weak_ptr<dh2::world::CanonicalCharacterCandidateRecordV60> weak=record.shared_from_this();
   output.update_pf=[weak,floors,navigation](auto& error){auto r=weak.lock();if(!r){error="Expired actual Character visual/PF receiver";return false;}return dh2::world::canonical_character_update_pf_v62(*r,floors->collision_world,navigation->registry(),error);};
+  // Character::IsAnimated is the original virtual at libDungeonHunter2.so
+  // 0x3a2ee0; IDA shows `MOV R0, #1; BX LR` (always true).
+  output.visual.parent_is_animated=[](bool& value,std::string& error){value=true;error.clear();return true;};
   output.registration.invoke=[weak,fx_libraries,sound_at_step](const auto& q,auto& error){auto r=weak.lock();if(!r||!r->services.debug||!r->services.debug_files){error="Required actual Character animation Debug owner";return false;}
    using O=dh2::character::NpcAnimationRegistrationOperationV6;
    if(q.operation==O::debug_load)return dh2_character_debug_load(r->services.debug,r->services.debug_files)==1;
@@ -317,9 +348,17 @@ bool bind_campaign_character_providers_v62(AAssetManager* assets,const SourceCam
   };
   error.clear();return true; // Actual resource loaders bound; no playback claim.
  };
- services.position=[](auto& record,auto& output,auto& error){
+ services.position=[campaign=std::weak_ptr<void>(actual.actual_world)](auto& record,auto& output,auto& error){
   std::weak_ptr<dh2::world::CanonicalCharacterCandidateRecordV60> weak=record.shared_from_this();
   output.physical_body=[weak](std::uintptr_t identity,dh2::physical::NativeBody*& body,auto& error){auto r=weak.lock();if(!r||!r->physical_owner_v62||identity!=reinterpret_cast<std::uintptr_t>(r->physical_owner_v62.get())){error="Required exact Character physical2dc receiver";return false;}body=&r->physical_owner_v62->native();return true;};
+  // CharacterC1 InitCam publishes an actual Anchor at Character+0x2e0.
+  // SpawnPoint::PlaceObject later reaches Character::SetPosition, whose
+  // attached branch mutates that same Anchor's +0x0c XYZ by the position
+  // delta. Resolve by the published anchor identity and pin its source owner.
+  output.attached_position=[campaign](std::uintptr_t identity,float*& xyz,std::string& error){
+   auto world=campaign.lock();if(!world){xyz=nullptr;error="Expired SAME campaign World for Character attached Anchor";return false;}
+   return source_campaign_anchor_attached_position_v75(world,identity,xyz,error);
+  };
   error.clear();return true;
  };
  std::shared_ptr<RendererCharacterCandidateV60> transport;
@@ -331,6 +370,19 @@ bool bind_campaign_character_providers_v62(AAssetManager* assets,const SourceCam
  if(source_world->noncharacter_release_provider_v92&&!source_world->noncharacter_release_provider_v92->attach(actual,noncharacters,e))return false;
  if(source_world->noncharacter_owners_v105){e="Non-Character owners already published for this World";return false;}
  source_world->noncharacter_owners_v105=std::make_shared<dh2::loader::ProductionNonCharacterOwnersV67>(noncharacters.owners);
+ // Stage34 was assembled during bootstrap, before these catalog owners were
+ // published. Enroll the same existing typed loan on its live service bag.
+ auto checkpoint_bag=source_world->stage34_native_v80;
+ if(!checkpoint_bag||!noncharacters.borrow_spawn_point_v80){e="Required actual Stage34 bag and typed SpawnPoint loan";return false;}
+ if(!checkpoint_bag->checkpoint.spawn_point)checkpoint_bag->checkpoint.spawn_point=
+  [borrow=noncharacters.borrow_spawn_point_v80](const dh2::world::CanonicalObjectBorrowV1& actor,
+   std::shared_ptr<dh2::world::CanonicalSpawnPointV15>& out,std::string& e){
+   out.reset();if(!borrow(actor.identity,out,e))return false;
+   if(!out||out->base().identity()!=actor.identity||out.owner_before(actor.lease)||actor.lease.owner_before(out)){
+    out.reset();e="Foreign actual checkpoint SpawnPoint loan";return false;
+   }
+   e.clear();return true;
+  };
  //Actual optional upstream behavior provider is composed before any Module
  //XML/C1. Absence is not completed room initialization; positive saved Module
  //tails and generated room creation still require this same retained sibling.

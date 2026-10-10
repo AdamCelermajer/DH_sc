@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "question": "Does original native NPC/visual initialization explain supplied Priest_good Bad_Priest red atlas versus white/gold Rene in reference?",
+  "conclusion": "No priest-specific diffuse texture replacement, UV remap or recolor rule was found in the reviewed original native path. The appearance mismatch remains unresolved; no actor-specific visual hack is justified.",
+  "status": "unresolved_no_remap_evidence",
+  "confidence": {
+    "reviewed_path": "high: named original functions and relevant direct calls/xrefs inspected",
+    "global_negative": "limited: this is not proof that no rule exists anywhere in material loaders, animation data or script bytecode",
+    "root_cause": "unestablished: content/version/asset mismatch is a hypothesis, not a proven diagnosis"
+  },
+  "input_identity": {
+    "handoff": ".local-inputs/ida-apk-export-2026-10-07/HANDOFF-TO-MAIN-SESSION.txt",
+    "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "apk_version": "supplied v1.0.2",
+    "reference": "video title v1.0.3",
+    "live_endpoint": "not used; static IDA exports reviewed",
+    "library": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so"
+  },
+  "visual_evidence": [
+    {
+      "path": ".local-inputs/referenceframes/dh2-act1/at-0120s.png",
+      "timestamp_seconds": 120,
+      "inspected": true,
+      "observation": "Rene beside cage wears pale gray/white robe with gold accents."
+    },
+    {
+      "path": ".local-inputs/windows-foundation-build/population-uv.png",
+      "inspected": true,
+      "observation": "Populated local screenshot shows priest with pale upper portion and strongly red/gold lower robe."
+    }
+  ],
+  "asset_evidence": {
+    "source": "port/windows-foundation/reports/material-reference-gap.json",
+    "model": "data/3d/characters/npcs/priest_good.bdae",
+    "skinned_node": "_mesh_Bad_Priest_skinned_batch-node",
+    "diffuse": "atlas_skinned_characters_animdecor_gameobjects_002.tga",
+    "uv_bounds": [
+      0.125977,
+      0.500238,
+      0.375,
+      0.625
+    ],
+    "matrix": "identity",
+    "note": "Source-content audit reports authored diffuse and atlas/UV selection. Identity texture matrix means changing generic offset convention cannot explain this actor mismatch."
+  },
+  "native_evidence": [
+    {
+      "address": "0x3b4d60",
+      "name": "Character::InitPost",
+      "source": "pseudocode/003b/003b4d60.c",
+      "finding": "Loads character properties, calls GetCharModelName, assigns visual model string, then GameObject::InitPost. No priest texture replacement observed."
+    },
+    {
+      "address": "0x3a54d4",
+      "name": "Character::GetCharModelName",
+      "source": "pseudocode/003a/003a54d4.c",
+      "finding": "Looks up ModelDict from CharModelId; faery selection and player low-performance model alternatives exist. No priest-specific material or atlas replacement branch observed."
+    },
+    {
+      "address": "0x38be5c",
+      "name": "GameObject::InitPost",
+      "source": "pseudocode/0038/0038be5c.c",
+      "finding": "Calls LoadVisualObject when visual absent and device/flags permit, then VisualObject::Sync."
+    },
+    {
+      "address": "0x394eb0",
+      "name": "GameObject::LoadVisualObject",
+      "source": "pseudocode/0039/00394eb0.c",
+      "finding": "Calls SetVisualObject using stored model and selector strings with forced reload."
+    },
+    {
+      "address": "0x394d34",
+      "name": "GameObject::SetVisualObject",
+      "source": "pseudocode/0039/00394d34.c",
+      "finding": "Stores model/selector and constructs VisualObject; no remap parameter.",
+      "assembly_call": "0x394dc4 BL VisualObject::VisualObject0x472a0c; verified assembly-functions.asm"
+    },
+    {
+      "address": "0x472a0c",
+      "name": "VisualObject::VisualObject",
+      "source": "pseudocode/0047/00472a0c.c",
+      "finding": "AssetManager::loadSceneNode(model,optional selector), parent/bounds/modular node search/animation-controller setup; no priest-specific texture branch."
+    },
+    {
+      "address": "0x50a504",
+      "name": "AssetManager::loadSceneNode",
+      "source": "pseudocode/0050/0050a504.c",
+      "finding": "Tail-forwards to SceneManager::LoadScene; IDA argument types are inferred and misleading, original named prototype and assembly preserve char* model/selector semantics.",
+      "assembly": "0x50a518 SUBS R12,R2,#0;0x50a51c MOVNE R12,#1;0x50a520 MOV R3,#0;0x50a534 B SceneManager::LoadScene"
+    },
+    {
+      "address": "0x3596f8",
+      "name": "SceneManager::LoadScene",
+      "source": "pseudocode/0035/003596f8.c",
+      "finding": "constructNode(model,selector-node) or constructScene(model), optional animator and position reset. No priest material override seen."
+    },
+    {
+      "address": "0x3b4834",
+      "name": "Character::InitLightSetAndMaterial",
+      "source": "pseudocode/003b/003b4834.c",
+      "finding": "Initializes MonsterLight filter and applies lightset/material/base parameters/shadow/xray. Does not name or swap priest atlas."
+    },
+    {
+      "address": "0x470cd4",
+      "name": "VisualObject::ApplyMaterial",
+      "source": "pseudocode/0047/00470cd4.c",
+      "finding": "Empty function.",
+      "assembly": "0x470cd4 bytes1e ff2f e1 BX LR; direct original assembly confirmation"
+    },
+    {
+      "address": "0x474318",
+      "name": "VisualObject::ApplyMaterialBaseParam",
+      "source": "pseudocode/0047/00474318.c",
+      "finding": "Searches relevant meshes and applies rim-light and xray settings based on flags/debug switch; no diffuse remap observed."
+    },
+    {
+      "address": "0x3a999c",
+      "name": "Character::INV_UpdateSkin",
+      "source": "pseudocode/003a/003a999c.c",
+      "finding": "Equipment inventory drives modular category/module selection and weapon skin attachments. No general priest atlas recolor rule present."
+    },
+    {
+      "address": "0x3525b4",
+      "name": "SceneManager::SetMaterialTexture",
+      "source": "pseudocode/0035/003525b4.c",
+      "finding": "Copies existing source Diffuse texture into destination material. Only direct incoming code xref observed is0x362cc4 from function0x362c38 XrayModularSkinnedMeshSceneNode::updateXrayMaterial; this preserves diffuse in xray material, not an alternate priest atlas.",
+      "xref_source": "xrefs.jsonl"
+    },
+    {
+      "address": "0x7ab4cc",
+      "name": "RenderFX::ReplaceTexture",
+      "source": "functions.jsonl",
+      "finding": "Symbol is SWF/UI RenderFX texture replacement domain, not evidence of character diffuse remapping. No direct incoming xref found in supplied xrefs; indirect use remains possible."
+    }
+  ],
+  "script_scope": {
+    "checked": "Named Character/GameObject/v2Controller texture/skin/visual script-binding candidates in functions.jsonl; binary swamp script string search",
+    "observed": "Swamp script bytes contain _prim_NPC_PriestGood and Rene movement identifiers. No textual SetTexture/SetVisual/SetSkin evidence found.",
+    "limit": "Binary command IDs not exhaustively decoded here; absence of textual names does not prove absence of a remap command."
+  },
+  "recommendations": [
+    "Keep authored Priest_good materials/UVs intact until an actual original rule or alternate asset is established.",
+    "Resolve cache/model/atlas provenance for v1.0.2 versus video v1.0.3; compare same-version source assets before asserting renderer defect.",
+    "If pursuing native runtime overrides further, decode specific swamp script commands and inspect material-factory/Collada animator texture parameters, rather than move UVs toward desired artwork."
+  ],
+  "source_modifications": "none; report only"
+}

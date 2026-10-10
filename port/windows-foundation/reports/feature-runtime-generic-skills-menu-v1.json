@@ -1,0 +1,88 @@
+{
+  "feature": "runtime_generic_skills_menu_v1",
+  "validation": "PASS source-backed runtime composition over the existing generic Skills PageV1 and source CharacterMenu authored-content callback. No native menu VM, V6, canonical Character, or InitPost is required.",
+  "source_visual_audit": {
+    "reference_frames": [
+      {
+        "path": ".local-inputs/fidelity-video-v18/reference-396.png",
+        "frame": 396,
+        "observation": "The selected Headsplitter row is rank 1. Its description shows Active in green. The right panel has Current Level and Next Level headings; the current values include MP cost 9 and damage 14-21, while next values include MP 12 and damage 15-22. The bottom source button reads Upgrade Skill.",
+        "evidence_kind": "direct original reference frame"
+      },
+      {
+        "path": ".local-inputs/fidelity-video-v18/reference-399.png",
+        "frame": 399,
+        "observation": "The selected Inner Strength row is rank 0. Its description is passive, the cell shows UNLOCKED AT LEVEL 3, and the current/next blocks are absent for this locked selection.",
+        "evidence_kind": "direct original reference frame"
+      }
+    ],
+    "sequence_limit": "These are source sequence frames, not a local runtime capture; they establish visible examples but not timing between selection transitions."
+  },
+  "source_logic_audit": {
+    "as_caller": "sprite496 onShow/presetAllSkills at authored-actions.txt 0x20b2d-0x20db3 loops positions 0..15, calls NativeGetSkillDetails(position,result,player0), writes SkillLevel into both rank-field copies, and applies SkillAssignable, SkillUnlocked, SkillIcon/rank visibility branches. The selection handler at 0x20ea calls NativeGetSkillDetails for the selected position and assigns SkillName, SkillDescription, GAMEPLAYMENUS_current_level + two newlines + SkillCurrLevel, and GAMEPLAYMENUS_next_level + two newlines + SkillNextLevel.",
+    "native_details": "port/engine-ui/hud_initialization_v1.cpp::details reproduces NativeGetSkillDetails. The selected source row supplies current/next OIDs and display-property IDs. Below Character required level, current text is GAMEPLAYMENUS_SKILL_UNLOCK_AT_LEVEL with the exact required level and SkillUnlocked stays false; the AI display-value branch is skipped. At/above the required level, rank 0 uses GAMEPLAYMENUS_NEEDS_SKILL_POINTS; otherwise current text uses the current OID. Next text checks difficulty-specific CharacterDesign max-level constants, then CanIncrementSkill, using GAMEPLAYMENUS_MAX_SKILL_LEVEL or GAMEPLAYMENUS_SKILL_MAXIMUM_LEVEL_TRAINING as appropriate, otherwise the next OID. For each eligible current and next rank, the source runs AI_SkillInfo(index, rank), reads each source display property as fixed point, appends its integer/fraction to native VarArgs, and StringManager parseEx formats the string. Both current and next values are faery-offset-adjusted for faery-dependent skills using the same current-faery row.",
+    "source_grey": "sprite496 cell initialization shows Grey for rank<1 with a nonblank SkillIcon and hides it for trained or blank cells. The Grey child is source character 487/shape486 with the authored parent alpha multiplier 102/256; its geometry and source fill are exported as MenuSolidBatch and ordered after the matching btimg role. The untrained child character 86 has an empty frame and contributes no visible geometry."
+  },
+  "current_next_text_status": {
+    "implementation": "Not synthesized in RuntimeSkillsMenuV1. Existing localized-text provider supplies only SkillName/SkillDescription, and MenuLocalization does not supply native SkillCurrLevel/SkillNextLevel or the per-rank AI/property calculation graph.",
+    "required_shared_provider": "Consume the root-owned shared formula/application result for this exact same CharacterState, skill position, source rank, class/difficulty, and active-faery context. It must provide the already native-formatted SkillCurrLevel/SkillNextLevel (or equivalent AI_SkillInfo + StringManager parseEx outputs) plus the exact NativeGetSkillDetails admission fields; do not derive from SkillTable OIDs alone or add a parallel native callback/cache.",
+    "uncertainty": "The root formula-sheet provider API is being added. Until its exact same-owner interface is available, the feature deliberately leaves those fields absent. This report does not claim dynamic value parity."
+  },
+  "grey_art_implementation": {
+    "source_files": [
+      "features/character_menu/export_art.py",
+      "features/character_menu/art_export_tests.py",
+      "features/generic_skills/runtime_skills_menu_v1.cpp",
+      "features/generic_skills/runtime_skills_menu_v1_tests.cpp"
+    ],
+    "behavior": "The exporter preserves only the exact source Grey solid branch under buttons/skill with transform alpha 102/256 and no filters. RuntimeSkillsMenuV1 filters each Grey solid according to the same ViewV1/CharacterState rank and source SkillIcon, retaining the original order. It also preserves existing source Lock handling. Unsupported classes with no source icon keep the blank visual state; no icon or untrained texture is invented.",
+    "status": "feature projection and exporter tests pass; no integrated GUI capture"
+  },
+  "owned_files": [
+    "features/generic_skills/runtime_skills_menu_v1.hpp",
+    "features/generic_skills/runtime_skills_menu_v1.cpp",
+    "features/generic_skills/runtime_skills_menu_v1_tests.cpp",
+    "features/generic_skills/run_runtime_tests.ps1",
+    "features/character_menu/export_art.py",
+    "features/character_menu/art_export_tests.py",
+    "features/character_menu/original_art.cpp"
+  ],
+  "composition_api": "RuntimeSkillsMenuV1 retains the exact shared CharacterState/source-owner token and generic PageV1. install_content(Bindings&, error) checks Bindings.character pointer identity, chains any previous Bindings.content callback, and invokes this projection only for Tab::skills. source_page_provider() returns the existing SourcePageProviderV1 type for SourceCompositionV1 registration.",
+  "default_projection": {
+    "source_art": "Calls skill_ui::original_class_frame_for_row and append_original_skill_icon/append_original_skill_slot_icon over each actual SkillList position and SkillIcon label; no generated or guessed geometry. CharacterMenu Presenter already supplies the original page background and field styling.",
+    "class_frame_support": "Exact original playerClassAsStr mapping remains limited to CharacterTable rows 263/325/290 -> frames 0/1/2. Other valid class rows keep data/text projection but receive no guessed dynamic icon frame. source_class_art_available() exposes this limitation to the host.",
+    "saved_data": "Only present CharacterState skill ranks and known points render in the original authored value fields. Missing rank/points stay absent. Existing slot bindings render only with an exact active equipment-set provider; a source-known empty slot renders the original blank icon; an unmappable saved slot fails explicitly.",
+    "source_text_and_cell_states": "When the caller supplies the trailing RuntimeSkillsSymbolTextV1 callback backed by the same MenuLocalization instance, the existing PageV1/ViewV1 projection emits the six exact onShow labels, native points, and both 16-rank copies. It maps exact source field character/font/RGBA, retains selected source HTML unchanged, and applies the source rank/level/SkillAssignable/SkillIcon branch to lock visibility. Missing points or ranks fail closed in this localized path. The callback is not a second text cache or a native query.",
+    "localized_text": "Uses PageV1.ServicesV1.localized_text output for selected original SKILL_NAME and skill_description authored fields. Current/next-level prose remains blank unless source-owned separately; no English fallback or synthesized description is emitted.",
+    "actions": "Default release routes original exported select/assign/train hit contours through PageV1. Assignment uses the same CharacterState, exact active-set provider, SkillAssignable/rank checks and required availability callback. Training remains delegated to the required source progression/action provider. Optional release callback remains available for an upstream source continuation." 
+  },
+  "test": {
+    "command": "features/generic_skills/run_runtime_tests.ps1",
+    "compiler": "llvm-mingw clang++ C++17 -Wall -Wextra -Werror -Wno-misleading-indentation -ffunction-sections -Wl,--gc-sections",
+    "assets": "Original CharacterTable and SkillTables from port/android-native/app/src/main/assets/data; original menu/skill geometry compiled from existing feature source files.",
+    "checks": [
+      "exact Bindings.content chain and same CharacterState owner pointer",
+      "actual source icon frame rendering for the 16-row Knight source SkillList",
+      "existing source rank and points fields use authored MenuTextField geometry/style",
+      "source slot art uses explicit active equipment set and saved row mapping",
+      "localized-name/description provider values reach the authored selected fields; test values are provider-boundary fixtures, not claimed game localization",
+      "exact Skills labels, native points, and both 16-rank field copies compose into current source-art fields using a localization-symbol fixture",
+      "source lock visibility is matched against same-state level and authored SkillTable required-level values",
+      "zero-rank source-supported class keeps exactly the authored Grey solid overlays for nonblank SkillIcon rows; trained/blank rows omit them and unsupported empty-icon rows remain blank",
+      "selected Active HTML is preserved unchanged; separate projection test verifies source #9CFF9A Active markup and #FF0000 current/next runs with exact authored field colors",
+      "original source select/slot/train contours route to PageV1 actions on the same state",
+      "end-to-end SourceCompositionV1 registration, content installation, readiness selection, append, and original source release using actual source tables and a CharacterState with no invented ranks, points, slots, or localization",
+      "unsupported original class-frame row renders no guessed dynamic skill icon while preserving available saved data fields",
+      "SourcePageProviderV1 retains same owner and exposes readiness/content/release"
+    ],
+    "result": "PASS authored_rows=16, authored_tree_icons=16, same_owner_callback=true, source_composition_e2e=true, source_grey_states=true, native_vm_required=false, localized_provider_fixture=true, live_source_localization_claimed=false"
+  },
+  "remaining_gaps": [
+    "Root must pass the trailing RuntimeSkillsSymbolTextV1 callback backed by the existing MenuLocalization.symbol(symbol, &same_state, ...) to populate localized static labels. Runtime fixture tests do not claim live corpus integration.",
+    "Native current/next-level text still needs the root-owned shared formula/application provider, with same-state per-rank AI_SkillInfo results and native StringManager formatting; no runtime caller wiring or screenshot comparison is claimed.",
+    "The original untrained child is an empty source MovieClip, so only Grey solid art is present. Disabled button gray/multiplier/animation and any visual effect outside the exported exact Grey branch remain out of scope until source evidence/API is available.",
+    "CharacterState does not record an active equipment set; slot art and slot assignment require the caller's exact current-set provider.",
+    "Native class-frame source logic supports only saved class rows 263/325/290; other class rows are deliberately left without dynamic skill icons.",
+    "Native progression rules, save transactions, and gameplay cooldown/cast execution remain outside this generic menu adapter."
+  ]
+}

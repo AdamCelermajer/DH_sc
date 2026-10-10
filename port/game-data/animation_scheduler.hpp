@@ -4,10 +4,19 @@ namespace dh2::data {
 struct AnimationFrame {std::int32_t sequence=-1,loops=0;std::uint32_t step=0;};
 enum class AnimationSwap {rejected=-1,no_op=0,metadata=1,restart=2};
 class AnimationScheduler;
+// Original _SetAnim debug transport. A bound production owner must supply
+// both leaves; body-oracle callers may keep their explicit debug boundary.
+struct AnimationSelectionPolicyServicesV126 {
+ void* context=nullptr;
+ bool(*trace)(void*,std::string&)=nullptr;
+ bool(*random_enabled)(void*,bool&,std::string&)=nullptr;
+};
 struct AnimationSelectionServices {
  void* context=nullptr;
  void(*event)(void*,AnimationScheduler&,std::uint32_t)=nullptr;
  bool(*prepare)(void*,AnimationScheduler&)=nullptr;
+ const AnimationSelectionPolicyServicesV126* policy=nullptr;
+ std::string* error=nullptr;
 };
 // CharAnimator::Update's synchronous services. Event return values are ignored
 // in the original. prepare/finish return bool solely to propagate native backend

@@ -1,0 +1,41 @@
+{
+  "goal_complete": false,
+  "status": "shared_player_npc_motion_service_runtime_tested_navigation_fidelity_incomplete",
+  "source_policy": "Each phase retains original MoveGO; each sampled segment is consumed before restart. Disabled MoveGO still consumes history but applies no displacement.",
+  "implementation": ["original_attack_sequence.cpp", "combat_session.cpp", "main.cpp"],
+  "host_boundary": "Optional synchronous session motion service receives current stable ActorState, local delta and authored movement flag. Player host uses shared ActorMovement collision solve and updates actor position before damage-marker dispatch.",
+  "component_evidence": [
+    "Three-phase synthetic variable-rate playback preserves all three deltas across restarts, including disabled MoveGO phases.",
+    "Unpaired services and host failure are rejected.",
+    "Combat session callbacks resolve current actor owners and survive save restore/rebind."
+  ],
+  "runtime_evidence": {
+    "log": ".local-inputs/windows-attack-travel/verification.log",
+    "frames": 360,
+    "player_hits": [74, 127, 180],
+    "enemy_died": true,
+    "save_frame": 210,
+    "reload_frame": 250,
+    "restore_frame": 300,
+    "final_grounded": true,
+    "scope": "Original static attack group respects disabled MoveGO. This is regression evidence, not a rendered lunge or original encounter acceptance."
+  },
+  "remaining": [
+    "Source navigation/body collision parity",
+    "Reaction/death movement policy",
+    "Two-slot retained animation clocks, marker histories and root motion composition"
+  ],
+  "moving_attack_runtime": {
+    "log": ".local-inputs/windows-npc-motion/moving-verification.log",
+    "caller_data": ["KnightPlayerBase:Attack:0:0", "Swamp_LizadMan_Type1=auto"],
+    "frames": 360,
+    "player_enabled_segments": 138,
+    "player_original_local_xy_distance": 621.495,
+    "player_collision_admitted_world_xy_distance": 559.345,
+    "player_final_position": [-6852.87, 937.209, 255],
+    "npc_enabled_segments": 70,
+    "npc_original_local_xy_distance": 0,
+    "npc_world_xy_distance": 0,
+    "scope": "Original moving player attack consumes source translation. NPC initial attack group has zero XY translation; shared callback/controller executes without inventing a lunge. Save, content reload and restore also complete. Body overlap prevention remains unimplemented."
+  }
+}

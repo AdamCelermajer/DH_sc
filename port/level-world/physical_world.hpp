@@ -2,7 +2,9 @@
 #include "navigation_avoidance.hpp"
 #include "character_body_config.hpp"
 #include <Box2D.h>
+#include <functional>
 #include <memory>
+#include <string>
 namespace dh2::physical {
 using Filter=dh2::navigation::ContactFilter;
 enum class ContactEvent : unsigned { add=0,persist=1,remove=2,result=3 };
@@ -22,11 +24,17 @@ class NativeWorld final:public b2BoundaryListener,public b2ContactFilter,
  public b2ContactListener,public b2DestructionListener {
  std::unique_ptr<b2World> world_;
  std::uint32_t step_depth_v106_{},filter_depth_v106_{},contact_depth_v106_{},mutation_depth_v106_{};
+ std::string step_error_;
  struct DeliveryV106 {std::uint32_t& count;explicit DeliveryV106(std::uint32_t& n):count(n){++count;}~DeliveryV106(){--count;}};
  void dispatch(ContactEvent,const b2ContactPoint*);
+ void deliver_contact(ContactEvent,const WorldContact&);
+ bool latch_step_failure(const char*);
 public:
  // PhysicalWorld::load passes these physics-unit bounds unchanged.
  void load(const float bounds[4]);
+ // Original 34c07c clear precedes the Debug load/query at34c08c/34c0ac.
+ // A failed reached prefix leaves the old backend cleared and creates none.
+ bool load(const float bounds[4],const std::function<bool(std::string&)>& after_clear,std::string&);
  void clear();
  void update(std::uint32_t milliseconds);
  b2World* backend() const {return world_.get();}

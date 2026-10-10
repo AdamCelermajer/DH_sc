@@ -1,0 +1,195 @@
+{
+  "status": "PASS",
+  "additions": [
+    {
+      "actor": "WanderingPriest",
+      "animationTable": 47,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Prisonier2",
+      "animationTable": 52,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Prisonier",
+      "animationTable": 51,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "DefaultFairy",
+      "animationTable": 23,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_ActorTroll",
+      "animationTable": 73,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_Moth_Type1",
+      "animationTable": 42,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_Moth_Type1_RESPAWN",
+      "animationTable": 42,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_LizadMan_Type1",
+      "animationTable": 34,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_MovieMoth",
+      "animationTable": 42,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_LizadMan_Type1_Respawn",
+      "animationTable": 34,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Troll",
+      "animationTable": 73,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_LizadMan_Type2",
+      "animationTable": 7,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_LizadMan_Type3",
+      "animationTable": 7,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "NPCmerchantCamp",
+      "animationTable": 79,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_MerchantCamp_NPC_A",
+      "animationTable": 53,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_MerchantCamp_NPC_C",
+      "animationTable": 56,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "zKill5Lizman_Post",
+      "animationTable": 47,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_SnackMan",
+      "animationTable": 7,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "SwampKing",
+      "animationTable": 70,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "WanderingEddie",
+      "animationTable": 47,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "Swamp_MerchantCamp_NPC_B",
+      "animationTable": 53,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "KingPlayer",
+      "animationTable": 31,
+      "state": "Run",
+      "sequences": []
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "animationTable": 48,
+      "state": "Run",
+      "sequences": [
+        271
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "animationTable": 49,
+      "state": "Run",
+      "sequences": [
+        271
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "animationTable": 50,
+      "state": "Run",
+      "sequences": [
+        271
+      ]
+    }
+  ],
+  "newClipMetadata": [],
+  "staged": [],
+  "inputs": {
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarraynames.bin": {
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pystructnames.bin": {
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin": {
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin": {
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae": {
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/prince_modular.bdae": {
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    }
+  },
+  "preserved_base_metadata": true,
+  "output_sha256": "bc29f6ef2ce13f0c9d550835562747e99fc5896ed7ae32a630e496cf86529b94",
+  "previous_sha256": "fcea635528daa6f118666ac10bece7efdf1941f0f06d94a13f09cff8efcac2dd",
+  "exporter_sha256": "652c1deb6bfb06a96d84a78a83cb6614644f95b5aefc12880086c156cd952ea8",
+  "metadata_probe_sha256": "07155e0dc2c525e2f223f4b4e3509890c9116acf5d2885fffc651fb16ed1e8cd",
+  "profiles_sha256": "a8abf163da310c0a65158e1db77e1f02e1edbe1698e3577b1963ed579e83e28c"
+}

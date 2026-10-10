@@ -1,0 +1,36 @@
+{
+  "module": "retained_animation_owner",
+  "status": "standalone_verified_not_live_integrated",
+  "validation": {
+    "compiler": "native llvm-mingw clang++ C++17 -Wall -Wextra -Werror",
+    "tests": "retained_animation_owner_tests.cpp",
+    "real_assets": ["prince_modular.bdae", "prince_template_anim.bdae", "prince_idle_shield.bdae", "prince_walk_1hand.bdae", "prince_1hand_combo_01.bdae"],
+    "checked": ["nonstationary raw authored walk root samples", "both physical-slot root histories including zero weight", "default-less preceding scratch retention", "same timestamp delta gate", "MoveGO consumption metadata", "actual attack_mainhand current and fading-outgoing events", "exact serialized native event kernel names/order/lag", "finite completion callback remainder", "loop completion callback remainder", "unbound selection preserves pose slot"]
+  },
+  "source_evidence": [
+    {"path": "port/level-world/actor_blended_playback.cpp", "function": "BlendedPlayback::animate", "meaning": "one scratch survives ALL-slot root iteration including zero-weight histories; normalized slot weights multiply source delta histories in axis order1,2,0"},
+    {"path": "port/level-world/actor_blended_playback.cpp", "function": "BlendedPlayback::reset_current", "meaning": "NewAnim reset samples current clip start, writes current history at absolute+1, preserves other physical-slot histories"},
+    {"path": "port/level-world/actor_blended_playback.cpp", "function": "BlendedPlayback::advance_slot", "meaning": "exact original EventView dispatch uses previous/current source timeline, retained cursor and physical slot; only nonzero-weight slots advance events"},
+    {"path": "port/level-world/actor_blended_playback.cpp", "function": "ending", "meaning": "only current slot latches actor completion; source notification precedes final current_ms conversion"},
+    {"path": "port/level-world/visual_motion.cpp", "meaning": "calculate_delta refreshes prior coordinate while same absolute timestamp emits zero; reset_delta clears value and assigns prior coordinate/timestamp"},
+    {"path": "port/engine-animation/events.cpp", "meaning": "original serialized frame encoding retains exact dispatch threshold and lag calculation; update at equal previous/current does not dispatch"}
+  ],
+  "integration_api": {
+    "construct": "RetainedAnimationOwner(CharacterVisual&, RootSampler)",
+    "resources": "bind_events(namedClip, originalBresBytes,size,error) verifies same authored range as visual and owns exact EventTrack resource",
+    "select": "select(clip,loop,rate,incomingBlendOut,MoveGO,frame,error,optionalSameSlotReplayExtra)",
+    "step": "advance(wallSeconds,frame,error); frame contains detached current/outgoing named events with lag, physical slot, generation, raw weighted root delta, MoveGO and latched source completion",
+    "complete": "take_completion acknowledges pending actor/sequence completion; sequence owner must apply original next selection and explicit extra_ms",
+    "root_policy": "complete_pose_root_sampler is available for complete local rest/template sampling; dynamic default-less binding requires explicit sampler that can leave shared scratch unchanged",
+    "consumer": "host routes markers by current action/generation, applies weighted root delta only when MoveGO requests it, performs authored scale/facing/collision, and advances phase from source completion rather than an invented end-frame timer"
+  },
+  "boundaries": [
+    "Main/session/sequence integration is not performed here.",
+    "RetainedPosePlayback immediately publishes a pose on selection. Original NewAnim replay scene phase is gated by displacement/root/nonzero timestamp; extra selection publication and initialization remain a lifecycle difference.",
+    "Events are detached in physical slot order after pose publication; synchronous legacy callback reentry and old-manager retained-batch behavior are not reproduced.",
+    "Completion callback fields are reconstructed with pre-final current_ms and source post-clamp/frame fields. Native finite and looping checks passed; all float-clock wrap and synchronous callback mutation cases are not separately proven.",
+    "Root delta deliberately uses raw source calculate_delta with per-slot histories, not mixed-pose differences or invented cycle strides. Host sequence replay/reset, callbacks, and collision ownership remain required for complete movement parity.",
+    "Root sampler resource/registration policy is explicit. Full-rest pose convenience cannot claim dynamic default-less target semantics.",
+    "On a root/event provider error the pose may already have advanced; owner returns an error without fabricating event/motion output. The host should stop/rebind rather than treat the frame as a successful no-op."
+  ]
+}

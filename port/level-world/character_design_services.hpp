@@ -9,19 +9,33 @@ struct DebugFileServices24 {
  int(*open_read)(void*,const char*,std::uintptr_t*);
  int(*close_read)(void*,std::uintptr_t);
 };
+// Opt-in leaves for the SAME opened DebugSwitches.savegame stream. Context
+// comes from DebugFileServices24; no provider/World is retained by Debug.
+// Read/write deliver the exact byte count with return0. Save opens a distinct
+// stream and closes it through the SAME file provider's close_read leaf.
+struct DebugExistingFileServicesV136 {
+ int(*remaining)(void*,std::uintptr_t,std::uint64_t*);
+ int(*read)(void*,std::uintptr_t,void*,std::uint32_t);
+ int(*seek_relative)(void*,std::uintptr_t,std::int64_t);
+ int(*open_write)(void*,const char*,std::uintptr_t*);
+ int(*write)(void*,std::uintptr_t,const void*,std::uint32_t);
+};
 struct DebugSwitches;
 struct DebugLevelBinding16 {DebugSwitches* owner;const DebugFileServices24* files;};
 static_assert(sizeof(DebugFileServices24)==24&&sizeof(DebugLevelBinding16)==16);
 }
 // Genuine owned source singleton projection: empty switch map and loaded0.
-// Missing-file loading/query insertion is implemented. An existing file is
-// closed and returns -3 (parser outside this staged domain), retaining loaded1;
-// this native incomplete owner remains quarantined until destroyed. No values
-// from an unreconstructed file are published. No global Application is owned.
+// Missing-file loading/query insertion is implemented. Existing-file loading
+// requires the explicit stream leaves below; legacy open/close-only callers
+// still reject an existing file. Every failure retains loaded1 and the reached
+// map stores, and prevents another open or replay. No Application is owned.
 extern "C" dh2::character::DebugSwitches* dh2_character_debug_create();
 extern "C" void dh2_character_debug_destroy(dh2::character::DebugSwitches*);
-// 1 completed,-1 malformed,-2 provider/allocation failure,-3 existing file.
+// 1 completed,-1 malformed API,-2 delivery/allocation/close failure,
+// -3 invalid/truncated file or unavailable reached stream/save leaves.
 extern "C" int dh2_character_debug_load(dh2::character::DebugSwitches*,const dh2::character::DebugFileServices24*);
+extern "C" int dh2_character_debug_load_stream_v136(dh2::character::DebugSwitches*,
+ const dh2::character::DebugFileServices24*,const dh2::character::DebugExistingFileServicesV136*);
 extern "C" int dh2_character_debug_get(std::uint32_t*,dh2::character::DebugSwitches*,const char*,const dh2::character::DebugFileServices24*);
 //Whole SetSwitch337ddc map/query prefix. Changed values retain their source
 //store, then require the actual Debug.save backend (return-3), never skip it.
@@ -29,6 +43,9 @@ extern "C" int dh2_character_debug_set_v102(dh2::character::DebugSwitches*,const
 // Read-only owned-map diagnostics; names borrow owner storage. No insertion.
 extern "C" int dh2_character_debug_snapshot(const dh2::character::DebugSwitches*,std::uint32_t*,std::uint32_t*);
 extern "C" int dh2_character_debug_entry(const dh2::character::DebugSwitches*,std::uint32_t,const char**,std::uint32_t*);
+// Original GetModule337ec8: one SAME Debug map, source miss inserts true.
+extern "C" int dh2_character_debug_module_get_v136(std::uint32_t*,dh2::character::DebugSwitches*,
+ const char*,const dh2::character::DebugFileServices24*);
 // Exact LevelServices16 callback; query result is deliberately ignored by
 // source. Context/owners/files outlive Level bindings and all VM callbacks.
 extern "C" int dh2_character_debug_level_service(void*,dh2::character::LevelModel32*,const dh2::character::LevelRequest24*);

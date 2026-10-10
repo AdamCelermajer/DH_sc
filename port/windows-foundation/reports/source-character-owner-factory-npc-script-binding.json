@@ -1,0 +1,37 @@
+{
+  "status": "resource_binding_implemented_native_context_pending",
+  "owner": "SourceCharacterOwnerFactoryNpcScriptBindingV1",
+  "source_entry": "CanonicalCharacterCandidateRecordV60::load_script / source LoadScriptProcess 0x3cf1f0",
+  "implementation": {
+    "header": "port/windows-foundation/features/actor_frame/source_character_owner_factory_npc_script_binding.hpp",
+    "source": "port/windows-foundation/features/actor_frame/source_character_owner_factory_npc_script_binding.cpp",
+    "cache": "CharacterScriptAssetsV1 loaded from the caller-provided actual ScriptAssetServicesV1 and the same SkillTables borrow",
+    "ai_selection": "The source AI row is selected from record.design.ai() using record.properties->resolved[1]; external bytes use that row's script name, never a fixture-specific script choice.",
+    "aliases": [
+      "actor.object.identity",
+      "actor.source_name()",
+      "record.properties",
+      "record.life",
+      "actor.object.position",
+      "character_properties_temp_global_v62()",
+      "actor.object.binding",
+      "actor.machine->native_fsm()",
+      "caller-provided same-world CharacterScriptObjects services"
+    ],
+    "resource_projection": "Actual AI _commons.luac, selected external .luac, and same-cache include-file snapshot are copied into CharacterScriptSessionInput. CharacterScriptSession copies these resources into the session before the assets borrow can be released."
+  },
+  "intentionally_unprovided": [
+    "Same-world HostContextBindings16 and LevelServices16",
+    "CampaignFsmV101 command refresh, motion, animation, gameplay and timer-expiry callbacks",
+    "Any target-provider behavior not already installed on the same ScriptCharacterObject",
+    "LoadScriptProcess, NPC skill initialization and final readiness receipt"
+  ],
+  "next_source_leaf": "Compose bind_campaign_character_npc_events_v101(record,input,error) with the same CampaignFsmV101 and retained host/level/object owners, then invoke the original record.services.npc_script callback. Without those real providers the full source LoadScriptProcess remains unavailable.",
+  "teardown": "After source class unpublication, CanonicalCharacterCandidateFactoryV60::erase_after_unpublication(identity,error) calls record.close_after_unpublication before erasing its retained record. The owning process path is SourceProcessObjectsV121::flush(require_quiescent,error), which delegates the actual ordered ObjectManager lifecycle to CanonicalObjectManagerV1::flush_source_v1; this lifecycle runs target-list flush, object delete, AI pointer cleanup, class D0 and source-unpublication retirement before clearing its containers. The required quiescence callback remains caller-owned.",
+  "validation": {
+    "strict_compile": "PASS",
+    "command": "bundled llvm-mingw clang++ -std=c++20 -Wall -Wextra -Werror -Dfinite=_finite; Windows source headers; Box2D include treated as system header",
+    "native_factory_runtime": "NOT RUN in this feature lane; native_test/build/closure are root-owned",
+    "full_native_npc_script_session": "PENDING actual host/level/FSM timer/context composition"
+  }
+}

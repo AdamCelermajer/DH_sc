@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-09",
+  "status": "actual_native_player_factory_load_initpost_prefix_verified_completion_incomplete",
+  "goal_complete": false,
+  "implementation": "port/level-world/canonical_class_receiver_bindings_v1.cpp",
+  "problem": "Original catalog has both Character and Player aliases at factory340800, but the shared receiver binding only dispatched Character.",
+  "change": "Route both aliases to the existing genuine Character construction callback. CanonicalObjectFactoryAttempt still publishes the selected source class-name20 before actual Add and property loading.",
+  "source_evidence": [
+    "port/level-world/canonical_object_factory_v1.cpp",
+    "port/level-world/canonical_character_candidate_v60.cpp"
+  ],
+  "verification": {
+    "test": "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_test.cpp",
+    "driver": "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_build.py",
+    "closure": "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_closure.json",
+    "runtime_log": "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_build/runtime.txt",
+    "clean_compile_link": "passed",
+    "native_exit": 0,
+    "both_aliases_verified": [
+      "Selected original class-name20 and shared-handle identity",
+      "Same Application SourceProcessObjects manager Add, offline online-field branch and native manager counters",
+      "Actual typed PropertyMap registration, empty-template path, defaults and source overrides",
+      "Same actor ConditionData empty/Invalid initialization",
+      "Same Application RNG channel0 one-call spawn prefix and cached -2 on actor",
+      "Inherited InitPost reaches and explicitly stops at required Device::IsHighPerformance service"
+    ]
+  },
+  "limits": [
+    "Player alias fixture uses the original WanderingPriest source row to prove shared factory behavior, not a completed campaign player's selected class/gear/skills.",
+    "Factory-attempt complete stage means constructor/Add/property loading only; Character InitPost and InitFinal remain incomplete.",
+    "No positive LoadVisual/Sync/PF or completed-character loan, host publication, frontend or live skill gameplay claimed.",
+    "Accepted V18 package remains unchanged; this native source path is not yet enrolled in current diagnostic Windows main."
+  ],
+  "device_dataflow_finding": {
+    "source": "port/level-world/game_object_initialization_borrow_v62.cpp",
+    "effect": "Device result affects visual omission only for missing visuals with facultative byte60 and byte10c both nonzero.",
+    "byte10c_name": "not established by this audit",
+    "next_action": "Bind actual Windows renderer/app visual-loading quality policy at this seam while retaining genuine visual/Sync/PF providers. Other Device consumers require separate source contracts."
+  }
+}

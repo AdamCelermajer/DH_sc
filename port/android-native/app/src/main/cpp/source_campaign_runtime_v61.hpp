@@ -25,7 +25,7 @@ namespace dh2::navigation {class CampaignNavigationRegistryV64;}
 namespace dh2::floors {struct World;}
 namespace dh2::world {class ModulePFRoomsV3;class SceneManagerMapOwnerV2;}
 namespace dh2::loader {class CanonicalLevelContextV1;class NativeLevelApplicationV25;class NativeLevelConnectionV25;class NativeGSLevelRuntimeV27;class NativeRootLoadingConnectionV50;struct NativeGSLevelGlobalsV27;struct CheckedCommandBorrowV59;}
-namespace dh2::camera {class GameplayCameraApplicationV23;struct CameraWorldSessionV23;}
+namespace dh2::camera {class GameplayCameraApplicationV23;struct CameraWorldSessionV23;class GameplaySkyboxPipelineV25;}
 namespace dh2::player {class ApplicationPlayerManagerBootstrapV59;}
 namespace dh2::physical {class NativeWorld;struct NativePhysicalFilterBorrowV1;}
 namespace dh2::character {class WorldLootGameplayV23;}
@@ -122,6 +122,9 @@ struct SourceWorldBorrowV61 {
   const std::function<bool(std::uint32_t,std::string&)>&,std::string&)> read_admitted_v81;
  std::function<bool(dh2::assets::ZipAssetPackV1&,std::string&)> archive;
  std::shared_ptr<dh2::camera::GameplayCameraApplicationV23> camera_application;
+ // Same campaign SceneManager field438; loaded at _LoadCamera, retired by
+ // Scene clear. GPU caches borrow this owner and never construct a skybox.
+ std::shared_ptr<dh2::camera::GameplaySkyboxPipelineV25> skybox_v124;
  std::shared_ptr<SourceCampaignAnchorDirectoryV75> camera_anchors_v75;
  std::shared_ptr<dh2::camera::CameraWorldSessionV23>* camera_session{};
  std::shared_ptr<dh2::player::ApplicationPlayerManagerBootstrapV59> player_manager;
@@ -236,6 +239,8 @@ bool capture_source_campaign_objects_v68(std::vector<std::shared_ptr<dh2::world:
 bool tick_source_campaign_runtime_v61(std::string&);
 bool request_source_campaign_cancel_runtime_v61(std::string&);
 bool borrow_source_campaign_candidate_runtime_v61(SourceCampaignCandidateBorrowV55&,std::string&);
+bool borrow_source_campaign_skybox_v124(const std::shared_ptr<void>&,
+ std::shared_ptr<dh2::camera::GameplaySkyboxPipelineV25>&,std::string&);
 bool borrow_source_campaign_condition_world_v70(const SourceCampaignCandidateBorrowV55&,
  std::shared_ptr<SourceWorldBorrowV61>&,std::string&);
 bool bind_source_campaign_class_factory_runtime_v61(source_campaign_detail_v61::ClassFactory,std::string&);

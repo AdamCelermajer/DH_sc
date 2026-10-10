@@ -34,6 +34,8 @@ public:
  bool remove_animators(std::string&);
  bool set_data(float,float,float,float,std::string&);
  bool set_planes(float,float,std::string&);
+ bool set_clip_start(float,std::string&);
+ bool set_clip_end(float,std::string&);
  bool set_position(const PointV2&,std::string&);
  bool set_target(const PointV2&,std::string&);
  bool set_up(const PointV2&,std::string&);

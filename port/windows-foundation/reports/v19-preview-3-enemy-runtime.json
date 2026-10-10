@@ -1,0 +1,86 @@
+{
+  "status": "packaged_enemy_approach_attack_and_death_verified",
+  "goal_complete": false,
+  "package": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-source-clock-v19-preview-3",
+  "executable_sha256": "0baba8bf711e8463a92899e76ddb2753800c02f5520c58de2261ad4dcae0f600",
+  "manifest_files_verified": 578,
+  "cases": [
+    {
+      "case": "enemy-approach",
+      "frames": 180,
+      "enemy_damage_events": [
+        [
+          "56",
+          "7118915781085668844",
+          "18446744073709551615",
+          "attack_mainhand",
+          "7.64062",
+          "0"
+        ],
+        [
+          "178",
+          "7118915781085668844",
+          "18446744073709551615",
+          "attack_mainhand",
+          "8.08594",
+          "0"
+        ]
+      ],
+      "player_damage_events": [],
+      "enemy_final_position": [
+        -6862.04,
+        413.373,
+        255.0
+      ]
+    },
+    {
+      "case": "enemy-fight",
+      "frames": 600,
+      "enemy_damage_events": [
+        [
+          "56",
+          "7118915781085668844",
+          "18446744073709551615",
+          "attack_mainhand",
+          "7.64062",
+          "0"
+        ]
+      ],
+      "player_damage_events": [
+        [
+          "126",
+          "18446744073709551615",
+          "7118915781085668844",
+          "attack_mainhand",
+          "16.4688",
+          "0"
+        ],
+        [
+          "159",
+          "18446744073709551615",
+          "7118915781085668844",
+          "attack_mainhand",
+          "17.0273",
+          "0"
+        ],
+        [
+          "191",
+          "18446744073709551615",
+          "7118915781085668844",
+          "attack_mainhand",
+          "14.0039",
+          "1"
+        ]
+      ],
+      "enemy_final_position": [
+        -6751.59,
+        967.239,
+        255.0
+      ]
+    }
+  ],
+  "limitations": [
+    "Explicit diagnostic placement, not original encounter activation.",
+    "Full mob population, original AI scheduling, navigation avoidance and visual fidelity remain incomplete."
+  ]
+}

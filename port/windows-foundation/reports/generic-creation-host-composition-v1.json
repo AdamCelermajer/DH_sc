@@ -1,0 +1,21 @@
+{
+  "status": "implemented",
+  "api_header": "port/windows-foundation/features/frontend/creation/generic_creation_host_v1.hpp",
+  "composition": "GenericCreationFrontendHostV1 owns RuntimeCreationFlowAdapterV1 while the caller invokes run_frontend_v1 with runtime_services(); complete() converts only an actual generic StartGame result into a typed launch plan.",
+  "launch_evidence": {
+    "same_character_state": "shared pointer address and shared control block must match the caller owner",
+    "selected_save": "explicit save path and exact selected slot are retained",
+    "start": "requires generic_gameplay_started plus a start_delivered generic receipt",
+    "native_authority": "does not create or satisfy FrontendProfileLoanV1, native action receipts, or InitPost"
+  },
+  "provider_requirements": [
+    "real source-backed RuntimeCreationSourceV1 inputs",
+    "empty-slot selector that creates the exact request and save path",
+    "explicit selected-existing-slot save path provider",
+    "selected-slot assignment provider for the same source application",
+    "StartGame provider consuming the caller's unchanged shared CharacterState"
+  ],
+  "test_command": "cmake --build .local-inputs/frontend-feature-build --target frontend_runtime_v1 generic_creation_host_v1_tests runtime_creation_flow_adapter_v1_tests frontend_runtime_v1_tests -j6 && ctest --test-dir .local-inputs/frontend-feature-build -R '^(generic_creation_host_v1_tests|runtime_creation_flow_adapter_v1_tests|frontend_runtime_v1_tests)$' --output-on-failure",
+  "test_result": "build passed; focused CTest 3/3 passed",
+  "limits": "No GUI run and no root main/CMake, core, native V60, player, save, or world provider was created or changed. Root still supplies the real service providers and protected callsite."
+}

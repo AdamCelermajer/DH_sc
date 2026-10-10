@@ -1,0 +1,149 @@
+{
+  "status": "provider_helper_verified_root_binding_required",
+  "source_authority": [
+    "data/scripts/ai/monster.luac original event bodies",
+    "CharAI::OnEnemySpotted 0x3d14b4 native prefix",
+    "CharAI target event handlers character events 10,12-17",
+    "CharAI::_UpdateAggro 0x3cf3f0",
+    "actual selected AISMonster/external source program owner"
+  ],
+  "implementation": [
+    "port/windows-foundation/features/enemy_ai/live_enemy_binding.hpp",
+    "port/windows-foundation/features/enemy_ai/live_enemy_binding.cpp"
+  ],
+  "root_api_request": {
+    "borrow": "Fresh LiveEnemyBorrow: same ActorState, native PropertyView resolved backing, canonical TargetState48, source State, actual controller/path owner, source scene_clock, Application Random channel0, retained receiver lease",
+    "hook": "Invoke dispatch_live_monster_target only at genuine selected AIS callback after full Character/CharAI prefix; preserve original FSM tail",
+    "selected": "Actual selected character/script identity and kind, source monster program receipt, synchronous original VM/native callback; retain real VCB flags/scopes/globals",
+    "services": "Bind real Stop/SetTarget/ClearTarget/HeadTo/MoveTo/Flee/Attack/DoSkill/CreateBuff/ApplyBuff/RemoveBuff and state/path/position/time/RNG; missing services reject at reached source prefix"
+  },
+  "dependencies": {
+    "skill": "DoSkill(0) is NPC native SkillOwner instance index0, requires same SkillAI/FSM/VM/property/mana/target owners; animation_review provides session_skill_animation helper",
+    "population": "encounters/npc_profile_binding selects original profile from same source template/cache/RNG; population root hook still needed",
+    "script_session_limit": "CharacterScriptSession::dispatch_target requires script_external and cannot impersonate native monster__ AISMonster"
+  },
+  "validation": {
+    "compiler": "bundled llvm-mingw clang++ C++17 -Wall -Wextra -Werror -static",
+    "result": "PASS",
+    "checks": [
+      "same native owners passed unchanged",
+      "default AIS rejected before callback",
+      "unregistered event11 rejected before borrow",
+      "missing channel0 RNG rejected",
+      "failed callback preserves native target prefix and diagnostic",
+      "unpublished canonical target rejected"
+    ],
+    "whole_engine_parity": false
+  },
+  "live_done_criterion": "Original selected monster receivers in actual retained Act1 population receive genuine source detection/target callbacks; same controller/SkillAI/FSM/path/RNG owners execute source commands and publish target immediately; live executable run demonstrates source detection, movement, combat and death callback delivery without fabricated actor enablement or decision substitutions",
+  "live_executable_verified": false,
+  "native_dependency": {
+    "result": "PASS strict native Windows C++17 tests",
+    "implementation": "features/enemy_ai/native_monster_endpoint.hpp/.cpp",
+    "path_chain": "same Controller Cmd_Stop/MoveTo(point), Character control, GameObject PathTo, PF FindPath source kernel; actual route/world/collision/policy services required",
+    "authored_selection": "All76 authored AI rows lack __monster__; monster selects AISExternal",
+    "native_range_bodies": "required actual AISDefault endpoints, not replaced by Lua",
+    "coverage": [
+      "event9 target then heading store",
+      "event10 stop/settarget/clearaggro order",
+      "event12 captured controller before target-position and Character reloads",
+      "failed reached MoveTo preserves prefix",
+      "empty InSight body",
+      "inherited melee exact source function"
+    ],
+    "root_loan": "Selected AIS receiver lease plus fresh Character+98 reload returning same native owners/heading byte412",
+    "authority": "character-script-kinds/reference/original-functions.asm and vtables.json",
+    "owner_initializer": "Existing canonical retained Character C1/construct_fields then real property/script load-init; no facade owner allocation"
+  },
+  "authored_external_route": {
+    "root_minimal": [
+      "fresh same retained owner lease/property/FSM/target/controller/PFPath/clock/RNG borrow",
+      "original ScriptCommandBindings + commands_refresh",
+      "one exact DoSkill factory backend actual SkillAI use index0 with retained Check callback",
+      "same BuffOwner groups/CharTimers/temp/classes/external-sheet/recalc/effects",
+      "actual GameDesign/Level host and source load-init",
+      "Character/CharAI active dispatch hook after source prefix"
+    ],
+    "selected_callback": "authored_monster_session.hpp validates actual active monster AISExternal then calls same V1/V3 Session dispatch_target with original VCB/aliases/globals",
+    "on_init": "Existing source Session lifecycle loads commons then monster.luac, executes actual OnInit; no manual partial closure or copied globals",
+    "do_skill": "external_monster_natives original DoSkill3b8bd8 wrapper native Windows strict tests PASS exact guard/conversion/count/use order and missing Check failure",
+    "buff_factory": "exact CreateBuff3b86a8 RemoveBuff3b842c ApplyBuff3babdc -> original existing skill_buff/property kernels on same owned Buff/property/timer services",
+    "compile": "PASS explicit template instantiations both actual Session APIs; strict buff selector compile",
+    "owner_mismatch": "RESOLVED: animation NativeSkillLuaServicesV1 and canonical_session_skill_binding borrow the existing V1 Session/SkillOwner, source_ai_fields_v115(), and same NativeFsm24; no migration or duplicate owner required"
+  },
+  "scoped_canonical_compatibility": {
+    "escalation_reason": "Human cost policy bounded escalation: unsafe native same-VM reentrant capability and V1 canonical cross-owner adaptation risks VM corruption/duplicate owners",
+    "full_script_suite": "Not claimed; unrelated all-target script_first_return_v1_audit compile failure, actual dh2_script_runtime target and dedicated scoped integration executable pass",
+    "root_seam": "Implemented: DoSkill3b8bd8 now enters CharacterScriptSession gameplay_scoped admission and exposes the current same-VM capability. Root's remaining binding task is the one original DoSkill factory over NativeSkillLuaServicesV1 and CanonicalNpcSkillsV84::owner().",
+    "owner_choice": "Retain actual V1 CharacterScriptSession + CanonicalNpcSkillsV84 owner/source_ai_fields_v115 + SAME native FSM/property graph; animation NativeSkillLuaServicesV1 now supplies compatible adapter",
+    "implementation": [
+      "external_monster_scoped.cpp",
+      "scoped_skill_callback.hpp/.cpp"
+    ],
+    "canonical_live_test": "Not executed: actual factory visual/cache/PF/RoomZone/Level/FSM/controller/status/RNG services still required",
+    "validation": "PASS strict compile and genuine Lua runtime nested same-VM Check, scope restoration, actual VM mutations, caught required failure prefix",
+    "handoff": "coordination/integration-lead/handoffs/enemy-ai.md"
+  },
+  "act1_canonical_owner_audit": {
+    "date": "2026-10-09",
+    "source_proof": {
+      "authored_selection": "character-script-kinds/NOTES.md and authored-ai-rows.json verify all 76 authored AI records omit the __ prefix; ordinary script name monster selects AISExternal. The selected Crypt monster rows use source script path data/scripts/ai/monster.luac, with _commons.luac preceding it in the source lifecycle.",
+      "selected_owner": "The selected source owner is the existing RetainedCharacterActorV1 machine/CharAI graph and its pending-to-active AIS receiver. CharacterScriptSession::owner().active() supplies that same retained ScriptOwner session identity, VM, aliases, kind, and callback flags; it is valid only after the real source LoadScriptProcess stage6 publication. The event endpoint is CharAI::OnEnemySpotted 0x3d14b4 after its source prefix, followed by the original FSM tail.",
+      "same_actor_skills": "CanonicalNpcSkillsV84 adopts the actual RetainedCharacterActorV1 constructor-produced skill vectors; its V1 CharacterScriptSession, CharacterSkillOwner, source_ai_fields_v115(), NativeFsm24, and property view remain the single source graph. skills_animation::NativeSkillLuaServicesV1 and canonical_session_skill_binding compile against those same owners.",
+      "native_action": "Original Character::_DoSkill 0x3b8bd8 performs numeric guard, Value.getUnsigned, Character.GetSkills vector count, Value.getNumber signed conversion, then CharAI::AI_UseSkill 0x3d8868. Existing external_monster_natives and external_monster_scoped suites prove conversion order, native slot0, same-VM nested Check, retained VM mutation prefix, and missing-Check failure; these are native helper tests, not canonical Act1 combat execution.",
+      "death_route": "Character.RaiseEvent(event2) -> CharAI.RaiseAIEvent -> CharAI::OnDied 0x3d1000 -> same active AIS virtual+24 OnDied (AISExternal invokes the real monster.lua callback) -> AI_SetDead 0x3d6cdc. The source dead transition then clears the same target/synchronizes, moves the same FSM to dead, stops both source AI timers, clears aggro in both directions, and cleans same-owner skills/spells. Character::Kill/Ctrl_Kill and its loot/credit/XP/quest chain must run through the existing character kill/death owners before this event2 tail; a direct AIS OnDied call would skip source death routing."
+    },
+    "canonical_factory_frontier": {
+      "evidence": "features/actor_frame/source_character_owner_factory_native_result.json (355 source units, native link/runtime pass)",
+      "reached": "Actual V60 Character C1, PropertyMap declarations/template/default/override prefix, process Add, inherited ConditionData setup, Application Random channel0 spawn-probability prefix on the same actor.",
+      "first_missing_service": "Application Device::IsHighPerformance during actual Character InitPost; visual/PF, LoadNInit, external AIS Stage0-6, active AIS, and Session OnInit are not reached.",
+      "policy": "No active-AIS readiness, Session OnInit, selected callback, authored combat, or death-loop success is claimed from this failed InitPost prefix."
+    },
+    "single_root_hookup": {
+      "status": "implemented_in_current_source",
+      "file": "port/level-world/character_script_session.cpp",
+      "function": "CharacterScriptSession::Impl::binding",
+      "exact_change": "Added original DoSkill3b8bd8 to the existing scoped-gameplay callback admission branch beside3b9fbc/3b99d0/3ba298. The existing gameplay_scoped RAII exposes only the current same-VM capability through current_skill_callback_scope(); the root binding must still bind exactly one DoSkill selector to NativeSkillLuaServicesV1::command(skill_ai_use_v3,index,answer) on CanonicalNpcSkillsV84::owner().",
+      "why": "Original monster.luac melee decisions reach DoSkill(0) for authored positive SkillTree rows. This admission lets the nested original SkillAI Check/Pre/Use/Post callback transport reenter the same VM under its current scope. It does not by itself claim full combat readiness.",
+      "validation": {
+        "session_translation_unit": "PASS bundled llvm-mingw C++17 strict compile of current CharacterScriptSession.cpp",
+        "same_owner_callback_adapter": "PASS strict compile of scoped_skill_callback.cpp and canonical_session_skill_binding.cpp (suppressed one pre-existing missing-field warning in actor_combat_runtime.hpp)",
+        "source_value_conversion": "PASS external_monster_natives_tests: argument type guard, getUnsigned -> GetSkills count -> getNumber signed conversion -> native slot0 order, invalid-index skip, and required Check failure",
+        "same_vm_callbacks": "PASS genuine Lua runtime external_monster_scoped_tests: nested Check/Pre/Use/Post under one live scope, source mutations retained, capability cleared after return, caught missing-Check failure remains required failure"
+      }
+    },
+    "external_integration_requests": {
+      "source_factory": "Root must continue genuine Character InitPost by supplying the actual Device::IsHighPerformance provider and then all reached visual/PF/RoomZone/Level/state providers; no fabricated device result or readiness bit is acceptable.",
+      "target_and_controller": "At the real CharAI selected-AIS endpoint, root must borrow fresh same-record ActorState projection, TargetState48, NativeFsm24, controller/PF path, Application RNG channel0, and receiver lease. Run dispatch_live_monster_target only after the original CharAI prefix and preserve its FSM delivery tail.",
+      "source_death": "Bind target-death and AIS death callbacks through the same selected source owner and existing Character kill/death/reward services; retain source callback order and single-publication semantics."
+    },
+    "authored_container_summon_frontier": {
+      "script": {
+        "path": ".local-inputs/character-script-assets-v1/bootstrap-cache/data/scripts/objects/moth_spawn_container.luac",
+        "bytes": 1538,
+        "sha256": "68c87e4eb16ec991e0929be9e1bb71e93e9606c966b46848ee88edba32508d93",
+        "expected_manifest": ".local-inputs/character-script-assets-v1/expected-script-sha.tsv row79",
+        "authored_body": "prob_spawn=25; calc_spawn=GetRand(0,100); only calc_spawn<25 calls Summon(GetPyOID(\\\"CharacterTable\\\",\\\"Swamp_Moth_Minions\\\"),true,0.0,0.0,0.0,true), then DealDamages(actor,GetPyOID(\\\"GameObjectDamager\\\",\\\"Level01Damage\\\"),GetPyCst(\\\"Elemental\\\",\\\"Fire\\\")).",
+        "container_boundary": "DestructibleContainer normal row names moth_spawn_container; the NoMoth row has an empty script. The script executes from the original container OnOpen callback; it is not the mob population selector."
+      },
+      "original_callback_contract": {
+        "summon": "GameObject::_Summon 0x39193c is registered as global and method. Its six arguments are CharacterTable unsigned row/ID, bool selecting source spawn-state handling, three numeric XYZ offset components, and a final bool selecting the orientation-relative position branch. It calls Character::CreateNPC 0x3ad1f8; applies Character::SetInitialPosition 0x3a58f4, GameObject::SetPosition 0x393db4, and SetRotation 0x3938a0; then adds to the caller's RoomZone via 0x396a90 or uses ObjectManager::AddNoRoomObject 0x344184 plus ZoneEntered 0x38c710. It pushes the created Character userdata before the online network-ID path. The authored call passes true, offsets 0/0/0, and true in that order.",
+        "random": "GameObject::_Rand/GetRand 0x393310 is already bound on CharacterScriptObjects to the same Application Random channel0 and GetOnline byte5 owner. Its two-number form uses [minimum,maximum); the container's GetRand(0,100) is the exact authored roll request. Online execution still requires the original ReturnValues+0xfc seed owner.",
+        "damage": "GameObject::_DealDamages 0x3906fc is present in the source registration probe; this report does not claim a live damage binding or a completed spawned receiver."
+      },
+      "current_public_api_boundary": {
+        "registration": "character_script_owner_bindings.inc and gameobject_lua_catalog.inc identify Summon 0x39193c, while RegisterSummon 0x392714 remains the distinct process cachedCharOID list operation. CharacterScriptSession now groups the selected _Summon callback with 0x38eb68 in the same source-object binder, preserving source userdata conversion for the actual returned Character.",
+        "factory": "CanonicalCharacterCandidateFactoryV60 constructs a retained source Character from a source placement/spawn name and full candidate services. `source_canonical_spawn_adapter.cpp` now adapts the existing CanonicalSpawnAttemptV1/ObjectManager/PropertyMap path for the exact Spawn(\"Character\", generated_name, deferred=true, network=false) CreateNPC prefix; `source_create_npc.cpp` follows with the CharacterTable CString/InitPost/InitFinal/idle prefix. The caller still must supply the actual construction/manager/property services and the distinct caller RoomZone/offset/ZoneEntered/online sequence.",
+        "reusable_owners": "Reuse the existing CharacterTable borrow, same Application Random channel0/GetOnline provider, canonical Character candidate owner, source SetInitialPosition/SetPosition/SetRotation path, CanonicalObjectManager/RoomZone insertion, and source online network identity owner when the actual Summon composition is added. Do not select another population path or report a summon complete before every original stage succeeds.",
+        "status": "Feature-owned source_create_npc.{hpp,cpp} and source_summon.{hpp,cpp} now implement the original CharacterTable-row/name/Spawn/InitPost/InitFinal/idle and _Summon pose/insertion/ZoneEntered/ReturnValues/online-tail prefixes with one retained CanonicalClassReceiver lease and required typed service callbacks. The genuine authored container body still is not bound to those callbacks in a live source CharacterScriptSession; tests are strict Windows semantic/service-trace acceptance over the actual CharacterTable row, not original-VM or world-spawn acceptance. The next root hookup is to provide one same-owner SourceSummonServicesV1 from the actual container GameObject + ObjectManager/RoomZone/canonical Character factory and bind it as source _Summon 0x39193c; root must first supply the current owner InitPost/Level/RoomZone lifecycle needed for the factory."
+      },
+      "verification": {
+        "asset_hash": "PASS SHA256 matches expected-script-sha.tsv row79",
+        "source_assembly": "PASS registration and full 0x39193c source assembly capture checked",
+        "native_semantic_kernel": "PASS strict C++17 Windows executable against original CharacterTable, source_create_npc.cpp and source_summon.cpp; verifies the six-argument authored call, one receiver across Spawn/pose/RoomZone/network service traces, source prefix order, and fail-closed required-provider errors. source_canonical_spawn_adapter.cpp separately compiles to a Windows COFF object with strict warnings; no live provider composition is claimed.",
+        "runtime_spawn": false,
+        "runtime_damage": false
+      }
+    }
+  }
+}

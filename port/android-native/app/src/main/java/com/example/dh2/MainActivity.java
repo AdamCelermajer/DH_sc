@@ -20,6 +20,9 @@ import android.widget.*;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -519,7 +522,36 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onPause(){if(sourceIntroMovie!=null)sourceIntroMovie.pause();sharedAudio.setResumed(false);if(isFinishing()||isChangingConfigurations())AudioApplicationLifecycleV42.closeBeforeProducerPause(surface,nativeAudioOwnerV42);if(framePacer!=null)framePacer.onPause();super.onPause();queueHudPointer(3,-1,0,0);if("ui/original-main-menu".equals(loadedAsset))surface.queueEvent(()->NativeBridge.originalMenuTouch(0,0,3));ready=false;frontAudio.pause();movement.stop();gameplayHud.cancelPress();surface.onPause();}
     @Override protected void onResume(){super.onResume();if(sourceIntroMovie!=null)sourceIntroMovie.resume();sharedAudio.setResumed(true);frontAudio.resume();surface.onResume();if(framePacer!=null)framePacer.onResume();surface.queueEvent(()->{if(loadedAsset!=null)ready=true;});}
-    @Override public void onWindowFocusChanged(boolean focused){super.onWindowFocusChanged(focused);if(sharedAudio!=null)sharedAudio.setWindowFocused(focused);}
-    @Override protected void onDestroy(){if(sourceIntroMovie!=null)sourceIntroMovie.destroy();NativeBridge.closeIntroMovieV119();sharedAudio.close();AudioApplicationLifecycleV42.destroyRequestOnly(nativeAudioOwnerV42);if(surface!=null)surface.destroyPacingV44();if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);frontAudio.stop();super.onDestroy();}
+    @Override public void onWindowFocusChanged(boolean focused){
+        super.onWindowFocusChanged(focused);
+        if(sharedAudio!=null)sharedAudio.setWindowFocused(focused);
+        // Original GameGLSurfaceView dispatches nativePause(1) on focus loss.
+        // Queue the same-Level pause/save receiver while GL is still running;
+        // onPause below queues surface suspension after this event.
+        if(!focused&&surface!=null){
+            CountDownLatch delivered=new CountDownLatch(1);AtomicReference<String> result=new AtomicReference<>();
+            surface.queueEvent(()->{
+                try{result.set(NativeBridge.sourceApplicationPauseSaveV1());}
+                catch(RuntimeException failure){result.set("nativePause/appPause source save failed: "+failure);}
+                finally{delivered.countDown();}
+            });
+            try{
+                // nativePause is synchronous in the original Activity callback.
+                // Wait for the GL-thread delivery so the following onPause()
+                // cannot stop its queue before the same-Level save/flush runs.
+                if(!delivered.await(15,TimeUnit.SECONDS))Log.e("DH2Native","nativePause/appPause GL delivery timed out before surface pause");
+                else {String report=result.get();if(report!=null&&report.contains("failed"))Log.e("DH2Native",report);else Log.i("DH2Native",report==null?"nativePause/appPause source save completed":report);}
+            }catch(InterruptedException interrupted){Thread.currentThread().interrupt();Log.e("DH2Native","nativePause/appPause GL delivery interrupted before surface pause",interrupted);}
+        }
+    }
+    @Override protected void onDestroy(){
+        if(sourceIntroMovie!=null)sourceIntroMovie.destroy();NativeBridge.closeIntroMovieV119();sharedAudio.close();
+        // The native SoundManager belongs to the process, while this Activity
+        // can be destroyed for recreation without finishing the app. onPause
+        // already performs the producer barrier for finish/config changes;
+        // do not poison the process owner on an unpaired non-finishing destroy.
+        if(isFinishing())AudioApplicationLifecycleV42.destroyRequestOnly(nativeAudioOwnerV42);
+        if(surface!=null)surface.destroyPacingV44();if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);frontAudio.stop();super.onDestroy();
+    }
     @Override protected void onSaveInstanceState(Bundle state){super.onSaveInstanceState(state);if(assets.length>0)state.putString("asset",assets[selected]);state.putBoolean("pendingActorCommand",pendingActorCommand);state.putBoolean("enemyAi",enemyAi);state.putBoolean("developerOpen",developerOpen);}
 }

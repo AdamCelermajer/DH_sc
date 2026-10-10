@@ -1,0 +1,4 @@
+CONTROLLERS 173 CATEGORY_AVAILABLE 172 DEFAULTS 4 VISIBLE_INSTANCES 1
+CONTROLLER	172	_mesh_shadow-mesh-skin	category=0	default=0	visibleRefs=1
+INSTANCE	_mesh_shadow-node	controller=172
+MATERIAL	Material__38	diffuse=atlas_dh2_game_objects_001.tga	effect=GL_Diffuse_L1_VC_iPhone.bdae	technique=L1_Vc_Al_Sp_----_----_----	alpha=1

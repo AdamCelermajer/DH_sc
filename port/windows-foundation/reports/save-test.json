@@ -1,0 +1,24 @@
+{
+  "suite": "save_tests",
+  "status": "passed",
+  "compiler": "llvm-mingw-20261006-ucrt-x86_64 clang++",
+  "options": ["-std=c++17", "-static", "-O1"],
+  "executable": ".local-inputs/windows-foundation-tests/save_tests.exe",
+  "exit_code": 0,
+  "output": "save_tests: all checks passed",
+  "checks": [
+    "all persistent character field families roundtrip",
+    "64-bit experience and gold",
+    "malformed magic rejected without state changes",
+    "empty save rejected without state changes",
+    "truncated header and payload rejected without state changes",
+    "unknown file and character schema versions rejected without state changes",
+    "unbounded string length rejected without state changes",
+    "trailing bytes rejected without state changes",
+    "missing save rejected without state changes",
+    "invalid save preserves previous file",
+    "existing save replacement succeeds",
+    "empty collections clear previously loaded collections"
+  ],
+  "findings": []
+}

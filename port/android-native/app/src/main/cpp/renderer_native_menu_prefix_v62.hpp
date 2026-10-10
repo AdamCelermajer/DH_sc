@@ -25,6 +25,7 @@ bool borrow_menu_character_ooi_type_v62(const std::shared_ptr<void>& actual_worl
  const std::int32_t*&,std::string&);
 bool bind_native_menu_prefix_v62(std::shared_ptr<void> actual_world,
  dh2::ui::MenuManagerUpdateServicesV58&,std::string&);
+bool native_reset_process_menu_fonts_v119(std::string&);
 bool bind_native_menu_postmovie_v62(std::shared_ptr<void>,
  dh2::ui::MenuManagerUnloadServicesV58&,dh2::ui::MenuManagerUpdateServicesV58&,std::string&);
 //Transport lease contains weak World/actual retained receiver references;

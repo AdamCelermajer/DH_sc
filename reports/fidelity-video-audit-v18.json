@@ -1,0 +1,1931 @@
+{
+  "status": "partial_reference_audit_fidelity_not_accepted",
+  "date": "2026-10-09",
+  "checkpoint": ".local-inputs/windows-source-clock-checkpoint-v17",
+  "reference": {
+    "source_version": "1.0.3",
+    "online_url_attempt": "web open returned throttled; existing local video inspected",
+    "recovered_version": "1.0.2",
+    "limitations": "Dense excerpts and minute stills only; not continuous whole playthrough, not whole-game coverage. No claim that v1.0.3 and recovered v1.0.2 differ or agree exactly.",
+    "width": 640,
+    "fps": 30,
+    "local_video": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\reference-video\\dh2-act1\\Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "url": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+    "height": 360
+  },
+  "direct_reference_observations": [
+    {
+      "seconds_end": 120,
+      "observation": "Close Rene/cage cinematic; gameplay movement cannot be inferred from this frame",
+      "evidence": ".local-inputs/referenceframes/dh2-act1/minute-002.png",
+      "seconds_start": 120
+    },
+    {
+      "seconds_end": 274,
+      "observation": "Individual original frames267 and273 confirm two Bog Moths in HUD-hidden cinematic;274 confirms restored HUD/Bog Moth target. Provisional three-actor count from contact sheet was discarded after individual pixel verification.",
+      "evidence": ".local-inputs/fidelity-video-v18/moth-267-27375.jpg",
+      "seconds_start": 267,
+      "sample_fps": 4
+    },
+    {
+      "seconds_end": 355,
+      "observation": "Individual349 frame has liveHUD,352/354 frames show SKIP and close Fungus rising/landing cinematic,355 has restoredHUD. Contactsheet transition times remain approximate; direct frames establish phase bounds.",
+      "evidence": ".local-inputs/fidelity-video-v18/348-35775-sheet.jpg",
+      "seconds_start": 350,
+      "sample_fps": 4
+    },
+    {
+      "seconds_end": 314.75,
+      "observation": "Live joystick movement between stone arenas and Bog Moth combat, with camera following. No controlled repeated180-degree reversal identified; cannot attribute net left drift to intentional original behavior from these frames.",
+      "evidence": ".local-inputs/fidelity-video-v18/305-31475-sheet.jpg",
+      "seconds_start": 305,
+      "sample_fps": 4
+    },
+    {
+      "seconds_end": 720,
+      "observation": "Multiple enemies visible in boardwalk Bogwomp combat; reference screenshot proves encounter population exists but cannot establish whole-level total count",
+      "evidence": ".local-inputs/referenceframes/dh2-act1/minute-012.png",
+      "seconds_start": 720
+    }
+  ],
+  "population": {
+    "default_loaded": 13,
+    "diagnostic_spawn_initially_deferred": 7,
+    "authored_characters": 50,
+    "default_enabled": 13,
+    "authored_total": 61,
+    "inventory": [
+      {
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "name": "_prim_NPC_PriestGood",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_NPC_PriestGood",
+          "position": "793.9,-617.658,272.064",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "_templateName": "NPC",
+          "charpropsname": "WanderingPriest",
+          "isGlobal": "1",
+          "activate_cond": "RENE_FOLLOW"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "name": "_prim_EntryPoint",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint",
+          "position": "1090.75,-212.202,258.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "SpawnPoint",
+          "entrypointID": "0",
+          "_templateName": "EntryPoint",
+          "activate_cond": "Invalid",
+          "script": ""
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_4of4_brdwalk_sw_00_0#0|original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp|11|_prim_EntryPoint: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_4of4_brdwalk_sw_00_0#0|original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp|11|_prim_EntryPoint: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "name": "_prim_NPC",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_NPC",
+          "position": "703.668,-27.7563,312.239",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,180.0",
+          "gametype": "Character",
+          "_templateName": "NPC",
+          "charpropsname": "Prisonier2"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "name": "_prim_NPC01_001",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_NPC01_001",
+          "position": "1415.62,-73.6238,494.481",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "_templateName": "NPC",
+          "charpropsname": "Prisonier"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "name": "_prim_Faery",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Faery",
+          "position": "544.191,414.689,-108.175",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "138.0,8.0,110.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "charpropsname": "DefaultFairy",
+          "_templateName": "Faery",
+          "isGlobal": "1"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "name": "_prim_ActorTroll",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_ActorTroll",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_template": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "_templateName": "Monster",
+          "charpropsname": "Swamp_ActorTroll",
+          "activate_cond": "GameStartOnly",
+          "ai_state_visible": "0",
+          "ai_state": "Limbus",
+          "auto_spawn": "0"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_4of4_brdwalk_sw_00_0#0|original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp|20|_prim_ActorTroll: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_4of4_brdwalk_sw_00_0#0|original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp|20|_prim_ActorTroll: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "name": "_prim_ActorPrisoner",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_ActorPrisoner",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "_templateName": "NPC",
+          "charpropsname": "Prisonier2",
+          "activate_cond": "GameStartOnly"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_4of4_brdwalk_sw_00_0#0|original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp|21|_prim_ActorPrisoner: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_4of4_brdwalk_sw_00_0#0|original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp|21|_prim_ActorPrisoner: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "obj_4of4_brdwalk_sw_00_0",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "name": "_prim_MothTemplate_13",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_MothTemplate_13",
+          "position": "1135.28,1255.14,23.1875",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,147.776",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType2",
+          "activate_cond": "Invalid",
+          "deactivate_cond": "Invalid"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_4of4_brdwalk_sw_00_0#0|original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp|24|_prim_MothTemplate_13: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_4of4_brdwalk_sw_00_0#0|original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp|24|_prim_MothTemplate_13: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_Monster_3_05_313_356_14_33_13_179_13_38",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_3_05_313_356_14_33_13_179_13_38",
+          "position": "-852.641,938.285,250.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "charpropsname": "Swamp_LizadMan_Type1",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "ai_state": "Limbus"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_Monster_LizManIntro1",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_LizManIntro1",
+          "position": "2274.25,252.509,250.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,89.6209",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "charpropsname": "Swamp_LizadMan_Type1",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "ai_state": "Limbus",
+          "auto_spawn": "0",
+          "ai_state_visible": "0",
+          "char_group_role": "Normal",
+          "char_group": "",
+          "spawn_view_radius": "400"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|3|_prim_Monster_LizManIntro1: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "loaded_initially_deferred",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_Monster_LizManIntro2",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_LizManIntro2",
+          "position": "1824.77,349.838,250.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,90.0469",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "charpropsname": "Swamp_LizadMan_Type1",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "ai_state": "Limbus",
+          "auto_spawn": "0",
+          "char_group_role": "Normal",
+          "ai_state_visible": "0",
+          "spawn_view_radius": "400",
+          "char_group": ""
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|4|_prim_Monster_LizManIntro2: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "loaded_initially_deferred",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_Monster_FakeMoth_01",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_FakeMoth_01",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "ai_state": "Limbus",
+          "auto_spawn": "0",
+          "charpropsname": "Swamp_MovieMoth"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|11|_prim_Monster_FakeMoth_01: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "loaded_initially_deferred",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_Monster_FakeMoth_02",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_FakeMoth_02",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "ai_state": "Limbus",
+          "auto_spawn": "0",
+          "charpropsname": "Swamp_MovieMoth"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|12|_prim_Monster_FakeMoth_02: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "loaded_initially_deferred",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_LizTemplate_01",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_01",
+          "position": "1086.56,-1441.6,259.286",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-87.142",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1",
+          "ai_state": "Limbus",
+          "spawn_view_radius": "400",
+          "ai_state_visible": "1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|13|_prim_LizTemplate_01: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|13|_prim_LizTemplate_01: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_LizTemplate_02",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_02",
+          "position": "-935.177,-1096.68,259.286",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,152.213",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|14|_prim_LizTemplate_02: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|14|_prim_LizTemplate_02: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_LizTemplate_03",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_03",
+          "position": "-875.694,-250.238,259.286",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,26.6203",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|15|_prim_LizTemplate_03: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|15|_prim_LizTemplate_03: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_MothTemplate_01",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_MothTemplate_01",
+          "position": "-116.524,2601.66,259.286",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,1.0909",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType2"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|16|_prim_MothTemplate_01: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|16|_prim_MothTemplate_01: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ]
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "name": "_prim_MothTemplate_02",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_MothTemplate_02",
+          "position": "151.396,2601.66,259.286",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,1.0909",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType2"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|17|_prim_MothTemplate_02: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_3of4_brdwalk_sw_00_1#1|original-cache/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp|17|_prim_MothTemplate_02: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ]
+      },
+      {
+        "module": "obj_1of4_brdwalk_nse_00_2",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+        "name": "_prim_Monster_54_chest2",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_54_chest2",
+          "position": "-7.89258,-1314.76,255.785",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,83.1844",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_template": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "_templateName": "Monster",
+          "charpropsname": "Swamp_LizadMan_Type1",
+          "ai_state": "Limbus",
+          "auto_spawn": "0",
+          "ai_state_visible": "0"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_1of4_brdwalk_nse_00_2#2|original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp|1|_prim_Monster_54_chest2: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "loaded_initially_deferred",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_1of4_brdwalk_nse_00_2",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+        "name": "_prim_Monster_53_03_001",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_53_03_001",
+          "position": "1584.23,167.458,256.625",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-20.6059",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_template": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "_templateName": "Monster",
+          "charpropsname": "Troll"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_1of4_brdwalk_nse_00_2",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+        "name": "_prim_Monster_54_chest1",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_54_chest1",
+          "position": "-257.508,-1444.92,255.813",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,170.926",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_template": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "_templateName": "Monster",
+          "charpropsname": "Swamp_LizadMan_Type1",
+          "ai_state": "Limbus",
+          "auto_spawn": "0",
+          "ai_state_visible": "0"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_1of4_brdwalk_nse_00_2#2|original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp|4|_prim_Monster_54_chest1: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "loaded_initially_deferred",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_1of4_brdwalk_nse_00_2",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+        "name": "_prim_MothTemplate_05",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_MothTemplate_05",
+          "position": "1092.17,1363.6,255.728",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,48.7599",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType2"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_1of4_brdwalk_nse_00_2#2|original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp|8|_prim_MothTemplate_05: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_1of4_brdwalk_nse_00_2#2|original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp|8|_prim_MothTemplate_05: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ]
+      },
+      {
+        "module": "obj_1of4_brdwalk_nse_00_2",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+        "name": "_prim_LizTemplate_05",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_05",
+          "position": "135.717,2897.96,261.615",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,42.0708",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1",
+          "ai_state": "Limbus"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_1of4_brdwalk_nse_00_2#2|original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp|9|_prim_LizTemplate_05: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_1of4_brdwalk_nse_00_2#2|original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp|9|_prim_LizTemplate_05: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "obj_1of4_brdwalk_nse_00_2",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+        "name": "_prim_LizTemplate_06",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_06",
+          "position": "-195.35,3086.07,256.373",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,143.019",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1",
+          "ai_state": "Limbus"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_1of4_brdwalk_nse_00_2#2|original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp|10|_prim_LizTemplate_06: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_1of4_brdwalk_nse_00_2#2|original-cache/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp|10|_prim_LizTemplate_06: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "corner_ruin_ws_00_3",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "name": "_prim_Monster_04_324",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_04_324",
+          "position": "782.661,1038.71,250.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.493263",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "charpropsname": "Swamp_LizadMan_Type2"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "corner_ruin_ws_00_3",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "name": "_prim_Monster_05_325",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_05_325",
+          "position": "-690.836,-548.739,378.583",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,83.349",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "charpropsname": "Swamp_LizadMan_Type3",
+          "ai_state": "Limbus",
+          "ai_state_visible": "1",
+          "auto_spawn": "0"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_ruin_ws_00_3#3|original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp|3|_prim_Monster_05_325: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "loaded_initially_deferred",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "corner_ruin_ws_00_3",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "name": "_prim_Monster_08_329",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_08_329",
+          "position": "-549.638,-690.496,378.909",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-94.0681",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "charpropsname": "Swamp_LizadMan_Type1",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "corner_ruin_ws_00_3",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "name": "_prim_LizTemplate_07",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_07",
+          "position": "1058.2,-171.842,256.373",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-43.1909",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_ruin_ws_00_3#3|original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp|8|_prim_LizTemplate_07: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_ruin_ws_00_3#3|original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp|8|_prim_LizTemplate_07: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "corner_ruin_ws_00_3",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "name": "_prim_LizTemplate_08",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_08",
+          "position": "439.221,803.352,256.373",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-3.21571",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_ruin_ws_00_3#3|original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp|9|_prim_LizTemplate_08: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_ruin_ws_00_3#3|original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp|9|_prim_LizTemplate_08: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "corner_ruin_ws_00_3",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "name": "_prim_LizTemplate_09",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_09",
+          "position": "-2265.55,-107.027,256.373",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,40.7363",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_ruin_ws_00_3#3|original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp|10|_prim_LizTemplate_09: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_ruin_ws_00_3#3|original-cache/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp|10|_prim_LizTemplate_09: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "merchantcamp_ruins_swe_00_4",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "name": "_prim_NPC_04",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_NPC_04",
+          "position": "1317.6,161.851,311.691",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,36.4548",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "_templateName": "NPC",
+          "charpropsname": "NPCmerchantCamp",
+          "static": "1"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "merchantcamp_ruins_swe_00_4",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "name": "_prim_NPC_05",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_NPC_05",
+          "position": "700.545,575.958,258.661",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-4.47736",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "_templateName": "NPC",
+          "static": "1",
+          "charpropsname": "Swamp_MerchantCamp_NPC_A",
+          "deactivate_cond": "IsBefore_Swamp_KillWitch"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/merchantcamp_ruins_swe_00_4#4|original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp|2|_prim_NPC_05: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/merchantcamp_ruins_swe_00_4#4|original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp|2|_prim_NPC_05: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "merchantcamp_ruins_swe_00_4",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "name": "_prim_NPC_LizBlood",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_NPC_LizBlood",
+          "position": "1242.84,-1014.84,255.668",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,178.33",
+          "gametype": "Character",
+          "_templateName": "NPC",
+          "charpropsname": "Swamp_MerchantCamp_NPC_C",
+          "static": "1"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "merchantcamp_ruins_swe_00_4",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "name": "_prim_EntryPoint_from_Swamp2",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_Swamp2",
+          "position": "-77.6475,-2172.22,257.788",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "script": "",
+          "entrypointID": "3"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/merchantcamp_ruins_swe_00_4#4|original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp|13|_prim_EntryPoint_from_Swamp2: Spawn point requires caller-owned spawning policy; no actor selected"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/merchantcamp_ruins_swe_00_4#4|original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp|13|_prim_EntryPoint_from_Swamp2: Spawn point requires caller-owned spawning policy; no actor selected"
+        ]
+      },
+      {
+        "module": "merchantcamp_ruins_swe_00_4",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "name": "_prim_NPC_LizBloodPOST",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_NPC_LizBloodPOST",
+          "position": "1242.84,-1015.35,255.668",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,91.3699",
+          "gametype": "Character",
+          "_templateName": "NPC",
+          "static": "1",
+          "charpropsname": "zKill5Lizman_Post",
+          "activate_cond": "IsAfter_Swamp_LizBlood"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/merchantcamp_ruins_swe_00_4#4|original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp|16|_prim_NPC_LizBloodPOST: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/merchantcamp_ruins_swe_00_4#4|original-cache/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp|16|_prim_NPC_LizBloodPOST: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "corner_brdwalk_se_00_5",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "name": "_prim_Monster_3_276",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_3_276",
+          "position": "-375.08,-940.023,250.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,141.44",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "charpropsname": "Troll"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "corner_brdwalk_se_00_5",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "name": "_prim_Monster_3",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_3",
+          "position": "2578.73,-23.8242,262.853",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-103.184",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "charpropsname": "Swamp_LizadMan_Type2"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "corner_brdwalk_se_00_5",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "name": "_prim_LizTemplate_10",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_10",
+          "position": "15.7988,-2252.32,256.373",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,146.015",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_brdwalk_se_00_5#5|original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp|5|_prim_LizTemplate_10: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_brdwalk_se_00_5#5|original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp|5|_prim_LizTemplate_10: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "corner_brdwalk_se_00_5",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "name": "_prim_LizTemplate_11",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_11",
+          "position": "-270.521,-2161.12,256.373",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,146.015",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_brdwalk_se_00_5#5|original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp|6|_prim_LizTemplate_11: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_brdwalk_se_00_5#5|original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp|6|_prim_LizTemplate_11: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "corner_brdwalk_se_00_5",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "name": "_prim_LizTemplate_13",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_13",
+          "position": "1929.18,465.258,256.373",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1",
+          "ai_state": "Limbus"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_brdwalk_se_00_5#5|original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp|7|_prim_LizTemplate_13: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_brdwalk_se_00_5#5|original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp|7|_prim_LizTemplate_13: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "corner_brdwalk_se_00_5",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "name": "_prim_LizTemplate_14",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_14",
+          "position": "1858.73,985.373,256.373",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1",
+          "ai_state": "Limbus"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_brdwalk_se_00_5#5|original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp|8|_prim_LizTemplate_14: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/corner_brdwalk_se_00_5#5|original-cache/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp|8|_prim_LizTemplate_14: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "deadend_brdwalk_w_00_7",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "name": "_prim_EntryPoint_WitchCaveExit",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_WitchCaveExit",
+          "position": "771.258,197.887,195.758",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,-45.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "4",
+          "activate_cond": "RENE_FOLLOW",
+          "script": "enterLocation_Swamp_RENE"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|3|_prim_EntryPoint_WitchCaveExit: Spawn point requires caller-owned spawning policy; no actor selected"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|3|_prim_EntryPoint_WitchCaveExit: Spawn point requires caller-owned spawning policy; no actor selected"
+        ]
+      },
+      {
+        "module": "deadend_brdwalk_w_00_7",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "name": "_prim_EntryPoint_WitchCaveExit01",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_WitchCaveExit01",
+          "position": "773.699,194.064,195.758",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,-45.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "4",
+          "script": "enterLocation_Swamp",
+          "activate_cond": "NoFollowers1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|4|_prim_EntryPoint_WitchCaveExit01: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|4|_prim_EntryPoint_WitchCaveExit01: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "deadend_brdwalk_w_00_7",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "name": "_prim_EntryPoint_WitchCaveExit02",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_WitchCaveExit02",
+          "position": "771.45,198.824,195.758",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,-45.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "4",
+          "activate_cond": "EDWARD_FOLLOW",
+          "script": "enterLocation_Swamp_EDWARD"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|5|_prim_EntryPoint_WitchCaveExit02: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|5|_prim_EntryPoint_WitchCaveExit02: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "deadend_brdwalk_w_00_7",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "name": "_prim_EntryPoint_WitchCaveExit03",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_WitchCaveExit03",
+          "position": "775.3,193.721,195.758",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,-45.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "4",
+          "script": "enterLocation_Swamp",
+          "activate_cond": "IsAfter_KillFlaminite"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|6|_prim_EntryPoint_WitchCaveExit03: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|6|_prim_EntryPoint_WitchCaveExit03: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "deadend_brdwalk_w_00_7",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "name": "_prim_LizTemplate_21",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_21",
+          "position": "-646.21,452.334,60.5235",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-77.3151",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1",
+          "ai_state": "Limbus"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|8|_prim_LizTemplate_21: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|8|_prim_LizTemplate_21: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "deadend_brdwalk_w_00_7",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "name": "_prim_LizTemplate_22",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_LizTemplate_22",
+          "position": "-572.72,982.24,23.8036",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,122.342",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType1",
+          "ai_state": "Limbus"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|9|_prim_LizTemplate_22: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/deadend_brdwalk_w_00_7#6|original-cache/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp|9|_prim_LizTemplate_22: Symbolic character template requires caller-owned selection: Swamp_CommonType1"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_Monster_LizardFan01",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_LizardFan01",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_template": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "_templateName": "Monster",
+          "auto_spawn": "0",
+          "charpropsname": "Swamp_SnackMan",
+          "activate_cond": "IsBefore_Swamp_Escape"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|10|_prim_Monster_LizardFan01: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|10|_prim_Monster_LizardFan01: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_Monster_MisterSnack",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_MisterSnack",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_template": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "_templateName": "Monster",
+          "auto_spawn": "0",
+          "activate_cond": "IsBefore_Swamp_Escape",
+          "charpropsname": "Swamp_SnackMan"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|11|_prim_Monster_MisterSnack: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|11|_prim_Monster_MisterSnack: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_Monster_LizardFan03",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Monster_LizardFan03",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,1.31716",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_template": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "_templateName": "Monster",
+          "auto_spawn": "0",
+          "charpropsname": "Swamp_SnackMan",
+          "activate_cond": "IsBefore_Swamp_Escape"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|12|_prim_Monster_LizardFan03: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|12|_prim_Monster_LizardFan03: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_EntryPoint_from_darkwood",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood",
+          "position": "6140.53,-398.688,252.089",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "1",
+          "activate_cond": "RENE_FOLLOW",
+          "script": "enterLocation_Swamp_RENE2"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|14|_prim_EntryPoint_from_darkwood: Spawn point requires caller-owned spawning policy; no actor selected"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|14|_prim_EntryPoint_from_darkwood: Spawn point requires caller-owned spawning policy; no actor selected"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_Boss_SwampKing_01",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_Boss_SwampKing_01",
+          "position": "-1535.84,-320.723,-236.791",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,73.3349",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_template": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "_templateName": "Monster",
+          "auto_spawn": "0",
+          "activate_cond": "IsBefore_Swamp_Escape",
+          "ai_state": "Idle",
+          "spawn_delay": "0",
+          "charpropsname": "SwampKing"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|15|_prim_Boss_SwampKing_01: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|15|_prim_Boss_SwampKing_01: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_EntryPoint_from_darkwood02",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood02",
+          "position": "-1363.95,-812.168,-109.679",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "13",
+          "script": ""
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|23|_prim_EntryPoint_from_darkwood02: Spawn point requires caller-owned spawning policy; no actor selected"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|23|_prim_EntryPoint_from_darkwood02: Spawn point requires caller-owned spawning policy; no actor selected"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_EntryPoint_from_darkwood03",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood03",
+          "position": "6299.59,-398.688,252.089",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "script": "script_name",
+          "_templateName": "EntryPoint",
+          "entrypointID": "1",
+          "activate_cond": "NoFollowers1"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|24|_prim_EntryPoint_from_darkwood03: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|24|_prim_EntryPoint_from_darkwood03: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_EntryPoint_from_darkwood04",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood04",
+          "position": "6199.25,-592.166,252.089",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "1",
+          "activate_cond": "EDWARD_FOLLOW",
+          "script": ""
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|25|_prim_EntryPoint_from_darkwood04: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|25|_prim_EntryPoint_from_darkwood04: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_EntryPoint_from_darkwood05",
+        "gametype": "SpawnPoint",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood05",
+          "position": "6199.25,-212.45,252.089",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "1",
+          "script": "",
+          "activate_cond": "IsAfter_KillFlaminite"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|26|_prim_EntryPoint_from_darkwood05: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|26|_prim_EntryPoint_from_darkwood05: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "bossroom_ruins_ns__8",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "name": "_prim_NPC_Eddie",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_NPC_Eddie",
+          "position": "6157.95,-981.051,272.598",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,86.0322",
+          "gametype": "Character",
+          "_templateName": "NPC",
+          "charpropsname": "WanderingEddie",
+          "activate_cond": "EDWARD_FOLLOW"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|27|_prim_NPC_Eddie: Condition policy returned unknown; actor not instantiated"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/bossroom_ruins_ns__8#7|original-cache/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp|27|_prim_NPC_Eddie: Condition policy returned unknown; actor not instantiated"
+        ]
+      },
+      {
+        "module": "obj_2of4_brdwalk_sw_00_9",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+        "name": "_prim_NPC_Mothgiver",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_NPC_Mothgiver",
+          "position": "-2326.9,663.128,256.489",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,22.4513",
+          "gametype": "Character",
+          "_templateName": "NPC",
+          "static": "1",
+          "charpropsname": "Swamp_MerchantCamp_NPC_B"
+        },
+        "default_runtime": "loaded_enabled",
+        "default_notice": [],
+        "diagnostic_spawn_runtime": "loaded_enabled",
+        "diagnostic_spawn_notice": []
+      },
+      {
+        "module": "obj_2of4_brdwalk_sw_00_9",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+        "name": "_prim_MothTemplate_06",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_MothTemplate_06",
+          "position": "-2166.96,-644.5,35.3872",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,76.6063",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType2"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|2|_prim_MothTemplate_06: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|2|_prim_MothTemplate_06: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ]
+      },
+      {
+        "module": "obj_2of4_brdwalk_sw_00_9",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+        "name": "_prim_MothTemplate_08",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_MothTemplate_08",
+          "position": "-1065.35,-1162.51,35.3872",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,76.6063",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType2"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|3|_prim_MothTemplate_08: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|3|_prim_MothTemplate_08: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ]
+      },
+      {
+        "module": "obj_2of4_brdwalk_sw_00_9",
+        "source_file": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-source-clock-checkpoint-v17/assets/original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+        "name": "_prim_MothTemplate_10",
+        "gametype": "Character",
+        "properties": {
+          "type": "Block",
+          "name": "_prim_MothTemplate_10",
+          "position": "-103.897,406.353,35.3872",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-27.7248",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "ai_state": "Idle",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "char_template": "Swamp_CommonType2"
+        },
+        "default_runtime": "skipped",
+        "default_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|4|_prim_MothTemplate_10: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ],
+        "diagnostic_spawn_runtime": "skipped",
+        "diagnostic_spawn_notice": [
+          "Population notice: data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|4|_prim_MothTemplate_10: Symbolic character template requires caller-owned selection: Swamp_CommonType2"
+        ]
+      }
+    ],
+    "authored_total_is_not_simultaneous_enemy_count": true,
+    "diagnostic_spawn_final_enabled": 15,
+    "diagnostic_spawn_loaded": 20,
+    "authored_spawn_points": 11,
+    "default_deferred": 0,
+    "diagnostic_spawn_skipped": 41,
+    "default_skipped": 48,
+    "notes": "Inventory is authored placement XML plus exact packaged startup/spawn notices; loaded status means no population skip notice, corroborated by totals. Player is separate and not included in13/20. Only two loaded actors participate in logged combat bindings; that is not the13 visual total."
+  },
+  "movement_verdict": {
+    "source_evidence": "Original source move focus flags=0x23c1; instant_rotation=false. Portability agent reports strict +/-pi rotation tie makes both W/S reversals traverse -pi/2 and moving forward root can yield negativeX drift. These are source-kernel facts and hypotheses about composition, not direct video acceptance.",
+    "checkpoint_evidence": "Default-run log: manual heading checks60/slides45/lateRotations60, full FSM/path/physics frame remains incomplete",
+    "status": "unresolved_direct_video_parity",
+    "needed": "Synchronized world-position/heading/root-delta/input trace and controlled original joystick180-degree reversals. Check move focus producer, turn speed, root motion projection, controller/path gating and update order before modifying original kernels."
+  },
+  "discrepancies": [
+    {
+      "fix": "Run reusable authored trigger/condition/script Wait/Spawn/PlayCameraSequence and completion ownership from actual route; bind matching source actor references. Do not schedule video timestamps or enable all actors.",
+      "evidence_kind": "direct_video_plus_packaged_runtime",
+      "id": "entrance_default",
+      "finding": "Video shows normal-route entrances. Packaged default retains no deferred actors and does not request campaign command replay; spawn.args requires retain-hidden-actors and explicit LizardMan_Intro command injection. Diagnostic support does not establish normal entrance triggers."
+    },
+    {
+      "fix": "Resolve original symbolic template selection and spawn probability policy, preserving placement identity, campaign activation/deactivation and reload outcomes across maps.",
+      "evidence_kind": "source_and_packaged_logs",
+      "id": "symbolic_population",
+      "finding": "Symbolic Swamp_CommonType1/2 declarations remain skipped; source-bound actor existence alone omits these encounters."
+    },
+    {
+      "fix": "Compare ordered full move update against source and original input sequence; preserve authored turning unless mismatch traced to host adapter.",
+      "evidence_kind": "source_incomplete_video_parity",
+      "id": "movement_composition",
+      "finding": "Source rotation behavior exists, but complete source frame/controller interaction and actual reversal arc parity remain unproven."
+    }
+  ],
+  "acceptance_checklist": [
+    "Controlled original versus reconstruction reversal: heading latency, elapsed turn, root delta, net lateral drift and stop behavior; repeat opposite starting headings and camera angles.",
+    "Fresh normal start route invokes each authored entrance exactly once via trigger/script, including camera, SKIP/UI/control ownership, spawn animation and completion into AI combat.",
+    "Inventory per module lists authored Character/SpawnPoint, exact selected template/profile, enabled/deferred/skipped reason, condition state and stable identity; no unresolved population treated as accepted.",
+    "At matched route checkpoints compare visible enemy type/count/position, spawn ordering, aggro/combat, death, chest-linked activations and backtracking state.",
+    "Whole-game acceptance requires representative later maps/bosses/classes and their authored source ownership; Act1 video and Swamp diagnostics alone cannot certify it."
+  ],
+  "integration_criteria": "reports/fidelity-integration-criteria.json",
+  "source_script_mapping": [
+    {
+      "requirements": "Module-local one-shot _prim_MothMovieTriggerZone contact; construct actual scoped trigger and deferred FakeMoth01/02; BeginScriptedCutScene hides HUD and exposes SKIP via actual common script; original position/look transforms; actor animation332/333, sound363 and camera334 resolved to actual resources; honor blocking/completion; restore final mothspots,Idle,playerlook/cameratarget/camera55,UnlockAll,EndScriptedCutScene. Two movie moths directly confirmed in individual frames267/273; provisional third-actor inference discarded.",
+      "confidence": "source-supported association",
+      "script": "MothIntro",
+      "video_seconds": [
+        267,
+        274
+      ]
+    },
+    {
+      "requirements": "Resolve _prim_Monster_53_03_001 and actual trigger route; source MoveActor/Wait50/SetCameraTarget1500/Wait2600/Stop; actor animations1377,1359,1373 and camera44 blocking semantics; returnIdle,cameraLocalPlayer500,unlock/end. Do not accept this source association solely on visible model.",
+      "confidence": "candidate inference from Troll profile and matching scripted jump, needs resource/route confirmation",
+      "script": "TrollReturn",
+      "video_seconds": [
+        350,
+        355
+      ]
+    },
+    {
+      "requirements": "Actual one-shot trigger _prim_TriggerZone_LizManIntro; begin/lock,CameraTargetNewCamSpot1000,Wait500,SpawnIntro1,Wait1500,SpawnIntro2,Wait2000,unlock,cameraLocalPlayer1000,end,CombatTuto. This separate source script is not the mothvideo entrance.",
+      "confidence": "direct source, no timestamp association accepted",
+      "script": "LizardMan_Intro"
+    }
+  ],
+  "capture_timing_correction": "fps/tile contact sheets showed frame selection offsets relative to direct -ss individual extraction. Menu labels and entrance phase bounds corrected after individual pixel verification. Use individual reference frames as exact timestamp evidence."
+}

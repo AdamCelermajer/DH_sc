@@ -40,12 +40,18 @@ struct CampaignGeneratedRoomProviderV92 {
    // and its real derived IsZonable c4 (Player/Faerie exceptions included).
    // It is defined in source_campaign_object_update_actor_v104.cpp, not FSM.
    if(!borrow_source_campaign_character_room_v104(actual,id,value,e)||!value.owner||value.identity!=id)return false;
+  }else if(*canonical.type_f4==5){
+   // The SAME Module graph owns this class's base and visual, independently
+   // of V69. Positive inherited IsZonable still needs its actual room fields.
+   std::shared_ptr<void> pin;dh2::world::CanonicalModuleV1* receiver{};
+   if(!borrow_source_campaign_module_v91(actual.actual_world,id,pin,receiver,e)||!pin||!receiver||receiver->base().identity()!=id||
+     pin.owner_before(canonical.lease)||canonical.lease.owner_before(pin)){if(e.empty())e="Required SAME published Module room receiver";return false;}
+   auto& base=receiver->base();value.owner=pin;value.position160=base.vector3(0x160);value.room2f4=base.pointer(0x2f4);value.initial_room2ef=base.byte(0x2ef);
   }else{
    std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};std::string missing;
    if(graph->borrow(id,pin,base,missing)&&base){value.owner=pin;value.position160=base->vector3(0x160);value.room2f4=base->pointer(0x2f4);value.initial_room2ef=base->byte(0x2ef);}
-   // An actual non-zonable Module may have no GameObject base projection.
-   // Its real virtualc4 runs first in Main's body. A positive result requires
-   // these genuine fields there; no null-domain origin/room is manufactured.
+   // The selected virtualc4 runs before room fields are required. A positive
+   // result requires these genuine fields; no origin/room is manufactured.
   }
   out=std::move(value);e.clear();return true;
  }

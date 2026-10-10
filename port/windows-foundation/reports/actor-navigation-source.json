@@ -1,0 +1,69 @@
+{
+  "status": "native_manual_pass_source_floor_graph_PF_registry_native_radius",
+  "live_navigation_verified": false,
+  "files": [
+    "port/windows-foundation/original_actor_navigation.hpp",
+    "port/windows-foundation/original_actor_navigation.cpp",
+    "port/windows-foundation/tests/original_actor_navigation_tests.cpp"
+  ],
+  "source_scope": "Lightweight source PF producer and actual floor assembly. Uses original math/storage kernels without retained Character/VM hierarchy. No movement collision solver or live campaign claim.",
+  "original_order": {
+    "init_final": "Original GameObject.InitFinal0038cd48.c calls PFWorld.InitObject (callsite38cd94) with fullmaxXY from actual relative144 bounds, source static84, actor position160/user receiver, then UpdatePFObject. Character.InitFinal003b4978.c invokes GameObject.InitFinal.",
+    "physical_before_initpf": "Actual fresh PFObject defaults user0/floorUINTMAX. Original navigation producer user0 returns before fields/geometry/key validation. This can honestly serve physical initialization UpdatePF before source InitFinal without fake callback. Exact global player creation/FSM timing not established merely by this local gate.",
+    "update": "After actual PFInit, Character source absent-floorUINTMAX returns before obstacle/radius leaves. With floor, original Character traits obstacletrue/radius50/strength20; InitObstacle enables only actual body; source radius native.radius*100 when body exists, otherwise halfmax actual absoluteXY."
+  },
+  "same_owner": "Caller supplies sole NavigationObject+ObstacleRegistry and actual actor position/relative/absolute pointers with actor/world leases. Component never owns an alternate PFObject/floor authority.",
+  "floor_helper": {
+    "api": "append_original_module_floors(BresView,alreadyPlacedSourceScene,explicitBindings,actualFloorsWorld,error)",
+    "bindings": "Each record specifies actual source instance index, actual room ID and actual mesh-child local quaternion/scale. Loader must provide static OptimizeStatic pose results; function never guesses them.",
+    "source": "module_floor_append_pose_v2 directly decodes actual original floor buffers, source userproperties/floortypes and original reversed selector winding, clone transform, octree and bounds. Floor records retained in actual floors.World.",
+    "completion": "Caller executes floors.build_graph and floors.post_load after all source floor records. Helper retains reached prefix on errors.",
+    "exclusions": "No renderer triangles, name-based room ordinal inference, visibility skip policy or game-specific module branches."
+  },
+  "integration": [
+    "Own OriginalActorNavigation and its sole NavigationObject for at least as long as callback in OriginalActorPhysical",
+    "construct_defaults once only on fresh source PFObject, then bind physical_callback to original physical owner",
+    "Before actual InitFinal, user0 source gate completes without requiring floor data and leaves navigation uninitialized",
+    "When original floor/module records and static84 available, initialize_pf invokes source fullmaxXY InitObject; follow with physical_callback using actual current native body",
+    "Continue PF obstacle/radius updates only at source UpdatePF points. Actor source movement and source navigation position/parent updates remain separate reached services",
+    "Registry storage caller-provided; exhausted capacity explicit error. Do not invent capacity failure success or fake floor IDs"
+  ],
+  "tests": [
+    "Exact fresh user0 earlyreturn without floors/field/registry providers",
+    "Actual original-cache Swamp BDAE floor buffers selected as test data; explicit room0/unoptimized identity child pose fixtures",
+    "Actual graph+postload selector finds original triangle barycenter fixture position",
+    "Source fullmax InitObject200 then null physical halfmax100",
+    "Genuine native body radius0.6 physics units produces PF radius60 and original obstacle50/20 insertion on actual source floor",
+    "Body destroy then actual update removes obstacle and uses halfmax100"
+  ],
+  "fixtures": [
+    "Source fixture floor/room selection used for test only; no whole level/module constructor runtime-ID claim",
+    "Identity child mesh quaternion/scale explicit unoptimized fixture; not proof original OptimizeStatic output is identity",
+    "PF actor position and bounds fixture storage; actual BDAE floor triangle/selector/graph and real Box2D body",
+    "Physical radiusfixture body produced by exact source body config, not actual player model for this test; model-bound native radius verified separately in actor-physical-source.json"
+  ],
+  "limits": [
+    "Full source module constructor/traversal, static baking, actual runtime room receipts still caller providers",
+    "User0 earlyreturn proves only original update gate; does not prove active navigation/PF collision gameplay",
+    "This adapter does not update PF motion position on every visual frame or implement movement validation/avoidance/pathfollowing",
+    "Source floor graph post-load helpers are recovered bounded wrappers; no full campaign transition claim"
+  ],
+  "validation_command": ".local-inputs/windows-encounter-source/original_actor_navigation_tests.exe .local-inputs/windows-shared-assets",
+  "dependencies": [
+    "navigation.cpp",
+    "navigation_search.cpp",
+    "navigation_world.cpp",
+    "navigation_path.cpp",
+    "navigation_motion.cpp",
+    "navigation_objects.cpp",
+    "navigation_producers.cpp",
+    "collision.cpp",
+    "octree.cpp",
+    "selector.cpp",
+    "floor_source.cpp",
+    "floors.cpp",
+    "module_floor_append_v2.cpp",
+    "user_properties_v2.cpp",
+    "existing foundation/recovered_content/recovered_trigger_contacts/content_xml/dh2_box2d_201"
+  ]
+}

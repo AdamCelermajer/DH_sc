@@ -60,9 +60,16 @@ bool model_renderer::source_native_loadmenu1_v98(std::shared_ptr<void> world,std
  auto reached=[&](){return continuation(e);};
  auto same_movie=[&](std::uint32_t slot,const MenuMovieBorrowV58& expected){MenuMovieBorrowV58 now;
   const bool ok=provider->directory->movie_slot(slot,now,e);if(!reached())return false;
-  if(!ok||now.identity!=expected.identity||now.actual_owner.get()!=expected.actual_owner.get()||
-   now.actual_owner.owner_before(expected.actual_owner)||expected.actual_owner.owner_before(now.actual_owner)){
-   if(e.empty())e="Primary loading callback retired/replaced actual movie resource";return fail();
+  // Front slots0/2 return a fresh pair<Impl,SwfMovie> pin on each borrow.
+  // Its shared_ptr identity is the lease wrapper, not the movie; the stable
+  // movie pointer in identity is sufficient because expected pins the old
+  // resource, preventing pointer reuse. Primary1's identity is its RenderFX,
+  // so also retain the stable source-movie lease check there.
+  const bool same_primary_lease=slot!=1||
+   (now.actual_owner.get()==expected.actual_owner.get()&&
+    !now.actual_owner.owner_before(expected.actual_owner)&&!expected.actual_owner.owner_before(now.actual_owner));
+  if(!ok||!expected.actual_owner||!now.actual_owner||now.identity!=expected.identity||!same_primary_lease){
+   if(e.empty())e="Primary loading callback changed actual movie resource in slot "+std::to_string(slot);return fail();
   }return true;
  };
  if(!reached())return false;
@@ -107,7 +114,7 @@ bool model_renderer::source_native_loadmenu1_v98(std::shared_ptr<void> world,std
  for(std::uint32_t slot=0;slot<4;++slot){MenuMovieBorrowV58 q;const bool slot_ok=provider->directory->movie_slot(slot,q,e);if(!reached())return false;if(!slot_ok)return fail();if(!q.identity)continue;
   SwfMovie* movie{};std::shared_ptr<void> lease;const bool borrowed=provider->directory->movie(slot,q,movie,lease,e);if(!reached())return false;
   if(!borrowed||!movie||!lease||!same_movie(slot,q))return fail();auto* r=stack_pin->render(q.identity);if(!r){e="PostLoad lacks SAME current primary render directory";return fail();}
-  const auto flags=r->flags;const bool posted=roster_pin->post_load(*movie,lease,flags,e);if(!reached())return false;
+  const auto flags=r->flags;const bool posted=roster_pin->post_load(*movie,q.identity,lease,flags,e);if(!reached())return false;
   if(!posted||!same_movie(slot,q)||!same_movie(1,primary))return fail();
  }
  for(auto i=first;i<stack_pin->registry_count_v58();++i){auto* q=stack_pin->registry_at_v58(i);

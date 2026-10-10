@@ -15,7 +15,7 @@ class NativeGSLevelRuntimeV27 {
  std::shared_ptr<NativeGSLevelGlobalsV27> globals_;
  GSLevelFieldsV2<CanonicalLevelContextV1> fields_;
  std::unique_ptr<NativeGSLevelConnectionV26> gs_;
- std::unique_ptr<CanonicalLevelLoadingV26> loading_;
+ std::shared_ptr<CanonicalLevelLoadingV26> loading_;
  bool attempted_{};
 public:
  explicit NativeGSLevelRuntimeV27(std::shared_ptr<NativeGSLevelGlobalsV27> globals):globals_(std::move(globals)){}

@@ -17,16 +17,52 @@ ReleaseMutex=api('ReleaseMutex',[W.HANDLE])
 OpenJob=api('OpenJobObjectW',[W.DWORD,W.BOOL,W.LPCWSTR],W.HANDLE)
 def atomic(path,value):
  temporary=path.with_suffix(path.suffix+'.tmp');temporary.write_text(json.dumps(value,indent=2)+'\n',encoding='utf8');temporary.replace(path)
+def guest_memory_mib(value):
+ try:memory=int(value)
+ except (TypeError,ValueError):raise argparse.ArgumentTypeError('Guest memory must be an integer from2048..4096MiB')
+ if not 2048<=memory<=4096:raise argparse.ArgumentTypeError('Guest memory must be2048..4096MiB')
+ return memory
+def build_emulator_command(args):
+ command=['-avd',args.avd,'-port',str(args.port),'-gpu',args.gpu,'-cores','2','-memory',str(args.guest_memory_mib),'-crash-report-mode','disabled','-no-snapshot-load','-no-snapshot-save','-no-boot-anim']
+ if args.disable_vulkan:command+=['-feature','-Vulkan']
+ return command
+def dry_run_report(args,snapshot):
+ return {'admitted':True,'dry_run':True,'no_emulator_started':True,'snapshot':snapshot,'hard_job_gib':args.hard_memory_gib,'guest_memory_mib':args.guest_memory_mib,'command':build_emulator_command(args),'one_emulator_policy':True}
+def build_parser():
+ parser=argparse.ArgumentParser(description=__doc__,prog=Path(__file__).name)
+ parser.add_argument('--avd',required=True)
+ parser.add_argument('--port',type=int,default=5554)
+ parser.add_argument('--adb-port',type=int,default=5037)
+ parser.add_argument('--gpu',choices=['swiftshader','host'],default='swiftshader')
+ parser.add_argument('--guest-memory-mib',type=guest_memory_mib,default=4096,metavar='MIB',help='Android guest RAM in MiB (2048..4096; default:4096)')
+ parser.add_argument('--disable-vulkan',action='store_true',help='Bounded GLES-only backend investigation; no AVD config write')
+ parser.add_argument('--duration-seconds',type=int,default=1200)
+ parser.add_argument('--hard-memory-gib',type=float,default=6)
+ parser.add_argument('--soft-memory-gib',type=float,default=5)
+ parser.add_argument('--min-physical-available-gib',type=float,default=6)
+ parser.add_argument('--max-physical-used-percent',type=int,default=98)
+ parser.add_argument('--allow-guest-paging',action='store_true',help='Explicitly permit Windows paging of guest storage; commit reserve and physical watchdog remain enforced')
+ parser.add_argument('--allow-physical-pressure',action='store_true',help='Explicit paging mode: bypass the startup RAM floor; watchdog still stops at 98%% host RAM')
+ parser.add_argument('--dry-run',action='store_true')
+ return parser
 def registry_live():
  for file in REGISTRY.glob('*.manifest.json'):
   record=json.loads(file.read_text(encoding='utf8'))
+  identity_access_denied=False
   try:live=creation_time(pid=record['launcher_pid'])==record['launcher_create_time']
   except OSError as e:
-   if getattr(e,'winerror',None) not in (87,1168):raise
-   live=False
+   if getattr(e,'winerror',None) in (87,1168):live=False
+   elif getattr(e,'winerror',None)==5:
+    # A stale PID may have been recycled to a protected process. The unique
+    # named job below must confirm that no guarded lease remains before skip.
+    live=False;identity_access_denied=True
+   else:raise
   handle=OpenJob(4,False,record['job_name'])
   if handle:Close(handle);live=True
-  elif C.get_last_error()!=2:raise C.WinError(C.get_last_error(),'Cannot verify prior named job')
+  else:
+   job_error=C.get_last_error()
+   if job_error!=2:raise C.WinError(job_error,'Cannot verify prior named job')
+   if identity_access_denied:continue
   if live:return record
  return None
 def free_port(port):
@@ -34,24 +70,13 @@ def free_port(port):
   sock.setsockopt(socket.SOL_SOCKET,socket.SO_EXCLUSIVEADDRUSE,1)
   sock.bind(('127.0.0.1',port))
 def main():
- parser=argparse.ArgumentParser(description=__doc__)
- parser.add_argument('--avd',required=True)
- parser.add_argument('--port',type=int,default=5554)
- parser.add_argument('--adb-port',type=int,default=5037)
- parser.add_argument('--gpu',choices=['swiftshader','host'],default='swiftshader')
- parser.add_argument('--disable-vulkan',action='store_true',help='Bounded GLES-only backend investigation; no AVD config write')
- parser.add_argument('--duration-seconds',type=int,default=1200)
- parser.add_argument('--hard-memory-gib',type=float,default=6)
- parser.add_argument('--soft-memory-gib',type=float,default=5)
- parser.add_argument('--min-physical-available-gib',type=float,default=6)
- parser.add_argument('--allow-guest-paging',action='store_true',help='Explicitly permit Windows paging of guest storage; commit reserve and physical watchdog remain enforced')
- parser.add_argument('--allow-physical-pressure',action='store_true',help='Explicit user-requested paging mode: log physical pressure while enforcing hard job/commit/time/identity limits')
- parser.add_argument('--dry-run',action='store_true')
+ parser=build_parser()
  args=parser.parse_args()
  if not 1<=args.duration_seconds<=3600:parser.error('Duration must be1..3600seconds')
  if not all(math.isfinite(v) for v in [args.hard_memory_gib,args.soft_memory_gib,args.min_physical_available_gib]):parser.error('Memory thresholds must be finite')
  if not 2<=args.hard_memory_gib<=15 or not 1<=args.soft_memory_gib<args.hard_memory_gib:parser.error('Require1<=soft<hard<=15GiB; hard>=2GiB')
  if not 2<=args.min_physical_available_gib<=6:parser.error('Physical safety floor must be2..6GiB')
+ if args.max_physical_used_percent!=98:parser.error('The host RAM cutoff is fixed at 98 percent')
  if args.allow_physical_pressure and not args.allow_guest_paging:parser.error('Physical-pressure mode requires explicit guest paging')
  if args.port%2 or not 5554<=args.port<=5680:parser.error('Use an even emulator port5554..5680')
  sdk=Path(os.environ.get('ANDROID_HOME',str(Path.home()/'AppData/Local/Android/Sdk')))
@@ -79,22 +104,20 @@ def main():
   required_ram=(args.min_physical_available_gib+(10 if args.allow_guest_paging else 4))*GIB
   if not args.allow_physical_pressure and system['physical_available_bytes']<required_ram:raise RuntimeError('Insufficient available RAM for selected guest paging policy and physical safety floor')
   free_port(args.port);free_port(args.port+1)
-  if args.dry_run:print(json.dumps({'admitted':True,'dry_run':True,'no_emulator_started':True,'snapshot':snapshot,'hard_job_gib':args.hard_memory_gib,'one_emulator_policy':True},indent=2));return 0
+  if args.dry_run:print(json.dumps(dry_run_report(args,snapshot),indent=2));return 0
+  command=build_emulator_command(args)
   stamp=time.strftime('%Y%m%d-%H%M%S')+'-'+uuid.uuid4().hex[:8]
   manifest=REGISTRY/(stamp+'.manifest.json');receipt=REGISTRY/(stamp+'.launcher.json')
   ready=REGISTRY/(stamp+'.ready.json');watch_receipt=REGISTRY/(stamp+'.watchdog.json');telemetry=REGISTRY/(stamp+'.telemetry.jsonl')
   job=MemoryJob(int(args.hard_memory_gib*GIB))
   env={'QT_AUTO_SCREEN_SCALE_FACTOR':'0','QT_ENABLE_HIGHDPI_SCALING':'0','QT_SCALE_FACTOR':'1','QT_FONT_DPI':'96','ANDROID_ADB_SERVER_PORT':str(args.adb_port)}
   os.environ.update(env)
-  command=['-avd',args.avd,'-port',str(args.port),'-gpu',args.gpu,'-cores','2','-memory','4096','-crash-report-mode','disabled','-no-snapshot-load','-no-snapshot-save','-no-boot-anim']
-  if args.disable_vulkan:command+=['-feature','-Vulkan']
   host_log=REGISTRY/(stamp+'.emulator.log');host_errors=REGISTRY/(stamp+'.emulator-errors.log')
   target=job.create_suspended(executable,command,executable.parent,host_log,host_errors)
-  record={'schema':36,'job_name':job.name,'launcher_pid':os.getpid(),'launcher_create_time':creation_time(pid=os.getpid()),'target_pid':target['pid'],'target_create_time':target['create_time_filetime'],'hard_memory_bytes':int(args.hard_memory_gib*GIB),'soft_memory_bytes':int(args.soft_memory_gib*GIB),'physical_floor_bytes':int(args.min_physical_available_gib*GIB),'allow_guest_paging':args.allow_guest_paging,'avd':args.avd,'port':args.port,'adb_port':args.adb_port,'gpu':args.gpu,'duration_seconds':args.duration_seconds,'os_limit_readback':job.limits(),'preflight':snapshot,'command':command}
+  record={'schema':36,'job_name':job.name,'launcher_pid':os.getpid(),'launcher_create_time':creation_time(pid=os.getpid()),'target_pid':target['pid'],'target_create_time':target['create_time_filetime'],'hard_memory_bytes':int(args.hard_memory_gib*GIB),'soft_memory_bytes':int(args.soft_memory_gib*GIB),'physical_floor_bytes':int(args.min_physical_available_gib*GIB),'max_physical_used_percent':args.max_physical_used_percent,'allow_guest_paging':args.allow_guest_paging,'avd':args.avd,'guest_memory_mib':args.guest_memory_mib,'port':args.port,'adb_port':args.adb_port,'gpu':args.gpu,'duration_seconds':args.duration_seconds,'os_limit_readback':job.limits(),'preflight':snapshot,'command':command}
+  if args.allow_physical_pressure:record['allow_physical_pressure']=True
   atomic(manifest,record)
-  if args.allow_physical_pressure:
-   record['allow_physical_pressure']=True;atomic(manifest,record)
-  watch_args=[sys.executable,str(Path(__file__).with_name('emulator_watchdog_v36.py')),'--manifest',str(manifest),'--telemetry',str(telemetry),'--receipt',str(watch_receipt),'--ready',str(ready),'--soft-job-gib',str(args.soft_memory_gib),'--aggregate-qemu-gib',str(max(12,args.hard_memory_gib+1)),'--min-physical-available-gib',str(args.min_physical_available_gib),'--timeout-seconds',str(args.duration_seconds),'--poll-seconds','1']
+  watch_args=[sys.executable,str(Path(__file__).with_name('emulator_watchdog_v36.py')),'--manifest',str(manifest),'--telemetry',str(telemetry),'--receipt',str(watch_receipt),'--ready',str(ready),'--soft-job-gib',str(args.soft_memory_gib),'--aggregate-qemu-gib',str(max(12,args.hard_memory_gib+1)),'--min-physical-available-gib',str(args.min_physical_available_gib),'--max-physical-used-percent',str(args.max_physical_used_percent),'--timeout-seconds',str(args.duration_seconds),'--poll-seconds','1']
   if args.allow_physical_pressure:watch_args+=['--allow-physical-pressure']
   with (REGISTRY/(stamp+'.watchdog-errors.log')).open('wb') as errors:
    watchdog=subprocess.Popen(watch_args,stdout=subprocess.DEVNULL,stderr=errors,creationflags=0x08000000)
@@ -107,7 +130,7 @@ def main():
   if proof.get('verified') is not True or proof.get('job_name')!=job.name:raise RuntimeError('Independent guard handshake differs')
   job.resume()
   ReleaseMutex(mutex);acquired=False
-  print(json.dumps({'started':True,'manifest':str(manifest),'watchdog':str(watch_receipt),'telemetry':str(telemetry),'job':job.name,'root_pid':target['pid'],'hard_gib':args.hard_memory_gib,'soft_gib':args.soft_memory_gib,'duration_seconds':args.duration_seconds}),flush=True)
+  print(json.dumps({'started':True,'manifest':str(manifest),'watchdog':str(watch_receipt),'telemetry':str(telemetry),'job':job.name,'root_pid':target['pid'],'hard_gib':args.hard_memory_gib,'soft_gib':args.soft_memory_gib,'guest_memory_mib':args.guest_memory_mib,'duration_seconds':args.duration_seconds}),flush=True)
   start=time.monotonic()
   while job.members():
    if watchdog.poll() is not None:

@@ -70,6 +70,12 @@ public:
  // Reject reload while any Borrow exists. A Borrow also retains the snapshot
  // after owner destruction: caller must retain it through VM close/finalizers.
  bool initialize(const GameDesignInputs256&,std::string& error);
+ // Optional exact process PyDataArrays provider for registered groups outside
+ // this six-table snapshot. The snapshot pins provider_owner through all VM
+ // borrows/finalizers; absent providers remain delivery failures for known
+ // source registrations.
+ bool initialize(const GameDesignInputs256&,const dh2_script_design_bindings& process_design,
+                 std::shared_ptr<void> provider_owner,std::string& error);
  Borrow borrow() const{return Borrow(snapshot_);}
  bool ready() const{return bool(snapshot_);}
 };

@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-09",
+  "status": "feature_backend_and_native_fixture_ready_root_enrollment_pending",
+  "goal_complete": false,
+  "scope": "Expose the root's existing NativeGSLevelRuntimeV27/current s_level as a typed current-Level loan while constructing the same canonical Level through original GS and C1 services.",
+  "implementation": {
+    "files": [
+      "port/windows-foundation/features/actor_frame/source_current_level_backend_v1.hpp",
+      "port/windows-foundation/features/actor_frame/source_current_level_backend_v1.cpp",
+      "port/windows-foundation/features/actor_frame/source_current_level_backend_native_test.cpp"
+    ],
+    "authority": "SourceCurrentLevelBackendV1 accepts one caller-owned NativeGSLevelRuntimeV27 and NativeGSLevelGlobalsV27, validates runtime/globals shared-owner identity and retains the caller's root/Application/World/ObjectManager/navigation/floors graph. It invokes that runtime's existing construct/current/destroy methods; it creates no GS runtime, global, Level, Level slot, or second current-Level getter.",
+    "c1": "The backend requires the same LevelConstructorApplicationV4 owner and actual LevelTables pointer as the root graph. It validates the unmodified source identity, MLX/source definition, and constructor name against the first actual LevelTable filename row using source C1 lower-row/substring behavior, then calls the original NativeGSLevelRuntimeV27 construction chain. It verifies the published s_level pointer and shared control block, completed C1, selected row, and same KillLevel16 pointer.",
+    "typed_loan": "SourceCurrentLevelBorrowV1 retains the root graph and exact CanonicalCurrentLevelBorrowV1. It exposes the current Level identity, actual KillLevel16 pointer (word+150), and the actual C1 Level+0x118 field pointer (mode118). It does not substitute loading phase+0x130. still_current re-reads the same runtime's current slot and rejects an unloaded/replaced Level while the old loan safely pins its storage.",
+    "actor_manager_provenance": "validate_actor_manager_identity obtains the actor's handle, registry, and retained receiver lease from the same CharacterWorldRuntimeV1, then checks that the same canonical ObjectManager key resolves to that actor identity, lease control block, and exact shared Handle pointer. The actor-world alias must share the root World owner control block."
+  },
+  "native_test": {
+    "status": "PASS",
+    "validation": "A native C++ fixture loads the captured CharacterGameDesign/LevelTables, selects the first real LevelTable filename dynamically, runs actual Level C1 through NativeGSLevelRuntimeV27, verifies GS s_level/field34/current getter share the exact Level pointer/control block, verifies C1 row and Level+0x150 pointer/value, cross-checks one actor's World and ObjectManager handle provenance, corrupts and restores the handle cache to test rejection, then runs unload and proves the pinned old loan is stale but storage-safe.",
+    "runtime_limits": "The fixture uses explicit offline, menu, unload and destruction leaves. It proves the native C1/current-slot adapter and actor/manager identity checks; it does not prove production root enrollment, Level.Init, full Level.Unload/Level destructor, navigation/floor service completeness, an active gameplay frame, or end-to-end kill loot."
+  },
+  "root_dependencies": [
+    "Root must pass its already active NativeGSLevelRuntimeV27/NativeGSLevelGlobalsV27, exact Application LevelConstructorApplicationV4, original GSLevelServicesV2/root scope, active World/ObjectManager/navigation/floors and source MLX selection into the helper. The helper does not claim that the production host currently constructs/publishes this C1.",
+    "Root should use the same current Level loan for Application::GetCurrentLevel and fixed AddLoot's difficulty+0x118 query; gameplay code must requery the same global when the source does so."
+  ],
+  "verification": {
+    "native_test_command": "g++ C++17 ASan/UBSan build against current NativeGSLevelRuntimeV27/C1 translation units and host Level/World/GameData/UI/script libraries; test ran against port/level-world/reference/character-game-design/real-cache-inputs.bin and actual Level script/save fixtures.",
+    "native_run": "PASS: 446 checks with ASan/UBSan and leak detection; dynamically selected captured LevelTable row 009_abbey.rule.xml; current-Level C1, exact slot/word150 identity, same actor World/ObjectManager Handle and lease control block, unload and stale-loan checks.",
+    "syntax": "PASS: source backend and native fixture compile with C++17, -Wall -Wextra -Werror; suppresses only pre-existing upstream misleading-indentation and Box2D unused-value warnings."
+  }
+}

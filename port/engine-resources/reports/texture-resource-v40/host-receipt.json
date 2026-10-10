@@ -2,10 +2,10 @@
   "status": "PASS",
   "scope": "Tiny actual decoder/ZIP/sampler/mip/unbind fixture with fake GL metadata.",
   "bindings_sha256": {
-    "port/engine-resources/tests/texture_resource_consumer_v40.cpp": "dfe98af7112172286556d8d3d4e61005c6fe8fc445b4e030db6d8ed31b957b7b",
+    "port/engine-resources/tests/texture_resource_consumer_v40.cpp": "a746ad9559394882baeb68b91de67bb6e341fa0198c66df2a64401571ed45926",
     "port/engine-resources/admitted_cpu_bytes_v40.cpp": "2f2b8d32e5971bbebde2763d043f422c5cd9c90a3f8499647f5e0edd8ece9be5",
     "port/engine-resources/retained_bytes_v39.cpp": "2852adfa84c7049dc321dab44bb432779b05eb76e28bf235aed954008da6bd06",
-    "port/engine-resources/resource_budget_v37.cpp": "9282aacb83c4a57d474e25ea6d6962db342b3b7db3efb6f4ecdbae75da93a8e2",
+    "port/engine-resources/resource_budget_v37.cpp": "b215da5a0dbc9f7756e5a031a6862ff4d9b4efcf29061ad3eab074a08c045dec",
     "port/engine-resources/reports/texture-resource-v40/zip_asset_pack_v1.cpp": "04f0900b5272680b60c64434d769ae7e6b6bee6b7e162bd47dc911ae6608b7f4",
     "port/engine-resources/reports/texture-resource-v40/texture_owner_v1.cpp": "192196f5f73082e86dc7acfc7ddd98524dfe5676de003a95c1242fc17e8a42f2",
     "port/engine-textures/textures.cpp": "80264623322fd3262ceeebe1473711ebf5c9546a1f2028d0915c17d5572eb7cb",
@@ -16,7 +16,7 @@
     "port/engine-textures/texture_binding_owner_v1.cpp": "6a9dc09420f9675048d04909ebae9545ed2a7e7abb2e032d22a503523dd61419",
     "port/engine-textures/texture_unbind_v1.cpp": "1c0cc3e01ea24e9f68718dca2cdbf95c5fd87dce94c901ca6cf3b271abbae5d9",
     "port/engine-resources/admitted_cpu_bytes_v40.hpp": "9683e546b6b649c7936cea1cc40bbad812d45ddcf7847065e8e5c59a44622ab2",
-    "port/android-native/app/src/main/cpp/renderer_model_texture_budget_v40.inc": "77540e7fe79faa6e773ea813c3c2de9f6502be52708fc8668b876cc234fd1b4e",
+    "port/android-native/app/src/main/cpp/renderer_model_texture_budget_v40.inc": "1a22a8c910c92a260c392fae0deefe48b680f60b7268b0d4188f31d7de391d99",
     "port/engine-resources/reports/texture-resource-v40/renderer_effect_texture_v5.inc": "a366fdc8df488c450197bde5512c68c18ed571f8e748b772daf4759d9f700391",
     "port/engine-resources/reports/texture-resource-v40/actual-effect-owner.inc": "df7dc003f366be8b3b147285ebb1d891cc1701ada11954d860dc7e98176007ed",
     "port/engine-resources/reports/texture-resource-v40/zip_asset_pack_v1.hpp": "1f3b1b158d1f5ed92840fb88b8b789e063f1b461b3797eb724f45c177d64f9ad",
@@ -71,7 +71,7 @@
         "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/texture-resource-v40/tiny-fixture.zip"
       ],
       "exit_code": 0,
-      "stdout": "{\"status\":\"PASS\",\"checks\":183,\"actual_decoder_sampler_mip_unbind\":true,\"actual_ZIP_before_payload\":true,\"fake_GL_only\":true,\"final_records\":0}\n",
+      "stdout": "{\"status\":\"PASS\",\"checks\":191,\"actual_decoder_sampler_mip_unbind\":true,\"actual_ZIP_before_payload\":true,\"fake_GL_only\":true,\"final_records\":0}\n",
       "stderr": ""
     },
     {
@@ -122,7 +122,7 @@
         "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources/reports/texture-resource-v40/tiny-fixture.zip"
       ],
       "exit_code": 0,
-      "stdout": "{\"status\":\"PASS\",\"checks\":183,\"actual_decoder_sampler_mip_unbind\":true,\"actual_ZIP_before_payload\":true,\"fake_GL_only\":true,\"final_records\":0}\n",
+      "stdout": "{\"status\":\"PASS\",\"checks\":191,\"actual_decoder_sampler_mip_unbind\":true,\"actual_ZIP_before_payload\":true,\"fake_GL_only\":true,\"final_records\":0}\n",
       "stderr": ""
     }
   ]

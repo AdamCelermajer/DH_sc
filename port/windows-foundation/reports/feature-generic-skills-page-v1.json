@@ -1,0 +1,51 @@
+{
+  "feature": "generic_skills_page_v1",
+  "validation": "PASS against original CharacterTable and SkillTables assets; the API is independent of native CharacterMenu VM, V6, canonical Character, and InitPost.",
+  "owned_files": [
+    "features/generic_skills/generic_skills_page_v1.hpp",
+    "features/generic_skills/generic_skills_page_v1.cpp",
+    "features/generic_skills/generic_skills_page_v1_tests.cpp",
+    "features/generic_skills/run_tests.ps1"
+  ],
+  "api": "dh::foundation::generic_skills::PageV1 borrows the caller's CharacterState by reference and original CharacterTable/SkillTables; view resolves source rows, select tracks a class-list position, assign updates only the chosen SkillSlotBinding in that same state, train delegates to an explicit source progression/action provider.",
+  "row_authority": {
+    "class_token": "CharacterState.class_id must exactly match a name in the original CharacterTable.",
+    "default_skill_list": "Original CharacterTable.SkillTree metadata.",
+    "saved_override": "When populated saved skill rows exactly match a different original SkillList, that row order becomes active; source-known slot state that matches no original SkillList fails closed. This allows actual saved-row overrides without imposing class_id-to-SkillTree equality.",
+    "skill_position": "Index in the active SkillList; each position maps to its original global SkillTable ID.",
+    "saved_rank": "Only an existing CharacterState::skills entry supplies rank. Exact ordered rows preserve source duplicates; otherwise unique ID mapping is required. Missing or ambiguous rank remains absent.",
+    "saved_slot": "Existing SkillSlotBinding::saved_skill_row indexes the same CharacterState::skills vector. No blank or default slots are synthesized. Assign requires an unambiguous existing saved row and writes only the addressed equipment set/source slot."
+  },
+  "source_art_and_text": {
+    "available": "Raw original SkillIcon key, original skill dictionary token, SkillTable row, and signed RequiredLevel word 8 are exposed on each row. An optional localized_text provider can supply actual StringManager-derived name/description values for the same row and state.",
+    "not_claimed": "This generic presenter does not translate SWF icon keys into geometry or synthesize localized descriptions. Existing original SWF geometry and native StringManager/AI descriptions remain upstream providers."
+  },
+  "action_contract": {
+    "assignment": "Uses original two-equipment-set/three-source-slot bounds, SkillAssignable word 18 != -1, saved rank > 0, and mandatory same-state source availability callback. It mutates only the CharacterState skill_slots entry after all gates pass.",
+    "training": "Delegated because difficulty, level caps, available points and CanIncrementSkill are source-owner policy. Missing provider fails; false/throw restores the same CharacterState contents. No rank, cooldown, or point policy is fabricated.",
+    "persistence": "Changes are in-memory CharacterState updates only. Existing generic profile persistence can serialize this shared state; this feature does not claim the original whole-profile source save owner."
+  },
+  "provider_gaps": [
+    "Generic CharacterState has no explicit active GetCharSkillListId field. The page derives a saved override only when existing rows match an actual SkillList; if multiple identical authored lists exist, runtime source list identity cannot be distinguished, though row order is identical.",
+    "The generic model has no localized skill prose or rendered SWF geometry. Callers must supply StringManager text and art resolution where available.",
+    "Native progression training remains an explicit service because original availability/level-cap/potion side effects are not encoded by CharacterState plus SkillTables alone."
+  ],
+  "test": {
+    "command": "features/generic_skills/run_tests.ps1",
+    "compiler": "llvm-mingw clang++ C++17 -Wall -Wextra -Werror",
+    "assets": "port/android-native/app/src/main/assets/data original CharacterTable and SkillTables inputs",
+    "actual_class_rows": 55,
+    "actual_skill_positions": 267,
+    "checks": [
+      "all actual CharacterTable rows with supported SkillTree metadata",
+      "actual source SkillList position to SkillTable row/name/icon order",
+      "rank/points/slot projection from the same CharacterState without defaults",
+      "saved-row override selection independent of base class metadata",
+      "same-state slot assignment and same-state source training provider callback",
+      "source SkillAssignable/rank/availability rejection and no-change behavior",
+      "missing class token, unmatched source-known rows, absent text/rank/slot data remain explicit",
+      "failed source train provider restores the same state contents"
+    ],
+    "result": "PASS; same_state_assignments=1; same_state_training_provider_calls=1; native_progression_policy_claimed=false"
+  }
+}

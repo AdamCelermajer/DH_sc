@@ -23,6 +23,24 @@ bool original_batch_eligible_v96(const BatchObjectBorrowV96& b,const BatchNative
  if(!s.trace||!s.trace("isTracingBatchingCompiler",e))return required(e,"fresh source batching trace");
  out=accepted;return true;
 }
+bool original_batch_list_v96(world::CanonicalObjectManagerV1& manager,const BatchListServicesV96& s,std::string& e){
+ if(!s.validate_current||!s.validate_current(e))return required(e,"actual batch-list scope");
+ std::int32_t key{};const world::CanonicalObjectBorrowV1* object{};
+ for(bool more=manager.source_ordered_begin_v38(key,object);more;more=manager.source_ordered_next_v38(key,key,object)){
+  if(!object||!object->identity)continue; //Native NULL-map node => NULL conversion.
+  target_providers::Handle16 handle;const world::CanonicalObjectBorrowV1* live{};
+  if(!manager.get_handle(key,handle,e)||!s.validate_current(e)||!manager.resolve_handle_v4(handle,false,live,{},e)||!s.validate_current(e))return required(e,"actual ObjectHandle C1/GetHandle/conversion");
+  if(!live)continue;
+  const BatchNativeServicesV96* native{};
+  if(!s.native||!s.native(native,e)||!native||!s.validate_current(e))return required(e,"actual batch-list selection services");
+  BatchObjectBorrowV96 actual;
+  if(!native->as_gameobject||!native->as_gameobject(*live,actual,e)||!s.validate_current(e))return required(e,"actual selected ObjectHandle->GameObject");
+  bool eligible{};if(!original_batch_eligible_v96(actual,*native,eligible,e)||!s.validate_current(e))return required(e,"original batch family/name/Faerie filters");
+  if(eligible&&(!s.append||!s.append(actual,e)))return required(e,"SAME actual BatchNodeCompiler158 for eligible append");
+  if(!s.validate_current(e))return required(e,"same ordered batch-list continuation");
+ }
+ e.clear();return true;
+}
 bool original_batch_limit_v96(std::int32_t input,const BatchNativeServicesV96& s,std::int32_t& out,std::string& e){
  //Original __aeabi_i2d -> multiply IEEE double1.02 -> __aeabi_d2iz.
  const double scaled=static_cast<double>(input)*1.02;
@@ -110,7 +128,8 @@ bool BatchNodeCompilerSourceV96::compile(bool quantize,std::string& e){
   if(nobatch){if(!services_.trace||!services_.trace("isTracingBatchingCompiler",e)||!current(e))return reject(e,"fresh restored nobatch source trace");continue;}
   if(!object.archetype48)return reject(e,"actual postcompile source archetype48");
   const auto* type=object.archetype48->c_str();
-  if(!std::strcmp(type,"DestructibleContainer")||!std::strcmp(type,"OpenableContainer"))continue;
+  //50df94..50dfbc: only Decor/Module enter SetVisualObject(NULL).
+  if(std::strcmp(type,"Decor")&&std::strcmp(type,"Module"))continue;
   if(!services_.set_visual_null||!services_.set_visual_null(object,e)||!current(e))return reject(e,"actual GameObject.SetVisualObject(NULL) ownership body");
  }
  return trim(e);
@@ -146,5 +165,3 @@ bool release_level_batch_compiler_v96(const std::shared_ptr<CanonicalLevelContex
  after.fields->field158=0;owner.reset();e.clear();return true;
 }
 }
-
-

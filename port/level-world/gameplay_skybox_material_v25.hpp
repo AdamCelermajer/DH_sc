@@ -2,6 +2,12 @@
 #include "gameplay_skybox_v24.hpp"
 #include "../scene-materials/effect_render_pass_v4.hpp"
 namespace dh2::camera {
+// Explicit original authoring-drive to the bundled resource namespace.
+// This is a packaging path adaptation, not another filesystem authority.
+inline std::string skybox_resource_uri_v124(const std::string& authored){
+ const std::string prefix="q:/data/iphone/3d/textures/";
+ return authored.rfind(prefix,0)==0?"data/3d/textures/"+authored.substr(prefix.size()):authored;
+}
 struct SkyboxTechniqueV25 {
  std::string name;
  scene::EffectRenderPassV4 authored;

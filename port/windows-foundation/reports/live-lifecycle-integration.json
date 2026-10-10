@@ -1,0 +1,36 @@
+{
+  "status": "source_command_lifecycle_animation_rendered_replay_verified_full_encounter_incomplete",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v6",
+  "executable_sha256": "b6d781b9333b5a1b09fe9501b42a73e3099cbbca6b32e8dff161dbaaa07f117b",
+  "validation": {"ctest_passed":44,"packaged_files_verified":536,"rendered_cases":6,"runtime_receipt":"packaged-source-clock-runtime-v6.json","persistence_rejection":"lifecycle-persistence-rejection.json"},
+  "shared_mechanisms": [
+    "Explicit deferred actors retain authored definitions, placement and loaded visuals while disabled",
+    "Source world object lookup compares complete authored names, with explicit constructor-derived module bindings rather than guessed loader ordinals",
+    "Required campaign providers route actual serialized Spawn commands into the same live ActorState lifecycle",
+    "Original PreSpawn17 selects its source pose or verified empty-state Spawn fallback at source rate0",
+    "Whole finite state sequences reprepare while preserving the same retained animation owner, clocks, outgoing slots, events and root histories",
+    "Genuine whole sequence completion returns Spawn to Idle and admits the existing shared combat runtime",
+    "Dynamic permission providers govern targeting and attacker requests; disabled visuals do not render or use separate ordinary clocks",
+    "Ordinary combat and canonical save/reload/restore behavior remain exercised separately"
+  ],
+  "authored_defaults": {"ai_state":"Original Character declaration13cc defaults to empty string","ai_state_visible":"Original Character declaration13e4 defaults to1; intro actors explicitly author0","source":"port/level-world/canonical_property_declarations_v1.inc"},
+  "rendered_replay": {
+    "context_module": -1,
+    "scheduling": "Explicit diagnostic frames, not original trigger or complete-script scheduling",
+    "source_script": "LizardMan_Intro",
+    "source_commands": [{"index":4,"kind":30,"frame":33},{"index":6,"kind":30,"frame":128}],
+    "inflight": {"frames":95,"first_spawn_phase":1,"first_enabled":true,"first_host_physical_present":false,"second_phase":17,"second_enabled":false,"damage_events":0,"capture":".local-inputs/windows-source-clock-checkpoint-v6/spawn-inflight-verification.png"},
+    "complete": {"frames":400,"source_whole_completions":2,"enemy_hit_frames":[131,161],"player_hit_frames":[180,238,296],"first_enemy_dead":true,"enabled_visuals":15,"initial_deferred_visuals":7,"loaded_visuals":20,"capture":".local-inputs/windows-source-clock-checkpoint-v6/spawn-verification.png"}
+  },
+  "scope_limits": [
+    "Original complete encounter trigger/module admission, cutscene lock/camera/UI and tutorial flow remain unconnected in main",
+    "Host physical presence and collision receipts govern existing indexed-render-bound movement approximations; they do not prove original physical joint bodies or actor/actor collisions",
+    "Main revive/aggro/sneak effects cover this fresh spawning diagnostic only; full recovered owners remain pending",
+    "Lifecycle status records the last state managed by the spawning subset; combat owns subsequent attack/reaction/death state facts. One complete source FSM/flag owner remains pending",
+    "Registered campaign lifecycle state is not serialized. Main rejects save, restore and reload before modifying durable state; runtime rejection kept the explicitly supplied existing save unchanged",
+    "Unknown conditions, symbolic spawn choices and probabilistic declarations remain unresolved rather than assumed active",
+    "Type2 per-cycle Idle random reselection, Run bindings and original controller/target/navigation policies remain incomplete",
+    "Matched-state original video/art/gameplay acceptance remains incomplete"
+  ]
+}

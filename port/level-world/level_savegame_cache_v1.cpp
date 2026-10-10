@@ -23,7 +23,8 @@ bool LevelSavegameCacheV1::construct(const std::string& name,bool raw,std::strin
 }
 bool LevelSavegameCacheV1::register_section(const char* name,LevelSavegameSectionV1 s,LevelSavegameFieldsV1& f,std::string& e){
  e.clear();if(!ready_||!name||std::strcmp(name,tag(s))){e="Required exact ready LevelSavegame section";return false;}
- sections_[slot(s)]=&f;return true; // source initSectionInfo overwrites callbacks
+ // This Level-specific cache stores context in fixed INFO/OBJS slots; it does not retain generic reader/writer callback pairs.
+ sections_[slot(s)]=&f;return true;
 }
 bool LevelSavegameCacheV1::load_section(const char* name,LevelSavegameSectionV1 s,LevelSavegameFieldsV1& f,std::string& e){
  if(!register_section(name,s,f,e))return false;

@@ -2,17 +2,19 @@
   {
     "id": "01",
     "name": "Startup data and tables",
-    "deliverable": "Finish current compiled metadata/Arrays correction; verify nested schema association using IDA and actual cache. Reuse SourceProcessArraysV101.",
+    "deliverable": "Source handoff completed: compiled metadata/Arrays schemas and nested associations checked against IDA and the shipped cache; see lane-01-handoff.md. Integrated gameplay acceptance remains coordinator-owned.",
     "paths": [
       "port/android-native/app/src/main/cpp/source_process_arrays_v101.cpp",
       "port/android-native/app/src/main/cpp/source_process_arrays_v101.hpp",
-      "port/android-native/app/src/main/cpp/source_process_compiled_members_v121.hpp"
+      "port/android-native/app/src/main/cpp/source_process_compiled_members_v121.hpp",
+      "port/android-native/app/src/main/cpp/source_process_array_registration_v101.hpp",
+      "port/android-native/app/src/main/cpp/source_process_pydata_files_v101.hpp"
     ],
-    "status": "queued",
+    "status": "source delivered",
     "worker": null,
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "APK membership unverified; runtime acceptance is coordinator-owned",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -31,11 +33,11 @@
       "port/android-native/app/src/main/cpp/native_source_main_menu_v114.hpp",
       "port/android-native/app/src/main/cpp/native_source_main_menu_v114.inc"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane02",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -54,11 +56,11 @@
       "port/android-native/app/src/main/cpp/native_menu_preview_profile_v122.hpp",
       "port/android-native/app/src/main/cpp/native_menu_preview_services_v122.cpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane03",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -73,11 +75,11 @@
       "port/android-native/app/src/main/cpp/renderer_menu_preview_domain_v121.hpp",
       "port/android-native/app/src/main/cpp/renderer_native_menu_preview_v121.inc"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane04",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -99,11 +101,11 @@
       "port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp",
       "port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane05",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -117,11 +119,11 @@
       "port/android-native/app/src/main/cpp/original_ui_gameplay_bridge_v1.inc",
       "port/android-native/app/src/main/cpp/renderer_hud_attack_actor_v46.inc"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane06",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -145,11 +147,11 @@
       "port/level-world/world_click_target_v1.cpp",
       "port/level-world/world_click_target_v1.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane07",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -169,11 +171,11 @@
       "port/android-native/app/src/main/cpp/source_campaign_fx_v77.cpp",
       "port/android-native/app/src/main/cpp/source_campaign_fx_v77.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane08",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -195,11 +197,11 @@
       "port/level-world/npc_skill_reactions_v2.cpp",
       "port/level-world/npc_skill_reactions_v2.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane09",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -217,11 +219,11 @@
       "port/level-world/player_injury_runtime_v7.cpp",
       "port/level-world/player_injury_runtime_v7.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane10",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -244,11 +246,11 @@
       "port/android-native/app/src/main/cpp/source_campaign_items_v88.cpp",
       "port/android-native/app/src/main/cpp/source_campaign_items_v88.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane11",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -266,11 +268,11 @@
       "port/level-world/player_xp_text_v1.cpp",
       "port/level-world/player_xp_text_v1.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane12",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -292,11 +294,11 @@
       "port/level-world/openable_container_property_connection_v1.cpp",
       "port/level-world/openable_container_property_connection_v1.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane13",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -321,11 +323,11 @@
       "port/android-native/app/src/main/cpp/renderer_character_panel_faery_v29.inc",
       "port/android-native/app/src/main/cpp/renderer_player_character_panel_v3.inc"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane14",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -345,11 +347,11 @@
       "port/android-native/app/src/main/cpp/source_campaign_faery_v109.hpp",
       "port/engine-ui/character_menu_skill_authority_v1.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane15",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -374,11 +376,11 @@
       "port/level-world/player_save_metadata_writer_v45.cpp",
       "port/level-world/player_save_metadata_writer_v45.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane16",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -396,11 +398,11 @@
       "port/android-native/app/src/main/cpp/source_campaign_script_execution_v96.cpp",
       "port/android-native/app/src/main/cpp/source_campaign_script_execution_v96.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane17",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -421,11 +423,11 @@
       "port/level-world/quest_talk_marker_v76.cpp",
       "port/level-world/quest_talk_marker_v76.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane18",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -443,11 +445,11 @@
       "port/engine-ui/menu_dialog_messages_v97.cpp",
       "port/engine-ui/menu_dialog_messages_v97.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane19",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "post-V123 offline script-send pending build",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -458,13 +460,19 @@
     "paths": [
       "port/android-native/app/src/main/cpp/source_campaign_script_runtime_v99.cpp",
       "port/android-native/app/src/main/cpp/source_campaign_script_runtime_v99.hpp",
-      "port/level-loader/script_command_execution_v96.cpp"
+      "port/level-loader/script_command_execution_v96.cpp",
+      "port/level-world/gameplay_camera_level_v4.cpp",
+      "port/level-world/gameplay_camera_level_v4.hpp",
+      "port/level-world/gameplay_camera_factory_v16.cpp",
+      "port/level-world/gameplay_camera_factory_v16.hpp",
+      "port/level-world/gameplay_camera_runtime_v11.cpp",
+      "port/level-world/gameplay_camera_runtime_v11.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane20",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -483,13 +491,17 @@
       "port/android-native/app/src/main/cpp/source_campaign_ai_queue_v105.cpp",
       "port/android-native/app/src/main/cpp/source_campaign_ai_queue_v105.hpp",
       "port/level-world/spawn_group_manager_v108.cpp",
-      "port/level-world/spawn_group_manager_v108.hpp"
+      "port/level-world/spawn_group_manager_v108.hpp",
+      "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.cpp",
+      "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.hpp",
+      "port/level-world/npc_attack_command_owner_v1.cpp",
+      "port/level-world/npc_attack_command_owner_v1.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane21",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "Included in the 2026-10-08 16:51 integrated APK build; offline melee runtime acceptance pending",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -505,13 +517,15 @@
       "port/android-native/app/src/main/cpp/source_campaign_character_interest_v111.cpp",
       "port/android-native/app/src/main/cpp/source_campaign_character_interest_v111.hpp",
       "port/android-native/app/src/main/cpp/source_campaign_character_start_v108.cpp",
-      "port/android-native/app/src/main/cpp/source_campaign_character_start_v108.hpp"
+      "port/android-native/app/src/main/cpp/source_campaign_character_start_v108.hpp",
+      "port/android-native/app/src/main/cpp/source_campaign_character_controller_v107.cpp",
+      "port/android-native/app/src/main/cpp/source_campaign_character_controller_v107.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane22",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -531,11 +545,11 @@
       "port/level-world/vox_play3d_owner_v2.cpp",
       "port/level-world/vox_play3d_owner_v2.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane23",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
   },
@@ -553,12 +567,32 @@
       "port/android-native/app/src/main/cpp/source_campaign_language_scene_v109.cpp",
       "port/android-native/app/src/main/cpp/source_campaign_language_scene_v109.hpp"
     ],
-    "status": "queued",
-    "worker": null,
+    "status": "source delivered",
+    "worker": "/root/lane24",
     "model": "gpt-6-luna",
     "reasoning": "high",
-    "integration": "pending",
+    "integration": "source attached; APK membership unverified",
     "dependency": "coordinator shared wiring; existing canonical owners",
     "acceptance": "pending integrated milestone"
+  },
+  {
+    "id": "25",
+    "name": "Stage17 Swamp NPC script callbacks",
+    "deliverable": "Audit the selected SwampKing InitFinal and first-frame script callbacks against IDA; bind missing globals to the same actor navigation, animator, and property owners; report candidate-script coverage separately from runtime-selected objects.",
+    "paths": [
+      "port/level-world/character_script_session.cpp",
+      "port/level-world/character_script_session.hpp",
+      "port/level-world/tests/character_script_session.cpp",
+      "port/level-world/tests/character_script_session_host.py",
+      "port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.cpp",
+      "port/android-native/app/src/main/cpp/renderer_character_campaign_v62.inc"
+    ],
+    "status": "source delivered",
+    "worker": "/root/luna_stage17_mark_flying_audit",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "integration": "Stage17 callbacks compiled into the 2026-10-08 16:51 APK for both ABIs; post-fix runtime replay pending",
+    "dependency": "coordinator integrated rebuild and guarded emulator verification",
+    "acceptance": "Strict syntax and diff checks passed; ASan/UBSan harness and integrated Stage17/first-OnUpdate acceptance pending"
   }
 ]

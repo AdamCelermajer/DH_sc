@@ -11,6 +11,9 @@ struct CampaignNativeLendersV89 {
  dh2::loader::GameObjectArraysOwnerV81::Borrow arrays;
  dh2::world::ZoneCollisionServicesV83 zones;
  std::shared_ptr<const std::vector<std::string>> sound_names;
+ // Each positive external-script allocation is one private LuaScript VM;
+ // these leases use the candidate's SAME Application LuaManager cache.
+ std::map<std::uintptr_t,std::shared_ptr<dh2::scripts::GenericLuaScriptOwnerV13>> object_scripts;
  std::vector<std::weak_ptr<dh2::loader::AuxiliaryReleaseRecordV67>> records;
  bool current(SourceCampaignCandidateBorrowV55& out,std::string& e)const{
   auto w=world.lock();auto l=level.lock();auto m=objects.lock();
@@ -21,8 +24,17 @@ struct CampaignNativeLendersV89 {
  }
  bool delivered(const dh2::loader::AuxiliaryDeliveryV67& d,std::string& e)const{
   SourceCampaignCandidateBorrowV55 actual;if(!current(actual,e))return false;
-  if(d.actual_world.get()!=actual.actual_world.get()||d.level!=actual.level||d.objects!=actual.objects||d.properties!=actual.properties||
+ if(d.actual_world.get()!=actual.actual_world.get()||d.level!=actual.level||d.objects!=actual.objects||d.properties!=actual.properties||
      d.actual_world.owner_before(actual.actual_world)||actual.actual_world.owner_before(d.actual_world)){e="Foreign auxiliary source delivery";return false;}return true;
+ }
+ bool destroy_object_lua_script(dh2::world::CanonicalGameObjectBaseOwnerV1& base,std::uintptr_t identity,std::string& e){
+  SourceCampaignCandidateBorrowV55 actual;auto source_world=source.lock();auto* cell=base.pointer(0x300);
+  if(!current(actual,e)||!source_world||!source_world->gameobject_graph_v68||!cell||*cell!=identity){if(e.empty())e="Changed SAME GameObject LuaScript300 D1 receiver/identity";return false;}
+  std::shared_ptr<void> receiver;dh2::world::CanonicalGameObjectBaseOwnerV1* same{};
+  if(!source_world->gameobject_graph_v68->borrow_base_v77(base.identity(),receiver,same,e)||same!=&base){if(e.empty())e="Foreign GameObject LuaScript300 D1 base";return false;}
+  auto script=object_scripts.find(identity);if(script==object_scripts.end()||!script->second){e="Missing SAME retained object LuaScript C1 owner at GameObjectD1";return false;}
+  // game_object_source_destroy_v72 stores +300=0 only after this D1 succeeds.
+  if(!script->second->close_source_v88(e))return false;object_scripts.erase(script);e.clear();return true;
  }
  template<class Record>bool record(const char* name,std::uintptr_t id,std::shared_ptr<Record>& out,std::string& e)const{
   for(const auto& weak:records){auto journal=weak.lock();
@@ -38,14 +50,60 @@ struct CampaignNativeLendersV89 {
    if(!dictionary->file(id,name,e)||!name){if(e.empty())e="Required actual GameObjectDict visual CString";return false;}
    auto model=base->string(0x290);if(!model){e="Required SAME actual model290";return false;}*model=*name;return true;};
  }
- template<class Getter>auto empty_external_script(Getter get){
-  return [get](const char* name,const char* /* source prefix */,std::string& e){std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
+ template<class Getter>auto load_object_script(Getter get){
+  auto self=this;
+  return [get,self](const char* name,const char* prefix,std::string& e){std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
    if(!get(pin,base,e)||!base)return false;auto lua=base->pointer(0x300);if(!lua){e="Required actual GameObject LuaScript300";return false;}
-   // Original38ef60 retires old Lua BEFORE inspecting name. Exact fresh NULL
-   // old owner plus NULL/nonnull-empty CString skips allocation/file/cache Load.
-   if(*lua){e="Required actual old LuaScript300 D1 before LoadExternalScript";return false;}
-   if(name&&*name){e="Required actual positive object Lua allocation/file/cache Load";return false;}
+   // Original38ef60 destroys the previous LuaScript through vtable+4 and
+   // clears+300 before even inspecting the new filename.
+   if(*lua){auto old=self->object_scripts.find(*lua);if(old==self->object_scripts.end()||!old->second){e="Changed actual old object LuaScript300 owner";return false;}
+    if(!old->second->close_source_v88(e))return false;self->object_scripts.erase(old);*lua=0;}
+   if(!name||!*name){e.clear();return true;}
+   SourceCampaignCandidateBorrowV55 actual;auto source=self->source.lock();
+   if(!self->current(actual,e)||!source||!source->design||!source->level_application||!source->level_application->script_cache()){
+    if(e.empty())e="Required SAME Application LuaManager/cache and design for object LoadExternalScript";return false;}
+   auto design=std::make_shared<dh2::character::CharacterGameDesign::Borrow>(source->design->borrow());
+   if(!design->design()){e="Required SAME actual design callbacks for object LuaScript";return false;}
+   dh2::scripts::LuaScriptServicesV13 services;services.owner=design;services.design=*design->design();
+   auto world=std::static_pointer_cast<WorldScriptContext>(actual.actual_world);
+   if(!world||!world->objects){e="Required SAME object-script UserData service owner";return false;}
+   services.objects=&world->objects->services();
+   std::string error;auto unique=dh2::scripts::GenericLuaScriptOwnerV13::create(false,source->level_application->script_cache(),std::move(services),16u*1024u*1024u,error);
+   if(!unique){e="Actual object LuaScript C1: "+error;return false;}
+   auto script=std::shared_ptr<dh2::scripts::GenericLuaScriptOwnerV13>(std::move(unique));
+   const auto identity=script->identity();if(!identity||self->object_scripts.count(identity)){e="Duplicate/invalid actual object LuaScript allocation identity";return false;}
+   // Source stores the C1 receiver at+300 before assigning its path or calling
+   // Load. The lender map is its strong allocation lease, not another cache.
+   self->object_scripts.emplace(identity,script);*lua=identity;
+   auto retire=[&](std::string& failure){const bool closed=script->close_source_v88(failure);self->object_scripts.erase(identity);*lua=0;return closed;};
+   if(!script->assign_path(prefix?prefix:"",error)){retire(error);e="Actual object LuaScript path: "+error;return false;}
+   bool loaded{};if(!script->load(name,loaded,error)){retire(error);e="Actual object LuaScript Load: "+error;return false;}
+   // Original38ef60 keeps+300 only for a true LuaScript::Load result. On
+   // false,38f02c calls vptr+4 (LuaScript D0,37c148), which returns its
+   // nonnull receiver in R0;38f030 clears+300 without changing that return.
+   if(!loaded){if(!retire(error)){e="Actual object LuaScript D0 after false Load: "+error;return false;}
+    e.clear();return true;}
    e.clear();return true;};
+ }
+ template<class Getter>auto object_script_call(Getter get){
+  auto self=this;
+  return [get,self](const char* name,std::uintptr_t actor,const char* event,std::string& e){
+   SourceCampaignCandidateBorrowV55 actual;std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
+   if(!self->current(actual,e)||!get(pin,base,e)||!base)return false;
+   const auto* lua=base->pointer(0x300);auto script=lua?self->object_scripts.find(*lua):self->object_scripts.end();
+   if(!lua||!*lua||script==self->object_scripts.end()||!script->second||script->second->identity()!=*lua){
+    e="Required SAME retained Openable LuaScript300 Call receiver";return false;
+   }
+   //3a0afc: OnOpen pushes UserData only when opener398 is nonNULL.
+   //3a0cb4: OnAnimEvent pushes the one actual event string.
+   if(name&&!std::strcmp(name,"OnOpen")&&actor){auto world=std::static_pointer_cast<WorldScriptContext>(actual.actual_world);
+    std::uintptr_t character{};
+    if(!world||!world->objects||!source_campaign_object_as_character_v114(actual.actual_world,actor,character,e)||
+       character!=actor||!world->objects->find(actor)){if(e.empty())e="Required SAME published opener UserData receiver";return false;}
+   }
+   auto selected=script->second;
+   return dh2::world::call_container_script_source_v126(*selected,name,actor,event,e);
+  };
  }
 };
 static bool prepare_campaign_native_lenders_v89(const SourceCampaignCandidateBorrowV55& actual,
@@ -59,6 +117,17 @@ static bool prepare_campaign_native_lenders_v89(const SourceCampaignCandidateBor
  std::shared_ptr<SourceWorldBorrowV61> source;
  if(!borrow_source_campaign_condition_world_v70(actual,source,e)||!source||!source->read||!source->files_owner)return false;
  provider->source=source;provider->sound_names=inputs.source.auxiliary.sound_names;
+ if(!source->noncharacter_release_provider_v92){e="Required same source-qualified GameObjectD1 owner for LuaScript300";return false;}
+ {
+  auto release=source->noncharacter_release_provider_v92;auto prior=release->native.gameobject.destroy_lua_script300;
+  std::weak_ptr<CampaignNativeLendersV89> weak=provider;
+  release->native.gameobject.destroy_lua_script300=[weak,prior](auto& base,std::uintptr_t identity,std::string& e){
+   auto self=weak.lock();if(!self){e="Retired SAME object LuaScript300 lender";return false;}
+   if(self->object_scripts.count(identity))return self->destroy_object_lua_script(base,identity,e);
+   if(prior)return prior(base,identity,e);
+   e="Required actual LuaScript300 D1 owner";return false;
+  };
+ }
  if(!borrow_source_campaign_game_object_arrays_v81(actual,provider->arrays,e))return false;
  auto prepared=inputs;prepared.declaration_arrays=provider->arrays;
  provider->zones=prepared.zone_collision;
@@ -102,7 +171,7 @@ static bool prepare_campaign_native_lenders_v89(const SourceCampaignCandidateBor
   // this directory is weak and never creates another registry or C1.
   provider->records.push_back(record);return true;};
  auto make_lender=[provider](auto original,const char* name,auto record_tag){
-  using Record=typename decltype(record_tag)::element_type;
+  using Record=typename std::decay_t<decltype(record_tag)>::element_type;
   return [provider,original,name](const auto& d,auto& receiver,auto& out,std::string& e){
    if(!provider->delivered(d,e))return false;
    std::shared_ptr<Record> record;if(!provider->record(name,receiver.base().identity(),record,e)||record->owner.get()!=&receiver)return false;
@@ -140,8 +209,8 @@ static bool prepare_campaign_native_lenders_v89(const SourceCampaignCandidateBor
    if constexpr(std::is_same_v<Services,dh2::world::DoorServicesV27>||std::is_same_v<Services,dh2::world::TriggerObjectServicesV28>){
     out.startup.owner=provider;out.startup.zone.owner=provider;
    }
-   if constexpr(std::is_same_v<Services,dh2::world::DoorServicesV27>){
-    if(!out.startup.apply_mesh_box)out.startup.apply_mesh_box=[provider](auto& door,auto visual_id,std::string& e){
+    if constexpr(std::is_same_v<Services,dh2::world::DoorServicesV27>){
+     if(!out.startup.apply_mesh_box)out.startup.apply_mesh_box=[provider](auto& door,auto visual_id,std::string& e){
      SourceCampaignCandidateBorrowV55 actual;auto source=provider->source.lock();if(!provider->current(actual,e)||!source||!source->gameobject_graph_v68)return false;
      std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
      if(!source->gameobject_graph_v68->borrow_base_v77(door.base().identity(),pin,base,e)||base!=&door.base()||*base->pointer(0x2d8)!=visual_id)return false;
@@ -152,7 +221,7 @@ static bool prepare_campaign_native_lenders_v89(const SourceCampaignCandidateBor
     if(!out.startup.load_external_script)out.startup.load_external_script=[provider,weak](auto& trigger,const char* name,const char* prefix,std::string& e){
      auto actual=weak.lock();if(!actual||!actual->owner||actual->owner.get()!=&trigger){e="Released SAME TriggerObject external script receiver";return false;}
      auto get=[weak](auto& pin,auto*& base,std::string& e){auto r=weak.lock();if(!r||!r->owner){e="Released SAME TriggerObject C1";return false;}pin=r;base=&r->owner->base();return true;};
-     return provider->empty_external_script(get)(name,prefix,e);};
+     return provider->load_object_script(get)(name,prefix,e);};
    }
    e.clear();return true; // typed service preparation only; missing engine methods stay absent
   };
@@ -186,8 +255,9 @@ static bool prepare_campaign_native_lenders_v89(const SourceCampaignCandidateBor
   auto get=[slot](auto& pin,auto*& base,std::string& e){auto actual=slot?slot->lock():nullptr;if(!actual){e="Unproduced SAME Openable C1";return false;}pin=actual;base=&actual->base();return true;};
   if(!out.container.visual_asset)out.container.visual_asset=provider->visual_asset(get);
   if(!out.container.meet_condition)out.container.meet_condition=dh2::world::game_object_meet_condition_v1;
-  if(!out.container.load_object_script)out.container.load_object_script=provider->empty_external_script(get);
+  if(!out.container.load_object_script)out.container.load_object_script=provider->load_object_script(get);
   if(!out.container.has_script)out.container.has_script=[get](bool& present,std::string& e){std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};if(!get(pin,base,e))return false;auto lua=base->pointer(0x300);if(!lua){e="Required SAME LuaScript300";return false;}present=*lua!=0;return true;};
+  if(!out.container.script_call)out.container.script_call=provider->object_script_call(get);
   e.clear();return true;
  };
  auto destructible=containers.destructible_services;
@@ -197,7 +267,7 @@ static bool prepare_campaign_native_lenders_v89(const SourceCampaignCandidateBor
   init.owner=provider;out.owner=provider;out.common.owner=provider;out.table=provider->arrays.destructible;
   auto get=[slot](auto& pin,auto*& base,std::string& e){auto actual=slot?slot->lock():nullptr;if(!actual){e="Unproduced SAME Destructible C1";return false;}pin=actual;base=&actual->base();return true;};
   if(!out.common.visual_asset)out.common.visual_asset=provider->visual_asset(get);
-  if(!out.common.load_object_script)out.common.load_object_script=provider->empty_external_script(get);
+  if(!out.common.load_object_script)out.common.load_object_script=provider->load_object_script(get);
   if(!out.common.has_script)out.common.has_script=[get](bool& present,std::string& e){std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};if(!get(pin,base,e))return false;auto lua=base->pointer(0x300);if(!lua){e="Required SAME LuaScript300";return false;}present=*lua!=0;return true;};
   e.clear();return true;
  };

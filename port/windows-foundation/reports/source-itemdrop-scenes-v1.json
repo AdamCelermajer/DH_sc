@@ -1,0 +1,54 @@
+{
+  "status": "source_potion_and_skinned_gold_geometry_verified",
+  "released": false,
+  "goal_complete": false,
+  "test": "tests/source_itemdrop_scene_tests.cpp",
+  "runner": "tools/run_source_itemdrop_scene_tests.ps1",
+  "log": ".local-inputs/source-itemdrop-scene.log",
+  "executable_sha256": "c13dc2751d1caf1f56e4ba42b659af792f5e156a221b0d48418d1fd81ecd518c",
+  "cases": [
+    {
+      "item": "Potion0",
+      "item_id": 925,
+      "audiovisual_id": 20,
+      "visual": "dummy_itemdrop_Potion",
+      "loader": "OriginalScene authored subtree",
+      "triangles": 30,
+      "vertices": 44,
+      "materials": 2
+    },
+    {
+      "item": "GoldStack01",
+      "item_id": 418,
+      "audiovisual_id": 13,
+      "visual": "root_itemdrop_Gold_01",
+      "loader": "same CharacterVisual source controller rest pose",
+      "controllers": 1,
+      "triangles": 28,
+      "vertices": 50
+    }
+  ],
+  "textures": [
+    {
+      "uri": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c"
+    },
+    {
+      "uri": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79"
+    }
+  ],
+  "limits": [
+    "Headless decoded geometry only; no GPU or gameplay placement claim.",
+    "Gold is skinned; original authored drop animation/motion policy not yet enrolled.",
+    "Source asset staged for future package; Preview8 remains unchanged."
+  ],
+  "source_longsword": {
+    "item_row": 664,
+    "swoosh_sound": -1,
+    "swoosh_fx": -1,
+    "selection": "Original animation-step fallback when no offhand override"
+  }
+}

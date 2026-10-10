@@ -1,0 +1,63 @@
+{
+  "feature": "session_source_object_admission_v1",
+  "status": "feature-owned staged admission passes strict C++17 syntax checks and the refreshed v3 private linked fixture; production caller/provider wiring unverified",
+  "source_evidence": {
+    "assembly": ".local-inputs/publication/checkpoint/port/level-loader/vendor/connected-owners-1b96f4edb021619d/reference/openable-container-v1/eligibility-source.asm",
+    "check_spawn_probability": "GameObject::CheckSpawnProbability at 0x38bd64 calls ObjectBase::GetHandle (0x33dd2c), ObjectHandle::operator Character* (0x33ff54), then for a non-null Character calls vtable +0x28 (IsPlayer). Player writes cached270=-2 and returns before online/RNG. Null/non-player continues through cached270, GetOnline byte5 (0x7fd794), network_id108 and optional online ownerfc, then Random::GetRandom(99) (0x38bc3c). The result is cached and compared signed against probability274; failure calls virtual SetVisible(false), Delete33ddb4 (byte82=2/disabled81=1), writes byte82=0, and ObjectManager::MarkForDeletion (0x3432f8).",
+    "meet_condition": "GameObject::MeetCondition at 0x38ab60 returns literal true.",
+    "constructor_defaults": "CanonicalGameObjectBaseOwnerV1 source projection: data_id0xec=-1, network_id108=-1, cached_roll270=-1, probability274=100; byte82 initializes 0.",
+    "authored_chest": "Exact selected Swamp GameObject is gametype OpenableContainer, data_desc Swamp_Normal_Chest, condition_desc Invalid, and has no authored spawn probability attribute. OpenableContainer table row58 selects visual47/loot227/sound33/KeepPhysics=true.",
+    "handle_classification": "ObjectHandle::operator Character* at 0x33ff54 calls GetObject(false); if an object resolves, it calls resolved virtual +0x24 (IsCharacter) and returns null when false. Base ObjectBase::IsCharacter at 0x33dcd0 returns 0. The canonical GameObject base owner uses that exact false implementation, and ObjectManager::Add inserts into its Character list only for a nonzero result. OpenableContainer is a GameObject-derived authored class; for its correctly registered self-handle the conversion is null, so CheckSpawnProbability skips Character::IsPlayer(+0x28). If handle lookup fails, operator Character* also returns null. This classification is specific to OpenableContainer's source base; no broader non-Openable claim is made."
+  },
+  "evidence_sha256": {
+    "eligibility_source_assembly": "81E36F774278FE91994D5AD503122ADA9964D16ABD2E12A2EF2735B208B7EBC9",
+    "character_hit_original_functions_assembly": "89DDEC30DD33DE99E6266089E4529D3C4931C5753A0241F2934F21FF4644C5E4",
+    "character_target_provider_notes": "D195FFD32ABD100250B60B4272A6B1BF0BE320E578A15A70767599DA1A79D116",
+    "canonical_gameobject_base_owner_source": "74D275672D4FF20AF3FDD15EAADFB92C75638CAF7D5FD9FFD3E3889C16F1439F",
+    "canonical_object_manager_source": "28C80ABA116CFB16DD4E1807CB72D76085BC66DC4816AAE05CC3DC21963CB46F",
+    "application_spawn_random_handoff": "2B6DBADEACA9482FC1C22A2409EFCEA7751343B77C7740148BBC0CA8E95959FF"
+  },
+  "visual_evidence": {
+    "available": "Authored Swamp chest definition and Openable row58 plus the BDAE visual/animation fixtures are source-backed; these establish object/clip data but not a live spawn/reject frame sequence.",
+    "not_available": "No original gameplay capture showing candidate visibility before/after probability rejection was available for this feature test. The staged-candidate test verifies no WorldObject or retained visual is published on failure; it does not claim rendered no-flash behavior in production."
+  },
+  "implementation_sha256": {
+    "session_source_object_admission_v1.cpp": "A836C1403C7ECE88862E269659FF1B7D76633613C0A548C3721D6F564ADE68B5",
+    "session_container_admitted_openable_v1.hpp": "6F19A1F758E47FC74D3E52CD5BD6677CE1D86A390CCDA7D010A9FDA68B8939A6",
+    "session_container_admitted_openable_v1.cpp": "A3E4A3D68E7D4A179A184CAB3F698F2F0C8AE56FEC8482B7D90C26EE859D2D12",
+    "session_container_live_visual_integration_tests.cpp": "EF973527FE8DBE6A2A99C45A11FEE2A76A004201C6F96ADBDA4016670F143010",
+    "run_session_container_live_visual_integration_tests.ps1": "290592543CB00DDA937FE1128844855137DF913861B167DD80EEBEBDAB0295E5"
+  },
+  "api": {
+    "header": "port/windows-foundation/features/interactions/session_source_object_admission_v1.hpp",
+    "implementation": "port/windows-foundation/features/interactions/session_source_object_admission_v1.cpp",
+    "entrypoint": "admit_session_source_object_v1(CombatSession&, SessionSourceObjectAdmissionRequestV1, SessionSourceObjectAdmissionReceiptV1&, std::string&)",
+    "success": "Evaluates source gates on an unpublished, same-ID/name candidate; binds it into the current Session WorldObject registry only when the exact source kernel leaves cached270=-2; mints SessionContainerPriorAdmissionV1 bound to the same Session lease, ObjectId, definition name, data_desc and strong admission owner.",
+    "failure": "The existing kernel records the source failure prefix on the staged candidate (hidden; Delete byte82=2 then byte82=0; marked for deletion); the candidate is discarded before WorldObject/visual publication. The result reports these effects but carries no admission receipt.",
+    "preflight_and_lifetime": "Before the source kernel, validate the complete WorldObject (ID, transform, components and bounds), reject invalid/duplicate IDs and collisions with both current WorldObjects and Character ActorIds, and snapshot source stableId/name/gametype/data_desc. Capture the initial Session lifetime witness, World pointer and strong binding lease. Revalidate the same lifetime, World and binding owner after online and RNG callbacks and again before publication; a lease refresh after the RNG loan consumes the reached source prefix but is rejected with no candidate publication or receipt. Providers must not destroy/replace Session or World while the World RNG loan is active.",
+    "required_inputs": [
+      "exact ActorDefinition and matching not-yet-published WorldObject candidate with the source container state component",
+      "source online-byte5 callback when the kernel reaches the uncached non-player branch",
+      "authentic network_id108 and online ownerfc field when that selected branch reads them",
+      "a synchronous typed channel0 RNG loan plus its strong current-Session lease; channel1 may be null offline and must be supplied only if the exact online source branch selects it"
+    ],
+    "modern_rng_boundary": "The source-global proof maps offline/default spawn, loot-power, loot scatter, and combat to s_seed at 0x99F89C/counter at 0x99F8A4; qualifying online-owner rolls use s_syncedSeed/counter at 0x99F8A8. For the clean offline Windows Session, root defines its existing persisted CombatRandom as modern canonical channel0 already used by combat/loot/audio. This feature borrows the same current `PlayableActorWorld::with_loot_random` channel0 loan, preserving order and prefix. This is not a literal memory alias to native ApplicationSpawnRandomOwnerV4, does not implement synced channel1 online behavior, and does not claim original application startup, level reseed, or full campaign sequence."
+  },
+  "composition": {
+    "header": "port/windows-foundation/features/interactions/session_container_admitted_openable_v1.hpp",
+    "implementation": "port/windows-foundation/features/interactions/session_container_admitted_openable_v1.cpp",
+    "entrypoint": "admit_and_bind_session_openable_v1(CombatSession&, SessionSourceObjectAdmissionRequestV1, const AssetCatalog&, SessionContainerRetainedVisualV1&, shared_ptr<SessionContainerModernDropV1>, SessionContainerModernOpenablePolicyV1, SessionContainerAdmittedOpenableResultV1&, string&)",
+    "flow": "Preflight exact current Session/visual lease, authored Openable definition, original table presence, typed opener resolver, and existing same-session loot/store/RNG service. Run candidate admission once. If the source kernel rejects, return success with admission.admitted=false and no object, visual, or interaction binder. If accepted, forward that exact Session/ObjectId/definition/data_desc receipt into the existing row-backed SessionContainerModernOpenableV1 create+initialize_admitted path. A later binder/init failure rolls back the candidate and retained visual only while the initial Session/World lease remains current.",
+    "caller_lifetime": "The ActorDefinition is borrowed by SessionContainerModernOpenableV1 and therefore must be immutable and alive for the returned binding lifetime, as in the level definition owner."
+  },
+  "production_handoff": {
+    "required_call": "For each source Openable candidate, the live level/enrollment owner must retain the authored ActorDefinition, build the exact staged WorldObject (stable ObjectId, model/transform, state component), and call admit_and_bind_session_openable_v1 once with that request, the current Session RetainedVisual owner, existing same-session ModernDrop/store owner, original Openable table, and typed opener resolver.",
+    "source_owned_gates": "The composition invokes the current source MeetCondition and CheckSpawnProbability kernel before visual/binder publication and carries its receipt into row-backed initialization. Loader/enrollment must still supply the original candidate order and the real online-byte5/network/owner/RNG providers when those branches are reached.",
+    "remaining_main_providers": "No main scene-enrollment/candidate callsite is wired. Current-level, live online/network owner, source audio, physical detach, key/inventory, quest/event and script providers remain host-owned gaps. This composition does not import native OBJS room64 or claim source startup/campaign RNG parity."
+  },
+  "verification": {
+    "runner": "powershell -NoProfile -ExecutionPolicy Bypass -File port/windows-foundation/features/interactions/run_session_container_live_visual_integration_tests.ps1",
+    "result": "PASS strict C++17 syntax-only and refreshed-v3 Windows native private link/run after coherent build 43941. The runner output is recorded in features/interactions/test-output/container-live-visual-v1/run.log. The actual 001_swamp chest test now calls `admit_and_bind_session_openable_v1`: its fresh cached270=-1 Openable/GameObject self-handle conversion is null, so IsPlayer is skipped; offline byte5 is consulted once and false; probability100 consumes one same-session channel0 call; source kernel writes cached270=-2 and normalizes returned roll=-2. The helper forwards the exact receipt into row-backed binder creation and silent admitted initialization before the authored BRES opened marker publishes to the same existing store. A controlled p=0 candidate uses the same helper and returns hide/Delete/Mark without WorldObject, retained visual, or binder. A missing opener resolver fails before RNG. Invalid ID, non-finite transform, and same-ID Character collision reject before RNG. A typed provider that renews the Session binding after its World RNG loan consumes exactly the reached source draw but is rejected before publication; no replacement-lease receipt is minted. Existing GameSave state4 restore stays silent and suppresses duplicate input/marker/loot. The urn remains covered by its typed Destructible fixture.",
+    "scope_limit": "Probability-0 is a controlled kernel branch; no source asset establishes that the tested second chest has probability 0. The fixture uses the current Session's existing persisted CombatRandom through `with_loot_random`; no new seed or stream is made. This proves same-session offline channel0 ordering, not literal native App-owner memory alias, online synced channel1, original startup/level reseed, or full campaign RNG history. Production scene candidate construction, online byte5/network/fc producers, RNG loan caller wiring, and scene callback order remain unverified. Null Character classification is specific to correctly registered source OpenableContainer/GameObject self-handles. Session destruction or World replacement during a scoped World RNG loan is forbidden by the API contract; the test covers a binding renewal after the loan is released."
+  }
+}

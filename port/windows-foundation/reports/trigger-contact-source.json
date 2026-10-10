@@ -1,0 +1,102 @@
+{
+  "live_encounter_verified": false,
+  "timer_audit": "Canonical source CanActivate returns before trigger_update when timer>0. Adapter preserves it, does not independently decrement while gated. Repeated-positive-delay scheduling needs additional original worldphase evidence; first authored encounterdelay0.",
+  "sources": [
+    "port/windows-foundation/original_trigger_contacts.hpp",
+    "port/windows-foundation/original_trigger_contacts.cpp",
+    "port/windows-foundation/cmake/OriginalTriggerOwner.cmake"
+  ],
+  "source_sha256": {
+    "port/level-world/canonical_gameobject_base_owner_v1.cpp": "74d275672d4ff20af3fdd15eaadfb92c75638caf7d5fd9ffd3e3889c16f1439f",
+    "port/level-world/navigation_objects.cpp": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9",
+    "port/level-world/canonical_trigger_zone_v22.cpp": "9d5a9c445602a7cb7460a67c72787ca8b845871708da62209f837aff8081045b",
+    "port/level-world/game_object_initialization_owner_v1.cpp": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865",
+    "port/level-world/zone_collision_runtime_v83.cpp": "4ae31e0ba6a5a3e1201698ee08ecdab71c9b7583aa9475931a6d218ca1c89ed6"
+  },
+  "inside_policy": "Original IsInside body+position/radius query and inclusive centerbox; positive _colzone reaches actual ray/selector provider or explicitfailure. This separate source predicate is retained for contacttree pruning, not substituted for IsTouching.",
+  "owner_policy": "One retained CanonicalTriggerZoneV22+SAME runtime lease per occurrence; no parallel active/count/contact state",
+  "body_policy": "Source IsTouching requires SAME actor lease and actual absolute12c AABB; physical2dc slot must be source-owned but NULL is legitimate. Source IsInside returns false for NULL physical before radius/position queries. Positive physical radius resolves exact actual receiver to initialized NativeBody, radius physics units times100; no mesh/preview approximation.",
+  "limits": [
+    "Test constructor/condition/asset/script/network callbacks are explicitfixtures; no live GPU/PF/wholecampaign claim.",
+    "Host must construct/initialize through source property/factory pipeline and supply actual roomID.",
+    "Positive colzone mesh/FX/network callbacks remain required source providers.",
+    "Live main wiring and original positive-delay world update phase remain pending."
+  ],
+  "tests": "port/windows-foundation/tests/original_trigger_contacts_tests.cpp",
+  "instance_identity": "Caller supplies unique occurrence key and captured constructor room64; no dedup by filename and no ordinal-to-room inference",
+  "status": "native_ctest47_pass_live_peer_borrow_component_no_live_encounter",
+  "link_binding": {
+    "generator": "CMake configure creates these exact source bodies and watches inputchanges; no legacy source edited/no algorithm rewrite",
+    "whole_sources": [
+      "CanonicalTriggerZoneV22",
+      "CanonicalGameObjectBaseOwnerV1",
+      "GameObjectInitializationOwnerV1"
+    ],
+    "exact_constructor_leaf": "navigation_objects.cpp now linked as its complete unchanged recovered_content translation unit with source navigation producer/floor dependencies; generated constructor-only binding removed",
+    "exact_source_slice": "zone_collision_runtime_v83.cpp prefix through zone_is_touching_v83, omits unrelated checkpoint/quest/exit methods"
+  },
+  "dimensions": "Actual canonical declaration default200 each then ownerInitPost scales originaldimensions and invokes SetBoundingBox(false); source shadow box is not invented",
+  "gates": "Raw original canonical owner retains local player dead, door state, count, timer, enabled, online/remotes, scriptflagslocalonly, repeated touching queries, running/once, activeedge, marker protocols",
+  "first_script_flags": {
+    "skip4": 0,
+    "proof": "All commands in this script have originalC1 skip4byte zero and literal baseInit455628. DerivedInit scripts must be decoded separately.",
+    "common_count": 15,
+    "script": "LizardMan_Intro",
+    "global_id": 32
+  },
+  "validation": [
+    "Native47 passes",
+    "Two repeatedsource occurrences independentowner states and originalupdate order",
+    "Constructorroom7/8 scopedsource startscript preserved as fixtures only",
+    "ActualbodyAABB overlap with centeroutside triggers; center-only replacement wouldfail",
+    "Duplicate contact begins countonce and sourceInside pruning retained",
+    "Dead/remote gates reachno peer reads",
+    "Source singlefire and positive delaygate/order retained",
+    "Missing physicalbounds/unprovedroom rejected",
+    "Live peer borrower retains original pointer backing; actual field changes visible without copying",
+    "Missing native body and missing actor provider fail explicitly",
+    "NULL source physical preserves AABB touching while IsInside returns false before radius query"
+  ],
+  "peer_adapter": {
+    "api": "original_trigger_peer_provider(OriginalTriggerActorLookup,OriginalTriggerPhysicalLookup)",
+    "actor": "Lookup exact id; borrow SAME owner lease, identity, source position160, source absolute12c and sole physical2dc slot. Do not copy rest-cache bounds into an independent contact authority.",
+    "physical": "Lookup current nonzero physical2dc receiver identity; borrow exact owner lease and initialized NativeBody. Source receiver identity is CharacterWorldPhysicalV62 address, not NativeBody address or actor id.",
+    "lifetime": "All borrowed fields must remain valid for their actor lease. Physical owner lease retained during GetRadius query; each query rereads current source slot and validates receiver identity after lookup.",
+    "null_policy": "NULL physical is preserved: touching can remain true; IsInside false without calling radius. Missing source slot is an explicit error.",
+    "side_effects": "No body allocation, body-radius derivation, physical2dc publication, position mutation, world stepping or contact-tree ownership."
+  },
+  "live_main_audit": {
+    "rest_bounds": "main.cpp sourceBodyBounds calculates OriginalActorBoundsResult from selected original components/source property scale12/13/14 and collision_scale16. This is a producer result, not actual Character pointer/physical owner.",
+    "preview_body": "main.cpp motor bodyRadius uses visual.indexed_bounds dimensions and collision_scale. It cannot supply original physical radius or source body identity.",
+    "required_integration": [
+      "Retain SAME Character/Player actor source owner and actual relative144/absolute12c/position160 storage",
+      "Load exact AI row from resolved property1 and execute source IsPlayer including archetype branch",
+      "Construct actual physical through character_live_body_projection_v62 and CharacterWorldPhysicalV62 source service order, including actual debug/filter/PF callbacks",
+      "Publish physical receiver through RetainedCharacterPositionOwnerV7.publish_physical; do not write synthetic handle",
+      "Use RetainedCharacterPositionOwnerV7.set_position to translate relative source bounds and update actual bodyXY/visual/attached owner in source order",
+      "Resolve actual constructed CanonicalModule receiver; propagate source module_id and source offset to child room64/position; generated ordinal is not a source room",
+      "Route genuine collision Begin/End to canonical owners when physics owns events; do not synthesize contact-tree events merely from touching overlap"
+    ],
+    "source_bounds": "Body config uses actual owner absolute AABB X/Y extents after source visual ApplyMeshBox. Its circle radius is max(width,height)*0.5 in physics units; collision_scale already affects original bounds producer and must not be reapplied.",
+    "contact_owner": "CanonicalTriggerZoneV22 retains original contact tree/counters/ordering; source overlap query and source inside predicate remain distinct.",
+    "blockers": [
+      "Main does not yet retain actual original player physical2dc receiver and SAME live source bounds/position owner",
+      "Whole physical init requires actual AI/IsPlayer, MP_NoPhysics debug, source collision dispatch/filter and PF callbacks",
+      "Positive colzone requires actual selector/ray backend; no AABB replacement",
+      "Original positive-repeat-delay worldphase scheduling still unresolved"
+    ],
+    "module_trace": "SourceModuleConstructionTrace observes actual CanonicalModuleV1/record and verifies SAME declaration lease, runtime module_id and position. This solves receipt mapping only after real constructor/factory invocation, not from parsed module index."
+  },
+  "additional_evidence": [
+    "port/level-world/character_body_config.cpp",
+    "port/level-world/character_live_body_projection_v62.cpp",
+    "port/level-world/character_world_physical_v62.cpp",
+    "port/level-world/retained_character_position_owner_v7.cpp",
+    "port/level-world/character_set_position_v7.cpp",
+    "port/level-world/native_body.hpp",
+    "port/level-world/native_body.cpp",
+    "port/windows-foundation/original_actor_bounds.cpp",
+    "port/windows-foundation/source_module_trace.cpp",
+    "port/windows-foundation/main.cpp"
+  ]
+}

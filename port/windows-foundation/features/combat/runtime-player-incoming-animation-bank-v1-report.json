@@ -1,0 +1,50 @@
+{
+  "feature": "source-exact player incoming injury/death animation bank",
+  "module": "features/combat/runtime_player_incoming_animation_bank_v1.hpp/.cpp",
+  "status": "feature-owned source bank and focused real-asset test passed; incoming-receiver integration is not included",
+  "visual_evidence": {
+    "reference": "Dungeon Hunter 2 v1.0.3 Part 1 source-combat video frames previously extracted for target/combo audit; local recovered tables/assets are v1.0.2",
+    "frames": [
+      {
+        "timestamps_seconds": [281.995, 283.278, 284.495, 285.995, 287.995],
+        "files": ".local-inputs/referenceframes/dh2-act1/target-combo-v1/at-281.995.png through at-287.995.png (five sampled frames)",
+        "observation": "The player changes sword poses across the sampled attack; orange MISS text appears in multiple frames, numeric hit text appears later, and the red enemy target ring changes between enemies. The sampled sequence does not identify the player's class, show the player receiving a hit, or establish an Injured/Died state transition."
+      }
+    ],
+    "limit": "No supplied/extracted sequence establishes a Rogue receiving damage or dying. No visual parity claim is made for these clips."
+  },
+  "logic_evidence": {
+    "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "caller_and_override_gates": [
+      "Character::CSM_Injured at 0x3ad23c accepts the Injured state. CSInjured::OnFocus at 0x3c33e8 calls CharStateMachine::SM_SetAnim(-1) at 0x3c0b50; the native source inventory records that call at 0x3c3490. This bank supplies the source clip choices only; it does not choose the incoming outcome or RNG index.",
+      "CharStateMachine::SM_SetDeadState at 0x3c58c8 obtains the current CharAnimTable via Character::GetCharAnimTableId at 0x3a3228. Its ordinary branch captures Died field+0x1c, stores the result in State.animation_override / machine+0x28, then dispatches the dead transition. The alternate branch uses DeadlyGreatKB field+0x10 and is not the ordinary Died path.",
+      "SM_SetDeadState applies stance only when the selected source mask bit is enabled. For ordinary Died that mask is 0x8000; Android AnimStancedAnim.SL__LIST_IPHONE is 210 (0x00d2), so the Died branch does not add equipment stance. The feature therefore uses the exact Died field root without stance arithmetic.",
+      "CSDead::OnFocus at 0x3c4d50 calls SM_SetAnim(-1) unless its alternate byte skips the call; SM_SetAnim consumes the machine override when present. This bank does not wire the incoming/death receiver or set machine state."
+    ],
+    "source_roots": {
+      "KnightPlayerBase (Warrior profile)": {"property_row": 263, "animation_table": 48, "Injured": 267, "Died": 259},
+      "RoguePlayerBase": {"property_row": 325, "animation_table": 50, "Injured": 267, "Died": 259},
+      "MagePlayerBase": {"property_row": 290, "animation_table": 49, "Injured": 267, "Died": 259}
+    },
+    "rogue_rows": {
+      "Injured": {"sequence_name": "Human_Injured_00_1H", "type": 2, "loop": 0, "clips": ["prince_hurt_01.bdae", "prince_hurt_02.bdae", "prince_hurt_03.bdae"]},
+      "Died": {"sequence_name": "Human_Died_00_1H", "type": 0, "loop": 0, "clips": ["prince_dying_01.bdae"]}
+    },
+    "asset_resolution": "Each root is read with animation_state from the actual ActorProfile.animation_table; every leaf is read through the loaded AnimDict. The builder retains complete AnimationStep records and adds source-resolved clip paths to the same profile visual. Profile visual aliases/paths are checked against that profile's authored state clips; no Knight animation-bank substitution is performed."
+  },
+  "expected_behavior": "For an admitted injury, the caller chooses one of the three source Type2 steps and supplies that exact choice to the existing sequence playback/RNG owner. For ordinary death, the source Died root is the override selected by SM_SetDeadState; it is Type0 and has no stance offset. Existing clip loading and OriginalAttackSequence own clip timing and marker playback. No damage amount, hit outcome, state transition, or RNG draw is synthesized here.",
+  "uncertainties": [
+    "The recovered data is v1.0.2 while the inspected gameplay video is v1.0.3.",
+    "The available still does not show a player injury/death or identify a Rogue; exact visual hit-response behavior remains unverified.",
+    "The specific production caller that selects one Injured Type2 step is outside this feature. Its random-choice callsite and connection to the new source receiver capability must remain caller-owned and be verified during integration.",
+    "This feature only publishes bank metadata and selections. The parent-owned incoming-only capability is not yet claimed integrated or playable."
+  ],
+  "verification": {
+    "runner": "features/combat/run_runtime_player_incoming_animation_bank_v1_tests.ps1",
+    "language_mode": "strict C++17, -Wall -Wextra -Werror",
+    "asset_root": ".local-inputs/windows-source-clock-v19-preview-9/assets",
+    "archive_use": "Compiled and linked against read-only copies of the latest coherent foundation archives in .local-inputs/targetloss-incoming-private-build; did not write the shared foundation build directory.",
+    "result": "PASS: Warrior/Rogue/Mage profiles resolve tables 48/50/49 and exact roots Injured267/Died259; each uses the actual source clips and Type/Loop. Rogue clips match three prince_hurt choices and prince_dying_01. All source AnimationStep fields, including MoveGO, rate and blend, are retained; actual BDAE marker occurrences survive OriginalAttackSequence preparation. Caller choices0/1/2 succeed, out-of-range choice rejects, ordinary Died has no explicit choice, and a profile visual with a substituted source clip rejects.",
+    "production_runtime_or_visual_capture": "not run; source bank is not connected to the incoming-only receiver capability in this assignment"
+  }
+}

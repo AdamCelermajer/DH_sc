@@ -15,6 +15,9 @@ struct LevelServicesV4 {
  std::function<bool(bool&,std::string&)> debug_infinite_zoom;
  std::function<bool(bool,float&,float&,std::string&)> zoom_bounds;
  std::function<bool(const PointV2&,std::string&)> camera_set_position;
+ // Source CameraLevel virtuals at vtable+304/+308. Each operation writes
+ // one plane on this same retained camera; failures preserve the other plane.
+ std::function<bool(float,std::string&)> camera_set_clip_start,camera_set_clip_end;
  std::function<bool(std::uintptr_t,bool&,std::string&)> actor_disabled81;
  // Source AnimSetController same Scene graph: write clip indexc then byte10=0
  // before virtual Play+1c. Absence is the original no-controller branch.
@@ -29,6 +32,8 @@ public:
  GameplayCameraTargetV2& target()noexcept{return target_;}
  LevelStateV4& fields()noexcept{return state_;}
  bool play_animation(std::int32_t id,std::int32_t clip_index,bool hold_zoom,std::string&);
+ bool set_clip_start(float,std::string&);
+ bool set_clip_end(float,std::string&);
  void source_animation_callback()noexcept{state_.shake84=false;}
  bool handle_zoom(std::string&);
  bool update(std::string&);

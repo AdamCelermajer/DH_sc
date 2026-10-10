@@ -28,14 +28,23 @@ bool PlayerLevelQuickSaveV29::execute(const PlayerQuickSaveLevelV29& level,bool 
  std::memcpy(player.checkpoint1468,player.position160,12);
  const auto actual_save=*level.save_ec;std::uint8_t* flag{};receipt_.phase=PlayerQuickSavePhaseV29::flag;
  if(!actual_save||!services_.save_flag39||!services_.save_flag39(actual_save,flag,error)||!flag){if(error.empty())error="Required actual QuickSave Save39 field";return false;}
- const auto previous=*flag;if(clear)*flag=0;
+ const auto previous=*flag;auto* original_flag=flag;if(clear)*flag=0;
  receipt_.phase=PlayerQuickSavePhaseV29::save;
  // Original rereads Save_ec when its flag was cleared; without that store it
  // calls the captured receiver. Do not replace this with a dummy file sink.
  const auto receiver=clear?*level.save_ec:actual_save;
- if(!receiver||!services_.save_ec||!services_.save_ec(receiver,error)){if(error.empty())error="Required source LevelSave::Save delivery";return false;}
- receipt_.saved=true;receipt_.phase=PlayerQuickSavePhaseV29::restore;
- flag=nullptr;if(!*level.save_ec||!services_.save_flag39(*level.save_ec,flag,error)||!flag){if(error.empty())error="Required reread QuickSave Save39 receiver";return false;}
- *flag=previous;return finish();
+ const bool saved=receiver&&services_.save_ec&&services_.save_ec(receiver,error);
+ const auto save_error=error;
+ receipt_.saved=saved;
+ // Save is synchronous at this boundary. Restore the original byte even when
+ // the native serializer reports failure; on success, honor the source's
+ // reread of Level::Save_ec and restore that actual receiver as well.
+ flag=nullptr;std::string restore_error;
+ const bool reread=*level.save_ec&&services_.save_flag39&&services_.save_flag39(*level.save_ec,flag,restore_error)&&flag;
+ if(reread)*flag=previous;
+ if(!reread&&original_flag)*original_flag=previous;
+ if(!saved){error=save_error.empty()?"Required source LevelSave::Save delivery":save_error;return false;}
+ if(!reread){error=restore_error.empty()?"Required reread QuickSave Save39 receiver":restore_error;return false;}
+ receipt_.phase=PlayerQuickSavePhaseV29::restore;return finish();
 }
 }

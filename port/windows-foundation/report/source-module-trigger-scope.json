@@ -1,0 +1,73 @@
+{
+  "status": "source-rules-verified-specific-host-runtime-id-mapping-required",
+  "scope": "Original module/room identity, scripted object lookup scope, and TriggerZone player contact admission",
+  "module_ids": {
+    "selected_level_context": "Level.object_module_id18c initially-1; offset160 initiallyzero",
+    "allocation": "Monotonic actual constructor order, with unsigned32 increment and signed runtime ID reinterpretation",
+    "source_constructor": "ModuleC1 address0x389fa8; original stores0x38a0e4 receiver+40c=current global,0x38a0e8 global=current+1",
+    "aliases": "Canonical factory routes gametype Module and Block to the Module factory, not simply XML name ordinal",
+    "host_boundary": "ActorDefinition.moduleName /authored_name#loaderOrdinal is source identity/diagnostic only. Specific runtime ID may only be bound after equivalent full constructor traversal or capture of actual canonical module_id().",
+    "child_publication": "ObjectFactoryAttempt adds each child with request.runtime_module_id -> GameObject.room64; child position uses source module offset, not room string or generated name",
+    "required_mapping": "Explicit mapping {source occurrence identity, actual Module receiver identity, actual runtime module_id, placement offset, retained MGP/MVP occurrences}; propagate actual ID into each child object and trigger",
+    "distinction": "Module own40c ID and Module object parent room64 are different fields. Top-level Module object may room64=-1 while its children inherit its own40c ID.",
+    "no_verified_specific_id": "Current second authored module #1 cannot by itself prove runtime ID1. Existing source-pipeline declarations record parsed module indices, not native ModuleC1 receipts.",
+    "module_files": "module_load_v1 sets actual receiver ID into SAME Level18c and actual module position intoLevel160, chooses original MGP/MVP, loads in order, then zerosoffset/resetsID-1",
+    "reset": "LevelC1 resets actual Module::s_moduleId global to0 (level_constructor_v3.cpp49-50)"
+  },
+  "script_context": {
+    "missing": "create=false leaves empty handle via actual missing-name Debug leaf. Missing identity must not be fabricated.",
+    "global": "room=-1 skips room filtering; original SetCameraTarget(name) explicitly uses this global scope",
+    "aliases": "Player*,PlayerCharacter_*,LocalPlayer* force room-1; exact Player/LocalPlayer match actual GetLocalPlayer(0,true) Character identity",
+    "order": "First match in original ordered ObjectManager key map; not first filtered population vector match",
+    "trigger_start": "CanonicalTriggerZoneV22::start_once invokes actual StartScript(scriptId, base.room64()) after IsRunning check",
+    "retained_context": "Campaign execution must retain that room for general GetObjectByName command lookups. It is not the scriptID or XML source-file index.",
+    "lookup": "CanonicalObjectManagerV1::by_name filters by requested room when !=-1; same name in other room accepted only when actual across_rooms87 true"
+  },
+  "trigger_geometry": {
+    "player_box": "Requires actual Character absoluteAABB12c writer. Feet point, invented radius, or generic visual mesh box cannot be labeled original touching without that producer.",
+    "positive_colzone": "Must use actual _colzone triangle selector/ray provider. Do not replace with AABB or circular distance.",
+    "contact_api": "collision_begin/end route zone_ex_contact_v90 over actual identity set; TriggerZone update separately counts player AABB touching. Empty contact set is a genuine no-op.",
+    "initialization": "Zone dimensions374 defaults produced by actual property map (typically200). InitPost multiplies dimensions by actual scale120 and sets localbox[-dimension/2,+dimension/2] through SetBoundingBox(false). Existing mesh _colzone can replace/extend source zone bounds; retain actual absolute-box producer.",
+    "formula": "a.minX<=b.maxX && a.maxX>=b.minX && a.minY<=b.maxY && a.maxY>=b.minY && a.minZ<=b.maxZ && a.maxZ>=b.minZ",
+    "update_path": "CanonicalTriggerZone.number_touching queries each real PlayerManager GetPlayer(index,true)->Character660 and GameObject.IsTouching38b518",
+    "inside": "Zone.IsInside3970c8 is a separate query used to prune contact entries. NULL peer physical2dc ->false; nullcolzone compares actual peer position160 inclusively within absoluteAABB; requires actual PhysicalObject.GetRadius but radius is not used in final six comparisons",
+    "touching": "zone_is_touching_v83 compares SAME absoluteAABB12c for zone and character, inclusive overlap on all three XYZ axes"
+  },
+  "trigger_admission": {
+    "qualifiers": "Qualified GameObject.MeetCondition is literal true in this inspected Trigger update; broader framework/campaign condition admission is a distinct provider, not inferred from a text expression.",
+    "gates": [
+      "GetLocalPlayer(0,true); local dead1480 returns before update",
+      "Door backing state1/3 returns",
+      "can_activate: count<0 OR count>activated, timer<=0, enabled8a",
+      "Online remote virtual54 gate",
+      "Player count and touching requery; local-only repeats actual local IsTouching",
+      "Entry edge active7b4 prevents repeat while inside; exit edge clears",
+      "If on script exists, start_once only starts when not already running; room context from same receiver",
+      "Delay timer and activate count stores follow original source ordering"
+    ]
+  },
+  "provider_seam": {
+    "canonical_trigger": "CanonicalTriggerZoneV22::update, collision_begin, collision_end; TriggerZoneServicesV22.start_script(id,room,error), touching(peer,hit,error), zone_inside(peer,hit,error), script_running, actual PM/dead/online/door/timer services",
+    "required_peer": "ZonePeerBorrowV83 receiver+identity, absolute12c, position160, physical2dc and physical_radius; no raw reconstructed memory casts",
+    "host_runtime": "OriginalCampaignRuntime.trigger_contact can consume verified playerAABB overlap and actual module ID, but its source-file/name key must distinguish repeated placed module occurrences.",
+    "geometry": "zone_is_touching_v83(base,peerIdentity,ZoneCollisionServicesV83,hit,error); zone_is_inside_v83(base,colzoneIdentity,peerIdentity,services,inside,error)",
+    "canonical_module": "CanonicalModuleV1.module_id(); ModuleLevelLoadBorrowV1.object_module_id18c/module_offset160; CanonicalSourceObjectRequestV1.runtime_module_id"
+  },
+  "evidence": [
+    "port/level-world/reference/canonical-object-factory-v1/original-source.asm:8512",
+    "port/level-world/canonical_level_config_module_v1.cpp:74",
+    "port/level-world/module_xml_selection_v1.cpp:28",
+    "port/level-loader/level_constructor_v3.cpp:49",
+    "port/level-loader/CANONICAL-MODULE-FILES-HANDOFF.md:13",
+    "port/level-loader/canonical_source_adapter_v1.cpp:46",
+    "port/level-world/canonical_object_factory_v1.cpp:19",
+    "port/level-world/canonical_object_manager_v1.cpp:68",
+    "port/level-world/canonical_trigger_zone_v22.cpp",
+    "port/level-world/zone_collision_runtime_v83.cpp",
+    "port/level-world/zone_collision_runtime_v83.hpp",
+    "port/level-world/reference/trigger-zone-v22/update-original.json",
+    "port/level-world/reference/trigger-zone-v22/predicates-original.json",
+    "port/level-world/reference/module-zone-v3/zone-bounds-original.json"
+  ],
+  "changes": "New report only; no main/session/population edits"
+}

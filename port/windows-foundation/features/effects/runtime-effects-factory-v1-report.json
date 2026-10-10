@@ -1,0 +1,45 @@
+{
+  "feature": "RuntimeEffectsFactoryV1",
+  "validation": "PASS_SOURCE_CONTRACT_AND_ACTUAL_ASSET_INTEGRITY",
+  "same_session_scene": "CombatSession retained pose + exact Entry.visual + retained Scene; manager and particle factory borrow the same Scene",
+  "source_policy": {
+    "dead": "same-session ActorState::alive()",
+    "disabled": "optional authored FxActorPolicyV1 override; default enabled while actor remains in the bound session",
+    "stationary": "resample transform every frame; source stationary branch only skips resync and this is output-equivalent",
+    "debug": "diagnostic-only calls are no-op; effects module is explicitly enabled by constructing this owner",
+    "floor": "character_fx_floor_query_v3 over caller's same PFWorld"
+  },
+  "changed_files": [
+    "port/windows-foundation/features/effects/runtime_effects_factory_v1.hpp",
+    "port/windows-foundation/features/effects/runtime_effects_factory_v1.cpp",
+    "port/windows-foundation/features/effects/runtime_effects_factory_v1_tests.py",
+    "port/windows-foundation/features/effects/runtime-effects-factory-v1-report.json"
+  ],
+  "verification": {
+    "strict_windows_syntax": [
+      "port/windows-foundation/features/effects/runtime_effects_factory_v1.cpp",
+      "port/windows-foundation/features/effects/runtime_combat_effects_v1.cpp"
+    ],
+    "actual_original_effects_table_inputs_sha256": {
+      "port/game-data/reference/effects-tables/effects_pyarray.bin": "9a743e51e4ba098a63fd274ee890efeaf0dc6f750d51fc53fd9ef2c01695f71b",
+      "port/game-data/reference/effects-tables/effects_pyarraynames.bin": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043",
+      "port/game-data/reference/effects-tables/effects_pystructnames.bin": "d4296263d954714d560083e058da3ff4d87d4b35fa7c796c4e88618f4cb2cc2b",
+      "port/game-data/reference/effects-tables/effects_dictionary_pyarraynames.bin": "8227757b4e18e10f898e0693eeb1b728b024e8b4675162f97c5fbb6647b910f2",
+      "port/game-data/reference/effects-tables/effects_dictionary_pyarray.bin": "e0162462ed31315a637b3f784e6957949054855357cf09431e5249db5c42d294"
+    },
+    "source_policy_contract": "PASS"
+  },
+  "explicit_root_services": [
+    "source-table borrow and AssetCatalog",
+    "same PFWorld",
+    "camera for the exact retained Scene and actual renderer driver type",
+    "original texture upload/release while the matching GL context is current",
+    "root render-queue submission and frame-loan drain",
+    "optional authored bound-but-disabled ActorId policy"
+  ],
+  "not_claimed": [
+    "No actor policy is inferred from idle/action or native offsets.",
+    "No camera matrix, floor, effect, marker, texture, or render packet is synthesized.",
+    "The runner verifies source contract and original input integrity; live CombatSession factory creation and GL submission remain root integration work."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-09",
+  "owner": "/root/integration_lead",
+  "status": "released_scoped_preview5",
+  "release_receipt": "reports/v19-preview-5-release.json",
+  "binary_sha256": "c9e2444a08307c6721b45dab670d84de296695d855d4873c302817fe0b129b66",
+  "architecture": "One executable, one Window/WGL context, one selected shared CharacterState; menu default and --start-mode swamp direct testing.",
+  "source_inputs": "RuntimeCreationSourceV1 loads thirteen original inputs; exact decoded PyData alias preserves authored/original-cache precedence and root confinement.",
+  "creation": "Actual class properties, Endurance/Energy, ordered rank-zero skills, first source grant, source slots/faery, weighted starter loot and authored auto-equip. Save/reload readback precedes one shared-state publication.",
+  "random": "Caller-owned LootRandom seed/calls transfers by named fields to startup CombatRandom; population and Session continue that stream.",
+  "verification": [
+    "Real Win32 mouse release, WM_CHAR name and Return, class Confirm, then distinct StartGame delivery.",
+    "Packaged Knight creation starts the same selected character in the populated 33-visual world for 120 frames.",
+    "Separate-process selected-slot load starts gameplay without rewriting the profile.",
+    "Mage and Rogue source creation, body/weapon appearance and movement passed development runs without Knight combat fallback.",
+    "Real-time frontend clock excludes blocking first class asset load; fixed-step remains explicit diagnostic mode."
+  ],
+  "limitations": [
+    "Mage/Rogue combat and skills execution remain unavailable.",
+    "Selected-class ordinary idle/weapon stance and menu lighting fidelity remain incomplete.",
+    "Full Equipment, Skills, Faery, Quest and Map enrollment remains incomplete.",
+    "Full Act1 acceptance is false."
+  ],
+  "full_frontend_acceptance": false,
+  "full_menu_acceptance": false,
+  "native_initpost_required": false
+}

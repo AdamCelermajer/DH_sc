@@ -21,6 +21,7 @@ struct LiveFixtureV5 {
  }
  static bool outer(void* raw,const WorldItemRequestV1&,std::int32_t&,std::string& e){++static_cast<LiveFixtureV5*>(raw)->outer_calls;e="actual required outer Item receiver fixture";return false;}
 };
+#ifndef DH2_WORLD_ITEM_LIVE_FIXTURE_ONLY
 int main(int argc,char** argv){try{
  check(argc==4);std::string e;LootTablesV2 tables;LootAudioVisualV8 audiovisual;
  auto b=file(std::string(argv[1])+"/loot_table_pyarray.bin"),n=file(std::string(argv[1])+"/loot_table_pyarraynames.bin"),s=file(std::string(argv[1])+"/loot_table_pystructnames.bin");check(tables.load(span(b),span(n),span(s),e),e);
@@ -31,7 +32,7 @@ int main(int argc,char** argv){try{
  WorldItemLiveOwnerV5 owner(f.canonical.manager,f.canonical.map,f.physics,&f.geometry,&f.obstacles,tables.borrow(),audiovisual.borrow(),services);f.canonical.factory=&owner.factory();
  check(owner.precache(e),e);check(owner.retained_count()==145&&f.roots->roots().size()==145&&f.canonical.manager.pending().size()==145&&f.conditions==290);
  std::vector<std::uintptr_t> ids;
- for(auto identity:f.canonical.manager.pending()){auto item=owner.factory().find(identity);check(bool(item));ids.push_back(identity);check(item->base().shared_handle().key>0);check(f.canonical.manager.object(item->base().shared_handle().key)->identity==identity);auto* graph=owner.graph(identity);check(graph&&graph->receiver_v4().base().identity()==identity&&graph->visual().visual()->ready());check(!item->base().lifecycle().updating85&&!item->base().lifecycle().enabled8a&&item->inventory().items().empty());}
+ for(auto identity:f.canonical.manager.pending()){auto item=owner.factory().find(identity);check(bool(item));ids.push_back(identity);check(item->base().shared_handle().key>0);check(f.canonical.manager.object(item->base().shared_handle().key)->identity==identity);auto* graph=owner.graph(identity);check(graph&&graph->receiver_v4().base().identity()==identity&&graph->visual().visual()->ready());check(!item->base().lifecycle().updating85&&item->base().lifecycle().enabled8a&&item->inventory().items().empty());check(!*item->base().byte(0x80)&&!item->base().lifecycle().disabled373);}
  check(owner.sample_visuals(100,e),e);auto* first=owner.graph(ids.front());WorldItemRequestV1 request;request.object=ids.front();request.operation=WorldItemOperationV1::create_decor_physical;std::int32_t out{};bool handled{};check(first->route(request,out,handled,e)&&handled,e);request.operation=WorldItemOperationV1::set_physical;check(first->route(request,out,handled,e),e);check(first->physical().native().body&&first->physical().secondary_shape());
  check(owner.detach_physics(e),e);check(!first->physical().native().body);check(!owner.update(ids.front(),16,0,e)&&e=="Required attached SAME Item frame owner");owner.rebind(&f.geometry,&f.obstacles);
  check(!owner.update(ids.front(),16,0,e)&&e=="actual required outer Item receiver fixture"&&f.outer_calls==1);
@@ -39,3 +40,4 @@ int main(int argc,char** argv){try{
  for(auto id:ids)check(owner.erased(id,e),e);check(owner.retained_count()==0&&f.roots->roots().empty());f.physics.clear();
  std::cout<<"PASS reusable SAME canonical145 Item/Scene/physical/PF graph, original key publication, body teardown/rebind, explicit required frame failure and ordered release; actual cache meshes with device/condition/Debug endpoints fixture-only checks="<<checks<<'\n';return 0;
  }catch(const std::exception& ex){std::cerr<<"check "<<checks<<" "<<ex.what()<<'\n';return 1;}}
+#endif

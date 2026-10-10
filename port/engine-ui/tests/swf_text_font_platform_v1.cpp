@@ -9,7 +9,7 @@
 struct PlatformTest:Test {
     gameswf::player* player{};
     SwfTextFontPlatformV1* platform{};
-    unsigned unified{},metrics{},core_callbacks{};
+    unsigned unified{},metrics{},core_callbacks{};bool reject_upload{};
     static bool start(void* c,const SwfAsLease& lease,std::string&){auto& t=*static_cast<PlatformTest*>(c);t.player=lease.player;return true;}
     static bool probe(void* c,SwfAsGraph&,std::string& error){
         auto& t=*static_cast<PlatformTest*>(c);
@@ -32,6 +32,26 @@ struct PlatformTest:Test {
             const auto quads=t.quads;gameswf::matrix m;gameswf::rect r,uv;r.m_x_max=r.m_y_max=100;uv.m_x_max=uv.m_y_max=1;gameswf::render::draw_bitmap(m,core.m_bitmap_info.get_ptr(),r,uv,gameswf::rgba(255,255,255,255));
             check(t.quads==quads+1,"real materialized core glyph did not reach facade sink");
         }
+        // A retained source field can carry the SWF sentinel 0xffff (3276 px
+        // after TWIPS_TO_PIXELS). The original display clamps provider raster
+        // size to 96; the earlier source-layout path must make the same request.
+        text_v1::Glyph at_limit,oversized;bool found{};
+        check(source.glyph(projected,65,96,at_limit,found,error)&&found&&at_limit.image,error.c_str());
+        const auto uploads=t.images.size();
+        check(source.glyph(projected,65,3276,oversized,found,error)&&found&&oversized.image,error.c_str());
+        check(oversized.image==at_limit.image&&t.images.size()==uploads,
+              "oversized SWF font height bypassed the source 96px glyph cache entry");
+        auto display=t.platform->display_services({});text_display_v2::GlyphBinding bounded;
+        check(display.bind_glyph(oversized,bounded,error)&&bounded.bitmap.width<=256&&bounded.bitmap.height<=256,
+              "oversized source field allocated an unbounded glyph bitmap");
+        // Admission errors must preserve the caller's request and actual
+        // post-clamp upload dimensions for the next device diagnosis.
+        t.reject_upload=true;error.clear();text_v1::Glyph denied;
+        check(!source.glyph(projected,90,3276,denied,found,error),"rejected bounded glyph upload was hidden");
+        check(error.find("font='Fontin SmallCaps' code=90 requested_pixels=3276 raster_pixels=96 image=")!=std::string::npos&&
+              error.find("channels=1")!=std::string::npos,
+              "glyph admission diagnostic omitted request or actual upload dimensions: "+error);
+        t.reject_upload=false;
         return true;
     }
 };

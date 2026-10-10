@@ -545,11 +545,92 @@ struct RendererCampaignNonCharacterV69 final:std::enable_shared_from_this<Render
   std::shared_ptr<dh2::world::RetainedGameObjectVisualV1> actual;if(!actual_visual(visual,actual,e))return false;
   auto controller=std::make_shared<dh2::world::RetainedGenericAnimatorV21>(actual);if(!controller->initialize(e))return false;animators.emplace(visual,controller);out=std::move(controller);return true;
  }
+ std::weak_ptr<dh2::loader::CanonicalDoorRecordV27> admitted_door(std::uintptr_t id)const{
+  for(const auto& weak:auxiliary_journal){auto journal=weak.lock();if(!journal||!journal->record||!journal->class_name||std::strcmp(journal->class_name,"Door")||!journal->identity||journal->identity()!=id)continue;
+   auto record=std::static_pointer_cast<dh2::loader::CanonicalDoorRecordV27>(journal->record);
+   if(record&&record->owner&&record->owner->base().identity()==id)return record;
+  }return {};
+ }
+ bool bind_door_animation_callbacks_v120(dh2::world::DoorServicesV27& services,std::string& e){
+  if(services.startup.register_animation_callbacks)return true;std::weak_ptr<RendererCampaignNonCharacterV69> weak=shared_from_this();
+  services.startup.create_door_physical=[weak](dh2::world::CanonicalDoorV27& door,std::string& error){
+   auto self=weak.lock();if(!self||!self->current(error))return false;
+   auto record=self->admitted_door(door.base().identity()).lock();
+   if(!record||!record->owner||record->owner.get()!=&door){error="Required SAME admitted Door physical receiver";return false;}
+   dh2::world::DecorServicesV15 unused;if(!self->decor(door.base(),unused,error))return false;
+   return self->decor_connections.at(door.base().identity())->create_door_physical(error);
+  };
+  services.startup.register_animation_callbacks=[weak](dh2::world::CanonicalDoorV27& door,std::uintptr_t visual_id,std::string& error){
+   auto self=weak.lock();if(!self||!self->current(error)){if(error.empty())error="Required live SAME Door animation owner";return false;}
+   auto record=self->admitted_door(door.base().identity()).lock();if(!record||!record->owner||record->owner.get()!=&door){error="Required SAME admitted Door animation receiver";return false;}
+   auto* visual_slot=door.base().pointer(0x2d8);if(!visual_slot||*visual_slot!=visual_id){error="Required SAME Door visual2d8 for animation callback registration";return false;}
+   std::shared_ptr<dh2::world::RetainedGameObjectVisualV1> visual;std::shared_ptr<dh2::world::RetainedGenericAnimatorV21> animator;
+   if(!self->actual_visual(visual_id,visual,error)||!visual||!self->animator(visual_id,animator,error)||!animator){if(error.empty())error="Required actual Door retained visual/controller";return false;}
+   std::weak_ptr<dh2::loader::CanonicalDoorRecordV27> same=record;dh2::world::GenericAnimationCallbacksV21 callbacks;
+   callbacks.completion_owner=self->files;callbacks.event_owner=self->files;
+   callbacks.completion=[same](dh2::timeline::State&,std::string& e){auto record=same.lock();if(!record||!record->owner){e="Released SAME Door completion receiver";return false;}
+    auto& target=*record->owner;target.base().lifecycle().updating85=1;target.source_byte3ac()=0;
+    const auto state=target.source_state3a8();if(state==2)return target.source_closed_v91(false,e);if(state==3)return target.source_opened_v91(false,e);e.clear();return true;};
+   callbacks.event=[same](const dh2::animation::TriggeredEvent& event,std::string& e){auto record=same.lock();if(!record||!record->owner){e="Released SAME Door event receiver";return false;}
+    if(!event.name){e="Required actual Door triggered-event name";return false;}
+    if(!std::strcmp(event.name,"opened"))return record->owner->source_opened_v91(true,e);
+    if(!std::strcmp(event.name,"closed"))return record->owner->source_closed_v91(true,e);
+    e.clear();return true;};
+   return animator->set_callbacks(std::move(callbacks),error);
+  };e.clear();return true;
+ }
+ bool bind_door_physical_lifecycle_v120(dh2::world::DoorServicesV27& services,std::string& e){
+  std::weak_ptr<RendererCampaignNonCharacterV69> weak=shared_from_this();
+  // Door::Opened/Closed pass their assigned source2dc to the PhysicalObject
+  // filter virtual. The Door-specific source body is the same PODecor C2 held
+  // by this connection; do not borrow by world identity or construct a proxy.
+  services.startup.physical_filter=[weak](dh2::world::CanonicalDoorV27& door,std::uintptr_t physical,bool enabled,std::string& error){
+   auto self=weak.lock();if(!self||!self->current(error))return false;
+   auto record=self->admitted_door(door.base().identity()).lock();
+   if(!record||!record->owner||record->owner.get()!=&door){error="Required SAME admitted Door physical-filter receiver";return false;}
+   const auto* slot=door.base().pointer(0x2dc);
+   if(!slot||!*slot||*slot!=physical){error="Changed SAME Door physical2dc filter receiver";return false;}
+   const auto connection=self->decor_connections.find(door.base().identity());
+   if(connection==self->decor_connections.end()||!connection->second){error="Required SAME Door PODecor body connection";return false;}
+   dh2::physical::NativePhysicalFilterBorrowV1 fields;
+   if(!connection->second->source_filter_borrow_v105(physical,fields,error))return false;
+   return dh2::physical::native_physical_filter_v1(fields,enabled,error);
+  };
+  // PFWorld::FlagFloorAsDeadEnd(PFObject,bool) follows the SAME PFObject's
+  // floor pointer and changes PFFloor+32 bit 1, distinct from authored +36.
+  services.startup.flag_floor_dead_end=[weak](dh2::world::CanonicalDoorV27& door,bool marked,std::string& error){
+   auto self=weak.lock();if(!self||!self->current(error))return false;
+   auto record=self->admitted_door(door.base().identity()).lock();
+   if(!record||!record->owner||record->owner.get()!=&door){error="Required SAME admitted Door dead-end receiver";return false;}
+   auto geometry=self->floors.lock();if(!geometry){error="Required SAME actual PFWorld floor owner";return false;}
+   const auto floor=door.base().runtime().object.motion.floor;
+   if(floor==UINT32_MAX){error.clear();return true;}
+   if(floor>=geometry->records.size()||floor>=geometry->collision_world.floor_count||!geometry->records[floor]){error="Changed SAME Door PFObject floor receiver";return false;}
+   auto& flags=geometry->records[floor]->source_flags32;
+   if(marked)flags|=2u;else flags&=~2u;
+   error.clear();return true;
+  };
+  // ObjectBase::Delete33ddb4 is the selected inherited virtual40 body: byte82
+  // is written before disabled81, with no manager deletion or visibility call.
+  services.startup.source_delete=[weak](dh2::world::CanonicalDoorV27& door,std::string& error){
+   auto self=weak.lock();if(!self||!self->current(error))return false;
+   auto record=self->admitted_door(door.base().identity()).lock();
+   if(!record||!record->owner||record->owner.get()!=&door){error="Required SAME admitted Door Delete receiver";return false;}
+   door.base().source_delete_v4();error.clear();return true;
+  };
+  e.clear();return true;
+ }
  bool decor(dh2::world::CanonicalGameObjectBaseOwnerV1& base,dh2::world::DecorServicesV15& output,std::string& e){
   auto found=decor_connections.find(base.identity());if(found==decor_connections.end()){
    std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* same{};if(!borrow(base.identity(),pin,same,e)||same!=&base)return false;
    auto world=physics.lock();if(!world||!physical_associations){e="Required actual native PhysicalWorld and canonical peer association";return false;}
    auto source=native.decor_native;source.owner=files;std::weak_ptr<RendererCampaignNonCharacterV69> weak=shared_from_this();const auto id=base.identity();
+   if(!source.peer_owner)source.peer_owner=native.zone_physical.peer_owner;
+   if(!source.peer_visible80)source.peer_visible80=native.zone_physical.peer_visible80;
+   auto previous=source.destroy_previous;
+   source.destroy_previous=[weak,previous](std::uintptr_t physical,std::string& e){auto self=weak.lock();bool handled{};
+    if(!self||!self->release_zone_physical_v82(physical,handled,e))return false;if(handled)return true;
+    if(!previous){e="Required actual previous non-Zone PODecor physical D0";return false;}return previous(physical,e);};
    source.debug_switch=[weak](const char* key,bool& value,std::string& e){auto self=weak.lock();auto native_world=self?self->scope.actual_world.lock():nullptr;auto world=std::static_pointer_cast<WorldScriptContext>(native_world);std::uint32_t result{};
     if(!self||!self->current(e)||!world||!world->debug||dh2_character_debug_load(world->debug.get(),&world->debug_files)!=1||dh2_character_debug_get(&result,world->debug.get(),key,&world->debug_files)!=1){if(e.empty())e="Required same actual Debug physical prefix";return false;}value=result!=0;return true;};
    source.update_pf=[weak,id](std::string& e){auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};return self&&self->borrow(id,pin,base,e)&&self->pf(*base,false,nullptr,0,e);};
@@ -695,6 +776,9 @@ bool compose_campaign_noncharacter_v69(AAssetManager* assets,const SourceCampaig
   if constexpr(std::is_same_v<Services,dh2::world::DoorServicesV27>||std::is_same_v<Services,dh2::world::TriggerObjectServicesV28>){output.startup.owner=self;output.startup.zone.owner=self;
    self->bind_zone_startup_v82(output.startup.zone);bind_startup_idle_animation_v86(weak,output.startup);bind_startup_sound_capture_v87(weak,output.startup);
    output.startup.zone.set_bounding_box=[weak](auto& base,const float* same,bool absolute,std::string& e){auto self=weak.lock();RendererCampaignNonCharacterV69::Bound* bound{};if(!self||!self->ensure(base,bound,e))return false;if(absolute||same!=base.relative_aabb144()){e="Required source Zone relative144,false receipt";return false;}return dh2::world::game_object_relative_box_v3(base,same,bound->initialization.update_pf_object,e);};}
+  if constexpr(std::is_same_v<Services,dh2::world::DoorServicesV27>){
+   if(!self->bind_door_animation_callbacks_v120(output,e)||!self->bind_door_physical_lifecycle_v120(output,e))return false;
+  }
   if constexpr(std::is_same_v<Services,dh2::world::CheckpointZoneServicesV26>||std::is_same_v<Services,dh2::world::QuestMoveZoneServicesV31>){
    output.startup.owner=self;self->bind_zone_startup_v82(output.startup);output.startup.set_bounding_box=[weak](auto& base,const float* same,bool absolute,std::string& e){auto self=weak.lock();RendererCampaignNonCharacterV69::Bound* bound{};if(!self||!self->ensure(base,bound,e))return false;if(absolute||same!=base.relative_aabb144()){e="Required source Zone relative144,false receipt";return false;}return dh2::world::game_object_relative_box_v3(base,same,bound->initialization.update_pf_object,e);};
   }
@@ -727,6 +811,26 @@ bool compose_campaign_noncharacter_v69(AAssetManager* assets,const SourceCampaig
  if(source_trigger)classes.auxiliary.trigger_object=[weak,source_trigger](const auto& d,auto& receiver,auto& output,std::string& e){auto self=weak.lock();if(!self||!source_trigger(d,receiver,output,e))return false;output.owner=self;output.startup.owner=self;output.startup.zone.owner=self;
   output.startup.borrow_script_manager=[weak](auto& output,std::string& e){auto self=weak.lock();auto app=self?self->application.lock():nullptr;auto actual=app?app->source_script_manager_v52():nullptr;if(!self||!self->current(e)||!actual){if(e.empty())e="Required SAME App ScriptManager for actual TriggerObject startup";return false;}output=std::move(actual);e.clear();return true;};
   output.startup.borrow_conditions=[weak](auto& output,std::string& e){auto self=weak.lock();if(!self||!self->current(e)||!self->native.condition_runtime||!self->native.conditions.owner){if(e.empty())e="Required SAME native campaign condition service receipt";return false;}output=self->native.conditions;e.clear();return true;};
+  output.startup.create_physical=[weak](dh2::world::CanonicalTriggerObjectV28& trigger,std::string& error){
+   auto self=weak.lock();if(!self||!self->current(error))return false;
+   bool admitted{};for(const auto& item:self->auxiliary_journal){auto journal=item.lock();if(!journal||!journal->record||!journal->class_name||std::strcmp(journal->class_name,"TriggerObject")||!journal->identity||journal->identity()!=trigger.base().identity())continue;
+    auto same=std::static_pointer_cast<dh2::loader::CanonicalTriggerObjectRecordV28>(journal->record);
+    if(same&&same->owner&&same->owner.get()==&trigger&&same->owner->base().identity()==trigger.base().identity()){admitted=true;break;}}
+   if(!admitted){error="Required SAME admitted TriggerObject physical receiver";return false;}
+   dh2::world::DecorServicesV15 unused;if(!self->decor(trigger.base(),unused,error))return false;
+   return self->decor_connections.at(trigger.base().identity())->create_door_physical(error);
+  };
+  output.startup.source_delete=[weak](dh2::world::CanonicalTriggerObjectV28& trigger,bool remove,std::string& error){
+   auto self=weak.lock();if(!self||!self->current(error))return false;
+   if(remove){error="Unsupported TriggerObject Delete(true) path; source startup only selects Delete(false)";return false;}
+   bool admitted{};for(const auto& item:self->auxiliary_journal){auto journal=item.lock();if(!journal||!journal->record||!journal->class_name||std::strcmp(journal->class_name,"TriggerObject")||!journal->identity||journal->identity()!=trigger.base().identity())continue;
+    auto same=std::static_pointer_cast<dh2::loader::CanonicalTriggerObjectRecordV28>(journal->record);
+    if(same&&same->owner&&same->owner.get()==&trigger&&same->owner->base().identity()==trigger.base().identity()){admitted=true;break;}}
+   if(!admitted){error="Required SAME admitted TriggerObject Delete receiver";return false;}
+   // TriggerObject InitPost calls inherited virtual40 Delete(false). Reuse
+   // the exact ObjectBase::Delete source prefix on its retained C1/base.
+   trigger.base().source_delete_v4();error.clear();return true;
+  };
   return true;};
  auto source_decor=classes.auxiliary.decor;
  if(source_decor)classes.auxiliary.decor=[weak,source_decor](const auto& d,auto& receiver,auto& output,std::string& e){auto self=weak.lock();return self&&source_decor(d,receiver,output,e)&&self->decor(receiver.base(),output,e);};
@@ -750,8 +854,102 @@ bool compose_campaign_noncharacter_v69(AAssetManager* assets,const SourceCampaig
   output.world=self;
   auto get=[slot](auto& pin,auto*& base,std::string& e){auto actual=slot?slot->lock():nullptr;if(!actual){e="Unproduced/released SAME Openable C1";return false;}pin=actual;base=&actual->base();return true;};
   self->bind_container_initialization_v89(get,output.initialization);
+  // The Openable VisualObject's ApplyMeshBox reaches its parent GameObject's
+  // UpdatePFObject. Reuse this same Openable's inherited initialization leaf;
+  // the visual owner must not receive an empty PF callback or a second owner.
+  if(!output.visual.update_pf){auto update_pf=output.initialization.update_pf_object;
+   output.visual.update_pf=[weak,update_pf](std::string& e){auto self=weak.lock();if(!self||!update_pf){if(e.empty())e="Required SAME Openable parent UpdatePFObject";return false;}return update_pf(e);};}
+  if(!output.visual.parent_is_animated)output.visual.parent_is_animated=[weak,slot](bool& value,std::string& e){
+   auto self=weak.lock();auto actual=slot?slot->lock():nullptr;
+   if(!self||!self->current(e)||!actual){if(e.empty())e="Required SAME retained Openable/Container IsAnimated parent";return false;}
+   value=actual->receiver().source_is_animated_v166();e.clear();return true;
+  };
   auto actual_world=self->scope.actual_world.lock();
   if(!actual_world||!bind_source_openable_interaction_v116(actual_world,get,output.interaction,e))return false;
+  auto physical=self->native.decor_native;physical.owner=self;
+  if(!physical.debug_switch)physical.debug_switch=[weak](const char* key,bool& value,std::string& e){
+   auto self=weak.lock();auto world=self?std::static_pointer_cast<WorldScriptContext>(self->scope.actual_world.lock()):nullptr;std::uint32_t result{};
+   if(!self||!self->current(e)||!world||!world->debug||
+      dh2_character_debug_load(world->debug.get(),&world->debug_files)!=1||
+      dh2_character_debug_get(&result,world->debug.get(),key,&world->debug_files)!=1){
+    if(e.empty())e="Required SAME Openable Debug physical prefix";return false;
+   }
+   value=result!=0;e.clear();return true;
+  };
+  if(!physical.update_pf)physical.update_pf=output.initialization.update_pf_object;
+  if(!physical.peer_owner)physical.peer_owner=self->native.zone_physical.peer_owner;
+  if(!physical.peer_visible80)physical.peer_visible80=self->native.zone_physical.peer_visible80;
+  auto source=output.container;
+  if(!source.resolve_item_name)source.resolve_item_name=[weak](const std::string& name,std::int32_t& id,std::string& e){
+   auto self=weak.lock();auto world=self?self->scope.actual_world.lock():nullptr;
+   std::shared_ptr<const dh2::character::CharacterCandidateCacheV62> cache;
+   if(!self||!self->current(e)||!world||!borrow_source_campaign_character_cache_v81(world,cache,e)||!cache)return false;
+   const auto tables=cache->loot().borrow();if(!tables){e="Required SAME original Arrays ItemTable names";return false;}
+   id=dh2::data::item_id(tables.items(),name);e.clear();return true;
+  };
+  if(!source.is_character)source.is_character=[weak](std::uintptr_t id,bool& value,std::string& e){
+   auto self=weak.lock();auto world=self?self->scope.actual_world.lock():nullptr;std::uintptr_t character{};
+   if(!self||!self->current(e)||!world||!source_campaign_object_as_character_v114(world,id,character,e))return false;
+   value=character!=0;e.clear();return true;
+  };
+  if(!source.play_sound_3d)source.play_sound_3d=[weak,slot](std::int32_t,std::string& e){
+   auto self=weak.lock();auto world=self?self->scope.actual_world.lock():nullptr;auto actual=slot?slot->lock():nullptr;
+   if(!self||!self->current(e)||!world||!actual)return false;
+   //3a0bcc captures SoundManager before virtual GetSound3a17c4's fresh
+   //name lookup, then rereads SAME raw position160. Keep negative IDs.
+   dh2::audio::AudioApplicationBorrowV42 captured;if(!borrow_actual_application_audio_v42(captured,e))return false;
+   auto table=self->native.source.containers.openable_table;std::int32_t id=-1;dh2::world::OpenableContainerRowV1 row;
+   if(!table||!table->resolve(actual->fields().data_desc,id,row,e)){if(e.empty())e="Required SAME Openable GetSound Arrays";return false;}
+   const auto sound=id==-1?-1:row.sound;const auto* position=actual->base().vector3(0x160);if(!position){e="Required SAME Openable raw sound position160";return false;}
+   std::array<float,3> point;std::copy_n(position,3,point.begin());
+   return submit_campaign_audio_v46(dh2::audio::AudioCategoryV46::container,captured,world,
+    dh2::audio::audio_world_request_v38(captured.identity(),actual->base().identity(),sound,point),e);
+  };
+  if(!dh2::world::connect_openable_source_services_v126(output,physical,source,e))return false;
+  // Container::InitFinal (0x39fc98) and Container::Interact (0x3a0b38)
+  // both make a direct virtual+0x2c call after their own prefix. Give that
+  // exact retained Openable the same selected GameObject frame provider used
+  // by ObjectManager's virtual+0x2c route; do not substitute a fixture or a
+  // second C1/runtime owner.
+  if(!output.container.source_on_interact){
+   std::weak_ptr<RendererCampaignNonCharacterV69> owner=weak;
+   std::weak_ptr<void> expected_world=actual_world;
+   output.container.source_on_interact=[owner,slot,expected_world](std::string& e){
+    auto self=owner.lock();auto world_owner=expected_world.lock();auto actual=slot?slot->lock():nullptr;
+    if(!self||!world_owner||!actual||!self->current(e)){
+     if(e.empty())e="Required SAME retained Openable/GameObject::Update receiver";return false;
+    }
+    const auto id=actual->base().identity();std::shared_ptr<void> pin;
+    dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
+    if(!self->borrow(id,pin,base,e)||!pin||base!=&actual->base()){
+     if(e.empty())e="Required SAME admitted Openable/GameObject::Update receiver";return false;
+    }
+    SourceCampaignCandidateBorrowV55 candidate;std::shared_ptr<SourceWorldBorrowV61> source_world;
+    if(!borrow_source_campaign_candidate_v55(candidate,e)||candidate.actual_world.get()!=world_owner.get()||
+       candidate.actual_world.owner_before(world_owner)||world_owner.owner_before(candidate.actual_world)||
+       !borrow_source_campaign_condition_world_v70(candidate,source_world,e)||!source_world)return false;
+    return update_source_campaign_noncharacter_v104(source_world,id,e);
+   };
+  }
+  output.container.find_key=[weak](std::uintptr_t character,std::int32_t id,bool& found,std::int16_t& quantity,std::string& e){
+   found=false;quantity=0;auto self=weak.lock();auto world=self?self->scope.actual_world.lock():nullptr;
+   SourceCampaignCharacterBorrowV62 loan;
+   if(!self||!self->current(e)||!world||!borrow_source_campaign_character_v62(world,character,loan,e)||!loan.character)return false;
+   auto* gear=loan.character->prepared_equipment_v60;
+   if(!gear||!gear->ready()||gear->inventory()!=loan.character->inventory37c){e="Required SAME Character Gear/Inventory37c for chest key lookup";return false;}
+   const auto* inventory=gear->inventory();auto match=[&](const dh2::data::ItemInstanceV1* item){
+    if(!item||item->id!=id)return false;quantity=static_cast<std::int16_t>(item->signed_quantity());return true;};
+   if(match(inventory->potion())){found=true;e.clear();return true;}
+   for(const auto& slot:inventory->items())if(slot&&match(slot->item.get())){found=true;e.clear();return true;}
+   e.clear();return true;
+  };
+  output.container.consume_key=[weak](std::uintptr_t character,std::int32_t id,std::int32_t quantity,bool& consumed,std::string& e){
+   consumed=false;auto self=weak.lock();auto world=self?self->scope.actual_world.lock():nullptr;SourceCampaignCharacterBorrowV62 loan;
+   if(!self||!self->current(e)||!world||!borrow_source_campaign_character_v62(world,character,loan,e)||!loan.character)return false;
+   auto* gear=loan.character->prepared_equipment_v60;
+   if(!gear||!gear->ready()||gear->inventory()!=loan.character->inventory37c){e="Required SAME Character Gear/Inventory37c for chest key consumption";return false;}
+   return gear->try_consuming_source_v108(id,quantity,consumed,e);
+  };
   output.container.drop_loot_table=[weak,slot](std::int32_t table,std::uintptr_t opener,std::int32_t fixed,bool flag,std::string& e){auto self=weak.lock();auto actual=slot?slot->lock():nullptr;auto world=self?self->scope.actual_world.lock():nullptr;
    if(!self||!self->current(e)||!actual||!world){if(e.empty())e="Required SAME Openable C1/World for DropLootTable";return false;}return source_campaign_container_drop_v104(world,actual->base().identity(),table,opener,fixed,flag,e);};
   if(!output.container.spawn_roll_and_probability)output.container.spawn_roll_and_probability=self->container_spawn_roll_v89(get);
@@ -773,10 +971,68 @@ bool compose_campaign_noncharacter_v69(AAssetManager* assets,const SourceCampaig
   init.owner=self;output.owner=self;output.common.owner=self;
   auto get=[slot](auto& pin,auto*& base,std::string& e){auto actual=slot?slot->lock():nullptr;if(!actual){e="Unproduced/released SAME Destructible C1";return false;}pin=actual;base=&actual->base();return true;};
   self->bind_container_initialization_v89(get,init);
+  if(!output.bind_callbacks){
+   auto animator_provider=[weak,slot](std::shared_ptr<dh2::world::RetainedGenericAnimatorV21>& animator,
+      std::shared_ptr<dh2::world::RetainedGameObjectVisualV1>& visual,std::string& error){
+    auto self=weak.lock();auto actual=slot?slot->lock():nullptr;
+    if(!self||!actual||!self->current(error)){if(error.empty())error="Required retained SAME Destructible C1 timeline owner";return false;}
+    auto cell=actual->base().pointer(0x2d8);
+    if(!cell||!*cell){error="Required assigned Destructible visual2d8 timeline owner";return false;}
+    return self->actual_visual(*cell,visual,error)&&self->animator(*cell,animator,error);
+   };
+   dh2::world::DestructibleContainerServicesV16 connected;
+   if(!dh2::world::connect_destructible_animation_v21(connected,slot,animator_provider,e))return false;
+   if(!output.visual_sync)output.visual_sync=[animator_provider](std::string& error){
+    std::shared_ptr<dh2::world::RetainedGenericAnimatorV21> animator;
+    std::shared_ptr<dh2::world::RetainedGameObjectVisualV1> visual;
+    return animator_provider(animator,visual,error)&&visual->sync(error);
+   };
+   output.bind_callbacks=std::move(connected.bind_callbacks);
+   if(!output.common.play_animation)output.common.play_animation=std::move(connected.common.play_animation);
+   if(!output.common.scene_flags)output.common.scene_flags=std::move(connected.common.scene_flags);
+   if(!output.animation_count)output.animation_count=std::move(connected.animation_count);
+   if(!output.play_index)output.play_index=std::move(connected.play_index);
+  }
   output.common.drop_loot_table=[weak,slot](std::int32_t table,std::uintptr_t opener,std::int32_t fixed,bool flag,std::string& e){auto self=weak.lock();auto actual=slot?slot->lock():nullptr;auto world=self?self->scope.actual_world.lock():nullptr;
    if(!self||!self->current(e)||!actual||!world){if(e.empty())e="Required SAME Destructible C1/World for DropLootTable";return false;}return source_campaign_container_drop_v104(world,actual->base().identity(),table,opener,fixed,flag,e);};
   if(!output.common.spawn_roll_and_probability)output.common.spawn_roll_and_probability=self->container_spawn_roll_v89(get);
   if(!output.common.precache_complete_source_v42)output.common.precache_complete_source_v42=bind_destructible_precache_slot_v45(slot,self->native.source.containers.destructible_table);
+  if(!output.common.source_on_interact){
+   std::weak_ptr<void> expected_world=scope.actual_world.lock();
+   output.common.source_on_interact=[weak,slot,expected_world](std::string& e){
+    auto self=weak.lock();auto world_owner=expected_world.lock();auto actual=slot?slot->lock():nullptr;
+    if(!self||!world_owner||!actual||!self->current(e)){
+     if(e.empty())e="Required SAME retained Destructible/GameObject::Update receiver";return false;
+    }
+    const auto id=actual->base().identity();std::shared_ptr<void> pin;
+    dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
+    if(!self->borrow(id,pin,base,e)||!pin||base!=&actual->base()){
+     if(e.empty())e="Required SAME admitted Destructible/GameObject::Update receiver";return false;
+    }
+    SourceCampaignCandidateBorrowV55 candidate;std::shared_ptr<SourceWorldBorrowV61> source_world;
+    if(!borrow_source_campaign_candidate_v55(candidate,e)||candidate.actual_world.get()!=world_owner.get()||
+       candidate.actual_world.owner_before(world_owner)||world_owner.owner_before(candidate.actual_world)||
+       !borrow_source_campaign_condition_world_v70(candidate,source_world,e)||!source_world)return false;
+    return update_source_campaign_noncharacter_v104(source_world,id,e);
+   };
+  }
+  if(!output.common.create_attach_po_decor){
+   output.common.create_attach_po_decor=[weak,slot](std::string& e){
+    auto self=weak.lock();auto actual=slot?slot->lock():nullptr;
+    if(!self||!actual||!self->current(e)){
+     if(e.empty())e="Required SAME retained Destructible PODecor receiver";return false;
+    }
+    const auto id=actual->base().identity();std::shared_ptr<void> pin;
+    dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
+    if(!self->borrow(id,pin,base,e)||!pin||base!=&actual->base()){
+     if(e.empty())e="Required SAME admitted Destructible PODecor base";return false;
+    }
+    dh2::world::DecorServicesV15 decor;if(!self->decor(*base,decor,e))return false;
+    if(!decor.construct_podecor||!decor.set_physical){e="Required actual SAME Destructible PODecor/SetPhysical providers";return false;}
+    std::uintptr_t body{};if(!decor.construct_podecor(*base,body,e)||!body){if(e.empty())e="Required actual Destructible PODecor body";return false;}
+    return decor.set_physical(body,false,e);
+   };
+  }
   return true;};
  auto admit_destructible=classes.containers.admit_destructible;
  if(admit_destructible)classes.containers.admit_destructible=[weak,admit_destructible](const auto& scope,const auto& q,const auto& actual,std::string& e){auto self=weak.lock();if(!self||!admit_destructible(scope,q,actual,e)||!self->current(e))return false;

@@ -6,6 +6,8 @@
 namespace dh2::android_ui {
 struct ProcessCompiledStructV121 {const char* type;const char*const* members;std::uint32_t count,source_names,getter;};
 inline constexpr const char* process_members_AIProps_v121[]={"AttackDelay","CombatBeat","CombatMusic","DelayedLoad","Flags","InteractRadius","LeashDistance","MeleeRadius","OnAggroSFX","Script","SelfFX","Trophy","Type","ViewRadius","ViewRadiusNoAggro"};
+//The compiled Structs member is the outer property. The AIFactionTable [ii]
+//reader shape encodes the nested Id/Value records stored under this property.
 inline constexpr const char* process_members_AIFactions_v121[]={"factions"};
 inline constexpr const char* process_members_AnimTpl_v121[]={"Loop","Steps","Type"};
 inline constexpr const char* process_members_CamAnimSet_v121[]={"CamAnims","Crit","Idle","Shake","Template"};

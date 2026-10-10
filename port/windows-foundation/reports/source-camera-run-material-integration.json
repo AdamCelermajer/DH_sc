@@ -1,0 +1,34 @@
+{
+  "status": "integrated_diagnostic_verified_fidelity_incomplete",
+  "goal_complete": false,
+  "package": ".local-inputs/windows-source-clock-checkpoint-v7",
+  "executable_sha256": "028dfb1c69a484ce7c3beee50cd587e1c8831d58178853d3dc6801d4063aa5f2",
+  "component_tests_passed": 50,
+  "runtime_cases_passed": 10,
+  "package_files_verified": 541,
+  "runtime_report": "port/windows-foundation/reports/packaged-source-clock-runtime-v7.json",
+  "save_rejection_report": "port/windows-foundation/reports/lifecycle-persistence-rejection-v7.json",
+  "verified_additions": [
+    "Authored finite Run sequence repeats through shared retained animation owner; no per-weapon animation implementation",
+    "Serialized camera target commands resolve original Dummy and live player anchors with source transition duration and damping ownership",
+    "Initial idle input requests suppressed during serialized global controller lock and admitted after unlock",
+    "Original factory-rest joint-box union cached for selected player components and translated with actual player position",
+    "Selected COMMON material pass blend, depth and culling settings replace alpha heuristics; proven default unlit body technique preserved"
+  ],
+  "capture_review": {
+    "inspected": [
+      "spawn-camera-transition-verification.png",
+      "spawn-verification.png"
+    ],
+    "scope": "Rendered original-art world/player/HUD and encounter diagnostic inspected; no matched-state reference parity acceptance"
+  },
+  "remaining": [
+    "Actual level module construction identities and live original trigger body contacts are not established",
+    "Movement collision solver remains approximate; rest bounds provider does not prove physical body construction",
+    "Full controller Stop, ongoing motion, forced actions, casts and source FSM gates remain incomplete",
+    "Camera anchors for other characters and full campaign cinematic flow remain incomplete",
+    "COMMON character pass correction does not establish full GLES shaders, scene passes, fog, dynamic lights or effects",
+    "Equipment refresh, companion behavior, full HUD/menus, skills/audio/effects and continuous reference comparison remain incomplete"
+  ],
+  "previous_v6_preserved": true
+}

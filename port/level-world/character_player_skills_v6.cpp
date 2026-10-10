@@ -10,6 +10,8 @@
 #undef CharacterSkillOwnerV3
 #undef CharacterPlayerSkillsV3
 namespace dh2::character::skills {
+CharacterSkillOwnerV6* CharacterPlayerSkillsV6::native_skill_owner()noexcept{return impl_->owner.get();}
+const CharacterSkillOwnerV6* CharacterPlayerSkillsV6::native_skill_owner()const noexcept{return impl_->owner.get();}
 int CharacterPlayerSkillsV6::native_unload_script_v105(bool final){
  auto& t=*impl_;auto& source=t.session->owner().lifecycle();
  // 3cc9e0..3cca04: no active AIS, or !final&&!delayed24, is a

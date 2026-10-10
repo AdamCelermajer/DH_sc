@@ -1,0 +1,200 @@
+{
+  "schema": "dh2-emulator-watchdog-v36",
+  "status": "terminated_by_guard",
+  "verified": true,
+  "limits": {
+    "soft_job_bytes": 5368709120,
+    "aggregate_qemu_bytes": 12884901888,
+    "min_commit_headroom_bytes": 17179869184,
+    "min_physical_available_bytes": 6442450944,
+    "timeout_seconds": 10.0,
+    "allow_physical_pressure": false,
+    "max_physical_used_percent": 98
+  },
+  "termination_attempted": true,
+  "termination_succeeded": true,
+  "watchdog_pid": 269224,
+  "job_name": "Local\\DH2-Emulator-e0a44353-046c-46ed-a872-b62b108577b1",
+  "manifest_sha256": "66777ae9127c971ccb3886175f143427da4b1149ade07f3bdf157085718783d3",
+  "launcher_pid": 225176,
+  "target_pid": 253248,
+  "armed": true,
+  "elapsed_seconds": 0.14100000000325963,
+  "last_snapshot": {
+    "wall_time_utc": "2026-10-08T14:52:33Z",
+    "elapsed_seconds": 0.125,
+    "expected_owner": {
+      "pid": 225176,
+      "create_time_filetime": 134359447534634970
+    },
+    "complete": true,
+    "errors": [],
+    "job_members": [
+      {
+        "pid": 253248,
+        "parent_pid": 173168,
+        "image": "python.exe",
+        "create_time_filetime": 134359447534659844,
+        "private_bytes": 4202496,
+        "working_set_bytes": 9703424,
+        "handles": 85,
+        "alive": true
+      },
+      {
+        "pid": 184764,
+        "parent_pid": 253248,
+        "image": "conhost.exe",
+        "create_time_filetime": 134359447536292471,
+        "private_bytes": 1277952,
+        "working_set_bytes": 8007680,
+        "handles": 98,
+        "alive": true
+      }
+    ],
+    "qemu": [],
+    "owned_process_tree": [],
+    "job_process_ids": [
+      253248,
+      184764
+    ],
+    "manifest_unchanged": true,
+    "job_membership_passes": [
+      {
+        "pass": 1,
+        "queried_count": 2,
+        "queried_pids": [
+          184764,
+          253248
+        ],
+        "sampled_count": 2,
+        "sampled_identities": [
+          {
+            "pid": 253248,
+            "create_time_filetime": 134359447534659844
+          },
+          {
+            "pid": 184764,
+            "create_time_filetime": 134359447536292471
+          }
+        ],
+        "process_gone_count": 0,
+        "process_gone_pids": [],
+        "process_gone_diagnostics": [],
+        "accepted": true,
+        "pid_list_limit": 64,
+        "refreshed_count": 2,
+        "refreshed_pids": [
+          184764,
+          253248
+        ],
+        "departed_count": 0,
+        "departed_pids": [],
+        "new_count": 0,
+        "new_pids": [],
+        "missing_current_count": 0,
+        "missing_current_pids": []
+      }
+    ],
+    "system": {
+      "commit_total_bytes": 45348282368,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 11865653248,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 223506,
+      "processes": 564
+    },
+    "host_process_images": [
+      {
+        "image": "conhost.exe",
+        "count": 109
+      },
+      {
+        "image": "svchost.exe",
+        "count": 103
+      },
+      {
+        "image": "node.exe",
+        "count": 69
+      },
+      {
+        "image": "cmd.exe",
+        "count": 51
+      },
+      {
+        "image": "node_repl.exe",
+        "count": 25
+      },
+      {
+        "image": "chatgpt.exe",
+        "count": 13
+      },
+      {
+        "image": "python.exe",
+        "count": 10
+      },
+      {
+        "image": "runtimebroker.exe",
+        "count": 10
+      },
+      {
+        "image": "t3 code (alpha).exe",
+        "count": 8
+      },
+      {
+        "image": "slack.exe",
+        "count": 7
+      },
+      {
+        "image": "dllhost.exe",
+        "count": 6
+      },
+      {
+        "image": "msedgewebview2.exe",
+        "count": 6
+      },
+      {
+        "image": "powershell.exe",
+        "count": 6
+      },
+      {
+        "image": "msedge.exe",
+        "count": 5
+      },
+      {
+        "image": "nvidia overlay.exe",
+        "count": 5
+      },
+      {
+        "image": "twinkle tray.exe",
+        "count": 5
+      }
+    ],
+    "host_process_census_count": 564,
+    "job_membership_requeries": 1,
+    "job_exit_drain_wait_seconds": 0.0,
+    "job_reconciled_exited_pids": [],
+    "job_reconciled_departed_pids": [],
+    "gone_enumerated_pids": [
+      225176
+    ],
+    "decision": {
+      "action": "terminate",
+      "reasons": [
+        "launcher_missing_or_exited"
+      ],
+      "observations": {
+        "owned_private_bytes": 5480448,
+        "aggregate_qemu_private_bytes": 0,
+        "commit_headroom_bytes": 55405658112,
+        "physical_available_bytes": 11865653248,
+        "physical_total_bytes": 34181947392,
+        "physical_used_percent": 65.28678395082588,
+        "job_process_count": 2,
+        "qemu_process_count": 0,
+        "owned_handles": 183,
+        "elapsed_seconds": 0.125
+      }
+    }
+  }
+}

@@ -21,7 +21,7 @@ std::int32_t trunc32(float a){if(std::isnan(a))return 0;if(a>=2147483648.f)retur
 void matrix_words(const gameswf::matrix&m,float out[6]){for(unsigned j=0;j<6;++j)out[j]=m.m_[j/3][j%3];}
 }
 struct SwfInputConnection::State {
- SwfViewportLease lease;SwfViewportConnection viewport;std::shared_ptr<SwfInputHistory> history;SwfInputCoreServices services;
+ SwfViewportLease lease;std::shared_ptr<SwfViewportConnection> viewport;std::shared_ptr<SwfInputHistory> history;SwfInputCoreServices services;
  gameswf::gc_ptr<gameswf::character> context_pin;
  std::shared_ptr<SwfControllerStorageV91> controllers;
  SwfInputState288& input;
@@ -80,8 +80,8 @@ struct SwfInputConnection::State {
    case SwfInputOperation::world_matrix:if(!c)return false;matrix_words(c->get_world_matrix(),out.values);return true;
    case SwfInputOperation::local_position:{if(!c)return false;float m[6],point[2]{mul(q.values[0],20.f),mul(q.values[1],20.f)};matrix_words(c->get_world_matrix(),m);return dh2_ui_swf_inverse_point(out.values,m,point)==0;}
    case SwfInputOperation::publish_raw_cursor:raw_xy[0]=q.values[0];raw_xy[1]=q.values[1];raw_index=static_cast<std::int32_t>(q.index);return true;
-   case SwfInputOperation::screen_to_logical:out.values[0]=q.values[0];out.values[1]=q.values[1];return viewport.screen_to_logical(out.values,error);
-   case SwfInputOperation::notify_mouse_state:return viewport.notify_mouse_state(trunc32(q.values[0]),trunc32(q.values[1]),q.integer,error);
+   case SwfInputOperation::screen_to_logical:out.values[0]=q.values[0];out.values[1]=q.values[1];return viewport->screen_to_logical(out.values,error);
+   case SwfInputOperation::notify_mouse_state:return viewport->notify_mouse_state(trunc32(q.values[0]),trunc32(q.values[1]),q.integer,error);
    case SwfInputOperation::root_movie:out.identity=identity(lease.root->get_root_movie());return true;
    case SwfInputOperation::topmost:out.identity=identity(topmost(c,q.values[0],q.values[1]));return true;
    case SwfInputOperation::set_matrix:{if(!c)return false;gameswf::matrix m;for(unsigned j=0;j<6;++j)m.m_[j/3][j%3]=q.values[j];c->set_matrix(m);return true;}
@@ -97,9 +97,14 @@ struct SwfInputConnection::State {
  bool finish(int status,std::string&out){if(status){if(error.empty())error=status==-1?"Malformed source input caller":"Required source input endpoint unavailable";out=error;return false;}out.clear();return true;}
 };
 SwfInputConnection::~SwfInputConnection(){release();}
-bool SwfInputConnection::bind(SwfViewportLease lease,const ViewportState64&seed,const SwfViewportDriver&driver,std::shared_ptr<SwfInputHistory>history,gameswf::character*context,std::uint32_t flags,std::uint32_t&selection,const SwfInputCoreServices&services,std::string&error,std::shared_ptr<SwfControllerStorageV91> controllers){
+bool SwfInputConnection::bind(SwfViewportLease lease,const ViewportState64&seed,const SwfViewportDriver&driver,std::shared_ptr<SwfInputHistory>history,gameswf::character*context,std::uint32_t flags,std::uint32_t&selection,const SwfInputCoreServices&services,std::string&error,std::shared_ptr<SwfControllerStorageV91> controllers,std::shared_ptr<SwfViewportConnection> viewport){
  if(state_||!lease.owner||!lease.root||!history||!services.owner){error="Malformed source input graph/owner binding";return false;}SwfInputHistoryFlags observed{};auto*movie=lease.root->get_root_movie();if(!movie||!history->read(movie,observed,error))return false;if(context&&context->get_player()!=movie->get_player()){error="Input context belongs to another player";return false;}
- auto next=std::make_shared<State>(std::move(controllers));next->lease=lease;next->history=std::move(history);next->services=services;next->selection=&selection;if(!next->viewport.bind(lease,seed,driver,error))return false;
+ if(viewport&&!viewport->owns_root(lease.root)){error="Input viewport belongs to another retained root";return false;}
+ auto next=std::make_shared<State>(std::move(controllers));next->lease=lease;next->history=std::move(history);next->services=services;next->selection=&selection;
+ // A RenderFX facade has one viewport for drawing and cursor projection.
+ // Standalone connections still construct their own retained viewport.
+ next->viewport=viewport?std::move(viewport):std::make_shared<SwfViewportConnection>();
+ if(!next->viewport->bound()&&!next->viewport->bind(lease,seed,driver,error))return false;
  next->context_pin=context;next->input.root=reinterpret_cast<std::uintptr_t>(lease.root);next->input.context=identity(context);next->input.native_receiver=services.native_receiver;next->input.flags=flags;next->flat={next.get(),State::invoke};state_=std::move(next);error.clear();return true;
 }
 void SwfInputConnection::release()noexcept{state_.reset();}
@@ -125,6 +130,6 @@ bool SwfInputConnection::snapshot(SwfInputState288&out,std::string&e)const{auto 
 bool SwfInputConnection::raw_cursor(float xy[2],std::int32_t&i,std::string&e)const{auto s=state_;if(!s||!xy){e="Input graph unbound";return false;}xy[0]=s->raw_xy[0];xy[1]=s->raw_xy[1];i=s->raw_index;e.clear();return true;}
 bool SwfInputConnection::viewport_rectangle(const std::int32_t xywh[4],std::string&e){
  auto s=state_;if(!s||!xywh){e="Input graph/viewport unbound";return false;}
- return s->viewport.set_viewport(xywh,e)&&s->viewport.set_bounds(xywh,0,e);
+ return s->viewport->set_viewport(xywh,e)&&s->viewport->set_bounds(xywh,0,e);
 }
 }

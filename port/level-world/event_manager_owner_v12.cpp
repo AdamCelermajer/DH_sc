@@ -11,7 +11,15 @@ EventManagerOwnerV12::~EventManagerOwnerV12(){
  // pending nodes again and receiver map. Leases retain real native owners.
  queue20_.clear();delayed28_.clear();queue20_.clear();receivers_.clear();
 }
-bool EventManagerOwnerV12::ready(std::string& e)const{if(failed_){e="EventManager cannot replay a failed delivery prefix";return false;}return true;}
+bool EventManagerOwnerV12::ready(std::string& e)const{
+ if(failed_){e="EventManager cannot replay a failed delivery prefix";
+  if(!failed_reason_.empty())e+="; first failure: "+failed_reason_;return false;}
+ return true;
+}
+void EventManagerOwnerV12::latch_failure(const std::string& error,const char* fallback){
+ if(failed_)return;
+ failed_=true;failed_reason_=error.empty()?fallback:error;
+}
 bool EventManagerOwnerV12::attach(std::int32_t type,const EventReceiverV12& receiver,std::int32_t priority,bool& out,std::string& e){
  out=false;if(!ready(e))return false;
  if(!receiver.identity||!receiver.on_event){e="Required actual IEventReceiver virtual8";return false;}
@@ -53,12 +61,12 @@ bool EventManagerOwnerV12::drop_delayed_detach(std::string& e){
 }
 bool EventManagerOwnerV12::raise(const EventBorrowV12& event,std::string& e){
  if(!ready(e))return false;if(!event.identity||!event.get_type){e="Required actual IEvent virtual8 GetType";return false;}
- std::int32_t type{};if(!event.get_type(event.context,type,e)){failed_=true;return false;}
+ std::int32_t type{};if(!event.get_type(event.context,type,e)){latch_failure(e,"Required actual IEvent.GetType failed");return false;}
  auto m=receivers_.find(type);if(m==receivers_.end())return true;
  // Whole source snapshot: receiver, priority and byte10; never priority sort.
  const auto snapshot=m->second;++dispatch_depth_;struct Scope{unsigned& d;~Scope(){--d;}}scope{dispatch_depth_};
  for(const auto& r:snapshot){std::int32_t result{};
-  if(!r.receiver.on_event(r.receiver.context,event,*this,result,e)){failed_=true;if(e.empty())e="Actual EventManager handler rejected required delivery";return false;}
+  if(!r.receiver.on_event(r.receiver.context,event,*this,result,e)){latch_failure(e,"Actual EventManager handler rejected required delivery");return false;}
   if(result==1)break;
  }return true;
 }
@@ -74,14 +82,14 @@ bool EventManagerOwnerV12::update(double source_dt,std::string& e){
  updating_=true;struct Scope{bool& b;~Scope(){b=false;}}scope{updating_};
  while(!queue20_.empty()){
   auto& pending=queue20_.front();if(!raise(pending.event,e))return false;
-  if(!pending.deleting_destructor(pending.destroy_context,pending.event.identity,e)){failed_=true;if(e.empty())e="Required queued IEvent deleting destructor";return false;}
+  if(!pending.deleting_destructor(pending.destroy_context,pending.event.identity,e)){latch_failure(e,"Required queued IEvent deleting destructor");return false;}
   queue20_.pop_front();
  }return drop_delayed_detach(e);
 }
 bool EventManagerOwnerV12::flush(std::string& e){
  if(updating_){e="Unsupported destructive EventManager Flush during queued Update";return false;}
  // Source Flush3384ac clears pending nodes, receiver map, delayed nodes.
- queue20_.clear();receivers_.clear();delayed28_.clear();failed_=false;return true;
+ queue20_.clear();receivers_.clear();delayed28_.clear();failed_=false;failed_reason_.clear();return true;
 }
 std::size_t EventManagerOwnerV12::receiver_count(std::int32_t type)const noexcept{auto m=receivers_.find(type);return m==receivers_.end()?0:m->second.size();}
 std::vector<ReceiverObservationV12> EventManagerOwnerV12::receiver_records_v12()const{std::vector<ReceiverObservationV12> out;for(const auto& m:receivers_)for(const auto& r:m.second)out.push_back({m.first,r.receiver.identity,r.priority,r.byte10});return out;}

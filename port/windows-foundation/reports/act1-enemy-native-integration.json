@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-09",
+  "feature": "act1_enemy_native_integration",
+  "status": "canonical_spawn_prefix_native_verified_root_level_and_initpost_required",
+  "fidelity_complete": false,
+  "scope": "Reusable canonical enemy spawn foundation for authored Act 1 containers; this report does not claim active population, enemy AI, combat, death, or a complete live summon.",
+  "owned_implementation": [
+    "port/windows-foundation/features/enemy_ai/source_summon_backend_binding_v1.hpp",
+    "port/windows-foundation/features/enemy_ai/source_summon_backend_binding_v1.cpp",
+    "port/level-world/canonical_class_receiver_bindings_v1.hpp",
+    "port/level-world/canonical_class_receiver_bindings_v1.cpp"
+  ],
+  "source": {
+    "script": ".local-inputs/character-script-assets-v1/bootstrap-cache/data/scripts/objects/moth_spawn_container.luac",
+    "bytes": 1538,
+    "sha256": "68c87e4eb16ec991e0929be9e1bb71e93e9606c966b46848ee88edba32508d93",
+    "manifest_row": 79,
+    "summon_registration": "GameObject::_Summon 0x39193c",
+    "create_npc": "Character::CreateNPC(int) thunk 0x3ad1f8 -> body 0x3ad064",
+    "authored_call": "GetRand(0,100), strict result < 25; Summon(GetPyOID(CharacterTable, Swamp_Moth_Minions), true, 0.0, 0.0, 0.0, true); then DealDamages(opener)",
+    "row": "The normal DestructibleContainer barrel invokes moth_spawn_container; the NoMoth row has no script."
+  },
+  "binding": {
+    "callback_address": "0x39193c",
+    "vm": "Chains onto the existing CharacterScriptSessionInput.gameplay_binding/context. Existing source-object conversion returns the same retained receiver; no second VM or ObjectManager is created.",
+    "owners": "Pins one CandidateFactoryV60, ClassReceiverBindingsV1, ObjectManagerV1, PropertyMapV1, and the same SourceCurrentLevelBackendV1 graph. Requires a typed resolver that returns the already retained receiver and validates identity, raw pointers, and shared-control-block ownership.",
+    "spawn": "CreateNPC delegates Spawn(Character, generated-name, deferred=true, network=false) to the same CanonicalSpawnAttempt/ObjectManager/Add/PropertyMap/pending path; generated-name lease pins the exact source CString through construction.",
+    "fail_closed_leaves": "Source pose and offset transform; InitPost/InitFinal/idle; PF placement/position/rotation; RoomZone insertion or same-manager no-room; ZoneEntered; spawn-state, animation, and online/network tail are typed existing-owner callbacks and fail only when reached."
+  },
+  "native_test": {
+    "source": "port/windows-foundation/features/enemy_ai/source_summon_backend_native_test.cpp",
+    "runner": "port/windows-foundation/features/enemy_ai/source_summon_backend_native_test.py",
+    "result": "PASS",
+    "verified": "Original CharacterGameDesign/LootTables and actual CanonicalCharacterCandidateFactory construction flow through retained class receiver bindings, same ObjectManager Add, same PropertyMap defaults, source virtual38, and the same manager pending list. CandidateFactory record, class receiver and manager publication share one identity and lease; no InitPost or readiness was manufactured.",
+    "not_verified": "Active source Level callback, authored container Lua execution, InitPost/InitFinal/SetIdleState, PF/RoomZone placement, source damage, online tail, selected AIS lifecycle, aggro, combat, or death."
+  },
+  "root_next_hookup": {
+    "first_native_blocker": "The Current-Level helper proves the same GS C1 and +0x150/+0x118 borrows, while the root menu path may read the actual default-empty s_level slot. The Act 1 enemy caller still needs enrollment with an active source Level from that same runtime/graph before this binding can invoke CreateNPC.",
+    "current_character_initpost_frontier": "Use coordination/integration-lead/provider-frontier-20261009.md and port/windows-foundation/reports/native-family-visual-world-integration.json plus canonical-selected-profile-integration.json as current evidence. Root has 79 passing tests; actual same-world family BRES load/failed-prefix teardown, selected profile masks 1/2/4, grants and primary equip roundtrip pass. Whole actor InitPost/InitFinal and gameplay enrollment remain false. The earlier 355-unit Device::IsHighPerformance stopping point is historical and is not the current root frontier.",
+    "caller": "Supply the actual container GameObject retained in the same Level ObjectManager, its source +0x2f4 RoomZone pointer and +0x160/+0x16c pose cells, and a same-receiver resolver for the retained class receiver.",
+    "placement": "Supply the actual same Character SetInitialPosition/PFWorld, SetPosition/physical/visual, SetRotation, RoomZone::AddInitialObject, ObjectManager no-room, ZoneEntered, and summoned/state callbacks, and complete whole-actor InitPost/InitFinal plus source script/controller/timer enrollment before active AI callbacks. Keep the authored GetRand on the original Application channel0 and the strict <25 branch in its source VM."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "purpose": "Windows x64 COFF compile and typed contract validation for the connected actual NPC script bootstrap",
+  "runtime_claim": false,
+  "results": {
+    "source_backend_npc_script_bootstrap_v1.cpp": {
+      "exit": 0,
+      "stderr": ""
+    },
+    "source_backend_npc_script_bootstrap_contract_test.cpp": {
+      "exit": 0,
+      "stderr": ""
+    }
+  },
+  "runtime_boundary": "The current owned native prefix fixture deliberately lacks a published CampaignFsmV101, same-world SourceCurrentLevelBackendV1, loaded CharacterScriptAssetsV1 snapshot, and same CharacterScriptObjects. Therefore original record.load_script reaches the exact existing missing npc_script service; this lane did not fabricate those owners or edit the root-owned fixture/build closure.",
+  "required_caller_providers": [
+    "same source World lease used by the canonical candidate record and backend current-Level graph",
+    "same-world CharacterScriptObjects and its published canonical ScriptCharacterObject",
+    "loaded actual CharacterScriptAssetsV1 binding backed by the same SkillTables/cache",
+    "same SourceBackendScriptHostV1 from the retained Application/current-Level backend",
+    "record's already bound CampaignFsmV101; record-based path borrow is checked before event binding"
+  ],
+  "session_and_fsm_policy": "The service only creates CharacterScriptSessionInput; CanonicalCharacterCandidateRecordV60::load_script calls construct_script on its existing actor. No Session/FSM/World/Character is constructed by this bootstrap."
+}

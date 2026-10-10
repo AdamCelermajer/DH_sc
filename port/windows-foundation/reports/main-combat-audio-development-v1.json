@@ -1,0 +1,67 @@
+{
+  "status": "main_runtime_and_persistence_verified_development",
+  "architecture": "one WinMM V42 output and the current CombatSession/world/RNG; optional --audio flag",
+  "accepted_release_changed": false,
+  "tested_executable_sha256": "2ac508fb3da4581dece04f6fb65c003275e5c04a8b9d517e4c49f596703f9f48",
+  "tested_executable_scope": "coherent pre-schema3/pre-animationOnly build; final source requires fresh full rebuild",
+  "runtime": {
+    "log": ".local-inputs/windows-main-audio-v1/runtime-source-assets.txt",
+    "arguments": ".local-inputs/windows-main-audio-v1/startup.args",
+    "exit_code": 0,
+    "frames": 420,
+    "source_sound_ordinals": [
+      29,
+      31,
+      122,
+      120,
+      122
+    ],
+    "dispatched": 5,
+    "started_voices": 5,
+    "missing_asset_diagnostics": 0,
+    "listener_row": 1,
+    "listener_anchor": 2,
+    "listener_reference_distance": 1000,
+    "listener_maximum_distance": 1800,
+    "first_frame_device_clock": "not yet available; gameplay continued without a fabricated sample",
+    "perceptual_audio_parity": "not verified"
+  },
+  "assets": {
+    "origin": "existing .local-inputs/audio-v34/cache original WAVs, copied unchanged under authored data/sounds URIs; original sound metadata from feature audio assets",
+    "sfx_character_hurt_1.wav": "4386cbbc01d12cfb87324ac012652f6e28f2552f6eed0f798d470bd8f2851156",
+    "sfx_character_hurt_3_22.wav": "c6e54595cf340990687127263774818adcedd978fc7cfc06567a941c94c8ab6d",
+    "sfx_impact_metal_flesh_1_22.wav": "827f61710a732353b0a358782a3d0d6f1d98803fea6316ed37e6930b8940d5a7",
+    "sfx_impact_metal_flesh_3_22.wav": "87fb94bc9b5d4a6189f8cd2433fbc70f8f8875089952d9529847b25c675ec498"
+  },
+  "remaining": [
+    "Swing cue needs authentic selected AnimTable step-entry Sound/Swoosh; hit marker is not a substitute.",
+    "Existing finite voices can finish across world reload; source world-stop parity not claimed.",
+    "Music selected VXN state remains unbound.",
+    "Original audio files must be staged under authored URIs in release package; missing assets remain diagnostic."
+  ],
+  "superseded_attempts": [
+    "Harness --live-save is unsupported; corrected to --game-save.",
+    "Copied startup argument base required absolute asset root; content URIs remained relative.",
+    "Small feature asset fixture missed original hurt/impact WAVs; staged actual existing cache bytes, with no replacement sounds.",
+    "Restore case failed explicit lifecycle observer checkpoint check; this failure is retained in runtime-restore.txt."
+  ],
+  "coherent_runtime": {
+    "executable_sha256": "165009b757698209a834233e26717080b08763e78eae67b460a58b2954ed96be",
+    "log": ".local-inputs/windows-main-audio-v1/runtime-restore-coherent.txt",
+    "arguments": ".local-inputs/windows-main-audio-v1/restore.args",
+    "exit_code": 0,
+    "frames": 420,
+    "save_frame": 40,
+    "reload_frame": 80,
+    "restore_frame": 100,
+    "checkpoint_health": 165.098,
+    "checkpoint_random_seed": 1234,
+    "checkpoint_random_calls": 0,
+    "dispatched": 7,
+    "started_voices": 7,
+    "diagnostics": 0,
+    "output_recreated": false,
+    "perceptual_parity": "not verified",
+    "root_full_suite": "80/80 passed before this coherent runtime"
+  }
+}

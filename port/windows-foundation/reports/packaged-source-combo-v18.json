@@ -1,0 +1,135 @@
+{
+  "status": "packaged_source_combo_verified",
+  "goal_complete": false,
+  "executable_sha256": "79e566435081650206a03ecb028736a97770fa28d38722438a1a90645e7819d8",
+  "checks": [
+    {
+      "case": "combo-held-verification",
+      "exit_code": 0,
+      "source_groups": [
+        0,
+        1,
+        2
+      ],
+      "action_generations": [
+        1
+      ],
+      "original_strike_clips": [
+        "original-cache/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+        "original-cache/data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+        "original-cache/data/3d/characters/prince/animations/prince_1hand_combo_03.bdae"
+      ],
+      "damage_receipts": [
+        [
+          "26",
+          "7118915781085668844",
+          "32.2539",
+          "0"
+        ],
+        [
+          "59",
+          "7118915781085668844",
+          "0",
+          "0"
+        ],
+        [
+          "91",
+          "7118915781085668844",
+          "15.2461",
+          "1"
+        ]
+      ],
+      "rendered_frames": 180
+    },
+    {
+      "case": "combo-release-verification",
+      "exit_code": 0,
+      "source_groups": [
+        0
+      ],
+      "action_generations": [
+        1
+      ],
+      "original_strike_clips": [
+        "original-cache/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae"
+      ],
+      "damage_receipts": [
+        [
+          "26",
+          "7118915781085668844",
+          "32.2539",
+          "0"
+        ]
+      ],
+      "rendered_frames": 180
+    },
+    {
+      "case": "combo-accepted-release-verification",
+      "exit_code": 0,
+      "source_groups": [
+        0,
+        1
+      ],
+      "action_generations": [
+        1
+      ],
+      "original_strike_clips": [
+        "original-cache/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+        "original-cache/data/3d/characters/prince/animations/prince_1hand_combo_02.bdae"
+      ],
+      "damage_receipts": [
+        [
+          "26",
+          "7118915781085668844",
+          "32.2539",
+          "0"
+        ],
+        [
+          "59",
+          "7118915781085668844",
+          "0",
+          "0"
+        ]
+      ],
+      "rendered_frames": 180
+    },
+    {
+      "case": "combo-blocked-verification",
+      "exit_code": 0,
+      "source_groups": [
+        0
+      ],
+      "action_generations": [
+        1
+      ],
+      "original_strike_clips": [
+        "original-cache/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae"
+      ],
+      "damage_receipts": [
+        [
+          "26",
+          "7118915781085668844",
+          "32.2539",
+          "0"
+        ]
+      ],
+      "rendered_frames": 180
+    }
+  ],
+  "default_run": {
+    "exit_code": 0,
+    "rendered_frames": 90,
+    "position": [
+      1573.77,
+      -203.944,
+      255
+    ],
+    "source_travel": 888.992,
+    "world_travel": 518.686
+  },
+  "limits": [
+    "Scripted held commands use the same admitted controller path; physical keyboard play is not established by these cases.",
+    "Source preattack/look/sticky/heading/OOI integration remains incomplete.",
+    "Restore resets transient combo state rather than resuming a mid-swing cursor."
+  ]
+}

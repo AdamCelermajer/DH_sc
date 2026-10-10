@@ -33,11 +33,14 @@ bool decode_batch_material_values_v113(const resources::BresView& image,const st
 bool decode_batch_effect_values_v113(const resources::BresView& image,const std::string& uri,const std::string& technique,NativeBatchMaterialValuesV113& out,std::string& e)try{
  if(uri.empty()||uri[0]!='#')throw std::runtime_error("Actual effect fragment absent");Reader r{image};unsigned matches{};
  for(unsigned i=0;i<dh2_bres_library_count(&image,resources::Library::effect);++i){auto row=dh2_bres_library_item(&image,resources::Library::effect,i);if(!row)throw std::runtime_error("Actual effect definition absent");auto p=row-image.bytes;if(r.text(r.word(p))!=uri.substr(1))continue;
-  std::vector<std::string> names;const auto count=r.word(p+16),base=r.word(p+20);r.at(base,std::uint64_t(count)*24);
+  // SProfileGLES2 definitions are the separate +40/+44 table. The
+  // +16/+20 COMMON profile has different parameter order (skybox sampler
+  // is COMMON row0 but GLES2 row5), so it cannot resolve SPass bindings.
+  std::vector<std::string> names;const auto count=r.word(p+40),base=r.word(p+44);r.at(base,std::uint64_t(count)*24);
   for(unsigned j=0;j<count;++j){auto q=base+24*j;auto name=r.text(r.word(q));names.push_back(name);NativeBatchMaterialValueV113 v;decode_value(r,q,true,v);if(!out.effect_defaults.emplace(name,std::move(v)).second)throw std::runtime_error("Duplicate actual effect default");}
   const auto techniques=r.word(p+32),table=r.word(p+36);r.at(table,std::uint64_t(techniques)*12);
-  for(unsigned j=0;j<techniques;++j){auto t=table+12*j;if(technique.empty()?j!=0:r.text(r.word(t))!=technique)continue;++matches;if(r.word(t+4)!=1)throw std::runtime_error("Selected source multipass uniform binding required");auto pass=r.word(t+8);r.at(pass,116);const auto samplers=r.word(pass+108),bindings=r.word(pass+112);r.at(bindings,std::uint64_t(samplers)*8);
-   for(unsigned k=0;k<samplers;++k){const auto q=bindings+8*k,index=r.word(q+4);if(index>=names.size())throw std::runtime_error("Actual sampler parameter index outside effect");if(!out.sampler_bindings.emplace(r.text(r.word(q)),names[index]).second)throw std::runtime_error("Duplicate actual sampler binding");}
+  for(unsigned j=0;j<techniques;++j){auto t=table+12*j;if(technique.empty()?j!=0:r.text(r.word(t))!=technique)continue;++matches;if(r.word(t+4)!=1)throw std::runtime_error("Selected source multipass uniform binding required");auto pass=r.word(t+8);r.at(pass,116);const auto samplers=r.word(pass+108),bindings=r.word(pass+112);r.at(bindings,std::uint64_t(samplers)*12);
+   for(unsigned k=0;k<samplers;++k){const auto q=bindings+12*k,scope=r.word(q+4),index=r.word(q+8);if(scope!=0)throw std::runtime_error("Actual nonlocal GLES2 parameter binding producer required");if(index>=names.size())throw std::runtime_error("Actual sampler parameter index outside GLES2 effect");record_batch_sampler_binding_v113(out,r.text(r.word(q)),names[index]);}
   }
  }
  if(matches!=1)throw std::runtime_error("Actual effect uniform technique not uniquely resolved");e.clear();return true;

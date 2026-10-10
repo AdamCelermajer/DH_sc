@@ -7,6 +7,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
+#include <algorithm>
+#include <cmath>
 using namespace dh2::ui;
 namespace {
 unsigned check_index=0;void require(bool value,const std::string& error="Input assertion failed"){++check_index;if(!value)throw std::runtime_error(error+" [check "+std::to_string(check_index)+"]");}
@@ -81,6 +83,32 @@ int main(){try{
  calls->nested=true;require(connection.cursor({10,10,0,1},0,error),error);require(!calls->nested);++guards;
  float raw[2];std::int32_t index;require(connection.raw_cursor(raw,index,error)&&raw[0]==10&&raw[1]==10&&index==0);++guards;
  require(!connection.reset_focus(4,error));++guards;
+ // Source menus connect at original WidthScreen/HeightScreen, then draw on
+ // the Android surface. The retained facade viewport must drive both paths.
+ auto viewport=std::make_shared<SwfViewportConnection>();
+ require(viewport->bind({core,core->root.get_ptr()},seed(),driver,error),error);
+ SwfInputConnection shared_input;auto shared_calls=std::make_shared<Calls>();shared_calls->connection=&shared_input;shared_calls->destroyed=&destroyed;
+ SwfInputCoreServices shared_services{shared_calls,shared_calls.get(),1,accepts,native,advance,nullptr};
+ auto input_viewport=viewport;
+#ifdef DH2_INPUT_VIEWPORT_SNAPSHOT_REPRO
+ input_viewport.reset(); // Reproduce the former facade's connection-time copy.
+#endif
+ require(shared_input.bind({core,core->root.get_ptr()},seed(),driver,core->history,core->root->get_root_movie(),0,selection,shared_services,error,{},input_viewport),error);
+ auto*right=core->button("btn_Right",4,8000);auto right_matrix=right->get_matrix();right_matrix.m_[1][2]=1800;right->set_matrix(right_matrix);
+ const std::int32_t wide[4]{0,0,2400,1080};require(viewport->set_viewport(wide,error),error);
+ float wide_point[2]{2050,343};require(viewport->screen_to_logical(wide_point,error),error);
+ require(std::fabs(wide_point[0]-410.f)<.001f&&std::fabs(wide_point[1]-101.62963f)<.001f,"Draw viewport fixture projection");
+ require(shared_input.cursor({2050,343,0,1},0,error),error);require(shared_input.snapshot(out,error),error);
+ require(out.slots[0].focus==reinterpret_cast<std::uintptr_t>(right)&&out.slots[0].pressed==reinterpret_cast<std::uintptr_t>(right),"Wide source button missed after render viewport update");
+ require(core->root->m_mouse_x==410&&core->root->m_mouse_y==101,"Input retained connection-time dimensions");
+ require(shared_input.cursor({2050,343,0,0},0,error),error);
+ require(std::find(shared_calls->events.begin(),shared_calls->events.end(),4)!=shared_calls->events.end()&&std::find(shared_calls->events.begin(),shared_calls->events.end(),6)!=shared_calls->events.end(),"Wide source tap lacked onPress/onRelease");++input_cases;
+ // Camera offsets/aspect bounds must be shared too, not reconstructed from
+ // the surface dimensions. This also preserves existing controller state.
+ const std::int32_t shifted[4]{100,50,2400,1080};require(viewport->set_bounds(shifted,0,error),error);
+ require(shared_input.cursor({2150,393,0,1},0,error),error);require(shared_input.snapshot(out,error)&&out.slots[0].pressed==reinterpret_cast<std::uintptr_t>(right),"Camera bounds diverged from hit projection");
+ require(shared_input.cursor({2150,393,0,0},0,error),error);++input_cases;
+ shared_input.release();input_viewport.reset();viewport.reset();right=nullptr;
  auto weak=std::weak_ptr<Core>(core);a=nullptr;b=nullptr;core.reset();calls->release=true;require(connection.reset_focus(1,error),error);require(!connection.bound()&&destroyed==1&&weak.expired());++guards;
  active=nullptr;
  std::cout<<"{\"validation\":\"PASS\",\"actual_core_input_cases\":"<<input_cases<<",\"constructor_and_assignment_history\":"<<history_cases<<",\"native_events\":"<<calls->events.size()<<",\"actual_AS_methods\":"<<calls->as<<",\"required_provider_and_reentry_guards\":"<<guards<<",\"whole_original_advance_parity\":false,\"mismatches\":0}\n";

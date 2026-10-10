@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-09",
+  "status": "corrected_candidate_verified_and_released",
+  "goal_complete": false,
+  "candidate_package": ".local-inputs/windows-source-clock-v19-preview-8",
+  "accepted_release": ".local-inputs/windows-source-clock-v19-preview-8",
+  "passed": [
+    "80/80 foundation CTests",
+    "Packaged frontend create and separate-process load,120 frames each",
+    "Packaged menu pause/resume240 frames,75 paused frames,5 actor HP/position/pose snapshots unchanged",
+    "Same output generation/device sample clock advances while gameplay is paused; combat resumes with damage at131/161"
+  ],
+  "separate_existing_gap": "Direct Swamp launcher Equipment projection lacks explicit source-slot metadata; frontend same-state profile handoff works.",
+  "next_action": "Released after fresh80/80 tests and nine packaged runtime cases passed on corrected binary.",
+  "additional_progress": "12 source stance cases pass, including stable logical idle alias0\u00e2\u2020\u20192\u00e2\u2020\u20190 switches retaining pose owner/lease and advancing clock. Main enrollment pending.",
+  "root_cause": "Integration lead found RuntimeEquipmentBindingV1::Impl::current reads raw destroyed CombatSession before checking saved weak actor lease. Reproduction is nondeterministic: one same-binary repro passed, which does not clear the observed access violation.",
+  "superseded_candidate_sha256": "5de855bfdabd897b233e45514b07b7d6fb4bd3f005ae7ffc123128cfdc543090",
+  "executable_sha256": "9703c4925707beadbc8b3032b2c6d24d7ec74435ecd822d22b11d25b3936d926",
+  "superseded_failure": {
+    "case": "packaged_equipment_lifecycle",
+    "exit_code": 3221225477,
+    "meaning": "Windows access violation",
+    "configuration": ".local-inputs/windows-source-clock-v19-preview-8/equipment-lifecycle-verification.args",
+    "log": ".local-inputs/windows-source-clock-v19-preview-8/equipment-lifecycle-verification.log",
+    "scope": "Equipment select/unequip/re-equip,save40/contentreload80/diskrestore100 in25actor primary population. Buffered log ends during rebuild; exact failing instruction not established."
+  }
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include "script_execution_control_v96.hpp"
+#include <functional>
 namespace dh2::player {struct PlayerInfoFieldsV1;}
 namespace dh2::android_ui {
 struct SourceScriptActorLeavesV96 {
@@ -37,10 +38,18 @@ struct SourceScriptUiLeavesV96 {
  std::function<bool(player::PlayerInfoFieldsV1&,bool,std::string&)> player_set_in_cutscene;
  std::function<bool(player::PlayerInfoFieldsV1&,std::string&)> reset_dead_local_player;
 };
+// Optional typed decoration point over the native binder's fully composed
+// behavior. The manager and scheduler are the exact owners this binder will
+// use for parsed receiver binding and execution; existing callers may omit it.
+using SourceScriptBehaviorDecoratorV96 = std::function<bool(
+ const std::shared_ptr<loader::ScriptManagerOwnerV52>&,
+ const loader::ScriptSchedulerServicesV96&,
+ loader::ScriptCommandBehaviorV59&,std::string&)>;
 // Binds the actual Application V52 manager, genuine PM70 guards, Debug,
 // GetOnline/GetDt/process Random plus existing parsed V59 command owners.
 // Root supplies its actual UI/process leaves at its owned runtime boundary.
 // No parse/C1/Init/StartScript is run by this enrollment.
 bool bind_source_campaign_script_execution_v96(const std::shared_ptr<void>& actual_world,
- SourceScriptUiLeavesV96,std::string&,SourceScriptActorLeavesV96={});
+ SourceScriptUiLeavesV96,std::string&,SourceScriptActorLeavesV96={},
+ SourceScriptBehaviorDecoratorV96={});
 }

@@ -1,0 +1,60 @@
+{
+  "validation": "SOURCE_FACTS_VERIFIED",
+  "scope": "Original Level::UpdateListener listener selection/data and source-setting defaults. No production caller or gameplay enrollment is asserted.",
+  "source_library": "libDungeonHunter2.so",
+  "swamp": {
+    "level_table_row_index": 41,
+    "level_name": "SWAMP",
+    "level_file": "001_swamp.mlx",
+    "levels_pyarray_sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+    "levels_pyarraynames_sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+  },
+  "listener": {
+    "source_function": "Level::UpdateListener(void) @ 0x3f0ae0",
+    "level_listener_index_offset": "Level+0xe4 (word 57)",
+    "constructor_default_index": 1,
+    "constructor_source": "Level::Level @ 0x3f3128 and C2 duplicate @ 0x3f34c0 set word 57 to 1; no other assignment to this Level member was found in recovered pseudocode",
+    "listener_array_index": 1,
+    "listener_name": "curListener",
+    "listener_runtime_stride_bytes": 28,
+    "serialized_row_bytes": 24,
+    "fields": {
+      "anchor": 2,
+      "maximum_distance": 1800,
+      "orientation": 2,
+      "reference_distance": 1000,
+      "rolloff_factor": 1.0,
+      "up_vector": 0
+    },
+    "source_rules": {
+      "anchor_2": "position is local player's target position when that target exists; otherwise the zero-initialized position remains",
+      "orientation_2": "front is actual camera look-at vector with z forced to 0",
+      "up_vector_0": "up is actual camera up vector",
+      "camera_gate": "SetListenerPos is skipped when Level+0x128 camera is absent, even for player-target position",
+      "coordinate_scaling": "the selected source vectors are passed unchanged; no visual-to-audio 0.01 conversion"
+    },
+    "sounds_pyarray_sha256": "1a0f9d325d3f2d10ec1cb15394ec709b6da991b3818eb33c6cabda95bee25ab8",
+    "sounds_pyarraynames_sha256": "7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f"
+  },
+  "minimal_randoms": {
+    "source": "DebugSwitches::GetSwitch @ 0x337a88; DebugSwitches::load @ 0x337888; Character::F_ApplyCombatSound @ 0x3afee0",
+    "missing_key_default": false,
+    "meaning": "false leaves normal Random::GetRandom combat-sound list selection enabled; true exits before those source combat-sound branches",
+    "override": "DebugSwitches.savegame may override the map value if the actual source filesystem provides it",
+    "production_requirement": "Use the current actual DebugSwitches value when available; false is only the source default when no persisted override exists",
+    "shipped_override_evidence": "No DebugSwitches.savegame is present in the checked original asset trees; a separately scoped discovery fixture is not runtime authority"
+  },
+  "native_initial_state": {
+    "source_constructor": "vox::VoxNativeSubDecoder::VoxNativeSubDecoder @ 0x885d44",
+    "constructor_behavior": "zeroes decoder 16-bit fields at offsets +8, +10, +16, and +18",
+    "runtime_mapping": "fresh_native_state_v68 verifies the selected actual native VXN has a state and that its first state points to a valid playlist, then returns index 0",
+    "caveat": "This records decoder initialization and index mapping, not an authored-state semantic name for any specific VXN"
+  },
+  "evidence_sha256": {
+    "pseudocode_003f0ae0.c": "5d5a389e1a24cdf17d14e7a10899a8db5f6199c04b346ee5f5776f9f5739746d",
+    "pseudocode_003f3128.c": "64902c8a2a3107da3c7cb1feaac978186939f85cb1c6611c3b8b45b36caa1258",
+    "pseudocode_00337888.c": "03ad3a7ee8721ceec67e3ff613483f9d9c60b836a34fbdae2581c4070244d0b7",
+    "pseudocode_00337a88.c": "cba8a3c4341d90f5e64f6b35a53f3b1deffc793bba1fa4c521b441e121deb060",
+    "pseudocode_00885d44.c": "f1171e84070671708b2a25953cd0b6bc6d37e9413b937d6b7a0ae62996690a91"
+  }
+}

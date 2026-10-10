@@ -1,0 +1,13 @@
+#include "../hud_glyphs.hpp"
+#include "../hud_geometry.hpp"
+#include "../../engine-ui/hud_freetype_font.hpp"
+#include <cassert>
+#include <stdexcept>
+#undef assert
+#define assert(condition) do { if (!(condition)) throw std::runtime_error(#condition); } while(false)
+#include <fstream>
+#include <iostream>
+#include <iterator>
+#include <cmath>
+using namespace dh::foundation;
+int main(int argc,char**argv){assert(argc==2);HudGlyphFont f;std::string e;assert(f.load(argv[1],e));assert(std::string(f.version())=="2.3.7");HudGlyphRun run;unsigned count=0;for(float scale:{1.f,2.25f,3.f}){for(unsigned code=32;code<127;++code){assert(f.raster(std::string(1,char(code)),12,scale,run,e));assert(run.glyphs.size()==1);assert(std::isfinite(run.advance)&&run.advance>=0);for(const auto&g:run.glyphs){assert(g.image.rgba.size()==size_t(g.image.width)*g.image.height*4);assert(g.u1>=0&&g.u1<=1&&g.v1>=0&&g.v1<=1);}++count;}assert(f.raster("BOGWOMP",12,scale,run,e));assert(run.advance>0&&run.bounds[0]<run.bounds[1]);unsigned nonzero=0;for(const auto&g:run.glyphs)for(size_t i=3;i<g.image.rgba.size();i+=4)nonzero+=g.image.rgba[i]!=0;assert(nonzero>0);}assert(f.raster("Ren\xc3\xa9",12,2.25f,run,e));assert(run.glyphs.size()==4&&run.glyphs.back().codepoint==233);auto prior=run.advance;assert(!f.raster(std::string("\xc0\xaf"),12,1,run,e));assert(run.advance==prior);assert(!f.raster("a\nb",12,1,run,e));assert(!f.raster("a",12,0,run,e));assert(!f.load("definitely_missing_font.ttf",e));assert(f.raster("BOGWOMP",12,1,run,e));std::ifstream input(argv[1],std::ios::binary);std::vector<unsigned char>bytes((std::istreambuf_iterator<char>(input)),{});dh2::ui::HudFreetypeFont original;assert(original.load(bytes.data(),bytes.size(),e));dh2::ui::FreetypeGlyph source;assert(original.raster(source,'B',12,2.25f,e));assert(f.raster("B",12,2.25f,run,e));assert(source.width==run.glyphs[0].image.width);for(size_t i=0;i<source.alpha.size();++i)assert(source.alpha[i]==run.glyphs[0].image.rgba[i*4+3]);assert(f.raster("To",12,2.25f,run,e));auto raw=run.advance;auto old_x=run.glyphs[1].x;assert(apply_original_target_font_layout(7,12,run,e));assert(std::abs(run.advance-(raw-.8203125f))<.0001f);assert(std::abs(run.glyphs[1].x-(old_x-.8203125f))<.0001f);auto kerned=run.advance;assert(apply_original_target_font_layout(7,12,run,e));assert(run.advance==kerned);assert(!apply_original_target_font_layout(7,24,run,e));assert(run.advance==kerned);assert(f.raster(".",12,1,run,e));assert(apply_original_target_font_layout(7,12,run,e));assert(std::abs(run.advance-2.40234375f)<.0001f);std::cout<<count<<" printableASCII scale cases and BMPUTF8 original FontinSmallCaps glyphs pass; matchingFreeType2.3.7 alpha exact; malformed input and failedload preservation pass.\n";}

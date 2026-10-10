@@ -1,0 +1,18 @@
+{
+  "status": "runtime_player_death_and_enemy_target_cleanup_verified",
+  "goal_complete": false,
+  "executable": ".local-inputs/windows-source-clock-v19-preview-2/dh-foundation.exe",
+  "frames": 2400,
+  "fixed_step": 0.016,
+  "lethal_frame": 1520,
+  "log": ".local-inputs\\v19-player-death-development-test\\runtime.log",
+  "verified": [
+    "Enemy original attack markers damage player",
+    "Player reaches HP0 and retained death action5",
+    "Enemy clears dead player target and returns idle"
+  ],
+  "limitations": [
+    "Explicit near-enemy diagnostic placement",
+    "No matched-reference animation or original encounter progression acceptance"
+  ]
+}

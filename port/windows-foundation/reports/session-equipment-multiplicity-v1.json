@@ -1,0 +1,36 @@
+{
+  "status": "PASS actual Session startup/checkpoint regression after reproduced failure; normal equipment mutation/reload GUI pending",
+  "visual_context": "Actual selected Rogue renders two daggers in equipment and source profile screenshots. Lead profile-projection live test retains both owned items through Unequip/Auto, but R/F9 reports incompatible gear binding.",
+  "source_evidence": "Original EquipmentAdapter source slots1/2 independently call dh2_gear_stats_v5 (0x3e3308 branch table) with main/left flags; actual Rogue starter inventory has two separate Dagger01 instances. CombatSession startup currently deduplicates config definitions in a set and marks every matching off definition as left.",
+  "expected": "Each equipped occurrence contributes once; identical main/off definitions produce separate source sheets79/80 and81/82. Do not weaken GameSave binding compatibility.",
+  "test_plan": "Actual Rogue Session with two original dagger instances and starter armor equals direct source per-slot gear projection; omitted legacy hand selectors add missing occurrences once; same-store unequip/re-equip and reset Session restore identical checkpoint gear/facts with no guard relaxation.",
+  "scope": "Generic item occurrence/hand assignment, not Rogue-specific balance or animation logic. Generated instance powers remain a separate host input gap.",
+  "verification": {
+    "runner": "tools/run_combat_session_equipment_multiplicity_tests.ps1",
+    "before": "FAIL Session deduplicated identical equipped definitions or assigned both to one hand",
+    "after": "PASS",
+    "output": ".local-inputs/session-equipment-multiplicity-test/run.log",
+    "executable_sha256": "521B9634AC47C2CC4D2DC072FFA2A2084FDB7302312D817FB279F6D049549886",
+    "implementation_sha256": "1E5D5080DC7BD6A2154AA03D9CA233AF16B8B53F1D070F064867A9D044357F08",
+    "restore_guard": "unchanged",
+    "integrated_main": "lead rebuilding; production F5/R/F9 test pending"
+  },
+  "integrated_rogue_receipt": {
+    "result": "PASS isolated production Rogue selected-profile vitals, Unequip/Auto, F5/R/F9",
+    "executable_sha256": "8635E151F9F2F5CF6BDE85629178C9108F961AEF81AFD728BB3C10C5311CCAFF",
+    "log": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-projected.log",
+    "args": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-projected.args",
+    "health": 146.796875,
+    "mana": 40.25,
+    "equipment_revisions": [
+      6,
+      7,
+      8
+    ],
+    "save_frame": 40,
+    "reload_frame": 80,
+    "restore_frame": 100,
+    "restored_rng": "8504954/20",
+    "limitations": "Rogue fresh profile XP/points zero here; nonzero progression and other-class production restart remain separate. Skill key1 has a different active-roster admission issue."
+  }
+}

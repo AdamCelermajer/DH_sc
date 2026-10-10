@@ -2,7 +2,7 @@
 // operations borrow the existing World/Save/Gear; this owns only menu state.
 dh2::ui::CharacterMenuTutorialQueueV4 character_tutorial_queue;
 #include "native_character_application_v109.inc"
-struct NativeCharacterMenuV4 {
+struct NativeCharacterMenuV4 : std::enable_shared_from_this<NativeCharacterMenuV4> {
  struct Leases {std::shared_ptr<void> world,hud,base,main,text;};
  std::weak_ptr<void> retired_campaign_v104;
  std::shared_ptr<Leases> leases=std::make_shared<Leases>();
@@ -78,9 +78,72 @@ struct NativeCharacterMenuV4 {
   if(key&&dh2_character_debug_get(&value,live.debug,key,live.debug_files)!=1){error="Required same live menu Debug switch";return false;}
   result=static_cast<std::int32_t>(value);return true;
  }
+ bool ensure_rollover(std::string& error){
+  if(rollover){error.clear();return true;}
+  if(!character_panel||!shared_stack_v27||!current_render){error="Required same Level12 MenuManager and published primary1 RenderFX for rollover";return false;}
+  dh2::ui::MenuRolloverGraphV1 graph;graph.owner=leases;
+  graph.integer=[](double value,std::int32_t& out,auto& e){if(!std::isfinite(value)||value<double(INT32_MIN)||value>double(INT32_MAX)){e="Rollover index outside source conversion domain";return false;}out=static_cast<std::int32_t>(value);return true;};
+  graph.instance=[this](auto*& out,auto& e){auto* panel=character_panel->authored_native_v4();auto* stack=panel?panel->source_stack_v4():nullptr;
+   if(!stack||stack!=shared_stack_v27.get()){e="Required SAME actual process MenuManager RenderFX roster";return false;}
+   auto* directory=stack->view();dh2::ui::MenuMovieBorrowV58 main_slot;
+   if(!directory||!front_ui.movie_slot_v93(2,main_slot,e)){if(e.empty())e="Required actual process rollover render directory";return false;}
+   // NativeChangeRolloverInputBehavior reads the selected primary slot only.
+   // Stage12 has published primary1 while primary3 may still be NULL; do not
+   // load or require an unrelated HUD movie to set primary1's source flags.
+   rollover_bindings.renders[0]=directory->base_render;
+   rollover_bindings.renders[1]=stack->render(current_render);
+   rollover_bindings.renders[2]=main_slot.identity?stack->render(main_slot.identity):nullptr;
+   rollover_bindings.renders[3]=directory->hud_root;out=&rollover_bindings;return true;};
+  rollover=std::make_unique<dh2::ui::MenuRolloverInputV1>(std::move(graph));error.clear();return true;
+ }
  static bool native(void* raw,const char* name,const gameswf::fn_call& call,std::string& error){
   auto& self=*static_cast<NativeCharacterMenuV4*>(raw);
-  if(dh2::ui::AuthoredCharacterApplicationV1::owns(name)||!std::strcmp(name,"NativeChangeRolloverInputBehavior")){
+  if(name&&(!std::strcmp(name,"NativePushMenu")||!std::strcmp(name,"NativePopMenu")||
+     !std::strcmp(name,"NativePopAllAbove")||!std::strcmp(name,"NativePopAllMenus"))){
+   if(!self.shared_stack_v27||!self.shared_roster_v27){error="Required same process MenuManager navigation owner";return false;}
+   dh2::ui::MenuStackActionsGraphV1 graph;graph.owner=self.shared_stack_v27;
+   graph.instance=[&self](auto*& out,auto&){out=self.shared_stack_v27.get();return true;};
+   graph.lifecycle=self.shared_roster_v27->stack_services();
+   dh2::ui::MenuStackActionsV1 navigation(std::move(graph));
+   dh2::ui::CharacterMenuAsBridgeV1 bridge(self.leases,[&](const char* action,auto& args,auto& e){return navigation.dispatch(action,args,e);});
+   return bridge.dispatch(name,call,error);
+  }
+  static constexpr const char* query_actions[]={
+   "NativeEquipSkill","NativeGetPlayerStats","NativeGetSkillDetails",
+   "NativeHUDGetActiveFaery","NativeHUDGetIsFaeryUnlocked","NativeHUDSetActiveFaery",
+   "NativeInvAutoEquipSlot","NativeInvDropItem","NativeInvEquipItem",
+   "NativeInvGetEquipedItem","NativeInvGetHasOffHandWeapon","NativeInvGetHasTwoHandedWeapon",
+   "NativeInvGetItemDetails","NativeInvGetItemsListForSlot","NativeInvGetPlayerGold",
+   "NativeInvTransmuteItem","NativeInvUnequipItem","NativeSaveGame","NativeSelectClassSpec",
+   "NativeSkillGetEquipedSkillsIDs","NativeSkillsGetSkillPointsLeft",
+   "NativeSkillsTrainSkill","NativeStatsAssignPoint","NativeSwapEquipment"
+  };
+  bool character_action=false;
+  if(name)for(const auto* action:query_actions)if(!std::strcmp(name,action)){character_action=true;break;}
+  if(character_action){
+   if(!character_panel){error="Required same CharacterPanelSession query/action owner";return false;}
+   dh2::ui::CharacterMenuAsBridgeV1 bridge(self.leases,[](const char* action,auto& projected,auto& e){
+    if(!character_panel){e="Required same CharacterPanelSession query/action owner";return false;}
+    const auto live=model_renderer::player_gameplay_binding();
+    return live.active?character_panel->dispatch(live,action,projected,e):character_panel->dispatch_source_loading_v98(live,action,projected,e);
+   });
+   return bridge.dispatch(name,call,error);
+  }
+  if(name&&!std::strcmp(name,"NativeReloadSkills")){
+   if(!character_panel){error="Required same CharacterPanelSession reload owner";return false;}
+   dh2::ui::CharacterMenuAsBridgeV1 bridge(self.leases,[](const char* action,auto& projected,auto& e){
+    if(!character_panel){e="Required same CharacterPanelSession reload owner";return false;}
+    const auto live=model_renderer::player_gameplay_binding();
+    return live.active?character_panel->dispatch(live,action,projected,e):character_panel->dispatch_source_loading_v98(live,action,projected,e);
+   });
+   return bridge.dispatch(name,call,error);
+  }
+  if(name&&!std::strcmp(name,"NativeChangeRolloverInputBehavior")){
+   if(!self.ensure_rollover(error))return false;
+   dh2::ui::CharacterMenuAsBridgeV1 bridge(self.leases,[&self](const char*,auto& converted,auto& e){return self.rollover->dispatch(converted,e);});
+   return bridge.dispatch(name,call,error);
+  }
+  if(dh2::ui::AuthoredCharacterApplicationV1::owns(name)){
    if(!self.application_bridge){error=std::string("Required actual character application callback owner: ")+name;return false;}
    return self.application_bridge->dispatch(name,call,error);
   }
@@ -123,15 +186,7 @@ struct NativeCharacterMenuV4 {
   if(!original_ui.localization_borrow_v4(text,leases->text,error))return false;
   if(process_directory_ready_v104){if(!NativeCharacterApplicationV109::create(process_character_application_v109,application,error))return false;}
   else if(!model_renderer::borrow_character_menu_application_v4(*text,leases->text,application,error))return false;
-  dh2::ui::MenuRolloverGraphV1 rollover_graph;rollover_graph.owner=leases;
-  rollover_graph.integer=[](double value,std::int32_t& out,auto& e){if(!std::isfinite(value)||value<double(INT32_MIN)||value>double(INT32_MAX)){e="Rollover index outside source conversion domain";return false;}out=static_cast<std::int32_t>(value);return true;};
-  rollover_graph.instance=[this](auto*& out,auto& e){auto* panel=character_panel->authored_native_v4();auto* stack=panel?panel->source_stack_v4():nullptr;
-   if(!stack){e="Required current MenuManager RenderFX roster";return false;}
-   rollover_bindings.renders[0]=stack->render(reinterpret_cast<std::uintptr_t>(base));
-   rollover_bindings.renders[1]=stack->render(current_render);
-   rollover_bindings.renders[2]=stack->render(reinterpret_cast<std::uintptr_t>(main));
-   rollover_bindings.renders[3]=stack->render(reinterpret_cast<std::uintptr_t>(hud));out=&rollover_bindings;return true;};
-  rollover=std::make_unique<dh2::ui::MenuRolloverInputV1>(std::move(rollover_graph));
+  if(!ensure_rollover(error))return false;
   application_bridge=std::make_unique<dh2::ui::CharacterMenuAsBridgeV1>(leases,[this](const char* name,auto& call,auto& e){
    if(!std::strcmp(name,"NativeChangeRolloverInputBehavior"))return rollover->dispatch(call,e);
    if(!std::strcmp(name,"NativeGetStringNumPotions")||!std::strcmp(name,"NativeGetNumPotions")){

@@ -5,6 +5,7 @@
 #include "source_campaign_runtime_v61.hpp"
 #include "source_campaign_character_fsm_v101.hpp"
 #include "source_campaign_noncharacter_owners_v105.hpp"
+#include "source_campaign_module_rooms_v91.hpp"
 #include <canonical_character_candidate_v60.hpp>
 #include <canonical_gameobject_base_owner_v1.hpp>
 #include <character_design_services.hpp>
@@ -42,6 +43,18 @@ bool borrow_source_campaign_object_update_actor_v104(const SourceCampaignCandida
   if(!actor->inherited_initialization_fields_v62(actual.character,fields,e))return false;
   next.byte=fields.byte;next.pointer=fields.pointer;next.integer=fields.integer;
   next.word=[actor](std::uint32_t offset)->std::uint32_t*{return offset==0x114?actor->source_network114_v70():nullptr;};
+ }else if(object->type_f4&&*object->type_f4==5){
+  // Module/Block retain their actual base in ModuleGraph, not V68.
+  // Borrow the published SAME record; never register a second base owner.
+  std::shared_ptr<SourceWorldBorrowV61> world;std::shared_ptr<void> pin;dh2::world::CanonicalModuleV1* module{};
+  if(!borrow_source_campaign_condition_world_v70(scope,world,e)||
+    !borrow_source_campaign_module_v91(scope.actual_world,id,pin,module,e)||!pin||!module||
+    module->base().identity()!=id||pin.owner_before(object->lease)||object->lease.owner_before(pin)){
+   if(e.empty())e="Required SAME published Module graph receiver";return false;
+  }
+  auto* base=&module->base();
+  next.byte=[pin,base](auto offset){return base->byte(offset);};next.pointer=[pin,base](auto offset){return base->pointer(offset);};next.integer=[pin,base](auto offset){return base->integer(offset);};
+  next.word=[](std::uint32_t)->std::uint32_t*{return nullptr;};
  }else if(object->type_f4&&*object->type_f4==19){
   std::shared_ptr<dh2::loader::ProductionNonCharacterOwnersV67> owners;std::shared_ptr<dh2::world::CanonicalLightPointV53> light;
   if(!borrow_source_campaign_noncharacter_owners_v105(scope,owners,e)||!owners->environment||!owners->environment->source_borrow_v113(id,light,e))return false;

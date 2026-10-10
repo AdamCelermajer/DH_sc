@@ -1,0 +1,26 @@
+{
+  "status": "packaged_original_audio_and_persistence_verified",
+  "goal_complete": false,
+  "executable_sha256": "c9e2444a08307c6721b45dab670d84de296695d855d4873c302817fe0b129b66",
+  "manifest_files_verified": 1575,
+  "original_wav_count": 244,
+  "frames": 420,
+  "source_sounds": [
+    29,
+    31,
+    29,
+    31,
+    122,
+    120,
+    122
+  ],
+  "dispatched": 7,
+  "started_voices": 7,
+  "diagnostics": 0,
+  "output_initializations": 1,
+  "limits": [
+    "Original swing step-entry cues and music remain incomplete.",
+    "Perceptual/reference audio parity is not verified.",
+    "Existing finite voices may finish across world reload; source world-stop parity remains unverified."
+  ]
+}

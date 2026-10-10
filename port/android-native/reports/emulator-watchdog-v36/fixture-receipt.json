@@ -1,10 +1,10 @@
 {
   "status": "PASS",
-  "tests": 16,
+  "tests": 18,
   "failures": 0,
   "errors": 0,
   "live_emulator_operations": false,
-  "watchdog_sha256": "6bfa25f98ca82729878e50313af0af2c54c7f33cf9c38346b8146aab093b93ba",
-  "test_sha256": "368bcc0c0e8a513e804603bd228feb8aeee34826ed8ff6d994ccae0fb405dcd1",
+  "watchdog_sha256": "c023f5f052c6245d7f875f491760d6ff745478b3f157a7e35c0eb53697e65986",
+  "test_sha256": "a2f9f477a5b3025d8315deb3d77446636fbe645991a1981a837139a42a14a1a7",
   "scope": "Pure decisions and injected fake-job readiness/termination/telemetry protocol"
 }

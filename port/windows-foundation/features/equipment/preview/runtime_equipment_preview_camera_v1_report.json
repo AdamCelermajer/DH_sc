@@ -1,0 +1,36 @@
+{
+  "status": "PASS_SOURCE_METADATA_ONLY",
+  "test": "runtime_equipment_preview_v1_tests.cpp",
+  "runner": "run_runtime_equipment_preview_v1_tests.ps1",
+  "output": "equipment preview source camera PASS pane=155.05,87.70..321.10,282.75 fov_bits=0x3f0efb1a fov_deg=32.0008 aspect=0.85132",
+  "source": {
+    "root_selection": "CharacterVisual::source_motion_root_name(false), then the identically named node in the same retained Scene::graph",
+    "authored_viewport_480x320": [
+      155.05,
+      87.7,
+      321.1,
+      282.75
+    ],
+    "fov_degrees": 32.00078,
+    "far": 1000,
+    "aspect": 0.85132017,
+    "camera_target": [
+      0,
+      0,
+      200
+    ],
+    "camera_up": [
+      0,
+      0,
+      1
+    ],
+    "camera_eye": [
+      0,
+      -800,
+      200
+    ],
+    "fov_raw_bits": "0x3f0efb1a",
+    "near": 10
+  },
+  "limitation": "This separate leaf test verifies camera/layout metadata only; the linked same-session binding and modular refresh test is recorded in runtime_equipment_preview_v1_report.json."
+}

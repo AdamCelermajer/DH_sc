@@ -58,5 +58,13 @@ int main(){try{
  text_services.common.enqueue=[](void* raw,const dh2::character::skills::CombatTextRequestV1* q){check(std::string(q->style)=="anim_sct_xp"&&!q->numeric&&q->color==123&&q->position[2]==9&&std::string(q->text)=="formatted-XP");++static_cast<TextFixture*>(raw)->queued;return 0;};
  check(dh2::character::skills::player_xp_text_v1(victim.identity,42,123,text_services)==1&&text.queued==1);
  text_services.format=nullptr;check(dh2::character::skills::player_xp_text_v1(victim.identity,42,123,text_services)<0&&text.queued==1);
+ // A malformed actor borrow must not claim a LevelUp after using defaults in
+ // place of the actual CharacterDesign row. The source XP add is already a
+ // reached prefix; level and saved-level state must remain untouched.
+ const auto level_before_bad_row=view.resolved[19];const auto xp_before_bad_row=view.resolved[33];
+ auto bad_row_player=player;bad_row_player.actor_index=-1;
+ check(!progression_give_xp_v1(bad_row_player,view.resolved[34]-view.resolved[33],false,service,result,error));
+ check(error.find("same actor/class cache")!=std::string::npos&&view.resolved[19]==level_before_bad_row);
+ check(view.resolved[33]>=view.resolved[34]&&save.level()==(level_before_bad_row>>8));
  std::cout<<"{\"validation\":\"PASS\",\"checks\":"<<checks<<",\"original_math_cases\":"<<nm+ns<<",\"actual_class_stat_points_before\":"<<stat_points<<",\"actual_class_skill_points_before\":"<<skill_points<<",\"actual_class_stat_points_after\":"<<view.resolved[148]<<",\"actual_class_skill_points_after\":"<<view.resolved[157]<<",\"production_save_and_presentation\":false}\n";
  }catch(std::exception& e){std::cerr<<e.what()<<"\n";return 1;}}

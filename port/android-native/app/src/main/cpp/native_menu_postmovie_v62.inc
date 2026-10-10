@@ -33,6 +33,12 @@ struct NativeMenuPostMovieV62 {
    if(!model_renderer::borrow_current_native_level_v27(current,e))return 0;
    out.identity=current.identity();out.value=current?current.level()->constructor_fields_v3().byte198:0;return 1;}
   if(q.operation==O::elapsed){std::uint32_t dt{};if(!model_renderer::borrow_application_dt_v93(dt,e))return 0;std::memcpy(&out.value,&dt,4);return 1;}
+  //InfoHUD/HUDControls initCachedChars run during process MenuManager.Init,
+  //before any World. Their saved options belong to Application+4c.
+  if(q.operation==O::saved_option){auto app=directory->application.lock();
+   auto settings=app?app->source_settings4c_v67():nullptr;
+   if(!settings||!q.text){e="Required SAME process Application saved-option receiver";return 0;}
+   out.value=settings->saved_option(q.text);e.clear();return 1;}
   if(!world_transport||!world_operations){e="Required SAME canonical InfoHUD operation "+std::to_string(static_cast<unsigned>(q.operation));return 0;}
   return world_operations(q,out,e);
  }
@@ -190,7 +196,7 @@ bool model_renderer::source_native_loadmenu3_v62(std::shared_ptr<void> world,std
  for(std::uint32_t slot=0;slot<4;++slot){MenuMovieBorrowV58 q;if(!provider->directory->movie_slot(slot,q,e))return fail();if(!q.identity)continue;
   SwfMovie* movie{};std::shared_ptr<void> lease;if(!provider->directory->movie(slot,q,movie,lease,e))return fail();
   auto* r=native->shared_stack_v27->render(q.identity);if(!r){e="PostLoad lacks actual resource directory";return fail();}
-  if(!native->shared_roster_v27->post_load(*movie,std::move(lease),r->flags,e))return fail();
+  if(!native->shared_roster_v27->post_load(*movie,q.identity,std::move(lease),r->flags,e))return fail();
  }
  for(auto i=first_registry_count;i<native->shared_stack_v27->registry_count_v58();++i){auto* q=native->shared_stack_v27->registry_at_v58(i);
   if(!q||!native->shared_roster_v27->receiver_fields_v59(q->identity)){e="PostLoad appended receiver lacks actual generated MenuBase";return fail();}

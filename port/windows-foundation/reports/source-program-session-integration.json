@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-09",
+  "status": "session_integration_component_tested_gameplay_binding_incomplete",
+  "goal_complete": false,
+  "release": "development_after_v18_not_packaged",
+  "api": "CombatSession::play_actor_source_sequence",
+  "implementation": [
+    "port/windows-foundation/combat_session.hpp",
+    "port/windows-foundation/combat_session.cpp"
+  ],
+  "behavior": [
+    "Independent original sequence plans and policies run through existing actor RetainedSequencePlayback and its same pose owner.",
+    "Session remains sole animation advancement clock; original synchronous marker and motion consumers are reused.",
+    "Plan hierarchy and loaded clip validity are checked before interrupting live action.",
+    "Playback copies plan metadata; completion callbacks may select the next genuine actor state through the same retained owner.",
+    "Existing play_actor_state_sequence delegates the same API using its actor profile bank."
+  ],
+  "verification": {
+    "test": "port/windows-foundation/tests/combat_session_tests.cpp",
+    "actual_content": "Original Swamp_LizadMan_Type1 actor-2 Attack program with independent state namespace and exact loaded clip aliases",
+    "assertions": [
+      "Two authored attack_mainhand markers and one whole-program completion",
+      "Exact same retained pose owner before/during/after external program",
+      "External plan and policy lifetime ends before session advancement",
+      "Missing source state does not change retained pose owner, current slot or clock",
+      "Unknown actor and absent completion provider reject"
+    ],
+    "full_rebuild": "passed",
+    "ctest_passed": 75,
+    "ctest_failed": 0,
+    "ctest_log": ".local-inputs/source-program-ctest.log"
+  },
+  "remaining": [
+    "Bind actual native SkillAI/SkillState/property/FSM and same Lua owner into SessionSkillAnimation.",
+    "Load original skill clip bank with exact matching aliases before player/NPC visual initialization.",
+    "Verify actual skill programs through Session and original effect/audio/camera/skill event consumers.",
+    "No live skill input, mana/damage, canonical actor publication or packaged v19 acceptance claimed."
+  ],
+  "preserved_release": ".local-inputs/windows-source-clock-checkpoint-v18"
+}

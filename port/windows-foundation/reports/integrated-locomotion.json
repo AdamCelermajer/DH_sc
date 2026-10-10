@@ -1,0 +1,35 @@
+{
+  "status": "runtime_mechanisms_verified_fidelity_incomplete",
+  "receipt_scope": "Historical standalone locomotion preview; current shared retained locomotion/camera receipt is movement-camera-ownership.json and packaged-source-clock-runtime-v5.json",
+  "current_shared_runtime": "reports/movement-camera-ownership.json",
+  "executable": ".local-inputs/windows-foundation-build/dh-foundation.exe",
+  "launcher": ".local-inputs/windows-foundation-build/start-movement-preview.cmd",
+  "source_bindings": "reports/knight-locomotion-source.json",
+  "walk": {"clip": "animations/prince_walk_slow.bdae", "playback_rate": 1.2999999523162842},
+  "run": {"clip": "animations/prince_walk_1hand.bdae", "playback_rate": 1.2999999523162842},
+  "root_policy": "original GetAnimRoot(false): root_camera before Bip01",
+  "floor_policy": "center support; invented eight-point floor admission removed",
+  "source_policy_evidence": "reports/navigation-source-policy.json",
+  "runtime": {
+    "frames": 90, "fixed_step_seconds": 0.016, "movement_frames": 60,
+    "input": [1, 0], "start": [1090.75, -212.202, 258],
+    "end": [1279.79, -201.095, 255], "grounded": true,
+    "capture": ".local-inputs/windows-foundation-build/source-walk-hud.ppm",
+    "camera": {"distance": 3132.3, "vertical_fov_degrees": 24.616, "source_aspect": 1.66775},
+    "equipment": "original longsword attached to anchor_weapon_right_offset",
+    "hud": "original portrait and health/mana contours with original atlas; pre-equipment actor properties",
+    "population": {"visuals": 13, "declarations": 61, "uninstantiated": 48},
+    "clean_shutdown": true
+  },
+  "limitations": [
+    "Indexed render bounds approximate physical body bounds; original skin joint-box owner bounds not connected",
+    "Step/drop/slope caps and body sweeps remain explicit development policy",
+    "Original cached floor traversal, navigation lookahead/edge slide and physics obstacle owners not fully connected",
+    "Live gameplay state is separate from current preview save state",
+    "Companion behavior, campaign spawning and priest appearance mismatch unresolved",
+    "Targeting and original damage provider not yet exercised together in the renderer",
+    "Animation blend-out/sequence transitions and matched-state reference fidelity not accepted"
+  ],
+  "tests": {"passed": 20, "failed": 0, "includes": "actual cached gear/class damage provider; original melee bindings; target selection; shared combat pose dispatch; shared combat fixtures; original root, attachment, movement and window lifecycle"},
+  "goal_complete": false
+}

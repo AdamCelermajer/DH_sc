@@ -1,0 +1,218 @@
+{
+  "source": "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\menus\\dqmenus.swf",
+  "sha256": "3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5",
+  "stage_twips": [
+    0,
+    20480,
+    0,
+    15360
+  ],
+  "bitmap_definitions": {
+    "1": {
+      "asset": "assets/source_bitmap_1.tga",
+      "width": 2048,
+      "height": 1024
+    },
+    "8": {
+      "asset": "assets/source_bitmap_8.tga",
+      "width": 1024,
+      "height": 1024
+    },
+    "15": {
+      "asset": "assets/source_bitmap_15.tga",
+      "width": 512,
+      "height": 512
+    },
+    "44": {
+      "asset": "assets/source_bitmap_44.tga",
+      "width": 512,
+      "height": 512
+    },
+    "52": {
+      "asset": "assets/source_bitmap_52.tga",
+      "width": 1024,
+      "height": 1024
+    },
+    "62": {
+      "asset": "assets/source_bitmap_62.tga",
+      "width": 1024,
+      "height": 1024
+    },
+    "98": {
+      "asset": "assets/source_bitmap_98.tga",
+      "width": 512,
+      "height": 512
+    },
+    "431": {
+      "asset": "assets/source_bitmap_431.tga",
+      "width": 1024,
+      "height": 1024
+    },
+    "448": {
+      "asset": "assets/source_bitmap_448.tga",
+      "width": 256,
+      "height": 256
+    }
+  },
+  "text_sources": {
+    "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\text\\menu.symbols": "95213f4b9c9a3f04c604a29a7586e26992fd81b1f08a3460d24cc9e1f321323b",
+    "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\text\\menu.english": "50e01954a9104b7b3c08bcbab0985c1e516cc873645854cc6fbdaa65a9fad101",
+    "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\text\\gameplaymenus.symbols": "7a933388893c6963b537791fbaf240660b5e39ef1c54741f98dd21ba5b89e136",
+    "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\text\\gameplaymenus.english": "ce07a456aaf8a8d914b210e62e40a5606bcc9a3a40348c958063bcc10e3c4000",
+    "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\text\\global.symbols": "5eb997db344a3a5241d26486b4edb19b3fda8a4f1fdeadf2b8c91514a848f3ac",
+    "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\text\\global.english": "020a1779505fda2387cd4b2506aa0ac2ae04d7467405edb10eaefdff3049e568"
+  },
+  "policy": "Legacy inspection data retains source firstframes; runtime_source_data.cpp retains complete sprite frames, source labels and exact STOP actions for compose.cpp.",
+  "screens": [
+    {
+      "name": "menu_MainMenu",
+      "character": 497,
+      "batches": 41,
+      "triangles": 676,
+      "text_fields": 21
+    },
+    {
+      "name": "menu_SelectClass",
+      "character": 416,
+      "batches": 7,
+      "triangles": 64,
+      "text_fields": 4
+    },
+    {
+      "name": "menu_EnterName",
+      "character": 95,
+      "batches": 87,
+      "triangles": 5844,
+      "text_fields": 3
+    },
+    {
+      "name": "menu_StartGame",
+      "character": 459,
+      "batches": 25,
+      "triangles": 628,
+      "text_fields": 17
+    }
+  ],
+  "omissions": [
+    {
+      "path": "menu_MainMenu/flush_text",
+      "character": 21,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_MainMenu/btn_exit/hitzone",
+      "character": 48,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_MainMenu/Confirmation/flush_text",
+      "character": 21,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_MainMenu/ExitConfirmation/flush_text",
+      "character": 21,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_MainMenu/Error/flush_text",
+      "character": 21,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_SelectClass/btn_back/1",
+      "character": 43,
+      "reason": "mask/color/filter unsupported in static contour adapter"
+    },
+    {
+      "path": "menu_SelectClass/btn_back/hitzone",
+      "character": 48,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_EnterName/btn_back/1",
+      "character": 43,
+      "reason": "mask/color/filter unsupported in static contour adapter"
+    },
+    {
+      "path": "menu_EnterName/btn_back/hitzone",
+      "character": 48,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_EnterName/KeyBoard/UpperCase/1",
+      "character": 72,
+      "reason": "mask/color/filter unsupported in static contour adapter"
+    },
+    {
+      "path": "menu_EnterName/KeyBoard/LowerCase/1",
+      "character": 72,
+      "reason": "mask/color/filter unsupported in static contour adapter"
+    },
+    {
+      "path": "menu_StartGame/flush_text",
+      "character": 21,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_StartGame/btn_back/1",
+      "character": 43,
+      "reason": "mask/color/filter unsupported in static contour adapter"
+    },
+    {
+      "path": "menu_StartGame/btn_back/hitzone",
+      "character": 48,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_StartGame/Confirmation/flush_text",
+      "character": 21,
+      "reason": "input-only branch"
+    },
+    {
+      "path": "menu_StartGame/Confirmation2/flush_text",
+      "character": 21,
+      "reason": "input-only branch"
+    }
+  ],
+  "generic_source": "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\menus\\dqmenus.swf",
+  "generic_sha256": "3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5",
+  "original_keyboard_rebindings": [],
+  "runtime_policy": "compose.cpp traverses retained source timeline definitions with explicit flow PresentationState visibility, labels, localized/profile text. Shows use settled source tween endpoint. No general AVM execution.",
+  "source_stop_frames": {
+    "69": [
+      4,
+      9,
+      13,
+      24,
+      35,
+      45
+    ],
+    "89": [
+      0,
+      4,
+      9,
+      18,
+      19
+    ],
+    "408": [
+      4,
+      12,
+      22,
+      23,
+      24,
+      32,
+      40
+    ],
+    "416": [
+      4,
+      14,
+      24
+    ],
+    "497": [
+      2,
+      17,
+      30
+    ]
+  }
+}

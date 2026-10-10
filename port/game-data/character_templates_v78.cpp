@@ -12,6 +12,10 @@ public:
 };
 std::int16_t narrow(std::int32_t value){const auto bits=static_cast<std::uint16_t>(value);std::int16_t out;std::memcpy(&out,&bits,2);return out;}
 }
+bool CharacterTemplateTableV78::load(Bytes records,Bytes names,std::string& e){
+ const std::uint8_t layout[]{1,0,0,0,4,0,0,0,'N','a','m','e',1,0,0,0,8,0,0,0,'C','h','a','r','I','n','f','o'};
+ return load(records,names,{layout,sizeof(layout)},e);
+}
 bool CharacterTemplateTableV78::load(Bytes records,Bytes names,Bytes schema,std::string& e){
  if(ready_){e="Actual initialized CharacterTemplates table cannot be replaced under live actors";return false;}
  try{

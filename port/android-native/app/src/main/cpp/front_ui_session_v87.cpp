@@ -1,10 +1,16 @@
 #include <menu_end_loading_source_v114.hpp>
 #include "swf_menu_device_v1.hpp"
+#include "gameswf/gameswf_function.h"
 #include "loading_menu_v1.hpp"
 #include "swf_loading_menu_v1.hpp"
 #include "front_ui_session_v87.hpp"
+#include "character_debug_stdio_v136.hpp"
+#include "front_loading_render_policy_v1.hpp"
+#include "front_scene_selection_v1.hpp"
+#include "front_inspection_avatar_services_v1.hpp"
 #include "original_ui_assets.hpp"
 #include "swf_gpu.hpp"
+#include "splash_layout_v1.hpp"
 #include "swf_hud_freetype_provider.hpp"
 #include "swf_text_font_platform_v1.hpp"
 #include "gfnt_text_backend_v1.hpp"
@@ -13,7 +19,15 @@
 #include "localization.hpp"
 #include "hud_text_v1.hpp"
 #include "application_services_owner_v5.hpp"
+#include "source_online_loading_menu_v135.hpp"
+#include "application_player_manager_bootstrap_v59.hpp"
+#include "source_input_manager_v60.hpp"
+#include "audio_application_manager_v42.hpp"
+#include "player_manager_offline_selectors_v70.hpp"
+#include "native_source_main_menu_v114.hpp"
+#include "source_main_menu_process_v114.hpp"
 #include "application_save_files_owner_v61.hpp"
+#include "source_settings_update_job_v102.hpp"
 #include "character_design_services.hpp"
 #include "script_constants.hpp"
 #include "swf_texture.hpp"
@@ -61,6 +75,17 @@ constexpr const char* tag="DH2Native";
 constexpr const char* panel="_root.menu_HUD_0.HUDelements.HealthBars.player";
 constexpr const char* status_panel="_root.menu_HUD_0.HUDelements.HealthBars";
 constexpr const char* hud_sha="a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238";
+struct FrontStageV87 {int x{},y{},width{},height{};};
+constexpr FrontStageV87 full_surface_stage_v87(int width,int height){return {0,0,width,height};}
+constexpr bool front_stage_is_full_surface_v87(FrontStageV87 stage,int width,int height){
+    return stage.x==0&&stage.y==0&&stage.width==width&&stage.height==height;
+}
+// MenuFlash2DCamera::Update projects the authored 480x320 root frame through
+// the complete native surface. These compile-time fixtures guard wide,
+// landscape, and portrait sizes against reintroducing a centered 3:2 page.
+static_assert(front_stage_is_full_surface_v87(full_surface_stage_v87(2400,1080),2400,1080));
+static_assert(front_stage_is_full_surface_v87(full_surface_stage_v87(1920,1080),1920,1080));
+static_assert(front_stage_is_full_surface_v87(full_surface_stage_v87(1080,1920),1080,1920));
 struct AssetClose {void operator()(AAsset* value)const{if(value)AAsset_close(value);}};
 struct ConstantsDelete {void operator()(dh2_script_constants* value)const{dh2_script_constants_destroy(value);}};
 struct DebugDelete {void operator()(character::DebugSwitches* value)const{dh2_character_debug_destroy(value);}};
@@ -96,6 +121,11 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
     bool process_settings_v105{},process_option_table_v105{};
     ui::SwfTexture process_splash_v119;
     std::string process_splash_uri_v119;
+    // Survives GSInit's field release: the menu exports borrow the SAME
+    // selected language/device image through the session texture cache.
+    std::string splash_source_uri_v1;
+    std::uintptr_t splash_texture_identity_v1{};
+    bool rendering_splash_clip_v1{};
     std::vector<std::string> process_property_names_v119;
     std::weak_ptr<void> campaign_language_world_v109;
     std::function<bool(std::string&)> campaign_language_scene_v109;
@@ -136,15 +166,21 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
     ui::SwfMovie* input_dispatch_movie{};
     std::int32_t last_menu_dt{};
     int class_index=0;
+    int class_applied_index=-1;
+    bool process_class_select_active_v87=false;
     std::uintptr_t class_left=0,class_right=0;
     std::chrono::steady_clock::time_point frame_time{};
     MenuFrameClock menu_clock;
     int driver_width=480,driver_height=320;
+    ui::SourceMenuVariantV132 process_variant_v132{};
+    bool source_movies_v132{};
     std::shared_ptr<ui::MenuFlash2DCameraOwnerV93> camera_owner_v93,shared_camera_owner_v93;
     bool main_deleted_v93=false,base_deleted_v93=false;
     std::shared_ptr<void> source_menu_owner_v93;
     std::function<bool(std::vector<FrontMovieDrawV93>&,std::string&)> source_draw_v93;
+    std::function<bool(const char*,const gameswf::fn_call&,std::string&)> source_navigation_v93;
     bool source_transport_busy_v93=false;
+    bool source_loading_render_v114=false;
     bool camera_update_v93(ui::SwfMovie& target,const std::shared_ptr<ui::MenuFlash2DCameraOwnerV93>& owner,std::string& error){
         if(!owner||owner->movie!=reinterpret_cast<std::uintptr_t>(&target)){error="Required same actual paired front camera";return false;}
         ui::FlashCamera40* state{};std::shared_ptr<void> pin;
@@ -172,12 +208,15 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
     std::shared_ptr<FrameOwner> frame_owner;
     std::shared_ptr<FrameOwner> shared_frame_owner;
     std::unique_ptr<ui::SwfTextFontPlatformV1> fonts,shared_fonts;
+    std::function<bool(std::string&)> process_font_cache_reset_v119;
     std::shared_ptr<ui::SwfMovie> movie;
     std::shared_ptr<ui::SwfMovie> shared_menu_movie;
     std::unique_ptr<ui::PlayerStatusHud> status;
     std::array<std::int32_t,4> front_rectangle()const{
-        const int w=std::min(driver_width,driver_height*3/2),h=std::min(driver_height,driver_width*2/3);
-        return {(driver_width-w)/2,(driver_height-h)/2,w,h};
+        // MenuFlash2DCamera::Update sets the SWF viewport to the full surface.
+        // Keep hit testing on that same surface; the scene's separate 3:2 fit
+        // must not clip the authored, full-viewport menu controls.
+        return {0,0,driver_width,driver_height};
     }
     static bool input_accepts(void*,ui::SwfEvent48&,bool& accepted,std::string&){
         // MenuBase::CanHandleEvent, 0x41f3fc, returns true.
@@ -215,7 +254,9 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
     static bool input_native_event(void* context,ui::SwfEvent48& event,std::string& error){
         auto& self=*static_cast<Impl*>(context);
         ui::MenuNativeEventServicesV1 services;services.context=context;services.raw_position=raw_event_position;services.browser=menu_browser_request;services.language=menu_platform_language;services.online=menu_online_request;
-        if(!self.menu_stack.empty()&&self.menu_stack.back()=="menu_SelectClass"&&event.kind==2){
+        const bool class_select_input=self.process_class_select_active_v87||
+            (!self.menu_stack.empty()&&self.menu_stack.back()=="menu_SelectClass");
+        if(class_select_input&&event.kind==2){
             const int before=self.class_index;
             // MenuCharacterSelect::OnEvent 0x4282c8..0x42839c: compare
             // actual cached characters, clamp the native index to 0..2.
@@ -294,7 +335,7 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         return !handle||std::fclose(reinterpret_cast<std::FILE*>(handle))?1:0;
     }
     bool debug_load(std::string& error) {
-        const int status=dh2_character_debug_load(debug.get(),&debug_files);
+        const int status=character::load_debug_stdio_v136(debug.get(),&debug_files,directory.c_str());
         if(status<0){error="Required UI DebugSwitches load failed: "+std::to_string(status);return false;}return true;
     }
     bool debug_query(const char* key,std::string& error) {
@@ -402,13 +443,22 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         return true;
     }
     static bool save_settings(void* context,std::string& error){
-        auto& self=*static_cast<Impl*>(context);if(!self.settings||self.directory.empty()){error="Front settings save owner unavailable";return false;}
-        const auto bytes=self.settings->serialized();const std::string path=self.directory+"/dh2_settings.savegame",temporary=path+".front.tmp";
-        auto* file=std::fopen(temporary.c_str(),"wb");if(!file){error="Unable to open private settings output";return false;}
-        const bool written=std::fwrite(bytes.data(),1,bytes.size(),file)==bytes.size();const bool closed=std::fclose(file)==0;
-        if(!written||!closed){std::remove(temporary.c_str());error="Unable to write private settings output";return false;}
-        if(std::rename(temporary.c_str(),path.c_str())){std::remove(temporary.c_str());error="Unable to publish private settings output";return false;}
-        __android_log_print(ANDROID_LOG_INFO,tag,"Front settings saved | bytes %zu | music %d | fx %d | language %d",bytes.size(),self.settings->option("VolumeMusic"),self.settings->option("VolumeFX"),self.settings->language());return true;
+        auto& self=*static_cast<Impl*>(context);
+        auto app=self.process_application_v114.lock();
+        if(!app||!self.settings||self.directory.empty()||app->source_settings4c_v67()!=self.settings){
+            error="Front settings save requires the SAME process Application/SavegameManager";return false;
+        }
+        // IDA NativeSaveSettings (43b278) -> SavegameManager::saveSettings
+        // (46cb34) uses the Savegame+4/byte37 gate and Application FileManager.
+        // Its getLanguage/setLanguage tail (46d514/46d104) runs after save,
+        // including when saveSettings returns early because the gate is false.
+        if(!model_renderer::save_process_settings_v102(app,error))return false;
+        // NativeSaveSettings calls saveSettings, then getLanguage/setLanguage
+        // on the SAME SavegameManager. The owner already supplies the exact
+        // language write, object traversal and TextManager switch prefix.
+        auto language=self.settings_language();
+        if(!self.settings->set_language(self.settings->language(),language,error))return false;
+        __android_log_print(ANDROID_LOG_INFO,tag,"Front settings save completed | music %d | fx %d | language %d",self.settings->option("VolumeMusic"),self.settings->option("VolumeFX"),self.settings->language());return true;
     }
     static bool option_string(void* context,std::int32_t id,std::string& text,std::string& error){auto& self=*static_cast<Impl*>(context);return self.text_id_v101(std::uint32_t(id),text,error);}
     static bool apply_option(void* context,const char* name,std::int32_t value,std::string& error){
@@ -421,8 +471,25 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         }
         self.settings->set_option(name,value); // Original unknown key is ignored.
         (void)self.settings->saved_option("AutoOrientation"); // Android ResetOrientation is bx lr.
-        if(!std::strcmp(name,"VolumeMusic")||!std::strcmp(name,"VolumeFX"))self.queue_volumes();
+        if(!std::strcmp(name,"VolumeMusic")||!std::strcmp(name,"VolumeFX")){
+            // NativeSetOptions immediately forwards the saved integer to the
+            // same process VoxSoundManager. An absent global is the original
+            // no-op; a live manager must receive the real group setter.
+            dh2::audio::AudioApplicationBorrowV42 audio;
+            if(!model_renderer::borrow_actual_application_audio_v42(audio,error))return false;
+            if(audio.manager){
+                const auto selector=!std::strcmp(name,"VolumeFX")?1:2;
+                if(!audio.manager->set_source_volume_v68(selector,
+                    static_cast<float>(self.settings->saved_option(name)),error))return false;
+            }
+            self.queue_volumes();
+        }
         __android_log_print(ANDROID_LOG_INFO,tag,"Front option changed | name %s | value %d",name,self.settings->option(name));return true;
+    }
+    static bool reset_option_fonts(void* context,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        if(!self.process_font_cache_reset_v119){error="Required SAME MultiMenuManager renderer directory for ResetFonts";return false;}
+        return self.process_font_cache_reset_v119(error);
     }
     static bool enter_options(void* context,std::string&){static_cast<Impl*>(context)->menu_audio.emplace_back("resume");return true;}
     static bool refresh_front_hud(void* context,std::string& error){
@@ -433,8 +500,28 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         if(!target){error="Menu input renderer slot unconnected";return false;}return target->menu_input_behavior(rollover?0x84:4,error);
     }
     ui::SwfMenuOptionServicesV1 option_services(){
-        ui::SwfMenuOptionServicesV1 s;s.settings=settings.get();s.context=this;s.string_by_id=option_string;s.apply_option=apply_option;
+        ui::SwfMenuOptionServicesV1 s;s.settings=settings.get();s.context=this;s.string_by_id=option_string;s.apply_option=apply_option;s.reset_fonts=reset_option_fonts;
         s.load=load_settings;s.save=save_settings;s.enter=enter_options;s.refresh_hud=refresh_front_hud;s.input_behavior=input_behavior;return s;
+    }
+    static bool legacy_volume_option(void* context,const char* name,const gameswf::fn_call& fn,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        if(!self.settings||fn.nargs<1||!fn.env){error="Malformed legacy volume option call";return false;}
+        // NativeOptionFX/Music 0x43b390/0x43b424 convert the slider number to
+        // float, call the live VoxSoundManager first, then store int(float) on
+        // the SAME SavegameManager. With no sound manager the source is a no-op.
+        const float volume=static_cast<float>(fn.arg(0).to_number());
+        if(!std::isfinite(volume)||volume<float(std::numeric_limits<std::int32_t>::min())||
+           volume>=2147483648.0f){error="Legacy volume option outside source integer range";return false;}
+        dh2::audio::AudioApplicationBorrowV42 audio;
+        if(!model_renderer::borrow_actual_application_audio_v42(audio,error))return false;
+        if(audio.manager){
+            const auto selector=!std::strcmp(name,"NativeOptionFX")?1:2;
+            if(!audio.manager->set_source_volume_v68(selector,volume,error))return false;
+            const auto value=static_cast<std::int32_t>(volume);
+            self.settings->set_option(selector==1?"VolumeFX":"VolumeMusic",value);
+            self.queue_volumes();
+        }
+        error.clear();return true;
     }
     static int font_service(void* context,ui::FontResolveRequest40* request) {
         auto& self=*static_cast<Impl*>(context);std::string error;
@@ -503,7 +590,11 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
     static bool texture(void* context,const char* name,int,int,ui::SwfTexture& out,std::string& error) {
         auto& self=*static_cast<Impl*>(context);std::string uri;
         if(!scene::swf_texture_filename("",std::string("data/")+name,uri,error))return false;
-        const auto found=self.exports.find(uri);if(found!=self.exports.end()){out=found->second;return true;}
+        const bool splash=ui::is_splash_source_uri_v1(uri);
+        if(splash&&!self.splash_source_uri_v1.empty())uri=self.splash_source_uri_v1;
+        const auto found=self.exports.find(uri);if(found!=self.exports.end()){
+            out=found->second;if(splash)self.splash_texture_identity_v1=out.identity;return true;
+        }
         std::vector<std::uint8_t> encoded;if(!self.assets.read(uri,encoded,error))return false;
         textures::View view{};auto status=dh2_texture_open(encoded.data(),encoded.size(),&view);
         if(status!=textures::Error::ok){error=dh2_texture_error(status);return false;}
@@ -513,6 +604,7 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         status=dh2_texture_decode(&view,rgba.data(),rgba.size());
         if(status!=textures::Error::ok){error=dh2_texture_error(status);return false;}
         if(!self.gpu.image(view.width,view.height,4,rgba.data(),std::size_t(view.width)*4,out,error))return false;
+        if(splash)self.splash_texture_identity_v1=out.identity;
         self.exports.emplace(uri,out);++self.bitmap_uploads;
         __android_log_print(ANDROID_LOG_INFO,tag,"Original UI export delivered | name %s | uri %s | texture %d %d",name,uri.c_str(),out.width,out.height);return true;
     }
@@ -537,6 +629,14 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         }
         if(command.kind==ui::SwfDraw::line_strip)++self.lines;
         if(command.kind==ui::SwfDraw::mask_begin)++self.masks;
+        float splash_uv[6];
+        if(self.rendering_splash_clip_v1&&command.fill.kind==ui::SwfFill::bitmap&&
+           command.fill.texture.identity==self.splash_texture_identity_v1&&
+           ui::splash_android_background_uv_v1(command.fill.uv.value,splash_uv)){
+            auto corrected=command;
+            std::copy_n(splash_uv,6,corrected.fill.uv.value);
+            return self.gpu.draw(corrected,error);
+        }
         return self.gpu.draw(command,error);
     }
     static bool stencil(void* context,const float bounds[4],std::uint8_t pattern,bool& out,std::string& error) {
@@ -592,23 +692,33 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
     static bool persona_camera(void*,std::string& error){error.clear();return true;}
     static bool persona_setup(void* context,std::int32_t slot,std::string& error){
         auto& self=*static_cast<Impl*>(context);
-        if(slot<0)return model_renderer::select_menu_persona(-1,self.manager,error);
+        if(slot<0){
+            __android_log_print(ANDROID_LOG_INFO,tag,"Menu profile selection | requested_slot %d | occupied 0 | profile_class <none> | legacy_persona -1",slot);
+            return model_renderer::select_menu_persona(-1,self.manager,error);
+        }
         bool occupied=false;
         if(!menu_slot_exists(context,std::uint32_t(slot),occupied,error))return false;
-        if(!occupied)return model_renderer::select_menu_persona(-1,self.manager,error);
+        if(!occupied){
+            __android_log_print(ANDROID_LOG_INFO,tag,"Menu profile selection | requested_slot %d | occupied 0 | profile_class <none> | legacy_persona -1",slot);
+            return model_renderer::select_menu_persona(-1,self.manager,error);
+        }
         if(!self.menu_persona_mode){error="Occupied avatar requires canonical owner or explicit menu persona mode";return false;}
         dh2::data::CampaignProfileFileV1 file;
         if(!dh2::data::read_campaign_profile_v1(self.directory,slot,file,error))return false;
         dh2::data::MenuProfileMetadataV1 metadata;
         if(!dh2::data::load_menu_profile_metadata_v1({file.bytes.data(),file.bytes.size()},self.menu_characters,slot,self.menu_selected_difficulty,{&self,menu_store_difficulty,menu_load_quest_acts_v59},metadata,error))return false;
         const char* names[]={"KnightPlayerBase","RoguePlayerBase","MagePlayerBase"};
-        for(int i=0;i<3;++i){const auto found=std::find(self.menu_characters.names.begin(),self.menu_characters.names.end(),names[i]);if(found!=self.menu_characters.names.end()&&std::int32_t(found-self.menu_characters.names.begin())==metadata.character_row)return model_renderer::select_menu_persona(i,self.manager,error);}
+        for(int i=0;i<3;++i){const auto found=std::find(self.menu_characters.names.begin(),self.menu_characters.names.end(),names[i]);if(found!=self.menu_characters.names.end()&&std::int32_t(found-self.menu_characters.names.begin())==metadata.character_row){
+            __android_log_print(ANDROID_LOG_INFO,tag,"Menu profile selection | requested_slot %d | occupied 1 | player %s | PCLS %d:%s | legacy_persona %d",slot,metadata.name.c_str(),metadata.character_row,names[i],i);
+            return model_renderer::select_menu_persona(i,self.manager,error);
+        }}
         error="Menu persona requires a supported base class";return false;
     }
     void enable_menu_persona(){
+        if(!install_front_inspection_avatar_services_v1(menu_avatar_services,menu_avatar_services_owner_v121,
+            {this,persona_destroy,persona_setup,persona_camera}))return;
         menu_persona_mode=true;
         campaign_quests={nullptr,[](void*,bool& value,std::string& error){value=false;error.clear();return true;}};
-        menu_avatar_services={this,persona_destroy,persona_setup,persona_camera};
     }
     bool create_menu_persona(const char* player_name,const char* character,std::uint32_t& slot,std::string& error){
         slot=4;
@@ -629,7 +739,7 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         const int marker_fd=::open(marker.c_str(),O_WRONLY|O_CREAT|O_EXCL|O_NOFOLLOW,0600);if(marker_fd>=0)::close(marker_fd);
         enable_menu_persona();
         __android_log_print(ANDROID_LOG_INFO,tag,"Menu-only persona created | name %s | class %s | slot %u | bytes %zu | gameplay initialization pending",player_name,character,slot,profile.bytes.size());
-        return ui::change_menu_avatar_preview_v1(menu_avatar,std::int32_t(slot),true,menu_avatar_services,error);
+        return ui::change_menu_avatar_preview_v1(menu_avatar,std::int32_t(slot),true,menu_avatar_services,error,true);
     }
     static bool menu_slot_exists(void* context,std::uint32_t slot,bool& occupied,std::string& error){
         auto& self=*static_cast<Impl*>(context);
@@ -669,6 +779,13 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         }
         return dh2::data::load_quest_metadata_acts_v51(self.quest_tables_v59,bytes,regular,volatile_acts,error);
     }
+    static bool menu_use_volatile_quest_acts(void* context,bool& value,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        const auto app=self.process_application_v114.lock();
+        if(!app){error="Required actual process Application for Game::IsOnlineGame";return false;}
+        std::shared_ptr<dh2::application::SourceOnlineLoadingOwnerV55> online;
+        return dh2::application::source_menu_online_v114(*app,online,value,error);
+    }
     static bool menu_slot_string(void* context,std::uint32_t id,std::string& text,std::string& error){
         auto& self=*static_cast<Impl*>(context);return self.text_id_v101(id,text,error);
     }
@@ -706,6 +823,43 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
     }
     static bool native_action(void* context,const char* name,const gameswf::fn_call& fn,std::string& error) {
         auto& self=*static_cast<Impl*>(context);
+        // Process draw/input and authored navigation must address the SAME
+        // MenuManager. The legacy front vector does not drive source renders.
+        if(self.source_menu_owner_v93&&(!std::strcmp(name,"NativePushMenu")||
+           !std::strcmp(name,"NativePopMenu")||!std::strcmp(name,"NativePopAllAbove")||
+           !std::strcmp(name,"NativePopAllMenus")))
+            return self.source_navigation_v93&&self.source_navigation_v93(name,fn,error);
+        if(!std::strcmp(name,"NativeHasPushNotification")){
+            // 440c84: ignore args; gate on Device.IsHighPerformance, multiplayer,
+            // SHARP or HTC, then OR SAME Application+10e/+ee and GameCenter+15.
+            if(!fn.result||!self.menu_device_written_v4){error="Push-notification query requires actual result/device facts";return false;}
+            const ui::HudDevicePipeline16 pipeline{{self.menu_device.sharp,self.menu_device.htc,self.menu_device.multiplayer_mode},self.menu_device.driver_type};
+            const int performance=dh2_hud_device_pipeline(&pipeline);
+            if(performance<0){error="Push-notification graphics capability query failed";return false;}
+            bool pending=false;
+            if(performance||self.menu_device.multiplayer_mode||self.menu_device.sharp||self.menu_device.htc){
+                const auto application=self.process_application_v114.lock();
+                const auto game_center=dh2::player::process_player_manager_offline_selectors_v70();
+                if(!application||!game_center){error="Push-notification query requires same process Application/GameCenter";return false;}
+                pending=application->source_invitation10e()!=0||application->source_invitation_ee()!=0||game_center->game_center_notification15()!=0;
+            }
+            fn.result->set_bool(pending);error.clear();return true;
+        }
+        if(!std::strcmp(name,"NativeOnlineSanityCheck")){
+            // 43a0fc ignores args/result and clears SAME OnlineGameState+26.
+            // Reuse the existing process singleton projection, including its
+            // byte28 queried by PlayerManager; COnline is a separate owner.
+            const auto online=dh2::player::process_player_manager_offline_selectors_v70();
+            if(!online){error="Required process OnlineGameState sanity receiver";return false;}
+            online->source_online_sanity_check();
+            __android_log_print(ANDROID_LOG_INFO,tag,"Original online sanity callback | same process receiver %zx | byte26 0",reinterpret_cast<std::uintptr_t>(online.get()));
+            return true;
+        }
+        if(!std::strcmp(name,"NativeGoToMainMenu")){
+            // 43ae9c ignores args/result and calls Application.GoToMainMenu(0).
+            // The native frame drains this accepted command after AS unwinds.
+            return model_renderer::request_source_main_menu_v114(0,error);
+        }
         if(!std::strcmp(name,"NativePauseMusic")||!std::strcmp(name,"NativeStopMusic")){
             // Original wrappers ignore args, preserve AS result, and no-op
             // without a manager. The retained front has a real audio owner.
@@ -773,10 +927,60 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
             self.selected_launch_profile_v50=std::move(retained);
             self.launch_pending=true;return true;
         }
+        if(!std::strcmp(name,"NativeAssignSaveSlotToPlayer")){
+            // dqmenus calls this as NativeAssignSaveSlotToPlayer(0, SlotID)
+            // immediately before StartGame. Publish only into the same
+            // process Application's already-owned PlayerManager; this does
+            // not create a PlayerInfo, touch a save, or synthesize success.
+            // GameSWF fn_call::arg(0) is the topmost ActionScript stack item
+            // (the last source argument); IDA NativeAssignSaveSlotToPlayer
+            // reads that item as the assigned profile slot, then reads arg1
+            // as local-player index. The SWF authors the call as (0, SlotID).
+            std::int32_t local_index=0,slot=0;
+            if(!dh2::ui::swf_front_assign_save_slot_args_v1(fn,local_index,slot,error))return false;
+            const auto application=self.process_application_v114.lock();
+            const auto players=application?application->source_player_manager_v59():nullptr;
+            if(!application||!players||!players->belongs_to_application(application)){
+                error="NativeAssignSaveSlotToPlayer requires the same process Application PlayerManager";return false;
+            }
+            // The authored menu assigns SlotID before NativeStartGame. The
+            // process PlayerManager constructor is retained at MenuManager
+            // Init, but its original first-local-controller prefix is reached
+            // later by the campaign adapter. Run that same source prefix here
+            // before publishing the slot, so both paths use the SAME App
+            // PlayerInfo and the campaign path can safely observe it as
+            // already initialized.
+            std::shared_ptr<dh2::input::SourceInputManagerV60> input;
+            if(!model_renderer::borrow_actual_input_manager_v60(input,error)||!input)return false;
+            const bool assigned=players->assign_selected_save_slot_v70(local_index,slot,
+                input->first_local_services(),error);
+            __android_log_print(assigned?ANDROID_LOG_INFO:ANDROID_LOG_ERROR,tag,
+                "NativeAssignSaveSlotToPlayer | local_index %d | selected_slot %d | PM %zu | phase %d | assigned %d | error %s",
+                local_index,slot,reinterpret_cast<std::size_t>(players->manager()),
+                static_cast<int>(players->phase()),assigned,error.c_str());
+            return assigned;
+        }
+        if(!std::strcmp(name,"NativeStartFromGCInvite")){
+            // Original 0x43de30 is a platform invite continuation: it may
+            // assign the invited save slot, initialize OnlineGameState, and
+            // route to verification. This front-only owner has no GameCenter/
+            // Wi-Fi invite session, so preserve the original no-invite result
+            // as a handled callback rather than failing the authored event
+            // delivery prefix.
+            return true;
+        }
         if(!std::strcmp(name,"NativeCreateSaveSlot"))return ui::swf_front_create_save_slot_v1(fn,&self,
             [](void* context,const char* player_name,const char* character,std::uint32_t& slot,std::string& error){return static_cast<Impl*>(context)->create_menu_persona(player_name,character,slot,error);},error);
         if(!std::strcmp(name,"NativeEraseSaveSlot"))return ui::swf_front_erase_save_slot_v1(fn,{&self,menu_flush_front_jobs,menu_erase_slot_files},error);
-        if(!std::strcmp(name,"NativeSetSaveSlotIDToMainMenu"))return ui::swf_menu_avatar_preview_v1(fn,self.menu_avatar,self.menu_avatar_services,error);
+        if(!std::strcmp(name,"NativeSetSaveSlotIDToMainMenu")){
+            const auto previous=self.menu_avatar.slot;
+            const double requested=fn.nargs>0&&fn.env?fn.arg(0).to_number():-999.0;
+            const bool handled=ui::swf_menu_avatar_preview_v1(fn,self.menu_avatar,self.menu_avatar_services,error);
+            __android_log_print(handled?ANDROID_LOG_INFO:ANDROID_LOG_WARN,tag,
+                "Menu slot callback | previous_slot %d | requested_slot %.0f | resulting_slot %d | handled %d | error %s",
+                previous,requested,self.menu_avatar.slot,handled,error.c_str());
+            return handled;
+        }
         if(!std::strcmp(name,"NativeGetParsedString"))return ui::swf_menu_parsed_string_v1(fn,&self,menu_parsed_string,error);
         if(!std::strcmp(name,"NativeGetSaveSlotDetails")){
             ui::SwfFrontSaveSlotServicesV1 services{&self,menu_slot_exists,menu_slot_details};
@@ -784,8 +988,19 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         }
         for(const auto* action:{"NativeGetOptionParameters","NativeSetOptions","NativeLoadSettings","NativeSaveSettings","NativeEnterOptionMenu","NativeRefreshHudManager","NativeChangeRolloverInputBehavior","NativeIsJapaneseVersion","NativeIsKorean"})
             if(!std::strcmp(name,action))return ui::swf_menu_settings_action(name,fn,self.option_services(),error);
+        if(!std::strcmp(name,"NativeOptionFX")||!std::strcmp(name,"NativeOptionMusic"))
+            return legacy_volume_option(&self,name,fn,error);
         const ui::SwfMenuNavigationServicesV1 navigation{context,push_menu,pop_menu,pop_top_menu,pop_above_menu};
-        if(!std::strcmp(name,"NativePushMenu"))return ui::swf_menu_push(fn,navigation,error);
+        if(!std::strcmp(name,"NativePushMenu")){
+            std::string requested;
+            const bool string_argument=fn.nargs>0&&fn.env&&fn.arg(0).is_string();
+            if(string_argument)requested=fn.arg(0).to_string();
+            const bool trace=string_argument&&(requested=="menu_Options"||requested=="menu_info");
+            if(trace)__android_log_print(ANDROID_LOG_INFO,tag,"Menu tap trace | NativePushMenu entry | argument %s | nargs %d | stack depth %zu | current %s",requested.c_str(),fn.nargs,self.menu_stack.size(),self.menu_stack.empty()?"":self.menu_stack.back().c_str());
+            const bool handled=ui::swf_menu_push(fn,navigation,error);
+            if(trace)__android_log_print(handled?ANDROID_LOG_INFO:ANDROID_LOG_WARN,tag,"Menu tap trace | NativePushMenu return | argument %s | handled %d | error %s",requested.c_str(),handled,error.c_str());
+            return handled;
+        }
         if(!std::strcmp(name,"NativePopMenu"))return ui::swf_menu_pop(fn,navigation,error);
         if(!std::strcmp(name,"NativePopAllAbove"))return ui::swf_menu_pop_above(fn,navigation,error);
         if(!std::strcmp(name,"NativeGetCreditMovement")){
@@ -800,7 +1015,7 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
             if(self.front_screen=="main"&&!self.live_player)return true;
             error="BackToHud requires the attached gameplay level owner";return false;
         }
-        if(std::strcmp(name,"NativePlaySoundFX")){error="Unknown owned menu native action";return false;}
+        if(std::strcmp(name,"NativePlaySoundFX")){error=std::string("Unknown owned menu native action: ")+name;return false;}
         // Original 0x43ae10: exactly one STRING/WIDE_STRING, lookup by name;
         // invalid arguments or absent ID are a genuine no-op. This core uses
         // its UTF-8 STRING representation (it has no separate wide-string tag).
@@ -841,11 +1056,22 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         static constexpr const char* classes[]={"KnightPlayerBase","RoguePlayerBase","MagePlayerBase"};
         ui::SwfAsValue root,menu,result;bool callable=false,accepted=false;
         if(!graph.root_value(root,error)||!graph.find_target(root,"menu_SelectClass",menu,error))return false;
+        // Both title and description are sprites containing EditText children.
+        // The title child is placed by PlaceObject3; writing htmlText on its
+        // parent only adds a sprite property and leaves TITLE_14 on screen.
+        // The supplied description sprite is class_description, not the
+        // s_description name used by the native reference's cached field.
         const char* paths[]={"menu_SelectClass.class_title.text","menu_SelectClass.class_description.text"};
         const char* symbols[]={titles[self.class_index],descriptions[self.class_index]};
         for(unsigned i=0;i<2;++i){
             ui::SwfAsValue field;std::uint32_t id=0;std::string text;
-            if(!graph.find_target(root,paths[i],field,error)||!field.identity()){error="Required original class text field absent";return false;}
+            if(!graph.find_target(root,paths[i],field,error)){
+                const auto lookup_error=error;
+                error=std::string("Required original class text field absent at ")+paths[i];
+                if(!lookup_error.empty())error+=" ("+lookup_error+")";
+                return false;
+            }
+            if(!field.identity()){error=std::string("Required original class text field has no retained receiver at ")+paths[i];return false;}
             if(!constant(&self,"StrID",symbols[i],id,error)||!self.text_id_v101(id,text,error))return false;
             // Update 0x428540/0x42859c calls FormatHTML("%s", getString).
             // FormatHTML 0x7a947c calls SetText(..., true); htmlText uses
@@ -861,6 +1087,7 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         if(!graph.invoke(menu,menu,"CurrentClass",{ui::SwfAsValue::text(classes[self.class_index])},result,callable,error))return false;
         if(!callable){error="Required original CurrentClass callback absent";return false;}
         __android_log_print(ANDROID_LOG_INFO,tag,"Original class selection updated | index %d | class %s | preview actors pending",self.class_index,classes[self.class_index]);
+        self.class_applied_index=self.class_index;
         return true;
     }
     static bool change_menu(void* context,ui::SwfAsGraph& graph,std::string& error){
@@ -897,24 +1124,44 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         return true;
     }
     bool transition_menu(const std::string& previous,const std::string& next,bool pushed,std::string& error){
+        const bool trace=next=="menu_Options"||next=="menu_info"||previous=="menu_Options"||previous=="menu_info";
+        if(trace)__android_log_print(ANDROID_LOG_INFO,tag,"Menu tap trace | transition begin | %s -> %s | pushed %d",previous.c_str(),next.c_str(),pushed);
         MenuChange hide{this,previous,false,false},show{this,next,true,pushed};
         if(!menu_movie(previous)->menu_action_script(&hide,change_menu,error)||
-           !menu_movie(next)->menu_action_script(&show,change_menu,error))return false;
+           !menu_movie(next)->menu_action_script(&show,change_menu,error)){
+            if(trace)__android_log_print(ANDROID_LOG_WARN,tag,"Menu tap trace | transition failed | %s -> %s | error %s",previous.c_str(),next.c_str(),error.c_str());
+            return false;
+        }
         __android_log_print(ANDROID_LOG_INFO,tag,"Owned menu renderer selected | name %s | renderer %s",next.c_str(),shared_state(next)?"shared":"main");
+        if(trace)__android_log_print(ANDROID_LOG_INFO,tag,"Menu tap trace | transition complete | %s -> %s | renderer %s",previous.c_str(),next.c_str(),shared_state(next)?"shared":"main");
         return true;
     }
     static bool push_menu(void* context,const char* name,std::string& error){
         auto& self=*static_cast<Impl*>(context);
-        if(!name||self.menu_stack.empty()){error="Native menu stack unavailable";return false;}
+        const bool trace=name&&(!std::strcmp(name,"menu_Options")||!std::strcmp(name,"menu_info"));
+        if(trace)__android_log_print(ANDROID_LOG_INFO,tag,"Menu tap trace | push_menu entry | requested %s | stack depth %zu | current %s",name,self.menu_stack.size(),self.menu_stack.empty()?"":self.menu_stack.back().c_str());
+        if(!name||self.menu_stack.empty()){
+            error="Native menu stack unavailable";
+            if(trace)__android_log_print(ANDROID_LOG_WARN,tag,"Menu tap trace | push_menu unavailable | requested %s",name?name:"<null>");
+            return false;
+        }
         // GetMenuByName returns null for unregistered states. Explicitly log
         // the partial registration rather than presenting those paths as done.
         if(std::strcmp(name,"menu_info")&&std::strcmp(name,"menu_MainMenu")&&std::strcmp(name,"menu_EnterName")&&std::strcmp(name,"menu_SelectClass")&&std::strcmp(name,"menu_StartGame")&&!shared_state(name)){
             __android_log_print(ANDROID_LOG_WARN,tag,"Menu navigation not connected | requested %s",name);return true;
         }
-        if(std::find(self.menu_stack.begin(),self.menu_stack.end(),name)!=self.menu_stack.end())return true;
+        if(trace)__android_log_print(ANDROID_LOG_INFO,tag,"Menu tap trace | push_menu recognized | requested %s | stack depth %zu",name,self.menu_stack.size());
+        if(std::find(self.menu_stack.begin(),self.menu_stack.end(),name)!=self.menu_stack.end()){
+            if(trace)__android_log_print(ANDROID_LOG_INFO,tag,"Menu tap trace | push_menu duplicate guard | requested %s",name);
+            return true;
+        }
         const auto previous=self.menu_stack.back();
         self.menu_stack.emplace_back(name);
-        if(!self.transition_menu(previous,name,true,error)){self.menu_stack.pop_back();return false;}
+        if(!self.transition_menu(previous,name,true,error)){
+            self.menu_stack.pop_back();
+            if(trace)__android_log_print(ANDROID_LOG_WARN,tag,"Menu tap trace | push_menu transition rolled back | requested %s | current %s",name,self.menu_stack.empty()?"":self.menu_stack.back().c_str());
+            return false;
+        }
         __android_log_print(ANDROID_LOG_INFO,tag,"Owned menu navigation | push %s | depth %zu",name,self.menu_stack.size());
         return true;
     }
@@ -1014,8 +1261,9 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
             // or replace the mutable difficulty/options authority.
             if(!process_settings_v105){settings_files=std::make_unique<ui::SettingsNativeFilesV1>(directory);
                 if(!load_settings(this,error))return false;}
-            menu_avatar_services={this,persona_destroy,persona_setup,persona_camera};
-            if(::access((directory+"/menu-persona-preview.enabled").c_str(),F_OK)==0)enable_menu_persona();
+            if(install_front_inspection_avatar_services_v1(menu_avatar_services,menu_avatar_services_owner_v121,
+                {this,persona_destroy,persona_setup,persona_camera})&&
+                ::access((directory+"/menu-persona-preview.enabled").c_str(),F_OK)==0)enable_menu_persona();
         }
         source_metadata_ready_v114=true;
         }
@@ -1026,6 +1274,7 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         if(front_screen=="main"){
             services.native_actions.emplace_back("NativeGetSaveSlotDetails");
             services.native_actions.emplace_back("NativeEraseSaveSlot");
+            services.native_actions.emplace_back("NativeAssignSaveSlotToPlayer");
             services.native_actions.emplace_back("NativeSetSaveSlotIDToMainMenu");
             services.native_actions.emplace_back("NativeCreateSaveSlot");
             services.native_actions.emplace_back("NativeStartGame");
@@ -1039,11 +1288,17 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
             services.native_actions.emplace_back("NativeEndLoading");
             services.native_actions.emplace_back("NativeGetLoadingTipStrID");
             services.native_actions.emplace_back("NativeGetStringFromID");
+            services.native_actions.emplace_back("NativeHasPushNotification");
+            services.native_actions.emplace_back("NativeOnlineSanityCheck");
+            // Init25 adds the full shipping table later, but invite-return can
+            // be reached by an early main-menu callback before that phase.
+            services.native_actions.emplace_back("NativeStartFromGCInvite");
             services.native_actions.emplace_back("NativeIsMultiplayerEnabled");
             for(const char* action:{"NativePlayMusic","NativePauseMusic","NativeStopMusic"})services.native_actions.emplace_back(action);
         }
-        if(front_screen=="main")for(const auto* action:{"NativeGetOptionParameters","NativeSetOptions","NativeLoadSettings","NativeSaveSettings","NativeEnterOptionMenu","NativeRefreshHudManager","NativeChangeRolloverInputBehavior","NativeIsJapaneseVersion","NativeIsKorean"})services.native_actions.emplace_back(action);
+        if(front_screen=="main")for(const auto* action:{"NativeGetOptionParameters","NativeSetOptions","NativeLoadSettings","NativeSaveSettings","NativeEnterOptionMenu","NativeRefreshHudManager","NativeChangeRolloverInputBehavior","NativeIsJapaneseVersion","NativeIsKorean","NativeOptionFX","NativeOptionMusic"})services.native_actions.emplace_back(action);
         services.context=this;services.read=movie_read;services.texture=texture;services.image=image;
+        services.release_image_v119=[this](const ui::SwfTexture& image,std::string& error){return gpu.source_remove_image_v119(image,error);};
         services.draw=draw;services.stencil=stencil;services.native_call=native;services.diagnostic=diagnostic;
         const auto bitmap_backends=initialize_gfnt_backend_v1();
         const auto make_font_platform=[&](const ui::SwfServices& source){
@@ -1068,9 +1323,10 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
                !ui::source_movie_frame_borrow_v1(shared_wrapped,shared_frames,error))return false;
             shared_frame_owner->history=shared_frames.history;shared_frame_owner->frames=shared_frames.frames;
             shared_fonts=make_font_platform(shared_wrapped);
-            if(!shared_menu_movie->load({},"data/menus/dqshared_droid.swf",shared_fonts->services(),error))return false;
+            if(!shared_menu_movie->load({},source_movies_v132?process_variant_v132.uri[0]:"data/menus/dqshared_droid.swf",shared_fonts->services(),error))return false;
             shared_camera_owner_v93=std::make_shared<ui::MenuFlash2DCameraOwnerV93>(reinterpret_cast<std::uintptr_t>(shared_menu_movie.get()),driver_width,driver_height);
-            const ui::ViewportState64 shared_seed{{0,9600,0,6400},{0,0,480,320},{0,0,480,320},1.f,0,0};
+            const auto& shared_rect=process_variant_v132.movie_rect;
+            const ui::ViewportState64 shared_seed{{shared_rect[0],shared_rect[1],shared_rect[2],shared_rect[3]},{0,0,480,320},{0,0,480,320},1.f,0,0};
             std::vector<std::string> shared_states;
             ui::SwfClipInfo options;
             if(!shared_menu_movie->connect_viewport(shared_seed,{this,orientation,dimensions},error)||
@@ -1092,7 +1348,7 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
         //Original Init0 publishes only base0; primary2 is created at Init2.
         if(base_only_v105){error.clear();return true;}
         movie=std::make_shared<ui::SwfMovie>();main_deleted_v93=false;
-        const char* movie_uri=source_uri_v114?source_uri_v114:front_screen=="main"?"data/menus/dqmenus_droid.swf":front_screen=="loading"?"data/menus/loadanims_droid.swf":"data/menus/dqhud_droid.swf";
+        const char* movie_uri=source_uri_v114?source_uri_v114:front_screen=="main"?(source_movies_v132?process_variant_v132.uri[2]:"data/menus/dqmenus_droid.swf"):front_screen=="loading"?"data/menus/loadanims_droid.swf":"data/menus/dqhud_droid.swf";
         ui::SwfServices wrapped;ui::SwfSourceFrameBorrowV1 borrowed_frames;
         if(!ui::source_movie_services_v1(services,wrapped,error)||
            !ui::source_movie_frame_borrow_v1(wrapped,borrowed_frames,error))return false;
@@ -1102,13 +1358,14 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
             if(!movie->load_source_resource_v98(movie_uri,fonts->services(),error)||!movie->source_set_text_buffering_v98(true,error))return false;
             // Original text-buffer85 store precedes actual paired camera C1.
             if(!source_layout_v114||!source_layout_v114(driver_width,driver_height,error))return false;
-        }else if(!movie->load({"data/menus/dqshared_droid.swf"},movie_uri,fonts->services(),error))return false;
+        }else if(!movie->load({source_movies_v132?process_variant_v132.uri[0]:"data/menus/dqshared_droid.swf"},movie_uri,fonts->services(),error))return false;
         if(shared_menu_movie){
             const auto primary=movie->player_identity(),shared=shared_menu_movie->player_identity();
             if(!primary||!shared||primary==shared){error="Menu renderers did not retain independent players";return false;}
             __android_log_print(ANDROID_LOG_INFO,tag,"Original menu renderer player identities | main %zx | shared %zx | distinct 1",primary,shared);
         }
-        const ui::ViewportState64 seed{{0,9600,0,6400},{0,0,480,320},{0,0,480,320},1.f,0,0};
+        const auto& movie_rect=process_variant_v132.movie_rect;
+        const ui::ViewportState64 seed{{movie_rect[0],movie_rect[1],movie_rect[2],movie_rect[3]},{0,0,480,320},{0,0,480,320},1.f,0,0};
         camera_owner_v93=std::make_shared<ui::MenuFlash2DCameraOwnerV93>(reinterpret_cast<std::uintptr_t>(movie.get()),driver_width,driver_height);
         if(!movie->connect_viewport(seed,{this,orientation,dimensions},error)||
            !camera_update_v93(*movie,camera_owner_v93,error)||(!source_main_v114&&!movie->advance(0,error)))return false;
@@ -1157,7 +1414,9 @@ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
     bool reset_failed(std::string& error) {
         gpu.abort();status.reset();shared_menu_movie.reset();movie.reset();shared_camera_owner_v93.reset();camera_owner_v93.reset();main_deleted_v93=base_deleted_v93=false;shared_frame_owner.reset();frame_owner.reset();shared_fonts.reset();fonts.reset();gfnt_text_backend_v1.reset();loaded=false;selected=false;
         last_width=last_height=0;loading_bitmap_reported=false;reported_frames={{-1,-1,-1,-1,-1}};
-        leases.clear();exports.clear();font_failure.clear();provider_failure.clear();
+        leases.clear();exports.clear();process_splash_v119={};process_splash_uri_v119.clear();
+        splash_source_uri_v1.clear();splash_texture_identity_v1=0;rendering_splash_clip_v1=false;
+        font_failure.clear();provider_failure.clear();
         menu_sounds.clear();
         menu_audio.clear();menu_browser.clear();menu_catalog.clear();settings.reset();settings_files.reset();language_selection=-1;
         menu_stack.clear();start_feedback_pending=false;launch_pending=false;selected_launch_profile_v50.reset();
@@ -1207,6 +1466,11 @@ bool FrontUiSessionV87::source_load_main_movie_v114(const char* uri,
  try{ok=self.load(local,false,uri,true,layout);}catch(const std::exception& x){local=x.what();}catch(...){local="Native main2 resource loader threw";}
  if(!ok){self.main_source_load_failure_v114=local.empty()?"Failed actual main2 constructor/Load/camera prefix":local;e=self.main_source_load_failure_v114;return false;}
  return source_main_movie_borrow_v114(out,e);
+}
+bool FrontUiSessionV87::select_process_movies_v132(const ui::SourceMenuVariantV132& variant,std::string& e){
+ auto& self=*impl_;
+ if(self.movie||self.shared_menu_movie||self.source_movies_v132||!variant.uri[0]||!variant.uri[2]||!variant.uri[3]){e="Source movie selection requires fresh actual process slots";return false;}
+ self.process_variant_v132=variant;self.source_movies_v132=true;e.clear();return true;
 }
 bool FrontUiSessionV87::load_main_movie_slot_v93(std::string& e){
  auto& self=*impl_;
@@ -1277,40 +1541,84 @@ bool FrontUiSessionV87::clear_camera_slot_v93(std::uint32_t slot,std::string& e)
  if(camera&&!camera->deleted){e="Paired field clear requires delivered camera deleting destructor";return false;}
  camera.reset();e.clear();return true;
 }
-bool FrontUiSessionV87::claim_menu_transport_v93(std::shared_ptr<void> owner,std::function<bool(std::vector<FrontMovieDrawV93>&,std::string&)> draw,std::string& e){
- if(!owner||!draw||impl_->source_transport_busy_v93){e="Required same actual MenuManager draw/update ownership";return false;}
+bool FrontUiSessionV87::claim_menu_transport_v93(std::shared_ptr<void> owner,std::function<bool(std::vector<FrontMovieDrawV93>&,std::string&)> draw,
+ std::function<bool(const char*,const gameswf::fn_call&,std::string&)> navigation,std::string& e){
+ if(!owner||!draw||!navigation||impl_->source_transport_busy_v93){e="Required same actual MenuManager draw/update/navigation ownership";return false;}
  const auto& old=impl_->source_menu_owner_v93;
  if(old&&(old.get()!=owner.get()||old.owner_before(owner)||owner.owner_before(old))){e="Front transport belongs to another live MenuManager";return false;}
- impl_->source_menu_owner_v93=std::move(owner);impl_->source_draw_v93=std::move(draw);e.clear();return true;
+ impl_->source_menu_owner_v93=std::move(owner);impl_->source_draw_v93=std::move(draw);impl_->source_navigation_v93=std::move(navigation);e.clear();return true;
 }
 bool FrontUiSessionV87::release_menu_transport_v93(const std::shared_ptr<void>& owner,std::string& e){
  const auto& old=impl_->source_menu_owner_v93;
  if(!old||!owner||old.get()!=owner.get()||old.owner_before(owner)||owner.owner_before(old)||impl_->source_transport_busy_v93){e="Front release requires same quiescent MenuManager";return false;}
- impl_->source_draw_v93={};impl_->source_menu_owner_v93.reset();impl_->menu_clock.reset();impl_->frame_time=std::chrono::steady_clock::now();e.clear();return true;
+ impl_->source_draw_v93={};impl_->source_navigation_v93={};impl_->source_menu_owner_v93.reset();impl_->menu_clock.reset();impl_->frame_time=std::chrono::steady_clock::now();e.clear();return true;
 }
 bool FrontUiSessionV87::render_source_movies_v93(int width,int height,std::string& e){
+ try{
  auto& self=*impl_;if(!self.source_menu_owner_v93||!self.source_draw_v93||self.source_transport_busy_v93){e="Required actual front draw-order MenuManager";return false;}
  self.source_transport_busy_v93=true;struct Finish {bool& value;~Finish(){value=false;}} finish{self.source_transport_busy_v93};
  if(!self.viewport(width,height,e))return false;
  std::vector<FrontMovieDrawV93> draws;if(!self.source_draw_v93(draws,e))return false;
+ bool loading_panel_drawn=false;
+ // The retained stack can contain MainMenu beneath EnterName/SelectClass.
+ // SelectClass.Show (IDA 0x428f38) already destroyed the main scene/camera.
+ // Decide the scene for the whole frame before the first underlying clip;
+ // selecting per clip would draw MainMenu with that retired camera, then
+ // replace the renderer again for SelectClass.
+ bool class_preview=false,name_entry=false,main_movie_visible=false;
+ if(!self.source_loading_render_v114){
+  for(const auto& q:draws){
+   if(q.slot==2)main_movie_visible=true;
+   class_preview=class_preview||q.actual_clip_path.find("menu_SelectClass")!=std::string::npos;
+   name_entry=name_entry||q.actual_clip_path.find("menu_EnterName")!=std::string::npos;
+  }
+  const auto scene=front_scene_selection_v1(main_movie_visible,class_preview,name_entry);
+  if(scene!=FrontSceneSelectionV1::authored_swf&&(!model_renderer::active()||model_renderer::class_scene_active()!=(scene==FrontSceneSelectionV1::class_selection))){
+   const auto result=scene==FrontSceneSelectionV1::class_selection?model_renderer::load_class_scene(self.manager):model_renderer::load_menu_background(self.manager);
+   if(result.find("3D upload OK")!=0){e=result;return false;}
+   if(scene==FrontSceneSelectionV1::class_selection&&!model_renderer::select_class_scene(self.class_index,0,e))return false;
+  }
+  // Base-slot menu_bg carries the authored gradient as well. Draw the 3D
+  // environment before every SWF layer, rather than repainting that gradient
+  // when primary2 appears later in the retained draw list.
+  if(scene==FrontSceneSelectionV1::menu_swamp)model_renderer::draw_menu_background(width,height,true);
+  // EnterName's authored onShow activates BrownBG and its onHide clears it.
+  // The native stack has hidden the parent menu_bg; submit only this authored
+  // sibling, preserving its visibility gate and excluding RenderedBG/3D.
+  if(scene==FrontSceneSelectionV1::authored_swf&&name_entry){
+   if(!self.movie){e="Name backdrop requires the retained main movie";return false;}
+   const auto stage=full_surface_stage_v87(width,height);
+   if(!self.movie->display_clip("_root.menu_bg.BrownBG",stage.x,stage.y,stage.width,stage.height,e))return false;
+  }
+ }
  for(const auto& q:draws){
   if(q.slot!=0&&q.slot!=2){e="Front draw producer supplied non-front resource slot";return false;}
+  const auto phase=self.source_loading_render_v114?FrontLoadingRenderPhaseV1::source_loading:
+   FrontLoadingRenderPhaseV1::front_menu;
+  if(self.source_loading_render_v114){
+   if(!front_loading_clip_visible_v1(phase,q.slot,q.actual_clip_path))continue;
+   loading_panel_drawn=true;
+  }else if(!front_movie_slot_visible_v1(phase,q.slot))continue;
   auto movie=q.slot==0?self.shared_menu_movie:self.movie;
   if(!movie||reinterpret_cast<std::uintptr_t>(movie.get())!=q.expected_movie||!movie->player_identity()||q.actual_clip_path.empty()){e="Required same loaded front movie/source clip";return false;}
-  if(q.slot==2){
-   const bool class_preview=q.actual_clip_path.find("menu_SelectClass")!=std::string::npos;
-   if(!model_renderer::active()||model_renderer::class_scene_active()!=class_preview){
-    const auto result=class_preview?model_renderer::load_class_scene(self.manager):model_renderer::load_menu_background(self.manager);
-    if(result.find("3D upload OK")!=0){e=result;return false;}
-   }
-   // Class animation time, like movie time, advances in virtual10 only.
-   if(!class_preview)model_renderer::draw_menu_background(width,height);
-  }
+  // Class preview panes still render at their authored display callback.
+  const bool previous_splash=self.rendering_splash_clip_v1;
+  self.rendering_splash_clip_v1=q.actual_clip_path=="_root.menu_splash";
+  struct SplashScope {bool& value;bool previous;~SplashScope(){value=previous;}} splash_scope{self.rendering_splash_clip_v1,previous_splash};
   if(!movie->display_source_stage_clip_v5(q.actual_clip_path.c_str(),e))return false;
+ }
+ if(self.source_loading_render_v114&&!loading_panel_drawn){
+  e="Actual MenuManager draw list has no visible authored menu_Loading clip";return false;
  }
  // Timeline work belongs solely to MenuManager.virtual10. Empty draw order is
  // the actual producer's source result, not an absent-provider success.
  e.clear();return true;
+ }catch(const std::exception& failure){
+  // Front GPU transports throw on rejected required providers. Keep that
+  // diagnostic in the existing error flow instead of escaping NativeBridge
+  // and aborting the Android GLThread.
+  e=std::string("Front menu rendering: ")+failure.what();return false;
+ }
 }
 bool FrontUiSessionV87::character_menu_sound_v4(const gameswf::fn_call& call,std::string& error){
  return Impl::native_action(impl_.get(),"NativePlaySoundFX",call,error);
@@ -1531,6 +1839,10 @@ bool FrontUiSessionV87::bind_process_text_v101(ui::HudTextV1* text,std::shared_p
     }
     impl_->process_text_v101=text;impl_->process_text_owner_v101=std::move(owner);error.clear();return true;
 }
+bool FrontUiSessionV87::bind_process_font_cache_reset_v119(std::function<bool(std::string&)> reset,std::string& error){
+    if(!impl_||!reset){error="Required actual process MenuManager::ResetFonts service";return false;}
+    impl_->process_font_cache_reset_v119=std::move(reset);error.clear();return true;
+}
 bool FrontUiSessionV87::prepare_process_settings_v105(
  const std::shared_ptr<application::ApplicationServicesOwnerV5>& app,const std::string& directory,
  std::function<bool(std::uint32_t&,std::string&)> platform,std::string& error){
@@ -1547,6 +1859,7 @@ bool FrontUiSessionV87::prepare_process_settings_v105(
  self.settings=std::make_shared<ui::OwnedHudSettingsV1>(); //Actual cold C1, no Array-ready receipt.
  if(!app->publish_source_settings4c_v67(self.settings,error))return false;
  self.process_application_v114=app;
+ self.campaign_quests={&self,Impl::menu_use_volatile_quest_acts};
  self.directory=directory;self.front_screen="main";self.live_player=false;
  self.settings_files=std::make_unique<ui::SettingsNativeFilesV1>(directory);
  self.process_platform_language_v105=std::move(platform);self.process_settings_v105=true;error.clear();return true;
@@ -1588,7 +1901,8 @@ bool FrontUiSessionV87::bind_profile_application_v114(
  }
  //Process audio initialization belongs solely to GSInit9. Binding the actual
  //profile owner must not replay that phase on initial or returning Front.
- self.process_application_v114=app;e.clear();return true;
+ self.process_application_v114=app;
+ self.campaign_quests={&self,Impl::menu_use_volatile_quest_acts};e.clear();return true;
 }
 bool FrontUiSessionV87::reread_selected_profile_v101(
  const std::shared_ptr<application::ApplicationServicesOwnerV5>& app,std::int32_t slot,std::int32_t difficulty,
@@ -1657,6 +1971,30 @@ bool FrontUiSessionV87::show_game_loading(std::string& error){
     // that invocation after updating the actual Level progress word.
     return refresh_game_loading(error);
 }
+bool FrontUiSessionV87::render_game_loading(int width,int height,std::string& error){
+    // `loaded` tracks primary slot 2 as well as the front session, and the
+    // actual MenuManager may unload that menu while source loading continues.
+    // The authored loading clip lives in retained base slot 0, which is the
+    // only movie admitted by render_source_movies_v93 during this phase.
+    if(impl_->front_screen!="main"||!impl_->shared_menu_movie||impl_->base_deleted_v93||
+       !impl_->shared_menu_movie->player_identity()||!impl_->source_menu_owner_v93||
+       !impl_->source_draw_v93||impl_->source_transport_busy_v93){
+        error="Source loading render requires the retained base movie and SAME MenuManager";return false;
+    }
+    const auto phase=front_loading_render_phase_v1(
+        model_renderer::source_campaign_active_v55(),model_renderer::source_campaign_scene_active_v67());
+    if(phase!=FrontLoadingRenderPhaseV1::source_loading){
+        error="Source loading render requested outside the actual campaign loading interval";return false;
+    }
+    // Re-enter only for the live loading interval. The actual MenuManager
+    // draw list supplies menu_Loading and its current onProgress state.
+    // render_source_movies_v93 admits only base slot 0 here, so the retired
+    // menu preview scene can never be submitted behind the loading panel.
+    impl_->selected=true;
+    impl_->source_loading_render_v114=true;
+    struct Restore {bool& value;~Restore(){value=false;}} restore{impl_->source_loading_render_v114};
+    return render(width,height,error);
+}
 bool FrontUiSessionV87::refresh_game_loading(std::string& error){
     if(!impl_->loaded||impl_->menu_stack.empty()||impl_->menu_stack.back()!="menu_Loading"){
         error="Original gameplay loading panel is not active";return false;
@@ -1677,7 +2015,18 @@ bool FrontUiSessionV87::finish_loading_fs_v114(const char* command,const char* a
  if(!ui::menu_fs_end_loading_v114(command,args,nullptr,owner->loading_state_services,result,error))return false;
  handled=result.native_return!=0;return true;
 }
-void FrontUiSessionV87::bind_loading_state_services(const ui::LoadingMenuStateServicesV1& services){impl_->main_menu_state_active_v114_=false;impl_->loading_state_services=services;}
+bool FrontUiSessionV87::bind_loading_state_services(const ui::LoadingMenuStateServicesV1& services,
+ const std::shared_ptr<application::ApplicationServicesOwnerV5>& app,std::string& e){
+ auto actual=impl_;auto registered=actual?actual->process_application_v114.lock():nullptr;
+ if(!actual||!app||(registered&&registered!=app)||!services.context||!services.context_owner||services.context_owner.get()!=services.context||
+    !services.current_level||!services.level_progress||!services.level_state||!services.advance_level_state){
+  e="Loading callbacks require SAME process App and independently retained GS-global bridge";return false;
+ }
+ const auto online=app->get_online_loading_v55();
+ if(!online){e="Loading queries require actual process COnline";return false;}
+ actual->loading_multiplayer_services=application::source_online_loading_menu_v135(online);
+ actual->loading_state_services=services;actual->main_menu_state_active_v114_=false;e.clear();return true;
+}
 void FrontUiSessionV87::bind_campaign_quest_services(const FrontCampaignQuestServicesV87& services){impl_->campaign_quests=services;}
 void FrontUiSessionV87::bind_menu_avatar_services(const ui::MenuAvatarPreviewServicesV1& services){impl_->menu_avatar_services=services;}
 bool FrontUiSessionV87::borrow_menu_avatar_state_v121(ui::MenuAvatarPreviewStateV1*& state,std::shared_ptr<void>& owner,std::string& error){
@@ -1694,6 +2043,52 @@ bool FrontUiSessionV87::bind_menu_avatar_services_v121(ui::MenuAvatarPreviewServ
   error="Required complete retained source menu avatar service transport";return false;
  }
  impl_->menu_avatar_services=services;impl_->menu_avatar_services_owner_v121=std::move(owner);error.clear();return true;
+}
+bool FrontUiSessionV87::process_class_select_show_v87(std::uintptr_t render,std::string& error){
+ auto self=impl_;ui::MenuMovieBorrowV58 actual;
+ if(!self||!render||self->front_screen!="main"||!self->movie||
+    !movie_slot_v93(2,actual,error)||actual.identity!=render){
+  if(error.empty())error="MenuCharacterSelect.Show requires the same live primary2 RenderFX";
+  return false;
+ }
+ self->class_index=0;
+ self->class_applied_index=-1;
+ self->class_left=self->class_right=0;
+ self->process_class_select_active_v87=false;
+ struct Show {Impl& self;};Show call{*self};
+ if(!self->movie->menu_action_script(&call,[](void* raw,ui::SwfAsGraph& graph,std::string& e){
+  auto& q=*static_cast<Show*>(raw);
+  // Native MenuCharacterSelect::Show has already delivered MenuBase::Show.
+  // Preserve the retained Front implementation's actual class text, arrows,
+  // CurrentClass callback and display-pane registration on this movie.
+  if(!Impl::update_class(&q.self,graph,e)||
+     !q.self.movie->menu_display_callback("_root.menu_SelectClass.class_select",&q.self,Impl::class_pane,e))return false;
+  q.self.process_class_select_active_v87=true;
+  return true;
+ },error))return false;
+ error.clear();return true;
+}
+bool FrontUiSessionV87::process_class_select_update_v87(std::uintptr_t render,std::string& error){
+ auto self=impl_;ui::MenuMovieBorrowV58 actual;
+ if(!self||!render||self->front_screen!="main"||!self->movie||
+    !movie_slot_v93(2,actual,error)||actual.identity!=render){
+  if(error.empty())error="MenuCharacterSelect.Update requires the same live primary2 RenderFX";
+  return false;
+ }
+ if(!self->process_class_select_active_v87||self->class_applied_index==self->class_index){error.clear();return true;}
+ // Native Update only formats class text/description, publishes CurrentClass,
+ // toggles cached arrows and begins the transition when its two indices differ.
+ if(!model_renderer::select_class_scene(self->class_index,0,error))return false;
+ return self->movie->menu_action_script(self.get(),Impl::update_class,error);
+}
+bool FrontUiSessionV87::process_class_select_hide_v87(std::uintptr_t render,std::string& error){
+ auto self=impl_;ui::MenuMovieBorrowV58 actual;
+ if(!self||!render||!movie_slot_v93(2,actual,error)||actual.identity!=render){
+  if(error.empty())error="MenuCharacterSelect.Hide requires the same live primary2 RenderFX";
+  return false;
+ }
+ self->process_class_select_active_v87=false;self->class_left=self->class_right=0;
+ self->class_applied_index=-1;error.clear();return true;
 }
 bool FrontUiSessionV87::bind_main_menu_state_services_v114(ui::GSFlashMenuServicesV114 services,std::string& e){
  auto actual=impl_;if(!actual||!services.owner||!services.current){e="Required independent SAME Front state services";return false;}
@@ -1761,15 +2156,24 @@ bool FrontUiSessionV87::prepare_front_resources_v114(int width,int height,std::s
     return impl_->load(error);
 }
 bool FrontUiSessionV87::prepare_process_front_v119(const std::string& directory,int width,int height,std::string& e){
- if(width<=1||height<=1||!impl_->process_settings_v105||impl_->directory!=directory){e="Required actual resized process Front/settings context";return false;}
+ if(width<=1||height<=1||!impl_->process_settings_v105||!impl_->settings||impl_->directory!=directory){e="Required actual resized process Front/settings context";return false;}
+ // The retained main SWF resolves its authored splash bitmap while it is
+ // imported. Select the same GSInit language/device image before that import
+ // so both the startup quad and menu_splash share one cached texture identity.
+ impl_->driver_width=width;impl_->driver_height=height;
+ impl_->splash_source_uri_v1=ui::splash_source_uri_v1(width,impl_->settings->language());
  if(!load_front_screen(directory,"main",e))return false;
- impl_->driver_width=width;impl_->driver_height=height;e.clear();return true;
+ e.clear();return true;
 }
 bool FrontUiSessionV87::load_process_splash_v119(std::int32_t language,std::string& e){
  //GSInit7 selects the exact shipping texture before assigning its intrusive
  //texture field. The retained texture cache owns the actual upload/lifetime.
- const char* uri=language==4?"3d/textures/splash_final_jp.tga":language==5?"3d/textures/splash_final_kor.tga":
-  impl_->driver_width==800?"3d/textures/splash_final_i9000.tga":impl_->driver_width==854?"3d/textures/splash_final_droid.tga":"3d/textures/splash_final.tga";
+ const auto selected=ui::splash_source_uri_v1(impl_->driver_width,language);
+ if(!impl_->splash_source_uri_v1.empty()&&impl_->splash_source_uri_v1!=selected){
+  e="GSInit splash selection changed after the retained main SWF imported its authored bitmap";return false;
+ }
+ impl_->splash_source_uri_v1=selected;
+ const char* uri=impl_->splash_source_uri_v1.c_str()+5; // texture receives paths relative to data/.
  ui::SwfTexture texture;if(!Impl::texture(impl_.get(),uri,0,0,texture,e))return false;
  impl_->process_splash_v119=texture;impl_->process_splash_uri_v119=uri;e.clear();return true;
 }
@@ -1778,9 +2182,9 @@ bool FrontUiSessionV87::render_process_splash_v119(int width,int height,std::str
  const auto& texture=impl_->process_splash_v119;
  if(!texture.width||!texture.height){e.clear();return true;} //Actual NULL GSInit10 texture before stage7.
  if(width<=1||height<=1||texture.width<1280||texture.height<752){e="Invalid original GSInit splash rectangle/surface";return false;}
- const int w=std::min(width,height*1280/752),h=std::min(height,width*752/1280);
+ const auto viewport=ui::splash_full_viewport_v1(width,height);
  ui::SwfDraw draw;draw.kind=ui::SwfDraw::begin;draw.bounds[1]=1280;draw.bounds[3]=752;
- draw.viewport[0]=(width-w)/2;draw.viewport[1]=(height-h)/2;draw.viewport[2]=w;draw.viewport[3]=h;
+ draw.viewport[0]=viewport.x;draw.viewport[1]=viewport.y;draw.viewport[2]=viewport.width;draw.viewport[3]=viewport.height;
  if(!impl_->gpu.draw(draw,e))return false;
  draw.kind=ui::SwfDraw::bitmap_quad;draw.fill.kind=ui::SwfFill::bitmap;draw.fill.texture=texture;
  draw.rect[1]=1280;draw.rect[3]=752;draw.uv_rect[1]=1280.f/texture.width;draw.uv_rect[3]=752.f/texture.height;
@@ -1800,12 +2204,15 @@ bool FrontUiSessionV87::load_process_property_names_v119(std::string& e){
 }
 void FrontUiSessionV87::unload_process_property_names_v119(){std::vector<std::string>().swap(impl_->process_property_names_v119);}
 bool FrontUiSessionV87::clear_process_splash_v119(std::string& e){
- if(!impl_->process_splash_v119.identity){e.clear();return true;}
- if(!impl_->gpu.source_remove_image_v119(impl_->process_splash_v119,e))return false;
- std::string uri;if(!scene::swf_texture_filename("",std::string("data/")+impl_->process_splash_uri_v119,uri,e))return false;
- impl_->exports.erase(uri);impl_->process_splash_v119={};impl_->process_splash_uri_v119.clear();e.clear();return true;
+ // The original GSInit field releases its texture reference here. The menu
+ // atlas can retain that SAME selected language/device texture. Our export cache owns
+ // GPU images for the session, and Bitmap retains their identities until the
+ // movie is unloaded. Retire the cache/GPU owner only in reset_images, after
+ // those movie references have been released.
+ impl_->process_splash_v119={};impl_->process_splash_uri_v119.clear();e.clear();return true;
 }
 bool FrontUiSessionV87::save_process_settings_v119(std::string& e){return Impl::save_settings(impl_.get(),e);}
+void FrontUiSessionV87::resume_process_music_v119(){impl_->menu_audio.emplace_back("resume");}
 bool FrontUiSessionV87::load_health_panel(const std::string& directory,std::string& error) {
     if(!impl_->front_screen.empty()){if(!impl_->reset_failed(error))return false;impl_->front_screen.clear();}
     impl_->selected=false;
@@ -1865,16 +2272,16 @@ bool FrontUiSessionV87::render(int width,int height,std::string& error) {
     }
     if(impl_->front_screen=="loading"){
         // GSInit::Draw 0x384ab4..0x384af4 supplies source rect 0,0,1280,752
-        // separately from the animated loading overlay. Fit those original
-        // image pixels to the modern surface without stretching the artwork.
+        // separately from the animated loading overlay. Map that full authored
+        // rectangle to the complete display, with no letterbox bars or crop.
         ui::SwfTexture splash;
         if(!Impl::texture(impl_.get(),"menus/splash_final.tga",0,0,splash,error))return false;
         if(splash.width<1280||splash.height<752){error="Original loading splash source rectangle exceeds atlas";return false;}
-        const int w=std::min(width,height*1280/752),h=std::min(height,width*752/1280);
+        const auto viewport=ui::splash_full_viewport_v1(width,height);
         ui::SwfDraw background; background.kind=ui::SwfDraw::begin;
         background.bounds[1]=1280; background.bounds[3]=752;
-        background.viewport[0]=(width-w)/2; background.viewport[1]=(height-h)/2;
-        background.viewport[2]=w; background.viewport[3]=h;
+        background.viewport[0]=viewport.x; background.viewport[1]=viewport.y;
+        background.viewport[2]=viewport.width; background.viewport[3]=viewport.height;
         if(!impl_->gpu.draw(background,error))return false;
         background.kind=ui::SwfDraw::bitmap_quad;
         background.fill.kind=ui::SwfFill::bitmap; background.fill.texture=splash;
@@ -1883,7 +2290,7 @@ bool FrontUiSessionV87::render(int width,int height,std::string& error) {
         if(!impl_->gpu.draw(background,error))return false;
         background.kind=ui::SwfDraw::end;
         if(!impl_->gpu.draw(background,error))return false;
-        if(impl_->report_frame)__android_log_print(ANDROID_LOG_INFO,tag,"Original startup splash submitted | source rect 0 0 1280 752 | aspect fit %d %d",w,h);
+        if(impl_->report_frame)__android_log_print(ANDROID_LOG_INFO,tag,"Original startup splash submitted | source rect 0 0 1280 752 | full display %d %d",viewport.width,viewport.height);
     }
     const auto active_path=impl_->active_menu_path();
     const char* path=impl_->front_screen=="main"?active_path.c_str():impl_->front_screen=="loading"?"_root.anim_loading_splash":panel;
@@ -1898,24 +2305,19 @@ bool FrontUiSessionV87::render(int width,int height,std::string& error) {
         if(class_preview&&!model_renderer::select_class_scene(impl_->class_index,impl_->last_menu_dt,error))return false;
         try{if(!class_preview)model_renderer::draw_menu_background(width,height);}
         catch(const std::exception& failure){error=failure.what();return false;}
-        if(!impl_->movie->display_clip("_root.menu_bg",
-            (width-std::min(width,height*3/2))/2,(height-std::min(height,width*2/3))/2,
-            std::min(width,height*3/2),std::min(height,width*2/3),error))return false;
+        const auto stage=full_surface_stage_v87(width,height);
+        if(!impl_->movie->display_clip("_root.menu_bg",stage.x,stage.y,stage.width,stage.height,error))return false;
     }
     auto* display_movie=impl_->front_screen=="main"?impl_->active_menu_movie():impl_->movie.get();
-    // Keep the uniformly scaled loading overlay within the aspect-fitted
-    // startup artwork. Fitting it to the whole square/wide surface placed
-    // its top-right indicator partly in the letterbox instead of the splash.
-    int overlay_width=width,overlay_height=height;
-    if(impl_->front_screen=="loading"){
-        overlay_width=std::min(width,height*1280/752);
-        overlay_height=std::min(height,width*752/1280);
-    }
-    const int stage_width=std::min(overlay_width,overlay_height*3/2);
-    const int stage_height=std::min(overlay_height,overlay_width*2/3);
+    // Keep the authored Touch-to-Continue coordinates attached to the same
+    // complete display transform as their startup image.
+    const auto stage=full_surface_stage_v87(width,height);
+    const bool previous_splash=impl_->rendering_splash_clip_v1;
+    impl_->rendering_splash_clip_v1=std::strcmp(path,"_root.menu_splash")==0;
+    struct SplashScope {bool& value;bool previous;~SplashScope(){value=previous;}} splash_scope{impl_->rendering_splash_clip_v1,previous_splash};
     if(!(front?display_movie->display_clip(path,
-        (width-stage_width)/2,(height-stage_height)/2,
-        stage_width,stage_height,error):impl_->movie->display_source_clip(path,error))){
+        stage.x,stage.y,
+        stage.width,stage.height,error):impl_->movie->display_source_clip(path,error))){
         const auto failure=error;std::string cleanup;impl_->reset_failed(cleanup);
         error=failure+(cleanup.empty()?"":"; cleanup: "+cleanup);return false;
     }

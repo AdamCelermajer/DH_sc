@@ -1,6 +1,7 @@
 #pragma once
 #include "character_player_skills_v3.hpp"
 #include "character_skill_save_reload_v6.hpp"
+#include "character_skills_owner_v6.hpp"
 namespace dh2::character::skills {
 class CharacterPlayerSkillsV6 {
  struct Impl;std::unique_ptr<Impl> impl_;
@@ -30,6 +31,11 @@ public:
  std::uint32_t buff_count()const noexcept;
  int buff_snapshot(BuffSnapshot48*,std::uint32_t ordered_index)const;
  CharacterScriptSessionV3& session()noexcept;
+ // Borrow the existing constructed Skill/Spell owner and same VM graph.
+ // This does not initialize it or establish ready(). The player and source
+ // services must outlive this loan; reacquire after graph replacement.
+ CharacterSkillOwnerV6* native_skill_owner()noexcept;
+ const CharacterSkillOwnerV6* native_skill_owner()const noexcept;
  const State40& state()const noexcept;
  SkillAIStateV3& skill_ai()noexcept;
  bool ready()const noexcept;

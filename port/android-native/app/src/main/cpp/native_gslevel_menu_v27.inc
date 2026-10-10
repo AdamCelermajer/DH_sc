@@ -220,7 +220,7 @@ bool model_renderer::borrow_native_gs_menu_v27(std::shared_ptr<void> world,
   if(!original_ui.load_health_panel(front_directory,error))return false;
   original_ui.deactivate();
  }
- front_ui.bind_loading_state_services(loading);
+ if(!front_ui.bind_loading_state_services(loading,application_services_v5,error))return false;
  if(!authored_character_menu->bootstrap_loading_v27(world,std::move(actual_debug),error))return false;
  const auto weak=std::weak_ptr<void>(world);
  auto menu=[weak](std::uintptr_t identity,dh2::ui::MenuStackMenuV1*& out,std::string& e){

@@ -1,0 +1,56 @@
+{
+  "feature": "AudioSourceCueSubmissionV1",
+  "validation": "PASS-component-no-device-decoder",
+  "visual_evidence": {
+    "reference": ".local-inputs/referenceframes/dh2-act1/first-combat/at-0300s.png, referenced by port/windows-foundation/features/pause_ui/source-pause-ui-v1.json",
+    "observation": "The original v1.0.3 gameplay frame directly shows the small upper-left pause button. It does not show pressing Options or prove an audible effect. The button-level audio order comes from the recovered v1.0.2 SWF source projection; version mismatch remains explicit.",
+    "direct_or_inferred": "Directly observed pause-button appearance only. No audio can be inferred from this video frame."
+  },
+  "logic_evidence": {
+    "authored_caller": "Recovered source pause flow in port/windows-foundation/features/pause_ui/source-pause-ui-v1.json: Options pushes menu_Options, then calls NativePlaySoundFX(\"MenuSelect\", 1), then calls NativeAwayFromHud. This is the synchronous authored button-action timing boundary.",
+    "original_consumer": "port/android-native/reports/menu-effects-v4/handoff.md records NativePlaySoundFX 0x43ae10 → PlayMenu 0x36bc34 → Play 0x36b80c. The original path resolves the name and attempts the exact selected sound; missing resources return without audio and without vetoing the ActionScript menu operation.",
+    "source_mapping": "The actual generated Sounds bindings resolve MenuSelect to source ordinal 143. source-bindings-v38 ledger maps ordinal 143 to soundpack XML UID 3, filename sfx_menu_select.wav, format PCM.",
+    "timing_contract": "The adapter accepts the caller's actual monotonic/QPC event sample unchanged. It does not query a clock, manufacture a timestamp, or infer click timing from a frame. The typed downstream boundary is AudioGameplayRuntimeV42::submit_plain_source(source_id, event_monotonic_ns, PlainCommand)."
+  },
+  "expected_behavior": "At the authored Options button action, map exact generated source ordinal 143 through the selected soundpack to UID 3 and its original sfx_menu_select.wav. Pass the same caller-captured action timestamp into the existing typed plain-source submit path. Asset or focused-output failure stays a sound diagnostic and cannot veto the already-authored menu operation.",
+  "implementation": {
+    "paths": [
+      "audio_source_cue_submission_v1.hpp",
+      "audio_source_cue_submission_v1.cpp",
+      "audio_source_cue_submission_v1_tests.cpp",
+      "run_audio_source_cue_submission_v1_tests.ps1"
+    ],
+    "record": "AudioSourceCueSubmissionV1 carries the exact source ordinal, XML UID, source name, data/sounds URI, and caller monotonic event time.",
+    "submit": "submit_audio_source_cue_v1 delegates to AudioGameplayRuntimeV42::submit_plain_source and requires caller's authentic PlainCommand; it invents no UI/spatial emitter fields."
+  },
+  "authentic_asset": {
+    "resource": "data/sounds/sfx_menu_select.wav",
+    "local_sources": [
+      ".local-inputs/audio-v34/cache/sfx_menu_select.wav",
+      "port/android-native/app/src/main/assets/original-media/sfx_menu_select.wav",
+      ".local-inputs/windows-source-clock-v19-preview-9/audio-assets/data/sounds/sfx_menu_select.wav"
+    ],
+    "bytes": 10784,
+    "sha256": "8afb7665dec542af18f914295adb0ea7ecfb498ba5973d573d755ae485e6799d",
+    "decoder": "PASS: original sample parser and cursor read the exact PCM RIFF/WAVE as format 1, stereo, 32000 Hz, 16-bit; 2685 frames; first decoded frame finite."
+  },
+  "verification": {
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File port/windows-foundation/features/audio/run_audio_source_cue_submission_v1_tests.ps1",
+    "result": "PASS strict LLVM-MinGW C++17 compile/link and execution with no output device opened.",
+    "assertions": [
+      "Actual source tables resolve MenuSelect ordinal 143 to UID 3 and the exact resource URI.",
+      "The caller timestamp is preserved exactly in the typed submission record.",
+      "The exact authentic WAV parses and decodes before output admission.",
+      "No-device focused-output rejection occurs before command construction or play-token allocation.",
+      "Lizard source ordinals 474/477/476 still map to UIDs 282/284/285 and retain exact missing-WAV diagnostics; no substitution occurs.",
+      "A zero/invalid caller timestamp is rejected without modifying the caller's prior resolved record."
+    ],
+    "receipt": "PASS MenuSelect source ordinal 143→UID3, exact 32 kHz PCM resource decoded without opening output; typed plain-source submit refuses absent device; lizard 474/477/476 retain missing original-resource diagnostics"
+  },
+  "uncertainties_and_limits": {
+    "source_version": "The UI caller/source SWF evidence is v1.0.2; the cited reference frame is v1.0.3.",
+    "production_integration": "This feature helper is not enrolled in the Windows frontend/main callback. The frontend must pass the event's paired monotonic/QPC sample and its authentic Play emitter/property constructor. No live menu cue or audible output is claimed.",
+    "other_cues": "This slice covers one exact MenuSelect cue only. It adds no generic footstep behavior; the existing recovered source audit says AISDefault step_left/step_right emits footprint/floor visual FX and has no sound branch.",
+    "lizard_assets": "Exact lizard attack/hurt/death WAVs remain absent as recorded in audio_source_asset_provenance_v1.json; the adapter reports those exact missing resources and creates no aliases/substitutions."
+  }
+}

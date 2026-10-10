@@ -1,0 +1,111 @@
+{
+  "status": "native_CTest63_pass_actual_root_constructors_source_floor_graph_positive_navigation",
+  "live_campaign_admission_verified": false,
+  "files": [
+    "port/windows-foundation/source_module_floors.hpp",
+    "port/windows-foundation/source_module_floors.cpp",
+    "port/windows-foundation/tests/source_module_floors_tests.cpp"
+  ],
+  "purpose": "Concrete lightweight source module factory/mesh-cache/floor producer and real in-house PFRoom registry; consumes SAME actual source constructor records and traces, no rendering triangle inference or map-specific code.",
+  "three_identities": {
+    "module40c": "Actual CanonicalModuleV1.module_id from source constructor static counter; scopes child MGP/MVP load",
+    "inherited_room64": "Actual GameObject inherited context room64. Module.InitPost passes this to PFWorld.LoadRoom; retained as room.source_room1c. Original root modules here have-1, not module40c.",
+    "pf_room_index": "New actual owned PF room registry constructor assigns id=rooms.size immediately before room publication/traversal. Floor Record.room and collision grouping use this actual index, independently of module40c/room64."
+  },
+  "upstream": "SourceRootScopes actual root config+9 Module constructor/property records. Each request requires SAME trace receiver/control-block lease and matching actual module ID, source model290/xref2a8/TRS/static84/name/position fields. Source floor375 must remain pending. Missing identity/phase/admission fails before publication; no ordinal inference.",
+  "pose_phase": "Caller explicitly selects constructor_degrees or initialized_radians. Constructor phase uses exact dh2_object_visual_transform_v1/clamp/source degree bits; initialized phase uses existing radians directly. No degree/radian guess or double conversion.",
+  "factory_order": [
+    "Read original BRES through actual model URI",
+    "module_selected_scene_v2 selects visualScene0 exact xref-node, constructs original selected graph including hidden mesh instances",
+    "Original SceneManager.LoadScene3596f8 calls RootSceneNode.ResetPositionFromFile35cc0c: selected first child position0/quaternionidentity/scale1",
+    "Factory cache: actual owner rootTRS times selected node local matrices in parent-first order",
+    "Actual identity-local mesh child constructor qidentity/scale1; cache inherited from actual parent",
+    "For static84 source OptimizeStatic: child local position=cache.translation, quaternion=sourceQuaternionFromMatrix(cache identity_hint0), scale remains1; cache not recomputed after bake",
+    "Publish real PFRoom registry record then hidden-inclusive source mesh snapshot/name selection floor substring",
+    "Source constructor mesh name empty falls back to actual parent name; no scene visibility filter",
+    "Original module_floor_append_pose_v2 builds original floor buffer winding/clone/selector/octree/flags/bounds; module_floor_graph_append_v3 builds each actual graph in source order",
+    "floors.post_load assembles/sews actual records; actual empty trailing PF room constructor slots retained in collision registry"
+  ],
+  "reset_position_evidence": [
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0035/003596f8.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0035/0035cc0c.c",
+    "port/level-world/authored_scene_subtree_v2.cpp"
+  ],
+  "other_source": [
+    "port/level-world/module_static_scene_v2.cpp initialize/update_absolute/optimize",
+    "port/level-world/module_pf_room_v3.cpp load_graph_v77 constructor IDs/snapshot/substring/childpose",
+    "port/level-world/canonical_level_config_module_v1.cpp Module.init_post load_floor argument",
+    "port/level-world/module_selected_scene_v2.cpp",
+    "port/level-world/module_floor_append_v2.cpp",
+    "port/level-world/module_floor_graph_v3.cpp",
+    "port/level-world/floors.cpp"
+  ],
+  "actual_results": {
+    "root_constructors": 9,
+    "pf_rooms": 9,
+    "original_floor_records": 16,
+    "original_nonidentity_child_quaternions": 0,
+    "original_hidden_floor_count": 0,
+    "source_first_hit_points": [
+      {
+        "position": [
+          1090.75,
+          -212.202,
+          258
+        ],
+        "height": 255,
+        "pf_room": 0,
+        "floor": 0,
+        "type": 0
+      },
+      {
+        "position": [
+          -6752.641,
+          938.285,
+          250
+        ],
+        "height": 255,
+        "pf_room": 1,
+        "floor": 2,
+        "type": 0
+      },
+      {
+        "position": [
+          -3500,
+          250,
+          255
+        ],
+        "height": 255,
+        "pf_room": 1,
+        "floor": 2,
+        "type": 0
+      }
+    ],
+    "comparison": "Assembled source helper collision returns same255 at all3 points, tolerance0.001 for source arithmetic. This is validation comparison; floor producer never consumes preview collision.",
+    "movement": "Source actual floor-backed InitObject + dh2_nav_validate_object_position accepts startup+10X and sourceZ255, regularfloor type0 capability-compatible."
+  },
+  "fixtures": [
+    "All9 module admission explicitly supplied by test; live campaign/condition admission not inferred",
+    "Positive hidden fixture mutates only new BRES copy actual SNode visibility52 to0 for original first floor; source factory constructs it and floor count remains2 with hidden1",
+    "Positive rotation fixture sets actual second SourceRootScopes Module source rotationZ45 in constructor phase; source cached-world quaternion producer yields2nonidentity floor children, no cache reapplication",
+    "PF actor bounds/identity used by movement query are explicit fixture; actual floor selectors/graph and source navigation kernel run"
+  ],
+  "supported": "Fresh actual registry; original selected static/nonstatic mesh child cached poses; actual original floor buffers, flags and graph; actual constructor room receipt publication; source first-hit floor query and positive navigation validation.",
+  "limits": [
+    "Not a claim of whole Module.InitPost/PFRoom.LoadRoom: native minimap/exit/floor clone map transfers, Debug timing/network/room-zone and solid owner bounds callbacks are outside this bounded in-house navigation component",
+    "Registry grouping uses actual floor-derived room/world bounds from recovered floor postload. Whole original solid module owner-AABB extension remains separate provider; no full original world bounds claim",
+    "Module floor375 retained source pending field is checked but not cleared by this bounded component; whole source InitPost continuation owns its transition",
+    "No automatic campaign admission; caller admittedfalse/unknown transform phase/missing actual source owner fails",
+    "No dynamic movement solver, original avoidance/pathfollowing, physics contacts or whole campaign guarantee"
+  ],
+  "integration": [
+    "Keep SourceRootScopes and actual Module records alive; match trace entries to records by actual receiver/control-block identity",
+    "Construct SourceModuleFloors with its SAME fresh floors.World before any records or postload",
+    "Load only source-admitted requests with explicit transform phase; constructor-only root scope uses constructor_degrees",
+    "After admitted module records loaded call post_load and retain rooms/resources/world leases",
+    "Use world.collision_world and source_motion_policy_v95 for actual PF/height/navigation leaves; use actual source height255 before assigning source initial floor-anchor position",
+    "Do not use module40c as PF floor room index or fabricate indices from level XML suffixes"
+  ],
+  "dependencies": "Beyond already linked floor/navigation/source constructor components: module_selected_scene_v2.cpp + module_floor_graph_v3.cpp, and new source_module_floors.cpp. No new heavy retained static scene/map/VM hierarchy.",
+  "validation": "CTest63 source_module_floors passes with real cache constructors/9rooms16records,3height asserts,preview comparison,positivePF movement,positive hidden/source rotation fixtures."
+}

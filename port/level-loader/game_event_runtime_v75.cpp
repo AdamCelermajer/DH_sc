@@ -331,8 +331,14 @@ bool GameEventRuntimeV75::reinit(std::string& e){
  if(native_retiring_v88_){e="Objective runtime delivery after native storage retirement began";return false;}
  if(failed_){e=failure_;return false;}if(busy_)return fail("GameEvent.ReInit reentered",e);
  if(!manager_)return fail("Required actual GameEvent194 before ReInit",e);
- for(const auto& event:manager_->events())if(!event||!event->reinit_storage(e))return fail(e,e);
- return compile(e);
+ if(!manager_->diagnostics().storage_load_complete)return fail("Required real GameEvent.Load completion",e);
+ Busy busy(busy_);try{
+  // Original47994c->479954 resets and compiles this event before advancing.
+  // Completion callbacks must still observe later events' pre-reset fields.
+  for(const auto& event:manager_->events())
+   if(!event||!event->reinit_storage(e)||!compile_event(*event,e)||failed_)return fail(e,e);
+  compiled_=true;e.clear();return true;
+ }catch(const std::exception& ex){return fail(ex.what(),e);}catch(...){return fail("GameEvent.ReInit provider threw",e);}
 }
 bool GameEventRuntimeV75::destroy_objective_native_v88(const std::shared_ptr<GameEventManagerV50>& storage,GameEventObjectiveV50& objective,std::string& e){
  if(busy_||!storage||(manager_&&(manager_.get()!=storage.get()||manager_.owner_before(storage)||storage.owner_before(manager_)))){e="Native Objective D1 requires SAME quiescent GameEvent manager";return false;}

@@ -1,0 +1,24 @@
+{
+  "description": "Original-content validation samples, not campaign rules or runtime defaults",
+  "world_args": ["--level", "data/scene/001_swamp.mlx"],
+  "integrated_args": [
+    "--level", "data/scene/001_swamp.mlx",
+    "--model", "models/prince_modular.bdae",
+    "--template", "animations/prince_template_anim.bdae",
+    "--clip", "idle=animations/prince_idle_shield.bdae",
+    "--clip", "walk=animations/prince_walk_1hand.bdae",
+    "--clip", "attack=animations/prince_1hand_combo_01.bdae",
+    "--skin", "_default_warrior-mesh-skin",
+    "--position", "1090.75,-212.202,258",
+    "--focus", "1090.75,-212.202,350",
+    "--distance", "600"
+  ],
+  "character_args": [
+    "--model", "models/prince_modular.bdae",
+    "--template", "animations/prince_template_anim.bdae",
+    "--clip", "idle=animations/prince_idle_shield.bdae",
+    "--clip", "walk=animations/prince_walk_1hand.bdae",
+    "--clip", "attack=animations/prince_1hand_combo_01.bdae",
+    "--skin", "_default_warrior-mesh-skin"
+  ]
+}

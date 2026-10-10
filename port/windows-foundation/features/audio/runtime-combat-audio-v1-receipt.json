@@ -1,0 +1,50 @@
+{
+  "feature": "RuntimeCombatAudioV1",
+  "status": "native-linked-regression-pass",
+  "owned_paths": [
+    "port/windows-foundation/features/audio/runtime_combat_audio_v1.hpp",
+    "port/windows-foundation/features/audio/runtime_combat_audio_v1.cpp",
+    "port/windows-foundation/features/audio/runtime_combat_audio_v1_tests.cpp",
+    "port/windows-foundation/features/audio/run_runtime_combat_audio_v1_tests.ps1"
+  ],
+  "implementation": {
+    "char_sounds_row": "Default reads the same CombatSession world combat_properties(actor).sheets.resolved[8] (source Character::GetCharSoundsId field 0x1018, verified ELF 0x3a3294); the loaded CharSounds table applies the original invalid-ID fallback to row 2. An explicit cached_char_sound_id override remains optional for caller-owned cache identity and failure fixtures.",
+    "source_evidence": "ELF GetCharSoundsId pseudocode at .local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003a/003a3294.c reads Character word +1030 (0x1018), compares against Arrays::CharSoundsTable::size, and returns 2 for negative or out-of-range IDs. GetCharSounds at pseudocode/003a/003a32d0.c indexes members + 40*ID. ELF symbols identify GetCharSoundsId at 0x3a3294 and GetCharSounds at 0x3a32d0; GetCharSoundsId maps to resolved property index 8 by the verified character property field list in coordination/integration-lead/character-property-domain-proof.json (SHA256 7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2).",
+    "audio_owner": "Uses the existing producer-owned AudioNativeSessionV42::submit_actual_play and its single recovered V42 runtime/WinMM output; constructs no mixer, router, or output.",
+    "retained_marker": "Occurrence dedupe key is binding-lease identity plus retained generation/actor/clip/slot/wall timestamp/lag/name/index. A changed paired QPC does not create a new occurrence.",
+    "combat_hits": "At each retained-event observer boundary, reads the same CombatSession world pending-resolution queue and applied DamageEvent list, pairs attacker/victim/marker, and copies target_died plus victim transform before dispatch. Consumed indexes reset exactly on `{binding lease identity, CombatSession::update_serial()}`; per-event dedupe remains independent of QPC.",
+    "failure": "Missing required session/output/source gate, actor row, or shared random provider is a typed owner-unavailable diagnostic. Reached absent-source-sample and bounded native playback failures are diagnostic-only, preserving the original ignored Play return boundary. No failure is returned to gameplay."
+  },
+  "verification": {
+    "command": "port/windows-foundation/features/audio/run_runtime_combat_audio_v1_tests.ps1",
+    "result": "PASS native linked regression against fresh serial-core archives: actual Knight player resolved[8]=1 and Swamp_LizadMan NPC resolved[8]=2; negative/out-of-range loaded CharSounds IDs resolve to row2; 37 applied hits, at least two in one CombatSession update, repeated identical zero/miss result across distinct update_serial values dispatched twice, lethal death-list path, changed-QPC duplicate suppression, and missing-sample failure diagnostic-only.",
+    "evidence": [
+      "Root serial-core build terminal reported PASS98 before running this feature test; no mixed archive set was used.",
+      "Strict LLVM-MinGW C++17 link and native run completed through run_runtime_combat_audio_v1_tests.ps1.",
+      "The test reads original property field names from coordination/integration-lead/character-property-domain-proof.json and verifies the actual player/NPC row IDs against each live actor's resolved[8] before using an explicit missing-sample override for the playback failure fixture.",
+      "The test observes same-frame concurrent player/NPC hits and verifies max events in one update is at least two.",
+      "Identical zero/miss resolution signatures were observed at distinct CombatSession update_serial values, and each reached the adapter hit branch.",
+      "Exact retained hit replay under a changed QPC returned not_applicable with no duplicate source submission.",
+      "A lethal hit selected the loaded target CharSounds death list and gameplay death remained applied despite playback diagnostics.",
+      "The selected actual hit-list sample was absent; the failure remained diagnostic-only.",
+      "Foundation archive SHA-256: libfoundation_data.a=59F14E7576EC2B59044A18C562E679637E003733107290DA5A826A84CC45CEEC; librecovered_content.a=1A9A7AC0338CB09E624756B6607290C7FE9D6DC28C410B58CC6988490198D4A2; libcontent_xml.a=6A6989F7F5322665AC3B01B12749DA7889F92CB6A2CB4CBFA27B87F66710541E; librecovered_trigger_contacts.a=FEDBF224DEC0C4642F4263D8209D0B601A30923D6ED0EFB18A9F6F31ADB9F03D; physics-backend/libdh2_box2d_201.a=1DEDF142B571CF67E03BC3D0E8EEBD9614A915D3E92A2BAB104B97392BAB374B."
+    ]
+  },
+  "fixture_boundary": {
+    "row_selection": "The default resolver is checked for the actual live Knight player and Swamp_LizadMan NPC against each actor's same-session resolved[8], and invalid IDs are checked to fall back to loaded row 2. The missing-sample dispatch case separately uses an explicit test-only row override.",
+    "randomness": "MP_MinimalRandoms and CharSounds Random are explicit deterministic test providers; production must bind the actual shared source RNG/provider.",
+    "source_gates": "World/GS/level/play3d gates and final emitter command are test providers; this does not establish production campaign or NativeContext enrollment.",
+    "named_event": "A named SFX callback fixture validates the typed leaf using the exact observer API; the actual session attack frames are also observed with their real published clock, but their hit marker is not claimed to be an authored sfx_ marker.",
+    "scope": "No audible parity claim; no Troll ordinal328 substitution; no production root caller enrollment."
+  },
+  "remaining_production_providers": [
+    "Root caller must supply the current caller-paired output clock to CombatSession::update and install this optional retained-event observer.",
+    "Root must bind MP_MinimalRandoms and CharSounds Random to the actual shared source RNG owner.",
+    "The same V42 application session still requires real World/GS/Level source gates and same-owner emitter/listener/source-command authorities."
+  ],
+  "explicitly_uncovered": [
+    "GameObject-attacker overload of CharacterCombatSound is not exercised; adapter is scoped to Character actors in CombatSession.",
+    "TrollReturn kind13 sound ordinal328 remains absent and is not substituted.",
+    "No production root caller enrollment or audible parity claim."
+  ]
+}

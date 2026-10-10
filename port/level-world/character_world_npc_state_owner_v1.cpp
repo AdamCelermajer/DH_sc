@@ -14,6 +14,7 @@ int CharacterWorldNpcStateOwnerV1::method(void* p,StateOwnerMachine40* machine,c
  auto& self=*static_cast<CharacterWorldNpcStateOwnerV1*>(p);if(machine!=&self.owner_.machine()||!q||!out||!self.bound_methods_.invoke)return -1;
  if(q->operation==state_owner_profile_begin||q->operation==state_owner_profile_end){if(self.services_.diagnostics)return self.services_.diagnostics->invoke(*q);if(self.services_.diagnostics_required)return -1;}
  if(q->state==3&&((q->operation==state_owner_focus&&q->source_function==0x3c3020)||(q->operation==state_owner_blur&&q->source_function==0x3c2d3c))){if(self.services_.diagnostics){if(self.services_.diagnostics->idle_behavior(q->source_function))return -1;}else if(self.services_.diagnostics_required)return -1;}
+ if(q->state==17&&((q->operation==state_owner_focus&&q->source_function==0x3c688c)||(q->operation==state_owner_blur&&q->source_function==0x3c67d4))){if(self.services_.diagnostics){if(self.services_.diagnostics->pre_spawn_behavior(q->source_function))return -1;}else if(self.services_.diagnostics_required)return -1;}
  if(self.services_.prepare_method&&self.services_.prepare_method(self.services_.prepare_context,*q))return -1;
  return self.bound_methods_.invoke(self.bound_methods_.context,machine,q,out);
 }

@@ -11,7 +11,12 @@ struct NativeProcessStartupV119:std::enable_shared_from_this<NativeProcessStartu
  std::uint32_t menu_stage_bc{}; //MenuManager C1 initializes original bc=0.
  bool menu_busy{};unsigned attach_index{};
  bool avatar_services_bound_v121{};
+ bool movies_selected_v132{};
+ struct MainRenderedBGCallbackV119 {std::weak_ptr<NativeProcessStartupV119> owner;std::uintptr_t render{},character{};};
+ std::map<std::uintptr_t,MainRenderedBGCallbackV119> main_rendered_bg_callbacks_v119;
  std::map<std::uintptr_t,std::unique_ptr<dh2::ui::AuthoredMenuDragV68>> drag_owners;
+ struct DerivedDeadZonesV119 {std::uint8_t registered{};std::vector<dh2::ui::AuthoredMenuDeadZoneV3> zones;};
+ std::map<std::uintptr_t,DerivedDeadZonesV119> deadzone_owners;
  bool current(std::string& e)const{
   if(!first_error.empty()){e=first_error;return false;}
   if(app.lock()!=application_services_v5||directory!=front_directory){e="Replaced actual first-boot Application/private directory";return false;}return true;
@@ -24,13 +29,24 @@ struct NativeProcessStartupV119:std::enable_shared_from_this<NativeProcessStartu
   e="Required exact retained derived MenuBase receiver";return false;
  }
  bool scoped(dh2::ui::AuthoredMenuFieldsV1& f,const std::function<bool(dh2::ui::SwfAsGraph&,std::string&)>& fn,std::string& e){
+  return scoped_movie(f,[&](dh2::ui::SwfMovie&,dh2::ui::SwfAsGraph& graph,std::string& error){return fn(graph,error);},e);
+ }
+ bool scoped_movie(dh2::ui::AuthoredMenuFieldsV1& f,const std::function<bool(dh2::ui::SwfMovie&,dh2::ui::SwfAsGraph&,std::string&)>& fn,std::string& e){
   auto p=source_postmovie_v62.lock();if(!p||!current(e))return false;
   for(unsigned slot=0;slot<4;++slot){dh2::ui::MenuMovieBorrowV58 q;if(!p->directory->movie_slot(slot,q,e))return false;if(q.identity!=f.render)continue;
    dh2::ui::SwfMovie* movie{};std::shared_ptr<void> pin;if(!p->directory->movie(slot,q,movie,pin,e))return false;
-   struct Invoke{const std::function<bool(dh2::ui::SwfAsGraph&,std::string&)>& fn;
-    static bool run(void* raw,dh2::ui::SwfAsGraph& graph,std::string& e){return static_cast<Invoke*>(raw)->fn(graph,e);}} invoke{fn};
+   struct Invoke{dh2::ui::SwfMovie& movie;const std::function<bool(dh2::ui::SwfMovie&,dh2::ui::SwfAsGraph&,std::string&)>& fn;
+    static bool run(void* raw,dh2::ui::SwfAsGraph& graph,std::string& e){auto& call=*static_cast<Invoke*>(raw);return call.fn(call.movie,graph,e);}} invoke{*movie,fn};
    return movie->menu_action_script(&invoke,Invoke::run,e);
   }e="Derived MenuBase lost its actual RenderFX resource";return false;
+ }
+ static bool main_rendered_bg_display_v119(void* raw,const dh2::ui::SwfDraw&,std::string& e){
+  auto* callback=static_cast<MainRenderedBGCallbackV119*>(raw);auto owner=callback?callback->owner.lock():nullptr;
+  if(!owner||!owner->current(e)||!callback->render||!callback->character){if(e.empty())e="Retired actual Main.Show RenderedBG callback owner";return false;}
+  // IDA: MenuMainMenu::RenderCharacterPane at 0x42bb44 is exactly `bx lr`.
+  // Its faithful display callback is therefore a checked source no-op; the
+  // retained main-menu scene is submitted by its existing scene owner.
+  e.clear();return true;
  }
  bool register_drag(std::uintptr_t id,std::string& e){
   auto n=authored_character_menu;if(!n){e="Missing actual process MenuManager";return false;}
@@ -74,6 +90,39 @@ struct NativeProcessStartupV119:std::enable_shared_from_this<NativeProcessStartu
   };
   return dh2::ui::authored_menu_hide_v1(*f,services,e);
  }
+ bool base_show(std::uintptr_t id,std::string& e){
+  auto n=authored_character_menu;if(!n||!current(e))return false;
+  dh2::ui::AuthoredMenuFieldsV1* f{};dh2::ui::AuthoredCharacterStateV1* state{};if(!fields(id,f,state,e))return false;
+  dh2::ui::AuthoredMenuLifecycleServicesV1 services;services.owner=shared_from_this();
+  services.invoke=[&](auto& actual,const auto& q,auto& result,auto& error){using O=dh2::ui::AuthoredMenuOperationV1;
+   if(&actual!=f){error="Changed actual qualified MenuBase.Show receiver";return false;}
+   switch(q.operation){
+   case O::debug_load:case O::debug_query:return n->debug(q.text,result,error);
+   case O::store_rollover_event_enabled:n->fields.rollover()=std::uint8_t(q.value);return true;
+   case O::store_application_ec:n->fields.store_application_ec_v58(std::uint8_t(q.value));return true;
+   case O::store_igm_opened:n->fields.igm_opened()=std::uint8_t(q.value);return true;
+   case O::set_visible:case O::invoke_as:case O::localize:return scoped(*f,[&](auto& graph,auto& error){
+    auto localization=n->bootstrap_services_v27.localization;
+    localization.set_context=[&](const auto& value,auto& error){
+     auto* menu=n->shared_stack_v27->registered_menu_v27(id);auto* render=n->shared_stack_v27->render(f->render);
+     if(!menu||!render||!menu->character||menu->character->identity!=value.identity()){error="Qualified MenuBase.Show lost SAME localization character";return false;}
+     render->context=menu->character;return true;
+    };
+    return dh2::ui::authored_character_movie_operation_v1(graph,*state,q,localization,error);
+   },error);
+   case O::register_deadzones:return scoped(*f,[&](auto& graph,auto& error){
+    auto& zones=deadzone_owners[id];dh2::ui::AuthoredMenuCharacterProjectionV4 projection;dh2::ui::AuthoredMenuCharacterBorrowV3* root{};
+    if(!projection.root(graph,f->name,root,error))return false;
+    dh2::ui::AuthoredMenuDeadZoneServicesV3 source;
+    source.debug=[&](auto& error){std::int32_t ignored{};return n->debug(nullptr,ignored,error);};
+    source.bounds=[&](auto& node,auto& out,auto& error){return projection.absolute_bounds(node,out,error);};
+    return dh2::ui::authored_menu_register_deadzones_v3(zones.registered,root,source,zones.zones,error);
+   },error);
+   default:error="Unsupported reached qualified MenuBase.Show source operation";return false;
+   }
+  };
+  return dh2::ui::authored_menu_show_v1(*f,services,e);
+ }
  bool menu_init(bool& complete,std::string& e){
   complete=false;if(!current(e)||menu_busy){if(e.empty())e="Recursive actual MenuManager.Init";return false;}
   menu_busy=true;struct Busy{bool& v;~Busy(){v=false;}} busy{menu_busy};
@@ -108,6 +157,17 @@ struct NativeProcessStartupV119:std::enable_shared_from_this<NativeProcessStartu
   auto singleton=[&](const char* name){std::uintptr_t id{};return model_renderer::create_native_process_menu_singleton_v104(application,name,id,e);};
   switch(menu_stage_bc){
   case 0:
+   if(!movies_selected_v132){
+    if(!provider->loadmenu1_services_v98.facts){e="Required actual process source movie facts";return false;}
+    model_renderer::NativePrimaryMenuFactsV98 facts;if(!provider->loadmenu1_services_v98.facts(facts,e))return false;
+    auto settings=application->source_settings4c_v67();
+    if(!facts.receiver||!facts.width_screen||!settings){e="Required SAME Width_Screen/SavegameManager source selector";return false;}
+    const auto width=*facts.width_screen;
+    if(width==800&&(!facts.htc_devices||(!*facts.htc_devices&&!facts.no_igp))){e="Required reached HTC_DEVICES/NO_IGP source selector cells";return false;}
+    const auto variant=dh2::ui::source_menu_variant_v132(width,settings->language(),width==800&&*facts.htc_devices,width==800&&!*facts.htc_devices&&*facts.no_igp);
+    if(!front_ui.select_process_movies_v132(variant,e)||!original_ui.select_process_hud_v132(variant,e))return false;
+    movies_selected_v132=true;
+   }
    if(!front_ui.load_base_movie_slot_v105(e)||!native->publish_process_movie_v104(0,e,false))return false;break;
   case 1:{ //Actual primary1 and camera1 remain constructor NULL, not loaded here.
    dh2::ui::MenuMovieBorrowV58 slot;if(!provider->directory->movie_slot(1,slot,e))return false;
@@ -138,7 +198,7 @@ struct NativeProcessStartupV119:std::enable_shared_from_this<NativeProcessStartu
    for(unsigned slot=0;slot<4;++slot){dh2::ui::MenuMovieBorrowV58 q;if(!provider->directory->movie_slot(slot,q,e))return false;if(!q.identity)continue;
     dh2::ui::SwfMovie* movie{};std::shared_ptr<void> pin;if(!provider->directory->movie(slot,q,movie,pin,e))return false;
     auto* render=native->shared_stack_v27->render(q.identity);if(!render){e="Init23 PostLoad lacks SAME actual RenderFX";return false;}
-    if(!native->shared_roster_v27->post_load(*movie,std::move(pin),render->flags,e))return false;
+    if(!native->shared_roster_v27->post_load(*movie,q.identity,std::move(pin),render->flags,e))return false;
    }
    front_ui.unload_process_property_names_v119();
    if(native->hud){
@@ -233,4 +293,162 @@ bool native_process_ready_v119(){return native_process_startup_v119&&native_proc
 }
 bool model_renderer::native_process_menu_base_hide_v119(std::uintptr_t id,std::string& e){
  auto p=native_process_startup_v119;if(!p){e="Required retained process MenuBase lifecycle owner";return false;}return p->base_hide(id,e);
+}
+bool model_renderer::native_process_derived_menu_show_v119(std::uintptr_t id,std::uintptr_t render,std::string& e){
+ auto p=native_process_startup_v119;auto n=authored_character_menu;
+ if(!p||!n||!n->shared_stack_v27||!p->current(e)){if(e.empty())e="Required retained process derived Show owners";return false;}
+ std::shared_ptr<NativeMenuSingletonV67> owner;
+ for(const auto& candidate:source_singleton_v67)if(candidate&&candidate->fields.identity==id){owner=candidate;break;}
+ auto* menu=n->shared_stack_v27->registered_menu_v27(id);
+ if(!owner||!owner->constructed||!menu||!menu->render||menu->render->identity!=render||owner->fields.render!=render){
+  e="Derived Show differs from SAME constructed MenuBase/RenderFX";return false;
+ }
+ //The selected Show virtual must remain distinct from qualified MenuBase.Show.
+ //EnterName42aef0 consists solely of its validity gate and the qualified call.
+ if(owner->kind==MenuSingletonKindV67::enter_name){
+  if(!owner->fields.valid7c){e.clear();return true;}return p->base_show(id,e);
+ }
+ if(owner->kind==MenuSingletonKindV67::select_class){
+  // IDA MenuCharacterSelect::Show 0x428f38 starts by calling
+  // MenuMainMenu::DestroyScene and DestroyAvatarCamera, transfers
+  // mSavegameSlot into this+0x160, marks the preview destroyed and clears
+ // MainMenu's slot before its IsValidMenu gate and qualified MenuBase.Show.
+  auto app=p->app.lock();std::int32_t saved_slot=-1;
+  if(!app||!model_renderer::native_menu_preview_select_show_v121(app,saved_slot,e))return false;
+  owner->select160=saved_slot;
+  if(!owner->fields.valid7c){e.clear();return true;}
+  if(!p->base_show(id,e))return false;
+  // Preserve the Front owner’s already authored show animation/OnShow from
+  // MenuStack::Push; this adds the source class title/arrows/CurrentClass and
+  // the actual class_select RenderFX display callback to that SAME movie.
+  return front_ui.process_class_select_show_v87(render,e);
+ }
+ if(owner->kind!=MenuSingletonKindV67::main){e="Required actual selected Show override for "+owner->fields.name;return false;}
+ if(!owner->fields.valid7c){e.clear();return true;}
+ //42c62c: GameCenter operations are excluded by the existing offline platform
+ //policy. The actual menu_bg virtual Show precedes qualified MenuBase.Show.
+ auto* background=n->shared_stack_v27->menu("menu_bg");
+ if(!background||!n->shared_roster_v27->receiver_fields_v59(background->identity)){
+  e="Original Main.Show requires actual generated menu_bg Show receiver";return false;
+ }
+ dh2::ui::MenuStackRequestV1 show{};show.operation=dh2::ui::MenuStackOperationV1::menu_show;show.menu=background;show.render=background->render;
+ bool handled{};if(!n->shared_roster_v27->route(*n->shared_stack_v27->view(),show,handled,e)||!handled)return false;
+ if(!p->base_show(id,e))return false;
+ std::int32_t trace{};
+ if(!n->debug(nullptr,trace,e)||!n->debug("isTracingMenuMainMenu",trace,e)||!n->debug(nullptr,trace,e)||!n->debug("MenuMainMenu",trace,e))return false;
+ if(trace){e="Required reached Main.Show DBG_TraceContextInformation provider";return false;}
+ //SetAlpha7aa058 resets the actual cxform to identity, then alpha multiplier0.
+ //RenderFX.Find absence is a source no-op rather than a fabricated receiver.
+ if(!p->scoped(owner->fields,[&](auto& graph,auto& error){
+  dh2::ui::SwfAsValue context;bool live{};if(!owner->state.weak_character_v59.borrow(graph,context,live,error)||!live){if(error.empty())error="Main.Show lost SAME weak context";return false;}
+  dh2::ui::AuthoredMenuSearchIndexV1 index;if(!index.initialize(graph,context,error))return false;
+  for(const char* name:{"btn_Debug1","btn_debug2"}){
+   dh2::ui::SwfAsValue value;bool found{};if(!index.find(name,value,found,error))return false;
+   if(!found){if(!graph.find_target(context,name,value,error))return false;found=value.kind()==dh2::ui::SwfAsValue::Kind::object;}
+   if(!found)continue;gameswf::as_object* object{};
+   if(!graph.borrow_object(value,object,error)||!object||!object->is(gameswf::character::m_class_id)){if(error.empty())error="Main.Show alpha receiver is not actual character";return false;}
+   gameswf::cxform color;color.m_[3][0]=0.f;static_cast<gameswf::character*>(object)->set_cxform(color);
+  }return true;
+ },e)||!model_renderer::native_menu_preview_prepare_main_v121(p->app.lock(),e))return false;
+ //Main.Show binds its native RenderCharacterPane callback to the actual
+ //menu_bg.RenderedBG child in this retained movie. The ARM32 implementation
+ //is a return-only callback, so preserve that behavior while using the movie's
+ //real display-hook lifecycle and the same registered MainMenu RenderFX.
+ if(!p->scoped_movie(owner->fields,[&](auto& movie,auto& graph,auto& error){
+  dh2::ui::SwfAsValue root,rendered_bg;if(!graph.root_value(root,error)||!graph.find_target(root,"menu_bg.RenderedBG",rendered_bg,error)||!rendered_bg.identity()){
+   if(error.empty())error="Required actual Main.Show menu_bg.RenderedBG character";return false;
+  }
+  gameswf::as_object* target{};if(!graph.borrow_object(rendered_bg,target,error)||!target||!target->is(gameswf::character::m_class_id)){
+   if(error.empty())error="Main.Show RenderedBG is not the actual display character";return false;
+  }
+  auto& callback=p->main_rendered_bg_callbacks_v119[owner->fields.render];
+  callback.owner=p;callback.render=owner->fields.render;callback.character=rendered_bg.identity();
+  return movie.menu_display_callback("_root.menu_bg.RenderedBG",&callback,NativeProcessStartupV119::main_rendered_bg_display_v119,error);
+ },e))return false;
+ // IDA byte_99F7D7 is set at the successful tail of MenuMainMenu::Show and
+ // gates only slot-2 input. Keep it separate from the animation preference.
+ source_main_menu_input_enabled_v120=true;
+ e.clear();return true;
+}
+bool model_renderer::native_process_derived_menu_focus_v119(std::uintptr_t id,std::uintptr_t render,std::string& e){
+ auto p=native_process_startup_v119;auto n=authored_character_menu;
+ if(!p||!n||!n->shared_stack_v27||!p->current(e)){if(e.empty())e="Required retained process derived focus owners";return false;}
+ std::shared_ptr<NativeMenuSingletonV67> owner;
+ for(const auto& candidate:source_singleton_v67)if(candidate&&candidate->fields.identity==id){owner=candidate;break;}
+ auto* menu=n->shared_stack_v27->registered_menu_v27(id);
+ if(!owner||!owner->constructed||!menu||menu->identity!=id||!menu->name||!menu->render||
+    menu->render->identity!=render||owner->fields.render!=render){
+  e="Derived GotFocus differs from SAME registered constructed process menu/RenderFX";return false;
+ }
+ const bool enter_name=owner->kind==MenuSingletonKindV67::enter_name&&
+  !std::strcmp(menu->name,"menu_EnterName")&&owner->fields.name=="menu_EnterName";
+ const bool select_class=owner->kind==MenuSingletonKindV67::select_class&&
+  !std::strcmp(menu->name,"menu_SelectClass")&&owner->fields.name=="menu_SelectClass";
+ if(enter_name||select_class){
+  // Both vtables inherit MenuBase::GotFocus (0x41b3e8), a literal bx lr.
+  e.clear();return true;
+ }
+ auto* globals=n->shared_stack_v27->view()?n->shared_stack_v27->view()->globals:nullptr;
+ if(owner->kind!=MenuSingletonKindV67::main||std::strcmp(menu->name,"menu_MainMenu")||
+    owner->fields.name!="menu_MainMenu"||!globals){
+  e="Derived GotFocus differs from SAME registered constructed MenuMainMenu/MenuManager";return false;
+ }
+ //Original ARM32 MenuMainMenu::GotFocus (0x42ba98) stores lastOpenMenuID=1
+ //and clears Is_In_Multiplayer_IGM and Is_In_Multiplayer_Mode. Its target
+ //process globals are the ones retained by this same MenuManager adapter.
+ globals->last_open_menu=1;globals->multiplayer_igm=0;globals->multiplayer=0;
+ e.clear();return true;
+}
+bool model_renderer::native_process_derived_menu_blur_v119(std::uintptr_t id,std::uintptr_t render,std::string& e){
+ auto p=native_process_startup_v119;auto n=authored_character_menu;
+ if(!p||!n||!n->shared_stack_v27||!p->current(e)){if(e.empty())e="Required retained process derived LostFocus owners";return false;}
+ std::shared_ptr<NativeMenuSingletonV67> owner;
+ for(const auto& candidate:source_singleton_v67)if(candidate&&candidate->fields.identity==id){owner=candidate;break;}
+ auto* menu=n->shared_stack_v27->registered_menu_v27(id);
+ if(!owner||!owner->constructed||!menu||menu->identity!=id||!menu->name||!menu->render||
+    menu->render->identity!=render||owner->fields.render!=render){
+  e="Derived LostFocus differs from SAME registered constructed process menu/RenderFX";return false;
+ }
+ const bool enter_name=owner->kind==MenuSingletonKindV67::enter_name&&
+  !std::strcmp(menu->name,"menu_EnterName")&&owner->fields.name=="menu_EnterName";
+ const bool select_class=owner->kind==MenuSingletonKindV67::select_class&&
+  !std::strcmp(menu->name,"menu_SelectClass")&&owner->fields.name=="menu_SelectClass";
+ if(!enter_name&&!select_class){e="Required actual selected LostFocus override for "+owner->fields.name;return false;}
+ // Both menu vtables inherit MenuBase::LostFocus (0x41b3ec), a literal bx lr.
+ e.clear();return true;
+}
+bool model_renderer::native_process_derived_menu_callback_v119(std::uintptr_t id,std::uintptr_t render,const char* method,std::string& e){
+ auto p=native_process_startup_v119;auto n=authored_character_menu;
+ if(!p||!n||!method||!n->shared_stack_v27){e="Required retained process derived MenuBase callback owners";return false;}
+ dh2::ui::AuthoredMenuFieldsV1* f{};dh2::ui::AuthoredCharacterStateV1* state{};
+ if(!p->fields(id,f,state,e))return false;
+ auto* menu=n->shared_stack_v27->registered_menu_v27(id);
+ if(!menu||!menu->render||menu->render->identity!=render||f->render!=render){e="Derived MenuBase callback differs from SAME registered RenderFX";return false;}
+ //MultiMenu invokes OnShow/OnHide on the registered weak character even
+ //when its native receiver is a derived singleton rather than roster MenuBase.
+ //Missing AS methods retain InvokeASCallback's source success semantics.
+ const dh2::ui::AuthoredMenuRequestV1 request{dh2::ui::AuthoredMenuOperationV1::invoke_as,method,0};
+ return p->scoped(*f,[&](auto& graph,auto& error){
+  return dh2::ui::authored_character_movie_operation_v1(graph,*state,request,n->bootstrap_services_v27.localization,error);
+ },e);
+}
+bool model_renderer::native_process_derived_menu_animation_v119(std::uintptr_t id,std::uintptr_t render,
+ std::uintptr_t character,const char* label,bool& accepted,std::string& e){
+ accepted=false;auto p=native_process_startup_v119;auto n=authored_character_menu;
+ if(!p||!n||!label||!n->shared_stack_v27){e="Required retained process derived animation owners/label";return false;}
+ dh2::ui::AuthoredMenuFieldsV1* f{};dh2::ui::AuthoredCharacterStateV1* state{};
+ if(!p->fields(id,f,state,e))return false;
+ auto* menu=n->shared_stack_v27->registered_menu_v27(id);
+ if(!menu||!menu->render||menu->render->identity!=render||f->render!=render){e="Derived animation differs from SAME registered RenderFX";return false;}
+ //MultiMenu's PlayAnimation uses its supplied weak character, returning false
+ //for null/non-sprite receivers or absent labels. Derived native receivers use
+ //the same authored sprite operation as discovered MenuBase roster entries.
+ if(!character){e.clear();return true;}
+ if(!menu->character||menu->character->identity!=character){e="Derived animation differs from SAME stack character";return false;}
+ return p->scoped(*f,[&](auto& graph,auto& error){
+  dh2::ui::SwfAsValue value;bool live{};
+  if(!state->weak_character_v59.borrow(graph,value,live,error))return false;
+  if(!live||value.identity()!=character){error="Derived animation lost SAME registered weak character";return false;}
+  return dh2::ui::authored_menu_play_animation_v4(graph,value,label,accepted,error);
+ },e);
 }

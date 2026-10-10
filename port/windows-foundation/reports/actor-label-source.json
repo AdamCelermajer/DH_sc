@@ -1,0 +1,78 @@
+{
+  "player_name_producer": {
+    "evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003b/003bb7e8.c",
+    "address": "0x3bb7e8",
+    "source": "Character::SG_GetPlayerName",
+    "input": "Explicit saved_player_name supplied by selected save-state owner"
+  },
+  "test": "port/windows-foundation/tests/original_actor_labels_tests.cpp",
+  "level_producer": {
+    "resolved_index": 19,
+    "evidence": [
+      "port/level-world/character_level.hpp",
+      "port/engine-ui/hud_manager.cpp:122"
+    ],
+    "encoding": "Q8 integer ASR8",
+    "field": "Level",
+    "boss_display": "??",
+    "unknown_level_display": "?? when integer GetLevel=-1"
+  },
+  "module": [
+    "port/windows-foundation/original_actor_labels.hpp",
+    "port/windows-foundation/original_actor_labels.cpp"
+  ],
+  "status": "native_original_text_decode_verified",
+  "link_sources": [
+    "port/windows-foundation/original_actor_labels.cpp",
+    "port/engine-ui/localization.cpp",
+    "port/engine-ui/localization_parse_ex_v1.cpp",
+    "port/script-runtime/script_constants.cpp"
+  ],
+  "asset_root": ".local-inputs/windows-label-assets",
+  "staged_original_files": 41,
+  "verified": [
+    {
+      "source_name_id": 1507566,
+      "source_character": "Swamp_LizadMan_Type1",
+      "display_level": "1",
+      "english": "Bogwomp",
+      "input_level_raw": 256
+    },
+    {
+      "source_name_id": 1507535,
+      "source_character": "WanderingPriest",
+      "english": "Rene"
+    }
+  ],
+  "checks": [
+    "Original text ID decode using actual cache",
+    "Original Q8 level1",
+    "Boss display ??",
+    "Missing name rejects and preserves output",
+    "Explicit saved player name",
+    "Empty player name rejects",
+    "Missing table reload rejects without discarding previous loaded decoder"
+  ],
+  "localization": {
+    "decoder": "port/engine-ui/localization.cpp",
+    "id_masks": "StringConfig PackIDShift/Mask and StrIDShift/Mask decoded by original common_text_pycst.bin",
+    "sheet_resolution": "Original common_text PyData lists and text/filename resources",
+    "language": "Original pack0 ENGLISH staged; other packs require original language sheet assets",
+    "debug_service": "Explicit no-op for standalone text decode; full original DebugSwitches not claimed"
+  },
+  "name_producer": {
+    "encoding": "original localization integer ID, not Q8",
+    "field": "Name",
+    "evidence": [
+      "port/level-world/canonical_character_candidate_v60.cpp:374",
+      "port/engine-ui/hud_manager.cpp:121"
+    ],
+    "resolved_index": 18
+  },
+  "staged_manifest": ".local-inputs/windows-label-assets/manifest.json",
+  "limitations": [
+    "Caller supplies resolved property18/19 rather than unresolved base values.",
+    "Boss/player identity comes from caller source facts.",
+    "HUD visual text rendering remains root integration."
+  ]
+}

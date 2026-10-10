@@ -29,7 +29,8 @@ int main(int argc,char** argv){try{
  GameOptionTableV1 table;std::string e;check(table.load_design_cache(span(records),span(names),span(schema),e),e);auto backing=table.borrow();check(backing.rows().size()==16&&backing.records_offset()==240&&backing.names_offset()==56,"actual cache offsets");
  unsigned comparisons=0,checks=0,guards=0,failures=0,reentries=0;
  {OwnedHudSettingsV1 direct(backing);check(direct.option_count()==0,"constructor must not initialize defaults");
-  direct.initialize_defaults();check(direct.option_count()==backing.rows().size()&&!direct.loaded()&&!direct.new_settings()&&direct.file_bytes().empty(),"whole direct _initSettings state");
+  check(!direct.source_save_settings_gate_v102(),"saveSettings gate must reject before Savegame+4 exists");
+  direct.initialize_defaults();check(direct.option_count()==backing.rows().size()&&!direct.loaded()&&!direct.new_settings()&&direct.file_bytes().empty()&&!direct.source_save_settings_gate_v102(),"whole direct _initSettings state");
   for(unsigned i=0;i<backing.rows().size();++i)check(direct.option(backing.names()[i].c_str())==backing.rows()[i].default_value,"actual direct defaults");
   check(direct.set_option("HUDStyle",2)&&direct.saved_option("HUDStyle")==2,"actual HUD2 option selection");
   direct.initialize_defaults(true);check(direct.option_count()==0,"language-only init map clear");
@@ -54,9 +55,9 @@ int main(int argc,char** argv){try{
  check(r.at==gold.size(),"gold trailing bytes");
  // Real stdio missing/present file, private ownership and retained-load flags.
  auto directory=std::filesystem::path(argv[4]);std::filesystem::create_directories(directory);auto path=directory/"dh2_settings.savegame";check(!std::filesystem::exists(path),"test path already contains source save; refuse overwrite");SettingsNativeFilesV1 native(directory.string());auto native_files=native.services();Localization local;check(local.load(ls(tr),ls(tn),ls(ts),e),e);Fixture f;SettingsLanguageServicesV1 language{&f,Fixture::refresh,Fixture::language,&local};SettingsDeviceFactsV1 device{};OwnedHudSettingsV1 first(backing),second(backing);SettingsLoadReceiptV1 receipt;
- check(first.load(false,native_files,language,device,receipt,e)&&!receipt.found&&!first.loaded()&&first.option("VolumeMusic")==100&&first.language()==-1,"real missing file");++checks;
+ check(first.load(false,native_files,language,device,receipt,e)&&!receipt.found&&!first.loaded()&&first.option("VolumeMusic")==100&&first.language()==-1&&first.source_save_settings_gate_v102(),"real missing file must create Savegame+4 and admit saveSettings");++checks;
  Bytes raw(18,0);for(unsigned i=0;i<14;++i)raw[4+i]=i;{std::ofstream out(path,std::ios::binary);out.write(reinterpret_cast<const char*>(raw.data()),raw.size());check(bool(out),"real save fixture write");}
- check(first.load(false,native_files,language,device,receipt,e)&&receipt.found&&first.loaded()&&first.new_settings()&&first.language()==0&&local.pack()==0&&first.file_bytes()==raw,"real existing raw save");++checks;
+ check(first.load(false,native_files,language,device,receipt,e)&&receipt.found&&first.loaded()&&first.new_settings()&&first.language()==0&&local.pack()==0&&first.file_bytes()==raw&&!first.source_save_settings_gate_v102(),"fresh raw save must set byte37 and reject saveSettings");++checks;
  first.initialize_defaults();check(first.loaded()&&first.new_settings()&&first.file_bytes()==raw&&first.language_hint()==-1&&!first.orientation()&&first.option("VolumeFX")==100,"direct init preserves file/load/new/platform fields");++checks;
  check(second.load(false,native_files,language,device,receipt,e)&&first.set_option("VolumeFX",17)&&second.option("VolumeFX")==100,"private maps");++checks;
  std::filesystem::remove(path);check(first.load(false,native_files,language,device,receipt,e)&&first.loaded()&&first.new_settings(),"source flags retained across missing reload");++checks;

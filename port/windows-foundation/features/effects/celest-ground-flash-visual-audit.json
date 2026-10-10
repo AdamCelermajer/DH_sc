@@ -1,0 +1,64 @@
+{
+  "task": "Celest Main13 ground-flash edge audit",
+  "status": "SOURCE_PASS_AND_TEXTURE_MATCH_RENDERER; VISUAL_MISMATCH_NOT_PROVEN",
+  "capture": {
+    "review_image": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-celest-fx-root-review27.png",
+    "frame20_log": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-celest-fx-frame20.log",
+    "frame65_log": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-celest-fx-frame65.log",
+    "observed": "A broad blue ground-flash quad has a visible rectangular boundary while the lightning bolt is visible. Frame logs confirm Celest MainSet=13 and source FX packet activity, but do not record per-draw range/material/UV values for the displayed packet."
+  },
+  "source": {
+    "resource": "data/3D/interface/spell_dh2_faery_lightning.bdae",
+    "resource_sha256": "24de71141c46541f930841055880000446eb77a0c100dc09abad92550012b3e",
+    "material": "lightning_spawn_point",
+    "diffuse": "fx_spell_lightning_ground_flash.tga",
+    "separate_alpha_map": "absent",
+    "diffuse_color": [0.588235, 0.588235, 0.588235, 1.0],
+    "additive": true,
+    "alpha_reference": 0,
+    "shader": "ProfileCOMMON_emul_VS.glsl + ProfileCOMMON_emul_FS.glsl; TEXTURED and ADDITIVEBLEND",
+    "source_pass": {
+      "blend": true,
+      "blend_equation": "GL_FUNC_ADD",
+      "blend_source": "GL_ONE",
+      "blend_destination": "GL_ONE",
+      "depth_test": true,
+      "depth_function": "GL_LEQUAL",
+      "depth_write": false,
+      "cull": false,
+      "alpha_test": false,
+      "stencil_sample_coverage_polygon_offset": false
+    },
+    "fragment_output": "color = interpolated Color0 * DiffuseColor * texture2D(Sampler0, uv); gl_FragColor = color",
+    "rendered_rgb_semantics": "With GL_ONE,GL_ONE, source RGB is added independently of source alpha. No ALPHATEST or separate alpha map is authored for this material."
+  },
+  "texture": {
+    "source_sha256": "EBC5CFAACC129976AED397434D5B67A33A276C6F7CE75780E39A0C12F1E28CBA",
+    "decoder": "Existing foundation load_texture path, source BTEX/PVR decoder",
+    "dimensions": [128, 128],
+    "decoded_rgba_min": [0, 0, 0, 0],
+    "decoded_rgba_max": [255, 255, 255, 255],
+    "zero_alpha_texels": 3906,
+    "perimeter": {
+      "pixels": 508,
+      "alpha_min_max": [0, 51],
+      "alpha_nonzero_pixels": 166,
+      "rgb_nonzero_pixels": 431,
+      "rgb_max": 159,
+      "rgb_mean_max_channel": 37.998,
+      "alpha_mean": 4.05315
+    },
+    "implication": "Decoded source RGB remains nonzero at most zero-alpha texels and around the perimeter. The authored ONE,ONE additive pass consumes that RGB, so low/zero alpha does not suppress the edge. This makes a visible rectangle plausible from the exact source texture/pass combination; premultiplying RGB or switching blend factors would change authored output without evidence of a source correction."
+  },
+  "renderer_comparison": {
+    "current_renderer": "Renderer::applyMaterial uses the retained SourceMaterialPass blend/depth/cull fields; with sourcePass it calls glBlendFunc(source.blendSource, source.blendDestination), glDepthFunc(source.depthFunction), and the source depth mask. Texture upload preserves decoded RGBA and uses GL_MODULATE.",
+    "android_source_renderer": "renderer_effect_draw_v4.inc also applies the decoded source pass blend factors and equation directly; this matches the GL_ONE,GL_ONE mapping for the inspected pass.",
+    "assessment": "No source-supported material or blend correction identified. The captured output is consistent with the authored additive pass and decoded RGB edge content; it may be an original texture/pass edge rather than a port defect."
+  },
+  "reference_footage": {
+    "file": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "sample": "Around 495 seconds there is a bright circular lightning/ground-flash frame with a softer silhouette than the review27 rectangle.",
+    "certainty": "The footage is a plausible visual comparison, but the exact Main13 invocation, asset version, and camera/state at that frame are not traceable from the video; it does not establish a source-vs-port rendering mismatch."
+  },
+  "decision": "No feature/helper change made. A source-correct fix would require stronger evidence for actual Main13 packet material/UV at the captured frame and a one-to-one original capture showing the same effect state; otherwise RGB premultiplication, alpha blending, geometry, or texture changes would be speculative. No GUI was launched."
+}

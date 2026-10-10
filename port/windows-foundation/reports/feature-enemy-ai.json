@@ -1,0 +1,48 @@
+{
+  "status": "PASS bounded original monster decisions and source aggro adapter; root live hookup pending",
+  "feature": "generic enemy combat decision/admission on SAME ActorState/world/target/controller",
+  "source": {
+    "idle": "CSIdle native body is not monster acquisition; false IsPlayer returns",
+    "monster_sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+    "native_aggro": "port/level-world/character_update_aggro_v108.cpp whole source0x3cf3f0",
+    "stealth": "signed reference detection property199 >= target sneak198; separate source visibility/zoning/interactive/geometry still required",
+    "ais_kind": "Authored Script monster selects AISExternal; no named map specialcase",
+    "monster_script": "port/android-native/app/src/main/assets/data/scripts/ai/monster.luac",
+    "search": "port/level-world/character_target_search.cpp policy kernel and reference/character-target-search/NOTES.md"
+  },
+  "files": [
+    "features/enemy_ai/monster_decisions.hpp",
+    "features/enemy_ai/monster_decisions.cpp",
+    "features/enemy_ai/enemy_aggro.cpp",
+    "features/enemy_ai/monster_decisions_tests.cpp",
+    "features/enemy_ai/enemy_aggro_tests.cpp",
+    "features/enemy_ai/monster_lua_differential_tests.cpp",
+    "features/enemy_ai/README.md"
+  ],
+  "tests": {
+    "original_data": "PASS239 monster-script character rows,239 resolved SkillTree-positive rows",
+    "source_aggro": "PASS actual Swamp_LizadMan_Type1 AiRow30 radius1400 no-aggro list60 flags0x80000001 then event9 SetTarget HeadTo",
+    "failures": "Missing reached Flee/Search returnsfalse with normalized error; incremental created buff retained; stale savedXY untouched; divergent sourceTarget/ActorState rejected",
+    "scope": "Service fixture differential; not original full AIS/FSM/VM/controller/skill/buff parity",
+    "original_script_differential": "PASS1408 cases executing actual original monster source in genuine Lua5.1 backend versus translation; ordered operations + same target and buff/flee/savedXY globals",
+    "compiler": "native Windows clang23 O2 -Wall -Wextra -Werror -ffp-contract=off"
+  },
+  "source_decisions": [
+    "EnemySpotted absent target: SetTarget then HeadTo; existing target retained",
+    "TargetDied Stop ClearTarget; OutSight Stop GetTarget ClearAggro(if present) ClearTarget",
+    "OutRange state==AIStates/Idle and not HasPath: MoveTo current GetTarget",
+    "MeleeRange Stop; SkillTree>-1 GetRand0,100<40 DoSkill0 else Attack; no-skill Attack",
+    "RangedRange remove speed buff(reset flee),Stop,DoSkill0 orAttack",
+    "CloseRange create/apply actual Buff_Speed, capture XY, Flee current target; equal XY + Move + StateTime>500 clears flee and Stop; false flee selects skill/attack",
+    "Died/Terminate remove owned speed buff; Flee callback clears flag"
+  ],
+  "hookup": "Root owns Session/main/CMake. Feed real selected script callbacks through dispatch_monster_event; typed commands use existing admitted controller/target/status/skill services. Optionally wire original _UpdateAggro before script callbacks with same borrowed source fields and list registry.",
+  "explicit_remaining_gaps": [
+    "No complete monster OnInit dynamic-level/script-registration backend claimed; caller supplies actual globals from source owner",
+    "No invented perframe target polling, detectionradius, active spawn or private FSM",
+    "Source Character/CharAI event prefix, aggro trees, traversal list60/70, MyTurn and Random0 providers must be genuine",
+    "Skill/Buff/Flee/MoveTo commands remain required host services; missing positive path fails",
+    "This feature does not make source world activation/collision/pathfinding/target node positions complete",
+    "Root live integration and test registration pending"
+  ]
+}

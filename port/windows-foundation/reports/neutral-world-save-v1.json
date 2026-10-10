@@ -1,0 +1,80 @@
+{
+  "feature": "Shared neutral WorldObject membership and version2 GameSave",
+  "validation": "PASS",
+  "runner": "tools/run_neutral_world_save_tests.ps1",
+  "pre_change_investigation": {
+    "visual_reference": "features/interactions/source-world-item-drop-render-v1.json reuses original Act1 video205-212s and chest-sequence-205-213.jpg: a closed chest opens and nearby pickup glints appear. This infrastructure change itself draws no new pixels.",
+    "consumer_evidence": "Session container borrow and SourceContainerLoot only used an ActorState for source identity/location; forcing character combat sheets/HP is incidental. Real opener/player properties remain required for player-side conditions and reward rules.",
+    "original_save": "level_savegame_objects_v2.cpp OBJS selects by gametype/map_name/room, then object Save/Load virtual. noncharacter_save_connection_v89.hpp stores base visible/enabled/archetype6bytes plus container state394 one byte. Original state4 restore resumes idleactive and does not replay opened/DropLoot/OnOpen.",
+    "identity": "Modern stable IDs are derived from authored level/module occurrence/MGP/XML ordinal/name; they are not claimed to occur in original OBJS bytes. Original-save import must map its tuple to these loaded definitions.",
+    "source_version": "Available v1.0.2 assets/source; original visual reference v1.0.3."
+  },
+  "implementation": {
+    "membership": "One PlayableActorWorld owns character and neutral-object subsets in one ObjectId namespace. Cross-subset collisions reject before mutation. Neutral objects have no fabricated CharacterState, combat properties, traits, vitals or faction.",
+    "state": "WorldObject.state_components preserves feature-owned versioned byte payloads, bounded64keys and64KiB total per object. Owning features validate/decode semantics; callbacks/pointers/GPU handles are not persistent state.",
+    "save": "Version2 appends object identity/transform/visual/components to the existing checkpoint. Actor-only version1 is byte-compatible and remains readable/writable. Version1 restore preserves currently loaded neutral states.",
+    "restore": "Both subsets and shared IDs are validated before publishing actors, objects and RNG. Version2 requires the same loaded object roster and name/model/material bindings. Successful replacement invalidates all actor/object borrows; callers reacquire after rebind.",
+    "scope": "This is a modern checkpoint extension, not a claim to reproduce original OBJS internal architecture/wire format."
+  },
+  "verification": {
+    "toolchain": "LLVM-MinGW C++17 Wall/Wextra/Werror, current world/GameSave/PlayableActorWorld source",
+    "authored_definitions": "Loaded original-cache/data/scene/001_swamp.mlx and actual placed MGP declarations",
+    "chest": {
+      "stable_id": "4308955945491066525",
+      "name": "_prim_OpenableContainer_03",
+      "data_desc": "Swamp_Normal_Chest",
+      "position": [
+        -7013.42,
+        12982.703,
+        250
+      ]
+    },
+    "barrel": {
+      "stable_id": "17396591008448001070",
+      "name": "_prim_DestructibleContainer_1_322",
+      "data_desc": "Swamp_Normal_DestructibleBarrel",
+      "position": [
+        -6346.486,
+        11899.554,
+        386.901
+      ]
+    },
+    "coverage": [
+      "Unsigned64 IDs and authored placement",
+      "No neutral combat binding",
+      "Duplicate/cross-kind ID and nonfinite transform rejection",
+      "Component size/key rejection without mutation",
+      "Exact opaque component bytes preserved on disk",
+      "Atomic actor/object/RNG restore",
+      "Wrong asset binding restore rejects without partial publication",
+      "Invalid overwrite preserves prior file",
+      "Version1 exact wire roundtrip and preserves loaded neutral state",
+      "Object removal and level clear"
+    ],
+    "component_fixture": "Opaque test bytes prove preservation only; real seven-byte container codec is feature-owned and separately tested.",
+    "regressions": [
+      "Existing GameSave suite PASS; unsupported-version test changed from2 to3 because2 is now supported",
+      "Same-Session source-hit test PASS including neutral chest membership through detach/rebind",
+      "Same-Session injury/death direct+retained tests PASS"
+    ],
+    "coherent_build": "Integration lead reports220tasks and81/81 CTest PASS with neutral_world_save registered; frozen current-ABI EXE E11BBF4F79B3FAA9D526D32F076E40F7CA55D67FFD5862BA3897D41C5FEE33CE"
+  },
+  "remaining": [
+    "Production authored neutral enrollment and source-derived visual/animation owner",
+    "Source container codec and existing-world-item publication must be integrated and tested through normal gameplay",
+    "Dynamic spawned-object roster restoration requires an explicit authorized host policy; current checkpoint requires loaded roster match",
+    "No new visible pot/chest or interaction acceptance claimed"
+  ],
+  "receipts_sha256": {
+    ".local-inputs/neutral-world-save-test/run.log": "4c6edf83fbbc4ab2c1c3f49d9fa978a0676aff9f62e46090a1efc7c41dd04cb7",
+    "port/windows-foundation/game_save.cpp": "7cfbb932dbbee2ce0d2228108f72e142eb12a308172e6d1cef2c0e5bcc54a097",
+    "port/windows-foundation/world.hpp": "3f3514d6cc8e71f1d0f4c760e06a9e1eb2a82ae0bdafcd03b054f4cdb8509f62",
+    "port/windows-foundation/game_save.hpp": "14f83a8b402bf8eb1280293a91b6e63402a4c082993de73fba3f9b4bce462f21",
+    "port/windows-foundation/tests/neutral_world_save_tests.cpp": "658d3a493a7d64a3951929f58ded98b4260c09296a7e8858f2675ad4a6cde690",
+    "port/windows-foundation/playable_actor_world.cpp": "a5454122cb56f80289d655da4444182e8aa8d8f2808a276f4e40a3e36169f94a",
+    ".local-inputs/neutral-world-save-test/baseline.log": "1b22809fc645fbbac9ba4c7803425729ba46f9d8f198de8de6f087c2093ee812",
+    "port/windows-foundation/world.cpp": "a82d9979d8cbc623d508a2a077523489b6a8038339f9ed9e561daa7c663d64fa",
+    "port/windows-foundation/playable_actor_world.hpp": "b5369adf4fa2b0cabfc9ab84a3a3e2a79b4b06a5a28f6ea60bd1d5c45f12790c"
+  },
+  "verified_utc": "2026-10-09T22:50:33.1459427Z"
+}

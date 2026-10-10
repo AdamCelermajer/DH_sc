@@ -1,0 +1,70 @@
+{
+  "candidate": "v19-preview-9",
+  "sha256": "ac8bdb552a8c33ab9e08cabd0f7e40662eaad52b9a6083e0bd048e1533a37250",
+  "executable": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\v19-direct-stance-preview9-freeze\\dh-foundation.exe",
+  "direct_equipment_lifecycle": {
+    "log": ".local-inputs/windows-main-frontend-v1/direct-stance-equipment.txt",
+    "frames": 120,
+    "equipment_counts": [
+      4,
+      3,
+      4
+    ],
+    "attachments": [
+      1,
+      0,
+      1
+    ],
+    "save_reload_restore": [
+      40,
+      80,
+      100
+    ],
+    "health": 165.098,
+    "rng": [
+      1234,
+      0
+    ],
+    "source_slots_preserved": true,
+    "final_clip": "player-source-locomotion/Idle/seq-262/step-0",
+    "final_timeline_ms": 306
+  },
+  "source_locomotion": {
+    "walk": {
+      "log": ".local-inputs/windows-main-frontend-v1/stance-walk.txt",
+      "frames": 30,
+      "sequence_id": 280,
+      "timeline_ms": 588,
+      "final_position": [
+        980.604,
+        -199.56,
+        255
+      ]
+    },
+    "run": {
+      "log": ".local-inputs/windows-main-frontend-v1/stance-run.txt",
+      "frames": 30,
+      "sequence_id": 271,
+      "timeline_ms": 588,
+      "final_position": [
+        767.862,
+        -198.426,
+        255
+      ]
+    },
+    "initial_position": [
+      1090.75,
+      -212.202,
+      255
+    ],
+    "actor_rate": "current world resolved46 walk modifier once; source phase.speed retained; legacy clip-rate excluded",
+    "combat_owned_metadata_rebind": "root focused actual Attack owner/slot/clip/generation/time regressionPASS; selection cannot steal pose"
+  },
+  "focused_combat_session_ctest": "PASS1/1",
+  "limits": [
+    "Main accepted normal Knight source Idle/Walk/Run and current/empty gear; dual/staff remain component proof only.",
+    "No change to class combat readiness or full Equipment/Skills fidelity.",
+    "Loot/FX not production enrolled.",
+    "Arbitrary differently equipped snapshot rollback not accepted."
+  ]
+}

@@ -81,7 +81,7 @@ bool MenuMapOwnerV62::construct(MenuBaseFSRegistryV62& registry,const MenuMapSer
 }
 bool MenuMapOwnerV62::source_initialize_v67(const MenuMapServicesV62& s,std::string& e){
  if(!s.register_menu||!s.register_menu(fields_,state_,projection_,e))return false;
- constexpr const char* paths[]{"MapIconsDummy","y","Map"};
+ constexpr const char* paths[]{"MapIconsDummy","MapName","RenderMap"};
  for(unsigned i=0;i<3;++i)if(!s.find_from||!s.find_from(fields_,state_,paths[i],caches_f8_[i],e))return false;
  e.clear();return true;
 }

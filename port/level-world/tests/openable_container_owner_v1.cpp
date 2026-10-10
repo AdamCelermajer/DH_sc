@@ -17,9 +17,11 @@ int main(){
  s.play_animation=[&](const char* name,bool& played,auto&){trace.push_back(name);played=std::string(name)=="idle";return true;};
  s.scene_flags=[&](auto clear,auto set,auto&){flags=(flags&~clear)|set;return true;};
  s.apply_mesh_box=[&](auto&){trace.push_back("meshbox");return true;};
- s.has_sound_manager=[](auto& v,auto&){v=false;return true;};
+ s.precache_complete_source_v42=[&](auto&){trace.push_back("precache");return true;}; // Declared captured-manager precache boundary.
  s.load_object_script=[&](auto const&,auto,auto&){trace.push_back("scriptload");return true;};
  s.detach_physical=[&](auto&){trace.push_back("detach");return true;};
+ s.game_object_init_final=[&](auto&){trace.push_back("base_final");return true;};
+ s.create_attach_po_decor=[&](auto&){trace.push_back("podecor");return true;};
  s.play_sound_3d=[&](auto sound,auto&){assert(sound==9);trace.push_back("sound");return true;};
  s.source_on_interact=[&](auto&){trace.push_back("update");return true;};
  s.drop_loot_table=[&](auto table,auto opener,auto powers,auto b,auto&){assert(table==12&&opener==0x123&&powers==-1&&!b);trace.push_back("drop");return true;};
@@ -27,7 +29,19 @@ int main(){
  s.script_call=[&](auto name,auto actor,auto event,auto&){assert(std::string(name)=="OnOpen"&&actor==0x123&&!event);trace.push_back(name);return true;};
  OpenableContainerOwnerV1 owner(f,s);assert(owner.init_post(error));
  assert(f.state394==2&&flags==0x400&&owner.is_interactive(false)&&!owner.is_interactive(true));
- assert((trace==std::vector<std::string>{"base_post","callbacks","prespawn","spawn","idle","meshbox","scriptload"}));
+ assert((trace==std::vector<std::string>{"base_post","callbacks","prespawn","spawn","idle","meshbox","precache","scriptload"}));
+ // Container::InitFinal's direct virtual+0x2c call must execute after base
+ // InitFinal and before MeetCondition/PODecor construction (IDA 0x39fc98).
+ trace.clear();s.meet_condition=[&](auto& value,auto&){trace.push_back("condition");value=true;return true;};
+ OpenableContainerOwnerV1 final_owner(f,s);assert(final_owner.init_final(error));
+ assert((trace==std::vector<std::string>{"base_final","update","condition","podecor"}));
+ trace.clear();f.state394=3;assert(final_owner.init_final(error));
+ assert((trace==std::vector<std::string>{"base_final","condition","podecor"}));
+ trace.clear();f.state394=4;assert(final_owner.init_final(error));
+ assert((trace==std::vector<std::string>{"base_final","condition","podecor"}));
+ f.state394=2;trace.clear();s.source_on_interact={};OpenableContainerOwnerV1 missing_update(f,s);
+ assert(!missing_update.init_final(error)&&error=="OpenableContainer required source service: GameObject::Update");
+ s.source_on_interact=[&](auto&){trace.push_back("update");return true;};
  trace.clear();assert(owner.interact_base(0x123,error));assert(f.state394==3&&flags==0);
  assert((trace==std::vector<std::string>{"detach","activate","sound","update"}));
  assert(owner.animation_event("opened",error));assert(trace[4]=="drop"&&trace[5]=="OnOpen");
@@ -36,10 +50,10 @@ int main(){
  // Missing real world DropLoot receiver fails at the reached boundary; no fake inventory mutation.
  s.drop_loot_table={};OpenableContainerOwnerV1 missing(f,s);assert(!missing.do_open(error));assert(error.find("DropLootTable")!=std::string::npos);
  // Original key_consume=false deliberately returns false, even with sufficient key quantity.
- f.state394=2;f.key_id710=7;f.key_consume=false;
+ f.state394=2;f.key_id710=7;f.key_qty=2;f.key_consume=false;
  s.is_character=[](auto,bool& v,auto&){v=true;return true;};
  s.find_key=[](auto,auto,bool& found,std::int16_t& qty,auto&){found=true;qty=2;return true;};
- bool removed=false;s.remove_key=[&](auto,auto,bool& result,auto&){removed=true;result=true;return true;};
+ bool removed=false;s.consume_key=[&](auto,std::int32_t id,std::int32_t quantity,bool& result,auto&){assert(id==7&&quantity==2);removed=true;result=true;return true;};
  OpenableContainerOwnerV1 keys(f,s);bool unlocked=true;assert(keys.try_unlock(1,unlocked,error)&&!unlocked&&!removed);
  f.key_consume=true;assert(keys.try_unlock(1,unlocked,error)&&unlocked&&removed);
  // Whole derived source Interact: real hosting event precedes inherited opening;

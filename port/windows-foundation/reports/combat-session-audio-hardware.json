@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-09",
+  "status": "actual_retained_combat_session_and_winmm_clock_regression_pass",
+  "goal_complete": false,
+  "production_audio_enrolled": false,
+  "test": "port/windows-foundation/tests/combat_session_audio_hardware_tests.cpp",
+  "runner": "port/windows-foundation/tests/run_combat_session_audio_hardware_tests.ps1",
+  "log": ".local-inputs/combat-session-audio-hardware.log",
+  "exit_code": 0,
+  "verified": [
+    "Real WinMM output consumes the same V42 mixer, clock and lifecycle gate; test reads its published TIME_SAMPLES, QPC and generation.",
+    "Actual CombatSession plays original LizardMan pre/attack/post BRES through retained pose owners and the explicit diagnostic AI gate.",
+    "The strike frame exposes both original attack_mainhand events at frame ordinals 0 and 1.",
+    "Source hit application/state notification precedes audio observation; root-motion delivery follows observation.",
+    "Observer receives the exact caller-published device sample/QPC/generation pair.",
+    "Required-owner rejection, thrown presentation exception and unavailable clock preserve exact damage, two hit receipts, motion callback count, accumulated authored root displacement and RNG calls against the no-observer baseline.",
+    "Unavailable clock prevents observer invocation and retains diagnostics; checked audio shutdown joins and drains the actual V42 output."
+  ],
+  "limitations": [
+    "No production main audio caller or original sound mapping was added.",
+    "This is the shared CombatSession diagnostic AI regression, not completed canonical NPC InitPost or full original AI behavior.",
+    "Accepted V18 and V19 Preview 1 packages are unchanged."
+  ]
+}

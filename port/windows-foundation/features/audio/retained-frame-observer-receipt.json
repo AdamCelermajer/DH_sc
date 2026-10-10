@@ -1,0 +1,39 @@
+{
+  "status": "feature-owned optional seam; no production caller enrolled",
+  "api": {
+    "combat_session_update": "CombatSession::update keeps existing callers source-compatible and accepts an optional caller-supplied RetainedFrameAudioClock.",
+    "clock_sample": "Exact WinMM TIME_SAMPLES device_samples + QPC monotonic nanoseconds + output generation, copied from the same AudioDeviceClockV40 captured and published to the one recovered V42 runtime.",
+    "observer": "Optional per-session observer receives same ActorId and RetainedAnimationEvent plus the actual zero-based frame.events index and validated caller sample. It runs after named_animation_event succeeds and before motion handling.",
+    "failure": "Absent/unready clock is typed unavailable_clock and the observer is not invoked. Required provider absence is distinct required_owner_unavailable. Playback diagnostics and exceptions are recorded and never change the gameplay event/frame return.",
+    "lifecycle": "Observer is transient and blocks lifecycle checkpoint validation until cleared through clear_lifecycle_services; it is not serialized."
+  },
+  "changed_paths": [
+    "port/windows-foundation/combat_session.hpp",
+    "port/windows-foundation/combat_session.cpp",
+    "port/windows-foundation/features/audio/retained_frame_audio_clock.hpp",
+    "port/windows-foundation/features/audio/retained_frame_audio_observer.hpp",
+    "port/windows-foundation/features/audio/platform_source_audio.hpp",
+    "port/windows-foundation/features/audio/platform_source_audio.cpp",
+    "port/windows-foundation/features/audio/canonical_source_audio_adapter_tests.cpp"
+  ],
+  "validation": {
+    "runner": "port/windows-foundation/features/audio/run_canonical_source_audio_adapter_tests.ps1",
+    "compiler": "LLVM-MinGW clang++ C++17 -O2 -Wall -Wextra -Werror -static; linked the recovered V42 runtime, one PlatformSourceAudio, WinMM output, and winmm.",
+    "result": "PASS",
+    "checks": [
+      "A hardware-captured TIME_SAMPLES/QPC/generation pair exactly matches the sample published to the same V42 AudioClockV40.",
+      "Unfocused, invalidated/unpublished, and focus-lost V42 clocks do not produce a valid RetainedFrameAudioClock; failed snapshot output is cleared.",
+      "The observer receives the supplied actor, actual event ordinal, and exact sample.",
+      "Absent or rejected samples do not invoke the observer and return typed unavailable_clock.",
+      "Required-owner failure remains a distinct typed diagnostic.",
+      "A playback diagnostic does not veto retained-frame dispatch, and the gameplay callback remains first; a failed gameplay callback prevents observer invocation.",
+      "CombatSession translation unit compiles with LLVM-MinGW strict warnings; its legacy missing-field-initializers are suppressed for this compile-only check."
+    ]
+  },
+  "boundaries": [
+    "No main.cpp caller/provider exists; no live production audio enrollment is claimed.",
+    "The caller must pass a clock captured for the same output frame; this change does not synthesize or choose the frame sample.",
+    "The observer callback wiring is optional and not currently connected to CanonicalSourceAudioAdapter in production.",
+    "The existing actual WinMM hardware output smoke remains the same single V42 runtime; no second router/mixer was added."
+  ]
+}

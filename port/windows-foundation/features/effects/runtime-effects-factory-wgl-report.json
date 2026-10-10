@@ -1,0 +1,42 @@
+{
+  "feature": "RuntimeEffectsFactoryV1 WGL smoke",
+  "validation": "PASS",
+  "runner": "port/windows-foundation/features/effects/runtime_effects_factory_wgl_smoke.py",
+  "test": "port/windows-foundation/features/effects/runtime_effects_factory_wgl_smoke.cpp",
+  "source_result": {
+    "validation": "PASS",
+    "session_actor": 65537,
+    "source_set": "swoosh_prince_1hand_combo_01",
+    "source_fx_event": "fx_swoosh_prince_1hand_combo_01",
+    "source_packets": 1,
+    "actual_gl_uploads": 1,
+    "changed_pixels": 3101,
+    "camera_driver_requests": 0,
+    "native_wgl_renderer": true,
+    "queue_drained": true,
+    "packet_lease_released": true
+  },
+  "archives_sha256": {
+    "port/windows-foundation/features/actor_frame/source_character_owner_factory_native_build/native.a": "610b18074d8c7558d18c0ff4a6381615912351d51379f431bf2d8be12798095a",
+    ".local-inputs/windows-foundation-build/libfoundation_data.a": "59f14e7576ec2b59044a18c562e679637e003733107290da5a826a84cc45ceec",
+    ".local-inputs/windows-foundation-build/libcontent_xml.a": "6a6989f7f5322665ac3b01b12749da7889f92cb6a2cb4cbfa27b87f66710541e",
+    ".local-inputs/windows-foundation-build/libdh2_freetype237.a": "90fd32f96bc3974d57d6ac22d68c501f58ff9a68003adb5409b244afa26540b4",
+    ".local-inputs/windows-foundation-build/librecovered_trigger_contacts.a": "fedbf224dec0c4642f4263d8209d0b601a30923d6ed0efb18a9f6f31adb9f03d",
+    ".local-inputs/windows-foundation-build/librecovered_content.a": "1a9a7ac0338cb09e624756b6607290c7fe9d6dc28c410b58cc6988490198d4a2",
+    ".local-inputs/windows-foundation-build/physics-backend/libdh2_box2d_201.a": "1dedf142b571cf67e03bc3d0e8eebd9614a915d3e92a2bab104b97392bab374b"
+  },
+  "original_assets_sha256": {
+    "resource": "af8ef8a2dc4d6da7c369964aa7d1fed08859ea4ba1d6062ac6796f11a936180b",
+    "texture": "28d2da9ef8dc3c03ecca6969cca7a35c9f3cf6e1b4bd92dc8bfc4752e41f09e3"
+  },
+  "framebuffer": ".local-inputs/windows-effects-feature-wgl/runtime-effects-factory-wgl-smoke.ppm",
+  "limits": {
+    "native_wgl_and_root_renderer": true,
+    "real_original_texture_upload": true,
+    "gl_finish_and_readback": true,
+    "changed_pixels": 3101,
+    "production_host_scene_manager_queue": false,
+    "same_frame_test_queue_retention_and_drain": true,
+    "mesh_only_source_set_camera_or_particle_driver_invocation": false
+  }
+}

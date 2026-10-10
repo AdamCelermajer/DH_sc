@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-09",
+  "status": "shared_source_rng_loan_and_reentrant_draw_order_verified",
+  "released": false,
+  "goal_complete": false,
+  "api": "PlayableActorWorld::with_loot_random(LootRandomConsumer,error)",
+  "sources": ["playable_actor_world.hpp","playable_actor_world.cpp","tests/playable_actor_world_tests.cpp"],
+  "verification": "Coherent foundation_data/playable_actor_world_tests build; focused playable_actor_world CTest1/1 PASS. Testing/Temporary/LastTest.log records shared loot/combat/audio stream PASS.",
+  "contract": [
+    "Source loot kernels borrow named LootRandom8V2 seed/calls from the actual persisted world stream; no invented/private seed or pointer reinterpretation.",
+    "Native loot draws, reentrant World audio draws, genuine combat draws and synchronous presentation draws preserve exact order.",
+    "World snapshots expose the current borrowed prefix.",
+    "Consumed RNG prefixes commit on callback false and ordinary exceptions; nested loans and registry replacement/clear reject.",
+    "Callback must not retain the temporary RNG loan or replace the world."
+  ],
+  "evidence": [
+    "Native loot13/world audio17/native loot23 results and final host seed/calls match source RNG.",
+    "False/throw callbacks preserve consumed prefix; Random(0) works after failed callback.",
+    "Interleaved native loot/genuine combat/presentation/native loot equals independent same-data reference world results and RNG state."
+  ],
+  "limits": ["Main loot enrollment remains pending; this helper is development-only after Preview9."]
+}

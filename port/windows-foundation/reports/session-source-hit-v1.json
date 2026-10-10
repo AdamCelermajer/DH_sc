@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-10",
+  "status": "implemented and actual original-data Session tested; feature cast integration pending",
+  "api": "CombatSession::apply_source_result(CombatSessionSourceHit, DamageEvent, error)",
+  "source_evidence": {
+    "spell": "F_SpellAttack 0x3b3004 -> F_CalculateResult 0x3b2638; exact supplied request fields",
+    "injury": "F_ApplyResult outcome0x10 and source injury gate +0x14fc, shared NPC/player 3000ms gate",
+    "visual": "fidelity-player-hit-reaction-20261009.json; original375-376s continuing attacks with inferred incoming damage",
+    "architecture": "same existing World, property sheets, RNG, CombatSystem and ActorCombatRuntime"
+  },
+  "test_runner": "tools/run_combat_session_source_hit_tests.ps1",
+  "verification": {
+    "strict_Cpp17_static_build": "PASS",
+    "actual_Knight_and_Lizard_Session_and_source_kernel": "PASS",
+    "full_source_outcomes_and_mask": "PASS",
+    "duplicate_source_occurrence_no_rng_or_damage": "PASS",
+    "pre_frame_receipt_survives_runtime_update": "PASS",
+    "receipt_delivered_once_on_next_frame": "PASS",
+    "lethal_source_result_same_death_runtime": "PASS",
+    "live_foreign_detached_and_old_restore_lease_rejected": "PASS"
+  },
+  "policy": "Caller supplies actual cast generation and event index. Latest generation is retained per actor/source; duplicate target/event is a successful no-op. Reached damage prefixes are not rolled back or replayed after lifecycle failure.",
+  "remaining": [
+    "Actual skill/faery admission, target order, cast animation/event producer, effects and hotkeys",
+    "Original HitFor/aggro and full DOT/leech/fear/stun/knockback/slow effects",
+    "Main in-game skill/faery validation"
+  ],
+  "limits": "Basic health plus existing gated Injury/death application only. The lethal test supplies current HP through the actual F_DotAttack direct-amount mask as a boundary fixture; it defines no gameplay balance or timer hit."
+}

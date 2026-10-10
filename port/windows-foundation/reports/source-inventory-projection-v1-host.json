@@ -1,0 +1,61 @@
+{
+  "validation": "PASS",
+  "scope": "Actual Gear inventory projection; Windows COFF root archive supplies one current ABI closure.",
+  "source_sha256": {
+    "port/windows-foundation/features/inventory/source_inventory_projection_v1.cpp": "4a92e8de3adaf065a4c8a679cc4573bcc4531b118cc7d1bc547ca6cb2b32af09",
+    "port/windows-foundation/features/inventory/source_instance_resolver.cpp": "5073f35abee06051ff4011a266b2b739856b6f12ede6365f08638b561adebf80",
+    "port/windows-foundation/features/inventory/source_inventory_projection_v1_native_tests.cpp": "76e602b2538b34054a4ae1dd038db6cc035878f88dad9bc8d056a9040315aa68"
+  },
+  "inputs": [
+    "port/level-world/reference/character-game-design/real-cache-inputs.bin",
+    ".local-inputs/items-discovery",
+    ".local-inputs/player-item-effects-v5/power-cache",
+    "port/android-native/app/src/main/assets",
+    ".local-inputs/player-item-effects-v5/private-save",
+    ".local-inputs/visual-skin-owner-v6/weapons",
+    "port/android-native/app/src/main/assets/models/prince_modular.bdae",
+    "port/game-data/reference/player-item-effects-v5/starter-effects-fixtures.bin"
+  ],
+  "native_exit": 0,
+  "stdout": "source inventory projection PASS actual Gear order/definitions/quantity/equipment, invalidation, equip/restore epochs, Gear text owner\n",
+  "stderr": "",
+  "executable_sha256": "9e3c07c384ed7790548f6f812997489693b184f40ff7285d75165e6904a94458",
+  "native_archive_sha256": "ea0287d0492ccdcd9bc4b84057ab2e687ffe843d8e7797c099c9f0daf0b1bd61",
+  "foundation_archives_sha256": {
+    "libfoundation_data.a": "a0f0a9ddaa01d9130658a74febf196f19f297cffc73cdb739217ea4aaab9356a",
+    "librecovered_content.a": "1a9a7ac0338cb09e624756b6607290c7fe9d6dc28c410b58cc6988490198d4a2",
+    "libcontent_xml.a": "6a6989f7f5322665ac3b01b12749da7889f92cb6a2cb4cbfa27b87f66710541e"
+  },
+  "commands": {
+    "compile": "LLVM-MinGW C++20 COFF objects for projection, resolver and actual Gear fixture",
+    "link": [
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-toolchain\\llvm-mingw-20261006-ucrt-x86_64\\bin\\clang++.exe",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\windows-foundation\\features\\inventory\\source_inventory_projection_native_build\\source_inventory_projection_v1.o",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\windows-foundation\\features\\inventory\\source_inventory_projection_native_build\\source_instance_resolver.o",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\windows-foundation\\features\\inventory\\source_inventory_projection_native_build\\source_inventory_projection_v1_native_tests.o",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\windows-foundation\\features\\actor_frame\\source_character_owner_factory_native_build\\native.a",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-foundation-build\\libfoundation_data.a",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-foundation-build\\librecovered_content.a",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-foundation-build\\libcontent_xml.a",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\windows-foundation\\features\\actor_frame\\source_character_owner_factory_native_build\\native.a",
+      "-Wl,--gc-sections",
+      "-Wl,-Map,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\windows-foundation\\features\\inventory\\source_inventory_projection_native_build\\native.map",
+      "-lopengl32",
+      "-luser32",
+      "-lgdi32",
+      "-o",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\windows-foundation\\features\\inventory\\source_inventory_projection_native_build\\source_inventory_projection_v1_native_test.exe"
+    ],
+    "run": [
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\windows-foundation\\features\\inventory\\source_inventory_projection_native_build\\source_inventory_projection_v1_native_test.exe",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reference\\character-game-design\\real-cache-inputs.bin",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\items-discovery",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\player-item-effects-v5\\power-cache",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\player-item-effects-v5\\private-save",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\visual-skin-owner-v6\\weapons",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\models\\prince_modular.bdae",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\reference\\player-item-effects-v5\\starter-effects-fixtures.bin"
+    ]
+  }
+}

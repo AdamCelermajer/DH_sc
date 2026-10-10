@@ -1,0 +1,25 @@
+{
+  "test": "asset_tests",
+  "status": "passed",
+  "date": "2026-10-09",
+  "compiler": ".local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe",
+  "compile_arguments": ["-std=c++17", "-static", "-O1", "port/windows-foundation/tests/asset_tests.cpp", "port/windows-foundation/asset_catalog.cpp", "-o", ".local-inputs/windows-foundation-tests/asset_tests.exe"],
+  "compile_exit_code": 0,
+  "run_arguments": ["C:/Users/adamc/Desktop/workspace/DH_sc"],
+  "run_exit_code": 0,
+  "checks": [
+    "Fixture direct and ancestor asset-root discovery",
+    "Binary reads preserve exact bytes",
+    "Empty, absolute, and parent traversal paths rejected",
+    "Missing files, directory assets, and invalid roots rejected",
+    "Inventory contains only fixture-root files with correct sizes and deterministic order",
+    "Case-insensitive asset search and resource filtering",
+    "Actual original asset-root discovery",
+    "Actual Prince model, Prince animation bank, and intro.mp4 files present and nonempty",
+    "Actual Prince model binary read has complete file size",
+    "Actual world and Prince resource inventories nonempty"
+  ],
+  "actual_resource_count": 832,
+  "actual_asset_root": "port/android-native/app/src/main/assets",
+  "limitations": ["Availability checks do not establish Act 1 coverage, decoding, or cinematic playback."]
+}

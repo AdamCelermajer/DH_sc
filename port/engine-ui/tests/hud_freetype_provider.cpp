@@ -16,7 +16,7 @@ using namespace dh2::ui;
 static void check(bool ok,const char* e){if(!ok)throw std::runtime_error(e);}
 struct Test {
     std::string swfs,fonts,assets;std::vector<std::vector<std::uint8_t>> images;
-    Localization localization;dh2_script_constants* constants=dh2_script_constants_create();
+    Localization localization;dh2_script_constants* constants=dh2_script_constants_create();bool reject_upload{};
     unsigned alpha{},nonempty{},quads{},reads{},opens{},closes{},packed{},localizations{},text_opens{},text_closes{};std::map<std::string,std::string> resolved;
     ~Test(){dh2_script_constants_destroy(constants);}
     static std::vector<std::uint8_t> file(const std::string& p){std::ifstream f(p,std::ios::binary);check(bool(f),p.c_str());return {std::istreambuf_iterator<char>(f),{}};}
@@ -41,7 +41,7 @@ struct Test {
         if(dh2_swf_font_resolve(&result,&input,&services)!=0||!result.found){e="unavailable actual resolved font";return false;}t.resolved[name]=path;std::ifstream f(path,std::ios::binary);if(!f){e="resolved file vanished";return false;}out.assign(std::istreambuf_iterator<char>(f),{});return true;}
     static bool read(void* p,const char* uri,std::vector<std::uint8_t>& out,std::string& e){auto& t=*static_cast<Test*>(p);std::string s=uri;s=s.substr(s.find_last_of('/')+1);std::ifstream f(t.swfs+"/"+s,std::ios::binary);if(!f){e="missing actual SWF";return false;}out.assign(std::istreambuf_iterator<char>(f),{});return true;}
     static bool texture(void*,const char*,int w,int h,SwfTexture& out,std::string&){out={123,w?w:1024,h?h:1024};return true;}
-    static bool image(void* p,int w,int h,unsigned channels,const std::uint8_t* pixels,int pitch,SwfTexture& out,std::string&){auto& t=*static_cast<Test*>(p);check(w>0&&h>0&&pixels&&pitch>=w*int(channels),"malformed actual upload");std::vector<std::uint8_t> copy;for(int y=0;y<h;++y)copy.insert(copy.end(),pixels+y*pitch,pixels+y*pitch+w*channels);if(channels==1){++t.alpha;for(auto x:copy)if(x){++t.nonempty;break;}}t.images.push_back(std::move(copy));out={1000+t.images.size(),w,h};return true;}
+    static bool image(void* p,int w,int h,unsigned channels,const std::uint8_t* pixels,int pitch,SwfTexture& out,std::string& error){auto& t=*static_cast<Test*>(p);if(t.reject_upload){error="fixture texture budget rejected image";return false;}check(w>0&&h>0&&pixels&&pitch>=w*int(channels),"malformed actual upload");std::vector<std::uint8_t> copy;for(int y=0;y<h;++y)copy.insert(copy.end(),pixels+y*pitch,pixels+y*pitch+w*channels);if(channels==1){++t.alpha;for(auto x:copy)if(x){++t.nonempty;break;}}t.images.push_back(std::move(copy));out={1000+t.images.size(),w,h};return true;}
     static bool draw(void* p,const SwfDraw& d,std::string&){if(d.kind==SwfDraw::bitmap_quad)++static_cast<Test*>(p)->quads;return true;}
     static bool native(void* p,const char* name,const std::vector<SwfValue>& a,SwfValue& out,std::string& e){auto& t=*static_cast<Test*>(p);if(std::string(name)!="NativeGetStringFromSymbol"){e="unavailable game function";return false;}LocalizationResult result;LocalizationServices svc{p,text_open,text_close,text_debug,constant,no_player,unused_name};if(!t.localization.native_string(a.empty()?"":a[0].string,svc,result,e))return false;out.kind=SwfValue::text;out.string=result.text;std::cerr<<"source localization: "<<result.text<<'\n';++t.localizations;return true;}
     static bool stencil(void*,const float*,std::uint8_t,bool& out,std::string&){out=false;return true;}

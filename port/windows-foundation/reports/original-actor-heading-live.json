@@ -1,0 +1,31 @@
+{
+  "status": "verified_borrowed_heading_and_source_UpdatePath_bridges_ready",
+  "manual_api": {
+    "entry": "PlayableActorBodies::update_manual_heading(actorId,OriginalManualHeadingBindings,OriginalManualHeadingResult,error)",
+    "bindings": "controller lease + read/publish HeadingState callbacks on SAME host motor; source_policy(actual flags520,actual ValidateBoundary452), reached source Debug skip callback",
+    "order": "Copy SAME actor160 XYZ to sole PFObject.motion.position FIRST even policyoff. Decode actual flags with dh2_move_policy. Under update_path, read borrowed manual heading. Set/clear PF active flag2 from pre-boundary heading. Under active+actualboundary query source Debug. Unless skipped invoke original ValidateDirection. Always SetHeadingDirection(self-aliased direction,rotate1) and publish to SAME motor regardless diagnostic bool. Do not recalculate PFactive after final heading.",
+    "policy": "No state-ID/animation-name/InputAction-derived flags. Session state integer alone is insufficient. Host may borrow actual fields produced by original_actor_motion_flags constructor/focus/set_flags prefix services; missing flags/boundary/Debug publication fails if reached.",
+    "scope": "Explicit no-path PC/input adapter AFTER actual command admission. No destination, arrival/Stop, path/waypoint ownership, obstacle avoidance or FSM created. Caller chooses source phase and consumes heading in actual rotation policy; this is not whole UpdatePath or full original input/frame ownership."
+  },
+  "full_api": {
+    "entry": "PlayableActorBodies::update_path(actorId,OriginalActorPathBindings&,ControllerResult,error)",
+    "backing": "Actual caller-owned PathController, PathObject, ControllerWorkspace, optional actual AvoidanceScene, source ControllerPolicy provider, reached Debug skip, physicalStop provider and host publication callback",
+    "implementation": "Refresh borrowed coordinator current position from SAME ActorState; copy same PF XYZ before source policy. Delegate existing dh2_nav_update_path_source_v69 on actual floor CollisionWorld/Graph, sole PF and borrowed path. Exact kernel drives waypoint/destination/arrival/heading/avoidance/boundary. Source body Stop only when requested; required callback failure preserves reached prefix. No private path/FSM or successful no-op service invented.",
+    "physical_presence": "When source update-path policy selects physical-update or avoidance, explicit actual avoidance/physical-presence scene required; no null scene treated as fictitious absent body."
+  },
+  "source_evidence": {
+    "original": "GameObject::UpdatePath3940c0; navigation-controller/original-functions.asm3942ec..39430c passes actualheading1b8 to525d60 then unconditionally393be8 SetHeadingDirection. PF cached current copy occurs before path-policy early gate.",
+    "kernel": "port/level-world/navigation_controller.cpp reconstructed coordinator, 1132 original differential requests (97 destination/1035 update), documented reference/navigation-controller/NOTES.md. Original bool is diagnostic; radius forwarded but not consumed by direction body.",
+    "flags": "dh2_move_policy exact flags bit7 IsUpdatingPath; original Move focus23c1/type0 and Idle focus2380 are separate source producer prefixes, not generic state maps."
+  },
+  "native_verification": {
+    "files": ["tests/original_actor_navigation_tests.cpp", "tests/playable_actor_bodies_tests.cpp"],
+    "actual_geometry": "Original Swamp9room16floor registry and current[1137.43018,-200.057037,255.000061] source boardwalk edge",
+    "manual_owner": "Actual ActorMovement owner read/publish callbacks. Original Move-focus primitive writes source flags. Diagonal active heading becomes source +X boundary slide on SAME motor, no current root displacement gate. Policyoff copies PF while no heading callback fires; diagnostic0 still publishes active heading; reached absent Debug fails.",
+    "full_owner": "Explicit borrowed controller/path/workspace fixture delegates genuine original UpdatePath kernel, destination200-away yields source pathRequested and boundary heading+X. No active VM/FSM claimed by fixture.",
+    "pool": "Same actual native player/PF/ActorState wrapper dispatches manual source heading and preserves position authority; all prior body/property/restore/contact/navigation tests PASS",
+    "compiler": "Standalone -std=c++17 -Wall -Wextra -Werror with vendor Box2D system headers and finite compatibility define; genuine asset native executions PASS"
+  },
+  "dependencies": ["../level-world/navigation_controller.cpp", "../level-world/navigation_avoidance.cpp", "../level-world/move_state.cpp", "Existing navigation_heading/path/world/motion kernels"],
+  "limits": "Host still owns actual flags520/boundary452/Debug, command/FSM admission, original rotation/facing timing, path lifetime, neighbor registry/avoidance services and native Step/contactAIS. Full wrapper accepts only actual declared backing, not a second path to approximate missing authority. Old packages/main/CMake untouched."
+}

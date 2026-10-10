@@ -1,0 +1,211 @@
+{
+  "status": "read-only source audit; no runtime implementation changed",
+  "sources": [
+    "port/level-world/character_state.cpp",
+    "port/level-world/character_native_effects.cpp",
+    "port/level-world/move_state.cpp",
+    "port/level-world/actor_rotation.cpp",
+    "port/level-world/actor_runtime.cpp",
+    "port/level-world/subobjects_update.cpp",
+    "port/windows-foundation/original_actor_lifecycle.cpp",
+    "port/windows-foundation/combat_session.cpp"
+  ],
+  "focus_assignments": [
+    {
+      "name": "idle",
+      "state": 3,
+      "flags": "0x2380",
+      "condition": "Only when idle_suppressed is zero; suppressed focus leaves prior flags unchanged",
+      "decoded": {
+        "position_from_visual": false,
+        "position_from_physics": false,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": true,
+        "validate_floor": true,
+        "instant_rotation": false
+      }
+    },
+    {
+      "name": "move",
+      "state": 4,
+      "flags": "0x23c1",
+      "condition": "Before move_type reset0, authored Walk/Run selection, source speed and body unpin",
+      "decoded": {
+        "position_from_visual": true,
+        "position_from_physics": false,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": true,
+        "validate_floor": false,
+        "instant_rotation": false
+      }
+    },
+    {
+      "name": "attack",
+      "state": 5,
+      "flags": "0x2341",
+      "condition": "Before source static/moving animation selection; pin/unpin depends prior state/player/static clip availability",
+      "decoded": {
+        "position_from_visual": true,
+        "position_from_physics": false,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": false,
+        "validate_floor": false,
+        "instant_rotation": false
+      }
+    },
+    {
+      "name": "dead_npc",
+      "state": 12,
+      "flags": "0x241",
+      "condition": "Player branch adds0x2000; after NPC end22 flags become0x40",
+      "decoded": {
+        "position_from_visual": true,
+        "position_from_physics": false,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": false,
+        "validate_floor": false,
+        "instant_rotation": false
+      }
+    },
+    {
+      "name": "dead_player",
+      "state": 12,
+      "flags": "0x2241",
+      "condition": "Actual is_player producer adds0x2000",
+      "decoded": {
+        "position_from_visual": true,
+        "position_from_physics": false,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": false,
+        "validate_floor": false,
+        "instant_rotation": false
+      }
+    },
+    {
+      "name": "stunned",
+      "state": 9,
+      "flags": "0x2202",
+      "condition": "Source effect focus; player lock separate, cancel sneaking then body unpin",
+      "decoded": {
+        "position_from_visual": false,
+        "position_from_physics": true,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": false,
+        "validate_floor": true,
+        "instant_rotation": false
+      }
+    },
+    {
+      "name": "scared",
+      "state": 8,
+      "flags": "0x2240",
+      "condition": "Source randomized heading owner required; cancel sneaking then body unpin",
+      "decoded": {
+        "position_from_visual": false,
+        "position_from_physics": false,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": false,
+        "validate_floor": false,
+        "instant_rotation": false
+      }
+    },
+    {
+      "name": "limbus",
+      "state": 0,
+      "flags": "0x0",
+      "condition": "Actual OriginalActorLifecycle set_flags focus",
+      "decoded": {
+        "position_from_visual": false,
+        "position_from_physics": false,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": false,
+        "validate_floor": true,
+        "instant_rotation": false
+      }
+    },
+    {
+      "name": "pre_spawn",
+      "state": 17,
+      "flags": "0x1300",
+      "condition": "Actual OriginalActorLifecycle set_flags focus",
+      "decoded": {
+        "position_from_visual": false,
+        "position_from_physics": false,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": false,
+        "validate_floor": true,
+        "instant_rotation": false
+      }
+    },
+    {
+      "name": "spawn",
+      "state": 1,
+      "flags": "0x241",
+      "condition": "Actual lifecycle focus; carried interactive branch may OR0x2000",
+      "decoded": {
+        "position_from_visual": true,
+        "position_from_physics": false,
+        "rotation_from_visual": false,
+        "rotation_from_physics": false,
+        "visual_with_rotation": true,
+        "update_path": false,
+        "validate_floor": false,
+        "instant_rotation": false
+      }
+    }
+  ],
+  "live_available": {
+    "original_state": "CombatSession.original_actor_state(actorID) reads same Impl.live_original_state: registered lifecycle original state first, otherwise existing ActorState action/property facts; this is a current state projection, NOT proof that original focus executed",
+    "rotation_property": "world.combat_properties(actorID)->sheets.resolved[47] is SAME actual original class/gear resolved sheet",
+    "lifecycle_flags": "OriginalActorLifecycle.status(actorID)->flags and set_flags request carry actual bounded source lifecycle0/17/1/3 flag writes",
+    "visual": "Session Entry.visual and actual loaded CharacterVisual configuration establish current in-house visual ownership; OriginalActorPhysical bindings expose borrowed visual2d8 handle. Source visual presence means nonnull owner, independent of visibility",
+    "body": "Actual OriginalActorPhysical.native() and shared world body expose body presence. Unpin/pin must be source focus/blur effects, not guessed merely from source state ID",
+    "not_available": "No same-ActorState raw Character+520 flag owner/getter currently exists in generic Session/ActorState. No universal flags-from-state function is justified."
+  },
+  "rotation": {
+    "source_getter": "Character::GetRotationSpeed0x3a372c: flags520&0x20 returns -1 float; otherwise PROPS_GetRotationSpeed0x3de708 = max0(1+(resolved47/256)*.01)",
+    "kernel": "dh2_move_rotation_speed consumes actual flags+resolved224; dh2_actor_update_rotation uses speed*floatbits0x41490fdb (~4pi rad/s), dt_ms*.001, source wrap direction; speed<0 assigns heading immediately",
+    "visual_gate": "rotation result requests visual sync only if visual_present&&visual_with_rotation",
+    "current_session_gap": "CombatSession Impl.turn presently uses original_speed_modifier(raw47) and hardcodes visual_present1/visual_with_rotation1; misses actual flags20 instant override and real visual-presence/policy producers"
+  },
+  "policy_separation": {
+    "character_flags": "Character+520 is mutable runtime flags written by actual source focus/effects/lifecycle; NOT CharacterTable property, AITable.Flags, controller.locked/forced or body.enabled",
+    "AI_flags": "AITable.Flags row+14 supplies e.g boss bit0x4 in native effects and must not replace Character+520",
+    "physics_update": "Actor RuntimePolicy.path.update_physics remains explicit actual virtual predicate. Matching source Character getter derives position-from-physics bit1; do not assume all bodies imply update_physics",
+    "pipeline": "Source update order path/Stop -> bounded rotation -> visual sync if permitted -> subobjects position/rotation policy -> target cache. Existing target_id remains authoritative; heading angle is a separate desired angle, not another target owner.",
+    "floor": "validate_floor is inversebit0x40 in subobjects decoder. It is one source pipeline policy, not authorization to globally disable all collision/floor constraints."
+  },
+  "bounded_same_actor_owner_proposal": [
+    "Add one optional raw source-motion flags word on SAME ActorState or its leased runtime field backing, with provenance that an actual source focus/set_flags effect supplied it; absence remains unknown.",
+    "Wire existing OriginalActorLifecycle set_flags effects to that owner immediately; no second FSM/current state/target allocation is needed.",
+    "For Move/Idle/Attack, publish source flags at proven actual focus boundary, with Idle suppression and blur pin/Stop side effects preserved. A frame-by-frame state switch assigning constants is only a diagnostic approximation and must not claim source owner fidelity.",
+    "Preserve subsequent raw flag modifications such as native-effect mode OR0x400/0x800 and any source bit20 override; do not overwrite by recomputing from current state.",
+    "Expose a getter returning failure when raw flags provenance is missing. Decode using existing dh2_move_policy and dh2_move_rotation_speed against SAME resolved sheets.",
+    "Use actual visual/body owner handles, caller camera/auxiliary facts, and decoded policy instead of hardcoded booleans. Source heading/stop owners continue sharing the same ActorState position/destination and authoritative target_id.",
+    "Checkpoint either serializes this runtime policy owner with compatible source provenance or rejects while bound; restore must not silently introduce flags that were never produced."
+  ],
+  "remaining_gaps": [
+    "Full FSM registered focus for every skill/hurt/knockback state is not bound in the clean Session",
+    "Exact input heading admission and current heading owner bookkeeping remain other owners' work",
+    "Focus animation/body/timer/AI callbacks may synchronously mutate flags and must remain observable",
+    "No new tests/runtime edits were made because this task is read-only"
+  ]
+}

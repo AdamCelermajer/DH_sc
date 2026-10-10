@@ -1,0 +1,24 @@
+{
+  "feature": "status_effects",
+  "validation": "PASS",
+  "integration": "adapter_complete_host_binding_required",
+  "owned_files": [
+    "port/windows-foundation/features/status_effects/status_effects.hpp",
+    "port/windows-foundation/features/status_effects/status_effects.cpp",
+    "port/windows-foundation/features/status_effects/status_effects_tests.cpp"
+  ],
+  "api": "dh::foundation::status::StatusEffects(Borrow): add/remove/dot/expired/tick/application/remove_all",
+  "native_reuse": ["character_buffs", "character_timers", "character_native_effects", "character_slow_reaction_v1", "character_timer_effects"],
+  "ownership": "Borrow stable ActorState, genuine Character identity, PropertyView, BuffOwner, TimerStore32, NativeEffects32 and timer-effect services; create no health/FSM/damage/timer owner",
+  "effect_application": "v6 stun/scare/slow requests route to native_effect_set or full original SlowReactionV1; all other services return unhandled",
+  "dot_and_leech": "Original timer event0x34 uses genuine full CombatResult calculate/apply providers. FApplyResult leech, HP/MP, reaction, sound/text tails remain with the existing result owner; no invented formula or tick frequency",
+  "lifecycle": "Original buff capacity/strength/duration replacement, same TimerStore object expiry, duplicate expiry rejection, source RemoveAllBuffs on death/end, callback reentry rejection; attack interrupt retains timed buffs",
+  "test": {
+    "binary": ".local-inputs/status-effects-tests.exe",
+    "compiler": ".local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe",
+    "result": "PASS original ClassDict Buff_Speed=48 Debuff_Slow=60 AUTO_DOT_01_FIRE=1 duplicate/duration/expiry/reentry/interrupt/death/end/required-service checks",
+    "actual_assets": ["character_classes_pyarray.bin", "character_classes_pyarraynames.bin", "character_classes_pystructnames.bin"],
+    "checks": ["native buff/timer/property kernels", "stronger duplicate same instance", "199ms then 1ms exact duration", "event54 expiry and duplicate stale delivery", "foreign expiry object", "source interrupt persistence", "death/end timer cleanup", "synchronous callback reentry", "missing FX/FApplyResult/native state provider failure", "unknown service unhandled", "foreign character owner"]
+  },
+  "limitations": ["Root must bind originalBuff and shared services and add sources/test to exclusive CMake", "No claim that full tick/leech/FX services are integrated", "BuffOwner is opaque: host is responsible for supplying the owner backed by the borrowed properties/timers", "Source timer producer owns schedule and dt; this adapter never advances a second clock"]
+}

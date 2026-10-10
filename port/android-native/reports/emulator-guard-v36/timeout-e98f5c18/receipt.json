@@ -1,0 +1,279 @@
+{
+  "schema": "dh2-emulator-watchdog-v36",
+  "status": "terminated_by_guard",
+  "verified": true,
+  "limits": {
+    "soft_job_bytes": 5368709120,
+    "aggregate_qemu_bytes": 12884901888,
+    "min_commit_headroom_bytes": 17179869184,
+    "min_physical_available_bytes": 6442450944,
+    "timeout_seconds": 1.0,
+    "allow_physical_pressure": false,
+    "max_physical_used_percent": 98
+  },
+  "termination_attempted": true,
+  "termination_succeeded": true,
+  "watchdog_pid": 297876,
+  "job_name": "Local\\DH2-Emulator-4899bdad-8379-4bf6-9815-0e664744162f",
+  "manifest_sha256": "82f0af8d3b5930277f8523a02ee75f2b6965bdb7110d605d3c12f31cc0dc82e2",
+  "launcher_pid": 173168,
+  "target_pid": 226904,
+  "armed": true,
+  "elapsed_seconds": 1.0309999999881256,
+  "last_snapshot": {
+    "wall_time_utc": "2026-10-08T14:52:33Z",
+    "elapsed_seconds": 1.0,
+    "expected_owner": {
+      "pid": 173168,
+      "create_time_filetime": 134359447522537672
+    },
+    "complete": true,
+    "errors": [],
+    "job_members": [
+      {
+        "pid": 226904,
+        "parent_pid": 173168,
+        "image": "python.exe",
+        "create_time_filetime": 134359447523230974,
+        "private_bytes": 4198400,
+        "working_set_bytes": 9703424,
+        "handles": 85,
+        "alive": true
+      },
+      {
+        "pid": 159424,
+        "parent_pid": 226904,
+        "image": "conhost.exe",
+        "create_time_filetime": 134359447524527327,
+        "private_bytes": 1277952,
+        "working_set_bytes": 8011776,
+        "handles": 98,
+        "alive": true
+      }
+    ],
+    "qemu": [],
+    "owned_process_tree": [
+      {
+        "pid": 148872,
+        "parent_pid": 297876,
+        "image": "conhost.exe",
+        "create_time_filetime": 134359447523320258,
+        "private_bytes": 1277952,
+        "working_set_bytes": 8007680,
+        "handles": 95,
+        "alive": true
+      },
+      {
+        "pid": 159424,
+        "parent_pid": 226904,
+        "image": "conhost.exe",
+        "create_time_filetime": 134359447524527327,
+        "private_bytes": 1277952,
+        "working_set_bytes": 8011776,
+        "handles": 98,
+        "alive": true
+      },
+      {
+        "pid": 173168,
+        "parent_pid": 194868,
+        "image": "python.exe",
+        "create_time_filetime": 134359447522537672,
+        "private_bytes": 7958528,
+        "working_set_bytes": 15151104,
+        "handles": 213,
+        "alive": true
+      },
+      {
+        "pid": 226904,
+        "parent_pid": 173168,
+        "image": "python.exe",
+        "create_time_filetime": 134359447523230974,
+        "private_bytes": 4198400,
+        "working_set_bytes": 9703424,
+        "handles": 85,
+        "alive": true
+      },
+      {
+        "pid": 243340,
+        "parent_pid": 296104,
+        "image": "conhost.exe",
+        "create_time_filetime": 134359447523237443,
+        "private_bytes": 1273856,
+        "working_set_bytes": 8011776,
+        "handles": 98,
+        "alive": true
+      },
+      {
+        "pid": 296104,
+        "parent_pid": 173168,
+        "image": "python.exe",
+        "create_time_filetime": 134359447523181260,
+        "private_bytes": 4190208,
+        "working_set_bytes": 9699328,
+        "handles": 85,
+        "alive": true
+      },
+      {
+        "pid": 297876,
+        "parent_pid": 173168,
+        "image": "python.exe",
+        "create_time_filetime": 134359447523262138,
+        "private_bytes": 11902976,
+        "working_set_bytes": 20197376,
+        "handles": 130,
+        "alive": true
+      }
+    ],
+    "job_process_ids": [
+      226904,
+      159424
+    ],
+    "manifest_unchanged": true,
+    "job_membership_passes": [
+      {
+        "pass": 1,
+        "queried_count": 2,
+        "queried_pids": [
+          159424,
+          226904
+        ],
+        "sampled_count": 2,
+        "sampled_identities": [
+          {
+            "pid": 226904,
+            "create_time_filetime": 134359447523230974
+          },
+          {
+            "pid": 159424,
+            "create_time_filetime": 134359447524527327
+          }
+        ],
+        "process_gone_count": 0,
+        "process_gone_pids": [],
+        "process_gone_diagnostics": [],
+        "accepted": true,
+        "pid_list_limit": 64,
+        "refreshed_count": 2,
+        "refreshed_pids": [
+          159424,
+          226904
+        ],
+        "departed_count": 0,
+        "departed_pids": [],
+        "new_count": 0,
+        "new_pids": [],
+        "missing_current_count": 0,
+        "missing_current_pids": []
+      }
+    ],
+    "system": {
+      "commit_total_bytes": 45956227072,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 11258753024,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 225173,
+      "processes": 570
+    },
+    "host_process_images": [
+      {
+        "image": "conhost.exe",
+        "count": 110
+      },
+      {
+        "image": "svchost.exe",
+        "count": 103
+      },
+      {
+        "image": "node.exe",
+        "count": 69
+      },
+      {
+        "image": "cmd.exe",
+        "count": 51
+      },
+      {
+        "image": "node_repl.exe",
+        "count": 25
+      },
+      {
+        "image": "chatgpt.exe",
+        "count": 13
+      },
+      {
+        "image": "python.exe",
+        "count": 10
+      },
+      {
+        "image": "runtimebroker.exe",
+        "count": 10
+      },
+      {
+        "image": "t3 code (alpha).exe",
+        "count": 8
+      },
+      {
+        "image": "slack.exe",
+        "count": 7
+      },
+      {
+        "image": "dllhost.exe",
+        "count": 6
+      },
+      {
+        "image": "msedgewebview2.exe",
+        "count": 6
+      },
+      {
+        "image": "powershell.exe",
+        "count": 6
+      },
+      {
+        "image": "msedge.exe",
+        "count": 5
+      },
+      {
+        "image": "nvidia overlay.exe",
+        "count": 5
+      },
+      {
+        "image": "twinkle tray.exe",
+        "count": 5
+      }
+    ],
+    "host_process_census_count": 567,
+    "owner": {
+      "pid": 173168,
+      "parent_pid": 194868,
+      "image": "python.exe",
+      "create_time_filetime": 134359447522537672,
+      "private_bytes": 7958528,
+      "working_set_bytes": 15151104,
+      "handles": 213,
+      "alive": true
+    },
+    "job_membership_requeries": 1,
+    "job_exit_drain_wait_seconds": 0.0,
+    "job_reconciled_exited_pids": [],
+    "job_reconciled_departed_pids": [],
+    "gone_enumerated_pids": [],
+    "decision": {
+      "action": "terminate",
+      "reasons": [
+        "monitor_timeout"
+      ],
+      "observations": {
+        "owned_private_bytes": 5476352,
+        "aggregate_qemu_private_bytes": 0,
+        "commit_headroom_bytes": 54797713408,
+        "physical_available_bytes": 11258753024,
+        "physical_total_bytes": 34181947392,
+        "physical_used_percent": 67.06228321375563,
+        "job_process_count": 2,
+        "qemu_process_count": 0,
+        "owned_handles": 183,
+        "elapsed_seconds": 1.0
+      }
+    }
+  }
+}

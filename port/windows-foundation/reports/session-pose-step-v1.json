@@ -1,0 +1,57 @@
+{
+  "feature": "CombatSession configured injury/death source leaf presentation",
+  "validation": "PASS",
+  "runner": "tools/run_combat_session_pose_step_tests.ps1",
+  "regression_runner": "tools/run_combat_session_source_hit_tests.ps1",
+  "source_evidence": {
+    "injury_admission": "F_ApplyResult tests result bit0x10; SM_SetInjureState 0x3c5d84 returns for a positive Character+0x14fc gate, otherwise writes3000ms and resolves CharAnimTable Injured plus admitted stance before state50010.",
+    "source_file": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
+    "swamp_lizard": "Actual profile Swamp_LizadMan_Type1/property row360 uses LizardMan_Injured377 step0/AnimDict816, LizardMan_Died374 step0/AnimDict811. BigLizard88/85 are different source rows, not aliases for this actor.",
+    "visual_evidence": "reports/fidelity-player-hit-reaction-20261009.json: original video375.25-376.25 shows a smaller player HP fill while melee poses continue. It does not prove the precise incoming outcome or injury event for every hit.",
+    "version_caveat": "Recovered source/assets v1.0.2; reference footage v1.0.3. No exact original runtime sound trace is claimed."
+  },
+  "implementation": {
+    "owner": "Existing same-Session ActorCombatRuntime visual.select and CombatSessionStepObserver",
+    "entry": "Configured injury/death successful seeded pose selection publishes the exact selected leaf's AnimTable container/step, actor, current binding lease and new occurrence before advancement.",
+    "ancestor_scope": "Only the actually selected leaf container is published. Diagnostic leaf selection does not fabricate unexecuted ancestor boundaries.",
+    "restore": "Detached rebind and terminal corpse holding are silent; already-dead saved state is not a new death occurrence.",
+    "audio_clock": "Borrowed caller clock only during an actual Session update. Outside-frame entries carry no clock; no synthesized device timestamp.",
+    "observer": "Presentation exceptions are diagnostic and cannot veto admitted injury/death or consume gameplay RNG.",
+    "abi": "No public structure layout changed."
+  },
+  "verification": {
+    "production_language": "C++17 with Wall/Wextra/Werror, actual current Session/World/source calculation plus foundation archives",
+    "actual_assets": "KnightPlayerBase+Longsword01 and authored Swamp_LizadMan_Type1 in one Session",
+    "paths": [
+      "direct source visual",
+      "retained source pose owner"
+    ],
+    "outcomes": [
+      "real source-kernel Injury seed",
+      "duplicate no RNG/damage/entry",
+      "distinct repeated Injure suppressed by3000ms gate",
+      "expired gate one new entry",
+      "exact frame clock value propagation",
+      "outside-frame no clock",
+      "observer exception does not veto",
+      "actual source DOT mask lethal boundary enters death",
+      "terminal hold no replay",
+      "detach/rebind existing corpse no replay"
+    ],
+    "clock_fixture": "Clock propagation test uses explicit fixture values; this is not a hardware test.",
+    "baseline_source_hit_regression": "PASS"
+  },
+  "remaining": [
+    "Audio worker must run genuine emitted injury entry through current WinMM/source sound binding",
+    "No new audible sample or GPU visual proof claimed",
+    "Full result secondary statuses and original random multi-leaf injury selection remain separate scope"
+  ],
+  "receipts_sha256": {
+    ".local-inputs/session-pose-step-test/run.log": "99db890e1ad4cf4c57850fc5c48714d1ca4a5856cc0ce560246ff5b8020ea287",
+    "port/windows-foundation/tests/combat_session_pose_step_tests.cpp": "c04d2a301ac8b223fcef2d8dfba53e1ec2aa1a26439f50d44de9cfd818db2c3e",
+    "port/windows-foundation/combat_session.cpp": "973d9dca2dfe00b6f46c71524bfa58430fc6375354840f2473aadab6b81defe7",
+    ".local-inputs/session-pose-step-test/combat_session_pose_step_tests.exe": "7bf5fb58a730cb08650348f2519365b13f66c232f16c7508d2c3726f3c525f33",
+    "port/windows-foundation/combat_session.hpp": "21d85374fba451a3bb318764b486edbfe9db634494acab2b34c7ce52996f01ae"
+  },
+  "verified_utc": "2026-10-09T21:57:20.0181992Z"
+}

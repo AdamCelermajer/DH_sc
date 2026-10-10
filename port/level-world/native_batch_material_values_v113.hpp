@@ -18,6 +18,11 @@ struct NativeBatchMaterialValuesV113:std::map<std::string,NativeBatchMaterialVal
  std::map<std::string,std::string> sampler_bindings;
  std::map<std::string,NativeBatchMaterialValueV113> effect_defaults;
 };
+//The original CProgrammableGLDriver walks SShaderParameterBinding rows in
+//source order and writes each binding to its uniform. Repeated uniform names
+//are therefore legal; the last row supplies the final uniform value.
+inline void record_batch_sampler_binding_v113(NativeBatchMaterialValuesV113& out,
+ const std::string& sampler,const std::string& parameter){out.sampler_bindings[sampler]=parameter;}
 bool decode_batch_material_values_v113(const resources::BresView&,const std::string&,
  NativeBatchMaterialValuesV113&,std::string&);
 bool decode_batch_effect_values_v113(const resources::BresView&,const std::string& uri,

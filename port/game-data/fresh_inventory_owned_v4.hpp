@@ -6,7 +6,10 @@
 namespace dh2::data {
 struct OwnedItemSlotV4 {std::unique_ptr<ItemInstanceV1> item;std::array<std::int8_t,2> slots{{-1,-1}};};
 enum class OwnedInventoryOperationV4:std::uint32_t {
- debug_load=0x337888,debug_query=0x337a88,current_player=0x31f594,player_count=0x4043a8,
+ debug_load=0x337888,debug_query=0x337a88,current_level=0x31f594,character_count=0x4043a8,
+ // Historical source-transport aliases; these never mean a Character lookup
+ // or the PlayerManager map's number of PlayerInfo entries.
+ current_player=current_level,player_count=character_count,
  update_name=0x3fb754,update_stats=0x3fb290,update_requirements=0x3facdc,add_power=0x3fbc60,
  inventory_full=0x3fe330,full_notifications=0x3ff7a8,destroy_item=0x3ff70c,
  update_gear_properties=0x3e08a8,skin=0x3a999c,validate_hp_mp=0x3bd140,

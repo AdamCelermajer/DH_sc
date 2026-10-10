@@ -1,0 +1,35 @@
+{
+  "status": "verified_same_PF_late_floor_binding_and_source_position_publication",
+  "api": {
+    "world": "OriginalActorNavigationWorldBindings{floor_lease,obstacle_lease,floors,obstacles}",
+    "initialize": "PlayableActorBodies::initialize_navigation(actorId,worldBindings,error): SAME fresh constructed PFObject→late actual floor/registry attachment→InitObject fullmax XY extent→UpdatePF actual native radius/obstacle producer",
+    "root_motion": "move_grounded(actorId,currentWorld,worldDelta,result,error) checks same ActorState position, requests current+authored delta, invokes original validate_object_position using floorWorld.source_motion_policy_v95, then ALWAYS publishes kernel-mutated output via same physical SetPosition, even original validfalse kind3 clamp",
+    "result": "position, original position_valid/kind, grounded as in-house projection of actual cached PF.floor!=UINTMAX. boolfalse is malformed/reached service failure; normal clamped/missed movement is a successful source producer invocation.",
+    "heading": "OriginalActorNavigation::validate_direction separately reconstructs source UpdatePath heading lookahead; output bool is diagnostic, not root displacement admission. Original caller always reapplies resulting heading. Root API never calls this method."
+  },
+  "source_proof": {
+    "direction_caller": "navigation-controller/original-functions.asm0x3942ec..0x39430c passes heading+1b8 to PFWorld525d60 and unconditionally SetHeadingDirection393be8; kernel10-unit lookahead preserves magnitude but belongs to controller heading, not per-frame ROOT MOTION displacement",
+    "position_caller": "subobjects-update/original-functions.asm0x3947f8..0x394820 and0x394844..0x394858 passes SAME GameObject160 and PFObject1c8 to ValidatePosition525d84. False result still publishes mutated point to physical body. Original IDA0039/003943cc.c preserves this flow.",
+    "position_rules": "Cached floor then room then world first-hit; strict100>abs(hitZ-requestZ) unless same world source override. Capability/height rejection returns true kind3 and restores cached PFpoint; missing floor returnsfalse kind3 and restores same point. Epsilon-equal returns true kind1 without querying. Resultvalid is not transactional rollback.",
+    "cache": "No PF re-default/copy on late attachment; world policy read from SAME stable floors.World, no per-frame cloned policy. Actual native body radius*100 after InitObject fullextent, source Character traits50/20, actual registry entry."
+  },
+  "lifecycle": "Physical initialization's source callback sees user0 before InitFinal. Late PFinitialize publishes user identity and actual room/floor. Body removal destroys/detaches native first, then real UpdatePF disables obstacle/removes registry entry and uses halfmax owner bounds radius. Reinit original physical callback restores actual native radius and obstacle. Pool clear removes actual registry entries before sole PF/actor leases disappear.",
+  "tests": {
+    "files": ["tests/original_actor_navigation_tests.cpp", "tests/playable_actor_bodies_tests.cpp"],
+    "actual_assets": "Real Swamp BRES floor/selector/postload, actual player/native body, source modules9rooms16floors from RootScopes",
+    "checks": "SAME PF pointer/user0→actual identity, source full200→half100→native60 radius, registry removal/reinit, zero root delta exact position grounding, source malformed policy failure/output preservation, source height clamp/override, false kind3 publication after actor teleport differs from currentownerZ, native/AABB/actor sync, lifecycle clear",
+    "zero_direction_probe": "Genuine original direction kernel returns allowed1 delta[-0,+0,-0] for tested source floor. Zero root displacement still uses direct source position stage, never a generic height snap."
+  },
+  "concrete_live_difference_audit": {
+    "suggested_candidate": [1141.5,-199.164,255],
+    "actual_world": "Same original9room16floor module registry built from shared001_swamp.mlx source receipts with explicit test geometry admission",
+    "result": "Cached floor0 hit≈255, world first floor0 hit≈255, floorType0, capability2, heightThreshold100, override0; valid1 kind2, accepted candidate. Thus suggested point does NOT prove255→-9 rejection.",
+    "nearby_grid": "X1138..1350/Y-230..-150 step4 atZ255 found no found-hit kind3 height clamps in this source world",
+    "actual_live_clamp": "Source trace current[1137.43018,-200.057037,255.000061], requested[1140.5708,-196.916412,255.000061], room0/floor0, valid0/kind3, restores current PF point.",
+    "constant_xy_z_comparison": "Exact live requested XY at both Z255 and255.000061: cachedFloorHeight0, worldHeight0, floors::height0, full floor0 raw triangle raycast0. Original floor0 expanded boundsZ[-1009.35,1255] contain both Z values. Independent double-precision 2D triangle-side test finds ZERO floor0 triangles containing requested XY. This is a genuine cached-floor XY support miss, not tiny Z overshoot or100-height threshold rejection.",
+    "movement_implication": "Diagonal requested XY crosses cached floor geometry boundary; source ValidatePosition returnsfalse kind3 and restores prior PFpoint. Preview immediate delta/edge sliding differs from source UpdatePath heading-boundary continuation; full heading coordinator can change later facing but is not yet integrated in this root provider. Do not reintroduce a direction gate/slide on root displacement or epsilon floor inflation to match preview coordinates.",
+    "separate_heading_edge_case": "At actual current[1137.43018,-200.057037,255.000061], source ValidateDirection on supplied heading[3.140625,3.140625,0] returns diagnostic1 and edge-slide output[4.44151449,-0,-0], preserving original magnitude4.44151449. Original UpdatePath reapplies that heading, potentially affecting subsequent facing/animation displacement; this is separate from current root position admission. Test now exercises genuine edge-slide evidence, not only position acceptance.",
+    "remaining": "No fresh original ARM oracle run for this concrete point; recovered selector/collision/floor kernels already have captured original differential proofs, supplemented here by genuine triangle/ray and independent projected-geometry checks. Whole path/heading/state frame ordering remains separate; no full movement/campaign parity claim."
+  },
+  "limits": "One floor test uses explicit unoptimized mesh child pose; full source floor-world test uses actual module selected/factory child caches. Geometry/campaign admission remains explicit. No original avoidance/path-following/controller authority, native World Step, contact AIS, or complete GameObject frame-order equivalence claimed. Host chooses actual source flags and stage ordering; no heading gate, model/map exception, fabricated floor or fallback collision solver."
+}

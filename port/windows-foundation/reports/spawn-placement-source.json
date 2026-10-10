@@ -1,0 +1,139 @@
+{
+  "animation": {
+    "blend_out_ms": 100,
+    "type": 0,
+    "speed": 1.2999999523162842,
+    "sequence": 380,
+    "end_ms": 1733,
+    "uri": "data/3D/characters/lizardman/animations/lizardman_spawn_jump.bdae",
+    "source_world_Z_motion": "RootSceneNode::_HandleDisplacement forces applicator delta Z to positive zero; skeletal local Z remains authored; no physical leap invented",
+    "start_ms": 0,
+    "fade_in": "Source VisualObject::StartFadeIn470ce4 BX LR empty; although property210 raw3000, this original path performs no fade mutation",
+    "world_duration_before_character_rate_ms": 1333.0769722,
+    "move_go": 1,
+    "clip_id": 828,
+    "interaction": "Spawn event40 named is_interactive setsflag0x2000 and InitPhysicalObject; Spawn Blur initializes physical object if not already interactive",
+    "loop": 0
+  },
+  "anchor_producer": {
+    "stores": "Copies source current XYZ to initial_position1450 then replaces stored Z with PFWorld floor height when query succeeds",
+    "initpost": "Character::InitPost3b4d60 calls SetInitialPosition then SetPosition(initial,true), stores initial_rotation145c",
+    "function": "Character::SetInitialPosition",
+    "important": "Authored coordinates are initial inputs, not proof of final floor-snapped Z",
+    "address": "0x3a58f4"
+  },
+  "source_chain": [
+    "Script_SpawnCharacter Execute45f400 -> named character within currentmodule -> SM_SetSpawnState(false,false)",
+    "SM_SetSpawnState3c2734 -> _SetState(1,-1,nullptr) immediately",
+    "Limbus OnBlur3c2be4 -> reenable -> restore stored initial position1450/rotation145c -> Revive",
+    "Spawn OnFocus3c35ec -> flags0x241 -> authored Spawn sequence -> clear and sync target -> CancelSneaking -> StartFadeIn",
+    "Spawn OnUpdate3bfff0 empty; no physics height trajectory",
+    "Registered Spawn state1 event34 -> Idle state3 no predicate"
+  ],
+  "evidence": [
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003a/003a58f4.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003b/003b4d60.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003c/003c2be4.c",
+    "port/level-world/character_spawn_body.cpp",
+    "port/level-world/reference/character-monster-state-ownership/registration-plan.json",
+    "port/level-world/reference/visual-motion/NOTES.md"
+  ],
+  "prohibited_inference": "No actor-specific height offset, ground-clamping animated skin vertices, invented fade, or physical jump trajectory justified by source.",
+  "actors": [
+    {
+      "name": "_prim_Monster_LizManIntro1",
+      "rotation_degrees": [
+        0,
+        0,
+        89.6209
+      ],
+      "ai_state_visible": 0,
+      "spawn_view_radius": 400,
+      "authored_world": [
+        -3725.75,
+        252.509,
+        250.0
+      ],
+      "initial_state": "Limbus",
+      "auto_spawn": 0
+    },
+    {
+      "name": "_prim_Monster_LizManIntro2",
+      "rotation_degrees": [
+        0,
+        0,
+        90.0469
+      ],
+      "ai_state_visible": 0,
+      "spawn_view_radius": 400,
+      "authored_world": [
+        -4175.23,
+        349.838,
+        250.0
+      ],
+      "initial_state": "Limbus",
+      "auto_spawn": 0
+    }
+  ],
+  "remaining_gap": [
+    "Actual original-renderer spawn frames not compared; do not claim complete visual parity.",
+    "Final initial anchor Z requires original floor query at each actor.",
+    "Host must preserve source physical/visibility/target state callbacks before claiming faithful live spawn."
+  ],
+  "native_probe": {
+    "scope": "Native recovered sampler + skinning on original assets, not independently executed original renderer",
+    "source": ".local-inputs/windows-encounter-source/spawn-pose.cpp",
+    "model": "data/3d/characters/lizardman/lizardman.bdae",
+    "root_absolute_note": "Original_character retained default-template fix now makes both bank orders constant[15.2176,20.568,9.1e-5]; zero displacement remains. No physical jump/height correction.",
+    "root_delta_XYZ": [
+      0,
+      0,
+      0
+    ],
+    "template": "data/3d/characters/lizardman/animations/lizardman_template_anim.bdae",
+    "indexed_Z_bounds_model_local": [
+      {
+        "ms": 0,
+        "min": -593.697,
+        "max": -280.031
+      },
+      {
+        "ms": 300,
+        "min": -367.079,
+        "max": -68.6343
+      },
+      {
+        "ms": 600,
+        "min": -386.689,
+        "max": -130.915
+      },
+      {
+        "ms": 900,
+        "min": 139.578,
+        "max": 536.347
+      },
+      {
+        "ms": 1200,
+        "min": 65.6944,
+        "max": 457.567
+      },
+      {
+        "ms": 1500,
+        "min": -23.6748,
+        "max": 247.799
+      },
+      {
+        "ms": 1733,
+        "min": -3.65929,
+        "max": 282.869
+      }
+    ]
+  },
+  "status": "source_spawn_state_and_anchor_producers_proven_visual_equivalence_gap_recorded",
+  "initialization_correction": {
+    "actual_loaded_state": 17,
+    "previous_note": "Limbus OnBlur anchor restoration is proven for actual state0 transitions, but is not the initial loaded Intro actor transition",
+    "first_intro_actor_blur": "PreSpawn OnBlur enables Character, Revive, enablescollisions; starting anchor was established by Character InitPost floor query",
+    "source": "Level::_LoadCharStates0x3eff98 / character-state-owner-initialization-alias/NOTES.md"
+  }
+}

@@ -29,7 +29,7 @@ struct WorldClickServicesV1 {
  // Genuine DesignSettings+2c(enemy),+50(friend),+54(generic special).
  const float* enemy_radius2c{};const float* friend_radius50{};const float* object_radius54{};
  std::function<bool(std::uintptr_t,const char*&,std::string&)> object_type_name5c;
- const char* excluded_type_name{"Block"}; // exact strcmp source literal8c04b8
+ const char* excluded_type_name{"Character"}; // exact Ctrl_Click type_name+5c source literal
  // Whole Debug Load→CString→query→destroy caller service; callsite selects
  // exact source key, including discarded queries before target mutation.
  std::function<bool(std::uint32_t,bool&,std::string&)> debug;

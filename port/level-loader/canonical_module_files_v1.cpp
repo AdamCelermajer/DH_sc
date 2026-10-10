@@ -57,14 +57,14 @@ bool CanonicalModuleFilesV1::begin_module(std::uint32_t occurrence,std::string& 
     if(failed_){error=error_;return false;}
     if(dispatching_||file_pending_)return fail("canonical Module occurrence changed during pending source delivery",error);
     if(occurrence==UINT32_MAX)return fail("required actual Module diagnostic occurrence",error);
-    occurrence_=occurrence;module_started_=true;captured_context_=false;captured_={};return true;
+    occurrence_=occurrence;module_started_=true;captured_context_=false;captured_={};complete_absent_level_file_=false;return true;
 }
-bool CanonicalModuleFilesV1::begin_level_file(std::string& error){
+bool CanonicalModuleFilesV1::begin_level_file(std::string& error,bool complete_absent){
     error.clear();if(discard_requested_||discarded_)return fail("canonical Level source release requested",error);
     if(failed_){error=error_;return false;}
     if(dispatching_||file_pending_)return fail("canonical Level occurrence changed during pending source delivery",error);
     if(!native_filename_)return fail("production Level source requires SAME bound native source",error);
-    occurrence_=UINT32_MAX;module_started_=true;captured_context_=false;captured_={};return true;
+    occurrence_=UINT32_MAX;module_started_=true;captured_context_=false;captured_={};complete_absent_level_file_=complete_absent;return true;
 }
 world::ModuleLevelLoadBorrowV1 CanonicalModuleFilesV1::load_borrow(){
     world::ModuleLevelLoadBorrowV1 borrow;if(discard_requested_||discarded_)return borrow;
@@ -96,7 +96,7 @@ bool CanonicalModuleFilesV1::load_file(const std::string& uri,const char* root,b
     if(!file_pending_){
         files_.push_back(std::make_unique<CanonicalCachedFileV1>(archive_,manager_,classes_,source_,captured_,route_,filter_));
         active_uri_=uri;active_root_=root;file_pending_=true;
-        if(native_filename_)native_file_=std::make_unique<FilenameRootRouteV65>(*native_filename_);
+        if(native_filename_)native_file_=std::make_unique<FilenameRootRouteV65>(*native_filename_,complete_absent_level_file_);
     }
     dispatching_=true;LevelFileWalkStepV1 step;
     try{
@@ -105,7 +105,11 @@ bool CanonicalModuleFilesV1::load_file(const std::string& uri,const char* root,b
                 [this,root](auto document,auto owner,auto source,auto& e){
                     // SAME assigned native document/cursors feed the existing
                     // unfiltered canonical walk and actual class dispatcher.
-                    return files_.back()->step_document(std::move(document),std::move(owner),root,std::move(source));
+                    const auto result=files_.back()->step_document(std::move(document),std::move(owner),root,std::move(source));
+                    // Preserve the factory/parser leaf error before the native
+                    // assigned route supplies its generic transport fallback.
+                    if(result==LevelFileWalkStepV1::failed&&e.empty())e=files_.back()->error();
+                    return result;
                 },error);
             step=native==LifecycleStepV36::complete?LevelFileWalkStepV1::complete:
                  native==LifecycleStepV36::pending?LevelFileWalkStepV1::pending:LevelFileWalkStepV1::failed;

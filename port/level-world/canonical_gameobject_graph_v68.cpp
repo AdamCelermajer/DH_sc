@@ -119,7 +119,10 @@ bool CanonicalGameObjectGraphV68::capture_visuals(std::vector<std::shared_ptr<Re
 }
 bool CanonicalGameObjectGraphV68::borrow_base_v77(std::uintptr_t id,std::shared_ptr<void>& pin,CanonicalGameObjectBaseOwnerV1*& base,std::string& e)const{
  pin.reset();base=nullptr;const auto found=entries_.find(id);
- if(found==entries_.end())return required("registered canonical base receiver",e);
+ if(found==entries_.end()){
+  e="Required canonical object graph registered canonical base receiver; missing identity="+std::to_string(id);
+  return false;
+ }
  return borrow(found->second,pin,base,e);
 }
 bool CanonicalGameObjectGraphV68::borrow_visual(std::uintptr_t id,std::shared_ptr<RetainedGameObjectVisualV1>& out,std::string& e)const{

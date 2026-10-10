@@ -1,0 +1,62 @@
+{
+  "status": "diagnostic_packaged_runtime_verified_fidelity_incomplete",
+  "goal_complete": false,
+  "executable_sha256": "26e7725cb8babd5047c967ff71907a660d3387397ddf0c1910f03ea3ae47d535",
+  "package_files_verified": 532,
+  "retained_source_clock": true,
+  "retained_player_locomotion": true,
+  "baseline_executable_preserved": true,
+  "runtime_checks": [
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v5/verification.log",
+      "required_observations": [
+        "Damage frame=13 attacker=7118915781085668844",
+        "Damage frame=76 attacker=18446744073709551615",
+        "Damage frame=192 attacker=18446744073709551615",
+        "removed=14.0039 dead=1",
+        "Saved live checkpoint frame=210 HP=157.457 RNG=2808983/38",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Rendered frames=360; clean shutdown",
+        "938.285,255 grounded=1"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v5/resume-verification.log",
+      "required_observations": [
+        "Restored live checkpoint frame=0 HP=157.457 RNG=2808983/38",
+        "Rendered frames=30; clean shutdown",
+        "HP=0/47.5 target=0 action=5"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v5/startup-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=1272.13,-199.164,255 grounded=1",
+        "HP=165.098/165.098 target=0 action=0",
+        "Actor camera anchor final=1453.15,-18.1449,255",
+        "sourceXY=276.028 worldXY=193.002"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v5/moving-verification.log",
+      "required_observations": [
+        "Rendered frames=360; clean shutdown",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Damage frame=78 attacker=18446744073709551615",
+        "Damage frame=204 attacker=18446744073709551615",
+        "sourceXY=519.174 worldXY=467.256",
+        "sourceXY=425.828 worldXY=383.244",
+        "Retained source animation clock actor=18446744073709551615"
+      ]
+    }
+  ],
+  "limits": [
+    "Explicit diagnostic stationary AI; original encounter activation remains unverified",
+    "Player locomotion shares source pose ownership; original controller/attack heading command gates and outer combo chaining remain incomplete",
+    "Navigation/body/visibility/target-selection policies and continuous reference fidelity remain incomplete",
+    "Companion behavior, status/DOT/leech, full UI/effects/audio/campaign remain incomplete"
+  ]
+}

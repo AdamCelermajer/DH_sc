@@ -15,10 +15,30 @@
 #include "source_campaign_script_environment_v120.hpp"
 #include "source_campaign_script_audio_v117.hpp"
 #include "source_campaign_death_rewards_v84.hpp"
+#include <array>
 #include <cstring>
+#include <vector>
 namespace dh2::android_ui {
 namespace {
 bool required(const char* leaf,std::string& e){e=std::string("Required actual campaign script ")+leaf;return false;}
+using ParsedCommandIdentityV96=std::array<std::uintptr_t,7>;
+std::vector<ParsedCommandIdentityV96> parsed_command_identities_v96(
+ const loader::ScriptManagerOwnerV52& manager){
+ std::vector<ParsedCommandIdentityV96> out;
+ for(const auto& script:manager.commands())if(script.storage8)for(const auto& slot:*script.storage8){
+  const auto& command=slot.command;
+  if(slot.storage_released)continue;
+  out.push_back({command.identity,
+   reinterpret_cast<std::uintptr_t>(command.actual_owner.get()),
+   reinterpret_cast<std::uintptr_t>(command.canonical_receiver_v96.get()),
+   command.retained_data&&*command.retained_data?
+    reinterpret_cast<std::uintptr_t>(command.retained_data->get()):0,
+   reinterpret_cast<std::uintptr_t>(command.skip4),
+   reinterpret_cast<std::uintptr_t>(command.kind8),
+   reinterpret_cast<std::uintptr_t>(command.data_c)});
+ }
+ return out;
+}
 struct Binding {
  std::weak_ptr<void> world;
  std::weak_ptr<application::ApplicationServicesOwnerV5> application;
@@ -109,7 +129,8 @@ bool word(const loader::CheckedCommandBorrowV59& c,unsigned o,std::uint32_t& out
 std::int32_t signed_word(std::uint32_t value){std::int32_t out;std::memcpy(&out,&value,4);return out;}
 }
 bool bind_source_campaign_script_execution_v96(const std::shared_ptr<void>& world,
- SourceScriptUiLeavesV96 ui,std::string& e,SourceScriptActorLeavesV96 actors){
+ SourceScriptUiLeavesV96 ui,std::string& e,SourceScriptActorLeavesV96 actors,
+ SourceScriptBehaviorDecoratorV96 decorate){
  model_renderer::SourceCampaignCandidateBorrowV55 c;
  if(!world||!ui.owner||!model_renderer::borrow_source_campaign_candidate_runtime_v61(c,e)||c.actual_world!=world||!c.application)
   return required("actual current World and independent UI provider",e);
@@ -230,7 +251,7 @@ bool bind_source_campaign_script_execution_v96(const std::shared_ptr<void>& worl
   bool ai_handled{};if(!model_renderer::execute_source_campaign_script_ai_v118(current,command,skip,module,ai_handled,error))return false;if(ai_handled)return true;
   bool tutorial_handled{};if(!model_renderer::execute_source_campaign_script_tutorial_v118(current,command,skip,module,tutorial_handled,error))return false;if(tutorial_handled)return true;
   bool tutorial_control_handled{};if(!model_renderer::execute_source_campaign_script_tutorial_control_v118(current,command,skip,module,tutorial_control_handled,error))return false;if(tutorial_control_handled)return true;
-  if(kind!=24&&kind!=25&&kind!=8&&kind!=5&&kind!=7&&kind!=12&&kind!=10&&kind!=46&&kind!=41&&kind!=40&&kind!=45&&kind!=42&&kind!=43&&kind!=31&&kind!=32&&kind!=39&&kind!=44)
+  if(kind!=24&&kind!=25&&kind!=8&&kind!=5&&kind!=6&&kind!=7&&kind!=12&&kind!=10&&kind!=46&&kind!=41&&kind!=40&&kind!=45&&kind!=42&&kind!=43&&kind!=31&&kind!=32&&kind!=39&&kind!=44)
    return required("remaining reached native command effects",error);
   if((kind==24||kind==10||kind==45)&&skip){error.clear();return true;} //Original skip early exits.
   if(!binding->debug_load(error))return false;bool ignored{};
@@ -243,6 +264,33 @@ bool bind_source_campaign_script_execution_v96(const std::shared_ptr<void>& worl
    if(!binding->actors.owner)return required("actual selected visibility receiver",error);
    if(kind==42&&(!binding->actors.disable_zoning||!binding->actors.disable_zoning(object->identity,error)))return required("actual GameObject.DisableZoning",error);
    return binding->actors.render_visible?binding->actors.render_visible(object->identity,kind==42,error):required("actual GameObject.SetVisible virtual40",error);
+  }
+  if(kind==6){
+    //45c670 reads near Data+12 before far Data+8. Positive bounds go straight
+    //to the SAME current camera; -2 selects the actual LevelConfig values.
+    //Other nonpositive values leave that bound unchanged. The command ignores
+    //skip, and its IsBlocking body is the literal false at 455684.
+    std::shared_ptr<dh2::camera::GameplayCameraRuntimeV11> camera;
+    if(!binding->camera(current,camera,error))return false;
+    if(!camera){error.clear();return true;} //Original NULL current-Level camera guard.
+    if(!camera->level()){error.clear();return true;} //Original NULL CameraLevel guard.
+    std::uint32_t near_bits{};if(!word(command,12,near_bits,error))return false;
+    const auto near_plane=signed_word(near_bits);
+    if(near_plane>0){if(!camera->set_clip_start(static_cast<float>(near_plane),error))return false;}
+    else if(near_plane==-2){
+     std::int32_t default_near{},default_far{};
+     if(!camera->source_clip_defaults_v120(default_near,default_far,error)||
+        !camera->set_clip_start(static_cast<float>(default_near),error))return false;
+    }
+    std::uint32_t far_bits{};if(!word(command,8,far_bits,error))return false;
+    const auto far_plane=signed_word(far_bits);
+    if(far_plane>0){if(!camera->set_clip_end(static_cast<float>(far_plane),error))return false;}
+    else if(far_plane==-2){
+     std::int32_t default_near{},default_far{};
+     if(!camera->source_clip_defaults_v120(default_near,default_far,error)||
+        !camera->set_clip_end(static_cast<float>(default_far),error))return false;
+    }
+    error.clear();return true;
   }
   if(kind==45){
    const auto* name=command.actual_data->cstring(24);const dh2::world::CanonicalObjectBorrowV1* object{};dh2::target_providers::Handle16 handle{};
@@ -403,6 +451,7 @@ bool bind_source_campaign_script_execution_v96(const std::shared_ptr<void>& worl
   return required("remaining reached native command effects",error);
  };
  effects.blocking=[binding](const auto& command,bool& out,auto& error){
+  if(*command.kind8==6){out=false;error.clear();return true;} //455684 literal false.
   if(*command.kind8==12)return binding->ui.dialog_active?binding->ui.dialog_active(out,error):required("SAME dialog queue active query",error);
   model_renderer::SourceCampaignCandidateBorrowV55 current;if(!binding->current(current,error))return false;
   bool environment_handled{};
@@ -423,6 +472,21 @@ bool bind_source_campaign_script_execution_v96(const std::shared_ptr<void>& worl
   return required("remaining reached dynamic command blocking leaf",error);
  };
  auto behavior=loader::script_execution_control_v96(std::move(effects),std::move(control));
+ if(decorate){
+  const auto manager_identity=manager->identity();
+  const auto scheduler_owner=scheduler.owner;
+  const auto parsed_before=parsed_command_identities_v96(*manager);
+  if(!decorate(manager,scheduler,behavior,e))return false;
+  auto app_manager=c.application->source_script_manager_v52();
+  if(!app_manager||app_manager!=manager||manager->identity()!=manager_identity)
+   return required("same Application ScriptManager after command behavior decoration",e);
+  if(!scheduler.owner||scheduler.owner!=scheduler_owner||scheduler.owner!=binding)
+   return required("same source scheduler owner after command behavior decoration",e);
+  if(behavior.actual_owner.lock()!=c.application||!behavior.execute||!behavior.blocking)
+   return required("same Application command behavior and native Execute/IsBlocking bodies after decoration",e);
+  if(parsed_command_identities_v96(*manager)!=parsed_before)
+   return required("same parsed receiver/data identity order after command behavior decoration",e);
+ }
  if(!loader::bind_parsed_script_execution_v96(*manager,std::move(behavior),e))return false;
  return manager->bind_scheduler_v96(std::move(scheduler),e);
 }

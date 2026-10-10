@@ -124,7 +124,7 @@ struct NativeMainMenuLoadV114:std::enable_shared_from_this<NativeMainMenuLoadV11
    for(;self->post_slot_v114<4;){const auto slot=self->post_slot_v114;MenuMovieBorrowV58 q;if(!p->directory->movie_slot(slot,q,e))return false;if(!q.identity){++self->post_slot_v114;continue;}
     SwfMovie* actual{};std::shared_ptr<void> pin;if(!p->directory->movie(slot,q,actual,pin,e)||!self->current(n,e))return false;
     auto* r=n->shared_stack_v27->render(q.identity);if(!r){e="Native PostLoad lost SAME positive render slot";return false;}
-    if(!n->shared_roster_v27->post_load(*actual,std::move(pin),r->flags,e))return false;
+    if(!n->shared_roster_v27->post_load(*actual,q.identity,std::move(pin),r->flags,e))return false;
     ++self->post_slot_v114;if(!self->current(n,e))return false;
    }return true;
   };

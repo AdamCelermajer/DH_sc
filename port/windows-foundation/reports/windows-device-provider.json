@@ -1,0 +1,48 @@
+{
+  "feature": "windows-wgl-device-provider-v1",
+  "status": "provider-boundary implemented; runtime hookup requires source owners",
+  "source": {
+    "android_reference": "port/android-native/app/src/main/cpp/actual_device_provider_v54.hpp",
+    "predicate": "Device::IsHighPerformance rejects SHARP, HTC, and multiplayer-mode source facts; otherwise invokes the selected driver's virtual +0x5c capability method and accepts when result & 0x78 is nonzero.",
+    "predicate_implementation": "port/engine-ui/hud_startup_callbacks.cpp:dh2_hud_device_pipeline",
+    "original_device_predicate_evidence": {
+      "elf": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "function": "Device::IsProgrammablePipeline at 0x3816a8",
+      "pseudocode": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0038/003816a8.c",
+      "operation": "!SHARP_DEVICES && !HTC_DEVICES && !Is_In_Multiplayer_Mode && ((video_driver->getDriverType() & 0x78) != 0); getDriverType is virtual byte offset 0x5c. This queries the selected driver's identity enum, not an OpenGL feature string or hardware capability probe."
+    },
+    "driver_mapping": {
+      "COpenGLES2Driver::getDriverType": 8,
+      "CProgrammableGLDriver<CGLSLShaderHandler>::getDriverType": 120,
+      "CNullDriver::getDriverType": 0,
+      "evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/005a/005aefa4.c, 005a/005af04c.c, 005b/005b90ac.c",
+      "platform_selection": "CAndroidOSDevice::createDriver at 0x6a0454 maps source type 1 to createOpenGLES2Driver and type 0 to createNullDriver; it contains no desktop OpenGL driver branch. The OpenGLES2 constructor delegates to CProgrammableGLDriver and then installs the COpenGLES2 vtable, whose +0x5c override returns 8.",
+      "desktop_opengl_limit": "The original ELF symbol inventory records zero COpenGLDriver symbols. Stock Irrlicht 1.6.1 COpenGLDriver::getDriverType returns EDT_OPENGL (value 5), but the local lineage report explicitly says stock COpenGLDriver is not the local backend class. The current custom Windows compatibility renderer therefore has no evidence-backed source driver type 5; WGL/GL_VERSION alone cannot establish it. 5 & 0x78 is zero in any event.",
+    "source_fact_producer": "Android front_ui_session_v87.cpp maps exact Build.MANUFACTURER SHARP/HTC and model SHW-M130L into its device facts, while multiplayer_mode is explicitly initialized to zero at bind. Windows currently has no matching source Build/global-fact owner. IsHighPerformance consumes sharp, htc, and multiplayer_mode; no_igp is consumed earlier by NativeIsMultiplayerEnabled, not by this predicate."
+    },
+    "game_object_init_post_consumer": {
+      "original_function": "GameObject::InitPost at 0x38be5c; ObjectBase::InitPost then CheckSpawnProbability precede the device call. Device is queried only for an accepted spawn whose VisualObject +0x2d8 is null.",
+      "observable_branch": "If the host's quality result is low and source byte +0x60 (facultative) and source byte +0x10c are both nonzero, InitPost leaves the visual pointer null and skips LoadVisualObject. Otherwise it calls LoadVisualObject and Sync only if a visual is then present. This branch changes optional visual loading only; it does not change spawn probability, eligibility, transforms, AABB, or PF registration.",
+      "field_evidence": "GameObject::DeclareProperties at 0x38cee8 registers `facultative` at +0x60 with default true. The +0x10c byte is read by InitPost but has no recovered property name; retain it as an unknown source flag.",
+      "policy_recommendation": "For the in-house Windows port, the GameObjectInitializationServicesV1.device_high_performance callback may honestly report the actual Renderer/App visual-quality policy. Validate the same current WGL context and retained Renderer owner first, then ask the owner's explicit selected profile/capability provider (for example, full source-visual loading only where the current renderer supports it). This is a port policy mapping, not a recovered original COpenGLDriver or an Android driver enum. Fail if context, renderer owner, or policy is unavailable. Keep SHARP/HTC/multiplayer source precedence only when those actual application facts are supplied; NO_IGP is not used by GameObject::InitPost."
+    }
+  },
+  "implementation": {
+    "files": [
+      "port/windows-foundation/features/device_provider/actual_device_provider_wgl_v1.hpp",
+      "port/windows-foundation/features/device_provider/actual_device_provider_wgl_v1.cpp"
+    ],
+    "in_house_game_object_policy": "GameObjectVisualQualityWglV1 is the behavior-equivalent Windows path. Bind it to the actual current WGL context when the renderer starts. Each GameObjectInitializationServicesV1.device_high_performance callback rechecks the same HDC/HGLRC/thread, then asks a retained Renderer/App policy provider for the selected visual-quality result. The Renderer/App provider owns the quality profile and any capability evidence; this type claims no original Driver::getDriverType identity.",
+    "wgl_witness": "Reads actual wglGetCurrentContext(), wglGetCurrentDC(), and GetCurrentThreadId(); binds and validates their identity and the real ContextResourceBudgetV37 lease/generation.",
+    "inputs": "Requires injected actual budget lease, actual source MenuDeviceFactsV1 provider, and actual selected source driver's virtual +0x5c capability provider. No WGL context is translated into Android GLES facts or a guessed source capability value.",
+    "lifetime": "Provider owns only a weak lease to the selected shared budget and a bound context/thread witness. Caller owns the WGL context, budget, source driver, and fact providers. Call context_lost when the selected context is destroyed or replaced."
+  },
+  "integration_limit": "The current Windows-foundation renderer owns a compatibility WGL context but no source Device object, source device-fact provider, or ContextResourceBudgetV37. The original source-driver predicate therefore remains unavailable. For GameObject::InitPost in the in-house port, a separately named/owned Renderer/App visual-quality policy can satisfy its observable optional-visual gate without claiming original-driver identity; validate actual current WGL ownership and make missing context, renderer, or policy an explicit failure. The budget API has no native HGLRC field: construct one shared ContextResourceBudgetV37, call begin_context with the selected WGL context current, share that same lease with every actual GPU owner and this provider, and call context_lost before context teardown/replacement. The current Renderer does not route GL textures through the budget, so an empty ready ledger alone is not an actual resource-budget owner.",
+  "validation": {
+    "compiled": true,
+    "command": "x86_64-w64-mingw32-clang++ -std=c++17 -Wall -Wextra -shared actual_device_provider_wgl_v1.cpp hud_startup_callbacks.cpp resource_budget_v37.cpp -lopengl32",
+    "artifact": ".local-inputs/windows-toolchain/windows-device-provider.dll",
+    "result": "Provider and GameObjectVisualQualityWglV1 compiled and linked against the native Windows API, original source predicate, and real ContextResourceBudgetV37 implementation. The existing resource-budget source emits one misleading-indentation warning; provider code compiles cleanly with -Wall -Wextra -Werror by itself.",
+    "runtime": "No runtime source-driver result is claimed; current Windows-foundation does not own a source Device or actual ContextResourceBudgetV37 lease."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "feature": "Source-backed monster melee choice and target-policy audit",
+  "status": "Exact melee choice helper and test fixture corrected; no live Session special-skill integration claim",
+  "visualEvidence": {
+    "reference": ".local-inputs/referenceframes/dh2-act1/first-spawn/",
+    "observations": [
+      "At 226s a green enemy is visible in the corridor. At 228s the combat tutorial starts; at 230-232s the tutorial says red circles appear under enemies within attack range; at 234-236s it instructs the player to tap the attack icon. At 238-240s it says the player continues attacking until the target moves out of range or is destroyed.",
+      "The frames show generic Act 1 enemy approach/attack guidance, but do not identify the visible enemy as Swamp_LizadMan_Type1 or expose its SkillTree property. The model-specific SkillTree fact comes from the original tables and exact script scalar, not visual attribution."
+    ],
+    "sample": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0234s.png",
+    "sample_sha256": "DE9EF78A2BE618DF212ED109666EC1ADAAE1B5256F0EF4501B80553A615DA8DD"
+  },
+  "logicEvidence": {
+    "script": "port/android-native/app/src/main/assets/data/scripts/ai/monster.luac",
+    "script_sha256": "84f07caeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+    "sourceBehavior": [
+      "monster_OnEnemySpotted checks HasTarget; if false, it calls SetTarget(enemy), then HeadTo(enemy). The existing target remains authoritative; the script does not replace it.",
+      "monster_OnTargetInMeleeRange calls Stop first. If the captured SkillTree value is greater than -1, it calls GetRand(0,100); a strict result below 40 calls DoSkill(0). Otherwise it calls Attack(GetTarget()).",
+      "SkillTree is assigned from one Lua expression, FromFixed(GetProp(GetPyStruct('CharacterProperties','SkillTree'))). The actual FromFixed callback returns two Lua results; single assignment preserves result zero, the source signed arithmetic-shift result. The prior raw/256 test approximation selected the wrong return for negative raw values.",
+      "CharAI::_UpdateAggro at 0x3cf3f0 is called from the frame dispatcher at 0x3cfcf4. The recovered body gates player/faerie/NPC classifications, MyTurn and delay state; it uses App.GetDt and, unless DisableAIDelayTimerOptim is set, Random(0,200)+100 when a stored delay expires. Ordinary selection uses original view/no-aggro/spawn radii and source list60 Search with flags 0x80000001; tracked monster aggro additionally uses list70 Search with flags 1 and threat/relation providers.",
+      "CharAI::_UpdateTarget at 0x3cb908 calls target IsInteractive and IsDead, performs sight updates, then uses the authored melee/ranged range helpers. Its sight query uses strict squared-radius comparison; qualifying range events are raised each update, not only on transitions."
+    ],
+    "actualData": {
+      "definition": "Swamp_LizadMan_Type1",
+      "character_table_row": 360,
+      "ai_script": "monster",
+      "skill_tree_property_index": 28,
+      "skill_tree_raw": -1,
+      "from_fixed_first_result": -1,
+      "melee_result": "Stop then Attack(GetTarget()) for either sampled roll; no Random call is admitted because SkillTree is not greater than -1"
+    },
+    "controllerMapping": {
+      "present": [
+        "The modern RuntimeEnemyController uses the same live ActorState target, original AI row, actor properties, same-world eligibility and faction checks, signed sneak gate, authored no-aggro/view radii, LOS hook, authored melee-range kernel, shared navigation, and CombatSession request_actor_attack endpoint.",
+        "The controller's stable ActorId scan is a modern deterministic candidate ordering; it does not claim source list60 ordering or source Random200/MyTurn cadence."
+      ],
+      "not_present": [
+        "For SkillTree-positive rows, default RuntimeEnemyController does not borrow the same Application RNG and active AISExternal/SkillAI/VM DoSkill(0) execution path. Its optional special_action hook is not itself proof of those owners. Do not replace DoSkill with a basic attack and call it source-identical.",
+        "Native aggro threat lists, relation events, and source ClearAggro/AddAggro records remain outside the generic controller's ActorState.target_id ownership."
+      ]
+    }
+  },
+  "implementation": {
+    "changedPaths": [
+      "port/windows-foundation/features/enemy_ai/monster_decisions.hpp",
+      "port/windows-foundation/features/enemy_ai/monster_decisions.cpp",
+      "port/windows-foundation/features/enemy_ai/monster_decisions_tests.cpp",
+      "port/windows-foundation/features/enemy_ai/monster_lua_differential_tests.cpp",
+      "port/windows-foundation/features/enemy_ai/run_runtime_monster_melee_choice_v1_tests.py",
+      "port/windows-foundation/features/enemy_ai/README.md",
+      "port/windows-foundation/features/enemy_ai/runtime-monster-melee-policy-v1-report.json"
+    ],
+    "policy": "Added choose_monster_melee_action(skill_tree_id, source_roll), used by the borrowed-actor monster event dispatcher. Corrected both native and actual-Lua test setups to call dh2_script_scalar_from_fixed and use result[0]; this preserves the exact source comparison and avoids a fabricated random draw on negative SkillTree values.",
+    "architecture": "No target registry, ActorState, World, FSM, RNG, or source skill owner was copied. No root Session/main/core/CMake edits were made."
+  },
+  "verification": {
+    "command": "py -3 port/windows-foundation/features/enemy_ai/run_runtime_monster_melee_choice_v1_tests.py",
+    "result": "PASS",
+    "actualLua": "Real Lua 5.1 runtime executed the asset-backed monster.luac callbacks and compared exact callback order against the C++ event dispatcher across 1,408 fixtures. Actual Swamp lizard melee cases for rolls 39 and 40 both produced Stop, Attack and no RNG; resolved SkillTree was -1.",
+    "actualTables": "Same runner tested the exact source FromFixed result and event kernel across all 239 original Character rows selecting the monster script; all passed, including strict 39/40 choice boundary and the 12 rows whose SkillTree is greater than -1.",
+    "integration": "These are feature-owned source-bytecode/table and event-kernel tests, not a live CombatSession special-skill integration test or a visual runtime claim."
+  },
+  "nextRootApi": "To add source-identical skill selection in RuntimeEnemyController, provide a borrowed same-session Application Random(0,100) operation and the actual retained AISExternal/SkillAI/VM DoSkill(0) action endpoint with the source actor owner pinned for the synchronous call. The controller should skip the RNG branch when exact SkillTree <= -1; for Swamp_LizadMan_Type1 it already needs only the basic melee request."
+}

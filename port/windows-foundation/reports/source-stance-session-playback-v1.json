@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-09",
+  "status": "actual_source_stance_banks_shared_session_playback_verified",
+  "released": false,
+  "goal_complete": false,
+  "test": "tests/source_locomotion_session_tests.cpp",
+  "runner": "tools/run_source_locomotion_session_tests.ps1",
+  "executable_sha256": "74fbcd9e4a75302cc29062cebbdf3e5874bb09be421398e9323e61896cc1ac24",
+  "fixture_profile": "KnightPlayerBase",
+  "source_items": [
+    "Longsword01",
+    "Dagger01",
+    "Staff01"
+  ],
+  "actual_stance_ids": [
+    0,
+    2,
+    3
+  ],
+  "cases": [
+    "PASS stance=0 state=Idle sequence=262 clip=original-cache/data/3d/characters/prince/animations/prince_idle_shield.bdae sourceSpeed=1 sameOwner=1",
+    "PASS stance=0 state=Walk sequence=280 clip=original-cache/data/3d/characters/prince/animations/prince_walk_slow.bdae sourceSpeed=1.3 sameOwner=1",
+    "PASS stance=0 state=Run sequence=271 clip=original-cache/data/3d/characters/prince/animations/prince_walk_1hand.bdae sourceSpeed=1.3 sameOwner=1",
+    "PASS stance=2 state=Idle sequence=264 clip=animations/prince_idle_dual.bdae sourceSpeed=1 sameOwner=1",
+    "PASS stance=2 state=Walk sequence=282 clip=original-cache/data/3d/characters/prince/animations/prince_walk_slow.bdae sourceSpeed=1.3 sameOwner=1",
+    "PASS stance=2 state=Run sequence=271 clip=original-cache/data/3d/characters/prince/animations/prince_walk_1hand.bdae sourceSpeed=1.3 sameOwner=1",
+    "PASS stance=3 state=Idle sequence=265 clip=original-cache/data/3d/characters/prince/animations/prince_idle_shield.bdae sourceSpeed=1 sameOwner=1",
+    "PASS stance=3 state=Walk sequence=283 clip=original-cache/data/3d/characters/prince/animations/prince_walk_slow.bdae sourceSpeed=1.3 sameOwner=1",
+    "PASS stance=3 state=Run sequence=271 clip=original-cache/data/3d/characters/prince/animations/prince_walk_1hand.bdae sourceSpeed=1.3 sameOwner=1",
+    "PASS equipment stance switch=0 alias=idle sameOwner=1 clockContinues=1",
+    "PASS equipment stance switch=2 alias=idle sameOwner=1 clockContinues=1",
+    "PASS equipment stance switch=0 alias=idle sameOwner=1 clockContinues=1"
+  ],
+  "source_dictionary_sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+  "source_dictionary_provenance": "Byte-identical unified data and original-cache dictionaries compared with canonical original ZIP member.",
+  "shared_clip_finding": "Original ordinary Idle262 and staff Idle265 select prince_idle_shield; dual Idle264 selects prince_idle_dual. Shared Walk/Run resources are retained as authored.",
+  "limitations": [
+    "Headless actual source ordinary/dual/staff stance proof; no matched-reference acceptance.",
+    "Preview9 enrolls Knight current/empty source banks; dual/staff productioncombat remains incomplete."
+  ],
+  "stable_alias_switches": [
+    0,
+    2,
+    0
+  ],
+  "switch_invariant": "Same retained pose owner and actor lease; repeated idle selection advances without resetting clock.",
+  "source_phase_speed": {
+    "Idle": 1.0,
+    "Walk": 1.3,
+    "Run": 1.3
+  }
+}

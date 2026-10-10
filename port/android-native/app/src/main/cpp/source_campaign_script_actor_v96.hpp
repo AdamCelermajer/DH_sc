@@ -21,6 +21,9 @@ bool source_campaign_character_move_blocking_v116(const std::shared_ptr<void>&,
  std::uintptr_t,std::uint8_t original_static,bool&,std::string&);
 bool source_campaign_object_set_visible_v116(const std::shared_ptr<void>&,
  std::uintptr_t,bool,std::string&);
+// Direct Character.VerifySpecialization3bd000 leaf, without ReloadSkills.
+bool source_campaign_character_verify_specialization_v134(const std::shared_ptr<void>&,
+ std::uintptr_t,std::string&);
 //Whole inherited source virtual40, also required by startup/PM AddCharacter.
 bool source_campaign_character_set_visible_v96(const std::shared_ptr<void>& actual_world,
  std::uintptr_t actual_character,bool,std::string&);

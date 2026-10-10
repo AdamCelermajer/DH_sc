@@ -1,0 +1,339 @@
+{
+  "status": "exact_original_trigger_and_script_spawn_chain_recovered",
+  "data_xml": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-encounter-source\\original-campaign.xml",
+  "all_level_scripts": 55,
+  "all_level_commands": 789,
+  "all_common_scripts": 15,
+  "first_encounter": {
+    "trigger": {
+      "source": "port\\windows-foundation\\assets\\original-cache\\data\\3d\\modules\\swamp\\mgp\\obj_3of4_brdwalk_sw_00.mgp",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_LizManIntro",
+        "position": "3102.95,-3.3969,256.739",
+        "scale": "1.0,5.54917,1.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "LizardMan_Intro"
+      }
+    },
+    "world_position": [
+      -2897.05,
+      -3.3969,
+      256.739
+    ],
+    "dimensions": [
+      200.0,
+      1109.834,
+      200.0
+    ],
+    "bounds_min": [
+      -2997.05,
+      -558.3139,
+      156.73899999999998
+    ],
+    "bounds_max": [
+      -2797.05,
+      551.5201000000001,
+      356.739
+    ],
+    "dimensions_source": "canonical_trigger_zone_declarations_v22.inc + canonical_trigger_zone_v22.cpp",
+    "actors": [
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Monster_LizManIntro1",
+          "position": "2274.25,252.509,250.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,89.6209",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "charpropsname": "Swamp_LizadMan_Type1",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "ai_state": "Limbus",
+          "auto_spawn": "0",
+          "ai_state_visible": "0",
+          "char_group_role": "Normal",
+          "char_group": "",
+          "spawn_view_radius": "400"
+        },
+        "world_position": [
+          -3725.75,
+          252.509,
+          250.0
+        ],
+        "character_choices": [
+          "Swamp_LizadMan_Type1"
+        ],
+        "template": null
+      },
+      {
+        "module": "obj_3of4_brdwalk_sw_00_1",
+        "source": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Monster_LizManIntro2",
+          "position": "1824.77,349.838,250.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,90.0469",
+          "gametype": "Character",
+          "condition_desc": "Invalid",
+          "charpropsname": "Swamp_LizadMan_Type1",
+          "_templateName": "Monster",
+          "charpropsname_pydata": "CharacterTable",
+          "condition_desc_pydata": "ConditionTable",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster",
+          "ai_state": "Limbus",
+          "auto_spawn": "0",
+          "char_group_role": "Normal",
+          "ai_state_visible": "0",
+          "spawn_view_radius": "400",
+          "char_group": ""
+        },
+        "world_position": [
+          -4175.23,
+          349.838,
+          250.0
+        ],
+        "character_choices": [
+          "Swamp_LizadMan_Type1"
+        ],
+        "template": null
+      }
+    ],
+    "script": {
+      "id": 17,
+      "name": "LizardMan_Intro",
+      "commands": [
+        {
+          "index": 0,
+          "kind": 0,
+          "class_name": "Script_ExecScript",
+          "byte_offset": 2430,
+          "scalars": {
+            "4": 0,
+            "8": 1,
+            "12": 1,
+            "16": 0,
+            "24": 1
+          },
+          "strings": {},
+          "arrays": {
+            "20": []
+          }
+        },
+        {
+          "index": 1,
+          "kind": 24,
+          "class_name": "Script_LockCharacter",
+          "byte_offset": 2444,
+          "scalars": {
+            "4": 24,
+            "8": 3
+          },
+          "strings": {
+            "12": "All"
+          },
+          "arrays": {}
+        },
+        {
+          "index": 2,
+          "kind": 8,
+          "class_name": "Script_SetCameraTarget",
+          "byte_offset": 2455,
+          "scalars": {
+            "4": 8,
+            "8": 1000,
+            "12": 25,
+            "20": 0
+          },
+          "strings": {
+            "16": "_prim_Waypoint_NewCamSpot"
+          },
+          "arrays": {}
+        },
+        {
+          "index": 3,
+          "kind": 26,
+          "class_name": "Script_Wait",
+          "byte_offset": 2493,
+          "scalars": {
+            "4": 26,
+            "8": 500
+          },
+          "strings": {},
+          "arrays": {}
+        },
+        {
+          "index": 4,
+          "kind": 30,
+          "class_name": "Script_SpawnCharacter",
+          "byte_offset": 2501,
+          "scalars": {
+            "4": 30,
+            "8": 26
+          },
+          "strings": {
+            "12": "_prim_Monster_LizManIntro1"
+          },
+          "arrays": {}
+        },
+        {
+          "index": 5,
+          "kind": 26,
+          "class_name": "Script_Wait",
+          "byte_offset": 2535,
+          "scalars": {
+            "4": 26,
+            "8": 1500
+          },
+          "strings": {},
+          "arrays": {}
+        },
+        {
+          "index": 6,
+          "kind": 30,
+          "class_name": "Script_SpawnCharacter",
+          "byte_offset": 2543,
+          "scalars": {
+            "4": 30,
+            "8": 26
+          },
+          "strings": {
+            "12": "_prim_Monster_LizManIntro2"
+          },
+          "arrays": {}
+        },
+        {
+          "index": 7,
+          "kind": 26,
+          "class_name": "Script_Wait",
+          "byte_offset": 2577,
+          "scalars": {
+            "4": 26,
+            "8": 2000
+          },
+          "strings": {},
+          "arrays": {}
+        },
+        {
+          "index": 8,
+          "kind": 25,
+          "class_name": "Script_UnlockCharacter",
+          "byte_offset": 2585,
+          "scalars": {
+            "4": 25,
+            "8": 3
+          },
+          "strings": {
+            "12": "All"
+          },
+          "arrays": {}
+        },
+        {
+          "index": 9,
+          "kind": 8,
+          "class_name": "Script_SetCameraTarget",
+          "byte_offset": 2596,
+          "scalars": {
+            "4": 8,
+            "8": 1000,
+            "12": 11,
+            "20": 0
+          },
+          "strings": {
+            "16": "LocalPlayer"
+          },
+          "arrays": {}
+        },
+        {
+          "index": 10,
+          "kind": 0,
+          "class_name": "Script_ExecScript",
+          "byte_offset": 2620,
+          "scalars": {
+            "4": 0,
+            "8": 1,
+            "12": 3,
+            "16": 0,
+            "24": 1
+          },
+          "strings": {},
+          "arrays": {
+            "20": []
+          }
+        },
+        {
+          "index": 11,
+          "kind": 78,
+          "class_name": "Script_DoTutorial",
+          "byte_offset": 2634,
+          "scalars": {
+            "4": 78,
+            "8": 10,
+            "16": 7
+          },
+          "strings": {
+            "12": "CombatTuto"
+          },
+          "arrays": {}
+        }
+      ]
+    }
+  },
+  "generic_semantics": {
+    "trigger": "CanActivate: enabled and triggercount not exhausted and delay expired; MeetCondition; alive local player. When any eligible player enters source box, start resolved script once unless already running; no exit-script means consume activation on entry.",
+    "spawn": "Kind30 lookup character by name within current module; SM_SetSpawnState(false,false) calls _SetState(1,-1,nullptr) immediately. Spawn state1 chooses authored Spawn animation and clears target. Registered animation-finished event34 transitions Spawn1 -> Idle3 without predicate.",
+    "script_calls": "Kind0 scalar8=true uses global common ID scalar12; false adds common count to level ID. StartScript inherits current module context; source random array used only when count16>0.",
+    "wait": "Kind26 scalar8 duration ms; source IsBlocking elapsed<duration; update uses actual app delta.",
+    "tutorial": "Kind78 only normal difficulty + enabled persistent tutorial flag + offline. Start named script; consume tutorial flag and save settings. CombatTuto must not be arbitrarily forced.",
+    "bounds": "Zone default dimensions200 each times authored scale; original no-colzone IsInside uses actor center inclusive XYZ AABB and requires physical object. First trigger rotation0 so shown bounds exact."
+  },
+  "evidence": [
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/0045f400.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003c/003c2734.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003c/003c35ec.c",
+    "port/level-world/reference/character-monster-state-ownership/registration-plan.json",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0039/003987ac.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0039/0039b2a0.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0039/0039b458.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0039/003970c8.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004607f4.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/00460950.c"
+  ],
+  "unknowns": [
+    "Automatic activation of unrelated authored direct Limbus mobs remains separate; first encounter uses explicit scripted actors, not the diagnostic direct actor.",
+    "General rotated trigger world-box must use existing source transform/AABB path.",
+    "Full source cinematic/dialogue/HUD/save-block callbacks still required to execute complete script without omissions."
+  ],
+  "initialization_correction": {
+    "authored_ai_state": "Limbus",
+    "GetPreSetAIState_result": 0,
+    "actual_loaded_state": 17,
+    "actual_loaded_state_name": "PreSpawn",
+    "source_caller": "Level::_LoadCharStates0x3eff98; preset0 or17 -> SM_SetPreSpawnState; allothers -> SM_SetIdleState(false)",
+    "proof": "port/level-world/reference/character-state-owner-initialization-alias/NOTES.md",
+    "boundary_api": "CharacterStateOwner.initialize_level(preset,services); do not directly assign state.current from authored text",
+    "correct_spawn_transition": "PreSpawn17 -> Spawn1; source PreSpawn Blur enables/revives/enablescollisions; Spawn sequence finish event34 -> Idle3",
+    "diagnostic_string_gate": "Historical CombatSession requiredAIState=Limbus is diagnostic source-string filtering, not actual native SMstate",
+    "live_encounter_verified": false
+  }
+}

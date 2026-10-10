@@ -1,0 +1,41 @@
+{
+  "validation": "PASS",
+  "issue": "RenderFX drawing and input copied distinct viewport states; source menu rendering updated only drawing",
+  "change": "SwfMovie connects its input adapter to the same retained viewport instance",
+  "host_regression": {
+    "actual_as_methods": 43,
+    "findings": 0,
+    "snapshot_copy_missed_hit_reproduced": true,
+    "mismatches": 0,
+    "actual_core_input_cases": 19,
+    "sanitizers": [
+      "AddressSanitizer",
+      "UndefinedBehaviorSanitizer",
+      "LeakSanitizer"
+    ],
+    "history_cases": 5,
+    "native_events": 51,
+    "guards": 6
+  },
+  "android_syntax": {
+    "x86_64": "PASS",
+    "arm64-v8a": "PASS",
+    "units": [
+      "swf_input_connection.cpp",
+      "swf_viewport_connection.cpp",
+      "overlays/source-facade-v1/swf_movie.cpp"
+    ]
+  },
+  "live_android_tested": false,
+  "emulator_used": false,
+  "saved_data_touched": false,
+  "source_sha256": {
+    "port/engine-ui/swf_viewport_connection.hpp": "a37071814323c20d66c35ec60288efeb53c1e19133e17e1a17ec8f150dbca29f",
+    "port/engine-ui/swf_input_connection.hpp": "98affdb9a49d77b3a68ed3534b42157476e24ac98492ab8ba66d56cb466939f1",
+    "port/engine-ui/swf_input_connection.cpp": "58ca56695d9eb330d6a2d89f2e165d194459ac79af60116f65278245215d484d",
+    "port/engine-ui/swf_movie.cpp": "16e9c8d492c4226dd93172a9530dd6b2ed129b52b3cd8e1f5fb5c80566ab627c",
+    "port/engine-ui/overlays/source-facade-v1/swf_movie.cpp": "6ba7aa327a5986c4a1266a4359ae3ad56317f5fbc114f9db0956aef888d8655d",
+    "port/engine-ui/tests/swf_cursor_input.cpp": "a83bf76109127d3cced30a61bdac08aa42d9a78824b59fb6bb7c8b37981474a0",
+    "port/engine-ui/tools/swf_shared_viewport_input_host_v133.py": "1ef3e40fd2fa2b2ef3953523228107814ab668c13adb373afc37093ba8e380ef"
+  }
+}

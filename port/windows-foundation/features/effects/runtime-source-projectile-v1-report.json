@@ -1,0 +1,200 @@
+{
+  "feature": "RuntimeSourceProjectileV1",
+  "date": "2026-10-10",
+  "status": "verified_range_selection_plan_api_runtime_unverified",
+  "visual_evidence": {
+    "reference": "reference-video/dh2-act1/Dungeon Hunter2 v1.0.3 Part1 z_Zky7qQdYs",
+    "inspected": [
+      ".local-inputs/referenceframes/dh2-act1/minute-012.png (720s)",
+      ".local-inputs/fidelity-video-v18/reference-360.png (360s)",
+      ".local-inputs/runtime-source-projectile-v1/reference-899-02/04/06/08/10.png (899.2,899.6,900.0,900.4,900.8s)"
+    ],
+    "observation": "720s shows active Bogwomp boardwalk melee with target HUD.360s shows Trunus with bright melee/ground effect.899.2\u2013900.8s shows sword player moving beside robed follower and persistently glowing companion. None identifies a ranged projectile unambiguously; glow is not labelled fireball and HP change is not projectile proof.",
+    "version": "footage1.0.3 vs supplied recovered-cache1.0.2; equality not established"
+  },
+  "logic_evidence": [
+    "CharAI::_OnAnimEvent0x3d4434 recovered character_melee_animation_event_v1.cpp:32-46 and game-data/combat_events.cpp:6-16: state5 plus original CanRangeAttack true routes attack_ranged/attack_mainhand/do_skill to source projectile ID; melee events do not create projectiles when capability false. Event28 generic controller gates follow original named dispatcher, do not synthesize event times.",
+    "prince-live-attack-services/NOTES.md:17 Character.CanRangeAttack0x3a4cd0 property32 unequal-1 uses properties30/31 signedASR8 and projectileID; otherwise genuine inventory ranged parameters. Mere capability boolean does not derive projectileID.",
+    "Exact cache scripts/skills/npc_fireball.luac OnPreSkill_: Enemy/NONE filters, FrontalFirst sorting, TargetListSearch(actual RANGE), nonempty-target selection and LookAt. OnSkill_: LookAt(target), authored fire staff sound, SpawnSkillProjectile(actual RangeProjectileID). OnDelayedSkill_ only positive target sets SnS_Level, applies NPC_Fireball class then SkillCombatRoll. This is distinct script skill caller, not assumed state5 event.",
+    "ProjectileTable reader0x4b9ab0 and struct read0x4a5800 descriptor bbiibiibbiiiiibbiiii; source_process_compiled_members_v121.hpp Projectile field order. Model maps to ProjectileDict source ColladaFile row, not EffectsTable row.",
+    "projectile_methods_v112.cpp:70-132 SetInfo validates source row/source identity; selects source projectile_node before from_node choice, raw MaxDistance>=0 square else-1, caches Velocity/VelocityDamping float bits and Timer word, source visual, physical and source/target destination. Timer=-666 takes actual model Animator duration.",
+    "projectile_methods_v112.cpp:153-219 Update hit callback result0/no peer despawns with impact; result1 clears hit/dead flags. Target virtual34 dead clears lock. TargetLock follows target; otherwise normalize destination direction; qualified GameObject.Update owns displacement. Speed -= damping*AppDt/1000, timer subtracts second actualAppDt; expire when timer<=0/speed<=0/maxdistance reached or source PF floor/room gates. Motion/hit/reaction cannot be inferred from table alone.",
+    "character_skill_projectile_callbacks_v112.cpp _ProjectileHit0x3dae7c/_ProjectileCheck0x3daff4: live owned skill userdata and exact selected VM/scope, SetSkill then reload main script, OnDelayedSkill/Check result first BOOLfalse maps1, other accepted result0. No immediate damage on projectile marker.",
+    "IDA original exported pseudocode/003e/003e58cc.c Projectile.SetInfo(bool)0x3e58cc directly reads Arrays::ProjectileDict::members+12*Model+8 for visual URI; not EffectsDict/AnimatedFXLibrary. Source pointer/node/distance/timer fields match plan projection.",
+    "IDA original ProjectileManager.Spawn(bool)0x3e701c returnsNULL on invalid row, selects Laser via table offset28, invokes visual40 true then virtualc8 SetInfo then updating85=1; plan only describes this choice, does not assert native spawn occurred.",
+    "Actual AnimTable: BowAttackStatic01 id94, EnergyBolt_Attack01 id194, HumanoidRangedAttack01 id289, NPC_HumanoidRangedAttack id462 directly reference AnimDict1077 prince_ranged_attack; real BRES event do_skill authored1133ms first integer sampling1134ms. Existing native state5 range decision accepts this event; state6 is a different script-skill consumer."
+  ],
+  "expected_behavior": "Create one immutable authored plan from existing decoded source rows: original class/model URI, exact speed/damping/timer bits, distance and impact/filter flags. Only admitted native state5 ranged event produces event plan. It does not advance motion or apply result; source collision/script/result consumer remains authoritative. Reusable across rows/maps/actors.",
+  "focused_test_before_coding": [
+    "Load actual cache70 process array stages; FireBall row/model resolved to exact elemental_bolt_fire.bdae; preserve speed15/timer2000/flags and float bits.",
+    "Native ranged marker accepted state5+can_range1; nonprojectile/no-range/otherstate returns handled=false without touching previous plan; invalidcan_range/negative/outofrange row fails atomically.",
+    "Actual model bytes and npc_fireball source hashed; source emitter must not apply result or invent movement/lifetime sample.",
+    "Laser class comes from actual IsLaser field; Timer=-666 and no-model rows remain explicit source sentinel."
+  ],
+  "uncertainties": [
+    "No unambiguous fireball sequence observed; launch socket/visual trajectory/impact timing comparison pending.",
+    "Actual displacement/PFcollision/hit filters/skill VM callbacks not implemented by this plan.",
+    "Caller must supply original projectileID, gate admission and original marker occurrence; root render/result integration unverified."
+  ],
+  "ownership": {
+    "implementation": "/root/workforce_dispatcher/source_backend_callbacks_sol",
+    "reviewer": "/root/integration_lead",
+    "integration": "/root (normal Session/event/renderer path)"
+  },
+  "assets": {
+    ".local-inputs\\runtime-source-projectile-v1\\assets\\data\\3D\\projectiles\\elemental_bolt_fire.bdae": "ed088c54626650ccd9d778bab6eb4f8078fe98caa38c2b257aa885a82e461041",
+    ".local-inputs/runtime-source-projectile-v1/assets/npc_fireball.luac": "6eb7923499491118c9b5fa9699a0ab47d048d6c04971ae8e2fd60652ba52a475",
+    ".local-inputs/runtime-source-projectile-v1/assets/data/3D/characters/prince/animations/prince_ranged_attack.bdae": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed",
+    ".local-inputs/runtime-source-projectile-v1/assets/data/3D/projectiles/elemental_bolt_fire.bdae": "ed088c54626650ccd9d778bab6eb4f8078fe98caa38c2b257aa885a82e461041",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/projectiles_dictionary_pyarray.bin": "f7e40a8d2a75459b6c9e2e23dc75b80357680671cd7abda8d557078710da12f8",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/projectiles_dictionary_pyarraynames.bin": "42d5f9603ce4671c85e87b07fffcbfedf0e4b2e891b4b4adbfa0354093422d16",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/projectiles_pyarray.bin": "5f50573dc8c6992b4a8c6b0104ed067c27c7765b8dae9236c40ad12c2d5b5e75",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/projectiles_pyarraynames.bin": "404d33210db30cc646e594b31b06850736db74ac0f07ea176f79b48630c96950",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/projectiles_pycst.bin": "6be57b10285fdf43c112e00130b00654054597b28b38d34de7ca7cc0142f8595",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/projectiles_pystructnames.bin": "ece9b6229ddb13b4bf937565b2a057e3b0164125020f80d5e100dc1ddac3cd62"
+  },
+  "implementation": "Authored immutable source plan, current property/equipment selection through existing dh2_attack_range_parameters, and original state5 ranged marker decision. No callback facade, World/projectile simulation, motion/collision/damage runtime added.",
+  "isolated_validation": {
+    "compile_exit": 0,
+    "compile_stderr": "",
+    "runtime_exit": 0,
+    "runtime_output": "source_item=Staff01 id=1025 type=5 category=5 Param4=1 Param5=1000 Param6=20\nsource_item=Bow01 id=94 type=4 category=4 Param4=1 Param5=1000 Param6=10\nsource_item=Wand01 id=1226 type=5 category=5 Param4=1 Param5=1000 Param6=15\nsource_MagePlayerBase_resolved_range=0,0,-1\nauthored_sequence=BowAttackStatic01 id=94 clip=1077\nauthored_sequence=EnergyBolt_Attack01 id=194 clip=1077\nauthored_sequence=HumanoidRangedAttack01 id=289 clip=1077\nauthored_sequence=NPC_HumanoidRangedAttack id=462 clip=1077\nsource_skill=NPC_Caster row=77 script=npc_fireball animation_id=113 sequence=CultistCaster_Ranged\nsource_fire_skill_step=651 redir=1 name=StaffAttack01\nsource_fire_skill_step=1218 redir=0 name=skill_dh2_prince_mage_wand_attack\nsource_skill_list=Cultist_Caster\nauthored_marker=do_skill sampling_ms=1134 authored_ms=1133\nPASS checks=169 actual_projectile_rows=41 no_simulated_motion_or_damage\n"
+  },
+  "production_validation": "NOT INTEGRATED: normal original animation-event caller, plan-to-source mesh draw, launch transform, qualified GameObject motion/PF, delayed callback/result and visual acceptance remain root/feature work.",
+  "fireball_example": {
+    "row": 18,
+    "model": 1,
+    "uri": "data/3D/projectiles/elemental_bolt_fire.bdae",
+    "velocity": 15.0,
+    "velocity_damping": 0.25,
+    "timer_ms": 2000,
+    "max_distance": -1.0,
+    "target_lock": false,
+    "disappear_on_hit": true,
+    "impact_fx": 241,
+    "impact_sound": 459,
+    "creation_script": "data/scripts/skills/npc_fireball.luac",
+    "no_immediate_result": "Delayed positive-target callback applies NPC_Fireball class then SkillCombatRoll; projectile plan does not perform that call."
+  },
+  "api": [
+    "runtime_source_projectile_plan_v1(existing_shared_const_process_arrays,original_row,out,error)",
+    "runtime_source_ranged_event_v1(existing_shared_const_process_arrays,original_CombatEventContext,actual_authored_marker,handled,out,error)",
+    "runtime_source_range_selection_v1(existing_source_arrays,current_CombatProperties896,current_CombatInventory16,exact_ItemTable_projection,item_count,capable,out,error)"
+  ],
+  "scope": "Only new runtime_source_projectile_v1.* production/test files and runtime-source-projectile-v1-report.json; test-only extracted assets/build artifacts under .local-inputs/runtime-source-projectile-v1. No Session/core/main/CMake/shared archive changes.",
+  "confirmed_existing_renderer_bug": {
+    "file": "port/android-native/app/src/main/cpp/renderer_campaign_projectile_methods_v112.inc:76",
+    "problem": "set_visual_index resolves source Projectile.Model via fx_libraries animated_info_v88, which indexes EffectsDict. Model1 would select balrog_firespit instead of actual ProjectileDict1 elemental_bolt_fire. Original SetInfo0x3e58cc confirms ProjectileDict.",
+    "implementation_owner": "root, assignment requested through workforce dispatcher",
+    "reviewer": "integration_lead",
+    "status": "Reported; unmodified because shared native module outside lane scope. Gate use/acceptance of that native renderer projectile path."
+  },
+  "followup_ownership": "Root owns normal original event/renderer integration; workforce dispatcher assigns missing motion/hit/visual behavior and shared renderer bug fix. This isolated plan is not a completed playable ranged feature.",
+  "source_hashes": {
+    "port/windows-foundation/features/effects/runtime_source_projectile_v1.hpp": "d91ba0ea3b2f9b4d274d8670bec4d8a2b8b32d06c9d2659da5b97be8f26a3bd8",
+    "port/windows-foundation/features/effects/runtime_source_projectile_v1.cpp": "6e7c6fadbe70c5736b3ba06fd7b940f04d8a2c51be0aa23174b8f71668f841c4",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003e/003e58cc.c": "c55f12b86fce3c3e2d1dd6fc6740f184e999b64b7b5df92222ccdd1ccf9da2a4",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003e/003e701c.c": "8a3e5053cb387af7919147c501d1fc13f749af94944ceb5c9a50d6390406c5df",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003d/003d4434.c": "386757d682c930204653f034099fce64c6cc2d52f178aeb71584f7177a26636f",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003c/003cc280.c": "0f34368a4a8960000666e3aeef10360b64e13d7165947e472a6a83271298efed",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003e/003e55b4.c": "6599208bb79c8f2e02c4525d14e327136dde2cb1d49120f2385f33326d5ce9a5",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9",
+    "port/windows-foundation/features/effects/runtime_source_projectile_v1_tests.cpp": "51afbf710be15948f3bac4ed97714f36045966e5312ea00db912886169b20150",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003a/003a4cd0.c": "93a556490cc47e94fed9fcf4138bb6c17d3aeab737d9b78f137569c9630db874",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003f/003ffebc.c": "47ff9fadd8b0f6f4c8b2cc2a57a1aaa8ef7be1d029aeaa279c6e7cb8385c3b81",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003f/003fffa4.c": "16cc0af66b2780089d403683f9ca0cce8e375308b38e8be55fab4d81fc0c2d7c",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    ".local-inputs/runtime-source-projectile-v1/assets/pydata/loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+  },
+  "runtime_lane_reopen_20261010": {
+    "status": "conditional_runtime_admission_not_established_no_flight_or_hit_implementation",
+    "decision": "Do not connect elemental_bolt_fire to exact prince_ranged_attack or report Session projectile success. The required exact live skill/animation mapping is false for the audited cache; selecting FireBall based on marker name alone is unsupported.",
+    "actual_asset_test": "StrictC++17 actual-source149 checks PASS. SkillTables decoder loads exact cache; npc_fireball script resolves SkillTable row77 NPC_Caster in Cultist_Caster list; Anim113 CultistCaster_Ranged redirects651 StaffAttack01 to AnimDict1218 skill_dh2_prince_mage_wand_attack. Recursive source-asset check proves it does not reference prince_ranged_attack1077. Source AnimTable1077+do_skill route remains basic state5 ranged callback.",
+    "source_callers": [
+      "IDA exported pseudocode003d/003d4434.c CharAI::_OnAnimEvent0x3d4434 state5: CanRangeAttack virtual0x128 returns projectile row via property/inventory, then Spawn(row,owner,NULL,NULL,CharAI::_HandleProjectile0x3cc280,NULL,false). State6 do_skill calls _SkillEvent; neither marker spelling nor FireBall table row identifies an active Skill instance.",
+      "Full supplied npc_fireball.luac correction: OnPreSkill_ only enemy/NONE/frontal filters/search/initialLookAt; OnSkill_ performs LookAt,fireSound,SpawnSkillProjectile; OnDelayedSkill_ positive receiver applies NPC_Fireball class and SkillCombatRoll. Earlier audit misattributed spawn to OnPreSkill_, now corrected.",
+      "IDA003d/003da510.c CharAISkillScript::SpawnProjectile(bool)0x3da510 uses same owner and skill userdata with _ProjectileCheck/_ProjectileHit; source_campaign_projectile_methods_v112.cpp:209-243 actual Character binding validates owned slot, original row/angle/from_node and postspawn optional positional override. This skill path differs from basic state5 handler.",
+      "IDA003e/003e58cc.c origin: actual GameObject target position captured, actual projectile_node overrides launch XYZ when produced; from_node=false affects heading fallback while target=NULL advances1000 along actual owner look vector. Original owner pose/socket must be live, not identity transform or actor bounding box estimate.",
+      "IDA003e/003e55b4.c Projectile.OnCollision0x3e55b4 rejects dead/pending-hit/self/null; selected Character Dedicated target and FriendlyFire/AI_IsEnemy gates, captures peer+point before check callback. Check returns1 reject,2 hit+impactimmediate,3 expire then pendinghit,default pendinghit. Original POProjectile bullet sensor delivers collision synchronously and rejects physical response.",
+      "CanonicalProjectilePhysicalV112 source: native sensor radius from actual absolute AABB, user_data association/visible80/peer visibility, category32/mask0x51f/groupDebug, handles type9/type10; source PF floor/room expiry in projectile_methods_v112.cpp185-222. Generic distance-to-target/swept sphere without these source facts is not equivalent.",
+      "IDA003c/003cc280.c basic CharAI._HandleProjectile: reads captured projectile.peer3cc and source380, selects peer AsCharacter, notifies owner AI, noncharacter interaction8 activation or source F_MeleeAttack(false,projectile.byte37c) then F_ApplyResult; outcome low2bits decide callback return1 continuation vs0. No direct damage or invented skill formula at launch.",
+      "CombatSession.apply_source_result has current lease/actors/occurrence/reentrancy gates and sameworld RNG/result owner; duplicate/stale receipts consume no RNG. Its header explicitly scopes calculation/basichealth/Injury/death and excludes complete F_ApplyResult. No projectile collision producer or exact skill VM callback linkage is established by this API."
+    ],
+    "tests_required_before_new_runtime_code": [
+      "Bind an actual same-session source ranged Character/inventory output for basic1077 path OR explicitly select the different actualNPC_Caster1218 skill lane; never conflate them.",
+      "Bind exact live pose projectile_node/ownerlook, source collision receiver/filter/AABB/PF room and floor gates, source percontact callback order and complete result outcomes.",
+      "Once eligible, test actual Session validlaunch/flight/admittedimpact/sameRNG receipt, duplicate launch and stale lease rejects, enemy/friendly/self/missingtarget/miss/continuation/contact duplicates, timer/range/PFexpiry, actual BDAE mesh or particle packet before pixels."
+    ],
+    "runtime_session_verification": "NOT RUN: no eligible runtime path implemented, so no fake success/reject/duplicate projectile tests. Existing actual plan/asset tests are not Session acceptance.",
+    "bdae_packet_verification": "Current fixture validates actual fireball BRES and actual ranged event track; no projectile mesh/particle draw packet is claimed. Packet test remains for the eligible exact-live-row runtime lane.",
+    "pixels": "Not claimed. Existing shared renderer Projectile.Model->EffectsDict mismatch reported root/dispatcher; original0x3e58cc uses ProjectileDict.",
+    "remaining_owners": {
+      "exact_live_row_and_session_integration": "root/integration lead",
+      "source_actor_collision_result_lane": "workforce dispatcher to assign exact basic1077 or NPC_Caster1218 lane",
+      "dictionary_mismatch_implementation": "root, reported dispatcher for explicit assignment",
+      "dictionary_mismatch_reviewer": "integration lead",
+      "current_investigation_owner": "/root/workforce_dispatcher/source_backend_callbacks_sol"
+    }
+  },
+  "starter_range_selection_20261010": {
+    "status": "verified_native_query_and_actual_rows_api_ready_runtime_unverified",
+    "source": "Original Character.CanRangeAttack0x3a4cd0 checks cached property32 first; property override reads30/31 ASR8 without inventory. Else ItemInventory.CanRangeAttack0x3ffebc calls ranged predicate3fffa4 and selected main hand; type4/5 accepted; outputs Item words38/39/40 (Param4/5/6). Reuse existing dh2_attack_range_parameters native kernel.",
+    "actual_rows": {
+      "Staff01": {
+        "item": 1025,
+        "type": 5,
+        "category": 5,
+        "min": 1,
+        "max": 1000,
+        "projectile": 20,
+        "projectile_name": "FireWandProjectile",
+        "model": 1,
+        "uri": "data/3D/projectiles/elemental_bolt_fire.bdae",
+        "velocity": 20,
+        "timer_ms": 1000
+      },
+      "Wand01": {
+        "item": 1226,
+        "type": 5,
+        "category": 5,
+        "min": 1,
+        "max": 1000,
+        "projectile": 15,
+        "projectile_name": "EarthWandProjectile",
+        "model": 0,
+        "uri": "data/3D/projectiles/elemental_bolt_earth.bdae"
+      },
+      "Bow01": {
+        "item": 94,
+        "type": 4,
+        "category": 4,
+        "min": 1,
+        "max": 1000,
+        "projectile": 10,
+        "projectile_name": "BowProjectile",
+        "model": 9,
+        "uri": "data/3D/projectiles/projectile_arrow_default.bdae"
+      }
+    },
+    "resolved_player": "Actual Character+Class formula loaders resolve fresh MagePlayerBase property30/31/32=0/0/-1. Thus actualStaff01 current main hand takes equipment path; root must supply actual current gear/buff-resolved property cells, not reuse fresh base if modified.",
+    "visual_consumer": "Basic state5 clip1077 do_skill at1134 sampling uses selected source row; inspected original sword/follower footage does not prove staff flight/impact or packet pixels. No added footage assertion.",
+    "expected_api": "Stateless source range-output/plan adapter over caller actual cached CombatProperties896 and current read-only CombatInventory16+exact ItemTable projection; source native query determines capability and projectile. No extra Actor/inventory/clock/physics/VM. No guessed FireBall18,SkillNPC_Caster77 or spell formula.",
+    "focused_tests_before_code": [
+      "Actual resolvedMage+selectedStaff01 -> limits1/1000,Projectile20 FireWandProjectile/model1/speed20/timer1000; decode actual fire BDAE.",
+      "Switch current set to actualWand01 -> row15 EarthWandProjectile/model0; actualBow01 type4 ->row10,source dictionary9.",
+      "Actual nonrange item/unarmed produces capabilityfalse with selection unchanged.",
+      "Cached source property32 shortcut uses exact30/31 ASR8 and ignores absent inventory; invalid item,row/current_set rejects atomically.",
+      "Route actual1077 do_skill only after actualstate5 admission with selected row; otherstate/no capability is ignored. Repeated pure query has no RNG or ownership mutation."
+    ],
+    "remaining_gap": "Runtime movement/collision/complete source result and duplicate occurrence owner remain root-owned; verified source row/API is lane endpoint per rescope. Lead owns dictionary fix.",
+    "api": "runtime_source_range_selection_v1(existing_source_arrays,current_CombatProperties896,current_CombatInventory16,exact_ItemTable_projection,item_count,capable,out,error)",
+    "validation": "Strict production C++17 -Wall -Wextra -Werror -pedantic PASS169 actual-asset/query checks. Actual Mage fresh Character+Class resolution property32=-1; two current mainhand sets from exact ItemTable query projection select Staff01\u2192row20 and swappedWand01\u2192row15; Bow01\u2192row10. Covers unarmed/nonrange denial, malformedselectedset/item, missingreachedtables, cachedpropertyASR8/noinventory shortcut, invalidprojectile atomic failure, repeatreadonly unchanged source loan and actual1077 do_skill with selectedrow20.",
+    "proof_scope": "Current-equipment fixture is a read-only logical ABI loan referencing actual decoded ItemTable instances/rows with explicit selected set. It does not claim an initialized production Session or native equippedItem mutation. Native query path is the same established source kernel; caller must provide actual current source-owned loans.",
+    "classification": "Source HasRangedWeapon types4/5; actual Bow01 type4, Staff01 and Wand01 type5. Do not infer classification from filename: Staff01 is in the ranged type5 path.",
+    "plan_difference": "ActualStaff01 FireWandProjectile20 uses elemental_bolt_fire model1 with speed20,timer1000; historicalFireBall18 example remains a different row and skillcaller.",
+    "exact_remaining_gap": "Root must produce actual current cached property/current equipment loan at admitted state5 event, validate same actor/session/actual animator selection and occurrence. Selection+plan creates no flight. Same session launch socket/look transform, source GameObject movement, bullet sensor/filter/AABB/PF floor+room/collisioncallback and complete source result/continuation outcome owner remain root-owned. Animation stance/actual1077 selection for equippedStaff is not established by selecting its projectile. Lead owns dictionary fix; no projectile packet pixels claimed."
+  }
+}

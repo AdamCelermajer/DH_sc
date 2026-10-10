@@ -18,6 +18,7 @@ class CanonicalReceiverTransportV1 final {
     world::CanonicalPropertyMapV1& properties_;
     CanonicalReceiverTransportServicesV1 source_;
     std::map<std::uintptr_t,world::CanonicalClassReceiverV1> receivers_;
+    bool missing_receiver_diagnostic_emitted_{};
     world::CanonicalClassReceiverV1* find(const world::CanonicalObjectBorrowV1&,std::string&);
     static bool construct(void*,const world::CanonicalFactoryEntryV1&,
         const world::CanonicalSourceObjectRequestV1&,world::CanonicalObjectBorrowV1&,std::string&);

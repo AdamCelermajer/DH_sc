@@ -1,0 +1,46 @@
+{
+  "feature": "companions",
+  "status": "source-event-implementation-tested-host-services-required",
+  "owned_directory": "port/windows-foundation/features/companions",
+  "implementations": [
+    "Supplied-cache rene.luac OnUpdate/CatchUp/CatchingUp/CaughtUp/target/master registered event bodies (OnInitFinal level producer external)",
+    "Whole supplied-cache follower.luac registered event bodies",
+    "Whole supplied-cache attacking_follower.luac registered event bodies",
+    "AISFaery OnFriendSpotted, master range/sight handlers and OnUpdate native service sequence"
+  ],
+  "source": {
+    "cache": "C:/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+    "follower_sha256": "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d",
+    "attacking_follower_sha256": "6a9c560b8a7904a19518db0fcecba593c63061fdabe34abedc8f2c88f0a3438c",
+    "rene_sha256": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7",
+    "priest_profile": "WanderingPriest property row419 AI50; supplied cache AI50 script is rene, verified independently from packed AI table",
+    "native_ida_addresses": ["0x3de2d0", "0x3de318", "0x3de444", "0x3de450", "0x3de4c8", "0x3de4ec", "0x3de544"],
+    "faery_close_range_vtable": "_ZTV8AISFaery address point +124 resolves OnMasterInMeleeRange 0x3de318, independently checked from original bytes"
+  },
+  "authority": {
+    "actor": "Borrowed same live ActorState receiver",
+    "ai_selection": "OriginalCombatProperties.sheets.resolved[1] selects original AiTables row script; no actor/map/model name gating",
+    "script_globals": "Globals borrow source Lua g_master/g_target/g_can_attack owner, initialized by script producer",
+    "native_faery": "Requires native script selector admission and original master/skin cells by reference",
+    "commands": "Invoke must publish commands through SAME source controller/path/target/master/skill owner",
+    "failures": "Reached missing service fails with error; previous original script mutations retained",
+    "constants": "No invented radius, cooldown, path, FSM, follow clock or map name. Faery behind-master offset200 native; Rene CaughtUp timer200ms no-repeat authored; CST_MOVE/OID_HASTE borrowed actual source producers"
+  },
+  "tests": [
+    {"name": "source_companions_tests", "type": "native MinGW executable", "result": "passed", "coverage": "friend/master branches, Move-state branch and source ClearTarget order, attacking follower acquisition/gates/attack, same receiver identity, target mutation, service failure prefix, invalid AI selection, faery heading/idle/vector/skin updates, native admission failures"},
+    {"name": "source_evidence_tests.py", "type": "supplied cache and original IDA evidence", "result": "passed", "coverage": "exact extracted script SHA256 and byte identity, actual authored branches, native vtable slot resolution, 200 offset and two idle checks, WarpTo and default update ordering"}
+  ],
+  "integration_requirements": [
+    "Root CMake must add source_companions.cpp and register source_companions_tests (assertions enabled)",
+    "Host must supply source event producers and required Invoke operations using same live owners; navigation source_commands API is available",
+    "Host must bridge original WarpBehind source command and AI_SetMaster/target publication; this feature does not fake destinations",
+    "Borrowed script globals must be reset by actual source script activation lifecycle, not persistent save state"
+  ],
+  "remaining_fidelity_gaps": [
+    "Rene OnInitFinal source level adjustment GetHostPlayerLevel + FromFixed(LevelOffset), SetLevel(ToFixed) and InitVars remains required actual source skill/property initialization producer",
+    "Live playable-scene event dispatch and controller service publication not yet wired by this owned feature directory",
+    "Priest dialogue activation and fairy help/effect casting remain with interaction/skill/effect owners; no replacement services invented",
+    "Range/sight event producers and native selector are external required services, not independent polling/follow-radius logic",
+    "Tests prove recovered event/service behavior and source provenance, not full-game visual or gameplay completion"
+  ]
+}

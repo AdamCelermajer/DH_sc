@@ -115,7 +115,7 @@ bool OpenableContainerOwnerV1::try_unlock(std::uintptr_t actor,bool& unlocked,st
     bool found=false;std::int16_t qty=0;
     if(!call(s_.find_key,"ItemInventory::FindItem",e,actor,f_.key_id710,found,qty))return false;
     if(!found||f_.key_qty>qty||!f_.key_consume)return true;
-    return call(s_.remove_key,"ItemInventory::RemoveItemByID",e,actor,f_.key_id710,unlocked);
+    return call(s_.consume_key,"ItemInventory::TryConsuming",e,actor,f_.key_id710,f_.key_qty,unlocked);
 }
 bool OpenableContainerOwnerV1::interact_base(std::uintptr_t actor,std::string& e){
     if(std::uint32_t(f_.state394)-3u<=1u)return true;

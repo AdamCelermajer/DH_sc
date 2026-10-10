@@ -7,6 +7,10 @@ bool CampaignSaveProfileV45::construct(std::string& e){
  if(destroyed_v108_){e="Campaign profile delivery after source D0";return false;}
  if(attempted_){e="Campaign Savegame C1 cannot replay";return false;}attempted_=true;
  if(filename_.empty()||!files_.storage_lease||!files_.read_file||!jobs_){e="Required actual profile filename/FileManager/shared Application save jobs";return false;}
+ // SavegameJobsOwnerV2::flush is intentionally a no-op when called from an
+ // active job callback. A C1 read in that window would otherwise publish the
+ // previous on-disk profile as if the queued backup/write prefix had drained.
+ if(jobs_->busy_v61()){e="Campaign profile C1 cannot read during an active source save job";return false;}
  if(!jobs_->flush(filename_.c_str(),e))return false; // actual openSavefile matching-job prefix
  // Same original non-raw Savegame C1 primary/backup header branch as the
  // independently proved LevelSavegameCacheV1. No empty on malformed payload.

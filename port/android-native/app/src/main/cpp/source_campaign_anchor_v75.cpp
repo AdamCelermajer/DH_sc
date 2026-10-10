@@ -112,6 +112,11 @@ bool source_campaign_anchor_position_v75(const std::shared_ptr<void>& world,std:
  std::shared_ptr<dh2::camera::CameraAnchorOwnerV75> actual;if(!anchor(world,id,actual,e))return false;
  out=actual->fields().position_c.data();e.clear();return true;
 }
+bool source_campaign_anchor_attached_position_v75(const std::shared_ptr<void>& world,std::uintptr_t id,float*& out,std::string& e){
+ out=nullptr;std::shared_ptr<dh2::camera::CameraAnchorOwnerV75> actual;if(!anchor(world,id,actual,e))return false;
+ out=actual->source_position_c();if(!out){e="Required constructed SAME Character camera Anchor +0x0c XYZ";return false;}
+ e.clear();return true;
+}
 bool source_campaign_anchor_update_v75(const std::shared_ptr<void>& world,std::uintptr_t id,std::string& e){
  std::shared_ptr<dh2::camera::CameraAnchorOwnerV75> actual;if(!anchor(world,id,actual,e))return false;return actual->update(e);
 }

@@ -1,0 +1,90 @@
+{
+  "status": "lease-backed-source-root-construction-composition-native-contract-tests-passed",
+  "modules": [
+    "source_level_construction.hpp",
+    "source_level_construction.cpp"
+  ],
+  "test": "tests/source_level_construction_tests.cpp",
+  "source_route": "Recovered XmlDocumentV1.capture_level_buffer -> LevelFileWalkV1 exact Level root traversal -> prepare_canonical_source_binding_v1(Level route,no type filter) -> CanonicalBoundSourceAttemptV1.execute -> real CanonicalObjectManagerV1 and supplied actual CanonicalClassServicesV1",
+  "provider_contract": {
+    "level": "Already constructed SAME Level lease; pointers to actual Level18c and160. Require reset-1/zero root context; composition does not execute or invent full LevelC1.",
+    "globals": "Actual ModuleRuntimeGlobalsV1 pointer and its owner lease. No new counter, copied ID authority or implicit reset.",
+    "manager": "SAME actual CanonicalObjectManagerV1 shared owner",
+    "classes": "Actual class context/callbacks and class-provider owner. Missing callbacks fail only when reached with exact source factory stage prefix.",
+    "file": "Actual parser-result and release continuation; optional before-element and walk observer preserved. No production success callbacks supplied internally.",
+    "module_record": "After completed Module/Block factory, supply SAME typed CanonicalModuleRecordV2 from source constructor dispatcher",
+    "module_association": "Explicit retained declaration to host child-occurrence association; not name suffix or XML ordinal as ID",
+    "source_input": "Caller supplies available original resource bytes. Source path/open/async stream admission remains explicit outside ready-buffer traversal."
+  },
+  "module_receipt": {
+    "checks": "Record receiver identity matches actual manager object; actual global advances exactly one from preconstructor value; record40c matches preconstructor global; SAME request.source_lease matches record.declaration.",
+    "publish": "Only complete root construction traversal may call bind(SourceWorldObjects). Partial failed root retains prefix but cannot publish a guessed completed map.",
+    "geometry": "Construction completion does not claim Module InitPost, floor/visual/physics, generated RoomZone, childMGP/MVP loading or whole Level.Init completion."
+  },
+  "failure_behavior": [
+    "Unfiltered source root reaches every admitted class in original order; no Module-only skip",
+    "Actual class/property/default/override/init callback error preserved with source URI/element/gametype/factoryPrefix",
+    "Source failure latches; subsequent tick never retries earlier side effects",
+    "Reached counter and manager mutations remain retained; no invented rollback",
+    "Reentrant delivery latches before subsequent constructor work",
+    "Caller must perform actual owner unpublication/cleanup; this bounded facade does not replace source unload or Flush"
+  ],
+  "native_tests": {
+    "status": "PASS",
+    "executable": ".local-inputs/windows-camera-assets/source-level-construction-tests.exe",
+    "source_owner_compile": "C++17 -Wall -Wextra -Wpedantic: zero warnings",
+    "standalone_native": "C++17 -static",
+    "boundary_fixtures": "Level lease/cells/global initial value and parser/release policy callbacks are declared test fixtures. No class constructor success is mocked.",
+    "completed_subsets": [
+      "Empty Level: zero constructions, source pending/release sequence complete",
+      "Level with original Player exclusion: registered class construction not reached, source complete"
+    ],
+    "actual_cache": {
+      "resource": "port/windows-foundation/assets/original-cache/data/scene/001_swamp.mlx",
+      "result": "Precise first reached failure at LevelConfig registered constructor",
+      "attempts": 1,
+      "modules": 0,
+      "message": "Level::_LoadFromXML service: required source factory provider: registered constructor",
+      "meaning": "Source admission/order and honest missing-provider behavior tested; no actual-cache complete Module traversal claimed."
+    },
+    "other_checks": [
+      "Cannot replay begin",
+      "Decor missing constructor stops before later Module",
+      "Stable failed prefix",
+      "Nonreset Level context rejected",
+      "Missing reached release is failure",
+      "Reentrant before-element callback prevents constructor effects"
+    ]
+  },
+  "dependencies": [
+    "source_level_construction.cpp",
+    "source_module_trace.cpp",
+    "../level-loader/xml_document_v1.cpp",
+    "../level-loader/level_file_walk_v1.cpp",
+    "../level-loader/object_entry_v1.cpp",
+    "../level-loader/canonical_source_adapter_v1.cpp",
+    "../level-world/canonical_object_factory_v1.cpp",
+    "../level-world/canonical_object_manager_v1.cpp",
+    "../level-world/object_manager_language_registry_v1.cpp",
+    "../level-world/canonical_room_lists_v105.cpp",
+    "../level-world/source_assertion_process_v76.cpp",
+    "existing content_xml TinyXML sources"
+  ],
+  "exact_remaining": [
+    "Bind real LevelConfig/Module/other reached class construction services from existing canonical owners; actual cached level currently stops at first missing LevelConfig constructor.",
+    "Then bind actual property-map class defaults/overrides and LevelConfig InitPost Debug/publication. Do not label unconditional true callbacks as successful source construction.",
+    "Actual Module class dispatcher must use same supplied global owner and retain request source lease on record.",
+    "Complete original root traversal before binding room scopes. No current Act1 constructor-derived IDs were produced by the missing-provider cache test.",
+    "After construction scope mapping, original module child file selection/load/InitPost and trigger geometry remain separate provider work."
+  ],
+  "source_evidence": [
+    "port/level-loader/level_file_walk_v1.cpp",
+    "port/level-loader/object_entry_v1.cpp",
+    "port/level-loader/canonical_source_adapter_v1.cpp",
+    "port/level-world/canonical_object_factory_v1.cpp",
+    "port/level-loader/retained_level_module_graph_v1.cpp:30",
+    "port/level-world/canonical_level_module_bindings_v2.cpp",
+    "port/level-world/canonical_level_config_module_v1.cpp:74"
+  ],
+  "changes": "New owner/test/report only. No main,CMake,session,population or original-source modifications; preserves v7."
+}

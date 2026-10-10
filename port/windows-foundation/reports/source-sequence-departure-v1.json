@@ -1,0 +1,38 @@
+{
+  "status": "same_session_runtime_tested_production_integration_pending",
+  "scope": "Accepted generic Skill6/Cast7 departure and transient checkpoint ownership; no complete result-status or class receiver claim",
+  "source_evidence": "port/windows-foundation/reports/source-sequence-departure-v1.md",
+  "visual_evidence": ".local-inputs/fidelity-hit-reaction-audit/fight-374-376375.png",
+  "visual_limit": "Bounded ordinary Warrior melee evidence; no original faery interruption parity claim",
+  "source_functions": ["_SetState0x3c1938", "CastOnInit0x3c85b8", "SkillOnInit0x3c8438", "CSM_Interrupted0x3ad244", "SkillFocus0x3c4480", "CastFocus0x3c39d0", "SM_SetInjureState0x3c5d84", "F_ApplyResult0x3b10b4", "CastBlur0x3c3934", "SkillBlur0x3c434c"],
+  "verification": {
+    "runner": "tools/run_combat_session_source_departure_tests.ps1",
+    "log": ".local-inputs/session-source-departure-test/run.log",
+    "executable_sha256": "B7268A491E2E81661C0E11D42E65A086FC7E6AEF9B870E49029FCAEEC7C46465",
+    "exit_code": 0,
+    "real_content": "Knight/Lizard profiles, skill347, original Injury/Died resources, same retained Session owner and original formula/RNG",
+    "fixture_control": "Injury ratings135/182 controlled to exercise outcomes; authored ordinary Lizard rating is zero. No fabricated DamageEvent/outcome injected; no production balance claim",
+    "branches": [
+      "Ordinary HP loss preserves Use; normal50010 rejected for playerSkill/Cast",
+      "Direct-mask Injury, flaggedSkill Injury and death accepted",
+      "Post-before-focus, pre/postUse and same-state departure retire old cursor once",
+      "240 recovery frames do not deliver stale Use/completion or draw RNG",
+      "Duplicate/stale/foreign/detached/rebound occurrence and lease guards",
+      "Throwing Post commits outgoing prefix without replay",
+      "Active playback/cooldown reject checkpoint and legacy cleanup bypass",
+      "Quiescent pre-detach witness admits rebind without expired callback query",
+      "Animation-only completion returns authored Idle and same-World state3",
+      "Legacy state17 checkpoint rejection preserved",
+      "Frame begin publishes actual current serial/dt before AI and source Use; no duplicate tick, zero-time elapsed, invalid-frame tick or AI suppression",
+      "Pure presentation cast preserves actual untargetable role through completion, quiescent save, reinitialization and strict restore"
+    ],
+    "independent_review": "bug_gate_review independently reran B726 binary PASS and reviewed frame/departure callbacks, target-role cache and unchanged strict restore checks"
+  },
+  "regressions": {
+    "source_hit": "PASS after initial seam: full result/once-only RNG/death/restore",
+    "pose_step": "PASS direct/retained after initial seam: original377/374, gate/duplicate/clock/terminal restore",
+    "equipment_multiplicity": "PASS after initial seam: Rogue duplicate main/off sheets and strict restore",
+    "production_refresh": "Coherent 769F incoming main build completed; normal Rogue incoming markers and strict F5/R/F9 pass. Cast production target-position query defect separately exposed and fixed feature-side; new coherent cast rerun remains required"
+  },
+  "remaining": ["Production coordinator/main interruption and key4 runtime/visual checks", "Fresh generic coordinator on admitted restore lease", "Full result statuses/effects", "Matching original faery footage/version parity", "Rogue/Mage incoming receiver integration"]
+}

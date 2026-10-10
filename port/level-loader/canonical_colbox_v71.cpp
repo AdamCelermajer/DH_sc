@@ -1,4 +1,5 @@
 #include "canonical_colbox_v71.hpp"
+#include "canonical_loading_receiver_v95.hpp"
 #include "game_object_source_destroy_v72.hpp"
 #include <algorithm>
 #include <cstring>
@@ -83,7 +84,7 @@ bool CanonicalColBoxV71::destroy(std::string& e){
  // unpublication and native-alias exhaustion, then journal retirement.
 }
 CanonicalClassReceiverV1 CanonicalColBoxV71::factory_receiver(std::shared_ptr<CanonicalColBoxV71> owner,std::shared_ptr<const void> xml){
- auto out=canonical_class_receiver_v1(owner);out.source_lease=std::move(xml);out.init_post=[owner](std::string& e){return owner->init_post(e);};
+ auto out=canonical_class_receiver_v1(owner);out.source_lease=std::move(xml);bind_gameobject_loading_v95(owner,false,out);out.init_post=[owner](std::string& e){return owner->init_post(e);};
  out.is_game_object=[](bool& v,std::string& e){v=true;e.clear();return true;};
  out.position=[owner](std::array<float,3>& v,std::string& e){std::copy_n(owner->base().vector3(0x160),3,v.begin());e.clear();return true;};
  out.set_position=[owner](const auto& p,bool d,std::string& e){return owner->set_position(p,d,e);};return out;

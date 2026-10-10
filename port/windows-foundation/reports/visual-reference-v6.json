@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "status": "bounded_reference_still_audit_fidelity_incomplete",
+  "local_package": ".local-inputs/windows-source-clock-checkpoint-v6",
+  "reference": "https://www.youtube.com/watch?v=z_Zky7qQdYs",
+  "version_scope": "Actual supplied APK1.0.2; reference title1.0.3; cache version independently unestablished",
+  "inspected_local": [
+    {
+      "state": "First LizManIntro1 Spawn state1 enabled with physical absent; second deferredPreSpawn17",
+      "path": ".local-inputs/windows-source-clock-checkpoint-v6/spawn-inflight-verification.png",
+      "run_frame": 95
+    },
+    {
+      "state": "First spawned actor HP0 action5 after lethal hit296; second alive. Image may contain both living and dead actor geometry.",
+      "path": ".local-inputs/windows-source-clock-checkpoint-v6/spawn-verification.png",
+      "run_frame": 400
+    }
+  ],
+  "inspected_reference": [
+    {
+      "scope": "extracted still overview, not continuous playback",
+      "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/contact-sheet.png",
+      "timestamps_seconds": "210..240 step2"
+    },
+    {
+      "scope": "extracted still overview, not continuous playback",
+      "path": ".local-inputs/referenceframes/dh2-act1/first-combat/contact-sheet.png",
+      "timestamps_seconds": "250..300 step2"
+    },
+    {
+      "timestamp_seconds": 226,
+      "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0226s.png",
+      "observation": "Two green enemy spawn/entrance poses beside same carved-floor/wall area; first nearer floor, second appears above/behind wall"
+    },
+    {
+      "timestamp_seconds": 228,
+      "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0228s.png",
+      "observation": "Combat tutorial view with enemy overhead, Prince below, Rene and bright faery beside player"
+    },
+    {
+      "timestamp_seconds": 266,
+      "path": ".local-inputs/referenceframes/dh2-act1/first-combat/at-0266s.png",
+      "observation": "Green first enemy corpse lies stretched on floor near player; gold loot message; Rene/faery and full gameplay HUD visible"
+    }
+  ],
+  "matching": {
+    "location": "Floor motifs/wall layout support same encounter area",
+    "identity": "Local authored LizManIntro definitions vs reference displayed Bogwomp naming; same appearance class visually plausible, not a version-exact identity proof",
+    "state": "Spawn/exact phase times are not aligned. Final local still contains two admitted actor bodies and source death action; cannot identify one corpse pose from one image safely.",
+    "camera": "Different framing/aspect projection settings; no quantitative pose/scale or pixel parity measurement",
+    "not_established": [
+      "Exact spawn timeline and camera trigger timing",
+      "Same death sample time and corpse lifetime",
+      "Lighting/lightset appearance parity",
+      "Animation/attachment motion parity"
+    ]
+  },
+  "findings": [
+    {
+      "kind": "qualified_source_policy_finding",
+      "evidence": [
+        "original_character.cpp uses lightingEnabled=!haveColors",
+        "Lizardman source native probe reports uniform255 RGBA vertex stream and valid normals",
+        "Original Character::InitLightSetAndMaterial0x3b4834 assignsMonsterLight; InitFinal0x3b4978 selectsSceneLight forplayer andMonsterLight otherwise"
+      ],
+      "qualification": "Later common-factory-audit.json established actual Lizard body COMMON default technique with TEXTURED only, noLIGHTING. LightSet bindings do not change selected technique. Earlier suggestion that unlit body was itself a lighting gap is withdrawn; appearance differences remain unmatched-state observations.",
+      "observed": "Local actor saturated lime appearance differs from muted/pale reference enemy in inspected stills",
+      "id": "v6-L1",
+      "summary": "Assigned LightSet alone does not prove body shader lighting"
+    },
+    {
+      "evidence": [
+        "Reference226s/228s/266s stills",
+        "Local95/400frame stills"
+      ],
+      "summary": "Reference encounter includes Rene/faery, tutorial/cinematic UI and full gameplay overlays",
+      "qualification": "Local scheduled command replay is diagnostic and does not claim original scenario progression; absence is recorded as unfinished integration, not a geometry decoder bug.",
+      "kind": "presentation_gap",
+      "id": "v6-L2"
+    },
+    {
+      "qualification": "Local second enemy alive and firstdead coexist; exact skeleton sample/body lifetime logs needed. No pose/UV hack justified.",
+      "summary": "Reference death266s is ground-stretched corpse; local400frame pose cannot be aligned reliably",
+      "kind": "unresolved_pose_comparison",
+      "id": "v6-L3"
+    }
+  ],
+  "source_lightset_audit": {
+    "asset": ".local-inputs/windows-shared-assets/original-cache/data/3d/light/swamp.lightset_xml",
+    "asset_scope": "Only _prim_PlayerLight: attachedToPlayer offset0,0,200; radius3.5; attenuation0.265625,0,0.132813; RGB255 ambient/diffuse/specular. This is not entireMonsterLight setup.",
+    "functions": [
+      {
+        "address": "0x3b4834",
+        "name": "Character::InitLightSetAndMaterial",
+        "path": "pseudocode/003b/003b4834.c"
+      },
+      {
+        "address": "0x3b4978",
+        "name": "Character::InitFinal",
+        "path": "pseudocode/003b/003b4978.c"
+      },
+      {
+        "address": "0x471214",
+        "name": "VisualObject::ApplyLightSet",
+        "path": "pseudocode/0047/00471214.c",
+        "behavior": "SceneManager::UpdateLightSet(setId,filter,node)"
+      },
+      {
+        "address": "0x40c9a8",
+        "name": "LightSetManager::ApplySettings",
+        "path": "pseudocode/0040/0040c9a8.c",
+        "behavior": "Enabled first4 filter slots mapped sequentially to shader light0..light3; filtered-off slots use dummy-off lights"
+      },
+      {
+        "address": "0x40c40c",
+        "name": "LightSetManager::GetLight",
+        "behavior": "Pointer slot manager+120+20*setId+4*lightId;4sets,5slots"
+      },
+      {
+        "address": "0x40d7d4",
+        "name": "LightSetManager constructor",
+        "behavior": "Null initial light entries and fixed name table; no proven staticMonsterLight colors extracted"
+      },
+      {
+        "address": "0x40d5a0",
+        "name": "LightSetManager::Update",
+        "behavior": "Under disabledEnablePlayerHeadLight debugswitch, dynamic lights relocate near closest static light plus20XYZ"
+      }
+    ],
+    "owner": "render_core owns new actor_lighting files and renderer source; no conflicting adapter/main changes from reviewer"
+  },
+  "changes": "No production changes: source-backed missing lighting routed to owner; no color,UV,asset or animation hack."
+}

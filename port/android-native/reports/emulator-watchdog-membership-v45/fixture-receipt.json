@@ -3,7 +3,7 @@
   "tests": 12,
   "errors": 0,
   "failures": 0,
-  "watchdog_sha256": "6bfa25f98ca82729878e50313af0af2c54c7f33cf9c38346b8146aab093b93ba",
+  "watchdog_sha256": "92557a6de102a83686abeab6979d538b082ba5b46837e9996f7bca2dab8b806e",
   "test_sha256": "4594f07f51852062e5d5b03b26209c27695bd3cca699b66c9d8acf3403e0917d",
   "injected_API_only": true,
   "live_process_device_or_emulator_operations": false,

@@ -47,7 +47,19 @@ static int player_target_interaction_spot_v2(void* raw,float* point){
    if(t.targets->actor(id,&borrow)||!borrow.scene||dh2::character::animation_specific_node_v1(*borrow.scene,UINT32_MAX,"interaction_position",a.interaction_node))return -1;
   }
  }
- if(a.interaction_node>=0){t.error="Required actual interaction SceneNode absolute-position producer";return -1;}
+ if(a.interaction_node>=0){
+  // GameObject::GetInteractionSpot38b228 caches the named node handle, then
+  // asks that live scene node for its absolute position on every query. Keep
+  // the cached index tied to the same visual above, but read the current
+  // world matrix each time so animated interaction points follow the actor.
+  dh2::character::skills::WorldTargetActorBorrowV1 borrow{};
+  if(t.targets->actor(id,&borrow)||!borrow.scene||
+     static_cast<std::size_t>(a.interaction_node)>=borrow.scene->graph.size()){
+   t.error="Required live SAME interaction_position scene node";return -1;
+  }
+  const auto& world=borrow.scene->graph[static_cast<std::size_t>(a.interaction_node)].world;
+  std::copy_n(world.data()+12,3,point);return 0;
+ }
  const float* actual=nullptr;if(!PlayerSkillsRuntime::heading_position(&t,id,actual,t.error))return -1;
  std::copy_n(actual,3,point);return 0;
 }
@@ -131,7 +143,9 @@ static int player_target_event_service_v2(void* raw,dh2::character::TargetEventS
   CombatSoundPlayV1 play{};play.manager=q->subject;play.sound_id=q->sound;std::copy_n(q->position,3,play.position.begin());play.source_bool=q->flag!=0;play.source_integer=q->integer;play.source_float0=q->parameters[0];play.source_float1=q->parameters[1];
   dh2::sound::VoxPlay3DOwnerV2 owner({&t,[](void* r,const dh2::sound::VoxPlay3DRequestV2& request,dh2::sound::VoxPlay3DResponseV2& response){
    auto& runtime=*static_cast<PlayerSkillsRuntime*>(r);using O=dh2::sound::VoxPlay3DOperationV2;
-   if(!runtime.vox_music||request.play->manager!=runtime.vox_music->identity())return -1;
+   dh2::audio::AudioApplicationBorrowV42 audio;
+   if(!request.play||!model_renderer::borrow_actual_application_audio_v42(audio,runtime.error)||
+      !audio.manager||request.play->manager!=audio.identity())return -1;
    if(request.operation==O::disabled){std::uint32_t value=0;if(dh2_character_debug_load(runtime.world->debug.get(),&runtime.world->debug_files)!=1||dh2_character_debug_get(&value,runtime.world->debug.get(),"IsDisablingSounds",&runtime.world->debug_files)!=1)return -1;response.value=std::int32_t(value);return 0;}
    if(request.operation==O::current_level){response.identity=reinterpret_cast<std::uintptr_t>(&level);response.value=std::int32_t(runtime.world->source_level_load_phase);return 0;}
    runtime.error="Required target sound Vox Play3D operation "+std::to_string(unsigned(request.operation));return -1;
@@ -155,7 +169,12 @@ int PlayerSkillsRuntime::target_ai_event(unsigned event,std::uintptr_t callee){
  using namespace dh2::character;if(event<0xa||event>0x11||callee!=ai_virtuals[event-0xa+0x40/4])return -1;
  auto& target=world->player_object->target;TargetEventState32 state{&target,events.active,std::uint8_t(attack_fields.continued),{},0};
  PlayerTargetEventContextV2 context{*this,&state,{}};
- TargetEventServices40 services{&context,player_target_event_service_v2,target_ai_sounds.data(),unsigned(target_ai_sounds.size()),0,vox_music?vox_music->identity():0};
+ dh2::audio::AudioApplicationBorrowV42 audio;
+ if(!model_renderer::borrow_actual_application_audio_v42(audio,this->error)||!audio.manager)return -1;
+ // CharAI::OnTargetInSight snapshots VoxSoundManager::s_instance and passes
+ // that receiver to Play3D. VoxMusicStateOwner is only a local field wrapper;
+ // its address is not the source SoundManager identity.
+ TargetEventServices40 services{&context,player_target_event_service_v2,target_ai_sounds.data(),unsigned(target_ai_sounds.size()),0,audio.identity()};
  const int result=dh2_audio_target_event_v38(&state,event,&services);
  if(!result&&event==0xa&&!context.committed)attack_fields.continued=state.continued;
  return result?-1:0;

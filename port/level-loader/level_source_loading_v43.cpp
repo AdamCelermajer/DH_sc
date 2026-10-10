@@ -49,7 +49,7 @@ struct SourceLoadingV43::Impl {
    return inputs.preparation->load_source_module_v38(identity,inputs.module_xml,e)?LifecycleStepV36::complete:LifecycleStepV36::failed;
   };
   object_services.init_post=[this](const world::CanonicalObjectBorrowV1& object,std::string& e){return inputs.preparation->source_object_init_post_v38(object,e);};
-  objects=std::make_unique<Stage10BodyV38<world::CanonicalObjectManagerV1>>(actual,inputs.manager,*inputs.manager,std::move(object_services));
+  objects=std::make_unique<Stage10BodyV38<world::CanonicalObjectManagerV1>>(actual,inputs.manager,*inputs.manager,std::move(object_services),std::move(inputs.stage10_trace));
   auto services=std::move(inputs.external);
   services.stage_body[7]=[this](std::string& e){const auto r=root->step();if(r==LifecycleStepV36::failed)e=root->error();return r;};
   services.after_source_increment[7]=[this](std::string& e){return root->after_source_increment(e);};

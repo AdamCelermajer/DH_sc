@@ -102,7 +102,11 @@ bool CharacterSameSceneAnimatorV6::scene_phase(std::uint32_t stamp,std::string& 
 bool CharacterSameSceneAnimatorV6::animator_phase(const data::AnimationTables& tables,data::AnimationRandom& random,float speed,std::string& error){if(!ready_){error="Required active SAME scene CharAnimator";return false;}return playback_.animator_phase(tables,random,set_->clips,*binding_,visual_->scene(),speed,playback_.completion.extra_ms,error);}
 bool CharacterSameSceneAnimatorV6::detach(std::string& error){error.clear();if(!attached_)return true;
  if(visual_&&visual_->batch_animation_retained_v112()){attached_=false;return true;} //Root reference moves; SAME Character4f8 still owns playback.
- if(!playback_.stop_immediate_v1(true,error))return false;attached_=false;ready_=false;return true;}
+ // removeAnimators598658 invokes onUnbind(+2c), then drops the root loan.
+ // AnimatorBlender.onUnbind366c8c clears render targets; it does not call
+ // CharAnimator.ANIM_StopClip or deliver an animation-end event. Preserve the
+ // Character-owned sequence while disabling this detached render endpoint.
+ attached_=false;ready_=false;return true;}
 bool CharacterSameSceneAnimatorV6::source_add_set_to_render_v109(std::shared_ptr<world::RetainedGameObjectVisualV1> visual,std::string& e){
  if(!visual){e.clear();return true;} // Original genuine NULL VisualObject exit.
  if(attached_||!set_||!set_->ready||set_->failed||!visual->ready()||!visual->root_identity()){

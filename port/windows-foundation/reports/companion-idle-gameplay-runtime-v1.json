@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-09",
+  "status": "development_companion_idle_and_gameplay_save_restore_verified",
+  "goal_complete": false,
+  "released": false,
+  "executable_sha256": "83345fde482a7c1c8a33b692c78a60191806b9ae2918ae6d1ea9b04db09c45f1",
+  "frames": 120,
+  "shared_actor_count": 25,
+  "configured_profiles": [
+    "WanderingPriest:Idle:0:0",
+    "DefaultFairy:Idle:0:0"
+  ],
+  "save_frame": 40,
+  "content_reload_frame": 80,
+  "restore_frame": 100,
+  "retained_pose_rows": [
+    "Animation-only final actor=2423516001965560686 profile=WanderingPriest enabled=1 retained=1 slot=1 clip=actor-2423516001965560686/Idle/sequence-0/phase-0 timelineMs=320 sampleMs=320\r",
+    "Animation-only final actor=8020098419542757848 profile=DefaultFairy enabled=1 retained=1 slot=1 clip=actor-8020098419542757848/Idle/sequence-0/phase-0 timelineMs=320 sampleMs=320\r"
+  ],
+  "capture": ".local-inputs/v19-companion-animation-runtime/companions.png",
+  "visual_inspection": "Original priest robe/model visibly rendered left of player; faery light/model rendered above player. Matched reference placement, appearance and timing not accepted.",
+  "log": ".local-inputs/v19-companion-animation-runtime/companions.log",
+  "limitations": [
+    "NPC following, attacks, faery abilities and intro cinematics remain incomplete.",
+    "Source scripted placement/visibility/camera have not been executed.",
+    "No matched reference fidelity claim.",
+    "Preview5 remains unchanged; this is a development executable."
+  ]
+}

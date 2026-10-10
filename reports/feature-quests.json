@@ -1,0 +1,193 @@
+{
+  "feature": "original generic quest/objective/unlock/campaign adapter",
+  "status": "component_verified_live_campaign_integration_incomplete",
+  "owned_paths": [
+    "port/windows-foundation/features/quests/",
+    "reports/feature-quests.json"
+  ],
+  "api": "port/windows-foundation/features/quests/original_quest_adapter.hpp",
+  "source_service_api": "port/windows-foundation/features/quests/source_quest_service_binding.hpp",
+  "quest_log_page_api": {
+    "status": "generic_character_quest_page_component_verified_root_save_store_integration_pending",
+    "entrypoint": "SourceQuestServiceBinding::quest_log / quest_log_details / quest_log_activate",
+    "identity": "Existing local CharacterMenuQuestsV51 and PlayerSavegameV1; durable source (collection,difficulty,row)",
+    "providers": "source_quest_log_services_v1 builds the exact category functor from the same DebugLevelBinding16 (actual DebugSwitches load/GetSwitch), QuestPersistenceStateV51 source priority/state and v2QuestPriority.Debug via HudTextEnvironment.Localization.constant; it builds StringID text from the same HudTextV1 plus LocalizationServices and exposes the matching constant callback for SourceQuestServices.constant.",
+    "native_predicate_source_audit": {
+      "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0044/00440080.c, pseudocode/0043/0043b4dc.c, pseudocode/0043/0043b514.c, pseudocode/0043/0043b4f0.c, pseudocode/0047/0047f850.c",
+      "behavior": "DisplayAllQuestInLog returns non-debug predicate for any requested category; otherwise DisplayAllDebugOnlyQuestInLog returns debug predicate for any category; otherwise exact Active selects non-debug state 6..12 inclusive and all other category strings select non-debug state >12. Debug means Quest priority equals v2QuestPriority.Debug.",
+      "implemented_api": "port/windows-foundation/features/quests/source_quest_log_services_v1.hpp/.cpp",
+      "missing_root_wiring": [
+        "Bind the actual Application DebugSwitches/DebugFileServices24 owner and Character-menu HudTextV1/HudTextEnvironmentV1 into the quest binding at runtime",
+        "Native quest transition acceptance remains outside the Quest Log query fixture"
+      ]
+    },
+    "behavior": "Uses exact native debug-flag override order and predicate semantics; list/details/title ordering/current flag/active activation all consume same CharacterMenuQuestsV51 and PlayerSavegameV1. Fixture seeds state 6 on one same-owner native Quest receiver because source fixture rows begin locked; no native transition kernel is claimed.",
+    "test": "source_quest_log_services_v1_tests.cpp loads original v2Quest/common_text tables and constants, actual DebugSwitches and HudTextV1; linked test verifies exact category boundaries, actual localized title/details, sorted list, activation and IsCurrent through same Save owner.",
+    "character_menu_visual_routing_integrated": false,
+    "authored_page_adapter": {
+      "api": "port/windows-foundation/features/quests/source_quest_page_v1.hpp/.cpp",
+      "source_movie": "port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+      "source_sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+      "authored_action_source": "port/engine-ui/reference/character-menu-flow-v1/authored-actions.txt#BLOCK root/sprite599 FRAME 0 OFFSET 00025b43",
+      "behavior": "Composes the existing same-owner list/details/activation services; carries Active/Closed lists in service source-title order, selects detail by authored row identity, exposes activation only for Assigned, and reads current marker from the same saved currentquest cell. No parallel quest copy or replacement art.",
+      "production_callbacks_bound": false,
+      "generic_progress_model": {
+        "api": "port/windows-foundation/features/quests/character_quest_progress_v1.hpp/.cpp",
+        "page_api": "port/windows-foundation/features/quests/character_quest_page_v1.hpp/.cpp",
+        "text_api": "port/windows-foundation/features/quests/quest_text_resolver_v1.hpp/.cpp",
+        "identity": "Same CharacterState identity + source collection regular0/volatile1 + difficulty0..2 + original Quest table row index.",
+        "source_semantics": "Fresh initialization copies each original QuestDefinition.state; source Save currentquest defaults -1 per difficulty. Default model is unknown. Active is non-debug state6..12 inclusive; Closed is non-debug state>12; source debug overrides retain order. record_source_state stores an accepted producer value and implements no transition kernel.",
+        "source_fact_basis": [
+          "port/game-data/quest_persistence_v51.cpp: QuestPersistenceOwnerV51::construct initializes each source row from QuestDefinition.state",
+          "port/game-data/quest_savegame_v1.hpp: SavedQuestProgressV1 currentquest[3] defaults to -1",
+          "pseudocode/0044/00440080.c and adjacent NativeGetQuestIDsInRange/GetQuestFunctor source: exact Active/Closed and Debug policy"
+        ],
+        "text_source_semantics": "Uses loaded HudTextV1::integer_string over each Quest's original text_fields StringID and current source language pack. Mirrors Quest::GetTitle/GetPreDescription sentinel/negative 'not specified', GetObjectiveDescription direct StringID or ObjectiveList::GetDesc newline join of Objective description IDs, and GetPostDescription sentinel-only 'not specified'/otherwise empty. Preserves the loaded StringManager #!SNL!#/#!WTF!# values and adds no translation fallback.",
+        "codec": "Versioned bounded CQPG preserves unknown versus initialized progress and binds data to CharacterState.id plus original table row count.",
+        "implemented": [
+          "source state/currentquest query",
+          "source state update",
+          "Active/Closed filter",
+          "localized-title ordering when exact resolver supplied",
+          "Assigned-only Make Active",
+          "codec encode/decode"
+        ],
+        "test": "source_quest_log_services_v1_tests.cpp exercises unknown/fresh initialization provenance for all six source buckets, exact original initial states, state/category/current/list ordering, activation, character identity, codec roundtrip, and source title/pre/objective/post text/fallback logic across 64 real definitions using actual common_text assets; generic feature source units compile separately with -Wall -Wextra.",
+        "root_integration_required": [
+          "Keep new-character explicit fresh initialization and nonempty saved CQPG decode on the same CharacterState owner",
+          "Call bind_source_quest_text_resolver_v1 with the existing loaded HudTextV1/HudTextEnvironmentV1 and route page rows/details through the source SWF"
+        ],
+        "native_objective_transition_and_reward_integration": false
+      },
+      "remaining_root_inputs": [
+        "Bind actual DebugSwitches/DebugFileServices24 and Character-menu HudTextV1/HudTextEnvironmentV1 into existing feature callbacks.",
+        "Pass the actual current-page gate and retained StringManager symbol resolver to RuntimeQuestCharacterMenuBindingV1; route sprite 599 through the existing CharacterMenuTabs/page stack."
+      ],
+      "focused_fixture": "source_quest_log_services_v1_tests.cpp checks the 64 original definitions, same generic CharacterState/progress owner, explicit unknown/fresh state, localized category/list ordering, selected title/objective details and Activate/current marker; runtime_quest_menu_v1_art_fixture.py validates exact SWF hash, sprite/page placement, source stage, category/template/text/hitzone geometry and authored AVM1 row/hit actions."
+    },
+    "runtime_source_menu": {
+      "status": "feature_owned_sprite599_character_menu_frame_projection_verified_root_page_gate_unbound",
+      "api": "port/windows-foundation/features/quests/runtime_quest_menu_v1.hpp/.cpp",
+      "entrypoint": "RuntimeQuestMenuV1(CharacterState&, CharacterQuestProgressV1&, QuestTablesPersistenceV51, CharacterQuestLogPolicyV1, CharacterQuestTextV1)",
+      "calls": [
+        "refresh(collection,difficulty,Assigned|Completed)",
+        "frame()",
+        "route_hit(quest_row_release,row_id)",
+        "route_hit(activate_release,row_id)",
+        "RuntimeQuestCharacterMenuBindingV1::install_content(CharacterMenu::Bindings&)",
+        "load_progress_from_character / initialize_fresh_progress / record_accepted_source_state"
+      ],
+      "same_owner": "Decodes nonempty CharacterState.source_quest_progress_cqpg against the same character.id and original Quest table. Empty legacy bytes remain unknown; explicit fresh initialization and accepted state/currentquest updates encode back to that same schema3 CharacterState field.",
+      "source_art": "Retained dqcharmenu_droid.swf sprite599 art is appended directly to CharacterMenu::Frame: bitmap batches, source solid-mask batches, localized source fields, Assigned/Completed category row frames, title/detail text, current marker and Activate control. Root supplies only the page-active gate and retained StringManager source-symbol resolver.",
+      "source_geometry": "480x320 SWF stage (9600x6400 twips), root placement matrix [1,0,0,1,170,2126], Assigned/Completed original clips, shared row symbol 564, button hitzone clip 83, and source `_y = i * 50` duplicateMovieClip row routing; exact matrices and text field bounds are verified by the fixture.",
+      "source_hit_routes": [
+        "Quest row onRelease -> NativeGetQuestDetails",
+        "btn_Activate -> NativeSetCurrentQuest",
+        "NativeGetQuestIDsInRange Active/Closed"
+      ],
+      "source_caller_and_admission": "Authored root/sprite595 frame setup at 0000dcb2 maps the Log entry through btnQuestLogTab to menu_QuestLogSheetNEW. Sprite599 details call NativeGetQuestDetails with NativeIsMultiplayerGame and the selected source row ID (authored action block 00025b43, call at 000263b3); Active/Closed lists call NativeGetQuestIDsInRange at 00026993/00026b81. btn_Activate calls NativeSetCurrentQuest at 00026cff, then toggles the selected LightOn marker/current row. These source gates are not yet wired to the feature callback by root.",
+      "visual_audit": "No original Quest screen capture or continuous Quest menu sequence is present in the workspace. Direct visual-source audit is retained dqcharmenu_droid.swf SHA-256 43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0 and runtime_quest_menu_v1_art_fixture.py geometry output for sprite599. Existing port/android-native/reports/gameplay-menu-checkpoint-final/stats.png shows the current adapted Stats/Equipment/Skills/Faeries menu and no Quest entry; it is evidence of missing production registration, not original Quest appearance.",
+      "same_state_expectation": "Assigned/Completed list, row selection/detail, current LightOn marker and Activate all read/write the same CharacterState.source_quest_progress_cqpg owner keyed by character.id; unknown legacy bytes remain unavailable. ActionScript list order is source ID list order, with duplicated rows positioned at _y=i*50.",
+      "verification_boundary": "The focused C++17 test invokes the actual CharacterMenu::Bindings.content chain installed by SourceCompositionV1 then RuntimeQuestCharacterMenuBindingV1, toggles the Quest page-active gate, and checks category, localized detail, activation and same-field CQPG persistence. This verifies feature projection callbacks and owner identity only; it does not prove root's btnQuestLogTab/page selector, native SWF renderer registration, or live menu appearance.",
+      "remaining_gui_gate": "character_menu::Tab/SourceCompositionV1 currently represent Stats, Equipment, Skills and Faery. Root must route source btnQuestLogTab / current Quest page selection into this feature callback and supply the exact active-page predicate and retained StringManager symbol callback; row hit release must call route_hit(quest_row_release,id), and Activate must call route_hit(activate_release,id).",
+      "unknown_state": "Unknown source progress yields unavailable/empty presentation explicitly; fresh initialized authored state remains distinct and ready. No inferred empty quest state.",
+      "production_callbacks_bound": false,
+      "source_field_limit": "Loaded movie has one editable QuestDesc.Description text field; Description2/Description3 exist as ActionScript assignment paths but have no editable field geometry and are omitted.",
+      "focused_art_fixture": "port/windows-foundation/features/quests/runtime_quest_menu_v1_art_fixture.py",
+      "test": "run_component_tests.ps1 links a C++17 fixture that installs SourceCompositionV1 then RuntimeQuestCharacterMenuBindingV1 on the same owner/callback, resolves default Quest symbols through the already-loaded HudTextV1 StringManager, validates unknown-to-loaded CQPG/category/order/detail/Activate and same-field re-encode, compiles feature units with Wall/Wextra, and checks source SWF geometry/ActionScript. The fixture does not verify the absent root Quest page selector or live renderer."
+    }
+  },
+  "scoped_talk_event_projection": {
+    "entrypoint": "bind_source_quest_event_projection_v108",
+    "source_producer": "Shared feature fixture calls features/interactions/npc_source_services.hpp bind_npc_quest_raise with a resolver borrowing the same Level EventManager, then passes that NpcInteractServices.raise_async to bind_source_quest_event_projection_v108; exact mutable QE_TalkToNPC payload is delivered synchronously",
+    "runtime_path": "Same Level EventManager dispatches to GameEventRuntimeV75 Objective listener; original Abbey_Rescue TalkToNPC row (type 5, authored id 443) mutates the same fixture Save Objective completed14/quantity20 backing",
+    "fixture": "port/windows-foundation/features/quests/npc_talk_objective_integration_test.cpp",
+    "verified_order": "Objective mutation observed inside synchronous RaiseAsync before network guard; marker add, marker remove, network check and deferred detach are checked on the same dispatcher",
+    "live_initialized_character_profile": false,
+    "native_quest_state_transition_and_reward_order": false,
+    "end_to_end_live_character_objective_and_reward_order": false
+  },
+  "root_seam_and_live_done_criterion": "port/windows-foundation/features/quests/ROOT_INTEGRATION.md",
+  "canonical_source_factory": {
+    "api": "port/windows-foundation/features/quests/canonical_quest_graph_factory.hpp",
+    "construction_order": "PM InitializePlayerSavegame source Save14e8/SaveLoad/sync first; Quest facade before actual CharacterProfileBootstrap read masks; original Load2 sole collection initialization (deferred mask2 stays InitPost); native Level194 complete and Objective runtime SAME-manager adoption before once-only native Quest publication",
+    "authority": [
+      "CanonicalCharacterCandidateRecordV60::initialize_player_save",
+      "CharacterProfileBootstrapV59::prepare",
+      "CharacterMenuProfileLoadV51::init_quests",
+      "source_campaign_conditions_v70.cpp SG_GetQuestByID bounds/assertion/recheck/compile",
+      "source_campaign_quests_v76.cpp SAME canonical Character/profile/runtime binding"
+    ],
+    "compile_result": "Windows C++17 Wall/Wextra clean with existing Box2D finite=_finite compatibility and system header treatment",
+    "latest_root_factory_evidence": "reports/player-factory-dispatch-integration.json + reports/renderer-game-object-quality-integration.json: 357-unit native link/runtime and 78 foundation tests; Character/Player reach source Add/PropertyMap/ConditionData/App RNG and WGL Full/ReducedOptional visual policy, then stop at required Character/World/SceneManager/PF owners",
+    "still_not_proven": [
+      "complete visual/PF initialization",
+      "InitPost completion",
+      "InitFinal",
+      "initialized Player profile/Save/Gear/skills",
+      "host publication"
+    ],
+    "full_factory_link_and_live_acceptance": false
+  },
+  "additional_implemented_source_dependencies": [
+    "construct_source_quest_owner: constructs both native original collections on an EXISTING Character-bound PlayerSavegame, rejecting duplicate initialization",
+    "SourceQuestServiceBinding.publish: once-only native runtime adoption using existing shared Condition/Objective owners and same Character quest association",
+    "Native frame gate reads SAME source sync14 and requires actual online/host/script admission",
+    "SG_GetQuestByID source callback compiles selected collection and borrows SAME Quest state0 for native conditions",
+    "Source progress stores choose actual online/regular local Save and difficulty; no duplicate progression cache",
+    "All-quests original ordered live condition loop and quest_allcomplete trophy callback",
+    "Corrected source Quest script lookup: suffix after first dot, level-only script array",
+    "Native SG_Update requires actual PlayerSaveQuestSyncOwnerV3 producer, sole sync14 writer"
+  ],
+  "source_authority": [
+    "port/game-data/quest_persistence_v51.cpp: QuestTablesPersistenceV51 source v2Quest read504a94, original constructor/row order",
+    "port/game-data/quest_savegame_v1.hpp: source currentquest2c, primaryquest38 and monotonic act44 cells",
+    "port/level-world/character_menu_quests_v51.cpp: SAME Character/Save regular and volatile collection owners",
+    "port/level-world/native_quest_runtime_v76.cpp: Compile480178, Update47f transitions, RewardList stop-on-false",
+    "port/level-world/native_conditions_runtime_v69.cpp: original seven condition implementations and borrowed quest/event state",
+    "port/level-world/quest_condition_compile_v70.cpp: CompileQuests46b824 ordered native compilation and pre-compile cache28 store",
+    "port/level-loader/game_event_runtime_v75.cpp: native thirteen authored objective constructors/register/update",
+    "port/windows-foundation/original_campaign_runtime.cpp: generic actual script identities and running/start owner"
+  ],
+  "original_fixture": "port/level-world/reference/character-menu-profile-v51/cache/v2quests_pyarray.bin + v2quests_pyarraynames.bin",
+  "decoded_original_quest_rows": 64,
+  "same_owner_contract": "Borrow shared CharacterMenuQuestsV51; state/objective/progress authority remains on its same PlayerSavegameV1. Stable tuple collection0regular1volatile,difficulty0..2,table row index. Never serialize native addresses.",
+  "serialization_contract": "owner()->writer(selector) is actual QEST collection writer; source load mutates reached prefixes. Transactional restore must stage and publish whole fresh character/save/menu/runtime graph, not detach a second persistence owner next to the live menu.",
+  "localized_ui_contract": "QuestView retains original four numeric StringIDs and explicit text provider; missing provider rejects. Authored reward projection is not proof of delivered reward.",
+  "runtime_contract": "Compile/update use existing NativeQuestRuntimeV76 and native condition/objective kernels. Script bridge weakly borrows original campaign owner. Host must supply genuine frame constants/time/gate/dialog/save/reward/network/local/trophy providers. Missing or expired providers fail, never assume completed conditions.",
+  "tests": {
+    "command": "port/windows-foundation/features/quests/run_component_tests.ps1",
+    "platform": "native Windows llvm-mingw clang++ C++17 static",
+    "result": "PASS 64 original rows across 6 collections/difficulties; same-owner objective/progress and native compile prefixes. PASS original Abbey_Rescue TalkToNPC objective: 64 Quest rows, same Save/Objective, scoped QE_TalkToNPC, Level dispatcher order. PASS native GetQuestFunctor semantics; same-owner Quest Log list/details/currentquest activation; HudText StringID. PASS C++17 SourceCompositionV1→Quest Bindings.content callback chain over one CharacterState CQPG field, actual HudTextV1 symbol lookup, Assigned/Completed/detail/Activate/re-encode; original sprite599 source art/actions parsed and checked. Root page registration/live rendering is not verified.",
+    "checks": [
+      "source names, stable row IDs, four text IDs, priority, act, initial state, authored objective/reward lists across all six collection/difficulty combinations",
+      "live saved objective completed14/quantity20 and pointer-identical progress storage",
+      "source currentquest store and monotonic current act store",
+      "Quest Log list/details/activation reject missing native-category or StringManager providers instead of inferring state categories or returning fallback text; missing activation predicate leaves saved currentquest unchanged",
+      "Native GetQuestFunctor semantics and same-owner Quest Log list/details/currentquest activation using actual DebugSwitches, source constants and HudTextV1 StringID",
+      "Exact scoped QE_TalkToNPC payload projection preserves live receiver, actor, data id and mutable pending/quantity cells",
+      "Shared NPC interaction helper and quest ObjectiveRuntime use one borrowed Level EventManager/RaiseAsync path; original TalkToNPC objective synchronously mutates same fixture Save cells and event marker/network/detach order is checked",
+      "invalid source ID/field rejects; missing localization leaves prior menu projection intact",
+      "native CompileQuests interrupted cache28 prefix, then ordered forced callbacks against actual row identities",
+      "native RewardList actual authored rows stop after first virtual false; missing reward provider fails",
+      "missing Condition/Objective/native frame services reject and retain failure; missing unlock never returns satisfied",
+      "expired campaign script owner fails",
+      "source unqualified quest scripts omitted, existing Save factory rejects duplicate collection owner",
+      "native frame sync14 zero blocks transition; bound source Act stores reach pointer-identical progress",
+      "missing actual sync/reward/native condition-objective publication fails at source boundary",
+      "GetQuestByID source assertion requirement and mode0 NULL / mode2 failure precede compilation at invalid bounds",
+      "entire bridge links successfully and separately compiles with Wall/Wextra",
+      "Runtime Quest menu preserves unknown versus fresh progress, original category/list order/title/objective text/current marker and source row/Activate hit routes; SWF hash/geometry and AVM1 actions checked against retained source assets.",
+      "SourceCompositionV1 and Quest content callbacks chain using the same CharacterState owner token; inactive page gate emits no Quest art; source page symbols resolve through the loaded HudTextV1/StringManager and current same-profile callback; same-field CQPG reload/writeback verified."
+    ],
+    "live_campaign_acceptance": false
+  },
+  "remaining": [
+    "Root CMake/main integration, actual shared CharacterMenuQuests/native Condition/Objective publication, and character-menu route activation",
+    "Root runtime wiring must supply the existing Application DebugSwitches and Character-menu HudTextV1/HudTextEnvironmentV1 to the feature-owned source_quest_log_services_v1 adapter; query fixture does not prove native state transitions",
+    "Real frame provider binding for original state transitions, inventory/event producer delivery, dialogs and rewards; shared TalkToNPC fixture does not establish a live Player profile or native quest state/reward progression",
+    "Live original campaign acceptance from completed objectives through source unlock/save/reward transitions",
+    "Whole-owner transaction stage and nofail publication for campaign restore"
+  ],
+  "invented_map_branches_rewards_triggers": false
+}

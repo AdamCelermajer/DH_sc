@@ -1,0 +1,49 @@
+{
+  "status": "verified_original_root_selection_and_grounded_idle_parity",
+  "source": {
+    "function": "RootSceneNode::GetAnimRoot(bool)",
+    "address": "0x35ccdc",
+    "reference": "port/level-world/reference/visual-motion/original-functions.asm",
+    "notes": "port/level-world/reference/visual-motion/NOTES.md",
+    "false_name_order": ["root_camera","Bip01","Root","root_character"],
+    "true_name_order": ["Bip01","Root","root_character"],
+    "lookup": "Exact scene name, depth-first child-list order"
+  },
+  "bug": {
+    "description": "Caller selected the Bip01 pelvis as the movement root instead of the original root_camera target",
+    "effect": "Full negative animated-root helper translation removed pelvis elevation from the whole model, burying feet beneath a foot-position world anchor",
+    "correction": "Select the original semantic movement root, preserving existing exact helper compensation",
+    "avoided": "No actor-specific height addition, geometry shift or compensation exception"
+  },
+  "generic_api": {
+    "config": "motion_node_id=auto; explicit motion_node_id and ordered motion_node_candidates remain available",
+    "default": "consume_root_motion with empty selection follows original GetAnimRoot(false)",
+    "diagnostics": ["source_motion_root_name(bool)","root_motion_node_id()","root_motion_rest_origin()"],
+    "host_contract": "Host actor placement represents its game/foot position. Consumed raw local XY displacement is scaled and rotated externally before collision. Render and equipment use the already compensated model pose."
+  },
+  "native_original_asset_test": {
+    "source": "port/windows-foundation/tests/root_pivot_tests.cpp",
+    "actual_root_id": "root_camera-node",
+    "rest_origin": [0.000003,0.000005,0.000091],
+    "consumed_idle_equals_uncompensated_idle": true,
+    "indexed_idle_bounds": [[-94.4201,-102.776,2.46864],[46.463,61.5901,344.211]],
+    "walk_cycle_ms": 800,
+    "walk_cycle_local_delta": [-0.000038,-603.274,0],
+    "split_400_plus_400_equals_cycle": true,
+    "unused_vertex_does_not_inflate_bounds": true,
+    "get_anim_root_false_true_distinction": true
+  },
+  "bounds": {
+    "api": "indexed_bounds(minimum,maximum,error)",
+    "meaning": "Actual referenced draw geometry in the current compensated model pose",
+    "separate_physics_contract": "Original Character SetRelativeAABB uses source joint/mesh boxes, visual scale, Collision_Scale and shared padding. Indexed render bounds do not claim to replace this physical-owner producer.",
+    "source_physical_producer": "port/level-world/character_world_npc_bounds_v1.cpp"
+  },
+  "source_visual_scale": {
+    "producer": "port/level-world/character_scene.cpp dh2_character_visual_scale",
+    "xy_multiplier_bits": "0x3c1374bc",
+    "z_multiplier_bits": "0x3c23d70a",
+    "property100_scale": [0.8999999612569809,0.8999999612569809,1.0],
+    "note": "Applied outside CharacterVisual; raw root-motion delta remains in authored model units"
+  }
+}

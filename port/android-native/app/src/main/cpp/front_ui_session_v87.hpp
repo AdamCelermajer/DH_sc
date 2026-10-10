@@ -8,6 +8,7 @@
 #include "swf_menu_device_v1.hpp"
 #include "front_selected_profile_v50.hpp"
 #include "multi_menu_resource_v93.hpp"
+#include "source_menu_variant_v132.hpp"
 #include <menu_main_menu_state_v114.hpp>
 #include <vector>
 namespace dh2::ui {class SwfMovie;class OwnedHudSettingsV1;class HudTextV1;}
@@ -46,13 +47,21 @@ public:
         const std::string&,std::function<bool(std::uint32_t&,std::string&)>,std::string&);
     bool load_process_settings_v105(bool language_only,std::string&);
     bool prepare_process_front_v119(const std::string&,int,int,std::string&);
+    bool bind_process_font_cache_reset_v119(std::function<bool(std::string&)>,std::string&);
     bool borrow_menu_avatar_state_v121(ui::MenuAvatarPreviewStateV1*&,std::shared_ptr<void>&,std::string&);
     bool bind_menu_avatar_services_v121(ui::MenuAvatarPreviewServicesV1,std::shared_ptr<void>,std::string&);
     bool menu_save_exists_v121(std::int32_t,bool&,std::string&);
+    // Process MenuManager bridge for MenuCharacterSelect::Show/Update. The
+    // caller supplies the actual slot-2 RenderFX identity; these methods only
+    // update the same retained movie's authored labels and pane callback.
+    bool process_class_select_show_v87(std::uintptr_t render,std::string&);
+    bool process_class_select_update_v87(std::uintptr_t render,std::string&);
+    bool process_class_select_hide_v87(std::uintptr_t render,std::string&);
     bool load_process_splash_v119(std::int32_t language,std::string&);
     bool render_process_splash_v119(int,int,std::string&);
     bool clear_process_splash_v119(std::string&);
     bool save_process_settings_v119(std::string&);
+    void resume_process_music_v119();
     bool load_process_property_names_v119(std::string&);
     void unload_process_property_names_v119();
     void bind_campaign_language_scene_v109(std::weak_ptr<void>,std::function<bool(std::string&)>);
@@ -78,6 +87,7 @@ public:
     bool source_main_movie_borrow_v114(ui::MenuMovieBorrowV58&,std::string&);
     bool source_load_main_movie_v114(const char*,const std::function<bool(std::int32_t&,std::int32_t&,std::string&)>&,ui::MenuMovieBorrowV58&,std::string&);
     bool load_base_movie_slot_v105(std::string&);
+    bool select_process_movies_v132(const ui::SourceMenuVariantV132&,std::string&);
     bool camera_slot_v93(std::uint32_t,ui::MenuCameraBorrowV93&,std::string&);
     bool movie_virtual10_v93(std::uint32_t,std::uintptr_t,std::int32_t,bool,std::string&);
     bool deleting_movie_v93(std::uint32_t,std::uintptr_t,std::string&);
@@ -87,19 +97,24 @@ public:
     // Actual MenuManager supplies live render order/clip selection. Claim
     // disables legacy render-time advances/recreation; root owns all timing.
     bool claim_menu_transport_v93(std::shared_ptr<void>,
-        std::function<bool(std::vector<FrontMovieDrawV93>&,std::string&)>,std::string&);
+        std::function<bool(std::vector<FrontMovieDrawV93>&,std::string&)>,
+        std::function<bool(const char*,const gameswf::fn_call&,std::string&)>,std::string&);
     bool release_menu_transport_v93(const std::shared_ptr<void>&,std::string&);
     bool render_source_movies_v93(int,int,std::string&);
 
     // Retained Application/Level providers; bind on their GL owner thread.
     // No implicit Level/Online state or loading-success fallback is supplied.
     bool finish_loading_fs_v114(const char* command,const char* args,bool& handled,std::string&);
-    void bind_loading_state_services(const ui::LoadingMenuStateServicesV1&);
+    bool bind_loading_state_services(const ui::LoadingMenuStateServicesV1&,
+        const std::shared_ptr<application::ApplicationServicesOwnerV5>&,std::string&);
     void bind_loading_multiplayer_services(const ui::LoadingMenuMultiplayerServicesV1&);
     // GL owner thread. Actual GSLevel/Level/Online lifecycle calls these;
     // no frame timer supplies progress or advances readiness.
     bool show_game_loading(std::string&);
     bool refresh_game_loading(std::string&);
+    // Render the actual retained MenuManager draw list during source loading.
+    // Only base-slot artwork is admitted; loader callbacks own progress.
+    bool render_game_loading(int width,int height,std::string&);
     void bind_campaign_quest_services(const FrontCampaignQuestServicesV87&);
     // GL-owner thread; provider context must outlive binding and every call.
     // Binding never constructs a preview by itself; authored callback owns it.

@@ -1,0 +1,31 @@
+{
+  "feature": "Nearest-first explicit target cycle",
+  "validation": "PASS",
+  "runner": "tools/run_combat_session_target_cycle_tests.ps1",
+  "investigation": {
+    "visual_context": "Original reference reports/fidelity-player-hit-reaction-20261009.json375-376s shows selected Bog Moth in close melee. This does not establish a PC keyboard cycle contract.",
+    "production_failure": "Frozen E11BBF current-abi/knight-xp-long.log and knight-xp-admitted.log only produce player hits after content reload. Initial targetSelect picks far smaller-ID Lizard6946165196097391975 while nearby Lizard7118915781085668844 attacks; sticky intent correctly retains the selected far actor and melee range admission correctly refuses. Reload clears target and the existing attack search selects near by distance.",
+    "source_logic": "Existing CombatSession combo attack search orders eligible in-range actors by squared distance. Explicit targetSelect previously traversed all loaded eligible actors in map/ObjectId order instead.",
+    "adaptation": "This is a PC semantic-input adaptation: start/wrap at the nearest eligible actor, distance ties by stable ID. No original Android Tab contract is claimed."
+  },
+  "implementation": "Only explicit selection ordering changes. Existing source eligibility, melee range, manually selected target intent, hit timing and RNG remain unchanged; no new range or camera-visibility gate is invented.",
+  "verification": {
+    "before": "Focused actual Knight/Longsword+two source Lizard Session test fails: far smaller ObjectId selected instead of near actor.",
+    "after": "Strict C++17 same fixture passes nearest first, explicit next/wrap, stable equal-distance tie, forbidden actor filtering, no selection RNG, and actual held source attack damage on near actor without R/F9.",
+    "remaining": "Main fresh-start kill/XP/restore follow-up passes; packaged checkpoint and full target-ring fidelity still require release verification."
+  },
+  "receipts_sha256": {
+    ".local-inputs/session-target-cycle-test/run.log": "4a7d6c91527e309a58963c8aa0f61b6cc21446934daeb559916cd132fc59f94f",
+    "port/windows-foundation/tests/combat_session_target_cycle_tests.cpp": "0ab0192fcab528895d3c0c960dffbc585e5ed651158941b06eeb39c2db9d5111",
+    "port/windows-foundation/combat_session.cpp": "5d9fdaf129114327f4277a87776cc1250ec7f028f3bd8f1871069a3ec57c324a"
+  },
+  "verified_utc": "2026-10-09T22:50:33.1886970Z",
+  "main_runtime_followup": {
+    "executable_sha256": "3674EF1696EDE4E563C8AA876EF00DBCE2F8350A0447EC2E97619EB5E640055E",
+    "validation": "PASS",
+    "args": ".local-inputs/v19-frontend-hotfix/target-details/knight-fresh-xp.args",
+    "log": ".local-inputs/v19-frontend-hotfix/target-details/knight-fresh-xp.log",
+    "observed": "No content reload prerequisite; actual source hits59/92/124 kill Lizard7118915781085668844, one recipient/8XP/sourceDrop1/store1, save600/F9760 preserves HP165.098/RNG6796743/61; Stats8/100, target0/corpseHP0/action5. Item draw/pickup/profile restart remain separate.",
+    "image": ".local-inputs/v19-frontend-hotfix/target-details/knight-fresh-xp.png"
+  }
+}

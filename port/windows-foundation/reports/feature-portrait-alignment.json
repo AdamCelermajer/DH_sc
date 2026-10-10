@@ -1,0 +1,42 @@
+{
+  "feature": "HUD portrait paint alignment inside original ornamental border",
+  "implementation_status": "implemented; native geometry tests passed",
+  "source_geometry": "port/windows-foundation/hud_geometry.cpp generated original dqhud_droid.swf shapes38/39/40 and frame155 hierarchy matrices",
+  "source_proof": [
+    "port/engine-ui/authored_hud_portrait_v4.cpp: authored_hud_portrait_align_v5",
+    "port/engine-ui/reports/hud-portrait-alignment-v5.md",
+    "port/engine-ui/reference/hud-portrait-alignment-v4/paint-measurements.json",
+    "port/engine-ui/reference/hud-portrait-alignment-v4/ring-shapes.json"
+  ],
+  "cause": "The independently placed HudChar portrait paint and HealthBars.player frame155 aperture centres differ. Original rectangular shape bounds include transparent atlas padding, so rectangular shape centring is incorrect.",
+  "correction": "Translate only the composed portrait batch so its decoded alpha>=128 connected paint bounding-box centre matches the same style's genuine frame155 dark aperture centre. This ports the existing verified Android modern art-derived correction; it does not claim original ActionScript parity.",
+  "portrait_paint_centres_atlas_pixels": {"warrior": [700,687], "rogue": [630.5,688.5], "mage": [559,689]},
+  "portrait_bitmap_fill": {"scale_twips_per_atlas_pixel": 15.10906982421875, "translation_warrior": [-10293,-10052], "translation_rogue": [-9234,-10082], "translation_mage": [-8160,-10082]},
+  "ring_aperture_bounds_atlas_pixels": [698,734,480,517],
+  "ring_aperture_centre_atlas_pixels": [716,498.5],
+  "ring_bitmap_fill": {"scale_twips_per_atlas_pixel": 20, "translation": [-15450,-9986]},
+  "style0_warrior_source_pixels": {
+    "before_paint_centre": [35.65870394089502,36.89852550498897],
+    "after_paint_centre_and_aperture_centre": [37.6628140156,33.853979483239996],
+    "translation": [2.0041100747049754,-3.044546021748971],
+    "translation_at_720px_height": [4.509247668086195,-6.850228548935185]
+  },
+  "preserved": ["All original atlas pixels and UVs", "All source portrait scales and contour topology", "Original ornamental border", "HP/MP bars and other HUD batches", "All4 source layouts", "All3 portrait classes"],
+  "hitbox_api": "original_hud_portrait_bounds(style,bounds,error): xmin,xmax,ymin,ymax of real oval aperture in authored480x320 pixels. Caller applies exactly the same HUD draw origin and uniform height/320 scale.",
+  "tests": {
+    "file": "port/windows-foundation/tests/hud_geometry_tests.cpp",
+    "compiler": ".local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe",
+    "flags": ["-std=c++17","-static","-O1"],
+    "compile_exit_code": 0,
+    "run_exit_code": 0,
+    "layout_class_cases": 12,
+    "viewport_height_scales": [1,1.125,2.25,2.5],
+    "checks": ["Decoded paint centre aligns with actual aperture centre", "Atlas UVs unchanged", "Contour topology and scale unchanged", "Other HUD batches unchanged across class selection", "Repeated compose does not accumulate translation", "Invalid class/layout leaves output unchanged"]
+  },
+  "visual_qa": {
+    "user_reference_inspected": "C:/Users/adamc/AppData/Local/Temp/codex-clipboard-3012e74c-1b91-43fc-b2a0-822d5b820d60.png",
+    "before_inspected": ".local-inputs/windows-source-clock-checkpoint-v15/startup-verification.png",
+    "after": "Pending root integration capture; geometry verified independently. Accepted v15 package was not modified."
+  },
+  "scale_and_clipping": "No new scale or clipping policy: preserve original scale and border/art, matching existing source-backed Android correction."
+}

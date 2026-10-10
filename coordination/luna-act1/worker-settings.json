@@ -1,0 +1,170 @@
+[
+  {
+    "agent": "/root/lane01",
+    "session": "01a11661-deab-7523-8562-3262666353c2",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-41-15-01a11661-deab-7523-8562-3262666353c2.jsonl"
+  },
+  {
+    "agent": "/root/lane02",
+    "session": "01a11662-0569-7c00-a0d5-d32c49ed0174",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-41-25-01a11662-0569-7c00-a0d5-d32c49ed0174.jsonl"
+  },
+  {
+    "agent": "/root/lane03",
+    "session": "01a11662-341e-7063-95e9-18cec5761b55",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-41-37-01a11662-341e-7063-95e9-18cec5761b55.jsonl"
+  },
+  {
+    "agent": "/root/lane04",
+    "session": "01a11662-60cd-7dd1-9537-060ce3513e9b",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-41-48-01a11662-60cd-7dd1-9537-060ce3513e9b.jsonl"
+  },
+  {
+    "agent": "/root/lane05",
+    "session": "01a11662-a23f-7073-8f04-fe349da05cf0",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-42-05-01a11662-a23f-7073-8f04-fe349da05cf0.jsonl"
+  },
+  {
+    "agent": "/root/lane06",
+    "session": "01a11662-c5f6-7fe1-8fa8-b520d3705ff7",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-42-14-01a11662-c5f6-7fe1-8fa8-b520d3705ff7.jsonl"
+  },
+  {
+    "agent": "/root/lane07",
+    "session": "01a11662-eaa8-75d2-899f-4d0684a1c46b",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-42-23-01a11662-eaa8-75d2-899f-4d0684a1c46b.jsonl"
+  },
+  {
+    "agent": "/root/lane08",
+    "session": "01a11663-0ce4-7363-81e2-fa6ab67f5e5d",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-42-32-01a11663-0ce4-7363-81e2-fa6ab67f5e5d.jsonl"
+  },
+  {
+    "agent": "/root/lane09",
+    "session": "01a11663-33ba-7683-bd4c-a23f37de965c",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-42-42-01a11663-33ba-7683-bd4c-a23f37de965c.jsonl"
+  },
+  {
+    "agent": "/root/lane10",
+    "session": "01a11663-5145-7762-8b97-48148bdaaa72",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-42-50-01a11663-5145-7762-8b97-48148bdaaa72.jsonl"
+  },
+  {
+    "agent": "/root/lane11",
+    "session": "01a11663-7913-7ff1-945d-b2d4d360f87e",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-43-00-01a11663-7913-7ff1-945d-b2d4d360f87e.jsonl"
+  },
+  {
+    "agent": "/root/lane12",
+    "session": "01a11663-9f42-74b0-9138-290abc5d04af",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-43-10-01a11663-9f42-74b0-9138-290abc5d04af.jsonl"
+  },
+  {
+    "agent": "/root/lane13",
+    "session": "01a11663-d194-7232-9a65-251c9a9d90cb",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-43-23-01a11663-d194-7232-9a65-251c9a9d90cb.jsonl"
+  },
+  {
+    "agent": "/root/lane14",
+    "session": "01a11663-f520-7bc1-8a9e-3565591110be",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-43-32-01a11663-f520-7bc1-8a9e-3565591110be.jsonl"
+  },
+  {
+    "agent": "/root/lane15",
+    "session": "01a11664-22ba-7912-bd7d-9bde99f0099e",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-43-43-01a11664-22ba-7912-bd7d-9bde99f0099e.jsonl"
+  },
+  {
+    "agent": "/root/lane16",
+    "session": "01a11664-4713-7f03-8f7c-cca227d95adb",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-43-53-01a11664-4713-7f03-8f7c-cca227d95adb.jsonl"
+  },
+  {
+    "agent": "/root/lane17",
+    "session": "01a11664-71bf-7d82-90a2-2bd653dec6fa",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-44-04-01a11664-71bf-7d82-90a2-2bd653dec6fa.jsonl"
+  },
+  {
+    "agent": "/root/lane18",
+    "session": "01a11664-9392-7e72-8be2-995cd9c833d4",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-44-12-01a11664-9392-7e72-8be2-995cd9c833d4.jsonl"
+  },
+  {
+    "agent": "/root/lane19",
+    "session": "01a11664-b658-7f92-a361-379740668926",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-44-21-01a11664-b658-7f92-a361-379740668926.jsonl"
+  },
+  {
+    "agent": "/root/lane20",
+    "session": "01a11664-dc21-7333-a90f-952debf53f5e",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-44-31-01a11664-dc21-7333-a90f-952debf53f5e.jsonl"
+  },
+  {
+    "agent": "/root/lane21",
+    "session": "01a11665-0415-7702-b352-bf5063bdb336",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-44-41-01a11665-0415-7702-b352-bf5063bdb336.jsonl"
+  },
+  {
+    "agent": "/root/lane22",
+    "session": "01a11665-27e5-70c2-893a-ebba016722c8",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-44-50-01a11665-27e5-70c2-893a-ebba016722c8.jsonl"
+  },
+  {
+    "agent": "/root/lane23",
+    "session": "01a11665-4731-7971-a2db-28693ac4762c",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-44-58-01a11665-4731-7971-a2db-28693ac4762c.jsonl"
+  },
+  {
+    "agent": "/root/lane24",
+    "session": "01a11665-6947-7022-95bb-c6eb262f265a",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "rollout": "C:\\Users\\adamc\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-45-07-01a11665-6947-7022-95bb-c6eb262f265a.jsonl"
+  }
+]

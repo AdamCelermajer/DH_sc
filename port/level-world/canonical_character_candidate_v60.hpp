@@ -117,6 +117,10 @@ struct CanonicalCharacterCandidateServicesV60 {
  const std::int32_t* selected_profile_class{};
 };
 struct CanonicalCharacterCandidateRecordV60:std::enable_shared_from_this<CanonicalCharacterCandidateRecordV60> {
+ // Diagnostic provenance for the one retained native main-menu preview.
+ // These fields do not participate in save/class/model selection.
+ std::int32_t menu_preview_selected_slot_v122{-1};
+ bool menu_preview_fresh_v122{};
  std::shared_ptr<character::CharacterAiGroupV87> ai_group_v87;
  std::unique_ptr<character::CanonicalCharacterSpawnSelectV87> spawn_select_v87;
  CanonicalCharacterCandidateServicesV60 services;

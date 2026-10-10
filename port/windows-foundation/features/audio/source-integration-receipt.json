@@ -1,0 +1,155 @@
+{
+  "status": "canonical named/campaign adapter links and runs against the single recovered V42 runtime and WinMM; campaign13 now preserves original diagnostic-only missing-datasource behavior; root authority enrollment and native audible fidelity pending",
+  "source_evidence": [
+    "IDA Script_PlaySound::Execute45fefc",
+    "IDA Script_StopSound::Execute45fe2c",
+    "audio_named_animation_sound_v38 original3d44f0..4598",
+    "original campaign MothIntro command13 source ordinal363",
+    "original campaign TrollReturn command13 source ordinal328"
+  ],
+  "mapping": {
+    "363": {
+      "uid": 459,
+      "filename": "sfx_cutscene_moth.wav",
+      "staged": true
+    },
+    "328": {
+      "uid": 252,
+      "filename": "sfx_cave_troll_smash_ground.wav",
+      "staged": false,
+      "reason": "exact original file absent in canonical cache ZIP and audio-v34 cache"
+    }
+  },
+  "source_arguments": {
+    "named": "manager before target position; false,1,-1,-1; exact generated suffix lookup",
+    "regular_play": "bool13,int8,0,false; generated row.uid directly; received&&!music skips",
+    "music": "PlayMusic(id,bool13,int8!=0,2000) requires original owner",
+    "stop": "StopMusic(int8) or row.uid matching at most10 owned voices; actual fade ms/rate"
+  },
+  "identity": "Retained event generation,producer,clip,slot,wall_timestamp_ms,lag_ms,batch occurrence; later loop/new batch ordinal reuse remains distinct; retire is producer scoped",
+  "validation": {
+    "compiler": "llvm-mingw C++17 -O2 -Wall -Wextra -Werror -static",
+    "test": "source_audio_tests.cpp against features/audio/assets actual original subset",
+    "exit_code": 0,
+    "checked": [
+      "original Sounds ordinal and UID distinction",
+      "actual original swing/Moth decode",
+      "positional source args and manager-before-position",
+      "event wall minus lag mapping",
+      "same event duplicate has one voice",
+      "later timestamp with reused ordinal produces a new voice",
+      "received regular sound command no-op before trace",
+      "plain command13 and stop14",
+      "generation teardown and terminal receipt pruning"
+    ]
+  },
+  "adapter_regression": {
+    "test": "canonical_source_audio_adapter_tests.cpp",
+    "runner": "run_canonical_source_audio_adapter_tests.ps1",
+    "compiler": "llvm-mingw clang++ C++17 -O2 -Wall -Wextra -Werror -static; linked canonical adapter, PlatformSourceAudio, WinMM, V42 runtime, catalog/bank/sample/mixer/clock/bindings, Vox Play3D owner",
+    "exit_code": 0,
+    "runtime": "one initialized recovered AudioGameplayRuntimeV42 owned by one PlatformSourceAudio and one actual WinMM output",
+    "checks": [
+      "generated row232->UID22 campaign13 forwards exact source call shape through the adapter, starts a V42-owned voice, and receives a started receipt",
+      "campaign14 source ordinal232 stops the same V42 voice",
+      "source rows 363->UID459 and 328->UID252 are confirmed against actual generated bindings",
+      "actual saturated V42 mixer queue reports a diagnostic and command13 remains consumed/nonblocking",
+      "exact missing Troll asset at source328 reports a diagnostic and command13 remains consumed/nonblocking",
+      "absent required regular-Play owner remains fatal",
+      "a present regular-Play callback reporting provider failure remains fatal",
+      "missing World/GS/Vox Play3D owner remains fatal and failed retained marker retry is not deduplicated",
+      "focus loss and checked same-output close/drain pass"
+    ],
+    "fixture_boundary": "target position, Play3D authority-presence, trace query, and complete regular-Play emitter fields are explicit caller fixtures; no production root enrollment or actual Level/World/GS/Listener/source-command authority is claimed",
+    "limitations": [
+      "Troll source328 asset is genuinely absent; no substitute was used",
+      "the retained-marker missing-media path cannot run without actual World/GS/Vox gates",
+      "no audible parity or gameplay enrollment claim"
+    ]
+  },
+  "root_link_requirements": [
+    "features/audio/feature_audio.cpp",
+    "features/audio/platform_source_audio.cpp",
+    "features/audio/winmm_output.cpp",
+    "features/audio/canonical_source_audio_adapter.cpp",
+    "engine-audio/audio_gameplay_runtime_v42.cpp",
+    "engine-audio/audio_clock_v40.cpp",
+    "engine-audio/audio_source_bindings_v38.cpp",
+    "engine-audio/audio_sample_v34.cpp",
+    "engine-audio/audio_catalog_v34.cpp",
+    "engine-audio/audio_bank_v34.cpp",
+    "engine-audio/audio_native_envelope_v34.cpp",
+    "engine-audio/audio_mixer_v34.cpp",
+    "level-world/vox_play3d_owner_v2.cpp",
+    "Windows winmm"
+  ],
+  "root_runtime_requirements": [
+    "actual AudioGameplaySourcesV40 Play3D gates and source_command authority, plus whole original regular-Play authority; no unity or listener approximation",
+    "actual manager/actor target position",
+    "one persistent heap AudioGameplayRuntimeV42 owned by PlatformSourceAudio and one native output consumer",
+    "hardware/source output-frame map paired to genuine QPC time, with caller lag applied once",
+    "whole shared equipment/Swoosh prefix once",
+    "terminal observe_receipt and scoped generation teardown",
+    "original script trace query",
+    "same-owner original music callbacks",
+    "no invented Moth/Troll stop schedule",
+    "missing files/gates/music branches remain explicit required failures"
+  ],
+  "canonical_root_contract": [
+    "root constructs one process-lifetime PlatformSourceAudio with actual VoxSoundManager identity and persistent AudioFilesystem; initialize exact selected records/names/XML and priority banks before opening output",
+    "AudioGameplaySourcesV40.gates.invoke supplies actual disabled/current-Level/phase/online/network-muted/platform-route/trace gates; source_command borrows the same Level listener, emitter, DSP, general, settings, and completed initialization authorities",
+    "CanonicalAudioLeaves.play3d_authorities_ready verifies those actual World/GS/Level and same-Level Vox command owners are present before named Play3D delivery",
+    "before source event dispatch publish hardware TIME_SAMPLES paired with genuine QPC monotonic time; after dispatch pump WinMM and route each terminal receipt through CanonicalSourceAudioAdapter::observe_receipt before draining it",
+    "invoke named_sound only from the already-admitted whole melee-event sound leaf after step-index/count gates; actual actor and detached occurrence ordinal come from the same retained animation service",
+    "OriginalCampaignRuntime command callback forwards exact phase/command/received/authored timestamp; bind actual isTracingScriptCmd, complete regular Play body, and same-owner PlayMusic/StopMusic",
+    "retire generation/actor voices during World teardown while retaining process receiver; process close uses checked focus loss and close_and_drain and preserves receiver on close failure"
+  ],
+  "source_failure_semantics": {
+    "campaign13": {
+      "original_execute": "Script_PlaySound::Execute at 0x45fefc is void; it calls VoxSoundManager::Play, which returns 0 at 0x36b80c even when missing/not-ready sound data skips emitter creation",
+      "dispatcher": "ScriptManager::ExecuteScript at 0x45c16c invokes Execute through a void function pointer, ignores its return, and checks IsBlocking; PlaySound IsBlocking at 0x455650 returns 0",
+      "adapter": "With initialized same runtime and required trace/whole-Play providers present, exact unavailable-asset, source command queue full, observation-capacity, and source token-exhaustion failures are diagnostics and command13 remains consumed/nonblocking; absent/failed required providers and invalid runtime/source rows remain fatal",
+      "troll328": "Exact source ordinal328 maps to UID252 / sfx_cave_troll_smash_ground.wav, absent in staged exact subset; missing file must not veto TrollReturn cinematic progression"
+    },
+    "campaign14": {
+      "original_execute": "Script_StopSound::Execute at 0x45fe2c returns Stop/StopMusic result, but ScriptManager::ExecuteScript ignores Execute's return and only checks IsBlocking; StopSound IsBlocking at 0x455658 returns 0",
+      "adapter_boundary": "Missing initialized runtime, invalid source receiver, and absent same-owner music callback remain required failures; same-runtime Stop queue-full and receipt-pressure failures report diagnostically and do not halt the script. Same-owner PlayMusic/StopMusic callback consumes its original manager operation result after confirming owner presence"
+    },
+    "hit_and_authored_sfx": {
+      "hp_order": "Character::F_ApplyResult at 0x3b01b8 / 0x3b10b4 applies HitFor before calling scrolling combat text and combat sound, ignores those operation returns, then continues combat callbacks",
+      "combat_sound": "Character::F_ApplyCombatSound at 0x3afee0 / 0x3afd38 is void and does not consume Vox Play3D return",
+      "retained_sfx": "CharAI::_OnAnimEvent at 0x3d4434 invokes Play3D for authored sfx_ then returns handled=1 without consuming Play3D result; adapter treats reached missing-asset/channel-operation failures diagnostically only after required providers are present",
+      "limitation": "Source evidence establishes combat Play3D result is ignored, but current combat wrapper collapses provider and Play operation failures into one status. Do not soften that return until required-service availability is separated. do_skill Lua OnSkill is a separate source path and is not covered by the authored sfx_ proof"
+    }
+  },
+  "latest_validation": {
+    "compiler": "llvm-mingw clang++ C++17 -O2 -Wall -Wextra -Werror -static; linked canonical_source_audio_adapter.cpp, platform_source_audio.cpp, WinMM, recovered V42 runtime, catalog/bank/sample/mixer/clock/bindings, Vox Play3D owner, and winmm",
+    "executable": ".local-inputs/windows-toolchain/canonical_audio_adapter_smoke.exe",
+    "result": "PASS",
+    "actual_hardware_samples": "0 -> 37029",
+    "checks": [
+      "one recovered V42 mixer/runtime produced decoded original source swing and started receipt through actual WinMM",
+      "canonical adapter is linked against that exact PlatformSourceAudio::runtime",
+      "retained marker gate failure remains fatal even with authority-presence leaf affirmative, and retry confirms failed occurrence was not deduplicated",
+      "received nonmusic command13 skips before trace query",
+      "regular command13 fails closed without whole original Play authority",
+      "exact missing Troll ordinal328 datasource emits diagnostic and command13 continues",
+      "command14 uses trace fixture then SAME runtime's source Stop path",
+      "real hardware clock advances; focus pause and checked close/drain pass"
+    ],
+    "test_authority_boundary": "target-position, Play3D-authority-presence, trace, regular-Play, and diagnostic leaves are explicit fixtures; actual Play3D gates and production campaign enrollment remain untested; marker missing-file soft path is source-grounded but not exercised without source gates"
+  },
+  "root_integration_status": {
+    "main_cpp_references": "none for PlatformSourceAudio or CanonicalSourceAudioAdapter",
+    "campaign13_14_actual_owner": "unavailable",
+    "retained_marker_actual_owner": "unavailable",
+    "listener_and_source_command_authority": "unavailable"
+  },
+  "limitations": [
+    "event-marked named rows require original event-selection continuation",
+    "music original source owner callback remains required",
+    "DOT/combat producers must use canonical CharSounds selection, no guessed cue",
+    "no native audible device acceptance claimed",
+    "TrollReturn asset is genuinely unavailable"
+  ]
+}

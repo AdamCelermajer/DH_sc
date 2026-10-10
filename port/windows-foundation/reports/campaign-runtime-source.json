@@ -1,0 +1,41 @@
+{
+  "decoded_original_scripts": 70,
+  "native_results": {
+    "original_70_scripts_loaded": true,
+    "single_fire_admission": true,
+    "source_threshold_completion_next_call": true,
+    "module_context_preserved": 7,
+    "unsupported_commands_rejected": true,
+    "first_actual_lizard_spawns": 2,
+    "ordered_callback_effects": 23
+  },
+  "limits": [
+    "Test callbacks record source effect deliveries; test does not claim original GPU/camera/dialogue/save effects executed.",
+    "Host supplies original collision geometry and qualified trigger facts.",
+    "Multiplayer all-player scripts, trigger effects, door hooks fail explicitly until additional provider exists.",
+    "Original script skip/network/debug pipelines are caller admission/command services, not implemented internally.",
+    "Whole campaign acceptance remains pending root integration."
+  ],
+  "sources": [
+    "port/windows-foundation/original_campaign_runtime.hpp",
+    "port/windows-foundation/original_campaign_runtime.cpp"
+  ],
+  "tests": "port/windows-foundation/tests/original_campaign_runtime_tests.cpp",
+  "data": ".local-inputs/windows-encounter-source/original-campaign.xml",
+  "callbacks": "Explicit source admission, execute, blocking, update and bounded random providers. Runtime contains no map/profile/warrior-specific logic.",
+  "status": "native_generic_source_scheduler_test_pass",
+  "evidence": [
+    "port/level-loader/script_manager_execution_v96.cpp",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/00455c08.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/004597b4.c",
+    ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/0045c438.c",
+    "port/level-world/canonical_trigger_zone_v22.cpp"
+  ],
+  "source_rules": {
+    "schedule": "One context per global script ID, common-then-level order, captured one sweep per tick. Newly started lower-ID context executes next tick.",
+    "wait": "Execute resets elapsed0 and copies duration. IsBlocking signed elapsed<duration BEFORE Update. Update adds frame delta with32-bit wrap. Completion advances only next scheduler call; no overflow consumption.",
+    "trigger": "Host delivers original inside/condition/alive eligibility. Source-keyed trigger edges, count/delay, StartScript only if not running; counts consumed at correct entry/exit branch.",
+    "nested_call": "Original scalar8 common/global flag; false offsets level ID by common count. Scalar24 blocking waits for child. Random array delegates source RNG; no default RNG.",
+    "failure": "Unsupported command callback fails explicitly and retains reached source state. Invalid negative dt is rejected without making runtime permanently failed."
+  }
+}

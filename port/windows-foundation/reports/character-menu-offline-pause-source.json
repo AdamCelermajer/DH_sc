@@ -1,0 +1,22 @@
+{
+  "status": "source_and_actual_main_pause_resume_proven",
+  "original_hud_sha256": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+  "source_actions": ".local-inputs/swf-layout-trigger/dqhud_droid-actions.json",
+  "hud_function_offset": 14291,
+  "menu_name_push_offset": 14315,
+  "native_push_state_call_offset": 14327,
+  "original_native_push_state": "0x43aebc",
+  "get_menu_by_name": "0x43af44",
+  "assign_gs_flash_menu": "0x43af58",
+  "state_machine_push_tailcall": "0x43af64 -> 0x33a344",
+  "gs_flash_menu_update": "0x384460",
+  "offline_behavior": "MenuManager updates but underlying StateMachine RecurseUpdate occurs only with actual online byte+5 nonzero. Offline character menu pauses underlying gameplay state.",
+  "misleading_names": "MenuBase FS_PauseGameplay0x41f444 and FS_ResumeGameplay0x41f44c are original no-ops.",
+  "planned_generic_behavior": "Skip offline gameplay/session decision and animation time while CharacterMenu is open; continue source UI clock and real audio output device-clock publication.",
+  "preview7_contains_pause_fix": false,
+  "gs_flash_got_entry": "0x996bec",
+  "gs_flash_got_value": "0x9a2470",
+  "gs_flash_named_symbol": "GSFlashMenu::s_inst0x9a2470",
+  "implementation": "generic offline menu skips gameplay/session tick while preserving audio/UI device-clock work",
+  "runtime_receipt": "reports/v19-preview-8-integration-candidate.json"
+}

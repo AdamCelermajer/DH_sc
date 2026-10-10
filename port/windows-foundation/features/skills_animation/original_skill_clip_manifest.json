@@ -1,0 +1,63 @@
+{
+  "status": "original-content-staging-request-only",
+  "files": [
+    {
+      "source": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae",
+      "destination": "animations/skill_dh2_prince_warrior_bash_down.bdae",
+      "bytes": 15528,
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b"
+    },
+    {
+      "source": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_mage_cold_ray.bdae",
+      "destination": "animations/skill_dh2_prince_mage_cold_ray.bdae",
+      "bytes": 10452,
+      "sha256": "4dec51ccd295acc468232d7a12f10c47ca06f87877370a2e3ba90770aa32b213"
+    },
+    {
+      "source": "port/level-world/reference/character-visual-v6/cache/data/3d/characters/prince/animations/skill_dh2_prince_rogue_jump_kick.bdae",
+      "destination": "animations/skill_dh2_prince_rogue_jump_kick.bdae",
+      "bytes": 12576,
+      "sha256": "7db240e6e3d9660964c86b6218b0c6d5436afa35e8e1a653aa1487d6222dbdf8"
+    }
+  ],
+  "dependencies": [
+    "data/pydata/skills_pyarray.bin",
+    "data/pydata/skills_pyarraynames.bin",
+    "data/pydata/skills_pystructnames.bin",
+    "data/pydata/animations_pyarray.bin",
+    "data/pydata/animations_pyarraynames.bin",
+    "data/pydata/animations_pystructnames.bin",
+    "data/pydata/animations_dictionary_pyarray.bin",
+    "data/animations_dictionary_pyarraynames.bin"
+  ],
+  "sourceRoots": [
+    {
+      "classList": "Knight",
+      "classPosition": 0,
+      "skillRow": 7,
+      "animTableRoot": 347,
+      "name": "BashDown",
+      "movingByte": 1,
+      "fx": 164
+    },
+    {
+      "classList": "Mage",
+      "classPosition": 0,
+      "skillRow": 14,
+      "animTableRoot": 413,
+      "name": "ColdRay",
+      "movingByte": 0,
+      "fx": 150
+    },
+    {
+      "classList": "Rogue",
+      "classPosition": 0,
+      "skillRow": 56,
+      "animTableRoot": 521,
+      "name": "JumpKick",
+      "movingByte": 1,
+      "fx": 160
+    }
+  ],
+  "policy": "Root owns shared asset staging. Runtime IDs must come from loaded source class list, actual saved/native skill owner and actual stance provider; these cases are evidence rather than hardcoded dispatch."
+}

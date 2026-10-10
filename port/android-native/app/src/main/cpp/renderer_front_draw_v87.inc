@@ -1,4 +1,7 @@
   if(class_scene||(menu_background&&menu_persona_class>=0))for(auto& actor:class_preview_actors){
+   // MenuCharacterSelect::Show (0x428f38) makes all three actors visible at
+   // their authored dummy anchors. Update (0x428498) advances all three while
+   // the scene/camera clip moves between classes; selection does not hide them.
    if(menu_background)actor.sample_elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-menu_persona_epoch).count();
    auto& resource=actor.resource;const auto& clip=resource.animation;std::string error;
    const auto ms=clip.start+int(actor.sample_elapsed%unsigned(clip.end-clip.start));

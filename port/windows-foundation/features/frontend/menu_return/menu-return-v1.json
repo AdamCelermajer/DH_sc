@@ -1,0 +1,69 @@
+{
+  "schema": "menu-return-v1",
+  "status": "feature-owned-return-gate-and-save-commit-tested; production-caller-pending",
+  "evidence_note": "menu-return-v1-evidence.md",
+  "source": {
+    "pause_ui_receipt": "../../pause_ui/source-pause-ui-v1.json",
+    "pause_page_reference": {
+      "video": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+      "time_seconds": 300,
+      "what_it_shows": "Gameplay HUD pause mark only; no Yes confirmation or death-return sequence is visible."
+    },
+    "native_callers": [
+      {
+        "name": "NativeGoToMainMenu",
+        "address": "0x43ae9c",
+        "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0043/0043ae9c.c",
+        "sha256": "e16ca72db7be809c0c85a08bb0924185d97d45a65939272fd9dae01a87c58e0d",
+        "effect": "Calls Application::GoToMainMenu with event 0."
+      },
+      {
+        "name": "Application::GoToMainMenu",
+        "address": "0x32c1f4",
+        "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0032/0032c1f4.c",
+        "sha256": "df2eb2a7feb39edc2e51b47b535b5525b57e67582c3e785ddc8748c63c24ffe7",
+        "effect": "For current Level type 38, runs QuickSave then SG_SaveLocalPlayer. Resets MenuManager and switches GSFlashMenu to menu_MainMenu; this is not process exit."
+      },
+      {
+        "name": "Level::SG_SaveLocalPlayer",
+        "address": "0x3f07b0",
+        "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003f/003f07b0.c",
+        "sha256": "6ba17a00da0d59bcc047ccd6f027a5c82eae5b8a76de8ac01d363a4d91bd0ba9",
+        "effect": "Gets local player (0,1), obtains its Character at +408, and delegates to Level::SG_SavePlayer."
+      }
+    ],
+    "caller_source_hashes": {
+      "pseudocode_all_sha256": "d968883dcc818bad35e5b55507380aa0a438f3b39862f5e1b15c659a9c63bd90",
+      "main_cpp_sha256_at_audit": "a7ae2b518924bcdf71966a863374085d78344866da9cdb5a6ab98db2629c366b",
+      "skill_cast_coordinator_sha256": "99b5f98b66759706f782307dbdff4fc1412f1970ee0cf2a9e0c30f52377be113"
+    },
+    "modern_caller": {
+      "source": "port/windows-foundation/main.cpp:2114-2124,2230-2250,3007-3011",
+      "behavior": "Confirmed Yes sets returnToFrontend. Before leaving gameplay, current main calls skill-cast and CombatSession lifecycle checkpoint; on quiescent living player it saves GameSave then CharacterState; if dead it skips GameSave but currently writes CharacterState. Checkpoint failure skips both saves but still leaves the loop. The frontend route reconstructs menu options after the loop."
+    }
+  },
+  "implementation": {
+    "header": "menu_return_v1.hpp",
+    "source": "menu_return_v1.cpp",
+    "test": "menu_return_v1_tests.cpp",
+    "runner": "run_menu_return_v1_tests.ps1",
+    "entrypoints": [
+      "request_v1(RequestV1, TicketV1&, error)",
+      "commit_v1(TicketV1&, RuntimeSkillCastCoordinatorV1&, level URI, live-save path, profile path, CharacterState&, CommitV1&, error)"
+    ],
+    "behavior": "Request requires authored Yes confirmation, exact live Session and source-skill checkpoint owner, then calls actual coordinator checkpoint and Session lifecycle checkpoint. A single-use ticket binds same Session lease and update serial. Commit revalidates both checkpoints and the same coordinator, synchronizes current HP/MP from the live player, writes GameSave first for a living player and profile second through existing save providers, and publishes staged CharacterState only after successful profile write. Dead player path skips world save but persists actual dead profile."
+  },
+  "main_integration_contract": "Call request_v1 before latching/switching the confirmed frontend route. If it rejects, retain gameplay/pause and both saves. If admitted, call commit_v1 synchronously in the same Session boundary before setting returnToFrontend; only successful commit allows Session teardown and menu reconstruction. Preserve the same Session, coordinator, CharacterState and selected save paths through commit. Do not route on save failure.",
+  "verification": {
+    "command": "& port/windows-foundation/features/frontend/menu_return/run_menu_return_v1_tests.ps1",
+    "result": "PASS: strict C++17 feature-only build and real asset-backed CombatSession. Unconfirmed and stale source timer-owner rejection preserved pre-existing GameSave/profile bytes; ordinary living commit round-tripped current Session HP/MP through existing writers; death return retained the exact world checkpoint bytes and persisted zero HP/max HP profile; duplicate commit rejected.",
+    "build_scope": "Feature/test translation units plus terminal linked archives; did not compile CombatSession TU, start shared build, edit main/CMake/core, or run GUI.",
+    "active_cast_test_limit": "The focused helper fixture uses the real coordinator but reaches rejection through a stale timer-owner update serial, not an in-flight source cast. The existing source cast regression starts a real Charge cast and asserts checkpoint_v1 rejection at runtime_skill_activation_session_v1_tests.cpp:1538-1546. A helper+active-cast no-corruption run remains pending; production main caller also remains unwired."
+  },
+  "uncertainties": [
+    "Original GoToMainMenu decompilation identifies Level offsets 304, 325, and 408 by offset only; semantic labels are not inferred here.",
+    "Original GoToMainMenu has no visible active-cast/cooldown admission check in the recovered path; the modern checkpoint gate is a portability guard because transient timers are not persisted.",
+    "No source-version video showing death followed by pause confirmation and return is available; current visual evidence only identifies the HUD pause control.",
+    "The two modern saves are each atomic, but the ordered GameSave/profile pair is not a cross-file transaction; this preserves current host prefix behavior."
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "schema": "faery-animdict-377-asset-audit-v1",
+  "result": "resolved-from-canonical-original-cache-zip",
+  "finding": "Swamp_Intro AnimDict 377 is a standalone BRES/BDAE cache member. It is not an animation embedded in the Faery model, MGP module, or a differently named clip. The earlier publication/character-visual cache miss was an extraction-scope gap; it does not indicate missing original source data.",
+  "dictionary_identity": {
+    "id": 377,
+    "name": "cs_swamp_intro_faery_scene05",
+    "uri": "data/3D/characters/faeries/animations/cs_swamp_intro_faery_scene05.bdae",
+    "case_folded_cache_uri": "data/3d/characters/faeries/animations/cs_swamp_intro_faery_scene05.bdae",
+    "dictionary_names_sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+    "dictionary_values_sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+  },
+  "canonical_cache_archive": {
+    "path": "C:/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+    "bytes": 433189197,
+    "sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/animations/cs_swamp_intro_faery_scene05.bdae",
+    "entry_bytes": 28824,
+    "entry_crc32": "8c665a2f",
+    "entry_sha256": "8764c5c1deaf6800f93532038188be355cffdc9901121d5e21fa2144a8f2eca6",
+    "bres_header": "42524553feff00003c00000098700000",
+    "uniqueness": "The canonical ZIP has exactly one Swamp_Intro Faery scene05 BDAE entry and no other BDAE entry with identical payload bytes."
+  },
+  "android_package_evidence": {
+    "original_game_apk": {
+      "path": ".local-inputs/ida-apk-export-2026-10-07/inputs/Dungeon-Hunter-2-HD-v1-0-2.apk",
+      "bytes": 10269872,
+      "sha256": "32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200",
+      "zip_entries": 225,
+      "exact_bdae_entry": false,
+      "interpretation": "The original app APK does not carry this external game-cache BDAE as a loose APK member."
+    },
+    "checked_full_cache_app_apk": {
+      "path": "port/android-native/app/build/outputs/apk/debug/app-debug.apk",
+      "bytes": 632794350,
+      "sha256": "391af94f581be29ba3f43756f7f9e13b27c06309bab27b63c40ff2b4715840cb",
+      "embedded_asset": "assets/dh2-original-cache.zip",
+      "embedded_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+      "nested_exact_bdae_entry": true
+    },
+    "loose_decoded_asset_roots": {
+      "port/android-native/app/src/main/assets": "exact BDAE absent as a loose file; app build bundles the original cache ZIP instead",
+      ".local-inputs/publication/checkpoint/port/level-world/reference/character-visual-v6/cache": "exact BDAE absent in this selected actor-visual fixture subset",
+      "other_decoded_roots": "rg filename scan across .local-inputs, Android assets, level-world and foundation found no loose file"
+    }
+  },
+  "loader_evidence": [
+    {
+      "source": "port/android-native/app/build.gradle.kts",
+      "sha256": "fd359e37a3c27feb6a3b4275f1cd0a15e947ff83d66153b13cb10ed5ab5a370a",
+      "evidence": "bundleOriginalCache copies the canonical input to generated APK asset dh2-original-cache.zip after enforcing its exact 3fdf4e4c…b679 hash."
+    },
+    {
+      "source": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "sha256": "6a4eeef2116e4da7555eca168f663b272a8ac4cf53aeabae15f033717b385bdb",
+      "evidence": "OriginalCacheAssetsV1 mounts dh2-original-cache.zip with resource root com.gameloft.android.GAND.GloftD2SS/files/ and exposes read(uri), so data/3D/... is addressed as the matching cache member."
+    },
+    {
+      "source": "port/asset-payloads/zip_asset_pack_v1.cpp",
+      "sha256": "38322384ea3114f1ea3aad0ee0211bb6f583dfaf4a76ae642645fe208a9b17df",
+      "evidence": "ZipAssetPackV1 lowercases and slash-normalizes resource keys; the mixed-case dictionary URI resolves to the lower-case original archive entry."
+    },
+    {
+      "source": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "faf31ea6e3e106626aba4e4e92bfaf5275bb96fe46a5dcf2608eb37720a2e1f3",
+      "evidence": "The source campaign path binds OriginalCacheAssetsV1::read as the Character/script asset reader."
+    },
+    {
+      "source": "port/level-world/character_same_scene_animator_v6.cpp",
+      "sha256": "8a65600fd518e7a7407f6571b9ac54f69710100329469765b531f010dcb68eee",
+      "evidence": "CharacterSameSceneAnimatorV6::load selects animation_dictionary.values[377], passes that exact URI to services_.read, and loads the returned standalone bytes with animation::Player::load; there is no model/module embedded-animation fallback."
+    }
+  ],
+  "scope_correction": "source-companion-animation-bank-v1.json reports availability in the selected publication fixture cache. The canonical original cache and full-cache APK evidence above supersede any broader inference from that subset miss; no clip substitution or runtime behavior was introduced by this audit.",
+  "bank_extraction_test": {
+    "staged_root": ".local-inputs/companions-faery-377-source-test-cache",
+    "staged_relative_path": ".local-inputs/companions-faery-377-source-test-cache/data/3d/characters/faeries/animations/cs_swamp_intro_faery_scene05.bdae",
+    "manifest": ".local-inputs/companions-faery-377-source-test-cache/manifest.json",
+    "asset_bytes": 28824,
+    "asset_sha256": "8764c5c1deaf6800f93532038188be355cffdc9901121d5e21fa2144a8f2eca6",
+    "api": "build_source_companion_animation_bank_v1 with the same exact Swamp_Intro campaign, AnimDict, AnimationTables, DefaultFairy source name/profile, and an AssetCatalog rooted at the staged cache",
+    "result": {
+      "command_index": 46,
+      "anim_dict_id": 377,
+      "clip_available": true,
+      "preloaded": true,
+      "alias": "source-animdict-377-cs_swamp_intro_faery_scene05",
+      "animation_only_profile_contains_exact_path": true,
+      "animation_table_references": [],
+      "loop_rate_or_offset20_semantics_inferred": false
+    },
+    "test_source": "port/windows-foundation/features/companions/source_companion_animation_bank_v1_tests.cpp",
+    "isolated_test_executable": ".local-inputs/companions-faery-377-test-build/source_companion_animation_bank_v1_tests.exe",
+    "verification": "PASS; pinned Windows clang++ C++20 -O0 -static -Wall -Wextra -Wpedantic -Werror -Wno-missing-field-initializers compiled and linked the focused source/test dependencies into the isolated feature build root, then ran the executable successfully. Root shared Foundation build was not used."
+  }
+}

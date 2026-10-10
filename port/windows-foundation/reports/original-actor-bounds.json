@@ -1,0 +1,30 @@
+{
+  "status": "verified_source_joint_box_bounds_provider_ready_for_explicit_owner_integration",
+  "modules": ["original_actor_bounds.hpp", "original_actor_bounds.cpp"],
+  "source_references": ["port/level-world/reference/character-scene/NOTES.md", "port/level-world/reference/character-scene/reference/original-functions.asm", "port/level-world/reference/character-scene/initialization/reference/original-functions.asm", "port/level-world/reference/character-scene/prince-rest-fixture.json"],
+  "source_chain": {
+    "skin": "CSkinnedMesh::getBoundingBox0x6636a4; all four techniques use authored SSkin joint boxes+0x8c/+0x90 and joint absolute matrix pointers, not deformed vertices",
+    "box_transform": "Original CMatrix4::transformBox0x587398 transforms only two endpoints then sorts, not eight-corner generic AABB approximation",
+    "modular": "CModularSkinnedMesh::computeBoundingBox0x646c1c unions exactly currently selected component providers",
+    "visual": "VisualObject::CalcMeshBox0x472408 prefers skinned type0x73656164; static type0x6d656164 is fallback only. Applies immediate group parent scale then outer-root relative matrix and recenter",
+    "properties": "Character InitPost base properties12/13/14 produce XY0.009/Z0.01 scale; Character::SetRelativeAABB0x3a4398 reads resolved CollisionScale16×0.01 unless original already_scaled marker policy",
+    "owner": "GameObject::SetRelativeAABB0x38b110 pads XY widths below10 by5 each side, preserves/sets flat flag, translates relative bounds by owner XYZ to absolute+0x12c and issues PF update",
+    "position": "GameObject::SetPosition0x393db4 and UpdateAbsoluteAABB0x38aac8 translate cached relative bounds without minZ/floor offset. Floor height is independently resolved by SetInitialPosition0x3a58f4"
+  },
+  "source_refresh_policy": "Visual constructor computes/applies cached mesh bounds before attaching animation controller. Late InitPost ApplyMeshBox0x3b541c reuses stored mesh box, then Revive(true) invokes InitPhysicalObject. No Idle sampling appears in that chain. Host must use factory/rest cached mesh box for this supported creation path and translate cached relativeAABB as owner moves; do not recompute from live attack geometry every frame and label that original init policy.",
+  "provider_inputs": {
+    "components": "Exact controller ID plus authored group node ID; no class/slot/substring selection in runtime module. Empty input retains actual source visible instances. Caller may decode original modular defaults or source equipment records.",
+    "cached_pose": "Null means original serialized factory/rest local pose. Explicit SkeletalPose lets caller supply actual source cache for a proved refresh/save/equipment producer. CharacterVisual::current_local_pose exposes actual ordinary/retained published local SRT, without clock mutation.",
+    "placement": "Actual owner position/Euler degrees, base scale12..14, resolved CollisionScale16 and prior flat byte"
+  },
+  "shadow_and_mixed_policy": "No invented shadow/fx suppression. Original CalcMeshBox prefers every actual selected skinned provider; static auxiliary/shadow mesh is ignored when any selected skinned provider exists. Unsupported mixed static/skinned providers on the same authored group reject through recovered character_scene_entries. Explicit component selection replaces all skinned instances while retaining original static instances/marker metadata.",
+  "reused_kernels": ["character_npc_visual_bounds_v1", "character_scene_entries", "dh2_character_skin_bounds", "dh2_character_mesh_box", "dh2_character_visual_scale", "dh2_character_owner_bounds", "dh2_decor_scene", "dh2_decor_marker_mesh_box"],
+  "verification": {
+    "test": "tests/original_actor_bounds_tests.cpp",
+    "native": "-std=c++17 -Wall -Wextra -Werror standalone compile and genuine model run PASS",
+    "fixture": "Four actual warrior modular controllers discovered from original model categories reproduce source rest relativeAABB ±[113.699638,30.755743,150.669312] with source100/100/100 base scale and CollisionScale85",
+    "additional": "Actual local-pose publication includes ordinary update and retained apply; failed pose apply/load preserve published pose and loaded bounds; source absoluteAABB translation preserves cached relative box"
+  },
+  "integration_dependencies": ["../level-world/character_world_npc_bounds_v1.cpp", "../level-world/character_scene.cpp", "../level-world/decor_scene.cpp", "../level-world/decor_body_config.cpp"],
+  "limits": "Bounds provider does not create physical bodies, guess floor height, recover every source saved/equipment cache refresh, or resolve player IsPlayer/body filter lifecycle. Trigger callers must bind actual selected components and source cache creation policy. Renderer extents and collision radii are not substitutes. Existing packages untouched."
+}

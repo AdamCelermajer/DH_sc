@@ -25,4 +25,11 @@ CanonicalNpcSkillsV84::CanonicalNpcSkillsV84(RetainedCharacterActorV1& actual,
  //No configure/Init/cleanup call here. Source C1 vectors are genuinely empty;
  //the actual AI_InitSkills3d8cfc producer subsequently fills THESE vectors.
 }
+const std::string& CanonicalNpcSkillsV84::error()const noexcept{
+ error_=owner_?owner_->error():std::string{};
+ if(services_&&!services_->error().empty()){
+  if(!error_.empty())error_+="; ";error_+=services_->error();
+ }
+ return error_;
+}
 }

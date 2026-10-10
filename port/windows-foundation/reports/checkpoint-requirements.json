@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-09",
+  "goal_complete": false,
+  "status": "partial_integrated_checkpoint_population_and_fidelity_gaps_remain",
+  "playable_package": ".local-inputs/windows-source-clock-v19-preview-6",
+  "requirements": [
+    {
+      "requirement": "Authored Swamp world, player, mobs, NPCs and available priest/faery models and animations",
+      "status": "partial_source_companion_models_and_idle_runtime_verified",
+      "evidence": "Preview3 runtime:33visuals/61declarations/28skipped;23sharedcombat actors; actual lizard/moth attacks, original models and populated framebuffer inspected. Companion matched visibility/animation remains unverified. Development companion-idle-gameplay-runtime-v1.json:25 shared actors; enabled Priest/Faery original models inspected; same-session authored Idle clocks advance320ms after save40/reload80/restore100.",
+      "missing": "Full authored population/activation, scripted companion intro placement/visibility and matched-reference appearance/timing remain unverified; following, combat and faery abilities remain incomplete."
+    },
+    {
+      "requirement": "Movement with floor/collision and gameplay camera",
+      "status": "integrated_scoped_runtime_verified_fidelity_incomplete",
+      "evidence": "v19-preview-2-baseline-runtime.json: startup movement, original floor boundary, camera anchor and restored state observations.",
+      "missing": "Dynamic avoidance/contact behavior and matched reference movement/camera parity."
+    },
+    {
+      "requirement": "Data-driven equipment/stance and arbitrary actor animation selection",
+      "status": "shared_animation_integrated_equipment_mutations_component_only",
+      "evidence": "combat_session supports per-actor source choices and retained locomotion; original equipment attachment in packaged framebuffer. RuntimeEquipmentBindingV1 equip/unequip tests exist.",
+      "missing": "Live equipment page mutations and render consumption in main executable; full class/weapon coverage."
+    },
+    {
+      "requirement": "Targeting and minimal original-art health/mana/target HUD",
+      "status": "implemented_scoped_runtime_verified_visual_parity_unverified",
+      "evidence": "Original HUD art and live damage feedback in enemy-approach-verification.png; shared target-selection and combat tests.",
+      "missing": "Matched reference layout, target indicator and selection behavior acceptance."
+    },
+    {
+      "requirement": "Shared player/enemy attacks, damage, reaction and death with authored hit timing and target cleanup",
+      "status": "packaged_player_and_enemy_death_runtime_verified_fidelity_incomplete",
+      "evidence": "v19-preview-2-enemy-runtime.json: enemy approach/damage, player three swing hits, lethal frame191, HP0/target0/deathaction5. Retained source hit markers execute synchronously before actor displacement. v19-shared-player-death-runtime.json proves enemy lethal hitframe1520, playerHP0/deathaction5 and enemy target0/idle after2400frames.",
+      "missing": "Matched reference hit timing/animation parity and original encounter progression."
+    },
+    {
+      "requirement": "Maps, classes, weapons and actor types supplied as data; gameplay independent of desktop input",
+      "status": "reusable_interfaces_implemented_cross_content_coverage_incomplete",
+      "evidence": "Shared ActorPopulation/ActorProfile, CombatSession and per-actor decisions use supplied definitions; desktop input translates to shared commands.",
+      "missing": "Integrated cross-class/map/weapon coverage and Android runtime validation."
+    },
+    {
+      "requirement": "Preserve Windows checkpoint and Android/compatibility work; deliver runnable checkpoints and honest capability ledger",
+      "status": "current_checkpoint_delivered",
+      "evidence": "Earlier packages preserved; Preview4 separate package828files/12runtimecases,80foundation tests. Original audio244WAVs/7outputvoices verified; MILESTONES andrelease report updated.",
+      "missing": "Remaining original-content and visual/gameplay fidelity acceptance prevents goal completion."
+    }
+  ],
+  "next_integrations": [
+    "Main combat audio",
+    "Original symbolic character templates",
+    "Generic frontend creation host",
+    "Equipment page composition",
+    "Companion placement/animation evidence"
+  ]
+}

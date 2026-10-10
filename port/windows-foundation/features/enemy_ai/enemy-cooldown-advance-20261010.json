@@ -1,0 +1,68 @@
+{
+  "status": "feature fix and asset-backed same-session cooldown regression pass against the terminal Session archives; integrated NativeWorld preview still needs root validation",
+  "reported_behavior": "In Celeste combat, an enemy that has attacked while in melee reach continues advancing toward the player until it attacks again.",
+  "visualEvidence": {
+    "reference": "https://www.youtube.com/watch?v=z_Zky7qQdYs&t=377s (local v1.0.3 video)",
+    "inspectedFrames": [
+      ".local-inputs/fidelity-hit-reaction-audit/375_250.png",
+      ".local-inputs/fidelity-hit-reaction-audit/375_500.png",
+      ".local-inputs/fidelity-hit-reaction-audit/375_750.png",
+      ".local-inputs/fidelity-hit-reaction-audit/376_000.png",
+      ".local-inputs/fidelity-hit-reaction-audit/376_250.png",
+      ".local-inputs/fidelity-hit-reaction-audit/377_250.png"
+    ],
+    "observations": "At 375.250-376.250 the original video shows the Warrior and sword changing pose during a Bog Moth fight; sampled 375.500 and 376.000 show player combat feedback. At 377.250 the level-up tutorial is already on screen. These frames do not track NPC world position through an attack cooldown and do not directly prove this reported enemy behavior.",
+    "classification": "Direct frame inspection; insufficient evidence to infer NPC post-attack displacement. Use as temporal combat context only."
+  },
+  "logicEvidence": {
+    "script": "port/android-native/app/src/main/assets/data/scripts/ai/monster.luac",
+    "sourceFacts": [
+      "monster_OnTargetInMeleeRange (lines 181-196) calls Stop before its SkillTree/RNG branch and Attack(GetTarget()); for actual Swamp_LizadMan_Type1 SkillTree resolves to -1, so source is Stop then Attack without a random draw.",
+      "monster_OnTargetOutOfRange (lines 108-116) calls MoveTo only when source AI state equals Idle and HasPath is false.",
+      "The existing generic controller retains ActorState.target_id as authority; while a tracked valid target is in melee range it calls request_actor_attack and does not invoke approach. Out-of-range transition invokes approach.",
+      "On initial target acquisition, current RuntimeEnemyController sets route based on melee distance but unconditionally invokes approach; an in-range newly acquired target can therefore retain moving state into the later attack request, bypassing the approach-to-attack Stop path. This is a concrete mismatch with the source melee event prefix.",
+      "The source `CSAttack::OnBlur` calls GetAttackDelay and starts timer42 with that millisecond value; recovered AI row uses 800 ms for the lizard cooldown, started at attack-state departure rather than request time.",
+      "NPC root-motion evidence in reports/npc-root-motion-source.json samples the genuine Swamp lizard Attack root groups at 0 XY travel for Attack0/Attack1/Attack2; Walk has authored XY travel. Thus any motion during an in-range cooldown should be investigated as stale Walk selection or body/solver drift, not suppressed attack root motion."
+    ],
+    "coreLimits": "The asset-backed same-Session regression now passes after root Session source became terminal. It observes an attack pose depart, permits the existing Session combo boundary to clear target_id for that completion sample, confirms next controller update reacquires the same target without an approach call, and tracks the authored 800 ms attack-delay interval. This resolves source/controller pose and ActorState drift in the test. The fixture uses the feature stop callback as an order-observing owner and does not step PlayableActorBodies/NativeWorld; solver collision drift and final product preview remain root-level integration checks."
+  },
+  "expectedBehavior": "For a source monster admitted to melee, Stop the same existing navigation/controller actor before Attack or DoSkill. Preserve source-authored attack root motion; do not force idle during cooldown or broaden melee range. If the target truly leaves source melee reach, ordinary approach may resume under source range/state gates.",
+  "focusedTestPlan": {
+    "sameSession": "Updated feature test uses the actual Swamp_LizadMan_Type1 table/property/AI row and player in one CombatSession: acquire the already-in-range target; require stop before attack and no approach; begin the attack; then sample real 50 ms Session updates through animation departure, the 800 ms source attack delay, and the next attack. It records same ActorState position/action/target, pose ownership, request/approach/stop counts and actual resolved row delay.",
+    "cooldown": "Private route-release runner compiles the actual asset-backed Session test against copied current terminal archives. The passing result observed the actual Swamp lizard Attack pose depart at frame 12 of the 50 ms sample loop, ActorState position remain (-6852.64, 938.285, 250), target remain canonical except the existing combo-clear completion sample then reacquire next controller update, no approach callback throughout, and next attack pose only after the source 800 ms departure cooldown.",
+    "negativeBranches": "A target outside the original melee kernel must enter shared approach; a target losing eligibility/death/view radius follows existing stop/cleanup. No guessed tolerance.",
+    "outputs": "Focused feature-owned test executable and JSON report under features/enemy_ai; private isolated output only, no shared archives or GUI."
+  },
+  "uncertainties": [
+    "Inspected v1.0.3 frames provide combat context but do not directly measure NPC position through cooldown.",
+    "The controller regression observed no ActorState position change and no approach callback during the actual same-Session lizard attack departure/cooldown/retry, but it did not include NativeWorld body integration.",
+    "Root motion evidence covers the recovered Swamp lizard Attack0/Attack1/Attack2 clips; another monster or attack variation can have authored root displacement.",
+    "A whole-product runtime/preview with the final integrated controller and body solver remains necessary to close the user-reported visual issue."
+  ],
+  "implementation": {
+    "changedPaths": [
+      "port/windows-foundation/features/enemy_ai/runtime_enemy_controller_v1.cpp",
+      "port/windows-foundation/features/enemy_ai/runtime_enemy_controller_v1_tests.cpp"
+    ],
+    "fixHypothesis": "Confirmed and fixed the source-prefix mismatch: if initial target acquisition is already inside the original melee kernel, require the existing same-actor stop service before attack and skip approach. Missing reached stop fails closed. Existing tracked-target and approach-to-melee gates remain unchanged."
+  },
+  "verification": {
+    "status": "PASS feature-focused current Session regression and incoming-receiver fixture; full NativeWorld/body preview still outstanding",
+    "controllerTest": "PASS runtime enemy controller PASS scanLOS=2 attackRequests=33 stopEvents=4 targetDeaths=1 routeRelease=1",
+    "controllerRunner": "port/windows-foundation/features/enemy_ai/run_runtime_enemy_navigation_route_release_v1_tests.py (private copied archives; output .local-inputs/runtime-enemy-navigation-route-release/runtime_enemy_navigation_route_release_v1_tests.exe)",
+    "incomingReceiverFixture": "PASS 8 profiles/variants via isolated private executable compiled from tests/combat_session_incoming_receiver_tests.cpp against read-only terminal archives; stop service validates same-session same-ActorState binding",
+    "cooldownObservations": {
+      "attackDepartureFrame": 12,
+      "sampleDtMs": 50,
+      "actorPositionAtDepartureAndDuringCooldown": [
+        -6852.64,
+        938.285,
+        250.0
+      ],
+      "approachCallsDuringInRangeCooldown": 0,
+      "targetLifecycle": "combo boundary clears ActorState.target_id on the pose-departure sample; controller reacquires same target next update",
+      "attackRetry": "Observed only after authored 800 ms departure delay"
+    },
+    "sharedBuild": "No shared archive or main/CMake output was written by this lane."
+  }
+}

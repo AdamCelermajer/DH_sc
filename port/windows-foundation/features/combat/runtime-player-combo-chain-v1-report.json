@@ -1,0 +1,57 @@
+{
+  "feature": "source-selected player melee combo request",
+  "module": "features/combat/runtime_player_combo_chain_v1.hpp/.cpp",
+  "status": "implementation_and_focused_same_session_test_passed; production_wiring_pending",
+  "visual_evidence": {
+    "reference": "Dungeon Hunter 2 v1.0.3 Part 1, downloaded video documented by reports/reference-video.json; recovered source/assets are v1.0.2",
+    "frames": [
+      {
+        "timestamps_seconds": [274.7, 274.8, 274.9, 275.0, 275.1, 275.2],
+        "files": ".local-inputs/fidelity-video-v18/immersion/at-274.700.png through at-275.200.png",
+        "observation": "The player is fighting a Bog Moth. Consecutive frames show different sword poses and visible MISS/damage text. This establishes changing attack presentation and that a miss can occur during the sequence; it does not prove continuous held input or a specific source combo row."
+      },
+      {
+        "timestamps_seconds": [281.995, 282.495, 283.278, 283.995, 284.495, 284.995, 285.495, 285.995, 286.328, 286.995, 287.495, 287.995],
+        "files": ".local-inputs/referenceframes/dh2-act1/target-combo-v1/at-*.png",
+        "observation": "Bogwomp combat shows repeated pose changes, MISS and numeric hit text. A target ring appears on one living enemy, then transfers after the first enemy appears down around 285.495. The frames do not show input events, exact hit callbacks, or target identity values."
+      }
+    ],
+    "inference": "A source-selected repeated attack/combo should preserve ordered authored attack groups and their original timing while allowing misses. The footage alone cannot distinguish repeated controller delivery from other animation/state events."
+  },
+  "logic_evidence": {
+    "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "caller_and_gates": [
+      "v2Controller::Cmd_Attack 0x405b04 blocks non-forced requests when global s_blocked or locked byte+8 is set, then dispatches controllable virtual+0x38.",
+      "Character::Ctrl_Attack 0x3ad87c obtains CharAI and calls AI_DoMeleeAttack 0x3d01ac with mode=false.",
+      "AI_DoMeleeAttack first checks IsDead, owner+0x528 bit0, and CanRangeAttack. While state5 is active, attack_last+0x79 rejects delivery when nonzero; otherwise it writes one continued boolean at+0x78. This module accepts the upstream-delivered bit and does not reproduce those gates or queue hit counts."
+    ],
+    "animation_selection": [
+      "CSAttack::OnFocus 0x3c404c selects CharAnimTable field+4 (`Attack`) only when previous state is4 (Move), otherwise field+8 (`AttackStatic`).",
+      "The same routine checks AnimStancedAnim.SL__LIST_IPHONE bit0x40 for moving Attack or bit0x80 for AttackStatic. When set, GetAnimStance 0x3a53e0 is added to the selected sequence ID before CharAnimator::ANIM_Set; attack speed is then loaded and applied.",
+      "GetAnimStance priority is staff3, bow4, dual2, two-handed1, ordinary one-hand0, no-main-hand5, clamped by original COUNT_IPHONE. RuntimePlayerLocomotionV1 already resolves current ItemTable rows through dh2_equipment_queries_v1 and dh2_character_anim_stance.",
+      "The new planner builds the exact selected root graph from AnimationTables and its dictionary. It copies authored step IDs/paths, rates, blendOut, MoveGO, redirect type/loop policies, and actual clip URIs; existing OriginalAttackSequence consumes clip marker banks. It marks graphs containing Type2 policy as requiring caller-owned original RNG start selection; it does not draw random steps or create hit results."
+    ],
+    "combo_sequence_owner": "features/combo_chain/source_combo_chain.cpp: controller_command/command and select_start; CombatSession sourceCombo uses one retained source action and its actual animation/combo boundary callbacks. Type1 advances ordered authored groups; Type2 start choice uses the caller's existing AnimationRandom."
+  },
+  "expected_behavior": "A caller that has passed original controller admission supplies the delivered request bit plus same-frame source equipment/stance and predecessor state. The planner selects the original moving/static state root using the authored 0x40/0x80 gates, then delegates sequence progression and Type2 RNG to existing source owners. Ordered groups remain one action; clip markers, rates, MoveGO and loop metadata are source-derived. CombatSession target_id/selectedactor are authoritative; HUD ring projection/visibility is separately observable and is not changed here.",
+  "uncertainties": [
+    "Reference video is v1.0.3 while local reconstructed AnimTable/clip/source metadata is v1.0.2; no v1.0.3 source table was available for direct matching.",
+    "The sampled frames do not establish whether the player held attack continuously or identify the exact equipped weapon/stance during each swing.",
+    "The existing production main/controller path does not yet consume this new feature request or install its stance-specific Attack visual bank. The focused session case can verify source-combo behavior for the ordinary Knight profile; wiring other stance banks requires the root/lead production owner.",
+    "Type2 root selection remains a caller-owned source AnimationRandom operation; the planner does not preselect a step. Attack outcomes, collision, target search and positive damage are not synthesized."
+  ],
+  "focused_verification_plan": [
+    "Load original ItemTable, script constants, CharAnimTable and AnimDict; resolve Longsword, Longsword+Dagger, Staff, and a bow-category source ItemTable row through the existing source resolver.",
+    "For each actual stance0/2/3/4, verify moving/static base IDs, mask-gated sequence IDs, phase paths, rates, blendOut, MoveGO and source marker scheduling against the authored source data; retain Type2 policy without consuming planner RNG.",
+    "Use the stance-zero request selection in one actual CombatSession; deliver repeated requests only through the planner's unchanged input bit and assert ordered root groups0/1/2 in one action generation.",
+    "Select a target whose ActorState target_id/selectedactor remain valid but whose point projects outside the HUD viewport; assert gameplay selection separately from projection visibility."
+  ],
+  "verification": {
+    "runner": "features/combat/run_runtime_player_combo_chain_v1_tests.ps1",
+    "language_mode": "strict C++17, -Wall -Wextra -Werror",
+    "asset_root": ".local-inputs/windows-source-clock-v19-preview-9/assets",
+    "archive_use": "Focused runner linked a private snapshot copied from the shared foundation archives after before/after SHA-256 equality checks; it did not use or modify the shared build directory during link/run.",
+    "result": "PASS: real ItemTable rows resolved stance0/2/3/4 and static roots243/245/246/247; moving/static masks matched source IDs; ordinary root source paths, rates, blendOut and MoveGO matched the authored combat binding; OriginalAttackSequence scheduled actual clip markers; one CombatSession produced ordered groups0/1/2 in one generation while target_id and selectedactor stayed2 and the target remained outside the camera projection.",
+    "production_runtime_or_visual_capture": "not run; the main/controller production caller is outside this feature-only assignment"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "status": "implemented and isolated original-data tested; cast lifecycle remains incomplete",
+  "api": "PlayableActorWorld::resolve_source_result",
+  "runner": "tools/run_shared_source_result_tests.ps1",
+  "purpose": "Reuse the same source result calculation and random stream for skill/spell requests",
+  "source_logic": {
+    "kernel": "port/game-data/combat_result.cpp::dh2_combat_result",
+    "spell_consumer": "SpellCombatRoll 0x3b92a4 -> F_SpellAttack 0x3b3004 -> F_CalculateResult",
+    "spell_request": "caller mask | 0x1005554A; category -1; actual selected Faery SpellType; direct amount 0",
+    "source_disassembly": ".local-inputs/faery-spell-original-functions.asm"
+  },
+  "verification": {
+    "provider_exact_kernel_payload_and_rng_32_seeds": "PASS",
+    "original_same_world_actor_sheets": "PASS",
+    "native_loot_loan_result_audio_rng_order": "PASS",
+    "shared_presentation_and_pending_resolution_stream": "PASS",
+    "no_melee_range_substitution": "PASS",
+    "no_independent_health_application": "PASS",
+    "rejected_target_preserves_result_and_rng": "PASS",
+    "borrowed_spell_class_sheet_32_seeds_and_permanent_state_unchanged": "PASS"
+  },
+  "remaining": [
+    "Source skill/faery target query and event occurrence admission",
+    "Source spell class formula sheet and its lifetime must be supplied correctly",
+    "Full DOT, leech, fear, stun, knockback and slow lifecycle application",
+    "Actual cast animation/effects and in-game hotkey verification"
+  ],
+  "source_formula_observation": "Original F_CalculateResult 0x3b2638 calls CF_SetCombatants with skill flag mask&0x08000000. F_SpellAttack's exact 0x1005554A mask leaves this clear; its type2 damage therefore reads 79/80, not the Fire class's 174/175. Equal Fire2/base damage in the unarmed fixture is source-consistent. Do not force an extra skill flag.",
+  "visual_evidence_scope": "Internal calculation infrastructure has no direct image; inspect each skill/faery consumer against its original gameplay before accepting a playable cast"
+}

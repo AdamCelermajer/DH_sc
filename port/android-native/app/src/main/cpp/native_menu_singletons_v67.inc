@@ -73,6 +73,7 @@ bool source_worldmap_initialize_v68(NativeMenuPostMovieV62& provider,NativeMenuS
  }
  e="WorldMap.Init lost actual registered resource";return false;
 }
+bool source_singleton_get_v67(NativeMenuPostMovieV62&,MenuSingletonKindV67,NativeMenuSingletonV67*&,std::string&);
 bool source_singleton_init_v67(NativeMenuPostMovieV62& provider,NativeMenuSingletonV67& owner,std::string& e){
  auto& directory=*provider.directory;
  if(!directory.register_base(owner.fields,owner.state,owner.projection,e))return false;
@@ -80,11 +81,19 @@ bool source_singleton_init_v67(NativeMenuPostMovieV62& provider,NativeMenuSingle
   if(owner.fields.render&&!directory.find_base(owner.fields,owner.state,"text",owner.cached[0],e))return false;
  }else if(owner.kind==MenuSingletonKindV67::select_class){
   if(owner.fields.render){
+   // Bind the original title/description roles to the actual EditText children
+   // in the supplied Android movies, including the title's PlaceObject3 child.
    if(!directory.find_base(owner.fields,owner.state,"class_title.text",owner.cached[2],e)||
-      !directory.find_base(owner.fields,owner.state,"s_description.text",owner.cached[3],e))return false;
+      !directory.find_base(owner.fields,owner.state,"class_description.text",owner.cached[3],e))return false;
    std::int32_t id{};std::shared_ptr<dh2::android_ui::SourceProcessArraysV101> arrays;
    if(!original_ui.process_arrays_borrow_v101(arrays,e)||!arrays||!arrays->get_member_id("CharacterTable","KnightPlayerBase",id,e))return false;owner.select164=id;
   }
+ }else if(owner.kind==MenuSingletonKindV67::inventory){
+  //452e00 always initializes the retained details singleton after registering
+  //main, including the first primary1 load after process C1 and later reloads.
+  NativeMenuSingletonV67* details{};
+  if(!source_singleton_get_v67(provider,MenuSingletonKindV67::inventory_details,details,e)||
+     !source_singleton_init_v67(provider,*details,e))return false;
  }else if(owner.kind==MenuSingletonKindV67::world_map&&owner.fields.render){
   if(!source_worldmap_initialize_v68(provider,owner,e))return false;
  }
@@ -98,10 +107,6 @@ bool source_singleton_get_v67(NativeMenuPostMovieV62& provider,MenuSingletonKind
  if(!provider.directory->debug_load(e)||!provider.directory->debug_switch("isTracingMenuBase",ignored,e)){out->failure=e;return false;}
  source_menu_process_v62->source_fs_commands().source_menu_base_c2_registration();
  if(!source_singleton_init_v67(provider,*out,e)){out->failure=e;return false;}
- if(kind==MenuSingletonKindV67::inventory){
-  NativeMenuSingletonV67* details{};if(!source_singleton_get_v67(provider,MenuSingletonKindV67::inventory_details,details,e)||
-     !source_singleton_init_v67(provider,*details,e)){out->failure=e;return false;}
- }
  out->constructed=true;e.clear();return true;
 }
 }
@@ -118,17 +123,29 @@ bool model_renderer::native_derived_menu_update_v67(std::uintptr_t id,std::strin
  auto provider=source_postmovie_v62.lock();NativeMenuSingletonV67* owner{};
  for(auto& q:source_singleton_v67)if(q&&q->fields.identity==id){owner=q.get();break;}
  if(!provider||!owner||!owner->constructed){e="Required actual derived menu Update owner";return false;}
- //Do not turn a derived virtual override into MenuBase.Update. Only the
- //selected captured literal/base implementations can use this transport.
- if(owner->kind==MenuSingletonKindV67::main||owner->kind==MenuSingletonKindV67::select_class){
-  e="Required original selected derived menu Update for "+owner->fields.name;return false;
- }
+ //MenuCharacterSelect::Update is split across the exact source owners:
+ //FrontUiSession publishes the changed index's class text/CurrentClass and
+ //arrow visibility once, while the slot-2 virtual advances the same model
+ //transition every frame. Do not route this through the standalone front
+ //menu_stack, which is intentionally empty in process MenuManager mode.
  if(owner->kind==MenuSingletonKindV67::merchant)owner->merchant_c4=0;
  for(std::uint32_t slot=0;slot<4;++slot){dh2::ui::MenuMovieBorrowV58 q;if(!provider->directory->movie_slot(slot,q,e))return false;
   if(q.identity!=owner->fields.render)continue;dh2::ui::SwfMovie* movie{};std::shared_ptr<void> lease;
   if(!provider->directory->movie(slot,q,movie,lease,e))return false;
-  return movie->menu_action_script(owner,[](void* raw,dh2::ui::SwfAsGraph& graph,std::string& e){auto& q=*static_cast<NativeMenuSingletonV67*>(raw);
+  struct Update {NativeMenuPostMovieV62& provider;NativeMenuSingletonV67& owner;};
+  Update update{*provider,*owner};
+  return movie->menu_action_script(&update,[](void* raw,dh2::ui::SwfAsGraph& graph,std::string& e){auto& update=*static_cast<Update*>(raw);auto& q=update.owner;
    if(!q.state.weak_character_v59.update(graph,q.fields,e))return false;
+   // Original MenuMainMenu::Update first calls MenuBase::IsValidMenu at
+   // vtable+0x3c, exactly the registered valid7c byte, then updates its static
+   // preview CharAnimator and calls CSceneManager::update(0,false).
+   if(q.kind==MenuSingletonKindV67::main){
+    if(!q.fields.valid7c){e.clear();return true;}
+    auto app=update.provider.directory->application.lock();if(!app){e="Retired actual Application for MenuMainMenu.Update";return false;}
+    return model_renderer::native_menu_preview_update_main_v121(app,e);
+   }
+   if(q.kind==MenuSingletonKindV67::select_class)
+    return front_ui.process_class_select_update_v87(q.fields.render,e);
    if(q.kind!=MenuSingletonKindV67::lobby)return true;
    dh2::ui::SwfAsValue value;bool live{};if(!q.state.weak_character_v59.borrow(graph,value,live,e))return false;if(!live)return true;
    gameswf::as_object* actual{};if(!graph.borrow_object(value,actual,e)||!actual||!actual->is(gameswf::character::m_class_id)){if(e.empty())e="Lobby.Update requires actual source character";return false;}
@@ -143,29 +160,31 @@ bool model_renderer::native_derived_menu_update_v67(std::uintptr_t id,std::strin
 bool model_renderer::source_native_loadmenu3_singletons_v67(std::shared_ptr<void> world,std::string& e){
  auto provider=source_postmovie_v62.lock();NativeCharacterMenuV4* native{};
  if(!provider||!provider->directory->resolve(native,e)||native->leases->world!=world)return false;
+ bool debug_initialized{};
  auto singleton=[&](MenuSingletonKindV67 kind){NativeMenuSingletonV67* owner{};if(!source_singleton_get_v67(*provider,kind,owner,e))return false;
   //Source tests its weak context and reruns Init only for NULL/expired. Since
   //UnloadMenu clears render and retires the old movie, that reached branch
   //uses the actual new resource; no constructor fields are replayed.
-  if(!owner->fields.render)return source_singleton_init_v67(*provider,*owner,e);
+  auto initialize=[&](){if(!source_singleton_init_v67(*provider,*owner,e))return false;if(kind==MenuSingletonKindV67::debug)debug_initialized=true;return true;};
+  if(!owner->fields.render)return initialize();
   for(std::uint32_t slot=0;slot<4;++slot){dh2::ui::MenuMovieBorrowV58 q;if(!provider->directory->movie_slot(slot,q,e))return false;
    if(q.identity!=owner->fields.render)continue;dh2::ui::SwfMovie* movie{};std::shared_ptr<void> lease;if(!provider->directory->movie(slot,q,movie,lease,e))return false;
    struct Weak {NativeMenuSingletonV67& owner;bool live{};static bool run(void* raw,dh2::ui::SwfAsGraph& graph,std::string& e){auto& q=*static_cast<Weak*>(raw);dh2::ui::SwfAsValue value;return q.owner.state.weak_character_v59.borrow(graph,value,q.live,e);}} weak{*owner};
    if(!movie->menu_action_script(&weak,Weak::run,e))return false;
-   return weak.live||source_singleton_init_v67(*provider,*owner,e);
+   return weak.live||initialize();
   }
   e="LoadMenu singleton weak test lost SAME registered movie";return false;
  };
  if(!singleton(MenuSingletonKindV67::debug))return false;
- //4323c4 calls DebugCachedCharacter.GetChar and hides that actual text only
- //when nonNULL; it does not hide the menu root or create a missing text clip.
- if(auto* owner=source_singleton_v67[static_cast<unsigned>(MenuSingletonKindV67::debug)].get();owner&&owner->fields.render){
+ //4323c4..4323e0 runs only after the missing/expired weak-context Init
+ //branch and hides MenuFX.State.GetCharacter, the registered debug root.
+ if(auto* owner=source_singleton_v67[static_cast<unsigned>(MenuSingletonKindV67::debug)].get();debug_initialized&&owner&&owner->fields.render){
   for(std::uint32_t slot=0;slot<4;++slot){dh2::ui::MenuMovieBorrowV58 q;if(!provider->directory->movie_slot(slot,q,e))return false;
    if(q.identity!=owner->fields.render)continue;dh2::ui::SwfMovie* movie{};std::shared_ptr<void> lease;if(!provider->directory->movie(slot,q,movie,lease,e))return false;
    if(!movie->menu_action_script(owner,[](void* raw,dh2::ui::SwfAsGraph& graph,std::string& e){auto& owner=*static_cast<NativeMenuSingletonV67*>(raw);dh2::ui::SwfAsValue value;bool live{};
-    if(!owner.cached[0].source_get_char_v68(graph,value,live,e))return false;if(!live)return true;gameswf::as_object* actual{};
-    if(!graph.borrow_object(value,actual,e)||!actual||!actual->is(gameswf::character::m_class_id)){if(e.empty())e="Required actual MenuDebug text cache character";return false;}
-    static_cast<gameswf::character*>(actual)->set_visible(false);return true;},e))return false;
+    if(!owner.state.weak_character_v59.borrow(graph,value,live,e))return false;if(!live)return true;gameswf::as_object* actual{};
+    if(!graph.borrow_object(value,actual,e)||!actual||!actual->is(gameswf::character::m_class_id)){if(e.empty())e="Required actual MenuDebug root character";return false;}
+    static_cast<gameswf::character*>(actual)->set_visible(false);owner.projection.visible=0;return true;},e))return false;
    break;
   }
  }

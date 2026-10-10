@@ -1,0 +1,24 @@
+FILE .local-inputs/windows-shared-assets/original-cache/data/3d/characters/npcs/priest_good.bdae
+INSTANCE _mesh_Bad_Priest_skinned_batch-node controller=0 materials=2,
+PRIMITIVE 0 symbol=diffuse bound=diffuse:atlas_skinned_characters_animdecor_gameobjects_002.tga
+SEM 0 attr=0 type=6 components=3 range=-148.707..148.707,-44.4745..70.4815,0..344.304,
+SEM 1 attr=1 type=6 components=3 range=-0.996339..0.996556,-0.99972..0.996962,-0.915986..0.993784,
+SEM 2 attr=2 type=1 components=4 range=255..255,255..255,255..255,255..255,
+SEM 4 attr=3 type=6 components=2 range=0.125977..0.375,0.500238..0.625,
+FILE .local-inputs/windows-shared-assets/original-cache/data/3d/characters/npcs/prisoner.bdae
+INSTANCE _mesh_prisoner_skinned_batch-node controller=0 materials=3,2,
+PRIMITIVE 0 symbol=diffuse bound=diffuse:atlas_skinned_characters_animdecor_gameobjects_001.tga
+SEM 0 attr=0 type=6 components=3 range=-122.364..122.364,-29.6425..71.9544,1.52126..349.095,
+SEM 1 attr=1 type=6 components=3 range=-1..0.999587,-1..1,-0.997795..1,
+SEM 2 attr=2 type=1 components=4 range=254..255,254..255,254..255,255..255,
+SEM 4 attr=3 type=6 components=2 range=0.125756..0.249233,0.001137..0.124482,
+PRIMITIVE 1 symbol=alpha bound=alpha:atlas_skinned_characters_animdecor_gameobjects_001.tga
+SEM 0 attr=0 type=6 components=3 range=-122.364..122.364,-29.6425..71.9544,1.52126..349.095,
+SEM 1 attr=1 type=6 components=3 range=-1..0.999587,-1..1,-0.997795..1,
+SEM 2 attr=2 type=1 components=4 range=254..255,254..255,254..255,255..255,
+SEM 4 attr=3 type=6 components=2 range=0.125756..0.249233,0.001137..0.124482,
+INSTANCE _colbox_npc-node controller=-1 materials=0,
+PRIMITIVE 0 symbol=ColorMaterial bound=ColorMaterial_00581BB1:
+SEM 0 attr=0 type=6 components=3 range=-40..40,-40..40,0..350,
+SEM 1 attr=1 type=6 components=3 range=-1..1,-1..1,-1..1,
+SEM 4 attr=2 type=6 components=2 range=0..1,0..1,

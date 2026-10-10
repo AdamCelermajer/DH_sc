@@ -1,0 +1,24 @@
+{
+  "status": "packaged_companion_idle_and_persistence_verified",
+  "goal_complete": false,
+  "executable_sha256": "ac8bdb552a8c33ab9e08cabd0f7e40662eaad52b9a6083e0bd048e1533a37250",
+  "frames": 120,
+  "companions": [
+    {
+      "actor": "2423516001965560686",
+      "profile": "WanderingPriest",
+      "clip": "actor-2423516001965560686/Idle/sequence-0/phase-0",
+      "post_restore_ms": 320
+    },
+    {
+      "actor": "8020098419542757848",
+      "profile": "DefaultFairy",
+      "clip": "actor-8020098419542757848/Idle/sequence-0/phase-0",
+      "post_restore_ms": 320
+    }
+  ],
+  "limits": [
+    "Following, companion combat, faery abilities and intro cinematic placement remain incomplete.",
+    "Matched-reference fidelity remains unverified."
+  ]
+}

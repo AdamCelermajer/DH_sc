@@ -21,8 +21,10 @@ int PlayerInjuryRuntimeV7::is_player(void* p,std::uintptr_t id,bool* out){
 }
 int PlayerInjuryRuntimeV7::animation_table(void* p,std::uintptr_t,int* out){
  auto& self=*static_cast<PlayerInjuryRuntimeV7*>(p);if(!out)return -1;
- const auto raw=self.borrow_.properties->resolved[2];
- *out=raw>=0&&std::size_t(raw)<self.borrow_.animations->characters.size()?raw:17;return 0;
+ // SM_SetInjureState calls GetCharAnimTableId and does nothing when that
+ // returned row is outside Arrays::CharAnimTable. Do not turn a missing or
+ // malformed selected-character row into an unrelated row 17.
+ *out=self.borrow_.properties->resolved[2];return 0;
 }
 int PlayerInjuryRuntimeV7::injure_animation(void* p,int table,bool* found,int* out){
  auto& self=*static_cast<PlayerInjuryRuntimeV7*>(p);if(!found||!out)return -1;

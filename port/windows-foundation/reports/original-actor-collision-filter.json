@@ -1,0 +1,38 @@
+{
+  "status": "PASS source-grounded native collision receiver tests; usable without a fabricated AIS/Lua filter",
+  "files": ["original_actor_collision_filter.hpp", "original_actor_collision_filter.cpp", "tests/original_actor_collision_filter_tests.cpp"],
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "decisive_evidence": {
+    "POCharacter_onCollisionTest": "0x46fb4c, reference/character-world-npc-collision-v1/original-functions.asm: ObjectHandle converts own GameObject to Character; reads SAME FSM SM_IsInLimbus and SM_IsKnockedBack; peer category&3 branch; calls PhysicalObject::onCollisionTest",
+    "limbus": "SM_IsInLimbus0x3c01c0 reads current state; true only state0",
+    "knockback": "SM_IsKnockedBack0x3c03a4 compares current state to10",
+    "base_receiver": "PhysicalObject::onCollisionTest0x46e6bc, .local-inputs/navigation-collision-filter/reference/original-functions.asm: owner+80 then peer+80 enabled gates; signed equal nonzero group precedence; reciprocal category/mask tests",
+    "pair_dispatch": "PhysicalWorld::ShouldCollide0x34c304, physical_world.cpp: BOTH owned receiver tests execute even if first denies",
+    "existing_player_and_NPC": "CharacterWorldPhysicalCharacterV1::filter, CharacterWorldNpcCollisionV1::permits_filter and CharacterWorldCollisionV68::permits_filter all independently implement same source FSM/category prefix"
+  },
+  "filter_policy": {
+    "POCharacter_prefix": "Actual own Character handle absent: pass prefix. Present: state0 denies all; state10 denies if(peerCategory&3)==0; every other current state passes prefix",
+    "owner_gate": "Only after prefix, actual ObjectBase+80 enabled bytes must be nonzero for own/peer GameObject owners. Null peer GameObject owner skips peer enabled query",
+    "groups": "Equal nonzero signed group: positive permits, negative rejects before masks",
+    "masks": "Otherwise both peerCategory&ownMask and peerMask&ownCategory must be nonzero",
+    "not_filter_inputs": "Player/class/faction inequality, HP/alive, global command blocked/local locked/forced, AITable script name and Lua AIS collision callbacks do not appear in this proved receiver body"
+  },
+  "AIS_script_boundary": "The requested AIS_FILTER_COLLISION/Lua filter is not called by the actual proved POCharacter collision-test body. Script AISDefault OnCollisionBegin/Persist/End and CharAI37..3e notifications are contact/event continuations, not pair admission. No monster/player script constant was guessed. Those contact/VM continuations remain separate required owners when reached.",
+  "API": {
+    "bind": "bind(actorID,physical_object|po_character,OriginalCollisionOwnerServices,error) BEFORE native shape allocation/SetMass callbacks",
+    "services": "Independent fresh character_handle conversion, same-owner original_state getter, actual enabled80 byte getter; missing required services deliver failure rather than successful true",
+    "prefix": "permits_category(ownerID,peerCategory,allowed,error)",
+    "receiver": "test_one(ownerID,peerOwnerID,ownFilter,peerFilter,allowed,error)",
+    "pair": "test_pair(firstOwner,secondOwner,filters,allowed,error) preserves both-receiver source ordering"
+  },
+  "native_tests": ["Exact original player category4/mask0xd7f and monster category16/mask0xd3f case", "state0 rejection before enabled callbacks", "state10 categories1/2/3 accepted and4/16 rejected", "other original states-1/1/3/4/5/6/7/12/17/19 preserve source prefix", "raw enabled bytes255/128 are nonzero", "disabled own before peer enabled query", "disabled peer", "positive and negative signed groups override masks", "zero native shape mask", "both owned receiver calls after first denial", "missing FSM/unbound owner services preserve output and report failure", "actual non-Character handle skips unavailable FSM"],
+  "root_main_binding": [
+    "Register current player/population native receiver ownership before creating shapes/mass/pin. Native callbacks may run before bodies are fully published",
+    "Use fresh Session.original_actor_state actor projection and actual source lifecycle enabled byte; validate actor existence instead of substituting a missing getter value",
+    "Resolve peer logical owner through OriginalActorPhysical.actor_identity even during allocation; no different-class/faction heuristic",
+    "If existing body adapter already applies base enabled/group/masks, bind permits_category as source prefix; otherwise test_one provides complete proved receiver policy",
+    "NativeWorld already calls both receiver tests. Do not nest test_pair inside each receiver callback, which would duplicate source calls",
+    "Do not return unconditional true when source state/owner fields are unavailable; propagate precise failure. Full collision event/contact VM services are still separate"
+  ],
+  "scope_limit": "Component uses source-grounded leaf arithmetic and required fresh field getters. It does not instantiate an original VM/session, Box2D body, contact notification lifecycle, or fabricate enabled/state values. No main/CMake/session changes retained for this task."
+}

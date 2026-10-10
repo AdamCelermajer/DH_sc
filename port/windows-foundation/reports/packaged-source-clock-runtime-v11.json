@@ -1,0 +1,223 @@
+{
+  "status": "diagnostic_packaged_runtime_verified_fidelity_incomplete",
+  "goal_complete": false,
+  "executable_sha256": "1ba769dab3a64ba422d191bac1782f45825f4f2bc93286a878432140813950e5",
+  "package_files_verified": 549,
+  "retained_source_clock": true,
+  "retained_player_locomotion": true,
+  "source_spawn_command_replay": true,
+  "source_run_camera_initial_input_lock": true,
+  "shared_controller_attack_admission": true,
+  "original_named_animation_routing": true,
+  "source_player_body_radius": true,
+  "native_actor_bodies_before_initfinal": true,
+  "live_root_constructor_scopes": true,
+  "baseline_executable_preserved": true,
+  "runtime_checks": [
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/verification.log",
+      "required_observations": [
+        "Damage frame=13 attacker=7118915781085668844",
+        "Damage frame=76 attacker=18446744073709551615",
+        "Damage frame=192 attacker=18446744073709551615",
+        "removed=14.0039 dead=1",
+        "Saved live checkpoint frame=210 HP=157.457 RNG=2808983/38",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Rendered frames=360; clean shutdown",
+        "938.285,255 grounded=1",
+        "Source animation frame=13 actor=7118915781085668844 event=40 service=3 name=attack_mainhand lag=11",
+        "Source animation frame=71 actor=7118915781085668844 event=34 service=0",
+        "Source animation frame=71 actor=7118915781085668844 event=34 service=7",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/resume-verification.log",
+      "required_observations": [
+        "Restored live checkpoint frame=0 HP=157.457 RNG=2808983/38",
+        "Rendered frames=30; clean shutdown",
+        "HP=0/47.5 target=0 action=5",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/startup-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=1272.13,-199.164,255 grounded=1",
+        "HP=165.098/165.098 target=0 action=0",
+        "Actor camera anchor final=1453.15,-18.1449,255",
+        "sourceXY=276.028 worldXY=193.002",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/moving-verification.log",
+      "required_observations": [
+        "Rendered frames=360; clean shutdown",
+        "Content unloaded and reloaded at frame=250",
+        "Restored live checkpoint frame=300 HP=157.457 RNG=2808983/38",
+        "Damage frame=78 attacker=18446744073709551615",
+        "Damage frame=204 attacker=18446744073709551615",
+        "sourceXY=519.174 worldXY=467.256",
+        "sourceXY=425.828 worldXY=383.244",
+        "Retained source animation clock actor=18446744073709551615",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/spawn-inflight-verification.log",
+      "required_observations": [
+        "Source command frame=33 script=LizardMan_Intro index=4 kind=30",
+        "Rendered frames=95; clean shutdown",
+        "name=_prim_Monster_LizManIntro1 state=1 enabled=1 physical=0 collisions=1",
+        "name=_prim_Monster_LizManIntro2 state=17 enabled=0 physical=0 collisions=0",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/spawn-verification.log",
+      "required_observations": [
+        "Source command frame=33 script=LizardMan_Intro index=4 kind=30",
+        "Source command frame=128 script=LizardMan_Intro index=6 kind=30",
+        "Lifecycle whole sequence finished actor=11259224883678223927 state=3",
+        "Lifecycle whole sequence finished actor=4660011647479645029 state=3",
+        "Damage frame=131 attacker=11259224883678223927",
+        "Damage frame=296 attacker=18446744073709551615",
+        "removed=14.0039 dead=1",
+        "Population final enabled=15 deferredInitially=7 loaded=20",
+        "Rendered frames=400; clean shutdown",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/controller-active-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Source animation frame=43 actor=7118915781085668844 event=40 service=3 name=attack_mainhand lag=2 controllerBlocked=1",
+        "Source animation frame=43 actor=7118915781085668844 event=40 service=0 name=attack_mainhand lag=2 controllerBlocked=1",
+        "Damage frame=43 attacker=7118915781085668844",
+        "Source command frame=20 script=LizardMan_Intro index=1 kind=24",
+        "Source command frame=60 script=LizardMan_Intro index=8 kind=25",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/controller-independent-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=-3500,250,255 grounded=1",
+        "Source command frame=0 script=LizardMan_Intro index=1 kind=24",
+        "Source command frame=60 script=LizardMan_Intro index=8 kind=25",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/controller-combat-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Damage frame=73 attacker=7118915781085668844",
+        "Actor final position=-6752.64,938.285,255 grounded=1",
+        "HP=157.457/165.098 target=0",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/run-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=1576.17,-199.58,255 grounded=1",
+        "sourceXY=888.992 worldXY=509.59",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/spawn-camera-transition-verification.log",
+      "required_observations": [
+        "Rendered frames=32; clean shutdown",
+        "target=10098129968780931155 remaining=488",
+        "anchor=-3634.73,283.167,255.367 damping=0",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/spawn-camera-verification.log",
+      "required_observations": [
+        "Rendered frames=400; clean shutdown",
+        "target=18446744073709551615 remaining=-8",
+        "anchor=-3500,250,255 damping=1",
+        "Damage frame=296 attacker=18446744073709551615",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/controller-lock-verification.log",
+      "required_observations": [
+        "Rendered frames=90; clean shutdown",
+        "Actor final position=-3500,250,255 grounded=1",
+        "Source command frame=0 script=LizardMan_Intro index=1 kind=24",
+        "Source command frame=60 script=LizardMan_Intro index=8 kind=25",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/source-floor-verification.log",
+      "required_observations": [
+        "Source floor diagnostic rooms=9 floors=16; explicit geometry admission",
+        "Source floor final actor=18446744073709551615 hit=1 height=255",
+        "Rendered frames=90; clean shutdown",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    },
+    {
+      "log": ".local-inputs/windows-source-clock-checkpoint-v11/spawn-scoped-verification.log",
+      "required_observations": [
+        "Serialized command replay context=1;",
+        "Lifecycle whole sequence finished actor=11259224883678223927 state=3",
+        "Lifecycle whole sequence finished actor=4660011647479645029 state=3",
+        "Damage frame=131 attacker=11259224883678223927",
+        "Damage frame=296 attacker=18446744073709551615",
+        "Rendered frames=400; clean shutdown",
+        "Source root constructor scopes modules=9; full Level initialization remains incomplete",
+        "Source movement body radius=113.7 from original joint bounds/body definition",
+        "Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=0"
+      ]
+    }
+  ],
+  "limits": [
+    "Explicit diagnostic stationary AI; original encounter activation remains unverified",
+    "Lifecycle replay uses explicitly scheduled serialized Spawn commands in global context-1; full original trigger/module/cutscene/UI flow and campaign persistence remain incomplete",
+    "Player locomotion shares source pose ownership; original controller/attack heading command gates and outer combo chaining remain incomplete",
+    "Navigation/body/visibility/target-selection policies and continuous reference fidelity remain incomplete",
+    "Companion behavior, status/DOT/leech, full UI/effects/audio/campaign remain incomplete"
+  ]
+}

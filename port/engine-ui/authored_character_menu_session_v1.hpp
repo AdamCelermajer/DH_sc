@@ -31,4 +31,8 @@ bool authored_character_register_state_v1(SwfAsGraph&,AuthoredCharacterStateV1&,
 // invoke_as. Other application/stack/debug operations remain required callers.
 bool authored_character_movie_operation_v1(SwfAsGraph&,AuthoredCharacterStateV1&,
  const AuthoredMenuRequestV1&,const AuthoredMenuLocalizationServicesV1&,std::string&);
+// MenuBase.Show425640..425684 refreshes option_Custom in the SAME weak menu
+// context, then queries actual Application.IsLevelRunning before visibility.
+bool authored_character_option_custom_level_running_v1(SwfAsGraph&,AuthoredCharacterStateV1&,
+ const char*,const std::function<bool(bool&,std::string&)>& actual_level_running,std::string&);
 }

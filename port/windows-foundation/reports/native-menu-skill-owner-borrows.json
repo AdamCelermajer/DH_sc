@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-09",
+  "status": "source_owner_borrow_interfaces_compiled_live_publication_incomplete",
+  "goal_complete": false,
+  "interfaces": [
+    {
+      "name": "PlayerEquipmentRenderOwnerV1::item_text_owner_v1",
+      "source": "port/level-world/player_equipment_render_owner_v1.cpp",
+      "purpose": "Inventory descriptors borrow the identical ItemTextOwnerV5 used by native equipment and item producers.",
+      "gate": "Null until Gear prepare_restore_v60 succeeds; does not establish completed Character or Gear readiness.",
+      "lifetime": "Borrows Gear and its original retained service/cache owners; reacquire after graph replacement."
+    },
+    {
+      "name": "CharacterPlayerSkillsV6::native_skill_owner",
+      "source": "port/level-world/character_player_skills_v6.cpp",
+      "purpose": "Native skill Lua/session adapters borrow the existing CharacterSkillOwnerV6 associated with this player's private Session.",
+      "gate": "Constructed owner loan only; existing ready/init guards remain authoritative for gameplay operations.",
+      "lifetime": "Borrows the existing player graph; creates no duplicate Skill/Spell owner, instances, FSM or VM."
+    }
+  ],
+  "verification": {
+    "compiler": ".local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe",
+    "scope": "Windows C++17 syntax compilation",
+    "passed_units": [
+      "port/level-world/player_equipment_render_owner_v1.cpp",
+      "port/level-world/character_player_skills_v6.cpp",
+      "port/windows-foundation/features/skills_animation/native_skill_lua_services.cpp"
+    ],
+    "live_runtime": "not_verified"
+  },
+  "next_dependencies": [
+    "Publish completed canonical player and native inventory/gear graph before full menu acceptance.",
+    "Borrow actual SkillAIContextV3 and SkillStateV4 from retained CampaignFsmV101 without creating replacement states.",
+    "Bind real Lua/FSM/mana/target/effect providers through the existing skill owner and same Session animation path."
+  ],
+  "accepted_release_preserved": ".local-inputs/windows-source-clock-checkpoint-v18"
+}

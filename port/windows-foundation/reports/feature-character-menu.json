@@ -1,0 +1,55 @@
+{
+  "feature": "portrait opens character menu: stats/equipment/skills/faery",
+  "status": "Native character-menu, shared-text, and root executable targets compile; component tests pass. Source-selected Stats/Inventory/Skills/Faery tab icons, Faery hit route, zero-point disabled training art, and class+level numeric OID formatting are implemented; live source-row class authority, Faery provider composition, and original screenshot comparison remain root integration work.",
+  "files": "features/character_menu/character_menu.hpp/.cpp, menu_stats.hpp/.cpp, menu_text.hpp/.cpp, original_art.cpp, export_art.py, source_layout.json, character_menu_tests.cpp, menu_text_tests.cpp",
+  "original_source": {
+    "movie": "port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+    "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+    "atlas": "MenusGraphics_droid.tga bitmap1, SAME original HUD atlas1024",
+    "stage": [
+      480,
+      320
+    ],
+    "screens": "menu_CharacterMenu267, menu_CharacterSheetNew328, menu_InventorySheetMain439, menu_SkillTreeSheetNew496 actual first-frame placement matrices",
+    "tabs": "Actual source menu Init actions58083..58299 set TabIcon262 to named framesCharacterSheet,Inventory,Skills,Faery,LogMap,Map; selected Stats/Inventory/Skills/Faery button samples sprite265 at frame32 where its TabIcon reaches source alpha1; other buttons remain idle alpha0. Original btnFaeriesTab hit contour routes Tab::faery; separate faery provider owns page art/content.",
+    "hit_regions": "Original invisible hit shape263 contour through hitzone264, button265, tab parent266 and menu267 transforms. Close uses original btnBack223 btimg222 visible contour.",
+    "stats": "Actual default CharacterSheetNew328 plus CharacterSheetStats386. NativeGetPlayerStats fixed-point values; main/off combat-bonus kernel; exact source visibility for dual/two-handed and element type. Sprite316 samples source deactivated frame10 when resolved Stat_Points property148 is zero, retaining shape311 white plus and adding exact brown overlay shape315.",
+    "source_full_ui_available": "engine-ui/authored_character_panel_v2 remains the full source GameSWF/AS/stack provider; current foundation presenter does not claim that source graph",
+    "top_header_fields": "Exported source edit-text fields: player_name, player_class, HpTextBox, MpTextBox, ExpTextBox. There is no separate player-level edit-text field. NativeGetPlayerStats sets Class from Character::GetClassName and Level from property19. GetClassName reads StringManager OID from CharacterTable row+24; CharProperties::_LoadFromCharTable copies the 896 table bytes from row+4, so row+24 is raw word5 / ClassString. MenuLocalization.character_class_level resolves that exact OID with the existing HudText cache and appends localized GAMEPLAYMENUS_LEVEL plus the same CharacterState level."
+  },
+  "integration": {
+    "sources": [
+      "features/character_menu/character_menu.cpp",
+      "features/character_menu/menu_stats.cpp",
+      "features/character_menu/original_art.cpp",
+      "features/character_menu/menu_text.cpp"
+    ],
+    "portrait": "Root uses original_hud_portrait_bounds with SAME HUD draw scale to call Presenter.open; menu has no duplicate portrait geometry.",
+    "input": "Presenter.release(screenx,screeny,width,height) chooses source tab/close via original contours. Root routes modal clicks before world target/attack/movement; ESC closes. Mouse and primary touch use identical coordinates.",
+    "draw": "Root uses actual FlashCamera mode0 independent viewport axes. Art is rendered through the original HUD atlas; Frame.solids are emitted with OverlayRenderer.drawTriangles after each exact source bitmap-role anchor, then text. Text uses the borrowed same HudTextV1 owner.",
+    "data": "Bindings borrows actual ActorState, OriginalCombatProperties, optional matching CharacterState, localized class label, and content/text providers. Root can set bindings.class_label through MenuLocalization.character_class_level(sourceTables.characters, actual_SG_GetPlayerClass_row, sameCharacter, output, error). The source row index is SG_GetPlayerClass (e.g. base rows 263/290/325); OriginalActorProperties.class_id is resolved property26 (e.g. 77/94/120) and is NOT interchangeable. Faery page art/content is appended by its separate provider through Bindings.content(Tab::faery). Current top values come from live HP/MP and resolved XP/max XP.",
+    "transactional_frame": "Failed borrowed projections preserve previous output; menu state may change only via explicit user open/select/release/close.",
+    "tests": "Compile character_menu_tests.cpp with both component sources; C++17 no platform/thirdparty/UI runtime dependencies. Native clang build and tests PASS.",
+    "build": "Root CMake already links menu_stats.cpp, hud_text_v1.cpp, hud_text_format_v1.cpp, and localization_parse_ex_v1.cpp through recovered_content; text_layout_v1.cpp is included only on the menu_text_tests target."
+  },
+  "explicit_gaps": [
+    "Remaining source AS visibility/tweens/layout reflow, stat-training mutations, dynamic item/skill icon selection, confirmation/popups and map/quest pages remain with their original owners. The Faery page is a separate feature provider composed through Bindings.content(Tab::faery).",
+    "58 reached art branches are excluded with exact path/reason in source_layout.json: unsupported solid visual fills/mask/color/filter branches, not replaced by rectangles or invented artwork.",
+    "Equipment/skill presenters must populate actual data via borrowed callbacks; no fixture rows shown as original inventory.",
+    "Font IDs103/287 are original Fontin SmallCaps device font definitions. Full source text formatter/device-font metrics/kerning and matrix typography remain glyph owner integration; current field bounds/font/height/color/align are source-derived.",
+    "Root must supply exact SG_GetPlayerClass row index from the same live Character authority. Property26 and class formula names identify class family only and cannot distinguish base from specialization rows.",
+    "Viewport/runtime rendered selected heart and disabled button art has source frame/state tests, but live screenshot still needs comparison against original references.",
+    "Original 391/393 comparison of current native Stats386 values, exact solids, localized header and screenshot rendering remains outstanding; component passes do not establish live menu completion."
+  ],
+  "validation": [
+    "Source export uses actual checked SWF tag/RECT/MATRIX/shape edge parser and contour tessellator; source contour UVs preserved, no visual shape-bound rectangles.",
+    "All five Stats/Inventory/Skills/Faery/close authored hit contours choose the same action at960x640,1920x1080,480x900 viewport sizes.",
+    "Stats text fields recover source name/HP/strength placements and display actual actorHP versus deliberately stale propertyHP; source signed fixed integer tests preserve negative sentinels.",
+    "Borrowed inventory mutations appear next frame; failed content callbacks do not publish partial frames; mismatched saved profile rejects; UI leaves actor health/profile name unchanged.",
+    "Native CMake targets character_menu_tests, menu_text_tests, and dh-foundation compile with the configured llvm-mingw toolchain.",
+    "character_menu_tests PASS: same-owner name/class and actual top HP/MP/XP edit-text projections, source stats, source tab-hit contours across landscape/portrait sizes, actor/profile checks, and transactional borrowed content.",
+    "menu_text_tests PASS against .local-inputs/windows-shared-assets: source Title/PointsLeft labels and all source Stats386 labels resolve the exact original symbols, including TWOH -> GAMEPLAYMENUS_SUMMARY_2_HAND; recovered source align_line comparison remains passing."
+    ,"menu_text_tests PASS against the real character_properties and common_text corpus: source CharacterTable rows 263/325/290 have ClassString OIDs 1245199/1245204/1245209 and localize through the same HudText cache to the corresponding original GAMEPLAYMENUS_CLASS_00/01/02 symbols (Warrior/Rogue/Mage). Native class row index is distinct from resolved ClassID property26.",
+    "character_menu_tests PASS for selected top tab icon frame presence, Faery route selection, and four exact frame10 shape315 overlays when source Stat_Points property148 is zero; source art retains the white plus shape311. art_export_tests PASS for actual sprite timeline alpha/deactivated frame records. Exported art SHA-256 is stable across a repeated source regeneration."
+  ]
+}

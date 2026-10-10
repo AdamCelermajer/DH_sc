@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "review_type": "static adapter review plus native Windows original-asset probe",
+  "status": "pass",
+  "scope": "CharacterVisual generic adapter animation binding, defaults, palette, placement, loops, ownership",
+  "runtime_executed": true,
+  "source_sha256": "b71a175ddd26d1a95165e69f136e70998ff60872c60d542ccfd44d3c2442bd98",
+  "verified_clips": [
+    {
+      "clip_id": 1111,
+      "asset": "animations/prince_template_anim.bdae",
+      "exists": true,
+      "bytes": 19908,
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102",
+      "matches_bank": true,
+      "original_start_ms": 0,
+      "original_end_ms": 3599,
+      "original_tracks": 81
+    },
+    {
+      "clip_id": 1040,
+      "asset": "animations/prince_idle_shield.bdae",
+      "exists": true,
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+      "matches_bank": true,
+      "original_start_ms": 0,
+      "original_end_ms": 1066,
+      "original_tracks": 23
+    },
+    {
+      "clip_id": 1114,
+      "asset": "animations/prince_walk_1hand.bdae",
+      "exists": true,
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5",
+      "matches_bank": true,
+      "original_start_ms": 0,
+      "original_end_ms": 800,
+      "original_tracks": 27
+    },
+    {
+      "clip_id": 955,
+      "asset": "animations/prince_1hand_combo_01.bdae",
+      "exists": true,
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+      "matches_bank": true,
+      "original_start_ms": 266,
+      "original_end_ms": 600,
+      "original_tracks": 26
+    },
+    {
+      "clip_id": 1126,
+      "asset": "animations/prince_walk_slow.bdae",
+      "exists": true,
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967",
+      "matches_bank": true,
+      "original_start_ms": 0,
+      "original_end_ms": 1066,
+      "original_tracks": 25
+    }
+  ],
+  "correct_semantics": [
+    "Skin palette multiplies joint world * inverse_bind * bind_shape; adapter uses resulting positions directly without a second instance transform.",
+    "Palette output remains authored scene coordinates; host placement and axis conversion belongs at draw time.",
+    "Player owns copied animation bytes, accessor storage remains alive inside Impl; model mesh/skin records and primitive streams are copied before local BRES bytes die.",
+    "Every Player stores a rest graph and resets unanimated properties on each sample. Optional caller-provided template is sampled before all Players load.",
+    "Time is milliseconds with clip start offset retained. Attack clip955 begins at266ms; current calculation includes this offset.",
+    "Palette positions and normals use same skin influences; normal directions exclude translation.",
+    "Reload builds and validates a candidate before publishing it; failed load preserves prior character.",
+    "Authoritative original asset identifiers are caller configuration; preview does not hardcode campaign model or class.",
+    "Arbitrary named clip bank supersedes convenience idle/walk/attack names. Unknown names and duplicate-bank reloads fail without changing current pose.",
+    "One-shot sampling clamps at actual clip end, including nonzero authored start; loop sampling wraps at original duration."
+  ],
+  "bugs_reported_and_resolved": [
+    "Elapsed interval is reduced modulo clip duration before milliseconds conversion, avoiding finite-seconds multiplication overflow.",
+    "Duration subtraction now widens operands before subtracting.",
+    "Invalid CharacterPose values are rejected before selecting a player.",
+    "Moved-from accessors return empty values or restore an empty Impl rather than dereferencing null."
+  ],
+  "limitations": [
+    "Native CPU animation/skinning probe passed; this does not prove WGL rendering, texture orientation, frame performance, or visual match.",
+    "Strict missing-target policy successfully bound selected Prince template/idle/walk/attack. Other shared clips containing omitted model bones still need explicit handling; existing full Prince bank pipeline uses MissingTargets::ignore.",
+    "Original Player samples only transform types1/5/10 and adapter rejects skipped channels. Other animation domains need dedicated support rather than silent omission.",
+    "Zero-weight skin records produce zero positions by original software-skin semantics; arbitrary asset coverage may require explicit rigid-vertex policy used by existing object renderer.",
+    "Direct primitive material ID matching may need instance symbol mapping for arbitrary future models."
+  ],
+  "references": [
+    "port/engine-animation/animation.cpp",
+    "port/engine-skinning/skinning.cpp",
+    "port/engine-animation/reference/prince-registration/probe.json",
+    "port/android-native/app/src/main/assets/data/prince-animation-bank.json"
+  ],
+  "runtime_evidence": {
+    "test": "port/windows-foundation/tests/character_probe.cpp",
+    "binary": ".local-inputs/windows-toolchain/character_probe.exe",
+    "binary_sha256": "ba24113b8834b0a42ea90405216ed507541871013eca3b618e60f161204d82e1",
+    "compiler": "llvm-mingw x86_64-w64-mingw32-clang++",
+    "compile_flags": "-std=c++17 -O1 -static -DNOMINMAX",
+    "command": ".local-inputs/windows-toolchain/character_probe.exe port/android-native/app/src/main/assets",
+    "exit_code": 0,
+    "checks": {
+      "vertices": 487,
+      "large_elapsed": true,
+      "status": "pass",
+      "animated_clips": 3,
+      "negative_and_infinite_elapsed_rejected": true,
+      "actual_vertex_change_each_clip": true,
+      "failed_reload_preserved": true,
+      "moved_from_safe": true,
+      "invalid_enum_safe": true,
+      "finite_positions_and_normals": true,
+      "indices": 1758,
+      "meshes": 4,
+      "arbitrary_named_clips": true,
+      "unknown_name_preserves_pose": true,
+      "one_shot_clamps_stably": true,
+      "loop_wrap_original_800ms": true,
+      "duplicate_name_reload_preserves_pose": true
+    }
+  }
+}

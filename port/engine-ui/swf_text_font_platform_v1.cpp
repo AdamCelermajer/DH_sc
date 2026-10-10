@@ -8,6 +8,7 @@
 #include <tuple>
 #include <stdexcept>
 #include <algorithm>
+#include <sstream>
 
 namespace dh2::ui {
 namespace {
@@ -72,13 +73,30 @@ struct SwfTextFontPlatformV1::Impl:std::enable_shared_from_this<Impl> {
     const Pixels* replay{};
     std::uintptr_t last_upload{};
     std::map<std::tuple<std::string,bool,bool,std::uint16_t,int>,std::uintptr_t> glyph_images;
+    struct GlyphAttempt {std::string name;std::uint16_t code{};int requested_size{},raster_size{},width{},height{};unsigned channels{};bool active{};};
+    GlyphAttempt active_glyph;
     Impl(SwfFontServices f,SwfServices r,std::shared_ptr<void> owner,float s):fonts(f),base(std::move(r)),lifetime(std::move(owner)),scale(s){}
     gameswf::bitmap_info* failed(){if(fonts.diagnostic)fonts.diagnostic(fonts.context,failure.c_str());return nullptr;}
+    static std::string describe_glyph_failure(const GlyphAttempt& g){
+        if(!g.active)return {};
+        std::ostringstream out;out<<"; glyph font='"<<g.name<<"' code="<<g.code
+            <<" requested_pixels="<<g.requested_size<<" raster_pixels="<<g.raster_size
+            <<" image="<<g.width<<'x'<<g.height<<" channels="<<g.channels;return out.str();
+    }
     bool glyph(const std::shared_ptr<text_v1::Font>& f,std::uint16_t code,int size,text_v1::Glyph& g,bool& found,std::string& error){
         last_upload=0;
-        if(!text->glyph(f,code,size,g,found,error))return false;
+        // The source GameSWF display clamps generated glyphs to 96 pixels.
+        // Source-layout runs earlier and bypasses that display-time clamp.
+        const int raster_size=std::min(size,96);
+        const auto previous=active_glyph;
+        active_glyph={f?f->name:std::string{},code,size,raster_size,0,0,0,true};
+        struct RestoreGlyphAttempt {Impl& owner;GlyphAttempt previous;~RestoreGlyphAttempt(){owner.active_glyph=std::move(previous);}} restore{*this,previous};
+        if(!text->glyph(f,code,raster_size,g,found,error)){
+            if(active_glyph.width==0&&active_glyph.height==0)error+=describe_glyph_failure(active_glyph);
+            return false;
+        }
         if(!g.image)return true;
-        auto key=std::make_tuple(f->name,f->bold,f->italic,code,size);
+        auto key=std::make_tuple(f->name,f->bold,f->italic,code,raster_size);
         if(last_upload)glyph_images[key]=last_upload;
         auto it=glyph_images.find(key);
         if(!require(it!=glyph_images.end(),"captured genuine glyph texture",error))return false;
@@ -104,8 +122,11 @@ struct SwfTextFontPlatformV1::Impl:std::enable_shared_from_this<Impl> {
                 error="core alpha bitmap changed source pixels";return false;}
             out=r.texture;return true;
         }
-        if(!require(bool(p.base.image),"actual image upload service",error))return false;
-        if(!p.base.image(p.base.context,w,h,channels,bytes,pitch,out,error))return false;
+        if(p.active_glyph.active){p.active_glyph.width=w;p.active_glyph.height=h;p.active_glyph.channels=channels;}
+        if(!require(bool(p.base.image),"actual image upload service",error)){error+=describe_glyph_failure(p.active_glyph);return false;}
+        if(!p.base.image(p.base.context,w,h,channels,bytes,pitch,out,error)){
+            error+=describe_glyph_failure(p.active_glyph);return false;
+        }
         if(channels==1&&w>0&&h>0&&pitch>=w&&bytes){
             Pixels pixels;pixels.texture=out;pixels.channels=channels;pixels.pitch=w;
             pixels.bytes.resize(std::size_t(w)*h);
@@ -213,5 +234,15 @@ bool SwfTextFontPlatformV1::flush_buffered_text(std::string&e){
  for(std::size_t i=0;i<impl_->buffered.size();++i){auto field=impl_->buffered[i].lock();if(!require(bool(field),"live buffered text receiver",e))return false;
   try{field->display();}catch(const std::exception&x){e=x.what();return false;}}
  impl_->buffered.clear();return true;
+}
+bool SwfTextFontPlatformV1::source_reset_fonts_v119(std::string& error){
+ error.clear();
+ if(!impl_->pixels.empty()&&!impl_->base.release_image_v119){error="Source font cache reset lacks its exact renderer texture releaser";return false;}
+ for(const auto& item:impl_->pixels)if(!impl_->base.release_image_v119(item.second.texture,error))return false;
+ if(!impl_->text->clear_fonts_v119(error))return false;
+ impl_->devices.clear();impl_->projected.clear();
+ impl_->font_pins.clear();impl_->cloned_core.clear();impl_->pixels.clear();impl_->core.clear();
+ impl_->glyph_images.clear();impl_->image_ids.clear();impl_->last_upload=0;impl_->failure.clear();
+ error.clear();return true;
 }
 }

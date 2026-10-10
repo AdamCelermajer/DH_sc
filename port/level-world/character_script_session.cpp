@@ -9,11 +9,14 @@
 #include <cstdio>
 #include <algorithm>
 #include <stdexcept>
+#include <cmath>
+#include <limits>
 
 namespace dh2::character {
 namespace {
 using Function=dh2_script_function;
 int fail(char* out,std::size_t n,const char* message){if(out&&n)std::snprintf(out,n,"%s",message);return 1;}
+int required_fail(char* out,std::size_t n,const char* message){fail(out,n,message);return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;}
 std::vector<std::uint8_t> copy(data::Bytes b){if((b.size&&!b.data)||b.size>8u*1024u*1024u)throw std::invalid_argument("Invalid session script bytes");return b.size?std::vector<std::uint8_t>(b.data,b.data+b.size):std::vector<std::uint8_t>();}
 }
 struct CharacterScriptSession::Impl {
@@ -31,6 +34,8 @@ struct CharacterScriptSession::Impl {
  NativeFsm24* state_machine;
  const dh2_script_object_services* objects;
  ScriptCommandBindings40* commands;
+ CharacterScriptSessionInput::MotionCapabilityServicesV1 motion_capabilities;
+ CharacterScriptSessionInput::AnimationRegistrationServicesV1 animation_registration;
  void* commands_refresh_context{};int(*commands_refresh)(void*){};
  const TimerServices32* expiry;
  void* budget_context;
@@ -58,21 +63,23 @@ struct CharacterScriptSession::Impl {
  struct PrivateBinding {Impl* self;std::uintptr_t identity;dh2_script_vm* vm;dh2_script_aliases* aliases;bool objects_installed=false;};
  std::map<std::uintptr_t,PrivateBinding> private_bindings;
  struct UnsupportedBinding {std::string name;std::uint32_t original_callback;};
+ struct MotionBinding {Impl* self;std::uint32_t address;};
  std::map<std::pair<std::uint32_t,std::uint32_t>,UnsupportedBinding> unsupported_bindings;
+ std::map<std::pair<std::uintptr_t,std::uint32_t>,MotionBinding> motion_bindings;
  ScriptOwnerServices services{this,&service};
  // Must be destroyed FIRST: every other member is a bound VM dependency.
  std::unique_ptr<ScriptOwner> owner;
  Impl(CharacterGameDesign::Borrow&& d,const CharacterScriptSessionInput& in):
   design(std::move(d)),properties(in.properties),combat(in.combat),temporary(in.temporary),
   position(in.position),identity(in.identity),name(in.name),source_is_character(in.source_is_character),
-  host(in.host),level_service(in.level),target(in.target),state_machine(in.state_machine),objects(in.objects),commands(in.commands),expiry(in.timer_services),budget_context(in.budget_context),budget(in.budget),scalar(in.scalar),
+  host(in.host),level_service(in.level),target(in.target),state_machine(in.state_machine),objects(in.objects),commands(in.commands),motion_capabilities(in.motion_capabilities),animation_registration(in.animation_registration),expiry(in.timer_services),budget_context(in.budget_context),budget(in.budget),scalar(in.scalar),
   property_view(data::property_view(*design.rules(),*properties)),slots(in.timer_capacity){
   commands_refresh_context=in.commands_refresh_context;commands_refresh=in.commands_refresh;
   gameplay_context=in.gameplay_context;gameplay_binding=in.gameplay_binding;
   summon_v81={in.summon_cache_v81,design.characters(),in.register_summon_v81};
   const auto* ai=data::ai_props(*design.ai(),properties->resolved[1]);if(!ai)throw std::invalid_argument("Missing source AI row");script=ai->script;
   files.emplace("data/scripts/ai/_commons.luac",copy(in.common));
-  if(!script.empty()&&script[0]!='_'){
+  if(!script.empty()&&script.rfind("__",0)!=0){
    std::string path="data/scripts/ai/"+script;
    const char* suffix=std::strstr(script.c_str(),".lua");
    if(!suffix)path+=".luac";else if(std::strncmp(suffix,".luac",5))path+='c';
@@ -183,6 +190,75 @@ struct CharacterScriptSession::Impl {
   if(error&&size)std::snprintf(error,size,"Unsupported source global %s (original callback 0x%08x)",b.name.c_str(),b.original_callback);
   return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;
  }
+ static int motion_capability(void* opaque,const dh2_script_value* args,std::uint32_t count,
+  dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* error,std::size_t size){
+  const auto& binding=*static_cast<MotionBinding*>(opaque);auto& self=*binding.self;
+  if(!returned||(count&&!args))return fail(error,size,"Malformed GameObject motion capability call");
+  *returned=0;
+  const bool setter=binding.address==0x390900u||binding.address==0x39088cu;
+  std::uint32_t value=0;
+  if(setter){
+   // The source setters do nothing when arg0 is absent or not a Lua boolean.
+   if(!count||args[0].type!=DH2_SCRIPT_BOOLEAN)return 0;
+   if(args[0].reserved||args[0].boolean>1)return fail(error,size,"Malformed source GameObject motion boolean");
+   value=args[0].boolean;
+  }else if(!out||!capacity)return fail(error,size,"GameObject motion query result unavailable");
+  if(!self.motion_capabilities.invoke||self.motion_capabilities.invoke(
+     self.motion_capabilities.context,binding.address,&value)||value>1)
+   return required_fail(error,size,"Required same GameObject PFObject motion capability unavailable");
+  if(!setter){out[0]={};out[0].type=DH2_SCRIPT_BOOLEAN;out[0].boolean=value;*returned=1;}
+  return 0;
+ }
+ static int register_animation(void* opaque,const dh2_script_value* args,std::uint32_t count,
+  dh2_script_value*,std::uint32_t,std::uint32_t* returned,char* error,std::size_t size){
+  auto& self=*static_cast<Impl*>(opaque);
+  if(!returned||(count&&!args))return fail(error,size,"Malformed RegisterAnim call");
+  *returned=0;
+  // Character::_RegisterAnim accepts only a present numeric first argument.
+  if(!count||args[0].type!=DH2_SCRIPT_NUMBER)return 0;
+  const float number=args[0].number;
+  if(!std::isfinite(number)||double(number)<double(std::numeric_limits<std::int32_t>::min())||
+     double(number)>double(std::numeric_limits<std::int32_t>::max()))
+   return fail(error,size,"RegisterAnim source number is outside signed id range");
+  if(!self.animation_registration.register_dictionary||self.animation_registration.register_dictionary(
+      self.animation_registration.context,static_cast<std::int32_t>(number)))
+   return required_fail(error,size,"Required same Character CharAnimator AddAnimDictToSet unavailable");
+  return 0;
+ }
+ static int design_query(void* context,const dh2_script_value* args,std::uint32_t count,
+  dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* error,std::size_t size,Function callback){
+  // A native lookup delivery error is not an authored member miss (-1 in a
+  // successful numeric result) or the source arity/type no-effect guard.
+  // Keep it fatal to the owner even when source Lua catches the diagnostic.
+  return callback(context,args,count,out,capacity,returned,error,size)?DH2_SCRIPT_REQUIRED_SERVICE_FAILURE:0;
+ }
+ static int design_constant(void* p,const dh2_script_value* a,std::uint32_t n,dh2_script_value* o,std::uint32_t c,std::uint32_t* r,char* e,std::size_t z){return design_query(p,a,n,o,c,r,e,z,&dh2_script_design_get_constant);}
+ static int design_struct(void* p,const dh2_script_value* a,std::uint32_t n,dh2_script_value* o,std::uint32_t c,std::uint32_t* r,char* e,std::size_t z){return design_query(p,a,n,o,c,r,e,z,&dh2_script_design_get_struct);}
+ static int design_oid(void* p,const dh2_script_value* a,std::uint32_t n,dh2_script_value* o,std::uint32_t c,std::uint32_t* r,char* e,std::size_t z){return design_query(p,a,n,o,c,r,e,z,&dh2_script_design_get_oid);}
+ static int get_prop_hp(void* opaque,const dh2_script_value* args,std::uint32_t count,
+  dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* error,std::size_t size){
+  auto& self=*static_cast<Impl*>(opaque);
+  if(!returned||(count&&!args)||!out||capacity<3)return fail(error,size,"Malformed Character.GetPropHP output");
+  *returned=0;
+  const std::int32_t hp=self.properties->resolved[36],maximum=self.properties->resolved[38];
+  std::int32_t current_integer=0,maximum_integer=0,percent=0;
+  if(maximum){
+   maximum_integer=maximum>>8;
+   // The native function divides by (Max_HP >> 8), even when Max_HP itself
+   // is nonzero. Preserve the source fault instead of inventing a percentage.
+   if(!maximum_integer)return fail(error,size,"Character.GetPropHP source integer divide by zero");
+   current_integer=hp>>8;
+   const std::uint32_t product_bits=std::uint32_t(hp)*100u;
+   std::int32_t product;std::memcpy(&product,&product_bits,sizeof(product));
+   if(product==std::numeric_limits<std::int32_t>::min()&&maximum_integer==-1)
+    return fail(error,size,"Character.GetPropHP source signed division overflow");
+   percent=(product/maximum_integer)>>8;
+  }
+  out[0]={};out[0].type=DH2_SCRIPT_NUMBER;out[0].number=static_cast<float>(current_integer);
+  out[1]={};out[1].type=DH2_SCRIPT_NUMBER;out[1].number=static_cast<float>(maximum_integer);
+  out[2]={};out[2].type=DH2_SCRIPT_NUMBER;out[2].number=static_cast<float>(percent);
+  *returned=3;return 0;
+ }
  static int gameplay_scoped(void* opaque,const dh2_script_callback_scope* scope,
   const dh2_script_value* args,std::uint32_t count,dh2_script_value* results,std::uint32_t capacity,
   std::uint32_t* returned,char* error,std::size_t size){
@@ -200,7 +276,11 @@ struct CharacterScriptSession::Impl {
   if(gameplay_binding){const int selected=gameplay_binding(gameplay_context,b.original_callback,&function,&context);
    if(selected<0||selected>1)throw std::runtime_error("NPC gameplay source binding delivery failed");
    if(selected>0){if(!function)throw std::runtime_error("NPC gameplay binding lacks actual native callback");
-    if(b.original_callback==0x3b9fbc||b.original_callback==0x3b99d0||b.original_callback==0x3ba298){
+    if(b.original_callback==0x38eb68||b.original_callback==0x39193c){
+     if(!objects)throw std::runtime_error("NPC target-list top lacks the same World source-object provider");
+     if(!c.objects_installed){if(dh2_script_vm_set_source_objects(c.vm,objects))throw std::runtime_error("NPC target-list source objects registration failed");c.objects_installed=true;}
+     if(dh2_script_vm_bind_source_objects(c.vm,b.name,function,context))throw std::runtime_error("NPC target-list source object registration failed");
+    }else if(b.original_callback==0x3b8bd8||b.original_callback==0x3b9fbc||b.original_callback==0x3b99d0||b.original_callback==0x3ba298){
      if(objects&&!c.objects_installed){if(dh2_script_vm_set_source_objects(c.vm,objects))throw std::runtime_error("NPC skill source objects registration failed");c.objects_installed=true;}
      auto& scoped=scoped_gameplay_bindings[{c.identity,b.original_callback}];scoped={this,function,context};
      if(dh2_script_vm_bind_source_scoped_values(c.vm,b.name,&gameplay_scoped,&scoped))throw std::runtime_error("NPC skill scoped source registration failed");
@@ -216,6 +296,20 @@ struct CharacterScriptSession::Impl {
    else if(b.original_callback==0x3b9f44)command=&command_attack;
    else if(b.original_callback==0x3b91a0)command=&command_flee;
    if(command){if(dh2_script_vm_bind_source_scoped(c.vm,b.name,command,this))throw std::runtime_error("Scoped command registration failed");return true;}
+  }
+  if(motion_capabilities.invoke&&
+     (b.original_callback==0x390900u||b.original_callback==0x39088cu||
+      b.original_callback==0x38ea94u||b.original_callback==0x38ea74u)){
+   auto& native=motion_bindings[{c.identity,b.original_callback}];native={this,b.original_callback};
+   if(dh2_script_vm_bind_source_values(c.vm,b.name,&motion_capability,&native))
+    throw std::runtime_error("GameObject PFObject motion binding failed");
+   return true;
+  }
+  if(animation_registration.register_dictionary&&b.original_callback==0x3b70d8u&&
+     (!std::strcmp(b.name,"RegisterAnim")||!std::strcmp(b.name,"RegisterActorAnim"))){
+   if(dh2_script_vm_bind_source_values(c.vm,b.name,&register_animation,this))
+    throw std::runtime_error("Character CharAnimator RegisterAnim binding failed");
+   return true;
   }
   if(!std::strcmp(b.name,"Include")&&b.original_callback==0x37efe4){if(dh2_script_vm_bind_source_include(c.vm,&include,&c))throw std::runtime_error("Include registration failed");return true;}
   if(!std::strcmp(b.name,"SetInt")&&b.original_callback==0x37de5c)return true; // Installed by genuine native-integer ScriptOwner before this delivery.
@@ -239,13 +333,14 @@ struct CharacterScriptSession::Impl {
   else if(b.original_callback==0x37ec70){function=&alias_add;context=&c;}
   else if(b.original_callback==0x37be00){function=&alias_push;context=&c;}
   else if(b.original_callback==0x37dc44){function=&alias_pop;context=&c;}
-  else if(b.original_callback==0x37f354){function=&dh2_script_design_get_constant;context=const_cast<dh2_script_design_bindings*>(design.design());}
-  else if(b.original_callback==0x37f4a8){function=&dh2_script_design_get_struct;context=const_cast<dh2_script_design_bindings*>(design.design());}
-  else if(b.original_callback==0x37f5fc){function=&dh2_script_design_get_oid;context=const_cast<dh2_script_design_bindings*>(design.design());}
+  else if(b.original_callback==0x37f354){function=&design_constant;context=const_cast<dh2_script_design_bindings*>(design.design());}
+  else if(b.original_callback==0x37f4a8){function=&design_struct;context=const_cast<dh2_script_design_bindings*>(design.design());}
+  else if(b.original_callback==0x37f5fc){function=&design_oid;context=const_cast<dh2_script_design_bindings*>(design.design());}
   else if(b.original_callback==0x37cc00){function=&host_level;context=this;}
   else if(b.original_callback==0x37cb8c){function=&host_difficulty;context=this;}
   else if(b.original_callback==0x37f1f0){function=&host_range;context=this;}
   else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}
+  else if(b.original_callback==0x3b6cd8u&&(!std::strcmp(b.name,"GetPropHP")||!std::strcmp(b.name,"GetHP"))){function=&get_prop_hp;context=this;}
   else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}
   else if(b.original_callback==0x38e700){function=&dh2_character_get_position;context=&spatial;}
   else if(b.original_callback==0x3b7590){function=&start_callback;context=this;}

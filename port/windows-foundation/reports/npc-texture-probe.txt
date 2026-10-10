@@ -1,0 +1,2 @@
+.local-inputs/windows-shared-assets/data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga dimensions=1024x1024 global_alpha_zero=18288 partial=58157 opaque=972131 region_alpha_zero=152 partial=645 opaque=15205
+.local-inputs/windows-shared-assets/data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga dimensions=1024x1024 global_alpha_zero=15318 partial=51374 opaque=981884 region_alpha_zero=0 partial=264 opaque=32376

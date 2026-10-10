@@ -1,0 +1,99 @@
+{
+  "feature": "RuntimeAttackSoundV1",
+  "validation": "PASS",
+  "implementation": {
+    "paths": [
+      "runtime_attack_sound_v1.hpp",
+      "runtime_attack_sound_v1.cpp",
+      "audio_source_target_position_v1.hpp",
+      "runtime_audio_host_v1.hpp",
+      "runtime_audio_host_v1.cpp",
+      "runtime_session_audio_v1.hpp",
+      "runtime_session_audio_v1.cpp",
+      "runtime_combat_audio_v1_tests.cpp",
+      "run_runtime_combat_audio_v1_tests.ps1"
+    ],
+    "event_source": "CombatSession::set_step_entry_observer; actual occurrence, update serial, actor binding lease, sequence id, step index, and optional caller-paired RetainedFrameAudioClock",
+    "lookup": "Actual typed AnimationTables[sequence_id].steps[step]; recovered AnimationStep Sound and Swoosh fields",
+    "swoosh_policy": "Uses original audio_animation_swoosh_v38 decision order and same-session main/offhand ItemRecord words 5/6; item SoundFX is attempted first and AnimationStep.Sound is submitted only when the original fallback flag permits it.",
+    "source_mapping": "Actual source Sound row 289 maps to generated event UID 6; the existing V42 source event selector receives caller-owned CombatSession RNG.",
+    "metadata_root": "RuntimeSessionAudioV1::start accepts a trailing optional gameplay_metadata_root; AnimTable and ItemTable reads use that source gameplay root while the V42 runtime continues using exact_assets for sounds and WAVs. The production caller must pass the actual AssetCatalog root.",
+    "ownership": "One current AudioNativeSessionV42/WinMM output; step observer is installed alongside the existing retained hit observer and does not replace it.",
+    "failure_policy": "Playback failures are diagnostic-only. Missing required session/output/clock/source-table facts are reported distinctly and never veto the gameplay callback."
+  },
+  "verification": {
+    "command": "Private strict LLVM-MinGW C++17 link of the audio feature runner plus current port/windows-foundation/combat_session.cpp, against the frozen Foundation archives; execute with .local-inputs/windows-shared-assets, port/windows-foundation/features/audio/assets, and .local-inputs/combat-sound-v2/sounds_pyarray.bin.",
+    "result": "PASS",
+    "coverage": [
+      "Same live CombatSession produces actual strike step entries for sequence rows 470, 471, and 472, step 1.",
+      "Source Sound 289 event UID 6 mapping and conditional fallback are verified against the actual generated source binding table.",
+      "Step submissions use the actual paired WinMM sample/QPC from the retained event.",
+      "Generated-event random selection consumes the same CombatSession gameplay RNG.",
+      "Replaying one exact step occurrence with a changed QPC does not submit twice.",
+      "An injected missing-source-asset failure is retained as a playback diagnostic and leaves same-session health/events unchanged.",
+      "Source target-position helper selects current transform for known-null/unbound nodes even with the actual constructor's stale zero cache, and selects the own valid cached node point when nonnull.",
+      "Actual injury/death sound submissions from a Session whose own node is null and constructor cache is zero use the current actor transform.",
+      "Actual same-Session Swamp Lizard source injury/death leaves 377/374 emit Sound477/Sound476 through the step observer with exact paired WinMM clocks; missing WAVs remain diagnostic-only.",
+      "Existing focused audio test continues to prove hit/death resolution integration and missing hit-sample non-veto."
+    ],
+    "fixture_boundary": "The runner uses actual recovered AnimTable, ItemTable, Sounds binding and WAV data, plus one real AudioNativeSessionV42/WinMM output. Its Vox gate/source-command callbacks are explicit test providers; this is not production host/live gameplay enrollment and does not establish audible parity."
+  },
+  "non_swing_event_followup": {
+    "status": "verified-authentic-session-injury-step-dispatch",
+    "candidate": "Enemy hurt/impact AnimationStep sound. Generic player footsteps were rejected: AISDefault step_left/step_right at 0x3dca50 emits footstep/floor visual FX only and has no sound producer.",
+    "visual_evidence": {
+      "reference": "Original v1.0.3 reference footage bounded at 375.25–376.25s in reports/fidelity-player-hit-reaction-20261009.json; directly inspected local frames .local-inputs/fidelity-hit-reaction-audit/375_250.png, 375_500.png, 375_750.png, 376_000.png, and 376_250.png, plus fight-374-376375.png.",
+      "observation": "The Warrior remains in changing close-melee poses against the labeled Bog Moth while the player health bar shortens slightly. This is reusable original-reference visual context for combat presentation, not evidence of the Swamp Lizard injury animation or hurt-sound timing. The local reference stream is video-only and has no audio track.",
+      "direct_or_inferred": "Directly observed source-version v1.0.3 pixels; actor poses and HUD are visual evidence only. No audio or audible-parity claim is made, and the footage's relationship to the recovered v1.0.2 source/assets is unestablished."
+    },
+    "source_logic": {
+      "anim_step": "Recovered CharAnimator::_SetAnimStep at 0x3ca79c selects the step and sends ordinary AnimationStep.Sound before step FX/speed/visual delivery. The actual Swamp_LizadMan_Type1 source rows are LizardMan_Injured=377 step0 Sound477 (non-Swoosh) and LizardMan_Died=374 step0 Sound476; Sound477 maps to UID284 sfx_lizardman_hurt.wav in port/engine-audio/reference/event-families-v38/family-ledger.json.",
+      "session_limit": "The root-owned CombatSession step-entry observer publishes the exact configured source leaf when accepted injury/death selection occurs. RuntimeAttackSoundV1 consumes that occurrence directly; it does not infer sequence or step from DamageEvent or post-frame actor state.",
+      "caller_timing": "The focused same-session source hit is applied inside CombatSession::update with the live paired WinMM RetainedFrameAudioClock. The actual row377 step0 occurrence carries that exact sample/QPC pair into the audio observer."
+    },
+    "expected_behavior": "For the source-selected injury and death AnimationStep boundaries, submit each exact non-Swoosh Sound through the same V42 output with its paired sample and existing source mapping. Missing WAVs remain diagnostic-only and cannot veto damage, death, or presentation.",
+    "verification": {
+      "existing_runner": "powershell -NoProfile -ExecutionPolicy Bypass -File port/windows-foundation/features/audio/run_runtime_combat_audio_v1_tests.ps1",
+      "existing_result": "PASS: actual source injury and death results applied inside CombatSession::update select Swamp Lizard rows377 and374 step0 Sounds477 and476. Both retained occurrences preserve actor2, binding lease, occurrence/update serial, and exact paired live WinMM sample/QPC. RuntimeAttackSoundV1 maps them to UID284/285 and submits through the same single AudioNativeSessionV42/WinMM output. Each exact original WAV is absent, so playback yields its precise missing-asset diagnostic without vetoing injury or death.",
+      "source_row_test": "Actual AnimationTables row377 is LizardMan_Injured, step0 Sound477, non-Swoosh; binding 477->UID284 and catalog filename sfx_lizardman_hurt.wav are asserted. Row374 LizardMan_Died step0 Sound476 maps to UID285 and sfx_lizardman_die.wav; both exact WAVs are absent in the recovered source assets.",
+      "session_event_test": "The focused runner constructs an actual CombatSession from the source assets and profiles, applies a deterministic source injury from inside update, then applies the exact source death result inside a second update. Authentic row377 and row374 occurrences flow through RuntimeAttackSoundV1 to the same single V42/WinMM output with exact caller-paired samples/QPC. Each missing original WAV is retained as a playback diagnostic; no occurrence or clock is synthesized.",
+      "remaining_minimum_seam": "None for the configured Swamp Lizard injury and death leaves. Audible playback remains unavailable because both exact source WAV resources are absent."
+    },
+    "implementation_change": true,
+    "integrated_audio_or_visual_claim": false
+  },
+  "source_asset_lookup": {
+    "status": "exact_source_wavs_not_recovered",
+    "checked": [
+      ".local-inputs/audio-v34/cache (265 files including sounds.xml and assets.txt): neither exact WAV filename is present; assets.txt also has no matching lizardman hurt/death entry.",
+      ".local-inputs/ida-apk-export-2026-10-07/inputs/Dungeon-Hunter-2-HD-v1-0-2.apk (SHA-256 32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200, 10,269,872 bytes): 225 ZIP entries and no matching entry. Its assets/data.save (157,456 bytes, SHA-256 f1e8300bd57b59dd7ce8cade09d312322104139a9ea970244ed63b33fa2b728a) contains neither exact filename string; res/raw/raw_000.ogg is an unrelated Ogg resource and does not contain either filename.",
+      ".local-inputs/windows-shared-assets/original-cache and the available source-clock audio-assets trees: no exact sfx_lizardman_hurt.wav or sfx_lizardman_die.wav file exists.",
+      "port/engine-audio/reference/source-bindings-v38/ledger.json and handoff/audio-v38/owned/port/engine-audio/reference/source-bindings-v38/ledger.json: source IDs 477/476 map to UIDs 284/285 and are explicitly status=missing with assets.exists=false.",
+      ".local-inputs/audio-v34/cache/sounds.xml and port/windows-foundation/features/audio/assets/data/sounds/sounds.xml define UID284/285 as bank5/group5 PCM records, but these metadata rows do not supply sample bytes."
+    ],
+    "sample_hash_or_format_verification": "No hash or WAV format can be verified because neither source sample's bytes were found. The PCM designation is only the SoundManager metadata format field.",
+    "staging_or_lookup_test": "Not added: no authentic sample bytes or alternate canonical resource was found. Existing same-session tests retain the exact missing-asset diagnostics; no substitute sound is staged."
+  },
+  "audio_source_target_position": {
+    "status": "implemented-and-focused-tested",
+    "visual_evidence": "The original v1.0.3 Warrior/Bog Moth sequence documented above is visual-only context; neither the video-only stream nor its pixels expose the exact 3D emitter/listener point. No spatial-audio parity is inferred from the footage.",
+    "logic_evidence": "Original GameObject::GetTargetPosition at 0x3935dc reads its own node pointer +0x180 first. A null node returns actual transform +0x160 even when constructor state initialized optional cache +0x184 to {0,0,0}; only a nonnull node can select the cached point (the original getter also gates it on byte +0x80). Audio callers previously chose cache merely because the std::optional existed. Both RuntimeSessionAudioV1::before_update (player listener anchor) and RuntimeAttackSoundV1::dispatch (step emitter) now use the same feature-local resolver, which checks the actor's own known node token before reading its cache and never follows combat target_id to another actor.",
+    "expected_behavior": "Known-null or unbound own node uses the actor's current transform; a known nonnull own node with an available cache uses that cached source point. Preserve current actor state/source flags and do not borrow a foreign actor's cache.",
+    "uncertainties": "ActorState has no separately captured GameObject enabled byte +0x80. The feature-local audio resolver therefore closes the known-null stale-cache bug and selects an available cache for a known nonnull own node, but it does not claim the getter's full disabled-node branch when that byte is unavailable. Unknown/missing cache falls back to current transform.",
+    "verification": {
+      "focused_cases": "The audio feature runner invokes the original constructor-prefix helper to create node=0/cache={0,0,0}; asserts the resolver returns actual transform and leaves source_flags520 unchanged; then checks a nonnull own node selects its exact cache and an unbound node ignores a stale zero cache. Its actual source injury/death session also starts with the real constructor-prefix null-node state and verifies both Sound477/Sound476 submission positions equal that actor's current transform.",
+      "build": "Strict C++17 -Wall -Wextra -Werror compilation passed for runtime_session_audio_v1.cpp, runtime_attack_sound_v1.cpp, and runtime_combat_audio_v1_tests.cpp. A private LLVM-MinGW linked WinMM run passed against frozen archives plus current CombatSession and original target-position helper source; no shared build was performed.",
+      "integration_boundary": "The RuntimeAttackSoundV1 actual Session/output callback is exercised. RuntimeSessionAudioV1::before_update compiles against the shared helper, while direct listener-position publication through the production main caller was not part of this private feature runner."
+    }
+  },
+  "source_asset_provenance": {
+    "status": "exact-source-inventory-complete",
+    "visual_evidence": "No new gameplay behavior is introduced by this asset provenance task. Existing report visual evidence remains bounded original footage context and makes no lizard-audio claim.",
+    "logic_evidence": "Sound source bindings source IDs 474/477/476 map to UIDs 282/284/285 and exact PCM metadata filenames sfx_lizardman_attack_1.wav, sfx_lizardman_hurt.wav, sfx_lizardman_die.wav. Existing source sequence IDs 524/525 are Rogue_Quickness/Rogue_Roundhouse.",
+    "audio_search": "All 11 local APK/OBB archives were scanned by entry basename; none contained the three exact lizard WAVs or either Rogue BDAE. Exact lizard WAV names are absent from the extracted audio-v34 cache assets and original-cache filename search. The v1.0.2 APK is SHA-256 32C2D027B585A42547311CD95DA6A3975FDB3174E663E513D42A7F49D1A4C200; its data.save did not contain those names. The sounds.xml metadata declares PCM, but no WAV bytes/hash/sample format were recovered.",
+    "animation_sources": "Rogue Quickness and Roundhouse BDAEs exist in the character-visual-v6 source cache and match the committed source-manifest byte counts and SHA-256 hashes. Exact upstream game content version is not established; the source manifest describes source freeze/fixture assets and explicitly excludes full live loader acceptance.",
+    "decoder_test": "PASS via run_audio_source_asset_provenance_v1_tests.ps1. Native dh2::animation::Player BRES/event/track decoder accepted both exact files with MissingTargets::ignore, reporting 23 unbound tracks/1 event entry for Quickness and 33 unbound tracks/2 event entries for Roundhouse. This does not verify a bound prince pose or rendering because an authored prince scene was not part of this test.",
+    "overlay": "Added a feature-owned resource path resolution overlay manifest. It resolves unchanged files at their exact source-relative paths from the v6 cache root; it copies/rewrites no assets. No lizard WAV overlay is possible because the exact bytes are absent.",
+    "remaining": "No original lizard attack/hurt/death sample bytes. No sound decoder validation possible. Rogue clip source version and scene-bound pose/render test remain unverified."
+  }
+}

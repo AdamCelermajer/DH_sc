@@ -1,4 +1,5 @@
 #include "authored_menu_character_projection_v4.hpp"
+#include "authored_menu_localization_v1.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Woverloaded-virtual"
@@ -62,6 +63,15 @@ bool AuthoredMenuCharacterProjectionV4::append(gameswf::as_object* object,Author
 bool AuthoredMenuCharacterProjectionV4::root(SwfAsGraph& graph,const std::string& name,AuthoredMenuCharacterBorrowV3*& out,std::string& error){
  nodes_.clear();out=nullptr;SwfAsValue root,value;gameswf::as_object* object=nullptr;
  if(!graph.root_value(root,error)||!graph.find_target(root,("_root."+name).c_str(),value,error)||!graph.borrow_object(value,object,error))return false;
+ // MenuBase registration searches the whole display tree, so a live menu
+ // need not be a direct child of _root. Resolve the same source name through
+ // that index when the direct AS path misses; never pass a null projection
+ // into CollectCharacters.
+ if(!object){
+  AuthoredMenuSearchIndexV1 index;bool found{};
+  if(!index.initialize(graph,root,error)||!index.find(name,value,found,error)||!graph.borrow_object(value,object,error))return false;
+  if(!found||!object){error="Required actual menu display-list character: "+name;return false;}
+ }
  return append(object,out,error);
 }
 bool AuthoredMenuCharacterProjectionV4::absolute_bounds(AuthoredMenuCharacterBorrowV3& projection,AuthoredMenuDeadZoneV3& out,std::string& error){

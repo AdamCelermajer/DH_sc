@@ -78,16 +78,28 @@ public:
   auto initialized=room->source_byte(0x390);if(!initialized){e="Required actual RoomZone390 field";return false;}if(*initialized){e.clear();return true;}
   std::int32_t key{};const world::CanonicalObjectBorrowV1* entry{};bool more=d.objects->source_ordered_begin_v38(key,entry);
   while(more){std::uintptr_t game_object{};
-   if(entry){auto pin=entry->lease;if(!entry->shared_handle){e="Required actual RoomZone InitObjectList GetHandle";return false;}auto handle=*entry->shared_handle;const world::CanonicalObjectBorrowV1* object{};
-    if(!d.objects->resolve_handle_v4(handle,false,object,leaves_.null_handle_assertion,e))return false;
+   // Capture the scanned receiver before callbacks can alter the manager.
+   // Stage10's outer key names this RoomZone, not its failing occupant.
+   const auto scanned_identity=entry?entry->identity:0;
+   const std::string scanned_class=entry&&entry->class_name20&&*entry->class_name20?*entry->class_name20:"<unavailable>";
+   const auto scanned_type=entry&&entry->type_f4?std::to_string(*entry->type_f4):"<unavailable>";
+   const auto scan_failure=[&](const char* operation){
+    e+=" [RoomZone.InitObjectList scanned_key="+std::to_string(key)+
+     " scanned_identity="+std::to_string(scanned_identity)+" scanned_class="+scanned_class+
+     " scanned_type="+scanned_type+" game_object_identity="+std::to_string(game_object)+
+     " room_identity="+std::to_string(id)+" scan_operation="+operation+"]";
+    return false;
+   };
+   if(entry){auto pin=entry->lease;if(!entry->shared_handle){e="Required actual RoomZone InitObjectList GetHandle";return scan_failure("ObjectBase.GetHandle");}auto handle=*entry->shared_handle;const world::CanonicalObjectBorrowV1* object{};
+    if(!d.objects->resolve_handle_v4(handle,false,object,leaves_.null_handle_assertion,e))return scan_failure("ObjectHandle.GetObject(false)");
     if(object){auto transport=transport_.lock();const world::CanonicalClassReceiverV1* receiver{};
-     if(!transport||!transport->receiver(*object,receiver,e)||!receiver||!receiver->is_game_object){if(e.empty())e="Required actual GetHandle GameObject virtual20 conversion";return false;}
-     bool converted{};auto body=receiver->is_game_object;auto receiver_pin=receiver->object.lease;if(!body(converted,e))return false;if(converted)game_object=object->identity;
+     if(!transport||!transport->receiver(*object,receiver,e)||!receiver||!receiver->is_game_object){if(e.empty())e="Required actual GetHandle GameObject virtual20 conversion";return scan_failure("receiver transport");}
+     bool converted{};auto body=receiver->is_game_object;auto receiver_pin=receiver->object.lease;if(!body(converted,e))return scan_failure("virtual IsGameObject");if(converted)game_object=object->identity;
     }
    }
-   bool accepted{};if(!room->source_add_initial_object_v104(game_object,accepted,e))return false;
+   bool accepted{};if(!room->source_add_initial_object_v104(game_object,accepted,e))return scan_failure("RoomZone.AddInitialObject");
    // Native ignores semantic accepted/false, then advances the same map node.
-   if(!d.objects->source_ordered_entry_v38(key,entry)){e="Original InitObjectList current map node erased during callback";return false;}
+   if(!d.objects->source_ordered_entry_v38(key,entry)){e="Original InitObjectList current map node erased during callback";return scan_failure("current manager node");}
    more=d.objects->source_ordered_next_v38(key,key,entry);
   }
   *initialized=1;e.clear();return true;

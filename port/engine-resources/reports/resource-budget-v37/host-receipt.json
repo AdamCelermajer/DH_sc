@@ -33,7 +33,7 @@
         "./port/engine-resources/reports/resource-budget-v37/core-test-O1"
       ],
       "exit_code": 0,
-      "stdout": "{\"validation\":\"PASS\",\"checks\":89,\"requested_gpu_peak\":900,\"rejections\":14,\"context_losses\":2,\"live_gpu_bytes\":0,\"live_cpu_bytes\":0}\n",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":36968,\"requested_gpu_peak\":900,\"rejections\":14,\"context_losses\":2,\"live_gpu_bytes\":0,\"live_cpu_bytes\":0}\n",
       "stderr": ""
     },
     {
@@ -67,7 +67,7 @@
         "./port/engine-resources/reports/resource-budget-v37/core-test-O2"
       ],
       "exit_code": 0,
-      "stdout": "{\"validation\":\"PASS\",\"checks\":89,\"requested_gpu_peak\":900,\"rejections\":14,\"context_losses\":2,\"live_gpu_bytes\":0,\"live_cpu_bytes\":0}\n",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":36968,\"requested_gpu_peak\":900,\"rejections\":14,\"context_losses\":2,\"live_gpu_bytes\":0,\"live_cpu_bytes\":0}\n",
       "stderr": ""
     },
     {
@@ -141,14 +141,14 @@
   ],
   "actual_source_binding": {
     "source": "port/android-native/app/src/main/cpp/renderer_authored_effect_scene_v5.inc",
-    "source_sha256": "8cf6da9ea0c339f338cdf6be1c6e0b5826b2a9f9a1966326e0deb62aad66ff88",
-    "helper_sha256": "9865254b7ad3035247132584629e157406a2e091a879b0259597f7475e29bde8"
+    "source_sha256": "f1c22754d6a82ceb3bf85cbc4b9f05ce8cfcb64f00bd82fb322f993a0ac32a38",
+    "helper_sha256": "4c5b39e97f0b65fe51d26d3040750ada179bab73576012550139e740f6d38c2d"
   },
   "source_sha256": {
-    "port/engine-resources/resource_budget_v37.cpp": "9282aacb83c4a57d474e25ea6d6962db342b3b7db3efb6f4ecdbae75da93a8e2",
-    "port/engine-resources/resource_budget_v37.hpp": "98a67c1bf9056df9f879c317c83a4f3d61b69cfc227f36a6b1ccffe54185a869",
-    "port/engine-resources/tests/resource_budget_v37.cpp": "b231f4daf90ab21c576bc06436e801e4d5b88ae3ee873c7bd262633c6602b70b",
-    "port/engine-resources/tests/resource_budget_fx_consumer_v38.cpp": "8e13c3e80d5e5c22aa5eb88d7f2e4e9754433597bbcc6e97dfaf7e04dc98d09c",
+    "port/engine-resources/resource_budget_v37.cpp": "031ec164eb20d8ed2ffa2b9546df36385bb6378b5ca8b2103c5a7a7d9aab9123",
+    "port/engine-resources/resource_budget_v37.hpp": "7398a916d571161cc63eef65200da2652f8b5d44b8e39e03f05061c4c9929429",
+    "port/engine-resources/tests/resource_budget_v37.cpp": "11b4adacc1f7ad21360eb9616b8757e1b9de94732165afd7cb2954758b1c2e4b",
+    "port/engine-resources/tests/resource_budget_fx_consumer_v38.cpp": "53dafc534d6694bb760023bbe6555ae2abe84e8228feb0da16169a6199386d86",
     "port/engine-resources/tools/test_resource_budget_v37_host.py": "19fe18016314a9ed1e286427076da4dd5b5f66638075fd2c3ddfd9e9a1ae7e7d"
   }
 }

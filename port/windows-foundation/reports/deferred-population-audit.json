@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "status": "generic_deferred_population_verified",
+  "implementation": {
+    "decision": "PopulationDecision::deferred loads explicit profile/visual exactly like include and records initially_enabled=false, enabled=false. Unknown remains unknown and absent. No actor/map/condition names in production implementation.",
+    "source_retention": "ActorPopulation.definitions retains complete raw source ActorDefinitions, including excluded/unknown characters and other objects.",
+    "activation": "set_enabled(stableId,bool,error) toggles current activation atomically; missing or ambiguous IDs reject; original decision/initial activation/transform/pose remain intact. Main/session consumers own honoring enabled flags and AI/visibility phase transitions.",
+    "counts": "initial_deferred_count counts loaded initial deferred decisions; enabled_count counts current loaded enabled actors.",
+    "condition_scope": "Caller policy must distinguish condition-qualified deferred content from unknown conditions. auto_spawn=0 by itself is not interpreted or promoted by loader."
+  },
+  "tests": {
+    "source": "port/windows-foundation/tests/deferred_population_tests.cpp",
+    "result": "native PASS",
+    "checks": [
+      "Actual shared source explicit actor can load deferred with visual ready",
+      "Unknown actor remains unavailable with notice",
+      "Full source definitions retained",
+      "Enable/disable by stable ID keeps initial facts and pose",
+      "Unknown/ambiguous activation rejects atomically"
+    ]
+  },
+  "deferred_source_candidates": [
+    {
+      "name": "_prim_ActorTroll",
+      "module": "obj_4of4_brdwalk_sw_00_0",
+      "source": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "charpropsname": "Swamp_ActorTroll",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "activate_cond": "GameStartOnly",
+        "ai_state": "Limbus",
+        "ai_state_visible": "0",
+        "spawn_prob": "100"
+      },
+      "world_position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "profile": {
+        "model": "data/3D/characters/troll/troll_swamp.bdae",
+        "property_row": "359",
+        "animation_table": "73",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 1,
+          "Run": 0,
+          "Attack": 9,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_LizManIntro1",
+      "module": "obj_3of4_brdwalk_sw_00_1",
+      "source": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "charpropsname": "Swamp_LizadMan_Type1",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "condition_desc": "Invalid",
+        "ai_state": "Limbus",
+        "ai_state_visible": "0",
+        "spawn_view_radius": "400"
+      },
+      "world_position": [
+        -3725.75,
+        252.509,
+        250.0
+      ],
+      "profile": {
+        "model": "data/3D/characters/lizardman/lizardman.bdae",
+        "property_row": "360",
+        "animation_table": "34",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 1,
+          "Run": 0,
+          "Attack": 3,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_LizManIntro2",
+      "module": "obj_3of4_brdwalk_sw_00_1",
+      "source": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "charpropsname": "Swamp_LizadMan_Type1",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "condition_desc": "Invalid",
+        "ai_state": "Limbus",
+        "ai_state_visible": "0",
+        "spawn_view_radius": "400"
+      },
+      "world_position": [
+        -4175.23,
+        349.838,
+        250.0
+      ],
+      "profile": {
+        "model": "data/3D/characters/lizardman/lizardman.bdae",
+        "property_row": "360",
+        "animation_table": "34",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 1,
+          "Run": 0,
+          "Attack": 3,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_FakeMoth_01",
+      "module": "obj_3of4_brdwalk_sw_00_1",
+      "source": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "charpropsname": "Swamp_MovieMoth",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "condition_desc": "Invalid",
+        "ai_state": "Limbus"
+      },
+      "world_position": [
+        -6000.0,
+        0.0,
+        0.0
+      ],
+      "profile": {
+        "model": "data/3D/characters/moth/moth.bdae",
+        "property_row": "373",
+        "animation_table": "42",
+        "states": {
+          "Template": 1,
+          "Idle": 2,
+          "Walk": 2,
+          "Run": 0,
+          "Attack": 3,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_FakeMoth_02",
+      "module": "obj_3of4_brdwalk_sw_00_1",
+      "source": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "charpropsname": "Swamp_MovieMoth",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "condition_desc": "Invalid",
+        "ai_state": "Limbus"
+      },
+      "world_position": [
+        -6000.0,
+        0.0,
+        0.0
+      ],
+      "profile": {
+        "model": "data/3D/characters/moth/moth.bdae",
+        "property_row": "373",
+        "animation_table": "42",
+        "states": {
+          "Template": 1,
+          "Idle": 2,
+          "Walk": 2,
+          "Run": 0,
+          "Attack": 3,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_54_chest2",
+      "module": "obj_1of4_brdwalk_nse_00_2",
+      "source": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "charpropsname": "Swamp_LizadMan_Type1",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "condition_desc": "Invalid",
+        "ai_state": "Limbus",
+        "ai_state_visible": "0",
+        "spawn_prob": "100"
+      },
+      "world_position": [
+        -6007.89258,
+        4685.24,
+        255.785
+      ],
+      "profile": {
+        "model": "data/3D/characters/lizardman/lizardman.bdae",
+        "property_row": "360",
+        "animation_table": "34",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 1,
+          "Run": 0,
+          "Attack": 3,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_54_chest1",
+      "module": "obj_1of4_brdwalk_nse_00_2",
+      "source": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "charpropsname": "Swamp_LizadMan_Type1",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "condition_desc": "Invalid",
+        "ai_state": "Limbus",
+        "ai_state_visible": "0",
+        "spawn_prob": "100"
+      },
+      "world_position": [
+        -6257.508,
+        4555.08,
+        255.813
+      ],
+      "profile": {
+        "model": "data/3D/characters/lizardman/lizardman.bdae",
+        "property_row": "360",
+        "animation_table": "34",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 1,
+          "Run": 0,
+          "Attack": 3,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_05_325",
+      "module": "corner_ruin_ws_00_3",
+      "source": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "charpropsname": "Swamp_LizadMan_Type3",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "condition_desc": "Invalid",
+        "ai_state": "Limbus",
+        "ai_state_visible": "1"
+      },
+      "world_position": [
+        -6690.836,
+        11451.261,
+        378.583
+      ],
+      "profile": {
+        "model": "data/3D/characters/lizardman/lizardman_big.bdae",
+        "property_row": "363",
+        "animation_table": "7",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 1,
+          "Run": 0,
+          "Attack": 6,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_LizardFan01",
+      "module": "bossroom_ruins_ns__8",
+      "source": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "charpropsname": "Swamp_SnackMan",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "activate_cond": "IsBefore_Swamp_Escape",
+        "ai_state": "Idle",
+        "spawn_prob": "100"
+      },
+      "world_position": [
+        -18000.0,
+        12000.0,
+        0.0
+      ],
+      "profile": {
+        "model": "data/3D/characters/lizardman/lizardman_big.bdae",
+        "property_row": "374",
+        "animation_table": "7",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 1,
+          "Run": 0,
+          "Attack": 6,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_MisterSnack",
+      "module": "bossroom_ruins_ns__8",
+      "source": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "charpropsname": "Swamp_SnackMan",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "activate_cond": "IsBefore_Swamp_Escape",
+        "ai_state": "Idle",
+        "spawn_prob": "100"
+      },
+      "world_position": [
+        -18000.0,
+        12000.0,
+        0.0
+      ],
+      "profile": {
+        "model": "data/3D/characters/lizardman/lizardman_big.bdae",
+        "property_row": "374",
+        "animation_table": "7",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 1,
+          "Run": 0,
+          "Attack": 6,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Monster_LizardFan03",
+      "module": "bossroom_ruins_ns__8",
+      "source": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "charpropsname": "Swamp_SnackMan",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "activate_cond": "IsBefore_Swamp_Escape",
+        "ai_state": "Idle",
+        "spawn_prob": "100"
+      },
+      "world_position": [
+        -18000.0,
+        12000.0,
+        0.0
+      ],
+      "profile": {
+        "model": "data/3D/characters/lizardman/lizardman_big.bdae",
+        "property_row": "374",
+        "animation_table": "7",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 1,
+          "Run": 0,
+          "Attack": 6,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    },
+    {
+      "name": "_prim_Boss_SwampKing_01",
+      "module": "bossroom_ruins_ns__8",
+      "source": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "charpropsname": "SwampKing",
+      "profile_available": true,
+      "source_initial_facts": {
+        "auto_spawn": "0",
+        "activate_cond": "IsBefore_Swamp_Escape",
+        "ai_state": "Idle",
+        "spawn_prob": "100",
+        "spawn_delay": "0"
+      },
+      "world_position": [
+        -19535.84,
+        11679.277,
+        -236.791
+      ],
+      "profile": {
+        "model": "data/3D/characters/swampking/swampking.bdae",
+        "property_row": "358",
+        "animation_table": "70",
+        "states": {
+          "Template": 1,
+          "Idle": 1,
+          "Walk": 2,
+          "Run": 0,
+          "Attack": 9,
+          "Died": 1,
+          "Limbus": 0
+        }
+      }
+    }
+  ],
+  "intro_witness": {
+    "source_names": [
+      "_prim_Monster_LizManIntro1",
+      "_prim_Monster_LizManIntro2"
+    ],
+    "charpropsname": "Swamp_LizadMan_Type1",
+    "source_initial_facts": {
+      "auto_spawn": "0",
+      "ai_state": "Limbus",
+      "ai_state_visible": "0",
+      "condition_desc": "Invalid"
+    },
+    "profile_available": true,
+    "note": "These are authored facts, not an inference that actor should immediately enter combat. Source commands/condition policy must enable and change phase."
+  },
+  "evidence": [
+    {
+      "path": "port/windows-foundation/reports/population-source.json",
+      "sha256": "c4c7b6e90225c5f4f4a5bd71f0dcd971cdaec1fbcbf483f3ecac0b57c2cf01a0"
+    },
+    {
+      "path": ".local-inputs\\windows-shared-assets\\actor-profiles-v2.xml",
+      "sha256": "a8abf163da310c0a65158e1db77e1f02e1edbe1698e3577b1963ed579e83e28c"
+    }
+  ]
+}

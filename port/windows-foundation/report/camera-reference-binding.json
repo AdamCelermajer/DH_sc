@@ -1,0 +1,151 @@
+{
+  "status": "native-authored-camera-binding-verified",
+  "selected_level": "data/scene/001_swamp.mlx",
+  "config": {
+    "file_and_node_empty_in_original_xml": true,
+    "node": "PlayerCamera_Default",
+    "file": "data/3D/camera/CameraTests.bdae",
+    "far": 4200,
+    "near": 900,
+    "fallback": "Original LevelConfig InitPost defaults",
+    "animation_set": "Default"
+  },
+  "projection": {
+    "fov_radians": 0.429630011,
+    "initial_aspect": 1.667752385,
+    "renderer": "Convert radians to OpenGL vertical FOV degrees; preserve original selected near/far and initial source aspect",
+    "fov_radians_bits": "0x3edbf877",
+    "fov_degrees": 24.616,
+    "aspect_bits": "0x3fd578e9"
+  },
+  "authored_pose_relative_to_actor_anchor": {
+    "up": [
+      0,
+      0,
+      1
+    ],
+    "target": [
+      -4.1E-05,
+      0,
+      0
+    ],
+    "distance_source": "Euclidean difference of camera parent and target NODE LOCAL translations, prior to animation",
+    "default_target_distance": 3132.3,
+    "child_translation": "(0,0,-appliedZoom*defaultDistance), separate from authored parent",
+    "eye": [
+      1380,
+      -1380,
+      2450
+    ]
+  },
+  "gameplay": {
+    "centering": "Single local player has no additional offset",
+    "idle": "CamAnimSet Default Idle resource55, finite clip0; template resource57 supplies original dynamic channel defaults",
+    "configured_offset_enabled": false,
+    "zoom": "Idle holds shake with appliedZoom0, finite completion enables original clamp of requested0 to authored zoom bounds",
+    "design_bounds_source": "actual DesignSettings first-row words ac/a8",
+    "initial_automatic_zoom": 1,
+    "damping_ratio_bits": "0x3f333333",
+    "damping": "Recovered dh2_gameplay_camera_damping_v1 kernel: velocity=(velocity+desired-root)*ratio; root+=dtMilliseconds*0.001*velocity",
+    "requested_zoom": 0,
+    "actor_anchor": "Original Character camera anchor; when no anchor exists, actor position"
+  },
+  "native_verification": {
+    "deterministic_frames": 10800,
+    "origin_relative_pose_remained_stable": true,
+    "executable": ".local-inputs/windows-camera-assets/probe.exe",
+    "command": "portable clang++ C++17 -static -ffp-contract=off original_camera_config + recovered camera scene/damping/data/table/design kernels + existing content libraries",
+    "warning_count": 0,
+    "dt_ms": 16,
+    "loaded_selected_swamp": true
+  },
+  "source_references": [
+    "port/level-world/gameplay_camera_runtime_v11.cpp",
+    "port/level-world/gameplay_camera_scene_v3.cpp",
+    "port/level-world/gameplay_camera_animator_v10.cpp",
+    "port/level-world/gameplay_camera_level_v4.cpp",
+    "port/level-world/gameplay_camera_damping_v1.cpp",
+    "port/level-world/reference/gameplay-camera-v1/handoff.md",
+    "port/level-world/reference/gameplay-camera-v1/cache-manifest.json",
+    ".local-inputs/windows-shared-assets/data/scene/001_swamp.mlx"
+  ],
+  "boundaries": [
+    "No claim to complete cinematic/crit/shake clip dispatch: this binding implements the selected normal gameplay template and idle",
+    "No old World or SceneManager callbacks imported",
+    "Reset places root at actor anchor, matching immediate target selection; ongoing follow uses source damping",
+    "Aspect-change writers after initial source SetData are outside this binding",
+    "Nested LevelConfig templates currently fail explicitly"
+  ],
+  "assets": [
+    {
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+      "path": "data/animations_dictionary_pyarray.bin"
+    },
+    {
+      "bytes": 42616,
+      "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+      "path": "data/animations_dictionary_pyarraynames.bin"
+    },
+    {
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+      "path": "data/animations_pyarray.bin"
+    },
+    {
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+      "path": "data/animations_pyarraynames.bin"
+    },
+    {
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134",
+      "path": "data/animations_pystructnames.bin"
+    },
+    {
+      "bytes": 692,
+      "sha256": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
+      "path": "data/design_pyarray.bin"
+    },
+    {
+      "bytes": 272,
+      "sha256": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+      "path": "data/design_pyarraynames.bin"
+    },
+    {
+      "bytes": 1443,
+      "sha256": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6",
+      "path": "data/design_pystructnames.bin"
+    },
+    {
+      "bytes": 1244,
+      "sha256": "7c469d135ebc99943576c2b269bea6869d38d99231fa29e42433b58e1b5a8638",
+      "path": "data/3d/camera/cameratests.bdae"
+    },
+    {
+      "bytes": 50048,
+      "sha256": "04650334d02a321262162d4c609589d45e9f4c342940788a0ed8aa3b97bbe028",
+      "path": "data/3d/camera/playercamera.bdae"
+    },
+    {
+      "bytes": 1464,
+      "sha256": "9fa611486a45eade5aeb34a134baea01f89bc0924e1a4fed1944a6ed86a3af69",
+      "path": "data/3d/camera/animations/common/cam_shake_horiz.bdae"
+    },
+    {
+      "bytes": 1200,
+      "sha256": "2c9cc5443ec8b654cedc0c94eea4820376ce0816928249543bc704911d94b169",
+      "path": "data/3d/camera/animations/common/camera_crithit_0.bdae"
+    },
+    {
+      "bytes": 1652,
+      "sha256": "8d674d409a0d08395fa42c8a0262e2dfea0f3073354102cdbfad3447305c88dc",
+      "path": "data/3d/camera/animations/common/camera_idle.bdae"
+    },
+    {
+      "bytes": 7164,
+      "sha256": "86a80b182030000cfb48e959d1a11b6dd5f7b4206d536a85f33a1840c5136ead",
+      "path": "data/3d/camera/animations/common/camera_template.bdae"
+    }
+  ]
+}

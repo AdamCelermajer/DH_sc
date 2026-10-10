@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <exception>
 namespace dh2::navigation {
-CampaignFrameScratchV76::CampaignFrameScratchV76(){dh2_nav_motion_policy_defaults(&motion_);}
 bool CampaignFrameScratchV76::borrow(std::uint32_t segments,std::uint32_t actors,
  std::uint32_t floors,std::shared_ptr<void>& pin,ControllerWorkspace*& workspace,std::string& e){
  pin.reset();workspace=nullptr;

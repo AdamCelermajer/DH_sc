@@ -1,0 +1,115 @@
+{
+  "status": "reusable_source_helpers_native_pass_live_provider_gap",
+  "date": "2026-10-09",
+  "modules": [
+    "port/windows-foundation/features/cinematics/source_cinematics.hpp",
+    "port/windows-foundation/features/cinematics/source_cinematics.cpp",
+    "port/windows-foundation/features/cinematics/source_cinematics_tests.cpp",
+    "port/windows-foundation/features/cinematics/source_cutscene_mode.hpp",
+    "port/windows-foundation/features/cinematics/source_cutscene_mode.cpp",
+    "port/windows-foundation/features/cinematics/source_camera_admission.hpp",
+    "port/windows-foundation/features/cinematics/source_camera_admission.cpp",
+    "port/windows-foundation/features/cinematics/source_camera_admission_tests.cpp",
+    "port/windows-foundation/features/cinematics/source_camera_critical.hpp",
+    "port/windows-foundation/features/cinematics/source_camera_critical.cpp"
+  ],
+  "source_provenance": [
+    "port/android-native/app/src/main/cpp/source_campaign_script_execution_v96.cpp:275-380",
+    "port/android-native/app/src/main/cpp/source_campaign_script_actor_v96.cpp:158-182",
+    "port/level-world/reference/prince-live-ai/reference/original-functions.asm:MoveActor45f0a8/LookActor45ec50",
+    "port/level-loader/script_command_execution_v96.cpp:literal IsBlocking/Update",
+    ".local-inputs/windows-encounter-source/original-campaign.xml"
+  ],
+  "implementation": {
+    "40": "Recipient24 then target12 lookup; capture source byte84 before whole actual GoTo service; pass original skip/collision16/wait28; retain recipient lease, captured84 and source returned wait; IsBlocking delegates actual path/Stop/Revive body. No timer or linear motion.",
+    "41": "Recipient20 lookup/AsChar then target12; HighestThreatPlayer uses recipient name filter; IsPlayer and actual current Level gate original PM peers1..3; actual controller forced9 writes1 before Cmd_LookAt and0 only after success; failure preserves prefix; final same target handle reread. Skip ignored.",
+    "46": "Recipient20 then source12 handles before AsChar; actual Idle(false); IsPlayer PM peers1..3 receive source offsets(-200,0,0),(200,0,0),(0,-200,0); source Position160 reread for each peer; SetPosition(true) then ForceUpdatePosition; direct recipient uses source borrowed backing. Skip ignored.",
+    "24": "Corrected source lock All case-insensitive selector, unlock remains exact All.",
+    "5_45": "Existing native camera/actor source helpers retained unchanged. Authored animation IDs and wait behavior retained; no replacement animations."
+  },
+  "root_borrow_api": {
+    "command": "SourceCinematicCommands.command(phase,command,module,sourceSkip,handled,blocking,error)",
+    "objects": "weak SAME CanonicalObjectManagerV1; actual object publication and AsChar services required",
+    "actor_fields": "SourceCinematicProviders.actorStatic(identity,pin,const byte84*,error); controllerForced(identity,pin,byte9*,error); position(identity,pin,const Position160*,error). Pins must retain actual receiver backing, never foundation copies.",
+    "actor_methods": "isPlayer; peerCharacter(i) exact PM.GetPlayer(i,false); currentLevel; setIdle(identity,false); setPosition(identity,xyz,true); forceUpdatePosition; controllerLook(identity,target)",
+    "move_backend_reference": "model_renderer::source_campaign_character_move_actor_v116(world,actor,target,skip,disable_collisions,wait,captured84,retained_wait,error) and source_campaign_character_move_blocking_v116(world,actor,captured84,blocking,error), declared source_campaign_script_actor_v96.hpp. Existing implementations depend on actual Android canonical World; do not bind by casting foundation Actors.",
+    "animation_backend_reference": "source_campaign_character_play_animation_v116/animation_blocking_v116; reviewer proposes generic retained plan admission in SAME combat Session Entry. A genuine FSM/blocking service remains required.",
+    "audio": "SourceAudioRuntime.campaign handles13 through remaining campaign command. Moth source363 maps UID459 staged exact moth WAV; Troll sound328 maps252 unavailable. No fallback.",
+    "frame": "Root calls scene_phase(actualSourceTimestamp) once and target-camera tick once. Campaign tick uses actual source delta."
+  },
+  "verification": {
+    "compiler": "portable Windows clang++ -std=c++17 -static -Wall -Wextra -Wpedantic, zero warnings",
+    "executable": ".local-inputs/windows-camera-assets/source-cinematics-tests.exe",
+    "result": "PASS",
+    "checks": [
+      "Original70-script bank and existing native camera timeline completion",
+      "Actual MothIntro teleport4 order Idle(false)/borrowed Position160/SetPosition(true)/ForceUpdatePosition",
+      "Original Moth look6 executes despite skip and clears forced9 after successful source command",
+      "Failed LookAt leaves reached actual forced9=1",
+      "MoveActor captured84 persists when source byte84 changes before IsBlocking",
+      "Missing services fail; existing session lifecycle and missing common-script checks"
+    ]
+  },
+  "reference": {
+    "audit": "reports/fidelity-video-audit-v18.json",
+    "moth": "Individual reference267/273.png show two movie moths with HUD hidden/SKIP;274.png HUD/BogMoth restored. Prior three-actor contact-sheet inference is superseded. Original MothIntro18 authored FakeMoth01/02, animations332/333 camera334 then55.",
+    "fungus": "Video349.5-354.5s jump/land is candidate TrollReturn37 association. Authored1377/1359/1373 and camera44 must resolve/admit exact resources before association is proved."
+  },
+  "live_done_criterion": [
+    "Root binds all reached services to SAME live canonical actor/camera/UI/input/audio authority",
+    "Original contact triggers start original18/37, no map/frame schedules",
+    "Positive original animation IDs resolve to exact resources and actual FSM/path wait completion",
+    "HUD hidden/SKIP shown by original Enter/Exit services and authored return commands restore gameplay",
+    "Matched live reference-phase captures show original actor placement/motion and camera",
+    "Whole script completes with no missing-service failures"
+  ],
+  "remaining": [
+    "Inventory reports current foundation live actors do not expose canonical Character/GameObject fields; no fabricated field bridge provided",
+    "Exact actor/FSM production providers and original camera334/44 resource admission still required",
+    "Exact Troll sound328 asset missing",
+    "No live cinematic acceptance from component tests",
+    "Root main/CMake/playable files were read-only"
+  ],
+  "source_cutscene_mode": {
+    "camera": "Uses existing GameplayCameraRuntimeV11 owner callbacks; root scene_phase once/close before SceneManager teardown; CutsceneMode creates no camera and no automatic reset",
+    "gap": "Current foundation runtime lacks published canonical Application/PM/ScriptManager/Character authority and genuine HUD AS process leaves; do not bind local shadow booleans.",
+    "order": "Enter currentLevel198 twice, MenuBase force gate/menu virtual38/repeated local PM query/ReloadSkills; online dead-local reset; HUD StartCutscene/StopCutscene before ScriptManager.byte30 store then actual display HUD process store; online Exit message then dynamic PM count/IsLocal/NetStruct cutscene or peer RenderVisible",
+    "actual_owners": "weak SAME ApplicationServicesOwnerV5; directly published ApplicationPlayerManagerBootstrapV59 and ScriptManagerOwnerV52; belongs_to_application checked",
+    "skip": "StartCutscene actual AS owns SKIP visibility/input; helper does not invent skip UI state. Original source Enter/Exit ignore skip/module",
+    "dependencies": "ApplicationServicesOwnerV5,ApplicationPlayerManagerBootstrapV59,PlayerManagerOwnerV1,PlayerNetworkLocalOwnerV4,ScriptManagerOwnerV52 existing recovered kernels; root UI/ReloadSkills/IsDead/RenderVisible leaves mandatory",
+    "validation": "clang++ C++17 Wall/Wextra/Wpedantic syntax pass with source module include roots; positive PM/UI integration unexecuted because root actual owner not available",
+    "status": "source-composition-syntax-pass-live-authority-required",
+    "api": "SourceCutsceneMode.command(enter,sourceSkip,module,error); bind its method into SourceCinematicProviders.cutsceneMode"
+  },
+  "camera_resource_admission": {
+    "executable": ".local-inputs/windows-camera-assets/source-camera-admission-tests.exe",
+    "troll44": {
+      "staged": ".local-inputs/windows-camera-assets/data/3d/camera/animations/common/cam_shake_horiz.bdae",
+      "path": "data/3D/camera/animations/common/cam_shake_horiz.bdae",
+      "registered_in_tested_Default": true,
+      "sha256": "9fa611486a45eade5aeb34a134baea01f89bc0924e1a4fed1944a6ed86a3af69"
+    },
+    "positive": "Actual App C1/eventPostInit/processActiveSlot/V23/V19/scene registry/factory/Zoom/scene membership/registration/native camera idle timeline/completion84 and ordered release/Flush; no second camera loaded by helper",
+    "result": "PASS",
+    "authority": "Checks published native_camera_services_v20 pointer and control block, current session sameWorld lease, loaded V19/V11, animator sameScene; reads actual tables row80/set_id and manager registration; unregistered source ID is observed no-play, never positive admission",
+    "moth334": {
+      "next": "Resolve exact original selected LevelConfig/property-default camera row and actual canonical ZIP resource; no append by video/map guessing",
+      "path": "data/3D/camera/animations/cs_moth_intro/cs_moth_intro.bdae",
+      "registered_in_tested_Default": false
+    },
+    "api": "SourceCameraResourceAdmission.borrow_camera/inspect/scene_phase; providers weak actual Application/cameraApplication/World and retained original dictionary",
+    "status": "actual-recovered-Application-V23-V19-positive-component-pass",
+    "warnings": "Zero warnings in new files; dependency event_manager_owner_v12.cpp41 and resource_budget_v37.cpp31 misleading-indentation warnings existing",
+    "lifecycle": "Use existing V23 begin_world_release then root physical/PF cleanup, flush_animation_sets, release_world_owners; root owns ordering. Helper provides no second active slot, no invented reset.",
+    "boundaries": "External viewport/device/Debug/actor anchor/PM-local/source-dt leaves explicitly fixture; not full gameplay acceptance"
+  },
+  "critical_camera_source": {
+    "caveat": "shake84 is source animation-blocking flag, not proof of visible screen shake; no Script_CameraShake command recovered in scanned kind inventory",
+    "semantics": "Actual CurrentLevel/Camera128 NULL no-op; positiveCharacter IsPlayer; player PM GetNumLocalPlayers(false)==1 and IsLocalPlayer; actual GetLookAtVec delivery; source row80.crit then PlayAnim(crit,clip0,holdtrue)",
+    "status": "exact-source-composition-syntax-pass",
+    "api": "SourceCameraCriticalEffect.apply(actualCharacter,error), called only original F_ApplyResult critical delivery prefix",
+    "source": "port/level-world/reference/character-skill-combat-v6/original-functions.asm3b16e0..3b1750; gameplay-camera-v1/original-source.asmCanPlayShakeAnim40f980; original_ui_session.cpp821..853",
+    "validation": "Syntax pass new helper; genuine PM+Character+critical gameplay delivery remains unexecuted",
+    "motion": "Authored BDAE transform tracks and clip ranges determine amplitude/time/space; no added impulse math"
+  }
+}

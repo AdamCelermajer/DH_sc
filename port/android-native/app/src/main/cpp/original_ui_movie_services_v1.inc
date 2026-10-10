@@ -17,6 +17,7 @@ struct MoviePlatformLease {
     static bool read(void* p,const char* uri,std::vector<std::uint8_t>& b,std::string& e){return movie_read(resource(p),uri,b,e);}
     static bool tex(void* p,const char* name,int w,int h,ui::SwfTexture& t,std::string& e){return texture(resource(p),name,w,h,t,e);}
     static bool upload(void* p,int w,int h,unsigned c,const std::uint8_t* b,int pitch,ui::SwfTexture& t,std::string& e){return image(resource(p),w,h,c,b,pitch,t,e);}
+    static bool remove_image(void* p,const ui::SwfTexture& t,std::string& e){return resource(p)->gpu.source_remove_image_v119(t,e);}
     static bool submit(void* p,const ui::SwfDraw& d,std::string& e){return draw(resource(p),d,e);}
     static bool mask(void* p,const float b[4],std::uint8_t n,bool& v,std::string& e){return stencil(resource(p),b,n,v,e);}
     static bool primitive(void* p,const char* name,const std::vector<ui::SwfValue>& args,ui::SwfValue& out,std::string& e){
@@ -40,7 +41,7 @@ struct MoviePlatformLease {
         if(lease.application.diagnostic)lease.application.diagnostic(lease.application.context,is_error,message);
     }
     ui::SwfServices services(){
-        ui::SwfServices out;out.context=this;out.read=read;out.texture=tex;out.image=upload;
+        ui::SwfServices out;out.context=this;out.read=read;out.texture=tex;out.image=upload;out.release_image_v119=[this](const ui::SwfTexture& t,std::string& e){return remove_image(this,t,e);};
         out.draw=submit;out.stencil=mask;out.native_call=primitive;out.native_action=action;
         out.graph_start=start;out.diagnostic=report;out.native_actions=application.native_actions;
         for(const char* name:{"NativeGetNextAchievementMessage","NativeSkipAchievementMessage"})

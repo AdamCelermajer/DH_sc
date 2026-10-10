@@ -1,0 +1,54 @@
+{
+  "schema": "runtime-companion-session-v1",
+  "status": "feature_adapter_and_actual_session_test_passed",
+  "source_version": "Recovered game data v1.0.2; visual reference video v1.0.3",
+  "evidence_reuse": {
+    "source_and_visual_report": "port/windows-foundation/features/companions/runtime-companion-follow-v1.json",
+    "source_records": "source_companion_follow_records_v1() in runtime_companion_follow_v1.cpp",
+    "source_facts": {
+      "priest": "_prim_NPC_PriestGood -> WanderingPriest, AI row 50 / script rene, AnimTable 47; source MGP record carries activate_cond=RENE_FOLLOW",
+      "faery": "_prim_Faery -> DefaultFairy, AI row 20 / script follower, AnimTable 23; source MGP record has no activate_cond",
+      "follower_callbacks": "follower.luac decisions already pinned in runtime-companion-follow-v1.json: MoveTo(master) only if not in Move state, then ClearTarget; WarpBehind(master) on out-of-sight; Stop in authored in-range callbacks. Faery has no MGP activation gate; only the separate Priest entry requires RENE_FOLLOW.",
+      "visual": "Reuses v1.0.3 first-spawn stills at 210s/212s/230s from runtime-companion-follow-v1.json. Stills corroborate an actor visible in the scene only; they do not establish identity or continuous following."
+    },
+    "visual_reference": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+    "mgp_sha256": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31",
+    "follower_lua_sha256": "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d"
+  },
+  "implementation": {
+    "header": "port/windows-foundation/features/companions/runtime_companion_session_v1.hpp",
+    "source": "port/windows-foundation/features/companions/runtime_companion_session_v1.cpp",
+    "entrypoint": "RuntimeCompanionSessionV1::bind(CombatSession&, authored identities, rene_follow_active, error)",
+    "command_entrypoint": "RuntimeCompanionSessionV1::plan_event(source object, reached follower callback, source master/state facts, decision, error)",
+    "behavior": "Maps only the exact authored Priest/Faery roles to ActorIds already registered in one CombatSession. Checks each live actor is the named source object, non-targetable, attackless, present in the Session population, and has the same retained pose owner. Faery has no MGP activation gate and may bind by itself; the separate Priest binding requires the caller's evaluated RENE_FOLLOW source activation fact. Master and friend IDs must resolve in the same current Session. The adapter returns the existing typed follower command plan for the existing Character/controller owner to execute.",
+    "effects": "No spawn, transform/target/vitals mutation, new master state, movement simulation, path clone/mutation, scheduler, or pose clock. Session.update remains the sole pose owner.",
+    "movement_handoff_check": "Implemented feature-owned RuntimeCompanionMovementV1 in runtime_companion_movement_v1.hpp/.cpp, outside root/main/CMake/core files. It consumes the exact typed source follower decision from RuntimeCompanionSessionV1, validates live owner/master ActorIds in the same leased CombatSession, and uses the existing PlayableActorBodies + PF + SourcePathCommandBindings owner for reached PathTo. It dispatches through the original controller command gate/Character control kernel; MoveTo reads the current master Session position, then runs source path search/publication, and ClearTarget follows in script order. The implementation preserves source masking order: blocked controller and remote-owned commands never require or reach PathTo, yet authored follower ClearTarget still runs. Stop uses the complete supplied same-owner Character service owner and preserves remote-query, GameObject.Stop, Character event0x3f order; masked Stop does not require its backend, while admitted Stop without it fails. WarpBehind requires a source-produced destination carrying exact owner/master ActorIds and delegates position update to the already-bound PlayableActorBodies owner; without that source output it fails closed. There is no synthesized offset/destination. This feature consumer is not wired into the production campaign loop, and no continuous playable follow is claimed.",
+    "movement_entrypoint": "RuntimeCompanionMovementV1::bind(CombatSession&, PlayableActorBodies&, error), then execute(decision, fresh source gate, remote-update fact, same-owner source path bindings, complete same-owner Stop services, optional actual WarpBehind result, output, error).",
+    "movement_constraints": "The source controller gate is required for each command. MoveTo requires a live same-session master and actual same-owner PF/path/search/publication services only if the source command reaches PathTo. Stop requires complete Character services only if admitted and not remote-owned. WarpBehind requires upstream source code to supply its true resolved destination; that resolver is not represented in the modern API yet."
+  },
+  "source_command_and_pf_evidence": {
+    "script": "Recovered follower.luac event order is MoveTo(g_master) only when GetState()!=AIStates.Move, then ClearTarget; out-of-sight is WarpBehind(g_master) without ClearTarget; authored in-range callbacks issue Stop. Rene AI50 is a distinct rene.luac state machine and remains gated by RENE_FOLLOW; it is not routed through this follower policy.",
+    "controller_admission": "reports/original-controller-commands.json and original_controller_commands.cpp: controller wrapper gates use fresh source controller state, and admitted only records wrapper reach. Object MoveTo (0x405540) tests source remote query before null target, then target position and PathTo. NPC point MoveTo gates, tests remote query, then PathTo(point). Stop (0x40559c) invokes the complete GameObject.Stop backend before Character event0x3f; admission alone is not a motion result.",
+    "path_and_pf": "features/navigation/source_commands.cpp requires the exact actor PF receiver, sewn floor world, actual PathController, PathObject, RouteResult, search provider and command publication provider. OriginalActorNavigation::update_path additionally requires same actor PF, PathController/PathObject/ControllerWorkspace, policy, boundary Debug, physical-stop and publish providers; it calls dh2_nav_update_path_source_v69 and preserves the reached source result prefix. This is an owner-borrowing API, not a standalone destination-to-position move.",
+    "warp_and_motion": "Source companion command map binds WarpBehind to its existing source operation; the modern ActorMovement/CombatSession APIs have no corresponding warp-behind destination or admission API. MotionHandler accepts animation root-motion deltas only; ActorMovement steering consumes input/camera basis, and no source follow speed, warp offset, or static formation offset is inferred here.",
+    "references": [
+      "port/windows-foundation/reports/original-controller-commands.json",
+      "port/windows-foundation/features/navigation/source_commands.cpp",
+      "port/windows-foundation/original_actor_navigation.cpp",
+      "port/windows-foundation/features/companions/source_owner_scripts.cpp",
+      "port/windows-foundation/actor_movement.hpp",
+      "port/windows-foundation/combat_session.hpp"
+    ]
+  },
+  "activation_boundary": {
+    "known": "The original MGP marks Priest with RENE_FOLLOW and the Faery row is ungated in the inspected source record.",
+    "not_provided_here": "The exact loaded campaign/quest owner that evaluates RENE_FOLLOW. Caller must supply that reached source fact; this adapter does not infer it from level, name, or actor presence."
+  },
+  "verification": {
+    "command": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/runtime-companion-session-v1-tests.exe C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/windows-shared-assets",
+    "compiler": "llvm-mingw clang++.exe -std=c++17 -Wall -Wextra -Werror -Wpedantic; linked privately against the terminal windows-foundation-build archives",
+    "result": "PASS: actual animationOnly Priest/Faery actors were initialized in a real CombatSession; exact ActorIds resolved; valid source master yielded MoveTo/ClearTarget, WarpBehind, and Stop plans; missing master, stale master ID, Priest without RENE_FOLLOW, and detached Session lease rejected. Faery alone remained enrolled with the Priest gate false. Live ActorState vitals/transform/target remained unchanged.",
+    "movement_consumption_result": "PASS: same-session consumer executed actual Faery MoveTo through its bound PF/path owner to the live Player ActorId and then cleared the target; verified blocked and remote no-op branches skip PathTo while preserving ClearTarget; verified complete Stop service order and backend masking; WarpBehind fails closed without source-produced destination; missing/stale master and Session lease teardown are rejected.",
+    "scope": "Actual asset-backed same-CombatSession integration test. It does not execute authored CharacterScript callbacks, evaluate native campaign condition, integrate a production loop caller, or implement the source WarpBehind resolver. Stop service test uses an explicit same-owner service fixture. It does not claim a playable continuous follow trajectory."
+  }
+}

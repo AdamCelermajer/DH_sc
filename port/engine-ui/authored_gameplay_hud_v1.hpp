@@ -14,7 +14,7 @@ struct AuthoredHudGeometryV1 {
 // Native callbacks must already be installed before this movie loads.
 class AuthoredGameplayHudV1 {
 public:
- explicit AuthoredGameplayHudV1(SwfMovie& movie,std::shared_ptr<std::int32_t> same_action_cache={}):movie_(movie),
+ explicit AuthoredGameplayHudV1(SwfMovie& movie,std::shared_ptr<std::int32_t> same_action_cache={},bool base_hud=false):movie_(movie),base_hud_(base_hud),
   action_icon_(same_action_cache?std::move(same_action_cache):std::make_shared<std::int32_t>(-1)){}
  bool bind(std::int32_t actual_saved_style,std::string&);
  bool activate(std::string&); // whole root DisplayRightHud selects CurrentHud
@@ -46,7 +46,7 @@ public:
 private:
  bool invoke(const std::string&,const char*,const std::vector<SwfAsValue>&,std::string&);
  bool frame(const std::string&,std::int32_t source_zero_based,std::string&);
- SwfMovie& movie_;std::int32_t style_{-1};std::string menu_,elements_;
+ SwfMovie& movie_;bool base_hud_{};std::int32_t style_{-1};std::string menu_,elements_;
  std::array<std::string,9> controls_{};
  float stick_rest_[2]{};
  std::shared_ptr<std::int32_t> action_icon_; //SAME MenuManager108, survives HUD movie

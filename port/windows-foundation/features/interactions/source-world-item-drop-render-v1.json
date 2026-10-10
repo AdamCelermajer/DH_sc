@@ -1,0 +1,170 @@
+{
+  "validation": "PASS",
+  "feature": "source_world_item_drop_render_v1",
+  "scope": "Feature-owned renderer projection over the caller's existing RuntimeWorldItemAdapterV1 store.",
+  "pre_change_investigation": {
+    "visual_evidence": {
+      "reference": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+      "observed_frames": "I inspected 1 fps frames from 205–212 seconds and the full frame at 210 seconds. The chest begins closed/outlined, then is visibly open by about 209–210 seconds; a bright small pickup-like glint remains near the lower-right of the chest area at 210–211 seconds. This supports a visible opened container and nearby item sparkle, but these low-resolution frames do not identify the exact dropped item mesh or its shader/texture. A source-backed montage is `.local-inputs/reference-video/dh2-act1/chest-sequence-205-213.jpg` and the direct frame is `.local-inputs/reference-video/dh2-act1/itemdrop-210.jpg`.",
+      "version_limit": "Footage is v1.0.3; the recovered native image/source receipts are v1.0.2. Any visual difference between those versions remains unknown."
+    },
+    "logic_evidence": {
+      "item_source": "`port/level-world/reference/world-item-object-owner-v1/original-source.json` pins the original v1.0.2 image SHA and ItemObject constructor/init excerpts. ItemObject::InitOnce at 0x3ECE80 selects the authored `data/3D/GameObjects/itemdrops.bdae` resource, then copies the selected ItemAudioVisual row Visual string into its VisualObject node before GameObject::InitPost; if the visual object exists it calls VisualObject::ApplyMeshBox. ItemObject::InitAgain at 0x3EC0F0 takes AudioVisualID from the transferred ItemInstance and writes the selected row's source audio fields before physical-item setup.",
+      "art_mapping": "`source-itemdrop-scenes-v1.json` plus `itemdrop-source-assets-v1.json` establish ItemTable word21 -> AudioVisual row -> original itemdrops BDAE xref. Potion0 id925 uses row20 `dummy_itemdrop_Potion` (30 triangles, 44 vertices, 2 materials, static); GoldStack01 id418 uses row13 `root_itemdrop_Gold_01` (28 triangles, 50 vertices, one CharacterVisual controller). Both use `atlas_dh2_game_objects_001.tga`; Gold also references `atlas_dh2_game_objects_001_alpha.tga`.",
+      "material_path": "The interaction material binder now resolves each exact BRES source material against its selected pass. For external effects it loads the canonical source-cache resource data/gfx/effects/GL_Diffuse_L1_VC_iPhone.bdae, selects the authored #Multilight-fx effect URI and exact GLES2 CurrentTechnique material parameter, and requires one pass in that actual effect BRES. For local ProfileCOMMON it uses the original itemdrops.bdae effect row. The binder decodes source textures and applies the source root red-channel alpha merge rule where selected."
+    },
+    "expected_behavior": "Prepare the original static Potion0 and GoldStack01 source visual packets at exact stored positions. Resolve each original material to its source pass and source textures, retaining the exact pass data on each range. Preserve Potion static geometry and Gold authored controller rest pose; no drop motion policy is inferred.",
+    "uncertainties": [
+      "Reference footage does not resolve which precise item visual is sparkling in the observed frames.",
+      "The existing visual proof is geometry/headless only; it does not establish original-game GPU shader output or runtime drop motion.",
+      "The test submit callback captures the frame, rather than executing the root production RenderQueue or a GPU draw. Production packaging must stage the same canonical external effect at data/gfx/effects/ and provide that AssetCatalog to the material binder. Original v1.0.2 assets are being compared with v1.0.3 gameplay footage; exact visual pixel parity remains unverified."
+    ],
+    "focused_test_plan": "Native C++17 audit validates original-cache itemdrops.bdae and both same-name effect BDAE cache entries, hashes source assets, reads source material #Multilight-fx technique parameters, and verifies selected one-pass effect rows/shaders. A second same-store fixture resolves Potion/Gold source passes, compares exact source texture pixels after alpha merge, asserts retained records/positions and 44/50 vertices, and sends a ready frame only to a capture callback (no GPU claim)."
+  },
+  "api": {
+    "load": "SourceWorldItemDropRenderV1::load(AssetCatalog&, RuntimeWorldItemAdapterV1&, ItemAudioVisualTable borrow, source material resolver, submit callback, output, error). Material resolver receives actual retained BRES material/range and a separate AssetCatalog containing the canonical external effect file at data/gfx/effects/.",
+    "frame": "prepare() emits exact store identity/record/quantity/source position, source Visual URI, retained source mesh borrow and translation transform, plus per-draw source_pass_ready and frame renderer_ready flags. submit() rejects an unresolved source pass and otherwise hands the frame to the root-owned RenderQueue callback.",
+    "lifetime": "Root must retain the submitted frame until every RenderQueue mesh/range borrow has drained. Root owns frame begin/end, camera, renderer state, and queue ordering."
+  },
+  "source_assets": {
+    "resource_uri": "data/3D/GameObjects/itemdrops.bdae",
+    "staged_path": ".local-inputs/windows-main-frontend-v1/assets/data/3d/gameobjects/itemdrops.bdae",
+    "bytes": 225424,
+    "sha256": "c4d783a23a158b4e52687d8ed718c584ee5ad90a325e0111c8da95ae86937610",
+    "source_receipt": "port/windows-foundation/reports/source-itemdrop-scenes-v1.json",
+    "source_cases": {
+      "Potion0": {
+        "item_id": 925,
+        "ItemTable_AudioVisualID_word21": 20,
+        "Visual": "dummy_itemdrop_Potion",
+        "loader": "OriginalScene authored subtree",
+        "triangles": 30,
+        "vertices": 44,
+        "materials": 2,
+        "pose": "static authored geometry"
+      },
+      "GoldStack01": {
+        "item_id": 418,
+        "ItemTable_AudioVisualID_word21": 13,
+        "Visual": "root_itemdrop_Gold_01",
+        "loader": "CharacterVisual using the source subtree's single exact controller",
+        "triangles": 28,
+        "vertices": 50,
+        "pose": "authored rest pose"
+      }
+    },
+    "material_source": "Exact original BRES material ID and OriginalMaterial fields are presented to SourceWorldItemDropMaterialBindingsV1. The feature decodes exact source diffuse/alpha pixels and uses the root red-channel alpha merge rule; unresolved material passes remain fail-closed and are never synthesized.",
+    "external_effect": {
+      "resource_uri": "data/gfx/effects/GL_Diffuse_L1_VC_iPhone.bdae",
+      "canonical_original_cache": "C:\\Users\\adamc\\Downloads\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+      "canonical_archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+      "canonical_member": "com.gameloft.android.GAND.GloftD2SS/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "bytes": 18792,
+      "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc",
+      "full_cache_apk": ".local-inputs/fsm-v166-installed-base.apk",
+      "full_cache_apk_sha256": "f17226636e29ffa4b5a2122d332ee83dd579ba21ffa98f9fb2b62e9d696460cf",
+      "nested_member": "assets/dh2-original-cache.zip",
+      "nested_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+      "nested_cache_entries": 7088,
+      "selected_effect": "Multilight-fx",
+      "selected_materials": [
+        "Material__37 -> L1_Vc_----_Sp_----_----_---- -> one pass: GL_Diffuse_L1_iPhone_VS.glsl / GL_Diffuse_L1_iPhone_FS.glsl, #define SP",
+        "Material__38 -> L1_Vc_Al_Sp_----_----_---- -> one pass: GL_Diffuse_L1_iPhone_VS.glsl / GL_Diffuse_L1_iPhone_FS.glsl, #define AL_SP"
+      ],
+      "root_duplicate_member": "com.gameloft.android.GAND.GloftD2SS/files/gl_diffuse_l1_vc_iphone.bdae",
+      "root_duplicate_sha256": "af9518292b54a0bcd78db7682ecd7cfbd48cb50347dd495718446f42166a9d2d",
+      "root_duplicate_technique_match": true,
+      "isolated_test_stage": ".local-inputs/interactions-source-material-cache-v1/assets/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "source_variant_comparison": "Second original-cache member com.gameloft.android.GAND.GloftD2SS/files/gl_diffuse_l1_vc_iphone.bdae differs by SHA-256 af9518292b54a0bcd78db7682ecd7cfbd48cb50347dd495718446f42166a9d2d; both selected GLES2 technique shader/define records and raw 76-byte source render-state ranges matched the canonical data/gfx/effects BRES.",
+      "root_duplicate_pass_state_match": true
+    },
+    "source_archive_search": {
+      "original_cache_zip": "C:\\Users\\adamc\\Downloads\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+      "sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+      "entries": 7088,
+      "canonical_effect_member": "com.gameloft.android.GAND.GloftD2SS/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "root_duplicate_member": "com.gameloft.android.GAND.GloftD2SS/files/gl_diffuse_l1_vc_iphone.bdae",
+      "full_cache_apk": ".local-inputs/fsm-v166-installed-base.apk",
+      "full_cache_apk_sha256": "f17226636e29ffa4b5a2122d332ee83dd579ba21ffa98f9fb2b62e9d696460cf",
+      "nested_cache_member": "assets/dh2-original-cache.zip",
+      "nested_cache_bytes": 433189197,
+      "nested_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+      "nested_cache_entries": 7088,
+      "full_cache_effect_and_itemdrops": "both original members present; two effect names with distinct hashes; each selected Multilight technique/pass state matches",
+      "original_base_apk": ".local-inputs/ida-apk-export-2026-10-07/inputs/Dungeon-Hunter-2-HD-v1-0-2.apk",
+      "original_base_apk_sha256": "32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200",
+      "original_base_apk_entries": 225,
+      "original_base_apk_contains_game_cache": false,
+      "apk_inventory_scan": "13 local APKs checked for direct effect/itemdrops names; one nested assets/dh2-original-cache.zip full-cache archive checked; exact source files are in that nested cache and the canonical original cache ZIP"
+    }
+  },
+  "native_test": {
+    "runner": "port/windows-foundation/features/interactions/run_session_world_item_consumer_v1_tests.ps1",
+    "result": {
+      "validation": "PASS",
+      "table": "Barrel_Level_01",
+      "seed": 146,
+      "same_store_records": 2,
+      "draw_packets": 2,
+      "source_material_bindings": 6,
+      "decoded_source_texture_leases": 2,
+      "potion_vertices": 44,
+      "gold_vertices": 50,
+      "potion_source_pass_ready": true,
+      "gold_external_effect_resolved": true,
+      "local_glows_profilecommon_pass_resolved": true,
+      "source_texture_pixels_decoded": true,
+      "gpu_upload_claim": false,
+      "gpu_draw_claim": false,
+      "gold_pose": "authored_rest",
+      "source_material_declarations": [
+        "Material__37 #Multilight-fx L1_Vc_----_Sp_----_----_---- pass=1",
+        "Material__38 #Multilight-fx L1_Vc_Al_Sp_----_----_---- pass=1",
+        "Glows #ProfileCOMMON_Glows-fx1302961734_itemdrops default pass=1"
+      ],
+      "effect_asset_sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc",
+      "effect_asset_stage": ".local-inputs/interactions-source-material-cache-v1/assets/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "submit_capture_callback_reached": true
+    },
+    "coverage": "The fixture uses actual Barrel_Level_01 selector outputs and the existing generic store, decodes Potion static geometry and Gold controller rest pose from staged itemdrops.bdae, resolves the original local Glows ProfileCOMMON pass and external Multilight source pass from the staged canonical effect BRES, binds exact BRES materials to decoded source texture pixels (including red-channel alpha merge), and verifies exact record/position and 44/50 vertex packets. The capture callback is reached only after all range passes resolve.",
+    "test_service_boundary": "The native C++17 test resolves actual source passes and retains actual decoded source texture pixels using CPU fixture leases. Its submit callback captures the ready frame; it does not execute production RenderQueue rasterization, GPU upload, or final pixels.",
+    "source_effect_audit_runner": "port/windows-foundation/features/interactions/run_source_itemdrop_effect_asset_tests.ps1"
+  },
+  "limits": [
+    "Only source visuals dummy_itemdrop_Potion and root_itemdrop_Gold_01 are enrolled. Other ItemAudioVisual rows are returned as unresolved, with no substitute geometry.",
+    "No item bob, spin, idle animation, animation clock, physics, native ItemObject, or duplicate world-item store is created.",
+    "Gold remains the source CharacterVisual authored rest pose. No drop-animation/motion policy is inferred.",
+    "The external effect and local Glows passes are source-resolved in the feature adapter, but the focused callback only captures packets; actual production RenderQueue/GPU drawing and final pixels remain unverified. Production package/root AssetCatalog wiring must expose the same canonical `data/gfx/effects/` file. No drop animation/motion policy is inferred."
+  ],
+  "owned_files": [
+    "port/windows-foundation/features/interactions/source_world_item_drop_render_v1.hpp",
+    "port/windows-foundation/features/interactions/source_world_item_drop_render_v1.cpp",
+    "port/windows-foundation/features/interactions/session_world_item_consumer_v1_tests.cpp",
+    "port/windows-foundation/features/interactions/run_session_world_item_consumer_v1_tests.ps1",
+    "port/windows-foundation/features/interactions/source-world-item-drop-render-v1.json",
+    "port/windows-foundation/features/interactions/source_world_item_drop_material_v1.hpp",
+    "port/windows-foundation/features/interactions/source_world_item_drop_material_v1.cpp",
+    "port/windows-foundation/features/interactions/source_itemdrop_effect_asset_tests.cpp",
+    "port/windows-foundation/features/interactions/run_source_itemdrop_effect_asset_tests.ps1"
+  ],
+  "material_binding_audit": {
+    "potion_materials": [
+      "Material__37 external #Multilight-fx; GLES2 L1_Vc_----_Sp_----_----_----; one actual pass GL_Diffuse_L1_iPhone_VS.glsl / GL_Diffuse_L1_iPhone_FS.glsl; #define SP",
+      "Glows local #ProfileCOMMON_Glows-fx1302961734_itemdrops; default single pass ProfileCOMMON_emul_VS.glsl / ProfileCOMMON_emul_FS.glsl; TEXTURED + ADDITIVEBLEND"
+    ],
+    "gold_materials": [
+      "Material__38 external #Multilight-fx; GLES2 L1_Vc_Al_Sp_----_----_----; one actual pass GL_Diffuse_L1_iPhone_VS.glsl / GL_Diffuse_L1_iPhone_FS.glsl; #define AL_SP"
+    ],
+    "canonical_effect_sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc",
+    "canonical_effect_path": "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+    "root_duplicate_sha256": "af9518292b54a0bcd78db7682ecd7cfbd48cb50347dd495718446f42166a9d2d",
+    "root_duplicate_selected_techniques_and_passes_match": true,
+    "source_alpha_merge": "source main.cpp red-channel alpha map multiplies diffuse alpha for the selected Gold technique",
+    "submit": "ready source frame reaches capture callback; no production RenderQueue or GPU claim",
+    "external_effect_availability": "Recovered from original cache ZIP and full-cache APK; previous missing-file claim is superseded.",
+    "root_duplicate_pass_state_match": true,
+    "potion_glows_pass": "Source itemdrops.bdae local ProfileCOMMON_Glows-fx1302961734_itemdrops default; actual one-pass ProfileCOMMON_emul_VS.glsl/ProfileCOMMON_emul_FS.glsl resolves and is retained.",
+    "external_effect_asset": "Recovered exact source BDAE; 18,792 bytes; SHA-256 10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc",
+    "pass_resolution_meaning": "Source BRES effect URI, selected GLES2 technique and single-pass shader/define/render-state metadata are resolved into retained Material pass state; shader compilation and execution are not proved."
+  }
+}

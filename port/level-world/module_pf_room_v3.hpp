@@ -32,6 +32,7 @@ class ModulePFRoomsV3 {
  std::vector<std::shared_ptr<ModulePFRoomV3>> rooms_;
  std::vector<ModulePFExitV3> exits_;
  octree::Box bounds_{};
+ bool post_load_busy_v122_{},post_load_failed_v122_{};std::string post_load_failure_v122_;
  bool flush_attempted_v1_{},flush_complete_v1_{};std::string flush_failure_v1_;
  std::weak_ptr<void> flush_receiver_v1_;std::uintptr_t flush_receiver_identity_v1_{};
  PFWorldFlushPhaseV1 flush_phase_v1_{PFWorldFlushPhaseV1::idle},flush_failed_at_v1_{PFWorldFlushPhaseV1::idle};
@@ -62,6 +63,9 @@ public:
  // After the SAME floor graph's proven post_load, publish retained PFRoom
  // boxes (including Decor extensions) to the collision query projection.
  bool publish_collision_bounds(std::string&);
+ // Original PFWorld.PostLoad on this retained PF receiver, including the
+ // initialized4 gate/store and a valid empty room/floor world.
+ bool post_load_source_v122(std::string&);
  bool flush_source_v1(const PFWorldFlushServicesV1&,const std::shared_ptr<void>&,std::uintptr_t,std::string&);
  auto flush_phase_v1()const noexcept{return flush_phase_v1_;}
  bool source_flushing_v1()const noexcept{return flush_attempted_v1_;}

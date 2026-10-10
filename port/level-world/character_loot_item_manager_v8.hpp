@@ -4,7 +4,8 @@
 namespace dh2::character {
 struct LootInventorySourceV9;struct LootItemSourceServicesV9;
 enum class LootItemOperationV8:std::uint32_t {
- init_once=0x3ece80,enable=0x393578,remove_all=0x3fe6bc,
+ // ItemManager Spawn/DeSpawn call Item's virtual40=GameObject.SetVisible.
+ init_once=0x3ece80,set_visible=0x38b0f0,remove_all=0x3fe6bc,
  physical=0x394bf8,position=0x393db4,destination=0x393600,
  init_again=0x3ec0f0
 };

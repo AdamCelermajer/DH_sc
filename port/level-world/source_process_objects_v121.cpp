@@ -46,7 +46,16 @@ bool SourceProcessObjectsV121::bind_lifecycle(CanonicalObjectLifecycleV1 lifecyc
 bool SourceProcessObjectsV121::local(void* p,std::uintptr_t& out,std::string& e){
  auto& self=*static_cast<SourceProcessObjectsV121*>(p);
  if(!self.current(e))return false;
- if(self.services_.local_player)return self.service_current(e)&&self.services_.local_player(self.services_.context,out,e);
+ // The process singleton is acquired before a World exists. Its static
+ // forwarding callback is already present in services_, but the World-owned
+ // receiver is intentionally not bound until canonical gameplay setup. In
+ // the process/menu phase, GetObjectByName's local-player query is the actual
+ // App PlayerManager alias; do not mistake the installed trampoline for a
+ // bound World receiver.
+ if(self.services_owner_){
+  if(!self.service_current(e)||!self.services_.local_player){if(e.empty())e="Required actual process ObjectManager local-player receiver";return false;}
+  return self.services_.local_player(self.services_.context,out,e);
+ }
  auto app=self.application_.lock();auto pm=app->source_player_manager_v59();player::PlayerInfoFieldsV1* local{};
  if(!pm||!pm->get_local_player(0,true,local,e)||!local){if(e.empty())e="Required actual process PlayerInfo lookup";return false;}
  out=local->character660;e.clear();return true;
@@ -68,13 +77,25 @@ bool SourceProcessObjectsV121::duplicate(void* p,CanonicalObjectBorrowV1& object
 }
 bool SourceProcessObjectsV121::network(void* p,CanonicalObjectBorrowV1& object,std::string& e){
  auto& self=*static_cast<SourceProcessObjectsV121*>(p);if(!self.current(e))return false;
- if(self.services_.assign_network_id)return self.service_current(e)&&self.services_.assign_network_id(self.services_.context,object,e);
+ // ObjectManager.Add is also used by the process-only menu preview before a
+ // gameplay World receiver exists. In that scope the original AssignObject-
+ // NetworkId body reads App.GetOnline.byte5 and returns without mutation for
+ // offline startup; only an online World receiver can perform the full path.
+ if(self.services_owner_){
+  if(!self.service_current(e)||!self.services_.assign_network_id){if(e.empty())e="Required actual process AssignObjectNetworkId receiver";return false;}
+  return self.services_.assign_network_id(self.services_.context,object,e);
+ }
  auto online=self.application_.lock()->get_online_loading_v55();
  if(!online->byte5()){e.clear();return true;} //343274 genuine offline return.
  e="Required whole positive online ObjectManager.AssignObjectNetworkId";return false;
 }
 bool SourceProcessObjectsV121::published(void* p,std::int32_t key,const CanonicalObjectBorrowV1& object,std::uintptr_t character,std::string& e){
  auto& self=*static_cast<SourceProcessObjectsV121*>(p);if(!self.current(e))return false;
+ // The canonical manager has already published its real map/list/character
+ // entries before this host observer runs. This observer belongs to an
+ // attached World facade; process-only menu preview objects have no World
+ // language registry to notify.
+ if(!self.services_owner_){e.clear();return true;}
  self.native_class_domain_produced_=true; //Observed actual Add publication.
  if(!self.service_current(e)||!self.services_.published){if(e.empty())e="Required actual process class publication provider";return false;}
  return self.services_.published(self.services_.context,key,object,character,e);

@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-09",
+  "status": "actual_retained_hierarchy_step_observer_component_verified",
+  "packaged": false,
+  "goal_complete": false,
+  "implementation": "combat_session.hpp/.cpp",
+  "test": "features/combo_chain/combat_session_combo_tests.cpp",
+  "checks": [
+    "Same actor binding lease, actual sequence/step and paths.",
+    "Caller-paired output clock copied without synthesis.",
+    "Source root243 and strike leaves470/471/472 step1 observed before corresponding hit markers.",
+    "Held three swings, released one, accepted-release two, blocked one retain original damage receipts.",
+    "Observer exception cannot veto source cursor or combat updates."
+  ],
+  "limits": [
+    "Original step Sound/Swoosh lookup and production audio/effects consumers still being implemented.",
+    "Seeded idle/locomotion repeats are outside hierarchy step-entry coverage.",
+    "Preview5 remains frozen and does not contain this development change."
+  ]
+}

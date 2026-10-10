@@ -1,0 +1,467 @@
+{
+  "source": "port\\android-native\\app\\src\\main\\assets\\original-cache\\data\\menus\\dqcharmenu_droid.swf",
+  "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+  "stage": [
+    480,
+    320
+  ],
+  "page": {
+    "name": "menu_FaerySheet",
+    "character": 547,
+    "matrix": [
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      3585,
+      1092
+    ],
+    "static_bitmap_batches": 2,
+    "button_insert_at": 1,
+    "image_insert_at": 1,
+    "edit_text_fields": [
+      {
+        "path": "menu_FaerySheet/faery_desc/text",
+        "character_id": 498,
+        "font_id": 103,
+        "height": 14.0,
+        "bounds": [
+          216.45,
+          473.6,
+          172.65,
+          192.65
+        ],
+        "rgba": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "align": 0,
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          218.45,
+          174.65
+        ],
+        "local_bounds": [
+          -2.0,
+          255.15,
+          -2.0,
+          18.0
+        ]
+      },
+      {
+        "path": "menu_FaerySheet/faery_spell/text",
+        "character_id": 527,
+        "font_id": 103,
+        "height": 11.0,
+        "bounds": [
+          216.6,
+          473.4,
+          195.3,
+          219.25
+        ],
+        "rgba": [
+          255,
+          255,
+          204,
+          255
+        ],
+        "align": 0,
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          218.6,
+          197.3
+        ],
+        "local_bounds": [
+          -2.0,
+          254.8,
+          -2.0,
+          21.95
+        ]
+      },
+      {
+        "path": "menu_FaerySheet/FaeryNameText/text",
+        "character_id": 544,
+        "font_id": 103,
+        "height": 18.0,
+        "bounds": [
+          216.55,
+          471.8,
+          153.05,
+          177.6
+        ],
+        "rgba": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "align": 0,
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          218.55,
+          155.05
+        ],
+        "local_bounds": [
+          -2.0,
+          253.25,
+          -2.0,
+          22.55
+        ]
+      },
+      {
+        "path": "menu_FaerySheet/menu_title/txt_title",
+        "character_id": 322,
+        "font_id": 287,
+        "height": 14.0,
+        "bounds": [
+          55.0,
+          161.0,
+          6.75,
+          32.15
+        ],
+        "rgba": [
+          255,
+          238,
+          170,
+          255
+        ],
+        "align": 2,
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          57.0,
+          8.75
+        ],
+        "local_bounds": [
+          -2.0,
+          104.0,
+          -2.0,
+          23.4
+        ]
+      }
+    ]
+  },
+  "faery_tab_hit_vertices": 6,
+  "faery_slot_hit_vertices": [
+    6,
+    6,
+    6,
+    6,
+    6
+  ],
+  "dynamic_projection": {
+    "button_names": [
+      "btn_GAMEPLAYMENUS_FAERY_1",
+      "btn_GAMEPLAYMENUS_FAERY_2",
+      "btn_GAMEPLAYMENUS_FAERY_3",
+      "btn_GAMEPLAYMENUS_FAERY_4",
+      "btn_GAMEPLAYMENUS_FAERY_5"
+    ],
+    "authored_element_icon_path": "buttons/btn_GAMEPLAYMENUS_FAERY_n/FaeryElementImage",
+    "text_fields": [
+      "faery_desc/text",
+      "faery_spell/text",
+      "FaeryNameText/text",
+      "menu_title/txt_title"
+    ]
+  },
+  "faery_images": {
+    "sprite_character_id": 543,
+    "named_frames": {
+      "Celest": {
+        "frame": 0,
+        "bitmap_batches": 1,
+        "shape_ids": [
+          538
+        ]
+      },
+      "Rocky": {
+        "frame": 2,
+        "bitmap_batches": 1,
+        "shape_ids": [
+          540
+        ]
+      },
+      "Wetty": {
+        "frame": 3,
+        "bitmap_batches": 1,
+        "shape_ids": [
+          541
+        ]
+      },
+      "Windy": {
+        "frame": 4,
+        "bitmap_batches": 1,
+        "shape_ids": [
+          542
+        ]
+      },
+      "Hotty": {
+        "frame": 1,
+        "bitmap_batches": 1,
+        "shape_ids": [
+          539
+        ]
+      }
+    }
+  },
+  "button_states": {
+    "sprite_character_id": 536,
+    "state_frames": {
+      "idle": 0,
+      "focused": 9,
+      "locked_gotoAndStop_17_frame": 16
+    },
+    "icon_names": [
+      "Lightning",
+      "Nature",
+      "Ice",
+      "Wind",
+      "Fire"
+    ],
+    "variants": [
+      {
+        "slot": 0,
+        "icon": "Lightning",
+        "frames": [
+          {
+            "index": 0,
+            "shape_ids": [
+              529
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 9,
+            "shape_ids": [
+              529
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 16,
+            "shape_ids": [
+              529
+            ],
+            "solid_overlays": [
+              {
+                "shape_id": 535,
+                "rgba": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.7019607843137254
+                ],
+                "after_bitmap_role": "menu_FaerySheet/buttons/slot0/16/FaeryElementImage/1",
+                "vertex_count": 762
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "slot": 1,
+        "icon": "Nature",
+        "frames": [
+          {
+            "index": 0,
+            "shape_ids": [
+              533
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 9,
+            "shape_ids": [
+              533
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 16,
+            "shape_ids": [
+              533
+            ],
+            "solid_overlays": [
+              {
+                "shape_id": 535,
+                "rgba": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.7019607843137254
+                ],
+                "after_bitmap_role": "menu_FaerySheet/buttons/slot1/16/FaeryElementImage/1",
+                "vertex_count": 762
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "slot": 2,
+        "icon": "Ice",
+        "frames": [
+          {
+            "index": 0,
+            "shape_ids": [
+              531
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 9,
+            "shape_ids": [
+              531
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 16,
+            "shape_ids": [
+              531
+            ],
+            "solid_overlays": [
+              {
+                "shape_id": 535,
+                "rgba": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.7019607843137254
+                ],
+                "after_bitmap_role": "menu_FaerySheet/buttons/slot2/16/FaeryElementImage/1",
+                "vertex_count": 762
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "slot": 3,
+        "icon": "Wind",
+        "frames": [
+          {
+            "index": 0,
+            "shape_ids": [
+              532
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 9,
+            "shape_ids": [
+              532
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 16,
+            "shape_ids": [
+              532
+            ],
+            "solid_overlays": [
+              {
+                "shape_id": 535,
+                "rgba": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.7019607843137254
+                ],
+                "after_bitmap_role": "menu_FaerySheet/buttons/slot3/16/FaeryElementImage/1",
+                "vertex_count": 762
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "slot": 4,
+        "icon": "Fire",
+        "frames": [
+          {
+            "index": 0,
+            "shape_ids": [
+              530
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 9,
+            "shape_ids": [
+              530
+            ],
+            "solid_overlays": []
+          },
+          {
+            "index": 16,
+            "shape_ids": [
+              530
+            ],
+            "solid_overlays": [
+              {
+                "shape_id": 535,
+                "rgba": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.7019607843137254
+                ],
+                "after_bitmap_role": "menu_FaerySheet/buttons/slot4/16/FaeryElementImage/1",
+                "vertex_count": 762
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "common_composition": {
+    "CharacterMenu_background_shape": 90,
+    "page_shape": 497,
+    "side_trim_shape": 546,
+    "CharacterSheetNew_retained": false
+  },
+  "faery_image_source": {
+    "shape_id": 538,
+    "fill_records": [
+      {
+        "kind": 66,
+        "bitmap_id": 1,
+        "matrix_twips": [
+          13.561599731445312,
+          0.0,
+          0.0,
+          13.561599731445312,
+          -1057,
+          -11252
+        ]
+      }
+    ],
+    "u_range": [
+      -0.0007921032704638867,
+      0.16951009987927176
+    ],
+    "v_range": [
+      0.8346608189042647,
+      0.999994374266545
+    ],
+    "atlas_alias": "SWF bitmap id1 -> menus/MenusGraphics_droid.tga"
+  },
+  "excluded": [],
+  "mask_applications": []
+}
