@@ -3711,7 +3711,6 @@ int main(int argc,char** argv) {
                             if(!zone.built||zone.kind!=f::transitions::ZoneKind::level_exit||!zone.inside) continue;
                             armed=true;
                             if(!zone.condition.empty()&&!transitionConditions.condition_active(zone.condition)) {std::cout<<"Exit zone="<<zone.name<<" status=condition_false frame="<<drawn<<'\n';continue;}
-                            if(zone.target_procedural) {std::cout<<"Transition refused zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" reason=procedural level has no EXE path yet frame="<<drawn<<'\n';continue;}
                             pendingTransition=f::transitions::PendingTransition{zone.name,zone.kind,zone.target_name,zone.target_file,zone.entry_id};
                             std::cout<<"Transition confirmed zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" frame="<<drawn<<'\n';
                             break;
@@ -4999,6 +4998,14 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
             pendingTransition.reset();
             std::cout<<"Transition session end resources "<<transition_resource_counts()<<" frame="<<drawn<<'\n';
             stampSaveMetadata(state,transition.target_file);
+            // P17 PROCGEN: a procedural target takes the profile's seed for the active difficulty (generated once, then kept,
+            // so every later visit regenerates the same layout). The arrival session reads this seed from the save.
+            if(f::procedural::is_procedural_level_uri(transition.target_file)) {
+                const auto difficulty=f::character_current_difficulty(state);
+                const auto seed=f::procedural::session_seed(state,difficulty,options.proceduralSeed,f::procedural::fresh_seed());
+                f::procedural::record_session_seed(state,difficulty,seed);
+                std::cout<<"Transition procedural seed target="<<transition.target_file<<" seed="<<seed<<" difficulty="<<difficulty<<" frame="<<drawn<<'\n';
+            }
             std::string transitionSaveError;
             if(options.save.empty()||!f::save_character(options.save,state,transitionSaveError))throw std::runtime_error("Transition save: "+transitionSaveError);
             std::cout<<"Transition leave level="<<options.level.generic_string()<<" zone="<<transition.zone_name<<" target="<<transition.target_name<<" file="<<transition.target_file<<" entry="<<transition.entry_id<<" frame="<<drawn<<'\n';

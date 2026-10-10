@@ -40,7 +40,7 @@ public:
         if (!ProceduralAssetSourceV1::key(uri, key, error)) return false;
         std::filesystem::path path(uri);
         try {
-            bytes = catalog_.read(path);
+            bytes = catalog_.read_authored(path); // the authored rule and MGX/MVX files, never a generated virtual document
         } catch (const std::invalid_argument&) {
             error = "invalid procedural resource path: " + uri;
             return false;
