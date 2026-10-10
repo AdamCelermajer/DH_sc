@@ -104,6 +104,10 @@
 #include "platform_key_codes.hpp"
 #endif
 #include "platform_sleep.hpp"
+#include "features/startup/boot_runner_v1.hpp"  // Preview 15 startup boot
+#include "features/startup/loading_screen_v1.hpp"  // Preview 15 campaign loading screen
+#include "features/audio/winmm_output.hpp"         // Preview 15 boot soundtrack output (platform pump only)
+#include "../engine-audio/audio_mixer_v34.hpp"
 #include <GL/gl.h>
 #include <algorithm>
 #include <cmath>
@@ -237,6 +241,8 @@ struct Options {
     fs::path audioAssets,audioTable;
     int audioListener=-1;
     std::string startMode="menu",menuActions,menuReturnActions;
+    bool skipBoot=false;std::string introMovie,loadingCapture; // Preview 15 startup boot (--skip-boot, --intro-movie, --loading-capture)
+    std::vector<double> bootPresses;std::vector<std::pair<double,fs::path>> bootCaptures;double bootMaxSeconds=0; // boot verification hooks
     fs::path menuAssets,menuUiAssets,menuCaptureDirectory;
     int menuCaptureEvery=6;
     int menuFrames=0,selectedSaveSlot=0;
@@ -434,6 +440,16 @@ Options parse(int argc, char** argv) {
         else if(arg=="--capture") o.capture=value();
         else if(arg=="--fixed-step") {o.fixedStep=std::stod(value());if(!std::isfinite(o.fixedStep)||o.fixedStep<=0||o.fixedStep>1)throw std::runtime_error("Fixed step must be in (0,1]");}
         else if(arg=="--probe") o.probe=true;
+        else if(arg=="--skip-boot") o.skipBoot=true;  // Preview 15: tests run without logo/movie/title
+        else if(arg=="--intro-movie") o.introMovie=value();
+        else if(arg=="--loading-capture") o.loadingCapture=value();  // <prefix>: writes <prefix>-NNN.ppm per loading stage
+        else if(arg=="--boot-press") o.bootPresses.push_back(std::stod(value()));  // scripted press/tap (verification)
+        else if(arg=="--boot-max-seconds") o.bootMaxSeconds=std::stod(value());
+        else if(arg=="--boot-capture") {  // <seconds>=<file.ppm>, written by the boot runner
+            const auto spec=value();const auto eq=spec.find('=');
+            if(eq==std::string::npos)throw std::runtime_error("--boot-capture expects <seconds>=<file>");
+            o.bootCaptures.push_back({std::stod(spec.substr(0,eq)),fs::path(spec.substr(eq+1))});
+        }
         else if(arg=="--timeline") o.timeline=true;
         else if(arg=="--help") {
             std::cout<<"dh-foundation [--assets DIR] [--scene RELATIVE_BDAE | --level RELATIVE_MLX] [--module NODE]\n"
@@ -516,6 +532,7 @@ int main(int argc,char** argv) {
             f::menu_metadata::stamp_menu_metadata_for_level(profile,std::uint32_t(std::time(nullptr)),loadMetadataLevels(assets),levelUri);
         };
         bool returnMenuScriptConsumed=false;
+        bool bootShown=false;  // Preview 15: the boot runs once per process, not on return-to-menu
         f::Window window;f::Renderer renderer;bool windowOpened=false;
         for(;;) {
         auto sharedCharacter=std::make_shared<f::CharacterState>(f::make_default_character());
@@ -533,6 +550,36 @@ int main(int argc,char** argv) {
                 windowOpened=true;
             } else if((window.width()!=width||window.height()!=height)&&!window.resize(width,height))
                 throw std::runtime_error("Frontend retained window resize: "+window.error());
+            // Preview 15 startup boot (original order): intro movie (contains the Gameloft logo, SKIP) -> touch to
+            // continue -> main menu, first menu entry only. --skip-boot bypasses it for tests; boot asset failures
+            // are logged and the menu still runs.
+            if(!options.skipBoot&&!bootShown) {
+                bootShown=true;
+                f::startup::BootRunConfig bootConfig;bootConfig.assets=&assets;
+                bootConfig.intro_movie=options.introMovie.empty()?assets.root()/"converted-media"/"intro_v1.mpg":fs::path(options.introMovie);
+                bootConfig.window_width=width;
+                bootConfig.scripted_presses=options.bootPresses;bootConfig.captures=options.bootCaptures;
+                bootConfig.max_seconds=options.bootMaxSeconds;
+                bootConfig.capture=[](const fs::path& p,int w,int h){capture(p,w,h);};
+                // The movie soundtrack runs on its own mixer; the boot owns the platform output while it runs.
+                auto bootMixer=std::make_unique<dh2::audio::AudioMixerV34>();
+                f::audio::WinmmAudioOutput bootOutput(*bootMixer);
+                std::string bootAudioError;
+                if(bootOutput.open(bootAudioError)) {
+                    bootConfig.audio_mixer=bootMixer.get();
+                    bootConfig.audio_latency_frames=std::uint64_t(f::audio::kWinmmBufferCount)*f::audio::kWinmmFramesPerBuffer;
+                    bootConfig.audio_pump=[&bootOutput](){std::string e;if(!bootOutput.update(e)){static bool reported=false;if(!reported){reported=true;std::cerr<<"Boot audio pump: "<<e<<std::endl;}}};
+                } else std::cerr<<"Boot audio unavailable ("<<bootAudioError<<"); the movie runs on the wall clock"<<std::endl;
+                const auto boot=f::startup::run_boot_v1(window,renderer,bootConfig);
+                bootOutput.close();
+                // std::endl flushes: verification jobs may be killed after the boot ends.
+                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown
+                         <<" movie_clock=\""<<boot.movie_clock<<"\" soundtrack_seconds="<<boot.soundtrack_seconds
+                         <<" soundtrack_duration="<<boot.soundtrack_duration<<" soundtrack_released="<<int(boot.soundtrack_released)
+                         <<" seconds="<<boot.seconds<<std::endl;
+                if(!boot.error.empty())std::cerr<<"Boot: "<<boot.error<<std::endl;
+                if(boot.outcome==f::startup::BootRunOutcome::quit)return 0;
+            }
             // The caller owns this startup stream. Named fields are transferred
             // after creation; population and combat continue its call count.
             creationRandom={options.combat.diagnosticRngSeed.value_or(0),0};
@@ -780,6 +827,19 @@ int main(int argc,char** argv) {
             options.combat.initialRandomState=frontendRandomState;options.combat.diagnosticRngSeed.reset();
             std::cout<<"Frontend launched same CharacterState slot="<<options.selectedSaveSlot<<" class="<<state.class_id<<" sourceRNG="<<creationRandom.seed<<'/'<<creationRandom.calls<<'\n';
         }
+        // Preview 15 campaign loading screen (menu route only; tests skip it). Stages below report real progress.
+        f::startup::LoadingScreenV1 loadingScreen(window,renderer,options.startMode=="menu"&&!options.skipBoot,1.5,&assets);
+        if(loadingScreen.enabled()) {
+            // Original NativeGetLoadingTipStrID: LCG over the help-page table; the seed is the game Random seed.
+            std::uint32_t loadingTipSeed=std::uint32_t(GetTickCount())|1u;
+            f::startup::LoadingTip tip;std::string tipError;
+            if(f::startup::choose_loading_tip_v1(assets,loadingTipSeed,tip,tipError)) {
+                std::cout<<"Loading tip string_id="<<tip.string_id<<" text=\""<<tip.text<<'"'<<std::endl;
+                loadingScreen.set_tip(tip);
+            } else std::cerr<<"Loading tip unavailable: "<<tipError<<std::endl;
+        }
+        if(!options.loadingCapture.empty())loadingScreen.set_capture(options.loadingCapture,[](const fs::path& p,int w,int h){capture(p,w,h);});
+        loadingScreen.progress(0.0);
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
@@ -896,6 +956,7 @@ int main(int argc,char** argv) {
         if(options.populationTemplates)populationStartupRandom=frontendRandomState.value_or(dh2::data::CombatRandom{*populationStartupSeed,0});
         if(!options.level.empty()) {
             if(!f::load_level(assets,options.level,scene,error)) throw std::runtime_error("Level: "+error);
+            loadingScreen.progress(0.4);  // level stage complete
             for(const auto& notice:scene.notices)std::cerr<<"Level notice: "<<notice<<'\n';
             std::cout<<"Level triangles="<<scene.triangleCount<<" instances="<<scene.instanceCount<<" ranges="<<scene.mesh.ranges.size()<<'\n';
         }
@@ -1085,6 +1146,7 @@ int main(int argc,char** argv) {
         };
         const bool runBound=combatSession&&combatSession->uses_retained_player_locomotion()?combatSession->has_player_locomotion("run"):std::any_of(options.character.clips.begin(),options.character.clips.end(),[](const auto& clip){return clip.first=="run";});
         if(options.movable&&!runBound)std::cout<<"Run input disabled: no authored run clip bound\n";
+        loadingScreen.progress(0.8);  // actor population stage complete; collision next
         f::CollisionScene collision;std::unique_ptr<f::ActorMovement> motor;
         std::map<f::ActorId,std::unique_ptr<f::ActorMovement>> populationMotors;
         struct MotionReceipt {unsigned enabled=0,disabled=0;double sourceXY=0,worldXY=0;};
@@ -2621,6 +2683,7 @@ int main(int argc,char** argv) {
                 std::cout<<'\n';
             }
         };
+        loadingScreen.finish();  // holds 100% for the minimum display time, then gameplay
         while(!window.should_close()) {
             if(options.hud&&combatSession)bindEquipmentPage();
             combatTextFrame=drawn;
