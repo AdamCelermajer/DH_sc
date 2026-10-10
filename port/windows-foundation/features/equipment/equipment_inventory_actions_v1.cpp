@@ -1,5 +1,6 @@
 #include "equipment_inventory_actions_v1.hpp"
 #include <algorithm>
+#include <cstddef>
 
 namespace dh::foundation::equipment_menu {
 namespace {
@@ -17,17 +18,33 @@ const InventoryItem* find_unequipped(const CharacterState& character, const std:
         }
     return &*found;
 }
+
+// One unit leaves the row: RemoveItem when this is the last unit, otherwise AddQty(-1).
+void take_one_unit(CharacterState& character, std::size_t index) {
+    if (character.inventory[index].quantity <= 1) character.inventory.erase(character.inventory.begin() + std::ptrdiff_t(index));
+    else --character.inventory[index].quantity;
+}
 }  // namespace
 
-bool drop_inventory_item(CharacterState& character, const std::string& instance_id,
-                         const DropItemToWorldFn& drop_to_world, std::string& error) {
+bool drop_item_to_world(const InventoryItem&, std::string& error) {
+    // DROPS stream owns the world-item store; not merged into this branch yet.
+    error = "no world store bound";
+    return false;
+}
+
+bool drop_inventory_item(CharacterState& character, const std::string& instance_id, std::string& error, WorldDropFn publish) {
     error.clear();
-    if (!find_unequipped(character, instance_id, error)) return false;
-    if (!drop_to_world) {
-        error = "World item drop owner is unavailable in this build; the item stays in the bag";
+    const auto* owned = find_unequipped(character, instance_id, error);
+    if (!owned) return false;
+    InventoryItem one_unit = *owned;
+    one_unit.quantity = 1;
+    const auto index = std::size_t(owned - character.inventory.data());
+    if (!publish || !publish(one_unit, error)) {
+        if (error.empty()) error = "world drop failed";
         return false;
     }
-    return drop_to_world(character, instance_id, error);
+    take_one_unit(character, index);
+    return true;
 }
 
 bool transmute_inventory_item(CharacterState& character, const std::string& instance_id, std::int32_t amount,
@@ -39,14 +56,13 @@ bool transmute_inventory_item(CharacterState& character, const std::string& inst
         error = "Transmute amount must be at least 1 (source clamp)";
         return false;
     }
-    const auto index = std::size_t(owned - character.inventory.data());
     if (character.gold > UINT64_MAX - std::uint64_t(amount)) {
         error = "Gold overflow";
         return false;
     }
+    const auto index = std::size_t(owned - character.inventory.data());
     character.gold += std::uint64_t(amount);
-    if (character.inventory[index].quantity <= 1) character.inventory.erase(character.inventory.begin() + std::ptrdiff_t(index));
-    else --character.inventory[index].quantity;
+    take_one_unit(character, index);
     return true;
 }
 

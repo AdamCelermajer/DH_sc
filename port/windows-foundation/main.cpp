@@ -1808,10 +1808,9 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::equipment_menu::RuntimeEquipmentBindingV1> runtimeEquipment;
         std::shared_ptr<f::equipment_menu::RuntimeEquipmentPageV1> runtimeEquipmentPage;
         f::equipment_menu::RuntimeEquipmentTextProviderV1 runtimeEquipmentText;
-        // P14 EQUIP: Details Transmute amount (source ValueBox value) and Drop owner. The drop owner is the DROPS stream's
-        // world-item system (loot::drop_item_to_world); until that branch is merged it stays empty and Drop fails loudly.
+        // P14 EQUIP: Details Transmute amount (source ValueBox value). Drop publishes through equipment_menu::drop_item_to_world,
+        // which reports "no world store bound" until the DROPS stream's world-item store is merged.
         std::function<bool(const f::InventoryItem&,std::int32_t&,std::string&)> equipmentTransmuteAmount;
-        f::equipment_menu::DropItemToWorldFn equipmentDropToWorld;
         f::effects::EffectTextureServices equipmentTextureServices;
         equipmentTextureServices.upload=[&](const f::TextureImage& image,std::uint32_t& id,std::string& e){id=renderer.createTexture(image.width,image.height,image.rgba.data());if(!id){e="Equipment original texture upload failed";return false;}e.clear();return true;};
         equipmentTextureServices.release=[&](std::uint32_t id){renderer.destroyTexture(id);};
@@ -2447,7 +2446,7 @@ int main(int argc,char** argv) {
                                     done=equipmentTransmuteAmount&&equipmentTransmuteAmount(*ownedAt,amount,error)&&
                                         f::equipment_menu::transmute_inventory_item(*sharedCharacter,pending.selected_instance_id,amount,error);
                                     if(!equipmentTransmuteAmount&&error.empty())error="Transmute value owner is unavailable";
-                                } else done=f::equipment_menu::drop_inventory_item(*sharedCharacter,pending.selected_instance_id,equipmentDropToWorld,error);
+                                } else done=f::equipment_menu::drop_inventory_item(*sharedCharacter,pending.selected_instance_id,error);
                                 if(!done)std::cerr<<(transmute?"Equipment Transmute diagnostic: ":"Equipment Drop diagnostic: ")<<error<<" instance="<<pending.selected_instance_id<<'\n';
                                 else {
                                     if(transmute)std::cout<<"Equipment Transmute instance="<<pending.selected_instance_id<<" item="<<definition<<" gold "<<goldBefore<<" -> "<<sharedCharacter->gold<<" amount="<<amount<<'\n';

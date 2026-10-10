@@ -46,22 +46,28 @@ int main() {
         c.gold = UINT64_MAX;
         check(!transmute_inventory_item(c, "boots", 1, error) && c.inventory.size() == 3, "gold overflow accepted");
     }
-    // Drop: delegates to the world owner; refuses equipped/unknown; missing owner leaves the bag intact.
+    // Drop: publishes ONE unit through the world seam, then removes it from the bag; refuses equipped/unknown.
     {
         auto c = make();
-        int calls = 0;
-        DropItemToWorldFn world = [&](CharacterState& character, const std::string& id, std::string&) {
-            ++calls;
-            for (auto it = character.inventory.begin(); it != character.inventory.end(); ++it)
-                if (it->instance_id == id) { character.inventory.erase(it); break; }
-            return true;
-        };
-        check(drop_inventory_item(c, "boots", world, error) && calls == 1 && c.inventory.size() == 2, "drop did not reach the world owner");
-        check(!drop_inventory_item(c, "sword", world, error) && calls == 1, "equipped item reached the world owner");
-        check(!drop_inventory_item(c, "boots", world, error) && calls == 1, "already dropped item reached the world owner");
-        DropItemToWorldFn failing = [](CharacterState&, const std::string&, std::string& e) { e = "world full"; return false; };
-        check(!drop_inventory_item(c, "stack", failing, error) && error == "world full" && c.inventory.size() == 2, "owner failure must keep the item");
-        check(!drop_inventory_item(c, "stack", DropItemToWorldFn{}, error) && !error.empty() && c.inventory.size() == 2, "missing owner must fail loudly and keep the item");
+        static int calls = 0;
+        static InventoryItem last;
+        calls = 0;
+        const WorldDropFn publish = [](const InventoryItem& unit, std::string&) { ++calls; last = unit; return true; };
+        check(drop_inventory_item(c, "boots", error, publish) && calls == 1 && last.quantity == 1 && c.inventory.size() == 2,
+              "drop did not publish the item and remove it from the bag");
+        check(!drop_inventory_item(c, "sword", error, publish) && calls == 1, "equipped item reached the world seam");
+        check(!drop_inventory_item(c, "boots", error, publish) && calls == 1, "already dropped item reached the world seam");
+        check(drop_inventory_item(c, "stack", error, publish) && last.quantity == 1 && c.inventory[1].quantity == 2,
+              "stack drop must publish one unit and keep the row");
+    }
+    // Drop failure: the bag is unchanged and the reason is returned.
+    {
+        auto c = make();
+        const WorldDropFn failing = [](const InventoryItem&, std::string& e) { e = "world full"; return false; };
+        check(!drop_inventory_item(c, "stack", error, failing) && error == "world full" && c.inventory.size() == 3 && c.inventory[2].quantity == 3,
+              "publish failure must keep the item");
+        check(!drop_inventory_item(c, "stack", error) && error == "no world store bound" && c.inventory.size() == 3,
+              "unbound world store must fail loudly and keep the item");
     }
     if (failures) return 1;
     std::cout << "equipment_inventory_actions PASS\n";
