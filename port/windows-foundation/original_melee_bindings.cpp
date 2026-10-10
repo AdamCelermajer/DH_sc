@@ -223,6 +223,16 @@ bool OriginalMeleeBindings::decode(const std::vector<std::uint8_t>& bytes, std::
 const OriginalMeleeActor* OriginalMeleeBindings::find_actor(const std::string& profileId) const noexcept {
     const auto found=actors_.find(profileId); return found==actors_.end()?nullptr:&found->second;
 }
+// P16 PROFILES: derived actors (see features/spawn/actor_profile_derivation_v1.hpp).
+bool OriginalMeleeBindings::add_derived_actor(OriginalMeleeActor actor, std::string& error) {
+    if(actor.id.empty()) { error="Derived melee actor needs an ID"; return false; }
+    if(actors_.count(actor.id)) { error="Melee actor already published: "+actor.id; return false; }
+    if(factions_.empty()) { error="Melee bindings have no factions"; return false; }
+    const auto id=actor.id;
+    actors_.emplace(id,std::move(actor));
+    error.clear();
+    return true;
+}
 const OriginalMeleeClip* OriginalMeleeBindings::find_clip(const std::string& uri) const {
     if(uri.empty()) return nullptr;
     const auto found=clips_.find(clip_key(uri)); return found==clips_.end()?nullptr:&found->second;

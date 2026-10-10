@@ -19,6 +19,8 @@ class ActorProfileLibrary {
 public:
     bool load(const AssetCatalog&, const std::string& uri, std::string& error);
     const ActorProfile* find(const std::string& id) const noexcept;
+    // P16 PROFILES: publishes a profile derived from the original tables; rejects an existing ID.
+    bool add_derived(ActorProfile profile, std::string& error);
     const std::map<std::string, ActorProfile>& profiles() const noexcept { return profiles_; }
 private:
     std::map<std::string, ActorProfile> profiles_;

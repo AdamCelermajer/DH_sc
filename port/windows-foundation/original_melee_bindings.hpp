@@ -69,6 +69,9 @@ public:
     // Validation and publication are transactional. No referenced clips/models
     // are loaded or substituted while parsing the original metadata.
     bool decode(const std::vector<std::uint8_t>& bytes, std::string& error);
+    // P16 PROFILES: publishes an actor derived from the original tables (features/spawn/
+    // actor_profile_derivation_v1). Rejects an existing actor ID; nothing changes on failure.
+    bool add_derived_actor(OriginalMeleeActor actor, std::string& error);
     const OriginalMeleeActor* find_actor(const std::string& profileId) const noexcept;
     const OriginalMeleeClip* find_clip(const std::string& uri) const;
     std::vector<const OriginalMeleeActor*> actors_for_row(std::int64_t row) const;
