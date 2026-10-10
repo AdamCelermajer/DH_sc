@@ -50,6 +50,7 @@
 #include "features/quest_runtime/quest_events_v1.hpp"
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
+#include "features/quest_runtime/quest_zones_v1.hpp" // P16 QUESTUI: quest trigger zones
 #include "features/inventory/source_item_descriptors.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
@@ -2253,9 +2254,11 @@ int main(int argc,char** argv) {
         std::shared_ptr<const f::quest_runtime::QuestTableV1> questTable;
         std::map<f::ActorId,std::pair<std::int32_t,std::int32_t>> questActorIdentity; // (CharacterTable row, Charater_Templates row)
         std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
+        f::quest_runtime::QuestZoneSetV1 questZones; // P16 QUESTUI: MoveInZone boxes of this level
+        std::int32_t questLevelRow=-1;
         const auto bindQuestRuntime=[&]() {
             f::quest_runtime::bind_quest_event_sink({});
-            questRuntime.reset();questActorIdentity.clear();
+            questRuntime.reset();questActorIdentity.clear();questZones=f::quest_runtime::QuestZoneSetV1();
             if(!combatSession||!menuSourceOwner.valid())return;
             if(!questTable) {
                 std::string questError;
@@ -2279,6 +2282,21 @@ int main(int argc,char** argv) {
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
             for(const auto& placed:population.actors())
                 questActorIdentity[placed.definition.stableId]={placed.source_character_cache,placed.source_template_cache};
+            // P16 QUESTUI: quest trigger zones from this level's declarations (quest-named zones only; any level).
+            {
+                std::vector<f::quest_runtime::QuestZoneDeclarationV1> zoneDeclarations;
+                for(const auto& declaration:population.definitions()) {
+                    if(declaration.name.empty())continue;
+                    zoneDeclarations.push_back(f::quest_runtime::make_quest_zone_declaration_v1(declaration.name,declaration.properties,
+                        {declaration.placement[12],declaration.placement[13],declaration.placement[14]}));
+                }
+                questZones.build(*questTable,zoneDeclarations);
+                {const auto* levels=loadMetadataLevels(assets);questLevelRow=levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;}
+                for(const auto& note:questZones.notes())std::cout<<"Quest zone note: "<<note<<'\n';
+                std::cout<<"Quest zones built="<<questZones.zones().size();
+                for(const auto& zone:questZones.zones())std::cout<<' '<<zone.name<<'['<<zone.min[0]<<','<<zone.min[1]<<','<<zone.min[2]<<'|'<<zone.max[0]<<','<<zone.max[1]<<','<<zone.max[2]<<']';
+                std::cout<<" level="<<questLevelRow<<'\n';
+            }
             std::cout<<"Quest runtime bound rows="<<questTable->rows().size()<<" actors="<<questActorIdentity.size()
                      <<" current="<<questRuntime->current_quest()<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
             for(const auto& banner:questRuntime->take_banners())
@@ -2310,6 +2328,19 @@ int main(int argc,char** argv) {
                 kill.kind=f::quest_runtime::QuestEvent::Kind::kill;
                 kill.property_id=identity->second.first;kill.template_id=identity->second.second;
                 f::quest_runtime::raise_quest_event(kill);
+            }
+        };
+        // P16 QUESTUI: quest zone entries of this frame (player position against the level's quest zones).
+        const auto raiseQuestZones=[&]() {
+            if(!questRuntime||!combatSession||questZones.zones().empty())return;
+            const auto* player=combatSession->actor(combatSession->player_id());
+            if(!player)return;
+            for(const auto& name:questZones.update({player->transform.position[0],player->transform.position[1],player->transform.position[2]})) {
+                f::quest_runtime::QuestEvent entry;
+                entry.kind=f::quest_runtime::QuestEvent::Kind::zone_enter;
+                entry.zone=name;entry.level_row=questLevelRow;
+                std::cout<<"Quest zone entered zone="<<name<<" level="<<questLevelRow<<'\n';
+                f::quest_runtime::raise_quest_event(entry);
             }
         };
         bindDeathRewards();
@@ -3250,6 +3281,7 @@ int main(int argc,char** argv) {
                     }
                 }
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
+                if(!gameplayPaused) raiseQuestZones(); // P16 QUESTUI: zone entries of this update
                 // P16 QUESTS test aid: frame-scheduled bus events (--quest-debug-kill / --quest-debug-accept).
                 if(!gameplayPaused&&questRuntime) for(const auto& debug:options.questDebugEvents) if(debug.frame==drawn) {
                     if(!debug.accept) {

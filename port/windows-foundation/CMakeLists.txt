@@ -284,6 +284,7 @@ add_library(foundation_runtime_quests STATIC
   features/quest_runtime/quest_events_v1.cpp
   features/quest_runtime/quest_table_v1.cpp
   features/quest_runtime/quest_runtime_v1.cpp
+  features/quest_runtime/quest_zones_v1.cpp
   features/quests/character_quest_progress_v1.cpp
   ../game-data/quest_persistence_v51.cpp ../game-data/quest_savegame_v1.cpp)
 target_link_libraries(foundation_runtime_quests PUBLIC foundation_data)
