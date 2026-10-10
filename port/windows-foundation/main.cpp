@@ -3219,7 +3219,7 @@ int main(int argc,char** argv) {
         // CharacterDesign.Despawn_Delay (source event 46), plays the Despawn clip (lifecycle state 2) and completes into Limbus.
         // Summoned actors release their spawn-pool slot on completion. Owner state is transient (dropped with the world).
         f::despawn::DespawnAfterDeathV1 despawnOwner;
-        std::uint32_t despawnDelayMs=0;std::uint64_t despawnFrameNow=0;
+        std::uint32_t despawnDelayMs=0;std::uint64_t despawnFrameNow=0;double despawnCarryMs=0; // P16 DESPAWN2: fractional ms carried between frames (whole ms per advance)
         const auto despawnServices=[&]() {
             f::despawn::Services s;
             s.log=[&](const std::string& line){std::cout<<line<<" frame="<<despawnFrameNow<<'\n';};
@@ -3258,10 +3258,9 @@ int main(int argc,char** argv) {
                     const auto melee=meleeBindings.find_actor(placed.profileId);
                     bool hasClip=false;
                     if(melee){const auto clip=melee->states.find("Despawn");hasClip=clip!=melee->states.end()&&!clip->second.empty();}
-                    // GAP (DESPAWN-report 1f): the Despawn sequence cannot complete for a dead actor yet (the combat runtime keeps
-                    // its death pose, and taking it over cancels the playback). Until that is fixed the clip is not started and the
-                    // actor is hidden at the delay, as in the no-clip path. Flip to true to exercise the clip path.
-                    constexpr bool kDespawnClipPlaybackWired=false;
+                    // P16 DESPAWN2: the Despawn clip plays on the dead actor (combat session advances the lifecycle sequence for
+                    // a dead actor; the runtime death pose is released by the takeover). Actors without a Despawn clip are hidden.
+                    constexpr bool kDespawnClipPlaybackWired=true;
                     if(!kDespawnClipPlaybackWired)hasClip=false;
                     if(!despawnOwner.track(id,spawnPool.owns(id),hasClip,despawnDelayMs,e))return false;
                     std::cout<<"DESPAWN tracked actor="<<id<<" name="<<placed.definition.name<<" summoned="<<spawnPool.owns(id)<<" clip="<<(hasClip?"Despawn":"none")<<" frame="<<frame<<'\n';
@@ -3274,7 +3273,9 @@ int main(int argc,char** argv) {
                 if(pose&&pose->current_ended()&&!despawnOwner.death_ended(id,services,e)) {
                     if(e.empty())e="Despawn death end refused";return false;}
             }
-            if(!despawnOwner.advance(static_cast<std::uint32_t>(std::lround(seconds*1000.0)),services,e))return false;
+            // Whole milliseconds advance the timers; the fraction is carried so 1/60 s frames count exactly (no 16.67 -> 17 drift).
+            const double totalMs=despawnCarryMs+seconds*1000.0;const double wholeMs=std::floor(totalMs);despawnCarryMs=totalMs-wholeMs;
+            if(!despawnOwner.advance(static_cast<std::uint32_t>(wholeMs),services,e))return false;
             return despawnOwner.poll(services,e);
         };
         while(!window.should_close()) {
