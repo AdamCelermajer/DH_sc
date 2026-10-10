@@ -1047,6 +1047,7 @@ int main(int argc,char** argv) {
         };
         // P16 SPAWN: pool of admitted slots and the CharacterTemplate table (both used only with --spawn-test).
         f::spawn::SpawnPoolV1 spawnPool;
+        std::map<std::string,std::string> spawnProfileRefusals; // P16 DESPAWN glue: profiles whose admission was refused (reason)
         dh2::data::CharacterTemplateTableV78 spawnTemplateTable;
         // P16 PROFILES: tables for profiles derived from CharacterTable/AnimTable rows, and the derived IDs to publish
         // into the melee bindings once they load.
@@ -1244,8 +1245,14 @@ int main(int argc,char** argv) {
                         if(level>=0)policy->second.propertyOptions.level_raw=level;
                         if(!spawnPool.reserve(profileId,spawnSlotsPerProfile,level,error))throw std::runtime_error("Spawn pool: "+error);
                         const auto declared=spawnPool.declarations(options.level.generic_string());
-                        for(std::size_t i=declared.size()-spawnSlotsPerProfile;i<declared.size();++i)
-                            if(!population.admit_declared(assets,declared[i],*profile,f::PopulationDecision::deferred,spawnCustomization,error))throw std::runtime_error("Spawn admission: "+error);
+                        bool admittedSlots=true;
+                        for(std::size_t i=declared.size()-spawnSlotsPerProfile;i<declared.size()&&admittedSlots;++i)
+                            if(!population.admit_declared(assets,declared[i],*profile,f::PopulationDecision::deferred,spawnCustomization,error))admittedSlots=false;
+                        if(!admittedSlots) { // P16 DESPAWN glue: an unadmittable profile is refused with its reason (logged), not a startup failure
+                            spawnProfileRefusals[profileId]=error;
+                            std::cout<<"SPAWN admission refused profile="<<profileId<<" reason="<<error<<'\n';
+                            continue;
+                        }
                         std::cout<<"SPAWN pool profile="<<profileId<<" slots="<<spawnSlotsPerProfile<<" level_raw="<<level<<'\n';
                     }
                 }
@@ -1958,7 +1965,10 @@ int main(int argc,char** argv) {
                     if(request.state==1)return combatSession->play_actor_state_sequence(actor.id,lifecycleSpawnChoice(placed->profileId),animationServices,e,request.state);
                     if(request.state==3)return combatSession->select_actor_state_leaf(actor.id,policy->second.initialIdle,1,false,animationServices,e,request.state);
                     // P16 DESPAWN: lifecycle state 2 plays the actor's Despawn clip (CSDespawn::OnFocus). Its end is the Limbus transition.
-                    if(request.state==2)return combatSession->select_actor_state_leaf(actor.id,f::CombatSessionChoice{"Despawn",0,{0}},1,false,animationServices,e,request.state);
+                    // The whole Despawn sequence (not a leaf) so its completion reaches animation_finished -> Limbus, as Spawn does.
+                    if(request.state==2) {f::OriginalAttackSelection despawn;despawn.state="Despawn";despawn.variant=0;
+                        if(const auto* source=meleeBindings.find_actor(placed->profileId)) if(const auto clip=source->states.find("Despawn");clip!=source->states.end())
+                            for(const auto& sequence:clip->second)std::cout<<"DESPAWN sequence actor="<<actor.id<<" id="<<sequence.id<<" name="<<sequence.name<<" loop="<<sequence.loop<<" type="<<sequence.type<<" steps="<<sequence.steps.size()<<'\n';return combatSession->play_actor_state_sequence(actor.id,despawn,animationServices,e,request.state);}
                     const auto* source=meleeBindings.find_actor(placed->profileId);
                     const auto pre=source->states.find("PreSpawn");
                     if(pre==source->states.end()){e="PreSpawn source availability metadata absent";return false;}
@@ -3175,10 +3185,10 @@ int main(int argc,char** argv) {
         // CharacterDesign.Despawn_Delay (source event 46), plays the Despawn clip (lifecycle state 2) and completes into Limbus.
         // Summoned actors release their spawn-pool slot on completion. Owner state is transient (dropped with the world).
         f::despawn::DespawnAfterDeathV1 despawnOwner;
-        std::uint32_t despawnDelayMs=0;
+        std::uint32_t despawnDelayMs=0;std::uint64_t despawnFrameNow=0;
         const auto despawnServices=[&]() {
             f::despawn::Services s;
-            s.log=[](const std::string& line){std::cout<<line<<'\n';};
+            s.log=[&](const std::string& line){std::cout<<line<<" frame="<<despawnFrameNow<<'\n';};
             s.release_body=[&](std::uint64_t id,std::string& e){return actorLifecycle.release_body(id,e);};
             s.play_clip=[&](std::uint64_t id,std::string& e){return actorLifecycle.despawn(id,e);};
             s.hide=[&](std::uint64_t id,std::string& e){return actorLifecycle.put_limbus(id,e);};
@@ -3193,7 +3203,7 @@ int main(int argc,char** argv) {
         };
         // One frame of the despawn owner. Returns false with the reason when an owner refuses (the caller reports it).
         const auto despawnTick=[&](double seconds,std::uint64_t frame,std::string& e)->bool {
-            if(!combatSession||!lifecycleEnabled)return true;
+            despawnFrameNow=frame;if(!combatSession||!lifecycleEnabled)return true;
             if(!despawnDelayMs) { // CharacterDesign.Despawn_Delay from design_pycst (2000 in the source data)
                 const auto designBytes=assets.read("original-cache/data/pydata/design_pycst.bin");
                 const auto destroyDesign=[](dh2_script_constants* value){if(value)dh2_script_constants_destroy(value);};
@@ -3214,6 +3224,11 @@ int main(int argc,char** argv) {
                     const auto melee=meleeBindings.find_actor(placed.profileId);
                     bool hasClip=false;
                     if(melee){const auto clip=melee->states.find("Despawn");hasClip=clip!=melee->states.end()&&!clip->second.empty();}
+                    // GAP (DESPAWN-report 1f): the Despawn sequence cannot complete for a dead actor yet (the combat runtime keeps
+                    // its death pose, and taking it over cancels the playback). Until that is fixed the clip is not started and the
+                    // actor is hidden at the delay, as in the no-clip path. Flip to true to exercise the clip path.
+                    constexpr bool kDespawnClipPlaybackWired=false;
+                    if(!kDespawnClipPlaybackWired)hasClip=false;
                     if(!despawnOwner.track(id,spawnPool.owns(id),hasClip,despawnDelayMs,e))return false;
                     std::cout<<"DESPAWN tracked actor="<<id<<" name="<<placed.definition.name<<" summoned="<<spawnPool.owns(id)<<" clip="<<(hasClip?"Despawn":"none")<<" frame="<<frame<<'\n';
                     continue;
@@ -3431,6 +3446,7 @@ int main(int argc,char** argv) {
                     index=std::int32_t(value);return true;
                 };
                 spawnServices.profile_available=[&](const std::string& profileId,std::string& e){
+                    if(const auto refused=spawnProfileRefusals.find(profileId);refused!=spawnProfileRefusals.end()){e="profile admission refused: "+refused->second;return false;}
                     if(!profiles.find(profileId)||!options.combat.profiles.count(profileId)){e="no actor profile or combat policy";return false;}
                     return true;
                 };

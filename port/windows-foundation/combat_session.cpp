@@ -2138,7 +2138,7 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     CombatRuntimeTransition receipt;
     if(s.actorTransitionHandler){
         // P16 LIFECYCLE: a legacy OriginalActorLifecycle program is admitted only with its explicit target state.
-        if(!generic&&policy.lifecycle_to_state!=1&&policy.lifecycle_to_state!=3&&policy.lifecycle_to_state!=17){
+        if(!generic&&policy.lifecycle_to_state!=1&&policy.lifecycle_to_state!=2&&policy.lifecycle_to_state!=3&&policy.lifecycle_to_state!=17){
             error="Legacy lifecycle source program has no admitted physical transition recipe";return false;
         }
         const auto to=generic?policy.original_state:policy.lifecycle_to_state;
