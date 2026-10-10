@@ -26,6 +26,7 @@ void dump(const QuestTableV1& table) {
     for (std::size_t i = 0; i < table.rows().size(); ++i) {
         const auto& r = table.rows()[i];
         std::printf("%02zu %-26s act=%d state=%d objs=%zu\n", i, r.name.c_str(), r.act, r.state, r.objectives.size());
+        std::printf("   text_fields=%d,%d,%d,%d\n", r.text_fields[0], r.text_fields[1], r.text_fields[2], r.text_fields[3]);
         for (const auto& p : r.prerequisites)
             std::printf("   prereq op=%d p1=%d p2=%d\n", p.type, p.parameter1, p.parameter2);
         std::printf("   accept type=%d oid1=%d oid2=%d str2='%s'\n", r.accept.type, r.accept.oid1,
@@ -146,8 +147,15 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     check(h.state(moths) == QuestStateV1::post_closed, "8th Moth kill completes and closes Moths");
     check(h.character.gold == 150, "Moths reward gold 150 once");
     const auto after = h.runtime->take_banners();
-    check(!after.empty() && after.front().kind == QuestBannerV1::Kind::completed &&
-          after.front().reward_xp == 20 && after.front().reward_gold == 150, "QUEST COMPLETED banner with rewards");
+    bool completed_banner = false;
+    for (const auto& b : after)
+        completed_banner = completed_banner || (b.kind == QuestBannerV1::Kind::completed && b.reward_xp == 20 && b.reward_gold == 150);
+    check(completed_banner, "QUEST COMPLETED banner with rewards");
+    // P16 QUESTUI: counted progress below the authored count queues a QUEST UPDATED banner with the counter.
+    bool counter_banner = false;
+    for (const auto& b : after)
+        counter_banner = counter_banner || (b.kind == QuestBannerV1::Kind::updated && b.row == std::int32_t(moths) && b.quantity == 7 && b.required == 8);
+    check(counter_banner, "objective counter banner shows 7 of 8 before completion");
     check(h.xp_awards.size() == 1 && h.xp_awards[0] == 20, "Moths reward XP 20 once");
     h.kill_template(94); // duplicate after completion is ignored
     check(h.character.gold == 150 && h.xp_awards.size() == 1, "duplicate kill grants nothing");

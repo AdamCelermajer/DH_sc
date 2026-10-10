@@ -65,8 +65,10 @@ inline constexpr std::uint32_t kEndObjectiveV1 = 63;
 
 struct QuestBannerV1 {
     // new_quest = original GLOBAL_QUEST_NEW dialog (state entered Active);
-    // completed = original QuestCompletedMsgDialog (state entered Closed).
-    enum class Kind : std::uint8_t { new_quest, completed };
+    // completed = original QuestCompletedMsgDialog (state entered Closed);
+    // updated = a counted objective advanced but is not complete yet (objective counter;
+    // no original banner is authored for this, it is the Preview 16 tracker line).
+    enum class Kind : std::uint8_t { new_quest, updated, completed };
     Kind kind{Kind::new_quest};
     std::int32_t row{-1};
     std::int32_t difficulty{0};
@@ -74,6 +76,9 @@ struct QuestBannerV1 {
     std::string text;                   // resolved text, empty when no resolver answers
     std::int32_t reward_xp{0};          // authored XP reward granted (completed banner)
     std::int32_t reward_gold{0};        // authored gold reward granted (completed banner)
+    std::int32_t objective{-1};         // updated: objective index in the row
+    std::int32_t quantity{0};           // updated: counted progress after this event
+    std::int32_t required{0};           // updated: authored count (objective value)
 };
 
 struct QuestRuntimeServicesV1 {
@@ -159,6 +164,7 @@ private:
         QuestObjectiveProgressV1& slot, const QuestEvent& event);
     bool complete_automatic(const dh2::data::QuestObjectiveDefinitionV51& def,
         QuestObjectiveProgressV1& slot);
+    void push_objective_update(std::int32_t row, std::int32_t difficulty, std::size_t objective);
     bool grant_rewards(std::int32_t row, std::string& error);
     void report_once(const std::string& text);
     bool write_counters(std::string& error);

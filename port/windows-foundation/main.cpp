@@ -51,6 +51,7 @@
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/quest_runtime/quest_zones_v1.hpp" // P16 QUESTUI: quest trigger zones
+#include "features/quests/quest_banner_presenter_v1.hpp" // P16 QUESTUI: quest banners
 #include "features/inventory/source_item_descriptors.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
@@ -211,6 +212,43 @@ bool drawCombatGlyphs(const std::vector<f::CombatTextGlyph>& glyphs,f::Renderer&
     }
     error.clear();return true;
 }
+// P16 QUESTUI: console name of a runtime banner kind (NEW QUEST / QUEST UPDATED / QUEST COMPLETED).
+const char* questBannerKindName(f::quest_runtime::QuestBannerV1::Kind kind) {
+    return kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":
+           kind==f::quest_runtime::QuestBannerV1::Kind::updated?"QUEST UPDATED":"QUEST COMPLETED";
+}
+// P16 QUESTUI: quest banner placeholder panel + lines (original Fontin glyphs via drawScreenLabel).
+// The panel is a PLACEHOLDER: the original dialog frame art is not exported in this build.
+bool drawQuestBanner(const f::QuestBannerDisplayV1& display,f::HudGlyphFont& font,f::Renderer& renderer,
+                     f::OverlayRenderer& overlay,std::map<std::string,std::uint32_t>& textures,
+                     int windowWidth,int windowHeight,float scale,std::string& error) {
+    if(display.lines.empty()||display.alpha<=0.f)return true;
+    const float gap=8.f*scale,padding=12.f*scale,panelWidth=300.f*scale;
+    float contentHeight=0.f;
+    for(const auto& line:display.lines)contentHeight+=float(line.source_height)*1.25f*scale+gap;
+    const float panelHeight=contentHeight+2.f*padding;
+    const float left=(float(windowWidth)-panelWidth)*.5f,top=float(windowHeight)*.12f;
+    const auto fill=[&](float x,float y,float w,float h,std::array<float,4> color) {
+        const f::OverlayTriangleVertex q[6]{{x,y,0,0},{x+w,y,0,0},{x+w,y+h,0,0},{x,y,0,0},{x+w,y+h,0,0},{x,y+h,0,0}};
+        return overlay.drawTriangles(q,6,0,color);
+    };
+    if(!fill(left-2.f*scale,top-2.f*scale,panelWidth+4.f*scale,panelHeight+4.f*scale,{0.55f,0.42f,0.20f,0.9f*display.alpha})) {
+        error="Quest banner border geometry rejected";return false;
+    }
+    if(!fill(left,top,panelWidth,panelHeight,{0.06f,0.05f,0.04f,0.85f*display.alpha})) {
+        error="Quest banner panel geometry rejected";return false;
+    }
+    float y=top+padding;
+    for(const auto& line:display.lines) {
+        const float lineHeight=float(line.source_height)*1.25f*scale;
+        const auto fade=[&](std::uint32_t channel) {return std::uint32_t(float(channel)*display.alpha);};
+        const std::uint32_t rgb=(fade((line.rgb>>16)&255)<<16)|(fade((line.rgb>>8)&255)<<8)|fade(line.rgb&255);
+        if(!drawScreenLabel(font,line.text,rgb,line.source_height,float(windowWidth)*.5f,y+float(line.source_height)*scale,scale,renderer,overlay,textures,error))return false;
+        y+=lineHeight+gap;
+    }
+    error.clear();return true;
+}
+
 struct Options {
     fs::path assets, scene, level, profiles, save = "character.save", liveSave="gameplay.save", capture;
     std::set<std::string> activeConditions;
@@ -2255,6 +2293,13 @@ int main(int argc,char** argv) {
         std::map<f::ActorId,std::pair<std::int32_t,std::int32_t>> questActorIdentity; // (CharacterTable row, Charater_Templates row)
         std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
         f::quest_runtime::QuestZoneSetV1 questZones; // P16 QUESTUI: MoveInZone boxes of this level
+        f::QuestBannerPresenterV1 questBanners;      // P16 QUESTUI: NEW QUEST / updates / QUEST COMPLETED
+        // P16 QUESTUI: every runtime banner is queued for the presenter and returned for the console line.
+        const auto takeQuestBanners=[&]() {
+            auto banners=questRuntime?questRuntime->take_banners():std::vector<f::quest_runtime::QuestBannerV1>{};
+            for(const auto& banner:banners)questBanners.push(banner);
+            return banners;
+        };
         std::int32_t questLevelRow=-1;
         const auto bindQuestRuntime=[&]() {
             f::quest_runtime::bind_quest_event_sink({});
@@ -2276,6 +2321,12 @@ int main(int argc,char** argv) {
             questServices.current_level_row=[&]()->std::int32_t {
                 const auto* levels=loadMetadataLevels(assets);
                 return levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;
+            };
+            // P16 QUESTUI: authored StringIDs (objective text) through the shared StringManager owner (drop-name owner).
+            questServices.text=[&](std::int32_t id,std::string& text) {
+                std::string textError;bool isNull=false;
+                if(!menuLocalization.bind_profile(&state,textError)||!menuLocalization.borrow_text(dropHudText,dropTextEnvironment,textError)||!dropHudText)return false;
+                return dropHudText->integer_string(id,dropTextEnvironment.localization,text,isNull,textError)&&!isNull;
             };
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
@@ -2299,8 +2350,8 @@ int main(int argc,char** argv) {
             }
             std::cout<<"Quest runtime bound rows="<<questTable->rows().size()<<" actors="<<questActorIdentity.size()
                      <<" current="<<questRuntime->current_quest()<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
-            for(const auto& banner:questRuntime->take_banners())
-                std::cout<<"Quest banner kind="<<(banner.kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":"QUEST COMPLETED")
+            for(const auto& banner:takeQuestBanners())
+                std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
                          <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" (bind)\n";
             f::quest_runtime::bind_quest_event_sink([&](const f::quest_runtime::QuestEvent& event) {
                 std::string e;
@@ -2310,8 +2361,8 @@ int main(int argc,char** argv) {
                 if(!questRuntime->save(saveError))std::cerr<<"Quest save diagnostic: "<<saveError<<'\n';
                 std::cout<<"Quest event kind="<<int(event.kind)<<" property="<<event.property_id<<" template="<<event.template_id
                          <<" applied="<<applied<<'\n';
-                for(const auto& banner:questRuntime->take_banners())
-                    std::cout<<"Quest banner kind="<<(banner.kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":"QUEST COMPLETED")
+                for(const auto& banner:takeQuestBanners())
+                    std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
                              <<" row="<<banner.row<<" objective="<<banner.objective_text_id<<" xp="<<banner.reward_xp
                              <<" gold="<<banner.reward_gold<<" text='"<<banner.text<<"'\n";
             });
@@ -3282,6 +3333,7 @@ int main(int argc,char** argv) {
                 }
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
                 if(!gameplayPaused) raiseQuestZones(); // P16 QUESTUI: zone entries of this update
+                if(!gameplayPaused) questBanners.tick(float(dt)); // P16 QUESTUI: banner timing
                 // P16 QUESTS test aid: frame-scheduled bus events (--quest-debug-kill / --quest-debug-accept).
                 if(!gameplayPaused&&questRuntime) for(const auto& debug:options.questDebugEvents) if(debug.frame==drawn) {
                     if(!debug.accept) {
@@ -3297,8 +3349,8 @@ int main(int argc,char** argv) {
                             std::string saveError;
                             if(!questRuntime->save(saveError))std::cerr<<"Quest save diagnostic: "<<saveError<<'\n';
                             std::cout<<"Quest debug accept frame="<<drawn<<" row="<<debug.id<<" accepted\n";
-                            for(const auto& banner:questRuntime->take_banners())
-                                std::cout<<"Quest banner kind="<<(banner.kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":"QUEST COMPLETED")
+                            for(const auto& banner:takeQuestBanners())
+                                std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
                                          <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<'\n';
                         }
                     }
@@ -3618,6 +3670,11 @@ int main(int argc,char** argv) {
                         std::string statusError;
                         if(!drawScreenLabel(targetFont,worldItemStatus,worldItemStatusRgb,14,window.width()*.5f,window.height()*.25f,scale,renderer,overlay,textures,statusError))throw std::runtime_error("World item status: "+statusError);
                     }
+                }
+                // P16 QUESTUI: quest banner over the HUD (placeholder panel; see report).
+                if(questBanners.visible()&&!characterMenu.is_open()&&!pauseMenuOpen) {
+                    std::string bannerError;
+                    if(!drawQuestBanner(questBanners.current(),targetFont,renderer,overlay,textures,window.width(),window.height(),scale,bannerError))throw std::runtime_error("Quest banner: "+bannerError);
                 }
                 if(options.combatText&&!characterMenu.is_open()) {
                     if(!combatText.draw(window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text draw: "+error);
