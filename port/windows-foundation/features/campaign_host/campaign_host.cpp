@@ -444,8 +444,25 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     // Verbs without an owner in this host: explicit, counted, non-blocking (the cutscene keeps running).
     case 6:  if (phase == CampaignCommandPhase::execute) unsupported_.note("stub SetCameraClip (camera transition tuning not decoded)"); return true;
     case 19: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayAnimByName (object clips for scene objects are not bound)"); return true;
-    case 20: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayEffect (scripted FX not bound)"); return true;
-    case 21: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub StopEffect (scripted FX not bound)"); return true;
+    case 20: { // Script_PlayEffect: set @8 at the position of the object @32 plus the authored offsets @16/@20/@24 (IDA Script_PlayEffect::Execute)
+        if (phase != CampaignCommandPhase::execute) return true;
+        const auto waypoint = string_field(c, 32);
+        std::array<float,3> position{};
+        bool placed = false;
+        if (!v.waypoint_position) return unbound("waypoint position");
+        if (!v.waypoint_position(waypoint, module, position, placed, e)) return false;
+        if (!placed) { note_unresolved(waypoint); return true; }
+        for (std::size_t axis = 0; axis < 3; ++axis) position[axis] += static_cast<float>(signed_field(c, 16 + 4 * static_cast<unsigned>(axis)));
+        if (!v.play_effect) { unsupported_.note("stub PlayEffect (no FX owner bound)"); return true; }
+        if (!v.play_effect(signed_field(c, 8), position, e)) { unsupported_.note("PlayEffect set failed: " + e); e.clear(); }
+        return true;
+    }
+    case 21: { // Script_StopEffect: set @8
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!v.stop_effect) { unsupported_.note("stub StopEffect (no FX owner bound)"); return true; }
+        if (!v.stop_effect(signed_field(c, 8), e)) { unsupported_.note("StopEffect set failed: " + e); e.clear(); }
+        return true;
+    }
     case 14: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub StopSound (scripted sound stop not bound)"); return true;
     case 51: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub UnEquipHands (equipment visuals not switched)"); return true;
     case 52: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub ReEquipHands (equipment visuals not switched)"); return true;

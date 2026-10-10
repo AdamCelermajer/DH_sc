@@ -53,6 +53,10 @@ struct ActorVerbServices {
     std::function<bool(ActorId,std::string& e)> put_limbus;
     // Plays the animations_dictionary clip on the actor (no loop). duration_ms = authored clip range.
     std::function<bool(ActorId,std::int32_t dictionary_id,std::int32_t& duration_ms,std::string& e)> play_clip;
+    // Script_PlayEffect / Script_StopEffect: VisualFXManager::PlayAnimFXSet(set, waypoint + offsets) and StopAnimFXSet (the set
+    // pool, not a stored handle). Failures are logged by the host and do not stop the cutscene (the source ignores the result).
+    std::function<bool(std::int32_t set,const std::array<float,3>& position,std::string& e)> play_effect;
+    std::function<bool(std::int32_t set,std::string& e)> stop_effect;
 };
 
 // Facts the host cannot own. main supplies them from the live combat session.
@@ -84,6 +88,13 @@ public:
     // P16 CINE: StrID resolver for caption lines (main binds the original MenuLocalization after its load).
     // Without it a caption line shows an explicit "[StrID n unresolved]" marker.
     void set_caption_text(std::function<bool(std::int32_t,std::string&,std::string&)> resolver) { caption_text_=std::move(resolver); }
+    // P16 OPENING: scripted FX owners (PlayEffect/StopEffect). main binds them once the effects factory exists; the host
+    // calls them at command time, so the bound functions must read the current owner.
+    void bind_fx(std::function<bool(std::int32_t,const std::array<float,3>&,std::string&)> play,
+                 std::function<bool(std::int32_t,std::string&)> stop) {
+        services_.actor_verbs.play_effect = std::move(play);
+        services_.actor_verbs.stop_effect = std::move(stop);
+    }
     // P16 CINE: cinematic presentation state and draw description (authored 480x320 space).
     const cinematic_runner::CinematicRunner& cinematic() const noexcept { return cinematic_; }
     bool cinematic_skip_hit(float x,float y,float window_w,float window_h) const noexcept { return cinematic_.skip_hit(x,y,window_w,window_h); }

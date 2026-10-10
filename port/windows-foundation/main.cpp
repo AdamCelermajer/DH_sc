@@ -1863,6 +1863,16 @@ int main(int argc,char** argv) {
         f::effects::RuntimeEffectsRendererV1 sourceEffectsRenderer(renderer);
         dh2::data::EffectsTables sourceEffectsTables;
         std::unique_ptr<f::effects::RuntimeEffectsFactoryV1> sourceEffectsFactory;
+        // P16 OPENING: scripted FX (PlayEffect/StopEffect) go through the source effects manager, the same owner as the level-up
+        // set. Read at command time, so a rebound factory is used. Without a factory the command reports an explicit error.
+        campaignHost.bind_fx([&](std::int32_t set,const std::array<float,3>& position,std::string& e){
+            if(!sourceEffectsFactory){e="FX owner unavailable (no source effects factory)";return false;}
+            std::uintptr_t created=0;const float at[3]={position[0],position[1],position[2]};
+            return sourceEffectsFactory->manager().play_set(set,at,nullptr,0,&created,e);
+        },[&](std::int32_t set,std::string& e){
+            if(!sourceEffectsFactory){e="FX owner unavailable (no source effects factory)";return false;}
+            return sourceEffectsFactory->manager().drop_set_by_id_v117(set,e);
+        });
         std::shared_ptr<f::effects::RuntimeSwingFxObserverV1> sourceSwingFx;
         std::unique_ptr<f::effects::CelestTargetFxDispatchV1> celestEffects;
         f::Camera sourceEffectsCamera;
