@@ -78,6 +78,14 @@ add_library(foundation_runtime_potion STATIC
 target_link_libraries(foundation_runtime_potion PUBLIC foundation_data)
 target_include_directories(foundation_runtime_potion PRIVATE ../level-world ../game-data ../script-runtime)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_potion)
+# P16 containers: general declaration loader (class registry, original tables, visuals).
+add_library(foundation_containers STATIC
+  features/containers/container_class_registry_v1.cpp features/containers/container_declarations_v1.cpp
+  ../level-loader/game_object_arrays_owner_v81.cpp ../level-world/destructible_container_data_v16.cpp
+  ../level-world/openable_container_owner_v1.cpp ../game-data/game_object_dictionary_v11.cpp)
+target_include_directories(foundation_containers PUBLIC ../game-data)
+target_link_libraries(foundation_containers PUBLIC foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_containers)
 target_sources(foundation_data PRIVATE ../game-data/character_templates_v78.cpp)
 target_sources(foundation_data PRIVATE player_profile_properties.cpp)
 target_sources(foundation_data PRIVATE embedded_scene_clips.cpp)

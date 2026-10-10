@@ -47,6 +47,7 @@
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
+#include "features/containers/container_declarations_v1.hpp" // P16 containers
 #include "features/inventory/source_item_descriptors.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
@@ -781,6 +782,7 @@ int main(int argc,char** argv) {
             std::cout<<"Frontend launched same CharacterState slot="<<options.selectedSaveSlot<<" class="<<state.class_id<<" sourceRNG="<<creationRandom.seed<<'/'<<creationRandom.calls<<'\n';
         }
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
+        f::containers::ContainerTablesV1 containerTables;f::containers::ContainerClassRegistryV1 containerRegistry;std::vector<f::containers::ContainerInstanceV1> containerInstances;f::containers::ContainerVisualsV1 containerVisuals; // P16 containers
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
         bool directFirstSkillGrantPending=false;
@@ -991,6 +993,19 @@ int main(int argc,char** argv) {
             for(auto& actor:population.actors())if(!actor.visual.select("Idle",true,error))std::cerr<<"Population initial pose: "<<actor.definition.name<<": "<<error<<'\n';
             std::cout<<"Population visuals="<<population.actors().size()<<" declarations="<<population.authored_count()<<" skipped="<<population.skipped_count()<<'\n';
             for(const auto& notice:population.notices())std::cerr<<"Population notice: "<<notice.sourceId<<": "<<notice.reason<<'\n';
+            // P16 containers: general loader over the authored declarations of the loaded level (class registry; no level data here).
+            containerInstances.clear();containerVisuals=f::containers::ContainerVisualsV1{};
+            {std::string containerError;f::containers::ContainerLoadReportV1 containerReport;std::vector<std::string> containerNotices;
+             if(!containerTables.ready()&&!containerTables.load(assets,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
+             else if(!f::containers::load_container_instances_v1(containerTables,containerRegistry,population.definitions(),containerInstances,containerReport,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
+             else {
+                 containerVisuals.load(assets,containerInstances,containerNotices);
+                 std::size_t visible=0;for(const auto& c:containerInstances)if(c.visual_ready)++visible;
+                 std::string unsupported;for(const auto& u:containerReport.unsupported){if(!unsupported.empty())unsupported+=",";unsupported+=u.first+":"+std::to_string(u.second);}
+                 std::cout<<"Containers instantiated="<<containerReport.instantiated<<" declarations="<<containerReport.declarations<<" visuals="<<visible<<" unsupported="<<(unsupported.empty()?std::string("none"):unsupported)<<'\n';
+                 for(const auto& n:containerReport.notices)std::cerr<<"Container notice: "<<n<<'\n';
+                 for(const auto& n:containerNotices)std::cerr<<"Container notice: "<<n<<'\n';
+             }}
         }
         };
         loadContent(scene,visual);
@@ -1767,6 +1782,10 @@ int main(int argc,char** argv) {
         }
         for(std::size_t i=0;i<targetMarker.materials.size();++i)targetMarker.mesh.ranges[i].material.texture=loadTexture(targetMarker.materials[i].diffuse,targetMarker.materials[i].alphaMap);
         };
+        // P16 containers: bind the original textures of each decoded container visual.
+        for(auto& entry:containerVisuals.visuals())if(entry.second) for(std::size_t i=0;i<entry.second->mutable_meshes().size();++i){
+            const auto& m=entry.second->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
+            for(auto& range:entry.second->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
         bindMaterials();
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
         f::CombatTextLiveAdapter combatText;
@@ -3377,6 +3396,8 @@ int main(int argc,char** argv) {
                 }
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
             }
+            // P16 containers: closed/static visuals of the loaded container declarations (placement = authored transform).
+            for(const auto& container:containerInstances)if(container.visual_ready){const auto containerVisual=containerVisuals.visuals().find(container.visual_file);if(containerVisual!=containerVisuals.visuals().end()&&containerVisual->second)for(const auto& mesh:containerVisual->second->meshes())queue.submit(mesh,container.transform);}
             // B004/B029: rendered marker = last target, else OOI, gated by eligibility (combat target is not used).
             const auto* markerTarget=combatSession?combatSession->actor(f::rendered_target_marker_actor_v1(*combatSession,combatSession->player_id(),objectOfInterest)):nullptr;
             if(const auto* target=markerTarget;target&&target->alive()&&!targetMarker.mesh.vertices.empty()) {
