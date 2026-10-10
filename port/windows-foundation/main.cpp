@@ -2432,6 +2432,8 @@ int main(int argc,char** argv) {
                 }
             }
             if(returnToFrontend) {
+                // B040: original MenuMainMenu::Hide StopMusic(1000); must run while the gameplay audio host is still alive.
+                if(runtimeAudio) {std::string audioError;if(!runtimeAudio->on_return_to_menu(audioError))std::cerr<<"Audio return-to-menu diagnostic: "<<audioError<<'\n';}
                 std::string saveError;
                 f::frontend::menu_return::TicketV1 ticket;
                 const bool admitted=combatSession&&skillCastCoordinator&&
@@ -3251,8 +3253,6 @@ int main(int argc,char** argv) {
             std::cout<<'\n';
         }
         if(returnToFrontend) {
-            // B040: original MenuMainMenu::Hide StopMusic(1000); session teardown follows.
-            if(runtimeAudio) {std::string audioError;if(!runtimeAudio->on_return_to_menu(audioError))std::cerr<<"Audio return-to-menu diagnostic: "<<audioError<<'\n';}
             pcHudText.clear(renderer);pauseText.clear(renderer);
             const int selectedSlot=options.selectedSaveSlot;
             options=launchOptions;options.startMode="menu";options.selectedSaveSlot=selectedSlot;
