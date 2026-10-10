@@ -75,6 +75,14 @@ int main(){try{
     check(menu.release(faery_x*2,faery_y*2,960,640)==Action::faery&&menu.tab()==Tab::faery,
           "source Faery tab release did not select the provider route");
     check(menu.select(Tab::stats,error),"source Stats tab did not return from Faery");
+    // P16 QUESTUI Quest Log tab (5th): its own hit zone selects the quest page, and the Map tab's
+    // zone (6th) is a different control, so the two tabs never answer for each other.
+    auto quest_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::quest;});
+    check(quest_zone!=original_menu_hit_zones().end(),"source Quest Log tab hit contour absent");
+    const auto quest_x=(quest_zone->triangles[0].x+quest_zone->triangles[1].x+quest_zone->triangles[2].x)/3;
+    const auto quest_y=(quest_zone->triangles[0].y+quest_zone->triangles[1].y+quest_zone->triangles[2].y)/3;
+    check(menu.release(quest_x*2,quest_y*2,960,640)==Action::quest&&menu.tab()==Tab::quest,"Quest Log tab release did not select the quest page");
+    check(menu.select(Tab::stats,error),"source Stats tab did not return from Quest Log");
     // P16 Map tab: its tab icon hit zone selects it; the legend toggles and the reset request
     // answer only there, and the legend popup appears in the frame only while it is shown.
     auto map_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::map;});
