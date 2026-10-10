@@ -1,6 +1,6 @@
 # CONTEXT report (PC context button, interaction priority, walk-over pickup)
 
-Status: IN PROGRESS. Section 1 (IDA decode) is complete. Sections 2-5 are being implemented.
+Status: IMPLEMENTED AND ISOLATED-TESTED; WALK-OVER PICKUP VERIFIED IN THE QUIET EXE. Not verified in the EXE: chest/enemy priority with a real chest, HUD action button drawing. Section 1 = IDA decode. Sections 3-5 = implementation, quiet evidence, gaps.
 
 ## 1. Evidence (IDA: `.local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c`, ARM32)
 
@@ -46,7 +46,7 @@ Consequences:
 | LiftableObject | 0x3ee440 | 4 if unheld; 5 if held by a2; else -1 |
 
 ### 1.3 Marker FX by type (Character::Update local-player block, pseudocode ~126735-126790; FX creation ~132100)
-- The marker FX array (`Character+0x13b4`, 9 entries, 0x24 bytes) is filled from AnimatedEffectTable from `target_circle_00_chest` consecutively:
+- The marker FX array (`Character+0x1494` = slot 1317, 9 entries, 0x24 bytes) is filled from AnimatedEffectTable from `target_circle_00_chest` consecutively:
   0 chest, 1 item, 2 lever, 3 npc, 4-7 UNUSED, 8 attack. Revive (10) is the sentinel `&byte_9[1]` in SM_SetInteractState.
   The names are confirmed in `port/game-data/reference/effects-tables/original-reader-projection.json`.
 - Marker target (local player only): last target `+0x40c` (Character+1036) if set and not self, else the OOI. The FX shown is FX[type].
@@ -82,3 +82,44 @@ Consequences:
   - Held (not an edge): combat-type OOI (enemy) keeps the attack path; no OOI -> Cmd_Attack(null). A non-combat OOI (chest, NPC) is NOT activated by a hold. This is the PC adaptation, so chests never open by accident.
 - Action icon: from the cached type via the MenuManager table (1.5).
 - Walk-over pickup: an item is taken when a contact begins while the character is moving. The E key is removed from pickup.
+
+## 3. Implementation (branch p16/context, commits dea95d41, 50567aca, 375a2c26, 90a78171)
+- `features/combat/object_of_interest_owner_v1.{hpp,cpp}` (extended, B004 owner): source candidate loop. Candidate fields: is_character, position, radius, interaction_type, type1_targets_owner, eligible. Queue = eligible and in range (3D centre distance - radius - owner melee radius <= 200), Characters first, then ascending angle to the owner's look vector. `select_object_of_interest_v1` is the pure loop; `update` keeps the 500 ms timer, per-frame validity, the cached type (`interaction_type()`) and `changed()`. B004's nearest-distance rule is replaced by the source frontal-angle rule.
+- `features/combat/object_of_interest_world_v1.{hpp,cpp}`: adapter. Owner look = (-sin h, cos h, 0) from rotation[2] (ActorMovement::root_world_delta convention). Enemy characters are type 8. Optional `InteractableRegistryV1` adds objects. Main call site unchanged except the registry argument.
+- `features/interactions/interactable_registry_v1.{hpp,cpp}`: the interaction-type provider interface. Each class registers `interaction_type(viewer)` (and optional `type1_targets_viewer`); the registry builds candidates per viewer. Chests, barrels, NPC objects, triggers register here (containers/NPC agents). Registry is empty in the EXE today.
+- `features/combat/context_button_v1.{hpp,cpp}`: `decide_context_button_v1` (Space press edge and held rules, section 2) and `action_button_icon_v1` (MenuManager table).
+- `features/loot/world_item_contact_v1.{hpp,cpp}`: `WorldItemContactTrackerV1` (contact begins while moving is stored; consumed on the next update; one per contact; unavailable items dropped).
+- `main.cpp` hunks (anchors: include block after object_of_interest_world_v1; member block after objectOfInterest; OOI tick; applyPlayerFrameControls input block; pickup block):
+  1. Context block before the gameplayInput attack OR: suppresses held attack when the decision says so; on the press edge with an admitted UseOOI it calls `set_source_target(player, OOI, false)` for actor OOIs and logs `Context button frame=...`.
+  2. Action icon: `Action icon frame=... icon=... type=...` printed on change.
+  3. Pickup: E (`uiInput.actions.interact`) no longer picks up. Walk-over via the contact tracker with the item sensor box (225) as contact. `--pickup-frame` kept as a scripted test hook only.
+  4. Test options: `--move-segment start:end:x,y,z` (repeatable), `--move-from-frame`.
+- `CMakeLists.txt`: one commented `target_sources` line after the B004 OOI line.
+- Isolated tests: `port/windows-foundation/features/combat/run_context_p16_tests.ps1` (OOI priority matrix 24 cases, range/timer/validity, marker; context press-edge and icon 17 cases; contact tracker 7 cases; registry 6 cases). All PASS.
+- Build: `p14_build.ps1 -Name p16context` build exit 0.
+
+## 4. Quiet verification (integrated EXE build `DH_wt/build-p16context/dh-foundation.exe`, quiet_run.ps1, hidden desktop)
+Base: P15 drop args (`verify-p14feat/drops-verify/drop/run.args`, seed 1234, swamp), Space held 30..160 (kill at frame 148).
+- Context button: `Context button frame=30 ooi=7118915781085668844 type=8 use=1 actor=1` (press edge on a lizard OOI). `Action icon frame=0 icon=5 type=8`. No context lines on the held frames.
+- Kill and drop still work: `Source death reward frame=148 ... spawned=1 store=1`, `World item target frame=148 ... ClothGloves01`.
+- Contact diagnostics (`World item contacts frame=... count=... moving=...`):
+  - Standing still in the sensor box at 148 (`count=1 moving=0`): no pickup (`still`, `stand` runs).
+  - Exit while moving, no return (`xexit`, `px`, `nx`, `py`, `ny`, `xback`): no pickup.
+  - Exit then re-enter while moving: `yback` contact frame 282 moving=1 -> `World item pickup frame=283 item=1 id=ClothGloves01 reason=walk-over outcome=0 picked=1 ... stacks=4->5 store=0`; `nxback` 299 -> pickup 300; `nyback` 292 -> pickup 293.
+- Logs: `C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/claude-preview16/walk4/{yback,nxback,nyback,xexit}/run.log`; control `walk/still`, `walk2/stand`.
+- Not verified: the chest/enemy priority in the real EXE (no chest in this scene; containers agent must register); the HUD action icon is not drawn; the held-vs-press behaviour over a non-combat OOI in the EXE (no such OOI present); visual check of the marker ring after the owner change (captures exist, not reviewed).
+
+## 5. Gaps, uncertainties, and corrections
+- B004 correction: the source ranks by frontal angle, not nearest distance. The earlier claim "nearest eligible within 200 (horizontal)" was wrong. Range is 3D and measured from the melee edge.
+- Two OOI producers now exist: this owner, and `level-world/character_object_interest_v106.*` (services form of the same function, not wired in the EXE). Their semantics match (flag-first, pop order, type-1 owner check). They should be merged into one owner later.
+- Friendly NPC eligibility (mask 0x8: friend and not in the interacting state) is not implemented. Only enemies are admitted from Characters (type 8). NPC talk (type 3) needs the NPC agent to register.
+- Candidate radius = `PlayableActorWorld::target_radius` (melee reach). The source vt+148 is not decoded; the mapping is unverified.
+- Per-frame validity (vt+140) is approximated by "still in the eligible candidate list". The `OOI+129` clear bit is not decoded.
+- `set_source_target(..., false)` is assumed to equal `AI_SetTarget(ai, OOI, 0)`. Not verified against the combat session side effects.
+- Type 1: no Character or ItemObject returns it. TriggerObject data and the `+956 == owner` item-owner clause (V106 `item_owner3bc`) suggest a data-driven trigger/item case. Unresolved; no provider registers type 1.
+- Walk-over contact uses the item sensor AABB (225 half-extent, existing port approximation). The source is the physics begin-contact of the item body; its shape is not decoded.
+- PC adaptation (explicit, user decision): Space is press-edge for non-combat OOIs (chest, NPC). Held Space never activates them and suppresses the attack over them. Enemy OOIs keep the source held behaviour.
+- HUD action button: state is computed and logged (frame 0..11 mapping). NOT drawn. The authored `btn_interact` (ID 374, `btimg` frames) exists in `engine-ui/authored_gameplay_hud_v1`, which is not wired into the PC HUD. Needs the HUD owner to draw it; positions from the authored layout, not the PC skill layout.
+- Chests (containers agent): no registration yet. `interactables` is empty, so no chest or barrel can become the OOI in the EXE until they register.
+- Scripted tests: `--move-segment` and `--move-from-frame` are test hooks; `--pickup-frame` stays a scripted hook for the DROPS batches.
+- Commits are local on `p16/context`; not pushed (per brief).
