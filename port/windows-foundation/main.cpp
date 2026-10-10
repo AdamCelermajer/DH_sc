@@ -2847,7 +2847,7 @@ int main(int argc,char** argv) {
             const auto circle=[](float x,float labelLeft,float labelRight) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,270,24,{labelLeft,labelRight,298,312}};};
             layout.skills={circle(128,116,140),circle(184,172,196),circle(240,228,252)};layout.faery=circle(296,276,316);layout.potion=circle(352,321,383);
             // P16 SPACEBTN: PLACEHOLDER action button, bottom right (placement not measured against the reference; see SPACEBTN-report).
-            layout.action_enabled=true;layout.action=f::generic_skills::PcGameplayHudCirclePlacementV1{440.f,270.f,28.f,{0.f,0.f,0.f,0.f}};
+            layout.action_enabled=true;layout.action=f::generic_skills::PcGameplayHudCirclePlacementV1{440.f,270.f,28.f,{400.f,480.f,300.f,313.f}};
             layout.action_label=f::action_button_label_v1(lastActionIcon<0?5:lastActionIcon);
             // HUDBTN: real CoolDown per physical cell. Each cell's skill timer (SetSkillCooldown, per actor/skill row) gives
             // remaining = 1 - elapsed/total; FastUpdate frame = clamp((int)(remaining*100)-1, 0, 99). Faery uses its 5000 ms spell clock.
