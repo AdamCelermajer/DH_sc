@@ -2240,10 +2240,22 @@ int main(int argc,char** argv) {
             for(unsigned i=0;i<status.size();++i)status[i].source_slot=i;
             f::generic_skills::PcSkillHudFrameV1 frame;
             if(!f::generic_skills::project_pc_skill_hud_v1(state,combatSession->player_id(),properties.characters,menuSourceOwner.skill_owner->borrow(),0,status,skillCastCoordinator?skillCastCoordinator->receipt(combatSession->player_id()):nullptr,frame,error))throw std::runtime_error("PC HUD source: "+error);
+            // HUDBTN: original bottom action row (Android reference): five rings centred on the 480x320 stage,
+            // pitch 56, radius 24, centre y 270. The 1-5 key legends are the PC adaptation, placed under each ring.
             f::generic_skills::PcGameplayHudLayoutV1 layout;
-            const auto circle=[](float x) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,278,15,{x-17,x+17,295,311}};};
-            layout.skills={circle(162),circle(200),circle(238)};layout.faery=circle(290);layout.potion=circle(350);
-            layout.faery.key_label_bounds={267,313,295,311};layout.potion.key_label_bounds={319,381,295,311};
+            const auto circle=[](float x,float labelLeft,float labelRight) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,270,24,{labelLeft,labelRight,298,312}};};
+            layout.skills={circle(128,116,140),circle(184,172,196),circle(240,228,252)};layout.faery=circle(296,276,316);layout.potion=circle(352,321,383);
+            // HUDBTN: real CoolDown per physical cell. Each cell's skill timer (SetSkillCooldown, per actor/skill row) gives
+            // remaining = 1 - elapsed/total; FastUpdate frame = clamp((int)(remaining*100)-1, 0, 99). Faery uses its 5000 ms spell clock.
+            if(skillCastCoordinator) for(auto& cell:frame.left_middle_right) if(cell.skill_table_id) {
+                const double remaining=skillCastCoordinator->skill_cooldown_remaining_fraction_v1(combatSession->player_id(),*cell.skill_table_id);
+                cell.source_cooldown_frame=f::generic_skills::pc_cooldown_frame_from_remaining_v1(remaining);
+            }
+            {
+                const auto spell=faeryCooldownClock.spell_ready_at_ms.find(combatSession->player_id());
+                const double remaining=spell==faeryCooldownClock.spell_ready_at_ms.end()?0.0:f::generic_skills::pc_cooldown_remaining_fraction_v1(double(spell->second),double(faeryCooldownClock.elapsed_ms),5000.0);
+                layout.faery_cooldown_frame=f::generic_skills::pc_cooldown_frame_from_remaining_v1(remaining);
+            }
             // B002/B024: exact NativeHUDGetActiveFaery result = Character::SG_GetCurrentFaerieId(-1), the saved current_faery of difficulty 0 (difficulty used by this build's Faery cast arm).
             if(state.source_faery_state_known)layout.active_faery_id=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
             if(!f::generic_skills::compose_pc_gameplay_hud_v1(frame,classFrame,layout,pcHudPresentation,error))throw std::runtime_error("PC HUD geometry: "+error);

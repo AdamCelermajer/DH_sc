@@ -1,4 +1,5 @@
 #include "runtime_skill_cast_coordinator_v1.hpp"
+#include "pc_cooldown_frame_v1.hpp"
 
 #include "../../playable_actor_world.hpp"
 #include "../../original_combat_properties.hpp"
@@ -265,6 +266,7 @@ bool RuntimeSkillCastCoordinatorV1::advance_after_session_update(
     if (timer_clock_bound_) {
         if (timer_binding_lease_.expired() || !same_owner(timer_binding_lease_, lease)) {
             skill_ready_at_ms_.clear();
+            skill_cooldown_total_ms_.clear();
             timer_clock_bound_ = false;
             return fail(error, "Skill cooldown timer state belongs to a replaced CombatSession binding");
         }
@@ -280,8 +282,10 @@ bool RuntimeSkillCastCoordinatorV1::advance_after_session_update(
     timer_binding_lease_ = lease;
     timer_clock_bound_ = true;
     for (auto it = skill_ready_at_ms_.begin(); it != skill_ready_at_ms_.end();) {
-        if (elapsed_ms_ >= it->second) it = skill_ready_at_ms_.erase(it);
-        else ++it;
+        if (elapsed_ms_ >= it->second) {
+            skill_cooldown_total_ms_.erase(it->first);
+            it = skill_ready_at_ms_.erase(it);
+        } else ++it;
     }
     error.clear();
     return true;
@@ -866,6 +870,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             return fail(error, "Source skill cooldown timer overflowed after UseMana");
         }
         skill_ready_at_ms_[{request.actor, visual.skill_table_id}] = ready;
+        skill_cooldown_total_ms_[{request.actor, visual.skill_table_id}] = active.cooldown_ms;
     }
 
     const auto generation = active.receipt.generation;
@@ -1245,6 +1250,14 @@ const RuntimeSkillCastReceiptV1* RuntimeSkillCastCoordinatorV1::receipt(
     ActorId actor) const noexcept {
     const auto found = active_.find(actor);
     return found == active_.end() ? nullptr : &found->second.receipt;
+}
+
+double RuntimeSkillCastCoordinatorV1::skill_cooldown_remaining_fraction_v1(
+    ActorId actor, int skill_table_id) const noexcept {
+    const auto ready = skill_ready_at_ms_.find({actor, skill_table_id});
+    const auto total = skill_cooldown_total_ms_.find({actor, skill_table_id});
+    if (ready == skill_ready_at_ms_.end() || total == skill_cooldown_total_ms_.end()) return 0.0;
+    return pc_cooldown_remaining_fraction_v1(ready->second, elapsed_ms_, total->second);
 }
 
 } // namespace dh::foundation::generic_skills

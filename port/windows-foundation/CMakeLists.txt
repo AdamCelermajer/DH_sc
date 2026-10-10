@@ -66,7 +66,7 @@ target_sources(dh2_freetype237 PRIVATE "${DH2_FT237}/src/base/ftbitmap.c")
 target_include_directories(foundation_data PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(foundation_data PUBLIC recovered_content content_xml dh2_freetype237)
 add_executable(dh-foundation main.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp render_queue.cpp overlay_renderer.cpp)
-target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp)
+target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp features/generic_skills/pc_gameplay_hud_button_art_v1.cpp)
 target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v1.cpp)
 # B004/B029: OOI owner (500 ms candidate refresh) and live Session adapter for the rendered target marker.
 target_sources(dh-foundation PRIVATE features/combat/auto_target_marker_v1.cpp features/combat/object_of_interest_owner_v1.cpp features/combat/object_of_interest_world_v1.cpp)
@@ -137,6 +137,7 @@ target_include_directories(dh-foundation PRIVATE
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_skills_menu)
 add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/runtime_skill_cast_coordinator_v1.cpp
+  features/generic_skills/pc_cooldown_frame_v1.cpp
   features/generic_skills/runtime_skill_cast_prepare_v1.cpp
   features/generic_skills/runtime_skill_target_query_v1.cpp
   features/generic_skills/runtime_skill_activation_v1.cpp

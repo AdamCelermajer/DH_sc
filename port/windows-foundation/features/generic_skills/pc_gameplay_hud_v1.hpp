@@ -1,5 +1,6 @@
 #pragma once
 
+#include "pc_cooldown_frame_v1.hpp"
 #include "pc_skill_hud_projection_v1.hpp"
 #include "../frontend/art/original_art.hpp"
 #include "../platform_input/semantic_input.hpp"
@@ -12,8 +13,10 @@
 namespace dh::foundation::generic_skills {
 
 // Caller supplies the placement in the frontend's authored 480x320 stage.
-// The circles and key legends are an explicit PC adaptation; the icons remain
-// original SkillIcon artwork. No Android HUD placement is inferred here.
+// Button rings, grey (empty) overlays and CoolDown wedges are the original
+// dqhud_droid button art (HUDBTN); the icons are original SkillIcon/Faery/potion
+// artwork. The numeric key legends (1-5) and the hit circles are an explicit PC
+// adaptation. No Android HUD placement is inferred here.
 struct PcGameplayHudCirclePlacementV1 {
     float center_x{};
     float center_y{};
@@ -27,6 +30,9 @@ struct PcGameplayHudLayoutV1 {
     std::array<PcGameplayHudCirclePlacementV1, 3> skills{};
     PcGameplayHudCirclePlacementV1 faery{};
     PcGameplayHudCirclePlacementV1 potion{};
+    // Source btn_spell CoolDown frame (0 ready .. 99 full), from the Faery
+    // spell timer (SetSpellCooldown). Potions have no source cooldown.
+    std::int32_t faery_cooldown_frame = 0;
     float key_label_height = 13.0f;
     // Exact NativeHUDGetActiveFaery result from the same current frame.
     // Source btn_spell.onPush passes active_id+1 to one-based gotoAndStop, so
