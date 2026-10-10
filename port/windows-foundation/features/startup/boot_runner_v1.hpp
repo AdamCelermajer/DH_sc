@@ -66,6 +66,8 @@ struct BootRunResult {
     int movie_presses_ignored = 0;  // presses ignored during an uninterruptible segment (B054)
     double soundtrack_seconds = 0.0;  // audible soundtrack time when the movie ended or was skipped
     bool soundtrack_released = true;  // the mixer released the soundtrack voice before the boot returned
+    int handoff_voices = -1;          // B065: mixer voices still active when on_title_entered ran (-1 = no soundtrack)
+    bool handoff_released = true;     // B065: the movie voice was released before on_title_entered ran
     double soundtrack_duration = 0.0; // decoded soundtrack length
     double seconds = 0.0;
 };

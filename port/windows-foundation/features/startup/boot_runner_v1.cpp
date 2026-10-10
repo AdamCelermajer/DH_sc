@@ -243,7 +243,12 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
 
         if (flow.phase() == BootPhase::title && !titleAnnounced) {
             titleAnnounced = true;
-            if (soundtrackStarted) release_soundtrack(soundtrack, *config.audio_mixer, config.audio_pump);  // B064: movie sound never runs under the title music
+            if (soundtrackStarted) {
+                release_soundtrack(soundtrack, *config.audio_mixer, config.audio_pump);  // B064: movie sound never runs under the title music
+                // B065: evidence that the movie voice is gone before the title music request (voices must be 0).
+                result.handoff_voices = int(config.audio_mixer->active_voices());
+                result.handoff_released = soundtrack.released(*config.audio_mixer);
+            }
             if (config.on_title_entered) config.on_title_entered();
         }
 
