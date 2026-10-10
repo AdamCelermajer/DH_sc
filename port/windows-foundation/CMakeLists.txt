@@ -344,6 +344,7 @@ add_library(foundation_runtime_quests STATIC
   features/quest_runtime/quest_events_v1.cpp
   features/quest_runtime/quest_table_v1.cpp
   features/quest_runtime/quest_runtime_v1.cpp
+  features/quest_runtime/quest_conditions_v1.cpp
   features/quest_runtime/quest_zones_v1.cpp
   features/quests/quest_banner_presenter_v1.cpp
   features/quests/character_quest_progress_v1.cpp
@@ -358,6 +359,10 @@ target_link_libraries(foundation_runtime_quests PUBLIC foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_quests)
 add_executable(quest_runtime_v1_tests features/quest_runtime/quest_runtime_v1_tests.cpp)
 target_link_libraries(quest_runtime_v1_tests PRIVATE foundation_runtime_quests)
+# OPENING2: named activation conditions and quest script slots.
+add_executable(quest_conditions_v1_tests features/quest_runtime/quest_conditions_v1_tests.cpp)
+target_link_libraries(quest_conditions_v1_tests PRIVATE foundation_runtime_quests)
+add_test(NAME quest_conditions_v1 COMMAND quest_conditions_v1_tests)
 add_executable(quest_banner_presenter_v1_tests features/quests/quest_banner_presenter_v1_tests.cpp)
 target_link_libraries(quest_banner_presenter_v1_tests PRIVATE foundation_runtime_quests)
 add_test(NAME quest_banner_presenter_v1 COMMAND quest_banner_presenter_v1_tests)

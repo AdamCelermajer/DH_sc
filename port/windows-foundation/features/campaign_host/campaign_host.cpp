@@ -78,7 +78,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
     };
     // P16 CINE: StartDialog (kind 10) queues one caption line: scalar 16 = StrID, 12 = style, 8 = actor (IDA
     // Script_StartDialog::Execute). WaitDialog (kind 12) blocks while any line is queued or shown
-    // (IDA Level::hasActiveDialog). Lines are drawn by cinematic_runner; the box art is a placeholder.
+    // (IDA Level::hasActiveDialog). Lines are drawn by cinematic_runner (original dialog box art and timing).
     if (!p.dialog) p.dialog = [this](const OriginalCampaignCommand& c, CampaignCommandPhase phase, bool& blocking, std::string&) {
         if (c.kind == 12) { blocking = cinematic_.waiting(); return true; }
         blocking = false;
@@ -159,9 +159,14 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
     };
     if (!p.block_save) p.block_save = [this](std::string&) { save_blocked_ = true; return true; };
     if (!p.cutscene_mode) p.cutscene_mode = [this](bool entering, std::string&) {
-        cutscene_mode_ = entering;
-        cinematic_.set_active(entering); // P16 CINE: exit clears lines and the SKIP control
-        if (!entering) { skip_pressed_ = false; save_blocked_ = false; } // [inf] the cutscene's own SaveGame ends the block
+        // OPENING2: cutscene mode nests. A tutorial that ends inside the opening must not restore the HUD and the
+        // controller while the opening is still running, so the mode ends when the last enter has been exited.
+        if (entering) ++cutscene_depth_;
+        else if (cutscene_depth_ > 0) --cutscene_depth_;
+        const bool active = cutscene_depth_ > 0;
+        cutscene_mode_ = active;
+        cinematic_.set_active(active); // P16 CINE: exit clears lines and the SKIP control
+        if (!active) { skip_pressed_ = false; save_blocked_ = false; } // [inf] the cutscene's own SaveGame ends the block
         return true;
     };
     if (!p.tutorial_gate) p.tutorial_gate = [this](int id, OriginalTutorialGate& gate, std::string&) {
@@ -334,6 +339,7 @@ bool CampaignHost::abort_cutscene(std::string& error) {
     skip_visible_ = false;
     skip_pressed_ = false;
     cutscene_mode_ = false;
+    cutscene_depth_ = 0;
     save_blocked_ = false;
     bool ok = true;
     if (global_blocked_ && previous_global_ && !previous_global_(false, error)) ok = false;
@@ -442,6 +448,9 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         return v.put_limbus(id, e);
     }
     // Verbs without an owner in this host: explicit, counted, non-blocking (the cutscene keeps running).
+    // OPENING2: Script_CONSOLE (kind 3) shows its text only when the DisplayScriptConsoleAsDialog debug switch is on;
+    // the release default is off (IDA Script_CONSOLE::Execute), so the command does nothing and never blocks.
+    case 3:  if (phase == CampaignCommandPhase::execute) unsupported_.note("Script_CONSOLE is a debug command (no-op: DisplayScriptConsoleAsDialog is off)"); return true;
     case 6:  if (phase == CampaignCommandPhase::execute) unsupported_.note("stub SetCameraClip (camera transition tuning not decoded)"); return true;
     case 19: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayAnimByName (object clips for scene objects are not bound)"); return true;
     case 20: { // Script_PlayEffect: set @8 at the position of the object @32 plus the authored offsets @16/@20/@24 (IDA Script_PlayEffect::Execute)

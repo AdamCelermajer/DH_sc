@@ -191,12 +191,43 @@ bool QuestRuntimeV1::save(std::string& error) {
     return write_counters(error);
 }
 
+std::int32_t quest_script_slot_v1(QuestStateV1 next, QuestStateV1 previous) noexcept {
+    switch (next) {
+    case QuestStateV1::post_locked: return 9;
+    case QuestStateV1::pre_available: return 11;
+    case QuestStateV1::available: return previous == QuestStateV1::active ? 4 : 1;
+    case QuestStateV1::post_available: return 6;
+    case QuestStateV1::pre_active: return 10;
+    case QuestStateV1::active: return 0;
+    case QuestStateV1::post_active: return 5;
+    case QuestStateV1::pre_completed: return 13;
+    case QuestStateV1::completed: return 3;
+    case QuestStateV1::post_completed: return 8;
+    case QuestStateV1::pre_closed: return 12;
+    case QuestStateV1::closed: return 2;
+    case QuestStateV1::post_closed: return 7;
+    default: return -1;
+    }
+}
+
 bool QuestRuntimeV1::set_state(std::int32_t row, QuestStateV1 next, std::string& error) {
     const auto d = difficulty();
+    QuestStateV1 previous{};
+    if (!state_of(row, previous)) previous = QuestStateV1::locked;
     if (!progress_.record_source_state(character_, CharacterQuestIdV1{0, d, row},
                                        std::int32_t(next), error))
         return false;
     const auto& def = table_->rows()[std::size_t(row)];
+    // OPENING2: the state's authored script starts through the script owner (the Swamp opening starts this way).
+    const auto slot = quest_script_slot_v1(next, previous);
+    if (slot >= 0 && std::size_t(slot) < def.scripts.size() && !def.scripts[std::size_t(slot)].empty()) {
+        const std::string full = def.scripts[std::size_t(slot)];
+        const auto dot = full.rfind('.');
+        const std::string script = dot == std::string::npos ? full : full.substr(dot + 1);
+        std::string scriptError;
+        if (!services_.start_script) report_once("Quest script " + full + " not started (no script owner bound)");
+        else if (!services_.start_script(script, scriptError)) report_once("Quest script " + full + " not started: " + scriptError);
+    }
     switch (next) {
     case QuestStateV1::active: {
         // SetState case 6: NEW QUEST banner and current quest.

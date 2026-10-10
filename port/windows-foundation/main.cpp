@@ -58,6 +58,7 @@
 // P16 QUESTS: thin quest runtime and the generic quest event bus (raise_quest_event).
 #include "features/quest_runtime/quest_runtime_v1.hpp"
 #include "features/quest_runtime/quest_events_v1.hpp"
+#include "features/quest_runtime/quest_conditions_v1.hpp" // OPENING2: named activation conditions
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
@@ -338,6 +339,7 @@ struct Options {
     std::string campaignCommands;
     bool campaignTriggers=false; // P16 HOST: --campaign-triggers (off until verified)
     int campaignSkipFrame=-1; std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
+    int captionAutoTapMs=0; // OPENING2: verification only; taps tap-wait captions after N ms (0 = the player taps)
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
     std::vector<ScheduledSourceCommand> sourceCommands;
     // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME (debug; empty by default).
@@ -458,6 +460,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--campaign-commands") o.campaignCommands=value();
         else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
         else if(arg=="--campaign-skip-frame") o.campaignSkipFrame=std::stoi(value()); // P16 CINE
+        else if(arg=="--caption-auto-tap-ms") o.captionAutoTapMs=std::stoi(value()); // OPENING2 (verification input)
         else if(arg=="--campaign-start") o.campaignStart=value(); // P16 CINE
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
         else if(arg=="--combat-react") {auto c=choice(value());o.combat.profiles[c.first].reaction=c.second;}
@@ -1220,12 +1223,43 @@ int main(int argc,char** argv) {
         if(!equipment.load(assets,options.equipment,error))throw std::runtime_error("Equipment: "+error);
         if(!options.playClip.empty() && !visual.select(options.playClip,true,error)) throw std::runtime_error("Clip: "+error);
         if(!options.profiles.empty()) {
+            // OPENING2: named conditions (v2conditions) are evaluated from the saved quest states and the current level
+            // (GameStartOnly = quest row 1 in state 0 for a new game). Command-line names still count as active.
+            std::map<std::string,f::quest_runtime::NamedConditionV1> namedConditions;
+            {
+                std::string conditionError;
+                const auto condArray=assets.read("original-cache/data/pydata/v2conditions_pyarray.bin");
+                const auto condNames=assets.read("original-cache/data/pydata/v2conditions_pyarraynames.bin");
+                if(!f::quest_runtime::decode_named_conditions_v1(condArray,condNames,namedConditions,conditionError))
+                    std::cerr<<"Named condition table diagnostic: "<<conditionError<<'\n';
+            }
+            std::shared_ptr<const f::quest_runtime::QuestTableV1> conditionQuests; // authored initial states for a new game
+            {
+                std::string questTableError;
+                const auto questArray=assets.read("original-cache/data/pydata/v2quests_pyarray.bin");
+                const auto questNames=assets.read("original-cache/data/pydata/v2quests_pyarraynames.bin");
+                if(!f::quest_runtime::decode_quest_table_v1(questArray,questNames,conditionQuests,questTableError))
+                    std::cerr<<"Quest table diagnostic (conditions): "<<questTableError<<'\n';
+            }
+            const auto conditionActive=[&](const std::string& name)->bool {
+                if(options.activeConditions.count(name))return true;
+                const auto found=namedConditions.find(name);
+                if(found==namedConditions.end())return false;
+                const auto* levels=loadMetadataLevels(assets);
+                const std::int32_t levelRow=levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;
+                bool met=false,unsupported=false;
+                f::quest_runtime::evaluate_named_condition_v1(found->second,[&](std::int32_t row,std::int32_t& value){
+                    return f::quest_runtime::quest_state_from_character_v1(state,conditionQuests.get(),row,value);},levelRow,met,unsupported);
+                static std::set<std::string> reportedConditions; // logged once per name
+                if(unsupported&&reportedConditions.insert(name).second)std::cout<<"Named condition "<<name<<" type "<<found->second.type<<" is not evaluated (false)\n";
+                return met;
+            };
             auto policy=[&](const f::ActorDefinition& a) {
                 auto it=a.properties.find("activate_cond");
-                if(it!=a.properties.end()&&!it->second.empty()&&!options.activeConditions.count(it->second))return f::PopulationDecision::unknown;
+                if(it!=a.properties.end()&&!it->second.empty()&&!conditionActive(it->second))return f::PopulationDecision::unknown;
                 it=a.properties.find("deactivate_cond");
                 if(it!=a.properties.end()&&!it->second.empty()) {
-                    if(options.activeConditions.count(it->second))return f::PopulationDecision::exclude;
+                    if(conditionActive(it->second))return f::PopulationDecision::exclude;
                     if(!options.inactiveConditions.count(it->second))return f::PopulationDecision::unknown;
                 }
                 it=a.properties.find("auto_spawn");if(it!=a.properties.end()&&it->second=="0") {
@@ -2370,6 +2404,7 @@ int main(int argc,char** argv) {
         if(options.hud&&combatSession&&!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
         // P16 CINE: caption lines resolve their authored StrID through the same original localization owner.
         // P16 OPENING: caption text substitutes the source $player token with the character name (the reference shows the name).
+        if(options.campaignTriggers) campaignHost.set_caption_auto_tap_ms(std::uint32_t(options.captionAutoTapMs>0?options.captionAutoTapMs:0));
         if(options.campaignTriggers) campaignHost.set_caption_text([&menuLocalization,&state](std::int32_t id,std::string& text,std::string& e){if(!menuLocalization.string_id(id,text,e))return false;for(auto at=text.find("$player");at!=std::string::npos;at=text.find("$player",at+state.name.size()))text.replace(at,7,state.name);return true;});
         f::CameraPose start;
         float extent=200;
@@ -2879,9 +2914,17 @@ int main(int argc,char** argv) {
                 std::cerr<<"Quest banner text diagnostic: StringID "<<id<<": "<<textError<<'\n';
                 return false;
             };
+            // OPENING2: Quest::ExecScript. A state's authored script starts through the campaign runtime (campaign triggers).
+            questServices.start_script=[&](const std::string& script,std::string& e) {
+                if(!options.campaignTriggers){e="campaign triggers are off";return false;}
+                const int id=sourceCampaign.script_id(script,false);
+                if(id<0){e="no authored script named "+script;return false;}
+                return sourceCampaign.start(id,-1,true,e);
+            };
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
+            for(const auto& d:questRuntime->diagnostics())std::cout<<"Quest runtime diagnostic: "<<d<<'\n'; // OPENING2
             // P16 QUESTUI: explicit charpropsname bindings (NPCs) have no population row; resolve it by name
             // through the CharacterTable names (the quest talk oids are these rows).
             std::map<std::string,std::int32_t> characterRows;
@@ -3609,8 +3652,10 @@ int main(int argc,char** argv) {
                 const bool down=window.key_down(VK_LBUTTON);
                 if(down&&!mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::down,{pointerX,pointerY});
                 else if(!down&&mouseHeld) {
-                    // P16 CINE: a release on the placeholder SKIP control of a running cutscene presses SKIP (ignored when hidden).
+                    // P16 CINE: a release on the SKIP control of a running cutscene presses SKIP (ignored when hidden).
+                    // OPENING2: a release advances a tap-wait caption (btn_next, PC adaptation: any tap on the screen).
                     if(campaignHost.enabled()&&campaignHost.cinematic_skip_hit(pointerX,pointerY,float(window.width()),float(window.height())))campaignHost.press_skip();
+                    else if(campaignHost.enabled())campaignHost.caption_tap();
                     semanticInput.pointer(0,f::platform_input::PointerPhase::up,{pointerX,pointerY});
                 }
                 else if(down)semanticInput.pointer(0,f::platform_input::PointerPhase::move,{pointerX,pointerY});
@@ -3904,6 +3949,15 @@ int main(int argc,char** argv) {
                 if(pressed('2')) visual.select(f::CharacterPose::walk);
                 if(pressed('3')) visual.select(f::CharacterPose::attack);
             }
+            // OPENING2 block-save rule: while a scripted cutscene blocks saving (Script_BlockSaveGame, kind 70) a save is
+            // refused, and a restore is refused during a cutscene (the cutscene owns the HUD, the controller and the script
+            // runtime; loading underneath it would leave a running script on the wrong state). Refusals are logged.
+            const auto campaignSaveRefused=[&](const char* operation) {
+                if(!campaignHost.enabled())return false;
+                if(std::string(operation)=="Save"&&campaignHost.save_blocked()) {std::cout<<"Save refused: cutscene blocks saving (campaign frame="<<drawn<<")\n";return true;}
+                if(std::string(operation)=="Restore"&&campaignHost.cutscene_mode()) {std::cout<<"Restore refused: cutscene is running (campaign frame="<<drawn<<")\n";return true;}
+                return false;
+            };
             const auto checkpointAllowed=[&](const char* operation) {
                 if(!combatSession)return true;
                 if((skillCastCoordinator&&!skillCastCoordinator->checkpoint_v1(*combatSession,error))||
@@ -3953,7 +4007,7 @@ int main(int argc,char** argv) {
                 bindSourcePresentations();
                 std::cout<<"Content unloaded and reloaded at frame="<<drawn<<'\n';
             }
-            if((pressed(VK_F5)||drawn==options.saveFrame)&&checkpointAllowed("Save")) {
+            if((pressed(VK_F5)||drawn==options.saveFrame)&&!campaignSaveRefused("Save")&&checkpointAllowed("Save")) {
                 if(combatSession) {
                     f::GameSave snapshot;
                     stampSaveMetadata(state,options.level.generic_string()); // P14 schema: checkpoint save = SG_SavePlayer (date + LevelList row)
@@ -3966,7 +4020,7 @@ int main(int argc,char** argv) {
                     if(!f::save_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
                 }
             }
-            if((pressed(VK_F9)||drawn==options.loadFrame)&&checkpointAllowed("Restore")) {
+            if((pressed(VK_F9)||drawn==options.loadFrame)&&!campaignSaveRefused("Restore")&&checkpointAllowed("Restore")) {
                 if(options.combatText)combatText.clear_for_reload();
                 if(combatSession) {
                     f::GameSave snapshot;if(!f::load_game(options.liveSave,snapshot,error))throw std::runtime_error("Read live save: "+error);
@@ -4706,7 +4760,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     }
                     pcHudText.draw(overlay);
                 }
-                // P16 CINE: cinematic presentation. Placeholder box/SKIP quads in the PC HUD letterbox mapping;
+                // P16 CINE: cinematic presentation. Original SKIP/caption batches in the PC HUD letterbox mapping;
                 // caption and SKIP text through the frontend text owner (authored x pre-scaled like the PC HUD fields).
                 if(campaignHost.enabled()) {
                     const auto cinFrame=campaignHost.cinematic().build_frame();

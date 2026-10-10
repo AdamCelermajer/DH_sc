@@ -1,15 +1,16 @@
 #pragma once
-// P16 CINE: generic cinematic presentation for the campaign script host.
+// P16 CINE / OPENING2: generic cinematic presentation for the campaign script host.
 //
 // Owns only what the authored script commands ask for and nothing map-specific:
 // - caption lines (StartDialog kind 10 / WaitDialog kind 12 / FlushMessages kind 79). The text is
 //   the original StrID resolved by the host (MenuLocalization), never a copy made here;
+// - the dialog box timing of the original Flash box (see "Dialog box timing" below);
 // - the SKIP control state (flash menu_skipcutscene, set by the host) and its hit test;
 // - a flat frame description (original panel batches + text slots) in the authored 480x320 space, which
 //   main.cpp draws with the PC HUD batch path and the frontend text owner.
 //
 // The SKIP control and the caption box are the original dqhud_droid art (features/hud_panels, HUDART).
-// Caption timing is still a PLACEHOLDER (the Flash dialogue advance is not decoded).
+// Caption timing is the decoded original dialog box rule (see "Dialog box timing" below, OPENING2).
 #include "../hud_panels/hud_panels_art_v1.hpp"
 
 #include <array>
@@ -25,6 +26,24 @@ namespace dh::foundation::cinematic_runner {
 inline constexpr float kAuthoredWidth = 480.f;
 inline constexpr float kAuthoredHeight = 320.f;
 
+// Dialog box timing (IDA Script_StartDialog / MenuMessageManager<DialogMsg>, Flash dqhud_droid.swf):
+// the box is the DialogBox movie (sprite 727, one frame label per DialogStyles value, isSkipable and btn_next
+// set per frame) containing the dialogBox movie (sprite 730: label show = frame 1, hide = frame 19,
+// onShowAnimEnd called on frame 12, onHideAnimEnd on frame 39, no Stop in between). Frame rate 30 fps.
+//  - show: frame 1 -> 12 (11 frame steps). A skippable style stops here and waits for the tap (btn_next).
+//  - tap (btn_next.onRelease, only when isSkipable): hideDialog = gotoAndPlay('hide'), frame 19 -> 39 (20 steps).
+//  - a non-skippable style is not stopped at the show end: it plays on to frame 39 by itself (38 steps in all).
+//  - onHideAnimEnd: NativeStopMessage('dialog') (or 'quest' for DialogStyles 5 and 19) -> StopDialog pops the
+//    line and starts the next one at once.
+inline constexpr std::uint32_t kDialogFps = 30;
+inline constexpr std::uint32_t kDialogShowFrames = 11;
+inline constexpr std::uint32_t kDialogHideFrames = 20;
+inline constexpr std::uint32_t kDialogAutoFrames = 38;
+std::uint32_t frames_to_ms(std::uint32_t frames) noexcept;
+// True when the DialogStyles frame has isSkipable set (the box waits for a tap). Values are the DialogStyles
+// constants of dialogs_pycst.bin. Unknown styles wait for a tap (the box stays up until the player taps).
+bool dialog_style_waits_for_tap(std::int32_t style) noexcept;
+
 // One DialogMsg as enqueued by Script_StartDialog (scalar 8 = actor, 12 = style, 16 = text id).
 struct CaptionLine {
     std::int32_t text_id = -1;
@@ -32,15 +51,6 @@ struct CaptionLine {
     std::int32_t actor = -1;
     std::string text;
 };
-
-// PLACEHOLDER timing. The original advances the dialogue inside its Flash box; the port has no decoded
-// advance rule, so each line is held for a fixed base plus a per-character term. Fitted by eye to the reference
-// video (Part 1, v1.0.3; see the CINE report, Placeholders): "Is he... already dead?" ~2 s (104-106 s),
-// "He's dead alright..." ~4 s (108-112 s); chest tutorial lines ~2-4 s each (192-204 s).
-inline constexpr std::uint32_t kCaptionBaseMsPlaceholder = 2000;
-inline constexpr std::uint32_t kCaptionPerCharMsPlaceholder = 25;
-inline constexpr std::uint32_t kCaptionMaxMsPlaceholder = 6000;
-std::uint32_t caption_duration_ms_placeholder(const std::string& text) noexcept;
 
 struct TextItem {
     std::string text;
@@ -68,6 +78,14 @@ struct SkipLayout {
 
 class CinematicRunner {
 public:
+    enum class Phase : std::uint8_t {
+        Idle,      // nothing shown
+        Showing,   // skippable line: show animation (frame 1 -> 12)
+        WaitTap,   // skippable line: stopped at the show end until the player taps
+        Hiding,    // hide animation after a tap (frame 19 -> 39), then the next line
+        AutoRun    // non-skippable line: plays through to its end without input
+    };
+
     // Cutscene contract (host calls these from the Begin/End and flash providers).
     void set_active(bool active);
     bool active() const noexcept { return active_; }
@@ -78,11 +96,19 @@ public:
     void enqueue(CaptionLine line);                // StartDialog
     bool waiting() const noexcept;                 // WaitDialog is blocking while a line is queued or shown
     void flush() noexcept;                         // FlushMessages: drops queued and shown lines
-    // Advances the shown line's timer. Returns the number of lines that finished.
+
+    // Player tap (btn_next). Only a skippable line responds; returns true when the tap was used.
+    bool tap() noexcept;
+    // Advances the timers. Returns the number of lines that finished.
     std::size_t update(std::uint32_t dt_ms) noexcept;
 
+    // Verification input (test harness, --caption-auto-tap-ms): a skippable line that waits at its show end is
+    // tapped after this many ms. 0 (default) = wait for the player.
+    void set_auto_tap_ms(std::uint32_t ms) noexcept { auto_tap_ms_ = ms; }
+
+    Phase phase() const noexcept { return phase_; }
     const CaptionLine* current() const noexcept;
-    std::size_t pending() const noexcept { return queue_.size() + (shown_ ? 1u : 0u); }
+    std::size_t pending() const noexcept { return queue_.size() + (phase_ != Phase::Idle ? 1u : 0u); }
     std::uint64_t lines_shown() const noexcept { return lines_shown_; }
 
     // Hit test in the authored space. x/y are window pixels; the window size maps them.
@@ -94,13 +120,16 @@ public:
 private:
     bool active_ = false;
     bool skip_visible_ = false;
-    bool shown_ = false;
-    std::uint32_t shown_left_ms_ = 0;
+    Phase phase_ = Phase::Idle;
+    std::uint32_t left_ms_ = 0;      // time left in the current timed phase
+    std::uint32_t wait_ms_ = 0;      // time spent in WaitTap (auto tap)
+    std::uint32_t auto_tap_ms_ = 0;
     CaptionLine shown_line_{};
     std::deque<CaptionLine> queue_;
     std::uint64_t lines_shown_ = 0;
 
     void start_next() noexcept;
+    void finish_shown() noexcept;
 };
 
 } // namespace dh::foundation::cinematic_runner
