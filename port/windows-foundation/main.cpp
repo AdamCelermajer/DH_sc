@@ -1729,7 +1729,7 @@ int main(int argc,char** argv) {
                     const auto* physical=nativeBodies.physical(entry.first);
                     if(!actor||!physical||!actor->source_physical_present||
                        *actor->source_physical_present!=(physical->native().body!=nullptr)) {
-                        e="Body checkpoint lacks matching current source physical-presence facts";return false;
+                        e="Body checkpoint lacks matching current source physical-presence facts actor="+std::to_string(entry.first)+" actor="+std::string(actor?"yes":"no")+" physical="+std::string(physical?"yes":"no")+" known="+std::string(actor&&actor->source_physical_present?"yes":"no")+" present="+std::string(physical&&physical->native().body?"yes":"no");return false;
                     }
                     if(sourcePhysicalFrameEnabled) {
                         const auto context=nativeBodyContexts.find(entry.first);
@@ -1749,8 +1749,12 @@ int main(int argc,char** argv) {
                         case 7:expected=0x6301u;break;
                         case 11:expected=0x2b41u;break;
                         case 12:expected=0x241u|(traits->is_player?0x2000u:0u);break;
+                        case 17:expected=0x1300u;break; // D3: CSPreSpawn::OnFocus (session_actor_transition_v1.cpp)
+                        case 0:expected=0u;break;       // D3: Limbus publishes flags 0
                         }
-                        if(!expected||!actor->source_flags520||*actor->source_flags520!=*expected) {
+                        // D3: Limbus (0) publishes flags 0 (OriginalActorLifecycle::change), which is an unset optional here.
+                        const auto flags520=actor->source_flags520?actor->source_flags520:(props->facts.original_state==0?std::optional<std::uint32_t>(0u):std::nullopt);
+                        if(!expected||!flags520||*flags520!=*expected) {
                             e="Body checkpoint source flags mismatch actor="+std::to_string(entry.first)+
                               " state="+std::to_string(props?props->facts.original_state:-1)+
                               " flags="+std::to_string(actor->source_flags520.value_or(0))+
@@ -2238,9 +2242,11 @@ int main(int argc,char** argv) {
                 case f::OriginalLifecycleOperation::clear_idle_suppressed:lifecycleIdleSuppressed[actor.id]=false;return true;
                 case f::OriginalLifecycleOperation::init_physical:
                     if(options.sourceNativeBodies){const auto* body=nativeBodies.physical(actor.id);if(!body){e="Lifecycle native actor unavailable";return false;}if(!body->native().body&&!nativeBodies.initialize_physical(actor.id,e))return false;}
+                    if(auto* live=combatSession->actor(actor.id))if(const auto* body=nativeBodies.physical(actor.id))live->source_physical_present=body->native().body!=nullptr; // D3: the presence fact follows the native body
                     lifecyclePhysical[actor.id]=true;return true;
                 case f::OriginalLifecycleOperation::remove_physical:
                     if(options.sourceNativeBodies&&!nativeBodies.remove_physical(actor.id,e))return false;
+                    if(auto* live=combatSession->actor(actor.id))if(const auto* body=nativeBodies.physical(actor.id))live->source_physical_present=body->native().body!=nullptr; // D3: the presence fact follows the native body
                     lifecyclePhysical[actor.id]=false;return true;
                 case f::OriginalLifecycleOperation::set_collisions_enabled:
                     if(options.sourceNativeBodies&&nativeBodies.physical(actor.id)->native().body&&!nativeBodies.set_physical_filter_enabled(actor.id,request.collisions_enabled,e))return false;
@@ -2333,6 +2339,8 @@ int main(int argc,char** argv) {
         if(options.campaignTriggers) {
             if(options.campaignCommands.empty()||!combatSession)throw std::runtime_error("--campaign-triggers requires --campaign-commands and the live combat session");
             if(!campaignHost.bind_executor(sourceCampaign,campaignWorld,error))throw std::runtime_error("Campaign host: "+error);
+            // D3 (OPENING3): campaign lifecycle component on a neutral object (save component mechanism).
+            if(options.campaignTriggers){std::string lifecycleBindError;if(!campaignHost.bind_lifecycle_object(*combatSession->world(),lifecycleBindError))throw std::runtime_error("Campaign lifecycle object: "+lifecycleBindError);combatSession->set_lifecycle_serialized_by_host(true);}
             if(!campaignHost.build_zones(population.definitions(),error))throw std::runtime_error("Campaign trigger zones: "+error);
             // P16 CINE: harness start of an authored script by name (same runtime start as DoTutorial; not a production starter).
             if(!options.campaignStart.empty()) {
@@ -3016,6 +3024,12 @@ int main(int argc,char** argv) {
                 if(id<0){e="no authored script named "+script;return false;}
                 return sourceCampaign.start(id,-1,true,e);
             };
+            // D1 (OPENING3): Quest::TestIsScriptRunning. A state waits for its authored script slot before it advances.
+            questServices.script_running=[&](const std::string& script) {
+                if(!options.campaignTriggers)return false;
+                const int id=sourceCampaign.script_id(script,false);
+                return id>=0&&sourceCampaign.running(id);
+            };
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
@@ -3488,6 +3502,10 @@ int main(int argc,char** argv) {
                 // P16 SPAWN: PreSpawn17 / Spawn1 bodies are owned by the lifecycle, whose source flags for these
                 // states are the ones OriginalActorLifecycle::change publishes (0x1300 / 0x241). Pool and intro
                 // actors reach this point while hidden or spawning.
+                // D3 (OPENING3): a restore drops the lifecycle records (they point into the replaced world), so PreSpawn17 takes
+                // the flags CSPreSpawn::OnFocus writes (0x1300) directly.
+                else if(props->facts.original_state==17)actor->source_flags520=0x1300u;
+                else if(props->facts.original_state==0)actor->source_flags520=0u; // D3: Limbus publishes flags 0
                 else if(const auto* lifecycleStatus=actorLifecycle.status(body.first);lifecycleStatus&&(lifecycleStatus->state==17||lifecycleStatus->state==1))actor->source_flags520=lifecycleStatus->flags;
                 else throw std::runtime_error("Physical reconstruction supports normalized Idle/Dead only: actor="+std::to_string(body.first)+" worldState="+std::to_string(props->facts.original_state)+" sessionState="+std::to_string(combatSession->original_actor_state(body.first)));
                 auto& context=contextFor(body.first);context.idleSuppressed=false;context.gate528=0;
@@ -3640,6 +3658,7 @@ int main(int argc,char** argv) {
                     if(!body->native().body&&!nativeBodies.initialize_physical(id,e))return false;
                 } else if(!nativeBodies.remove_physical(id,e))return false;
             }
+            if(auto* live=combatSession->actor(id))if(const auto* body=nativeBodies.physical(id))live->source_physical_present=body->native().body!=nullptr; // D3: the presence fact follows the native body
             lifecyclePhysical[id]=present;lifecycleCollisions[id]=present;return true;
         };
         const auto despawnServices=[&]() {
@@ -4042,6 +4061,16 @@ int main(int argc,char** argv) {
             if(campaignHost.enabled()&&combatSession) {
                 if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(std::int32_t(dt*1000.0),{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive());
             }
+            // D1 (OPENING3): Quest::Update runs every frame after the script executor, so a state whose script has
+            // finished advances on the frame it ends (the Movement tutorial follows the Swamp intro, not the bind).
+            if(questRuntime&&options.campaignTriggers) {
+                std::string questTickError;
+                if(!questRuntime->update(questTickError)) std::cerr<<"Quest update diagnostic: "<<questTickError<<'\n';
+                std::string questSaveError; // D3: transitions made here must reach the character CQPG (save and profile snapshots read it)
+                if(!questRuntime->save(questSaveError)) std::cerr<<"Quest save diagnostic: "<<questSaveError<<'\n';
+                for(const auto& banner:takeQuestBanners())
+                    std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)<<" row="<<banner.row<<" (frame)\n";
+            }
             auto pressed=[&](int key){bool down=window.key_down(key);bool first=down&&!held.count(key);if(down)held.insert(key);else held.erase(key);return first;};
             if(pressed('T')) {useTimeline=!useTimeline;if(useTimeline){timeline.reset();timeline.play();}}
             if(!combatSession||!combatSession->uses_retained_player_locomotion()) {
@@ -4076,6 +4105,7 @@ int main(int argc,char** argv) {
 
             if((pressed('R')||(options.reloadFrame&&drawn==options.reloadFrame))&&checkpointAllowed("Reload")) {
                 std::optional<f::GameSave> liveSnapshot;
+                if(combatSession&&options.campaignTriggers){std::string lifecycleSnapshotError;if(!campaignHost.persist_lifecycle(*combatSession->world(),lifecycleSnapshotError))throw std::runtime_error("Campaign lifecycle snapshot: "+lifecycleSnapshotError);} // D3
                 if(combatSession){f::GameSave snapshot;if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),snapshot,error))throw std::runtime_error("Reload snapshot: "+error);liveSnapshot=std::move(snapshot);}
                 if(options.combatText)combatText.clear_for_reload();
                 retireSourceEffects();
@@ -4111,6 +4141,7 @@ int main(int argc,char** argv) {
                 if(combatSession) {
                     f::GameSave snapshot;
                     stampSaveMetadata(state,options.level.generic_string()); // P14 schema: checkpoint save = SG_SavePlayer (date + LevelList row)
+                    if(options.campaignTriggers){std::string lifecycleSaveError;if(!campaignHost.persist_lifecycle(*combatSession->world(),lifecycleSaveError))throw std::runtime_error("Campaign lifecycle save: "+lifecycleSaveError);} // D3: the host serializes its lifecycle (checkpoint rule)
                     if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),snapshot,error)||!f::save_game(options.liveSave,snapshot,error))throw std::runtime_error("Live save: "+error);
                     // P14 schema (approved decision 3): F5 in combat also rewrites the slot profile so the menu panel is current.
                     if(!options.save.empty()&&!f::save_character(options.save,snapshot.character,error))throw std::runtime_error("Live save slot profile: "+error);
@@ -4133,8 +4164,10 @@ int main(int argc,char** argv) {
                         e.clear();return true;
                     },error))throw std::runtime_error("Prepare live restore: "+error);
                     const bool restored=f::restore_game_save(snapshot,options.level.generic_string(),*combatSession->world(),state,error);const auto restoreError=error;
+                    actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear(); // D3: records hold pointers into the replaced world
                     if(!combatSession->rebind_after_restore(error))throw std::runtime_error("Rebind live save: "+error);
                     if(!restored)throw std::runtime_error("Restore live save: "+restoreError);
+                    {std::string lifecycleRestoreError;if(!campaignHost.restore_lifecycle(*combatSession->world(),lifecycleRestoreError))throw std::runtime_error("Campaign lifecycle restore: "+lifecycleRestoreError);} // D3
                     {std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);}
                     rebuildNativeBodies();
                     initializeSourceNavigation();
@@ -4946,7 +4979,8 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     if(!combatText.draw(window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text draw: "+error);
                     if(combatText.active_count())++combatTextDrawnFrames;
                 }
-                if(!characterMenu.is_open())drawPauseArt(pauseHudArt,false,nullptr);
+                // D2 (OPENING3): the pause button belongs to the HUD sprite; HideFlash("HUD") hides it in cutscenes.
+                if(!characterMenu.is_open()&&campaignHost.hud_visible())drawPauseArt(pauseHudArt,false,nullptr);
                 if(pauseMenuOpen)drawPauseArt(currentPauseArt(),true,nullptr);
                 if(characterMenu.is_open()) {
                     // Character pages occupy the full viewport. Original SWF

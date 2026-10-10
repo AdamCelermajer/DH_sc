@@ -16,6 +16,7 @@
 #include "../../original_campaign_world_adapter.hpp"
 #include "../../original_camera_clip.hpp" // P16 CINE2: PlayCamera clips
 #include "../../camera.hpp"
+#include "../../playable_actor_world.hpp" // D3 (OPENING3): campaign lifecycle component
 #include <array>
 #include <cstdint>
 #include <functional>
@@ -121,6 +122,12 @@ public:
     // An executor error aborts only that cutscene: flags are restored and running scripts abandoned.
     void frame(std::int32_t dt_ms,const std::array<float,3>& player,bool qualified);
     bool enabled() const noexcept { return runtime_ != nullptr; }
+    // D3 (OPENING3): campaign lifecycle through the save component mechanism. A neutral world object (fixed ID, bound
+    // at level load like the containers) carries component campaign_lifecycle_v1 (trigger once-activation counts).
+    // Persist before a GameSave capture; restore after restore_game_save. Quest states already live in CQPG.
+    bool bind_lifecycle_object(PlayableActorWorld& world, std::string& error);
+    bool persist_lifecycle(PlayableActorWorld& world, std::string& error) const;
+    bool restore_lifecycle(const PlayableActorWorld& world, std::string& error);
     // Number of cutscenes aborted by an executor error (the session itself keeps running).
     std::uint64_t aborts() const noexcept { return aborts_; }
     const TriggerZoneSet& zones() const noexcept { return zones_; }

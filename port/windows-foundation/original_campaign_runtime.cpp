@@ -49,6 +49,15 @@ bool OriginalCampaignRuntime::load(const AssetCatalog&assets,const std::string&p
  }catch(const std::exception&e){error=e.what();return false;}
 }
 int OriginalCampaignRuntime::script_id(const std::string&name,bool common)const{for(std::size_t i=common?0:common_count_;i<scripts_.size();++i)if(scripts_[i].name==name)return int(i);return -1;}
+std::map<std::string,std::int32_t> OriginalCampaignRuntime::trigger_activations()const{
+ std::map<std::string,std::int32_t> out;
+ for(const auto& entry:trigger_state_) if(entry.second.activations) out[entry.first]=entry.second.activations;
+ return out;
+}
+void OriginalCampaignRuntime::restore_trigger_activations(const std::map<std::string,std::int32_t>& counts){
+ for(auto& entry:trigger_state_) entry.second=TriggerState{};
+ for(const auto& count:counts) trigger_state_[count.first].activations=count.second;
+}
 bool OriginalCampaignRuntime::running(int id)const{return id>=0&&std::size_t(id)<contexts_.size()&&contexts_[id].state!=2;}
 bool OriginalCampaignRuntime::start(int id,int module,bool received,std::string&error){
  try {

@@ -131,6 +131,7 @@ struct CombatSession::Impl {
     std::string transitionFailure;
     std::vector<CombatSessionAnimationDispatch> animationDispatches;
     bool lifecycleRegistered=false;
+    bool lifecycleSerializedByHost=false; // D3 (OPENING3): see set_lifecycle_serialized_by_host
     bool sourceCheckpointReadyAtDetach=false;
     AttackOwnerProvider attackOwnerProvider;
     std::vector<CombatSessionComboBoundary> comboBoundaries;
@@ -2216,11 +2217,12 @@ bool CombatSession::freeze_actor_state_animation(ActorId id,std::string& error){
     if(!entry.retained||!entry.stateManaged){error="Explicit state animation must be selected before freeze";return false;}
     if(!entry.retained->set_source_rate(0,error))return false;entry.stateFrozen=true;impl_->lifecycleRegistered=true;return true;
 }
+void CombatSession::set_lifecycle_serialized_by_host(bool serialized) noexcept{if(impl_)impl_->lifecycleSerializedByHost=serialized;}
 bool CombatSession::validate_lifecycle_checkpoint(std::string& error)const{
     // Presentation observes an already-applied gameplay event. Its live output
     // and device clock are transient host state; registering it does not add
     // campaign/controller state to the gameplay checkpoint.
-    if(impl_&&(impl_->lifecycleRegistered||impl_->permissionProvider||impl_->controllerAdmissionProvider||impl_->networkModeProvider)){error="Campaign lifecycle/controller providers are not persisted; checkpoint/restore requires explicit serialization or clearing transient services";return false;}
+    if(impl_&&!impl_->lifecycleSerializedByHost&&(impl_->lifecycleRegistered||impl_->permissionProvider||impl_->controllerAdmissionProvider||impl_->networkModeProvider)){error="Campaign lifecycle/controller providers are not persisted; checkpoint/restore requires explicit serialization or clearing transient services";return false;}
     if(impl_){
         if(impl_->detached){if(!impl_->sourceCheckpointReadyAtDetach){error="Detached source program had no quiescent checkpoint admission";return false;}}
         else if(!impl_->source_checkpoint(error)||!impl_->animation_checkpoint(error))return false;

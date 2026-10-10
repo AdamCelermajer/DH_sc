@@ -191,6 +191,27 @@ bool QuestRuntimeV1::save(std::string& error) {
     return write_counters(error);
 }
 
+std::int32_t quest_wait_slot_v1(QuestStateV1 state) noexcept {
+    // IDA Quest::UpdatePostLocked 9, UpdatePreAvailable 11, UpdateAvailable 1, UpdatePostAvailable 6,
+    // UpdatePreActive 10, UpdateActive 0, UpdatePostActive 8 (IDA waits on 8, not on the PostActive slot 5),
+    // UpdatePreCompleted 13, UpdateCompleted 3, UpdatePostCompleted 8, UpdatePreClosed 12, UpdateClosed 2.
+    switch (state) {
+    case QuestStateV1::post_locked: return 9;
+    case QuestStateV1::pre_available: return 11;
+    case QuestStateV1::available: return 1;
+    case QuestStateV1::post_available: return 6;
+    case QuestStateV1::pre_active: return 10;
+    case QuestStateV1::active: return 0;
+    case QuestStateV1::post_active: return 8;
+    case QuestStateV1::pre_completed: return 13;
+    case QuestStateV1::completed: return 3;
+    case QuestStateV1::post_completed: return 8;
+    case QuestStateV1::pre_closed: return 12;
+    case QuestStateV1::closed: return 2;
+    default: return -1;
+    }
+}
+
 std::int32_t quest_script_slot_v1(QuestStateV1 next, QuestStateV1 previous) noexcept {
     switch (next) {
     case QuestStateV1::post_locked: return 9;
@@ -208,6 +229,15 @@ std::int32_t quest_script_slot_v1(QuestStateV1 next, QuestStateV1 previous) noex
     case QuestStateV1::post_closed: return 7;
     default: return -1;
     }
+}
+
+bool QuestRuntimeV1::slot_script_running(std::int32_t row, std::int32_t slot) const {
+    if (!services_.script_running || slot < 0 || row < 0 || std::size_t(row) >= table_->rows().size()) return false;
+    const auto& scripts = table_->rows()[std::size_t(row)].scripts;
+    if (std::size_t(slot) >= scripts.size() || scripts[std::size_t(slot)].empty()) return false;
+    const std::string& full = scripts[std::size_t(slot)];
+    const auto dot = full.rfind('.');
+    return services_.script_running(dot == std::string::npos ? full : full.substr(dot + 1));
 }
 
 bool QuestRuntimeV1::set_state(std::int32_t row, QuestStateV1 next, std::string& error) {
@@ -413,10 +443,10 @@ bool QuestRuntimeV1::update(std::string& error) {
                 if (met && !advance(QuestStateV1::post_locked)) return false;
                 break;
             case QuestStateV1::post_locked:
-                if (!advance(QuestStateV1::pre_available)) return false;
+                if (!slot_script_running(row, 9) && !advance(QuestStateV1::pre_available)) return false;
                 break;
             case QuestStateV1::pre_available:
-                if (!advance(QuestStateV1::available)) return false;
+                if (!slot_script_running(row, 11) && !advance(QuestStateV1::available)) return false;
                 break;
             case QuestStateV1::available:
                 if (!prerequisites_met(row, met)) return false;
@@ -424,13 +454,13 @@ bool QuestRuntimeV1::update(std::string& error) {
                 complete_automatic(def.accept, progress.accept);
                 if (!objective_supported(def.accept) && !progress.accept.completed)
                     report_unsupported(def.accept, row, int(kAcceptObjectiveV1));
-                if (progress.accept.completed && !advance(QuestStateV1::post_available)) return false;
+                if (progress.accept.completed && !slot_script_running(row, 1) && !advance(QuestStateV1::post_available)) return false;
                 break;
             case QuestStateV1::post_available:
-                if (!advance(QuestStateV1::pre_active)) return false;
+                if (!slot_script_running(row, 6) && !advance(QuestStateV1::pre_active)) return false;
                 break;
             case QuestStateV1::pre_active:
-                if (!advance(QuestStateV1::active)) return false;
+                if (!slot_script_running(row, 10) && !advance(QuestStateV1::active)) return false;
                 break;
             case QuestStateV1::active: {
                 bool all = true;
@@ -440,22 +470,22 @@ bool QuestRuntimeV1::update(std::string& error) {
                         report_unsupported(def.objectives[i], row, std::int32_t(i));
                     all = all && progress.objectives[i].completed;
                 }
-                if (all && !advance(QuestStateV1::post_active)) return false;
+                if (all && !slot_script_running(row, 0) && !advance(QuestStateV1::post_active)) return false;
                 break;
             }
             case QuestStateV1::post_active:
-                if (!advance(QuestStateV1::pre_completed)) return false;
+                if (!slot_script_running(row, 8) && !advance(QuestStateV1::pre_completed)) return false;
                 break;
             case QuestStateV1::pre_completed:
-                if (!advance(QuestStateV1::completed)) return false;
+                if (!slot_script_running(row, 13) && !advance(QuestStateV1::completed)) return false;
                 break;
             case QuestStateV1::completed:
                 complete_automatic(def.end, progress.end);
-                if (progress.end.completed) {
+                if (progress.end.completed && !slot_script_running(row, 3)) {
                     // UpdateCompleted: rewards once, then PostCompleted. A failed owner
                     // keeps the state so the next update retries the whole reward list.
                     if (!grant_rewards(row, error)) return false;
-                    if (!advance(QuestStateV1::post_completed)) return false;
+                    if (!slot_script_running(row, 8) && !advance(QuestStateV1::post_completed)) return false;
                 }
                 break;
             case QuestStateV1::post_completed:
