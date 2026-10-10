@@ -1,5 +1,5 @@
 #pragma once
-// Quest banners (Preview 16 QUESTUI): line layout and timing for the runtime banners.
+// Quest banners (Preview 16 QUESTUI, art HUDART): line layout and timing for the runtime banners.
 //
 // Source behaviour (IDA Quest::SetState): NEW QUEST = DialogMsg(GLOBAL_QUEST_NEW heading,
 // quest text, DialogStyles.QuestMsgDialog); QUEST COMPLETED = DialogMsg(QuestCompletedMsgDialog)
@@ -7,8 +7,9 @@
 // "Quest Completed" from global.english; "Reward", "EXP", "GOLD" from gameplaymenus.english).
 // Body text is the authored StringID text resolved by the runtime service.
 //
-// The dialog frame art (dqhud QuestMsgDialog / QuestCompletedMsgDialog movies) is not exported
-// by this build. The drawn panel is a PLACEHOLDER (see the Preview 16 QUESTUI report).
+// The panel is the original dqhud_droid QuestMsgDialog / QuestCompletedMsgDialog frame (hud_panels, exact
+// batches and text slots). The source has no objective-counter banner (no call site for "Quest Updated"),
+// so counter banners are not shown.
 #include "../quest_runtime/quest_runtime_v1.hpp"
 
 #include <cstdint>
@@ -18,10 +19,14 @@
 
 namespace dh::foundation {
 
+// slot: index of the original text field of the banner frame (0 heading, 1 sentence, 2 reward heading,
+// 3 reward values); stack: line index inside that field (the reward values are two lines).
 struct QuestBannerLineV1 {
     std::string text;
-    std::uint32_t rgb{0xFFFFFF};   // 0xRRGGBB
-    int source_height{14};          // source pixels (glyph raster size)
+    std::uint32_t rgb{0xFFFFFF};   // 0xRRGGBB (unused by the original-slot drawing; kept for the tests)
+    int source_height{14};         // source pixels (kept for the tests)
+    int slot{0};
+    int stack{0};
 };
 
 struct QuestBannerDisplayV1 {

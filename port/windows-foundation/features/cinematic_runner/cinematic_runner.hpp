@@ -5,11 +5,13 @@
 // - caption lines (StartDialog kind 10 / WaitDialog kind 12 / FlushMessages kind 79). The text is
 //   the original StrID resolved by the host (MenuLocalization), never a copy made here;
 // - the SKIP control state (flash menu_skipcutscene, set by the host) and its hit test;
-// - a flat frame description (solid rects + text items) in the authored 480x320 space, which main.cpp
-//   draws with the existing overlay and frontend text owners.
+// - a flat frame description (original panel batches + text slots) in the authored 480x320 space, which
+//   main.cpp draws with the PC HUD batch path and the frontend text owner.
 //
-// Art and timing that the cache does not provide are PLACEHOLDERS and are labelled as such in the
-// code and in the Preview 16 CINE report (Placeholders section). Nothing here reads a platform API.
+// The SKIP control and the caption box are the original dqhud_droid art (features/hud_panels, HUDART).
+// Caption timing is still a PLACEHOLDER (the Flash dialogue advance is not decoded).
+#include "../hud_panels/hud_panels_art_v1.hpp"
+
 #include <array>
 #include <cstdint>
 #include <cstddef>
@@ -32,7 +34,7 @@ struct CaptionLine {
 };
 
 // PLACEHOLDER timing. The original advances the dialogue inside its Flash box; the port has no decoded
-// box, so each line is held for a fixed base plus a per-character term. Fitted by eye to the reference
+// advance rule, so each line is held for a fixed base plus a per-character term. Fitted by eye to the reference
 // video (Part 1, v1.0.3; see the CINE report, Placeholders): "Is he... already dead?" ~2 s (104-106 s),
 // "He's dead alright..." ~4 s (108-112 s); chest tutorial lines ~2-4 s each (192-204 s).
 inline constexpr std::uint32_t kCaptionBaseMsPlaceholder = 2000;
@@ -40,20 +42,17 @@ inline constexpr std::uint32_t kCaptionPerCharMsPlaceholder = 25;
 inline constexpr std::uint32_t kCaptionMaxMsPlaceholder = 6000;
 std::uint32_t caption_duration_ms_placeholder(const std::string& text) noexcept;
 
-struct SolidRect {
-    float x = 0, y = 0, w = 0, h = 0;
-    std::array<float, 4> rgba{0, 0, 0, 1};
-    const char* role = "";   // "placeholder-box", "placeholder-skip", or "caption-box"
-};
-
 struct TextItem {
     std::string text;
     float x = 0, y = 0, w = 0, h = 0;   // authored space
     std::array<std::uint8_t, 4> rgba{255, 255, 255, 255};
+    float height = 14.f;                // source glyph height (px)
+    int align = 0;                      // 0 left, 2 centre (EditText layout)
 };
 
 struct Frame {
-    std::vector<SolidRect> rects;
+    // Original stage-space art sets (hud_panels), drawn in order with the atlas bitmap.
+    std::vector<const std::vector<hud_panels::PcGameplayHudArtBatchV1>*> panels;
     std::vector<TextItem> texts;
 };
 
@@ -62,14 +61,10 @@ struct Frame {
 struct Viewport { float scale = 1.f, offset = 0.f; };
 Viewport viewport_for(float window_w, float window_h) noexcept;
 
-// Placeholder SKIP control. The original is the dqhud_droid.swf sprite placed as menu_skipcutscene (root depth 389,
-// at (37.75,74.85) px before its own slide-in; resting child btn_MENU_SKIP): a red X icon with the light "SKIP" label
-// at the top left. Its shapes are bitmap-filled (fill kind 66, bitmap 1), so the HUD texture is needed; not decoded yet.
-// Placed where the reference shows it (top-left; Part 2 sheet 3:36-3:56 has the same control at the same place).
+// SKIP hit area in the authored space: the exported SKIP art bounds (X icon and label, hud_panels).
 struct SkipLayout {
-    float x = 5, y = 4, w = 64, h = 22;
+    float x = 3.4f, y = 0.f, w = 193.f, h = 54.5f;
 };
-inline constexpr const char* kSkipLabelPlaceholder = "SKIP";
 
 class CinematicRunner {
 public:
@@ -94,7 +89,7 @@ public:
     bool skip_hit(float x, float y, float window_w, float window_h, const SkipLayout& layout = {}) const noexcept;
 
     // Flat frame for the current state; empty when nothing is visible.
-    Frame build_frame(const SkipLayout& layout = {}) const;
+    Frame build_frame() const;
 
 private:
     bool active_ = false;

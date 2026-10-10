@@ -522,6 +522,8 @@ target_link_libraries(campaign_trigger_zone_tests PRIVATE foundation_data)
 add_test(NAME campaign_trigger_zones COMMAND campaign_trigger_zone_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/assets/original-cache" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
 # P16 CINE (Preview 16): cinematic runner (caption queue, cutscene contract, SKIP hit test, frame description).
 target_sources(foundation_data PRIVATE features/cinematic_runner/cinematic_runner.cpp)
+# P16 HUDART: original dqhud_droid HUD panels (btn_interact, SKIP, caption box, quest banners), generated batches.
+target_sources(foundation_data PRIVATE features/hud_panels/hud_panels_art_v1.cpp)
 add_executable(cinematic_runner_tests features/cinematic_runner/cinematic_runner_tests.cpp)
 target_link_libraries(cinematic_runner_tests PRIVATE foundation_data)
 add_test(NAME cinematic_runner COMMAND cinematic_runner_tests)

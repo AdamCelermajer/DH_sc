@@ -240,34 +240,34 @@ const char* questBannerKindName(f::quest_runtime::QuestBannerV1::Kind kind) {
     return kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":
            kind==f::quest_runtime::QuestBannerV1::Kind::updated?"QUEST UPDATED":"QUEST COMPLETED";
 }
-// P16 QUESTUI: quest banner placeholder panel + lines (original Fontin glyphs via drawScreenLabel).
-// The panel is a PLACEHOLDER: the original dialog frame art is not exported in this build.
+// P16 HUDART: quest banner = the original dqhud_droid QuestMsgDialog / QuestCompletedMsgDialog frame (hud_panels: exact
+// stage-space batches from the atlas) with its authored text slots (heading, sentence, reward heading, reward values).
+// Lines reach their slot through QuestBannerLineV1::slot/stack; the text uses the Fontin glyphs of the HUD text path.
 bool drawQuestBanner(const f::QuestBannerDisplayV1& display,f::HudGlyphFont& font,f::Renderer& renderer,
-                     f::OverlayRenderer& overlay,std::map<std::string,std::uint32_t>& textures,
-                     int windowWidth,int windowHeight,float scale,std::string& error) {
+                     f::OverlayRenderer& overlay,std::map<std::string,std::uint32_t>& textures,std::uint32_t hudTexture,
+                     int windowWidth,int windowHeight,std::string& error) {
     if(display.lines.empty()||display.alpha<=0.f)return true;
-    const float gap=8.f*scale,padding=12.f*scale,panelWidth=300.f*scale;
-    float contentHeight=0.f;
-    for(const auto& line:display.lines)contentHeight+=float(line.source_height)*1.25f*scale+gap;
-    const float panelHeight=contentHeight+2.f*padding;
-    const float left=(float(windowWidth)-panelWidth)*.5f,top=float(windowHeight)*.12f;
-    const auto fill=[&](float x,float y,float w,float h,std::array<float,4> color) {
-        const f::OverlayTriangleVertex q[6]{{x,y,0,0},{x+w,y,0,0},{x+w,y+h,0,0},{x,y,0,0},{x+w,y+h,0,0},{x,y+h,0,0}};
-        return overlay.drawTriangles(q,6,0,color);
-    };
-    if(!fill(left-2.f*scale,top-2.f*scale,panelWidth+4.f*scale,panelHeight+4.f*scale,{0.55f,0.42f,0.20f,0.9f*display.alpha})) {
-        error="Quest banner border geometry rejected";return false;
+    constexpr float stageHeight=320.f; // authored stage height (the PC HUD mapping)
+    const float scale=float(windowHeight)/stageHeight;
+    const float offset=(float(windowWidth)/scale-480.f)*.5f;
+    const auto& panel=display.completed?f::hud_panels::quest_done_batches_v1():f::hud_panels::quest_new_batches_v1();
+    const auto& slots=display.completed?f::hud_panels::quest_done_texts_v1():f::hud_panels::quest_new_texts_v1();
+    for(const auto& batch:panel) {
+        std::vector<f::OverlayTriangleVertex> vertices;
+        for(const auto& v:batch.triangles)vertices.push_back({(v.x+offset)*scale,v.y*scale,v.u,v.v});
+        auto color=batch.rgba;
+        color[3]*=display.alpha;
+        if(!overlay.drawTriangles(vertices,batch.bitmap?hudTexture:0,color)) {error="Quest banner panel draw rejected";return false;}
     }
-    if(!fill(left,top,panelWidth,panelHeight,{0.06f,0.05f,0.04f,0.85f*display.alpha})) {
-        error="Quest banner panel geometry rejected";return false;
-    }
-    float y=top+padding;
     for(const auto& line:display.lines) {
-        const float lineHeight=float(line.source_height)*1.25f*scale;
+        if(line.slot<0||std::size_t(line.slot)>=slots.size()) {error="Quest banner text slot is outside the original frame";return false;}
+        const auto& slot=slots[std::size_t(line.slot)];
+        const float centreX=((slot.rect[0]+slot.rect[2])*.5f+offset)*scale;
+        // Baseline: about 0.85 of the glyph height below the field top; reward values stack by 1.15 glyph heights.
+        const float baseline=(slot.rect[1]+slot.height*(.85f+1.15f*float(line.stack)))*scale;
         const auto fade=[&](std::uint32_t channel) {return std::uint32_t(float(channel)*display.alpha);};
-        const std::uint32_t rgb=(fade((line.rgb>>16)&255)<<16)|(fade((line.rgb>>8)&255)<<8)|fade(line.rgb&255);
-        if(!drawScreenLabel(font,line.text,rgb,line.source_height,float(windowWidth)*.5f,y+float(line.source_height)*scale,scale,renderer,overlay,textures,error))return false;
-        y+=lineHeight+gap;
+        const std::uint32_t rgb=(fade(slot.rgba[0])<<16)|(fade(slot.rgba[1])<<8)|fade(slot.rgba[2]);
+        if(!drawScreenLabel(font,line.text,rgb,int(slot.height),centreX,baseline,scale,renderer,overlay,textures,error))return false;
     }
     error.clear();return true;
 }
@@ -1266,6 +1266,7 @@ int main(int argc,char** argv) {
         f::InteractableRegistryV1 interactables; // P16 CONTEXT: non-actor interaction-type providers (empty until containers/NPC register)
         f::loot::WorldItemContactTrackerV1 worldItemContacts; // P16 CONTEXT: walk-over pickup state
         int lastActionIcon=-2; // P16 CONTEXT: last published HUD action-button frame (log on change)
+        bool actionButtonHeld=false; // P16 HUDART: Space held this frame (pressed ring of the action button)
         const auto bindSourcePlayerLocomotion=[&](f::CombatSession& session) {
             if(!locomotionLibrary)return;
             const auto hands=currentLocomotionItems();
@@ -2885,9 +2886,9 @@ int main(int argc,char** argv) {
             f::generic_skills::PcGameplayHudLayoutV1 layout;
             const auto circle=[](float x,float labelLeft,float labelRight) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,270,24,{labelLeft,labelRight,298,312}};};
             layout.skills={circle(128,116,140),circle(184,172,196),circle(240,228,252)};layout.faery=circle(296,276,316);layout.potion=circle(352,321,383);
-            // P16 SPACEBTN: PLACEHOLDER action button, bottom right (placement not measured against the reference; see SPACEBTN-report).
-            layout.action_enabled=true;layout.action=f::generic_skills::PcGameplayHudCirclePlacementV1{440.f,270.f,28.f,{400.f,480.f,300.f,313.f}};
-            layout.action_label=f::action_button_label_v1(lastActionIcon<0?5:lastActionIcon);
+            // P16 HUDART: action button = original btn_interact art at its authored stage position (hud_panels).
+            // The icon is the published btimg frame; the pressed ring shows while Space is held (PC adaptation).
+            layout.action_enabled=true;layout.action_icon=lastActionIcon<0?5:lastActionIcon;layout.action_pressed=actionButtonHeld;
             // HUDBTN: real CoolDown per physical cell. Each cell's skill timer (SetSkillCooldown, per actor/skill row) gives
             // remaining = 1 - elapsed/total; FastUpdate frame = clamp((int)(remaining*100)-1, 0, 99). Faery uses its 5000 ms spell clock.
             if(skillCastCoordinator) for(auto& cell:frame.left_middle_right) if(cell.skill_table_id) {
@@ -3695,6 +3696,7 @@ int main(int argc,char** argv) {
             freeCamera.rotate(float(gameplayDt)*60*(window.key_down(VK_RIGHT)-window.key_down(VK_LEFT)),float(gameplayDt)*60*(window.key_down(VK_UP)-window.key_down(VK_DOWN)));
             if(!gameplayPaused&&timeline.playing()) timeline.update(gameplayDt);
             gameplayInput=uiInput.actions;
+            actionButtonHeld=uiInput.attack.held; // P16 HUDART: pressed ring of the action button
             // P16 CONTEXT: Space is one context button (decide_context_button_v1). A held press over a non-combat OOI
             // (chest, NPC) suppresses the attack (source Cmd_UseOOI replaces Cmd_Attack); the press edge starts the use.
             if(combatSession&&!gameplayPaused&&combatSession->actor(combatSession->player_id())) {
@@ -4386,18 +4388,19 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                 if(campaignHost.enabled()) {
                     const auto cinFrame=campaignHost.cinematic().build_frame();
                     const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
-                    for(const auto& rect:cinFrame.rects) {
-                        const float x0=(rect.x+view.offset)*view.scale,y0=rect.y*view.scale,x1=(rect.x+rect.w+view.offset)*view.scale,y1=(rect.y+rect.h)*view.scale;
-                        const std::vector<f::OverlayTriangleVertex> quad{{x0,y0,0,0},{x1,y0,0,0},{x1,y1,0,0},{x0,y0,0,0},{x1,y1,0,0},{x0,y1,0,0}};
-                        if(!overlay.drawTriangles(quad,0,rect.rgba))throw std::runtime_error("Cinematic box draw rejected");
+                    // P16 HUDART: SKIP and caption art are the original dqhud_droid batches (stage space, atlas bitmap 1).
+                    for(const auto* panel:cinFrame.panels) for(const auto& batch:*panel) {
+                        std::vector<f::OverlayTriangleVertex> vertices;
+                        for(const auto& v:batch.triangles)vertices.push_back({(v.x+view.offset)*view.scale,v.y*view.scale,v.u,v.v});
+                        if(!overlay.drawTriangles(vertices,batch.bitmap?hudTexture:0,batch.rgba))throw std::runtime_error("Cinematic panel draw rejected");
                     }
                     const float xScale=480.f*view.scale/float(window.width());
                     f::frontend::art::ScreenArt cinArt;
                     auto cinSignature=std::to_string(window.width())+":"+std::to_string(window.height());
                     for(const auto& item:cinFrame.texts) {
                         f::frontend::art::TextField field;
-                        field.font_id=5; // only mapped source font (Fontin SmallCaps); placeholder face, see report
-                        field.source_height=14; field.rgba=item.rgba; field.align=0; field.margins={2,2,0}; field.leading=0;
+                        field.font_id=5; // source EditText font 7 = Fontin SmallCaps (the only mapped source font)
+                        field.source_height=item.height; field.rgba=item.rgba; field.align=item.align; field.margins={2,2,0}; field.leading=0;
                         field.matrix={xScale,0,0,1,0,0};
                         const float left=(item.x+view.offset)*xScale; // FrontendText maps left*width/480 back to window pixels
                         field.local_bounds={left,left+item.w*xScale,item.y,item.y+item.h};
@@ -4460,7 +4463,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                 // P16 QUESTUI: quest banner over the HUD (placeholder panel; see report).
                 if(questBanners.visible()&&!characterMenu.is_open()&&!pauseMenuOpen) {
                     std::string bannerError;
-                    if(!drawQuestBanner(questBanners.current(),targetFont,renderer,overlay,textures,window.width(),window.height(),scale,bannerError))throw std::runtime_error("Quest banner: "+bannerError);
+                    if(!drawQuestBanner(questBanners.current(),targetFont,renderer,overlay,textures,hudTexture,window.width(),window.height(),bannerError))throw std::runtime_error("Quest banner: "+bannerError);
                 }
                 if(options.combatText&&!characterMenu.is_open()) {
                     if(!combatText.draw(window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text draw: "+error);

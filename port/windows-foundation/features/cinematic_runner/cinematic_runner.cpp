@@ -74,19 +74,38 @@ bool CinematicRunner::skip_hit(float x, float y, float window_w, float window_h,
     return ax >= layout.x && ax < layout.x + layout.w && ay >= layout.y && ay < layout.y + layout.h;
 }
 
-Frame CinematicRunner::build_frame(const SkipLayout& layout) const {
+namespace {
+// Text slot of an original panel (hud_panels). Slots carry the authored box and format.
+TextItem text_from_slot(const hud_panels::HudPanelTextSlotV1& slot, std::string text) {
+    TextItem item;
+    item.text = std::move(text);
+    item.x = slot.rect[0];
+    item.y = slot.rect[1];
+    item.w = slot.rect[2] - slot.rect[0];
+    item.h = slot.rect[3] - slot.rect[1];
+    item.rgba = slot.rgba;
+    item.height = slot.height;
+    item.align = slot.align;
+    return item;
+}
+} // namespace
+
+Frame CinematicRunner::build_frame() const {
     Frame frame;
     if (!active_) return frame;
     if (skip_visible_) {
-        // Placeholder: red X block (reference icon) and the SKIP label beside it.
-        frame.rects.push_back({layout.x, layout.y, layout.h, layout.h, {0.80f, 0.10f, 0.10f, 1.f}, "placeholder-skip"});
-        frame.texts.push_back({kSkipLabelPlaceholder, layout.x + layout.h + 4.f, layout.y, layout.w, layout.h, {255, 255, 204, 255}});
+        frame.panels.push_back(&hud_panels::skip_batches_v1());
+        for (const auto& slot : hud_panels::skip_texts_v1())
+            frame.texts.push_back(text_from_slot(slot, hud_panels::kSkipLabelV1));
     }
     if (shown_) {
-        // Placeholder caption band: full-width translucent band along the bottom (reference Part 2 sheet, 3:40-3:56).
-        // No name plate is drawn; the original name plate is not decoded.
-        frame.rects.push_back({0.f, 256.f, kAuthoredWidth, 64.f, {0.f, 0.f, 0.f, 0.55f}, "placeholder-box"});
-        frame.texts.push_back({shown_line_.text, 12.f, 262.f, 456.f, 52.f, {255, 255, 255, 255}});
+        // Caption box: the original dialog frame (text band and name plate). The text band holds the line; the
+        // name plate needs the speaker name, which the host does not resolve yet (the plate is drawn without text).
+        frame.panels.push_back(&hud_panels::caption_batches_v1());
+        for (const auto& slot : hud_panels::caption_texts_v1()) {
+            if (std::string(slot.container) == "TextBox")
+                frame.texts.push_back(text_from_slot(slot, shown_line_.text));
+        }
     }
     return frame;
 }

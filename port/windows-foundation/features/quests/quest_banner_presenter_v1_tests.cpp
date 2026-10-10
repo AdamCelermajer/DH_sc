@@ -34,7 +34,15 @@ int main() {
         // Headings and rewards (original English strings; reward lines only when granted).
         auto nq = make(QuestBannerV1::Kind::new_quest, 53);
         auto lines = layout_quest_banner_v1(nq);
-        check(lines.size() == 1 && lines[0].text == "New Quest", "NEW QUEST heading only when no body text resolves");
+        check(lines.size() == 1 && lines[0].text == "New Quest" && lines[0].slot == 0,
+              "NEW QUEST heading only when no body text resolves (heading slot)");
+        lines = layout_quest_banner_v1(make(QuestBannerV1::Kind::new_quest, 53));
+        check(lines.size() == 1, "no body, one line");
+        auto nq_text = make(QuestBannerV1::Kind::new_quest, 53);
+        nq_text.text = "Kill 8 Bog Moths.";
+        lines = layout_quest_banner_v1(nq_text);
+        check(lines.size() == 2 && lines[1].text == "Kill 8 Bog Moths." && lines[1].slot == 1,
+              "NEW QUEST sentence goes to the sentence slot of the original frame");
 
         auto done = make(QuestBannerV1::Kind::completed, 53);
         done.reward_xp = 20;
@@ -46,25 +54,26 @@ int main() {
         done_no_gold.reward_xp = 50;
         check(!has_line(layout_quest_banner_v1(done_no_gold), "0 GOLD"), "zero gold is not shown");
 
+        // The source has no objective-counter banner: a counter lays out nothing and is never queued.
         auto counter = make(QuestBannerV1::Kind::updated, 53);
         counter.quantity = 3;
-        lines = layout_quest_banner_v1(counter);
-        check(lines.size() == 1 && lines[0].text == "3 / 8", "objective counter reads counted / authored");
+        check(layout_quest_banner_v1(counter).empty(), "no original counter banner: nothing is laid out");
 
-        // Queue: a counter replaces the queued counter of its row; a completion drops the row's counters.
+        // Queue: counters are not shown; a completion is shown and carries its reward slots.
         QuestBannerPresenterV1 presenter;
         presenter.push(nq);
         presenter.tick(3.1f);
         check(!presenter.visible(), "NEW QUEST ends after 3 seconds");
         presenter.push(counter);
-        counter.quantity = 4;
-        presenter.push(counter);
-        check(presenter.queued() == 1, "counter replaces the queued counter of the same row");
-        check(presenter.current().lines[0].text == "3 / 8" || presenter.current().lines[0].text == "4 / 8",
-              "counter is shown");
+        check(!presenter.visible(), "counter is not shown");
         presenter.push(done);
         check(presenter.queued() == 1 && presenter.current().completed,
-              "completion drops the row's queued counters and is shown");
+              "completion is shown");
+        const auto reward = presenter.current().lines;
+        // The test banner has no body text: heading, reward heading, EXP line, GOLD line.
+        check(reward.size() == 4 && reward[0].slot == 0 && reward[1].slot == 2 && reward[2].slot == 3 && reward[3].slot == 3 &&
+              reward[2].stack == 0 && reward[3].stack == 1,
+              "reward values share the reward slot, one line per value");
         presenter.tick(4.5f);
         check(!presenter.visible(), "completion ends after 4.5 seconds");
 

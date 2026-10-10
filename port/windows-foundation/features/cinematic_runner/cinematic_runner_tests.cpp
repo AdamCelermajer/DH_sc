@@ -78,16 +78,17 @@ void skip_hit_follows_viewport() {
 
 void frame_content() {
     CinematicRunner r;
-    check(r.build_frame().rects.empty() && r.build_frame().texts.empty(), "inactive frame is empty");
+    check(r.build_frame().panels.empty() && r.build_frame().texts.empty(), "inactive frame is empty");
     r.set_active(true);
     r.set_skip_visible(true);
     auto frame = r.build_frame();
-    check(frame.rects.size() == 1 && std::string(frame.rects[0].role) == "placeholder-skip", "SKIP alone when no caption");
-    check(frame.texts.size() == 1 && frame.texts[0].text == kSkipLabelPlaceholder, "SKIP label");
+    check(frame.panels.size() == 1 && frame.panels[0] == &dh::foundation::hud_panels::skip_batches_v1(), "SKIP original art alone when no caption");
+    check(frame.texts.size() == 1 && frame.texts[0].text == dh::foundation::hud_panels::kSkipLabelV1, "SKIP label");
     r.enqueue(line(9, "Is he... already dead?"));
     frame = r.build_frame();
-    check(frame.rects.size() == 2 && std::string(frame.rects[1].role) == "placeholder-box", "caption box beside SKIP");
+    check(frame.panels.size() == 2 && frame.panels[1] == &dh::foundation::hud_panels::caption_batches_v1(), "caption box art beside SKIP");
     check(frame.texts.size() == 2 && frame.texts[1].text == "Is he... already dead?", "caption text is the authored line");
+    check(frame.texts[1].align == 2, "caption text is centred as in the source EditText");
 }
 
 }  // namespace
