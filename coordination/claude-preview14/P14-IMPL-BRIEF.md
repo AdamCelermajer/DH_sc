@@ -28,3 +28,6 @@ You have your OWN git worktree and build directory; never touch another worktree
 
 ## CONTINUATION NOTE (read this if you were started as a continuation worker)
 The previous worker for your stream was killed by an API rate limit mid-task. Its work is committed as a WIP snapshot on your branch (`git -C <worktree> log --oneline cedb3a99..HEAD`, `git -C <worktree> diff cedb3a99 HEAD --stat`). Review that diff FIRST (limited output), decide what is finished, correct, and consistent, build it (`p14_build.ps1 -Name <name> -Test`), fix compile/test failures, and continue with the remaining tasks of your original assignment. Do not redo finished work; do not restart from scratch. Commit early and often (rate limits can strike again; uncommitted work is at risk). Write your report skeleton to `<worktree>/coordination/claude-preview14/<NAME>-report.md` EARLY and keep it updated, so a successor can continue from it.
+
+## CONTINUATION NOTE 2
+Rate limits killed a second round of Sonnet workers. Continuation workers now run on Haiku. Context cost grows fast: keep reads small (grep, limited ranges, `git diff --stat`, then targeted `git diff -- <file>`), never open whole large files, commit after every logical step, and finish with the report. If your stream's report file already exists in your worktree under coordination/claude-preview14/, continue from it.
