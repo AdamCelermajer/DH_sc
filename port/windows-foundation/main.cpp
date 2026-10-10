@@ -94,6 +94,7 @@
 #include "platform_key_codes.hpp"
 #endif
 #include "platform_sleep.hpp"
+#include "features/startup/boot_runner_v1.hpp"  // Preview 15 startup boot
 #include <GL/gl.h>
 #include <algorithm>
 #include <cmath>
@@ -203,6 +204,7 @@ struct Options {
     fs::path audioAssets,audioTable;
     int audioListener=-1;
     std::string startMode="menu",menuActions,menuReturnActions;
+    bool skipBoot=false;std::string introStream; // Preview 15 startup boot (--skip-boot, --intro-stream)
     fs::path menuAssets,menuUiAssets,menuCaptureDirectory;
     int menuCaptureEvery=6;
     int menuFrames=0,selectedSaveSlot=0;
@@ -394,6 +396,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--capture") o.capture=value();
         else if(arg=="--fixed-step") {o.fixedStep=std::stod(value());if(!std::isfinite(o.fixedStep)||o.fixedStep<=0||o.fixedStep>1)throw std::runtime_error("Fixed step must be in (0,1]");}
         else if(arg=="--probe") o.probe=true;
+        else if(arg=="--skip-boot") o.skipBoot=true;  // Preview 15: tests run without logo/movie/title
+        else if(arg=="--intro-stream") o.introStream=value();
         else if(arg=="--timeline") o.timeline=true;
         else if(arg=="--help") {
             std::cout<<"dh-foundation [--assets DIR] [--scene RELATIVE_BDAE | --level RELATIVE_MLX] [--module NODE]\n"
@@ -462,6 +466,7 @@ int main(int argc,char** argv) {
         f::AssetCatalog assets(options.assets);
         const auto launchOptions=options;
         bool returnMenuScriptConsumed=false;
+        bool bootShown=false;  // Preview 15: the boot runs once per process, not on return-to-menu
         f::Window window;f::Renderer renderer;bool windowOpened=false;
         for(;;) {
         auto sharedCharacter=std::make_shared<f::CharacterState>(f::make_default_character());
@@ -479,6 +484,18 @@ int main(int argc,char** argv) {
                 windowOpened=true;
             } else if((window.width()!=width||window.height()!=height)&&!window.resize(width,height))
                 throw std::runtime_error("Frontend retained window resize: "+window.error());
+            // Preview 15 startup boot: logo -> intro movie -> touch to continue, first menu entry only.
+            // --skip-boot bypasses it for tests; boot asset failures are logged and the menu still runs.
+            if(!options.skipBoot&&!bootShown) {
+                bootShown=true;
+                f::startup::BootRunConfig bootConfig;bootConfig.assets=&assets;
+                bootConfig.intro_stream=options.introStream.empty()?assets.root()/"converted-media"/"intro_v1.dhintro":fs::path(options.introStream);
+                bootConfig.window_width=width;
+                const auto boot=f::startup::run_boot_v1(window,renderer,bootConfig);
+                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown<<" seconds="<<boot.seconds<<'\n';
+                if(!boot.error.empty())std::cerr<<"Boot: "<<boot.error<<'\n';
+                if(boot.outcome==f::startup::BootRunOutcome::quit)return 0;
+            }
             // The caller owns this startup stream. Named fields are transferred
             // after creation; population and combat continue its call count.
             creationRandom={options.combat.diagnosticRngSeed.value_or(0),0};
