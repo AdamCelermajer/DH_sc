@@ -46,6 +46,7 @@ class RuntimeSessionDeathRewardsV1 {
     std::weak_ptr<const void> session_binding_lease_;
     RuntimeDeathRewardsV1 rewards_;
     bool dispatching_{};
+    dh2::data::LootRandom8V2* scatter_rng_{}; // same loot RNG as the roll, valid only inside after_update
 
     static bool loot_entry_thunk(void*, const dh2::data::LootEntryRequestV8&,
                                  std::int32_t&, std::string&);
