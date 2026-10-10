@@ -11,7 +11,9 @@
 #include <array>
 #include <cstdint>
 #include <optional>
+#include <set>
 #include <string>
+#include <vector>
 
 namespace dh::foundation::loot {
 
@@ -127,6 +129,29 @@ bool interact_world_item_v1(RuntimeWorldItemAdapterV1&, RuntimeWorldItemIdV1 ite
 // OnCollisionBegins/OOI: contact only makes the item the target.
 RuntimeWorldItemIdV1 select_world_item_target_v1(const RuntimeWorldItemAdapterV1&,
                                                  const std::array<float, 3>& player_position);
+
+// B063 walk-over pickup (PickUpType "MoveOn": every ItemTable row in the Act 1 data).
+// Original: POItem::onCollisionBegins 0x4702a8 -> ItemObject::OnCollisionBegins
+// 0x3ec048. GetInteractionType (0x3ebeb4) always returns -1, so when a Character's
+// body begins contact with the item sensor and CharStateMachine::SM_IsMoving(0) holds,
+// the character is stored in the item (+0x2E4); GameObject::Update 0x38cbe8 then calls
+// Interact(character) (vtable +152) on the next update and clears it. No key and no
+// action button. This tracker reports the items whose sensor BEGINS contact with the
+// player while the player is moving, nearest first. Contact that begins while the player
+// is idle is remembered but reports nothing (original: no pickup until contact begins
+// again). Each contact is attempted once: a rejected item (inventory full, owner window,
+// potion capacity) is not retried until the player leaves its sensor and re-enters, so
+// a dropped item is not instantly re-collected. An item sliding into a walking player
+// begins contact when its box overlaps.
+class WorldItemContactTrackerV1 {
+public:
+    std::vector<RuntimeWorldItemIdV1> begin_contacts(const RuntimeWorldItemAdapterV1&,
+                                                     const std::array<float, 3>& player_position,
+                                                     bool player_moving);
+    void clear() noexcept { inside_.clear(); }
+private:
+    std::set<RuntimeWorldItemIdV1> inside_;
+};
 
 // PickUpType == "Automatic" (0), read from the ItemTable row.
 bool world_item_is_automatic_pickup_v1(const RuntimeWorldItemEntryV1&) noexcept;

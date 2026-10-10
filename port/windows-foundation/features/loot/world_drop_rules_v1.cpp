@@ -60,6 +60,26 @@ RuntimeWorldItemIdV1 select_world_item_target_v1(const RuntimeWorldItemAdapterV1
     return best;
 }
 
+std::vector<RuntimeWorldItemIdV1> WorldItemContactTrackerV1::begin_contacts(
+    const RuntimeWorldItemAdapterV1& store, const std::array<float, 3>& player, bool player_moving) {
+    std::vector<std::pair<float, RuntimeWorldItemIdV1>> entered;
+    std::set<RuntimeWorldItemIdV1> now;
+    for (const auto& pair : store.entries()) {
+        const auto& item = pair.second;
+        const float dx = item.source_position[0] - player[0];
+        const float dy = item.source_position[1] - player[1];
+        if (std::fabs(dx) > world_item_sensor_half_extent_v1 ||
+            std::fabs(dy) > world_item_sensor_half_extent_v1) continue;
+        now.insert(pair.first);
+        if (player_moving && inside_.find(pair.first) == inside_.end()) entered.emplace_back(dx * dx + dy * dy, pair.first);
+    }
+    inside_ = std::move(now);
+    std::sort(entered.begin(), entered.end());
+    std::vector<RuntimeWorldItemIdV1> out;
+    for (const auto& e : entered) out.push_back(e.second);
+    return out;
+}
+
 std::int32_t potion_capacity_from_property_v1(std::int32_t q8_property) noexcept {
     return q8_property <= 0 ? 0 : q8_property / 256;
 }

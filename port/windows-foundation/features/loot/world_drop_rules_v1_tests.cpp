@@ -300,6 +300,42 @@ int main(int argc, char** argv) try {
               << ",\"sword\":" << env.tables.items().rows[std::size_t(env.id_of("Longsword01"))].record.words[item_word_audio_visual_v1]
               << "}}\n";
 
+    // B063 walk-over: contact BEGIN is reported once per contact, nearest first.
+    {
+        RuntimeWorldItemAdapterV1 ground(env.tables);
+        RuntimeWorldItemIdV1 near_id{}, far_id{}, moving_id{};
+        check(ground.publish_death_drop(env.record("Potion0", 1), actor(5, {1000, 0, 10}), near_id, error), error);
+        check(ground.publish_death_drop(env.record("GoldStack01", 1, 5, 3), actor(5, {1100, 150, 10}), far_id, error), error);
+        WorldItemContactTrackerV1 contacts;
+        // Outside every sensor box (225 half extent): walking past reports nothing.
+        check(contacts.begin_contacts(ground, {1000.0f, 400.0f, 10.0f}, true).empty(), "outside the sensor box: no contact");
+        check(contacts.begin_contacts(ground, {1000.0f, -226.0f, 10.0f}, true).empty(), "just outside the box edge: no contact");
+        // Stepping onto the edge begins contact with the potion only.
+        auto began = contacts.begin_contacts(ground, {1000.0f, -224.0f, 10.0f}, true);
+        check(began.size() == 1 && began[0] == near_id, "walking onto the item begins contact once");
+        // Standing on it (even after a rejected attempt) does not begin contact again.
+        check(contacts.begin_contacts(ground, {1000.0f, -200.0f, 10.0f}, true).empty(), "standing inside does not retrigger");
+        check(contacts.begin_contacts(ground, {1005.0f, 0.0f, 10.0f}, true).size() == 1, "second item enters while the first is held");
+        check(contacts.begin_contacts(ground, {1005.0f, 0.0f, 10.0f}, true).empty(), "no retrigger for either item");
+        // Contact that begins while the player stands still never picks up (SM_IsMoving gate), even after moving on inside.
+        check(contacts.begin_contacts(ground, {1000.0f, 900.0f, 10.0f}, false).empty(), "leaving while idle reports nothing");
+        check(contacts.begin_contacts(ground, {1000.0f, 0.0f, 10.0f}, false).empty(), "idle contact begin reports nothing");
+        check(contacts.begin_contacts(ground, {1000.0f, 20.0f, 10.0f}, true).empty(), "starting to walk inside does not pick up");
+        // Leave and come back: contact begins again (a dropped/rejected item can be picked after re-entering).
+        check(contacts.begin_contacts(ground, {1000.0f, 900.0f, 10.0f}, true).empty(), "leaving reports nothing");
+        began = contacts.begin_contacts(ground, {1050.0f, 100.0f, 10.0f}, true);
+        check(began.size() == 2 && began[0] == far_id && began[1] == near_id, "re-entering reports both, nearest first");
+        // A retired item (store cleared) drops out of the contact set; a new item sliding into a standing player begins contact.
+        ground.clear();
+        check(contacts.begin_contacts(ground, {1050.0f, 100.0f, 10.0f}, true).empty(), "retired item reports nothing");
+        check(ground.publish_death_drop(env.record("Potion0", 1), actor(5, {1050.0f, 100.0f, 10.0f}), moving_id, error), error);
+        began = contacts.begin_contacts(ground, {1050.0f, 100.0f, 10.0f}, true);
+        check(began.size() == 1 && began[0] == moving_id, "an item landing on a standing player begins contact");
+        contacts.clear();
+        check(contacts.begin_contacts(ground, {1050.0f, 100.0f, 10.0f}, true).size() == 1, "clear forgets contacts (session rebind)");
+        std::cout << "{\"walkover_contact\":\"PASS\"}\n";
+    }
+
     // Motion curve (GameObject::UpdateTargetPosition + IsAtDestination). Ground plane only: no apex,
     // no bounce; speed 600 units/s; rest 80 units short of the landing point.
     {
