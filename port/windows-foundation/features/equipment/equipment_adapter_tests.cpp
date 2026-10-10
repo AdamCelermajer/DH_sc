@@ -32,6 +32,21 @@ int main(int argc,char** argv){try{
     sword.record.words[29]=0;sword.record.words[30]=1;auto raw=properties;raw.sheets.resolved[149]=255;
     check(!equipment_meets_requirements(sword,raw),"Fractional attribute requirement rounded up");
     raw.sheets.resolved[149]=256;check(equipment_meets_requirements(sword,raw),"Exact requirement boundary rejected");
+    // B057: every attribute requirement word (30..33 = STR/DEX/END/ENG) maps to its own Stat_* cell (149..152); Stat + Prereq_*
+    // (153..156) is the compared sum (IsEquippableBy 003fa330); level (word 29) uses cell 19 with no prereq. Below / equal / above.
+    for(unsigned stat=0;stat<4;++stat){
+        auto item=sword;for(unsigned w=29;w<=34;++w)item.record.words[w]=0;item.record.words[30+stat]=7;
+        auto p=properties;for(unsigned s=0;s<4;++s){p.sheets.resolved[149+s]=1000*256;p.sheets.resolved[153+s]=0;}
+        check(equipment_meets_requirements(item,p),"Other stats must not influence a single-stat requirement");
+        p.sheets.resolved[149+stat]=7*256-1;check(!equipment_meets_requirements(item,p),"Below requirement accepted");
+        p.sheets.resolved[149+stat]=7*256;check(equipment_meets_requirements(item,p),"Equal requirement rejected");
+        p.sheets.resolved[149+stat]=7*256+1;check(equipment_meets_requirements(item,p),"Above requirement rejected");
+        p.sheets.resolved[149+stat]=6*256;p.sheets.resolved[153+stat]=256;check(equipment_meets_requirements(item,p),"Prereq bonus ignored");
+        p.sheets.resolved[153+stat]=255;check(!equipment_meets_requirements(item,p),"Partial Prereq bonus rounded up");
+    }
+    {auto item=sword;for(unsigned w=29;w<=34;++w)item.record.words[w]=0;item.record.words[29]=5;auto p=properties;
+     p.sheets.resolved[19]=4*256+255;p.sheets.resolved[153]=1000*256;check(!equipment_meets_requirements(item,p),"Level below requirement accepted");
+     p.sheets.resolved[19]=5*256;check(equipment_meets_requirements(item,p),"Level equal requirement rejected");}
     EquipmentAdapterOptions options;options.visuals=[](const auto&,const auto&,auto&,std::string& e){e="fixture visual unavailable";return false;};
     EquipmentAdapter visual(character,actor,properties,table,database,options);
     check(!visual.unequip(1,error),"Incomplete visual owner accepted");check(properties.sheets.resolved==expected,"Failed visual staging mutated sheets");

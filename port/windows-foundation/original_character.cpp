@@ -56,6 +56,133 @@ struct CharacterVisual::Impl {
     std::array<float,3> motion_previous{};
     Vec3 motion_delta{};
     Vec3 motion_rest_origin{};
+    // Builds the drawable parts/meshes for the controllers selected by `config` on the
+    // already loaded scene (shared by load and reselect_controllers).
+    void build_parts(const dh2::resources::BresView& view,const std::vector<std::uint8_t>& bytes,
+                     const CharacterVisualConfig& config,bool object_scene,std::string& error) {
+        parts.clear();meshes.clear();textures.clear();materials.clear();
+        const auto controllers=dh2_bres_library_count(&view,dh2::resources::Library::controller);
+        require(config.skin_id_contains.empty()||(!config.use_authored_modular_defaults&&config.controller_ids.empty()),"Conflicting character controller selection policies");
+        std::set<std::string> explicitControllers,matchedControllers,modularControllers,defaultControllers;
+        std::set<std::uint32_t> visibleControllers;
+        for(const auto& instance:scene.instances)if(instance.controller>=0)visibleControllers.insert(static_cast<std::uint32_t>(instance.controller));
+        for(const auto& id:config.controller_ids)require(!id.empty()&&explicitControllers.insert(id).second,"Duplicate or empty explicit controller ID");
+        if(config.use_authored_modular_defaults&&explicitControllers.empty()) {
+            std::vector<ModularDefaultCategory> categories;
+            require(decode_modular_defaults(bytes,categories,error),error);
+            for(const auto& category:categories) {
+                modularControllers.insert(category.available_controller_ids.begin(),category.available_controller_ids.end());
+                if(!category.controller_id.empty())defaultControllers.insert(category.controller_id);
+            }
+        }
+        unsigned selected=0;
+        struct Binding {dh2::skinning::Skin skin;unsigned geometry=0,node=0;bool skinned=true;std::vector<std::uint32_t> materials;};
+        std::vector<Binding> bindings;
+        for (unsigned c=0;c<controllers;++c) {
+            dh2::skinning::Skin skin;
+            require(dh2::skinning::load(view,c,scene,skin,error),error);
+            // Select authored equipment through caller-owned configuration.
+            if (!config.skin_id_contains.empty() && skin.id.find(config.skin_id_contains)==std::string::npos) continue;
+            if(!explicitControllers.empty()&&!explicitControllers.count(skin.id))continue;
+            if(explicitControllers.empty()&&modularControllers.count(skin.id)&&!defaultControllers.count(skin.id))continue;
+            if(config.use_authored_modular_defaults&&explicitControllers.empty()&&!modularControllers.count(skin.id)&&!visibleControllers.count(c))continue;
+            matchedControllers.insert(skin.id);
+            ++selected;
+            bool instantiated=false;
+            for(const auto& instance:scene.instances)if(instance.controller==static_cast<std::int32_t>(c)) {
+                require(instance.geometry==skin.geometry,"Character instance/controller geometry differs");
+                Binding binding;binding.geometry=skin.geometry;binding.node=instance.node_index;
+                binding.skin=skin;binding.materials=instance.materials;bindings.push_back(std::move(binding));
+                instantiated=true;
+            }
+            // Explicit modular selections can name library controllers without a
+            // visible serialized instance. Preserve their existing symbol lookup.
+            if(!instantiated) {
+                Binding binding;binding.geometry=skin.geometry;binding.skin=std::move(skin);bindings.push_back(std::move(binding));
+            }
+        }
+        if(controllers==0 || config.include_static_instances) {
+            for(const auto& instance:scene.instances)if(instance.controller<0) {
+                // Original object _colbox_ groups supply physical bounds, not
+                // visible model geometry. Retain their graph for source sampling.
+                // Existing actor configurations keep their established policy.
+                if(object_scene){
+                    auto node=static_cast<std::int32_t>(instance.node_index);bool collider=false;
+                    while(node>=0){const auto& source=scene.graph.at(node);
+                        const auto& name=source.name.empty()?source.id:source.name;
+                        if(name.compare(0,8,"_colbox_")==0){collider=true;break;}
+                        node=source.parent;
+                    }
+                    if(collider)continue;
+                }
+                Binding binding;binding.geometry=instance.geometry;binding.node=instance.node_index;binding.skinned=false;binding.materials=instance.materials;bindings.push_back(std::move(binding));
+            }
+        }
+        for(const auto& binding:bindings) {
+            dh2::assets::Mesh source{};
+            require(dh2_mesh_open(&source,&view,binding.geometry)==dh2::assets::Error::ok,"Character geometry rejected");
+            for(unsigned p=0;p<source.primitives;++p) {
+                dh2::assets::Primitive primitive{};
+                require(dh2_mesh_primitive(&source,p,&primitive)==dh2::assets::Error::ok,"Character primitive rejected");
+                require(primitive.collada_type==0 && primitive.index_count%3==0,"Character requires triangle primitives");
+                dh2::assets::Attribute position{},normal{},uv{},colors{};
+                require(dh2_mesh_attribute(&source,primitive.attributes[0],&position)==dh2::assets::Error::ok && position.components>=3,"Character missing position stream");
+                const bool haveNormal=dh2_mesh_attribute(&source,primitive.attributes[1],&normal)==dh2::assets::Error::ok && normal.components>=3;
+                const bool haveUv=dh2_mesh_attribute(&source,primitive.attributes[4],&uv)==dh2::assets::Error::ok && uv.components>=2;
+                const bool haveColors=dh2_mesh_attribute(&source,primitive.attributes[2],&colors)==dh2::assets::Error::ok && colors.components<=4;
+                Impl::Part part;part.skin=binding.skin;part.skinned=binding.skinned;part.rigid_node=binding.node;part.positions.resize(source.vertices);part.normals.resize(source.vertices);
+                Mesh mesh;mesh.vertices.resize(source.vertices);mesh.indices.resize(primitive.index_count);
+                for(unsigned v=0;v<source.vertices;++v) {
+                    float value[16]{};
+                    require(dh2_attribute_read(&position,v,value),"Character position read failed");
+                    std::copy(value,value+3,part.positions[v].begin());
+                    if(haveNormal) { require(dh2_attribute_read(&normal,v,value),"Character normal read failed");std::copy(value,value+3,part.normals[v].begin()); }
+                    else part.normals[v]={0,0,1};
+                    if(haveUv) { require(dh2_attribute_read(&uv,v,value),"Character UV read failed"); mesh.vertices[v].u=value[0];mesh.vertices[v].v=value[1]; }
+                    if(haveColors) {require(dh2_attribute_read(&colors,v,value),"Actor color read failed");for(unsigned k=0;k<colors.components;++k)mesh.vertices[v].color[k]=value[k]/(colors.type==1 ? 255.f : 1.f);}
+                }
+                for(unsigned j=0;j<primitive.index_count;++j) {
+                    require(dh2_index_read(&primitive,j,&mesh.indices[j]) && mesh.indices[j]<source.vertices,"Character index out of range");
+                }
+                const dh2::scene::Material* material=nullptr;
+                if(!binding.materials.empty()) {
+                    require(p<binding.materials.size() && binding.materials[p]<scene.materials.size(),"Character instance material binding outside domain");
+                    material=&scene.materials[binding.materials[p]];
+                }
+                else {const auto found=std::find_if(scene.materials.begin(),scene.materials.end(),[&](const dh2::scene::Material& m){return primitive.material && m.id==primitive.material;});if(found!=scene.materials.end())material=&*found;}
+                require(material!=nullptr,"Character material unresolved");
+                // Preserve the authored shader UV transform, as the static scene
+                // adapter does. GPU texture assignment must not apply it again.
+                if(haveUv)for(auto& vertex:mesh.vertices) {
+                    const float u=vertex.u,v=vertex.v;const auto& t=material->texture_matrix;
+                    // Original shader multiplies TextureMatrix0 * vec4(uv,1,0).
+                    vertex.u=t[0]*u+t[4]*v+t[8];vertex.v=t[1]*u+t[5]*v+t[9];
+                    require(std::isfinite(vertex.u) && std::isfinite(vertex.v),"Nonfinite actor material UV transform");
+                }
+                DrawRange range;range.indexCount=mesh.indices.size();std::copy(material->color,material->color+4,range.material.color.begin());
+                // Original backface flag enables culling; renderer doubleSided disables it.
+                range.material.doubleSided=!material->backface;range.material.transparent=material->color[3]<1 || !material->alpha_map.empty();mesh.ranges.push_back(range);
+                mesh.ranges.back().material.additive=material->additive;mesh.ranges.back().material.alphaReference=material->alpha_ref;
+                mesh.ranges.back().material.lightingEnabled=!haveColors;
+                CommonMaterialPass commonPass;
+                const auto passResult=resolve_common_material_pass(view,material->id,commonPass,error);
+                require(passResult!=CommonMaterialPassResult::invalid,error);
+                if(passResult==CommonMaterialPassResult::applied) {
+                    mesh.ranges.back().material.sourcePass=commonPass.state;
+                    if(classifySourceVertexLighting(commonPass.vertexShader,commonPass.vertexDefines)==SourceVertexLighting::CommonUnlit)
+                        mesh.ranges.back().material.lightingEnabled=false;
+                }
+                OriginalMaterial original;original.id=material->id;original.diffuse=material->diffuse;original.alphaMap=material->alpha_map;original.effectFile=material->effect_file;original.technique=material->gles2_technique;
+                if(passResult==CommonMaterialPassResult::applied)original.technique=commonPass.technique;
+                std::copy(material->texture_matrix,material->texture_matrix+16,original.textureMatrix.begin());original.alphaReference=material->alpha_ref;original.additive=material->additive;
+                materials.push_back(std::move(original));
+                meshes.push_back(std::move(mesh));parts.push_back(std::move(part));textures.push_back(material->diffuse);
+            }
+        }
+        require(!meshes.empty(),"No actor geometry matched configuration");
+        require(explicitControllers.empty()||matchedControllers==explicitControllers,"Explicit character controller ID not found");
+        require(!config.expected_controller_count || selected==config.expected_controller_count,"Character controller count differs from configured preset");
+    }
     bool deform(std::string& error) {
     for(std::size_t i=0;i<parts.size();++i) {
         auto& part=parts[i];
@@ -213,127 +340,7 @@ bool CharacterVisual::load_with_ranges(const AssetCatalog& assets,const Characte
             if(!next->players.empty())next->motion_previous=next->motion_starts[0];
             else std::copy(next->scene.graph[next->motion_node].translation,next->scene.graph[next->motion_node].translation+3,next->motion_previous.begin());
         }
-        const auto controllers=dh2_bres_library_count(&view,dh2::resources::Library::controller);
-        require(config.skin_id_contains.empty()||(!config.use_authored_modular_defaults&&config.controller_ids.empty()),"Conflicting character controller selection policies");
-        std::set<std::string> explicitControllers,matchedControllers,modularControllers,defaultControllers;
-        std::set<std::uint32_t> visibleControllers;
-        for(const auto& instance:next->scene.instances)if(instance.controller>=0)visibleControllers.insert(static_cast<std::uint32_t>(instance.controller));
-        for(const auto& id:config.controller_ids)require(!id.empty()&&explicitControllers.insert(id).second,"Duplicate or empty explicit controller ID");
-        if(config.use_authored_modular_defaults&&explicitControllers.empty()) {
-            std::vector<ModularDefaultCategory> categories;
-            require(decode_modular_defaults(bytes,categories,error),error);
-            for(const auto& category:categories) {
-                modularControllers.insert(category.available_controller_ids.begin(),category.available_controller_ids.end());
-                if(!category.controller_id.empty())defaultControllers.insert(category.controller_id);
-            }
-        }
-        unsigned selected=0;
-        struct Binding {dh2::skinning::Skin skin;unsigned geometry=0,node=0;bool skinned=true;std::vector<std::uint32_t> materials;};
-        std::vector<Binding> bindings;
-        for (unsigned c=0;c<controllers;++c) {
-            dh2::skinning::Skin skin;
-            require(dh2::skinning::load(view,c,next->scene,skin,error),error);
-            // Select authored equipment through caller-owned configuration.
-            if (!config.skin_id_contains.empty() && skin.id.find(config.skin_id_contains)==std::string::npos) continue;
-            if(!explicitControllers.empty()&&!explicitControllers.count(skin.id))continue;
-            if(explicitControllers.empty()&&modularControllers.count(skin.id)&&!defaultControllers.count(skin.id))continue;
-            if(config.use_authored_modular_defaults&&explicitControllers.empty()&&!modularControllers.count(skin.id)&&!visibleControllers.count(c))continue;
-            matchedControllers.insert(skin.id);
-            ++selected;
-            bool instantiated=false;
-            for(const auto& instance:next->scene.instances)if(instance.controller==static_cast<std::int32_t>(c)) {
-                require(instance.geometry==skin.geometry,"Character instance/controller geometry differs");
-                Binding binding;binding.geometry=skin.geometry;binding.node=instance.node_index;
-                binding.skin=skin;binding.materials=instance.materials;bindings.push_back(std::move(binding));
-                instantiated=true;
-            }
-            // Explicit modular selections can name library controllers without a
-            // visible serialized instance. Preserve their existing symbol lookup.
-            if(!instantiated) {
-                Binding binding;binding.geometry=skin.geometry;binding.skin=std::move(skin);bindings.push_back(std::move(binding));
-            }
-        }
-        if(controllers==0 || config.include_static_instances) {
-            for(const auto& instance:next->scene.instances)if(instance.controller<0) {
-                // Original object _colbox_ groups supply physical bounds, not
-                // visible model geometry. Retain their graph for source sampling.
-                // Existing actor configurations keep their established policy.
-                if(object_scene){
-                    auto node=static_cast<std::int32_t>(instance.node_index);bool collider=false;
-                    while(node>=0){const auto& source=next->scene.graph.at(node);
-                        const auto& name=source.name.empty()?source.id:source.name;
-                        if(name.compare(0,8,"_colbox_")==0){collider=true;break;}
-                        node=source.parent;
-                    }
-                    if(collider)continue;
-                }
-                Binding binding;binding.geometry=instance.geometry;binding.node=instance.node_index;binding.skinned=false;binding.materials=instance.materials;bindings.push_back(std::move(binding));
-            }
-        }
-        for(const auto& binding:bindings) {
-            dh2::assets::Mesh source{};
-            require(dh2_mesh_open(&source,&view,binding.geometry)==dh2::assets::Error::ok,"Character geometry rejected");
-            for(unsigned p=0;p<source.primitives;++p) {
-                dh2::assets::Primitive primitive{};
-                require(dh2_mesh_primitive(&source,p,&primitive)==dh2::assets::Error::ok,"Character primitive rejected");
-                require(primitive.collada_type==0 && primitive.index_count%3==0,"Character requires triangle primitives");
-                dh2::assets::Attribute position{},normal{},uv{},colors{};
-                require(dh2_mesh_attribute(&source,primitive.attributes[0],&position)==dh2::assets::Error::ok && position.components>=3,"Character missing position stream");
-                const bool haveNormal=dh2_mesh_attribute(&source,primitive.attributes[1],&normal)==dh2::assets::Error::ok && normal.components>=3;
-                const bool haveUv=dh2_mesh_attribute(&source,primitive.attributes[4],&uv)==dh2::assets::Error::ok && uv.components>=2;
-                const bool haveColors=dh2_mesh_attribute(&source,primitive.attributes[2],&colors)==dh2::assets::Error::ok && colors.components<=4;
-                Impl::Part part;part.skin=binding.skin;part.skinned=binding.skinned;part.rigid_node=binding.node;part.positions.resize(source.vertices);part.normals.resize(source.vertices);
-                Mesh mesh;mesh.vertices.resize(source.vertices);mesh.indices.resize(primitive.index_count);
-                for(unsigned v=0;v<source.vertices;++v) {
-                    float value[16]{};
-                    require(dh2_attribute_read(&position,v,value),"Character position read failed");
-                    std::copy(value,value+3,part.positions[v].begin());
-                    if(haveNormal) { require(dh2_attribute_read(&normal,v,value),"Character normal read failed");std::copy(value,value+3,part.normals[v].begin()); }
-                    else part.normals[v]={0,0,1};
-                    if(haveUv) { require(dh2_attribute_read(&uv,v,value),"Character UV read failed"); mesh.vertices[v].u=value[0];mesh.vertices[v].v=value[1]; }
-                    if(haveColors) {require(dh2_attribute_read(&colors,v,value),"Actor color read failed");for(unsigned k=0;k<colors.components;++k)mesh.vertices[v].color[k]=value[k]/(colors.type==1 ? 255.f : 1.f);}
-                }
-                for(unsigned j=0;j<primitive.index_count;++j) {
-                    require(dh2_index_read(&primitive,j,&mesh.indices[j]) && mesh.indices[j]<source.vertices,"Character index out of range");
-                }
-                const dh2::scene::Material* material=nullptr;
-                if(!binding.materials.empty()) {
-                    require(p<binding.materials.size() && binding.materials[p]<next->scene.materials.size(),"Character instance material binding outside domain");
-                    material=&next->scene.materials[binding.materials[p]];
-                }
-                else {const auto found=std::find_if(next->scene.materials.begin(),next->scene.materials.end(),[&](const dh2::scene::Material& m){return primitive.material && m.id==primitive.material;});if(found!=next->scene.materials.end())material=&*found;}
-                require(material!=nullptr,"Character material unresolved");
-                // Preserve the authored shader UV transform, as the static scene
-                // adapter does. GPU texture assignment must not apply it again.
-                if(haveUv)for(auto& vertex:mesh.vertices) {
-                    const float u=vertex.u,v=vertex.v;const auto& t=material->texture_matrix;
-                    // Original shader multiplies TextureMatrix0 * vec4(uv,1,0).
-                    vertex.u=t[0]*u+t[4]*v+t[8];vertex.v=t[1]*u+t[5]*v+t[9];
-                    require(std::isfinite(vertex.u) && std::isfinite(vertex.v),"Nonfinite actor material UV transform");
-                }
-                DrawRange range;range.indexCount=mesh.indices.size();std::copy(material->color,material->color+4,range.material.color.begin());
-                // Original backface flag enables culling; renderer doubleSided disables it.
-                range.material.doubleSided=!material->backface;range.material.transparent=material->color[3]<1 || !material->alpha_map.empty();mesh.ranges.push_back(range);
-                mesh.ranges.back().material.additive=material->additive;mesh.ranges.back().material.alphaReference=material->alpha_ref;
-                mesh.ranges.back().material.lightingEnabled=!haveColors;
-                CommonMaterialPass commonPass;
-                const auto passResult=resolve_common_material_pass(view,material->id,commonPass,error);
-                require(passResult!=CommonMaterialPassResult::invalid,error);
-                if(passResult==CommonMaterialPassResult::applied) {
-                    mesh.ranges.back().material.sourcePass=commonPass.state;
-                    if(classifySourceVertexLighting(commonPass.vertexShader,commonPass.vertexDefines)==SourceVertexLighting::CommonUnlit)
-                        mesh.ranges.back().material.lightingEnabled=false;
-                }
-                OriginalMaterial original;original.id=material->id;original.diffuse=material->diffuse;original.alphaMap=material->alpha_map;original.effectFile=material->effect_file;original.technique=material->gles2_technique;
-                if(passResult==CommonMaterialPassResult::applied)original.technique=commonPass.technique;
-                std::copy(material->texture_matrix,material->texture_matrix+16,original.textureMatrix.begin());original.alphaReference=material->alpha_ref;original.additive=material->additive;
-                next->materials.push_back(std::move(original));
-                next->meshes.push_back(std::move(mesh));next->parts.push_back(std::move(part));next->textures.push_back(material->diffuse);
-            }
-        }
-        require(!next->meshes.empty(),"No actor geometry matched configuration");
-        require(explicitControllers.empty()||matchedControllers==explicitControllers,"Explicit character controller ID not found");
-        require(!config.expected_controller_count || selected==config.expected_controller_count,"Character controller count differs from configured preset");
+        next->build_parts(view,bytes,config,object_scene,error);
         next->ready=true;
         // Sample before publication so a failed reload preserves the current character.
         CharacterVisual candidate;candidate.impl_=std::move(next);
@@ -411,6 +418,31 @@ bool CharacterVisual::update(double seconds,std::string& error) {
     if(samePose) {state.clock=nextClock;error.clear();return true;}
     if(!state.deform(error))return false;
     state.clock=nextClock;state.sampled=true;state.sampled_time=time;error.clear();return true;
+}
+// B061: gameplay body follows the equipped modular parts. Rebuilds only the drawable
+// parts on the SAME retained scene/skeleton/clips (the Scene address stays valid), then
+// deforms them with the current pose. A failure leaves the previous parts untouched.
+bool CharacterVisual::reselect_controllers(const AssetCatalog& assets,const std::vector<std::string>& controller_ids,std::string& error) {
+    if(!loaded()) {error="Character visual not loaded";return false;}
+    auto& state=*impl_;
+    auto oldParts=std::move(state.parts);auto oldMeshes=std::move(state.meshes);
+    auto oldTextures=std::move(state.textures);auto oldMaterials=std::move(state.materials);
+    try {
+        CharacterVisualConfig next=state.config;
+        next.controller_ids=controller_ids;next.skin_id_contains.clear();
+        next.expected_controller_count=unsigned(controller_ids.size());
+        const auto bytes=assets.read(state.config.model_path);
+        dh2::resources::BresView view{};
+        require(dh2_bres_open(&view,bytes.data(),bytes.size())==dh2::resources::BresError::ok,"Character BRES rejected");
+        state.build_parts(view,bytes,next,false,error);
+        require(state.deform(error),error);
+        state.config=std::move(next);error.clear();return true;
+    } catch(const std::exception& e) {
+        error=e.what();
+        state.parts=std::move(oldParts);state.meshes=std::move(oldMeshes);
+        state.textures=std::move(oldTextures);state.materials=std::move(oldMaterials);
+        return false;
+    }
 }
 bool CharacterVisual::loaded() const {return impl_ && impl_->ready;}
 const dh2::scene::Scene* CharacterVisual::retained_scene_borrow() const noexcept {return loaded()?&impl_->scene:nullptr;}

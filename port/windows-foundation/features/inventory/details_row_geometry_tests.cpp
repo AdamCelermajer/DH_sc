@@ -97,6 +97,22 @@ int main() {
     check(details_rail_slot_at(details, icon[0].x0 + 1.0f, icon[0].y0 - 2.0f) == -1 &&
           details_rail_slot_at(details, icon[9].x0 + 1.0f, icon[9].y1 + 2.0f) == -1,
           "the gap between the arrows and the rail icons must not select an icon");
+    // B056b: dark rail art for exactly the slots without exported normal art; same rectangle and cell size as the Highlight quad, uv inside the atlas.
+    {
+        const auto dark = details_rail_dark_art(details);
+        check(dark.size() == 5, "expected dark rail art for slots 0,1,2,5,6 only");
+        for (const auto& batch : dark) {
+            const unsigned slot = unsigned(batch.role[std::string("menu_InventorySheetDetails/SideList/btn_Type").size()] - '0');
+            check(slot == 0 || slot == 1 || slot == 2 || slot == 5 || slot == 6, "dark rail art for a slot that has exported normal art");
+            float x0 = 1e9f, x1 = -1e9f, y0 = 1e9f, y1 = -1e9f, du = 0, dv = 0;
+            float u0 = 1e9f, u1 = -1e9f, v0 = 1e9f, v1 = -1e9f;
+            for (const auto& v : batch.triangles) { x0 = std::min(x0, v.x); x1 = std::max(x1, v.x); y0 = std::min(y0, v.y); y1 = std::max(y1, v.y); u0 = std::min(u0, v.u); u1 = std::max(u1, v.u); v0 = std::min(v0, v.v); v1 = std::max(v1, v.v); }
+            check(u0 >= 0 && u1 <= 1 && v0 >= 0 && v1 <= 1 && u1 > u0 && v1 > v0, "dark rail uv outside the atlas");
+            check(v0 < 0.08f && u0 > 0.68f, "dark rail cell must be in the dim-silhouette row of the atlas (top right)");
+            (void)du; (void)dv;
+            check(x0 >= icon[slot].x0 - 0.01f && x1 <= icon[slot].x1 + 0.01f && y0 >= icon[slot].y0 - 0.01f && y1 <= icon[slot].y1 + 0.01f, "dark rail quad leaves the slot's icon box");
+        }
+    }
     check(!details_row_shows_count(1) && details_row_shows_count(2) && details_row_shows_count(32767), "single items must show no row count; stacks keep it");
 
     if (failures) { std::cerr << failures << " failure(s)\n"; return 1; }

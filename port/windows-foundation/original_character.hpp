@@ -66,6 +66,8 @@ public:
     bool select(const std::string& name, bool loop, std::string& error);
     // Explicit action entry, including replay of the same one-shot clip.
     bool restart(const std::string& name, bool loop, std::string& error);
+    // B061: swap the drawn modular controllers (equipped parts) on the same Scene/skeleton.
+    bool reselect_controllers(const AssetCatalog&,const std::vector<std::string>& controller_ids,std::string& error);
     bool update(double seconds, std::string& error);
     bool loaded() const;
     // Borrow the SAME retained scene; no second pose/clock. Invalidated by

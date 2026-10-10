@@ -3,6 +3,8 @@
 #include "../../asset_catalog.hpp"
 #include "../../texture_loader.hpp"
 #include <map>
+#include <string>
+#include <utility>
 
 namespace dh::foundation::effects {
 struct EffectTextureServices {
@@ -25,5 +27,7 @@ private:
     const AssetCatalog& assets_;
     EffectTextureServices services_;
     std::map<std::filesystem::path,std::uint32_t> textures_;
+    // B062: resolved texture path per (diffuse uri, owner resource uri); resolution probes the filesystem.
+    std::map<std::pair<std::string,std::string>,std::filesystem::path> resolved_;
 };
 }

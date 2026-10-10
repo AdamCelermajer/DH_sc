@@ -56,6 +56,24 @@ int main(int argc,char** argv) {
         }
         const auto before=exactVisual.meshes().size();visualConfig.controller_ids.push_back("missing-controller");
         check(!exactVisual.load(actorAssets,visualConfig,error)&&exactVisual.meshes().size()==before,"Unknown controller did not fail atomically");
+        // B061: swapping equipped modular parts keeps the same Scene/skeleton, redeforms, and fails atomically.
+        {
+            const auto* sceneBefore=exactVisual.retained_scene_borrow();
+            std::vector<std::string> ids;for(const auto& category:previous)ids.push_back(category.controller_id);
+            std::size_t head=ids.size();for(std::size_t i=0;i<ids.size();++i)if(ids[i].find("MC_Head")!=std::string::npos)head=i;
+            check(head<ids.size(),"Default modular set lacks a head controller");
+            const auto oldTexture=exactVisual.texture_uris()[head];const auto oldVertices=exactVisual.meshes()[head].vertices.size();
+            auto swapped=ids;swapped[head]="MC_Head_Plate_01-mesh-skin";
+            check(exactVisual.reselect_controllers(actorAssets,swapped,error),error.c_str());
+            check(exactVisual.retained_scene_borrow()==sceneBefore&&exactVisual.meshes().size()==ids.size(),"Part swap replaced the Scene or lost a part");
+            bool replaced=false;for(const auto& mesh:exactVisual.meshes()){check(!mesh.vertices.empty(),"Swapped part has no geometry");}
+            replaced=exactVisual.texture_uris()[head]==oldTexture&&exactVisual.meshes()[head].vertices.size()==oldVertices;
+            check(!replaced,"Helm swap still draws the old head part");
+            auto broken=swapped;broken.push_back("missing-controller");
+            const auto texturesBefore=exactVisual.texture_uris();
+            check(!exactVisual.reselect_controllers(actorAssets,broken,error)&&exactVisual.texture_uris()==texturesBefore&&exactVisual.meshes().size()==ids.size(),"Unknown controller swap was not atomic");
+            check(exactVisual.reselect_controllers(actorAssets,ids,error)&&exactVisual.texture_uris()[head]==oldTexture&&exactVisual.meshes()[head].vertices.size()==oldVertices,"Restoring the default part set failed");
+        }
         for(auto size:{std::size_t(0),std::size_t(24),prince.size()/2}) {
             auto truncated=prince;truncated.resize(size);
             check(!decode_modular_defaults(truncated,categories,error),"Truncated BRES accepted");

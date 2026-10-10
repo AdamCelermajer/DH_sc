@@ -5,19 +5,23 @@
 // finish() holds the screen for at least min_seconds. Shared code: Window poll/swap,
 // Renderer and OverlayRenderer only; text comes from the authored font via text_label_v1.
 //
-// Layout follows the reference Part 1 frames at 70-76 s (IDA-free observation, see report):
-// dark frame, "LOADING" heading, tip box (string from the original hint table), red progress bar.
-// Not recovered yet: the ornate frame/corner art and the avatar badge (loadanims*.swf), so the frame
-// is drawn with fills. Disabled instances (tests: --skip-boot, swamp route) are no-ops.
+// Art: the original menu_Loading clip of data/menus/dqshared.swf (ornate frame, tip panel, red bar with
+// spark; geometry exported by tools/export_loading_art.py into loading_art_data.cpp, textures
+// MenuGraphics01..05 + MenusGraphics.tga). The 1024x768 stage is fitted to the window height and centred.
+// If the textures are missing the screen falls back to plain fills. Disabled instances (tests:
+// --skip-boot, swamp route) are no-ops.
 
+#include "loading_art_v1.hpp"
 #include "loading_tip_v1.hpp"
 #include "text_label_v1.hpp"
 
+#include <array>
 #include <filesystem>
 #include <functional>
 #include <string>
 
 namespace dh::foundation {
+class OverlayRenderer;
 class AssetCatalog;
 class Renderer;
 class Window;
@@ -51,6 +55,9 @@ public:
 private:
     void draw(double fraction);
     void build_labels(int w, int h);
+    void build_art();
+    void draw_art(int w, int h, double fraction, OverlayRenderer& overlay);
+    void draw_fallback(OverlayRenderer& overlay, float fw, float fh);
 
     Window& window_;
     Renderer& renderer_;
@@ -64,6 +71,8 @@ private:
     bool hasTip_ = false;
     TextLabel heading_, tipText_;
     bool labelsBuilt_ = false;
+    std::array<std::uint32_t, 7> artTex_{};  // texture handles, index 1..6
+    bool artBuilt_ = false, artOk_ = false;
     std::filesystem::path capturePrefix_;
     CaptureFn capture_;
 };

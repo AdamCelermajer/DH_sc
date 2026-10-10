@@ -68,6 +68,16 @@ int main() {
         flow.movie_finished(0.5);  // clamped to 2.0, still a valid end
         CHECK(flow.phase() == BootPhase::title);
     }
+    // B053 splash layout: atlas region only, 16:9 fill, letterbox for other aspects.
+    {
+        const SplashLayout a = splash_layout(1920, 1080, 2048, 1024);
+        CHECK(a.x == 0.0f && a.y == 0.0f && a.width == 1920.0f && a.height == 1080.0f);
+        CHECK(a.u1 < 0.625f && a.u1 > 0.62f && a.v1 < 0.734375f && a.v1 > 0.73f);  // never the ring/arrow atlas below
+        const SplashLayout b = splash_layout(1000, 1000, 2048, 1024);
+        CHECK(b.width == 1000.0f && b.height > 562.0f && b.height < 563.0f && b.x == 0.0f && b.y > 218.0f);
+        const SplashLayout c = splash_layout(2560, 1080, 2048, 1024);
+        CHECK(c.height == 1080.0f && c.width > 1919.0f && c.width < 1921.0f && c.x > 319.0f);
+    }
     if (failures == 0) std::puts("boot_flow_v1 tests: all passed");
     return failures == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }

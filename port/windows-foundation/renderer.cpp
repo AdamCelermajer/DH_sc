@@ -1,10 +1,12 @@
 #include "renderer.hpp"
 
+#include "frame_perf.hpp"
 #include "platform_context_identity.hpp"
 #include <GL/gl.h>
 
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <limits>
 #include <type_traits>
 
@@ -119,6 +121,7 @@ bool Renderer::initialize(int width, int height) {
     glCullFace(GL_BACK);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     if(glGetError()!=GL_NO_ERROR)return false;
+    if(perf::FramePerf::get().enabled())std::cout<<"Perf GL vendor="<<reinterpret_cast<const char*>(glGetString(GL_VENDOR))<<" renderer="<<reinterpret_cast<const char*>(glGetString(GL_RENDERER))<<" version="<<reinterpret_cast<const char*>(glGetString(GL_VERSION))<<std::endl;
     qualityContext_=context;
     qualityDeviceContext_=device;
     qualityThread_=current_render_thread_identity();
@@ -306,6 +309,7 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
             for (std::size_t channel = 0; channel < 4; ++channel)
                 vertexColors_[vertex][channel] = mesh.vertices[vertex].color[channel]*range.material.color[channel];
         }
+        {auto& c=perf::FramePerf::get().counters();++c.calls;c.triangles+=count/3;} // B062 draw statistics
         if (indexed) {
             glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(count), GL_UNSIGNED_INT,
                            mesh.indices.data()+range.firstIndex);
@@ -385,6 +389,7 @@ std::uint32_t Renderer::createTexture(int width, int height, const std::uint8_t*
     glGetIntegerv(GL_TEXTURE_BINDING_2D, &oldBinding);
     glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldAlignment);
     GLuint texture = 0;
+    ++perf::FramePerf::get().counters().textureUploads;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
