@@ -970,3 +970,6 @@ target_link_libraries(dh-foundation PRIVATE foundation_procedural)
 add_executable(procedural_level_v1_tests features/procedural/procedural_level_v1_tests.cpp)
 target_link_libraries(procedural_level_v1_tests PRIVATE foundation_procedural)
 add_test(NAME procedural_level_v1 COMMAND procedural_level_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root")
+# P17 PROCGEN diagnostic: per-rule generation and fixed-map load coverage over the asset root (not a ctest).
+add_executable(procedural_coverage features/procedural/procedural_coverage.cpp)
+target_link_libraries(procedural_coverage PRIVATE foundation_procedural)

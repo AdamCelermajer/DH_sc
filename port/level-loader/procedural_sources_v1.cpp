@@ -52,7 +52,7 @@ bool ProceduralSourcesV1::prepare(const ProceduralAssetSourceV1& pack,std::strin
         std::map<std::string,std::uint32_t> captured;
         auto read=[&](const std::string& authored,std::vector<std::uint8_t>& bytes)->std::string {
             bool found=false;std::string why,key;
-            if(!ProceduralAssetSourceV1::key(authored,key,why))throw std::runtime_error(why);
+            if(!ProceduralAssetSourceV1::key(authored,key,why)){throw std::runtime_error(why+" uri=["+authored+"]");}
             if(!pack.read(authored,found,bytes,why))throw std::runtime_error("Read failure for "+authored+": "+why);
             if(!found)throw std::runtime_error("Missing procedural dependency: "+authored);
             return key;
