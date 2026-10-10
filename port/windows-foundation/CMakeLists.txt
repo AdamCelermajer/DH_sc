@@ -27,7 +27,7 @@ endif()
 add_library(recovered_content STATIC
   ../engine-resources/resources.cpp ../asset-payloads/payloads.cpp
   ../engine-math/math.cpp ../scene-materials/scene.cpp
-  ../engine-animation/animation.cpp ../engine-animation/angle_interpreter.cpp
+  ../engine-animation/animation.cpp ../engine-animation/angle_interpreter.cpp ../engine-animation/channel_filter.cpp
   ../engine-animation/events.cpp ../engine-animation/event_track.cpp
   ../engine-animation/animation_blend.cpp ../level-world/animation_blender.cpp
   ../level-world/visual_timeline.cpp
@@ -277,6 +277,7 @@ add_library(foundation_runtime_effects STATIC
   ../asset-payloads/sha256.cpp
   features/effects/runtime_source_fx_asset_v1.cpp
   features/effects/runtime_swing_fx_observer_v1.cpp
+  features/effects/embedded_scene_fx_v1.cpp
   features/effects/runtime_level_up_presentation_v1.cpp
   features/effects/runtime_effects_factory_v1.cpp
   features/effects/runtime_combat_effects_v1.cpp
@@ -391,6 +392,32 @@ add_test(NAME quest_banner_presenter_v1 COMMAND quest_banner_presenter_v1_tests)
 add_test(NAME quest_runtime_v1 COMMAND quest_runtime_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
 # End Preview 16 quest runtime.
+# P17 CONDITIONS: one authored v2Conditions evaluator (features/conditions) and the event-driven flip watch.
+add_library(foundation_conditions STATIC
+  features/conditions/authored_conditions_v1.cpp
+  features/conditions/condition_watch_v1.cpp)
+target_link_libraries(foundation_conditions PUBLIC foundation_runtime_quests foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_conditions)
+add_executable(conditions_v1_tests features/conditions/conditions_v1_tests.cpp)
+target_link_libraries(conditions_v1_tests PRIVATE foundation_conditions)
+add_test(NAME conditions_v1 COMMAND conditions_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
+# End Preview 17 conditions.
+# P17 CONDITIONS: gated world declarations as persistent world objects (component dh2.world-gate.v1).
+add_library(foundation_world_gates STATIC features/world_gates/world_gate_v1.cpp)
+add_executable(world_gate_v1_tests features/world_gates/world_gate_v1_tests.cpp)
+target_link_libraries(world_gate_v1_tests PRIVATE foundation_world_gates)
+add_test(NAME world_gate_v1 COMMAND world_gate_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+target_link_libraries(foundation_world_gates PUBLIC foundation_conditions foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_world_gates)
+# P17 DOORS: Door visuals, Script_OpenDoor/CloseDoor, TriggerObject levers and gated AnimatedDecor (features/doors).
+add_library(foundation_doors STATIC
+  features/doors/door_runtime_v1.cpp features/doors/world_objects_v1.cpp
+  features/doors/door_world_v1.cpp features/doors/door_commands_v1.cpp)
+target_link_libraries(foundation_doors PUBLIC foundation_containers foundation_world_gates foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_doors)
+# End Preview 17 doors.
+# End Preview 17 world gates.
 
 enable_testing()
 foreach(test save camera asset level_manifest animation_markers combat_system actor_movement gameplay_camera actor_definitions content_paths actor_root_motion original_actor_properties equipment_visual original_melee_bindings original_combat_visual_plan original_attack_sequence)
@@ -992,3 +1019,7 @@ target_sources(foundation_data PRIVATE original_camera_clip.cpp)
 add_executable(original_camera_clip_tests features/cinematics/original_camera_clip_tests.cpp)
 target_link_libraries(original_camera_clip_tests PRIVATE foundation_data)
 add_test(NAME original_camera_clip COMMAND original_camera_clip_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
+# P17 DOORS: compiled animation channels without a scene-node target are skipped and logged once.
+add_executable(channel_filter_tests features/animation_channels/channel_filter_tests.cpp ../engine-animation/channel_filter.cpp)
+add_test(NAME animation_channel_filter COMMAND channel_filter_tests)
+# End Preview 17 doors channel filter.

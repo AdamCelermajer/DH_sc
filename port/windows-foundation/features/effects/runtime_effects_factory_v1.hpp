@@ -84,6 +84,11 @@ public:
 
     RuntimeCombatEffectsV1& runtime() noexcept;
     dh2::fx::CharacterMeshFxOwnerV4& manager() noexcept;
+    // P17 FIREWALL: authored FX resource of a scene model (its BRES bytes), bound to this session's services.
+    bool create_embedded_fx(const std::shared_ptr<const std::vector<std::uint8_t>>& bytes,
+                            std::shared_ptr<dh2::fx::CharacterParticleFxResourceV2>& out, std::string& error);
+    // P17 FIREWALL: replaces the scene-owned FX resources included in each prepared frame.
+    void set_embedded_sources(std::vector<EmbeddedFxSourceV1> sources);
     std::size_t cached_original_textures() const noexcept;
     // Verifies the exact live host instance and retained Scene lease, not only
     // coincident ActorIds in separate sessions. No raw saved host is dereferenced.

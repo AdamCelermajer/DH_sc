@@ -1,5 +1,6 @@
 #include "effects_render_bridge.hpp"
 #include "../../frame_perf.hpp" // B062 diagnostic probes
+#include "../../../level-world/character_authored_particle_fx_v4.hpp"
 #include <algorithm>
 #include <cmath>
 
@@ -63,6 +64,9 @@ bool EffectsRenderBridge::convert(const dh2::skinning::VisualDrawPartV6& part,
     result.mesh.ranges.push_back(std::move(range));output=std::move(result);return true;
 }
 bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& output,std::string& error) const {
+    return prepare(output,{},error);
+}
+bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& output,const std::vector<EmbeddedFxSourceV1>& embedded,std::string& error) const {
     std::vector<dh2::fx::CharacterFxMeshDrawSourceV4> meshes;
     std::vector<dh2::fx::CharacterParticleDrawSourceV3> particles;
     {DH_PROBE("fx.prepare.sources");
@@ -95,6 +99,61 @@ bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& outp
             EffectRenderPacket packet;
             if(!convert(source.part,p,source.material,std::move(info),services_,packet,error))return false;
             result->packets.push_back(std::move(packet));
+        }
+    }
+    // P17 FIREWALL: resources owned by scene visuals (doors, decor, objects). Same provenance rules as the
+    // manager's sources above; the resource pointer is the FX identity and the model path the texture base.
+    EffectRenderServices cached=services_; // P17 FIREWALL: see embedded_material_cache_
+    if(services_.material) {
+        auto inner=services_.material;
+        cached.material=[this,inner](const EffectDrawSource& source,const dh2::scene::Material& original,Material& output,std::string& error)->bool {
+            const auto key=std::to_string(source.fx)+"|"+original.id;
+            const auto hit=embedded_material_cache_.find(key);
+            if(hit!=embedded_material_cache_.end()) {
+                output=hit->second;
+                std::copy_n(original.color,4,output.color.begin());
+                return true;
+            }
+            if(!inner(source,original,output,error)) return false;
+            embedded_material_cache_.emplace(key,output);
+            return true;
+        };
+    }
+    for(const auto& item:embedded) {
+        if(!item.resource)continue;
+        const auto fx=reinterpret_cast<std::uintptr_t>(item.resource.get());
+        std::vector<dh2::fx::CharacterParticleDrawSourceV3> embedded_particles;
+        if(!item.resource->draw_sources_v3(embedded_particles,error))return false;
+        for(const auto& source:embedded_particles) {
+            if(!source.image||!source.resource_bytes||!source.scene||!source.source_texture_matrix68||
+               !source.source_node_render_fields_ready||!source.part.geometry)
+                return fail(error,"Required actual embedded particle FX source provenance");
+            for(std::uint32_t p=0;p<source.part.geometry->primitives.size();++p) {
+                EffectDrawSource info;info.kind=EffectDrawKind::authored_particle;info.fx=fx;
+                info.node=source.emitter_node;info.particle=source.particle_identity;info.material=source.material;info.primitive=p;
+                info.rendering_layer=source.rendering_layer;info.camera_offset_word=source.camera_offset_word;
+                info.resource_uri=item.uri;info.resource_bytes=source.resource_bytes;info.image=*source.image;
+                info.scene=source.scene;info.source_texture_matrix=source.source_texture_matrix68;info.source_owner=source.source_owner204;
+                EffectRenderPacket packet;
+                if(!convert(source.part,p,source.material,std::move(info),cached,packet,error))return false;
+                result->packets.push_back(std::move(packet));
+            }
+        }
+        if(const auto* composite=dynamic_cast<const dh2::fx::CharacterAuthoredCompositeFxResourceV4*>(item.resource.get())) {
+            std::vector<dh2::fx::CharacterFxMeshDrawSourceV4> embedded_meshes;
+            if(!composite->mesh_draw_sources_v4(embedded_meshes,error))return false;
+            for(const auto& source:embedded_meshes) {
+                if(!source.image||!source.resource_bytes||!source.scene||!source.source_texture_matrix68)
+                    return fail(error,"Required actual embedded mesh FX source provenance");
+                EffectDrawSource info;info.kind=EffectDrawKind::authored_mesh;info.fx=fx;
+                info.node=source.node_identity;info.material=source.material;info.primitive=source.primitive;
+                info.rendering_layer=source.rendering_layer;info.camera_offset_word=source.camera_offset_word;
+                info.resource_uri=item.uri;info.resource_bytes=source.resource_bytes;info.image=*source.image;
+                info.scene=source.scene;info.source_texture_matrix=source.source_texture_matrix68;info.source_owner=source.source_owner204;
+                EffectRenderPacket packet;
+                if(!convert(source.part,source.primitive,source.material,std::move(info),cached,packet,error))return false;
+                result->packets.push_back(std::move(packet));
+            }
         }
     }
     output=std::move(result);return true;

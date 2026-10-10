@@ -1,0 +1,128 @@
+// Preview 17 world gate tests: bind, reconcile after load, live flips, persisted applied byte.
+#include "world_gate_v1.hpp"
+#include "../../asset_catalog.hpp"
+
+#include <cstdio>
+#include <map>
+#include <stdexcept>
+
+using namespace dh::foundation;
+using namespace dh::foundation::world_gates;
+
+namespace {
+
+void check(bool ok, const char* message) {
+    if (!ok) throw std::runtime_error(message);
+}
+
+std::uint8_t stored(const PlayableActorWorld& world, ObjectId id, const std::string& key) {
+    const auto* object = world.find_object(id);
+    check(object != nullptr, "gate object is bound");
+    const auto found = object->state_components.find(std::string(world_gate_component_v1) + "." + key);
+    check(found != object->state_components.end() && found->second.size() == 1, "gate component is persisted");
+    return found->second[0];
+}
+
+struct Owner {
+    std::vector<std::pair<std::string, bool>> calls;
+    WorldGateOwnerV1 fn() {
+        return [this](const WorldGateV1& gate, bool value) { calls.emplace_back(gate.name, value); };
+    }
+};
+
+WorldGateV1 gate(std::uint64_t id, const char* name, const char* key, const char* condition) {
+    WorldGateV1 g;
+    g.stable_id = id;
+    g.gametype = "Door";
+    g.name = name;
+    g.key = key;
+    g.condition = condition;
+    return g;
+}
+
+void run(const std::string& assets_root) {
+    AssetCatalog assets(assets_root);
+    dh2::data::AiTables tables;
+    std::string loadError;
+    if (!load_original_ai_tables(assets, "original-cache/data/pydata/", tables, loadError)) throw std::runtime_error(loadError);
+    dh2::data::CombatRandom rng{1234, 0};
+    PlayableActorWorld world(tables, rng);
+
+    std::map<std::string, bool> values{{"A", true}, {"B", false}};
+    auto current = [&values](const std::string& name, bool& value) {
+        const auto found = values.find(name);
+        if (found == values.end()) return false;
+        value = found->second;
+        return true;
+    };
+
+    // 1. First bind creates objects from the current values; no owner call.
+    std::vector<WorldGateV1> gates{gate(101, "door", "unlock_cond", "A"), gate(102, "zone", "activate_cond", "B")};
+    std::vector<std::string> notices;
+    std::string error;
+    Owner owner;
+    check(bind_world_gates_v1(world, gates, current, owner.fn(), notices, error), error.c_str());
+    check(owner.calls.empty() && notices.empty(), "first bind calls no owner and reports nothing");
+    check(gates[0].applied && !gates[1].applied, "applied starts at the current values");
+    check(stored(world, 101, "unlock_cond") == 1 && stored(world, 102, "activate_cond") == 0,
+          "first bind persists the applied byte per gate key");
+
+    // 2. Live flip: the owner applies once and the byte is persisted.
+    std::vector<conditions::ConditionFlipV1> flips{{"B", false, true}};
+    values["B"] = true;
+    check(apply_world_gate_flips_v1(world, gates, flips, owner.fn(), error), error.c_str());
+    check(owner.calls.size() == 1 && owner.calls[0].first == "zone" && owner.calls[0].second,
+          "flip reaches the gate reading B with the new value");
+    check(stored(world, 102, "activate_cond") == 1, "flip persists the applied value");
+    flips = {{"C", false, true}}; // no gate reads C: nothing happens
+    check(apply_world_gate_flips_v1(world, gates, flips, owner.fn(), error) && owner.calls.size() == 1,
+          "unread condition flips do not call an owner");
+
+    // 3. Load with equal values (restored roster): no replay.
+    std::vector<WorldGateV1> loaded{gate(101, "door", "unlock_cond", "A"), gate(102, "zone", "activate_cond", "B")};
+    Owner equal;
+    check(bind_world_gates_v1(world, loaded, current, equal.fn(), notices, error), error.c_str());
+    check(equal.calls.empty() && loaded[1].applied, "restored equal values replay nothing");
+
+    // 4. Reconcile: the condition changed while the owner state was not applied (persisted 0, now true).
+    check(world.set_object_component(101, std::string(world_gate_component_v1) + ".unlock_cond",
+                                     std::vector<std::uint8_t>{0}, error), error.c_str());
+    std::vector<WorldGateV1> reconciled{gate(101, "door", "unlock_cond", "A")};
+    Owner reconcile;
+    check(bind_world_gates_v1(world, reconciled, current, reconcile.fn(), notices, error), error.c_str());
+    check(reconcile.calls.size() == 1 && reconcile.calls[0].second, "a differing restored value is applied once");
+    check(reconciled[0].applied && stored(world, 101, "unlock_cond") == 1, "reconcile persists the applied value");
+
+    // 5. Object bound without its gate component (older roster): applied from the current value, component written.
+    WorldObject plain;
+    plain.id = 104;
+    plain.name = "plain";
+    check(world.bind_object(std::move(plain), error), error.c_str());
+    std::vector<WorldGateV1> older{gate(104, "plain", "activate_cond", "A")};
+    Owner older_owner;
+    check(bind_world_gates_v1(world, older, current, older_owner.fn(), notices, error), error.c_str());
+    check(older_owner.calls.empty() && older[0].applied && stored(world, 104, "activate_cond") == 1,
+          "an object without its component is written from the current value");
+
+    // 6. Unavailable condition and missing stable ID are reported, never bound.
+    std::vector<WorldGateV1> bad{gate(103, "unknown", "activate_cond", "Missing"), gate(0, "noid", "activate_cond", "A")};
+    notices.clear();
+    Owner none;
+    check(bind_world_gates_v1(world, bad, current, none.fn(), notices, error), error.c_str());
+    check(notices.size() == 2 && world.find_object(103) == nullptr, "unavailable and ID-less gates are reported");
+    check(none.calls.empty(), "unbound gates do not call the owner");
+}
+
+} // namespace
+
+int main(int argc, char** argv) {
+    try {
+        if (argc != 2) throw std::runtime_error("usage: world_gate_v1_tests <assets root>");
+        run(argv[1]);
+        std::printf("world_gate_v1: all tests passed\n");
+        return 0;
+    } catch (const std::exception& e) {
+        std::fprintf(stderr, "world_gate_v1 test failed: %s\n", e.what());
+        return 1;
+    }
+}

@@ -113,7 +113,7 @@ bool RuntimeCombatEffectsV1::prepare_render_frame(
     std::shared_ptr<const EffectRenderFrame>& output, std::string& error) {
     output.reset();
     if (!synchronize_session_binding(error)) return false;
-    if (!renderer_->prepare(output, error)) return false;
+    if (!renderer_->prepare(output, embedded_, error)) return false;
     prune_frame_loans(); // B062: expired weak loans accumulated one per frame for the whole session
     frame_loans_.push_back(output);
     return true;
