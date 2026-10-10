@@ -1125,7 +1125,8 @@ int main(int argc,char** argv) {
         if(!options.level.empty()&&f::procedural::is_procedural_level_uri(options.level.generic_string())) {
             f::CharacterState seedSource;
             bool haveSeedSource=false;
-            if(options.transitionEntryId>=0) {seedSource=state;haveSeedSource=true;}
+            // The frontend (menu start) and a transition arrival already hold the profile in `state`.
+            if(options.transitionEntryId>=0||frontendStarted) {seedSource=state;haveSeedSource=true;}
             else if(!frontendStarted&&fs::exists(options.save)) {std::string peekError;haveSeedSource=f::load_character(options.save,seedSource,peekError);}
             if(haveSeedSource) proceduralDifficulty=f::character_current_difficulty(seedSource);
             const auto seed=f::procedural::session_seed(seedSource,proceduralDifficulty,options.proceduralSeed,f::procedural::fresh_seed());
