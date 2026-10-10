@@ -54,33 +54,40 @@ void draw_black(OverlayRenderer& overlay, int w, int h) {
     overlay.drawTriangles(quad.data(), quad.size(), 0, {0, 0, 0, 1});
 }
 
-// Authored label MENU_TOUCH_TO_CONTINUE (original_art_data.cpp), double spaces kept.
+// Authored labels from original_art_data.cpp: MENU_TOUCH_TO_CONTINUE ("Touch  the  screen  to  continue",
+// double spaces kept) and MENU_SKIP ("SKIP"). Placement of the skip label is a port choice (see report).
 constexpr const char* kTouchToContinue = "Touch  the  screen  to  continue";
+constexpr const char* kSkipLabel = "SKIP";
 
-// Rasterises the title label once (font = original Fontin SmallCaps file, the
-// HUD font the port already uses; the menu's exact typography is not verified).
-struct TitleLabel {
+// A rasterised text line: one texture per non-blank glyph, built once.
+struct TextLabel {
     std::vector<OverlaySprite> sprites;
     std::vector<std::uint32_t> textures;
     bool built = false;
     std::string error;
 };
 
-void build_title_label(Renderer& renderer, const AssetCatalog& assets, int w, int h, TitleLabel& label) {
+enum class LabelAnchor { center, right_bottom };
+
+// Font = original Fontin SmallCaps file, the HUD font the port already uses;
+// the menu's exact typography is not verified.
+void build_text_label(Renderer& renderer, const AssetCatalog& assets, const char* text, int size, LabelAnchor anchor,
+                      int w, int h, TextLabel& label) {
     label.built = true;
     HudGlyphFont font;
     std::string error;
     if (!font.load(resolve_content_path(assets, "data/Fontin SmallCaps.ttf"), error)) {
-        label.error = "title label font: " + error;
+        label.error = std::string(text) + " font: " + error;
         return;
     }
     HudGlyphRun run;
-    if (!font.raster(kTouchToContinue, 28, 1.0f, run, error)) {
-        label.error = "title label raster: " + error;
+    if (!font.raster(text, size, 1.0f, run, error)) {
+        label.error = std::string(text) + " raster: " + error;
         return;
     }
-    const float baseline = float(h) * 0.86f;
-    const float x0 = (float(w) - run.advance) * 0.5f;
+    const bool right = anchor == LabelAnchor::right_bottom;
+    const float baseline = right ? float(h) * 0.92f : float(h) * 0.86f;
+    const float x0 = right ? float(w) * 0.96f - run.advance : (float(w) - run.advance) * 0.5f;
     for (const auto& g : run.glyphs) {
         if (g.image.rgba.empty()) continue;  // blank glyphs (spaces) draw nothing
         const std::uint32_t texture = renderer.createTexture(int(g.image.width), int(g.image.height), g.image.rgba.data());
@@ -150,7 +157,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     OverlayRenderer overlay;
     std::vector<std::uint8_t> frameRgba;
     std::uint32_t frameTexture = 0;
-    TitleLabel title;
+    TextLabel title, skip;
     std::vector<double> presses = config.scripted_presses;
     std::sort(presses.begin(), presses.end());
     std::size_t nextPress = 0;
@@ -221,11 +228,14 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
         draw_black(overlay, w, h);
         if (flow.phase() == BootPhase::logo) {
             overlay.drawSprite(fit_sprite(w, h, int(logoImage.width), int(logoImage.height), flow.logo_alpha(now), logoTexture));
-        } else if (flow.phase() == BootPhase::movie && frameTexture) {
-            overlay.drawSprite(fit_sprite(w, h, int(movie.info().width), int(movie.info().height), 1.0f, frameTexture));
+        } else if (flow.phase() == BootPhase::movie) {
+            if (frameTexture) overlay.drawSprite(fit_sprite(w, h, int(movie.info().width), int(movie.info().height), 1.0f, frameTexture));
+            // Skip overlay: any press (touch, mouse, Enter, Space, Escape) skips the movie.
+            if (!skip.built) build_text_label(renderer, *config.assets, kSkipLabel, 22, LabelAnchor::right_bottom, w, h, skip);
+            for (const auto& glyph : skip.sprites) overlay.drawSprite(glyph);
         } else if (flow.phase() == BootPhase::title) {
             overlay.drawSprite(fit_sprite(w, h, int(splashImage.width), int(splashImage.height), 1.0f, splashTexture));
-            if (!title.built) build_title_label(renderer, *config.assets, w, h, title);
+            if (!title.built) build_text_label(renderer, *config.assets, kTouchToContinue, 28, LabelAnchor::center, w, h, title);
             for (const auto& glyph : title.sprites) overlay.drawSprite(glyph);
         }
         overlay.end();
@@ -242,7 +252,9 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     renderer.destroyTexture(logoTexture);
     renderer.destroyTexture(splashTexture);
     for (auto texture : title.textures) renderer.destroyTexture(texture);
+    for (auto texture : skip.textures) renderer.destroyTexture(texture);
     if (!title.error.empty()) result.error = title.error;
+    if (!skip.error.empty()) result.error = skip.error;
 
     result.seconds = Window::seconds() - start;
     result.outcome = flow.phase() == BootPhase::quit ? BootRunOutcome::quit : BootRunOutcome::complete;

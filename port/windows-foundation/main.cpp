@@ -205,7 +205,7 @@ struct Options {
     fs::path audioAssets,audioTable;
     int audioListener=-1;
     std::string startMode="menu",menuActions,menuReturnActions;
-    bool skipBoot=false;std::string introStream; // Preview 15 startup boot (--skip-boot, --intro-stream)
+    bool skipBoot=false;std::string introStream,loadingCapture; // Preview 15 startup boot (--skip-boot, --intro-stream, --loading-capture)
     std::vector<double> bootPresses;std::vector<std::pair<double,fs::path>> bootCaptures;double bootMaxSeconds=0; // boot verification hooks
     fs::path menuAssets,menuUiAssets,menuCaptureDirectory;
     int menuCaptureEvery=6;
@@ -400,6 +400,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--probe") o.probe=true;
         else if(arg=="--skip-boot") o.skipBoot=true;  // Preview 15: tests run without logo/movie/title
         else if(arg=="--intro-stream") o.introStream=value();
+        else if(arg=="--loading-capture") o.loadingCapture=value();  // <prefix>: writes <prefix>-NNN.ppm per loading stage
         else if(arg=="--boot-press") o.bootPresses.push_back(std::stod(value()));  // scripted press/tap (verification)
         else if(arg=="--boot-max-seconds") o.bootMaxSeconds=std::stod(value());
         else if(arg=="--boot-capture") {  // <seconds>=<file.ppm>, written by the boot runner
@@ -749,7 +750,9 @@ int main(int argc,char** argv) {
             std::cout<<"Frontend launched same CharacterState slot="<<options.selectedSaveSlot<<" class="<<state.class_id<<" sourceRNG="<<creationRandom.seed<<'/'<<creationRandom.calls<<'\n';
         }
         // Preview 15 campaign loading screen (menu route only; tests skip it). Stages below report real progress.
-        f::startup::LoadingScreenV1 loadingScreen(window,renderer,options.startMode=="menu"&&!options.skipBoot,1.5);loadingScreen.progress(0.0);
+        f::startup::LoadingScreenV1 loadingScreen(window,renderer,options.startMode=="menu"&&!options.skipBoot,1.5);
+        if(!options.loadingCapture.empty())loadingScreen.set_capture(options.loadingCapture,[](const fs::path& p,int w,int h){capture(p,w,h);});
+        loadingScreen.progress(0.0);
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;

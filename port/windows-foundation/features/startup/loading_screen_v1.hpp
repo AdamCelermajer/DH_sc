@@ -9,6 +9,10 @@
 // (loadanims*.swf) are not rendered yet; this draws a bar only. Disabled
 // instances (tests: --skip-boot, swamp route) are no-ops.
 
+#include <filesystem>
+#include <functional>
+#include <string>
+
 namespace dh::foundation {
 class Renderer;
 class Window;
@@ -25,6 +29,10 @@ public:
     // Draws 100% and keeps the screen up until min_seconds have elapsed since construction.
     void finish();
 
+    // Verification hook: writes <prefix>-<NNN>.ppm (NNN = percent) once per distinct stage fraction.
+    using CaptureFn = std::function<void(const std::filesystem::path&, int, int)>;
+    void set_capture(std::filesystem::path prefix, CaptureFn fn);
+
     bool enabled() const noexcept { return enabled_; }
     double last_fraction() const noexcept { return last_; }
 
@@ -37,6 +45,9 @@ private:
     double minSeconds_;
     double start_ = 0.0;
     double last_ = 0.0;
+    double lastCaptured_ = -1.0;
+    std::filesystem::path capturePrefix_;
+    CaptureFn capture_;
 };
 
 } // namespace dh::foundation::startup

@@ -128,6 +128,10 @@ add_test(NAME startup_boot_flow_v1 COMMAND startup_boot_flow_v1_tests)
 add_executable(startup_intro_stream_v1_tests features/startup/intro_stream_v1_tests.cpp)
 target_link_libraries(startup_intro_stream_v1_tests PRIVATE foundation_startup)
 add_test(NAME startup_intro_stream_v1 COMMAND startup_intro_stream_v1_tests)
+if(MINGW)  # same static CRT as the other test executables (the UCRT forwarder DLLs are not on PATH in ctest)
+  target_link_options(startup_boot_flow_v1_tests PRIVATE -static)
+  target_link_options(startup_intro_stream_v1_tests PRIVATE -static)
+endif()
 add_library(foundation_runtime_skills_menu STATIC
   features/generic_skills/generic_skills_page_v1.cpp
   features/generic_skills/runtime_skills_menu_v1.cpp

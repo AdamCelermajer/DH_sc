@@ -7,6 +7,9 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
+#include <cstdio>
+#include <utility>
 
 namespace dh::foundation::startup {
 namespace {
@@ -39,8 +42,20 @@ void LoadingScreenV1::draw(double fraction) {
     fill_rect(overlay, barX, barY, barW * float(last_), barH, {0.9f, 0.65f, 0.2f, 1});
     overlay.end();
     renderer_.endFrame();
+    if (capture_ && last_ != lastCaptured_) {
+        lastCaptured_ = last_;
+        const int percent = int(std::lround(last_ * 100.0));
+        char name[32];
+        std::snprintf(name, sizeof name, "-%03d.ppm", percent);
+        capture_(std::filesystem::path(capturePrefix_.string() + name), w, h);  // host reads the back buffer
+    }
     window_.swap();
     platform_sleep_milliseconds(4);
+}
+
+void LoadingScreenV1::set_capture(std::filesystem::path prefix, CaptureFn fn) {
+    capturePrefix_ = std::move(prefix);
+    capture_ = std::move(fn);
 }
 
 void LoadingScreenV1::progress(double fraction) {
