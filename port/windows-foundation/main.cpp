@@ -4686,7 +4686,9 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         f::map_visit::MapMarkerInputsV1 markerInputs;
                         markerInputs.visited=[&](const std::array<float,3>& point){return f::map_visit::map_point_visited_v1(mapVisits.zones(),mapVisited,point);};
                         markerInputs.level_objects=mapLevelObjects;
-                        markerInputs.characters=mapCharacters;
+                        markerInputs.characters=mapCharacters; // cached per load (same order as population.actors())
+                        for(std::size_t i=0;i<markerInputs.characters.size()&&i<population.actors().size();++i)
+                            markerInputs.characters[i].enabled=population.actors()[i].enabled; // live activation
                         markerInputs.level_entry_point=mapLevelEntryPoint;
                         if(questRuntime&&questTable) {
                             // IDA +762 (TalkToNPC installed): objectives of quests in the Active state (6), not yet completed.
