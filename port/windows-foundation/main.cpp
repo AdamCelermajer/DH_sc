@@ -298,6 +298,7 @@ struct Options {
     float distance = 0;
     int frames = 0, reloadFrame = 0;
     std::vector<std::pair<std::string,int>> interactRequests; // P16 containers: --interact-at DECLARATION@FRAME (repeatable; default off)
+    std::vector<std::pair<std::string,int>> leverUseRequests; // P17 DOORS: --lever-use DECLARATION@FRAME (debug use of a lever, default off)
     double fixedStep = 0;
     bool probe = false, timeline = false, saveNow = false;
     bool movable=false, sourceCamera=false, hud=false, freshPlayer=false;
@@ -546,6 +547,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--distance") {o.distance=std::stof(value());if(!std::isfinite(o.distance)||o.distance<=0)throw std::runtime_error("Distance must be positive");}
         else if(arg=="--reload-frame") {o.reloadFrame=std::stoi(value());if(o.reloadFrame<1)throw std::runtime_error("Reload frame must be positive");}
         else if(arg=="--interact-at") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--interact-at expects DECLARATION@FRAME");const int frame=std::stoi(at.substr(sep+1));if(frame<0)throw std::runtime_error("Interact frame must be nonnegative");o.interactRequests.emplace_back(at.substr(0,sep),frame);}
+        else if(arg=="--lever-use") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--lever-use expects DECLARATION@FRAME");const int frame=std::stoi(at.substr(sep+1));if(frame<0)throw std::runtime_error("Lever use frame must be nonnegative");o.leverUseRequests.emplace_back(at.substr(0,sep),frame);} // P17 DOORS debug aid
         else if(arg=="--model") o.character.model_path=value();
         else if(arg=="--template") o.character.template_clip_path=value();
         else if(arg=="--idle") o.character.animation_paths[0]=value();
@@ -2757,7 +2759,11 @@ int main(int argc,char** argv) {
         // then the persisted door states of the live session. Runs at every quest bind (session start and reload).
         const auto refreshDoorWorld=[&]() {
             if(!conditionWatch||!combatSession)return;
-            const auto doorCondition=[&](const std::string& name,bool& value)->bool {return conditionWatch->current(name,value);};
+            // P17 DOORS: the --condition-active/--condition-inactive debug overrides also apply to these door/lever/decor refreshes (test aid).
+            const auto doorCondition=[&](const std::string& name,bool& value)->bool {
+                if(options.activeConditions.count(name)){value=true;return true;}
+                if(options.inactiveConditions.count(name)){value=false;return true;}
+                return conditionWatch->current(name,value);};
             std::vector<std::string> doorNotices;std::string doorError;
             if(!doorRuntime.refresh_conditions(doorCondition,doorNotices,doorError)||!leverRuntime.refresh_conditions(doorCondition,doorNotices,doorError)||!decorRuntime.refresh_conditions(doorCondition,doorNotices,doorError))
                 std::cerr<<"Door condition diagnostic: "<<doorError<<'\n';
@@ -2783,6 +2789,14 @@ int main(int argc,char** argv) {
                     if(scriptId<0)std::cout<<"Lever script="<<r.script<<" status=unknown_script\n";
                     else if(!sourceCampaign.start(scriptId,-1,false,startError))std::cout<<"Lever script="<<r.script<<" status=failed detail="<<startError<<'\n';
                     else std::cout<<"Lever script="<<r.script<<" status=started\n";
+                }
+                if(r.status==f::doors::LeverUseResultV1::Status::accepted&&questRuntime) {
+                    // P17 DOORS: QE_TriggerOn (TriggerObject::Interact -> EventManager::RaiseAsync, type TriggerOn).
+                    // PLACEHOLDER id mapping: the source event id is this+25 (not decoded yet); the lever's stable id is used.
+                    f::quest_runtime::QuestEvent trigger;trigger.kind=f::quest_runtime::QuestEvent::Kind::object_interact;
+                    trigger.object_id=std::int32_t(leverRuntime.instance(index).stableId);
+                    std::cout<<"QE_TriggerOn raised object_id="<<trigger.object_id<<" declaration="<<leverRuntime.instance(index).name<<'\n';
+                    f::quest_runtime::raise_quest_event(trigger);
                 }
             }
             return true;
@@ -3794,6 +3808,12 @@ int main(int argc,char** argv) {
                 }
                 return true;
             };
+            // P17 DOORS: debug lever use (--lever-use DECLARATION@FRAME): the same call as the context button (useLeverObject).
+            for(const auto& request:options.leverUseRequests)if(request.second==drawn){
+                bool found=false;
+                for(std::size_t li=0;li<leverRuntime.size()&&!found;++li)if(leverRuntime.instance(li).name==request.first){found=true;useLeverObject(leverRuntime.instance(li).stableId);}
+                if(!found)std::cout<<"Lever use declaration="<<request.first<<" status=unknown_declaration frame="<<drawn<<'\n';
+            }
             // P16 containers: debug interaction request (--interact-at); the context button will call the same API later.
             for(const auto& request:options.interactRequests)if(request.second==drawn){std::size_t index=0;
                 if(!containerRuntime.find_by_name(request.first,index))std::cout<<"Container interact declaration="<<request.first<<" status=unknown_declaration frame="<<drawn<<'\n';
