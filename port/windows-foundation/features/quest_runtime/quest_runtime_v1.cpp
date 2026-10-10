@@ -196,6 +196,8 @@ bool QuestRuntimeV1::set_state(std::int32_t row, QuestStateV1 next, std::string&
     if (!progress_.record_source_state(character_, CharacterQuestIdV1{0, d, row},
                                        std::int32_t(next), error))
         return false;
+    // P17 CONDITIONS: the authored state is recorded; dependent conditions re-evaluate on this event.
+    if (services_.state_changed) services_.state_changed(row, std::int32_t(next));
     const auto& def = table_->rows()[std::size_t(row)];
     switch (next) {
     case QuestStateV1::active: {

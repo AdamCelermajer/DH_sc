@@ -364,6 +364,17 @@ add_test(NAME quest_banner_presenter_v1 COMMAND quest_banner_presenter_v1_tests)
 add_test(NAME quest_runtime_v1 COMMAND quest_runtime_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
 # End Preview 16 quest runtime.
+# P17 CONDITIONS: one authored v2Conditions evaluator (features/conditions) and the event-driven flip watch.
+add_library(foundation_conditions STATIC
+  features/conditions/authored_conditions_v1.cpp
+  features/conditions/condition_watch_v1.cpp)
+target_link_libraries(foundation_conditions PUBLIC foundation_runtime_quests foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_conditions)
+add_executable(conditions_v1_tests features/conditions/conditions_v1_tests.cpp)
+target_link_libraries(conditions_v1_tests PRIVATE foundation_conditions)
+add_test(NAME conditions_v1 COMMAND conditions_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
+# End Preview 17 conditions.
 
 enable_testing()
 foreach(test save camera asset level_manifest animation_markers combat_system actor_movement gameplay_camera actor_definitions content_paths actor_root_motion original_actor_properties equipment_visual original_melee_bindings original_combat_visual_plan original_attack_sequence)

@@ -90,6 +90,9 @@ struct QuestRuntimeServicesV1 {
     // Current level row (Level::m_row, the original IsPlayerInLevel key). -1 when unknown:
     // IsPlayerInLevel prerequisites then stay false and are reported.
     std::function<std::int32_t()> current_level_row;
+    // P17 CONDITIONS: called once per applied state transition (row, new state). Condition watches
+    // use it to mark dependent authored conditions dirty; no per-frame polling.
+    std::function<void(std::int32_t row, std::int32_t state)> state_changed;
 };
 
 struct QuestObjectiveProgressV1 {
