@@ -38,6 +38,23 @@ private:
     std::map<std::string,std::uint64_t> counts_;
 };
 
+// P16 OPENING: owners of the actor script verbs (IDA Script_SetActorPosition::Execute, Script_LookActor::Execute
+// (0x45ec50), Script_ShowActor::Execute (0x45eb14), Script_HideActor::Execute, Script_PlayActorAnim::Execute (0x45e890),
+// Script_PutCharacterInLimbus::Execute; see OPENING-report.md for the decoded fields). main binds them to
+// the live session, the population, the lifecycle and the source object registry. Unbound services fail explicitly.
+struct ActorVerbServices {
+    // found=false (with true) means the name is not in the loaded level: the source does nothing for that command.
+    std::function<bool(const std::string& name,int module,ActorId& id,bool& found,std::string& e)> resolve_actor;
+    std::function<bool(const std::string& name,int module,std::array<float,3>& position,bool& found,std::string& e)> waypoint_position;
+    std::function<bool(ActorId,std::array<float,3>& position,std::string& e)> position_of;
+    std::function<bool(ActorId,std::array<float,3> position,std::string& e)> teleport;
+    std::function<bool(ActorId,std::array<float,3> target,std::string& e)> face;
+    std::function<bool(ActorId,bool visible,std::string& e)> set_visible;
+    std::function<bool(ActorId,std::string& e)> put_limbus;
+    // Plays the animations_dictionary clip on the actor (no loop). duration_ms = authored clip range.
+    std::function<bool(ActorId,std::int32_t dictionary_id,std::int32_t& duration_ms,std::string& e)> play_clip;
+};
+
 // Facts the host cannot own. main supplies them from the live combat session.
 struct CampaignHostServices {
     std::function<bool(std::vector<ActorId>&,std::string&)> all_actors;
@@ -48,6 +65,7 @@ struct CampaignHostServices {
     // P16 CINE2: resolves a PlayCamera dictionary id to clip bytes, the level camera scene bytes and the path
     // (main binds CameraClipLibrary).
     std::function<bool(std::int32_t,std::vector<std::uint8_t>&,std::vector<std::uint8_t>&,std::string&,std::string&)> read_camera_clip;
+    ActorVerbServices actor_verbs; // P16 OPENING: actor show/hide/look/move and PlayActorAnim owners (main binds)
 };
 
 class CampaignHost {
@@ -114,6 +132,13 @@ private:
     std::int32_t clip_elapsed_ms_=0;
     CameraVec3 clip_eye_{}, clip_target_{};
     bool advance_camera_clip(std::int32_t dt_ms, std::string& error); // P16 CINE2
+    // P16 OPENING: actor verbs. A PlayActorAnim clip blocks only when its wait flag (scalar 28) is set (IDA
+    // Script_PlayActorAnim::IsBlocking); its chained clip (scalar 12) starts when the first one ends.
+    struct ActorClipState { std::int32_t remaining_ms=0; std::int32_t follow_dictionary=-1; };
+    std::map<ActorId,ActorClipState> actor_clips_;
+    bool actor_verb(const OriginalCampaignCommand& c, CampaignCommandPhase phase, int module, bool& blocking, std::string& e);
+    bool advance_actor_clips(std::int32_t dt_ms, std::string& error);
+    std::set<std::string> actor_verb_unresolved_;
     bool hud_visible_=true;
     bool skip_visible_=false;
     bool skip_pressed_=false;

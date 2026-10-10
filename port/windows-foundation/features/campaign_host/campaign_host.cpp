@@ -22,6 +22,17 @@ bool is_adapter_unsupported(const std::string& error) {
     return error.rfind("Unsupported original campaign command kind", 0) == 0;
 }
 
+// P16 OPENING: source command fields (offsets from the decoded script bodies; -1 / empty when absent).
+std::int32_t signed_field(const OriginalCampaignCommand& c, unsigned offset) {
+    const auto i = c.scalars.find(offset);
+    return i == c.scalars.end() ? -1 : static_cast<std::int32_t>(i->second);
+}
+
+std::string string_field(const OriginalCampaignCommand& c, unsigned offset) {
+    const auto i = c.strings.find(offset);
+    return i == c.strings.end() ? std::string() : i->second;
+}
+
 } // namespace
 
 bool UnsupportedLog::note(const std::string& name) {
@@ -131,6 +142,11 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         std::cout << "[campaign] PlayCamera id=" << id << " " << path << " duration_ms=" << clip_.duration_ms()
                   << " blocking=" << (field(12) != 0) << '\n';
         return true;
+    };
+    // P16 OPENING: actor show/hide/look/move, PlayActorAnim and PutCharacterInLimbus (+ logged stubs for the
+    // verbs without an owner, see actor_verb).
+    if (!p.actor_verb) p.actor_verb = [this](const OriginalCampaignCommand& c, CampaignCommandPhase phase, int module, bool& blocking, std::string& e) {
+        return actor_verb(c, phase, module, blocking, e);
     };
     if (!p.flush_messages) p.flush_messages = [this](std::string&) {
         cinematic_.flush(); // P16 CINE: FlushMessages drops the queued and shown caption lines
@@ -305,6 +321,7 @@ bool CampaignHost::advance_camera_clip(std::int32_t dt_ms, std::string& error) {
 
 bool CampaignHost::abort_cutscene(std::string& error) {
     clip_active_ = false; // P16 CINE2: abort ends a playing camera clip (follow camera resumes)
+    actor_clips_.clear(); // P16 OPENING: abort ends scripted actor clip timers (the pose stays as the clip left it)
     cinematic_.set_active(false); // P16 CINE: abort drops caption lines and the SKIP control
     hud_visible_ = true;
     skip_visible_ = false;
@@ -323,6 +340,127 @@ bool CampaignHost::abort_cutscene(std::string& error) {
     return true;
 }
 
+bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandPhase phase, int module, bool& blocking, std::string& e) {
+    blocking = false;
+    const auto& v = services_.actor_verbs;
+    const auto note_unresolved = [this](const std::string& name) {
+        if (actor_verb_unresolved_.insert(name).second)
+            std::cout << "[campaign] actor name not in the loaded level (command is a no-op): " << name << '\n';
+    };
+    // Source GetObjectByName: found=false is a no-op for that command, an error is explicit.
+    const auto resolve = [&](const std::string& name, ActorId& id, bool& found, std::string& error) {
+        found = false;
+        if (!v.resolve_actor) { error = "Unbound original campaign provider: actor lookup"; return false; }
+        if (!v.resolve_actor(name, module, id, found, error)) return false;
+        if (!found) note_unresolved(name);
+        return true;
+    };
+    const auto unbound = [&e](const char* what) { e = std::string("Unbound original campaign provider: ") + what; return false; };
+    ActorId id = invalid_actor_id;
+    bool found = false;
+    switch (c.kind) {
+    case 45: { // Script_PlayActorAnim: actor @24, clip @8 (dictionary), chained clip @12 (none = -1), wait flag @28
+        if (phase == CampaignCommandPhase::is_blocking) {
+            if (signed_field(c, 28) <= 0) return true;
+            if (!resolve(string_field(c, 24), id, found, e)) return false;
+            const auto clip = found ? actor_clips_.find(id) : actor_clips_.end();
+            blocking = clip != actor_clips_.end() && clip->second.remaining_ms > 0;
+            return true;
+        }
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!resolve(string_field(c, 24), id, found, e)) return false;
+        if (!found) return true;
+        if (!v.play_clip) return unbound("actor clip");
+        std::int32_t duration = 0;
+        if (!v.play_clip(id, signed_field(c, 8), duration, e)) return false;
+        ActorClipState state;
+        state.remaining_ms = duration;
+        state.follow_dictionary = signed_field(c, 12);
+        actor_clips_[id] = state;
+        std::cout << "[campaign] PlayActorAnim actor=" << id << " clip=" << signed_field(c, 8) << " duration_ms=" << duration
+                  << " wait=" << signed_field(c, 28) << '\n';
+        return true;
+    }
+    case 46: { // Script_SetActorPosition: actor @20 moves to waypoint @12 (IDA: SetPosition(waypoint, true))
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!resolve(string_field(c, 20), id, found, e)) return false;
+        if (!found) return true;
+        std::array<float,3> position{};
+        bool placed = false;
+        const auto waypoint = string_field(c, 12);
+        if (!v.waypoint_position) return unbound("waypoint position");
+        if (!v.waypoint_position(waypoint, module, position, placed, e)) return false;
+        if (!placed) { note_unresolved(waypoint); return true; }
+        if (!v.teleport) return unbound("actor position");
+        return v.teleport(id, position, e);
+    }
+    case 41: { // Script_LookActor: actor @20 turns to target @12 (HighestThreatPlayer = the local player)
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!resolve(string_field(c, 20), id, found, e)) return false;
+        if (!found) return true;
+        auto target = string_field(c, 12);
+        if (target == "HighestThreatPlayer") target = "LocalPlayer";
+        std::array<float,3> position{};
+        bool placed = false;
+        if (!v.waypoint_position) return unbound("waypoint position");
+        if (!v.waypoint_position(target, module, position, placed, e)) return false;
+        if (!placed) {
+            ActorId other = invalid_actor_id;
+            if (!resolve(target, other, found, e)) return false;
+            if (!found) return true;
+            if (!v.position_of) return unbound("actor position");
+            if (!v.position_of(other, position, e)) return false;
+        }
+        if (!v.face) return unbound("actor facing");
+        return v.face(id, position, e);
+    }
+    case 42:   // Script_ShowActor: actor @12, GameObject vtable+64(true)
+    case 43: { // Script_HideActor: actor @12, GameObject vtable+64(false)
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!resolve(string_field(c, 12), id, found, e)) return false;
+        if (!found) return true;
+        if (!v.set_visible) return unbound("actor visibility");
+        return v.set_visible(id, c.kind == 42, e);
+    }
+    case 29: { // Script_PutCharacterInLimbus: actor @16 (the lifecycle Limbus record)
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!resolve(string_field(c, 16), id, found, e)) return false;
+        if (!found) return true;
+        if (!v.put_limbus) return unbound("put character in limbus");
+        actor_clips_.erase(id);
+        return v.put_limbus(id, e);
+    }
+    // Verbs without an owner in this host: explicit, counted, non-blocking (the cutscene keeps running).
+    case 6:  if (phase == CampaignCommandPhase::execute) unsupported_.note("stub SetCameraClip (camera transition tuning not decoded)"); return true;
+    case 19: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayAnimByName (object clips for scene objects are not bound)"); return true;
+    case 20: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayEffect (scripted FX not bound)"); return true;
+    case 21: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub StopEffect (scripted FX not bound)"); return true;
+    case 14: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub StopSound (scripted sound stop not bound)"); return true;
+    case 51: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub UnEquipHands (equipment visuals not switched)"); return true;
+    case 52: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub ReEquipHands (equipment visuals not switched)"); return true;
+    default: e = "Unsupported original campaign actor verb kind " + std::to_string(c.kind); return false;
+    }
+}
+
+bool CampaignHost::advance_actor_clips(std::int32_t dt_ms, std::string& error) {
+    error.clear();
+    const auto step = std::max<std::int32_t>(0, dt_ms);
+    for (auto it = actor_clips_.begin(); it != actor_clips_.end();) {
+        if (it->second.remaining_ms > 0) it->second.remaining_ms -= step;
+        if (it->second.remaining_ms > 0) { ++it; continue; }
+        const auto id = it->first;
+        const auto chained = it->second.follow_dictionary;
+        it = actor_clips_.erase(it);
+        if (chained < 0) continue;
+        // The chained clip (scalar 12) follows the first one; its own wait is not set, so it does not block.
+        if (!services_.actor_verbs.play_clip) { error = "Unbound original campaign provider: actor clip"; return false; }
+        ActorClipState next;
+        if (!services_.actor_verbs.play_clip(id, chained, next.remaining_ms, error)) return false;
+        actor_clips_[id] = next;
+    }
+    return true;
+}
+
 void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, bool qualified) {
     if (!runtime_) return;
     // Diagnostic trace (trigger mode only): first frame, then every 30 frames.
@@ -335,7 +473,7 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
     cinematic_.update(dt_ms > 0 ? static_cast<std::uint32_t>(dt_ms) : 0u); // P16 CINE: caption hold, same clock as the executor
     std::string error;
     // P16 CINE2: the camera clip advances on the same clock before the executor reads is_blocking.
-    if (!advance_camera_clip(dt_ms, error) || !runtime_->tick(dt_ms, error)) {
+    if (!advance_camera_clip(dt_ms, error) || !advance_actor_clips(dt_ms, error) || !runtime_->tick(dt_ms, error)) {
         // Policy: the failing cutscene is aborted, the session keeps its other triggers.
         // The runtime failure is cleared BEFORE contacts are fed, so one bad script cannot disable zones.
         ++aborts_;

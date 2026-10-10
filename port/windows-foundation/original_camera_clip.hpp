@@ -29,6 +29,8 @@ public:
     void set_scene_file(std::string file) { scene_file_ = std::move(file); }
     bool read(const AssetCatalog& assets, std::int32_t dictionary_id, std::vector<std::uint8_t>& clip,
               std::vector<std::uint8_t>& scene, std::string& path, std::string& error);
+    // P16 OPENING: the BDAE path of an animations_dictionary id (PlayActorAnim clips use the same dictionary).
+    bool dictionary_path(const AssetCatalog& assets, std::int32_t dictionary_id, std::string& path, std::string& error);
 private:
     std::vector<std::string> paths_;
     std::string scene_file_ = "data/3D/camera/CameraTests.bdae";
