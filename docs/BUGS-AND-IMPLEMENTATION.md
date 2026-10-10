@@ -125,6 +125,9 @@ Screenshots: `.local-inputs/claude-preview15/user-shots/b0NN-*.png`.
 | B062 | Huge performance problem in skills and in general (slow). Profile real frame times, find the hot spots, fix generally. | OPEN | agent `b062` |
 | B063 | Looting must be by walking onto the item with the original logic, not by pressing E. | OPEN | agent `b063` |
 | B064 | Main menu has no ambience/music: the original plays sound/music on the title and main menu (not only on clicks). Related to B040 (title/menu/pause tracks). User report 2026-10-10 night. | OPEN | agent `b064` |
+| B065 | Intro movie audio (user report 2026-10-11): (a) clicking SKIP on the story cinematic goes to the title page but the cinematic's sound is not stopped; (b) the Gameloft intro (logo) has no sound at all; (c) the title page's music does not start (B064 adds the title track in 15.1 rc2: re-check after SKIP and after the natural end of the movie). | OPEN | agent `b065` |
+| B066 | Performance still "not great" on the user's machine with the 15.1 candidate (B062 already in rc1/rc2: texture-path cache etc.). Deeper profiling needed: GPU side (draw calls, state changes, fill rate, SwapBuffers/vsync), CPU skinning, immediate-mode draw cost, per-frame allocations, with the user's scenarios (skills, general play). | OPEN | agent `b066` |
+| B067 | Equipment slot rail: unselected slot icons look shaded/dark ("like nothing is equipped", screenshot 2026-10-11 `user-shots/b067-rail-shaded.png`) with dark squares behind some icons. Original dims unselected slots but without those squares; B056b replaced the B056 dim-plate stand-in with the real normal-state art: confirm in the final build whether the squares are gone and the dimming matches the reference. | OPEN | verify in 15.1 rc2 |
 
 ### 2h. Implementation requests from the same session (feature work, Preview 15)
 
