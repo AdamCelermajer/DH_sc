@@ -25,6 +25,7 @@
 #include "features/character_menu/character_menu.hpp"
 #include "features/character_menu/menu_text.hpp"
 #include "features/character_menu/menu_text_layout_v1.hpp"
+#include "features/character_menu/stat_training_v1.hpp"
 #include "features/pause_ui/source_pause_ui_render_v1.hpp"
 #include "features/frontend/rich_text.hpp"
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
@@ -737,7 +738,9 @@ int main(int argc,char** argv) {
             state.stats.level=unsigned(std::max(1,actorProperties.level_raw/256));
             if(!f::frontend::creation::initialize_source_skill_rows_v1(menuSourceOwner.skill_owner->borrow(),actorProperties.sheets.resolved[28],state,error))
                 throw std::runtime_error("Direct skill bank rows: "+error);
-            directFirstSkillGrantPending=true;
+            // Preview 14: the starter row-0 grant belongs to a fresh character only.
+            // An existing profile (loaded at the save step below) keeps its points.
+            directFirstSkillGrantPending=!fs::exists(options.save);
         }
         options.character.motion_node_id=options.motionNode;options.character.consume_root_motion=options.movable;
         if(!options.profiles.empty()&&!profiles.load(assets,options.profiles.generic_string(),error))throw std::runtime_error("Profiles: "+error);
@@ -1235,7 +1238,12 @@ int main(int argc,char** argv) {
             if(!originalCamera.load(assets,options.level.generic_string(),options.cameraRoot,error)||!originalCamera.reset(anchor,error))throw std::runtime_error("Original camera: "+error);
             std::cout<<"Original camera distance="<<originalCamera.authoredDistance()<<" FOV="<<originalCamera.pose().verticalFovDegrees<<" aspect="<<originalCamera.sourceAspect()<<'\n';
         }
-        if(!frontendStarted&&!combatSession&&fs::exists(options.save)) {if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);}
+        // Preview 14: a fresh direct run with an existing --save profile loads it (test profiles with points).
+        if(!frontendStarted&&(!combatSession||options.freshPlayer)&&fs::exists(options.save)) {
+            if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);
+            // The direct bootstrap below regenerates starter gear from the live actor; drop the file copy so slots are not duplicated.
+            if(options.freshPlayer){state.equipment.clear();state.inventory.clear();}
+        }
         if(!options.characterName.empty())state.name=options.characterName;
         if(combatSession) {
             auto* player=combatSession->actor(combatSession->player_id());player->persistent_character_id=state.id;
@@ -1253,6 +1261,18 @@ int main(int argc,char** argv) {
             if(!frontendStarted) {
                 state.stats.level=unsigned(std::max(1,actorProperties.level_raw/256));
                 state.stats.health=player->health;state.stats.max_health=player->max_health;state.stats.resource=player->resource;state.stats.max_resource=player->max_resource;
+                // Preview 14: a loaded direct profile owns its points and attributes.
+                // Project it onto the live sheet (as the frontend start does) before the
+                // bootstrap below reads points back; otherwise the fresh sheet overwrites them.
+                if(state.source_points_known) {
+                    const auto* loadedSheet=combatSession->world()->combat_properties(player->id);
+                    const auto* loadedTraits=combatSession->world()->traits(player->id);
+                    f::OriginalCombatProperties projectedSheet;
+                    if(!loadedSheet||!loadedTraits||!f::project_player_profile_properties(properties,state,*loadedSheet,projectedSheet,error))
+                        throw std::runtime_error("Direct profile projection: "+error);
+                    if(!combatSession->world()->update_combat_properties(player->id,std::move(projectedSheet),*loadedTraits,error))
+                        throw std::runtime_error("Direct profile publish: "+error);
+                }
                 const auto* source=combatSession->world()->combat_properties(player->id);
                 if(!source||source->sheets.resolved[148]<0||source->sheets.resolved[157]<0)
                     throw std::runtime_error("Direct player bootstrap requires current source stat/skill points");
@@ -1814,6 +1834,8 @@ int main(int argc,char** argv) {
         const f::EquipmentAttachmentSet* runtimeEquipmentAttachments=nullptr;
         std::weak_ptr<const void> equipmentAttemptLease;
         bool menuUsedSkillPoint=false;
+        // Preview 14: Stats +/- one-point-per-visit gate (features/character_menu/stat_training_v1.hpp); reset at each open.
+        auto statTrainingVisit=std::make_shared<f::character_menu::StatTrainingVisitV1>();
         const auto bindEquipmentPage=[&]() {
             if(!combatSession||!menuSourceOwner.valid())return;
             std::string equipmentError;
@@ -1916,7 +1938,8 @@ int main(int argc,char** argv) {
                     if(!state.source_skill_slots_known&&!f::frontend::creation::initialize_source_skill_rows_v1(skillTables,current->sheets.resolved[28],state,error))
                         throw std::runtime_error("Direct Skills source rows: "+error);
                     bool grant=false;
-                    if(!f::generic_skills::probe_skill_training_in_session_v1(state,*combatSession,properties,skillTables,skillCaps,0,grant,error))
+                    // Preview 14: only a fresh direct character receives the starter row-0 grant.
+                    if(directFirstSkillGrantPending&&!f::generic_skills::probe_skill_training_in_session_v1(state,*combatSession,properties,skillTables,skillCaps,0,grant,error))
                         throw std::runtime_error("Direct Skills source first grant: "+error);
                     if(grant) {
                         f::generic_skills::SessionSkillTrainingCommitV1 commit;
@@ -1993,7 +2016,12 @@ int main(int argc,char** argv) {
                     });
                 if(!characterMenuComposition->register_page(f::character_menu::Tab::skills,runtimeSkillsMenu->source_page_provider(),error))
                     throw std::runtime_error("Skills composition: "+error);
-                if(!characterMenuComposition->install_content(characterMenuBindings,error))throw std::runtime_error(error);
+                // Preview 14: live Stats-tab +/- route (was unregistered: "no original source hit resolver").
+            if(!f::character_menu::register_stat_training_v1(*characterMenuComposition,sharedCharacter,state,
+                   [&]()->f::CombatSession*{return combatSession.get();},properties,
+                   [&](const f::CharacterState& c,std::string& e){return f::save_character(options.save,c,e);},
+                   statTrainingVisit,error))throw std::runtime_error("Stats training: "+error);
+            if(!characterMenuComposition->install_content(characterMenuBindings,error))throw std::runtime_error(error);
             }
         }
         f::loot::RuntimeSessionDeathRewardsV1 deathRewards;
@@ -2384,14 +2412,14 @@ int main(int argc,char** argv) {
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
-            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();menuUsedSkillPoint=false;++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
+            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
             if(drawn==options.skillsPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::skills,error))throw std::runtime_error("Skills page diagnostic selection: "+error);
                 std::cout<<"Character menu Skills selected frame="<<drawn<<" via same-state source provider\n";
             }
             if(drawn==options.equipmentPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::equipment,error))throw std::runtime_error("Equipment page diagnostic selection: "+error);
                 std::cout<<"Character menu Equipment selected frame="<<drawn<<" via same-state source provider\n";
             }

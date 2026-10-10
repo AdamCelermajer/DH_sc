@@ -128,6 +128,8 @@ add_library(foundation_runtime_skills_menu STATIC
   features/skill_ui/skill_ui.cpp features/skill_ui/original_skill_art.cpp
   features/skill_ui/original_skill_presenter.cpp)
 target_link_libraries(foundation_runtime_skills_menu PUBLIC foundation_data foundation_frontend)
+# Preview 14 Stats +/- training (SWF btn_train_* route; see features/character_menu/stat_training_v1.hpp).
+target_sources(foundation_runtime_skills_menu PRIVATE features/character_menu/stat_training_v1.cpp)
 target_include_directories(foundation_runtime_skills_menu PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
 target_include_directories(dh-foundation PRIVATE
