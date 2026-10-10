@@ -209,7 +209,8 @@ void unresolved_caption_is_explicit(const std::string& directory) {
 void unsupported_commands_named(const std::string& directory) {
     Rig rig(directory);
     std::string error;
-    const std::set<int> unsupported{5, 6, 7, 40, 41, 42, 43, 44, 45, 46};
+    // P16 OPENING: kinds 6, 41-43, 45, 46 now have owners (actor verbs); CONSOLE (3), 7, 40 and 44 remain unowned.
+    const std::set<int> unsupported{3, 7, 40, 44};
     const std::set<int> safe{1, 2, 4, 8, 10, 12, 22, 23, 24, 25, 26, 31, 32, 39, 69, 70, 77, 78, 79};
     int chosen = -1;
     for (const auto& s : rig.runtime.scripts()) {

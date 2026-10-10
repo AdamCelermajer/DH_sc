@@ -98,6 +98,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
             line.text = "[StrID " + std::to_string(line.text_id) + " unresolved]";
             unsupported_.note("dialogue StrID unresolved");
         }
+        std::cout << "[campaign] caption frame=" << frames_ << " strid=" << line.text_id << " actor=" << line.actor << " text=" << line.text << '\n';
         cinematic_.enqueue(std::move(line));
         return true;
     };
@@ -180,14 +181,20 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         unsupported_.note("stub tutorial settings save (nothing written)");
         return true;
     };
-    if (!p.character_selector) p.character_selector = [this](const std::string& selector, int, std::vector<ActorId>& out, std::string& e) {
-        if (!is_all_selector(selector)) {
-            unsupported_.note("character selector " + selector);
-            e = "Unsupported source character selector: " + selector;
-            return false;
+    // P16 OPENING: any other selector is a source character NAME (GetObjectByName, as Script_CharacterState_Callback
+    // resolves it): one actor when the level declares it, none (a no-op) when it does not.
+    if (!p.character_selector) p.character_selector = [this](const std::string& selector, int module, std::vector<ActorId>& out, std::string& e) {
+        if (is_all_selector(selector)) {
+            if (!services_.all_actors) { e = "Character selector All requires the live combat registry"; return false; }
+            return services_.all_actors(out, e);
         }
-        if (!services_.all_actors) { e = "Character selector All requires the live combat registry"; return false; }
-        return services_.all_actors(out, e);
+        out.clear();
+        if (!services_.actor_verbs.resolve_actor) { e = "Unbound original campaign provider: actor lookup"; return false; }
+        ActorId id = invalid_actor_id;
+        bool found = false;
+        if (!services_.actor_verbs.resolve_actor(selector, module, id, found, e)) return false;
+        if (found) out.push_back(id);
+        return true;
     };
     if (!p.set_scripted) p.set_scripted = [this](ActorId id, bool scripted, std::string&) {
         if (scripted) scripted_.insert(id); else scripted_.erase(id);
@@ -278,7 +285,7 @@ bool CampaignHost::execute_router(CampaignCommandPhase phase, const OriginalCamp
         int index = -1;
         const std::string script = script_name_of(c, index);
         std::cout << "[campaign] command script=" << script << " index=" << index << " kind=" << c.kind
-                  << " class=" << c.class_name << (skip ? " skip=1" : "") << '\n';
+                  << " class=" << c.class_name << (skip ? " skip=1" : "") << " frame=" << frames_ << '\n';
     }
     const bool ok = world_->command(phase, c, module, skip, blocking, e);
     if (!ok && phase == CampaignCommandPhase::execute && is_adapter_unsupported(e))
@@ -401,15 +408,19 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         auto target = string_field(c, 12);
         if (target == "HighestThreatPlayer") target = "LocalPlayer";
         std::array<float,3> position{};
-        bool placed = false;
-        if (!v.waypoint_position) return unbound("waypoint position");
-        if (!v.waypoint_position(target, module, position, placed, e)) return false;
-        if (!placed) {
-            ActorId other = invalid_actor_id;
-            if (!resolve(target, other, found, e)) return false;
-            if (!found) return true;
+        // A named actor (the player or a declared character) is the target first; otherwise a placed waypoint.
+        ActorId other = invalid_actor_id;
+        bool targetIsActor = false;
+        if (!v.resolve_actor) return unbound("actor lookup");
+        if (!v.resolve_actor(target, module, other, targetIsActor, e)) return false;
+        if (targetIsActor) {
             if (!v.position_of) return unbound("actor position");
             if (!v.position_of(other, position, e)) return false;
+        } else {
+            bool placed = false;
+            if (!v.waypoint_position) return unbound("waypoint position");
+            if (!v.waypoint_position(target, module, position, placed, e)) return false;
+            if (!placed) { note_unresolved(target); return true; }
         }
         if (!v.face) return unbound("actor facing");
         return v.face(id, position, e);

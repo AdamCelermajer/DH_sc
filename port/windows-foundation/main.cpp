@@ -1682,7 +1682,8 @@ int main(int argc,char** argv) {
         cameraClipLibrary.set_scene_file(originalCamera.config().file); // the level camera the clips drive
         hostServices.read_camera_clip=[&](std::int32_t id,std::vector<std::uint8_t>& clip,std::vector<std::uint8_t>& scene,std::string& path,std::string& e){return cameraClipLibrary.read(assets,id,clip,scene,path,e);};
         hostServices.all_actors=[&](std::vector<f::ActorId>& out,std::string& e){if(!combatSession){e="Campaign host needs the live combat session";return false;}out.clear();for(const auto& entry:combatSession->world()->actors())out.push_back(entry.first);return true;};
-        hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){e="Campaign host actor unavailable";return false;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
+        // P16 OPENING: a population-only actor has no combat state: it is not alive for the source Idle gate (a no-op).
+        hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){alive=false;state=-1;return true;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
         hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){return combatSession&&combatSession->set_actor_original_state(id,state,e);};
         // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
         // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
@@ -2233,7 +2234,9 @@ int main(int argc,char** argv) {
             };
             services.project=[&](f::Vec3 point,float& x,float& y,std::string& e){
                 std::array<float,2> screen;
-                if(!combatTextCamera||!project(*combatTextCamera,point,window.width(),window.height(),screen)){e="Combat text point cannot be projected by current camera";return false;}
+                // P16 OPENING: a point behind the current camera (a scripted camera can look away from a fight) is culled:
+                // it is placed far off screen, so the label is not visible instead of stopping the session.
+                if(!combatTextCamera||!project(*combatTextCamera,point,window.width(),window.height(),screen)){x=y=-100000.f;return true;}
                 x=screen[0];y=screen[1];return true;
             };
             services.glyph_draw=[&](const auto& glyphs,std::string& e){return drawCombatGlyphs(glyphs,renderer,overlay,textures,e);};
@@ -2253,7 +2256,8 @@ int main(int argc,char** argv) {
         if(options.hud&&combatSession&&!menuLocalization.load(assets,"original-cache/data",0,error))throw std::runtime_error("Character menu labels: "+error);
         if(options.hud&&combatSession&&!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
         // P16 CINE: caption lines resolve their authored StrID through the same original localization owner.
-        if(options.campaignTriggers) campaignHost.set_caption_text([&menuLocalization](std::int32_t id,std::string& text,std::string& e){return menuLocalization.string_id(id,text,e);});
+        // P16 OPENING: caption text substitutes the source $player token with the character name (the reference shows the name).
+        if(options.campaignTriggers) campaignHost.set_caption_text([&menuLocalization,&state](std::int32_t id,std::string& text,std::string& e){if(!menuLocalization.string_id(id,text,e))return false;for(auto at=text.find("$player");at!=std::string::npos;at=text.find("$player",at+state.name.size()))text.replace(at,7,state.name);return true;});
         f::CameraPose start;
         float extent=200;
         if(!scene.mesh.vertices.empty()) {
