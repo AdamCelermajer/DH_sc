@@ -368,7 +368,8 @@ void RuntimeSessionAudioV1::summary() const {
             <<" renderedSeconds="<<double(host_->rendered_frames())/48000.0
             <<" wallSeconds="<<double(pump.last_ns-pump.first_ns)/1e9
             <<" maxGapMs="<<double(pump.max_update_gap_ns)/1e6
-            <<" gapsOver40ms="<<pump.gaps_over_40ms<<'\n';
+            <<" gapsOver40ms="<<pump.gaps_over_40ms
+            <<" pumpThreadPriority="<<pump.pump_thread_priority<<'\n';
 #endif
 }
 }

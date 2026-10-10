@@ -27,7 +27,14 @@ bool winmm_monotonic_ns(std::int64_t&,std::string&);
 // first_ns/last_ns: steady-clock time of the first and latest update(); gaps_over_40ms counts update gaps > 40 ms.
 struct WinmmPumpStatsV1 {
  std::uint64_t updates{},refills{},underruns{},max_update_gap_ns{},first_ns{},last_ns{},gaps_over_40ms{};
+ int pump_thread_priority{}; // GetThreadPriority of the promoted pump thread (15 = time-critical); 0 = not promoted
 };
 WinmmPumpStatsV1 winmm_pump_stats_v1() noexcept;
 void winmm_pump_stats_reset_v1() noexcept;
+// B039: the WinMM ring (8 x 512 frames = 85 ms) is refilled by polling from the dedicated audio control
+// thread, so that thread must be scheduled ahead of game and other-process work, like a platform audio
+// callback thread (AAudio/SDL do this themselves). Promotes the CALLING thread to
+// THREAD_PRIORITY_TIME_CRITICAL; it sleeps between 20 ms ticks and renders well under 1 ms per tick.
+// Returns false (changing nothing) where unsupported.
+bool winmm_promote_pump_thread_v1() noexcept;
 }
