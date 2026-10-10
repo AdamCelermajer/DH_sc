@@ -44,6 +44,9 @@ std::unique_ptr<AudioSessionControlOwnerV40> construct_windows_control(
  void* raw,AudioMixerV34& mixer,AudioClockV40& clock,AudioLifecycleGateV40& gate,std::string& error){
  auto* context=static_cast<WindowsControlFactoryContextV1*>(raw);
  if(!context||context->signature!=0x57494e31u){error="Required pinned Windows WinMM control factory context";return {};}
+ // Runs on AudioNativeSessionV42's dedicated control thread, the WinMM pump owner (B039). A failed
+ // promotion is not fatal; it is reported as pump_thread_priority=0 in the run log.
+ dh::foundation::audio::winmm_promote_pump_thread_v1();
  error.clear();return std::make_unique<dh::foundation::audio::WindowsSourceSessionControlV1>(mixer,clock,gate);
 }
 }
