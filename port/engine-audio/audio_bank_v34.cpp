@@ -1,11 +1,14 @@
 #include "audio_bank_v34.hpp"
 #include <algorithm>
+#include <cstdio>
+#include "audio_probe_v1.hpp"
 namespace dh2::audio {
 void AudioSampleBankV34::trim(){
  while(cache_bytes_>cache_limit_){auto oldest=cache_.end();for(auto it=cache_.begin();it!=cache_.end();++it)if(it->second.sample.use_count()==1&&(oldest==cache_.end()||it->second.used<oldest->second.used))oldest=it;if(oldest==cache_.end())return;cache_bytes_-=oldest->second.sample->bytes->size();cache_.erase(oldest);}
 }
 bool AudioSampleBankV34::initialize_banks(){const auto&banks=catalog_.banks();if(!mixer_.configure_banks(banks.data(),unsigned(banks.size()))){error_="Required stopped source bank configuration";return false;}return true;}
 std::shared_ptr<const AudioSampleV34> AudioSampleBankV34::load(int uid){
+ struct ProbeLoad{double t0;int uid;~ProbeLoad(){const double d=probe::ms_now()-t0;if(d>5)std::printf("PROBE load uid=%d ms=%.1f at=%.0f\n",uid,d,t0);}} probeLoad{probe::ms_now(),uid};
  error_.clear();const auto*definition=catalog_.sound(uid);if(!definition){error_="Required original soundpack UID "+std::to_string(uid);return {};}
  const auto slot=source_slots_v101_.find(uid);if(slot!=source_slots_v101_.end()){error_=slot->second.unavailable;return slot->second.sample;}
  auto existing=cache_.find(definition->filename);if(existing!=cache_.end()){existing->second.used=++use_clock_;source_slots_v101_.emplace(uid,SourceSlotV101{uid,existing->second.sample,{}});return existing->second.sample;}

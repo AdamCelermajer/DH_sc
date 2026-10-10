@@ -6,8 +6,10 @@
 #include "linux_sdl2_source_session_control_v1.hpp"
 #endif
 #include <cmath>
+#include <cstdio>
 #include <exception>
 #include <utility>
+#include "../../../engine-audio/audio_probe_v1.hpp"
 
 namespace dh::foundation::audio {
 
@@ -149,6 +151,7 @@ bool RuntimeAudioHostV1::submit_actual_play(
 
 bool RuntimeAudioHostV1::submit_source_sound(ActorId subject,std::int32_t sound_id,
     const std::array<float,3>& position,std::int64_t event_qpc,std::string& error) {
+    struct ProbeSub{double t0;int id;~ProbeSub(){const double d=dh2::audio::probe::ms_now()-t0;if(d>2)std::printf("PROBE submit_source ordinal=%d ms=%.1f at=%.0f\n",id,d,t0);}} probeSub{dh2::audio::probe::ms_now(),sound_id};
     if(!session_) {error=std::string("Required live same-session ")+native_audio_backend_name+" host";return false;}
     auto* runtime=session_->runtime_on_producer();
     if(!runtime) {error="Required same AudioNativeSessionV42 producer";return false;}

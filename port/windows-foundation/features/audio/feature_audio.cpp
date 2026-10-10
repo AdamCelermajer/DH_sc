@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iterator>
 #include <cmath>
+#include <cstdio>
+#include "../../../engine-audio/audio_probe_v1.hpp"
 namespace dh::foundation::audio {
 bool SourceAudioRouter::initialize(std::string& error){if(bank_.initialize_banks())return true;error=bank_.error();return false;}
 bool SourceAudioRouter::submit(const SourceAudioRequest& r,std::uint64_t& token,std::string& error){
@@ -19,6 +21,7 @@ bool SourceAudioRouter::stop(std::uint64_t token,std::uint64_t frame,std::uint32
 bool SourceAudioRouter::retire_generation(std::uint64_t generation,std::uint64_t frame,std::string& error){for(auto i=delivered_.begin();i!=delivered_.end();){if(std::get<0>(i->first)!=generation){++i;continue;}if(!stop(i->second,frame,0,error))return false;i=delivered_.erase(i);}return true;}
 bool SourceAudioRouter::retire_producer_generation(std::uint64_t generation,std::uint64_t producer,std::uint64_t frame,std::string& error){for(auto i=delivered_.begin();i!=delivered_.end();){if(std::get<0>(i->first)!=generation||std::get<1>(i->first)!=producer){++i;continue;}if(!stop(i->second,frame,0,error))return false;i=delivered_.erase(i);}return true;}
 bool AudioFilesystem::read(void* raw,const char* uri,std::shared_ptr<const std::vector<std::uint8_t>>& out,std::string& error){
+ struct ProbeRead{double t0;const char* uri;std::shared_ptr<const std::vector<std::uint8_t>>& out;~ProbeRead(){const double d=dh2::audio::probe::ms_now()-t0;std::printf("PROBE read uri=%s bytes=%zu ms=%.1f at=%.0f\n",uri?uri:"",out?out->size():std::size_t(0),d,t0);}} probeRead{dh2::audio::probe::ms_now(),uri,out};
  out.reset();if(!raw||!uri){error="Required exact original audio URI reader";return false;}
  const std::filesystem::path relative(uri);if(relative.is_absolute()){error="Audio URI must be relative";return false;}for(const auto& p:relative)if(p==".."){error="Audio URI traversal rejected";return false;}
  std::ifstream stream(std::filesystem::path(static_cast<AudioFilesystem*>(raw)->root)/relative,std::ios::binary);if(!stream){error=std::string("Unavailable original audio asset: ")+uri;return false;}

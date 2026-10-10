@@ -3,6 +3,8 @@
 #include "../integration-v40/focus/audio_control_v40.hpp"
 #endif
 #include <stdexcept>
+#include <cstdio>
+#include "../audio_probe_v1.hpp"
 namespace dh2::audio {
 namespace {
 std::atomic<AudioNativeSessionV42*> active_session{nullptr};
@@ -168,13 +170,17 @@ void AudioNativeSessionV42::control_thread() {
     while(!close_requested_) {
         lock.unlock();std::string error;
         bool tick_ok=true;
-        try {if(!tick_failed)tick_ok=control->tick(error);}
+        {static double probeLast=0;const double probeNow=probe::ms_now();if(probeLast>0&&probeNow-probeLast>60)std::printf("PROBE loop gap ms=%.1f at=%.0f\n",probeNow-probeLast,probeNow);probeLast=probeNow;}
+        try {if(!tick_failed){const double probeT0=probe::ms_now();tick_ok=control->tick(error);const double probeD=probe::ms_now()-probeT0;if(probeD>20)std::printf("PROBE tick ms=%.1f at=%.0f\n",probeD,probeT0);}}
         catch(const std::exception& failure){tick_ok=false;error=failure.what();}
         if(!tick_failed&&!tick_ok) {
             lock.lock();worker_error_=error;tick_failed=true;lock.unlock();
         }
+        {const double probeL=probe::ms_now();
         lock.lock();
+        const double probeW=probe::ms_now();
         changed_.wait_for(lock,std::chrono::milliseconds(20),[this]{return close_requested_;});
+        const double probeE=probe::ms_now();if(probeW-probeL>5||probeE-probeW>40)std::printf("PROBE wait lockMs=%.1f waitMs=%.1f at=%.0f\n",probeW-probeL,probeE-probeW,probeL);}
     }
     lock.unlock();std::string error;
     bool closed=false;
