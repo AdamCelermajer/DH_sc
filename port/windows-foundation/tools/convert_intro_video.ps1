@@ -26,6 +26,8 @@ $outFile=Join-Path (Resolve-Path -LiteralPath $OutDir).Path 'intro_v1.mpg'
     -c:v mpeg1video -b:v $VideoBitrate -maxrate 3500k -bufsize 1835k -s "${Width}x${Height}" -r $Fps -g $Fps -bf 0 `
     -c:a mp2 -b:a $AudioBitrate -ar 48000 -ac 2 -f mpeg $outFile
 if($LASTEXITCODE -ne 0) { throw "ffmpeg conversion failed ($LASTEXITCODE)" }
+# B054: the segment table travels with the movie (read by the boot runner from <movie>.segments.txt).
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'intro_v1.segments.txt') -Destination (Join-Path (Split-Path $outFile) 'intro_v1.segments.txt') -Force
 $sha=(Get-FileHash -Algorithm SHA256 -LiteralPath $outFile).Hash
 "file=$outFile bytes=$((Get-Item $outFile).Length) sha256=$sha"
 "video=mpeg1video ${Width}x${Height} fps=$Fps bitrate=$VideoBitrate audio=mp2 48000Hz stereo bitrate=$AudioBitrate"

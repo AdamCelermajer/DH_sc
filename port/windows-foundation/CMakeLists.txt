@@ -122,7 +122,7 @@ if(NOT WIN32)
   add_test(NAME linux_sdl2_source_session_control COMMAND linux_sdl2_source_session_control_smoke_tests)
 endif()
 # Preview 15 startup: boot state machine and intro movie (pl_mpeg, MIT, third_party/pl_mpeg). Plain C++, no platform calls.
-add_library(foundation_startup STATIC features/startup/boot_flow_v1.cpp
+add_library(foundation_startup STATIC features/startup/boot_flow_v1.cpp features/startup/intro_segments_v1.cpp
   features/startup/intro_movie_v2.cpp features/startup/pcm_wav_v2.cpp)
 target_include_directories(foundation_startup PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/third_party/pl_mpeg)
@@ -134,6 +134,13 @@ target_sources(dh-foundation PRIVATE features/startup/boot_runner_v1.cpp feature
 add_executable(startup_boot_flow_v1_tests features/startup/boot_flow_v1_tests.cpp)
 target_link_libraries(startup_boot_flow_v1_tests PRIVATE foundation_startup)
 add_test(NAME startup_boot_flow_v1 COMMAND startup_boot_flow_v1_tests)
+# B054: intro segment table (logo uninterruptible, story skippable)
+add_executable(startup_intro_segments_v1_tests features/startup/intro_segments_v1_tests.cpp)
+target_link_libraries(startup_intro_segments_v1_tests PRIVATE foundation_startup)
+add_test(NAME startup_intro_segments_v1 COMMAND startup_intro_segments_v1_tests)
+if(MINGW)
+  target_link_options(startup_intro_segments_v1_tests PRIVATE -static)
+endif()
 add_executable(startup_intro_movie_v2_tests features/startup/intro_movie_v2_tests.cpp)
 target_link_libraries(startup_intro_movie_v2_tests PRIVATE foundation_startup)
 set(DH_INTRO_MOVIE_V2_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview15/startup/converted-media-v2/intro_v1.mpg")
