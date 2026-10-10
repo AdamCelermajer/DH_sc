@@ -159,6 +159,7 @@ private:
     std::int32_t clip_id_=-1;
     std::int32_t clip_elapsed_ms_=0;
     CameraVec3 clip_eye_{}, clip_target_{};
+    OriginalCameraClip::View clip_view_{}; // P16 OPENING4: up and FOV of the clip (the follow values when the clip has none)
     bool advance_camera_clip(std::int32_t dt_ms, std::string& error); // P16 CINE2
     // P16 OPENING: actor verbs. A PlayActorAnim clip blocks only when its wait flag (scalar 28) is set (IDA
     // Script_PlayActorAnim::IsBlocking); its chained clip (scalar 12) starts when the first one ends.

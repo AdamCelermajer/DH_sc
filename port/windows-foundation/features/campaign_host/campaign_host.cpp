@@ -136,12 +136,17 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
             return false;
         }
         if (!clip_.load(std::move(scene), std::move(bytes), e)) return false;
-        if (!clip_.sample(0, clip_eye_, clip_target_, e)) return false;
+        if (!clip_.sample_view(0, clip_view_, e)) return false;
+        clip_eye_ = clip_view_.eye;
+        clip_target_ = clip_view_.target;
         clip_id_ = id;
         clip_elapsed_ms_ = 0;
         clip_active_ = true;
         std::cout << "[campaign] PlayCamera id=" << id << " " << path << " duration_ms=" << clip_.duration_ms()
                   << " blocking=" << (field(12) != 0) << '\n';
+        // P16 OPENING4: authored up and FOV of the clip at its start (verification log).
+        std::cout << "[campaign] PlayCamera view up=" << clip_view_.up.x << "," << clip_view_.up.y << "," << clip_view_.up.z
+                  << " has_up=" << clip_view_.has_up << " fov=" << clip_view_.vertical_fov_degrees << " has_fov=" << clip_view_.has_fov << '\n';
         return true;
     };
     // P16 OPENING: actor show/hide/look/move, PlayActorAnim and PutCharacterInLimbus (+ logged stubs for the
@@ -310,9 +315,11 @@ std::string CampaignHost::script_name_of(const OriginalCampaignCommand& c, int& 
 
 CameraPose CampaignHost::source_camera_pose(const CameraPose& follow) const {
     if (!clip_active_) return follow;
-    CameraPose pose = follow; // up and FOV stay with the follow camera (see header)
+    CameraPose pose = follow; // P16 OPENING4: the clip drives eye, target, up (when authored) and FOV (when authored)
     pose.position = clip_eye_;
     pose.target = clip_target_;
+    if (clip_view_.has_up) pose.up = clip_view_.up;
+    if (clip_view_.has_fov) pose.verticalFovDegrees = clip_view_.vertical_fov_degrees;
     return pose;
 }
 
@@ -322,7 +329,9 @@ bool CampaignHost::advance_camera_clip(std::int32_t dt_ms, std::string& error) {
     clip_elapsed_ms_ += std::max<std::int32_t>(0, dt_ms);
     const auto duration = clip_.duration_ms();
     if (clip_elapsed_ms_ > duration) clip_elapsed_ms_ = duration;
-    if (!clip_.sample(clip_elapsed_ms_, clip_eye_, clip_target_, error)) return false;
+    if (!clip_.sample_view(clip_elapsed_ms_, clip_view_, error)) return false;
+    clip_eye_ = clip_view_.eye;
+    clip_target_ = clip_view_.target;
     if (clip_elapsed_ms_ >= duration) {
         // CameraLevel::__Callback: completion clears the playing flag; the follow camera resumes.
         clip_active_ = false;

@@ -55,6 +55,16 @@ public:
     // Eye and target of the authored PlayerCamera node at elapsed_ms after the clip start (clamped to the end).
     bool sample(std::int32_t elapsed_ms, CameraVec3& eye, CameraVec3& target, std::string& error);
 
+    // P16 OPENING4: the full view of the clip at elapsed_ms: eye and target as above, the up vector from the authored
+    // 'upvector' node (its position relative to the camera node; the clip animates that node), and the field of view from
+    // the clip's xfov channel (degrees; has_fov=false when the clip has no xfov channel, then the follow FOV stays).
+    struct View {
+        CameraVec3 eye{}, target{}, up{0.0f, 1.0f, 0.0f};
+        float vertical_fov_degrees = 0.0f;
+        bool has_up = false, has_fov = false;
+    };
+    bool sample_view(std::int32_t elapsed_ms, View& view, std::string& error);
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
