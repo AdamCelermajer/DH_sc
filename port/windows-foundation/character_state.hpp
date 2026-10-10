@@ -7,7 +7,7 @@
 
 namespace dh::foundation {
 
-inline constexpr std::uint32_t character_schema_version = 5;
+inline constexpr std::uint32_t character_schema_version = 4;
 // Schema history: 1 base, 2 source stats/equipment/skills/faery, 3 CQPG quest blob,
 // 4 menu metadata + current/unlocked difficulty + visited-module section.
 inline constexpr std::uint32_t character_difficulty_count = 3;
@@ -92,6 +92,15 @@ struct CharacterVisitedModule {
     std::uint8_t visited = 0;
 };
 
+// P17 TRANSITIONS2: named optional component bytes of the character (append-only tail of schema v4). A save
+// without the tail (older v4 saves) reads as no components, so no schema bump is needed for a new feature field.
+struct CharacterComponent {
+    std::string id;                    // unique key, e.g. dh2.transition.entry.v1
+    std::vector<std::uint8_t> bytes;   // owned by the feature that writes it
+};
+inline constexpr std::size_t character_component_limit = 64;
+inline constexpr std::size_t character_component_bytes_limit = 4096;
+
 struct CharacterState {
     std::uint32_t schema_version = character_schema_version;
     std::string id;
@@ -125,9 +134,7 @@ struct CharacterState {
     std::int32_t unlocked_difficulty = 0;
     CharacterMenuMetadata menu_metadata;
     std::vector<CharacterVisitedModule> visited_modules;
-    // Schema v5 (append-only tail). Source PlayerSavegame seed per difficulty (Application::LoadLevel,
-    // savegame +92 + 4*difficulty): the RNG seed of procedural `.rule.xml` levels. Zero = not generated yet.
-    std::array<std::uint32_t, character_difficulty_count> procedural_seed_by_difficulty{};
+    std::vector<CharacterComponent> components;   // P17 TRANSITIONS2 (schema v4 optional tail)
 };
 
 // The single accessors other streams use for the active difficulty (0..2).

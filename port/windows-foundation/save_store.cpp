@@ -157,8 +157,12 @@ std::vector<unsigned char> encode(const CharacterState& state) {
     for(const auto& entry:state.visited_modules){
         w.string(entry.level_uri);w.integer(entry.module_id,4);w.integer(entry.visited,1);
     }
-    // Schema v5 tail (append-only): procedural level seed per difficulty.
-    for(const auto seed:state.procedural_seed_by_difficulty)w.integer(seed,4);
+    // P17 TRANSITIONS2: optional component tail (append-only; absent in older v4 saves).
+    w.integer(state.components.size(),4);
+    for(const auto& component:state.components){
+        w.string(component.id);w.integer(component.bytes.size(),4);
+        w.bytes.insert(w.bytes.end(),component.bytes.begin(),component.bytes.end());
+    }
     w.check_size();
     return std::move(w.bytes);
 }
@@ -239,10 +243,21 @@ CharacterState decode(const std::vector<unsigned char>& bytes) {
             entry.visited=static_cast<std::uint8_t>(r.integer(1));
             state.visited_modules.push_back(std::move(entry));
         }
-    }
-    // Schema v5 tail: procedural seeds. Older saves keep zero (generated on first use).
-    if(serialized_schema>=5){
-        for(auto& seed:state.procedural_seed_by_difficulty)seed=r.u32();
+        // P17 TRANSITIONS2: optional component tail. Older v4 saves end after the visited modules.
+        if (r.position < bytes.size()) {
+            const auto components = r.u32();
+            if (components > character_component_limit) throw std::runtime_error("Invalid save component count");
+            for (auto count = components; count > 0; --count) {
+                CharacterComponent component;
+                component.id = r.string();
+                const auto size = r.u32();
+                if (size > character_component_bytes_limit || size > bytes.size() - r.position)
+                    throw std::runtime_error("Invalid save component size");
+                component.bytes.assign(bytes.begin() + std::ptrdiff_t(r.position), bytes.begin() + std::ptrdiff_t(r.position + size));
+                r.position += size;
+                state.components.push_back(std::move(component));
+            }
+        }
     }
     if (r.position != bytes.size()) throw std::runtime_error("Unexpected trailing save data");
     require_valid(state);

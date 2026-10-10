@@ -170,17 +170,51 @@ std::uint64_t layout_signature(const GeneratedLevel& level) {
     return hash;
 }
 
+ProceduralSeeds saved_seeds(const CharacterState& state) {
+    ProceduralSeeds seeds{};
+    for (const auto& component : state.components) {
+        if (component.id != procedural_seed_component_id) continue;
+        if (component.bytes.size() != seeds.size() * 4) return ProceduralSeeds{};
+        for (std::size_t index = 0; index < seeds.size(); ++index) {
+            std::uint32_t value = 0;
+            for (unsigned byte = 0; byte < 4; ++byte)
+                value |= std::uint32_t(component.bytes[index * 4 + byte]) << (8 * byte);
+            seeds[index] = value;
+        }
+        return seeds;
+    }
+    return seeds;
+}
+
+void store_saved_seeds(CharacterState& state, const ProceduralSeeds& seeds) {
+    CharacterComponent component;
+    component.id = procedural_seed_component_id;
+    for (const auto seed : seeds)
+        for (unsigned byte = 0; byte < 4; ++byte)
+            component.bytes.push_back(static_cast<std::uint8_t>(seed >> (8 * byte)));
+    for (auto& existing : state.components) {
+        if (existing.id == procedural_seed_component_id) {
+            existing = std::move(component);
+            return;
+        }
+    }
+    state.components.push_back(std::move(component));
+}
+
 std::uint32_t session_seed(const CharacterState& state, std::int32_t difficulty,
                            std::optional<std::uint32_t> forced, std::uint32_t fresh) {
     if (forced && *forced != 0) return *forced;
     const auto index = static_cast<std::size_t>(difficulty < 0 || difficulty >= std::int32_t(character_difficulty_count) ? 0 : difficulty);
-    if (state.procedural_seed_by_difficulty[index] != 0) return state.procedural_seed_by_difficulty[index];
+    const auto seeds = saved_seeds(state);
+    if (seeds[index] != 0) return seeds[index];
     return fresh ? fresh : 1u;
 }
 
 void record_session_seed(CharacterState& state, std::int32_t difficulty, std::uint32_t seed) {
     if (difficulty < 0 || difficulty >= std::int32_t(character_difficulty_count)) return;
-    state.procedural_seed_by_difficulty[static_cast<std::size_t>(difficulty)] = seed;
+    auto seeds = saved_seeds(state);
+    seeds[static_cast<std::size_t>(difficulty)] = seed;
+    store_saved_seeds(state, seeds);
 }
 
 std::uint32_t fresh_seed() {

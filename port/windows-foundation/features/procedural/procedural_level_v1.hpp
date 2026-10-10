@@ -17,6 +17,7 @@
 #include "asset_catalog.hpp"
 #include "../../character_state.hpp"
 
+#include <array>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -54,6 +55,15 @@ void install_generated_level(AssetCatalog& assets, const GeneratedLevel& level);
 
 // FNV-1a over the generated document: the layout signature printed by the EXE.
 std::uint64_t layout_signature(const GeneratedLevel& level);
+
+// Named character component that keeps the per-difficulty procedural seeds. It lives in the schema v4
+// component roster (append-only tail, see CharacterComponent), so no schema bump: a save without it reads
+// as zero seeds (generated on first use). Bytes: three little-endian u32, one per difficulty.
+inline constexpr const char* procedural_seed_component_id = "dh2.procgen.seed.v1";
+using ProceduralSeeds = std::array<std::uint32_t, character_difficulty_count>;
+// Seeds stored in the profile (zero = not generated yet). A missing or malformed component reads as zeros.
+ProceduralSeeds saved_seeds(const CharacterState& state);
+void store_saved_seeds(CharacterState& state, const ProceduralSeeds& seeds);
 
 // Session seed (IDA Application::LoadLevel): a forced seed (test aid --procedural-seed) wins; otherwise the
 // saved per-difficulty seed; otherwise `fresh` (a new non-zero seed, see fresh_seed()).

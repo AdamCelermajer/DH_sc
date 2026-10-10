@@ -5,11 +5,15 @@
 #include "../../character_state.hpp"
 #include "../../save_store.hpp"
 
+#include <array>
 #include <cstdio>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
+#include <iterator>
 #include <optional>
 #include <string>
+#include <vector>
 
 using namespace dh::foundation;
 using namespace dh::foundation::procedural;
@@ -61,22 +65,88 @@ int main(int argc, char** argv) {
     check(placements.size() == a.modules, "manifest module count equals emitted modules");
 
     // Session seed: a forced seed wins, the saved per-difficulty seed next, and a fresh seed last. The seed survives a
-    // save/load round trip (schema v5 tail) and does not leak into another difficulty.
+    // save/load round trip (named component, schema 4) and does not leak into another difficulty.
     CharacterState profile = make_default_character("procgen-seed", "Seed", "KnightPlayerBase");
     check(session_seed(profile, 0, std::nullopt, 77u) == 77u, "fresh seed used when nothing is saved");
     check(session_seed(profile, 0, 555u, 77u) == 555u, "forced seed wins over the fresh seed");
     record_session_seed(profile, 1, 4242u);
     check(session_seed(profile, 1, std::nullopt, 77u) == 4242u, "saved seed of the active difficulty is used");
     check(session_seed(profile, 0, std::nullopt, 77u) == 77u, "a seed of one difficulty does not leak into another");
-    const auto seedFile = std::filesystem::temp_directory_path() / "dh-procgen-seed-roundtrip.save";
+    // Schema v4 component roster (no version bump): the seeds are the named component `procedural_seed_component_id`.
+    const auto seedDir = std::filesystem::temp_directory_path() / "dh-procgen-seed-tests";
+    std::error_code dirError;
+    std::filesystem::create_directories(seedDir, dirError);
+    const auto seedFile = seedDir / "roundtrip.save";
+    const auto legacyFile = seedDir / "pre-component-v4.save";
+    const auto v5File = seedDir / "old-v5.save";
+    const auto malformedFile = seedDir / "malformed.save";
     std::string saveError;
+    const auto readBytes = [](const std::filesystem::path& path) {
+        std::ifstream in(path, std::ios::binary);
+        return std::vector<char>(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+    };
+    const auto writeBytes = [](const std::filesystem::path& path, const std::vector<char>& bytes) {
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        out.write(bytes.data(), std::streamsize(bytes.size()));
+    };
+    // The file offset of the schema field (magic 8 + file format version 4).
+    constexpr std::size_t schemaFieldAt = 12;
+
+    // 1. Round trip: seeds per difficulty survive, the schema stays 4, and a re-save is byte exact.
+    ProceduralSeeds stored{1234u, 98765u, 7u};
+    CharacterState seeded = profile;
+    store_saved_seeds(seeded, stored);
     CharacterState reloaded;
-    check(save_character(seedFile, profile, saveError) && load_character(seedFile, reloaded, saveError) &&
-          reloaded.procedural_seed_by_difficulty == profile.procedural_seed_by_difficulty &&
-          reloaded.schema_version == character_schema_version,
-          "saved procedural seeds survive a save/load round trip" + (saveError.empty() ? std::string() : ": " + saveError));
+    check(save_character(seedFile, seeded, saveError) && load_character(seedFile, reloaded, saveError) &&
+          saved_seeds(reloaded) == stored && reloaded.schema_version == 4 && character_schema_version == 4,
+          "saved procedural seeds survive a save/load round trip at schema 4" + (saveError.empty() ? std::string() : ": " + saveError));
+    const auto seedBytes = readBytes(seedFile);
+    check(seedBytes.size() > schemaFieldAt && seedBytes[schemaFieldAt] == 4, "the seed component is written at schema 4 (no bump)");
+    CharacterState resaved;
+    check(load_character(seedFile, resaved, saveError) && save_character(legacyFile, resaved, saveError) &&
+          readBytes(legacyFile) == seedBytes, "re-saving a seeded profile is byte exact");
+
+    // 2. Old saves: a pre-component v4 file (the 4-byte component count removed) loads with zero seeds.
+    CharacterState plainProfile = make_default_character("procgen-plain", "Plain", "KnightPlayerBase");
+    check(save_character(legacyFile, plainProfile, saveError), "plain profile saves");
+    auto preComponent = readBytes(legacyFile);
+    preComponent.resize(preComponent.size() - 4);   // drop the (empty) component count
+    writeBytes(legacyFile, preComponent);
+    CharacterState legacy;
+    check(load_character(legacyFile, legacy, saveError) && saved_seeds(legacy) == ProceduralSeeds{} &&
+          legacy.components.empty() && legacy.schema_version == 4,
+          "a pre-component v4 save loads with zero procedural seeds" + (saveError.empty() ? std::string() : ": " + saveError));
+
+    // 3. Old v5 reads stay out: a file that claims schema 5 is rejected (no version bump was shipped).
+    auto v5Bytes = seedBytes;
+    v5Bytes[schemaFieldAt] = 5;
+    writeBytes(v5File, v5Bytes);
+    CharacterState v5Loaded = plainProfile;
+    check(!load_character(v5File, v5Loaded, saveError) && v5Loaded.id == plainProfile.id,
+          "a schema 5 save is rejected and the destination is untouched");
+
+    // 4. Named roster: an unknown component survives the round trip next to the seed component.
+    CharacterState roster = seeded;
+    CharacterComponent other;
+    other.id = "dh2.test.unknown.v1";
+    other.bytes = {1, 2, 3};
+    roster.components.push_back(other);
+    CharacterState rosterLoaded;
+    check(save_character(seedFile, roster, saveError) && load_character(seedFile, rosterLoaded, saveError) &&
+          rosterLoaded.components.size() == 2 && saved_seeds(rosterLoaded) == stored &&
+          rosterLoaded.components[1].id == other.id && rosterLoaded.components[1].bytes == other.bytes,
+          "an unknown component is preserved beside the seed component");
+
+    // 5. A malformed seed component (not 12 bytes) reads as zero seeds instead of partial values.
+    CharacterState malformed = plainProfile;
+    CharacterComponent broken;
+    broken.id = procedural_seed_component_id;
+    broken.bytes = {1, 0, 0, 0, 2};
+    malformed.components.push_back(broken);
+    check(saved_seeds(malformed) == ProceduralSeeds{}, "a malformed seed component reads as zero seeds");
+
     std::error_code removeError;
-    std::filesystem::remove(seedFile, removeError);
+    std::filesystem::remove_all(seedDir, removeError);
 
     // A failing rule reports an error (caller falls back to the backup map).
     GeneratedLevel bad;
