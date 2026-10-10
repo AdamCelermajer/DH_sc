@@ -16,6 +16,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "quest_table_v1.hpp"
 
 namespace dh::foundation::quest_runtime {
 
@@ -44,5 +45,7 @@ struct CharacterState;
 namespace dh::foundation::quest_runtime {
 // Reads one quest row state from a character's saved quest progress (the same read the runtime uses).
 // Returns false when the row has no save record.
-bool quest_state_from_character_v1(const CharacterState& character, std::int32_t row, std::int32_t& state);
+// A character with no quest progress yet (a new game before the quest runtime initializes it) reads the authored
+// initial state of the row (the same values initialize_fresh writes).
+bool quest_state_from_character_v1(const CharacterState& character, const QuestTableV1* table, std::int32_t row, std::int32_t& state);
 } // namespace dh::foundation::quest_runtime

@@ -81,7 +81,12 @@ bool evaluate_named_condition_v1(const NamedConditionV1& c,
 
 namespace dh::foundation::quest_runtime {
 
-bool quest_state_from_character_v1(const CharacterState& character, std::int32_t row, std::int32_t& state) {
+bool quest_state_from_character_v1(const CharacterState& character, const QuestTableV1* table, std::int32_t row, std::int32_t& state) {
+    if (character.source_quest_progress_cqpg.empty()) {
+        if (!table || !table->ready() || row < 0 || std::size_t(row) >= table->rows().size()) return false;
+        state = table->rows()[std::size_t(row)].state;
+        return true;
+    }
     CharacterQuestProgressV1 progress;
     CharacterQuestStateV1 found;
     std::string error;

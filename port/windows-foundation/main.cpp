@@ -1205,6 +1205,14 @@ int main(int argc,char** argv) {
                 if(!f::quest_runtime::decode_named_conditions_v1(condArray,condNames,namedConditions,conditionError))
                     std::cerr<<"Named condition table diagnostic: "<<conditionError<<'\n';
             }
+            std::shared_ptr<const f::quest_runtime::QuestTableV1> conditionQuests; // authored initial states for a new game
+            {
+                std::string questTableError;
+                const auto questArray=assets.read("original-cache/data/pydata/v2quests_pyarray.bin");
+                const auto questNames=assets.read("original-cache/data/pydata/v2quests_pyarraynames.bin");
+                if(!f::quest_runtime::decode_quest_table_v1(questArray,questNames,conditionQuests,questTableError))
+                    std::cerr<<"Quest table diagnostic (conditions): "<<questTableError<<'\n';
+            }
             const auto conditionActive=[&](const std::string& name)->bool {
                 if(options.activeConditions.count(name))return true;
                 const auto found=namedConditions.find(name);
@@ -1213,7 +1221,7 @@ int main(int argc,char** argv) {
                 const std::int32_t levelRow=levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;
                 bool met=false,unsupported=false;
                 f::quest_runtime::evaluate_named_condition_v1(found->second,[&](std::int32_t row,std::int32_t& value){
-                    return f::quest_runtime::quest_state_from_character_v1(state,row,value);},levelRow,met,unsupported);
+                    return f::quest_runtime::quest_state_from_character_v1(state,conditionQuests.get(),row,value);},levelRow,met,unsupported);
                 static std::set<std::string> reportedConditions; // logged once per name
                 if(unsupported&&reportedConditions.insert(name).second)std::cout<<"Named condition "<<name<<" type "<<found->second.type<<" is not evaluated (false)\n";
                 return met;
