@@ -115,7 +115,7 @@ class RuntimeDeathRewardsV1 {
 public:
     // P16 QUESTS: a quest XP reward through the same award path as kill XP (level-up included).
     bool award_experience(dh::foundation::PlayableActorWorld& world, dh::foundation::ActorId player,
-                          float xp, const RuntimeDeathRewardServicesV1& services, std::string& error);
+                          std::int32_t xp, const RuntimeDeathRewardServicesV1& services, std::string& error);
     bool consume(dh::foundation::CombatSession&,
                  const RuntimeDeathRewardServicesV1&,
                  std::vector<RuntimeDeathRewardOutcomeV1>&,

@@ -272,6 +272,11 @@ struct Options {
     std::vector<std::pair<int,int>> skillKeyFrames;
     std::vector<int> pickupFrames; // P14 DROPS: scripted world-item pickup key presses (same action as E)
     std::vector<std::pair<int,int>> spaceKeyIntervals;
+    // P16 QUESTS test aid (not gameplay): frame-scheduled quest bus events, so the real EXE path
+    // (bus -> runtime -> CQPG save -> rewards -> banner) can be exercised without scripted combat.
+    // --quest-debug-kill FRAME:TEMPLATE:COUNT raises COUNT kill events; --quest-debug-accept FRAME:ROW accepts a row.
+    struct QuestDebugEventOption {int frame=-1;bool accept=false;int id=-1;int count=1;};
+    std::vector<QuestDebugEventOption> questDebugEvents;
     int menuCloseFrame=-1;
     int pausePageFrame=-1,pauseCloseFrame=-1;
     int windowWidth=0,windowHeight=720,resizeFrame=-1,resizeWidth=0,resizeHeight=0;
@@ -380,6 +385,18 @@ Options parse(int argc, char** argv) {
             const int frame=std::stoi(text.substr(0,split)),key=std::stoi(text.substr(split+1));
             if(frame<0||key<1||key>5)throw std::runtime_error("HUD key frame requires nonnegative frame and key1..5");
             o.skillKeyFrames.emplace_back(frame,key);
+        }
+        else if(arg=="--quest-debug-kill"||arg=="--quest-debug-accept") {
+            const auto text=value();const auto first=text.find(':');
+            const auto second=first==std::string::npos?std::string::npos:text.find(':',first+1);
+            Options::QuestDebugEventOption item;item.accept=arg=="--quest-debug-accept";
+            if(first==std::string::npos||(item.accept?second!=std::string::npos:second==std::string::npos))
+                throw std::runtime_error("Quest debug event requires FRAME:ID or FRAME:TEMPLATE:COUNT");
+            item.frame=std::stoi(text.substr(0,first));
+            item.id=std::stoi(text.substr(first+1,item.accept?std::string::npos:second-first-1));
+            if(!item.accept)item.count=std::stoi(text.substr(second+1));
+            if(item.frame<0||item.count<1||item.count>64)throw std::runtime_error("Quest debug event frame/count out of range");
+            o.questDebugEvents.push_back(item);
         }
         else if(arg=="--space-key-interval") {
             const auto text=value();const auto split=text.find(':');
@@ -2251,7 +2268,7 @@ int main(int argc,char** argv) {
             f::quest_runtime::QuestRuntimeServicesV1 questServices;
             questServices.give_experience=[&](std::int32_t amount,std::string& e) {
                 if(!deathRewards.bound()||!combatSession){e="Quest XP owner is not bound";return false;}
-                return deathRewards.award_experience(combatSession->player_id(),float(amount),e);
+                return deathRewards.award_experience(combatSession->player_id(),amount,e);
             };
             questServices.current_level_row=[&]()->std::int32_t {
                 const auto* levels=loadMetadataLevels(assets);
@@ -2262,6 +2279,11 @@ int main(int argc,char** argv) {
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
             for(const auto& placed:population.actors())
                 questActorIdentity[placed.definition.stableId]={placed.source_character_cache,placed.source_template_cache};
+            std::cout<<"Quest runtime bound rows="<<questTable->rows().size()<<" actors="<<questActorIdentity.size()
+                     <<" current="<<questRuntime->current_quest()<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
+            for(const auto& banner:questRuntime->take_banners())
+                std::cout<<"Quest banner kind="<<(banner.kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":"QUEST COMPLETED")
+                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" (bind)\n";
             f::quest_runtime::bind_quest_event_sink([&](const f::quest_runtime::QuestEvent& event) {
                 std::string e;
                 const auto applied=questRuntime->handle(event,e);
@@ -3228,6 +3250,28 @@ int main(int argc,char** argv) {
                     }
                 }
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
+                // P16 QUESTS test aid: frame-scheduled bus events (--quest-debug-kill / --quest-debug-accept).
+                if(!gameplayPaused&&questRuntime) for(const auto& debug:options.questDebugEvents) if(debug.frame==drawn) {
+                    if(!debug.accept) {
+                        for(int i=0;i<debug.count;++i) {
+                            f::quest_runtime::QuestEvent kill;kill.kind=f::quest_runtime::QuestEvent::Kind::kill;kill.template_id=debug.id;
+                            f::quest_runtime::raise_quest_event(kill);
+                        }
+                        std::cout<<"Quest debug kill frame="<<drawn<<" template="<<debug.id<<" count="<<debug.count<<" current="<<questRuntime->current_quest()<<'\n';
+                    } else {
+                        std::string e;
+                        if(!questRuntime->accept_quest(debug.id,e)) std::cout<<"Quest debug accept frame="<<drawn<<" row="<<debug.id<<" refused: "<<e<<'\n';
+                        else {
+                            std::string saveError;
+                            if(!questRuntime->save(saveError))std::cerr<<"Quest save diagnostic: "<<saveError<<'\n';
+                            std::cout<<"Quest debug accept frame="<<drawn<<" row="<<debug.id<<" accepted\n";
+                            for(const auto& banner:questRuntime->take_banners())
+                                std::cout<<"Quest banner kind="<<(banner.kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":"QUEST COMPLETED")
+                                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<'\n';
+                        }
+                    }
+                    std::cout<<"Quest state frame="<<drawn<<" gold="<<state.gold<<" xp="<<state.experience<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
+                }
                 if(!gameplayPaused&&deathRewards.bound()) {
                     std::vector<f::loot::RuntimeDeathRewardOutcomeV1> rewards;
                     if(!deathRewards.after_update(*combatSession,rewards,error))

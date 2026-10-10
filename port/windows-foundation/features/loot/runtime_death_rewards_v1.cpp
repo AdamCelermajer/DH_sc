@@ -294,7 +294,7 @@ bool distribute_xp(dh::foundation::PlayableActorWorld& world, ActorState& victim
 
 // P16 QUESTS: quest XP reward. Same owner and raw conversion as distribute_xp.
 bool RuntimeDeathRewardsV1::award_experience(::dh::foundation::PlayableActorWorld& world,
-    dh::foundation::ActorId player_id, float xp, const RuntimeDeathRewardServicesV1& services,
+    dh::foundation::ActorId player_id, std::int32_t xp, const RuntimeDeathRewardServicesV1& services,
     std::string& error) {
     if (!services.properties || !services.xp_design || !services.resolve_character)
         return fail(error, "Quest XP requires the same-session progression authorities");
@@ -308,7 +308,9 @@ bool RuntimeDeathRewardsV1::award_experience(::dh::foundation::PlayableActorWorl
     if (!services.resolve_character(services.context, player_id, resolved, error)) return false;
     if (!resolved.binding_lifecycle || !resolved.character)
         return fail(error, "Quest XP recipient requires actual actor lifetime and shared CharacterState");
-    const auto raw = dh2::character::progression_award_raw_v1(xp);
+    // Authored quest XP is exact (XP << 8 in the source fixed-point sheet). progression_award_raw_v1 adds
+    // the kill-share rounding (+1), which is not part of a quest reward.
+    const auto raw = static_cast<std::int32_t>(static_cast<std::uint32_t>(xp) << 8);
     return award_player_xp(world, *player, std::move(resolved.character), *props, raw, services, rules, error);
 }
 bool RuntimeDeathRewardsV1::consume(dh::foundation::CombatSession& session,

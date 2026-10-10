@@ -191,7 +191,7 @@ bool RuntimeSessionDeathRewardsV1::after_update(
 
 
 // P16 QUESTS: quest XP through the bound session's progression services (same owners as kill XP).
-bool RuntimeSessionDeathRewardsV1::award_experience(dh::foundation::ActorId player, float xp,
+bool RuntimeSessionDeathRewardsV1::award_experience(dh::foundation::ActorId player, std::int32_t xp,
                                                     std::string& error) {
     error.clear();
     if (dispatching_) return fail(error, "Quest XP cannot run while death rewards dispatch");
