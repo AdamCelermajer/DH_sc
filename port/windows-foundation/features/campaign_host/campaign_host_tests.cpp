@@ -160,6 +160,31 @@ void captions_block_then_release(const std::string& directory) {
     check(text.find("stub dialogue") == std::string::npos, "dialogue is no longer a stub");
 }
 
+// P16 CINE: DoTutorial (kind 78) on the normal-difficulty offline gate starts the named tutorial script
+// (Movement_Tuto -> Movement_Tuto2), whose captions then run through the same runner.
+void do_tutorial_starts_named_script(const std::string& directory) {
+    Rig rig(directory);
+    std::string error;
+    rig.host->set_caption_text([](std::int32_t id, std::string& text, std::string&) {
+        text = "line " + std::to_string(id);
+        return true;
+    });
+    const int movement = rig.runtime.script_id("Movement_Tuto", false);
+    const int movement2 = rig.runtime.script_id("Movement_Tuto2", false);
+    check(movement >= 0 && movement2 >= 0, "Movement tutorial scripts present");
+    check(rig.runtime.start(movement, -1, false, error), error);
+    bool started = false;
+    for (int i = 0; i < 4000 && rig.host->aborts() == 0; ++i) {
+        rig.step(10);
+        if (rig.runtime.running(movement2)) started = true;
+        if (started && !rig.runtime.running(movement2)) break;
+    }
+    check(rig.host->aborts() == 0, "DoTutorial must not abort the session");
+    check(started, "DoTutorial must start Movement_Tuto2 through the runtime");
+    check(rig.host->cinematic().lines_shown() == 4, "Movement_Tuto2 shows its four dialog lines");
+    check(!rig.host->cinematic().active() && !rig.globalBlocked, "tutorial leaves no cutscene flags behind");
+}
+
 // Without a resolver the line is an explicit marker, listed as unresolved, and the script still finishes.
 void unresolved_caption_is_explicit(const std::string& directory) {
     Rig rig(directory);
@@ -210,6 +235,7 @@ int main(int argc, char** argv) {
         skip_press_contract(argv[1]);
         captions_block_then_release(argv[1]);
         unresolved_caption_is_explicit(argv[1]);
+        do_tutorial_starts_named_script(argv[1]);
         unsupported_commands_named(argv[1]);
         std::cout << "campaign_host tests passed\n";
         return 0;

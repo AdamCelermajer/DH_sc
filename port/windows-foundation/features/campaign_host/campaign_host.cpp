@@ -189,6 +189,7 @@ bool CampaignHost::bind_executor(OriginalCampaignRuntime& runtime, OriginalCampa
     if (!owned_dispatch_->bind(runtime, std::move(existing), error)) { owned_dispatch_.reset(); return false; }
     runtime_ = &runtime;
     world_ = &world;
+    world.bind_runtime(runtime); // P16 CINE: DoTutorial (kind 78) starts its named script through the runtime
     error.clear();
     return true;
 }

@@ -25,7 +25,7 @@ CaptionLine line(std::int32_t id, const std::string& text) {
 void duration_policy() {
     check(caption_duration_ms_placeholder("") == kCaptionBaseMsPlaceholder, "empty caption uses the base hold");
     const std::string twenty_two(22, 'x');
-    check(caption_duration_ms_placeholder(twenty_two) == 2500 + 22 * 60, "per-character term");
+    check(caption_duration_ms_placeholder(twenty_two) == kCaptionBaseMsPlaceholder + 22 * kCaptionPerCharMsPlaceholder, "per-character term");
     const std::string huge(1000, 'x');
     check(caption_duration_ms_placeholder(huge) == kCaptionMaxMsPlaceholder, "hold is capped");
 }

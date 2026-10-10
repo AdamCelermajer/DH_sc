@@ -33,11 +33,11 @@ struct CaptionLine {
 
 // PLACEHOLDER timing. The original advances the dialogue inside its Flash box; the port has no decoded
 // box, so each line is held for a fixed base plus a per-character term. Fitted by eye to the reference
-// video (Part 1, v1.0.3; see the CINE report, Placeholders): "Is he... already dead?" ~2 s,
-// "He's dead alright... But that runs in the family..." ~4 s, "Oh! It's a miracle!..." ~8 s.
-inline constexpr std::uint32_t kCaptionBaseMsPlaceholder = 2500;
-inline constexpr std::uint32_t kCaptionPerCharMsPlaceholder = 60;
-inline constexpr std::uint32_t kCaptionMaxMsPlaceholder = 9000;
+// video (Part 1, v1.0.3; see the CINE report, Placeholders): "Is he... already dead?" ~2 s (104-106 s),
+// "He's dead alright..." ~4 s (108-112 s); chest tutorial lines ~2-4 s each (192-204 s).
+inline constexpr std::uint32_t kCaptionBaseMsPlaceholder = 2000;
+inline constexpr std::uint32_t kCaptionPerCharMsPlaceholder = 25;
+inline constexpr std::uint32_t kCaptionMaxMsPlaceholder = 6000;
 std::uint32_t caption_duration_ms_placeholder(const std::string& text) noexcept;
 
 struct SolidRect {
