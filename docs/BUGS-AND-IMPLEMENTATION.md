@@ -124,6 +124,7 @@ Screenshots: `.local-inputs/claude-preview15/user-shots/b0NN-*.png`.
 | B061 | Equipped helm is visible on the avatar in the equipment page but missing on the in-game character (screenshots). | OPEN | agent `b061` |
 | B062 | Huge performance problem in skills and in general (slow). Profile real frame times, find the hot spots, fix generally. | OPEN | agent `b062` |
 | B063 | Looting must be by walking onto the item with the original logic, not by pressing E. | OPEN | agent `b063` |
+| B064 | Main menu has no ambience/music: the original plays sound/music on the title and main menu (not only on clicks). Related to B040 (title/menu/pause tracks). User report 2026-10-10 night. | OPEN | agent `b064` |
 
 ### 2h. Implementation requests from the same session (feature work, Preview 15)
 
