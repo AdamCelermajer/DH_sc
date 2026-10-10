@@ -20,7 +20,7 @@ void update_object_of_interest_v1(const CombatSession& session, ActorId player, 
         owner.reset();
         return;
     }
-    // Source Character+0x40 heading: GetLookAtVec of the local frame (local +Y rotated by the facing yaw).
+    // Look vector from the facing yaw (ActorMovement::root_world_delta: local +Y rotated by facingRadians).
     const float heading = self->transform.rotation[2];
     ObjectOfInterestOwnerStateV1 state;
     state.owner = player;

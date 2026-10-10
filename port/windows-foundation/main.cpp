@@ -29,6 +29,9 @@
 #include "features/pause_ui/source_pause_ui_render_v1.hpp"
 #include "features/frontend/rich_text.hpp"
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
+#include "features/combat/context_button_v1.hpp" // P16 CONTEXT: Space context button + action icon
+#include "features/interactions/interactable_registry_v1.hpp" // P16 CONTEXT: interaction-type providers (chests/NPCs register here)
+#include "features/loot/world_item_contact_v1.hpp" // P16 CONTEXT: walk-over pickup contact rule
 #include "features/generic_skills/runtime_skills_menu_v1.hpp"
 #include "features/generic_skills/runtime_skill_progression_v1.hpp"
 #include "features/generic_skills/runtime_skill_session_training_v1.hpp"
@@ -995,6 +998,9 @@ int main(int argc,char** argv) {
         };
         loadContent(scene,visual);
         f::OriginalMeleeBindings meleeBindings;std::shared_ptr<f::CombatSession> combatSession;f::ObjectOfInterestOwnerV1 objectOfInterest; // B004/B029
+        f::InteractableRegistryV1 interactables; // P16 CONTEXT: non-actor interaction-type providers (empty until containers/NPC register)
+        f::loot::WorldItemContactTrackerV1 worldItemContacts; // P16 CONTEXT: walk-over pickup state
+        int lastActionIcon=-2; // P16 CONTEXT: last published HUD action-button frame (log on change)
         const auto bindSourcePlayerLocomotion=[&](f::CombatSession& session) {
             if(!locomotionLibrary)return;
             const auto hands=currentLocomotionItems();
@@ -2903,7 +2909,28 @@ int main(int argc,char** argv) {
             if(!motor)freeCamera.move((window.key_down('D')-window.key_down('A'))*speed,(window.key_down('E')-window.key_down('Q'))*speed,(window.key_down('W')-window.key_down('S'))*speed);
             freeCamera.rotate(float(gameplayDt)*60*(window.key_down(VK_RIGHT)-window.key_down(VK_LEFT)),float(gameplayDt)*60*(window.key_down(VK_UP)-window.key_down(VK_DOWN)));
             if(!gameplayPaused&&timeline.playing()) timeline.update(gameplayDt);
-            gameplayInput=uiInput.actions;gameplayInput.attack=gameplayInput.attack||(drawn>=options.attackStartFrame&&std::int64_t(drawn)<std::int64_t(options.attackStartFrame)+options.attackFrames);gameplayInput.targetSelect=gameplayInput.targetSelect||drawn==options.targetFrame;
+            gameplayInput=uiInput.actions;
+            // P16 CONTEXT: Space is one context button (decide_context_button_v1). A held press over a non-combat OOI
+            // (chest, NPC) suppresses the attack (source Cmd_UseOOI replaces Cmd_Attack); the press edge starts the use.
+            if(combatSession&&!gameplayPaused&&combatSession->actor(combatSession->player_id())) {
+                const auto* ctxOwner=combatSession->actor(combatSession->player_id());
+                f::ContextButtonInputV1 ctxInput;
+                ctxInput.pressed_edge=uiInput.attack.pressed;ctxInput.held=uiInput.attack.held;
+                ctxInput.object_present=objectOfInterest.object()!=f::invalid_actor_id;ctxInput.object_type=objectOfInterest.interaction_type();
+                ctxInput.owner_has_attack_target=ctxOwner->target_id!=f::invalid_actor_id;
+                ctxInput.owner_idle_or_moving=ctxOwner->action==f::CharacterAction::idle||ctxOwner->action==f::CharacterAction::moving;
+                const auto ctxDecision=f::decide_context_button_v1(ctxInput);
+                if(!ctxDecision.attack_held)gameplayInput.attack=false;
+                if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest) {
+                    const auto ooi=objectOfInterest.object();
+                    if(combatSession->actor(ooi)) { // actor OOI: source AI_SetTarget(OOI, 0)
+                        std::string ctxError;
+                        if(!combatSession->set_source_target(combatSession->player_id(),ooi,false,ctxError))throw std::runtime_error("Context button target: "+ctxError);
+                    }
+                    std::cout<<"Context button frame="<<drawn<<" ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" use="<<ctxDecision.use_object_of_interest<<" actor="<<(combatSession->actor(ooi)!=nullptr)<<'\n';
+                }
+            }
+            gameplayInput.attack=gameplayInput.attack||(drawn>=options.attackStartFrame&&std::int64_t(drawn)<std::int64_t(options.attackStartFrame)+options.attackFrames);gameplayInput.targetSelect=gameplayInput.targetSelect||drawn==options.targetFrame;
             const auto playerCapabilities=options.combat.profiles.find(options.combat.playerProfileId);
             if(playerCapabilities!=options.combat.profiles.end()&&playerCapabilities->second.animationOnly){gameplayInput.attack=false;gameplayInput.targetSelect=false;}
             if(frontendStarted&&!combatSession){gameplayInput.attack=false;gameplayInput.targetSelect=false;}
@@ -3150,7 +3177,11 @@ int main(int argc,char** argv) {
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
                 if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);
-                if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest); // B004/B029
+                if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest,&interactables); // B004/B029 (+P16 registry)
+                if(!gameplayPaused&&combatSession) { // P16 CONTEXT: HUD action-button frame from the cached OOI type (MenuManager 0x42eab4)
+                    const int icon=f::action_button_icon_v1(objectOfInterest.interaction_type());
+                    if(icon!=lastActionIcon) { lastActionIcon=icon; std::cout<<"Action icon frame="<<drawn<<" icon="<<icon<<" type="<<objectOfInterest.interaction_type()<<'\n'; }
+                }
                 sourcePhysicalPlayerControls={};
                 if(!gameplayPaused) {
                     const auto* livePlayer=combatSession->actor(combatSession->player_id());
@@ -3222,9 +3253,24 @@ int main(int argc,char** argv) {
                     f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
                     if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItemTarget!=previousTarget&&worldItems->inspect(worldItemTarget,targetEntry,targetError))
                         std::cout<<"World item target frame="<<drawn<<" item="<<worldItemTarget<<" id="<<(targetEntry.authored_item?worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id)):std::string("?"))<<" qty="<<targetEntry.quantity<<" position="<<targetEntry.source_position[0]<<","<<targetEntry.source_position[1]<<","<<targetEntry.source_position[2]<<'\n';
+                    // P16 CONTEXT: walk-over pickup (no E key). Contact = the item's sensor box holds the player; a contact that
+                    // begins while the character is moving is consumed on the next update (ItemObject::OnCollisionBegins +
+                    // GameObject::Update -> ItemObject::Interact). Standing still on an item picks nothing up.
+                    if(itemPlayer&&itemPlayer->alive()) {
+                        std::vector<f::loot::RuntimeWorldItemIdV1> contacts;
+                        for(const auto& pair:worldItems->entries()) {
+                            const auto& p=pair.second.source_position;
+                            if(std::fabs(p[0]-itemPlayer->transform.position[0])<=f::loot::world_item_sensor_half_extent_v1&&std::fabs(p[1]-itemPlayer->transform.position[1])<=f::loot::world_item_sensor_half_extent_v1)
+                                contacts.push_back(pair.first);
+                        }
+                        const auto due=worldItemContacts.advance(std::uint64_t(combatSession->player_id()),itemPlayer->action==f::CharacterAction::moving,contacts,
+                            [&](f::loot::RuntimeWorldItemIdV1 id){f::loot::RuntimeWorldItemEntryV1 e;std::string err;return worldItems->inspect(id,e,err);});
+                        for(const auto id:due)runWorldItemPickup(id,"walk-over");
+                    }
+                    // --pickup-frame is a scripted test hook (quiet batches), not a player input; it picks the current target.
                     const bool scheduledPickup=std::find(options.pickupFrames.begin(),options.pickupFrames.end(),int(drawn))!=options.pickupFrames.end();
-                    if((uiInput.actions.interact||scheduledPickup)&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1)
-                        runWorldItemPickup(worldItemTarget,scheduledPickup&&!uiInput.actions.interact?"scripted":"interact");
+                    if(scheduledPickup&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1)
+                        runWorldItemPickup(worldItemTarget,"scripted");
                     if(worldItemStatusFrames>0)--worldItemStatusFrames;
                 }
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->after_update(audioError))std::cerr<<"Audio output diagnostic: "<<audioError<<'\n';}
