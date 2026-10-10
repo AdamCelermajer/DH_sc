@@ -29,7 +29,7 @@
 
 namespace dh::foundation::doors {
 
-inline constexpr const char* door_state_component_v1 = "dh2.door.state.v1";  // 1 byte: DoorStateV1
+inline constexpr const char* door_state_component_v1 = "dh2.world-gate.door.v1";  // 1 byte: DoorStateV1 (P17 DOORS2 name; was dh2.door.state.v1)
 
 enum class DoorStateV1 : std::uint8_t { closed = 0, opened = 1, closing = 2, opening = 3 };
 

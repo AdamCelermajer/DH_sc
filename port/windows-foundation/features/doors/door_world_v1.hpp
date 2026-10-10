@@ -2,7 +2,7 @@
 
 // Preview 17 DOORS: persistence of authored Door state through the neutral world objects (the same
 // binding the containers use). Each Door is a WorldObject with its authored stable ID; component
-// "dh2.door.state.v1" (1 byte, DoorStateV1) is written when the state changes. The GameSave object roster
+// "dh2.world-gate.door.v1" (1 byte, DoorStateV1) is written when the state changes. The GameSave object roster
 // carries it; no schema change. An object without the component keeps the authored start state.
 
 #include "door_runtime_v1.hpp"
