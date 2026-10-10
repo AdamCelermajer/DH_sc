@@ -57,6 +57,7 @@
 #include "features/quest_runtime/quest_runtime_v1.hpp"
 #include "features/quest_runtime/quest_events_v1.hpp"
 #include "features/conditions/condition_watch_v1.hpp" // P17 CONDITIONS: authored v2Conditions evaluator + flip watch
+#include "features/world_gates/world_gate_v1.hpp"     // P17 CONDITIONS: gated declarations as persistent world objects
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
@@ -957,6 +958,7 @@ int main(int argc,char** argv) {
         std::shared_ptr<const f::conditions::AuthoredConditionsV1> authoredConditions;
         std::shared_ptr<f::conditions::ConditionWatchV1> conditionWatch;
         std::vector<std::pair<std::string,std::string>> conditionGatedObjects; // (condition name, "<gametype> <sourceId> (<key>)")
+        std::vector<f::world_gates::WorldGateV1> worldGates; // P17 CONDITIONS: non-character gates (persisted as world objects)
         // IsPlayerInLevel key: the authored level row of this map (metadata table; -1 when unknown).
         const auto conditionLevelRow=[&]()->std::int32_t {
             const auto* levels=loadMetadataLevels(assets);
@@ -1230,6 +1232,8 @@ int main(int argc,char** argv) {
                         if(!authoredConditions->contains(found->second)){f::conditions::report_unknown_condition_once(found->second);continue;}
                         conditionWatch->watch(found->second);
                         conditionGatedObjects.push_back({found->second,declaration.gametype+" "+declaration.sourceId+" ("+key+")"});
+                        if(declaration.gametype!="Character"&&declaration.gametype!="SpawnPoint"&&declaration.stableId)
+                            worldGates.push_back({declaration.stableId,declaration.gametype,declaration.name,key,found->second,false});
                     }
                 std::cout<<"Conditions table="<<authoredConditions->size()<<" watched="<<conditionWatch->size()<<" declarations="<<conditionGatedObjects.size()<<'\n';
             }
@@ -2691,6 +2695,22 @@ int main(int argc,char** argv) {
             return banners;
         };
         std::int32_t questLevelRow=-1;
+        // P17 CONDITIONS: owner of gated declarations. The door/decor runtime is not wired yet, so each applied value is logged.
+        const auto worldGateOwner=[&](const f::world_gates::WorldGateV1& gate,bool value) {
+            std::cout<<"World gate "<<gate.gametype<<" "<<gate.name<<" "<<gate.key<<"="<<gate.condition<<" value="<<(value?"true":"false")<<" owner=none (not wired)\n";
+        };
+        // P17 CONDITIONS: gated declarations of the live session; restored objects reconcile with the primed watch.
+        const auto bindWorldGates=[&]() {
+            if(!combatSession||worldGates.empty()||!conditionWatch)return;
+            std::vector<std::string> gateNotices;std::string gateError;
+            const auto current=[&](const std::string& name,bool& value)->bool {return conditionWatch->current(name,value);};
+            if(!f::world_gates::bind_world_gates_v1(*combatSession->world(),worldGates,current,worldGateOwner,gateNotices,gateError))
+                std::cerr<<"World gate diagnostic: "<<gateError<<'\n';
+            for(const auto& n:gateNotices)std::cerr<<"World gate notice: "<<n<<'\n';
+            std::cout<<"World gates bound="<<worldGates.size()<<" notices="<<gateNotices.size()<<'\n';
+            for(const auto& gate:worldGates) // applied = the persisted owner state after bind (restored or created)
+                std::cout<<"World gate state "<<gate.name<<" "<<gate.key<<" applied="<<(gate.applied?"true":"false")<<'\n';
+        };
         const auto bindQuestRuntime=[&]() {
             f::quest_runtime::bind_quest_event_sink({});
             questRuntime.reset();questActorIdentity.clear();questZones=f::quest_runtime::QuestZoneSetV1();
@@ -2732,6 +2752,7 @@ int main(int argc,char** argv) {
                 if(!conditionWatch->prime(f::conditions::world_from_quest_runtime(*questRuntime,conditionLevelRow),conditionError))
                     std::cerr<<"Condition prime diagnostic: "<<conditionError<<'\n';
             }
+            bindWorldGates(); // P17 CONDITIONS: after the watch is primed from the restored state
             // P16 QUESTUI: explicit charpropsname bindings (NPCs) have no population row; resolve it by name
             // through the CharacterTable names (the quest talk oids are these rows).
             std::map<std::string,std::int32_t> characterRows;
@@ -2823,8 +2844,11 @@ int main(int argc,char** argv) {
             for(const auto& flip:flips) {
                 std::cout<<"Condition flip "<<flip.name<<" "<<(flip.before?"true":"false")<<"->"<<(flip.after?"true":"false")
                          <<" cause="<<cause<<" current="<<questRuntime->current_quest()<<'\n';
-                for(const auto& gated:conditionGatedObjects)
-                    if(gated.first==flip.name)std::cout<<"Condition gated "<<gated.second<<" owner=none (not wired)\n";
+            }
+            if(combatSession&&!flips.empty()) { // P17 CONDITIONS: gated objects apply and persist the flipped value
+                std::string gateError;
+                if(!f::world_gates::apply_world_gate_flips_v1(*combatSession->world(),worldGates,flips,worldGateOwner,gateError))
+                    std::cerr<<"World gate flip diagnostic: "<<gateError<<'\n';
             }
         };
         const auto raiseQuestKills=[&]() {
