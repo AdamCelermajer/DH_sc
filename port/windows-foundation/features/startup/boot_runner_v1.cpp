@@ -5,6 +5,7 @@
 #include "content_paths.hpp"
 #include "text_label_v1.hpp"
 #include "intro_movie_v2.hpp"
+#include "intro_segments_v1.hpp"
 #include "intro_soundtrack_v2.hpp"
 #include "overlay_renderer.hpp"
 #include "platform_key_codes.hpp"
@@ -103,6 +104,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
 
     // Movie: an unusable file skips the movie with the reason recorded (never silent).
     IntroMovieV2 movie;
+    IntroSegmentTable segments;
     bool movieAvailable = false;
     if (config.intro_movie.empty()) {
         result.movie_status = "skipped: no intro movie configured";
@@ -114,6 +116,19 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
             result.movie_status = "skipped: " + error;
         } else {
             movieAvailable = true;
+            // B054: segment table next to the movie (<movie>.segments.txt). Missing/invalid: whole movie skippable.
+            auto sidecar = config.intro_movie;
+            sidecar.replace_extension(".segments.txt");
+            std::vector<std::uint8_t> segBytes;
+            if (read_file(sidecar, segBytes)) {
+                std::string segError;
+                if (!parse_intro_segments(std::string(segBytes.begin(), segBytes.end()), segments, segError))
+                    result.movie_segments = "ignored: " + segError;
+                else
+                    result.movie_segments = "loaded: " + std::to_string(segments.segments.size()) + " segments";
+            } else {
+                result.movie_segments = "none (whole movie skippable)";
+            }
         }
     }
 
@@ -152,6 +167,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     bool useWallClock = !soundtrackStarted;
     bool movieEnded = false;      // picture reached its last frame and the clock passed it
     bool movieSkippedByUser = false;
+    double movieClock = 0.0;      // movie time of the previous frame (gates SKIP for the next press)
     double movieEndSoundtrack = -1.0;  // soundtrack clock at the moment the movie ended or was skipped
     const double fps = movieAvailable ? movie.info().fps : 1.0;
 
@@ -174,6 +190,11 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
             ++nextPress;
         }
         const BootPhase before = flow.phase();
+        // B054: a press during an uninterruptible segment (the Gameloft logo) is ignored, scripted or real.
+        if (pressed && before == BootPhase::movie && movieAvailable && !segments.skippable_at(movieClock)) {
+            pressed = false;
+            ++result.movie_presses_ignored;
+        }
         flow.update(now, pressed);
         if (before == BootPhase::movie && flow.phase() == BootPhase::title && pressed) {
             movieSkippedByUser = true;
@@ -199,6 +220,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
                     }
                 }
             }
+            movieClock = clock;
             bool updated = false;
             if (!movie.frame_at(clock, frameRgba, updated, error)) {
                 result.movie_status = "skipped: " + error;
@@ -226,8 +248,10 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
         if (flow.phase() == BootPhase::movie) {
             if (frameTexture) overlay.drawSprite(fit_sprite(w, h, int(movie.info().width), int(movie.info().height), 1.0f, frameTexture));
             // Skip overlay: any press (touch, mouse, Enter, Space, Escape) skips the movie.
-            if (!skip.built) build_text_label(renderer, *config.assets, kSkipLabel, 22, LabelAnchor::right_bottom, w, h, skip);
-            for (const auto& glyph : skip.sprites) overlay.drawSprite(glyph);
+            if (segments.skippable_at(movieClock)) {  // B054: SKIP only in a skippable segment
+                if (!skip.built) build_text_label(renderer, *config.assets, kSkipLabel, 22, LabelAnchor::right_bottom, w, h, skip);
+                for (const auto& glyph : skip.sprites) overlay.drawSprite(glyph);
+            }
         } else if (flow.phase() == BootPhase::title) {
             overlay.drawSprite(fit_sprite(w, h, int(splashImage.width), int(splashImage.height), 1.0f, splashTexture));
             if (!title.built) build_text_label(renderer, *config.assets, kTouchToContinue, 28, LabelAnchor::center, w, h, title);
