@@ -2796,6 +2796,10 @@ int main(int argc,char** argv) {
             const bool gameplayPaused=characterMenu.is_open()||pauseMenuOpen;
             const double gameplayDt=gameplayPaused?0.0:dt;
             if(gameplayPaused!=gameplayWasPaused)reportGameplayPause(gameplayPaused?"paused":"resumed");
+            // B051: the Equipment avatar has its own idle clock. Opening a paused page restarts it
+            // (original Show/CreateAvatarCamera -> idle); every frame advances it by real dt (original RenderCharacterPane).
+            if(gameplayPaused&&!gameplayWasPaused&&runtimeEquipment)runtimeEquipment->restart_preview_clock();
+            if(runtimeEquipment)runtimeEquipment->advance_preview_clock(dt);
             gameplayWasPaused=gameplayPaused;if(gameplayPaused)++gameplayPausedFrames;
             const float speed=float(gameplayDt)*extent*.4f;
             if(!motor)freeCamera.move((window.key_down('D')-window.key_down('A'))*speed,(window.key_down('E')-window.key_down('Q'))*speed,(window.key_down('W')-window.key_down('S'))*speed);

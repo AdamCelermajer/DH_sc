@@ -127,6 +127,13 @@ public:
     bool with_preview_packets(const SourceEquipmentRenderServicesV1&,
                               const RuntimeEquipmentPreviewPacketsCallbackV1&,
                               std::string& error);
+    // Equipment avatar pane clock (B051). The pane always shows the bound idle
+    // locomotion clip (Session::with_locomotion_preview_pose), never the actor's
+    // current action clip, even while gameplay is paused for the page. Like the
+    // original Show/RenderCharacterPane pair: opening the page restarts idle, and
+    // each rendered frame advances the pane by real frame time.
+    void restart_preview_clock();
+    void advance_preview_clock(double seconds);
     // Returns false with an empty error when there is no unconsumed change.
     bool take_render_change(RuntimeEquipmentRenderChangeV1&, std::string& error);
 };

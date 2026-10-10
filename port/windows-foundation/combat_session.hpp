@@ -265,6 +265,20 @@ public:
     // Same visual animated by this session. Borrow only while the current
     // actor_binding_lease is retained; reacquire after detach/restore.
     const CharacterVisual* retained_actor_visual_borrow(ActorId)const noexcept;
+    // Equipment avatar preview (B051). Publishes the actor's bound explicit
+    // locomotion alias (for the player: "idle", the clip gameplay uses for the
+    // current stance) at the caller's own clock for the synchronous `draw`, then
+    // restores the live pose exactly. Session time, locomotion policy, actor
+    // action ownership and the selected clip are not changed. The clip is never
+    // the actor's current action clip.
+    struct LocomotionPreviewPoseV1 {
+        std::string alias;
+        std::string clip;
+        std::int32_t source_ms{};
+    };
+    using LocomotionPreviewDrawV1 = std::function<bool(const LocomotionPreviewPoseV1&, std::string&)>;
+    bool with_locomotion_preview_pose(ActorId, const std::string& alias, double seconds,
+                                      const LocomotionPreviewDrawV1& draw, std::string& error);
     // Host lifetime witness for external native borrowers. Expires on detach
     // or session replacement; a successful restore rebind issues a new lease.
     // This is bookkeeping, not an original Character field or gameplay state.

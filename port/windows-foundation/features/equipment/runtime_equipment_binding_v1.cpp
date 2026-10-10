@@ -3,6 +3,7 @@
 #include "../../asset_catalog.hpp"
 #include "../../content_paths.hpp"
 #include <algorithm>
+#include <cmath>
 #include <set>
 
 namespace dh::foundation::equipment_menu {
@@ -63,6 +64,8 @@ struct RuntimeEquipmentBindingV1::Impl {
     std::unique_ptr<Presenter> presenter;
     std::uint64_t render_revision{};
     bool render_change_pending{};
+    // Equipment avatar pane clock, restarted when the page opens (B051).
+    double preview_seconds{};
 
     bool current(std::string& error) const {
         const auto fail = [&](const char* text) { error = text; return false; };
@@ -523,7 +526,15 @@ bool RuntimeEquipmentBindingV1::with_preview_packets(
         error = "Equipment preview requires its pinned source body image lease";
         return false;
     }
-    return with_preview_borrow([&](const RuntimeEquipmentPreviewBorrowV1& borrowed,
+    // B051: the pane shows the bound idle clip at its own clock. The Session
+    // overlay restores the live gameplay pose after the draw; the live sockets
+    // and render-change flags are then re-synced so the overlay leaves no trace.
+    const auto revision_before = impl_->render_revision;
+    const auto pending_before = impl_->render_change_pending;
+    const bool drawn = impl_->session->with_locomotion_preview_pose(impl_->actor_id, "idle",
+        impl_->preview_seconds,
+        [&](const CombatSession::LocomotionPreviewPoseV1&, std::string& pose_error) {
+        return with_preview_borrow([&](const RuntimeEquipmentPreviewBorrowV1& borrowed,
                                    std::string& callback_error) {
         EquipmentPreviewSourceV1 source;
         source.revision = borrowed.revision;
@@ -556,7 +567,30 @@ bool RuntimeEquipmentBindingV1::with_preview_packets(
             callback_error = "Equipment preview packet callback threw an unknown exception";
             return false;
         }
-    }, error);
+        }, pose_error);
+        }, error);
+    // Re-sync the live sockets after the overlay restored the gameplay pose.
+    // Sockets then match the live pose, so the overlay does not raise a change.
+    std::string sync_error;
+    const bool synced = impl_->attachments.update(*impl_->visual, sync_error);
+    impl_->render_revision = revision_before;
+    impl_->render_change_pending = pending_before;
+    if (!drawn) {
+        if (error.empty()) error = "Equipment preview pose overlay failed";
+        return false;
+    }
+    if (!synced) {
+        error = "Equipment preview could not restore live attachments: " + sync_error;
+        return false;
+    }
+    error.clear();
+    return true;
+}
+void RuntimeEquipmentBindingV1::restart_preview_clock() {
+    if (impl_) impl_->preview_seconds = 0;
+}
+void RuntimeEquipmentBindingV1::advance_preview_clock(double seconds) {
+    if (impl_ && std::isfinite(seconds) && seconds > 0) impl_->preview_seconds += seconds;
 }
 bool RuntimeEquipmentBindingV1::take_render_change(RuntimeEquipmentRenderChangeV1& out,
         std::string& error) {

@@ -277,6 +277,12 @@ int main(int argc,char** argv){try{
     check(session.select_player_locomotion("idle",error),error);input={};check(session.update(.05,input,{0,0,0},0,error),error);
     session.actor(2)->transform.position={0,-100,0};session.actor(2)->health=session.actor(2)->max_health;session.actor(2)->action=CharacterAction::idle;
     const auto outgoingSlot=session.retained_player_pose()->current_slot();const auto outgoingClip=session.retained_player_pose()->slots()[outgoingSlot].clip_id;const auto outgoingTime=session.retained_player_pose()->slots()[outgoingSlot].timeline.last_seconds;
+    // B051 (Equipment avatar): the pane presents the bound idle clip on its own clock. Record the idle clip now, while the actor is idle.
+    std::string idlePreviewClip;
+    check(session.with_locomotion_preview_pose(1,"idle",.25,[&](const CombatSession::LocomotionPreviewPoseV1& pose,std::string& callbackError){
+        idlePreviewClip=pose.clip;if(pose.alias!="idle"||pose.clip.empty()){callbackError="Equipment preview did not resolve the bound idle alias";return false;}
+        return true;},error),error);
+    check(!idlePreviewClip.empty(),"Equipment preview idle clip is empty");
     input.attack=true;check(session.update(0,input,{0,0,0},0,error)&&session.owns_pose(1),error);
     {
         const auto* active=session.retained_player_pose();const auto slot=active->current_slot();
@@ -287,6 +293,33 @@ int main(int argc,char** argv){try{
               active->slots()[slot].clip_id==clip&&active->slots()[slot].generation==generation&&
               active->slots()[slot].timeline.current_ms==time,
               "Future locomotion binding replaced or advanced the combat-owned pose");
+    }
+    {
+        // While combat owns the attack pose, the preview still shows the same idle clip on its own clock, and the live attack pose is restored exactly.
+        const CharacterVisual* live=session.retained_actor_visual_borrow(1);
+        check(live&&session.owns_pose(1),"Attack did not own the actor pose for the Equipment preview check");
+        const auto samePose=[](const SkeletalPose& a,const SkeletalPose& b){
+            if(a.size()!=b.size())return false;
+            for(std::size_t i=0;i<a.size();++i){
+                if(a[i].id!=b[i].id||a[i].translation!=b[i].translation||a[i].quaternion!=b[i].quaternion||a[i].scale!=b[i].scale)return false;
+            }
+            return true;
+        };
+        SkeletalPose liveBefore,liveAfter;std::string poseError;
+        check(live->current_local_pose(liveBefore,poseError),poseError);
+        for(const double seconds:{0.0,.4,1.7}){
+            std::string previewClip;std::int32_t previewMs=-1;SkeletalPose shown,expected;
+            check(session.with_locomotion_preview_pose(1,"idle",seconds,[&](const CombatSession::LocomotionPreviewPoseV1& pose,std::string& callbackError){
+                previewClip=pose.clip;previewMs=pose.source_ms;
+                if(!live->current_local_pose(shown,callbackError))return false;
+                if(!live->sample_local_pose(pose.clip,pose.source_ms,expected,callbackError))return false;
+                if(!samePose(shown,expected)){callbackError="Equipment preview did not publish the idle sample it selected";return false;}
+                return true;},poseError),poseError);
+            check(previewClip==idlePreviewClip,"Equipment preview clip changed with the actor's attack state");
+            check(previewMs>=0,"Equipment preview source time is invalid");
+        }
+        check(live->current_local_pose(liveAfter,poseError)&&samePose(liveBefore,liveAfter),"Equipment preview did not restore the live attack pose exactly");
+        check(session.owns_pose(1),"Equipment preview changed combat ownership of the actor pose");
     }
     check(!session.select_player_locomotion("walk",error),"Locomotion stole combat-owned player pose");input={};check(session.update(.016,input,{0,0,0},0,error),error);
     check(session.retained_player_pose()->slots()[outgoingSlot].clip_id==outgoingClip&&session.retained_player_pose()->slots()[outgoingSlot].timeline.last_seconds>outgoingTime,"Attack fade retained a stale outgoing locomotion clock");

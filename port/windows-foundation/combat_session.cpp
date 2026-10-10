@@ -1951,6 +1951,45 @@ const CharacterVisual* CombatSession::retained_actor_visual_borrow(ActorId id)co
     const auto entry=impl_->entries.find(id);
     return entry==impl_->entries.end()?nullptr:entry->second.visual;
 }
+bool CombatSession::with_locomotion_preview_pose(ActorId id,const std::string& alias,double seconds,
+        const LocomotionPreviewDrawV1& draw,std::string& error){
+    error.clear();
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Locomotion preview requires a bound initialized session actor";return false;}
+    if(!draw){error="Locomotion preview draw callback is required";return false;}
+    if(!std::isfinite(seconds)||seconds<0){error="Locomotion preview clock must be finite and nonnegative";return false;}
+    auto& entry=impl_->entries.at(id);
+    const auto policy=entry.locomotion.find(alias);
+    if(!entry.retainedPhaseClock||!entry.retained||!entry.visual||policy==entry.locomotion.end()){
+        error="Explicit locomotion alias is not bound: "+alias;return false;
+    }
+    CharacterVisual& visual=*entry.visual;
+    LocomotionPreviewPoseV1 preview;
+    preview.alias=alias;preview.clip=policy->second.phase.clipName;
+    std::int32_t start=0,end=0;
+    if(!visual.animation_range(preview.clip,start,end,error))return false;
+    // The preview owns its clock: authored source time from clip start, looped
+    // over the clip range, independent of the actor's current action clock.
+    const double span=std::max(1.0,static_cast<double>(end)-static_cast<double>(start));
+    preview.source_ms=start+static_cast<std::int32_t>(std::fmod(seconds*1000.0,span));
+    SkeletalPose live,presented;
+    if(!visual.current_local_pose(live,error))return false;
+    if(!visual.sample_local_pose(preview.clip,preview.source_ms,presented,error))return false;
+    if(!visual.apply_local_pose(presented,error))return false;
+    bool drawn=false;
+    try{drawn=draw(preview,error);}
+    catch(const std::exception& failure){error=std::string("Locomotion preview draw threw: ")+failure.what();drawn=false;}
+    catch(...){error="Locomotion preview draw threw an unknown exception";drawn=false;}
+    // Restore the exact live pose through the same publication path combat uses,
+    // so the next combat update or the closed page sees the actor it left behind.
+    std::string restoreError;
+    if(!visual.apply_local_pose(live,restoreError)){
+        error=drawn?"Locomotion preview restore failed: "+restoreError
+                   :error+" (restore also failed: "+restoreError+")";
+        return false;
+    }
+    if(!drawn){if(error.empty())error="Locomotion preview draw rejected";return false;}
+    error.clear();return true;
+}
 void CombatSession::set_actor_combat_permission_provider(CombatPermissionProvider provider){if(impl_){impl_->permissionProvider=std::move(provider);if(impl_->permissionProvider)impl_->lifecycleRegistered=true;}}
 void CombatSession::set_diagnostic_controller_admission_provider(DiagnosticControllerAdmissionProvider provider,
     ControllerNetworkModeProvider network){if(impl_){impl_->controllerAdmissionProvider=std::move(provider);impl_->networkModeProvider=std::move(network);}}
