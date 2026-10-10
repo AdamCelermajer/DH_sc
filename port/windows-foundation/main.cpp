@@ -1468,11 +1468,16 @@ int main(int argc,char** argv) {
             providers.global_controller_blocked=[&](bool blocked,std::string&){globalControllerBlocked=blocked;return true;};
             providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){if(!combatSession->actor(id)){e="Source character controller unavailable";return false;}characterControllerBlocked[id]=blocked;return true;};
             // P14 FAERY (T3): Script_SetFaeryState / Script_IncFaeryLevel write the live CharacterState and persist it.
+            // Legacy saves without source Faery rows (known=false) are a logged limitation: the script continues, nothing is invented.
             providers.set_faery_state=[&](std::uint32_t slot,std::uint32_t value,std::string& e){
+                if(!state.source_faery_state_known){std::cout<<"Source SetFaeryState slot="<<slot<<" skipped: legacy save has no source Faery rows (limitation)\n";return true;}
                 if(!f::faery_menu::apply_source_set_faery_state_v1(state,f::faery_menu::active_faery_difficulty_v1(),slot,value,e))return false;
+                std::cout<<"Source SetFaeryState slot="<<slot<<" state="<<value<<" committed to CharacterState\n";
                 return f::save_character(options.save,state,e);};
             providers.inc_faery_level=[&](std::uint32_t slot,std::string& e){
+                if(!state.source_faery_state_known){std::cout<<"Source IncFaeryLevel slot="<<slot<<" skipped: legacy save has no source Faery rows (limitation)\n";return true;}
                 if(!f::faery_menu::apply_source_inc_faery_level_v1(state,f::faery_menu::active_faery_difficulty_v1(),slot,e))return false;
+                std::cout<<"Source IncFaeryLevel slot="<<slot<<" level="<<state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].faeries[slot].level<<" committed to CharacterState\n";
                 return f::save_character(options.save,state,e);};
             campaignWorld.bind(std::move(providers));
             if(!options.sourceCommands.empty()) {
@@ -2009,8 +2014,9 @@ int main(int argc,char** argv) {
                 // An unbindable page (e.g. legacy state without source Faery rows) stays unregistered and is diagnosed.
                 {
                     // A loaded save reaches here without the creation-source owner, so the Faery tables are loaded here too.
+                    // Tables are immutable content, loaded even for legacy saves whose Faery rows are unknown (page shows them as unknown).
                     std::string faeryError;
-                    if(state.source_faery_state_known&&!sourceFaeryTables) {
+                    if(!sourceFaeryTables) {
                         const auto records=f::read_content(assets,"data/pydata/faeries_pyarray.bin"),names=f::read_content(assets,"data/pydata/faeries_pyarraynames.bin"),fields=f::read_content(assets,"data/pydata/faeries_pystructnames.bin");
                         if(!sourceFaeryOwner.load({records.data(),records.size()},{names.data(),names.size()},{fields.data(),fields.size()},faeryError))std::cerr<<"Faery tables diagnostic: "<<faeryError<<'\n';
                         else sourceFaeryTables=sourceFaeryOwner.borrow();
