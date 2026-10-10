@@ -196,6 +196,37 @@ bool ActorPopulation::load(const AssetCatalog& assets, const std::string& levelU
     } catch (const std::exception& exception) { error = exception.what(); return false; }
 }
 
+// P16 SPAWN: same per-declaration steps as load() (profile transform, visual
+// config from the profile, visual load). Rejects duplicate stable IDs so a
+// declared slot can never shadow an authored actor.
+bool ActorPopulation::admit_declared(const AssetCatalog& assets, const ActorDefinition& definition,
+                                     const ActorProfile& profile, PopulationDecision decision,
+                                     const ActorCustomization& customization, std::string& error) {
+    for (const auto& existing : definitions_)
+        if (existing.stableId == definition.stableId) { error = "Declared actor stable ID already admitted"; return false; }
+    if (decision != PopulationDecision::include && decision != PopulationDecision::deferred) {
+        error = "Declared actor needs an include or deferred decision";
+        return false;
+    }
+    PopulationActor actor;
+    actor.initial_decision = decision;
+    actor.enabled = actor.initially_enabled = decision == PopulationDecision::include;
+    actor.profileId = profile.id;
+    std::string gap;
+    if (!profile_transform(profile, definition.placement, actor.transform, gap)) { error = gap; return false; }
+    CharacterVisualConfig config;
+    if (!make_visual_config(assets, profile, customization, config, gap) || !actor.visual.load(assets, config, gap)) {
+        error = "Original visual unavailable for " + profile.id + ": " + gap;
+        return false;
+    }
+    actor.definition = definition;
+    actors_.push_back(std::move(actor));
+    definitions_.push_back(definition);
+    ++authored_count_;
+    error.clear();
+    return true;
+}
+
 bool ActorPopulation::set_enabled(std::uint64_t stableId, bool enabled, std::string& error) {
     PopulationActor* selected = nullptr;
     for (auto& actor : actors_) {
