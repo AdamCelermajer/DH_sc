@@ -531,4 +531,76 @@ void CampaignHost::print_summary(std::ostream& out) const {
     unsupported_.print_summary(out);
 }
 
+// D3 (OPENING3): campaign lifecycle component (save component mechanism, like the container hits component).
+namespace {
+constexpr ObjectId kCampaignLifecycleObjectId = 0x43414d504c494650ull; // "CAMPLIFP": neutral object, not an authored ID
+constexpr const char* kCampaignLifecycleComponent = "campaign_lifecycle_v1";
+constexpr std::uint32_t kCampaignLifecycleVersion = 1;
+void put_u32(std::vector<std::uint8_t>& out, std::uint32_t value) {
+    for (int i = 0; i < 4; ++i) out.push_back(static_cast<std::uint8_t>(value >> (8 * i)));
+}
+bool get_u32(const std::vector<std::uint8_t>& in, std::size_t& pos, std::uint32_t& value) {
+    if (pos + 4 > in.size()) return false;
+    value = 0;
+    for (int i = 0; i < 4; ++i) value |= static_cast<std::uint32_t>(in[pos + i]) << (8 * i);
+    pos += 4;
+    return true;
+}
+} // namespace
+
+bool CampaignHost::bind_lifecycle_object(PlayableActorWorld& world, std::string& error) {
+    error.clear();
+    if (world.find_object(kCampaignLifecycleObjectId)) return true;
+    WorldObject object;
+    object.id = kCampaignLifecycleObjectId;
+    object.name = "campaign.lifecycle";
+    object.visual.visible = false;
+    return world.bind_object(std::move(object), error);
+}
+
+bool CampaignHost::persist_lifecycle(PlayableActorWorld& world, std::string& error) const {
+    error.clear();
+    if (!runtime_) return true;
+    if (!world.find_object(kCampaignLifecycleObjectId)) { error = "campaign lifecycle object is not bound"; return false; }
+    const auto counts = runtime_->trigger_activations();
+    std::vector<std::uint8_t> bytes;
+    put_u32(bytes, kCampaignLifecycleVersion);
+    put_u32(bytes, static_cast<std::uint32_t>(counts.size()));
+    for (const auto& count : counts) {
+        put_u32(bytes, static_cast<std::uint32_t>(count.first.size()));
+        bytes.insert(bytes.end(), count.first.begin(), count.first.end());
+        put_u32(bytes, static_cast<std::uint32_t>(count.second));
+    }
+    return world.set_object_component(kCampaignLifecycleObjectId, kCampaignLifecycleComponent, std::move(bytes), error);
+}
+
+bool CampaignHost::restore_lifecycle(const PlayableActorWorld& world, std::string& error) {
+    error.clear();
+    if (!runtime_) return true;
+    const WorldObject* object = world.find_object(kCampaignLifecycleObjectId);
+    if (!object) { error = "campaign lifecycle object is missing from the save"; return false; }
+    std::map<std::string, std::int32_t> counts;
+    const auto found = object->state_components.find(kCampaignLifecycleComponent);
+    if (found != object->state_components.end()) {
+        const auto& in = found->second;
+        std::size_t pos = 0;
+        std::uint32_t version = 0, total = 0;
+        if (!get_u32(in, pos, version) || version != kCampaignLifecycleVersion || !get_u32(in, pos, total)) {
+            error = "campaign lifecycle component is malformed";
+            return false;
+        }
+        for (std::uint32_t i = 0; i < total; ++i) {
+            std::uint32_t length = 0, value = 0;
+            if (!get_u32(in, pos, length) || pos + length > in.size()) { error = "campaign lifecycle component is truncated"; return false; }
+            std::string key(in.begin() + static_cast<std::ptrdiff_t>(pos), in.begin() + static_cast<std::ptrdiff_t>(pos + length));
+            pos += length;
+            if (!get_u32(in, pos, value)) { error = "campaign lifecycle component is truncated"; return false; }
+            counts[key] = static_cast<std::int32_t>(value);
+        }
+        if (pos != in.size()) { error = "campaign lifecycle component has trailing bytes"; return false; }
+    }
+    runtime_->restore_trigger_activations(counts);
+    return true;
+}
+
 } // namespace dh::foundation::campaign_host

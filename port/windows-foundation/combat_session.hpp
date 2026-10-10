@@ -377,6 +377,9 @@ public:
                                       bool& departed,std::string& error);
     bool freeze_actor_state_animation(ActorId,std::string& error);
     bool validate_lifecycle_checkpoint(std::string& error)const;
+    // D3 (OPENING3): the campaign host serializes its lifecycle state into the GameSave components (campaign_lifecycle_v1)
+    // and rebuilds it on restore, so the bound lifecycle/controller providers are checkpointable. Off by default.
+    void set_lifecycle_serialized_by_host(bool serialized) noexcept;
     // Host must clear its OriginalActorLifecycle borrowed records as well before
     // actor replacement. These lifecycle providers/state flags are not serialized.
     bool clear_lifecycle_services(std::string& error);
