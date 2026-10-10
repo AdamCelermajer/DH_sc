@@ -2,3 +2,31 @@
 /.local-inputs/
 **/__pycache__/
 *.pyc
+
+# Build outputs (compiler/linker products, never source)
+*.o
+*.obj
+*.d
+*.a
+*.lib
+*.so
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.exp
+*.class
+*.map
+**/CMakeFiles/
+CMakeCache.txt
+**/*_build/
+**/*-build/
+**/build/
+**/test-output/
+
+# Bulky evidence captures and bundles inside report folders
+port/**/reports/**/*.png
+port/**/reports/**/*.mp4
+port/**/reports/**/*.zip
+port/**/reports/**/*.ppm
+*.ppm
