@@ -106,6 +106,25 @@ B004, B029, B037, B038 and B039 are resolved in Preview 12 and moved to [RESOLVE
 |---|---|---|---|---|---|
 | B042 (update) | Equipment page is "a tiny bit better" but text and art still not conform to the original (user screenshot Torso Details, 1798x1096). | See B042 row above and `coordination/claude-preview13/Q-report.md`; reference `l/ref/p1-t336.png`. | OPEN | agent `eq-text` | Side-by-side with reference: text font/size/position/colour, panel fills, sword texture. |
 
+
+### 2i. Reported on Preview 15 (2026-10-10 night) -> one fresh Sonnet 5.5 medium session per bug (user rule); video reference FIRST, then IDA for logic
+
+Screenshots: `.local-inputs/claude-preview15/user-shots/b0NN-*.png`.
+
+| ID | Observed / reproduction | State | Owner |
+|---|---|---|---|
+| B053 | Title screen ("Touch the screen to continue"): the raw condensed glyph/sprite atlas is visible under the splash (spinning ring icons, arrow buttons, power icons, yellow dots) and the splash fills only the top-left; the needed glyph frames must be picked from the atlas, nothing else drawn. | OPEN | agent `b053` |
+| B054 | SKIP button is shown on the Gameloft logo; in the original SKIP exists only on the story cinematic between the Gameloft logo and "Touch the screen to continue". | OPEN | agent `b054` |
+| B055 | Loading screen is the plain placeholder (black panel, LOADING, tip box, red bar). The previous Android reconstruction found the REAL loading menu: locate it (earlier Android reconstruction work in the repo/.local-inputs and the Android cache) and reproduce it. | OPEN | agent `b055` |
+| B056 | USER REFERENCE (original, video 8:32 = 512 s, `user-shots/b056-REFERENCE-original-equipment-video-0832.png`): "it is supposed to look like that" (flat list panel with damask background, NO black divider lines, grey details panel upper right, orange selected panel lower right, red X on unusable items with green names, dark disabled EQUIP, VALUE box with item icon, Cris R82 watermark is the video author). Equipment page (Right hand, screenshot) "still not resolved": compare against the reference video (Part 1 equipment pages) and fix every remaining difference (black divider lines across the avatar, sword render, text layout, plates...). B042 update 2. | OPEN | agent `b056` |
+| B057 | NOTE: the original shows a red X + green name on items whose REQ is not met and a dark/disabled EQUIP (see B056 reference frame), so blocking may be correct; the question is which requirement (what is ENG, why 7) and whether it is shown/evaluated like the original. Item cannot be equipped because of `REQ: 7 ENG` (Imbued Armor) although the character lacks it; original behaviour must be checked (video + IDA): requirements may not block equipping the way implemented, or the requirement text/value is wrong. Also the Value text overlaps the avatar. | OPEN | agent `b057` |
+| B058 | Walking makes no sound at all: is it intended? Check video for footsteps; implement the original footstep cues if present. | CLOSED - INTENDED (user confirmed 2026-10-10: the original has no footstep sound; IDA agrees, report on branch fix/b058; shipped sfx_fs_* rows are unused) | agent `b058` |
+| B059 | Dropped loot (Conscript Helm) is shown as a brown bag/sack: check what the original shows for equipment drops (video) and fix the drop visual/icon. | OPEN | agent `b059` |
+| B060 | Belt and Helm item icons are swapped (Conscript Belt shows a helm-like icon, Conscript Helm a belt-like icon). | OPEN | agent `b060` |
+| B061 | Equipped helm is visible on the avatar in the equipment page but missing on the in-game character (screenshots). | OPEN | agent `b061` |
+| B062 | Huge performance problem in skills and in general (slow). Profile real frame times, find the hot spots, fix generally. | OPEN | agent `b062` |
+| B063 | Looting must be by walking onto the item with the original logic, not by pressing E. | OPEN | agent `b063` |
+
 ### 2h. Implementation requests from the same session (feature work, Preview 15)
 
 | ID | Request | State | Owner |

@@ -114,6 +114,8 @@ public:
     // Call after CombatSession samples/advances its live player visual. The
     // staged source weapon socket matrices are refreshed from that exact pose.
     bool sample_render_pose(std::string& error);
+    // B061: controller IDs for the gameplay body parts (head/torso/feet/hands) of the current equipment.
+    bool body_controller_ids(std::vector<std::string>& ids, std::string& error) const;
     // Reaches the exact source skin owner over this binding's live Scene.
     // Callback receives non-owning views only for its synchronous call; it
     // must not advance animation or retain pointers/positions afterward.

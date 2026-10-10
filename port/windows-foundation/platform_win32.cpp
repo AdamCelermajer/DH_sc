@@ -13,6 +13,10 @@
 #include <windows.h>
 #include <GL/gl.h>
 #include <array>
+#include <cstdint>
+#include <cstdlib>
+#include <iostream>
+#include "platform_sleep.hpp"
 
 namespace dh::foundation {
 namespace {
@@ -164,6 +168,8 @@ bool Window::open(const char* title, int width, int height) {
     state.context = wglCreateContext(state.dc);
     if (!state.context) return state.fail("wglCreateContext");
     if (!wglMakeCurrent(state.dc, state.context)) return state.fail("wglMakeCurrent");
+    // B066: make the swap interval explicit (vsync on unless DH_VSYNC=0) instead of inheriting the driver default.
+    { const char* v = std::getenv("DH_VSYNC"); const int want = v && *v ? std::atoi(v) : 1; const bool ok = set_swap_interval(want); std::cout << "Swap interval requested=" << want << " supported=" << ok << " effective=" << swap_interval() << std::endl; }
 
     RECT client{};
     GetClientRect(state.hwnd, &client);
@@ -243,4 +249,38 @@ double Window::seconds() noexcept {
     return static_cast<double>(now.QuadPart) / frequency;
 }
 
+} // namespace dh::foundation
+
+namespace dh::foundation {
+// B066: see platform_sleep.hpp.
+void platform_enable_precise_timers() noexcept {
+    static const bool once = [] {
+        if (HMODULE winmm = LoadLibraryW(L"winmm.dll")) {
+            using Begin = UINT(WINAPI*)(UINT);
+            if (auto begin = reinterpret_cast<Begin>(reinterpret_cast<void*>(GetProcAddress(winmm, "timeBeginPeriod")))) begin(1);
+        }
+        return true;
+    }();
+    (void)once;
+}
+
+void* Window::gl_proc(const char* name) noexcept {
+    void* address = reinterpret_cast<void*>(wglGetProcAddress(name));
+    // Some drivers return small sentinel values instead of null for unsupported names.
+    const auto value = reinterpret_cast<std::uintptr_t>(address);
+    if (value <= 3 || value == static_cast<std::uintptr_t>(-1)) return nullptr;
+    return address;
+}
+
+bool Window::set_swap_interval(int interval) noexcept {
+    using Set = BOOL(WINAPI*)(int);
+    auto set = reinterpret_cast<Set>(gl_proc("wglSwapIntervalEXT"));
+    return set && set(interval) != FALSE;
+}
+
+int Window::swap_interval() const noexcept {
+    using Get = int(WINAPI*)();
+    auto get = reinterpret_cast<Get>(gl_proc("wglGetSwapIntervalEXT"));
+    return get ? get() : -1;
+}
 } // namespace dh::foundation

@@ -16,6 +16,19 @@ int main(int argc, char** argv) {
         check(argc == 2, "Supply staged original asset root");
         AssetCatalog assets(argv[1]);
         std::string error;
+        // B060: slot -> button/category must follow the original Init439 InvSlotId assignments
+        // (btn_waist=7, btn_head=8), so Belt/Helm items show their own icon on their own row.
+        {
+            const char* const expected[9] = {"torso", "main_hand", "off_hand", "feet", "hands", "ring", "ring", "waist", "head"};
+            const auto& arts = equipment_menu::original_slot_art();
+            check(arts.size() == 9, "B060: nine source slot arts expected");
+            for (const auto& art : arts) {
+                check(art.source_slot < 9 && art.category == expected[art.source_slot],
+                      "B060: slot art category differs from the original InvSlotId");
+                check(art.button_path.find(std::string("btn_") + (art.category == "ring" ? "ring" : art.category)) != std::string::npos,
+                      "B060: slot art button differs from its category");
+            }
+        }
         OriginalPropertyDatabase database;
         check(load_original_property_tables(assets, "original-cache/data/pydata", database, error), error);
         OriginalActorProperties properties;
@@ -208,9 +221,9 @@ int main(int argc, char** argv) {
             rail_centre(3, x, y);
             check(page.release(x, y, command, error) && command == equipment_menu::MainPageCommand::none &&
                   details.is_open() && equipment.selected_slot() == 3, "Rail icon 3 did not select InvSlotId 3");
-            // Icons with normal art (3) show the bright Highlight only when selected; icon 0 has only Highlight art and stays drawn.
-            check(highlight_shown(3) && !highlight_shown(9) && highlight_shown(0),
-                  "Rail Highlight must follow the selected icon for icons with normal art");
+            // B056b: every icon now has dark normal art (icons 0,1,2,5,6 from the atlas), so only the selected icon shows its bright Highlight.
+            check(highlight_shown(3) && !highlight_shown(9) && !highlight_shown(0) && !highlight_shown(1),
+                  "Rail Highlight must follow the selected icon for every icon");
             rail_centre(9, x, y);
             check(page.release(x, y, command, error) && equipment.selected_slot() == 9,
                   "Rail icon 9 (potions) did not select InvSlotId 9");
@@ -253,7 +266,68 @@ int main(int argc, char** argv) {
             // A press outside every control stays a no-op.
             check(page.release(1.0f, 1.0f, command, error) && command == equipment_menu::MainPageCommand::none, "Empty space produced a command");
         }
-        std::cout << "equipment_main_page_tests PASS: shared source slot/instance, Details, native Gear routing and compatibility equip/unequip\n";
+        // B057: requirement gate on the Details panel (authored ItemEquippable). Pick a source torso item that needs Energy the
+        // fresh Knight lacks; the row must show the red X (Status "No"), EQUIP must be the disabled art and must give no command.
+        {
+            std::string gated;
+            for (std::size_t i = 0; i < table.rows.size() && gated.empty(); ++i) {
+                const auto& w = table.rows[i].record.words;
+                if (w[26] == 0 && w[34] == 0 && w[29] == 0 && w[30] == 0 && w[31] == 0 && w[32] == 0 && w[33] >= 3 && w[33] <= 12)
+                    gated = table.identifiers[i];
+            }
+            check(!gated.empty(), "No source torso item with an Energy-only requirement in the cache");
+            const auto& gated_row = table.rows[dh2::data::item_id(table, gated)];
+            const int need = gated_row.record.words[33];
+            character.inventory = {{"suit-instance", "StartingSuit", 1}, {"gated-instance", gated, 1}};
+            const auto status_in = [&](const character_menu::Frame& f) {
+                return std::any_of(f.art.batches.begin(), f.art.batches.end(), [](const auto& b) {
+                    return b.role.find("menu_InventorySheetDetails/list/") == 0 && b.role.find("/Status/") != std::string::npos; });
+            };
+            // Signature of the drawn EQUIP button art (the disabled frame reuses the same authored paths with different shapes).
+            const auto equip_art = [&](const character_menu::Frame& f) {
+                double sum = 0; std::size_t count = 0;
+                for (const auto& b : f.art.batches) if (b.role.find("menu_InventorySheetDetails/btn_EquipItem/") == 0)
+                    for (const auto& v : b.triangles) { sum += v.x * 1.31 + v.y * 2.17 + v.u * 3.71 + v.v * 5.03; ++count; }
+                return std::make_pair(sum, count);
+            };
+            const auto compose = [&](character_menu::Frame& f) {
+                f = {};
+                f.art.batches = character_menu::original_menu_art(character_menu::Tab::equipment).batches;
+                check(page.content(character_menu::Tab::equipment, f, error), error);
+            };
+            check(page.release(slot_x, slot_y, command, error), error);
+            check(details.is_open(), "B057 test: Details did not open");
+            check(equipment.select_instance("gated-instance", error), error);
+            // Below: energy need-1 (and fresh Knight energy is below the item's need).
+            properties.sheets.resolved[152] = (need - 1) * 256 + 255;
+            character_menu::Frame f; compose(f);
+            check(status_in(f), "Unmet item row has no red X (Status No)");
+            const auto unmet_art = equip_art(f);
+            check(page.release(equip_x, equip_y, command, error) && command == equipment_menu::MainPageCommand::none &&
+                  character.equipment.empty(), "Disabled EQUIP on an unmet item still produced a command or equipped it");
+            // Equal: exact boundary passes -> no X, EQUIP enabled and equips.
+            properties.sheets.resolved[152] = need * 256;
+            compose(f);
+            check(!status_in(f), "Met item (equal requirement) still shows the red X");
+            check(page.release(equip_x, equip_y, command, error) && command == equipment_menu::MainPageCommand::equipped &&
+                  character.equipment.size() == 1 && character.equipment.front().item_instance_id == "gated-instance",
+                  "Met item (equal requirement) did not equip through the Details EQUIP button");
+            // The equipped item is back in the bag for the remaining branches.
+            check(page.release(unequip_x, unequip_y, command, error) && character.equipment.empty(), "B057 test: unequip failed");
+            check(equipment.select_instance("gated-instance", error), error);
+            // Above: more energy keeps it met. Then Prereq_Energy (156) lowers the bar for a character below the need.
+            properties.sheets.resolved[152] = (need + 5) * 256; compose(f);
+            check(!status_in(f), "Item with more than the required Energy shows the red X");
+            properties.sheets.resolved[152] = (need - 1) * 256; properties.sheets.resolved[156] = 256; compose(f);
+            check(!status_in(f), "Prereq_Energy bonus not counted by the requirement gate (IsEquippableBy adds Stat + Prereq)");
+            const auto met_art = equip_art(f);
+            properties.sheets.resolved[156] = 0; compose(f);
+            check(status_in(f), "Gate did not revert after the Prereq bonus was removed");
+            check(equip_art(f) != met_art && equip_art(f) == unmet_art, "EQUIP button art did not switch between enabled and disabled");
+            check(page.release(equip_x, equip_y, command, error) && command == equipment_menu::MainPageCommand::none &&
+                  character.equipment.empty(), "Disabled EQUIP released a command after the requirement dropped again");
+        }
+        std::cout << "equipment_main_page_tests PASS: shared source slot/instance, Details, native Gear routing and compatibility equip/unequip, B057 requirement gate\n";
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return 1;

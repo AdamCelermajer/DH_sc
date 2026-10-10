@@ -45,6 +45,10 @@ struct BootRunConfig {
     std::uint64_t audio_latency_frames = 0;  // frames queued in the platform output (subtracted from the clock)
     // Verification hooks (quiet batches only). Scripted presses go through the same abstract
     // press edge as real input; captures are written by the host.
+    // B064: called once when the title screen ("touch to continue") appears. The host starts the
+    // frontend TitleMusic here (original menu_splash show -> NativePlayMusic("TitleMusic")). The intro
+    // soundtrack voice is stopped first so a skipped movie never overlaps the title track.
+    std::function<void()> on_title_entered;
     std::vector<double> scripted_presses;
     std::vector<std::pair<double, std::filesystem::path>> captures;
     std::function<void(const std::filesystem::path&, int, int)> capture;
@@ -58,8 +62,12 @@ struct BootRunResult {
     std::string movie_status;   // "played", "skipped: <reason>", "skipped: user", "stopped before movie end"
     std::string movie_clock;    // "audio" (mixer output frames) or "wall" (no audio output)
     int movie_frames_shown = 0;
+    std::string movie_segments;     // segment table status (B054)
+    int movie_presses_ignored = 0;  // presses ignored during an uninterruptible segment (B054)
     double soundtrack_seconds = 0.0;  // audible soundtrack time when the movie ended or was skipped
     bool soundtrack_released = true;  // the mixer released the soundtrack voice before the boot returned
+    int handoff_voices = -1;          // B065: mixer voices still active when on_title_entered ran (-1 = no soundtrack)
+    bool handoff_released = true;     // B065: the movie voice was released before on_title_entered ran
     double soundtrack_duration = 0.0; // decoded soundtrack length
     double seconds = 0.0;
 };

@@ -64,6 +64,9 @@ struct Mesh {
     std::vector<std::uint32_t> indices;
     // Empty ranges means draw all geometry with a default material.
     std::vector<DrawRange> ranges;
+    // B066: set by the owner when vertices/indices never change after load (level geometry). The renderer then keeps the
+    // data in GPU buffers, caches per-range bounds/alpha scans and can frustum-cull ranges. Never set it on skinned meshes.
+    bool staticGeometry = false;
 };
 
 struct Camera {
@@ -75,6 +78,13 @@ struct Camera {
     float farPlane = 5000.0f;
     // Zero uses the viewport; a positive value preserves authored projection.
     float aspectRatio = 0.0f;
+};
+
+// Bounds and vertex-alpha scan of one draw range (cached for static meshes).
+struct RangeStats {
+    bool vertexAlpha = false;
+    bool valid = false;
+    Vec3 low{}, high{}, center{};
 };
 
 enum class RenderPass { All, Opaque, Transparent };
@@ -101,7 +111,19 @@ public:
     void drawRange(const Mesh& mesh, const DrawRange& range,
                    const Mat4& transform = identity());
     bool isTransparent(const Mesh& mesh, const DrawRange& range) const;
+    // B066: bounds + vertex-alpha scan of a range; O(1) after the first call for static meshes.
+    RangeStats rangeStats(const Mesh& mesh, const DrawRange& range) const;
+    // B066: false only when a STATIC mesh range lies completely outside the current view frustum (always true otherwise).
+    bool rangeVisible(const Mesh& mesh, const DrawRange& range, const Mat4& transform) const;
+    // B066: GL entry point lookup (e.g. Window::gl_proc) enabling buffer objects for static meshes; optional.
+    void setGlLoader(void* (*loader)(const char*)) noexcept { glLoader_ = loader; }
+    // Drop cached GPU buffers/scans of static meshes (call when level geometry is replaced).
+    void invalidateStaticGeometry();
+    // B066 (DH_PERF only): GPU frame time via timestamp queries (ARB_timer_query), read back a few frames later without stalling.
+    struct GpuTimer { std::uint32_t queries[4][2] = {}; unsigned next = 0, pending = 0; bool tried = false, usable = false; } gpuTimer_;
     void endFrame();
+    void gpuTimerBegin();
+    void gpuTimerEnd();
 
     // RGBA8 rows are supplied in OpenGL texture coordinate order.
     std::uint32_t createTexture(int width, int height, const std::uint8_t* rgba);
@@ -121,6 +143,22 @@ private:
     struct TextureAlpha { bool hasAlpha = false; bool hasPartialAlpha = false; };
     std::unordered_map<std::uint32_t, TextureAlpha> textureAlpha_;
     std::vector<std::array<float, 4>> vertexColors_;
+
+    // B066 static-mesh cache.
+    struct StaticMesh {
+        const Vertex* vertexData = nullptr; std::size_t vertexCount = 0;
+        const std::uint32_t* indexData = nullptr; std::size_t indexCount = 0;
+        std::uint32_t vbo = 0, ibo = 0;
+        bool gpu = false;
+        std::unordered_map<std::uint64_t, RangeStats> ranges;
+    };
+    StaticMesh* staticFor(const Mesh& mesh) const;
+    void updateFrustum(const Camera& camera);
+    mutable std::unordered_map<const Mesh*, StaticMesh> staticMeshes_;
+    void* (*glLoader_)(const char*) = nullptr;
+    std::array<std::array<float, 4>, 6> frustum_{};
+    bool frustumValid_ = false;
+    std::uint32_t lastBoundTexture_ = 0xffffffffu;
 };
 
 } // namespace dh::foundation

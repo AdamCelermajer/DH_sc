@@ -1,6 +1,7 @@
 #pragma once
 
 #include "runtime_combat_audio_v1.hpp"
+#include "music_voice_v1.hpp"
 #include "feature_audio.hpp"
 #include "windows_source_session_control_v1.hpp"
 #include "../../../engine-audio/integration-v42/audio_native_session_v42.hpp"
@@ -78,6 +79,7 @@ private:
     float current_pitch_{dh2::audio::original_fresh_emitter_pitch_v40()};
     bool manager_general_initialized_{};
     std::int32_t level_music_ordinal_{-1};
+    MusicVoiceV1 music_voice_;
 
     static int gates(void*,const dh2::sound::VoxPlay3DRequestV2&,
                      dh2::sound::VoxPlay3DResponseV2&);
@@ -122,7 +124,7 @@ public:
     // runtime: the same ordinal resumes a still-playing voice (0.05 s); a new
     // ordinal first stops the previous one with fade; the VXN starts at its
     // fresh native state (0) with a fade-in and loops from its sounds.xml row.
-    enum class LevelMusicActionV1 : std::uint8_t {unchanged,resumed,started,switched};
+    using LevelMusicActionV1=MusicVoiceActionV1; // shared voice semantics: music_voice_v1.hpp
     bool play_level_music(std::int32_t ordinal,int fade_ms,LevelMusicActionV1& action,std::string& error);
     bool stop_level_music(int fade_ms,std::string& error);
     std::int32_t level_music_ordinal() const noexcept{return level_music_ordinal_;}

@@ -9,7 +9,7 @@ raw=path.read_bytes();data=raw[:8]+zlib.decompress(raw[8:]) if raw[:3]==b'CWS' e
 stage,at=swf.rect(data,8);at+=4
 sprites={};shapes={};edits={};failures={};labels={}
 hit_shapes={}
-def solid_hit_styles(tag,at,ident,code=None):
+def solid_hit_styles(tag,at,ident,shape_code=2):
     count=tag[at];at+=1
     if count==255:count=struct.unpack_from('<H',tag,at)[0];at+=2
     styles=[]
@@ -19,7 +19,7 @@ def solid_hit_styles(tag,at,ident,code=None):
         at+=1+hit_color_bytes
         # Texture mapping is unused/discarded for hit-only contours. A broad
         # coordinate embedding lets the existing contour tessellator run.
-        styles.append({'kind':0,'matrix_twips':[1000000,0,0,1000000,-100000000,-100000000],'rgba':color})
+        styles.append({'kind':0x40,'bitmap_id':1,'matrix_twips':[1000000,0,0,1000000,-100000000,-100000000],'rgba':color})
     if tag[at]:raise ValueError('hit-only line style not supported')
     return styles,at+1
 hit_globals=dict(swf.parse_shape.__globals__);hit_globals['read_bitmap_styles']=solid_hit_styles

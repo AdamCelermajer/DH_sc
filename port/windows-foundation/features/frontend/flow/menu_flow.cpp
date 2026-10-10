@@ -31,7 +31,10 @@ const char* main_menu_error_symbol(int event)noexcept{
 }
 bool Navigator::change(std::vector<std::string> next,std::string& error){
     if(services_.present_stack&&!services_.present_stack(stack_,next,error))return false;
-    stack_=std::move(next);error.clear();return true;
+    const bool top_changed=next.empty()||stack_.empty()||next.back()!=stack_.back();
+    stack_=std::move(next);error.clear();
+    if(top_changed&&!stack_.empty()&&services_.menu_entered)services_.menu_entered(stack_.back().c_str());
+    return true;
 }
 bool Navigator::push(std::string_view name,std::string& error){
     if(!known(name))return fail(error,"Menu state is outside the recovered desktop roster");

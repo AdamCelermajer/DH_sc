@@ -1,4 +1,5 @@
 #include "combat_session.hpp"
+#include "frame_perf.hpp" // B066 probes
 #include "player_profile_properties.hpp"
 #include <algorithm>
 #include <cmath>
@@ -1467,7 +1468,7 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
     s.events.clear();s.resolutions.clear();s.animationDispatches.clear();s.comboBoundaries.clear();s.retainedFrameAudioDiagnostics.clear();
     s.retainedFrameAudioClock.reset();if(audio_clock&&audio_clock->valid())s.retainedFrameAudioClock=*audio_clock;
     struct ClockReset {std::optional<RetainedFrameAudioClock>& value;~ClockReset(){value.reset();}} clockReset{s.retainedFrameAudioClock};
-    if(s.frameBeginProvider&&!s.frameBeginProvider(*this,dt,error))return false;
+    {DH_PROBE("sim.frameBeginProvider(physics)");if(s.frameBeginProvider&&!s.frameBeginProvider(*this,dt,error))return false;}
     auto* player=s.world->find_actor(s.player);
     // A clear published between session frames belongs to its source owner
     // (for example an explicit skill ClearTarget). Do not resurrect it from
@@ -1507,18 +1508,18 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
            !s.depart_source_attack(s.player,error))return false;
     }
     if(player->action==CharacterAction::attacking&&!s.turn(s.player,player->target_id,dt,error))return false;
-    if(s.actorDecisionProvider&&!s.actorDecisionProvider(*this,dt,error))return false;
+    {DH_PROBE("sim.actorDecisionProvider(AI)");if(s.actorDecisionProvider&&!s.actorDecisionProvider(*this,dt,error))return false;}
     for(const auto& entry:s.entries){
         if(entry.first==s.player||!entry.second.diagnosticAI)continue;
         if(s.actorDecisionProvider)continue;
         auto* a=s.world->find_actor(entry.first);
         if(!s.command_request(entry.first,a->target_id,dt,error))return false;
     }
-    for(const auto& entry:s.entries)if(!s.facts(entry.first,error))return false;
+    {DH_PROBE("sim.facts");for(const auto& entry:s.entries)if(!s.facts(entry.first,error))return false;}
     std::set<ActorId> ownedBeforeUpdate;
     for(const auto& entry:s.entries)if(s.runtime->owns_pose(entry.first))ownedBeforeUpdate.insert(entry.first);
     const bool playerActionWasActive=player->action==CharacterAction::attacking||ownedBeforeUpdate.count(s.player)!=0;
-    if(!s.runtime->update(dt,s.events,error))return false;
+    {DH_PROBE("sim.runtime.update");if(!s.runtime->update(dt,s.events,error))return false;}
     if(playerActionWasActive&&!s.runtime->owns_pose(s.player)&&player->action!=CharacterAction::attacking&&
        s.stickyPlayerTarget!=invalid_actor_id){
         const auto* target=s.world->find_actor(s.stickyPlayerTarget);
@@ -1556,7 +1557,7 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
         // Start idle at its first frame and advance it on the next update.
         if(!entry.second.visual->update(ownedBeforeUpdate.count(entry.first)?0:dt*entry.second.idleRate,error))return false;
     }
-    if(!s.deliver_motion_phase(dt,error))return false;
+    {DH_PROBE("sim.deliver_motion_phase");if(!s.deliver_motion_phase(dt,error))return false;}
     // Snapshot registration order; an object added by a callback starts its
     // frame advancement on the next update. Pin entries across consumer removal.
     const auto objects=s.objectOrder;

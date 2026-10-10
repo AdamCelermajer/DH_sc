@@ -36,7 +36,6 @@
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
 #include "features/combat/context_button_v1.hpp" // P16 CONTEXT: Space context button + action icon
 #include "features/interactions/interactable_registry_v1.hpp" // P16 CONTEXT: interaction-type providers (chests/NPCs register here)
-#include "features/loot/world_item_contact_v1.hpp" // P16 CONTEXT: walk-over pickup contact rule
 #include "features/generic_skills/runtime_skills_menu_v1.hpp"
 #include "features/generic_skills/runtime_skill_progression_v1.hpp"
 #include "features/generic_skills/runtime_skill_session_training_v1.hpp"
@@ -93,6 +92,7 @@
 #include "features/physics/session_actor_transition_v1.hpp"
 #include "features/audio/runtime_audio_host_v1.hpp"
 #include "features/audio/level_music_v1.hpp"
+#include "features/audio/frontend_music_v1.hpp"  // B064 frontend title/main-menu music
 #include "features/audio/runtime_session_audio_v1.hpp"
 #include "features/loot/world_item_sound_v1.hpp"
 #include "features/frontend/creation/generic_creation_host_v1.hpp"
@@ -117,6 +117,7 @@
 #include "original_scene.hpp"
 #include "platform_win32.hpp"
 #include "renderer.hpp"
+#include "frame_perf.hpp" // B062 diagnostic timing (DH_PERF)
 #include "features/equipment/source_equipment_material_binding.hpp"
 #include "render_queue.hpp"
 #include "save_store.hpp"
@@ -678,13 +679,20 @@ int main(int argc,char** argv) {
         };
         bool returnMenuScriptConsumed=false;
         bool bootShown=false;  // Preview 15: the boot runs once per process, not on return-to-menu
-        f::Window window;f::Renderer renderer;bool windowOpened=false;
+        f::Window window;f::Renderer renderer;bool windowOpened=false;renderer.setGlLoader(&f::Window::gl_proc); // B066: buffer objects for static level geometry
         for(;;) {
         auto sharedCharacter=std::make_shared<f::CharacterState>(f::make_default_character());
         auto& state=*sharedCharacter;
         f::frontend::creation::RuntimeCreationSourceOwnerV1 menuSourceOwner;
         dh2::data::LootRandom8V2 creationRandom{};
         bool frontendStarted=false;
+#if defined(_WIN32)
+        // B064: the frontend audio session and its music request live for the whole menu->loading route so the
+        // title track keeps playing across screens and the loading screen (original: PlayMusic fade 2000 until the
+        // level replaces it). Shut down at the gameplay audio handoff below.
+        std::unique_ptr<f::audio::FrontendMenuAudioSessionV1> menuAudio;
+        f::audio::FrontendMusicDirectorV1 menuMusic;
+#endif
         std::optional<dh2::data::CombatRandom> frontendRandomState;
         if(options.startMode=="menu"&&!options.probe) {
             namespace creation=f::frontend::creation;
@@ -695,6 +703,56 @@ int main(int argc,char** argv) {
                 windowOpened=true;
             } else if((window.width()!=width||window.height()!=height)&&!window.resize(width,height))
                 throw std::runtime_error("Frontend retained window resize: "+window.error());
+#if defined(_WIN32)
+            // B064: frontend audio owner (clicks + title/main-menu music). Created on the first focused frame,
+            // possibly already at the title screen of the boot, and reused by the menu.
+            const auto pumpMenuAudio=[&]() {
+                if(!menuAudio)return;
+                menuAudio->pump_receipts();dh2::audio::AudioReceiptV34 receipt;
+                while(menuAudio->take_receipt(receipt))std::cout<<"Frontend audio device token="<<receipt.token<<" kind="<<int(receipt.kind)<<" frame="<<receipt.frame<<'\n';
+                // Producer stats: proves the title track is still owned and looping (sounds.xml loop=yes).
+                static double lastStateSeconds=-100.0;const double nowSeconds=window.seconds();
+                if(menuAudio->music_ordinal()>=0&&nowSeconds-lastStateSeconds>=5.0) {
+                    lastStateSeconds=nowSeconds;std::string stateError;
+                    const bool playing=menuAudio->music_playing(stateError);
+                    std::cout<<"Frontend music state: ordinal="<<menuAudio->music_ordinal()<<" playing="<<int(playing)<<(stateError.empty()?"":" diagnostic="+stateError)<<std::endl;
+                }
+            };
+            const auto applyMenuMusic=[&]() {
+                if(!menuAudio||!menuMusic.has_pending())return;
+                const auto request=menuMusic.pending();
+                f::audio::FrontendMusicReceiptV1 receipt;std::string musicError;
+                if(!menuAudio->play_music(request.track.c_str(),request.fade_ms,receipt,musicError)) {
+                    menuMusic.applied();std::cerr<<"Frontend music diagnostic: "<<musicError<<std::endl;return;
+                }
+                using Status=f::audio::FrontendMusicStatusV1;
+                if(receipt.status==Status::skipped_without_focus)return; // retried on the next focused frame
+                if(receipt.status==Status::output_not_ready) { // device clock not published yet: retry silently, log once per request
+                    static std::string notedScreen;
+                    if(notedScreen!=request.screen){notedScreen=request.screen;std::cout<<"Frontend music waiting for the output clock screen="<<request.screen<<" detail="<<receipt.detail<<std::endl;}
+                    return;
+                }
+                menuMusic.applied();
+                const char* kind=receipt.status==Status::started?"start":receipt.status==Status::resumed?"resume":
+                    receipt.status==Status::switched?"switch":"skip";
+                std::cout<<f::audio::music_transition_line_v1("Frontend",kind,request.track,request.fade_ms,
+                    "screen="+request.screen+" ordinal="+std::to_string(receipt.source_ordinal)+" uid="+std::to_string(receipt.xml_sound_uid)+
+                    (receipt.detail.empty()?"":" detail="+receipt.detail))<<std::endl;
+            };
+            const auto menuAudioActivity=[&](bool focused,bool minimized) {
+                if(!options.runtimeAudio)return;
+                std::string audioError;
+                if(!menuAudio&&focused&&!minimized) {
+                    auto audio=std::make_unique<f::audio::FrontendMenuAudioSessionV1>();
+                    const auto audioRoot=options.audioAssets.empty()?assets.root():options.audioAssets;
+                    if(audio->start(fs::absolute(audioRoot).generic_string(),focused,minimized,audioError))menuAudio=std::move(audio);
+                    else std::cerr<<"Frontend audio initialization diagnostic: "<<audioError<<'\n';
+                }
+                if(menuAudio&&!menuAudio->window_activity(focused,minimized,audioError))std::cerr<<"Frontend audio activity diagnostic: "<<audioError<<'\n';
+                applyMenuMusic();
+                pumpMenuAudio();
+            };
+#endif
             // Preview 15 startup boot (original order): intro movie (contains the Gameloft logo, SKIP) -> touch to
             // continue -> main menu, first menu entry only. --skip-boot bypasses it for tests; boot asset failures
             // are logged and the menu still runs.
@@ -713,14 +771,33 @@ int main(int argc,char** argv) {
                 if(bootOutput.open(bootAudioError)) {
                     bootConfig.audio_mixer=bootMixer.get();
                     bootConfig.audio_latency_frames=std::uint64_t(f::audio::kWinmmBufferCount)*f::audio::kWinmmFramesPerBuffer;
-                    bootConfig.audio_pump=[&bootOutput](){std::string e;if(!bootOutput.update(e)){static bool reported=false;if(!reported){reported=true;std::cerr<<"Boot audio pump: "<<e<<std::endl;}}};
+                    bootConfig.audio_pump=[&bootOutput](){std::string e;if(bootOutput.opened()&&!bootOutput.update(e)){static bool reported=false;if(!reported){reported=true;std::cerr<<"Boot audio pump: "<<e<<std::endl;}}};
                 } else std::cerr<<"Boot audio unavailable ("<<bootAudioError<<"); the movie runs on the wall clock"<<std::endl;
+#if defined(_WIN32)
+                // B064: original menu_splash show -> NativePlayMusic("TitleMusic"). The boot output (movie sound,
+                // already released by the runner) is closed first so one WinMM output exists at a time.
+                bool bootTitleReached=false;
+                bootConfig.on_title_entered=[&]() {
+                    bootOutput.close();
+                    bootTitleReached=true;
+                    menuAudioActivity(window.focused(),window.minimized());
+                    menuMusic.on_screen("title_splash");
+                    applyMenuMusic();
+                };
+                // From the title screen on, the same per-frame call the menu uses keeps the music request retried
+                // (unfocused start) and its receipts drained.
+                const auto baseAudioPump=bootConfig.audio_pump;
+                bootConfig.audio_pump=[&,baseAudioPump](){
+                    if(baseAudioPump)baseAudioPump();
+                    if(bootTitleReached)menuAudioActivity(window.focused(),window.minimized());
+                };
+#endif
                 const auto boot=f::startup::run_boot_v1(window,renderer,bootConfig);
                 bootOutput.close();
                 // std::endl flushes: verification jobs may be killed after the boot ends.
-                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown
+                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown<<" segments=\""<<boot.movie_segments<<"\" presses_ignored="<<boot.movie_presses_ignored
                          <<" movie_clock=\""<<boot.movie_clock<<"\" soundtrack_seconds="<<boot.soundtrack_seconds
-                         <<" soundtrack_duration="<<boot.soundtrack_duration<<" soundtrack_released="<<int(boot.soundtrack_released)
+                         <<" soundtrack_duration="<<boot.soundtrack_duration<<" handoff_voices="<<boot.handoff_voices<<" handoff_released="<<int(boot.handoff_released)<<" soundtrack_released="<<int(boot.soundtrack_released)
                          <<" seconds="<<boot.seconds<<std::endl;
                 if(!boot.error.empty())std::cerr<<"Boot: "<<boot.error<<std::endl;
                 if(boot.outcome==f::startup::BootRunOutcome::quit)return 0;
@@ -838,25 +915,9 @@ int main(int argc,char** argv) {
             };
             f::frontend::FrontendRuntimeServicesV1 frontendServices;
 #if defined(_WIN32)
-            std::unique_ptr<f::audio::FrontendMenuAudioSessionV1> menuAudio;
-            const auto pumpMenuAudio=[&]() {
-                if(!menuAudio)return;
-                menuAudio->pump_receipts();dh2::audio::AudioReceiptV34 receipt;
-                while(menuAudio->take_receipt(receipt))std::cout<<"Frontend audio device token="<<receipt.token<<" kind="<<int(receipt.kind)<<" frame="<<receipt.frame<<'\n';
-            };
-            const auto menuAudioActivity=[&](bool focused,bool minimized) {
-                if(!options.runtimeAudio)return;
-                std::string audioError;
-                if(!menuAudio&&focused&&!minimized) {
-                    auto audio=std::make_unique<f::audio::FrontendMenuAudioSessionV1>();
-                    const auto audioRoot=options.audioAssets.empty()?assets.root():options.audioAssets;
-                    if(audio->start(fs::absolute(audioRoot).generic_string(),focused,minimized,audioError))menuAudio=std::move(audio);
-                    else std::cerr<<"Frontend audio initialization diagnostic: "<<audioError<<'\n';
-                }
-                if(menuAudio&&!menuAudio->window_activity(focused,minimized,audioError))std::cerr<<"Frontend audio activity diagnostic: "<<audioError<<'\n';
-                pumpMenuAudio();
-            };
             frontendServices.window_activity=menuAudioActivity;
+            // B064: authored onPush music request of the screen now on top (frontend_music_v1 rule table).
+            frontendServices.navigation.menu_entered=[&](const char* menu){menuMusic.on_screen(menu);applyMenuMusic();};
             frontendServices.navigation.authored_menu_sound=[&](const char* menu,const char* button,const char* action) {
                 if(!options.runtimeAudio)return;
                 menuAudioActivity(window.focused(),window.minimized());
@@ -961,7 +1022,8 @@ int main(int argc,char** argv) {
             menuConfig.selected_slot={options.selectedSaveSlot,fs::is_regular_file(slotPath(options.selectedSaveSlot)),slotPath(options.selectedSaveSlot)};
             const auto result=frontend.complete(f::frontend::run_frontend_v1(window,renderer,menuConfig,frontend.runtime_services()));
 #if defined(_WIN32)
-            if(menuAudio){pumpMenuAudio();std::string audioError;if(!menuAudio->shutdown(audioError))throw std::runtime_error("Frontend audio shutdown: "+audioError);menuAudio.reset();}
+            // B064: menuAudio stays alive (title music continues through the loading screen); see the gameplay audio handoff.
+            if(menuAudio)pumpMenuAudio();
 #endif
             if(!result.gameplay_started_for(sharedCharacter,options.selectedSaveSlot)) {
                 if(result.frontend.outcome==f::frontend::FrontendRuntimeOutcomeV1::host_failed||result.frontend.outcome==f::frontend::FrontendRuntimeOutcomeV1::source_operation_failed)
@@ -1373,7 +1435,6 @@ int main(int argc,char** argv) {
         loadContent(scene,visual);
         f::OriginalMeleeBindings meleeBindings;std::shared_ptr<f::CombatSession> combatSession;f::ObjectOfInterestOwnerV1 objectOfInterest; // B004/B029
         f::InteractableRegistryV1 interactables; // P16 CONTEXT: non-actor interaction-type providers (empty until containers/NPC register)
-        f::loot::WorldItemContactTrackerV1 worldItemContacts; // P16 CONTEXT: walk-over pickup state
         int lastActionIcon=-2; // P16 CONTEXT: last published HUD action-button frame (log on change)
         bool actionButtonHeld=false; // P16 HUDART: Space held this frame (pressed ring of the action button)
         const auto bindSourcePlayerLocomotion=[&](f::CombatSession& session) {
@@ -2346,6 +2407,8 @@ int main(int argc,char** argv) {
             for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
         bindMaterials();
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
+        // B056: Details list damask is the MenuGraphics02 picture (shipped texture, not the MenusGraphics_droid atlas).
+        std::uint32_t menuDamaskTexture=options.hud?loadTexture("MenuGraphics02.tga"):0;
         f::CombatTextLiveAdapter combatText;
         std::optional<f::Camera> combatTextCamera;
         std::uint64_t combatTextResults=0,combatTextDrawnFrames=0;
@@ -2425,6 +2488,25 @@ int main(int argc,char** argv) {
         f::CameraTimeline timeline({{0,start,false},{3,end,false},{5,cut,true},{8,start,false}});
         bool useTimeline=options.timeline;
         if(useTimeline) timeline.play();
+#if defined(_WIN32)
+        // B064: frontend -> gameplay audio handoff. The original crossfades the title track into the level music at the
+        // first Level::Update (PlayMusic fade 2000). The gameplay audio is a different output session, so the title
+        // track fades out here (kFrontendMusicHandoffFadeMs) and the frontend output is closed before it starts.
+        if(menuAudio) {
+            std::string handoffError;
+            if(menuAudio->music_ordinal()>=0) {
+                const int fadeMs=f::audio::kFrontendMusicHandoffFadeMs;
+                const auto ordinal=menuAudio->music_ordinal();
+                if(menuAudio->stop_music(fadeMs,handoffError)) {
+                    std::cout<<f::audio::music_transition_line_v1("Frontend","handoff-stop","TitleMusic",fadeMs,"ordinal="+std::to_string(ordinal))<<std::endl;
+                    const double until=window.seconds()+double(fadeMs)/1000.0+0.1;
+                    while(window.seconds()<until){menuAudio->pump_receipts();dh::foundation::platform_sleep_milliseconds(10);}
+                } else std::cerr<<"Frontend music handoff diagnostic: "<<handoffError<<std::endl;
+            }
+            if(!menuAudio->shutdown(handoffError))throw std::runtime_error("Frontend audio shutdown: "+handoffError);
+            menuAudio.reset();
+        }
+#endif
         std::unique_ptr<f::audio::RuntimeSessionAudioV1> runtimeAudio;
         if(options.runtimeAudio) {
             try {
@@ -2514,6 +2596,17 @@ int main(int argc,char** argv) {
         // Preview 14/15: Stats +/- staged spends of one menu visit (features/character_menu/stat_training_v1.hpp); cleared at each open.
         auto statTrainingVisit=std::make_shared<f::character_menu::StatTrainingVisitV1>();
         bool equipmentRebindRequested=false; // P14 DROPS: a pickup added a definition the equipment text policy must list
+        // B061: the gameplay body shows the equipped modular parts (helm/torso/gloves/boots),
+        // using the same slot-to-part plan as the equipment page. A failure keeps the old body.
+        const auto syncPlayerBodyParts=[&]() {
+            if(!runtimeEquipment)return;
+            std::vector<std::string> ids;std::string syncError;
+            if(!runtimeEquipment->body_controller_ids(ids,syncError)||!visual.reselect_controllers(assets,ids,syncError)) {
+                std::cerr<<"Player body equipment diagnostic: "<<syncError<<'\n';return;
+            }
+            bindMaterials();
+            std::cout<<"Player body parts:";for(const auto& id:ids)std::cout<<' '<<id;std::cout<<'\n';
+        };
         const auto bindEquipmentPage=[&]() {
             if(!combatSession||!menuSourceOwner.valid())return;
             std::string equipmentError;
@@ -2595,6 +2688,7 @@ int main(int argc,char** argv) {
                 runtimeEquipmentAttachments=initialRender.attachments;
             } else if(!equipmentError.empty())throw std::runtime_error(equipmentError);
             runtimeEquipment=std::move(binding);runtimeEquipmentPage=std::move(page);
+            syncPlayerBodyParts(); // B061
         };
         const auto retireEquipmentPage=[&]() {
             // The provider borrows the actor/Scene through this binding. Retire
@@ -2754,6 +2848,7 @@ int main(int argc,char** argv) {
         // P14 DROPS: presentation + pickup state for items lying in the world.
         std::unique_ptr<f::interactions::WorldDropRuntimeV1> worldDrops;
         f::loot::RuntimeWorldItemIdV1 worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+        f::loot::WorldItemContactTrackerV1 worldItemContacts; // B063: walk-over pickup (contact begin triggers Interact, no key)
         double worldItemFractionMs=0;
         std::string worldItemStatus;std::uint32_t worldItemStatusRgb=0xFFFFFF;int worldItemStatusFrames=0;
         dh2::ui::HudTextV1* dropHudText=nullptr;dh2::ui::HudTextEnvironmentV1 dropTextEnvironment;
@@ -2799,7 +2894,7 @@ int main(int argc,char** argv) {
             if(!worldItems)worldItems=std::make_shared<f::loot::RuntimeWorldItemAdapterV1>(menuSourceOwner.loot_owner->borrow());
             // P14 DROPS: ground items belong to the session being bound. A reload
             // (R/F5-F9) or new session clears them; nothing is granted or duplicated.
-            if(worldItems){worldItems->clear();worldItemTarget=f::loot::invalid_runtime_world_item_v1;}
+            if(worldItems){worldItems->clear();worldItemTarget=f::loot::invalid_runtime_world_item_v1;worldItemContacts.clear();}
             ++rewardBindingGeneration;
             f::loot::RuntimeSessionDeathRewardBindingsV1 rewardBindings;
             rewardBindings.gameplay_context_lease=rewardContext;rewardBindings.context=rewardContext.get();
@@ -3632,14 +3727,17 @@ int main(int argc,char** argv) {
             if(!despawnOwner.advance(static_cast<std::uint32_t>(wholeMs),services,e))return false;
             return despawnOwner.poll(services,e);
         };
+        dh::foundation::FramePacer framePacer; // B066: deadline pacing replaces sleep(1) (a 15.6 ms tick on Windows)
         while(!window.should_close()) {
+            dh::foundation::perf::FramePerf::get().begin_frame(); // B062: unclamped per-phase timing, DH_PERF=1
+            framePacer.begin(); // B066
             if(options.hud&&combatSession)bindEquipmentPage();
             combatTextFrame=drawn;
             if(drawn==options.resizeFrame) {
                 if(!window.resize(options.resizeWidth,options.resizeHeight))throw std::runtime_error("Window resize: "+window.error());
                 std::cout<<"Window resized frame="<<drawn<<" width="<<options.resizeWidth<<" height="<<options.resizeHeight<<'\n';
             }
-            window.poll();
+            window.poll();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::poll);
             if(drawn==options.pausePageFrame){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source-page diagnostic\n";}
             if(!window.key_down(VK_ESCAPE))escapeClosedMenu=false;
             semanticInput.set_menu_open(characterMenu.is_open()||pauseMenuOpen);
@@ -3776,6 +3874,7 @@ int main(int argc,char** argv) {
                             if(changed.actor_id!=combatSession->player_id()||changed.same_session_visual!=combatSession->retained_actor_visual_borrow(changed.actor_id)||!changed.attachments)
                                 throw std::runtime_error("Equipment render receipt lost the same Session visual");
                             runtimeEquipmentAttachments=changed.attachments;
+                            syncPlayerBodyParts(); // B061
                             if(locomotionLibrary)bindSourcePlayerLocomotion(*combatSession);
                             std::cout<<"Equipment render revision="<<changed.revision<<" actor="<<changed.actor_id<<'\n';
                             std::cout<<"Equipment state count="<<sharedCharacter->equipment.size()<<" attachments="<<changed.attachments->attachments().size();
@@ -3786,7 +3885,7 @@ int main(int argc,char** argv) {
                 }
             }
             if(returnToFrontend) {
-                if(worldItems)worldItems->clear(); // P14 DROPS: ground items never survive a return to the main menu
+                if(worldItems){worldItems->clear();worldItemContacts.clear();} // P14 DROPS: ground items never survive a return to the main menu
                 // B040: original MenuMainMenu::Hide StopMusic(1000); must run while the gameplay audio host is still alive.
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->on_return_to_menu(audioError))std::cerr<<"Audio return-to-menu diagnostic: "<<audioError<<'\n';}
                 std::string saveError;
@@ -3821,6 +3920,7 @@ int main(int argc,char** argv) {
             semanticInput.set_menu_open(characterMenu.is_open()||pauseMenuOpen);
             if(characterMenu.is_open()||pauseMenuOpen)uiInput.actions={};
             double now=window.seconds();dt=options.fixedStep>0?options.fixedStep:std::clamp(now-previous,0.,.1);previous=now;
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::input);
             // B039 measurement: per-second frame count and worst clamped frame time, printed only with --frames.
             if(options.frames>0) {static double secondStart=now,worstDt=0;static int secondFrames=0,secondIndex=0;++secondFrames;worstDt=std::max(worstDt,dt);if(now-secondStart>=1.0){++secondIndex;std::cout<<"Frame rate second="<<secondIndex<<" frames="<<secondFrames<<" worstFrameMs="<<worstDt*1000.0<<'\n';secondStart=now;secondFrames=0;worstDt=0;}}
             if(runtimeAudio) {std::string audioError;if(!runtimeAudio->window_activity(window.focused(),window.minimized(),audioError))std::cerr<<"Audio activity diagnostic: "<<audioError<<'\n';}
@@ -3989,7 +4089,7 @@ int main(int argc,char** argv) {
                 clearNativeBodies();combatSession.reset();
                 populationMotors.clear();
                 f::OriginalScene nextScene;f::CharacterVisual nextVisual;
-                loadContent(nextScene,nextVisual);scene=std::move(nextScene);visual=std::move(nextVisual);initializeCombat();bindMaterials();
+                renderer.invalidateStaticGeometry();loadContent(nextScene,nextVisual);scene=std::move(nextScene);visual=std::move(nextVisual);initializeCombat();bindMaterials();
                 prepareBodyPlans();
                 if(liveSnapshot){combatSession->actor(combatSession->player_id())->persistent_character_id=state.id;combatSession->detach_for_restore();if(!f::restore_game_save(*liveSnapshot,options.level.generic_string(),*combatSession->world(),state,error)||!combatSession->rebind_after_restore(error))throw std::runtime_error("Reload live actors: "+error);}
                 if(combatSession){faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();}
@@ -4348,17 +4448,19 @@ int main(int argc,char** argv) {
                 bindEnemyAI();
                 const f::RetainedFrameAudioClock* audioClock=nullptr;
                 if(runtimeAudio) {
+                    dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::input);
                     bool minimalRandoms=false;std::string audioError;
                     const bool settingsKnown=!sourceScopes||sourceScopes->debug_switch("MP_MinimalRandoms",minimalRandoms,audioError);
                     auto listenerCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
                     if(settingsKnown)audioClock=runtimeAudio->before_update(listenerCamera,window.focused(),window.minimized(),minimalRandoms,std::uint64_t(drawn),audioError);
                     // P15 FAERYSOUND (B050): submit this frame's queued Faery cast sounds on the same device clock (nullptr drops them, logged).
                     if(runtimeAudio){std::string faeryAudioError;if(!runtimeAudio->flush_faery_pre_sounds(audioClock,faeryAudioError)&&!faeryAudioError.empty())std::cerr<<"Faery cast sound diagnostic: "<<faeryAudioError<<'\n';}
+                    dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::audio_pre);
                     if(!audioError.empty()&&drawn==0)std::cerr<<"Audio frame diagnostic: "<<audioError<<'\n';
                     if(gameplayPaused&&audioClock&&(gameplayPausedFrames==1||gameplayPausedFrames%60==0))
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
-                if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);
+                {DH_PROBE("combatSession.update");if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);}
                 // P16 SPACEBTN: the OOI candidates that are not combat actors are re-registered each frame from their owners:
                 // containers (source GetInteractionType: openable 0, destructible 8; broken destructibles are not candidates)
                 // and talk NPCs (type 3, Character so they queue with the characters, as in the source flag order).
@@ -4386,6 +4488,7 @@ int main(int argc,char** argv) {
                         }
                 }
                 if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest,&interactables); // B004/B029 (+P16 registry)
+                dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sim_update); // B066 frame pacing probe
                 if(!gameplayPaused) { // P16 DESPAWN: per-frame despawn owner (after the combat update that produced the death)
                     std::string despawnError;
                     if(!despawnTick(gameplayDt,drawn,despawnError))throw std::runtime_error("Despawn: "+despawnError);
@@ -4452,7 +4555,7 @@ int main(int argc,char** argv) {
                 // P14 DROPS: ground items travel to their landing point. ItemObject::_DoAutoPickupHack: an item whose
                 // PickUpType is Automatic is collected at once by the killer (here: the local player). The nearest item
                 // whose sensor box contains the player becomes the target (ItemObject::OnCollisionBegins -> tooltip), and
-                // PC adaptation: the interact key (E) or --pickup-frame while targeted runs ItemObject::Interact.
+                // B063: sensor contact begin (walking onto the item) runs ItemObject::Interact; no key (--pickup-frame is a scripted test hook).
                 if(!gameplayPaused&&worldItems&&worldDrops) {
                     const double worldItemMs=gameplayDt*1000+worldItemFractionMs;const auto worldItemWhole=std::uint32_t(worldItemMs);worldItemFractionMs=worldItemMs-worldItemWhole;
                     worldItems->advance(worldItemWhole);
@@ -4483,7 +4586,8 @@ int main(int argc,char** argv) {
                             else if(!itemDisplayName(shown,shownName,textError))shownName=pickedId;
                             worldItemStatus=shownName;worldItemStatusRgb=rgb;worldItemStatusFrames=90;
                         } else if(pickup.outcome==f::loot::WorldItemPickupOutcomeV1::inventory_full) {
-                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError))worldItemStatus=text;else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
+                            // B063: the localized line carries font markup and may carry line breaks; the single-line HUD label needs plain text.
+                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError)){{std::string plain;bool inTag=false;for(const char ch:text){if(ch=='<'){inTag=true;continue;}if(ch=='>'&&inTag){inTag=false;continue;}if(!inTag)plain+=(static_cast<unsigned char>(ch)<32||ch==127)?' ':ch;}text=plain;}worldItemStatus=text;}else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
                             worldItemStatusRgb=0xFFFFFF;worldItemStatusFrames=90;
                         }
                     };
@@ -4498,27 +4602,15 @@ int main(int argc,char** argv) {
                     f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
                     if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItemTarget!=previousTarget&&worldItems->inspect(worldItemTarget,targetEntry,targetError))
                         std::cout<<"World item target frame="<<drawn<<" item="<<worldItemTarget<<" id="<<(targetEntry.authored_item?worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id)):std::string("?"))<<" qty="<<targetEntry.quantity<<" position="<<targetEntry.source_position[0]<<","<<targetEntry.source_position[1]<<","<<targetEntry.source_position[2]<<'\n';
-                    // P16 CONTEXT: walk-over pickup (no E key). Contact = the item's sensor box holds the player; a contact that
-                    // begins while the character is moving is consumed on the next update (ItemObject::OnCollisionBegins +
-                    // GameObject::Update -> ItemObject::Interact). Standing still on an item picks nothing up.
-                    if(itemPlayer&&itemPlayer->alive()) {
-                        std::vector<f::loot::RuntimeWorldItemIdV1> contacts;
-                        for(const auto& pair:worldItems->entries()) {
-                            const auto& p=pair.second.source_position;
-                            if(std::fabs(p[0]-itemPlayer->transform.position[0])<=f::loot::world_item_sensor_half_extent_v1&&std::fabs(p[1]-itemPlayer->transform.position[1])<=f::loot::world_item_sensor_half_extent_v1)
-                                contacts.push_back(pair.first);
-                        }
-                        static std::size_t lastContactCount=~std::size_t(0);
-                        if(contacts.size()!=lastContactCount) { // diagnostic: contact set changes (walk-over evidence)
-                            lastContactCount=contacts.size();
-                            std::cout<<"World item contacts frame="<<drawn<<" count="<<contacts.size()<<" moving="<<(itemPlayer->action==f::CharacterAction::moving)<<" player="<<itemPlayer->transform.position[0]<<","<<itemPlayer->transform.position[1]<<'\n';
-                        }
-                        const auto due=worldItemContacts.advance(std::uint64_t(combatSession->player_id()),itemPlayer->action==f::CharacterAction::moving,contacts,
-                            [&](f::loot::RuntimeWorldItemIdV1 id){f::loot::RuntimeWorldItemEntryV1 e;std::string err;return worldItems->inspect(id,e,err);});
-                        for(const auto id:due)runWorldItemPickup(id,"walk-over");
-                    }
                     // --pickup-frame is a scripted test hook (quiet batches), not a player input; it picks the current target.
                     const bool scheduledPickup=std::find(options.pickupFrames.begin(),options.pickupFrames.end(),int(drawn))!=options.pickupFrames.end();
+                    // B063: walking onto an item picks it up (user rule; Space/E stays the context button for chests and NPCs
+                    // and is NOT a pickup key). Every item whose sensor begins contact with the living player runs
+                    // ItemObject::Interact once (gates inside interact_world_item_v1: owner window, inventory full, potion capacity).
+                    if(itemPlayer&&itemPlayer->alive()) {
+                        for(const auto contactId:worldItemContacts.begin_contacts(*worldItems,itemPlayer->transform.position,itemPlayer->action==f::CharacterAction::moving))
+                            runWorldItemPickup(contactId,"walkover");
+                    } else worldItemContacts.clear();
                     if(scheduledPickup&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1)
                         runWorldItemPickup(worldItemTarget,"scripted");
                     if(worldItemStatusFrames>0)--worldItemStatusFrames;
@@ -4606,6 +4698,7 @@ int main(int argc,char** argv) {
                     sourceTargetNodeQueries+=result.node_queried;sourceTargetCacheWrites+=result.cache_written;
                 }
             }
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::post_update);
             renderer.resize(window.width(),window.height());
             if(options.sourceCamera) {
                 const double elapsedMs=gameplayDt*1000+cameraFractionMs;
@@ -4623,6 +4716,7 @@ int main(int argc,char** argv) {
             if(options.sourceNativeBodies&&!sourcePhysicalFrameEnabled)for(const auto& entry:sourceBodyPlans){auto* actor=combatSession->actor(entry.first);if(!nativeBodies.set_position(entry.first,actor->transform.position,false,error))throw std::runtime_error("Native body position sync: "+error);}
             auto activeCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
             if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=originalCamera.config().nearPlane;activeCamera.farPlane=originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
                 std::string effectError;bool prepared=true;
@@ -4632,8 +4726,10 @@ int main(int argc,char** argv) {
                     if(sourceEffectsMs>std::numeric_limits<std::int32_t>::max()-integerMs){effectError="Source FX gameplay clock exceeds supported range";prepared=false;}
                     else {sourceEffectsMs+=integerMs;prepared=sourceEffectsFactory->runtime().update(std::uint64_t(drawn)+1,sourceEffectsMs,integerMs,effectError);}
                 }
+                dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_update);
                 std::shared_ptr<const f::effects::EffectRenderFrame> frame;
                 if(prepared)prepared=sourceEffectsFactory->runtime().prepare_render_frame(frame,effectError);
+                dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_render_prep);
                 if(prepared&&frame&&!frame->packets.empty()) {
                     ++sourceEffectsPacketFrames;sourceEffectsPackets+=frame->packets.size();
                     prepared=sourceEffectsRenderer.enqueue(frame,effectError);
@@ -4641,6 +4737,7 @@ int main(int argc,char** argv) {
                 }
                 if(!prepared){sourceEffectsPresentationFailed=true;std::cerr<<"Source FX presentation diagnostic frame="<<drawn<<": "<<effectError<<'\n';}
             }
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::ctext);
             if(options.combatText) {
                 combatTextCamera=activeCamera;
                 const double elapsed=gameplayDt*1000+combatTextFractionMs;const auto integerMs=std::uint32_t(elapsed);combatTextFractionMs=elapsed-integerMs;
@@ -4670,11 +4767,13 @@ int main(int argc,char** argv) {
                     std::cout<<"total="<<mapVisits.visited_count()<<'\n';
                 }
             }
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_prepare);
             renderer.beginFrame(activeCamera);
             auto actorWorld=f::identity();float angle=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0),c=std::cos(angle),s=std::sin(angle);
             actorWorld[0]=c*actorScale.x;actorWorld[1]=s*actorScale.x;actorWorld[4]=-s*actorScale.y;actorWorld[5]=c*actorScale.y;actorWorld[10]=actorScale.z;
             actorWorld[12]=options.actorPosition.x;actorWorld[13]=options.actorPosition.y;actorWorld[14]=options.actorPosition.z;
             f::RenderQueue queue;
+            scene.mesh.staticGeometry=true; // B066: level geometry never changes after load (GPU buffers, range caches, frustum culling)
             if(!scene.mesh.vertices.empty())queue.submit(scene.mesh);
             for(const auto& mesh:visual.meshes())queue.submit(mesh,actorWorld);
             const auto& displayedEquipment=runtimeEquipmentAttachments?runtimeEquipmentAttachments->attachments():equipment.attachments();
@@ -4727,8 +4826,9 @@ int main(int argc,char** argv) {
                     }
                 } else {static std::string lastDropError;if(lastDropError!=dropError){lastDropError=dropError;std::cerr<<"World item presentation diagnostic frame="<<drawn<<": "<<dropError<<'\n';}}
             }
-            queue.flush(renderer,activeCamera);
-            if(!sourceEffectsRenderer.draw_queued(error))throw std::runtime_error("Source FX draw: "+error);
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::scene_build);
+            queue.flush(renderer,activeCamera);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::world_draw);
+            if(!sourceEffectsRenderer.draw_queued(error))throw std::runtime_error("Source FX draw: "+error);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_draw);
             if(options.hud) {
                 auto frame=[&](unsigned current,unsigned maximum){auto n=std::int32_t(std::uint32_t(actorProperties.sheets.resolved[current])*100u);auto d=actorProperties.sheets.resolved[maximum];if(!d)throw std::runtime_error("Unbound HUD maximum");return unsigned(std::clamp(int(std::int64_t(n)/d)-1,0,99));};
                 auto liveFrame=[](float current,float maximum){if(!std::isfinite(current)||!std::isfinite(maximum)||maximum<=0)throw std::runtime_error("Unbound live HUD maximum");return unsigned(std::clamp(int(current*100/maximum)-1,0,99));};
@@ -5115,7 +5215,10 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                                     drawEquipmentPane(sourcePanes[i]);drawnPanes[i]=true;
                                 }
                         std::vector<f::OverlayTriangleVertex> vertices;for(const auto& v:batch.triangles)vertices.push_back({transform.x+v.x*transform.scale_x,transform.y+v.y*transform.scale_y,v.u,v.v});
-                        if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Character menu original-art draw rejected");
+                        // B056: the Details list damask panel samples MenuGraphics02; skipped when that texture is unavailable.
+                        const bool damaskPanel=batch.role==f::inventory::details_list_damask_role();
+                        if(damaskPanel&&!menuDamaskTexture)continue;
+                        if(!overlay.drawTriangles(vertices,damaskPanel?menuDamaskTexture:hudTexture))throw std::runtime_error("Character menu original-art draw rejected");
                         for(const auto& solid:menu.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
                     }
                     if(characterMenu.tab()==f::character_menu::Tab::map&&!mapDrawn)drawMapPage();
@@ -5222,15 +5325,17 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                 if(characterMenu.is_open()&&statConfirmOpen)drawPauseArt(pauseConfirmArt,true,"GAMEPLAYMENUS_POINTS_CONFIRM");
                 overlay.end();
             }
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::hud_ui);
             renderer.endFrame();
-            if(!sourceEffectsRenderer.finish_and_drain(error))throw std::runtime_error("Source FX drain: "+error);
+            if(!sourceEffectsRenderer.finish_and_drain(error))throw std::runtime_error("Source FX drain: "+error);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_drain);
             ++drawn;
             if(options.frames&&drawn>=options.frames&&!options.capture.empty()) capture(options.capture,window.width(),window.height());
-            window.swap();
+            window.swap();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::swap_present);
             if(options.frames&&drawn>=options.frames) break;
-            dh::foundation::platform_sleep_milliseconds(1);
+            framePacer.wait();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sleep_wait); // B066
         }
         std::cout<<"Source FX final packetFrames="<<sourceEffectsPacketFrames<<" packets="<<sourceEffectsPackets<<" textureUploads="<<sourceEffectsRenderer.texture_uploads()<<" presentationFailed="<<sourceEffectsPresentationFailed<<'\n';
+        dh::foundation::perf::FramePerf::get().finish();
         retireSourceEffects();
         if(options.combatText)std::cout<<"Combat text final results="<<combatTextResults<<" labels="<<combatTextLabels<<" drawnFrames="<<combatTextDrawnFrames<<" active="<<combatText.active_count()<<"; original source snapshots and styles, full CUI call ordering remains incomplete\n";
         if(runtimeAudio) {

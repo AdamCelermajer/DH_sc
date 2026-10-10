@@ -1,4 +1,5 @@
 #include "effects_render_bridge.hpp"
+#include "../../frame_perf.hpp" // B062 diagnostic probes
 #include <algorithm>
 #include <cmath>
 
@@ -54,7 +55,8 @@ bool EffectsRenderBridge::convert(const dh2::skinning::VisualDrawPartV6& part,
         return fail(error,"Original FX index outside retained stream");
     for(auto value:result.world)if(!finite(value))return fail(error,"Nonfinite original FX world transform");
     result.mesh.indices=primitive.indices;DrawRange range;range.indexCount=primitive.indices.size();
-    if(!services.material(result.source,material,range.material,error))return false;
+    {DH_PROBE("fx.convert.material");
+    if(!services.material(result.source,material,range.material,error))return false;}
     if(!range.material.sourcePass)return fail(error,"Required original FX render-pass state");
     if(!material.diffuse.empty()&&!range.material.texture)return fail(error,"Required decoded original FX texture");
     if(!normal&&range.material.lightingEnabled)return fail(error,"FX shader requires unavailable original normal stream");
@@ -63,7 +65,9 @@ bool EffectsRenderBridge::convert(const dh2::skinning::VisualDrawPartV6& part,
 bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& output,std::string& error) const {
     std::vector<dh2::fx::CharacterFxMeshDrawSourceV4> meshes;
     std::vector<dh2::fx::CharacterParticleDrawSourceV3> particles;
-    if(!manager_.mesh_draw_sources_v4(meshes,error)||!manager_.particle_draw_sources_v3(particles,error))return false;
+    {DH_PROBE("fx.prepare.sources");
+    if(!manager_.mesh_draw_sources_v4(meshes,error)||!manager_.particle_draw_sources_v3(particles,error))return false;}
+    DH_PROBE("fx.prepare.convert");
     auto result=std::make_shared<EffectRenderFrame>();
     std::map<std::uintptr_t,std::string> uris;for(const auto& view:manager_.views())uris.emplace(view.identity,view.uri);
     for(const auto& source:meshes) {

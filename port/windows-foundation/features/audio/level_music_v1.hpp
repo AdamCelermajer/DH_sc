@@ -44,10 +44,15 @@ inline bool level_music_start_due_v1(bool hasTrack, bool outputActive,
 // One diagnostic line per level-music transition, so a verifier can confirm
 // transitions from the log without listening. kind: start, resume, switch,
 // revive-stop, revive-restart, return-stop, output-pause, output-resume.
+// B064: the same line for every music owner; scope is "Level" (gameplay) or "Frontend" (title/menu).
+inline std::string music_transition_line_v1(const std::string& scope, const std::string& kind,
+    const std::string& track, int fadeMs, const std::string& detail) {
+    return scope + " music transition: kind=" + kind + " track=" + (track.empty() ? "none" : track) +
+           " fadeMs=" + std::to_string(fadeMs) + (detail.empty() ? "" : " " + detail);
+}
 inline std::string level_music_transition_line_v1(const std::string& kind, const std::string& track,
     int fadeMs, const std::string& detail) {
-    return "Level music transition: kind=" + kind + " track=" + (track.empty() ? "none" : track) +
-           " fadeMs=" + std::to_string(fadeMs) + (detail.empty() ? "" : " " + detail);
+    return music_transition_line_v1("Level", kind, track, fadeMs, detail);
 }
 
 } // namespace dh::foundation::audio

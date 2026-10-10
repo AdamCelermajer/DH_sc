@@ -71,7 +71,7 @@ target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v
 # B004/B029: OOI owner (500 ms candidate refresh) and live Session adapter for the rendered target marker.
 target_sources(dh-foundation PRIVATE features/combat/auto_target_marker_v1.cpp features/combat/object_of_interest_owner_v1.cpp features/combat/object_of_interest_world_v1.cpp)
 # P16 CONTEXT: Space context button, interaction-type registry, walk-over pickup contact (isolated tests: features/combat/run_context_p16_tests.ps1)
-target_sources(dh-foundation PRIVATE features/combat/context_button_v1.cpp features/interactions/interactable_registry_v1.cpp features/loot/world_item_contact_v1.cpp)
+target_sources(dh-foundation PRIVATE features/combat/context_button_v1.cpp features/interactions/interactable_registry_v1.cpp)
 add_library(foundation_runtime_potion STATIC
   features/inventory/runtime_session_potion_use_v1.cpp
   ../level-world/character_skill_application_v6.cpp ../level-world/character_skill_attack_v6.cpp
@@ -115,7 +115,7 @@ add_library(foundation_runtime_audio STATIC
   features/audio/runtime_audio_host_v1.cpp features/audio/runtime_combat_audio_v1.cpp
   features/audio/runtime_session_audio_v1.cpp
   # B040: original LevelConfig music name reader (main.cpp level music hook).
-  features/audio/level_music_v1.cpp
+  features/audio/level_music_v1.cpp features/audio/music_voice_v1.cpp
   features/audio/runtime_attack_sound_v1.cpp
   ${DH2_AUDIO_CONTROL_SOURCES}
   features/audio/feature_audio.cpp
@@ -134,6 +134,9 @@ target_link_libraries(dh-foundation PRIVATE foundation_runtime_audio)
 if(WIN32)
   target_sources(foundation_runtime_audio PRIVATE features/audio/frontend_menu_audio_v1.cpp)
 endif()
+# B064: frontend title/main-menu music rules + Navigator menu_entered hook (pure logic).
+add_executable(frontend_music_v1_tests features/audio/frontend_music_v1_tests.cpp features/frontend/flow/menu_flow.cpp ../engine-audio/audio_sample_v34.cpp)
+add_test(NAME frontend_music_v1 COMMAND frontend_music_v1_tests)
 # P15 AUDIOSTALL (B039): WinMM pump/control thread runs at time-critical priority; focused test.
 if(WIN32)
   add_executable(winmm_pump_priority_v1_tests features/audio/winmm_pump_priority_v1_tests.cpp)
@@ -151,18 +154,36 @@ if(NOT WIN32)
   add_test(NAME linux_sdl2_source_session_control COMMAND linux_sdl2_source_session_control_smoke_tests)
 endif()
 # Preview 15 startup: boot state machine and intro movie (pl_mpeg, MIT, third_party/pl_mpeg). Plain C++, no platform calls.
-add_library(foundation_startup STATIC features/startup/boot_flow_v1.cpp
+add_library(foundation_startup STATIC features/startup/boot_flow_v1.cpp features/startup/intro_segments_v1.cpp
   features/startup/intro_movie_v2.cpp features/startup/pcm_wav_v2.cpp)
 target_include_directories(foundation_startup PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/third_party/pl_mpeg)
 target_link_libraries(dh-foundation PRIVATE foundation_startup)
 # Boot runner uses the renderer/overlay/window and the shared mixer, so it is compiled into the EXE.
-target_sources(dh-foundation PRIVATE features/startup/boot_runner_v1.cpp features/startup/loading_screen_v1.cpp
+target_sources(dh-foundation PRIVATE features/startup/boot_runner_v1.cpp features/startup/loading_screen_v1.cpp features/startup/loading_art_data.cpp
   features/startup/intro_soundtrack_v2.cpp features/startup/text_label_v1.cpp
   features/startup/loading_tip_v1.cpp ../engine-ui/loading_menu_v1.cpp)
 add_executable(startup_boot_flow_v1_tests features/startup/boot_flow_v1_tests.cpp)
 target_link_libraries(startup_boot_flow_v1_tests PRIVATE foundation_startup)
 add_test(NAME startup_boot_flow_v1 COMMAND startup_boot_flow_v1_tests)
+# B054: intro segment table (logo uninterruptible, story skippable)
+add_executable(startup_intro_segments_v1_tests features/startup/intro_segments_v1_tests.cpp)
+target_link_libraries(startup_intro_segments_v1_tests PRIVATE foundation_startup)
+add_test(NAME startup_intro_segments_v1 COMMAND startup_intro_segments_v1_tests)
+if(MINGW)
+  target_link_options(startup_intro_segments_v1_tests PRIVATE -static)
+endif()
+# B055: original menu_Loading geometry consistency
+add_executable(startup_loading_art_v1_tests features/startup/loading_art_v1_tests.cpp features/startup/loading_art_data.cpp)
+add_test(NAME startup_loading_art_v1 COMMAND startup_loading_art_v1_tests)
+# B065: intro soundtrack owner on the real mixer (skip silences + releases, silent logo head, duplicate stop)
+add_executable(startup_intro_soundtrack_v2_tests features/startup/intro_soundtrack_v2_tests.cpp features/startup/intro_soundtrack_v2.cpp
+  ../engine-audio/audio_mixer_v34.cpp ../engine-audio/audio_sample_v34.cpp ../engine-audio/audio_native_envelope_v34.cpp)
+target_link_libraries(startup_intro_soundtrack_v2_tests PRIVATE foundation_startup)
+add_test(NAME startup_intro_soundtrack_v2 COMMAND startup_intro_soundtrack_v2_tests)
+if(MINGW)
+  target_link_options(startup_intro_soundtrack_v2_tests PRIVATE -static)
+endif()
 add_executable(startup_intro_movie_v2_tests features/startup/intro_movie_v2_tests.cpp)
 target_link_libraries(startup_intro_movie_v2_tests PRIVATE foundation_startup)
 set(DH_INTRO_MOVIE_V2_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview15/startup/converted-media-v2/intro_v1.mpg")
@@ -412,6 +433,13 @@ else()
   target_link_libraries(linux_platform_smoke_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
   add_test(NAME linux_platform_smoke COMMAND linux_platform_smoke_tests)
 endif()
+# B066: static level geometry (VBO/culling) pixel equivalence and loop pacing.
+add_executable(renderer_static_geometry_tests tests/renderer_static_geometry_tests.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp render_queue.cpp)
+target_link_libraries(renderer_static_geometry_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
+add_test(NAME renderer_static_geometry COMMAND renderer_static_geometry_tests)
+add_executable(frame_pacer_tests tests/frame_pacer_tests.cpp ${DH2_PLATFORM_SOURCES})
+target_link_libraries(frame_pacer_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
+add_test(NAME frame_pacer COMMAND frame_pacer_tests)
 add_executable(private_save_transport_win32_tests tests/private_save_transport_win32_tests.cpp
   ../level-world/private_save_file_transport_v45.cpp ../level-world/savegame_jobs_owner_v2.cpp
   ../level-world/savegame_stream_v2.cpp ../game-data/fresh_player_profile_v1.cpp

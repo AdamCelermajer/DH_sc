@@ -20,6 +20,12 @@ public:
     bool resize(int width, int height);
     void poll();
     void swap();
+    // B066: explicit vsync control (WGL_EXT_swap_control / SDL_GL_SetSwapInterval). Returns false when unsupported.
+    bool set_swap_interval(int interval) noexcept;
+    // Current driver swap interval, or -1 when it cannot be queried.
+    int swap_interval() const noexcept;
+    // OpenGL entry point lookup for the current context (wglGetProcAddress / SDL_GL_GetProcAddress); null when absent.
+    static void* gl_proc(const char* name) noexcept;
     int width() const noexcept;
     int height() const noexcept;
     bool should_close() const noexcept;

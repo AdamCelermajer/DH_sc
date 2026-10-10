@@ -26,7 +26,7 @@ struct TextLabel {
     std::string error;
 };
 
-enum class LabelAnchor { center, right_bottom };
+enum class LabelAnchor { center, right_bottom, title_prompt };  // title_prompt: centred at 58% of the height (B053, video 0:38-0:45)
 
 // One centred or right-anchored line at the given source size, placed in a w x h window.
 void build_text_label(Renderer& renderer, const AssetCatalog& assets, const char* text, int size, LabelAnchor anchor,
