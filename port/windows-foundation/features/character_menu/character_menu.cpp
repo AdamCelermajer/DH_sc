@@ -16,7 +16,7 @@ bool Presenter::viewport(int width,int height,MenuViewTransform& out,std::string
 }
 bool Presenter::select(Tab next,std::string& error){
     if(!open_){error="Character menu is closed";return false;}
-    if(next!=Tab::stats&&next!=Tab::equipment&&next!=Tab::skills&&next!=Tab::faery){error="Unsupported character menu tab";return false;}
+    if(next!=Tab::stats&&next!=Tab::equipment&&next!=Tab::skills&&next!=Tab::faery&&next!=Tab::quest){error="Unsupported character menu tab";return false;}
     tab_=next;error.clear();return true;
 }
 namespace {
@@ -65,7 +65,7 @@ Action Presenter::release(float x,float y,int width,int height)noexcept {
     const auto action=hit_test(x,y,width,height);
     switch(action){case Action::close:close();break;case Action::stats:tab_=Tab::stats;break;
     case Action::equipment:tab_=Tab::equipment;break;case Action::skills:tab_=Tab::skills;break;
-    case Action::faery:tab_=Tab::faery;break;default:break;}
+    case Action::faery:tab_=Tab::faery;break;case Action::quest:tab_=Tab::quest;break;default:break;}
     return action;
 }
 bool Presenter::frame(const Bindings& b,int width,int height,Frame& output,std::string& error)const {

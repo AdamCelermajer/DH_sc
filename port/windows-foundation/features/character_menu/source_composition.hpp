@@ -30,7 +30,7 @@ inline bool source_stat_training_admissible_v1(
 class SourceCompositionV1 {
     struct State {
         std::shared_ptr<void> owner;
-        std::array<SourcePageProviderV1, 4> pages{};
+        std::array<SourcePageProviderV1, 5> pages{}; // P16 QUESTUI: slot 4 = Quest Log tab
         // Authored NativePushMenu pages are a separate source route from the
         // four CharacterMenu tabs. Keys are exact menu symbols, e.g.
         // menu_QuestLogSheetNEW; no new Tab value is implied.
@@ -47,6 +47,7 @@ class SourceCompositionV1 {
         case Tab::equipment: return 1;
         case Tab::skills: return 2;
         case Tab::faery: return 3;
+        case Tab::quest: return 4;
         }
         return 4;
     }
@@ -317,6 +318,9 @@ public:
             return action;
         case Action::faery:
             if (!select(presenter, Tab::faery, error)) return Action::none;
+            return action;
+        case Action::quest:
+            if (!select(presenter, Tab::quest, error)) return Action::none;
             return action;
         case Action::none: break;
         }

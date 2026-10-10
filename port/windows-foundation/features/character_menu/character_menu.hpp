@@ -4,8 +4,8 @@
 #include "../../original_combat_properties.hpp"
 #include <functional>
 namespace dh::foundation::character_menu {
-enum class Tab { stats,equipment,skills,faery };
-enum class Action { none,stats,equipment,skills,faery,close };
+enum class Tab { stats,equipment,skills,faery,quest }; // P16 QUESTUI: quest = the Quest Log tab (btnQuestLogTab)
+enum class Action { none,stats,equipment,skills,faery,close,quest };
 struct MenuTextField {
     std::string path;std::uint32_t character_id=0,font_id=0;float source_height=0;
     std::array<float,4> bounds{};std::array<std::uint8_t,4> rgba{};unsigned align=0;

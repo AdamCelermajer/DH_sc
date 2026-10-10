@@ -287,6 +287,12 @@ add_library(foundation_runtime_quests STATIC
   features/quest_runtime/quest_zones_v1.cpp
   features/quests/quest_banner_presenter_v1.cpp
   features/quests/character_quest_progress_v1.cpp
+  features/quests/character_quest_page_v1.cpp
+  features/quests/runtime_quest_menu_v1.cpp
+  features/quests/runtime_quest_menu_art_v1.cpp
+  features/quests/quest_text_resolver_v1.cpp
+  features/quests/source_quest_menu_page_provider_v1.cpp
+  features/quests/source_quest_page_v1.cpp
   ../game-data/quest_persistence_v51.cpp ../game-data/quest_savegame_v1.cpp)
 target_link_libraries(foundation_runtime_quests PUBLIC foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_quests)

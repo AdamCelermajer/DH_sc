@@ -52,6 +52,9 @@
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/quest_runtime/quest_zones_v1.hpp" // P16 QUESTUI: quest trigger zones
 #include "features/quests/quest_banner_presenter_v1.hpp" // P16 QUESTUI: quest banners
+#include "features/quests/runtime_quest_menu_v1.hpp" // P16 QUESTUI: Quest Log tab page
+#include "features/quests/source_quest_menu_page_provider_v1.hpp" // P16 QUESTUI
+#include "features/quests/quest_text_resolver_v1.hpp" // P16 QUESTUI
 #include "features/inventory/source_item_descriptors.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
@@ -305,6 +308,7 @@ struct Options {
     int skillsPageFrame=-1;
     int equipmentPageFrame=-1;
     int faeryPageFrame=-1; // P14 FAERY
+    int questPageFrame=-1; // P16 QUESTUI: test aid, opens the menu on the Quest Log tab at this frame
     std::vector<std::string> bagItemIds; // P14 EQUIP: --bag-item diagnostic rows
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
@@ -412,6 +416,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--skills-page-frame") o.skillsPageFrame=std::stoi(value());
         else if(arg=="--equipment-page-frame") o.equipmentPageFrame=std::stoi(value());
         else if(arg=="--faery-page-frame") o.faeryPageFrame=std::stoi(value()); // P14 FAERY
+        else if(arg=="--quest-page-frame") o.questPageFrame=std::stoi(value()); // P16 QUESTUI
         else if(arg=="--menu-release") {
             std::istringstream input(value());Options::MenuRelease release{};char first=0,second=0;
             if(!(input>>release.frame>>first>>release.x>>second>>release.y)||first!=':'||second!=':'||release.frame<0||!std::isfinite(release.x)||!std::isfinite(release.y))throw std::runtime_error("Menu release requires FRAME:AUTHORED_X:AUTHORED_Y");
@@ -2298,6 +2303,10 @@ int main(int argc,char** argv) {
         f::QuestBannerPresenterV1 questBanners;      // P16 QUESTUI: NEW QUEST / updates / QUEST COMPLETED
         std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)
         bool questTalkHeld=false;                    // P16 QUESTUI: interact press edge for NPC talk
+        std::shared_ptr<f::CharacterQuestProgressV1> questMenuProgress; // P16 QUESTUI: Quest Log page progress (CQPG view)
+        std::shared_ptr<f::RuntimeQuestMenuV1> questMenu;
+        std::shared_ptr<f::RuntimeQuestCharacterMenuBindingV1> questMenuBinding;
+        std::shared_ptr<dh2::ui::HudTextEnvironmentV1> questTextEnvironment; // P16 QUESTUI: outlives the Quest Log text resolver
         // P16 QUESTUI: every runtime banner is queued for the presenter and returned for the console line.
         const auto takeQuestBanners=[&]() {
             auto banners=questRuntime?questRuntime->take_banners():std::vector<f::quest_runtime::QuestBannerV1>{};
@@ -2372,6 +2381,28 @@ int main(int argc,char** argv) {
                 std::cout<<"Quest zones built="<<questZones.zones().size();
                 for(const auto& zone:questZones.zones())std::cout<<' '<<zone.name<<'['<<zone.min[0]<<','<<zone.min[1]<<','<<zone.min[2]<<'|'<<zone.max[0]<<','<<zone.max[1]<<','<<zone.max[2]<<']';
                 std::cout<<" level="<<questLevelRow<<'\n';
+            }
+            // P16 QUESTUI: Quest Log tab (btnQuestLogTab). The page reads the same CQPG the runtime writes; the
+            // source art (menu_QuestLogSheetNEW) and hit routes come from the existing provider.
+            if(characterMenuComposition) {
+                std::string menuError;
+                questMenuProgress=std::make_shared<f::CharacterQuestProgressV1>();
+                f::CharacterQuestLogPolicyV1 policy;policy.debug_priority=f::quest_runtime::kQuestPriorityDebugV1;
+                f::CharacterQuestTextV1 menuText;
+                dh2::ui::HudTextV1* menuHud=nullptr;questTextEnvironment=std::make_shared<dh2::ui::HudTextEnvironmentV1>();
+                if(!menuLocalization.bind_profile(&state,menuError)||!menuLocalization.borrow_text(menuHud,*questTextEnvironment,menuError)||!menuHud)
+                    std::cerr<<"Quest Log text diagnostic: "<<menuError<<'\n';
+                else if(!f::bind_source_quest_text_resolver_v1(*menuHud,*questTextEnvironment,menuText,menuError))
+                    std::cerr<<"Quest Log text diagnostic: "<<menuError<<'\n';
+                questMenu=std::make_shared<f::RuntimeQuestMenuV1>(state,*questMenuProgress,questTable,policy,menuText);
+                questMenuBinding=std::make_shared<f::RuntimeQuestCharacterMenuBindingV1>(questMenu,sharedCharacter,sharedCharacter,
+                    []{return true;},
+                    [&](const std::string& symbol,std::string& value,std::string& symbolError){return menuLocalization.symbol(symbol,&state,value,symbolError);});
+                f::character_menu::SourcePageProviderV1 questProvider;
+                if(!questMenuBinding->load_progress_from_character(menuError)||!questMenuBinding->show(0,0,f::CharacterQuestCategoryV1::assigned,menuError)||
+                   !f::bind_source_quest_menu_page_provider_v1(questMenuBinding,sharedCharacter,sharedCharacter,questProvider,menuError)||
+                   !characterMenuComposition->register_page(f::character_menu::Tab::quest,std::move(questProvider),menuError))
+                    std::cerr<<"Quest Log page diagnostic: "<<menuError<<'\n';
             }
             std::cout<<"Quest runtime bound rows="<<questTable->rows().size()<<" actors="<<questActorIdentity.size()
                      <<" current="<<questRuntime->current_quest()<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
@@ -2906,6 +2937,12 @@ int main(int argc,char** argv) {
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::faery,error))throw std::runtime_error("Faery page diagnostic selection: "+error);
                 std::cout<<"Character menu Faery selected frame="<<drawn<<" via CharacterState provider\n";
             }
+            // P16 QUESTUI: --quest-page-frame=N opens the menu on the Quest Log tab (test aid).
+            if(drawn==options.questPageFrame) {
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::quest,error))throw std::runtime_error("Quest Log page diagnostic selection: "+error);
+                std::cout<<"Character menu Quest Log selected frame="<<drawn<<'\n';
+            }
             for(const auto& click:uiInput.clicks) {
                 if(statConfirmOpen){routeStatConfirmClick(click.position);continue;}
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
@@ -2913,6 +2950,8 @@ int main(int argc,char** argv) {
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
                     characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
+                    if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'NL'; }
                     if(!error.empty())std::cerr<<"Character menu action diagnostic: "<<error<<'\n';
                     if(runtimeEquipmentPage) {
                         f::equipment_menu::RuntimeEquipmentPageReleaseV1::PendingCommand pending;
@@ -3754,6 +3793,12 @@ int main(int argc,char** argv) {
                     if(classRow==properties.characters.names.end())throw std::runtime_error("Original class header has no same player source row");
                     if(!menuLocalization.character_class_level(properties.characters,static_cast<std::int32_t>(classRow-properties.characters.names.begin()),&state,bindings.class_label,error))throw std::runtime_error("Original class header: "+error);
                     bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e);};
+                    // P16 QUESTUI: the Quest Log page is refreshed from the CQPG while its tab is open.
+                    if(questMenuBinding&&characterMenu.is_open()&&characterMenu.tab()==f::character_menu::Tab::quest) {
+                        std::string questMenuError;
+                        if(!questMenuBinding->load_progress_from_character(questMenuError)||!questMenuBinding->show(0,0,f::CharacterQuestCategoryV1::assigned,questMenuError))
+                            std::cerr<<"Quest Log refresh diagnostic: "<<questMenuError<<'\n';
+                    }
                     f::character_menu::Frame menu;if(!characterMenu.frame(bindings,window.width(),window.height(),menu,error))throw std::runtime_error("Character menu: "+error);
                     const auto& transform=menu.transform;
                     auto drawMenuSolid=[&](const f::character_menu::MenuSolidBatch& solid) {

@@ -9,7 +9,7 @@ raw=path.read_bytes();data=raw[:8]+zlib.decompress(raw[8:]) if raw[:3]==b'CWS' e
 stage,at=swf.rect(data,8);at+=4
 sprites={};shapes={};edits={};failures={};labels={}
 hit_shapes={}
-def solid_hit_styles(tag,at,ident):
+def solid_hit_styles(tag,at,ident,code=None):
     count=tag[at];at+=1
     if count==255:count=struct.unpack_from('<H',tag,at)[0];at+=2
     styles=[]
@@ -19,7 +19,7 @@ def solid_hit_styles(tag,at,ident):
         at+=1+hit_color_bytes
         # Texture mapping is unused/discarded for hit-only contours. A broad
         # coordinate embedding lets the existing contour tessellator run.
-        styles.append({'matrix_twips':[1000000,0,0,1000000,-100000000,-100000000],'rgba':color})
+        styles.append({'kind':0,'matrix_twips':[1000000,0,0,1000000,-100000000,-100000000],'rgba':color})
     if tag[at]:raise ValueError('hit-only line style not supported')
     return styles,at+1
 hit_globals=dict(swf.parse_shape.__globals__);hit_globals['read_bitmap_styles']=solid_hit_styles
@@ -106,7 +106,7 @@ def walk(char,m,path,art,text,depth=0,active_tab='stats',has_stat_points=True):
     if char==265:
         # CharacterMenu tab buttons reveal their red TabIcon during the source
         # highlight tween. Freeze at its fully-visible authored frame (32).
-        active_buttons={'stats':'btnCharacterSheet','equipment':'btnInventoryTab','skills':'btnSkillTreeTab','faery':'btnFaeriesTab'}
+        active_buttons={'stats':'btnCharacterSheet','equipment':'btnInventoryTab','skills':'btnSkillTreeTab','faery':'btnFaeriesTab','quest':'btnQuestLogTab'}
         if path.endswith('/'+active_buttons[active_tab]):frame=32
     if char==316 and not has_stat_points:
         # Original CharacterSheetNew.Init/point update calls deactivated on all
@@ -165,7 +165,7 @@ def walk(char,m,path,art,text,depth=0,active_tab='stats',has_stat_points=True):
         if masks and len(text)>first_text:
             skipped.append({'path':path+'/'+name,'reason':'masked text requires actual glyph clip sink; excluded'});del text[first_text:]
 def placement(name):return swf.placed_path(root,name)
-tabs=placement('menu_CharacterMenu');panels=[placement(n) for n in('menu_CharacterSheetNew','menu_InventorySheetMain','menu_SkillTreeSheetNew')]+[None]
+tabs=placement('menu_CharacterMenu');panels=[placement(n) for n in('menu_CharacterSheetNew','menu_InventorySheetMain','menu_SkillTreeSheetNew')]+[None,None]
 def numbers(v):return '{'+','.join(swf.cpp_number(float(n)) for n in v)+'}'
 lines=['// Generated original dqcharmenu contours and source-selected CharacterMenu tab / stat-point states.','#include "character_menu.hpp"','namespace dh::foundation::character_menu {']
 for index,panel in enumerate(panels):
@@ -177,17 +177,17 @@ for index,panel in enumerate(panels):
     # Actual CharacterMenu.ChangeToStats source59545/59559 pushes BOTH these
     # source sheets; the second is the right-hand default statistics page.
     if index==0:selected.append(placement('menu_CharacterSheetStats'))
-    for p in selected:walk(p['character'],p['matrix'],p.get('name','panel'),art,text,0,('stats','equipment','skills','faery')[index],has_stat_points)
+    for p in selected:walk(p['character'],p['matrix'],p.get('name','panel'),art,text,0,('stats','equipment','skills','faery','quest')[index],has_stat_points)
     lines.append(f'static const MenuArt {art_name}{{')
     lines.append('{'+','.join('{'+json.dumps(path)+','+str(char)+',{'+','.join(numbers(v) for v in verts)+'}}' for path,char,verts in art if verts)+'},')
     lines.append('{'+','.join('{'+json.dumps(path)+','+str(char)+','+str(rec['font'])+','+swf.cpp_number(rec['height_twips']/20)+','+numbers(bounds)+',{'+','.join(str(c) for c in rec['rgba'])+'},'+str(rec['layout'].get('align',0))+','+numbers(m[:4]+[m[4]/20,m[5]/20])+','+numbers([v/20 for v in rec['bounds_twips']])+','+numbers([rec['layout'].get(key,0)/20 for key in('left_margin','right_margin','indent')])+','+swf.cpp_number(rec['layout'].get('leading',0)/20)+'}' for path,char,rec,bounds,m in text)+'}')
     lines[-1]+=','
     lines.append('{'+','.join('{{'+json.dumps(role)+','+str(ident)+',{'+','.join(numbers(v) for v in verts)+'}},'+numbers(color)+','+json.dumps(after)+'}' for role,ident,verts,color,after in source_solids[first_solid:])+'}')
     lines.append('};')
-lines.append('const MenuArt& original_menu_art(Tab tab,bool has_stat_points){switch(tab){case Tab::equipment:return art1;case Tab::skills:return art2;case Tab::faery:return art3;default:return has_stat_points?art0:art0_no_points;}}')
+lines.append('const MenuArt& original_menu_art(Tab tab,bool has_stat_points){switch(tab){case Tab::equipment:return art1;case Tab::skills:return art2;case Tab::faery:return art3;case Tab::quest:return art4;default:return has_stat_points?art0:art0_no_points;}}')
 tabs_child=swf.placed_path(sprites[tabs['character']],'CharacterMenuTabs')
 tab_matrix=swf.multiply(tabs['matrix'],tabs_child['matrix']);zones=[]
-for name,action in [('btnCharacterSheet','stats'),('btnInventoryTab','equipment'),('btnSkillTreeTab','skills'),('btnFaeriesTab','faery'),('btnBack','close')]:
+for name,action in [('btnCharacterSheet','stats'),('btnInventoryTab','equipment'),('btnSkillTreeTab','skills'),('btnFaeriesTab','faery'),('btnQuestLogTab','quest'),('btnBack','close')]:
     button=swf.placed_path(sprites[tabs_child['character']],name)
     m=swf.multiply(tab_matrix,button['matrix']);child_name='btimg' if action=='close' else 'hitzone'
     hit=swf.placed_path(sprites[button['character']],child_name)
