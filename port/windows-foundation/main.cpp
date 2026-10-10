@@ -1439,6 +1439,7 @@ int main(int argc,char** argv) {
             f::GameSave worldSnapshot;
             if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),worldSnapshot,e))return false;
             const auto worldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
+            for(const auto& pa:worldSnapshot.actors)if(pa.actor.id==worldSnapshot.controlled_actor_id)std::cout<<"Level world snapshot actor position="<<pa.actor.transform.position[0]<<","<<pa.actor.transform.position[1]<<","<<pa.actor.transform.position[2]<<" reason="<<reason<<"\n";
             if(!f::save_game(worldPath,worldSnapshot,e))return false;
             std::cout<<"Level world saved reason="<<reason<<" level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
             return true;
