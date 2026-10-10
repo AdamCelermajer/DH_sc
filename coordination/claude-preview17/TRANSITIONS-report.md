@@ -136,3 +136,8 @@ Run 4 (`run4/`, `--loading-capture`, exit 0): transition loading frame `load-tr-
 
 - The exit zones, checkpoint zones and the transition session are in `features/transitions`; `main.cpp` hunks all carry `P17 TRANSITIONS`.
 - The levels coverage report (`LEVEL-COVERAGE.md`) lists TriggerZoneExitLevel as "ported_elsewhere" in `features/levels/level_class_registry.cpp`; it now has a live builder in `features/transitions`. The registry text was not updated.
+
+## Tracker (docs/BUGS-AND-IMPLEMENTATION.md, not edited here)
+
+- I021 "Complete transitions/checkpoints" (needed: lead authored transition caller and source fields; acceptance: normal room transition and restore). Covered now: authored caller (TriggerZoneExitLevel confirm, Script_ChangeLevel path not wired), source fields (levelName, entrypointID, fasttravel, activate_cond), normal room transition and restore in the EXE (run1, run2). Open: the real player confirm (gap 1), per-level world state (gap 3), entry point persistence (gap 4), the Script_ChangeLevel command (not wired to the script host yet).
+- I022 "Complete tutorial/cinematic triggers": not addressed by this stream (the campaign trigger path is unchanged apart from the shared main hunks).
