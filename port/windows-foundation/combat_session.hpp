@@ -350,6 +350,11 @@ public:
     bool play_actor_state_sequence(ActorId,const OriginalAttackSelection&,
                                   CombatSessionStateAnimationServices,std::string& error,
                                   std::int32_t lifecycle_to_state=-1);
+    // P16 OPENING: scripted actor clip (PlayActorAnim). Seeds the named clip from its BDAE path on the actor's retained
+    // playback. No lifecycle callbacks run: completion does not change the actor's source state. The duration is the
+    // clip's authored range (end - start) reported by the actor visual.
+    bool play_actor_clip(ActorId,const std::string& clip,const std::string& path,bool loop,std::string& error);
+    bool actor_clip_duration_ms(ActorId,const std::string& clip,std::int32_t& duration_ms,std::string& error)const;
     // External original skill/cinematic programs execute through the SAME
     // retained pose owner and session clock. Their clips must already be loaded
     // in this actor's visual. Preparation copies metadata; caller banks need

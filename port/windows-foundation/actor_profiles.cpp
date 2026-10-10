@@ -88,6 +88,17 @@ bool ActorProfileLibrary::load(const AssetCatalog& assets, const std::string& pa
     } catch (const std::exception& exception) { error = exception.what(); return false; }
 }
 // P16 PROFILES: derived profiles (see features/spawn/actor_profile_derivation_v1.hpp).
+// P16 OPENING: appends one clip to a state bank of a published profile (script clips). An identical clip already in the
+// bank is kept once. Unknown profiles are an explicit error.
+bool ActorProfileLibrary::add_state_clip(const std::string& id, const std::string& state, ActorClip clip, std::string& error) {
+    const auto found = profiles_.find(id);
+    if (found == profiles_.end()) { error = "Actor profile absent for script clip: " + id; return false; }
+    auto& bank = found->second.states[state];
+    for (const auto& existing : bank) if (existing.uri == clip.uri) { error.clear(); return true; }
+    bank.push_back(std::move(clip));
+    error.clear();
+    return true;
+}
 bool ActorProfileLibrary::add_derived(ActorProfile profile, std::string& error) {
     if (profile.id.empty()) { error = "Derived actor profile needs an ID"; return false; }
     if (profiles_.count(profile.id)) { error = "Actor profile already published: " + profile.id; return false; }

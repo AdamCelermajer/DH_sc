@@ -18,6 +18,33 @@ dh2::data::Bytes bytes_of(const std::vector<std::uint8_t>& v) { return {v.data()
 bool finite(CameraVec3 v) { return std::isfinite(v.x) && std::isfinite(v.y) && std::isfinite(v.z); }
 } // namespace
 
+bool CameraClipLibrary::dictionary_path(const AssetCatalog& assets, std::int32_t id, std::string& path, std::string& error) {
+    try {
+        if (!loaded_) {
+            const auto names = read_content(assets, "data/pydata/animations_dictionary_pyarraynames.bin");
+            const auto values = read_content(assets, "data/pydata/animations_dictionary_pyarray.bin");
+            dh2::data::Dictionary dictionary;
+            if (!dh2::data::load_dictionary(bytes_of(names), bytes_of(values), dictionary, error)) return false;
+            paths_ = std::move(dictionary.values);
+            loaded_ = true;
+        }
+        if (id < 0 || std::size_t(id) >= paths_.size()) {
+            error = "Animation dictionary id absent: " + std::to_string(id);
+            return false;
+        }
+        path = paths_[std::size_t(id)];
+        if (path.size() < 5 || path.compare(path.size() - 5, 5, ".bdae") != 0) {
+            error = "Animation dictionary entry is not a BDAE scene: " + path;
+            return false;
+        }
+        error.clear();
+        return true;
+    } catch (const std::exception& exception) {
+        error = exception.what();
+        return false;
+    }
+}
+
 bool CameraClipLibrary::read(const AssetCatalog& assets, std::int32_t id, std::vector<std::uint8_t>& clip,
                              std::vector<std::uint8_t>& scene, std::string& path, std::string& error) {
     try {
