@@ -2008,12 +2008,20 @@ int main(int argc,char** argv) {
                 // P14 FAERY: Faery tab over the live CharacterState (features/faery_menu/character_state_faery_v1.*).
                 // An unbindable page (e.g. legacy state without source Faery rows) stays unregistered and is diagnosed.
                 {
+                    // A loaded save reaches here without the creation-source owner, so the Faery tables are loaded here too.
+                    std::string faeryError;
+                    if(state.source_faery_state_known&&!sourceFaeryTables) {
+                        const auto records=f::read_content(assets,"data/pydata/faeries_pyarray.bin"),names=f::read_content(assets,"data/pydata/faeries_pyarraynames.bin"),fields=f::read_content(assets,"data/pydata/faeries_pystructnames.bin");
+                        if(!sourceFaeryOwner.load({records.data(),records.size()},{names.data(),names.size()},{fields.data(),fields.size()},faeryError))std::cerr<<"Faery tables diagnostic: "<<faeryError<<'\n';
+                        else sourceFaeryTables=sourceFaeryOwner.borrow();
+                    }
                     f::faery_menu::CharacterStateFaeryPageHostV1 faeryHost;
                     faeryHost.owner=sharedCharacter;faeryHost.tables=sourceFaeryTables;
                     faeryHost.localize=[&](const std::string& symbol,std::string& value,std::string& e){return menuLocalization.symbol(symbol,&state,value,e);};
                     faeryHost.persist=[&](std::string& e){return f::save_character(options.save,state,e);};
-                    faeryHost.refresh_hud=[&](){if(refreshPcHudForFaery)refreshPcHudForFaery();};
-                    std::string faeryError;
+                    faeryHost.refresh_hud=[&](){
+                        std::cout<<"Faery selection committed current="<<state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery<<" HUD key-4 refresh\n";
+                        if(refreshPcHudForFaery)refreshPcHudForFaery();};
                     if(!f::faery_menu::register_character_state_faery_page_v1(*characterMenuComposition,std::move(faeryHost),faeryError))
                         std::cerr<<"Faery page diagnostic: "<<faeryError<<'\n';
                 }
