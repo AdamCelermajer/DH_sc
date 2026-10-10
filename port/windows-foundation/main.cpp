@@ -229,6 +229,7 @@ struct Options {
     int profileClickFrame=-1;
     int skillsPageFrame=-1;
     int equipmentPageFrame=-1;
+    std::vector<std::string> bagItemIds; // P14 EQUIP: --bag-item diagnostic rows
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
     std::vector<std::pair<int,int>> skillKeyFrames;
@@ -307,6 +308,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--combat-state") {auto c=pair(value());o.combat.profiles[c.first].originalCombatState=std::stoi(c.second);}
         else if(arg=="--combat-auto") o.diagnosticAI=true;
         else if(arg=="--equipped-item") o.combat.equippedItemIds.push_back(value());
+        else if(arg=="--bag-item") o.bagItemIds.push_back(value()); // P14 EQUIP diagnostic: unequipped bag row (see direct bootstrap)
         else if(arg=="--combat-main-item") o.combat.mainItemId=value();
         else if(arg=="--attack-frames") {o.attackFrames=std::stoi(value());if(o.attackFrames<1)throw std::runtime_error("Attack frames must be positive");}
         else if(arg=="--attack-start-frame") {o.attackStartFrame=std::stoi(value());if(o.attackStartFrame<0)throw std::runtime_error("Attack start frame must be nonnegative");}
@@ -1278,6 +1280,9 @@ int main(int argc,char** argv) {
                     state.inventory.push_back({*entry.item_instance_id,entry.definition_id,1});
                     state.equipment.push_back({entry.slot,*entry.item_instance_id,0,slotKnown?sourceSlot:-1});
                 }
+                // P14 EQUIP diagnostic (--bag-item DEF): unequipped rows for the direct bootstrap, which otherwise owns only equipped items.
+                for(std::size_t bag=0;bag<options.bagItemIds.size();++bag)
+                    state.inventory.push_back({"bag-"+std::to_string(bag)+"-"+options.bagItemIds[bag],options.bagItemIds[bag],1});
             }
             equipmentStateInitialized=true;
         }
