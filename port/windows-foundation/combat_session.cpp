@@ -1281,6 +1281,7 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
                 step.sequence_id=step.depth?phase.ancestors[step.depth-1].animationId:sequence->id;
                 step.leaf_path=phase.sourcePath;
                 step.container_path.assign(phase.sourcePath.begin(),phase.sourcePath.end()-1);
+                step.role=pair==&policy.reaction?CombatSessionStepRole::hurt:CombatSessionStepRole::death;
                 stage.entry.poseStepEntries.emplace(phase.clipName,std::move(step));
                 if(pair==&policy.reaction){stage.poses.react_clip_id=phase.clipName;stage.poses.react_move_go=phase.moveGO!=0;}
                 else{stage.poses.death_clip_id=phase.clipName;stage.poses.death_move_go=phase.moveGO!=0;}

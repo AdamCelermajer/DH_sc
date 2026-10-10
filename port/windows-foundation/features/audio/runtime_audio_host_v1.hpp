@@ -115,6 +115,9 @@ public:
         std::string& error);
     bool take_receipt(dh2::audio::AudioReceiptV34&);
     std::int32_t source_ordinal(const char* authored_name) const noexcept;
+    // Selected soundpack uid behind a generated source ordinal (-1 if none).
+    // Diagnostics only: used for the "Combat cue uid=" log line.
+    std::int32_t source_uid(std::int32_t source_ordinal) const noexcept;
     // Original VoxSoundManager::PlayMusic/StopMusic semantics on the SAME
     // runtime: the same ordinal resumes a still-playing voice (0.05 s); a new
     // ordinal first stops the previous one with fade; the VXN starts at its

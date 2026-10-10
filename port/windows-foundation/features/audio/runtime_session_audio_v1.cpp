@@ -198,6 +198,14 @@ bool RuntimeSessionAudioV1::bind(const std::shared_ptr<CombatSession>& session,
                     <<" actor="<<item.actor<<" sequence="<<item.sequence_id
                     <<" step="<<item.step<<" sound="<<item.sound_id
                     <<" status="<<int(item.status)<<" detail="<<item.detail<<'\n';
+                // B028: hit-reaction (Injured) and death clip starts; the step sound is the cue.
+                if(item.role!=CombatSessionStepRole::action&&item.sound_id>=0) {
+                    const char* event=item.role==CombatSessionStepRole::hurt?"hurt":"death";
+                    const char* status=item.status==RuntimeAttackSoundStatusV1::dispatched?"submitted":
+                        item.detail.rfind("Unavailable original audio asset: ",0)==0?"asset_missing":"failed";
+                    log_<<"Combat cue uid="<<host_->source_uid(item.sound_id)<<" event="<<event
+                        <<" actor="<<item.actor<<" frame="<<context_->frame<<" status="<<status<<'\n';
+                }
             });
         attack_step_observer_=attack_->step_entry_observer();
     }

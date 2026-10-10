@@ -19,12 +19,17 @@ namespace dh::foundation {
 // before advancement; restoring a corpse does not report a new occurrence.
 // Sequence/step identify the original AnimTable row; consumers read its Sound,
 // Swoosh and FX fields rather than deriving cues from combat hit outcomes.
+// Which admitted pose published this AnimTable step. action = ordinary
+// attack/state sequence; hurt = the Injured reaction clip start (its step
+// sound is the hit cue); death = the Died clip start.
+enum class CombatSessionStepRole : std::uint8_t { action, hurt, death };
 struct CombatSessionStepEntry {
     ActorId actor=invalid_actor_id;
     std::weak_ptr<const void> binding_lease;
     std::uint64_t occurrence=0,update_serial=0;
     std::int64_t sequence_id=-1;
     std::uint32_t depth=0,step=0;
+    CombatSessionStepRole role=CombatSessionStepRole::action;
     std::vector<std::size_t> container_path,leaf_path;
     std::optional<RetainedFrameAudioClock> audio_clock;
 };

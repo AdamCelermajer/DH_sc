@@ -362,6 +362,10 @@ add_test(NAME playable_actor_world COMMAND playable_actor_world_tests "${CMAKE_C
 add_executable(combat_session_tests tests/combat_session_tests.cpp)
 target_link_libraries(combat_session_tests PRIVATE foundation_data)
 add_test(NAME combat_session COMMAND combat_session_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# B028: Injured/Died step entries carry the hurt/death cue role (same Session, exact clock).
+add_executable(combat_session_pose_step_tests tests/combat_session_pose_step_tests.cpp)
+target_link_libraries(combat_session_pose_step_tests PRIVATE foundation_data)
+add_test(NAME combat_session_pose_step COMMAND combat_session_pose_step_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
 add_executable(source_session_program_tests tests/source_session_program_tests.cpp)
 target_link_libraries(source_session_program_tests PRIVATE foundation_data)
 add_test(NAME source_session_program COMMAND source_session_program_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
