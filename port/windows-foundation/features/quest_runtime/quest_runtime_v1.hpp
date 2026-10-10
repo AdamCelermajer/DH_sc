@@ -90,7 +90,14 @@ struct QuestRuntimeServicesV1 {
     // Current level row (Level::m_row, the original IsPlayerInLevel key). -1 when unknown:
     // IsPlayerInLevel prerequisites then stay false and are reported.
     std::function<std::int32_t()> current_level_row;
+    // OPENING2: Quest::ExecScript -> ScriptManager::StartScript. Called with the authored script name (the group
+    // prefix removed, for example "Swamp_Intro"). Absent owner: the start is reported and skipped.
+    std::function<bool(const std::string& script, std::string& error)> start_script;
 };
+
+// Quest::SetState script slot (IDA 0x480c78 switch on the new state; state 3 uses slot 4 when the quest comes
+// from Active, else slot 1). Returns -1 when the state runs no script. Slots index QuestDefinitionV51::scripts.
+std::int32_t quest_script_slot_v1(QuestStateV1 next, QuestStateV1 previous) noexcept;
 
 struct QuestObjectiveProgressV1 {
     std::int32_t quantity{0};

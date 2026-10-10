@@ -57,6 +57,7 @@
 // P16 QUESTS: thin quest runtime and the generic quest event bus (raise_quest_event).
 #include "features/quest_runtime/quest_runtime_v1.hpp"
 #include "features/quest_runtime/quest_events_v1.hpp"
+#include "features/quest_runtime/quest_conditions_v1.hpp" // OPENING2: named activation conditions
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
@@ -1194,12 +1195,34 @@ int main(int argc,char** argv) {
         if(!equipment.load(assets,options.equipment,error))throw std::runtime_error("Equipment: "+error);
         if(!options.playClip.empty() && !visual.select(options.playClip,true,error)) throw std::runtime_error("Clip: "+error);
         if(!options.profiles.empty()) {
+            // OPENING2: named conditions (v2conditions) are evaluated from the saved quest states and the current level
+            // (GameStartOnly = quest row 1 in state 0 for a new game). Command-line names still count as active.
+            std::map<std::string,f::quest_runtime::NamedConditionV1> namedConditions;
+            {
+                std::string conditionError;
+                const auto condArray=assets.read("original-cache/data/pydata/v2conditions_pyarray.bin");
+                const auto condNames=assets.read("original-cache/data/pydata/v2conditions_pyarraynames.bin");
+                if(!f::quest_runtime::decode_named_conditions_v1(condArray,condNames,namedConditions,conditionError))
+                    std::cerr<<"Named condition table diagnostic: "<<conditionError<<'\n';
+            }
+            const auto conditionActive=[&](const std::string& name)->bool {
+                if(options.activeConditions.count(name))return true;
+                const auto found=namedConditions.find(name);
+                if(found==namedConditions.end())return false;
+                const auto* levels=loadMetadataLevels(assets);
+                const std::int32_t levelRow=levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;
+                bool met=false,unsupported=false;
+                f::quest_runtime::evaluate_named_condition_v1(found->second,[&](std::int32_t row,std::int32_t& value){
+                    return f::quest_runtime::quest_state_from_character_v1(state,row,value);},levelRow,met,unsupported);
+                if(unsupported)std::cout<<"Named condition "<<name<<" type "<<found->second.type<<" is not evaluated (false)\n";
+                return met;
+            };
             auto policy=[&](const f::ActorDefinition& a) {
                 auto it=a.properties.find("activate_cond");
-                if(it!=a.properties.end()&&!it->second.empty()&&!options.activeConditions.count(it->second))return f::PopulationDecision::unknown;
+                if(it!=a.properties.end()&&!it->second.empty()&&!conditionActive(it->second))return f::PopulationDecision::unknown;
                 it=a.properties.find("deactivate_cond");
                 if(it!=a.properties.end()&&!it->second.empty()) {
-                    if(options.activeConditions.count(it->second))return f::PopulationDecision::exclude;
+                    if(conditionActive(it->second))return f::PopulationDecision::exclude;
                     if(!options.inactiveConditions.count(it->second))return f::PopulationDecision::unknown;
                 }
                 it=a.properties.find("auto_spawn");if(it!=a.properties.end()&&it->second=="0") {
@@ -2841,6 +2864,13 @@ int main(int argc,char** argv) {
                 if((*questMenuText)(state,id,text,textError))return true;
                 std::cerr<<"Quest banner text diagnostic: StringID "<<id<<": "<<textError<<'\n';
                 return false;
+            };
+            // OPENING2: Quest::ExecScript. A state's authored script starts through the campaign runtime (campaign triggers).
+            questServices.start_script=[&](const std::string& script,std::string& e) {
+                if(!options.campaignTriggers){e="campaign triggers are off";return false;}
+                const int id=sourceCampaign.script_id(script,false);
+                if(id<0){e="no authored script named "+script;return false;}
+                return sourceCampaign.start(id,-1,true,e);
             };
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
