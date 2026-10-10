@@ -66,7 +66,7 @@ target_sources(dh2_freetype237 PRIVATE "${DH2_FT237}/src/base/ftbitmap.c")
 target_include_directories(foundation_data PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(foundation_data PUBLIC recovered_content content_xml dh2_freetype237)
 add_executable(dh-foundation main.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp render_queue.cpp overlay_renderer.cpp)
-target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp)
+target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp features/generic_skills/pc_gameplay_hud_button_art_v1.cpp)
 target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v1.cpp)
 # B004/B029: OOI owner (500 ms candidate refresh) and live Session adapter for the rendered target marker.
 target_sources(dh-foundation PRIVATE features/combat/auto_target_marker_v1.cpp features/combat/object_of_interest_owner_v1.cpp features/combat/object_of_interest_world_v1.cpp)
@@ -105,6 +105,12 @@ target_link_libraries(dh-foundation PRIVATE foundation_runtime_audio)
 if(WIN32)
   target_sources(foundation_runtime_audio PRIVATE features/audio/frontend_menu_audio_v1.cpp)
 endif()
+# P15 AUDIOSTALL (B039): WinMM pump/control thread runs at time-critical priority; focused test.
+if(WIN32)
+  add_executable(winmm_pump_priority_v1_tests features/audio/winmm_pump_priority_v1_tests.cpp)
+  target_link_libraries(winmm_pump_priority_v1_tests PRIVATE foundation_runtime_audio)
+  add_test(NAME winmm_pump_priority_v1 COMMAND winmm_pump_priority_v1_tests)
+endif()
 if(NOT WIN32)
   add_executable(linux_sdl2_output_smoke_tests features/audio/linux_sdl2_output_smoke.cpp)
   target_link_libraries(linux_sdl2_output_smoke_tests PRIVATE foundation_runtime_audio)
@@ -114,6 +120,31 @@ if(NOT WIN32)
     features/audio/linux_sdl2_source_session_control_v1_smoke.cpp)
   target_link_libraries(linux_sdl2_source_session_control_smoke_tests PRIVATE foundation_runtime_audio)
   add_test(NAME linux_sdl2_source_session_control COMMAND linux_sdl2_source_session_control_smoke_tests)
+endif()
+# Preview 15 startup: boot state machine and intro movie (pl_mpeg, MIT, third_party/pl_mpeg). Plain C++, no platform calls.
+add_library(foundation_startup STATIC features/startup/boot_flow_v1.cpp
+  features/startup/intro_movie_v2.cpp features/startup/pcm_wav_v2.cpp)
+target_include_directories(foundation_startup PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/third_party/pl_mpeg)
+target_link_libraries(dh-foundation PRIVATE foundation_startup)
+# Boot runner uses the renderer/overlay/window and the shared mixer, so it is compiled into the EXE.
+target_sources(dh-foundation PRIVATE features/startup/boot_runner_v1.cpp features/startup/loading_screen_v1.cpp
+  features/startup/intro_soundtrack_v2.cpp features/startup/text_label_v1.cpp
+  features/startup/loading_tip_v1.cpp ../engine-ui/loading_menu_v1.cpp)
+add_executable(startup_boot_flow_v1_tests features/startup/boot_flow_v1_tests.cpp)
+target_link_libraries(startup_boot_flow_v1_tests PRIVATE foundation_startup)
+add_test(NAME startup_boot_flow_v1 COMMAND startup_boot_flow_v1_tests)
+add_executable(startup_intro_movie_v2_tests features/startup/intro_movie_v2_tests.cpp)
+target_link_libraries(startup_intro_movie_v2_tests PRIVATE foundation_startup)
+set(DH_INTRO_MOVIE_V2_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview15/startup/converted-media-v2/intro_v1.mpg")
+if(EXISTS "${DH_INTRO_MOVIE_V2_FILE}")
+  add_test(NAME startup_intro_movie_v2 COMMAND startup_intro_movie_v2_tests "${DH_INTRO_MOVIE_V2_FILE}")
+else()
+  add_test(NAME startup_intro_movie_v2 COMMAND startup_intro_movie_v2_tests)
+endif()
+if(MINGW)  # same static CRT as the other test executables (the UCRT forwarder DLLs are not on PATH in ctest)
+  target_link_options(startup_boot_flow_v1_tests PRIVATE -static)
+  target_link_options(startup_intro_movie_v2_tests PRIVATE -static)
 endif()
 add_library(foundation_runtime_skills_menu STATIC
   features/generic_skills/generic_skills_page_v1.cpp
@@ -128,6 +159,8 @@ add_library(foundation_runtime_skills_menu STATIC
   features/skill_ui/skill_ui.cpp features/skill_ui/original_skill_art.cpp
   features/skill_ui/original_skill_presenter.cpp)
 target_link_libraries(foundation_runtime_skills_menu PUBLIC foundation_data foundation_frontend)
+# Preview 14 Stats +/- training (SWF btn_train_* route; see features/character_menu/stat_training_v1.hpp).
+target_sources(foundation_runtime_skills_menu PRIVATE features/character_menu/stat_training_v1.cpp)
 target_include_directories(foundation_runtime_skills_menu PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
 target_include_directories(dh-foundation PRIVATE
@@ -135,6 +168,7 @@ target_include_directories(dh-foundation PRIVATE
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_skills_menu)
 add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/runtime_skill_cast_coordinator_v1.cpp
+  features/generic_skills/pc_cooldown_frame_v1.cpp
   features/generic_skills/runtime_skill_cast_prepare_v1.cpp
   features/generic_skills/runtime_skill_target_query_v1.cpp
   features/generic_skills/runtime_skill_activation_v1.cpp
@@ -146,6 +180,13 @@ add_library(foundation_runtime_skill_cast STATIC
   features/faery_menu/hotty_source_use_v1.cpp
   features/faery_menu/celest_cast_v1.cpp
   features/faery_menu/celest_source_use_v1.cpp
+  # Preview 14 FAERY: CharacterState-backed Faery character-menu page (not the legacy Save path).
+  features/faery_menu/character_state_page_v1.cpp
+  features/faery_menu/original_art.cpp
+  features/faery_menu/source_text_v1.cpp
+  features/faery_menu/character_state_faery_v1.cpp
+  # P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ sound labels.
+  features/faery_menu/faery_cast_sound_v1.cpp
   ../game-data/faery_tables.cpp
   ../level-world/character_path_commands.cpp)
 target_link_libraries(foundation_runtime_skill_cast PUBLIC foundation_runtime_skills_menu)
@@ -161,6 +202,7 @@ add_library(foundation_runtime_equipment_menu STATIC
   features/combat/runtime_player_profile_attack_bank_v1.cpp
   ../level-world/player_equipment_queries_v1.cpp ../level-world/character_stance.cpp
   features/equipment/equipment_main_page.cpp features/equipment/equipment_adapter.cpp
+  features/equipment/equipment_inventory_actions_v1.cpp
   features/equipment/equipment_menu.cpp features/equipment/original_equipment_art.cpp
   features/equipment/source_equipment_appearance.cpp
   features/equipment/source_equipment_render_bridge.cpp
@@ -185,6 +227,7 @@ add_library(foundation_runtime_effects STATIC
   ../asset-payloads/sha256.cpp
   features/effects/runtime_source_fx_asset_v1.cpp
   features/effects/runtime_swing_fx_observer_v1.cpp
+  features/effects/runtime_level_up_presentation_v1.cpp
   features/effects/runtime_effects_factory_v1.cpp
   features/effects/runtime_combat_effects_v1.cpp
   features/effects/runtime_effects_renderer_v1.cpp
@@ -255,6 +298,9 @@ add_library(foundation_frontend STATIC
   ../game-data/class_preview_setup.cpp ../game-data/loot_tables_v2.cpp
   ../game-data/fresh_player_profile_v1.cpp
   ../engine-ui/edit_text_definition_v1.cpp)
+# P14 schema: per-slot menu metadata stamping + panel projection (engine-ui menu_save_slot_projection_v1).
+target_sources(foundation_frontend PRIVATE features/menu_metadata/menu_metadata_v1.cpp ../game-data/level_tables.cpp
+  ../engine-ui/menu_save_slot_projection_v1.cpp ../engine-ui/save_slot_date_v1.cpp)
 target_link_libraries(foundation_frontend PUBLIC foundation_data ${DH2_PLATFORM_LIBRARIES})
 target_include_directories(foundation_frontend PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
@@ -322,6 +368,10 @@ add_test(NAME playable_actor_world COMMAND playable_actor_world_tests "${CMAKE_C
 add_executable(combat_session_tests tests/combat_session_tests.cpp)
 target_link_libraries(combat_session_tests PRIVATE foundation_data)
 add_test(NAME combat_session COMMAND combat_session_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# B028: Injured/Died step entries carry the hurt/death cue role (same Session, exact clock).
+add_executable(combat_session_pose_step_tests tests/combat_session_pose_step_tests.cpp)
+target_link_libraries(combat_session_pose_step_tests PRIVATE foundation_data)
+add_test(NAME combat_session_pose_step COMMAND combat_session_pose_step_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
 add_executable(source_session_program_tests tests/source_session_program_tests.cpp)
 target_link_libraries(source_session_program_tests PRIVATE foundation_data)
 add_test(NAME source_session_program COMMAND source_session_program_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
@@ -548,6 +598,18 @@ add_test(NAME semantic_input COMMAND semantic_input_tests)
 add_executable(menu_text_tests features/character_menu/menu_text_tests.cpp ../engine-ui/text_layout_v1.cpp)
 target_link_libraries(menu_text_tests PRIVATE foundation_data)
 add_test(NAME menu_text COMMAND menu_text_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# Preview 14 FAERY: CharacterState Faery page provider (source-table + English localization inputs).
+add_executable(character_state_page_tests features/faery_menu/tests/character_state_page_tests.cpp)
+target_link_libraries(character_state_page_tests PRIVATE foundation_runtime_skill_cast foundation_data)
+add_test(NAME character_state_page COMMAND character_state_page_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/character-skill-session-v2/cache/data/pydata/faeries_pyarray.bin"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/character-skill-session-v2/cache/data/pydata/faeries_pyarraynames.bin"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/character-skill-session-v2/cache/data/pydata/faeries_pystructnames.bin"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-main-frontend-v1/assets")
+# P15 FAERYSOUND (B050): Celest/Hotty Pre sound labels per target count.
+add_executable(faery_cast_sound_v1_tests features/faery_menu/tests/faery_cast_sound_v1_tests.cpp)
+target_link_libraries(faery_cast_sound_v1_tests PRIVATE foundation_runtime_skill_cast)
+add_test(NAME faery_cast_sound_v1 COMMAND faery_cast_sound_v1_tests)
 
 target_sources(foundation_data PRIVATE features/combo_chain/source_combo_chain.cpp
   ../level-world/character_attack_animation_v1.cpp ../level-world/character_animation_ai.cpp
@@ -606,6 +668,33 @@ add_library(foundation_runtime_loot STATIC
 target_link_libraries(foundation_runtime_loot PUBLIC foundation_data foundation_frontend foundation_runtime_equipment_menu)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_loot)
 
+# P14 DROPS: world item rules, source item-drop renderer projection and its
+# focused test (rules/pool/scatter/pickup gates over the actual ItemTable).
+target_sources(foundation_runtime_loot PRIVATE features/loot/world_drop_rules_v1.cpp)
+# P15 B048: item drop/pickup sound ordinals (ItemAudioVisualTable rows) and their focused test.
+target_sources(foundation_runtime_loot PRIVATE features/loot/world_item_sound_v1.cpp)
+add_executable(world_item_sound_v1_tests features/loot/world_item_sound_v1_tests.cpp)
+target_link_libraries(world_item_sound_v1_tests PRIVATE foundation_runtime_loot foundation_data)
+add_test(NAME world_item_sound_v1 COMMAND world_item_sound_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-14-rc1/assets")
+target_sources(dh-foundation PRIVATE
+  features/interactions/session_world_item_consumer_v1.cpp
+  features/interactions/source_world_item_drop_render_v1.cpp
+  features/interactions/source_world_item_drop_material_v1.cpp
+  features/interactions/world_drop_runtime_v1.cpp
+  ../engine-ui/character_menu_font_palette_v1.cpp)
+# P15 LEVELUP (I026): level-up FX presentation outcome branches over original EffectsTables.
+add_executable(runtime_level_up_presentation_v1_tests features/effects/runtime_level_up_presentation_v1_tests.cpp
+  features/effects/runtime_level_up_presentation_v1.cpp ../game-data/effects_tables.cpp ../game-data/data.cpp)
+target_link_libraries(runtime_level_up_presentation_v1_tests PRIVATE foundation_data)
+add_test(NAME runtime_level_up_presentation_v1 COMMAND runtime_level_up_presentation_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-14-rc1/assets/data")
+
+add_executable(world_drop_rules_v1_tests features/loot/world_drop_rules_v1_tests.cpp)
+target_link_libraries(world_drop_rules_v1_tests PRIVATE foundation_runtime_loot foundation_data)
+add_test(NAME world_drop_rules_v1 COMMAND world_drop_rules_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+
 add_executable(neutral_world_save_tests tests/neutral_world_save_tests.cpp)
 target_link_libraries(neutral_world_save_tests PRIVATE foundation_data)
 add_test(NAME neutral_world_save COMMAND neutral_world_save_tests
@@ -623,6 +712,28 @@ add_test(NAME player_profile_properties COMMAND player_profile_properties_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets"
   "${CMAKE_CURRENT_BINARY_DIR}")
 
+# P14 EQUIP: adapter (equip/auto-equip/class gate/ordering) and main-page (ALL banner/Details commands) tests.
+add_executable(equipment_adapter_tests features/equipment/equipment_adapter_tests.cpp)
+target_link_libraries(equipment_adapter_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME equipment_adapter COMMAND equipment_adapter_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+add_executable(equipment_inventory_actions_tests features/equipment/equipment_inventory_actions_v1_tests.cpp)
+target_link_libraries(equipment_inventory_actions_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME equipment_inventory_actions COMMAND equipment_inventory_actions_tests)
+add_executable(equipment_main_page_tests features/equipment/equipment_main_page_tests.cpp)
+target_link_libraries(equipment_main_page_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME equipment_main_page COMMAND equipment_main_page_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# P14 EQUIP (B045): Details list row hit geometry.
+add_executable(inventory_details_row_geometry_tests features/inventory/details_row_geometry_tests.cpp)
+target_link_libraries(inventory_details_row_geometry_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME inventory_details_row_geometry COMMAND inventory_details_row_geometry_tests)
+# P15 DROPGATE: Details Drop follows the selected instance (bag copy vs equipped, paired ring slot).
+add_executable(inventory_drop_gate_tests features/inventory/inventory_drop_gate_tests.cpp)
+target_link_libraries(inventory_drop_gate_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME inventory_drop_gate COMMAND inventory_drop_gate_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+
 add_executable(combat_session_equipment_multiplicity_tests tests/combat_session_equipment_multiplicity_tests.cpp)
 target_link_libraries(combat_session_equipment_multiplicity_tests PRIVATE foundation_data)
 add_test(NAME combat_session_equipment_multiplicity COMMAND combat_session_equipment_multiplicity_tests
@@ -637,6 +748,10 @@ add_executable(runtime_skill_session_training_tests features/generic_skills/runt
 target_link_libraries(runtime_skill_session_training_tests PRIVATE foundation_runtime_skills_menu)
 add_test(NAME runtime_skill_session_training COMMAND runtime_skill_session_training_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# Preview 14 Stats +/- route: spend, refuse at zero, failed-save rollback, recalc (features/character_menu/stat_training_v1).
+add_executable(stat_training_v1_tests features/character_menu/stat_training_v1_tests.cpp)
+target_link_libraries(stat_training_v1_tests PRIVATE foundation_runtime_skills_menu)
+add_test(NAME stat_training_v1 COMMAND stat_training_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
 
 add_executable(combat_session_incoming_receiver_tests tests/combat_session_incoming_receiver_tests.cpp)
 target_link_libraries(combat_session_incoming_receiver_tests PRIVATE foundation_runtime_enemy)
@@ -710,3 +825,14 @@ add_executable(combat_session_presentation_state_tests tests/combat_session_pres
 target_link_libraries(combat_session_presentation_state_tests PRIVATE foundation_data)
 add_test(NAME combat_session_presentation_state COMMAND combat_session_presentation_state_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+
+# P14 schema v4: CharacterState codec (difficulty, menu metadata, visited modules, CQPG v2 counters).
+add_executable(schema_v4_tests tests/schema_v4_tests.cpp)
+target_link_libraries(schema_v4_tests PRIVATE foundation_data)
+add_test(NAME schema_v4 COMMAND schema_v4_tests)
+# P14 schema: LevelList row 41 = 001_swamp (The Boglands), stamping rules, slot panel projection.
+add_executable(menu_metadata_v1_tests features/menu_metadata/menu_metadata_v1_tests.cpp)
+target_link_libraries(menu_metadata_v1_tests PRIVATE foundation_frontend)
+add_test(NAME menu_metadata_v1 COMMAND menu_metadata_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../android-native/app/src/main/assets")

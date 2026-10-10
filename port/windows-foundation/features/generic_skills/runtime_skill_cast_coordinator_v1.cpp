@@ -1,4 +1,6 @@
 #include "runtime_skill_cast_coordinator_v1.hpp"
+#include "../faery_menu/faery_cast_sound_v1.hpp"
+#include "pc_cooldown_frame_v1.hpp"
 
 #include "../../playable_actor_world.hpp"
 #include "../../original_combat_properties.hpp"
@@ -14,6 +16,20 @@ namespace {
 bool fail(std::string& error, const char* message) {
     error = message;
     return false;
+}
+
+// P15 FAERYSOUND (B050): original OnPreSkill_ PlaySound3D labels. Called after the
+// UseMana/cooldown prefix is committed, for every cast (empty target list included).
+void request_faery_pre_sound(const RuntimeSkillFaeryPreSoundSinkV1& sink, CombatSession& session,
+                             ActorId caster, bool hotty, std::size_t target_count) {
+    if (!sink) return;
+    RuntimeSkillFaeryPreSoundV1 request;
+    request.caster = caster;
+    request.target_count = target_count;
+    if (const auto* actor = session.actor(caster))
+        request.position = {actor->transform.position[0], actor->transform.position[1], actor->transform.position[2]};
+    request.labels = faery_menu::faery_pre_sound_labels_v1(hotty, target_count);
+    sink(request);
 }
 
 #if !defined(DH_RUNTIME_SKILL_CAST_WARRIOR_ONLY_TEST)
@@ -265,6 +281,7 @@ bool RuntimeSkillCastCoordinatorV1::advance_after_session_update(
     if (timer_clock_bound_) {
         if (timer_binding_lease_.expired() || !same_owner(timer_binding_lease_, lease)) {
             skill_ready_at_ms_.clear();
+            skill_cooldown_total_ms_.clear();
             timer_clock_bound_ = false;
             return fail(error, "Skill cooldown timer state belongs to a replaced CombatSession binding");
         }
@@ -280,8 +297,10 @@ bool RuntimeSkillCastCoordinatorV1::advance_after_session_update(
     timer_binding_lease_ = lease;
     timer_clock_bound_ = true;
     for (auto it = skill_ready_at_ms_.begin(); it != skill_ready_at_ms_.end();) {
-        if (elapsed_ms_ >= it->second) it = skill_ready_at_ms_.erase(it);
-        else ++it;
+        if (elapsed_ms_ >= it->second) {
+            skill_cooldown_total_ms_.erase(it->first);
+            it = skill_ready_at_ms_.erase(it);
+        } else ++it;
     }
     error.clear();
     return true;
@@ -492,6 +511,9 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
                 active_[request.actor] = std::move(active);
                 return fail(error, "Celest OnPre did not reach its authored UseMana/cooldown prefix");
             }
+            // P15 FAERYSOUND: Celest OnPreSkill_ tier label (+ StaticBallKilled when empty), after mana commit.
+            request_faery_pre_sound(faery_pre_sound_sink_, session, request.actor, false,
+                                    active.celest_prepared.character_targets.size());
             faery_menu::CelestEffectReceiptV1 pre_fx;
             if (!faery_menu::dispatch_celest_player_pre_best_effort_v1(
                     session, active.celest_prepared, *active.character,
@@ -594,6 +616,9 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             active_[request.actor] = std::move(active);
             return fail(error, "Hotty OnPre did not reach its authored UseMana/cooldown prefix");
         }
+        // P15 FAERYSOUND: Hotty OnPreSkill_ sound (tier label, or mage staff fire when empty).
+        request_faery_pre_sound(faery_pre_sound_sink_, session, request.actor, true,
+                                active.hotty_prepared.character_targets.size());
         if (active.hotty_effect_dispatch) {
             std::string fx_error;
             if (!active.hotty_effect_dispatch->dispatch_player_pre(
@@ -866,6 +891,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             return fail(error, "Source skill cooldown timer overflowed after UseMana");
         }
         skill_ready_at_ms_[{request.actor, visual.skill_table_id}] = ready;
+        skill_cooldown_total_ms_[{request.actor, visual.skill_table_id}] = active.cooldown_ms;
     }
 
     const auto generation = active.receipt.generation;
@@ -1035,8 +1061,16 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         }
         active.use_delivered = true;
         active.receipt.phase = RuntimeSkillCastPhaseV1::use_applied;
-        if (active.receipt.detail.find("FX diagnostic:") == std::string::npos)
-            active.receipt.detail = "Hotty source state7 do_spell applied its ordered same-session result loop";
+        // Keep retained FX diagnostics (Player_Pre / target FX) after the Use summary.
+        std::string hotty_fx_diagnostics;
+        const auto hotty_diagnostic_start = active.receipt.detail.find("FX diagnostic:");
+        if (hotty_diagnostic_start != std::string::npos)
+            hotty_fx_diagnostics = active.receipt.detail.substr(hotty_diagnostic_start);
+        active.receipt.detail = "Hotty source state7 do_spell applied its ordered same-session result loop";
+        if (!hotty_fx_diagnostics.empty()) {
+            active.receipt.detail += "; ";
+            active.receipt.detail += hotty_fx_diagnostics;
+        }
         output = active.receipt;
         error.clear();
         return true;
@@ -1245,6 +1279,14 @@ const RuntimeSkillCastReceiptV1* RuntimeSkillCastCoordinatorV1::receipt(
     ActorId actor) const noexcept {
     const auto found = active_.find(actor);
     return found == active_.end() ? nullptr : &found->second.receipt;
+}
+
+double RuntimeSkillCastCoordinatorV1::skill_cooldown_remaining_fraction_v1(
+    ActorId actor, int skill_table_id) const noexcept {
+    const auto ready = skill_ready_at_ms_.find({actor, skill_table_id});
+    const auto total = skill_cooldown_total_ms_.find({actor, skill_table_id});
+    if (ready == skill_ready_at_ms_.end() || total == skill_cooldown_total_ms_.end()) return 0.0;
+    return pc_cooldown_remaining_fraction_v1(ready->second, elapsed_ms_, total->second);
 }
 
 } // namespace dh::foundation::generic_skills

@@ -69,14 +69,16 @@ bool RuntimeWorldItemInteractionV1::dispatch_live_player(
     // returns ItemTable word3. This store has no per-instance override.
     const auto source_pickup_type = drop.authored_item->record.words[3];
     const bool gold_token = drop.authored_item->record.words[22] == 13;
-    if (source_pickup_type == 13 && !gold_token)
-        return fail(error, "Unmapped source pickup type 13 transfer branch");
     if (gold_token && !drop.source_outcome.resolved_gold_value)
         return fail(error, "Source gold-token creation value is unavailable");
-    if (source_pickup_type == 14)
-        return fail(error, "Source potion-capacity/consumption pickup owner is unavailable");
-    if (drop.authored_item->record.words[26] != -1)
-        return fail(error, "Source equippable pickup requires native power/Gear/transmute owners");
+    if (!services.original_interact_gates_applied) {
+        if (source_pickup_type == 13 && !gold_token)
+            return fail(error, "Unmapped source pickup type 13 transfer branch");
+        if (source_pickup_type == 14)
+            return fail(error, "Source potion-capacity/consumption pickup owner is unavailable");
+        if (drop.authored_item->record.words[26] != -1)
+            return fail(error, "Source equippable pickup requires native power/Gear/transmute owners");
+    }
 
     std::shared_ptr<CharacterState> character;
     try {

@@ -47,6 +47,10 @@ public:
                      std::int32_t source_class_id,const CharacterState* actual_profile,
                      std::string& value,std::string& error);
     bool string_id(std::int32_t actual_source_oid,std::string& value,std::string& error);
+    // Original common_text constant (e.g. group "StrID", key "GAMEPLAYMENUS_LEVEL").
+    bool constant(const char* group,const char* key,std::int32_t& value,std::string& error);
+    // NativeGetParsedString(symbol, number): symbols with a "^d" integer argument (e.g. MENU_ACT).
+    bool parsed_symbol(const std::string& symbol,std::int32_t number,std::string& value,std::string& error);
     bool bind_profile(const CharacterState* actual_profile,std::string& error);
     // Borrow THIS exact source StringManager cache and services to construct
     // ItemTextOwnerV5; lifetime ends on successful reload/destruction. Application

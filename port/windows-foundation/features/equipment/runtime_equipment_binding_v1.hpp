@@ -105,6 +105,10 @@ public:
     // Consumes RuntimeEquipmentPage's typed request_auto_equip command through
     // the existing dh2_equipment_auto_v3/EquipmentAdapter kernel.
     bool auto_equip(const std::string& instance_id, std::string& error);
+    // Original NativeInvAutoEquipSlot(slot) / NativeInvAutoEquipSlot(-1): per-slot best-item auto-equip
+    // and the whole-sheet ALL button. Same render/appearance refresh as the other mutations.
+    bool auto_equip_slot(unsigned source_slot, std::string& error);
+    bool auto_equip_all(std::string& error);
     bool unequip(unsigned source_slot, std::string& error);
 
     // Call after CombatSession samples/advances its live player visual. The
@@ -123,6 +127,13 @@ public:
     bool with_preview_packets(const SourceEquipmentRenderServicesV1&,
                               const RuntimeEquipmentPreviewPacketsCallbackV1&,
                               std::string& error);
+    // Equipment avatar pane clock (B051). The pane always shows the bound idle
+    // locomotion clip (Session::with_locomotion_preview_pose), never the actor's
+    // current action clip, even while gameplay is paused for the page. Like the
+    // original Show/RenderCharacterPane pair: opening the page restarts idle, and
+    // each rendered frame advances the pane by real frame time.
+    void restart_preview_clock();
+    void advance_preview_clock(double seconds);
     // Returns false with an empty error when there is no unconsumed change.
     bool take_render_change(RuntimeEquipmentRenderChangeV1&, std::string& error);
 };

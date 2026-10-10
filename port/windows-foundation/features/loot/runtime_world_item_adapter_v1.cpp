@@ -1,4 +1,5 @@
 #include "runtime_world_item_adapter_v1.hpp"
+#include "world_drop_rules_v1.hpp"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -127,15 +128,179 @@ bool RuntimeWorldItemAdapterV1::publish_at_position(
     entry.quantity = record.quantity;
     entry.source_position = position;
     entry.inventory_instance_id = "world-drop-" + std::to_string(entry.identity);
+    entry.destination = position;
+    entry.visual_row = record.authored_item->record.words[item_word_audio_visual_v1];
+    entry.spawn_sequence = next_sequence_;
 
     try {
+        // ItemManager::Spawn: five ItemObjects per AudioVisual category, reused
+        // round-robin; the slot being reused is de-spawned (its item is gone).
+        if (entry.visual_row >= 0) {
+            for (;;) {
+                std::size_t live = 0;
+                auto oldest = items_.end();
+                for (auto it = items_.begin(); it != items_.end(); ++it) {
+                    if (it->second.visual_row != entry.visual_row) continue;
+                    ++live;
+                    if (oldest == items_.end() ||
+                        it->second.spawn_sequence < oldest->second.spawn_sequence) oldest = it;
+                }
+                if (live < world_item_pool_slots_per_category_v1) break;
+                items_.erase(oldest);
+                ++pool_evictions_;
+            }
+        }
         auto inserted = items_.emplace(entry.identity, entry);
         if (!inserted.second) return fail(error, "Runtime world-item identity collided with a live drop");
     } catch (...) {
         return fail(error, "Runtime world-item publication allocation failed");
     }
+    ++next_sequence_;
     published_item = next_identity_++;
+    notify_sound_(WorldItemSoundEventV1::drop, items_.at(published_item));
     return true;
+}
+
+bool scatter_destination_v1(dh2::data::LootRandom8V2& rng,
+                            const std::array<float, 3>& victim,
+                            const std::array<float, 3>* killer,
+                            std::array<float, 3>& out, std::string& error) {
+    error.clear();
+    std::int32_t draw{};
+    if (!killer) {
+        out = victim;
+        if (dh2_loot_v2_random(&rng, 500, &draw)) return fail(error, "Scatter Random failed");
+        out[0] = float(draw - 250) + out[0];
+        if (dh2_loot_v2_random(&rng, 500, &draw)) return fail(error, "Scatter Random failed");
+        out[1] = out[1] + float(draw - 250);
+        return true;
+    }
+    float dir[3]{(*killer)[0] - victim[0], (*killer)[1] - victim[1], (*killer)[2] - victim[2]};
+    // Point3D<float>::normalize34d0b0 divides unconditionally (IEEE zero/NaN kept);
+    // a coincident killer would produce NaN, which is rejected below.
+    const float length = std::sqrt(dir[0] * dir[0] + dir[1] * dir[1] + dir[2] * dir[2]);
+    for (float& v : dir) v /= length;
+    if (dh2_loot_v2_random(&rng, 200, &draw)) return fail(error, "Scatter Random failed");
+    const float along = float(draw + 150);
+    if (dh2_loot_v2_random(&rng, 300, &draw)) return fail(error, "Scatter Random failed");
+    const float across = float(draw - 150);
+    constexpr float k[3]{0.f, 0.f, 1.f}; // Vec3f_K
+    const float cx = dir[1] * k[2] - dir[2] * k[1];
+    const float cy = dir[2] * k[0] - dir[0] * k[2];
+    const float cz = dir[0] * k[1] - dir[1] * k[0];
+    out = {(across * cx + dir[0] * along) + victim[0],
+           (across * cy + dir[1] * along) + victim[1],
+           (across * cz + dir[2] * along) + victim[2]};
+    if (!valid_position(out)) return fail(error, "Scatter produced a nonfinite landing point");
+    return true;
+}
+
+std::int32_t item_power_font_palette_row_v1(std::size_t power_count) noexcept {
+    switch (power_count) {
+    case 0: return 6;
+    case 1: return 4;
+    case 2: return 1;
+    case 3: return 5;
+    case 4: return 3;
+    default: return 2;
+    }
+}
+
+bool RuntimeWorldItemAdapterV1::publish_death_drop_scattered(
+    const RuntimeWorldItemRecordV1& record, const dh::foundation::ActorState& victim,
+    const std::array<float, 3>* killer_position, dh2::data::LootRandom8V2* rng,
+    RuntimeWorldItemIdV1& published_item, std::string& error) {
+    if (!publish_death_drop(record, victim, published_item, error)) return false;
+    if (!rng) return true;
+    std::array<float, 3> landing{};
+    if (!scatter_destination_v1(*rng, victim.transform.position, killer_position, landing, error)) {
+        // Keep the published item at the victim position (no reward is lost).
+        error.clear();
+        return true;
+    }
+    items_.at(published_item).destination = landing;
+    return true;
+}
+
+bool RuntimeWorldItemAdapterV1::publish_inventory_drop(
+    const dh::foundation::InventoryItem& item, const std::array<float, 3>& position,
+    dh::foundation::ActorId owner_actor, std::int32_t owner_protect_ms,
+    RuntimeWorldItemIdV1& published_item, std::string& error) {
+    error.clear();
+    published_item = invalid_runtime_world_item_v1;
+    if (running_) return fail(error, "Unsupported world-item store reentry");
+    RunningGuard guard(running_);
+    if (!tables_) return fail(error, "Missing same original LootTables/ItemTable snapshot");
+    if (item.quantity == 0 || item.quantity > 255)
+        return fail(error, "Dropped world item quantity must be 1..255");
+    if (!valid_position(position)) return fail(error, "Dropped item position is nonfinite");
+    const auto& table = tables_.items();
+    std::size_t index = table.identifiers.size();
+    for (std::size_t i = 0; i < table.identifiers.size(); ++i)
+        if (table.identifiers[i] == item.definition_id) { index = i; break; }
+    if (index == table.identifiers.size() || index >= table.rows.size())
+        return fail(error, "Dropped item has no original ItemTable row");
+    if (next_identity_ == invalid_runtime_world_item_v1 ||
+        next_identity_ == std::numeric_limits<RuntimeWorldItemIdV1>::max())
+        return fail(error, "Runtime world-item identity space exhausted");
+
+    RuntimeWorldItemEntryV1 entry;
+    entry.identity = next_identity_;
+    entry.authored_item = &table.rows[index];
+    entry.source_outcome.source_actor = owner_actor;
+    entry.source_outcome.killer_actor = invalid_actor_id;
+    entry.source_outcome.loot_table = -1;
+    entry.source_outcome.item_id = static_cast<std::int16_t>(index);
+    entry.source_outcome.quantity = static_cast<std::uint8_t>(item.quantity);
+    entry.source_outcome.authored_item = entry.authored_item;
+    entry.quantity = item.quantity;
+    entry.source_position = position;
+    entry.destination = position;
+    entry.inventory_instance_id = item.instance_id.empty()
+        ? "world-drop-" + std::to_string(entry.identity) : item.instance_id;
+    entry.visual_row = entry.authored_item->record.words[item_word_audio_visual_v1];
+    entry.spawn_sequence = next_sequence_;
+    entry.owner_actor = owner_actor;
+    entry.owner_protect_ms = owner_protect_ms;
+    entry.from_inventory = true;
+    try {
+        if (entry.visual_row >= 0) {
+            for (;;) {
+                std::size_t live = 0;
+                auto oldest = items_.end();
+                for (auto it = items_.begin(); it != items_.end(); ++it) {
+                    if (it->second.visual_row != entry.visual_row) continue;
+                    ++live;
+                    if (oldest == items_.end() ||
+                        it->second.spawn_sequence < oldest->second.spawn_sequence) oldest = it;
+                }
+                if (live < world_item_pool_slots_per_category_v1) break;
+                items_.erase(oldest);
+                ++pool_evictions_;
+            }
+        }
+        if (!items_.emplace(entry.identity, entry).second)
+            return fail(error, "Runtime world-item identity collided with a live drop");
+    } catch (...) {
+        return fail(error, "Runtime world-item publication allocation failed");
+    }
+    ++next_sequence_;
+    published_item = next_identity_++;
+    notify_sound_(WorldItemSoundEventV1::drop, items_.at(published_item));
+    return true;
+}
+
+void RuntimeWorldItemAdapterV1::advance(std::uint32_t dt_ms) noexcept {
+    const float dt_seconds = float(dt_ms) / 1000.0f;
+    for (auto& pair : items_) {
+        auto& item = pair.second;
+        item.age_ms += dt_ms;
+        if (item.owner_protect_ms > 0)
+            item.owner_protect_ms = item.owner_protect_ms > std::int32_t(dt_ms)
+                ? item.owner_protect_ms - std::int32_t(dt_ms) : 0;
+        // Ground-plane slide (see advance_world_item_step_v1): Z keeps its spawn height.
+        item.source_position = advance_world_item_step_v1(item.source_position, item.destination, dt_seconds);
+    }
 }
 
 bool RuntimeWorldItemAdapterV1::spawn_world_item_thunk(
@@ -229,10 +394,12 @@ bool RuntimeWorldItemAdapterV1::pickup(
             receipt.quantity = drop.quantity;
             static_assert(std::is_nothrow_swappable<dh::foundation::CharacterState>::value,
                           "World item erase and CharacterState commit must be no-throw");
+            const RuntimeWorldItemEntryV1 picked = found->second;
             items_.erase(found);
             using std::swap;
             swap(character, staged);
             receipt.completed = true;
+            notify_sound_(WorldItemSoundEventV1::pickup, picked);
             return true;
         }
         std::string inventory_id = drop.inventory_instance_id;
@@ -262,10 +429,12 @@ bool RuntimeWorldItemAdapterV1::pickup(
         receipt.quantity = drop.quantity;
         static_assert(std::is_nothrow_swappable<dh::foundation::CharacterState>::value,
                       "World item erase and CharacterState commit must be no-throw");
+        const RuntimeWorldItemEntryV1 picked = found->second;
         items_.erase(found);
         using std::swap;
         swap(character, staged);
         receipt.completed = true;
+        notify_sound_(WorldItemSoundEventV1::pickup, picked);
         return true;
     } catch (const std::exception& exception) {
         receipt = {};

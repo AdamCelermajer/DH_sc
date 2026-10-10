@@ -29,6 +29,7 @@ struct RuntimeAttackSoundDiagnosticV1 {
     std::int64_t sequence_id=-1;
     std::uint32_t step=0;
     std::int32_t sound_id=-1;
+    CombatSessionStepRole role=CombatSessionStepRole::action;
     RuntimeAttackSoundStatusV1 status=RuntimeAttackSoundStatusV1::not_applicable;
     std::string detail;
 };

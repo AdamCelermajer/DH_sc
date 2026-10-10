@@ -25,6 +25,7 @@
 #include "features/character_menu/character_menu.hpp"
 #include "features/character_menu/menu_text.hpp"
 #include "features/character_menu/menu_text_layout_v1.hpp"
+#include "features/character_menu/stat_training_v1.hpp"
 #include "features/pause_ui/source_pause_ui_render_v1.hpp"
 #include "features/frontend/rich_text.hpp"
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
@@ -38,17 +39,25 @@
 #include "features/generic_skills/pc_gameplay_hud_v1.hpp"
 #include "features/skill_ui/skill_ui.hpp"
 #include "features/equipment/runtime_equipment_text_v1.hpp"
+#include "features/faery_menu/character_state_faery_v1.hpp" // P14 FAERY: CharacterState Faery page host + script effects
+#include "features/equipment/equipment_inventory_actions_v1.hpp"
 #include "features/equipment/runtime_player_locomotion_library_v1.hpp"
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "../script-runtime/script_constants.hpp"
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
+// P14 DROPS: world item presentation, pickup rules and item name text
+#include "features/interactions/world_drop_runtime_v1.hpp"
+#include "features/inventory/source_item_descriptors.hpp"
+#include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
 #include "features/frontend/menu_return/menu_return_v1.hpp"
+#include "features/menu_metadata/menu_metadata_v1.hpp" // P14 schema: per-slot menu metadata stamping/projection
 #if defined(_WIN32)
 #include "features/audio/frontend_menu_audio_v1.hpp"
 #endif
 #include "features/effects/runtime_effects_renderer_v1.hpp"
 #include "features/effects/runtime_swing_fx_observer_v1.hpp"
+#include "features/effects/runtime_level_up_presentation_v1.hpp" // P15 LEVELUP (I026)
 #include "features/effects/celest_target_fx_dispatch_v1.hpp"
 #include "features/platform_input/semantic_input.hpp"
 #include "features/combat_text/combat_text.hpp"
@@ -60,6 +69,7 @@
 #include "features/audio/runtime_audio_host_v1.hpp"
 #include "features/audio/level_music_v1.hpp"
 #include "features/audio/runtime_session_audio_v1.hpp"
+#include "features/loot/world_item_sound_v1.hpp"
 #include "features/frontend/creation/generic_creation_host_v1.hpp"
 #include "features/frontend/creation/dynamic_text_bindings.hpp"
 #include "features/frontend/creation/runtime_creation_source_loader_v1.hpp"
@@ -94,6 +104,10 @@
 #include "platform_key_codes.hpp"
 #endif
 #include "platform_sleep.hpp"
+#include "features/startup/boot_runner_v1.hpp"  // Preview 15 startup boot
+#include "features/startup/loading_screen_v1.hpp"  // Preview 15 campaign loading screen
+#include "features/audio/winmm_output.hpp"         // Preview 15 boot soundtrack output (platform pump only)
+#include "../engine-audio/audio_mixer_v34.hpp"
 #include <GL/gl.h>
 #include <algorithm>
 #include <cmath>
@@ -114,7 +128,7 @@ namespace fs = std::filesystem;
 struct GameplayRewardContext {
     std::function<bool(const char*,bool&,std::string&)> debug;
     std::function<bool(f::ActorId,f::loot::RuntimeDeathActorV1&,std::string&)> character;
-    // The current creation/start path admits Normal difficulty only.
+    // Filled from the shared profile (CharacterState current/unlocked difficulty) at each reward binding.
     std::int32_t currentDifficulty{},unlockedDifficulty{};
     bool rewardsSuppressed{};
     static bool admission(void* raw,f::loot::RuntimeDeathRewardAdmissionV1& out,std::string& e) {
@@ -150,6 +164,30 @@ std::string glyphTextureKey(const f::HudGlyphQuad& glyph,const char* prefix) {
     for(const auto byte:glyph.image.rgba){hash^=byte;hash*=1099511628211ull;}
     return std::string(prefix)+"/"+std::to_string(glyph.codepoint)+"/"+
         std::to_string(glyph.image.width)+"/"+std::to_string(glyph.image.height)+"/"+std::to_string(hash);
+}
+// P14 DROPS: centred world/status label from the original Fontin glyph owner.
+// rgb is 0xRRGGBB; (centreX, baselineY) are window pixels; scale = window px per source px.
+bool drawScreenLabel(f::HudGlyphFont& font,const std::string& text,std::uint32_t rgb,int sourceHeight,
+                     float centreX,float baselineY,float scale,f::Renderer& renderer,f::OverlayRenderer& overlay,
+                     std::map<std::string,std::uint32_t>& textures,std::string& error) {
+    f::HudGlyphRun run;
+    if(!font.raster(text,sourceHeight,scale,run,error))return false;
+    const std::array<float,4> color{float((rgb>>16)&255)/255.f,float((rgb>>8)&255)/255.f,float(rgb&255)/255.f,1.f};
+    for(const auto& glyph:run.glyphs) {
+        if(glyph.width<=0||glyph.height<=0)continue;
+        const auto key=glyphTextureKey(glyph,"drop-glyph");
+        auto handle=textures.find(key);
+        if(handle==textures.end()) {
+            const auto texture=renderer.createTexture(glyph.image.width,glyph.image.height,glyph.image.rgba.data());
+            if(!texture){error="Original item-label glyph upload failed";return false;}
+            handle=textures.emplace(key,texture).first;
+        }
+        f::OverlaySprite sprite;
+        sprite.x=centreX+(glyph.x-run.advance*.5f)*scale;sprite.y=baselineY+glyph.y*scale;
+        sprite.width=glyph.width*scale;sprite.height=glyph.height*scale;sprite.u1=glyph.u1;sprite.v1=glyph.v1;
+        sprite.texture=handle->second;sprite.color=color;overlay.drawSprite(sprite);
+    }
+    error.clear();return true;
 }
 bool drawCombatGlyphs(const std::vector<f::CombatTextGlyph>& glyphs,f::Renderer& renderer,
                      f::OverlayRenderer& overlay,std::map<std::string,std::uint32_t>& textures,
@@ -203,6 +241,8 @@ struct Options {
     fs::path audioAssets,audioTable;
     int audioListener=-1;
     std::string startMode="menu",menuActions,menuReturnActions;
+    bool skipBoot=false;std::string introMovie,loadingCapture; // Preview 15 startup boot (--skip-boot, --intro-movie, --loading-capture)
+    std::vector<double> bootPresses;std::vector<std::pair<double,fs::path>> bootCaptures;double bootMaxSeconds=0; // boot verification hooks
     fs::path menuAssets,menuUiAssets,menuCaptureDirectory;
     int menuCaptureEvery=6;
     int menuFrames=0,selectedSaveSlot=0;
@@ -228,9 +268,12 @@ struct Options {
     int profileClickFrame=-1;
     int skillsPageFrame=-1;
     int equipmentPageFrame=-1;
+    int faeryPageFrame=-1; // P14 FAERY
+    std::vector<std::string> bagItemIds; // P14 EQUIP: --bag-item diagnostic rows
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
     std::vector<std::pair<int,int>> skillKeyFrames;
+    std::vector<int> pickupFrames; // P14 DROPS: scripted world-item pickup key presses (same action as E)
     std::vector<std::pair<int,int>> spaceKeyIntervals;
     int menuCloseFrame=-1;
     int pausePageFrame=-1,pauseCloseFrame=-1;
@@ -306,6 +349,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--combat-state") {auto c=pair(value());o.combat.profiles[c.first].originalCombatState=std::stoi(c.second);}
         else if(arg=="--combat-auto") o.diagnosticAI=true;
         else if(arg=="--equipped-item") o.combat.equippedItemIds.push_back(value());
+        else if(arg=="--bag-item") o.bagItemIds.push_back(value()); // P14 EQUIP diagnostic: unequipped bag row (see direct bootstrap)
         else if(arg=="--combat-main-item") o.combat.mainItemId=value();
         else if(arg=="--attack-frames") {o.attackFrames=std::stoi(value());if(o.attackFrames<1)throw std::runtime_error("Attack frames must be positive");}
         else if(arg=="--attack-start-frame") {o.attackStartFrame=std::stoi(value());if(o.attackStartFrame<0)throw std::runtime_error("Attack start frame must be nonnegative");}
@@ -325,12 +369,14 @@ Options parse(int argc, char** argv) {
         else if(arg=="--profile-click-frame") o.profileClickFrame=std::stoi(value());
         else if(arg=="--skills-page-frame") o.skillsPageFrame=std::stoi(value());
         else if(arg=="--equipment-page-frame") o.equipmentPageFrame=std::stoi(value());
+        else if(arg=="--faery-page-frame") o.faeryPageFrame=std::stoi(value()); // P14 FAERY
         else if(arg=="--menu-release") {
             std::istringstream input(value());Options::MenuRelease release{};char first=0,second=0;
             if(!(input>>release.frame>>first>>release.x>>second>>release.y)||first!=':'||second!=':'||release.frame<0||!std::isfinite(release.x)||!std::isfinite(release.y))throw std::runtime_error("Menu release requires FRAME:AUTHORED_X:AUTHORED_Y");
             o.menuReleases.push_back(release);
         }
         else if(arg=="--menu-close-frame") o.menuCloseFrame=std::stoi(value());
+        else if(arg=="--pickup-frame") {const int frame=std::stoi(value());if(frame<0)throw std::runtime_error("Pickup frame must be nonnegative");o.pickupFrames.push_back(frame);}
         else if(arg=="--skill-key-frame") {
             const auto text=value();const auto split=text.find(':');
             if(split==std::string::npos)throw std::runtime_error("HUD key frame requires FRAME:KEY(1..5)");
@@ -394,6 +440,16 @@ Options parse(int argc, char** argv) {
         else if(arg=="--capture") o.capture=value();
         else if(arg=="--fixed-step") {o.fixedStep=std::stod(value());if(!std::isfinite(o.fixedStep)||o.fixedStep<=0||o.fixedStep>1)throw std::runtime_error("Fixed step must be in (0,1]");}
         else if(arg=="--probe") o.probe=true;
+        else if(arg=="--skip-boot") o.skipBoot=true;  // Preview 15: tests run without logo/movie/title
+        else if(arg=="--intro-movie") o.introMovie=value();
+        else if(arg=="--loading-capture") o.loadingCapture=value();  // <prefix>: writes <prefix>-NNN.ppm per loading stage
+        else if(arg=="--boot-press") o.bootPresses.push_back(std::stod(value()));  // scripted press/tap (verification)
+        else if(arg=="--boot-max-seconds") o.bootMaxSeconds=std::stod(value());
+        else if(arg=="--boot-capture") {  // <seconds>=<file.ppm>, written by the boot runner
+            const auto spec=value();const auto eq=spec.find('=');
+            if(eq==std::string::npos)throw std::runtime_error("--boot-capture expects <seconds>=<file>");
+            o.bootCaptures.push_back({std::stod(spec.substr(0,eq)),fs::path(spec.substr(eq+1))});
+        }
         else if(arg=="--timeline") o.timeline=true;
         else if(arg=="--help") {
             std::cout<<"dh-foundation [--assets DIR] [--scene RELATIVE_BDAE | --level RELATIVE_MLX] [--module NODE]\n"
@@ -461,7 +517,22 @@ int main(int argc,char** argv) {
         if(options.assets.empty()) options.assets=f::AssetCatalog::discover_root(executablePath);
         f::AssetCatalog assets(options.assets);
         const auto launchOptions=options;
+        // P14 schema: LevelList (data/levels_pyarray.bin) for slot metadata; loaded once, on first use.
+        dh2::data::LevelTables metadataLevels;bool metadataLevelsTried=false,metadataLevelsLoaded=false;
+        const auto loadMetadataLevels=[&](const f::AssetCatalog& catalog)->const dh2::data::LevelTables* {
+            if(!metadataLevelsTried) {
+                metadataLevelsTried=true;std::string levelsError;
+                metadataLevelsLoaded=f::menu_metadata::load_level_tables(catalog,metadataLevels,levelsError);
+                if(!metadataLevelsLoaded)std::cerr<<"Menu metadata LevelList diagnostic: "<<levelsError<<'\n';
+            }
+            return metadataLevelsLoaded?&metadataLevels:nullptr;
+        };
+        // Source SG_SetSaveDate + SG_SetLevelId at a profile save point (Level::SG_SavePlayer, F5/checkpoint, menu return).
+        const auto stampSaveMetadata=[&](f::CharacterState& profile,const std::string& levelUri) {
+            f::menu_metadata::stamp_menu_metadata_for_level(profile,std::uint32_t(std::time(nullptr)),loadMetadataLevels(assets),levelUri);
+        };
         bool returnMenuScriptConsumed=false;
+        bool bootShown=false;  // Preview 15: the boot runs once per process, not on return-to-menu
         f::Window window;f::Renderer renderer;bool windowOpened=false;
         for(;;) {
         auto sharedCharacter=std::make_shared<f::CharacterState>(f::make_default_character());
@@ -479,6 +550,36 @@ int main(int argc,char** argv) {
                 windowOpened=true;
             } else if((window.width()!=width||window.height()!=height)&&!window.resize(width,height))
                 throw std::runtime_error("Frontend retained window resize: "+window.error());
+            // Preview 15 startup boot (original order): intro movie (contains the Gameloft logo, SKIP) -> touch to
+            // continue -> main menu, first menu entry only. --skip-boot bypasses it for tests; boot asset failures
+            // are logged and the menu still runs.
+            if(!options.skipBoot&&!bootShown) {
+                bootShown=true;
+                f::startup::BootRunConfig bootConfig;bootConfig.assets=&assets;
+                bootConfig.intro_movie=options.introMovie.empty()?assets.root()/"converted-media"/"intro_v1.mpg":fs::path(options.introMovie);
+                bootConfig.window_width=width;
+                bootConfig.scripted_presses=options.bootPresses;bootConfig.captures=options.bootCaptures;
+                bootConfig.max_seconds=options.bootMaxSeconds;
+                bootConfig.capture=[](const fs::path& p,int w,int h){capture(p,w,h);};
+                // The movie soundtrack runs on its own mixer; the boot owns the platform output while it runs.
+                auto bootMixer=std::make_unique<dh2::audio::AudioMixerV34>();
+                f::audio::WinmmAudioOutput bootOutput(*bootMixer);
+                std::string bootAudioError;
+                if(bootOutput.open(bootAudioError)) {
+                    bootConfig.audio_mixer=bootMixer.get();
+                    bootConfig.audio_latency_frames=std::uint64_t(f::audio::kWinmmBufferCount)*f::audio::kWinmmFramesPerBuffer;
+                    bootConfig.audio_pump=[&bootOutput](){std::string e;if(!bootOutput.update(e)){static bool reported=false;if(!reported){reported=true;std::cerr<<"Boot audio pump: "<<e<<std::endl;}}};
+                } else std::cerr<<"Boot audio unavailable ("<<bootAudioError<<"); the movie runs on the wall clock"<<std::endl;
+                const auto boot=f::startup::run_boot_v1(window,renderer,bootConfig);
+                bootOutput.close();
+                // std::endl flushes: verification jobs may be killed after the boot ends.
+                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown
+                         <<" movie_clock=\""<<boot.movie_clock<<"\" soundtrack_seconds="<<boot.soundtrack_seconds
+                         <<" soundtrack_duration="<<boot.soundtrack_duration<<" soundtrack_released="<<int(boot.soundtrack_released)
+                         <<" seconds="<<boot.seconds<<std::endl;
+                if(!boot.error.empty())std::cerr<<"Boot: "<<boot.error<<std::endl;
+                if(boot.outcome==f::startup::BootRunOutcome::quit)return 0;
+            }
             // The caller owns this startup stream. Named fields are transferred
             // after creation; population and combat continue its call count.
             creationRandom={options.combat.diagnosticRngSeed.value_or(0),0};
@@ -514,7 +615,10 @@ int main(int argc,char** argv) {
                 assignedSlot=slot;options.selectedSaveSlot=slot;e.clear();return true;
             };
             flowServices.start_same_state=[&](const std::shared_ptr<f::CharacterState>& selected,int difficulty,std::string& e) {
-                if(selected!=sharedCharacter||assignedSlot!=options.selectedSaveSlot||difficulty!=0){e="Selected profile/start owner or difficulty is unavailable";return false;}
+                if(selected!=sharedCharacter||assignedSlot!=options.selectedSaveSlot){e="Selected profile/start owner is unavailable";return false;}
+                // P14 schema: NativeStartGame sets CurrentDifficulty; the menu may choose 0..UnlockedDiff (profile field, no longer fixed to Normal).
+                if(difficulty<0||difficulty>f::character_unlocked_difficulty(*selected)){e="Selected difficulty is not unlocked for this profile";return false;}
+                selected->current_difficulty=difficulty;
                 if(selected->stats.level>std::uint32_t(INT32_MAX/256)){e="Saved level exceeds the source property scale";return false;}
                 const auto* selectedClass=creation::find_class(selected->class_id);
                 if(!selectedClass){e="Saved class is not an authored playable base profile";return false;}
@@ -657,11 +761,16 @@ int main(int argc,char** argv) {
                 if(row==characters.names.end()){e="Saved profile class is absent from source CharacterTable";return false;}
                 std::string classLabel;
                 if(!profileLocalization.string_id(characters.rows[std::size_t(row-characters.names.begin())][5],classLabel,e))return false;
-                const auto projected=creation::saved_profile_text_bindings(saved,[&](const f::CharacterState& same,std::string&){
+                const auto projected=creation::saved_profile_text_bindings(saved,[&](const f::CharacterState& same,std::string& slotError){
                     creation::SavedProfilePresentation value{};
                     value.character_id=same.id;value.class_token=same.class_id;value.class_label=classLabel;
-                    // Portable profiles currently do not retain campaign act,
-                    // difficulty/location or the original saved LNAM date.
+                    // P14 schema: act, location, difficulty and last-save date come from the slot's schema-v4
+                    // metadata through engine-ui menu_save_slot_projection_v1 (NativeGetSaveSlotDetails 0x44aa28).
+                    // Legacy v1-v3 slots (menu_metadata.known=false) keep blank rows until their next save point.
+                    const auto* levelTables=loadMetadataLevels(menuSource);
+                    if(!levelTables){slotError="Menu LevelList assets are unavailable";return std::optional<creation::SavedProfilePresentation>();}
+                    if(!f::menu_metadata::project_slot_presentation(same,fact.id,std::int32_t(row-characters.names.begin()),characters,*levelTables,profileLocalization,0,value,slotError))
+                        return std::optional<creation::SavedProfilePresentation>();
                     return std::optional<creation::SavedProfilePresentation>(std::move(value));
                 });
                 if(!projected.ok()){e=projected.error;return false;}
@@ -718,6 +827,19 @@ int main(int argc,char** argv) {
             options.combat.initialRandomState=frontendRandomState;options.combat.diagnosticRngSeed.reset();
             std::cout<<"Frontend launched same CharacterState slot="<<options.selectedSaveSlot<<" class="<<state.class_id<<" sourceRNG="<<creationRandom.seed<<'/'<<creationRandom.calls<<'\n';
         }
+        // Preview 15 campaign loading screen (menu route only; tests skip it). Stages below report real progress.
+        f::startup::LoadingScreenV1 loadingScreen(window,renderer,options.startMode=="menu"&&!options.skipBoot,1.5,&assets);
+        if(loadingScreen.enabled()) {
+            // Original NativeGetLoadingTipStrID: LCG over the help-page table; the seed is the game Random seed.
+            std::uint32_t loadingTipSeed=std::uint32_t(GetTickCount())|1u;
+            f::startup::LoadingTip tip;std::string tipError;
+            if(f::startup::choose_loading_tip_v1(assets,loadingTipSeed,tip,tipError)) {
+                std::cout<<"Loading tip string_id="<<tip.string_id<<" text=\""<<tip.text<<'"'<<std::endl;
+                loadingScreen.set_tip(tip);
+            } else std::cerr<<"Loading tip unavailable: "<<tipError<<std::endl;
+        }
+        if(!options.loadingCapture.empty())loadingScreen.set_capture(options.loadingCapture,[](const fs::path& p,int w,int h){capture(p,w,h);});
+        loadingScreen.progress(0.0);
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
@@ -729,15 +851,27 @@ int main(int argc,char** argv) {
             actorScale={actorProperties.sheets.base[12]*.009f,actorProperties.sheets.base[13]*.009f,actorProperties.sheets.base[14]*.01f};
             std::cout<<"Original actor="<<options.actorRow<<" HP="<<actorProperties.health<<"/"<<actorProperties.max_health<<" MP="<<actorProperties.resource<<"/"<<actorProperties.max_resource<<" (before equipment contributors)\n";
         }
-        if(!frontendStarted&&options.freshPlayer&&options.hud&&!options.meleeBindings.empty()&&!state.source_skill_slots_known) {
+        // Preview 14: a fresh direct run with an existing --save profile loads it (test profiles with points).
+        // B052: the load must precede the direct skill bank preload below; the bank binds the CharacterState
+        // id/class/assignments at preload time, so a later load made every saved-profile cast fail.
+        if(!frontendStarted&&options.freshPlayer&&fs::exists(options.save)) {
+            if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);
+            // The direct bootstrap below regenerates starter gear from the live actor; drop the file copy so slots are not duplicated.
+            state.equipment.clear();state.inventory.clear();
+        }
+        if(!frontendStarted&&options.freshPlayer&&options.hud&&!options.meleeBindings.empty()) {
             if(options.actorRow!=options.combat.playerProfileId)throw std::runtime_error("Direct skill bank requires the same source player class");
             if(!menuSourceOwner.valid()&&!f::frontend::creation::load_runtime_creation_source_v1(assets,creationRandom,menuSourceOwner,error))
                 throw std::runtime_error("Direct skill bank source: "+error);
+        }
+        if(!frontendStarted&&options.freshPlayer&&options.hud&&!options.meleeBindings.empty()&&!state.source_skill_slots_known) {
             state.class_id=options.actorRow;
             state.stats.level=unsigned(std::max(1,actorProperties.level_raw/256));
             if(!f::frontend::creation::initialize_source_skill_rows_v1(menuSourceOwner.skill_owner->borrow(),actorProperties.sheets.resolved[28],state,error))
                 throw std::runtime_error("Direct skill bank rows: "+error);
-            directFirstSkillGrantPending=true;
+            // Preview 14: the starter row-0 grant belongs to a fresh character only.
+            // An existing profile (loaded above) keeps its points.
+            directFirstSkillGrantPending=!fs::exists(options.save);
         }
         options.character.motion_node_id=options.motionNode;options.character.consume_root_motion=options.movable;
         if(!options.profiles.empty()&&!profiles.load(assets,options.profiles.generic_string(),error))throw std::runtime_error("Profiles: "+error);
@@ -822,6 +956,7 @@ int main(int argc,char** argv) {
         if(options.populationTemplates)populationStartupRandom=frontendRandomState.value_or(dh2::data::CombatRandom{*populationStartupSeed,0});
         if(!options.level.empty()) {
             if(!f::load_level(assets,options.level,scene,error)) throw std::runtime_error("Level: "+error);
+            loadingScreen.progress(0.4);  // level stage complete
             for(const auto& notice:scene.notices)std::cerr<<"Level notice: "<<notice<<'\n';
             std::cout<<"Level triangles="<<scene.triangleCount<<" instances="<<scene.instanceCount<<" ranges="<<scene.mesh.ranges.size()<<'\n';
         }
@@ -1011,6 +1146,7 @@ int main(int argc,char** argv) {
         };
         const bool runBound=combatSession&&combatSession->uses_retained_player_locomotion()?combatSession->has_player_locomotion("run"):std::any_of(options.character.clips.begin(),options.character.clips.end(),[](const auto& clip){return clip.first=="run";});
         if(options.movable&&!runBound)std::cout<<"Run input disabled: no authored run clip bound\n";
+        loadingScreen.progress(0.8);  // actor population stage complete; collision next
         f::CollisionScene collision;std::unique_ptr<f::ActorMovement> motor;
         std::map<f::ActorId,std::unique_ptr<f::ActorMovement>> populationMotors;
         struct MotionReceipt {unsigned enabled=0,disabled=0;double sourceXY=0,worldXY=0;};
@@ -1235,7 +1371,10 @@ int main(int argc,char** argv) {
             if(!originalCamera.load(assets,options.level.generic_string(),options.cameraRoot,error)||!originalCamera.reset(anchor,error))throw std::runtime_error("Original camera: "+error);
             std::cout<<"Original camera distance="<<originalCamera.authoredDistance()<<" FOV="<<originalCamera.pose().verticalFovDegrees<<" aspect="<<originalCamera.sourceAspect()<<'\n';
         }
-        if(!frontendStarted&&!combatSession&&fs::exists(options.save)) {if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);}
+        // Preview 13 behaviour kept: without a combat session the save is loaded here (fresh runs loaded it above).
+        if(!frontendStarted&&!combatSession&&!options.freshPlayer&&fs::exists(options.save)) {if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);}
+        // P14 FAERY: legacy slots without Faery rows get creation-equivalent zero rows at first use, so Swamp_Intro can unlock Celest.
+        if(f::faery_menu::ensure_source_faery_rows_v1(state)) std::cout<<"Legacy save Faery rows initialized to creation zeros\n";
         if(!options.characterName.empty())state.name=options.characterName;
         if(combatSession) {
             auto* player=combatSession->actor(combatSession->player_id());player->persistent_character_id=state.id;
@@ -1253,6 +1392,18 @@ int main(int argc,char** argv) {
             if(!frontendStarted) {
                 state.stats.level=unsigned(std::max(1,actorProperties.level_raw/256));
                 state.stats.health=player->health;state.stats.max_health=player->max_health;state.stats.resource=player->resource;state.stats.max_resource=player->max_resource;
+                // Preview 14: a loaded direct profile owns its points and attributes.
+                // Project it onto the live sheet (as the frontend start does) before the
+                // bootstrap below reads points back; otherwise the fresh sheet overwrites them.
+                if(state.source_points_known) {
+                    const auto* loadedSheet=combatSession->world()->combat_properties(player->id);
+                    const auto* loadedTraits=combatSession->world()->traits(player->id);
+                    f::OriginalCombatProperties projectedSheet;
+                    if(!loadedSheet||!loadedTraits||!f::project_player_profile_properties(properties,state,*loadedSheet,projectedSheet,error))
+                        throw std::runtime_error("Direct profile projection: "+error);
+                    if(!combatSession->world()->update_combat_properties(player->id,std::move(projectedSheet),*loadedTraits,error))
+                        throw std::runtime_error("Direct profile publish: "+error);
+                }
                 const auto* source=combatSession->world()->combat_properties(player->id);
                 if(!source||source->sheets.resolved[148]<0||source->sheets.resolved[157]<0)
                     throw std::runtime_error("Direct player bootstrap requires current source stat/skill points");
@@ -1277,6 +1428,9 @@ int main(int argc,char** argv) {
                     state.inventory.push_back({*entry.item_instance_id,entry.definition_id,1});
                     state.equipment.push_back({entry.slot,*entry.item_instance_id,0,slotKnown?sourceSlot:-1});
                 }
+                // P14 EQUIP diagnostic (--bag-item DEF): unequipped rows for the direct bootstrap, which otherwise owns only equipped items.
+                for(std::size_t bag=0;bag<options.bagItemIds.size();++bag)
+                    state.inventory.push_back({"bag-"+std::to_string(bag)+"-"+options.bagItemIds[bag],options.bagItemIds[bag],1});
             }
             equipmentStateInitialized=true;
         }
@@ -1464,6 +1618,18 @@ int main(int argc,char** argv) {
             providers.named_character=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){return sourceObjects.named_character(name,module,id,found,e);};
             providers.global_controller_blocked=[&](bool blocked,std::string&){globalControllerBlocked=blocked;return true;};
             providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){if(!combatSession->actor(id)){e="Source character controller unavailable";return false;}characterControllerBlocked[id]=blocked;return true;};
+            // P14 FAERY (T3): Script_SetFaeryState / Script_IncFaeryLevel write the live CharacterState and persist it.
+            // Legacy saves without source Faery rows (known=false) are a logged limitation: the script continues, nothing is invented.
+            providers.set_faery_state=[&](std::uint32_t slot,std::uint32_t value,std::string& e){
+                if(!state.source_faery_state_known){std::cout<<"Source SetFaeryState slot="<<slot<<" skipped: legacy save has no source Faery rows (limitation)\n";return true;}
+                if(!f::faery_menu::apply_source_set_faery_state_v1(state,f::faery_menu::active_faery_difficulty_v1(),slot,value,e))return false;
+                std::cout<<"Source SetFaeryState slot="<<slot<<" state="<<value<<" committed to CharacterState\n";
+                return f::save_character(options.save,state,e);};
+            providers.inc_faery_level=[&](std::uint32_t slot,std::string& e){
+                if(!state.source_faery_state_known){std::cout<<"Source IncFaeryLevel slot="<<slot<<" skipped: legacy save has no source Faery rows (limitation)\n";return true;}
+                if(!f::faery_menu::apply_source_inc_faery_level_v1(state,f::faery_menu::active_faery_difficulty_v1(),slot,e))return false;
+                std::cout<<"Source IncFaeryLevel slot="<<slot<<" level="<<state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].faeries[slot].level<<" committed to CharacterState\n";
+                return f::save_character(options.save,state,e);};
             campaignWorld.bind(std::move(providers));
             if(!options.sourceCommands.empty()) {
                 combatSession->set_diagnostic_controller_admission_provider(
@@ -1807,6 +1973,9 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::equipment_menu::RuntimeEquipmentBindingV1> runtimeEquipment;
         std::shared_ptr<f::equipment_menu::RuntimeEquipmentPageV1> runtimeEquipmentPage;
         f::equipment_menu::RuntimeEquipmentTextProviderV1 runtimeEquipmentText;
+        // P14 EQUIP: Details Transmute amount (source ValueBox value). Drop publishes through equipment_menu::drop_item_to_world,
+        // which reports "no world store bound" until the DROPS stream's world-item store is merged.
+        std::function<bool(const f::InventoryItem&,std::int32_t&,std::string&)> equipmentTransmuteAmount;
         f::effects::EffectTextureServices equipmentTextureServices;
         equipmentTextureServices.upload=[&](const f::TextureImage& image,std::uint32_t& id,std::string& e){id=renderer.createTexture(image.width,image.height,image.rgba.data());if(!id){e="Equipment original texture upload failed";return false;}e.clear();return true;};
         equipmentTextureServices.release=[&](std::uint32_t id){renderer.destroyTexture(id);};
@@ -1814,10 +1983,14 @@ int main(int argc,char** argv) {
         const f::EquipmentAttachmentSet* runtimeEquipmentAttachments=nullptr;
         std::weak_ptr<const void> equipmentAttemptLease;
         bool menuUsedSkillPoint=false;
+        // Preview 14/15: Stats +/- staged spends of one menu visit (features/character_menu/stat_training_v1.hpp); cleared at each open.
+        auto statTrainingVisit=std::make_shared<f::character_menu::StatTrainingVisitV1>();
+        bool equipmentRebindRequested=false; // P14 DROPS: a pickup added a definition the equipment text policy must list
         const auto bindEquipmentPage=[&]() {
             if(!combatSession||!menuSourceOwner.valid())return;
             std::string equipmentError;
-            if(runtimeEquipment&&runtimeEquipment->ready(equipmentError))return;
+            if(equipmentRebindRequested){equipmentRebindRequested=false;equipmentAttemptLease={};}
+            else if(runtimeEquipment&&runtimeEquipment->ready(equipmentError))return;
             const auto currentLease=combatSession->actor_binding_lease();
             if(!currentLease.expired()&&!equipmentAttemptLease.expired()&&
                !currentLease.owner_before(equipmentAttemptLease)&&!equipmentAttemptLease.owner_before(currentLease))return;
@@ -1859,14 +2032,24 @@ int main(int argc,char** argv) {
             if(!design||dh2_script_constants_load(design.get(),designBytes.data(),std::uint32_t(designBytes.size()),&designReload)!=0||designReload.consumed!=designBytes.size()||
                dh2_script_constants_get(design.get(),"CharacterDesign","TransmuteMultiplier",&transmuteMultiplier)!=0)
                 throw std::runtime_error("Equipment source TransmuteMultiplier is unavailable");
-            pageBindings.details_text.transmute_value=[&,transmuteMultiplier](const f::InventoryItem& item,std::string& value,std::string& e) {
+            // One source packet (ItemInstance value x property 197 x TransmuteMultiplier) feeds both the Details ValueBox text and the
+            // Transmute action (Character::INV_TransmuteItem), so the displayed amount is exactly what is paid.
+            const auto transmutePacket=[&,transmuteMultiplier](const f::InventoryItem& item,f::equipment_menu::RuntimeEquipmentTransmuteValuePacketV1& packet,std::string& e) {
                 if(!combatSession||!combatSession->world()){e="Equipment ValueBox requires current Session";return false;}
                 const auto* player=combatSession->actor(combatSession->player_id());
                 const auto* source=combatSession->world()->combat_properties(combatSession->player_id());
                 if(!player||!source||!player->persistent_character_id||*player->persistent_character_id!=state.id){e="Equipment ValueBox player/profile identity differs";return false;}
+                return runtimeEquipmentText.transmute_value(item,source->sheets.resolved[197],transmuteMultiplier,packet,e);
+            };
+            pageBindings.details_text.transmute_value=[transmutePacket](const f::InventoryItem& item,std::string& value,std::string& e) {
                 f::equipment_menu::RuntimeEquipmentTransmuteValuePacketV1 packet;
-                if(!runtimeEquipmentText.transmute_value(item,source->sheets.resolved[197],transmuteMultiplier,packet,e))return false;
+                if(!transmutePacket(item,packet,e))return false;
                 value=packet.formatted_value;e.clear();return true;
+            };
+            equipmentTransmuteAmount=[transmutePacket](const f::InventoryItem& item,std::int32_t& amount,std::string& e) {
+                f::equipment_menu::RuntimeEquipmentTransmuteValuePacketV1 packet;
+                if(!transmutePacket(item,packet,e))return false;
+                amount=packet.transmute_value;e.clear();return true;
             };
             auto binding=std::make_unique<f::equipment_menu::RuntimeEquipmentBindingV1>();
             if(!binding->bind(*combatSession,state,assets,assets,assets,properties,std::move(config),equipmentError)) {
@@ -1898,6 +2081,8 @@ int main(int argc,char** argv) {
             runtimeEquipmentAttachments=nullptr;runtimeEquipmentPage.reset();runtimeEquipment.reset();equipmentAttemptLease.reset();
             characterMenuBindings.actor=nullptr;characterMenuBindings.properties=nullptr;
         };
+        // P14 FAERY: set below, after updatePcHud is defined; the Faery page calls it after a selection change.
+        std::function<void()> refreshPcHudForFaery;
         if(options.hud&&combatSession) {
             if(!menuSourceOwner.valid()) {
                 std::string sourceError;
@@ -1909,14 +2094,15 @@ int main(int argc,char** argv) {
                 f::generic_skills::CharacterDesignSkillCapsV1 skillCaps;
                 skillCaps.known=menuSourceOwner.character_design_caps_known;
                 skillCaps.max_skill_level=menuSourceOwner.character_design_skill_caps;
-                skillCaps.unlocked_difficulty=0; // The current gameplay start accepts Normal only.
+                skillCaps.unlocked_difficulty=std::size_t(f::character_unlocked_difficulty(state)); // P14 schema: profile field (Normal for legacy saves).
                 if(!frontendStarted&&(!state.source_skill_slots_known||directFirstSkillGrantPending)) {
                     const auto* current=combatSession->world()->combat_properties(combatSession->player_id());
                     if(!current||!skillCaps.known)throw std::runtime_error("Direct Skills bootstrap requires current source SkillTree and CharacterDesign caps");
                     if(!state.source_skill_slots_known&&!f::frontend::creation::initialize_source_skill_rows_v1(skillTables,current->sheets.resolved[28],state,error))
                         throw std::runtime_error("Direct Skills source rows: "+error);
                     bool grant=false;
-                    if(!f::generic_skills::probe_skill_training_in_session_v1(state,*combatSession,properties,skillTables,skillCaps,0,grant,error))
+                    // Preview 14: only a fresh direct character receives the starter row-0 grant.
+                    if(directFirstSkillGrantPending&&!f::generic_skills::probe_skill_training_in_session_v1(state,*combatSession,properties,skillTables,skillCaps,0,grant,error))
                         throw std::runtime_error("Direct Skills source first grant: "+error);
                     if(grant) {
                         f::generic_skills::SessionSkillTrainingCommitV1 commit;
@@ -1947,6 +2133,8 @@ int main(int argc,char** argv) {
                     if(!menuUsedSkillPoint&&!f::save_character(options.save,character,e))return false;
                     f::generic_skills::SessionSkillTrainingCommitV1 commit;
                     if(!f::generic_skills::train_skill_in_session_v1(character,*combatSession,properties,skillTables,skillCaps,position,commit,e))return false;
+                    // Preview 14: the authored prefix above saves only the pre-spend state, so persist the committed spend too (every spend, not only the first in a visit).
+                    if(!f::save_character(options.save,character,e))return false;
                     menuUsedSkillPoint=true;
                     std::cout<<"Source skill training row="<<commit.saved_skill_row<<" rank="<<commit.previous_rank<<"->"<<commit.current_rank<<" points="<<commit.remaining_points<<" potionCapacity="<<unsigned(commit.potion_capacity)<<'\n';
                     return true;
@@ -1993,11 +2181,45 @@ int main(int argc,char** argv) {
                     });
                 if(!characterMenuComposition->register_page(f::character_menu::Tab::skills,runtimeSkillsMenu->source_page_provider(),error))
                     throw std::runtime_error("Skills composition: "+error);
+                // Preview 14: live Stats-tab +/- route (was unregistered: "no original source hit resolver").
+            if(!f::character_menu::register_stat_training_v1(*characterMenuComposition,sharedCharacter,state,
+                   [&]()->f::CombatSession*{return combatSession.get();},properties,
+                   [&](const f::CharacterState& c,std::string& e){return f::save_character(options.save,c,e);},
+                   statTrainingVisit,error))throw std::runtime_error("Stats training: "+error);
+                // P14 FAERY: Faery tab over the live CharacterState (features/faery_menu/character_state_faery_v1.*).
+                // An unbindable page (e.g. legacy state without source Faery rows) stays unregistered and is diagnosed.
+                {
+                    // A loaded save reaches here without the creation-source owner, so the Faery tables are loaded here too.
+                    // Tables are immutable content, loaded even for legacy saves whose Faery rows are unknown (page shows them as unknown).
+                    std::string faeryError;
+                    if(!sourceFaeryTables) {
+                        const auto records=f::read_content(assets,"data/pydata/faeries_pyarray.bin"),names=f::read_content(assets,"data/pydata/faeries_pyarraynames.bin"),fields=f::read_content(assets,"data/pydata/faeries_pystructnames.bin");
+                        if(!sourceFaeryOwner.load({records.data(),records.size()},{names.data(),names.size()},{fields.data(),fields.size()},faeryError))std::cerr<<"Faery tables diagnostic: "<<faeryError<<'\n';
+                        else sourceFaeryTables=sourceFaeryOwner.borrow();
+                    }
+                    f::faery_menu::CharacterStateFaeryPageHostV1 faeryHost;
+                    faeryHost.owner=sharedCharacter;faeryHost.tables=sourceFaeryTables;
+                    faeryHost.localize=[&](const std::string& symbol,std::string& value,std::string& e){return menuLocalization.symbol(symbol,&state,value,e);};
+                    faeryHost.persist=[&](std::string& e){return f::save_character(options.save,state,e);};
+                    faeryHost.refresh_hud=[&](){
+                        std::cout<<"Faery selection committed current="<<state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery<<" HUD key-4 refresh\n";
+                        if(refreshPcHudForFaery)refreshPcHudForFaery();};
+                    if(!f::faery_menu::register_character_state_faery_page_v1(*characterMenuComposition,std::move(faeryHost),faeryError))
+                        std::cerr<<"Faery page diagnostic: "<<faeryError<<'\n';
+                }
                 if(!characterMenuComposition->install_content(characterMenuBindings,error))throw std::runtime_error(error);
             }
         }
         f::loot::RuntimeSessionDeathRewardsV1 deathRewards;
         std::shared_ptr<f::loot::RuntimeWorldItemAdapterV1> worldItems;
+        // P14 DROPS: presentation + pickup state for items lying in the world.
+        std::unique_ptr<f::interactions::WorldDropRuntimeV1> worldDrops;
+        f::loot::RuntimeWorldItemIdV1 worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+        double worldItemFractionMs=0;
+        std::string worldItemStatus;std::uint32_t worldItemStatusRgb=0xFFFFFF;int worldItemStatusFrames=0;
+        dh2::ui::HudTextV1* dropHudText=nullptr;dh2::ui::HudTextEnvironmentV1 dropTextEnvironment;
+        std::unique_ptr<dh2::ui::ItemTextOwnerV5> dropTextOwner;
+        std::map<std::string,std::string> dropNameCache;
         auto rewardContext=std::make_shared<GameplayRewardContext>();
         std::uint64_t rewardBindingGeneration{};
         rewardContext->debug=[&](const char* key,bool& value,std::string& e) {
@@ -2013,7 +2235,12 @@ int main(int argc,char** argv) {
         const auto bindDeathRewards=[&]() {
             deathRewards.reset();
             if(!combatSession||!menuSourceOwner.valid())return;
+            // P14 schema: CurrentDifficulty/UnlockedDiff come from the shared profile (single accessor), not a fixed Normal.
+            rewardContext->currentDifficulty=f::character_current_difficulty(state);rewardContext->unlockedDifficulty=f::character_unlocked_difficulty(state);
             if(!worldItems)worldItems=std::make_shared<f::loot::RuntimeWorldItemAdapterV1>(menuSourceOwner.loot_owner->borrow());
+            // P14 DROPS: ground items belong to the session being bound. A reload
+            // (R/F5-F9) or new session clears them; nothing is granted or duplicated.
+            if(worldItems){worldItems->clear();worldItemTarget=f::loot::invalid_runtime_world_item_v1;}
             ++rewardBindingGeneration;
             f::loot::RuntimeSessionDeathRewardBindingsV1 rewardBindings;
             rewardBindings.gameplay_context_lease=rewardContext;rewardBindings.context=rewardContext.get();
@@ -2022,15 +2249,92 @@ int main(int argc,char** argv) {
             rewardBindings.source_loot_entry=&GameplayRewardContext::lootEntry;
             rewardBindings.query_debug_switch=&GameplayRewardContext::debugQuery;
             rewardBindings.resolve_character=&GameplayRewardContext::resolve;
+            // P15 LEVELUP (I026): Character::LevelUp presentation (FX set 135 on the
+            // hero; MENU_LEVEL_UP text logged only). An FX failure does not abort the award.
+            rewardBindings.level_up_presentation=[&](f::ActorId id,std::int32_t level,std::string& e) {
+                f::effects::RuntimeLevelUpPresentationResultV1 result;
+                const bool ok=f::effects::play_level_up_presentation_v1(sourceEffectsTables.borrow(),
+                    [&](std::int32_t set,const float* position,const float* rotation,std::uintptr_t anchor,std::uintptr_t* created,std::string& fxError) {
+                        if(!sourceEffectsFactory){fxError="no effects factory";return false;}
+                        return sourceEffectsFactory->manager().play_set(set,position,rotation,anchor,created,fxError);
+                    },id,result,e);
+                std::cout<<"Level up presentation frame="<<drawn<<" actor="<<id<<" level="<<level<<" "<<result.fx<<" "<<result.text<<'\n';
+                return ok;
+            };
             if(!deathRewards.bind(*combatSession,menuSourceOwner,assets,worldItems,std::move(rewardBindings),error))
                 throw std::runtime_error("Source death rewards: "+error);
+            // P15 B048: item drop/pickup cues. The ordinal comes from the item's own ItemAudioVisualTable row
+            // (drop row+4, pickup row+8). A selected WAV that is absent stays silent and is logged, never substituted.
+            worldItems->set_sound_observer([&runtimeAudio,audiovisual=deathRewards.loot_source().audiovisual](
+                    f::loot::WorldItemSoundEventV1 event,const f::loot::RuntimeWorldItemEntryV1& entry) {
+                const char* eventName=event==f::loot::WorldItemSoundEventV1::drop?"drop":"pickup";
+                std::int32_t ordinal=-1;std::string soundError;
+                if(!f::loot::world_item_sound_ordinal_v1(audiovisual,entry.visual_row,event,ordinal,soundError)) {
+                    std::cout<<"World item sound item="<<entry.identity<<" event="<<eventName<<" status=silent detail="<<soundError<<'\n';
+                    return;
+                }
+                if(!runtimeAudio) {
+                    std::cout<<"World item sound item="<<entry.identity<<" event="<<eventName<<" source="<<ordinal<<" status=no_audio_runtime\n";
+                    return;
+                }
+                f::audio::WorldItemSoundResultV1 result;
+                if(!runtimeAudio->submit_world_item_sound(ordinal,entry.source_position,result,soundError)) {
+                    std::cout<<"World item sound item="<<entry.identity<<" event="<<eventName<<" source="<<ordinal<<" status=failed detail="<<soundError<<'\n';
+                    return;
+                }
+                if(result.status==f::audio::WorldItemSoundStatusV1::asset_missing) {
+                    std::cout<<"World item sound uid="<<result.uid<<" event="<<eventName<<" source="<<ordinal<<" item="<<entry.identity<<" status=asset_missing\n";
+                    std::cout<<"cue uid="<<result.uid<<" asset missing: silent ("<<result.uri<<")\n";
+                    return;
+                }
+                std::cout<<"World item sound uid="<<result.uid<<" event="<<eventName<<" source="<<ordinal<<" item="<<entry.identity<<" status=submitted\n";
+            });
         };
         bindDeathRewards();
+        // P14 DROPS: source itemdrops.bdae presentation over the same world-item store.
+        const auto bindWorldDrops=[&]() {
+            if(worldDrops||!combatSession||!worldItems||!menuSourceOwner.valid()||!deathRewards.bound())return;
+            auto drops=std::make_unique<f::interactions::WorldDropRuntimeV1>();
+            std::string dropError;
+            if(!drops->load(assets,worldItems,deathRewards.loot_source().audiovisual,renderer,dropError)) {
+                std::cerr<<"World item presentation diagnostic: "<<dropError<<'\n';return;
+            }
+            std::cout<<"World item presentation resolved visuals:";
+            for(const auto& name:drops->resolved_visuals())std::cout<<' '<<name;
+            std::cout<<" unresolved:";
+            for(const auto& pair:drops->unresolved_visuals())std::cout<<' '<<pair.first<<'('<<pair.second<<')';
+            std::cout<<'\n';
+            worldDrops=std::move(drops);
+        };
+        bindWorldDrops();
+        // ItemInstance name text through the same source ItemText owner the inventory uses.
+        const auto itemDisplayName=[&](const f::InventoryItem& item,std::string& out,std::string& e)->bool {
+            const auto cached=dropNameCache.find(item.definition_id);
+            if(cached!=dropNameCache.end()){out=cached->second;e.clear();return true;}
+            if(!menuSourceOwner.valid()){e="Item name requires the source loot tables";return false;}
+            const auto& itemTable=menuSourceOwner.source().loot.items();
+            if(!dropTextOwner) {
+                if(!menuLocalization.bind_profile(&state,e)||!menuLocalization.borrow_text(dropHudText,dropTextEnvironment,e)||!dropHudText){if(e.empty())e="Item name text owner unavailable";return false;}
+                dropTextOwner=std::make_unique<dh2::ui::ItemTextOwnerV5>(itemTable,properties.characters,*dropHudText,dropTextEnvironment);
+            }
+            f::inventory::SourceDescriptors descriptors;
+            if(!f::inventory::source_bare_item_descriptors(item,itemTable,dropTextOwner->services(),descriptors,e))return false;
+            dropNameCache[item.definition_id]=descriptors.name;out=descriptors.name;e.clear();return true;
+        };
         sourceEffectsCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
         f::platform_input::SemanticInput semanticInput;
         std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false;
         bool pauseMenuOpen=false,pauseConfirmation=false;
+        // Preview 15 B049: the Stats confirmation box (see statConfirmYes/No below). Every menu close path
+        // (Back, Escape, profile key, release actions) goes through the guard while points are staged.
+        bool statConfirmOpen=false;
+        characterMenu.close_guard=[&]() {
+            if(!statTrainingVisit->has_staged())return true;
+            if(!statConfirmOpen)std::cout<<"Stats confirmation opened staged="<<statTrainingVisit->staged_total()<<'\n';
+            statConfirmOpen=true;
+            return false;
+        };
         const auto pauseHudArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::hud_pause_button);
         const auto pausePageArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::pause_page);
         const auto pauseConfirmArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::confirmation);
@@ -2053,12 +2357,24 @@ int main(int argc,char** argv) {
             for(unsigned i=0;i<status.size();++i)status[i].source_slot=i;
             f::generic_skills::PcSkillHudFrameV1 frame;
             if(!f::generic_skills::project_pc_skill_hud_v1(state,combatSession->player_id(),properties.characters,menuSourceOwner.skill_owner->borrow(),0,status,skillCastCoordinator?skillCastCoordinator->receipt(combatSession->player_id()):nullptr,frame,error))throw std::runtime_error("PC HUD source: "+error);
+            // HUDBTN: original bottom action row (Android reference): five rings centred on the 480x320 stage,
+            // pitch 56, radius 24, centre y 270. The 1-5 key legends are the PC adaptation, placed under each ring.
             f::generic_skills::PcGameplayHudLayoutV1 layout;
-            const auto circle=[](float x) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,278,15,{x-17,x+17,295,311}};};
-            layout.skills={circle(162),circle(200),circle(238)};layout.faery=circle(290);layout.potion=circle(350);
-            layout.faery.key_label_bounds={267,313,295,311};layout.potion.key_label_bounds={319,381,295,311};
+            const auto circle=[](float x,float labelLeft,float labelRight) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,270,24,{labelLeft,labelRight,298,312}};};
+            layout.skills={circle(128,116,140),circle(184,172,196),circle(240,228,252)};layout.faery=circle(296,276,316);layout.potion=circle(352,321,383);
+            // HUDBTN: real CoolDown per physical cell. Each cell's skill timer (SetSkillCooldown, per actor/skill row) gives
+            // remaining = 1 - elapsed/total; FastUpdate frame = clamp((int)(remaining*100)-1, 0, 99). Faery uses its 5000 ms spell clock.
+            if(skillCastCoordinator) for(auto& cell:frame.left_middle_right) if(cell.skill_table_id) {
+                const double remaining=skillCastCoordinator->skill_cooldown_remaining_fraction_v1(combatSession->player_id(),*cell.skill_table_id);
+                cell.source_cooldown_frame=f::generic_skills::pc_cooldown_frame_from_remaining_v1(remaining);
+            }
+            {
+                const auto spell=faeryCooldownClock.spell_ready_at_ms.find(combatSession->player_id());
+                const double remaining=spell==faeryCooldownClock.spell_ready_at_ms.end()?0.0:f::generic_skills::pc_cooldown_remaining_fraction_v1(double(spell->second),double(faeryCooldownClock.elapsed_ms),5000.0);
+                layout.faery_cooldown_frame=f::generic_skills::pc_cooldown_frame_from_remaining_v1(remaining);
+            }
             // B002/B024: exact NativeHUDGetActiveFaery result = Character::SG_GetCurrentFaerieId(-1), the saved current_faery of difficulty 0 (difficulty used by this build's Faery cast arm).
-            if(state.source_faery_state_known)layout.active_faery_id=state.faery_by_difficulty[0].current_faery;
+            if(state.source_faery_state_known)layout.active_faery_id=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
             if(!f::generic_skills::compose_pc_gameplay_hud_v1(frame,classFrame,layout,pcHudPresentation,error))throw std::runtime_error("PC HUD geometry: "+error);
             std::uint64_t potionCount=0;
             for(const auto& item:state.inventory)if(item.definition_id=="Potion0")potionCount+=item.quantity;
@@ -2069,6 +2385,7 @@ int main(int argc,char** argv) {
             pcHudReady=true;
         };
         updatePcHud();
+        refreshPcHudForFaery=[&](){updatePcHud();}; // P14 FAERY: key-4 circle re-composed after a page selection
         f::inventory::RuntimeSessionPotionUseV1 potionUse;
         struct PotionDebugContext {
             std::function<bool(std::string&)> load;
@@ -2097,10 +2414,17 @@ int main(int argc,char** argv) {
             default:return -1;
             }
         }};
-        const auto drawPauseArt=[&](const f::pause_ui::SourcePauseUiFrameV1& frame,bool labels) {
+        // messageSymbol (Preview 15 B049): replaces the WarningBox/confirm_msg text of the confirmation frame.
+        const auto drawPauseArt=[&](const f::pause_ui::SourcePauseUiFrameV1& frame,bool labels,const char* messageSymbol) {
             auto art=frame.art;
+            const std::string messageSuffix="WarningBox/confirm_msg/text";
             if(labels)for(auto& field:art.text_fields) {
                 field.initial_text.clear();
+                if(messageSymbol&&field.path.size()>=messageSuffix.size()&&
+                   field.path.compare(field.path.size()-messageSuffix.size(),messageSuffix.size(),messageSuffix)==0) {
+                    if(!menuLocalization.symbol(std::string(messageSymbol),&state,field.initial_text,error))throw std::runtime_error("Stats confirmation text: "+error);
+                    continue;
+                }
                 for(const auto& binding:f::pause_ui::source_pause_ui_text_bindings_v1()) {
                     const std::string suffix(binding.path_suffix);
                     if(field.path.size()<suffix.size()||field.path.compare(field.path.size()-suffix.size(),suffix.size(),suffix)!=0)continue;
@@ -2118,9 +2442,11 @@ int main(int argc,char** argv) {
                 if(!overlay.drawTriangles(vertices,bitmap?hudTexture:0,art.batch_colors.at(i)))throw std::runtime_error("Pause source art draw rejected");
             }
             if(labels) {
-                if(pauseTextSurface!=int(frame.surface)||pauseTextWidth!=window.width()||pauseTextHeight!=window.height()) {
+                // A replaced message is a different text key, so the same confirmation surface rebuilds its text.
+                const int textKey=int(frame.surface)+(messageSymbol?1000:0);
+                if(pauseTextSurface!=textKey||pauseTextWidth!=window.width()||pauseTextHeight!=window.height()) {
                     if(!pauseText.rebuild(art,window.width(),window.height(),renderer,error))throw std::runtime_error("Pause source text: "+error);
-                    pauseTextSurface=int(frame.surface);pauseTextWidth=window.width();pauseTextHeight=window.height();
+                    pauseTextSurface=textKey;pauseTextWidth=window.width();pauseTextHeight=window.height();
                 }
                 pauseText.draw(overlay);
             }
@@ -2314,6 +2640,26 @@ int main(int argc,char** argv) {
         };
         bool gameplayWasPaused=false;std::uint64_t gameplayPausedFrames=0;
         bool returnToFrontend=false;
+        // Preview 15 B049: Stats staged spends. Closing the Character menu with staged points opens the original
+        // "Confirm character point allocation?" box instead: Yes saves and closes; No refunds every staged spend
+        // on the live Session, saves the reverted state and closes (features/character_menu/stat_training_v1).
+        const auto persistStatState=[&](const f::CharacterState& c,std::string& e){return f::save_character(options.save,c,e);};
+        const auto statConfirmYes=[&]() {
+            std::string e;
+            if(!f::character_menu::commit_stat_visit_v1(state,*statTrainingVisit,persistStatState,e)) {std::cerr<<"Stats confirmation diagnostic: "<<e<<'\n';return;}
+            statConfirmOpen=false;characterMenu.close();std::cout<<"Stats confirmed frame="<<drawn<<" points="<<state.source_stat_points<<'\n';
+        };
+        const auto statConfirmNo=[&]() {
+            std::string e;
+            if(!combatSession||!f::character_menu::cancel_stat_visit_v1(state,*combatSession,properties,*statTrainingVisit,persistStatState,e)) {std::cerr<<"Stats cancel diagnostic: "<<(combatSession?e:std::string("no live Session"))<<'\n';return;}
+            statConfirmOpen=false;characterMenu.close();std::cout<<"Stats cancelled frame="<<drawn<<" points="<<state.source_stat_points<<'\n';
+        };
+        const auto routeStatConfirmClick=[&](const f::platform_input::Point& point) {
+            const auto hit=f::pause_ui::source_pause_ui_hit_test_v1(pauseConfirmArt,point.x*480.f/window.width(),point.y*320.f/window.height());
+            const auto route=f::pause_ui::source_pause_ui_route_v1(pauseConfirmArt,hit);
+            if(route.kind==f::pause_ui::SourcePauseRouteKindV1::return_to_main_menu)statConfirmYes();
+            else if(route.kind==f::pause_ui::SourcePauseRouteKindV1::cancel_confirmation)statConfirmNo();
+        };
         const auto routePauseClick=[&](const f::platform_input::Point& point) {
             const auto& frame=currentPauseArt();
             const auto hit=f::pause_ui::source_pause_ui_hit_test_v1(frame,point.x*480.f/window.width(),point.y*320.f/window.height());
@@ -2337,6 +2683,7 @@ int main(int argc,char** argv) {
                 std::cout<<'\n';
             }
         };
+        loadingScreen.finish();  // holds 100% for the minimum display time, then gameplay
         while(!window.should_close()) {
             if(options.hud&&combatSession)bindEquipmentPage();
             combatTextFrame=drawn;
@@ -2379,40 +2726,76 @@ int main(int argc,char** argv) {
             if(drawn==options.menuCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(drawn==options.pauseCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(uiInput.menu_back){
-                if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
+                if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
+                else if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
                 else if(pauseConfirmation)pauseConfirmation=false;
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
-            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();menuUsedSkillPoint=false;++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
+            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
             if(drawn==options.skillsPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::skills,error))throw std::runtime_error("Skills page diagnostic selection: "+error);
                 std::cout<<"Character menu Skills selected frame="<<drawn<<" via same-state source provider\n";
             }
             if(drawn==options.equipmentPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::equipment,error))throw std::runtime_error("Equipment page diagnostic selection: "+error);
                 std::cout<<"Character menu Equipment selected frame="<<drawn<<" via same-state source provider\n";
             }
+            // P14 FAERY: --faery-page-frame=N opens the menu on the Faery tab (CharacterState provider).
+            if(drawn==options.faeryPageFrame) {
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::faery,error))throw std::runtime_error("Faery page diagnostic selection: "+error);
+                std::cout<<"Character menu Faery selected frame="<<drawn<<" via CharacterState provider\n";
+            }
             for(const auto& click:uiInput.clicks) {
+                if(statConfirmOpen){routeStatConfirmClick(click.position);continue;}
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
                 const auto action=characterMenu.hit_test(click.position.x,click.position.y,window.width(),window.height());
-                if(action==f::character_menu::Action::faery) {
-                    // The page's native unlock/selection owner is not bound in
-                    // this checkpoint. Keep the current valid page until its
-                    // content provider can publish, rather than expose the world.
-                    std::cout<<"Character menu Faery page requires live content provider; current page retained\n";
-                } else {
+                {
+                    // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
                     characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
                     if(!error.empty())std::cerr<<"Character menu action diagnostic: "<<error<<'\n';
                     if(runtimeEquipmentPage) {
                         f::equipment_menu::RuntimeEquipmentPageReleaseV1::PendingCommand pending;
                         if(runtimeEquipmentPage->take_source_pending_command(pending,error)) {
+                            // P14 EQUIP: original NativeInvAutoEquipSlot(slot) for the Details button and NativeInvAutoEquipSlot(-1) for the ALL banner.
                             if(pending.command==f::equipment_menu::MainPageCommand::request_auto_equip) {
-                                if(!runtimeEquipment->auto_equip(pending.selected_instance_id,error))
+                                if(!runtimeEquipment->auto_equip_slot(pending.source_slot,error))
                                     std::cerr<<"Equipment AutoEquip diagnostic: "<<error<<'\n';
-                                else std::cout<<"Equipment AutoEquip instance="<<pending.selected_instance_id<<" slot="<<pending.source_slot<<'\n';
+                                else std::cout<<"Equipment AutoEquip slot="<<pending.source_slot<<" -> "<<f::equipment_menu::describe_equipment(*sharedCharacter)<<'\n';
+                            } else if(pending.command==f::equipment_menu::MainPageCommand::request_auto_equip_all) {
+                                if(!runtimeEquipment->auto_equip_all(error))
+                                    std::cerr<<"Equipment AutoEquip diagnostic: "<<error<<'\n';
+                                else std::cout<<"Equipment AutoEquip ALL -> "<<f::equipment_menu::describe_equipment(*sharedCharacter)<<'\n';
+                            } else if(pending.command==f::equipment_menu::MainPageCommand::request_transmute||pending.command==f::equipment_menu::MainPageCommand::request_drop) {
+                                // P14 EQUIP: NativeInvTransmuteItem / NativeInvDropItem on the selected Details row. The original asks menu_confirm2
+                                // first (GAMEPLAYMENUS_TRANSMUTE_QUESTION / _DROP_QUESTION); that confirmation popup is not ported yet (EQUIP report).
+                                const bool transmute=pending.command==f::equipment_menu::MainPageCommand::request_transmute;
+                                const auto listIndex=runtimeEquipmentPage->details_selected_index();
+                                const auto goldBefore=sharedCharacter->gold;
+                                const auto ownedAt=std::find_if(sharedCharacter->inventory.begin(),sharedCharacter->inventory.end(),[&](const f::InventoryItem& item){return item.instance_id==pending.selected_instance_id;});
+                                const std::string definition=ownedAt==sharedCharacter->inventory.end()?std::string("?"):ownedAt->definition_id;
+                                bool done=false;std::int32_t amount=0;
+                                if(ownedAt==sharedCharacter->inventory.end())error="Selected item is not owned";
+                                else if(transmute) {
+                                    done=equipmentTransmuteAmount&&equipmentTransmuteAmount(*ownedAt,amount,error)&&
+                                        f::equipment_menu::transmute_inventory_item(*sharedCharacter,pending.selected_instance_id,amount,error);
+                                    if(!equipmentTransmuteAmount&&error.empty())error="Transmute value owner is unavailable";
+                                } else if(worldItems&&combatSession&&combatSession->actor(combatSession->player_id())) {
+                                    // Integration (P14 EQUIP + DROPS): the real world-item store publishes the dropped unit at the player.
+                                    const auto* dropper=combatSession->actor(combatSession->player_id());
+                                    f::loot::RuntimeWorldItemIdV1 publishedDrop=f::loot::invalid_runtime_world_item_v1;
+                                    done=f::loot::drop_item_to_world(*worldItems,*sharedCharacter,pending.selected_instance_id,1,
+                                        {dropper->transform.position[0],dropper->transform.position[1],dropper->transform.position[2]},combatSession->player_id(),publishedDrop,error);
+                                } else done=f::equipment_menu::drop_inventory_item(*sharedCharacter,pending.selected_instance_id,error);
+                                if(!done)std::cerr<<(transmute?"Equipment Transmute diagnostic: ":"Equipment Drop diagnostic: ")<<error<<" instance="<<pending.selected_instance_id<<'\n';
+                                else {
+                                    if(transmute)std::cout<<"Equipment Transmute instance="<<pending.selected_instance_id<<" item="<<definition<<" gold "<<goldBefore<<" -> "<<sharedCharacter->gold<<" amount="<<amount<<'\n';
+                                    else std::cout<<"Equipment Drop instance="<<pending.selected_instance_id<<" item="<<definition<<" -> world item"<<'\n';
+                                    if(!runtimeEquipmentPage->reselect_details_near(listIndex,error))throw std::runtime_error("Equipment Details reselection: "+error);
+                                }
                             } else std::cerr<<"Equipment action requires a gameplay owner: command="<<static_cast<int>(pending.command)<<" instance="<<pending.selected_instance_id<<'\n';
                         } else if(!error.empty())throw std::runtime_error(error);
                         f::equipment_menu::RuntimeEquipmentRenderChangeV1 changed;
@@ -2432,6 +2815,7 @@ int main(int argc,char** argv) {
                 }
             }
             if(returnToFrontend) {
+                if(worldItems)worldItems->clear(); // P14 DROPS: ground items never survive a return to the main menu
                 // B040: original MenuMainMenu::Hide StopMusic(1000); must run while the gameplay audio host is still alive.
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->on_return_to_menu(audioError))std::cerr<<"Audio return-to-menu diagnostic: "<<audioError<<'\n';}
                 std::string saveError;
@@ -2439,6 +2823,7 @@ int main(int argc,char** argv) {
                 const bool admitted=combatSession&&skillCastCoordinator&&
                     f::frontend::menu_return::request_v1({combatSession.get(),skillCastCoordinator.get(),true},ticket,saveError);
                 if(admitted) {
+                    stampSaveMetadata(state,options.level.generic_string()); // P14 schema: SG_SavePlayer date + LevelList row before the slot write
                     f::frontend::menu_return::CommitV1 receipt;
                     if(!f::frontend::menu_return::commit_v1(ticket,*skillCastCoordinator,options.level.generic_string(),options.liveSave,options.save,state,receipt,saveError)||!receipt.may_return_to_frontend)
                         throw std::runtime_error("Pause main-menu save: "+saveError);
@@ -2455,6 +2840,7 @@ int main(int argc,char** argv) {
                         profile.stats.resource=player->resource;profile.stats.max_resource=player->max_resource;
                     }
                     const auto checkpointDiagnostic=saveError;
+                    stampSaveMetadata(profile,options.level.generic_string()); // P14 schema
                     if(!f::save_character(options.save,profile,saveError))throw std::runtime_error("Pause profile-only save: "+saveError);
                     state=std::move(profile);
                     std::cout<<"Pause main-menu profile-only save frame="<<drawn<<" HP="<<state.stats.health<<" MP="<<state.stats.resource<<" profile="<<options.save.generic_string()<<" worldCheckpointOmitted="<<checkpointDiagnostic<<'\n';
@@ -2521,9 +2907,15 @@ int main(int argc,char** argv) {
             if((pressed(VK_F5)||drawn==options.saveFrame)&&checkpointAllowed("Save")) {
                 if(combatSession) {
                     f::GameSave snapshot;
+                    stampSaveMetadata(state,options.level.generic_string()); // P14 schema: checkpoint save = SG_SavePlayer (date + LevelList row)
                     if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),snapshot,error)||!f::save_game(options.liveSave,snapshot,error))throw std::runtime_error("Live save: "+error);
+                    // P14 schema (approved decision 3): F5 in combat also rewrites the slot profile so the menu panel is current.
+                    if(!options.save.empty()&&!f::save_character(options.save,snapshot.character,error))throw std::runtime_error("Live save slot profile: "+error);
                     std::cout<<"Saved live checkpoint frame="<<drawn<<" HP="<<snapshot.character.stats.health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
-                } else if(!f::save_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
+                } else {
+                    stampSaveMetadata(state,options.level.generic_string()); // P14 schema: non-combat F5 is a profile save point
+                    if(!f::save_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
+                }
             }
             if((pressed(VK_F9)||drawn==options.loadFrame)&&checkpointAllowed("Restore")) {
                 if(options.combatText)combatText.clear_for_reload();
@@ -2565,6 +2957,10 @@ int main(int argc,char** argv) {
             const bool gameplayPaused=characterMenu.is_open()||pauseMenuOpen;
             const double gameplayDt=gameplayPaused?0.0:dt;
             if(gameplayPaused!=gameplayWasPaused)reportGameplayPause(gameplayPaused?"paused":"resumed");
+            // B051: the Equipment avatar has its own idle clock. Opening a paused page restarts it
+            // (original Show/CreateAvatarCamera -> idle); every frame advances it by real dt (original RenderCharacterPane).
+            if(gameplayPaused&&!gameplayWasPaused&&runtimeEquipment)runtimeEquipment->restart_preview_clock();
+            if(runtimeEquipment)runtimeEquipment->advance_preview_clock(dt);
             gameplayWasPaused=gameplayPaused;if(gameplayPaused)++gameplayPausedFrames;
             const float speed=float(gameplayDt)*extent*.4f;
             if(!motor)freeCamera.move((window.key_down('D')-window.key_down('A'))*speed,(window.key_down('E')-window.key_down('Q'))*speed,(window.key_down('W')-window.key_down('S'))*speed);
@@ -2645,8 +3041,11 @@ int main(int argc,char** argv) {
             if(!gameplayPaused&&!playerControllerBlocked&&uiInput.spell.pressed&&combatSession&&skillCastCoordinator) {
                 std::string castError;f::generic_skills::RuntimeSkillCastReceiptV1 receipt;
                 f::generic_skills::RuntimeSkillFaeryAnimationSlotV1 selected;
-                if(!sourceFaeryTables||!skillAnimationBank)castError="Current saved Faery has no initialized source tables/animation bank";
-                else if(f::generic_skills::resolve_runtime_faery_animation_slot_v1(state,0,*skillAnimationBank,selected,castError)) {
+                // P14 FAERY: Rocky/Wetty/Windy are selectable but have no spell; key 4 logs that instead of failing silently.
+                const auto currentFaery=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
+                if(state.source_faery_state_known&&!f::faery_menu::faery_slot_has_spell_v1(currentFaery)){selected.faery_slot=currentFaery;castError=f::faery_menu::faery_no_spell_message_v1(currentFaery);}
+                else if(!sourceFaeryTables||!skillAnimationBank)castError="Current saved Faery has no initialized source tables/animation bank";
+                else if(f::generic_skills::resolve_runtime_faery_animation_slot_v1(state,f::faery_menu::active_faery_difficulty_v1(),*skillAnimationBank,selected,castError)) {
                     const auto* sequence=skillVisualPlan.sequence(selected.selection_state,0);
                     if(!sequence||sequence->phases.empty())castError="Current Faery has no reachable source Cast phase";
                     else {
@@ -2669,15 +3068,21 @@ int main(int argc,char** argv) {
                             facts.push_back({placed.definition.stableId,placed.enabled,false,false,true,traits&&traits->targetable});
                         }
                         f::faery_menu::HottySourceTargetListV1 targets;
-                        const auto rank=state.faery_by_difficulty[0].faeries[std::size_t(selected.faery_slot)].level;
+                        const auto rank=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].faeries[std::size_t(selected.faery_slot)].level;
                         if(policy.complete&&f::faery_menu::query_hotty_character_targets_v1(*combatSession->world(),combatSession->player_id(),order,facts,rank==0?600:800,targets,castError)) {
                             f::generic_skills::RuntimeSkillFaerySpellArmV1 arm;
-                            arm.tables=&sourceFaeryTables;arm.difficulty=0;arm.policy=&policy;arm.actor_order=&order;arm.source_facts=&facts;arm.targets=&targets;arm.cooldown_clock=&faeryCooldownClock;
+                            arm.tables=&sourceFaeryTables;arm.difficulty=f::faery_menu::active_faery_difficulty_v1();arm.policy=&policy;arm.actor_order=&order;arm.source_facts=&facts;arm.targets=&targets;arm.cooldown_clock=&faeryCooldownClock;
                             arm.celest_effect_dispatch=celestEffects.get();
                             f::generic_skills::RuntimeSkillCastRequestV1 request;
                             request.dispatch=f::generic_skills::RuntimeSkillCastDispatchV1::native_hud_spell;request.actor=combatSession->player_id();request.character=&state;
                             request.classes=&properties.classes;request.property_rules=&menuSkillPropertyRules;request.characters=&properties.characters;request.skills=menuSourceOwner.skill_owner->borrow();
-                            request.visual_plan=&skillVisualPlan;request.sequence_policies=&skillSequencePolicies;request.selection={selected.selection_state,0,sequence->phases.front().sourcePath};request.active_faery_spell=&arm;
+                            request.visual_plan=&skillVisualPlan;request.sequence_policies=&skillSequencePolicies;request.selection={selected.selection_state,0,{}};request.active_faery_spell=&arm; /* P15 HOTTY: empty group = whole state-7 root (pre clip, then do_spell clip); a leaf scope ended Hotty after its pre phase */
+                            // P15 FAERYSOUND (B050): original OnPreSkill_ sounds are queued on the audio session
+                            // (every cast, empty target list included) and submitted with this frame's device clock.
+                            skillCastCoordinator->set_faery_pre_sound_sink([&](const f::generic_skills::RuntimeSkillFaeryPreSoundV1& pre) {
+                                if(!runtimeAudio){std::cout<<"Faery cast sound frame="<<drawn<<" targets="<<pre.target_count<<" status=dropped detail=no audio session"<<std::endl;return;}
+                                runtimeAudio->queue_faery_pre_sounds(pre.caster,pre.position,pre.target_count,pre.labels);
+                            });
                             skillCastCoordinator->begin_skill_cast_v1(request,*combatSession,receipt,castError);
                         }
                     }
@@ -2801,6 +3206,8 @@ int main(int argc,char** argv) {
                     const bool settingsKnown=!sourceScopes||sourceScopes->debug_switch("MP_MinimalRandoms",minimalRandoms,audioError);
                     auto listenerCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
                     if(settingsKnown)audioClock=runtimeAudio->before_update(listenerCamera,window.focused(),window.minimized(),minimalRandoms,std::uint64_t(drawn),audioError);
+                    // P15 FAERYSOUND (B050): submit this frame's queued Faery cast sounds on the same device clock (nullptr drops them, logged).
+                    if(runtimeAudio){std::string faeryAudioError;if(!runtimeAudio->flush_faery_pre_sounds(audioClock,faeryAudioError)&&!faeryAudioError.empty())std::cerr<<"Faery cast sound diagnostic: "<<faeryAudioError<<'\n';}
                     if(!audioError.empty()&&drawn==0)std::cerr<<"Audio frame diagnostic: "<<audioError<<'\n';
                     if(gameplayPaused&&audioClock&&(gameplayPausedFrames==1||gameplayPausedFrames%60==0))
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
@@ -2830,6 +3237,58 @@ int main(int argc,char** argv) {
                                  <<" xp="<<state.experience<<" level="<<state.stats.level
                                  <<" spawned="<<reward.spawned_items<<" store="<<worldItems->size()
                                  <<" suppressed="<<reward.rewards_suppressed<<'\n';
+                }
+                // P14 DROPS: ground items travel to their landing point. ItemObject::_DoAutoPickupHack: an item whose
+                // PickUpType is Automatic is collected at once by the killer (here: the local player). The nearest item
+                // whose sensor box contains the player becomes the target (ItemObject::OnCollisionBegins -> tooltip), and
+                // PC adaptation: the interact key (E) or --pickup-frame while targeted runs ItemObject::Interact.
+                if(!gameplayPaused&&worldItems&&worldDrops) {
+                    const double worldItemMs=gameplayDt*1000+worldItemFractionMs;const auto worldItemWhole=std::uint32_t(worldItemMs);worldItemFractionMs=worldItemMs-worldItemWhole;
+                    worldItems->advance(worldItemWhole);
+                    const auto* itemPlayer=combatSession->actor(combatSession->player_id());
+                    const auto runWorldItemPickup=[&](f::loot::RuntimeWorldItemIdV1 id,const char* reason) {
+                        f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
+                        f::loot::RuntimeWorldItemInteractionServicesV1 pickupServices;
+                        pickupServices.context=&sharedCharacter;
+                        pickupServices.resolve_character_state=[](void* raw,f::ActorId,std::shared_ptr<f::CharacterState>& out,std::string& e){out=*static_cast<std::shared_ptr<f::CharacterState>*>(raw);e.clear();return bool(out);};
+                        f::loot::WorldItemPickupRulesV1 pickupRules;
+                        if(const auto* sheet=combatSession->world()->combat_properties(combatSession->player_id()))pickupRules.potion_capacity=f::loot::potion_capacity_from_property_v1(sheet->sheets.resolved[194]);
+                        if(sourceScopes){bool infinite=false;std::string debugError;if(sourceScopes->debug_switch("InfiniteInventory",infinite,debugError))pickupRules.infinite_inventory=infinite;}
+                        std::string pickedId;if(worldItems->inspect(id,targetEntry,targetError)&&targetEntry.authored_item)pickedId=worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id));
+                        const auto goldBefore=state.gold;const auto stacksBefore=state.inventory.size();
+                        f::loot::WorldItemPickupReportV1 pickup;
+                        const bool picked=f::loot::interact_world_item_v1(*worldItems,id,combatSession->player_id(),true,itemPlayer,pickupServices,pickupRules,pickup);
+                        std::cout<<"World item pickup frame="<<drawn<<" item="<<id<<" id="<<pickedId<<" reason="<<reason<<" outcome="<<int(pickup.outcome)<<" picked="<<picked<<" gold="<<goldBefore<<"->"<<state.gold<<" stacks="<<stacksBefore<<"->"<<state.inventory.size()<<" store="<<worldItems->size()<<'\n';
+                        std::string textError;
+                        if(picked) {
+                            if(worldItemTarget==id)worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+                            equipmentRebindRequested=true; // the equipment page's bare-definition policy lists held items
+                            std::uint32_t rgb=0xFFFFFF;worldDrops->item_color(targetEntry,rgb,textError);
+                            f::InventoryItem shown;shown.definition_id=pickedId;shown.quantity=targetEntry.quantity;
+                            std::string shownName;
+                            if(pickup.item_type==f::loot::item_type_gold_v1)shownName=std::to_string(targetEntry.source_outcome.resolved_gold_value.value_or(0))+" gold";
+                            else if(!itemDisplayName(shown,shownName,textError))shownName=pickedId;
+                            worldItemStatus=shownName;worldItemStatusRgb=rgb;worldItemStatusFrames=90;
+                        } else if(pickup.outcome==f::loot::WorldItemPickupOutcomeV1::inventory_full) {
+                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError))worldItemStatus=text;else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
+                            worldItemStatusRgb=0xFFFFFF;worldItemStatusFrames=90;
+                        }
+                    };
+                    if(itemPlayer&&itemPlayer->alive()) {
+                        std::vector<f::loot::RuntimeWorldItemIdV1> automatic;
+                        for(const auto& pair:worldItems->entries())
+                            if(f::loot::world_item_is_automatic_pickup_v1(pair.second))automatic.push_back(pair.first);
+                        for(const auto id:automatic)runWorldItemPickup(id,"automatic");
+                    }
+                    const auto previousTarget=worldItemTarget;
+                    worldItemTarget=itemPlayer&&itemPlayer->alive()?f::loot::select_world_item_target_v1(*worldItems,itemPlayer->transform.position):f::loot::invalid_runtime_world_item_v1;
+                    f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
+                    if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItemTarget!=previousTarget&&worldItems->inspect(worldItemTarget,targetEntry,targetError))
+                        std::cout<<"World item target frame="<<drawn<<" item="<<worldItemTarget<<" id="<<(targetEntry.authored_item?worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id)):std::string("?"))<<" qty="<<targetEntry.quantity<<" position="<<targetEntry.source_position[0]<<","<<targetEntry.source_position[1]<<","<<targetEntry.source_position[2]<<'\n';
+                    const bool scheduledPickup=std::find(options.pickupFrames.begin(),options.pickupFrames.end(),int(drawn))!=options.pickupFrames.end();
+                    if((uiInput.actions.interact||scheduledPickup)&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1)
+                        runWorldItemPickup(worldItemTarget,scheduledPickup&&!uiInput.actions.interact?"scripted":"interact");
+                    if(worldItemStatusFrames>0)--worldItemStatusFrames;
                 }
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->after_update(audioError))std::cerr<<"Audio output diagnostic: "<<audioError<<'\n';}
                 if(!gameplayPaused) {
@@ -2989,6 +3448,23 @@ int main(int argc,char** argv) {
                 if(original!=population.actors().end()){placement[0]=std::hypot(original->transform[0],original->transform[1]);placement[5]=std::hypot(original->transform[4],original->transform[5]);placement[10]=original->transform[10];}
                 queue.submit(targetMarker.mesh,placement);
             }
+            // P14 DROPS: world items drawn from the original itemdrops.bdae packets in the normal queue.
+            if(worldDrops&&worldItems&&worldItems->size()) {
+                std::string dropError;
+                if(worldDrops->prepare(dropError)) {
+                    if(const auto* dropFrame=worldDrops->frame()) {
+                        for(const auto& draw:dropFrame->draws)if(draw.mesh&&draw.source_pass_ready)queue.submit(*draw.mesh,draw.world);
+                        static std::set<std::string> reportedDropIssues;
+                        for(const auto& skipped:dropFrame->unresolved)
+                            if(reportedDropIssues.insert(skipped.visual_uri+"|"+skipped.reason).second)
+                                std::cerr<<"World item not drawn visual="<<skipped.visual_uri<<" item="<<skipped.item_id<<": "<<skipped.reason<<'\n';
+                        if(!dropFrame->renderer_ready&&reportedDropIssues.insert("pass|"+std::to_string(dropFrame->draws.size())).second)
+                            std::cerr<<"World item source pass unresolved for "<<dropFrame->draws.size()<<" draw(s); those meshes are not drawn\n";
+                        static std::size_t lastDrawCount=~std::size_t(0);
+                        if(lastDrawCount!=dropFrame->draws.size()){lastDrawCount=dropFrame->draws.size();std::cout<<"World item draws frame="<<drawn<<" count="<<lastDrawCount<<" store="<<worldItems->size()<<'\n';}
+                    }
+                } else {static std::string lastDropError;if(lastDropError!=dropError){lastDropError=dropError;std::cerr<<"World item presentation diagnostic frame="<<drawn<<": "<<dropError<<'\n';}}
+            }
             queue.flush(renderer,activeCamera);
             if(!sourceEffectsRenderer.draw_queued(error))throw std::runtime_error("Source FX draw: "+error);
             if(options.hud) {
@@ -3046,12 +3522,32 @@ int main(int argc,char** argv) {
                         }
                     }
                 }
+                // P14 DROPS: ItemObject::ShowTooltip name text (item rarity colour) over the targeted
+                // ground item, plus the transient pickup / inventory-full status line.
+                if(worldItems&&worldDrops&&!characterMenu.is_open()&&!pauseMenuOpen) {
+                    f::loot::RuntimeWorldItemEntryV1 labelEntry;std::string labelError;
+                    if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItems->inspect(worldItemTarget,labelEntry,labelError)&&labelEntry.authored_item) {
+                        std::array<float,2> itemScreen{};
+                        if(project(activeCamera,f::Vec3{labelEntry.source_position[0],labelEntry.source_position[1],labelEntry.source_position[2]},window.width(),window.height(),itemScreen)) {
+                            f::InventoryItem shown;shown.definition_id=worldItems->tables().items().identifiers.at(std::size_t(labelEntry.source_outcome.item_id));shown.quantity=labelEntry.quantity;
+                            std::string labelText;std::uint32_t labelRgb=0xFFFFFF;
+                            if(labelEntry.authored_item->record.words[f::loot::item_word_type_v1]==f::loot::item_type_gold_v1)labelText=std::to_string(labelEntry.source_outcome.resolved_gold_value.value_or(0))+" gold";
+                            else if(!itemDisplayName(shown,labelText,labelError))labelText=shown.definition_id;
+                            worldDrops->item_color(labelEntry,labelRgb,labelError);
+                            if(!drawScreenLabel(targetFont,labelText,labelRgb,12,itemScreen[0],itemScreen[1]-18.f*scale,scale,renderer,overlay,textures,labelError))throw std::runtime_error("World item label: "+labelError);
+                        }
+                    }
+                    if(worldItemStatusFrames>0&&!worldItemStatus.empty()) {
+                        std::string statusError;
+                        if(!drawScreenLabel(targetFont,worldItemStatus,worldItemStatusRgb,14,window.width()*.5f,window.height()*.25f,scale,renderer,overlay,textures,statusError))throw std::runtime_error("World item status: "+statusError);
+                    }
+                }
                 if(options.combatText&&!characterMenu.is_open()) {
                     if(!combatText.draw(window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text draw: "+error);
                     if(combatText.active_count())++combatTextDrawnFrames;
                 }
-                if(!characterMenu.is_open())drawPauseArt(pauseHudArt,false);
-                if(pauseMenuOpen)drawPauseArt(currentPauseArt(),true);
+                if(!characterMenu.is_open())drawPauseArt(pauseHudArt,false,nullptr);
+                if(pauseMenuOpen)drawPauseArt(currentPauseArt(),true,nullptr);
                 if(characterMenu.is_open()) {
                     // Character pages occupy the full viewport. Original SWF
                     // bitmap transparency must not expose gameplay behind them.
@@ -3180,6 +3676,8 @@ int main(int argc,char** argv) {
                     }
                     ++menuDrawn;
                 }
+                // Preview 15 B049: "Confirm character point allocation?" over the Character menu (original WarningBox frame).
+                if(characterMenu.is_open()&&statConfirmOpen)drawPauseArt(pauseConfirmArt,true,"GAMEPLAYMENUS_POINTS_CONFIRM");
                 overlay.end();
             }
             renderer.endFrame();

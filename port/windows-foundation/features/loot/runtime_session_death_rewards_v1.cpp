@@ -88,6 +88,14 @@ bool RuntimeSessionDeathRewardsV1::one_kill_level_up_thunk(
                                                "OneKillLevelUp", enabled, error);
 }
 
+bool RuntimeSessionDeathRewardsV1::level_up_thunk(
+    void* raw, ActorId id, std::int32_t level, std::string& error) {
+    auto* self = static_cast<RuntimeSessionDeathRewardsV1*>(raw);
+    if (!self) return fail(error, "Level-up presentation owner is unavailable");
+    if (!self->bindings_.level_up_presentation) return true;
+    return self->bindings_.level_up_presentation(id, level, error);
+}
+
 bool RuntimeSessionDeathRewardsV1::resolve_character_thunk(
     void* raw, ActorId id, RuntimeDeathActorV1& output, std::string& error) {
     auto* self = static_cast<RuntimeSessionDeathRewardsV1*>(raw);
@@ -98,12 +106,17 @@ bool RuntimeSessionDeathRewardsV1::resolve_character_thunk(
 
 bool RuntimeSessionDeathRewardsV1::spawn_world_item_thunk(
     void* raw, const RuntimeWorldItemRecordV1& record,
-    const ActorState& victim, const ActorState*, std::string& error) {
+    const ActorState& victim, const ActorState* killer, std::string& error) {
     auto* self = static_cast<RuntimeSessionDeathRewardsV1*>(raw);
     if (!self || !self->world_items_)
         return fail(error, "Same-gameplay WorldItemStore lease expired");
     RuntimeWorldItemIdV1 identity{};
-    return self->world_items_->publish_death_drop(record, victim, identity, error);
+    // P14: ItemObject::DropAndAwardLoot scatter over the same loot RNG.
+    std::array<float, 3> killer_position{};
+    if (killer) killer_position = killer->transform.position;
+    return self->world_items_->publish_death_drop_scattered(
+        record, victim, killer ? &killer_position : nullptr, self->scatter_rng_,
+        identity, error);
 }
 
 bool RuntimeSessionDeathRewardsV1::after_update(
@@ -158,6 +171,7 @@ bool RuntimeSessionDeathRewardsV1::after_update(
     services.context = this;
     services.query_one_kill_level_up = &RuntimeSessionDeathRewardsV1::one_kill_level_up_thunk;
     services.resolve_character = &RuntimeSessionDeathRewardsV1::resolve_character_thunk;
+    services.on_level_up = &RuntimeSessionDeathRewardsV1::level_up_thunk;
     services.spawn_world_item = &RuntimeSessionDeathRewardsV1::spawn_world_item_thunk;
 
     dispatching_ = true;
@@ -166,7 +180,10 @@ bool RuntimeSessionDeathRewardsV1::after_update(
         : world_->with_loot_random(
             [&](dh2::data::LootRandom8V2& random, std::string& inner_error) {
                 services.gameplay_rng = &random;
-                return rewards_.consume(session, services, outcomes, inner_error);
+                scatter_rng_ = &random;
+                const bool consumed = rewards_.consume(session, services, outcomes, inner_error);
+                scatter_rng_ = nullptr;
+                return consumed;
             }, error);
     dispatching_ = false;
     return ok;

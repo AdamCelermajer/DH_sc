@@ -21,6 +21,10 @@ bool equal(const CharacterState& a, const CharacterState& b) {
     if (a.schema_version != b.schema_version || a.id != b.id || a.name != b.name ||
         a.class_id != b.class_id || a.experience != b.experience || a.gold != b.gold ||
         a.source_quest_progress_cqpg != b.source_quest_progress_cqpg ||
+        a.current_difficulty != b.current_difficulty || a.unlocked_difficulty != b.unlocked_difficulty ||
+        a.menu_metadata.known != b.menu_metadata.known || a.menu_metadata.save_time != b.menu_metadata.save_time ||
+        a.menu_metadata.level_row != b.menu_metadata.level_row || a.menu_metadata.current_act != b.menu_metadata.current_act ||
+        a.visited_modules.size() != b.visited_modules.size() ||
         a.stats.level != b.stats.level || a.stats.health != b.stats.health ||
         a.stats.max_health != b.stats.max_health || a.stats.resource != b.stats.resource ||
         a.stats.max_resource != b.stats.max_resource || a.stats.strength != b.stats.strength ||
@@ -148,7 +152,10 @@ int main() {
         require(bytes.size() > 16, "save unexpectedly short");
         // Older schema2 representation is unchanged except for the appended
         // schema3 payload length. Loading it must preserve unknown progress.
-        auto old_v2=bytes;old_v2[12]=2;old_v2.resize(old_v2.size()-4);
+        // Schema v4 appended a fixed 41-byte tail (difficulty, menu metadata, empty
+        // visited list) after the quest payload; strip it for the older layouts.
+        constexpr std::size_t v4_empty_tail=4+4+1+4+12+12+4;
+        auto old_v2=bytes;old_v2[12]=2;old_v2.resize(old_v2.size()-v4_empty_tail-4);
         write_bytes(corrupt,old_v2);auto migrated_v2=loaded;
         require(load_character(corrupt,migrated_v2,error)&&migrated_v2.source_quest_progress_cqpg.empty(),"schema2 quest migration differs");
         require(read_bytes(corrupt)==old_v2,"schema2 read changed file");

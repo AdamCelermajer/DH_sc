@@ -218,6 +218,11 @@ bool award_player_xp(::dh::foundation::PlayableActorWorld& world, ActorState& pl
     if (sheet.resolved[33] >= sheet.resolved[34]) {
         if (!level_up(world, player, candidate, *services.properties, rules,
                       *character, services.max_level, error)) return false;
+        // Source LevelUp presentation runs only for a real level gain (the
+        // cap branch returns before any state or FX change).
+        if (character->stats.level > std::uint32_t(source_level) && services.on_level_up &&
+            !services.on_level_up(services.context, player.id,
+                                  std::int32_t(character->stats.level), error)) return false;
     } else {
         if (!world.update_combat_properties(player.id, candidate, *world.traits(player.id), error))
             return false;

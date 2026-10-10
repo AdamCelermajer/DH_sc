@@ -1,4 +1,5 @@
 #include "character_quest_progress_v1.hpp"
+#include "../../character_quest_blob.hpp"
 #include <algorithm>
 #include <cstring>
 
@@ -121,7 +122,10 @@ bool CharacterQuestProgressV1::decode(const CharacterState& character,
     reader.at=4;
     std::uint32_t version{},rows{},name_size{};
     std::string encoded_name;
-    if(!reader.u32(version)||version!=codec_version||!reader.u32(rows)||
+    // Schema v4: CQPG v2 appends objective counters (character_quest_blob.hpp);
+    // this state-only model reads v1 and v2 buckets and ignores the counters
+    // (the quest runtime owns them via read_quest_counters/write_quest_counters).
+    if(!reader.u32(version)||version<codec_version||version>character_quest_blob_max_version||!reader.u32(rows)||
        rows!=tables.rows().size()||!reader.u32(name_size)||name_size>4096||
        !reader.raw_string(name_size,encoded_name)||encoded_name!=character.id)
         return fail(error,"Quest progress codec version/table/Character identity mismatch");
@@ -147,7 +151,13 @@ bool CharacterQuestProgressV1::decode(const CharacterState& character,
             bucket.states.push_back(state);
         }
     }
-    if(reader.at!=bytes.size())return fail(error,"Quest progress codec has trailing bytes");
+    if(version==1){
+        if(reader.at!=bytes.size())return fail(error,"Quest progress codec has trailing bytes");
+    }else{
+        std::vector<QuestObjectiveCounterV2> counters;std::string counter_error;
+        if(!decode_quest_counter_section(bytes,CharacterQuestBlobLayout{version,rows,reader.at},counters,counter_error))
+            return fail(error,"Quest progress codec v2 counter section is invalid");
+    }
     character_id_=character.id;buckets_=std::move(staged);error.clear();return true;
 }
 

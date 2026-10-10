@@ -4,6 +4,7 @@
 #include "../../asset_catalog.hpp"
 #include "../../original_actor_camera_anchor.hpp"
 #include "winmm_output.hpp"
+#include <array>
 #include <limits>
 #include <initializer_list>
 
@@ -197,12 +198,51 @@ bool RuntimeSessionAudioV1::bind(const std::shared_ptr<CombatSession>& session,
                     <<" actor="<<item.actor<<" sequence="<<item.sequence_id
                     <<" step="<<item.step<<" sound="<<item.sound_id
                     <<" status="<<int(item.status)<<" detail="<<item.detail<<'\n';
+                // B028: hit-reaction (Injured) and death clip starts; the step sound is the cue.
+                if(item.role!=CombatSessionStepRole::action&&item.sound_id>=0) {
+                    const char* event=item.role==CombatSessionStepRole::hurt?"hurt":"death";
+                    const char* status=item.status==RuntimeAttackSoundStatusV1::dispatched?"submitted":
+                        item.detail.rfind("Unavailable original audio asset: ",0)==0?"asset_missing":"failed";
+                    log_<<"Combat cue uid="<<host_->source_uid(item.sound_id)<<" event="<<event
+                        <<" actor="<<item.actor<<" frame="<<context_->frame<<" status="<<status<<'\n';
+                }
             });
         attack_step_observer_=attack_->step_entry_observer();
     }
     session->set_step_entry_observer(compose_step_entry_observer(attack_step_observer_));
     session->set_retained_frame_audio_observer(combat_->retained_event_observer());
     bound_=session;error.clear();return true;
+}
+
+void RuntimeSessionAudioV1::queue_faery_pre_sounds(ActorId caster,const std::array<float,3>& position,
+    std::size_t target_count,std::vector<std::string> labels) {
+    faery_pre_pending_.push_back({caster,position,target_count,std::move(labels)});
+}
+
+bool RuntimeSessionAudioV1::flush_faery_pre_sounds(const RetainedFrameAudioClock* clock,std::string& error) {
+    error.clear();
+    auto pending=std::move(faery_pre_pending_);
+    faery_pre_pending_.clear();
+    const auto frame=context_?context_->frame:std::uint64_t{};
+    bool all=true;
+    for(const auto& request:pending) {
+        for(const auto& label:request.labels) {
+            const auto uid=host_?host_->source_ordinal(label.c_str()):-1;
+            if(!clock||!clock->valid()) {
+                ++diagnostics_;all=false;
+                log_<<"Faery cast sound uid="<<uid<<" label="<<label<<" targets="<<request.target_count
+                    <<" frame="<<frame<<" status=dropped detail=no device audio clock this frame\n";
+                continue;
+            }
+            std::string detail;
+            const bool sent=uid>=0&&host_->submit_source_sound(request.caster,uid,request.position,clock->qpc_monotonic_ns,detail);
+            if(sent) ++dispatched_; else {++diagnostics_;all=false;if(error.empty())error=detail;}
+            log_<<"Faery cast sound uid="<<uid<<" label="<<label<<" targets="<<request.target_count
+                <<" frame="<<frame<<" status="<<(sent?"dispatched":"failed")
+                <<" detail="<<(uid<0?std::string("label absent from the sounds table"):detail)<<'\n';
+        }
+    }
+    return all;
 }
 
 bool RuntimeSessionAudioV1::window_activity(bool focused,bool minimized,std::string& error) {
@@ -273,6 +313,12 @@ const RetainedFrameAudioClock* RuntimeSessionAudioV1::before_update(const Camera
     error.clear();return &clock_;
 }
 
+bool RuntimeSessionAudioV1::submit_world_item_sound(std::int32_t source_ordinal,
+    const std::array<float,3>& position,WorldItemSoundResultV1& result,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    return host_->submit_world_item_sound(source_ordinal,position,result,error);
+}
+
 bool RuntimeSessionAudioV1::after_update(std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     if(!host_->update(error))return false;
@@ -330,7 +376,8 @@ void RuntimeSessionAudioV1::summary() const {
             <<" renderedSeconds="<<double(host_->rendered_frames())/48000.0
             <<" wallSeconds="<<double(pump.last_ns-pump.first_ns)/1e9
             <<" maxGapMs="<<double(pump.max_update_gap_ns)/1e6
-            <<" gapsOver40ms="<<pump.gaps_over_40ms<<'\n';
+            <<" gapsOver40ms="<<pump.gaps_over_40ms
+            <<" pumpThreadPriority="<<pump.pump_thread_priority<<'\n';
 #endif
 }
 }

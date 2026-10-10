@@ -104,6 +104,20 @@ void character(Archive& a,CharacterState& c){
         }
         for(auto& byte:c.source_quest_progress_cqpg){std::uint64_t value=byte;a.word(value,1);if(a.reading)byte=static_cast<std::uint8_t>(value);}
     }
+    if(schema>=4){
+        // Same append-only tail as save_store.cpp (character.save schema v4).
+        a.i32(c.current_difficulty);a.i32(c.unlocked_difficulty);
+        a.flag(c.menu_metadata.known);a.u32(c.menu_metadata.save_time);
+        for(auto& row:c.menu_metadata.level_row)a.i32(row);
+        for(auto& act:c.menu_metadata.current_act)a.i32(act);
+        auto visited=static_cast<std::uint32_t>(c.visited_modules.size());a.u32(visited);
+        if(visited>character_visited_limit)throw std::runtime_error("Game save visited-module section exceeds limit");
+        if(a.reading)c.visited_modules.resize(visited);
+        for(auto& entry:c.visited_modules){
+            a.text(entry.level_uri);a.u32(entry.module_id);
+            std::uint64_t byte=entry.visited;a.word(byte,1);if(a.reading)entry.visited=static_cast<std::uint8_t>(byte);
+        }
+    }
 }
 void actor_record(Archive& a,PersistedPlayableActor& p){
     auto& s=p.actor;a.u64(s.id);a.text(s.definition_id);a.text(s.class_id);a.i32(s.faction_id);

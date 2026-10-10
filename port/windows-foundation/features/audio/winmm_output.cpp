@@ -20,6 +20,7 @@ constexpr unsigned kFrames=kWinmmFramesPerBuffer;
 constexpr unsigned kSamples=kFrames*2;
 // Process-wide pump diagnostics (B039). Written only by the single pump owner.
 std::atomic<std::uint64_t> g_pump_updates{},g_pump_refills{},g_pump_underruns{},g_pump_max_gap_ns{},g_pump_last_ns{},g_pump_first_ns{},g_pump_gaps_over_40ms{};
+std::atomic<int> g_pump_thread_priority{};
 std::uint64_t pump_now_ns() {
  return std::uint64_t(std::chrono::duration_cast<std::chrono::nanoseconds>(
   std::chrono::steady_clock::now().time_since_epoch()).count());
@@ -117,7 +118,13 @@ bool WinmmAudioOutput::focus(bool focused,std::string& error){
 }
 #ifdef _WIN32
 WinmmPumpStatsV1 winmm_pump_stats_v1() noexcept {
- return {g_pump_updates.load(),g_pump_refills.load(),g_pump_underruns.load(),g_pump_max_gap_ns.load(),g_pump_first_ns.load(),g_pump_last_ns.load(),g_pump_gaps_over_40ms.load()};
+ return {g_pump_updates.load(),g_pump_refills.load(),g_pump_underruns.load(),g_pump_max_gap_ns.load(),g_pump_first_ns.load(),g_pump_last_ns.load(),g_pump_gaps_over_40ms.load(),g_pump_thread_priority.load()};
+}
+bool winmm_promote_pump_thread_v1() noexcept {
+ const HANDLE self=GetCurrentThread();
+ if(!SetThreadPriority(self,THREAD_PRIORITY_TIME_CRITICAL))return false;
+ const int actual=GetThreadPriority(self);g_pump_thread_priority.store(actual,std::memory_order_relaxed);
+ return actual==THREAD_PRIORITY_TIME_CRITICAL;
 }
 void winmm_pump_stats_reset_v1() noexcept {
  g_pump_updates=0;g_pump_refills=0;g_pump_underruns=0;g_pump_max_gap_ns=0;g_pump_last_ns=0;g_pump_first_ns=0;g_pump_gaps_over_40ms=0;
@@ -125,5 +132,6 @@ void winmm_pump_stats_reset_v1() noexcept {
 #else
 WinmmPumpStatsV1 winmm_pump_stats_v1() noexcept {return {};}
 void winmm_pump_stats_reset_v1() noexcept {}
+bool winmm_promote_pump_thread_v1() noexcept {return false;}
 #endif
 }

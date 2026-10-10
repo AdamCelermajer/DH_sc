@@ -123,6 +123,13 @@ void run_class(const AssetCatalog& assets,
     check(result.saved && result.reloaded && result.published_to_shared_state && result.start_provider_succeeded,
           "persistence/start phases not recorded");
     check(result.same_state_owner(expected_owner), "result lost exact caller owner");
+    {   // P14 schema: FS_StartGame stamps a fresh profile (date = request.saved_date, LevelList row 41, act 1, Normal).
+        const auto& meta = result.shared_state->menu_metadata;
+        check(meta.known && meta.save_time == request.saved_date && result.shared_state->current_difficulty == 0 &&
+              result.shared_state->unlocked_difficulty == 0, "new profile did not persist known menu metadata");
+        for (std::size_t d = 0; d < 3; ++d)
+            check(meta.level_row[d] == 41 && meta.current_act[d] == 1, "new profile LevelList row/act is not 41/1");
+    }
     check(start_called && start_argument.get() == original_pointer, "same-state start was not called");
     check(random.calls == result.shared_state->inventory.size(), "source RNG call count differs from authored ItemLists");
     check(result.source_profile_metadata.character_row == static_cast<std::int32_t>(choice.character_row),

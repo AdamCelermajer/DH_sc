@@ -7,7 +7,11 @@
 
 namespace dh::foundation {
 
-inline constexpr std::uint32_t character_schema_version = 3;
+inline constexpr std::uint32_t character_schema_version = 4;
+// Schema history: 1 base, 2 source stats/equipment/skills/faery, 3 CQPG quest blob,
+// 4 menu metadata + current/unlocked difficulty + visited-module section.
+inline constexpr std::uint32_t character_difficulty_count = 3;
+inline constexpr std::size_t character_visited_limit = 16384;
 inline constexpr std::size_t character_collection_limit = 4096;
 inline constexpr std::size_t character_text_limit = 1024;
 
@@ -65,6 +69,29 @@ struct SkillProgress {
     std::uint32_t rank = 1;
 };
 
+// Per-slot metadata the main-menu slot panel shows (original LNAM/QEST/PDFL
+// fields written by PlayerSavegame at SG_SavePlayer / FS_StartGame). known is
+// false on v1-v3 saves and until the first save point stamps the block; the
+// panel then shows blank metadata instead of inventing it.
+struct CharacterMenuMetadata {
+    bool known = false;
+    // Source SG_SetSaveDate word (time(nullptr), read back as signed 32-bit).
+    std::uint32_t save_time = 0;
+    // Source LevelList row per difficulty (LNAM level word); -1 = unset.
+    std::array<std::int32_t, 3> level_row{-1, -1, -1};
+    // Source QEST current act per difficulty (SG_GetCurrentAct); 1 = Act 1.
+    std::array<std::int32_t, 3> current_act{1, 1, 1};
+};
+
+// Optional visited-room record (source Module::visited3fc, one byte per
+// module). Reserved for the map stream; may stay empty. Key = (level_uri,
+// module_id), unique, stored sorted by that key.
+struct CharacterVisitedModule {
+    std::string level_uri;
+    std::uint32_t module_id = 0;
+    std::uint8_t visited = 0;
+};
+
 struct CharacterState {
     std::uint32_t schema_version = character_schema_version;
     std::string id;
@@ -91,7 +118,22 @@ struct CharacterState {
     // Portable source quest codec, owned by this character. Empty remains
     // unknown on older saves; only explicit fresh/source producers initialize.
     std::vector<std::uint8_t> source_quest_progress_cqpg;
+    // Schema v4. Source PlayerSavegame::m_difficultyLevel / UnlockedDiff (PDFL):
+    // 0 Normal, 1 Hard, 2 Heroic. Legacy saves load as Normal/Normal. Read via
+    // character_current_difficulty()/character_unlocked_difficulty().
+    std::int32_t current_difficulty = 0;
+    std::int32_t unlocked_difficulty = 0;
+    CharacterMenuMetadata menu_metadata;
+    std::vector<CharacterVisitedModule> visited_modules;
 };
+
+// The single accessors other streams use for the active difficulty (0..2).
+inline std::int32_t character_current_difficulty(const CharacterState& state) noexcept {
+    return state.current_difficulty;
+}
+inline std::int32_t character_unlocked_difficulty(const CharacterState& state) noexcept {
+    return state.unlocked_difficulty;
+}
 
 // Temporary controller state is deliberately not part of CharacterState/save data.
 enum class CharacterAction { idle, moving, attacking, casting, hurt, dead, knocked_back };

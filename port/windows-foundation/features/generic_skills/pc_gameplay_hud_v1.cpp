@@ -1,6 +1,7 @@
 #include "pc_gameplay_hud_v1.hpp"
 
 #include "../skill_ui/original_skill_art.hpp"
+#include "pc_gameplay_hud_button_art_v1.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -11,6 +12,8 @@ namespace {
 constexpr std::array<std::uint32_t, 3> source_slots{{2, 0, 1}};
 constexpr unsigned circle_segments = 48;
 constexpr float pi = 3.14159265358979323846f;
+// Source CoolDown sprite350 has frames 0..100; FastUpdate clamps GotoFrame to 0..99.
+constexpr std::int32_t max_cooldown_frame = 99;
 
 bool fail(std::string& error, const char* message) {
     error = message;
@@ -38,38 +41,61 @@ bool label_is_below_and_centered(const PcGameplayHudCirclePlacementV1& p) {
 
 HudGeometryVertex vertex(float x, float y) { return {x, y, 0.0f, 0.0f}; }
 
-void append_circle(const PcGameplayHudCirclePlacementV1& p,
-                   const std::string& path, frontend::art::ScreenArt& art) {
-    HudGeometryBatch fill;
-    fill.role = path + "/pc-fill";
-    HudGeometryBatch ring;
-    ring.role = path + "/pc-ring";
-    const float inner = p.radius * 0.84f;
-    fill.triangles.reserve(circle_segments * 3);
-    ring.triangles.reserve(circle_segments * 6);
-    for (unsigned i = 0; i < circle_segments; ++i) {
-        const float a0 = (2.0f * pi * float(i)) / float(circle_segments);
-        const float a1 = (2.0f * pi * float(i + 1)) / float(circle_segments);
-        const auto outer0 = vertex(p.center_x + p.radius * std::cos(a0),
-                                   p.center_y + p.radius * std::sin(a0));
-        const auto outer1 = vertex(p.center_x + p.radius * std::cos(a1),
-                                   p.center_y + p.radius * std::sin(a1));
-        const auto inner0 = vertex(p.center_x + inner * std::cos(a0),
-                                   p.center_y + inner * std::sin(a0));
-        const auto inner1 = vertex(p.center_x + inner * std::cos(a1),
-                                   p.center_y + inner * std::sin(a1));
-        fill.triangles.insert(fill.triangles.end(),
-                              {vertex(p.center_x, p.center_y), outer0, outer1});
-        ring.triangles.insert(ring.triangles.end(),
-                              {outer0, outer1, inner1, outer0, inner1, inner0});
-    }
-    art.batches.push_back(std::move(fill));
-    art.bitmap_ids.push_back(0); // renderer's white texel, tinted by batch_colors
-    art.batch_colors.push_back({0.10f, 0.12f, 0.16f, 0.88f});
-    art.batches.push_back(std::move(ring));
-    art.bitmap_ids.push_back(0);
-    art.batch_colors.push_back({0.80f, 0.72f, 0.50f, 1.0f});
+// One transform for the whole original button family (ring/base, Grey, CoolDown)
+// so the source's relative geometry is preserved. The ring's extent maps to the
+// placement diameter; the centre of the base bounds maps to the placement centre.
+struct ButtonFit {
+    float source_cx = 0.0f;
+    float source_cy = 0.0f;
+    float scale = 1.0f;
+    float center_x = 0.0f;
+    float center_y = 0.0f;
+};
 
+bool fit_button_family(const std::vector<PcGameplayHudArtBatchV1>& base,
+                       const PcGameplayHudCirclePlacementV1& p,
+                       ButtonFit& fit, std::string& error) {
+    float xmin = std::numeric_limits<float>::infinity();
+    float xmax = -xmin;
+    float ymin = xmin;
+    float ymax = -xmin;
+    for (const auto& batch : base) for (const auto& v : batch.triangles) {
+        xmin = std::min(xmin, v.x); xmax = std::max(xmax, v.x);
+        ymin = std::min(ymin, v.y); ymax = std::max(ymax, v.y);
+    }
+    if (base.empty() || !(xmax > xmin && ymax > ymin))
+        return fail(error, "Original PC HUD button base art is empty");
+    const float extent = std::max(xmax - xmin, ymax - ymin);
+    fit.source_cx = (xmin + xmax) * 0.5f;
+    fit.source_cy = (ymin + ymax) * 0.5f;
+    fit.scale = p.radius * 2.0f / extent;
+    fit.center_x = p.center_x;
+    fit.center_y = p.center_y;
+    return true;
+}
+
+void append_fitted_batches(const std::vector<PcGameplayHudArtBatchV1>& source,
+                           const ButtonFit& fit, const std::string& role,
+                           frontend::art::ScreenArt& art) {
+    for (const auto& src : source) {
+        HudGeometryBatch batch;
+        batch.role = role + "/shape" + std::to_string(src.source_shape_id);
+        batch.shape_id = src.source_shape_id;
+        batch.triangles = src.triangles;
+        for (auto& v : batch.triangles) {
+            v.x = (v.x - fit.source_cx) * fit.scale + fit.center_x;
+            v.y = (v.y - fit.source_cy) * fit.scale + fit.center_y;
+        }
+        art.batches.push_back(std::move(batch));
+        // Bitmap shapes sample the original MenusGraphics atlas (bitmap1); solid
+        // shapes tint the renderer's white texel with their source colour.
+        art.bitmap_ids.push_back(src.bitmap ? 1u : 0u);
+        art.batch_colors.push_back({src.rgba[0], src.rgba[1], src.rgba[2], src.rgba[3]});
+    }
+}
+
+void append_button_hit_region(const PcGameplayHudCirclePlacementV1& p,
+                              const std::string& path, frontend::art::ScreenArt& art) {
     frontend::art::HitRegion hit;
     hit.button_path = path;
     hit.triangles.reserve(circle_segments * 3);
@@ -82,6 +108,32 @@ void append_circle(const PcGameplayHudCirclePlacementV1& p,
             vertex(p.center_x + p.radius * std::cos(a1), p.center_y + p.radius * std::sin(a1))});
     }
     art.hit_regions.push_back(std::move(hit));
+}
+
+bool cooldown_frame_is_valid(std::int32_t frame) {
+    return frame >= 0 && frame <= max_cooldown_frame;
+}
+
+// Original button drawing order: ring/base, icon holder, Grey (empty), CoolDown.
+// Icon is appended by the caller between base and overlays.
+bool append_button_base(const std::vector<PcGameplayHudArtBatchV1>& base,
+                        const PcGameplayHudCirclePlacementV1& p,
+                        const std::string& path, ButtonFit& fit,
+                        frontend::art::ScreenArt& art, std::string& error) {
+    if (!fit_button_family(base, p, fit, error)) return false;
+    append_fitted_batches(base, fit, path + "/ring", art);
+    return true;
+}
+
+bool append_button_cooldown(std::int32_t frame, const ButtonFit& fit,
+                            const std::string& path, frontend::art::ScreenArt& art,
+                            std::string& error) {
+    if (!cooldown_frame_is_valid(frame))
+        return fail(error, "PC HUD cooldown frame is outside the source CoolDown domain");
+    if (frame == 0) return true; // Source frame0 is the empty ready state.
+    append_fitted_batches(original_pc_gameplay_hud_cooldown_frame_v1(std::size_t(frame)),
+                          fit, path + "/cooldown", art);
+    return true;
 }
 
 bool append_source_icon(unsigned class_frame, const PcSkillHudCellV1& cell,
@@ -229,6 +281,8 @@ bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
          layout.potion_count->source_actor == invalid_actor_id ||
          layout.potion_count->source_actor != source.source_actor))
         return fail(error, "PC HUD potion count does not belong to the exact projected CharacterState and actor");
+    if (!cooldown_frame_is_valid(layout.faery_cooldown_frame))
+        return fail(error, "PC HUD Faery cooldown frame is outside the source CoolDown domain");
     const PcGameplayHudSourceFaeryIconV1* faery_icon = nullptr;
     if (layout.active_faery_id) {
         if (*layout.active_faery_id < -1 || *layout.active_faery_id > 12)
@@ -249,6 +303,8 @@ bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
         if (cell.physical_position != i || cell.pc_key_number != i + 1 ||
             cell.source_slot != source_slots[i] || cell.key_label != std::to_string(i + 1))
             return fail(error, "PC gameplay HUD frame does not preserve physical keys/source order [2,0,1]");
+        if (cell.source_cooldown_frame && !cooldown_frame_is_valid(*cell.source_cooldown_frame))
+            return fail(error, "PC HUD skill cooldown frame is outside the source CoolDown domain");
     }
     for (const auto& p : layout.skills) if (!finite_placement(p) || !label_is_below_and_centered(p))
         return fail(error, "PC skill circle or its centered label is invalid or outside authored 480x320 stage");
@@ -269,28 +325,50 @@ bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
     PcGameplayHudPresentationV1 next;
     for (unsigned i = 0; i < 3; ++i) {
         const auto path = "pc_hud/skill" + std::to_string(i + 1);
-        append_circle(layout.skills[i], path, next.art);
-        if (!append_source_icon(source_class_frame, source.left_middle_right[i],
-                               layout.skills[i], next.art, error)) return false;
+        const auto& cell = source.left_middle_right[i];
+        ButtonFit fit;
+        if (!append_button_base(original_pc_gameplay_hud_skill_base_v1(), layout.skills[i],
+                                path, fit, next.art, error)) return false;
+        if (!append_source_icon(source_class_frame, cell, layout.skills[i], next.art, error)) return false;
+        if (!cell.assigned)
+            append_fitted_batches(original_pc_gameplay_hud_grey_overlay_v1(), fit, path + "/grey", next.art);
+        if (!append_button_cooldown(cell.source_cooldown_frame.value_or(0), fit, path, next.art, error))
+            return false;
+        append_button_hit_region(layout.skills[i], path, next.art);
         append_key_label(layout.skills[i], std::to_string(i + 1), layout.key_label_height, next.art);
         next.actions[i] = {static_cast<platform_input::Control>(
             static_cast<unsigned>(platform_input::Control::skill1) + i), i + 1};
     }
-    append_circle(layout.faery, "pc_hud/faery", next.art);
-    if (faery_icon && !faery_icon->triangles.empty()) {
-        if (faery_icon->source_shape_ids.size() != 1 ||
-            !append_source_hud_icon(faery_icon->triangles,
-                                    faery_icon->source_shape_ids.front(),
-                                    layout.faery,
-                                    "pc_hud/faery/source_frame_" + std::to_string(faery_icon->source_frame),
-                                    next.art, error)) return false;
+    {
+        ButtonFit fit;
+        if (!append_button_base(original_pc_gameplay_hud_spell_base_v1(), layout.faery,
+                                "pc_hud/faery", fit, next.art, error)) return false;
+        if (faery_icon && !faery_icon->triangles.empty()) {
+            if (faery_icon->source_shape_ids.size() != 1 ||
+                !append_source_hud_icon(faery_icon->triangles,
+                                        faery_icon->source_shape_ids.front(),
+                                        layout.faery,
+                                        "pc_hud/faery/source_frame_" + std::to_string(faery_icon->source_frame),
+                                        next.art, error)) return false;
+        }
+        // Faery grey (locked/empty) is not drawn: the source Faery state is not
+        // part of this frame. The cooldown wedge is the source btn_spell CoolDown.
+        if (!append_button_cooldown(layout.faery_cooldown_frame, fit, "pc_hud/faery", next.art, error))
+            return false;
+        append_button_hit_region(layout.faery, "pc_hud/faery", next.art);
+        append_key_label(layout.faery, "4", layout.key_label_height, next.art);
+        next.actions[3] = {platform_input::Control::spell, 4};
     }
-    append_key_label(layout.faery, "4", layout.key_label_height, next.art);
-    next.actions[3] = {platform_input::Control::spell, 4};
-    append_circle(layout.potion, "pc_hud/potion", next.art);
-    if (!append_source_hud_icon(original_pc_gameplay_hud_potion_icon_v1(), 105,
-                                layout.potion, "pc_hud/potion/source_shape_105",
-                                next.art, error)) return false;
+    {
+        ButtonFit fit;
+        if (!append_button_base(original_pc_gameplay_hud_potion_base_v1(), layout.potion,
+                                "pc_hud/potion", fit, next.art, error)) return false;
+        if (!append_source_hud_icon(original_pc_gameplay_hud_potion_icon_v1(), 105,
+                                    layout.potion, "pc_hud/potion/source_shape_105",
+                                    next.art, error)) return false;
+        // btn_potion has no CoolDown child in the source movie (no potion cooldown).
+        append_button_hit_region(layout.potion, "pc_hud/potion", next.art);
+    }
     const auto potion_label = layout.potion_count
         ? "5 Potion: " + std::to_string(layout.potion_count->quantity)
         : std::string("5");

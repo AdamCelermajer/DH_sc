@@ -5,6 +5,8 @@
 #include "../../actor_definitions.hpp"
 #include "../../world.hpp"
 #include <array>
+#include <cstdint>
+#include <functional>
 #include <map>
 #include <optional>
 
@@ -20,8 +22,20 @@ struct RuntimeWorldItemEntryV1 {
     RuntimeWorldItemRecordV1 source_outcome;
     const dh2::data::Item* authored_item{};
     std::uint32_t quantity{};
+    // CURRENT world position (starts at the dropper position and travels to
+    // `destination`; the name is kept for source compatibility with existing
+    // consumers/tests).
     std::array<float, 3> source_position{};
     std::string inventory_instance_id;
+
+    // P14 DROPS additions (all appended; see world_drop_rules_v1.hpp).
+    std::array<float, 3> destination{};     // ItemObject landing point (_GetRandomDropPos)
+    std::int32_t visual_row{-1};            // ItemTable AudioVisualID = ItemManager pool category
+    std::uint64_t spawn_sequence{};         // ItemManager round-robin order inside a category
+    std::uint32_t age_ms{};
+    ActorId owner_actor{invalid_actor_id};  // ItemObject+480 owner player (drop-protection window)
+    std::int32_t owner_protect_ms{};        // ItemObject+476 timer, >0 rejects the owner's Interact
+    bool from_inventory{};                  // published by drop_item_to_world (no Loot row)
 };
 
 // Narrow presentation data for root renderers. An icon is exposed only when
@@ -47,6 +61,14 @@ struct RuntimeWorldItemPickupReceiptV1 {
 };
 
 // Same-session generic WorldItemStore and CharacterState pickup adapter. It
+// B048 item sound cues. The observer runs after a world item is published
+// (drop: ItemObject::InitAgain Play3D of ItemAudioVisualTable row+4) and after
+// a pickup commits (pickup: ItemObject::Interact Play3D of row+8). It only
+// reports; it cannot change the item outcome.
+enum class WorldItemSoundEventV1 : std::uint8_t { drop, pickup };
+using WorldItemSoundObserverV1 =
+    std::function<void(WorldItemSoundEventV1, const RuntimeWorldItemEntryV1&)>;
+
 // owns one authoritative map for world items, retains the actual LootTables
 // snapshot that backs every row, and uses no RNG or detached inventory owner.
 class RuntimeWorldItemAdapterV1 {
@@ -54,10 +76,22 @@ class RuntimeWorldItemAdapterV1 {
     RuntimeWorldItemIdV1 next_identity_{1};
     std::map<RuntimeWorldItemIdV1, RuntimeWorldItemEntryV1> items_;
     bool running_{};
+    std::uint64_t next_sequence_{1};
+    std::uint64_t pool_evictions_{};
+    WorldItemSoundObserverV1 sound_observer_;
+    void notify_sound_(WorldItemSoundEventV1 event,
+                       const RuntimeWorldItemEntryV1& entry) noexcept {
+        if (!sound_observer_) return;
+        try { sound_observer_(event, entry); } catch (...) {}
+    }
 
 public:
     explicit RuntimeWorldItemAdapterV1(dh2::data::LootTablesV2::Borrow tables)
         : tables_(std::move(tables)) {}
+
+    void set_sound_observer(WorldItemSoundObserverV1 observer) {
+        sound_observer_ = std::move(observer);
+    }
 
     bool publish_death_drop(const RuntimeWorldItemRecordV1&,
                             const dh::foundation::ActorState& victim,
@@ -72,6 +106,36 @@ public:
                                     const dh::foundation::WorldObject&,
                                     RuntimeWorldItemIdV1& published_item,
                                     std::string& error);
+
+    // ItemObject::DropAndAwardLoot placement: the landing point comes from
+    // _GetRandomDropPos over the SAME loot RNG (killer position optional).
+    // The plain publish_death_drop() keeps the item at the victim position.
+    bool publish_death_drop_scattered(const RuntimeWorldItemRecordV1&,
+                                      const dh::foundation::ActorState& victim,
+                                      const std::array<float, 3>* killer_position,
+                                      dh2::data::LootRandom8V2* rng,
+                                      RuntimeWorldItemIdV1& published_item,
+                                      std::string& error);
+
+    // Publishes an item that already left a CharacterState (ItemObject::
+    // DropInventory path). No Loot row exists: loot_table stays -1.
+    bool publish_inventory_drop(const dh::foundation::InventoryItem&,
+                                const std::array<float, 3>& position,
+                                dh::foundation::ActorId owner_actor,
+                                std::int32_t owner_protect_ms,
+                                RuntimeWorldItemIdV1& published_item,
+                                std::string& error);
+
+    // Moves every item toward its destination on the ground plane (600 units/s,
+    // stops 80 units short; see advance_world_item_step_v1) and ages the
+    // owner-protection timers. dt in whole milliseconds.
+    void advance(std::uint32_t dt_ms) noexcept;
+    // Drops every world item (session reload). Never grants rewards.
+    void clear() noexcept { items_.clear(); }
+    const std::map<RuntimeWorldItemIdV1, RuntimeWorldItemEntryV1>& entries() const noexcept { return items_; }
+    // Items removed by the 5-slot-per-category ItemManager pool recycling.
+    std::uint64_t pool_evictions() const noexcept { return pool_evictions_; }
+    const dh2::data::LootTablesV2::Borrow& tables() const noexcept { return tables_; }
 
     // Function-pointer-compatible bridge for RuntimeDeathRewardServicesV1.
     static bool spawn_world_item_thunk(

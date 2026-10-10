@@ -7,6 +7,7 @@ namespace dh::foundation::platform_key {
 // Linux adapter can preserve existing input policy without changing gameplay.
 inline constexpr int mouse_left = 0x01;
 inline constexpr int tab = 0x09;
+inline constexpr int enter = 0x0d;  // Preview 15 boot press/tap (VK_RETURN)
 inline constexpr int shift = 0x10;
 inline constexpr int space = 0x20;
 inline constexpr int left = 0x25;

@@ -3,13 +3,24 @@
 #include "../equipment/equipment_menu.hpp"
 #include <array>
 namespace dh::foundation::inventory {
-enum class DetailAction { none,select,previous,next,equip,unequip,drop,transmute,auto_equip };
+// slot: a rail icon (SideList/btn_TypeN) selected InvSlotId N. previous/next: the rail arrows btn_left/btn_right, which
+// step InvSlotId one slot with wrap (ClassChangeUp/ClassChangeDown), not the list row.
+enum class DetailAction { none,select,previous,next,equip,unequip,drop,transmute,auto_equip,slot };
 struct DetailHit {DetailAction action{};std::string path;std::vector<HudGeometryVertex> triangles;};
 struct DetailRowArt {int relative_index{};character_menu::MenuArt unselected,selected;std::vector<HudGeometryVertex> hit;};
 struct DetailTextVariant {std::vector<HudGeometryBatch> batches;std::vector<character_menu::MenuTextField> fields;std::vector<character_menu::MenuSolidBatch> solids;};
 struct DetailTextStates {DetailTextVariant transmute_idle,transmute_disabled;};
 struct DetailArt {character_menu::MenuArt panel;std::vector<DetailRowArt> rows;std::vector<DetailHit> actions;DetailTextStates text_states;};
 const DetailArt& original_inventory_details();
+// B045: true when (x,y) is on the visible body of a list row (the row art box), not only its border sliver.
+bool details_row_hit(const DetailRowArt& row,float x,float y);
+// Details slot rail (menu_InventorySheetDetails/SideList/btn_TypeN, N = InvSlotId 0..9, top to bottom). Each icon's hit
+// box is the bounding box of its authored SideList batches. Returns the icon index at (x,y), or -1.
+struct DetailRailBox{float x0,y0,x1,y1;};
+bool details_rail_box(const DetailArt& art,unsigned slot,DetailRailBox& output);
+int details_rail_slot_at(const DetailArt& art,float x,float y);
+// Original list rows show a count only for stacks: a single item shows no digit (reference t=336/t=372).
+inline bool details_row_shows_count(std::uint32_t quantity){return quantity>1;}
 // The native character preview is an SWF display callback, not a panel-wide
 // overlay. These generated records retain its exact authored pane and sibling
 // insertion point so the renderer can interleave the existing preview owner.
@@ -45,6 +56,8 @@ public:
     void close() noexcept{open_=false;}
     bool is_open()const noexcept{return open_;}
     bool open(unsigned source_slot,std::string& error);
+    std::size_t selected_index()const;
+    bool reselect_near(std::size_t index,std::string& error);
     bool frame(const DetailBindings&,character_menu::Frame&,std::string& error)const;
     // Sourcecoords already inverse-transformed by PC/touch transport.
     // Selection and arrows act here; mutation commands returned to real owner.

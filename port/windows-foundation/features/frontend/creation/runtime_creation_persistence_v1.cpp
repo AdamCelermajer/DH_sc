@@ -4,6 +4,8 @@
 
 #include "../../../character_state.hpp"
 #include "../../../save_store.hpp"
+#include "../../menu_metadata/menu_metadata_v1.hpp"
+#include "../../faery_menu/character_state_faery_v1.hpp" // P14 FAERY: shared creation-equivalent Faery rows
 #include "../../../../game-data/loot_creation_v8.hpp"
 
 #include <algorithm>
@@ -360,10 +362,8 @@ bool build_source_starter(const RuntimeCreationRequestV1& request,
             --candidate.source_skill_points;
         }
     }
-    for (auto& difficulty : candidate.faery_by_difficulty) {
-        difficulty.current_faery = 0;
-        for (auto& faery : difficulty.faeries) faery = {};
-    }
+    // Shared with legacy-slot normalization (character_state_faery_v1): creation-equivalent zero rows.
+    faery_menu::initialize_source_faery_rows_v1(candidate);
 
     const std::int32_t expected_fixed_words[] = {-1, 0, -1, -1, 0, 0, 0};
     for (const auto& entry : loot.fixed_entries) {
@@ -538,6 +538,8 @@ RuntimeCreationResultV1 RuntimeCreationPersistenceV1::create_reload(
     if (!build_source_starter(request, services, result, candidate)) return result;
 
     std::string error;
+    // P14 schema: FS_StartGame (0x4220a0) stamps the fresh profile: save date, LevelList row 41, act 1, Normal.
+    menu_metadata::initialize_fresh_menu_metadata(candidate, request.saved_date);
     if (!save_character(request.save_path, candidate, error)) {
         fail(result, RuntimeCreationStatusV1::persistence_failed,
              error.empty() ? "Existing generic save API failed" : error);

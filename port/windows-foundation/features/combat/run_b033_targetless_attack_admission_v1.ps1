@@ -122,6 +122,7 @@ try {
         (Join-Path $featureRoot 'runtime_skill_mana_v1.cpp'),
         (Join-Path $featureRoot 'runtime_skill_cast_prepare_v1.cpp'),
         (Join-Path $featureRoot 'runtime_skill_cast_coordinator_v1.cpp'),
+        (Join-Path $featureRoot 'pc_cooldown_frame_v1.cpp'),
         (Join-Path $featureRoot 'runtime_skill_target_query_v1.cpp'),
         (Join-Path $featureRoot 'runtime_skill_activation_session_v1.cpp'),
         (Join-Path $featureRoot 'runtime_skill_animation_bank_v1.cpp'),

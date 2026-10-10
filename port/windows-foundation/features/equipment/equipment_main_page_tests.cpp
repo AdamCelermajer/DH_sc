@@ -180,8 +180,79 @@ int main(int argc, char** argv) {
               error.find("both equip and unequip") != std::string::npos &&
               character.equipment.empty(),
               "Partial canonical Gear binding was accepted or mutated compatibility state");
+        // B046: the Details slot rail. Icon N (SideList/btn_TypeN) sets InvSlotId N; btn_left (up) and btn_right (down)
+        // step InvSlotId one slot with wrap (ClassChangeUp 9 -> ... ; ClassChangeDown 9 -> 0). Each step re-selects the
+        // slot's first candidate and moves the single shared selection; only the selected icon's Highlight is drawn.
+        {
+            const auto rail_centre = [&](unsigned slot, float& x, float& y) {
+                inventory::DetailRailBox box{};
+                check(inventory::details_rail_box(inventory::original_inventory_details(), slot, box), "Details rail icon missing");
+                x = (box.x0 + box.x1) * 0.5f;
+                y = (box.y0 + box.y1) * 0.5f;
+            };
+            const auto arrow = [&](inventory::DetailAction action, float& x, float& y) {
+                const auto& hit = *std::find_if(inventory::original_inventory_details().actions.begin(),
+                    inventory::original_inventory_details().actions.end(), [&](const auto& h) { return h.action == action; });
+                x = (hit.triangles[0].x + hit.triangles[1].x + hit.triangles[2].x) / 3;
+                y = (hit.triangles[0].y + hit.triangles[1].y + hit.triangles[2].y) / 3;
+            };
+            const auto highlight_shown = [&](unsigned slot) {
+                character_menu::Frame rail_frame;
+                rail_frame.art.batches = character_menu::original_menu_art(character_menu::Tab::equipment).batches;
+                check(page.content(character_menu::Tab::equipment, rail_frame, error), error);
+                const std::string role = "menu_InventorySheetDetails/SideList/btn_Type" + std::to_string(slot) + "/Highlight/";
+                return std::any_of(rail_frame.art.batches.begin(), rail_frame.art.batches.end(),
+                    [&](const auto& batch) { return batch.role.find(role) == 0; });
+            };
+            float x = 0, y = 0;
+            rail_centre(3, x, y);
+            check(page.release(x, y, command, error) && command == equipment_menu::MainPageCommand::none &&
+                  details.is_open() && equipment.selected_slot() == 3, "Rail icon 3 did not select InvSlotId 3");
+            // Icons with normal art (3) show the bright Highlight only when selected; icon 0 has only Highlight art and stays drawn.
+            check(highlight_shown(3) && !highlight_shown(9) && highlight_shown(0),
+                  "Rail Highlight must follow the selected icon for icons with normal art");
+            rail_centre(9, x, y);
+            check(page.release(x, y, command, error) && equipment.selected_slot() == 9,
+                  "Rail icon 9 (potions) did not select InvSlotId 9");
+            arrow(inventory::DetailAction::next, x, y);
+            check(page.release(x, y, command, error) && equipment.selected_slot() == 0 &&
+                  equipment.selected_instance() == "suit-instance",
+                  "Down arrow at InvSlotId 9 did not wrap to 0 and select its first candidate");
+            arrow(inventory::DetailAction::previous, x, y);
+            check(page.release(x, y, command, error) && equipment.selected_slot() == 9,
+                  "Up arrow at InvSlotId 0 did not wrap to 9");
+            arrow(inventory::DetailAction::previous, x, y);
+            check(page.release(x, y, command, error) && equipment.selected_slot() == 8,
+                  "Up arrow did not step one slot");
+            arrow(inventory::DetailAction::next, x, y);
+            check(page.release(x, y, command, error) && equipment.selected_slot() == 9 && highlight_shown(9),
+                  "Down arrow did not step one slot back, or the highlight did not follow");
+            rail_centre(0, x, y);
+            check(page.release(x, y, command, error) && equipment.selected_slot() == 0 &&
+                  equipment.selected_instance() == "suit-instance" && command == equipment_menu::MainPageCommand::none,
+                  "Rail icon 0 did not reselect the torso list");
+            check(character.equipment.empty() && actor.equipment.empty(), "Rail navigation mutated equipment");
+        }
         page.leave_page();
         check(!details.is_open(), "Leaving MAINPAGE retained Details visibility");
+        // Main sheet btn_GAMEPLAYMENUS_AUTOEQUIP_ALL (NativeInvAutoEquipSlot(-1)): the authored banner returns a
+        // request to the root owner and mutates nothing locally. The same point does nothing while Details is open.
+        {
+            const std::string prefix = "menu_InventorySheetMain/btn_GAMEPLAYMENUS_AUTOEQUIP_ALL/";
+            float all_x = 0, all_y = 0; bool found = false;
+            for (const auto& batch : character_menu::original_menu_art(character_menu::Tab::equipment).batches)
+                if (!found && batch.role.compare(0, prefix.size(), prefix) == 0 && batch.triangles.size() >= 3) {
+                    all_x = (batch.triangles[0].x + batch.triangles[1].x + batch.triangles[2].x) / 3;
+                    all_y = (batch.triangles[0].y + batch.triangles[1].y + batch.triangles[2].y) / 3;
+                    found = true;
+                }
+            check(found, "Original ALL auto-equip banner art unavailable");
+            check(page.release(all_x, all_y, command, error), error);
+            check(command == equipment_menu::MainPageCommand::request_auto_equip_all && character.equipment.empty() &&
+                  actor.equipment.empty() && !details.is_open(), "ALL banner did not return a typed request without local mutation");
+            // A press outside every control stays a no-op.
+            check(page.release(1.0f, 1.0f, command, error) && command == equipment_menu::MainPageCommand::none, "Empty space produced a command");
+        }
         std::cout << "equipment_main_page_tests PASS: shared source slot/instance, Details, native Gear routing and compatibility equip/unequip\n";
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';

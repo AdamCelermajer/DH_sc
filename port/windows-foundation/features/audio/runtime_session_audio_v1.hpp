@@ -4,7 +4,11 @@
 #include "../../renderer.hpp"
 #include "../../../engine-audio/audio_listener_rows_v38.hpp"
 #include "../../../game-data/data.hpp"
+#include <array>
+#include <cstddef>
 #include <ostream>
+#include <string>
+#include <vector>
 #include <functional>
 #include <cstdint>
 #include <exception>
@@ -63,6 +67,13 @@ class RuntimeSessionAudioV1 final {
     bool attack_tables_ready_{};
     dh2::audio::AudioListenerRowV38 listener_;
     RetainedFrameAudioClock clock_{};
+    struct FaeryPreSoundRequestV1 {
+        ActorId caster{};
+        std::array<float,3> position{};
+        std::size_t target_count{};
+        std::vector<std::string> labels;
+    };
+    std::vector<FaeryPreSoundRequestV1> faery_pre_pending_;
     std::uint32_t activity_sequence_{};
     std::uint64_t started_{},dispatched_{},diagnostics_{};
     bool focused_{},minimized_{},activity_known_{};
@@ -84,6 +95,13 @@ public:
     CombatSessionStepObserver compose_step_entry_observer(CombatSessionStepObserver audio_first);
     void unbind() noexcept;
     bool window_activity(bool focused,bool minimized,std::string&);
+    // P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ PlaySound3D labels.
+    // Queued by the Faery cast (every cast, empty target list included) and
+    // submitted by flush_faery_pre_sounds on the same frame's device clock.
+    void queue_faery_pre_sounds(ActorId caster,const std::array<float,3>& position,
+        std::size_t target_count,std::vector<std::string> labels);
+    // clock==nullptr (no device clock this frame) drops the queue with a logged status.
+    bool flush_faery_pre_sounds(const RetainedFrameAudioClock* clock,std::string& error);
     // Original LevelConfig `music` (LevelMusicNamesV1). Playback starts from
     // after_update once the window is focused and not minimised, as the
     // original Level::Update path plays it on the first updated frame. An empty
@@ -101,6 +119,9 @@ public:
     const RetainedFrameAudioClock* before_update(const Camera&,bool focused,
         bool minimized,bool minimal_randoms,std::uint64_t frame,std::string&);
     bool after_update(std::string&);
+    // B048: ItemObject drop/pickup Play3D through this session's live host.
+    bool submit_world_item_sound(std::int32_t source_ordinal,
+        const std::array<float,3>& position,WorldItemSoundResultV1& result,std::string& error);
     bool shutdown(std::string&);
     void summary() const;
 };

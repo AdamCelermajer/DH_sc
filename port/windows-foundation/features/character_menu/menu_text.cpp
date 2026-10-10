@@ -1,4 +1,5 @@
 #include "menu_text.hpp"
+#include "../../../engine-ui/localization_parse_ex_v1.hpp"
 #include "../../asset_catalog.hpp"
 #include "../../content_paths.hpp"
 #include "../../../engine-ui/localization.hpp"
@@ -65,6 +66,9 @@ const char* original_menu_label_symbol(const std::string& path)noexcept {
         ,{"menu_CharacterSheetStats/RH/RightHandDamage/","GAMEPLAYMENUS_SUMMARY_R_HAND"}
         ,{"menu_CharacterSheetStats/LH/LeftHandDamage/","GAMEPLAYMENUS_SUMMARY_L_HAND"}
         ,{"menu_CharacterSheetStats/TWOH/TwoHDamage/","GAMEPLAYMENUS_SUMMARY_2_HAND"}
+        // InventorySheetMain onShow actions (authored-actions.txt 00019d7f..00019dcf): NativeGetStringFromSymbol.
+        ,{"menu_InventorySheetMain/btn_GAMEPLAYMENUS_AUTOEQUIP_ALL/","GAMEPLAYMENUS_AUTOEQUIP_ALL"}
+        ,{"menu_InventorySheetMain/Title/","GAMEPLAYMENUS_INVENTORY_TITLE"}
     };
     for(const auto& label:labels)if(path.find(label.source_path)!=std::string::npos)return label.symbol;
     return nullptr;
@@ -177,6 +181,20 @@ bool MenuLocalization::string_id(std::int32_t id,std::string& value,std::string&
     std::string next;auto services=impl_->services();bool is_null=false;
     if(!impl_->localization.integer_string(id,services,next,is_null,error))return false;
     if(is_null||next=="#!WTF!#"||next=="#!SNL!#"){error="Original numeric menu text OID has no localized value";return false;}
+    value=std::move(next);error.clear();return true;
+}
+bool MenuLocalization::constant(const char* group,const char* key,std::int32_t& value,std::string& error){
+    if(!impl_||!impl_->ready||!group||!key){error="Original menu localization corpus is unbound";return false;}
+    std::int32_t raw=0;
+    if(dh2_script_constants_get(impl_->constants,group,key,&raw)){error="Missing original menu text constant";return false;}
+    value=raw;error.clear();return true;
+}
+bool MenuLocalization::parsed_symbol(const std::string& symbol,std::int32_t number,std::string& value,std::string& error){
+    if(!impl_||!impl_->ready){error="Original menu localization corpus is unbound";return false;}
+    dh2::ui::HudTextV1* text=nullptr;dh2::ui::HudTextEnvironmentV1 environment;std::string next;
+    if(!borrow_text(text,environment,error))return false;
+    const std::vector<dh2::ui::LocalizationArgumentV1> arguments{dh2::ui::LocalizationArgumentV1{static_cast<float>(number),false,{}}};
+    if(!text->parsed_string_v4(symbol,arguments,environment,next,error))return false;
     value=std::move(next);error.clear();return true;
 }
 bool MenuLocalization::bind_profile(const CharacterState* profile,std::string& error){

@@ -2,16 +2,21 @@
 param([string]$Compiler, [switch]$CelestFxOnly)
 $ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..\..'))
+# P15 HOTTY: in a git worktree .local-inputs is a junction; asset paths are canonicalized
+# (fs::canonical) by AssetCatalog, so pass the junction's real target.
+$localInputs = Join-Path $root '.local-inputs'
+$localItem = Get-Item -LiteralPath $localInputs -Force
+if ($localItem.LinkType -eq 'Junction') { $localInputs = [string]$localItem.Target[0] }
 if (-not $Compiler) {
     $Compiler = Join-Path $root '.local-inputs\windows-toolchain\llvm-mingw-20261006-ucrt-x86_64\bin\clang++.exe'
 }
-$build = Join-Path $root '.local-inputs\windows-hotty-session-test'
+$build = Join-Path $localInputs 'windows-hotty-session-test'
 New-Item -ItemType Directory -Force -Path $build | Out-Null
-$foundation = Join-Path $root '.local-inputs\windows-foundation-build'
+$foundation = Join-Path $localInputs 'windows-foundation-build'
 $output = Join-Path $build 'hotty-session-cast-tests.exe'
-$testAssets = Join-Path $root '.local-inputs\hotty-session-assets-v1'
-$sourceAssets = Join-Path $root '.local-inputs\windows-shared-assets'
-$fxOverlay = Join-Path $root '.local-inputs\hotty-fx-overlay-v1\com.gameloft.android.GAND.GloftD2SS\files'
+$testAssets = Join-Path $localInputs 'hotty-session-assets-v1'
+$sourceAssets = Join-Path $localInputs 'windows-shared-assets'
+$fxOverlay = Join-Path $localInputs 'hotty-fx-overlay-v1\com.gameloft.android.GAND.GloftD2SS\files'
 $archive = Join-Path $env:USERPROFILE 'Downloads\Dungeon-Hunter-2-HD-v1-0-2-cache.zip'
 $cachePrefix = 'com.gameloft.android.GAND.GloftD2SS/files/'
 $sourceUris = @(
@@ -92,6 +97,8 @@ $sources = @(
     (Join-Path $PSScriptRoot 'source_text_v1.cpp'),
     (Join-Path $PSScriptRoot 'hotty_effects_v1.cpp'),
     (Join-Path $PSScriptRoot 'hotty_effects_tables_v1.cpp'),
+    (Join-Path $PSScriptRoot 'faery_cast_sound_v1.cpp'),  # P15 HOTTY: faery_pre_sound_labels_v1 (cast coordinator links it)
+    (Join-Path $root 'port\windows-foundation\features\effects\runtime_source_fx_asset_v1.cpp'),  # P15 HOTTY: is_runtime_source_fx_uri_v1
     (Join-Path $root 'port\windows-foundation\features\effects\runtime_effects_factory_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\effects\celest_target_fx_dispatch_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\effects\runtime_combat_effects_v1.cpp'),
@@ -118,6 +125,7 @@ $sources = @(
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_mana_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_cast_prepare_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_cast_coordinator_v1.cpp'),
+    (Join-Path $root 'port\windows-foundation\features\generic_skills\pc_cooldown_frame_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_animation_bank_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_target_query_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\generic_skills\runtime_skill_progression_v1.cpp'),
@@ -182,8 +190,8 @@ $includes += @('-isystem', (Join-Path $root 'port\physics-backend\box2d-2.0.1\In
 if ($LASTEXITCODE -ne 0) { throw 'Connected Hotty session test did not compile' }
 $testArguments = @(
     $testAssets,
-    (Join-Path $root '.local-inputs\character-skill-session-v2\cache\data\pydata'),
-    (Join-Path $root '.local-inputs\loot-fx-v32-assets'),
+    (Join-Path $localInputs 'character-skill-session-v2\cache\data\pydata'),
+    (Join-Path $localInputs 'loot-fx-v32-assets'),
     $fxOverlay
 )
 if ($CelestFxOnly) { $testArguments += '--celest-fx-only' }

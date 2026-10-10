@@ -11,7 +11,12 @@
 #include "../faery_menu/hotty_effects_v1.hpp"
 #include "../faery_menu/celest_source_use_v1.hpp"
 
+#include <array>
+#include <cstddef>
+#include <functional>
 #include <map>
+#include <string>
+#include <vector>
 
 namespace dh::foundation::generic_skills {
 
@@ -119,8 +124,22 @@ struct RuntimeSkillCastRequestV1 {
     RuntimeSkillFaerySpellArmV1* active_faery_spell = nullptr;
 };
 
+// P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ PlaySound3D labels,
+// delivered once per cast after the source UseMana/cooldown prefix. Delivered
+// for every cast, including an empty Pre target list (see faery_cast_sound_v1.hpp).
+struct RuntimeSkillFaeryPreSoundV1 {
+    ActorId caster = invalid_actor_id;
+    std::array<float, 3> position{};
+    std::size_t target_count = 0;
+    std::vector<std::string> labels;
+};
+using RuntimeSkillFaeryPreSoundSinkV1 = std::function<void(const RuntimeSkillFaeryPreSoundV1&)>;
+
 class RuntimeSkillCastCoordinatorV1 {
 public:
+    // P15 FAERYSOUND: the sink is optional; without it no Faery cast sound is requested.
+    void set_faery_pre_sound_sink(RuntimeSkillFaeryPreSoundSinkV1 sink) { faery_pre_sound_sink_ = std::move(sink); }
+
     // Begin is the source Check/Pre prefix. It validates the saved hotbar
     // assignment and source preconditions, applies the source Pre effects,
     // then starts the exact source SkillTable animation root. Use is executed
@@ -157,6 +176,9 @@ public:
     bool checkpoint_v1(CombatSession&, std::string& error) const;
     RuntimeSkillCastReceiptV1* receipt(ActorId) noexcept;
     const RuntimeSkillCastReceiptV1* receipt(ActorId) const noexcept;
+    // Remaining fraction (1 at cast, 0 ready) of the active source SetSkillCooldown
+    // timer for one actor/skill row; 0 when no timer is active. HUD-only read.
+    double skill_cooldown_remaining_fraction_v1(ActorId, int skill_table_id) const noexcept;
 
 private:
     // Lower-level implementation. Production callers must use
@@ -216,7 +238,12 @@ private:
     bool timer_clock_bound_ = false;
     std::weak_ptr<const void> timer_binding_lease_;
     std::map<std::pair<ActorId, int>, double> skill_ready_at_ms_;
+    // Same keys as skill_ready_at_ms_: the authored SetSkillCooldown duration,
+    // so the HUD can show the remaining fraction (HUDBTN).
+    std::map<std::pair<ActorId, int>, double> skill_cooldown_total_ms_;
     std::map<ActorId, faery_menu::HottyCooldownClockV1*> faery_cooldown_clocks_;
+    // P15 FAERYSOUND (B050): optional Pre sound sink (see set_faery_pre_sound_sink).
+    RuntimeSkillFaeryPreSoundSinkV1 faery_pre_sound_sink_;
     std::map<ActorId, ActiveCastV1> active_;
 };
 

@@ -27,6 +27,11 @@ struct RuntimeWorldItemInteractionServicesV1 {
     // Optional same-owner runtime/save override. When absent, pickup uses the
     // original ItemInventory constructor's INT32_MAX baseline.
     std::optional<std::int32_t> source_gold_limit;
+    // P14: set by interact_world_item_v1 (world_drop_rules_v1) after it applied
+    // the original Interact gates (owner window, AutoTransmute, inventory full,
+    // potion capacity). Only then may gold, potions and equippable rows pass;
+    // the default keeps the strict legacy refusals for existing callers/tests.
+    bool original_interact_gates_applied{false};
 };
 
 struct RuntimeWorldItemInteractionReceiptV1 {

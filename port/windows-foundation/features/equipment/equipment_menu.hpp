@@ -17,6 +17,8 @@ struct OwnedSelection {
 struct Options {
     std::vector<std::string> slots{"slot0","slot1","slot2","slot3","slot4","slot5","slot6","slot7","slot8"};
     bool online_requirements_bypass=false;
+    // Source player CharacterTable row (e.g. KnightPlayerBase) for the IsEquippableBy class gate; empty disables it.
+    std::string player_class_id;
     // Native ItemName provider may apply generated power names/grammar. Bare
     // original instances can use source numeric text OID17 through menu corpus.
     std::function<bool(const InventoryItem&,const dh2::data::Item&,std::string&,std::string&)> item_name;

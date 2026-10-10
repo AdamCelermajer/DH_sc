@@ -41,6 +41,12 @@ struct SavedProfilePresentation {
     // provider did not expose it; the projection then omits that UI field.
     bool current_act_known=false;
     bool difficulty_known=false;
+    // Optional MenuLocalization-resolved strings (Preview 14). Empty means the
+    // projection falls back to its literal English text. When set they are
+    // the exact SWF receivers: Hud_Level=GLOBAL_LEVEL+" "+level,
+    // Hud_Act=MENU_ACT with ^d=act, Last_Save=MENU_LAST_SAVE,
+    // DifficultyTitle=MENU_DIFFICULTY+":", Difficulty=GAMEPLAYMENUS_DIFFICULTY_*.
+    std::string level_text, act_text, last_save_label, difficulty_title, difficulty_text;
 };
 using SavedProfilePresentationService = std::function<std::optional<SavedProfilePresentation>(
     const CharacterState&, std::string&)>;

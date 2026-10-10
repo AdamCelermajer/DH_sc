@@ -144,6 +144,36 @@ ValidationResult validate_character_state(const CharacterState& state) {
         if (difficulty.current_faery < 0 || difficulty.current_faery >= 5)
             result.errors.emplace_back("current faery ID outside source five-entry range");
     }
+    // Schema v4: difficulty, menu metadata and visited-module section.
+    if (state.current_difficulty < 0 || state.current_difficulty >= std::int32_t(character_difficulty_count))
+        result.errors.emplace_back("current difficulty outside the original three modes");
+    if (state.unlocked_difficulty < 0 || state.unlocked_difficulty >= std::int32_t(character_difficulty_count))
+        result.errors.emplace_back("unlocked difficulty outside the original three modes");
+    for (const auto row : state.menu_metadata.level_row)
+        if (row < -1 || row > 4096) result.errors.emplace_back("menu metadata level row is outside -1..4096");
+    for (const auto act : state.menu_metadata.current_act)
+        if (act < 0 || act > 4096) result.errors.emplace_back("menu metadata act is outside 0..4096");
+    if (!state.menu_metadata.known) {
+        const CharacterMenuMetadata blank;
+        if (state.menu_metadata.save_time != 0 || state.menu_metadata.level_row != blank.level_row ||
+            state.menu_metadata.current_act != blank.current_act)
+            result.errors.emplace_back("unknown menu metadata must remain blank");
+    }
+    if (state.visited_modules.size() > character_visited_limit) {
+        result.errors.emplace_back("visited module section exceeds its entry limit");
+    } else {
+        for (std::size_t i = 0; i < state.visited_modules.size(); ++i) {
+            const auto& entry = state.visited_modules[i];
+            check_text(result, entry.level_uri, "visited_modules.level_uri");
+            if (entry.visited > 1) result.errors.emplace_back("visited module byte must be 0 or 1");
+            if (i > 0) {
+                const auto& before = state.visited_modules[i - 1];
+                if (!(before.level_uri < entry.level_uri ||
+                      (before.level_uri == entry.level_uri && before.module_id < entry.module_id)))
+                    result.errors.emplace_back("visited modules must be unique and sorted by (level_uri, module_id)");
+            }
+        }
+    }
     if(!validate_character_quest_blob(state.id,state.source_quest_progress_cqpg,quest_error))result.errors.push_back(quest_error);
     return result;
 }

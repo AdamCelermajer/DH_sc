@@ -41,7 +41,7 @@ public static class QuietProc {
     if(!CreateProcess(null,cmdline,IntPtr.Zero,IntPtr.Zero,false,flags,IntPtr.Zero,cwd,ref si,out pi)){
       r.ExitCode=-1; r.Error="CreateProcess failed: "+Marshal.GetLastWin32Error(); return r; }
     uint w=WaitForSingleObject(pi.hProcess,(uint)timeoutMs);
-    if(w==0x102){ TerminateProcess(pi.hProcess,1); WaitForSingleObject(pi.hProcess,5000); r.TimedOut=true; }
+    if(w==0x102){ try{ var k=Process.Start(new ProcessStartInfo("taskkill.exe","/PID "+pi.dwProcessId+" /T /F"){CreateNoWindow=true,UseShellExecute=false}); if(k!=null) k.WaitForExit(10000);}catch(Exception){} TerminateProcess(pi.hProcess,1); WaitForSingleObject(pi.hProcess,5000); r.TimedOut=true; }
     uint code; GetExitCodeProcess(pi.hProcess,out code); r.ExitCode=(int)code;
     CloseHandle(pi.hProcess); CloseHandle(pi.hThread); r.Seconds=sw.Elapsed.TotalSeconds; return r;
   }
