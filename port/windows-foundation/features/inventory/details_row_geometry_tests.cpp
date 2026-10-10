@@ -97,6 +97,7 @@ int main() {
     check(details_rail_slot_at(details, icon[0].x0 + 1.0f, icon[0].y0 - 2.0f) == -1 &&
           details_rail_slot_at(details, icon[9].x0 + 1.0f, icon[9].y1 + 2.0f) == -1,
           "the gap between the arrows and the rail icons must not select an icon");
+    check(!details_row_shows_count(1) && details_row_shows_count(2) && details_row_shows_count(32767), "single items must show no row count; stacks keep it");
 
     if (failures) { std::cerr << failures << " failure(s)\n"; return 1; }
     std::cout << "inventory_details_row_geometry PASS (row +1 y=[" << b1.y0 << "," << b1.y1 << "] x=[" << b1.x0 << "," << b1.x1 << "])\n";

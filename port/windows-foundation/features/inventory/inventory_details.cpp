@@ -156,7 +156,9 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
  for(const auto& row_art:art.rows){const auto index=static_cast<std::int64_t>(current)+row_art.relative_index;if(index<0||std::size_t(index)>=rows.size())continue;const auto& row=rows[std::size_t(index)];const auto* owned=owned_item(owner_,row.instance_id);if(!owned){error="Original list item disappeared";return false;}std::string title;if(!name(b,owner_,table_,row.instance_id,title,error))return false;const auto& item_art=row_art.relative_index==0?row_art.selected:row_art.unselected;
   next.art.batches.insert(next.art.batches.end(),item_art.batches.begin(),item_art.batches.end());
   next.solids.insert(next.solids.end(),item_art.solids.begin(),item_art.solids.end());
-  for(const auto& field:item_art.text_fields){if(field.path.find("/Host")!=std::string::npos)next.text.push_back({field,title});else if(field.path.find("/Number")!=std::string::npos)next.text.push_back({field,std::to_string(owned->quantity)});}
+  for(const auto& field:item_art.text_fields){if(field.path.find("/Host")!=std::string::npos)next.text.push_back({field,title});else if(field.path.find("/Number")!=std::string::npos&&details_row_shows_count(owned->quantity))next.text.push_back({field,std::to_string(owned->quantity)});}
+  // Original rows show no digit for a single item (authored GenerateInventoryListItems clears Number; Part 1 t=336/t=372 show none).
+  // Stacks keep their count. The equipped-row glyph that the reference shows in this field is not reproduced (see the B042 report).
  }
  output=std::move(next);error.clear();return true;
 }
