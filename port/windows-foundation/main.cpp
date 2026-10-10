@@ -26,6 +26,9 @@
 #include "features/character_menu/menu_text.hpp"
 #include "features/character_menu/menu_text_layout_v1.hpp"
 #include "features/character_menu/stat_training_v1.hpp"
+// P16 MAP: RoomZone visits and the character-menu Map page model (features/map_visit).
+#include "features/map_visit/room_zone_visit_v1.hpp"
+#include "features/map_visit/map_page_v1.hpp"
 #include "features/pause_ui/source_pause_ui_render_v1.hpp"
 #include "features/frontend/rich_text.hpp"
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
@@ -263,6 +266,7 @@ struct Options {
     int skillsPageFrame=-1;
     int equipmentPageFrame=-1;
     int faeryPageFrame=-1; // P14 FAERY
+    int mapPageFrame=-1; // P16 MAP: --map-page-frame=N opens the character menu on the Map tab
     std::vector<std::string> bagItemIds; // P14 EQUIP: --bag-item diagnostic rows
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
@@ -364,6 +368,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--skills-page-frame") o.skillsPageFrame=std::stoi(value());
         else if(arg=="--equipment-page-frame") o.equipmentPageFrame=std::stoi(value());
         else if(arg=="--faery-page-frame") o.faeryPageFrame=std::stoi(value()); // P14 FAERY
+        else if(arg=="--map-page-frame") o.mapPageFrame=std::stoi(value()); // P16 MAP
         else if(arg=="--menu-release") {
             std::istringstream input(value());Options::MenuRelease release{};char first=0,second=0;
             if(!(input>>release.frame>>first>>release.x>>second>>release.y)||first!=':'||second!=':'||release.frame<0||!std::isfinite(release.x)||!std::isfinite(release.y))throw std::runtime_error("Menu release requires FRAME:AUTHORED_X:AUTHORED_Y");
@@ -780,6 +785,8 @@ int main(int argc,char** argv) {
             options.combat.initialRandomState=frontendRandomState;options.combat.diagnosticRngSeed.reset();
             std::cout<<"Frontend launched same CharacterState slot="<<options.selectedSaveSlot<<" class="<<state.class_id<<" sourceRNG="<<creationRandom.seed<<'/'<<creationRandom.calls<<'\n';
         }
+        // P16 MAP: module RoomZone sources of the loaded level (empty until load_level_with_module_zones succeeds).
+        std::vector<f::LevelModuleZone> levelModuleZones;
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
@@ -895,7 +902,7 @@ int main(int argc,char** argv) {
         }
         if(options.populationTemplates)populationStartupRandom=frontendRandomState.value_or(dh2::data::CombatRandom{*populationStartupSeed,0});
         if(!options.level.empty()) {
-            if(!f::load_level(assets,options.level,scene,error)) throw std::runtime_error("Level: "+error);
+            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error)) throw std::runtime_error("Level: "+error);
             for(const auto& notice:scene.notices)std::cerr<<"Level notice: "<<notice<<'\n';
             std::cout<<"Level triangles="<<scene.triangleCount<<" instances="<<scene.instanceCount<<" ranges="<<scene.mesh.ranges.size()<<'\n';
         }
@@ -1903,6 +1910,8 @@ int main(int argc,char** argv) {
         f::InputActions gameplayInput;
         std::function<void()> sourcePhysicalPlayerControls;
         f::character_menu::Presenter characterMenu;
+        // P16 MAP: visited-room tracker for the current level, and the Map page zoom state (reset = full level).
+        f::map_visit::RoomZoneVisitTrackerV1 mapVisits;bool mapVisitsReady=false;f::map_visit::MapViewV1 mapView;
         f::character_menu::Bindings characterMenuBindings;
         characterMenuBindings.character=&state;
         auto characterMenuComposition=std::make_unique<f::character_menu::SourceCompositionV1>(sharedCharacter);
@@ -2119,6 +2128,17 @@ int main(int argc,char** argv) {
                     });
                 if(!characterMenuComposition->register_page(f::character_menu::Tab::skills,runtimeSkillsMenu->source_page_provider(),error))
                     throw std::runtime_error("Skills composition: "+error);
+                // P16 MAP: the Map page is selectable on every level. Its content (visited geometry, player marker)
+                // is drawn by the host (drawMapPage); this provider only binds selection to the same character owner.
+                {
+                    f::character_menu::SourcePageProviderV1 mapProvider;
+                    mapProvider.owner=sharedCharacter;
+                    mapProvider.ready=[](std::string&){return true;};
+                    mapProvider.append=[](f::character_menu::Frame&,std::string&){return true;};
+                    mapProvider.release=[](float,float,std::string&){return true;};
+                    if(!characterMenuComposition->register_page(f::character_menu::Tab::map,std::move(mapProvider),error))
+                        throw std::runtime_error("Map composition: "+error);
+                }
                 // Preview 14: live Stats-tab +/- route (was unregistered: "no original source hit resolver").
             if(!f::character_menu::register_stat_training_v1(*characterMenuComposition,sharedCharacter,state,
                    [&]()->f::CombatSession*{return combatSession.get();},properties,
@@ -2679,6 +2699,12 @@ int main(int argc,char** argv) {
                 if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::equipment,error))throw std::runtime_error("Equipment page diagnostic selection: "+error);
                 std::cout<<"Character menu Equipment selected frame="<<drawn<<" via same-state source provider\n";
+            }
+            // P16 MAP: --map-page-frame=N opens the character menu on the Map tab (composition provider).
+            if(drawn==options.mapPageFrame) {
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::map,error))throw std::runtime_error("Map page diagnostic selection: "+error);
+                std::cout<<"Character menu Map selected frame="<<drawn<<" level="<<options.level.generic_string()<<" zones="<<levelModuleZones.size()<<'\n';
             }
             // P14 FAERY: --faery-page-frame=N opens the menu on the Faery tab (CharacterState provider).
             if(drawn==options.faeryPageFrame) {
@@ -3347,6 +3373,28 @@ int main(int argc,char** argv) {
                 const double elapsed=gameplayDt*1000+combatTextFractionMs;const auto integerMs=std::uint32_t(elapsed);combatTextFractionMs=elapsed-integerMs;
                 if(!combatText.after_host_update(std::uint64_t(drawn),integerMs,window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text update: "+error);
             }
+            // P16 MAP: RoomZone visits for the CURRENT level (RoomZone::Update rule, features/map_visit): a zone in the
+            // gameplay camera frustum that contains the local player (inclusive XY) becomes visited, once. Saved via schema v4.
+            if(!levelModuleZones.empty()&&combatSession) {
+                if(!mapVisitsReady) {
+                    std::string mapError;
+                    if(!mapVisits.configure(levelModuleZones,f::map_visit::visited_module_ids(state,options.level.generic_string()),mapError))throw std::runtime_error("Map room zones: "+mapError);
+                    mapVisitsReady=true;
+                    std::cout<<"Map room zones level="<<options.level.generic_string()<<" modules="<<levelModuleZones.size()<<" visited="<<mapVisits.visited_count()<<'\n';
+                }
+                f::map_visit::CameraBasisV1 mapBasis;std::string mapError;
+                if(!f::map_visit::camera_basis_v1(activeCamera,float(window.width())/float(window.height()),mapBasis,mapError))throw std::runtime_error("Map camera basis: "+mapError);
+                std::optional<std::array<float,3>> mapPlayer;
+                if(const auto* playerActor=combatSession->actor(combatSession->player_id()))
+                    mapPlayer=std::array<float,3>{playerActor->transform.position[0],playerActor->transform.position[1],playerActor->transform.position[2]};
+                const auto newlyVisited=mapVisits.update(f::map_visit::frustum_planes_v1(mapBasis),mapPlayer);
+                if(!newlyVisited.empty()) {
+                    f::map_visit::record_visited_modules(state,options.level.generic_string(),newlyVisited);
+                    std::cout<<"Map room visited frame="<<drawn<<" level="<<options.level.generic_string()<<" modules=";
+                    for(const auto id:newlyVisited)std::cout<<id<<' ';
+                    std::cout<<"total="<<mapVisits.visited_count()<<'\n';
+                }
+            }
             renderer.beginFrame(activeCamera);
             auto actorWorld=f::identity();float angle=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0),c=std::cos(angle),s=std::sin(angle);
             actorWorld[0]=c*actorScale.x;actorWorld[1]=s*actorScale.x;actorWorld[4]=-s*actorScale.y;actorWorld[5]=c*actorScale.y;actorWorld[10]=actorScale.z;
@@ -3505,6 +3553,52 @@ int main(int argc,char** argv) {
                         for(const auto& v:solid.geometry.triangles)vertices.push_back({transform.x+v.x*transform.scale_x,transform.y+v.y*transform.scale_y,v.u,v.v});
                         if(!overlay.drawTriangles(vertices,0,solid.rgba))throw std::runtime_error("Character menu original solid draw rejected");
                     };
+                    // P16 MAP: Map page. The visited level is drawn top-down through the map camera inside the authored
+                    // RenderMap rectangle (after that contour, see the batch loop), then the player marker (family 3).
+                    if(characterMenu.take_map_reset_zoom())mapView=f::map_visit::map_reset_zoom_v1(mapView);
+                    const auto drawMapPage=[&]() {
+                        if(!mapVisitsReady)return;
+                        float minX=std::numeric_limits<float>::max(),minY=minX,maxX=-minX,maxY=-minX;bool found=false;
+                        for(const auto& batch:menu.art.batches)if(batch.role=="menu_MapSheet/RenderMap/1")
+                            for(const auto& v:batch.triangles){found=true;minX=std::min(minX,v.x);minY=std::min(minY,v.y);maxX=std::max(maxX,v.x);maxY=std::max(maxY,v.y);}
+                        if(!found)throw std::runtime_error("Map page RenderMap rectangle is absent from the authored menu art");
+                        const float rectX=transform.x+minX*transform.scale_x,rectY=transform.y+minY*transform.scale_y;
+                        const float rectW=(maxX-minX)*transform.scale_x,rectH=(maxY-minY)*transform.scale_y;
+                        const f::map_visit::MapRectV1 mapRect{rectX,rectY,rectW,rectH};
+                        std::optional<std::array<float,3>> mapPlayer;
+                        if(const auto* playerActor=combatSession?combatSession->actor(combatSession->player_id()):nullptr)
+                            mapPlayer=std::array<float,3>{playerActor->transform.position[0],playerActor->transform.position[1],playerActor->transform.position[2]};
+                        f::Camera mapCamera;std::string mapError;
+                        if(!f::map_visit::map_camera_v1(f::map_visit::map_extent_v1(mapVisits.zones()),mapPlayer,mapView,mapCamera,mapError))throw std::runtime_error("Map camera: "+mapError);
+                        const int vx=int(std::floor(rectX)),vyTop=int(std::floor(rectY)),vr=int(std::ceil(rectX+rectW)),vb=int(std::ceil(rectY+rectH));
+                        if(!renderer.withViewport(vx,window.height()-vb,vr-vx,vb-vyTop,mapCamera,[&] {
+                            // Visited modules only (Module::visited3fc). Original map shows visited room geometry as dark slate.
+                            for(const auto& zone:mapVisits.zones()) {
+                                if(!mapVisits.visited(zone.id))continue;
+                                for(std::size_t r=zone.firstRange;r<zone.firstRange+zone.rangeCount&&r<scene.mesh.ranges.size();++r) {
+                                    f::DrawRange range=scene.mesh.ranges[r];
+                                    range.material.texture=0;range.material.transparent=false;range.material.alphaReference=0;
+                                    range.material.additive=false;range.material.lightingEnabled=false;range.material.sourcePass.reset();
+                                    range.material.color={0.23f,0.25f,0.27f,1.0f};
+                                    renderer.drawRange(scene.mesh,range);
+                                }
+                            }
+                        })) throw std::runtime_error("Map page viewport rejected");
+                        if(mapPlayer) {
+                            float px=0,py=0;
+                            if(f::map_visit::map_project_v1(mapCamera,mapRect,*mapPlayer,px,py)) {
+                                constexpr int segments=16;constexpr float radius=6.0f,tau=6.2831853f;
+                                std::vector<f::OverlayTriangleVertex> marker;
+                                for(int i=0;i<segments;++i) {
+                                    const float a0=tau*i/segments,a1=tau*(i+1)/segments;
+                                    marker.push_back({px,py,0,0});
+                                    marker.push_back({px+radius*std::cos(a0),py+radius*std::sin(a0),0,0});
+                                    marker.push_back({px+radius*std::cos(a1),py+radius*std::sin(a1),0,0});
+                                }
+                                if(!overlay.drawTriangles(marker,0,{0.25f,0.65f,1.0f,1.0f}))throw std::runtime_error("Map player marker draw rejected");
+                            }
+                        }
+                    };
                     for(const auto& solid:menu.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
                     const auto& sourcePanes=f::inventory::original_inventory_character_panes_v1();
                     std::vector<bool> drawnPanes(sourcePanes.size(),false);
@@ -3533,6 +3627,8 @@ int main(int argc,char** argv) {
                                 }
                         std::vector<f::OverlayTriangleVertex> vertices;for(const auto& v:batch.triangles)vertices.push_back({transform.x+v.x*transform.scale_x,transform.y+v.y*transform.scale_y,v.u,v.v});
                         if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Character menu original-art draw rejected");
+                        // P16 MAP: the level is drawn right after the RenderMap contour, under the rest of the Map sheet.
+                        if(batch.role=="menu_MapSheet/RenderMap/1"&&characterMenu.tab()==f::character_menu::Tab::map)drawMapPage();
                         for(const auto& solid:menu.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
                     }
                     if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment&&
