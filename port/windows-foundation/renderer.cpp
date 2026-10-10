@@ -8,6 +8,7 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <sstream>
 #include <type_traits>
 
 namespace dh::foundation {
@@ -49,6 +50,7 @@ Mat4 viewMatrix(const Camera& camera) {
 }
 
 void applyMaterial(const Material& material, bool blended, float alphaReference) {
+    {auto& counters=perf::FramePerf::get().counters();static std::uint32_t lastTexture=0xffffffffu;++counters.stateChanges;if(material.texture!=lastTexture){++counters.texBinds;lastTexture=material.texture;}} // B066 stats
     if (material.lightingEnabled) glEnable(GL_LIGHTING);
     else glDisable(GL_LIGHTING);
     glColor4fv(material.color.data());
@@ -121,7 +123,7 @@ bool Renderer::initialize(int width, int height) {
     glCullFace(GL_BACK);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     if(glGetError()!=GL_NO_ERROR)return false;
-    if(perf::FramePerf::get().enabled())std::cout<<"Perf GL vendor="<<reinterpret_cast<const char*>(glGetString(GL_VENDOR))<<" renderer="<<reinterpret_cast<const char*>(glGetString(GL_RENDERER))<<" version="<<reinterpret_cast<const char*>(glGetString(GL_VERSION))<<std::endl;
+    if(perf::FramePerf::get().enabled()){GLint maxTexture=0;glGetIntegerv(GL_MAX_TEXTURE_SIZE,&maxTexture);std::ostringstream o;o<<"Perf GL vendor="<<reinterpret_cast<const char*>(glGetString(GL_VENDOR))<<" renderer="<<reinterpret_cast<const char*>(glGetString(GL_RENDERER))<<" version="<<reinterpret_cast<const char*>(glGetString(GL_VERSION))<<" maxTexture="<<maxTexture<<" extensions="<<(glGetString(GL_EXTENSIONS)?reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS)):"")<<" viewport="<<width<<'x'<<height;perf::FramePerf::get().note(o.str());}
     qualityContext_=context;
     qualityDeviceContext_=device;
     qualityThread_=current_render_thread_identity();
@@ -157,7 +159,37 @@ void Renderer::beginFrame(const Camera& camera) {
     applyCamera(camera);
 }
 
+// B066: view-frustum planes (clip = projection * view) for conservative culling of static level geometry.
+void Renderer::updateFrustum(const Camera& camera) {
+    const float fov = std::isfinite(camera.verticalFovDegrees)
+        ? std::clamp(camera.verticalFovDegrees, 1.0f, 175.0f) : 60.0f;
+    const float nearPlane = std::isfinite(camera.nearPlane) ? std::max(0.001f, camera.nearPlane) : 0.1f;
+    const float farPlane = std::isfinite(camera.farPlane) ? std::max(nearPlane+1.0f, camera.farPlane) : 5000.0f;
+    const double top = nearPlane*std::tan(fov*pi/360.0f);
+    const double aspect = std::isfinite(camera.aspectRatio) && camera.aspectRatio > 0.0f
+        ? static_cast<double>(camera.aspectRatio) : static_cast<double>(width_)/height_;
+    const double right = top*aspect;
+    const Mat4 view = viewMatrix(camera);
+    // Projection (glFrustum, symmetric): rows of P.
+    const double p[4][4] = {{nearPlane/right,0,0,0},{0,nearPlane/top,0,0},
+        {0,0,-(double(farPlane)+nearPlane)/(double(farPlane)-nearPlane),-2.0*double(farPlane)*nearPlane/(double(farPlane)-nearPlane)},{0,0,-1,0}};
+    double m[4][4];   // m = P * V, V column-major
+    for (int i = 0; i < 4; ++i) for (int j = 0; j < 4; ++j) {
+        double sum = 0; for (int k = 0; k < 4; ++k) sum += p[i][k]*view[j*4+k];
+        m[i][j] = sum;
+    }
+    const auto plane = [&](int sign, int row) {
+        std::array<float, 4> result{};
+        for (int j = 0; j < 4; ++j) result[j] = float(m[3][j] + sign*m[row][j]);
+        return result;
+    };
+    frustum_ = {plane(1,0), plane(-1,0), plane(1,1), plane(-1,1), plane(1,2), plane(-1,2)};
+    frustumValid_ = true;
+    for (const auto& pl : frustum_) for (float v : pl) if (!std::isfinite(v)) frustumValid_ = false;
+}
+
 void Renderer::applyCamera(const Camera& camera) {
+    updateFrustum(camera); // B066
 
     const float fov = std::isfinite(camera.verticalFovDegrees)
         ? std::clamp(camera.verticalFovDegrees, 1.0f, 175.0f) : 60.0f;
@@ -215,6 +247,7 @@ bool Renderer::withViewport(int x, int y, int width, int height,
         glMatrixMode(GL_PROJECTION); glPopMatrix();
         glPopClientAttrib(); glPopAttrib(); glMatrixMode(matrixMode);
         width_ = savedWidth; height_ = savedHeight; camera_ = savedCamera;
+        updateFrustum(camera_); // B066
     };
     glViewport(x, y, width, height);
     glEnable(GL_SCISSOR_TEST);
@@ -236,6 +269,137 @@ void Renderer::drawRange(const Mesh& mesh, const DrawRange& range, const Mat4& t
     drawInternal(mesh, transform, RenderPass::All, &range);
 }
 
+namespace {
+RangeStats computeRangeStats(const Mesh& mesh, const DrawRange& range) {
+    RangeStats stats;
+    const bool indexed = !mesh.indices.empty();
+    const std::size_t size = indexed ? mesh.indices.size() : mesh.vertices.size();
+    const std::size_t first = std::min(range.firstIndex, size);
+    const std::size_t count = std::min(range.indexCount, size-first);
+    constexpr float big = std::numeric_limits<float>::max();
+    Vec3 low{big,big,big}, high{-big,-big,-big};
+    for (std::size_t element=first; element < first+count; ++element) {
+        const std::size_t vertex = indexed ? mesh.indices[element] : element;
+        if (vertex >= mesh.vertices.size()) continue;
+        const auto& v = mesh.vertices[vertex];
+        if (v.color[3] < 1.0f) stats.vertexAlpha = true;
+        low.x=std::min(low.x,v.position.x); low.y=std::min(low.y,v.position.y); low.z=std::min(low.z,v.position.z);
+        high.x=std::max(high.x,v.position.x); high.y=std::max(high.y,v.position.y); high.z=std::max(high.z,v.position.z);
+        stats.valid = true;
+    }
+    if (stats.valid) {
+        stats.low = low; stats.high = high;
+        stats.center = {(low.x+high.x)*0.5f,(low.y+high.y)*0.5f,(low.z+high.z)*0.5f};
+    }
+    return stats;
+}
+
+// Buffer-object entry points (GL 1.5), resolved through the host's loader; opengl32.dll only exports GL 1.1.
+struct BufferApi {
+    using Gen = void (APIENTRY*)(GLsizei, GLuint*);
+    using Bind = void (APIENTRY*)(GLenum, GLuint);
+    using Data = void (APIENTRY*)(GLenum, std::ptrdiff_t, const void*, GLenum);
+    using Delete = void (APIENTRY*)(GLsizei, const GLuint*);
+    Gen gen = nullptr; Bind bind = nullptr; Data data = nullptr; Delete del = nullptr;
+    void* (*loader)(const char*) = nullptr;
+    bool ready() const { return gen && bind && data && del; }
+};
+BufferApi& bufferApi(void* (*loader)(const char*)) {
+    static BufferApi api;
+    if (loader && api.loader != loader) {
+        api.loader = loader;
+        api.gen = reinterpret_cast<BufferApi::Gen>(loader("glGenBuffers"));
+        api.bind = reinterpret_cast<BufferApi::Bind>(loader("glBindBuffer"));
+        api.data = reinterpret_cast<BufferApi::Data>(loader("glBufferData"));
+        api.del = reinterpret_cast<BufferApi::Delete>(loader("glDeleteBuffers"));
+    }
+    return api;
+}
+constexpr GLenum kArrayBuffer = 0x8892, kElementBuffer = 0x8893, kStaticDraw = 0x88E4;
+constexpr std::uint64_t rangeKey(const DrawRange& range) {
+    return (std::uint64_t(range.firstIndex) << 32) ^ std::uint64_t(range.indexCount & 0xffffffffu);
+}
+} // namespace
+
+Renderer::StaticMesh* Renderer::staticFor(const Mesh& mesh) const {
+    if (!mesh.staticGeometry || mesh.vertices.empty()) return nullptr;
+    auto& entry = staticMeshes_[&mesh];
+    if (entry.vertexData == mesh.vertices.data() && entry.vertexCount == mesh.vertices.size() &&
+        entry.indexData == mesh.indices.data() && entry.indexCount == mesh.indices.size()) return &entry;
+    auto& api = bufferApi(glLoader_);
+    if (entry.gpu && api.ready()) {
+        const GLuint buffers[2] = {entry.vbo, entry.ibo};
+        api.del(entry.ibo ? 2 : 1, buffers);
+    }
+    entry = StaticMesh{};
+    entry.vertexData = mesh.vertices.data(); entry.vertexCount = mesh.vertices.size();
+    entry.indexData = mesh.indices.data(); entry.indexCount = mesh.indices.size();
+    static_assert(sizeof(Vertex) == 48, "Vertex must be tightly packed for buffer upload");
+    const bool indexed = !mesh.indices.empty();
+    if (glLoader_ && api.ready() && mesh.vertices.size() < (std::size_t(1) << 26) &&
+        (!indexed || std::none_of(mesh.indices.begin(), mesh.indices.end(),
+                                  [&](std::uint32_t index) { return index >= mesh.vertices.size(); }))) {
+        while (glGetError() != GL_NO_ERROR) {}
+        GLuint buffers[2] = {0, 0};
+        api.gen(indexed ? 2 : 1, buffers);
+        api.bind(kArrayBuffer, buffers[0]);
+        api.data(kArrayBuffer, std::ptrdiff_t(mesh.vertices.size()*sizeof(Vertex)), mesh.vertices.data(), kStaticDraw);
+        api.bind(kArrayBuffer, 0);
+        if (indexed) {
+            api.bind(kElementBuffer, buffers[1]);
+            api.data(kElementBuffer, std::ptrdiff_t(mesh.indices.size()*sizeof(std::uint32_t)), mesh.indices.data(), kStaticDraw);
+            api.bind(kElementBuffer, 0);
+        }
+        if (glGetError() == GL_NO_ERROR) {
+            entry.vbo = buffers[0]; entry.ibo = indexed ? buffers[1] : 0; entry.gpu = true;
+        } else api.del(indexed ? 2 : 1, buffers);
+    }
+    return &entry;
+}
+
+void Renderer::invalidateStaticGeometry() {
+    auto& api = bufferApi(glLoader_);
+    for (auto& item : staticMeshes_) {
+        auto& entry = item.second;
+        if (entry.gpu && api.ready()) {
+            const GLuint buffers[2] = {entry.vbo, entry.ibo};
+            api.del(entry.ibo ? 2 : 1, buffers);
+        }
+    }
+    staticMeshes_.clear();
+}
+
+RangeStats Renderer::rangeStats(const Mesh& mesh, const DrawRange& range) const {
+    if (auto* entry = staticFor(mesh)) {
+        const auto key = rangeKey(range);
+        const auto found = entry->ranges.find(key);
+        if (found != entry->ranges.end()) return found->second;
+        return entry->ranges.emplace(key, computeRangeStats(mesh, range)).first->second;
+    }
+    return computeRangeStats(mesh, range);
+}
+
+bool Renderer::rangeVisible(const Mesh& mesh, const DrawRange& range, const Mat4& transform) const {
+    if (!frustumValid_ || !mesh.staticGeometry) return true;
+    const RangeStats stats = rangeStats(mesh, range);
+    if (!stats.valid) return true;
+    std::array<int, 6> outside{};
+    for (int corner = 0; corner < 8; ++corner) {
+        const float x = (corner & 1) ? stats.high.x : stats.low.x;
+        const float y = (corner & 2) ? stats.high.y : stats.low.y;
+        const float z = (corner & 4) ? stats.high.z : stats.low.z;
+        const float wx = transform[0]*x+transform[4]*y+transform[8]*z+transform[12];
+        const float wy = transform[1]*x+transform[5]*y+transform[9]*z+transform[13];
+        const float wz = transform[2]*x+transform[6]*y+transform[10]*z+transform[14];
+        for (int plane = 0; plane < 6; ++plane) {
+            const auto& p = frustum_[plane];
+            if (p[0]*wx+p[1]*wy+p[2]*wz+p[3] < 0.0f) ++outside[plane];
+        }
+    }
+    for (int plane = 0; plane < 6; ++plane) if (outside[plane] == 8) return false;
+    return true;
+}
+
 bool Renderer::isTransparent(const Mesh& mesh, const DrawRange& range) const {
     if(range.material.sourcePass)return range.material.sourcePass->blend;
     if (range.material.additive || range.material.color[3] < 1.0f) return true;
@@ -243,14 +407,7 @@ bool Renderer::isTransparent(const Mesh& mesh, const DrawRange& range) const {
     const bool textureAlpha = found != textureAlpha_.end() && found->second.hasAlpha;
     const bool binaryAlpha = textureAlpha && !found->second.hasPartialAlpha;
     if (range.material.alphaReference > 0.0f) return false;
-    const bool indexed = !mesh.indices.empty();
-    const std::size_t size = indexed ? mesh.indices.size() : mesh.vertices.size();
-    const std::size_t first = std::min(range.firstIndex,size);
-    const std::size_t count = std::min(range.indexCount,size-first);
-    for (std::size_t element=first; element < first+count; ++element) {
-        const std::size_t vertex = indexed ? mesh.indices[element] : element;
-        if (vertex < mesh.vertices.size() && mesh.vertices[vertex].color[3] < 1.0f) return true;
-    }
+    if (rangeStats(mesh, range).vertexAlpha) return true;
     return (range.material.transparent || textureAlpha) && !binaryAlpha;
 }
 
@@ -260,13 +417,16 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
     if (mesh.vertices.empty()) return;
     const bool indexed = !mesh.indices.empty();
     const std::size_t elementCount = indexed ? mesh.indices.size() : mesh.vertices.size();
+    const StaticMesh* staticMesh = staticFor(mesh);
+    const bool gpu = staticMesh && staticMesh->gpu;   // B066: buffer objects, indices validated once at upload
     // Reject malformed meshes before the driver can dereference an invalid vertex.
-    if (indexed) {
+    if (indexed && !gpu) {
         const std::size_t first = singleRange ? std::min(singleRange->firstIndex, elementCount) : 0;
         const std::size_t count = singleRange ? std::min(singleRange->indexCount,elementCount-first) : elementCount;
         if (std::any_of(mesh.indices.begin()+first, mesh.indices.begin()+first+count,
                 [&](std::uint32_t index) { return index >= mesh.vertices.size(); })) return;
     }
+    auto& api = bufferApi(glLoader_);
 
     glPushMatrix();
     glMultMatrixf(transform.data());
@@ -274,22 +434,26 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
-    // Reuse capacity across scene and character draws rather than allocating a
-    // full scene-sized color array every frame.
-    if (vertexColors_.size() < mesh.vertices.size()) vertexColors_.resize(mesh.vertices.size());
-    glColorPointer(4, GL_FLOAT, sizeof(vertexColors_[0]), vertexColors_.data());
     const auto* bytes = reinterpret_cast<const unsigned char*>(mesh.vertices.data());
-    glVertexPointer(3, GL_FLOAT, sizeof(Vertex), bytes+offsetof(Vertex, position));
-    glNormalPointer(GL_FLOAT, sizeof(Vertex), bytes+offsetof(Vertex, normal));
-    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), bytes+offsetof(Vertex, u));
+    const auto offsetPointer = [](std::size_t offset) { return reinterpret_cast<const void*>(offset); };
+    bool colorsFromBuffer = false;
+    if (gpu) {
+        api.bind(kArrayBuffer, staticMesh->vbo);
+        if (indexed) api.bind(kElementBuffer, staticMesh->ibo);
+        glVertexPointer(3, GL_FLOAT, sizeof(Vertex), offsetPointer(offsetof(Vertex, position)));
+        glNormalPointer(GL_FLOAT, sizeof(Vertex), offsetPointer(offsetof(Vertex, normal)));
+        glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), offsetPointer(offsetof(Vertex, u)));
+    } else {
+        // Reuse capacity across scene and character draws rather than allocating a
+        // full scene-sized color array every frame.
+        if (vertexColors_.size() < mesh.vertices.size()) vertexColors_.resize(mesh.vertices.size());
+        glColorPointer(4, GL_FLOAT, sizeof(vertexColors_[0]), vertexColors_.data());
+        glVertexPointer(3, GL_FLOAT, sizeof(Vertex), bytes+offsetof(Vertex, position));
+        glNormalPointer(GL_FLOAT, sizeof(Vertex), bytes+offsetof(Vertex, normal));
+        glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), bytes+offsetof(Vertex, u));
+    }
 
-    const auto hasVertexAlpha = [&](const DrawRange& range) {
-        const std::size_t first = std::min(range.firstIndex, elementCount);
-        const std::size_t count = std::min(range.indexCount, elementCount-first);
-        for (std::size_t element = first; element < first+count; ++element)
-            if (mesh.vertices[indexed ? mesh.indices[element] : element].color[3] < 1.0f) return true;
-        return false;
-    };
+    const auto hasVertexAlpha = [&](const DrawRange& range) { return rangeStats(mesh, range).vertexAlpha; };
 
     const auto drawRange = [&](const DrawRange& range) {
         if (range.firstIndex >= elementCount || range.indexCount == 0) return;
@@ -304,15 +468,32 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
             || (range.material.alphaReference <= 0.0f && hasVertexAlpha(range))
             || ((range.material.transparent || textureAlpha) && alphaReference <= 0.0f);
         applyMaterial(range.material, blended, alphaReference);
-        for (std::size_t element = range.firstIndex; element < range.firstIndex+count; ++element) {
-            const std::size_t vertex = indexed ? mesh.indices[element] : element;
-            for (std::size_t channel = 0; channel < 4; ++channel)
-                vertexColors_[vertex][channel] = mesh.vertices[vertex].color[channel]*range.material.color[channel];
+        const auto& tint = range.material.color;
+        const bool untinted = tint[0] == 1.0f && tint[1] == 1.0f && tint[2] == 1.0f && tint[3] == 1.0f;
+        if (gpu && untinted) {
+            if (!colorsFromBuffer) {
+                api.bind(kArrayBuffer, staticMesh->vbo);
+                glColorPointer(4, GL_FLOAT, sizeof(Vertex), offsetPointer(offsetof(Vertex, color)));
+                colorsFromBuffer = true;
+            }
+        } else {
+            if (gpu) {
+                if (vertexColors_.size() < mesh.vertices.size()) vertexColors_.resize(mesh.vertices.size());
+                api.bind(kArrayBuffer, 0);
+                glColorPointer(4, GL_FLOAT, sizeof(vertexColors_[0]), vertexColors_.data());
+                colorsFromBuffer = false;
+            }
+            for (std::size_t element = range.firstIndex; element < range.firstIndex+count; ++element) {
+                const std::size_t vertex = indexed ? mesh.indices[element] : element;
+                for (std::size_t channel = 0; channel < 4; ++channel)
+                    vertexColors_[vertex][channel] = mesh.vertices[vertex].color[channel]*tint[channel];
+            }
         }
-        {auto& c=perf::FramePerf::get().counters();++c.calls;c.triangles+=count/3;} // B062 draw statistics
+        {auto& c=perf::FramePerf::get().counters();++c.calls;c.triangles+=count/3;
+         if(gpu)++c.vboDraws;else c.clientBytes+=mesh.vertices.size()*(sizeof(Vertex)+sizeof(vertexColors_[0]));} // B062/B066 draw statistics
         if (indexed) {
             glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(count), GL_UNSIGNED_INT,
-                           mesh.indices.data()+range.firstIndex);
+                           gpu ? offsetPointer(range.firstIndex*sizeof(std::uint32_t)) : static_cast<const void*>(mesh.indices.data()+range.firstIndex));
         } else if (range.firstIndex <= static_cast<std::size_t>(std::numeric_limits<GLint>::max())) {
             glDrawArrays(GL_TRIANGLES, static_cast<GLint>(range.firstIndex), static_cast<GLsizei>(count));
         }
@@ -331,17 +512,9 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
     const auto rangeDepth = [&](const DrawRange& range) {
         // Range bounding-box center is a stable approximation for transparent
         // mesh sorting. Intersecting polygons require an authored ordering policy.
-        Vec3 minimum{std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max()};
-        Vec3 maximum{-minimum.x,-minimum.y,-minimum.z};
-        const std::size_t first = std::min(range.firstIndex, elementCount);
-        const std::size_t count = std::min(range.indexCount, elementCount-first);
-        if (!count) return 0.0f;
-        for (std::size_t element = first; element < first+count; ++element) {
-            const Vec3 position = mesh.vertices[indexed ? mesh.indices[element] : element].position;
-            minimum.x=std::min(minimum.x,position.x); minimum.y=std::min(minimum.y,position.y); minimum.z=std::min(minimum.z,position.z);
-            maximum.x=std::max(maximum.x,position.x); maximum.y=std::max(maximum.y,position.y); maximum.z=std::max(maximum.z,position.z);
-        }
-        const Vec3 center{(minimum.x+maximum.x)*0.5f,(minimum.y+maximum.y)*0.5f,(minimum.z+maximum.z)*0.5f};
+        const RangeStats stats = rangeStats(mesh, range);
+        if (!stats.valid) return 0.0f;
+        const Vec3 center = stats.center;
         const Vec3 world{transform[0]*center.x+transform[4]*center.y+transform[8]*center.z+transform[12],
                          transform[1]*center.x+transform[5]*center.y+transform[9]*center.z+transform[13],
                          transform[2]*center.x+transform[6]*center.y+transform[10]*center.z+transform[14]};
@@ -366,6 +539,10 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
             std::stable_sort(sorted.begin(),sorted.end(), [](const auto& a,const auto& b) { return a.first > b.first; });
             for (const auto& entry : sorted) drawRange(*entry.second);
         }
+    }
+    if (gpu) {
+        api.bind(kArrayBuffer, 0);
+        if (indexed) api.bind(kElementBuffer, 0);
     }
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);

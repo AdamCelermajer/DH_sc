@@ -9,6 +9,9 @@
 #include <GL/gl.h>
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
+#include <cstdlib>
+#include "platform_sleep.hpp"
 
 namespace dh::foundation {
 
@@ -88,6 +91,7 @@ bool Window::open(const char* title, int width, int height) {
         state.cleanup();
         return false;
     }
+    { const char* v = std::getenv("DH_VSYNC"); (void)set_swap_interval(v && *v ? std::atoi(v) : 1); } // B066
     // Focus changes are delivered through SDL's event pump. The Win32 host
     // queries GetFocus immediately after ShowWindow; publish the corresponding
     // SDL focus state before FrontendRuntime checks its focused-window gate.
@@ -197,4 +201,18 @@ double Window::seconds() noexcept {
     return std::chrono::duration<double>(clock::now() - epoch).count();
 }
 
+} // namespace dh::foundation
+
+namespace dh::foundation {
+// B066: see platform_sleep.hpp (Linux sleeps are already accurate).
+void platform_enable_precise_timers() noexcept {}
+
+void* Window::gl_proc(const char* name) noexcept { return SDL_GL_GetProcAddress(name); }
+
+bool Window::set_swap_interval(int interval) noexcept {
+    if (interval < 0) return SDL_GL_SetSwapInterval(-1) == 0;
+    return SDL_GL_SetSwapInterval(interval) == 0;
+}
+
+int Window::swap_interval() const noexcept { return SDL_GL_GetSwapInterval(); }
 } // namespace dh::foundation

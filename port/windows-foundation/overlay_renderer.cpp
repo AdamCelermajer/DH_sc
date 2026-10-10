@@ -3,6 +3,7 @@
 #include <GL/gl.h>
 #include <algorithm>
 #include <cmath>
+#include "frame_perf.hpp"
 
 namespace dh::foundation {
 
@@ -34,6 +35,7 @@ void OverlayRenderer::drawSprite(const OverlaySprite& sprite) {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,sprite.texture);
     glColor4fv(sprite.color.data());
+    {auto& c=perf::FramePerf::get().counters();++c.immediateBatches;c.immediateVerts+=4;++c.calls;c.triangles+=2;++c.stateChanges;++c.texBinds;} // B066 stats
     glBegin(GL_QUADS);
     glTexCoord2f(sprite.u0,sprite.v0); glVertex2f(sprite.x,sprite.y);
     glTexCoord2f(sprite.u1,sprite.v0); glVertex2f(sprite.x+sprite.width,sprite.y);
@@ -73,6 +75,7 @@ bool OverlayRenderer::drawTriangles(const OverlayTriangleVertex* vertices, std::
     if(texture){glEnable(GL_TEXTURE_2D);glBindTexture(GL_TEXTURE_2D,texture);}
     else glDisable(GL_TEXTURE_2D);
     glColor4fv(color.data());
+    {auto& c=perf::FramePerf::get().counters();++c.immediateBatches;c.immediateVerts+=count;++c.calls;c.triangles+=count/3;++c.stateChanges;++c.texBinds;} // B066 stats
     glBegin(GL_TRIANGLES);
     for (std::size_t i=0; i<count; ++i) {
         glTexCoord2f(vertices[i].u,vertices[i].v);
