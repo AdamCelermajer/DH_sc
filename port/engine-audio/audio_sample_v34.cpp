@@ -18,7 +18,7 @@ struct Reader {
 void format(AudioSampleV34&s){
  if((s.channels!=1&&s.channels!=2)||s.rate<8000||s.rate>192000)throw std::runtime_error("Required source audio rate/channel domain");
  if(s.format==1){if(s.bits!=16||s.block_align!=2*s.channels)throw std::runtime_error("Required source PCM16 stream");s.frames_per_block=1;}
- else if(s.format==17){if(s.bits!=4||s.block_align<4*s.channels||(s.block_align-4*s.channels)%(4*s.channels))throw std::runtime_error("Required source IMA block layout");s.frames_per_block=(s.block_align-4*s.channels)*2/s.channels+1;if(s.frames_per_block*s.channels>4096)throw std::runtime_error("Required source IMA block capacity");}
+ else if(s.format==17){/* B064: VoxN Afmt bits is 4 in the level banks and 16 in m_title.vxn; the original reader (DecoderNative::ParseFile 0x746D6641 case) overwrites the stored bits field with 16, so a VoxN IMA stream accepts either. */if((s.bits!=4&&!(s.native&&s.bits==16))||s.block_align<4*s.channels||(s.block_align-4*s.channels)%(4*s.channels))throw std::runtime_error("Required source IMA block layout");s.frames_per_block=(s.block_align-4*s.channels)*2/s.channels+1;if(s.frames_per_block*s.channels>4096)throw std::runtime_error("Required source IMA block capacity");}
  else throw std::runtime_error("Required original audio codec "+std::to_string(s.format));
 }
 template<std::size_t N>void rows(const Reader&r,unsigned p,unsigned size,std::vector<std::array<std::int32_t,N>>&out){unsigned n=r.w(p);if(n>65536||size!=4+std::uint64_t(n)*N*4)throw std::runtime_error("Required exact source audio metadata rows");out.resize(n);for(unsigned i=0;i<n;++i)std::memcpy(out[i].data(),r.at(p+4+std::uint64_t(i)*N*4,N*4),N*4);}

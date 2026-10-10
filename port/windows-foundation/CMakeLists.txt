@@ -86,7 +86,7 @@ add_library(foundation_runtime_audio STATIC
   features/audio/runtime_audio_host_v1.cpp features/audio/runtime_combat_audio_v1.cpp
   features/audio/runtime_session_audio_v1.cpp
   # B040: original LevelConfig music name reader (main.cpp level music hook).
-  features/audio/level_music_v1.cpp
+  features/audio/level_music_v1.cpp features/audio/music_voice_v1.cpp
   features/audio/runtime_attack_sound_v1.cpp
   ${DH2_AUDIO_CONTROL_SOURCES}
   features/audio/feature_audio.cpp
@@ -105,6 +105,9 @@ target_link_libraries(dh-foundation PRIVATE foundation_runtime_audio)
 if(WIN32)
   target_sources(foundation_runtime_audio PRIVATE features/audio/frontend_menu_audio_v1.cpp)
 endif()
+# B064: frontend title/main-menu music rules + Navigator menu_entered hook (pure logic).
+add_executable(frontend_music_v1_tests features/audio/frontend_music_v1_tests.cpp features/frontend/flow/menu_flow.cpp ../engine-audio/audio_sample_v34.cpp)
+add_test(NAME frontend_music_v1 COMMAND frontend_music_v1_tests)
 # P15 AUDIOSTALL (B039): WinMM pump/control thread runs at time-critical priority; focused test.
 if(WIN32)
   add_executable(winmm_pump_priority_v1_tests features/audio/winmm_pump_priority_v1_tests.cpp)

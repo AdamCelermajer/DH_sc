@@ -167,6 +167,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     bool useWallClock = !soundtrackStarted;
     bool movieEnded = false;      // picture reached its last frame and the clock passed it
     bool movieSkippedByUser = false;
+    bool titleAnnounced = false;  // B064: on_title_entered fired
     double movieClock = 0.0;      // movie time of the previous frame (gates SKIP for the next press)
     double movieEndSoundtrack = -1.0;  // soundtrack clock at the moment the movie ended or was skipped
     const double fps = movieAvailable ? movie.info().fps : 1.0;
@@ -238,6 +239,12 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
                 result.movie_status = "played";
                 flow.movie_finished(now);
             }
+        }
+
+        if (flow.phase() == BootPhase::title && !titleAnnounced) {
+            titleAnnounced = true;
+            if (soundtrackStarted) release_soundtrack(soundtrack, *config.audio_mixer, config.audio_pump);  // B064: movie sound never runs under the title music
+            if (config.on_title_entered) config.on_title_entered();
         }
 
         const int w = window.width(), h = window.height();
