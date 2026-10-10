@@ -14,6 +14,8 @@ struct DetailArt {character_menu::MenuArt panel;std::vector<DetailRowArt> rows;s
 const DetailArt& original_inventory_details();
 // B045: true when (x,y) is on the visible body of a list row (the row art box), not only its border sliver.
 bool details_row_hit(const DetailRowArt& row,float x,float y);
+// B056: batch role of the list damask panel; it samples the MenuGraphics02 texture instead of the MenusGraphics_droid atlas.
+inline const char* details_list_damask_role(){return "menu_InventorySheetDetails/b056_list_damask";}
 // Details slot rail (menu_InventorySheetDetails/SideList/btn_TypeN, N = InvSlotId 0..9, top to bottom). Each icon's hit
 // box is the bounding box of its authored SideList batches. Returns the icon index at (x,y), or -1.
 struct DetailRailBox{float x0,y0,x1,y1;};

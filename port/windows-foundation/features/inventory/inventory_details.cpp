@@ -69,6 +69,65 @@ bool rail_highlight_hidden(const std::string& role,unsigned selected,const std::
  unsigned slot=0;
  return rail_role_slot(role,slot)&&role.find("/Highlight/")!=std::string::npos&&slot!=selected&&normal[slot];
 }
+// B056: the original Details page shows a grey equipped-item panel (upper right), an orange selected-item panel (lower
+// right) and one continuous leaf-damask list panel (left). The exported v1.0.2 Details display list has none of them
+// (Q-report 1.3), but their art is in the shipped textures: the vertical-gradient grey and orange blocks sit in
+// MenusGraphics_droid (atlas px x 361..421 / 428..488, y 262..391 / 262..403), and the crisp damask picture is
+// MenuGraphics02.tga (px x 90..473, y 150..620, mirror-tiled, see mirrored_damask). Reference:
+// Part 1 t=512 (user shot b056-REFERENCE). Panels span the black dividers (shape 453: vertical x 217.5..220.2,
+// horizontal y 177.4..180.1) to the stage edge; the list panel is stage x 33.5..217.5, y 67..296.
+// The damask batch is drawn with the MenuGraphics02 atlas: see details_list_damask_role() and the host draw loop.
+HudGeometryBatch textured_panel(const char* role,float x0,float y0,float x1,float y1,float u0,float v0,float u1,float v1){
+ HudGeometryBatch batch;batch.role=role;
+ batch.triangles={{x0,y0,u0,v0},{x1,y0,u1,v0},{x1,y1,u1,v1},{x0,y0,u0,v0},{x1,y1,u1,v1},{x0,y1,u0,v1}};
+ return batch;
+}
+// Mirror-tiles the damask picture region over the list panel (0.34 stage px per texel: the reference motif pitch is ~33 stage px,
+// the picture's own pitch ~85 texels), so the motif stays continuous at every tile edge.
+HudGeometryBatch mirrored_damask(float x0,float y0,float x1,float y1){
+ constexpr float atlas=1024.f,texel=.34f,tu0=90.f/atlas,tu1=473.f/atlas,tv0=150.f/atlas,tv1=620.f/atlas;
+ const float tw=(tu1-tu0)*atlas*texel,th=(tv1-tv0)*atlas*texel;
+ HudGeometryBatch batch;batch.role=details_list_damask_role();
+ for(int j=0;y0+float(j)*th<y1;++j)for(int i=0;x0+float(i)*tw<x1;++i){
+  const float xa=x0+float(i)*tw,xb=std::min(x1,xa+tw),ya=y0+float(j)*th,yb=std::min(y1,ya+th);
+  const float fx=(xb-xa)/tw,fy=(yb-ya)/th;
+  const float ua=(i&1)?tu1:tu0,ub=(i&1)?tu1-(tu1-tu0)*fx:tu0+(tu1-tu0)*fx;
+  const float va=(j&1)?tv1:tv0,vb=(j&1)?tv1-(tv1-tv0)*fy:tv0+(tv1-tv0)*fy;
+  batch.triangles.insert(batch.triangles.end(),{{xa,ya,ua,va},{xb,ya,ub,va},{xb,yb,ub,vb},{xa,ya,ua,va},{xb,yb,ub,vb},{xa,yb,ua,vb}});
+ }
+ return batch;
+}
+// The MenuGraphics02 picture is much darker than the original list panel (reference mean ~(44,39,27), left edge ~(28,22,14), picture
+// ~(10,6,3)); the fixed-function overlay cannot tint above 1.0, so a translucent warm plate in vertical strips (darker at the rail
+// side, lighter at the divider) lifts it while the motif stays visible.
+void list_damask_lift(std::vector<character_menu::MenuSolidBatch>& out){
+ constexpr int strips=8;constexpr float x0=33.5f,x1=217.5f,y0=67.f,y1=296.f;
+ for(int i=0;i<strips;++i){
+  const float t=(float(i)+.5f)/float(strips),xa=x0+(x1-x0)*float(i)/float(strips),xb=x0+(x1-x0)*float(i+1)/float(strips);
+  character_menu::MenuSolidBatch solid;solid.after_bitmap_role=details_list_damask_role();solid.geometry.role="menu_InventorySheetDetails/b056_list_damask_lift";
+  solid.rgba={(80.f+10.f*t)/255.f,(65.f+11.f*t)/255.f,(42.f+16.f*t)/255.f,.3f+.3f*t};
+  solid.geometry.triangles={{xa,y0,0,0},{xb,y0,0,0},{xb,y1,0,0},{xa,y0,0,0},{xb,y1,0,0},{xa,y1,0,0}};
+  out.push_back(std::move(solid));
+ }
+}
+void details_panel_art(std::vector<HudGeometryBatch>& out){
+ constexpr float atlas=1024.f;
+ out.push_back(textured_panel("menu_InventorySheetDetails/b056_grey_panel",220.2f,37.7f,480.f,177.4f,361.f/atlas,262.f/atlas,421.f/atlas,391.f/atlas));
+ out.push_back(textured_panel("menu_InventorySheetDetails/b056_orange_panel",220.2f,180.1f,480.f,320.f,428.f/atlas,262.f/atlas,488.f/atlas,403.f/atlas));
+ out.push_back(mirrored_damask(33.5f,67.f,217.5f,296.f));
+}
+// Soft ground shadow under the avatar: concentric dark ellipses clipped to the avatar pane bottom edge (pane 219.27..322.49 x 66.26..260.79).
+void avatar_shadow(std::vector<character_menu::MenuSolidBatch>& out,const std::string& after){
+ constexpr float cx=270.9f,cy=259.f,rx=51.f,ry=24.f,clip=260.79f,left=219.27f;
+ constexpr int rings=12;constexpr int segs=28;
+ for(int r=0;r<rings;++r){
+  const float k=1.f-float(r)/float(rings);
+  character_menu::MenuSolidBatch solid;solid.after_bitmap_role=after;solid.rgba={0.f,0.f,0.f,.055f};solid.geometry.role="menu_InventorySheetDetails/b056_avatar_shadow";
+  const auto point=[&](int s){const float a=6.2831853f*float(s)/float(segs);return std::array<float,2>{std::max(left,cx+rx*k*std::cos(a)),std::min(clip,cy+ry*k*std::sin(a))};};
+  for(int s=0;s<segs;++s){const auto a=point(s),b=point(s+1);solid.geometry.triangles.push_back({cx,std::min(clip,cy),0,0});solid.geometry.triangles.push_back({a[0],a[1],0,0});solid.geometry.triangles.push_back({b[0],b[1],0,0});}
+  out.push_back(std::move(solid));
+ }
+}
 const InventoryItem* owned_item(const CharacterState& owner,const std::string& id){const auto found=std::find_if(owner.inventory.begin(),owner.inventory.end(),[&](const auto& item){return item.instance_id==id;});return found==owner.inventory.end()?nullptr:&*found;}
 std::size_t focus(const std::vector<equipment_menu::OwnedSelection>& rows,const std::string& selected){const auto at=std::find_if(rows.begin(),rows.end(),[&](const auto& row){return row.instance_id==selected;});return at==rows.end()?0:std::size_t(at-rows.begin());}
 bool name(const DetailBindings& bindings,const CharacterState& owner,const dh2::data::ItemTable& table,const std::string& id,std::string& value,std::string& error){
@@ -90,6 +149,8 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
  next.text.erase(std::remove_if(next.text.begin(),next.text.end(),[](const auto& value){return details_replaces_main(value.field.path)||prefix(value.field.path,"menu_InventorySheetDetails/");}),next.text.end());
  next.solids.erase(std::remove_if(next.solids.begin(),next.solids.end(),[](const auto& value){return details_replaces_main(value.geometry.role)||prefix(value.geometry.role,"menu_InventorySheetDetails/");}),next.solids.end());
  drop_carved_frame(next.art.batches);
+// B056: grey/orange panels, list damask (below the Details art) and the avatar ground shadow (after the orange panel, before the avatar).
+ details_panel_art(next.art.batches);list_damask_lift(next.solids);avatar_shadow(next.solids,"menu_InventorySheetDetails/b056_orange_panel");
   const auto* transmute_variant=rows.empty()?nullptr:&(rows[current].equipped?art.text_states.transmute_disabled:art.text_states.transmute_idle);
   const bool has_transmute_variant=transmute_variant&&!transmute_variant->fields.empty();
   if(has_transmute_variant){
@@ -115,6 +176,16 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
  // displaySelectedItemInfos (authored-actions.txt ~0001cbbe-0001cc09). Part 1 t=336 (Torso) and t=342 (Hands) are
  // equipped and show no Drop; t=372 (Feet, unequipped) shows Drop. The flag also covers the Drop label text below.
  const bool drop_available=rows.empty()||!rows[current].equipped;
+ // B056: unselected rail icons are dark in the original (Part 1 t=372/t=512). Icons 0,1,2,5,6 have only their bright Highlight art in
+ // the export (EQRAIL open gap), so a translucent dark plate over the icon box stands in for the missing normal-state art.
+ for(unsigned slot=0;slot<10;++slot){
+  if(slot==selection_.selected_slot()||rail_normal[slot])continue;
+  DetailRailBox box{};if(!details_rail_box(art,slot,box))continue;
+  std::string last_role;for(const auto& batch:art.panel.batches){unsigned s=0;if(rail_role_slot(batch.role,s)&&s==slot)last_role=batch.role;}
+  character_menu::MenuSolidBatch dim;dim.after_bitmap_role=last_role;dim.rgba={.04f,.03f,.02f,.78f};dim.geometry.role="menu_InventorySheetDetails/b056_rail_dim";
+  const float pad=1.f;dim.geometry.triangles={{box.x0-pad,box.y0-pad,0,0},{box.x1+pad,box.y0-pad,0,0},{box.x1+pad,box.y1+pad,0,0},{box.x0-pad,box.y0-pad,0,0},{box.x1+pad,box.y1+pad,0,0},{box.x0-pad,box.y1+pad,0,0}};
+  next.solids.push_back(std::move(dim));
+ }
  if(!drop_available)next.art.batches.erase(std::remove_if(next.art.batches.begin(),next.art.batches.end(),[](const auto& batch){return prefix(batch.role,"menu_InventorySheetDetails/btn_Drop/");}),next.art.batches.end());
  std::string selected_name;if(!rows.empty()&&!name(b,owner_,table_,rows[current].instance_id,selected_name,error))return false;
  if(!equipped_id.empty()&&!name(b,owner_,table_,equipped_id,equipped_name,error))return false;

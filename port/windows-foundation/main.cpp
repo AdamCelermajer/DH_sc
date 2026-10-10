@@ -1831,6 +1831,8 @@ int main(int argc,char** argv) {
         };
         bindMaterials();
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
+        // B056: Details list damask is the MenuGraphics02 picture (shipped texture, not the MenusGraphics_droid atlas).
+        std::uint32_t menuDamaskTexture=options.hud?loadTexture("MenuGraphics02.tga"):0;
         f::CombatTextLiveAdapter combatText;
         std::optional<f::Camera> combatTextCamera;
         std::uint64_t combatTextResults=0,combatTextDrawnFrames=0;
@@ -3595,7 +3597,10 @@ int main(int argc,char** argv) {
                                     drawEquipmentPane(sourcePanes[i]);drawnPanes[i]=true;
                                 }
                         std::vector<f::OverlayTriangleVertex> vertices;for(const auto& v:batch.triangles)vertices.push_back({transform.x+v.x*transform.scale_x,transform.y+v.y*transform.scale_y,v.u,v.v});
-                        if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Character menu original-art draw rejected");
+                        // B056: the Details list damask panel samples MenuGraphics02; skipped when that texture is unavailable.
+                        const bool damaskPanel=batch.role==f::inventory::details_list_damask_role();
+                        if(damaskPanel&&!menuDamaskTexture)continue;
+                        if(!overlay.drawTriangles(vertices,damaskPanel?menuDamaskTexture:hudTexture))throw std::runtime_error("Character menu original-art draw rejected");
                         for(const auto& solid:menu.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
                     }
                     if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment&&
