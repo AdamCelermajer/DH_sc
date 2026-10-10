@@ -41,3 +41,22 @@ Preview 15 (package `windows-source-clock-v19-preview-15`, EXE SHA256 `2B70D38C1
 | I026 | Level-up feedback (portrait, FX set 135, sound). | LEVELUP / LEVELUPFX reports. | vertical column/burst not drawn (placeholder decision open) |
 | B028 | Lizard hurt cue wired (`Combat cue uid=284 event=hurt ... status=submitted`). | LIZARDHURT report; rc5 verifier log lines. | attack/death cues depend on assets |
 | B039 (final) | Audio stalls under CPU load fixed: WinMM control thread time-critical priority. Cause was CPU starvation, not the new sound files. | AUDIOSTALL report: shipped EXE 1/6/12 underruns vs fixed 0/0/0 in 3 loaded runs. | 1.8-3.2 s gaps never reproduced; not listened to; rc5 verifier did not finish its audio runs |
+
+Preview 15.1 (package `windows-source-clock-v19-preview-15-1`, EXE SHA256 `95F209ABDEE594D5CC9DDBBC9DFE6F8FA50E6D99472D757C364F9842F5B0713B`, source `p15/patch` e03fffea). Independent checks: `coordination/claude-preview15/verify-151-report.md` and `verify-151c-report.md` (APPROVE WITH CAVEATS); per-bug reports `coordination/claude-preview15/B0NN-report.md` on branches `fix/b0NN`. Audio cadence and by-ear checks skipped by user decision.
+
+| ID | Resolved behavior | Evidence | Remaining boundary |
+|---|---|---|---|
+| B053 | Title screen draws only the splash region of the atlas (1280x752) at 16:9 with the prompt at ~58% height. | B053 report; 151 verifier frames. | (c) GAMELOFT line / blink timing not done |
+| B054 | SKIP only on the story segment (>= 7.3 s, IDA MyVideoView 0x1C84); logo ignores presses; table `intro_v1.segments.txt`. | B054 report; quiet runs 3/5 s ignored, 12 s skips. | original reveals SKIP after a tap; timed subtitles absent |
+| B055 | Original `menu_Loading` art (dqshared.swf) with the real tip and progress bar. | B055 report; frames 0/40/80/100 %. | side pillars cropped (stage zoom 1.12); no 'touch to continue' |
+| B056 + B056b | Equipment page matches the 8:32 reference: panels, damask, shadow, real rail icons, sword glyph, separators, list frame, VALUE icon. | B056/B056b reports; contact sheets; 151c rail check. | orange panel saturation, avatar shadow approximate |
+| B057 | Unmet requirements show red X and dark EQUIP and block equipping; gate adds Prereq bonus (IDA 003fa330). 'ENG' = Stat_Energy. | B057 report; unit tests. | unmet row not reached in the independent check |
+| B058 | CLOSED - INTENDED: the original has no footstep sound (user confirmed; IDA: step events play only visual FX). | B058 report. | none |
+| B059 | CLOSED - INTENDED: helm drops use the generic bag model in the original item-visual table. | B059 report. | exact bag colour/size unverified |
+| B060 | Head/Waist rail buttons were swapped (btn_head=8, btn_waist=7). | B060 report; before/after sheet. | Details-page rail icons unchecked |
+| B061 | In-game hero shows the equipped helm, torso, gloves, boots (body controllers re-selected on equipment change). | B061 report; before/after sheet. | weapons/shields beyond the longsword; other classes |
+| B062 | Per-frame texture directory scans cached, FX loan leak pruned, DH_PERF=1. 17-23 ms -> 15.4 ms avg, p99 31-68 -> ~16 ms (same-window A/B). | B062 report. | user still reports slowness: B066 open |
+| B063 | Walking onto an item picks it up (original contact logic, ItemObject::OnCollisionBegins 0x3ec048); Space/E no longer pick up; inventory-full crash fixed. | B063 report; EXE logs/frames. | stand-still adaptation; no direct video frame |
+| B064 | TitleMusic (m_title.vxn, uid 464) starts at title/main menu, loops, fades into level music; header bug fixed. | B064 report; transition logs. | not heard; 600 ms crossfade vs original 2 s |
+| B065 | SKIP releases the movie voice (handoff_voices=0); title music follows SKIP and the natural end. | B065 report; startup_intro_soundtrack_v2 test. | not heard; the logo has no sound in the source movie (jingle unknown) |
+| B067 | Rail icons: real dimmed art, no dark plates (B056b). | 151c verifier frames. | none reported |
