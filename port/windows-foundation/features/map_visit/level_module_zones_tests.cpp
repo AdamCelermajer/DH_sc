@@ -7,6 +7,7 @@
 #include "map_page_v1.hpp"
 #include "room_zone_visit_v1.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <set>
@@ -46,8 +47,18 @@ std::vector<LevelModuleZone> load_checked(const std::filesystem::path& root, con
     require(tracker.configure(zones, {}, error), error);
     const auto extent = map_extent_v1(zones);
     require(extent.valid, level + ": no extent");
+    // Overview: a top-down pose far enough above the level centre to frame every zone. The authored pose is
+    // checked against the original map frames, not here; this test covers the zone visibility rule only.
+    MapCameraPoseV1 overviewPose;
+    overviewPose.loaded = true;
+    // Distance is capped below the authored far plane (100000): a level wider than that needs the zoomed map view.
+    const float span = std::max(extent.maxX - extent.minX, extent.maxY - extent.minY);
+    const float overviewDistance = std::min(span * 0.75f / std::tan(map_camera_fov_radians * 0.5f), 90000.0f);
+    overviewPose.eye_offset = {0.0f, 0.0f, overviewDistance};
+    overviewPose.target_offset = {0.0f, 0.0f, 0.0f};
+    const std::array<float, 3> centre{(extent.minX + extent.maxX) * 0.5f, (extent.minY + extent.maxY) * 0.5f, extent.minZ};
     Camera overview;
-    require(map_camera_v1(extent, std::nullopt, MapViewV1{}, overview, error), error);
+    require(map_camera_v1(overviewPose, centre, MapViewV1{}, overview, error), error);
     CameraBasisV1 basis;
     require(camera_basis_v1(overview, 1.5f, basis, error), error);
     const auto planes = frustum_planes_v1(basis);

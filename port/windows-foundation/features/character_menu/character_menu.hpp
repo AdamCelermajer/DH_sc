@@ -56,6 +56,8 @@ struct Bindings {
     const CharacterState* character=nullptr;
     // Actual localized class name (not numeric class ID rendered as a name).
     std::string class_label;
+    // P16 MAPFIX: MenuCharMenu_Map::ShowLevelName text (LevelList row LevelName StrID, localized); empty when unknown.
+    std::string map_name;
     std::function<bool(const std::string& source_field_path,std::string& value,std::string& error)> text;
     // Equipment/skill owners append their own original-art batches/source-field
     // projections in authored480x320 space. Presenter does not own their models.

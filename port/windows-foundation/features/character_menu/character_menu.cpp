@@ -40,6 +40,8 @@ bool projected(const MenuTextField& field,const Bindings& b,std::string& value){
     auto stat=[&](unsigned i){return std::to_string(source_stat_integer(raw[i]));};
     if(has(path,"player_name")){value=b.character?b.character->name:std::string{};return true;}
     if(has(path,"player_class")){value=b.class_label;return true;}
+    // P16 MAPFIX: the Map page level name (MapName text field). Without a resolved name the field stays empty.
+    if(has(path,"MapName")){if(b.map_name.empty())return false;value=b.map_name;return true;}
     // Source menu uses integer stat values; actual host vitals are current live
     // actor cells even when pending combat effects have not rebuilt raw sheets.
     if(has(path,"HpTextBox")){value=whole(b.actor->health)+" / "+whole(b.actor->max_health);return true;}
@@ -57,12 +59,25 @@ Action Presenter::hit_test(float x,float y,int width,int height)const noexcept {
     if(!open_||width<=0||height<=0||!std::isfinite(x)||!std::isfinite(y))return Action::none;
     x/=width/480.f;y/=height/320.f;
     // Actual contour hit regions, including original invisible tab hit shape263.
+    // P16 MAPFIX: adjacent tab rectangles overlap (63.4 px wide, 52 px pitch: Quest Log 369-432 and Map 421-484
+    // share about 11 px). Where several tab zones contain the point, the tab whose centre is nearest answers, so
+    // each tab keeps its own half of the overlap and neither becomes unreachable.
+    const MenuHitZone* nearestTab=nullptr;float nearestDistance=0;
+    const auto isTab=[](Action action){
+        return action==Action::stats||action==Action::equipment||action==Action::skills||
+               action==Action::faery||action==Action::quest||action==Action::map;
+    };
     for(auto it=original_menu_hit_zones().rbegin();it!=original_menu_hit_zones().rend();++it) {
         // Map controls exist only on the Map page; elsewhere the same screen area is not a control.
         if((it->action==Action::map_legend||it->action==Action::map_reset_zoom)&&tab_!=Tab::map)continue;
-        if(contains(*it,x,y))return it->action;
+        if(!contains(*it,x,y))continue;
+        if(!isTab(it->action))return it->action;
+        float cx=0,cy=0;for(const auto& v:it->triangles){cx+=v.x;cy+=v.y;}
+        if(!it->triangles.empty()){cx/=float(it->triangles.size());cy/=float(it->triangles.size());}
+        const float distance=(cx-x)*(cx-x)+(cy-y)*(cy-y);
+        if(!nearestTab||distance<nearestDistance){nearestTab=&*it;nearestDistance=distance;}
     }
-    return Action::none;
+    return nearestTab?nearestTab->action:Action::none;
 }
 Action Presenter::release(float x,float y,int width,int height)noexcept {
     const auto action=hit_test(x,y,width,height);

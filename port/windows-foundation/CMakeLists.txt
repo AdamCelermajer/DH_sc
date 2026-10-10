@@ -915,7 +915,7 @@ add_executable(schema_v4_tests tests/schema_v4_tests.cpp)
 target_link_libraries(schema_v4_tests PRIVATE foundation_data)
 add_test(NAME schema_v4 COMMAND schema_v4_tests)
 # P16 map: RoomZone visit tracker (frustum gate, HasInside, schema v4 visited modules) and Map page camera/projection.
-add_library(foundation_map_visit STATIC features/map_visit/room_zone_visit_v1.cpp features/map_visit/map_page_v1.cpp)
+add_library(foundation_map_visit STATIC features/map_visit/room_zone_visit_v1.cpp features/map_visit/map_page_v1.cpp features/map_visit/map_camera_pose_v1.cpp) # P16 MAPFIX: authored minimapcameras pose
 target_link_libraries(foundation_map_visit PUBLIC foundation_data foundation_frontend)
 add_executable(map_visit_tests features/map_visit/map_visit_tests.cpp)
 target_link_libraries(map_visit_tests PRIVATE foundation_map_visit)
