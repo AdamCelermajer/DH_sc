@@ -3222,25 +3222,54 @@ int main(int argc,char** argv) {
             }
         };
         loadingScreen.finish();  // holds 100% for the minimum display time, then gameplay
-        // P16 DESPAWN: automatic despawn after death through the lifecycle (features/despawn/despawn_after_death_v1). Tracks
-        // dead lifecycle actors (state Idle), releases the body at the death-animation end (source CSDead event 34), runs
-        // CharacterDesign.Despawn_Delay (source event 46), plays the Despawn clip (lifecycle state 2) and completes into Limbus.
-        // Summoned actors release their spawn-pool slot on completion. Owner state is transient (dropped with the world).
+        // P16 DESPAWN: automatic despawn after death (features/despawn/despawn_after_death_v1). Every dead hostile population
+        // actor is tracked: a lifecycle actor through its OriginalActorLifecycle state (Idle -> Despawn -> Limbus), an authored
+        // monster without a lifecycle record through the same owner with population effects (body release, hide, respawn at its
+        // initial anchor). Summoned actors release their spawn-pool slot. Owner state is transient: reset on reload/restore.
         f::despawn::DespawnAfterDeathV1 despawnOwner;
-        std::uint32_t despawnDelayMs=0;std::uint64_t despawnFrameNow=0;double despawnCarryMs=0; // P16 DESPAWN2: fractional ms carried between frames (whole ms per advance)
+        std::uint32_t despawnDelayMs=0;std::uint64_t despawnFrameNow=0;double despawnCarryMs=0;
+        std::map<std::uint64_t,f::Transform> despawnHome; // initial anchor of an authored monster (captured before its first death)
+        // Authored physical presence (no lifecycle record): the body leaves/returns to the native world as the lifecycle does.
+        const auto setAuthoredPhysical=[&](std::uint64_t id,bool present,std::string& e)->bool{
+            if(options.sourceNativeBodies) {
+                if(present) {
+                    const auto* body=nativeBodies.physical(id);if(!body){e="Despawn native actor unavailable";return false;}
+                    if(!body->native().body&&!nativeBodies.initialize_physical(id,e))return false;
+                } else if(!nativeBodies.remove_physical(id,e))return false;
+            }
+            lifecyclePhysical[id]=present;lifecycleCollisions[id]=present;return true;
+        };
         const auto despawnServices=[&]() {
             f::despawn::Services s;
             s.log=[&](const std::string& line){std::cout<<line<<" frame="<<despawnFrameNow<<'\n';};
-            s.release_body=[&](std::uint64_t id,std::string& e){return actorLifecycle.release_body(id,e);};
-            s.play_clip=[&](std::uint64_t id,std::string& e){return actorLifecycle.despawn(id,e);};
-            s.hide=[&](std::uint64_t id,std::string& e){return actorLifecycle.put_limbus(id,e);};
+            s.release_body=[&](std::uint64_t id,std::string& e){
+                if(actorLifecycle.status(id))return actorLifecycle.release_body(id,e);
+                return setAuthoredPhysical(id,false,e);};
+            // Source CSDespawn::OnFocus. An authored monster has no lifecycle state; the source selects no clip for it either.
+            s.play_clip=[&](std::uint64_t id,std::string& e){
+                if(actorLifecycle.status(id))return actorLifecycle.despawn(id,e);
+                (void)e;return true;};
+            s.hide=[&](std::uint64_t id,std::string& e){
+                if(actorLifecycle.status(id))return actorLifecycle.put_limbus(id,e);
+                if(!population.set_enabled(id,false,e))return false;
+                return setAuthoredPhysical(id,false,e);};
             s.finished=[&](std::uint64_t id,bool& done,std::string& e){
                 const auto* status=actorLifecycle.status(id);
-                if(!status){e="Despawn actor has no lifecycle record";return false;}
+                if(!status){(void)e;done=true;return true;}
                 done=status->state==0;return true;};
             s.release_slot=[&](std::uint64_t id,std::string& e){
                 if(!spawnPool.owns(id)){e="Despawn actor is not a spawn-pool slot";return false;}
                 return spawnPool.release(id,e);};
+            // Source CSLimbus::OnBlur/OnFocus with event 47: revive at the initial anchor, shown and physical again.
+            s.respawn=[&](std::uint64_t id,std::string& e){
+                if(actorLifecycle.status(id)){e="Respawn of a lifecycle actor is not bound (source event 47 owner)";return false;}
+                auto* actor=combatSession->actor(id);const auto home=despawnHome.find(id);
+                if(!actor||home==despawnHome.end()){e="Respawn actor or initial anchor is unavailable";return false;}
+                if(!population.set_enabled(id,true,e))return false;
+                actor->transform=home->second;
+                if(options.sourceNativeBodies&&!nativeBodies.set_position(id,home->second.position,true,e))return false;
+                actor->health=actor->max_health;actor->resource=actor->max_resource;f::reset_actor_action(*actor,f::CharacterAction::idle);
+                return setAuthoredPhysical(id,true,e);};
             return s;
         };
         // One frame of the despawn owner. Returns false with the reason when an owner refuses (the caller reports it).
@@ -3259,20 +3288,28 @@ int main(int argc,char** argv) {
             for(const auto& placed:population.actors()) {
                 const auto id=placed.definition.stableId;
                 const auto* status=actorLifecycle.status(id);
-                if(!status||status->failed)continue;
+                if(status&&status->failed)continue;
                 const auto* actor=combatSession->actor(id);
+                if(!actor)continue;
+                const bool summoned=spawnPool.owns(id);
+                // The anchor of an authored monster is the placement it was admitted at (before any death or knockback).
+                if(!status&&actor->alive()&&!despawnHome.count(id))despawnHome[id]=actor->transform;
                 if(!despawnOwner.tracked(id)) {
-                    if(status->state!=3||!actor||actor->alive())continue;
+                    if(actor->alive())continue;
+                    if(status) {if(status->state!=3)continue;}
+                    else if(!placed.enabled)continue; // already hidden: not a live authored monster
                     const auto melee=meleeBindings.find_actor(placed.profileId);
                     bool hasClip=false;
-                    if(melee){const auto clip=melee->states.find("Despawn");hasClip=clip!=melee->states.end()&&!clip->second.empty();}
-                    // P16 DESPAWN2: default = original path (CSDespawn::OnFocus clears the animation; no Despawn clip is selected by the
-                    // state, and the reference corpse vanishes about 2 s after the kill): hidden at Despawn_Delay. --despawn-clip plays the
-                    // Despawn clip on the dead actor (combat session advances the lifecycle sequence; the runtime pose is handed over).
-                    const bool kDespawnClipPlaybackWired=options.despawnClip;
-                    if(!kDespawnClipPlaybackWired)hasClip=false;
-                    if(!despawnOwner.track(id,spawnPool.owns(id),hasClip,despawnDelayMs,e))return false;
-                    std::cout<<"DESPAWN tracked actor="<<id<<" name="<<placed.definition.name<<" summoned="<<spawnPool.owns(id)<<" clip="<<(hasClip?"Despawn":"none")<<" frame="<<frame<<'\n';
+                    if(status&&melee){const auto clip=melee->states.find("Despawn");hasClip=clip!=melee->states.end()&&!clip->second.empty();}
+                    // Clip playback is opt-in (--despawn-clip): the decoded original selects no Despawn clip (see DESPAWN2).
+                    if(!options.despawnClip)hasClip=false;
+                    // GetRespawnDelay: 1000 * (CharProperty 11 >> 8) ms; 0 = not respawnable. Summoned actors never respawn.
+                    std::uint32_t respawnMs=0;
+                    if(const auto* props=combatSession->world()->combat_properties(id);props&&!summoned) {
+                        const std::int32_t raw=props->sheets.resolved[11];if(raw>0)respawnMs=std::uint32_t(1000*(raw>>8));}
+                    if(!despawnOwner.track(id,summoned,hasClip,despawnDelayMs,e,respawnMs))return false;
+                    std::cout<<"DESPAWN tracked actor="<<id<<" name="<<placed.definition.name<<" summoned="<<summoned<<" lifecycle="<<(status?1:0)
+                             <<" clip="<<(hasClip?"Despawn":"none")<<" respawn_ms="<<respawnMs<<" frame="<<frame<<'\n';
                     continue;
                 }
                 const auto* record=despawnOwner.record(id);
@@ -3618,6 +3655,10 @@ int main(int argc,char** argv) {
                 if(runtimeAudio)runtimeAudio->unbind();
                 deathRewards.reset();
                 retireEquipmentPage();
+                // P16 DESPAWN2 restore rule: owner state is transient. A reload drops despawn timers, anchors, lifecycle records and
+                // physical maps, and re-declares every spawn-pool slot free (no duplicate summon survives the world replacement).
+                despawnOwner.clear();despawnCarryMs=0;despawnHome.clear();actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();
+                lifecycleIdleSuppressed.clear();lifecycleFlags.clear();spawnPool.free_all();
                 clearNativeBodies();combatSession.reset();
                 populationMotors.clear();
                 f::OriginalScene nextScene;f::CharacterVisual nextVisual;

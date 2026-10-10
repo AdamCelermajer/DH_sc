@@ -12,6 +12,31 @@ std::string name_of(std::uint64_t actor) {
     return std::to_string(actor);
 }
 
+// Summoned pool slots are released and never respawn. Everything else with a respawn delay waits in Limbus for event 47.
+// Returns true when the record must stay (awaiting its respawn), false when the record is finished.
+bool enter_limbus_or_finish(const std::uint64_t actor, Record& record, Services& services, std::string& error,
+                            std::map<std::uint64_t, Record>::iterator& it, std::map<std::uint64_t, Record>& records) {
+    if (!record.summoned && record.respawn_ms > 0) {
+        record.phase = Phase::awaiting_respawn;
+        record.remaining_ms = record.respawn_ms;
+        note(services, "DESPAWN respawn scheduled actor=" + name_of(actor) + " after_ms=" + std::to_string(record.respawn_ms));
+        ++it;
+        return true;
+    }
+    if (record.summoned) {
+        if (!services.release_slot) {
+            error = "Despawn slot owner is unavailable";
+            return false;
+        }
+        if (!services.release_slot(actor, error)) {
+            if (error.empty()) error = "Despawn slot release failed";
+            return false;
+        }
+    }
+    it = records.erase(it);
+    return true;
+}
+
 } // namespace
 
 const Record* DespawnAfterDeathV1::record(std::uint64_t actor) const noexcept {
@@ -20,7 +45,7 @@ const Record* DespawnAfterDeathV1::record(std::uint64_t actor) const noexcept {
 }
 
 bool DespawnAfterDeathV1::track(std::uint64_t actor, bool summoned, bool has_clip, std::uint32_t delay_ms,
-                                std::string& error) {
+                                std::string& error, std::uint32_t respawn_ms) {
     if (records_.count(actor)) {
         error = "Despawn actor is already tracked";
         return false;
@@ -29,6 +54,7 @@ bool DespawnAfterDeathV1::track(std::uint64_t actor, bool summoned, bool has_cli
     record.summoned = summoned;
     record.has_clip = has_clip;
     record.delay_ms = delay_ms;
+    record.respawn_ms = respawn_ms;
     records_.emplace(actor, record);
     error.clear();
     return true;
@@ -60,6 +86,26 @@ bool DespawnAfterDeathV1::death_ended(std::uint64_t actor, Services& services, s
 bool DespawnAfterDeathV1::advance(std::uint32_t elapsed_ms, Services& services, std::string& error) {
     for (auto it = records_.begin(); it != records_.end();) {
         auto& record = it->second;
+        if (record.phase == Phase::awaiting_respawn) {
+            if (record.remaining_ms > elapsed_ms) {
+                record.remaining_ms -= elapsed_ms;
+                ++it;
+                continue;
+            }
+            // Source event 47 (Limbus respawn timer): the actor returns at its initial anchor.
+            const auto actor = it->first;
+            if (!services.respawn) {
+                error = "Despawn respawn owner is unavailable";
+                return false;
+            }
+            if (!services.respawn(actor, error)) {
+                if (error.empty()) error = "Despawn respawn failed";
+                return false;
+            }
+            note(services, "DESPAWN respawned actor=" + name_of(actor));
+            it = records_.erase(it);
+            continue;
+        }
         if (record.phase != Phase::corpse) {
             ++it;
             continue;
@@ -96,19 +142,9 @@ bool DespawnAfterDeathV1::advance(std::uint32_t elapsed_ms, Services& services, 
             return false;
         }
         note(services, "DESPAWN delay expired actor=" + name_of(actor) + " state=Despawn clip=none hidden");
-        const bool summoned = record.summoned;
-        if (summoned) {
-            if (!services.release_slot) {
-                error = "Despawn slot owner is unavailable";
-                return false;
-            }
-            if (!services.release_slot(actor, error)) {
-                if (error.empty()) error = "Despawn slot release failed";
-                return false;
-            }
-            note(services, "DESPAWN complete actor=" + name_of(actor) + " slot=released");
-        }
-        it = records_.erase(it);
+        const bool wasSummoned = record.summoned;
+        if (!enter_limbus_or_finish(actor, record, services, error, it, records_)) return false;
+        if (!records_.count(actor)) note(services, "DESPAWN complete actor=" + name_of(actor) + (wasSummoned ? " slot=released" : ""));
     }
     error.clear();
     return true;
@@ -134,20 +170,9 @@ bool DespawnAfterDeathV1::poll(Services& services, std::string& error) {
             continue;
         }
         const auto actor = it->first;
-        const bool summoned = it->second.summoned;
-        if (summoned) {
-            if (!services.release_slot) {
-                error = "Despawn slot owner is unavailable";
-                return false;
-            }
-            if (!services.release_slot(actor, error)) {
-                if (error.empty()) error = "Despawn slot release failed";
-                return false;
-            }
-        }
         note(services, "DESPAWN complete actor=" + name_of(actor) + " state=Limbus" +
-                           (summoned ? " slot=released" : ""));
-        it = records_.erase(it);
+                           (it->second.summoned ? " slot=released" : ""));
+        if (!enter_limbus_or_finish(actor, it->second, services, error, it, records_)) return false;
     }
     error.clear();
     return true;
