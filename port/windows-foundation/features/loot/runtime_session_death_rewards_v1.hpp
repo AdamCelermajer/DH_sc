@@ -6,6 +6,7 @@
 #include "../../asset_catalog.hpp"
 #include "../frontend/creation/runtime_creation_source_loader_v1.hpp"
 
+#include <functional>
 #include <memory>
 
 namespace dh::foundation::loot {
@@ -27,6 +28,9 @@ struct RuntimeSessionDeathRewardBindingsV1 {
     bool (*query_debug_switch)(void*, const char* key, bool&, std::string&){};
     bool (*resolve_character)(void*, ActorId, RuntimeDeathActorV1&,
                               std::string&){};
+    // P15 LEVELUP (I026): level-up presentation after a real level gain. Unset
+    // means no presentation (headless tests). Errors abort the award.
+    std::function<bool(ActorId, std::int32_t, std::string&)> level_up_presentation;
 };
 
 // Main-callable composition of the already-existing source owners and generic
@@ -51,6 +55,7 @@ class RuntimeSessionDeathRewardsV1 {
     static bool loot_entry_thunk(void*, const dh2::data::LootEntryRequestV8&,
                                  std::int32_t&, std::string&);
     static bool one_kill_level_up_thunk(void*, bool&, std::string&);
+    static bool level_up_thunk(void*, ActorId, std::int32_t, std::string&);
     static bool resolve_character_thunk(void*, ActorId, RuntimeDeathActorV1&,
                                         std::string&);
     static bool spawn_world_item_thunk(void*, const RuntimeWorldItemRecordV1&,

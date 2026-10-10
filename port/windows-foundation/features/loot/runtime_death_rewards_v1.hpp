@@ -92,6 +92,11 @@ struct RuntimeDeathRewardServicesV1 {
     bool (*query_one_kill_level_up)(void*, bool&, std::string&){};
     bool (*resolve_character)(void*, dh::foundation::ActorId,
                               RuntimeDeathActorV1&, std::string&){};
+    // Presentation sidecar fired once after a real level gain (source
+    // Character::LevelUp: FX set 135, MENU_LEVEL_UP status). Called with the
+    // reached level; a failure is returned to the award (see caller).
+    bool (*on_level_up)(void*, dh::foundation::ActorId, std::int32_t,
+                        std::string&){};
     // Generic world-item creation/publication is an explicit receiver; this
     // router retains no second item pool. It receives an actual original Loot
     // table selection with borrowed Item/Loot row identities.

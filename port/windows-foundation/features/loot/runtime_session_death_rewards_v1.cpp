@@ -88,6 +88,14 @@ bool RuntimeSessionDeathRewardsV1::one_kill_level_up_thunk(
                                                "OneKillLevelUp", enabled, error);
 }
 
+bool RuntimeSessionDeathRewardsV1::level_up_thunk(
+    void* raw, ActorId id, std::int32_t level, std::string& error) {
+    auto* self = static_cast<RuntimeSessionDeathRewardsV1*>(raw);
+    if (!self) return fail(error, "Level-up presentation owner is unavailable");
+    if (!self->bindings_.level_up_presentation) return true;
+    return self->bindings_.level_up_presentation(id, level, error);
+}
+
 bool RuntimeSessionDeathRewardsV1::resolve_character_thunk(
     void* raw, ActorId id, RuntimeDeathActorV1& output, std::string& error) {
     auto* self = static_cast<RuntimeSessionDeathRewardsV1*>(raw);
@@ -163,6 +171,7 @@ bool RuntimeSessionDeathRewardsV1::after_update(
     services.context = this;
     services.query_one_kill_level_up = &RuntimeSessionDeathRewardsV1::one_kill_level_up_thunk;
     services.resolve_character = &RuntimeSessionDeathRewardsV1::resolve_character_thunk;
+    services.on_level_up = &RuntimeSessionDeathRewardsV1::level_up_thunk;
     services.spawn_world_item = &RuntimeSessionDeathRewardsV1::spawn_world_item_thunk;
 
     dispatching_ = true;
