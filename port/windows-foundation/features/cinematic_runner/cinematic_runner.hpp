@@ -62,10 +62,12 @@ struct Frame {
 struct Viewport { float scale = 1.f, offset = 0.f; };
 Viewport viewport_for(float window_w, float window_h) noexcept;
 
-// Placeholder SKIP control: the original art lives in dqhud.swf (frame label menu_skipcutscene) and is
-// not decoded by the port yet. Position is the reference's top-left SKIP bar (CINE survey B5/B6).
+// Placeholder SKIP control. The original is the dqhud_droid.swf sprite placed as menu_skipcutscene (root depth 389,
+// at (37.75,74.85) px before its own slide-in; resting child btn_MENU_SKIP): a red X icon with the light "SKIP" label
+// at the top left. Its shapes are bitmap-filled (fill kind 66, bitmap 1), so the HUD texture is needed; not decoded yet.
+// Placed where the reference shows it (top-left; Part 2 sheet 3:36-3:56 has the same control at the same place).
 struct SkipLayout {
-    float x = 8, y = 8, w = 72, h = 20;
+    float x = 5, y = 4, w = 64, h = 22;
 };
 inline constexpr const char* kSkipLabelPlaceholder = "SKIP";
 

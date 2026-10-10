@@ -78,13 +78,15 @@ Frame CinematicRunner::build_frame(const SkipLayout& layout) const {
     Frame frame;
     if (!active_) return frame;
     if (skip_visible_) {
-        frame.rects.push_back({layout.x, layout.y, layout.w, layout.h, {0.55f, 0.08f, 0.08f, 0.85f}, "placeholder-skip"});
-        frame.texts.push_back({kSkipLabelPlaceholder, layout.x, layout.y, layout.w, layout.h, {255, 255, 255, 255}});
+        // Placeholder: red X block (reference icon) and the SKIP label beside it.
+        frame.rects.push_back({layout.x, layout.y, layout.h, layout.h, {0.80f, 0.10f, 0.10f, 1.f}, "placeholder-skip"});
+        frame.texts.push_back({kSkipLabelPlaceholder, layout.x + layout.h + 4.f, layout.y, layout.w, layout.h, {255, 255, 204, 255}});
     }
     if (shown_) {
-        // Caption box: bottom band of the authored screen. Placeholder art (no decoded dialogue box).
-        frame.rects.push_back({32.f, 238.f, 416.f, 64.f, {0.f, 0.f, 0.f, 0.72f}, "placeholder-box"});
-        frame.texts.push_back({shown_line_.text, 44.f, 246.f, 392.f, 48.f, {255, 255, 255, 255}});
+        // Placeholder caption band: full-width translucent band along the bottom (reference Part 2 sheet, 3:40-3:56).
+        // No name plate is drawn; the original name plate is not decoded.
+        frame.rects.push_back({0.f, 256.f, kAuthoredWidth, 64.f, {0.f, 0.f, 0.f, 0.55f}, "placeholder-box"});
+        frame.texts.push_back({shown_line_.text, 12.f, 262.f, 456.f, 52.f, {255, 255, 255, 255}});
     }
     return frame;
 }
