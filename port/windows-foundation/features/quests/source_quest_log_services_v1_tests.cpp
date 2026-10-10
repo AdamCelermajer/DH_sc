@@ -577,23 +577,25 @@ int main(int argc, char** argv) {
                   actual_text.pre_description==expected_string(definition.text_fields[1]),
                   "Quest title/pre-description differs from source StringID/fallback rules");
             std::optional<std::string> expected_objective;
-            if(definition.text_fields[2]==source_none_string){
+            // IDA: GetObjectiveDescription = definition +16 (text_fields[3]); GetPostDescription = +12 (text_fields[2]).
+            if(definition.text_fields[3]==source_none_string){
                 std::string joined;bool any{};
                 for(const auto& objective:definition.objectives)if(objective.description>0){
                     std::string line;check(generic_text(generic_character,objective.description,line,error),error.c_str());
                     if(line.empty())continue;if(any)joined.push_back('\n');joined+=line;any=true;
                 }
                 expected_objective=std::move(joined);
-            } else if(definition.text_fields[2]<0) {
+            } else if(definition.text_fields[3]<0) {
                 expected_objective="not specified";
             } else {
-                expected_objective=expected_string(definition.text_fields[2]);
+                expected_objective=expected_string(definition.text_fields[3]);
             }
-            const std::optional<std::string> expected_post=definition.text_fields[3]==source_none_string
+            const std::optional<std::string> expected_post=definition.text_fields[2]==source_none_string
                 ?std::optional<std::string>("not specified"):std::optional<std::string>("");
             check(actual_text.objective_description==expected_objective&&
-                  actual_text.post_description==expected_post,
-                  "Quest objective/post-description differs from source getter/fallback rules");
+                  actual_text.post_description==expected_post&&
+                  actual_text.primary==(definition.priority==0),
+                  "Quest objective/post-description/primary differs from source getter/fallback rules");
         }
         check(!generic_page.select(completed_page,assigned_it->id,generic_selection,error),
               "generic Quest details selected an ID outside the visible Closed list");

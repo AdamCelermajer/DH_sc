@@ -2591,10 +2591,19 @@ int main(int argc,char** argv) {
         std::shared_ptr<f::RuntimeQuestMenuV1> questMenu;
         std::shared_ptr<f::RuntimeQuestCharacterMenuBindingV1> questMenuBinding;
         std::shared_ptr<dh2::ui::HudTextEnvironmentV1> questTextEnvironment; // P16 QUESTUI: outlives the Quest Log text resolver
+        std::shared_ptr<f::CharacterQuestTextV1> questMenuText; // P16 QUESTUI2: the bound Quest Log resolver (page and banner text)
         // P16 QUESTUI: every runtime banner is queued for the presenter and returned for the console line.
         const auto takeQuestBanners=[&]() {
             auto banners=questRuntime?questRuntime->take_banners():std::vector<f::quest_runtime::QuestBannerV1>{};
-            for(const auto& banner:banners)questBanners.push(banner);
+            // A banner queued while the runtime is bound before the Quest Log resolver (fresh-game NEW QUEST) gets its
+            // authored text here, when the resolver exists. Event-time banners already carry their text.
+            for(auto& banner:banners) {
+                if(banner.text.empty()&&banner.objective_text_id>=0&&questMenuText&&*questMenuText) {
+                    std::string textError;
+                    if((*questMenuText)(state,banner.objective_text_id,banner.text,textError)) {}
+                }
+                questBanners.push(banner);
+            }
             return banners;
         };
         std::int32_t questLevelRow=-1;
@@ -2620,10 +2629,14 @@ int main(int argc,char** argv) {
                 return levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;
             };
             // P16 QUESTUI: authored StringIDs (objective text) through the shared StringManager owner (drop-name owner).
+            // The Quest Log resolver (bound once, reused every frame by the page) answers banner text too. Re-binding
+            // the item-name text owner from an event handler (bind_profile/borrow_text) crashed the EXE.
             questServices.text=[&](std::int32_t id,std::string& text) {
-                std::string textError;bool isNull=false;
-                if(!menuLocalization.bind_profile(&state,textError)||!menuLocalization.borrow_text(dropHudText,dropTextEnvironment,textError)||!dropHudText)return false;
-                return dropHudText->integer_string(id,dropTextEnvironment.localization,text,isNull,textError)&&!isNull;
+                std::string textError;
+                if(!questMenuText||!*questMenuText)return false; // bind-time banners get their text in takeQuestBanners
+                if((*questMenuText)(state,id,text,textError))return true;
+                std::cerr<<"Quest banner text diagnostic: StringID "<<id<<": "<<textError<<'\n';
+                return false;
             };
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
@@ -2678,6 +2691,7 @@ int main(int argc,char** argv) {
                     std::cerr<<"Quest Log text diagnostic: "<<menuError<<'\n';
                 else if(!f::bind_source_quest_text_resolver_v1(*menuHud,*questTextEnvironment,menuText,menuError))
                     std::cerr<<"Quest Log text diagnostic: "<<menuError<<'\n';
+                questMenuText=std::make_shared<f::CharacterQuestTextV1>(menuText);
                 questMenu=std::make_shared<f::RuntimeQuestMenuV1>(state,*questMenuProgress,questTable,policy,menuText);
                 questMenuBinding=std::make_shared<f::RuntimeQuestCharacterMenuBindingV1>(questMenu,sharedCharacter,sharedCharacter,
                     []{return true;},
@@ -3952,7 +3966,7 @@ int main(int argc,char** argv) {
                             std::cout<<"Quest debug accept frame="<<drawn<<" row="<<debug.id<<" accepted\n";
                             for(const auto& banner:takeQuestBanners())
                                 std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
-                                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<'\n';
+                                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" text='"<<banner.text<<"'\n";
                         }
                     }
                     std::cout<<"Quest state frame="<<drawn<<" gold="<<state.gold<<" xp="<<state.experience<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
@@ -4615,12 +4629,29 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                                 advance=measured.advance;return true;
                             },layout,error))throw std::runtime_error("Multiline menu text: "+error);
                             GLint oldClip[4];glGetIntegerv(GL_SCISSOR_BOX,oldClip);const bool wasClipped=glIsEnabled(GL_SCISSOR_TEST)==GL_TRUE;
+                            // P16 QUESTUI2: clip to the union of the wrapped lines' own clip rects (source RECT x clip_matrix).
+                            // The authored field box can be one line high while the original text flows past it (Quest description).
                             const auto& m=field.matrix;
                             float left=std::numeric_limits<float>::max(),right=-left,top=left,bottom=-left;
-                            for(float x:{field.local_rect[0],field.local_rect[1]})for(float y:{field.local_rect[2],field.local_rect[3]}) {
-                                const float px=transform.x+(m[0]*x+m[2]*y+m[4])*transform.scale_x;
-                                const float py=transform.y+(m[1]*x+m[3]*y+m[5])*transform.scale_y;
-                                left=std::min(left,px);right=std::max(right,px);top=std::min(top,py);bottom=std::max(bottom,py);
+                            const auto includeRect=[&](const std::array<float,4>& rect,const std::array<float,6>& cm) {
+                                for(float x:{rect[0],rect[1]})for(float y:{rect[2],rect[3]}) {
+                                    const float px=transform.x+(cm[0]*x+cm[2]*y+cm[4])*transform.scale_x;
+                                    const float py=transform.y+(cm[1]*x+cm[3]*y+cm[5])*transform.scale_y;
+                                    left=std::min(left,px);right=std::max(right,px);top=std::min(top,py);bottom=std::max(bottom,py);
+                                }
+                            };
+                            for(const auto& line:layout.lines) {
+                                if(!(line.clip_rect[1]>line.clip_rect[0]&&line.clip_rect[3]>line.clip_rect[2]))continue;
+                                const bool hasMatrix=line.clip_matrix[0]!=0.f||line.clip_matrix[3]!=0.f;
+                                includeRect(line.clip_rect,hasMatrix?line.clip_matrix:m);
+                            }
+                            if(left>right)includeRect(field.local_rect,m);
+                            // Wrapped lines past the first extend below the authored one-line box (reference: the
+                            // Quest description flows onto a second line), so the clip grows by those lines.
+                            if(layout.lines.size()>1) {
+                                const float lineStep=field.source_height*1.25f+field.paragraph_leading;
+                                includeRect({field.local_rect[0],field.local_rect[1],field.local_rect[2],
+                                             field.local_rect[3]+float(layout.lines.size()-1)*lineStep},m);
                             }
                             const int x0=std::clamp(int(std::floor(left)),0,window.width()),x1=std::clamp(int(std::ceil(right)),0,window.width());
                             const int y0=std::clamp(int(std::floor(top)),0,window.height()),y1=std::clamp(int(std::ceil(bottom)),0,window.height());
