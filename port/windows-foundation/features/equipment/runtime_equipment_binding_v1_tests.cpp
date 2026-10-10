@@ -663,10 +663,32 @@ int main(int argc, char** argv) {
             });
         const float next_x = (next_hit.triangles[0].x + next_hit.triangles[1].x + next_hit.triangles[2].x) / 3;
         const float next_y = (next_hit.triangles[0].y + next_hit.triangles[1].y + next_hit.triangles[2].y) / 3;
+        // Original btn_right = ClassChangeDown: steps InvSlotId one slot (1 -> 2), not the list row (B046).
         check(page->release(next_x, next_y, page_release, error), error);
         check(page_release.command == MainPageCommand::none && !page_release.has_render_change &&
+              composed_presenter->selected_slot() == 2,
+              "Original Details down arrow did not step the slot selection");
+        const auto& previous_hit = *std::find_if(inventory::original_inventory_details().actions.begin(),
+            inventory::original_inventory_details().actions.end(), [](const auto& hit) {
+                return hit.action == inventory::DetailAction::previous;
+            });
+        const float previous_x = (previous_hit.triangles[0].x + previous_hit.triangles[1].x + previous_hit.triangles[2].x) / 3;
+        const float previous_y = (previous_hit.triangles[0].y + previous_hit.triangles[1].y + previous_hit.triangles[2].y) / 3;
+        check(page->release(previous_x, previous_y, page_release, error), error);
+        check(page_release.command == MainPageCommand::none && composed_presenter->selected_slot() == 1 &&
+              composed_presenter->selected_instance() == "source-sword",
+              "Original Details up arrow did not step back to slot 1 and its first candidate");
+        // The list row +1 still selects the second candidate of the shared selection.
+        const auto& second_row = *std::find_if(inventory::original_inventory_details().rows.begin(),
+            inventory::original_inventory_details().rows.end(), [](const auto& row) { return row.relative_index == 1; });
+        const auto& second_row_batch = !second_row.unselected.batches.empty() ? second_row.unselected.batches.front()
+                                                                              : second_row.selected.batches.front();
+        const float row_x = (second_row_batch.triangles[0].x + second_row_batch.triangles[1].x + second_row_batch.triangles[2].x) / 3;
+        const float row_y = (second_row_batch.triangles[0].y + second_row_batch.triangles[1].y + second_row_batch.triangles[2].y) / 3;
+        check(page->release(row_x, row_y, page_release, error), error);
+        check(page_release.command == MainPageCommand::none && !page_release.has_render_change &&
               composed_presenter->selected_instance() == "source-sword-2",
-              "Original Details next-instance action did not update the single source selection");
+              "Original Details list row +1 did not update the single source selection");
         composed = {};
         composed.art.batches = character_menu::original_menu_art(character_menu::Tab::equipment).batches;
         check(composition_bindings.content(character_menu::Tab::equipment, composed, error), error);

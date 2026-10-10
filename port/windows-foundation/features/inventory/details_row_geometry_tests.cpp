@@ -61,6 +61,43 @@ int main() {
     check(!details_row_hit(*r1, b1.x0 - 20.0f, mid(b1)) && !details_row_hit(*r1, b1.x1 + 20.0f, mid(b1)), "row hit leaked outside its width");
     check(!details_row_hit(*r1, cx, b1.y1 + 15.0f), "row hit leaked below the row");
 
+    // B046: the Details slot rail. Every icon (SideList/btn_Type0..9, InvSlotId 0..9) and both arrows must hit only
+    // their own control, in order from top to bottom, with no overlap with each other or with the arrows.
+    const auto& details = original_inventory_details();
+    DetailRailBox icon[10]{};
+    for (unsigned slot = 0; slot < 10; ++slot) {
+        const std::string label = "rail icon " + std::to_string(slot);
+        check(details_rail_box(details, slot, icon[slot]), label + " has no authored art");
+        check(icon[slot].x1 - icon[slot].x0 >= 10.0f && icon[slot].y1 - icon[slot].y0 >= 10.0f, label + " hit box is too small");
+        check(icon[slot].x0 >= 0.0f && icon[slot].x1 <= 30.0f, label + " is outside the rail column");
+        const float cx = (icon[slot].x0 + icon[slot].x1) * 0.5f, cy = (icon[slot].y0 + icon[slot].y1) * 0.5f;
+        check(details_rail_slot_at(details, cx, cy) == int(slot), "centre of " + label + " must select that slot");
+        check(details_rail_slot_at(details, icon[slot].x0 + 0.5f, icon[slot].y0 + 0.5f) == int(slot) &&
+              details_rail_slot_at(details, icon[slot].x1 - 0.5f, icon[slot].y1 - 0.5f) == int(slot),
+              "corners of " + label + " must stay on that icon");
+        check(details_rail_slot_at(details, 100.0f, cy) == -1, "a point right of the rail must not select an icon");
+        if (slot > 0) check(icon[slot - 1].y1 <= icon[slot].y0 + 1e-3f, label + " overlaps the icon above it");
+    }
+    const auto arrow_centre = [&](DetailAction action, float& x, float& y) {
+        for (const auto& hit : details.actions) {
+            if (hit.action != action || hit.triangles.size() < 3) continue;
+            x = (hit.triangles[0].x + hit.triangles[1].x + hit.triangles[2].x) / 3;
+            y = (hit.triangles[0].y + hit.triangles[1].y + hit.triangles[2].y) / 3;
+            return true;
+        }
+        return false;
+    };
+    float up_x = 0, up_y = 0, down_x = 0, down_y = 0;
+    check(arrow_centre(DetailAction::previous, up_x, up_y), "up arrow (btn_left) hit contour missing");
+    check(arrow_centre(DetailAction::next, down_x, down_y), "down arrow (btn_right) hit contour missing");
+    check(details_rail_slot_at(details, up_x, up_y) == -1, "up arrow centre must not select a rail icon");
+    check(details_rail_slot_at(details, down_x, down_y) == -1, "down arrow centre must not select a rail icon");
+    check(up_y < icon[0].y0 && down_y > icon[9].y1, "arrows must sit above icon 0 and below icon 9");
+    check(up_x >= 0.0f && up_x <= 30.0f && down_x >= 0.0f && down_x <= 30.0f, "arrows must sit in the rail column");
+    check(details_rail_slot_at(details, icon[0].x0 + 1.0f, icon[0].y0 - 2.0f) == -1 &&
+          details_rail_slot_at(details, icon[9].x0 + 1.0f, icon[9].y1 + 2.0f) == -1,
+          "the gap between the arrows and the rail icons must not select an icon");
+
     if (failures) { std::cerr << failures << " failure(s)\n"; return 1; }
     std::cout << "inventory_details_row_geometry PASS (row +1 y=[" << b1.y0 << "," << b1.y1 << "] x=[" << b1.x0 << "," << b1.x1 << "])\n";
     return 0;
