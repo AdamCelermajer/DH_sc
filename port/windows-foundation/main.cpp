@@ -1,6 +1,7 @@
 #include "asset_catalog.hpp"
 #include "actor_profiles.hpp"
 #include "actor_population.hpp"
+#include "features/levels/level_class_registry.hpp" // P16 LEVELS: one-time unsupported class log
 #include "actor_movement.hpp"
 #include "collision_scene.hpp"
 #include "controller_policy.hpp"
@@ -1079,6 +1080,7 @@ int main(int argc,char** argv) {
                 return c;
             };
             if(!population.load(assets,options.level.generic_string(),profiles,policy,customization,error,options.populationTemplates?&templateSelection:nullptr))throw std::runtime_error("Population: "+error);
+            f::levels::log_unsupported_classes_once(population.definitions()); // P16 LEVELS: unknown classes logged once per process
             if(populationStartupRandom)std::cout<<"Population source template RNG seed="<<populationStartupRandom->seed<<" calls="<<populationStartupRandom->calls<<'\n';
             for(auto& actor:population.actors())if(!actor.visual.select("Idle",true,error))std::cerr<<"Population initial pose: "<<actor.definition.name<<": "<<error<<'\n';
             std::cout<<"Population visuals="<<population.actors().size()<<" declarations="<<population.authored_count()<<" skipped="<<population.skipped_count()<<'\n';
