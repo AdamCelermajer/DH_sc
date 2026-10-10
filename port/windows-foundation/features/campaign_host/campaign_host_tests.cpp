@@ -5,6 +5,7 @@
 #include "../../original_actor_lifecycle.hpp"
 #include "../../original_campaign_world_adapter.hpp"
 #include "../../original_camera_clip.hpp"
+#include "actor_clip_manifest.hpp" // P16 OPENING
 #include <iostream>
 #include <memory>
 #include <set>
@@ -233,6 +234,32 @@ void unsupported_commands_named(const std::string& directory) {
     check(text.find("(no owner bound) count=1") != std::string::npos, "unsupported command must be listed by name with a count");
 }
 
+// P16 OPENING: the script clip manifest collects every PlayActorAnim clip (scalar 8, and the chained scalar 12 when set)
+// from the authored Swamp_Intro, keyed by the script actor name. The visual clip name is the dictionary id.
+void actor_clip_manifest_collects_script_clips(const std::string& directory) {
+    const AssetCatalog assets(directory);
+    OriginalCampaignRuntime runtime;
+    std::string error;
+    check(runtime.load(assets, "original-campaign.xml", error), "campaign load for clip manifest: " + error);
+    const auto requests = collect_actor_clip_requests(runtime);
+    std::size_t expected = 0;
+    for (const auto& script : runtime.scripts())
+        for (const auto& command : script.commands)
+            if (command.kind == 45)
+                for (const unsigned offset : {8u, 12u}) {
+                    const auto value = command.scalars.find(offset);
+                    if (value != command.scalars.end() && value->second != 0xFFFFFFFFu) ++expected;
+                }
+    check(requests.size() == expected, "every PlayActorAnim clip (8 and chained 12) is collected");
+    const auto has = [&](const std::string& actor, std::int32_t id) {
+        for (const auto& request : requests) if (request.actor == actor && request.dictionary_id == id) return true;
+        return false;
+    };
+    check(has("Player", 413), "the local player's first cutscene clip is collected");
+    check(has("_prim_NPC_PriestGood", 398), "a chained clip (scalar 12) is collected for its actor");
+    check(actor_clip_name(413) == "cs:413", "visual clip name is the dictionary id");
+}
+
 } // namespace
 
 // P16 CINE2: PlayCamera (kind 5) through the production adapter and host. Blocking (IDA IsBlocking) holds while
@@ -284,6 +311,7 @@ int main(int argc, char** argv) {
         do_tutorial_starts_named_script(argv[1]);
         unsupported_commands_named(argv[1]);
         camera_clip_blocks_then_releases(argv[1]);
+        actor_clip_manifest_collects_script_clips(argv[1]);
         std::cout << "campaign_host tests passed\n";
         return 0;
     } catch (const std::exception& e) {
