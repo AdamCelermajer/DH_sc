@@ -1,4 +1,5 @@
 #include "original_character.hpp"
+#include "frame_perf.hpp" // B066 probe
 #include "source_material_pass.hpp"
 #include "actor_lighting.hpp"
 #include "modular_defaults.hpp"
@@ -372,6 +373,7 @@ bool CharacterVisual::restart(const std::string& name,bool loop,std::string& err
     return update(0,error);
 }
 bool CharacterVisual::update(double seconds,std::string& error) {
+    DH_PROBE("visual.update(skin)"); // B066
     if(!loaded()) {error="Character visual not loaded";return false;}
     if(!std::isfinite(seconds) || seconds<0) {error="Invalid animation elapsed time";return false;}
     auto& state=*impl_;

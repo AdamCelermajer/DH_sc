@@ -282,7 +282,8 @@ FrontendRuntimeResultV1 run_frontend_v1(
  a::ScreenArt runtimeArt;f::HudGeometry geometry;cleanup.own([&text,&renderer]{text.clear(renderer);});if(!text.load(cache,error))throw std::runtime_error(error);
  f::OverlayRenderer overlay;std::string presentedKey,surfaceKey;unsigned drawn=0;std::uint64_t sourceClockMilliseconds=0;int lastSelected=-1,smokePhase=0;bool expectedServiceFailure=false,sourceOperationFailed=false;std::string sourceFailure,previousMenu;std::map<std::int64_t,std::string> pressed;
  FrontendElapsedClockV1 elapsedClock;elapsedClock.reset(f::Window::seconds());
- while(runtime.poll()){
+ dh::foundation::FramePacer framePacer; /* B066 */
+ while(framePacer.begin(),runtime.poll()){
   const int milliseconds=frontend_frame_elapsed_milliseconds_v1(config,elapsedClock,f::Window::seconds());
   sourceClockMilliseconds+=static_cast<std::uint64_t>(milliseconds);
   if(runtime.input_focused()&&navigator.top()=="menu_MainMenu"&&window.key_down(VK_ESCAPE))break;
@@ -483,7 +484,7 @@ FrontendRuntimeResultV1 run_frontend_v1(
    else if(smokePhase==5&&expectedServiceFailure){std::cout<<"{\"native_event_smoke\":\"PASS\",\"mouse_release\":true,\"wm_char_and_return\":true,\"all_three_classes\":true,\"missing_service_explicit\":true,\"profile_writes\":false}\n";runtime.present();break;}
   }
   if(!captureDir.empty()&&(drawn==1||drawn%unsigned(captureEvery)==0)){std::ostringstream name;name<<"frame-"<<std::setw(6)<<std::setfill('0')<<drawn<<"-"<<sourceClockMilliseconds<<"ms.ppm";capture(captureDir/name.str(),window.width(),window.height());}
-  if(frames&&drawn>=unsigned(frames)&&!capturePath.empty())capture(capturePath,window.width(),window.height());runtime.present();previousMenu=menu;if(frames&&drawn>=unsigned(frames))break;dh::foundation::platform_sleep_milliseconds(1);
+  if(frames&&drawn>=unsigned(frames)&&!capturePath.empty())capture(capturePath,window.width(),window.height());runtime.present();previousMenu=menu;if(frames&&drawn>=unsigned(frames))break;framePacer.wait(); /* B066 */
  }
  if(verifyNative&&!expectedServiceFailure)throw std::runtime_error("Native input smoke did not reach its required service boundary: phase="+std::to_string(smokePhase)+" menu="+std::string(navigator.top())+" class="+std::to_string(interaction.class_index()));
  if(verifyGeneric&&!navigator.start_delivered())throw std::runtime_error("Real generic creation input did not deliver StartGame: phase="+std::to_string(smokePhase)+" menu="+std::string(navigator.top()));
