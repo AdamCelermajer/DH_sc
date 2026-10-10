@@ -543,6 +543,9 @@ Options parse(int argc, char** argv) {
         o.combat.tableRoot="original-cache/data/pydata";
         for(auto& entry:o.combat.profiles) {entry.second.propertyOptions.refill_vitals=!entry.second.animationOnly;entry.second.diagnosticAIEnabled=!entry.second.animationOnly&&o.diagnosticAI&&entry.first!=o.combat.playerProfileId;entry.second.customization.allow_missing_animation_targets=true;}
     }
+    // P16 OPENING: the script host spawns declared Limbus/PreSpawn actors (SpawnCharacter), so their declarations
+    // must exist as deferred actors. Without this, a declaration with auto_spawn=0 is "not instantiated".
+    if(o.campaignTriggers) o.retainHiddenActors=true;
     return o;
 }
 void capture(const fs::path& path,int w,int h) {
@@ -1107,7 +1110,13 @@ int main(int argc,char** argv) {
                     if(options.activeConditions.count(it->second))return f::PopulationDecision::exclude;
                     if(!options.inactiveConditions.count(it->second))return f::PopulationDecision::unknown;
                 }
-                it=a.properties.find("auto_spawn");if(it!=a.properties.end()&&it->second=="0")return options.retainHiddenActors?f::PopulationDecision::deferred:f::PopulationDecision::unknown;
+                it=a.properties.find("auto_spawn");if(it!=a.properties.end()&&it->second=="0") {
+                    // P16 OPENING: under campaign triggers only declarations with a Limbus/PreSpawn source preset are deferred
+                    // (script-spawnable records). Other auto_spawn=0 objects stay unknown, as without the host.
+                    if(!options.retainHiddenActors)return f::PopulationDecision::unknown;
+                    if(options.campaignTriggers) {const auto preset=a.properties.find("ai_state");if(preset==a.properties.end()||(preset->second!="Limbus"&&preset->second!="PreSpawn"))return f::PopulationDecision::unknown;}
+                    return f::PopulationDecision::deferred;
+                }
                 it=a.properties.find("spawn_prob");if(it!=a.properties.end()&&it->second!="100"&&it->second!="100.0")return f::PopulationDecision::unknown;
                 return f::PopulationDecision::include;
             };
@@ -1233,6 +1242,26 @@ int main(int argc,char** argv) {
                 }
             }
             if(!meleeBindings.load(assets,options.meleeBindings,error))throw std::runtime_error("Melee bindings: "+error);
+            // P16 OPENING: under campaign triggers, a declared actor whose authored profile has no melee entry (for example
+            // Swamp_ActorTroll) needs the same table derivation as an unauthored row, so SpawnCharacter can play its states.
+            if(options.campaignTriggers) for(const auto& placed:population.actors()) {
+                const auto& id=placed.profileId;
+                const auto preset=placed.definition.properties.find("ai_state"),autoSpawn=placed.definition.properties.find("auto_spawn");
+                const bool scriptSpawnable=preset!=placed.definition.properties.end()&&(preset->second=="Limbus"||preset->second=="PreSpawn")&&autoSpawn!=placed.definition.properties.end()&&autoSpawn->second=="0";
+                if(!scriptSpawnable||!profiles.find(id))continue; // only declarations SpawnCharacter can reach
+                // The combat policy is needed by every declared actor (the session admits only policy-bearing actors).
+                if(!derivedTablesLoaded) {
+                    if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))throw std::runtime_error("Profile derivation tables: "+error);
+                    derivedTablesLoaded=true;
+                }
+                if(options.combat.profiles.find(id)==options.combat.profiles.end()) {
+                    f::CombatSessionProfile derivedPolicy;
+                    if(!f::spawn::derive_enemy_combat_policy_v1(derivedTables,id,derivedPolicy,error))throw std::runtime_error("Derived combat policy: "+error);
+                    derivedPolicy.diagnosticAIEnabled=options.diagnosticAI&&id!=options.combat.playerProfileId;
+                    options.combat.profiles.emplace(id,std::move(derivedPolicy));
+                }
+                if(!meleeBindings.find_actor(id)&&std::find(derivedProfileIds.begin(),derivedProfileIds.end(),id)==derivedProfileIds.end())derivedProfileIds.push_back(id);
+            }
             // P16 PROFILES: melee bindings for profiles derived from CharacterTable/AnimTable (no authored melee entry).
             for(const auto& derivedId:derivedProfileIds) {
                 if(meleeBindings.find_actor(derivedId))continue;
@@ -1623,7 +1652,8 @@ int main(int argc,char** argv) {
             f::OriginalAttackSelection generic;generic.state="Spawn";generic.variant=0;
             return generic;
         };
-        const bool lifecycleEnabled=!options.lifecycleSpawns.empty()||!spawnPool.empty()||!options.spawnDeclared.empty(); // P16 SPAWN pool slots and declared spawns need the lifecycle
+        // P16 OPENING: campaign triggers also need the lifecycle (declared Limbus/PreSpawn actors are its records).
+        const bool lifecycleEnabled=!options.lifecycleSpawns.empty()||!spawnPool.empty()||!options.spawnDeclared.empty()||options.campaignTriggers; // P16 SPAWN pool slots and declared spawns need the lifecycle
         if((options.retainHiddenActors||lifecycleEnabled)&&!combatSession)throw std::runtime_error("Deferred live actors require the shared combat registry");
         if(!options.sourceCommands.empty()&&options.campaignCommands.empty())throw std::runtime_error("Source command replay requires original campaign XML");
         std::shared_ptr<f::SourceRootScopes> sourceScopes;
@@ -1921,10 +1951,23 @@ int main(int argc,char** argv) {
             // P16 SPAWN: an authored declaration joins the lifecycle only when a --spawn-declared trigger names it (its
             // Limbus/PreSpawn preset then starts at PreSpawn17, as in the source). Every other declaration is unchanged.
             const auto declaredNamed=[&](const std::string& name){return std::any_of(options.spawnDeclared.begin(),options.spawnDeclared.end(),[&](const auto& request){return request.name==name;});};
-            for(const auto& placed:population.actors())if(options.lifecycleSpawns.count(placed.profileId)||spawnPool.owns(placed.definition.stableId)||declaredNamed(placed.definition.name)) { // P16 SPAWN pool slots
+            // P16 OPENING: a declaration that does not auto-spawn (auto_spawn=0) and whose source preset is Limbus/PreSpawn
+            // joins the lifecycle under campaign triggers: SpawnCharacter needs its record. Template-inherited presets on
+            // auto-spawning monsters are not admitted.
+            const auto limbusPreset=[&](const auto& p){
+                const auto it=p.definition.properties.find("ai_state"),spawn=p.definition.properties.find("auto_spawn");
+                return it!=p.definition.properties.end()&&(it->second=="Limbus"||it->second=="PreSpawn")&&spawn!=p.definition.properties.end()&&spawn->second=="0";};
+            for(const auto& placed:population.actors()) {
+                const bool explicitLifecycle=options.lifecycleSpawns.count(placed.profileId)||spawnPool.owns(placed.definition.stableId)||declaredNamed(placed.definition.name);
+                if(!explicitLifecycle&&!(options.campaignTriggers&&limbusPreset(placed)))continue;
+            // P16 SPAWN pool slots
                 auto* actor=combatSession->actor(placed.definition.stableId);
                 const auto* source=meleeBindings.find_actor(placed.profileId);
-                if(!actor||!source)throw std::runtime_error("Lifecycle actor needs a retained shared profile");
+                if(!actor||!source) {
+                    if(explicitLifecycle)throw std::runtime_error("Lifecycle actor needs a retained shared profile");
+                    std::cout<<"Lifecycle declaration skipped (no shared profile bindings): "<<placed.definition.name<<" profile="<<placed.profileId<<'\n';
+                    continue;
+                }
                 f::OriginalLifecycleFacts facts;facts.initial_transform=actor->transform;facts.initially_enabled=placed.enabled;
                 const auto preset=placed.definition.properties.find("ai_state");
                 // Original Character declaration13cc defaults to the empty name.

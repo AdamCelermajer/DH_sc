@@ -1344,6 +1344,10 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
             actor.faction_id=props.sheets.resolved[0];actor.transform.position={position.x,position.y,position.z};actor.transform.rotation[2]=heading;
             actor.health=original_signed256(props.sheets.resolved[36]);actor.max_health=original_signed256(props.sheets.resolved[38]);
             actor.resource=original_signed256(props.sheets.resolved[41]);actor.max_resource=original_signed256(props.sheets.resolved[43]);
+            // P16 OPENING: a source -1 resource sentinel (no MP pool, e.g. a scripted troll) projects to zero for every
+            // actor, not only animation-only ones; it previously failed ActorState validation (only changes cases that threw).
+            actor.resource=std::max(0.0f,actor.resource);actor.max_resource=std::max(0.0f,actor.max_resource);
+            if(actor.max_health<=0.0f||actor.health<0.0f||actor.health>actor.max_health)fprintf(stderr,"P16DBG health actor=%s health=%f max=%f anim=%d\n",actor.definition_id.c_str(),actor.health,actor.max_health,int(policy.animationOnly)); // P16DBG
             if(policy.animationOnly){
                 // ActorState is a nonnegative gameplay projection; source -1
                 // vital sentinels remain untouched in the original property
