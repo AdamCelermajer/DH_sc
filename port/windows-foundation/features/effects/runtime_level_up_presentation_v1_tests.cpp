@@ -96,6 +96,52 @@ int main(int argc, char** argv) {
             check(!play_level_up_presentation_v1(dh2::data::EffectsTables::Borrow{}, play, player, result, error),
                   "missing EffectsTables must fail");
         }
+        {
+            // P16 LEVELUP4 PLACEHOLDER window logic (level_up_placeholder_column_v1.hpp, NOT original art):
+            // the gold sheet part is recoloured white only inside [begin, cut) and dropped outside it;
+            // other parts and other FX uris are untouched.
+            const auto& column = kLevelUpSet135PlaceholderV1;
+            check(column.white_cut_ms - column.white_begin_ms == 330, "placeholder white window length");
+            check(column.white_begin_ms == 100 && column.white_cut_ms == 430, "placeholder window bounds");
+            std::vector<dh2::scene::Material> table(2);
+            table[0].id = column.sheet_material;
+            table[0].color[0] = 0.5f; table[0].color[1] = 0.4f; table[0].color[2] = 0.1f; table[0].color[3] = 1.f;
+            table[1].id = "gloow";
+            const std::vector<std::uint32_t> sheet_binding{0}, other_binding{1};
+            auto make = [&](const std::vector<std::uint32_t>* binding) {
+                dh2::skinning::VisualDrawPartV6 part;
+                part.material_table = &table;
+                part.materials = binding;
+                return part;
+            };
+            const std::string uri = "DATA\\3d\\interface\\level_up.bdae";
+            {
+                std::vector<dh2::skinning::VisualDrawPartV6> parts{make(&sheet_binding), make(&other_binding)};
+                dh2::fx::apply_level_up_placeholder_v1(uri, 0, parts);
+                check(parts.size() == 1 && parts[0].materials == &other_binding, "sheet dropped before the white window");
+            }
+            {
+                std::vector<dh2::skinning::VisualDrawPartV6> parts{make(&sheet_binding), make(&other_binding)};
+                dh2::fx::apply_level_up_placeholder_v1(uri, 200, parts);
+                check(parts.size() == 2, "sheet kept inside the white window");
+                check(parts[0].material_table != &table, "sheet uses a white snapshot table");
+                const auto& white = (*parts[0].material_table)[0];
+                check(white.color[0] == 1.f && white.color[1] == 1.f && white.color[2] == 1.f && white.color[3] == 1.f,
+                      "sheet colour is white in the window");
+                check(table[0].color[0] == 0.5f, "authored table is not modified");
+                check(parts[1].material_table == &table && parts[1].materials == &other_binding, "other part untouched");
+            }
+            {
+                std::vector<dh2::skinning::VisualDrawPartV6> parts{make(&sheet_binding)};
+                dh2::fx::apply_level_up_placeholder_v1(uri, 430, parts);
+                check(parts.empty(), "sheet dropped at the hard cut");
+            }
+            {
+                std::vector<dh2::skinning::VisualDrawPartV6> parts{make(&sheet_binding)};
+                dh2::fx::apply_level_up_placeholder_v1("data/3d/characters/other.bdae", 200, parts);
+                check(parts.size() == 1 && parts[0].material_table == &table, "other FX uri is a no-op");
+            }
+        }
         std::cout << "runtime_level_up_presentation_v1_tests passed\n";
         return 0;
     } catch (const std::exception& e) {

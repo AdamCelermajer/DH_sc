@@ -3,6 +3,7 @@
 #include "visual_fx_manager_libraries_v63.hpp"
 #include "fx_texture_animation_v1.hpp"
 #include "visual_timeline.hpp"
+#include "level_up_placeholder_column_v1.hpp" // P16 LEVELUP4 placeholder (see header)
 #include "source_fx_node_matrix_v4.hpp"
 #include "source_fx_segment_v87.hpp"
 #include "visual_motion.hpp"
@@ -254,7 +255,7 @@ bool CharacterMeshFxOwnerV4::particle_draw_sources_v3(std::vector<CharacterParti
  }}
  out=std::move(result);return true;
 }
-bool CharacterMeshFxOwnerV4::draw_parts(std::vector<skinning::VisualDrawPartV6>& out,std::string& error)const{error.clear();auto& s=*impl_;struct Snapshot{std::shared_ptr<Resource> resource;std::vector<scene::Material> materials;std::vector<std::vector<std::uint32_t>> bindings;};std::vector<skinning::VisualDrawPartV6> parts;for(const auto& pool:s.active)for(auto id:pool.second){const auto& r=*s.records.at(id);if(!r.state.visible)continue;if(r.resource->particle){std::vector<skinning::VisualDrawPartV6> particle_parts;if(!r.resource->particle->draw_parts(particle_parts,error))return false;for(auto& part:particle_parts)parts.push_back(std::move(part));continue;}auto retained=std::make_shared<Snapshot>();retained->resource=r.resource;retained->materials=r.resource->scene.materials;for(const auto& instance:r.resource->scene.instances)retained->bindings.push_back(instance.materials);auto outer=matrix(r.visual_position,r.visual_rotation,r.visual_scale);if(!finite(outer.data(),16)){error="FX outer matrix nonfinite";return false;}for(unsigned i=0;i<r.resource->scene.instances.size();++i){const auto& instance=r.resource->scene.instances[i];skinning::VisualDrawPartV6 d;d.retention=retained;d.geometry=&r.resource->geometry[i];d.material_table=&retained->materials;d.materials=&retained->bindings[i];d.positions=d.geometry->positions;d.world=scene::multiply(outer,instance.world);parts.push_back(std::move(d));}}out=std::move(parts);return true;}
+bool CharacterMeshFxOwnerV4::draw_parts(std::vector<skinning::VisualDrawPartV6>& out,std::string& error)const{error.clear();auto& s=*impl_;struct Snapshot{std::shared_ptr<Resource> resource;std::vector<scene::Material> materials;std::vector<std::vector<std::uint32_t>> bindings;};std::vector<skinning::VisualDrawPartV6> parts;for(const auto& pool:s.active)for(auto id:pool.second){const auto& r=*s.records.at(id);if(!r.state.visible)continue;if(r.resource->particle){std::vector<skinning::VisualDrawPartV6> particle_parts;if(!r.resource->particle->draw_parts(particle_parts,error))return false;/*P16 LEVELUP4 PLACEHOLDER: level_up white column window + gold sheet suppression*/apply_level_up_placeholder_v1(r.uri,r.timeline.current_ms-r.timeline.start_ms,particle_parts);for(auto& part:particle_parts)parts.push_back(std::move(part));continue;}auto retained=std::make_shared<Snapshot>();retained->resource=r.resource;retained->materials=r.resource->scene.materials;for(const auto& instance:r.resource->scene.instances)retained->bindings.push_back(instance.materials);auto outer=matrix(r.visual_position,r.visual_rotation,r.visual_scale);if(!finite(outer.data(),16)){error="FX outer matrix nonfinite";return false;}for(unsigned i=0;i<r.resource->scene.instances.size();++i){const auto& instance=r.resource->scene.instances[i];skinning::VisualDrawPartV6 d;d.retention=retained;d.geometry=&r.resource->geometry[i];d.material_table=&retained->materials;d.materials=&retained->bindings[i];d.positions=d.geometry->positions;d.world=scene::multiply(outer,instance.world);parts.push_back(std::move(d));}}out=std::move(parts);return true;}
 bool CharacterMeshFxOwnerV4::mesh_draw_sources_v4(std::vector<CharacterFxMeshDrawSourceV4>& out,std::string& error)const{
  error.clear();std::vector<CharacterFxMeshDrawSourceV4> result;
  for(const auto& pool:impl_->active)for(auto id:pool.second){const auto& r=*impl_->records.at(id);if(!r.state.visible)continue;
@@ -262,7 +263,7 @@ bool CharacterMeshFxOwnerV4::mesh_draw_sources_v4(std::vector<CharacterFxMeshDra
   if(auto composite=std::dynamic_pointer_cast<CharacterAuthoredCompositeFxResourceV4>(r.resource->particle)){
    math::Matrix4f outer{};source_fx_trs_matrix_v4(outer,r.visual_position,r.visual_rotation,r.visual_scale);
    std::vector<CharacterFxMeshDrawSourceV4> parts;if(!composite->mesh_draw_sources_at_outer_v49(outer,parts,error))return false;
-   for(auto& part:parts){part.fx_identity=id;part.source_owner204=r.resource->source_owner204;result.push_back(std::move(part));}
+   for(auto& part:parts){/*P16 LEVELUP4 PLACEHOLDER: same window/suppression as draw_parts*/if(!level_up_placeholder_keep_part_v1(r.uri,r.timeline.current_ms-r.timeline.start_ms,part.part))continue;part.fx_identity=id;part.source_owner204=r.resource->source_owner204;result.push_back(std::move(part));}
   }
  }
  out=std::move(result);return true;
