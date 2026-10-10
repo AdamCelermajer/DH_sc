@@ -75,8 +75,8 @@ on the gate; the confirm model is the original's.
 
 ## In-EXE verification (quiet runner, EXE `DH_wt/build-points/dh-foundation.exe`, Preview 14 rc1 assets)
 
-Fixture: `prof/stat2.save` (made (level 1, Stat_Points 2, Str 10, Dex 5, End 8, Energy 3; from
-from `claude-preview14/skills/prof/stat3.save` with `tools/set_profile.exe ... 2 1`).
+Fixture: `prof/stat2.save` (level 1, Stat_Points 2, Str 10, Dex 5, End 8, Energy 3), made from
+`claude-preview14/skills/prof/stat3.save` with `tools/set_profile.exe ... 2 1`.
 
 Batch 1 (`jobs-b1.json`, 9 jobs, all exit 0, not timed out):
 - `two-f105` (click Str at 100, capture 105): log `staged stat=0 points=2->1 value=10->11`. Capture: Points left 1,
