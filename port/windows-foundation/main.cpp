@@ -791,16 +791,26 @@ int main(int argc,char** argv) {
             actorScale={actorProperties.sheets.base[12]*.009f,actorProperties.sheets.base[13]*.009f,actorProperties.sheets.base[14]*.01f};
             std::cout<<"Original actor="<<options.actorRow<<" HP="<<actorProperties.health<<"/"<<actorProperties.max_health<<" MP="<<actorProperties.resource<<"/"<<actorProperties.max_resource<<" (before equipment contributors)\n";
         }
-        if(!frontendStarted&&options.freshPlayer&&options.hud&&!options.meleeBindings.empty()&&!state.source_skill_slots_known) {
+        // Preview 14: a fresh direct run with an existing --save profile loads it (test profiles with points).
+        // B052: the load must precede the direct skill bank preload below; the bank binds the CharacterState
+        // id/class/assignments at preload time, so a later load made every saved-profile cast fail.
+        if(!frontendStarted&&options.freshPlayer&&fs::exists(options.save)) {
+            if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);
+            // The direct bootstrap below regenerates starter gear from the live actor; drop the file copy so slots are not duplicated.
+            state.equipment.clear();state.inventory.clear();
+        }
+        if(!frontendStarted&&options.freshPlayer&&options.hud&&!options.meleeBindings.empty()) {
             if(options.actorRow!=options.combat.playerProfileId)throw std::runtime_error("Direct skill bank requires the same source player class");
             if(!menuSourceOwner.valid()&&!f::frontend::creation::load_runtime_creation_source_v1(assets,creationRandom,menuSourceOwner,error))
                 throw std::runtime_error("Direct skill bank source: "+error);
+        }
+        if(!frontendStarted&&options.freshPlayer&&options.hud&&!options.meleeBindings.empty()&&!state.source_skill_slots_known) {
             state.class_id=options.actorRow;
             state.stats.level=unsigned(std::max(1,actorProperties.level_raw/256));
             if(!f::frontend::creation::initialize_source_skill_rows_v1(menuSourceOwner.skill_owner->borrow(),actorProperties.sheets.resolved[28],state,error))
                 throw std::runtime_error("Direct skill bank rows: "+error);
             // Preview 14: the starter row-0 grant belongs to a fresh character only.
-            // An existing profile (loaded at the save step below) keeps its points.
+            // An existing profile (loaded above) keeps its points.
             directFirstSkillGrantPending=!fs::exists(options.save);
         }
         options.character.motion_node_id=options.motionNode;options.character.consume_root_motion=options.movable;
@@ -1299,12 +1309,8 @@ int main(int argc,char** argv) {
             if(!originalCamera.load(assets,options.level.generic_string(),options.cameraRoot,error)||!originalCamera.reset(anchor,error))throw std::runtime_error("Original camera: "+error);
             std::cout<<"Original camera distance="<<originalCamera.authoredDistance()<<" FOV="<<originalCamera.pose().verticalFovDegrees<<" aspect="<<originalCamera.sourceAspect()<<'\n';
         }
-        // Preview 14: a fresh direct run with an existing --save profile loads it (test profiles with points).
-        if(!frontendStarted&&(!combatSession||options.freshPlayer)&&fs::exists(options.save)) {
-            if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);
-            // The direct bootstrap below regenerates starter gear from the live actor; drop the file copy so slots are not duplicated.
-            if(options.freshPlayer){state.equipment.clear();state.inventory.clear();}
-        }
+        // Preview 13 behaviour kept: without a combat session the save is loaded here (fresh runs loaded it above).
+        if(!frontendStarted&&!combatSession&&!options.freshPlayer&&fs::exists(options.save)) {if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);}
         // P14 FAERY: legacy slots without Faery rows get creation-equivalent zero rows at first use, so Swamp_Intro can unlock Celest.
         if(f::faery_menu::ensure_source_faery_rows_v1(state)) std::cout<<"Legacy save Faery rows initialized to creation zeros\n";
         if(!options.characterName.empty())state.name=options.characterName;
