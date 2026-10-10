@@ -100,6 +100,24 @@ B004, B029, B037, B038 and B039 are resolved in Preview 12 and moved to [RESOLVE
 | B028 | Lizard attack/hurt/death sound cues are missing or inaccurate. | Source rows map injury 377→UID284 and death 374→UID285; WAV bytes are absent from searched local caches/APKs/OBBs. | No replacement media fabricated. Rogue Quickness/Roundhouse assets do match source manifest hashes. | Strict decoder tests pass for available Rogue assets; no lizard sample-byte/decoder test possible. | Audio runtime path works for available sources; exact lizard WAV playback cannot be verified. | Audio owner (terminal) + lead / bug_gate_review | Locate authentic samples or keep the cue explicitly unavailable; never substitute/generated WAVs. |
 | B011 | Turning/attack motion looks clanky, including W/S reversal and lateral displacement. | Recovered order applies early root displacement using current facing, then rotates later; reference lacks a matched W/S reversal. | Fresh Knight/Rogue same-Session non-collinear tests reproduce the lateral arc predicted by source; no code change was justified. | Strict test passes twice: reversals settle within 16 frames, released input stops translation, attack pose persists while target heading changes. | Normal executable capture/matched reference remains open. | B011 feature test/report terminal / root review; lead for normal capture | Compare a normal executable or matched source clip; change rotation/root policy only if it diverges from the recovered source behavior. |
 
+### 2g. Reported on the Preview 14 candidate (2026-10-10 evening) -> fixed in Preview 15 (user request: one fresh subagent per bug)
+
+| ID | Observed / reproduction | Source evidence | State | Owner | Gate |
+|---|---|---|---|---|---|
+| B042 (update) | Equipment page is "a tiny bit better" but text and art still not conform to the original (user screenshot Torso Details, 1798x1096). | See B042 row above and `coordination/claude-preview13/Q-report.md`; reference `l/ref/p1-t336.png`. | OPEN | agent `eq-text` | Side-by-side with reference: text font/size/position/colour, panel fills, sword texture. |
+| B046 | Equipment slot icon rail (left column: up arrow, torso, weapon, shield, boots, gloves, 2 rings, amulet, belt/other, potion, down arrow) does not work: it must support clicking an icon directly AND the up/down arrows. | Original SWF actions of the equipment sheet (slot rail); screenshot of the rail. | OPEN | agent `eq-rail` | Clicking each icon selects that slot list; arrows scroll/step slots; matches the original. |
+| B047 | Dropped-item animation is weird and slow, nothing like the original (screenshot: Potion label beside a dropped potion). | IDA ItemObject spawn/_GetRandomDropPos 0x3ec668, ItemManager::Spawn, drop physics/animation; reference video ~205-212 s. | OPEN | agent `drop-anim` | Spawn arc/bounce/settle timing and scatter match the original frames. |
+| B048 | No sound on item drop and pickup. Earlier survey: cue names exist (DropGold, PickupGold, PickupPotion...) but the WAVs were not found locally. | sounds.xml rows; search all caches/APK/OBB listings again. | OPEN | agent `drop-sound` | Either real original samples found and played at the right events, or a documented proof that they are absent. No substitutes. |
+| B049 | On level-up the player gets 2 stat points but only 1 can be spent at once (screenshot: Points left 1, one + per stat); Preview 14 Skills worker added a one-point-per-visit gate. | IDA stat training / SWF actions (is there a one-point-per-visit rule? screenshot shows the original-style layout). | OPEN | agent `points` | All granted points can be spent in one visit (unless the original proves otherwise). |
+| B050 | Faery sound only seems to play when the spell hits an enemy; with no enemy nearby the cast makes no sound. | Celest/Hotty cast audio hooks (features/faery_menu, audio_animation..., animation event sounds), IDA faerie cast SFX. | OPEN | agent `faery-sound` | Cast sound plays at the original event even with no target. |
+
+### 2h. Implementation requests from the same session (feature work, Preview 15)
+
+| ID | Request | State | Owner |
+|---|---|---|---|
+| I025 | PC HUD: use the game's normal HUD skill/spell/potion button art and, if possible, their original iPhone positions, and show the cooldown like the original (screenshot of the current plain circles). | OPEN | agent `hud-buttons` |
+| I026 | Level-up animation/feedback is still missing (portrait animation, banner/FX, sound as in the original). | OPEN | agent `levelup` |
+
 ### 2f. Reclassified to implementation (feature work; evidence kept)
 
 B023 -> I005 (map markers/providers), B025 -> I003 (chest/pot enrollment), B030 -> I009 (authored intro/spawn). They remain here only so the evidence is not lost.
