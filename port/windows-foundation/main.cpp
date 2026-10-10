@@ -3120,7 +3120,7 @@ int main(int argc,char** argv) {
                         static std::size_t lastDrawCount=~std::size_t(0);
                         if(lastDrawCount!=dropFrame->draws.size()){lastDrawCount=dropFrame->draws.size();std::cout<<"World item draws frame="<<drawn<<" count="<<lastDrawCount<<" store="<<worldItems->size()<<'\n';}
                     }
-                } else std::cerr<<"World item presentation diagnostic frame="<<drawn<<": "<<dropError<<'\n';
+                } else {static std::string lastDropError;if(lastDropError!=dropError){lastDropError=dropError;std::cerr<<"World item presentation diagnostic frame="<<drawn<<": "<<dropError<<'\n';}}
             }
             queue.flush(renderer,activeCamera);
             if(!sourceEffectsRenderer.draw_queued(error))throw std::runtime_error("Source FX draw: "+error);
