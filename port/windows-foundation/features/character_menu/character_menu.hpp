@@ -4,10 +4,11 @@
 #include "../../original_combat_properties.hpp"
 #include <functional>
 namespace dh::foundation::character_menu {
-// P16 map: Tab::map is the Map page (menu_MapSheet, MenuCharMenu_Map). Its controls
+// P16 QUESTUI: Tab::quest is the Quest Log tab (btnQuestLogTab, 5th tab).
+// P16 map: Tab::map is the Map page (menu_MapSheet, MenuCharMenu_Map, 6th tab). Its controls
 // (Show legend / Reset zoom) are accepted only while the Map tab is selected.
-enum class Tab { stats,equipment,skills,faery,map };
-enum class Action { none,stats,equipment,skills,faery,map,map_legend,map_reset_zoom,close };
+enum class Tab { stats,equipment,skills,faery,quest,map };
+enum class Action { none,stats,equipment,skills,faery,quest,map,map_legend,map_reset_zoom,close };
 struct MenuTextField {
     std::string path;std::uint32_t character_id=0,font_id=0;float source_height=0;
     std::array<float,4> bounds{};std::array<std::uint8_t,4> rgba{};unsigned align=0;

@@ -8,6 +8,19 @@
 namespace dh::foundation::quest_runtime {
 namespace {
 
+// Authored objective description StringID of the row (first objective with a usable id).
+// The none sentinel (1835016) and negative ids mean "no authored text". The source objective
+// sentence is built by ObjectiveList::GetDesc through each objective's GetDescription
+// (not decoded yet), so Act 1 rows normally yield -1 here; text_fields[2] is the AREA name.
+constexpr std::int32_t kSourceNoneStringV1 = 1835016;
+std::int32_t row_objective_text_v1(const dh2::data::QuestDefinitionV51& def) {
+    for (const auto& objective : def.objectives) {
+        const auto id = objective.description;
+        if (id >= 0 && id != kSourceNoneStringV1) return id;
+    }
+    return -1;
+}
+
 using Objective = dh2::data::QuestObjectiveDefinitionV51;
 using ConditionDefinition = dh2::data::QuestConditionDefinitionV51;
 using Definition = dh2::data::QuestDefinitionV51;
@@ -193,7 +206,7 @@ bool QuestRuntimeV1::set_state(std::int32_t row, QuestStateV1 next, std::string&
         banner.kind = QuestBannerV1::Kind::new_quest;
         banner.row = row;
         banner.difficulty = d;
-        banner.objective_text_id = def.objectives.empty() ? -1 : def.objectives[0].description;
+        banner.objective_text_id = row_objective_text_v1(def);
         if (banner.objective_text_id >= 0 && services_.text) {
             std::string text;
             if (services_.text(banner.objective_text_id, text)) banner.text = text;
@@ -216,7 +229,7 @@ bool QuestRuntimeV1::set_state(std::int32_t row, QuestStateV1 next, std::string&
         banner.kind = QuestBannerV1::Kind::completed;
         banner.row = row;
         banner.difficulty = d;
-        banner.objective_text_id = def.objectives.empty() ? -1 : def.objectives[0].description;
+        banner.objective_text_id = row_objective_text_v1(def);
         if (banner.objective_text_id >= 0 && services_.text) {
             std::string text;
             if (services_.text(banner.objective_text_id, text)) banner.text = text;
@@ -462,8 +475,13 @@ std::size_t QuestRuntimeV1::handle(const QuestEvent& event, std::string& error) 
         auto& progress = row_progress(d, row);
         if (state == QuestStateV1::available && apply_to(def.accept, progress.accept, event)) ++applied;
         if (state == QuestStateV1::active) {
-            for (std::size_t i = 0; i < def.objectives.size(); ++i)
-                if (apply_to(def.objectives[i], progress.objectives[i], event)) ++applied;
+            for (std::size_t i = 0; i < def.objectives.size(); ++i) {
+                const auto before = progress.objectives[i].quantity;
+                if (!apply_to(def.objectives[i], progress.objectives[i], event)) continue;
+                ++applied;
+                if (!progress.objectives[i].completed && progress.objectives[i].quantity != before)
+                    push_objective_update(row, d, i);
+            }
         }
         if ((state == QuestStateV1::post_active || state == QuestStateV1::pre_completed ||
              state == QuestStateV1::completed) && apply_to(def.end, progress.end, event))
@@ -471,6 +489,25 @@ std::size_t QuestRuntimeV1::handle(const QuestEvent& event, std::string& error) 
     }
     if (!update(error)) return applied;
     return applied;
+}
+
+void QuestRuntimeV1::push_objective_update(std::int32_t row, std::int32_t difficulty, std::size_t objective) {
+    const auto& def = table_->rows()[std::size_t(row)];
+    const auto& authored = def.objectives[objective];
+    const auto& slot = rows_.at(RowKey{difficulty, row}).objectives[objective];
+    QuestBannerV1 banner;
+    banner.kind = QuestBannerV1::Kind::updated;
+    banner.row = row;
+    banner.difficulty = difficulty;
+    banner.objective = std::int32_t(objective);
+    banner.quantity = slot.quantity;
+    banner.required = std::max(authored.value, 1);
+    banner.objective_text_id = row_objective_text_v1(def);
+    if (banner.objective_text_id >= 0 && services_.text) {
+        std::string text;
+        if (services_.text(banner.objective_text_id, text)) banner.text = text;
+    }
+    banners_.push_back(std::move(banner));
 }
 
 std::vector<QuestBannerV1> QuestRuntimeV1::take_banners() {

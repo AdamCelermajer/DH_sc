@@ -2,7 +2,10 @@
 // Usage: quest_runtime_v1_tests <original-cache/data/pydata> [--dump]
 // Scenarios use the authored Swamp rows (level row 41) and rows of other acts from the same table.
 #include "quest_runtime_v1.hpp"
+#include "quest_zones_v1.hpp"
 
+#include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -23,6 +26,7 @@ void dump(const QuestTableV1& table) {
     for (std::size_t i = 0; i < table.rows().size(); ++i) {
         const auto& r = table.rows()[i];
         std::printf("%02zu %-26s act=%d state=%d objs=%zu\n", i, r.name.c_str(), r.act, r.state, r.objectives.size());
+        std::printf("   text_fields=%d,%d,%d,%d\n", r.text_fields[0], r.text_fields[1], r.text_fields[2], r.text_fields[3]);
         for (const auto& p : r.prerequisites)
             std::printf("   prereq op=%d p1=%d p2=%d\n", p.type, p.parameter1, p.parameter2);
         std::printf("   accept type=%d oid1=%d oid2=%d str2='%s'\n", r.accept.type, r.accept.oid1,
@@ -143,8 +147,15 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     check(h.state(moths) == QuestStateV1::post_closed, "8th Moth kill completes and closes Moths");
     check(h.character.gold == 150, "Moths reward gold 150 once");
     const auto after = h.runtime->take_banners();
-    check(!after.empty() && after.front().kind == QuestBannerV1::Kind::completed &&
-          after.front().reward_xp == 20 && after.front().reward_gold == 150, "QUEST COMPLETED banner with rewards");
+    bool completed_banner = false;
+    for (const auto& b : after)
+        completed_banner = completed_banner || (b.kind == QuestBannerV1::Kind::completed && b.reward_xp == 20 && b.reward_gold == 150);
+    check(completed_banner, "QUEST COMPLETED banner with rewards");
+    // P16 QUESTUI: counted progress below the authored count queues a QUEST UPDATED banner with the counter.
+    bool counter_banner = false;
+    for (const auto& b : after)
+        counter_banner = counter_banner || (b.kind == QuestBannerV1::Kind::updated && b.row == std::int32_t(moths) && b.quantity == 7 && b.required == 8);
+    check(counter_banner, "objective counter banner shows 7 of 8 before completion");
     check(h.xp_awards.size() == 1 && h.xp_awards[0] == 20, "Moths reward XP 20 once");
     h.kill_template(94); // duplicate after completion is ignored
     check(h.character.gold == 150 && h.xp_awards.size() == 1, "duplicate kill grants nothing");
@@ -247,6 +258,38 @@ void event_bus(const std::shared_ptr<const QuestTableV1>& table) {
     check(!raise_quest_event(e) && delivered == 1, "unbound sink drops events");
 }
 
+// P16 QUESTUI: quest trigger zones. Names come from MoveInZone objectives; boxes from the
+// level declarations (any level); rising edge only; rotated and missing zones are reported.
+void zone_builder(const std::shared_ptr<const QuestTableV1>& table) {
+    const auto names = quest_zone_names_v1(*table);
+    check(names.size() >= 1, "quest table authors at least one MoveInZone zone");
+    check(std::find(names.begin(), names.end(), std::string("_prim_WitchQuestStart")) != names.end(),
+          "Witch accept zone name is collected from the table");
+    const auto witch = make_quest_zone_declaration_v1("_prim_WitchQuestStart",
+        {{"type", "Block"}, {"scale", "7.30955,5.70483,2.02567"}, {"rotation", "0.0,0.0,0.0"}, {"gametype", "QuestMoveInZone"}},
+        {178.335f, 246.863f, 255.074f});
+    const auto rotated = make_quest_zone_declaration_v1("_prim_WitchQuestStart",
+        {{"type", "Block"}, {"scale", "1,1,1"}, {"rotation", "0,0,90"}}, {0, 0, 0});
+    const auto other = make_quest_zone_declaration_v1("_prim_Unrelated",
+        {{"type", "Block"}, {"scale", "1,1,1"}}, {0, 0, 0});
+    QuestZoneSetV1 zones;
+    zones.build(*table, {other, witch});
+    check(zones.zones().size() == 1 && zones.zones()[0].name == "_prim_WitchQuestStart", "one Witch box is built");
+    check(zones.notes().empty(), "a plain Block builds without notes");
+    check(std::fabs(zones.zones()[0].min[0] - (178.335f - 730.955f)) < 0.01f, "box min is position - 100 * |scale|");
+    check(std::fabs(zones.zones()[0].max[0] - zones.zones()[0].min[0] - 2.0f * 730.955f) < 0.01f, "box width is 2 * 100 * scale_x");
+    // Rising edge: a start inside does not fire, leaving and re-entering does.
+    const std::array<float, 3> inside{178.0f, 246.0f, 255.0f}, outside{-5000.0f, 0.0f, 255.0f};
+    check(zones.update(inside).empty(), "first frame inside only primes the state");
+    check(zones.update(outside).empty(), "leaving a zone fires nothing");
+    check(zones.update(inside).size() == 1, "re-entering fires once");
+    check(zones.update(inside).empty(), "staying inside does not repeat");
+    QuestZoneSetV1 rotated_set;
+    rotated_set.build(*table, {rotated});
+    check(rotated_set.zones().empty() && !rotated_set.notes().empty(), "rotated zones are reported, not built");
+    std::printf("quest_runtime_v1: zone builder ok (names=%zu)\n", names.size());
+}
+
 } // namespace
 
 int main(int argc, char** argv) {
@@ -278,6 +321,7 @@ int main(int argc, char** argv) {
         make_active_and_log(table);
         other_act_rows(table);
         event_bus(table);
+        zone_builder(table);
         std::printf("quest_runtime_v1: all tests passed (rows=%zu)\n", table->rows().size());
         return 0;
     } catch (const std::exception& e) {

@@ -63,6 +63,11 @@
 #include "features/containers/container_loot_v1.hpp" // P16 CONTAINERS2 (T4 DoOpen loot)
 #include "features/containers/container_open_script_v1.hpp" // P16 CONTAINERS2 (T6 OnOpen contract)
 #include "features/containers/container_world_v1.hpp" // P16 CONTAINERS2 (T5 OBJS persistence)
+#include "features/quest_runtime/quest_zones_v1.hpp" // P16 QUESTUI: quest trigger zones
+#include "features/quests/quest_banner_presenter_v1.hpp" // P16 QUESTUI: quest banners
+#include "features/quests/runtime_quest_menu_v1.hpp" // P16 QUESTUI: Quest Log tab page
+#include "features/quests/source_quest_menu_page_provider_v1.hpp" // P16 QUESTUI
+#include "features/quests/quest_text_resolver_v1.hpp" // P16 QUESTUI
 #include "features/inventory/source_item_descriptors.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
@@ -229,6 +234,43 @@ bool drawCombatGlyphs(const std::vector<f::CombatTextGlyph>& glyphs,f::Renderer&
     }
     error.clear();return true;
 }
+// P16 QUESTUI: console name of a runtime banner kind (NEW QUEST / QUEST UPDATED / QUEST COMPLETED).
+const char* questBannerKindName(f::quest_runtime::QuestBannerV1::Kind kind) {
+    return kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":
+           kind==f::quest_runtime::QuestBannerV1::Kind::updated?"QUEST UPDATED":"QUEST COMPLETED";
+}
+// P16 QUESTUI: quest banner placeholder panel + lines (original Fontin glyphs via drawScreenLabel).
+// The panel is a PLACEHOLDER: the original dialog frame art is not exported in this build.
+bool drawQuestBanner(const f::QuestBannerDisplayV1& display,f::HudGlyphFont& font,f::Renderer& renderer,
+                     f::OverlayRenderer& overlay,std::map<std::string,std::uint32_t>& textures,
+                     int windowWidth,int windowHeight,float scale,std::string& error) {
+    if(display.lines.empty()||display.alpha<=0.f)return true;
+    const float gap=8.f*scale,padding=12.f*scale,panelWidth=300.f*scale;
+    float contentHeight=0.f;
+    for(const auto& line:display.lines)contentHeight+=float(line.source_height)*1.25f*scale+gap;
+    const float panelHeight=contentHeight+2.f*padding;
+    const float left=(float(windowWidth)-panelWidth)*.5f,top=float(windowHeight)*.12f;
+    const auto fill=[&](float x,float y,float w,float h,std::array<float,4> color) {
+        const f::OverlayTriangleVertex q[6]{{x,y,0,0},{x+w,y,0,0},{x+w,y+h,0,0},{x,y,0,0},{x+w,y+h,0,0},{x,y+h,0,0}};
+        return overlay.drawTriangles(q,6,0,color);
+    };
+    if(!fill(left-2.f*scale,top-2.f*scale,panelWidth+4.f*scale,panelHeight+4.f*scale,{0.55f,0.42f,0.20f,0.9f*display.alpha})) {
+        error="Quest banner border geometry rejected";return false;
+    }
+    if(!fill(left,top,panelWidth,panelHeight,{0.06f,0.05f,0.04f,0.85f*display.alpha})) {
+        error="Quest banner panel geometry rejected";return false;
+    }
+    float y=top+padding;
+    for(const auto& line:display.lines) {
+        const float lineHeight=float(line.source_height)*1.25f*scale;
+        const auto fade=[&](std::uint32_t channel) {return std::uint32_t(float(channel)*display.alpha);};
+        const std::uint32_t rgb=(fade((line.rgb>>16)&255)<<16)|(fade((line.rgb>>8)&255)<<8)|fade(line.rgb&255);
+        if(!drawScreenLabel(font,line.text,rgb,line.source_height,float(windowWidth)*.5f,y+float(line.source_height)*scale,scale,renderer,overlay,textures,error))return false;
+        y+=lineHeight+gap;
+    }
+    error.clear();return true;
+}
+
 struct Options {
     fs::path assets, scene, level, profiles, save = "character.save", liveSave="gameplay.save", capture;
     std::set<std::string> activeConditions;
@@ -299,11 +341,13 @@ struct Options {
     int faeryPageFrame=-1; // P14 FAERY
     int mapPageFrame=-1; // P16 MAP: --map-page-frame=N opens the character menu on the Map tab
     bool mapLegend=false; float mapZoom=1; // P16 MAP diagnostics: --map-legend shows the legend, --map-zoom=Z sets the zoom at selection
+    int questPageFrame=-1; // P16 QUESTUI: test aid, opens the menu on the Quest Log tab at this frame
     std::vector<std::string> bagItemIds; // P14 EQUIP: --bag-item diagnostic rows
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
     std::vector<std::pair<int,int>> skillKeyFrames;
     std::vector<int> pickupFrames; // P14 DROPS: scripted world-item pickup key presses (same action as E)
+    std::vector<int> questTalkFrames; // P16 QUESTUI: test aid, scripted interact presses for NPC talk (not gameplay)
     std::vector<std::pair<int,int>> spaceKeyIntervals;
     // P16 QUESTS test aid (not gameplay): frame-scheduled quest bus events, so the real EXE path
     // (bus -> runtime -> CQPG save -> rewards -> banner) can be exercised without scripted combat.
@@ -414,12 +458,14 @@ Options parse(int argc, char** argv) {
         else if(arg=="--map-page-frame") o.mapPageFrame=std::stoi(value()); // P16 MAP
         else if(arg=="--map-legend") o.mapLegend=true; // P16 MAP diagnostic
         else if(arg=="--map-zoom") o.mapZoom=std::stof(value()); // P16 MAP diagnostic
+        else if(arg=="--quest-page-frame") o.questPageFrame=std::stoi(value()); // P16 QUESTUI
         else if(arg=="--menu-release") {
             std::istringstream input(value());Options::MenuRelease release{};char first=0,second=0;
             if(!(input>>release.frame>>first>>release.x>>second>>release.y)||first!=':'||second!=':'||release.frame<0||!std::isfinite(release.x)||!std::isfinite(release.y))throw std::runtime_error("Menu release requires FRAME:AUTHORED_X:AUTHORED_Y");
             o.menuReleases.push_back(release);
         }
         else if(arg=="--menu-close-frame") o.menuCloseFrame=std::stoi(value());
+        else if(arg=="--quest-talk-frame") {const int frame=std::stoi(value());if(frame<0)throw std::runtime_error("Quest talk frame must be nonnegative");o.questTalkFrames.push_back(frame);}
         else if(arg=="--pickup-frame") {const int frame=std::stoi(value());if(frame<0)throw std::runtime_error("Pickup frame must be nonnegative");o.pickupFrames.push_back(frame);}
         else if(arg=="--skill-key-frame") {
             const auto text=value();const auto split=text.find(':');
@@ -2532,9 +2578,24 @@ int main(int argc,char** argv) {
         std::shared_ptr<const f::quest_runtime::QuestTableV1> questTable;
         std::map<f::ActorId,std::pair<std::int32_t,std::int32_t>> questActorIdentity; // (CharacterTable row, Charater_Templates row)
         std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
+        f::quest_runtime::QuestZoneSetV1 questZones; // P16 QUESTUI: MoveInZone boxes of this level
+        f::QuestBannerPresenterV1 questBanners;      // P16 QUESTUI: NEW QUEST / updates / QUEST COMPLETED
+        std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)
+        bool questTalkHeld=false;                    // P16 QUESTUI: interact press edge for NPC talk
+        std::shared_ptr<f::CharacterQuestProgressV1> questMenuProgress; // P16 QUESTUI: Quest Log page progress (CQPG view)
+        std::shared_ptr<f::RuntimeQuestMenuV1> questMenu;
+        std::shared_ptr<f::RuntimeQuestCharacterMenuBindingV1> questMenuBinding;
+        std::shared_ptr<dh2::ui::HudTextEnvironmentV1> questTextEnvironment; // P16 QUESTUI: outlives the Quest Log text resolver
+        // P16 QUESTUI: every runtime banner is queued for the presenter and returned for the console line.
+        const auto takeQuestBanners=[&]() {
+            auto banners=questRuntime?questRuntime->take_banners():std::vector<f::quest_runtime::QuestBannerV1>{};
+            for(const auto& banner:banners)questBanners.push(banner);
+            return banners;
+        };
+        std::int32_t questLevelRow=-1;
         const auto bindQuestRuntime=[&]() {
             f::quest_runtime::bind_quest_event_sink({});
-            questRuntime.reset();questActorIdentity.clear();
+            questRuntime.reset();questActorIdentity.clear();questZones=f::quest_runtime::QuestZoneSetV1();
             if(!combatSession||!menuSourceOwner.valid())return;
             if(!questTable) {
                 std::string questError;
@@ -2553,15 +2614,79 @@ int main(int argc,char** argv) {
                 const auto* levels=loadMetadataLevels(assets);
                 return levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;
             };
+            // P16 QUESTUI: authored StringIDs (objective text) through the shared StringManager owner (drop-name owner).
+            questServices.text=[&](std::int32_t id,std::string& text) {
+                std::string textError;bool isNull=false;
+                if(!menuLocalization.bind_profile(&state,textError)||!menuLocalization.borrow_text(dropHudText,dropTextEnvironment,textError)||!dropHudText)return false;
+                return dropHudText->integer_string(id,dropTextEnvironment.localization,text,isNull,textError)&&!isNull;
+            };
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
-            for(const auto& placed:population.actors())
-                questActorIdentity[placed.definition.stableId]={placed.source_character_cache,placed.source_template_cache};
+            // P16 QUESTUI: explicit charpropsname bindings (NPCs) have no population row; resolve it by name
+            // through the CharacterTable names (the quest talk oids are these rows).
+            std::map<std::string,std::int32_t> characterRows;
+            {
+                std::string rowError;
+                if(!f::quest_runtime::decode_character_row_names_v1(assets.read("original-cache/data/pydata/character_properties_pyarraynames.bin"),characterRows,rowError))
+                    std::cerr<<"Quest character rows diagnostic: "<<rowError<<'\n';
+            }
+            for(const auto& placed:population.actors()) {
+                std::int32_t row=placed.source_character_cache;
+                const auto charprops=placed.definition.properties.find("charpropsname");
+                if(row<0&&charprops!=placed.definition.properties.end()) {
+                    const auto found=characterRows.find(charprops->second);
+                    if(found!=characterRows.end())row=found->second;
+                }
+                questActorIdentity[placed.definition.stableId]={row,placed.source_template_cache};
+            }
+            // P16 QUESTUI: TalkToNPC oids of the table (CharacterTable rows), for NPC talk.
+            questTalkOids.clear();
+            for(const auto& row:questTable->rows()) {
+                if(row.accept.type==5)questTalkOids.insert(row.accept.oid1);
+                for(const auto& objective:row.objectives)if(objective.type==5)questTalkOids.insert(objective.oid1);
+            }
+            // P16 QUESTUI: quest trigger zones from this level's declarations (quest-named zones only; any level).
+            {
+                std::vector<f::quest_runtime::QuestZoneDeclarationV1> zoneDeclarations;
+                for(const auto& declaration:population.definitions()) {
+                    if(declaration.name.empty())continue;
+                    zoneDeclarations.push_back(f::quest_runtime::make_quest_zone_declaration_v1(declaration.name,declaration.properties,
+                        {declaration.placement[12],declaration.placement[13],declaration.placement[14]}));
+                }
+                questZones.build(*questTable,zoneDeclarations);
+                {const auto* levels=loadMetadataLevels(assets);questLevelRow=levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;}
+                for(const auto& note:questZones.notes())std::cout<<"Quest zone note: "<<note<<'\n';
+                std::cout<<"Quest zones built="<<questZones.zones().size();
+                for(const auto& zone:questZones.zones())std::cout<<' '<<zone.name<<'['<<zone.min[0]<<','<<zone.min[1]<<','<<zone.min[2]<<'|'<<zone.max[0]<<','<<zone.max[1]<<','<<zone.max[2]<<']';
+                std::cout<<" level="<<questLevelRow<<'\n';
+            }
+            // P16 QUESTUI: Quest Log tab (btnQuestLogTab). The page reads the same CQPG the runtime writes; the
+            // source art (menu_QuestLogSheetNEW) and hit routes come from the existing provider.
+            if(characterMenuComposition) {
+                std::string menuError;
+                questMenuProgress=std::make_shared<f::CharacterQuestProgressV1>();
+                f::CharacterQuestLogPolicyV1 policy;policy.debug_priority=f::quest_runtime::kQuestPriorityDebugV1;
+                f::CharacterQuestTextV1 menuText;
+                dh2::ui::HudTextV1* menuHud=nullptr;questTextEnvironment=std::make_shared<dh2::ui::HudTextEnvironmentV1>();
+                if(!menuLocalization.bind_profile(&state,menuError)||!menuLocalization.borrow_text(menuHud,*questTextEnvironment,menuError)||!menuHud)
+                    std::cerr<<"Quest Log text diagnostic: "<<menuError<<'\n';
+                else if(!f::bind_source_quest_text_resolver_v1(*menuHud,*questTextEnvironment,menuText,menuError))
+                    std::cerr<<"Quest Log text diagnostic: "<<menuError<<'\n';
+                questMenu=std::make_shared<f::RuntimeQuestMenuV1>(state,*questMenuProgress,questTable,policy,menuText);
+                questMenuBinding=std::make_shared<f::RuntimeQuestCharacterMenuBindingV1>(questMenu,sharedCharacter,sharedCharacter,
+                    []{return true;},
+                    [&](const std::string& symbol,std::string& value,std::string& symbolError){return menuLocalization.symbol(symbol,&state,value,symbolError);});
+                f::character_menu::SourcePageProviderV1 questProvider;
+                if(!questMenuBinding->load_progress_from_character(menuError)||!questMenuBinding->show(0,0,f::CharacterQuestCategoryV1::assigned,menuError)||
+                   !f::bind_source_quest_menu_page_provider_v1(questMenuBinding,sharedCharacter,sharedCharacter,questProvider,menuError)||
+                   !characterMenuComposition->register_page(f::character_menu::Tab::quest,std::move(questProvider),menuError))
+                    std::cerr<<"Quest Log page diagnostic: "<<menuError<<'\n';
+            }
             std::cout<<"Quest runtime bound rows="<<questTable->rows().size()<<" actors="<<questActorIdentity.size()
                      <<" current="<<questRuntime->current_quest()<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
-            for(const auto& banner:questRuntime->take_banners())
-                std::cout<<"Quest banner kind="<<(banner.kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":"QUEST COMPLETED")
+            for(const auto& banner:takeQuestBanners())
+                std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
                          <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" (bind)\n";
             f::quest_runtime::bind_quest_event_sink([&](const f::quest_runtime::QuestEvent& event) {
                 std::string e;
@@ -2571,8 +2696,8 @@ int main(int argc,char** argv) {
                 if(!questRuntime->save(saveError))std::cerr<<"Quest save diagnostic: "<<saveError<<'\n';
                 std::cout<<"Quest event kind="<<int(event.kind)<<" property="<<event.property_id<<" template="<<event.template_id
                          <<" applied="<<applied<<'\n';
-                for(const auto& banner:questRuntime->take_banners())
-                    std::cout<<"Quest banner kind="<<(banner.kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":"QUEST COMPLETED")
+                for(const auto& banner:takeQuestBanners())
+                    std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
                              <<" row="<<banner.row<<" objective="<<banner.objective_text_id<<" xp="<<banner.reward_xp
                              <<" gold="<<banner.reward_gold<<" text='"<<banner.text<<"'\n";
             });
@@ -2589,6 +2714,47 @@ int main(int argc,char** argv) {
                 kill.kind=f::quest_runtime::QuestEvent::Kind::kill;
                 kill.property_id=identity->second.first;kill.template_id=identity->second.second;
                 f::quest_runtime::raise_quest_event(kill);
+            }
+        };
+        // P16 QUESTUI: NPC talk on the interact press edge: the nearest live actor whose CharacterTable row is a
+        // TalkToNPC oid, within 200 units (CharacterDesign.OOI_Distance). Approximation of Character::Interact.
+        const auto talkNearestNpc=[&]() {
+            if(!questRuntime||!combatSession||questTalkOids.empty())return;
+            const auto* player=combatSession->actor(combatSession->player_id());
+            if(!player)return;
+            bool found=false;float bestDistance=200.f;std::int32_t bestRow=-1;float nearestAny=-1.f;std::int32_t nearestRow=-1;std::array<float,3> nearestAt{};
+            // Authored NPCs are placed population actors (static world placement), not combat-session actors.
+            for(const auto& placed:population.actors()) {
+                const auto identity=questActorIdentity.find(placed.definition.stableId);
+                if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))continue;
+                const float dx=placed.definition.placement[12]-player->transform.position[0];
+                const float dy=placed.definition.placement[13]-player->transform.position[1];
+                const float dz=placed.definition.placement[14]-player->transform.position[2];
+                const float distance=std::sqrt(dx*dx+dy*dy+dz*dz);
+                if(nearestAny<0.f||distance<nearestAny){nearestAny=distance;nearestRow=identity->second.first;nearestAt={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};}
+                if(distance<=bestDistance){found=true;bestDistance=distance;bestRow=identity->second.first;}
+            }
+            if(!found) {
+                std::cout<<"Quest talk none within 200 nearest_row="<<nearestRow<<" distance="<<nearestAny<<" at="<<nearestAt[0]<<','<<nearestAt[1]<<','<<nearestAt[2]<<" player="<<player->transform.position[0]<<','<<player->transform.position[1]<<','<<player->transform.position[2]<<'\n';
+                return;
+            }
+            f::quest_runtime::QuestEvent talk;
+            talk.kind=f::quest_runtime::QuestEvent::Kind::talk_to_npc;
+            talk.object_id=bestRow;talk.secondary_id=questLevelRow;
+            std::cout<<"Quest talk npc row="<<bestRow<<" distance="<<bestDistance<<" level="<<questLevelRow<<'\n';
+            f::quest_runtime::raise_quest_event(talk);
+        };
+        // P16 QUESTUI: quest zone entries of this frame (player position against the level's quest zones).
+        const auto raiseQuestZones=[&]() {
+            if(!questRuntime||!combatSession||questZones.zones().empty())return;
+            const auto* player=combatSession->actor(combatSession->player_id());
+            if(!player)return;
+            for(const auto& name:questZones.update({player->transform.position[0],player->transform.position[1],player->transform.position[2]})) {
+                f::quest_runtime::QuestEvent entry;
+                entry.kind=f::quest_runtime::QuestEvent::Kind::zone_enter;
+                entry.zone=name;entry.level_row=questLevelRow;
+                std::cout<<"Quest zone entered zone="<<name<<" level="<<questLevelRow<<'\n';
+                f::quest_runtime::raise_quest_event(entry);
             }
         };
         bindDeathRewards();
@@ -3072,6 +3238,12 @@ int main(int argc,char** argv) {
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::faery,error))throw std::runtime_error("Faery page diagnostic selection: "+error);
                 std::cout<<"Character menu Faery selected frame="<<drawn<<" via CharacterState provider\n";
             }
+            // P16 QUESTUI: --quest-page-frame=N opens the menu on the Quest Log tab (test aid).
+            if(drawn==options.questPageFrame) {
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::quest,error))throw std::runtime_error("Quest Log page diagnostic selection: "+error);
+                std::cout<<"Character menu Quest Log selected frame="<<drawn<<'\n';
+            }
             for(const auto& click:uiInput.clicks) {
                 if(statConfirmOpen){routeStatConfirmClick(click.position);continue;}
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
@@ -3079,6 +3251,8 @@ int main(int argc,char** argv) {
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
                     characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
+                    if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n'; }
                     if(!error.empty())std::cerr<<"Character menu action diagnostic: "<<error<<'\n';
                     if(runtimeEquipmentPage) {
                         f::equipment_menu::RuntimeEquipmentPageReleaseV1::PendingCommand pending;
@@ -3690,6 +3864,12 @@ int main(int argc,char** argv) {
                     }
                 }
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
+                if(!gameplayPaused) raiseQuestZones(); // P16 QUESTUI: zone entries of this update
+                if(!gameplayPaused) questBanners.tick(float(dt)); // P16 QUESTUI: banner timing
+                // P16 QUESTUI: NPC talk on the interact press edge (--quest-talk-frame is a scripted press for tests).
+                const bool questTalkPressed=uiInput.actions.interact||std::find(options.questTalkFrames.begin(),options.questTalkFrames.end(),int(drawn))!=options.questTalkFrames.end();
+                if(!gameplayPaused&&questTalkPressed&&!questTalkHeld) talkNearestNpc();
+                questTalkHeld=questTalkPressed;
                 // P16 QUESTS test aid: frame-scheduled bus events (--quest-debug-kill / --quest-debug-accept).
                 if(!gameplayPaused&&questRuntime) for(const auto& debug:options.questDebugEvents) if(debug.frame==drawn) {
                     if(!debug.accept) {
@@ -3705,8 +3885,8 @@ int main(int argc,char** argv) {
                             std::string saveError;
                             if(!questRuntime->save(saveError))std::cerr<<"Quest save diagnostic: "<<saveError<<'\n';
                             std::cout<<"Quest debug accept frame="<<drawn<<" row="<<debug.id<<" accepted\n";
-                            for(const auto& banner:questRuntime->take_banners())
-                                std::cout<<"Quest banner kind="<<(banner.kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":"QUEST COMPLETED")
+                            for(const auto& banner:takeQuestBanners())
+                                std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
                                          <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<'\n';
                         }
                     }
@@ -3747,6 +3927,8 @@ int main(int argc,char** argv) {
                         std::string textError;
                         if(picked) {
                             if(worldItemTarget==id)worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+                            // P16 QUESTUI: item pickup event for quest objectives that count pickups (none in Act 1 rows yet).
+                            { f::quest_runtime::QuestEvent pickupEvent;pickupEvent.kind=f::quest_runtime::QuestEvent::Kind::item_pickup;pickupEvent.object_id=std::int32_t(targetEntry.source_outcome.item_id);f::quest_runtime::raise_quest_event(pickupEvent); }
                             equipmentRebindRequested=true; // the equipment page's bare-definition policy lists held items
                             std::uint32_t rgb=0xFFFFFF;worldDrops->item_color(targetEntry,rgb,textError);
                             f::InventoryItem shown;shown.definition_id=pickedId;shown.quantity=targetEntry.quantity;
@@ -4108,6 +4290,11 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         if(!drawScreenLabel(targetFont,worldItemStatus,worldItemStatusRgb,14,window.width()*.5f,window.height()*.25f,scale,renderer,overlay,textures,statusError))throw std::runtime_error("World item status: "+statusError);
                     }
                 }
+                // P16 QUESTUI: quest banner over the HUD (placeholder panel; see report).
+                if(questBanners.visible()&&!characterMenu.is_open()&&!pauseMenuOpen) {
+                    std::string bannerError;
+                    if(!drawQuestBanner(questBanners.current(),targetFont,renderer,overlay,textures,window.width(),window.height(),scale,bannerError))throw std::runtime_error("Quest banner: "+bannerError);
+                }
                 if(options.combatText&&!characterMenu.is_open()) {
                     if(!combatText.draw(window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text draw: "+error);
                     if(combatText.active_count())++combatTextDrawnFrames;
@@ -4127,6 +4314,12 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     if(classRow==properties.characters.names.end())throw std::runtime_error("Original class header has no same player source row");
                     if(!menuLocalization.character_class_level(properties.characters,static_cast<std::int32_t>(classRow-properties.characters.names.begin()),&state,bindings.class_label,error))throw std::runtime_error("Original class header: "+error);
                     bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e);};
+                    // P16 QUESTUI: the Quest Log page is refreshed from the CQPG while its tab is open.
+                    if(questMenuBinding&&characterMenu.is_open()&&characterMenu.tab()==f::character_menu::Tab::quest) {
+                        std::string questMenuError;
+                        if(!questMenuBinding->load_progress_from_character(questMenuError)||!questMenuBinding->show(0,0,f::CharacterQuestCategoryV1::assigned,questMenuError))
+                            std::cerr<<"Quest Log refresh diagnostic: "<<questMenuError<<'\n';
+                    }
                     f::character_menu::Frame menu;if(!characterMenu.frame(bindings,window.width(),window.height(),menu,error))throw std::runtime_error("Character menu: "+error);
                     const auto& transform=menu.transform;
                     auto drawMenuSolid=[&](const f::character_menu::MenuSolidBatch& solid) {
