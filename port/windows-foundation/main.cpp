@@ -1970,6 +1970,8 @@ int main(int argc,char** argv) {
                     if(!menuUsedSkillPoint&&!f::save_character(options.save,character,e))return false;
                     f::generic_skills::SessionSkillTrainingCommitV1 commit;
                     if(!f::generic_skills::train_skill_in_session_v1(character,*combatSession,properties,skillTables,skillCaps,position,commit,e))return false;
+                    // Preview 14: the authored prefix above saves only the pre-spend state, so persist the committed spend too (every spend, not only the first in a visit).
+                    if(!f::save_character(options.save,character,e))return false;
                     menuUsedSkillPoint=true;
                     std::cout<<"Source skill training row="<<commit.saved_skill_row<<" rank="<<commit.previous_rank<<"->"<<commit.current_rank<<" points="<<commit.remaining_points<<" potionCapacity="<<unsigned(commit.potion_capacity)<<'\n';
                     return true;
