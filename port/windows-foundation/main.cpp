@@ -1,3 +1,5 @@
+#include <chrono>
+#include <cstdlib>
 #include "asset_catalog.hpp"
 #include "actor_profiles.hpp"
 #include "actor_population.hpp"
@@ -1885,6 +1887,8 @@ int main(int argc,char** argv) {
         };
         std::int32_t sourceEffectsMs=0;double sourceEffectsFractionMs=0;
         bool sourceEffectsPresentationFailed=false;
+        // P17 FIREWALL: a visual whose authored FX resource drew this frame owns its meshes (no second draw by CharacterVisual).
+        auto embeddedFxOwnsVisual=[&](std::uint64_t id) { return sourceEffectsFactory&&!sourceEffectsPresentationFailed&&embeddedSceneFx.active(id); };
         std::uint64_t sourceEffectsPacketFrames=0,sourceEffectsPackets=0;
         const auto retireSourceEffects=[&]() {
             sourceSwingFx.reset();
@@ -4510,39 +4514,52 @@ int main(int argc,char** argv) {
                     if(sourceEffectsMs>std::numeric_limits<std::int32_t>::max()-integerMs){effectError="Source FX gameplay clock exceeds supported range";prepared=false;}
                     else {sourceEffectsMs+=integerMs;prepared=sourceEffectsFactory->runtime().update(std::uint64_t(drawn)+1,sourceEffectsMs,integerMs,effectError);}
                 }
-                // P17 FIREWALL: scene-owned authored FX of doors (the wall of fire of the fire door, any door or decor
-                // with an FX family). Attached once per FX factory; advanced at each visual's current clip time and
-                // placed at its transform; the list replaces the previous frame's list.
+                // P17 FIREWALL: scene-owned authored FX of doors, levers and gated decor (the wall of fire of the fire
+                // door, and any object whose model carries an FX family). Attached once per FX factory; advanced at each
+                // visual's current clip time and placed at its transform; the list replaces the previous frame's list.
                 if(prepared) {
+                    struct EmbeddedFxVisual{std::uint64_t id;const std::string* name;const std::string* model;const dh::foundation::CharacterVisual* visual;const std::array<float,16>* transform;};
+                    std::vector<EmbeddedFxVisual> embeddedVisuals;
+                    auto addEmbeddedVisual=[&embeddedVisuals](std::uint64_t id,const std::string& name,const std::string& model,const dh::foundation::CharacterVisual* visual,const std::array<float,16>& transform) {embeddedVisuals.push_back(EmbeddedFxVisual{id,&name,&model,visual,&transform});};
+                    for(const auto& view:doorRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->visual_file,view.visual,view.instance->transform);
+                    for(const auto& view:leverRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->visual_file,view.visual,view.instance->transform);
+                    for(const auto& view:decorRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->dae,view.visual,view.instance->transform);
                     if(embeddedSceneFxOwner!=sourceEffectsFactory.get()) {
                         embeddedSceneFx.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
-                        for(std::size_t i=0;i<doorRuntime.size();++i) {
-                            const auto& inst=doorRuntime.instance(i);
-                            if(inst.visual_file.empty())continue;
+                        for(const auto& item:embeddedVisuals) {
+                            if(item.model->empty())continue;
                             std::vector<std::uint8_t> raw;
-                            try{raw=assets.read(inst.visual_file);}catch(const std::exception&){raw.clear();}
-                            if(raw.empty()){std::cout<<"Embedded FX "<<inst.name<<" not attached: model unreadable "<<inst.visual_file<<'\n';continue;}
+                            try{raw=assets.read(*item.model);}catch(const std::exception&){raw.clear();}
+                            if(raw.empty()){std::cout<<"Embedded FX "<<*item.name<<" not attached: model unreadable "<<*item.model<<'\n';continue;}
                             std::string reason;
-                            if(!embeddedSceneFx.attach(inst.stableId,inst.visual_file,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason))
-                                std::cout<<"Embedded FX "<<inst.name<<" not attached: "<<reason<<'\n';
-                            else std::cout<<"Embedded FX "<<inst.name<<" attached model="<<inst.visual_file<<'\n';
+                            if(!embeddedSceneFx.attach(item.id,*item.model,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason))
+                                std::cout<<"Embedded FX "<<*item.name<<" not attached: "<<reason<<'\n';
+                            else std::cout<<"Embedded FX "<<*item.name<<" attached model="<<*item.model<<'\n';
                         }
                     }
+                    // P17 FIREWALL: DH_PERF=1 prints the mean cost of the scene-owned FX block (update + list) every 120 frames.
+                    static const bool embeddedPerf=std::getenv("DH_PERF")!=nullptr&&std::string(std::getenv("DH_PERF"))=="1";
+                    static double embeddedMs=0;static int embeddedFrames=0;
+                    const auto embeddedT0=std::chrono::steady_clock::now();
                     embeddedSceneFx.begin_frame();
-                    for(const auto& view:doorRuntime.views()) {
-                        if(!view.visual||!view.instance||!embeddedSceneFx.attached(view.instance->stableId))continue;
+                    for(const auto& item:embeddedVisuals) {
+                        if(!item.visual||!embeddedSceneFx.attached(item.id))continue;
                         std::int32_t sourceMs=0;
-                        if(!f::effects::embedded_clip_source_ms_v1(*view.visual,sourceMs))continue;
+                        if(!f::effects::embedded_clip_source_ms_v1(*item.visual,sourceMs))continue;
                         std::string embeddedError;
                         const std::int32_t embeddedDtMs=gameplayPaused?0:std::int32_t(gameplayDt*1000);
-                        if(!embeddedSceneFx.update(view.instance->stableId,sourceMs,sourceEffectsMs,embeddedDtMs,view.instance->transform,embeddedError)) {
-                            std::cerr<<"Embedded FX "<<view.instance->name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
+                        if(!embeddedSceneFx.update(item.id,sourceMs,sourceEffectsMs,embeddedDtMs,*item.transform,embeddedError)) {
+                            std::cerr<<"Embedded FX "<<*item.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
                         }
                     }
                     sourceEffectsFactory->set_embedded_sources(embeddedSceneFx.sources());
+                    if(embeddedPerf){embeddedMs+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-embeddedT0).count();
+                        if(++embeddedFrames==120){std::cout<<"DH_PERF embedded_fx_ms_avg="<<embeddedMs/embeddedFrames<<" attached="<<embeddedSceneFx.size()<<" frames="<<embeddedFrames<<'\n';embeddedMs=0;embeddedFrames=0;}}
                 }
                 std::shared_ptr<const f::effects::EffectRenderFrame> frame;
+                const auto fxPrepT0=std::chrono::steady_clock::now(); // P17 FIREWALL: DH_PERF split of prepare
                 if(prepared)prepared=sourceEffectsFactory->runtime().prepare_render_frame(frame,effectError);
+                if(std::getenv("DH_PERF")&&std::string(std::getenv("DH_PERF"))=="1"){static double prepMs=0;static int prepN=0;prepMs+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-fxPrepT0).count();if(++prepN==120){std::cout<<"DH_PERF fx_prepare_ms_avg="<<prepMs/prepN<<'\n';prepMs=0;prepN=0;}}
                 if(prepared&&frame&&!frame->packets.empty()) {
                     ++sourceEffectsPacketFrames;sourceEffectsPackets+=frame->packets.size();
                     prepared=sourceEffectsRenderer.enqueue(frame,effectError);
@@ -4611,9 +4628,9 @@ int main(int argc,char** argv) {
             }
             // P16 containers: visuals at the authored transform (closed or animated pose from ContainerRuntimeV1).
             for(const auto& view:containerRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
-            for(auto& view:doorRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform); // P17 DOORS
-            for(const auto& view:leverRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
-            for(const auto& view:decorRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
+            for(auto& view:doorRuntime.views())if(view.visual&&view.instance&&!embeddedFxOwnsVisual(view.instance->stableId))for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform); // P17 DOORS
+            for(const auto& view:leverRuntime.views())if(view.visual&&view.instance&&!embeddedFxOwnsVisual(view.instance->stableId))for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
+            for(const auto& view:decorRuntime.views())if(view.visual&&view.instance&&!embeddedFxOwnsVisual(view.instance->stableId))for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
             // B004/B029: rendered marker = last target, else OOI, gated by eligibility (combat target is not used).
             const auto* markerTarget=combatSession?combatSession->actor(f::rendered_target_marker_actor_v1(*combatSession,combatSession->player_id(),objectOfInterest)):nullptr;
             if(const auto* target=markerTarget;target&&target->alive()&&!targetMarker.mesh.vertices.empty()) {
@@ -4640,7 +4657,9 @@ int main(int argc,char** argv) {
                 } else {static std::string lastDropError;if(lastDropError!=dropError){lastDropError=dropError;std::cerr<<"World item presentation diagnostic frame="<<drawn<<": "<<dropError<<'\n';}}
             }
             queue.flush(renderer,activeCamera);
+            const auto fxDrawT0=std::chrono::steady_clock::now(); // P17 FIREWALL: DH_PERF split of the queued FX draw
             if(!sourceEffectsRenderer.draw_queued(error))throw std::runtime_error("Source FX draw: "+error);
+            if(std::getenv("DH_PERF")&&std::string(std::getenv("DH_PERF"))=="1"){static double dMs=0;static int dN=0;dMs+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-fxDrawT0).count();if(++dN==120){std::cout<<"DH_PERF fx_draw_ms_avg="<<dMs/dN<<'\n';dMs=0;dN=0;}}
             if(options.hud) {
                 auto frame=[&](unsigned current,unsigned maximum){auto n=std::int32_t(std::uint32_t(actorProperties.sheets.resolved[current])*100u);auto d=actorProperties.sheets.resolved[maximum];if(!d)throw std::runtime_error("Unbound HUD maximum");return unsigned(std::clamp(int(std::int64_t(n)/d)-1,0,99));};
                 auto liveFrame=[](float current,float maximum){if(!std::isfinite(current)||!std::isfinite(maximum)||maximum<=0)throw std::runtime_error("Unbound live HUD maximum");return unsigned(std::clamp(int(current*100/maximum)-1,0,99));};
@@ -5066,7 +5085,9 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                 overlay.end();
             }
             renderer.endFrame();
+            const auto fxDrainT0=std::chrono::steady_clock::now(); // P17 FIREWALL: DH_PERF split of the FX drain (glFinish)
             if(!sourceEffectsRenderer.finish_and_drain(error))throw std::runtime_error("Source FX drain: "+error);
+            if(std::getenv("DH_PERF")&&std::string(std::getenv("DH_PERF"))=="1"){static double drainMs=0;static int drainN=0;drainMs+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-fxDrainT0).count();if(++drainN==120){std::cout<<"DH_PERF fx_drain_ms_avg="<<drainMs/drainN<<'\n';drainMs=0;drainN=0;}}
             ++drawn;
             if(options.frames&&drawn>=options.frames&&!options.capture.empty()) capture(options.capture,window.width(),window.height());
             window.swap();

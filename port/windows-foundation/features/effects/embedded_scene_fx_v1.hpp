@@ -38,6 +38,11 @@ public:
     void detach(std::uint64_t key);
     void clear();
     bool attached(std::uint64_t key) const { return slots_.count(key) != 0; }
+    // True when the resource was stepped this frame: its FX frame draws the visual's meshes (no second draw).
+    bool active(std::uint64_t key) const {
+        const auto found = slots_.find(key);
+        return found != slots_.end() && found->second.active;
+    }
     std::size_t size() const noexcept { return slots_.size(); }
 
     // Starts a frame: every resource becomes inactive until update() steps it again. An inactive resource

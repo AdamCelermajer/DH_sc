@@ -99,6 +99,22 @@ bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& outp
     }
     // P17 FIREWALL: resources owned by scene visuals (doors, decor, objects). Same provenance rules as the
     // manager's sources above; the resource pointer is the FX identity and the model path the texture base.
+    EffectRenderServices cached=services_; // P17 FIREWALL: see embedded_material_cache_
+    if(services_.material) {
+        auto inner=services_.material;
+        cached.material=[this,inner](const EffectDrawSource& source,const dh2::scene::Material& original,Material& output,std::string& error)->bool {
+            const auto key=std::to_string(source.fx)+"|"+original.id;
+            const auto hit=embedded_material_cache_.find(key);
+            if(hit!=embedded_material_cache_.end()) {
+                output=hit->second;
+                std::copy_n(original.color,4,output.color.begin());
+                return true;
+            }
+            if(!inner(source,original,output,error)) return false;
+            embedded_material_cache_.emplace(key,output);
+            return true;
+        };
+    }
     for(const auto& item:embedded) {
         if(!item.resource)continue;
         const auto fx=reinterpret_cast<std::uintptr_t>(item.resource.get());
@@ -115,7 +131,7 @@ bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& outp
                 info.resource_uri=item.uri;info.resource_bytes=source.resource_bytes;info.image=*source.image;
                 info.scene=source.scene;info.source_texture_matrix=source.source_texture_matrix68;info.source_owner=source.source_owner204;
                 EffectRenderPacket packet;
-                if(!convert(source.part,p,source.material,std::move(info),services_,packet,error))return false;
+                if(!convert(source.part,p,source.material,std::move(info),cached,packet,error))return false;
                 result->packets.push_back(std::move(packet));
             }
         }
@@ -131,7 +147,7 @@ bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& outp
                 info.resource_uri=item.uri;info.resource_bytes=source.resource_bytes;info.image=*source.image;
                 info.scene=source.scene;info.source_texture_matrix=source.source_texture_matrix68;info.source_owner=source.source_owner204;
                 EffectRenderPacket packet;
-                if(!convert(source.part,source.primitive,source.material,std::move(info),services_,packet,error))return false;
+                if(!convert(source.part,source.primitive,source.material,std::move(info),cached,packet,error))return false;
                 result->packets.push_back(std::move(packet));
             }
         }

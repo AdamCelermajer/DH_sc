@@ -4,6 +4,7 @@
 #include "../../retained_animation_owner.hpp"
 #include "../../../level-world/character_particle_fx_resource_v2.hpp"
 #include <functional>
+#include <map>
 
 namespace dh::foundation::effects {
 enum class EffectDrawKind { authored_mesh, authored_particle };
@@ -62,6 +63,9 @@ public:
 private:
     dh2::fx::CharacterMeshFxOwnerV4& manager_;
     EffectRenderServices services_;
+    // P17 FIREWALL: bound material per (scene FX resource, material id). The pass, texture and alpha state are
+    // constant; only the colour follows the authored track each frame, so it is refreshed on every hit.
+    mutable std::map<std::string, Material> embedded_material_cache_;
 };
 
 struct RetainedEffectBindings {
