@@ -521,7 +521,8 @@ int main(int argc,char** argv) {
                 // std::endl flushes: verification jobs may be killed after the boot ends.
                 std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown
                          <<" movie_clock=\""<<boot.movie_clock<<"\" soundtrack_seconds="<<boot.soundtrack_seconds
-                         <<" soundtrack_duration="<<boot.soundtrack_duration<<" seconds="<<boot.seconds<<std::endl;
+                         <<" soundtrack_duration="<<boot.soundtrack_duration<<" soundtrack_released="<<int(boot.soundtrack_released)
+                         <<" seconds="<<boot.seconds<<std::endl;
                 if(!boot.error.empty())std::cerr<<"Boot: "<<boot.error<<std::endl;
                 if(boot.outcome==f::startup::BootRunOutcome::quit)return 0;
             }

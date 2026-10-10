@@ -171,7 +171,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
             result.error = "soundtrack: " + error;
         } else {
             result.soundtrack_duration = double(pcm.size() / 2) / double(movie.info().sample_rate);
-            const std::uint64_t lead = movie.info().sample_rate / 10;  // start 100 ms after the first pump
+            const std::uint64_t lead = 0;  // start on the next mixer render; the clock subtracts the platform queue
             if (!soundtrack.start(*config.audio_mixer, pcm, movie.info().sample_rate, lead, config.audio_latency_frames, error))
                 result.error = "soundtrack: " + error;
             else
@@ -197,6 +197,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     bool useWallClock = !soundtrackStarted;
     bool movieEnded = false;      // picture reached its last frame and the clock passed it
     bool movieSkippedByUser = false;
+    double movieEndSoundtrack = -1.0;  // soundtrack clock at the moment the movie ended or was skipped
     const double fps = movieAvailable ? movie.info().fps : 1.0;
 
     while (flow.phase() != BootPhase::complete && flow.phase() != BootPhase::quit) {
@@ -219,7 +220,10 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
         }
         const BootPhase before = flow.phase();
         flow.update(now, pressed);
-        if (before == BootPhase::movie && flow.phase() == BootPhase::title && pressed) movieSkippedByUser = true;
+        if (before == BootPhase::movie && flow.phase() == BootPhase::title && pressed) {
+            movieSkippedByUser = true;
+            if (soundtrackStarted) movieEndSoundtrack = std::max(0.0, soundtrack.seconds(*config.audio_mixer));
+        }
 
         if (flow.phase() == BootPhase::movie && movieStart < 0.0) {
             movieStart = now;
@@ -253,6 +257,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
             // The last frame stays up for its own duration: the movie ends at its end time.
             if (movieAvailable && movie.at_end() && clock >= double(movie.frames_decoded()) / fps) {
                 movieEnded = true;
+                if (soundtrackStarted) movieEndSoundtrack = std::max(0.0, soundtrack.seconds(*config.audio_mixer));
                 result.movie_status = "played";
                 flow.movie_finished(now);
             }
@@ -284,8 +289,10 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     }
 
     if (soundtrackStarted) {
-        result.soundtrack_seconds = std::max(0.0, soundtrack.seconds(*config.audio_mixer));
+        // Audible soundtrack time when the movie ended or was skipped (not when the boot exits).
+        result.soundtrack_seconds = movieEndSoundtrack >= 0.0 ? movieEndSoundtrack : std::max(0.0, soundtrack.seconds(*config.audio_mixer));
         release_soundtrack(soundtrack, *config.audio_mixer, config.audio_pump);
+        result.soundtrack_released = soundtrack.released(*config.audio_mixer);
     }
     if (frameTexture) renderer.destroyTexture(frameTexture);
     renderer.destroyTexture(splashTexture);

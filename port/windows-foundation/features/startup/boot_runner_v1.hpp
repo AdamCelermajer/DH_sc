@@ -58,7 +58,8 @@ struct BootRunResult {
     std::string movie_status;   // "played", "skipped: <reason>", "skipped: user", "stopped before movie end"
     std::string movie_clock;    // "audio" (mixer output frames) or "wall" (no audio output)
     int movie_frames_shown = 0;
-    double soundtrack_seconds = 0.0;  // audible soundtrack time at the end of the movie
+    double soundtrack_seconds = 0.0;  // audible soundtrack time when the movie ended or was skipped
+    bool soundtrack_released = true;  // the mixer released the soundtrack voice before the boot returned
     double soundtrack_duration = 0.0; // decoded soundtrack length
     double seconds = 0.0;
 };
