@@ -139,7 +139,10 @@ bool MainPage::release(float x, float y, MainPageCommand& command, std::string& 
             error.clear();
             return true;
         case inventory::DetailAction::none:
-            break;
+            // B045 (P14 EQUIP): the Details panel covers the main sheet; a miss inside it must not fall through to the
+            // main-sheet slot or ALL hit regions underneath (the second list row used to select "Ring 1").
+            error.clear();
+            return true;
         }
     }
 

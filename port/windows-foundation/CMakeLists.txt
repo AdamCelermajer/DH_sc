@@ -636,6 +636,10 @@ add_executable(equipment_main_page_tests features/equipment/equipment_main_page_
 target_link_libraries(equipment_main_page_tests PRIVATE foundation_runtime_equipment_menu)
 add_test(NAME equipment_main_page COMMAND equipment_main_page_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# P14 EQUIP (B045): Details list row hit geometry.
+add_executable(inventory_details_row_geometry_tests features/inventory/details_row_geometry_tests.cpp)
+target_link_libraries(inventory_details_row_geometry_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME inventory_details_row_geometry COMMAND inventory_details_row_geometry_tests)
 
 add_executable(combat_session_equipment_multiplicity_tests tests/combat_session_equipment_multiplicity_tests.cpp)
 target_link_libraries(combat_session_equipment_multiplicity_tests PRIVATE foundation_data)
