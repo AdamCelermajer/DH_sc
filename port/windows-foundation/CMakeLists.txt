@@ -193,6 +193,7 @@ add_library(foundation_runtime_effects STATIC
   ../asset-payloads/sha256.cpp
   features/effects/runtime_source_fx_asset_v1.cpp
   features/effects/runtime_swing_fx_observer_v1.cpp
+  features/effects/runtime_level_up_presentation_v1.cpp
   features/effects/runtime_effects_factory_v1.cpp
   features/effects/runtime_combat_effects_v1.cpp
   features/effects/runtime_effects_renderer_v1.cpp
@@ -634,6 +635,13 @@ target_sources(dh-foundation PRIVATE
   features/interactions/source_world_item_drop_material_v1.cpp
   features/interactions/world_drop_runtime_v1.cpp
   ../engine-ui/character_menu_font_palette_v1.cpp)
+# P15 LEVELUP (I026): level-up FX presentation outcome branches over original EffectsTables.
+add_executable(runtime_level_up_presentation_v1_tests features/effects/runtime_level_up_presentation_v1_tests.cpp
+  features/effects/runtime_level_up_presentation_v1.cpp ../game-data/effects_tables.cpp ../game-data/data.cpp)
+target_link_libraries(runtime_level_up_presentation_v1_tests PRIVATE foundation_data)
+add_test(NAME runtime_level_up_presentation_v1 COMMAND runtime_level_up_presentation_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-14-rc1/assets/data")
+
 add_executable(world_drop_rules_v1_tests features/loot/world_drop_rules_v1_tests.cpp)
 target_link_libraries(world_drop_rules_v1_tests PRIVATE foundation_runtime_loot foundation_data)
 add_test(NAME world_drop_rules_v1 COMMAND world_drop_rules_v1_tests

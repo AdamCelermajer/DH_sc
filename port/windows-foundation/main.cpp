@@ -57,6 +57,7 @@
 #endif
 #include "features/effects/runtime_effects_renderer_v1.hpp"
 #include "features/effects/runtime_swing_fx_observer_v1.hpp"
+#include "features/effects/runtime_level_up_presentation_v1.hpp" // P15 LEVELUP (I026)
 #include "features/effects/celest_target_fx_dispatch_v1.hpp"
 #include "features/platform_input/semantic_input.hpp"
 #include "features/combat_text/combat_text.hpp"
@@ -2179,6 +2180,18 @@ int main(int argc,char** argv) {
             rewardBindings.source_loot_entry=&GameplayRewardContext::lootEntry;
             rewardBindings.query_debug_switch=&GameplayRewardContext::debugQuery;
             rewardBindings.resolve_character=&GameplayRewardContext::resolve;
+            // P15 LEVELUP (I026): Character::LevelUp presentation (FX set 135 on the
+            // hero; MENU_LEVEL_UP text logged only). An FX failure does not abort the award.
+            rewardBindings.level_up_presentation=[&](f::ActorId id,std::int32_t level,std::string& e) {
+                f::effects::RuntimeLevelUpPresentationResultV1 result;
+                const bool ok=f::effects::play_level_up_presentation_v1(sourceEffectsTables.borrow(),
+                    [&](std::int32_t set,const float* position,const float* rotation,std::uintptr_t anchor,std::uintptr_t* created,std::string& fxError) {
+                        if(!sourceEffectsFactory){fxError="no effects factory";return false;}
+                        return sourceEffectsFactory->manager().play_set(set,position,rotation,anchor,created,fxError);
+                    },id,result,e);
+                std::cout<<"Level up presentation frame="<<drawn<<" actor="<<id<<" level="<<level<<" "<<result.fx<<" "<<result.text<<'\n';
+                return ok;
+            };
             if(!deathRewards.bind(*combatSession,menuSourceOwner,assets,worldItems,std::move(rewardBindings),error))
                 throw std::runtime_error("Source death rewards: "+error);
         };
