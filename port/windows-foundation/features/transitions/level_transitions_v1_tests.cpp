@@ -2,10 +2,14 @@
 //   1. package asset root with data/levels_pyarray.bin (the level table; Swamp rc3 assets)
 //   2. Android asset root with data/scene/001_swamp.mlx, data/scene/003_darkwood.mlx and their modules
 #include "level_transitions_v1.hpp"
+#include "transition_prompt_v1.hpp"
+#include "transition_persistence_v1.hpp"
 #include "../menu_metadata/menu_metadata_v1.hpp"
+#include "../../save_store.hpp"
 
 #include <filesystem>
 #include <iostream>
+#include <set>
 #include <stdexcept>
 
 using namespace dh::foundation;
@@ -187,6 +191,81 @@ void test_real_levels(const fs::path& swamp_root, const fs::path& darkwood_root)
               << " swamp entry13=" << swamp_entry_13.candidates << " darkwood entry0=" << darkwood_entry_0.candidates << '\n';
 }
 
+// P17 TRANSITIONS2: travel prompt selection, placeholder frame, entry component and per-level world paths.
+struct FakeConditions final : ConditionSource {
+    std::set<std::string> active;
+    bool condition_active(const std::string& name) override { return active.count(name) > 0; }
+};
+
+void test_prompt_and_persistence() {
+    ZoneClassRegistry registry;
+    std::vector<ActorDefinition> declarations{
+        block("TriggerZoneExitLevel", "exit", {{"levelName", "DARKWOOD"}, {"entrypointID", "0"}}, 1000, 0, 0),
+        block("TriggerZoneExitLevel", "proc", {{"levelName", "SWAMP_CAVE_WITCH_A"}}, -1000, 0, 0),
+        block("TriggerZoneExitLevel", "gated", {{"levelName", "SWAMP"}, {"activate_cond", "IsAfter_Gate"}}, 0, 1000, 0),
+    };
+    auto levels = rows();
+    levels[0].description = "Darkwood";
+    ExitZoneSet set;
+    std::string error;
+    check(set.build(declarations, levels, registry, error), "prompt build: " + error);
+    FakeConditions conditions;
+
+    check(!find_armed_exit(set, levels, conditions).has_value(), "no prompt before the player is inside");
+    set.update({1000, 0, 0}, true);                       // arrival inside: state only
+    set.update({1000, 0, 0}, true);
+    auto armed = find_armed_exit(set, levels, conditions);
+    check(armed.has_value() && armed->zone_name == "exit", "prompt shows for the inside exit");
+    check(armed->target_display == "Darkwood" && armed->target_name == "DARKWOOD" && armed->entry_id == 0,
+          "prompt carries the display text, level name and entry");
+    set.update({0, 0, 0}, true);
+    check(!find_armed_exit(set, levels, conditions).has_value(), "prompt hides when the player leaves");
+
+    set.update({-1000, 0, 0}, true);                      // procedural target: never a prompt (refused at confirm)
+    check(!find_armed_exit(set, levels, conditions).has_value(), "procedural exit shows no prompt");
+    set.update({0, 0, 0}, true);
+
+    set.update({0, 1000, 0}, true);                       // gated exit: condition false, no prompt
+    check(!find_armed_exit(set, levels, conditions).has_value(), "gated exit without its condition shows no prompt");
+    conditions.active.insert("IsAfter_Gate");
+    armed = find_armed_exit(set, levels, conditions);
+    check(armed.has_value() && armed->zone_name == "gated" && armed->target_display == "SWAMP",
+          "gated exit shows once its condition holds (display falls back to the level name)");
+
+    const auto frame = build_prompt_frame(*armed);
+    check(frame.texts.size() == 3 && frame.texts[0].text == "Travel to:" && frame.texts[1].text == "SWAMP",
+          "prompt text is the original 'Travel to:' plus the display name");
+    check(!frame.rects.empty(), "prompt has a panel");
+
+    // Entry record: set, read, replace, clear, and the schema v4 tail round trip through the save file.
+    CharacterState state = make_default_character();
+    std::string freshLevel;
+    int freshEntry = -1;
+    check(!entry_component(state, freshLevel, freshEntry), "no entry record on a fresh character");
+    set_entry_component(state, "data/scene/003_darkwood.mlx", 13);
+    set_entry_component(state, "data/scene/001_swamp.mlx", 0);
+    std::string recordedLevel;
+    int recordedEntry = -1;
+    check(entry_component(state, recordedLevel, recordedEntry), "entry record reads back");
+    check(recordedLevel == "data/scene/001_swamp.mlx" && recordedEntry == 0, "entry record replaces the previous one");
+    check(state.components.size() == 1, "one entry component per character");
+    const auto path = fs::temp_directory_path() / "p17transitions2_component_test.save";
+    std::string saveError;
+    check(save_character(path, state, saveError), "save with the component tail: " + saveError);
+    CharacterState loaded;
+    check(load_character(path, loaded, saveError), "load with the component tail: " + saveError);
+    std::string loadedLevel;
+    int loadedEntry = -1;
+    check(entry_component(loaded, loadedLevel, loadedEntry) && loadedLevel == recordedLevel && loadedEntry == 0,
+          "entry record survives the save file");
+    clear_entry_component(loaded);
+    check(!entry_component(loaded, loadedLevel, loadedEntry), "clear removes the entry record");
+    fs::remove(path);
+
+    const auto world = level_world_path("C:/saves/slot1.save", "data/scene/003_darkwood.mlx");
+    check(world.filename() == "slot1.world-003_darkwood.gsave", "per-level world path: " + world.string());
+}
+
 } // namespace
 
 int main(int argc, char** argv) {
@@ -195,6 +274,7 @@ int main(int argc, char** argv) {
         test_edges();
         test_spawn_resolution();
         test_condition_stub();
+        test_prompt_and_persistence();
         if (argc >= 3) test_real_levels(fs::path(argv[1]), fs::path(argv[2]));
         std::cout << "level_transitions_v1 tests passed\n";
         return 0;

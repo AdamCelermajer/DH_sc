@@ -129,6 +129,8 @@
 #include "features/startup/boot_runner_v1.hpp"  // Preview 15 startup boot
 #include "features/startup/loading_screen_v1.hpp"  // Preview 15 campaign loading screen
 #include "features/transitions/level_transitions_v1.hpp" // P17 TRANSITIONS: exit/checkpoint zones, entry resolution
+#include "features/transitions/transition_prompt_v1.hpp"     // P17 TRANSITIONS2: travel prompt (armed exit, placeholder frame)
+#include "features/transitions/transition_persistence_v1.hpp" // P17 TRANSITIONS2: entry-point component, per-level world paths
 #include "features/audio/winmm_output.hpp"         // Preview 15 boot soundtrack output (platform pump only)
 #include "../engine-audio/audio_mixer_v34.hpp"
 #include <GL/gl.h>
@@ -981,6 +983,7 @@ int main(int argc,char** argv) {
         std::vector<f::transitions::LevelRow> transitionRows;
         f::transitions::LoggedConditionStub transitionConditions; // CONDITIONS session replaces this evaluator
         bool arrivedByTransition=false;                            // set by the arrival block below
+        int arrivedEntryId=-1;                                     // P17 TRANSITIONS2: entry this session arrived at
         std::cout<<"Session start resources "<<transition_resource_counts()<<" level="<<options.level.generic_string()<<" frame="<<transitionFrameBase<<'\n';
         // P16 MAP: module RoomZone sources of the loaded level (empty until load_level_with_module_zones succeeds).
         std::vector<f::LevelModuleZone> levelModuleZones;
@@ -990,6 +993,14 @@ int main(int argc,char** argv) {
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
         bool directFirstSkillGrantPending=false;
+        // P17 TRANSITIONS2: a process restart from a transition save arrives at the recorded entry of that level.
+        if(!frontendStarted&&options.transitionEntryId<0&&!options.freshPlayer&&!options.save.empty()&&fs::exists(options.save)) {
+            f::CharacterState recorded;std::string recordedError;std::string recordedLevel;int recordedEntry=-1;
+            if(f::load_character(options.save,recorded,recordedError)&&f::transitions::entry_component(recorded,recordedLevel,recordedEntry)&&recordedLevel==options.level.generic_string()) {
+                options.transitionEntryId=recordedEntry;
+                std::cout<<"Entry restored from save level="<<recordedLevel<<" entry="<<recordedEntry<<'\n';
+            }
+        }
         // P17 TRANSITIONS: an arriving session continues the character the previous session saved (not a fresh player).
         // The load is explicit here because the menu/fresh-player load points below do not run for a non-fresh start.
         if(!frontendStarted&&options.transitionEntryId>=0) {
@@ -1235,6 +1246,7 @@ int main(int argc,char** argv) {
                     } else std::cout<<"Transition arrival entry="<<options.transitionEntryId<<" status=no_spawn_point (start position kept) level="<<options.level.generic_string()<<'\n';
                     std::cout<<"Transition arrival character visited_records="<<state.visited_modules.size()<<" level="<<options.level.generic_string()<<'\n';
                     arrivedByTransition=true;
+                    arrivedEntryId=options.transitionEntryId;
                     options.transitionEntryId=-1; // consumed by this session
                 }
             }
@@ -1418,6 +1430,32 @@ int main(int argc,char** argv) {
             for(const auto& line:combatSession->logs())std::cout<<"Combat binding: "<<line<<'\n';
         };
         initializeCombat();
+        // P17 TRANSITIONS2: LevelSavegame rule. The world kept for this level on its last visit (killed actors, opened containers,
+        // object states) is restored; the controlled actor is placed at the arrival entry, not at its saved position (Level::_LoadPlayer).
+        const auto saveLevelWorld=[&](const char* reason,std::string& e)->bool {
+            if(!combatSession||options.save.empty())return true;
+            f::GameSave worldSnapshot;
+            if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),worldSnapshot,e))return false;
+            const auto worldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
+            if(!f::save_game(worldPath,worldSnapshot,e))return false;
+            std::cout<<"Level world saved reason="<<reason<<" level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
+            return true;
+        };
+        if(arrivedByTransition&&combatSession) {
+            const auto worldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
+            if(fs::exists(worldPath)) {
+                f::GameSave worldSnapshot;std::string worldError;
+                if(!f::load_game(worldPath,worldSnapshot,worldError))std::cout<<"Level world restore status=unreadable detail="<<worldError<<'\n';
+                else {
+                    for(auto& persisted:worldSnapshot.actors)if(persisted.actor.id==worldSnapshot.controlled_actor_id)persisted.actor.transform.position={options.actorPosition.x,options.actorPosition.y,options.actorPosition.z};
+                    if(!f::restore_game_save(worldSnapshot,options.level.generic_string(),*combatSession->world(),state,worldError))std::cout<<"Level world restore status=refused detail="<<worldError<<'\n';
+                    else {
+                        if(arrivedEntryId>=0)f::transitions::set_entry_component(state,options.level.generic_string(),arrivedEntryId);
+                        std::cout<<"Level world restored level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
+                    }
+                }
+            } else std::cout<<"Level world restore status=none level="<<options.level.generic_string()<<'\n';
+        }
         f::OriginalScene targetMarker;f::OriginalActorLabels actorLabels;f::HudGlyphFont targetFont;
         if(combatSession&&options.hud) {
             const auto& markers=f::original_target_marker_art();const auto marker=std::find_if(markers.begin(),markers.end(),[](const auto& art){return art.interaction_type==8;});
@@ -2939,7 +2977,12 @@ int main(int argc,char** argv) {
         if(options.hud&&combatSession&&!pcHudText.load(assets.root()/"original-cache",error))throw std::runtime_error("PC HUD font: "+error);
         f::frontend::FrontendText cinematicText; // P16 CINE: caption and SKIP text (same frontend text owner as the PC HUD)
         std::string cinematicTextSignature;
+        f::frontend::FrontendText transitionPromptText; // P17 TRANSITIONS2: travel prompt text (same frontend text owner)
+        std::string transitionPromptSignature;
+        std::optional<f::transitions::ArmedExit> armedPrompt; // exit whose prompt is on screen this frame
+        bool transitionKeyDown=window.key_down('E');       // E edge (confirm); a key held across the load does not confirm
         if(options.campaignTriggers&&combatSession&&!cinematicText.load(assets.root()/"original-cache",error))throw std::runtime_error("Cinematic font: "+error);
+        if(combatSession&&!transitionPromptText.load(assets.root()/"original-cache",error))throw std::runtime_error("Transition prompt font: "+error);
         const auto updatePcHud=[&]() {
             pcHudReady=false;
             if(!options.hud||!combatSession||!menuSourceOwner.valid()||!state.source_skill_slots_known)return;
@@ -3668,10 +3711,32 @@ int main(int argc,char** argv) {
                         if(event.kind==f::transitions::ZoneKind::checkpoint) {
                             stampSaveMetadata(state,options.level.generic_string());
                             std::string checkpointError;
+                            f::transitions::clear_entry_component(state); // P17 TRANSITIONS2: the checkpoint, not the entry, is the current place
                             if(options.save.empty()||!f::save_character(options.save,state,checkpointError)) std::cout<<"Checkpoint zone="<<zone.name<<" status=not_saved detail="<<checkpointError<<" frame="<<drawn<<'\n';
-                            else std::cout<<"Checkpoint zone="<<zone.name<<" level="<<options.level.generic_string()<<" saved frame="<<drawn<<'\n';
+                            else {
+                                std::cout<<"Checkpoint zone="<<zone.name<<" level="<<options.level.generic_string()<<" saved frame="<<drawn<<'\n';
+                                std::string worldError;if(!saveLevelWorld("checkpoint",worldError))std::cout<<"Level world save status=failed detail="<<worldError<<'\n';
+                            }
                         } else if(event.kind==f::transitions::ZoneKind::level_exit)
-                            std::cout<<"Exit zone entered="<<zone.name<<" target="<<zone.target_name<<" entry="<<zone.entry_id<<" frame="<<drawn<<" (prompt art not drawn)\n";
+                            std::cout<<"Exit zone entered="<<zone.name<<" target="<<zone.target_name<<" entry="<<zone.entry_id<<" frame="<<drawn<<"\n";
+                    }
+                    // P17 TRANSITIONS2: the travel prompt. Shown while the player stands in an armed exit (DisplayFastTravel rule); E confirms
+                    // (PC adaptation of the HUD button, edge only). --transition-confirm stays as a test hook below.
+                    {
+                        auto armed=f::transitions::find_armed_exit(exitZones,transitionRows,transitionConditions);
+                        if(armed&&(!armedPrompt||armedPrompt->zone!=armed->zone))
+                            std::cout<<"Transition prompt shown zone="<<armed->zone_name<<" target="<<armed->target_name<<" display=\""<<armed->target_display<<"\" entry="<<armed->entry_id<<" frame="<<drawn<<'\n';
+                        else if(!armed&&armedPrompt)
+                            std::cout<<"Transition prompt hidden zone="<<armedPrompt->zone_name<<" frame="<<drawn<<'\n';
+                        armedPrompt=armed;
+                        const bool confirmDown=window.key_down('E');
+                        const bool confirmEdge=confirmDown&&!transitionKeyDown;
+                        transitionKeyDown=confirmDown;
+                        if(armed&&confirmEdge&&!pendingTransition&&!pauseMenuOpen&&!characterMenu.is_open()) {
+                            const auto& zone=exitZones.zones()[armed->zone];
+                            pendingTransition=f::transitions::PendingTransition{zone.name,zone.kind,zone.target_name,zone.target_file,zone.entry_id};
+                            std::cout<<"Transition confirmed key=E zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" frame="<<drawn<<'\n';
+                        }
                     }
                     if(std::find(options.transitionConfirmFrames.begin(),options.transitionConfirmFrames.end(),int(drawn))!=options.transitionConfirmFrames.end()) {
                         bool armed=false;
@@ -4523,6 +4588,36 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     }
                     cinematicText.draw(overlay);
                 }
+                // P17 TRANSITIONS2: travel prompt (placeholder frame; text through the frontend text owner, stage units as the cinematic boxes).
+                if(armedPrompt&&combatSession&&campaignHost.hud_visible()) {
+                    const auto promptFrame=f::transitions::build_prompt_frame(*armedPrompt);
+                    const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
+                    for(const auto& rect:promptFrame.rects) {
+                        const float x0=(rect.x+view.offset)*view.scale,y0=rect.y*view.scale,x1=(rect.x+rect.w+view.offset)*view.scale,y1=(rect.y+rect.h)*view.scale;
+                        const std::vector<f::OverlayTriangleVertex> quad{{x0,y0,0,0},{x1,y0,0,0},{x1,y1,0,0},{x0,y0,0,0},{x1,y1,0,0},{x0,y1,0,0}};
+                        if(!overlay.drawTriangles(quad,0,{rect.rgba[0]/255.f,rect.rgba[1]/255.f,rect.rgba[2]/255.f,rect.rgba[3]/255.f}))throw std::runtime_error("Transition prompt box draw rejected");
+                    }
+                    const float promptScale=480.f*view.scale/float(window.width());
+                    f::frontend::art::ScreenArt promptArt;
+                    auto promptSignature=std::to_string(window.width())+":"+std::to_string(window.height());
+                    for(const auto& item:promptFrame.texts) {
+                        f::frontend::art::TextField field;
+                        field.font_id=5; // placeholder face (Fontin SmallCaps), as the cinematic caption
+                        field.source_height=14; field.rgba=item.rgba; field.align=0; field.margins={2,2,0}; field.leading=0;
+                        field.matrix={promptScale,0,0,1,0,0};
+                        const float left=(item.x+view.offset)*promptScale;
+                        field.local_bounds={left,left+item.w*promptScale,item.y,item.y+item.h};
+                        field.bounds=field.local_bounds;
+                        field.initial_text=item.text;
+                        promptArt.text_fields.push_back(field);
+                        promptSignature+=':'+item.text;
+                    }
+                    if(transitionPromptSignature!=promptSignature) {
+                        if(!transitionPromptText.rebuild(promptArt,window.width(),window.height(),renderer,error))throw std::runtime_error("Transition prompt text: "+error);
+                        transitionPromptSignature=promptSignature;
+                    }
+                    transitionPromptText.draw(overlay);
+                }
                 if(const auto* target=markerTarget;target&&target->alive()) {
                     auto head=f::Vec3{target->transform.position[0],target->transform.position[1],target->transform.position[2]};
                     const auto original=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& actor){return actor.definition.stableId==target->id;});
@@ -4966,6 +5061,8 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
             const auto transition=*pendingTransition;
             pendingTransition.reset();
             std::cout<<"Transition session end resources "<<transition_resource_counts()<<" frame="<<drawn<<'\n';
+            {std::string worldError;if(!saveLevelWorld("transition",worldError))throw std::runtime_error("Level world save: "+worldError);}
+            f::transitions::set_entry_component(state,transition.target_file,transition.entry_id); // P17 TRANSITIONS2: SG_SetLevelEntryPoint
             stampSaveMetadata(state,transition.target_file);
             std::string transitionSaveError;
             if(options.save.empty()||!f::save_character(options.save,state,transitionSaveError))throw std::runtime_error("Transition save: "+transitionSaveError);
