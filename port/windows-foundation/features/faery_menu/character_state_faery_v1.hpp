@@ -42,9 +42,10 @@ void initialize_source_faery_rows_v1(CharacterState& character);
 // never touched. Returns true when the rows were initialized.
 bool ensure_source_faery_rows_v1(CharacterState& character);
 
-// Spells implemented so far: Celest (slot 0) and Hotty (slot 1). Rocky, Wetty and Windy are shown
-// and selectable on the page, but key 4 has no cast path for them yet.
-constexpr bool faery_slot_has_spell_v1(std::int32_t slot) noexcept { return slot == 0 || slot == 1; }
+// Spells implemented so far: Celest (slot 0) and Hotty (slot 4). P15 B050 correction: the class FaeryList
+// rows are [1,13,14,15,7]; row 7 is Hotty (faerie_hotty) and its type field equals 4 (the Hotty connected
+// test uses current_faery 4). Slot 1 is not Hotty. Other slots are shown and selectable, but key 4 has no cast.
+constexpr bool faery_slot_has_spell_v1(std::int32_t slot) noexcept { return slot == 0 || slot == 4; }
 std::string faery_no_spell_message_v1(std::int32_t slot);
 
 struct CharacterStateFaeryPageHostV1 {

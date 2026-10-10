@@ -370,9 +370,9 @@ int main(int argc, char** argv) {
             check(apply_source_set_faery_state_v1(legacy, active_faery_difficulty_v1(), 0, 1, error) &&
                   legacy.faery_by_difficulty[0].faeries[0].state == 1,
                   "Swamp_Intro SetFaeryState(slot 0, 1) must unlock Celest on a normalized legacy save");
-            check(faery_slot_has_spell_v1(0) && faery_slot_has_spell_v1(1) &&
-                  !faery_slot_has_spell_v1(2) && !faery_slot_has_spell_v1(3) && !faery_slot_has_spell_v1(4),
-                  "only Celest and Hotty have spells");
+            check(faery_slot_has_spell_v1(0) && faery_slot_has_spell_v1(4) &&
+                  !faery_slot_has_spell_v1(1) && !faery_slot_has_spell_v1(2) && !faery_slot_has_spell_v1(3),
+                  "only Celest (slot 0) and Hotty (slot 4) have spells");
             check(faery_no_spell_message_v1(2).find("no spell implemented") != std::string::npos,
                   "no-spell diagnostic must name the missing spell");
             check(apply_source_set_faery_state_v1(legacy, active_faery_difficulty_v1(), 2, 1, error) &&

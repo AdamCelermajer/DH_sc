@@ -2912,6 +2912,12 @@ int main(int argc,char** argv) {
                             request.dispatch=f::generic_skills::RuntimeSkillCastDispatchV1::native_hud_spell;request.actor=combatSession->player_id();request.character=&state;
                             request.classes=&properties.classes;request.property_rules=&menuSkillPropertyRules;request.characters=&properties.characters;request.skills=menuSourceOwner.skill_owner->borrow();
                             request.visual_plan=&skillVisualPlan;request.sequence_policies=&skillSequencePolicies;request.selection={selected.selection_state,0,sequence->phases.front().sourcePath};request.active_faery_spell=&arm;
+                            // P15 FAERYSOUND (B050): original OnPreSkill_ sounds are queued on the audio session
+                            // (every cast, empty target list included) and submitted with this frame's device clock.
+                            skillCastCoordinator->set_faery_pre_sound_sink([&](const f::generic_skills::RuntimeSkillFaeryPreSoundV1& pre) {
+                                if(!runtimeAudio){std::cout<<"Faery cast sound frame="<<drawn<<" targets="<<pre.target_count<<" status=dropped detail=no audio session"<<std::endl;return;}
+                                runtimeAudio->queue_faery_pre_sounds(pre.caster,pre.position,pre.target_count,pre.labels);
+                            });
                             skillCastCoordinator->begin_skill_cast_v1(request,*combatSession,receipt,castError);
                         }
                     }
@@ -3035,6 +3041,8 @@ int main(int argc,char** argv) {
                     const bool settingsKnown=!sourceScopes||sourceScopes->debug_switch("MP_MinimalRandoms",minimalRandoms,audioError);
                     auto listenerCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
                     if(settingsKnown)audioClock=runtimeAudio->before_update(listenerCamera,window.focused(),window.minimized(),minimalRandoms,std::uint64_t(drawn),audioError);
+                    // P15 FAERYSOUND (B050): submit this frame's queued Faery cast sounds on the same device clock (nullptr drops them, logged).
+                    if(runtimeAudio){std::string faeryAudioError;if(!runtimeAudio->flush_faery_pre_sounds(audioClock,faeryAudioError)&&!faeryAudioError.empty())std::cerr<<"Faery cast sound diagnostic: "<<faeryAudioError<<'\n';}
                     if(!audioError.empty()&&drawn==0)std::cerr<<"Audio frame diagnostic: "<<audioError<<'\n';
                     if(gameplayPaused&&audioClock&&(gameplayPausedFrames==1||gameplayPausedFrames%60==0))
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
