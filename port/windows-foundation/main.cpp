@@ -573,7 +573,7 @@ int main(int argc,char** argv) {
                 const auto boot=f::startup::run_boot_v1(window,renderer,bootConfig);
                 bootOutput.close();
                 // std::endl flushes: verification jobs may be killed after the boot ends.
-                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown
+                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown<<" segments=\""<<boot.movie_segments<<"\" presses_ignored="<<boot.movie_presses_ignored
                          <<" movie_clock=\""<<boot.movie_clock<<"\" soundtrack_seconds="<<boot.soundtrack_seconds
                          <<" soundtrack_duration="<<boot.soundtrack_duration<<" soundtrack_released="<<int(boot.soundtrack_released)
                          <<" seconds="<<boot.seconds<<std::endl;
