@@ -2158,8 +2158,7 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     if(!entry.retained->prepare_preserving(*s.assets,plan,policies,selection,s.retained_services(id),alias,error))return false;
     entry.attackProgram=false;entry.stateManaged=true;entry.stateSequence=true;entry.stateFrozen=false;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
     entry.sourceStatePolicy=generic?std::optional<CombatSessionSourceSequencePolicy>{policy}:std::nullopt;
-    s.lifecycleActivity=true;
-    if(!generic)s.lifecycleRegistered=true;
+    if(!generic){s.lifecycleRegistered=true;s.lifecycleActivity=true;} // P17 DOORS2: same condition as the registration (generic source programs stay admissible)
     if(policy.original_state==10)reset_actor_action(*s.world->find_actor(id),CharacterAction::knocked_back);
     if(generic&&!s.facts(id,error))return false;
     if(!entry.retained->begin(error))return false;

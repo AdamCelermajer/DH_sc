@@ -2812,7 +2812,8 @@ int main(int argc,char** argv) {
             for(const auto& gate:worldGates) // applied = the persisted owner state after bind (restored or created)
                 std::cout<<"World gate state "<<gate.name<<" "<<gate.key<<" applied="<<(gate.applied?"true":"false")<<'\n';
         };
-        const auto bindQuestRuntime=[&]() {
+        // P17 DOORS2: showBindBanners=false on restore/reload (no replay of NEW QUEST or other banners of the saved state).
+        const auto bindQuestRuntime=[&](bool showBindBanners=true) {
             f::quest_runtime::bind_quest_event_sink({});
             questRuntime.reset();questActorIdentity.clear();questZones=f::quest_runtime::QuestZoneSetV1();
             if(!combatSession||!menuSourceOwner.valid())return;
@@ -2918,9 +2919,14 @@ int main(int argc,char** argv) {
             }
             std::cout<<"Quest runtime bound rows="<<questTable->rows().size()<<" actors="<<questActorIdentity.size()
                      <<" current="<<questRuntime->current_quest()<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
-            for(const auto& banner:takeQuestBanners())
-                std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
-                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" (bind)\n";
+            if(showBindBanners) {
+                for(const auto& banner:takeQuestBanners())
+                    std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
+                             <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" (bind)\n";
+            } else {
+                const auto dropped=questRuntime->take_banners(); // P17 DOORS2: restored state is not a new event
+                std::cout<<"Quest banners suppressed at restore count="<<dropped.size()<<'\n';
+            }
             f::quest_runtime::bind_quest_event_sink([&](const f::quest_runtime::QuestEvent& event) {
                 std::string e;
                 const auto applied=questRuntime->handle(event,e);
@@ -3846,7 +3852,7 @@ int main(int argc,char** argv) {
                 bindEquipmentPage();
                 bindDeathRewards();
                 bindContainerLoot();
-                bindQuestRuntime(); // P16 QUESTS
+                bindQuestRuntime(false); // P16 QUESTS (P17 DOORS2: no bind banners on reload)
                 bindSourcePresentations();
                 std::cout<<"Content unloaded and reloaded at frame="<<drawn<<'\n';
             }
@@ -3894,7 +3900,7 @@ int main(int argc,char** argv) {
                     bindEquipmentPage();
                     bindDeathRewards();
                     bindContainerLoot();
-                    bindQuestRuntime(); // P16 QUESTS
+                    bindQuestRuntime(false); // P16 QUESTS (P17 DOORS2: restore shows no bind banners)
                     bindSourcePresentations();
                     skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
