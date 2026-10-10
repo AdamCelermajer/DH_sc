@@ -175,6 +175,13 @@ bool SessionActorTransitionConsumerV1::blur(
         return set_body_pinned(session,actor.id,true,error);
     }
     case 7:error.clear();return true;
+    case 1:
+    case 17:
+        // P16 LIFECYCLE. CSPreSpawn::OnBlur (Revive, EnableCollisions) and CSSpawn::OnBlur
+        // (InitPhysicalObject unless flags520 bit 0x2000) are the lifecycle's own native effects. OriginalActorLifecycle
+        // runs them in source order around this admitted transition (init before, filter enable before). Neither
+        // state pins the body, so the consumer only validates the receipt here.
+        error.clear();return true;
     case 10:{
         if(!config_.source.knockback_controller_lock)
             return fail(error,"KnockBack Blur requires the actual controller lock owner");
@@ -237,6 +244,15 @@ bool SessionActorTransitionConsumerV1::focus_prefix(
     case 7:
         actor.source_flags520=0x6301u;
         error.clear();return true;
+    case 1:
+        // CSSpawn::OnFocus writes flags 577 (0x241); OriginalActorLifecycle re-applies carried 0x2000 after selection.
+        actor.source_flags520=0x241u;
+        error.clear();return true;
+    case 17:
+        // CSPreSpawn::OnFocus writes flags 4864 (0x1300). Its body removal and DisableCollisions run after selection
+        // in OriginalActorLifecycle (source SetPhysicalObject(nullptr) and DisableCollisions order).
+        actor.source_flags520=0x1300u;
+        error.clear();return true;
     case 10:{
         if(!event.source_knockback_great||event.source_other_actor==invalid_actor_id)
             return fail(error,"KnockBack Focus requires the actual variant and attacker");
@@ -285,6 +301,9 @@ bool SessionActorTransitionConsumerV1::focus_suffix(
         // and animation publication have completed.
         return set_body_pinned(session,actor.id,false,error);
     case 7:error.clear();return true;
+    case 1:
+    case 17:
+        error.clear();return true; // P16 LIFECYCLE: see focus_prefix; no pin change for these states.
     case 10:{
         std::uint32_t gate=0;
         if(!config_.source.knockback_read_gate528||!config_.source.knockback_write_gate528||

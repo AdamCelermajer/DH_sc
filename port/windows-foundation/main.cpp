@@ -1708,19 +1708,20 @@ int main(int argc,char** argv) {
                 case f::OriginalLifecycleOperation::select_state_animation: {
                     const auto policy=options.combat.profiles.find(placed->profileId);
                     if(policy==options.combat.profiles.end()){e="Source lifecycle profile unavailable";return false;}
-                    if(request.state==1)return combatSession->play_actor_state_sequence(actor.id,lifecycleSpawnChoice(placed->profileId),animationServices,e);
-                    if(request.state==3)return combatSession->select_actor_state_leaf(actor.id,policy->second.initialIdle,1,false,animationServices,e);
+                    // P16 LIFECYCLE: request.state is the admitted transition target (Blur/Focus recipes in the consumer).
+                    if(request.state==1)return combatSession->play_actor_state_sequence(actor.id,lifecycleSpawnChoice(placed->profileId),animationServices,e,request.state);
+                    if(request.state==3)return combatSession->select_actor_state_leaf(actor.id,policy->second.initialIdle,1,false,animationServices,e,request.state);
                     const auto* source=meleeBindings.find_actor(placed->profileId);
                     const auto pre=source->states.find("PreSpawn");
                     if(pre==source->states.end()){e="PreSpawn source availability metadata absent";return false;}
                     if(!pre->second.empty()) {
                         const auto chosen=options.lifecyclePreSpawns.find(placed->profileId);
                         if(chosen==options.lifecyclePreSpawns.end()){e="Authored PreSpawn needs explicit leaf selection";return false;}
-                        return combatSession->select_actor_state_leaf(actor.id,chosen->second,1,false,animationServices,e);
+                        return combatSession->select_actor_state_leaf(actor.id,chosen->second,1,false,animationServices,e,request.state);
                     }
                     const auto spawn=lifecycleSpawnChoice(placed->profileId);
                     auto path=spawn.group_path;path.push_back(0);
-                    return combatSession->select_actor_state_leaf(actor.id,{spawn.state,spawn.variant,path},1,true,animationServices,e);
+                    return combatSession->select_actor_state_leaf(actor.id,{spawn.state,spawn.variant,path},1,true,animationServices,e,request.state);
                 }}
                 e="Unimplemented lifecycle operation";return false;
             };

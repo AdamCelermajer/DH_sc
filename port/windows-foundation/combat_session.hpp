@@ -150,6 +150,9 @@ struct CombatSessionSourceSequencePolicy {
     ActorId source_other_actor=invalid_actor_id; // KnockBack attacker only.
     bool source_knockback_great=false;
     bool source_direct_transition=false;
+    // P16 LIFECYCLE: legacy OriginalActorLifecycle program target (1 Spawn, 3 Idle, 17 PreSpawn).
+    // Required when a physical transition handler is bound; -1 otherwise.
+    std::int32_t lifecycle_to_state=-1;
 };
 struct CombatSessionObjectAnimationServices {
     // Consumers may select/remove object visuals, but must defer Session
@@ -334,10 +337,14 @@ public:
     // and clears selections. Call before external target queries after a change.
     bool refresh_actor_combat_permissions(std::string& error);
     bool set_actor_original_state(ActorId,std::int32_t state,std::string& error);
+    // P16 LIFECYCLE: lifecycle_to_state is the OriginalActorLifecycle target. With a bound physical transition
+    // handler it is required: the change is delivered as Blur -> publish -> Focus prefix, the selection, then Focus suffix.
     bool select_actor_state_leaf(ActorId,const CombatSessionChoice&,double actor_rate,bool frozen,
-                                CombatSessionStateAnimationServices,std::string& error);
+                                CombatSessionStateAnimationServices,std::string& error,
+                                std::int32_t lifecycle_to_state=-1);
     bool play_actor_state_sequence(ActorId,const OriginalAttackSelection&,
-                                  CombatSessionStateAnimationServices,std::string& error);
+                                  CombatSessionStateAnimationServices,std::string& error,
+                                  std::int32_t lifecycle_to_state=-1);
     // External original skill/cinematic programs execute through the SAME
     // retained pose owner and session clock. Their clips must already be loaded
     // in this actor's visual. Preparation copies metadata; caller banks need
