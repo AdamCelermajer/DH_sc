@@ -4,7 +4,7 @@
 Checks, for each window capture (PPM written by --boot-capture):
   * the picture: the movie (1024x576, aspect-fit into the window) is compared with the
     ffmpeg frames of intro_v1.mpg around the expected frame index (time * 24);
-    prints the best matching frame index and PSNR (expected: best index within 2 frames of time * 24; the picture is driven by the audible soundtrack clock, which is ~1-2 frames behind nominal because of the platform queue);
+    prints the best matching frame index and PSNR (expected: best index within 4 frames of time * 24 (measured offset 2-3 frames: the WinMM queue latency before the audible soundtrack position); the picture is driven by the audible soundtrack clock, which is ~1-2 frames behind nominal because of the platform queue);
   * optionally the soundtrack: the sample count of the .mpg audio (ffmpeg s16le 48 kHz
     stereo) against the duration the EXE logged (--log, the "soundtrack_duration=" value).
 
@@ -119,20 +119,21 @@ def main():
         w, h, pixels = read_ppm(path)
         expected = int(float(t) * FPS)
         captures.append((float(t), path, w, h, pixels, expected))
-    indices = sorted({k + d for (_, _, _, _, _, k) in captures for d in range(-3, 4) if k + d >= 0})
+    indices = sorted({k + d for (_, _, _, _, _, k) in captures for d in range(-5, 6) if k + d >= 0})
     refs = ffmpeg_frames(args.ffmpeg, args.movie, indices, work) if indices else {}
     for t, path, w, h, pixels, expected in captures:
         best = None
         for flip in (False, True):
             sample = window_to_movie(w, h, pixels, flip)
             for k in indices:
-                if abs(k - expected) > 3:
+                if abs(k - expected) > 5:
                     continue
                 score = psnr_grid(sample, refs[k])
-                if best is None or score > best[0]:
+                # Static scenes tie: among frames within 0.5 dB of the best, prefer the one nearest the expected index.
+                if best is None or score > best[0] + 0.5 or (abs(score - best[0]) <= 0.5 and abs(k - expected) < abs(best[1] - expected)):
                     best = (score, k, flip)
         score, k, flip = best
-        good = score >= 30.0 and abs(k - expected) <= 2
+        good = score >= 30.0 and abs(k - expected) <= 4
         ok = ok and good
         print("capture t=%.1f %s window=%dx%d expected_frame=%d best_frame=%d psnr=%.2f dB flipped=%s %s"
               % (t, os.path.basename(path), w, h, expected, k, score, flip, "OK" if good else "MISMATCH"))

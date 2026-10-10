@@ -766,7 +766,16 @@ int main(int argc,char** argv) {
             std::cout<<"Frontend launched same CharacterState slot="<<options.selectedSaveSlot<<" class="<<state.class_id<<" sourceRNG="<<creationRandom.seed<<'/'<<creationRandom.calls<<'\n';
         }
         // Preview 15 campaign loading screen (menu route only; tests skip it). Stages below report real progress.
-        f::startup::LoadingScreenV1 loadingScreen(window,renderer,options.startMode=="menu"&&!options.skipBoot,1.5);
+        f::startup::LoadingScreenV1 loadingScreen(window,renderer,options.startMode=="menu"&&!options.skipBoot,1.5,&assets);
+        if(loadingScreen.enabled()) {
+            // Original NativeGetLoadingTipStrID: LCG over the help-page table; the seed is the game Random seed.
+            std::uint32_t loadingTipSeed=std::uint32_t(GetTickCount())|1u;
+            f::startup::LoadingTip tip;std::string tipError;
+            if(f::startup::choose_loading_tip_v1(assets,loadingTipSeed,tip,tipError)) {
+                std::cout<<"Loading tip string_id="<<tip.string_id<<" text=\""<<tip.text<<'"'<<std::endl;
+                loadingScreen.set_tip(tip);
+            } else std::cerr<<"Loading tip unavailable: "<<tipError<<std::endl;
+        }
         if(!options.loadingCapture.empty())loadingScreen.set_capture(options.loadingCapture,[](const fs::path& p,int w,int h){capture(p,w,h);});
         loadingScreen.progress(0.0);
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;

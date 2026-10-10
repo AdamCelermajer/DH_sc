@@ -3,7 +3,7 @@
 #include "asset_catalog.hpp"
 #include "../../../engine-audio/audio_mixer_v34.hpp"
 #include "content_paths.hpp"
-#include "hud_glyphs.hpp"
+#include "text_label_v1.hpp"
 #include "intro_movie_v2.hpp"
 #include "intro_soundtrack_v2.hpp"
 #include "overlay_renderer.hpp"
@@ -60,51 +60,6 @@ void draw_black(OverlayRenderer& overlay, int w, int h) {
 // double spaces kept) and MENU_SKIP ("SKIP"). Placement of the skip label is a port choice (see report).
 constexpr const char* kTouchToContinue = "Touch  the  screen  to  continue";
 constexpr const char* kSkipLabel = "SKIP";
-
-// A rasterised text line: one texture per non-blank glyph, built once.
-struct TextLabel {
-    std::vector<OverlaySprite> sprites;
-    std::vector<std::uint32_t> textures;
-    bool built = false;
-    std::string error;
-};
-
-enum class LabelAnchor { center, right_bottom };
-
-// Font = original Fontin SmallCaps file, the HUD font the port already uses;
-// the menu's exact typography is not verified.
-void build_text_label(Renderer& renderer, const AssetCatalog& assets, const char* text, int size, LabelAnchor anchor,
-                      int w, int h, TextLabel& label) {
-    label.built = true;
-    HudGlyphFont font;
-    std::string error;
-    if (!font.load(resolve_content_path(assets, "data/Fontin SmallCaps.ttf"), error)) {
-        label.error = std::string(text) + " font: " + error;
-        return;
-    }
-    HudGlyphRun run;
-    if (!font.raster(text, size, 1.0f, run, error)) {
-        label.error = std::string(text) + " raster: " + error;
-        return;
-    }
-    const bool right = anchor == LabelAnchor::right_bottom;
-    const float baseline = right ? float(h) * 0.92f : float(h) * 0.86f;
-    const float x0 = right ? float(w) * 0.96f - run.advance : (float(w) - run.advance) * 0.5f;
-    for (const auto& g : run.glyphs) {
-        if (g.image.rgba.empty()) continue;  // blank glyphs (spaces) draw nothing
-        const std::uint32_t texture = renderer.createTexture(int(g.image.width), int(g.image.height), g.image.rgba.data());
-        label.textures.push_back(texture);
-        OverlaySprite s;
-        s.x = x0 + g.x;
-        s.y = baseline + g.y;
-        s.width = g.width;
-        s.height = g.height;
-        s.u1 = g.u1;
-        s.v1 = g.v1;
-        s.texture = texture;
-        label.sprites.push_back(s);
-    }
-}
 
 bool read_file(const std::filesystem::path& path, std::vector<std::uint8_t>& bytes) {
     std::ifstream f(path, std::ios::binary);
@@ -296,8 +251,8 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     }
     if (frameTexture) renderer.destroyTexture(frameTexture);
     renderer.destroyTexture(splashTexture);
-    for (auto texture : title.textures) renderer.destroyTexture(texture);
-    for (auto texture : skip.textures) renderer.destroyTexture(texture);
+    destroy_text_label(renderer, title);
+    destroy_text_label(renderer, skip);
     if (!title.error.empty()) result.error = title.error;
     if (!skip.error.empty()) result.error = skip.error;
 
