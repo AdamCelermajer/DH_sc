@@ -355,6 +355,13 @@ else()
   target_link_libraries(linux_platform_smoke_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
   add_test(NAME linux_platform_smoke COMMAND linux_platform_smoke_tests)
 endif()
+# B066: static level geometry (VBO/culling) pixel equivalence and loop pacing.
+add_executable(renderer_static_geometry_tests tests/renderer_static_geometry_tests.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp render_queue.cpp)
+target_link_libraries(renderer_static_geometry_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
+add_test(NAME renderer_static_geometry COMMAND renderer_static_geometry_tests)
+add_executable(frame_pacer_tests tests/frame_pacer_tests.cpp ${DH2_PLATFORM_SOURCES})
+target_link_libraries(frame_pacer_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
+add_test(NAME frame_pacer COMMAND frame_pacer_tests)
 add_executable(private_save_transport_win32_tests tests/private_save_transport_win32_tests.cpp
   ../level-world/private_save_file_transport_v45.cpp ../level-world/savegame_jobs_owner_v2.cpp
   ../level-world/savegame_stream_v2.cpp ../game-data/fresh_player_profile_v1.cpp
