@@ -40,8 +40,11 @@ int main(int argc,char** argv){try{
  frame.art.batches.push_back({"menu_InventorySheetMain/stale",0,{}});frame.text.push_back({{"menu_InventorySheetDetails/stale"},"stale"});
  frame.solids.push_back({{"menu_InventorySheetMain/stale",0,{}},{1,1,1,1},""});
  check(details.frame(bindings,frame,error),error);check(!frame.art.batches.empty()&&!frame.text.empty(),"Original details generated no actual UI");
- check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return value.role.find("menu_InventorySheetMain/")==0||value.role.find("menu_InventorySheetDetails/stale")==0;}),"Original details did not clear stale main/details bitmap art");
+ check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return (value.role.find("menu_InventorySheetMain/")==0&&value.role!="menu_InventorySheetMain/34"&&value.role!="menu_InventorySheetMain/177")||value.role.find("menu_InventorySheetDetails/stale")==0;}),"Original details did not clear stale main/details bitmap art");
  check(std::none_of(frame.text.begin(),frame.text.end(),[](const auto& value){return value.field.path.find("menu_InventorySheetDetails/stale")==0;}),"Original details did not clear stale source fields");
+ check(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return value.role=="menu_InventorySheetMain/34";})&&
+       std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return value.role=="menu_InventorySheetMain/177";}),
+       "Original full-stage InventorySheetMain background plates were removed under the Details overlay");
  check(frame.solids.size()==3&&frame.solids[0].geometry.role=="menu_InventorySheetDetails/avatarpane/1"&&
        frame.solids[1].geometry.role=="menu_InventorySheetDetails/list/btn_0/8"&&
        frame.solids[2].geometry.role=="menu_InventorySheetDetails/list/btn_post0/8",

@@ -70,7 +70,9 @@ bool ScreenInteraction::text(std::string_view bytes) {sync();return screen_=="me
 void ScreenInteraction::key(int vk,bool down,bool shift) {
     sync();bool prior=keys_[vk];keys_[vk]=down;if(prior==down)return;
     if(screen_=="menu_SelectClass"&&(vk==0x25||vk==0x27||vk==13)) {
-        if(!down){const char* path=vk==0x25?"menu_SelectClass.btn_left":vk==0x27?"menu_SelectClass.btn_right":"menu_SelectClass.btn_Confirm";if(enabled(path))pending_paths_.emplace_back(path);}return;
+        // Queue every release; the gate is evaluated in flush() against the
+        // state left by earlier presses in the same frame (see flush).
+        if(!down){const char* path=vk==0x25?"menu_SelectClass.btn_left":vk==0x27?"menu_SelectClass.btn_right":"menu_SelectClass.btn_Confirm";pending_paths_.emplace_back(path);}return;
     }
     input_.key(vk,down,shift);
 }
@@ -111,7 +113,10 @@ bool ScreenInteraction::dispatch(std::string_view path,std::string& error) {
 bool ScreenInteraction::flush(std::string& error) {
     sync();auto frame=input_.take_frame();
     auto pc_paths=std::move(pending_paths_);pending_paths_.clear();
-    for(const auto& path:pc_paths) {if(!dispatch(path,error))return false;if(screen_!=navigator_.top())return true;}
+    // Releases are applied in order against live state: a press that is no
+    // longer enabled (for example a bound arrow after an earlier press in this
+    // frame) is ignored, as a source press on a disabled control would be.
+    for(const auto& path:pc_paths) {if(!enabled(path))continue;if(!dispatch(path,error))return false;if(screen_!=navigator_.top())return true;}
     if(frame.back)return navigator_.back(error);
     if(frame.text_committed)return navigator_.accept_name(input_.name(),error);
     for(auto id:frame.activated) {

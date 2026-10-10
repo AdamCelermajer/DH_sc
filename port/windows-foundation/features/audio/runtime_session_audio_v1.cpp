@@ -1,4 +1,5 @@
 #include "runtime_session_audio_v1.hpp"
+#include "level_music_v1.hpp"
 #include "audio_source_target_position_v1.hpp"
 #include "../../asset_catalog.hpp"
 #include "../../original_actor_camera_anchor.hpp"
@@ -214,14 +215,40 @@ bool RuntimeSessionAudioV1::window_activity(bool focused,bool minimized,std::str
         }
         log_<<"Audio window activity focused="<<focused<<" minimized="<<minimized<<'\n';
         // Original Application::Pause -> PauseAllSounds; Resume -> ResumeAllSounds.
-        if(!host_->set_output_paused(!focused||minimized,error))return false;
+        const bool paused=!focused||minimized;
+        if(!host_->set_output_paused(paused,error))return false;
+        if(!level_music_name_.empty())
+            log_<<level_music_transition_line_v1(paused?"output-pause":"output-resume",level_music_name_,0,
+                    std::string("focused=")+(focused?"1":"0")+" minimized="+(minimized?"1":"0"))<<'\n';
     }
     error.clear();return true;
 }
 
 bool RuntimeSessionAudioV1::set_level_music(const std::string& name,std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
-    level_music_name_=name;level_music_error_.clear();error.clear();return true;
+    level_music_name_=name;level_music_error_.clear();level_music_revive_pending_=false;error.clear();return true;
+}
+
+bool RuntimeSessionAudioV1::on_local_players_revived(std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    if(level_music_name_.empty()) {error.clear();return true;}
+    if(host_->level_music_ordinal()>=0) {
+        if(!host_->stop_level_music(kLevelMusicReviveStopMs,error))return false;
+        log_<<level_music_transition_line_v1("revive-stop",level_music_name_,kLevelMusicReviveStopMs,"")<<'\n';
+    }
+    level_music_revive_pending_=true;error.clear();return true;
+}
+
+bool RuntimeSessionAudioV1::on_return_to_menu(std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    level_music_revive_pending_=false;
+    if(!level_music_name_.empty()) {
+        if(host_->level_music_ordinal()>=0) {
+            if(!host_->stop_level_music(kLevelMusicReturnStopFadeMs,error))return false;
+        }
+        log_<<level_music_transition_line_v1("return-stop",level_music_name_,kLevelMusicReturnStopFadeMs,"")<<'\n';
+    }
+    level_music_name_.clear();error.clear();return true;
 }
 
 const RetainedFrameAudioClock* RuntimeSessionAudioV1::before_update(const Camera& camera,
@@ -251,11 +278,27 @@ bool RuntimeSessionAudioV1::after_update(std::string& error) {
     if(!host_->update(error))return false;
     // Level::Update-equivalent start: only with focused, non-minimised output.
     // Same-ordinal requests are not repeated once the voice is owned.
-    if(!level_music_name_.empty()&&activity_known_&&focused_&&!minimized_) {
+    if(!level_music_name_.empty()) {
+        const bool outputActive=activity_known_&&focused_&&!minimized_;
         const auto ordinal=host_->source_ordinal(level_music_name_.c_str());
         std::string musicError;
         if(ordinal<0) musicError="Level music is absent from the source sound table: "+level_music_name_;
-        else if(ordinal!=host_->level_music_ordinal())host_->play_level_music(ordinal,2000,musicError);
+        else if(level_music_revive_pending_) {
+            if(outputActive) {
+                RuntimeAudioHostV1::LevelMusicActionV1 action{};
+                if(host_->play_level_music(ordinal,kLevelMusicReviveFadeMs,action,musicError)) {
+                    level_music_revive_pending_=false;
+                    log_<<level_music_transition_line_v1("revive-restart",level_music_name_,kLevelMusicReviveFadeMs,"")<<'\n';
+                }
+            }
+        } else if(level_music_start_due_v1(true,outputActive,ordinal,host_->level_music_ordinal())) {
+            RuntimeAudioHostV1::LevelMusicActionV1 action{};
+            if(host_->play_level_music(ordinal,kLevelMusicStartFadeMs,action,musicError)) {
+                const char* kind=action==RuntimeAudioHostV1::LevelMusicActionV1::switched?"switch":"start";
+                log_<<level_music_transition_line_v1(kind,level_music_name_,kLevelMusicStartFadeMs,
+                        "ordinal="+std::to_string(ordinal))<<'\n';
+            }
+        }
         if(!musicError.empty()&&musicError!=level_music_error_) {
             level_music_error_=musicError;
             log_<<"Level music diagnostic: "<<musicError<<" (retrying)\n";

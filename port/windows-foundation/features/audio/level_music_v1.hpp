@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <string>
 
 namespace dh::foundation {
@@ -21,5 +22,32 @@ struct LevelMusicNamesV1 {
 // or malformed XML is an error; a LevelConfig without `music` is not an error.
 bool read_level_music_names_v1(const AssetCatalog& assets, const std::string& levelUri,
     LevelMusicNamesV1& names, std::string& error);
+
+// Original fades (ms) for the level-music owner. Sources (IDA pseudocode-all.c):
+// Level::Update PlayMusic(...,2000) at the first update; PlayerManager::ReviveLocalPlayers
+// StopAllMusic(2) then PlayMusic(...,1000); MenuMainMenu::Hide StopMusic(1000);
+// VoxSoundManager::PlayMusic same-id branch Resume(emitter, 0.05 s).
+inline constexpr int kLevelMusicStartFadeMs = 2000;
+inline constexpr int kLevelMusicReviveStopMs = 2;
+inline constexpr int kLevelMusicReviveFadeMs = 1000;
+inline constexpr int kLevelMusicReturnStopFadeMs = 1000;
+inline constexpr int kLevelMusicResumeMs = 50;
+
+// Level::Update start gate. A track starts only when one is configured, the
+// output is focused and not minimised (submit needs a focused output), its row
+// resolved, and the requested track is not already owned (no restart).
+inline bool level_music_start_due_v1(bool hasTrack, bool outputActive,
+    std::int32_t requestedOrdinal, std::int32_t ownedOrdinal) noexcept {
+    return hasTrack && outputActive && requestedOrdinal >= 0 && requestedOrdinal != ownedOrdinal;
+}
+
+// One diagnostic line per level-music transition, so a verifier can confirm
+// transitions from the log without listening. kind: start, resume, switch,
+// revive-stop, revive-restart, return-stop, output-pause, output-resume.
+inline std::string level_music_transition_line_v1(const std::string& kind, const std::string& track,
+    int fadeMs, const std::string& detail) {
+    return "Level music transition: kind=" + kind + " track=" + (track.empty() ? "none" : track) +
+           " fadeMs=" + std::to_string(fadeMs) + (detail.empty() ? "" : " " + detail);
+}
 
 } // namespace dh::foundation::audio

@@ -67,6 +67,7 @@ class RuntimeSessionAudioV1 final {
     std::uint64_t started_{},dispatched_{},diagnostics_{};
     bool focused_{},minimized_{},activity_known_{};
     std::string level_music_name_,level_music_error_;
+    bool level_music_revive_pending_{};
     std::ostream& log_;
 public:
     explicit RuntimeSessionAudioV1(std::ostream&);
@@ -88,6 +89,13 @@ public:
     // original Level::Update path plays it on the first updated frame. An empty
     // name requests nothing.
     bool set_level_music(const std::string& name,std::string& error);
+    // Original PlayerManager::ReviveLocalPlayers: StopAllMusic(2) then
+    // PlayMusic(level music, 1000). Restart is deferred until output is focused.
+    // Not yet reached by the normal EXE: no global-death/revive flow is wired.
+    bool on_local_players_revived(std::string& error);
+    // Original MenuMainMenu::Hide StopMusic(1000) on the way out of gameplay.
+    // Clears the track so after_update cannot restart it before teardown.
+    bool on_return_to_menu(std::string& error);
     // Publish actual camera/player and window state before the Session update.
     // A missing device sample returns nullptr; it never supplies a private clock.
     const RetainedFrameAudioClock* before_update(const Camera&,bool focused,

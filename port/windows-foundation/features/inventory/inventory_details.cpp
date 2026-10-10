@@ -4,6 +4,14 @@
 namespace dh::foundation::inventory {
 namespace {
 bool prefix(const std::string& path,const char* base){return path.compare(0,std::char_traits<char>::length(base),base)==0;}
+// Details is pushed as its own menu over the still-open InventorySheetMain
+// (authored-actions.txt NativePushMenu "menu_InventorySheetDetails"), so the two
+// full-stage background plates of the main sheet (shapes 396 at depth 34 and 436 at
+// depth 177) remain visible under it. Every other main-sheet layer is still replaced.
+bool details_replaces_main(const std::string& path){
+ if(path=="menu_InventorySheetMain/34"||path=="menu_InventorySheetMain/177") return false;
+ return prefix(path,"menu_InventorySheetMain/");
+}
 bool contains(const std::vector<HudGeometryVertex>& triangles,float x,float y){
  auto edge=[](const auto& a,const auto& b,float xx,float yy){return (b.x-a.x)*(yy-a.y)-(b.y-a.y)*(xx-a.x);};
  for(std::size_t i=0;i+2<triangles.size();i+=3){const auto&a=triangles[i];const auto&b=triangles[i+1];const auto&c=triangles[i+2];if(std::abs(edge(a,b,c.x,c.y))<1e-6f)continue;const auto aa=edge(a,b,x,y),bb=edge(b,c,x,y),cc=edge(c,a,x,y);if((aa>=0&&bb>=0&&cc>=0)||(aa<=0&&bb<=0&&cc<=0))return true;}return false;
@@ -21,9 +29,9 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
  std::vector<equipment_menu::OwnedSelection> rows;if(!candidates(rows,error))return false;
  const auto current=focus(rows,selection_.selected_instance());const auto& art=original_inventory_details();auto next=output;
  std::string equipped_id,equipped_name;for(const auto& row:rows)if(row.equipped){equipped_id=row.instance_id;break;}
- next.art.batches.erase(std::remove_if(next.art.batches.begin(),next.art.batches.end(),[](const auto& batch){return prefix(batch.role,"menu_InventorySheetMain/")||prefix(batch.role,"menu_InventorySheetDetails/");}),next.art.batches.end());
- next.text.erase(std::remove_if(next.text.begin(),next.text.end(),[](const auto& value){return prefix(value.field.path,"menu_InventorySheetMain/")||prefix(value.field.path,"menu_InventorySheetDetails/");}),next.text.end());
- next.solids.erase(std::remove_if(next.solids.begin(),next.solids.end(),[](const auto& value){return prefix(value.geometry.role,"menu_InventorySheetMain/")||prefix(value.geometry.role,"menu_InventorySheetDetails/");}),next.solids.end());
+ next.art.batches.erase(std::remove_if(next.art.batches.begin(),next.art.batches.end(),[](const auto& batch){return details_replaces_main(batch.role)||prefix(batch.role,"menu_InventorySheetDetails/");}),next.art.batches.end());
+ next.text.erase(std::remove_if(next.text.begin(),next.text.end(),[](const auto& value){return details_replaces_main(value.field.path)||prefix(value.field.path,"menu_InventorySheetDetails/");}),next.text.end());
+ next.solids.erase(std::remove_if(next.solids.begin(),next.solids.end(),[](const auto& value){return details_replaces_main(value.geometry.role)||prefix(value.geometry.role,"menu_InventorySheetDetails/");}),next.solids.end());
   const auto* transmute_variant=rows.empty()?nullptr:&(rows[current].equipped?art.text_states.transmute_disabled:art.text_states.transmute_idle);
   const bool has_transmute_variant=transmute_variant&&!transmute_variant->fields.empty();
   if(has_transmute_variant){

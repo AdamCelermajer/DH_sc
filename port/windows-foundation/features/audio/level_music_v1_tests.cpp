@@ -4,6 +4,7 @@
 // RuntimeAudioHostV1::play_level_music. Start/stop/focus rules need the live session
 // and are not covered here.
 #include "../../../engine-audio/audio_sample_v34.hpp"
+#include "level_music_v1.hpp"
 
 #include <filesystem>
 #include <fstream>
@@ -100,6 +101,29 @@ int main(int argc, char** argv) {
             check(false, std::string("VXN has a decodable segment: ") + expected.file);
         }
     }
+
+    // B040 transition policy (pure gate and log lines used by RuntimeSessionAudioV1).
+    // The live start/stop/pause/revive effects need the integrated session; see the report.
+    using namespace dh::foundation::audio;
+    const int kNone = -1;
+    check(!level_music_start_due_v1(false, true, 3, kNone), "no configured track: no start");
+    check(!level_music_start_due_v1(true, false, 3, kNone), "unfocused or minimised output: no start (retry later)");
+    check(!level_music_start_due_v1(true, true, kNone, kNone), "missing source row: no start");
+    check(level_music_start_due_v1(true, true, 3, kNone), "focused, row 3, nothing owned: start");
+    check(!level_music_start_due_v1(true, true, 3, 3), "same track already owned: no restart (Level::Update once)");
+    check(level_music_start_due_v1(true, true, 3, 5), "different owned track: switch");
+    check(level_music_start_due_v1(true, true, 3, kNone), "after revive-stop owned=-1: restart is due");
+    check(kLevelMusicStartFadeMs == 2000 && kLevelMusicReviveStopMs == 2 && kLevelMusicReviveFadeMs == 1000 &&
+              kLevelMusicReturnStopFadeMs == 1000 && kLevelMusicResumeMs == 50,
+          "original fades: start 2000, revive stop 2 then restart 1000, return stop 1000, same-id resume 50");
+    const auto start = level_music_transition_line_v1("start", "SwampHubAmbientMusic", kLevelMusicStartFadeMs, "ordinal=3");
+    check(start == "Level music transition: kind=start track=SwampHubAmbientMusic fadeMs=2000 ordinal=3",
+          "start log line: " + start);
+    const auto pause = level_music_transition_line_v1("output-pause", "SwampHubAmbientMusic", 0, "focused=0 minimized=0");
+    check(pause.find("kind=output-pause") != std::string::npos && pause.find("focused=0") != std::string::npos,
+          "output-pause log line names focus state");
+    check(level_music_transition_line_v1("return-stop", "", 1000, "").find("track=none") != std::string::npos,
+          "empty track is printed as none, never blank");
 
     std::cout << (failures == 0 ? "ALL PASS" : "FAILURES") << " (" << failures << ")\n";
     return failures == 0 ? 0 : 1;

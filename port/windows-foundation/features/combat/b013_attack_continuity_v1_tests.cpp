@@ -9,11 +9,13 @@
 #include "../../../script-runtime/script_constants.hpp"
 #include <cmath>
 #include <iostream>
+#include <map>
 #include <stdexcept>
 
 using namespace dh::foundation;
 namespace {
 void check(bool ok,const std::string& what){if(!ok)throw std::runtime_error(what);}
+bool histogramMode=false;
 struct OutcomeCase{const char* label;std::uint32_t required,forbidden;bool damage;bool reaction;bool suppress_status=false,boost_injury=false,lethal=false,suppress_injury_only=false,source_gap=false;};
 const OutcomeCase cases[]={
  {"ordinary hit",0,0x1f7u,true,false,true},
@@ -101,6 +103,20 @@ void run(const char* root,const std::string& profile,const OutcomeCase& wanted){
  OriginalMeleeDamageProvider seedProvider;
  check(seedProvider.bind_actor(2,*seedSource,error)&&seedProvider.bind_actor(1,*seedTarget,error),error);
  const auto seedCategory=seedSource->facts.main_damage_class;
+ if(histogramMode){ // B013 probe: outcome distribution of the seeded lizard formula against the player.
+  std::map<std::uint32_t,unsigned> counts;unsigned positive=0,samples=0;
+  const auto rawFormula=seedSource->sheets.resolved;
+  for(std::uint32_t candidate=1;candidate<=5000;++candidate){
+   auto rng=dh2::data::CombatRandom{candidate,0};OriginalMeleeResolution r;
+   check(seedProvider.resolve_result(2,1,0x22aab5u,seedCategory,-1,0,rng,r,error,&rawFormula),error);
+   ++counts[r.original.outcomes&0x1ffu];++samples;if(r.damage>0)++positive;
+  }
+  std::cout<<profile<<" samples="<<samples<<" positive-damage="<<positive<<"\n";
+  std::cout<<"  attacker 135="<<rawFormula[135]<<" 182="<<rawFormula[182]<<" 19="<<rawFormula[19]<<" 134="<<rawFormula[134]
+   <<" | defender 135="<<seedTarget->sheets.resolved[135]<<" 19="<<seedTarget->sheets.resolved[19]<<" 134="<<seedTarget->sheets.resolved[134]<<"\n";
+  for(const auto& entry:counts)std::cout<<"  outcomes=0x"<<std::hex<<entry.first<<std::dec<<" count="<<entry.second<<"\n";
+  return;
+ }
  std::uint32_t seed=wanted.lethal?1u:0u;OriginalMeleeResolution expected{};dh2::data::CombatRandom expectedRng{1,0};
  for(std::uint32_t candidate=1;candidate<50000&&!seed;++candidate){
   auto rng=dh2::data::CombatRandom{candidate,0};OriginalMeleeResolution result;
@@ -175,7 +191,8 @@ void run(const char* root,const std::string& profile,const OutcomeCase& wanted){
 }
 }
 int main(int argc,char** argv){try{
- check(argc==2,"Supply unified original assets root");
+ check(argc==2||(argc==3&&std::string(argv[2])=="histogram"),"Supply unified original assets root");
+ if(argc==3){histogramMode=true;run(argv[1],"KnightPlayerBase",cases[0]);return 0;}
  for(const auto* profile:{"KnightPlayerBase","RoguePlayerBase"})for(const auto& item:cases)run(argv[1],profile,item);
  std::cout<<"PASS B013 actual CombatSession: no-proc ordinary hit/miss preserve active Knight/Rogue attack; Injury/lethal interrupt; Push gap is exposed; duplicate delivery does not reroll. Dodge/block seeds are reported above.\n";
  return 0;

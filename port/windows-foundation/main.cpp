@@ -2056,6 +2056,8 @@ int main(int argc,char** argv) {
             const auto circle=[](float x) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,278,15,{x-17,x+17,295,311}};};
             layout.skills={circle(162),circle(200),circle(238)};layout.faery=circle(290);layout.potion=circle(350);
             layout.faery.key_label_bounds={267,313,295,311};layout.potion.key_label_bounds={319,381,295,311};
+            // B002/B024: exact NativeHUDGetActiveFaery result = Character::SG_GetCurrentFaerieId(-1), the saved current_faery of difficulty 0 (difficulty used by this build's Faery cast arm).
+            if(state.source_faery_state_known)layout.active_faery_id=state.faery_by_difficulty[0].current_faery;
             if(!f::generic_skills::compose_pc_gameplay_hud_v1(frame,classFrame,layout,pcHudPresentation,error))throw std::runtime_error("PC HUD geometry: "+error);
             std::uint64_t potionCount=0;
             for(const auto& item:state.inventory)if(item.definition_id=="Potion0")potionCount+=item.quantity;
@@ -3248,6 +3250,8 @@ int main(int argc,char** argv) {
             std::cout<<'\n';
         }
         if(returnToFrontend) {
+            // B040: original MenuMainMenu::Hide StopMusic(1000); session teardown follows.
+            if(runtimeAudio) {std::string audioError;if(!runtimeAudio->on_return_to_menu(audioError))std::cerr<<"Audio return-to-menu diagnostic: "<<audioError<<'\n';}
             pcHudText.clear(renderer);pauseText.clear(renderer);
             const int selectedSlot=options.selectedSaveSlot;
             options=launchOptions;options.startMode="menu";options.selectedSaveSlot=selectedSlot;

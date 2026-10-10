@@ -103,7 +103,8 @@ public:
     // runtime: the same ordinal resumes a still-playing voice (0.05 s); a new
     // ordinal first stops the previous one with fade; the VXN starts at its
     // fresh native state (0) with a fade-in and loops from its sounds.xml row.
-    bool play_level_music(std::int32_t ordinal,int fade_ms,std::string& error);
+    enum class LevelMusicActionV1 : std::uint8_t {unchanged,resumed,started,switched};
+    bool play_level_music(std::int32_t ordinal,int fade_ms,LevelMusicActionV1& action,std::string& error);
     bool stop_level_music(int fade_ms,std::string& error);
     std::int32_t level_music_ordinal() const noexcept{return level_music_ordinal_;}
     // Original Application::Pause/Resume -> PauseAllSounds/ResumeAllSounds.

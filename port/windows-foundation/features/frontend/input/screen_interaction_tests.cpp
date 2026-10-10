@@ -34,6 +34,15 @@ int main(){try {
     ui.key(0x27,true);ui.key(0x27,false);check(ui.flush(error)&&ui.class_index()==1,"PC right original class switch");
     ui.key(0x27,true);ui.key(0x27,false);check(ui.flush(error)&&ui.class_index()==2,"class2 missing");
     check(!ui.enabled("menu_SelectClass.btn_right"),"right bound visible");
+    // Several releases batched into one frame apply in order against live state:
+    // Left,Right,Right from index 2 must end at 2 (the second Right is bound).
+    ui.key(0x25,true);ui.key(0x25,false);ui.key(0x27,true);ui.key(0x27,false);ui.key(0x27,true);ui.key(0x27,false);
+    check(ui.flush(error)&&ui.class_index()==2,"same-frame Left,Right,Right dropped a press");
+    // Left x3 from 2 stops at the left bound without a source error.
+    ui.key(0x25,true);ui.key(0x25,false);ui.key(0x25,true);ui.key(0x25,false);ui.key(0x25,true);ui.key(0x25,false);
+    check(ui.flush(error)&&ui.class_index()==0,"same-frame Left x3 did not stop at the left bound");
+    ui.key(0x27,true);ui.key(0x27,false);ui.key(0x27,true);ui.key(0x27,false);
+    check(ui.flush(error)&&ui.class_index()==2,"same-frame Right x2 from the left bound failed");
     check(ui.dispatch("menu_SelectClass.btn_Confirm",error)&&nav.top()=="menu_StartGame","class Confirm source flow");
     check(calls.size()==2&&calls[0].find("Qw123456:")==0,"rawname/create/assign ownership");
     check(!ui.dispatch("menu_StartGame/StartMenuButtons/btn_MENU_SINGLE_PLAYER",error),"missing difficulty fact succeeded");

@@ -1,4 +1,5 @@
 #include "runtime_audio_host_v1.hpp"
+#include "level_music_v1.hpp"
 #include "../../../engine-audio/audio_source_command_v40.hpp"
 #include "../../../engine-audio/audio_world_producer_v38.hpp"
 #if defined(DH_PLATFORM_SDL2)
@@ -191,8 +192,9 @@ std::int32_t RuntimeAudioHostV1::source_ordinal(const char* name) const noexcept
     return runtime?runtime->bindings().source_id(name):-1;
 }
 
-bool RuntimeAudioHostV1::play_level_music(std::int32_t ordinal,int fade_ms,std::string& error) {
+bool RuntimeAudioHostV1::play_level_music(std::int32_t ordinal,int fade_ms,LevelMusicActionV1& action,std::string& error) {
     auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    action=LevelMusicActionV1::unchanged;
     if(!runtime||ordinal<0||fade_ms<0) {
         error="Required SAME source runtime, music row and nonnegative fade";return false;
     }
@@ -206,11 +208,17 @@ bool RuntimeAudioHostV1::play_level_music(std::int32_t ordinal,int fade_ms,std::
         if(!runtime->source_ordinal_playing(ordinal,playing,error))return false;
         if(playing) {
             // PlayMusic same-id branch: Resume(emitter, 0.05 s), no restart.
-            if(!runtime->resume_source_ordinal(ordinal,std::uint32_t(std::uint64_t(50)*clock.rate/1000),error))return false;
+            if(!runtime->resume_source_ordinal(ordinal,std::uint32_t(std::uint64_t(kLevelMusicResumeMs)*clock.rate/1000),error))return false;
+            action=LevelMusicActionV1::resumed;
             error.clear();return true;
         }
+        // Same track whose voice already ended: a fresh start, not a resume.
+        action=LevelMusicActionV1::started;
     } else if(level_music_ordinal_>=0) {
         if(!stop_level_music(fade_ms,error))return false;
+        action=LevelMusicActionV1::switched;
+    } else {
+        action=LevelMusicActionV1::started;
     }
     std::int64_t event_ns{};
     if(!winmm_monotonic_ns(event_ns,error))return false;
