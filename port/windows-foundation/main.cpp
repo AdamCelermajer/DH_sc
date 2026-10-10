@@ -3802,6 +3802,15 @@ int main(int argc,char** argv) {
                 if(pressed('2')) visual.select(f::CharacterPose::walk);
                 if(pressed('3')) visual.select(f::CharacterPose::attack);
             }
+            // OPENING2 block-save rule: while a scripted cutscene blocks saving (Script_BlockSaveGame, kind 70) a save is
+            // refused, and a restore is refused during a cutscene (the cutscene owns the HUD, the controller and the script
+            // runtime; loading underneath it would leave a running script on the wrong state). Refusals are logged.
+            const auto campaignSaveRefused=[&](const char* operation) {
+                if(!campaignHost.enabled())return false;
+                if(std::string(operation)=="Save"&&campaignHost.save_blocked()) {std::cout<<"Save refused: cutscene blocks saving (campaign frame="<<drawn<<")\n";return true;}
+                if(std::string(operation)=="Restore"&&campaignHost.cutscene_mode()) {std::cout<<"Restore refused: cutscene is running (campaign frame="<<drawn<<")\n";return true;}
+                return false;
+            };
             const auto checkpointAllowed=[&](const char* operation) {
                 if(!combatSession)return true;
                 if((skillCastCoordinator&&!skillCastCoordinator->checkpoint_v1(*combatSession,error))||
@@ -3847,7 +3856,7 @@ int main(int argc,char** argv) {
                 bindSourcePresentations();
                 std::cout<<"Content unloaded and reloaded at frame="<<drawn<<'\n';
             }
-            if((pressed(VK_F5)||drawn==options.saveFrame)&&checkpointAllowed("Save")) {
+            if((pressed(VK_F5)||drawn==options.saveFrame)&&!campaignSaveRefused("Save")&&checkpointAllowed("Save")) {
                 if(combatSession) {
                     f::GameSave snapshot;
                     stampSaveMetadata(state,options.level.generic_string()); // P14 schema: checkpoint save = SG_SavePlayer (date + LevelList row)
@@ -3860,7 +3869,7 @@ int main(int argc,char** argv) {
                     if(!f::save_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
                 }
             }
-            if((pressed(VK_F9)||drawn==options.loadFrame)&&checkpointAllowed("Restore")) {
+            if((pressed(VK_F9)||drawn==options.loadFrame)&&!campaignSaveRefused("Restore")&&checkpointAllowed("Restore")) {
                 if(options.combatText)combatText.clear_for_reload();
                 if(combatSession) {
                     f::GameSave snapshot;if(!f::load_game(options.liveSave,snapshot,error))throw std::runtime_error("Read live save: "+error);
