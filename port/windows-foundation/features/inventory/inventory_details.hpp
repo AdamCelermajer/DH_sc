@@ -10,6 +10,8 @@ struct DetailTextVariant {std::vector<HudGeometryBatch> batches;std::vector<char
 struct DetailTextStates {DetailTextVariant transmute_idle,transmute_disabled;};
 struct DetailArt {character_menu::MenuArt panel;std::vector<DetailRowArt> rows;std::vector<DetailHit> actions;DetailTextStates text_states;};
 const DetailArt& original_inventory_details();
+// B045: true when (x,y) is on the visible body of a list row (the row art box), not only its border sliver.
+bool details_row_hit(const DetailRowArt& row,float x,float y);
 // The native character preview is an SWF display callback, not a panel-wide
 // overlay. These generated records retain its exact authored pane and sibling
 // insertion point so the renderer can interleave the existing preview owner.
@@ -45,6 +47,8 @@ public:
     void close() noexcept{open_=false;}
     bool is_open()const noexcept{return open_;}
     bool open(unsigned source_slot,std::string& error);
+    std::size_t selected_index()const;
+    bool reselect_near(std::size_t index,std::string& error);
     bool frame(const DetailBindings&,character_menu::Frame&,std::string& error)const;
     // Sourcecoords already inverse-transformed by PC/touch transport.
     // Selection and arrows act here; mutation commands returned to real owner.

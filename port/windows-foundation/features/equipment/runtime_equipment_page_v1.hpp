@@ -66,6 +66,10 @@ public:
     // error means there is no pending source command.
     bool take_source_pending_command(RuntimeEquipmentPageReleaseV1::PendingCommand&,
                                      std::string& error);
+    // Details list Index (GenerateInventoryListItems) of the selected row, and the post-Drop/Transmute reselection of the
+    // nearest remaining row once the owner removed the selected item from the bag.
+    std::size_t details_selected_index() const;
+    bool reselect_details_near(std::size_t index, std::string& error);
     void leave_page() noexcept;
 
 private:

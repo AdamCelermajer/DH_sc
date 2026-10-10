@@ -66,6 +66,9 @@ const char* original_menu_label_symbol(const std::string& path)noexcept {
         ,{"menu_CharacterSheetStats/RH/RightHandDamage/","GAMEPLAYMENUS_SUMMARY_R_HAND"}
         ,{"menu_CharacterSheetStats/LH/LeftHandDamage/","GAMEPLAYMENUS_SUMMARY_L_HAND"}
         ,{"menu_CharacterSheetStats/TWOH/TwoHDamage/","GAMEPLAYMENUS_SUMMARY_2_HAND"}
+        // InventorySheetMain onShow actions (authored-actions.txt 00019d7f..00019dcf): NativeGetStringFromSymbol.
+        ,{"menu_InventorySheetMain/btn_GAMEPLAYMENUS_AUTOEQUIP_ALL/","GAMEPLAYMENUS_AUTOEQUIP_ALL"}
+        ,{"menu_InventorySheetMain/Title/","GAMEPLAYMENUS_INVENTORY_TITLE"}
     };
     for(const auto& label:labels)if(path.find(label.source_path)!=std::string::npos)return label.symbol;
     return nullptr;

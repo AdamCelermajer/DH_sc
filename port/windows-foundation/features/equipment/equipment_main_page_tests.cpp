@@ -182,6 +182,24 @@ int main(int argc, char** argv) {
               "Partial canonical Gear binding was accepted or mutated compatibility state");
         page.leave_page();
         check(!details.is_open(), "Leaving MAINPAGE retained Details visibility");
+        // Main sheet btn_GAMEPLAYMENUS_AUTOEQUIP_ALL (NativeInvAutoEquipSlot(-1)): the authored banner returns a
+        // request to the root owner and mutates nothing locally. The same point does nothing while Details is open.
+        {
+            const std::string prefix = "menu_InventorySheetMain/btn_GAMEPLAYMENUS_AUTOEQUIP_ALL/";
+            float all_x = 0, all_y = 0; bool found = false;
+            for (const auto& batch : character_menu::original_menu_art(character_menu::Tab::equipment).batches)
+                if (!found && batch.role.compare(0, prefix.size(), prefix) == 0 && batch.triangles.size() >= 3) {
+                    all_x = (batch.triangles[0].x + batch.triangles[1].x + batch.triangles[2].x) / 3;
+                    all_y = (batch.triangles[0].y + batch.triangles[1].y + batch.triangles[2].y) / 3;
+                    found = true;
+                }
+            check(found, "Original ALL auto-equip banner art unavailable");
+            check(page.release(all_x, all_y, command, error), error);
+            check(command == equipment_menu::MainPageCommand::request_auto_equip_all && character.equipment.empty() &&
+                  actor.equipment.empty() && !details.is_open(), "ALL banner did not return a typed request without local mutation");
+            // A press outside every control stays a no-op.
+            check(page.release(1.0f, 1.0f, command, error) && command == equipment_menu::MainPageCommand::none, "Empty space produced a command");
+        }
         std::cout << "equipment_main_page_tests PASS: shared source slot/instance, Details, native Gear routing and compatibility equip/unequip\n";
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';

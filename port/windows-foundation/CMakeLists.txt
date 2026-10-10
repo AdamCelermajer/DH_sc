@@ -168,6 +168,7 @@ add_library(foundation_runtime_equipment_menu STATIC
   features/combat/runtime_player_profile_attack_bank_v1.cpp
   ../level-world/player_equipment_queries_v1.cpp ../level-world/character_stance.cpp
   features/equipment/equipment_main_page.cpp features/equipment/equipment_adapter.cpp
+  features/equipment/equipment_inventory_actions_v1.cpp
   features/equipment/equipment_menu.cpp features/equipment/original_equipment_art.cpp
   features/equipment/source_equipment_appearance.cpp
   features/equipment/source_equipment_render_bridge.cpp
@@ -654,6 +655,23 @@ target_link_libraries(player_profile_properties_tests PRIVATE foundation_runtime
 add_test(NAME player_profile_properties COMMAND player_profile_properties_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets"
   "${CMAKE_CURRENT_BINARY_DIR}")
+
+# P14 EQUIP: adapter (equip/auto-equip/class gate/ordering) and main-page (ALL banner/Details commands) tests.
+add_executable(equipment_adapter_tests features/equipment/equipment_adapter_tests.cpp)
+target_link_libraries(equipment_adapter_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME equipment_adapter COMMAND equipment_adapter_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+add_executable(equipment_inventory_actions_tests features/equipment/equipment_inventory_actions_v1_tests.cpp)
+target_link_libraries(equipment_inventory_actions_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME equipment_inventory_actions COMMAND equipment_inventory_actions_tests)
+add_executable(equipment_main_page_tests features/equipment/equipment_main_page_tests.cpp)
+target_link_libraries(equipment_main_page_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME equipment_main_page COMMAND equipment_main_page_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# P14 EQUIP (B045): Details list row hit geometry.
+add_executable(inventory_details_row_geometry_tests features/inventory/details_row_geometry_tests.cpp)
+target_link_libraries(inventory_details_row_geometry_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME inventory_details_row_geometry COMMAND inventory_details_row_geometry_tests)
 
 add_executable(combat_session_equipment_multiplicity_tests tests/combat_session_equipment_multiplicity_tests.cpp)
 target_link_libraries(combat_session_equipment_multiplicity_tests PRIVATE foundation_data)

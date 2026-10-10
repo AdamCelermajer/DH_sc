@@ -109,6 +109,11 @@ bool RuntimeEquipmentPageV1::release(float x, float y, RuntimeEquipmentPageRelea
     output = {};
     if (!ready(error)) return false;
     if (!impl_->page->release(x, y, output.command, error)) return false;
+    if (output.command == MainPageCommand::request_auto_equip_all) {
+        // NativeInvAutoEquipSlot(-1) acts on the whole sheet; it needs no selected item or slot.
+        output.has_pending_command = true;
+        output.pending_command = {output.command, std::string(), 10};
+    }
     if (output.command == MainPageCommand::request_drop ||
         output.command == MainPageCommand::request_auto_equip ||
         output.command == MainPageCommand::request_transmute) {
@@ -223,6 +228,15 @@ bool RuntimeEquipmentPageV1::take_source_pending_command(
     impl_->source_pending_command.reset();
     error.clear();
     return true;
+}
+
+std::size_t RuntimeEquipmentPageV1::details_selected_index() const {
+    return impl_ && impl_->details ? impl_->details->selected_index() : 0;
+}
+
+bool RuntimeEquipmentPageV1::reselect_details_near(std::size_t index, std::string& error) {
+    if (!impl_ || !impl_->details) { error = "Runtime equipment page is not initialized"; return false; }
+    return impl_->details->reselect_near(index, error);
 }
 
 void RuntimeEquipmentPageV1::leave_page() noexcept {
