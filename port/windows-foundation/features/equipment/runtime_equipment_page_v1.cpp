@@ -230,6 +230,15 @@ bool RuntimeEquipmentPageV1::take_source_pending_command(
     return true;
 }
 
+std::size_t RuntimeEquipmentPageV1::details_selected_index() const {
+    return impl_ && impl_->details ? impl_->details->selected_index() : 0;
+}
+
+bool RuntimeEquipmentPageV1::reselect_details_near(std::size_t index, std::string& error) {
+    if (!impl_ || !impl_->details) { error = "Runtime equipment page is not initialized"; return false; }
+    return impl_->details->reselect_near(index, error);
+}
+
 void RuntimeEquipmentPageV1::leave_page() noexcept {
     if (impl_ && impl_->page) impl_->page->leave_page();
 }

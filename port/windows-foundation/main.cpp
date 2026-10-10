@@ -38,6 +38,7 @@
 #include "features/generic_skills/pc_gameplay_hud_v1.hpp"
 #include "features/skill_ui/skill_ui.hpp"
 #include "features/equipment/runtime_equipment_text_v1.hpp"
+#include "features/equipment/equipment_inventory_actions_v1.hpp"
 #include "features/equipment/runtime_player_locomotion_library_v1.hpp"
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "../script-runtime/script_constants.hpp"
@@ -1807,6 +1808,10 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::equipment_menu::RuntimeEquipmentBindingV1> runtimeEquipment;
         std::shared_ptr<f::equipment_menu::RuntimeEquipmentPageV1> runtimeEquipmentPage;
         f::equipment_menu::RuntimeEquipmentTextProviderV1 runtimeEquipmentText;
+        // P14 EQUIP: Details Transmute amount (source ValueBox value) and Drop owner. The drop owner is the DROPS stream's
+        // world-item system (loot::drop_item_to_world); until that branch is merged it stays empty and Drop fails loudly.
+        std::function<bool(const f::InventoryItem&,std::int32_t&,std::string&)> equipmentTransmuteAmount;
+        f::equipment_menu::DropItemToWorldFn equipmentDropToWorld;
         f::effects::EffectTextureServices equipmentTextureServices;
         equipmentTextureServices.upload=[&](const f::TextureImage& image,std::uint32_t& id,std::string& e){id=renderer.createTexture(image.width,image.height,image.rgba.data());if(!id){e="Equipment original texture upload failed";return false;}e.clear();return true;};
         equipmentTextureServices.release=[&](std::uint32_t id){renderer.destroyTexture(id);};
@@ -1859,14 +1864,24 @@ int main(int argc,char** argv) {
             if(!design||dh2_script_constants_load(design.get(),designBytes.data(),std::uint32_t(designBytes.size()),&designReload)!=0||designReload.consumed!=designBytes.size()||
                dh2_script_constants_get(design.get(),"CharacterDesign","TransmuteMultiplier",&transmuteMultiplier)!=0)
                 throw std::runtime_error("Equipment source TransmuteMultiplier is unavailable");
-            pageBindings.details_text.transmute_value=[&,transmuteMultiplier](const f::InventoryItem& item,std::string& value,std::string& e) {
+            // One source packet (ItemInstance value x property 197 x TransmuteMultiplier) feeds both the Details ValueBox text and the
+            // Transmute action (Character::INV_TransmuteItem), so the displayed amount is exactly what is paid.
+            const auto transmutePacket=[&,transmuteMultiplier](const f::InventoryItem& item,f::equipment_menu::RuntimeEquipmentTransmuteValuePacketV1& packet,std::string& e) {
                 if(!combatSession||!combatSession->world()){e="Equipment ValueBox requires current Session";return false;}
                 const auto* player=combatSession->actor(combatSession->player_id());
                 const auto* source=combatSession->world()->combat_properties(combatSession->player_id());
                 if(!player||!source||!player->persistent_character_id||*player->persistent_character_id!=state.id){e="Equipment ValueBox player/profile identity differs";return false;}
+                return runtimeEquipmentText.transmute_value(item,source->sheets.resolved[197],transmuteMultiplier,packet,e);
+            };
+            pageBindings.details_text.transmute_value=[transmutePacket](const f::InventoryItem& item,std::string& value,std::string& e) {
                 f::equipment_menu::RuntimeEquipmentTransmuteValuePacketV1 packet;
-                if(!runtimeEquipmentText.transmute_value(item,source->sheets.resolved[197],transmuteMultiplier,packet,e))return false;
+                if(!transmutePacket(item,packet,e))return false;
                 value=packet.formatted_value;e.clear();return true;
+            };
+            equipmentTransmuteAmount=[transmutePacket](const f::InventoryItem& item,std::int32_t& amount,std::string& e) {
+                f::equipment_menu::RuntimeEquipmentTransmuteValuePacketV1 packet;
+                if(!transmutePacket(item,packet,e))return false;
+                amount=packet.transmute_value;e.clear();return true;
             };
             auto binding=std::make_unique<f::equipment_menu::RuntimeEquipmentBindingV1>();
             if(!binding->bind(*combatSession,state,assets,assets,assets,properties,std::move(config),equipmentError)) {
@@ -2418,6 +2433,27 @@ int main(int argc,char** argv) {
                                 if(!runtimeEquipment->auto_equip_all(error))
                                     std::cerr<<"Equipment AutoEquip diagnostic: "<<error<<'\n';
                                 else std::cout<<"Equipment AutoEquip ALL -> "<<f::equipment_menu::describe_equipment(*sharedCharacter)<<'\n';
+                            } else if(pending.command==f::equipment_menu::MainPageCommand::request_transmute||pending.command==f::equipment_menu::MainPageCommand::request_drop) {
+                                // P14 EQUIP: NativeInvTransmuteItem / NativeInvDropItem on the selected Details row. The original asks menu_confirm2
+                                // first (GAMEPLAYMENUS_TRANSMUTE_QUESTION / _DROP_QUESTION); that confirmation popup is not ported yet (EQUIP report).
+                                const bool transmute=pending.command==f::equipment_menu::MainPageCommand::request_transmute;
+                                const auto listIndex=runtimeEquipmentPage->details_selected_index();
+                                const auto goldBefore=sharedCharacter->gold;
+                                const auto ownedAt=std::find_if(sharedCharacter->inventory.begin(),sharedCharacter->inventory.end(),[&](const f::InventoryItem& item){return item.instance_id==pending.selected_instance_id;});
+                                const std::string definition=ownedAt==sharedCharacter->inventory.end()?std::string("?"):ownedAt->definition_id;
+                                bool done=false;std::int32_t amount=0;
+                                if(ownedAt==sharedCharacter->inventory.end())error="Selected item is not owned";
+                                else if(transmute) {
+                                    done=equipmentTransmuteAmount&&equipmentTransmuteAmount(*ownedAt,amount,error)&&
+                                        f::equipment_menu::transmute_inventory_item(*sharedCharacter,pending.selected_instance_id,amount,error);
+                                    if(!equipmentTransmuteAmount&&error.empty())error="Transmute value owner is unavailable";
+                                } else done=f::equipment_menu::drop_inventory_item(*sharedCharacter,pending.selected_instance_id,equipmentDropToWorld,error);
+                                if(!done)std::cerr<<(transmute?"Equipment Transmute diagnostic: ":"Equipment Drop diagnostic: ")<<error<<" instance="<<pending.selected_instance_id<<'\n';
+                                else {
+                                    if(transmute)std::cout<<"Equipment Transmute instance="<<pending.selected_instance_id<<" item="<<definition<<" gold "<<goldBefore<<" -> "<<sharedCharacter->gold<<" amount="<<amount<<'\n';
+                                    else std::cout<<"Equipment Drop instance="<<pending.selected_instance_id<<" item="<<definition<<" -> world item"<<'\n';
+                                    if(!runtimeEquipmentPage->reselect_details_near(listIndex,error))throw std::runtime_error("Equipment Details reselection: "+error);
+                                }
                             } else std::cerr<<"Equipment action requires a gameplay owner: command="<<static_cast<int>(pending.command)<<" instance="<<pending.selected_instance_id<<'\n';
                         } else if(!error.empty())throw std::runtime_error(error);
                         f::equipment_menu::RuntimeEquipmentRenderChangeV1 changed;

@@ -40,6 +40,10 @@ bool name(const DetailBindings& bindings,const CharacterState& owner,const dh2::
 }
 bool DetailsPresenter::candidates(std::vector<equipment_menu::OwnedSelection>& rows,std::string& error)const{return selection_.view_for_selected_slot(rows,error);}
 bool DetailsPresenter::open(unsigned slot,std::string& error){if(!selection_.select_slot(slot,error))return false;std::vector<equipment_menu::OwnedSelection> rows;if(!candidates(rows,error))return false;if(!rows.empty()&&std::none_of(rows.begin(),rows.end(),[&](const auto& row){return row.instance_id==selection_.selected_instance();}))if(!selection_.select_instance(rows.front().instance_id,error))return false;open_=true;error.clear();return true;}
+// Index of the selected row in the candidate list (GenerateInventoryListItems Index); 0 when nothing matches.
+std::size_t DetailsPresenter::selected_index()const{std::vector<equipment_menu::OwnedSelection> rows;std::string error;if(!candidates(rows,error))return 0;return focus(rows,selection_.selected_instance());}
+// After Drop/Transmute removed the selected row the original regenerates the list at the same Index; keep the nearest row.
+bool DetailsPresenter::reselect_near(std::size_t index,std::string& error){std::vector<equipment_menu::OwnedSelection> rows;if(!candidates(rows,error))return false;if(rows.empty())return selection_.select_slot(selection_.selected_slot(),error);return selection_.select_instance(rows[std::min(index,rows.size()-1)].instance_id,error);}
 bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& output,std::string& error)const{
  if(!open_){error="Original inventory details panel is closed";return false;}if(!b.symbol){error="Required detail StringManager symbol provider unavailable";return false;}
  std::vector<equipment_menu::OwnedSelection> rows;if(!candidates(rows,error))return false;
@@ -120,7 +124,8 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
 bool DetailsPresenter::release(float x,float y,DetailAction& action,std::string& error){
  action=DetailAction::none;if(!open_||!std::isfinite(x)||!std::isfinite(y)){error.clear();return true;}
  std::vector<equipment_menu::OwnedSelection> rows;if(!candidates(rows,error))return false;const auto current=focus(rows,selection_.selected_instance());const auto& art=original_inventory_details();
- for(const auto& hit:art.actions)if(contains(hit.triangles,x,y)){action=hit.action;if(action==DetailAction::previous||action==DetailAction::next){if(rows.empty()){action=DetailAction::none;return true;}auto index=current;if(action==DetailAction::previous&&index)--index;else if(action==DetailAction::next&&index+1<rows.size())++index;if(!selection_.select_instance(rows[index].instance_id,error))return false;}error.clear();return true;}
+ // Transmute is disabled and Drop hidden by displaySelectedItemInfos for an equipped selection (authored-actions.txt 0001cbbe-0001cc44): no command is produced.
+ for(const auto& hit:art.actions)if(contains(hit.triangles,x,y)){action=hit.action;if((action==DetailAction::transmute||action==DetailAction::drop)&&(rows.empty()||rows[current].equipped)){action=DetailAction::none;error.clear();return true;}if(action==DetailAction::previous||action==DetailAction::next){if(rows.empty()){action=DetailAction::none;return true;}auto index=current;if(action==DetailAction::previous&&index)--index;else if(action==DetailAction::next&&index+1<rows.size())++index;if(!selection_.select_instance(rows[index].instance_id,error))return false;}error.clear();return true;}
  for(const auto& row:art.rows)if(contains(row.hit,x,y)){const auto index=static_cast<std::int64_t>(current)+row.relative_index;if(index>=0&&std::size_t(index)<rows.size()){if(!selection_.select_instance(rows[std::size_t(index)].instance_id,error))return false;action=DetailAction::select;}error.clear();return true;}
  error.clear();return true;
 }

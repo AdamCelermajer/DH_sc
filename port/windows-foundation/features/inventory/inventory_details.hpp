@@ -45,6 +45,8 @@ public:
     void close() noexcept{open_=false;}
     bool is_open()const noexcept{return open_;}
     bool open(unsigned source_slot,std::string& error);
+    std::size_t selected_index()const;
+    bool reselect_near(std::size_t index,std::string& error);
     bool frame(const DetailBindings&,character_menu::Frame&,std::string& error)const;
     // Sourcecoords already inverse-transformed by PC/touch transport.
     // Selection and arrows act here; mutation commands returned to real owner.
