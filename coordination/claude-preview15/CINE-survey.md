@@ -84,7 +84,7 @@ Observation method: ffmpeg contact sheets at 10 s, 2 s and 0.5 s steps (`.local-
 | t (s) | What is on screen | HUD | SKIP | Class |
 |---|---|---|---|---|
 | 0-8 | Gameloft logo (black at 0 and 8) | no | no | obs |
-| 10-34 | Intro movie: parchment/cartoon panels (knights, map, burning town, sorcerer). Sampled every 2 s; no skip control seen | no | none seen | obs (50.3 s repo asset vs ~25 s here: see G5) |
+| 10-34 | Intro movie: parchment/cartoon panels (knights, map, burning town, sorcerer). Sampled every 2 s; no skip control seen | no | none seen | obs (50.3 s repo asset vs ~10-35 s here: see G5) |
 | 36-40 | "Dungeon Hunter" title, "(c) 2011 GAMELOFT" | no | no | obs |
 | 42-48 | Main menu (Start game), Enter name (CRISR82) | no | no | obs |
 | 50-60 | Choose a class (Mage / Rogue / Warrior); Warrior confirmed | no | no | obs |
@@ -119,7 +119,7 @@ Timing check [inf]: if trigger contact is at about 223.5-224 s, Spawn1 at +0.5 s
 
 ## C. Gaps (production)
 1. Providers: only 3 of ~15 bound in main.cpp. Unbound: cutscene_mode (kind 1/2), flash (22/23), dialog (10/12), block save / save (69/70), flush (79), mark scripted (32), idle gate and set idle (31), stop actor (39), tutorial gate / consume / save settings (77/78). Kinds 41/42/43/46 (look, show/hide actor, set position) are not accepted by the adapter at all (see C2). The first `BeginScriptedCutScene` of any level script fails with "Unbound original campaign provider: cutscene mode" (inference from effect() + main.cpp).
-2. Kinds the world adapter does not accept (5 PlayCamera, 13/14 sound, 19/21 anim/stop effect, 20 PlayEffect, 27 SetFaeryState, 40 MoveActor, 45 PlayActorAnim, 46 SetActorPosition, 51/52 hands, 54/55 doors, 63, 68) must come from `SourceCampaignDispatchV1` / `SourceCinematicCommands`, which main does not construct.
+2. Kinds the world adapter does not accept (5 PlayCamera, 6 SetCameraClip, 13/14 sound, 19/21 anim/stop effect, 20 PlayEffect, 27 SetFaeryState, 40 MoveActor, 41 LookActor, 42/43 Show/HideActor, 44 KillActor, 45 PlayActorAnim, 46 SetActorPosition, 51/52 hands, 54/55 doors, 63, 68) must come from `SourceCampaignDispatchV1` / `SourceCinematicCommands`, which main does not construct.
 3. Triggers: no TriggerZone is built or fed `trigger_contact` in main.cpp. LizardMan_Intro, Camp_Intro, MothIntro, chest/tutorial triggers are all dead in normal play.
 4. SourceCinematicSession not constructed; needs an abort/restoration provider before cancel/quarantine.
 5. Tutorials: no gate provider, no persistent tutorial flags (LockTutorial 6/7/8 + DoTutorial 6/7/8/10 are data only). No live prompt box in the renderer (runtime_source_tutorial_v1 is a projection). Dialog text box not bound.
