@@ -164,6 +164,34 @@ int main(int argc, char** argv) {
     std::error_code removeError;
     std::filesystem::remove_all(seedDir, removeError);
 
+    // Module visual decor (P17 PROCGEN2): Decor and AnimatedDecor children, placed by module x declaration transform.
+    const std::string mvpXml =
+        "<?xml version=\"1.0\" encoding=\"utf-8\"?><Module>"
+        "<GameObject gametype=\"AnimatedDecor\" name=\"water\" position=\"5,0,0\" dae=\"data/3D/AnimatedDecors/w.bdae\" xrefobject=\"_anim_water\"/>"
+        "<GameObject gametype=\"Decor\" name=\"prop\" position=\"0,7,0\" dae=\"data/3D/Props/p.bdae\" xrefobject=\"_prop\"/>"
+        "<GameObject gametype=\"Decor\" name=\"hidden\" visible=\"0\" dae=\"data/3D/Props/h.bdae\" xrefobject=\"_hidden\"/>"
+        "<GameObject gametype=\"Decor\" name=\"nodae\" position=\"1,1,1\" xrefobject=\"_nodae\"/>"
+        "<GameObject gametype=\"SpawnPoint\" name=\"spawn\" position=\"9,9,9\"/>"
+        "</Module>";
+    std::vector<std::uint8_t> mvpBytes(mvpXml.begin(), mvpXml.end());
+    Mat4 modulePlacement{1,0,0,0, 0,1,0,0, 0,0,1,0, 100,200,0,1};
+    std::vector<ModulePlacement> decor;
+    std::string decorError;
+    check(decode_module_decor(mvpBytes, modulePlacement, decor, decorError) && decor.size() == 2 &&
+          decor[0].gametype == "AnimatedDecor" && decor[0].authoredNode == "_anim_water-node" &&
+          decor[1].gametype == "Decor" && decor[1].assetPath == "data/3D/Props/p.bdae",
+          "decor keeps Decor and AnimatedDecor with a dae, skipping hidden, dae-less and other gametypes" +
+          (decorError.empty() ? std::string() : ": " + decorError));
+    check(decor[0].placement[12] == 105.0f && decor[0].placement[13] == 200.0f && decor[1].placement[13] == 207.0f,
+          "decor placement is the module placement times the declaration's own translation");
+    const std::string configXml =
+        "<?xml version=\"1.0\" encoding=\"utf-8\"?><Level><GameObject gametype=\"LevelConfig\" skybox=\"data/3D/skybox/s.bdae\"/></Level>";
+    check(decode_level_skybox(std::vector<std::uint8_t>(configXml.begin(), configXml.end())) == "data/3D/skybox/s.bdae",
+          "LevelConfig skybox attribute is read");
+    const std::string noConfigXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Level><GameObject gametype=\"Module\"/></Level>";
+    check(decode_level_skybox(std::vector<std::uint8_t>(noConfigXml.begin(), noConfigXml.end())).empty(),
+          "a level without LevelConfig has no skybox");
+
     // A failing rule reports an error (caller falls back to the backup map).
     GeneratedLevel bad;
     check(!generate_level(assets, "data/scene/does_not_exist.rule.xml", 1, bad, error), "missing rule fails");

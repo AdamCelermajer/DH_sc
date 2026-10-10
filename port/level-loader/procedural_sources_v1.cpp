@@ -77,6 +77,9 @@ bool ProceduralSourcesV1::prepare(const ProceduralAssetSourceV1& pack,std::strin
         const auto rule=document(definition_uri,"rules");next->root=rule.second;
         const auto& element=next->documents.at(rule.first).elements().at(rule.second);
         if(const auto* folder=element.attribute("folder"))next->folder=*folder;
+        // P17 PROCGEN2: 121/122 put `folder` on RootRule (legacy). The rules element carries the folder in the current
+        // format; without it the original module list cannot be located (the original RootRule has no name either).
+        if(next->folder.empty())throw std::runtime_error("Rule "+std::string(definition_uri)+" has no folder on its rules element (legacy RootRule folder format)");
         next->file_list_uri=read(next->folder+"/mgx/mgxlist.txt",next->file_list_bytes);
         const auto& raw=next->file_list_bytes;
         next->filenames=procedural_file_list_v1(std::string_view(raw.empty()?"":reinterpret_cast<const char*>(raw.data()),raw.size()));
