@@ -1,4 +1,5 @@
 #include "runtime_skill_cast_coordinator_v1.hpp"
+#include "../faery_menu/faery_cast_sound_v1.hpp"
 
 #include "../../playable_actor_world.hpp"
 #include "../../original_combat_properties.hpp"
@@ -14,6 +15,20 @@ namespace {
 bool fail(std::string& error, const char* message) {
     error = message;
     return false;
+}
+
+// P15 FAERYSOUND (B050): original OnPreSkill_ PlaySound3D labels. Called after the
+// UseMana/cooldown prefix is committed, for every cast (empty target list included).
+void request_faery_pre_sound(const RuntimeSkillFaeryPreSoundSinkV1& sink, CombatSession& session,
+                             ActorId caster, bool hotty, std::size_t target_count) {
+    if (!sink) return;
+    RuntimeSkillFaeryPreSoundV1 request;
+    request.caster = caster;
+    request.target_count = target_count;
+    if (const auto* actor = session.actor(caster))
+        request.position = {actor->transform.position[0], actor->transform.position[1], actor->transform.position[2]};
+    request.labels = faery_menu::faery_pre_sound_labels_v1(hotty, target_count);
+    sink(request);
 }
 
 #if !defined(DH_RUNTIME_SKILL_CAST_WARRIOR_ONLY_TEST)
@@ -492,6 +507,9 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
                 active_[request.actor] = std::move(active);
                 return fail(error, "Celest OnPre did not reach its authored UseMana/cooldown prefix");
             }
+            // P15 FAERYSOUND: Celest OnPreSkill_ tier label (+ StaticBallKilled when empty), after mana commit.
+            request_faery_pre_sound(faery_pre_sound_sink_, session, request.actor, false,
+                                    active.celest_prepared.character_targets.size());
             faery_menu::CelestEffectReceiptV1 pre_fx;
             if (!faery_menu::dispatch_celest_player_pre_best_effort_v1(
                     session, active.celest_prepared, *active.character,
@@ -594,6 +612,9 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             active_[request.actor] = std::move(active);
             return fail(error, "Hotty OnPre did not reach its authored UseMana/cooldown prefix");
         }
+        // P15 FAERYSOUND: Hotty OnPreSkill_ sound (tier label, or mage staff fire when empty).
+        request_faery_pre_sound(faery_pre_sound_sink_, session, request.actor, true,
+                                active.hotty_prepared.character_targets.size());
         if (active.hotty_effect_dispatch) {
             std::string fx_error;
             if (!active.hotty_effect_dispatch->dispatch_player_pre(

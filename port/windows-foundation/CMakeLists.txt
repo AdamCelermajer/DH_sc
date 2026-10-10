@@ -153,6 +153,8 @@ add_library(foundation_runtime_skill_cast STATIC
   features/faery_menu/original_art.cpp
   features/faery_menu/source_text_v1.cpp
   features/faery_menu/character_state_faery_v1.cpp
+  # P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ sound labels.
+  features/faery_menu/faery_cast_sound_v1.cpp
   ../game-data/faery_tables.cpp
   ../level-world/character_path_commands.cpp)
 target_link_libraries(foundation_runtime_skill_cast PUBLIC foundation_runtime_skills_menu)
@@ -567,6 +569,10 @@ add_test(NAME character_state_page COMMAND character_state_page_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/character-skill-session-v2/cache/data/pydata/faeries_pyarraynames.bin"
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/character-skill-session-v2/cache/data/pydata/faeries_pystructnames.bin"
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-main-frontend-v1/assets")
+# P15 FAERYSOUND (B050): Celest/Hotty Pre sound labels per target count.
+add_executable(faery_cast_sound_v1_tests features/faery_menu/tests/faery_cast_sound_v1_tests.cpp)
+target_link_libraries(faery_cast_sound_v1_tests PRIVATE foundation_runtime_skill_cast)
+add_test(NAME faery_cast_sound_v1 COMMAND faery_cast_sound_v1_tests)
 
 target_sources(foundation_data PRIVATE features/combo_chain/source_combo_chain.cpp
   ../level-world/character_attack_animation_v1.cpp ../level-world/character_animation_ai.cpp
