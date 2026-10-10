@@ -101,6 +101,9 @@ public:
     const RetainedFrameAudioClock* before_update(const Camera&,bool focused,
         bool minimized,bool minimal_randoms,std::uint64_t frame,std::string&);
     bool after_update(std::string&);
+    // B048: ItemObject drop/pickup Play3D through this session's live host.
+    bool submit_world_item_sound(std::int32_t source_ordinal,
+        const std::array<float,3>& position,WorldItemSoundResultV1& result,std::string& error);
     bool shutdown(std::string&);
     void summary() const;
 };

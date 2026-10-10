@@ -56,6 +56,16 @@ struct RuntimeAudioHostConfigV1 {
 // One WinMM control, one AudioNativeSessionV42 and one recovered runtime.
 // The caller publishes actual window state and supplies a current listener
 // snapshot; source gameplay RNG remains outside this host.
+// B048: outcome of one ItemObject drop/pickup Play3D. `asset_missing` means the
+// selected original WAV is absent from the mounted package: the cue stays
+// silent and is never substituted.
+enum class WorldItemSoundStatusV1 : std::uint8_t { submitted, asset_missing };
+struct WorldItemSoundResultV1 {
+    WorldItemSoundStatusV1 status{WorldItemSoundStatusV1::submitted};
+    std::int32_t uid{-1};
+    std::string uri;
+};
+
 class RuntimeAudioHostV1 {
 public:
     struct Context;
@@ -91,6 +101,12 @@ public:
     // provider gate and AudioNativeSessionV42 producer.
     bool submit_source_sound(ActorId subject,std::int32_t sound_id,
         const std::array<float,3>& position,std::int64_t event_qpc_ns,
+        std::string& error);
+    // B048: ItemObject Play3D(ordinal, position) with no target (InitAgain and
+    // Interact). Resolves the same selected row/sample as the live producer;
+    // a sample whose URI cannot be loaded returns asset_missing (true, silent).
+    bool submit_world_item_sound(std::int32_t source_ordinal,
+        const std::array<float,3>& position,WorldItemSoundResultV1& result,
         std::string& error);
     // Producer-thread source settings, initialized from the exact fresh
     // emitter defaults and updated only when the current source DSP changes.

@@ -628,6 +628,12 @@ target_link_libraries(dh-foundation PRIVATE foundation_runtime_loot)
 # P14 DROPS: world item rules, source item-drop renderer projection and its
 # focused test (rules/pool/scatter/pickup gates over the actual ItemTable).
 target_sources(foundation_runtime_loot PRIVATE features/loot/world_drop_rules_v1.cpp)
+# P15 B048: item drop/pickup sound ordinals (ItemAudioVisualTable rows) and their focused test.
+target_sources(foundation_runtime_loot PRIVATE features/loot/world_item_sound_v1.cpp)
+add_executable(world_item_sound_v1_tests features/loot/world_item_sound_v1_tests.cpp)
+target_link_libraries(world_item_sound_v1_tests PRIVATE foundation_runtime_loot foundation_data)
+add_test(NAME world_item_sound_v1 COMMAND world_item_sound_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-14-rc1/assets")
 target_sources(dh-foundation PRIVATE
   features/interactions/session_world_item_consumer_v1.cpp
   features/interactions/source_world_item_drop_render_v1.cpp

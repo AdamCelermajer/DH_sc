@@ -273,6 +273,12 @@ const RetainedFrameAudioClock* RuntimeSessionAudioV1::before_update(const Camera
     error.clear();return &clock_;
 }
 
+bool RuntimeSessionAudioV1::submit_world_item_sound(std::int32_t source_ordinal,
+    const std::array<float,3>& position,WorldItemSoundResultV1& result,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    return host_->submit_world_item_sound(source_ordinal,position,result,error);
+}
+
 bool RuntimeSessionAudioV1::after_update(std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     if(!host_->update(error))return false;

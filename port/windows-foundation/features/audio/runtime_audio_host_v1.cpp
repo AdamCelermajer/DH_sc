@@ -157,6 +157,34 @@ bool RuntimeAudioHostV1::submit_source_sound(ActorId subject,std::int32_t sound_
     return submit_actual_play(request,event_qpc,error);
 }
 
+bool RuntimeAudioHostV1::submit_world_item_sound(std::int32_t source_ordinal,
+    const std::array<float,3>& position,WorldItemSoundResultV1& result,std::string& error) {
+    result={};
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    if(!runtime) {error="Required same AudioNativeSessionV42 producer for world item sound";return false;}
+    const auto* row=runtime->bindings().row(source_ordinal);
+    if(!row||row->event!=0) {
+        error="Required plain generated source row for world item sound ordinal "+std::to_string(source_ordinal);
+        return false;
+    }
+    const auto* sound=runtime->catalog().sound(row->uid);
+    if(!sound) {error="Required selected soundpack row for world item uid "+std::to_string(row->uid);return false;}
+    result.uid=row->uid;
+    result.uri="data/sounds/"+sound->filename;
+    std::string loadError;
+    if(!runtime->load_sample_actual_xml_uid(row->uid,loadError)) {
+        // Only the exact selected URI is an absent original file; other load failures stay errors.
+        if(loadError.find(result.uri)==std::string::npos) {error=loadError;return false;}
+        result.status=WorldItemSoundStatusV1::asset_missing;
+        error.clear();return true;
+    }
+    std::int64_t event_ns{};
+    if(!winmm_monotonic_ns(event_ns,error))return false;
+    result.status=WorldItemSoundStatusV1::submitted;
+    // ItemObject Play3D passes a null target: the subject is invalid_actor_id.
+    return submit_source_sound(invalid_actor_id,source_ordinal,position,event_ns,error);
+}
+
 bool RuntimeAudioHostV1::set_current_emitter_mix(float gain,float pitch,
                                                   std::string& error) {
     if(session_&&!session_->runtime_on_producer()) {
