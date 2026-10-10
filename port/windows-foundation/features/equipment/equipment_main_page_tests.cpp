@@ -16,6 +16,19 @@ int main(int argc, char** argv) {
         check(argc == 2, "Supply staged original asset root");
         AssetCatalog assets(argv[1]);
         std::string error;
+        // B060: slot -> button/category must follow the original Init439 InvSlotId assignments
+        // (btn_waist=7, btn_head=8), so Belt/Helm items show their own icon on their own row.
+        {
+            const char* const expected[9] = {"torso", "main_hand", "off_hand", "feet", "hands", "ring", "ring", "waist", "head"};
+            const auto& arts = equipment_menu::original_slot_art();
+            check(arts.size() == 9, "B060: nine source slot arts expected");
+            for (const auto& art : arts) {
+                check(art.source_slot < 9 && art.category == expected[art.source_slot],
+                      "B060: slot art category differs from the original InvSlotId");
+                check(art.button_path.find(std::string("btn_") + (art.category == "ring" ? "ring" : art.category)) != std::string::npos,
+                      "B060: slot art button differs from its category");
+            }
+        }
         OriginalPropertyDatabase database;
         check(load_original_property_tables(assets, "original-cache/data/pydata", database, error), error);
         OriginalActorProperties properties;
