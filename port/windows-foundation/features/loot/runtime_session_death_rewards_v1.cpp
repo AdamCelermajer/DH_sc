@@ -98,12 +98,17 @@ bool RuntimeSessionDeathRewardsV1::resolve_character_thunk(
 
 bool RuntimeSessionDeathRewardsV1::spawn_world_item_thunk(
     void* raw, const RuntimeWorldItemRecordV1& record,
-    const ActorState& victim, const ActorState*, std::string& error) {
+    const ActorState& victim, const ActorState* killer, std::string& error) {
     auto* self = static_cast<RuntimeSessionDeathRewardsV1*>(raw);
     if (!self || !self->world_items_)
         return fail(error, "Same-gameplay WorldItemStore lease expired");
     RuntimeWorldItemIdV1 identity{};
-    return self->world_items_->publish_death_drop(record, victim, identity, error);
+    // P14: ItemObject::DropAndAwardLoot scatter over the same loot RNG.
+    std::array<float, 3> killer_position{};
+    if (killer) killer_position = killer->transform.position;
+    return self->world_items_->publish_death_drop_scattered(
+        record, victim, killer ? &killer_position : nullptr, self->scatter_rng_,
+        identity, error);
 }
 
 bool RuntimeSessionDeathRewardsV1::after_update(
@@ -166,7 +171,10 @@ bool RuntimeSessionDeathRewardsV1::after_update(
         : world_->with_loot_random(
             [&](dh2::data::LootRandom8V2& random, std::string& inner_error) {
                 services.gameplay_rng = &random;
-                return rewards_.consume(session, services, outcomes, inner_error);
+                scatter_rng_ = &random;
+                const bool consumed = rewards_.consume(session, services, outcomes, inner_error);
+                scatter_rng_ = nullptr;
+                return consumed;
             }, error);
     dispatching_ = false;
     return ok;

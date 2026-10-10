@@ -624,6 +624,20 @@ add_library(foundation_runtime_loot STATIC
 target_link_libraries(foundation_runtime_loot PUBLIC foundation_data foundation_frontend foundation_runtime_equipment_menu)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_loot)
 
+# P14 DROPS: world item rules, source item-drop renderer projection and its
+# focused test (rules/pool/scatter/pickup gates over the actual ItemTable).
+target_sources(foundation_runtime_loot PRIVATE features/loot/world_drop_rules_v1.cpp)
+target_sources(dh-foundation PRIVATE
+  features/interactions/session_world_item_consumer_v1.cpp
+  features/interactions/source_world_item_drop_render_v1.cpp
+  features/interactions/source_world_item_drop_material_v1.cpp
+  features/interactions/world_drop_runtime_v1.cpp
+  ../engine-ui/character_menu_font_palette_v1.cpp)
+add_executable(world_drop_rules_v1_tests features/loot/world_drop_rules_v1_tests.cpp)
+target_link_libraries(world_drop_rules_v1_tests PRIVATE foundation_runtime_loot foundation_data)
+add_test(NAME world_drop_rules_v1 COMMAND world_drop_rules_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+
 add_executable(neutral_world_save_tests tests/neutral_world_save_tests.cpp)
 target_link_libraries(neutral_world_save_tests PRIVATE foundation_data)
 add_test(NAME neutral_world_save COMMAND neutral_world_save_tests

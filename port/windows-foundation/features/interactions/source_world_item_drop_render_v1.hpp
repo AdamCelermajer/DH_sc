@@ -5,6 +5,7 @@
 #include "../../original_character.hpp"
 #include "../../renderer.hpp"
 #include <functional>
+#include <map>
 #include <memory>
 
 namespace dh::foundation {
@@ -78,6 +79,10 @@ public:
     bool prepare(std::shared_ptr<const SourceWorldItemDropRenderFrameV1>&,
                  std::string& error) const;
     bool submit(std::string& error) const;
+    // P14: per-Visual load diagnostics (resolved visuals and the exact reason a
+    // visual stays unresolved; nothing is substituted).
+    std::vector<std::string> resolved_visuals() const;
+    const std::map<std::string, std::string>& unresolved_visuals() const;
 
 private:
     struct SourceAssetsV1;
