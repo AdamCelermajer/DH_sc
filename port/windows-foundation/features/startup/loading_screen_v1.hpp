@@ -5,9 +5,9 @@
 // finish() holds the screen for at least min_seconds. Shared code: Window poll/swap,
 // Renderer and OverlayRenderer only; text comes from the authored font via text_label_v1.
 //
-// Art: the original menu_Loading clip of data/menus/dqshared_droid.swf (ornate frame, tip panel, red bar with
+// Art: the original menu_Loading clip of data/menus/dqshared.swf (ornate frame, tip panel, red bar with
 // spark; geometry exported by tools/export_loading_art.py into loading_art_data.cpp, textures
-// MenusGraphics_droid.tga). The 480x320 phone stage (dqshared_droid.swf) is fitted to the window height and centred.
+// MenuGraphics01..05 + MenusGraphics.tga). The 1024x768 stage is fitted to the window height and centred.
 // If the textures are missing the screen falls back to plain fills. Disabled instances (tests:
 // --skip-boot, swamp route) are no-ops.
 
@@ -71,7 +71,7 @@ private:
     bool hasTip_ = false;
     TextLabel heading_, tipText_;
     bool labelsBuilt_ = false;
-    std::array<std::uint32_t, 7> artTex_{};  // texture handles, index 1
+    std::array<std::uint32_t, 7> artTex_{};  // texture handles, index 1..6
     bool artBuilt_ = false, artOk_ = false;
     std::filesystem::path capturePrefix_;
     CaptureFn capture_;
