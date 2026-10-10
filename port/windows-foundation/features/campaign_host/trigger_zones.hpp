@@ -12,12 +12,21 @@
 namespace dh::foundation::campaign_host {
 
 struct TriggerZoneBox {
+    // Axis-aligned bounds of the box (world space, kept for callers that need them).
     std::array<float,3> min{}, max{};
+    // Oriented box: centre, unit axes and half extents. Axis-aligned zones use the identity axes.
+    std::array<float,3> centre{};
+    std::array<std::array<float,3>,3> axes{{{1,0,0},{0,1,0},{0,0,1}}};
+    std::array<float,3> half{};
 };
 
 // Authored Block size: the source default is 200 per axis, multiplied by the authored scale
 // (canonical_trigger_zone_v22 InitPost), so the half extent is 100 * scale, centred on position.
 TriggerZoneBox zone_box(const std::array<float,3>& position,const std::array<float,3>& scale) noexcept;
+// P16 CINE2: rotated Block (IDA: the source Zone uses the physical block shape, so the rotation applies). The
+// placed transform is the same column-major Mat4 that actor transform() builds: axis i is column i (scale included),
+// so the half extent is 100 * |column i| and the centre is the translation (elements 12..14).
+TriggerZoneBox oriented_zone_box(const std::array<float,16>& placement) noexcept;
 bool point_inside(const TriggerZoneBox& box,const std::array<float,3>& point) noexcept;
 bool parse_vec3(const std::string& text,std::array<float,3>& out) noexcept;
 

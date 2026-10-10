@@ -70,6 +70,16 @@ void helper_geometry() {
     check(near(box.min[0], -90) && near(box.max[0], 110), "x half extent is 100 * scale");
     check(near(box.min[1], 20 - 555) && near(box.max[1], 20 + 555), "y half extent follows the authored scale");
     check(point_inside(box, {10, 20, 30}) && point_inside(box, box.max) && !point_inside(box, {box.max[0] + 0.1f, 20, 30}), "inclusive box test");
+    // P16 CINE2: tutorial_treasure (obj_4of4 _prim_TriggerZone): scale 12.2957,1,1, rotation 0,0,-90, at
+    // (-2033.31,254.846,287.618). Placed columns for rotation -90 about Z: axis0 = 12.2957*(0,-1,0), axis1 = (1,0,0).
+    const std::array<float,16> placed{0, -12.2957f, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, -2033.31f, 254.846f, 287.618f, 1};
+    const auto rotated = oriented_zone_box(placed);
+    check(near(rotated.half[0], 1229.57f, 0.1f) && near(rotated.half[1], 100) && near(rotated.half[2], 100), "rotated half extents follow the authored scale");
+    check(point_inside(rotated, {-2033.31f, 254.846f + 1000, 287.618f}), "rotated zone: long axis runs along world Y");
+    check(!point_inside(rotated, {-2033.31f, 254.846f + 1300, 287.618f}), "rotated zone ends at 100 * scale along Y");
+    check(point_inside(rotated, {-2033.31f + 90, 254.846f, 287.618f}) && !point_inside(rotated, {-2033.31f + 150, 254.846f, 287.618f}),
+          "rotated zone is narrow along world X");
+    check(near(rotated.min[1], 254.846f - 1229.57f, 0.1f) && near(rotated.max[0], -2033.31f + 100), "axis-aligned bounds of the rotated box");
     std::array<float,3> v{};
     check(parse_vec3("1.5,-2,0", v) && near(v[1], -2), "vector parse");
     check(!parse_vec3("1,2", v) && !parse_vec3("1,2,3,4", v) && !parse_vec3("1,x,3", v), "malformed vector rejected");

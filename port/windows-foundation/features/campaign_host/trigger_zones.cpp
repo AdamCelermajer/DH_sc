@@ -27,12 +27,38 @@ TriggerZoneBox zone_box(const std::array<float,3>& position,const std::array<flo
         const float half = std::fabs(scale[i]) * 100.0f;
         box.min[i] = position[i] - half;
         box.max[i] = position[i] + half;
+        box.centre[i] = position[i];
+        box.half[i] = half;
+    }
+    return box;
+}
+
+TriggerZoneBox oriented_zone_box(const std::array<float,16>& m) noexcept {
+    TriggerZoneBox box;
+    for (unsigned a = 0; a < 3; ++a) {
+        const std::array<float,3> column{m[4 * a], m[4 * a + 1], m[4 * a + 2]};
+        const float length = std::sqrt(column[0] * column[0] + column[1] * column[1] + column[2] * column[2]);
+        box.half[a] = 100.0f * length;
+        for (unsigned k = 0; k < 3; ++k) box.axes[a][k] = length > 0.0f ? column[k] / length : (a == k ? 1.0f : 0.0f);
+    }
+    for (unsigned i = 0; i < 3; ++i) box.centre[i] = m[12 + i];
+    // Axis-aligned bounds of the oriented box: extent along world axis i is sum over box axes of |axis_i| * half.
+    for (unsigned i = 0; i < 3; ++i) {
+        float extent = 0.0f;
+        for (unsigned a = 0; a < 3; ++a) extent += std::fabs(box.axes[a][i]) * box.half[a];
+        box.min[i] = box.centre[i] - extent;
+        box.max[i] = box.centre[i] + extent;
     }
     return box;
 }
 
 bool point_inside(const TriggerZoneBox& b,const std::array<float,3>& p) noexcept {
-    for (unsigned i = 0; i < 3; ++i) if (!(b.min[i] <= p[i] && p[i] <= b.max[i])) return false;
+    const std::array<float,3> d{p[0] - b.centre[0], p[1] - b.centre[1], p[2] - b.centre[2]};
+    for (unsigned i = 0; i < 3; ++i) {
+        const auto& a = b.axes[i];
+        const float along = d[0] * a[0] + d[1] * a[1] + d[2] * a[2];
+        if (std::fabs(along) > b.half[i]) return false;
+    }
     return true;
 }
 
@@ -69,15 +95,12 @@ bool TriggerZoneSet::build(const std::vector<ActorDefinition>& declarations,Orig
         const auto reject = [&](const std::string& why) { skipped_.push_back(label + why); };
 
         if (property("type") != "Block") { reject("shape '" + property("type") + "' not supported"); continue; }
-        std::array<float,3> rotation{}, scale{1,1,1}, position{};
-        if (!property("rotation").empty() && (!parse_vec3(property("rotation"), rotation) || rotation != std::array<float,3>{0,0,0})) {
-            reject("rotated shape not supported (source rotation convention not verified)");
-            continue;
-        }
+        // P16 CINE2: the placed transform carries position (with the module offset), rotation and scale, so the
+        // zone box is oriented by it. Rotation is validated here; the Euler convention is the one actor transform()
+        // already uses for every placed object.
+        std::array<float,3> rotation{}, scale{1,1,1};
+        if (!property("rotation").empty() && !parse_vec3(property("rotation"), rotation)) { reject("invalid rotation"); continue; }
         if (!property("scale").empty() && !parse_vec3(property("scale"), scale)) { reject("invalid scale"); continue; }
-        for (auto& s : scale) if (std::fabs(s) < 0.0001f) s = 1.0f; // same rule as actor transform()
-        // Placement holds the module-offset world translation (row 3 of the row-major transform).
-        position = {declaration.placement[12], declaration.placement[13], declaration.placement[14]};
         if (!property("activate_cond").empty()) { reject("activate_cond is not evaluated by the host"); continue; }
         bool provider_field = false;
         for (const char* field : kProviderFields) if (!property(field).empty()) { reject(std::string("requires source provider ") + field); provider_field = true; break; }
@@ -111,7 +134,7 @@ bool TriggerZoneSet::build(const std::vector<ActorDefinition>& declarations,Orig
         zone.name = declaration.name;
         zone.script = script;
         zone.script_id = runtime.script_id(script, false);
-        zone.box = zone_box(position, scale);
+        zone.box = oriented_zone_box(declaration.placement);
         zones_.push_back(std::move(zone));
     }
     return true;
