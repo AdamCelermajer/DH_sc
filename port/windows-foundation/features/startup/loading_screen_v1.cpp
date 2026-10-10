@@ -46,6 +46,16 @@ constexpr std::array<float, 4> kBarTrack{0.07f, 0.03f, 0.02f, 1.0f};
 constexpr std::array<float, 4> kBarFill{0.82f, 0.1f, 0.07f, 1.0f};
 constexpr std::array<float, 4> kBarSpark{1.0f, 0.78f, 0.55f, 1.0f};
 
+// Stage placement measured on the reference video (Part 1, 70-76 s): the 1024x768 stage is stretched to the
+// window and then scaled up ~12% about its centre (edges cropped). Fitted to landmark positions
+// (bar ends, heading, tip corners); the original scaling code is not recovered.
+constexpr float kZoom = 1.12f;
+struct StagePlacement { float sx, sy, ox, oy; };
+StagePlacement stage_placement(int w, int h, const LoadingArt& art) {
+    const float sx = float(w) / art.stageW * kZoom, sy = float(h) / art.stageH * kZoom;
+    return {sx, sy, (float(w) - art.stageW * sx) * 0.5f, (float(h) - art.stageH * sy) * 0.5f};
+}
+
 // Sutherland-Hodgman clip of a triangle against an axis-aligned rectangle (u,v interpolated).
 void clip_triangle(const ArtVertex* t, float x0, float x1, float y0, float y1, std::vector<ArtVertex>& out) {
     std::vector<ArtVertex> poly(t, t + 3), next;
@@ -99,24 +109,29 @@ void LoadingScreenV1::set_tip(LoadingTip tip) {
 void LoadingScreenV1::build_art() {
     if (artBuilt_ || !assets_) return;
     artBuilt_ = true;
-    bool ok = false;
-    try {
-        TextureImage image;
-        std::string error;
-        const auto path = resolve_content_path(*assets_, "data/3d/textures/MenusGraphics_droid.tga");
-        if (load_texture(path, image, error)) {
-            artTex_[1] = renderer_.createTexture(int(image.width), int(image.height), image.rgba.data());
-            ok = true;
+    static const char* const files[] = {"", "MenuGraphics01.tga", "MenuGraphics02.tga", "MenuGraphics03.tga",
+                                        "MenuGraphics04.tga", "MenuGraphics05.tga", "MenusGraphics.tga"};
+    bool ok = true;
+    for (int i = 1; i <= 6; ++i) {
+        try {
+            TextureImage image;
+            std::string error;
+            const auto path = resolve_content_path(*assets_, std::string("data/3d/textures/") + files[i]);
+            if (!load_texture(path, image, error)) {
+                ok = false;
+                continue;
+            }
+            artTex_[i] = renderer_.createTexture(int(image.width), int(image.height), image.rgba.data());
+        } catch (const std::exception&) {
+            ok = false;
         }
-    } catch (const std::exception&) {
     }
     artOk_ = ok;
 }
 
 void LoadingScreenV1::draw_art(int w, int h, double fraction, OverlayRenderer& overlay) {
     const LoadingArt& art = loading_art();
-    const float s = float(h) / art.stageH;  // stage fitted to the window height, centred horizontally
-    const float ox = (float(w) - art.stageW * s) * 0.5f;
+    const StagePlacement sp = stage_placement(w, h, art);
     std::vector<OverlayTriangleVertex> tri;
     auto emit = [&](const LayerSpan& span, const float* m, float alpha) {
         for (int i = 0; i < span.count; ++i) {
@@ -125,7 +140,7 @@ void LoadingScreenV1::draw_art(int w, int h, double fraction, OverlayRenderer& o
             for (const auto& v : layer.verts) {
                 const float x = m ? m[0] * v.x + m[2] * v.y + m[4] : v.x;
                 const float y = m ? m[1] * v.x + m[3] * v.y + m[5] : v.y;
-                tri.push_back({ox + x * s, y * s, v.u, v.v});
+                tri.push_back({sp.ox + x * sp.sx, sp.oy + y * sp.sy, v.u, v.v});
             }
             std::array<float, 4> color = layer.color;
             color[3] *= alpha;
@@ -144,7 +159,7 @@ void LoadingScreenV1::draw_art(int w, int h, double fraction, OverlayRenderer& o
         for (size_t k = 0; k + 2 < layer.verts.size(); k += 3)
             clip_triangle(&layer.verts[k], f.maskX0, f.maskX1, f.maskY0, f.maskY1, clipped);
         tri.clear();
-        for (const auto& v : clipped) tri.push_back({ox + v.x * s, v.y * s, v.u, v.v});
+        for (const auto& v : clipped) tri.push_back({sp.ox + v.x * sp.sx, sp.oy + v.y * sp.sy, v.u, v.v});
         if (!tri.empty()) overlay.drawTriangles(tri, layer.texture ? artTex_[layer.texture] : 0, layer.color);
     }
     if (f.sparkAlpha > 0.0f) emit(art.spark, f.spark, f.sparkAlpha);
@@ -154,19 +169,18 @@ void LoadingScreenV1::build_labels(int w, int h) {
     if (labelsBuilt_ || !assets_) return;
     labelsBuilt_ = true;
     const LoadingArt& art = loading_art();
-    const float s = float(h) / art.stageH;
-    const float ox = (float(w) - art.stageW * s) * 0.5f;
+    const StagePlacement sp = stage_placement(w, h, art);
     const auto rgba = [](const TextRect& r) {
         return std::array<float, 4>{r.rgba[0] / 255.0f, r.rgba[1] / 255.0f, r.rgba[2] / 255.0f, r.rgba[3] / 255.0f};
     };
     // Heading: the authored word "LOADING" is the original MenuLoading heading (reference frames).
     const TextRect& hr = art.heading;
-    build_wrapped_label(renderer_, *assets_, "LOADING", int(std::lround(hr.size * s)), ox + hr.x * s, hr.y * s,
-                        hr.w * s, rgba(hr), heading_);
+    build_wrapped_label(renderer_, *assets_, "LOADING", int(std::lround(hr.size * sp.sy)), sp.ox + hr.x * sp.sx,
+                        sp.oy + hr.y * sp.sy, hr.w * sp.sx, rgba(hr), heading_);
     if (hasTip_) {
         const TextRect& tr = art.tip;
-        build_wrapped_label(renderer_, *assets_, tip_.text, int(std::lround(tr.size * s)), ox + tr.x * s, tr.y * s,
-                            tr.w * s, rgba(tr), tipText_);
+        build_wrapped_label(renderer_, *assets_, tip_.text, int(std::lround(tr.size * sp.sy)), sp.ox + tr.x * sp.sx,
+                            sp.oy + tr.y * sp.sy, tr.w * sp.sx, rgba(tr), tipText_);
     }
 }
 

@@ -134,6 +134,9 @@ target_sources(dh-foundation PRIVATE features/startup/boot_runner_v1.cpp feature
 add_executable(startup_boot_flow_v1_tests features/startup/boot_flow_v1_tests.cpp)
 target_link_libraries(startup_boot_flow_v1_tests PRIVATE foundation_startup)
 add_test(NAME startup_boot_flow_v1 COMMAND startup_boot_flow_v1_tests)
+# B055: original menu_Loading geometry consistency
+add_executable(startup_loading_art_v1_tests features/startup/loading_art_v1_tests.cpp features/startup/loading_art_data.cpp)
+add_test(NAME startup_loading_art_v1 COMMAND startup_loading_art_v1_tests)
 add_executable(startup_intro_movie_v2_tests features/startup/intro_movie_v2_tests.cpp)
 target_link_libraries(startup_intro_movie_v2_tests PRIVATE foundation_startup)
 set(DH_INTRO_MOVIE_V2_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview15/startup/converted-media-v2/intro_v1.mpg")

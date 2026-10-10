@@ -1,8 +1,8 @@
 #pragma once
 
 // Original campaign loading menu geometry (menu_Loading in data/menus/dqshared.swf), exported by
-// tools/export_loading_art.py. Coordinates are authored stage pixels (480x320); texture indices are
-// 1 = MenusGraphics_droid.tga (0 = solid colour, see Layer::color).
+// tools/export_loading_art.py. Coordinates are authored stage pixels (1024x768); texture indices are
+// MenuGraphics01..05, 6 = MenusGraphics.tga.(0 = solid colour, see Layer::color).
 
 #include <array>
 #include <cstdint>
@@ -12,7 +12,7 @@ namespace dh::foundation::startup {
 
 struct ArtVertex { float x, y, u, v; };
 struct Layer {
-    int texture;                    // 1 = MenusGraphics_droid.tga, 0 = solid colour
+    int texture;                    // 1..5 = MenuGraphicsNN.tga, 0 = solid colour
     std::array<float, 4> color;
     std::vector<ArtVertex> verts;   // triangle list
 };
