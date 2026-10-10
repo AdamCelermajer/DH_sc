@@ -87,8 +87,8 @@ int main(){try{
     // answers inside the overlap, and each tab answers in its exclusive part (window size 960x640 = sheet x2).
     check(menu.hit_test(380*2,12*2,960,640)==Action::quest,"Quest Log exclusive part not hit");
     check(menu.hit_test(470*2,12*2,960,640)==Action::map,"Map exclusive part not hit");
-    check(menu.hit_test(424*2,12*2,960,640)==Action::quest,"Tab overlap left part not answered by the nearer Quest Log");
-    check(menu.hit_test(430*2,12*2,960,640)==Action::map,"Tab overlap right part not answered by the nearer Map");
+    check(menu.hit_test(418*2,12*2,960,640)==Action::quest,"Quest Log tab edge (left of the seam at 420.95) not answered by Quest Log");
+    check(menu.hit_test(424*2,12*2,960,640)==Action::map,"Map tab (right of the seam at 420.95) not answered by Map");
     // P16 Map tab: its tab icon hit zone selects it; the legend toggles and the reset request
     // answer only there, and the legend popup appears in the frame only while it is shown.
     auto map_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::map;});
