@@ -27,6 +27,9 @@ inline const char* details_list_damask_role(){return "menu_InventorySheetDetails
 struct DetailRailBox{float x0,y0,x1,y1;};
 bool details_rail_box(const DetailArt& art,unsigned slot,DetailRailBox& output);
 int details_rail_slot_at(const DetailArt& art,float x,float y);
+// B056b: dark (normal-state) rail icon quads for the slots whose normal art the export lacks (0,1,2,5,6), taken from the atlas; same
+// screen rectangle and cell size as the slot's Highlight art. Roles are SideList/btn_TypeN/b056b_dark.
+std::vector<HudGeometryBatch> details_rail_dark_art(const DetailArt& art);
 // Original list rows show a count only for stacks: a single item shows no digit (reference t=336/t=372).
 inline bool details_row_shows_count(std::uint32_t quantity){return quantity>1;}
 // The native character preview is an SWF display callback, not a panel-wide
