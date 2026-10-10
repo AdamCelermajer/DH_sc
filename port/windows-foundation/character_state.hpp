@@ -92,6 +92,15 @@ struct CharacterVisitedModule {
     std::uint8_t visited = 0;
 };
 
+// P17 TRANSITIONS2: named optional component bytes of the character (append-only tail of schema v4). A save
+// without the tail (older v4 saves) reads as no components, so no schema bump is needed for a new feature field.
+struct CharacterComponent {
+    std::string id;                    // unique key, e.g. dh2.transition.entry.v1
+    std::vector<std::uint8_t> bytes;   // owned by the feature that writes it
+};
+inline constexpr std::size_t character_component_limit = 64;
+inline constexpr std::size_t character_component_bytes_limit = 4096;
+
 struct CharacterState {
     std::uint32_t schema_version = character_schema_version;
     std::string id;
@@ -125,6 +134,7 @@ struct CharacterState {
     std::int32_t unlocked_difficulty = 0;
     CharacterMenuMetadata menu_metadata;
     std::vector<CharacterVisitedModule> visited_modules;
+    std::vector<CharacterComponent> components;   // P17 TRANSITIONS2 (schema v4 optional tail)
 };
 
 // The single accessors other streams use for the active difficulty (0..2).

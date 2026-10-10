@@ -1023,3 +1023,11 @@ add_test(NAME original_camera_clip COMMAND original_camera_clip_tests "${CMAKE_C
 add_executable(channel_filter_tests features/animation_channels/channel_filter_tests.cpp ../engine-animation/channel_filter.cpp)
 add_test(NAME animation_channel_filter COMMAND channel_filter_tests)
 # End Preview 17 doors channel filter.
+# P17 TRANSITIONS: generic level exit/checkpoint zones (TriggerZoneExitLevel, CheckpointZone; QuestMoveInZone delegated),
+# level-table target resolution, SpawnPoint entry resolution and the condition interface stub.
+target_sources(foundation_data PRIVATE features/transitions/level_transitions_v1.cpp)
+# P17 TRANSITIONS2: travel prompt (armed exit, placeholder frame), entry-point component and per-level world snapshot paths.
+target_sources(foundation_data PRIVATE features/transitions/transition_prompt_v1.cpp features/transitions/transition_persistence_v1.cpp)
+add_executable(level_transitions_tests features/transitions/level_transitions_v1_tests.cpp)
+target_link_libraries(level_transitions_tests PRIVATE foundation_data foundation_frontend)
+add_test(NAME level_transitions COMMAND level_transitions_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
