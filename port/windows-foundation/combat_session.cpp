@@ -1344,6 +1344,9 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
             actor.faction_id=props.sheets.resolved[0];actor.transform.position={position.x,position.y,position.z};actor.transform.rotation[2]=heading;
             actor.health=original_signed256(props.sheets.resolved[36]);actor.max_health=original_signed256(props.sheets.resolved[38]);
             actor.resource=original_signed256(props.sheets.resolved[41]);actor.max_resource=original_signed256(props.sheets.resolved[43]);
+            // P16 OPENING: a source -1 resource sentinel (no MP pool, e.g. a scripted troll) projects to zero for every
+            // actor, not only animation-only ones; it previously failed ActorState validation (only changes cases that threw).
+            actor.resource=std::max(0.0f,actor.resource);actor.max_resource=std::max(0.0f,actor.max_resource);
             if(policy.animationOnly){
                 // ActorState is a nonnegative gameplay projection; source -1
                 // vital sentinels remain untouched in the original property
@@ -2087,6 +2090,29 @@ bool CombatSession::select_actor_state_leaf(ActorId id,const CombatSessionChoice
     }catch(const std::exception& failure){error=failure.what();return false;}
     if(s.actorTransitionHandler){receipt.stage=CombatRuntimeTransitionStage::after_change;return s.actor_transition(id,receipt,error);}
     return true;
+}
+bool CombatSession::play_actor_clip(ActorId id,const std::string& clip,const std::string& path,bool loop,std::string& error){
+    error.clear();
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Actor clip actor is unavailable";return false;}
+    auto& s=*impl_;auto& entry=s.entries.at(id);
+    if(!entry.retained){error="Actor clip requires retained actor playback";return false;}
+    if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="Actor clip requires accepted source departure";return false;}
+    // P16 OPENING: the scripted clip replaces the current pose; the source repeats a single-leaf clip forever for loop
+    // and completes once otherwise (RetainedSequencePlayback::seed_sequence repeat policy).
+    s.runtime->interrupt(id);s.combat->interrupt(id);
+    RetainedAnimationFrame frame;
+    if(!entry.retained->seed_sequence(*s.assets,clip,path,1.0f,0,false,loop?-1:0,frame,error))return false;
+    entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};entry.sourceAction=false;
+    entry.sourceSelectedClip=clip;entry.locomotionSelected.clear();entry.sourceEvents.clear();
+    return true;
+}
+bool CombatSession::actor_clip_duration_ms(ActorId id,const std::string& clip,std::int32_t& duration_ms,std::string& error)const{
+    error.clear();
+    const auto* visual=retained_actor_visual_borrow(id);
+    if(!visual){error="Actor clip duration requires the retained actor visual";return false;}
+    std::int32_t start=0,end=0;
+    if(!visual->animation_range(clip,start,end,error))return false;
+    duration_ms=end-start;return true;
 }
 bool CombatSession::play_actor_state_sequence(ActorId id,const OriginalAttackSelection& selection,
     CombatSessionStateAnimationServices services,std::string& error,std::int32_t lifecycle_to_state){
