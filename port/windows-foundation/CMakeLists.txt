@@ -128,6 +128,8 @@ add_library(foundation_runtime_skills_menu STATIC
   features/skill_ui/skill_ui.cpp features/skill_ui/original_skill_art.cpp
   features/skill_ui/original_skill_presenter.cpp)
 target_link_libraries(foundation_runtime_skills_menu PUBLIC foundation_data foundation_frontend)
+# Preview 14 Stats +/- training (SWF btn_train_* route; see features/character_menu/stat_training_v1.hpp).
+target_sources(foundation_runtime_skills_menu PRIVATE features/character_menu/stat_training_v1.cpp)
 target_include_directories(foundation_runtime_skills_menu PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
 target_include_directories(dh-foundation PRIVATE
@@ -640,6 +642,10 @@ add_executable(runtime_skill_session_training_tests features/generic_skills/runt
 target_link_libraries(runtime_skill_session_training_tests PRIVATE foundation_runtime_skills_menu)
 add_test(NAME runtime_skill_session_training COMMAND runtime_skill_session_training_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# Preview 14 Stats +/- route: spend, refuse at zero, failed-save rollback, recalc (features/character_menu/stat_training_v1).
+add_executable(stat_training_v1_tests features/character_menu/stat_training_v1_tests.cpp)
+target_link_libraries(stat_training_v1_tests PRIVATE foundation_runtime_skills_menu)
+add_test(NAME stat_training_v1 COMMAND stat_training_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
 
 add_executable(combat_session_incoming_receiver_tests tests/combat_session_incoming_receiver_tests.cpp)
 target_link_libraries(combat_session_incoming_receiver_tests PRIVATE foundation_runtime_enemy)

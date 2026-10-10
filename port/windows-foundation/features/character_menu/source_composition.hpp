@@ -216,6 +216,26 @@ public:
         return true;
     }
 
+    // Preview 14 live route: the Stats-tab hit resolver and a same-owner train
+    // callback that already performs its own admission, save and publication
+    // (features/character_menu/stat_training_v1). Same owner token as the
+    // canonical CharacterState; no action graph is required.
+    bool register_stat_training_callbacks(
+        std::shared_ptr<void> owner,
+        std::function<int(float authored_x, float authored_y)> source_button_hit,
+        std::function<bool(std::uint32_t, std::string&)> train,
+        std::string& error) {
+        if (!state_->owner || !owner || owner.get() != state_->owner.get() ||
+            !source_button_hit || !train) {
+            error = "Stat training callbacks require the same owner, hit resolver, and train callback";
+            return false;
+        }
+        state_->stat_button = std::move(source_button_hit);
+        state_->stat_training = std::move(train);
+        error.clear();
+        return true;
+    }
+
     // This is the only tab-selection route root should use. The destination's
     // actual provider is probed before Presenter::select mutates current tab,
     // so missing source services leave the last valid page selected.
