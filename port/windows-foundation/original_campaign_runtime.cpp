@@ -82,6 +82,18 @@ bool OriginalCampaignRuntime::tick(std::int32_t dt,std::string&error){
  ticking_=true;struct Guard{bool&b;~Guard(){b=false;}}guard{ticking_};
  try{for(auto&entry:trigger_state_)if(entry.second.delay>0)entry.second.delay=signed_bits(std::uint32_t(entry.second.delay)-std::uint32_t(dt));for(std::size_t i=0;i<contexts_.size();++i)if(!execute(i,dt,error))return false;error.clear();return true;}catch(const std::exception&e){return fail(e.what(),error);}
 }
+bool OriginalCampaignRuntime::register_trigger(const std::string&key,const std::map<std::string,std::string>&attributes,std::string&error){
+ if(failed()){error=failure_;return false;}
+ if(key.empty()||attributes.find("name")==attributes.end()){error="Trigger registration needs key and source name";return false;}
+ if(triggers_.count(key)){error="Duplicate source trigger key";return false;}
+ OriginalCampaignTrigger value;value.key=key;value.attributes=attributes;triggers_.emplace(key,std::move(value));error.clear();return true;
+}
+std::size_t OriginalCampaignRuntime::abandon_running_scripts(){
+ std::size_t abandoned=0;
+ for(auto&ctx:contexts_)if(ctx.state!=2){ctx={};++abandoned;}
+ failure_.clear();ticking_=false;
+ return abandoned;
+}
 bool OriginalCampaignRuntime::trigger_contact(const std::string&key,bool inside,bool qualified,int module,std::string&error){
  if(failed()){error=failure_;return false;}auto t=triggers_.find(key);if(t==triggers_.end()){error="Unknown source trigger key";return false;}if(!qualified){error.clear();return true;}
  const auto&source=t->second;if(trigger_text(source,"gametype")!="TriggerZone"){error="Source object is not TriggerZone";return false;}

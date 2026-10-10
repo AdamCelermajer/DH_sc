@@ -37,6 +37,7 @@
 #include "features/generic_skills/runtime_skill_cast_coordinator_v1.hpp"
 #include "features/generic_skills/runtime_skill_cast_prepare_v1.hpp"
 #include "features/generic_skills/pc_gameplay_hud_v1.hpp"
+#include "features/campaign_host/campaign_host.hpp" // P16 HOST
 #include "features/skill_ui/skill_ui.hpp"
 #include "features/equipment/runtime_equipment_text_v1.hpp"
 #include "features/faery_menu/character_state_faery_v1.hpp" // P14 FAERY: CharacterState Faery page host + script effects
@@ -249,6 +250,7 @@ struct Options {
     unsigned menuClassIndex=0;
     bool verifyFrontendCreation=false,verifyFrontendSlots=false;
     std::string campaignCommands;
+    bool campaignTriggers=false; // P16 HOST: --campaign-triggers (off until verified)
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
     std::vector<ScheduledSourceCommand> sourceCommands;
     std::map<std::string,f::OriginalAttackSelection> lifecycleSpawns;
@@ -341,6 +343,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--lifecycle-spawn") {auto c=choice(value(),true);f::OriginalAttackSelection selected;selected.state=c.second.state;selected.variant=c.second.variant;selected.group_path=c.second.leafPath;o.lifecycleSpawns[c.first]=std::move(selected);}
         else if(arg=="--lifecycle-prespawn") {auto c=choice(value());o.lifecyclePreSpawns[c.first]=c.second;}
         else if(arg=="--campaign-commands") o.campaignCommands=value();
+        else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
         else if(arg=="--combat-react") {auto c=choice(value());o.combat.profiles[c.first].reaction=c.second;}
         else if(arg=="--combat-death") {auto c=choice(value());o.combat.profiles[c.first].death=c.second;}
@@ -1440,6 +1443,12 @@ int main(int argc,char** argv) {
         f::SourceWorldObjects sourceObjects;
         f::CampaignCameraAdapter sourceCameraTargets;
         f::OriginalCampaignWorldAdapter campaignWorld(actorLifecycle,&sourceCameraTargets);
+        // P16 HOST: script-host providers and generic trigger zones (bound only with --campaign-triggers).
+        f::campaign_host::CampaignHostServices hostServices;
+        hostServices.all_actors=[&](std::vector<f::ActorId>& out,std::string& e){if(!combatSession){e="Campaign host needs the live combat session";return false;}out.clear();for(const auto& entry:combatSession->world()->actors())out.push_back(entry.first);return true;};
+        hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){e="Campaign host actor unavailable";return false;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
+        hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){return combatSession&&combatSession->set_actor_original_state(id,state,e);};
+        f::campaign_host::CampaignHost campaignHost(hostServices);
         bool globalControllerBlocked=false;
         std::map<f::ActorId,bool> characterControllerBlocked;
         f::CampaignCameraFrame lastSourceCameraFrame;
@@ -1495,7 +1504,7 @@ int main(int argc,char** argv) {
         };
         int sourceCommandContext=-1;
         auto rebuildSourceScopes=[&]() {
-            if(options.sourceCommands.empty()&&!options.retainHiddenActors&&!lifecycleEnabled&&options.sourceRootScopes.empty())return;
+            if(options.sourceCommands.empty()&&!options.retainHiddenActors&&!lifecycleEnabled&&options.sourceRootScopes.empty()&&!options.campaignTriggers)return; // P16 HOST
             if(!sourceObjects.load(population.definitions(),error))throw std::runtime_error(error);
             if(!options.sourceRootScopes.empty()) {
                 sourceScopes=std::make_shared<f::SourceRootScopes>();
@@ -1630,6 +1639,7 @@ int main(int argc,char** argv) {
                 if(!f::faery_menu::apply_source_inc_faery_level_v1(state,f::faery_menu::active_faery_difficulty_v1(),slot,e))return false;
                 std::cout<<"Source IncFaeryLevel slot="<<slot<<" level="<<state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].faeries[slot].level<<" committed to CharacterState\n";
                 return f::save_character(options.save,state,e);};
+            if(options.campaignTriggers)campaignHost.bind_world_providers(providers); // P16 HOST
             campaignWorld.bind(std::move(providers));
             if(!options.sourceCommands.empty()) {
                 combatSession->set_diagnostic_controller_admission_provider(
@@ -1645,7 +1655,7 @@ int main(int argc,char** argv) {
                     [](f::ActorId,bool& online,std::string&){online=false;return true;});
             }
         }
-        if(options.sourceCamera&&!options.sourceCommands.empty()) {
+        if((options.sourceCamera&&!options.sourceCommands.empty())||options.campaignTriggers) { // P16 HOST: camera admission also serves trigger scripts
             if(!combatSession)throw std::runtime_error("Source camera targets require the bound local player");
             f::CampaignCameraProviders providers;
             providers.local_player=[&](std::uint64_t& id,std::string&){id=combatSession->player_id();return true;};
@@ -1770,6 +1780,12 @@ int main(int argc,char** argv) {
             std::cout<<"Serialized command replay context="<<sourceCommandContext<<"; original trigger admission and complete cutscene/UI providers remain incomplete\n";
         }
         std::cout<<"Character name="<<state.name<<" class="<<state.class_id<<" xp="<<state.experience<<'\n';
+        // P16 HOST: live executor binding and trigger zones from the loaded level declarations (off by default).
+        if(options.campaignTriggers) {
+            if(options.campaignCommands.empty()||!combatSession)throw std::runtime_error("--campaign-triggers requires --campaign-commands and the live combat session");
+            if(!campaignHost.bind_executor(sourceCampaign,campaignWorld,error))throw std::runtime_error("Campaign host: "+error);
+            if(!campaignHost.build_zones(population.definitions(),error))throw std::runtime_error("Campaign trigger zones: "+error);
+        }
         if(options.probe) {
             if(visual.loaded()) for(auto pose:{f::CharacterPose::idle,f::CharacterPose::walk,f::CharacterPose::attack}) {
                 visual.select(pose);if(!visual.update(.25,error)) throw std::runtime_error(error);
@@ -2862,6 +2878,10 @@ int main(int argc,char** argv) {
                 std::cout<<"Source command frame="<<drawn<<" script="<<scheduled.script<<" index="<<scheduled.index<<" kind="<<command.kind<<'\n';
                 if(command.kind==8)std::cout<<"Source camera command frame="<<drawn<<" target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<'\n';
             }
+            // P16 HOST: executor tick on the frame clock, then trigger contacts (only with --campaign-triggers).
+            if(campaignHost.enabled()&&combatSession) {
+                if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(std::int32_t(dt*1000.0),{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive());
+            }
             auto pressed=[&](int key){bool down=window.key_down(key);bool first=down&&!held.count(key);if(down)held.insert(key);else held.erase(key);return first;};
             if(pressed('T')) {useTimeline=!useTimeline;if(useTimeline){timeline.reset();timeline.play();}}
             if(!combatSession||!combatSession->uses_retained_player_locomotion()) {
@@ -3477,9 +3497,10 @@ int main(int argc,char** argv) {
                 f::HudGeometry hud;if(!f::compose_original_hud(0,player?liveFrame(player->health,player->max_health):frame(36,38),player?liveFrame(player->resource,player->max_resource):frame(41,43),xpFrame,options.hudPortrait,hud,error))throw std::runtime_error(error);
                 overlay.begin(window.width(),window.height());
                 const float scale=float(window.height())/hud.height;
-                for(const auto& batch:hud.batches){std::vector<f::OverlayTriangleVertex> vertices;for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.v});if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("HUD triangle draw rejected");}
+                if(campaignHost.hud_visible()) for(const auto& batch:hud.batches){std::vector<f::OverlayTriangleVertex> vertices; // P16 HOST: HideFlash HUD also hides the original HUD batches
+for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.v});if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("HUD triangle draw rejected");}
                 updatePcHud();
-                if(pcHudReady&&!characterMenu.is_open()&&!pauseMenuOpen) {
+                if(pcHudReady&&!characterMenu.is_open()&&!pauseMenuOpen&&campaignHost.hud_visible()) { // P16 HOST: HideFlash HUD
                     const float offset=(window.width()/scale-480.f)*.5f;
                     for(std::size_t i=0;i<pcHudPresentation.art.batches.size();++i) {
                         std::vector<f::OverlayTriangleVertex> vertices;
@@ -3706,7 +3727,8 @@ int main(int argc,char** argv) {
         std::cout<<"Population final enabled="<<population.enabled_count()<<" deferredInitially="<<population.initial_deferred_count()<<" loaded="<<population.actors().size()<<'\n';
         if(lifecycleEnabled)for(const auto& placed:population.actors())if(const auto* lifecycle=actorLifecycle.status(placed.definition.stableId))std::cout<<"Lifecycle final actor="<<placed.definition.stableId<<" name="<<placed.definition.name<<" state="<<lifecycle->state<<" enabled="<<placed.enabled<<" physical="<<lifecyclePhysical[placed.definition.stableId]<<" collisions="<<lifecycleCollisions[placed.definition.stableId]<<'\n';
         if(actorCameraAnchor.initialized()){const auto p=actorCameraAnchor.position();std::cout<<"Actor camera anchor final="<<p.x<<','<<p.y<<','<<p.z<<'\n';}
-        if(sourceCameraTargets.target()!=0)std::cout<<"Source camera final target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<" globalControllerBlocked="<<globalControllerBlocked<<" anchor="<<lastSourceCameraFrame.anchor.x<<','<<lastSourceCameraFrame.anchor.y<<','<<lastSourceCameraFrame.anchor.z<<" damping="<<lastSourceCameraFrame.applyDamping<<'\n';
+        if(options.campaignTriggers)campaignHost.print_summary(std::cout); // P16 HOST
+    if(sourceCameraTargets.target()!=0)std::cout<<"Source camera final target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<" globalControllerBlocked="<<globalControllerBlocked<<" anchor="<<lastSourceCameraFrame.anchor.x<<','<<lastSourceCameraFrame.anchor.y<<','<<lastSourceCameraFrame.anchor.z<<" damping="<<lastSourceCameraFrame.applyDamping<<'\n';
         if(playerSourceBox){const auto& b=playerSourceBox->absolute_box;std::cout<<"Source body final absolute="<<b[0]<<','<<b[1]<<','<<b[2]<<','<<b[3]<<','<<b[4]<<','<<b[5]<<'\n';}
         if(sourceFloors&&combatSession)for(const auto& entry:sourceBodyPlans) {
             const auto* actor=combatSession->actor(entry.first);dh2::navigation::HeightHit hit{};hit.height=actor->transform.position[2];

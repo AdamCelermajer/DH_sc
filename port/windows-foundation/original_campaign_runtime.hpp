@@ -35,6 +35,12 @@ public:
     // Host supplies original physical inside/condition/alive eligibility facts.
     // Keys are source file + "::" + authored trigger name; no map-specific logic.
     bool trigger_contact(const std::string& key,bool inside,bool qualified,int module,std::string& error);
+    // P16 HOST: adds one authored level declaration occurrence that the campaign XML did not carry.
+    // Same key format as load(); an existing key is never replaced.
+    bool register_trigger(const std::string& key,const std::map<std::string,std::string>& attributes,std::string& error);
+    // P16 HOST: host policy after a reported failure. Abandons every running script and clears the latched
+    // failure so the session keeps its other triggers. Returns the number of scripts abandoned.
+    std::size_t abandon_running_scripts();
     bool running(int global_id) const;
     bool failed() const { return !failure_.empty(); }
     const std::vector<OriginalCampaignScript>& scripts() const { return scripts_; }
