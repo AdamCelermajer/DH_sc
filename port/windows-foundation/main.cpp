@@ -2921,6 +2921,12 @@ int main(int argc,char** argv) {
                 if(id<0){e="no authored script named "+script;return false;}
                 return sourceCampaign.start(id,-1,true,e);
             };
+            // D1 (OPENING3): Quest::TestIsScriptRunning. A state waits for its authored script slot before it advances.
+            questServices.script_running=[&](const std::string& script) {
+                if(!options.campaignTriggers)return false;
+                const int id=sourceCampaign.script_id(script,false);
+                return id>=0&&sourceCampaign.running(id);
+            };
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
@@ -3942,6 +3948,14 @@ int main(int argc,char** argv) {
             if(campaignHost.enabled()&&combatSession) {
                 if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(std::int32_t(dt*1000.0),{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive());
             }
+            // D1 (OPENING3): Quest::Update runs every frame after the script executor, so a state whose script has
+            // finished advances on the frame it ends (the Movement tutorial follows the Swamp intro, not the bind).
+            if(questRuntime&&options.campaignTriggers) {
+                std::string questTickError;
+                if(!questRuntime->update(questTickError)) std::cerr<<"Quest update diagnostic: "<<questTickError<<'\n';
+                for(const auto& banner:takeQuestBanners())
+                    std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)<<" row="<<banner.row<<" (frame)\n";
+            }
             auto pressed=[&](int key){bool down=window.key_down(key);bool first=down&&!held.count(key);if(down)held.insert(key);else held.erase(key);return first;};
             if(pressed('T')) {useTimeline=!useTimeline;if(useTimeline){timeline.reset();timeline.play();}}
             if(!combatSession||!combatSession->uses_retained_player_locomotion()) {
@@ -4846,7 +4860,8 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     if(!combatText.draw(window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text draw: "+error);
                     if(combatText.active_count())++combatTextDrawnFrames;
                 }
-                if(!characterMenu.is_open())drawPauseArt(pauseHudArt,false,nullptr);
+                // D2 (OPENING3): the pause button belongs to the HUD sprite; HideFlash("HUD") hides it in cutscenes.
+                if(!characterMenu.is_open()&&campaignHost.hud_visible())drawPauseArt(pauseHudArt,false,nullptr);
                 if(pauseMenuOpen)drawPauseArt(currentPauseArt(),true,nullptr);
                 if(characterMenu.is_open()) {
                     // Character pages occupy the full viewport. Original SWF

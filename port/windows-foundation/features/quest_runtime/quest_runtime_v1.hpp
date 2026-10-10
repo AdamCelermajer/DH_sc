@@ -93,7 +93,15 @@ struct QuestRuntimeServicesV1 {
     // OPENING2: Quest::ExecScript -> ScriptManager::StartScript. Called with the authored script name (the group
     // prefix removed, for example "Swamp_Intro"). Absent owner: the start is reported and skipped.
     std::function<bool(const std::string& script, std::string& error)> start_script;
+    // D1 (OPENING3): Quest::TestIsScriptRunning. True while the named authored script is still running. A state
+    // leaves only when the script of its wait slot has finished (IDA Quest::Update*). Absent owner: never running.
+    std::function<bool(const std::string& script)> script_running;
 };
+
+// Quest::Update* wait slot (IDA 0x481380..0x481818): the script slot a state must see finished before it advances.
+// Returns -1 when the state does not wait (locked). Available and Active/Completed wait only once their objective
+// (accept/end) is complete; the caller applies that condition.
+std::int32_t quest_wait_slot_v1(QuestStateV1 state) noexcept;
 
 // Quest::SetState script slot (IDA 0x480c78 switch on the new state; state 3 uses slot 4 when the quest comes
 // from Active, else slot 1). Returns -1 when the state runs no script. Slots index QuestDefinitionV51::scripts.
@@ -160,6 +168,8 @@ private:
     bool row_valid(std::int32_t row) const noexcept;
     QuestRowProgressV1& row_progress(std::int32_t difficulty, std::int32_t row);
     bool set_state(std::int32_t row, QuestStateV1 next, std::string& error);
+    // D1: true while the authored script of this row's slot is still running (Quest::TestIsScriptRunning).
+    bool slot_script_running(std::int32_t row, std::int32_t slot) const;
     bool prerequisites_met(std::int32_t row, bool& met);
     bool condition_met(const dh2::data::QuestConditionDefinitionV51& c, bool& met);
     bool objective_matches(const dh2::data::QuestObjectiveDefinitionV51& def,
