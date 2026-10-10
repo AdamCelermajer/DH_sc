@@ -75,6 +75,12 @@ std::vector<ConditionFlipV1> ConditionWatchV1::flush(const ConditionWorldV1& wor
     return flips;
 }
 
+std::vector<std::pair<std::string,bool>> ConditionWatchV1::snapshot() const {
+    std::vector<std::pair<std::string,bool>> out;
+    for (const auto& pair : entries_) out.emplace_back(pair.first, pair.second.value);
+    return out;
+}
+
 bool ConditionWatchV1::current(const std::string& name, bool& value) const {
     const auto found = entries_.find(name);
     if (found == entries_.end()) return false;

@@ -39,6 +39,8 @@ public:
     std::vector<ConditionFlipV1> flush(const ConditionWorldV1& world, std::string& error);
 
     bool current(const std::string& name, bool& value) const;
+    // Every watched name with its last value (name order).
+    std::vector<std::pair<std::string,bool>> snapshot() const;
     std::size_t dirty_count() const noexcept { return dirty_.size(); }
 
 private:

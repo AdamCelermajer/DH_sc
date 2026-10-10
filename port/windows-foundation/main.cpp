@@ -56,6 +56,7 @@
 // P16 QUESTS: thin quest runtime and the generic quest event bus (raise_quest_event).
 #include "features/quest_runtime/quest_runtime_v1.hpp"
 #include "features/quest_runtime/quest_events_v1.hpp"
+#include "features/conditions/condition_watch_v1.hpp" // P17 CONDITIONS: authored v2Conditions evaluator + flip watch
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
@@ -274,6 +275,7 @@ bool drawQuestBanner(const f::QuestBannerDisplayV1& display,f::HudGlyphFont& fon
 
 struct Options {
     fs::path assets, scene, level, profiles, save = "character.save", liveSave="gameplay.save", capture;
+    std::vector<int> conditionProbeFrames; // P17 CONDITIONS: --condition-probe FRAME prints every watched condition value
     std::set<std::string> activeConditions;
     std::set<std::string> inactiveConditions;
     std::string module, characterName, playClip;
@@ -355,7 +357,7 @@ struct Options {
     // P16 QUESTS test aid (not gameplay): frame-scheduled quest bus events, so the real EXE path
     // (bus -> runtime -> CQPG save -> rewards -> banner) can be exercised without scripted combat.
     // --quest-debug-kill FRAME:TEMPLATE:COUNT raises COUNT kill events; --quest-debug-accept FRAME:ROW accepts a row.
-    struct QuestDebugEventOption {int frame=-1;bool accept=false;int id=-1;int count=1;};
+    struct QuestDebugEventOption {int frame=-1;bool accept=false;int id=-1;int count=1;bool property=false;}; // P17 CONDITIONS: property kill (type 0 objectives)
     std::vector<QuestDebugEventOption> questDebugEvents;
     int menuCloseFrame=-1;
     int pausePageFrame=-1,pauseCloseFrame=-1;
@@ -479,10 +481,10 @@ Options parse(int argc, char** argv) {
             if(frame<0||key<1||key>5)throw std::runtime_error("HUD key frame requires nonnegative frame and key1..5");
             o.skillKeyFrames.emplace_back(frame,key);
         }
-        else if(arg=="--quest-debug-kill"||arg=="--quest-debug-accept") {
+        else if(arg=="--quest-debug-kill"||arg=="--quest-debug-accept"||arg=="--quest-debug-kill-property") {
             const auto text=value();const auto first=text.find(':');
             const auto second=first==std::string::npos?std::string::npos:text.find(':',first+1);
-            Options::QuestDebugEventOption item;item.accept=arg=="--quest-debug-accept";
+            Options::QuestDebugEventOption item;item.accept=arg=="--quest-debug-accept";item.property=arg=="--quest-debug-kill-property";
             if(first==std::string::npos||(item.accept?second!=std::string::npos:second==std::string::npos))
                 throw std::runtime_error("Quest debug event requires FRAME:ID or FRAME:TEMPLATE:COUNT");
             item.frame=std::stoi(text.substr(0,first));
@@ -519,6 +521,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--move-walk") o.scriptedRun=false;
         else if(arg=="--original-body-bounds") o.sourceBodyBounds=true;
         else if(arg=="--attach") {auto v=value();auto split=v.find('@');if(split==std::string::npos)throw std::runtime_error("Attachment must be MODEL@AUTHORED_ANCHOR");f::EquipmentVisualDefinition d;d.id=v;d.model_uri=v.substr(0,split);d.anchor_name=v.substr(split+1);o.equipment.push_back(std::move(d));}
+        else if(arg=="--condition-probe") o.conditionProbeFrames.push_back(std::stoi(value())); // P17 CONDITIONS test aid
         else if(arg=="--condition-active") o.activeConditions.insert(value());
         else if(arg=="--condition-inactive") o.inactiveConditions.insert(value());
         else if(arg=="--module") o.module=value();
@@ -950,6 +953,15 @@ int main(int argc,char** argv) {
         }
         if(!options.loadingCapture.empty())loadingScreen.set_capture(options.loadingCapture,[](const fs::path& p,int w,int h){capture(p,w,h);});
         loadingScreen.progress(0.0);
+        // P17 CONDITIONS: one authored v2Conditions evaluator for population, the flip watch and the gated list.
+        std::shared_ptr<const f::conditions::AuthoredConditionsV1> authoredConditions;
+        std::shared_ptr<f::conditions::ConditionWatchV1> conditionWatch;
+        std::vector<std::pair<std::string,std::string>> conditionGatedObjects; // (condition name, "<gametype> <sourceId> (<key>)")
+        // IsPlayerInLevel key: the authored level row of this map (metadata table; -1 when unknown).
+        const auto conditionLevelRow=[&]()->std::int32_t {
+            const auto* levels=loadMetadataLevels(assets);
+            return levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;
+        };
         // P16 MAP: module RoomZone sources of the loaded level (empty until load_level_with_module_zones succeeds).
         std::vector<f::LevelModuleZone> levelModuleZones;
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
@@ -1151,13 +1163,51 @@ int main(int argc,char** argv) {
         if(!equipment.load(assets,options.equipment,error))throw std::runtime_error("Equipment: "+error);
         if(!options.playClip.empty() && !visual.select(options.playClip,true,error)) throw std::runtime_error("Clip: "+error);
         if(!options.profiles.empty()) {
+            // P17 CONDITIONS: the authored v2Conditions table and this character's quest state (a runtime over the same
+            // CQPG record the live quest runtime binds later). --condition-active/--condition-inactive are debug overrides.
+            {
+                std::string conditionError;
+                auto decodedConditions=f::conditions::AuthoredConditionsV1::decode(
+                    assets.read("original-cache/data/pydata/v2conditions_pyarray.bin"),
+                    assets.read("original-cache/data/pydata/v2conditions_pyarraynames.bin"),
+                    assets.read("original-cache/data/pydata/v2conditions_pystructnames.bin"),
+                    authoredConditions,conditionError);
+                if(!decodedConditions) {authoredConditions.reset();std::cerr<<"Condition table diagnostic: "<<conditionError<<'\n';}
+            }
+            std::shared_ptr<const f::quest_runtime::QuestTableV1> populationQuestTable;
+            std::shared_ptr<f::quest_runtime::QuestRuntimeV1> populationQuests;
+            {
+                std::string questError;
+                if(!f::quest_runtime::decode_quest_table_v1(assets.read("original-cache/data/pydata/v2quests_pyarray.bin"),
+                                                            assets.read("original-cache/data/pydata/v2quests_pyarraynames.bin"),
+                                                            populationQuestTable,questError))
+                    std::cerr<<"Condition quest table diagnostic: "<<questError<<'\n';
+                else {
+                    populationQuests=std::make_shared<f::quest_runtime::QuestRuntimeV1>(state,populationQuestTable,f::quest_runtime::QuestRuntimeServicesV1{});
+                    if(!populationQuests->load(questError))std::cerr<<"Condition quest state diagnostic: "<<questError<<'\n';
+                }
+            }
+            const auto conditionWorld=populationQuests?f::conditions::world_from_quest_runtime(*populationQuests,conditionLevelRow):f::conditions::ConditionWorldV1{};
+            const auto conditionValue=[&](const std::string& name,bool& value,std::string& e)->bool {
+                if(options.activeConditions.count(name)){value=true;return true;}
+                if(options.inactiveConditions.count(name)){value=false;return true;}
+                if(!authoredConditions){e="v2Conditions table unavailable";return false;}
+                return authoredConditions->evaluate(name,conditionWorld,value,e);
+            };
             auto policy=[&](const f::ActorDefinition& a) {
+                // activate_cond false: hidden (deferred when hidden actors are retained, else excluded), like auto_spawn.
+                // deactivate_cond true: excluded. Unknown names stay unknown and are logged once by the evaluator.
                 auto it=a.properties.find("activate_cond");
-                if(it!=a.properties.end()&&!it->second.empty()&&!options.activeConditions.count(it->second))return f::PopulationDecision::unknown;
+                if(it!=a.properties.end()&&!f::conditions::is_no_condition(it->second)) {
+                    bool value=false;std::string e;
+                    if(!conditionValue(it->second,value,e))return f::PopulationDecision::unknown;
+                    if(!value)return options.retainHiddenActors?f::PopulationDecision::deferred:f::PopulationDecision::exclude;
+                }
                 it=a.properties.find("deactivate_cond");
-                if(it!=a.properties.end()&&!it->second.empty()) {
-                    if(options.activeConditions.count(it->second))return f::PopulationDecision::exclude;
-                    if(!options.inactiveConditions.count(it->second))return f::PopulationDecision::unknown;
+                if(it!=a.properties.end()&&!f::conditions::is_no_condition(it->second)) {
+                    bool value=false;std::string e;
+                    if(!conditionValue(it->second,value,e))return f::PopulationDecision::unknown;
+                    if(value)return f::PopulationDecision::exclude;
                 }
                 it=a.properties.find("auto_spawn");if(it!=a.properties.end()&&it->second=="0")return options.retainHiddenActors?f::PopulationDecision::deferred:f::PopulationDecision::unknown;
                 it=a.properties.find("spawn_prob");if(it!=a.properties.end()&&it->second!="100"&&it->second!="100.0")return f::PopulationDecision::unknown;
@@ -1169,6 +1219,20 @@ int main(int argc,char** argv) {
                 return c;
             };
             if(!population.load(assets,options.level.generic_string(),profiles,policy,customization,error,options.populationTemplates?&templateSelection:nullptr))throw std::runtime_error("Population: "+error);
+            // P17 CONDITIONS: every condition name this level declares is watched (flips come from quest events, not frames).
+            // Gated declarations are listed with their owner state; the door/decor owners are not wired yet (see report).
+            if(authoredConditions) {
+                conditionWatch=std::make_shared<f::conditions::ConditionWatchV1>(authoredConditions);
+                for(const auto& declaration:population.definitions())
+                    for(const char* key:{"activate_cond","deactivate_cond","unlock_cond"}) {
+                        const auto found=declaration.properties.find(key);
+                        if(found==declaration.properties.end()||f::conditions::is_no_condition(found->second))continue;
+                        if(!authoredConditions->contains(found->second)){f::conditions::report_unknown_condition_once(found->second);continue;}
+                        conditionWatch->watch(found->second);
+                        conditionGatedObjects.push_back({found->second,declaration.gametype+" "+declaration.sourceId+" ("+key+")"});
+                    }
+                std::cout<<"Conditions table="<<authoredConditions->size()<<" watched="<<conditionWatch->size()<<" declarations="<<conditionGatedObjects.size()<<'\n';
+            }
             f::levels::log_unsupported_classes_once(population.definitions()); // P16 LEVELS: unknown classes logged once per process
             if(populationStartupRandom)std::cout<<"Population source template RNG seed="<<populationStartupRandom->seed<<" calls="<<populationStartupRandom->calls<<'\n';
             for(auto& actor:population.actors())if(!actor.visual.select("Idle",true,error))std::cerr<<"Population initial pose: "<<actor.definition.name<<": "<<error<<'\n';
@@ -2658,9 +2722,16 @@ int main(int argc,char** argv) {
                 std::cerr<<"Quest banner text diagnostic: StringID "<<id<<": "<<textError<<'\n';
                 return false;
             };
+            // P17 CONDITIONS: authored state transitions mark dependent conditions dirty (event-driven flips).
+            questServices.state_changed=[&](std::int32_t row,std::int32_t) {if(conditionWatch)conditionWatch->quest_changed(row);};
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
+            if(conditionWatch) { // P17 CONDITIONS: baseline from the restored state; no flips on bind or reload.
+                std::string conditionError;
+                if(!conditionWatch->prime(f::conditions::world_from_quest_runtime(*questRuntime,conditionLevelRow),conditionError))
+                    std::cerr<<"Condition prime diagnostic: "<<conditionError<<'\n';
+            }
             // P16 QUESTUI: explicit charpropsname bindings (NPCs) have no population row; resolve it by name
             // through the CharacterTable names (the quest talk oids are these rows).
             std::map<std::string,std::int32_t> characterRows;
@@ -2743,6 +2814,19 @@ int main(int argc,char** argv) {
         };
         // P16 QUESTS: kills of this update (death events whose attacker is the player) become quest kill events
         // carrying the victim's CharacterTable row (property) and Charater_Templates row (template).
+        // P17 CONDITIONS: evaluates only when a quest state changed since the last flush (dirty-driven, not polled).
+        const auto flushConditionFlips=[&](const char* cause) {
+            if(!conditionWatch||!questRuntime||conditionWatch->dirty_count()==0)return;
+            std::string e;
+            const auto flips=conditionWatch->flush(f::conditions::world_from_quest_runtime(*questRuntime,conditionLevelRow),e);
+            if(!e.empty())std::cerr<<"Condition flush diagnostic: "<<e<<'\n';
+            for(const auto& flip:flips) {
+                std::cout<<"Condition flip "<<flip.name<<" "<<(flip.before?"true":"false")<<"->"<<(flip.after?"true":"false")
+                         <<" cause="<<cause<<" current="<<questRuntime->current_quest()<<'\n';
+                for(const auto& gated:conditionGatedObjects)
+                    if(gated.first==flip.name)std::cout<<"Condition gated "<<gated.second<<" owner=none (not wired)\n";
+            }
+        };
         const auto raiseQuestKills=[&]() {
             if(!questRuntime||!combatSession)return;
             for(const auto& event:combatSession->events()) {
@@ -3369,7 +3453,12 @@ int main(int argc,char** argv) {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
                     characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
                     // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
-                    if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n'; }
+                    if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n';
+                        if(conditionWatch) { // P17 CONDITIONS: the restored quest state is the new baseline (no flips on reload)
+                            std::string conditionError;
+                            if(!conditionWatch->prime(f::conditions::world_from_quest_runtime(*questRuntime,conditionLevelRow),conditionError))std::cerr<<"Condition reload prime diagnostic: "<<conditionError<<'\n';
+                            std::cout<<"Condition reload primed watched="<<conditionWatch->size()<<'\n';
+                        } }
                     if(!error.empty())std::cerr<<"Character menu action diagnostic: "<<error<<'\n';
                     if(runtimeEquipmentPage) {
                         f::equipment_menu::RuntimeEquipmentPageReleaseV1::PendingCommand pending;
@@ -4041,10 +4130,11 @@ int main(int argc,char** argv) {
                 if(!gameplayPaused&&questRuntime) for(const auto& debug:options.questDebugEvents) if(debug.frame==drawn) {
                     if(!debug.accept) {
                         for(int i=0;i<debug.count;++i) {
-                            f::quest_runtime::QuestEvent kill;kill.kind=f::quest_runtime::QuestEvent::Kind::kill;kill.template_id=debug.id;
+                            f::quest_runtime::QuestEvent kill;kill.kind=f::quest_runtime::QuestEvent::Kind::kill;
+                            if(debug.property)kill.property_id=debug.id;else kill.template_id=debug.id; // P17 CONDITIONS: property kill (type 0)
                             f::quest_runtime::raise_quest_event(kill);
                         }
-                        std::cout<<"Quest debug kill frame="<<drawn<<" template="<<debug.id<<" count="<<debug.count<<" current="<<questRuntime->current_quest()<<'\n';
+                        std::cout<<"Quest debug kill frame="<<drawn<<(debug.property?" property=":" template=")<<debug.id<<" count="<<debug.count<<" current="<<questRuntime->current_quest()<<'\n';
                     } else {
                         std::string e;
                         if(!questRuntime->accept_quest(debug.id,e)) std::cout<<"Quest debug accept frame="<<drawn<<" row="<<debug.id<<" refused: "<<e<<'\n';
@@ -4058,6 +4148,13 @@ int main(int argc,char** argv) {
                         }
                     }
                     std::cout<<"Quest state frame="<<drawn<<" gold="<<state.gold<<" xp="<<state.experience<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
+                }
+                if(!gameplayPaused) {
+                    flushConditionFlips("quest-event"); // P17 CONDITIONS: transitions caused by this frame's quest events
+                    // P17 CONDITIONS test aid (--condition-probe FRAME): every watched condition value at that frame.
+                    if(conditionWatch&&std::find(options.conditionProbeFrames.begin(),options.conditionProbeFrames.end(),int(drawn))!=options.conditionProbeFrames.end())
+                        for(const auto& entry:conditionWatch->snapshot())
+                            std::cout<<"Condition probe frame="<<drawn<<" "<<entry.first<<"="<<(entry.second?"true":"false")<<'\n';
                 }
                 if(!gameplayPaused&&deathRewards.bound()) {
                     std::vector<f::loot::RuntimeDeathRewardOutcomeV1> rewards;
