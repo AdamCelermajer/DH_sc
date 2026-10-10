@@ -1,5 +1,6 @@
 #include "inventory_details.hpp"
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstddef>
 namespace dh::foundation::inventory {
@@ -55,9 +56,18 @@ bool rail_role_slot(const std::string& role,unsigned& slot){
  if(role.size()<base.size()+2||role.compare(0,base.size(),base)!=0||role[base.size()+1]!='/')return false;
  const char digit=role[base.size()];if(digit<'0'||digit>'9')return false;slot=unsigned(digit-'0');return true;
 }
-// Only the selected icon's Highlight is visible (CheckIcons: every Highlight hidden, then SelectedItemType[InvSlotId]).
-bool rail_highlight_hidden(const std::string& role,unsigned selected){
- unsigned slot=0;return rail_role_slot(role,slot)&&role.find("/Highlight/")!=std::string::npos&&slot!=selected;
+// Icons with authored normal-state art (SideList/btn_TypeN/<not Highlight>). Reference Part 1 t=372 and the B046 capture:
+// a non-selected icon is dark (its normal art) and only the selected icon shows its bright Highlight art (CheckIcons).
+std::array<bool,10> rail_normal_art(const std::vector<HudGeometryBatch>& batches){
+ std::array<bool,10> normal{};
+ for(const auto& batch:batches){unsigned slot=0;if(rail_role_slot(batch.role,slot)&&batch.role.find("/Highlight/")==std::string::npos)normal[slot]=true;}
+ return normal;
+}
+// Hide a Highlight batch unless its icon is selected. Icons 0,1,2,5,6 export only their bright Highlight art (no normal
+// art), so hiding it would remove the icon; those stay drawn. Their dark normal art is missing from the export (open gap).
+bool rail_highlight_hidden(const std::string& role,unsigned selected,const std::array<bool,10>& normal){
+ unsigned slot=0;
+ return rail_role_slot(role,slot)&&role.find("/Highlight/")!=std::string::npos&&slot!=selected&&normal[slot];
 }
 const InventoryItem* owned_item(const CharacterState& owner,const std::string& id){const auto found=std::find_if(owner.inventory.begin(),owner.inventory.end(),[&](const auto& item){return item.instance_id==id;});return found==owner.inventory.end()?nullptr:&*found;}
 std::size_t focus(const std::vector<equipment_menu::OwnedSelection>& rows,const std::string& selected){const auto at=std::find_if(rows.begin(),rows.end(),[&](const auto& row){return row.instance_id==selected;});return at==rows.end()?0:std::size_t(at-rows.begin());}
@@ -74,7 +84,7 @@ bool DetailsPresenter::reselect_near(std::size_t index,std::string& error){std::
 bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& output,std::string& error)const{
  if(!open_){error="Original inventory details panel is closed";return false;}if(!b.symbol){error="Required detail StringManager symbol provider unavailable";return false;}
  std::vector<equipment_menu::OwnedSelection> rows;if(!candidates(rows,error))return false;
- const auto current=focus(rows,selection_.selected_instance());const auto& art=original_inventory_details();auto next=output;
+ const auto current=focus(rows,selection_.selected_instance());const auto& art=original_inventory_details();auto next=output;const auto rail_normal=rail_normal_art(art.panel.batches);
  std::string equipped_id,equipped_name;for(const auto& row:rows)if(row.equipped){equipped_id=row.instance_id;break;}
  next.art.batches.erase(std::remove_if(next.art.batches.begin(),next.art.batches.end(),[](const auto& batch){return details_replaces_main(batch.role)||prefix(batch.role,"menu_InventorySheetDetails/");}),next.art.batches.end());
  next.text.erase(std::remove_if(next.text.begin(),next.text.end(),[](const auto& value){return details_replaces_main(value.field.path)||prefix(value.field.path,"menu_InventorySheetDetails/");}),next.text.end());
@@ -90,7 +100,7 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
      continue;
     }
     if(equipped_id.empty()&&prefix(batch.role,"menu_InventorySheetDetails/EquipedSwordIcon/"))continue;
-    if(rail_highlight_hidden(batch.role,selection_.selected_slot()))continue;
+    if(rail_highlight_hidden(batch.role,selection_.selected_slot(),rail_normal))continue;
     next.art.batches.push_back(batch);
    }
    if(!inserted)next.art.batches.insert(next.art.batches.end(),transmute_variant->batches.begin(),transmute_variant->batches.end());
@@ -98,7 +108,7 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
    next.solids.insert(next.solids.end(),transmute_variant->solids.begin(),transmute_variant->solids.end());
   }else{
    for(const auto& batch:art.panel.batches){if(equipped_id.empty()&&prefix(batch.role,"menu_InventorySheetDetails/EquipedSwordIcon/"))continue;
-    if(rail_highlight_hidden(batch.role,selection_.selected_slot()))continue;next.art.batches.push_back(batch);}
+    if(rail_highlight_hidden(batch.role,selection_.selected_slot(),rail_normal))continue;next.art.batches.push_back(batch);}
    next.solids.insert(next.solids.end(),art.panel.solids.begin(),art.panel.solids.end());
   }
  // Drop is not offered for an equipped selection: the original hides btn_Drop on the ItemEquipped path of
