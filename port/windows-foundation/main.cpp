@@ -2846,6 +2846,9 @@ int main(int argc,char** argv) {
             f::generic_skills::PcGameplayHudLayoutV1 layout;
             const auto circle=[](float x,float labelLeft,float labelRight) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,270,24,{labelLeft,labelRight,298,312}};};
             layout.skills={circle(128,116,140),circle(184,172,196),circle(240,228,252)};layout.faery=circle(296,276,316);layout.potion=circle(352,321,383);
+            // P16 SPACEBTN: PLACEHOLDER action button, bottom right (placement not measured against the reference; see SPACEBTN-report).
+            layout.action_enabled=true;layout.action=f::generic_skills::PcGameplayHudCirclePlacementV1{440.f,270.f,28.f,{0.f,0.f,0.f,0.f}};
+            layout.action_label=f::action_button_label_v1(lastActionIcon<0?5:lastActionIcon);
             // HUDBTN: real CoolDown per physical cell. Each cell's skill timer (SetSkillCooldown, per actor/skill row) gives
             // remaining = 1 - elapsed/total; FastUpdate frame = clamp((int)(remaining*100)-1, 0, 99). Faery uses its 5000 ms spell clock.
             if(skillCastCoordinator) for(auto& cell:frame.left_middle_right) if(cell.skill_table_id) {
@@ -3903,7 +3906,8 @@ int main(int argc,char** argv) {
                 if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest,&interactables); // B004/B029 (+P16 registry)
                 if(!gameplayPaused&&combatSession) { // P16 CONTEXT: HUD action-button frame from the cached OOI type (MenuManager 0x42eab4)
                     const int icon=f::action_button_icon_v1(objectOfInterest.interaction_type());
-                    if(icon!=lastActionIcon) { lastActionIcon=icon; std::cout<<"Action icon frame="<<drawn<<" icon="<<icon<<" type="<<objectOfInterest.interaction_type()<<'\n'; }
+                    if(icon!=lastActionIcon) { lastActionIcon=icon; std::cout<<"Action icon frame="<<drawn<<" icon="<<icon<<" type="<<objectOfInterest.interaction_type()<<'\n';
+                        if(pcHudReady) refreshPcHudForFaery(); } // P16 SPACEBTN: placeholder label follows the icon
                 }
                 sourcePhysicalPlayerControls={};
                 if(!gameplayPaused) {

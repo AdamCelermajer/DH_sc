@@ -227,6 +227,25 @@ bool append_source_hud_icon(const std::vector<HudGeometryVertex>& source,
     return true;
 }
 
+// P16 SPACEBTN: PLACEHOLDER text under the action button (centred on the circle, one line below it).
+void append_action_label(const PcGameplayHudCirclePlacementV1& p,
+                         const std::string& label, float height,
+                         frontend::art::ScreenArt& art) {
+    frontend::art::TextField field;
+    field.path = "pc_hud/action_label";
+    field.font_id = 5;
+    field.source_height = height;
+    const std::array<float, 4> bounds{p.center_x - 40.0f, p.center_x + 40.0f,
+                                      p.center_y + p.radius + 2.0f, p.center_y + p.radius + 2.0f + height};
+    field.bounds = bounds;
+    field.local_bounds = {0.0f, bounds[1] - bounds[0], 0.0f, height};
+    field.rgba = {255, 255, 255, 255};
+    field.align = 2;
+    field.matrix = {1.0f, 0.0f, 0.0f, 1.0f, bounds[0], bounds[2]};
+    field.initial_text = label;
+    art.text_fields.push_back(std::move(field));
+}
+
 void append_key_label(const PcGameplayHudCirclePlacementV1& p,
                       const std::string& label, float height,
                       frontend::art::ScreenArt& art) {
@@ -374,6 +393,14 @@ bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
         : std::string("5");
     append_key_label(layout.potion, potion_label, layout.key_label_height, next.art);
     next.actions[4] = {platform_input::Control::potion, 5};
+    // P16 SPACEBTN: PLACEHOLDER action button (ring from the decoded btn_spell base, text label for the icon).
+    if (layout.action_enabled) {
+        if (!finite_placement(layout.action)) return fail(error, "PC action button placement is invalid");
+        ButtonFit actionFit;
+        if (!append_button_base(original_pc_gameplay_hud_spell_base_v1(), layout.action,
+                                "pc_hud/action", actionFit, next.art, error)) return false;
+        append_action_label(layout.action, layout.action_label, layout.key_label_height, next.art);
+    }
     output = std::move(next);
     error.clear();
     return true;

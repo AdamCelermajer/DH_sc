@@ -30,6 +30,11 @@ struct PcGameplayHudLayoutV1 {
     std::array<PcGameplayHudCirclePlacementV1, 3> skills{};
     PcGameplayHudCirclePlacementV1 faery{};
     PcGameplayHudCirclePlacementV1 potion{};
+    // P16 SPACEBTN: bottom-right action button (source btn_interact). PLACEHOLDER: the ring is the decoded btn_spell
+    // base (not the btn_interact art) and the icon is replaced by this text label. Off unless action_enabled.
+    bool action_enabled = false;
+    PcGameplayHudCirclePlacementV1 action{};
+    std::string action_label;
     // Source btn_spell CoolDown frame (0 ready .. 99 full), from the Faery
     // spell timer (SetSpellCooldown). Potions have no source cooldown.
     std::int32_t faery_cooldown_frame = 0;

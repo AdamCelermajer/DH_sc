@@ -44,4 +44,8 @@ ContextButtonDecisionV1 decide_context_button_v1(const ContextButtonInputV1& inp
 // Frame index of the authored btn_interact btimg: 0 chest, 3 talk, 4 revive, 5 attack/sword.
 int action_button_icon_v1(int cached_type) noexcept;
 
+// P16 SPACEBTN: PLACEHOLDER label for the HUD action button (the authored btn_interact art is not drawn yet).
+// Names the icon frame: 0 chest, 1 item, 2 lever, 3 talk, 4 revive, 5 attack (default), other: action.
+const char* action_button_label_v1(int icon) noexcept;
+
 } // namespace dh::foundation

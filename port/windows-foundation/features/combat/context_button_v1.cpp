@@ -38,4 +38,16 @@ int action_button_icon_v1(int cached_type) noexcept {
     return icon_table_v1[static_cast<std::size_t>(cached_type)];
 }
 
+const char* action_button_label_v1(int icon) noexcept {
+    switch (icon) {
+        case 0: return "Chest";
+        case 1: return "Item";
+        case 2: return "Lever";
+        case 3: return "Talk";
+        case 4: return "Revive";
+        case 5: return "Attack";
+        default: return "Action";
+    }
+}
+
 } // namespace dh::foundation
