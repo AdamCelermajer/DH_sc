@@ -83,8 +83,9 @@ int main(){try{
     const auto quest_y=(quest_zone->triangles[0].y+quest_zone->triangles[1].y+quest_zone->triangles[2].y)/3;
     check(menu.release(quest_x*2,quest_y*2,960,640)==Action::quest&&menu.tab()==Tab::quest,"Quest Log tab release did not select the quest page");
     check(menu.select(Tab::stats,error),"source Stats tab did not return from Quest Log");
-    // P16 MAPFIX: Quest Log (369-432) and Map (421-484) overlap by about 11 px in sheet space. The nearest tab centre
-    // answers inside the overlap, and each tab answers in its exclusive part (window size 960x640 = sheet x2).
+    // P16 MAPFIX: the Quest Log and Map tab rectangles overlapped (Quest 369-432, Map 421-484). P16 QUESTUI2
+    // (e91be20a) narrowed the Quest Log contour to 369.05-420.95, so the two tabs touch and do not overlap. Each tab
+    // answers in its own part (window size 960x640 = sheet x2); the boundary belongs to Map.
     check(menu.hit_test(380*2,12*2,960,640)==Action::quest,"Quest Log exclusive part not hit");
     check(menu.hit_test(470*2,12*2,960,640)==Action::map,"Map exclusive part not hit");
     check(menu.hit_test(418*2,12*2,960,640)==Action::quest,"Quest Log tab edge (left of the seam at 420.95) not answered by Quest Log");
