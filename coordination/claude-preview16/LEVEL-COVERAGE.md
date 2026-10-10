@@ -8,7 +8,7 @@ Act numbers are inferred from file-id bands (not stored in the level data): unve
 - **loads+renders**: fixed map loads (geometry, population), quiet run exits 0 and the default-camera capture is not blank.
 - **loads, blank view**: fixed map loads and runs, but the capture from the authored EntryPoint is blank (geometry or camera outside view).
 - **blocked: X**: the EXE stops with a named error before a frame is drawn.
-- **not run: procedural**: `.rule.xml` levels need the rule generator (module selection); no runtime path exists.
+- **not run: procedural**: `.rule.xml` levels have no path in the Windows EXE; the canonical port (port/level-loader/procedural_*_v1) has the reader and layout generator, not yet wired (gap 7).
 
 Run settings for fixed maps: `--start-mode swamp` with a generic KnightPlayerBase (no Swamp combat rows), `--profiles actor-profiles-v2.xml`, `--original-camera`, `--position` = the first authored EntryPoint (SpawnPoint) of the level, 30 frames, `--fixed-step 0.0333`, quiet hidden desktop (`quiet_run.ps1`). The first EntryPoint is a coverage heuristic, not the original entry rule.
 
