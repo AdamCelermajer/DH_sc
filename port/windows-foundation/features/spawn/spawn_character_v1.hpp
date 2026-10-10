@@ -70,6 +70,18 @@ struct SpawnTestRequestV1 {
 };
 bool parse_spawn_test_v1(const std::string& text, SpawnTestRequestV1& output, std::string& error);
 
+// NAME@FRAME requests for two debug triggers:
+//   --spawn-declared NAME@FRAME  stub for Script_SpawnCharacter(name) of an AUTHORED declaration (for example
+//     _prim_Monster_LizManIntro1 in LizardMan_Intro). The declaration is hidden (ai_state Limbus/PreSpawn, auto_spawn 0)
+//     and is admitted to the lifecycle only when requested; the spawn then runs the same PreSpawn17 -> Spawn1 -> Idle3
+//     path at the authored placement. The cinematic runner that would call this is a separate owner.
+//   --despawn-test NAME@FRAME  despawns a live pool slot by its population name (spawn_pool_<profile>_<index>).
+struct SpawnNamedRequestV1 {
+    std::string name;
+    std::int64_t frame = 0;
+};
+bool parse_spawn_named_v1(const std::string& text, SpawnNamedRequestV1& output, std::string& error);
+
 // Profile IDs a request can resolve to. A direct row gives one profile; a
 // template gives every distinct weighted member (needed to reserve slots before
 // the draw happens at spawn time).
@@ -157,5 +169,10 @@ bool spawn_character_v1(SpawnPoolV1& pool, const SpawnRequestV1& request,
 
 bool despawn_character_v1(SpawnPoolV1& pool, std::uint64_t actor, const SpawnServicesV1& services,
                           std::string& error);
+
+// Wakes an authored declaration the caller already admitted to the lifecycle (lifecycle_state must be 17). Uses
+// services.begin with source_spawn_state; the placement is the authored one, so no pool slot is involved.
+bool spawn_declared_v1(const std::string& name, std::uint64_t actor, std::int32_t lifecycle_state,
+                       const SpawnServicesV1& services, std::string& line, std::string& error);
 
 } // namespace dh::foundation::spawn

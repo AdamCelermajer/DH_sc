@@ -75,6 +75,52 @@ bool parse_spawn_test_v1(const std::string& text, SpawnTestRequestV1& output, st
     return true;
 }
 
+bool parse_spawn_named_v1(const std::string& text, SpawnNamedRequestV1& output, std::string& error) {
+    const auto at = text.rfind('@');
+    if (at == std::string::npos || at == 0 || at + 1 == text.size()) {
+        error = "NAME@FRAME expects a declaration/slot name and a nonnegative frame";
+        return false;
+    }
+    SpawnNamedRequestV1 parsed;
+    parsed.name = text.substr(0, at);
+    const auto frame = text.substr(at + 1);
+    try {
+        std::size_t used = 0;
+        parsed.frame = std::stoll(frame, &used);
+        if (used != frame.size() || parsed.frame < 0) throw std::invalid_argument("frame");
+    } catch (const std::exception&) {
+        error = "NAME@FRAME frame must be a nonnegative integer";
+        return false;
+    }
+    output = parsed;
+    error.clear();
+    return true;
+}
+
+bool spawn_declared_v1(const std::string& name, std::uint64_t actor, std::int32_t lifecycle_state,
+                       const SpawnServicesV1& services, std::string& line, std::string& error) {
+    line.clear();
+    // Script_SpawnCharacter of an authored declaration: only a hidden PreSpawn17 owner can be woken.
+    if (!services.begin) { error = "spawn services are incomplete"; line = "SPAWN declared rejected name=" + name + " reason=" + error; return false; }
+    if (lifecycle_state != 17) {
+        error = "declared actor is not in PreSpawn17 (state " + std::to_string(lifecycle_state) + ")";
+        line = "SPAWN declared rejected name=" + name + " actor=" + std::to_string(actor) + " reason=" + error;
+        if (services.log) services.log(line);
+        return false;
+    }
+    std::string beginError;
+    if (!services.begin(actor, SpawnClipPolicy::source_spawn_state, beginError)) {
+        error = beginError;
+        line = "SPAWN declared failed-state name=" + name + " actor=" + std::to_string(actor) + " reason=" + beginError;
+        if (services.log) services.log(line);
+        return false;
+    }
+    line = "SPAWN declared ok name=" + name + " actor=" + std::to_string(actor) + " clip=source_spawn_state";
+    if (services.log) services.log(line);
+    error.clear();
+    return true;
+}
+
 bool spawn_candidate_profiles_v1(const std::string& name, const dh2::data::CharacterTable& characters,
                                  const dh2::data::CharacterTemplateTableV78& templates,
                                  std::vector<std::string>& profiles, std::string& error) {

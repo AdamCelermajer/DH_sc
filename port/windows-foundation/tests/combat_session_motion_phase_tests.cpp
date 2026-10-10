@@ -527,6 +527,34 @@ int main(int argc, char** argv) {
         check(session.update(0, {}, position_of(*session.actor(1)), 0, error), error);
         check(session.update_serial() == serialBeforeDetach + 1,
               "Fresh restored phase owner did not resume the same Session");
+
+        // P16 LIFECYCLE (core change): a state selection between updates (a spawn's begin/select) queues root samples
+        // outside an update. The per-frame rebinding must still succeed and the queued samples must reach the handler
+        // bound at the next update; removal stays refused while they are queued.
+        // Source sequence path (the lifecycle spawn's own call for state 1): a non-looping Injured sequence with an explicit group.
+        OriginalAttackSelection reactSelection;reactSelection.state="Injured";reactSelection.variant=0;reactSelection.group_path={0};
+        CombatSessionStateAnimationServices reactServices; // whole-sequence completion is not under test here
+        reactServices.event = [](ActorId, const RetainedAnimationEvent&, std::string&) { return true; };
+        reactServices.finished = [](ActorId, std::string&) { return true; };
+        check(session.play_actor_state_sequence(1, reactSelection, reactServices, error),
+              "Between-update Injured sequence of the player was refused: " + error);
+        std::string pendingError;
+        check(!session.clear_motion_phase_handler(pendingError) &&
+              pendingError.find("without pending samples") != std::string::npos,
+              "Queued between-update samples were not held before the handler was rebound");
+        std::size_t queuedDelivered = 0, rebindCalls = 0;
+        check(session.set_motion_phase_handler(
+            [&](ActorState& actor, std::uint64_t frame, double, const std::vector<CombatSessionMotionSample>& samples,
+                std::string&) {
+                ++rebindCalls;
+                check(frame == session.update_serial() && session.actor(actor.id) == &actor,
+                      "Rebound handler received a stale frame or actor");
+                if (actor.id == 1) queuedDelivered += samples.size();
+                return true;
+            }, error), "Per-frame rebinding was refused while between-update samples were queued: " + error);
+        check(session.update(0, {}, position_of(*session.actor(1)), 0, error), error);
+        check(rebindCalls > 0 && queuedDelivered > 0,
+              "Between-update samples were not delivered to the rebound handler at the next update");
         check(session.clear_motion_phase_handler(error), error);
         std::cout << "PASS actual retained source attack marker before ordered motion samples; same-Session NativeWorld/PF floor import and root movement; zero-dt actor callbacks; restore requires fresh phase binding\n";
         return 0;

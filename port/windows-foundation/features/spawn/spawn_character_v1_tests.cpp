@@ -261,9 +261,45 @@ int main(int argc, char** argv) {
                 "despawn hides and frees the slot");
         require(!despawn_character_v1(fresh, result.actor, s, derr), "double despawn refused");
 
+        // Pool reuse: the freed slot is handed out again (same actor ID, no duplicate, busy count restored).
+        log.clear();
+        SpawnResultV1 reused;
+        require(spawn_character_v1(fresh, request, s, reused, f.error) && reused.actor == result.actor &&
+                fresh.busy_count() == 2, "despawned slot is reused by the next spawn of its profile");
+        require(despawn_character_v1(fresh, reused.actor, s, derr) && despawn_character_v1(fresh, result.actor == reused.actor ? second.actor : result.actor, s, derr) &&
+                fresh.busy_count() == 0, "both slots released after despawn");
+
+        // Named request parser (--despawn-test / --spawn-declared): NAME@FRAME only.
+        SpawnNamedRequestV1 named;
+        require(parse_spawn_named_v1("_prim_Monster_LizManIntro1@60", named, f.error) &&
+                named.name == "_prim_Monster_LizManIntro1" && named.frame == 60, "parse NAME@FRAME");
+        for (const char* bad : {"NoFrame", "@60", "X@", "X@-1", "X@6junk", "X@1.5"}) {
+            SpawnNamedRequestV1 rejected;
+            require(!parse_spawn_named_v1(bad, rejected, f.error), std::string("malformed NAME@FRAME accepted: ") + bad);
+        }
+
+        // Declared (authored) spawn: admitted only from the hidden PreSpawn17 state, one begin, no pool slot touched.
+        Owners declared_owners;
+        SpawnServicesV1 declared = f.services([](const std::string&) { return true; },
+            [](std::int32_t, std::int32_t& index) { index = 0; return true; }, log);
+        declared_owners.attach(declared);
+        std::string declared_line, declared_error;
+        require(!spawn_declared_v1("_prim_Monster_LizManIntro1", 9001, 3, declared, declared_line, declared_error) &&
+                declared_owners.begun.empty() && declared_line.find("not in PreSpawn17") != std::string::npos,
+                "declared spawn refused from Idle3 with zero owner mutation");
+        require(spawn_declared_v1("_prim_Monster_LizManIntro1", 9001, 17, declared, declared_line, declared_error) &&
+                declared_owners.begun == std::vector<std::uint64_t>{9001} &&
+                declared_owners.clips == std::vector<SpawnClipPolicy>{SpawnClipPolicy::source_spawn_state} &&
+                declared_line == "SPAWN declared ok name=_prim_Monster_LizManIntro1 actor=9001 clip=source_spawn_state",
+                "declared spawn from PreSpawn17 begins the source Spawn clip once");
+        declared_owners.fail_begin = true;
+        require(!spawn_declared_v1("_prim_Monster_LizManIntro2", 9002, 17, declared, declared_line, declared_error) &&
+                declared_line.find("failed-state") != std::string::npos, "declared begin failure is reported");
+
         std::cout << "PASS parse=7 candidates=direct+template level=row-scaled pool=unique+capacity admit=deferred+visual"
                   << " spawn=place+clip+one-line rejections=unadmitted,nofree,nonfinite failed-state=kept-busy"
-                  << " template=" << template_name << " members=" << template_profiles.size() << " despawn=freed\n";
+                  << " template=" << template_name << " members=" << template_profiles.size() << " despawn=freed reuse=same-slot"
+                  << " named=parsed declared=17-only\n";
         return 0;
     } catch (const std::exception& exception) {
         std::cerr << "spawn_character_v1 FAIL: " << exception.what() << '\n';
