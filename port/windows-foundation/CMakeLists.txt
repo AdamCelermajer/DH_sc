@@ -146,6 +146,11 @@ add_library(foundation_runtime_skill_cast STATIC
   features/faery_menu/hotty_source_use_v1.cpp
   features/faery_menu/celest_cast_v1.cpp
   features/faery_menu/celest_source_use_v1.cpp
+  # Preview 14 FAERY: CharacterState-backed Faery character-menu page (not the legacy Save path).
+  features/faery_menu/character_state_page_v1.cpp
+  features/faery_menu/original_art.cpp
+  features/faery_menu/source_text_v1.cpp
+  features/faery_menu/character_state_faery_v1.cpp
   ../game-data/faery_tables.cpp
   ../level-world/character_path_commands.cpp)
 target_link_libraries(foundation_runtime_skill_cast PUBLIC foundation_runtime_skills_menu)
@@ -548,6 +553,14 @@ add_test(NAME semantic_input COMMAND semantic_input_tests)
 add_executable(menu_text_tests features/character_menu/menu_text_tests.cpp ../engine-ui/text_layout_v1.cpp)
 target_link_libraries(menu_text_tests PRIVATE foundation_data)
 add_test(NAME menu_text COMMAND menu_text_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# Preview 14 FAERY: CharacterState Faery page provider (source-table + English localization inputs).
+add_executable(character_state_page_tests features/faery_menu/tests/character_state_page_tests.cpp)
+target_link_libraries(character_state_page_tests PRIVATE foundation_runtime_skill_cast foundation_data)
+add_test(NAME character_state_page COMMAND character_state_page_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/character-skill-session-v2/cache/data/pydata/faeries_pyarray.bin"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/character-skill-session-v2/cache/data/pydata/faeries_pyarraynames.bin"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/character-skill-session-v2/cache/data/pydata/faeries_pystructnames.bin"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-main-frontend-v1/assets")
 
 target_sources(foundation_data PRIVATE features/combo_chain/source_combo_chain.cpp
   ../level-world/character_attack_animation_v1.cpp ../level-world/character_animation_ai.cpp

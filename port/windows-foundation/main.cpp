@@ -38,6 +38,7 @@
 #include "features/generic_skills/pc_gameplay_hud_v1.hpp"
 #include "features/skill_ui/skill_ui.hpp"
 #include "features/equipment/runtime_equipment_text_v1.hpp"
+#include "features/faery_menu/character_state_faery_v1.hpp" // P14 FAERY: CharacterState Faery page host + script effects
 #include "features/equipment/runtime_player_locomotion_library_v1.hpp"
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "../script-runtime/script_constants.hpp"
@@ -228,6 +229,7 @@ struct Options {
     int profileClickFrame=-1;
     int skillsPageFrame=-1;
     int equipmentPageFrame=-1;
+    int faeryPageFrame=-1; // P14 FAERY
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
     std::vector<std::pair<int,int>> skillKeyFrames;
@@ -325,6 +327,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--profile-click-frame") o.profileClickFrame=std::stoi(value());
         else if(arg=="--skills-page-frame") o.skillsPageFrame=std::stoi(value());
         else if(arg=="--equipment-page-frame") o.equipmentPageFrame=std::stoi(value());
+        else if(arg=="--faery-page-frame") o.faeryPageFrame=std::stoi(value()); // P14 FAERY
         else if(arg=="--menu-release") {
             std::istringstream input(value());Options::MenuRelease release{};char first=0,second=0;
             if(!(input>>release.frame>>first>>release.x>>second>>release.y)||first!=':'||second!=':'||release.frame<0||!std::isfinite(release.x)||!std::isfinite(release.y))throw std::runtime_error("Menu release requires FRAME:AUTHORED_X:AUTHORED_Y");
@@ -1464,6 +1467,13 @@ int main(int argc,char** argv) {
             providers.named_character=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){return sourceObjects.named_character(name,module,id,found,e);};
             providers.global_controller_blocked=[&](bool blocked,std::string&){globalControllerBlocked=blocked;return true;};
             providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){if(!combatSession->actor(id)){e="Source character controller unavailable";return false;}characterControllerBlocked[id]=blocked;return true;};
+            // P14 FAERY (T3): Script_SetFaeryState / Script_IncFaeryLevel write the live CharacterState and persist it.
+            providers.set_faery_state=[&](std::uint32_t slot,std::uint32_t value,std::string& e){
+                if(!f::faery_menu::apply_source_set_faery_state_v1(state,f::faery_menu::active_faery_difficulty_v1(),slot,value,e))return false;
+                return f::save_character(options.save,state,e);};
+            providers.inc_faery_level=[&](std::uint32_t slot,std::string& e){
+                if(!f::faery_menu::apply_source_inc_faery_level_v1(state,f::faery_menu::active_faery_difficulty_v1(),slot,e))return false;
+                return f::save_character(options.save,state,e);};
             campaignWorld.bind(std::move(providers));
             if(!options.sourceCommands.empty()) {
                 combatSession->set_diagnostic_controller_admission_provider(
@@ -1898,6 +1908,8 @@ int main(int argc,char** argv) {
             runtimeEquipmentAttachments=nullptr;runtimeEquipmentPage.reset();runtimeEquipment.reset();equipmentAttemptLease.reset();
             characterMenuBindings.actor=nullptr;characterMenuBindings.properties=nullptr;
         };
+        // P14 FAERY: set below, after updatePcHud is defined; the Faery page calls it after a selection change.
+        std::function<void()> refreshPcHudForFaery;
         if(options.hud&&combatSession) {
             if(!menuSourceOwner.valid()) {
                 std::string sourceError;
@@ -1993,6 +2005,18 @@ int main(int argc,char** argv) {
                     });
                 if(!characterMenuComposition->register_page(f::character_menu::Tab::skills,runtimeSkillsMenu->source_page_provider(),error))
                     throw std::runtime_error("Skills composition: "+error);
+                // P14 FAERY: Faery tab over the live CharacterState (features/faery_menu/character_state_faery_v1.*).
+                // An unbindable page (e.g. legacy state without source Faery rows) stays unregistered and is diagnosed.
+                {
+                    f::faery_menu::CharacterStateFaeryPageHostV1 faeryHost;
+                    faeryHost.owner=sharedCharacter;faeryHost.tables=sourceFaeryTables;
+                    faeryHost.localize=[&](const std::string& symbol,std::string& value,std::string& e){return menuLocalization.symbol(symbol,&state,value,e);};
+                    faeryHost.persist=[&](std::string& e){return f::save_character(options.save,state,e);};
+                    faeryHost.refresh_hud=[&](){if(refreshPcHudForFaery)refreshPcHudForFaery();};
+                    std::string faeryError;
+                    if(!f::faery_menu::register_character_state_faery_page_v1(*characterMenuComposition,std::move(faeryHost),faeryError))
+                        std::cerr<<"Faery page diagnostic: "<<faeryError<<'\n';
+                }
                 if(!characterMenuComposition->install_content(characterMenuBindings,error))throw std::runtime_error(error);
             }
         }
@@ -2058,7 +2082,7 @@ int main(int argc,char** argv) {
             layout.skills={circle(162),circle(200),circle(238)};layout.faery=circle(290);layout.potion=circle(350);
             layout.faery.key_label_bounds={267,313,295,311};layout.potion.key_label_bounds={319,381,295,311};
             // B002/B024: exact NativeHUDGetActiveFaery result = Character::SG_GetCurrentFaerieId(-1), the saved current_faery of difficulty 0 (difficulty used by this build's Faery cast arm).
-            if(state.source_faery_state_known)layout.active_faery_id=state.faery_by_difficulty[0].current_faery;
+            if(state.source_faery_state_known)layout.active_faery_id=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
             if(!f::generic_skills::compose_pc_gameplay_hud_v1(frame,classFrame,layout,pcHudPresentation,error))throw std::runtime_error("PC HUD geometry: "+error);
             std::uint64_t potionCount=0;
             for(const auto& item:state.inventory)if(item.definition_id=="Potion0")potionCount+=item.quantity;
@@ -2069,6 +2093,7 @@ int main(int argc,char** argv) {
             pcHudReady=true;
         };
         updatePcHud();
+        refreshPcHudForFaery=[&](){updatePcHud();}; // P14 FAERY: key-4 circle re-composed after a page selection
         f::inventory::RuntimeSessionPotionUseV1 potionUse;
         struct PotionDebugContext {
             std::function<bool(std::string&)> load;
@@ -2395,15 +2420,17 @@ int main(int argc,char** argv) {
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::equipment,error))throw std::runtime_error("Equipment page diagnostic selection: "+error);
                 std::cout<<"Character menu Equipment selected frame="<<drawn<<" via same-state source provider\n";
             }
+            // P14 FAERY: --faery-page-frame=N opens the menu on the Faery tab (CharacterState provider).
+            if(drawn==options.faeryPageFrame) {
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::faery,error))throw std::runtime_error("Faery page diagnostic selection: "+error);
+                std::cout<<"Character menu Faery selected frame="<<drawn<<" via CharacterState provider\n";
+            }
             for(const auto& click:uiInput.clicks) {
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
                 const auto action=characterMenu.hit_test(click.position.x,click.position.y,window.width(),window.height());
-                if(action==f::character_menu::Action::faery) {
-                    // The page's native unlock/selection owner is not bound in
-                    // this checkpoint. Keep the current valid page until its
-                    // content provider can publish, rather than expose the world.
-                    std::cout<<"Character menu Faery page requires live content provider; current page retained\n";
-                } else {
+                {
+                    // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
                     characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
                     if(!error.empty())std::cerr<<"Character menu action diagnostic: "<<error<<'\n';
                     if(runtimeEquipmentPage) {
@@ -2646,7 +2673,7 @@ int main(int argc,char** argv) {
                 std::string castError;f::generic_skills::RuntimeSkillCastReceiptV1 receipt;
                 f::generic_skills::RuntimeSkillFaeryAnimationSlotV1 selected;
                 if(!sourceFaeryTables||!skillAnimationBank)castError="Current saved Faery has no initialized source tables/animation bank";
-                else if(f::generic_skills::resolve_runtime_faery_animation_slot_v1(state,0,*skillAnimationBank,selected,castError)) {
+                else if(f::generic_skills::resolve_runtime_faery_animation_slot_v1(state,f::faery_menu::active_faery_difficulty_v1(),*skillAnimationBank,selected,castError)) {
                     const auto* sequence=skillVisualPlan.sequence(selected.selection_state,0);
                     if(!sequence||sequence->phases.empty())castError="Current Faery has no reachable source Cast phase";
                     else {
@@ -2669,10 +2696,10 @@ int main(int argc,char** argv) {
                             facts.push_back({placed.definition.stableId,placed.enabled,false,false,true,traits&&traits->targetable});
                         }
                         f::faery_menu::HottySourceTargetListV1 targets;
-                        const auto rank=state.faery_by_difficulty[0].faeries[std::size_t(selected.faery_slot)].level;
+                        const auto rank=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].faeries[std::size_t(selected.faery_slot)].level;
                         if(policy.complete&&f::faery_menu::query_hotty_character_targets_v1(*combatSession->world(),combatSession->player_id(),order,facts,rank==0?600:800,targets,castError)) {
                             f::generic_skills::RuntimeSkillFaerySpellArmV1 arm;
-                            arm.tables=&sourceFaeryTables;arm.difficulty=0;arm.policy=&policy;arm.actor_order=&order;arm.source_facts=&facts;arm.targets=&targets;arm.cooldown_clock=&faeryCooldownClock;
+                            arm.tables=&sourceFaeryTables;arm.difficulty=f::faery_menu::active_faery_difficulty_v1();arm.policy=&policy;arm.actor_order=&order;arm.source_facts=&facts;arm.targets=&targets;arm.cooldown_clock=&faeryCooldownClock;
                             arm.celest_effect_dispatch=celestEffects.get();
                             f::generic_skills::RuntimeSkillCastRequestV1 request;
                             request.dispatch=f::generic_skills::RuntimeSkillCastDispatchV1::native_hud_spell;request.actor=combatSession->player_id();request.character=&state;

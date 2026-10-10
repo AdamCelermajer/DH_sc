@@ -15,7 +15,7 @@ bool OriginalCampaignWorldAdapter::command(CampaignCommandPhase phase,const Orig
   if(c.kind==4||c.kind==8){if(!camera_){if(c.kind==4)return true;error="Source camera command requires bound CampaignCameraAdapter";return false;}bool handled=false;if(!camera_->command(phase,c,skip,handled,blocking,error))return false;if(!handled){error="Source camera adapter did not handle command";return false;}return true;}
   if(c.kind==10||c.kind==12)return effect(providers_.dialog,"dialog",error,c,phase,blocking);
   if(c.kind==22||c.kind==23){auto wait=scalar(c,20);if(wait>1){error="Invalid source Flash wait byte";return false;}return effect(providers_.flash,"flash",error,c.kind==22,text(c,16),scalar(c,8),wait!=0,phase,blocking);}
-  switch(c.kind){case 1:case 2:case 24:case 25:case 30:case 31:case 32:case 39:case 69:case 70:case 77:case 78:case 79:break;default:error="Unsupported original campaign command kind "+std::to_string(c.kind)+" ("+c.class_name+")";return false;}
+  switch(c.kind){case 1:case 2:case 24:case 25:case 30:case 31:case 32:case 39:case 69:case 70:case 77:case 78:case 79:case 27:case 28:break;default:error="Unsupported original campaign command kind "+std::to_string(c.kind)+" ("+c.class_name+")";return false;}
   // Actual source bodies for these kinds are nonblocking and inherit empty Update.
   if(phase!=CampaignCommandPhase::execute)return true;
   switch(c.kind){
@@ -37,6 +37,10 @@ bool OriginalCampaignWorldAdapter::command(CampaignCommandPhase phase,const Orig
     else{bool allowed=false;if(!effect(providers_.idle_gate,"source Idle gate",error,id,allowed))return false;if(allowed&&!effect(providers_.set_idle,"source Idle state owner",error,id,!skip))return false;}
    }return true;
   }
+  // P14 FAERY (T3): Script_SetFaeryState(slot @8, state @12) and Script_IncFaeryLevel(slot @8)
+  // write the live CharacterState through the same-owner providers (unlock/level only).
+  case 27:return effect(providers_.set_faery_state,"set faery state",error,scalar(c,8),scalar(c,12));
+  case 28:return effect(providers_.inc_faery_level,"increment faery level",error,scalar(c,8));
   case 69:return effect(providers_.request_save,"request save",error);
   case 70:return effect(providers_.block_save,"block save",error);
   case 77:return effect(providers_.consume_tutorial,"lock tutorial",error,as_signed(scalar(c,8)));
