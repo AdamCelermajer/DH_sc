@@ -50,14 +50,21 @@ bool map_camera_v1(const MapExtentV1& extent, const std::optional<std::array<flo
         cx = (*player)[0];
         cy = (*player)[1];
     }
-    // Radius that encloses the level's XY corners from the centre (the reset view must show all of it).
-    float radius = 0;
+    // Fit the level's XY footprint on the camera's screen axes. The up vector (-1,1,0) makes the
+    // screen axes the world diagonals: right = (1,1)/sqrt2, up = (-1,1)/sqrt2. The reset view must
+    // show every corner; the vertical half-extent and the aspect-scaled horizontal half-extent bound the distance.
+    const float invSqrt2 = 0.70710678f;
+    float halfRight = 0, halfUp = 0;
     for (const float x : {extent.minX, extent.maxX})
-        for (const float y : {extent.minY, extent.maxY})
-            radius = std::max(radius, std::hypot(x - centerX, y - centerY));
-    radius = std::max(radius, 1.0f);
+        for (const float y : {extent.minY, extent.maxY}) {
+            const float dx = x - centerX, dy = y - centerY;
+            halfRight = std::max(halfRight, std::abs((dx + dy) * invSqrt2));
+            halfUp = std::max(halfUp, std::abs((dy - dx) * invSqrt2));
+        }
+    halfRight = std::max(halfRight, 1.0f);
+    halfUp = std::max(halfUp, 1.0f);
     const float halfTan = std::tan(map_camera_fov_radians * 0.5f);
-    const float distance = radius * map_fit_margin / (halfTan * view.zoom);
+    const float distance = std::max(halfUp / halfTan, halfRight / (halfTan * map_camera_aspect)) * map_fit_margin / view.zoom;
     const float depthSpan = std::max(0.0f, extent.maxZ - extent.minZ);
     out = Camera{};
     out.eye = {cx, cy, extent.maxZ + distance};

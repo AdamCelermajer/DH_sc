@@ -129,6 +129,10 @@ def walk(char,m,path,art,text,depth=0,active_tab='stats',has_stat_points=True):
     if char==347:
         for name in ('Fire','Water','Lightning','Earth','Air'):
             if path.endswith('/'+name):frame=labels[347][name]
+    if char==654:
+        # P16 map: LegendPopup idles off-screen at frame 0 and slides in over 'show' (frame 1) .. 'hide'-1 (frame 13);
+        # the legend is shown at its settled frame.
+        frame=labels[654]['hide']-1
     masks=[]
     for dep,p in sorted(sprites[char][frame].items()):
         masks=[active for active in masks if dep<=active[0]]

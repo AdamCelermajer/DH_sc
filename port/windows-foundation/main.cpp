@@ -267,6 +267,7 @@ struct Options {
     int equipmentPageFrame=-1;
     int faeryPageFrame=-1; // P14 FAERY
     int mapPageFrame=-1; // P16 MAP: --map-page-frame=N opens the character menu on the Map tab
+    bool mapLegend=false; float mapZoom=1; // P16 MAP diagnostics: --map-legend shows the legend, --map-zoom=Z sets the zoom at selection
     std::vector<std::string> bagItemIds; // P14 EQUIP: --bag-item diagnostic rows
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
@@ -369,6 +370,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--equipment-page-frame") o.equipmentPageFrame=std::stoi(value());
         else if(arg=="--faery-page-frame") o.faeryPageFrame=std::stoi(value()); // P14 FAERY
         else if(arg=="--map-page-frame") o.mapPageFrame=std::stoi(value()); // P16 MAP
+        else if(arg=="--map-legend") o.mapLegend=true; // P16 MAP diagnostic
+        else if(arg=="--map-zoom") o.mapZoom=std::stof(value()); // P16 MAP diagnostic
         else if(arg=="--menu-release") {
             std::istringstream input(value());Options::MenuRelease release{};char first=0,second=0;
             if(!(input>>release.frame>>first>>release.x>>second>>release.y)||first!=':'||second!=':'||release.frame<0||!std::isfinite(release.x)||!std::isfinite(release.y))throw std::runtime_error("Menu release requires FRAME:AUTHORED_X:AUTHORED_Y");
@@ -2705,6 +2708,8 @@ int main(int argc,char** argv) {
                 if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::map,error))throw std::runtime_error("Map page diagnostic selection: "+error);
                 std::cout<<"Character menu Map selected frame="<<drawn<<" level="<<options.level.generic_string()<<" zones="<<levelModuleZones.size()<<'\n';
+                if(options.mapLegend&&characterMenu.map_legend_shown()==false)characterMenu.map_control(f::character_menu::Action::map_legend);
+                if(options.mapZoom>1)mapView.zoom=std::clamp(options.mapZoom,f::map_visit::map_zoom_min,f::map_visit::map_zoom_max);
             }
             // P14 FAERY: --faery-page-frame=N opens the menu on the Faery tab (CharacterState provider).
             if(drawn==options.faeryPageFrame) {
@@ -3381,6 +3386,8 @@ int main(int argc,char** argv) {
                     if(!mapVisits.configure(levelModuleZones,f::map_visit::visited_module_ids(state,options.level.generic_string()),mapError))throw std::runtime_error("Map room zones: "+mapError);
                     mapVisitsReady=true;
                     std::cout<<"Map room zones level="<<options.level.generic_string()<<" modules="<<levelModuleZones.size()<<" visited="<<mapVisits.visited_count()<<'\n';
+                    for(const auto& zone:levelModuleZones)
+                        std::cout<<"Map room zone id="<<zone.id<<" name="<<zone.name<<" bounds="<<zone.bounds[0]<<','<<zone.bounds[1]<<','<<zone.bounds[2]<<" -> "<<zone.bounds[3]<<','<<zone.bounds[4]<<','<<zone.bounds[5]<<" ranges="<<zone.firstRange<<'+'<<zone.rangeCount<<'\n';
                 }
                 f::map_visit::CameraBasisV1 mapBasis;std::string mapError;
                 if(!f::map_visit::camera_basis_v1(activeCamera,float(window.width())/float(window.height()),mapBasis,mapError))throw std::runtime_error("Map camera basis: "+mapError);
@@ -3559,8 +3566,8 @@ int main(int argc,char** argv) {
                     const auto drawMapPage=[&]() {
                         if(!mapVisitsReady)return;
                         float minX=std::numeric_limits<float>::max(),minY=minX,maxX=-minX,maxY=-minX;bool found=false;
-                        for(const auto& batch:menu.art.batches)if(batch.role=="menu_MapSheet/RenderMap/1")
-                            for(const auto& v:batch.triangles){found=true;minX=std::min(minX,v.x);minY=std::min(minY,v.y);maxX=std::max(maxX,v.x);maxY=std::max(maxY,v.y);}
+                        for(const auto& solid:menu.solids)if(solid.geometry.role=="menu_MapSheet/RenderMap/1")
+                            for(const auto& v:solid.geometry.triangles){found=true;minX=std::min(minX,v.x);minY=std::min(minY,v.y);maxX=std::max(maxX,v.x);maxY=std::max(maxY,v.y);}
                         if(!found)throw std::runtime_error("Map page RenderMap rectangle is absent from the authored menu art");
                         const float rectX=transform.x+minX*transform.scale_x,rectY=transform.y+minY*transform.scale_y;
                         const float rectW=(maxX-minX)*transform.scale_x,rectH=(maxY-minY)*transform.scale_y;
@@ -3618,7 +3625,10 @@ int main(int argc,char** argv) {
                             e.clear();return true;
                         },error))throw std::runtime_error("Original Equipment avatar: "+error);
                     };
+                    // P16 MAP: the level is drawn after the sheet backdrop batch and before the MapSheet art (icons, legend, buttons).
+                    bool mapDrawn=false;
                     for(const auto& batch:menu.art.batches) {
+                        if(!mapDrawn&&characterMenu.tab()==f::character_menu::Tab::map&&batch.role.compare(0,14,"menu_MapSheet/")==0){drawMapPage();mapDrawn=true;}
                         if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment)
                             for(std::size_t i=0;i<sourcePanes.size();++i)
                                 if(!drawnPanes[i]&&!sourcePanes[i].before_role.empty()&&
@@ -3627,10 +3637,9 @@ int main(int argc,char** argv) {
                                 }
                         std::vector<f::OverlayTriangleVertex> vertices;for(const auto& v:batch.triangles)vertices.push_back({transform.x+v.x*transform.scale_x,transform.y+v.y*transform.scale_y,v.u,v.v});
                         if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Character menu original-art draw rejected");
-                        // P16 MAP: the level is drawn right after the RenderMap contour, under the rest of the Map sheet.
-                        if(batch.role=="menu_MapSheet/RenderMap/1"&&characterMenu.tab()==f::character_menu::Tab::map)drawMapPage();
                         for(const auto& solid:menu.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
                     }
+                    if(characterMenu.tab()==f::character_menu::Tab::map&&!mapDrawn)drawMapPage();
                     if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment&&
                        std::none_of(drawnPanes.begin(),drawnPanes.end(),[](bool drawn){return drawn;}))
                         throw std::runtime_error("Original Equipment active avatar display-list anchor is unavailable");

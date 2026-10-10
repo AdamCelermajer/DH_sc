@@ -71,9 +71,30 @@ const char* original_menu_label_symbol(const std::string& path)noexcept {
         ,{"menu_InventorySheetMain/Title/","GAMEPLAYMENUS_INVENTORY_TITLE"}
         // P16 map (MenuCharMenu_Map sheet menu_MapSheet): page title and control captions by symbol.
         ,{"menu_MapSheet/menu_title/","GAMEPLAYMENUS_MAP_TITLE"}
-        ,{"menu_MapSheet/btn_Legend/TextBox/","MENU_MAP_LEGEND"}
+        ,{"menu_MapSheet/btn_Legend/TextBox/","MENU_SHOW_LEGEND"}
         ,{"menu_MapSheet/btn_ResetZoom/TextBox/","MENU_MAP_RESET_ZOOM"}
+        ,{"menu_MapSheet/LegendPopup/WarningBox/Title","MENU_MAP_LEGEND"}
     };
+    // P16 map legend captions: iconTextN of MenuCharMenu_Map LegendPopup/WarningBox, matched by exact index
+    // (substring matching would also catch iconText10..12). Order is the authored legend reading order
+    // (left column 1..5 = Checkpoint, Entrance, Exit, NPC, Merchant; right column 7..9 = Character, Enemy,
+    // Objective). Index 10 (Unexplored area) has no source symbol in the menu text table and stays blank.
+    static const std::string legendPrefix="menu_MapSheet/LegendPopup/WarningBox/iconText";
+    if(path.compare(0,legendPrefix.size(),legendPrefix)==0&&path.size()>legendPrefix.size()) {
+        const auto digits=path.substr(legendPrefix.size());
+        if(digits.find_first_not_of("0123456789")!=std::string::npos) return nullptr;
+        switch(std::stoi(digits)) {
+        case 1: return "MENU_MAP_CHECKPOINT";
+        case 2: return "MENU_MAP_ENTRANCE";
+        case 3: return "MENU_MAP_EXIT";
+        case 4: return "MENU_MAP_QUESTGIVER";
+        case 5: return "MENU_MAP_MERCHANT";
+        case 7: return "MENU_MAP_CHAR";
+        case 8: return "MENU_MAP_ENEMIES";
+        case 9: return "MENU_MAP_OBJ";
+        default: return nullptr;
+        }
+    }
     for(const auto& label:labels)if(path.find(label.source_path)!=std::string::npos)return label.symbol;
     return nullptr;
 }
