@@ -181,6 +181,20 @@ def read_bitmap_styles(data, at, shape_id):
     return styles, at
 
 
+def contour_inside(inner, outer):
+    """True when the inner contour lies inside the outer polygon (even-odd test on its first point)."""
+    if min(p[0] for p in inner) < min(p[0] for p in outer) or max(p[0] for p in inner) > max(p[0] for p in outer):
+        return False
+    if min(p[1] for p in inner) < min(p[1] for p in outer) or max(p[1] for p in inner) > max(p[1] for p in outer):
+        return False
+    x, y = inner[0]
+    inside = False
+    for (x1, y1), (x2, y2) in zip(outer, outer[1:] + outer[:1]):
+        if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
+            inside = not inside
+    return inside
+
+
 def parse_shape(code, data):
     shape_id = struct.unpack_from("<H", data)[0]
     bounds, at = rect(data, 2)
@@ -254,8 +268,14 @@ def parse_shape(code, data):
                 chain.extend(segments.pop(matches[0])[1:])
             fill_contours.append(chain)
         if len(fill_contours) != 1:
-            raise ValueError(f"Shape {shape_id}: multiple contours need a hole-aware tessellator")
-        vertices = triangulate(fill_contours[0])
+            # Several separate (non-nested) contours in one fill are separate solid
+            # pieces, e.g. the thin divider lines of shape 453. Nested contours
+            # would be holes and still need a hole-aware tessellator.
+            if any(contour_inside(inner, outer) for inner in fill_contours for outer in fill_contours if inner is not outer):
+                raise ValueError(f"Shape {shape_id}: multiple contours need a hole-aware tessellator")
+            vertices = [v for contour in fill_contours for v in triangulate(contour)]
+        else:
+            vertices = triangulate(fill_contours[0])
         contours.extend(fill_contours)
         a,b,c,d,tx,ty = styles[fill-1]["matrix_twips"]
         determinant = a*d-b*c

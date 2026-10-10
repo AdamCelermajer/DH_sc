@@ -45,10 +45,25 @@ int main(int argc,char** argv){try{
  check(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return value.role=="menu_InventorySheetMain/34";})&&
        std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return value.role=="menu_InventorySheetMain/177";}),
        "Original full-stage InventorySheetMain background plates were removed under the Details overlay");
- check(frame.solids.size()==3&&frame.solids[0].geometry.role=="menu_InventorySheetDetails/avatarpane/1"&&
-       frame.solids[1].geometry.role=="menu_InventorySheetDetails/list/btn_0/8"&&
-       frame.solids[2].geometry.role=="menu_InventorySheetDetails/list/btn_post0/8",
+ // Shape 453 is the black divider-line fill (two separate contours, depth 234), drawn after the last button batch.
+ check(frame.solids.size()==4&&frame.solids[0].geometry.role=="menu_InventorySheetDetails/234"&&
+       frame.solids[0].after_bitmap_role=="menu_InventorySheetDetails/btn_AutoEquip/1"&&
+       frame.solids[0].rgba==std::array<float,4>{0.f,0.f,0.f,1.f}&&
+       frame.solids[1].geometry.role=="menu_InventorySheetDetails/avatarpane/1"&&
+       frame.solids[2].geometry.role=="menu_InventorySheetDetails/list/btn_0/8"&&
+       frame.solids[3].geometry.role=="menu_InventorySheetDetails/list/btn_post0/8",
        "Original detail panel/list source solid order or mask roles changed");
+ // Geometry of the divider solid: the vertical line near x=218 and horizontal line near y=178 (stage px) are black,
+ // the open panel interior at (300,100) is not.
+ const auto covered=[](const std::vector<HudGeometryVertex>& t,float px,float py){
+  for(std::size_t i=0;i+2<t.size();i+=3){
+   const auto e=[](const HudGeometryVertex& a,const HudGeometryVertex& b,float x,float y){return (b.x-a.x)*(y-a.y)-(b.y-a.y)*(x-a.x);};
+   const float d1=e(t[i],t[i+1],px,py),d2=e(t[i+1],t[i+2],px,py),d3=e(t[i+2],t[i],px,py);
+   if(!((d1<0||d2<0||d3<0)&&(d1>0||d2>0||d3>0)))return true;
+  }
+  return false;};
+ check(covered(frame.solids[0].geometry.triangles,219.f,100.f)&&covered(frame.solids[0].geometry.triangles,300.f,178.5f)&&!covered(frame.solids[0].geometry.triangles,300.f,100.f),
+       "Original detail divider solid geometry (shape 453) does not match its stage lines");
  for(const auto& solid:frame.solids)check(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[&](const auto& batch){return batch.role==solid.after_bitmap_role;}),"Original detail solid lost its source display-list bitmap anchor");
  bool selected=false,stats=false;for(const auto& field:frame.text){if(field.field.path=="menu_InventorySheetDetails/SelectedItemName/text")selected=field.value==sword.name;if(field.field.path=="menu_InventorySheetDetails/ItemInfo1/text")stats=field.value==sword.stats;}check(selected&&stats,"Original source detail fields not bound to owned item");
   const auto& detail_art=inventory::original_inventory_details();const auto& idle=detail_art.text_states.transmute_idle;const auto& disabled=detail_art.text_states.transmute_disabled;

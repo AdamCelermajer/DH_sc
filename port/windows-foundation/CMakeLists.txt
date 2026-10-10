@@ -558,6 +558,12 @@ add_test(NAME source_combo_chain COMMAND source_combo_chain_tests "${CMAKE_CURRE
 add_executable(combat_session_combo_tests features/combo_chain/combat_session_combo_tests.cpp)
 target_link_libraries(combat_session_combo_tests PRIVATE foundation_data)
 add_test(NAME combat_session_combo COMMAND combat_session_combo_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# Preview 13 B035 push (knockback) session binder: library source plus focused test.
+# The binder is not yet bound by dh-foundation.exe (main.cpp unchanged).
+target_sources(foundation_data PRIVATE features/combat/b035_session_push_effect_v1.cpp)
+add_executable(b035_session_push_effect_v1_tests features/combat/b035_session_push_effect_v1_tests.cpp)
+target_link_libraries(b035_session_push_effect_v1_tests PRIVATE foundation_runtime_equipment_menu foundation_data)
+add_test(NAME b035_session_push_effect_v1 COMMAND b035_session_push_effect_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-12/assets")
 
 target_sources(foundation_data PRIVATE features/combat_text/combat_text.cpp
   features/combat_text/combat_text_design.cpp features/combat_text/combat_text_live.cpp
