@@ -1,6 +1,6 @@
 # TRANSITIONS2 report (Preview 17): exit prompt, per-level world, entry record, loading art, checkpoint
 
-Branch `p17/transitions2` (worktree `DH_wt/p17transitions2`, build `DH_wt/build-p17transitions2`), started from `p17/transitions` 6647a745. Not pushed. Commits: aaa5f6b1, fee21269, 1db151a1 (B055 loading art cherry-picked from `fix/b055`), b31b004f (prompt, entry record, per-level snapshot), 18af0933 (restore sequence, equipment alignment, localized prompt text), 7ce10209 (checkpoint snapshot log).
+Branch `p17/transitions2` (worktree `DH_wt/p17transitions2`, build `DH_wt/build-p17transitions2`), started from `p17/transitions` 6647a745. Not pushed. Commits: 5316bcdd, aaa5f6b1, fee21269, 1db151a1 (B055 loading art cherry-picked from `fix/b055`), b31b004f (prompt, entry record, per-level snapshot), 18af0933 (restore sequence, equipment alignment, localized prompt text), 7ce10209 (checkpoint snapshot log).
 
 ## Result in one paragraph
 
