@@ -252,6 +252,9 @@ struct Options {
     std::map<std::string,f::CombatSessionChoice> lifecyclePreSpawns;
     f::InputMove2D scriptedMove{};
     int moveFrames=0;
+    int moveFromFrame=0; // P16 CONTEXT: scripted move starts at this frame (quiet walk-over checks)
+    struct MoveSegmentV1{int start=0;int end=0;f::InputMove2D axis{};};
+    std::vector<MoveSegmentV1> moveSegments; // P16 CONTEXT: --move-segment start:end:x,y (quiet walk-over checks)
     bool scriptedRun=true;
     bool sourceBodyBounds=false;
     bool sourceNativeBodies=false;
@@ -403,6 +406,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--hud-portrait") {auto n=std::stoi(value());if(n<0||n>2)throw std::runtime_error("HUD portrait source frame must be 0..2");o.hudPortrait=unsigned(n);}
         else if(arg=="--move-axis") {auto v=vector(value());o.scriptedMove={v.x,v.y};}
         else if(arg=="--move-frames") {o.moveFrames=std::stoi(value());if(o.moveFrames<1)throw std::runtime_error("Move frames must be positive");}
+        else if(arg=="--move-segment") {const auto text=value();const auto c1=text.find(':'),c2=text.find(':',c1==std::string::npos?0:c1+1),c3=text.find(',',c2==std::string::npos?0:c2+1);if(c1==std::string::npos||c2==std::string::npos||c3==std::string::npos)throw std::runtime_error("Move segment must be start:end:x,y");Options::MoveSegmentV1 seg;seg.start=std::stoi(text.substr(0,c1));seg.end=std::stoi(text.substr(c1+1,c2-c1-1));seg.axis={std::stof(text.substr(c2+1,c3-c2-1)),std::stof(text.substr(c3+1))};o.moveSegments.push_back(seg);}
+        else if(arg=="--move-from-frame") {o.moveFromFrame=std::stoi(value());if(o.moveFromFrame<0)throw std::runtime_error("Move start frame must be nonnegative");}
         else if(arg=="--move-run") o.scriptedRun=true;
         else if(arg=="--move-walk") o.scriptedRun=false;
         else if(arg=="--original-body-bounds") o.sourceBodyBounds=true;
@@ -2935,7 +2940,8 @@ int main(int argc,char** argv) {
             if(playerCapabilities!=options.combat.profiles.end()&&playerCapabilities->second.animationOnly){gameplayInput.attack=false;gameplayInput.targetSelect=false;}
             if(frontendStarted&&!combatSession){gameplayInput.attack=false;gameplayInput.targetSelect=false;}
             gameplayInput.run=runBound&&gameplayInput.run;
-            if(drawn<options.moveFrames){gameplayInput.move2D=options.scriptedMove;gameplayInput.run=options.scriptedRun&&runBound;}
+            if(drawn>=options.moveFromFrame&&drawn<options.moveFrames){gameplayInput.move2D=options.scriptedMove;gameplayInput.run=options.scriptedRun&&runBound;}
+            for(const auto& seg:options.moveSegments)if(int(drawn)>=seg.start&&int(drawn)<seg.end){gameplayInput.move2D=seg.axis;gameplayInput.run=options.scriptedRun&&runBound;}
             if(gameplayPaused)gameplayInput={};
             const bool playerControllerBlocked=combatSession&&(!combatSession->actor(combatSession->player_id())->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]);
             bindEnemyAI();
@@ -3262,6 +3268,11 @@ int main(int argc,char** argv) {
                             const auto& p=pair.second.source_position;
                             if(std::fabs(p[0]-itemPlayer->transform.position[0])<=f::loot::world_item_sensor_half_extent_v1&&std::fabs(p[1]-itemPlayer->transform.position[1])<=f::loot::world_item_sensor_half_extent_v1)
                                 contacts.push_back(pair.first);
+                        }
+                        static std::size_t lastContactCount=~std::size_t(0);
+                        if(contacts.size()!=lastContactCount) { // diagnostic: contact set changes (walk-over evidence)
+                            lastContactCount=contacts.size();
+                            std::cout<<"World item contacts frame="<<drawn<<" count="<<contacts.size()<<" moving="<<(itemPlayer->action==f::CharacterAction::moving)<<" player="<<itemPlayer->transform.position[0]<<","<<itemPlayer->transform.position[1]<<'\n';
                         }
                         const auto due=worldItemContacts.advance(std::uint64_t(combatSession->player_id()),itemPlayer->action==f::CharacterAction::moving,contacts,
                             [&](f::loot::RuntimeWorldItemIdV1 id){f::loot::RuntimeWorldItemEntryV1 e;std::string err;return worldItems->inspect(id,e,err);});
