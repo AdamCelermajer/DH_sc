@@ -1,18 +1,18 @@
-{
-  "validation": "PASS",
-  "test": "runtime_equipment_binding_v1_tests.cpp",
-  "runner": "run_runtime_equipment_binding_v1_tests.ps1",
-  "native_output": "PASS same CombatSession player/world/CharacterState, original MAINPAGE/Details composition, typed drop/auto-equip/transmute source requests, existing AutoEquip kernel and render receipt, actual bare-item ValueBox transmute packet from ItemTable/player property/design constant with stale/generated rejection, profile save/reload identity and same-Session preview rebind, source modular preview transitions/prefix failure/recovery, same-Scene actual source packet preparation and provenance, same-Scene draw_views/gear borrow, equipped rebind and unchanged pose clock, slot-driven equip/unequip receipts, source socket identity, rollback and detach lease gate",
-  "coverage": [
-    "actual CombatSession player, source ItemTable and same CharacterState",
-    "SourceCompositionV1 register_page, install_content, readiness-gated select, composed content and release",
-    "typed equip/unequip render receipts preserve same visual, Scene and attachment identity",
-    "SourceComposition request_drop/request_auto_equip/request_transmute preserve selected source instance and slot as one-shot typed commands",
-    "selected request_auto_equip consumes the existing dh2_equipment_auto_v3 EquipmentAdapter kernel and returns same-Scene render receipt",
-    "SaveStore profile save/reload after Auto-equip preserves the exact item instance ID and rebinds it to the same live preview owner",
-    "composition provider retains RuntimeEquipmentPageV1 until teardown and releases it afterward",
-    "selected bare-item ValueBox amount packet uses actual ItemTable value words, same-player resolved property197, actual design_pycst TransmuteMultiplier, and original HudText integer formatter; stale and unsupported generated instances reject",
-    "original ItemTable/HudText bare-definition name/details, empty-slot symbols, and potion quantity formatter",
-    "unsupported powered/generated definitions fail explicitly instead of receiving fabricated descriptors"
-  ]
+﻿{
+    "validation":  "PASS",
+    "test":  "runtime_equipment_binding_v1_tests.cpp",
+    "runner":  "run_runtime_equipment_binding_v1_tests.ps1",
+    "native_output":  "PASS same CombatSession player/world/CharacterState, original MAINPAGE/Details composition, typed drop/auto-equip/transmute source requests, existing AutoEquip kernel and render receipt, actual bare-item ValueBox transmute packet from ItemTable/player property/design constant with stale/generated rejection, profile save/reload identity and same-Session preview rebind, source modular preview transitions/prefix failure/recovery, same-Scene actual source packet preparation and provenance, same-Scene draw_views/gear borrow, equipped rebind and unchanged pose clock, slot-driven equip/unequip receipts, source socket identity, rollback and detach lease gate",
+    "coverage":  [
+                     "actual CombatSession player, source ItemTable and same CharacterState",
+                     "SourceCompositionV1 register_page, install_content, readiness-gated select, composed content and release",
+                     "typed equip/unequip render receipts preserve same visual, Scene and attachment identity",
+                     "SourceComposition request_drop/request_auto_equip/request_transmute preserve selected source instance and slot as one-shot typed commands",
+                     "selected request_auto_equip consumes the existing dh2_equipment_auto_v3 EquipmentAdapter kernel and returns same-Scene render receipt",
+                     "SaveStore profile save/reload after Auto-equip preserves the exact item instance ID and rebinds it to the same live preview owner",
+                     "composition provider retains RuntimeEquipmentPageV1 until teardown and releases it afterward",
+                     "selected bare-item ValueBox amount packet uses actual ItemTable value words, same-player resolved property197, actual design_pycst TransmuteMultiplier, and original HudText integer formatter; stale and unsupported generated instances reject",
+                     "original ItemTable/HudText bare-definition name/details, empty-slot symbols, and potion quantity formatter",
+                     "unsupported powered/generated definitions fail explicitly instead of receiving fabricated descriptors"
+                 ]
 }

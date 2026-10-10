@@ -1,36 +1,36 @@
-{
-  "validation": "PASS_FEATURE_SAME_SESSION_CLASS_MATRIX",
-  "test": "runtime_equipment_avatar_matrix_v1_tests.cpp",
-  "runner": "run_runtime_equipment_avatar_matrix_v1_tests.ps1",
-  "native_output": "KnightPlayerBase source_rows=1079,1073,1076,664 same_actor_scene=PASS suit_material_refresh=PASS weapon_mesh=PASS SaveStore_rebind=PASS unequip_restore=PASS\nRoguePlayerBase source_rows=1081,1075,1078,370 same_actor_scene=PASS suit_material_refresh=PASS weapon_mesh=PASS SaveStore_rebind=PASS unequip_restore=PASS\nMagePlayerBase source_rows=1080,1074,1077,1025 same_actor_scene=PASS suit_material_refresh=PASS weapon_mesh=PASS SaveStore_rebind=PASS unequip_restore=PASS\nPASS B019 actual Knight/Rogue/Mage starter row and same-Session avatar matrix",
-  "original_visual_evidence": "Reuses B019-avatar-equipment-evidence-20261010.md: v1.0.3 reference at 8:30.5/8:31.0/8:32.5 and source RenderCharacterPane 0x452468 live-avatar path; sparse frames prove page composition, while same-Scene feature checks prove the tested runtime binding only.",
-  "matrix": [
-    {
-      "CharacterTable_row": 263,
-      "starter_items": "StartingSuit(1079), StartingBoots(1073), StartingGloves(1076), Longsword01(664)",
-      "profile": "KnightPlayerBase"
-    },
-    {
-      "CharacterTable_row": 325,
-      "starter_items": "StartingSuitRogue(1081), StartingBootsRogue(1075), StartingGlovesRogue(1078), Dagger01(370)",
-      "profile": "RoguePlayerBase"
-    },
-    {
-      "CharacterTable_row": 290,
-      "starter_items": "StartingSuitMage(1080), StartingBootsMage(1074), StartingGlovesMage(1077), Staff01(1025)",
-      "profile": "MagePlayerBase"
-    }
-  ],
-  "coverage": [
-    "exact CharacterTable row and ItemTable row identities checked against the original cache",
-    "each profile has a distinct ActorId and its own CombatSession-owned CharacterVisual and retained Scene",
-    "each class equips/unequips the exact source starter torso through RuntimeEquipmentBindingV1 and verifies source material refresh/restoration without advancing the source pose clock",
-    "each class equips the exact source starter weapon and checks same-actor render receipt, source weapon geometry/material identity and exact instance identity",
-    "SaveStore save/load preserves class, starter inventory rows and equipped stable instance, then a fresh feature binding rebinds to the same Session and source avatar before unequip restoration"
-  ],
-  "limitations": [
-    "Feature/runtime matrix only; no frozen normal executable visual capture or production Renderer viewport acceptance.",
-    "SaveStore CharacterState roundtrip is covered. GameSave/native V60 save-load is outside this compatibility-session fixture.",
-    "The original three sampled v1.0.3 frames prove avatar-pane composition but not an equip transaction animation; transaction acceptance here is source-backed and same-Session focused, not original-frame parity."
-  ]
+﻿{
+    "validation":  "PASS_FEATURE_SAME_SESSION_CLASS_MATRIX",
+    "test":  "runtime_equipment_avatar_matrix_v1_tests.cpp",
+    "runner":  "run_runtime_equipment_avatar_matrix_v1_tests.ps1",
+    "native_output":  "KnightPlayerBase source_rows=1079,1073,1076,664 same_actor_scene=PASS suit_material_refresh=PASS weapon_mesh=PASS SaveStore_rebind=PASS unequip_restore=PASS\nRoguePlayerBase source_rows=1081,1075,1078,370 same_actor_scene=PASS suit_material_refresh=PASS weapon_mesh=PASS SaveStore_rebind=PASS unequip_restore=PASS\nMagePlayerBase source_rows=1080,1074,1077,1025 same_actor_scene=PASS suit_material_refresh=PASS weapon_mesh=PASS SaveStore_rebind=PASS unequip_restore=PASS\nPASS B019 actual Knight/Rogue/Mage starter row and same-Session avatar matrix",
+    "original_visual_evidence":  "Reuses B019-avatar-equipment-evidence-20261010.md: v1.0.3 reference at 8:30.5/8:31.0/8:32.5 and source RenderCharacterPane 0x452468 live-avatar path; sparse frames prove page composition, while same-Scene feature checks prove the tested runtime binding only.",
+    "matrix":  [
+                   {
+                       "profile":  "KnightPlayerBase",
+                       "starter_items":  "StartingSuit(1079), StartingBoots(1073), StartingGloves(1076), Longsword01(664)",
+                       "CharacterTable_row":  263
+                   },
+                   {
+                       "profile":  "RoguePlayerBase",
+                       "starter_items":  "StartingSuitRogue(1081), StartingBootsRogue(1075), StartingGlovesRogue(1078), Dagger01(370)",
+                       "CharacterTable_row":  325
+                   },
+                   {
+                       "profile":  "MagePlayerBase",
+                       "starter_items":  "StartingSuitMage(1080), StartingBootsMage(1074), StartingGlovesMage(1077), Staff01(1025)",
+                       "CharacterTable_row":  290
+                   }
+               ],
+    "coverage":  [
+                     "exact CharacterTable row and ItemTable row identities checked against the original cache",
+                     "each profile has a distinct ActorId and its own CombatSession-owned CharacterVisual and retained Scene",
+                     "each class equips/unequips the exact source starter torso through RuntimeEquipmentBindingV1 and verifies source material refresh/restoration without advancing the source pose clock",
+                     "each class equips the exact source starter weapon and checks same-actor render receipt, source weapon geometry/material identity and exact instance identity",
+                     "SaveStore save/load preserves class, starter inventory rows and equipped stable instance, then a fresh feature binding rebinds to the same Session and source avatar before unequip restoration"
+                 ],
+    "limitations":  [
+                        "Feature/runtime matrix only; no frozen normal executable visual capture or production Renderer viewport acceptance.",
+                        "SaveStore CharacterState roundtrip is covered. GameSave/native V60 save-load is outside this compatibility-session fixture.",
+                        "The original three sampled v1.0.3 frames prove avatar-pane composition but not an equip transaction animation; transaction acceptance here is source-backed and same-Session focused, not original-frame parity."
+                    ]
 }

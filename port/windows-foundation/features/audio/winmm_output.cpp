@@ -1,4 +1,5 @@
 #include "winmm_output.hpp"
+#include <cstdlib>
 #include <array>
 #include <algorithm>
 #include <atomic>
@@ -10,6 +11,8 @@
 #include <mmsystem.h>
 #endif
 namespace dh::foundation::audio {
+// Test/verification aid: DH_AUDIO_SILENT=1 mixes and queues as usual but submits zeros (no sound).
+[[maybe_unused]] static bool silent_output(){static const bool v=[]{const char* e=std::getenv("DH_AUDIO_SILENT");return e&&*e&&*e!='0';}();return v;}
 #ifdef _WIN32
 namespace {
 constexpr unsigned kBuffers=kWinmmBufferCount;
@@ -71,7 +74,7 @@ bool WinmmAudioOutput::update(std::string& error){
  std::array<float,kSamples> mixed{};
  for(unsigned i=0;i<kBuffers;++i){auto& h=impl_->headers[i];if(impl_->submitted[i]&&!(h.dwFlags&WHDR_DONE))continue;
   impl_->mixer.render(mixed.data(),kFrames);
-  for(unsigned j=0;j<kSamples;++j){float v=std::isfinite(mixed[j])?std::clamp(mixed[j],-1.f,1.f):0.f;impl_->pcm[i][j]=std::int16_t(v*32767.f);}
+  for(unsigned j=0;j<kSamples;++j){float v=std::isfinite(mixed[j])?std::clamp(mixed[j],-1.f,1.f):0.f;impl_->pcm[i][j]=silent_output()?std::int16_t(0):std::int16_t(v*32767.f);}
   auto result=waveOutWrite(impl_->device,&h,sizeof h);if(result!=MMSYSERR_NOERROR){error="WinMM write: "+std::to_string(result);return false;}impl_->submitted[i]=true;
   g_pump_refills.fetch_add(1,std::memory_order_relaxed);
  }return true;

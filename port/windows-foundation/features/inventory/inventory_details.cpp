@@ -1,6 +1,7 @@
 #include "inventory_details.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 namespace dh::foundation::inventory {
 namespace {
 bool prefix(const std::string& path,const char* base){return path.compare(0,std::char_traits<char>::length(base),base)==0;}
@@ -11,6 +12,21 @@ bool prefix(const std::string& path,const char* base){return path.compare(0,std:
 bool details_replaces_main(const std::string& path){
  if(path=="menu_InventorySheetMain/34"||path=="menu_InventorySheetMain/177") return false;
  return prefix(path,"menu_InventorySheetMain/");
+}
+// Plates 34 and 177 also carry the carved frame of the main avatar column: scroll-ornament quads at its corners
+// (177 holds the outer four) and thin pillars along its sides. Those sample atlas u 0.25..0.33, v 0.20..0.43. The
+// damask base (u >= 0.34) and the top button band (u >= 0.55) sample elsewhere. The original Details frame shows the
+// damask base but none of the carved frame (Part 1 t=336, t=342, t=372; no ornaments or pillars in those frames).
+bool carved_frame_vertex(const HudGeometryVertex& v){return v.u>=0.25f&&v.u<=0.33f&&v.v>=0.20f&&v.v<=0.43f;}
+bool carved_frame_triangle(const HudGeometryVertex* t){return carved_frame_vertex(t[0])&&carved_frame_vertex(t[1])&&carved_frame_vertex(t[2]);}
+void drop_carved_frame(std::vector<HudGeometryBatch>& batches){
+ for(auto& batch:batches){
+  if(batch.role!="menu_InventorySheetMain/34"&&batch.role!="menu_InventorySheetMain/177") continue;
+  std::vector<HudGeometryVertex> kept;
+  for(std::size_t i=0;i+2<batch.triangles.size();i+=3) if(!carved_frame_triangle(&batch.triangles[i])) kept.insert(kept.end(),batch.triangles.begin()+std::ptrdiff_t(i),batch.triangles.begin()+std::ptrdiff_t(i+3));
+  batch.triangles.swap(kept);
+ }
+ batches.erase(std::remove_if(batches.begin(),batches.end(),[](const auto& batch){return batch.triangles.empty()&&(batch.role=="menu_InventorySheetMain/34"||batch.role=="menu_InventorySheetMain/177");}),batches.end());
 }
 bool contains(const std::vector<HudGeometryVertex>& triangles,float x,float y){
  auto edge=[](const auto& a,const auto& b,float xx,float yy){return (b.x-a.x)*(yy-a.y)-(b.y-a.y)*(xx-a.x);};
@@ -32,6 +48,7 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
  next.art.batches.erase(std::remove_if(next.art.batches.begin(),next.art.batches.end(),[](const auto& batch){return details_replaces_main(batch.role)||prefix(batch.role,"menu_InventorySheetDetails/");}),next.art.batches.end());
  next.text.erase(std::remove_if(next.text.begin(),next.text.end(),[](const auto& value){return details_replaces_main(value.field.path)||prefix(value.field.path,"menu_InventorySheetDetails/");}),next.text.end());
  next.solids.erase(std::remove_if(next.solids.begin(),next.solids.end(),[](const auto& value){return details_replaces_main(value.geometry.role)||prefix(value.geometry.role,"menu_InventorySheetDetails/");}),next.solids.end());
+ drop_carved_frame(next.art.batches);
   const auto* transmute_variant=rows.empty()?nullptr:&(rows[current].equipped?art.text_states.transmute_disabled:art.text_states.transmute_idle);
   const bool has_transmute_variant=transmute_variant&&!transmute_variant->fields.empty();
   if(has_transmute_variant){
@@ -51,10 +68,16 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
    for(const auto& batch:art.panel.batches){if(equipped_id.empty()&&prefix(batch.role,"menu_InventorySheetDetails/EquipedSwordIcon/"))continue;next.art.batches.push_back(batch);}
    next.solids.insert(next.solids.end(),art.panel.solids.begin(),art.panel.solids.end());
   }
+ // Drop is not offered for an equipped selection: the original hides btn_Drop on the ItemEquipped path of
+ // displaySelectedItemInfos (authored-actions.txt ~0001cbbe-0001cc09). Part 1 t=336 (Torso) and t=342 (Hands) are
+ // equipped and show no Drop; t=372 (Feet, unequipped) shows Drop. The flag also covers the Drop label text below.
+ const bool drop_available=rows.empty()||!rows[current].equipped;
+ if(!drop_available)next.art.batches.erase(std::remove_if(next.art.batches.begin(),next.art.batches.end(),[](const auto& batch){return prefix(batch.role,"menu_InventorySheetDetails/btn_Drop/");}),next.art.batches.end());
  std::string selected_name;if(!rows.empty()&&!name(b,owner_,table_,rows[current].instance_id,selected_name,error))return false;
  if(!equipped_id.empty()&&!name(b,owner_,table_,equipped_id,equipped_name,error))return false;
  for(const auto& field:art.panel.text_fields){std::string value;const auto& path=field.path;
   if(has_transmute_variant&&prefix(path,"menu_InventorySheetDetails/btn_GAMEPLAYMENUS_TRANSMUTE2/"))continue;
+  if(!drop_available&&prefix(path,"menu_InventorySheetDetails/btn_Drop/"))continue;
   if(prefix(path,"menu_InventorySheetDetails/SelectedItemName/"))value=selected_name;
   else if(prefix(path,"menu_InventorySheetDetails/EquipedItemName/"))value=equipped_name;
   else if(prefix(path,"menu_InventorySheetDetails/category_title/")){if(!b.symbol("GAMEPLAYMENUS_CATEGORY_"+std::to_string(selection_.selected_slot()),value,error))return false;}

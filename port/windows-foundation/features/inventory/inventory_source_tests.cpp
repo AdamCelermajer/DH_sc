@@ -42,9 +42,16 @@ int main(int argc,char** argv){try{
  check(details.frame(bindings,frame,error),error);check(!frame.art.batches.empty()&&!frame.text.empty(),"Original details generated no actual UI");
  check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return (value.role.find("menu_InventorySheetMain/")==0&&value.role!="menu_InventorySheetMain/34"&&value.role!="menu_InventorySheetMain/177")||value.role.find("menu_InventorySheetDetails/stale")==0;}),"Original details did not clear stale main/details bitmap art");
  check(std::none_of(frame.text.begin(),frame.text.end(),[](const auto& value){return value.field.path.find("menu_InventorySheetDetails/stale")==0;}),"Original details did not clear stale source fields");
- check(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return value.role=="menu_InventorySheetMain/34";})&&
-       std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return value.role=="menu_InventorySheetMain/177";}),
-       "Original full-stage InventorySheetMain background plates were removed under the Details overlay");
+ // Plate 34 keeps its damask base and top band; plate 177 is only carved frame quads, so it is gone. Under Details no
+ // carved frame quad or pillar (atlas u 0.25..0.33, v 0.20..0.43) may survive, and exactly the 20 base/band triangles remain.
+ std::size_t plate34_triangles=0;bool plate177=false,carved_left=false;
+ for(const auto& batch:frame.art.batches){
+  if(batch.role=="menu_InventorySheetMain/177")plate177=true;
+  if(batch.role!="menu_InventorySheetMain/34")continue;
+  for(const auto& v:batch.triangles)if(v.u>=0.25f&&v.u<=0.33f&&v.v>=0.20f&&v.v<=0.43f)carved_left=true;
+  plate34_triangles+=batch.triangles.size()/3;
+ }
+ check(plate34_triangles==20&&!plate177&&!carved_left,"Original Details kept carved frame quads/pillars of the main plates or dropped the damask base");
  // Shape 453 is the black divider-line fill (two separate contours, depth 234), drawn after the last button batch.
  check(frame.solids.size()==4&&frame.solids[0].geometry.role=="menu_InventorySheetDetails/234"&&
        frame.solids[0].after_bitmap_role=="menu_InventorySheetDetails/btn_AutoEquip/1"&&
@@ -90,6 +97,7 @@ int main(int argc,char** argv){try{
  check(std::abs((expected_quad[1][0]-expected_quad[0][0])-11.419677734f)<0.001f&&std::abs((expected_quad[3][1]-expected_quad[0][1])-11.356924134f)<0.001f,"Original row glyph quad must apply the full source text matrix before viewport scaling");
  check(std::count_if(frame.text.begin(),frame.text.end(),[](const auto& f){return f.field.path=="menu_InventorySheetDetails/list/btn_0/Host";})==1,"Selected list title was projected more than once");
  check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role=="menu_InventorySheetDetails/EquipedSwordIcon/1";}),"Original equipped-only sword marker leaked into an unequipped item detail");
+ check(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role.find("menu_InventorySheetDetails/btn_Drop/")==0;}),"Unequipped item Details lost its Drop button");
  const auto torso=std::find_if(inventory::original_inventory_slots().begin(),inventory::original_inventory_slots().end(),[](const auto& slot){return slot.source_slot==0;});
  check(torso!=inventory::original_inventory_slots().end()&&!torso->icons.empty()&&torso->icons.front().shape_id==415,"Garb category icon no longer uses source sprite424 torso frame0");
  owner.equipment.push_back({"slot1","sword",0,1});check(details.frame(bindings,frame,error),error);
@@ -97,6 +105,9 @@ int main(int argc,char** argv){try{
  const auto disabled_draw=std::find_if(frame.text.begin(),frame.text.end(),[&](const auto& f){return f.field.path==button_path;});
  check(disabled_draw!=frame.text.end()&&std::abs(disabled_draw->field.matrix[5]-325.35f)<0.01f&&std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role.find("menu_InventorySheetDetails/btn_GAMEPLAYMENUS_TRANSMUTE2/")==0;}),"Equipped selection did not switch to sprite449 disabled display-list state");
  check(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role=="menu_InventorySheetDetails/EquipedSwordIcon/1";}),"Original equipped marker did not follow source item visibility state");
+ check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role.find("menu_InventorySheetDetails/btn_Drop/")==0;})&&
+       std::none_of(frame.text.begin(),frame.text.end(),[](const auto& f){return f.field.path.find("menu_InventorySheetDetails/btn_Drop/")==0;}),
+       "Equipped selection still shows the Drop button (original hides it on the ItemEquipped path)");
  owner.equipment.clear();
  const auto& art=inventory::original_inventory_details();const auto next=std::find_if(art.actions.begin(),art.actions.end(),[](const auto& a){return a.action==inventory::DetailAction::next;});check(next!=art.actions.end()&&next->triangles.size()>=3,"Original arrow hit absent");auto&a=next->triangles[0];auto&b=next->triangles[1];auto&c=next->triangles[2];inventory::DetailAction action;check(details.release((a.x+b.x+c.x)/3,(a.y+b.y+c.y)/3,action,error),error);check(action==inventory::DetailAction::next&&equipment.selected_instance()=="sword2","Source arrow selection did not select second actual instance");
  for(const auto expected:{inventory::DetailAction::equip,inventory::DetailAction::unequip,inventory::DetailAction::drop,inventory::DetailAction::transmute,inventory::DetailAction::auto_equip}){

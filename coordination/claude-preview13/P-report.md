@@ -120,8 +120,20 @@ Use a copy of the integrated package and fresh saves, never the live saves. Base
 1. Panel tints (B042, OPEN): reference top-right grey (86,80,66 at ref (450,120)) and bottom-right orange-brown
    (130,89,53 at ref (450,260)); candidate dark brown (43,30,13) and (34,27,15). The layer is not identified (section 1).
 2. Divider lines (shape 453): now exported and drawn in the code; not yet visually verified in an integrated build.
-3. B016 (unequipped Details with Transmute and Value) and B019 (unequipped weapon, Rogue/Mage): see the helper result
-   below. Summary of helper result: PENDING at the time of writing (see the update line).
+3. B016 (unequipped Details with Transmute and Value): NOT reproduced for an unequipped weapon. Helper captures in
+   `.local-inputs/claude-preview13/p/b016/pkg/` (WIP EXE, no 453 fix, fresh-player save-free args, `--fresh-player`
+   with Knight start). I looked at `bag03-click.png`: right-hand Details for an unequipped "Useless Blade" shows
+   UNEQUIP-slot text, Req "5 str, 3 dex", EQUIP, Drop; there is NO Transmute button and NO "Value" box, and no
+   duplicated labels. The reference Transmute/"Value 11" frame (Part 1 t=372, `ref/g-372.png`) is Vagrant Boots
+   (feet, unequipped). The boots case was NOT captured, so B016 remains OPEN and unverified for that item type.
+   Whether Transmute appears only for certain item types is not yet established.
+4. B019 (avatar reflects selection): the helper's Knight capture (`class-knight-equipped.png`) and Mage
+   (`class-mage.log`: frontend launched `class=MagePlayerBase`, HP 141, `StoneEscape` resource missing) and
+   Rogue (`class-rogue.png`) files exist. Only the Knight/Right-hand capture and the Mage log were reviewed by me.
+   Rogue and Mage avatar visuals are not confirmed. Helper log: `Equipment state count=4 ... slot=1:equipped/Longsword01`
+   for the Knight, which holds the Longsword in hand.
+5. The helper's final written report did not arrive (the background watch expired after 30 min with no event; the
+   helper's artifacts stopped at 15:16). Items 3-4 are therefore my own review of its files, not its written conclusions.
 
 ## Uncertainties
 - The scale mapping (x 1.333, y 1.125) is inferred from the video and the stage size. It agrees with two line positions,
