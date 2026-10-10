@@ -6,6 +6,7 @@
 #include "../../original_actor_body_plan.hpp"
 #include "../../original_actor_navigation.hpp"
 #include "../../playable_actor_bodies.hpp"
+#include "../../../level-world/native_body.hpp"
 #include "../../source_navigation_world_storage.hpp"
 #include "runtime_monster_level_policy_v1.hpp"
 #include "../../../game-data/level_tables.hpp"
@@ -332,6 +333,70 @@ int main(int argc, char** argv) {
         target->transform.position = {source_origin.x+ai->view_radius_no_aggro,
                                       source_origin.y,source_origin.z};
 
+        // The cooldown regression below runs the live controller and the same
+        // Session actor through an actual NativeWorld Step. Keep the body
+        // fixture to the lizard so there is no invented player collision or
+        // spacing policy in this controller-focused repro.
+        auto cooldown_world = std::make_shared<dh2::physical::NativeWorld>();
+        const float cooldown_bounds[]{-1000.f,-1000.f,1000.f,1000.f};
+        cooldown_world->load(cooldown_bounds);
+        PlayableActorBodies cooldown_bodies;
+        std::array<float,3> cooldown_destination = owner->transform.position;
+        std::uintptr_t cooldown_attached = 0, cooldown_visual = 0;
+        OriginalActorBodyPlanInput cooldown_plan_input;
+        cooldown_plan_input.visual.model_path = "original-cache/data/3d/characters/lizardman/lizardman.bdae";
+        cooldown_plan_input.visual.use_authored_modular_defaults = true;
+        cooldown_plan_input.properties = &owner_props->sheets;
+        cooldown_plan_input.ai = session.original_ai_tables();
+        cooldown_plan_input.position = {owner->transform.position[0], owner->transform.position[1],
+                                        owner->transform.position[2]};
+        cooldown_plan_input.source_name = "Swamp_LizadMan_Type1";
+        cooldown_plan_input.owner_identity = enemy_id;
+        OriginalActorBodyPlan cooldown_plan;
+        check(make_original_actor_body_plan(assets, cooldown_plan_input, cooldown_plan, error), error);
+        auto cooldown_actor_lease = std::const_pointer_cast<void>(session.actor_binding_lease().lock());
+        auto cooldown_data_token = session.lifetime_lease().lock();
+        check(cooldown_actor_lease && cooldown_data_token,
+              "Cooldown NativeWorld fixture could not pin current Session owners");
+        std::shared_ptr<const void> cooldown_data_pin = cooldown_data_token;
+        auto cooldown_data_lease = std::const_pointer_cast<void>(cooldown_data_pin);
+        OriginalActorPhysicalBindings cooldown_physical;
+        cooldown_physical.actor_lease = cooldown_actor_lease;
+        cooldown_physical.world_lease = cooldown_world;
+        cooldown_physical.data_lease = cooldown_data_lease;
+        cooldown_physical.identity = enemy_id;
+        cooldown_physical.position160 = owner->transform.position.data();
+        cooldown_physical.destination1a8 = cooldown_destination.data();
+        cooldown_physical.attached2e0 = &cooldown_attached;
+        cooldown_physical.visual2d8 = &cooldown_visual;
+        cooldown_physical.world = cooldown_world.get();
+        cooldown_physical.ai = session.original_ai_tables();
+        cooldown_physical.readonly_properties = &owner_props->sheets;
+        cooldown_physical.static84 = [](std::uint8_t& value, std::string&) { value = 0; return true; };
+        cooldown_physical.is_player = [](std::int32_t type, bool& value, std::string&) {
+            value = original_actor_source_is_player(type, "Swamp_LizadMan_Type1"); return true;
+        };
+        cooldown_physical.debug_switch = [](const char*, bool& value, std::string&) { value = false; return true; };
+        cooldown_physical.filter = [](void*, const dh2::physical::Filter&,
+                                     const dh2::physical::Filter&, bool& allowed, std::string&) {
+            allowed = false; return true;
+        };
+        cooldown_physical.contact = [](dh2::physical::ContactEvent, void*, unsigned, std::string&) {
+            return true;
+        };
+        check(cooldown_bodies.bind(*owner, *owner_props, cooldown_plan,
+                                   std::move(cooldown_physical), error), error);
+        check(cooldown_bodies.set_pinned(enemy_id, false, error), error);
+        check(cooldown_bodies.physical(enemy_id) &&
+              cooldown_bodies.physical(enemy_id)->native().body,
+              "Cooldown fixture lacks the lizard's real NativeWorld body");
+        PlayableActorBodies::CurrentActorLookup cooldown_lookup =
+            [&](ActorId id) { return session.actor(id); };
+        dh2::physical::NativeBodyObservation cooldown_body_start{};
+        check(dh2_native_body_observe(&cooldown_body_start,
+              &cooldown_bodies.physical(enemy_id)->native()) == 0,
+              "Cooldown fixture could not observe its initial native body");
+
         unsigned sight_calls = 0, approach_calls = 0, stop_calls = 0;
         bool visible_now = true;
         std::vector<std::string> events;
@@ -361,6 +426,10 @@ int main(int argc, char** argv) {
             events.push_back("stop");
             check(&same == &session && &source == session.actor(enemy_id) && source.target_id == 1,
                   "Stop was not issued on the same live actor before target clear");
+            bool stopped = false;
+            std::string stop_error;
+            check(cooldown_bodies.stop_physical(enemy_id, cooldown_lookup, stopped, stop_error), stop_error);
+            check(stopped, "In-melee source Stop did not reach the same lizard body");
             return true;
         };
 
@@ -391,11 +460,22 @@ int main(int argc, char** argv) {
               stop_calls == 1 && approach_calls == 0,
               "Same-session in-melee attack did not follow Stop without a walk approach");
         const auto in_melee_attack_position = session.actor(enemy_id)->transform.position;
+        std::uint64_t cooldown_native_frame = 0;
+        std::uint32_t cooldown_elapsed_ms = 0;
+        std::ofstream cooldown_log(root/".local-inputs/runtime-enemy-cooldown-nativeworld.jsonl",
+                                   std::ios::binary | std::ios::trunc);
+        check(bool(cooldown_log), "Could not open private cooldown body trace");
         bool attack_departed = false, cooldown_restarted = false;
         unsigned cooldown_frames_without_pose = 0;
         for (unsigned frame = 0; frame != 120; ++frame) {
             const bool had_attack_pose = session.owns_pose(enemy_id);
+            bool stepped = false;
+            check(cooldown_bodies.step_world(*cooldown_world, ++cooldown_native_frame, 50,
+                                              cooldown_lookup, stepped, error), error);
+            check(stepped, "Cooldown trace did not step the actual NativeWorld");
+            // Original Level::Update steps PhysicalWorld before actor updates.
             check(session.update(0.05, input, source_origin, 0.0f, error), error);
+            cooldown_elapsed_ms += 50;
             const bool has_attack_pose = session.owns_pose(enemy_id);
             const bool target_temporarily_cleared =
                 had_attack_pose && !has_attack_pose && session.actor(enemy_id)->target_id == invalid_actor_id;
@@ -412,6 +492,20 @@ int main(int argc, char** argv) {
                           << " origin=" << in_melee_attack_position[0] << ',' << in_melee_attack_position[1] << ',' << in_melee_attack_position[2]
                           << '\n';
             }
+            dh2::physical::NativeBodyObservation body{};
+            check(dh2_native_body_observe(&body, &cooldown_bodies.physical(enemy_id)->native()) == 0,
+                  "Cooldown trace could not observe stepped body");
+            const auto actor_position = session.actor(enemy_id)->transform.position;
+            cooldown_log << "{\"frame\":" << cooldown_native_frame
+                         << ",\"elapsed_ms\":" << cooldown_elapsed_ms
+                         << ",\"body_xy_m\":[" << body.position[0] << ',' << body.position[1] << "]"
+                         << ",\"body_sleeping\":" << body.sleeping
+                         << ",\"actor_xyz\":[" << actor_position[0] << ',' << actor_position[1] << ',' << actor_position[2] << "]"
+                         << ",\"action\":" << static_cast<unsigned>(session.actor(enemy_id)->action)
+                         << ",\"target\":" << session.actor(enemy_id)->target_id
+                         << ",\"attack_pose\":" << (has_attack_pose ? "true" : "false")
+                         << ",\"approach_calls\":" << approach_calls << "}\n";
+            check(bool(cooldown_log), "Writing per-frame cooldown body trace failed");
             check((target_temporarily_cleared || session.actor(enemy_id)->target_id == target->id) && approach_calls == 0 &&
                   session.actor(enemy_id)->transform.position == in_melee_attack_position,
                   "Same-session source attack/cooldown selected approach or moved the stationary source attack");
@@ -424,6 +518,17 @@ int main(int argc, char** argv) {
               cooldown_frames_without_pose <= 18 && cooldown_restarted &&
               session.actor(enemy_id)->target_id == target->id,
               "Actual attack completion did not preserve the source 800 ms departure cooldown before retry");
+        dh2::physical::NativeBodyObservation cooldown_body_end{};
+        check(dh2_native_body_observe(&cooldown_body_end,
+              &cooldown_bodies.physical(enemy_id)->native()) == 0,
+              "Cooldown trace could not observe final native body");
+        const auto cooldown_actor_end = session.actor(enemy_id)->transform.position;
+        check(std::abs(cooldown_body_end.position[0] - cooldown_body_start.position[0]) <= 0.01f &&
+              std::abs(cooldown_body_end.position[1] - cooldown_body_start.position[1]) <= 0.01f &&
+              cooldown_actor_end == in_melee_attack_position,
+              "Stepped native lizard body or same-session ActorState drifted through the source cooldown");
+        cooldown_log.flush();
+        check(bool(cooldown_log), "Flushing per-frame cooldown body trace failed");
         const Vec3 outside_melee{source_origin.x + ai->melee_radius * 2.0f +
                                      world->target_radius(*target) + 1.0f,
                                  source_origin.y,source_origin.z};
@@ -471,6 +576,7 @@ int main(int argc, char** argv) {
         check(events == std::vector<std::string>{"stop","stop","stop","stop"},
               "Source approach/range/death stop ordering changed");
 
+        check(cooldown_bodies.clear(error), error);
         verify_route_release(assets, session, enemy_id, 1);
 
         std::cout << "runtime enemy controller PASS scanLOS=" << sight_calls

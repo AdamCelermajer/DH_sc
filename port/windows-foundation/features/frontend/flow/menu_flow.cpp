@@ -61,10 +61,13 @@ bool Navigator::go_to_main_menu(int event,std::string& error){
 bool Navigator::single_player(SlotFact fact,std::string& error){
     if(top()!="menu_MainMenu")return fail(error,"Single-player release requires menu_MainMenu");
     if(fact.id<0)return fail(error,"Selected save-slot fact is unavailable");
+    if(services_.authored_menu_sound)services_.authored_menu_sound("menu_MainMenu","btn_MENU_SINGLE_PLAYER","onRelease");
     if(!push(fact.in_use?"menu_StartGame":"menu_EnterName",error))return false;
     mode_=Mode::offline_single_player;message_.clear();slot_=fact.id;selected_slot_=std::move(fact);
     if(services_.selected_profile_changed)services_.selected_profile_changed(selected_slot_);
-    erase_confirmation_=false;creation_=CreationStage::editing;created_slot_=-1;
+    erase_confirmation_=false;
+    if(creation_!=CreationStage::result_unmapped)creation_=CreationStage::editing;
+    created_slot_=-1;
     name_.clear();class_="KnightPlayerBase";start_delivered_=false;
     return true;
 }
@@ -88,16 +91,19 @@ bool Navigator::begin_remove_selected(std::string& error){
 }
 bool Navigator::resolve_remove_selected(bool accept,std::string& error){
     if(!erase_confirmation_)return fail(error,"No profile removal confirmation is active");
+    if(!accept){erase_confirmation_=false;error.clear();return true;}
+    if(!services_.remove_selected_slot||!services_.inspect_slot)
+        return fail(error,"Recoverable selected-profile removal providers unavailable");
     erase_confirmation_=false;
-    if(!accept){error.clear();return true;}
-    if(!services_.remove_selected_slot||!services_.inspect_slot)return fail(error,"Recoverable selected-profile removal providers unavailable");
     const int selected=selected_slot_.id;const auto original_path=selected_slot_.save_path;
     if(!services_.remove_selected_slot(selected_slot_,error)){erase_confirmation_=true;if(error.empty())error="Selected profile removal failed";return false;}
     SlotFact refreshed;
     if(!services_.inspect_slot(selected,refreshed,error)){if(error.empty())error="Removed profile slot could not be refreshed";return false;}
     if(refreshed.id!=selected||refreshed.in_use||refreshed.save_path.empty()||refreshed.save_path!=original_path)
         return fail(error,"Removal did not refresh the same selected slot with its canonical empty-slot path");
-    selected_slot_=std::move(refreshed);slot_=selected;creation_=CreationStage::editing;created_slot_=-1;
+    selected_slot_=std::move(refreshed);slot_=selected;
+    if(creation_!=CreationStage::result_unmapped)creation_=CreationStage::editing;
+    created_slot_=-1;
     if(services_.selected_profile_changed)services_.selected_profile_changed(selected_slot_);
     name_.clear();class_="KnightPlayerBase";start_delivered_=false;error.clear();return true;
 }
@@ -113,12 +119,17 @@ bool Navigator::select_class(unsigned index,std::string& error){
     class_=value;error.clear();return true;
 }
 bool Navigator::confirm_class(std::string& error){
+    if(creation_==CreationStage::result_unmapped)
+        return fail(error,"Previous NativeCreateSaveSlot result is outside the authored slot range; reconcile profile storage before retrying");
     if(creation_==CreationStage::complete){error.clear();return true;}
     if(creation_==CreationStage::editing){
         if(top()!="menu_SelectClass")return fail(error,"Class confirmation requires menu_SelectClass");
         if(!services_.create_save)return fail(error,"NativeCreateSaveSlot owner unavailable");
         int created=-1;if(!services_.create_save(name_,class_,created,error))return false;
-        if(created<0)return fail(error,"NativeCreateSaveSlot returned no valid slot");
+        if(created<0||created>3){
+            creation_=CreationStage::result_unmapped;
+            return fail(error,"NativeCreateSaveSlot returned a slot outside the authored 0..3 range");
+        }
         created_slot_=created;creation_=CreationStage::saved;
     }
     if(creation_==CreationStage::saved){

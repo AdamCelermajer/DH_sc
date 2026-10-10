@@ -183,9 +183,17 @@ int main(int argc, char** argv) {
         CHECK(bindings.content(character_menu::Tab::equipment, equipment_frame, error));
         CHECK(previous_calls == 1 && equipment_frame.art.batches.empty());
         const auto& source_art = character_menu::original_menu_art(character_menu::Tab::skills);
+        const auto add_label_field = std::find_if(source_art.text_fields.begin(), source_art.text_fields.end(),
+            [](const auto& field) {
+                return field.path == "menu_SkillTreeSheetNew/btn_add/AddText/text";
+            });
+        CHECK(add_label_field != source_art.text_fields.end());
         character_menu::Frame frame;
         frame.art.batches = source_art.batches;
         frame.solids = source_art.solids;
+        // CharacterMenu's shared base frame has already localized this
+        // source field before RuntimeSkillsMenu applies the train admission.
+        frame.text.push_back({*add_label_field, "stale base Add Skill label"});
         CHECK(bindings.content(character_menu::Tab::skills, frame, error));
         CHECK(previous_calls == 2 && runtime->source_class_art_available());
 
@@ -213,6 +221,9 @@ int main(int argc, char** argv) {
                 return item.value == label;
             }));
         }
+        CHECK(std::count_if(frame.text.begin(), frame.text.end(), [](const auto& item) {
+            return item.field.path == "menu_SkillTreeSheetNew/btn_add/AddText/text";
+        }) == 1);
         const std::string add_button_prefix = "menu_SkillTreeSheetNew/btn_add/";
         CHECK(std::any_of(frame.art.batches.begin(), frame.art.batches.end(), [&](const auto& batch) {
             return batch.role.compare(0, add_button_prefix.size(), add_button_prefix) == 0;
@@ -263,6 +274,7 @@ int main(int argc, char** argv) {
         character_menu::Frame selected_frame;
         selected_frame.art.batches = source_art.batches;
         selected_frame.solids = source_art.solids;
+        selected_frame.text.push_back({*add_label_field, "stale base Add Skill label"});
         CHECK(provider.append(selected_frame, error));
         CHECK(std::any_of(selected_frame.text.begin(), selected_frame.text.end(), [](const auto& item) {
             return item.field.path.find("/SKILL_NAME/") != std::string::npos &&
@@ -288,15 +300,17 @@ int main(int argc, char** argv) {
         CHECK(selected_training_probe_calls == 1);
         CHECK(std::any_of(selected_frame.art.batches.begin(), selected_frame.art.batches.end(),
             [&](const auto& batch) { return batch.role.compare(0, add_button_prefix.size(), add_button_prefix) == 0; }));
-        CHECK(std::any_of(selected_frame.text.begin(), selected_frame.text.end(), [](const auto& item) {
-            return item.field.path == "menu_SkillTreeSheetNew/btn_add/AddText/text" && item.value == "Upgrade Skill";
-        }));
+        CHECK(std::count_if(selected_frame.text.begin(), selected_frame.text.end(), [](const auto& item) {
+            return item.field.path == "menu_SkillTreeSheetNew/btn_add/AddText/text" &&
+                   item.value == "Upgrade Skill";
+        }) == 1);
         const auto rank_before_probe = state->skills[0].rank;
         const auto points_before_probe = state->source_skill_points;
         allow_selected_training = false;
         character_menu::Frame rejected_train_frame;
         rejected_train_frame.art.batches = source_art.batches;
         rejected_train_frame.solids = source_art.solids;
+        rejected_train_frame.text.push_back({*add_label_field, "stale base Add Skill label"});
         CHECK(provider.append(rejected_train_frame, error));
         CHECK(selected_training_probe_calls == 2);
         CHECK(std::none_of(rejected_train_frame.art.batches.begin(), rejected_train_frame.art.batches.end(),
@@ -434,6 +448,7 @@ int main(int argc, char** argv) {
         character_menu::Frame no_points_frame;
         no_points_frame.art.batches = source_art.batches;
         no_points_frame.solids = source_art.solids;
+        no_points_frame.text.push_back({*add_label_field, "stale base Add Skill label"});
         CHECK(composed_provider.append(no_points_frame, error));
         CHECK(std::none_of(no_points_frame.art.batches.begin(), no_points_frame.art.batches.end(),
             [](const auto& batch) { return batch.role.find("menu_SkillTreeSheetNew/btn_add/") == 0; }));
@@ -503,6 +518,17 @@ int main(int argc, char** argv) {
         const auto select_point = centroid(find_zone(skill_ui::HitKind::select, static_cast<int>(action_position)));
         CHECK(action_provider.release(select_point.first, select_point.second, error));
         CHECK(action_runtime->page().selected_position() == static_cast<int>(action_position));
+        character_menu::Frame fallback_label_frame;
+        fallback_label_frame.art.batches = source_art.batches;
+        fallback_label_frame.solids = source_art.solids;
+        fallback_label_frame.text.push_back({*add_label_field, "Upgrade Skill"});
+        CHECK(action_provider.append(fallback_label_frame, error));
+        CHECK(std::any_of(fallback_label_frame.art.batches.begin(), fallback_label_frame.art.batches.end(),
+            [](const auto& batch) { return batch.role.find("menu_SkillTreeSheetNew/btn_add/") == 0; }));
+        CHECK(std::count_if(fallback_label_frame.text.begin(), fallback_label_frame.text.end(), [](const auto& item) {
+            return item.field.path == "menu_SkillTreeSheetNew/btn_add/AddText/text" &&
+                   item.value == "Upgrade Skill";
+        }) == 1);
         const auto assign_point = centroid(find_zone(skill_ui::HitKind::assign, 0));
         CHECK(action_provider.release(assign_point.first, assign_point.second, error));
         CHECK(action_state->skill_slots.back().equipment_set == 1 &&

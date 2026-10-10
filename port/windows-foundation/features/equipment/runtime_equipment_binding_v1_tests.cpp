@@ -7,7 +7,9 @@
 #include "../../asset_catalog.hpp"
 #include "../../content_paths.hpp"
 #include "../../original_combat_properties.hpp"
+#include "../../save_store.hpp"
 #include "../../../engine-math/math.hpp"
+#include "../../../script-runtime/script_constants.hpp"
 #include "../character_menu/character_menu.hpp"
 #include "../character_menu/source_composition.hpp"
 #include <iostream>
@@ -226,6 +228,60 @@ int main(int argc, char** argv) {
               "Bare-definition provider silently described a non-approved generated/powered row");
         const auto sword_source_id = dh2::data::item_id(provider_table, "Longsword01");
         check(sword_source_id >= 0, "Original provider ItemTable lacks the authored sword row");
+        const auto& sword_source_row = provider_table.rows[static_cast<std::size_t>(sword_source_id)];
+        RuntimeEquipmentTransmuteValuePacketV1 transmute_packet;
+        const auto raw_transmute_property = live_combat->sheets.resolved[197];
+        auto design_constants = dh2_script_constants_create();
+        check(design_constants != nullptr, "Original design constants owner allocation failed");
+        const auto design_constant_bytes = assets.read("original-cache/data/pydata/design_pycst.bin");
+        dh2_script_constants_reload design_constant_receipt{};
+        check(dh2_script_constants_load(design_constants, design_constant_bytes.data(),
+              static_cast<std::uint32_t>(design_constant_bytes.size()),
+              &design_constant_receipt) == 0 &&
+              design_constant_receipt.consumed == design_constant_bytes.size(),
+              "Actual original design constants did not load completely");
+        std::int32_t source_multiplier{};
+        check(dh2_script_constants_get(design_constants, "CharacterDesign",
+              "TransmuteMultiplier", &source_multiplier) == 0,
+              "Actual CharacterDesign.TransmuteMultiplier is missing");
+        check(text_provider.transmute_value(character.inventory.front(), raw_transmute_property,
+              source_multiplier, transmute_packet, error), error);
+        const auto source_sword_value = static_cast<std::int32_t>(
+            std::uint32_t(sword_source_row.record.words[27]) *
+            std::uint32_t(sword_source_row.record.words[28]));
+        const auto expected_source_amount = std::max<std::int64_t>(1,
+            (std::int64_t(source_multiplier) *
+             ((std::int64_t(source_sword_value) * 256 *
+               (std::int64_t(raw_transmute_property) + 256)) >> 8)) >> 16);
+        check(transmute_packet.instance_id == "source-sword" &&
+              transmute_packet.definition_id == "Longsword01" &&
+              transmute_packet.source_item_value == source_sword_value &&
+              transmute_packet.raw_property_197 == raw_transmute_property &&
+              source_multiplier == 25 &&
+              expected_source_amount == 18 &&
+              transmute_packet.transmute_value == expected_source_amount &&
+              transmute_packet.formatted_value == "18",
+              "ValueBox packet mismatch id=" + transmute_packet.instance_id +
+              " definition=" + transmute_packet.definition_id +
+              " source=" + std::to_string(transmute_packet.source_item_value) + "/" +
+              std::to_string(source_sword_value) + " property=" +
+              std::to_string(transmute_packet.raw_property_197) + "/" +
+              std::to_string(raw_transmute_property) + " multiplier=" +
+              std::to_string(transmute_packet.source_multiplier) + " amount=" +
+              std::to_string(transmute_packet.transmute_value) + "/" +
+              std::to_string(expected_source_amount) + " text=" + transmute_packet.formatted_value);
+        dh2_script_constants_destroy(design_constants);
+        check(!text_provider.transmute_value(InventoryItem{"stale-sword", "Longsword01", 1},
+              raw_transmute_property, source_multiplier, transmute_packet, error) &&
+              error.find("stale or differs") != std::string::npos,
+              "ValueBox provider accepted an item outside the current CharacterState selection domain");
+        character.inventory.push_back(generated_projection);
+        check(!text_provider.transmute_value(generated_projection, raw_transmute_property,
+              source_multiplier,
+              transmute_packet, error) &&
+              error.find("bare-definition policy") != std::string::npos,
+              "ValueBox provider fabricated a generated/powered ItemInstance value from its definition row");
+        character.inventory.pop_back();
         std::string source_sword_name;
         check(options.menu.item_name(character.inventory.front(),
               provider_table.rows[static_cast<std::size_t>(sword_source_id)],
@@ -720,6 +776,16 @@ int main(int argc, char** argv) {
               equipment_before_auto.front().item_instance_id == "source-sword-2",
               "Typed auto-equip was not consumable through the source EquipmentAdapter auto kernel");
 
+        const auto profile_path = root / ".local-inputs/windows-foundation-build/runtime-equipment-binding-v1/b019-profile.bin";
+        check(save_character(profile_path, character, error), error);
+        CharacterState reloaded_profile;
+        check(load_character(profile_path, reloaded_profile, error), error);
+        check(same_character(reloaded_profile, character) &&
+              reloaded_profile.equipment.size() == 1 &&
+              reloaded_profile.equipment.front().item_instance_id == pending.selected_instance_id &&
+              reloaded_profile.inventory.front().instance_id == "source-sword",
+              "Profile save/reload changed the selected character or auto-equipped source item identity");
+
         const auto& transmute_action = *std::find_if(inventory::original_inventory_details().actions.begin(),
             inventory::original_inventory_details().actions.end(), [](const auto& hit) {
                 return hit.action == inventory::DetailAction::transmute;
@@ -740,7 +806,7 @@ int main(int argc, char** argv) {
             const auto equipped_actor_before_bind = *live_actor;
             const auto equipped_combat_before_bind = *live_combat;
             RuntimeEquipmentBindingV1 restored_equipment;
-            check(restored_equipment.bind(session, character, assets, assets, weapons,
+            check(restored_equipment.bind(session, reloaded_profile, assets, assets, weapons,
                   database, restore_options, error), error);
             const double restore_preview_clock = live_visual->animation_elapsed_seconds();
             RuntimeEquipmentPreviewFrameV1 restored_preview;
@@ -759,6 +825,8 @@ int main(int argc, char** argv) {
                       }, error), error);
             check(restored_preview.revision == 1 && restored_preview.same_scene == old_scene &&
                   restored_preview.attachments->attachments().size() == 1 &&
+                  reloaded_profile.equipment.size() == 1 &&
+                  reloaded_profile.equipment.front().item_instance_id == pending.selected_instance_id &&
                   std::any_of(restored_preview.source_views->begin(), restored_preview.source_views->end(),
                       [](const auto& view) { return view.weapon_slot == 1; }) &&
                   live_visual->animation_elapsed_seconds() == restore_preview_clock,
@@ -772,10 +840,14 @@ int main(int argc, char** argv) {
                       "MC_RWeapon_Longsword_01.bdae") != std::string::npos,
                   "Rebinding an equipped source state did not stage its actual weapon render model");
             check(same_character(character, equipped_character_before_bind) &&
+                  same_character(reloaded_profile, equipped_character_before_bind) &&
                   same_actor(*live_actor, equipped_actor_before_bind) &&
                   same_combat(*live_combat, equipped_combat_before_bind),
-                  "Initial equipped render staging mutated inventory, actor or source properties");
+                  "Initial equipped render staging mutated the reloaded profile, actor or source properties");
         }
+        std::error_code profile_remove_error;
+        std::filesystem::remove(profile_path, profile_remove_error);
+        check(!profile_remove_error, "Isolated B019 profile fixture cleanup failed: " + profile_remove_error.message());
 
         const auto saved_character = character;
         const auto saved_actor = *live_actor;
@@ -884,6 +956,8 @@ int main(int argc, char** argv) {
               "Runtime equipment continued borrowing a detached CombatSession graph");
         std::cout << "PASS same CombatSession player/world/CharacterState, original MAINPAGE/Details composition, "
                      "typed drop/auto-equip/transmute source requests, existing AutoEquip kernel and render receipt, "
+                     "actual bare-item ValueBox transmute packet from ItemTable/player property/design constant with stale/generated rejection, "
+                     "profile save/reload identity and same-Session preview rebind, "
                      "source modular preview transitions/prefix failure/recovery, same-Scene actual source packet preparation and provenance, "
                      "same-Scene draw_views/gear borrow, "
                      "equipped rebind and unchanged pose clock, "

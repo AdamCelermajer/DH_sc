@@ -81,8 +81,14 @@ bool bind_live_player_services(dh2::ui::CharacterMenuActionsOwnerV1& actions,
   // live override independent of the saved class row.
   if(!actions.validate_graph(true,e))return false;const auto& g=actions.bindings();
   if(!g.save)return fail(e,"Skill UI: live saved class identity unavailable");unsigned resolved=0;
-  if(!original_class_frame_for_row(g.save->class_id(),resolved,e))return false;
-  if(source){unsigned native_frame=0;if(!source(native_frame,e))return false;
+  if(!g.class_spec_characters)return fail(e,"Skill UI: source CharacterTable unavailable for class-family art selection");
+  if(!original_class_frame_for_row(*g.class_spec_characters,g.save->class_id(),resolved,e))return false;
+  // The native playerClassAsStr helper has cases only for the three base
+  // rows. Its optional result can validate those cases, while specialization
+  // art uses the source CharacterTable ClassID family relation above.
+  unsigned base_frame=0;std::string base_error;
+  const bool source_base_row=original_class_frame_for_row(g.save->class_id(),base_frame,base_error);
+  if(source&&source_base_row){unsigned native_frame=0;if(!source(native_frame,e))return false;
    if(native_frame>2||native_frame!=resolved)return fail(e,"Skill UI: native class-frame result differs from original class-row branch");}
   frame=resolved;return true;
  };

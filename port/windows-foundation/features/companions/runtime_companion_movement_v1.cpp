@@ -133,6 +133,13 @@ bool RuntimeCompanionMovementV1::bind(CombatSession& session, PlayableActorBodie
     return true;
 }
 
+bool RuntimeCompanionMovementV1::bound_to(const CombatSession& session) const noexcept {
+    const auto expected = session_lease_.lock();
+    const auto current = session.actor_binding_lease().lock();
+    return session_ == &session && bodies_ && expected && current && expected == current &&
+        same_owner(session_lease_, current);
+}
+
 bool RuntimeCompanionMovementV1::validate_session(std::string& error) const {
     const auto expected = session_lease_.lock();
     const auto current = session_ ? session_->actor_binding_lease().lock() : nullptr;

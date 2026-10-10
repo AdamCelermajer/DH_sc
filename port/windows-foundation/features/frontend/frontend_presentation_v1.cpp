@@ -15,22 +15,83 @@
 #include "native_host.hpp"
 #include "rich_text.hpp"
 #include "../../save_store.hpp"
+#include "../equipment/source_equipment_appearance.hpp"
+#include "../equipment/source_equipment_material_binding.hpp"
+#include "../../source_level_config.hpp"
+#include "../../../level-world/character_debug_stdio_v136.hpp"
+#include "../../../level-world/character_design_services.hpp"
 #include "../../platform_win32.hpp"
 #include "../../content_paths.hpp"
+#include <cstdio>
 #include <fstream>
 #include <iostream>
 #include <cstdint>
+#include <array>
 #include <map>
 #include <cmath>
 #include <algorithm>
 #include <iomanip>
 #include <iterator>
+#include <set>
 #include <sstream>
 #include <utility>
 namespace f=dh::foundation;namespace a=f::frontend::art;namespace flow=f::frontend::flow;namespace fs=std::filesystem;
 static f::Mat4 multiply(const f::Mat4&left,const f::Mat4&right){f::Mat4 result{};for(int c=0;c<4;++c)for(int r=0;r<4;++r)for(int k=0;k<4;++k)result[c*4+r]+=left[k*4+r]*right[c*4+k];return result;}
 static void capture(const fs::path&path,int w,int h){std::vector<unsigned char>p(std::size_t(w)*h*3);glPixelStorei(GL_PACK_ALIGNMENT,1);glReadBuffer(GL_BACK);glReadPixels(0,0,w,h,GL_RGB,GL_UNSIGNED_BYTE,p.data());std::ofstream out(path,std::ios::binary);if(!out)throw std::runtime_error("Cannot open capture");out<<"P6\n"<<w<<' '<<h<<"\n255\n";for(int y=h-1;y>=0;--y)out.write(reinterpret_cast<char*>(p.data()+std::size_t(y)*w*3),w*3);if(!out)throw std::runtime_error("Cannot write capture");}
 static bool read_bytes(const fs::path& path,std::vector<char>& bytes){std::ifstream in(path,std::ios::binary);if(!in)return false;bytes.assign(std::istreambuf_iterator<char>(in),{});return in.good()||in.eof();}
+namespace {
+struct ProfilePreviewDebugFilesV1 {
+ std::shared_ptr<f::AssetCatalog> assets;
+ static int open(void* raw,const char* name,std::uintptr_t* handle){
+  auto& self=*static_cast<ProfilePreviewDebugFilesV1*>(raw);if(!name||!handle||!self.assets)return 1;*handle=0;
+  try{const auto path=self.assets->resolve(name);auto* file=std::fopen(path.string().c_str(),"rb");if(!file)return 1;*handle=reinterpret_cast<std::uintptr_t>(file);return 0;}
+  catch(const std::invalid_argument&){return 1;}catch(const std::exception&){std::error_code ec;const auto exists=fs::exists(self.assets->root()/name,ec);return ec||exists?1:0;}
+ }
+ static int close(void*,std::uintptr_t handle){return handle?std::fclose(reinterpret_cast<std::FILE*>(handle)):1;}
+};
+struct ProfilePreviewDebugV1 {
+ std::shared_ptr<ProfilePreviewDebugFilesV1> files;
+ std::shared_ptr<dh2::character::DebugSwitches> debug;
+ dh2::character::DebugFileServices24 file_api{};
+ dh2::character::DebugExistingFileServicesV136 stream_api{};
+ f::SourceAppearanceDebugServices services;
+ bool bind(const f::AssetCatalog& assets,std::string& error){
+  files=std::make_shared<ProfilePreviewDebugFilesV1>();files->assets=std::make_shared<f::AssetCatalog>(assets.root());
+  debug=std::shared_ptr<dh2::character::DebugSwitches>(dh2_character_debug_create(),dh2_character_debug_destroy);
+  if(!debug){error="Selected-profile source Debug allocation failed";return false;}
+  file_api={files.get(),ProfilePreviewDebugFilesV1::open,ProfilePreviewDebugFilesV1::close};
+  stream_api=dh2::character::debug_stdio_services_v136(nullptr);
+  const auto retained=debug;const auto retained_files=files;const auto file_api_copy=file_api;const auto stream_copy=stream_api;
+  services.load=[retained,retained_files,file_api_copy,stream_copy](std::string& e){
+   if(!retained||!retained_files){e="Selected-profile source Debug owner/files expired";return false;}
+   if(dh2_character_debug_load_stream_v136(retained.get(),&file_api_copy,&stream_copy)!=1){e="Selected-profile actual Debug load failed";return false;}e.clear();return true;
+  };
+  const auto query=f::source_level_config_debug_switch(debug,files,file_api,stream_api);
+  services.query=[query](const char* key,std::string& e){bool value=false;return query(key,value,e);};
+  error.clear();return true;
+ }
+};
+struct SavedProfileActorV1 {
+ f::CharacterVisual body;
+ std::unique_ptr<dh2::skinning::VisualSkinOwnerV6> skin;
+ f::SourceEquipmentImageLeaseV1 image;
+ std::unique_ptr<f::SourceEquipmentOriginalBindingsV1> material_bindings;
+ f::Mat4 scale{};
+ std::string class_id,character_id;
+ f::SourceEquipmentAppearancePlan appearance;
+ std::shared_ptr<const f::SourceEquipmentRenderFrameV1> frame;
+};
+static dh2::skinning::VisualAssetResultV6 profile_weapon_read(void* raw,const char* uri,std::vector<std::uint8_t>& bytes,std::string& error){
+ try{bytes=f::read_content(*static_cast<const f::AssetCatalog*>(raw),uri);return dh2::skinning::VisualAssetResultV6::found;}
+ catch(const std::exception& e){error=e.what();return dh2::skinning::VisualAssetResultV6::failed;}
+}
+static f::Mat4 original_main_profile_placement(const f::Mat4& scale){
+ constexpr float angle=3.1415927410125732f*-.125f;const float c=std::cos(angle),s=std::sin(angle);
+ f::Mat4 placement{c,s,0,0,-s,c,0,0,0,0,1,0,0,-200,-20,1};
+ for(unsigned column=0;column<3;++column)for(unsigned row=0;row<4;++row)placement[column*4+row]*=scale[column*5];
+ return placement;
+}
+}
 static a::Screen screen(std::string_view name){if(name=="menu_EnterName")return a::Screen::enter_name;if(name=="menu_SelectClass")return a::Screen::select_class;if(name=="menu_StartGame")return a::Screen::start_game;return a::Screen::main_menu;}
 namespace dh::foundation::frontend {
 FrontendRuntimeResultV1 run_frontend_v1(
@@ -136,6 +197,83 @@ FrontendRuntimeResultV1 run_frontend_v1(
  f::OriginalScene mainScene;if(!f::frontend::load_menu_preview_backdrop(assets,mainScene,error))throw std::runtime_error(error);bindScene(mainScene);
  f::frontend::ClassPreviewScene classScene;f::frontend::CreationPreview characters;bool classLoaded=false;
  auto loadClass=[&](){if(classLoaded)return;if(!classScene.load(assets,error)||!characters.load(assets,error))throw std::runtime_error(error);bindScene(classScene.backdrop());for(auto&actor:characters.actors()){bindVisual(actor.body);for(auto&weapon:actor.equipment.mutable_attachments())bindVisual(weapon.visual);}classLoaded=true;};
+ std::array<SavedProfileActorV1,3> savedProfileActors;bool savedProfileActorsLoaded=false;
+ dh2::data::ItemTable savedProfileItems;bool savedProfileItemsLoaded=false;
+ ProfilePreviewDebugV1 profileDebug;
+ auto loadSavedProfileActors=[&](){
+  if(savedProfileActorsLoaded)return;
+  loadClass();
+  auto data=read_content(assets,"data/pydata/loot_table_pyarray.bin");
+  auto names=read_content(assets,"data/pydata/loot_table_pyarraynames.bin");
+  auto fields=read_content(assets,"data/pydata/loot_table_pystructnames.bin");
+  if(!dh2::data::load_items({data.data(),data.size()},{names.data(),names.size()},{fields.data(),fields.size()},savedProfileItems,error))throw std::runtime_error("Selected-profile source ItemTable: "+error);
+  savedProfileItemsLoaded=true;
+  if(!profileDebug.bind(assets,error))throw std::runtime_error(error);
+  for(unsigned i=0;i<savedProfileActors.size();++i){
+   const auto& source=characters.actors()[i];const auto* config=source.body.configuration();
+   if(!config)throw std::runtime_error("Selected-profile source class visual configuration is absent");
+   auto& actor=savedProfileActors[i];actor.class_id=source.definition.character;actor.scale=source.scale;
+   if(!actor.body.load(assets,*config,error)||!actor.body.select("MenuIdle",true,error))throw std::runtime_error("Selected-profile class body: "+error);
+   if(!bind_source_equipment_render_skin(assets,actor.body,{&assets,profile_weapon_read},actor.skin,actor.image,error))throw std::runtime_error("Selected-profile source skin: "+error);
+   effects::EffectTextureServices textureServices;
+   textureServices.upload=[&renderer](const TextureImage& image,std::uint32_t& texture,std::string& e){
+    texture=renderer.createTexture(static_cast<int>(image.width),static_cast<int>(image.height),image.rgba.data());
+    if(!texture)e="Renderer rejected original selected-profile texture";return texture!=0;
+   };
+   textureServices.release=[&renderer](std::uint32_t texture){renderer.destroyTexture(texture);};
+   actor.material_bindings=std::make_unique<SourceEquipmentOriginalBindingsV1>(assets,std::move(textureServices),
+       [](std::shared_ptr<const SourceEquipmentRenderFrameV1>,std::string& e){e.clear();return true;});
+  }
+  savedProfileActorsLoaded=true;
+ };
+ FrontendSelectedProfileSnapshotV1 selectedProfileSnapshot;int selectedProfileActor=-1;
+ std::string selectedProfileRenderKey,profileActorLoggedKey;
+ auto projectSavedProfileActor=[&](const flow::SlotFact& fact,const std::string& menu){
+  if(!fact.in_use||!runtimeServices.borrow_selected_profile_snapshot){selectedProfileSnapshot={};selectedProfileActor=-1;selectedProfileRenderKey.clear();return;}
+  std::ostringstream renderKey;renderKey<<menu<<'|'<<fact.id<<'|'<<fact.save_path.generic_string();
+  const auto key=renderKey.str();
+  if(key==selectedProfileRenderKey)return;
+  selectedProfileSnapshot={};selectedProfileActor=-1;
+  auto snapshot=runtimeServices.borrow_selected_profile_snapshot(fact,error);
+  if(!snapshot||!snapshot->valid_for(fact))throw std::runtime_error(error.empty()?"Selected-profile snapshot does not match the exact occupied slot/path":error);
+  loadSavedProfileActors();
+  const auto& state=*snapshot->character;
+  for(unsigned i=0;i<savedProfileActors.size();++i)if(savedProfileActors[i].class_id==state.class_id){selectedProfileActor=static_cast<int>(i);break;}
+  if(selectedProfileActor<0)throw std::runtime_error("Selected profile class has no authored source preview actor: "+state.class_id);
+  auto& actor=savedProfileActors[static_cast<std::size_t>(selectedProfileActor)];
+  // The equipment appearance projector resolves by the saved textual slot
+  // name. Mirror the production Equipment page's source_slot mapping for this
+  // exact immutable Character snapshot instead of passing generic slot names.
+  std::vector<std::string> profileSlots;
+  profileSlots.resize(9);
+  std::array<bool,9> boundSourceSlots{};
+  std::set<std::string> boundNames;
+  for(const auto& binding:state.equipment){
+   if(binding.equipment_set>0)continue;
+   int sourceSlot=binding.source_slot;
+   if(sourceSlot<0){
+    if(binding.slot=="main")sourceSlot=1;
+    else if(binding.slot=="off")sourceSlot=2;
+    else throw std::runtime_error("Selected-profile saved Gear has an unknown source binding: "+binding.slot);
+   }
+   if(sourceSlot>=static_cast<int>(profileSlots.size()))throw std::runtime_error("Selected-profile saved Gear source slot is out of range: "+std::to_string(sourceSlot));
+   if(binding.slot.empty())throw std::runtime_error("Selected-profile saved Gear has an empty source slot name");
+   if(boundSourceSlots[static_cast<std::size_t>(sourceSlot)])throw std::runtime_error("Selected-profile saved Gear has duplicate source slot "+std::to_string(sourceSlot));
+   if(!boundNames.insert(binding.slot).second)throw std::runtime_error("Selected-profile saved Gear repeats source slot name "+binding.slot);
+   boundSourceSlots[static_cast<std::size_t>(sourceSlot)]=true;
+   profileSlots[static_cast<std::size_t>(sourceSlot)]=binding.slot;
+  }
+  for(unsigned slot=0;slot<profileSlots.size();++slot)if(!boundSourceSlots[slot]){
+   auto unused="__profile_unused_source_slot_"+std::to_string(slot)+"__";
+   while(boundNames.count(unused))unused+="_";
+   boundNames.insert(unused);profileSlots[slot]=std::move(unused);
+  }
+  SourceEquipmentAppearancePlan plan;
+  if(!prepare_source_equipment_appearance(state,savedProfileItems,profileSlots,*actor.skin,plan,error))throw std::runtime_error("Selected-profile saved Gear projection: "+error);
+  if(!apply_source_equipment_appearance(*actor.skin,plan,profileDebug.services,error))throw std::runtime_error("Selected-profile source Gear application: "+error);
+  actor.character_id=state.id;actor.appearance=std::move(plan);actor.frame.reset();selectedProfileSnapshot=std::move(*snapshot);
+  selectedProfileRenderKey=key;
+ };
  auto& navigator=runtime.navigator();f::frontend::input::ScreenInteraction interaction(navigator);interaction.selected_slot(selectedSlot);interaction.selected_difficulty(0);
  if(start=="name"){if(!navigator.single_player(selectedSlot,error))throw std::runtime_error(error);}else if(start=="class"){if(!navigator.push("menu_SelectClass",error)||!navigator.select_class(selected,error))throw std::runtime_error(error);}else if(start=="start"){if(!selectedSlot.in_use||selectedSlot.id<0)throw std::runtime_error("Direct StartGame requires an explicit in-use save-slot selection");if(!navigator.single_player(selectedSlot,error))throw std::runtime_error(error);}else if(start!="main")throw std::runtime_error("Unknown initial menu");
  // Explicit test actions invoke the same authored path controller and never
@@ -165,9 +303,15 @@ FrontendRuntimeResultV1 run_frontend_v1(
  const auto nextSurface=menu+"|"+std::to_string(currentClass)+"|slot="+std::to_string(liveSlot.id)+":"+std::to_string(liveSlot.in_use)+":"+liveSlot.save_path.string()+":"+std::to_string(navigator.erase_confirmation())+"|"+std::to_string(interaction.uppercase_visible())+"|"+std::to_string(window.width())+"x"+std::to_string(window.height());
   const auto key=nextSurface+"|"+interaction.name()+"|"+pressedPath;
    if(key!=presentedKey){flow::PresentationFacts facts;facts.selected_slot=liveSlot;facts.erase_confirmation=navigator.erase_confirmation();facts.class_index=currentClass;facts.entered_name=interaction.name();facts.upper_keyboard_visible=interaction.uppercase_visible();facts.pressed_button_path=pressedPath;
-    if((menu=="menu_MainMenu"||menu=="menu_StartGame")&&liveSlot.in_use&&profileProjector){
+   if((menu=="menu_MainMenu"||menu=="menu_StartGame")&&liveSlot.in_use&&profileProjector){
      if(!profileProjector(liveSlot,facts.profile_text,error))throw std::runtime_error(error.empty()?"Selected profile metadata projection failed":error);
      flow::rebase_profile_text_paths(facts.profile_text,menu);
+    }
+    if(menu=="menu_MainMenu"||menu=="menu_StartGame"){
+     const bool hadProfileActors=savedProfileActorsLoaded;
+     projectSavedProfileActor(liveSlot,menu);
+     if(!hadProfileActors&&savedProfileActorsLoaded)
+      frontend_rebase_after_blocking_load_v1(config,elapsedClock,f::Window::seconds());
     }
     auto presentation=flow::presentation(menu,facts);
    if(!a::compose(screen(menu),presentation,runtimeArt,error))throw std::runtime_error(error);
@@ -178,8 +322,31 @@ FrontendRuntimeResultV1 run_frontend_v1(
     interaction.set_surface(std::move(paths),[&](f::frontend::input::Point point){std::array<float,2> source;if(!a::source_point(point.x,point.y,window.width(),window.height(),source))return f::frontend::input::ItemId{0};for(std::size_t i=runtimeArt.hit_regions.size();i>0;--i)if(interaction.enabled(a::normalize_source_path(runtimeArt.hit_regions[i-1].button_path))&&a::contains(runtimeArt.hit_regions[i-1],source[0],source[1]))return f::frontend::input::ItemId(i);return f::frontend::input::ItemId{0};});surfaceKey=nextSurface;}presentedKey=key;
   }
   interaction.set_animation_input_enabled(menu!="menu_SelectClass"||classScene.input_enabled());
+  const bool drawProfileActor=(menu=="menu_MainMenu"||menu=="menu_StartGame")&&
+      selectedProfileActor>=0&&selectedProfileSnapshot.valid_for(liveSlot);
+  if(drawProfileActor){
+   auto& actor=savedProfileActors[static_cast<std::size_t>(selectedProfileActor)];
+   if(!actor.body.update(double(milliseconds)/1000.0,error))throw std::runtime_error("Selected-profile source idle update: "+error);
+   auto services=actor.material_bindings->callbacks();
+   SourceEquipmentRenderBridgeV1 bridge(*actor.skin,actor.image,std::move(services));
+   if(!bridge.prepare(actor.frame,error))throw std::runtime_error("Selected-profile source body/Gear render: "+error);
+   if(profileActorLoggedKey!=selectedProfileRenderKey){
+    std::cout<<"{\"profile_actor\":\"PASS\",\"menu\":\""<<menu
+        <<"\",\"slot\":"<<selectedProfileSnapshot.selected_slot.id
+        <<",\"save\":\""<<selectedProfileSnapshot.selected_slot.save_path.generic_string()
+        <<"\",\"character\":\""<<actor.character_id<<"\",\"class\":\""<<actor.class_id
+        <<"\",\"appearance_steps\":"<<actor.appearance.steps.size()
+        <<",\"draw_packets\":"<<actor.frame->packets.size()<<"}\n"<<std::flush;
+    profileActorLoggedKey=selectedProfileRenderKey;
+   }
+  }
   renderer.resize(window.width(),window.height());renderer.beginFrame(menu=="menu_SelectClass"?classScene.camera():f::frontend::original_menu_preview_camera());
   if(menu=="menu_MainMenu"||menu=="menu_StartGame")renderer.draw(mainScene.mesh);
+  if(drawProfileActor){
+   const auto& actor=savedProfileActors[static_cast<std::size_t>(selectedProfileActor)];
+   const auto placement=original_main_profile_placement(actor.scale);
+   for(const auto& packet:actor.frame->packets)renderer.draw(packet.mesh,multiply(placement,packet.world));
+  }
   if(menu=="menu_SelectClass"){renderer.draw(classScene.backdrop().mesh);for(unsigned i=0;i<3;++i){const auto&actor=characters.actors()[i];const auto transform=classScene.anchors()[i];for(const auto&mesh:actor.body.meshes())renderer.draw(mesh,transform);for(const auto&weapon:actor.equipment.attachments())for(const auto&mesh:weapon.visual.meshes())renderer.draw(mesh,multiply(transform,weapon.socket_world));}}
   overlay.begin(window.width(),window.height());for(std::size_t i=0;i<geometry.batches.size();++i){std::vector<f::OverlayTriangleVertex> vertices;for(const auto&v:geometry.batches[i].triangles)vertices.push_back({v.x,v.y,v.u,v.v});auto texture=uiTexture(runtimeArt.bitmap_ids[i]);auto color=runtimeArt.batch_colors[i];if(!overlay.drawTriangles(vertices,texture,color))throw std::runtime_error("Invalid source runtime contour");}text.draw(overlay);overlay.end();renderer.endFrame();++drawn;
   if(verifyNative||verifyGeneric||verifyProfiles){auto click=[&](const std::string&path,int taps=1){for(const auto&hit:runtimeArt.hit_regions)if(a::normalize_source_path(hit.button_path)==path&&hit.triangles.size()>=3){const auto&p=hit.triangles;f::frontend::input::Point point{(p[0].x+p[1].x+p[2].x)/3*window.width()/480.f,(p[0].y+p[1].y+p[2].y)/3*window.height()/320.f};for(int tap=0;tap<taps;++tap)if(!host.post_pointer(point,true)||!host.post_pointer(point,false))throw std::runtime_error("Native smoke mouse enqueue failed");return;}throw std::runtime_error("Native smoke authored hit region missing: "+path);};
@@ -187,6 +354,13 @@ FrontendRuntimeResultV1 run_frontend_v1(
     const auto& fact=navigator.selected_slot_fact();
     const auto expect=[&](bool condition,const char* message){if(!condition)throw std::runtime_error(std::string("Profile-slot smoke: ")+message);};
     const auto mark=[&](const char* label){
+     if((menu=="menu_MainMenu"||menu=="menu_StartGame")&&fact.in_use){
+      expect(drawProfileActor&&selectedProfileSnapshot.valid_for(fact)&&selectedProfileActor>=0,
+             "occupied source profile did not resolve its exact same-save actor");
+      const auto& actor=savedProfileActors[static_cast<std::size_t>(selectedProfileActor)];
+      expect(actor.character_id==selectedProfileSnapshot.character->id&&actor.class_id==selectedProfileSnapshot.character->class_id&&
+             actor.frame&&!actor.frame->packets.empty(),"selected saved Character/Gear did not produce retained render packets");
+     }
      std::ostringstream filename;filename<<"profile-slot-"<<std::setw(2)<<std::setfill('0')<<slotProof.phase<<'-'<<label<<".ppm";
      capture(captureDir/filename.str(),window.width(),window.height());
      std::cout<<"{\"profile_slot_smoke\":\"capture\",\"phase\":"<<slotProof.phase<<",\"menu\":\""<<menu<<"\",\"slot\":"<<fact.id<<",\"occupied\":"<<(fact.in_use?"true":"false")<<",\"path\":\""<<fact.save_path.generic_string()<<"\",\"capture\":\""<<filename.str()<<"\"}\n"<<std::flush;

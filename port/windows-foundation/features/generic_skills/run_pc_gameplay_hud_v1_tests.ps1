@@ -14,6 +14,7 @@ try {
     & $Compiler -std=c++17 -Wall -Wextra -Werror -Wno-missing-field-initializers -O2 `
         (Join-Path $PSScriptRoot 'pc_gameplay_hud_v1_tests.cpp') `
         (Join-Path $PSScriptRoot 'pc_gameplay_hud_v1.cpp') `
+        (Join-Path $PSScriptRoot 'pc_gameplay_hud_source_art_v1.cpp') `
         (Join-Path $PSScriptRoot '..\skill_ui\original_skill_art.cpp') `
         (Join-Path $PSScriptRoot '..\platform_input\semantic_input.cpp') `
         -static -o $exe

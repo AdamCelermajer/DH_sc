@@ -2,9 +2,11 @@
 #include "session_openable_interaction_v1.hpp"
 #include "session_destructible_interaction_v1.hpp"
 #include "session_container_modern_drop_v1.hpp"
+#include "session_authored_container_enrollment_v1.hpp"
 #include "session_container_modern_openable_v1.hpp"
 #include "session_container_admitted_openable_v1.hpp"
 #include "session_authored_openable_scene_v1.hpp"
+#include "session_admitted_destructible_v1.hpp"
 #include "session_source_object_admission_v1.hpp"
 #include "world_object_container_state_v1.hpp"
 #include "../loot/runtime_world_item_adapter_v1.hpp"
@@ -184,12 +186,22 @@ struct BreakableFixture {
     std::uint32_t clips{};
     unsigned quest_calls{},script_loads{},on_open_calls{},audio_calls{},physical_calls{},
         source_interact_calls{},stat_calls{};
+    RetainedAnimationEvent opened_event;
+    bool saw_opened_event{};
     static bool bind_callbacks(void* raw,const void* identity,ActorId id,
         SessionContainerEventCallbackV1 event,SessionContainerCompletionCallbackV1 finished,
         std::string& error){
         auto& self=*static_cast<BreakableFixture*>(raw);
+        if(!event)return fail(error,"Urn callback fixture received no source event callback");
+        SessionContainerEventCallbackV1 observed=[&self,event=std::move(event)](
+            ActorId source,const RetainedAnimationEvent& value,std::string& e){
+            if(value.name=="opened"){
+                self.opened_event=value;self.saw_opened_event=true;
+            }
+            return event(source,value,e);
+        };
         return self.visual&&SessionContainerRetainedVisualV1::bind_callbacks(
-            self.visual,identity,id,std::move(event),std::move(finished),error);
+            self.visual,identity,id,std::move(observed),std::move(finished),error);
     }
     static bool play_clip(void* raw,const void* identity,ActorId id,const char* clip,
                           bool& accepted,std::string& error){
@@ -207,6 +219,16 @@ struct BreakableFixture {
         auto& self=*static_cast<BreakableFixture*>(raw);
         if(identity!=self.resolver->session||!self.resolver->urn||id!=self.resolver->urn->stableId||visual!=70)
             return fail(error,"Urn visual does not match authored destructible row30 visual70");
+        error.clear();return true;
+    }
+    static bool validate_visual_row(void* raw,const ActorDefinition& definition,
+        const dh2::world::DestructibleContainerRowV16& row,const WorldObject& object,
+        std::string& error){
+        auto& self=*static_cast<BreakableFixture*>(raw);
+        if(!self.resolver||definition.stableId!=self.resolver->urn->stableId||
+           row.visual()!=70||object.id!=definition.stableId||
+           object.name!=definition.name||object.visual.model!="go_swamp_urn_breakable.bdae")
+            return fail(error,"Urn WorldObject differs from exact authored Destructible visual row70");
         error.clear();return true;
     }
     static bool has_visual(void* raw,const void* identity,ActorId id,bool& value,std::string& error){
@@ -282,6 +304,22 @@ struct BreakableFixture {
         if(stat!=217)return fail(error,"Urn breakable stat id mismatch");
         value=1;error.clear();return true;
     }
+    static bool is_local(void*,const void*,ActorId,bool& local,std::string& error){
+        local=false;error.clear();return true;
+    }
+    static bool trophy_id(void*,const char* name,std::int32_t& id,std::string& error){
+        if(!name||std::string(name)!="destroy_200_breakables")
+            return fail(error,"Urn trophy lookup differs from authored source name");
+        id=200;error.clear();return true;
+    }
+    static bool unlock_trophy(void*,std::int32_t id,std::string& error){
+        if(id!=200)return fail(error,"Urn trophy unlock received a foreign trophy ID");
+        error.clear();return true;
+    }
+};
+struct BreakableProviderLifetime {
+    std::shared_ptr<Resolver> resolver;
+    std::shared_ptr<BreakableFixture> fixture;
 };
 struct StoreSink {
     loot::RuntimeWorldItemAdapterV1* store{};
@@ -331,7 +369,7 @@ bool script_call_missing(const char*,std::uintptr_t,const char*,std::string& err
 }
 
 int main(int argc,char** argv){try{
-    check(argc==7,"Supply shared source assets, current loot cache, object assets, ItemAudioVisual cache, itemdrop assets, and source effect assets");
+    check(argc==7||argc==8,"Supply shared source assets, current loot cache, object assets, ItemAudioVisual cache, itemdrop assets, source effect assets, and optional source RNG seed");
     AssetCatalog assets(argv[1]),object_assets(argv[3]);std::string error;
     OriginalPropertyDatabase database;OriginalMeleeBindings melee;
     check(load_original_property_tables(assets,"original-cache/data/pydata",database,error),error);
@@ -340,7 +378,7 @@ int main(int argc,char** argv){try{
     OriginalCombatVisualPlan visual_plan;
     check(build_original_combat_visual_plan(assets,melee,"KnightPlayerBase",customization,
         "container-live-player",visual_plan,error),error);
-    CombatSessionConfig config;config.diagnosticRngSeed=812;config.playerId=1;
+    CombatSessionConfig config;config.diagnosticRngSeed=argc>7?std::stoul(argv[7]):6;config.playerId=1;
     config.playerProfileId="KnightPlayerBase";config.tableRoot="original-cache/data/pydata";
     config.playerVisualConfig=visual_plan.config;
     CombatSessionProfile player_policy;player_policy.action={"AttackStatic",0,{0,1}};
@@ -451,11 +489,22 @@ int main(int argc,char** argv){try{
     urn.visual.model="go_swamp_urn_breakable.bdae";
     urn.transform.position={urn_found->placement[12],urn_found->placement[13],urn_found->placement[14]};
     check(bind_source_container_objs_v1(urn,{1,1,0,2},error),error);
-    check(session.world()->bind_object(urn,error),error);
+    SessionSourceObjectAdmissionRequestV1 urn_admission_request;
+    urn_admission_request.definition=&*urn_found;urn_admission_request.candidate=urn;
+    urn_admission_request.random_owner=session.actor_binding_lease().lock();
+    urn_admission_request.with_spawn_random=with_session_spawn_random;
+    urn_admission_request.online_byte5=[](bool& online,std::string& e){online=false;e.clear();return true;};
+    SessionSourceObjectAdmissionReceiptV1 urn_admission;
+    check(admit_session_source_object_v1(session,std::move(urn_admission_request),
+        urn_admission,error),error);
+    check(urn_admission.admitted&&urn_admission.online_provider_evaluated&&
+        urn_admission.prior_admission.object_id==urn_id&&
+        session.world()->find_object(urn_id)&&
+        !session.retained_object_visual_borrow(urn_id),
+        "Exact authored urn admission must precede retained visual enrollment");
     auto visual_owner=std::make_shared<SessionContainerRetainedVisualV1>(session);
     auto& visual=*visual_owner;
     check(visual.session_lease()&&visual.binding_lifecycle()==1,error);
-    check(visual.bind_authored_object(*urn_found,object_assets,error),error);
 
     const std::string cache=argv[2];
     auto loot_bytes=read_bytes(cache,"loot_table_pyarray.bin");
@@ -666,6 +715,55 @@ int main(int argc,char** argv){try{
     check(openable_scene&&openable_scene->object_ids().size()==1&&
         session.retained_object_visual_borrow(chest_id),
         "One-entry authored scene binder did not retain the exact admitted source chest placement");
+
+    // Exercise the production-callable current-Level candidate path on a
+    // second real decoded chest declaration. The model and transform are
+    // derived from its exact source row/placement; only original GameObject
+    // runtime fields/providers remain explicit caller inputs.
+    const auto second_chest=std::find_if(scene_openables.begin(),scene_openables.end(),
+        [&](const auto* candidate){return candidate->stableId!=chest_id&&
+            candidate->stableId!=rejected_definition->stableId&&
+            candidate->properties.at("data_desc")=="Swamp_Normal_Chest"&&
+            !session.world()->find_object(candidate->stableId)&&
+            !session.retained_object_visual_borrow(candidate->stableId);});
+    check(second_chest!=scene_openables.end(),"No second actual authored chest for enrollment composition");
+    WorldObject enrolled_chest;
+    enrolled_chest.id=(*second_chest)->stableId;enrolled_chest.name=(*second_chest)->name;
+    enrolled_chest.visual.model="go_chest_swamp.bdae";
+    enrolled_chest.transform.position={(*second_chest)->placement[12],
+        (*second_chest)->placement[13],(*second_chest)->placement[14]};
+    check(bind_source_container_objs_v1(enrolled_chest,saved_fields,error),error);
+    check(!session.world()->find_object(enrolled_chest.id)&&
+        !session.retained_object_visual_borrow(enrolled_chest.id),
+        "Second chest fixture must start unpublished and have no retained visual");
+    SessionSourceObjectAdmissionRequestV1 enrollment_request;
+    enrollment_request.definition=*second_chest;
+    enrollment_request.candidate=std::move(enrolled_chest);
+    enrollment_request.random_owner=session.actor_binding_lease().lock();
+    enrollment_request.with_spawn_random=with_session_spawn_random;
+    enrollment_request.online_byte5=[](bool& online,std::string& e){online=false;e.clear();return true;};
+    auto malformed_enrollment=enrollment_request;
+    malformed_enrollment.candidate.transform.position[0]+=1.0f;
+    auto malformed_policy=scene_policy_base;
+    const auto malformed_enrollment_rng=session.world()->random_state().calls;
+    SessionAuthoredContainerEnrollmentResultV1 malformed_enrollment_result;
+    check(!enroll_session_authored_container_v1(session,std::move(malformed_enrollment),
+        object_assets,visual_owner,modern_drop,std::move(malformed_policy),{}, {},
+        malformed_enrollment_result,error)&&!malformed_enrollment_result.admission.admitted&&
+        session.world()->random_state().calls==malformed_enrollment_rng&&
+        !session.world()->find_object((*second_chest)->stableId)&&
+        !session.retained_object_visual_borrow((*second_chest)->stableId),
+        "Misplaced authored candidate reached source RNG or published object/visual state");
+    auto enrollment_policy=scene_policy_base;
+    SessionAuthoredContainerEnrollmentResultV1 enrollment;
+    check(enroll_session_authored_container_v1(session,std::move(enrollment_request),
+        object_assets,visual_owner,modern_drop,std::move(enrollment_policy),{}, {},
+        enrollment,error),error);
+    check(enrollment.admission.admitted&&enrollment.openable&&
+        !enrollment.destructible&&enrollment.admission.prior_admission.object_id==(*second_chest)->stableId&&
+        session.world()->find_object((*second_chest)->stableId)&&
+        session.retained_object_visual_borrow((*second_chest)->stableId),
+        "Current-Level authored chest enrollment did not publish only after admission and retain its same-Session owner");
     std::shared_ptr<SessionContainerModernOpenableV1> owner;
     check(openable_scene->find(chest_id,owner,error)&&owner&&owner->source_id()==chest_id,
         "Authored scene binder did not expose its exact chest interaction owner");
@@ -685,11 +783,13 @@ int main(int argc,char** argv){try{
     rejected_composed_request.online_byte5=[&](bool& online,std::string& e){
         ++rejected_composed_online_calls;online=false;e.clear();return true;
     };
-    SessionContainerAdmittedOpenableResultV1 rejected_composed;
+    SessionAuthoredContainerEnrollmentResultV1 rejected_composed;
     const auto reject_composed_calls=session.world()->random_state().calls;
-    check(admit_and_bind_session_openable_v1(session,std::move(rejected_composed_request),
-        object_assets,visual,modern_drop,std::move(rejected_composed_policy),rejected_composed,error),error);
+    check(enroll_session_authored_container_v1(session,std::move(rejected_composed_request),
+        object_assets,visual_owner,modern_drop,std::move(rejected_composed_policy),{}, {},
+        rejected_composed,error),error);
     check(!rejected_composed.admission.admitted&&!rejected_composed.openable&&
+        !rejected_composed.destructible&&
         rejected_composed.admission.candidate_hidden&&
         rejected_composed.admission.candidate_deleted&&
         rejected_composed.admission.marked_for_deletion,
@@ -735,13 +835,14 @@ int main(int argc,char** argv){try{
     check(decode_embedded_scene_clips(urn_bytes.data(),urn_bytes.size(),urn_clips,error),error);
     check(urn_clips.size()==3&&urn_clips[0].name=="activate"&&urn_clips[1].name=="idle"&&
         urn_clips[2].name=="idleactive","Recovered urn clip order/count differs from exact BDAE");
-    BreakableFixture breakable_fixture;breakable_fixture.resolver=&resolver;
-    breakable_fixture.visual=&visual;breakable_fixture.clips=static_cast<std::uint32_t>(urn_clips.size());
+    auto breakable_fixture=std::make_shared<BreakableFixture>();
+    breakable_fixture->resolver=&resolver;
+    breakable_fixture->visual=&visual;breakable_fixture->clips=static_cast<std::uint32_t>(urn_clips.size());
     SessionDestructibleInteractionServicesV1 breakable_services;
     breakable_services.session_identity=&session;breakable_services.session_lease=visual.session_lease();
     breakable_services.actor_context=&resolver;breakable_services.resolve_actor=Resolver::resolve;
     breakable_services.table=destructible_table;
-    breakable_services.visual_context=&breakable_fixture;
+    breakable_services.visual_context=breakable_fixture.get();
     breakable_services.visual_asset=BreakableFixture::visual_asset;
     breakable_services.has_visual=BreakableFixture::has_visual;
     breakable_services.animation_count=BreakableFixture::animation_count;
@@ -758,6 +859,9 @@ int main(int argc,char** argv){try{
     breakable_services.as_character=BreakableFixture::as_character;
     breakable_services.increment_stat=BreakableFixture::increment_stat;
     breakable_services.get_stat=BreakableFixture::get_stat;
+    breakable_services.is_local_player=BreakableFixture::is_local;
+    breakable_services.trophy_id=BreakableFixture::trophy_id;
+    breakable_services.unlock_trophy=BreakableFixture::unlock_trophy;
     breakable_services.loot=loot_services;
     SessionContainerActorBorrowV1 service_borrow;
     check(breakable_services.resolve_actor(breakable_services.actor_context,
@@ -767,11 +871,81 @@ int main(int argc,char** argv){try{
         service_borrow.object&&service_borrow.destructible_state&&service_borrow.binding_lifecycle&&
         same_owner(service_borrow.session_lease,breakable_services.session_lease),
         "Destructible services did not retain matching current object/session inputs");
-    auto breakable=SessionDestructibleInteractionV1::create(std::move(breakable_services),error);
-    check(breakable!=nullptr,error);check(breakable->initialize(urn_id,error),error);
-    check(breakable_fixture.script_loads==1&&resolver.destructible.stages==0,
-        "Recovered urn must load its declared script and use the exact no-staged-hit path");
+    auto breakable_provider_lifetime=std::make_shared<BreakableProviderLifetime>();
+    breakable_provider_lifetime->resolver=resolver_owner;
+    breakable_provider_lifetime->fixture=breakable_fixture;
+    SessionAdmittedDestructibleProvidersV1 breakable_providers;
+    breakable_providers.owner=breakable_provider_lifetime;
+    breakable_providers.context=breakable_fixture.get();
+    breakable_providers.validate_visual_row=BreakableFixture::validate_visual_row;
+    auto missing_breakable_provider=breakable_services;
+    missing_breakable_provider.raise_destroy_quest=nullptr;
+    std::shared_ptr<SessionAdmittedDestructibleV1> breakable;
+    check(!SessionAdmittedDestructibleV1::bind(session,*urn_found,{},object_assets,
+        visual_owner,missing_breakable_provider,breakable_providers,breakable,error)&&
+        !breakable&&!session.retained_object_visual_borrow(urn_id),
+        "Destructible binder accepted a missing source quest endpoint or partially bound visual");
+    check(!SessionAdmittedDestructibleV1::bind(session,*urn_found,urn_admission,
+        object_assets,visual_owner,missing_breakable_provider,breakable_providers,
+        breakable,error)&&!breakable&&!session.retained_object_visual_borrow(urn_id),
+        "Destructible binder accepted missing DestroyGameObject endpoint");
+    auto missing_script_provider=breakable_services;
+    missing_script_provider.script_call=nullptr;
+    check(!SessionAdmittedDestructibleV1::bind(session,*urn_found,urn_admission,
+        object_assets,visual_owner,missing_script_provider,breakable_providers,
+        breakable,error)&&!breakable&&!session.retained_object_visual_borrow(urn_id),
+        "Destructible binder accepted missing source OnOpen script endpoint");
+    auto missing_urn_rng=breakable_services;
+    missing_urn_rng.loot.gameplay_rng=nullptr;
+    missing_urn_rng.loot.with_gameplay_rng=nullptr;
+    check(!SessionAdmittedDestructibleV1::bind(session,*urn_found,urn_admission,
+        object_assets,visual_owner,missing_urn_rng,breakable_providers,
+        breakable,error)&&!breakable&&!session.retained_object_visual_borrow(urn_id)&&
+        error.find("source loot RNG and drop-store endpoints")!=std::string::npos,
+        "Urn binder must reject a missing shared LootRandom8 loan before visual enrollment");
+    auto missing_urn_store=breakable_services;
+    missing_urn_store.loot.drop_item={};
+    missing_urn_store.loot.drop_item_with_rng={};
+    check(!SessionAdmittedDestructibleV1::bind(session,*urn_found,urn_admission,
+        object_assets,visual_owner,missing_urn_store,breakable_providers,
+        breakable,error)&&!breakable&&!session.retained_object_visual_borrow(urn_id)&&
+        error.find("source loot RNG and drop-store endpoints")!=std::string::npos,
+        "Urn binder must reject a missing same-store sink before visual enrollment");
+    auto mismatched_urn_admission=urn_admission;
+    mismatched_urn_admission.prior_admission.object_id=chest_id;
+    check(!SessionAdmittedDestructibleV1::bind(session,*urn_found,mismatched_urn_admission,
+        object_assets,visual_owner,breakable_services,breakable_providers,
+        breakable,error)&&!breakable&&!session.retained_object_visual_borrow(urn_id),
+        "Destructible binder accepted admission receipt for a different ObjectId");
+    // Rebuild the actual decoded urn candidate and exercise the new one-call
+    // current-Level enrollment path after the lower-level negative receipt and
+    // provider checks above. The source admission owner is the only publisher.
+    check(session.world()->remove_object(urn_id),
+        "Could not reset the isolated urn candidate before enrollment-path test");
+    WorldObject enrolled_urn;enrolled_urn.id=urn_id;enrolled_urn.name=urn_found->name;
+    enrolled_urn.visual.model="go_swamp_urn_breakable.bdae";
+    enrolled_urn.transform.position={urn_found->placement[12],urn_found->placement[13],
+        urn_found->placement[14]};
+    check(bind_source_container_objs_v1(enrolled_urn,{1,1,0,2},error),error);
+    SessionSourceObjectAdmissionRequestV1 urn_enrollment_request;
+    urn_enrollment_request.definition=&*urn_found;
+    urn_enrollment_request.candidate=std::move(enrolled_urn);
+    urn_enrollment_request.random_owner=session.actor_binding_lease().lock();
+    urn_enrollment_request.with_spawn_random=with_session_spawn_random;
+    urn_enrollment_request.online_byte5=[](bool& online,std::string& e){online=false;e.clear();return true;};
+    SessionAuthoredContainerEnrollmentResultV1 urn_enrollment;
+    check(enroll_session_authored_container_v1(session,std::move(urn_enrollment_request),
+        object_assets,visual_owner,modern_drop,{},breakable_services,breakable_providers,
+        urn_enrollment,error),error);
+    urn_admission=urn_enrollment.admission;
+    breakable=urn_enrollment.destructible;
+    check(breakable&&breakable->source_id()==urn_id&&
+        session.retained_object_visual_borrow(urn_id)&&
+        breakable_fixture->script_loads==1&&resolver.destructible.stages==0,
+        "Recovered urn must bind its exact prior-admitted visual/source owner with no staged hit");
     check(openable_scene->interact(chest_id,1,error),error);
+    const auto enrolled_store_before=store.size();
+    check(enrollment.openable->interact(1,error),error);
     SourceContainerObjsFieldsV1 after_input;
     check(read_source_container_objs_v1(*session.world()->find_object(chest_id),after_input,error),error);
     check(after_input.state394==3,"Actual chest input did not persist state3/activate");
@@ -782,6 +956,8 @@ int main(int argc,char** argv){try{
     check(session.world()->random_state().calls>rng_calls_before_chest,
           "Container table selection did not borrow the same persisted Session RNG stream");
     check(store.size()>0,"Actual retained chest BRES opened event did not publish source loot");
+    check(store.size()>enrolled_store_before,
+          "Enrolled second source chest did not route its retained opened marker through the same-session drop/store owner");
     const auto chest_position=session.world()->find_object(chest_id)->transform.position;
     std::vector<loot::RuntimeWorldItemRenderV1> packets;
     check(store.render_items(packets,error),error);
@@ -802,25 +978,44 @@ int main(int argc,char** argv){try{
     check(read_source_container_objs_v1(*session.world()->find_object(chest_id),completed,error),error);
     check(completed.state394==4&&source_container_restore_visual_v1(completed.state394)==
         SourceContainerRestoreVisualV1::idleactive,"Authored activation did not finish to state4");
-    check(breakable->interact(urn_id,1,error),error);
+    check(breakable->interact(1,error),error);
+    const auto urn_rng_calls_before=session.world()->random_state().calls;
     check(session.update(.30,input,{0,0,0},0,error),error);
-    check(breakable_fixture.on_open_calls==1&&breakable_fixture.quest_calls>=1,
-        "Recovered urn opened marker did not reach same-session quest/OnOpen dispatch");
+    check(breakable_fixture->on_open_calls==1&&breakable_fixture->quest_calls==2,
+        "Recovered urn source damage/opened marker did not dispatch the two original quest sites and one OnOpen");
+    check(breakable_fixture->saw_opened_event,
+        "Recovered BDAE timeline did not deliver its exact opened event to the source owner");
+    check(session.world()->random_state().calls>urn_rng_calls_before,
+        "Authored urn row30/table9 opened marker did not advance the current Session LootRandom8 stream");
+    const auto urn_drop_count_before_duplicate=store.size();
+    check(breakable->animation_event(breakable_fixture->opened_event,error),error);
+    check(store.size()==urn_drop_count_before_duplicate&&breakable_fixture->quest_calls==2&&
+        breakable_fixture->on_open_calls==1,
+        "Duplicate authored urn opened marker replayed source quest, loot, or OnOpen");
     const auto urn_position=session.world()->find_object(urn_id)->transform.position;
     bool found_urn_drop=false;
+    std::size_t urn_drop_records{};
     check(store.render_items(packets,error),error);
     for(const auto& packet:packets){
         loot::RuntimeWorldItemEntryV1 entry;check(store.inspect(packet.identity,entry,error),error);
         if(entry.source_outcome.source_actor==urn_id){
             found_urn_drop=true;
+            ++urn_drop_records;
+            check(entry.source_outcome.loot_table==9,
+                "Authored urn row30 drop lost its stored source loot-table identity 9");
             check(entry.source_outcome.killer_actor==1&&entry.source_position==urn_position,
                 "Urn breakable drop lost its exact same-world source transform");
         }
     }
+    check(urn_drop_records>0,"Authored urn row30/table9 did not publish a source record into the same store");
     if(!found_urn_drop){
         std::string detail="Recovered urn opened marker did not publish through the existing item store; store="+
             std::to_string(store.size())+
-            " urn_id="+std::to_string(urn_id);
+            " urn_id="+std::to_string(urn_id)+" quest="+
+            std::to_string(breakable_fixture->quest_calls)+" open="+
+            std::to_string(breakable_fixture->on_open_calls)+" audio="+
+            std::to_string(breakable_fixture->audio_calls)+" state="+
+            std::to_string(resolver.destructible.state394);
         for(const auto& packet:packets){
             loot::RuntimeWorldItemEntryV1 entry;
             if(store.inspect(packet.identity,entry,error))
@@ -935,7 +1130,9 @@ int main(int argc,char** argv){try{
     SourceContainerObjsFieldsV1 urn_restored;
     check(read_source_container_objs_v1(*session.world()->find_object(urn_id),urn_restored,error),error);
     check(urn_restored.state394==4,"GameSave restore lost urn source state4");
-    check(breakable_fixture.stat_calls==1,"Urn source breakable interaction did not update its Character stat once");
-    std::cout<<"PASS SessionAuthoredOpenableSceneV1 collects the admitted authored chest and routes input through its retained BRES opened marker to the same-session RNG/store; missing/duplicate admission and missing Quest RaiseAsync reject before visual/callback publication. Exact same-store drops and silent state4 GameSave restore reject replay. Urn remains on typed Destructible fixture services. Main scene enrollment and live online/current-Level/key/quest/audio/physical/script providers remain caller gaps; Lua summon execution is not claimed\n";
+    check(breakable_fixture->stat_calls==1,"Urn source breakable interaction did not update its Character stat once");
+    check(!breakable->interact(1,error)&&error.find("stale Session lease")!=std::string::npos,
+        "Pre-restore admitted Destructible binding survived a replaced Session lease");
+    std::cout<<"PASS SessionAuthoredOpenableSceneV1 collects the admitted chest; enroll_session_authored_container_v1 admits and opens a second decoded chest and admits/binds the decoded urn. Their source markers route drops through the same-session RNG/store; misplaced candidates and missing/duplicate receipts/providers reject before publication. Silent state4 GameSave restore rejects replay and stale bindings reject use. Production candidate construction and online/current-Level/quest/audio/physical/script/stat providers remain caller gaps; Lua _Summon execution is not claimed\n";
     return 0;
 }catch(const std::exception& exception){std::cerr<<exception.what()<<'\n';return 1;}}

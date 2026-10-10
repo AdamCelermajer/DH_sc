@@ -6,7 +6,7 @@
     "libfoundation_data.a": "11073de9d36dc90291812c7461c9f6f65cbb98243b81f32d99a8532d3a73e7ab",
     "libcontent_xml.a": "2708501e0e40329102003fd92734d08a9557d4673654b41a57eb5d8b8b010af9",
     "libdh2_freetype237.a": "dff79e8ace6ba1d44a888eae596cc666188524d8afe9ccfda958e9789061b808",
-    "librecovered_trigger_contacts.a": "70d5696b9a36a20365180f2eadb717dbdbebb22b41da784f319605c36349ac8a",
+    "librecovered_trigger_contacts.a": "74434682333000c25c1bedd1780d774d90a5777175eaf2fe7f0f6deae3c1e781",
     "librecovered_content.a": "631dfcec4e726d40db4d0fc5a3185fdf57b54569543f2b7b853f46a51fdc724e",
     "physics-backend/libdh2_box2d_201.a": "1dedf142b571cf67e03bc3d0e8eebd9614a915d3e92a2bab104b97392bab374b"
   },
@@ -104,9 +104,13 @@
       "exact_bdae_uri": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
       "mesh_packets": 3,
       "particle_packets": 2,
-      "test_camera_calls": 24,
+      "test_camera_calls": 28,
       "same_session": true,
-      "duplicate_suppressed": true
+      "duplicate_suppressed": true,
+      "anchor_position_followed": true,
+      "anchor_rotation_scale_followed": true,
+      "same_frame_retained_submission": true,
+      "callback_failure_detail_preserved": true
     },
     "destroyed_session_current_lease_and_camera_adapter_rejected": true,
     "same_session_factory_identity_checked": true,
@@ -452,9 +456,13 @@
       "exact_bdae_uri": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
       "mesh_packets": 3,
       "particle_packets": 2,
-      "test_camera_calls": 24,
+      "test_camera_calls": 28,
       "same_session": true,
-      "duplicate_suppressed": true
+      "duplicate_suppressed": true,
+      "anchor_position_followed": true,
+      "anchor_rotation_scale_followed": true,
+      "same_frame_retained_submission": true,
+      "callback_failure_detail_preserved": true
     },
     "source_note": "port/windows-foundation/features/effects/warrior-bashdown-fx-evidence.md",
     "skill_admission_or_user_key_mapping": false,

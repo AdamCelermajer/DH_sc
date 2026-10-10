@@ -34,6 +34,7 @@ bool FrontendRuntimeV1::poll() {
     if (!opened_ || !window_) return false;
     window_->poll();
     update_input_focus();
+    if(services_.window_activity)services_.window_activity(window_->focused(),window_->minimized());
     return !window_->should_close();
 }
 

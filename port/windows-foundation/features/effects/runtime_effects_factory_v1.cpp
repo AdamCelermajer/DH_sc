@@ -1,4 +1,5 @@
 #include "runtime_effects_factory_v1.hpp"
+#include "runtime_source_fx_asset_v1.hpp"
 
 #include <utility>
 
@@ -57,6 +58,10 @@ struct RuntimeEffectsFactoryV1::Impl {
         auto& self = *static_cast<Impl*>(raw);
         if (!self.bindings.assets || !uri)
             return fail(error, "Required AssetCatalog and original FX resource URI");
+        if (is_runtime_source_fx_uri_v1(uri)) {
+            std::string resolved;
+            return read_runtime_source_fx_asset_v1(*self.bindings.assets,uri,bytes,resolved,error);
+        }
         try {
             bytes = read_content(*self.bindings.assets, uri);
             error.clear();

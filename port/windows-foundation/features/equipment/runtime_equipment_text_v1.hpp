@@ -14,6 +14,24 @@ struct RuntimeEquipmentBareDefinitionPolicyV1 {
     std::vector<std::string> supported_unpowered_definition_ids;
 };
 
+// Source NativeInvGetItemDetails' fourth value/string pair for a currently
+// selected approved bare item. The caller supplies property197 from the same
+// live player CombatSession. The caller also passes the real CharacterDesign
+// multiplier from its source constants owner because MenuLocalization does not
+// own design_pycst. This provider supplies the source bare Item value from the
+// exact ItemTable row, source fixed-point transmute result, and original
+// localized formatting. Generated/powered ItemInstances require their
+// canonical source instance provider and are rejected by this adapter.
+struct RuntimeEquipmentTransmuteValuePacketV1 {
+    std::string instance_id;
+    std::string definition_id;
+    std::int32_t source_item_value{};
+    std::int32_t raw_property_197{};
+    std::int32_t source_multiplier{};
+    std::int32_t transmute_value{};
+    std::string formatted_value;
+};
+
 // Builds the default original-text callbacks over the caller's exact ItemTable,
 // CharacterState, MenuLocalization and its borrowed HudText environment. The
 // localization owner and source tables must outlive callbacks copied into the
@@ -31,6 +49,14 @@ public:
               RuntimeEquipmentOptionsV1&,
               RuntimeEquipmentPageBindingsV1&,
               std::string& error);
+
+    // These values must come from the same live player/context as the bound
+    // CharacterState: property197 from CombatSession resolved sheets and
+    // TransmuteMultiplier from the caller's real design_pycst owner.
+    bool transmute_value(const InventoryItem&, std::int32_t raw_property_197,
+                         std::int32_t source_multiplier,
+                         RuntimeEquipmentTransmuteValuePacketV1&,
+                         std::string& error) const;
 };
 
 } // namespace dh::foundation::equipment_menu

@@ -31,6 +31,32 @@ bool original_class_frame_for_row(int source_class_row,unsigned& frame,std::stri
   default:return fail(error,"Skill UI: original playerClassAsStr has no class frame for this saved class row");}
  frame=resolved;return true;
 }
+bool original_class_frame_for_row(const dh2::data::CharacterTable& characters,
+                                 int source_class_row,unsigned& frame,std::string& error){
+ error.clear();
+ if(source_class_row<0||static_cast<std::size_t>(source_class_row)>=characters.rows.size())
+  return fail(error,"Skill UI: source saved class row is outside original CharacterTable");
+ const auto class_id_field=std::find(characters.fields.begin(),characters.fields.end(),"ClassID");
+ if(class_id_field==characters.fields.end())return fail(error,"Skill UI: original CharacterTable lacks ClassID metadata");
+ const auto column=static_cast<std::size_t>(class_id_field-characters.fields.begin());
+ if(column>=characters.rows[static_cast<std::size_t>(source_class_row)].size())
+  return fail(error,"Skill UI: original CharacterTable.ClassID column is outside row");
+ const auto class_id=characters.rows[static_cast<std::size_t>(source_class_row)][column];
+ std::optional<unsigned> resolved;
+ // These are the source base rows whose family labels select SWF sprite493
+ // frames 0/1/2. Authored specialization rows retain the corresponding
+ // ClassID; do not use row-name prefixes or SkillTree position to guess art.
+ for(const auto [base_row,base_frame]:{std::pair{263,0u},std::pair{325,1u},std::pair{290,2u}}){
+  if(static_cast<std::size_t>(base_row)>=characters.rows.size()||
+     column>=characters.rows[static_cast<std::size_t>(base_row)].size())
+   return fail(error,"Skill UI: source base class family row is absent from CharacterTable");
+  if(characters.rows[static_cast<std::size_t>(base_row)][column]!=class_id)continue;
+  if(resolved&&*resolved!=base_frame)return fail(error,"Skill UI: source class ID maps to multiple authored skill families");
+  resolved=base_frame;
+ }
+ if(!resolved)return fail(error,"Skill UI: source class ID has no authored skill family frame");
+ frame=*resolved;return true;
+}
 bool Presenter::view(View& out,std::string& error)const {
  error.clear();if(!tables_)return fail(error,"Skill UI: missing original SkillTables");
  if(!services_.character)return fail(error,"Skill UI: unsupported Character::GetCharSkillListId / skill points service");

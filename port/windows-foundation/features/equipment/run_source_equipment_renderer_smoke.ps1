@@ -22,6 +22,7 @@ $sources = @(
     'port/windows-foundation/content_paths.cpp',
     'port/windows-foundation/texture_loader.cpp',
     'port/windows-foundation/platform_win32.cpp',
+    'port/windows-foundation/platform_context_identity.cpp',
     'port/windows-foundation/renderer.cpp',
     'port/windows-foundation/original_character.cpp',
     'port/engine-skinning/visual_skin_owner_v6.cpp',

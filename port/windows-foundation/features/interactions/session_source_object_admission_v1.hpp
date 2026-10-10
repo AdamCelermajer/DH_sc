@@ -56,8 +56,8 @@ struct SessionSourceObjectAdmissionReceiptV1 {
 
 // Runs only the source-owned MeetCondition and CheckSpawnProbability gates on
 // an unpublished candidate. Success binds that exact candidate into the
-// current Session WorldObject set and mints the only receipt accepted by
-// SessionContainerModernOpenableV1::initialize_admitted. A probability reject
+// current Session WorldObject set and mints the receipt accepted by the
+// admitted Openable and Destructible binders. A probability reject
 // projects the source hide/Delete/byte82/Mark prefix onto the staging record
 // and discards it before any retained visual or interaction callback is bound.
 bool admit_session_source_object_v1(

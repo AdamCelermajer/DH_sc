@@ -139,12 +139,12 @@
     "NativeGetSkillDetails": "SkillID (class-list position), object receiver, playerId 0; native details fill SkillIcon/SkillAssignedToSlot and localized source fields"
   },
   "persistence_boundary": "PlayerSavegameV1 decodes the source skill section and owns changed ranks/slots in memory; there is no standalone skill/slot encoder. Disk persistence requires the same-profile PlayerSaveWriteOwnerV1 and its genuine whole-profile save_all provider, which this connected fixture does not construct or claim.",
-  "remaining_skill_detail_boundary": "All 48 class-position rows across the three supported base-class skill lists passed through the same NativeGetSkillDetails owner with no unsupported source globals. Specialization class frames remain unsupported by the original playerClassAsStr branch; these connected checks do not claim their separate menu page composition."
+  "remaining_skill_detail_boundary": "All 48 class-position rows across the three supported base-class skill lists passed through the same NativeGetSkillDetails owner with no unsupported source globals. The original playerClassAsStr branch remains base-row-only; specialization family frame selection is supplied by the authored CharacterTable.ClassID relation and still needs normal-UI confirmation."
   },
   "unsupported_services": [
     "runtime binding to existing CharacterMenuQueriesOwnerV1 plus actual NativeGetStringFromSymbol",
     "complete V60/InitPost player graph: current native factory fixture stops at Device::IsHighPerformance before InitPost completion, so it does not provide initialized CharacterPlayerSkillsV6, loaded Save skill rows/slots or the authored menu action/query graph",
-    "original playerClassAsStr provides no class frame for specialization rows; those remain explicitly unsupported",
+    "original playerClassAsStr provides no class frame for specialization rows; the art projection now resolves only the three authored ClassID family relations, while native specialization selection and normal-UI integration remain separate",
     "animated focus/glow, dynamicGrey/Lock overlays and original drag gesture beyondrelease"
   ],
   "fidelity_milestones": "all incomplete; preserves v15 baseline 67 tests/16 runs, does not count bounded service tests as fidelity completion",
@@ -155,5 +155,20 @@
     "original_icon_labels": 78,
     "source_hit_centroids": 108,
     "validation": "PASS"
+  },
+  "b021_specialization_cell_art": {
+    "visual_evidence": {
+      "reference": "Supplied original-video stills .local-inputs/fidelity-video-v18/reference-396.png (t=396s) and reference-399.png (t=399s). Rogue Skills shows the same source grid and icon scale/placement in both captures; base Rogue specialization cells are empty zero-rank placeholders. These stills directly establish base-row presentation, not continuous class switching or the selected specialization appearance.",
+      "source_art": "dqcharmenu_droid.swf SHA-256 43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0; root/sprite493 provides the three family placement frames and sprite79 contains the SkillIcon label geometry. Exported matrices in features/skill_ui/source_skill_art.json retain original positions and scale. The selected specialization appearance is inferred from these authored placements combined with the selected SkillList's SkillIcon values; no matched original spec screenshot is present in this handoff."
+    },
+    "logic_evidence": {
+      "visual_tree_callers": "Authored SWF root/sprite267 opens menu_Specialisation at authored-actions.txt 0x0000eb2f when the source spec-time branch is taken. root/sprite688 onShow calls NativeGetPossibleClassSpec at 0x0002be4b; confirmed selection calls NativeSelectClassSpec at 0x0002c25a/0x0002c295, then invokes the Skills tab callback and presetAllSkills at 0x0002c2ca.",
+      "class_and_list_state": "Actual CharacterTable rows 263-265 share ClassID 77 and SkillTree rows 14/15/16 (Knight/Berserker/Paladin); rows 290-292 share ClassID 94 and SkillTree 21/22/23 (Mage/Illusionist/Necromancer); rows 325-327 share ClassID 120 and SkillTree 27/28/29 (Rogue/Archer/Assassin). CharacterMenuActionsOwnerV1::select_class_spec validates same live player/save, loads target properties, changes saved class row, reloads skills, then calls SG_Save. The active Character SkillList remains cell identity authority; it supplies the SkillTable SkillIcon labels.",
+      "gate_and_side_effects": "Spec menu options come from NativeGetPossibleClassSpec; the user-confirmed choice is applied only by NativeSelectClassSpec's selected Spec1/Spec2 caller. The same selected Character is validated, target row is current row + selection + 1, and the source continuation order is LoadPropertiesForClassSelect -> SG_SetPlayerClass -> AI_ReloadSkills -> SG_Save. The testable art rule uses ClassID equality with the three supported base family rows and fails closed for unrecognized rows."
+    },
+    "expected_behavior": "After selecting a supported specialization, re-entering Skills presents that selected list's original SkillIcon per cell, using its family's exact SWF placement frame. Returning to the menu after save/reload must retain the selected class row and therefore the same list and icons. No level-lock, prerequisite color, text, or selection mutation policy is added here.",
+    "uncertainties": "The supplied original stills show only base Rogue and no time-contiguous specialization selection/save/reload sequence; selected spec output is source-art/data-derived and awaits normal UI capture. Possible asset/version differences are guarded by actual table metadata and the recorded SWF hash.",
+    "focused_verification": "Strict C++17 Windows host runner passed against the actual cached CharacterTable and SkillTables: all 9 base/spec rows map to their ClassID family frame; all source SkillTree lists and SkillIcon rows project to the matching frame/role; real blank icon rows stay blank; negative and unrelated class rows reject without changing the output frame. The combined `features/generic_skills/run_runtime_tests.ps1` runner also passed after B018's shared text edit, including its six actual specialization-row family/icon assertions. Existing same-graph NativeSelectClassSpec coverage proves the saved class-row mutation and continuation order, not disk reload.",
+    "implementation_status": "Implemented the CharacterTable-backed art-family resolver in skill_ui and bound the legacy presenter to it. Focused strict host test passes. Normal generic Skills page already has a ClassID-based specialization fallback; normal executable/UI, selection roundtrip and disk save/reload remain unverified."
   }
 }

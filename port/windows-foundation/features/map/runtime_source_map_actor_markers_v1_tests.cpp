@@ -1,4 +1,5 @@
 #include "runtime_source_map_actor_markers_v1.hpp"
+#include "runtime_source_map_room_zones_v1.hpp"
 #include "runtime_source_map_menu_provider_v1.hpp"
 #include "../../asset_catalog.hpp"
 #include "../../original_combat_visual_plan.hpp"
@@ -11,6 +12,12 @@
 using namespace dh::foundation;
 
 namespace dh::foundation::map_ui {
+bool source_map_decoded_room_zones_v1(
+    const dh2::loader::FixedMapV1::Borrow&,
+    std::vector<DecodedRoomZoneV1>&, std::string& error) {
+    error = "decoded FixedMap path is outside the Session-join test";
+    return false;
+}
 bool source_map_project_runtime_frame_v1(
     const SourceMapCameraFrameV1&,
     const std::shared_ptr<dh2::camera::GameplayCameraRuntimeV11>&,
@@ -119,6 +126,49 @@ int main(int argc, char** argv) {
               std::isfinite(marker.world_position.z),
               "Map family3 marker did not use the same live ActorState transform");
 
+        // Exercise source-order zone composition against this actual Session's
+        // live player transform. The test records are decoded-zone contract
+        // fixtures; actual SWAMP decoded geometry is independently exercised
+        // by source_map_decoded_room_zone_v1_tests.cpp.
+        std::vector<map_ui::DecodedRoomZoneV1> decoded_zones(2);
+        for (std::size_t i = 0; i < decoded_zones.size(); ++i) {
+            decoded_zones[i].owner = std::make_shared<int>(static_cast<int>(i + 1));
+            decoded_zones[i].module_index = static_cast<std::uint32_t>(i);
+            decoded_zones[i].module_name = i == 0 ? "inside_player" : "outside_player";
+            decoded_zones[i].visited = std::nullopt;
+        }
+        const auto p = marker.world_position;
+        CombatSession unbound;
+        decoded_zones[0].bounds = {p.x, p.y, p.z + 500,
+                                   p.x + 1, p.y + 1, p.z + 1000};
+        decoded_zones[1].bounds = {p.x + 2, p.y + 2, p.z - 1,
+                                   p.x + 3, p.y + 3, p.z + 1};
+        std::vector<map_page::SessionRoomZoneV1> session_zones;
+        check(map_page::source_map_bind_session_to_decoded_room_zones_v1(
+                  decoded_zones, session, session_zones, error), error);
+        check(session_zones.size() == 2 &&
+              session_zones[0].decoded.module_index == 0 &&
+              session_zones[1].decoded.module_index == 1 &&
+              session_zones[0].player_inside && !session_zones[1].player_inside,
+              "same-Session player position did not produce ordered XY zone containment");
+        check(session_zones[0].player_id == player_id &&
+              session_zones[0].player_position.x == actor->transform.position[0] &&
+              session_zones[0].player_position.y == actor->transform.position[1] &&
+              session_zones[0].player_position.z == actor->transform.position[2] &&
+              same_owner(lease, session_zones[0].actor_binding_owner) &&
+              !session_zones[0].visited.has_value() &&
+              !session_zones[1].visited.has_value(),
+              "zone join lost current Session identity or invented RoomZone visitation");
+        auto zone_sentinel = std::make_shared<int>(99);
+        std::vector<map_page::SessionRoomZoneV1> preserved_zones(1);
+        preserved_zones[0].actor_binding_owner = zone_sentinel;
+        check(!map_page::source_map_bind_session_to_decoded_room_zones_v1(
+                  decoded_zones, unbound, preserved_zones, error) &&
+              preserved_zones.size() == 1 &&
+              preserved_zones[0].actor_binding_owner == zone_sentinel,
+              "unbound Session partially published decoded RoomZone composition");
+        std::cout << "PASS decoded RoomZone order/containment joins this live Session; source visit remains unknown and unbound join preserves output\n";
+
         std::vector<map_page::SourceMarkerV1> markers;
         markers.push_back(marker);
         const auto before = markers.size();
@@ -131,7 +181,6 @@ int main(int argc, char** argv) {
               markers[0].source_id == player_id && same_owner(lease, markers[0].owner),
               "Map collector did not append the actual current local player exactly once");
 
-        CombatSession unbound;
         const auto prior = markers;
         check(!map_page::source_map_append_current_player_marker_v1(unbound, markers, error) &&
               !error.empty() && markers.size() == prior.size() &&

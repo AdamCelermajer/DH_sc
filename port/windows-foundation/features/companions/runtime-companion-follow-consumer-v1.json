@@ -1,0 +1,42 @@
+{
+  "schema": "runtime-companion-follow-consumer-v1",
+  "status": "feature_consumer_and_asset_backed_same_session_test_passed",
+  "scope": "Connects reached source follower callbacks to existing RuntimeCompanionSessionV1 and RuntimeCompanionMovementV1 owners. No production frame/event loop integration is claimed.",
+  "source_evidence": {
+    "visual": {
+      "reference": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+      "frames": [
+        {"time_seconds": 210, "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0210s.png", "observation": "Player is at the chest; a white-robed figure is visible lower on the floor."},
+        {"time_seconds": 212, "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0212s.png", "observation": "Player and white-robed figure are both visible with space between them."},
+        {"time_seconds": 230, "path": ".local-inputs/referenceframes/dh2-act1/first-spawn/at-0230s.png", "observation": "Tutorial overlay is active; the robed figure remains in scene."}
+      ],
+      "limit": "These v1.0.3 frames show scene presence only. They do not identify the actor conclusively, prove a continuous follow trajectory, or establish an offset. No continuous-motion claim is drawn from the stills."
+    },
+    "logic": {
+      "mgp": {"resource": ".local-inputs/windows-source-clock-v19-preview-2/assets/original-cache/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp", "sha256": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31", "fields": "GameObject.name, charpropsname, activate_cond, and position; _prim_NPC_PriestGood names WanderingPriest and has activate_cond=RENE_FOLLOW; _prim_Faery names DefaultFairy and has no activate_cond."},
+      "character_properties": {"resources": [".local-inputs/actors/character_properties_pyarray.bin", ".local-inputs/actors/character_properties_pyarraynames.bin", ".local-inputs/actors/character_properties_pystructnames.bin"], "fields": "WanderingPriest AI=50/AnimTable=47; DefaultFairy AI=20/AnimTable=23."},
+      "ai_table": {"resources": [".local-inputs/ai-data/ai_pyarray.bin", ".local-inputs/ai-data/ai_pyarraynames.bin"], "fields": "AI row 20 is Faery, type 3, script follower; AI row 50 is Rene, type 2, script rene. Their LeashDistance is 1500, but it does not define a movement threshold or offset in this feature."},
+      "scripts": {"follower": "port/windows-foundation/features/companions/reference/follower.luac; OnMasterOutOfRange calls MoveTo(g_master) only if GetState()!=AIStates.Move, then always ClearTarget; OnMasterOutOfSight calls WarpBehind(g_master) without ClearTarget; in ranged/close/melee range calls Stop.", "rene": "port/windows-foundation/features/companions/reference/rene.luac; separate catch-up state machine with HasPath/WarpTo, haste/buff and timer behavior. This consumer does not substitute follower rules for it."},
+      "caller_gates": "RuntimeCompanionSessionV1::bind requires the evaluated RENE_FOLLOW fact for the authored Priest and permits ungated Faery. plan_event revalidates actor/master membership in the current CombatSession. RuntimeCompanionMovementV1::execute requires fresh controller gate facts and resolves MoveTo target position from the current same-Session master ActorState before reaching existing PF/path services.",
+      "castor": "No Castor-named object/profile/AI entry was found in the inspected Swamp MGP, CharacterProperties tables, AI table, or companion scripts. In particular, WanderingPriest/Rene is not inferred to be Castor. No Castor branch is added."
+    },
+    "expected_behavior": "On each reached follower out-of-range callback, preserve source MoveTo state gating and ClearTarget order. Resolve the actual source master ActorId against the current CombatSession and use its current position at command execution. In-range callbacks preserve Stop. A missing/stale master or expired/replaced Session fails closed. WarpBehind executes only when the source owner supplies its true resolved destination.",
+    "implementation": {
+      "files": ["runtime_companion_follow_consumer_v1.hpp", "runtime_companion_follow_consumer_v1.cpp"],
+      "entrypoint": "RuntimeCompanionFollowConsumerV1::bind(session, companionSession, movement, error); execute_event(sourceObjectName, reachedEvent, sourceFacts, freshSourceGate, remoteUpdated, pathOwner, stopOwner, actualWarpResult, decision, movementResult, error).",
+      "behavior": "Validates the captured CombatSession lease around planning and execution; obtains the typed source decision through RuntimeCompanionSessionV1; sends supported operations through RuntimeCompanionMovementV1. Unsupported/unregistered/Rene decisions are left to their existing source owners. No master field, event, destination, schedule, offset, or animation is synthesized.",
+      "known_boundary": "The exact caller that produces source HasMaster/master ActorId/current Character state and the RENE_FOLLOW activation fact is not connected to this consumer. SetMaster publication also remains with the existing same-Character source owner because ActorState::target_id is not the source AI master field."
+    }
+  },
+  "verification": {
+    "focused_command": "./port/windows-foundation/features/companions/run_runtime_companion_session_v1_tests.ps1",
+    "source_command": "py -3 ./port/windows-foundation/features/companions/runtime_companion_follow_v1_source_test.py",
+    "result": "PASS. The focused native run loads actual source tables/assets, initializes same-CombatSession animationOnly Faery/Priest actors and real master Player, publishes a source MoveTo path, moves that same live master ActorState, then on a fresh reached event publishes to the updated master position. It covers ungated Faery, Priest rejected without RENE_FOLLOW and admitted with it, separate Rene policy, Stop service order and masked branch, missing/stale master, Session lease teardown, and WarpBehind failing without actual source destination.",
+    "integrated_runtime_or_gui": "Not run. No production loop callsite, main/CMake/core changes, or GUI behavior is claimed."
+  },
+  "lead_handoff": {
+    "callsite": "At the existing root event coordinator endpoint where the selected CampaignFsm target/master callback is raised and delivered (see features/companions/LIVE-INTEGRATION.md, 'The existing CampaignFsm target/master frame kernels remain the producers'). Do not add another frame update or create a parallel FSM.",
+    "wiring": "Retain RuntimeCompanionSessionV1 and RuntimeCompanionMovementV1 with the current CombatSession lifetime. Bind the source-resolved companion ActorId/profile/AI identity and evaluated RENE_FOLLOW activation at enrollment; bind movement to the existing PlayableActorBodies. At each actual reached Faery master callback, pass source HasMaster/master ActorId/current state plus fresh source controller/remote facts to RuntimeCompanionFollowConsumerV1::execute_event. Supply existing PF/path owner for reached PathTo and complete Character service for Stop. Keep SetMaster and Rene operations with the authenticated source CharacterScript owner. WarpBehind remains unavailable until that source owner passes its actual resolved destination. Dispose/rebind the consumer on Session restore/detach.",
+    "production_gap": "No production caller currently references RuntimeCompanionSessionV1 or RuntimeCompanionMovementV1; the above is the exact required seam, not a claimed existing source line. Lead must connect and verify that reached-event endpoint in the normal executable."
+  }
+}

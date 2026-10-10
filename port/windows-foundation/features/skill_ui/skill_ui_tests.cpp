@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
-using namespace dh::foundation::skill_ui;
+using namespace dh::foundation;using namespace dh::foundation::skill_ui;
 using Raw=std::vector<std::uint8_t>;
 Raw read(const std::string& p){std::ifstream f(p,std::ios::binary);if(!f)throw std::runtime_error("missing actual skill input: "+p);return {std::istreambuf_iterator<char>(f),{}};}
 void check_at(bool b,int line){if(!b)throw std::runtime_error("skill UI test failed line "+std::to_string(line));}
@@ -15,7 +15,25 @@ int main(int argc,char** argv){try{check(argc==2);std::string root=argv[1],error
  for(std::size_t row=0;row<characters.rows.size();++row){int list=-1;if(!source_skill_tree_metadata(characters,int(row),tables,list,error))continue;check(list==characters.rows[row][skill_tree_column]&&std::size_t(list)<tables.lists().size());++source_rows;if(mismatch_row<0){for(std::size_t other=0;other<tables.lists().size();++other)if(int(other)!=list){mismatch_row=int(row);mismatch_list=int(other);break;}}}
  check(source_rows>0&&mismatch_row>=0);int selected_native_list=mismatch_list;check(std::size_t(selected_native_list)<tables.lists().size()); // live Character list remains authoritative even when it differs from row metadata
  unsigned source_frame=99;check(original_class_frame_for_row(263,source_frame,error)&&source_frame==0);check(original_class_frame_for_row(325,source_frame,error)&&source_frame==1);check(original_class_frame_for_row(290,source_frame,error)&&source_frame==2);source_frame=99;check(!original_class_frame_for_row(264,source_frame,error)&&source_frame==99&&error.find("no class frame")!=std::string::npos);
- for(const char* name:{"Knight","KnightBerserker","KnightPaladin","Mage","MageIllusionist","MageNecromancer","Rogue","RogueArcher","RogueAssassin"})check(tables.list_index(name)>=0);
+ // The source Specialisation selector changes the saved class row, then
+ // reloads skills and re-enters the Skills page. Verify every selected
+ // base/spec row resolves its art family from actual CharacterTable.ClassID
+ // while the distinct CharacterTable.SkillTree list supplies cell identities.
+ struct ExpectedClass {int row;const char* list;unsigned frame;};
+ for(const auto expected:{ExpectedClass{263,"Knight",0},ExpectedClass{264,"KnightBerserker",0},ExpectedClass{265,"KnightPaladin",0},ExpectedClass{290,"Mage",2},ExpectedClass{291,"MageIllusionist",2},ExpectedClass{292,"MageNecromancer",2},ExpectedClass{325,"Rogue",1},ExpectedClass{326,"RogueArcher",1},ExpectedClass{327,"RogueAssassin",1}}){
+  check(tables.list_index(expected.list)>=0);int actual_list=-1;
+  check(source_skill_tree_metadata(characters,expected.row,tables,actual_list,error)&&actual_list==tables.list_index(expected.list));
+  source_frame=99;check(original_class_frame_for_row(characters,expected.row,source_frame,error)&&source_frame==expected.frame);
+  HudGeometry projected;int position=0;
+  for(const int id:tables.lists()[actual_list]){const auto& icon=tables.skills()[id].icon;check(append_original_skill_icon(source_frame,position,icon,projected,error));
+   const auto cell_role="menu_SkillTreeSheetNew/buttons/btn_skill"+std::to_string(position)+"/btimg";
+   const bool cell_has_art=std::any_of(projected.batches.begin(),projected.batches.end(),[&](const auto& batch){return batch.role.find(cell_role+"/")==0;});
+   if(icon=="blank")check(!cell_has_art);else {const auto expected_role=cell_role+"/"+(icon.empty()?"undefined":icon);
+    if(!std::any_of(projected.batches.begin(),projected.batches.end(),[&](const auto& batch){return batch.role.find(expected_role)!=std::string::npos;}))
+     throw std::runtime_error("projected specialization icon role missing: "+expected_role+(projected.batches.empty()?"; no batches":"; first batch="+projected.batches.front().role));}++position;
+  }
+ }
+ source_frame=99;check(!original_class_frame_for_row(characters,-1,source_frame,error)&&source_frame==99);check(!original_class_frame_for_row(characters,0,source_frame,error)&&source_frame==99);
  // Service spies are interface fixtures, not reconstructed progression policy.
  int list=0,points=7,mutation_count=0,last_position=-1,last_slot=-1,probe_calls=0;bool allowed=true;Services s;
  s.character=[&](int& l,int& p,std::string&){l=list;p=points;return true;};s.progress=[&](int p,Progress& out,std::string&){out={p+1,true,allowed,allowed};return true;};s.slots=[](std::vector<int>& out,std::string&){out={-1,-1};return true;};

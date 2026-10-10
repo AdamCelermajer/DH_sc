@@ -34,9 +34,13 @@ struct View { int list_id=0,points=0;std::vector<Row> rows;std::vector<int> slot
 bool source_skill_tree_metadata(const dh2::data::CharacterTable&,int class_row,
  dh2::data::SkillTables::Borrow,int& authored_list,std::string&);
 // Reproduces the original MenuBase::FS_GetPlayerClass2 / playerClassAsStr
-// branch for its three supported base-class save rows. Other rows remain
-// unsupported exactly as in source; no specialization family is inferred.
+// branch for its three supported base-class save rows.
 bool original_class_frame_for_row(int source_class_row,unsigned& frame,std::string&);
+// Character-menu art family for a selected base or specialization row. Source
+// specialization rows reuse the base ClassID; the active SkillList remains
+// the authority for each cell's icon and rank.
+bool original_class_frame_for_row(const dh2::data::CharacterTable& characters,
+                                  int source_class_row,unsigned& frame,std::string&);
 class Presenter {
  dh2::data::SkillTables::Borrow tables_;Services services_;std::optional<int> selected_,selected_list_;
 public:

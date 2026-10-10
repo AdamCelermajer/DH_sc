@@ -316,6 +316,14 @@ bool RuntimeDeathRewardsV1::consume_events(dh::foundation::PlayableActorWorld& w
         if (!event.applied || !event.target_died) continue;
         auto* victim = world.find_actor(event.target);
         if (!victim || victim->alive()) return fail(error, "Death event victim is absent or no longer dead");
+        const auto* victim_traits = world.traits(event.target);
+        if (!victim_traits)
+            return fail(error, "Death event victim has no source player classification");
+        // Character::Kill has a separate player-death branch: unless forced,
+        // it records the death and returns before DropLoot or DistributeXP.
+        // The session adapter consumes generic DamageEvents, so preserve that
+        // admission rule before resolving any reward owners or touching RNG.
+        if (victim_traits->is_player) continue;
         RuntimeDeathActorV1 victim_binding;
         if (!services.resolve_character(services.context, event.target, victim_binding, error)) return false;
         if (!victim_binding.binding_lifecycle)

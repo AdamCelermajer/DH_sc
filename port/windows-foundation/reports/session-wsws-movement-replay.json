@@ -30,8 +30,8 @@
     "current_runtime": "main.cpp uses the same actor motor and CombatSession: input intent is steered before the retained visual update; the MotionHandler applies root motion through the chosen collision admission; the late rotation then updates the same ActorState Euler and turn flag. Existing source-reversal-diagnosis.json was a detached kernel/clip probe, so it did not prove this connected Session path."
   },
   "expected_behavior": {
-    "preserve": "W and S are opposite camera-forward commands. Source phase order applies each sampled local root delta using current facing, then turns toward the newly requested source heading. The same four W/S segments must use one ActorMovement, one CombatSession, one retained source pose owner, and the selected collision path; no speculative lateral clamp or turn smoothing is introduced.",
-    "test_fixture": "Use actual KnightPlayerBase Run phase/clip and resolved walk/rotation properties, SemanticInput keyboard mapping, one CombatSession retained locomotion owner, a deterministic camera basis, and a clear synthetic floor CollisionScene. Log per-frame key, move2D, desired heading, facing before/after, local root XYZ, requested world XY, admitted XY, collision move/blocked result and actor/motor position agreement.",
+    "preserve": "W and S are opposite camera-forward commands. Default PC Run and Shift-held Walk are a deliberate PC input adaptation, not an original mobile rule. Source phase order applies each sampled local root delta using current facing, then turns toward the newly requested source heading. Keep one ActorMovement, one CombatSession, one retained source pose owner and the selected collision path; introduce no speculative lateral clamp or turn smoothing.",
+    "test_fixture": "Use actual KnightPlayerBase Run and Walk leaves/clips, resolved walk/rotation properties, SemanticInput keyboard mapping, one CombatSession retained locomotion owner, a deterministic nonaligned camera basis, and a clear synthetic floor CollisionScene. Replay W/Run, Shift+S/Walk, W/Run, Shift+S/Walk for 45 frames per segment at 60Hz. Log per-frame input/mode, desired/facing headings, local root XYZ, requested/admitted XY, collision result, source clip slot/time/generation, motion callback count and actor/motor position agreement.",
     "scope_limit": "The focused test isolates current input/root/turn integration on clear floor. It is not original native path, dynamic collision, or live campaign verification."
   },
   "uncertainties": [
@@ -41,28 +41,32 @@
     "The reported behavior is not yet evidence of a source mismatch; source reversals predict lateral arc because root displacement precedes bounded facing updates."
   ],
   "verification_plan": {
-    "test": "C++17 connected same-Session deterministic W,S,W,S replay, 45 frames per held key at 60Hz, using actual Run clip and source-resolved walk/rotation rates. Produce CSV rows with heading, local/world deltas, root motion, collision admission and same-actor transform reconciliation.",
-    "branches": "Check each key transition releases the prior key; each frame remains on the same Session/actor/pose owner; count admitted and blocked movement; rerun the fixed trace and require byte-identical CSV. The clear-floor fixture expects no blocked samples and does not cover obstacle rejection.",
+    "test": "C++17 connected same-Session deterministic W,S,W,S replay with default Run and Shift-held Walk switching, 45 frames per segment at 60Hz, actual Knight Run/Walk clips, source-resolved rates and an exact nonaligned 180-degree heading reversal at each transition.",
+    "branches": "Check key/Shift releases, all three heading reversals settle within 16 frames, the same Session/actor/pose owner persists, mode changes select once, held clips only reselect at source completion/repeat boundaries, each advancing frame carries exactly one nonzero root displacement, completion/repeat callbacks share timestamp 0, no duplicate actor/motor translation appears, and CSV repeats byte-identically. Clear floor expects zero blocked samples and does not cover obstacle rejection.",
     "claim_boundary": "Report helper/Session proof separately from original-video observation and in-game integration. No main/core/camera changes unless this replay identifies a concrete mismatch against the recovered source order."
   },
   "verification_result": {
     "test": "port/windows-foundation/features/movement_replay/session_wsws_replay_tests.cpp",
     "runner": "port/windows-foundation/features/movement_replay/run_session_wsws_replay_tests.ps1",
-    "run_result": "PASS twice with byte-identical 180-row CSV",
-    "csv_sha256": "0C64ED797B8BBB84EDD4F40BF09DAD7F0C9F8FDF457DD424EF11386D66963CF4",
+    "run_result": "PASS twice with byte-identical 180-row CSV; three nonaligned 180-degree reversals settled in 15 frames each. At Run source loop completions frames 37 and 126, retained generation advanced and two callbacks were emitted at current_time_ms=0; exactly one had nonzero root delta. Mode transitions selected once; no other in-segment generation change occurred.",
+    "csv_sha256": "C20B4526D65718181D3118C85CC245E489B8A7BD242AB2F1346FF4A41489E30A",
+    "test_sha256": "2AD7ED00F81A2E042FD32B0A9603232824958957CA236CF23ADCF092923380A1",
+    "runner_sha256": "20952507AAAD1D59012E609B101FBACDEB25897BC36148874B377B844766069E",
+    "turn_settle_frames": [15, 15, 15],
     "actual_run_clip": "original-cache/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+    "actual_walk_clip": "original-cache/data/3d/characters/prince/animations/prince_walk_slow.bdae",
     "actual_run_rate": 1.29999995,
     "camera_basis": {"right": [0.707106829, 0.707106829], "forward": [-0.707106829, 0.707106829]},
-    "input_trace": "45 frames W, 45 S, 45 W, 45 S at 60Hz; keyboard adapter produced +1,-1,+1,-1 camera-forward intent",
-    "source_root_motion_xy": 2895.37134,
-    "admitted_world_xy": 2895.36841,
-    "camera_left_delta": -468.584869,
+    "input_trace": "45 frames W/Run, 45 Shift+S/Walk, 45 W/Run, 45 Shift+S/Walk at 60Hz; keyboard adapter produced +1,-1,+1,-1 camera-forward intent; camera basis right=[0.707106829,0.707106829], forward=[-0.707106829,0.707106829]",
+    "source_root_motion_xy": 1883.99292,
+    "admitted_world_xy": 1883.9917,
+    "camera_left_delta": -250.842209,
     "collision": {"accepted_frames": 179, "blocked_frames": 0, "fixture": "synthetic clear floor; no wall contacts"},
-    "final_actor_xy": [-488.891479, -173.787659],
+    "final_actor_xy": [-785.731934, 430.987488],
     "same_session": "ActorState and ActorMovement agreed after each connected CombatSession sample; retained pose owner/lease stayed unchanged"
   },
   "verification_limits": [
-    "This proves the current connected Session harness reproduces a camera-left arc under the specified alternating keyboard trace; the recovered source order predicts it.",
+    "This proves the connected Session harness reproduces a camera-left arc through default Run/Shift Walk reversals; the recovered source order predicts it. The two callbacks at each observed Run completion are source repeat boundaries, not two nonzero movement applications.",
     "The original video has no visible W/S input trace and does not establish that this particular turn/path should be straight. No source discrepancy was reproduced.",
     "The clear-floor test does not verify live campaign PF/path/obstacle admission or the user's exact executable, camera pose, actor start facing, scale, cadence, or location.",
     "No main/core/camera behavior was edited; this evidence is helper/Session proof, not in-game visual integration acceptance."

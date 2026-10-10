@@ -29,6 +29,13 @@ bool finite_placement(const PcGameplayHudCirclePlacementV1& p) {
            b[0] < b[1] && b[2] < b[3];
 }
 
+bool label_is_below_and_centered(const PcGameplayHudCirclePlacementV1& p) {
+    const auto& b = p.key_label_bounds;
+    const float label_center = (b[0] + b[1]) * 0.5f;
+    return std::abs(label_center - p.center_x) <= 0.5f &&
+           b[2] >= p.center_y + p.radius;
+}
+
 HudGeometryVertex vertex(float x, float y) { return {x, y, 0.0f, 0.0f}; }
 
 void append_circle(const PcGameplayHudCirclePlacementV1& p,
@@ -127,6 +134,47 @@ bool append_source_icon(unsigned class_frame, const PcSkillHudCellV1& cell,
     return true;
 }
 
+bool append_source_hud_icon(const std::vector<HudGeometryVertex>& source,
+                            std::uint32_t source_shape_id,
+                            const PcGameplayHudCirclePlacementV1& p,
+                            const std::string& role,
+                            frontend::art::ScreenArt& art,
+                            std::string& error) {
+    if (source.empty()) return true; // Source Faery frame8 is deliberately empty.
+    if (source.size() % 3 != 0)
+        return fail(error, "Original PC HUD icon triangles are incomplete");
+    float xmin = std::numeric_limits<float>::infinity();
+    float xmax = -xmin;
+    float ymin = xmin;
+    float ymax = -xmin;
+    for (const auto& v : source) {
+        if (!std::isfinite(v.x) || !std::isfinite(v.y) ||
+            !std::isfinite(v.u) || !std::isfinite(v.v) ||
+            v.u < 0.0f || v.u > 1.0f || v.v < 0.0f || v.v > 1.0f)
+            return fail(error, "Original PC HUD icon contains invalid source geometry or atlas UVs");
+        xmin = std::min(xmin, v.x); xmax = std::max(xmax, v.x);
+        ymin = std::min(ymin, v.y); ymax = std::max(ymax, v.y);
+    }
+    if (!(xmax > xmin && ymax > ymin))
+        return fail(error, "Original PC HUD icon has empty source bounds");
+    const float target = p.radius * 1.18f;
+    const float scale = std::min(target / (xmax - xmin), target / (ymax - ymin));
+    const float tx = p.center_x - (xmin + xmax) * scale * 0.5f;
+    const float ty = p.center_y - (ymin + ymax) * scale * 0.5f;
+    HudGeometryBatch batch;
+    batch.role = role;
+    batch.shape_id = source_shape_id;
+    batch.triangles = source;
+    for (auto& v : batch.triangles) {
+        v.x = v.x * scale + tx;
+        v.y = v.y * scale + ty;
+    }
+    art.batches.push_back(std::move(batch));
+    art.bitmap_ids.push_back(1); // Exact MenusGraphics_droid atlas bitmap1.
+    art.batch_colors.push_back({1.0f, 1.0f, 1.0f, 1.0f});
+    return true;
+}
+
 void append_key_label(const PcGameplayHudCirclePlacementV1& p,
                       const std::string& label, float height,
                       frontend::art::ScreenArt& art) {
@@ -135,10 +183,18 @@ void append_key_label(const PcGameplayHudCirclePlacementV1& p,
     field.font_id = 5;
     field.source_height = height;
     field.bounds = p.key_label_bounds;
-    field.local_bounds = p.key_label_bounds;
+    // Text layout works in field-local coordinates before applying matrix.
+    // Keep the caller's stage-space rectangle as the matrix translation and
+    // make the local text box start at zero. Passing the global left/top here
+    // shifts centered text left by roughly half its stage-space origin.
+    field.local_bounds = {0.0f,
+                          p.key_label_bounds[1] - p.key_label_bounds[0],
+                          0.0f,
+                          p.key_label_bounds[3] - p.key_label_bounds[2]};
     field.rgba = {255, 255, 255, 255};
     field.align = 2;
-    field.matrix = {1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f};
+    field.matrix = {1.0f, 0.0f, 0.0f, 1.0f,
+                    p.key_label_bounds[0], p.key_label_bounds[2]};
     field.initial_text = label;
     art.text_fields.push_back(std::move(field));
 }
@@ -167,16 +223,48 @@ bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
     if (source_class_frame > 2 || !std::isfinite(layout.key_label_height) ||
         layout.key_label_height <= 0.0f || layout.key_label_height > 48.0f)
         return fail(error, "PC gameplay HUD requires a supported class frame and positive label height");
+    if (layout.potion_count &&
+        (layout.potion_count->character_state_id.empty() ||
+         layout.potion_count->character_state_id != source.character_state_id ||
+         layout.potion_count->source_actor == invalid_actor_id ||
+         layout.potion_count->source_actor != source.source_actor))
+        return fail(error, "PC HUD potion count does not belong to the exact projected CharacterState and actor");
+    const PcGameplayHudSourceFaeryIconV1* faery_icon = nullptr;
+    if (layout.active_faery_id) {
+        if (*layout.active_faery_id < -1 || *layout.active_faery_id > 12)
+            return fail(error, "Source HUD active Faery ID is outside the authored btn_spell frame domain");
+        // AS's gotoAndStop is one-based. The source onPush adds one to the
+        // active ID, yielding the same zero-based frame index. The -1 sentinel
+        // requests frame0 (invalid); the new btimg instance remains at its
+        // authored initial frame0, matching source timeline startup.
+        const auto source_frame = static_cast<std::uint32_t>(
+            *layout.active_faery_id < 0 ? 0 : *layout.active_faery_id);
+        const auto& icons = original_pc_gameplay_hud_faery_icons_v1();
+        faery_icon = &icons[source_frame];
+        if (faery_icon->source_frame != source_frame)
+            return fail(error, "Original Faery art table does not match the source one-based frame mapping");
+    }
     for (unsigned i = 0; i < 3; ++i) {
         const auto& cell = source.left_middle_right[i];
         if (cell.physical_position != i || cell.pc_key_number != i + 1 ||
             cell.source_slot != source_slots[i] || cell.key_label != std::to_string(i + 1))
             return fail(error, "PC gameplay HUD frame does not preserve physical keys/source order [2,0,1]");
     }
-    for (const auto& p : layout.skills) if (!finite_placement(p))
-        return fail(error, "PC skill circle layout is invalid or outside authored 480x320 stage");
-    if (!finite_placement(layout.faery) || !finite_placement(layout.potion))
-        return fail(error, "PC Faery/potion circle layout is invalid or outside authored stage");
+    for (const auto& p : layout.skills) if (!finite_placement(p) || !label_is_below_and_centered(p))
+        return fail(error, "PC skill circle or its centered label is invalid or outside authored 480x320 stage");
+    if (!finite_placement(layout.faery) || !finite_placement(layout.potion) ||
+        !label_is_below_and_centered(layout.faery) || !label_is_below_and_centered(layout.potion))
+        return fail(error, "PC Faery/potion circle or its centered label is invalid or outside authored stage");
+    std::array<const PcGameplayHudCirclePlacementV1*, 5> controls{
+        &layout.skills[0], &layout.skills[1], &layout.skills[2], &layout.faery, &layout.potion};
+    for (std::size_t i = 0; i < controls.size(); ++i) for (std::size_t j = i + 1; j < controls.size(); ++j) {
+        const auto& a = controls[i]->key_label_bounds;
+        const auto& b = controls[j]->key_label_bounds;
+        const bool overlap_x = a[0] < b[1] && b[0] < a[1];
+        const bool overlap_y = a[2] < b[3] && b[2] < a[3];
+        if (overlap_x && overlap_y)
+            return fail(error, "PC HUD key-label rectangles overlap");
+    }
 
     PcGameplayHudPresentationV1 next;
     for (unsigned i = 0; i < 3; ++i) {
@@ -189,10 +277,24 @@ bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
             static_cast<unsigned>(platform_input::Control::skill1) + i), i + 1};
     }
     append_circle(layout.faery, "pc_hud/faery", next.art);
+    if (faery_icon && !faery_icon->triangles.empty()) {
+        if (faery_icon->source_shape_ids.size() != 1 ||
+            !append_source_hud_icon(faery_icon->triangles,
+                                    faery_icon->source_shape_ids.front(),
+                                    layout.faery,
+                                    "pc_hud/faery/source_frame_" + std::to_string(faery_icon->source_frame),
+                                    next.art, error)) return false;
+    }
     append_key_label(layout.faery, "4", layout.key_label_height, next.art);
     next.actions[3] = {platform_input::Control::spell, 4};
     append_circle(layout.potion, "pc_hud/potion", next.art);
-    append_key_label(layout.potion, "5", layout.key_label_height, next.art);
+    if (!append_source_hud_icon(original_pc_gameplay_hud_potion_icon_v1(), 105,
+                                layout.potion, "pc_hud/potion/source_shape_105",
+                                next.art, error)) return false;
+    const auto potion_label = layout.potion_count
+        ? "5 Potion: " + std::to_string(layout.potion_count->quantity)
+        : std::string("5");
+    append_key_label(layout.potion, potion_label, layout.key_label_height, next.art);
     next.actions[4] = {platform_input::Control::potion, 5};
     output = std::move(next);
     error.clear();

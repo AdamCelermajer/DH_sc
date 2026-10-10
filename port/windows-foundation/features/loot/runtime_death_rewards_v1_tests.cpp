@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 
 using namespace dh::foundation;
@@ -226,6 +227,72 @@ int main(int argc,char** argv){try{
           world.combat_properties(1)->sheets.resolved[36]==std::int32_t(std::lround(double(damaged_rogue_hp)*256.0))&&
           world.combat_properties(1)->sheets.resolved[41]==std::int32_t(std::lround(double(spent_rogue_mp)*256.0)),
           "duplicate death redelivered loot, RNG or XP");
+
+    // The production player is deliberately bound at ActorId UINT64_MAX; zero
+    // is the actual invalid_actor_id. Classify that high identity from world
+    // traits: player death returns before loot/XP with other players present.
+    auto player_victim_props=player_props;
+    player_victim_props.sheets.resolved[9]=barrel_id;
+    player_victim_props.sheets.resolved[33]=37*256;
+    constexpr ActorId high_player_id=std::numeric_limits<ActorId>::max();
+    bind(high_player_id,"RoguePlayerBase",player_victim_props,true);
+    context.actors[high_player_id]={1,make_profile("player-victim","Player Victim",player_victim_props)};
+    context.actors[high_player_id].character->experience=37;
+    context.actors[high_player_id].character->gold=19;
+    context.actors[high_player_id].character->inventory.push_back({"saved-potion","Potion_01",2});
+    context.actors[high_player_id].character->inventory.push_back({"saved-dagger","Dagger01",1});
+    context.actors[high_player_id].character->equipment.push_back({"main","saved-dagger"});
+    auto* live_player_victim=world.find_actor(high_player_id);
+    check(live_player_victim&&live_player_victim->alive()&&
+          apply_actor_damage(*live_player_victim,live_player_victim->health)>0&&
+          !live_player_victim->alive(),"player death fixture did not use shared ActorState damage");
+    DamageEvent player_death;player_death.applied=true;player_death.attacker=2;player_death.target=high_player_id;
+    player_death.target_died=true;player_death.health_removed=player_victim_props.sheets.resolved[36];
+    const auto player_xp=context.actors[high_player_id].character->experience;
+    const auto player_gold=context.actors[high_player_id].character->gold;
+    const auto player_inventory=context.actors[high_player_id].character->inventory;
+    const auto player_equipment=context.actors[high_player_id].character->equipment;
+    const auto player_spawned=context.spawned;const auto player_rng=loot_rng;
+    RuntimeDeathRewardsV1 player_death_runtime;
+    check(player_death_runtime.consume_events(world,{player_death},services,results,error),error);
+    check(results.empty()&&context.actors[high_player_id].character->experience==player_xp&&
+          context.actors[1].character->experience==xp_after&&context.spawned==player_spawned&&
+          loot_rng.seed==player_rng.seed&&loot_rng.calls==player_rng.calls,
+          "player death dispatched enemy loot, XP, or loot RNG");
+    check(player_death_runtime.consume_events(world,{player_death},services,results,error),error);
+    check(results.empty()&&context.actors[high_player_id].character->experience==player_xp&&
+          context.actors[high_player_id].character->gold==player_gold&&
+          context.actors[high_player_id].character->inventory.size()==player_inventory.size()&&
+          context.actors[high_player_id].character->inventory[0].instance_id==player_inventory[0].instance_id&&
+          context.actors[high_player_id].character->inventory[0].definition_id==player_inventory[0].definition_id&&
+          context.actors[high_player_id].character->inventory[0].quantity==player_inventory[0].quantity&&
+          context.actors[high_player_id].character->inventory[1].instance_id==player_inventory[1].instance_id&&
+          context.actors[high_player_id].character->inventory[1].definition_id==player_inventory[1].definition_id&&
+          context.actors[high_player_id].character->inventory[1].quantity==player_inventory[1].quantity&&
+          context.actors[high_player_id].character->equipment.size()==player_equipment.size()&&
+          context.actors[high_player_id].character->equipment[0].slot==player_equipment[0].slot&&
+          context.actors[high_player_id].character->equipment[0].item_instance_id==player_equipment[0].item_instance_id&&
+          context.spawned==player_spawned&&loot_rng.seed==player_rng.seed&&
+          loot_rng.calls==player_rng.calls,
+          "duplicate player death changed saved XP, gold, inventory, equipment, or RNG");
+    const auto player_save=std::filesystem::temp_directory_path()/"dh2-runtime-player-death-no-reward.dhsave";
+    std::error_code player_save_ignored;std::filesystem::remove(player_save,player_save_ignored);
+    check(save_character(player_save,*context.actors[high_player_id].character,error),error);
+    CharacterState player_reloaded;check(load_character(player_save,player_reloaded,error),error);
+    std::filesystem::remove(player_save,player_save_ignored);
+    check(player_reloaded.experience==player_xp&&player_reloaded.gold==player_gold&&
+          player_reloaded.inventory.size()==player_inventory.size()&&
+          player_reloaded.inventory[0].instance_id==player_inventory[0].instance_id&&
+          player_reloaded.inventory[0].definition_id==player_inventory[0].definition_id&&
+          player_reloaded.inventory[0].quantity==player_inventory[0].quantity&&
+          player_reloaded.inventory[1].instance_id==player_inventory[1].instance_id&&
+          player_reloaded.inventory[1].definition_id==player_inventory[1].definition_id&&
+          player_reloaded.inventory[1].quantity==player_inventory[1].quantity&&
+          player_reloaded.equipment.size()==player_equipment.size()&&
+          player_reloaded.equipment[0].slot==player_equipment[0].slot&&
+          player_reloaded.equipment[0].item_instance_id==player_equipment[0].item_instance_id,
+          "player-death save round trip changed XP, gold, inventory, or equipment");
+
     bind(3,"Swamp_LizadMan_Type1",enemy_props,false);
     context.actors[3]={1,{}};
     constexpr float second_ordinary_hp=70.0f,second_ordinary_mp=5.25f;
@@ -347,6 +414,8 @@ int main(int argc,char** argv){try{
              <<",\"gold_bonus_source\":\"same_world_property195\",\"gold_value\":"<<expected_gold_values.front()
              <<",\"zero_bonus_baseline\":\"absent_killer_0_0\",\"zero_bonus_gold_value\":"<<zero_gold_values.front()
              <<",\"loot_rng_calls\":"<<calls<<",\"world_items\":"<<spawned
-             <<",\"xp_recipients\":1,\"duplicate_death_suppressed\":true,\"failure_prefix_retained\":true}\n";
+             <<",\"xp_recipients\":1,\"duplicate_death_suppressed\":true,\"failure_prefix_retained\":true"
+             <<",\"player_death_no_reward\":true,\"production_max_id_player_death\":true"
+             <<",\"player_death_duplicate_save_state_stable\":true}\n";
     return 0;
 }catch(const std::exception& exception){std::cerr<<exception.what()<<'\n';return 1;}}

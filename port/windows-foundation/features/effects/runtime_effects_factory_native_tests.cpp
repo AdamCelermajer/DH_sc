@@ -811,6 +811,14 @@ int main(int argc, char** argv) {
               "create a fresh same-session BashDown FX manager: " + error);
         check(bashdown_factory->manager().cold_creations() == 0,
               "BashDown source effect attribution requires a fresh manager");
+        // Exercise the anchored path against a non-identity same-session actor
+        // transform. Its exact current transform is consumed by the manager's
+        // anchor_position/rotation/scale callbacks during the source Play call.
+        auto* bashdown_actor = session->actor(actor);
+        check(bashdown_actor != nullptr, "same-session BashDown anchor actor is absent");
+        bashdown_actor->transform.position = {23.0f, -41.0f, 17.0f};
+        bashdown_actor->transform.rotation = {0.21f, -0.37f, 0.63f};
+        bashdown_actor->transform.scale = {1.25f, 0.75f, 1.5f};
         RuntimeSwingFxObserverV1 bashdown_swing(*session, animations, item_table, table,
             bashdown_factory->manager(), [&](const RuntimeSwingFxDiagnosticV1& d) {
                 bashdown_diagnostics.push_back(d);
@@ -868,6 +876,22 @@ int main(int argc, char** argv) {
                   "Duplicate exact actor/step occurrence suppressed" &&
               bashdown_factory->manager().cold_creations() == before_duplicate,
               "replayed BashDown step occurrence created a duplicate source effect");
+        auto rejected_animations = animations;
+        rejected_animations.sequences[347].steps[0].fx = 1000000;
+        std::vector<RuntimeSwingFxDiagnosticV1> rejected_diagnostics;
+        RuntimeSwingFxObserverV1 rejected_swing(*session, rejected_animations, item_table,
+            table, bashdown_factory->manager(), [&](const RuntimeSwingFxDiagnosticV1& d) {
+                rejected_diagnostics.push_back(d);
+            });
+        rejected_swing.step_entry_observer()(*actual_bashdown_entry);
+        const bool callback_failure_detail_preserved = !rejected_diagnostics.empty() &&
+            !rejected_diagnostics.back().dispatched &&
+            rejected_diagnostics.back().detail.find("anchored PlayAnimFXSet") != std::string::npos &&
+            rejected_diagnostics.back().detail.find("outside the original EffectsTables set rows") != std::string::npos;
+        check(callback_failure_detail_preserved,
+              "anchored step callback failure lost its concrete manager/provider diagnostic: " +
+              (rejected_diagnostics.empty() ? std::string("no diagnostic") :
+                  rejected_diagnostics.back().detail));
         std::shared_ptr<const EffectRenderFrame> bashdown_frame;
         check(bashdown_factory->runtime().prepare_render_frame(bashdown_frame, error),
               "prepare real source BashDown effect packets: " + error);
@@ -886,9 +910,57 @@ int main(int argc, char** argv) {
         }
         check(bashdown_mesh_packets > 0 && bashdown_particle_packets > 0,
               "actual BashDown source BDAE did not produce its authored mesh and particle packet kinds");
-        check(RenderCpuFixture::submit(&cpu, bashdown_frame, error),
-              "root queue callback did not receive the same retained BashDown packet frame: " + error);
+        bashdown_actor->transform.position[0] += 17.0f;
+        bashdown_actor->transform.position[1] -= 29.0f;
+        bashdown_actor->transform.position[2] += 11.0f;
+        check(bashdown_factory->runtime().update(13,
+              source_absolute_ms + 13 * 64, 64, error),
+              "resample moving same-session BashDown anchor: " + error);
+        std::shared_ptr<const EffectRenderFrame> moved_anchor_frame;
+        check(bashdown_factory->runtime().prepare_render_frame(moved_anchor_frame, error),
+              "prepare moved same-session BashDown anchor packets: " + error);
+        check(moved_anchor_frame && moved_anchor_frame->packets.size() == bashdown_frame->packets.size(),
+              "moving the BashDown anchor changed retained source packet membership");
+        bool checked_moved_mesh = false;
+        for (std::size_t i = 0; i < bashdown_frame->packets.size(); ++i) {
+            const auto& before = bashdown_frame->packets[i];
+            const auto& after = moved_anchor_frame->packets[i];
+            check(before.source.kind == after.source.kind && before.source.node == after.source.node,
+                  "moving the BashDown anchor reordered or replaced source packets");
+            if (before.source.kind != EffectDrawKind::authored_mesh) continue;
+            check(std::abs((after.world[12] - before.world[12]) - 17.0f) < 1.0e-3f &&
+                  std::abs((after.world[13] - before.world[13]) + 29.0f) < 1.0e-3f &&
+                  std::abs((after.world[14] - before.world[14]) - 11.0f) < 1.0e-3f,
+                  "BashDown mesh did not follow the actual same-session anchor position");
+            checked_moved_mesh = true;
+        }
+        check(checked_moved_mesh, "BashDown anchor movement had no retained mesh packet");
+        bashdown_actor->transform.rotation = {0.43f, -0.12f, 0.91f};
+        bashdown_actor->transform.scale = {0.8f, 1.4f, 1.1f};
+        check(bashdown_factory->runtime().update(14,
+              source_absolute_ms + 14 * 64, 64, error),
+              "resample rotated/scaled same-session BashDown anchor: " + error);
+        std::shared_ptr<const EffectRenderFrame> transformed_anchor_frame;
+        check(bashdown_factory->runtime().prepare_render_frame(transformed_anchor_frame, error),
+              "prepare rotated/scaled BashDown anchor packets: " + error);
+        const auto& moved_mesh = *std::find_if(moved_anchor_frame->packets.begin(),
+            moved_anchor_frame->packets.end(), [](const EffectRenderPacket& packet) {
+                return packet.source.kind == EffectDrawKind::authored_mesh;
+            });
+        const auto& transformed_mesh = *std::find_if(transformed_anchor_frame->packets.begin(),
+            transformed_anchor_frame->packets.end(), [](const EffectRenderPacket& packet) {
+                return packet.source.kind == EffectDrawKind::authored_mesh;
+            });
+        float basis_delta = 0.0f;
+        for (std::size_t i = 0; i < 12; ++i)
+            basis_delta = std::max(basis_delta, std::abs(transformed_mesh.world[i] - moved_mesh.world[i]));
+        check(basis_delta > 1.0e-3f,
+              "BashDown mesh did not follow the actual same-session anchor rotation/scale");
+        check(RenderCpuFixture::submit(&cpu, transformed_anchor_frame, error),
+              "root queue callback did not receive the same retained transformed BashDown packet frame: " + error);
         cpu.frame.reset();
+        transformed_anchor_frame.reset();
+        moved_anchor_frame.reset();
         bashdown_frame.reset();
         bashdown_factory->clear_original_textures();
         check(cpu.releases == cpu.uploads,
@@ -961,7 +1033,11 @@ int main(int argc, char** argv) {
                   << ",\"mesh_packets\":" << bashdown_mesh_packets
                   << ",\"particle_packets\":" << bashdown_particle_packets
                   << ",\"test_camera_calls\":" << cpu.camera_calls
-                  << ",\"same_session\":true,\"duplicate_suppressed\":true}"
+                  << ",\"same_session\":true,\"duplicate_suppressed\":true"
+                  << ",\"anchor_position_followed\":true,\"anchor_rotation_scale_followed\":true"
+                  << ",\"same_frame_retained_submission\":true"
+                  << ",\"callback_failure_detail_preserved\":"
+                  << (callback_failure_detail_preserved?"true":"false") << '}'
                   << ",\"destroyed_session_current_lease_and_camera_adapter_rejected\":true"
                   << ",\"same_session_factory_identity_checked\":true"
                   << ",\"foreign_detached_and_rebound_factory_identity_rejected\":true"

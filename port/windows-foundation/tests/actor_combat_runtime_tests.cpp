@@ -12,6 +12,7 @@ struct TestWorld final : CombatWorld {
     float damage = 3;
     bool available = true;
     mutable unsigned eligibility_queries=0;
+    mutable unsigned damage_queries=0;
     std::optional<std::uint32_t> outcomes=std::uint32_t(0x10);
     std::optional<std::uint32_t> source_mask=std::uint32_t(0x22aab5);
     ActorState* find_actor(ActorId id) override {
@@ -21,7 +22,7 @@ struct TestWorld final : CombatWorld {
     float target_radius(const ActorState&) const override { return 0; }
     bool resolve_damage(const std::string&, const ActorState&, const ActorState&,
                         const std::string&, float& amount, std::string&) const override {
-        amount = damage; return available;
+        ++damage_queries;amount = damage; return available;
     }
     bool resolve_damage_with_outcomes(const std::string& source,const ActorState& a,const ActorState& b,
                         const std::string& marker,float& amount,
@@ -66,6 +67,86 @@ ActorState actor(ActorId id) {
 AttackDefinition attack() {
     AttackDefinition d; d.id = "test-attack"; d.animation_clip_id = "attack";
     d.maximum_range = 2; d.damage_markers = {{"attack_mainhand", "test-formula"}}; return d;
+}
+void nullable_melee_swing() {
+    TestWorld world;world.actors[1]=actor(1);world.actors[2]=actor(2);
+    world.actors[2].transform.position={1,0,0};
+    Visual visual;visual.add("attack",0,200,50);
+    CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;
+    std::int32_t state=3;unsigned attack_focus=0,completion=0;
+    CombatPoseBindings poses;
+    poses.transition_state=[&](std::int32_t& out,std::string&){out=state;return true;};
+    poses.transition=[&](const CombatRuntimeTransition& t,std::string&){
+        if(t.stage==CombatRuntimeTransitionStage::after_change){
+            state=t.to_state;
+            if(t.cause==CombatRuntimeTransitionCause::attack)++attack_focus;
+            if(t.cause==CombatRuntimeTransitionCause::completion)++completion;
+        }return true;
+    };
+    check(runtime.bind(world.actors[1],visual.binding(),poses,error),error);
+    auto definition=attack();definition.cooldown_seconds=.5;
+    definition.cooldown_timing=CooldownTiming::attack_departure;
+    check(runtime.begin(1,invalid_actor_id,definition,error),error);
+    check(state==5&&attack_focus==1&&runtime.owns_pose(1)&&combat.active_attack_valid(1)&&
+        !combat.active_target_valid(1)&&world.actors[1].target_id==invalid_actor_id,
+        "Null melee did not focus Attack5 without a fabricated target");
+    check(!runtime.begin(1,invalid_actor_id,definition,error),"Duplicate null swing was accepted");
+    std::vector<DamageEvent> events;
+    check(runtime.update(.05,events,error),error);
+    check(events.empty()&&world.damage_queries==0&&world.eligibility_queries==0&&
+        world.actors[2].health==10&&runtime.owns_pose(1)&&state==5,
+        "Null hand event queried damage/RNG or interrupted authored swing");
+    check(runtime.update(.15,events,error),error);
+    check(state==3&&completion==1&&!runtime.owns_pose(1)&&!combat.attacking(1)&&
+        world.actors[1].action==CharacterAction::idle&&std::abs(combat.cooldown_remaining(1)-.5)<1e-10,
+        "Null swing failed authored End/Idle/departure cooldown");
+    check(!runtime.begin(1,invalid_actor_id,definition,error),"Null swing bypassed cooldown");
+    check(runtime.update(.5,events,error),error);
+    auto ranged=definition;ranged.geometry=AttackGeometry::ranged_band;
+    check(!runtime.begin(1,invalid_actor_id,ranged,error),"Null ranged attack was accepted");
+    world.actors[1].health=0;
+    check(!runtime.begin(1,invalid_actor_id,definition,error),"Dead owner started null swing");
+    world.actors[1].health=10;world.actors[1].action=CharacterAction::hurt;
+    check(!runtime.begin(1,invalid_actor_id,definition,error),"Hurt owner started null swing");
+    world.actors[1].action=CharacterAction::idle;world.actors[1].attack_ids.clear();
+    check(!runtime.begin(1,invalid_actor_id,definition,error),"Unbound owner started null swing");
+    world.actors[1].attack_ids={definition.id};world.actors[2].health=0;
+    check(!runtime.begin(1,2,definition,error),"Dead target was treated as null");
+    world.actors[2].health=10;world.actors[2].transform.position={10,0,0};
+    check(!runtime.begin(1,2,definition,error),"Far target bypassed range");
+    world.actors[2].transform.position={1,0,0};
+    check(runtime.begin(1,2,definition,error),error);
+    check(runtime.update(.05,events,error)&&events.size()==1&&world.actors[2].health==7&&
+        world.damage_queries==1,"Live-target hand marker no longer applies real damage");
+    runtime.clear();
+}
+void invalidated_nullable_melee_swing() {
+    for(int mode=0;mode<3;++mode){
+        TestWorld world;world.actors[1]=actor(1);world.actors[2]=actor(2);
+        Visual visual;visual.add("attack",0,200,50);visual.add("death",0,100,1000);
+        CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;
+        std::int32_t state=3;CombatPoseBindings poses;poses.death_clip_id="death";
+        poses.transition_state=[&](std::int32_t& out,std::string&){out=state;return true;};
+        poses.transition=[&](const CombatRuntimeTransition& t,std::string&){
+            if(t.stage==CombatRuntimeTransitionStage::after_change)state=t.to_state;return true;
+        };
+        check(runtime.bind(world.actors[1],visual.binding(),poses,error),error);
+        check(runtime.begin(1,invalid_actor_id,attack(),error),error);
+        if(mode==0)world.actors[1].health=0;
+        if(mode==1)world.actors[1].target_id=2;
+        if(mode==2)world.actors[1].action=CharacterAction::moving;
+        check(!combat.active_attack_valid(1),"Invalidated null run retained admission validity");
+        // Direct duplicate/event delivery must run cleanup before null no-op.
+        MarkerOccurrence marker;marker.generation=1;marker.marker.name="attack_mainhand";
+        DamageEvent event;check(combat.consume_marker(1,marker,event,error),error);
+        check(!combat.attacking(1)&&!event.applied&&world.damage_queries==0,
+            "Dead/retargeted/inactive null run survived direct marker delivery");
+        std::vector<DamageEvent> events;check(runtime.update(.05,events,error),error);
+        check(events.empty()&&world.damage_queries==0&&
+            (mode==0?state==12:state==3&&!runtime.owns_pose(1)),
+            "Invalidated null pose failed death/interruption transition");
+        runtime.clear();
+    }
 }
 void departure_timing() {
     for (int scenario=0; scenario<5; ++scenario) {
@@ -370,6 +451,8 @@ void calculated_result_application() {
 
 int main() {
     try {
+        nullable_melee_swing();
+        invalidated_nullable_melee_swing();
         departure_timing();
         source_clock_timing();
         restored_terminal_death();

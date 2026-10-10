@@ -5,6 +5,7 @@
 #include "creation/runtime_creation_flow_adapter_v1.hpp"
 #include "../../platform_win32.hpp"
 #include "../../renderer.hpp"
+#include "../../character_state.hpp"
 
 #include <memory>
 #include <functional>
@@ -41,6 +42,22 @@ struct FrontendProfileLoanV1 {
     }
 };
 
+// Read-only generic save projection for menu rendering. This is separate from
+// the native CanonicalCharacterCandidateRecord loan: the slot and immutable
+// CharacterState must both come from the exact occupied save selected by the
+// authored profile arrows.
+struct FrontendSelectedProfileSnapshotV1 {
+    flow::SlotFact selected_slot;
+    std::shared_ptr<const CharacterState> character;
+
+    bool valid_for(const flow::SlotFact& expected) const noexcept {
+        return selected_slot.id == expected.id && selected_slot.in_use &&
+               expected.in_use && !selected_slot.save_path.empty() &&
+               selected_slot.save_path == expected.save_path && character &&
+               !character->id.empty() && !character->class_id.empty();
+    }
+};
+
 struct FrontendSourceStartReceiptV1 {
     FrontendProfileLoanV1 selected_profile;
     int selected_slot{-1};
@@ -73,11 +90,16 @@ struct FrontendRuntimeServicesV1 {
     flow::Services navigation;
     // Borrow only the profile published by the successful native slot owner.
     std::function<FrontendProfileLoanV1(int)> borrow_selected_profile;
+    // Borrows the exact immutable portable Save projection for selected-slot
+    // rendering. It never loads a default profile or creates a detached actor.
+    std::function<std::optional<FrontendSelectedProfileSnapshotV1>(
+        const flow::SlotFact&, std::string&)> borrow_selected_profile_snapshot;
     // Borrow the source start receipt only after the native StartGame owner
     // actually succeeds. The receipt's selected profile must match the loan.
     std::function<std::optional<FrontendSourceStartReceiptV1>(int)>
         borrow_source_start_receipt;
     std::shared_ptr<creation::RuntimeCreationFlowAdapterV1> generic_creation;
+    std::function<void(bool focused,bool minimized)> window_activity;
 };
 
 struct FrontendRunConfigV1 {
@@ -94,7 +116,7 @@ struct FrontendRunConfigV1 {
     double fixed_step_seconds{0.016};
     bool fixed_step_enabled{};
     unsigned selected_class{};
-    flow::SlotFact selected_slot{0, false};
+    flow::SlotFact selected_slot{0, false, {}};
     std::string initial_menu{"main"};
     std::string action_script;
     bool dump_layout{};

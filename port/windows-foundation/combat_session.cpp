@@ -28,6 +28,14 @@ struct CombatSession::Impl {
     std::map<ObjectId,std::shared_ptr<ObjectEntry>> objectEntries;
     std::vector<ObjectId> objectOrder;
     struct Entry {
+        struct TargetProjection {
+            ActorId lastTarget=invalid_actor_id;
+            bool lastTargetKnown=false;
+            ActorId objectOfInterest=invalid_actor_id;
+            std::int32_t objectOfInterestType=-1;
+            bool objectOfInterestKnown=false;
+            std::uint64_t objectOfInterestSerial=0;
+        } targetProjection;
         struct Locomotion {OriginalCombatPhase phase;float rate=1;std::int32_t repeats=0;std::int32_t originalState=-1;};
         std::map<std::string,Locomotion> locomotion;
         std::string locomotionSelected;
@@ -384,6 +392,26 @@ struct CombatSession::Impl {
         }catch(const std::exception& ex){error=ex.what();return false;}
          catch(...){error="Object animation consumer threw";return false;}
     }
+    bool set_source_target(ActorId id,ActorId target,bool mode,std::string& error){
+        auto found=entries.find(id);auto* actor=world?world->find_actor(id):nullptr;
+        if(found==entries.end()||!actor){error="Source target setter requires the same live Session actor";return false;}
+        if(target!=invalid_actor_id&&!world->find_actor(target)){error="Source target setter requires a target in the same Session";return false;}
+        actor->target_id=target;
+        auto& projection=found->second.targetProjection;
+        if(!mode&&target!=invalid_actor_id&&projection.lastTargetKnown&&target!=projection.lastTarget)
+            projection.lastTarget=target;
+        if(found->second.sourceCombo){auto& ai=found->second.sourceAttack;ai.owner=id;ai.target=target;
+            if(projection.lastTargetKnown)ai.last_target=projection.lastTarget;}
+        if(id==player&&target==invalid_actor_id)stickyPlayerTarget=invalid_actor_id;
+        error.clear();return true;
+    }
+    bool sync_source_last_target(ActorId id,std::string& error){
+        auto found=entries.find(id);auto* actor=world?world->find_actor(id):nullptr;
+        if(found==entries.end()||!actor){error="Source SyncLastTarget requires the same live Session actor";return false;}
+        auto& projection=found->second.targetProjection;projection.lastTarget=actor->target_id;projection.lastTargetKnown=true;
+        if(found->second.sourceCombo){found->second.sourceAttack.owner=id;found->second.sourceAttack.target=actor->target_id;found->second.sourceAttack.last_target=actor->target_id;}
+        error.clear();return true;
+    }
     bool combo_boundary(ActorId id,const RetainedSequenceBoundary& boundary,RetainedSequenceCursorDecision& decision,std::string& error){
         auto& entry=entries.at(id);auto* actor=world->find_actor(id);
         comboBoundaries.push_back({id,entry.comboGeneration,boundary.beginning,boundary.depth,boundary.step,boundary.count,
@@ -409,7 +437,8 @@ struct CombatSession::Impl {
                 // Player targetSelect has an explicit retained/sticky target
                 // owner above. Other in-house actors remain nonsticky until
                 // their source AI/OOI provider is bound.
-                ai.target=0;if(auto* actor=world->find_actor(id))actor->target_id=0;
+                if(!set_source_target(id,invalid_actor_id,false,operationFailure)||
+                   !sync_source_last_target(id,operationFailure))return false;
                 return true;
             }
             if(operation.service==dh2::character::attack_anim_raise_v1){
@@ -811,7 +840,7 @@ struct CombatSession::Impl {
         entry.sourceActorRate=rate;entry.attackProgram=true;
         return true;
     }
-    ActorId cycle_player_target(){
+    bool cycle_player_target(ActorId& selected,std::string& error){
         auto* actor=world->find_actor(player);
         // Explicit input cycling starts at the nearest eligible character.
         // Subsequent commands cycle deterministically, including distance ties.
@@ -826,16 +855,25 @@ struct CombatSession::Impl {
         std::sort(ordered.begin(),ordered.end());std::vector<ActorId> eligible;eligible.reserve(ordered.size());
         for(const auto& candidate:ordered)eligible.push_back(candidate.second);
         auto current=std::find(eligible.begin(),eligible.end(),actor->target_id);
-        actor->target_id=eligible.empty()?invalid_actor_id:current==eligible.end()||++current==eligible.end()?eligible.front():*current;
-        stickyPlayerTarget=actor->target_id;return actor->target_id;
+        const auto target=eligible.empty()?invalid_actor_id:current==eligible.end()||++current==eligible.end()?eligible.front():*current;
+        if(!set_source_target(player,target,false,error))return false;
+        if(target==invalid_actor_id&&!sync_source_last_target(player,error))return false;
+        stickyPlayerTarget=target;selected=target;return true;
     }
     bool request(ActorId source,ActorId target,std::string& error){
         if(transitionDelivering||restoreTeardown||checkingAnimationCheckpoint){error="Attack command cannot reenter actor transition/checkpoint/teardown";return false;}
         if(entries.at(source).animationOnly){error="Animation-only actor cannot enter combat";return false;}
         auto* a=world->find_actor(source);auto* b=world->find_actor(target);
-        if(!a||!b||!entries.at(source).permission||!entries.at(target).permission||runtime->owns_pose(source)||combat->cooldown_remaining(source)>0||
-           (a->action!=CharacterAction::idle&&a->action!=CharacterAction::moving)||
-           !world->eligible_target(*a,*b)||!world->original_melee_in_range(source,target))return true;
+        const auto& entry=entries.at(source);
+        if(!a||!a->alive()||!entry.permission||runtime->owns_pose(source)||combat->cooldown_remaining(source)>0||
+           (a->action!=CharacterAction::idle&&a->action!=CharacterAction::moving))return true;
+        // Source AI admission/search/OOI run before this C354 consumer. The
+        // Idle3/Move4 FSM independently rejects owner +0x528 bit1.
+        if(entry.sourceCombo&&(entry.sourceAttack.owner_flags528&2u))return true;
+        if(target==invalid_actor_id){
+            if(!entry.sourceCombo||entry.attack.geometry!=AttackGeometry::melee_radius)return true;
+        }else if(!b||!entries.at(target).permission||!world->eligible_target(*a,*b)||
+                 !world->original_melee_in_range(source,target))return true;
         if(!select_source_attack_for_request(source,error)||!runtime->begin(source,target,entries.at(source).attack,error))return false;
         return facts(source,error);
     }
@@ -893,11 +931,18 @@ struct CombatSession::Impl {
         using namespace dh2::character;
         auto& entry=entries.at(source);auto* actor=world->find_actor(source);
         entry.sourceAttack.owner=source;entry.sourceAttack.target=actor->target_id;
+        entry.sourceAttack.last_target=entry.targetProjection.lastTargetKnown?entry.targetProjection.lastTarget:invalid_actor_id;
+        entry.sourceAttack.object_of_interest=invalid_actor_id;entry.sourceAttack.object_of_interest_type=-1;
+        entry.targetProjection.objectOfInterest=invalid_actor_id;entry.targetProjection.objectOfInterestType=-1;
+        entry.targetProjection.objectOfInterestKnown=false;
         AttackOwnerFacts owner;
         if(attackOwnerProvider&&!attackOwnerProvider(source,owner,error))return false;
         if(owner.heading_active>255||owner.object_of_interest_type< -128||owner.object_of_interest_type>127){error="Live source attack owner fields invalid";return false;}
         entry.sourceAttack.owner_flags528=owner.flags528;entry.sourceAttack.heading_active=owner.heading_active;
         entry.sourceAttack.object_of_interest=owner.object_of_interest;entry.sourceAttack.object_of_interest_type=owner.object_of_interest_type;
+        if(attackOwnerProvider){entry.targetProjection.objectOfInterest=owner.object_of_interest;
+            entry.targetProjection.objectOfInterestType=owner.object_of_interest_type;entry.targetProjection.objectOfInterestKnown=true;
+            entry.targetProjection.objectOfInterestSerial=updateSerial;}
         DiagnosticControllerAdmissionFacts admission;if(!animation_flags(source,admission,error))return false;
         ControllerAttackState32 controller{admission.controllable,source,admission.global_blocked,admission.local_locked,admission.forced,admission.network_enabled};
         struct Bridge {
@@ -923,8 +968,12 @@ struct CombatSession::Impl {
                 }
                 case attack_list_pop:if(b.list.cursor<b.list.count)++b.list.cursor;break;
                 case attack_list_destroy:break;
-                case attack_set_target:ai->target=request->payload;actor->target_id=request->payload;break;
-                case attack_sync_last_target:ai->last_target=ai->target;break;
+                case attack_set_target:
+                    if(!s.set_source_target(b.source,request->payload,request->argument0!=0,b.failure))return;
+                    break;
+                case attack_sync_last_target:
+                    if(!s.sync_source_last_target(b.source,b.failure))return;
+                    break;
                 case attack_can_attack_current:{const auto* target=s.world->find_actor(ai->target);output->word=target&&s.world->eligible_target(*actor,*target)&&s.world->original_melee_in_range(b.source,ai->target);break;}
                 case attack_target_dead:{const auto* target=s.world->find_actor(request->payload);output->word=!target||!target->alive();break;}
                 case attack_owner_player:output->word=traits->is_player;break;
@@ -1158,6 +1207,7 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
             stage.entry.receiveDamage=policy.receiveDamage;
             stage.entry.reactionMinimalRandoms=policy.reactionMinimalRandoms;
             stage.entry.sourceCombo=policy.sourceCombo;stage.entry.sourceAttack.owner=id;stage.entry.sourceAttack.object_of_interest_type=-1;
+            if(policy.sourceCombo){stage.entry.targetProjection.lastTarget=invalid_actor_id;stage.entry.targetProjection.lastTargetKnown=true;}
             stage.entry.sourceAttackStateSelection=policy.sourceAttackStateSelection;
             if(!stage.visual.load(assets,visualConfig,error)||!stage.visual.select(idle.clipName,true,error))throw std::runtime_error(error);
             const std::string actionAlias="actor-"+std::to_string(id)+"/source-sequence";
@@ -1385,11 +1435,11 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
             player->action=action;
         }
     }
-    if(input.targetSelect)s.cycle_player_target();
+    if(input.targetSelect){ActorId selected{};if(!s.cycle_player_target(selected,error))return false;}
     // A fresh attack command owns its target resolution only AFTER admission.
     // Ordinary selection housekeeping remains independent when not attacking.
     if(!input.attack)if(const auto* target=s.world->find_actor(player->target_id);!target||!s.world->eligible_target(*player,*target)){
-        player->target_id=invalid_actor_id;s.stickyPlayerTarget=invalid_actor_id;
+        if(!s.set_source_target(s.player,invalid_actor_id,true,error))return false;
     }
     if(input.attack){if(!s.command_request(s.player,player->target_id,dt,error))return false;}
     if(player->action==CharacterAction::attacking&&!s.turn(s.player,player->target_id,dt,error))return false;
@@ -1408,7 +1458,7 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
     if(playerActionWasActive&&!s.runtime->owns_pose(s.player)&&player->action!=CharacterAction::attacking&&
        s.stickyPlayerTarget!=invalid_actor_id){
         const auto* target=s.world->find_actor(s.stickyPlayerTarget);
-        if(target&&s.world->eligible_target(*player,*target))player->target_id=s.stickyPlayerTarget;
+        if(target&&s.world->eligible_target(*player,*target)){if(!s.set_source_target(s.player,s.stickyPlayerTarget,false,error))return false;}
         else s.stickyPlayerTarget=invalid_actor_id;
     }
     for(auto& entry:s.entries){
@@ -1479,7 +1529,7 @@ bool CombatSession::select_next_player_target(ActorId& selected,std::string& err
         error="Target command cannot replace intent during transition/motion/checkpoint/teardown";return false;
     }
     if(!refresh_actor_combat_permissions(error))return false;
-    selected=s.cycle_player_target();return true;
+    return s.cycle_player_target(selected,error);
 }
 bool CombatSession::request_actor_attack(ActorId actor,ActorId target,double dt,std::string& error){
     error.clear();
@@ -1620,7 +1670,10 @@ bool CombatSession::rebind_after_restore(std::string& error){
         entry.second.traits=*s.world->traits(entry.first);
         if(!entry.second.animationOnly)entry.second.attack.maximum_range=s.world->melee_reach(entry.first);
         entry.second.turnPositive=0;entry.second.rotationFractionMs=0;entry.second.rotationUpdateSerial=0;
-        if(entry.second.sourceCombo){entry.second.sourceAttack={};entry.second.sourceAttack.owner=entry.first;entry.second.sourceAttack.object_of_interest_type=-1;}
+        if(entry.second.sourceCombo){entry.second.sourceAttack={};entry.second.sourceAttack.owner=entry.first;entry.second.sourceAttack.object_of_interest_type=-1;
+            entry.second.targetProjection.lastTarget=invalid_actor_id;entry.second.targetProjection.lastTargetKnown=true;
+            entry.second.targetProjection.objectOfInterest=invalid_actor_id;entry.second.targetProjection.objectOfInterestType=-1;
+            entry.second.targetProjection.objectOfInterestKnown=false;}
         entry.second.locomotionSelected.clear();
         if(entry.second.animationOnly)actor->action=actor->alive()?CharacterAction::idle:CharacterAction::dead;
         else reset_actor_action(*actor,CharacterAction::idle);
@@ -2010,6 +2063,37 @@ void CombatSession::set_attack_owner_provider(AttackOwnerProvider provider){if(i
 const dh2::character::AttackState64* CombatSession::source_attack_state(ActorId id)const noexcept{
     if(!impl_||impl_->detached)return nullptr;const auto found=impl_->entries.find(id);
     return found==impl_->entries.end()||!found->second.sourceCombo?nullptr:&found->second.sourceAttack;
+}
+CombatSessionTargetPresentation CombatSession::target_presentation_state(ActorId id)const noexcept{
+    CombatSessionTargetPresentation result;
+    if(!impl_||impl_->detached)return result;
+    const auto* actor=impl_->world->find_actor(id);if(!actor)return result;
+    result.current=actor->target_id;
+    const auto found=impl_->entries.find(id);if(found==impl_->entries.end())return result;
+    const auto& source=found->second.targetProjection;
+    result.last_target=source.lastTarget;result.last_target_known=source.lastTargetKnown;
+    result.object_of_interest=source.objectOfInterest;result.object_of_interest_type=source.objectOfInterestType;
+    result.object_of_interest_known=source.objectOfInterestKnown&&source.objectOfInterestSerial==impl_->updateSerial;return result;
+}
+bool CombatSession::set_source_target(ActorId owner,ActorId target,bool mode,std::string& error){
+    error.clear();if(!impl_||impl_->detached){error="Source target update requires an attached Session";return false;}
+    return impl_->set_source_target(owner,target,mode,error);
+}
+bool CombatSession::sync_source_last_target(ActorId owner,std::string& error){
+    error.clear();if(!impl_||impl_->detached){error="Source last-target sync requires an attached Session";return false;}
+    return impl_->sync_source_last_target(owner,error);
+}
+bool CombatSession::publish_source_object_interest(ActorId owner,ActorId target,std::int32_t interaction_type,std::string& error){
+    error.clear();if(!impl_||impl_->detached){error="Source OOI publication requires an attached Session";return false;}
+    if(interaction_type< -128||interaction_type>127){error="Source OOI interaction type is outside signed-byte range";return false;}
+    auto found=impl_->entries.find(owner);if(found==impl_->entries.end()||!impl_->world->find_actor(owner)||
+       (target!=invalid_actor_id&&!impl_->world->find_actor(target))){error="Source OOI publication requires same-Session actor identities";return false;}
+    auto& projection=found->second.targetProjection;projection.objectOfInterest=target;
+    projection.objectOfInterestType=interaction_type;projection.objectOfInterestKnown=true;
+    projection.objectOfInterestSerial=impl_->updateSerial;
+    if(found->second.sourceCombo){found->second.sourceAttack.object_of_interest=target;
+        found->second.sourceAttack.object_of_interest_type=interaction_type;}
+    return true;
 }
 const std::vector<CombatSessionComboBoundary>& CombatSession::combo_boundaries()const noexcept{
     static const std::vector<CombatSessionComboBoundary> empty;return impl_?impl_->comboBoundaries:empty;

@@ -60,6 +60,13 @@ bool RuntimeCompanionSessionV1::bind(
     return true;
 }
 
+bool RuntimeCompanionSessionV1::bound_to(const CombatSession& session) const noexcept {
+    const auto expected = session_lease_.lock();
+    const auto current = session.actor_binding_lease().lock();
+    return session_ == &session && expected && current && expected == current &&
+        follow_plan_.session_binding_lease == expected;
+}
+
 bool RuntimeCompanionSessionV1::validate_current_session(std::string& error) const {
     const auto expected = session_lease_.lock();
     const auto current = session_ ? session_->actor_binding_lease().lock() : nullptr;

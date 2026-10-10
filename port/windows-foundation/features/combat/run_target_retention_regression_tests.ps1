@@ -7,7 +7,10 @@ $taskBuild = [IO.Path]::GetFullPath($BuildRoot)
 New-Item -ItemType Directory -Force -Path $taskBuild | Out-Null
 $taskSources = @(
     'features/combat/target_retention_regression_tests.cpp',
+    'features/combat/auto_target_marker_v1.cpp',
+    'features/combat/session_source_object_interest_v1.cpp',
     'features/skills_animation/source_skill_animation.cpp',
+    '../level-world/character_object_interest_v106.cpp',
     '../level-world/character_skill_ai_v3.cpp',
     '../level-world/character_skill_state_v4.cpp',
     'combat_session.cpp','actor_combat_runtime.cpp','combat_system.cpp',

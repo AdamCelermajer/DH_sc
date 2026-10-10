@@ -7,6 +7,7 @@ New-Item -ItemType Directory -Force -Path $build | Out-Null
 $sources = @(
     'port/windows-foundation/features/map/runtime_source_map_actor_markers_v1_tests.cpp',
     'port/windows-foundation/features/map/runtime_source_map_actor_markers_v1.cpp',
+    'port/windows-foundation/features/map/runtime_source_map_room_zones_v1.cpp',
     'port/windows-foundation/features/map/runtime_source_map_menu_provider_v1.cpp',
     'port/windows-foundation/features/map/runtime_source_map_page_v1.cpp',
     'port/windows-foundation/features/map_ui/map_ui.cpp',

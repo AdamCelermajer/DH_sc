@@ -26,6 +26,8 @@ public:
     bool bind(CombatSession&, const std::vector<RuntimeCompanionSessionActorV1>&,
               bool rene_follow_active, std::string& error);
 
+    bool bound_to(const CombatSession&) const noexcept;
+
     bool resolve_actor(const std::string& source_object_name, ActorId&,
                        std::string& error) const;
     // The actual callback facts include the source master ActorId and the

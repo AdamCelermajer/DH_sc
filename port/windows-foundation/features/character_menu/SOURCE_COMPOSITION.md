@@ -104,3 +104,12 @@ to the newly selected owner. Existing `source_composition_tests.cpp` and
 `source_menu_page_composition_tests.cpp` cover provider owner/readiness,
 atomic append, same-stage release coordinates, and page selection only; they
 do not replace that normal-runtime capture.
+
+**Focused result.** On 2026-10-10 I compiled and ran both files with the local
+LLVM-MinGW C++17 toolchain, strict `-Wall -Wextra -Werror`, and function-section
+garbage collection. `source_composition_tests` passed same-owner registration,
+readiness rejection preserving the prior tab, missing-provider rejection, and
+content chaining. `source_menu_page_composition_tests` passed exact-symbol and
+same-owner registration, duplicate/missing/unready rejection, atomic append,
+authored-coordinate routing, and release order. These tests exercise the
+existing feature seam; they do not exercise main's missing production route.

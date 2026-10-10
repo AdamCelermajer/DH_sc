@@ -1,44 +1,110 @@
 {
   "feature": "Same-session enemy geometry overlap regression",
-  "status": "source-backed overlap reproduced; no RuntimeEnemyNavigation spacing policy change justified",
+  "status": "Latest 227F integrated close-approach geometry is within the authored Box2D position-solver tolerance; integrated callback delivery remains unmeasured.",
   "investigation_before_test": {
     "visual": {
       "capture": ".local-inputs/v19-frontend-hotfix/profile-projection/mage-incoming-normal.png",
       "run_arguments": ".local-inputs/v19-frontend-hotfix/profile-projection/mage-incoming-normal.args",
       "run_log": ".local-inputs/v19-frontend-hotfix/profile-projection/mage-incoming-normal.log",
-      "observed": "The capture shows the Mage among two overlapping green Lizard meshes. The image alone does not establish their exact collision centers, whether they are in contact, or the source response. Runtime log positions and retained body radii provide that measurement."
+      "observed": "The old current-port still shows the Mage among Lizard meshes that visibly overlap; it is not original-game evidence and does not establish centers or source response.",
+      "original_video_sequence": {
+        "reference": ".local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4",
+        "frames_seconds": [285, 286, 287, 288, 289, 290, 291],
+        "samples": ".local-inputs/b026-lead227f/source-01.png through source-07.png",
+        "observed": "The Knight fights in close range around the named Bogwomp and other green enemies. Attack effects and enemy poses change across frames; a tutorial overlay begins around 288 s.",
+        "limit": "This original sequence does not isolate a Mage versus the exact Swamp Lizard body pair or show a numeric contact gap. No B026-specific separation timing is inferred from it."
+      },
+      "latest_port_capture": ".local-inputs/b026-lead227f/capture.png; Mage and two Lizard models are close but do not visibly interpenetrate."
     },
     "source_logic": {
       "monster_melee_stop": "Original monster_OnTargetInMeleeRange calls Stop before DoSkill/Attack. Stop routes through the current controller and source stop event; it is not a general inter-actor spacing rule.",
       "movement": "Native controller Cmd_MoveTo asks its current path owner for a route to the target object; Cmd_Stop invokes the current stop owner and Character event0x3f. RuntimeEnemyNavigationV1 uses the same actor PFObject, sewn floor route, static _colbox_ checks, boundary heading and retained locomotion. It has no actor-to-actor avoidance policy or extra radius.",
-      "contact": "Source Character bodies have real NPC collision callbacks that resolve the same peer owner and raise source AI collision events. AISExternal constructor has mutable collision counters at +0xbc/+0xc0; the exact collision owner is documented in port/level-world/reference/character-world-npc-collision-v1/integration.md. Source body filters for Mage Player and Swamp Lizard permit their categories to meet; see reports/actor-physical-source.json.",
-      "current_runtime_boundary": "The captured run logs actual NativeBody allocation and position synchronization, but each bind states `world Step remains unbound`; it does not execute NativeWorld Step/contact dispatch. Current NPC translation is admitted by shared floor/root-motion position services, not a dynamic-body separation solver."
+      "contact": "Source Character bodies have real NPC collision callbacks that resolve the same peer owner and raise source AI collision events. AISExternal constructor has mutable collision counters at +0xbc/+0xc0; the exact collision owner is documented in port/level-world/reference/character-world-npc-collision-v1/integration.md. `character_body_config.cpp` gives Mage/player category 0x4, mask 0xd7f, group -1 and Lizard type4 category 0x10, mask 0xd3f, group 2; the reciprocal masks admit contact and groups do not suppress it. Main binds each callback through its body registry and `RuntimeSessionContactOwnerV1`; `NativeWorld::ShouldCollide`/`deliver_contact` run real filters and event callbacks. See reports/actor-physical-source.json.",
+      "current_runtime_boundary": "The historical unbound capture did not execute NativeWorld Step. The latest 227F capture executes 360 Steps in the actual Session/NativeWorld frame and imports the accepted same-actor position back into Session; it logs no contact callback count."
     },
-    "expected_behavior": "Keep source MoveTo/Stop and authored melee handoff. Dynamic body contact and its source callback should be delivered by the same physical world and registered actor owners. Do not offset actors, choose a crowd radius, relocate actors, or add a second path/avoidance authority.",
+    "expected_behavior": "Preserve source MoveTo/Stop and authored melee handoff; on a real same-Session NativeWorld Step, physical actors may contact and the source callback is routed to the registered source actor owners. The native Box2D position solver allows up to 1.5*b2_linearSlop of residual penetration; test against that recovered tolerance, not an invented spacing offset.",
     "uncertainties": [
-      "The visual is one still, so it cannot show whether a native contact would separate the actors over subsequent frames.",
-      "The reference/device source revision match is not established; no new original-video timing claim is made for this Mage capture.",
-      "The packaged log records actor positions and source-derived radii after 360 frames, but this is not proof of native solver correctness because World Step is explicitly absent."
+      "The original v1.0.3 footage has Knight footage with Bogwomp/green enemies; it does not show the exact Mage versus named Swamp Lizard matchup, nor establish the source/device revision match.",
+      "The candidate runtime binds the source contact callback path, but no callback count/trace is emitted in this run; actual Begin/Persist/End delivery in the integrated run remains unproven.",
+      "Final pin/mass is not printed in the candidate log. Source body creation pins; Move Focus unpins and Move Blur/static Attack repins. Physics imports on Lizard A serials 3-6 establish that the body moved during approach, but not its final pinned value."
     ],
-    "focused_test_plan": "Analyze the exact same-session Mage capture log: bind the three named ActorState final positions to their retained source NativeBody radii, compute pairwise 2D penetration using those source body circles, verify the run reports source NativeBody allocation and the explicit unbound World Step boundary, then report each pair. The probe is a reproducible current-gap regression, not a passing claim that separation is solved."
+    "focused_test_plan": "Run the source-bound 360-frame close-approach capture with the same Session and real NativeWorld Step; correlate final ActorState XY with retained same-actor NativeBody XY/radii; require each pair's penetration to be no greater than 1.5*b2_linearSlop (0.75 game units), derived from the source Box2D solver; preserve the historical unbound log as a red regression. Do not relocate actors, alter masks/radii, or add a spacing offset."
   },
-  "measured_current_capture": {
-    "player": {"actor_id": "18446744073709551615", "profile": "MagePlayerBase", "position": [-6852.64, 860.0, 255.0], "native_body_radius_game_units": 113.718},
-    "lizard_a": {"actor_id": "7118915781085668844", "source_name": "_prim_Monster_3_05_313_356_14_33_13_179_13_38", "profile": "Swamp_LizadMan_Type1", "position": [-6867.41, 859.521, 255.0], "native_body_radius_game_units": 63.0},
-    "lizard_b": {"actor_id": "4141719441445850732", "source_name": "_prim_LizTemplate_03", "profile": "Swamp_LizadMan_Type1_Respawn", "position": [-6800.7, 840.693, 255.0], "native_body_radius_game_units": 80.5176},
-    "reported_body_overlap": "All three pairwise circle center distances are less than the sums of their actual retained body radii. This is diagnostic of the missing dynamic solver/contact step in this run, not evidence for a new AI avoidance radius."
+  "historical_unbound_capture": {
+    "player": {
+      "actor_id": "18446744073709551615",
+      "profile": "MagePlayerBase",
+      "position": [
+        -6852.64,
+        860.0,
+        255.0
+      ],
+      "native_body_radius_game_units": 113.718
+    },
+    "lizard_a": {
+      "actor_id": "7118915781085668844",
+      "source_name": "_prim_Monster_3_05_313_356_14_33_13_179_13_38",
+      "profile": "Swamp_LizadMan_Type1",
+      "position": [
+        -6867.41,
+        859.521,
+        255.0
+      ],
+      "native_body_radius_game_units": 63.0
+    },
+    "lizard_b": {
+      "actor_id": "4141719441445850732",
+      "source_name": "_prim_LizTemplate_03",
+      "profile": "Swamp_LizadMan_Type1_Respawn",
+      "position": [
+        -6800.7,
+        840.693,
+        255.0
+      ],
+      "native_body_radius_game_units": 80.5176
+    },
+    "reported_body_overlap": "All three pairwise circle center distances are less than the sums of their actual retained body radii. This was a historical unbound-Step capture, not the current 227F behavior."
+  },
+  "latest_runtime_recheck": {
+    "candidate": "latest coherent lead candidate",
+    "executable": ".local-inputs/windows-foundation-build/dh-foundation.exe",
+    "executable_sha256": "227F229B81592D550C9A5684C8A6042F6FCC2E396882EEBFE4E8C7DD83186D78",
+    "invocation": "Isolated Mage profile, actual same Session and NativeWorld, original swamp level, 360 fixed frames.",
+    "log": ".local-inputs/b026-lead227f/run.log",
+    "log_sha256": "78DBB9574430779C9E8FD6EBC140E8A3A85CA767F567564A8F81251D28CED5A9",
+    "capture_png": ".local-inputs/b026-lead227f/capture.png",
+    "capture_png_sha256": "B058EA8F35D1646A4B34F9BE6BDF14768EEE07ACC7C938E8F91A30A74C6F8BC4",
+    "capture_ppm": ".local-inputs/b026-lead227f/capture.ppm",
+    "capture_ppm_sha256": "05BFA43D1D686B68125B2E9D9DB6ABA95A79A246CA2EB7E3472ED97851577F02",
+    "physical_frame": {"steps": 360, "imports": 4, "suppressed_root_samples": 4, "same_actor_position_matches": true},
+    "mage": {"actor_id": "18446744073709551615", "position": [-6852.64, 860.0, 255.0], "radius_game_units": 113.718},
+    "lizard_a": {"actor_id": "7118915781085668844", "position": [-6852.64, 1036.01, 255.0], "radius_game_units": 63.0, "accepted_physics_imports": ["serial 3 y=978.285", "serial 4 y=1018.28", "serial 5 y=1034.29", "serial 6 y=1036.01"]},
+    "mage_lizard_a_penetration_game_units": 0.708,
+    "source_box2d_tolerance": {"linear_slop_metres": 0.005, "metres_to_game_units": 100, "position_solver_limit_game_units": 0.75, "source": "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.h:85; Source/Dynamics/Contacts/b2ContactSolver.cpp:335-359"},
+    "source_composer": "main.cpp:2219-2226 binds source contacts and steps the shared NativeWorld once per current Session frame before actors; main.cpp:2700-2719 reconciles the same body into current ActorState, applies retained phase policy, then republishes that same actor transform. Body radii are the actual allocated CharacterBodyConfig circles projected by original_actor_body_plan.cpp, not guessed collision extents.",
+    "pin_mass": "Not logged. Lizard A's accepted imports establish that it moved dynamically during approach; its final pin state is not reported.",
+    "contact_callback": "Production callback binding exists; this runtime log has no callback-count trace. The same-Session contact-owner focused test covers Begin/Persist/End separately."
   },
   "verification": {
+    "latest_command": "py -3 port/windows-foundation/features/enemy_ai/runtime_enemy_overlap_regression_v1.py .local-inputs/b026-lead227f/run.log --require-separated",
+    "known_bad_result": "PASS known-gap reproduction remains 161.940/138.823/74.202 with Step unbound.",
+    "known_bad_command": "py -3 port/windows-foundation/features/enemy_ai/runtime_enemy_overlap_regression_v1.py",
     "test": "port/windows-foundation/features/enemy_ai/runtime_enemy_overlap_regression_v1.py",
-    "command": "py -3 port/windows-foundation/features/enemy_ai/runtime_enemy_overlap_regression_v1.py",
-    "result": "PASS known-gap reproduction",
-    "stdout": [
-      "same-session enemy geometry GAP reproduced; native world Step is unbound",
-      "player/lizard_a penetration=161.940 distance=14.778 radii=113.718+63.000",
-      "player/lizard_b penetration=138.823 distance=55.412 radii=113.718+80.518",
-      "lizard_a/lizard_b penetration=74.202 distance=69.316 radii=63.000+80.518"
-    ],
-    "future_acceptance_mode": "Pass a fresh runtime log as the positional argument and --require-separated; it fails while any pair remains overlapped."
+    "latest_result": "PASS; actual source NativeWorld Step=360 and all final circle overlaps are within Box2D position-solver tolerance of 0.750 game units (observed Mage/Lizard A residual=0.708).",
+    "limits": "This geometry check does not prove the integrated callback count or final body pin/mass. Focused runtime_session_contact tests verify same-Session Begin/Persist/End and the actual owner callback path independently."
   },
-  "production_handoff": "Implement/enable one source-faithful shared NativeWorld Step and registered Character contact callback path for the existing PlayableActorBodies owners, then rerun this exact Mage capture and the geometry probe. RuntimeEnemyController/Navigation remain unchanged unless source AI later proves a separate avoidance branch."
+  "paired_review_receipt": {
+    "reviewed_feature": "B027 enemy cooldown motion",
+    "verdict": "PASS within scoped focused-test claim; no B027 paths edited",
+    "reviewer": "/root/b026_contact_separation_fresh",
+    "checks": [
+      "Read the original v1.0.3 sequence and B027 source handoff; the report correctly labels the frames as temporal context only, not proof of NPC displacement.",
+      "Inspected the test diff: actual lizard body uses the same Session ActorId, source Stop calls stop_physical, NativeWorld is stepped 30 times before Session updates at 50 ms, and same-body/ActorState drift plus approach counts are asserted.",
+      "Independently reran the private executable with the required toolchain PATH and asset arguments; PASS runtime enemy controller PASS scanLOS=2 attackRequests=33 stopEvents=4 targetDeaths=1 routeRelease=1."
+    ],
+    "executable_sha256": "9524E3397979B8D4B22D82B773491DC13E40EF867D4E9AD02F1C90183ECDD045",
+    "trace_sha256": "1156537D2B29262368384D56B4E94F0C28DBC20F02EB1843FE6BD248C9870A46",
+    "scope_limit": "One lizard body, source-stopped and sleeping; filter callback is denied/no-op, with no player contact pair, awake-body/full production composition, or normal preview. This is not part of B026's acceptance criterion."
+  },
+  "production_handoff": "No gameplay patch or AI spacing policy is justified: the latest 227F integrated capture is within authored solver tolerance and visually separates the Mage/Lizards. B026 is recorded as RESOLVED for this identified candidate in docs/RESOLVED-BUGS.md after the paired B027 review; package acceptance remains separate. Keep the historical regression and focused source contact test; no runtime callback telemetry or final pin/mass claim is made."
 }

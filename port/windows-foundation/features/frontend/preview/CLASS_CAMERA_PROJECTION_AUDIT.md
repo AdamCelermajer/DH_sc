@@ -28,3 +28,24 @@ The remaining demonstrated difference is asset/version scope: the local v1.0.2 B
 ## Verification boundary
 
 No source, renderer, main, CMake, or shared files were changed, and no build or GUI was run. Verification reused the existing asset probes and rendered reference frames only. The projection-equivalence argument is derived from the cited original matrix builders and GL fixup, not from a live original device comparison.
+
+## B022 fresh owner audit — 2026-10-10
+
+**Visual evidence and focused comparison.** I re-inspected the v1.0.3 source video at 00:50, 00:52, and 00:54 (`.local-inputs/frontend-ground-audit/original-{50,52,54}s.png`). The class-selection screen remains open and the lower visible terrain is filled in all three frames. Actor poses and the class-description panel vary; these stills do not identify the elapsed time after `MenuCharacterSelect::Show`, so they cannot be aligned to a class-scene animation cursor. The local normal capture `.local-inputs/frontend-feature-build/rogue-original-movie.png` has uncovered lower corner geometry, while the existing `SCENE_COVERAGE_PROOF.md` reports no v1.0.2 source triangles at the gap probes. This comparison confirms a visible difference, not its cause.
+
+**Asset/version inventory.** I SHA-256 checked all 16 workspace and retained-input copies named `class_selection.bdae`, spanning the Android source/build, frontend seed assets, retained publication checkpoints, and Windows source-clock preview snapshots. All 16 are byte-identical (`87303c458be43bafca5b1d717136b679d4f70623545ca1fea20841aa57033de9`). The local IDA export is explicitly from the original v1.0.2 APK; no separately retained v1.0.3 class-scene BDAE, v1.0.3 APK/data archive, or native v1.0.3 camera-state receipt was found. The supplied video is therefore the only local v1.0.3 visual source for this discrepancy; the versioned scene copies available for geometry tests are all the same v1.0.2 asset.
+
+**Logic evidence and expected result.** The source-backed chain remains `MenuCharacterSelect::Show` (`00428f38.c`) for camera up/near/far/initial position and animator binding, `MenuCharacterSelect::Update` (`00428498.c`) for source-cursor advancement, `RenderClassSelectPane` (`00428b74.c`) for the authored SWF-derived physical viewport, and original camera projection/view/GL orientation functions listed above. The exact v1.0.2 scene mesh coverage and projection audits do not justify shifting or zooming that camera. Expected behavior is a class-selection showcase whose ground remains filled across the lower viewport, as seen in the v1.0.3 frames. The smallest valid correction depends on determining whether v1.0.3 changes scene content, its linked camera/scene data, or the runtime target-orientation state; each could alter projected coverage.
+
+**Uncertainty and disposition.** The v1.0.2 IDA export's orientation fixup (`005a8f88.c`) can rotate/flip the projection, but no matched live target-orientation value was recorded for either the v1.0.3 footage or the current native frame. The footage itself also supplies neither a scene hash nor camera matrix/cursor. The only precise next evidence needed is either (a) the original v1.0.3 scene data package containing `CLASS_SELECTION.bdae` and its linked resources, or (b) a matched native v1.0.3 capture receipt with scene hash, clip/cursor, composed camera matrix, physical viewport, and target-orientation value. Until then the issue remains unresolved and no camera, floor, light, or compositing correction is source-backed.
+
+**Verification boundary.** The focused check compared the same lower-screen area over the three source-video frames, hashed every locally retained class-scene copy, and ran the existing coverage probe against the two named v1.0.2 roots below. Both runs passed with identical output: 2 instances, 3 ranges, 2,273 triangles, 27 tracks, 0 skipped tracks; pixels `(8,8)`, `(32,8)`, and `(8,32)` have 0 covered triangles; the other nine probes have 1–2 covered triangles. The visual comparison shows filled terrain directly at 00:50/00:52/00:54, while the asset inventory found 16 identical v1.0.2 copies and no v1.0.3 scene resource.
+
+```text
+source label: local Windows v1.0.2 — .local-inputs/windows-main-frontend-v1/assets
+source label: Android source v1.0.2 — port/android-native/app/src/main/assets
+probe: .local-inputs/frontend-ground-audit/backdrop_transition_probe.exe
+result: both PASS; identical scene topology and all 12 coverage totals
+```
+
+No code, renderer, main, CMake, or user game window was changed. Integrated runtime verification remains with the lead after a source-supported correction becomes possible.

@@ -78,7 +78,12 @@ bool CombatSystem::validate_begin(ActorId attacker, ActorId target, const Attack
     if (!validate_attack_definition(definition, error)) return false;
     if (!generation) { error = "Attack requires a selected animation generation"; return false; }
     ActorState *owner = nullptr, *victim = nullptr;
-    if (!valid_pair(attacker, target, owner, victim)) { error = "Attack actors or target policy are invalid"; return false; }
+    if(target==invalid_actor_id&&definition.geometry==AttackGeometry::melee_radius){
+        owner=world_.find_actor(attacker);
+        if(attacker==invalid_actor_id||!owner||owner->id!=attacker||!owner->alive()){
+            error="Attack owner is invalid";return false;
+        }
+    }else if (!valid_pair(attacker, target, owner, victim)) { error = "Attack actors or target policy are invalid"; return false; }
     if (std::find(owner->attack_ids.begin(), owner->attack_ids.end(), definition.id) == owner->attack_ids.end()) {
         error = "Attack is not bound to this actor"; return false;
     }
@@ -89,7 +94,7 @@ bool CombatSystem::validate_begin(ActorId attacker, ActorId target, const Attack
     if (existing != actors_.end() && (existing->second.attack || existing->second.cooldown > 0)) {
         error = "Actor attack is active or cooling down"; return false;
     }
-    if (!attack_target_in_range(definition, *owner, *victim, world_.target_radius(*victim))) {
+    if (victim&&!attack_target_in_range(definition, *owner, *victim, world_.target_radius(*victim))) {
         error = "Attack target is out of range"; return false;
     }
     return true;
@@ -130,6 +135,11 @@ bool CombatSystem::consume_marker(ActorId attacker,const MarkerOccurrence& occur
     const auto key = std::make_tuple(occurrence.generation, occurrence.cycle,
                                     std::size_t(occurrence.marker.group), std::size_t(occurrence.marker.index));
     if (run.delivered.count(key)) return true;
+    if(run.target==invalid_actor_id){
+        // The ordinary null-target swing owns its animation until authored End.
+        // Consume this event without target lookup, formula/RNG or damage.
+        run.delivered.insert(key);return true;
+    }
     ActorState *owner = nullptr, *victim = nullptr;
     if (!valid_pair(attacker, run.target, owner, victim)) { interrupt(attacker); return true; }
     // Consume misses as well: delivering this same authored event after a target
@@ -226,10 +236,7 @@ void CombatSystem::cleanup_invalid() {
             it = actors_.erase(it); continue;
         }
         if (it->second.attack) {
-            ActorState *a = nullptr, *b = nullptr;
-            if (owner->action != CharacterAction::attacking
-                || owner->target_id != it->second.attack->target
-                || !valid_pair(it->first, it->second.attack->target, a, b)) interrupt(it->first);
+            if (!active_attack_valid(it->first)) interrupt(it->first);
         }
         if (!it->second.attack && it->second.cooldown <= 0) it = actors_.erase(it);
         else ++it;
@@ -259,6 +266,16 @@ bool CombatSystem::active_target_valid(ActorId attacker){
     ActorState* owner=nullptr;ActorState* target=nullptr;
     return valid_pair(attacker,record->second.attack->target,owner,target)&&
         owner->action==CharacterAction::attacking&&owner->target_id==record->second.attack->target;
+}
+bool CombatSystem::active_attack_valid(ActorId attacker){
+    const auto record=actors_.find(attacker);
+    if(record==actors_.end()||!record->second.attack)return false;
+    const auto& run=*record->second.attack;
+    if(run.target!=invalid_actor_id)return active_target_valid(attacker);
+    const auto* owner=world_.find_actor(attacker);
+    return run.definition.geometry==AttackGeometry::melee_radius&&attacker!=invalid_actor_id&&
+        owner&&owner->id==attacker&&owner->alive()&&
+        owner->action==CharacterAction::attacking&&owner->target_id==invalid_actor_id;
 }
 double CombatSystem::cooldown_remaining(ActorId attacker) const noexcept {
     const auto record = actors_.find(attacker);

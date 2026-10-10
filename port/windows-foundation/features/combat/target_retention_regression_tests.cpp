@@ -1,5 +1,7 @@
 #include "../../combat_session.hpp"
 #include "../../camera.hpp"
+#include "auto_target_marker_v1.hpp"
+#include "session_source_object_interest_v1.hpp"
 #include "../skills_animation/source_skill_animation.hpp"
 #include "../../../level-world/character_skill_ai_v3.hpp"
 #include "../../../level-world/character_skill_callbacks_v3.hpp"
@@ -32,8 +34,15 @@ struct SkillHost {
             ++self.posts;
             if(!self.session||!self.session->actor(1))return -1;
             // The real BashDown Lua Post calls ClearTarget; this callback fixture
-            // publishes that exact source effect to the same Session actor.
-            self.session->actor(1)->target_id=invalid_actor_id;return 0;
+            // publishes SetTarget(NULL,false) then SyncLastTarget to the same
+            // Session source target owner.
+            std::string error;
+            if(!self.session->set_source_target(1,invalid_actor_id,false,error))return -1;
+            auto presentation=self.session->target_presentation_state(1);
+            if(presentation.current!=invalid_actor_id||!presentation.last_target_known||presentation.last_target!=2)return -1;
+            if(!self.session->sync_source_last_target(1,error))return -1;
+            presentation=self.session->target_presentation_state(1);
+            return presentation.last_target_known&&presentation.last_target==invalid_actor_id?0:-1;
         }
         if(request->value==skill_check_active_v3){response->word=0;return 0;}
         return -1;
@@ -114,10 +123,91 @@ int main(int argc,char** argv){try{
     CharacterVisual visual;CombatSession session;
     check(session.initialize(assets,database,bindings,config,visual,population,{0,0,0},customization,error),error);
 
+    std::uintptr_t sourceInterestObject=invalid_actor_id;
+    std::int32_t sourceInterestType=-1;
+    std::int16_t sourceInterestDelay=0;
+    std::uint8_t sourceInterestBlocked=0,sourceInterestChanged=0,sourceInterestDisabled=0;
+    auto sourceInterestLease=std::make_shared<int>(7);
+    dh2::character::CharacterInterestFieldsV106 sourceInterestFields{
+        1,&sourceInterestObject,&sourceInterestType,&sourceInterestDelay,
+        &sourceInterestBlocked,&sourceInterestChanged};
+    unsigned sourceInterestSearches=0;
+    dh2::character::CharacterInterestServicesV106 sourceInterestServices;
+    sourceInterestServices.owner=sourceInterestLease;
+    sourceInterestServices.interactive=[&](std::uintptr_t candidate,std::uintptr_t owner,bool& value,std::string&){
+        const auto* candidateActor=session.actor(static_cast<ActorId>(candidate));
+        value=owner==1&&candidateActor&&session.actor(candidateActor->id)==candidateActor&&candidateActor->alive();
+        return true;
+    };
+    sourceInterestServices.disabled=[&](std::uintptr_t candidate,const std::uint8_t*& value,
+        std::shared_ptr<void>& pin,std::string&){
+        if(!session.actor(static_cast<ActorId>(candidate)))return false;
+        value=&sourceInterestDisabled;pin=sourceInterestLease;return true;
+    };
+    sourceInterestServices.interaction_type=[&](std::uintptr_t candidate,std::uintptr_t owner,
+        std::int32_t& value,std::string&){
+        const auto* actor=session.actor(static_cast<ActorId>(candidate));
+        const auto* traits=session.world()->traits(static_cast<ActorId>(candidate));
+        const auto* properties=session.world()->combat_properties(static_cast<ActorId>(candidate));
+        if(!actor||!traits||!properties||owner!=session.player_id())return false;
+        const auto* ai=dh2::data::ai_props(session.world()->factions(),properties->sheets.resolved[1]);
+        if(!actor->alive())value=-1;
+        else if(ai&&ai->type==4)value=8;
+        else value=3;
+        return true;
+    };
+    sourceInterestServices.search=[&](std::uintptr_t owner,
+        std::vector<dh2::character::CharacterInterestCandidateV106>& candidates,std::string&){
+        ++sourceInterestSearches;
+        const auto* ownerActor=session.actor(static_cast<ActorId>(owner));
+        if(!ownerActor)return false;
+        for(const auto& pair:session.world()->actors())
+            if(pair.first!=owner&&session.world()->eligible_target(*ownerActor,pair.second))
+                candidates.push_back({pair.first,1u});
+        return true;
+    };
+    sourceInterestServices.item_owner3bc=[](std::uintptr_t,std::uintptr_t& owner,std::string&){
+        owner=invalid_actor_id;return true;
+    };
+    bool sourceInterestCandidateIsCharacter=true;
+    const auto resolveSourceCharacter=[&](std::uintptr_t object,ActorId& actor,bool& isCharacter,std::string&){
+        actor=static_cast<ActorId>(object);isCharacter=session.actor(actor)!=nullptr&&
+            (object==1||sourceInterestCandidateIsCharacter);return session.actor(actor)!=nullptr;
+    };
+    SessionSourceObjectInterestStatusV1 sourceInterestStatus{};
+
     InputActions input;input.targetSelect=true;
     check(session.update(0,input,{0,0,0},0,error),error);
     check(session.actor(1)->target_id==2&&session.selectedactor()&&session.selectedactor()->id==2,
           "Target selection did not publish the actual Lizard ActorId");
+    auto targetState=session.target_presentation_state(1);
+    check(targetState.current==2&&targetState.last_target_known&&targetState.last_target==2&&
+          !targetState.object_of_interest_known,
+          "Explicit selection did not publish current and source last-target independently with OOI unknown");
+    auto marker=resolve_auto_target_marker_v1(1,
+        targetState.last_target_known?targetState.last_target:invalid_actor_id,
+        targetState.object_of_interest_known?targetState.object_of_interest:invalid_actor_id);
+    check(marker.identity==2&&marker.source==AutoTargetMarkerSourceV1::last_target,
+          "Marker did not resolve from genuine Session last-target state");
+    check(update_session_source_object_interest_v1(session,1,0,sourceInterestFields,
+          sourceInterestServices,resolveSourceCharacter,sourceInterestStatus,error),error);
+    targetState=session.target_presentation_state(1);
+    check(sourceInterestSearches==1&&sourceInterestStatus==SessionSourceObjectInterestStatusV1::published&&
+          targetState.object_of_interest_known&&targetState.object_of_interest==2&&
+          targetState.object_of_interest_type==8,
+          "Source OOI update did not publish the same-session TargetList Character and signed interaction type");
+    check(session.set_source_target(1,invalid_actor_id,true,error),error);
+    targetState=session.target_presentation_state(1);
+    check(targetState.current==invalid_actor_id&&targetState.last_target_known&&targetState.last_target==2,
+          "SetTarget(true) did not change current target independently of last-target");
+    check(session.set_source_target(1,2,true,error),error);
+    targetState=session.target_presentation_state(1);
+    check(targetState.current==2&&targetState.last_target_known&&targetState.last_target==2,
+          "Restoring current target through SetTarget(true) rewrote source last-target");
+    ActorId reselected=invalid_actor_id;
+    check(session.select_next_player_target(reselected,error),error);
+    check(reselected==2&&session.selectedactor()&&session.selectedactor()->id==2,
+          "Explicit target-selection command did not restore the host selection after direct source setter exercise");
     const auto selected=session.selectedactor()->id;
 
     input.targetSelect=false;input.attack=true;
@@ -129,6 +219,9 @@ int main(int argc,char** argv){try{
     check(!session.owns_pose(1),"Releasing Space did not let the admitted attack finish");
     check(session.actor(1)->target_id==selected&&session.selectedactor()&&session.selectedactor()->id==selected,
           "Space key-up or source attack completion cleared a living selected target");
+    targetState=session.target_presentation_state(1);
+    check(targetState.current==selected&&targetState.last_target_known&&targetState.last_target==selected,
+          "Released attack lost current or source last-target projection");
     input.attack=true;
     check(session.update(0,input,{0,0,0},session.actor(1)->transform.rotation[2],error),error);
     check(session.owns_pose(1)&&session.actor(1)->target_id==selected&&session.selectedactor()&&
@@ -140,6 +233,14 @@ int main(int argc,char** argv){try{
     check(!session.owns_pose(1)&&session.actor(1)->target_id==selected&&session.selectedactor()&&
           session.selectedactor()->id==selected,
           "Second released attack did not finish with the same living target selected");
+    targetState=session.target_presentation_state(1);
+    check(targetState.current==selected&&targetState.last_target_known&&targetState.last_target==selected,
+          "Second released attack lost source target fields");
+    CameraPose camera;camera.position={0,0,10};camera.target={0,0,0};camera.up={0,1,0};
+    const auto* selectedTarget=session.selectedactor();
+    check(selectedTarget&&selectedTarget->alive()&&!project_visible(camera,
+          {selectedTarget->transform.position[0],selectedTarget->transform.position[1],selectedTarget->transform.position[2]},16.f/9.f),
+          "Target selection and offscreen HUD projection were not independently observable");
 
     // Run the actual source SkillTable row through its native callback/state
     // adapter on the same Session. The Lua callback provider is a narrow fixture
@@ -165,30 +266,92 @@ int main(int argc,char** argv){try{
     check(sourceSkill.command(skill_ai_blur_v3,0,skillAnswer)==0&&skillHost.posts==1&&
           session.actor(1)->target_id==invalid_actor_id,
           "Actual BashDown Post ClearTarget was not published to the same Session");
+    check(update_session_source_object_interest_v1(session,1,100,sourceInterestFields,
+          sourceInterestServices,resolveSourceCharacter,sourceInterestStatus,error),error);
+    targetState=session.target_presentation_state(1);
+    marker=resolve_auto_target_marker_v1(1,targetState.last_target_known?targetState.last_target:invalid_actor_id,
+        targetState.object_of_interest_known?targetState.object_of_interest:invalid_actor_id);
+    check(targetState.current==invalid_actor_id&&targetState.last_target_known&&
+          targetState.last_target==invalid_actor_id&&targetState.object_of_interest_known&&
+          targetState.object_of_interest==2&&marker.identity==2&&
+          marker.source==AutoTargetMarkerSourceV1::object_of_interest,
+          "BashDown Post did not clear current/last independently while the retained source OOI remained the marker fallback");
+    check(sourceInterestSearches==1,
+          "BashDown Post incorrectly forced an OOI TargetList refresh before its source 500 ms timer");
     input={};
     check(session.update(0,input,{0,0,0},0,error),error);
+    sourceInterestCandidateIsCharacter=false;
+    check(update_session_source_object_interest_v1(session,1,100,sourceInterestFields,
+          sourceInterestServices,resolveSourceCharacter,sourceInterestStatus,error),error);
+    targetState=session.target_presentation_state(1);
+    check(sourceInterestStatus==SessionSourceObjectInterestStatusV1::source_object_not_a_session_actor&&
+          !targetState.object_of_interest_known,
+          "Unrepresented non-Character source OOI was aliased into the Session Character marker projection");
+    sourceInterestCandidateIsCharacter=true;
+    check(update_session_source_object_interest_v1(session,1,300,sourceInterestFields,
+          sourceInterestServices,resolveSourceCharacter,sourceInterestStatus,error),error);
+    targetState=session.target_presentation_state(1);
+    check(sourceInterestSearches==2&&targetState.object_of_interest_known&&
+          targetState.object_of_interest==2&&sourceInterestChanged==0,
+          "Source OOI 500 ms timer did not requery the live same-session target list without a false changed latch");
     check(session.actor(1)->target_id==invalid_actor_id&&!session.selectedactor(),
           "Explicit source-skill ClearTarget was resurrected by stale selection retention");
+    // Keep the authored target alive through the release/requery branch; the
+    // distinct death branch below then tests source OOI invalidation explicitly.
+    session.actor(2)->health=session.actor(2)->max_health;
     input.attack=true;
     check(session.update(0,input,{0,0,0},0,error),error);
     check(session.owns_pose(1),"Next Space attack did not enter the source attack path after skill Post");
     check(session.actor(1)->target_id==selected&&session.selectedactor()&&session.selectedactor()->id==selected,
           "Next source attack did not reacquire the living in-range target after skill Post");
+    check(update_session_source_object_interest_v1(session,1,100,sourceInterestFields,
+          sourceInterestServices,resolveSourceCharacter,sourceInterestStatus,error),error);
+    targetState=session.target_presentation_state(1);
+    marker=resolve_auto_target_marker_v1(1,targetState.last_target_known?targetState.last_target:invalid_actor_id,
+        targetState.object_of_interest_known?targetState.object_of_interest:invalid_actor_id);
+    check(targetState.current==selected&&targetState.last_target_known&&targetState.last_target==selected&&marker.identity==selected,
+          "Post-clear reacquisition did not publish fresh last-target marker candidate");
 
-    // The current target marker and HUD target display both consume selectedactor;
-    // this check keeps the actual selection independent from camera projection.
-    CameraPose camera;camera.position={0,0,10};camera.target={0,0,0};camera.up={0,1,0};
-    const auto* targetActor=session.selectedactor();
-    check(targetActor&&targetActor->alive()&&!project_visible(camera,
-          {targetActor->transform.position[0],targetActor->transform.position[1],targetActor->transform.position[2]},16.f/9.f),
-          "Target selection and offscreen HUD projection were not independently observable");
+    // This attack is implicit: the target was cleared by BashDown Post, no Tab
+    // or targetSelect event follows, and Space must use source target search.
+    input.attack=false;
+    for(unsigned frame=0;frame<1000&&session.owns_pose(1);++frame)
+        check(session.update(.016,input,{0,0,0},session.actor(1)->transform.rotation[2],error),error);
+    check(!session.owns_pose(1),"Implicit post-skill Space attack did not complete after release");
+    check(update_session_source_object_interest_v1(session,1,500,sourceInterestFields,
+          sourceInterestServices,resolveSourceCharacter,sourceInterestStatus,error),error);
+    targetState=session.target_presentation_state(1);
+    marker=resolve_auto_target_marker_v1(1,targetState.last_target_known?targetState.last_target:invalid_actor_id,
+        targetState.object_of_interest_known?targetState.object_of_interest:invalid_actor_id);
+    check(targetState.current==invalid_actor_id&&targetState.last_target_known&&
+          targetState.last_target==invalid_actor_id&&targetState.object_of_interest_known&&
+          targetState.object_of_interest==selected&&marker.identity==selected&&
+          marker.source==AutoTargetMarkerSourceV1::object_of_interest,
+          "Implicit attack release lost source last-target/OOI candidate state: current="+
+          std::to_string(targetState.current)+" last="+std::to_string(targetState.last_target)+
+          " lastKnown="+std::to_string(targetState.last_target_known)+" ooiKnown="+
+          std::to_string(targetState.object_of_interest_known)+" ooi="+
+          std::to_string(targetState.object_of_interest)+" searches="+std::to_string(sourceInterestSearches)+
+          " marker="+std::to_string(marker.identity));
 
+    // Re-establish a genuine source SetTarget before killing the actor so the
+    // current-target invalidation and unfiltered last-target marker are distinct.
+    check(session.set_source_target(1,selected,false,error),error);
     session.actor(2)->health=0;input={};
     check(session.update(0,input,{0,0,0},0,error),error);
+    check(update_session_source_object_interest_v1(session,1,500,sourceInterestFields,
+          sourceInterestServices,resolveSourceCharacter,sourceInterestStatus,error),error);
     check(session.actor(1)->target_id==invalid_actor_id&&!session.selectedactor(),
           "Dead target was retained after ordinary invalid-target housekeeping");
+    targetState=session.target_presentation_state(1);
+    marker=resolve_auto_target_marker_v1(1,targetState.last_target_known?targetState.last_target:invalid_actor_id,
+        targetState.object_of_interest_known?targetState.object_of_interest:invalid_actor_id);
+    check(targetState.current==invalid_actor_id&&targetState.last_target_known&&targetState.last_target==selected&&
+          targetState.object_of_interest_known&&targetState.object_of_interest==invalid_actor_id&&
+          marker.identity==selected&&marker.source==AutoTargetMarkerSourceV1::last_target,
+          "Target death did not clear OOI on source requery while preserving unfiltered source last-target marker precedence");
 
-    std::cout<<"PASS source target retention across Space release; actual BashDown Pre/Use/Post adapter path cleared same-session target; next attack reacquired living target; death invalidation and HUD projection checked (BashDown row "
+    std::cout<<"PASS source target/OOI retention across Space release; actual BashDown Pre/Use/Post cleared current/last while independent OOI survived, decayed/requeried at 500 ms, rejected unrepresented non-Character identity, and cleared on target death; next attack reacquired living target (BashDown row "
              <<bashRow<<", Rogue JumpKick row "<<jumpKickRow<<")\n";
     return 0;
 }catch(const std::exception& failure){std::cerr<<failure.what()<<'\n';return 1;}}

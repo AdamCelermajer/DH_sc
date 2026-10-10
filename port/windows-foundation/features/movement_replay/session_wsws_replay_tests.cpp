@@ -34,7 +34,10 @@ int main(int argc,char** argv){try{
     OriginalCombatVisualPlan plan;
     check(build_original_combat_visual_plan(assets,bindings,"KnightPlayerBase",customization,"session-wsws-replay",plan,error),error);
     const auto* run=plan.phase("Run",0,{0});
+    const auto* walk=plan.phase("Walk",0,{0});
     check(run&&run->has_visual()&&run->moveGO,"Original Knight Run leaf/MoveGO unavailable");
+    check(walk&&walk->has_visual()&&walk->moveGO,"Original Knight Walk leaf/MoveGO unavailable");
+    constexpr float pi=3.14159265358979323846f;
     const double dt=1.0/60.0;const unsigned framesPerKey=45;
 
     CombatSessionConfig config;config.playerId=1;config.playerProfileId="KnightPlayerBase";
@@ -49,6 +52,7 @@ int main(int argc,char** argv){try{
     CharacterVisual visual;ActorPopulation population;CombatSession session;
     check(session.initialize(assets,database,bindings,config,visual,population,{0,0,0},customization,error),error);
     check(session.bind_player_locomotion("run",{"Run",0,{0}},properties.walk_multiplier,true,error),error);
+    check(session.bind_player_locomotion("walk",{"Walk",0,{0}},properties.walk_multiplier,true,error),error);
     auto* actor=session.actor(1);check(actor&&actor->alive(),"Same Session did not bind the source player");
     const auto bindingLease=session.actor_binding_lease();const auto* poseOwner=session.retained_player_pose();
     check(poseOwner&&!bindingLease.expired(),"Source retained pose owner was not issued");
@@ -74,9 +78,9 @@ int main(int argc,char** argv){try{
 
     const auto outputCsvPath=std::filesystem::path(argv[2]);
     std::ofstream csv(outputCsvPath);check(bool(csv),"Movement replay CSV output unavailable");
-    csv<<"frame,key,move_x,move_y,basis_right_x,basis_right_y,basis_forward_x,basis_forward_y,desired_heading,facing_before,facing_after,local_root_x,local_root_y,local_root_z,requested_world_x,requested_world_y,admitted_world_x,admitted_world_y,collision_moved,collision_blocked,actor_x,actor_y,motion_calls\n"<<std::setprecision(9);
-    struct FrameTrace {unsigned calls=0;Vec3 local{},requested{},admitted{};bool moved=false,blocked=false;};
-    FrameTrace trace;unsigned frame=0,totalCalls=0,admittedFrames=0,blockedFrames=0;
+    csv<<"frame,key,shift,run,alias,move_x,move_y,basis_right_x,basis_right_y,basis_forward_x,basis_forward_y,desired_heading,facing_before,facing_after,local_root_x,local_root_y,local_root_z,requested_world_x,requested_world_y,admitted_world_x,admitted_world_y,collision_moved,collision_blocked,actor_x,actor_y,motion_calls,current_slot,current_time_ms,generation_sum\n"<<std::setprecision(9);
+    struct FrameTrace {unsigned calls=0,nonzeroCalls=0;Vec3 local{},requested{},admitted{};bool moved=false,blocked=false;};
+    FrameTrace trace;unsigned frame=0,totalCalls=0,admittedFrames=0,blockedFrames=0,multiCallbackFrames=0,maxMotionCalls=0;
     double movementMsFraction=0;float totalLocal=0,totalWorld=0,cameraLeft=0;
     session.set_motion_handler([&](ActorState& current,Vec3 delta,bool moveGo,std::string& callbackError){
         if(&current!=actor||current.id!=session.player_id()) {callbackError="Root motion reached a foreign Session actor";return false;}
@@ -88,6 +92,7 @@ int main(int argc,char** argv){try{
         const bool moved=movement.apply_root_motion(delta,collision);
         const auto after=movement.state().position;
         trace.local.x+=delta.x;trace.local.y+=delta.y;trace.local.z+=delta.z;
+        if(std::hypot(delta.x,delta.y)>1e-6f)++trace.nonzeroCalls;
         trace.requested.x+=requested.x;trace.requested.y+=requested.y;
         trace.admitted.x+=after.x-before.x;trace.admitted.y+=after.y-before.y;
         trace.moved=trace.moved||moved;trace.blocked=trace.blocked||(!moved&&(std::abs(requested.x)+std::abs(requested.y)>1e-6f));
@@ -96,23 +101,50 @@ int main(int argc,char** argv){try{
         callbackError.clear();return true;
     });
 
-    const char keys[]{'W','S','W','S'};char held=0;
+    const char keys[]{'W','S','W','S'};
+    const bool shifted[]{false,true,false,true};
+    char held=0;bool shiftHeld=false;std::uint64_t previousGenerationSum=0;
+    unsigned settleFrames[4]{};float previousDesired=0;
     for(unsigned segment=0;segment<4;++segment){
         if(held)keyboard.key(held,false);
+        if(shiftHeld)keyboard.key(0x10,false);
         held=keys[segment];keyboard.key(held,true);
+        shiftHeld=shifted[segment];if(shiftHeld)keyboard.key(0x10,true);
         for(unsigned inSegment=0;inSegment<framesPerKey;++inSegment,++frame){
             const auto inputFrame=keyboard.take_frame();const auto input=inputFrame.actions;
             const float expectedY=held=='W'?1.f:-1.f;
-            check(input.move2D.x==0&&input.move2D.y==expectedY&&input.run,
-                  "Semantic keyboard did not produce the expected W/S run intent");
+            check(input.move2D.x==0&&input.move2D.y==expectedY&&input.run==!shiftHeld,
+                  "Semantic keyboard did not produce the expected default-run/Shift-walk W/S intent");
             check(movement.steer_source_intent(input,basis,dt),"Source intent steering rejected");
-            check(session.select_player_locomotion("run",error),error);
+            const float desiredHeading=movement.state().desiredHeading.sourceAngleRadians;
+            if(inSegment==0&&segment>0)check(std::abs(std::abs(std::remainder(desiredHeading-previousDesired,2*pi))-pi)<1e-5f,
+                  "W/S transition was not a nonaligned 180-degree reversal");
+            const std::string alias=input.run?"run":"walk";
+            check(session.select_player_locomotion(alias,error),error);
             trace={};const float facingBefore=actor->transform.rotation[2];
             const auto positionBefore=movement.state().position;
             check(session.update(dt,input,positionBefore,facingBefore,error),error);
             check(session.retained_player_pose()==poseOwner&&!bindingLease.expired(),
                   "W/S replay replaced the retained pose owner or Session lease");
+            std::uint64_t generationSum=0;
+            for(const auto& slot:poseOwner->slots())generationSum+=slot.generation;
+            const bool firstFrame=inSegment==0;
+            check(generationSum>=previousGenerationSum,"Retained locomotion generation moved backward");
+            if(firstFrame&&segment>0)check(generationSum>previousGenerationSum,
+                  "Run/walk input transition did not select its new source locomotion clip");
+            if(!firstFrame)check(generationSum-previousGenerationSum<=1,
+                  "One held input frame selected multiple locomotion clips");
+            const auto generationDelta=generationSum-previousGenerationSum;
+            if(!firstFrame&&generationDelta>0)check(generationDelta==1&&
+                poseOwner->slots()[poseOwner->current_slot()].timeline.current_ms==0&&trace.calls==2,
+                "Retained generation changed away from the source clip completion/repeat boundary");
+            if(trace.calls==2)check(generationDelta==1&&
+                poseOwner->slots()[poseOwner->current_slot()].timeline.current_ms==0,
+                "Multiple root callbacks were not the source completion plus same-time repeat");
+            previousGenerationSum=generationSum;
             check(trace.calls>0,"Same Session did not deliver its retained root-motion sample");
+            check(trace.nonzeroCalls==(frame==0?0u:1u),"Session root displacement count="+
+                  std::to_string(trace.nonzeroCalls)+" at frame="+std::to_string(frame));
             check(std::abs(actor->transform.position[0]-movement.state().position.x)<1e-5f&&
                   std::abs(actor->transform.position[1]-movement.state().position.y)<1e-5f,
                   "Session ActorState diverged from the connected movement owner");
@@ -127,33 +159,45 @@ int main(int argc,char** argv){try{
             check(movement.apply_source_character_rotation_late(rotation,&*actor->source_flags520,
                 properties.sheets.resolved.data(),sourceMs,true,sync,error),error);
             const float facingAfter=actor->transform.rotation[2];
+            if(segment>0&&settleFrames[segment]==0&&
+               std::abs(std::remainder(desiredHeading-facingAfter,2*pi))<1e-5f)
+                settleFrames[segment]=inSegment+1;
+            if(inSegment+1==framesPerKey){
+                previousDesired=desiredHeading;
+                if(segment>0)check(settleFrames[segment]>0&&settleFrames[segment]<=16,
+                    "Source bounded rotation failed to settle after the W/S reversal within 16 frames");
+            }
             const Vec3 admitted{movement.state().position.x-positionBefore.x,
                                 movement.state().position.y-positionBefore.y,0};
             const float reqWorldX=trace.requested.x,reqWorldY=trace.requested.y;
             totalLocal+=std::hypot(trace.local.x,trace.local.y);
             totalWorld+=std::hypot(admitted.x,admitted.y);
             cameraLeft+=admitted.x*basis.right.x+admitted.y*basis.right.y;
+            if(trace.calls>1)++multiCallbackFrames;
+            maxMotionCalls=std::max(maxMotionCalls,trace.calls);
             admittedFrames+=trace.moved?1u:0u;blockedFrames+=trace.blocked?1u:0u;
-            csv<<frame<<','<<held<<','<<input.move2D.x<<','<<input.move2D.y<<','
+            csv<<frame<<','<<held<<','<<(shiftHeld?1:0)<<','<<(input.run?1:0)<<','<<alias<<','<<input.move2D.x<<','<<input.move2D.y<<','
                <<basis.right.x<<','<<basis.right.y<<','<<basis.forward.x<<','<<basis.forward.y<<','
                <<heading<<','<<facingBefore<<','<<facingAfter<<','<<trace.local.x<<','<<trace.local.y<<','<<trace.local.z<<','
                <<reqWorldX<<','<<reqWorldY<<','<<trace.admitted.x<<','<<trace.admitted.y<<','
                <<(trace.moved?1:0)<<','<<(trace.blocked?1:0)<<','<<actor->transform.position[0]<<','
-               <<actor->transform.position[1]<<','<<trace.calls<<'\n';
+               <<actor->transform.position[1]<<','<<trace.calls<<','<<poseOwner->current_slot()<<','
+               <<poseOwner->slots()[poseOwner->current_slot()].timeline.current_ms<<','<<generationSum<<'\n';
         }
     }
-    keyboard.key(held,false);
-    check(totalCalls>=4*framesPerKey&&admittedFrames>0,"Run trace did not deliver/apply all source root motion");
+    keyboard.key(held,false);if(shiftHeld)keyboard.key(0x10,false);
+    check(totalCalls>=4*framesPerKey&&admittedFrames>0,"Run/walk trace did not deliver/apply all source root motion");
     check(blockedFrames==0,"Clear-floor W/S fixture unexpectedly collided");
     check(cameraLeft<-1.0f,"Expected bounded-turn/root-motion camera-left arc was not reproduced");
     check(std::abs(actor->transform.position[0]-movement.state().position.x)<1e-5f&&
           std::abs(actor->transform.position[1]-movement.state().position.y)<1e-5f,
           "Final actor/motor positions differ after W/S replay");
-    std::cout<<std::setprecision(9)<<"PASS sameSession=1 frames="<<frame<<" clip="<<run->resolvedPath
+    std::cout<<std::setprecision(9)<<"PASS sameSession=1 frames="<<frame<<" runClip="<<run->resolvedPath<<" walkClip="<<walk->resolvedPath
              <<" rate="<<run->speed*properties.walk_multiplier<<" basisForward="<<basis.forward.x<<','<<basis.forward.y
              <<" localRootXY="<<totalLocal<<" admittedWorldXY="<<totalWorld
              <<" cameraLeftDelta="<<cameraLeft<<" collisionAcceptedFrames="<<admittedFrames
-             <<" collisionBlockedFrames="<<blockedFrames<<" actor="<<actor->transform.position[0]<<','
+             <<" collisionBlockedFrames="<<blockedFrames<<" modeTransitions=3 multiCallbackFrames="<<multiCallbackFrames
+             <<" maxMotionCalls="<<maxMotionCalls<<" actor="<<actor->transform.position[0]<<','
              <<actor->transform.position[1]<<" csv="<<outputCsvPath.string()<<'\n';
     return 0;
 }catch(const std::exception& failure){std::cerr<<failure.what()<<'\n';return 1;}}

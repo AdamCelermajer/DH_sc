@@ -15,8 +15,12 @@ and icon-storage owner (`engine-ui/menu_postmovie_v62.*`). The new
 record, calls that receiver's actual `source_has_been_visited_v104` (which
 borrows its same Module visited byte) and `source_has_inside_v104` fields, and
 keeps the factory record alive through the Map.Show pass. It does not enumerate
-or substitute the Level collection. No public caller exposes the original
-Level+36 RoomZone list or ordered Level+244 object walk yet. The map feature
+or substitute the Level collection. `source_map_current_level_room_zones_v1`
+composes a fresh caller-provided walk of the exact current Level+36 list through
+those canonical records, preserving source order and publishing transactionally.
+The integration caller still has to bind that list walk and record lookup; no
+public caller exposes the original Level+36 RoomZone list or ordered Level+244
+object walk yet. The map feature
 now adapts the same `GameplayCameraRuntimeV11` `CameraViewV11` matrices and
 requires a borrowed frame lease plus the actual active SceneManager and
 CameraBase identities before and after view acquisition. The caller still has
@@ -74,3 +78,16 @@ standalone test. The integrated acceptance still needs a captured original map
 page on a known level with visited/unvisited rooms, live player/NPC/objective
 markers and legend/reset-zoom interactions, plus a same-profile runtime
 capture.
+
+`source_map_decoded_room_zones_v1` is a separate decoded-geometry producer for
+`FixedMapV1::Borrow`. It retains the decoded map, calculates each placed
+module's source transformed-root AABB from its actual BRES mesh bounds and
+scene-instance matrices, and implements the same inclusive-XY `HasInside`
+predicate. This remains a RoomZone candidate subset: FixedMap has no actual
+RoomZone factory handle/type result, current Level+36 membership, live Module
+backlink or `visited3fc` cell. Its visitation is therefore `nullopt`, and
+`source_map_decoded_room_zone_inputs_v1` requires an explicit same-live-Module
+visitation reader before it can feed the existing Map.Show collector. It fails
+without publishing partial bounds/visitation results when required source data
+is absent. The actual SWAMP decoded-source test and evidence are recorded in
+`../map/runtime_source_map_page_v1-report.json`.

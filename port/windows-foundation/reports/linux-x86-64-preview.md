@@ -56,11 +56,24 @@ character art, and Start Game/Options/Info UI. The SDL window had to receive
 focus from the test window manager before the frontend's existing focus gate
 was satisfied. This was a controlled Xvfb window, not the user's live desktop.
 
-A separate Swamp diagnostic parsed the production level and reported 24,738
-triangles, 377 instances, and 392 render ranges. That diagnostic explicitly
-reports that it does not instantiate module gameplay objects, quests, lights,
-skybox, or campaign predicates. A full non-menu gameplay frame was not
-verified on this software-rendered environment.
+A separate run of the packaged ELF exercised the production `--start-mode swamp`
+path in a private Ubuntu 22.04 chroot and Xvfb/Mesa llvmpipe display. It loaded
+the Swamp level (24,738 triangles, 377 instances, 392 ranges), loaded 33
+population visuals, rendered 30 frames, captured a 1280x800 frame, and exited
+cleanly. The inspected capture is
+`.local-inputs/linux-full-swamp-smoke.png`; it shows the Swamp scene, HUD,
+player, priest, and environment. This verifies a rendered production Swamp
+session on software rendering, not the full campaign/quest logic: the level
+loader reports that module gameplay objects, quests, lights, skybox, and
+campaign predicates are not instantiated.
+
+The same run submitted the existing diagnostic walk input. The Knight began at
+`(1090.75,-212.202,255)`; the first valid movement admission was
+`(-0.270329,-1.32634,0)`, and after 30 frames the final actor position was
+`(985.634,-198.633,255)`. This verifies the diagnostic movement path changed
+the actor position in the rendered session. The configured attack window
+produced no `Damage frame=` event, so combat damage is not verified by this
+run. No native Fedora host or friend hardware was available.
 
 The ELF is x86-64 and dynamically links SDL2/OpenGL and system audio/window
 libraries. `readelf` reports maximum required symbol versions `GLIBC_2.35`

@@ -10,7 +10,7 @@ namespace dh::foundation::frontend::flow {
 // A desktop projection of authored navigation, not an ActionScript VM or a
 // replacement for MenuManager's animated movie/3D lifecycle.
 enum class Mode { offline_single_player, online_unavailable };
-enum class CreationStage { editing, saved, assigned, returned_to_main, complete };
+enum class CreationStage { editing, saved, assigned, returned_to_main, complete, result_unmapped };
 struct SlotFact { int id = -1; bool in_use = false; std::filesystem::path save_path; };
 struct SourceText {
     std::string path,value;
@@ -64,6 +64,9 @@ struct Services {
     // Optional synchronous visual owner. Accept proposed stack before committing
     // it; owner must report a real failure. Pure navigation tests omit this.
     std::function<bool(const std::vector<std::string>& previous,const std::vector<std::string>& next,std::string&)> present_stack;
+    // Non-vetoing authored NativePlaySoundFX statement; actual sound/output
+    // ownership remains with the frontend host.
+    std::function<void(const char* menu,const char* button,const char* action)> authored_menu_sound;
 };
 bool valid_authored_name(std::string_view raw) noexcept;
 const char* main_menu_error_symbol(int source_event) noexcept;

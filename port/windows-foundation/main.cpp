@@ -42,6 +42,10 @@
 #include "../script-runtime/script_constants.hpp"
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
+#include "features/frontend/menu_return/menu_return_v1.hpp"
+#if defined(_WIN32)
+#include "features/audio/frontend_menu_audio_v1.hpp"
+#endif
 #include "features/effects/runtime_effects_renderer_v1.hpp"
 #include "features/effects/runtime_swing_fx_observer_v1.hpp"
 #include "features/effects/celest_target_fx_dispatch_v1.hpp"
@@ -225,6 +229,7 @@ struct Options {
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
     std::vector<std::pair<int,int>> skillKeyFrames;
+    std::vector<std::pair<int,int>> spaceKeyIntervals;
     int menuCloseFrame=-1;
     int pausePageFrame=-1,pauseCloseFrame=-1;
     int windowWidth=0,windowHeight=720,resizeFrame=-1,resizeWidth=0,resizeHeight=0;
@@ -326,10 +331,17 @@ Options parse(int argc, char** argv) {
         else if(arg=="--menu-close-frame") o.menuCloseFrame=std::stoi(value());
         else if(arg=="--skill-key-frame") {
             const auto text=value();const auto split=text.find(':');
-            if(split==std::string::npos)throw std::runtime_error("Skill key frame requires FRAME:KEY(1..4)");
+            if(split==std::string::npos)throw std::runtime_error("HUD key frame requires FRAME:KEY(1..5)");
             const int frame=std::stoi(text.substr(0,split)),key=std::stoi(text.substr(split+1));
-            if(frame<0||key<1||key>4)throw std::runtime_error("Skill key frame requires nonnegative frame and key1..4");
+            if(frame<0||key<1||key>5)throw std::runtime_error("HUD key frame requires nonnegative frame and key1..5");
             o.skillKeyFrames.emplace_back(frame,key);
+        }
+        else if(arg=="--space-key-interval") {
+            const auto text=value();const auto split=text.find(':');
+            if(split==std::string::npos)throw std::runtime_error("Space key interval requires START:FRAME_COUNT");
+            const int start=std::stoi(text.substr(0,split)),count=std::stoi(text.substr(split+1));
+            if(start<0||count<1||std::int64_t(start)+count>std::numeric_limits<int>::max())throw std::runtime_error("Space key interval requires nonnegative start and positive bounded count");
+            o.spaceKeyIntervals.emplace_back(start,count);
         }
         else if(arg=="--window-size"||arg=="--resize-at") {
             auto dimensions=value();
@@ -574,6 +586,39 @@ int main(int argc,char** argv) {
                 options.movable=true;frontendStarted=true;e.clear();return true;
             };
             f::frontend::FrontendRuntimeServicesV1 frontendServices;
+#if defined(_WIN32)
+            std::unique_ptr<f::audio::FrontendMenuAudioSessionV1> menuAudio;
+            const auto pumpMenuAudio=[&]() {
+                if(!menuAudio)return;
+                menuAudio->pump_receipts();dh2::audio::AudioReceiptV34 receipt;
+                while(menuAudio->take_receipt(receipt))std::cout<<"Frontend audio device token="<<receipt.token<<" kind="<<int(receipt.kind)<<" frame="<<receipt.frame<<'\n';
+            };
+            const auto menuAudioActivity=[&](bool focused,bool minimized) {
+                if(!options.runtimeAudio)return;
+                std::string audioError;
+                if(!menuAudio&&focused&&!minimized) {
+                    auto audio=std::make_unique<f::audio::FrontendMenuAudioSessionV1>();
+                    const auto audioRoot=options.audioAssets.empty()?assets.root():options.audioAssets;
+                    if(audio->start(fs::absolute(audioRoot).generic_string(),focused,minimized,audioError))menuAudio=std::move(audio);
+                    else std::cerr<<"Frontend audio initialization diagnostic: "<<audioError<<'\n';
+                }
+                if(menuAudio&&!menuAudio->window_activity(focused,minimized,audioError))std::cerr<<"Frontend audio activity diagnostic: "<<audioError<<'\n';
+                pumpMenuAudio();
+            };
+            frontendServices.window_activity=menuAudioActivity;
+            frontendServices.navigation.authored_menu_sound=[&](const char* menu,const char* button,const char* action) {
+                if(!options.runtimeAudio)return;
+                menuAudioActivity(window.focused(),window.minimized());
+                if(!menuAudio){std::cout<<"Frontend audio skipped without actual window focus menu="<<menu<<" button="<<button<<'\n';return;}
+                std::int64_t eventNs{};std::string audioError;f::audio::FrontendMenuAudioReceiptV1 receipt;
+                if(!f::audio::frontend_menu_event_qpc_ns_v1(eventNs,audioError))std::cerr<<"Frontend audio QPC diagnostic: "<<audioError<<'\n';
+                else {
+                    menuAudio->play_authored_menu_action(menu,button,action,eventNs,receipt,audioError);
+                    std::cout<<"Frontend audio authored menu="<<menu<<" button="<<button<<" action="<<action<<" ordinal="<<receipt.source_ordinal<<" uid="<<receipt.xml_sound_uid<<" token="<<receipt.token<<" status="<<int(receipt.status)<<" qpcNs="<<eventNs<<" diagnostic="<<audioError<<'\n';
+                }
+                pumpMenuAudio();
+            };
+#endif
             f::character_menu::MenuLocalization profileLocalization;
             if(!profileLocalization.load(menuSource,"original-cache/data",0,menuError))
                 throw std::runtime_error("Frontend profile localization: "+menuError);
@@ -586,6 +631,21 @@ int main(int argc,char** argv) {
                 fact={slot,occupied,path};e.clear();return true;
             };
             frontendServices.navigation.inspect_slot=inspectProfileSlot;
+            frontendServices.borrow_selected_profile_snapshot=[&](const f::frontend::flow::SlotFact& expected,std::string& e)->std::optional<f::frontend::FrontendSelectedProfileSnapshotV1> {
+                f::frontend::flow::SlotFact actual;
+                if(expected.id!=selectedMenuSlot||!inspectProfileSlot(expected.id,actual,e)) {
+                    if(e.empty())e="Saved model presentation refers to a stale selected slot";
+                    return std::nullopt;
+                }
+                if(!actual.in_use||!expected.in_use||actual.save_path!=expected.save_path) {
+                    e="Saved model presentation path/occupancy differs from current slot";return std::nullopt;
+                }
+                auto saved=std::make_shared<f::CharacterState>();
+                if(!f::load_character(actual.save_path,*saved,e))return std::nullopt;
+                f::frontend::FrontendSelectedProfileSnapshotV1 snapshot{actual,std::move(saved)};
+                if(!snapshot.valid_for(expected)){e="Saved model presentation has no matching immutable profile identity";return std::nullopt;}
+                e.clear();return snapshot;
+            };
             frontendServices.navigation.project_selected_profile=[&](const f::frontend::flow::SlotFact& fact,std::vector<f::frontend::flow::SourceText>& fields,std::string& e) {
                 fields.clear();
                 if(fact.id!=selectedMenuSlot||fact.save_path!=slotPath(fact.id)||!fact.in_use){e="Profile presentation refers to a stale slot/path";return false;}
@@ -644,6 +704,9 @@ int main(int argc,char** argv) {
             if(options.menuFrames>0)menuConfig.capture_path=options.capture;
             menuConfig.selected_slot={options.selectedSaveSlot,fs::is_regular_file(slotPath(options.selectedSaveSlot)),slotPath(options.selectedSaveSlot)};
             const auto result=frontend.complete(f::frontend::run_frontend_v1(window,renderer,menuConfig,frontend.runtime_services()));
+#if defined(_WIN32)
+            if(menuAudio){pumpMenuAudio();std::string audioError;if(!menuAudio->shutdown(audioError))throw std::runtime_error("Frontend audio shutdown: "+audioError);menuAudio.reset();}
+#endif
             if(!result.gameplay_started_for(sharedCharacter,options.selectedSaveSlot)) {
                 if(result.frontend.outcome==f::frontend::FrontendRuntimeOutcomeV1::host_failed||result.frontend.outcome==f::frontend::FrontendRuntimeOutcomeV1::source_operation_failed)
                     throw std::runtime_error("Frontend: "+result.frontend.error);
@@ -1469,7 +1532,8 @@ int main(int argc,char** argv) {
                 case f::OriginalLifecycleOperation::restore_initial_rotation:actor.transform.rotation=request.initial_transform.rotation;return true;
                 case f::OriginalLifecycleOperation::revive:actor.health=actor.max_health;actor.resource=actor.max_resource;f::reset_actor_action(actor,f::CharacterAction::idle);return true;
                 case f::OriginalLifecycleOperation::clear_aggro:
-                case f::OriginalLifecycleOperation::clear_and_sync_target:actor.target_id=f::invalid_actor_id;return true;
+                case f::OriginalLifecycleOperation::clear_and_sync_target:
+                    return combatSession->set_source_target(actor.id,f::invalid_actor_id,false,e)&&combatSession->sync_source_last_target(actor.id,e);
                 case f::OriginalLifecycleOperation::cancel_sneaking:return true; // No sneak state is instantiated by this diagnostic host.
                 case f::OriginalLifecycleOperation::clear_idle_suppressed:lifecycleIdleSuppressed[actor.id]=false;return true;
                 case f::OriginalLifecycleOperation::init_physical:
@@ -1762,7 +1826,7 @@ int main(int argc,char** argv) {
             runtimeEquipmentAttachments=nullptr;runtimeEquipmentPage.reset();runtimeEquipment.reset();
             runtimeEquipmentText=f::equipment_menu::RuntimeEquipmentTextProviderV1{};
             f::equipment_menu::RuntimeEquipmentOptionsV1 config;
-            config.source_appearance_debug.load=[&](std::string& e){if(!sourceScopes){e="Equipment appearance requires the actual source Debug owner";return false;}e.clear();return true;};
+            config.source_appearance_debug.load=[&](std::string& e){if(!sourceScopes){e="Equipment appearance requires the actual source Debug owner";return false;}return sourceScopes->debug_load(e);};
             config.source_appearance_debug.query=[&](const char* key,std::string& e){bool value=false;if(!sourceScopes){e="Equipment appearance requires the actual source Debug owner";return false;}return sourceScopes->debug_switch(key,value,e);};
             for(unsigned slot=0;slot<config.slots.size();++slot)config.slots[slot]="slot-"+std::to_string(slot);
             for(const auto& equipped:state.equipment)if(equipped.equipment_set<=0) {
@@ -1780,6 +1844,22 @@ int main(int argc,char** argv) {
             if(!runtimeEquipmentText.bind(menuSourceOwner.source().loot.items(),properties.characters,menuLocalization,state,std::move(policy),config,pageBindings,equipmentError)) {
                 std::cerr<<"Equipment text diagnostic: "<<equipmentError<<'\n';return;
             }
+            const auto designBytes=assets.read("original-cache/data/pydata/design_pycst.bin");
+            const auto destroyDesign=[](dh2_script_constants* value){if(value)dh2_script_constants_destroy(value);};
+            std::unique_ptr<dh2_script_constants,decltype(destroyDesign)> design(dh2_script_constants_create(),destroyDesign);
+            dh2_script_constants_reload designReload{};std::int32_t transmuteMultiplier{};
+            if(!design||dh2_script_constants_load(design.get(),designBytes.data(),std::uint32_t(designBytes.size()),&designReload)!=0||designReload.consumed!=designBytes.size()||
+               dh2_script_constants_get(design.get(),"CharacterDesign","TransmuteMultiplier",&transmuteMultiplier)!=0)
+                throw std::runtime_error("Equipment source TransmuteMultiplier is unavailable");
+            pageBindings.details_text.transmute_value=[&,transmuteMultiplier](const f::InventoryItem& item,std::string& value,std::string& e) {
+                if(!combatSession||!combatSession->world()){e="Equipment ValueBox requires current Session";return false;}
+                const auto* player=combatSession->actor(combatSession->player_id());
+                const auto* source=combatSession->world()->combat_properties(combatSession->player_id());
+                if(!player||!source||!player->persistent_character_id||*player->persistent_character_id!=state.id){e="Equipment ValueBox player/profile identity differs";return false;}
+                f::equipment_menu::RuntimeEquipmentTransmuteValuePacketV1 packet;
+                if(!runtimeEquipmentText.transmute_value(item,source->sheets.resolved[197],transmuteMultiplier,packet,e))return false;
+                value=packet.formatted_value;e.clear();return true;
+            };
             auto binding=std::make_unique<f::equipment_menu::RuntimeEquipmentBindingV1>();
             if(!binding->bind(*combatSession,state,assets,assets,assets,properties,std::move(config),equipmentError)) {
                 std::cerr<<"Equipment binding diagnostic: "<<equipmentError<<'\n';return;
@@ -1960,15 +2040,22 @@ int main(int argc,char** argv) {
             if(!options.hud||!combatSession||!menuSourceOwner.valid()||!state.source_skill_slots_known)return;
             const auto row=std::find(properties.characters.names.begin(),properties.characters.names.end(),state.class_id);
             unsigned classFrame=0;
-            if(row==properties.characters.names.end()||!f::skill_ui::original_class_frame_for_row(int(row-properties.characters.names.begin()),classFrame,error))throw std::runtime_error("PC HUD class: "+error);
+            if(row==properties.characters.names.end()||!f::skill_ui::original_class_frame_for_row(properties.characters,int(row-properties.characters.names.begin()),classFrame,error))throw std::runtime_error("PC HUD class: "+error);
             std::array<f::generic_skills::PcSkillHudSourceStatusV1,3> status{};
             for(unsigned i=0;i<status.size();++i)status[i].source_slot=i;
             f::generic_skills::PcSkillHudFrameV1 frame;
             if(!f::generic_skills::project_pc_skill_hud_v1(state,combatSession->player_id(),properties.characters,menuSourceOwner.skill_owner->borrow(),0,status,skillCastCoordinator?skillCastCoordinator->receipt(combatSession->player_id()):nullptr,frame,error))throw std::runtime_error("PC HUD source: "+error);
             f::generic_skills::PcGameplayHudLayoutV1 layout;
             const auto circle=[](float x) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,278,15,{x-17,x+17,295,311}};};
-            layout.skills={circle(162),circle(200),circle(238)};layout.faery=circle(290);layout.potion=circle(328);
+            layout.skills={circle(162),circle(200),circle(238)};layout.faery=circle(290);layout.potion=circle(350);
+            layout.faery.key_label_bounds={267,313,295,311};layout.potion.key_label_bounds={319,381,295,311};
             if(!f::generic_skills::compose_pc_gameplay_hud_v1(frame,classFrame,layout,pcHudPresentation,error))throw std::runtime_error("PC HUD geometry: "+error);
+            std::uint64_t potionCount=0;
+            for(const auto& item:state.inventory)if(item.definition_id=="Potion0")potionCount+=item.quantity;
+            for(auto& field:pcHudPresentation.art.text_fields) {
+                if(field.path=="pc_hud/key_4"){field.initial_text="4 Faery";field.source_height=10;}
+                if(field.path=="pc_hud/key_5"){field.initial_text="5 Potion: "+std::to_string(potionCount);field.source_height=10;}
+            }
             pcHudReady=true;
         };
         updatePcHud();
@@ -2253,7 +2340,8 @@ int main(int argc,char** argv) {
             semanticInput.set_menu_open(characterMenu.is_open()||pauseMenuOpen);
             if(!window.focused()){semanticInput.lose_focus();mouseHeld=false;}
             const std::array<int,15> uiKeys{'A','D','W','S',VK_SHIFT,VK_SPACE,VK_TAB,'E','C',VK_ESCAPE,'1','2','3','4','5'};
-            for(int key:uiKeys)semanticInput.key(key,window.key_down(key));
+            const bool scheduledSpaceHeld=std::any_of(options.spaceKeyIntervals.begin(),options.spaceKeyIntervals.end(),[&](const auto& interval){return drawn>=interval.first&&drawn<interval.first+interval.second;});
+            for(int key:uiKeys)semanticInput.key(key,window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld));
             float pointerX=0,pointerY=0;
             if(window.cursor_position(pointerX,pointerY)) {
                 const bool down=window.key_down(VK_LBUTTON);
@@ -2276,6 +2364,7 @@ int main(int argc,char** argv) {
             }
             for(const auto& scheduled:options.skillKeyFrames)if(scheduled.first==drawn)semanticInput.key('0'+scheduled.second,true);
             auto uiInput=semanticInput.take_frame();
+            if(!options.spaceKeyIntervals.empty())std::cout<<"Semantic Space frame="<<drawn<<" scheduled="<<scheduledSpaceHeld<<" pressed="<<uiInput.attack.pressed<<" held="<<uiInput.attack.held<<" released="<<uiInput.attack.released<<" action="<<uiInput.actions.attack<<" focused="<<window.focused()<<'\n';
             for(const auto& scheduled:options.skillKeyFrames)if(scheduled.first==drawn)semanticInput.key('0'+scheduled.second,false);
             if(drawn==options.menuCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(drawn==options.pauseCloseFrame)semanticInput.key(VK_ESCAPE,false);
@@ -2333,25 +2422,31 @@ int main(int argc,char** argv) {
                 }
             }
             if(returnToFrontend) {
-                // The ordinary source return saves the level first, then the
-                // local profile. Active portable cast/timer capture remains a
-                // separate format boundary; navigation still completes.
-                bool quiescent=true;std::string saveError;
-                if(combatSession)quiescent=(!skillCastCoordinator||skillCastCoordinator->checkpoint_v1(*combatSession,saveError))&&combatSession->validate_lifecycle_checkpoint(saveError);
-                if(quiescent) {
-                    bool saved=true;
+                std::string saveError;
+                f::frontend::menu_return::TicketV1 ticket;
+                const bool admitted=combatSession&&skillCastCoordinator&&
+                    f::frontend::menu_return::request_v1({combatSession.get(),skillCastCoordinator.get(),true},ticket,saveError);
+                if(admitted) {
+                    f::frontend::menu_return::CommitV1 receipt;
+                    if(!f::frontend::menu_return::commit_v1(ticket,*skillCastCoordinator,options.level.generic_string(),options.liveSave,options.save,state,receipt,saveError)||!receipt.may_return_to_frontend)
+                        throw std::runtime_error("Pause main-menu save: "+saveError);
+                    std::cout<<"Pause main-menu save prefix frame="<<drawn<<" HP="<<state.stats.health<<" MP="<<state.stats.resource<<" profile="<<options.save.generic_string()<<" levelSaved="<<receipt.level_saved<<'\n';
+                } else {
+                    // A transient world program is not serializable here. Its
+                    // stable profile remains independently persistable.
+                    auto profile=state;
                     if(combatSession) {
                         const auto* player=combatSession->actor(combatSession->player_id());
-                        if(player&&player->alive()) {
-                            f::GameSave snapshot;
-                            saved=f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),snapshot,saveError)&&f::save_game(options.liveSave,snapshot,saveError);
-                            if(saved)state=snapshot.character;
-                        }
+                        if(!player||!player->persistent_character_id||*player->persistent_character_id!=profile.id)
+                            throw std::runtime_error("Pause profile-only save identity differs from current player");
+                        profile.stats.health=player->health;profile.stats.max_health=player->max_health;
+                        profile.stats.resource=player->resource;profile.stats.max_resource=player->max_resource;
                     }
-                    if(saved)saved=f::save_character(options.save,state,saveError);
-                    if(saved)std::cout<<"Pause main-menu save prefix frame="<<drawn<<" HP="<<state.stats.health<<" MP="<<state.stats.resource<<" profile="<<options.save.generic_string()<<'\n';
-                    else std::cerr<<"Pause main-menu save diagnostic: "<<saveError<<'\n';
-                } else std::cerr<<"Pause main-menu active persistence remains unsupported: "<<saveError<<"; returning to frontend\n";
+                    const auto checkpointDiagnostic=saveError;
+                    if(!f::save_character(options.save,profile,saveError))throw std::runtime_error("Pause profile-only save: "+saveError);
+                    state=std::move(profile);
+                    std::cout<<"Pause main-menu profile-only save frame="<<drawn<<" HP="<<state.stats.health<<" MP="<<state.stats.resource<<" profile="<<options.save.generic_string()<<" worldCheckpointOmitted="<<checkpointDiagnostic<<'\n';
+                }
                 break;
             }
             semanticInput.set_menu_open(characterMenu.is_open()||pauseMenuOpen);
@@ -2895,7 +2990,8 @@ int main(int argc,char** argv) {
                         for(const auto& v:pcHudPresentation.art.batches[i].triangles)vertices.push_back({(v.x+offset)*scale,v.y*scale,v.u,v.v});
                         if(!overlay.drawTriangles(vertices,pcHudPresentation.art.bitmap_ids[i]?hudTexture:0,pcHudPresentation.art.batch_colors[i]))throw std::runtime_error("PC HUD draw rejected");
                     }
-                    const auto signature=std::to_string(window.width())+":"+std::to_string(window.height());
+                    auto signature=std::to_string(window.width())+":"+std::to_string(window.height());
+                    for(const auto& field:pcHudPresentation.art.text_fields)signature+=':'+field.initial_text;
                     if(pcHudTextSignature!=signature) {
                         auto art=pcHudPresentation.art;
                         const float xScale=480.f/(window.width()/scale);

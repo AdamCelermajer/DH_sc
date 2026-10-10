@@ -34,6 +34,7 @@ struct CallContext {
     ActorId actor = invalid_actor_id;
     std::string* error{};
     std::vector<std::int32_t>* played_sets{};
+    std::string callback_error;
 };
 
 int equipped(void* raw, std::int32_t kind, std::uintptr_t& item) {
@@ -139,8 +140,8 @@ int step_play(void* raw, std::int32_t set, const float* position,
     auto& c = *static_cast<CallContext*>(raw);
     if (!c.effects || !*c.effects || set < 0 ||
         static_cast<std::size_t>(set) >= c.effects->sets().size())
-        return fail(*c.error, "AnimTable step FX is outside the original EffectsTables set rows") ? 0 : -1;
-    if (!c.manager->play_set(set, position, rotation, anchor, nullptr, *c.error)) return -1;
+        return fail(c.callback_error, "AnimTable step FX is outside the original EffectsTables set rows") ? 0 : -1;
+    if (!c.manager->play_set(set, position, rotation, anchor, nullptr, c.callback_error)) return -1;
     c.played_sets->push_back(set);
     return 0;
 }
@@ -227,6 +228,14 @@ void RuntimeSwingFxObserverV1::dispatch(const CombatSessionStepEntry& entry) {
         services.rotation = step_rotation;
         services.play = step_play;
         if (dh2::character::character_animation_step_fx_v2(step, services, error) != 0) {
+            // The recovered step kernel returns a generic operation label when
+            // PlayAnimFXSet fails. Keep the manager/provider reason captured by
+            // step_play so a production anchored failure can be fixed at its
+            // actual source boundary instead of being mistaken for a missing
+            // event or resource row.
+            if (!context.callback_error.empty() &&
+                error.find(context.callback_error) == std::string::npos)
+                error += ": " + context.callback_error;
             finish(false, std::move(error)); return;
         }
         finish(true);

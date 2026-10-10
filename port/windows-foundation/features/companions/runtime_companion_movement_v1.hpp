@@ -41,6 +41,8 @@ class RuntimeCompanionMovementV1 final {
 public:
     bool bind(CombatSession&, PlayableActorBodies&, std::string& error);
 
+    bool bound_to(const CombatSession&) const noexcept;
+
     bool execute(const RuntimeCompanionFollowDecisionV1&,
                  const dh2::character::ControllerCommandState32& source_gate,
                  bool remote_updated,

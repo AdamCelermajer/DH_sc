@@ -1,0 +1,38 @@
+{
+  "feature": "B024 Celest Main13 ground-flash edge",
+  "status": "SOURCE_TEXTURE_PASS_REGRESSION_PASS; NORMAL_CAPTURE_PACKET_MATCH_UNAVAILABLE; VISUAL_MISMATCH_UNPROVEN",
+  "investigation": {
+    "visual_evidence": {
+      "frozen_normal_capture": ".local-inputs/v19-frontend-hotfix/profile-projection/rogue-celest-fx-root-review27.png",
+      "sha256": "D12A2D2A5F426EC214632D3077A9AFC984D4D8149F7F3482391FD1CAD322779A",
+      "observation": "At the captured Celest cast, the bolt is visible over a blue ground quad whose rectangular edge can be seen. The paired frame20 image/log has MainSet=13 and 19 packet frames; frame65 has MainSet=13 and 64 packet frames, after the reviewed flash moment. These establish the reported port appearance and source-set activity, not per-draw identity at the exact screenshot time.",
+      "paired_logs_sha256": {
+        "frame20": "53F66F88A673028FDF71802BE713B2E56119AD09DE54A3EEEDE5D61C38E5B8FD",
+        "frame65": "B63D1BC89528CE7CDD01E74E26D89AC527BEEDE29EACE7296A549425A6F3D17B"
+      },
+      "original_gameplay_comparison": "The existing audit notes a softer bright circular flash near 495 s in the supplied v1.0.3 video. That scene is not proven to use this exact Main13 invocation, asset revision, timing, camera, or target state; it is not a matched original capture."
+    },
+    "logic_evidence": {
+      "source_resource": "data/3D/interface/spell_dh2_faery_lightning.bdae",
+      "source_resource_sha256": "24DE71141C46541F930841055880000446EB77A0C100DC09CABAD92550012B3E",
+      "source_main_material": "lightning_spawn_point",
+      "source_diffuse": "fx_spell_lightning_ground_flash.tga",
+      "source_diffuse_sha256": "EBC5CFAACC129976AED397434D5B67A33A276C6F7CE75780E39A0C12F1E28CBA",
+      "source_pass": "GL_FUNC_ADD, GL_ONE/GL_ONE, depth test GL_LEQUAL, depth write disabled, culling disabled, alpha test disabled; material diffuse color (0.588235,0.588235,0.588235,1); no separate alpha map.",
+      "recovered_source_evidence": "Existing port/windows-foundation/features/effects/celest-ground-flash-visual-audit.json records the original material/shader/pass and texture decode. effects_material_binding.cpp resolves the actual BRES material technique/pass; scene-materials/effect_render_pass_v4.cpp converts its source state; windows-foundation/renderer.cpp:49-70 applies retained source blend/depth state. EffectsRenderBridge::convert copies the baked source UV, vertex color, primitive indices, and source material result into a packet; the frozen frame logs do not serialize those values for the shown Main13 draw.",
+      "decoded_texture_evidence": "The pinned texture uses the foundation BTEX/PVRTC decoder to 128x128 RGBA. It contains 3906 zero-alpha texels; 431 of 508 perimeter texels have nonzero RGB. With authored ONE/ONE blending, zero alpha does not suppress RGB, so a rectangular perimeter is compatible with the source data/pass."
+    },
+    "expected_behavior": "Keep the exact authored decoded texture, its baked UV/geometry and retained source pass. Under ONE/ONE, perimeter RGB contributes even where texture alpha is zero; changing to alpha blending, premultiplying RGB, smoothing/fading, or reshaping the quad would alter source output without a demonstrated mismatch.",
+    "uncertainties": [
+      "The frozen screenshot/log pair has no draw-keyed packet dump tying the visible rectangle to lightning_spawn_point or capturing its actual Main13 UV, vertex-color, material/pass, sampling, transform, and ordering fields.",
+      "There is no matched original-game capture for the same build, cast phase, camera, and target state."
+    ]
+  },
+  "verification": {
+    "test": "run_celest_ground_flash_pixel_regression_v1.ps1 compiles with WSL g++ -std=c++17 -Wall -Wextra -Werror and decodes the pinned original source texture via engine-textures/textures.cpp and pvrtc.cpp. It checks source BDAE, texture, and frozen capture SHA-256 values; source decode size and edge statistics; then evaluates a zero-alpha/nonzero-RGB edge texel over black with the authored material modulation and ONE/ONE pass, contrasting conventional alpha blending.",
+    "result": "PASS source-pixel/pass regression: decoded=128x128 zero_alpha=3906 perimeter_rgb=431/508 representative_rgba=4,0,6,0 ONE/ONE_rgb=2,0,4 alpha_blend_rgb=0,0,0",
+    "scope_limit": "Deterministic source-pixel/pass proof only. It does not claim a GPU render or prove that the displayed frozen pixel came from the pinned Main13 material/packet."
+  },
+  "lead_normal_gpu_capture_condition": "On a fresh isolated save/window, reproduce the normal selected Mage slot0 Celest cast and capture the matched frame. Emit a draw-keyed packet receipt for MainSet=13/resource SHA 24de71141c46541f930841055880000446eb77a0c100dc09abad92550012b3e/material lightning_spawn_point/primitive, including post-bake packet UV bounds and vertex-color range, indices/geometry or stable hashes, world transform, resolved texture URI+SHA and decoded RGBA hash, material color, complete sourcePass (blend equation/factors, depth test/function/write, cull, alpha test), texture filter/wrap, scene layer/order, and exact cast frame/time. Capture pre/post framebuffer pixels for the quad region. Compare against a same-phase original build using the same source asset and matched camera/target; only a concrete source-vs-packet or pixel delta justifies an adapter/art change.",
+  "decision": "No visual/material/helper change. The source/pass and exact texture regression pass; because per-draw identity and a matched original frame are absent, the complaint remains visually unproven."
+}

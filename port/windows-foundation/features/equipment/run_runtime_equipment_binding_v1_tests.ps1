@@ -31,6 +31,7 @@ $sources = @(
     'port/windows-foundation/features/effects/effects_material_binding.cpp',
     'port/windows-foundation/asset_catalog.cpp',
     'port/windows-foundation/content_paths.cpp',
+    'port/windows-foundation/save_store.cpp',
     'port/windows-foundation/texture_loader.cpp',
     'port/windows-foundation/source_material_pass.cpp',
     'port/windows-foundation/equipment_visual.cpp',
@@ -76,7 +77,9 @@ $report = [ordered]@{
         'typed equip/unequip render receipts preserve same visual, Scene and attachment identity',
         'SourceComposition request_drop/request_auto_equip/request_transmute preserve selected source instance and slot as one-shot typed commands',
         'selected request_auto_equip consumes the existing dh2_equipment_auto_v3 EquipmentAdapter kernel and returns same-Scene render receipt',
+        'SaveStore profile save/reload after Auto-equip preserves the exact item instance ID and rebinds it to the same live preview owner',
         'composition provider retains RuntimeEquipmentPageV1 until teardown and releases it afterward',
+        'selected bare-item ValueBox amount packet uses actual ItemTable value words, same-player resolved property197, actual design_pycst TransmuteMultiplier, and original HudText integer formatter; stale and unsupported generated instances reject',
         'original ItemTable/HudText bare-definition name/details, empty-slot symbols, and potion quantity formatter',
         'unsupported powered/generated definitions fail explicitly instead of receiving fabricated descriptors'
     )
@@ -107,7 +110,8 @@ $previewReport = [ordered]@{
         'source_skin draw_views (including actual weapon rows) and the current EquipmentAttachmentSet are borrowed with actor/class/revision and consumed synchronously',
         'actual source ItemTable StartingSuit equip changes source modular body draw state and unequip restores the exact original module set',
         'injected second source Debug query failure preserves committed gear plus the first modular setter prefix, stops exactly at the reached callback, and later source refresh restores naked modules',
-        'rebinding the same Session with its equipped sword recreates source weapon draw views and the attachment receipt without advancing the pose clock',
+    'rebinding the same Session with its equipped sword recreates source weapon draw views and the attachment receipt without advancing the pose clock',
+    'profile SaveStore round trip preserves the exact auto-equipped inventory instance ID; rebinding the reloaded CharacterState recreates its same-Session weapon view',
     'source appearance plan setter prefix uses per-category Debug Load readiness followed by the real query adapter; native SourceRootScopes query bundles genuine Debug.Load/GetSwitch',
     'with_preview_packets uses the same pinned source body BRES and SkinOwner as modular refresh, then produces exact source geometry/material/pose packets via SourceEquipmentRenderBridgeV1 and original COMMON material bindings',
     'packet provenance is checked against every current draw-view primitive, including real weapon BRES leases; source packet world transforms remain unchanged for the main renderer to apply the authored preview rebase',
@@ -118,6 +122,6 @@ $previewReport = [ordered]@{
     test_debug_service = 'The linked source table/session test uses a deterministic callback seam to verify source order and prefix delivery; production must inject the actual combined SourceRootScopes Debug adapter described above.'
     packet_material_evidence = 'The linked packet test passes SourceEquipmentOriginalBindingsV1 callbacks, which reach OriginalEffectMaterialBinding using the exact body/weapon BRES and selected COMMON source pass while decoding real texture pixels. Its upload callback assigns CPU-only test texture handles; this test makes no live GL/pixel claim.'
     existing_wgl_evidence = 'The separate actual-source SourceEquipmentRenderBridgeV1 WGL smoke is recorded in port/windows-foundation/reports/feature-equipment.json: source_equipment_renderer_smoke reports four body packets, one weapon packet, two original decoded/uploaded textures, 1288 changed pixels, GL_NO_ERROR, and unchanged source Scene/clock. That is bridge/Renderer smoke evidence, not proof of this main Equipment page callsite.'
-    limitation = 'CPU/native proof only. Main still owns calling with_preview_packets during the Equipment page, applying source_inventory_rebase to each packet world transform, and submitting through Renderer.withViewport while keeping gameplay paused. Source weapon draw rows are already included in packets and must not be drawn again from attachments. No GUI or pixel result is claimed.'
+    limitation = 'The current main.cpp contains the Details Auto-equip receipt dispatch and calls with_preview_packets in the Equipment pane, applies source_inventory_rebase, and submits through Renderer.withViewport. These tests exercise the real CombatSession/item providers and isolated renderer; they do not establish a frozen normal-executable capture, cross-class visual matrix, or production-window pixel result. Source weapon draw rows are included in packets and must not also be drawn from attachments.'
 }
 $previewReport | ConvertTo-Json -Depth 7 | Set-Content -LiteralPath $previewReportPath -Encoding utf8

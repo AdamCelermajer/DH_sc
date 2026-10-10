@@ -17,6 +17,29 @@ int main() {
         return true;
     };
 
+    const flow::SlotFact rogue_slot{1, true, "isolated/profile-1.save"};
+    for (const char* class_id : {"KnightPlayerBase", "RoguePlayerBase", "MagePlayerBase"}) {
+        auto state = std::make_shared<dh::foundation::CharacterState>();
+        state->id = std::string("profile-") + class_id;
+        state->class_id = class_id;
+        FrontendSelectedProfileSnapshotV1 snapshot{rogue_slot, state};
+        if (!check(snapshot.valid_for(rogue_slot), "same-save selected profile snapshot admits each authored class")) return 1;
+    }
+    auto selected_state = std::make_shared<dh::foundation::CharacterState>();
+    selected_state->id = "rogue-profile";
+    selected_state->class_id = "RoguePlayerBase";
+    FrontendSelectedProfileSnapshotV1 selected_snapshot{rogue_slot, selected_state};
+    if (!check(!selected_snapshot.valid_for(flow::SlotFact{2, true, rogue_slot.save_path}),
+               "selected-profile snapshot rejects a neighboring slot identity")) return 1;
+    if (!check(!selected_snapshot.valid_for(flow::SlotFact{1, true, "isolated/other.save"}),
+               "selected-profile snapshot rejects a mismatched save path")) return 1;
+    if (!check(!selected_snapshot.valid_for(flow::SlotFact{1, false, rogue_slot.save_path}),
+               "selected-profile snapshot rejects an empty selected slot")) return 1;
+    auto unidentified = std::make_shared<dh::foundation::CharacterState>();
+    unidentified->class_id = "RoguePlayerBase";
+    if (!check(!FrontendSelectedProfileSnapshotV1{rogue_slot, unidentified}.valid_for(rogue_slot),
+               "selected-profile snapshot rejects missing same-save Character identity")) return 1;
+
     FrontendRunConfigV1 production_config;
     FrontendElapsedClockV1 elapsed_clock;
     elapsed_clock.reset(10.0);

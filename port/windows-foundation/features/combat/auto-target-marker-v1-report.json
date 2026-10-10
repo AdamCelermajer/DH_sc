@@ -1,6 +1,9 @@
 {
-  "bug_ids": ["B004", "B029"],
-  "status": "focused_policy_passed; production_integration_pending",
+  "bug_ids": [
+    "B004",
+    "B029"
+  ],
+  "status": "session_target_projection_focused_passed; production_renderer_integration_pending",
   "owner": "b004_auto_target_fresh; integration lead owns normal renderer caller; root owns CombatSession target state",
   "visual_evidence": {
     "original_reference": "Dungeon Hunter 2 v1.0.3 Part 1, local video .local-inputs/reference-video/dh2-act1/Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4; sampled contact sheet .local-inputs/reference-video/dh2-act1/target-retention-sequence-281-291.png",
@@ -74,7 +77,27 @@
     "The PC Space/Tab bindings are deliberate host adaptations. Their input UI does not establish native touch-control semantics."
   ],
   "implementation_and_acceptance": {
-    "this_task": "Added a pure presentation candidate policy and focused branch test; no CombatSession, main, CMake, renderer, save, or shared game-output edits.",
-    "remaining_gate": "This helper is not a B004/B029 closure. Lead must bind genuine last-target/OOI providers into the normal Windows presentation path, and root/lead must complete integrated gameplay/runtime and visual tests."
+    "this_task": "Session now publishes current and distinct source last-target projection through source setter/sync semantics. A feature-owned adapter now runs the recovered Character OOI update coordinator and publishes only identities that resolve to same-Session Characters. Focused same-session tests cover explicit/implicit release, BashDown Post clear, OOI decay/requery/unrepresented receiver/death, and source last-target precedence; B033 null-target admission remains sourceCombo-gated.",
+    "remaining_gate": "The adapter needs an authentic production Character v8c/v90 and ObjectManager+0x80 TargetList provider. Integration lead owns wiring target_presentation_state to the renderer once those real facts are available; no normal renderer or visual runtime acceptance is claimed. Keep B004/B029 open pending source provider, integrated build, and visual verification."
+  },
+  "session_projection": {
+    "files": [
+      "port/windows-foundation/combat_session.hpp",
+      "port/windows-foundation/combat_session.cpp"
+    ],
+    "api": "target_presentation_state exposes current ActorState target separately from source last_target and optional source OOI; set_source_target mirrors AI_SetTarget mode semantics, sync_source_last_target mirrors AI_SyncLastTarget; publish_source_object_interest is explicit and does not infer OOI/type.",
+    "known_rules": "Source-combo actors begin with source last_target known null. Non-null SetTarget(false) advances a known last-target when source setter semantics permit; SetTarget(true) changes current only; SetTarget(null,false) preserves last until SyncLastTarget copies current. OOI is unknown absent same-session publication and its signed interaction type; it is unknown after a later frame until republished.",
+    "focused_test": "run_target_retention_regression_tests.ps1 PASS: explicit target, released attack, BashDown Post clear, neutral frame, next Space reacquisition, implicit attack release, current-target death cleanup. The helper resolver consumes Session last-target and OOI-known state; this tests identity candidate only, not rendered marker.",
+    "nullable_admission": "B033 sourceCombo melee admission patch integrated: null target is allowed only after original sourceCombo attack service gates/search and only for melee geometry; retains owner/action/pose/cooldown and owner flag bit1 admission. Non-null target checks and diagnostic path remain unchanged.",
+    "limitations": "No authentic production ObjectManager+0x80 TargetList provider with exact Character v8c/v90 facts is wired. The feature-owned source_interest_adapter invokes the recovered 0x3abb9c coordinator over caller-borrowed fields/services and publishes only actual source identities resolving to same-Session Character Actors; production OOI remains unknown absent that provider. Normal renderer integration and visual runtime verification remain pending."
+  },
+  "source_interest_adapter": {
+    "files": [
+      "port/windows-foundation/features/combat/session_source_object_interest_v1.hpp",
+      "port/windows-foundation/features/combat/session_source_object_interest_v1.cpp"
+    ],
+    "source_coordinator": "Calls port/level-world/character_object_interest_v106.cpp using caller-borrowed live Character OOI fields and CharacterInterestServicesV106. Requires actual source Object->Session ActorId resolver for both owner and candidate. It never derives OOI from current/selected target. Unrepresented non-Character source objects leave Session OOI unknown rather than aliasing IDs.",
+    "focused_verification": "The same-session target-retention runner now drives source OOI update with an injected TargetList/service fixture: initial candidate 2/type8, unchanged OOI through BashDown current+last clear, source 500 ms countdown and requery with no false changed latch, unknown projection for an unrepresented non-Character, and OOI clear when the target dies. Candidate identity still resolves through source last_target first when present.",
+    "production_gap": "This is an integration-ready typed adapter, not a production TargetList provider. Character v8c IsInteractive and v90 GetInteractionType bodies are available in character_target_providers, but the modern Session has no authentic candidate owner projections for disabled+0x81, visible+0x8a, flags+0x520, interaction byte+0x415, or exact GetCharAIId/type receiver. Session world actors() is ActorId-sorted and does not carry original ObjectManager+0x80 room-list chronology. Do not map PlayableActorTraits.targetable or PopulationActor enabled to these unrelated fields. Lead must provide exact current receiver and canonical manager/order facts before production composition."
   }
 }

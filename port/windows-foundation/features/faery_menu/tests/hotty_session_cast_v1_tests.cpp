@@ -3,6 +3,7 @@
 #include "../hotty_effects_v1.hpp"
 #include "../celest_cast_v1.hpp"
 #include "../celest_source_use_v1.hpp"
+#include "../session_faery_page_v1.hpp"
 #include "../../../combat_session.hpp"
 #include "../../../original_actor_properties.hpp"
 #include "../../../../game-data/ai.hpp"
@@ -199,7 +200,8 @@ int main(int argc, char** argv) {
         placed.transform = {1,0,0,0,0,1,0,0,0,0,1,0,0,-100,0,1};
         population.actors().push_back(std::move(placed));
         CharacterVisual player_visual;
-        CombatSession session;
+        auto session_owner = std::make_unique<CombatSession>();
+        CombatSession& session = *session_owner;
         check(session.initialize(assets, database, melee, config, player_visual,
               population, {0,0,0}, customization, error), error);
         check(session.player_id() == 1 && session.actor(2) && session.world(),
@@ -255,6 +257,96 @@ int main(int argc, char** argv) {
               faery_tables.faery_names().at(7) == "Hotty" &&
               faery_tables.faeries().at(7).script == "faerie_hotty",
               "connected Hotty cast did not borrow actual FaeryList/Hotty source rows");
+
+        // The menu click uses the same profile/table/Session and a bank built
+        // before Session initialization. It may not fall back to writing the
+        // CharacterState slot when source continuations are missing.
+        generic_skills::RuntimeSkillAnimationBankV1 menu_spell_bank;
+        menu_spell_bank.character_state_id = character.id;
+        menu_spell_bank.class_id = character.class_id;
+        menu_spell_bank.source_animation_table_id = spell_animation_table;
+        menu_spell_bank.faery_cast_slots[0] = {spell_animation_table, 0,
+            celest_sequence_id, skills_animation::skill_sequence_state(celest_sequence_id), true, {}};
+        menu_spell_bank.faery_cast_slots[4] = {spell_animation_table, 4,
+            spell_sequence_id, skills_animation::skill_sequence_state(spell_sequence_id), true, {}};
+        auto menu_owner = std::make_shared<int>(1);
+        CharacterStateFaeryBindingsV1 page_bindings;
+        page_bindings.owner = menu_owner;
+        page_bindings.character = &character;
+        page_bindings.tables = faery_tables;
+        page_bindings.difficulty = 0;
+        page_bindings.validate_same_character = [&character](const CharacterState* actual, std::string&) {
+            return actual == &character;
+        };
+        page_bindings.localize = [](const std::string& symbol, std::string& value, std::string&) {
+            value = symbol;
+            return true;
+        };
+        std::vector<std::string> menu_order;
+        SessionFaeryActivationV1 activation;
+        activation.owner = menu_owner;
+        activation.character = &character;
+        activation.session = &session;
+        activation.tables = faery_tables;
+        activation.animation_bank = &menu_spell_bank;
+        activation.difficulty = 0;
+        activation.profile_faery_list_id = 2;
+        activation.validate_same_session = [](CombatSession& current, const CharacterState&, std::string&) {
+            return current.world() && current.player_id() == 1;
+        };
+        activation.change_current = [&menu_order](CombatSession&, CharacterState& same, std::uint32_t slot, std::string&) {
+            menu_order.push_back("ChangeFaery");
+            same.faery_by_difficulty[0].current_faery = static_cast<std::int32_t>(slot);
+            return true;
+        };
+        activation.update_all_skills = [&menu_order](CombatSession&, CharacterState&, std::string&) {
+            menu_order.push_back("UpdateAllSkills");
+            return true;
+        };
+        activation.place_selected_visual = [&menu_order](CombatSession& current, CharacterState&, std::string&) {
+            menu_order.push_back("VisualPlacement");
+            return current.retained_actor_visual_borrow(1) != nullptr;
+        };
+        auto incomplete_activation = activation;
+        incomplete_activation.place_selected_visual = {};
+        character_menu::SourcePageProviderV1 rejected_provider;
+        check(!bind_session_faery_page_provider_v1(
+                  page_bindings, incomplete_activation, rejected_provider, error) &&
+              character.faery_by_difficulty[0].current_faery == 4 &&
+              error.find("visual placement") != std::string::npos,
+              "missing real visual placement continuation must reject before changing the selected slot");
+        incomplete_activation = activation;
+        incomplete_activation.update_all_skills = {};
+        check(!bind_session_faery_page_provider_v1(
+                  page_bindings, incomplete_activation, rejected_provider, error) &&
+              character.faery_by_difficulty[0].current_faery == 4 &&
+              error.find("UpdateAllSkills") != std::string::npos,
+              "missing UpdateAllSkills continuation must reject before changing the selected slot");
+        auto incomplete_bank = menu_spell_bank;
+        incomplete_bank.faery_cast_slots[0].loaded = false;
+        auto bank_activation = activation;
+        bank_activation.animation_bank = &incomplete_bank;
+        check(bind_session_faery_page_provider_v1(
+                  page_bindings, bank_activation, rejected_provider, error), error);
+        check(!rejected_provider.release(80.f, 80.f, error) &&
+              character.faery_by_difficulty[0].current_faery == 4 && menu_order.empty(),
+              "missing target Cast bank root must reject the click before ChangeFaery or its continuations");
+        character_menu::SourcePageProviderV1 session_provider;
+        check(bind_session_faery_page_provider_v1(
+                  page_bindings, activation, session_provider, error), error);
+        check(slot_at(80.f, 80.f) == 0 &&
+              session_provider.release(80.f, 80.f, error) &&
+              character.faery_by_difficulty[0].current_faery == 0 &&
+              menu_order == std::vector<std::string>{"ChangeFaery", "UpdateAllSkills", "VisualPlacement"},
+              "same-Session Faery release must use the preloaded Celest bank and source continuation order");
+        check(session_provider.release(80.f, 80.f, error) &&
+              menu_order.size() == 6 && menu_order[3] == "ChangeFaery" &&
+              menu_order[4] == "UpdateAllSkills" && menu_order[5] == "VisualPlacement",
+              "a second authored click must repeat the source action once in source continuation order");
+        const auto changed_twice = menu_order.size();
+        check(session_provider.release(0.f, 0.f, error) && menu_order.size() == changed_twice,
+              "outside the authored Faery contour must be consumed without invoking source continuations");
+        character.faery_by_difficulty[0].current_faery = 4;
         dh2::data::PropertyRules rules;
         check(dh2::data::load_property_rules(database.characters, rules, error), error);
 
@@ -943,7 +1035,13 @@ int main(int argc, char** argv) {
               session.world()->random_state().seed == lethal_rng_after.seed &&
               session.world()->random_state().calls == lethal_rng_after.calls,
               "Duplicate Celest dead-target formula occurrence replayed RNG or health");
-        std::cout << "PASS connected Hotty state7 do_spell and ordinary source Mage slot0 Celest double-roll same-Session behavior; CPU-only source BDAE instance creation verified\n";
+        const auto callbacks_before_session_teardown = menu_order.size();
+        session_owner.reset();
+        check(!session_provider.release(80.f, 80.f, error) &&
+              error.find("Session lifetime") != std::string::npos &&
+              menu_order.size() == callbacks_before_session_teardown,
+              "Faery provider must reject after its bound Session is destroyed before invoking source callbacks");
+        std::cout << "PASS connected Hotty/Celest behavior and Faery provider teardown guard; CPU-only source BDAE instance creation verified\n";
         return 0;
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';

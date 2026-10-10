@@ -1,7 +1,7 @@
 {
-  "output": "PASS creation adapter: exact class order, service gates, shared state staging, dynamic original labels/colors, SAME saved name/level, invalid projections",
-  "flags": "-std=c++17 -Wall -Wextra -Werror",
   "status": "PASS",
+  "output": "PASS creation adapter: exact class order, service gates, shared state staging, dynamic original labels/colors, SAME saved name/level, invalid projections",
   "compiler": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-toolchain\\llvm-mingw-20261006-ucrt-x86_64\\bin\\clang++.exe",
+  "flags": "-std=c++17 -Wall -Wextra -Werror",
   "scope": "Adapter contract tests with arbitrary provider fixtures; not full campaign creation parity"
 }

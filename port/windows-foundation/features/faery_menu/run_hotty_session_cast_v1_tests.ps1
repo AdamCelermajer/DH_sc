@@ -86,6 +86,10 @@ $sources = @(
     (Join-Path $PSScriptRoot 'hotty_source_use_v1.cpp'),
     (Join-Path $PSScriptRoot 'celest_cast_v1.cpp'),
     (Join-Path $PSScriptRoot 'celest_source_use_v1.cpp'),
+    (Join-Path $PSScriptRoot 'session_faery_page_v1.cpp'),
+    (Join-Path $PSScriptRoot 'character_state_page_v1.cpp'),
+    (Join-Path $PSScriptRoot 'original_art.cpp'),
+    (Join-Path $PSScriptRoot 'source_text_v1.cpp'),
     (Join-Path $PSScriptRoot 'hotty_effects_v1.cpp'),
     (Join-Path $PSScriptRoot 'hotty_effects_tables_v1.cpp'),
     (Join-Path $root 'port\windows-foundation\features\effects\runtime_effects_factory_v1.cpp'),
@@ -169,8 +173,9 @@ $includes = @(
     (Join-Path $root 'port\physics-backend'),
     (Join-Path $root 'port\level-loader\vendor\tinyxml')
 ) | ForEach-Object { '-I' + $_ }
+$includes += @('-isystem', (Join-Path $root 'port\physics-backend\box2d-2.0.1\Include'))
 & $Compiler -std=c++17 -O1 -g -static -Wall -Wextra -Werror `
-    -Wno-missing-field-initializers -Wno-misleading-indentation -Wno-unused-function @includes @sources `
+    -Dfinite=_finite -Wno-missing-field-initializers -Wno-misleading-indentation -Wno-unused-function -Wno-unused-value @includes @sources `
     '-Wl,--start-group' @libraries '-Wl,--end-group' `
     -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 `
     -luuid -lcomdlg32 -ladvapi32 -o $output

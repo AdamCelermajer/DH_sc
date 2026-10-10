@@ -187,3 +187,139 @@ First integrated slot-smoke failure (lead's isolated own-window run, result `C6C
 Second integrated run (`.local-inputs/v19-frontend-hotfix/profile-slots-main/slots.log`, result `73E72A…7C41`) completed the accepted production rename and preserved the original bytes in the recoverable sibling `.removed-1791580344`, then failed in `Navigator::resolve_remove_selected` at `flow/menu_flow.cpp:98`. The production check incorrectly required an empty refreshed slot to have a different path. The actual Main callback correctly returns the same canonical slot path with `in_use=false`; retaining that path is necessary so later slot selection identifies the same slot, while its former bytes now live under the recovery sibling. The stale occupied fact after this bad rejection caused the later metadata projection to try loading the removed pathname. The original file is recoverable and the test seed must be copied to a fresh sandbox path before retry; do not overwrite the recovery sibling or an existing created profile.
 
 Integrated verification after the fixes: lead confirms the frozen executable SHA begins `DB0E4987` and ends `6482E615`; its build included `flow/menu_flow.cpp` SHA256 `24055D1AF0A2ECBC4101780811B810447492B5FBF0CFEB70AB6DDAE8821409C8`, with the object built before that executable. The isolated current-main window exited0 and emitted `profile_slot_smoke: PASS` in `.local-inputs/v19-frontend-hotfix/profile-slots-main-2/slots.log` at 2026-10-09 21:14:55.163Z. All expected phase captures are present in `profile-slots-main-2/captures/`: 00–06 cover initial slot0, genuine Rogue slot1, confirmation, refusal bytes, accepted confirmation, empty slot1 after rename and arrows; 09–11 show Knight→Rogue→Knight; 12 shows the one created Knight profile after two Confirm releases; 14 and16 verify post-create empty/occupied arrows and exact selected-profile page before Load. The log reports 2 Confirm releases, created slot1, exact loaded path `character-slot-1.save`, recoverable sibling `character-slot-1.save.removed-1791580485`, and generic Start delivered. The recovered sibling SHA256 `AF04B723A32CF7B07F78CB102F429AD85C690FFC3443D85F4294CA9E12E5058A` matches the seed bytes. I inspected phase12 and phase16: sparse metadata fields are blank, class/name/level remain, and the base third row reads ACHIEVEMENTS; no WARRIOR or BtnText placeholders remain. This verifies the isolated menu/profile sequence, not live gameplay. The class-scene camera/ground-coverage issue remains separate and uncorrected; these StartGame captures do not measure 1280x720 or 1920x1080 class viewport coverage.
+
+## B008 selected-profile projection audit (2026-10-10)
+
+Visual evidence: the supplied still at `C:/Users/adamc/AppData/Local/Temp/codex-clipboard-b847e6e5-6c9c-4e2d-912b-3ce0f3bb7c93.png` (SHA256 `FBD5FD2FF6A6CA964731629B1E4CB4E2923DA5D83780A9DE51F2DE502F5311B5`) directly shows one profile panel repeating `WARRIOR` in every metadata row; as a still it has no timestamp and cannot prove a class transition or launch. The user-provided MainMenu reference `.local-inputs/dh2-final-mainmenu.png` (SHA256 `6596B570EA1E44AD4D0B354B036D8702F96DE6B88CFE36A77C9A3F4DB7EE700B`) shows a selected Warrior profile and an equipped Warrior standing in front of the Boglands statue. For the current selected Rogue production path, `.local-inputs/v19-frontend-hotfix/profile-slots-main-2/captures/profile-slot-01-occupied-rogue-slot-1.png` is direct evidence of `QA / Rogue / LEVEL 1`, with the statue visible but no saved player model submitted. These are three stills; no continuous Rogue launch→return sequence was observed.
+
+Logic evidence: original SWF `root/sprite510` `getSlot` at offset292352 calls `NativeGetSaveSlotDetails(current_slot)` and writes the selected name, class and level into PlayerInfos. Its empty-slot branch hides PlayerInfos, PlayerRender and Delete. The slot arrows at offsets293732/293909 bound indexes0..3, select a new SlotID and call `NativeSetSaveSlotIDToMainMenu`. Original `MenuMainMenu::SetupCharacter` at ARM `0x42bd08` loads the same occupied slot through `Character::CreatePlayer(newProfile=false)` and `SG_Load(4)`; an empty slot creates a fresh profile. `Character::SafeGetCharPropsId` at ARM `0x3b3d38` reads PCLS from that Character's Save (defaulting only when class is -1); `Character::GetCharModelName` at ARM `0x3a54d4` resolves the model name before VisualObject setup and has equipment/game-state override branches. In the native profile handoff, `SelectedProfileBindingV1` retains the exact selected file/Save and `CanonicalCharacterCandidateRecordV60` carries that same class/Gear into native construction. The source class showcase uses `models/prince_modular.bdae` for all three base classes (`preview/EVIDENCE.md`); Rogue appearance comes from its class properties, animations and the selected profile's Gear/daggers, so choosing a different base filename by label would be wrong.
+
+Expected behavior: each occupied slot displays the name, localized class and level from that exact selected Save, with absent campaign fields cleared, and its visible Character/Gear comes from the same Save. Selecting or launching the Rogue profile must keep its Rogue model/appearance and saved gear through the return to that profile panel. The minimal text guard fails the projection atomically when the source provider supplies no class label; this prevents a successful partial binding from leaving the SWF's static Warrior label visible. The new render seam accepts a distinct immutable generic save snapshot from the exact slot/path, chooses its authored class body and applies its actual saved Gear through the source skin/render owners. It does not treat the fixed class-creation starting kit as saved Gear.
+
+Uncertainty: the user-provided source MainMenu still depicts Warrior only, so it cannot establish original Rogue pose or gear. We have source code and native construction evidence for the selected class/model identity, but no integrated visual capture of the saved Rogue actor or Rogue launch→return continuity. Original package/version differences remain possible between the 1.0.2 recovered assets/source export and the referenced 1.0.3 video.
+
+
+Saved-actor integration detail: `FrontendSelectedProfileSnapshotV1` in
+`frontend_runtime_v1.hpp` carries the exact selected `SlotFact` and a
+`shared_ptr<const CharacterState>`. `valid_for` enforces matching occupied slot,
+path and nonempty Character identity/class. The Main/StartGame render owner uses
+the snapshot's class to pick the source class body configuration, parses the
+real `loot_table` ItemTable, maps the same state's equipment with
+`prepare_source_equipment_appearance`, and applies it through a retained
+`VisualSkinOwnerV6`. Debug Load/Get uses the actual source `DebugSwitches` owner,
+stdio file services and AssetCatalog path resolution. The source equipment
+bridge supplies exact body/weapon geometry and original COMMON texture/pass
+binding; only those packets are submitted. The body uses the original menu
+camera and the source `(0,-200,-20)` / `PI * -0.125` / class property scale
+placement from `renderer_front_draw_v87.inc`.
+
+Focused verification: the runtime contract test now admits Knight/Rogue/Mage
+snapshots and rejects adjacent slot, wrong path, empty selection and missing
+Character identity. The updated statically linked Windows test passed 35
+assertions, and strict MinGW syntax checks passed for both the presentation TU
+and snapshot tests. The normal presentation path now emits a one-time
+`profile_actor` record for each resolved Main/Start profile render key, including
+menu, slot/path, Character/class, appearance-step and total draw-packet counts;
+the production slot smoke also asserts matching snapshot, Character, class and
+nonempty retained source render packets on every occupied Main/StartGame
+capture. This is focused/source preparation, not integrated visual
+verification. The lead must build the coherent executable and capture
+isolated selected Knight/Rogue/Mage profiles on MainMenu and StartGame, then
+verify Rogue launch/return with unchanged Save/Gear identity. No new-build image
+is claimed yet.
+
+Concrete integration fixture handoff: read-only inventory found isolated class
+saves at `.local-inputs/b003-production-space/knight-isolated.save`,
+`.local-inputs/b003-production-space/current-227f/rogue-no-reassignment/rogue-isolated.save`,
+and `.local-inputs/b026-mage-current-candidate/profile.save` (the latter's
+serialized identity is `MagePlayerBase`). Copy each fixture into a fresh,
+unique per-class sandbox save path before starting the normal executable; never
+pass the fixture originals as writable game saves. The host accepts
+`--start-mode menu --save <sandbox-save-file> --save-slot 0 --menu-capture-directory <unique-capture-dir>`
+and uses the ordinary MainMenu→Single Player transition to reach StartGame.
+Capture both menus for each class and retain each process log's `profile_actor`
+record: its class, save path and Character id must match the copied Save, and
+its source Gear packet count must be nonzero. On the Rogue run, use the ordinary
+Start action then the source return-to-menu path; compare the same copied Save
+bytes and actor/Gear identity before and after. These fixture paths are test
+inputs only.
+
+Gear regression finding from the isolated normal-host capture (2026-10-10):
+the frozen `E826D7CC45B1EA507F9E390A70A4CAFE839D9523AD2D1771E1363F9CFA900A34`
+executable rendered the right class body on both MainMenu and StartGame for the
+copied Knight/Rogue/Mage saves, but each `profile_actor` record reported only
+four render packets; direct PNG inspection showed no Rogue daggers, Mage staff,
+or the equipped Knight longsword. These are fresh copies under
+`.local-inputs/b008-production-profile-matrix`, not fixture originals. This
+isolated matrix directly reproduced the remaining model projection failure.
+The PNGs are 1280×720. MainMenu images: Rogue `rogue/main/final.png`
+SHA-256 `BDE2DA208D88F02AF87F178647FDB911E838812667A43D444805DC559A6E74C0`,
+Mage `mage/main/final.png` SHA-256
+`7ED1810060A609FFF6D79A993DAA6506F055A0FFA02137DCBA0FEC52BDC7FD03`, and
+equipped Knight `knight-equipped/main/final.png` SHA-256
+`DCA15C61D5CFF433DD3890BDB8BC600012D792B92FBD906A17A7D2B11BE09433`.
+Each capture used three menu frames; the MainMenu logs report source-clock
+times of 150 ms (Rogue/Knight) and 167 ms (Mage). Corresponding StartGame
+images/logs are preserved in their `start/` folders.
+
+Recovered-source cause: `main.cpp`'s production `bindEquipmentPage` maps each
+`EquipmentBinding` with `equipment_set <= 0` from `source_slot` to its actual
+saved `slot` name (with only the known legacy `main`/`off` aliases). The source
+`prepare_source_equipment_appearance` then resolves equipment by exact
+`binding.slot == slots[source_slot]` (`features/equipment/source_equipment_appearance.cpp:19-31`).
+The profile renderer had instead supplied generic `slot0`...`slot8`, so the
+appearance plan treated all nine slots as empty despite borrowing the correct
+same-save Character. The patch now builds nine distinct names per immutable
+snapshot from these exact source bindings, rejects duplicate/out-of-range or
+unknown active mappings, and passes those names to the existing source
+appearance owner; it does not generate equipment or replace the Save. The
+frozen E826 matrix above is the before-state only. Post-patch integrated
+verification used the normal host executable
+`.local-inputs/v19-frontend-hotfix/preview-verified-menu-audio/dh-foundation.exe`,
+SHA-256 `F35873F611975FAA52D62EED42A7B3CF642D84EB2B490EF923CCEBAFF56DCDC4`.
+Each input Save was copied again into
+`.local-inputs/b008-production-profile-matrix/postfreeze-f35873`; no fixture or
+user Save was passed as writable input. Three-frame MainMenu and StartGame
+runs exited 0 for all classes. The exact same selected Save path and Character
+`profile-slot-0` appear in each pair of actor records. Before projection the
+same-class baselines were four packets; after projection Knight with
+`Longsword01` in source slot 1 reports 5 packets, Rogue with `Dagger01` in
+source slots 1 and 2 reports 6, and Mage with `Staff01` in slot 1 reports 5.
+Each also retains its saved suit/boots/gloves (six appearance steps total).
+All six 1280×720 PNGs were inspected: the MainMenu and StartGame bodies and
+weapon silhouettes match the serialized Warrior/Rogue/Mage identity, and text
+labels read `WARRIOR`, `ROGUE`, `MAGE` respectively. The filenames are
+`knight-equipped/{main,start}/final.png`, `rogue/{main,start}/final.png`, and
+`mage/{main,start}/final.png` under that capture root. Their SHA-256 values are:
+
+| Profile | MainMenu PNG | StartGame PNG |
+|---|---|---|
+| Knight | `112721E12254DF20424B5C24781635F17C4C20C3EF4390AE65802A10225D8DBC` | `8BE89621B51D14AB78EB4707876C432E4FDBF976E006634CDF2715B048AB2D92` |
+| Rogue | `45BB0DC94C5371A9888B174830E2BB406AA7EC4D92B7E866D0B59EE1292D0E67` | `F61CB830ACD8BE849514BCFE629A4C4FADD9C3FDA327D0E94CDB1FE129E52598` |
+| Mage | `8A2E02338FFBCA559095ABBABDF51A7B5D90548A210E82F0C1333245DFF21821` | `9C15CA7A7BA2ECEE3DD09302586B13DD20854023AFFBEA74CB4A3DD07F711D63` |
+
+The isolated Rogue return route used the same frozen executable and another
+copied save at `.local-inputs/b008-production-profile-matrix/rogue-return-f35873/profile.save`.
+With source controller policy `development-controller.xml`, the ordinary
+MainMenu Single Player → Start Game route entered the gameplay host; the source
+pause page was opened at frame 0 and its authored Main Menu then Yes hit
+regions were clicked at frames 1 and 2. The normal return route wrote the
+profile and reconstructed the frontend. The pre-run and post-run save SHA-256
+were both `AF04B723A32CF7B07F78CB102F429AD85C690FFC3443D85F4294CA9E12E5058A`.
+After return, `profile_actor` reported `menu_StartGame`, slot 0, the same save
+path, Character `profile-slot-0`, class `RoguePlayerBase`, six appearance steps
+and six render packets. The returned-menu screenshot was 1280×720,
+SHA-256 `80E3F6B15F1CBC6D47C1C15558931661FD1D756B3107F7DEEBA6F9CF4FC0DFE2`;
+it directly shows the Rogue body, both saved daggers and `QA / ROGUE`. Its
+right-side button artwork was still transitioning after the three-frame return
+capture, so the settled six-class menu matrix above remains the visual panel
+reference. The isolated route's full stdout/stderr are in
+`rogue-return-f35873/return-with-controller.log` and `.err`. An audio attempt
+was skipped by the real focus gate because this no-activation CLI process had
+no OS window focus; no MenuConfirm playback is claimed.
+
+Together, the six normal MainMenu/StartGame captures and the same-save Rogue
+start/return roundtrip verify selected-profile labels, class appearance,
+equipped Gear projection and returned Character/Gear identity for the isolated
+records. The route intentionally advanced no gameplay update (`updateSerial=0`);
+it does not claim combat progression or OS-focused audio delivery.

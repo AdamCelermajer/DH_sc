@@ -84,7 +84,10 @@ public:
     explicit CombatSystem(CombatWorld& world) : world_(world) {}
     // Side-effect-free admission for a caller that must run accepted transition
     // effects before committing action/target/cooldown. begin rechecks the same
-    // rules; no ticket can bypass live target or cooldown validation.
+    // rules; no ticket can bypass owner, action or cooldown validation. A null
+    // melee target represents a caller-admitted ordinary C354 swing; ranged
+    // attacks still require a live target. Source command/FSM gates belong to
+    // the caller, and targetless markers never fabricate a hit.
     bool validate_begin(ActorId attacker, ActorId target, const AttackDefinition&,
                         std::uint64_t animation_generation,std::string& error);
     // Generation must be the selected animation cursor generation. An actor
@@ -120,6 +123,7 @@ public:
     void clear();
     bool attacking(ActorId attacker) const noexcept;
     bool active_target_valid(ActorId attacker);
+    bool active_attack_valid(ActorId attacker);
     double cooldown_remaining(ActorId attacker) const noexcept;
 
 private:

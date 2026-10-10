@@ -66,7 +66,8 @@ target_sources(dh2_freetype237 PRIVATE "${DH2_FT237}/src/base/ftbitmap.c")
 target_include_directories(foundation_data PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(foundation_data PUBLIC recovered_content content_xml dh2_freetype237)
 add_executable(dh-foundation main.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp render_queue.cpp overlay_renderer.cpp)
-target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp)
+target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp)
+target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v1.cpp)
 add_library(foundation_runtime_potion STATIC
   features/inventory/runtime_session_potion_use_v1.cpp
   ../level-world/character_skill_application_v6.cpp ../level-world/character_skill_attack_v6.cpp
@@ -97,6 +98,9 @@ add_library(foundation_runtime_audio STATIC
   ../level-world/character_combat_sound_tables_v2.cpp)
 target_link_libraries(foundation_runtime_audio PUBLIC foundation_data ${DH2_AUDIO_LIBRARIES})
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_audio)
+if(WIN32)
+  target_sources(foundation_runtime_audio PRIVATE features/audio/frontend_menu_audio_v1.cpp)
+endif()
 if(NOT WIN32)
   add_executable(linux_sdl2_output_smoke_tests features/audio/linux_sdl2_output_smoke.cpp)
   target_link_libraries(linux_sdl2_output_smoke_tests PRIVATE foundation_runtime_audio)
@@ -174,6 +178,8 @@ target_include_directories(foundation_runtime_equipment_menu PRIVATE
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_equipment_menu)
 
 add_library(foundation_runtime_effects STATIC
+  ../asset-payloads/sha256.cpp
+  features/effects/runtime_source_fx_asset_v1.cpp
   features/effects/runtime_swing_fx_observer_v1.cpp
   features/effects/runtime_effects_factory_v1.cpp
   features/effects/runtime_combat_effects_v1.cpp

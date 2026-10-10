@@ -42,6 +42,7 @@ bool skill_detail_field(const std::string& path) {
 
 bool skills_value_field(const std::string& path) {
     return path.find("cp_Skill_Points/") != std::string::npos ||
+           path == "menu_SkillTreeSheetNew/btn_add/AddText/text" ||
            skill_position_for_value_field(path).has_value() || skill_detail_field(path);
 }
 
@@ -150,8 +151,12 @@ bool RuntimeSkillsMenuV1::append(character_menu::Frame& frame, std::string& erro
     // localization seam must be a borrow of the same MenuLocalization owner
     // already used by CharacterMenu; it is never a second text cache.
     const auto& authored = character_menu::original_menu_art(character_menu::Tab::skills);
-    next.text.erase(std::remove_if(next.text.begin(), next.text.end(), [](const auto& item) {
-        return skills_value_field(item.field.path);
+    next.text.erase(std::remove_if(next.text.begin(), next.text.end(), [this](const auto& item) {
+        const bool add_label = item.field.path == "menu_SkillTreeSheetNew/btn_add/AddText/text";
+        // When no symbol provider is installed, the shared CharacterMenu
+        // frame may already contain its correctly localized label. Keep that
+        // value only until the source visibility gate below is known.
+        return skills_value_field(item.field.path) && (!add_label || bool(symbol_text_));
     }), next.text.end());
     const auto find_authored_field = [&](const std::string& path) -> const character_menu::MenuTextField* {
         const auto at = std::find_if(authored.text_fields.begin(), authored.text_fields.end(),
@@ -254,6 +259,10 @@ bool RuntimeSkillsMenuV1::append(character_menu::Frame& frame, std::string& erro
                 return batch.role.compare(0, std::string_view("menu_SkillTreeSheetNew/btn_add/").size(),
                                           "menu_SkillTreeSheetNew/btn_add/") == 0;
             }), next.art.batches.end());
+    if (!show_train_button)
+        next.text.erase(std::remove_if(next.text.begin(), next.text.end(), [](const auto& item) {
+            return item.field.path == "menu_SkillTreeSheetNew/btn_add/AddText/text";
+        }), next.text.end());
 
     if (symbol_text_) {
         if (!view.skill_points_known || !view.skill_points)

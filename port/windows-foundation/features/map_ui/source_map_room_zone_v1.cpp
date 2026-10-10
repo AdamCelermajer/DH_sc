@@ -44,6 +44,33 @@ bool source_map_room_zone_borrow_v1(
     return true;
 }
 
+bool source_map_current_level_room_zones_v1(
+    const ReadCurrentLevelRoomZoneRecordsV1& read_current_level,
+    std::vector<RoomZoneV1>& out, std::string& error) {
+    if (!read_current_level) {
+        error = "Map RoomZone source: required current-Level +36 list provider";
+        return false;
+    }
+
+    std::vector<std::shared_ptr<dh2::world::CanonicalRoomZoneRecordV3>> records;
+    if (!read_current_level(records, error)) {
+        if (error.empty())
+            error = "Map RoomZone source: current-Level +36 list read failed";
+        return false;
+    }
+
+    std::vector<RoomZoneV1> next;
+    next.reserve(records.size());
+    for (const auto& record : records) {
+        RoomZoneV1 zone;
+        if (!source_map_room_zone_borrow_v1(record, zone, error)) return false;
+        next.push_back(std::move(zone));
+    }
+    out = std::move(next);
+    error.clear();
+    return true;
+}
+
 RoomServicesV1 source_map_room_zone_services_v1() {
     RoomServicesV1 services;
     services.has_inside = [](const std::shared_ptr<void>& lease,

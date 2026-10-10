@@ -104,6 +104,7 @@ DynamicTextResult saved_profile_text_bindings(const CharacterState& state,
     }
     if(class_label.empty()){
         result.error="Saved-profile class label is unavailable for the selected source class";
+        result.fields.clear();
         return result;
     }
     result.fields.push_back(plain(prefix + "player_class/text", class_label));

@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-10",
+  "feature": "current Session player containment over decoded RoomZone candidates",
+  "status": "callable_feature_adapter_partial_not_integrated",
+  "goal_complete": false,
+  "evidence": {
+    "visual": {
+      "source_asset": ".local-inputs/ui-layout-discovery/dqcharmenu_droid.swf",
+      "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+      "authored_page": "menu_MapSheet sprite 655 contains RenderMap, MapIconsDynamic, MapName, Legend, and ResetZoom",
+      "available_gameplay_capture": "No original rendered MapSheet frame/sequence is available. The existing swamp-map-overview.png is a reconstructed geometry inspection captioned 'Map inspection only; mobs/chests pending'; it shows nine module shapes but does not show original visitation, visibility, or camera behavior. No gameplay visual claim is made."
+    },
+    "logic": {
+      "map_show": "IDA pseudocode 0045/00455138.c partitions live RoomZones using HasBeenVisited, then collects source objects and creates the map camera.",
+      "zone_geometry": "CanonicalModuleV1::init_post in port/level-world/canonical_level_config_module_v1.cpp calls generated RoomZone construction only after inherited InitPost/visual/floor gates and a successful type-11 spawn. The bounds come from the same transformed visual root box. source_map_decoded_room_zone_v1.cpp calculates that candidate from actual FixedMap BRES mesh AABBs and cached scene matrices.",
+      "containment": "CanonicalRoomZoneV3::source_has_inside_v104 and DecodedRoomZoneV1::has_inside implement inclusive X/Y bounds and intentionally ignore Z.",
+      "visitation": "CanonicalRoomZoneV3::source_update_v104 snapshots the zone bounds, requires six current camera planes, handles activation/deactivation and visible-room service gates, and only then reads the local-player position. It sets the same associated Module::visited3fc byte when a present local player is inside. source_has_been_visited_v104 reads that exact backlink byte; a moduleless source RoomZone reports visited=true.",
+      "same_session_position": "runtime_source_map_actor_markers_v1.cpp validates the current CombatSession local-player ActorState, world/player trait, finite transform, update serial, and retained actor binding lease before exposing the family-3 position. The new producer reuses that check and revalidates Session/world/actor/update serial/lease before publishing zone joins."
+    },
+    "expected_behavior": "For the ordered module occurrences in a decoded current level, preserve the exact decoded transformed-root bounds and calculate current player containment with source inclusive-XY semantics. Keep source visitation unknown until the caller supplies the same live Module/RoomZone state; containment alone must not mark a map room visited.",
+    "implementation": {
+      "files": [
+        "runtime_source_map_room_zones_v1.hpp",
+        "runtime_source_map_room_zones_v1.cpp"
+      ],
+      "api": "source_map_current_session_room_zones_v1(FixedMapV1::Borrow, const CombatSession&, vector<SessionRoomZoneV1>&, error) decodes actual ordered FixedMap module roots and joins the live current-session player transform; source_map_bind_session_to_decoded_room_zones_v1 accepts already-retained decoded records for shared-decode callsites.",
+      "callback_signature_for_map_provider": "bool(const dh2::loader::FixedMapV1::Borrow&, const dh::foundation::CombatSession&, std::vector<dh::foundation::map_page::SessionRoomZoneV1>&, std::string&)",
+      "output": "Each output record carries the original decoded zone lease/order/name/bounds, same-session player id/position and binding lease, exact current containment, and visited=nullopt. It is not accepted as a RoomZoneV1 for Map.Show until a same-live Module visitation provider resolves the actual RoomZone backlink."
+    },
+    "uncertainties": [
+      "FixedMapV1 has no proof that Module construction passed its production gates, that ObjectManager generated a type-11 RoomZone, or that the RoomZone belongs to the current Level +36 list.",
+      "CombatSession does not publish a same-owner RoomZone/Module backlink, camera-plane test, visible-room activation state, or Module::visited3fc cell. The producer therefore cannot advance source visitation. The exact source trigger needs those runtime providers, in addition to this current player position.",
+      "No production MapSheet collector/callsite currently supplies these providers; no main/CMake edits or UI capture are included."
+    ]
+  },
+  "verification": {
+    "same_session_test": "PASS: run_runtime_source_map_actor_markers_v1_tests.ps1 initializes an actual KnightPlayerBase CombatSession; joins ordered containment records against its live ActorState transform; checks inclusive XY edge containment with a non-containing Z interval, an outside zone, exact Session binding lease, nullopt visitation, and fail-closed transactional behavior for an unbound Session. Zone shapes in this adapter test are contract fixtures, not actual SWAMP module bounds.",
+    "actual_swamp_geometry_test": "PASS, pre-existing: source_map_decoded_room_zone_v1_tests.cpp decodes all nine actual SWAMP FixedMap module occurrences, independently validates transformed-root AABBs from real BRES mesh bounds/matrices, and verifies source XY containment, Z omission, source order and unknown visitation. This test does not initialize a CombatSession; the two test results do not constitute one joint actual-SWAMP-plus-live-Session runtime test.",
+    "runtime_visual": "NOT RUN; the MapSheet production collector and real GUI capture remain unowned integration inputs."
+  }
+}

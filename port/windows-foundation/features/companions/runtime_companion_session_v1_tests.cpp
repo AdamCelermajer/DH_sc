@@ -1,5 +1,6 @@
 #include "runtime_companion_session_v1.hpp"
 #include "runtime_companion_movement_v1.hpp"
+#include "runtime_companion_follow_consumer_v1.hpp"
 #include "../../original_actor_body_plan.hpp"
 #include "../../source_module_floors.hpp"
 
@@ -320,6 +321,8 @@ int main(int argc, char** argv) {
               facts, decision, error), error);
         RuntimeCompanionMovementV1 movement;
         check(movement.bind(session, bodies, error), error);
+        RuntimeCompanionFollowConsumerV1 follow_consumer;
+        check(follow_consumer.bind(session, companions, movement, error), error);
         std::vector<dh2::navigation::PathSegment> path_segments(
             std::size_t(floor_world->graph.node_count) + 1);
         std::vector<std::uint32_t> route_ids(path_segments.size());
@@ -351,17 +354,72 @@ int main(int argc, char** argv) {
         dh2::character::ControllerCommandState32 gate{
             8, 8, 0, 0, 0, 0}; // Stable same-Session ActorId tokens plus fresh source gate words.
         RuntimeCompanionMovementResultV1 movement_result;
-        check(movement.execute(decision, gate, false, &path_owner, nullptr, nullptr,
+        RuntimeCompanionFollowDecisionV1 missing_master_decision;
+        RuntimeCompanionMovementResultV1 missing_master_result;
+        facts.has_master = false;
+        check(!follow_consumer.execute_event("_prim_Faery",
+              SourceFollowerEventV1::master_out_of_sight, facts, gate, false,
+              nullptr, nullptr, nullptr, missing_master_decision,
+              missing_master_result, error) &&
+              error.find("no live Master ActorId") != std::string::npos,
+              "Follow consumer accepted a reached callback without its source master");
+        facts.has_master = true;
+        facts.master_id = 0xfedcba98u;
+        check(!follow_consumer.execute_event("_prim_Faery",
+              SourceFollowerEventV1::master_out_of_sight, facts, gate, false,
+              nullptr, nullptr, nullptr, missing_master_decision,
+              missing_master_result, error) &&
+              error.find("same CombatSession") != std::string::npos,
+              "Follow consumer accepted a stale master ActorId");
+        facts.master_id = session.player_id();
+        RuntimeCompanionFollowDecisionV1 consumed_decision;
+        check(follow_consumer.execute_event("_prim_Faery",
+              SourceFollowerEventV1::master_out_of_range, facts, gate, false,
+              &path_owner, nullptr, nullptr, consumed_decision,
               movement_result, error), error);
         check(movement_result.admission == OriginalCommandAdmission::admitted &&
               movement_result.command_dispatched && movement_result.path_published &&
               movement_result.path_found && movement_result.target_cleared &&
+              consumed_decision.operations == decision.operations &&
+              consumed_decision.arguments == decision.arguments &&
               source_searches == 1 && source_publications == 1 &&
               path.target[0] == movement_master->transform.position[0] &&
               path.target[1] == movement_master->transform.position[1] &&
               path.target[2] == movement_master->transform.position[2] &&
               movement_faery->transform.position == floor_point,
               "Source MoveTo did not build the same-session master path then execute ClearTarget without moving outside its owner");
+
+        // Keep the same source master ActorId and reached out-of-range event,
+        // but move the real master inside the existing Session. A fresh source
+        // decision must publish a path to the updated Session transform.
+        movement_faery->target_id = session.player_id();
+        movement_master->transform.position[0] += 0.25f;
+        movement_master->transform.position[1] += 0.125f;
+        const auto updated_master_position = movement_master->transform.position;
+        RuntimeCompanionMovementResultV1 moved_master_result;
+        RuntimeCompanionFollowDecisionV1 moved_master_decision;
+        check(follow_consumer.execute_event("_prim_Faery",
+              SourceFollowerEventV1::master_out_of_range, facts, gate, false,
+              &path_owner, nullptr, nullptr, moved_master_decision,
+              moved_master_result, error), error);
+        check(moved_master_result.path_published && moved_master_result.path_found &&
+              moved_master_result.target_cleared &&
+              moved_master_decision.arguments[0] == session.player_id() &&
+              path.target[0] == updated_master_position[0] &&
+              path.target[1] == updated_master_position[1] &&
+              path.target[2] == updated_master_position[2] && source_searches == 2 &&
+              source_publications == 2,
+              "Fresh follower event did not resolve and path to the live moved master in the same Session");
+
+        // The generic consumer intentionally leaves Rene's distinct script to
+        // its existing source owner even when RENE_FOLLOW admitted its record.
+        RuntimeCompanionMovementResultV1 rene_result;
+        RuntimeCompanionFollowDecisionV1 rene_decision;
+        check(follow_consumer.execute_event("_prim_NPC_PriestGood",
+              SourceFollowerEventV1::master_out_of_range, facts, gate, false,
+              nullptr, nullptr, nullptr, rene_decision, rene_result, error), error);
+        check(!rene_decision.source_policy_supported && !rene_result.command_dispatched,
+              "The generic follower consumer must not substitute Faery rules for Rene AI");
 
         // Preserve the original gate/remote ordering: if admission blocks,
         // or the Character reports remote ownership, PathTo is never reached
@@ -387,17 +445,22 @@ int main(int argc, char** argv) {
 
         check(companions.plan_event("_prim_Faery", SourceFollowerEventV1::master_in_melee_range,
               facts, decision, error), error);
-        check(movement.execute(decision, blocked_gate, false, nullptr, nullptr, nullptr,
-              movement_result, error) &&
+        check(follow_consumer.execute_event("_prim_Faery",
+              SourceFollowerEventV1::master_in_melee_range, facts, blocked_gate, false,
+              nullptr, nullptr, nullptr, consumed_decision, movement_result, error) &&
               movement_result.admission == OriginalCommandAdmission::blocked &&
               !movement_result.stop_dispatched,
               "Blocked source Stop incorrectly required its masked backend services");
-        check(!movement.execute(decision, gate, false, nullptr, nullptr, nullptr,
-              movement_result, error) && error.find("reached same-owner service") != std::string::npos,
+        check(!follow_consumer.execute_event("_prim_Faery",
+              SourceFollowerEventV1::master_in_melee_range, facts, gate, false,
+              nullptr, nullptr, nullptr, consumed_decision, movement_result, error) &&
+              error.find("reached same-owner service") != std::string::npos,
               "Admitted source Stop accepted missing complete Character services");
         StopProbe stop_probe;
         const dh2::character::CharacterControlServices16 stop_owner{&stop_probe, stop_control};
-        check(movement.execute(decision, gate, false, nullptr, &stop_owner, nullptr,
+        check(follow_consumer.execute_event("_prim_Faery",
+              SourceFollowerEventV1::master_in_melee_range, facts, gate, false,
+              nullptr, &stop_owner, nullptr, consumed_decision,
               movement_result, error), error);
         check(movement_result.stop_dispatched &&
               stop_probe.calls == std::vector<std::uint32_t>({1,2,3}),
@@ -424,8 +487,13 @@ int main(int argc, char** argv) {
         check(!movement.execute(decision, gate, false, nullptr, nullptr, nullptr,
               movement_result, error) && error.find("stale or replaced CombatSession") != std::string::npos,
               "Movement consumer survived Session lease teardown");
+        check(!follow_consumer.execute_event("_prim_Faery",
+              SourceFollowerEventV1::master_out_of_range, facts, gate, false,
+              nullptr, nullptr, nullptr, consumed_decision, movement_result, error) &&
+              error.find("stale or replaced CombatSession") != std::string::npos,
+              "Follow consumer survived Session lease teardown");
         check(bodies.clear(error), error);
-        std::cout << "runtime_companion_session_v1 PASS: actual animationOnly Priest/Faery Session actors; same-session MoveTo path and ClearTarget; exact Stop command order; missing WarpBehind source output fails closed; stale/missing master and lease teardown rejected\n";
+        std::cout << "runtime_companion_session_v1 PASS: asset-backed same-Session Faery follow consumer; moved live master re-resolved on fresh event; source gating and Rene separation; exact Stop order; stale/missing master and lease teardown rejected; WarpBehind requires source destination\n";
         return 0;
     } catch (const std::exception& exception) {
         std::cerr << exception.what() << '\n';

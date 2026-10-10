@@ -275,7 +275,7 @@ bool ActorCombatRuntime::synchronize(Binding& binding, std::string& error) {
     if(binding.pose==Pose::attack){
         CombatRuntimeTransition current;
         if(!capture_transition(binding,3,CombatRuntimeTransitionCause::interruption,binding.cursor.generation,current,error))return false;
-        if(current.from_state!=-1&&!combat_.active_target_valid(actor.id))
+        if(current.from_state!=-1&&!combat_.active_attack_valid(actor.id))
             return depart(binding,CombatRuntimeTransitionCause::interruption,error);
     }
     if (binding.pose == Pose::death&&!depart(binding,CombatRuntimeTransitionCause::interruption,error))return false;

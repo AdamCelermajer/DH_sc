@@ -200,6 +200,10 @@ require(bashdown_proof.get("sequence") == 347 and bashdown_proof.get("step") == 
             "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae" and
         bashdown_proof.get("same_session") is True and
         bashdown_proof.get("duplicate_suppressed") is True and
+        bashdown_proof.get("anchor_position_followed") is True and
+        bashdown_proof.get("anchor_rotation_scale_followed") is True and
+        bashdown_proof.get("same_frame_retained_submission") is True and
+        bashdown_proof.get("callback_failure_detail_preserved") is True and
         bashdown_proof.get("test_camera_calls", 0) > 0 and
         bashdown_proof.get("mesh_packets", 0) > 0 and
         bashdown_proof.get("particle_packets", 0) > 0,
@@ -271,6 +275,9 @@ step_report = {
     "adapter_header": "port/windows-foundation/features/effects/runtime_swing_fx_observer_v1.hpp",
     "adapter_source": "port/windows-foundation/features/effects/runtime_swing_fx_observer_v1.cpp",
     "actual_session_step": step_proof,
+    "bashdown_anchored_source_step": result.get("bashdown_source_fx"),
+    "callback_failure_detail_preserved": result.get("bashdown_source_fx", {}).get(
+        "callback_failure_detail_preserved") is True,
     "source_packet_diagnostic": result.get("wgl_diagnostic_cpu_packet"),
     "source_facts": {
         "step_swoosh": True,

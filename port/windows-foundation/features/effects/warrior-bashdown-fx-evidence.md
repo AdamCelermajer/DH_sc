@@ -88,9 +88,62 @@ feature-level resource/packet test, not proof that the currently running
 preview's key binding or displayed slot selected this skill. The test does not
 substitute GroundSlam root/set 173 for the selected first skill.
 
-The preview package README documents keyboard `1/2/3` as assigned skills and
-the runtime as still incomplete in skill/result effects, but there is no retained
-same-run log tying the reported key-1 action to its saved assignment, source
-SkillTable row, sequence 347 entry, or result event. Until those current logs
-are available, the issue is confirmed source omission candidate, not a proven
-live set-164 failure. Footage visual evidence also cannot identify BashDown.
+The earlier feature handoff lacked a same-run link from a PC key to its saved
+assignment, source SkillTable row and sequence entry. The fresh frozen build
+reproduction below now supplies that link and confirms the live set-164 dispatch
+failure. Footage visual evidence still cannot identify BashDown from the observed
+flash alone.
+
+### B005 production reproduction and focused callback verification (2026-10-10)
+
+The normal-executable reproduction is the frozen
+`.local-inputs/v19-frontend-hotfix/knight-step-fx/dh-foundation.exe`, SHA-256
+`227F229B81592D550C9A5684C8A6042F6FCC2E396882EEBFE4E8C7DD83186D78`, with
+`knight-active28.args` and `knight-active28.log`. At frame 20, the actual PC2
+route resolves slot 0 to BashDown and publishes actor `18446744073709551615`,
+sequence 347, step 0, occurrence 4. The log directly records
+`dispatched=0`, generic `Required source animation step FX anchored PlayAnimFXSet`,
+and final `packetFrames=0`; this proves the effect is missing on that route, but
+does not reveal the lower manager/provider reason. The screenshot/sequence is
+not used to infer FX visibility from damage or animation alone.
+
+Recovered-source caller chain for this failure: the actual retained step entry
+feeds `RuntimeSwingFxObserverV1::dispatch`; `character_animation_step_fx_v2`
+checks the step's Swoosh gate and, for `AnchorFX=1`, calls its Play callback with
+the canonical origin and same Character owner. `step_play` passes that owner and
+set 164 to `CharacterMeshFxOwnerV4::play_set`. The original set row has
+`OrientWithAnchor=1` and `ScaleWithAnchor=1`; `CharacterMeshFxOwnerV4::sync`
+therefore requests anchor position, rotation and scale while publishing the
+actual effect instance. The production factory resolves these through its
+same-session actor provider. Before this change, the step kernel replaced the
+manager's concrete failure with the generic operation label, preventing the
+actual source boundary from being identified. The change retains that provider
+reason in the presentation diagnostic; it does not bypass the anchored path.
+
+Focused test defined before implementation: replay actual Knight root 347 step 0
+through the same CombatSession with a non-identity actor position, Euler rotation
+and scale; require exactly set 164, a retained exact-resource frame containing
+both source mesh and particle packets, a mesh matrix reflecting the supplied
+anchor transform, duplicate-occurrence suppression, and renderer submission of
+the same retained frame. The existing source-white particle selector and CPU
+camera remain explicit test fixtures. The failure diagnostic path must preserve
+the manager callback detail when the wrapped step kernel rejects. This proves
+source anchor-query behavior and packet retention, not live GPU or camera parity.
+
+Focused result: `runtime_effects_factory_native_tests.py` passes after the change
+against hash-checked private native/Foundation archives. Actual root347/step0
+dispatch emits set164 and retains exactly the original BDAE with 3 authored mesh
+and 2 particle packets. While those packets remain retained, same-session actor
+position changes by `(17,-29,11)` move each mesh packet by the same delta;
+subsequent rotation/scale changes alter its basis. The same final frame reaches
+the queue callback. Exact duplicate occurrence remains suppressed. A deliberately
+rejected set-row callback reports both the generic anchored PlayAnimFXSet context
+and its specific failure reason. The earlier alias between the wrapped source
+error and callback error string caused the generic label to erase the useful
+reason; the separate callback error now preserves it.
+
+Current remaining uncertainty: the frozen executable's generic diagnostic has
+no provider text. Integration lead must rebuild the updated diagnostic, rerun
+this same isolated Knight route and record the newly exposed callback reason
+before a production provider correction or normal-FX success claim. No normal
+post-fix visual capture or integrated runtime pass has been produced yet.

@@ -17,7 +17,9 @@ $taskSources = @(
     'features/interactions/session_container_modern_drop_v1.cpp',
     'features/interactions/session_container_modern_openable_v1.cpp',
     'features/interactions/session_container_admitted_openable_v1.cpp',
+    'features/interactions/session_authored_container_enrollment_v1.cpp',
     'features/interactions/session_authored_openable_scene_v1.cpp',
+    'features/interactions/session_admitted_destructible_v1.cpp',
     'features/interactions/session_source_object_admission_v1.cpp',
     'features/interactions/session_destructible_interaction_v1.cpp',
     'features/interactions/world_object_container_state_v1.cpp',
@@ -26,7 +28,7 @@ $taskSources = @(
     'features/loot/runtime_world_item_adapter_v1.cpp',
     'features/loot/runtime_world_item_interaction_v1.cpp',
     'features/inventory/inventory_feature.cpp',
-    'combat_session.cpp', 'actor_combat_runtime.cpp', 'combat_system.cpp', 'actor_state.cpp', 'game_save.cpp', 'world.cpp', 'playable_actor_world.cpp',
+    'combat_session.cpp', 'actor_combat_runtime.cpp', 'combat_system.cpp', 'actor_state.cpp', 'game_save.cpp', 'world.cpp', 'playable_actor_world.cpp', 'platform_context_identity.cpp',
     'original_combat_properties.cpp', 'renderer.cpp',
     '../level-world/openable_container_owner_v1.cpp',
     '../level-world/game_object_spawn_probability_v1.cpp',
@@ -59,6 +61,6 @@ if ($LASTEXITCODE -ne 0) { throw 'Live container visual integration compile fail
     (Join-Path $taskRoot '.local-inputs/player-loot-v7/cache') $taskObjectCache `
     (Join-Path $taskRoot '.local-inputs/loot-world-v8/cache') `
     (Join-Path $taskRoot '.local-inputs/windows-main-frontend-v1/assets') `
-    (Join-Path $taskRoot '.local-inputs/interactions-source-material-cache-v1/assets') |
+    (Join-Path $taskRoot '.local-inputs/interactions-source-material-cache-v1/assets') 2 |
     Tee-Object -FilePath (Join-Path $taskBuild 'run.log')
 if ($LASTEXITCODE -ne 0) { throw 'Live container visual integration test failed' }

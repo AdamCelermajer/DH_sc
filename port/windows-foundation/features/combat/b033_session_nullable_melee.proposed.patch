@@ -1,0 +1,23 @@
+--- a/port/windows-foundation/combat_session.cpp
++++ b/port/windows-foundation/combat_session.cpp
+@@
+     bool request(ActorId source,ActorId target,std::string& error){
+         if(transitionDelivering||restoreTeardown||checkingAnimationCheckpoint){error="Attack command cannot reenter actor transition/checkpoint/teardown";return false;}
+         if(entries.at(source).animationOnly){error="Animation-only actor cannot enter combat";return false;}
+         auto* a=world->find_actor(source);auto* b=world->find_actor(target);
+-        if(!a||!b||!entries.at(source).permission||!entries.at(target).permission||runtime->owns_pose(source)||combat->cooldown_remaining(source)>0||
+-           (a->action!=CharacterAction::idle&&a->action!=CharacterAction::moving)||
+-           !world->eligible_target(*a,*b)||!world->original_melee_in_range(source,target))return true;
++        const auto& entry=entries.at(source);
++        if(!a||!a->alive()||!entry.permission||runtime->owns_pose(source)||combat->cooldown_remaining(source)>0||
++           (a->action!=CharacterAction::idle&&a->action!=CharacterAction::moving))return true;
++        // Source AI admission/search/OOI run before this C354 consumer. The
++        // Idle3/Move4 FSM independently rejects owner +0x528 bit1.
++        if(entry.sourceCombo&&(entry.sourceAttack.owner_flags528&2u))return true;
++        if(target==invalid_actor_id){
++            if(!entry.sourceCombo||entry.attack.geometry!=AttackGeometry::melee_radius)return true;
++        }else if(!b||!entries.at(target).permission||!world->eligible_target(*a,*b)||
++                 !world->original_melee_in_range(source,target))return true;
+         if(!select_source_attack_for_request(source,error)||!runtime->begin(source,target,entries.at(source).attack,error))return false;
+         return facts(source,error);
+     }

@@ -69,7 +69,8 @@
     "production_gap": "main.cpp wires scheduled source command replay and diagnostic lifecycle, but does not construct/admit the authored LizardMan_Intro canonical TriggerZone in the same normal-play session. Current passing component tests use fixtures at one or more owner boundaries; there is no test proving trigger contact -> source script -> same-session intro actor spawn -> generic AI/death as a single production path."
   },
   "minimal_root_handoff": {
-    "new_feature_api_needed": false,
+    "new_feature_api_needed": true,
+    "feature_consumer_api": "authored_intro_spawn_consumer_v1.hpp: bind_authored_intro_spawn_consumer_v1 validates the exact two authored 001_swamp Character identities, then composes SourceWorldObjects module-scoped name lookup with the caller-supplied actor lookup and matching OriginalActorLifecycle PreSpawn record. The actor lookup is a trusted caller contract: this API verifies stable ActorId and lifecycle-state facts but lifecycle exposes no borrowed ActorState pointer for pointer-identity comparison. It only installs OriginalCampaignWorldProviders.named_character; OriginalCampaignWorldAdapter still owns kind30 -> lifecycle.spawn.",
     "compose_existing": [
       "Retain the existing source Module/Character/Trigger records and use the real runtime module ID from constructor receipts.",
       "Bind the authored TriggerZone's existing CampaignBinding::trigger_script_services to the canonical trigger owner and actual contact/condition/online/local-player services.",
@@ -82,6 +83,25 @@
   "uncertainties": [
     "Reference stills plausibly show the entrance but do not uniquely identify the source Lizard actor or prove continuous animation timing.",
     "The supplied APK is v1.0.2 and reference is v1.0.3; exact source/content revision equivalence is unproven.",
-    "The authored PreSpawn and Spawn source policies are established; visual pose parity of the normal trigger-driven encounter remains unverified."
-  ]
+    "The authored PreSpawn and Spawn source policies are established; visual pose parity of the normal trigger-driven encounter remains unverified.",
+    "This feature consumer does not supply the authored TriggerZone constructor/contact, common block-save child, camera target, controller/skip, or normal session integration. The real Module constructor receipt and all provider lifetimes remain callsite responsibilities."
+  ],
+  "focused_test_plan": {
+    "command": "python port/windows-foundation/features/enemy_ai/run_authored_intro_spawn_consumer_v1_tests.py",
+    "observable_assertions": [
+      "Load the exact 001_swamp authored declarations and original LizardMan_Intro source script.",
+      "Bind the retained intro Module occurrence and caller-provided ActorState lookup plus PreSpawn17 lifecycle records; actor pointer identity with lifecycle is a callsite contract.",
+      "Execute source command indices4 and6 through OriginalCampaignWorldAdapter; assert exact authored stable IDs enter Spawn1 in order.",
+      "A wrong Module context fails and leaves actor lifecycle state unchanged."
+    ],
+    "explicit_limit": "This focused consumer test begins at the two recovered kind30 command calls; it is not full authored trigger admission or the script's block-save/camera/controller prefix."
+  },
+  "implementation_status": "consumer API and focused test added; focused test PASS",
+  "consumer_test_result": {
+    "command": "py -3 port/windows-foundation/features/enemy_ai/run_authored_intro_spawn_consumer_v1_tests.py",
+    "result": "PASS",
+    "receipt": "PASS exact 001_swamp authored IDs=9980223720916952386,13718327827884352784 module_occurrence=/obj_3of4_brdwalk_sw_00_1#1 spawn_order=source-kind30[4,6] lifecycle=PreSpawn17->Spawn1 wrong_module_pre_mutation_rejected=true duplicate_rejected=true trigger/prefix_providers=not_claimed",
+    "coverage": "Loaded the actual 001_swamp ActorDefinitions and original campaign script; composed SourceWorldObjects with a test-host actor lookup and OriginalActorLifecycle records; routed the actual serialized kind30 commands at indices4/6 through OriginalCampaignWorldAdapter; verified wrong-module rejection before mutation (both remain PreSpawn17), authored order, PreSpawn17->Spawn1, and repeated-call rejection.",
+    "not_covered": "The host supplies module constructor receipt 7 and actor lookup. This isolated test does not prove pointer identity between the caller's actor lookup and lifecycle's borrowed ActorState, actual TriggerZone construction/contact, block-save/camera/controller prefix, or normal production path."
+  }
 }

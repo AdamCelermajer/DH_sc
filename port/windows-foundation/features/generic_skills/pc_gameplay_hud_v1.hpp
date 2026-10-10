@@ -3,8 +3,10 @@
 #include "pc_skill_hud_projection_v1.hpp"
 #include "../frontend/art/original_art.hpp"
 #include "../platform_input/semantic_input.hpp"
+#include "pc_gameplay_hud_source_art_v1.hpp"
 
 #include <array>
+#include <optional>
 #include <string>
 
 namespace dh::foundation::generic_skills {
@@ -26,6 +28,20 @@ struct PcGameplayHudLayoutV1 {
     PcGameplayHudCirclePlacementV1 faery{};
     PcGameplayHudCirclePlacementV1 potion{};
     float key_label_height = 13.0f;
+    // Exact NativeHUDGetActiveFaery result from the same current frame.
+    // Source btn_spell.onPush passes active_id+1 to one-based gotoAndStop, so
+    // nonnegative IDs select that zero-based sprite397 frame. -1 requests
+    // invalid frame0 and leaves the freshly placed frame0 icon in place.
+    // Missing means the caller has no source value and adds no icon.
+    std::optional<std::int32_t> active_faery_id;
+    // Set only from the same CharacterState/actor used to project the skill
+    // frame. The count is optional so unknown inventory never becomes zero.
+    struct PotionCount {
+        std::string character_state_id;
+        ActorId source_actor = invalid_actor_id;
+        std::uint64_t quantity = 0;
+    };
+    std::optional<PotionCount> potion_count;
 };
 
 struct PcGameplayHudPresentationV1 {

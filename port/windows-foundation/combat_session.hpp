@@ -120,6 +120,18 @@ struct CombatSessionComboBoundary {
     std::uint32_t depth=0,step=0,count=0;
     std::string source_clip;
 };
+struct CombatSessionTargetPresentation {
+    ActorId current=invalid_actor_id;
+    // Distinct source CharAI last_target projection. Known is false until the
+    // Session has observed the source's SetTarget/SyncLastTarget sequence.
+    ActorId last_target=invalid_actor_id;
+    bool last_target_known=false;
+    // OOI is optional and only known after an owner publishes a genuine
+    // same-Session source OOI plus its signed GetInteractionType result.
+    ActorId object_of_interest=invalid_actor_id;
+    std::int32_t object_of_interest_type=-1;
+    bool object_of_interest_known=false;
+};
 struct CombatSessionStateAnimationServices {
     std::function<bool(ActorId,const RetainedAnimationEvent&,std::string&)> event;
     std::function<bool(ActorId,std::string&)> finished;
@@ -410,6 +422,14 @@ public:
     using AttackOwnerProvider=std::function<bool(ActorId,AttackOwnerFacts&,std::string&)>;
     void set_attack_owner_provider(AttackOwnerProvider);
     const dh2::character::AttackState64* source_attack_state(ActorId)const noexcept;
+    CombatSessionTargetPresentation target_presentation_state(ActorId)const noexcept;
+    // Mirrors AI_SetTarget and AI_SyncLastTarget semantics for Session-owned
+    // target state. A null SetTarget(false) preserves last_target until sync.
+    bool set_source_target(ActorId owner,ActorId target,bool mode,std::string& error);
+    bool sync_source_last_target(ActorId owner,std::string& error);
+    // Deliberate publication boundary for a recovered OOI producer. This
+    // method never derives OOI or interaction type from current/selected target.
+    bool publish_source_object_interest(ActorId owner,ActorId target,std::int32_t interaction_type,std::string& error);
     const std::vector<CombatSessionComboBoundary>& combo_boundaries()const noexcept;
     ActorState* actor(ActorId) noexcept;
     const ActorState* actor(ActorId) const noexcept;

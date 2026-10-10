@@ -20,6 +20,33 @@ int main(){try{
     require(!absent.select_class(3,error),"out-of-roster class rejected");
     require(!absent.confirm_class(error)&&error=="NativeCreateSaveSlot owner unavailable","no invented create success");
     require(absent.creation_stage()==CreationStage::editing&&absent.current_slot()==2,"absent create keeps state");
+    int out_of_range_assignments=0,out_of_range_creates=0;
+    Services invalid_slot_services;
+    invalid_slot_services.create_save=[&](const std::string&,const std::string&,int& slot,std::string& e){++out_of_range_creates;slot=4;e.clear();return true;};
+    invalid_slot_services.assign_save=[&](int,int,std::string& e){++out_of_range_assignments;e.clear();return true;};
+    Navigator invalid_slot(invalid_slot_services);
+    require(invalid_slot.single_player({0,false,"slot-0.sav"},error)&&
+            invalid_slot.accept_name("Hero",error)&&invalid_slot.select_class(0,error),"invalid-slot route setup");
+    require(!invalid_slot.confirm_class(error)&&error=="NativeCreateSaveSlot returned a slot outside the authored 0..3 range"&&
+            invalid_slot.top()=="menu_SelectClass"&&invalid_slot.creation_stage()==CreationStage::result_unmapped&&
+            out_of_range_assignments==0&&out_of_range_creates==1,"invalid NativeCreateSaveSlot result must not assign or advance the authored flow");
+    require(!invalid_slot.confirm_class(error)&&
+            error=="Previous NativeCreateSaveSlot result is outside the authored slot range; reconcile profile storage before retrying"&&
+            out_of_range_creates==1&&out_of_range_assignments==0,
+            "repeated Confirm must not replay a successful create whose returned slot cannot be mapped");
+    require(invalid_slot.back(error)&&invalid_slot.back(error)&&
+            invalid_slot.single_player({1,false,"slot-1.sav"},error)&&
+            invalid_slot.accept_name("Next profile",error)&&!invalid_slot.confirm_class(error)&&
+            invalid_slot.creation_stage()==CreationStage::result_unmapped&&out_of_range_creates==1&&
+            out_of_range_assignments==0,
+            "starting another empty slot must not clear an unreconciled successful create result");
+    Navigator missing_remove_owner;
+    missing_remove_owner.set_selected_slot({0,true,"slot-0.sav"});
+    require(missing_remove_owner.begin_remove_selected(error),"occupied profile opens authored removal confirmation");
+    require(!missing_remove_owner.resolve_remove_selected(true,error)&&missing_remove_owner.erase_confirmation(),
+            "missing remove provider keeps the confirmation visible for retry or cancel");
+    require(missing_remove_owner.resolve_remove_selected(false,error)&&!missing_remove_owner.erase_confirmation(),
+            "refusing removal closes the retained confirmation without a save owner");
     Navigator unavailable_start;
     require(unavailable_start.single_player({0,true},error),"existing profile can navigate without local load owner");
     require(!unavailable_start.start_game(0,error)&&error=="NativeAssignSaveSlotToPlayer owner unavailable","existing launch requires actual assignment owner");

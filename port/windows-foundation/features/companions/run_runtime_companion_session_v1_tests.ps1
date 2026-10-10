@@ -19,6 +19,7 @@ $exe = Join-Path $repo '.local-inputs/runtime-companion-session-v1-tests.exe'
 $sources = @(
     'port/windows-foundation/features/companions/runtime_companion_session_v1_tests.cpp',
     'port/windows-foundation/features/companions/runtime_companion_session_v1.cpp',
+    'port/windows-foundation/features/companions/runtime_companion_follow_consumer_v1.cpp',
     'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp',
     'port/windows-foundation/features/companions/runtime_companion_follow_v1.cpp',
     'port/windows-foundation/features/navigation/source_commands.cpp'

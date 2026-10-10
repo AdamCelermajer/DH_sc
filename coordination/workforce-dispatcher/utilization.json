@@ -7,68 +7,26 @@
   ],
   "slot_limit": 25,
   "feature_worker_target": 21,
-  "actual_running_feature_workers": 10,
-  "actual_running_total": 13,
+  "actual_running_feature_workers": 3,
+  "actual_running_total": 6,
   "running_assignments": [
     {
-      "progress": "Fresh owner is tracing and reproducing the selected profile/model/labels report; prior captures do not close it.",
+      "status": "active",
       "scope": "B008 profile/model/label mismatch",
-      "status": "active",
-      "worker": "/root/b008_profile_models_fresh"
+      "worker": "/root/b008_profile_models_fresh",
+      "progress": "Normal Main+Start captures show bodies/labels but no equipped weapons for Knight/Rogue/Mage; patching frontend_presentation slot-name mapping, then lead recapture."
     },
     {
-      "progress": "Fresh owner is reproducing and implementing character-page navigation; existing separate page helpers remain partial evidence.",
-      "scope": "B009 character menu navigation",
       "status": "active",
-      "worker": "/root/b009_menu_navigation_fresh"
+      "scope": "B002 Faery/Potion HUD artwork",
+      "worker": "/root/workforce_dispatcher/b002_hud_art",
+      "progress": "Fresh exact-source SWF/resource investigation and feature-only art resolver/tests; lead owns production render/hit integration."
     },
     {
-      "progress": "Fresh owner is auditing and fixing the reported equipment Details art/text defect with source evidence and a focused test.",
-      "scope": "B016 equipment art/text fidelity",
       "status": "active",
-      "worker": "/root/b016_equipment_art_fresh"
-    },
-    {
-      "progress": "Fresh owner is reproducing the empty skill label/button report and checking source cell art and text.",
-      "scope": "B018 empty skill button/label",
-      "status": "active",
-      "worker": "/root/b018_skill_text_fresh"
-    },
-    {
-      "progress": "Fresh owner is checking the reported equipment preview/avatar against exact source class/item rows.",
-      "scope": "B019 equipment avatar/item appearance",
-      "status": "active",
-      "worker": "/root/b019_equipment_avatar_fresh"
-    },
-    {
-      "progress": "Fresh owner is reproducing source level-lock/prerequisite chain behavior with a focused regression.",
-      "scope": "B020 skill level locks/prerequisites",
-      "status": "active",
-      "worker": "/root/b020_skill_level_locks_fresh"
-    },
-    {
-      "progress": "Fresh same-session owner is proving conditional null-target Attack5 source gates and Session request mismatch; no shared core writes.",
-      "scope": "B033 targetless Attack5 source parity",
-      "status": "active",
-      "worker": "/root/workforce_dispatcher/b033_targetless_attack"
-    },
-    {
-      "progress": "Source review confirms null target reaches Attack5 only in conditional admitted branches; awaiting owner's artifact for independent rerun.",
-      "scope": "Independent B033 reviewer",
-      "status": "active",
-      "worker": "/root/workforce_dispatcher/b033_targetless_review"
-    },
-    {
-      "progress": "Fresh owner reopened the reported creation/back/remove/recreate path; previous host test is insufficient for bug closure.",
-      "scope": "B007 character creation/restart flow",
-      "status": "active",
-      "worker": "/root/b007_creation_flow_fresh"
-    },
-    {
-      "progress": "Restart policy and focus-resume feature reviewed; feature/runtime/input tests pass 28 checks. Same-process caller/re-entry proof remains pending.",
-      "scope": "B006 independent reviewer",
-      "status": "active",
-      "worker": "/root/bug_gate_review"
+      "scope": "B035 actual source Push state-10 runtime consumer",
+      "worker": "/root/b035_state10_runtime_sol",
+      "progress": "Escalated source-backed modern state10/OnFocus/Blur and physical-composition implementation; integration lead owns main and current-build window."
     }
   ],
   "ready_or_dependency_wait": [
@@ -156,7 +114,7 @@
     },
     {
       "worker": "/root/integration_lead/act1_enemy_luna",
-      "result": "Complete deferred native _Summon enrollment prefix: actual CandidateFactory→retained receiver binding→same ObjectManager Add→PropertyMap→source virtual38→pending, same identity/lease. Strict C++17 and focused native test pass; root GS s_level is empty, so no authored callback/full spawn claim. Remaining live Level/actor Init/PF/RoomZone providers are root integration."
+      "result": "Complete deferred native _Summon enrollment prefix: actual CandidateFactoryâ†’retained receiver bindingâ†’same ObjectManager Addâ†’PropertyMapâ†’source virtual38â†’pending, same identity/lease. Strict C++17 and focused native test pass; root GS s_level is empty, so no authored callback/full spawn claim. Remaining live Level/actor Init/PF/RoomZone providers are root integration."
     },
     {
       "worker": "/root/integration_lead/canonical_skill_context_luna",
@@ -188,7 +146,7 @@
     },
     {
       "worker": "/root/integration_lead/act1_cinematic_luna",
-      "result": "V19 mob-jump report complete at features/cinematics/verification/mob_jump_v19-report.json; identifies TrollReturn/TRUNGUS jump 349.5–354.5s with source trigger/count/probability/anims/camera, exact contact unproven; MothIntro two scripted FakeMoths. No live enrollment."
+      "result": "V19 mob-jump report complete at features/cinematics/verification/mob_jump_v19-report.json; identifies TrollReturn/TRUNGUS jump 349.5â€“354.5s with source trigger/count/probability/anims/camera, exact contact unproven; MothIntro two scripted FakeMoths. No live enrollment."
     },
     {
       "worker": "/root/integration_lead/frontend_luna",
@@ -212,11 +170,11 @@
     },
     {
       "worker": "/root/integration_lead/act1_cinematic_luna",
-      "result": "Generic TrollReturn helper/test/report complete and passed. Live integration waits for root pre-init clip aliases, same-session Character→ActorId lease, actual TriggerZone overlap/eligibility and campaign-dispatch enrollment; worker recommended an integration fixture once those owners exist."
+      "result": "Generic TrollReturn helper/test/report complete and passed. Live integration waits for root pre-init clip aliases, same-session Characterâ†’ActorId lease, actual TriggerZone overlap/eligibility and campaign-dispatch enrollment; worker recommended an integration fixture once those owners exist."
     },
     {
       "worker": "/root/integration_lead/act1_cinematic_luna",
-      "result": "Fresh schema-v2 archive focused TrollReturn proof passed; report includes archive hashes. Live caller requires root pre-init clip aliases, same-session Character→ActorId lease/nav, actual overlap/qualification/module, campaign-dispatch lifetime and existing lock/HUD/input/skip/abort/audio command owners. No production enrollment/player-hit claim."
+      "result": "Fresh schema-v2 archive focused TrollReturn proof passed; report includes archive hashes. Live caller requires root pre-init clip aliases, same-session Characterâ†’ActorId lease/nav, actual overlap/qualification/module, campaign-dispatch lifetime and existing lock/HUD/input/skip/abort/audio command owners. No production enrollment/player-hit claim."
     },
     {
       "worker": "/root/integration_lead/audio_luna",
@@ -224,7 +182,7 @@
     },
     {
       "worker": "/root/integration_lead/act1_cinematic_luna",
-      "result": "TrollReturn helper now maps exact authored name/module to already registered same-Session ActorId/lease; no native Character pointer. Fresh-archive tests pass. Caller still must publish source object name/module→registered ActorId mapping, actual TriggerZone facts, pre-init clips and existing dispatch/host owners."
+      "result": "TrollReturn helper now maps exact authored name/module to already registered same-Session ActorId/lease; no native Character pointer. Fresh-archive tests pass. Caller still must publish source object name/moduleâ†’registered ActorId mapping, actual TriggerZone facts, pre-init clips and existing dispatch/host owners."
     },
     {
       "worker": "/root/integration_lead/frontend_luna",
@@ -248,7 +206,7 @@
     },
     {
       "worker": "/root/integration_lead/act1_enemy_luna",
-      "result": "Default generic monster brain and same-session navigation completed; controller tests for aggro/range/acquire/approach/attack/target loss, collision LOS and sewn floor route pass. Root `--enemy-ai` Swamp 180-frame runtime passes exit0, NPC moves 938.285→413.373 and attacks player (HP165.098→149.371). Static blocked segments idle/no detour; no extra detour task absent runtime evidence."
+      "result": "Default generic monster brain and same-session navigation completed; controller tests for aggro/range/acquire/approach/attack/target loss, collision LOS and sewn floor route pass. Root `--enemy-ai` Swamp 180-frame runtime passes exit0, NPC moves 938.285â†’413.373 and attacks player (HP165.098â†’149.371). Static blocked segments idle/no detour; no extra detour task absent runtime evidence."
     },
     {
       "worker": "/root/integration_lead/audio_luna",
@@ -256,7 +214,7 @@
     },
     {
       "worker": "/root/integration_lead/audio_luna",
-      "result": "Exact same-Session Sounds row resolver complete: property8→Sounds, ELF GetCharSoundsId reads Character+0x1018/fallback row2, GetCharSounds indexes 40-byte rows. Actual Knight→1 and swamp lizardman→2/fallback pass; audio runtime multi-hit/exact-serial/replay/missing-sample tests pass with verified coherent hashes. Root caller identity/emitter enrollment remains."
+      "result": "Exact same-Session Sounds row resolver complete: property8â†’Sounds, ELF GetCharSoundsId reads Character+0x1018/fallback row2, GetCharSounds indexes 40-byte rows. Actual Knightâ†’1 and swamp lizardmanâ†’2/fallback pass; audio runtime multi-hit/exact-serial/replay/missing-sample tests pass with verified coherent hashes. Root caller identity/emitter enrollment remains."
     },
     {
       "worker": "/root/integration_lead/equipment_luna",
@@ -268,7 +226,7 @@
     },
     {
       "worker": "/root/integration_lead/act1_map_luna",
-      "result": "Actual same-session effects factory/WGL proof complete. Source event→one packet; one original texture uploaded via Renderer; GL finish/readback changed pixels3101; queue drained and packet lease expired with no other owner; no camera/driver requests. Report/capture and archive hashes recorded. Remaining full production scene queue/caller enrollment belongs to root."
+      "result": "Actual same-session effects factory/WGL proof complete. Source eventâ†’one packet; one original texture uploaded via Renderer; GL finish/readback changed pixels3101; queue drained and packet lease expired with no other owner; no camera/driver requests. Report/capture and archive hashes recorded. Remaining full production scene queue/caller enrollment belongs to root."
     },
     {
       "worker": "/root/integration_lead/act1_quests_luna",
@@ -296,7 +254,7 @@
     },
     {
       "worker": "/root/integration_lead/audio_luna",
-      "result": "Original attack-swing source audit complete but awaits root-owned _SetAnimStep step-entry observer. Separately, lead reports the fresh main audio proof passes 420 frames including save/reload/restore and 7 real source voices; main audio composition is lead→root handed back."
+      "result": "Original attack-swing source audit complete but awaits root-owned _SetAnimStep step-entry observer. Separately, lead reports the fresh main audio proof passes 420 frames including save/reload/restore and 7 real source voices; main audio composition is leadâ†’root handed back."
     },
     {
       "worker": "/root/integration_lead/frontend_luna",
@@ -332,7 +290,7 @@
     },
     {
       "worker": "/root/workforce_dispatcher/video_fidelity_audit",
-      "result": "Completed 375–376s player-hit reference/source audit, report port/windows-foundation/reports/fidelity-player-hit-reaction-20261009.json parses. HP bar shortened and local burst appears while sword poses continue; attribution inferred, no runtime fix or confirmed stun."
+      "result": "Completed 375â€“376s player-hit reference/source audit, report port/windows-foundation/reports/fidelity-player-hit-reaction-20261009.json parses. HP bar shortened and local burst appears while sword poses continue; attribution inferred, no runtime fix or confirmed stun."
     },
     {
       "worker": "/root/workforce_dispatcher/death_pose_audit",
@@ -392,7 +350,7 @@
     "Record-based same-FSM path-borrow overload with same record/context leases and original path identity checks; C++20 contract syntax, Android ARM64 and Windows x64 COFF pass.",
     "CreateNPC/_Summon kernel preserves source conversions/order/CharacterTable and online tail; strict service-trace test/COFF and shared TU syntax pass; no live spawn claim.",
     "Companion record-bound same-V1 target/master callback endpoint with actual path receipt, TargetBindings and CharAI+0x50; ARM64 syntax, authored source evidence test, and JSON pass; root AIS virtual enrollment still pending.",
-    "Companion identity evidence: `_prim_NPC_PriestGood`→WanderingPriest/RENE_FOLLOW; same-source Moving Rene/PyData; reference at 120.000s shows RENE nameplate; Castor unresolved.",
+    "Companion identity evidence: `_prim_NPC_PriestGood`â†’WanderingPriest/RENE_FOLLOW; same-source Moving Rene/PyData; reference at 120.000s shows RENE nameplate; Castor unresolved.",
     "Quest actual DebugSwitches, source-priority IsDebug, same HudText StringID resolver and constant callback; linked original-data same-character list/details/activation fixture pass; no state transition claim.",
     "Faery same-owner CharAnimTable/property/Save/Gear/ActorFSM to typed event0xc356 and V6 nativeUse path; strict COFF/source-facts/timeline tests pass, no live cast claim.",
     "Loot SourceDeathRewardBindingV1 retains one router and attaches to existing Kill table only after same graph readiness; strict C++17 syntax/type and JSON pass, no end-to-end loot claim.",
@@ -407,20 +365,20 @@
     "Frontend gameplay input handoff: same-profile/slot typed gameplay_ready receipt + InitPost gate, release old menu/gameplay input owners before publishing new input epoch, stale frame pointer/control-block/epoch validator. Focused test + non-GUI frontend CTest 11/11 pass; root caller must supply old owner release callbacks and expected slot/profile.",
     "Reusable frontend presentation runtime: exported run_frontend_v1 uses caller-owned Window/Renderer and existing focused HWND; diagnostic wrapper shares it. Runtime outcomes distinguish back/quit/failures/gameplay-ready, with same record/slot/source receipt leases/InitPost gating. Build + handoff contract and non-GUI CTest 11/11 pass; production flow/assignment/start receipts remain external.",
     "Read-only native Gear inventory projection: Windows COFF fixture against current native.a/foundation archives passes order/definitions/quantity/equipment/invalidation/equip/restore-ID/Gear text checks. Consistent static closure; no shared Scene edits.",
-    "Class-select authored-light Show owner: exact source order, prefix retention and clear→Flush lifetime; strict native owner + SourceLightPoint contract tests and diff-check pass. Actual ObjectManager/Application/SceneManager/LightBase caller binding remains root work.",
+    "Class-select authored-light Show owner: exact source order, prefix retention and clearâ†’Flush lifetime; strict native owner + SourceLightPoint contract tests and diff-check pass. Actual ObjectManager/Application/SceneManager/LightBase caller binding remains root work.",
     "AudioCampaignBridgeV46 publish_on_owner: same AudioApplicationBorrowV42 and typed publisher, strict link/native runtime pass; source state130=0/no-play and direct listener diagnostic boundaries documented.",
     "Present-GEAR profile test-only native slice: 1,213 checks; five actual source items and 199-byte source-written GEAR, same Save PROP+GEAR bootstrap, one pregrant Load4, slots/selection/text/sheets, failure prefix/no grant fallthrough/duplicate grant checks. No InitPost claim; source Knight starter GEAR has zero power rows.",
     "Portable native CampaignFSM closure: strict recipe compiles 75/75 actual objects and links actual backend binder with zero unresolved symbols; bundled LLVM PATH link-probe exits 0. Report lists units and no-Level audit; no runtime Level/provider fabricated.",
     "Frontend StartGame and exception cleanup: Navigator start_delivered only after actual assign+start callbacks; Confirm remains separate; loop exits after delivery; gameplay_ready requires signal and native receipt/profile/InitPost. Existing-slot path and throw cleanup tested. Build + non-GUI CTest 12/12 pass.",
     "Frontend Start/cleanup correction: real Navigator start_delivered only after assign+start callbacks, saved-slot route independent of creation_stage, gameplay readiness requires source receipt; RAII exception cleanup. Build + non-GUI CTest 12/12. Post-fix Win32 smoke failed to advance from MainMenu phase 1; GUI stopped by root WGL overlap, no post-fix captures/readiness claims.",
     "Indexed-slot assignment/start receipt contract: 23 checks; authentic assignment receipt after actual v70 + same-PM PlayerInfo+0x664 reread; typed Start adapter validates same candidate/Save/slot/current Level/World/manager/Add publication. Current NativeStartGame only launch_pending/readback, so no FrontendSourceStartReceipt is emitted.",
-    "V19 mob-jump source/footage evidence: visible 349.5–354.5s jump aligns with TrollReturn/TRUNGUS; source one-shot count1/delay0, Troll spawn_prob100/no auto_spawn, anims1377/1359/1373, Default camera44. Exact contact/player-hit not proven. Moth intro is two scripted FakeMoths; camera334 is absent from actual Default row; command13 ignores missing audio328. Live ScriptManager/actor/FSM/audio/camera/HUD/input/SKIP requirements sent; no live enrollment.",
+    "V19 mob-jump source/footage evidence: visible 349.5â€“354.5s jump aligns with TrollReturn/TRUNGUS; source one-shot count1/delay0, Troll spawn_prob100/no auto_spawn, anims1377/1359/1373, Default camera44. Exact contact/player-hit not proven. Moth intro is two scripted FakeMoths; camera334 is absent from actual Default row; command13 ignores missing audio328. Live ScriptManager/actor/FSM/audio/camera/HUD/input/SKIP requirements sent; no live enrollment.",
     "Frontend RAII text lifetime ordering: FrontendText outlives cleanup stack; cleanup clears glyphs first while object alive then releases artwork textures in reverse order, all while caller GL context current. Actual FrontendText unwind + reverse destruction test passes; build/non-GUI CTest 12/12.",
     "Post-fix frontend Win32 smoke: isolated `frontend_native_event_smoke` passed 1/1 in 4.92s after RAII/StartGame fixes, with source mouse/WM_CHAR/Return + three classes; reaches explicit NativeCreateSaveSlot owner unavailable. No creation/idle/light readiness, no post-fix captures, and further GUI held until root terminal clear.",
     "Backend Menu/Campaign context mode: strict full native closure and focused real-empty GS s_level test pass; same-owner App/World/manager/roots/floors verified, failed construction not treated as empty; campaign mode preserves exact empty-Level error.",
-    "Final authorized post-fix Win32 smoke: 2026-10-09 16:32:33 +03:00, CTest frontend_native_event_smoke exit0 1/1 4.66s. Mouse MainMenu→EnterName; WM_CHAR QA + Return→SelectClass; all 3 classes; Confirm reaches explicit NativeCreateSaveSlot owner unavailable. No captures or more GUI. No successful creation/idle/light claim.",
+    "Final authorized post-fix Win32 smoke: 2026-10-09 16:32:33 +03:00, CTest frontend_native_event_smoke exit0 1/1 4.66s. Mouse MainMenuâ†’EnterName; WM_CHAR QA + Returnâ†’SelectClass; all 3 classes; Confirm reaches explicit NativeCreateSaveSlot owner unavailable. No captures or more GUI. No successful creation/idle/light claim.",
     "Canonical nested Lua callback scope repair: nonnull Session scope validates same VM before indexed delivery; stale/foreign scope fails closed, null keeps original unscoped call. Real-Lua regression covers nested CheckActive, stale/foreign no Lua effects, exact unscoped Pre/Use/Post/Check/return ordering. Narrow fake Session owner/view only; full DSO closure remains out of scope.",
-    "ActorPopulation source selector: source-backed selection for 20 symbolic Swamp templates (14 CommonType1, 6 CommonType2), CharacterTemplates weighted row→CharacterTable row with external shared RNG; definition/stableID unchanged; Invalid MothTemplate_13 activation remains caller-gated. Asset-backed test selects template row93→CharacterTable row361, bound5/one draw.",
+    "ActorPopulation source selector: source-backed selection for 20 symbolic Swamp templates (14 CommonType1, 6 CommonType2), CharacterTemplates weighted rowâ†’CharacterTable row with external shared RNG; definition/stableID unchanged; Invalid MothTemplate_13 activation remains caller-gated. Asset-backed test selects template row93â†’CharacterTable row361, bound5/one draw.",
     "Generic frontend host composition: GenericCreationFrontendHostV1 plugs into run_frontend_v1 and returns launch evidence only after generic StartGame on same CharacterState; focused 3/3 tests and diff check pass, no GUI.",
     "Companion visibility/idle/placement source audit: Priest/Faery have no authored ai_state/ai_state_visible/startanim; Swamp_Intro explicitly transitions visibility, cage idle, Faery waypoint and actor animation IDs396/377; Camp_Intro uses authored waypoints. No portable initializer justified; source/evidence tests and JSON pass.",
     "Generic runtime Equipment page: RuntimeEquipmentPageV1 composes same RuntimeEquipmentBindingV1/CharacterState with existing MainPage, source menu/details and exact ItemTable/Presenter; strict actual Session/source-cache test covers art/details, other tabs, lease rejection, selection, equip/unequip render receipts, sheets/socket and rollback. Powers remain unsupported, no fabrication; root caller/tab/render/source-resolver enrollment remains.",
@@ -436,20 +394,20 @@
     "RuntimeEffectsRendererV1 production helper completed: 9-check CPU contract and actual-source WGL proof; same-session actor65537/source event emitted a packet, Renderer uploaded/released one source texture, draw_queued+finish_and_drain produced 3,101 changed pixels and released leases. No camera/driver calls; root owns render-order enrollment.",
     "Generic companion animation adapter completed: exact FaeryIdle clip686 and same-session ActorIds; unresolved Swamp_Intro Priest/Faery IDs stay with source command owner. Focused native runner passes; no autoschedule/offset guesses.",
     "Enemy movement fidelity correction completed: source PFWorld::ValidateDirection 10-unit probe/current-floor edge slide now applies to generic approach. Dynamic Swamp boundary-slide and controller tests pass; packaged run predates this fix and needs root rebuild/rerun.",
-    "Generic QuestProgress/Page completed: source-backed unknown/fresh/modified/loaded provenance, regular/volatile × three difficulty buckets, exact definition.state fresh initialization, currentquest=-1 fresh, category filtering and Assigned-only activation, CQPG codec. Source-backed SWF/page and shared Objective fixtures pass with C++17 -Wall/-Wextra, JSON and scoped diff-check. Root-owned next step: CharacterState + SaveStore schema field/versioned codec integration; old v1/v2 remain unknown.",
+    "Generic QuestProgress/Page completed: source-backed unknown/fresh/modified/loaded provenance, regular/volatile Ã— three difficulty buckets, exact definition.state fresh initialization, currentquest=-1 fresh, category filtering and Assigned-only activation, CQPG codec. Source-backed SWF/page and shared Objective fixtures pass with C++17 -Wall/-Wextra, JSON and scoped diff-check. Root-owned next step: CharacterState + SaveStore schema field/versioned codec integration; old v1/v2 remain unknown.",
     "Generic Skills page composition completed: RuntimeSkillsMenuV1 chains existing CharacterMenu authored content, preserves exact CharacterState, renders source skill tree/slot geometry and source rows, projects rank/known points, selected localized fields from provider, and routes original hit contours to PageV1 select/assign/train. Generic+runtime actual-source tests pass; remaining root providers are localization/NativeGetSkillDetails/equipment set/progression policy, and dynamic icon frames are limited to exact known rows.",
     "Quest source text resolver completed: binds existing HudTextV1/HudTextEnvironment to loaded StringManager and exact source Quest getter composition; localized title/order, optional title/pre/objective/post, negative/sentinel 1835016 fallback, ObjectiveList line joining, post-description behavior, and source marker preservation validated across all 64 real rows/common_text IDs + SWF. run_component_tests.ps1 and strict generic-source -Wall/-Wextra pass. Root provides the already-loaded HudText owner/environment.",
-    "Attack-swing sound source audit completed at a real provider gap: original CharAnimator::_SetAnimStep@0x3ca79c plays SwooshFX/fallback AnimationStep.Sound at step entry; AttackStatic 243 nested 470–472 strike leaf step1 has Sound289/Swoosh=1; 289 maps UID6 env_weapon_1h and exact staged sword-swoosh WAVs. Current retained audio observer has no source step-entry occurrence, so no implementation/tests/report were added. Root owns optional non-veto step-entry observer carrying actor+binding lease, update_serial, actual AnimTable sequence/path/index, copied Sound/Swoosh and paired output clock.",
+    "Attack-swing sound source audit completed at a real provider gap: original CharAnimator::_SetAnimStep@0x3ca79c plays SwooshFX/fallback AnimationStep.Sound at step entry; AttackStatic 243 nested 470â€“472 strike leaf step1 has Sound289/Swoosh=1; 289 maps UID6 env_weapon_1h and exact staged sword-swoosh WAVs. Current retained audio observer has no source step-entry occurrence, so no implementation/tests/report were added. Root owns optional non-veto step-entry observer carrying actor+binding lease, update_serial, actual AnimTable sequence/path/index, copied Sound/Swoosh and paired output clock.",
     "RuntimeQuestMenuV1 completed: same CharacterState + QuestProgress owner, original QuestTables/policy/text resolver; Assigned/Completed refresh and exact SWF select/activate hit routing. Frame exposes source clip/field paths, authored order, row/current marker, selected details and unknown-vs-ready origin. Fixture verifies actual SWF hash/geometry/text/hitzones/ActionScript + 64 rows; `run_component_tests.ps1` and strict Wall/Wextra compile pass. Root owns CharacterMenu page-stack routing and schema3 SaveStore CQPG integration.",
     "Companion animation-only actor mode linked and verified by root after coherent fullbuild80/80: exact sourcePlan/animation-root setup repaired; no attack/dummy combat, source vitals retained, visual advances. Main/callsite enrollment remains root-owned.",
     "RuntimeCreationSourceV1 AssetCatalog loader completed: actual PropertyDatabase/LootTables/SkillTables/CharacterDesign caps from original source buffers, 13 SHA-256 receipts, caller-owned RNG borrowed unchanged, atomic publication. Actual asset test verifies all hashes, dimensions/caps, RNG unchanged and failure atomicity; focused CTest/diff-check pass.",
-    "Swamp_Intro companion clip-bank audit completed: AnimDict IDs396/377 map exact Priest/Faery source object and BDAE names, not AnimationTables sequences. Priest BDAE exists (SHA recorded) and is loaded pre-init; Faery BDAE absent, no substitution. AnimDict loop/rate absent and Script_PlayActorAnim offset20 meaning unresolved. Existing FaeryIdle686→AnimationTables sequence196 Faeries_Idle loop-1/rate1. C++20 -Werror syntax and source audit tests pass.",
+    "Swamp_Intro companion clip-bank audit completed: AnimDict IDs396/377 map exact Priest/Faery source object and BDAE names, not AnimationTables sequences. Priest BDAE exists (SHA recorded) and is loaded pre-init; Faery BDAE absent, no substitution. AnimDict loop/rate absent and Script_PlayActorAnim offset20 meaning unresolved. Existing FaeryIdle686â†’AnimationTables sequence196 Faeries_Idle loop-1/rate1. C++20 -Werror syntax and source audit tests pass.",
     "Generic creation appearance recipe completed: class_preview_definitions-derived Warrior/Rogue/Mage ModelFile, controller/module aliases, materials/starter facts and asset SHA receipts; actual-cache strict LLVM-MinGW test + JSON pass. Honest source partial: Knight/Mage shared modular BDAE/template clip and Warrior Longsword present; six class menu clip BDAEs, Rogue dagger and Mage quarterstaff absent and explicitly unavailable. No fallback or runtime actor claim.",
     "RuntimeCreationAppearanceV1 completed: actual-cache strict LLVM-MinGW test passes. The API reuses class_preview_definitions to derive ModelFile, aliases, materials, starter facts and hashes. It accurately reports missing six class-menu clips, Rogue dagger and Mage quarterstaff BDAEs without fallback; no runtime actor claim.",
-    "Faery AnimDict377 asset-recovery audit completed: exact BDAE lives in canonical cache ZIP and full-cache APK embedded `assets/dh2-original-cache.zip`; absent original game APK/loose decoded roots, no duplicate alias. Native `CharacterSameSceneAnimatorV6::load`→services.read→Android `OriginalCacheAssetsV1::read` case-folds URI to exact member. Nested ZIP entry/hash verification and JSON parse passed; no build.",
-    "Equipment asset-recovery audit completed: installed-base APK + Android AssetCatalog contain all six class clips plus Rogue Dagger01/Mage Quarterstaff01, SHA-identical. URI resolver is animations/<name> and models/<name>; clip BRESs standalone with one AUTO_SceneAnims_Range, 26–31 tracks; body contains all ten controllers. APK scan bounded candidates; exact source receipt added, no runtime code/build.",
+    "Faery AnimDict377 asset-recovery audit completed: exact BDAE lives in canonical cache ZIP and full-cache APK embedded `assets/dh2-original-cache.zip`; absent original game APK/loose decoded roots, no duplicate alias. Native `CharacterSameSceneAnimatorV6::load`â†’services.readâ†’Android `OriginalCacheAssetsV1::read` case-folds URI to exact member. Nested ZIP entry/hash verification and JSON parse passed; no build.",
+    "Equipment asset-recovery audit completed: installed-base APK + Android AssetCatalog contain all six class clips plus Rogue Dagger01/Mage Quarterstaff01, SHA-identical. URI resolver is animations/<name> and models/<name>; clip BRESs standalone with one AUTO_SceneAnims_Range, 26â€“31 tracks; body contains all ten controllers. APK scan bounded candidates; exact source receipt added, no runtime code/build.",
     "Equipment appearance asset-root test completed: caller-supplied Android AssetCatalog test resolves all eight original clips/weapons by exact animations/models folder and source hashes; legacy Windows-shared-assets runner preserves its explicitly unavailable partial leaves. Strict LLVM-MinGW pass; production resolver unchanged.",
-    "Faery ID377 extraction-only validation completed: exact 28,824-byte source ZIP member SHA 8764c5c1…2eca6 staged into isolated feature cache. Existing SourceCompanionAnimationBankV1 recognizes Swamp_Intro command46/ID377 and marks exact alias preloaded in animationOnly profile; no sequence metadata inferred. Isolated C++20 static test and manifest/hash verification pass; shared Foundation untouched.",
+    "Faery ID377 extraction-only validation completed: exact 28,824-byte source ZIP member SHA 8764c5c1â€¦2eca6 staged into isolated feature cache. Existing SourceCompanionAnimationBankV1 recognizes Swamp_Intro command46/ID377 and marks exact alias preloaded in animationOnly profile; no sequence metadata inferred. Isolated C++20 static test and manifest/hash verification pass; shared Foundation untouched.",
     {
       "worker": "/root/integration_lead/frontend_luna",
       "assignment": "Exact Android AssetCatalog packaging alias for authored data/pydata/*.bin, resolved-parent loader correction, and dual-root validation.",
@@ -514,9 +472,9 @@
     "RuntimeEffectsRendererV1 passed CPU contract and isolated source-backed WGL draw/drain test: one texture, 3,101 changed pixels, packet lease released.",
     "Generic RuntimeDeathRewardsV1 + RuntimeWorldItemAdapterV1 completed: source loot/RNG, authoritative per-gameplay drop map, exact item/quantity/position, atomic once-only CharacterState pickup; type13 gold remains unvalued.",
     "Original interaction loot row124 report corrected to item418/type13 and item925/type14 children, each quantity/probability1; stale relative-weight claim removed.",
-    "Audio original swing sidecar completed against root step-entry hook; same-session AnimTable steps 470–472 and WinMM/V42 source-sound path pass native linked tests.",
-    "SourceComposition stat-training decoupling: exact guard→ActionScript prefix→native dispatcher→ActionScript suffix captured in stored callback. Focused source_composition_tests passes; generic Equipment release has zero legacy NativeStats/validation/stat-training object references.",
-    "Generic explicit pickup dispatcher: actual Swamp_Basic_Loot→item925/qty1, source pickup type/category/item slot facts, exact local player/item identity, preserved positions and atomic one-time inventory transfer; wrong IDs and duplicates reject. No radius guessed; type13 gold remains fail-closed.",
+    "Audio original swing sidecar completed against root step-entry hook; same-session AnimTable steps 470â€“472 and WinMM/V42 source-sound path pass native linked tests.",
+    "SourceComposition stat-training decoupling: exact guardâ†’ActionScript prefixâ†’native dispatcherâ†’ActionScript suffix captured in stored callback. Focused source_composition_tests passes; generic Equipment release has zero legacy NativeStats/validation/stat-training object references.",
+    "Generic explicit pickup dispatcher: actual Swamp_Basic_Lootâ†’item925/qty1, source pickup type/category/item slot facts, exact local player/item identity, preserved positions and atomic one-time inventory transfer; wrong IDs and duplicates reject. No radius guessed; type13 gold remains fail-closed.",
     "Loot worker completed explicit same-session pickup dispatch: source Interact transfer path, actual item925/type1/category14/outcome, exact actor/item identity and atomic once-only transfer; no guessed radius or gold valuation.",
     "Generic Skills progression rules completed: source word8 availability, word18/rank equippability, level/rank increment condition, points and CharacterDesign unlocked-difficulty cap; transactional point/rank update and actual Knight/SkillTable O2 test pass.",
     "SourceComposition stat-training callback decoupling passed focused test and has no undefined NativeStats/assignment/validation symbols on generic Equipment release.",
@@ -528,14 +486,14 @@
     "Stanced locomotion plan bridge complete across real Warrior/Rogue/Mage AnimTables and ordinary/dual/staff equipment; exact plan/policy/phase metadata and source URI resolution verified, no tick/playback.",
     "Equipment source identity guard uses actual CombatSession class `KnightPlayerClass` and source definition/CharacterState `KnightPlayerBase`; rejects wrong source definition while preserving verified legacy class. Bind-time attachment receipts for empty/equipped states pass without state/property mutation.",
     "Generic Faery page completed from actual FaeryTables and source SWF: same CharacterState and three difficulty arrays, actual list order, unknown/locked/known states; strict fixture and source timeline pass. Production activation remains an optional same-owner callback.",
-    "Generic chest/breakable interaction composition completed: chest table227 records publish but tested equipment outcomes reject pickup unchanged; recovered breakable table9→Potion0 item925 picks up once; type13 gold remains fail-closed. Native interaction and BDAE recovery runners pass.",
+    "Generic chest/breakable interaction composition completed: chest table227 records publish but tested equipment outcomes reject pickup unchanged; recovered breakable table9â†’Potion0 item925 picks up once; type13 gold remains fail-closed. Native interaction and BDAE recovery runners pass.",
     "Source SWF text layout helper complete: 62 exact movie/page/field flag keys, HudGlyphFont-measured wrapping, transformed baselines/clips, and one-line stats preserved; strict LLVM-MinGW test passes.",
     "Character-menu HTML layout follow-up completed: exact source font/RGBA, styled measured runs, FONT/BR/P/entities support, explicit rejection of unsupported markup, and 84 source page/field keys; strict focused tests pass.",
     "Faery selection follow-up completed without duplicate rendering: validates same owner, known-state provenance, and exact source list before selection; locked-row click matches ActionScript and delegates to same-owner activate_slot. Exact-contour test passes; production SetActiveFaery effects remain caller-owned.",
     "Quest page composed into CharacterMenu frames with sprite599 source art/solids/text/row states and schema3 CQPG decode/encode on the same CharacterState. Empty v1/v2 remains unknown; accepted state/currentquest writes back to the same field. Focused component runner passes; root supplies live page and text-owner bindings.",
     "Generic type13 gold pickup now resolves value once at generation using original dh2_loot_item_value_v7 + same RNG and exact optional AddLoot bonus, retains it, then atomically credits CharacterState.gold without RNG. Missing bonus consumes the source value draw and skips that gold item only. Cap baseline is source-proven INT32_MAX; actual item418 test and runner pass.",
     "RuntimeEquipmentPageV1 now preserves one-shot drop/auto-equip/transmute command receipts with exact selected instance/slot. Drop/transmute remain host-owned no-mutation requests; AutoEquip uses the original EquipmentAdapter kernel and returns a same-Scene render receipt. Focused strict equipment runner passes.",
-    "EquipmentAdapter now preserves `equipment_set=0` and `source_slot=slot` through rebuild, rejecting unsupported alternate-set/mismatched slot input. Actual source-page equip→AutoEquip→unequip→re-equip test passes with strict runner.",
+    "EquipmentAdapter now preserves `equipment_set=0` and `source_slot=slot` through rebuild, rejecting unsupported alternate-set/mismatched slot input. Actual source-page equipâ†’AutoEquipâ†’unequipâ†’re-equip test passes with strict runner.",
     "RuntimeDeathRewards now derives type13 valuebonus from same-world killer property195. Missing/deleted killer uses source 0; live actor without properties diagnoses and consumes the value draw but suppresses only gold. Actual item418 tests verify property195=12800 gives value9 and absent attacker gives value6; pickup is RNG-free. Both focused loot runners pass.",
     "RuntimeSessionAudioV1 now composes presentation step observers after audio, isolates observer exceptions, retains registrations through unbind/rebind, and clears on shutdown. Actual same-Session test and linked V42/WinMM runner pass.",
     "inventory_luna: equipment binding now checks expired weak session lease before raw Session dereference; destroyed-owner ready/item_table rejection regression passed.",
@@ -543,7 +501,7 @@
     "act1_map_luna: linked CPU/native swing-FX route dispatches source set253 once, suppresses replay, and drains the same retained-scene packet frame; no set-specific delta or WGL claim.",
     "equipment_luna: source sprite456 details compatibility fallback compiled strictly; existing prebuilt test is not code-level coverage and art regeneration remains pending.",
     "source_factory_luna: locomotion-library caller URI is explicit, defaults to actor-profiles-v2.xml, and missing custom URI rejection is atomic; strict native runner passes.",
-    "act1_loot_luna: real CombatSession lethal event → RuntimeDeathRewards → same item store → Potion0 item925 pickup + XP; duplicate consume/pickup suppressed. Runner and report are ready; fixture uses an explicit authored table9 property9 override.",
+    "act1_loot_luna: real CombatSession lethal event â†’ RuntimeDeathRewards â†’ same item store â†’ Potion0 item925 pickup + XP; duplicate consume/pickup suppressed. Runner and report are ready; fixture uses an explicit authored table9 property9 override.",
     "act1_interactions_luna: feature consumer now resolves ItemTable word21 to original AudioVisual row and itemdrops.bdae Visual; explicit selected-ID interaction uses existing store dispatcher. Potion and gold rows pass actual native tests; no icon/radius claim.",
     "act1_map_luna: effects factory lease guards and destroyed-session regression pass; CPU phases/texture audit show Longsword01 row664 chooses step.fx253 fallback and near-black UV texture yields 7 WGL pixels (below threshold). Exact source/authored texture and GL_REPEAT path match; no visual-equivalence claim or further WGL.",
     "act1_map_luna: completed FX CPU source audit for Longsword, Rogue dual dagger, Mage staff. All have word6=-1; Staff01 word5=479 is SwooshSoundFX only. Rogue duplicate dagger yields dual_wield true but CombatSession equipment collapses both to main_hand. WGL remains 7 pixels, no visible-trail equivalence; no additional WGL.",
@@ -554,7 +512,7 @@
     "Combat animation source audit complete: source-reversal-diagnosis matches current late-turn/root-motion ordering; no source-grounded deviation established, matched original-game W/S capture still needed.",
     "Timestamped v1.0.3 reference-video audit complete: target retained across MISS and transferred after grounded Bogwomp death; no movement-loss or death-transition sample, no behavior-intent conclusion.",
     "Death-pose source audit completed: source state holds Died through event34, source has no gravity correction; port may omit death-clip XY root motion because ActorCombatRuntime does not drain take_root_motion. No exact user mob/time, so no intent claim.",
-    "Actual source-enemy death→drop→pickup→XP proof now passes without property9 override: Swamp_LizadMan_Type1 resolves property9=230 and property35=1894 from same Session world; shared RNG seed1 yields Potion0 and XP; pickup/death dedupe verified.",
+    "Actual source-enemy deathâ†’dropâ†’pickupâ†’XP proof now passes without property9 override: Swamp_LizadMan_Type1 resolves property9=230 and property35=1894 from same Session world; shared RNG seed1 yields Potion0 and XP; pickup/death dedupe verified.",
     "Pause UI source helper completed: exact HUD pause button/action projection and page routes/confirmation; HUD char85 at depth11 x670/y1878/icon41; Main Menu returns to game menu, not process exit. Main wiring/GUI proof remains lead/root owned.",
     "Audio node-first target-position fix and private linked regression PASS; actual injury/death emitter positions use actor transform when source node is null.",
     "Celest target FX dispatch helper plus swing-FX source node-first target position completed; focused C++17 and syntax tests PASS, with no GPU/main integration claim.",
@@ -577,7 +535,7 @@
     "bug_gate_review: GameSave v3 source_physical_present regression PASS; test and runner only.",
     "act1_enemy_luna: fresh-v3 tracked-target retention regression PASS with acquisition LOS preserved.",
     "act1_interactions_luna: fresh-v3 source Object admission/enrollment feature tests PASS; production main scene enrollment and online/current-Level providers remain.",
-    "/root/integration_lead/act1_interactions_luna: Admission→Openable composition PASS on fresh v3. `admit_and_bind_session_openable_v1` stages and validates the candidate, initializes the exact row-backed Openable only after receipt, then tests actual chest opened-marker drop and silent state4 restore. Strict syntax and report JSON pass. Production scene-enrollment caller and online/network/current-Level/audio/physical/key/quest/script providers remain.",
+    "/root/integration_lead/act1_interactions_luna: Admissionâ†’Openable composition PASS on fresh v3. `admit_and_bind_session_openable_v1` stages and validates the candidate, initializes the exact row-backed Openable only after receipt, then tests actual chest opened-marker drop and silent state4 restore. Strict syntax and report JSON pass. Production scene-enrollment caller and online/network/current-Level/audio/physical/key/quest/script providers remain.",
     "/root/integration_lead/act1_quests_luna: Exact-symbol Quest provider factory PASS: `SourceQuestMenuPageProviderV1` registers `menu_QuestLogSheetNEW`, reuses same CharacterState/CQPG/HudText, and routes release via caller source-coordinate hit resolver. Full component suite passes; actual menu-stack symbol state, hit resolver and live render remain lead integration.",
     "/root/integration_lead/act1_map_luna: Exact-symbol Map adapter PASS: `RuntimeSourceMapMenuProviderV1` registers `menu_MapSheet`, source open/close/frame/release and same-session family-3 append. Linked and five Python tests pass. Production registration plus canonical Level/RoomZone/camera/object providers and legacy Map owner alias remain absent.",
     "/root/workforce_dispatcher/targetloss_audit: Feature projectile frame bridge PASS: synchronizes Session lease, updates once, consumes impact/result packets, snapshots visuals and submits retained render frame. Paused dt, one-shot results, packet retention, material/unknown URI failure and stale/destroyed Session rejection covered. Lead still owns main RenderQueue/launch/contact integration.",
@@ -586,7 +544,7 @@
     {
       "worker": "/root/workforce_dispatcher/death_pose_audit",
       "scope": "Feature-only accepted actor-transition body/navigation consumer.",
-      "progress": "Same-Session Knight/Lizard tests pass Move→Idle, Attack5, Injury11, lethal Dead12; verifies source flags/filter, body retention, duplicate suppression and absent-body branch. Main hookup, initial hydration, full GameObject.Stop path target and gameplay tails remain."
+      "progress": "Same-Session Knight/Lizard tests pass Moveâ†’Idle, Attack5, Injury11, lethal Dead12; verifies source flags/filter, body retention, duplicate suppression and absent-body branch. Main hookup, initial hydration, full GameObject.Stop path target and gameplay tails remain."
     },
     {
       "worker": "/root/physical_filter_luna",
@@ -600,37 +558,50 @@
     },
     {
       "worker": "/root/integration_lead/campaign_save_writer_luna",
-      "scope": "Lane 11 — same-Session Swamp King phase/timer consumer.",
+      "scope": "Lane 11 â€” same-Session Swamp King phase/timer consumer.",
       "progress": "Callable SwampKingSessionConsumerV1 bind/on_frame_begin implemented; source Idle/native non-Skill/!canDive gates, 1500 ms timer and <=75% phase2 latch tested using retained source actor/model/Idle asset. Both boss consumer and plan runners pass; HP/native/script facts are fixtures, no full AI/phase visual claim."
     },
     {
       "worker": "/root/integration_lead/act1_companions_luna",
-      "scope": "Lane 18 — same-Session companion movement consumer.",
+      "scope": "Lane 18 â€” same-Session companion movement consumer.",
       "progress": "MoveTo runs through real same-actor PF/path bindings with live master ActorId/position and source-order ClearTarget; stop/mask/stale master/lease teardown tests pass. WarpBehind fail-closes until an actual source destination exists; no production loop or continuous-follow claim."
     },
     {
       "worker": "/root/workforce_dispatcher/death_pose_audit",
       "scope": "Feature-only accepted actor-transition body/navigation consumer plus Skill6/Cast7 physical extension.",
-      "progress": "Private same-Session/NativeWorld runner passes Move→Idle, Attack5, Injury11, Dead12, Skill6 BashDown347, alternate SkillTable51 and Cast root348; verifies flags, gate/timer pinning, body identity, normal/interrupted completion, duplicate suppression. Main SkillTable/gate528/timer10/event0x30 providers remain."
+      "progress": "Private same-Session/NativeWorld runner passes Moveâ†’Idle, Attack5, Injury11, Dead12, Skill6 BashDown347, alternate SkillTable51 and Cast root348; verifies flags, gate/timer pinning, body identity, normal/interrupted completion, duplicate suppression. Main SkillTable/gate528/timer10/event0x30 providers remain."
     },
     {
       "worker": "/root/integration_lead/act1_interactions_luna",
-      "scope": "Lane 15 — authored-scene Openable enrollment/retained-lifetime collection.",
-      "progress": "Terminal private linked PASS: SessionAuthoredOpenableSceneV1 binds current source declarations and WorldObjects only with exact admission receipts; actual 001_swamp chest input→opened marker→same RNG/store passes. Duplicate/missing receipts, ambiguous source row and missing Quest RaiseAsync fail before visuals. GameSavev2 state4 restore/no replay passes. Main live admission/provider callsite remains."
+      "scope": "Lane 15 â€” authored-scene Openable enrollment/retained-lifetime collection.",
+      "progress": "Terminal private linked PASS: SessionAuthoredOpenableSceneV1 binds current source declarations and WorldObjects only with exact admission receipts; actual 001_swamp chest inputâ†’opened markerâ†’same RNG/store passes. Duplicate/missing receipts, ambiguous source row and missing Quest RaiseAsync fail before visuals. GameSavev2 state4 restore/no replay passes. Main live admission/provider callsite remains."
     },
     {
       "worker": "/root/workforce_dispatcher/targetloss_audit",
-      "scope": "Lane 13 — Mage projectile impact/result prefix.",
+      "scope": "Lane 13 â€” Mage projectile impact/result prefix.",
       "progress": "Terminal private C++17 PASS: OnProjectileHit typed provider runs before exact same-Session OriginalMeleeResolution/F_ApplyResult flag; missing provider leaves Session result/RNG untouched. Real NativeWorld overlap, result parity, expiry and rebind cleanup pass. Full F_ApplyResult secondary effects and production host callbacks remain."
     },
     {
       "worker": "/root/integration_lead",
       "scope": "Latest normal EXE verification/build.",
-      "progress": "Terminal report: frozen FC19C04B…D67592; normal 480-frame enabled-physics kill/XP/save/restore, JumpKick, Celest and pause passed. Full suite 99/100; root owns the remaining presentation-only completion regression. No compiler/GUI remains live."
-    }
+      "progress": "Terminal report: frozen FC19C04Bâ€¦D67592; normal 480-frame enabled-physics kill/XP/save/restore, JumpKick, Celest and pause passed. Full suite 99/100; root owns the remaining presentation-only completion regression. No compiler/GUI remains live."
+    },
+    "B025 test hardening: urn-specific RNG advances, loot_table==9, missing RNG/store rejected before visual enrollment; strict linked runner PASS. Main enrollment and pickup remain open.",
+    "B036: corrected PC HUD label local-box/stage transform; multi-viewport focused tests PASS. Normal render/hit capture remains lead-owned; Faery/Potion sprite resolution remains open.",
+    "I018/I019: Single Player MenuConfirm/MenuSelect feature adapter with source ordinal/UID, QPC/focus and authentic WAV decoding; isolated test PASS. Audible production integration remains lead-owned.",
+    "B011: strict Knight/Rogue non-collinear W/S and attack-root tests pass twice; source order predicts the reproduced lateral arc, so no fix was justified. Normal executable/matched-reference check remains open.",
+    "B003: corrected normal-EXE held-Space regression passes. E826D7CC holds through BashDown Post, attacks, release and a second press; root reviewed Win32 input polling. Moved to resolved for this candidate only.",
+    "B036: lead confirmed current E826D7CC normal image shows labels 1/2/3 centered under physical rings; root independently reviewed. Scoped alignment moved to resolved. Faery/Potion sprite art remains separate I002/B002.",
+    "B019: same-Session source equipment matrix passes Knight/Rogue/Mage starter items, material topology, weapon geometry, unequip and SaveStore/rebind. Independent strict review in progress; normal viewport acceptance remains lead-owned.",
+    "B019 independent review PASS: reran strict matrix for Knight/Rogue/Mage exact CharacterTable and starter ItemTable rows; verifies same-Session preview/Scene binding, equip/unequip, SaveStore rebind. Production renderer/GameSave remain excluded.",
+    "B035 feature and independent review PASS: exact source Push gate and CharAnimTable row48 bank; actual 0x98 plays through same Session and moves ActorState/body 1.3257 units. Main state10/physical effects remain lead-owned.",
+    "I003 feature enrollment PASS: decoded declarations and actual chest/urn records pass through modern enrollment, opened markers publish to the same store, and candidate/probability rejection stays unpublished. Main live candidate construction and source policy services remain lead-owned.",
+    "I005/B023 feature producer PASS: actual decoded module order/bounds and same-Session player lease join; inclusive XY containment, unknown visitation retained. Live Level+36 membership, RoomZone backlink/visited, camera/activation providers and MapSheet callsite remain.",
+    "I006 feature consumer PASS: same-session follow retargets to moved master; Priest/Rene distinctions and lease gates covered. Production event wiring and source WarpBehind destination remain.",
+    "Independent fidelity review of E826D7CC found no new confirmed menu/HUD/combat discrepancy; B036 labels align, full hotbar art/action and timing remain open."
   ],
   "dispatch_count": 156,
-  "last_dispatch": "Tracker created: docs/BUGS-AND-IMPLEMENTATION.md now contains B001-B031 reported bugs and I001-I012 separate implementation TODOs. Current roster 5 total/3 feature workers: linux_preview (Linux backend), target_retention_luna (Space/recent-skill target loss), targetloss_audit (Knight BashDown FX test). ACB532…ADC6038 is current candidate evidence; FC19… is separate earlier evidence. Preview9 remains accepted; root owns release and current Session source hold.",
+  "last_dispatch": "E826D7CC gates B003/B006/B026/B034/B036 are verified; Preview9 remains the only accepted package. Active implementation lanes are B008, B002 HUD art, and fresh B035 state10 runtime. I003 enrollment, I005/B023 map zones, and I006 follow consumers are feature-terminal with explicit production gaps. No reviewer is currently active; root/lead own release integration.",
   "dispatch_grants": [
     "Cinematic exact V96 binder pair: port/android-native/app/src/main/cpp/source_campaign_script_execution_v96.hpp/.cpp.",
     "Audio exact Session animation hook pair was attempted, then correctly stopped without edits because the callback lacks retained-frame event index and paired device-QPC sample; no combat_session/main/CMake edits.",
@@ -643,7 +614,7 @@
     "Same-FSM record-based path-borrow overload in v101 pair; same identity/leasing and original path context.",
     "Loot source death reward binding through existing same owners; preserve Level+150 and order.",
     "Quest actual DebugSwitch/priority/text service binding; no guessed state or arrays; follow-up is authored Quest Page using same services.",
-    "Faery actual V8/V6 active ability→animation/clip marker→SourceSkillAI nativeUse path using same owner, no invented abilities or completed-cast claim.",
+    "Faery actual V8/V6 active abilityâ†’animation/clip markerâ†’SourceSkillAI nativeUse path using same owner, no invented abilities or completed-cast claim.",
     "CampaignFSM exact 18 callback providers in new actor_frame files, frozen weak thread-local context registration API; lead-approved Sol MEDIUM architecture escalation, broader link closure separately assigned to Luna.",
     "Current-Level backend using existing NativeGSLevelRuntimeV27/globals and same Level C1, typed +150/+118 loan, actor World/ObjectManager identity/control-block and stale unload checks; 446 sanitizer checks.",
     "Fixed-loot AddLoot current-Level/count query uses exact source 0x31f594/0x4043dc/0x4043a8 semantics; root-approved default-empty real GS s_level fixture behavior.",
@@ -651,7 +622,7 @@
     "_Summon new native enrollment binding using existing factory/receiver/ObjectManager/PropertyMap/current-Level and Session object callback; narrow CanonicalClassReceiverBindingsV1 retained-object accessor grant.",
     "FreshInventoryOwnedV4 difficulty variant integration through a single existing LootCreationV8 suffix helper; exact shared game-data implementation/test files granted, preserve ABI/RNG/order.",
     "CampaignFSM native closure task compiles real units and links existing archives read-only; no stubs/root closure edits.",
-    "Present-GEAR native test-only V59 configure_equipment→before_initial_grant using same PlayerEquipmentRenderOwner load; nonempty native GEAR generated via source writer and exactly-once Load4/no duplicate grant proof.",
+    "Present-GEAR native test-only V59 configure_equipmentâ†’before_initial_grant using same PlayerEquipmentRenderOwner load; nonempty native GEAR generated via source writer and exactly-once Load4/no duplicate grant proof.",
     "NPC/script HostContextBindings16/LevelServices16 provider from actual same v70 App/PM/LevelTables/DebugLevelBinding16 sources; online selector required and network managed-field ownership checked.",
     "Read-only same-ready-Gear inventory/equipment projection with real ItemTable metadata/order, equipment pointer aliases, explicit process-lifetime UI instance witnesses, and restore/reorder/delete lifecycle tests.",
     "Portable Windows audio control and same-owner bridge publication: AudioNativeSessionV42/AudioApplicationManagerV42 + WinMM session control and AudioCampaignBridgeV46 publish_on_owner, disjoint paired Luna tasks; no second V42 runtime.",
@@ -681,7 +652,7 @@
     "Audio runtime resolution correctness follow-up: same-session captured damage/occurrence semantics, no final-state historical inference or duplicate replay; feature audio only, tests wait for root schema-v2 library refresh.",
     "Generic V19 effects lane reassigned to available completed Luna worker: same-session ActorId/retained CharacterVisual pose, existing effects adapter/bridge/source FX definitions; no clone or invented particles; tests wait coherent schema-v2 libraries.",
     "Focused evidence rerun on root refreshed schema-v2 Foundation archive set (113 build tasks PASS), preserving exact source and no live-enrollment claims.",
-    "TrollReturn actor mapping simplification: exact parsed object name/module → same CombatSession ActorId + actor_binding_lease; no canonical native Character pointer requirement, no hardcoded ID/schedule; feature helper/tests only.",
+    "TrollReturn actor mapping simplification: exact parsed object name/module â†’ same CombatSession ActorId + actor_binding_lease; no canonical native Character pointer requirement, no hardcoded ID/schedule; feature helper/tests only.",
     "Root pending_resolutions() const seam for per-hit audio; pair with retained Session.events DamageEvent.target_died and current victim transform before motion; tests after build53372 terminal.",
     "Frontend callable generic creation flow: existing source profile data + same CharacterState/save owners, explicit selected file for load, no overwrite fallback, typed same-state result on successful Start; no native InitPost/receipt claim.",
     "Effects runnable producer follow-up: same retained visual Scene + actual EffectsTables/assets + same-session ActorId anchors/debug/floor from supplied geometry/camera; no cloned/native Character/particles; root queue explicit.",
@@ -717,7 +688,7 @@
     "Integration-lead follow-up: companion isolated extraction-only Faery AnimDict377 exact ZIP member test into `.local-inputs`, verify existing bank; no new ZIP engine/wrapper/runtime guess.",
     "Integration-lead grant: frontend_luna narrow runtime_creation_source_loader_v1.cpp/test fix for authored data/pydata AssetCatalog paths, preserve original-cache compatibility and exact content hash/transaction; actual Android-root 13-input test. No main/CMake/shared build.",
     "Root/integration-lead grant: frontend_luna sole-writer content_paths.cpp + tests/content_paths_tests.cpp for exact data/pydata/*.bin to data/<same basename> Android packaging alias; loader passes actual resolved parent to load_original_property_tables; verify 13 inputs/hashes against Android and original-cache roots plus failure atomicity; preserve precedence/confinement, no cross-root fallback; shared Foundation build held until source terminal.",
-    "Root roadmap follow-up: act1_companions_luna feature-only Swamp_Intro/Camp_Intro companion command composition using exact source AnimDict IDs and name/module→existing Session ActorId/lease; same Session/event order/completion; no duplicate wrapper/native FSM/guessed offsets/core/main/CMake; stop if bank already covers dispatch.",
+    "Root roadmap follow-up: act1_companions_luna feature-only Swamp_Intro/Camp_Intro companion command composition using exact source AnimDict IDs and name/moduleâ†’existing Session ActorId/lease; same Session/event order/completion; no duplicate wrapper/native FSM/guessed offsets/core/main/CMake; stop if bank already covers dispatch.",
     "Integration-lead grant: frontend_luna feature-owned edit of frontend runtime config/presentation and focused clock test; default Window.seconds elapsed time with millisecond carry, explicit fixedStep diagnostics preserved; no main/CMake or unready Idle/camera claims.",
     "Integration-lead narrowing: act1_companions_luna audits exact Script_PlayActorAnim execution/default loop-rate/slot flags for IDs396/377/686 only; no command wrapper, guessed offset20 semantics or metadata.",
     "Workforce continuation: act1_interactions_luna read-only audit of exact authored Swamp breakable BDAE across original cache ZIP, full-cache APKs, original APK, and decoded roots; exact isolated extraction/test if found; otherwise bounded absence. No substitutions/timing guesses/runtime/shared build/GUI.",
@@ -752,17 +723,17 @@
     "Companion selected-AIS enrollment, Quest production page routing, interactions live caller/retained visual, map Level+36/+244 source arrays, and character-menu composition remain root/provider tasks after ownership check."
   ],
   "policy": "Feature assignments only after exact ownership/dependency check. Ordinary workers GPT-6 Luna HIGH. GPT-6.1 Sol MEDIUM only for difficult bounded tasks with documented reason and lead approval. No root code/build/release ownership.",
-  "release_status": "Preview9 is the only accepted release. Candidate ACB532…ADC6038 has direct Skills, Knight walk/stop, and Rogue 480-frame XP/body-removal/save checks; prior FC19… had enabled physics, JumpKick, Celest and pause with 99/100 tests. Do not combine candidates or promote helper-only evidence. Root owns package acceptance and user-save preservation; reported bugs remain listed in docs/BUGS-AND-IMPLEMENTATION.md.",
+  "release_status": "Preview9 is the only accepted release. Candidate ACB532â€¦ADC6038 has direct Skills, Knight walk/stop, and Rogue 480-frame XP/body-removal/save checks; prior FC19â€¦ had enabled physics, JumpKick, Celest and pause with 99/100 tests. Do not combine candidates or promote helper-only evidence. Root owns package acceptance and user-save preservation; reported bugs remain listed in docs/BUGS-AND-IMPLEMENTATION.md.",
   "acceptance_checklist": [
     {
       "issue": "Profile arrows/new/create-again/remove confirmation, selected Rogue model/labels, and black-void scene coverage",
       "status": "Profile helper state machine and exact label projection pass isolated C++17 tests; current coherent main GUI flow/capture remains in lead hands.",
-      "evidence": "Frontend feature CTest5/5+art tests pass: arrows/path, confirmation/remove, callback lifetime, Achievements→MENU_ACHIEVEMENTS and Leaderboard alternate; no visible BtnText assertion. Same-session Warrior camera evidence shows v1.0.2 coverage holes; no v1.0.3 asset found. Lead still must compile latest feature changes into main and verify own-window flow/captures."
+      "evidence": "Frontend feature CTest5/5+art tests pass: arrows/path, confirmation/remove, callback lifetime, Achievementsâ†’MENU_ACHIEVEMENTS and Leaderboard alternate; no visible BtnText assertion. Same-session Warrior camera evidence shows v1.0.2 coverage holes; no v1.0.3 asset found. Lead still must compile latest feature changes into main and verify own-window flow/captures."
     },
     {
       "issue": "Rogue run and Rogue character menus",
       "status": "Cross-class main proof partial",
-      "evidence": "Lead reported Rogue/Mage Create→Run30→Skills GUI PASS. Equipment/save-profile proof and complete menu coverage remain; no claim that every menu is accepted."
+      "evidence": "Lead reported Rogue/Mage Createâ†’Run30â†’Skills GUI PASS. Equipment/save-profile proof and complete menu coverage remain; no claim that every menu is accepted."
     },
     {
       "issue": "Equipment details font/list/title, three Transmute labels, Garb icon",
@@ -790,8 +761,8 @@
       "evidence": "Pause helper source tests/Debug gate pass, but coherent foundation build caught nine std::string::ends_with calls in source_pause_ui_render_v1.cpp under C++17. Lead is replacing them mechanically; recompile needed before main link, then GUI."
     },
     {
-      "issue": "Actual source enemy death→drop→pickup→XP",
-      "status": "Same-session actual source death→XP/drop/pickup and main-callable host CPU test pass; main Level+150 caller admission and visible GUI acceptance remain open.",
+      "issue": "Actual source enemy deathâ†’dropâ†’pickupâ†’XP",
+      "status": "Same-session actual source deathâ†’XP/drop/pickup and main-callable host CPU test pass; main Level+150 caller admission and visible GUI acceptance remain open.",
       "evidence": "Host runner uses Swamp_LizadMan_Type1 property9=230/property35=1894 and same Session RNG; Potion0 item925 transfers once, duplicates suppressed, 86 source Debug requests, two difficulty reads, OneKillLevelUp once, stale lease rejected and restore reset/rebind prevents replay. Strict C++17 Werror passes. Host is not yet wired into main; caller owns Level+150 DropLoot admission and rendered capture."
     },
     {
@@ -815,7 +786,7 @@
       "evidence": "apply_calculated_hit focused tests pass with actual source Spell_Fire_2 and melee Injure; once-only payload, injury gate/reaction and death; no extra RNG. Session still must call once per admitted source occurrence after actual skill/spell calculation; other result categories remain outside."
     },
     {
-      "issue": "Preview11 visible authored pots/chests and break/open→loot→pickup",
+      "issue": "Preview11 visible authored pots/chests and break/openâ†’lootâ†’pickup",
       "status": "Blocked on root-owned neutral same-world noncombat ActorId enrollment; existing interaction/drop helpers are tested.",
       "evidence": "Current PlayableActorWorld bind_actor requires combat vitals/properties/reach. Interaction worker requests neutral same-world ActorId and visual enrollment. Existing same-store renderer proof is CPU only; no pots/chests gameplay claim."
     },
@@ -824,5 +795,33 @@
       "status": "Reconciled",
       "evidence": "Active menu owners: character_menu_luna, act1_map_luna, faery_menu_luna; Pause UI owner act1_companions_luna; frontend_luna and equipment_luna completed focused helpers, but main/GUI acceptance is still pending. Completion of a helper is not release acceptance."
     }
-  ]
+  ],
+  "current_queued_bug_ids": [
+    "B002 all-control/art verification",
+    "B004 current target/ring integration",
+    "B005 canonical authored FX asset staging",
+    "B007 current full creation route",
+    "B008 equipment slot-name recapture",
+    "B009 Faery activation and Quest route",
+    "B010 non-aligned normal attack-facing check",
+    "B012 normal Died/End34 capture",
+    "B015 normal pause/resume freeze check",
+    "B016 Details/ValueBox capture",
+    "B018 empty button/label normal HUD check",
+    "B019 normal equipment viewport matrix",
+    "B020 level lock/prerequisite UI",
+    "B021 specialization chain normal UI",
+    "B022 matched-version camera/scene evidence",
+    "B023 live MapSheet zones and visitation providers",
+    "B024 spell visuals/save-reload check",
+    "B025 production object enrollment/drop/pickup",
+    "B028 authentic missing Lizard WAVs",
+    "B029 target ring/current-preferred integration",
+    "B030 authored trigger contact to Session spawn",
+    "B032 normal direct-preload/first-grant path",
+    "B033 normal targetless Attack5 path",
+    "B035 state10/physical/visual Push integration"
+  ],
+  "pending_initialization": [],
+  "reviewers_running": []
 }

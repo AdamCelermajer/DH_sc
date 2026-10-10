@@ -6,38 +6,34 @@ This is a staffing allocation, not a claim that every role is running. The accep
 
 | Agent | Current scope | State | Dependency/next handoff |
 | --- | --- | --- | --- |
-| `/root` | Shared Session/core and release acceptance | Active | Root owns core source and release; no dispatcher edits to combat_session or user-owned saves/process. |
-| `/root/integration_lead` | Windows main/CMake, coherent builds and production caller/UI verification | Active | Owns main/build/GUI; DA4C reports 100/100 CTest; no CUA per user. |
-| `/root/workforce_dispatcher` | Tracker, ownership and dispatch followups | Active | Maintains actual roster, bug movement and feature integration handoffs. |
-| `/root/b007_creation_flow_fresh` | B007 creation/back/remove/recreate bug | Active | Fresh source-backed implementation owner; previous host test remains component evidence only. |
-| `/root/b008_profile_models_fresh` | B008 profile/model/label mismatch | Active | Fresh bug owner; exact selected-profile reproduction and focused implementation/test pending. |
-| `/root/b009_menu_navigation_fresh` | B009 character-page navigation bug | Active | Fresh bug owner; prove/reproduce page route, implement/focus-test, hand caller contract to lead. |
-| `/root/b016_equipment_art_fresh` | B016 equipment text/art fidelity | Active | Fresh bug owner; source-linked Details/label verification and focused result pending. |
-| `/root/b018_skill_text_fresh` | B018 empty skill button/label behavior | Active | Fresh owner; verify source labels/empty-cell art separately from saved-slot mapping. |
-| `/root/b019_equipment_avatar_fresh` | B019 equipment avatar/item appearance | Active | Fresh owner; source-matched item/class preview regression pending. |
-| `/root/b020_skill_level_locks_fresh` | B020 level locks/prerequisite chain | Active | Fresh owner; source/UI lock and chain regression pending. |
-| `/root/workforce_dispatcher/b033_targetless_attack` | B033 targetless Attack5 source parity | Active | Fresh owner builds a focused same-session test/proposal; no shared Session/core edit. |
-| `/root/workforce_dispatcher/b033_targetless_review` | Independent B033 source/test review | Active | Source proves conditional null-target Attack5 path after gates; awaiting owner artifact to rerun. |
-| `/root/bug_gate_review` | Independent B006 reviewer | Active | Restart policy and focus-resume feature reviewed; current runtime/input tests pass 28 checks. Same-process caller/re-entry proof is still needed. |
-| `/root/b003_post_skill_attack_fresh` | B003 post-skill Space attack continuity | Terminal | B003-only default runner and independent focused review pass. Normal EXE/controller/key proof remains open; targetless diagnostic is separate. |
-| `/root/workforce_dispatcher/combat_anim_audit` | Independent B003 review | Terminal | Default runner passed with current PowerShell call operator; child invocation anchor discrepancy documented. |
-| `/root/integration_lead/frontend_focus_resume_luna` | B006 same-process frontend focus return | Terminal | Feature/runtime/input tests pass 28 checks; integration lead still needs to wire caller and prove same-process route. |
-| `/root/b004_auto_target_fresh` | B004 auto-target retention behavior | Terminal | Six-branch strict C++17 feature test and independent review pass; lead still needs real last_target/OOI projection and ring capture. |
-| `/root/b006_death_restart_fresh` | B006 death→Single Player policy helper | Terminal | Helper and focused policy test pass; normal same-process route remains open at frontend focus/re-entry. |
-| `/root/integration_lead/act1_loot_luna` | Potion transaction and death rewards | Terminal | Potion and current-vitals/XP feature tests pass; lead owns normal input/caller/render integration. |
+| /root | Shared Session/core and release acceptance | Active | Core source terminal; no blanket compile hold. |
+| /root/integration_lead | Windows main/CMake, coherent builds and production caller/UI verification | Active | Owns normal executable integration gates; no CUA. |
+| /root/workforce_dispatcher | Tracker, ownership and fresh dispatch followups | Active | Maintains stable IDs, editable user inbox, exact roster and handoffs. |
+| /root/b008_profile_models_fresh | B008 selected avatar/equipped weapon projection | Active | Normal captures reveal weapons missing on Knight/Rogue/Mage; patching the feature-owned slot-name mapping, then lead recaptures. |
+| /root/workforce_dispatcher/b002_hud_art | B002 Faery/Potion source artwork | Active | Exact SWF/resource investigation and feature-only resolver/tests; no substitute art, lead owns renderer integration. |
+| /root/b035_state10_runtime_sol | B035 source Push state-10 runtime consumer | Active | Source-backed modern state10/OnFocus/Blur and physical composition; feature-only, lead owns main/runtime capture. |
 
-**Current concurrency: 13 active agents total, 10 feature/verification workers.** Completed this dispatch wave (not active): Linux x86-64 package/backend, B032 rank-zero preload fix/review, B004 marker precedence helper/review, headless creation/profile route test, authentic MenuSelect cue adapter, profile persistence matrix, death-return helper, PC HUD draw/hit packet provider, potion-use transaction, target-retention regression, Knight BashDown FX packets, B003 implementation/review, and B006 focus-resume implementation. Their feature receipts are ready for lead’s main integration/normal-runtime checks; helper passes do not close active bugs. B003’s default runner passes in the current PowerShell process and remains distinct from the optional targetless Attack5 diagnostic; normal executable proof is open. Preview9 remains the only accepted release. ACB532 and 9C40 remain distinct candidate evidence; do not merge builds.
-
+**Actual roster: 6 running tasks total (3 feature workers and 3 coordination roles); no independent reviewer is currently running.** I003 enrollment, I005/B023 and I006 feature consumers have finished and moved to handoff status below. B025 failure-prefix hardening is feature-tested and terminal; normal scene enrollment/click capture remains with the lead. B035 feature consumer and independent review pass; a fresh state10/physical implementation is active, while normal capture remains open. B036 label/circle alignment is resolved on the lead-confirmed E826D7CC normal capture; exact Faery/Potion artwork remains B002. I018/I019 menu cue adapter is feature-tested and terminal; audible main integration remains with the lead. B003, scoped B006 crash return, B034 player-death reward suppression, and scoped B036 label alignment are resolved for frozen E826D7CC; Preview9 remains accepted. B019 feature matrix and independent strict review are terminal PASS; normal renderer capture remains lead-owned. B007/B032 and other feature fixes remain normal-executable gates. B026 is resolved only for frozen 227F; Preview9 remains the only accepted release.
 ## Completed feature handoffs awaiting integration
 
 - Frontend creation/profile: actual 13-input source route, cancel/refusal byte preservation, remove/recreate and same-profile start pass; lead owns main route and normal executable check.
-- Audio MenuSelect: source ordinal143→UID3 authentic PCM16 WAV decode and no-device fail-closed submission pass; lead must provide action timestamp/emitter and audible runtime path. Missing Lizard WAVs remain absent.
+- Audio menu cues: exact Single Player MenuConfirm and MenuSelect actions have a feature-owned adapter, authentic sample decoding, QPC/focus checks, and strict isolated tests. Lead owns actual callback/output enrollment and audible normal-executable verification. Missing Lizard WAVs remain absent.
 - Persistence: separate-process SaveStore schema3/GameSave v1 matrix passes with legacy schema1 unknown-field and atomic-failure cases; lead must compose live profile/world owners.
 - Death return: feature return/save helper passes current Session/save tests; no actual in-flight cast in this test, production main wiring and full active-cast rejection integration remain lead gates.
-- PC HUD: semantic projection maps physical circles left/middle/right to keys1/2/3; source-art draw/hit packet provider passes a strict focused test. Main still needs viewport layout, draw-list and `SemanticInput::Surface::hit` wiring; potion provider also passes a strict linked Session test, with main binding outstanding. No playable HUD claim until integration and normal capture pass.
+- PC HUD: semantic projection maps physical circles left/middle/right to keys1/2/3; B036 corrected label placement and passed multi-viewport layout tests. Potion count projection and potion-use provider also pass focused tests. Lead still owns normal viewport/render/hit and action verification; no playable HUD claim until capture passes.
 - Target retention: same-session regression passes Space release, next attack, BashDown Post clear/reacquire and death invalidation; source caller/normal UI remains.
 - BashDown FX: source root347/FX164 makes 3 mesh and 2 particle packets; duplicate suppressed. Main must register observer in same frame update/render order; no GPU/pixel claim.
 - B032 feature fix and independent review are terminal PASS; lead’s normal DA4C direct-preload/first-grant retest is still open.
+- B025 urn binder plus test hardening verifies urn RNG advancement, `loot_table==9`, and missing RNG/store rejection before visual enrollment; B030 intro consumer also has independent focused passes. Normal main enrollment/trigger integration remains open.
+- I003 authored-scene enrollment is feature-terminal: actual decoded chest/urn declarations pass through the modern enrollment API, including probability-prefix rejection and same-session marker/store flow. Main still must build current authored candidates and provide actual live policy services.
+- B005 exact-URI asset resolver test passes against actual effect and animation-decoy bytes; normal asset-root/caller capture remains open.
+- B009 lifetime provider guard passes destroyed-session callback test; main page registration/visual route remains open.
+- B023 current-Session zone candidate producer joins actual decoded ordered module bounds to the same-player lease, checks inclusive XY containment and leaves visitation unknown. Strict C++17/11 Python tests pass; live Level+36 membership, RoomZone backlink/visited state, camera planes and MapSheet caller remain.
+- I006 follow consumer composes the same-session planner and movement executor and follows an actor to its master's updated position. The focused source/asset test passes; production event wiring, actual RENE_FOLLOW/master owner and WarpBehind destination remain.
+- B034 focused no-reward fix and independent review pass with production UINT64_MAX player actor; frozen E826D7CC same-process death→Single Player preserves XP and emits no SourceDeathReward while an NPC reward control remains active.
+- B007 invalid-slot callback guard passes 91 focused assertions; integration review is active and full route must rebuild against current archive.
+- B011 fresh Knight/Rogue test/report is terminal: measured lateral arc matches recovered source order; no fix justified. Normal capture remains open.
+- B035 independent review PASS: actual 0x8 no-dispatch and 0x98/0x88 source Push cases pass; production state10, physical effects and normal visual verification remain.
 
 ## Newly tracked production bug gates
 

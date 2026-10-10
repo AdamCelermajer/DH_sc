@@ -46,8 +46,8 @@ bool admit_session_source_object_v1(
     const std::string source_gametype=request.definition->gametype;
     const auto desc_it=request.definition->properties.find("data_desc");
     const std::string source_data_desc=desc_it==request.definition->properties.end()?std::string{}:desc_it->second;
-    if(source_gametype!="OpenableContainer")
-        return fail(error,"This admission receipt is scoped to source OpenableContainer definitions");
+    if(source_gametype!="OpenableContainer"&&source_gametype!="DestructibleContainer")
+        return fail(error,"This admission receipt is scoped to source OpenableContainer/DestructibleContainer definitions");
     if(request.candidate.id!=source_id||request.candidate.name!=source_name)
         return fail(error,"Staged candidate identity differs from its authored source definition");
     if(request.candidate.id==invalid_object_id)
@@ -59,12 +59,12 @@ bool admit_session_source_object_v1(
     if(request.probability274<0||request.probability274>100)
         return fail(error,"Source probability274 is outside the original [0,100] range");
     if(source_data_desc.empty())
-        return fail(error,"Source admission requires the authored data_desc for its eventual Openable receipt");
+        return fail(error,"Source admission requires the authored data_desc for its eventual container receipt");
     if(!validate_world_object(request.candidate,error))
         return fail(error,"Staged source candidate failed WorldObject validation");
     SourceContainerObjsFieldsV1 initial_state;
     if(!read_source_container_objs_v1(request.candidate,initial_state,error))
-        return fail(error,"Staged Openable candidate requires its authored/constructor OBJS component");
+        return fail(error,"Staged container candidate requires its authored/constructor OBJS component");
 
     bool meet=false;
     if(!dh2::world::game_object_meet_condition_v1(meet,error)||!meet)
@@ -86,8 +86,8 @@ bool admit_session_source_object_v1(
     borrow.network_id108=&network_id;
     borrow.online_owner_fc=request.online_owner_fc?&owner_fc:nullptr;
     borrow.byte82=&byte82;
-    // OpenableContainer derives through GameObject/ObjectBase, whose source
-    // IsCharacter virtual (+0x24) is the literal false implementation. The
+    // Both admitted source container types derive through GameObject/ObjectBase,
+    // whose source IsCharacter virtual (+0x24) is the literal false implementation. The
     // ObjectHandle Character conversion therefore yields null for a correctly
     // registered self-handle; if its lookup is null, conversion is also null.
     // CheckSpawnProbability consequently never calls Character::IsPlayer(+0x28).

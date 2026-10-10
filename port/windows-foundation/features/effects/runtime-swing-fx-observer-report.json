@@ -17,6 +17,25 @@
     "same_session": true,
     "duplicate_suppressed": true
   },
+  "bashdown_anchored_source_step": {
+    "actor": 65537,
+    "sequence": 347,
+    "step": 0,
+    "occurrence": 2,
+    "source_set_id": 164,
+    "source_set_name": "skill_dh2_prince_warrior_bash_down",
+    "exact_bdae_uri": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+    "mesh_packets": 3,
+    "particle_packets": 2,
+    "test_camera_calls": 28,
+    "same_session": true,
+    "duplicate_suppressed": true,
+    "anchor_position_followed": true,
+    "anchor_rotation_scale_followed": true,
+    "same_frame_retained_submission": true,
+    "callback_failure_detail_preserved": true
+  },
+  "callback_failure_detail_preserved": true,
   "source_packet_diagnostic": {
     "vertex_count": 38,
     "world_aabb_min": [
