@@ -96,6 +96,8 @@
 #include "platform_sleep.hpp"
 #include "features/startup/boot_runner_v1.hpp"  // Preview 15 startup boot
 #include "features/startup/loading_screen_v1.hpp"  // Preview 15 campaign loading screen
+#include "features/audio/winmm_output.hpp"         // Preview 15 boot soundtrack output (platform pump only)
+#include "../engine-audio/audio_mixer_v34.hpp"
 #include <GL/gl.h>
 #include <algorithm>
 #include <cmath>
@@ -205,7 +207,7 @@ struct Options {
     fs::path audioAssets,audioTable;
     int audioListener=-1;
     std::string startMode="menu",menuActions,menuReturnActions;
-    bool skipBoot=false;std::string introStream,loadingCapture; // Preview 15 startup boot (--skip-boot, --intro-stream, --loading-capture)
+    bool skipBoot=false;std::string introMovie,loadingCapture; // Preview 15 startup boot (--skip-boot, --intro-movie, --loading-capture)
     std::vector<double> bootPresses;std::vector<std::pair<double,fs::path>> bootCaptures;double bootMaxSeconds=0; // boot verification hooks
     fs::path menuAssets,menuUiAssets,menuCaptureDirectory;
     int menuCaptureEvery=6;
@@ -399,7 +401,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--fixed-step") {o.fixedStep=std::stod(value());if(!std::isfinite(o.fixedStep)||o.fixedStep<=0||o.fixedStep>1)throw std::runtime_error("Fixed step must be in (0,1]");}
         else if(arg=="--probe") o.probe=true;
         else if(arg=="--skip-boot") o.skipBoot=true;  // Preview 15: tests run without logo/movie/title
-        else if(arg=="--intro-stream") o.introStream=value();
+        else if(arg=="--intro-movie") o.introMovie=value();
         else if(arg=="--loading-capture") o.loadingCapture=value();  // <prefix>: writes <prefix>-NNN.ppm per loading stage
         else if(arg=="--boot-press") o.bootPresses.push_back(std::stod(value()));  // scripted press/tap (verification)
         else if(arg=="--boot-max-seconds") o.bootMaxSeconds=std::stod(value());
@@ -494,19 +496,32 @@ int main(int argc,char** argv) {
                 windowOpened=true;
             } else if((window.width()!=width||window.height()!=height)&&!window.resize(width,height))
                 throw std::runtime_error("Frontend retained window resize: "+window.error());
-            // Preview 15 startup boot: logo -> intro movie -> touch to continue, first menu entry only.
-            // --skip-boot bypasses it for tests; boot asset failures are logged and the menu still runs.
+            // Preview 15 startup boot (original order): intro movie (contains the Gameloft logo, SKIP) -> touch to
+            // continue -> main menu, first menu entry only. --skip-boot bypasses it for tests; boot asset failures
+            // are logged and the menu still runs.
             if(!options.skipBoot&&!bootShown) {
                 bootShown=true;
                 f::startup::BootRunConfig bootConfig;bootConfig.assets=&assets;
-                bootConfig.intro_stream=options.introStream.empty()?assets.root()/"converted-media"/"intro_v1.dhintro":fs::path(options.introStream);
+                bootConfig.intro_movie=options.introMovie.empty()?assets.root()/"converted-media"/"intro_v1.mpg":fs::path(options.introMovie);
                 bootConfig.window_width=width;
                 bootConfig.scripted_presses=options.bootPresses;bootConfig.captures=options.bootCaptures;
                 bootConfig.max_seconds=options.bootMaxSeconds;
                 bootConfig.capture=[](const fs::path& p,int w,int h){capture(p,w,h);};
+                // The movie soundtrack runs on its own mixer; the boot owns the platform output while it runs.
+                auto bootMixer=std::make_unique<dh2::audio::AudioMixerV34>();
+                f::audio::WinmmAudioOutput bootOutput(*bootMixer);
+                std::string bootAudioError;
+                if(bootOutput.open(bootAudioError)) {
+                    bootConfig.audio_mixer=bootMixer.get();
+                    bootConfig.audio_latency_frames=std::uint64_t(f::audio::kWinmmBufferCount)*f::audio::kWinmmFramesPerBuffer;
+                    bootConfig.audio_pump=[&bootOutput](){std::string e;if(!bootOutput.update(e)){static bool reported=false;if(!reported){reported=true;std::cerr<<"Boot audio pump: "<<e<<std::endl;}}};
+                } else std::cerr<<"Boot audio unavailable ("<<bootAudioError<<"); the movie runs on the wall clock"<<std::endl;
                 const auto boot=f::startup::run_boot_v1(window,renderer,bootConfig);
+                bootOutput.close();
                 // std::endl flushes: verification jobs may be killed after the boot ends.
-                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown<<" seconds="<<boot.seconds<<std::endl;
+                std::cout<<"Boot outcome="<<int(boot.outcome)<<" movie=\""<<boot.movie_status<<"\" movie_frames="<<boot.movie_frames_shown
+                         <<" movie_clock=\""<<boot.movie_clock<<"\" soundtrack_seconds="<<boot.soundtrack_seconds
+                         <<" soundtrack_duration="<<boot.soundtrack_duration<<" seconds="<<boot.seconds<<std::endl;
                 if(!boot.error.empty())std::cerr<<"Boot: "<<boot.error<<std::endl;
                 if(boot.outcome==f::startup::BootRunOutcome::quit)return 0;
             }

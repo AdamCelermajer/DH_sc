@@ -1,9 +1,11 @@
 #include "boot_runner_v1.hpp"
 
 #include "asset_catalog.hpp"
+#include "../../../engine-audio/audio_mixer_v34.hpp"
 #include "content_paths.hpp"
 #include "hud_glyphs.hpp"
-#include "intro_stream_v1.hpp"
+#include "intro_movie_v2.hpp"
+#include "intro_soundtrack_v2.hpp"
 #include "overlay_renderer.hpp"
 #include "platform_key_codes.hpp"
 #include "platform_sleep.hpp"
@@ -111,6 +113,19 @@ bool read_file(const std::filesystem::path& path, std::vector<std::uint8_t>& byt
     return true;
 }
 
+// Stops the soundtrack voice and keeps pumping until the mixer has released it (it reads the sample),
+// bounded so a stalled output cannot hang the boot.
+void release_soundtrack(IntroSoundtrackV2& soundtrack, dh2::audio::AudioMixerV34& mixer, const std::function<void()>& pump) {
+    if (!soundtrack.started()) return;
+    soundtrack.stop(mixer);
+    const double until = Window::seconds() + 0.5;
+    while (!soundtrack.released(mixer) && Window::seconds() < until) {
+        if (pump) pump();
+        soundtrack.drain_receipts(mixer);
+        platform_sleep_milliseconds(2);
+    }
+}
+
 } // namespace
 
 BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfig& config) {
@@ -120,11 +135,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
         return result;
     }
     std::string error;
-    TextureImage logoImage, splashImage;
-    if (!load_texture(resolve_content_path(*config.assets, "data/3d/textures/gameloft.tga"), logoImage, error)) {
-        result.error = "boot logo: " + error;
-        return result;
-    }
+    TextureImage splashImage;
     // Splash variant chosen as the original GSInit::Update case 7 did (language 0 assumed).
     const char* splashUri = config.window_width == 854   ? "data/3d/textures/splash_final_droid.tga"
                             : config.window_width == 800 ? "data/3d/textures/splash_final_i9000.tga"
@@ -133,18 +144,17 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
         result.error = "boot splash: " + error;
         return result;
     }
-    const std::uint32_t logoTexture = renderer.createTexture(int(logoImage.width), int(logoImage.height), logoImage.rgba.data());
     const std::uint32_t splashTexture = renderer.createTexture(int(splashImage.width), int(splashImage.height), splashImage.rgba.data());
 
-    // Movie: an unusable stream skips the movie with the reason recorded (never silent).
-    IntroStreamV1 movie;
+    // Movie: an unusable file skips the movie with the reason recorded (never silent).
+    IntroMovieV2 movie;
     bool movieAvailable = false;
-    if (config.intro_stream.empty()) {
-        result.movie_status = "skipped: no intro stream configured";
+    if (config.intro_movie.empty()) {
+        result.movie_status = "skipped: no intro movie configured";
     } else {
         std::vector<std::uint8_t> bytes;
-        if (!read_file(config.intro_stream, bytes)) {
-            result.movie_status = "skipped: intro stream not found: " + config.intro_stream.string();
+        if (!read_file(config.intro_movie, bytes)) {
+            result.movie_status = "skipped: intro movie not found: " + config.intro_movie.string();
         } else if (!movie.open(std::move(bytes), error)) {
             result.movie_status = "skipped: " + error;
         } else {
@@ -152,7 +162,25 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
         }
     }
 
-    BootFlowV1 flow(config.timing, false);
+    // Soundtrack: decoded once, then one mixer voice. Its audible position is the movie clock.
+    std::vector<std::int16_t> pcm;
+    IntroSoundtrackV2 soundtrack;
+    bool soundtrackStarted = false;
+    if (movieAvailable && config.audio_mixer) {
+        if (!movie.decode_soundtrack(pcm, error)) {
+            result.error = "soundtrack: " + error;
+        } else {
+            result.soundtrack_duration = double(pcm.size() / 2) / double(movie.info().sample_rate);
+            const std::uint64_t lead = movie.info().sample_rate / 10;  // start 100 ms after the first pump
+            if (!soundtrack.start(*config.audio_mixer, pcm, movie.info().sample_rate, lead, config.audio_latency_frames, error))
+                result.error = "soundtrack: " + error;
+            else
+                soundtrackStarted = true;
+        }
+    }
+    result.movie_clock = soundtrackStarted ? "audio" : "wall";
+
+    BootFlowV1 flow(false);
     PressEdge press;
     OverlayRenderer overlay;
     std::vector<std::uint8_t> frameRgba;
@@ -165,9 +193,11 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
     std::sort(captures.begin(), captures.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
     std::size_t nextCapture = 0;
     const double start = Window::seconds();
-    double movieStart = -1.0;
-    bool movieEnded = false;     // stream reached its end
+    double movieStart = -1.0;     // boot time when the movie phase began
+    bool useWallClock = !soundtrackStarted;
+    bool movieEnded = false;      // picture reached its last frame and the clock passed it
     bool movieSkippedByUser = false;
+    const double fps = movieAvailable ? movie.info().fps : 1.0;
 
     while (flow.phase() != BootPhase::complete && flow.phase() != BootPhase::quit) {
         window.poll();
@@ -180,6 +210,8 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
             flow.request_quit();
             break;
         }
+        if (config.audio_pump) config.audio_pump();
+        if (soundtrackStarted) soundtrack.drain_receipts(*config.audio_mixer);
         bool pressed = press.update(window);
         if (nextPress < presses.size() && now >= presses[nextPress]) {
             pressed = true;  // scripted verification press (same abstract edge as real input)
@@ -189,34 +221,39 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
         flow.update(now, pressed);
         if (before == BootPhase::movie && flow.phase() == BootPhase::title && pressed) movieSkippedByUser = true;
 
-        if (flow.phase() == BootPhase::movie) {
-            if (movieStart < 0.0) {
-                movieStart = now;
-                if (!movieAvailable) flow.movie_finished(now);  // no movie: continue at once
-            }
+        if (flow.phase() == BootPhase::movie && movieStart < 0.0) {
+            movieStart = now;
+            if (!movieAvailable) flow.movie_finished(now);  // no movie: continue at once
         }
         if (flow.phase() == BootPhase::movie && movieAvailable) {
-            // The picture follows the time base: frame index = elapsed * fps.
-            const auto target = static_cast<std::uint32_t>(std::floor((now - movieStart) * double(movie.info().fps)));
-            bool decoded = false;
-            while (!movie.at_end() && movie.next_index() <= target) {
-                if (!movie.next_frame(frameRgba, error)) {
-                    result.movie_status = "skipped: " + error;
-                    movieAvailable = false;
-                    break;
+            double clock = now - movieStart;
+            if (!useWallClock) {
+                const double audio = soundtrack.seconds(*config.audio_mixer);
+                if (audio >= 0.0) {
+                    clock = audio;  // master clock: the mixer's output frames
+                } else {
+                    clock = 0.0;    // soundtrack not audible yet: hold the first frame
+                    if (now - movieStart > 3.0) {  // output never pumped (no device): wall clock, said so in the log
+                        useWallClock = true;
+                        result.movie_clock = "wall (audio not audible after 3 s)";
+                        clock = now - movieStart;
+                    }
                 }
-                decoded = true;
             }
-            if (decoded) {
+            bool updated = false;
+            if (!movie.frame_at(clock, frameRgba, updated, error)) {
+                result.movie_status = "skipped: " + error;
+                movieAvailable = false;
+                flow.movie_finished(now);
+            } else if (updated) {
                 if (frameTexture) renderer.destroyTexture(frameTexture);
                 frameTexture = renderer.createTexture(int(movie.info().width), int(movie.info().height), frameRgba.data());
                 ++result.movie_frames_shown;
             }
-            if (!movieAvailable || movie.at_end()) {
-                if (movieAvailable) {
-                    movieEnded = true;
-                    result.movie_status = "played";
-                }
+            // The last frame stays up for its own duration: the movie ends at its end time.
+            if (movieAvailable && movie.at_end() && clock >= double(movie.frames_decoded()) / fps) {
+                movieEnded = true;
+                result.movie_status = "played";
                 flow.movie_finished(now);
             }
         }
@@ -226,9 +263,7 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
         renderer.beginFrame(Camera{});
         overlay.begin(w, h);
         draw_black(overlay, w, h);
-        if (flow.phase() == BootPhase::logo) {
-            overlay.drawSprite(fit_sprite(w, h, int(logoImage.width), int(logoImage.height), flow.logo_alpha(now), logoTexture));
-        } else if (flow.phase() == BootPhase::movie) {
+        if (flow.phase() == BootPhase::movie) {
             if (frameTexture) overlay.drawSprite(fit_sprite(w, h, int(movie.info().width), int(movie.info().height), 1.0f, frameTexture));
             // Skip overlay: any press (touch, mouse, Enter, Space, Escape) skips the movie.
             if (!skip.built) build_text_label(renderer, *config.assets, kSkipLabel, 22, LabelAnchor::right_bottom, w, h, skip);
@@ -248,8 +283,11 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
         platform_sleep_milliseconds(4);
     }
 
+    if (soundtrackStarted) {
+        result.soundtrack_seconds = std::max(0.0, soundtrack.seconds(*config.audio_mixer));
+        release_soundtrack(soundtrack, *config.audio_mixer, config.audio_pump);
+    }
     if (frameTexture) renderer.destroyTexture(frameTexture);
-    renderer.destroyTexture(logoTexture);
     renderer.destroyTexture(splashTexture);
     for (auto texture : title.textures) renderer.destroyTexture(texture);
     for (auto texture : skip.textures) renderer.destroyTexture(texture);
@@ -258,9 +296,11 @@ BootRunResult run_boot_v1(Window& window, Renderer& renderer, const BootRunConfi
 
     result.seconds = Window::seconds() - start;
     result.outcome = flow.phase() == BootPhase::quit ? BootRunOutcome::quit : BootRunOutcome::complete;
-    if (movieSkippedByUser && !movieEnded) {
+    if (movieEnded) {
+        // status already "played"
+    } else if (movieSkippedByUser) {
         result.movie_status = "skipped: user";
-    } else if (movieAvailable && !movieEnded && result.outcome == BootRunOutcome::quit) {
+    } else if (movieAvailable && result.outcome == BootRunOutcome::quit) {
         result.movie_status = "stopped before movie end";
     }
     return result;
