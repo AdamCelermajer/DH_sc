@@ -52,6 +52,17 @@ int main(int argc,char** argv){try{
   plate34_triangles+=batch.triangles.size()/3;
  }
  check(plate34_triangles==20&&!plate177&&!carved_left,"Original Details kept carved frame quads/pillars of the main plates or dropped the damask base");
+ // B056: the grey/orange panels, list damask and list lift/shadow/rail-dim stand-ins are additive. Check they exist
+ // (panel + damask batches, shadow and lift solids), then drop them so the authored-solid order check below is unchanged.
+ {const auto is_b056=[](const std::string& role){return role.find("menu_InventorySheetDetails/b056_")==0;};
+  const auto count=[&](const std::string& role){return std::count_if(frame.art.batches.begin(),frame.art.batches.end(),[&](const auto& b){return b.role==role;});};
+  check(count("menu_InventorySheetDetails/b056_grey_panel")==1&&count("menu_InventorySheetDetails/b056_orange_panel")==1&&count(inventory::details_list_damask_role())==1,"B056 panel/damask batches missing");
+  check(std::count_if(frame.solids.begin(),frame.solids.end(),[&](const auto& s){return s.geometry.role=="menu_InventorySheetDetails/b056_avatar_shadow";})>0&&
+        std::count_if(frame.solids.begin(),frame.solids.end(),[&](const auto& s){return s.geometry.role=="menu_InventorySheetDetails/b056_list_damask_lift";})>0,"B056 shadow/lift solids missing");
+  const auto grey=std::find_if(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role=="menu_InventorySheetDetails/b056_grey_panel";});
+  const auto first_details=std::find_if(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role.find("menu_InventorySheetDetails/")==0&&b.role.find("b056_")==std::string::npos;});
+  check(grey!=frame.art.batches.end()&&grey<first_details,"B056 panels must be drawn below the authored Details art");
+  frame.solids.erase(std::remove_if(frame.solids.begin(),frame.solids.end(),[&](const auto& s){return is_b056(s.geometry.role);}),frame.solids.end());}
  // Shape 453 is the black divider-line fill (two separate contours, depth 234), drawn after the last button batch.
  check(frame.solids.size()==4&&frame.solids[0].geometry.role=="menu_InventorySheetDetails/234"&&
        frame.solids[0].after_bitmap_role=="menu_InventorySheetDetails/btn_AutoEquip/1"&&
