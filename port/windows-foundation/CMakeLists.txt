@@ -693,6 +693,11 @@ add_test(NAME equipment_main_page COMMAND equipment_main_page_tests
 add_executable(inventory_details_row_geometry_tests features/inventory/details_row_geometry_tests.cpp)
 target_link_libraries(inventory_details_row_geometry_tests PRIVATE foundation_runtime_equipment_menu)
 add_test(NAME inventory_details_row_geometry COMMAND inventory_details_row_geometry_tests)
+# P15 DROPGATE: Details Drop follows the selected instance (bag copy vs equipped, paired ring slot).
+add_executable(inventory_drop_gate_tests features/inventory/inventory_drop_gate_tests.cpp)
+target_link_libraries(inventory_drop_gate_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME inventory_drop_gate COMMAND inventory_drop_gate_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
 
 add_executable(combat_session_equipment_multiplicity_tests tests/combat_session_equipment_multiplicity_tests.cpp)
 target_link_libraries(combat_session_equipment_multiplicity_tests PRIVATE foundation_data)
