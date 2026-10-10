@@ -276,6 +276,7 @@ add_library(foundation_runtime_effects STATIC
   ../level-world/character_fx_state_v1.cpp
   ../level-world/visual_fx_manager_libraries_v63.cpp
   ../level-world/source_fx_node_matrix_v4.cpp
+  ../level-world/source_fx_billboard_basis_v1.cpp
   ../level-world/fx_texture_animation_v1.cpp
   ../level-world/visual_fx_preload.cpp
   ../scene-materials/particle_scene_v1.cpp
@@ -793,6 +794,11 @@ add_executable(world_drop_rules_v1_tests features/loot/world_drop_rules_v1_tests
 target_link_libraries(world_drop_rules_v1_tests PRIVATE foundation_runtime_loot foundation_data)
 add_test(NAME world_drop_rules_v1 COMMAND world_drop_rules_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+
+# P16 LEVELUP3: glitch CBillboardSceneNode camera basis (level-up column orientation), isolated host test.
+add_executable(source_fx_billboard_basis_v1_tests tests/source_fx_billboard_basis_v1_tests.cpp ../level-world/source_fx_billboard_basis_v1.cpp)
+target_include_directories(source_fx_billboard_basis_v1_tests PRIVATE ../level-world)
+add_test(NAME source_fx_billboard_basis_v1 COMMAND source_fx_billboard_basis_v1_tests)
 
 add_executable(neutral_world_save_tests tests/neutral_world_save_tests.cpp)
 target_link_libraries(neutral_world_save_tests PRIVATE foundation_data)
