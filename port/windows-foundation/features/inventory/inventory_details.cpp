@@ -115,7 +115,7 @@ bool DetailsPresenter::frame(const DetailBindings& b,character_menu::Frame& outp
  const bool equip_blocked=!rows.empty()&&!rows[current].equipped&&!rows[current].requirements_met;
  const auto& gate=original_inventory_gate_art();
  if(equip_blocked){
-  const std::string equip_prefix="menu_InventorySheetDetails/btn_EquipItem/";
+  const char* equip_prefix="menu_InventorySheetDetails/btn_EquipItem/";
   next.art.batches.erase(std::remove_if(next.art.batches.begin(),next.art.batches.end(),[&](const auto& batch){return prefix(batch.role,equip_prefix);}),next.art.batches.end());
   next.solids.erase(std::remove_if(next.solids.begin(),next.solids.end(),[&](const auto& value){return prefix(value.geometry.role,equip_prefix);}),next.solids.end());
   next.art.batches.insert(next.art.batches.end(),gate.equip_disabled.batches.begin(),gate.equip_disabled.batches.end());
