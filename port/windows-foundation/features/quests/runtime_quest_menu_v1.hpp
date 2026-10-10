@@ -28,6 +28,11 @@ struct RuntimeQuestMenuArtV1 {
     const char* activate_hit_target{};
 };
 
+// The source Completed clip follows the Assigned list: its COMPLETED header and its rows move down one authored
+// row step for each Assigned row beyond the first (reference video: four Assigned rows put the header near
+// y 195 of 320). Returns the authored Y shift for the given number of Assigned rows.
+float completed_list_shift_v1(std::size_t assigned_rows);
+
 enum class RuntimeQuestMenuAvailabilityV1 { unknown, ready };
 enum class RuntimeQuestMenuHitV1 { quest_row_release, activate_release };
 

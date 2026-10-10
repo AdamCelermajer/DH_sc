@@ -64,6 +64,14 @@ character_menu::MenuSolidBatch place_solid(character_menu::MenuSolidBatch solid,
 }
 }
 
+float completed_list_shift_v1(std::size_t assigned_rows) {
+    if(assigned_rows<=1) return 0.f;
+    const auto& art=original_runtime_quest_menu_art_v1();
+    // row_step_swf_pixels in source pixels, scaled by the Assigned clip's authored Y scale.
+    const float step=float(RuntimeQuestMenuV1::source_art.row_step_swf_pixels)*art.row_parent_matrices[0][3];
+    return step*float(assigned_rows-1);
+}
+
 RuntimeQuestMenuV1::RuntimeQuestMenuV1(CharacterState& character,
     CharacterQuestProgressV1& progress,
     std::shared_ptr<const dh2::data::QuestTablesPersistenceV51> tables,
@@ -196,8 +204,11 @@ bool RuntimeQuestCharacterMenuBindingV1::append_source_page(
         if(!source_symbol_text_(name,value,error)){if(error.empty())error="Original Quest menu symbol lookup failed";return false;}
         return true;
     };
-    for(const auto& field:art.page_fields){
+    const float completed_shift=completed_list_shift_v1(snapshot.rows.size());
+    for(auto field:art.page_fields){
         const char* key=nullptr;
+        if(field.path=="menu_QuestLogSheetNEW/AllQuests/content/Completed/CompletedTitle/text")
+            field.matrix[5]+=completed_shift;
         if(field.path=="menu_QuestLogSheetNEW/menu_title/txt_title")key="GAMEPLAYMENUS_QUEST_JOURNAL_TITLE";
         else if(field.path=="menu_QuestLogSheetNEW/AllQuests/content/Assigned/Header/text")key="GAMEPLAYMENUS_QUEST_LOG";
         else if(field.path=="menu_QuestLogSheetNEW/AllQuests/content/Completed/CompletedTitle/text")key="GAMEPLAYMENUS_COMPLETED";
@@ -216,7 +227,8 @@ bool RuntimeQuestCharacterMenuBindingV1::append_source_page(
     // with the orange state here: the source Completed list uses the same unselected button art).
     auto draw_rows=[&](const std::vector<RuntimeQuestMenuRowV1>& rows,bool assigned_list){
         const auto category_index=assigned_list?0u:1u;
-        const auto parent=art.row_parent_matrices[category_index];
+        auto parent=art.row_parent_matrices[category_index];
+        if(!assigned_list)parent[5]+=completed_shift;
         for(const auto& row:rows){
             const bool selected=snapshot.selection&&same_quest(snapshot.selection->row.id,row.id);
             auto placement=parent;

@@ -69,7 +69,8 @@ bool resolve_source_quest_menu_hit_v1(const RuntimeQuestMenuFrameV1& frame,
         return fail(error,"Original Quest row hit contour shape 106 is unavailable or malformed");
     bool identity_ok=true;
     auto hit_list=[&](const std::vector<RuntimeQuestMenuRowV1>& rows,std::size_t category)->bool {
-        const auto& parent=art.row_parent_matrices[category];
+        auto parent=art.row_parent_matrices[category];
+        if(category==1)parent[5]+=completed_list_shift_v1(frame.rows.size()); // same shift as the drawn Completed list
         for(const auto& row:rows) {
             if(row.id.collection!=frame.collection||row.id.difficulty!=frame.difficulty) {
                 identity_ok=false;return false;
