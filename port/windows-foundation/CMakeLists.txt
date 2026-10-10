@@ -1050,6 +1050,10 @@ target_link_libraries(dh-foundation PRIVATE foundation_procedural)
 add_executable(procedural_level_v1_tests features/procedural/procedural_level_v1_tests.cpp)
 target_link_libraries(procedural_level_v1_tests PRIVATE foundation_procedural)
 add_test(NAME procedural_level_v1 COMMAND procedural_level_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root")
+# P17 MERGE: one character save carries every feature component (seed, entry, owned bytes) and reloads exact at schema 4.
+add_executable(save_all_components_v4_tests features/save_components/save_all_components_v4_tests.cpp)
+target_link_libraries(save_all_components_v4_tests PRIVATE foundation_procedural)
+add_test(NAME save_all_components_v4 COMMAND save_all_components_v4_tests)
 # P17 PROCGEN2: RNG and layout locked against the original ARM oracle (features/procedural/reference/*.tsv).
 add_executable(procedural_layout_fidelity_tests features/procedural/procedural_layout_fidelity_tests.cpp)
 target_link_libraries(procedural_layout_fidelity_tests PRIVATE foundation_procedural)
