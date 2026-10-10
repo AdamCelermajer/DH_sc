@@ -123,6 +123,7 @@
 #include <set>
 #include <sstream>
 #include <stdexcept>
+#include "features/spawn/spawn_character_v1.hpp" // P16 SPAWN: --spawn-test owner (default off)
 
 namespace f = dh::foundation;
 namespace fs = std::filesystem;
@@ -253,6 +254,10 @@ struct Options {
     bool campaignTriggers=false; // P16 HOST: --campaign-triggers (off until verified)
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
     std::vector<ScheduledSourceCommand> sourceCommands;
+    // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME (debug; empty by default).
+    std::vector<f::spawn::SpawnTestRequestV1> spawnTests;
+    std::vector<f::spawn::SpawnNamedRequestV1> spawnDeclared; // P16 SPAWN: --spawn-declared NAME@FRAME (authored Limbus/PreSpawn declaration; implies --retain-hidden-actors)
+    std::vector<f::spawn::SpawnNamedRequestV1> despawnTests;  // P16 SPAWN: --despawn-test NAME@FRAME (live pool slot by population name)
     std::map<std::string,f::OriginalAttackSelection> lifecycleSpawns;
     std::map<std::string,f::CombatSessionChoice> lifecyclePreSpawns;
     f::InputMove2D scriptedMove{};
@@ -320,6 +325,9 @@ Options parse(int argc, char** argv) {
         else if(arg=="--animation-only") {auto id=value();if(id.empty())throw std::runtime_error("Animation-only profile must be nonempty");auto& profile=o.combat.profiles[id];profile.animationOnly=true;profile.retainedPhaseClock=true;profile.propertyOptions.refill_vitals=false;}
         else if(arg=="--combat-locomotion") {auto c=choice(value());o.locomotionChoices[c.first]=c.second;}
         else if(arg=="--retain-hidden-actors") o.retainHiddenActors=true;
+        else if(arg=="--spawn-test") {f::spawn::SpawnTestRequestV1 test;std::string parseError;if(!f::spawn::parse_spawn_test_v1(value(),test,parseError))throw std::runtime_error(parseError);o.spawnTests.push_back(test);} // P16 SPAWN
+        else if(arg=="--spawn-declared") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--spawn-declared: "+parseError);o.spawnDeclared.push_back(request);o.retainHiddenActors=true;} // P16 SPAWN
+        else if(arg=="--despawn-test") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--despawn-test: "+parseError);o.despawnTests.push_back(request);} // P16 SPAWN
         else if(arg=="--enemy-ai") o.runtimeEnemyAI=true;
         else if(arg=="--population-templates") o.populationTemplates=true;
         else if(arg=="--audio") o.runtimeAudio=true;
@@ -936,6 +944,9 @@ int main(int argc,char** argv) {
             }
             return hands;
         };
+        // P16 SPAWN: pool of admitted slots and the CharacterTemplate table (both used only with --spawn-test).
+        f::spawn::SpawnPoolV1 spawnPool;
+        dh2::data::CharacterTemplateTableV78 spawnTemplateTable;
         auto loadContent=[&](f::OriginalScene& scene,f::CharacterVisual& visual) {
         if(sourcePlayerStanceEnabled) {
             const auto* profile=profiles.find(options.combat.playerProfileId);
@@ -1055,6 +1066,39 @@ int main(int argc,char** argv) {
             for(auto& actor:population.actors())if(!actor.visual.select("Idle",true,error))std::cerr<<"Population initial pose: "<<actor.definition.name<<": "<<error<<'\n';
             std::cout<<"Population visuals="<<population.actors().size()<<" declarations="<<population.authored_count()<<" skipped="<<population.skipped_count()<<'\n';
             for(const auto& notice:population.notices())std::cerr<<"Population notice: "<<notice.sourceId<<": "<<notice.reason<<'\n';
+            // P16 SPAWN (--spawn-test only): slots for every candidate profile that has an actor profile AND an
+            // explicit combat policy are admitted into THIS population before the CombatSession is built. Other
+            // candidates are not admitted; the spawn owner then rejects them with an explicit reason.
+            if(!options.spawnTests.empty()) {
+                if(properties.characters.names.empty()&&!f::load_original_property_tables(assets,"original-cache/data/pydata",properties,error))throw std::runtime_error("Spawn property tables: "+error);
+                const auto templateRecords=assets.read("original-cache/data/pydata/character_templates_pyarray.bin");
+                const auto templateNames=assets.read("original-cache/data/pydata/character_templates_pyarraynames.bin");
+                if(!spawnTemplateTable.load({templateRecords.data(),templateRecords.size()},{templateNames.data(),templateNames.size()},error))throw std::runtime_error("Spawn template table: "+error);
+                f::ActorCustomization spawnCustomization;spawnCustomization.allow_missing_animation_targets=true;spawnCustomization.use_authored_modular_defaults=true;
+                const auto hostLevelRaw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
+                const std::uint32_t spawnSlotsPerProfile=2;
+                std::set<std::string> reservedProfiles;
+                for(const auto& test:options.spawnTests) {
+                    std::vector<std::string> candidates;
+                    if(!f::spawn::spawn_candidate_profiles_v1(test.name,properties.characters,spawnTemplateTable,candidates,error))throw std::runtime_error("Spawn test: "+error);
+                    for(const auto& profileId:candidates) {
+                        const auto* profile=profiles.find(profileId);
+                        const auto policy=options.combat.profiles.find(profileId);
+                        if(!profile||policy==options.combat.profiles.end()||!reservedProfiles.insert(profileId).second) {
+                            if(!profile||policy==options.combat.profiles.end())std::cout<<"SPAWN profile not admitted (no actor profile or combat policy): "<<profileId<<'\n';
+                            continue;
+                        }
+                        std::int32_t level=-1;
+                        if(!f::spawn::spawn_level_raw_v1(properties.characters,profileId,hostLevelRaw,level,error))throw std::runtime_error("Spawn level: "+error);
+                        if(level>=0)policy->second.propertyOptions.level_raw=level;
+                        if(!spawnPool.reserve(profileId,spawnSlotsPerProfile,level,error))throw std::runtime_error("Spawn pool: "+error);
+                        const auto declared=spawnPool.declarations(options.level.generic_string());
+                        for(std::size_t i=declared.size()-spawnSlotsPerProfile;i<declared.size();++i)
+                            if(!population.admit_declared(assets,declared[i],*profile,f::PopulationDecision::deferred,spawnCustomization,error))throw std::runtime_error("Spawn admission: "+error);
+                        std::cout<<"SPAWN pool profile="<<profileId<<" slots="<<spawnSlotsPerProfile<<" level_raw="<<level<<'\n';
+                    }
+                }
+            }
         }
         };
         loadContent(scene,visual);
@@ -1454,7 +1498,16 @@ int main(int argc,char** argv) {
         f::CampaignCameraFrame lastSourceCameraFrame;
         std::map<f::ActorId,bool> lifecyclePhysical,lifecycleCollisions,lifecycleIdleSuppressed;
         std::map<f::ActorId,std::uint32_t> lifecycleFlags;
-        const bool lifecycleEnabled=!options.lifecycleSpawns.empty();
+        // P16 SPAWN: explicit --lifecycle-spawn choice when given (intro path); otherwise the source Spawn state's
+        // first leaf, the same clip Summon(spawn=true) plays through SM_SetSpawnState. Function scope on purpose:
+        // the lifecycle services stored by bind() outlive the enclosing lifecycle block.
+        const auto lifecycleSpawnChoice=[&options](const std::string& profileId)->f::OriginalAttackSelection {
+            const auto explicitChoice=options.lifecycleSpawns.find(profileId);
+            if(explicitChoice!=options.lifecycleSpawns.end())return explicitChoice->second;
+            f::OriginalAttackSelection generic;generic.state="Spawn";generic.variant=0;
+            return generic;
+        };
+        const bool lifecycleEnabled=!options.lifecycleSpawns.empty()||!spawnPool.empty()||!options.spawnDeclared.empty(); // P16 SPAWN pool slots and declared spawns need the lifecycle
         if((options.retainHiddenActors||lifecycleEnabled)&&!combatSession)throw std::runtime_error("Deferred live actors require the shared combat registry");
         if(!options.sourceCommands.empty()&&options.campaignCommands.empty())throw std::runtime_error("Source command replay requires original campaign XML");
         std::shared_ptr<f::SourceRootScopes> sourceScopes;
@@ -1731,24 +1784,28 @@ int main(int argc,char** argv) {
                 case f::OriginalLifecycleOperation::select_state_animation: {
                     const auto policy=options.combat.profiles.find(placed->profileId);
                     if(policy==options.combat.profiles.end()){e="Source lifecycle profile unavailable";return false;}
-                    if(request.state==1)return combatSession->play_actor_state_sequence(actor.id,options.lifecycleSpawns.at(placed->profileId),animationServices,e);
-                    if(request.state==3)return combatSession->select_actor_state_leaf(actor.id,policy->second.initialIdle,1,false,animationServices,e);
+                    // P16 LIFECYCLE: request.state is the admitted transition target (Blur/Focus recipes in the consumer).
+                    if(request.state==1)return combatSession->play_actor_state_sequence(actor.id,lifecycleSpawnChoice(placed->profileId),animationServices,e,request.state);
+                    if(request.state==3)return combatSession->select_actor_state_leaf(actor.id,policy->second.initialIdle,1,false,animationServices,e,request.state);
                     const auto* source=meleeBindings.find_actor(placed->profileId);
                     const auto pre=source->states.find("PreSpawn");
                     if(pre==source->states.end()){e="PreSpawn source availability metadata absent";return false;}
                     if(!pre->second.empty()) {
                         const auto chosen=options.lifecyclePreSpawns.find(placed->profileId);
                         if(chosen==options.lifecyclePreSpawns.end()){e="Authored PreSpawn needs explicit leaf selection";return false;}
-                        return combatSession->select_actor_state_leaf(actor.id,chosen->second,1,false,animationServices,e);
+                        return combatSession->select_actor_state_leaf(actor.id,chosen->second,1,false,animationServices,e,request.state);
                     }
-                    const auto& spawn=options.lifecycleSpawns.at(placed->profileId);
+                    const auto spawn=lifecycleSpawnChoice(placed->profileId);
                     auto path=spawn.group_path;path.push_back(0);
-                    return combatSession->select_actor_state_leaf(actor.id,{spawn.state,spawn.variant,path},1,true,animationServices,e);
+                    return combatSession->select_actor_state_leaf(actor.id,{spawn.state,spawn.variant,path},1,true,animationServices,e,request.state);
                 }}
                 e="Unimplemented lifecycle operation";return false;
             };
             actorLifecycle.bind(std::move(services));
-            for(const auto& placed:population.actors())if(options.lifecycleSpawns.count(placed.profileId)) {
+            // P16 SPAWN: an authored declaration joins the lifecycle only when a --spawn-declared trigger names it (its
+            // Limbus/PreSpawn preset then starts at PreSpawn17, as in the source). Every other declaration is unchanged.
+            const auto declaredNamed=[&](const std::string& name){return std::any_of(options.spawnDeclared.begin(),options.spawnDeclared.end(),[&](const auto& request){return request.name==name;});};
+            for(const auto& placed:population.actors())if(options.lifecycleSpawns.count(placed.profileId)||spawnPool.owns(placed.definition.stableId)||declaredNamed(placed.definition.name)) { // P16 SPAWN pool slots
                 auto* actor=combatSession->actor(placed.definition.stableId);
                 const auto* source=meleeBindings.find_actor(placed.profileId);
                 if(!actor||!source)throw std::runtime_error("Lifecycle actor needs a retained shared profile");
@@ -2564,6 +2621,10 @@ int main(int argc,char** argv) {
                 if(!actor||!props||!traits)throw std::runtime_error("Physical reconstruction requires current source facts");
                 if(props->facts.original_state==3)actor->source_flags520=0x2380u;
                 else if(props->facts.original_state==12)actor->source_flags520=0x241u|(traits->is_player?0x2000u:0u);
+                // P16 SPAWN: PreSpawn17 / Spawn1 bodies are owned by the lifecycle, whose source flags for these
+                // states are the ones OriginalActorLifecycle::change publishes (0x1300 / 0x241). Pool and intro
+                // actors reach this point while hidden or spawning.
+                else if(const auto* lifecycleStatus=actorLifecycle.status(body.first);lifecycleStatus&&(lifecycleStatus->state==17||lifecycleStatus->state==1))actor->source_flags520=lifecycleStatus->flags;
                 else throw std::runtime_error("Physical reconstruction supports normalized Idle/Dead only: actor="+std::to_string(body.first)+" worldState="+std::to_string(props->facts.original_state)+" sessionState="+std::to_string(combatSession->original_actor_state(body.first)));
                 auto& context=contextFor(body.first);context.idleSuppressed=false;context.gate528=0;
                 context.destination=actor->transform.position;
@@ -2870,6 +2931,60 @@ int main(int argc,char** argv) {
             if(options.frames>0) {static double secondStart=now,worstDt=0;static int secondFrames=0,secondIndex=0;++secondFrames;worstDt=std::max(worstDt,dt);if(now-secondStart>=1.0){++secondIndex;std::cout<<"Frame rate second="<<secondIndex<<" frames="<<secondFrames<<" worstFrameMs="<<worstDt*1000.0<<'\n';secondStart=now;secondFrames=0;worstDt=0;}}
             if(runtimeAudio) {std::string audioError;if(!runtimeAudio->window_activity(window.focused(),window.minimized(),audioError))std::cerr<<"Audio activity diagnostic: "<<audioError<<'\n';}
             if(window.minimized()) {dh::foundation::platform_sleep_milliseconds(10);continue;}
+            // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME. Owners: the pool's admitted actors, this session's
+            // actor transforms/native bodies, the shared combat RNG and the actor lifecycle (same as authored population).
+            for(const auto& test:options.spawnTests)if(test.frame==drawn&&combatSession) {
+                f::spawn::SpawnServicesV1 spawnServices;
+                spawnServices.characters=&properties.characters;spawnServices.templates=&spawnTemplateTable;
+                spawnServices.random_index=[&](std::int32_t bound,std::int32_t& index,std::string& e){
+                    std::uint32_t value=0;
+                    if(bound<=0||!combatSession->world()->random_uniform(std::uint32_t(bound),value,e))return false;
+                    index=std::int32_t(value);return true;
+                };
+                spawnServices.profile_available=[&](const std::string& profileId,std::string& e){
+                    if(!profiles.find(profileId)||!options.combat.profiles.count(profileId)){e="no actor profile or combat policy";return false;}
+                    return true;
+                };
+                spawnServices.place=[&](std::uint64_t actorId,const std::array<float,3>& position,float heading,std::string& e){
+                    auto* spawned=combatSession->actor(actorId);
+                    if(!spawned){e="spawn actor is not in the session";return false;}
+                    if(options.sourceNativeBodies&&!nativeBodies.set_position(actorId,position,true,e))return false;
+                    spawned->transform.position=position;spawned->transform.rotation[2]=heading;return true;
+                };
+                spawnServices.begin=[&](std::uint64_t actorId,f::spawn::SpawnClipPolicy clip,std::string& e){
+                    return clip==f::spawn::SpawnClipPolicy::source_spawn_state?actorLifecycle.spawn(actorId,e):actorLifecycle.put_idle(actorId,e);
+                };
+                spawnServices.hide=[&](std::uint64_t actorId,std::string& e){return actorLifecycle.put_limbus(actorId,e);};
+                spawnServices.log=[&](const std::string& line){std::cout<<line<<'\n';};
+                f::spawn::SpawnRequestV1 spawnRequest;
+                spawnRequest.name=test.name;spawnRequest.position=test.position;spawnRequest.heading_radians=0;
+                spawnRequest.host_level_raw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
+                f::spawn::SpawnResultV1 spawnResult;std::string spawnError;
+                if(!f::spawn::spawn_character_v1(spawnPool,spawnRequest,spawnServices,spawnResult,spawnError))std::cout<<"SPAWN test frame="<<drawn<<" not spawned: "<<spawnError<<'\n';
+            }
+            // P16 SPAWN: --spawn-declared NAME@FRAME (stub for Script_SpawnCharacter of an authored declaration) and
+            // --despawn-test NAME@FRAME (a live pool slot). Both use the lifecycle owner the pool uses.
+            const auto placedNamed=[&](const std::string& name){return std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.name==name;});};
+            for(const auto& request:options.spawnDeclared)if(request.frame==drawn&&combatSession) {
+                const auto placed=placedNamed(request.name);
+                if(placed==population.actors().end()){std::cout<<"SPAWN declared rejected name="<<request.name<<" reason=no authored declaration in this level\n";continue;}
+                const auto* status=actorLifecycle.status(placed->definition.stableId);
+                if(!status){std::cout<<"SPAWN declared rejected name="<<request.name<<" reason=declaration is not admitted to the lifecycle\n";continue;}
+                f::spawn::SpawnServicesV1 declaredServices;
+                declaredServices.begin=[&](std::uint64_t actorId,f::spawn::SpawnClipPolicy,std::string& e){return actorLifecycle.spawn(actorId,e);};
+                declaredServices.log=[&](const std::string& line){std::cout<<line<<'\n';};
+                std::string declaredLine,declaredError;
+                f::spawn::spawn_declared_v1(request.name,placed->definition.stableId,status->state,declaredServices,declaredLine,declaredError);
+            }
+            for(const auto& request:options.despawnTests)if(request.frame==drawn&&combatSession) {
+                const auto placed=placedNamed(request.name);
+                if(placed==population.actors().end()){std::cout<<"SPAWN despawn rejected name="<<request.name<<" reason=no population actor with this name\n";continue;}
+                f::spawn::SpawnServicesV1 despawnServices;
+                despawnServices.hide=[&](std::uint64_t actorId,std::string& e){return actorLifecycle.put_limbus(actorId,e);};
+                despawnServices.log=[&](const std::string& line){std::cout<<line<<'\n';};
+                std::string despawnError;
+                if(!f::spawn::despawn_character_v1(spawnPool,placed->definition.stableId,despawnServices,despawnError))std::cout<<"SPAWN despawn rejected name="<<request.name<<" reason="<<despawnError<<'\n';
+            }
             for(const auto& scheduled:options.sourceCommands)if(scheduled.frame==drawn) {
                 const auto id=sourceCampaign.script_id(scheduled.script);
                 const auto& command=sourceCampaign.scripts().at(id).commands.at(scheduled.index);

@@ -57,6 +57,13 @@ public:
     // Complete authored definitions, including exclusions and unknowns, remain
     // available to source scripts/spawn policy without reconstructing XML IDs.
     const std::vector<ActorDefinition>& definitions() const noexcept { return definitions_; }
+    // P16 SPAWN: admits ONE caller-declared actor (for example a spawn-pool slot
+    // created before the CombatSession is built) through the same profile
+    // transform and visual loader that load() uses. Not an authored declaration:
+    // it is counted in authored_count_ so skipped_count() stays consistent.
+    bool admit_declared(const AssetCatalog& assets, const ActorDefinition& definition,
+                        const ActorProfile& profile, PopulationDecision decision,
+                        const ActorCustomization& customization, std::string& error);
     bool set_enabled(std::uint64_t stableId, bool enabled, std::string& error);
     std::size_t enabled_count() const noexcept;
     std::size_t initial_deferred_count() const noexcept;

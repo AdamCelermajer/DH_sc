@@ -42,6 +42,11 @@ bool OriginalActorLifecycle::change(Record&r,int target,std::string&error){
  if(target==0){
   r.status.flags=0;r.status.enabled=false;
   if(!emit(OriginalLifecycleOperation::set_flags)||!emit(OriginalLifecycleOperation::set_enabled))return false;
+  // P16 DESPAWN: a Limbus actor leaves the physical world (receiver released, no collisions), so a despawned pool
+  // actor cannot keep blocking or colliding while hidden. CSLimbus::OnFocus itself does not call SetPhysicalObject; this
+  // release is the port's despawn decision for a summoned actor and is reported as such.
+  r.status.collisions_enabled=false;
+  if(!emit(OriginalLifecycleOperation::remove_physical)||!emit(OriginalLifecycleOperation::set_collisions_enabled))return false;
   if(r.facts.can_respawn&&r.facts.respawn_delay_ms>0){error="Original Limbus respawn timer/network owner not bound";r.status.failed=true;return false;}
   if(!emit(OriginalLifecycleOperation::clear_aggro))return false;
  }else if(target==17){

@@ -661,6 +661,15 @@ add_library(foundation_runtime_enemy STATIC
 target_link_libraries(foundation_runtime_enemy PUBLIC foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_enemy)
 
+# P16 SPAWN: generic spawn-character-from-template owner (pool, plan, placement,
+# clip policy) and its focused test over real CharacterTable/profile assets.
+add_library(foundation_runtime_spawn STATIC features/spawn/spawn_character_v1.cpp features/enemy_ai/runtime_monster_level_policy_v1.cpp)
+target_link_libraries(foundation_runtime_spawn PUBLIC foundation_data foundation_runtime_enemy)
+target_link_libraries(dh-foundation PRIVATE foundation_runtime_spawn)
+add_executable(spawn_character_v1_tests features/spawn/spawn_character_v1_tests.cpp)
+target_link_libraries(spawn_character_v1_tests PRIVATE foundation_runtime_spawn)
+add_test(NAME spawn_character_v1 COMMAND spawn_character_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+
 add_library(foundation_runtime_loot STATIC
   features/loot/runtime_death_rewards_v1.cpp
   features/loot/runtime_session_death_rewards_v1.cpp
