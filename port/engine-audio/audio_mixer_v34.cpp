@@ -2,9 +2,6 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
-#include <cstdio>
-#include "audio_probe_v1.hpp"
-namespace dh2::audio { namespace { unsigned probeBinds=0; double probeBindMs=0; unsigned probeMaxSrc=0; } }
 namespace dh2::audio {
 bool AudioMixerV34::configure_banks(const AudioBankV34*b,unsigned n)noexcept{if(n>banks_.size()||(!b&&n)||observed_voices_.load())return false;for(unsigned i=0;i<n;++i){if(b[i].max_playbacks<1||b[i].max_playbacks>64||b[i].behavior<0||b[i].behavior>3)return false;for(unsigned j=0;j<i;++j)if(b[i].id==b[j].id)return false;}std::copy_n(b,n,banks_.begin());bank_count_=n;return true;}
 bool AudioMixerV34::set_rate(unsigned r)noexcept{if(r<8000||r>192000)return false;rate_=r;return true;}
@@ -107,7 +104,6 @@ bool AudioMixerV34::apply(const AudioCommandV34&c)noexcept{
  return true;
 }
 void AudioMixerV34::render(float*out,unsigned frames)noexcept{
- const double probeT0=probe::ms_now();
  if(!out)return;std::fill_n(out,std::size_t(frames)*2,0.f);
  for(auto&v:voices_)if(v.retiring)finish(v,v.retired_kind);
  for(unsigned i=0;i<frames;++i,++frame_){
@@ -121,7 +117,7 @@ void AudioMixerV34::render(float*out,unsigned frames)noexcept{
    const auto*s=v.command.sample;
    while(v.position>=v.cursor.frames()&&v.active){
     const auto length=v.cursor.frames();if(!length){finish(v,AudioReceiptKindV34::malformed);break;}v.position-=length;
-    if(s->native){const auto repeats=s->elements[v.element].source[6];if(repeats==-1)continue;if(++v.repeats<repeats)continue;{const double probeB=probe::ms_now();const bool probeOk=bind_element(v,true);probeBindMs+=probe::ms_now()-probeB;++probeBinds;if(!probeOk)finish(v,AudioReceiptKindV34::completed);}}
+    if(s->native){const auto repeats=s->elements[v.element].source[6];if(repeats==-1)continue;if(++v.repeats<repeats)continue;if(!bind_element(v,true))finish(v,AudioReceiptKindV34::completed);}
     else if(!v.command.loop)finish(v,AudioReceiptKindV34::completed);
    }if(!v.active)continue;
    float l0,r0,l1,r1;const auto position=std::uint64_t(v.position);if(!v.cursor.frame(position,l0,r0)){finish(v,AudioReceiptKindV34::malformed);continue;}
@@ -131,7 +127,7 @@ void AudioMixerV34::render(float*out,unsigned frames)noexcept{
     float old_left,old_right;while(v.old_position>=v.old_cursor.frames())v.old_position-=v.old_cursor.frames();if(!v.old_cursor.frame(std::uint64_t(v.old_position),old_left,old_right)){finish(v,AudioReceiptKindV34::malformed);continue;}
     const std::int16_t current[2]{std::int16_t(l0*32768.f),std::int16_t(r0*32768.f)},previous[2]{std::int16_t(old_left*32768.f),std::int16_t(old_right*32768.f)};std::int32_t blended[2]{};
     auto current_envelope=v.current_envelope,old_envelope=v.old_envelope;audio_native_envelope_mix_v34(current,1,2,blended,current_envelope);audio_native_envelope_mix_v34(previous,1,2,blended,old_envelope);left=float(std::clamp(blended[0],-32768,32767))/32768.f;right=float(std::clamp(blended[1],-32768,32767))/32768.f;
-    const double advance=double(s->rate)*double(v.command.pitch)/double(rate_);const unsigned source_frames=unsigned(std::floor(v.position+advance)-std::floor(v.position));if(source_frames>probeMaxSrc)probeMaxSrc=source_frames;for(unsigned n=0;n<source_frames;++n){std::int16_t silence[2]{};std::int32_t discarded[2]{};audio_native_envelope_mix_v34(silence,1,2,discarded,v.current_envelope);audio_native_envelope_mix_v34(silence,1,2,discarded,v.old_envelope);}v.old_position+=advance;if(v.old_envelope.stopped)v.native_transition=false;
+    const double advance=double(s->rate)*double(v.command.pitch)/double(rate_);const unsigned source_frames=unsigned(std::floor(v.position+advance)-std::floor(v.position));for(unsigned n=0;n<source_frames;++n){std::int16_t silence[2]{};std::int32_t discarded[2]{};audio_native_envelope_mix_v34(silence,1,2,discarded,v.current_envelope);audio_native_envelope_mix_v34(silence,1,2,discarded,v.old_envelope);}v.old_position+=advance;if(v.old_envelope.stopped)v.native_transition=false;
    }
    out[2*i]+=left*v.command.left*gain;out[2*i+1]+=right*v.command.right*gain;
    v.position+=double(s->rate)*double(v.command.pitch)/double(rate_);
@@ -140,7 +136,6 @@ void AudioMixerV34::render(float*out,unsigned frames)noexcept{
   out[2*i]=std::clamp(out[2*i],-1.f,1.f);out[2*i+1]=std::clamp(out[2*i+1],-1.f,1.f);
  }
  unsigned active=0;for(const auto&v:voices_)active+=v.active;observed_voices_.store(active,std::memory_order_release);observed_frame_.store(frame_,std::memory_order_release);
- {const double probeD=probe::ms_now()-probeT0;if(probeD>5){unsigned nat=0;for(const auto&v:voices_)if(v.active&&v.command.sample&&v.command.sample->native)nat+=1;std::printf("PROBE render ms=%.1f frames=%u active=%u native=%u binds=%u bindMs=%.2f maxSrc=%u at=%.0f\n",probeD,frames,active,nat,probeBinds,probeBindMs,probeMaxSrc,probeT0);}probeBinds=0;probeBindMs=0;probeMaxSrc=0;}
 }
 }
 
