@@ -2,6 +2,7 @@
 #include "context_button_v1.hpp"
 
 #include <cstdio>
+#include <string>
 
 using namespace dh::foundation;
 
@@ -87,6 +88,23 @@ int main() {
     check(action_button_icon_v1(-1) == 5, "icon: no OOI (-1) -> attack frame 5");
     check(action_button_icon_v1(10) == 4, "icon: type 10 -> frame 4");
     check(action_button_icon_v1(11) == 5 && action_button_icon_v1(-5) == 5, "icon: out of range -> 5");
+
+    // P16 SPACEBTN: a non-actor destructible (barrel, type 8) is not a combat OOI: one hit per press edge, no held melee.
+    {
+        ContextButtonInputV1 barrelPress = press(true, 8);
+        barrelPress.object_is_actor = false;
+        const auto d = decide_context_button_v1(barrelPress);
+        check(d.use_object_of_interest && !d.attack_held, "barrel (non-actor type 8) press uses the OOI, no held melee");
+        ContextButtonInputV1 barrelHold = hold(true, 8);
+        barrelHold.object_is_actor = false;
+        const auto h = decide_context_button_v1(barrelHold);
+        check(!h.use_object_of_interest && !h.attack_held, "barrel hold does nothing (no repeated hits)");
+        ContextButtonInputV1 enemyHold = hold(true, 8);
+        const auto e = decide_context_button_v1(enemyHold);
+        check(e.attack_held && e.use_object_of_interest, "enemy actor (type 8) hold keeps the attack (default object_is_actor)");
+    }
+    check(std::string(action_button_label_v1(0)) == "Chest" && std::string(action_button_label_v1(3)) == "Talk", "label: chest and talk names");
+    check(std::string(action_button_label_v1(5)) == "Attack" && std::string(action_button_label_v1(-1)) == "Action", "label: attack default, unknown -> Action");
 
     std::printf("%s\n", failures == 0 ? "context button tests passed" : "context button tests FAILED");
     return failures == 0 ? 0 : 1;
