@@ -108,6 +108,14 @@ int main(int argc,char** argv){try{
  check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role.find("menu_InventorySheetDetails/btn_Drop/")==0;})&&
        std::none_of(frame.text.begin(),frame.text.end(),[](const auto& f){return f.field.path.find("menu_InventorySheetDetails/btn_Drop/")==0;}),
        "Equipped selection still shows the Drop button (original hides it on the ItemEquipped path)");
+ // Drop follows the SELECTED row, not the slot: a bag item selected beside the equipped one keeps Drop.
+ check(equipment.select_instance("sword2",error),error);check(details.frame(bindings,frame,error),error);
+ check(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role.find("menu_InventorySheetDetails/btn_Drop/")==0;}),"Unequipped bag item beside an equipped sibling lost its Drop button");
+ // No applicable rows (valuables category with no potions): Drop keeps the previous behaviour.
+ check(equipment.select_slot(9,error),error);std::vector<equipment_menu::OwnedSelection> empty_rows;check(equipment.view_for_selected_slot(empty_rows,error)&&empty_rows.empty(),"Valuables category unexpectedly has rows");
+ check(details.frame(bindings,frame,error),error);
+ check(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role.find("menu_InventorySheetDetails/btn_Drop/")==0;}),"Empty selection changed the previous Drop behaviour");
+ check(equipment.select_slot(1,error)&&equipment.selected_instance()=="sword","Restoring the equipped slot selection failed");
  owner.equipment.clear();
  const auto& art=inventory::original_inventory_details();const auto next=std::find_if(art.actions.begin(),art.actions.end(),[](const auto& a){return a.action==inventory::DetailAction::next;});check(next!=art.actions.end()&&next->triangles.size()>=3,"Original arrow hit absent");auto&a=next->triangles[0];auto&b=next->triangles[1];auto&c=next->triangles[2];inventory::DetailAction action;check(details.release((a.x+b.x+c.x)/3,(a.y+b.y+c.y)/3,action,error),error);check(action==inventory::DetailAction::next&&equipment.selected_instance()=="sword2","Source arrow selection did not select second actual instance");
  for(const auto expected:{inventory::DetailAction::equip,inventory::DetailAction::unequip,inventory::DetailAction::drop,inventory::DetailAction::transmute,inventory::DetailAction::auto_equip}){

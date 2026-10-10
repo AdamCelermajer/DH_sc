@@ -21,3 +21,6 @@ Your report must end with a **"Verifier script"**: exact EXE arguments (the opti
 - The root rebuilds the main EXE; you still must not run ninja/cmake on the shared build dir.
 - Wave 1 changes that may interact: group A edited features/frontend/input/screen_interaction.cpp; B edited features/inventory/inventory_details.cpp; D edited features/audio/*; H added two lines in main.cpp near the PC HUD (`active_faery_id`).
 - **Hit/knockback history (user, 2026-10-10):** an earlier version knocked the hero back on EVERY hit; the user had that fixed. Clean hits (result flag 0x0) must never push. Only push-bearing hit results (e.g. Lizard 0x98, controlled 0x88) may push. Bit 0x8 means critical, not "clean".
+
+## Quiet runs (user request, 2026-10-10)
+Read coordination/claude-preview13/QUIET-RULES.md first. It overrides any earlier instruction about how to start the EXE: use tools/quiet_run.ps1 only, batch and parallelize all jobs, never start a visible window or play sound.

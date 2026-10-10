@@ -13,7 +13,7 @@ The user must not be disturbed: no windows, no focus stealing, no sound, no long
    Use `-Summary summary.json` for exit codes. Capture paths inside args files must be ABSOLUTE.
 3. Real-time audio-cadence checks (WinMM underruns, B039) are timing-sensitive: run those in a separate batch with `-Parallel 1`
    (still silent and hidden), not mixed into the parallel batch. Never pass `-AllowSound`.
-4. Only the EXE `rc2` or later contains DH_audio silent support (`DH_AUDIO_SILENT`). For A/B against older EXEs (Preview 12) their audio
+4. Only EXE `rc2` or later supports `DH_AUDIO_SILENT`. For A/B against older EXEs (Preview 12) their audio
    will still play if the job passes `--audio`: for those baseline runs REMOVE the `--audio`, `--audio-assets`, `--audio-table` options from the args
    unless the check is about audio.
 5. Never touch/focus/kill other processes. Everything you launch is finished (or killed by the timeout) when the script returns.
