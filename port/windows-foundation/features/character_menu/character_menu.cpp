@@ -16,7 +16,7 @@ bool Presenter::viewport(int width,int height,MenuViewTransform& out,std::string
 }
 bool Presenter::select(Tab next,std::string& error){
     if(!open_){error="Character menu is closed";return false;}
-    if(next!=Tab::stats&&next!=Tab::equipment&&next!=Tab::skills&&next!=Tab::faery){error="Unsupported character menu tab";return false;}
+    if(next!=Tab::stats&&next!=Tab::equipment&&next!=Tab::skills&&next!=Tab::faery&&next!=Tab::map){error="Unsupported character menu tab";return false;}
     tab_=next;error.clear();return true;
 }
 namespace {
@@ -57,16 +57,26 @@ Action Presenter::hit_test(float x,float y,int width,int height)const noexcept {
     if(!open_||width<=0||height<=0||!std::isfinite(x)||!std::isfinite(y))return Action::none;
     x/=width/480.f;y/=height/320.f;
     // Actual contour hit regions, including original invisible tab hit shape263.
-    for(auto it=original_menu_hit_zones().rbegin();it!=original_menu_hit_zones().rend();++it)
+    for(auto it=original_menu_hit_zones().rbegin();it!=original_menu_hit_zones().rend();++it) {
+        // Map controls exist only on the Map page; elsewhere the same screen area is not a control.
+        if((it->action==Action::map_legend||it->action==Action::map_reset_zoom)&&tab_!=Tab::map)continue;
         if(contains(*it,x,y))return it->action;
+    }
     return Action::none;
 }
 Action Presenter::release(float x,float y,int width,int height)noexcept {
     const auto action=hit_test(x,y,width,height);
     switch(action){case Action::close:close();break;case Action::stats:tab_=Tab::stats;break;
     case Action::equipment:tab_=Tab::equipment;break;case Action::skills:tab_=Tab::skills;break;
-    case Action::faery:tab_=Tab::faery;break;default:break;}
+    case Action::faery:tab_=Tab::faery;break;case Action::map:tab_=Tab::map;break;
+    case Action::map_legend:case Action::map_reset_zoom:map_control(action);break;default:break;}
     return action;
+}
+Action Presenter::map_control(Action control) noexcept {
+    if(!open_||tab_!=Tab::map)return Action::none;
+    if(control==Action::map_legend){map_legend_=!map_legend_;return control;}
+    if(control==Action::map_reset_zoom){map_reset_requested_=true;return control;}
+    return Action::none;
 }
 bool Presenter::frame(const Bindings& b,int width,int height,Frame& output,std::string& error)const {
     if(!open_){error="Character menu is closed";return false;}
@@ -86,7 +96,15 @@ bool Presenter::frame(const Bindings& b,int width,int height,Frame& output,std::
         has_stat_points=source_stat_integer(b.properties->sheets.resolved[148])>0;
     }
     const auto& authored=original_menu_art(tab_,has_stat_points);next.art.batches=authored.batches;next.solids=authored.solids;
-    for(const auto& field:authored.text_fields){
+    // Map legend popup: its own authored art, drawn above the map only while it is shown.
+    const MenuArt* legend=(tab_==Tab::map&&map_legend_)?&original_map_legend_art():nullptr;
+    std::vector<MenuTextField> fields=authored.text_fields;
+    if(legend) {
+        next.art.batches.insert(next.art.batches.end(),legend->batches.begin(),legend->batches.end());
+        next.solids.insert(next.solids.end(),legend->solids.begin(),legend->solids.end());
+        fields.insert(fields.end(),legend->text_fields.begin(),legend->text_fields.end());
+    }
+    for(const auto& field:fields){
         if(tab_==Tab::stats&&!original_stats_path_visible(*b.properties,stats,field.path))continue;
         std::string value;
         if(!projected(field,b,value)&&!(tab_==Tab::stats&&original_stats_field(field.path,stats,value))&&

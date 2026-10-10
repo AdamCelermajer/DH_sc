@@ -325,7 +325,7 @@ target_sources(foundation_frontend PRIVATE features/menu_metadata/menu_metadata_
 target_link_libraries(foundation_frontend PUBLIC foundation_data ${DH2_PLATFORM_LIBRARIES})
 target_include_directories(foundation_frontend PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
-target_link_libraries(dh-foundation PRIVATE foundation_frontend)
+target_link_libraries(dh-foundation PRIVATE foundation_frontend foundation_map_visit) # P16 map: RoomZone tracker + Map page model
 if(MINGW)
   add_link_options(-static)
   target_link_options(dh-foundation PRIVATE -static)
@@ -877,6 +877,18 @@ add_test(NAME combat_session_presentation_state COMMAND combat_session_presentat
 add_executable(schema_v4_tests tests/schema_v4_tests.cpp)
 target_link_libraries(schema_v4_tests PRIVATE foundation_data)
 add_test(NAME schema_v4 COMMAND schema_v4_tests)
+# P16 map: RoomZone visit tracker (frustum gate, HasInside, schema v4 visited modules) and Map page camera/projection.
+add_library(foundation_map_visit STATIC features/map_visit/room_zone_visit_v1.cpp features/map_visit/map_page_v1.cpp)
+target_link_libraries(foundation_map_visit PUBLIC foundation_data foundation_frontend)
+add_executable(map_visit_tests features/map_visit/map_visit_tests.cpp)
+target_link_libraries(map_visit_tests PRIVATE foundation_map_visit)
+add_test(NAME map_visit COMMAND map_visit_tests)
+# P16 map: module RoomZone sources of the Swamp (act 1) and Gothicus Darkwood (second level, same loader).
+add_executable(level_module_zones_tests features/map_visit/level_module_zones_tests.cpp)
+target_link_libraries(level_module_zones_tests PRIVATE foundation_map_visit foundation_data)
+add_test(NAME level_module_zones COMMAND level_module_zones_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/map/assets-darkwood")
 # P14 schema: LevelList row 41 = 001_swamp (The Boglands), stamping rules, slot panel projection.
 add_executable(menu_metadata_v1_tests features/menu_metadata/menu_metadata_v1_tests.cpp)
 target_link_libraries(menu_metadata_v1_tests PRIVATE foundation_frontend)

@@ -38,6 +38,11 @@ void merge(OriginalScene& combined,OriginalScene&& part) {
 }
 bool load_level(AssetCatalog& assets,const std::filesystem::path& manifestRelative,
                 OriginalScene& output,std::string& error) {
+    std::vector<LevelModuleZone> zones;
+    return load_level_with_module_zones(assets,manifestRelative,output,zones,error);
+}
+bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::path& manifestRelative,
+                OriginalScene& output,std::vector<LevelModuleZone>& zones,std::string& error) {
     try {
         std::vector<ModulePlacement> placements;
         if(!decode_level_manifest(assets.read(manifestRelative),placements,error)) return false;
@@ -45,7 +50,9 @@ bool load_level(AssetCatalog& assets,const std::filesystem::path& manifestRelati
         const auto infinity=std::numeric_limits<float>::infinity();
         combined.minimum={infinity,infinity,infinity};combined.maximum={-infinity,-infinity,-infinity};
         std::map<std::filesystem::path,std::vector<std::uint8_t>> cache;
-        for(const auto& module:placements) {
+        std::vector<LevelModuleZone> loadedZones;
+        for(std::size_t placementIndex=0;placementIndex<placements.size();++placementIndex) {
+            const auto& module=placements[placementIndex];
             if(!module.visible) {combined.notices.push_back("Hidden module skipped: "+module.name);continue;}
             if(!module.activateCondition.empty()) {
                 combined.notices.push_back("Conditional module requires campaign evaluation: "+module.name+" ["+module.activateCondition+"]");continue;
@@ -56,11 +63,19 @@ bool load_level(AssetCatalog& assets,const std::filesystem::path& manifestRelati
             if(!decode_original_scene_module(entry->second,module.authoredNode,module.placement,part,error)) {
                 error=module.name+": "+error;return false;
             }
+            // RoomZone source (features/map_visit): the module room box, or its visible bounds.
+            LevelModuleZone zone;
+            zone.id=static_cast<std::uint32_t>(placementIndex);zone.name=module.name;
+            const auto box=part.hasModuleBounds?part.moduleMinimum:part.minimum;
+            const auto boxMax=part.hasModuleBounds?part.moduleMaximum:part.maximum;
+            zone.bounds={box.x,box.y,box.z,boxMax.x,boxMax.y,boxMax.z};
+            zone.firstRange=combined.mesh.ranges.size();zone.rangeCount=part.mesh.ranges.size();
+            loadedZones.push_back(std::move(zone));
             merge(combined,std::move(part));
         }
         if(combined.mesh.indices.empty()) {error="Level has no visible unconditional module geometry";return false;}
         combined.notices.push_back("Geometry preview only: module gameplay objects, quests, lights, skybox and campaign predicates are not instantiated.");
-        output=std::move(combined);error.clear();return true;
+        output=std::move(combined);zones=std::move(loadedZones);error.clear();return true;
     }catch(const std::exception& ex){error=ex.what();return false;}
 }
 }

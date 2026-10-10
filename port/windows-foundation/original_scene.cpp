@@ -79,9 +79,36 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                 while(parent>=0&&parent!=selected) parent=authored.graph.at(parent).parent;
                 if(parent!=selected) continue;
             }
-            if(helper_node(authored.graph.at(instance.node_index))) {++helpers;continue;}
-            ++result.instanceCount;
             const auto world=selected>=0?moduleWorld.at(instance.node_index):dh2::scene::multiply(placement,instance.world);
+            if(helper_node(authored.graph.at(instance.node_index))) {
+                ++helpers;
+                // Module room box (`_module_*` helper geometry) feeds RoomZone bounds only; it is never drawn.
+                if(authored.graph.at(instance.node_index).name.find("_module_")!=std::string::npos||
+                   authored.graph.at(instance.node_index).id.find("_module_")!=std::string::npos) {
+                    if(instance.controller>=0) continue;
+                    dh2::assets::Mesh box{};
+                    if(dh2_mesh_open(&box,&view,instance.geometry)!=dh2::assets::Error::ok) throw std::runtime_error("Module bounds geometry rejected: "+instance.node);
+                    for(std::uint32_t j=0;j<box.primitives;++j) {
+                        dh2::assets::Primitive primitive{};
+                        if(dh2_mesh_primitive(&box,j,&primitive)!=dh2::assets::Error::ok) continue;
+                        dh2::assets::Attribute positions{};
+                        if(dh2_mesh_attribute(&box,primitive.attributes[0],&positions)!=dh2::assets::Error::ok||positions.components<3) continue;
+                        for(std::uint32_t k=0;k<box.vertices;++k) {
+                            float values[4]{};
+                            if(!dh2_attribute_read(&positions,k,values)) throw std::runtime_error("Module bounds position decode failed");
+                            const auto p=point(world,values);
+                            if(!result.hasModuleBounds) {
+                                result.hasModuleBounds=true;result.moduleMinimum=p;result.moduleMaximum=p;
+                            } else {
+                                result.moduleMinimum={std::min(result.moduleMinimum.x,p.x),std::min(result.moduleMinimum.y,p.y),std::min(result.moduleMinimum.z,p.z)};
+                                result.moduleMaximum={std::max(result.moduleMaximum.x,p.x),std::max(result.moduleMaximum.y,p.y),std::max(result.moduleMaximum.z,p.z)};
+                            }
+                        }
+                    }
+                }
+                continue;
+            }
+            ++result.instanceCount;
             if(instance.controller>=0) throw std::runtime_error("Static environment contains a skinned instance: "+instance.node);
             dh2::assets::Mesh mesh{};
             if(dh2_mesh_open(&mesh,&view,instance.geometry)!=dh2::assets::Error::ok)

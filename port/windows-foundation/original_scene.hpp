@@ -19,6 +19,10 @@ struct OriginalScene {
     Mesh mesh;
     std::vector<OriginalMaterial> materials;
     Vec3 minimum{}, maximum{};
+    // Map/RoomZone bounds: world AABB of the exported `_module_` helper geometry
+    // (the module's own room box). Present only when the module exports one.
+    bool hasModuleBounds = false;
+    Vec3 moduleMinimum{}, moduleMaximum{};
     std::size_t nodeCount = 0, instanceCount = 0, triangleCount = 0;
     std::string source;
     std::vector<std::string> notices;

@@ -54,6 +54,8 @@ int main(){try{
           "zero stat points did not select four source deactivated training-button overlays");
     properties.sheets.resolved[148]=3*256;
     for(const auto& zone:original_menu_hit_zones()){
+        // P16 map controls answer only on the Map tab; checked below.
+        if(zone.action==Action::map_legend||zone.action==Action::map_reset_zoom)continue;
         check(zone.triangles.size()>=3&&zone.triangles.size()%3==0,"original source hit contour malformed");
         auto x=(zone.triangles[0].x+zone.triangles[1].x+zone.triangles[2].x)/3;
         auto y=(zone.triangles[0].y+zone.triangles[1].y+zone.triangles[2].y)/3;
@@ -73,7 +75,33 @@ int main(){try{
     check(menu.release(faery_x*2,faery_y*2,960,640)==Action::faery&&menu.tab()==Tab::faery,
           "source Faery tab release did not select the provider route");
     check(menu.select(Tab::stats,error),"source Stats tab did not return from Faery");
-    check(menu.select(Tab::equipment,error)&&menu.frame(bindings,960,640,frame,error),"original equipment pane missing");
+    // P16 Map tab: its tab icon hit zone selects it; the legend toggles and the reset request
+    // answer only there, and the legend popup appears in the frame only while it is shown.
+    auto map_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::map;});
+    check(map_zone!=original_menu_hit_zones().end(),"source Map tab hit contour absent");
+    const auto map_x=(map_zone->triangles[0].x+map_zone->triangles[1].x+map_zone->triangles[2].x)/3;
+    const auto map_y=(map_zone->triangles[0].y+map_zone->triangles[1].y+map_zone->triangles[2].y)/3;
+    check(menu.release(map_x*2,map_y*2,960,640)==Action::map&&menu.tab()==Tab::map,"Map tab release did not select the Map page");
+    auto legend_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::map_legend;});
+    check(legend_zone!=original_menu_hit_zones().end(),"Map Show legend hit contour absent");
+    const auto legend_x=(legend_zone->triangles[0].x+legend_zone->triangles[1].x+legend_zone->triangles[2].x)/3;
+    const auto legend_y=(legend_zone->triangles[0].y+legend_zone->triangles[1].y+legend_zone->triangles[2].y)/3;
+    check(menu.hit_test(legend_x*2,legend_y*2,960,640)==Action::map_legend,"Map legend control not hit on Map tab");
+    check(menu.frame(bindings,960,640,frame,error),error.c_str());
+    check(!menu.map_legend_shown(),"legend shown before its control was used");
+    check(menu.release(legend_x*2,legend_y*2,960,640)==Action::map_legend&&menu.map_legend_shown(),"Show legend did not toggle the popup");
+    check(menu.release(legend_x*2,legend_y*2,960,640)==Action::map_legend&&!menu.map_legend_shown(),"Show legend did not toggle back");
+    check(menu.release(legend_x*2,legend_y*2,960,640)==Action::map_legend&&menu.map_legend_shown(),"Show legend third toggle");
+    auto reset_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::map_reset_zoom;});
+    check(reset_zone!=original_menu_hit_zones().end(),"Map Reset zoom hit contour absent");
+    const auto reset_x=(reset_zone->triangles[0].x+reset_zone->triangles[1].x+reset_zone->triangles[2].x)/3;
+    const auto reset_y=(reset_zone->triangles[0].y+reset_zone->triangles[1].y+reset_zone->triangles[2].y)/3;
+    check(!menu.take_map_reset_zoom(),"reset request present before use");
+    check(menu.release(reset_x*2,reset_y*2,960,640)==Action::map_reset_zoom&&menu.take_map_reset_zoom(),"Reset zoom request not raised on Map tab");
+    check(!menu.take_map_reset_zoom(),"reset request not consumed");
+    check(menu.select(Tab::stats,error)&&menu.hit_test(legend_x*2,legend_y*2,960,640)!=Action::map_legend,"Map control hit outside the Map tab");
+    check(menu.select(Tab::map,error)&&menu.map_legend_shown(),"legend state lost across tabs");
+    check(menu.select(Tab::stats,error)&&menu.select(Tab::equipment,error)&&menu.frame(bindings,960,640,frame,error),"original equipment pane missing");
     const auto retained_name=character.name;const auto retained_health=actor.health;
     unsigned calls=0;bindings.content=[&](Tab tab,Frame& f,std::string&){
         check(tab==Tab::equipment,"borrowed content given wrong tab");++calls;
