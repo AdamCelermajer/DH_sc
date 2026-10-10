@@ -183,6 +183,9 @@ int main(int argc, char** argv) try {
           report.outcome == WorldItemPickupOutcomeV1::rejected_looted_or_unknown &&
           player_state->gold == gold_before + 7, "a consumed item cannot be looted twice");
 
+    check(potion_capacity_from_property_v1(12 * 256) == 12 && potion_capacity_from_property_v1(-256) == 0 &&
+          potion_capacity_from_property_v1(0) == 0, "potion capacity is read from the q8 property");
+
     // Potions: stacking and capacity (original: take while potions < capacity).
     auto potion_count = [&] {
         std::uint32_t n = 0;

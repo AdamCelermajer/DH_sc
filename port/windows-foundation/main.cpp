@@ -2905,34 +2905,30 @@ int main(int argc,char** argv) {
                                  <<" spawned="<<reward.spawned_items<<" store="<<worldItems->size()
                                  <<" suppressed="<<reward.rewards_suppressed<<'\n';
                 }
-                // P14 DROPS: ground items travel to their landing point, the nearest item whose
-                // sensor box contains the player becomes the target (ItemObject::OnCollisionBegins ->
-                // tooltip), and PC adaptation: the interact key (E) while targeted runs ItemObject::Interact.
+                // P14 DROPS: ground items travel to their landing point. ItemObject::_DoAutoPickupHack: an item whose
+                // PickUpType is Automatic is collected at once by the killer (here: the local player). The nearest item
+                // whose sensor box contains the player becomes the target (ItemObject::OnCollisionBegins -> tooltip), and
+                // PC adaptation: the interact key (E) or --pickup-frame while targeted runs ItemObject::Interact.
                 if(!gameplayPaused&&worldItems&&worldDrops) {
                     const double worldItemMs=gameplayDt*1000+worldItemFractionMs;const auto worldItemWhole=std::uint32_t(worldItemMs);worldItemFractionMs=worldItemMs-worldItemWhole;
                     worldItems->advance(worldItemWhole);
                     const auto* itemPlayer=combatSession->actor(combatSession->player_id());
-                    const auto previousTarget=worldItemTarget;
-                    worldItemTarget=itemPlayer&&itemPlayer->alive()?f::loot::select_world_item_target_v1(*worldItems,itemPlayer->transform.position):f::loot::invalid_runtime_world_item_v1;
-                    f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
-                    if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItemTarget!=previousTarget&&worldItems->inspect(worldItemTarget,targetEntry,targetError))
-                        std::cout<<"World item target frame="<<drawn<<" item="<<worldItemTarget<<" id="<<(targetEntry.authored_item?worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id)):std::string("?"))<<" qty="<<targetEntry.quantity<<" position="<<targetEntry.source_position[0]<<','<<targetEntry.source_position[1]<<','<<targetEntry.source_position[2]<<'\n';
-                    const bool scheduledPickup=std::find(options.pickupFrames.begin(),options.pickupFrames.end(),int(drawn))!=options.pickupFrames.end();
-                    if((uiInput.actions.interact||scheduledPickup)&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1) {
+                    const auto runWorldItemPickup=[&](f::loot::RuntimeWorldItemIdV1 id,const char* reason) {
+                        f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
                         f::loot::RuntimeWorldItemInteractionServicesV1 pickupServices;
                         pickupServices.context=&sharedCharacter;
                         pickupServices.resolve_character_state=[](void* raw,f::ActorId,std::shared_ptr<f::CharacterState>& out,std::string& e){out=*static_cast<std::shared_ptr<f::CharacterState>*>(raw);e.clear();return bool(out);};
                         f::loot::WorldItemPickupRulesV1 pickupRules;
-                        if(const auto* sheet=combatSession->world()->combat_properties(combatSession->player_id()))pickupRules.potion_capacity=std::max<std::int32_t>(0,sheet->sheets.resolved[194]);
+                        if(const auto* sheet=combatSession->world()->combat_properties(combatSession->player_id()))pickupRules.potion_capacity=f::loot::potion_capacity_from_property_v1(sheet->sheets.resolved[194]);
                         if(sourceScopes){bool infinite=false;std::string debugError;if(sourceScopes->debug_switch("InfiniteInventory",infinite,debugError))pickupRules.infinite_inventory=infinite;}
-                        std::string pickedId;if(worldItems->inspect(worldItemTarget,targetEntry,targetError)&&targetEntry.authored_item)pickedId=worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id));
+                        std::string pickedId;if(worldItems->inspect(id,targetEntry,targetError)&&targetEntry.authored_item)pickedId=worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id));
                         const auto goldBefore=state.gold;const auto stacksBefore=state.inventory.size();
                         f::loot::WorldItemPickupReportV1 pickup;
-                        const bool picked=f::loot::interact_world_item_v1(*worldItems,worldItemTarget,combatSession->player_id(),true,itemPlayer,pickupServices,pickupRules,pickup);
-                        std::cout<<"World item pickup frame="<<drawn<<" item="<<worldItemTarget<<" id="<<pickedId<<" outcome="<<int(pickup.outcome)<<" picked="<<picked<<" gold="<<goldBefore<<"->"<<state.gold<<" stacks="<<stacksBefore<<"->"<<state.inventory.size()<<" potionCapacity="<<pickupRules.potion_capacity<<" store="<<worldItems->size()<<" detail="<<pickup.error<<'\n';
+                        const bool picked=f::loot::interact_world_item_v1(*worldItems,id,combatSession->player_id(),true,itemPlayer,pickupServices,pickupRules,pickup);
+                        std::cout<<"World item pickup frame="<<drawn<<" item="<<id<<" id="<<pickedId<<" reason="<<reason<<" outcome="<<int(pickup.outcome)<<" picked="<<picked<<" gold="<<goldBefore<<"->"<<state.gold<<" stacks="<<stacksBefore<<"->"<<state.inventory.size()<<" store="<<worldItems->size()<<'\n';
                         std::string textError;
                         if(picked) {
-                            worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+                            if(worldItemTarget==id)worldItemTarget=f::loot::invalid_runtime_world_item_v1;
                             equipmentRebindRequested=true; // the equipment page's bare-definition policy lists held items
                             std::uint32_t rgb=0xFFFFFF;worldDrops->item_color(targetEntry,rgb,textError);
                             f::InventoryItem shown;shown.definition_id=pickedId;shown.quantity=targetEntry.quantity;
@@ -2944,7 +2940,21 @@ int main(int argc,char** argv) {
                             std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError))worldItemStatus=text;else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
                             worldItemStatusRgb=0xFFFFFF;worldItemStatusFrames=90;
                         }
+                    };
+                    if(itemPlayer&&itemPlayer->alive()) {
+                        std::vector<f::loot::RuntimeWorldItemIdV1> automatic;
+                        for(const auto& pair:worldItems->entries())
+                            if(f::loot::world_item_is_automatic_pickup_v1(pair.second))automatic.push_back(pair.first);
+                        for(const auto id:automatic)runWorldItemPickup(id,"automatic");
                     }
+                    const auto previousTarget=worldItemTarget;
+                    worldItemTarget=itemPlayer&&itemPlayer->alive()?f::loot::select_world_item_target_v1(*worldItems,itemPlayer->transform.position):f::loot::invalid_runtime_world_item_v1;
+                    f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
+                    if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItemTarget!=previousTarget&&worldItems->inspect(worldItemTarget,targetEntry,targetError))
+                        std::cout<<"World item target frame="<<drawn<<" item="<<worldItemTarget<<" id="<<(targetEntry.authored_item?worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id)):std::string("?"))<<" qty="<<targetEntry.quantity<<" position="<<targetEntry.source_position[0]<<","<<targetEntry.source_position[1]<<","<<targetEntry.source_position[2]<<'\n';
+                    const bool scheduledPickup=std::find(options.pickupFrames.begin(),options.pickupFrames.end(),int(drawn))!=options.pickupFrames.end();
+                    if((uiInput.actions.interact||scheduledPickup)&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1)
+                        runWorldItemPickup(worldItemTarget,scheduledPickup&&!uiInput.actions.interact?"scripted":"interact");
                     if(worldItemStatusFrames>0)--worldItemStatusFrames;
                 }
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->after_update(audioError))std::cerr<<"Audio output diagnostic: "<<audioError<<'\n';}

@@ -55,6 +55,10 @@ bool scatter_destination_v1(dh2::data::LootRandom8V2& rng,
 // zero 6, one 4, two 1, three 5, four 3; more than four powers use row 2).
 std::int32_t item_power_font_palette_row_v1(std::size_t power_count) noexcept;
 
+// Property 194 (potion capacity) is stored q8 fixed point (x256) like every
+// CharProperties stat; the rule takes the whole number, clamped at 0.
+std::int32_t potion_capacity_from_property_v1(std::int32_t q8_property) noexcept;
+
 // What a failed or refused ItemObject::Interact looked like.
 enum class WorldItemPickupOutcomeV1 {
     picked_up,

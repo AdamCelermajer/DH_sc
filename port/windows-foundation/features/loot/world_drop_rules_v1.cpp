@@ -43,6 +43,10 @@ RuntimeWorldItemIdV1 select_world_item_target_v1(const RuntimeWorldItemAdapterV1
     return best;
 }
 
+std::int32_t potion_capacity_from_property_v1(std::int32_t q8_property) noexcept {
+    return q8_property <= 0 ? 0 : q8_property / 256;
+}
+
 bool interact_world_item_v1(RuntimeWorldItemAdapterV1& store, RuntimeWorldItemIdV1 item,
                             ActorId player, bool is_local_player, const ActorState* player_state,
                             const RuntimeWorldItemInteractionServicesV1& services,
