@@ -320,6 +320,7 @@ struct Options {
     std::vector<std::pair<std::string,std::string>> containerScriptOverrides; // P16 CONTAINERS2 debug: --container-script DECL=SCRIPT (default none)
     std::vector<f::spawn::SpawnNamedRequestV1> spawnDeclared; // P16 SPAWN: --spawn-declared NAME@FRAME (authored Limbus/PreSpawn declaration; implies --retain-hidden-actors)
     std::vector<f::spawn::SpawnNamedRequestV1> despawnTests;  // P16 SPAWN: --despawn-test NAME@FRAME (live pool slot by population name)
+    bool despawnClip=false;  // P16 DESPAWN2: --despawn-clip plays the Despawn clip on the dead actor (opt-in; the decoded original does not select it)
     std::map<std::string,f::OriginalAttackSelection> lifecycleSpawns;
     std::map<std::string,f::CombatSessionChoice> lifecyclePreSpawns;
     f::InputMove2D scriptedMove{};
@@ -403,6 +404,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--spawn-test") {f::spawn::SpawnTestRequestV1 test;std::string parseError;if(!f::spawn::parse_spawn_test_v1(value(),test,parseError))throw std::runtime_error(parseError);o.spawnTests.push_back(test);} // P16 SPAWN
         else if(arg=="--spawn-declared") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--spawn-declared: "+parseError);o.spawnDeclared.push_back(request);o.retainHiddenActors=true;} // P16 SPAWN
         else if(arg=="--container-script") {const auto text=value();const auto eq=text.find('=');if(eq==std::string::npos||eq==0||eq+1>=text.size())throw std::runtime_error("--container-script expects DECLARATION=SCRIPT");o.containerScriptOverrides.emplace_back(text.substr(0,eq),text.substr(eq+1));} // P16 CONTAINERS2 debug (plant/zombie OnOpen variants on Swamp)
+        else if(arg=="--despawn-clip") o.despawnClip=true; // P16 DESPAWN2
         else if(arg=="--despawn-test") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--despawn-test: "+parseError);o.despawnTests.push_back(request);} // P16 SPAWN
         else if(arg=="--enemy-ai") o.runtimeEnemyAI=true;
         else if(arg=="--population-templates") o.populationTemplates=true;
@@ -1966,11 +1968,17 @@ int main(int argc,char** argv) {
                     // P16 LIFECYCLE: request.state is the admitted transition target (Blur/Focus recipes in the consumer).
                     if(request.state==1)return combatSession->play_actor_state_sequence(actor.id,lifecycleSpawnChoice(placed->profileId),animationServices,e,request.state);
                     if(request.state==3)return combatSession->select_actor_state_leaf(actor.id,policy->second.initialIdle,1,false,animationServices,e,request.state);
-                    // P16 DESPAWN: lifecycle state 2 plays the actor's Despawn clip (CSDespawn::OnFocus). Its end is the Limbus transition.
-                    // The whole Despawn sequence (not a leaf) so its completion reaches animation_finished -> Limbus, as Spawn does.
-                    if(request.state==2) {f::OriginalAttackSelection despawn;despawn.state="Despawn";despawn.variant=0;
-                        if(const auto* source=meleeBindings.find_actor(placed->profileId)) if(const auto clip=source->states.find("Despawn");clip!=source->states.end())
-                            for(const auto& sequence:clip->second)std::cout<<"DESPAWN sequence actor="<<actor.id<<" id="<<sequence.id<<" name="<<sequence.name<<" loop="<<sequence.loop<<" type="<<sequence.type<<" steps="<<sequence.steps.size()<<'\n';return combatSession->play_actor_state_sequence(actor.id,despawn,animationServices,e,request.state);}
+                    // P16 DESPAWN: lifecycle state 2 is CSDespawn::OnFocus. The source selects no clip there (SM_SetAnim(-1)); the
+                    // port plays the actor's Despawn sequence only with --despawn-clip (DESPAWN2), and its completion is the Limbus
+                    // transition. Without the clip the state changes nothing visible; the owner hides the actor right after.
+                    if(request.state==2) {
+                        const auto* despawnSource=meleeBindings.find_actor(placed->profileId);
+                        const auto clip=despawnSource?despawnSource->states.find("Despawn"):decltype(despawnSource->states.end()){};
+                        if(!options.despawnClip||!despawnSource||clip==despawnSource->states.end()||clip->second.empty())return true;
+                        f::OriginalAttackSelection despawn;despawn.state="Despawn";despawn.variant=0;
+                        for(const auto& sequence:clip->second)std::cout<<"DESPAWN sequence actor="<<actor.id<<" id="<<sequence.id<<" name="<<sequence.name<<" loop="<<sequence.loop<<" type="<<sequence.type<<" steps="<<sequence.steps.size()<<'\n';
+                        return combatSession->play_actor_state_sequence(actor.id,despawn,animationServices,e,request.state);
+                    }
                     const auto* source=meleeBindings.find_actor(placed->profileId);
                     const auto pre=source->states.find("PreSpawn");
                     if(pre==source->states.end()){e="PreSpawn source availability metadata absent";return false;}
@@ -3258,9 +3266,10 @@ int main(int argc,char** argv) {
                     const auto melee=meleeBindings.find_actor(placed.profileId);
                     bool hasClip=false;
                     if(melee){const auto clip=melee->states.find("Despawn");hasClip=clip!=melee->states.end()&&!clip->second.empty();}
-                    // P16 DESPAWN2: the Despawn clip plays on the dead actor (combat session advances the lifecycle sequence for
-                    // a dead actor; the runtime death pose is released by the takeover). Actors without a Despawn clip are hidden.
-                    constexpr bool kDespawnClipPlaybackWired=true;
+                    // P16 DESPAWN2: default = original path (CSDespawn::OnFocus clears the animation; no Despawn clip is selected by the
+                    // state, and the reference corpse vanishes about 2 s after the kill): hidden at Despawn_Delay. --despawn-clip plays the
+                    // Despawn clip on the dead actor (combat session advances the lifecycle sequence; the runtime pose is handed over).
+                    const bool kDespawnClipPlaybackWired=options.despawnClip;
                     if(!kDespawnClipPlaybackWired)hasClip=false;
                     if(!despawnOwner.track(id,spawnPool.owns(id),hasClip,despawnDelayMs,e))return false;
                     std::cout<<"DESPAWN tracked actor="<<id<<" name="<<placed.definition.name<<" summoned="<<spawnPool.owns(id)<<" clip="<<(hasClip?"Despawn":"none")<<" frame="<<frame<<'\n';

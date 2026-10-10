@@ -69,18 +69,19 @@ bool DespawnAfterDeathV1::advance(std::uint32_t elapsed_ms, Services& services, 
             ++it;
             continue;
         }
-        // Source event 46 (Dead -> Despawn). With a clip, the Despawn state plays; without one the actor is hidden.
+        // Source event 46 (Dead -> Despawn). Entering the Despawn state (CSDespawn::OnFocus) always happens. With a clip the
+        // state waits for its completion; without one the state is left at once into Limbus (hidden), as in the source.
         record.remaining_ms = 0;
         const auto actor = it->first;
+        if (!services.play_clip) {
+            error = "Despawn state owner is unavailable";
+            return false;
+        }
+        if (!services.play_clip(actor, error)) {
+            if (error.empty()) error = "Despawn state entry failed";
+            return false;
+        }
         if (record.has_clip) {
-            if (!services.play_clip) {
-                error = "Despawn clip owner is unavailable";
-                return false;
-            }
-            if (!services.play_clip(actor, error)) {
-                if (error.empty()) error = "Despawn clip start failed";
-                return false;
-            }
             record.phase = Phase::despawning;
             note(services, "DESPAWN delay expired actor=" + name_of(actor) + " state=Despawn");
             ++it;
@@ -94,7 +95,7 @@ bool DespawnAfterDeathV1::advance(std::uint32_t elapsed_ms, Services& services, 
             if (error.empty()) error = "Despawn hide failed";
             return false;
         }
-        note(services, "DESPAWN delay expired actor=" + name_of(actor) + " clip=none hidden");
+        note(services, "DESPAWN delay expired actor=" + name_of(actor) + " state=Despawn clip=none hidden");
         const bool summoned = record.summoned;
         if (summoned) {
             if (!services.release_slot) {

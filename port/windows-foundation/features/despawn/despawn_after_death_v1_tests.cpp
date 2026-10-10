@@ -102,13 +102,13 @@ int main() {
         owner.track(10, true, false, 0, error);
         owner.death_ended(10, services, error);
         owner.advance(0, services, error);
-        expect(fake.count("hide 10") == 1 && fake.count("play_clip") == 0 && fake.count("release_slot 10") == 1 &&
+        expect(fake.count("play_clip 10") == 1 && fake.count("hide 10") == 1 && fake.count("release_slot 10") == 1 &&
                    !owner.tracked(10),
-               "no clip: hide then release slot in the same step");
+               "no clip: enter Despawn, hide, then release slot in the same step");
         owner.track(11, false, false, 2000, error);
         owner.death_ended(11, services, error);
         owner.advance(2000, services, error);
-        expect(fake.count("hide 11") == 1 && fake.count("release_slot 11") == 0 && !owner.tracked(11),
+        expect(fake.count("play_clip 11") == 1 && fake.count("hide 11") == 1 && fake.count("release_slot 11") == 0 && !owner.tracked(11),
                "non-summoned no clip: hidden, no slot release");
     }
 

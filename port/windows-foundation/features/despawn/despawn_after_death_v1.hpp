@@ -8,8 +8,8 @@
 //     CharacterDesign 2000 ms, event 46) and flags328 = 64.
 //   - CSDead::OnFocus 0x3c4d50: the same timer when the death animation is not pending.
 //   - Registered transition: Dead(12) --event 46--> Despawn(2) (registration-plan row 12).
-//   - CSDespawn::OnFocus 0x3c32fc: flags328 = 512, the Despawn clip (AnimTable "Despawn"). CSDespawn registers event 34
-//     (clip end) and 64 -> Limbus(0).
+//   - CSDespawn::OnFocus 0x3c32fc: flags328 = 512, SM_SetAnim(-1): the state selects NO clip (the AnimTable "Despawn" slot is not read by any
+//     state; only Idle/Reviving select AnimTable slots). CSDespawn registers event 34 and 64 -> Limbus(0).
 //   - CSDespawn::OnBlur 0x3c3794: a summoned actor (CharType 5) or a non-respawnable one is deleted (ObjectBase::Delete);
 //     a respawnable one goes to Limbus. The port's summoned actors are the spawn-pool slots (released on Limbus).
 //
@@ -17,7 +17,7 @@
 //   dying      the death pose is playing (no timer yet)
 //   corpse     body released; Despawn_Delay timer running (the source raises event 46 when it expires)
 //   despawning Despawn clip playing (lifecycle state 2); its end is the lifecycle's Limbus transition
-// An actor with no Despawn clip in its data goes straight from the timer to Limbus (no clip is invented).
+// An actor with no Despawn clip in its data enters Despawn (no animation) and goes straight to Limbus (no clip is invented).
 // Done: the record is removed. Summoned actors also release their pool slot, so a later spawn reuses it.
 //
 // Owners are injected through Services so the state machine is testable without the EXE.
@@ -43,9 +43,10 @@ struct Record {
 struct Services {
     // Source SetPhysicalObject(nullptr) at the death-animation end: lifecycle remove_physical.
     std::function<bool(std::uint64_t actor, std::string& error)> release_body;
-    // Lifecycle state 2 (Despawn) with its clip: OriginalActorLifecycle::despawn.
+    // Lifecycle state 2 (Despawn), entered at the delay expiry: OriginalActorLifecycle::despawn. With a clip the clip plays;
+    // without one the state only clears the animation and the actor is then hidden (source CSDespawn::OnFocus SM_SetAnim(-1)).
     std::function<bool(std::uint64_t actor, std::string& error)> play_clip;
-    // No Despawn clip: lifecycle Limbus directly (hidden).
+    // No Despawn clip: lifecycle Limbus right after entering Despawn (hidden).
     std::function<bool(std::uint64_t actor, std::string& error)> hide;
     // True when the lifecycle has reached Limbus after the Despawn clip (clip finished).
     std::function<bool(std::uint64_t actor, bool& done, std::string& error)> finished;
