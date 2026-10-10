@@ -945,3 +945,9 @@ target_sources(foundation_data PRIVATE original_camera_clip.cpp)
 add_executable(original_camera_clip_tests features/cinematics/original_camera_clip_tests.cpp)
 target_link_libraries(original_camera_clip_tests PRIVATE foundation_data)
 add_test(NAME original_camera_clip COMMAND original_camera_clip_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
+# P17 TRANSITIONS: generic level exit/checkpoint zones (TriggerZoneExitLevel, CheckpointZone; QuestMoveInZone delegated),
+# level-table target resolution, SpawnPoint entry resolution and the condition interface stub.
+target_sources(foundation_data PRIVATE features/transitions/level_transitions_v1.cpp)
+add_executable(level_transitions_tests features/transitions/level_transitions_v1_tests.cpp)
+target_link_libraries(level_transitions_tests PRIVATE foundation_data foundation_frontend)
+add_test(NAME level_transitions COMMAND level_transitions_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
