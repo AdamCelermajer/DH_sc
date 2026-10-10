@@ -2553,7 +2553,10 @@ int main(int argc,char** argv) {
                     // P14 schema (approved decision 3): F5 in combat also rewrites the slot profile so the menu panel is current.
                     if(!options.save.empty()&&!f::save_character(options.save,snapshot.character,error))throw std::runtime_error("Live save slot profile: "+error);
                     std::cout<<"Saved live checkpoint frame="<<drawn<<" HP="<<snapshot.character.stats.health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
-                } else if((stampSaveMetadata(state,options.level.generic_string()),!f::save_character(options.save,state,error)))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
+                } else {
+                    stampSaveMetadata(state,options.level.generic_string()); // P14 schema: non-combat F5 is a profile save point
+                    if(!f::save_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
+                }
             }
             if((pressed(VK_F9)||drawn==options.loadFrame)&&checkpointAllowed("Restore")) {
                 if(options.combatText)combatText.clear_for_reload();
