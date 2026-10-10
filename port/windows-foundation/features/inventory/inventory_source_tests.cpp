@@ -42,8 +42,8 @@ int main(int argc,char** argv){try{
  check(details.frame(bindings,frame,error),error);check(!frame.art.batches.empty()&&!frame.text.empty(),"Original details generated no actual UI");
  check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& value){return (value.role.find("menu_InventorySheetMain/")==0&&value.role!="menu_InventorySheetMain/34"&&value.role!="menu_InventorySheetMain/177")||value.role.find("menu_InventorySheetDetails/stale")==0;}),"Original details did not clear stale main/details bitmap art");
  check(std::none_of(frame.text.begin(),frame.text.end(),[](const auto& value){return value.field.path.find("menu_InventorySheetDetails/stale")==0;}),"Original details did not clear stale source fields");
- // Plate 34 keeps its damask base and top band; plate 177 is only carved frame quads, so it is gone. Under Details no
- // carved frame quad or pillar (atlas u 0.25..0.33, v 0.20..0.43) may survive, and exactly the 20 base/band triangles remain.
+ // B056b: plate 34 (damask base and the grey metal lip under Auto-equip) is gone under Details: the original page has no such band.
+ // Plate 177 is only carved frame quads, so it is gone. Under Details no carved frame quad or pillar (atlas u 0.25..0.33, v 0.20..0.43) may survive.
  std::size_t plate34_triangles=0;bool plate177=false,carved_left=false;
  for(const auto& batch:frame.art.batches){
   if(batch.role=="menu_InventorySheetMain/177")plate177=true;
@@ -51,10 +51,10 @@ int main(int argc,char** argv){try{
   for(const auto& v:batch.triangles)if(v.u>=0.25f&&v.u<=0.33f&&v.v>=0.20f&&v.v<=0.43f)carved_left=true;
   plate34_triangles+=batch.triangles.size()/3;
  }
- check(plate34_triangles==20&&!plate177&&!carved_left,"Original Details kept carved frame quads/pillars of the main plates or dropped the damask base");
+ check(plate34_triangles==0&&!plate177&&!carved_left,"Original Details kept the main plate 34 band or carved frame quads/pillars of the main plates");
  // B056: the grey/orange panels, list damask and list lift/shadow/rail-dim stand-ins are additive. Check they exist
  // (panel + damask batches, shadow and lift solids), then drop them so the authored-solid order check below is unchanged.
- {const auto is_b056=[](const std::string& role){return role.find("menu_InventorySheetDetails/b056_")==0;};
+ {const auto is_b056=[](const std::string& role){return role.find("menu_InventorySheetDetails/")==0&&role.find("/b056")!=std::string::npos;};
   const auto count=[&](const std::string& role){return std::count_if(frame.art.batches.begin(),frame.art.batches.end(),[&](const auto& b){return b.role==role;});};
   check(count("menu_InventorySheetDetails/b056_grey_panel")==1&&count("menu_InventorySheetDetails/b056_orange_panel")==1&&count(inventory::details_list_damask_role())==1,"B056 panel/damask batches missing");
   check(std::count_if(frame.solids.begin(),frame.solids.end(),[&](const auto& s){return s.geometry.role=="menu_InventorySheetDetails/b056_avatar_shadow";})>0&&
@@ -62,6 +62,10 @@ int main(int argc,char** argv){try{
   const auto grey=std::find_if(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role=="menu_InventorySheetDetails/b056_grey_panel";});
   const auto first_details=std::find_if(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role.find("menu_InventorySheetDetails/")==0&&b.role.find("b056_")==std::string::npos;});
   check(grey!=frame.art.batches.end()&&grey<first_details,"B056 panels must be drawn below the authored Details art");
+  // B056b: dark rail art for the icons whose normal art the export lacks (slots 0,1,2,5,6), list frame outline, equipped row glyph.
+  std::array<int,10> dark{};for(const auto& b:frame.art.batches){const auto at=b.role.find("SideList/btn_Type");if(at!=std::string::npos&&b.role.find("/b056b_dark")!=std::string::npos)++dark[std::size_t(b.role[at+17]-'0')];}
+  check(dark[0]==1&&dark[1]==1&&dark[2]==1&&dark[5]==1&&dark[6]==1&&dark[3]+dark[4]+dark[7]+dark[8]+dark[9]==0,"B056b dark rail icons must exist exactly for the slots without exported normal art");
+  check(std::count_if(frame.solids.begin(),frame.solids.end(),[](const auto& s){return s.geometry.role=="menu_InventorySheetDetails/b056b_list_frame";})>0,"B056b list frame outline missing");
   frame.solids.erase(std::remove_if(frame.solids.begin(),frame.solids.end(),[&](const auto& s){return is_b056(s.geometry.role);}),frame.solids.end());}
  // Shape 453 is the black divider-line fill (two separate contours, depth 234), drawn after the last button batch.
  check(frame.solids.size()==4&&frame.solids[0].geometry.role=="menu_InventorySheetDetails/234"&&

@@ -208,9 +208,9 @@ int main(int argc, char** argv) {
             rail_centre(3, x, y);
             check(page.release(x, y, command, error) && command == equipment_menu::MainPageCommand::none &&
                   details.is_open() && equipment.selected_slot() == 3, "Rail icon 3 did not select InvSlotId 3");
-            // Icons with normal art (3) show the bright Highlight only when selected; icon 0 has only Highlight art and stays drawn.
-            check(highlight_shown(3) && !highlight_shown(9) && highlight_shown(0),
-                  "Rail Highlight must follow the selected icon for icons with normal art");
+            // B056b: every icon now has dark normal art (icons 0,1,2,5,6 from the atlas), so only the selected icon shows its bright Highlight.
+            check(highlight_shown(3) && !highlight_shown(9) && !highlight_shown(0) && !highlight_shown(1),
+                  "Rail Highlight must follow the selected icon for every icon");
             rail_centre(9, x, y);
             check(page.release(x, y, command, error) && equipment.selected_slot() == 9,
                   "Rail icon 9 (potions) did not select InvSlotId 9");
