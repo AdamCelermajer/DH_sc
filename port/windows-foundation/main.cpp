@@ -957,7 +957,6 @@ int main(int argc,char** argv) {
         // P17 CONDITIONS: one authored v2Conditions evaluator for population, the flip watch and the gated list.
         std::shared_ptr<const f::conditions::AuthoredConditionsV1> authoredConditions;
         std::shared_ptr<f::conditions::ConditionWatchV1> conditionWatch;
-        std::vector<std::pair<std::string,std::string>> conditionGatedObjects; // (condition name, "<gametype> <sourceId> (<key>)")
         std::vector<f::world_gates::WorldGateV1> worldGates; // P17 CONDITIONS: non-character gates (persisted as world objects)
         // IsPlayerInLevel key: the authored level row of this map (metadata table; -1 when unknown).
         const auto conditionLevelRow=[&]()->std::int32_t {
@@ -1230,12 +1229,11 @@ int main(int argc,char** argv) {
                         const auto found=declaration.properties.find(key);
                         if(found==declaration.properties.end()||f::conditions::is_no_condition(found->second))continue;
                         if(!authoredConditions->contains(found->second)){f::conditions::report_unknown_condition_once(found->second);continue;}
-                        conditionWatch->watch(found->second);
-                        conditionGatedObjects.push_back({found->second,declaration.gametype+" "+declaration.sourceId+" ("+key+")"});
+                        conditionWatch->watch(found->second);
                         if(declaration.gametype!="Character"&&declaration.gametype!="SpawnPoint"&&declaration.stableId)
                             worldGates.push_back({declaration.stableId,declaration.gametype,declaration.name,key,found->second,false});
                     }
-                std::cout<<"Conditions table="<<authoredConditions->size()<<" watched="<<conditionWatch->size()<<" declarations="<<conditionGatedObjects.size()<<'\n';
+                std::cout<<"Conditions table="<<authoredConditions->size()<<" watched="<<conditionWatch->size()<<" worldGates="<<worldGates.size()<<'\n';
             }
             f::levels::log_unsupported_classes_once(population.definitions()); // P16 LEVELS: unknown classes logged once per process
             if(populationStartupRandom)std::cout<<"Population source template RNG seed="<<populationStartupRandom->seed<<" calls="<<populationStartupRandom->calls<<'\n';
