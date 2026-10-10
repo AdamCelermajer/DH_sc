@@ -1423,6 +1423,15 @@ int main(int argc,char** argv) {
         f::CampaignCameraFrame lastSourceCameraFrame;
         std::map<f::ActorId,bool> lifecyclePhysical,lifecycleCollisions,lifecycleIdleSuppressed;
         std::map<f::ActorId,std::uint32_t> lifecycleFlags;
+        // P16 SPAWN: explicit --lifecycle-spawn choice when given (intro path); otherwise the source Spawn state's
+        // first leaf, the same clip Summon(spawn=true) plays through SM_SetSpawnState. Function scope on purpose:
+        // the lifecycle services stored by bind() outlive the enclosing lifecycle block.
+        const auto lifecycleSpawnChoice=[&options](const std::string& profileId)->f::OriginalAttackSelection {
+            const auto explicitChoice=options.lifecycleSpawns.find(profileId);
+            if(explicitChoice!=options.lifecycleSpawns.end())return explicitChoice->second;
+            f::OriginalAttackSelection generic;generic.state="Spawn";generic.variant=0;
+            return generic;
+        };
         const bool lifecycleEnabled=!options.lifecycleSpawns.empty()||!spawnPool.empty(); // P16 SPAWN pool slots need the lifecycle
         if((options.retainHiddenActors||lifecycleEnabled)&&!combatSession)throw std::runtime_error("Deferred live actors require the shared combat registry");
         if(!options.sourceCommands.empty()&&options.campaignCommands.empty())throw std::runtime_error("Source command replay requires original campaign XML");
@@ -1647,14 +1656,6 @@ int main(int argc,char** argv) {
             });
         }
         if(lifecycleEnabled) {
-            // P16 SPAWN: explicit --lifecycle-spawn choice when given (intro path); otherwise the source
-            // Spawn state's first leaf, the same clip Summon(spawn=true) plays through SM_SetSpawnState.
-            const auto lifecycleSpawnChoice=[&](const std::string& profileId)->f::OriginalAttackSelection {
-                const auto explicitChoice=options.lifecycleSpawns.find(profileId);
-                if(explicitChoice!=options.lifecycleSpawns.end())return explicitChoice->second;
-                f::OriginalAttackSelection generic;generic.state="Spawn";generic.variant=0;
-                return generic;
-            };
             f::CombatSessionStateAnimationServices animationServices;
             animationServices.event=[&](f::ActorId id,const f::RetainedAnimationEvent& event,std::string& e){return actorLifecycle.animation_event(id,event.name,e);};
             animationServices.finished=[&](f::ActorId id,std::string& e){
@@ -2534,6 +2535,10 @@ int main(int argc,char** argv) {
                 if(!actor||!props||!traits)throw std::runtime_error("Physical reconstruction requires current source facts");
                 if(props->facts.original_state==3)actor->source_flags520=0x2380u;
                 else if(props->facts.original_state==12)actor->source_flags520=0x241u|(traits->is_player?0x2000u:0u);
+                // P16 SPAWN: PreSpawn17 / Spawn1 bodies are owned by the lifecycle, whose source flags for these
+                // states are the ones OriginalActorLifecycle::change publishes (0x1300 / 0x241). Pool and intro
+                // actors reach this point while hidden or spawning.
+                else if(const auto* lifecycleStatus=actorLifecycle.status(body.first);lifecycleStatus&&(lifecycleStatus->state==17||lifecycleStatus->state==1))actor->source_flags520=lifecycleStatus->flags;
                 else throw std::runtime_error("Physical reconstruction supports normalized Idle/Dead only: actor="+std::to_string(body.first)+" worldState="+std::to_string(props->facts.original_state)+" sessionState="+std::to_string(combatSession->original_actor_state(body.first)));
                 auto& context=contextFor(body.first);context.idleSuppressed=false;context.gate528=0;
                 context.destination=actor->transform.position;
