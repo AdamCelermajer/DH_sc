@@ -78,6 +78,10 @@ public:
     bool bound() const noexcept { return session_ != nullptr; }
     // P14: the exact source snapshot (incl. ItemAudioVisualTable) bound by bind(); valid while bound().
     const RuntimeLootSourceV1& loot_source() const noexcept { return loot_source_; }
+    // P16 CONTAINERS2: the same source LootEntry services the death rewards use (valid while bound()).
+    dh2::data::LootEntryServicesV8 loot_entry_services() noexcept {
+        return {this, &RuntimeSessionDeathRewardsV1::loot_entry_thunk};
+    }
 };
 
 } // namespace dh::foundation::loot

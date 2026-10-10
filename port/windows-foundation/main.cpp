@@ -49,6 +49,9 @@
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
 #include "features/containers/container_runtime_v1.hpp" // P16 containers (T2/T3)
+#include "features/containers/container_loot_v1.hpp" // P16 CONTAINERS2 (T4 DoOpen loot)
+#include "features/containers/container_open_script_v1.hpp" // P16 CONTAINERS2 (T6 OnOpen contract)
+#include "features/containers/container_world_v1.hpp" // P16 CONTAINERS2 (T5 OBJS persistence)
 #include "features/inventory/source_item_descriptors.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
@@ -790,6 +793,7 @@ int main(int argc,char** argv) {
         }
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
         f::containers::ContainerTablesV1 containerTables;f::containers::ContainerClassRegistryV1 containerRegistry;std::vector<f::containers::ContainerInstanceV1> containerInstances;f::containers::ContainerRuntimeV1 containerRuntime; // P16 containers (T2/T3)
+        f::containers::ContainerLootV1 containerLoot;std::set<std::string> containerScriptsNoticed; // P16 CONTAINERS2 (T4 loot, T6 OnOpen contracts)
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
         bool directFirstSkillGrantPending=false;
@@ -1012,6 +1016,7 @@ int main(int argc,char** argv) {
                  std::size_t visible=0;for(const auto& view:containerRuntime.views())if(view.visual)++visible;
                  std::string unsupported;for(const auto& u:containerReport.unsupported){if(!unsupported.empty())unsupported+=",";unsupported+=u.first+":"+std::to_string(u.second);}
                  std::cout<<"Containers instantiated="<<containerReport.instantiated<<" declarations="<<containerReport.declarations<<" visuals="<<visible<<" unsupported="<<(unsupported.empty()?std::string("none"):unsupported)<<'\n';
+                 for(const auto& view:containerRuntime.views())if(view.instance)std::cout<<"Container declaration="<<view.instance->name<<" interaction="<<view.instance->interaction_type<<" at="<<view.instance->transform[12]<<','<<view.instance->transform[13]<<','<<view.instance->transform[14]<<" script="<<(view.instance->script.empty()?std::string("(none)"):view.instance->script)<<'\n';
                  for(const auto& n:containerReport.notices)std::cerr<<"Container notice: "<<n<<'\n';
                  for(const auto& n:containerNotices)std::cerr<<"Container notice: "<<n<<'\n';
              }}
@@ -1019,7 +1024,11 @@ int main(int argc,char** argv) {
             // P16 SPAWN (--spawn-test only): slots for every candidate profile that has an actor profile AND an
             // explicit combat policy are admitted into THIS population before the CombatSession is built. Other
             // candidates are not admitted; the spawn owner then rejects them with an explicit reason.
-            if(!options.spawnTests.empty()) {
+            // P16 CONTAINERS2 (T6): Summon targets of this level's OnOpen contracts reserve pool slots like --spawn-test names.
+            std::vector<std::string> spawnNames;
+            for(const auto& test:options.spawnTests)spawnNames.push_back(test.name);
+            for(const auto& view:containerRuntime.views())if(view.instance)if(const auto* contract=f::containers::find_open_script_contract_v1(view.instance->script))for(const auto& character:f::containers::open_contract_summon_characters_v1(*contract))if(std::find(spawnNames.begin(),spawnNames.end(),character)==spawnNames.end())spawnNames.push_back(character);
+            if(!spawnNames.empty()) {
                 if(properties.characters.names.empty()&&!f::load_original_property_tables(assets,"original-cache/data/pydata",properties,error))throw std::runtime_error("Spawn property tables: "+error);
                 const auto templateRecords=assets.read("original-cache/data/pydata/character_templates_pyarray.bin");
                 const auto templateNames=assets.read("original-cache/data/pydata/character_templates_pyarraynames.bin");
@@ -1028,9 +1037,9 @@ int main(int argc,char** argv) {
                 const auto hostLevelRaw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
                 const std::uint32_t spawnSlotsPerProfile=2;
                 std::set<std::string> reservedProfiles;
-                for(const auto& test:options.spawnTests) {
+                for(const auto& testName:spawnNames) {
                     std::vector<std::string> candidates;
-                    if(!f::spawn::spawn_candidate_profiles_v1(test.name,properties.characters,spawnTemplateTable,candidates,error))throw std::runtime_error("Spawn test: "+error);
+                    if(!f::spawn::spawn_candidate_profiles_v1(testName,properties.characters,spawnTemplateTable,candidates,error))throw std::runtime_error("Spawn test: "+error);
                     for(const auto& profileId:candidates) {
                         const auto* profile=profiles.find(profileId);
                         const auto policy=options.combat.profiles.find(profileId);
@@ -1119,6 +1128,11 @@ int main(int argc,char** argv) {
                 if(!next->bind_player_locomotion(binding.first,binding.second,rate,true,error))throw std::runtime_error("Source locomotion binding: "+error);
             }
             combatSession=std::move(next);
+            // P16 CONTAINERS2 (T5): authored containers become neutral objects of this session, so GameSave persists their OBJS state.
+            {std::vector<std::string> containerObjectNotices;std::string containerObjectError;
+             if(!f::containers::bind_container_world_objects_v1(*combatSession->world(),containerRuntime,containerObjectNotices,containerObjectError))throw std::runtime_error("Container objects: "+containerObjectError);
+             for(const auto& n:containerObjectNotices)std::cerr<<"Container notice: "<<n<<'\n';
+             std::cout<<"Containers world objects declarations="<<containerRuntime.size()<<" notices="<<containerObjectNotices.size()<<'\n';}
             faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;
             combatSession->set_frame_begin_provider([&](auto& session,double delta,std::string& e) {
                 if(sourceFaeryTables&&!f::faery_menu::advance_hotty_cooldown_clock_v1(session,delta,faeryCooldownClock,e))return false;
@@ -2241,6 +2255,26 @@ int main(int argc,char** argv) {
             if(id==combatSession->player_id())out.character=sharedCharacter;
             e.clear();return true;
         };
+        // P16 CONTAINERS2 (T4): DoOpen loot through the same DROPS store and session loot RNG the death rewards use.
+        const auto bindContainerLoot=[&]() {
+            containerLoot=f::containers::ContainerLootV1();
+            if(!combatSession||!deathRewards.bound()||!worldItems)return;
+            f::containers::ContainerLootInputsV1 lootInputs;
+            lootInputs.tables=deathRewards.loot_source().loot;
+            lootInputs.powers=deathRewards.loot_source().power_resources;
+            lootInputs.entry=deathRewards.loot_entry_services();
+            lootInputs.store=worldItems.get();
+            lootInputs.rng_context=combatSession->world();
+            lootInputs.with_rng=[](void* raw,const f::interactions::SourceContainerLootRngOperationV1& operation,std::string& e){return static_cast<f::PlayableActorWorld*>(raw)->with_loot_random(operation,e);};
+            lootInputs.bonus_context=combatSession->world();
+            lootInputs.opener_bonus256=[](void* raw,f::ActorId id,std::int32_t& bonus,std::string& e){
+                const auto* properties=static_cast<f::PlayableActorWorld*>(raw)->combat_properties(id);
+                if(!properties){e="Opener has no source properties";return false;}
+                bonus=properties->sheets.resolved[195];return true;};
+            std::string lootError;
+            if(!containerLoot.bind(lootInputs,lootError))throw std::runtime_error("Container loot: "+lootError);
+            std::cout<<"Container loot bound\n";
+        };
         const auto bindDeathRewards=[&]() {
             deathRewards.reset();
             if(!combatSession||!menuSourceOwner.valid())return;
@@ -2300,6 +2334,7 @@ int main(int argc,char** argv) {
             });
         };
         bindDeathRewards();
+        bindContainerLoot();
         // P14 DROPS: source itemdrops.bdae presentation over the same world-item store.
         const auto bindWorldDrops=[&]() {
             if(worldDrops||!combatSession||!worldItems||!menuSourceOwner.valid()||!deathRewards.bound())return;
@@ -2868,7 +2903,8 @@ int main(int argc,char** argv) {
             if(window.minimized()) {dh::foundation::platform_sleep_milliseconds(10);continue;}
             // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME. Owners: the pool's admitted actors, this session's
             // actor transforms/native bodies, the shared combat RNG and the actor lifecycle (same as authored population).
-            for(const auto& test:options.spawnTests)if(test.frame==drawn&&combatSession) {
+            // P16 SPAWN/CONTAINERS2: one service set for every caller of the spawn owner (--spawn-test and container Summon).
+            const auto makeSpawnServices=[&]() -> f::spawn::SpawnServicesV1 {
                 f::spawn::SpawnServicesV1 spawnServices;
                 spawnServices.characters=&properties.characters;spawnServices.templates=&spawnTemplateTable;
                 spawnServices.random_index=[&](std::int32_t bound,std::int32_t& index,std::string& e){
@@ -2891,6 +2927,47 @@ int main(int argc,char** argv) {
                 };
                 spawnServices.hide=[&](std::uint64_t actorId,std::string& e){return actorLifecycle.put_limbus(actorId,e);};
                 spawnServices.log=[&](const std::string& line){std::cout<<line<<'\n';};
+                return spawnServices;
+            };
+            // P16 CONTAINERS2 (T4 DoOpen loot, T6 OnOpen contract): one opened declaration, once per open event.
+            const auto runContainerOpen=[&](std::size_t index,std::uint64_t frame) {
+                if(!combatSession||index>=containerRuntime.size())return;
+                const auto instance=containerRuntime.instance(index);
+                const f::ActorDefinition* definition=nullptr;
+                for(const auto& candidate:population.definitions())if(candidate.stableId==instance.stableId){definition=&candidate;break;}
+                const auto* object=combatSession->world()->find_object(instance.stableId);
+                if(!definition||!object)std::cout<<"Container loot declaration="<<instance.name<<" status=unbound frame="<<frame<<'\n';
+                else if(!containerLoot.bound())std::cout<<"Container loot declaration="<<instance.name<<" status=no_loot_owner frame="<<frame<<'\n';
+                else {
+                    f::containers::ContainerLootOutcomeV1 outcome;std::string lootError;
+                    if(!containerLoot.open(*definition,*object,combatSession->player_id(),rewardBindingGeneration,instance.loot_id,outcome,lootError))
+                        std::cout<<"Container loot declaration="<<instance.name<<" table="<<instance.loot_id<<" status=refused detail="<<lootError<<" frame="<<frame<<'\n';
+                    else std::cout<<"Container loot declaration="<<instance.name<<" table="<<instance.loot_id<<" selected="<<outcome.receipt.selected_items<<" delivered="<<outcome.receipt.delivered_items<<" gold_unpriced="<<outcome.gold_unpriced<<" status=ok frame="<<frame<<'\n';
+                }
+                if(instance.script.empty()){std::cout<<"Container OnOpen script=(none) declaration="<<instance.name<<" frame="<<frame<<'\n';return;}
+                const auto* contract=f::containers::find_open_script_contract_v1(instance.script);
+                if(!contract){if(containerScriptsNoticed.insert(instance.script).second)std::cout<<"Container OnOpen script="<<instance.script<<" status=no_contract (logged once)\n";return;}
+                f::containers::OpenScriptRunReportV1 report;std::string scriptError;
+                const auto random=[&](std::int32_t lo,std::int32_t hi,std::int32_t& value,std::string& e){
+                    std::uint32_t drawnValue=0;
+                    if(lo!=0||hi!=100){e="GetRand bounds outside the original 0..100 contract";return false;}
+                    if(!combatSession->world()->random_uniform(101,drawnValue,e))return false;
+                    value=std::int32_t(drawnValue);std::cout<<"Container OnOpen GetRand(0,100)="<<value<<" declaration="<<instance.name<<" frame="<<frame<<'\n';return true;};
+                const auto summon=[&](const f::containers::OpenScriptSummonRequestV1& request,std::string& reason){
+                    f::spawn::SpawnRequestV1 spawnRequest;spawnRequest.name=request.character;
+                    spawnRequest.position={instance.transform[12],instance.transform[13],instance.transform[14]};
+                    spawnRequest.heading_radians=0;
+                    spawnRequest.host_level_raw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
+                    f::spawn::SpawnResultV1 spawnResult;std::string spawnError;
+                    if(f::spawn::spawn_character_v1(spawnPool,spawnRequest,makeSpawnServices(),spawnResult,spawnError))return true;
+                    reason=spawnError;return false;};
+                if(!f::containers::run_open_script_v1(*contract,random,summon,report,scriptError))
+                    std::cout<<"Container OnOpen script="<<instance.script<<" status=failed detail="<<scriptError<<" frame="<<frame<<'\n';
+                std::cout<<"Container OnOpen script="<<instance.script<<" declaration="<<instance.name<<" draws="<<report.draws<<" summon_calls="<<report.summon_calls<<" spawned="<<report.summons_spawned<<" frame="<<frame<<'\n';
+                for(const auto& line:report.summon_lines)std::cout<<"Container OnOpen script="<<instance.script<<" declaration="<<instance.name<<" "<<line<<" frame="<<frame<<'\n';
+            };
+            for(const auto& test:options.spawnTests)if(test.frame==drawn&&combatSession) {
+                auto spawnServices=makeSpawnServices();
                 f::spawn::SpawnRequestV1 spawnRequest;
                 spawnRequest.name=test.name;spawnRequest.position=test.position;spawnRequest.heading_radians=0;
                 spawnRequest.host_level_raw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
@@ -2943,6 +3020,7 @@ int main(int argc,char** argv) {
                 prepareBodyPlans();
                 if(liveSnapshot){combatSession->actor(combatSession->player_id())->persistent_character_id=state.id;combatSession->detach_for_restore();if(!f::restore_game_save(*liveSnapshot,options.level.generic_string(),*combatSession->world(),state,error)||!combatSession->rebind_after_restore(error))throw std::runtime_error("Reload live actors: "+error);}
                 if(combatSession){faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();}
+                if(liveSnapshot&&combatSession){std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);} // P16 CONTAINERS2 (T5)
                 rebuildNativeBodies();
                 rebuildSourceScopes();
                 initializeSourceTargetNodes();
@@ -2951,6 +3029,7 @@ int main(int argc,char** argv) {
                     std::cerr<<"Audio reload diagnostic: "<<error<<'\n';
                 bindEquipmentPage();
                 bindDeathRewards();
+                bindContainerLoot();
                 bindSourcePresentations();
                 std::cout<<"Content unloaded and reloaded at frame="<<drawn<<'\n';
             }
@@ -2982,6 +3061,7 @@ int main(int argc,char** argv) {
                     const bool restored=f::restore_game_save(snapshot,options.level.generic_string(),*combatSession->world(),state,error);const auto restoreError=error;
                     if(!combatSession->rebind_after_restore(error))throw std::runtime_error("Rebind live save: "+error);
                     if(!restored)throw std::runtime_error("Restore live save: "+restoreError);
+                    {std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);}
                     rebuildNativeBodies();
                     initializeSourceNavigation();
                     initializeSourceTargetNodes();
@@ -2996,6 +3076,7 @@ int main(int argc,char** argv) {
                         std::cerr<<"Audio restore diagnostic: "<<error<<'\n';
                     bindEquipmentPage();
                     bindDeathRewards();
+                    bindContainerLoot();
                     bindSourcePresentations();
                     skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
@@ -3398,7 +3479,8 @@ int main(int argc,char** argv) {
             if(runtimeEquipmentAttachments&&(!runtimeEquipment||!runtimeEquipment->sample_render_pose(error)))throw std::runtime_error("Runtime equipment pose: "+error);
             for(auto& actor:population.actors())if(!gameplayPaused&&actor.enabled&&(!combatSession||!combatSession->owns_population_pose(actor.definition.stableId))&&!actor.visual.update(gameplayDt,error))throw std::runtime_error("Actor pose: "+error);
             // P16 containers: advance activating clips; the authored 'opened' marker is DoOpen (loot via T4, Lua OnOpen later).
-            if(!gameplayPaused){std::vector<f::containers::ContainerEventV1> containerEvents;std::string containerError;if(!containerRuntime.update(gameplayDt,containerEvents,containerError))throw std::runtime_error("Container update: "+containerError);for(const auto& event:containerEvents){std::cout<<"Container opened declaration="<<event.name<<" loot="<<event.loot_id<<" clipMs="<<event.elapsed_ms<<" frame="<<drawn<<'\n';if(!event.script.empty())std::cout<<"Container OnOpen script="<<event.script<<" not run: spawn/script provider not bound"<<'\n';}}
+            if(!gameplayPaused){std::vector<f::containers::ContainerEventV1> containerEvents;std::string containerError;if(!containerRuntime.update(gameplayDt,containerEvents,containerError))throw std::runtime_error("Container update: "+containerError);for(const auto& event:containerEvents){std::cout<<"Container opened declaration="<<event.name<<" loot="<<event.loot_id<<" clipMs="<<event.elapsed_ms<<" frame="<<drawn<<'\n';runContainerOpen(event.index,drawn);}
+                if(combatSession){std::string persistError;if(!f::containers::persist_container_world_state_v1(*combatSession->world(),containerRuntime,persistError))throw std::runtime_error("Container persist: "+persistError);}}
             if(options.sourceTargetPosition) {
                 for(const auto& entry:combatSession->world()->actors()) {
                     auto* actor=combatSession->actor(entry.first);auto* graphics=actorVisual(entry.first);

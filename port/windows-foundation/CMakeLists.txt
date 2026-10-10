@@ -86,6 +86,17 @@ add_library(foundation_containers STATIC
 target_include_directories(foundation_containers PUBLIC ../game-data)
 target_link_libraries(foundation_containers PUBLIC foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_containers)
+# P16 CONTAINERS2 (T4-T6): container rewards (DropLootTable into the DROPS store), OBJS persistence,
+# and the OnOpen script contract (Summon verb). Source kernels are the existing interactions owners.
+add_library(foundation_container_drops STATIC
+  features/containers/container_loot_v1.cpp features/containers/container_open_script_v1.cpp
+  features/containers/container_world_v1.cpp
+  features/interactions/source_container_loot_v1.cpp features/interactions/world_object_container_state_v1.cpp)
+target_link_libraries(foundation_container_drops PUBLIC foundation_containers foundation_runtime_loot foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_container_drops)
+add_executable(container_open_script_v1_tests features/containers/container_open_script_v1_tests.cpp)
+target_link_libraries(container_open_script_v1_tests PRIVATE foundation_container_drops)
+add_test(NAME container_open_script_v1 COMMAND container_open_script_v1_tests)
 target_sources(foundation_data PRIVATE ../game-data/character_templates_v78.cpp)
 target_sources(foundation_data PRIVATE player_profile_properties.cpp)
 target_sources(foundation_data PRIVATE embedded_scene_clips.cpp)
