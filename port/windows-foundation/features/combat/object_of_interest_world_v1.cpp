@@ -1,6 +1,9 @@
 #include "object_of_interest_world_v1.hpp"
 
 #include "../../playable_actor_world.hpp"
+#include "../interactions/interactable_registry_v1.hpp"
+
+#include <cmath>
 
 namespace dh::foundation {
 namespace {
@@ -10,22 +13,41 @@ const PlayableActorWorld* live_world(const CombatSession& session) noexcept {
 } // namespace
 
 void update_object_of_interest_v1(const CombatSession& session, ActorId player, double dt_seconds,
-                                  ObjectOfInterestOwnerV1& owner) {
+                                  ObjectOfInterestOwnerV1& owner, const InteractableRegistryV1* objects) {
     const auto* world = live_world(session);
     const auto* self = world ? world->find_actor(player) : nullptr;
     if (!world || !self) {
         owner.reset();
         return;
     }
+    // Source Character+0x40 heading: GetLookAtVec of the local frame (local +Y rotated by the facing yaw).
+    const float heading = self->transform.rotation[2];
+    ObjectOfInterestOwnerStateV1 state;
+    state.owner = player;
+    state.position = self->transform.position;
+    state.look = {-std::sin(heading), std::cos(heading), 0.0f};
+    state.melee_radius = world->melee_reach(player);
+
     std::vector<ObjectOfInterestCandidateV1> candidates;
     candidates.reserve(world->actors().size());
     for (const auto& pair : world->actors()) {
         if (pair.first == player) continue;
         const auto& actor = pair.second;
-        candidates.push_back({pair.first, actor.transform.position[0], actor.transform.position[1],
-                              world->eligible_target(*self, actor)});
+        ObjectOfInterestCandidateV1 c;
+        c.id = pair.first;
+        c.is_character = true;
+        c.position = actor.transform.position;
+        c.radius = world->target_radius(actor);
+        c.eligible = world->eligible_target(*self, actor);
+        // Source Character::GetInteractionType: an enemy to the viewer is type 8 (attack).
+        c.interaction_type = c.eligible ? 8 : -1;
+        candidates.push_back(c);
     }
-    owner.update(player, dt_seconds, self->transform.position[0], self->transform.position[1], candidates);
+    if (objects) {
+        auto extra = objects->candidates(player);
+        candidates.insert(candidates.end(), extra.begin(), extra.end());
+    }
+    owner.update(state, dt_seconds, candidates);
 }
 
 ActorId rendered_target_marker_actor_v1(const CombatSession& session, ActorId player,
