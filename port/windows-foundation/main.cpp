@@ -2219,7 +2219,7 @@ int main(int argc,char** argv) {
         f::map_visit::RoomZoneVisitTrackerV1 mapVisits;bool mapVisitsReady=false;f::map_visit::MapViewV1 mapView;
         // P16 MAPFIX: authored minimapcameras pose (loaded on the first Map frame), PC view controls state.
         f::map_visit::MapCameraPoseV1 mapCameraPose;bool mapCameraPoseLoaded=false;
-        bool mapDragging=false;std::array<float,2> mapDragLast{0,0};std::array<bool,5> mapKeysDown{};
+        bool mapDragging=false;std::array<float,2> mapDragLast{0,0};std::array<bool,5> mapKeysDown{};bool mapMarkersLogged=false;
         // P16 MAP parchment texture (sheet fill, menus/map_bottom.tga), uploaded on the first Map frame.
         std::uint32_t mapParchmentTexture=0;float mapParchmentTexelsW=1,mapParchmentTexelsH=1;
         f::character_menu::Bindings characterMenuBindings;
@@ -4459,6 +4459,21 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             // Family 3 (local player) = the authored Character icon (frame 3 of MapIconsDynamic).
                             if(f::map_visit::map_project_v1(mapCamera,mapRect,*mapPlayer,px,py))drawMapIcon(3,px,py);
                         }
+                        // P16 MAPFIX: enemy markers (family 4 = Enemies icon). IDA ShowNpcIcons: a live monster inside a visited
+                        // room is marked. Hostility is the world's eligible-target rule (faction table, player vs actor).
+                        std::size_t enemyMarkers=0;
+                        if(combatSession&&combatSession->world()&&combatSession->actor(combatSession->player_id())) {
+                            const auto* playerActor=combatSession->actor(combatSession->player_id());
+                            for(const auto& [enemyId,enemy]:combatSession->world()->actors()) {
+                                if(enemyId==combatSession->player_id()||!enemy.alive())continue;
+                                if(!combatSession->world()->eligible_target(*playerActor,enemy))continue;
+                                const std::array<float,3> enemyPosition{enemy.transform.position[0],enemy.transform.position[1],enemy.transform.position[2]};
+                                if(!f::map_visit::map_point_visited_v1(mapVisits.zones(),mapVisited,enemyPosition))continue;
+                                float px=0,py=0;
+                                if(f::map_visit::map_project_v1(mapCamera,mapRect,enemyPosition,px,py)) {drawMapIcon(4,px,py);++enemyMarkers;}
+                            }
+                        }
+                        if(!mapMarkersLogged) {mapMarkersLogged=true;std::cout<<"Map enemy markers frame="<<drawn<<" drawn="<<enemyMarkers<<" zoom="<<mapView.zoom<<" pan="<<mapView.panX<<','<<mapView.panY<<'\n';}
                     };
                     for(const auto& solid:menu.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
                     const auto& sourcePanes=f::inventory::original_inventory_character_panes_v1();

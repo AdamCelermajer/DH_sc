@@ -129,6 +129,16 @@ bool map_camera_v1(const MapCameraPoseV1& pose, const std::array<float, 3>& anch
     return true;
 }
 
+bool map_point_visited_v1(const std::vector<LevelModuleZone>& zones, const std::vector<bool>& visited,
+                          const std::array<float, 3>& point) {
+    for (std::size_t i = 0; i < zones.size() && i < visited.size(); ++i) {
+        if (!visited[i]) continue;
+        const auto& b = zones[i].bounds;
+        if (point[0] >= b[0] && point[0] <= b[3] && point[1] >= b[1] && point[1] <= b[4]) return true;
+    }
+    return false;
+}
+
 float map_world_per_pixel_v1(const MapCameraPoseV1& pose, const MapViewV1& view, float rectHeightPx) {
     if (!pose.loaded || !(rectHeightPx > 0.0f) || !(view.zoom > 0.0f)) return 0.0f;
     float square = 0.0f;

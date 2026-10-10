@@ -64,6 +64,11 @@ MapViewV1 map_clamp_view_v1(const MapCameraPoseV1& pose, const std::array<float,
 bool map_camera_v1(const MapCameraPoseV1& pose, const std::array<float, 3>& anchor,
                    const MapViewV1& view, Camera& out, std::string& error);
 
+// True when the point lies inside a visited zone's box (XY inclusive), as RoomZone::HasInside and
+// MenuCharMenu_Map::IsInsideRooms(point, visited) (IDA 0x453be8). visited[i] belongs to zones[i].
+bool map_point_visited_v1(const std::vector<LevelModuleZone>& zones, const std::vector<bool>& visited,
+                          const std::array<float, 3>& point);
+
 // World units per screen pixel at the target distance of the zoomed authored pose, for a rectangle of the given
 // pixel height (drag and key pan: a pixel moves the map by this much).
 float map_world_per_pixel_v1(const MapCameraPoseV1& pose, const MapViewV1& view, float rectHeightPx);

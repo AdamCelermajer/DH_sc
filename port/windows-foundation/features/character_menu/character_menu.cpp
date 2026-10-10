@@ -121,6 +121,8 @@ bool Presenter::frame(const Bindings& b,int width,int height,Frame& output,std::
     }
     for(const auto& field:fields){
         if(tab_==Tab::stats&&!original_stats_path_visible(*b.properties,stats,field.path))continue;
+        // P16 MAPFIX: the legend popup's own title takes the plate; the level name is not drawn under it.
+        if(legend&&has(field.path,"MapName"))continue;
         std::string value;
         if(!projected(field,b,value)&&!(tab_==Tab::stats&&original_stats_field(field.path,stats,value))&&
             b.text&&!b.text(field.path,value,error))return false;
