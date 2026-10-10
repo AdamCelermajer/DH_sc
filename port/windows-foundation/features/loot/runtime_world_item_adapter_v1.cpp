@@ -157,6 +157,7 @@ bool RuntimeWorldItemAdapterV1::publish_at_position(
     }
     ++next_sequence_;
     published_item = next_identity_++;
+    notify_sound_(WorldItemSoundEventV1::drop, items_.at(published_item));
     return true;
 }
 
@@ -285,6 +286,7 @@ bool RuntimeWorldItemAdapterV1::publish_inventory_drop(
     }
     ++next_sequence_;
     published_item = next_identity_++;
+    notify_sound_(WorldItemSoundEventV1::drop, items_.at(published_item));
     return true;
 }
 
@@ -392,10 +394,12 @@ bool RuntimeWorldItemAdapterV1::pickup(
             receipt.quantity = drop.quantity;
             static_assert(std::is_nothrow_swappable<dh::foundation::CharacterState>::value,
                           "World item erase and CharacterState commit must be no-throw");
+            const RuntimeWorldItemEntryV1 picked = found->second;
             items_.erase(found);
             using std::swap;
             swap(character, staged);
             receipt.completed = true;
+            notify_sound_(WorldItemSoundEventV1::pickup, picked);
             return true;
         }
         std::string inventory_id = drop.inventory_instance_id;
@@ -425,10 +429,12 @@ bool RuntimeWorldItemAdapterV1::pickup(
         receipt.quantity = drop.quantity;
         static_assert(std::is_nothrow_swappable<dh::foundation::CharacterState>::value,
                       "World item erase and CharacterState commit must be no-throw");
+        const RuntimeWorldItemEntryV1 picked = found->second;
         items_.erase(found);
         using std::swap;
         swap(character, staged);
         receipt.completed = true;
+        notify_sound_(WorldItemSoundEventV1::pickup, picked);
         return true;
     } catch (const std::exception& exception) {
         receipt = {};

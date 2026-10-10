@@ -5,6 +5,8 @@
 #include "../../actor_definitions.hpp"
 #include "../../world.hpp"
 #include <array>
+#include <cstdint>
+#include <functional>
 #include <map>
 #include <optional>
 
@@ -59,6 +61,14 @@ struct RuntimeWorldItemPickupReceiptV1 {
 };
 
 // Same-session generic WorldItemStore and CharacterState pickup adapter. It
+// B048 item sound cues. The observer runs after a world item is published
+// (drop: ItemObject::InitAgain Play3D of ItemAudioVisualTable row+4) and after
+// a pickup commits (pickup: ItemObject::Interact Play3D of row+8). It only
+// reports; it cannot change the item outcome.
+enum class WorldItemSoundEventV1 : std::uint8_t { drop, pickup };
+using WorldItemSoundObserverV1 =
+    std::function<void(WorldItemSoundEventV1, const RuntimeWorldItemEntryV1&)>;
+
 // owns one authoritative map for world items, retains the actual LootTables
 // snapshot that backs every row, and uses no RNG or detached inventory owner.
 class RuntimeWorldItemAdapterV1 {
@@ -68,10 +78,20 @@ class RuntimeWorldItemAdapterV1 {
     bool running_{};
     std::uint64_t next_sequence_{1};
     std::uint64_t pool_evictions_{};
+    WorldItemSoundObserverV1 sound_observer_;
+    void notify_sound_(WorldItemSoundEventV1 event,
+                       const RuntimeWorldItemEntryV1& entry) noexcept {
+        if (!sound_observer_) return;
+        try { sound_observer_(event, entry); } catch (...) {}
+    }
 
 public:
     explicit RuntimeWorldItemAdapterV1(dh2::data::LootTablesV2::Borrow tables)
         : tables_(std::move(tables)) {}
+
+    void set_sound_observer(WorldItemSoundObserverV1 observer) {
+        sound_observer_ = std::move(observer);
+    }
 
     bool publish_death_drop(const RuntimeWorldItemRecordV1&,
                             const dh::foundation::ActorState& victim,

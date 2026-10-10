@@ -68,6 +68,7 @@
 #include "features/audio/runtime_audio_host_v1.hpp"
 #include "features/audio/level_music_v1.hpp"
 #include "features/audio/runtime_session_audio_v1.hpp"
+#include "features/loot/world_item_sound_v1.hpp"
 #include "features/frontend/creation/generic_creation_host_v1.hpp"
 #include "features/frontend/creation/dynamic_text_bindings.hpp"
 #include "features/frontend/creation/runtime_creation_source_loader_v1.hpp"
@@ -2181,6 +2182,32 @@ int main(int argc,char** argv) {
             rewardBindings.resolve_character=&GameplayRewardContext::resolve;
             if(!deathRewards.bind(*combatSession,menuSourceOwner,assets,worldItems,std::move(rewardBindings),error))
                 throw std::runtime_error("Source death rewards: "+error);
+            // P15 B048: item drop/pickup cues. The ordinal comes from the item's own ItemAudioVisualTable row
+            // (drop row+4, pickup row+8). A selected WAV that is absent stays silent and is logged, never substituted.
+            worldItems->set_sound_observer([&runtimeAudio,audiovisual=deathRewards.loot_source().audiovisual](
+                    f::loot::WorldItemSoundEventV1 event,const f::loot::RuntimeWorldItemEntryV1& entry) {
+                const char* eventName=event==f::loot::WorldItemSoundEventV1::drop?"drop":"pickup";
+                std::int32_t ordinal=-1;std::string soundError;
+                if(!f::loot::world_item_sound_ordinal_v1(audiovisual,entry.visual_row,event,ordinal,soundError)) {
+                    std::cout<<"World item sound item="<<entry.identity<<" event="<<eventName<<" status=silent detail="<<soundError<<'\n';
+                    return;
+                }
+                if(!runtimeAudio) {
+                    std::cout<<"World item sound item="<<entry.identity<<" event="<<eventName<<" source="<<ordinal<<" status=no_audio_runtime\n";
+                    return;
+                }
+                f::audio::WorldItemSoundResultV1 result;
+                if(!runtimeAudio->submit_world_item_sound(ordinal,entry.source_position,result,soundError)) {
+                    std::cout<<"World item sound item="<<entry.identity<<" event="<<eventName<<" source="<<ordinal<<" status=failed detail="<<soundError<<'\n';
+                    return;
+                }
+                if(result.status==f::audio::WorldItemSoundStatusV1::asset_missing) {
+                    std::cout<<"World item sound uid="<<result.uid<<" event="<<eventName<<" source="<<ordinal<<" item="<<entry.identity<<" status=asset_missing\n";
+                    std::cout<<"cue uid="<<result.uid<<" asset missing: silent ("<<result.uri<<")\n";
+                    return;
+                }
+                std::cout<<"World item sound uid="<<result.uid<<" event="<<eventName<<" source="<<ordinal<<" item="<<entry.identity<<" status=submitted\n";
+            });
         };
         bindDeathRewards();
         // P14 DROPS: source itemdrops.bdae presentation over the same world-item store.
