@@ -110,7 +110,9 @@ bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::pa
             try {
                 auto sky=std::make_shared<OriginalScene>();
                 std::string skyError;
-                if(!decode_original_scene_module(assets.read(std::filesystem::path(skyName)),std::string(),identity(),*sky,skyError))
+                // Whole-scene decode: the placement is the identity (no renderer symbol, so the loader tools link without it).
+                const Mat4 identityPlacement{1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
+                if(!decode_original_scene_module(assets.read(std::filesystem::path(skyName)),std::string(),identityPlacement,*sky,skyError))
                     throw std::runtime_error(skyError);
                 combined.notices.push_back("Skybox loaded: "+skyName+" triangles="+std::to_string(sky->triangleCount));
                 combined.skybox=std::move(sky);
