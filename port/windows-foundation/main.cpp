@@ -1214,7 +1214,8 @@ int main(int argc,char** argv) {
                 bool met=false,unsupported=false;
                 f::quest_runtime::evaluate_named_condition_v1(found->second,[&](std::int32_t row,std::int32_t& value){
                     return f::quest_runtime::quest_state_from_character_v1(state,row,value);},levelRow,met,unsupported);
-                if(unsupported)std::cout<<"Named condition "<<name<<" type "<<found->second.type<<" is not evaluated (false)\n";
+                static std::set<std::string> reportedConditions; // logged once per name
+                if(unsupported&&reportedConditions.insert(name).second)std::cout<<"Named condition "<<name<<" type "<<found->second.type<<" is not evaluated (false)\n";
                 return met;
             };
             auto policy=[&](const f::ActorDefinition& a) {
@@ -2875,6 +2876,7 @@ int main(int argc,char** argv) {
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
             std::string questError;
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
+            for(const auto& d:questRuntime->diagnostics())std::cout<<"Quest runtime diagnostic: "<<d<<'\n'; // OPENING2
             // P16 QUESTUI: explicit charpropsname bindings (NPCs) have no population row; resolve it by name
             // through the CharacterTable names (the quest talk oids are these rows).
             std::map<std::string,std::int32_t> characterRows;

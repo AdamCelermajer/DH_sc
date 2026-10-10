@@ -442,6 +442,9 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         return v.put_limbus(id, e);
     }
     // Verbs without an owner in this host: explicit, counted, non-blocking (the cutscene keeps running).
+    // OPENING2: Script_CONSOLE (kind 3) shows its text only when the DisplayScriptConsoleAsDialog debug switch is on;
+    // the release default is off (IDA Script_CONSOLE::Execute), so the command does nothing and never blocks.
+    case 3:  if (phase == CampaignCommandPhase::execute) unsupported_.note("Script_CONSOLE is a debug command (no-op: DisplayScriptConsoleAsDialog is off)"); return true;
     case 6:  if (phase == CampaignCommandPhase::execute) unsupported_.note("stub SetCameraClip (camera transition tuning not decoded)"); return true;
     case 19: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayAnimByName (object clips for scene objects are not bound)"); return true;
     case 20: { // Script_PlayEffect: set @8 at the position of the object @32 plus the authored offsets @16/@20/@24 (IDA Script_PlayEffect::Execute)

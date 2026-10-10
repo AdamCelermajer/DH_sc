@@ -20,7 +20,7 @@ bool OriginalCampaignWorldAdapter::command(CampaignCommandPhase phase,const Orig
     if(providers_.actor_verb(c,phase,module,blocking,error))return true;
     if(error.empty())error="Original campaign provider failed: actor verb";return false;}
   if(c.kind==22||c.kind==23){auto wait=scalar(c,20);if(wait>1){error="Invalid source Flash wait byte";return false;}return effect(providers_.flash,"flash",error,c.kind==22,text(c,16),scalar(c,8),wait!=0,phase,blocking);}
-  switch(c.kind){case 1:case 2:case 24:case 25:case 30:case 31:case 32:case 39:case 69:case 70:case 77:case 78:case 79:case 27:case 28:break;default:error="Unsupported original campaign command kind "+std::to_string(c.kind)+" ("+c.class_name+")";return false;}
+  switch(c.kind){case 1:case 2:case 3:case 24:case 25:case 30:case 31:case 32:case 39:case 69:case 70:case 77:case 78:case 79:case 27:case 28:break;default:error="Unsupported original campaign command kind "+std::to_string(c.kind)+" ("+c.class_name+")";return false;}
   // Actual source bodies for these kinds are nonblocking and inherit empty Update.
   if(phase!=CampaignCommandPhase::execute)return true;
   switch(c.kind){
@@ -59,6 +59,7 @@ bool OriginalCampaignWorldAdapter::command(CampaignCommandPhase phase,const Orig
    return effect(providers_.consume_tutorial,"consume source tutorial flag",error,tutorial)&&effect(providers_.save_tutorial_settings,"save source tutorial settings",error,gate.settings_menu_open);
   }
   case 79:return effect(providers_.flush_messages,"flush messages",error);
+  case 3:return true; // OPENING2: Script_CONSOLE is a debug command; release builds do not show it (no-op, never blocks)
   default:error="Unsupported original campaign Execute";return false;
   }
  }catch(const std::exception&e){error=e.what();return false;}
