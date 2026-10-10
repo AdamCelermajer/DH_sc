@@ -886,6 +886,30 @@ struct CombatSession::Impl {
         if(!turn(source,requested,dt,error))return false;
         return request(source,requested,error);
     }
+    // Accepted departure of a retained source combo swing (CSAttack::OnBlur):
+    // cancel the same retained cursor, start the AttackDelay cooldown once
+    // (CombatSystem::interrupt), and clear continuation so the next swing starts
+    // from a fresh command. Stale or non-combo swings are no-ops.
+    bool depart_source_attack(ActorId id,std::string& error){
+        auto& entry=entries.at(id);
+        if(!entry.sourceCombo||!entry.sourceAction)return true;
+        // CombatSystem::interrupt (also reached through runtime->interrupt) clears
+        // target_id unconditionally, which the source departure does not do
+        // (CSAttack::OnBlur only starts the AttackDelay timer). Keep the target
+        // across the interrupts, then apply the source nonsticky rule
+        // (CharAI::_ClearNonStickyTarget) exactly as the completion path does.
+        const auto* actor=world->find_actor(id);const ActorId target=actor?actor->target_id:invalid_actor_id;
+        entry.retained->cancel();entry.sourceAction=false;entry.sourceEvents.clear();
+        entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
+        if(runtime->owns_pose(id)&&!runtime->interrupt(id,error))return false;
+        combat->interrupt(id);
+        if(id==player&&stickyPlayerTarget!=invalid_actor_id){
+            if(auto* after=world->find_actor(id))after->target_id=target;
+            return true;
+        }
+        if(!set_source_target(id,invalid_actor_id,false,error)||!sync_source_last_target(id,error))return false;
+        return true;
+    }
     bool command_request(ActorId source,ActorId requested,double dt,std::string& error){
         if(entries.at(source).stateSequence&&entries.at(source).sourceStatePolicy){error.clear();return true;}
         const auto found=entries.find(source);
@@ -1442,6 +1466,15 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
         if(!s.set_source_target(s.player,invalid_actor_id,true,error))return false;
     }
     if(input.attack){if(!s.command_request(s.player,player->target_id,dt,error))return false;}
+    // Source Space release raises event 50001, and Character::CSM_StoppedAttacking
+    // leaves Attack only when Character+1090 (CharAI+122) is set. That byte is
+    // (step!=0 && final step) in _OnAnimStepBegin_Attack, i.e. AttackState64::finisher
+    // here; AttackState64::last (CharAI+121) also covers the pre step and gates input.
+    if(!input.attack&&player->action==CharacterAction::attacking){
+        const auto& playerEntry=s.entries.at(s.player);
+        if(playerEntry.sourceCombo&&playerEntry.sourceAction&&playerEntry.sourceAttack.finisher&&
+           !s.depart_source_attack(s.player,error))return false;
+    }
     if(player->action==CharacterAction::attacking&&!s.turn(s.player,player->target_id,dt,error))return false;
     if(s.actorDecisionProvider&&!s.actorDecisionProvider(*this,dt,error))return false;
     for(const auto& entry:s.entries){
@@ -2001,6 +2034,8 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
         if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;
         s.combat->interrupt(id);
+        // Interrupted source combo swing: drop continuation/last so the next swing starts fresh.
+        entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
     }
     if(!entry.retained->prepare_preserving(*s.assets,plan,policies,selection,s.retained_services(id),alias,error))return false;
     entry.attackProgram=false;entry.stateManaged=true;entry.stateSequence=true;entry.stateFrozen=false;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();

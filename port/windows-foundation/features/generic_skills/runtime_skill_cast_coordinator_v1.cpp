@@ -379,8 +379,15 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     auto* actor = session.actor(request.actor);
     if (!actor || actor != session.world()->find_actor(request.actor) || !actor->alive())
         return fail(error, "Skill cast owner is absent or dead in the same CombatSession");
-    if (actor->action != CharacterAction::idle && actor->action != CharacterAction::moving)
-        return fail(error, "Current source lifecycle action rejects a new skill cast");
+    // Source CharAI::AI_IsSkillUsable (0x3d8358): reject only when a skill is
+    // in use (unless Character+1312 & 0x8000) or casting. Attack is NOT a
+    // rejection: CSAttack::OnInit registers 50005 -> state 6 unguarded, so a
+    // skill interrupts the swing (its OnBlur runs in play_actor_source_sequence).
+    // Hurt stays rejected until its source Injured admission is verified.
+    if (actor->action == CharacterAction::casting)
+        return fail(error, "Source skill is already casting; a new skill cast is rejected");
+    if (actor->action == CharacterAction::hurt)
+        return fail(error, "Hurt action rejects a new skill cast (source Injured admission unverified)");
     if (active_.count(request.actor) &&
         active_.at(request.actor).receipt.phase != RuntimeSkillCastPhaseV1::completed &&
         active_.at(request.actor).receipt.phase != RuntimeSkillCastPhaseV1::interrupted &&
@@ -811,7 +818,10 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             ? 4.71238898038468986f : 3.1415927410125732421875f;
     active.cooldown_ms = cooldown_ms;
     active.target_query = target;
-    active.previous_action = actor->action;
+    // An admitted skill departs the swing (CSAttack::OnBlur/interrupt), so a
+    // failed sequence start must not restore Attack with no attack owner.
+    active.previous_action = actor->action == CharacterAction::attacking
+        ? CharacterAction::idle : actor->action;
 
     const bool mana_ok = prepare_skill_cast_mana_v1(*request.character, session, request.actor,
             *request.characters, request.skills, *request.classes,

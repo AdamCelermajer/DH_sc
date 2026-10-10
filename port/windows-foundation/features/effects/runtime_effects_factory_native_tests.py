@@ -99,6 +99,7 @@ for texture_name in BASHDOWN_TEXTURES:
 source_files = [
     TEST,
     FEATURE / "runtime_effects_factory_v1.cpp",
+    FEATURE / "runtime_source_fx_asset_v1.cpp",
     FEATURE / "runtime_combat_effects_v1.cpp",
     FEATURE / "runtime_swing_fx_observer_v1.cpp",
     ROOT / "port/windows-foundation/features/skills_animation/skill_animation_program.cpp",

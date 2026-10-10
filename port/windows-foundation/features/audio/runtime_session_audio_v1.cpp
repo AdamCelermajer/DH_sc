@@ -2,6 +2,7 @@
 #include "audio_source_target_position_v1.hpp"
 #include "../../asset_catalog.hpp"
 #include "../../original_actor_camera_anchor.hpp"
+#include "winmm_output.hpp"
 #include <limits>
 #include <initializer_list>
 
@@ -211,8 +212,16 @@ bool RuntimeSessionAudioV1::window_activity(bool focused,bool minimized,std::str
         if(!host_->publish_window_activity(1,++activity_sequence_,!minimized,focused,focused,false)) {
             error="Actual audio window activity publication failed";return false;
         }
+        log_<<"Audio window activity focused="<<focused<<" minimized="<<minimized<<'\n';
+        // Original Application::Pause -> PauseAllSounds; Resume -> ResumeAllSounds.
+        if(!host_->set_output_paused(!focused||minimized,error))return false;
     }
     error.clear();return true;
+}
+
+bool RuntimeSessionAudioV1::set_level_music(const std::string& name,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    level_music_name_=name;level_music_error_.clear();error.clear();return true;
 }
 
 const RetainedFrameAudioClock* RuntimeSessionAudioV1::before_update(const Camera& camera,
@@ -240,6 +249,19 @@ const RetainedFrameAudioClock* RuntimeSessionAudioV1::before_update(const Camera
 bool RuntimeSessionAudioV1::after_update(std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     if(!host_->update(error))return false;
+    // Level::Update-equivalent start: only with focused, non-minimised output.
+    // Same-ordinal requests are not repeated once the voice is owned.
+    if(!level_music_name_.empty()&&activity_known_&&focused_&&!minimized_) {
+        const auto ordinal=host_->source_ordinal(level_music_name_.c_str());
+        std::string musicError;
+        if(ordinal<0) musicError="Level music is absent from the source sound table: "+level_music_name_;
+        else if(ordinal!=host_->level_music_ordinal())host_->play_level_music(ordinal,2000,musicError);
+        if(!musicError.empty()&&musicError!=level_music_error_) {
+            level_music_error_=musicError;
+            log_<<"Level music diagnostic: "<<musicError<<" (retrying)\n";
+        }
+        if(musicError.empty())level_music_error_.clear();
+    }
     dh2::audio::AudioReceiptV34 receipt;
     while(host_->take_receipt(receipt)) {
         if(receipt.kind==dh2::audio::AudioReceiptKindV34::started)++started_;
@@ -257,5 +279,15 @@ bool RuntimeSessionAudioV1::shutdown(std::string& error) {
 void RuntimeSessionAudioV1::summary() const {
     log_<<"Audio final dispatched="<<dispatched_<<" startedVoices="<<started_
         <<" diagnostics="<<diagnostics_<<"; original assets, no substituted samples\n";
+#ifdef _WIN32
+    // B039: wall time is first-to-latest pump update; rendered time is mixer frames at 48 kHz.
+    const auto pump=winmm_pump_stats_v1();
+    if(pump.updates&&host_)
+        log_<<"WinMM pump: underruns="<<pump.underruns<<" refills="<<pump.refills
+            <<" renderedSeconds="<<double(host_->rendered_frames())/48000.0
+            <<" wallSeconds="<<double(pump.last_ns-pump.first_ns)/1e9
+            <<" maxGapMs="<<double(pump.max_update_gap_ns)/1e6
+            <<" gapsOver40ms="<<pump.gaps_over_40ms<<'\n';
+#endif
 }
 }

@@ -191,6 +191,70 @@ std::int32_t RuntimeAudioHostV1::source_ordinal(const char* name) const noexcept
     return runtime?runtime->bindings().source_id(name):-1;
 }
 
+bool RuntimeAudioHostV1::play_level_music(std::int32_t ordinal,int fade_ms,std::string& error) {
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    if(!runtime||ordinal<0||fade_ms<0) {
+        error="Required SAME source runtime, music row and nonnegative fade";return false;
+    }
+    dh2::audio::AudioDeviceClockV40 clock;
+    if(!runtime->clock().snapshot(clock)||!clock.ready||!clock.rate) {
+        error="Required actual output rate for level music fade";return false;
+    }
+    const auto fade_frames=std::uint32_t(std::uint64_t(fade_ms)*clock.rate/1000);
+    if(ordinal==level_music_ordinal_) {
+        bool playing{};
+        if(!runtime->source_ordinal_playing(ordinal,playing,error))return false;
+        if(playing) {
+            // PlayMusic same-id branch: Resume(emitter, 0.05 s), no restart.
+            if(!runtime->resume_source_ordinal(ordinal,std::uint32_t(std::uint64_t(50)*clock.rate/1000),error))return false;
+            error.clear();return true;
+        }
+    } else if(level_music_ordinal_>=0) {
+        if(!stop_level_music(fade_ms,error))return false;
+    }
+    std::int64_t event_ns{};
+    if(!winmm_monotonic_ns(event_ns,error))return false;
+    if(!runtime->submit_plain_source(ordinal,event_ns,
+        [&](const dh2::audio::AudioSoundV34& sound,const dh2::audio::AudioGroupV34& group,
+            dh2::audio::AudioCommandV34& command,std::string& e) {
+            if(sound.format==2) {
+                // VXN initial state comes from the same decoded sample (fresh row 0).
+                int state{};
+                if(!runtime->fresh_native_state_v68(sound.uid,state,e))return false;
+                command.native_state=state;
+            }
+            command.left=command.right=dh2::audio::original_fresh_emitter_gain_v40();
+            command.pitch=dh2::audio::original_fresh_emitter_pitch_v40();
+            command.volume_group=group.volume_group;
+            command.fade_frames=fade_frames;
+            e.clear();return true;
+        },error))return false;
+    level_music_ordinal_=ordinal;error.clear();return true;
+}
+
+bool RuntimeAudioHostV1::stop_level_music(int fade_ms,std::string& error) {
+    if(level_music_ordinal_<0) {error.clear();return true;}
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    if(!runtime) {error="Required SAME source runtime for level music stop";return false;}
+    if(!runtime->stop_source_sound_v106(level_music_ordinal_,fade_ms,error))return false;
+    level_music_ordinal_=-1;error.clear();return true;
+}
+
+bool RuntimeAudioHostV1::set_output_paused(bool paused,std::string& error) {
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    // Before the source runtime exists there are no voices to pause.
+    if(!runtime) {error.clear();return true;}
+    dh2::audio::AudioCommandV34 command;
+    command.kind=paused?dh2::audio::AudioCommandKindV34::pause_all:dh2::audio::AudioCommandKindV34::resume_all;
+    if(!runtime->mixer().post(command)) {error="Audio pause/resume command queue full";return false;}
+    error.clear();return true;
+}
+
+std::uint64_t RuntimeAudioHostV1::rendered_frames() const noexcept {
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    return runtime?runtime->mixer().output_frame():0;
+}
+
 bool RuntimeAudioHostV1::ready() const {
     return session_&&session_->ready_for_current_source();
 }

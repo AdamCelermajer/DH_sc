@@ -66,6 +66,7 @@ class RuntimeSessionAudioV1 final {
     std::uint32_t activity_sequence_{};
     std::uint64_t started_{},dispatched_{},diagnostics_{};
     bool focused_{},minimized_{},activity_known_{};
+    std::string level_music_name_,level_music_error_;
     std::ostream& log_;
 public:
     explicit RuntimeSessionAudioV1(std::ostream&);
@@ -82,6 +83,11 @@ public:
     CombatSessionStepObserver compose_step_entry_observer(CombatSessionStepObserver audio_first);
     void unbind() noexcept;
     bool window_activity(bool focused,bool minimized,std::string&);
+    // Original LevelConfig `music` (LevelMusicNamesV1). Playback starts from
+    // after_update once the window is focused and not minimised, as the
+    // original Level::Update path plays it on the first updated frame. An empty
+    // name requests nothing.
+    bool set_level_music(const std::string& name,std::string& error);
     // Publish actual camera/player and window state before the Session update.
     // A missing device sample returns nullptr; it never supplies a private clock.
     const RetainedFrameAudioClock* before_update(const Camera&,bool focused,

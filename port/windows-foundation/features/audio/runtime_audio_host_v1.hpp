@@ -67,6 +67,7 @@ private:
     float current_gain_{dh2::audio::original_fresh_emitter_gain_v40()};
     float current_pitch_{dh2::audio::original_fresh_emitter_pitch_v40()};
     bool manager_general_initialized_{};
+    std::int32_t level_music_ordinal_{-1};
 
     static int gates(void*,const dh2::sound::VoxPlay3DRequestV2&,
                      dh2::sound::VoxPlay3DResponseV2&);
@@ -98,6 +99,17 @@ public:
         std::string& error);
     bool take_receipt(dh2::audio::AudioReceiptV34&);
     std::int32_t source_ordinal(const char* authored_name) const noexcept;
+    // Original VoxSoundManager::PlayMusic/StopMusic semantics on the SAME
+    // runtime: the same ordinal resumes a still-playing voice (0.05 s); a new
+    // ordinal first stops the previous one with fade; the VXN starts at its
+    // fresh native state (0) with a fade-in and loops from its sounds.xml row.
+    bool play_level_music(std::int32_t ordinal,int fade_ms,std::string& error);
+    bool stop_level_music(int fade_ms,std::string& error);
+    std::int32_t level_music_ordinal() const noexcept{return level_music_ordinal_;}
+    // Original Application::Pause/Resume -> PauseAllSounds/ResumeAllSounds.
+    bool set_output_paused(bool paused,std::string& error);
+    // Mixer frames rendered so far (B039 measurement; 0 before the source runtime exists).
+    std::uint64_t rendered_frames() const noexcept;
     bool ready() const;
     bool shutdown(std::string& error);
 

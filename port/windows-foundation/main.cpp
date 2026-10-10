@@ -27,6 +27,7 @@
 #include "features/character_menu/menu_text_layout_v1.hpp"
 #include "features/pause_ui/source_pause_ui_render_v1.hpp"
 #include "features/frontend/rich_text.hpp"
+#include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
 #include "features/generic_skills/runtime_skills_menu_v1.hpp"
 #include "features/generic_skills/runtime_skill_progression_v1.hpp"
 #include "features/generic_skills/runtime_skill_session_training_v1.hpp"
@@ -57,6 +58,7 @@
 #include "features/physics/runtime_session_contact_v1.hpp"
 #include "features/physics/session_actor_transition_v1.hpp"
 #include "features/audio/runtime_audio_host_v1.hpp"
+#include "features/audio/level_music_v1.hpp"
 #include "features/audio/runtime_session_audio_v1.hpp"
 #include "features/frontend/creation/generic_creation_host_v1.hpp"
 #include "features/frontend/creation/dynamic_text_bindings.hpp"
@@ -917,7 +919,7 @@ int main(int argc,char** argv) {
         }
         };
         loadContent(scene,visual);
-        f::OriginalMeleeBindings meleeBindings;std::shared_ptr<f::CombatSession> combatSession;
+        f::OriginalMeleeBindings meleeBindings;std::shared_ptr<f::CombatSession> combatSession;f::ObjectOfInterestOwnerV1 objectOfInterest; // B004/B029
         const auto bindSourcePlayerLocomotion=[&](f::CombatSession& session) {
             if(!locomotionLibrary)return;
             const auto hands=currentLocomotionItems();
@@ -1753,6 +1755,11 @@ int main(int argc,char** argv) {
                                 combatSession,window.focused(),window.minimized(),error,assets.root().string()))
                     throw std::runtime_error(error);
                 runtimeAudio=std::move(next);
+                // Original LevelConfig music (Level::Update -> PlayMusic); the scene's own name.
+                f::audio::LevelMusicNamesV1 levelMusic;
+                if(!f::audio::read_level_music_names_v1(assets,options.level.generic_string(),levelMusic,error)||
+                   !runtimeAudio->set_level_music(levelMusic.music,error))
+                    std::cerr<<"Level music diagnostic: "<<error<<'\n';
             } catch(const std::exception& failure) {
                 std::cerr<<"Audio initialization diagnostic: "<<failure.what()<<"; gameplay continues\n";
             }
@@ -2452,6 +2459,8 @@ int main(int argc,char** argv) {
             semanticInput.set_menu_open(characterMenu.is_open()||pauseMenuOpen);
             if(characterMenu.is_open()||pauseMenuOpen)uiInput.actions={};
             double now=window.seconds();dt=options.fixedStep>0?options.fixedStep:std::clamp(now-previous,0.,.1);previous=now;
+            // B039 measurement: per-second frame count and worst clamped frame time, printed only with --frames.
+            if(options.frames>0) {static double secondStart=now,worstDt=0;static int secondFrames=0,secondIndex=0;++secondFrames;worstDt=std::max(worstDt,dt);if(now-secondStart>=1.0){++secondIndex;std::cout<<"Frame rate second="<<secondIndex<<" frames="<<secondFrames<<" worstFrameMs="<<worstDt*1000.0<<'\n';secondStart=now;secondFrames=0;worstDt=0;}}
             if(runtimeAudio) {std::string audioError;if(!runtimeAudio->window_activity(window.focused(),window.minimized(),audioError))std::cerr<<"Audio activity diagnostic: "<<audioError<<'\n';}
             if(window.minimized()) {dh::foundation::platform_sleep_milliseconds(10);continue;}
             for(const auto& scheduled:options.sourceCommands)if(scheduled.frame==drawn) {
@@ -2792,6 +2801,7 @@ int main(int argc,char** argv) {
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
                 if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);
+                if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest); // B004/B029
                 sourcePhysicalPlayerControls={};
                 if(!gameplayPaused) {
                     const auto* livePlayer=combatSession->actor(combatSession->player_id());
@@ -2966,7 +2976,9 @@ int main(int argc,char** argv) {
                 }
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
             }
-            if(const auto* target=combatSession?combatSession->selectedactor():nullptr;target&&target->alive()&&!targetMarker.mesh.vertices.empty()) {
+            // B004/B029: rendered marker = last target, else OOI, gated by eligibility (combat target is not used).
+            const auto* markerTarget=combatSession?combatSession->actor(f::rendered_target_marker_actor_v1(*combatSession,combatSession->player_id(),objectOfInterest)):nullptr;
+            if(const auto* target=markerTarget;target&&target->alive()&&!targetMarker.mesh.vertices.empty()) {
                 auto placement=f::identity();placement[12]=target->transform.position[0];placement[13]=target->transform.position[1];placement[14]=target->transform.position[2];
                 const auto original=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& actor){return actor.definition.stableId==target->id;});
                 if(original!=population.actors().end()){placement[0]=std::hypot(original->transform[0],original->transform[1]);placement[5]=std::hypot(original->transform[4],original->transform[5]);placement[10]=original->transform[10];}
@@ -2978,7 +2990,10 @@ int main(int argc,char** argv) {
                 auto frame=[&](unsigned current,unsigned maximum){auto n=std::int32_t(std::uint32_t(actorProperties.sheets.resolved[current])*100u);auto d=actorProperties.sheets.resolved[maximum];if(!d)throw std::runtime_error("Unbound HUD maximum");return unsigned(std::clamp(int(std::int64_t(n)/d)-1,0,99));};
                 auto liveFrame=[](float current,float maximum){if(!std::isfinite(current)||!std::isfinite(maximum)||maximum<=0)throw std::runtime_error("Unbound live HUD maximum");return unsigned(std::clamp(int(current*100/maximum)-1,0,99));};
                 const auto* player=combatSession?combatSession->actor(combatSession->player_id()):nullptr;
-                f::HudGeometry hud;if(!f::compose_original_hud(0,player?liveFrame(player->health,player->max_health):frame(36,38),player?liveFrame(player->resource,player->max_resource):frame(41,43),options.hudPortrait,hud,error))throw std::runtime_error(error);
+                // B038: XP bar from the live player sheet (resolved 33 = XP, 34 = XP for level); empty without a player.
+                unsigned xpFrame=0;
+                if(player){const auto* xpSheet=combatSession->world()->combat_properties(combatSession->player_id());if(!xpSheet||!f::original_hud_xp_frame(xpSheet->sheets.resolved[33],xpSheet->sheets.resolved[34],xpFrame))throw std::runtime_error("Unbound live HUD XP sheet");}
+                f::HudGeometry hud;if(!f::compose_original_hud(0,player?liveFrame(player->health,player->max_health):frame(36,38),player?liveFrame(player->resource,player->max_resource):frame(41,43),xpFrame,options.hudPortrait,hud,error))throw std::runtime_error(error);
                 overlay.begin(window.width(),window.height());
                 const float scale=float(window.height())/hud.height;
                 for(const auto& batch:hud.batches){std::vector<f::OverlayTriangleVertex> vertices;for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.v});if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("HUD triangle draw rejected");}
@@ -3001,7 +3016,7 @@ int main(int argc,char** argv) {
                     }
                     pcHudText.draw(overlay);
                 }
-                if(const auto* target=combatSession?combatSession->selectedactor():nullptr;target&&target->alive()) {
+                if(const auto* target=markerTarget;target&&target->alive()) {
                     auto head=f::Vec3{target->transform.position[0],target->transform.position[1],target->transform.position[2]};
                     const auto original=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& actor){return actor.definition.stableId==target->id;});
                     if(original!=population.actors().end()){f::Vec3 lo{},hi{};if(!original->visual.indexed_bounds(lo,hi,error))throw std::runtime_error(error);head.z+=hi.z*original->transform[10];}

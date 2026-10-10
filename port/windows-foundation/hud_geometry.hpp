@@ -58,10 +58,35 @@ const std::vector<HudShapeGeometry>& original_hud_shapes();
 // Original source frame numbers: HP/MP 0=empty through99=full; portrait0=Warrior,
 // 1=Rogue,2=Mage. Invalid frames/layouts reject, preserving output.
 // Includes original contour/matrix art for portrait, HP/MP and player framing.
-// Omits XP timeline, action buttons, text, and original AS viewport reflow.
+// Omits action buttons, text, and original AS viewport reflow.
+// This legacy overload also omits the XP bar (shapes 148/150).
 bool compose_original_hud(unsigned style, unsigned hp_source_frame,
                           unsigned mp_source_frame, unsigned portrait_source_frame,
                           HudGeometry& geometry, std::string& error);
+
+// Same, plus the original XP bar (bar_xp, char152: background 148 + shrinking
+// cover 150). xp_source_frame 0=empty .. 99=full; the original producer
+// (InfoHUDManager::FastUpdate 0x41e064) is min(99, 100*xp/xp_for_level) from
+// player properties 33/34, with no -1 (unlike HP/MP) and frame100 never used.
+bool compose_original_hud(unsigned style, unsigned hp_source_frame,
+                          unsigned mp_source_frame, unsigned xp_source_frame,
+                          unsigned portrait_source_frame,
+                          HudGeometry& geometry, std::string& error);
+
+// Original InfoHUDManager::FastUpdate (0x41e064) bar_xp frame from the raw
+// resolved player-sheet values (property 33 = XP, 34 = XP for this level; the
+// original reads Character+4220/+4224 as signed 32-bit ints). Returns false when
+// the maximum is zero. 100*xp wraps in 32 bits like the ARM code, the quotient
+// is the signed C division, and the result is capped at 99 as in the original;
+// a negative quotient (not producible by valid sheets) is clamped to frame 0.
+inline bool original_hud_xp_frame(std::int32_t xp, std::int32_t xp_for_level,
+                                  unsigned& frame) {
+    if (xp_for_level == 0) return false;
+    const auto scaled = static_cast<std::int32_t>(static_cast<std::uint32_t>(xp) * 100u);
+    const auto quotient = static_cast<std::int64_t>(scaled) / xp_for_level;
+    frame = quotient < 0 ? 0u : quotient > 99 ? 99u : static_cast<unsigned>(quotient);
+    return true;
+}
 
 // Real frame155 oval aperture, xmin,xmax,ymin,ymax in authored480x320 pixels.
 // Apply exactly the same uniform scale and origin used when drawing the HUD.

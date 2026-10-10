@@ -24,7 +24,7 @@ $castLoopPattern = '(?m)(?<=A wrong event/state/lifecycle rejection changed HP o
 if ([regex]::Matches($source, $castLoopPattern).Count -ne 1) { throw 'The BashDown animation loop anchor is missing or ambiguous' }
 $source = [regex]::Replace($source, $castLoopPattern, $heldCastLoop.TrimEnd("`r", "`n"))
 $anchor = '        // Normal progression/remapping occurs after the source bank and'
-if (($source.Split($anchor).Length - 1) -ne 1) { throw 'The connected Knight coordinator test anchor is missing or ambiguous' }
+if ((($source -split [regex]::Escape($anchor)).Length - 1) -ne 1) { throw 'The connected Knight coordinator test anchor is missing or ambiguous' }
 $probe = @'
         // B003: exercise the real Knight BashDown coordinator/Post and the
         // same CombatSession's held Space command after a neutral frame.

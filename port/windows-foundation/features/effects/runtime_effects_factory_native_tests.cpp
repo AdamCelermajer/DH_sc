@@ -744,15 +744,21 @@ int main(int argc, char** argv) {
             break;
         }
         if(timeline_view_found&&timeline_end>timeline_current) {
-            const auto remaining=timeline_end-timeline_current;
-            const std::array<double,4> fractions{{0.25,0.5,0.75,0.95}};
-            std::int32_t prior_ms=timeline_current;
-            for(double fraction:fractions) {
-                const auto phase_ms=static_cast<std::int32_t>(timeline_current+
-                    std::max(1.0,std::round(remaining*fraction)));
-                if(phase_ms<=prior_ms||phase_ms>timeline_end) continue;
-                check(factory->manager().scene_frame(phase_ms,phase_ms-prior_ms,error),
-                      "sample exact source FX scene timeline phase: "+error);
+            // B041: the source clock must stay monotonic. The earlier phases passed timeline-relative ms
+            // as absolute time, so the first call moved the clock backwards and pinned the timeline at its
+            // end (current_ms=333) for every phase. Step the real manager at 16 ms app frames from the last
+            // source absolute time instead, so the authored offset_u ramp (0 to 1 over 0..333 ms) plays as
+            // it does in the live path.
+            std::int32_t current_phase=timeline_current;
+            for(std::int32_t step=1;step<=64&&current_phase<timeline_end;++step) {
+                const auto phase_ms=static_cast<std::int32_t>(source_absolute_ms+16*step);
+                check(factory->manager().scene_frame(phase_ms,16,error),
+                      "sample source FX scene timeline at 16 ms app steps: "+error);
+                for(const auto& view:factory->manager().views()) {
+                    if(view.set!=emitted.source_sets.front()||view.pooled) continue;
+                    current_phase=view.current_ms;
+                    break;
+                }
                 std::shared_ptr<const EffectRenderFrame> phase_frame;
                 check(factory->runtime().prepare_render_frame(phase_frame,error),
                       "prepare source FX timeline phase packet: "+error);
@@ -769,8 +775,13 @@ int main(int argc, char** argv) {
                     }
                 }
                 later_phase_samples.push_back(phase);
-                phase_frame.reset();prior_ms=phase_ms;
+                phase_frame.reset();
             }
+            // B041: the bright band of the swoosh texture must be sampled at some phase of the life,
+            // otherwise the trail is black under additive blending in this path.
+            std::size_t bright_phases=0;
+            for(const auto& p:later_phase_samples) if(p.uv.nonblack_samples>0) ++bright_phases;
+            check(bright_phases>0,"B041: no source FX timeline phase samples the bright swoosh band");
         }
         check(RenderCpuFixture::submit(&cpu, frame, error), error);
         check(cpu.submissions == 1 && cpu.frame && cpu.frame->packets.size() == frame->packets.size(),

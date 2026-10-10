@@ -162,7 +162,581 @@
       "view_found": true,
       "sampled_later_phases": [
         {
-          "absolute_ms": 83,
+          "absolute_ms": 272,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 9,
+          "max_texture_channel": 53.041739,
+          "max_modulated_channel": 30.993017,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            0.79657084,
+            0.015435
+          ],
+          "uv_max": [
+            1.0768459,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.085434854,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 288,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 22,
+          "max_texture_channel": 117.91683,
+          "max_modulated_channel": 68.900427,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            0.88627744,
+            0.015435
+          ],
+          "uv_max": [
+            1.1665524,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.17514144,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 304,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 37,
+          "max_texture_channel": 140.18958,
+          "max_modulated_channel": 81.914698,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            0.97598398,
+            0.015435
+          ],
+          "uv_max": [
+            1.256259,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.26484802,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 320,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 46,
+          "max_texture_channel": 161.50345,
+          "max_modulated_channel": 94.368687,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.064607,
+            0.015435
+          ],
+          "uv_max": [
+            1.344882,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.35347101,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 336,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 49,
+          "max_texture_channel": 172.72773,
+          "max_modulated_channel": 100.92719,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.148767,
+            0.015435
+          ],
+          "uv_max": [
+            1.429042,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.43763101,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 352,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 47,
+          "max_texture_channel": 172.25784,
+          "max_modulated_channel": 100.65262,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.2371349,
+            0.015435
+          ],
+          "uv_max": [
+            1.51741,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.52599901,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 368,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 39,
+          "max_texture_channel": 173.03803,
+          "max_modulated_channel": 101.1085,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.3062521,
+            0.015435
+          ],
+          "uv_max": [
+            1.5865271,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.59511614,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 384,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 28,
+          "max_texture_channel": 172.40806,
+          "max_modulated_channel": 100.7404,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.3609312,
+            0.015435
+          ],
+          "uv_max": [
+            1.641206,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.64979511,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 400,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 23,
+          "max_texture_channel": 163.29732,
+          "max_modulated_channel": 95.41687,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.4156101,
+            0.015435
+          ],
+          "uv_max": [
+            1.6958851,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.70447409,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 416,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 14,
+          "max_texture_channel": 100.02349,
+          "max_modulated_channel": 58.445099,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.4679613,
+            0.015435
+          ],
+          "uv_max": [
+            1.7482363,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.75682533,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 432,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 5,
+          "max_texture_channel": 14.368324,
+          "max_modulated_channel": 8.3956095,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.5234685,
+            0.015435
+          ],
+          "uv_max": [
+            1.8037435,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.81233251,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 448,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.5789757,
+            0.015435
+          ],
+          "uv_max": [
+            1.8592507,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.86783969,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 464,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.634172,
+            0.015435
+          ],
+          "uv_max": [
+            1.9144468,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.92303592,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 480,
+          "packet_count": 1,
+          "uv_samples": 74,
+          "nonblack_uv_samples": 0,
+          "max_texture_channel": 0,
+          "max_modulated_channel": 0,
+          "projected_area_pixels": 7522.5206,
+          "world_aabb_min": [
+            -126.24099,
+            -389.54501,
+            7.1791101
+          ],
+          "world_aabb_max": [
+            294.302,
+            126.267,
+            472.76099
+          ],
+          "material_color": [
+            0.58431375,
+            0.58431375,
+            0.58431375,
+            1
+          ],
+          "uv_min": [
+            1.6880467,
+            0.015435
+          ],
+          "uv_max": [
+            1.9683218,
+            0.98738903
+          ],
+          "animated_matrix_2d": [
+            1,
+            0,
+            0,
+            1,
+            0.97691077,
+            0
+          ]
+        },
+        {
+          "absolute_ms": 496,
           "packet_count": 1,
           "uv_samples": 74,
           "nonblack_uv_samples": 0,
@@ -203,7 +777,7 @@
           ]
         },
         {
-          "absolute_ms": 167,
+          "absolute_ms": 512,
           "packet_count": 1,
           "uv_samples": 74,
           "nonblack_uv_samples": 0,
@@ -244,48 +818,7 @@
           ]
         },
         {
-          "absolute_ms": 250,
-          "packet_count": 1,
-          "uv_samples": 74,
-          "nonblack_uv_samples": 0,
-          "max_texture_channel": 0,
-          "max_modulated_channel": 0,
-          "projected_area_pixels": 7522.5206,
-          "world_aabb_min": [
-            -126.24099,
-            -389.54501,
-            7.1791101
-          ],
-          "world_aabb_max": [
-            294.302,
-            126.267,
-            472.76099
-          ],
-          "material_color": [
-            0.58431375,
-            0.58431375,
-            0.58431375,
-            1
-          ],
-          "uv_min": [
-            1.711136,
-            0.015435
-          ],
-          "uv_max": [
-            1.991411,
-            0.98738903
-          ],
-          "animated_matrix_2d": [
-            1,
-            0,
-            0,
-            1,
-            1,
-            0
-          ]
-        },
-        {
-          "absolute_ms": 316,
+          "absolute_ms": 528,
           "packet_count": 1,
           "uv_samples": 74,
           "nonblack_uv_samples": 0,

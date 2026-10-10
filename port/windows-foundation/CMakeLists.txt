@@ -68,6 +68,8 @@ target_link_libraries(foundation_data PUBLIC recovered_content content_xml dh2_f
 add_executable(dh-foundation main.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp render_queue.cpp overlay_renderer.cpp)
 target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp)
 target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v1.cpp)
+# B004/B029: OOI owner (500 ms candidate refresh) and live Session adapter for the rendered target marker.
+target_sources(dh-foundation PRIVATE features/combat/auto_target_marker_v1.cpp features/combat/object_of_interest_owner_v1.cpp features/combat/object_of_interest_world_v1.cpp)
 add_library(foundation_runtime_potion STATIC
   features/inventory/runtime_session_potion_use_v1.cpp
   ../level-world/character_skill_application_v6.cpp ../level-world/character_skill_attack_v6.cpp
@@ -83,6 +85,8 @@ target_sources(foundation_data PRIVATE ../game-data/skill_tables.cpp)
 add_library(foundation_runtime_audio STATIC
   features/audio/runtime_audio_host_v1.cpp features/audio/runtime_combat_audio_v1.cpp
   features/audio/runtime_session_audio_v1.cpp
+  # B040: original LevelConfig music name reader (main.cpp level music hook).
+  features/audio/level_music_v1.cpp
   features/audio/runtime_attack_sound_v1.cpp
   ${DH2_AUDIO_CONTROL_SOURCES}
   features/audio/feature_audio.cpp
@@ -531,6 +535,10 @@ target_sources(foundation_data PRIVATE ../engine-ui/hud_text_v1.cpp ../engine-ui
 add_executable(hud_geometry_tests tests/hud_geometry_tests.cpp)
 target_link_libraries(hud_geometry_tests PRIVATE foundation_data)
 add_test(NAME hud_geometry COMMAND hud_geometry_tests)
+# B038: original XP bar (shape 148/150) rendered-fill test; minimal addition beside hud_geometry.
+add_executable(hud_xp_bar_tests tests/hud_xp_bar_tests.cpp)
+target_link_libraries(hud_xp_bar_tests PRIVATE foundation_data)
+add_test(NAME hud_xp_bar COMMAND hud_xp_bar_tests)
 add_executable(character_menu_tests features/character_menu/character_menu_tests.cpp)
 target_link_libraries(character_menu_tests PRIVATE foundation_data)
 add_test(NAME character_menu COMMAND character_menu_tests)

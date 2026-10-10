@@ -20,6 +20,7 @@ import zlib
 ROOT = Path(__file__).resolve().parents[3]
 ROLES = {38: "portrait_warrior", 39: "portrait_rogue", 40: "portrait_mage",
          86: "hp_background", 88: "hp_fill", 143: "mp_background", 145: "mp_fill",
+         148: "xp_background", 150: "xp_fill",
          153: "player_overlay_a", 155: "player_overlay_b",
          92: "target_decoration", 128: "target_level_background"}
 IDENTITY = [1., 0., 0., 1., 0., 0.]
@@ -381,14 +382,14 @@ def collect_text(sprites, edits, char, parent, role="", depth=0):
     return result
 
 
-def collect_layers(sprites, shapes, char, parent, hp, mp, portrait, depth=0):
+def collect_layers(sprites, shapes, char, parent, hp, mp, portrait, depth=0, xp=0):
     if depth > 30:
         raise ValueError("Source sprite nesting bound")
     if char in shapes:
         return [(char,parent)]
     if char not in sprites:
         return []
-    frame = hp if char == 90 else mp if char == 147 else portrait if char == 41 else FRAME_OVERRIDES.get(char,0)
+    frame = hp if char == 90 else mp if char == 147 else xp if char == 152 else portrait if char == 41 else FRAME_OVERRIDES.get(char,0)
     if frame >= len(sprites[char]):
         raise ValueError("Source frame outside timeline")
     result = []
@@ -404,7 +405,7 @@ def collect_layers(sprites, shapes, char, parent, hp, mp, portrait, depth=0):
         child = p.get("character")
         if child is None:
             raise ValueError("Source placement missing character")
-        subset = collect_layers(sprites,shapes,child,multiply(parent,p["matrix"]),hp,mp,portrait,depth+1)
+        subset = collect_layers(sprites,shapes,child,multiply(parent,p["matrix"]),hp,mp,portrait,depth+1,xp)
         if subset:
             if p.get("clip_depth"):
                 raise ValueError("Selected original art requires a clipping mask")
@@ -510,15 +511,19 @@ def main():
                 raise ValueError("Selected HUD root requires source mask/color transform")
         parent = multiply(menu["matrix"],elements["matrix"])
         initial = collect_layers(sprites,shapes,elements["character"],parent,0,0,0)
-        static = [(char,m) for char,m in initial if char not in (38,39,40,88,145)]
+        # XP background (148) is appended after the HEAD static layers, never inserted among them:
+        # portrait_aperture_centre() and original_hud_portrait_bounds() read static_layers[style][3] (shape 155).
+        static = [(char,m) for char,m in initial if char not in (38,39,40,88,145,148,150)]
+        static += [(char,m) for char,m in initial if char == 148]
         dynamic = {}
-        for role, count in (("hp_fill",100),("mp_fill",100),("portrait",3)):
+        for role, count in (("hp_fill",100),("mp_fill",100),("xp_fill",100),("portrait",3)):
             values = []
             for frame in range(count):
                 layers = collect_layers(sprites,shapes,elements["character"],parent,
                                         frame if role == "hp_fill" else 0,
                                         frame if role == "mp_fill" else 0,
-                                        frame if role == "portrait" else 0)
+                                        frame if role == "portrait" else 0,
+                                        xp=frame if role == "xp_fill" else 0)
                 found = [(char,m) for char,m in layers if (char in (38,39,40) if role == "portrait" else ROLES[char] == role)]
                 if len(found) != 1:
                     raise ValueError("Required visible art must have one source layer")
@@ -617,10 +622,12 @@ def main():
         for char,_ in layout["initial_layers"]:
             if char == 88: order.append(-1)
             elif char == 145: order.append(-2)
+            elif char == 150: order.append(-4)
             elif char in (38,39,40): order.append(-3)
             else: order.append(next(i for i,(c,_) in enumerate(layout["static_layers"]) if c == char))
         cpp.append(f'const int order_{style}[]'+'{'+','.join(map(str,order))+'};')
     cpp += ['const Layer* hp_frames[]{hp_fill_0,hp_fill_1,hp_fill_2,hp_fill_3};',
+            'const Layer* xp_frames[]{xp_fill_0,xp_fill_1,xp_fill_2,xp_fill_3};',
             'const Layer* mp_frames[]{mp_fill_0,mp_fill_1,mp_fill_2,mp_fill_3};',
             'const Layer* portraits[]{portrait_0,portrait_1,portrait_2,portrait_3};',
             'const Layer* static_layers[]{static_0,static_1,static_2,static_3};',
@@ -631,11 +638,14 @@ def main():
             'const std::vector<HudShapeGeometry>& original_hud_shapes(){return shapes;}',
             'const std::vector<HudTargetMarkerArt>& original_target_marker_art(){return marker_art;}',
             *PORTRAIT_BOUNDS.splitlines(),
-            'bool compose_original_hud(unsigned style,unsigned hp,unsigned mp,unsigned portrait,HudGeometry& out,std::string& error){',
-            ' if(style>3||hp>99||mp>99||portrait>2){error="Original HUD layout/frame outside source domain";return false;}',
+            'namespace {',
+            '// xp_art=false omits source XP shapes 148/150 (legacy 6-argument compose_original_hud).',
+            'bool compose_hud(unsigned style,unsigned hp,unsigned mp,unsigned xp,unsigned portrait,bool xp_art,HudGeometry& out,std::string& error){',
+            ' if(style>3||hp>99||mp>99||xp>99||portrait>2){error="Original HUD layout/frame outside source domain";return false;}',
             ' try { HudGeometry result;',
             '  for(unsigned i=0;i<order_sizes[style];++i){const int index=orders[style][i];',
-            '   const Layer& layer=index==-1?hp_frames[style][hp]:index==-2?mp_frames[style][mp]:index==-3?portraits[style][portrait]:static_layers[style][index];',
+            '   const Layer& layer=index==-1?hp_frames[style][hp]:index==-2?mp_frames[style][mp]:index==-3?portraits[style][portrait]:index==-4?xp_frames[style][xp]:static_layers[style][index];',
+            '   if(!xp_art&&(layer.shape==148||layer.shape==150))continue;',
             '   const HudShapeGeometry* source=nullptr;for(const auto& shape:shapes)if(shape.shape_id==layer.shape){source=&shape;break;}',
             '   if(!source){error="Original HUD geometry missing";return false;}',
             '   HudGeometryBatch batch;batch.role=source->role;batch.shape_id=source->shape_id;batch.triangles.reserve(source->triangles.size());',
@@ -644,6 +654,13 @@ def main():
             '   result.batches.push_back(std::move(batch));',
             '  }out=std::move(result);error.clear();return true;',
             ' }catch(const std::bad_alloc&){error="Cannot allocate original HUD geometry";return false;}',
+            '}',
+            '} // namespace',
+            'bool compose_original_hud(unsigned style,unsigned hp,unsigned mp,unsigned portrait,HudGeometry& out,std::string& error){',
+            ' return compose_hud(style,hp,mp,0,portrait,false,out,error);',
+            '}',
+            'bool compose_original_hud(unsigned style,unsigned hp,unsigned mp,unsigned xp,unsigned portrait,HudGeometry& out,std::string& error){',
+            ' return compose_hud(style,hp,mp,xp,portrait,true,out,error);',
             '}',
             'bool compose_original_target_hud(unsigned hp,HudTargetGeometry& out,std::string& error){',
             ' if(hp>99){error="Original target HP frame outside source domain";return false;}',
@@ -691,13 +708,16 @@ def main():
     cpp_path.write_text("\n".join(cpp)+"\n",encoding="utf8")
     report_path = ROOT/"port/windows-foundation/reports/hud-source.json"
     report = json.loads(report_path.read_text(encoding="utf-8-sig"))
+    # Text-metric evidence written by the native text workflow, not by this exporter; keep it on rewrite.
+    previous_layout = report.get("geometry_export", {}).get("target", {}).get("plain_text_layout", {})
     report["geometry_export"] = {
         "source_sha256":hashlib.sha256(raw).hexdigest(),
         "tool":"port/windows-foundation/tools/export_hud_geometry.py",
         "cpp_sha256":hashlib.sha256(cpp_path.read_bytes()).hexdigest(),
         "curve_tolerance_twips":CURVE_TOLERANCE_TWIPS,
         "frame_convention":{"HP_MP":"Source native producer: percent-1, clamped to0..99; frame0empty,frame99full.",
-                            "cover_semantics":"Shape88/145 are shrinking covers; shrinking exposes original red/blue bar artwork.",
+                            "cover_semantics":"Shape88/145/150 are shrinking covers; shrinking exposes original red/blue/XP bar artwork.",
+                            "XP":"InfoHUDManager::FastUpdate 0x41e064: GotoFrame(bar_xp,min(99,100*resolved[33]/resolved[34])); no -1, frame0 empty. Char152 has101 frames; frame100 is never selected.",
                             "portrait":"Source frames0Warrior,1Rogue,2Mage."},
         "shape_records":list(shapes.values()), "layouts":layouts,
         "target":{"source_clip":142,"source_frame":FRAME_OVERRIDES[142],"labels":labels[142],"hp_frames":target_frames,
@@ -715,9 +735,12 @@ def main():
                           "rendering":"Original 3D BDAE model artwork on actor anchor; self-illumination and scale_with_anchor are original effect-step flags.",
                           "limits":"Effect animation/anchor scaling are runtime work; no substitute procedural circle should claim original art."},
         "validation":"Closed single source contours; ear tessellation triangle area matches contour area; original atlas UV inside0..1; source color/mask guards.",
-        "limits":["This export deliberately does not render text, XP timeline or action controls.",
+        "limits":["This export deliberately does not render text or action controls; the XP bar (char152, frames0..99) is driven by the compose_original_hud xp argument.",
                   "Source frame0 ancestor matrices exported; original AS viewport reflow and HUD activation animation remain external.",
                   "Masks/color transforms on selected art reject explicitly rather than approximating."]}
+    for key in ("native_verification", "source_font_metrics"):
+        if key in previous_layout:
+            report["geometry_export"]["target"]["plain_text_layout"].setdefault(key, previous_layout[key])
     report_path.write_text(json.dumps(report,indent=2)+"\n",encoding="utf8")
     print(json.dumps({"shapes":len(shapes),"source_triangles":sum(len(s["triangles"])//3 for s in shapes.values()),
                       "layouts":4,"hp_frames":100,"mp_frames":100,"portraits":3}))

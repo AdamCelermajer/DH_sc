@@ -17,6 +17,21 @@
       "sha256": "47d1460f473d1b7da29a9ea4f4aab598cda900980b6e1b7e8dbf06c338da4258"
     },
     {
+      "path": "data/sounds/m_level_swamp_sfx_swamp.vxn",
+      "size": 12278272,
+      "sha256": "980137ac5b032e5cee50e3f8e6940d31dbd5e0fd0d70346a5167d3c00567e0a8"
+    },
+    {
+      "path": "data/sounds/m_level_swamp_sfx_water.vxn",
+      "size": 12278272,
+      "sha256": "d386f78bbf031117d2b99e458ca5b2ff88e6252b1b4ea349883b3159587b7172"
+    },
+    {
+      "path": "data/sounds/m_level_swamp_sfx_witch.vxn",
+      "size": 12278272,
+      "sha256": "c3530cfea409d0cd855ffa070a49e9496bcb175dfd4a1c400f8437d6c43a0c0f"
+    },
+    {
       "path": "data/sounds/sfx_swoosh_sword_1_22.wav",
       "size": 15836,
       "sha256": "b4119576a8bd3f6536698b7d0b1f50a1ae2459182f3f55e15c9ad3bf79b1e779"

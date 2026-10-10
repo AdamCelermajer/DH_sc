@@ -36,3 +36,6 @@ port/android-native/reports/**/*.log
 port/engine-resources/reports/**/*-O1
 port/engine-resources/reports/**/*-O2
 port/engine-resources/reports/**/fixture-O[12]
+
+# Original audio payloads (large, licensed; staged from .local-inputs/audio-v34/cache)
+port/windows-foundation/features/audio/assets/data/sounds/*.vxn
