@@ -96,6 +96,61 @@ int main(int argc,char** argv){
       std::vector<std::int32_t>{objective.common[2]}:std::vector<std::int32_t>{};
   if(fixture.scripts!=expected)throw std::runtime_error("Objective completion script differs from source data");
   if(!quests.flush_current_level_detaches(error))throw std::runtime_error("receiver detach: "+error);
+
+  // Exercise the adjacent source-authored type-10 row through the same
+  // canonical ObjectiveList compiler/EventManager owner. The payload comes
+  // from the shipped v2quests table; only its live Level population provider
+  // is a bounded fixture.
+  std::uint32_t template_row=UINT32_MAX,template_ordinal=UINT32_MAX;
+  dh2_quest_objective template_definition{};
+  for(std::uint32_t row=0;row<view.count()&&template_row==UINT32_MAX;++row){
+   const auto* candidate=view.row(row);const auto* candidates=candidate?view.list(*candidate,1):nullptr;
+   if(!candidates||!candidates->definition)continue;
+   for(std::uint32_t ordinal=0;ordinal<candidates->definition->count;++ordinal){
+    dh2_quest_objective value{};
+    if(!view.objective(*candidates,ordinal,&value,error))throw std::runtime_error("read source objective while locating type 10: "+error);
+    if(value.common[0]==10){template_row=row;template_ordinal=ordinal;template_definition=value;break;}
+   }
+  }
+  if(template_row==UINT32_MAX||template_definition.args[0]<0||
+     template_definition.args[2]<=0)
+   throw std::runtime_error("selected source quest table has no usable KillEnemyTemplate objective");
+  auto* template_ref=save->source_quest_log_b8().quests[0][template_row];
+  auto* template_quest=quests.resolve(template_ref);
+  if(!template_ref||!template_quest)throw std::runtime_error("source type-10 QEST ref is not canonical");
+  dh2_pycst_result template_event_type{};constexpr char template_key[]="KillEnemyTemplate";
+  if(dh2_pycst_get(&constants.view,group,sizeof(group)-1,template_key,
+       sizeof(template_key)-1,&template_event_type)||!template_event_type.found)
+   throw std::runtime_error("KillEnemyTemplate event type missing");
+  Fixture template_fixture;template_fixture.level_id=template_definition.args[1]<0?
+      23:template_definition.args[1];template_fixture.count=1;
+  n::KillEnemyTemplatePopulationServicesV1 template_level{
+      &template_fixture,population,UINT64_C(0x620010)};
+  n::CombatObjectivePopulationServicesV1 template_population{};
+  template_population.kill_enemy_template=template_level;
+  template_quest->state_0=6;
+  if(!quests.compile_combat_objective_list_v1(template_ref->identity,
+       template_population,&template_fixture,start_script,error))
+   throw std::runtime_error("KillEnemyTemplate ObjectiveList Compile: "+error);
+  if(template_fixture.selector!=template_definition.args[0])
+   throw std::runtime_error("KillEnemyTemplate Compile queried a different source template ID");
+  for(std::int32_t progress=1;progress<=template_definition.args[2];++progress){
+   dh2::character_kill_quest_tail_v1::Event event{};
+   event.kind=dh2::character_kill_quest_tail_v1::Kind::kill_enemy_template;
+   event.objective_type=template_event_type.value;event.character_word_25=save->character();
+   event.source_word_24=static_cast<std::int16_t>(template_definition.args[0]);
+   event.source_subject=-1;
+   if(!quests.raise_character_kill_event(event,error))
+    throw std::runtime_error("source KillEnemyTemplate event: "+error);
+   if(event.source_subject!=progress||event.flag0!=1||event.flag1!=0)
+    throw std::runtime_error("KillEnemyTemplate saved-quantity progress differs from source event order");
+  }
+  const std::vector<std::int32_t> template_scripts=template_definition.common[2]>=0?
+      std::vector<std::int32_t>{template_definition.common[2]}:std::vector<std::int32_t>{};
+  if(template_fixture.scripts!=template_scripts)
+   throw std::runtime_error("KillEnemyTemplate completion script differs from source data");
+  if(!quests.flush_current_level_detaches(error))
+   throw std::runtime_error("KillEnemyTemplate receiver detach: "+error);
   // Row 1 is an authored, unsupported objective type. Compile must stop at
   // that exact dispatch; a subsequent state-6 Register pass must see it as
   // uncompiled and leave it dormant instead of inventing a receiver.
@@ -116,6 +171,9 @@ int main(int argc,char** argv){
    throw std::runtime_error("unsupported Objective was falsely marked compiled: "+error);
   other_quest->state_0=old_state;
   std::cout<<"PASS quest_row=23 objective_type=0 required="<<objective.args[2]
+           <<" template_row="<<template_row<<" template_ordinal="<<template_ordinal
+           <<" template_objective_type=10 required="
+           <<template_definition.args[2]
            <<" event_selector="<<objective.args[0]<<" unsupported_row=1 fail_closed\n";
   return 0;
  }catch(const std::exception& e){std::cerr<<e.what()<<"\n";return 1;}

@@ -14,6 +14,12 @@ public final class OriginalMusicVolumeTest {
         near(OriginalMusicVolume.gain(101), 1f, "upper clamp");
         near(OriginalMusicVolume.outputGain(0.35f, false), 0f, "focus loss mutes movie soundtrack");
         near(OriginalMusicVolume.outputGain(0.35f, true), 0.35f, "focus gain restores saved level");
+        near(OriginalMusicVolume.outputGain(0.35f, false, false), 0f,
+                "unknown startup focus stays muted until focus is granted");
+        near(OriginalMusicVolume.outputGain(0.35f, true, false), 0f,
+                "confirmed focus loss mutes movie soundtrack");
+        near(OriginalMusicVolume.outputGain(0f, false, true), 0f,
+                "saved music mute is preserved before focus is known");
         near(OriginalMusicVolume.outputGain(2f, true), 1f, "playback gain clamp");
         System.out.println("PASS: original music volume normalization");
     }

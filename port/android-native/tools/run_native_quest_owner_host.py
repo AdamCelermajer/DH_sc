@@ -38,11 +38,13 @@ def main():
  assert sum(Path(row['file']).resolve()==(ROOT/'port/pydata-constants/constants.c').resolve() for row in entries)==1
  source=ROOT/'port/android-native/app/src/main/cpp/native_quest_owner.cpp';test=ROOT/'port/android-native/tests'/('native_quest_owner_payload.cpp' if args.payload else 'native_quest_owner.cpp')
  cursor=source.with_name('native_quest_cursor.cpp')
+ character_list_source=ROOT/'port/android-native/app/src/main/cpp/native_character_list.cpp'
+ quest_completed_source=ROOT/'port/game-data/quest_update_completed_v1.cpp'
  profile_source=ROOT/'port/android-native/app/src/main/cpp/native_player_profile.cpp'
  profile_header=profile_source.with_suffix('.hpp')
  gameplay_header=ROOT/'port/level-world/character_gameplay_save_v1.hpp'
  kill_kernel=ROOT/'port/quest-kill/quest.c'
- evidence={source,source.with_suffix('.hpp'),source.with_name('native_current_level_character_population_v1.hpp'),cursor,cursor.with_suffix('.hpp'),profile_source,profile_header,gameplay_header,kill_kernel,test,Path(__file__).resolve()}
+ evidence={source,source.with_suffix('.hpp'),source.with_name('native_current_level_character_population_v1.hpp'),cursor,cursor.with_suffix('.hpp'),character_list_source,quest_completed_source,profile_source,profile_header,gameplay_header,kill_kernel,test,Path(__file__).resolve()}
  inputs=actual_dependencies(build,ninja,entries)|evidence
  before={path.relative_to(ROOT).as_posix():sha(path) for path in sorted(inputs)}
  dsos=sorted(library.parent.parent.rglob('*.dll'));binary_before={str(path):sha(path) for path in [library,world,*dsos]}
@@ -51,7 +53,7 @@ def main():
  files += [condition_cache/name for name in ['v2conditions_pyarray.bin','v2conditions_pyarraynames.bin','v2conditions_pystructnames.bin','v2conditions_pycst.bin']]
  cache_before={str(path.relative_to(cache.parent)):sha(path) for path in files}
  exe=out/'host.exe'
- command=[args.compiler,'-std=c++17','-Wall','-Wextra','-Werror','-O2','-I'+str(ROOT/'port/game-data'),'-I'+str(ROOT/'port/pydata-constants'),'-I'+str(ROOT/'port/level-world'),test,source,cursor,profile_source,kill_kernel,library,world,'-o',exe]
+ command=[args.compiler,'-std=c++17','-Wall','-Wextra','-Werror','-O2','-I'+str(ROOT/'port/game-data'),'-I'+str(ROOT/'port/pydata-constants'),'-I'+str(ROOT/'port/level-world'),'-I'+str(ROOT/'port/engine-animation'),'-I'+str(ROOT/'port/engine-skinning'),'-I'+str(ROOT/'port/scene-materials'),test,source,cursor,profile_source,character_list_source,quest_completed_source,kill_kernel,library,world,'-o',exe]
  run(command)
  live=env.copy();live['PATH']=os.pathsep.join([*(str(path.parent) for path in dsos),env['PATH']]);host=json.loads(run([exe,cache],live));assert host['validation']=='PASS'
  assert before=={path.relative_to(ROOT).as_posix():sha(path) for path in sorted(inputs)}

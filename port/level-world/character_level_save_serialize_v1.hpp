@@ -20,8 +20,8 @@ struct ByteSpan {
 struct View {
     std::uint32_t state_machine_state{};
     std::uint8_t is_player{};
-    ByteSpan properties_primary{};   // Structs::CharacterProperties, 1800 bytes.
-    ByteSpan properties_secondary{}; // Structs::CharacterProperties, 1800 bytes.
+    ByteSpan properties_primary{};   // Structs::CharacterProperties, 900 bytes.
+    ByteSpan properties_secondary{}; // Structs::CharacterProperties, 900 bytes.
     ByteSpan position{};             // Point3D<float>, 12 bytes.
     ByteSpan target_position{};       // Point3D<float>, 12 bytes.
     std::uint8_t dead{};

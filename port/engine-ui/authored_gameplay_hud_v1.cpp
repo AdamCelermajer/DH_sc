@@ -12,6 +12,7 @@
 #pragma clang diagnostic ignored "-Wignored-qualifiers"
 #endif
 #include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_sprite.h"
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
@@ -97,6 +98,48 @@ bool AuthoredGameplayHudV1::refresh_action_icon(std::string& error){
  return invoke("_root","FillActionIcon",{SwfAsValue::number(action_icon_)},error);
 }
 bool AuthoredGameplayHudV1::display(std::string& error){if(style_<0){error="Authored HUD is not bound";return false;}return with_authored_hud_edge_layout_v6(movie_,*this,[this](std::string& e){return movie_.display_source_clip(elements_.c_str(),e);},error);}
+bool AuthoredGameplayHudV1::enemy_visible(bool value,std::string& error){
+ if(style_<0){error="Authored HUD is not bound";return false;}
+ return movie_.set_visible((elements_+".HealthBars.enemy").c_str(),value,error);
+}
+bool AuthoredGameplayHudV1::enemy_label(const char* label,std::string& error){
+ if(style_<0||!label){error="Authored enemy HUD label unavailable";return false;}
+ return invoke(elements_+".HealthBars.enemy","gotoAndStop",{SwfAsValue::text(label)},error);
+}
+bool AuthoredGameplayHudV1::enemy_text(std::uint32_t index,const char* value,std::string& error){
+ if(style_<0||!value||(index!=20&&index!=21)){error="Authored enemy HUD text target unavailable";return false;}
+ const std::string path=elements_+(index==20?".HealthBars.enemy.enemy_name.text":".HealthBars.enemy.enemy_level.value");
+ struct Text{const std::string* path;const char* value;};Text q{&path,value};
+ return movie_.action_script(&q,[](void* p,SwfAsGraph& g,std::string& e){
+  auto& q=*static_cast<Text*>(p);SwfAsValue root,target;bool accepted{};
+  if(!g.root_value(root,e)||!g.find_target(root,q.path->c_str(),target,e)||
+     !g.set_member(target,"text",SwfAsValue::text(q.value),accepted,e))return false;
+  if(!accepted)e="Required authored enemy HUD text setter";
+  return accepted;
+ },error);
+}
+bool AuthoredGameplayHudV1::enemy_frame(std::int32_t value,bool play,std::string& error){
+ if(style_<0){error="Authored HUD is not bound";return false;}
+ const auto path=elements_+".HealthBars.enemy.HpBar.bar_hp";
+ if(!frame(path,value,error))return false;
+ return !play||invoke(path,"play",{},error);
+}
+bool AuthoredGameplayHudV1::enemy_play(std::string& error){
+ if(style_<0){error="Authored HUD is not bound";return false;}
+ return invoke(elements_+".HealthBars.enemy.HpBar.bar_hp","play",{},error);
+}
+bool AuthoredGameplayHudV1::enemy_bar_is_sprite(bool& result,std::string& error){
+ if(style_<0){error="Authored HUD is not bound";return false;}
+ const auto path=elements_+".HealthBars.enemy.HpBar.bar_hp";
+ struct Sprite{const std::string* path;bool* result;};Sprite q{&path,&result};
+ return movie_.action_script(&q,[](void* p,SwfAsGraph& g,std::string& e){
+  auto& q=*static_cast<Sprite*>(p);SwfAsValue root,value;gameswf::as_object* object{};
+  if(!g.root_value(root,e)||!g.find_target(root,q.path->c_str(),value,e)||
+     !g.borrow_object(value,object,e))return false;
+  *q.result=object&&object->is(gameswf::sprite_instance::m_class_id);
+  return true;
+ },error);
+}
 bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,std::int32_t cls,bool dpad,std::string& error){
  if(style_<0){error="Authored HUD is not bound";return false;}
  struct Text{const std::string path;const std::string value;};Text text{controls_[2]+".cnt.value",std::to_string(infos[14])};
@@ -120,12 +163,10 @@ bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,std:
     if(!g.to_number(id,number,e)){if(e.empty())e="Fixed-layout HUD SlotId is not numeric";return false;}
     *q.slot=number>=0&&number<=2?static_cast<unsigned>(number):0;return true;},error))return false;
   }
-  // The authored HUD hides the entire button for an empty Save slot. Keep its
-  // original blank icon/button shell visible; the source Grey overlay below
-  // remains visible because empty slots project as unusable. The release
-  // callback still reaches NativeHUDSkill and its canonical Save-slot gate.
-  if(!movie_.set_visible(controls_[4+n].c_str(),true,error)||
-     !frame(controls_[4+n]+".CoolDown",std::max(infos[8+slot*2]-1,0),error)||
+  // FastUpdate owns only the cooldown/Grey projection. setSkillsButtons and
+  // onButtonSet own the button's visibility and selected icon; changing that
+  // visibility here exposes blank icons for empty Save slots.
+  if(!frame(controls_[4+n]+".CoolDown",std::max(infos[8+slot*2]-1,0),error)||
      !movie_.set_visible((controls_[4+n]+".Grey").c_str(),!infos[9+slot*2],error))return false;
  }
  return true;

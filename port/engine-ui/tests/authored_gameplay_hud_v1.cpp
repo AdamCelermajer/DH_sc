@@ -132,14 +132,18 @@ int main(){try{Test t;t.base="port/android-native/app/src/main/assets/original-c
  // Empty slots are represented by source -1 values. In fixed layouts the
  // SWF omits SlotId from blank buttons, which must not abort the HUD update.
  auto empty_skills=values;for(unsigned n=6;n<14;++n)empty_skills[n]=0;
- for(int style=2;style<4;++style){require(hud.bind(style,e),e);require(hud.update(empty_skills,290,true,e),e);
+ for(int style=2;style<4;++style){require(hud.bind(style,e),e);
+  std::array<bool,3> source_visibility{};
+  for(unsigned n=0;n<3;++n){SwfClipInfo before_update;require(movie.clip(hud.control_path(static_cast<AuthoredHudControlV1>(4+n)).c_str(),before_update,e),e);source_visibility[n]=before_update.visible;}
+  if(style==2)require(!source_visibility[0]&&!source_visibility[1]&&!source_visibility[2],
+                      "authored onPush must hide all three empty Save-slot buttons");
+  require(hud.update(empty_skills,290,true,e),e);
   for(unsigned n=0;n<3;++n){const auto path=hud.control_path(static_cast<AuthoredHudControlV1>(4+n));
    SwfClipInfo slot,icon,cooldown,grey;
    require(movie.clip(path.c_str(),slot,e),e);require(movie.clip((path+".btimg").c_str(),icon,e),e);
    require(movie.clip((path+".CoolDown").c_str(),cooldown,e),e);require(movie.clip((path+".Grey").c_str(),grey,e),e);
-   require(slot.visible&&icon.visible,
-           "empty fixed-layout skill row must retain authored button and icon shell | "+path+
-           " | button "+std::to_string(slot.visible)+" icon "+std::to_string(icon.visible));
+   require(slot.visible==source_visibility[n],
+           "FastUpdate must preserve setSkillsButtons/onButtonSet source visibility | "+path);
    require(cooldown.frame==0,"empty fixed-layout skill row must render zero cooldown");
    require(grey.visible,"empty fixed-layout skill row must remain visibly disabled");
   }

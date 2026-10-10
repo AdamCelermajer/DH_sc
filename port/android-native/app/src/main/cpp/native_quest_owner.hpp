@@ -143,13 +143,18 @@ struct ClearEnemyTemplatePopulationServicesV1 {
                                        std::string&)=nullptr;
  std::uintptr_t expected_level_identity=0;
 };
+// KillEnemyTemplate uses the same source TestCharTemplate query contract as
+// ClearEnemyTemplate. Keep the names distinct at the call site while sharing
+// the snapshot and callback ABI owned by the current-Level provider.
+using KillEnemyTemplatePopulationServicesV1=ClearEnemyTemplatePopulationServicesV1;
 // One source ObjectiveList::Compile pass can dispatch the recovered kill,
-// clear, and template-clear leaves while all population queries still borrow
-// the exact active Level/EventManager pair. Missing per-kind providers fail
-// closed only if that Objective kind is reached.
+// clear, and template-kill/clear leaves while all population queries still
+// borrow the exact active Level/EventManager pair. Missing per-kind providers
+// fail closed only if that Objective kind is reached.
 struct CombatObjectivePopulationServicesV1 {
  KillEnemiesPopulationServicesV1 kill_enemies{};
  ClearEnemiesPopulationServicesV1 clear_enemies{};
+ KillEnemyTemplatePopulationServicesV1 kill_enemy_template{};
  ClearEnemyTemplatePopulationServicesV1 clear_enemy_template{};
 };
 // Source ObjectiveList::GetDesc semantics: preserve child order, resolve only
@@ -347,6 +352,23 @@ public:
                                       const ClearEnemyTemplatePopulationServicesV1&,
                                       void* script_context,
                                       KillObjectiveStartScript,
+                                      std::string&);
+ // KillEnemyTemplate uses the original TestCharTemplate availability query,
+ // then tracks saved quantity through the canonical Character::Kill event.
+ bool compile_kill_enemy_template_objective_from_level(
+                                      std::uintptr_t quest_identity,
+                                      std::uint32_t objective_ordinal,
+                                      const KillEnemyTemplatePopulationServicesV1&,
+                                      void* script_context,
+                                      KillObjectiveStartScript,
+                                      std::string&);
+ bool register_kill_enemy_template_objective(std::uintptr_t quest_identity,
+                                      std::uint32_t objective_ordinal,
+                                      void* script_context,
+                                      KillObjectiveStartScript,
+                                      std::string&);
+ bool unregister_kill_enemy_template_objective(std::uintptr_t quest_identity,
+                                      std::uint32_t objective_ordinal,
                                       std::string&);
  bool register_clear_enemy_template_objective(std::uintptr_t quest_identity,
                                       std::uint32_t objective_ordinal,

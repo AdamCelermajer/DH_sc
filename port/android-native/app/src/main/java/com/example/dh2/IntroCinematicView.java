@@ -67,7 +67,8 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
     private boolean finished;
     private int resumePositionMs;
     private float musicVolume = 1f;
-    private boolean audioFocusGained = true;
+    private boolean audioFocusGained;
+    private boolean audioFocusKnown;
 
     IntroCinematicView(Context context, Runnable onFinished) {
         this(context, null, onFinished);
@@ -199,6 +200,7 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
     }
 
     void setAudioFocusGained(boolean gained) {
+        audioFocusKnown = true;
         audioFocusGained = gained;
         applyMusicVolume();
     }
@@ -206,7 +208,7 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
     private void applyMusicVolume() {
         if (player != null && prepared) {
             try {
-                float output = OriginalMusicVolume.outputGain(musicVolume, audioFocusGained);
+                float output = OriginalMusicVolume.outputGain(musicVolume, audioFocusKnown, audioFocusGained);
                 player.setVolume(output, output);
             } catch (IllegalStateException e) {
                 Log.w(TAG, "Could not apply opening movie music volume", e);
@@ -241,7 +243,7 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
                     .setUsage(AudioAttributes.USAGE_MEDIA)
                     .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
                     .build());
-            float outputVolume = OriginalMusicVolume.outputGain(musicVolume, audioFocusGained);
+            float outputVolume = OriginalMusicVolume.outputGain(musicVolume, audioFocusKnown, audioFocusGained);
             candidate.setVolume(outputVolume, outputVolume);
             candidate.setOnVideoSizeChangedListener((mp, width, height) -> {
                 videoWidth = width;
@@ -261,8 +263,22 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
             candidate.setOnPreparedListener(mp -> {
                 if (finished || player != mp) return;
                 prepared = true;
-                float output = OriginalMusicVolume.outputGain(musicVolume, audioFocusGained);
+                float output = OriginalMusicVolume.outputGain(musicVolume, audioFocusKnown, audioFocusGained);
                 mp.setVolume(output, output);
+                boolean hasAudioTrack = false;
+                try {
+                    for (MediaPlayer.TrackInfo track : mp.getTrackInfo()) {
+                        if (track.getTrackType() == MediaPlayer.TrackInfo.MEDIA_TRACK_TYPE_AUDIO) {
+                            hasAudioTrack = true;
+                            break;
+                        }
+                    }
+                } catch (IllegalStateException ignored) {
+                    // Preparation is complete; track diagnostics are best effort.
+                }
+                Log.i(TAG, "Opening movie prepared | asset=" + selectedAsset + " | audioTrack=" + hasAudioTrack
+                        + " | musicGain=" + musicVolume + " | focusKnown=" + audioFocusKnown
+                        + " | focusGained=" + audioFocusGained + " | outputGain=" + output);
                 videoWidth = mp.getVideoWidth();
                 videoHeight = mp.getVideoHeight();
                 fitVideo();

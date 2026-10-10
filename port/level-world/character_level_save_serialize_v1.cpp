@@ -4,7 +4,9 @@
 
 namespace dh2::character_level_save_serialize_v1 {
 namespace {
-constexpr std::size_t kPropertyBytes = 1800;
+// ARM32 writeAs<Structs::CharacterProperties> at 0x3a3ad0 writes 900
+// bytes per image, including its first word and 224 property words.
+constexpr std::size_t kPropertyBytes = 900;
 constexpr std::size_t kVectorBytes = 12;
 
 void* canonical_component(const character_runtime_factory_v1::Record& record,

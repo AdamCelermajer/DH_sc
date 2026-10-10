@@ -1,6 +1,7 @@
 #include "original_ui_session.hpp"
 #include "gameplay_main_menu_request_v1.hpp"
 #include "../../../../../engine-ui/inventory_click_binding_v1.hpp"
+#include "../../../../../engine-ui/hud_manager.hpp"
 #include "../../../../../engine-ui/native_use_potion_call_v1.hpp"
 #include "menu_class_selection_v1.hpp"
 #include "original_ui_assets.hpp"
@@ -71,6 +72,7 @@ extern "C" {
 #include <deque>
 #include <cmath>
 #include <vector>
+#include <filesystem>
 
 namespace dh2::android_ui {
 namespace {
@@ -78,6 +80,15 @@ constexpr const char* tag="DH2Native";
 constexpr const char* panel="_root.menu_HUD_0.HUDelements.HealthBars.player";
 constexpr const char* hud_sha="a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238";
 struct AssetClose {void operator()(AAsset* value)const{if(value)AAsset_close(value);}};
+bool valid_private_directory(const std::string& directory,std::string& error,const char* diagnostic){
+    if(directory.empty()||directory.find('\0')!=std::string::npos){error=diagnostic;return false;}
+    const auto path=std::filesystem::u8path(directory);
+    if(!path.is_absolute()||path==path.root_path()||path.filename().empty()){
+        error=diagnostic;return false;
+    }
+    for(const auto& component:path)if(component==".."){error=diagnostic;return false;}
+    return true;
+}
 }
 struct OriginalUiSession::Impl {
     AAssetManager* manager{};
@@ -146,6 +157,8 @@ struct OriginalUiSession::Impl {
     bool gameplay_multitouch_enabled=false;
     std::int32_t hud_style=-1;
     model_renderer::UiPlayerHudProjectionV1 gameplay_hud_state{};
+    ui::HudManagerState gameplay_enemy_hud_state{};
+    std::uintptr_t gameplay_enemy_hud_player_identity{};
     ui::GameplayHudUsableRefreshV1 gameplay_hud_usable_refresh;
     bool gameplay_hud_projection_warned=false;
     bool inventory_callback_probe_logged=false;
@@ -853,6 +866,7 @@ struct OriginalUiSession::Impl {
         const dh2::data::ItemTextRequestV5& request,dh2::data::ItemTextResponseV5& reply,
         std::string& output,std::string& error){
         auto& self=*static_cast<Impl*>(context);
+        if(!self.ensure_localization_ready(error))return false;
         using Op=dh2::data::ItemTextOperationV5;
         if(request.operation==Op::constant){
             std::uint32_t raw=0;
@@ -2695,26 +2709,39 @@ struct OriginalUiSession::Impl {
         __android_log_print(ANDROID_LOG_INFO,tag,"Original shared renderer frame/history bound before root construction");
         return true;
     }
-    bool load(std::string& error) {
-        unsigned constant_index=0;
-        for(const auto* uri:{"data/pydata/common_text_pycst.bin","data/fonts_pycst.bin","data/design_pycst.bin",
-                             "source-data/font-palette/loot_audiovisual_pycst.bin"}) {
-            std::vector<std::uint8_t> bytes;
-            if(std::strcmp(uri,"data/pydata/common_text_pycst.bin")!=0){if(!raw_asset(uri,bytes,error))return false;}
-            else if(!assets.read(uri,bytes,error))return false;
-            dh2_pycst_view view{};
-            if(dh2_pycst_open(&view,bytes.data(),static_cast<std::uint32_t>(bytes.size()))!=0){error="Required UI constants load failed";return false;}
-            constant_bytes[constant_index]=std::move(bytes);
-            constants[constant_index]=view;++constant_index;
+    bool ensure_localization_ready(std::string& error) {
+        if(localization.ready()){error.clear();return true;}
+        std::array<std::vector<std::uint8_t>,4> next_constant_bytes;
+        std::array<dh2_pycst_view,4> next_constants{};
+        const char* constant_uris[]={"data/pydata/common_text_pycst.bin","data/fonts_pycst.bin",
+            "data/design_pycst.bin","source-data/font-palette/loot_audiovisual_pycst.bin"};
+        for(unsigned i=0;i<4;++i){
+            if(i==0){if(!assets.read(constant_uris[i],next_constant_bytes[i],error))return false;}
+            else if(!raw_asset(constant_uris[i],next_constant_bytes[i],error))return false;
+            if(dh2_pycst_open(&next_constants[i],next_constant_bytes[i].data(),
+                static_cast<std::uint32_t>(next_constant_bytes[i].size()))!=0){
+                error="Required UI constants load failed";return false;
+            }
         }
+        std::array<std::vector<std::uint8_t>,3> metadata;
+        const char* metadata_uris[]={"data/pydata/common_text_pyarray.bin",
+            "data/pydata/common_text_pyarraynames.bin","data/pydata/common_text_pystructnames.bin"};
+        for(unsigned i=0;i<3;++i)if(!assets.read(metadata_uris[i],metadata[i],error))return false;
+        ui::Localization next_localization;
+        if(!next_localization.load({metadata[0].data(),metadata[0].size()},
+            {metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
+        constant_bytes=std::move(next_constant_bytes);
+        constants=next_constants;
+        localization=std::move(next_localization);
+        error.clear();return true;
+    }
+    bool load(std::string& error) {
+        if(!ensure_localization_ready(error))return false;
         if(!raw_asset("source-data/font-palette/fonts_pyarray.bin",font_palette_bytes,error))return false;
         std::uint32_t font_probe=0;
         if(!ui::font_palette_text_color_at_index_v1(font_palette_bytes.data(),font_palette_bytes.size(),
                                                      0,font_probe,error))return false;
         std::array<std::vector<std::uint8_t>,3> metadata;
-        const char* uris[]={"data/pydata/common_text_pyarray.bin","data/pydata/common_text_pyarraynames.bin","data/pydata/common_text_pystructnames.bin"};
-        for(unsigned i=0;i<3;++i)if(!assets.read(uris[i],metadata[i],error))return false;
-        if(!localization.load({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
         if(front_screen=="main"){
             const char* suffixes[]={"_pyarray.bin","_pyarraynames.bin","_pystructnames.bin"};
             for(unsigned i=0;i<3;++i)if(!raw_asset((std::string("data/character_properties")+suffixes[i]).c_str(),metadata[i],error))return false;
@@ -2832,7 +2859,7 @@ struct OriginalUiSession::Impl {
         if(hud_style<0||hud_style>3){error="Saved HUDStyle is outside the four authored Android layouts";return false;}
         if(!font_failure.empty()){error=font_failure;return false;}
         gameplay_hud=std::make_unique<ui::AuthoredGameplayHudV1>(*movie);
-        gameplay_hud_bound=false;gameplay_hud_pointer=-1;
+        gameplay_hud_bound=false;gameplay_hud_pointer=-1;gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;
         // DisplayRightHud performs the original selected-HUD onPush then
         // onShow sequence, including the skill/faery refresh. Do not call
         // refresh_skills() again: it would replay onPush outside that order.
@@ -2914,7 +2941,7 @@ struct OriginalUiSession::Impl {
     }
     bool reset_failed(std::string& error) {
         front_name_input_active.store(false,std::memory_order_release);
-        gpu.abort();gameplay_hud.reset();gameplay_hud_bound=false;gameplay_hud_pointer=-1;authored_joystick={};authored_joystick_ready=false;
+        gpu.abort();gameplay_hud.reset();gameplay_hud_bound=false;gameplay_hud_pointer=-1;gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;authored_joystick={};authored_joystick_ready=false;
         status.reset();character_menu_movie.reset();shared_menu_movie.reset();movie.reset();
         character_frame_owner.reset();shared_frame_owner.reset();frame_owner.reset();fonts.reset();loaded=false;selected=false;
         last_width=last_height=0;loading_bitmap_reported=false;reported_frames={{-1,-1,-1,-1,-1}};
@@ -3247,7 +3274,7 @@ bool OriginalUiSession::initialize(AAssetManager* manager,std::string& error) {
 }
 bool OriginalUiSession::load_front_screen(const std::string& directory,const std::string& screen,std::string& error) {
     if(screen!="main"&&screen!="loading"){error="Unknown authored front screen";return false;}
-    if(directory.empty()||directory.front()!='/'){error="Required private UI files directory unavailable";return false;}
+    if(!valid_private_directory(directory,error,"Required private UI files directory unavailable"))return false;
     // The development return from gameplay starts one fresh authored main
     // movie after a consumed gameplay handoff. An open authored Start clip
     // retains its timeline through GL recreation without restarting the UI.
@@ -3271,7 +3298,7 @@ bool OriginalUiSession::load_health_panel(const std::string& directory,std::stri
     if(!impl_->front_screen.empty()){if(!impl_->reset_failed(error))return false;impl_->front_screen.clear();}
     impl_->selected=false;
     impl_->live_player=false;
-    if(directory.empty()||directory.front()!='/'){error="Required private UI files directory unavailable";return false;}
+    if(!valid_private_directory(directory,error,"Required private UI files directory unavailable"))return false;
     impl_->directory=directory;
     const bool retained=impl_->loaded;
     if(!impl_->loaded&&!impl_->load(error)){
@@ -3476,7 +3503,7 @@ bool OriginalUiSession::resume_front_after_start_failure(std::string& error){
 
 bool OriginalUiSession::attach_player(const std::string& directory,std::string& error){
     error.clear();
-    if(directory.empty()||directory.front()!='/'){error="Required private HUD directory unavailable";return false;}
+    if(!valid_private_directory(directory,error,"Required private HUD directory unavailable"))return false;
     if(!impl_->settings||!impl_->settings->has_option("HUDStyle")){
         error="Gameplay HUD requires the retained Application settings owner and HUDStyle";return false;
     }
@@ -3507,7 +3534,7 @@ bool OriginalUiSession::attach_player(const std::string& directory,std::string& 
     impl_->hud_style=hud_style;
     impl_->directory=directory;impl_->live_player=true;impl_->selected=true;impl_->report_frame=true;
     if(!retain_loaded_gameplay_ui){
-        impl_->gameplay_hud_bound=false;impl_->gameplay_hud_pointer=-1;
+        impl_->gameplay_hud_bound=false;impl_->gameplay_hud_pointer=-1;impl_->gameplay_enemy_hud_state={};impl_->gameplay_enemy_hud_player_identity=0;
     }else{
         __android_log_print(ANDROID_LOG_INFO,tag,
             "Gameplay HUD binding retained across surface recreation | style %d | movie %p | status %p",
@@ -3614,6 +3641,109 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                         "Gameplay HUD action icon update failed without a diagnostic");
                 require(self.gameplay_hud->update(projection.infos,projection.class_id,dpad,error),
                         "Gameplay HUD state update failed without a diagnostic");
+                model_renderer::UiEnemyHudProjectionV1 enemy_projection{};
+                require(model_renderer::ui_player_enemy_hud_projection(
+                            identity,enemy_projection,error),
+                        "Gameplay enemy HUD target projection failed without a diagnostic");
+                ui::HudManagerActor enemy_ai{},enemy_character{},enemy_player{};
+                const auto bind_enemy_actor=[](const model_renderer::UiEnemyHudActorV1& source,
+                                                ui::HudManagerActor& target){
+                    target.name_symbol=static_cast<std::uint32_t>(source.name_symbol);
+                    target.debug_name=source.debug_name;target.network_id=source.network_id;
+                    target.identity=source.identity;
+                };
+                if(enemy_projection.ai_target.present)
+                    bind_enemy_actor(enemy_projection.ai_target,enemy_ai);
+                if(enemy_projection.character_target.present)
+                    bind_enemy_actor(enemy_projection.character_target,enemy_character);
+                enemy_player.identity=enemy_projection.player_identity;
+                enemy_player.target=enemy_projection.character_target.present?&enemy_character:nullptr;
+                struct EnemyHudContext {
+                    OriginalUiSession* owner;
+                    ui::AuthoredGameplayHudV1* hud;
+                    const model_renderer::UiEnemyHudProjectionV1* projection;
+                    ui::HudManagerActor* player;
+                    ui::HudManagerActor* ai;
+                    ui::HudManagerActor* character;
+                    std::string localized,error;
+                } enemy_context{this,self.gameplay_hud.get(),&enemy_projection,
+                                &enemy_player,&enemy_ai,&enemy_character,{},{}};
+                const ui::HudManagerServices enemy_services{&enemy_context,
+                    +[](void* opaque,ui::HudManagerState*,const ui::HudManagerRequest* request,
+                        ui::HudManagerResponse* response)->int {
+                        auto& context=*static_cast<EnemyHudContext*>(opaque);
+                        if(!request||!response)return 0;
+                        const auto actor_for=[&](std::uintptr_t subject)->const model_renderer::UiEnemyHudActorV1*{
+                            if(subject==reinterpret_cast<std::uintptr_t>(context.ai)&&
+                               context.projection->ai_target.present)return &context.projection->ai_target;
+                            if(subject==reinterpret_cast<std::uintptr_t>(context.character)&&
+                               context.projection->character_target.present)return &context.projection->character_target;
+                            return nullptr;
+                        };
+                        const auto fail=[&](const char* message){context.error=message;return 0;};
+                        switch(request->operation){
+                        case ui::HudManagerOperation::cache_get:
+                            if(request->index<19||request->index>22)return fail("Enemy HUD requested an unexpected cache slot");
+                            response->identity=request->index+1;return 1;
+                        case ui::HudManagerOperation::is_dead:
+                            if(request->subject!=reinterpret_cast<std::uintptr_t>(context.player))return fail("Enemy HUD dead check escaped the local player");
+                            response->value=context.projection->player_dead?1:0;return 1;
+                        case ui::HudManagerOperation::target_character:
+                            if(request->subject!=reinterpret_cast<std::uintptr_t>(context.player))return fail("Enemy HUD target query escaped the local player");
+                            response->identity=context.projection->ai_target.present?reinterpret_cast<std::uintptr_t>(context.ai):0;return 1;
+                        case ui::HudManagerOperation::is_character:
+                        case ui::HudManagerOperation::is_monster:
+                        case ui::HudManagerOperation::is_boss:
+                        case ui::HudManagerOperation::level:
+                        case ui::HudManagerOperation::hp_fraction:{
+                            const auto* actor=actor_for(request->subject);if(!actor)return fail("Enemy HUD queried an unknown borrowed Character view");
+                            if(request->operation==ui::HudManagerOperation::is_character)response->value=actor->is_character;
+                            else if(request->operation==ui::HudManagerOperation::is_monster)response->value=actor->is_monster;
+                            else if(request->operation==ui::HudManagerOperation::is_boss)response->value=actor->is_boss;
+                            else if(request->operation==ui::HudManagerOperation::level)response->value=actor->level;
+                            else response->fraction=actor->hp_fraction;
+                            return 1;
+                        }
+                        case ui::HudManagerOperation::string_symbol:
+                            if(!actor_for(request->subject))return fail("Enemy HUD localized a non-target Character");
+                            if(!context.owner->source_combat_text_string(request->value,context.localized,context.error))return 0;
+                            response->text=context.localized.c_str();return 1;
+                        case ui::HudManagerOperation::debug_load:return 1;
+                        case ui::HudManagerOperation::debug_switch:response->value=0;return 1;
+                        case ui::HudManagerOperation::visible:
+                            if(request->index!=19)return fail("Enemy HUD visibility target differs from authored source");
+                            return context.hud->enemy_visible(request->value!=0,context.error)?1:0;
+                        case ui::HudManagerOperation::goto_label:
+                            if(request->index!=19||!request->text)return fail("Enemy HUD label target differs from authored source");
+                            return context.hud->enemy_label(request->text,context.error)?1:0;
+                        case ui::HudManagerOperation::text:
+                            if(!request->text)return fail("Enemy HUD text payload is missing");
+                            return context.hud->enemy_text(request->index,request->text,context.error)?1:0;
+                        case ui::HudManagerOperation::sprite_type:{
+                            if(request->index!=22)return fail("Enemy HUD sprite target differs from authored source");
+                            bool sprite=false;if(!context.hud->enemy_bar_is_sprite(sprite,context.error))return 0;
+                            response->value=sprite?1:0;return 1;
+                        }
+                        case ui::HudManagerOperation::goto_frame:
+                            if(request->index!=22)return fail("Enemy HUD frame target differs from authored source");
+                            return context.hud->enemy_frame(request->value,false,context.error)?1:0;
+                        case ui::HudManagerOperation::play_state:
+                            if(request->index!=22||request->value!=1)return fail("Enemy HUD play-state request is unsupported");
+                            return context.hud->enemy_play(context.error)?1:0;
+                        default:return fail("Enemy HUD source kernel requested an unadapted operation");
+                        }
+                    }};
+                if(self.gameplay_enemy_hud_player_identity!=identity){
+                    self.gameplay_enemy_hud_state.cached_target_identity=0;
+                    self.gameplay_enemy_hud_player_identity=identity;
+                }
+                self.gameplay_enemy_hud_state.render_fx=self.movie->player_identity();
+                const auto enemy_result=dh2_ui_hud_enemy_v1(
+                    &self.gameplay_enemy_hud_state,&enemy_player,&enemy_services);
+                if(enemy_result){
+                    error=enemy_context.error.empty()?"Authored enemy HUD source projection failed":enemy_context.error;
+                    throw std::runtime_error(error);
+                }
                 self.gameplay_hud_state=projection;
                 if(refresh_usable)self.gameplay_hud_usable_refresh.refreshed(now);
                 self.gameplay_hud_projection_warned=false;

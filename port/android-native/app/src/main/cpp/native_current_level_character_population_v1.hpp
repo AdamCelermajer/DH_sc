@@ -35,6 +35,21 @@ inline bool bind_existing_character_property_cache(
     return true;
 }
 
+inline bool bind_existing_character_caches(
+    std::uintptr_t character_identity, std::int16_t* property_cache,
+    std::int16_t* template_cache, SafeGetBindings& output,
+    std::string& error) {
+    if (!bind_existing_character_property_cache(character_identity,
+            property_cache, output, error)) return false;
+    if (!template_cache || template_cache == property_cache) {
+        output = {};
+        error = "Character SafeGet template cache binding is incomplete";
+        return false;
+    }
+    output.template_cache = template_cache;
+    return true;
+}
+
 // Adapter for the existing ObjectManager-keyed Character factory. The factory
 // Record owns the source +0x13c8 halfword cache; this helper borrows it and
 // deliberately supplies no invented template/RNG/Save services. A cache hit
@@ -153,7 +168,7 @@ class Provider final {
 
     bool query(std::uintptr_t expected_event_owner,
                std::uintptr_t expected_level_identity,
-               std::int32_t property_id,
+               std::int32_t selector, bool by_template,
                quests::ClearEnemiesPopulationSnapshotV1& snapshot,
                std::string& error) {
         if (busy_) { error = "Current-Level Character population provider is reentrant"; return false; }
@@ -173,9 +188,14 @@ class Provider final {
             b.oid_cache->character_table_size() != b.character_table_size) {
             error = "Current-Level Character population owner is stale"; return false;
         }
-        if (property_id < 0 ||
-            static_cast<std::uint32_t>(property_id) >= b.character_table_size) {
-            error = "Current-Level Character property selector is outside CharacterTable"; return false;
+        if (by_template && !b.safe_get_bindings) {
+            error = "TestCharTemplate requires the canonical SafeGet template-cache provider"; return false;
+        }
+        if ((!by_template && (selector < 0 ||
+                static_cast<std::uint32_t>(selector) >= b.character_table_size)) ||
+            (by_template && (selector < 0 || selector > 32767))) {
+            error = by_template ? "Current-Level Character template selector is outside source halfword range" :
+                "Current-Level Character property selector is outside CharacterTable"; return false;
         }
         if (!b.roster_complete) {
             error = "Current-Level Character roster is not source-complete"; return false;
@@ -219,6 +239,7 @@ class Provider final {
                 error = "Current-Level Character is absent from its ObjectManager"; return false;
             }
             std::int32_t resolved_property_id = -1;
+            std::int32_t resolved_template_id = -1;
             try {
                 bool resolved=false;
                 if (b.safe_get_bindings) {
@@ -228,8 +249,10 @@ class Provider final {
                         if (error.empty()) error = "SafeGetCharPropsId bindings unavailable for a listed Character";
                         return false;
                     }
-                    if (safe.character!=character->identity||!safe.property_cache) {
-                        error = "SafeGetCharPropsId bindings do not borrow the listed Character cache";
+                    if (safe.character!=character->identity||!safe.property_cache||
+                        (by_template&&!safe.template_cache)) {
+                        error = by_template ? "SafeGet bindings do not borrow the listed Character template cache" :
+                            "SafeGetCharPropsId bindings do not borrow the listed Character cache";
                         return false;
                     }
                     dh2::character_saved_class_v1::Runtime resolver(safe);
@@ -239,6 +262,7 @@ class Provider final {
                         return false;
                     }
                     resolved_property_id=result.value;
+                    if (safe.template_cache) resolved_template_id=*safe.template_cache;
                     resolved=true;
                 } else {
                     resolved=b.safe_get_character_property_id(b.context,
@@ -261,10 +285,15 @@ class Provider final {
                 error = "Current-Level Character roster changed during population query";
                 return false;
             }
-            if (resolved_property_id < -1 || resolved_property_id >= static_cast<std::int32_t>(b.character_table_size)) {
+            if (!by_template && (resolved_property_id < -1 || resolved_property_id >= static_cast<std::int32_t>(b.character_table_size))) {
                 error = "SafeGetCharPropsId returned an invalid CharacterTable row"; return false;
             }
-            if (resolved_property_id == property_id) ++matches;
+            if (by_template) {
+                if (resolved_template_id < -1 || resolved_template_id > 32767) {
+                    error = "SafeGetCharPropsTemplateId returned an invalid source halfword"; return false;
+                }
+                if (resolved_template_id == selector) ++matches;
+            } else if (resolved_property_id == selector) ++matches;
             ++visited;
             node = node->next;
         }
@@ -274,14 +303,14 @@ class Provider final {
             error = "Current-Level CharacterList changed during population query"; return false;
         }
 
-        // Original HasEnemyOfTypeLoaded consults the Level OID cache only when
-        // no loaded Character matched the requested property row.
-        if (matches == 0) {
-            if (property_id >= 0 &&
-                static_cast<std::uint32_t>(property_id) < b.character_table_size) {
+        // Original HasEnemyOfTypeLoaded consults the Level OID cache only for
+        // TestCharPropId. TestCharTemplate returns its loaded Character count.
+        if (!by_template && matches == 0) {
+            if (selector >= 0 &&
+                static_cast<std::uint32_t>(selector) < b.character_table_size) {
                 dh2::character_oid_cache_v1::Result cached{};
                 const auto status = b.oid_cache->count(
-                    static_cast<std::uint32_t>(property_id), &cached);
+                    static_cast<std::uint32_t>(selector), &cached);
                 if (status != dh2::character_oid_cache_v1::Status::complete) {
                     error = "Current-Level Character OID cache query failed"; return false;
                 }
@@ -306,7 +335,16 @@ class Provider final {
                               std::string& error) {
         if (!context) { error = "Current-Level Character population provider is absent"; return false; }
         return static_cast<Provider*>(context)->query(expected_event_owner,
-            expected_level_identity, property_id, snapshot, error);
+            expected_level_identity, property_id, false, snapshot, error);
+    }
+    static bool read_template_callback(void* context, std::uintptr_t expected_event_owner,
+                              std::uintptr_t expected_level_identity,
+                              std::int32_t template_id,
+                              quests::ClearEnemiesPopulationSnapshotV1& snapshot,
+                              std::string& error) {
+        if (!context) { error = "Current-Level Character template provider is absent"; return false; }
+        return static_cast<Provider*>(context)->query(expected_event_owner,
+            expected_level_identity, template_id, true, snapshot, error);
     }
 
 public:
@@ -316,6 +354,12 @@ public:
 
     quests::ClearEnemiesPopulationServicesV1 services() noexcept {
         return {this, &read_callback, bindings_.level_identity};
+    }
+    quests::KillEnemyTemplatePopulationServicesV1 kill_enemy_template_services() noexcept {
+        return {this, &read_template_callback, bindings_.level_identity};
+    }
+    quests::ClearEnemyTemplatePopulationServicesV1 clear_enemy_template_services() noexcept {
+        return {this, &read_template_callback, bindings_.level_identity};
     }
 };
 

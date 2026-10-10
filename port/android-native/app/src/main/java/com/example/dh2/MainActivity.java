@@ -524,6 +524,7 @@ public final class MainActivity extends Activity {
     }
     @Override public void onWindowFocusChanged(boolean hasFocus){
         super.onWindowFocusChanged(hasFocus);
+        if(frontAudio!=null)frontAudio.onWindowFocusChanged(hasFocus);
         if(hasFocus&&!inspectionMode)enterImmersiveLandscape();
     }
     @Override public void onConfigurationChanged(android.content.res.Configuration configuration){

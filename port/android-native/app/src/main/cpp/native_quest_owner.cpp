@@ -554,6 +554,8 @@ bool Owner::update_active(std::uintptr_t quest_identity,std::uint32_t log,
     ok=unregister_kill_x_enemies_objective(quest_identity,ordinal,error);break;
    case of::Dispatch::clear_enemies:
     ok=unregister_clear_enemies_objective(quest_identity,ordinal,error);break;
+   case of::Dispatch::kill_enemy_template:
+    ok=unregister_kill_enemy_template_objective(quest_identity,ordinal,error);break;
    case of::Dispatch::clear_enemy_template:
     ok=unregister_clear_enemy_template_objective(quest_identity,ordinal,error);break;
    default:
@@ -1212,6 +1214,10 @@ bool Owner::compile_combat_objective_list_v1(
      ok=c.owner->compile_clear_enemies_objective_from_level(
        c.quest_identity,ordinal,c.population->clear_enemies,c.script_context,
        c.start_script,*c.error);break;
+    case of::Dispatch::kill_enemy_template:
+     ok=c.owner->compile_kill_enemy_template_objective_from_level(
+       c.quest_identity,ordinal,c.population->kill_enemy_template,c.script_context,
+       c.start_script,*c.error);break;
     case of::Dispatch::clear_enemy_template:
      ok=c.owner->compile_clear_enemy_template_objective_from_level(
        c.quest_identity,ordinal,c.population->clear_enemy_template,c.script_context,
@@ -1227,6 +1233,9 @@ bool Owner::compile_combat_objective_list_v1(
        c.quest_identity,ordinal,c.script_context,c.start_script,*c.error);break;
     case of::Dispatch::clear_enemies:
      ok=c.owner->register_clear_enemies_objective(
+       c.quest_identity,ordinal,c.script_context,c.start_script,*c.error);break;
+    case of::Dispatch::kill_enemy_template:
+     ok=c.owner->register_kill_enemy_template_objective(
        c.quest_identity,ordinal,c.script_context,c.start_script,*c.error);break;
     case of::Dispatch::clear_enemy_template:
      ok=c.owner->register_clear_enemy_template_objective(
@@ -1442,6 +1451,129 @@ bool Owner::unregister_clear_enemies_objective(std::uintptr_t quest_identity,
  if(!binding.detach_pending){bool scheduled=false;
   if(impl_->current_level_events.delayed_detach(binding.event_type,identity,scheduled,error)!=LevelEventStatus::complete)return false;
   if(!scheduled){error="ClearEnemies receiver disappeared before Objective::Unregister";return false;}
+  binding.detach_pending=true;
+ }
+ error.clear();return true;
+}
+bool Owner::compile_kill_enemy_template_objective_from_level(
+ std::uintptr_t quest_identity,std::uint32_t objective_ordinal,
+ const KillEnemyTemplatePopulationServicesV1& population,
+ void* script_context,KillObjectiveStartScript start_script,std::string& error){
+ if(impl_->busy||impl_->closed){error="Native Quest owner unavailable for live KillEnemyTemplate Compile";return false;}
+ if(!population.read_current_level_population||!population.expected_level_identity){
+  error="Live KillEnemyTemplate Compile requires the current-Level population provider and identity";return false;
+ }
+ auto* objective=impl_->objective_at(quest_identity,objective_ordinal);
+ if(!objective||objective->dispatch_0!=of::Dispatch::kill_enemy_template){
+  error="Live KillEnemyTemplate Compile requires its canonical Objective";return false;
+ }
+ dh2_quest_objective definition{};
+ if(!objective_definition(*objective,definition,error))return false;
+ const auto template_id=definition.args[0];
+ const auto level_filter=definition.args[1];
+ const auto required=definition.args[2];
+ if(definition.common[0]!=objective->fields.type_4||template_id<-32768||
+    template_id>32767||required<=0){
+  error="Live KillEnemyTemplate Compile found an invalid source template selector or target";return false;
+ }
+ const auto expected_owner=reinterpret_cast<std::uintptr_t>(this);
+ ClearEnemiesPopulationSnapshotV1 snapshot{};
+ try{
+  if(!population.read_current_level_population(population.context,expected_owner,
+       population.expected_level_identity,template_id,snapshot,error)){
+   if(error.empty())error="Current-Level KillEnemyTemplate population query failed";
+   return false;
+  }
+ }catch(const std::exception& ex){error=ex.what();return false;}
+ catch(...){error="Current-Level KillEnemyTemplate population provider threw";return false;}
+ if(snapshot.event_owner_identity!=expected_owner||
+    snapshot.level_identity!=population.expected_level_identity||snapshot.level_id<0||
+    snapshot.loaded_match_count<0){
+  error="Live KillEnemyTemplate Compile rejected a stale Level owner or invalid population";return false;
+ }
+ if(impl_->busy||impl_->closed){error="Native Quest owner changed during KillEnemyTemplate population query";return false;}
+ objective=impl_->objective_at(quest_identity,objective_ordinal);
+ if(!objective||objective->dispatch_0!=of::Dispatch::kill_enemy_template){
+  error="KillEnemyTemplate Objective changed during population query";return false;
+ }
+ objective->derived_24=objective->fields.py_data_c;
+ objective->derived_2c=static_cast<std::uint32_t>(required);
+ if((level_filter!=-1&&level_filter!=snapshot.level_id)||snapshot.loaded_match_count<=0){
+  objective->compiled_8=0;error.clear();return true;
+ }
+ objective->compiled_8=1;
+ if(required<=static_cast<std::int32_t>(objective->quantity_20)&&!objective->done_14){
+  objective->done_14=1;
+  if(definition.common[2]>=0&&(!start_script||!start_script(script_context,definition.common[2],error))){
+   if(error.empty())error="KillEnemyTemplate Compile completion needs the source script-base provider";
+   return false;
+  }
+ }
+ error.clear();return true;
+}
+bool Owner::register_kill_enemy_template_objective(std::uintptr_t quest_identity,
+ std::uint32_t objective_ordinal,void* script_context,
+ KillObjectiveStartScript start_script,std::string& error){
+ if(impl_->busy||impl_->closed){error="Native Quest owner unavailable for KillEnemyTemplate Register";return false;}
+ auto* resolved=impl_->objective_at(quest_identity,objective_ordinal);
+ if(!resolved){error="KillEnemyTemplate Register requires a canonical Objective";return false;}
+ auto& objective=*resolved;const auto identity=objective.ref.action.identity;
+ if(objective.dispatch_0!=of::Dispatch::kill_enemy_template||!objective.compiled_8){
+  error="KillEnemyTemplate Register requires its source Compile projection";return false;
+ }
+ dh2_quest_objective definition{};
+ if(!objective_definition(objective,definition,error))return false;
+ if(definition.common[0]!=objective.fields.type_4){error="KillEnemyTemplate Register found a changed Objective selector";return false;}
+ const auto script_id=definition.common[2];
+ if(script_id>=0&&!start_script){error="KillEnemyTemplate Register requires its completion-script provider";return false;}
+ std::int32_t event_type=0;
+ if(impl_->constant("v2QuestObjectiveType","KillEnemyTemplate",&event_type)){
+  error="Actual v2QuestObjectiveType.KillEnemyTemplate constant unavailable";return false;
+ }
+ if(const auto prior=impl_->kill_x_enemies.find(identity);prior!=impl_->kill_x_enemies.end()){
+  const auto& binding=*prior->second;
+  if(binding.objective!=&objective||binding.expected_dispatch!=of::Dispatch::kill_enemy_template||
+     binding.event_type!=event_type||binding.match_id!=definition.args[0]||
+     binding.script_id!=script_id||binding.script_context!=script_context||
+     binding.start_script!=start_script||binding.detach_pending){
+   error="KillEnemyTemplate Objective is already registered with different services";return false;
+  }
+  error.clear();return true;
+ }
+ auto binding=std::make_unique<Impl::KillXEnemiesBinding>();
+ binding->objective=&objective;binding->expected_dispatch=of::Dispatch::kill_enemy_template;
+ binding->event_type=event_type;binding->match_id=definition.args[0];
+ binding->script_id=script_id;binding->script_context=script_context;binding->start_script=start_script;
+ auto* context=binding.get();
+ try{if(!impl_->kill_x_enemies.emplace(identity,std::move(binding)).second){
+  error="KillEnemyTemplate receiver registration raced an existing binding";return false;
+ }}catch(const std::exception&){error="KillEnemyTemplate receiver metadata allocation failed";return false;}
+ bool attached=false;
+ const auto status=impl_->current_level_events.attach(event_type,identity,0,context,
+  Impl::KillXEnemiesBinding::receive,attached,error);
+ if(status!=LevelEventStatus::complete||!attached){
+  impl_->kill_x_enemies.erase(identity);
+  if(error.empty())error="KillEnemyTemplate receiver was already attached outside this Owner";
+  return false;
+ }
+ context->attached=true;error.clear();return true;
+}
+bool Owner::unregister_kill_enemy_template_objective(std::uintptr_t quest_identity,
+ std::uint32_t objective_ordinal,std::string& error){
+ if(impl_->busy||impl_->closed){error="Native Quest owner unavailable for KillEnemyTemplate Unregister";return false;}
+ auto* objective=impl_->objective_at(quest_identity,objective_ordinal);
+ if(!objective||objective->dispatch_0!=of::Dispatch::kill_enemy_template){
+  error="KillEnemyTemplate Unregister requires its Objective in this Owner's canonical Quest list";return false;
+ }
+ const auto identity=objective->ref.action.identity;
+ const auto found=impl_->kill_x_enemies.find(identity);
+ if(found==impl_->kill_x_enemies.end()||found->second->expected_dispatch!=of::Dispatch::kill_enemy_template){
+  error="KillEnemyTemplate Objective is not registered by this Owner";return false;
+ }
+ auto& binding=*found->second;
+ if(!binding.detach_pending){bool scheduled=false;
+  if(impl_->current_level_events.delayed_detach(binding.event_type,identity,scheduled,error)!=LevelEventStatus::complete)return false;
+  if(!scheduled){error="KillEnemyTemplate receiver disappeared before Objective::Unregister";return false;}
   binding.detach_pending=true;
  }
  error.clear();return true;
@@ -1687,6 +1819,7 @@ bool Owner::transition_combat_objective_registration(
   const auto identity=objective->ref.action.identity;
   const bool supported=objective->dispatch_0==of::Dispatch::kill_enemies||
       objective->dispatch_0==of::Dispatch::clear_enemies||
+      objective->dispatch_0==of::Dispatch::kill_enemy_template||
       objective->dispatch_0==of::Dispatch::clear_enemy_template;
   if(!supported){
    if(objective->compiled_8){
@@ -1706,6 +1839,8 @@ bool Owner::transition_combat_objective_registration(
      ok=unregister_kill_x_enemies_objective(quest_identity,ordinal,error);break;
     case of::Dispatch::clear_enemies:
      ok=unregister_clear_enemies_objective(quest_identity,ordinal,error);break;
+    case of::Dispatch::kill_enemy_template:
+     ok=unregister_kill_enemy_template_objective(quest_identity,ordinal,error);break;
     case of::Dispatch::clear_enemy_template:
      ok=unregister_clear_enemy_template_objective(quest_identity,ordinal,error);break;
     default:break;
@@ -1720,6 +1855,9 @@ bool Owner::transition_combat_objective_registration(
     case of::Dispatch::clear_enemies:
      ok=register_clear_enemies_objective(quest_identity,ordinal,
                                           script_context,start_script,error);break;
+    case of::Dispatch::kill_enemy_template:
+     ok=register_kill_enemy_template_objective(quest_identity,ordinal,
+                                                 script_context,start_script,error);break;
     case of::Dispatch::clear_enemy_template:
      ok=register_clear_enemy_template_objective(quest_identity,ordinal,
                                                  script_context,start_script,error);break;

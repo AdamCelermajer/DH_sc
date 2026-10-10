@@ -9,7 +9,12 @@ final class OriginalMusicVolume {
     }
 
     static float outputGain(float musicGain, boolean audioFocusGained) {
+        return outputGain(musicGain, true, audioFocusGained);
+    }
+
+    /** Unknown focus is not permission to start emitting audio. */
+    static float outputGain(float musicGain, boolean audioFocusKnown, boolean audioFocusGained) {
         float clamped = Math.max(0f, Math.min(1f, musicGain));
-        return audioFocusGained ? clamped : 0f;
+        return audioFocusKnown && audioFocusGained ? clamped : 0f;
     }
 }

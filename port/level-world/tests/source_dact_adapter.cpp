@@ -1,9 +1,12 @@
 #include "../world.hpp"
 #include "../source_handle_ledger_v1.hpp"
 #include "../../game-data/data.hpp"
+#include "../../world-data/source_layout_adapter.h"
 
 #include <algorithm>
 #include <array>
+#include <cctype>
+#include <cmath>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
@@ -21,6 +24,16 @@ std::vector<std::uint8_t> read(const std::string& path) {
 
 void require(bool condition, const char* message) {
     if (!condition) throw std::runtime_error(message);
+}
+
+bool authored_condition(const std::string& value) {
+    const auto first = value.find_first_not_of(" \t\r\n");
+    if (first == std::string::npos) return false;
+    const auto last = value.find_last_not_of(" \t\r\n");
+    std::string normalized = value.substr(first, last - first + 1);
+    std::transform(normalized.begin(), normalized.end(), normalized.begin(),
+        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return normalized != "invalid";
 }
 }
 
@@ -125,6 +138,95 @@ int main(int argc, char** argv) {
                     actor.source_handle==found->handle&&actor.name==found->source.name,
                 "DACT actor handle was not joined by exact MGP provenance");
         }
+        std::vector<dh2::world::SourceCharacterCensusV1> character_census;
+        require(dh2::world::census_source_characters_with_handles(
+                    mlx.data(), mlx.size(), mgps.data(), mgps.size(), handles,
+                    character_census, error), error.c_str());
+        std::size_t expected_character_occurrences = 0;
+        for (const auto& occurrence : handles.occurrences)
+            if (occurrence.source.kind == static_cast<dh2::world::RecordKind>(1) &&
+                occurrence.source.gametype == "Character")
+                ++expected_character_occurrences;
+        require(character_census.size() == expected_character_occurrences &&
+                    character_census.size() > actor_sources.size(),
+                "SWAMP census did not expose every source MGP Character row");
+        std::size_t supported_rows = 0;
+        std::size_t deferred_condition_rows = 0;
+        std::size_t deferred_script_rows = 0;
+        std::size_t deferred_other_rows = 0;
+        std::size_t deferred_autospawn_rows = 0;
+        std::size_t deferred_nonidle_rows = 0;
+        std::size_t deferred_template_rows = 0;
+        std::size_t deferred_probability_rows = 0;
+        for (const auto& row : character_census) {
+            const auto found = std::find_if(handles.occurrences.begin(),
+                handles.occurrences.end(), [&](const auto& occurrence) {
+                    return occurrence.source.kind == static_cast<dh2::world::RecordKind>(1) &&
+                        occurrence.source.module_index == row.module_index &&
+                        occurrence.source.record_index == row.source_record;
+                });
+            require(found != handles.occurrences.end() &&
+                        found->handle == row.source_handle &&
+                        found->source.name == row.name &&
+                        found->duplicate_name == row.duplicate_name,
+                    "census row lost exact MGP/handle-ledger provenance");
+            for (float component : row.local.position)
+                require(std::isfinite(component), "census local position is non-finite");
+            for (float component : row.world.position)
+                require(std::isfinite(component), "census world position is non-finite");
+            const bool selected_actor = std::find_if(actor_sources.begin(), actor_sources.end(),
+                [&](const auto& actor_row) {
+                    return actor_row.module_index == row.module_index &&
+                        actor_row.source_record == row.source_record;
+                }) != actor_sources.end();
+            if (!row.script.empty())
+                require(row.deferred_reason_mask & DH2_SOURCE_CHARACTER_DEFER_SCRIPT,
+                    "authored Character script was not explicitly deferred");
+            if (row.auto_spawn == "0") {
+                ++deferred_autospawn_rows;
+                require(row.deferred_reason_mask & DH2_SOURCE_CHARACTER_DEFER_AUTOSPAWN_DISABLED,
+                    "disabled auto_spawn row was not explicitly deferred");
+            }
+            if (!row.ai_state.empty() && row.ai_state != "Idle") {
+                ++deferred_nonidle_rows;
+                require(row.deferred_reason_mask & DH2_SOURCE_CHARACTER_DEFER_NON_IDLE_AI,
+                    "non-idle authored AI row was not explicitly deferred");
+            }
+            if (row.template_name != "Monster") {
+                ++deferred_template_rows;
+                require(row.deferred_reason_mask & DH2_SOURCE_CHARACTER_DEFER_UNSUPPORTED_TEMPLATE,
+                    "non-Monster Character row was not explicitly deferred");
+            }
+            if (row.deferred_reason_mask & DH2_SOURCE_CHARACTER_DEFER_SPAWN_PROBABILITY)
+                ++deferred_probability_rows;
+            if (selected_actor) {
+                ++supported_rows;
+                require(row.supported_direct_dact_v1 && row.deferred_reason_mask == 0,
+                    "one reviewed DACT Monster row was incorrectly deferred");
+            } else {
+                require(!row.supported_direct_dact_v1 && row.deferred_reason_mask != 0,
+                    "unsupported Character row was omitted without an explicit defer reason");
+                const auto reasons = row.deferred_reason_mask;
+                const bool has_condition = authored_condition(row.activate_condition) ||
+                    authored_condition(row.deactivate_condition);
+                if (has_condition) {
+                    ++deferred_condition_rows;
+                    require((!authored_condition(row.activate_condition) ||
+                                (reasons & DH2_SOURCE_CHARACTER_DEFER_ACTIVATE_CONDITION)) &&
+                            (!authored_condition(row.deactivate_condition) ||
+                                (reasons & DH2_SOURCE_CHARACTER_DEFER_DEACTIVATE_CONDITION)),
+                        "authored condition was not retained in the defer reason mask");
+                } else if (!row.script.empty()) {
+                    ++deferred_script_rows;
+                    require(reasons & DH2_SOURCE_CHARACTER_DEFER_SCRIPT,
+                        "authored Character script was not explicitly deferred");
+                } else {
+                    ++deferred_other_rows;
+                }
+            }
+        }
+        require(supported_rows == actor_sources.size(),
+            "source census and supported DACT projection disagree");
         auto duplicate_handles=handles;
         auto duplicate=std::find_if(duplicate_handles.occurrences.begin(),
             duplicate_handles.occurrences.end(),[](const auto& occurrence){
@@ -173,7 +275,16 @@ int main(int argc, char** argv) {
         require(error.find("spawn_prob") != std::string::npos,
                 "spawn probability mutation did not fail closed");
 
-        std::cout << "source DACT adapter: byte-exact five-row match; exact MGP handle provenance; duplicate-name and spawn_prob mutations rejected\n";
+        std::cout << "source DACT adapter: byte-exact five-row match; full "
+                  << character_census.size() << "-row SWAMP Character census; "
+                  << deferred_condition_rows << " condition-deferred, "
+                  << deferred_script_rows << " script-deferred, "
+                  << deferred_autospawn_rows << " autospawn-disabled, "
+                  << deferred_nonidle_rows << " non-idle, "
+                  << deferred_template_rows << " non-Monster-template, "
+                  << deferred_probability_rows << " unsupported-probability, "
+                  << deferred_other_rows << " other deferred; exact handle provenance; "
+                  << "duplicate-name and spawn_prob mutations rejected\n";
         return 0;
     } catch (const std::exception& exception) {
         std::cerr << exception.what() << '\n';

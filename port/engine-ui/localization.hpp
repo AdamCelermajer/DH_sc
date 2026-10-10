@@ -45,6 +45,7 @@ class Localization {
  // Raw symbol result for NativeGetParsedString's later VarArgs parseEx. Uses
  // this same cache and exact symbol/index/debug delivery, without plain parse.
  bool raw_symbol(const std::string&,const LocalizationServices&,LocalizationResult&,std::string&);
+ bool ready()const noexcept{return ready_;}
  std::int32_t pack()const{return pack_;}
  const std::vector<std::string>& pack_names()const{return pack_names_;}
  const std::string& sheet_name(std::uint32_t pack,std::uint32_t sheet)const;

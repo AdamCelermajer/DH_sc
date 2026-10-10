@@ -11,10 +11,8 @@ add_subdirectory("${DH2_SOURCE_DIR}/port/engine-camera" "${CMAKE_CURRENT_BINARY_
 add_subdirectory("${DH2_SOURCE_DIR}/port/level-world" "${CMAKE_CURRENT_BINARY_DIR}/level-world")
 include("${DH2_SOURCE_DIR}/port/engine-ui/inventory_text_v1.cmake")
 include("${DH2_SOURCE_DIR}/port/engine-ui/menu_frontend_v69.cmake")
-add_library(dh2_native SHARED native_app.cpp model_renderer.cpp mod_assets.cpp ghost_ai_owner.cpp native_debug_files.cpp native_character_list.cpp native_character_roster_transaction.cpp native_ghost_skills.cpp native_ghost_death_v1.cpp native_ghost_script_queries.cpp native_character_stop.cpp native_loot_pickup_quest_binding_v1.cpp
- native_player_skills.cpp native_player_profile.cpp native_quest_owner.cpp native_quest_cursor.cpp native_menu_runtime.cpp native_trophy_runtime.cpp
- original_ui_session.cpp original_ui_assets.cpp swf_gpu.cpp authored_shader_program.cpp
- "${DH2_SOURCE_DIR}/port/pydata-names/names.c")
+include("${CMAKE_CURRENT_LIST_DIR}/native_runtime_sources.cmake")
+add_library(dh2_native SHARED native_app.cpp ${DH2_NATIVE_RUNTIME_SOURCES})
 target_compile_features(dh2_native PRIVATE cxx_std_17)
 target_include_directories(dh2_native SYSTEM PRIVATE "${DH2_SOURCE_DIR}/port/engine-ui/vendor/gameswf1714")
 target_compile_options(dh2_native PRIVATE -Wall -Wextra -Werror)

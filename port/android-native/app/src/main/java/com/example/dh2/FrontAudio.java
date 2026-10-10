@@ -30,7 +30,8 @@ final class FrontAudio {
         ActiveEffect(MediaPlayer player,long owner,int soundId){this.player=player;this.owner=owner;this.soundId=soundId;}
     }
     private final HashSet<ActiveEffect> effects=new HashSet<>();
-    private boolean requested, resumed=true, introReady, loopReady, started, focused;
+    private boolean requested, resumed=true, introReady, loopReady, started, focused, focusStateKnown;
+    private boolean windowFocused, focusRequestPendingDelayed;
     private IntroCinematicView cinematic;
     private float musicVolume=1f,effectVolume=1f;
     void control(String command){
@@ -67,6 +68,8 @@ final class FrontAudio {
     }
     private void onAudioFocusChange(int change){
         focused=AudioFocusStartPolicy.focusGained(change,AudioManager.AUDIOFOCUS_GAIN);
+        focusStateKnown=true;
+        if(focused)focusRequestPendingDelayed=false;
         if(!focused)stopEffects();
         if(cinematic!=null)cinematic.setAudioFocusGained(focused&&resumed);
         updateGameplayMusicPlayback();
@@ -75,8 +78,16 @@ final class FrontAudio {
         }else if(current!=null&&started&&current.isPlaying())current.pause();
     }
     private AudioAttributes attributes(){return new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();}
-    private boolean requestFocus(){return (Build.VERSION.SDK_INT>=26?audio.requestAudioFocus(focus):audio.requestAudioFocus(focusListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN))==AudioManager.AUDIOFOCUS_REQUEST_GRANTED;}
-    private void abandonFocus(){if(Build.VERSION.SDK_INT>=26)audio.abandonAudioFocusRequest(focus);else audio.abandonAudioFocus(focusListener);focused=false;}
+    private boolean requestFocus(){
+        int result=Build.VERSION.SDK_INT>=26?audio.requestAudioFocus(focus):audio.requestAudioFocus(focusListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN);
+        focused=result==AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+        focusStateKnown=true;
+        focusRequestPendingDelayed=Build.VERSION.SDK_INT>=26&&result==AudioManager.AUDIOFOCUS_REQUEST_DELAYED;
+        String outcome=focused?"granted":focusRequestPendingDelayed?"delayed":"failed";
+        Log.i("DH2Front","Audio focus request | result="+result+" | outcome="+outcome);
+        return focused;
+    }
+    private void abandonFocus(){if(Build.VERSION.SDK_INT>=26)audio.abandonAudioFocusRequest(focus);else audio.abandonAudioFocus(focusListener);focused=false;focusRequestPendingDelayed=false;}
     float musicVolume(){return musicVolume;}
     void setCinematic(IntroCinematicView view){
         cinematic=view;
@@ -85,7 +96,9 @@ final class FrontAudio {
             // focus transition. Seed its decoder state immediately instead
             // of leaving the first prepared frames at the view's defaults.
             view.setMusicVolume(musicVolume);
-            view.setAudioFocusGained(focused&&resumed);
+            // Do not silence the intro during onCreate, before the Activity has
+            // made its first focus request. Once focus is known, honor loss.
+            if(focusStateKnown)view.setAudioFocusGained(focused&&resumed);
         }
         if(view==null&&!requested&&current==null&&gameplayMusic==null)abandonFocus();
     }
@@ -286,11 +299,25 @@ final class FrontAudio {
         if(!focused)focused=requestFocus();
         if(resumed&&focused){intro.start();started=true;Log.i("DH2Front","Title music intro started | duration_ms="+intro.getDuration()+" | loop_ms="+loop.getDuration());}
     }
-    void pause(){resumed=false;stopEffects();pauseGameplayMusic();if(cinematic!=null)cinematic.setAudioFocusGained(false);if(current!=null&&started&&current.isPlaying())current.pause();abandonFocus();}
-    void resume(){resumed=true;if(!requested&&cinematic==null&&gameplayMusic==null)return;focused=requestFocus();
-        if(cinematic!=null)cinematic.setAudioFocusGained(focused);
+    void pause(){resumed=false;windowFocused=false;focusStateKnown=true;stopEffects();pauseGameplayMusic();if(cinematic!=null)cinematic.setAudioFocusGained(false);if(current!=null&&started&&current.isPlaying())current.pause();abandonFocus();}
+    void resume(){resumed=true;if(!requested&&cinematic==null&&gameplayMusic==null)return;
+        // Android may reject an early focus request while the Activity is
+        // resumed but its window is not yet foreground-focused. Defer the
+        // initial request until onWindowFocusChanged(true) in that case.
+        if(windowFocused)requestFocus();
+        if(cinematic!=null&&focusStateKnown)cinematic.setAudioFocusGained(focused);
         updateGameplayMusicPlayback();
         if(requested){if(started&&current!=null&&focused)current.start();else startPrepared();}}
+    void onWindowFocusChanged(boolean hasFocus){
+        if(!hasFocus){windowFocused=false;return;}
+        if(windowFocused)return;
+        windowFocused=true;
+        if(!resumed||focused||focusRequestPendingDelayed||(!requested&&cinematic==null&&gameplayMusic==null))return;
+        focused=requestFocus();
+        if(cinematic!=null)cinematic.setAudioFocusGained(focused);
+        updateGameplayMusicPlayback();
+        if(requested){if(started&&current!=null&&focused)current.start();else startPrepared();}
+    }
     void stop(){requested=false;
         stopEffects();
         releaseGameplayMusic();

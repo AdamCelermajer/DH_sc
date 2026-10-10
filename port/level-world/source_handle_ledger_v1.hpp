@@ -4,10 +4,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-
-namespace dh2::world {
-enum class RecordKind : std::uint32_t;
-}
+#include "../world-data/record_kind.hpp"
 
 namespace dh2::world::source_handle_ledger_v1 {
 

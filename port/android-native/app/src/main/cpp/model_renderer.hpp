@@ -165,6 +165,23 @@ struct UiPlayerHudProjectionV1 {
 };
 bool ui_player_hud_projection(std::uintptr_t,bool refresh_usable,
                               UiPlayerHudProjectionV1&,std::string&);
+// Synchronous snapshots of the existing player CharAI target and selected
+// combat target for the authored enemy bar. Names borrow the actor's retained
+// Character data; no target, HP, or lifecycle state is owned by this view.
+struct UiEnemyHudActorV1 {
+ std::uintptr_t identity{};
+ const char* debug_name{};
+ std::int32_t name_symbol{-1},network_id{-1},level{-1};
+ float hp_fraction{};
+ bool present{},is_character{},is_monster{},is_boss{};
+};
+struct UiEnemyHudProjectionV1 {
+ std::uintptr_t player_identity{};
+ bool player_dead{};
+ UiEnemyHudActorV1 ai_target{},character_target{};
+};
+bool ui_player_enemy_hud_projection(std::uintptr_t,UiEnemyHudProjectionV1&,
+                                    std::string&);
 bool ui_player_stats(std::uintptr_t,UiPlayerStatsReadV1&,std::string&);
 bool ui_player_assign_stat(std::uintptr_t,std::uint32_t,std::string&);
 bool ui_player_set_current_quest(std::uintptr_t,std::int32_t,std::string&);

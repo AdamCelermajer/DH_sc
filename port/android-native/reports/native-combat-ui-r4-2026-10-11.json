@@ -1,0 +1,18 @@
+{
+  "artifact": "Dungeon-Hunter-2-native-combat-ui-r4-2026-10-11.apk",
+  "sha256": "1f1ce62018555a566aac1a9ea02b7201548a7bc573f24a4bb5cdaabb5ec0f767",
+  "bytes": 254268660,
+  "source_base": "124e48c6",
+  "source_has_uncommitted_changes": true,
+  "android_build": {"arm64-v8a": "pass", "x86_64": "pass"},
+  "runtime": {
+    "android_api": 37,
+    "page_size_bytes": 16384,
+    "abi": "x86_64",
+    "initial_equipment": {"decision": 5, "loot_table": 165, "added": 5, "auto_equip_calls": 4},
+    "crypt": "failed before world-ready: Source ObjectManager inputs are incomplete",
+    "combat": "not reached",
+    "original_saves_restored": true
+  },
+  "published": false
+}

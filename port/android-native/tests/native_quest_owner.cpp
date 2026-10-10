@@ -135,6 +135,7 @@ struct CanonicalRosterFixture {
  std::uintptr_t event_owner=0x6100,level_identity=0x6200;
  std::int32_t properties[3]{1,1,2};
  std::int16_t property_cache[3]{1,1,2};
+ std::int16_t template_cache[3]{4,5,4};
  bool stale_character=false;
  static character_list::Node* allocate(void* raw){
   auto& self=*static_cast<CanonicalRosterFixture*>(raw);
@@ -164,6 +165,20 @@ struct CanonicalRosterFixture {
   for(std::size_t i=0;i<3;++i)if(self.characters[i].identity==character){
    return population::bind_existing_character_property_cache(character,
        &self.property_cache[i],bindings,error);
+  }
+  error="unknown test Character";return false;
+ }
+ static bool safe_get_template_bindings(void* raw,std::uintptr_t owner,
+  std::uintptr_t level,std::uintptr_t character,
+  population::SafeGetBindings& bindings,std::string& error){
+  auto& self=*static_cast<CanonicalRosterFixture*>(raw);
+  if(owner!=self.event_owner||level!=self.level_identity||
+     (self.stale_character&&character==self.characters[2].identity)){
+   error="stale test Character owner";return false;
+  }
+  for(std::size_t i=0;i<3;++i)if(self.characters[i].identity==character){
+   return population::bind_existing_character_caches(character,
+       &self.property_cache[i],&self.template_cache[i],bindings,error);
   }
   error="unknown test Character";return false;
  }
@@ -202,6 +217,28 @@ void current_level_character_population_cases(){
  // Player and another as dead: HasEnemyOfTypeLoaded applies neither filter.
  check(snapshot.loaded_match_count==2&&snapshot.level_id==7&&
    snapshot.event_owner_identity==fixture.event_owner&&snapshot.level_identity==fixture.level_identity);
+ bindings.safe_get_bindings=&CanonicalRosterFixture::safe_get_template_bindings;
+ population::Provider templates(bindings);
+ auto template_services=templates.kill_enemy_template_services();
+ check(template_services.read_current_level_population(template_services.context,
+   fixture.event_owner,fixture.level_identity,4,snapshot,error)&&
+   snapshot.loaded_match_count==2,
+   "TestCharTemplate did not count the canonical SafeGet template cache across the full CharacterList");
+ check(template_services.read_current_level_population(template_services.context,
+   fixture.event_owner,fixture.level_identity,5,snapshot,error)&&
+   snapshot.loaded_match_count==1,
+   "TestCharTemplate did not preserve distinct template selectors");
+ check(!template_services.read_current_level_population(template_services.context,
+   fixture.event_owner,fixture.level_identity,32,snapshot,error),
+   "TestCharTemplate accepted an out-of-source-range template selector");
+ bindings.roster_complete=false;
+ population::Provider incomplete_template(bindings);
+ auto incomplete_template_services=incomplete_template.clear_enemy_template_services();
+ check(!incomplete_template_services.read_current_level_population(
+   incomplete_template_services.context,fixture.event_owner,fixture.level_identity,4,
+   snapshot,error),"TestCharTemplate counted an incomplete source CharacterList");
+ bindings.roster_complete=true;
+ bindings.safe_get_bindings=&CanonicalRosterFixture::safe_get_bindings;
  check(services.read_current_level_population(services.context,fixture.event_owner,
    fixture.level_identity,2,snapshot,error)&&snapshot.loaded_match_count==1,
    "loaded Character count did not take precedence over the larger OID cache value");

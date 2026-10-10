@@ -230,6 +230,124 @@ bool compile_source_dact_with_handles(const std::uint8_t* mlx,
     return true;
 }
 
+bool census_source_characters_with_handles(const std::uint8_t* mlx,
+                         std::size_t mlx_size,const SourceMgpView* mgps,
+                         std::size_t mgp_count,
+                         const source_handle_ledger_v1::Ledger& handle_ledger,
+                         std::vector<SourceCharacterCensusV1>& output,
+                         std::string& error) {
+    output.clear();
+    error.clear();
+    if (!mlx || !mlx_size || !mgps || !mgp_count || mgp_count > 256 ||
+        handle_ledger.occurrences.empty()) {
+        error = "Source Character census or ObjectManager handle ledger is incomplete";
+        return false;
+    }
+    std::vector<dh2_world_source_mgp> source_mgps;
+    source_mgps.reserve(mgp_count);
+    for (std::size_t i = 0; i < mgp_count; ++i) {
+        if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
+            error = "Source Character census MGP input is incomplete";
+            return false;
+        }
+        source_mgps.push_back({mgps[i].source_path, mgps[i].data,
+                               mgps[i].size});
+    }
+
+    std::size_t row_count = 0;
+    char message[160]{};
+    if (!dh2_world_census_source_characters(mlx, mlx_size, "SWAMP",
+            "data/scene/001_swamp.mlx", source_mgps.data(), source_mgps.size(),
+            nullptr, 0, &row_count, message, sizeof(message))) {
+        error = message[0] ? message : "Source Character census sizing pass failed";
+        return false;
+    }
+    if (row_count > 32768) {
+        error = "Source Character census exceeds the bounded source object count";
+        return false;
+    }
+    std::vector<dh2_world_source_character_row> rows(row_count);
+    std::size_t written = 0;
+    if (!dh2_world_census_source_characters(mlx, mlx_size, "SWAMP",
+            "data/scene/001_swamp.mlx", source_mgps.data(), source_mgps.size(),
+            rows.empty() ? nullptr : rows.data(), rows.size(), &written,
+            message, sizeof(message))) {
+        error = message[0] ? message : "Source Character census population pass failed";
+        return false;
+    }
+    if (written != row_count) {
+        error = "Source Character census changed between bounded passes";
+        return false;
+    }
+
+    constexpr RecordKind mgp_kind = static_cast<RecordKind>(1);
+    std::vector<SourceCharacterCensusV1> candidate;
+    candidate.reserve(row_count);
+    std::size_t ledger_character_occurrences = 0;
+    for (const auto& occurrence : handle_ledger.occurrences)
+        if (occurrence.source.kind == mgp_kind &&
+            occurrence.source.gametype == "Character")
+            ++ledger_character_occurrences;
+    if (ledger_character_occurrences != row_count) {
+        error = "Source Character census count differs from MGP ObjectManager ledger occurrences";
+        return false;
+    }
+
+    for (const auto& row : rows) {
+        const source_handle_ledger_v1::Occurrence* selected = nullptr;
+        for (const auto& occurrence : handle_ledger.occurrences) {
+            const auto& source = occurrence.source;
+            if (source.kind != mgp_kind || source.module_index != row.module_index ||
+                source.record_index != row.source_record) continue;
+            if (selected) {
+                error = "Source Character provenance maps to multiple MGP handle occurrences";
+                return false;
+            }
+            selected = &occurrence;
+        }
+        if (!selected || selected->handle < 0 ||
+            selected->source.name != row.name ||
+            selected->source.gametype != "Character") {
+            error = "Source Character row has no exact ObjectManager ledger key";
+            return false;
+        }
+        SourceCharacterCensusV1 record{};
+        record.module_index = row.module_index;
+        record.source_record = row.source_record;
+        record.source_handle = selected->handle;
+        record.duplicate_name = selected->duplicate_name;
+        record.name = row.name;
+        record.character = row.character;
+        record.template_name = row.template_name;
+        record.activate_condition = row.activate_condition;
+        record.deactivate_condition = row.deactivate_condition;
+        record.script = row.script;
+        record.spawn_probability = row.spawn_probability;
+        record.auto_spawn = row.auto_spawn;
+        record.ai_state = row.ai_state;
+        record.deferred_reason_mask = row.deferred_reason_mask;
+        record.supported_direct_dact_v1 = row.supported_direct_dact_v1 != 0;
+        if (record.duplicate_name) {
+            record.deferred_reason_mask |=
+                DH2_SOURCE_CHARACTER_DEFER_DUPLICATE_OBJECT_MANAGER_NAME |
+                DH2_SOURCE_CHARACTER_DEFER_UNSUPPORTED_DIRECT_ROW;
+            record.supported_direct_dact_v1 = false;
+        }
+        for (unsigned axis = 0; axis < 3; ++axis) {
+            record.local.position[axis] = row.local_transform[axis];
+            record.local.rotation_degrees[axis] = row.local_transform[3 + axis];
+            record.local.scale[axis] = row.local_transform[6 + axis];
+            record.world.position[axis] = row.world_transform[axis];
+            record.world.rotation_degrees[axis] = row.world_transform[3 + axis];
+            record.world.scale[axis] = row.world_transform[6 + axis];
+        }
+        candidate.push_back(std::move(record));
+    }
+    output = std::move(candidate);
+    error.clear();
+    return true;
+}
+
 bool compile_source_mvp(const std::uint8_t* mlx, std::size_t mlx_size,
                         const SourceMvpView* mvps, std::size_t mvp_count,
                         std::vector<SourceMvpDecor>& out, std::string& error) {

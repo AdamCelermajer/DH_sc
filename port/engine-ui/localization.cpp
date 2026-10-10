@@ -87,7 +87,7 @@ bool Localization::id(std::uint32_t idvalue,const LocalizationServices& svc,std:
 }
 bool Localization::defaults(const LocalizationServices& svc,std::string& e){for(const char* key:{"GLOBAL_DECIMAL_SEPERATOR","GLOBAL_THOUSANDS_SEPERATOR","GLOBAL_THOUSANDS_GROUP_AT"}){std::uint32_t v;std::string out;if(!constant(svc,"StrID",key,v,e)||!id(v,svc,out,e))return false;}return true;}
 bool Localization::string_id(std::uint32_t value,const LocalizationServices& svc,std::string& out,std::string& e){
- e.clear();if(!ready_||busy_)return fail(e,"Localization ID lookup reentry unsupported");Busy guard(busy_);return id(value,svc,out,e);
+ e.clear();if(!ready_)return fail(e,"Localization ID lookup before StringManager initialization");if(busy_)return fail(e,"Localization ID lookup reentry unsupported");Busy guard(busy_);return id(value,svc,out,e);
 }
 bool Localization::raw_symbol(const std::string& symbol,const LocalizationServices& svc,LocalizationResult& out,std::string& e){
  e.clear();auto split=symbol.find('_');if(!ready_||busy_||!text_ok(symbol)||split==std::string::npos)return fail(e,"Localization symbol caller outside bounds");

@@ -33,6 +33,20 @@ struct StaticDactActorHandleV1 {
  std::string name;
  std::string character;
 };
+// One source MGP Character object from the bounded Level census. Source handle
+// is joined through the same ordered ObjectManager ledger; defer bits preserve
+// every currently unsupported authored activation route without executing it.
+struct SourceCharacterCensusV1 {
+ std::uint32_t module_index=0;
+ std::uint32_t source_record=0;
+ std::int32_t source_handle=-1;
+ bool duplicate_name=false;
+ std::string name,character,template_name,activate_condition,
+             deactivate_condition,script,spawn_probability,auto_spawn,ai_state;
+ std::uint32_t deferred_reason_mask=0;
+ bool supported_direct_dact_v1=false;
+ Transform local,world;
+};
 struct SpawnSelection{EntryPoint source;Point position{};Point rotation_degrees{};bool floor_snapped=false;};
 // Generated worlds with an authoritative SPWN sidecar may defer descriptor
 // spawn-floor validation until the selected source entrypoint is loaded.
@@ -69,6 +83,16 @@ bool compile_source_dact_with_handles(const std::uint8_t* mlx,std::size_t mlx_si
                          const source_handle_ledger_v1::Ledger& handle_ledger,
                          std::vector<StaticDactActorHandleV1>& actor_sources,
                          std::vector<std::uint8_t>& dact,std::string& error);
+// Enumerate every source MGP Character and join its exact MGP occurrence to
+// the caller's already-built canonical ObjectManager handle ledger. Duplicate
+// names remain census rows with the ledger's shared key and duplicate flag;
+// no partial census is published on malformed or unmapped provenance.
+bool census_source_characters_with_handles(const std::uint8_t* mlx,
+                         std::size_t mlx_size,const SourceMgpView* mgps,
+                         std::size_t mgp_count,
+                         const source_handle_ledger_v1::Ledger& handle_ledger,
+                         std::vector<SourceCharacterCensusV1>& output,
+                         std::string& error);
 // Import the nine source MVPs and project only the ten reviewed unconditional
 // SWAMP static Decor records into owned render-instance descriptions.
 bool compile_source_mvp(const std::uint8_t* mlx,std::size_t mlx_size,

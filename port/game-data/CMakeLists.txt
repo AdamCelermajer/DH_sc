@@ -16,7 +16,7 @@ target_sources(dh2_game_data PRIVATE savegame_options_v1.cpp)
 target_sources(dh2_game_data PRIVATE item_gear_properties_v5.cpp item_power_tables_v5.cpp
  loot_power_resources_v7.cpp)
 target_sources(dh2_game_data PRIVATE item_instance.cpp loot_tables_v2.cpp item_audiovisual_table_v1.cpp
- fresh_inventory_owned_v4.cpp player_add_loot_v1.cpp player_gear_effects_v5.cpp)
+ merchant_tables_v1.cpp fresh_inventory_owned_v4.cpp player_add_loot_v1.cpp player_gear_effects_v5.cpp)
 target_sources(dh2_game_data PRIVATE item_presentation_v5.cpp loot_power_creation_v7.cpp)
 target_sources(dh2_game_data PRIVATE loot_entry_selection_v1.cpp)
 target_sources(dh2_game_data PRIVATE item_auto_transmute_v1.cpp)
@@ -36,7 +36,7 @@ target_sources(dh2_game_data PRIVATE player_equipment_queries_live_v1.cpp)
 target_sources(dh2_game_data PRIVATE character_inventory_selection_v1.cpp)
 set_source_files_properties(item_gear_properties_v5.cpp item_power_tables_v5.cpp
  loot_power_resources_v7.cpp item_instance.cpp loot_tables_v2.cpp
- fresh_inventory_owned_v4.cpp player_gear_effects_v5.cpp item_presentation_v5.cpp
+ merchant_tables_v1.cpp fresh_inventory_owned_v4.cpp player_gear_effects_v5.cpp item_presentation_v5.cpp
  loot_power_creation_v7.cpp loot_entry_selection_v1.cpp PROPERTIES COMPILE_OPTIONS "-ffp-contract=off")
 target_include_directories(dh2_game_data PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_compile_options(dh2_game_data PRIVATE -Wall -Wextra -fno-fast-math)
@@ -76,6 +76,8 @@ else()
  target_link_libraries(item_gear_properties_v5_audit PRIVATE dh2_game_data)
  add_executable(loot_power_resources_v7_audit tests/loot_power_resources_v7.cpp)
  target_link_libraries(loot_power_resources_v7_audit PRIVATE dh2_game_data)
+ add_executable(merchant_tables_v1_audit tests/merchant_tables_v1.cpp)
+ target_link_libraries(merchant_tables_v1_audit PRIVATE dh2_game_data)
  add_executable(fresh_inventory_owned_v4_audit tests/fresh_inventory_owned_v4.cpp ../random/random.c)
  target_link_libraries(fresh_inventory_owned_v4_audit PRIVATE dh2_game_data)
  add_executable(item_auto_transmute_v1_audit tests/item_auto_transmute_v1.cpp)

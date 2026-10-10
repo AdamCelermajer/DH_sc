@@ -64,7 +64,7 @@ struct Fixture {
         return false;
     }
     void initialize() {
-        primary.assign(1800, 0x11); secondary.assign(1800, 0x22);
+        primary.assign(900, 0x11); secondary.assign(900, 0x22);
         p.assign(12, 0x33); target.assign(12, 0x44);
         v1306.assign(12, 0x55); v1309.assign(12, 0x66);
         view = {7, 0, {primary.data(),primary.size()},
@@ -88,16 +88,16 @@ int main() {
     check(save::serialize(0x1234, &services, bytes, &result, error) ==
               save::Status::complete,
           "Character::Serialize provider rejected exact source view");
-    check(f.object == 0x1234 && bytes.size() == 3665 &&
+    check(f.object == 0x1234 && bytes.size() == 1865 &&
           result.game_object_bytes == 6 && result.property_blocks == 2 &&
           result.ai_tail_bytes == 6 && result.character_bytes == bytes.size(),
           "Character::Serialize length or provider identity differs");
     check(bytes[0] == 1 && bytes[1] == 0 && word(bytes, 6) == 7 &&
-          bytes[10] == 0x11 && bytes[1810] == 0x22 &&
-          bytes[3610] == 0x33 && bytes[3622] == 0x44 &&
-          bytes[3634] == 1 && bytes[3635] == 0x55 &&
-          bytes[3647] == 0x66 && word(bytes, 3659) == 0xfffffffeu &&
-          bytes[3663] == 0 && bytes[3664] == 1,
+          bytes[10] == 0x11 && bytes[910] == 0x22 &&
+          bytes[1810] == 0x33 && bytes[1822] == 0x44 &&
+          bytes[1834] == 1 && bytes[1835] == 0x55 &&
+          bytes[1847] == 0x66 && word(bytes, 1859) == 0xfffffffeu &&
+          bytes[1863] == 0 && bytes[1864] == 1,
           "Character::Serialize write order or exact source spans differ");
 
     dh2::character_runtime_factory_v1::Record record;
@@ -119,7 +119,7 @@ int main() {
                                              Fixture::read_record_object};
     f.initialize();
     check(save::serialize_record(record, &canonical, bytes, &result, error) ==
-              save::Status::complete && bytes.size() == 3665,
+              save::Status::complete && bytes.size() == 1865,
           "canonical Character factory record did not serialize through existing component owners");
     f.view.is_player = 1;
     f.view.properties_primary = {};

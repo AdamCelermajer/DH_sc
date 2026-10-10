@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <cstdint>
+#include "record_kind.hpp"
 
 // Owned, renderer-independent records from the original MLX/MGP/MVP files.
 // These port types are not the original ARM object layout. They describe data;
@@ -11,7 +12,6 @@ enum class Error : std::uint32_t {
     missing_field, number, path, record, already_loaded, unsupported_transform,
     scene, missing_node, ambiguous_node
 };
-enum class RecordKind : std::uint32_t { level, mgp, mvp };
 constexpr std::uint32_t no_module = 0xffffffffU;
 struct Diagnostic {
     Error error;

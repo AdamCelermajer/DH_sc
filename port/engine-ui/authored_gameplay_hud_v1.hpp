@@ -32,6 +32,14 @@ public:
  bool update(const std::array<std::int32_t,17>& actual_infos,
              std::int32_t actual_class,bool actual_dpad,std::string&);
  bool display(std::string&);
+ // Synchronous read/write access to the authored enemy HUD clips. These
+ // operations borrow only the existing gameplay SWF and retain no actors.
+ bool enemy_visible(bool,std::string&);
+ bool enemy_label(const char*,std::string&);
+ bool enemy_text(std::uint32_t,const char*,std::string&);
+ bool enemy_frame(std::int32_t,bool,std::string&);
+ bool enemy_play(std::string&);
+ bool enemy_bar_is_sprite(bool&,std::string&);
  // Screen coordinate conversion uses the movie's retained source viewport.
  // Hit is GameSWF shape traversal, never a manufactured circle/rectangle.
  bool geometry(AuthoredHudControlV1,float screen_x,float screen_y,AuthoredHudGeometryV1&,std::string&);

@@ -108,6 +108,15 @@ bool fixed_ascii(std::uint8_t* output, std::size_t width, const char* value) {
     return true;
 }
 
+bool copy_source_text(char* output, std::size_t capacity, const char* value) {
+    if (!output || !capacity) return false;
+    if (!value) value = "";
+    const auto length = std::strlen(value);
+    if (length >= capacity) return false;
+    std::memcpy(output, value, length + 1);
+    return true;
+}
+
 struct ExpectedDirectActor {
     std::uint32_t module_index;
     std::uint32_t source_record;
@@ -666,6 +675,155 @@ extern "C" int dh2_world_compile_static_dact_with_sources(const std::uint8_t* ml
         mgps, mgp_count, characters, models, output, output_capacity,
         output_size, source_rows, source_capacity, source_count,
         error, error_capacity);
+}
+
+extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
+    std::size_t mlx_size, const char* level_name, const char* source_path,
+    const dh2_world_source_mgp* mgps, std::size_t mgp_count,
+    dh2_world_source_character_row* output, std::size_t output_capacity,
+    std::size_t* output_count, char* error, std::size_t error_capacity) {
+    if (output_count) *output_count = 0;
+    if (error && error_capacity) error[0] = 0;
+    if (!mlx || !mlx_size || !level_name || !*level_name || !source_path ||
+        !mgps || !mgp_count || mgp_count > 256 || !output_count ||
+        ((!output) != (output_capacity == 0))) {
+        set_error(error, error_capacity, "Missing source Character census input/output");
+        return 0;
+    }
+
+    SourceOwner owner;
+    dh2::world::Diagnostic diagnostic{};
+    auto status = dh2_world_import_level(&owner.level, level_name, source_path,
+        mlx, mlx_size, &diagnostic);
+    if (status != dh2::world::Error::ok) {
+        set_error(error, error_capacity, diagnostic.message);
+        return 0;
+    }
+    if (owner.level.module_count != mgp_count) {
+        set_error(error, error_capacity, "Source Character census requires one MGP per MLX Module");
+        return 0;
+    }
+    for (std::uint32_t i = 0; i < owner.level.module_count; ++i) {
+        if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
+            set_error(error, error_capacity, "Source Character census MGP input is incomplete");
+            return 0;
+        }
+        status = dh2_world_import_module_objects(&owner.level, i,
+            dh2::world::RecordKind::mgp, mgps[i].source_path, mgps[i].data,
+            mgps[i].size, &diagnostic);
+        if (status != dh2::world::Error::ok) {
+            set_error(error, error_capacity, diagnostic.message);
+            return 0;
+        }
+    }
+
+    std::size_t count = 0;
+    for (std::uint32_t i = 0; i < owner.level.entity_count; ++i) {
+        const auto& object = owner.level.entities[i];
+        if (object.kind != dh2::world::RecordKind::mgp ||
+            std::strcmp(object.gametype, "Character")) continue;
+        if (count >= 32768) {
+            set_error(error, error_capacity, "Source Character census exceeds its bounded row count");
+            return 0;
+        }
+        ++count;
+    }
+    if (!output) {
+        *output_count = count;
+        return 1;
+    }
+    if (output_capacity < count) {
+        set_error(error, error_capacity, "Source Character census output is too small");
+        return 0;
+    }
+
+    std::size_t selected_count = 0;
+    for (std::uint32_t i = 0; i < owner.level.entity_count; ++i) {
+        const auto& object = owner.level.entities[i];
+        if (object.kind != dh2::world::RecordKind::mgp ||
+            std::strcmp(object.gametype, "Character")) continue;
+        dh2_world_source_character_row row{};
+        row.module_index = object.module_index;
+        row.source_record = object.source_record;
+        const auto* character = dh2_world_field(&object, "charpropsname");
+        const auto* template_name = dh2_world_field(&object, "_templateName");
+        const auto* activate = dh2_world_field(&object, "activate_cond");
+        const auto* deactivate = dh2_world_field(&object, "deactivate_cond");
+        const auto* script = dh2_world_field(&object, "script");
+        const auto* spawn_probability = dh2_world_field(&object, "spawn_prob");
+        const auto* auto_spawn = dh2_world_field(&object, "auto_spawn");
+        const auto* ai_state = dh2_world_field(&object, "ai_state");
+        if (!copy_source_text(row.name, sizeof(row.name), object.name) ||
+            !copy_source_text(row.character, sizeof(row.character), character) ||
+            !copy_source_text(row.template_name, sizeof(row.template_name), template_name) ||
+            !copy_source_text(row.activate_condition, sizeof(row.activate_condition), activate) ||
+            !copy_source_text(row.deactivate_condition, sizeof(row.deactivate_condition), deactivate) ||
+            !copy_source_text(row.script, sizeof(row.script), script) ||
+            !copy_source_text(row.spawn_probability, sizeof(row.spawn_probability), spawn_probability) ||
+            !copy_source_text(row.auto_spawn, sizeof(row.auto_spawn), auto_spawn) ||
+            !copy_source_text(row.ai_state, sizeof(row.ai_state), ai_state)) {
+            set_error(error, error_capacity, "Source Character identity/activation field exceeds census bounds");
+            return 0;
+        }
+
+        std::uint32_t reasons = DH2_SOURCE_CHARACTER_DEFER_NONE;
+        if (!condition_absent(activate)) reasons |= DH2_SOURCE_CHARACTER_DEFER_ACTIVATE_CONDITION;
+        if (!condition_absent(deactivate)) reasons |= DH2_SOURCE_CHARACTER_DEFER_DEACTIVATE_CONDITION;
+        if (script && *script) reasons |= DH2_SOURCE_CHARACTER_DEFER_SCRIPT;
+        if (auto_spawn && !std::strcmp(auto_spawn, "0"))
+            reasons |= DH2_SOURCE_CHARACTER_DEFER_AUTOSPAWN_DISABLED;
+        if (ai_state && *ai_state && std::strcmp(ai_state, "Idle"))
+            reasons |= DH2_SOURCE_CHARACTER_DEFER_NON_IDLE_AI;
+        if (!template_name || std::strcmp(template_name, "Monster"))
+            reasons |= DH2_SOURCE_CHARACTER_DEFER_UNSUPPORTED_TEMPLATE;
+        if (direct_monster_record(object) && !direct_monster_candidate(object))
+            reasons |= DH2_SOURCE_CHARACTER_DEFER_SPAWN_PROBABILITY;
+
+        bool supported = false;
+        if (direct_monster_candidate(object) && !(reasons & DH2_SOURCE_CHARACTER_DEFER_SCRIPT)) {
+            for (const auto& expected : expected_direct_actors) {
+                if (object.module_index == expected.module_index &&
+                    object.source_record == expected.source_record &&
+                    !std::strcmp(object.name, expected.name) && character &&
+                    !std::strcmp(character, expected.character)) {
+                    supported = true;
+                    break;
+                }
+            }
+        }
+        if (!supported) reasons |= DH2_SOURCE_CHARACTER_DEFER_UNSUPPORTED_DIRECT_ROW;
+        row.supported_direct_dact_v1 = supported ? 1u : 0u;
+        row.deferred_reason_mask = supported
+            ? static_cast<std::uint32_t>(DH2_SOURCE_CHARACTER_DEFER_NONE) : reasons;
+
+        if (object.module_index >= owner.level.module_count) {
+            set_error(error, error_capacity, "Source Character MGP module index is invalid");
+            return 0;
+        }
+        const auto& module = owner.level.modules[object.module_index].record;
+        for (unsigned axis = 0; axis < 3; ++axis) {
+            row.local_transform[axis] = object.local.position[axis];
+            row.local_transform[3 + axis] = object.local.rotation_degrees[axis];
+            row.local_transform[6 + axis] = object.local.scale[axis];
+            row.world_transform[axis] = object.world_position[axis];
+            row.world_transform[3 + axis] = object.local.rotation_degrees[axis] +
+                module.local.rotation_degrees[axis];
+            row.world_transform[6 + axis] = object.local.scale[axis] *
+                module.local.scale[axis];
+            if (!std::isfinite(row.local_transform[axis]) ||
+                !std::isfinite(row.local_transform[3 + axis]) ||
+                !std::isfinite(row.local_transform[6 + axis]) ||
+                !std::isfinite(row.world_transform[axis]) ||
+                !std::isfinite(row.world_transform[3 + axis]) ||
+                !std::isfinite(row.world_transform[6 + axis])) {
+                set_error(error, error_capacity, "Source Character transform is non-finite");
+                return 0;
+            }
+        }
+        output[selected_count++] = row;
+    }
+    *output_count = selected_count;
+    return 1;
 }
 
 extern "C" int dh2_world_compile_static_mvp(const std::uint8_t* mlx,
