@@ -437,6 +437,18 @@ bool RuntimeEquipmentBindingV1::unequip(unsigned slot, std::string& error) {
     if (!impl_->refresh_source_appearance(error)) return false;
     error.clear(); return true;
 }
+// B061: the modular controllers (<module>-mesh-skin) of the CURRENT equipment, from the
+// same slot-to-part plan the equipment page uses, so the gameplay body can show them.
+bool RuntimeEquipmentBindingV1::body_controller_ids(std::vector<std::string>& ids, std::string& error) const {
+    if (!ready(error)) return false;
+    SourceEquipmentAppearancePlan plan;
+    if (!prepare_source_equipment_appearance(*impl_->character, impl_->items, impl_->options.slots,
+            *impl_->source_skin, plan, error)) return false;
+    ids.clear();
+    for (const auto& step : plan.steps)
+        if (step.weapon_mode < 0 && step.module_id != -1) ids.push_back(step.module + "-mesh-skin");
+    error.clear(); return true;
+}
 bool RuntimeEquipmentBindingV1::sample_render_pose(std::string& error) {
     if (!ready(error)) return false;
     std::vector<Mat4> previous;

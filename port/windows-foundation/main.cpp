@@ -1986,6 +1986,17 @@ int main(int argc,char** argv) {
         // Preview 14/15: Stats +/- staged spends of one menu visit (features/character_menu/stat_training_v1.hpp); cleared at each open.
         auto statTrainingVisit=std::make_shared<f::character_menu::StatTrainingVisitV1>();
         bool equipmentRebindRequested=false; // P14 DROPS: a pickup added a definition the equipment text policy must list
+        // B061: the gameplay body shows the equipped modular parts (helm/torso/gloves/boots),
+        // using the same slot-to-part plan as the equipment page. A failure keeps the old body.
+        const auto syncPlayerBodyParts=[&]() {
+            if(!runtimeEquipment)return;
+            std::vector<std::string> ids;std::string syncError;
+            if(!runtimeEquipment->body_controller_ids(ids,syncError)||!visual.reselect_controllers(assets,ids,syncError)) {
+                std::cerr<<"Player body equipment diagnostic: "<<syncError<<'\n';return;
+            }
+            bindMaterials();
+            std::cout<<"Player body parts:";for(const auto& id:ids)std::cout<<' '<<id;std::cout<<'\n';
+        };
         const auto bindEquipmentPage=[&]() {
             if(!combatSession||!menuSourceOwner.valid())return;
             std::string equipmentError;
@@ -2067,6 +2078,7 @@ int main(int argc,char** argv) {
                 runtimeEquipmentAttachments=initialRender.attachments;
             } else if(!equipmentError.empty())throw std::runtime_error(equipmentError);
             runtimeEquipment=std::move(binding);runtimeEquipmentPage=std::move(page);
+            syncPlayerBodyParts(); // B061
         };
         const auto retireEquipmentPage=[&]() {
             // The provider borrows the actor/Scene through this binding. Retire
@@ -2805,6 +2817,7 @@ int main(int argc,char** argv) {
                             if(changed.actor_id!=combatSession->player_id()||changed.same_session_visual!=combatSession->retained_actor_visual_borrow(changed.actor_id)||!changed.attachments)
                                 throw std::runtime_error("Equipment render receipt lost the same Session visual");
                             runtimeEquipmentAttachments=changed.attachments;
+                            syncPlayerBodyParts(); // B061
                             if(locomotionLibrary)bindSourcePlayerLocomotion(*combatSession);
                             std::cout<<"Equipment render revision="<<changed.revision<<" actor="<<changed.actor_id<<'\n';
                             std::cout<<"Equipment state count="<<sharedCharacter->equipment.size()<<" attachments="<<changed.attachments->attachments().size();
