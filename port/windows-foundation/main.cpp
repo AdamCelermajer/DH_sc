@@ -68,6 +68,7 @@
 #include "features/physics/session_actor_transition_v1.hpp"
 #include "features/audio/runtime_audio_host_v1.hpp"
 #include "features/audio/level_music_v1.hpp"
+#include "features/audio/frontend_music_v1.hpp"  // B064 frontend title/main-menu music
 #include "features/audio/runtime_session_audio_v1.hpp"
 #include "features/loot/world_item_sound_v1.hpp"
 #include "features/frontend/creation/generic_creation_host_v1.hpp"
@@ -543,6 +544,13 @@ int main(int argc,char** argv) {
         f::frontend::creation::RuntimeCreationSourceOwnerV1 menuSourceOwner;
         dh2::data::LootRandom8V2 creationRandom{};
         bool frontendStarted=false;
+#if defined(_WIN32)
+        // B064: the frontend audio session and its music request live for the whole menu->loading route so the
+        // title track keeps playing across screens and the loading screen (original: PlayMusic fade 2000 until the
+        // level replaces it). Shut down at the gameplay audio handoff below.
+        std::unique_ptr<f::audio::FrontendMenuAudioSessionV1> menuAudio;
+        f::audio::FrontendMusicDirectorV1 menuMusic;
+#endif
         std::optional<dh2::data::CombatRandom> frontendRandomState;
         if(options.startMode=="menu"&&!options.probe) {
             namespace creation=f::frontend::creation;
@@ -553,6 +561,51 @@ int main(int argc,char** argv) {
                 windowOpened=true;
             } else if((window.width()!=width||window.height()!=height)&&!window.resize(width,height))
                 throw std::runtime_error("Frontend retained window resize: "+window.error());
+#if defined(_WIN32)
+            // B064: frontend audio owner (clicks + title/main-menu music). Created on the first focused frame,
+            // possibly already at the title screen of the boot, and reused by the menu.
+            const auto pumpMenuAudio=[&]() {
+                if(!menuAudio)return;
+                menuAudio->pump_receipts();dh2::audio::AudioReceiptV34 receipt;
+                while(menuAudio->take_receipt(receipt))std::cout<<"Frontend audio device token="<<receipt.token<<" kind="<<int(receipt.kind)<<" frame="<<receipt.frame<<'\n';
+                // Producer stats: proves the title track is still owned and looping (sounds.xml loop=yes).
+                static double lastStateSeconds=-100.0;const double nowSeconds=window.seconds();
+                if(menuAudio->music_ordinal()>=0&&nowSeconds-lastStateSeconds>=5.0) {
+                    lastStateSeconds=nowSeconds;std::string stateError;
+                    const bool playing=menuAudio->music_playing(stateError);
+                    std::cout<<"Frontend music state: ordinal="<<menuAudio->music_ordinal()<<" playing="<<int(playing)<<(stateError.empty()?"":" diagnostic="+stateError)<<std::endl;
+                }
+            };
+            const auto applyMenuMusic=[&]() {
+                if(!menuAudio||!menuMusic.has_pending())return;
+                const auto request=menuMusic.pending();
+                f::audio::FrontendMusicReceiptV1 receipt;std::string musicError;
+                if(!menuAudio->play_music(request.track.c_str(),request.fade_ms,receipt,musicError)) {
+                    menuMusic.applied();std::cerr<<"Frontend music diagnostic: "<<musicError<<std::endl;return;
+                }
+                using Status=f::audio::FrontendMusicStatusV1;
+                if(receipt.status==Status::skipped_without_focus)return; // retried on the next focused frame
+                menuMusic.applied();
+                const char* kind=receipt.status==Status::started?"start":receipt.status==Status::resumed?"resume":
+                    receipt.status==Status::switched?"switch":"skip";
+                std::cout<<f::audio::music_transition_line_v1("Frontend",kind,request.track,request.fade_ms,
+                    "screen="+request.screen+" ordinal="+std::to_string(receipt.source_ordinal)+" uid="+std::to_string(receipt.xml_sound_uid)+
+                    (receipt.detail.empty()?"":" detail="+receipt.detail))<<std::endl;
+            };
+            const auto menuAudioActivity=[&](bool focused,bool minimized) {
+                if(!options.runtimeAudio)return;
+                std::string audioError;
+                if(!menuAudio&&focused&&!minimized) {
+                    auto audio=std::make_unique<f::audio::FrontendMenuAudioSessionV1>();
+                    const auto audioRoot=options.audioAssets.empty()?assets.root():options.audioAssets;
+                    if(audio->start(fs::absolute(audioRoot).generic_string(),focused,minimized,audioError))menuAudio=std::move(audio);
+                    else std::cerr<<"Frontend audio initialization diagnostic: "<<audioError<<'\n';
+                }
+                if(menuAudio&&!menuAudio->window_activity(focused,minimized,audioError))std::cerr<<"Frontend audio activity diagnostic: "<<audioError<<'\n';
+                applyMenuMusic();
+                pumpMenuAudio();
+            };
+#endif
             // Preview 15 startup boot (original order): intro movie (contains the Gameloft logo, SKIP) -> touch to
             // continue -> main menu, first menu entry only. --skip-boot bypasses it for tests; boot asset failures
             // are logged and the menu still runs.
@@ -571,8 +624,27 @@ int main(int argc,char** argv) {
                 if(bootOutput.open(bootAudioError)) {
                     bootConfig.audio_mixer=bootMixer.get();
                     bootConfig.audio_latency_frames=std::uint64_t(f::audio::kWinmmBufferCount)*f::audio::kWinmmFramesPerBuffer;
-                    bootConfig.audio_pump=[&bootOutput](){std::string e;if(!bootOutput.update(e)){static bool reported=false;if(!reported){reported=true;std::cerr<<"Boot audio pump: "<<e<<std::endl;}}};
+                    bootConfig.audio_pump=[&bootOutput](){std::string e;if(bootOutput.opened()&&!bootOutput.update(e)){static bool reported=false;if(!reported){reported=true;std::cerr<<"Boot audio pump: "<<e<<std::endl;}}};
                 } else std::cerr<<"Boot audio unavailable ("<<bootAudioError<<"); the movie runs on the wall clock"<<std::endl;
+#if defined(_WIN32)
+                // B064: original menu_splash show -> NativePlayMusic("TitleMusic"). The boot output (movie sound,
+                // already released by the runner) is closed first so one WinMM output exists at a time.
+                bool bootTitleReached=false;
+                bootConfig.on_title_entered=[&]() {
+                    bootOutput.close();
+                    bootTitleReached=true;
+                    menuAudioActivity(window.focused(),window.minimized());
+                    menuMusic.on_screen("title_splash");
+                    applyMenuMusic();
+                };
+                // From the title screen on, the same per-frame call the menu uses keeps the music request retried
+                // (unfocused start) and its receipts drained.
+                const auto baseAudioPump=bootConfig.audio_pump;
+                bootConfig.audio_pump=[&,baseAudioPump](){
+                    if(baseAudioPump)baseAudioPump();
+                    if(bootTitleReached)menuAudioActivity(window.focused(),window.minimized());
+                };
+#endif
                 const auto boot=f::startup::run_boot_v1(window,renderer,bootConfig);
                 bootOutput.close();
                 // std::endl flushes: verification jobs may be killed after the boot ends.
@@ -696,25 +768,9 @@ int main(int argc,char** argv) {
             };
             f::frontend::FrontendRuntimeServicesV1 frontendServices;
 #if defined(_WIN32)
-            std::unique_ptr<f::audio::FrontendMenuAudioSessionV1> menuAudio;
-            const auto pumpMenuAudio=[&]() {
-                if(!menuAudio)return;
-                menuAudio->pump_receipts();dh2::audio::AudioReceiptV34 receipt;
-                while(menuAudio->take_receipt(receipt))std::cout<<"Frontend audio device token="<<receipt.token<<" kind="<<int(receipt.kind)<<" frame="<<receipt.frame<<'\n';
-            };
-            const auto menuAudioActivity=[&](bool focused,bool minimized) {
-                if(!options.runtimeAudio)return;
-                std::string audioError;
-                if(!menuAudio&&focused&&!minimized) {
-                    auto audio=std::make_unique<f::audio::FrontendMenuAudioSessionV1>();
-                    const auto audioRoot=options.audioAssets.empty()?assets.root():options.audioAssets;
-                    if(audio->start(fs::absolute(audioRoot).generic_string(),focused,minimized,audioError))menuAudio=std::move(audio);
-                    else std::cerr<<"Frontend audio initialization diagnostic: "<<audioError<<'\n';
-                }
-                if(menuAudio&&!menuAudio->window_activity(focused,minimized,audioError))std::cerr<<"Frontend audio activity diagnostic: "<<audioError<<'\n';
-                pumpMenuAudio();
-            };
             frontendServices.window_activity=menuAudioActivity;
+            // B064: authored onPush music request of the screen now on top (frontend_music_v1 rule table).
+            frontendServices.navigation.menu_entered=[&](const char* menu){menuMusic.on_screen(menu);applyMenuMusic();};
             frontendServices.navigation.authored_menu_sound=[&](const char* menu,const char* button,const char* action) {
                 if(!options.runtimeAudio)return;
                 menuAudioActivity(window.focused(),window.minimized());
@@ -819,7 +875,8 @@ int main(int argc,char** argv) {
             menuConfig.selected_slot={options.selectedSaveSlot,fs::is_regular_file(slotPath(options.selectedSaveSlot)),slotPath(options.selectedSaveSlot)};
             const auto result=frontend.complete(f::frontend::run_frontend_v1(window,renderer,menuConfig,frontend.runtime_services()));
 #if defined(_WIN32)
-            if(menuAudio){pumpMenuAudio();std::string audioError;if(!menuAudio->shutdown(audioError))throw std::runtime_error("Frontend audio shutdown: "+audioError);menuAudio.reset();}
+            // B064: menuAudio stays alive (title music continues through the loading screen); see the gameplay audio handoff.
+            if(menuAudio)pumpMenuAudio();
 #endif
             if(!result.gameplay_started_for(sharedCharacter,options.selectedSaveSlot)) {
                 if(result.frontend.outcome==f::frontend::FrontendRuntimeOutcomeV1::host_failed||result.frontend.outcome==f::frontend::FrontendRuntimeOutcomeV1::source_operation_failed)
@@ -1909,6 +1966,25 @@ int main(int argc,char** argv) {
         f::CameraTimeline timeline({{0,start,false},{3,end,false},{5,cut,true},{8,start,false}});
         bool useTimeline=options.timeline;
         if(useTimeline) timeline.play();
+#if defined(_WIN32)
+        // B064: frontend -> gameplay audio handoff. The original crossfades the title track into the level music at the
+        // first Level::Update (PlayMusic fade 2000). The gameplay audio is a different output session, so the title
+        // track fades out here (kFrontendMusicHandoffFadeMs) and the frontend output is closed before it starts.
+        if(menuAudio) {
+            std::string handoffError;
+            if(menuAudio->music_ordinal()>=0) {
+                const int fadeMs=f::audio::kFrontendMusicHandoffFadeMs;
+                const auto ordinal=menuAudio->music_ordinal();
+                if(menuAudio->stop_music(fadeMs,handoffError)) {
+                    std::cout<<f::audio::music_transition_line_v1("Frontend","handoff-stop","TitleMusic",fadeMs,"ordinal="+std::to_string(ordinal))<<std::endl;
+                    const double until=window.seconds()+double(fadeMs)/1000.0+0.1;
+                    while(window.seconds()<until){menuAudio->pump_receipts();dh::foundation::platform_sleep_milliseconds(10);}
+                } else std::cerr<<"Frontend music handoff diagnostic: "<<handoffError<<std::endl;
+            }
+            if(!menuAudio->shutdown(handoffError))throw std::runtime_error("Frontend audio shutdown: "+handoffError);
+            menuAudio.reset();
+        }
+#endif
         std::unique_ptr<f::audio::RuntimeSessionAudioV1> runtimeAudio;
         if(options.runtimeAudio) {
             try {

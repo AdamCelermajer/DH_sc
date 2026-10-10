@@ -45,6 +45,10 @@ struct BootRunConfig {
     std::uint64_t audio_latency_frames = 0;  // frames queued in the platform output (subtracted from the clock)
     // Verification hooks (quiet batches only). Scripted presses go through the same abstract
     // press edge as real input; captures are written by the host.
+    // B064: called once when the title screen ("touch to continue") appears. The host starts the
+    // frontend TitleMusic here (original menu_splash show -> NativePlayMusic("TitleMusic")). The intro
+    // soundtrack voice is stopped first so a skipped movie never overlaps the title track.
+    std::function<void()> on_title_entered;
     std::vector<double> scripted_presses;
     std::vector<std::pair<double, std::filesystem::path>> captures;
     std::function<void(const std::filesystem::path&, int, int)> capture;

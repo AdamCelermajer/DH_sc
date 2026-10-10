@@ -67,6 +67,9 @@ struct Services {
     // Non-vetoing authored NativePlaySoundFX statement; actual sound/output
     // ownership remains with the frontend host.
     std::function<void(const char* menu,const char* button,const char* action)> authored_menu_sound;
+    // B064: the menu that is now on top of the stack (initial main menu included); the host maps it to
+    // the authored onPush music request (TitleMusic) through frontend_music_v1. Non-vetoing.
+    std::function<void(const char* menu)> menu_entered;
 };
 bool valid_authored_name(std::string_view raw) noexcept;
 const char* main_menu_error_symbol(int source_event) noexcept;
@@ -84,7 +87,9 @@ class Navigator {
     bool start_delivered_{};
     bool change(std::vector<std::string>,std::string&);
 public:
-    explicit Navigator(Services services = {}):services_(std::move(services)){}
+    explicit Navigator(Services services = {}):services_(std::move(services)){
+        if(services_.menu_entered)services_.menu_entered(stack_.back().c_str());
+    }
     const std::vector<std::string>& stack()const noexcept{return stack_;}
     std::string_view top()const noexcept{return stack_.empty()?std::string_view{}:std::string_view(stack_.back());}
     const std::string& player_name()const noexcept{return name_;}

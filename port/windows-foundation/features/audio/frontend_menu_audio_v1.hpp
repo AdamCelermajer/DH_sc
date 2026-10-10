@@ -2,6 +2,7 @@
 
 #include "../../../engine-audio/integration-v42/audio_native_session_v42.hpp"
 #include "../../../engine-audio/audio_bank_v34.hpp"
+#include "music_voice_v1.hpp"
 #include <memory>
 #include <string>
 
@@ -20,6 +21,23 @@ struct FrontendMenuAudioReceiptV1 {
     std::int32_t source_ordinal{-1};
     std::int32_t xml_sound_uid{-1};
     std::uint64_t token{};
+    std::string detail;
+};
+
+enum class FrontendMusicStatusV1 {
+    started,
+    resumed,
+    switched,
+    unknown_source_name,
+    skipped_without_focus,
+    missing_original_asset,
+    rejected
+};
+
+struct FrontendMusicReceiptV1 {
+    FrontendMusicStatusV1 status{FrontendMusicStatusV1::rejected};
+    std::int32_t source_ordinal{-1};
+    std::int32_t xml_sound_uid{-1};
     std::string detail;
 };
 
@@ -52,6 +70,7 @@ private:
     std::unique_ptr<dh2::audio::AudioNativeSessionV42> session_;
     std::uint32_t activity_sequence_{};
     bool focused_{},minimized_{},started_{};
+    MusicVoiceV1 music_;
 
     bool publish_activity(bool focused,bool minimized,std::string& error);
 public:
@@ -79,6 +98,15 @@ public:
         FrontendMenuAudioReceiptV1&,std::string& error);
     void pump_receipts();
     bool take_receipt(dh2::audio::AudioReceiptV34&);
+    // B064: original NativePlayMusic -> VoxSoundManager::PlayMusic(id,loop,force=0,fade) for a frontend
+    // screen's authored track name (e.g. "TitleMusic"). Same voice semantics as the level music
+    // (music_voice_v1): the track already playing resumes, another one is faded out first. Non-vetoing:
+    // missing sample / no focused output are receipts, not failures.
+    bool play_music(const char* track_name,int fade_ms,FrontendMusicReceiptV1&,std::string& error);
+    bool stop_music(int fade_ms,std::string& error);
+    std::int32_t music_ordinal() const noexcept{return music_.ordinal;}
+    // Producer-pump diagnostic: is the owned music voice still alive (looping)?
+    bool music_playing(std::string& error);
     bool shutdown(std::string& error);
 };
 

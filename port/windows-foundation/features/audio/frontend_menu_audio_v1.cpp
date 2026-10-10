@@ -189,6 +189,62 @@ bool FrontendMenuAudioSessionV1::play_authored_menu_action(const char* menu,
     return true;
 }
 
+bool FrontendMenuAudioSessionV1::play_music(const char* name,int fade_ms,
+    FrontendMusicReceiptV1& receipt,std::string& error) {
+    receipt={};error.clear();
+    if(!session_||!started_) {error="Frontend menu audio session is not started";return false;}
+    auto* runtime=session_->runtime_on_producer();
+    if(!runtime||!runtime->source_data_initialized()) {
+        error="Frontend menu audio source runtime is unavailable";return false;
+    }
+    if(!name||!*name) {
+        receipt.status=FrontendMusicStatusV1::unknown_source_name;
+        receipt.detail="NativePlayMusic name is empty";return true;
+    }
+    receipt.source_ordinal=runtime->bindings().source_id(name);
+    if(receipt.source_ordinal<0) {
+        receipt.status=FrontendMusicStatusV1::unknown_source_name;
+        receipt.detail="Exact generated sound name is absent; original wrapper is a no-op";
+        return true;
+    }
+    const auto* row=runtime->bindings().row(receipt.source_ordinal);
+    receipt.xml_sound_uid=row?row->uid:-1;
+    if(!focused_||minimized_||!ready()) {
+        receipt.status=FrontendMusicStatusV1::skipped_without_focus;
+        receipt.detail="Source PlayMusic did not reach a focused frontend output";
+        return true;
+    }
+    MusicVoiceActionV1 action{};
+    std::string playError;
+    if(music_.play(*runtime,receipt.source_ordinal,fade_ms,action,playError)) {
+        receipt.status=action==MusicVoiceActionV1::resumed?FrontendMusicStatusV1::resumed:
+            action==MusicVoiceActionV1::switched?FrontendMusicStatusV1::switched:FrontendMusicStatusV1::started;
+        return true;
+    }
+    receipt.detail=playError;
+    if(playError.rfind("Unavailable original audio asset: ",0)==0)
+        receipt.status=FrontendMusicStatusV1::missing_original_asset;
+    else if(!focused_||minimized_||!ready())
+        receipt.status=FrontendMusicStatusV1::skipped_without_focus;
+    else receipt.status=FrontendMusicStatusV1::rejected;
+    return true;
+}
+
+bool FrontendMenuAudioSessionV1::stop_music(int fade_ms,std::string& error) {
+    if(music_.ordinal<0) {error.clear();return true;}
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    if(!runtime) {error="Frontend menu audio source runtime is unavailable";return false;}
+    return music_.stop(*runtime,fade_ms,error);
+}
+
+bool FrontendMenuAudioSessionV1::music_playing(std::string& error) {
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    if(!runtime||music_.ordinal<0) {error.clear();return false;}
+    bool playing{};
+    if(!runtime->source_ordinal_playing(music_.ordinal,playing,error))return false;
+    return playing;
+}
+
 void FrontendMenuAudioSessionV1::pump_receipts() {
     if(auto* runtime=session_?session_->runtime_on_producer():nullptr)runtime->pump_receipts();
 }
