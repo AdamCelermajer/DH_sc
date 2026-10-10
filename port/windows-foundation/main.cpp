@@ -3601,7 +3601,12 @@ int main(int argc,char** argv) {
                 ctxInput.object_is_actor=combatSession->actor(objectOfInterest.object())!=nullptr; // P16 SPACEBTN
                 const auto ctxDecision=f::decide_context_button_v1(ctxInput);
                 if(!ctxDecision.attack_held)gameplayInput.attack=false;
-                if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest) {
+                // P16 SPACEBTN: the press-edge use is refused while the controller is locked (cutscene/tutorial LockTutorial,
+                // dead, character lock), as the source HUD does not reach Cmd_UseOOI then. Attack handling is unchanged.
+                const bool ctxControllerLocked=!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()];
+                if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest&&ctxControllerLocked)
+                    std::cout<<"Context button frame="<<drawn<<" ooi="<<objectOfInterest.object()<<" type="<<objectOfInterest.interaction_type()<<" status=refused_controller_locked\n";
+                if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest&&!ctxControllerLocked) {
                     const auto ooi=objectOfInterest.object();
                     const bool ooiIsActor=combatSession->actor(ooi)!=nullptr;
                     if(ooiIsActor) { // actor OOI: source AI_SetTarget(OOI, 0)
@@ -3618,7 +3623,7 @@ int main(int argc,char** argv) {
                         } else if(!talkToNpcObject(ooi))
                             std::cout<<"Context button ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" status=unhandled frame="<<drawn<<" (logged)\n";
                     }
-                    std::cout<<"Context button frame="<<drawn<<" ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" use="<<ctxDecision.use_object_of_interest<<" actor="<<ooiIsActor<<'\n';
+                    std::cout<<"Context button frame="<<drawn<<" ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" use="<<ctxDecision.use_object_of_interest<<" actor="<<ooiIsActor<<" locked_global="<<globalControllerBlocked<<" locked_char="<<characterControllerBlocked[combatSession->player_id()]<<'\n';
                 }
             }
             gameplayInput.attack=gameplayInput.attack||(drawn>=options.attackStartFrame&&std::int64_t(drawn)<std::int64_t(options.attackStartFrame)+options.attackFrames);gameplayInput.targetSelect=gameplayInput.targetSelect||drawn==options.targetFrame;
