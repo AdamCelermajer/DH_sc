@@ -59,8 +59,7 @@ loading screen (the SKIP frame in the reference is the level-transition screen, 
   rewritten (ffmpeg only), `--intro-movie` replaces `--intro-stream`. Tests: boot flow, intro movie.
 - `04da4a29` soundtrack clock at movie end/skip, zero lead, `soundtrack_released` logged, verifier.
 - `cf73c0ee` loading screen with tip (loading_tip_v1), shared text labels (text_label_v1), tip box, red bar.
-- Uncommitted at report time: `port/windows-foundation/third_party/THIRD_PARTY_NOTICES.md` (committed with this
-  report).
+- `3241ddb1` third-party notice (`third_party/THIRD_PARTY_NOTICES.md`) and this report.
 
 Files: `features/startup/{boot_flow_v1,boot_runner_v1,intro_movie_v2,intro_soundtrack_v2,pcm_wav_v2,text_label_v1,
 loading_tip_v1,loading_screen_v1}.{hpp,cpp}`, `intro_movie_v2_tests.cpp`, `boot_flow_v1_tests.cpp`,
