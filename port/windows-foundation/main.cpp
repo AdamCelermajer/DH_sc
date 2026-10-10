@@ -63,6 +63,7 @@
 #include "features/containers/container_loot_v1.hpp" // P16 CONTAINERS2 (T4 DoOpen loot)
 #include "features/containers/container_open_script_v1.hpp" // P16 CONTAINERS2 (T6 OnOpen contract)
 #include "features/containers/container_world_v1.hpp" // P16 CONTAINERS2 (T5 OBJS persistence)
+#include "features/despawn/despawn_after_death_v1.hpp" // P16 DESPAWN (automatic despawn after death)
 #include "features/quest_runtime/quest_zones_v1.hpp" // P16 QUESTUI: quest trigger zones
 #include "features/quests/quest_banner_presenter_v1.hpp" // P16 QUESTUI: quest banners
 #include "features/quests/runtime_quest_menu_v1.hpp" // P16 QUESTUI: Quest Log tab page
@@ -316,6 +317,7 @@ struct Options {
     std::vector<ScheduledSourceCommand> sourceCommands;
     // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME (debug; empty by default).
     std::vector<f::spawn::SpawnTestRequestV1> spawnTests;
+    std::vector<std::pair<std::string,std::string>> containerScriptOverrides; // P16 CONTAINERS2 debug: --container-script DECL=SCRIPT (default none)
     std::vector<f::spawn::SpawnNamedRequestV1> spawnDeclared; // P16 SPAWN: --spawn-declared NAME@FRAME (authored Limbus/PreSpawn declaration; implies --retain-hidden-actors)
     std::vector<f::spawn::SpawnNamedRequestV1> despawnTests;  // P16 SPAWN: --despawn-test NAME@FRAME (live pool slot by population name)
     std::map<std::string,f::OriginalAttackSelection> lifecycleSpawns;
@@ -399,6 +401,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--retain-hidden-actors") o.retainHiddenActors=true;
         else if(arg=="--spawn-test") {f::spawn::SpawnTestRequestV1 test;std::string parseError;if(!f::spawn::parse_spawn_test_v1(value(),test,parseError))throw std::runtime_error(parseError);o.spawnTests.push_back(test);} // P16 SPAWN
         else if(arg=="--spawn-declared") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--spawn-declared: "+parseError);o.spawnDeclared.push_back(request);o.retainHiddenActors=true;} // P16 SPAWN
+        else if(arg=="--container-script") {const auto text=value();const auto eq=text.find('=');if(eq==std::string::npos||eq==0||eq+1>=text.size())throw std::runtime_error("--container-script expects DECLARATION=SCRIPT");o.containerScriptOverrides.emplace_back(text.substr(0,eq),text.substr(eq+1));} // P16 CONTAINERS2 debug (plant/zombie OnOpen variants on Swamp)
         else if(arg=="--despawn-test") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--despawn-test: "+parseError);o.despawnTests.push_back(request);} // P16 SPAWN
         else if(arg=="--enemy-ai") o.runtimeEnemyAI=true;
         else if(arg=="--population-templates") o.populationTemplates=true;
@@ -1172,7 +1175,12 @@ int main(int argc,char** argv) {
             {std::string containerError;f::containers::ContainerLoadReportV1 containerReport;std::vector<std::string> containerNotices;std::vector<f::containers::ContainerInstanceV1> containerInstances;
              if(!containerTables.ready()&&!containerTables.load(assets,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
              else if(!f::containers::load_container_instances_v1(containerTables,containerRegistry,population.definitions(),containerInstances,containerReport,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
-             else if(!containerRuntime.adopt(assets,std::move(containerInstances),containerNotices,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
+             else if(![&]{ // P16 CONTAINERS2 debug: --container-script overrides the authored OnOpen script of named declarations (logged)
+                 for(const auto& [declName,script]:options.containerScriptOverrides){
+                     bool found=false;for(auto& instance:containerInstances)if(instance.name==declName){instance.script=script;found=true;}
+                     std::cout<<"Container script override declaration="<<declName<<" script="<<script<<(found?" status=applied":" status=unknown_declaration")<<'\n';
+                 }
+                 return containerRuntime.adopt(assets,std::move(containerInstances),containerNotices,containerError);}())std::cout<<"Containers unavailable: "<<containerError<<'\n';
              else {
                  std::size_t visible=0;for(const auto& view:containerRuntime.views())if(view.visual)++visible;
                  std::string unsupported;for(const auto& u:containerReport.unsupported){if(!unsupported.empty())unsupported+=",";unsupported+=u.first+":"+std::to_string(u.second);}
@@ -1949,6 +1957,8 @@ int main(int argc,char** argv) {
                     // P16 LIFECYCLE: request.state is the admitted transition target (Blur/Focus recipes in the consumer).
                     if(request.state==1)return combatSession->play_actor_state_sequence(actor.id,lifecycleSpawnChoice(placed->profileId),animationServices,e,request.state);
                     if(request.state==3)return combatSession->select_actor_state_leaf(actor.id,policy->second.initialIdle,1,false,animationServices,e,request.state);
+                    // P16 DESPAWN: lifecycle state 2 plays the actor's Despawn clip (CSDespawn::OnFocus). Its end is the Limbus transition.
+                    if(request.state==2)return combatSession->select_actor_state_leaf(actor.id,f::CombatSessionChoice{"Despawn",0,{0}},1,false,animationServices,e,request.state);
                     const auto* source=meleeBindings.find_actor(placed->profileId);
                     const auto pre=source->states.find("PreSpawn");
                     if(pre==source->states.end()){e="PreSpawn source availability metadata absent";return false;}
@@ -3160,6 +3170,64 @@ int main(int argc,char** argv) {
             }
         };
         loadingScreen.finish();  // holds 100% for the minimum display time, then gameplay
+        // P16 DESPAWN: automatic despawn after death through the lifecycle (features/despawn/despawn_after_death_v1). Tracks
+        // dead lifecycle actors (state Idle), releases the body at the death-animation end (source CSDead event 34), runs
+        // CharacterDesign.Despawn_Delay (source event 46), plays the Despawn clip (lifecycle state 2) and completes into Limbus.
+        // Summoned actors release their spawn-pool slot on completion. Owner state is transient (dropped with the world).
+        f::despawn::DespawnAfterDeathV1 despawnOwner;
+        std::uint32_t despawnDelayMs=0;
+        const auto despawnServices=[&]() {
+            f::despawn::Services s;
+            s.log=[](const std::string& line){std::cout<<line<<'\n';};
+            s.release_body=[&](std::uint64_t id,std::string& e){return actorLifecycle.release_body(id,e);};
+            s.play_clip=[&](std::uint64_t id,std::string& e){return actorLifecycle.despawn(id,e);};
+            s.hide=[&](std::uint64_t id,std::string& e){return actorLifecycle.put_limbus(id,e);};
+            s.finished=[&](std::uint64_t id,bool& done,std::string& e){
+                const auto* status=actorLifecycle.status(id);
+                if(!status){e="Despawn actor has no lifecycle record";return false;}
+                done=status->state==0;return true;};
+            s.release_slot=[&](std::uint64_t id,std::string& e){
+                if(!spawnPool.owns(id)){e="Despawn actor is not a spawn-pool slot";return false;}
+                return spawnPool.release(id,e);};
+            return s;
+        };
+        // One frame of the despawn owner. Returns false with the reason when an owner refuses (the caller reports it).
+        const auto despawnTick=[&](double seconds,std::uint64_t frame,std::string& e)->bool {
+            if(!combatSession||!lifecycleEnabled)return true;
+            if(!despawnDelayMs) { // CharacterDesign.Despawn_Delay from design_pycst (2000 in the source data)
+                const auto designBytes=assets.read("original-cache/data/pydata/design_pycst.bin");
+                const auto destroyDesign=[](dh2_script_constants* value){if(value)dh2_script_constants_destroy(value);};
+                std::unique_ptr<dh2_script_constants,decltype(destroyDesign)> design(dh2_script_constants_create(),destroyDesign);
+                dh2_script_constants_reload designReload{};std::int32_t delay{};
+                if(!design||dh2_script_constants_load(design.get(),designBytes.data(),std::uint32_t(designBytes.size()),&designReload)!=0||designReload.consumed!=designBytes.size()||
+                   dh2_script_constants_get(design.get(),"CharacterDesign","Despawn_Delay",&delay)!=0||delay<0) {e="CharacterDesign.Despawn_Delay is unavailable";return false;}
+                despawnDelayMs=std::uint32_t(delay);
+            }
+            auto services=despawnServices();
+            for(const auto& placed:population.actors()) {
+                const auto id=placed.definition.stableId;
+                const auto* status=actorLifecycle.status(id);
+                if(!status||status->failed)continue;
+                const auto* actor=combatSession->actor(id);
+                if(!despawnOwner.tracked(id)) {
+                    if(status->state!=3||!actor||actor->alive())continue;
+                    const auto melee=meleeBindings.find_actor(placed.profileId);
+                    bool hasClip=false;
+                    if(melee){const auto clip=melee->states.find("Despawn");hasClip=clip!=melee->states.end()&&!clip->second.empty();}
+                    if(!despawnOwner.track(id,spawnPool.owns(id),hasClip,despawnDelayMs,e))return false;
+                    std::cout<<"DESPAWN tracked actor="<<id<<" name="<<placed.definition.name<<" summoned="<<spawnPool.owns(id)<<" clip="<<(hasClip?"Despawn":"none")<<" frame="<<frame<<'\n';
+                    continue;
+                }
+                const auto* record=despawnOwner.record(id);
+                if(record->phase!=f::despawn::Phase::dying)continue;
+                // Source CSDead event 34: the death clip has ended (whole sequence complete).
+                const auto* pose=combatSession->retained_actor_pose(id);
+                if(pose&&pose->current_ended()&&!despawnOwner.death_ended(id,services,e)) {
+                    if(e.empty())e="Despawn death end refused";return false;}
+            }
+            if(!despawnOwner.advance(static_cast<std::uint32_t>(std::lround(seconds*1000.0)),services,e))return false;
+            return despawnOwner.poll(services,e);
+        };
         while(!window.should_close()) {
             if(options.hud&&combatSession)bindEquipmentPage();
             combatTextFrame=drawn;
@@ -3846,6 +3914,10 @@ int main(int argc,char** argv) {
                 }
                 if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);
                 if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest,&interactables); // B004/B029 (+P16 registry)
+                if(!gameplayPaused) { // P16 DESPAWN: per-frame despawn owner (after the combat update that produced the death)
+                    std::string despawnError;
+                    if(!despawnTick(gameplayDt,drawn,despawnError))throw std::runtime_error("Despawn: "+despawnError);
+                }
                 if(!gameplayPaused&&combatSession) { // P16 CONTEXT: HUD action-button frame from the cached OOI type (MenuManager 0x42eab4)
                     const int icon=f::action_button_icon_v1(objectOfInterest.interaction_type());
                     if(icon!=lastActionIcon) { lastActionIcon=icon; std::cout<<"Action icon frame="<<drawn<<" icon="<<icon<<" type="<<objectOfInterest.interaction_type()<<'\n'; }

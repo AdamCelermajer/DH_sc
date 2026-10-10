@@ -27,7 +27,7 @@ bool OriginalActorLifecycle::add(ActorState&actor,const OriginalLifecycleFacts&f
 }
 bool OriginalActorLifecycle::change(Record&r,int target,std::string&error){
  if(r.status.failed){error="Original lifecycle actor has a failed source prefix";return false;}
- if(target!=0&&target!=1&&target!=3&&target!=17){error="Unsupported original actor lifecycle state";return false;}
+ if(target!=0&&target!=1&&target!=2&&target!=3&&target!=17){error="Unsupported original actor lifecycle state";return false;}
  const int previous=r.status.state;
  auto emit=[&](OriginalLifecycleOperation op){return call(r,op,previous,error);};
  // Source old-state OnBlur executes BEFORE publishing/focusing the new state.
@@ -61,6 +61,10 @@ bool OriginalActorLifecycle::change(Record&r,int target,std::string&error){
      !emit(OriginalLifecycleOperation::clear_and_sync_target)||!emit(OriginalLifecycleOperation::cancel_sneaking))return false;
   if(carried_interactive){r.status.flags|=0x2000;if(!emit(OriginalLifecycleOperation::set_flags))return false;}
   // Source VisualObject::StartFadeIn470ce4 is empty; no alpha effect invented.
+ }else if(target==2){
+  // P16 DESPAWN: CSDespawn::OnFocus 0x3c32fc writes flags328 = 512 and selects the Despawn clip. Its end (event 34) is the
+  // Limbus transition handled by animation_finished.
+  r.status.flags=0x200;if(!emit(OriginalLifecycleOperation::set_flags)||!emit(OriginalLifecycleOperation::select_state_animation))return false;
  }else{
   r.status.flags=0x2380;
   if(!emit(OriginalLifecycleOperation::set_flags)||!emit(OriginalLifecycleOperation::select_state_animation))return false;
@@ -70,8 +74,13 @@ bool OriginalActorLifecycle::change(Record&r,int target,std::string&error){
 }
 bool OriginalActorLifecycle::spawn(ActorId id,std::string&error){auto i=records_.find(id);if(i==records_.end()){error="Unknown original lifecycle actor";return false;}return change(i->second,1,error);}
 bool OriginalActorLifecycle::put_idle(ActorId id,std::string&error){auto i=records_.find(id);if(i==records_.end()){error="Unknown original lifecycle actor";return false;}return change(i->second,3,error);}
+// P16 DESPAWN: CSDespawn entry from Idle (the dead actor keeps lifecycle Idle until its Despawn state; the combat session owns
+// the Dead pose). Only an Idle actor may enter Despawn.
+bool OriginalActorLifecycle::despawn(ActorId id,std::string&error){auto i=records_.find(id);if(i==records_.end()){error="Unknown original lifecycle actor";return false;}if(i->second.status.state!=3){error="Despawn requires an Idle lifecycle actor";return false;}return change(i->second,2,error);}
+// P16 DESPAWN: CSDead::OnEvent event 34, SetPhysicalObject(nullptr): the body leaves the physical world at the death-animation end.
+bool OriginalActorLifecycle::release_body(ActorId id,std::string&error){auto i=records_.find(id);if(i==records_.end()){error="Unknown original lifecycle actor";return false;}auto&r=i->second;if(r.status.failed){error="Original lifecycle actor has a failed source prefix";return false;}return call(r,OriginalLifecycleOperation::remove_physical,r.status.state,error);}
 bool OriginalActorLifecycle::put_limbus(ActorId id,std::string&error){auto i=records_.find(id);if(i==records_.end()){error="Unknown original lifecycle actor";return false;}return change(i->second,0,error);}
-bool OriginalActorLifecycle::animation_finished(ActorId id,std::string&error){auto i=records_.find(id);if(i==records_.end()){error="Unknown original lifecycle actor";return false;}if(i->second.status.failed){error="Original lifecycle actor has a failed source prefix";return false;}if(i->second.status.state!=1){error.clear();return true;}return change(i->second,3,error);}
+bool OriginalActorLifecycle::animation_finished(ActorId id,std::string&error){auto i=records_.find(id);if(i==records_.end()){error="Unknown original lifecycle actor";return false;}if(i->second.status.failed){error="Original lifecycle actor has a failed source prefix";return false;}const int finished_state=i->second.status.state;if(finished_state==2)return change(i->second,0,error);if(finished_state!=1){error.clear();return true;}return change(i->second,3,error);}
 bool OriginalActorLifecycle::animation_event(ActorId id,const std::string&name,std::string&error){auto i=records_.find(id);if(i==records_.end()){error="Unknown original lifecycle actor";return false;}auto&r=i->second;if(r.status.failed){error="Original lifecycle actor has a failed source prefix";return false;}if((r.status.state==1||r.status.state==17)&&name=="is_interactive"){r.status.flags|=0x2000;if(!call(r,OriginalLifecycleOperation::set_flags,r.status.state,error)||!call(r,OriginalLifecycleOperation::init_physical,r.status.state,error))return false;}error.clear();return true;}
 const OriginalLifecycleStatus* OriginalActorLifecycle::status(ActorId id)const{auto i=records_.find(id);return i==records_.end()?nullptr:&i->second.status;}
 bool OriginalActorLifecycle::combat_enabled(ActorId id)const{auto*s=status(id);return s&&!s->failed&&s->enabled&&s->state==3;}

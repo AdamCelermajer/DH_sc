@@ -75,6 +75,7 @@ void compare_melee(const OriginalMeleeActor& a, const OriginalMeleeActor& d) {
     for (const auto& name : states) {
         const auto ai = a.states.find(name);
         const auto di = d.states.find(name);
+        if (name == "Despawn" && ai == a.states.end()) continue; // P16 DESPAWN: authored XML omits Despawn; the derived clip is checked below
         if (ai == a.states.end() || di == d.states.end()) {
             diff(actor, "state." + name, ai == a.states.end() ? "<absent>" : "present",
                  di == d.states.end() ? "<absent>" : "present");
@@ -124,6 +125,7 @@ int run(const std::filesystem::path& root, const std::filesystem::path& assets_r
         for (const auto& name : names) {
             const auto ai = a.states.find(name);
         const auto di = d.states.find(name);
+            if (name == "Despawn" && ai == a.states.end()) continue; // P16 DESPAWN: authored XML omits Despawn; the derived clip is checked below
             if (ai == a.states.end() || di == d.states.end()) {
                 diff(id, "state." + name, ai == a.states.end() ? "<absent>" : "present", di == d.states.end() ? "<absent>" : "present");
                 continue;

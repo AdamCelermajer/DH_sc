@@ -2059,7 +2059,7 @@ bool CombatSession::refresh_actor_combat_permissions(std::string& error){
 }
 bool CombatSession::set_actor_original_state(ActorId id,std::int32_t state,std::string& error){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Original lifecycle state actor is unavailable";return false;}
-    if(state!=0&&state!=1&&state!=3&&state!=17){error="Session lifecycle state must be original0/1/3/17";return false;}
+    if(state!=0&&state!=1&&state!=2&&state!=3&&state!=17){error="Session lifecycle state must be original0/1/2/3/17";return false;} // P16 DESPAWN: 2 = Despawn
     auto& entry=impl_->entries.at(id);
     // P16 LIFECYCLE: under a bound handler the target was already published by its admitted transition (idempotent).
     if(impl_->actorTransitionHandler&&!impl_->publish_source_state(id,state,error))return false;
