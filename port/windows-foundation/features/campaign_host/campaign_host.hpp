@@ -158,6 +158,7 @@ private:
     bool skip_visible_=false;
     bool skip_pressed_=false;
     bool cutscene_mode_=false;
+    int cutscene_depth_=0; // OPENING2: nested enters of cutscene mode
     bool save_blocked_=false;
     bool global_blocked_=false;
     bool reported_player_=false;

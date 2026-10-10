@@ -159,9 +159,14 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
     };
     if (!p.block_save) p.block_save = [this](std::string&) { save_blocked_ = true; return true; };
     if (!p.cutscene_mode) p.cutscene_mode = [this](bool entering, std::string&) {
-        cutscene_mode_ = entering;
-        cinematic_.set_active(entering); // P16 CINE: exit clears lines and the SKIP control
-        if (!entering) { skip_pressed_ = false; save_blocked_ = false; } // [inf] the cutscene's own SaveGame ends the block
+        // OPENING2: cutscene mode nests. A tutorial that ends inside the opening must not restore the HUD and the
+        // controller while the opening is still running, so the mode ends when the last enter has been exited.
+        if (entering) ++cutscene_depth_;
+        else if (cutscene_depth_ > 0) --cutscene_depth_;
+        const bool active = cutscene_depth_ > 0;
+        cutscene_mode_ = active;
+        cinematic_.set_active(active); // P16 CINE: exit clears lines and the SKIP control
+        if (!active) { skip_pressed_ = false; save_blocked_ = false; } // [inf] the cutscene's own SaveGame ends the block
         return true;
     };
     if (!p.tutorial_gate) p.tutorial_gate = [this](int id, OriginalTutorialGate& gate, std::string&) {
@@ -334,6 +339,7 @@ bool CampaignHost::abort_cutscene(std::string& error) {
     skip_visible_ = false;
     skip_pressed_ = false;
     cutscene_mode_ = false;
+    cutscene_depth_ = 0;
     save_blocked_ = false;
     bool ok = true;
     if (global_blocked_ && previous_global_ && !previous_global_(false, error)) ok = false;
