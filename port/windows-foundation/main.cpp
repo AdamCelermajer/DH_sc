@@ -537,7 +537,7 @@ int main(int argc,char** argv) {
         };
         bool returnMenuScriptConsumed=false;
         bool bootShown=false;  // Preview 15: the boot runs once per process, not on return-to-menu
-        f::Window window;f::Renderer renderer;bool windowOpened=false;
+        f::Window window;f::Renderer renderer;bool windowOpened=false;renderer.setGlLoader(&f::Window::gl_proc); // B066: buffer objects for static level geometry
         for(;;) {
         auto sharedCharacter=std::make_shared<f::CharacterState>(f::make_default_character());
         auto& state=*sharedCharacter;
@@ -2783,8 +2783,10 @@ int main(int argc,char** argv) {
             }
         };
         loadingScreen.finish();  // holds 100% for the minimum display time, then gameplay
+        dh::foundation::FramePacer framePacer; // B066: deadline pacing replaces sleep(1) (a 15.6 ms tick on Windows)
         while(!window.should_close()) {
             dh::foundation::perf::FramePerf::get().begin_frame(); // B062: unclamped per-phase timing, DH_PERF=1
+            framePacer.begin(); // B066
             if(options.hud&&combatSession)bindEquipmentPage();
             combatTextFrame=drawn;
             if(drawn==options.resizeFrame) {
@@ -2991,7 +2993,7 @@ int main(int argc,char** argv) {
                 clearNativeBodies();combatSession.reset();
                 populationMotors.clear();
                 f::OriginalScene nextScene;f::CharacterVisual nextVisual;
-                loadContent(nextScene,nextVisual);scene=std::move(nextScene);visual=std::move(nextVisual);initializeCombat();bindMaterials();
+                renderer.invalidateStaticGeometry();loadContent(nextScene,nextVisual);scene=std::move(nextScene);visual=std::move(nextVisual);initializeCombat();bindMaterials();
                 prepareBodyPlans();
                 if(liveSnapshot){combatSession->actor(combatSession->player_id())->persistent_character_id=state.id;combatSession->detach_for_restore();if(!f::restore_game_save(*liveSnapshot,options.level.generic_string(),*combatSession->world(),state,error)||!combatSession->rebind_after_restore(error))throw std::runtime_error("Reload live actors: "+error);}
                 if(combatSession){faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();}
@@ -3317,7 +3319,7 @@ int main(int argc,char** argv) {
                     if(gameplayPaused&&audioClock&&(gameplayPausedFrames==1||gameplayPausedFrames%60==0))
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
-                if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);
+                {DH_PROBE("combatSession.update");if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);}
                 if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sim_update); // B004/B029
                 sourcePhysicalPlayerControls={};
                 if(!gameplayPaused) {
@@ -3534,6 +3536,7 @@ int main(int argc,char** argv) {
             actorWorld[0]=c*actorScale.x;actorWorld[1]=s*actorScale.x;actorWorld[4]=-s*actorScale.y;actorWorld[5]=c*actorScale.y;actorWorld[10]=actorScale.z;
             actorWorld[12]=options.actorPosition.x;actorWorld[13]=options.actorPosition.y;actorWorld[14]=options.actorPosition.z;
             f::RenderQueue queue;
+            scene.mesh.staticGeometry=true; // B066: level geometry never changes after load (GPU buffers, range caches, frustum culling)
             if(!scene.mesh.vertices.empty())queue.submit(scene.mesh);
             for(const auto& mesh:visual.meshes())queue.submit(mesh,actorWorld);
             const auto& displayedEquipment=runtimeEquipmentAttachments?runtimeEquipmentAttachments->attachments():equipment.attachments();
@@ -3805,12 +3808,12 @@ int main(int argc,char** argv) {
             }
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::hud_ui);
             renderer.endFrame();
-            if(!sourceEffectsRenderer.finish_and_drain(error))throw std::runtime_error("Source FX drain: "+error);
+            if(!sourceEffectsRenderer.finish_and_drain(error))throw std::runtime_error("Source FX drain: "+error);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_drain);
             ++drawn;
             if(options.frames&&drawn>=options.frames&&!options.capture.empty()) capture(options.capture,window.width(),window.height());
-            window.swap();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_drain_swap);
+            window.swap();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::swap_present);
             if(options.frames&&drawn>=options.frames) break;
-            dh::foundation::platform_sleep_milliseconds(1);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sleep_wait);
+            framePacer.wait();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sleep_wait); // B066
         }
         std::cout<<"Source FX final packetFrames="<<sourceEffectsPacketFrames<<" packets="<<sourceEffectsPackets<<" textureUploads="<<sourceEffectsRenderer.texture_uploads()<<" presentationFailed="<<sourceEffectsPresentationFailed<<'\n';
         dh::foundation::perf::FramePerf::get().finish();
