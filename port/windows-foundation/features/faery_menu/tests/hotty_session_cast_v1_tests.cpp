@@ -530,7 +530,8 @@ int main(int argc, char** argv) {
         cast_request.sequence_policies = &spell_bank.policies;
         cast_request.selection.state = skills_animation::skill_sequence_state(spell_sequence_id);
         cast_request.selection.variant = 0;
-        cast_request.selection.group_path = source_do_spell_phase_path;
+        // P15 HOTTY: whole state-7 root (pre clip, then do_spell clip), as main.cpp issues it. A do_spell-leaf scope hid the pre-to-Use chain.
+        cast_request.selection.group_path = {};
         cast_request.selection.actor_rate = 1.0f;
         dh::foundation::generic_skills::RuntimeSkillCastReceiptV1 cast_receipt;
         const auto hp_before_cast = session.actor(2)->health;
@@ -812,7 +813,7 @@ int main(int argc, char** argv) {
         auto celest_cast_request = cast_request;
         celest_cast_request.active_faery_spell = &celest_arm;
         celest_cast_request.selection.state = skills_animation::skill_sequence_state(celest_sequence_id);
-        celest_cast_request.selection.group_path = celest_do_spell_phase_path;
+        celest_cast_request.selection.group_path = {};
         const auto coordinator_hp_before = live_celest_target->health;
         const auto coordinator_rng_before = session.world()->random_state();
         dh::foundation::generic_skills::RuntimeSkillCastReceiptV1 celest_begin;

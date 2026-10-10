@@ -3007,7 +3007,7 @@ int main(int argc,char** argv) {
                             f::generic_skills::RuntimeSkillCastRequestV1 request;
                             request.dispatch=f::generic_skills::RuntimeSkillCastDispatchV1::native_hud_spell;request.actor=combatSession->player_id();request.character=&state;
                             request.classes=&properties.classes;request.property_rules=&menuSkillPropertyRules;request.characters=&properties.characters;request.skills=menuSourceOwner.skill_owner->borrow();
-                            request.visual_plan=&skillVisualPlan;request.sequence_policies=&skillSequencePolicies;request.selection={selected.selection_state,0,sequence->phases.front().sourcePath};request.active_faery_spell=&arm;
+                            request.visual_plan=&skillVisualPlan;request.sequence_policies=&skillSequencePolicies;request.selection={selected.selection_state,0,{}};request.active_faery_spell=&arm; /* P15 HOTTY: empty group = whole state-7 root (pre clip, then do_spell clip); a leaf scope ended Hotty after its pre phase */
                             // P15 FAERYSOUND (B050): original OnPreSkill_ sounds are queued on the audio session
                             // (every cast, empty target list included) and submitted with this frame's device clock.
                             skillCastCoordinator->set_faery_pre_sound_sink([&](const f::generic_skills::RuntimeSkillFaeryPreSoundV1& pre) {

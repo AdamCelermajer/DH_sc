@@ -1061,8 +1061,16 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         }
         active.use_delivered = true;
         active.receipt.phase = RuntimeSkillCastPhaseV1::use_applied;
-        if (active.receipt.detail.find("FX diagnostic:") == std::string::npos)
-            active.receipt.detail = "Hotty source state7 do_spell applied its ordered same-session result loop";
+        // Keep retained FX diagnostics (Player_Pre / target FX) after the Use summary.
+        std::string hotty_fx_diagnostics;
+        const auto hotty_diagnostic_start = active.receipt.detail.find("FX diagnostic:");
+        if (hotty_diagnostic_start != std::string::npos)
+            hotty_fx_diagnostics = active.receipt.detail.substr(hotty_diagnostic_start);
+        active.receipt.detail = "Hotty source state7 do_spell applied its ordered same-session result loop";
+        if (!hotty_fx_diagnostics.empty()) {
+            active.receipt.detail += "; ";
+            active.receipt.detail += hotty_fx_diagnostics;
+        }
         output = active.receipt;
         error.clear();
         return true;
