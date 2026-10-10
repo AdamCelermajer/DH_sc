@@ -2,6 +2,11 @@
 
 #include <algorithm>
 #include <cctype>
+#include <chrono>
+#include <map>
+#include <memory>
+#include <mutex>
+#include <unordered_map>
 #include <stdexcept>
 
 namespace dh::foundation {
@@ -14,17 +19,46 @@ std::string folded(std::string value) {
     return value;
 }
 
+// B062: directory listings were re-enumerated (every entry folded) for every path component of every candidate on
+// every call; FX materials resolved textures this way every frame (4.5 ms per call, 700+ calls per second of combat).
+// A listing is cached per directory and validated by the directory's own write time, so files added later are seen.
+struct DirectoryListing {
+    fs::file_time_type stamp{};
+    std::unordered_multimap<std::string,fs::path> byFoldedName;
+};
+std::shared_ptr<const DirectoryListing> directory_listing(const fs::path& directory) {
+    static std::mutex lock;
+    static std::map<std::string,std::shared_ptr<const DirectoryListing>> cache;
+    std::error_code ec;
+    const auto stamp=fs::last_write_time(directory,ec);
+    const auto key=directory.generic_string();
+    std::lock_guard<std::mutex> guard(lock);
+    if(!ec) {
+        const auto found=cache.find(key);
+        if(found!=cache.end()&&found->second->stamp==stamp) return found->second;
+    }
+    auto listing=std::make_shared<DirectoryListing>();
+    listing->stamp=ec?fs::file_time_type{}:stamp;
+    for(const auto& entry:fs::directory_iterator(directory))
+        listing->byFoldedName.emplace(folded(entry.path().filename().generic_string()),entry.path());
+    // Racy-timestamp guard (as in git): a directory modified within the last two seconds may change again inside the
+    // same filesystem timestamp tick, so only settled directories are cached.
+    if(!ec&&stamp<fs::file_time_type::clock::now()-std::chrono::seconds(2)) cache[key]=listing;
+    return listing;
+}
+
 fs::path find_case_path(const fs::path& root, const fs::path& relative) {
     fs::path current=root;
     for(const auto& part:relative) {
         std::error_code ec;
         if(!fs::is_directory(current,ec)) return {};
         const auto wanted=folded(part.generic_string());
+        const auto listing=directory_listing(current);
+        const auto range=listing->byFoldedName.equal_range(wanted);
         fs::path match;
-        for(const auto& entry:fs::directory_iterator(current)) {
-            if(folded(entry.path().filename().generic_string())!=wanted) continue;
+        for(auto it=range.first;it!=range.second;++it) {
             if(!match.empty()) throw std::runtime_error("Ambiguous resource path case: "+relative.generic_string());
-            match=entry.path();
+            match=it->second;
         }
         if(match.empty()) return {};
         current=std::move(match);

@@ -3218,7 +3218,7 @@ int main(int argc,char** argv) {
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
                 if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);
-                if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest); // B004/B029dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sim_update);
+                if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sim_update); // B004/B029
                 sourcePhysicalPlayerControls={};
                 if(!gameplayPaused) {
                     const auto* livePlayer=combatSession->actor(combatSession->player_id());
@@ -3393,6 +3393,7 @@ int main(int argc,char** argv) {
             if(options.sourceNativeBodies&&!sourcePhysicalFrameEnabled)for(const auto& entry:sourceBodyPlans){auto* actor=combatSession->actor(entry.first);if(!nativeBodies.set_position(entry.first,actor->transform.position,false,error))throw std::runtime_error("Native body position sync: "+error);}
             auto activeCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
             if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=originalCamera.config().nearPlane;activeCamera.farPlane=originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
                 std::string effectError;bool prepared=true;
@@ -3402,8 +3403,10 @@ int main(int argc,char** argv) {
                     if(sourceEffectsMs>std::numeric_limits<std::int32_t>::max()-integerMs){effectError="Source FX gameplay clock exceeds supported range";prepared=false;}
                     else {sourceEffectsMs+=integerMs;prepared=sourceEffectsFactory->runtime().update(std::uint64_t(drawn)+1,sourceEffectsMs,integerMs,effectError);}
                 }
+                dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_update);
                 std::shared_ptr<const f::effects::EffectRenderFrame> frame;
                 if(prepared)prepared=sourceEffectsFactory->runtime().prepare_render_frame(frame,effectError);
+                dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_render_prep);
                 if(prepared&&frame&&!frame->packets.empty()) {
                     ++sourceEffectsPacketFrames;sourceEffectsPackets+=frame->packets.size();
                     prepared=sourceEffectsRenderer.enqueue(frame,effectError);
@@ -3411,6 +3414,7 @@ int main(int argc,char** argv) {
                 }
                 if(!prepared){sourceEffectsPresentationFailed=true;std::cerr<<"Source FX presentation diagnostic frame="<<drawn<<": "<<effectError<<'\n';}
             }
+            dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::ctext);
             if(options.combatText) {
                 combatTextCamera=activeCamera;
                 const double elapsed=gameplayDt*1000+combatTextFractionMs;const auto integerMs=std::uint32_t(elapsed);combatTextFractionMs=elapsed-integerMs;
