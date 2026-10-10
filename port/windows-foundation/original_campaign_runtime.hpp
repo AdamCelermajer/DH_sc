@@ -46,6 +46,10 @@ public:
     // contact/delay state and sets the counts; keys absent from the map read as never activated.
     std::map<std::string,std::int32_t> trigger_activations() const;
     void restore_trigger_activations(const std::map<std::string,std::int32_t>& counts);
+    // P16 OPENING4: zones the player is inside (the saved edge state). A restored zone the player is still inside does
+    // not fire its enter script again (the edge is already set), as the source keeps the zone's inside flag.
+    std::vector<std::string> trigger_inside()const;
+    void restore_trigger_inside(const std::vector<std::string>& keys);
     bool failed() const { return !failure_.empty(); }
     const std::vector<OriginalCampaignScript>& scripts() const { return scripts_; }
     const std::map<std::string,OriginalCampaignTrigger>& triggers() const { return triggers_; }

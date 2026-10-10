@@ -54,6 +54,14 @@ std::map<std::string,std::int32_t> OriginalCampaignRuntime::trigger_activations(
  for(const auto& entry:trigger_state_) if(entry.second.activations) out[entry.first]=entry.second.activations;
  return out;
 }
+std::vector<std::string> OriginalCampaignRuntime::trigger_inside()const{
+ std::vector<std::string> out;
+ for(const auto& entry:trigger_state_) if(entry.second.inside) out.push_back(entry.first);
+ return out;
+}
+void OriginalCampaignRuntime::restore_trigger_inside(const std::vector<std::string>& keys){
+ for(const auto& key:keys) trigger_state_[key].inside=true;
+}
 void OriginalCampaignRuntime::restore_trigger_activations(const std::map<std::string,std::int32_t>& counts){
  for(auto& entry:trigger_state_) entry.second=TriggerState{};
  for(const auto& count:counts) trigger_state_[count.first].activations=count.second;

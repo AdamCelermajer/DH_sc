@@ -558,7 +558,7 @@ void CampaignHost::print_summary(std::ostream& out) const {
 namespace {
 constexpr ObjectId kCampaignLifecycleObjectId = 0x43414d504c494650ull; // "CAMPLIFP": neutral object, not an authored ID
 constexpr const char* kCampaignLifecycleComponent = "campaign_lifecycle_v1";
-constexpr std::uint32_t kCampaignLifecycleVersion = 1;
+constexpr std::uint32_t kCampaignLifecycleVersion = 2;
 void put_u32(std::vector<std::uint8_t>& out, std::uint32_t value) {
     for (int i = 0; i < 4; ++i) out.push_back(static_cast<std::uint8_t>(value >> (8 * i)));
 }
@@ -594,6 +594,13 @@ bool CampaignHost::persist_lifecycle(PlayableActorWorld& world, std::string& err
         bytes.insert(bytes.end(), count.first.begin(), count.first.end());
         put_u32(bytes, static_cast<std::uint32_t>(count.second));
     }
+    // P16 OPENING4 (version 2): the zones the player is inside (edge state), so a restored zone does not fire again.
+    const auto inside = runtime_->trigger_inside();
+    put_u32(bytes, static_cast<std::uint32_t>(inside.size()));
+    for (const auto& key : inside) {
+        put_u32(bytes, static_cast<std::uint32_t>(key.size()));
+        bytes.insert(bytes.end(), key.begin(), key.end());
+    }
     return world.set_object_component(kCampaignLifecycleObjectId, kCampaignLifecycleComponent, std::move(bytes), error);
 }
 
@@ -603,6 +610,7 @@ bool CampaignHost::restore_lifecycle(const PlayableActorWorld& world, std::strin
     const WorldObject* object = world.find_object(kCampaignLifecycleObjectId);
     if (!object) { error = "campaign lifecycle object is missing from the save"; return false; }
     std::map<std::string, std::int32_t> counts;
+    std::vector<std::string> inside;
     const auto found = object->state_components.find(kCampaignLifecycleComponent);
     if (found != object->state_components.end()) {
         const auto& in = found->second;
@@ -620,9 +628,18 @@ bool CampaignHost::restore_lifecycle(const PlayableActorWorld& world, std::strin
             if (!get_u32(in, pos, value)) { error = "campaign lifecycle component is truncated"; return false; }
             counts[key] = static_cast<std::int32_t>(value);
         }
+        std::uint32_t insideTotal = 0;
+        if (!get_u32(in, pos, insideTotal)) { error = "campaign lifecycle component is truncated"; return false; }
+        for (std::uint32_t i = 0; i < insideTotal; ++i) {
+            std::uint32_t length = 0;
+            if (!get_u32(in, pos, length) || pos + length > in.size()) { error = "campaign lifecycle component is truncated"; return false; }
+            inside.emplace_back(in.begin() + static_cast<std::ptrdiff_t>(pos), in.begin() + static_cast<std::ptrdiff_t>(pos + length));
+            pos += length;
+        }
         if (pos != in.size()) { error = "campaign lifecycle component has trailing bytes"; return false; }
     }
     runtime_->restore_trigger_activations(counts);
+    runtime_->restore_trigger_inside(inside); // P16 OPENING4: zone edge state after the reset above
     return true;
 }
 
