@@ -1235,7 +1235,7 @@ int main(int argc,char** argv) {
                         const auto found=declaration.properties.find(key);
                         if(found==declaration.properties.end()||f::conditions::is_no_condition(found->second))continue;
                         if(!authoredConditions->contains(found->second)){f::conditions::report_unknown_condition_once(found->second);continue;}
-                        conditionWatch->watch(found->second);
+                        conditionWatch->watch(found->second);
                         if(declaration.gametype!="Character"&&declaration.gametype!="SpawnPoint"&&declaration.stableId)
                             worldGates.push_back({declaration.stableId,declaration.gametype,declaration.name,key,found->second,false});
                     }
@@ -1636,6 +1636,7 @@ int main(int argc,char** argv) {
                         case 7:expected=0x6301u;break;
                         case 11:expected=0x2b41u;break;
                         case 12:expected=0x241u|(traits->is_player?0x2000u:0u);break;
+                        case 17:expected=0x1300u;break; // P17 DOORS: CSPreSpawn::OnFocus (IDA 003c688c) sets the flags word to 4864
                         }
                         if(!expected||!actor->source_flags520||*actor->source_flags520!=*expected) {
                             e="Body checkpoint source flags mismatch actor="+std::to_string(entry.first)+
@@ -2040,10 +2041,15 @@ int main(int argc,char** argv) {
                 case f::OriginalLifecycleOperation::clear_idle_suppressed:lifecycleIdleSuppressed[actor.id]=false;return true;
                 case f::OriginalLifecycleOperation::init_physical:
                     if(options.sourceNativeBodies){const auto* body=nativeBodies.physical(actor.id);if(!body){e="Lifecycle native actor unavailable";return false;}if(!body->native().body&&!nativeBodies.initialize_physical(actor.id,e))return false;}
-                    lifecyclePhysical[actor.id]=true;return true;
+                    lifecyclePhysical[actor.id]=true;
+                    // P17 DOORS: the body checkpoint compares this fact with the real body; keep it truthful after the change.
+                    if(const auto* body=nativeBodies.physical(actor.id))actor.source_physical_present=body->native().body!=nullptr;
+                    return true;
                 case f::OriginalLifecycleOperation::remove_physical:
                     if(options.sourceNativeBodies&&!nativeBodies.remove_physical(actor.id,e))return false;
-                    lifecyclePhysical[actor.id]=false;return true;
+                    lifecyclePhysical[actor.id]=false;
+                    if(const auto* body=nativeBodies.physical(actor.id))actor.source_physical_present=body->native().body!=nullptr; // P17 DOORS: see init_physical
+                    return true;
                 case f::OriginalLifecycleOperation::set_collisions_enabled:
                     if(options.sourceNativeBodies&&nativeBodies.physical(actor.id)->native().body&&!nativeBodies.set_physical_filter_enabled(actor.id,request.collisions_enabled,e))return false;
                     lifecycleCollisions[actor.id]=request.collisions_enabled;return true;
@@ -2100,6 +2106,7 @@ int main(int argc,char** argv) {
                 lifecyclePhysical[actor->id]=placed.enabled;lifecycleCollisions[actor->id]=placed.enabled;
                 if(!actorLifecycle.add(*actor,facts,error))throw std::runtime_error("Lifecycle initialization: "+error);
             }
+            combatSession->mark_lifecycle_baseline(); // P17 DOORS: initial lifecycle states are rebuilt at load (reconstructible); only later transitions block a checkpoint
             std::cout<<"Lifecycle diagnostic uses source animations and enable/state gates; full source physical/aggro/sneak owners remain incomplete\n";
         }
         if(options.retainHiddenActors||lifecycleEnabled)if(!combatSession->refresh_actor_combat_permissions(error))throw std::runtime_error(error);
@@ -2142,7 +2149,9 @@ int main(int argc,char** argv) {
         std::map<std::string,std::uint32_t> textures;
         auto loadImage=[&](const std::string& uri,dh::foundation::TextureImage& image)->bool {
             try {if(f::load_texture(f::resolve_content_path(assets,uri),image,error))return true;}catch(const std::exception&){}
-            auto name=fs::path(uri).filename();std::vector<fs::path> candidates={fs::path(uri),fs::path("data/3d/textures")/name,fs::path("original-cache/data/3d/textures")/name,fs::path("textures")/name};
+            auto name=fs::path(uri).filename();std::vector<fs::path> candidates={fs::path(uri),fs::path("data/3d/textures")/name,fs::path("original-cache/data/3d/textures")/name,fs::path("textures")/name,
+                // P17 DOORS: the iPhone/Android BTEX package exports the same texture as pvr2_<name> (e.g. env_swamp_alpha.tga -> pvr2_env_swamp_alpha.tga).
+                fs::path("data/3d/textures")/("pvr2_"+name.string())};
             for(const auto& candidate:candidates) try {if(dh::foundation::load_texture(assets.resolve(candidate),image,error))return true;} catch(const std::exception&){}
             std::cerr<<"Missing/unsupported texture: "<<uri<<'\n';return false;
         };
@@ -2766,7 +2775,8 @@ int main(int argc,char** argv) {
             std::cout<<"Lever use declaration="<<leverRuntime.instance(index).name<<" status="<<int(r.status)<<" script="<<(r.script.empty()?std::string("(none)"):r.script)<<" sound="<<r.sound_ordinal<<" unlocked="<<(leverRuntime.unlocked(index)?1:0)<<'\n';
             if(r.status==f::doors::LeverUseResultV1::Status::accepted||r.status==f::doors::LeverUseResultV1::Status::no_visual) {
                 if(r.sound_ordinal!=-1&&runtimeAudio) {f::audio::WorldItemSoundResultV1 sr;std::string se;
-                    if(!runtimeAudio->submit_world_item_sound(r.sound_ordinal,r.position,sr,se))std::cout<<"Lever sound ordinal="<<r.sound_ordinal<<" status=failed detail="<<se<<'\n';}
+                    if(!runtimeAudio->submit_world_item_sound(r.sound_ordinal,r.position,sr,se))std::cout<<"Lever sound ordinal="<<r.sound_ordinal<<" status=failed detail="<<se<<'\n';
+                    else std::cout<<"Lever sound ordinal="<<r.sound_ordinal<<" status="<<(sr.status==f::audio::WorldItemSoundStatusV1::asset_missing?"asset_missing":"submitted")<<" uid="<<sr.uid<<" uri="<<sr.uri<<'\n';}
                 if(!r.script.empty()) {
                     const int scriptId=sourceCampaign.script_id(r.script,true);
                     std::string startError;
@@ -4416,7 +4426,7 @@ int main(int argc,char** argv) {
                 for(const auto& sound:doorRuntime.take_sound_requests()) {f::audio::WorldItemSoundResultV1 sr;std::string se;
                     if(!runtimeAudio)std::cout<<"Door sound ordinal="<<sound.ordinal<<" status=no_audio_runtime frame="<<drawn<<'\n';
                     else if(!runtimeAudio->submit_world_item_sound(sound.ordinal,sound.position,sr,se))std::cout<<"Door sound ordinal="<<sound.ordinal<<" status=failed detail="<<se<<'\n';
-                    else std::cout<<"Door sound ordinal="<<sound.ordinal<<" status="<<(sr.status==f::audio::WorldItemSoundStatusV1::asset_missing?"asset_missing":"submitted")<<" frame="<<drawn<<'\n';}
+                    else std::cout<<"Door sound ordinal="<<sound.ordinal<<" status="<<(sr.status==f::audio::WorldItemSoundStatusV1::asset_missing?"asset_missing":"submitted")<<" uid="<<sr.uid<<" uri="<<sr.uri<<" frame="<<drawn<<'\n';}
                 if(combatSession){std::string persistDoorError;if(!f::doors::persist_door_world_state_v1(*combatSession->world(),doorRuntime,persistDoorError))throw std::runtime_error("Door persist: "+persistDoorError);}
             }
             if(!gameplayPaused){std::vector<f::containers::ContainerEventV1> containerEvents;std::string containerError;if(!containerRuntime.update(gameplayDt,containerEvents,containerError))throw std::runtime_error("Container update: "+containerError);for(const auto& event:containerEvents){std::cout<<"Container opened declaration="<<event.name<<" loot="<<event.loot_id<<" clipMs="<<event.elapsed_ms<<" frame="<<drawn<<'\n';runContainerOpen(event.index,drawn);}

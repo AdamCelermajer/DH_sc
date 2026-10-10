@@ -372,6 +372,8 @@ public:
                                       bool& departed,std::string& error);
     bool freeze_actor_state_animation(ActorId,std::string& error);
     bool validate_lifecycle_checkpoint(std::string& error)const;
+    // P17 DOORS: the initial lifecycle states applied at load are rebuilt from the level on every load; they are the baseline.
+    void mark_lifecycle_baseline() noexcept;
     // Host must clear its OriginalActorLifecycle borrowed records as well before
     // actor replacement. These lifecycle providers/state flags are not serialized.
     bool clear_lifecycle_services(std::string& error);

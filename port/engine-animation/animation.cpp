@@ -1,5 +1,6 @@
 #include "animation.hpp"
 #include "angle_interpreter.hpp"
+#include "channel_filter.hpp" // P17 DOORS: non-node channels (material/FX/emitter) are skipped and logged once
 #include "../engine-math/math.hpp"
 #include <algorithm>
 #include <cmath>
@@ -148,7 +149,7 @@ bool TransformSet::compile_internal(const std::vector<TransformClipInput>& input
                 // Skipped until the particle runtime exists (the fire glow of the fire doors is not drawn).
                 // P17 DOORS: material/FX-parameter channels (e.g. "Standard_8zxcv", types 86) target no scene node and cannot
                 // move a transform; channels whose target is not a registered node are ignored (same as the unregistered-URI filter).
-                if(uri&&type!=1&&type!=5&&type!=10&&!(dynamic_channels&&(position_axis||angle))&&std::none_of(authored.graph.begin(),authored.graph.end(),[&](const scene::Node& n){return n.id==uri;}))continue;
+                if(skip_channel_without_node(type,uri,uri&&std::any_of(authored.graph.begin(),authored.graph.end(),[&](const scene::Node& n){return n.id==uri;}),dynamic_channels))continue;
                 if(!uri||(type!=1&&type!=5&&type!=10&&!(dynamic_channels&&(position_axis||angle))))throw std::runtime_error("Unsupported compiled animation channel type="+std::to_string(type)+" uri="+std::string(uri?uri:"(null)"));
                 assets::Vector values{};if(!dh2_animation_vector(&accessor,0,true,&values))throw std::runtime_error("Compiled key vector rejected");
                 if(dynamic_channels){

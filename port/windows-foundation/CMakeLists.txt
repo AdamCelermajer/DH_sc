@@ -27,7 +27,7 @@ endif()
 add_library(recovered_content STATIC
   ../engine-resources/resources.cpp ../asset-payloads/payloads.cpp
   ../engine-math/math.cpp ../scene-materials/scene.cpp
-  ../engine-animation/animation.cpp ../engine-animation/angle_interpreter.cpp
+  ../engine-animation/animation.cpp ../engine-animation/angle_interpreter.cpp ../engine-animation/channel_filter.cpp
   ../engine-animation/events.cpp ../engine-animation/event_track.cpp
   ../engine-animation/animation_blend.cpp ../level-world/animation_blender.cpp
   ../level-world/visual_timeline.cpp
@@ -971,3 +971,7 @@ target_sources(foundation_data PRIVATE original_camera_clip.cpp)
 add_executable(original_camera_clip_tests features/cinematics/original_camera_clip_tests.cpp)
 target_link_libraries(original_camera_clip_tests PRIVATE foundation_data)
 add_test(NAME original_camera_clip COMMAND original_camera_clip_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
+# P17 DOORS: compiled animation channels without a scene-node target are skipped and logged once.
+add_executable(channel_filter_tests features/animation_channels/channel_filter_tests.cpp ../engine-animation/channel_filter.cpp)
+add_test(NAME animation_channel_filter COMMAND channel_filter_tests)
+# End Preview 17 doors channel filter.
