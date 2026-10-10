@@ -253,4 +253,14 @@ bool CharacterQuestProgressV1::activate(const CharacterState& character,
     error.clear();return true;
 }
 
+bool CharacterQuestProgressV1::set_current_quest(const CharacterState& character,
+    std::uint32_t collection,std::int32_t difficulty,std::int32_t row,std::string& error) {
+    if(!belongs_to(character))return fail(error,"Quest progress belongs to a different CharacterState");
+    if(collection>1||difficulty<0||difficulty>=3)return fail(error,"Quest current row collection/difficulty is outside original bounds");
+    auto& bucket=buckets_[collection][std::size_t(difficulty)];
+    if(row!=-1&&(row<0||std::size_t(row)>=bucket.states.size()))return fail(error,"Quest current row is outside the table");
+    bucket.current_quest=row;bucket.origin=Origin::modified;
+    error.clear();return true;
+}
+
 } // namespace dh::foundation

@@ -189,6 +189,53 @@ bool RuntimeSessionDeathRewardsV1::after_update(
     return ok;
 }
 
+
+// P16 QUESTS: quest XP through the bound session's progression services (same owners as kill XP).
+bool RuntimeSessionDeathRewardsV1::award_experience(dh::foundation::ActorId player, std::int32_t xp,
+                                                    std::string& error) {
+    error.clear();
+    if (dispatching_) return fail(error, "Quest XP cannot run while death rewards dispatch");
+    if (!session_ || !world_ || session_->world() != world_ || !creation_owner_ || !creation_owner_->valid() ||
+        creation_owner_->properties.get() != loot_source_.properties.get() ||
+        !gameplay_context_lease_ || !loot_source_.valid())
+        return fail(error, "Quest XP binding does not belong to this live session/source");
+    RuntimeDeathRewardAdmissionV1 admission;
+    if (!bindings_.read_reward_admission(bindings_.context, admission, error)) return false;
+    std::int32_t current_difficulty = -1, unlocked_difficulty = -1;
+    std::int32_t max_level{};
+    if (!admission.rewards_suppressed) {
+        if (!bindings_.read_difficulty(bindings_.context, current_difficulty, unlocked_difficulty, error)) return false;
+        if (current_difficulty < 0 || unlocked_difficulty < 0)
+            return fail(error, "Current/unlocked source difficulty is absent or negative");
+        if (!loot_source_.max_level_for_difficulty(unlocked_difficulty, max_level, error)) return false;
+    }
+    RuntimeDeathRewardServicesV1 services;
+    services.admission = admission;
+    services.loot_tables = loot_source_.loot;
+    services.loot_powers = loot_source_.power_resources;
+    services.loot_entry = {this, &RuntimeSessionDeathRewardsV1::loot_entry_thunk};
+    services.xp_design = loot_source_.design_settings.rows().empty()
+        ? nullptr : &loot_source_.design_settings.rows().front();
+    services.properties = loot_source_.properties.get();
+    services.current_difficulty = current_difficulty;
+    services.unlocked_difficulty = unlocked_difficulty;
+    services.max_level = max_level;
+    services.context = this;
+    services.query_one_kill_level_up = &RuntimeSessionDeathRewardsV1::one_kill_level_up_thunk;
+    services.resolve_character = &RuntimeSessionDeathRewardsV1::resolve_character_thunk;
+    services.on_level_up = &RuntimeSessionDeathRewardsV1::level_up_thunk;
+    services.spawn_world_item = &RuntimeSessionDeathRewardsV1::spawn_world_item_thunk;
+    dispatching_ = true;
+    const bool ok = admission.rewards_suppressed
+        ? rewards_.award_experience(*world_, player, xp, services, error)
+        : world_->with_loot_random(
+            [&](dh2::data::LootRandom8V2& random, std::string& inner_error) {
+                services.gameplay_rng = &random;
+                return rewards_.award_experience(*world_, player, xp, services, inner_error);
+            }, error);
+    dispatching_ = false;
+    return ok;
+}
 void RuntimeSessionDeathRewardsV1::reset() noexcept {
     rewards_.clear();
     session_binding_lease_.reset();

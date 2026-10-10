@@ -74,6 +74,9 @@ public:
                       std::vector<RuntimeDeathRewardOutcomeV1>&,
                       std::string& error);
 
+    // P16 QUESTS: quest XP reward through the same progression owner as kill XP.
+    bool award_experience(dh::foundation::ActorId player, std::int32_t xp, std::string& error);
+
     void reset() noexcept;
     bool bound() const noexcept { return session_ != nullptr; }
     // P14: the exact source snapshot (incl. ItemAudioVisualTable) bound by bind(); valid while bound().

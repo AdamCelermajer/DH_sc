@@ -330,6 +330,22 @@ if(MINGW)
   add_link_options(-static)
   target_link_options(dh-foundation PRIVATE -static)
 endif()
+# Preview 16 thin quest runtime (features/quest_runtime): generic v2Quest table load,
+# state machine, objective events, CQPG v2 counters. Decoders are the original game-data owners.
+add_library(foundation_runtime_quests STATIC
+  features/quest_runtime/quest_events_v1.cpp
+  features/quest_runtime/quest_table_v1.cpp
+  features/quest_runtime/quest_runtime_v1.cpp
+  features/quests/character_quest_progress_v1.cpp
+  ../game-data/quest_persistence_v51.cpp ../game-data/quest_savegame_v1.cpp)
+target_link_libraries(foundation_runtime_quests PUBLIC foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_runtime_quests)
+add_executable(quest_runtime_v1_tests features/quest_runtime/quest_runtime_v1_tests.cpp)
+target_link_libraries(quest_runtime_v1_tests PRIVATE foundation_runtime_quests)
+add_test(NAME quest_runtime_v1 COMMAND quest_runtime_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
+# End Preview 16 quest runtime.
+
 enable_testing()
 foreach(test save camera asset level_manifest animation_markers combat_system actor_movement gameplay_camera actor_definitions content_paths actor_root_motion original_actor_properties equipment_visual original_melee_bindings original_combat_visual_plan original_attack_sequence)
   add_executable(${test}_tests tests/${test}_tests.cpp)
