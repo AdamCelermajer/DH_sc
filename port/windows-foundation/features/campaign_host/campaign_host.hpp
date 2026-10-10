@@ -14,6 +14,8 @@
 #include "../cinematics/source_campaign_dispatch_v1.hpp"
 #include "../cinematic_runner/cinematic_runner.hpp" // P16 CINE
 #include "../../original_campaign_world_adapter.hpp"
+#include "../../original_camera_clip.hpp" // P16 CINE2: PlayCamera clips
+#include "../../camera.hpp"
 #include <array>
 #include <cstdint>
 #include <functional>
@@ -43,6 +45,9 @@ struct CampaignHostServices {
     std::function<bool(ActorId,std::int32_t state,std::string&)> set_actor_state;
     std::int32_t difficulty=0;           // source Normal
     bool tutorials_enabled=true;         // offline normal-difficulty tutorial policy
+    // P16 CINE2: resolves a PlayCamera dictionary id to clip bytes, the level camera scene bytes and the path
+    // (main binds CameraClipLibrary).
+    std::function<bool(std::int32_t,std::vector<std::uint8_t>&,std::vector<std::uint8_t>&,std::string&,std::string&)> read_camera_clip;
 };
 
 class CampaignHost {
@@ -74,6 +79,11 @@ public:
     bool save_blocked() const noexcept { return save_blocked_; }
     bool global_controller_blocked() const noexcept { return global_blocked_; }
 
+    // P16 CINE2: scripted camera clip. While a PlayCamera clip plays, the source camera uses its eye and
+    // target (up and FOV from the follow camera); otherwise the follow pose is returned unchanged.
+    bool camera_clip_active() const noexcept { return clip_active_; }
+    CameraPose source_camera_pose(const CameraPose& follow) const;
+
     // One frame: advances the executor on the caller clock, then feeds trigger contacts.
     // An executor error aborts only that cutscene: flags are restored and running scripts abandoned.
     void frame(std::int32_t dt_ms,const std::array<float,3>& player,bool qualified);
@@ -98,6 +108,12 @@ private:
     std::set<int> consumed_tutorials_;
     cinematic_runner::CinematicRunner cinematic_; // P16 CINE
     std::function<bool(std::int32_t,std::string&,std::string&)> caption_text_; // P16 CINE
+    OriginalCameraClip clip_;                     // P16 CINE2: PlayCamera owner (one clip at a time, as CameraLevel)
+    bool clip_active_=false;
+    std::int32_t clip_id_=-1;
+    std::int32_t clip_elapsed_ms_=0;
+    CameraVec3 clip_eye_{}, clip_target_{};
+    bool advance_camera_clip(std::int32_t dt_ms, std::string& error); // P16 CINE2
     bool hud_visible_=true;
     bool skip_visible_=false;
     bool skip_pressed_=false;

@@ -14,6 +14,7 @@ bool OriginalCampaignWorldAdapter::command(CampaignCommandPhase phase,const Orig
  blocking=false;error.clear();try{
   if(c.kind==4||c.kind==8){if(!camera_){if(c.kind==4)return true;error="Source camera command requires bound CampaignCameraAdapter";return false;}bool handled=false;if(!camera_->command(phase,c,skip,handled,blocking,error))return false;if(!handled){error="Source camera adapter did not handle command";return false;}return true;}
   if(c.kind==10||c.kind==12)return effect(providers_.dialog,"dialog",error,c,phase,blocking);
+  if(c.kind==5)return effect(providers_.camera_clip,"camera clip",error,c,phase,blocking); // P16 CINE2
   if(c.kind==22||c.kind==23){auto wait=scalar(c,20);if(wait>1){error="Invalid source Flash wait byte";return false;}return effect(providers_.flash,"flash",error,c.kind==22,text(c,16),scalar(c,8),wait!=0,phase,blocking);}
   switch(c.kind){case 1:case 2:case 24:case 25:case 30:case 31:case 32:case 39:case 69:case 70:case 77:case 78:case 79:case 27:case 28:break;default:error="Unsupported original campaign command kind "+std::to_string(c.kind)+" ("+c.class_name+")";return false;}
   // Actual source bodies for these kinds are nonblocking and inherit empty Update.

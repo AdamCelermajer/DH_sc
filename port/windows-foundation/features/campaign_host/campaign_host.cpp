@@ -1,4 +1,5 @@
 #include "campaign_host.hpp"
+#include <algorithm>
 #include <cctype>
 #include <iostream>
 #include <stdexcept>
@@ -87,6 +88,48 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
             unsupported_.note("dialogue StrID unresolved");
         }
         cinematic_.enqueue(std::move(line));
+        return true;
+    };
+    // P16 CINE2: PlayCamera (kind 5). Scalar 8 = animations_dictionary id, scalar 12 = blocking flag.
+    // IDA Script_PlayCamera::Execute (0x460110) starts CameraLevel::PlayAnim; IsBlocking (0x459370) waits
+    // while the flag is set and the camera is still playing. The clip advances in frame(), the same clock.
+    if (!p.camera_clip) p.camera_clip = [this](const OriginalCampaignCommand& c, CampaignCommandPhase phase, bool& blocking, std::string& e) {
+        const auto field = [&c](unsigned offset) -> std::uint32_t {
+            const auto i = c.scalars.find(offset);
+            return i == c.scalars.end() ? 0u : i->second;
+        };
+        if (phase == CampaignCommandPhase::is_blocking) {
+            blocking = clip_active_ && field(12) != 0 && static_cast<std::int32_t>(field(8)) == clip_id_;
+            return true;
+        }
+        blocking = false;
+        if (phase == CampaignCommandPhase::update) return true;
+        // A new PlayAnim replaces the playing clip (CameraLevel owns one animator).
+        clip_active_ = false;
+        clip_id_ = -1;
+        if (skip_active()) {
+            // Sampled SKIP: the source plays the level set's own idle clip instead; here the follow camera stays.
+            std::cout << "[campaign] PlayCamera skipped (SKIP sampled); follow camera kept\n";
+            return true;
+        }
+        const auto id = static_cast<std::int32_t>(field(8));
+        if (!services_.read_camera_clip) {
+            e = "Unbound original campaign provider: camera clip bytes";
+            return false;
+        }
+        std::vector<std::uint8_t> bytes, scene;
+        std::string path;
+        if (!services_.read_camera_clip(id, bytes, scene, path, e)) {
+            if (e.empty()) e = "Camera clip read failed";
+            return false;
+        }
+        if (!clip_.load(std::move(scene), std::move(bytes), e)) return false;
+        if (!clip_.sample(0, clip_eye_, clip_target_, e)) return false;
+        clip_id_ = id;
+        clip_elapsed_ms_ = 0;
+        clip_active_ = true;
+        std::cout << "[campaign] PlayCamera id=" << id << " " << path << " duration_ms=" << clip_.duration_ms()
+                  << " blocking=" << (field(12) != 0) << '\n';
         return true;
     };
     if (!p.flush_messages) p.flush_messages = [this](std::string&) {
@@ -237,7 +280,31 @@ std::string CampaignHost::script_name_of(const OriginalCampaignCommand& c, int& 
     return "<unknown>";
 }
 
+CameraPose CampaignHost::source_camera_pose(const CameraPose& follow) const {
+    if (!clip_active_) return follow;
+    CameraPose pose = follow; // up and FOV stay with the follow camera (see header)
+    pose.position = clip_eye_;
+    pose.target = clip_target_;
+    return pose;
+}
+
+bool CampaignHost::advance_camera_clip(std::int32_t dt_ms, std::string& error) {
+    error.clear();
+    if (!clip_active_) return true;
+    clip_elapsed_ms_ += std::max<std::int32_t>(0, dt_ms);
+    const auto duration = clip_.duration_ms();
+    if (clip_elapsed_ms_ > duration) clip_elapsed_ms_ = duration;
+    if (!clip_.sample(clip_elapsed_ms_, clip_eye_, clip_target_, error)) return false;
+    if (clip_elapsed_ms_ >= duration) {
+        // CameraLevel::__Callback: completion clears the playing flag; the follow camera resumes.
+        clip_active_ = false;
+        std::cout << "[campaign] PlayCamera finished id=" << clip_id_ << " frame=" << frames_ << '\n';
+    }
+    return true;
+}
+
 bool CampaignHost::abort_cutscene(std::string& error) {
+    clip_active_ = false; // P16 CINE2: abort ends a playing camera clip (follow camera resumes)
     cinematic_.set_active(false); // P16 CINE: abort drops caption lines and the SKIP control
     hud_visible_ = true;
     skip_visible_ = false;
@@ -267,7 +334,8 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
     ++frames_;
     cinematic_.update(dt_ms > 0 ? static_cast<std::uint32_t>(dt_ms) : 0u); // P16 CINE: caption hold, same clock as the executor
     std::string error;
-    if (!runtime_->tick(dt_ms, error)) {
+    // P16 CINE2: the camera clip advances on the same clock before the executor reads is_blocking.
+    if (!advance_camera_clip(dt_ms, error) || !runtime_->tick(dt_ms, error)) {
         // Policy: the failing cutscene is aborted, the session keeps its other triggers.
         // The runtime failure is cleared BEFORE contacts are fed, so one bad script cannot disable zones.
         ++aborts_;

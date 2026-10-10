@@ -24,6 +24,8 @@ struct OriginalCampaignWorldProviders {
     std::function<bool(bool show,const std::string& menu,std::uint32_t duration,bool wait,
                        CampaignCommandPhase,bool& blocking,std::string&)> flash;
     std::function<bool(const OriginalCampaignCommand&,CampaignCommandPhase,bool& blocking,std::string&)> dialog;
+    // P16 CINE2: PlayCamera (kind 5). Execute starts the clip; is_blocking waits while it plays (IDA 0x459370).
+    std::function<bool(const OriginalCampaignCommand&,CampaignCommandPhase,bool& blocking,std::string&)> camera_clip;
     // P14 FAERY (T3): same-owner source Faery script effects (commands 27/28).
     std::function<bool(std::uint32_t slot,std::uint32_t state,std::string&)> set_faery_state;
     std::function<bool(std::uint32_t slot,std::string&)> inc_faery_level;

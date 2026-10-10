@@ -810,3 +810,8 @@ target_link_libraries(menu_metadata_v1_tests PRIVATE foundation_frontend)
 add_test(NAME menu_metadata_v1 COMMAND menu_metadata_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets"
   "${CMAKE_CURRENT_SOURCE_DIR}/../android-native/app/src/main/assets")
+# P16 CINE2: PlayCamera clip owner (cs_* BRES scene + dictionary lookup) and its test on the staged package.
+target_sources(foundation_data PRIVATE original_camera_clip.cpp)
+add_executable(original_camera_clip_tests features/cinematics/original_camera_clip_tests.cpp)
+target_link_libraries(original_camera_clip_tests PRIVATE foundation_data)
+add_test(NAME original_camera_clip COMMAND original_camera_clip_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
