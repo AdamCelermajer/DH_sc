@@ -4,6 +4,7 @@
 #include "../../campaign_camera_adapter.hpp"
 #include "../../original_actor_lifecycle.hpp"
 #include "../../original_campaign_world_adapter.hpp"
+#include "../../original_camera_clip.hpp"
 #include <iostream>
 #include <memory>
 #include <set>
@@ -19,6 +20,8 @@ void check(bool value, const std::string& message) { if (!value) throw std::runt
 
 // Fake live owners. Real main.cpp binds the same callback shapes to the live session.
 struct Rig {
+    std::unique_ptr<AssetCatalog> assetCatalog;   // P16 CINE2: the clip library reads the same package
+    CameraClipLibrary clipLibrary;
     OriginalCampaignRuntime runtime;
     OriginalActorLifecycle lifecycle;
     CampaignCameraAdapter camera;
@@ -29,9 +32,9 @@ struct Rig {
     std::unique_ptr<CampaignHost> host;
 
     explicit Rig(const std::string& campaignDirectory) {
-        AssetCatalog assets(campaignDirectory);
+        assetCatalog = std::make_unique<AssetCatalog>(campaignDirectory);
         std::string error;
-        check(runtime.load(assets, "original-campaign.xml", error), "campaign load: " + error);
+        check(runtime.load(*assetCatalog, "original-campaign.xml", error), "campaign load: " + error);
 
         OriginalCampaignWorldProviders providers;
         providers.global_controller_blocked = [this](bool blocked, std::string&) { globalBlocked = blocked; return true; };
@@ -62,6 +65,9 @@ struct Rig {
             return true;
         };
         services.set_actor_state = [this](ActorId id, std::int32_t state, std::string&) { states[id] = state; return true; };
+        services.read_camera_clip = [this](std::int32_t id, std::vector<std::uint8_t>& clip, std::vector<std::uint8_t>& scene, std::string& path, std::string& e) {
+            return clipLibrary.read(*assetCatalog, id, clip, scene, path, e);
+        };
         host = std::make_unique<CampaignHost>(services);
 
         world = std::make_unique<OriginalCampaignWorldAdapter>(lifecycle, &camera);
@@ -228,6 +234,45 @@ void unsupported_commands_named(const std::string& directory) {
 
 } // namespace
 
+// P16 CINE2: PlayCamera (kind 5) through the production adapter and host. Blocking (IDA IsBlocking) holds while
+// the cs_swamp_intro scene01 clip plays (4000 ms on the frame clock), the source pose follows the clip, then the
+// follow pose returns. A non-blocking clip never blocks. An unknown dictionary id fails with the named error.
+void camera_clip_blocks_then_releases(const std::string& directory) {
+    Rig rig(directory);
+    OriginalCampaignCommand clip;
+    clip.kind = 5;
+    clip.class_name = "Script_PlayCamera";
+    clip.scalars = {{4, 5}, {8, 359}, {12, 1}};
+    bool blocking = true;
+    std::string error;
+    check(rig.world->command(CampaignCommandPhase::execute, clip, 0, false, blocking, error) && !blocking, "PlayCamera execute starts without blocking: " + error);
+    check(rig.world->command(CampaignCommandPhase::is_blocking, clip, 0, false, blocking, error) && blocking, "blocking PlayCamera holds while the clip plays");
+    CameraPose follow{};
+    follow.position = {10, 20, 30};
+    follow.target = {11, 21, 31};
+    const CameraPose early = rig.host->source_camera_pose(follow);
+    check(early.position.x != follow.position.x || early.position.y != follow.position.y, "the source pose follows the clip, not the follow camera");
+    check(rig.host->camera_clip_active(), "clip is active after execute");
+    rig.step(2000);
+    check(rig.world->command(CampaignCommandPhase::is_blocking, clip, 0, false, blocking, error) && blocking, "still blocking at 2000 ms");
+    rig.step(2500);
+    check(rig.world->command(CampaignCommandPhase::is_blocking, clip, 0, false, blocking, error) && !blocking, "released after the 4000 ms clip");
+    check(!rig.host->camera_clip_active(), "clip inactive after the end");
+    const CameraPose after = rig.host->source_camera_pose(follow);
+    check(after.position.x == follow.position.x && after.target.x == follow.target.x, "follow pose is restored after the clip");
+
+    OriginalCampaignCommand nonblocking = clip;
+    nonblocking.scalars[12] = 0;
+    check(rig.world->command(CampaignCommandPhase::execute, nonblocking, 0, false, blocking, error) && !blocking, "non-blocking PlayCamera starts");
+    check(rig.world->command(CampaignCommandPhase::is_blocking, nonblocking, 0, false, blocking, error) && !blocking, "non-blocking PlayCamera never blocks");
+
+    OriginalCampaignCommand missing = clip;
+    missing.scalars[8] = 999999;
+    check(!rig.world->command(CampaignCommandPhase::execute, missing, 0, false, blocking, error) && error.find("absent") != std::string::npos,
+          "unknown PlayCamera id is an explicit error: " + error);
+    check(!rig.host->camera_clip_active(), "a failed PlayCamera leaves no clip playing");
+}
+
 int main(int argc, char** argv) {
     try {
         check(argc == 2, "Supply the campaign asset directory");
@@ -237,6 +282,7 @@ int main(int argc, char** argv) {
         unresolved_caption_is_explicit(argv[1]);
         do_tutorial_starts_named_script(argv[1]);
         unsupported_commands_named(argv[1]);
+        camera_clip_blocks_then_releases(argv[1]);
         std::cout << "campaign_host tests passed\n";
         return 0;
     } catch (const std::exception& e) {

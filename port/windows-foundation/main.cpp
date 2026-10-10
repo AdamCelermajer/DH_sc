@@ -1602,6 +1602,9 @@ int main(int argc,char** argv) {
         f::OriginalCampaignWorldAdapter campaignWorld(actorLifecycle,&sourceCameraTargets);
         // P16 HOST: script-host providers and generic trigger zones (bound only with --campaign-triggers).
         f::campaign_host::CampaignHostServices hostServices;
+        f::CameraClipLibrary cameraClipLibrary; // P16 CINE2: PlayCamera dictionary -> cs_* clip bytes
+        cameraClipLibrary.set_scene_file(originalCamera.config().file); // the level camera the clips drive
+        hostServices.read_camera_clip=[&](std::int32_t id,std::vector<std::uint8_t>& clip,std::vector<std::uint8_t>& scene,std::string& path,std::string& e){return cameraClipLibrary.read(assets,id,clip,scene,path,e);};
         hostServices.all_actors=[&](std::vector<f::ActorId>& out,std::string& e){if(!combatSession){e="Campaign host needs the live combat session";return false;}out.clear();for(const auto& entry:combatSession->world()->actors())out.push_back(entry.first);return true;};
         hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){e="Campaign host actor unavailable";return false;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
         hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){return combatSession&&combatSession->set_actor_original_state(id,state,e);};
@@ -2621,7 +2624,7 @@ int main(int argc,char** argv) {
             if(!f::inventory::source_bare_item_descriptors(item,itemTable,dropTextOwner->services(),descriptors,e))return false;
             dropNameCache[item.definition_id]=descriptors.name;out=descriptors.name;e.clear();return true;
         };
-        sourceEffectsCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
+        sourceEffectsCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
         f::platform_input::SemanticInput semanticInput;
         std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false;
@@ -3659,7 +3662,7 @@ int main(int argc,char** argv) {
                 if(runtimeAudio) {
                     bool minimalRandoms=false;std::string audioError;
                     const bool settingsKnown=!sourceScopes||sourceScopes->debug_switch("MP_MinimalRandoms",minimalRandoms,audioError);
-                    auto listenerCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
+                    auto listenerCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
                     if(settingsKnown)audioClock=runtimeAudio->before_update(listenerCamera,window.focused(),window.minimized(),minimalRandoms,std::uint64_t(drawn),audioError);
                     // P15 FAERYSOUND (B050): submit this frame's queued Faery cast sounds on the same device clock (nullptr drops them, logged).
                     if(runtimeAudio){std::string faeryAudioError;if(!runtimeAudio->flush_faery_pre_sounds(audioClock,faeryAudioError)&&!faeryAudioError.empty())std::cerr<<"Faery cast sound diagnostic: "<<faeryAudioError<<'\n';}
@@ -3890,7 +3893,7 @@ int main(int argc,char** argv) {
             }
             if(playerSourceBox&&!f::OriginalActorBounds::update_absolute(*playerSourceBox,options.actorPosition,error))throw std::runtime_error("Source body absolute bounds: "+error);
             if(options.sourceNativeBodies&&!sourcePhysicalFrameEnabled)for(const auto& entry:sourceBodyPlans){auto* actor=combatSession->actor(entry.first);if(!nativeBodies.set_position(entry.first,actor->transform.position,false,error))throw std::runtime_error("Native body position sync: "+error);}
-            auto activeCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
+            auto activeCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
             if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=originalCamera.config().nearPlane;activeCamera.farPlane=originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
