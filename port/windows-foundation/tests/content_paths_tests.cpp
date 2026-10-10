@@ -78,6 +78,21 @@ void fixtures() {
         fails([&]{resolve_content_path(catalog,"ambiguous/MIXED.bin");},"Case-ambiguous resource accepted");
         std::cout<<"Case ambiguity rejection exercised\n";
     } else std::cout<<"Case ambiguity fixture unavailable on this case-insensitive filesystem; check skipped\n";
+    // B062: directory listings are cached once a directory has settled. A file added later must still be found,
+    // and repeated resolution must keep returning the same file (cache hit path).
+    {
+        put(fixture.root/"settled/First.bin","one");
+        fs::last_write_time(fixture.root/"settled",fs::file_time_type::clock::now()-std::chrono::hours(1));
+        const auto first=resolve_content_path(catalog,"settled/first.bin");
+        check(fs::equivalent(first,fixture.root/"settled/First.bin"),"Settled directory lookup failed");
+        check(resolve_content_path(catalog,"SETTLED/FIRST.BIN")==first,"Cached directory lookup changed the answer");
+        fails([&]{resolve_content_path(catalog,"settled/second.bin");},"Missing file resolved from a stale listing");
+        put(fixture.root/"settled/Second.bin","two");
+        check(fs::equivalent(resolve_content_path(catalog,"settled/second.bin"),fixture.root/"settled/Second.bin"),
+              "File added after a cached listing was not found");
+        fs::remove(fixture.root/"settled/First.bin");
+        fails([&]{resolve_content_path(catalog,"settled/first.bin");},"Removed file resolved from a stale listing");
+    }
     std::cout<<"Content path fixture checks passed\n";
 }
 void actual(const fs::path& assets) {
