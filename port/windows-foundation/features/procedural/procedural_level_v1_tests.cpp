@@ -2,9 +2,13 @@
 // The asset root must contain data/scene/*.rule.xml and the rule folder (data/3d/modules/...).
 #include "procedural_level_v1.hpp"
 #include "level_manifest.hpp"
+#include "../../character_state.hpp"
+#include "../../save_store.hpp"
 
 #include <cstdio>
+#include <filesystem>
 #include <iostream>
+#include <optional>
 #include <string>
 
 using namespace dh::foundation;
@@ -55,6 +59,24 @@ int main(int argc, char** argv) {
     check(decode_level_manifest(bytes, placements, error), "generated document decodes through the level manifest" +
           (error.empty() ? std::string() : ": " + error));
     check(placements.size() == a.modules, "manifest module count equals emitted modules");
+
+    // Session seed: a forced seed wins, the saved per-difficulty seed next, and a fresh seed last. The seed survives a
+    // save/load round trip (schema v5 tail) and does not leak into another difficulty.
+    CharacterState profile = make_default_character("procgen-seed", "Seed", "KnightPlayerBase");
+    check(session_seed(profile, 0, std::nullopt, 77u) == 77u, "fresh seed used when nothing is saved");
+    check(session_seed(profile, 0, 555u, 77u) == 555u, "forced seed wins over the fresh seed");
+    record_session_seed(profile, 1, 4242u);
+    check(session_seed(profile, 1, std::nullopt, 77u) == 4242u, "saved seed of the active difficulty is used");
+    check(session_seed(profile, 0, std::nullopt, 77u) == 77u, "a seed of one difficulty does not leak into another");
+    const auto seedFile = std::filesystem::temp_directory_path() / "dh-procgen-seed-roundtrip.save";
+    std::string saveError;
+    CharacterState reloaded;
+    check(save_character(seedFile, profile, saveError) && load_character(seedFile, reloaded, saveError) &&
+          reloaded.procedural_seed_by_difficulty == profile.procedural_seed_by_difficulty &&
+          reloaded.schema_version == character_schema_version,
+          "saved procedural seeds survive a save/load round trip" + (saveError.empty() ? std::string() : ": " + saveError));
+    std::error_code removeError;
+    std::filesystem::remove(seedFile, removeError);
 
     // A failing rule reports an error (caller falls back to the backup map).
     GeneratedLevel bad;

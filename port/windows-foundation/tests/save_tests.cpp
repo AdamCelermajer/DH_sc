@@ -155,7 +155,9 @@ int main() {
         // Schema v4 appended a fixed 41-byte tail (difficulty, menu metadata, empty
         // visited list) after the quest payload; strip it for the older layouts.
         constexpr std::size_t v4_empty_tail=4+4+1+4+12+12+4;
-        auto old_v2=bytes;old_v2[12]=2;old_v2.resize(old_v2.size()-v4_empty_tail-4);
+        // Schema v5 appended three procedural seeds (12 bytes) after the v4 tail.
+        constexpr std::size_t v5_seed_tail=12;
+        auto old_v2=bytes;old_v2[12]=2;old_v2.resize(old_v2.size()-v5_seed_tail-v4_empty_tail-4);
         write_bytes(corrupt,old_v2);auto migrated_v2=loaded;
         require(load_character(corrupt,migrated_v2,error)&&migrated_v2.source_quest_progress_cqpg.empty(),"schema2 quest migration differs");
         require(read_bytes(corrupt)==old_v2,"schema2 read changed file");

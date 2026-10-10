@@ -157,6 +157,8 @@ std::vector<unsigned char> encode(const CharacterState& state) {
     for(const auto& entry:state.visited_modules){
         w.string(entry.level_uri);w.integer(entry.module_id,4);w.integer(entry.visited,1);
     }
+    // Schema v5 tail (append-only): procedural level seed per difficulty.
+    for(const auto seed:state.procedural_seed_by_difficulty)w.integer(seed,4);
     w.check_size();
     return std::move(w.bytes);
 }
@@ -237,6 +239,10 @@ CharacterState decode(const std::vector<unsigned char>& bytes) {
             entry.visited=static_cast<std::uint8_t>(r.integer(1));
             state.visited_modules.push_back(std::move(entry));
         }
+    }
+    // Schema v5 tail: procedural seeds. Older saves keep zero (generated on first use).
+    if(serialized_schema>=5){
+        for(auto& seed:state.procedural_seed_by_difficulty)seed=r.u32();
     }
     if (r.position != bytes.size()) throw std::runtime_error("Unexpected trailing save data");
     require_valid(state);

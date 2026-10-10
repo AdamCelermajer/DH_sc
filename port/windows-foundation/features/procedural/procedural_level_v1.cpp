@@ -14,6 +14,7 @@
 #include <exception>
 #include <sstream>
 #include <stdexcept>
+#include <ctime>
 
 namespace dh::foundation::procedural {
 namespace {
@@ -157,6 +158,37 @@ bool generate_level(const AssetCatalog& assets, const std::string& ruleUri,
 
 void install_generated_level(AssetCatalog& assets, const GeneratedLevel& level) {
     assets.set_virtual_file(level.level_uri, level.xml);
+}
+
+
+std::uint64_t layout_signature(const GeneratedLevel& level) {
+    std::uint64_t hash = 1469598103934665603ull;
+    for (const auto byte : level.xml) {
+        hash ^= byte;
+        hash *= 1099511628211ull;
+    }
+    return hash;
+}
+
+std::uint32_t session_seed(const CharacterState& state, std::int32_t difficulty,
+                           std::optional<std::uint32_t> forced, std::uint32_t fresh) {
+    if (forced && *forced != 0) return *forced;
+    const auto index = static_cast<std::size_t>(difficulty < 0 || difficulty >= std::int32_t(character_difficulty_count) ? 0 : difficulty);
+    if (state.procedural_seed_by_difficulty[index] != 0) return state.procedural_seed_by_difficulty[index];
+    return fresh ? fresh : 1u;
+}
+
+void record_session_seed(CharacterState& state, std::int32_t difficulty, std::uint32_t seed) {
+    if (difficulty < 0 || difficulty >= std::int32_t(character_difficulty_count)) return;
+    state.procedural_seed_by_difficulty[static_cast<std::size_t>(difficulty)] = seed;
+}
+
+std::uint32_t fresh_seed() {
+    static std::uint32_t counter = 0;
+    const auto now = static_cast<std::uint64_t>(std::time(nullptr));
+    const auto mixed = (now * 2654435761ull) ^ (static_cast<std::uint64_t>(++counter) * 40503ull) ^ static_cast<std::uint64_t>(std::clock());
+    const auto seed = static_cast<std::uint32_t>(mixed ^ (mixed >> 32));
+    return seed ? seed : 1u;
 }
 
 } // namespace dh::foundation::procedural

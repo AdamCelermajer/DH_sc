@@ -82,6 +82,8 @@ bool same_v4(const CharacterState& a, const CharacterState& b) {
 }
 // Size of an empty-visited v4 tail: difficulty 4+4, known 1, date 4, rows 12, acts 12, count 4.
 constexpr std::size_t v4_fixed_tail = 4 + 4 + 1 + 4 + 12 + 12 + 4;
+// Schema v5 appends three procedural seeds (one u32 per difficulty) after the v4 tail.
+constexpr std::size_t v5_seed_tail = 12;
 std::size_t v4_tail_size(const CharacterState& s) {
     std::size_t size = v4_fixed_tail;
     for (const auto& e : s.visited_modules) size += 4 + e.level_uri.size() + 4 + 1;
@@ -113,7 +115,7 @@ int main() {
 
         // 1. v4 round trip: values and bytes are exact; re-saving is byte-identical.
         const auto original = fixture();
-        require(original.schema_version == 4 && character_schema_version == 4, "schema constant is not 4");
+        require(original.schema_version == 5 && character_schema_version == 5, "schema constant is not 5");
         require(validate_character_state(original).ok(), "fixture must validate");
         require(save_character(save, original, error), "save failed: " + error);
         const auto bytes = read_bytes(save);
@@ -123,9 +125,9 @@ int main() {
         require(character_current_difficulty(loaded) == 1 && character_unlocked_difficulty(loaded) == 2,
                 "difficulty accessors differ");
         require(save_character(scratch, loaded, error) && read_bytes(scratch) == bytes, "v4 re-save is not byte exact");
-        require(bytes[schema_field_at] == 4, "schema field is not 4");
+        require(bytes[schema_field_at] == 5, "schema field is not 5");
         // Documented layout of the appended tail (see report): offsets from the tail start.
-        const auto tail = bytes.size() - v4_tail_size(original);
+        const auto tail = bytes.size() - v4_tail_size(original) - v5_seed_tail;
         const auto u32_at = [&](std::size_t at) {
             std::uint32_t v = 0; for (unsigned i = 0; i < 4; ++i) v |= std::uint32_t(std::uint8_t(bytes[at + i])) << (8 * i); return v; };
         require(u32_at(tail) == 1 && u32_at(tail + 4) == 2 && bytes[tail + 8] == 1 &&
@@ -135,30 +137,30 @@ int main() {
 
         // 2. Legacy v1..v3 slots still load: new fields blank/default, file untouched until an explicit save.
         const auto v3_path = temp.path / "legacy-v3.save";
-        auto v3 = with_schema(bytes, 3); v3.resize(v3.size() - v4_tail_size(original));
+        auto v3 = with_schema(bytes, 3); v3.resize(v3.size() - v4_tail_size(original) - v5_seed_tail);
         write_bytes(v3_path, v3);
         CharacterState legacy = fixture();
         require(load_character(v3_path, legacy, error), "schema 3 load failed: " + error);
-        require(legacy.schema_version == 4 && legacy.id == original.id && legacy.stats.level == 5 &&
+        require(legacy.schema_version == 5 && legacy.id == original.id && legacy.stats.level == 5 &&
                 legacy.current_difficulty == 0 && legacy.unlocked_difficulty == 0 &&
                 !legacy.menu_metadata.known && legacy.menu_metadata.save_time == 0 &&
                 legacy.menu_metadata.level_row == std::array<std::int32_t, 3>{-1, -1, -1} &&
                 legacy.menu_metadata.current_act == std::array<std::int32_t, 3>{1, 1, 1} &&
                 legacy.visited_modules.empty(), "schema 3 defaults differ");
         require(read_bytes(v3_path) == v3, "legacy read rewrote the file");
-        require(save_character(v3_path, legacy, error) && read_bytes(v3_path).size() == v3.size() + v4_fixed_tail &&
-                read_bytes(v3_path)[schema_field_at] == 4, "explicit save did not upgrade a v3 slot to v4");
+        require(save_character(v3_path, legacy, error) && read_bytes(v3_path).size() == v3.size() + v4_fixed_tail + v5_seed_tail &&
+                read_bytes(v3_path)[schema_field_at] == 5, "explicit save did not upgrade a v3 slot to v5");
         // v2 (no quest length either) and v1 representations of a generic character.
         auto plain = make_default_character("legacy-2", "Old", "KnightPlayerBase");
         require(save_character(scratch, plain, error), "plain save failed");
-        auto v2 = with_schema(read_bytes(scratch), 2); v2.resize(v2.size() - v4_fixed_tail - 4);
+        auto v2 = with_schema(read_bytes(scratch), 2); v2.resize(v2.size() - v4_fixed_tail - 4 - v5_seed_tail);
         write_bytes(scratch, v2);
         CharacterState v2_loaded;
         require(load_character(scratch, v2_loaded, error) && v2_loaded.id == "legacy-2" && !v2_loaded.menu_metadata.known &&
                 v2_loaded.current_difficulty == 0, "schema 2 load failed: " + error);
 
         // 3. Truncated / corrupt / trailing data never publishes a partial state.
-        for (std::size_t cut = 1; cut <= v4_tail_size(original); ++cut)
+        for (std::size_t cut = 1; cut <= v4_tail_size(original) + v5_seed_tail; ++cut)
             expect_load_rejected(scratch, Bytes(bytes.begin(), bytes.end() - std::ptrdiff_t(cut)), "truncated v4 tail");
         auto trailing = bytes; trailing.push_back('x');
         expect_load_rejected(scratch, trailing, "v4 trailing byte");
@@ -173,13 +175,13 @@ int main() {
         expect_load_rejected(scratch, bad_row, "level row beyond limit");
         auto bad_count = bytes; bad_count[tail + 37] = char(0xff); bad_count[tail + 38] = char(0xff);
         expect_load_rejected(scratch, bad_count, "visited count beyond limit");
-        auto bad_visited = bytes; bad_visited[bytes.size() - 1] = 2; // last visited byte
+        auto bad_visited = bytes; bad_visited[bytes.size() - 1 - v5_seed_tail] = 2; // last visited byte
         expect_load_rejected(scratch, bad_visited, "visited byte 2");
 
         // 4. Unknown versions reject without touching the destination.
-        auto unknown_schema = with_schema(bytes, 5);
-        expect_load_rejected(scratch, unknown_schema, "schema 5");
-        auto future = original; future.schema_version = 5;
+        auto unknown_schema = with_schema(bytes, 6);
+        expect_load_rejected(scratch, unknown_schema, "schema 6");
+        auto future = original; future.schema_version = 6;
         require(save_character(save, original, error), "reseed failed");
         const auto before_future = read_bytes(save);
         require(!save_character(save, future, error) && read_bytes(save) == before_future,

@@ -15,8 +15,10 @@
 // The seed is the per-difficulty PlayerSavegame seed (Application::LoadLevel).
 
 #include "asset_catalog.hpp"
+#include "../../character_state.hpp"
 
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -49,5 +51,17 @@ bool generate_level(const AssetCatalog& assets, const std::string& ruleUri,
 // Installs the generated document as the virtual level file `out.level_uri`
 // (replacing any previous generation for that uri).
 void install_generated_level(AssetCatalog& assets, const GeneratedLevel& level);
+
+// FNV-1a over the generated document: the layout signature printed by the EXE.
+std::uint64_t layout_signature(const GeneratedLevel& level);
+
+// Session seed (IDA Application::LoadLevel): a forced seed (test aid --procedural-seed) wins; otherwise the
+// saved per-difficulty seed; otherwise `fresh` (a new non-zero seed, see fresh_seed()).
+std::uint32_t session_seed(const CharacterState& state, std::int32_t difficulty,
+                           std::optional<std::uint32_t> forced, std::uint32_t fresh);
+// Records the session seed in the profile so the next save keeps it.
+void record_session_seed(CharacterState& state, std::int32_t difficulty, std::uint32_t seed);
+// New seed from the wall clock and process counter (non-zero). Production source of a first seed.
+std::uint32_t fresh_seed();
 
 } // namespace dh::foundation::procedural

@@ -7,7 +7,7 @@
 
 namespace dh::foundation {
 
-inline constexpr std::uint32_t character_schema_version = 4;
+inline constexpr std::uint32_t character_schema_version = 5;
 // Schema history: 1 base, 2 source stats/equipment/skills/faery, 3 CQPG quest blob,
 // 4 menu metadata + current/unlocked difficulty + visited-module section.
 inline constexpr std::uint32_t character_difficulty_count = 3;
@@ -125,6 +125,9 @@ struct CharacterState {
     std::int32_t unlocked_difficulty = 0;
     CharacterMenuMetadata menu_metadata;
     std::vector<CharacterVisitedModule> visited_modules;
+    // Schema v5 (append-only tail). Source PlayerSavegame seed per difficulty (Application::LoadLevel,
+    // savegame +92 + 4*difficulty): the RNG seed of procedural `.rule.xml` levels. Zero = not generated yet.
+    std::array<std::uint32_t, character_difficulty_count> procedural_seed_by_difficulty{};
 };
 
 // The single accessors other streams use for the active difficulty (0..2).

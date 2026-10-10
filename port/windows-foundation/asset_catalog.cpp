@@ -75,7 +75,7 @@ fs::path AssetCatalog::resolve(const fs::path& relative) const {
     for (const auto& component : relative) {
         if (component == "..") throw std::invalid_argument("Asset path cannot traverse parents");
     }
-    if (has_virtual_file(relative)) return relative;
+    if (has_virtual_file(relative)) return root_ / relative; // P17 PROCGEN: absolute, so lexically_relative(root) keeps the uri
     std::error_code ec;
     const auto path = fs::canonical(root_ / relative, ec);
     if (ec) throw std::runtime_error("Asset not found: " + relative.generic_string());
