@@ -314,6 +314,7 @@ struct Options {
     std::string campaignCommands;
     bool campaignTriggers=false; // P16 HOST: --campaign-triggers (off until verified)
     int campaignSkipFrame=-1; std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
+    int captionAutoTapMs=0; // OPENING2: verification only; taps tap-wait captions after N ms (0 = the player taps)
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
     std::vector<ScheduledSourceCommand> sourceCommands;
     // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME (debug; empty by default).
@@ -430,6 +431,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--campaign-commands") o.campaignCommands=value();
         else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
         else if(arg=="--campaign-skip-frame") o.campaignSkipFrame=std::stoi(value()); // P16 CINE
+        else if(arg=="--caption-auto-tap-ms") o.captionAutoTapMs=std::stoi(value()); // OPENING2 (verification input)
         else if(arg=="--campaign-start") o.campaignStart=value(); // P16 CINE
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
         else if(arg=="--combat-react") {auto c=choice(value());o.combat.profiles[c.first].reaction=c.second;}
@@ -2335,6 +2337,7 @@ int main(int argc,char** argv) {
         if(options.hud&&combatSession&&!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
         // P16 CINE: caption lines resolve their authored StrID through the same original localization owner.
         // P16 OPENING: caption text substitutes the source $player token with the character name (the reference shows the name).
+        if(options.campaignTriggers) campaignHost.set_caption_auto_tap_ms(std::uint32_t(options.captionAutoTapMs>0?options.captionAutoTapMs:0));
         if(options.campaignTriggers) campaignHost.set_caption_text([&menuLocalization,&state](std::int32_t id,std::string& text,std::string& e){if(!menuLocalization.string_id(id,text,e))return false;for(auto at=text.find("$player");at!=std::string::npos;at=text.find("$player",at+state.name.size()))text.replace(at,7,state.name);return true;});
         f::CameraPose start;
         float extent=200;
@@ -3479,7 +3482,9 @@ int main(int argc,char** argv) {
                 if(down&&!mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::down,{pointerX,pointerY});
                 else if(!down&&mouseHeld) {
                     // P16 CINE: a release on the placeholder SKIP control of a running cutscene presses SKIP (ignored when hidden).
+                    // OPENING2: a release advances a tap-wait caption (btn_next, PC adaptation: any tap on the screen).
                     if(campaignHost.enabled()&&campaignHost.cinematic_skip_hit(pointerX,pointerY,float(window.width()),float(window.height())))campaignHost.press_skip();
+                    else if(campaignHost.enabled())campaignHost.caption_tap();
                     semanticInput.pointer(0,f::platform_input::PointerPhase::up,{pointerX,pointerY});
                 }
                 else if(down)semanticInput.pointer(0,f::platform_input::PointerPhase::move,{pointerX,pointerY});

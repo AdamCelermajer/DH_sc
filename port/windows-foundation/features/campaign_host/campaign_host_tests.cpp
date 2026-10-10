@@ -121,6 +121,7 @@ void lizard_intro_contract(const std::string& directory) {
     // The session keeps its other triggers: a later cutscene runs to completion without a new abort.
     const int tuto = rig.runtime.script_id("CombatTuto", false);
     check(rig.runtime.start(tuto, -1, false, error), error);
+    rig.host->set_caption_auto_tap_ms(300);
     for (int i = 0; i < 4000 && rig.runtime.running(tuto); ++i) rig.step(10); // captions hold the script (WaitDialog)
     check(!rig.runtime.running(tuto) && rig.host->aborts() == 1 && !rig.globalBlocked, "session continues after an abort");
 }
@@ -157,6 +158,12 @@ void captions_block_then_release(const std::string& directory) {
     check(rig.runtime.running(script), "WaitDialog must block the script while a caption is shown");
     check(rig.host->cinematic().waiting(), "caption keeps the cinematic waiting");
     check(rig.host->cinematic().current()->text == "line 2097213", "caption text is the authored StrID text");
+    // OPENING2: MiddleBubble (style 4) is a tap-wait box: 3 s without input keeps the first line up.
+    for (int i = 0; i < 300; ++i) rig.step(10);
+    check(rig.runtime.running(script) && rig.host->cinematic().current()->text == "line 2097213",
+          "a skippable caption waits for the player tap");
+    check(rig.host->caption_tap(), "a tap advances the tap-wait caption");
+    rig.host->set_caption_auto_tap_ms(300);   // verification input for the rest of the script
     for (int i = 0; i < 4000 && rig.runtime.running(script) && rig.host->aborts() == 0; ++i) rig.step(10);
     check(rig.host->aborts() == 0, "captions must not abort the cutscene");
     check(!rig.runtime.running(script), "script finishes after the last caption");
@@ -176,6 +183,7 @@ void do_tutorial_starts_named_script(const std::string& directory) {
         text = "line " + std::to_string(id);
         return true;
     });
+    rig.host->set_caption_auto_tap_ms(300);
     const int movement = rig.runtime.script_id("Movement_Tuto", false);
     const int movement2 = rig.runtime.script_id("Movement_Tuto2", false);
     check(movement >= 0 && movement2 >= 0, "Movement tutorial scripts present");
@@ -197,6 +205,7 @@ void unresolved_caption_is_explicit(const std::string& directory) {
     Rig rig(directory);
     std::string error;
     const int script = rig.runtime.script_id("CombatTuto", false);
+    rig.host->set_caption_auto_tap_ms(300);
     check(rig.runtime.start(script, -1, false, error), error);
     for (int i = 0; i < 100 && rig.host->cinematic().current() == nullptr; ++i) rig.step(10);
     check(rig.host->cinematic().current() && rig.host->cinematic().current()->text.find("unresolved") != std::string::npos,

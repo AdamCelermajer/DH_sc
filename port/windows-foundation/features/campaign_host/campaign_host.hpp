@@ -98,6 +98,10 @@ public:
     // P16 CINE: cinematic presentation state and draw description (authored 480x320 space).
     const cinematic_runner::CinematicRunner& cinematic() const noexcept { return cinematic_; }
     bool cinematic_skip_hit(float x,float y,float window_w,float window_h) const noexcept { return cinematic_.skip_hit(x,y,window_w,window_h); }
+    // OPENING2: a player tap advances a tap-wait caption (btn_next). Returns true when a caption used it.
+    bool caption_tap() { return cinematic_.tap(); }
+    // Verification input (--caption-auto-tap-ms): taps tap-wait captions after this many ms. 0 = player only.
+    void set_caption_auto_tap_ms(std::uint32_t ms) { cinematic_.set_auto_tap_ms(ms); }
 
     // Abstract SKIP press. Ignored unless the SKIP control is currently visible.
     void press_skip();
