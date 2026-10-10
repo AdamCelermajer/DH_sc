@@ -51,7 +51,10 @@ class Presenter {
     bool open_=false;Tab tab_=Tab::stats;
 public:
     void open() noexcept {open_=true;tab_=Tab::stats;}
-    void close() noexcept {open_=false;}
+    // Optional close policy (Preview 15 Stats confirmation): consulted by every close
+    // path (Back, Escape, profile key). Returning false keeps the menu open.
+    std::function<bool()> close_guard;
+    void close() {if(close_guard&&!close_guard())return;open_=false;}
     bool is_open() const noexcept{return open_;}
     Tab tab() const noexcept{return tab_;}
     bool select(Tab,std::string& error);
