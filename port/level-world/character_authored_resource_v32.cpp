@@ -6,6 +6,7 @@
 #include "../engine-animation/particle_force_scene_v1.hpp"
 #include "../engine-animation/particle_scene_color_v1.hpp"
 #include "../scene-materials/particle_scene_v1.hpp"
+#include "source_fx_node_matrix_v4.hpp" // P16 LEVELUP2: camera-facing billboard pass for FX scene nodes
 #include "../engine-animation/animation.hpp"
 #include "../engine-animation/particle_box_v2.hpp"
 #include "../engine-animation/material_color.hpp"
@@ -148,8 +149,10 @@ class CompositeResourceV32 final:public CharacterAuthoredCompositeFxResourceV4 {
  std::shared_ptr<SharedGraphV32> shared_=std::make_shared<SharedGraphV32>();
  std::vector<std::shared_ptr<AuthoredEmitterV32>> emitters_;
  std::unique_ptr<AuthoredFxMeshGraphV32> meshes_;math::Matrix4f outer_{};bool outer_written_{};
+ CharacterBloodFxSceneServicesV2 scene_services_{}; // P16 LEVELUP2: actual scene camera for billboard records
 public:
  bool initialize(std::shared_ptr<const std::vector<std::uint8_t>> bytes,CharacterBloodFxSceneServicesV2 services,CharacterFxForceFactoryV4 forces,std::string& error){
+  scene_services_=services;
   bytes_=std::move(bytes);if(dh2_bres_open(&image_,bytes_->data(),bytes_->size())!=resources::BresError::ok){error="Composite FX BRES";return false;}
   if(!scene::load_particle_scene_v1(image_,shared_->scene,error))return false;
   if(!source_fx_rebuild_graph_world_v4(shared_->scene,error))return false;
@@ -171,7 +174,15 @@ public:
  std::int32_t end_ms()const noexcept override{return shared_->end;}
  bool sample_animation(std::int32_t ms,std::string& error)override{if(!shared_->transforms->sample(ms,error))return false;shared_->pose_sampled=true;for(auto& emitter:emitters_)if(!emitter->sample_animation(ms,error))return false;return meshes_->sample(ms,error);}
  bool scene_frame(std::int32_t,std::int32_t,const std::array<float,16>&,std::string& error)override{error="Required source-produced typed FX outer68";return false;}
- bool source_scene_frame_v4(std::int32_t absolute,std::int32_t dt,const math::Matrix4f& outer,std::string& error)override{std::memcpy(&outer_,&outer,65);outer_written_=true;for(auto& emitter:emitters_)if(!emitter->typed_scene_frame(absolute,dt,outer,error))return false;return true;}
+ bool source_scene_frame_v4(std::int32_t absolute,std::int32_t dt,const math::Matrix4f& outer,std::string& error)override{std::memcpy(&outer_,&outer,65);outer_written_=true;
+  // P16 LEVELUP2: billboard records (glitch CBillboardSceneNode) face the active scene camera each frame.
+  // The rebuild runs before emitters and mesh draws read the retained graph; plain scenes skip the camera.
+  if(source_fx_scene_has_billboards_v1(shared_->scene)){
+   float view[16]{},eye[3]{};
+   if(!scene_services_.camera||!scene_services_.camera(scene_services_.context,view,eye,error)){if(error.empty())error="Required actual FX camera for billboard nodes";return false;}
+   if(!source_fx_rebuild_graph_world_billboards_v1(shared_->scene,outer,view,eye,error))return false;
+  }
+  for(auto& emitter:emitters_)if(!emitter->typed_scene_frame(absolute,dt,outer,error))return false;return true;}
  bool completed(bool& out,std::string& error)const override{if(emitters_.empty()){out=true;return true;}return emitters_.front()->completed(out,error);}
  bool draw_parts(std::vector<skinning::VisualDrawPartV6>& out,std::string& error)const override{std::vector<skinning::VisualDrawPartV6> result;std::vector<CharacterFxMeshDrawSourceV4> meshes;if(!mesh_draw_sources_v4(meshes,error))return false;for(auto& mesh:meshes)result.push_back(std::move(mesh.part));for(auto& emitter:emitters_){std::vector<skinning::VisualDrawPartV6> parts;if(!emitter->draw_parts(parts,error))return false;for(auto& part:parts)result.push_back(std::move(part));}out=std::move(result);return true;}
  bool mesh_draw_sources_v4(std::vector<CharacterFxMeshDrawSourceV4>& out,std::string& error)const override{if(!outer_written_){error="Required actual typed FX outer transform before mesh submission";return false;}return meshes_->draw_sources(outer_,out,error);}
