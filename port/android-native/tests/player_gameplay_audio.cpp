@@ -26,6 +26,53 @@ int main() {
           "play command carries original Sounds UID and normalized PCM filename");
     check(consume(cue), false, "cue is delivered once");
 
+    check(enqueue_crypt_music_state(486,"ambient"),true,
+          "committed Crypt source UID queues its ambient VXN state");
+    check(consume(cue)&&cue=="dh2music,486,ambient",true,
+          "Crypt music state reaches the existing Android polling bridge");
+    check(enqueue_crypt_music_state(486,"combat"),true,
+          "VXN combat state is transportable for a future source combat trigger");
+    check(consume(cue)&&cue=="dh2music,486,combat",true,
+          "combat state is preserved without inventing a trigger");
+    check(source_vxn_music_resource(484)&&
+          std::string(source_vxn_music_resource(484)->source_label)=="AbbeyRuinsOneAmbientMusic"&&
+          source_vxn_music_resource(485)&&
+          std::string(source_vxn_music_resource(485)->source_label)=="PortalRoomAmbientMusic"&&
+          source_vxn_music_resource(486)&&
+          std::string(source_vxn_music_resource(486)->source_label)=="CryptOneAmbientMusic"&&
+          source_vxn_music_resource(487)&&
+          std::string(source_vxn_music_resource(487)->source_label)=="SecretCryptAmbientMusic",
+          true,"all four retained source labels resolve to the shared cathedral VXN bank");
+    check(enqueue_source_vxn_music_state(484,"ambient")&&consume(cue)&&
+          cue=="dh2music,484,ambient",true,
+          "shared-bank source UID 484 resolves through the current music command");
+    check(enqueue_source_vxn_music_state(487,"combat")&&consume(cue)&&
+          cue=="dh2music,487,combat",true,
+          "shared-bank source UID 487 retains its selected state");
+    check(source_vxn_music_resource(467)&&
+          std::string(source_vxn_music_resource(467)->source_label)=="SwampHubAmbientMusic"&&
+          enqueue_source_vxn_music_state(467,"ambient")&&consume(cue)&&
+          cue=="dh2music,467,ambient",true,
+          "SWAMP LevelConfig hub label resolves to its source VXN ambient state");
+    check(enqueue_source_vxn_music_state(467,"combat")&&consume(cue)&&
+          cue=="dh2music,467,combat",true,
+          "SWAMP source VXN combat state reaches the same music queue");
+    check(source_music_resource(505)&&
+          std::string(source_music_resource(505)->source_label)=="SwampMerchantCampMusic"&&
+          enqueue_source_music_state(505,"ambient")&&consume(cue)&&
+          cue=="dh2music,505,ambient",true,
+          "SWAMP safe-zone ADPCM loop resolves by its source Sounds UID");
+    check(!source_vxn_music_resource(505)&&
+          !enqueue_source_music_state(505,"combat"),true,
+          "single-state safe-zone loop rejects unsupported VXN combat state");
+    check(enqueue_crypt_music_state(487,"ambient"),false,
+          "another level's VXN UID cannot be mislabeled as Crypt");
+    check(enqueue_source_vxn_music_state(488,"ambient")||
+          source_vxn_music_resource(488)!=nullptr,false,
+          "unmapped VXN IDs stay unsupported");
+    check(enqueue_crypt_music_state(486,"boss"),false,
+          "unknown VXN states remain fail-closed");
+
     check(enqueue_play(chain_lightning_cue,sizeof(chain_lightning_cue)-1,0x11,true,80),true,
           "catalogued looping/fade-in gameplay sound is accepted");
     check(consume(cue),true,"looping sound reaches playback");
@@ -115,6 +162,30 @@ int main() {
     check(enqueue_spatial_source_sound(27,0x44,false,0,spatial),false,
           "unmapped CharSounds IDs fail closed");
     check(consume(cue),false,"unknown source IDs never reach playback");
+
+    {
+        std::lock_guard<std::mutex> lock(queue_mutex());
+        auto& pending=queue();
+        pending.clear();
+        Command stop{};
+        stop.kind=Kind::stop;
+        pending.push_back(stop);
+        const auto stale_at=std::chrono::steady_clock::now()-cue_lifetime-
+                            std::chrono::seconds(1);
+        for(std::size_t i=1;i<queue_limit;++i){
+            Command expired{};
+            expired.kind=Kind::play;
+            expired.queued_at=stale_at;
+            pending.push_back(expired);
+        }
+    }
+    check(enqueue_play(chain_lightning_cue,sizeof(chain_lightning_cue)-1,0x55,false,0),true,
+          "expired play cues behind a stop cannot consume the entire queue capacity");
+    check(queue().size()==2,true,"pruning preserves stop order and the fresh cue");
+    check(consume(cue)&&cue.rfind("dh2fx,stop,",0)==0,true,
+          "queued stop remains ahead of the newly accepted cue");
+    check(consume(cue)&&cue=="dh2fx,play,85,118,0,0,sfx_skill_mage_thunder_braid_add_2.wav",true,
+          "fresh cue survives expired backlog pruning");
 
     std::cout << "PASS: native gameplay cue and CharSounds UID routing\n";
 }

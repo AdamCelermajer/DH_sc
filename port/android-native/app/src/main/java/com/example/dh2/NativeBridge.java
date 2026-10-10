@@ -7,6 +7,8 @@ final class NativeBridge {
     static native String profileSlot(int selectedSlot);
     static native byte[] readAsset(String name,android.content.res.AssetManager assets) throws java.io.IOException;
     static native String initialize(android.content.res.AssetManager assets);
+    /** Loads GSInit's authored splash stage without constructing/showing the main menu. */
+    static native String loadOpeningSplash(String directory,android.content.res.AssetManager assets);
     static native String loadFrontScreen(String directory,android.content.res.AssetManager assets);
     /** Returns the one persisted source Language option, or -1 before settings load. */
     static native int frontLanguage();
@@ -28,6 +30,7 @@ final class NativeBridge {
     static native String loadModel(byte[] encoded,android.content.res.AssetManager assets);
     static native String loadWorld(byte[] encoded,android.content.res.AssetManager assets);
     static native void moveAxis(float x,float y);
+    static native void stopMovement();
     /** Routes an independent two-pointer gesture to the active source CameraLevel zoom owner. */
     static native void cameraPinchZoom(float previousDistance,float currentDistance);
     /** Routes a single-pointer logical-stage drag to the active source CameraLevel pan offset. */

@@ -19,6 +19,7 @@
 #include "character_current_equipped_faery_v1.hpp"
 #include "character_player_buffs_v1.hpp"
 #include "player_skill_progression_v1.hpp"
+#include "player_initial_skill_grants_v1.hpp"
 #include "fresh_inventory_owned_v4.hpp"
 #include "character_skill_cooldown_services.hpp"
 #include "character_coordinator.hpp"
@@ -498,6 +499,13 @@ struct Runtime::Impl {
    case Fn::game_object_get_target_list_top:
    case Fn::game_object_pop_target_list:
    case Fn::character_look_at:
+   // Charge's authored OnPostSkill reaches TargetInMeleeRange before its
+   // source ClearTarget tail. The gameplay adapter owns current-target range.
+   case Fn::character_target_in_melee_range:
+   // Charge's authored OnSkillInfo/OnSkill branches call HasShield. Forward
+   // through the existing gameplay adapter so it can query the canonical V4
+   // inventory; do not infer shield state from Save/profile data here.
+   case Fn::character_has_shield:
    case Fn::character_skill_combat_roll:
     return skill_gameplay_call();
    default:break;
@@ -787,6 +795,63 @@ struct Runtime::Impl {
    return false;
   }
   source_return=result.source_return;return true;
+ }
+ static bool initial_grant_update(void* raw,std::uintptr_t character,std::string& output_error){
+  if(!raw)return false;auto& context=*static_cast<TrainContext*>(raw);
+  if(!context.owner||character!=context.owner->bindings.character){
+   output_error="Initial skill grant slot update Character mismatch";return false;
+  }
+  return context.owner->update_after_saved_skill_slot_write(output_error);
+ }
+ static int initial_grant_recalculate(void* raw,dh2::data::PropertyView* view,
+                                      bool full,std::string& output_error){
+  if(!raw)return 1;auto& owner=*static_cast<Impl*>(raw);
+  if(view!=&owner.property_view||!full){
+   output_error="Initial skill grant requires the same full-recalculation PropertyView";return 1;
+  }
+  if(!owner.initialized||!owner.bindings.classes||!owner.bindings.properties||
+     owner.class_rows.empty()){
+   output_error="Initial skill grant full recalculation owner is unavailable";return 1;
+  }
+  try{owner.refresh_properties();owner.refresh_class_rows();}
+  catch(const std::exception& failure){output_error=failure.what();return 1;}
+  if(dh2_property_validate(&owner.property_view)||
+     dh2_class_recalc_base(owner.class_rows.data(),
+        std::uint32_t(owner.class_rows.size()),owner.bindings.properties->base.data(),
+        &owner.property_view)!=0){
+   output_error="Same-owner initial skill full property recalculation failed";return 1;
+  }
+  output_error.clear();return 0;
+ }
+ bool initialize_initial_skill_grants(dh2::data::FreshInventoryOwnedV4& inventory,
+                                      std::string& output_error){
+  output_error.clear();
+  if(!initialized||update_blocked||!bindings.savegame||!bindings.tables||
+     !bindings.rules||!bindings.properties||!bindings.classes||class_rows.empty()||
+     inventory.character()!=bindings.character||inventory.properties()!=bindings.properties){
+   output_error="Initial skill grants require the active Save, Player runtime, class/property graph and canonical V4";
+   return false;
+  }
+  try{refresh_properties();refresh_class_rows();}
+  catch(const std::exception& failure){output_error=failure.what();return false;}
+  auto* save=bindings.savegame.get();
+  TrainContext context{this,&inventory};
+  dh2::player_initial_skill_grants_v1::Bindings grants{};
+  grants.character=bindings.character;grants.current_savegame=&save;
+  grants.rules=bindings.rules;grants.properties=bindings.properties;
+  grants.view=&property_view;grants.tables=&bindings.tables->skills();
+  grants.inventory=&inventory;
+  grants.slot_updates={&context,initial_grant_update};
+  grants.full_recalculation={this,initial_grant_recalculate};
+  grants.effects={&context,train_current_save,train_service};
+  dh2::player_initial_skill_grants_v1::Result result{};
+  const auto status=dh2::player_initial_skill_grants_v1::initialize(&grants,&result,output_error);
+  if(status!=dh2::player_initial_skill_grants_v1::Status::complete){
+   if(output_error.empty())output_error="Source initial skill-slot initialization failed with status "+
+       std::to_string(static_cast<unsigned>(status));
+   return false;
+  }
+  return true;
  }
  int skill_info(std::uint32_t skill_index,std::int32_t level,
                 std::vector<std::int32_t>& output,std::string& output_error){
@@ -1208,6 +1273,10 @@ bool Runtime::recalculate_properties(bool source_argument,std::string& error){
 bool Runtime::train_skill(std::uint32_t skill_index,bool test_only,data::FreshInventoryOwnedV4& inventory,
                           std::uint32_t& source_return,std::string& error){
  return impl_->train_skill(skill_index,test_only,inventory,source_return,error);
+}
+bool Runtime::initialize_initial_skill_grants(data::FreshInventoryOwnedV4& inventory,
+                                               std::string& error){
+ return impl_->initialize_initial_skill_grants(inventory,error);
 }
 int Runtime::skill_info(std::uint32_t skill_index,std::int32_t level,
                         std::vector<std::int32_t>& shared_temp,std::string& error){
@@ -2119,6 +2188,57 @@ bool Runtime::combat_owner(std::uintptr_t& ais,const std::uint32_t*& flags)const
     !s.ais.ais||s.session->ais_identity()!=s.ais.ais||
     s.bindings.source_ai->active_ais_1c!=s.ais.ais)return false;
  ais=s.ais.ais;flags=&s.ais.flags_b8;return true;
+}
+bool Runtime::aggro_music_owner(std::uintptr_t ais,std::int32_t*& aggro_count,
+                                std::int32_t*& aggro_for_music)noexcept{
+ aggro_count=nullptr;aggro_for_music=nullptr;
+ auto& s=*impl_;
+ std::uintptr_t active=0;const std::uint32_t* flags=nullptr;
+ if(!ais||!combat_owner(active,flags)||active!=ais||
+    s.bindings.source_ai->owner_04!=s.bindings.character||
+    s.source_fields.script.identity!=ais)return false;
+ // PlayerFields retains these source words as uint32_t for its captured
+ // constructor image. The original Player callbacks load/store them as signed
+ // 32-bit integers; corresponding signed/unsigned types may alias the same
+ // object representation, and no other owner copies or rewrites these fields.
+ aggro_count=reinterpret_cast<std::int32_t*>(&s.source_fields.skill_d0);
+ aggro_for_music=reinterpret_cast<std::int32_t*>(&s.source_fields.skill_d4);
+ return true;
+}
+bool Runtime::target_in_melee_range(void* provider_context,
+    std::int32_t (*provider)(void*,dh2::character_ai_melee_range::State*,
+        const dh2::character_ai_melee_range::Request*,
+        dh2::character_ai_melee_range::Response*),
+    std::uint32_t& value,std::string& error)const{
+ value=0;error.clear();
+ if(!impl_){error="Player melee-range runtime is absent";return false;}
+ const auto& s=*impl_;const auto& b=s.bindings;
+ if(!s.initialized||!s.session||!b.source_ai||!b.character||!b.ai||
+    b.source_ai->identity!=b.ai||b.source_ai->owner_04!=b.character){
+  error="Player melee-range requires the same initialized Character and CharAI";
+  return false;
+ }
+ dh2::character_ai_melee_range::State state{
+     b.ai,b.character,b.source_ai->target_40};
+ const dh2::character_ai_melee_range::Services services{provider_context,provider};
+ dh2::character_ai_melee_range::Result result{};
+ const auto status=dh2::character_ai_melee_range::evaluate_object(
+     &state,0,&services,&result);
+ if(status!=dh2::character_ai_melee_range::Status::complete){
+  switch(status){
+  case dh2::character_ai_melee_range::Status::service_unavailable:
+   error="Source CharAI melee-range provider is unavailable";break;
+  case dh2::character_ai_melee_range::Status::service_failed:
+   error="Source CharAI melee-range provider failed";break;
+  case dh2::character_ai_melee_range::Status::invalid_source_fact:
+   error="Source CharAI melee-range facts are invalid";break;
+  case dh2::character_ai_melee_range::Status::invalid_argument:
+   error="Source CharAI melee-range state is invalid";break;
+  case dh2::character_ai_melee_range::Status::complete:break;
+  }
+  return false;
+ }
+ value=result.value;return true;
 }
 int Runtime::dispatch_combat_result(std::uintptr_t ais,
     ais_combat_result_dispatch_v1::Callback callback,

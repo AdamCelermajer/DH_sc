@@ -34,7 +34,11 @@ bool overlaps(const AggroTable& a,const AggroTable& b){
  return first<second+bytes_b&&second<first+bytes_a;
 }
 }
-extern "C" unsigned dh2_aggro_apply(dh2::data::AggroChange* out,const dh2::data::AggroRequest* request,unsigned operation){
+namespace {
+unsigned aggro_apply(dh2::data::AggroChange* out,
+                     const dh2::data::AggroRequest* request,
+                     unsigned operation,
+                     const dh2::data::AggroNotifications* notifications){
  using namespace dh2::data;
  if(!out||!request||operation>aggro_clear||!request->owner||!request->target||(request->facts&~15u)||!valid(request->outgoing)||!valid(request->target_incoming)||request->outgoing==request->target_incoming||overlaps(*request->outgoing,*request->target_incoming))return 1;
  auto& outgoing=*request->outgoing;auto& incoming=*request->target_incoming;
@@ -42,7 +46,12 @@ extern "C" unsigned dh2_aggro_apply(dh2::data::AggroChange* out,const dh2::data:
  const bool exists=found(outgoing,at,request->target),reverse_exists=found(incoming,reciprocal,request->owner);
  AggroChange next{};
  if(operation==aggro_clear){
-  if(exists){erase(outgoing,at);if(reverse_exists)erase(incoming,reciprocal);next.removed=1;next.requests=aggro_notify_target_cleared;}
+  if(exists){
+   erase(outgoing,at);if(reverse_exists)erase(incoming,reciprocal);
+   next.removed=1;next.requests=aggro_notify_target_cleared;
+   if(notifications)notifications->target_on_deaggro(
+       notifications->context,request->target,request->owner);
+  }
   if(request->facts&aggro_target_targets_owner)next.requests|=aggro_clear_target|aggro_stop_controller;
  }else{
   const auto previous=exists?outgoing.entries[at].threat_bits:0u;
@@ -53,12 +62,25 @@ extern "C" unsigned dh2_aggro_apply(dh2::data::AggroChange* out,const dh2::data:
   const auto stored=rejected?0u:supplied;
   if(!rejected){
    if((!exists&&outgoing.count==outgoing.capacity)||(!reverse_exists&&incoming.count==incoming.capacity))return 2;
+   if(!exists&&notifications)notifications->target_on_aggro(
+       notifications->context,request->target,request->owner);
    put(outgoing,at,request->target,stored,exists);put(incoming,reciprocal,request->owner,stored,reverse_exists);
    next.inserted=!exists;next.requests=exists?0u:aggro_notify_target;
   }
   next.returned_bits=operation==aggro_add&&exists?difference(stored,previous):stored;
  }
  *out=next;return 0;
+}
+}
+extern "C" unsigned dh2_aggro_apply(dh2::data::AggroChange* out,
+ const dh2::data::AggroRequest* request,unsigned operation){
+ return aggro_apply(out,request,operation,nullptr);
+}
+extern "C" unsigned dh2_aggro_apply_notifying(dh2::data::AggroChange* out,
+ const dh2::data::AggroRequest* request,unsigned operation,
+ const dh2::data::AggroNotifications* notifications){
+ if(!notifications||!notifications->target_on_aggro||!notifications->target_on_deaggro)return 1;
+ return aggro_apply(out,request,operation,notifications);
 }
 extern "C" unsigned dh2_aggro_query(dh2::data::AggroQuery* out,const dh2::data::AggroTable* table,std::uint64_t target,std::uint32_t incoming_count){
  using namespace dh2::data;

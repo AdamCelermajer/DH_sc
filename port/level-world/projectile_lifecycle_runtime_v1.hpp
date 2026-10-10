@@ -1,6 +1,7 @@
 #pragma once
 
 #include "object_manager_runtime_owner_v1.hpp"
+#include "../game-data/projectile_table_v1.hpp"
 
 #include <cstdint>
 #include <string>
@@ -9,6 +10,7 @@
 namespace dh2::projectile_lifecycle_runtime_v1 {
 
 namespace objects = object_manager_runtime_owner_v1;
+namespace data = dh2::data;
 
 enum class Status : std::uint8_t {
     ok,
@@ -26,6 +28,7 @@ enum class Status : std::uint8_t {
 enum class Stage : std::uint8_t {
     none,
     object_manager_spawn,
+    projectile_pool_register,
     set_projectile_manager,
     set_updating,
     set_info,
@@ -84,11 +87,15 @@ struct SpawnRequest {
     // formats the same source name but owns no counter or projectile pool.
     std::uint32_t factory_serial{};
     FactoryProduct factory_product;
+    // Optional borrowed source row, normally owned by the single-use factory
+    // reservation. It is valid through this synchronous Spawn/SetInfo call.
+    const data::ProjectileRowV1* source_record{};
     objects::Address projectile_manager{};
     objects::Address owner_identity{};
     objects::Address target_identity{};
-    ProjectileCallback on_hit{};
-    ProjectileCallback on_miss{};
+    // Source SetInfo callback slots: +0x3b8 check, +0x3bc hit.
+    ProjectileCallback collision_check_callback{};
+    ProjectileCallback collision_hit_callback{};
     objects::Address user_data{};
     SetInfoKind info_kind{SetInfoKind::angle_float};
     float angle_degrees{};
@@ -99,13 +106,19 @@ struct SetInfoArgs {
     std::int32_t projectile_id{};
     objects::GameObject* owner{};
     objects::GameObject* target{};
-    ProjectileCallback on_hit{};
-    ProjectileCallback on_miss{};
+    ProjectileCallback collision_check_callback{};
+    ProjectileCallback collision_hit_callback{};
     objects::Address user_data{};
+    const data::ProjectileRowV1* source_record{};
 };
 
 struct Hooks {
     void* context{};
+    // Optional canonical ProjectileManager pool owner. Runs after ObjectManager
+    // Add accepts the new product and before source SetManager association.
+    void* pool_context{};
+    Status (*register_pool_object)(void*, objects::GameObject&, bool,
+                                   std::uint32_t) noexcept{};
     Status (*set_manager)(void*, objects::GameObject&, objects::Address) noexcept{};
     Status (*set_updating)(void*, objects::GameObject&, bool) noexcept{};
     Status (*set_info_float)(void*, objects::GameObject&, const SetInfoArgs&,
@@ -154,6 +167,13 @@ std::string factory_name(bool laser_type, std::uint32_t serial);
 Result spawn_fresh(objects::Owner& object_manager,
                    const SpawnRequest& request,
                    const Hooks& hooks) noexcept;
+
+// Source pool-reuse path: the object is already registered and associated with
+// this manager. It runs Spawn's update/SetInfo/activation sequence without
+// ObjectManager Add, pool registration, or a second SetManager call.
+Result spawn_reused(objects::Owner& object_manager,
+                    const SpawnRequest& request,
+                    const Hooks& hooks) noexcept;
 
 // Source ProjectileManager::DeSpawn for the ordinary (non-laser) pool performs
 // SetUpdating(false), GameObject::Stop, then clears the in-use byte. It leaves

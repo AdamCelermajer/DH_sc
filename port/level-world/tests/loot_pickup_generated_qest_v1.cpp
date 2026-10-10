@@ -5,12 +5,14 @@
 #include "../../game-data/item_presentation_v5.hpp"
 #include "../../game-data/loot_power_resources_v7.hpp"
 #include "../../game-data/quest_gather_loot_receiver_v1.hpp"
+#include "../../android-native/app/src/main/cpp/player_inventory_save_commit_v1.hpp"
 
 extern "C" {
 #include "../../random/random.h"
 }
 
 #include <cstring>
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
@@ -143,6 +145,8 @@ struct PickupContext {
     Services* services{};
     Result result{};
     unsigned calls{};
+    std::vector<std::string>* order{};
+    ItemInstanceV1* transferred_item{};
     static bool is_player(void* raw, std::uintptr_t character, bool& player,
                           std::string&) {
         const auto& self = *static_cast<PickupContext*>(raw);
@@ -163,6 +167,17 @@ struct PickupContext {
     static bool after_world_pickup(void* raw, std::uintptr_t character,
                                    std::int32_t item_id, std::string& error) {
         auto& self = *static_cast<PickupContext*>(raw);
+        const auto& world = self.inventory_owner->world_items();
+        const auto& carried = self.inventory_owner->items();
+        const bool transferred = self.transferred_item && world.empty() &&
+            std::any_of(carried.begin(), carried.end(), [&](const auto& slot) {
+                return slot && slot->item.get() == self.transferred_item;
+            });
+        if (!transferred) {
+            error = "GatherLoot tail ran before canonical V4 pickup committed";
+            return false;
+        }
+        self.order->push_back("pickup-committed");
         return dh2::character::loot_pickup_event_bridge_v1::after_transfer(
             *self.level, *self.inventory_owner, character, item_id, *self.services,
             &self.result, error) == Status::raised;
@@ -171,6 +186,9 @@ struct PickupContext {
 struct EventContext {
     qevent::Runtime* runtime{};
     std::uintptr_t owner{};
+    std::vector<std::string>* order{};
+    FreshInventoryOwnedV4* inventory{};
+    unsigned raise_calls{};
     static bool is_player(void*, std::uintptr_t, bool& player, std::string&) {
         player = true;
         return true;
@@ -180,6 +198,13 @@ struct EventContext {
                       std::string& error) {
         auto& self = *static_cast<EventContext*>(raw);
         if (owner != self.owner) { error = "RaiseAsync wrong owner"; return false; }
+        ++self.raise_calls;
+        if (!self.inventory || self.inventory->items().empty() ||
+            !self.inventory->world_items().empty()) {
+            error = "GatherLoot RaiseAsync ran before pickup ownership transfer";
+            return false;
+        }
+        self.order->push_back("qest-raised");
         auto event = source;
         qevent::Result result{};
         return self.runtime->raise(event, result, error) == qevent::Status::complete;
@@ -227,9 +252,6 @@ int main(int argc, char** argv) {
         PropertyState properties{};
         FreshInventoryOwnedV4 inventory(character, tables.borrow(), rng,
                                         std::int8_t(word(fixture, 16)), properties);
-        check(inventory.register_quest_gathering_item_id(841, error),
-              "register objective item in same canonical V4 inventory");
-
         source_level_owner_v1::Owner level;
         int projection{}, fields{}, quest_owner{};
         check(level.begin_load() && level.request_level(1, 0, 0) &&
@@ -237,6 +259,25 @@ int main(int argc, char** argv) {
               level.bind_native_level({&fields, &quest_owner, 0x5001, character, 1, 0, 0, 38}),
               "bind active Level, canonical Save, Character and Quest owner");
         qevent::Runtime events;
+        std::vector<std::string> order;
+        const auto event_owner = reinterpret_cast<std::uintptr_t>(&quest_owner);
+        EventContext event_context{&events, event_owner, &order, &inventory};
+        Services bridge_services{&event_context, EventContext::is_player,
+            event_owner, 37, EventContext::raise};
+
+        // Runtime owner exists, but Objective_GatherLoot has not run Compile /
+        // Register. The source Character list30 precondition must suppress the
+        // event; a missing receiver must not mutate QEST or reach the save seam.
+        Result unregistered_result{};
+        check(after_transfer(level, inventory, character, 841, bridge_services,
+              &unregistered_result, error) == Status::ignored &&
+              !unregistered_result.registered_item && event_context.raise_calls == 0 &&
+              order.empty(),
+              "pickup emitted GatherLoot before canonical Objective Register");
+        unsigned save_calls = 0;
+        check(inventory.register_quest_gathering_item_id(841, error),
+              "register objective item in same canonical V4 inventory");
+
         QuestContext quest_context{};
         quest_context.inventory = &inventory;
         bool found{};
@@ -256,11 +297,8 @@ int main(int argc, char** argv) {
               data::quest_gather_loot_receiver_v1::Binding::receive,
               attached, error) == qevent::Status::complete && attached,
               "attach GatherLoot receiver to the selected current-Level event runtime");
-        const auto event_owner = reinterpret_cast<std::uintptr_t>(&quest_owner);
-        EventContext event_context{&events, event_owner};
-        Services bridge_services{&event_context, EventContext::is_player,
-            event_owner, 37, EventContext::raise};
         PickupContext pickup{&level, &inventory, &item_services, &bridge_services};
+        pickup.order = &order;
         auto pickup_services = inventory_callbacks;
         pickup_services.context = &pickup;
         pickup_services.invoke = PickupContext::inventory_callback;
@@ -276,6 +314,7 @@ int main(int argc, char** argv) {
         auto* source_item = inventory.world_items()[0]->item.get();
         check(source_item && source_item->id == 841 && source_item->powers.size() == 1 &&
               source_item->powers[0] == 193, "source generated Item identity/power changed");
+        pickup.transferred_item = source_item;
         std::int32_t inventory_index = -1;
         check(inventory.pickup_world_item(0, inventory_index, pickup_services, error),
               error.empty() ? "popup pickup and GatherLoot event failed" : error.c_str());
@@ -294,11 +333,29 @@ int main(int argc, char** argv) {
         }
         ++checks;
 
+        // The Android caller saves after V4 returns from its synchronous
+        // GatherLoot tail. Exercise the selected commit adapter at that seam.
+        check(dh2::native::player_inventory_save_commit_v1::after_successful_mutation(
+            [&](std::string&) {
+                if (!objective.done_14 || objective.quantity_20 != 1 ||
+                    inventory.items().size() != 1 || !inventory.world_items().empty())
+                    return false;
+                ++save_calls;
+                order.push_back("sg-save");
+                return true;
+            }, error), "post-pickup SG_Save commit boundary failed");
+        check(event_context.raise_calls == 1 && save_calls == 1 &&
+              order == std::vector<std::string>({"pickup-committed", "qest-raised", "sg-save"}),
+              "pickup mutation, QEST dispatch, and SG_Save order changed");
+
         check(presentation.forget(*inventory.items()[0]->item, error),
               "retire generated Item presentation fixture");
         std::cout << "{\"validation\":\"PASS\",\"generated_item\":841,"
                      "\"generated_power\":193,\"same_item_after_popup_pickup\":true,"
-                     "\"qest_gatherloot_completed\":true,\"checks\":" << checks << "}\n";
+                     "\"qest_gatherloot_completed\":true,"
+                     "\"unregistered_objective_noop\":true,"
+                     "\"order\":[\"pickup-committed\",\"qest-raised\",\"sg-save\"],"
+                     "\"checks\":" << checks << "}\n";
         return 0;
     } catch (const std::exception& exception) {
         std::cerr << exception.what() << '\n';

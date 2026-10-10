@@ -35,6 +35,9 @@ int cursor_next_callback(void* context) noexcept {
 
 Status initialize(Owner* owner) noexcept {
   if (owner == nullptr) return Status::invalid_argument;
+  if (owner->mutation_generation == std::numeric_limits<std::uint64_t>::max())
+    return Status::malformed_links;
+  ++owner->mutation_generation;
   owner->sentinel.next = &owner->sentinel;
   owner->sentinel.previous = &owner->sentinel;
   owner->sentinel.character = nullptr;
@@ -78,7 +81,8 @@ Status append_after_add(Owner* owner, const AddProjection& projection,
     return Status::ok;
   }
   if (allocate == nullptr) return Status::invalid_argument;
-  if (owner->character_count == std::numeric_limits<std::size_t>::max()) {
+  if (owner->character_count == std::numeric_limits<std::size_t>::max() ||
+      owner->mutation_generation == std::numeric_limits<std::uint64_t>::max()) {
     return Status::malformed_links;
   }
 
@@ -91,6 +95,7 @@ Status append_after_add(Owner* owner, const AddProjection& projection,
   tail->next = node;
   owner->sentinel.previous = node;
   ++owner->character_count;
+  ++owner->mutation_generation;
   *appended = true;
   return validate(owner) ? Status::ok : Status::malformed_links;
 }
@@ -103,6 +108,19 @@ Status remove_after_remove(Owner* owner, void* character,
   if (!validate(owner)) return Status::malformed_links;
   if (character == nullptr) return Status::ok;
   if (release == nullptr) return Status::invalid_argument;
+
+  // Find whether this operation mutates the list before unlinking anything.
+  // At the practically unreachable epoch limit, fail atomically instead of
+  // wrapping and allowing an old population binding to appear current.
+  bool has_match = false;
+  for (const Node* probe = owner->sentinel.next; probe != &owner->sentinel;
+       probe = probe->next) {
+    if (probe->character == character) { has_match = true; break; }
+  }
+  if (has_match && owner->mutation_generation ==
+                       std::numeric_limits<std::uint64_t>::max()) {
+    return Status::malformed_links;
+  }
 
   Node* current = owner->sentinel.next;
   const std::size_t initial_count = owner->character_count;
@@ -123,6 +141,7 @@ Status remove_after_remove(Owner* owner, void* character,
     current = next;
     ++visited;
   }
+  if (*removed) ++owner->mutation_generation;
   return validate(owner) ? Status::ok : Status::malformed_links;
 }
 

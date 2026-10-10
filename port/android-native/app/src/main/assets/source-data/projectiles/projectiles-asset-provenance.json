@@ -1,0 +1,657 @@
+{
+  "format": "dh2-projectile-assets-provenance-v1",
+  "source_archive": "Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "source_archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "source_package_prefix": "com.gameloft.android.GAND.GloftD2SS/files/",
+  "projectile_serialized_row_bytes": 59,
+  "projectile_model_index_serialized_offset": 29,
+  "projectile_model_index_struct_offset": 40,
+  "projectile_model_index_source_field": "Model",
+  "data_assets": [
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/projectiles_pyarray.bin",
+      "asset_path": "data/projectiles_pyarray.bin",
+      "size_bytes": 2423,
+      "sha256": "5f50573dc8c6992b4a8c6b0104ed067c27c7765b8dae9236c40ad12c2d5b5e75"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/projectiles_pyarraynames.bin",
+      "asset_path": "data/projectiles_pyarraynames.bin",
+      "size_bytes": 717,
+      "sha256": "404d33210db30cc646e594b31b06850736db74ac0f07ea176f79b48630c96950"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/projectiles_pystructnames.bin",
+      "asset_path": "data/projectiles_pystructnames.bin",
+      "size_bytes": 286,
+      "sha256": "ece9b6229ddb13b4bf937565b2a057e3b0164125020f80d5e100dc1ddac3cd62"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/projectiles_pycst.bin",
+      "asset_path": "data/projectiles_pycst.bin",
+      "size_bytes": 47,
+      "sha256": "6be57b10285fdf43c112e00130b00654054597b28b38d34de7ca7cc0142f8595"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/projectiles_dictionary_pyarray.bin",
+      "asset_path": "data/projectiles_dictionary_pyarray.bin",
+      "size_bytes": 1557,
+      "sha256": "f7e40a8d2a75459b6c9e2e23dc75b80357680671cd7abda8d557078710da12f8"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/projectiles_dictionary_pyarraynames.bin",
+      "asset_path": "data/projectiles_dictionary_pyarraynames.bin",
+      "size_bytes": 857,
+      "sha256": "42d5f9603ce4671c85e87b07fffcbfedf0e4b2e891b4b4adbfa0354093422d16"
+    }
+  ],
+  "referenced_models": [
+    {
+      "dictionary_index": 0,
+      "dictionary_name": "elemental_bolt_earth",
+      "source_model_path": "data/3D/projectiles/elemental_bolt_earth.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/elemental_bolt_earth.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/elemental_bolt_earth.bdae",
+      "size_bytes": 25328,
+      "sha256": "51d9ec82bc1d1a17e56f85c2f6938f3df5b601c9d56d4abba27ac53ba7902c34",
+      "projectile_rows": [
+        {
+          "row": 14,
+          "name": "EarthMastery"
+        },
+        {
+          "row": 15,
+          "name": "EarthWandProjectile"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 1,
+      "dictionary_name": "elemental_bolt_fire",
+      "source_model_path": "data/3D/projectiles/elemental_bolt_fire.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/elemental_bolt_fire.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/elemental_bolt_fire.bdae",
+      "size_bytes": 17404,
+      "sha256": "ed088c54626650ccd9d778bab6eb4f8078fe98caa38c2b257aa885a82e461041",
+      "projectile_rows": [
+        {
+          "row": 12,
+          "name": "Debug"
+        },
+        {
+          "row": 13,
+          "name": "Debug2"
+        },
+        {
+          "row": 18,
+          "name": "FireBall"
+        },
+        {
+          "row": 19,
+          "name": "FireMastery"
+        },
+        {
+          "row": 20,
+          "name": "FireWandProjectile"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 3,
+      "dictionary_name": "elemental_bolt_lightning",
+      "source_model_path": "data/3D/projectiles/elemental_bolt_lightning.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/elemental_bolt_lightning.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/elemental_bolt_lightning.bdae",
+      "size_bytes": 22264,
+      "sha256": "079f72b30f9108e67977a387a4565b619ddc4a2473b0e96a9060fa23ddd23f62",
+      "projectile_rows": [
+        {
+          "row": 22,
+          "name": "LightningMastery"
+        },
+        {
+          "row": 23,
+          "name": "LightningWandProjectile"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 4,
+      "dictionary_name": "elemental_bolt_poison",
+      "source_model_path": "data/3D/projectiles/elemental_bolt_poison.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/elemental_bolt_poison.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/elemental_bolt_poison.bdae",
+      "size_bytes": 23536,
+      "sha256": "c5c9ac6a837a510622ac4d34e4cc0607ef291250d7a0c6ac5a4b4d369cb58d7a",
+      "projectile_rows": [
+        {
+          "row": 29,
+          "name": "PoisonSpit"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 5,
+      "dictionary_name": "elemental_bolt_water",
+      "source_model_path": "data/3D/projectiles/elemental_bolt_water.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/elemental_bolt_water.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/elemental_bolt_water.bdae",
+      "size_bytes": 16808,
+      "sha256": "35f1ea9c34c13f7396bb64a00b736c844de2e8fe61d9c002628701a4b01a2c2d",
+      "projectile_rows": [
+        {
+          "row": 34,
+          "name": "SwampkingSpit"
+        },
+        {
+          "row": 37,
+          "name": "WaterMastery"
+        },
+        {
+          "row": 38,
+          "name": "WaterWandProjectile"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 6,
+      "dictionary_name": "elemental_bolt_wind",
+      "source_model_path": "data/3D/projectiles/elemental_bolt_wind.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/elemental_bolt_wind.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/elemental_bolt_wind.bdae",
+      "size_bytes": 19732,
+      "sha256": "60292aa4e354a2c7cacfd911f10351934370a66b52a267c06c12e6f1cbc5248f",
+      "projectile_rows": [
+        {
+          "row": 1,
+          "name": "AirMastery"
+        },
+        {
+          "row": 2,
+          "name": "AirWandProjectile"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 7,
+      "dictionary_name": "invisible_bolt",
+      "source_model_path": "data/3D/projectiles/invisible_bolt.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/invisible_bolt.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/invisible_bolt.bdae",
+      "size_bytes": 5280,
+      "sha256": "27386c882568665fd166562cffca6c78ec21c07b1c815df647a32d42645cbffa",
+      "projectile_rows": [
+        {
+          "row": 32,
+          "name": "SpawnTool"
+        },
+        {
+          "row": 35,
+          "name": "TeleportTool"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 8,
+      "dictionary_name": "loot_orb",
+      "source_model_path": "data/3D/projectiles/loot_orb.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/loot_orb.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/loot_orb.bdae",
+      "size_bytes": 7112,
+      "sha256": "f3b9214d19e531f93e6c30ea9d30396f09dcf1dc650ffc3c255660ce3cbe4592",
+      "projectile_rows": [
+        {
+          "row": 24,
+          "name": "LootGlobe"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 9,
+      "dictionary_name": "projectile_arrow_default",
+      "source_model_path": "data/3D/projectiles/projectile_arrow_default.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_arrow_default.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_arrow_default.bdae",
+      "size_bytes": 23092,
+      "sha256": "31e70c15854776daff5c23cd66e5022b430c7a839345c1e752e87089a429be98",
+      "projectile_rows": [
+        {
+          "row": 3,
+          "name": "ArrowDefault"
+        },
+        {
+          "row": 10,
+          "name": "BowProjectile"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 10,
+      "dictionary_name": "projectile_arrow_explode",
+      "source_model_path": "data/3D/projectiles/projectile_arrow_explode.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_arrow_explode.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_arrow_explode.bdae",
+      "size_bytes": 23288,
+      "sha256": "f6092901b6d7e514380eafd74a0985148c319fa93a881b6dc4f016d2f4a8f7ba",
+      "projectile_rows": [
+        {
+          "row": 4,
+          "name": "ArrowExplode"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 11,
+      "dictionary_name": "projectile_arrow_magic",
+      "source_model_path": "data/3D/projectiles/projectile_arrow_magic.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_arrow_magic.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_arrow_magic.bdae",
+      "size_bytes": 23180,
+      "sha256": "a195e85f0259f5a32bf9e512b38d2a5d4dea382b04f8c3ce352c610a264303ac",
+      "projectile_rows": [
+        {
+          "row": 5,
+          "name": "ArrowMagic"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 12,
+      "dictionary_name": "projectile_arrow_pin_shot",
+      "source_model_path": "data/3D/projectiles/projectile_arrow_pin_shot.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_arrow_pin_shot.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_arrow_pin_shot.bdae",
+      "size_bytes": 23300,
+      "sha256": "066a535311180098b0c7e8bdc8ad2554644a1f949c80b3d5e4df5cd3d25640a3",
+      "projectile_rows": [
+        {
+          "row": 6,
+          "name": "ArrowPinShot"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 13,
+      "dictionary_name": "projectile_arrow_poison",
+      "source_model_path": "data/3D/projectiles/projectile_arrow_poison.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_arrow_poison.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_arrow_poison.bdae",
+      "size_bytes": 23276,
+      "sha256": "55cf0adfbc9e3d98af80db12ea04b741401fe473ae122795a19df31740f6c808",
+      "projectile_rows": [
+        {
+          "row": 7,
+          "name": "ArrowPoison"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 14,
+      "dictionary_name": "projectile_assassin_dagger",
+      "source_model_path": "data/3D/projectiles/projectile_assassin_dagger.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_assassin_dagger.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_assassin_dagger.bdae",
+      "size_bytes": 27964,
+      "sha256": "b2d82c41f2bed59154ae2311fc33a2a15d3abcab20483a99d4d6ad93529077e9",
+      "projectile_rows": [
+        {
+          "row": 8,
+          "name": "AssassinBlades"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 15,
+      "dictionary_name": "projectile_dh2_bogwitch",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_bogwitch.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_bogwitch.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_bogwitch.bdae",
+      "size_bytes": 18856,
+      "sha256": "56f5b74fb7521fc6e9441d19c8899bd527a5ac2e628b2be217c0f5e055177508",
+      "projectile_rows": [
+        {
+          "row": 39,
+          "name": "bogwitch"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 16,
+      "dictionary_name": "projectile_dh2_chain_lightning",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_chain_lightning.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_chain_lightning.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_chain_lightning.bdae",
+      "size_bytes": 23148,
+      "sha256": "14a599b90bb69f8ff162af17d6c9e7342c79b263e54d9f94e0bf89e4de0a16ff",
+      "projectile_rows": [
+        {
+          "row": 11,
+          "name": "ChainLightning"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 17,
+      "dictionary_name": "projectile_dh2_energy_bolt",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_energy_bolt.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_energy_bolt.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_energy_bolt.bdae",
+      "size_bytes": 22080,
+      "sha256": "9fd1ca5df33837beee2840b0bce3a14b34622364a382c48e6371ceabd52dff0c",
+      "projectile_rows": [
+        {
+          "row": 16,
+          "name": "EnergyBolt"
+        },
+        {
+          "row": 17,
+          "name": "FaerieMinionBolt"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 18,
+      "dictionary_name": "projectile_dh2_lightbeam_blue",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_lightbeam_blue.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_lightbeam_blue.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_lightbeam_blue.bdae",
+      "size_bytes": 43372,
+      "sha256": "d715cff432da2709aa2d2ae7624331e009c22cc7e5725cdad8512fe755cbfcce",
+      "projectile_rows": [
+        {
+          "row": 9,
+          "name": "BlueLaser"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 19,
+      "dictionary_name": "projectile_dh2_monster_darkqueen_form01",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_monster_darkqueen_form01.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_monster_darkqueen_form01.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_monster_darkqueen_form01.bdae",
+      "size_bytes": 16964,
+      "sha256": "540e0f726c7c9a81a52c74b84f7173a177720bb66969fabe758a3d538131579a",
+      "projectile_rows": [
+        {
+          "row": 40,
+          "name": "darkqueen_form01"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 21,
+      "dictionary_name": "projectile_dh2_monster_flower",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_monster_flower.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_monster_flower.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_monster_flower.bdae",
+      "size_bytes": 22960,
+      "sha256": "43a4ff44e5f3264303a9afffe7a05510282ab8c9d34208d948c892c33d729f22",
+      "projectile_rows": [
+        {
+          "row": 28,
+          "name": "Plantspit"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 22,
+      "dictionary_name": "projectile_dh2_monster_madruk01_fast_bolt",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_monster_madruk01_fast_bolt.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_monster_madruk01_fast_bolt.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_monster_madruk01_fast_bolt.bdae",
+      "size_bytes": 24900,
+      "sha256": "fe3d51a2f0bd23b0fbad0b35b653faa651bdd5af3329480e813ba9eea80f9207",
+      "projectile_rows": [
+        {
+          "row": 25,
+          "name": "MadrukFastEnergyBolt"
+        },
+        {
+          "row": 27,
+          "name": "MadrukVeins"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 23,
+      "dictionary_name": "projectile_dh2_monster_madruk01_shockwave",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_monster_madruk01_shockwave.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_monster_madruk01_shockwave.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_monster_madruk01_shockwave.bdae",
+      "size_bytes": 24628,
+      "sha256": "6cf39baae00941ff6c75abdbc60a8c8309315d9b3cbbb7ccd51098ee52a7b09b",
+      "projectile_rows": [
+        {
+          "row": 26,
+          "name": "MadrukSlowEnergyBolt"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 24,
+      "dictionary_name": "projectile_dh2_monster_spiderpoison",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_monster_spiderpoison.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_monster_spiderpoison.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_monster_spiderpoison.bdae",
+      "size_bytes": 23592,
+      "sha256": "e82bd4c93657ac487e9e738265dc81a27f160f1e9e2486feeb5654c42744b1d9",
+      "projectile_rows": [
+        {
+          "row": 33,
+          "name": "Spiderspit"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 25,
+      "dictionary_name": "projectile_dh2_prince_mage_cyclone",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+      "size_bytes": 30880,
+      "sha256": "b0ea6cb75504ce9141ad663cf038eee2c948854ee38dbfebe237ee7f668fd132",
+      "projectile_rows": [
+        {
+          "row": 36,
+          "name": "Tornado"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 26,
+      "dictionary_name": "projectile_dh2_simplified_chain_lightning",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+      "size_bytes": 22460,
+      "sha256": "54feb204b3fe8b96c0074a30be3e5c508067242b9ba192099bac3db935ca1d66",
+      "projectile_rows": [
+        {
+          "row": 30,
+          "name": "SimplifiedChainLightning"
+        },
+        {
+          "row": 31,
+          "name": "SimplifiedChainLightning_base"
+        }
+      ]
+    },
+    {
+      "dictionary_index": 27,
+      "dictionary_name": "projectile_returning_knives",
+      "source_model_path": "data/3D/projectiles/projectile_returning_knives.bdae",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/projectiles/projectile_returning_knives.bdae",
+      "asset_path": "original-cache/data/3d/projectiles/projectile_returning_knives.bdae",
+      "size_bytes": 21476,
+      "sha256": "e1a0fd5924a216b1a48fe1f04379be498980c3f34947cdd0787a7b07642f0740",
+      "projectile_rows": [
+        {
+          "row": 21,
+          "name": "GrapplingHook"
+        }
+      ]
+    }
+  ],
+  "unreferenced_dictionary_models": [
+    {
+      "dictionary_index": 2,
+      "dictionary_name": "elemental_bolt_ice",
+      "source_model_path": "data/3D/projectiles/elemental_bolt_ice.bdae"
+    },
+    {
+      "dictionary_index": 20,
+      "dictionary_name": "projectile_dh2_monster_darkqueen_form02",
+      "source_model_path": "data/3D/projectiles/projectile_dh2_monster_darkqueen_form02.bdae"
+    }
+  ],
+  "referenced_textures": [
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_000.tga",
+      "source_reference": "q:/data/iphone/3d/textures/atlas_fx_particles_000.tga",
+      "asset_path": "textures/atlas_fx_particles_000.tga",
+      "size_bytes": 32828,
+      "sha256": "cac12d1c4eb6c29410088c85721fb682d1893d3586a22234402fb2873f2c0253"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_002.tga",
+      "source_reference": "q:/data/iphone/3d/textures/atlas_fx_particles_002.tga",
+      "asset_path": "textures/atlas_fx_particles_002.tga",
+      "size_bytes": 524348,
+      "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_weapons_dh2.tga",
+      "source_reference": "q:/data/iphone/3d/textures/atlas_weapons_dh2.tga",
+      "asset_path": "textures/atlas_weapons_dh2.tga",
+      "size_bytes": 524348,
+      "sha256": "5f096c7ddbcf4aff6c3ebcf436fd60efcf023ca275b90f9c89d0721d71b9b6c1"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/envmap_swamp.tga",
+      "source_reference": "q:/data/iphone/3d/textures/envmap_swamp.tga",
+      "asset_path": "textures/envmap_swamp.tga",
+      "size_bytes": 2108,
+      "sha256": "db73421e085b1068185f7ec04f8a0950fa0cb5a768a0b81953a692cbafd47bb7"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_arrows.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_Arrows.tga",
+      "asset_path": "textures/fx_arrows.tga",
+      "size_bytes": 2108,
+      "sha256": "7b37b14e7ae4c2be465d4a5fedaf1916656ce48a4767bda3f6af163983913a16"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_blood_bloodstain_bw_15.tga",
+      "source_reference": "q:/data/iphone/3d/textures/FX_BLOOD_bloodstain_bw_15.tga",
+      "asset_path": "textures/fx_blood_bloodstain_bw_15.tga",
+      "size_bytes": 2108,
+      "sha256": "29d9a5636fe4145a1b547718ed5e17ae768c9727d1ec07e7a2aa8608f8651093"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_004.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_004.tga",
+      "asset_path": "textures/fx_magic_lenz_flares_004.tga",
+      "size_bytes": 8252,
+      "sha256": "5d17d5987362bff65b3f8d352cbbc43d30f94abbaaf73d5c822d6ecac8e2eb14"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_005.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_005.tga",
+      "asset_path": "textures/fx_magic_lenz_flares_005.tga",
+      "size_bytes": 8252,
+      "sha256": "1b43f3316d72f8c753e7a7ce731c7d3fbfc667b1c1f3885899c82f7ce52cf875"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_008.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_magic_lenz_flares_008.tga",
+      "asset_path": "textures/fx_magic_lenz_flares_008.tga",
+      "size_bytes": 8252,
+      "sha256": "3b3153829a922c4328099b031c57d09d823daad52775cc2901fe5f7c105e90cc"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_particles_dust.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_particles_dust.tga",
+      "asset_path": "textures/fx_particles_dust.tga",
+      "size_bytes": 8252,
+      "sha256": "94139370ed4d8f3f9a88c86e61d3adea80888a10123ee4706b183205a633db47"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_radial_white.tga",
+      "source_reference": "q:/data/iphone/3d/textures/FX_radial_white.tga",
+      "asset_path": "textures/fx_radial_white.tga",
+      "size_bytes": 8252,
+      "sha256": "3e9b0cc09505efcb18af67df69da286639949e4b4eaba87386858bb77c7121e6"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_shockwave_madruk01.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_shockwave_madruk01.tga",
+      "asset_path": "textures/fx_shockwave_madruk01.tga",
+      "size_bytes": 8252,
+      "sha256": "ae10fb52cbf0ce1465d849fe4d9f0bf7139eb58e5ad904ba8272106a1a42b547"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_03.tga",
+      "source_reference": "q:/data/iphone/3d/textures/FX_smoke_03.tga",
+      "asset_path": "textures/fx_smoke_03.tga",
+      "size_bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spark_01.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_spark_01.tga",
+      "asset_path": "textures/fx_spark_01.tga",
+      "size_bytes": 2108,
+      "sha256": "bf4eccee918a7d440760b93b1f18666b5e3de62c147784bec7dbb3bca7a7d720"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_lightning_01.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_spell_lightning_01.tga",
+      "asset_path": "textures/fx_spell_lightning_01.tga",
+      "size_bytes": 8252,
+      "sha256": "ea5976dcf2c4e3c9e001d9d6021a4c9bc65f0a63c58495a678ce31da83a5cdd8"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_lightning_sparks.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_spell_lightning_sparks.tga",
+      "asset_path": "textures/fx_spell_lightning_sparks.tga",
+      "size_bytes": 2108,
+      "sha256": "b46b3d33adfdce43e8bdf28df4764057aba1ac9f0c96133944ece7eb05cb170f"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_water_02.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_spell_water_02.tga",
+      "asset_path": "textures/fx_spell_water_02.tga",
+      "size_bytes": 8252,
+      "sha256": "0ecbf8e374e2564202bfa07da8ed3a4a36354bf9ac285775dadaa59e200955a2"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_wind_hurt.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_spell_wind_hurt.tga",
+      "asset_path": "textures/fx_spell_wind_hurt.tga",
+      "size_bytes": 8252,
+      "sha256": "52f90f166c122dd7ce185aff17e4340040d26bedd4af64feb900a45ec6ed6da1"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_wind_hurt2.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_spell_wind_hurt2.tga",
+      "asset_path": "textures/fx_spell_wind_hurt2.tga",
+      "size_bytes": 8252,
+      "sha256": "8520772eb3f2fcd97b6ca7e708af00c36b2d6736dce06c8b0064d7ca049321f7"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_blue_gradual.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_weapon_trail_blue_gradual.tga",
+      "asset_path": "textures/fx_weapon_trail_blue_gradual.tga",
+      "size_bytes": 2108,
+      "sha256": "28d2da9ef8dc3c03ecca6969cca7a35c9f3cf6e1b4bd92dc8bfc4752e41f09e3"
+    },
+    {
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_skill_gradual_rogue_purple.tga",
+      "source_reference": "q:/data/iphone/3d/textures/fx_weapon_trail_skill_gradual_rogue_purple.tga",
+      "asset_path": "textures/fx_weapon_trail_skill_gradual_rogue_purple.tga",
+      "size_bytes": 2108,
+      "sha256": "cd4c71e93839b6dcde7709ac258b03f382c2126f10741bd14b5bf350220b0b3f"
+    }
+  ]
+}

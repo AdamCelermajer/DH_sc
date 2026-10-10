@@ -2,12 +2,14 @@
 #include "player_profile_filename_v1.hpp"
 #include "native_player_profile.hpp"
 #include "data.hpp"
+#include "../../engine-ui/menu_class_selection_v1.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
 #include <cstring>
 using namespace dh2;
+namespace ui = dh2::ui;
 namespace {
 using B=std::vector<std::uint8_t>;using Status=data::PlayerProfileCreateStatusV1;using Stage=data::PlayerProfileCreateStageV1;
 void check(bool condition,const char* text){if(!condition)throw std::runtime_error(text);}
@@ -27,6 +29,19 @@ struct Providers {
 std::uint32_t replay(const std::filesystem::path& fixtures,const std::filesystem::path& scratch,data::CharacterTable& characters){
  Reader r{file(fixtures)};check(r.bytes.size()>=4&&!std::memcmp(r.bytes.data(),"PCT1",4),"fixture magic");r.at=4;
  const auto names=r.u();for(std::uint32_t i=0;i<names;++i)characters.names.push_back(r.str());const auto cases=r.u();std::string error;
+ // Bind authored MainMenu class order to the real CharacterTable rows used by
+ // NativeCreateSaveSlot. The adjacent click regression proves that each
+ // on_clicked advances this same index; the create receipts below prove the
+ // selected string is then persisted and read back by a distinct gameplay Save.
+ constexpr std::int32_t expected_rows[]{263,325,290};
+ for(int index=0;index<3;++index){
+  const auto* choice=ui::menu_class_choice_v1(index);
+  check(choice,"authored class choice exists");
+  std::int32_t found=-1;
+  for(std::size_t row=0;row<characters.names.size();++row)
+   if(characters.names[row]==choice->profile_character){found=std::int32_t(row);break;}
+  check(found==expected_rows[index],"authored class selection resolves to its source CharacterTable row");
+ }
  for(std::uint32_t i=0;i<cases;++i){const auto argc=r.u();const auto name=r.str(),class_name=r.str();Providers p;p.slot=std::int32_t(r.u());p.seed=r.u();p.date=r.u();const bool published=r.u()!=0;const auto expected_bytes=r.block();std::array<std::uint32_t,20> expected{};std::array<std::uint8_t,3> spawn{};
   if(published){for(auto& v:expected)v=r.u();for(auto& v:spawn)v=r.bytes.at(r.at++);}
   const auto directory=scratch/("case"+std::to_string(i));std::filesystem::create_directories(directory);

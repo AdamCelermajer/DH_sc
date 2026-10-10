@@ -12,6 +12,9 @@ NATIVE = ROOT / "port/android-native/app/src/main/cpp/native_app.cpp"
 UI = ROOT / "port/android-native/app/src/main/cpp/original_ui_session.cpp"
 VIEWPORT = ROOT / "port/engine-ui/original_menu_viewport_v1.hpp"
 SMOKE = ROOT / "port/android-native/tools/menu_ui_runtime_smoke.py"
+SPLASH = ROOT / "port/android-native/app/src/main/cpp/original_ui_session.cpp"
+CINEMATIC = ROOT / "port/android-native/app/src/main/java/com/example/dh2/IntroCinematicView.java"
+VIDEO_FIT = ROOT / "port/android-native/app/src/main/java/com/example/dh2/IntroVideoFit.java"
 
 
 def require(condition: bool, message: str) -> None:
@@ -24,6 +27,9 @@ native = NATIVE.read_text(encoding="utf-8")
 ui = UI.read_text(encoding="utf-8")
 viewport = VIEWPORT.read_text(encoding="utf-8")
 smoke = SMOKE.read_text(encoding="utf-8")
+splash = SPLASH.read_text(encoding="utf-8")
+cinematic = CINEMATIC.read_text(encoding="utf-8")
+video_fit = VIDEO_FIT.read_text(encoding="utf-8")
 manifest = ET.parse(MANIFEST).getroot()
 android = "{http://schemas.android.com/apk/res/android}"
 main = next(node for node in manifest.iter("activity")
@@ -45,9 +51,10 @@ require("setOnApplyWindowInsetsListener(viewport" in activity
 require("NativeBridge.menuTouch(x,y,action)" in activity
         and "Keep input in GLSurfaceView-local pixels" in activity,
         "touch input must stay in the same local-pixel coordinate space as the GL surface")
-require("glViewport(0,0,surface_width,surface_height)" in native
+require('original_menu_viewport_v1::full_surface(surface_width,surface_height)' in native
+        and "glViewport(viewport[0],viewport[1],viewport[2],viewport[3])" in native
         and "original_ui.render(surface_width,surface_height,error)" in native,
-        "native GL and menu renderer must receive identical live surface dimensions")
+        "native GL and menu renderer must share the same canonical full-surface frame")
 require("viewport_for_screen_state_v1(" in ui
         and "return full_surface(surface_width, surface_height);" in viewport
         and "background_viewport" in viewport,
@@ -55,6 +62,18 @@ require("viewport_for_screen_state_v1(" in ui
 require("stage_width_twips = 9600" in viewport
         and "stage_height_twips = 6400" in viewport,
         "logical SWF stage must remain authored at 480x320 pixels")
+require("IntroVideoFit.fullSurface(" in cinematic
+        and "static Result fullSurface(" in video_fit
+        and "return new Result(surfaceWidth, surfaceHeight,\n                surfaceWidth, surfaceHeight);" in video_fit,
+        "opening movie must stretch to both live surface axes without aspect bars")
+require("PixelCopy.request(surface,snapshot" in activity
+        and "overlay.setScaleType(ImageView.ScaleType.FIT_XY)" in activity
+        and "awaitingFirstWorldFrame&&loadedAsset!=null&&loadedAsset.startsWith(\"worlds/\")" in activity
+        and "surface.queueEvent(()->surface.post(()->surface.postOnAnimation" in activity,
+        "synchronous game startup must preserve the source loading image until a world frame is drawn")
+require("const auto splash_viewport=ui::original_menu_viewport_v1::background_viewport(width,height);" in splash
+        and "background.viewport[2]=splash_viewport[2]; background.viewport[3]=splash_viewport[3];" in splash,
+        "two-brothers startup splash must use the complete display rectangle")
 require("MenuFlash2DCamera sends the complete live driver rectangle to the SWF." in smoke
         and "return (0, 0, width, height)" in smoke,
         "API 37 smoke taps must target the same full-driver bounds as production")
@@ -63,3 +82,4 @@ require("if(inspectionMode)layout.setOnApplyWindowInsetsListener" in activity,
 
 print("PASS fullscreen viewport: landscape, edge-to-edge/cutout, immersive bars, and full GL backdrop")
 print("PASS layout scope: front SWFs retain the 480x320 authored stage over full-driver bounds; HUD remains full-surface")
+print("PASS startup scale: opening movie and two-brothers splash fill both live surface axes")

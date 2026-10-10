@@ -16,12 +16,27 @@ unsigned apply(dh2::data::MonsterApplication* out,const dh2::data::MonsterApplic
   HealthRequest hit{&defender,std::uint32_t(result.amount),(player_defender?health_player:health_monster)|health_game_present|health_main_player_present|(ds.dead?health_dead:0u),0,ds.low_health_armed};
   dh2_health_hit(&next.health,&hit);next.hit_called=1;ds.low_health_armed=next.health.low_health_armed;
   if(next.health.kill_requested&&!ds.dead){
-   // Ctrl_Kill -> Kill first sets IsDead, then writes HP zero, before the
-   // remaining reward/AI/script services and RaiseEvent(2).
-   ds.dead=1;dh2_property_set(&defender,36,0);
+   if(request->before_dead){
+    int status=0;
+    try{status=request->before_dead(request->before_dead_context,result);}
+    catch(...){status=-1;}
+    // The source Kill provider owns this write when connected. Requiring both
+    // outputs prevents an event-only callback from being mistaken for Kill.
+    if(status||ds.dead!=1||defender.resolved[36]!=0)return 2;
+   }else{
+    // Standalone reconstruction fallback: preserve the prior terminal core
+    // projection when no source Ctrl_Kill/Character::Kill provider is bound.
+    ds.dead=1;dh2_property_set(&defender,36,0);
+   }
   }
   if(next.health.lifecycle_write!=-1)ds.lifecycle=next.health.lifecycle_write;
   if(ds.dead)result.outcomes&=~0x160u;
+  if(request->after_damage_before_regen){
+   int status=0;
+   try{status=request->after_damage_before_regen(request->after_damage_context,result);}
+   catch(...){status=-1;}
+   if(status)return 2;
+  }
  }
  dh2_vitals_regen(&attacker,0,result.hp_leech,&next.hp_leech);
  dh2_vitals_regen(&attacker,1,result.mp_leech,&next.mp_leech);

@@ -74,7 +74,8 @@ enum class Status : std::uint8_t {
     source_handle_collision,
     source_handle_exhausted,
     not_found,
-    allocation_failed
+    allocation_failed,
+    update_callback_failed
 };
 
 // The source ObjectManager stores ObjectListItem values in std::map<int,...>.
@@ -108,6 +109,33 @@ public:
                                        SourceHandle* source_handle,
                                        bool* created) noexcept;
     Status remove_object(SourceHandle source_handle, bool* removed) noexcept;
+
+    // ObjectManager+0x2c active update list and +0x34 Spawn staging list.
+    // Call the first only with the result of ObjectBase vtable+0x38 during
+    // InitPost; call the second only when Spawn's same virtual query selected
+    // its staging path. Neither operation infers eligibility or order from
+    // the source-handle map, actor groups, or room membership.
+    Status append_init_post_update_object(Address identity,
+                                          bool source_is_updatable,
+                                          bool* appended) noexcept;
+    Status stage_spawn_update_object(Address identity,
+                                     bool source_is_updatable,
+                                     bool* staged) noexcept;
+    // ObjectManager::Update splices the complete +0x34 list onto the tail of
+    // +0x2c before traversing it. Actors staged during a later callback wait
+    // until the next call, matching that one-pass boundary.
+    void begin_update_frame() noexcept;
+    bool update_object_at(std::size_t index, GameObject** object) noexcept;
+    // Run the caller's existing ObjectBase::Update projection once for each
+    // active list node, in native +0x2c order. The callback must not mutate
+    // this list or erase its current object during traversal.
+    using UpdateCallback = bool (*)(void*, GameObject*) noexcept;
+    Status visit_update_objects(void* context, UpdateCallback callback,
+                                std::size_t* visited) noexcept;
+    std::size_t update_object_count() const noexcept { return update_objects_.size(); }
+    std::size_t staged_update_object_count() const noexcept {
+        return staged_update_objects_.size();
+    }
 
     GameObject* find_by_source_handle(SourceHandle source_handle) noexcept;
     const GameObject* find_by_source_handle(SourceHandle source_handle) const noexcept;
@@ -147,9 +175,9 @@ public:
     // Clear this bounded projection after the native ObjectManager::Flush
     // owner has retired native objects. This does not perform source virtual
     // destructors, Character-list pointer updates, queues/index cleanup, or
-    // orphan-render flushing. The flat active-room adapter also does not model
-    // the native +0x80 registry of list-group pointers or its +0x88 re-register
-    // behavior. Borrowed actor fields remain externally owned.
+    // orphan-render flushing. It does not model the native +0x80 registry of
+    // list-group pointers or its +0x88 re-register behavior. Borrowed actor
+    // fields remain externally owned.
     void reset_after_native_flush() noexcept;
 
     void reset_visible_room_zone_count() noexcept { visible_room_zone_count_ = 0; }
@@ -161,7 +189,8 @@ public:
     std::size_t object_count() const noexcept { return objects_.size(); }
     SourceHandle next_source_handle() const noexcept { return next_source_handle_; }
     bool empty() const noexcept {
-        return objects_.empty() && no_room_objects_.empty() && room_objects_.empty();
+        return objects_.empty() && no_room_objects_.empty() && room_objects_.empty() &&
+            update_objects_.empty() && staged_update_objects_.empty();
     }
     std::size_t no_room_count() const noexcept { return no_room_objects_.size(); }
     bool no_room_at(std::size_t index, Address* identity) const noexcept;
@@ -177,6 +206,9 @@ private:
     // removes the first equal pointer. Keep that list order independently.
     std::list<Address> no_room_objects_;
     std::list<Address> room_objects_;
+    // Exact list order, keyed only through the canonical GameObject identity.
+    std::list<Address> update_objects_;
+    std::list<Address> staged_update_objects_;
     std::uint32_t visible_room_zone_count_{};
 };
 

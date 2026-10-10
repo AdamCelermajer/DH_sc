@@ -4,6 +4,9 @@
 #include <cstdio>
 #include <cstdint>
 #include <cstdlib>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <initializer_list>
 #include <iostream>
 #include <string>
@@ -69,9 +72,62 @@ void test_single_runtime_owner() {
             first->find_id_by_name("source_row") == 0 &&
             first->find_id_by_name("replacement") == -1,
             "re-entry replaced the app-wide TrophyManager or lost memory-only state");
-    require(!OwnerV1::persistence_available &&
+    require(OwnerV1::persistence_available &&
             !dh2::data::TrophyManagerOwnerV1::source_persistence_available,
-            "runtime advertised unproven source save persistence");
+            "Android runtime sidecar persistence or payload-owner boundary differs");
+}
+
+void test_source_savegame_sidecar() {
+    auto records = record(101);
+    auto names = strings({"source_row"});
+    auto fields = strings({"Desc", "GLIndex", "GLLive", "Grade",
+                           "Label", "Name", "Type"});
+    const auto root = std::filesystem::temp_directory_path() /
+        ("dh2_trophy_sidecar_" + std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()));
+    std::string error;
+    OwnerV1 runtime;
+    require(runtime.initialize({records.data(), records.size()},
+                               {names.data(), names.size()},
+                               {fields.data(), fields.size()}, error),
+            "sidecar runtime failed to initialize");
+    require(runtime.load_savegame(root.string(), error) &&
+            !runtime.manager()->is_unlocked(0),
+            "missing source achievements.savegame did not default locked");
+    require(runtime.manager()->unlock(0) == TrophyUnlockStatusV1::completed &&
+            runtime.save_savegame(root.string(), error),
+            "source unlock failed to persist achievements.savegame");
+    const auto sidecar = root / "achievements.savegame";
+    require(std::filesystem::file_size(sidecar) == 16,
+            "source TrophyManager sidecar is not the 128-bit payload size");
+    {
+        std::ifstream input(sidecar, std::ios::binary);
+        std::array<std::uint8_t, 16> payload{};
+        input.read(reinterpret_cast<char*>(payload.data()), payload.size());
+        require(input.gcount() == 16 && payload[0] == 1 && payload[1] == 0,
+                "source bit zero was not encoded into the sidecar");
+    }
+    OwnerV1 restored;
+    require(restored.initialize({records.data(), records.size()},
+                                {names.data(), names.size()},
+                                {fields.data(), fields.size()}, error) &&
+            restored.load_savegame(root.string(), error) &&
+            restored.manager()->is_unlocked(0),
+            "source achievements.savegame did not restore to the canonical manager");
+    {
+        std::ofstream malformed(sidecar, std::ios::binary | std::ios::trunc);
+        const std::array<std::uint8_t, 15> short_payload{};
+        malformed.write(reinterpret_cast<const char*>(short_payload.data()),
+                         short_payload.size());
+    }
+    OwnerV1 rejected;
+    require(rejected.initialize({records.data(), records.size()},
+                                {names.data(), names.size()},
+                                {fields.data(), fields.size()}, error) &&
+            !rejected.load_savegame(root.string(), error) &&
+            !rejected.manager()->is_unlocked(0),
+            "malformed sidecar partially mutated source TrophyManager state");
+    std::filesystem::remove_all(root);
 }
 
 void test_source_cache(const char* records_path, const char* names_path,
@@ -108,6 +164,7 @@ void test_source_cache(const char* records_path, const char* names_path,
 
 int main(int argc, char** argv) {
     test_single_runtime_owner();
+    test_source_savegame_sidecar();
     if (argc != 1) {
         require(argc == 4, "source-cache mode requires three TrophyTable paths");
         test_source_cache(argv[1], argv[2], argv[3]);

@@ -168,6 +168,84 @@ bool ZoomInput::pinch_zoom(float previous_distance,float current_distance) noexc
     return true;
 }
 
+bool ZoomInput::native_pinch_zoom(float input_delta,bool dpad_enabled) noexcept {
+    if(!owner_||!dpad_enabled||owner_->zoom_locked()||!std::isfinite(input_delta)||
+       !std::isfinite(sensitivity_)||sensitivity_<=0.0f||
+       static_cast<double>(input_delta)<std::numeric_limits<std::int32_t>::min()||
+       static_cast<double>(input_delta)>std::numeric_limits<std::int32_t>::max())return false;
+    // NativePinchZoom calls as_value::to_number, converts to int, then applies
+    // `int * ZoomHandler(+40)` to CameraLevel(+136).
+    const auto delta=static_cast<std::int32_t>(input_delta);
+    const float current=owner_->current_zoom();
+    const float next=current+static_cast<float>(delta)*sensitivity_;
+    if(!std::isfinite(current)||!std::isfinite(next))return false;
+    owner_->set_zoom(next,owner_->target_zoom());
+    return true;
+}
+
+bool MapCameraSession::open(const GameObjectSample& player,DrawableTargetSize drawable,
+                           float default_target_distance) noexcept {
+    if(active_||!player.present||!player.identity||
+       !std::isfinite(default_target_distance)||default_target_distance<0.0f)return false;
+    camera_=Owner{};
+    if(!camera_.set_target(&player,0,nullptr))return false;
+    // The original map menu owns a distinct CameraLevel, starts at zoom 0/1,
+    // disables damping, and sets +0x85 before binding ZoomHandler.
+    camera_.set_use_object_position(true);
+    camera_.enable_damping(false);
+    camera_.set_default_target_distance(default_target_distance);
+    camera_.set_zoom(0.0f,1.0f);
+    if(!zoom_input_.set_camera(&camera_,drawable)){
+        camera_.clear_target();
+        camera_=Owner{};
+        return false;
+    }
+    target_identity_=player.identity;
+    pan_offset_={};
+    active_=true;
+    return true;
+}
+
+bool MapCameraSession::resize(DrawableTargetSize drawable) noexcept {
+    return active_&&zoom_input_.update_drawable_target(drawable);
+}
+
+bool MapCameraSession::update(FrameInput input,FrameOutput* output) noexcept {
+    if(!active_||!output||!input.target.present||
+       input.target.identity!=target_identity_)return false;
+    input.use_object_position=true;
+    input.animated_target_cam_offset=pan_offset_;
+    const auto status=camera_.update(input,output);
+    return status==Status::transition_position_written||
+           status==Status::follow_position_written;
+}
+
+bool MapCameraSession::pan(std::int32_t delta_x,std::int32_t delta_y,
+                           bool source_touch_pan_enabled) noexcept {
+    return active_&&zoom_input_.touch_pan(delta_x,delta_y,&pan_offset_,
+                                          source_touch_pan_enabled);
+}
+
+bool MapCameraSession::pinch(float previous_distance,float current_distance) noexcept {
+    return active_&&zoom_input_.pinch_zoom(previous_distance,current_distance);
+}
+
+bool MapCameraSession::reset_zoom() noexcept {
+    if (!active_) return false;
+    camera_.set_zoom(0.0f, 1.0f);
+    return true;
+}
+
+void MapCameraSession::close() noexcept {
+    // Source Hide unbinds ZoomHandler before destroying the map CameraLevel.
+    zoom_input_.clear_camera();
+    camera_.clear_target();
+    camera_=Owner{};
+    target_identity_=0;
+    pan_offset_={};
+    active_=false;
+}
+
 Status Owner::update(const FrameInput& in,FrameOutput* out) noexcept {
     if(!out||in.dt_ms<0||!std::isfinite(in.design_zoom_bounds.normal_min)||
        !std::isfinite(in.design_zoom_bounds.normal_max)||
@@ -221,7 +299,7 @@ Status Owner::update(const FrameInput& in,FrameOutput* out) noexcept {
     float signed_zoom=0.0f;
     if(!zoom_animation_active_||preserve_zoom_){
         if(in.infinite_zoom)effective_zoom_=current_zoom_;
-        else if(!in.zoom_clamp_disabled){
+        else if(!in.zoom_clamp_disabled&&!zoom_locked_){
             const float min_zoom=in.use_object_position?in.design_zoom_bounds.alternate_min:
                                                         in.design_zoom_bounds.normal_min;
             const float max_zoom=in.use_object_position?in.design_zoom_bounds.alternate_max:

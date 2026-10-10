@@ -21,6 +21,7 @@ void release_class_previews(){
  class_preview_actors.clear();
 }
 std::array<dh2::data::ClassPreviewDefinition,3> class_preview_definitions;
+extern AAssetManager* menu_preview_assets;
 void load_class_preview_definitions(AAssetManager* assets){
  const char* groups[]={"character_properties","character_classes","loot_table","animations"};
  const char* suffixes[]={"_pyarray.bin","_pyarraynames.bin","_pystructnames.bin"};
@@ -171,7 +172,7 @@ std::string load_menu_background(AAssetManager* assets){
     const auto bytes=read(assets,"main_menu_charactere_swamp.bdae","models");
     const auto report=load(bytes.data(),bytes.size(),assets);
     if(report.find("3D upload OK")!=0)return report;
-    menu_background=true;
+    menu_background=true;menu_preview_assets=assets;
     for(const auto& batch:draws)if(batch.material.effect_file=="GL_Diffuse_L1_VC_iPhone.bdae"&&
         batch.material.gles2_technique=="L1_Vc_Al_----_----_----_----")
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original menu material alpha connected | material %s | technique %s | alpha source blue replacement | lighting pending",

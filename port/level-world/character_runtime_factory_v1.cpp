@@ -31,6 +31,24 @@ void* ComponentStorage::find(ctor::Component component) const noexcept {
     return slot.constructed ? slot.canonical_owner : nullptr;
 }
 
+character_ai_initialization::State* Record::canonical_ai() noexcept {
+    return const_cast<character_ai_initialization::State*>(
+        static_cast<const Record*>(this)->canonical_ai());
+}
+
+const character_ai_initialization::State* Record::canonical_ai() const noexcept {
+    const auto identity = constructor.identity;
+    const auto& slot = components.slots[slot_index(ctor::Component::ai)];
+    if (!identity || character.identity != identity ||
+        game_object.identity != identity ||
+        slot.component != ctor::Component::ai || !slot.constructed ||
+        slot.character_record != this || !slot.canonical_owner)
+        return nullptr;
+    auto* state = static_cast<const character_ai_initialization::State*>(slot.canonical_owner);
+    return state && state->identity && state->owner_04 == identity
+        ? state : nullptr;
+}
+
 Owner::Owner(manager::Owner& object_manager,
              const RosterServices& roster) noexcept
     : object_manager_(object_manager), roster_(roster) {}
@@ -49,6 +67,46 @@ int Owner::component(void* context, ctor::Component component_id,
         return 1;
     }
     slot.character_record = record;
+    if (component_id == ctor::Component::inventory) {
+        if (!record->source_inventory.construct(identity)) {
+            slot = {component_id, nullptr, false, nullptr};
+            error = "Canonical source ItemInventory constructor rejected Character identity";
+            return 1;
+        }
+        slot.component = component_id;
+        slot.canonical_owner = &record->source_inventory;
+        slot.constructed = true;
+        return 0;
+    }
+    if (component_id == ctor::Component::timers) {
+        try {
+            // CharTimers and CharStateMachine are composed by one canonical
+            // native owner. Create it at the source CharTimers callsite; the
+            // later state-machine step publishes this same owner, never a
+            // second timer vector or parallel FSM.
+            record->coordinator = std::make_unique<character::Coordinator>(identity);
+        } catch (...) {
+            record->coordinator.reset();
+            slot = {component_id, nullptr, false, nullptr};
+            error = "Canonical Character timer/state owner allocation failed";
+            return 1;
+        }
+        slot.component = component_id;
+        slot.canonical_owner = record->coordinator.get();
+        slot.constructed = true;
+        return 0;
+    }
+    if (component_id == ctor::Component::state_machine) {
+        if (!record->coordinator || record->coordinator->owner() != identity) {
+            slot = {component_id, nullptr, false, nullptr};
+            error = "Character state-machine slot has no same-Record timer owner";
+            return 1;
+        }
+        slot.component = component_id;
+        slot.canonical_owner = record->coordinator.get();
+        slot.constructed = true;
+        return 0;
+    }
     if (component_id == ctor::Component::net_state_primary ||
         component_id == ctor::Component::net_state_secondary) {
         const auto role = component_id == ctor::Component::net_state_primary
@@ -132,6 +190,24 @@ void Owner::rollback(void* context, ctor::Action action, std::uint32_t value,
                 static_cast<ctor::Component>(value), nullptr, false, nullptr};
         return;
     }
+    if (action == ctor::Action::component &&
+        (value == std::uint32_t(ctor::Component::timers) ||
+         value == std::uint32_t(ctor::Component::state_machine))) {
+        if (value == std::uint32_t(ctor::Component::timers))
+            record->coordinator.reset();
+        if (value < component_count)
+            record->components.slots[value] = {
+                static_cast<ctor::Component>(value), nullptr, false, nullptr};
+        return;
+    }
+    if (action == ctor::Action::component &&
+        value == std::uint32_t(ctor::Component::inventory)) {
+        record->source_inventory.retire();
+        if (value < component_count)
+            record->components.slots[value] = {
+                static_cast<ctor::Component>(value), nullptr, false, nullptr};
+        return;
+    }
     record->services.rollback(record->services.context, action, value, identity,
                               record->components);
     if (action == ctor::Action::component && value < component_count) {
@@ -153,6 +229,9 @@ void Owner::rollback_completed(Record& record) noexcept {
         const auto& step = ctor::source_steps[i - 1];
         rollback(&record, step.action, step.value, record.character.identity);
     }
+    if (record.kill_field_14e4.constructor_write_seen)
+        (void)character_kill_field_14e4_v1::retire(
+            &record.kill_field_14e4, record.character.identity);
     record.constructor = {};
 }
 
@@ -219,6 +298,14 @@ Status Owner::create(manager::SourceHandle source_handle,
         records_.erase(source_handle); // constructor owner already rolled back
         return constructed == ctor::Status::service_unavailable
             ? Status::service_unavailable : Status::constructor_failed;
+    }
+    if (character_kill_field_14e4_v1::character_constructor_completed(
+            &stable.kill_field_14e4, stable.character.identity) !=
+        character_kill_field_14e4_v1::Status::complete) {
+        error = "Character+0x14e4 constructor field projection rejected its canonical Record";
+        rollback_completed(stable);
+        records_.erase(source_handle);
+        return Status::constructor_failed;
     }
 
     manager::GameObject* manager_object = nullptr;
@@ -287,6 +374,11 @@ Status Owner::retire(manager::SourceHandle source_handle, Result* result,
         record.faery_script.stage() !=
             character_faery_script_session_v1::Stage::closed) {
         error = "Character cannot retire before its AISFaery session is closed";
+        return Status::cleanup_incomplete;
+    }
+    if (record.pofaerie_physical ||
+        record.source_pofaerie_identity) {
+        error = "Character cannot retire before its POFaerie physical owner is detached";
         return Status::cleanup_incomplete;
     }
 
@@ -523,6 +615,26 @@ Record* Owner::find(manager::SourceHandle source_handle) noexcept {
 const Record* Owner::find(manager::SourceHandle source_handle) const noexcept {
     const auto found = records_.find(source_handle);
     return found == records_.end() ? nullptr : found->second.get();
+}
+
+Record* Owner::find_character(std::uintptr_t identity) noexcept {
+    if (!identity) return nullptr;
+    for (auto& entry : records_) {
+        if (entry.second && entry.second->character.identity == identity &&
+            entry.second->game_object.identity == identity)
+            return entry.second.get();
+    }
+    return nullptr;
+}
+
+const Record* Owner::find_character(std::uintptr_t identity) const noexcept {
+    if (!identity) return nullptr;
+    for (const auto& entry : records_) {
+        if (entry.second && entry.second->character.identity == identity &&
+            entry.second->game_object.identity == identity)
+            return entry.second.get();
+    }
+    return nullptr;
 }
 
 } // namespace dh2::character_runtime_factory_v1

@@ -20,6 +20,7 @@ namespace manager = dh2::object_manager_runtime_owner_v1;
 namespace aggro = dh2::character::aggro_search;
 namespace data = dh2::data;
 namespace faery_session = dh2::character_faery_script_session_v1;
+namespace kill_field = dh2::character_kill_field_14e4_v1;
 
 struct FaerySessionFixture {
     faery_session::Identity ais{0x710000};
@@ -76,6 +77,7 @@ struct Fixture {
     int fail_init_post_count = 0;
     int fail_init_final_count = 0;
     bool fail_roster = false;
+    bool inventory_retired_before_controllable_rollback = false;
     std::vector<aggro::Character*> characters;
     std::array<std::uint64_t, factory::component_count> owner_tokens{};
     std::vector<int> nonplayer_init_post_calls;
@@ -273,8 +275,16 @@ static void rollback(void* context, ctor::Action action, std::uint32_t value,
     fixture.calls.push_back(400 + static_cast<int>(action) * 100 +
                             static_cast<int>(value));
     assert(identity != 0);
-    if (action == ctor::Action::component)
+    if (action == ctor::Action::component) {
         assert(components.slots[value].canonical_owner != nullptr);
+        if (value == std::uint32_t(ctor::Component::controllable)) {
+            auto* record = components.slots[value].character_record;
+            assert(record);
+            fixture.inventory_retired_before_controllable_rollback =
+                !record->source_inventory.constructed &&
+                components.find(ctor::Component::inventory) == nullptr;
+        }
+    }
 }
 
 static int enroll(void* context, aggro::Character* character, bool duplicate,
@@ -465,6 +475,25 @@ int main() {
     assert(first->character.object == &first->aggro_object);
     assert(first->character.identity == first->game_object.identity);
     assert(first->aggro_object.identity == first->game_object.identity);
+    std::uint8_t kill_field_value = 0xff;
+    assert(first->kill_field_14e4.character == first->character.identity &&
+           first->kill_field_14e4.constructor_write_seen == 1 &&
+           first->kill_field_14e4.network_spawn_write_seen == 0 &&
+           first->kill_field_14e4.value == 0 &&
+           kill_field::read(&first->kill_field_14e4, first->character.identity,
+                            &kill_field_value) == kill_field::Status::complete &&
+           kill_field_value == 0);
+    assert(first->source_inventory.constructed &&
+           first->source_inventory.character == first->character.identity &&
+           first->source_inventory.selected_set == 0 &&
+           first->components.find(ctor::Component::inventory) ==
+               &first->source_inventory);
+    for (const auto& equipment_set : first->source_inventory.equipment)
+        for (const auto* item_slot : equipment_set) assert(item_slot == nullptr);
+    assert(first->coordinator && first->coordinator->owner() == first->character.identity &&
+           first->coordinator->timers().capacity == 20 &&
+           first->components.find(ctor::Component::timers) == first->coordinator.get() &&
+           first->components.find(ctor::Component::state_machine) == first->coordinator.get());
     assert(first->net_state.constructed &&
            first->net_state.character_identity == first->character.identity &&
            first->net_state.primary.component_offset == 0x1508 &&
@@ -578,6 +607,9 @@ int main() {
     factory::Record* npc_record = nullptr;
     assert(owner.create(45, game_object(11), aggro_object(11), services(fixture),
                         &npc_record, &result, error) == factory::Status::complete);
+    assert(owner.find_character(npc_record->character.identity) == npc_record &&
+           owner.find_character(0) == nullptr &&
+           owner.find_character(npc_record->character.identity + 1) == nullptr);
     assert(owner.mark_source_properties_ready(45, &result, error) ==
            factory::Status::complete);
     fixture.nonplayer_record = npc_record;
@@ -711,6 +743,7 @@ int main() {
     assert(objects.object_count() == 3 && fixture.characters.size() == 3);
     assert(result.constructor.failed_callsite == 0x3a9820);
     assert(result.constructor.rolled_back_steps == 18 + 7);
+    assert(fixture.inventory_retired_before_controllable_rollback);
     assert(fixture.calls.size() > count_before_failure);
     fixture.fail_state = -1;
 
@@ -829,6 +862,6 @@ int main() {
     assert(selected_factory.retire(71, &result, error) == factory::Status::complete);
     assert(selected_roster.owned_nodes() == 0 && selected_objects.object_count() == 0);
 
-    std::puts("{\"stable_owner\":true,\"constructor_order\":true,\"net_state_pair\":true,\"nonplayer_init_post_prefix\":true,\"nonplayer_ai_postload_branch\":true,\"nonplayer_init_post_fx_animation_sound_chain\":true,\"script_created_character_flag\":true,\"script_created_kill_objective_gate\":true,\"init_final_gated\":true,\"source_save_slot_null_and_player_mask2\":true,\"registered_states\":20,\"manager_roster_publication\":true,\"constructor_and_roster_rollback\":true,\"staged_lifecycle_order\":true,\"premature_stage_rejection\":true,\"lifecycle_failure_retry\":true,\"lifecycle_idempotence\":true,\"faery_session_retirement_gate\":true,\"retirement\":true,\"native_roster_adapter\":true}");
+    std::puts("{\"stable_owner\":true,\"constructor_order\":true,\"kill_field_14e4_constructor_projection\":true,\"source_item_inventory_constructor\":true,\"net_state_pair\":true,\"canonical_timer_fsm_owner\":true,\"nonplayer_init_post_prefix\":true,\"nonplayer_ai_postload_branch\":true,\"nonplayer_init_post_fx_animation_sound_chain\":true,\"script_created_character_flag\":true,\"script_created_kill_objective_gate\":true,\"init_final_gated\":true,\"source_save_slot_null_and_player_mask2\":true,\"registered_states\":20,\"manager_roster_publication\":true,\"constructor_and_roster_rollback\":true,\"staged_lifecycle_order\":true,\"premature_stage_rejection\":true,\"lifecycle_failure_retry\":true,\"lifecycle_idempotence\":true,\"faery_session_retirement_gate\":true,\"retirement\":true,\"native_roster_adapter\":true}");
     return 0;
 }

@@ -15,6 +15,28 @@ bool float_equal(std::uint32_t expected,std::uint32_t actual){
 void compare_entries(const AggroTable& actual,const std::uint8_t* expected){
  for(unsigned i=0;i<actual.count;++i){const auto entry=load<AggroEntry>(expected+i*16);check(actual.entries[i].character==entry.character&&actual.entries[i].reserved==entry.reserved&&float_equal(entry.threat_bits,actual.entries[i].threat_bits),"Aggression entry differs from original");}
 }
+struct CallbackTrace {
+ AggroTable* owner_outgoing=nullptr;
+ AggroTable* target_incoming=nullptr;
+ std::array<char,8> events{};
+ unsigned count=0,add_out_count=99,add_in_count=99,
+          remove_out_count=99,remove_in_count=99;
+ std::uint64_t target=0,owner=0;
+};
+void target_on_aggro(void* raw,std::uint64_t target,std::uint64_t owner) noexcept {
+ auto& trace=*static_cast<CallbackTrace*>(raw);
+ if(trace.count<trace.events.size())trace.events[trace.count++]='A';
+ trace.target=target;trace.owner=owner;
+ trace.add_out_count=trace.owner_outgoing->count;
+ trace.add_in_count=trace.target_incoming->count;
+}
+void target_on_deaggro(void* raw,std::uint64_t target,std::uint64_t owner) noexcept {
+ auto& trace=*static_cast<CallbackTrace*>(raw);
+ if(trace.count<trace.events.size())trace.events[trace.count++]='D';
+ trace.target=target;trace.owner=owner;
+ trace.remove_out_count=trace.owner_outgoing->count;
+ trace.remove_in_count=trace.target_incoming->count;
+}
 }
 int main(int argc,char** argv){try{
  if(argc!=2)return 2;std::ifstream reference(argv[1],std::ios::binary);std::uint32_t count=0;reference.read(reinterpret_cast<char*>(&count),4);check(bool(reference)&&count,"Missing original aggression reference");
@@ -52,5 +74,34 @@ int main(int argc,char** argv){try{
  AggroQuery query{10,11,12,13,14},query_snapshot=query;check(dh2_aggro_query(&query,&outgoing,0,1)==1&&std::memcmp(&query,&query_snapshot,sizeof query)==0&&dh2_aggro_query(nullptr,&outgoing,4,1)==1&&dh2_aggro_query(&query,nullptr,4,1)==1,"Invalid query modified output");
  // Rejected original Set/Add needs no new capacity and must not insert.
  request.facts=aggro_owner_player;check(dh2_aggro_apply(&result,&request,aggro_set)==0&&result.returned_bits==0&&result.requests==0&&outgoing.count==1&&incoming.count==1,"Rejected Set tried allocating a reciprocal entry");
- std::cout<<"{\"original_aggro_cases\":"<<count<<",\"inserted\":"<<inserted<<",\"removed\":"<<removed<<",\"aggro_notifications\":"<<notifications<<",\"target_clear_requests\":"<<clears<<",\"finite_float_bits_exact\":true,\"arithmetic_nan_comparison\":\"unordered class\",\"invalid_input_and_capacity_failures_atomic\":true}\n";return 0;
+ // New/removed edges dispatch at the source virtual-call points: OnAggro sees
+ // both maps before insertion; OnDeAggro sees both after reciprocal erase.
+ std::array<AggroEntry,2> edge_out{},edge_in{};
+ AggroTable edge_owner{edge_out.data(),0,2},edge_target{edge_in.data(),0,2};
+ CallbackTrace trace{&edge_owner,&edge_target};
+ const AggroNotifications callbacks{&trace,target_on_aggro,target_on_deaggro};
+ AggroRequest edge_request{&edge_owner,&edge_target,0x11,0x22,0x3fa00000u,0};
+ check(dh2_aggro_apply_notifying(&result,&edge_request,aggro_set,&callbacks)==0&&
+       result.inserted==1&&trace.count==1&&trace.events[0]=='A'&&
+       trace.target==0x22&&trace.owner==0x11&&trace.add_out_count==0&&
+       trace.add_in_count==0&&edge_owner.count==1&&edge_target.count==1,
+       "new edge OnAggro must run once before reciprocal insertion");
+ edge_request.amount_bits=0x3f000000u;
+ check(dh2_aggro_apply_notifying(&result,&edge_request,aggro_add,&callbacks)==0&&
+       result.inserted==0&&trace.count==1&&edge_owner.count==1&&edge_target.count==1,
+       "existing edge update must not repeat OnAggro");
+ edge_request.target=0x33;
+ check(dh2_aggro_apply_notifying(&result,&edge_request,aggro_clear,&callbacks)==0&&
+       result.removed==0&&trace.count==1,
+       "absent edge clear must not dispatch OnDeAggro");
+ edge_request.target=0x22;
+ check(dh2_aggro_apply_notifying(&result,&edge_request,aggro_clear,&callbacks)==0&&
+       result.removed==1&&trace.count==2&&trace.events[1]=='D'&&
+       trace.target==0x22&&trace.owner==0x11&&trace.remove_out_count==0&&
+       trace.remove_in_count==0&&edge_owner.count==0&&edge_target.count==0,
+       "removed edge OnDeAggro must run once after reciprocal erase");
+ check(dh2_aggro_apply_notifying(&result,&edge_request,aggro_clear,&callbacks)==0&&
+       result.removed==0&&trace.count==2,
+       "repeat clear must not repeat OnDeAggro");
+ std::cout<<"{\"original_aggro_cases\":"<<count<<",\"inserted\":"<<inserted<<",\"removed\":"<<removed<<",\"aggro_notifications\":"<<notifications<<",\"target_clear_requests\":"<<clears<<",\"edge_callback_order_and_exactly_once\":true,\"finite_float_bits_exact\":true,\"arithmetic_nan_comparison\":\"unordered class\",\"invalid_input_and_capacity_failures_atomic\":true}\n";return 0;
 }catch(const std::exception& error){std::cerr<<error.what()<<'\n';return 3;}}

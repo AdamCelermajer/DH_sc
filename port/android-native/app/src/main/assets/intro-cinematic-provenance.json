@@ -1,0 +1,40 @@
+{
+  "source_archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "source_function": "GSInit::Update",
+  "source_function_address": "0x3850c8",
+  "language_codes": {
+    "4": "Japanese intro_jp.mp4 and splash_final_jp.tga",
+    "5": "Korean intro_kr.mp4 and splash_final_kor.tga",
+    "other": "intro.mp4 and splash_final.tga"
+  },
+  "assets": {
+    "original-media/intro.mp4": {
+      "size": 20248857,
+      "sha256": "859f2dde32401f996a5faeaf8c914965b5410d0200315c0bfb90d8c71aa59b22"
+    },
+    "original-media/intro_jp.mp4": {
+      "size": 19558308,
+      "sha256": "771ad97dea5eaeae073afeebc3cdbb853a1860616bc43cb98fea4493902c8999"
+    },
+    "original-media/intro_kr.mp4": {
+      "size": 19715884,
+      "sha256": "fa99665ed6a640af915220386967da4e23b80df611961400589d06dad9cdd178"
+    },
+    "original-cache/data/3d/textures/splash_final.tga": {
+      "size": 8388652,
+      "sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8"
+    },
+    "original-cache/data/3d/textures/splash_final_jp.tga": {
+      "size": 8388626,
+      "sha256": "e7d9b24f61dc82b22bb216c723479f0d5452c3d2ed5c8f8b2cce8a3d1966c3c3"
+    },
+    "original-cache/data/3d/textures/splash_final_kor.tga": {
+      "size": 16777260,
+      "sha256": "ce029bd1e221843d8c1ad4521189d0ce0870548914e9d53c01c461068d6c3b07"
+    }
+  },
+  "duplicate_variants": {
+    "splash_final_droid.tga": "same bytes as splash_final.tga",
+    "splash_final_i9000.tga": "same bytes as splash_final.tga"
+  }
+}

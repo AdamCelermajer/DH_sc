@@ -120,7 +120,13 @@ bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,std:
     if(!g.to_number(id,number,e)){if(e.empty())e="Fixed-layout HUD SlotId is not numeric";return false;}
     *q.slot=number>=0&&number<=2?static_cast<unsigned>(number):0;return true;},error))return false;
   }
-  if(!frame(controls_[4+n]+".CoolDown",std::max(infos[8+slot*2]-1,0),error)||!movie_.set_visible((controls_[4+n]+".Grey").c_str(),!infos[9+slot*2],error))return false;
+  // The authored HUD hides the entire button for an empty Save slot. Keep its
+  // original blank icon/button shell visible; the source Grey overlay below
+  // remains visible because empty slots project as unusable. The release
+  // callback still reaches NativeHUDSkill and its canonical Save-slot gate.
+  if(!movie_.set_visible(controls_[4+n].c_str(),true,error)||
+     !frame(controls_[4+n]+".CoolDown",std::max(infos[8+slot*2]-1,0),error)||
+     !movie_.set_visible((controls_[4+n]+".Grey").c_str(),!infos[9+slot*2],error))return false;
  }
  return true;
 }

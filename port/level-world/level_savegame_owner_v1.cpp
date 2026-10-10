@@ -212,9 +212,17 @@ bool Owner::construct(std::string source_filename, std::int32_t info_word,
         error = "LevelSavegame owner requires a source GetFilename result";
         return false;
     }
+    // A renderer/EGL projection may be rebound while this logical Level and
+    // its Savegame remain alive. Keep that same source owner and image instead
+    // of resetting it on an identity-preserving bind.
+    if (constructed_ && filename_ == source_filename && info_word_ == info_word) {
+        error.clear();
+        return true;
+    }
     filename_ = std::move(source_filename);
     info_word_ = info_word;
     image_.clear();
+    gate_39_ = 0; // LevelSavegame C1 stores false at +0x39.
     constructed_ = true;
     error.clear();
     return true;
@@ -272,7 +280,14 @@ void Owner::destroy() noexcept {
     filename_.clear();
     image_.clear();
     info_word_ = 0;
+    gate_39_ = 0;
     constructed_ = false;
+}
+
+bool Owner::set_gate_39(std::uint8_t value) noexcept {
+    if (!constructed_ || value > 1) return false;
+    gate_39_ = value;
+    return true;
 }
 
 } // namespace dh2::level_savegame_owner_v1

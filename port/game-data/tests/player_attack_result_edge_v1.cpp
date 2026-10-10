@@ -73,10 +73,27 @@ int main() {
         target_sheet.resolved[36] = 1;
         attack.amount = 1280;
         observation.calls = 0;observation.steps.clear();
+        const std::vector<Step> lethal_order{Step::lethal_hit,Step::cancel_sneaking,
+            Step::combat_text,Step::combat_sound,Step::ai_combat_result};
         check(execute(&request, &result) == Status::complete &&
-              observation.calls == 4 && observation.hp == 0 &&
+              observation.calls == 5 && observation.steps==lethal_order &&
+              observation.hp == 0 &&
               observation.dead == 1 && result.application.health.kill_requested,
-              "lethal result callback did not see HitFor/dead prefix");
+              "lethal continuation did not precede the source result tail");
+
+        target_state = {};
+        target_sheet.resolved[36] = 1;
+        attack.amount = 1280;
+        observation.calls = 0;observation.steps.clear();
+        observation.status=7;observation.fail_enabled=true;
+        observation.fail_step=Step::lethal_hit;
+        check(execute(&request,&result)==Status::service_failed&&
+              result.last_step==Step::lethal_hit&&result.steps_attempted==1&&
+              result.steps_completed==0&&observation.steps==
+                  std::vector<Step>{Step::lethal_hit},
+              "failed lethal continuation incorrectly ran combat text/audio/AI tail");
+        observation.fail_enabled=false;
+        observation.status=0;
 
         target_state = {};
         target_sheet.resolved[36] = 2560;
@@ -116,7 +133,8 @@ int main() {
 
         // The source rereads its result mask after the sound call even when
         // the optional provider is unavailable.
-        observation.calls=0;observation.steps.clear();attack.mask=0;
+        observation.calls=0;observation.steps.clear();target_state={};
+        target_sheet.resolved[36]=2560;attack.amount=1280;attack.mask=0;
         attack.outcomes=0x40000000u;
         check(execute(&request,&result)==Status::complete&&
               observation.steps.size()==3&&result.sound_available==0&&
@@ -128,7 +146,8 @@ int main() {
         // A throwing sound provider has the same optional semantics.
         observation.fail_enabled=false;observation.throw_enabled=true;
         observation.throw_step=Step::combat_sound;observation.calls=0;
-        observation.steps.clear();attack.mask=0;
+        observation.steps.clear();target_state={};target_sheet.resolved[36]=2560;
+        attack.amount=1280;attack.mask=0;
         check(execute(&request,&result)==Status::complete&&
               observation.steps==ordered&&result.sound_available==0&&
               result.sound_provider_status==-1&&result.provider_status==0,
@@ -141,7 +160,7 @@ int main() {
               target_sheet.resolved[36] == before,
               "invalid Character identities mutated combat owners");
 
-        std::cout << "PASS: player damage -> canonical HP/dead -> source ordered result tail; cases=8\n";
+        std::cout << "PASS: player damage -> lethal kill continuation -> source result tail; cases=9\n";
         return 0;
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

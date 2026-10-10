@@ -33,8 +33,9 @@ struct Services {
     std::int32_t (*copy_checkpoint_position)(void*, std::uintptr_t character,
         std::uint32_t word_168, std::uint32_t word_160, std::uint32_t word_164,
         std::string& error){};
-    // Writes LevelSavegame byte +0x39. Source writes 0 when force=true and
-    // 0x6c otherwise, then restores the original byte after Save().
+    // Writes LevelSavegame byte +0x39 only when force=true: source writes zero
+    // before Save and restores the captured byte afterward. QuickSave(false)
+    // leaves +0x39 unchanged.
     std::int32_t (*write_savegame_gate_39)(void*, std::uintptr_t savegame,
         std::uint8_t value, std::string& error){};
     // Calls the same LevelSavegame::Save instance; no second save store.

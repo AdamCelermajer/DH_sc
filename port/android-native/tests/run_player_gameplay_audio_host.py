@@ -6,7 +6,9 @@ import argparse
 import json
 import os
 from pathlib import Path
+import re
 import shutil
+import struct
 import subprocess
 import tempfile
 import xml.etree.ElementTree as ET
@@ -89,12 +91,70 @@ assert "player_gameplay_audio::enqueue" in native_skills
 assert "player_gameplay_audio::consume" in native_bridge
 assert 'file.startsWith("gameplay:")' in front_audio and '"original-media/gameplay/"+gameplayFile' in front_audio
 assert 'file.startsWith("dh2fx,")' in front_audio
+assert 'file.startsWith("dh2music,")' in front_audio
+assert '"CryptOneAmbientMusic"' not in front_audio
+for state in ("ambient", "combat"):
+    track = APP / f"assets/original-media/gameplay/music/crypt_{state}_music.wav"
+    assert track.is_file() and track.stat().st_size == 5_140_540
+    raw = track.read_bytes()[:60]
+    assert raw[:4] == b"RIFF" and raw[8:12] == b"WAVE"
+    assert struct.unpack_from("<HHI", raw, 20) == (17, 2, 32_000)
+    assert struct.unpack_from("<HHHH", raw, 32) == (1024, 4, 2, 1017)
+    assert struct.unpack_from("<I", raw, 48)[0] == 5_105_117
+for state in ("ambient", "combat"):
+    track = APP / f"assets/original-media/gameplay/music/swamp_{state}_music.wav"
+    assert track.is_file() and track.stat().st_size == 6_138_940
+    raw = track.read_bytes()[:60]
+    assert raw[:4] == b"RIFF" and raw[8:12] == b"WAVE"
+    assert struct.unpack_from("<HHI", raw, 20) == (17, 2, 32_000)
+    assert struct.unpack_from("<HHHH", raw, 32) == (1024, 4, 2, 1017)
+    assert struct.unpack_from("<I", raw, 48)[0] == 6_096_650
+safezone = APP / "assets/original-media/gameplay/music/swamp_merchant_camp_music.wav"
+assert safezone.is_file() and safezone.stat().st_size == 3_591_228
+assert (APP / "assets/original-media/gameplay/music/swamp-music-provenance.json").is_file()
 assert 'effect.owner!=owner||effect.soundId!=soundId' in front_audio
 assert "player_gameplay_audio::stop_source_sound" in (cpp / "model_renderer.cpp").read_text(encoding="utf-8")
 audio_owner = (cpp / "player_gameplay_audio.hpp").read_text(encoding="utf-8")
 assert "enqueue_spatial_play" in audio_owner and "evaluate_stereo_pan(request)" in audio_owner
 assert 'fields.length==10' in front_audio and "leftMix=leftQ14/16384f" in front_audio
 assert "consumeMenuSound()" in activity and 'noCompress += listOf("wav", "mp4")' in gradle
+start_game = (cpp / "model_renderer.cpp").read_text(encoding="utf-8").split(
+    "std::string start_menu_game", 1)[1].split("std::vector<std::uint8_t> read_asset", 1)[0]
+assert start_game.index("load_world(") < start_game.index("World load failed:")
+assert start_game.index("World load failed:") < start_game.index(
+    'enqueue_source_vxn_music_state(source_music_uid,"ambient")')
+renderer = (cpp / "model_renderer.cpp").read_text(encoding="utf-8")
+assert 'active_level_assets.level_file=="001_swamp.mlx")return 467' in renderer
+assert 'active_level_assets.level_file=="007_crypt_01.rule.xml")return 486' in renderer
+assert 'enqueue_source_vxn_music_state(music_uid,state)' in renderer
+assert "SourceMusicResources.resolve(soundUid,fields[2])" in front_audio
+assert "gameplayMusic.selectState(soundUid,state,resource)" in front_audio
+decoder = (APP / "java/com/example/dh2/GameplayVxnMusic.java").read_text(encoding="utf-8")
+block_decoder = (APP / "java/com/example/dh2/VxnImaAdpcmDecoder.java").read_text(encoding="utf-8")
+resolver = (APP / "java/com/example/dh2/SourceMusicResources.java").read_text(encoding="utf-8")
+assert '"original-media/gameplay/music/swamp_"+state+"_music.wav"' in resolver
+assert '"original-media/gameplay/music/crypt_"+state+"_music.wav"' in resolver
+assert "SourceMusicResources.resolve(soundUid,next)" in decoder
+assert "AudioTrack.MODE_STREAM" in decoder and "AudioTrack.WRITE_BLOCKING" in decoder
+assert "Source music mixer active" in decoder and "active_slots" in decoder
+assert "FADE_FRAMES=RATE*2" in decoder and "VxnSegmentMixMath.SLOT_COUNT" in decoder
+assert "VxnSegmentMixMath.mix(source,activeFrames" in decoder
+assert "cueQueue.addLast(resource)" in decoder and "cueQueue.pollFirst()" in decoder
+assert "cue!=null&&!cue.sameSegment(selected)" in decoder
+music_entry=front_audio.split("private void playGameplayMusic(int soundUid",1)[1].split("private void updateGameplayMusicPlayback()",1)[0]
+assert "gameplayMusic.selectState(soundUid,state,resource)" in music_entry
+assert "if(gameplayMusic==null)gameplayMusic=new GameplayVxnMusic(context)" in music_entry
+music_manifest=json.loads((ROOT/"port/engine-audio/native-format/reference/crypt-music-loader-v1/manifest.json").read_text(encoding="utf-8"))
+shared_uids={row["uid"] for row in music_manifest["music"]["shared_file_tracks"]}
+assert shared_uids=={484,485,486,487}
+native_step = (ROOT / "port/engine-audio/native-format/ima_adpcm_step_v1.hpp").read_text(encoding="utf-8")
+def table_values(source: str, name: str) -> tuple[int, ...]:
+    values = (re.search(rf"{name}[^{{]*\{{\{{([\s\S]*?)\}}\}}", source)
+              or re.search(rf"{name}\s*=\s*\{{([\s\S]*?)\}}", source))
+    assert values, name
+    return tuple(int(value) for value in re.findall(r"-?\d+", values.group(1)))
+assert table_values(block_decoder, "STEP") == table_values(native_step, "kImaAdpcmStepTableV1")
+assert table_values(block_decoder, "INDEX") == table_values(native_step, "kImaAdpcmIndexTableV1")
 
 with tempfile.TemporaryDirectory(prefix="dh2-gameplay-audio-") as temp:
     exe = Path(temp) / ("audio-test.exe" if os.name == "nt" else "audio-test")
@@ -103,4 +163,19 @@ with tempfile.TemporaryDirectory(prefix="dh2-gameplay-audio-") as temp:
         str(TEST), "-o", str(exe),
     ], cwd=ROOT, check=True)
     subprocess.run([str(exe)], cwd=ROOT, check=True)
+    javac=shutil.which("javac")
+    java=shutil.which("java")
+    if not javac or not java:
+        raise SystemExit("JDK javac/java required to exercise the exact Android IMA block decoder")
+    java_test=ROOT/"port/android-native/tests/VxnImaAdpcmDecoderHostTest.java"
+    java_mix_test=ROOT/"port/android-native/tests/VxnSegmentMixMathHostTest.java"
+    java_resource_test=ROOT/"port/android-native/tests/SourceMusicResourcesHostTest.java"
+    java_decoder=APP/"java/com/example/dh2/VxnImaAdpcmDecoder.java"
+    java_mix=APP/"java/com/example/dh2/VxnSegmentMixMath.java"
+    java_resource=APP/"java/com/example/dh2/SourceMusicResources.java"
+    subprocess.run([javac,"-d",temp,str(java_decoder),str(java_mix),str(java_resource),
+                    str(java_test),str(java_mix_test),str(java_resource_test)],cwd=ROOT,check=True)
+    subprocess.run([java,"-cp",temp,"com.example.dh2.VxnImaAdpcmDecoderHostTest"],cwd=ROOT,check=True)
+    subprocess.run([java,"-cp",temp,"com.example.dh2.VxnSegmentMixMathHostTest"],cwd=ROOT,check=True)
+    subprocess.run([java,"-cp",temp,"com.example.dh2.SourceMusicResourcesHostTest"],cwd=ROOT,check=True)
 print("PASS: original skill script -> sound catalog/PCM asset -> Android audio owner")

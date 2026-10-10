@@ -136,6 +136,16 @@ int main() {
           near(movement_control_up[0],-std::sqrt(0.5f))&&
           near(movement_control_up[1],std::sqrt(0.5f))&&movement_control_up[2]==0,
           "Android MovementControl follows HUDControls direct HeadTowards vector");
+    float beyond_joystick_axis[3]{1.2f,0.8f,9.0f};
+    const float original_angle_radius=std::hypot(1.2f,0.8f);
+    const float original_direction_x=1.2f/original_angle_radius;
+    const float original_direction_y=0.8f/original_angle_radius;
+    check(dh2::native::camera_input_v1::map_movement_control_input(
+              beyond_joystick_axis,&active)==0&&active&&
+          near(beyond_joystick_axis[0],(original_direction_x-original_direction_y)*std::sqrt(0.5f))&&
+          near(beyond_joystick_axis[1],(original_direction_x+original_direction_y)*std::sqrt(0.5f))&&
+          near(std::hypot(beyond_joystick_axis[0],beyond_joystick_axis[1]),1.0f),
+          "over-radius HUD stick retains source angle while capping magnitude");
     float gamepad_up[3]{0,1,0};
     check(dh2::native::camera_input_v1::map_touch_ground_input(
               gamepad_up,0.31f,0.89f,true,&active)==0&&active&&
@@ -174,6 +184,26 @@ int main() {
           near(rig_forward[0],-std::sin(std::acos(rig_look_at[1])))&&
           near(rig_forward[1],std::cos(std::acos(rig_look_at[1]))),
           "player forward touch follows source Point3D angle/rotateXY for authored camera basis");
+
+    // Match Point3D::angleCos binary32 evaluation order with a non-unit camera
+    // look vector. This catches normalized/clamped cosine substitutions.
+    constexpr float irregular_look_at[3]{0.31415927f,-0.27182818f,0.90625f};
+    float source_order_direction[3]{0.375f,-0.625f,0.125f};
+    const float look_length_squared=((irregular_look_at[0]*irregular_look_at[0])+
+        (irregular_look_at[1]*irregular_look_at[1]))+
+        (irregular_look_at[2]*irregular_look_at[2]);
+    const float look_length=std::sqrt(look_length_squared);
+    const float cosine=irregular_look_at[1]/(1.0f*look_length);
+    const float source_angle=std::acos(cosine);
+    const float expected_x=source_order_direction[0]*std::cos(source_angle)-
+        source_order_direction[1]*std::sin(source_angle);
+    const float expected_y=source_order_direction[0]*std::sin(source_angle)+
+        source_order_direction[1]*std::cos(source_angle);
+    check(dh2_nav_rotate_input_for_camera(source_order_direction,irregular_look_at)==0&&
+          near(source_order_direction[0],expected_x)&&
+          near(source_order_direction[1],expected_y)&&
+          source_order_direction[2]==0.125f,
+          "camera joystick matches original Point3D binary32 angle/rotateXY order");
 
     // HeadTowards is a heading-only source command. It must not replace the
     // caller-owned route destination while publishing the new visual angle.

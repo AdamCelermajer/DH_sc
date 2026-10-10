@@ -8,6 +8,8 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[3]
 MODULE = ROOT / "port/level-world"
+ASSETS = ROOT / "port/android-native/app/src/main/assets/data"
+GAME_DATA = ROOT / "port/game-data"
 
 
 def main() -> None:
@@ -29,14 +31,18 @@ def main() -> None:
             "-pedantic",
             "-fno-rtti",
             str(MODULE / "object_manager_runtime_owner_v1.cpp"),
+            str(MODULE / "object_creation_map_v1.cpp"),
             str(MODULE / "projectile_lifecycle_runtime_v1.cpp"),
+            str(MODULE / "projectile_factory_owner_v1.cpp"),
+            str(GAME_DATA / "data.cpp"),
+            str(GAME_DATA / "projectile_table_v1.cpp"),
             str(MODULE / "tests/projectile_lifecycle_runtime_v1.cpp"),
             "-o",
             str(executable),
         ],
         check=True,
     )
-    subprocess.run([str(executable)], check=True)
+    subprocess.run([str(executable), str(ASSETS)], check=True)
 
 
 if __name__ == "__main__":

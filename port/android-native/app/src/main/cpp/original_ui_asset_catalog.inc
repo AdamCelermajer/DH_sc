@@ -10,6 +10,8 @@
 // complete bytes/hash. Retain both logical names using one APK backing file.
 {"data/3d/textures/splash_final.tga","data/3d/textures/splash_final.tga","original-cache/data/3d/textures/splash_final_droid.tga","2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8",8388652u},
 {"data/3d/textures/splash_final_droid.tga","data/3d/textures/splash_final_droid.tga","original-cache/data/3d/textures/splash_final_droid.tga","2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8",8388652u},
+{"data/3d/textures/splash_final_jp.tga","data/3d/textures/splash_final_jp.tga","original-cache/data/3d/textures/splash_final_jp.tga","e7d9b24f61dc82b22bb216c723479f0d5452c3d2ed5c8f8b2cce8a3d1966c3c3",8388626u},
+{"data/3d/textures/splash_final_kor.tga","data/3d/textures/splash_final_kor.tga","original-cache/data/3d/textures/splash_final_kor.tga","ce029bd1e221843d8c1ad4521189d0ce0870548914e9d53c01c461068d6c3b07",16777260u},
 {"data/arkham_bold.ttf","data/arkham_bold.ttf","original-cache/data/arkham_bold.ttf","864b81bc3014986063289eb67be492b19c4bc57da1d46035b4fe9c55ce346df1",39276u},
 {"data/arkham_reg.ttf","data/arkham_reg.ttf","original-cache/data/arkham_reg.ttf","86146a3d9a59cf55d3eb79288f99129182ad30f8031b12d8f6572c6bb9aab828",38912u},
 {"data/fontin smallcaps.ttf","data/Fontin SmallCaps.ttf","original-cache/data/Fontin SmallCaps.ttf","e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",79836u},

@@ -49,8 +49,23 @@ Result spawn_fresh(objects::Owner& object_manager,
     if (request.factory_product.type != expected_type) {
         return stopped(Status::wrong_factory_type, Stage::none);
     }
-    if (object_manager.find_by_name(request.factory_product.name) != nullptr) {
-        return stopped(Status::duplicate_factory_name, Stage::none);
+    if (request.source_record != nullptr &&
+        (request.source_record->row_index !=
+             static_cast<std::uint32_t>(request.projectile_id) ||
+         request.source_record->is_laser != request.laser_type)) {
+        return stopped(Status::invalid_projectile_id, Stage::none);
+    }
+    if (const auto* named = object_manager.find_by_name(request.factory_product.name)) {
+        // ObjectManager::GetObjectByName reserves the canonical keyed row
+        // before GetNewObject calls the class constructor. Add then fills that
+        // same row. Accept only this exact name-only reservation; an existing
+        // concrete object remains a duplicate.
+        if (named->identity != 0 ||
+            named->source_handle != request.factory_product.source_handle ||
+            (!named->name.empty() &&
+             named->name != request.factory_product.name)) {
+            return stopped(Status::duplicate_factory_name, Stage::none);
+        }
     }
     objects::GameObject* owner = request.owner_identity == 0
         ? nullptr : object_manager.find_by_identity(request.owner_identity);
@@ -76,6 +91,18 @@ Result spawn_fresh(objects::Owner& object_manager,
         return stopped(Status::object_manager_rejected, Stage::object_manager_spawn);
     }
 
+    // Source ProjectileManager::_Create records a newly accepted product in
+    // its class pool before Projectile::SetManager associates the manager.
+    if (hooks.register_pool_object != nullptr) {
+        const Status pool_status = hooks.register_pool_object(
+            hooks.pool_context, *stored, request.laser_type,
+            request.factory_serial);
+        if (pool_status != Status::ok) {
+            return stopped(apply_hook(pool_status), Stage::projectile_pool_register,
+                            stored, true);
+        }
+    }
+
     // `_Create` has completed ObjectManager::Spawn and pool insertion before
     // Projectile::SetManager. The caller supplies that existing manager's
     // identity; this port creates no independent manager or projectile pool.
@@ -93,7 +120,9 @@ Result spawn_fresh(objects::Owner& object_manager,
     }
 
     const SetInfoArgs info{request.projectile_id, owner, target,
-                           request.on_hit, request.on_miss, request.user_data};
+                           request.collision_check_callback,
+                           request.collision_hit_callback, request.user_data,
+                           request.source_record};
     status = request.info_kind == SetInfoKind::angle_float
         ? hooks.set_info_float(hooks.context, *stored, info, request.angle_degrees)
         : hooks.set_info_bool(hooks.context, *stored, info, request.flag);
@@ -101,6 +130,71 @@ Result spawn_fresh(objects::Owner& object_manager,
         return stopped(apply_hook(status), Stage::set_info, stored, true);
     }
 
+    status = hooks.set_active(hooks.context, *stored, true);
+    if (status != Status::ok) {
+        return stopped(apply_hook(status), Stage::activate, stored, true);
+    }
+    return stopped(Status::ok, Stage::none, stored, true);
+}
+
+Result spawn_reused(objects::Owner& object_manager,
+                    const SpawnRequest& request,
+                    const Hooks& hooks) noexcept {
+    if (request.projectile_id < 0 || request.projectile_table_size == 0 ||
+        static_cast<std::uint32_t>(request.projectile_id) >= request.projectile_table_size) {
+        return stopped(Status::invalid_projectile_id, Stage::none);
+    }
+    const FactoryType expected_type = request.laser_type
+        ? FactoryType::laser_type_projectile : FactoryType::projectile;
+    const std::string expected_name = factory_name(request.laser_type,
+                                                   request.factory_serial);
+    if (request.projectile_manager == 0 || request.factory_product.object.identity == 0 ||
+        expected_name.empty() || request.factory_product.name != expected_name ||
+        request.factory_product.type != expected_type) {
+        return stopped(Status::invalid_argument, Stage::none);
+    }
+    if (request.source_record != nullptr &&
+        (request.source_record->row_index !=
+             static_cast<std::uint32_t>(request.projectile_id) ||
+         request.source_record->is_laser != request.laser_type)) {
+        return stopped(Status::invalid_projectile_id, Stage::none);
+    }
+
+    objects::GameObject* stored = object_manager.find_by_source_handle(
+        request.factory_product.source_handle);
+    if (stored == nullptr || stored->identity != request.factory_product.object.identity ||
+        stored->name != request.factory_product.name) {
+        return stopped(Status::object_not_owned, Stage::none);
+    }
+    objects::GameObject* owner = request.owner_identity == 0
+        ? nullptr : object_manager.find_by_identity(request.owner_identity);
+    objects::GameObject* target = request.target_identity == 0
+        ? nullptr : object_manager.find_by_identity(request.target_identity);
+    if ((request.owner_identity != 0 && owner == nullptr) ||
+        (request.target_identity != 0 && target == nullptr)) {
+        return stopped(Status::object_not_owned, Stage::none, stored, true);
+    }
+    const bool missing_info =
+        (request.info_kind == SetInfoKind::angle_float && hooks.set_info_float == nullptr) ||
+        (request.info_kind == SetInfoKind::flag_bool && hooks.set_info_bool == nullptr);
+    if (hooks.set_updating == nullptr || hooks.set_active == nullptr || missing_info) {
+        return stopped(Status::hook_unavailable, Stage::none, stored, true);
+    }
+
+    Status status = hooks.set_updating(hooks.context, *stored, true);
+    if (status != Status::ok) {
+        return stopped(apply_hook(status), Stage::set_updating, stored, true);
+    }
+    const SetInfoArgs info{request.projectile_id, owner, target,
+                           request.collision_check_callback,
+                           request.collision_hit_callback, request.user_data,
+                           request.source_record};
+    status = request.info_kind == SetInfoKind::angle_float
+        ? hooks.set_info_float(hooks.context, *stored, info, request.angle_degrees)
+        : hooks.set_info_bool(hooks.context, *stored, info, request.flag);
+    if (status != Status::ok) {
+        return stopped(apply_hook(status), Stage::set_info, stored, true);
+    }
     status = hooks.set_active(hooks.context, *stored, true);
     if (status != Status::ok) {
         return stopped(apply_hook(status), Stage::activate, stored, true);

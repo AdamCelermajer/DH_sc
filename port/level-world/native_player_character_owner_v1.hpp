@@ -18,6 +18,12 @@ class NativePlayerCharacterOwnerV1 final : public Coordinator {
     data::PlayerSavegameV1* save_ = nullptr;
     data::PropertyState* properties_ = nullptr;
     data::FreshInventoryOwnedV4* inventory_ = nullptr;
+    // Reward_Gold::Give and Reward_XP::Give store their last applied amount
+    // in Character+0x1500/+0x1504. The source initializes both to -1 and
+    // Character::SG_Update consumes those same fields; keep them on this one
+    // canonical Character owner rather than in quest/reward mirrors.
+    std::int32_t reward_gold_1500_ = -1;
+    std::int32_t reward_xp_1504_ = -1;
     // Typed projection of GameObject+0x1b4. GameObject::UpdatePath owns its
     // transitions; this is not a byte overlay on the ARM32 Character object.
     std::uint8_t game_object_moving_ = 0;
@@ -25,6 +31,21 @@ class NativePlayerCharacterOwnerV1 final : public Coordinator {
     // skill/cast focus and target-range callbacks clear it. It is separate
     // from both GameObject movement and Coordinator flags.
     std::uint8_t ooi_intent_412_ = 0;
+    // Character ctor 0x3a9594 initializes signed OOI type +0x14a8 to -1.
+    // MenuManager reads this same byte for the HUD action artwork.
+    std::int8_t ooi_type_14a8_ = -1;
+    // Source GameObject visibility/enabled bytes are modeled as semantic state,
+    // not ARM32 offsets in this native 64-bit owner.
+    std::uint8_t visibility_80_ = 1;
+    std::uint8_t enabled_8a_ = 1;
+    // ObjectBase::ObjectBase initializes +0x81 to zero. The player owner is
+    // retained for the process lifetime, so only an explicit source Delete
+    // producer may change this; renderer/session teardown is not deletion.
+    std::uint8_t deleted_81_ = 0;
+    // Character::QuickSave copies the current Character position words into
+    // the serialized Character +0x1468 Point3D. Keep these as raw words so the
+    // source memcpy is exact and does not change float representations.
+    std::uint32_t checkpoint_position_1468_[3]{};
 
 public:
     NativePlayerCharacterOwnerV1();
@@ -45,6 +66,18 @@ public:
     void stop_game_object_moving() noexcept { game_object_moving_ = 0; }
     std::uint8_t* ooi_intent_storage() noexcept { return &ooi_intent_412_; }
     std::uint8_t ooi_intent() const noexcept { return ooi_intent_412_; }
+    std::int8_t ooi_type() const noexcept { return ooi_type_14a8_; }
+    std::int8_t* ooi_type_storage() noexcept { return &ooi_type_14a8_; }
+    std::uint8_t visibility_80() const noexcept { return visibility_80_; }
+    std::uint8_t enabled_8a() const noexcept { return enabled_8a_; }
+    std::uint8_t deleted_81() const noexcept { return deleted_81_; }
+    bool render_batch_visible(bool environment_batch) const noexcept {
+        return environment_batch || visibility_80_ != 0;
+    }
+    void set_enabled_8a(std::uint8_t value) noexcept { enabled_8a_ = value; }
+    void set_visible(std::uint32_t raw_argument) noexcept {
+        visibility_80_ = raw_argument ? enabled_8a_ : 0;
+    }
 
     // Publication occurs only after these existing owners are ready. Inventory
     // is optional while its production Android owner is still disconnected.
@@ -65,8 +98,17 @@ public:
                          const data::FreshInventoryOwnedV4* inventory) const noexcept;
 
     data::PlayerSavegameV1* save_for(std::uintptr_t character) const noexcept;
+    // Character::SG_Block(bool) writes its already-bound PlayerSavegame +0x0c
+    // byte. This mutates the same Save owner; it does not create a gate mirror.
+    bool sg_block(std::uintptr_t character, std::uint32_t blocked) noexcept;
+    bool save_checkpoint_position(std::uintptr_t character,
+                                  const std::uint32_t source_xyz[3]) noexcept;
+    const std::uint32_t* checkpoint_position_1468(
+        std::uintptr_t character) const noexcept;
     data::PropertyState* properties_for(std::uintptr_t character) const noexcept;
     data::FreshInventoryOwnedV4* inventory_for(std::uintptr_t character) const noexcept;
+    std::int32_t* reward_gold_1500_for(std::uintptr_t character) noexcept;
+    std::int32_t* reward_xp_1504_for(std::uintptr_t character) noexcept;
     // SavegameManager::SetLanguage's Character::UpdateInventoryLocalization
     // player branch. Resolves only this published Character's one V4 inventory
     // and refreshes its same V5 presentation records; it is not a Level walk.

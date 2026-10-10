@@ -13,6 +13,7 @@ if not COMPILER:
 
 sources = [
     ROOT / "camera_animset_v1.cpp",
+    ROOT / "character_critical_camera_bridge_v1.cpp",
     ROOT / "camera_animset_bank_v1.cpp",
     ROOT / "camera_animset_playback_v1.cpp",
     ROOT / "camera_animset_bank_playback_v1.cpp",

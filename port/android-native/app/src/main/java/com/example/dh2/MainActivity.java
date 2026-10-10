@@ -1,5 +1,6 @@
 package com.example.dh2;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -13,8 +14,10 @@ import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.MotionEvent;
 import android.view.Gravity;
+import android.view.PixelCopy;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.widget.*;
@@ -24,6 +27,16 @@ import javax.microedition.khronos.opengles.GL10;
 
 public final class MainActivity extends Activity {
     private GLSurfaceView surface;
+    private FrameLayout viewport;
+    private volatile ImageView gameplayLoadingOverlay;
+    private volatile Bitmap gameplayLoadingSnapshot;
+    private volatile int gameplayStartGeneration;
+    private boolean pendingStartAfterSplashFrame;
+    private int pendingStartSlot=-1;
+    private boolean pendingStartHasNumericDifficulty;
+    private int pendingStartDifficulty;
+    private boolean awaitingFirstWorldFrame;
+    private boolean awaitingRestoredMenuFrame;
     private TextView status;
     private String[] assets=new String[0];
     private final int[] nativeMenuLaunchRequest=new int[2];
@@ -44,6 +57,7 @@ public final class MainActivity extends Activity {
     private int debugLevelRow=-1;
     private FrontAudio frontAudio;
     private volatile IntroCinematicView introCinematic;
+    private OpeningSequenceV1 openingSequence;
     // Read on the GL owner after its menu frame loads settings; suppresses a
     // UI-thread post on every frame while still tracking in-game language edits.
     private int appliedIntroLanguage = -1;
@@ -72,6 +86,14 @@ public final class MainActivity extends Activity {
         boolean resumeOpeningCinematic=state!=null&&state.getBoolean("openingCinematicPending",false);
         int openingCinematicPositionMs=state!=null?state.getInt("openingCinematicPositionMs",0):0;
         boolean playOpeningCinematic=!inspectionMode&&(state==null||resumeOpeningCinematic)&&!getIntent().getBooleanExtra("skip_intro",false);
+        long openingNow=android.os.SystemClock.uptimeMillis();
+        int openingStage=inspectionMode?OpeningSequenceV1.MENU:
+                getIntent().getBooleanExtra("skip_intro",false)?OpeningSequenceV1.SPLASH:
+                state!=null?state.getInt("openingSequenceStage",playOpeningCinematic?OpeningSequenceV1.INTRO:OpeningSequenceV1.MENU):
+                (playOpeningCinematic?OpeningSequenceV1.INTRO:OpeningSequenceV1.MENU);
+        openingSequence=OpeningSequenceV1.restore(openingStage,
+                getIntent().getBooleanExtra("skip_intro",false)?0L:
+                        state!=null?state.getLong("openingSplashElapsedMs",0L):0L,openingNow);
         if(!inspectionMode){
             // This is a landscape game. Android 17 keeps orientation requests
             // available to apps explicitly categorized as games; retain the
@@ -276,32 +298,49 @@ public final class MainActivity extends Activity {
             @Override public void onDrawFrame(GL10 gl){if(!ready)return;
                 if(firstSurfaceFrame){
                     firstSurfaceFrame=false;
+                    if(pendingSurfaceLoad&&assets.length>0&&
+                            (menuGameplaySlot>=0&&assets[selected].startsWith("worlds/")||
+                                    openingSequence!=null&&openingSequence.usesSplashStage())){
+                        pendingSurfaceLoad=false;
+                        if(menuGameplaySlot>=0&&assets[selected].startsWith("worlds/"))
+                            beginMenuGameStart(menuGameplaySlot,menuHasNumericDifficulty,menuRequestedDifficulty);
+                        else loadOpeningSplash();
+                        NativeBridge.draw();
+                        afterNativeFrame();
+                        return;
+                    }
+                    if(!pendingSurfaceLoad){
+                        NativeBridge.draw();
+                        afterNativeFrame();
+                        return;
+                    }
                     // GLSurfaceView's surfaceChanged waits for this frame on
                     // the UI thread. Acknowledge it before decoding the menu
                     // or world so input focus and lifecycle remain responsive.
                     gl.glClearColor(.08f,.09f,.11f,1);gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
                     if(pendingSurfaceLoad){pendingSurfaceLoad=false;surface.post(()->surface.queueEvent(()->{
                         if(menuGameplaySlot>=0&&assets[selected].startsWith("worlds/")){
-                            String start=startMenuGame(menuGameplaySlot,menuHasNumericDifficulty,menuRequestedDifficulty);
-                            if(isPlayableStart(start))acceptGameStart(menuGameplaySlot,start,menuHasNumericDifficulty,menuRequestedDifficulty);
-                            else{
-                                // A fresh process has no retained canonical PlayerInfo.
-                                // Re-enter the authored menu to assign it explicitly.
-                                Log.i("DH2Native","Menu process restoration returned to profile selection | "+start);
-                                menuGameplaySlot=-1;selected=0;loadSelected();
-                            }
+                            beginMenuGameStart(menuGameplaySlot,menuHasNumericDifficulty,menuRequestedDifficulty);
                         }
-                        else if(assets.length>0)loadSelected();else show("No bundled asset fixtures");
+                        else if(assets.length>0){
+                            if(openingSequence!=null&&openingSequence.usesSplashStage())loadOpeningSplash();
+                            else loadSelected();
+                        }else show("No bundled asset fixtures");
                     }));}return;
                 }
                 NativeBridge.draw();
-                if("ui/original-main-menu".equals(loadedAsset)&&introCinematic!=null){
+                afterNativeFrame();
+                if("ui/opening-splash".equals(loadedAsset)&&openingSequence!=null&&
+                        openingSequence.awaitsIntroLanguage()&&introCinematic!=null){
                     int language=NativeBridge.frontLanguage();
                     if(language>=0&&language<8&&language!=appliedIntroLanguage){
                         appliedIntroLanguage=language;IntroCinematicView cinematic=introCinematic;
                         runOnUiThread(()->cinematic.setSourceLanguageIndex(language));
                     }
                 }
+                if("ui/opening-splash".equals(loadedAsset)&&openingSequence!=null&&
+                        openingSequence.mayLoadMenu(android.os.SystemClock.uptimeMillis()))
+                    loadAuthoredMenuAfterOpeningSplash();
                 if("ui/original-main-menu".equals(loadedAsset)&&!frontMenuReady)
                     runOnUiThread(()->{frontMenuReady=true;startTitleMusicIfReady();});
                 String audio=NativeBridge.consumeMenuAudio();
@@ -314,10 +353,10 @@ public final class MainActivity extends Activity {
                 });
                 String effect;
                 do{effect=NativeBridge.consumeMenuSound();if(!effect.isEmpty()&&introCinematic==null){final String cue=effect;runOnUiThread(()->frontAudio.effect(cue));}}while(!effect.isEmpty());
-                int startSlot=NativeBridge.consumeMenuLaunch(nativeMenuLaunchRequest);if(startSlot>=0){boolean numeric=nativeMenuLaunchRequest[0]!=0;int difficulty=nativeMenuLaunchRequest[1];String start=startMenuGame(startSlot,numeric,difficulty);acceptGameStart(startSlot,start,numeric,difficulty);}long now=android.os.SystemClock.uptimeMillis();if(now-lastVitals>=200&&loadedAsset!=null&&loadedAsset.startsWith("worlds/")){lastVitals=now;int[] values=NativeBridge.playerVitals();if(attackDisplayPending&&values[6]!=5){attackDisplayPending=false;show(baseReport+"\n"+(values[4]!=0?"Defeated":"Attack finished."));}runOnUiThread(()->{vitals.setText(String.format(java.util.Locale.ROOT,"HP %.1f / %.1f   MP %.1f / %.1f%s",values[0]/256f,values[1]/256f,values[2]/256f,values[3]/256f,values[4]!=0?"   Defeated":""));vitals.setTextColor(values[4]!=0||values[5]==0?Color.rgb(255,150,150):Color.WHITE);});}}
+                int startSlot=NativeBridge.consumeMenuLaunch(nativeMenuLaunchRequest);if(startSlot>=0){boolean numeric=nativeMenuLaunchRequest[0]!=0;int difficulty=nativeMenuLaunchRequest[1];beginMenuGameStart(startSlot,numeric,difficulty);}long now=android.os.SystemClock.uptimeMillis();if(now-lastVitals>=200&&loadedAsset!=null&&loadedAsset.startsWith("worlds/")){lastVitals=now;int[] values=NativeBridge.playerVitals();if(attackDisplayPending&&values[6]!=5){attackDisplayPending=false;show(baseReport+"\n"+(values[4]!=0?"Defeated":"Attack finished."));}runOnUiThread(()->{vitals.setText(String.format(java.util.Locale.ROOT,"HP %.1f / %.1f   MP %.1f / %.1f%s",values[0]/256f,values[1]/256f,values[2]/256f,values[3]/256f,values[4]!=0?"   Defeated":""));vitals.setTextColor(values[4]!=0||values[5]==0?Color.rgb(255,150,150):Color.WHITE);});}}
     });
         surface.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
-        FrameLayout viewport=new FrameLayout(this);viewport.addView(surface,new FrameLayout.LayoutParams(-1,-1));
+        viewport=new FrameLayout(this);viewport.addView(surface,new FrameLayout.LayoutParams(-1,-1));
         vitals=new TextView(this);vitals.setContentDescription("Player health and mana");vitals.setTextSize(14);vitals.setTextColor(Color.WHITE);vitals.setPadding(12,8,12,8);vitals.setBackgroundColor(Color.argb(160,15,20,25));vitals.setVisibility(View.GONE);
         FrameLayout.LayoutParams vitalsLayout=new FrameLayout.LayoutParams(-2,-2,Gravity.TOP|Gravity.LEFT);viewport.addView(vitals,vitalsLayout);
         movement=new MovementControl();movement.setVisibility(View.GONE);
@@ -502,6 +541,12 @@ public final class MainActivity extends Activity {
         // the active full-surface viewport and the SWF applies its stage mapping.
         surface.queueEvent(()->{
             String reply=NativeBridge.menuTouch(x,y,action);
+            if("GAMEPLAY_MAIN_MENU_REQUESTED".equals(reply)){
+                movement.stop();
+                for(int i=0;i<assets.length;i++)if("ui/original-main-menu".equals(assets[i])){selected=i;break;}
+                surface.queueEvent(()->loadSelected(true));
+                return;
+            }
             if(reply!=null&&!reply.isEmpty()){
                 final String actionName=action==MotionEvent.ACTION_DOWN?"DOWN":
                         action==MotionEvent.ACTION_UP?"UP":
@@ -531,7 +576,123 @@ public final class MainActivity extends Activity {
         if(current.getParent() instanceof FrameLayout)((FrameLayout)current.getParent()).removeView(current);
         introCinematic=null;
         frontAudio.setCinematic(null);
+        if(openingSequence!=null)openingSequence.introFinished(android.os.SystemClock.uptimeMillis());
+        if(surface!=null)surface.requestRender();
         startTitleMusicIfReady();
+    }
+    private void loadOpeningSplash(){
+        String report=NativeBridge.loadOpeningSplash(getFilesDir().getAbsolutePath(),getAssets());
+        loadedAsset=report.startsWith("Original opening splash ready")?"ui/opening-splash":null;
+        baseReport=report;frontMenuReady=false;
+        Log.i("DH2Native",report);
+        surface.requestRender();
+    }
+    private void beginMenuGameStart(int slot,boolean hasNumericDifficulty,int requestedDifficulty){
+        pendingStartSlot=slot;
+        pendingStartHasNumericDifficulty=hasNumericDifficulty;
+        pendingStartDifficulty=requestedDifficulty;
+        gameplayStartGeneration++;
+        loadOpeningSplash();
+        if("ui/opening-splash".equals(loadedAsset)){
+            pendingStartAfterSplashFrame=true;
+        }else{
+            Log.w("DH2Native","Could not prepare original loading image before game start | "+baseReport);
+            startPendingMenuGame(gameplayStartGeneration);
+        }
+    }
+    private void afterNativeFrame(){
+        if(pendingStartAfterSplashFrame&&"ui/opening-splash".equals(loadedAsset)){
+            pendingStartAfterSplashFrame=false;
+            final int generation=gameplayStartGeneration;
+            // PixelCopy and the overlay are UI-thread work. Waiting until the
+            // next animation callback lets the just-drawn source splash reach
+            // the SurfaceView before the blocking native world load begins.
+            surface.postOnAnimation(()->captureLoadingSplashAndStart(generation));
+        }
+        if(awaitingFirstWorldFrame&&loadedAsset!=null&&loadedAsset.startsWith("worlds/")){
+            awaitingFirstWorldFrame=false;
+            postLoadingOverlayRemovalAfterPresentedFrame(gameplayStartGeneration);
+        }
+        if(awaitingRestoredMenuFrame&&"ui/original-main-menu".equals(loadedAsset)){
+            awaitingRestoredMenuFrame=false;
+            postLoadingOverlayRemovalAfterPresentedFrame(gameplayStartGeneration);
+        }
+    }
+    private void captureLoadingSplashAndStart(int generation){
+        if(generation!=gameplayStartGeneration||isFinishing()||isDestroyed()||surface==null)return;
+        int width=surface.getWidth(),height=surface.getHeight();
+        if(width<=0||height<=0){surface.queueEvent(()->startPendingMenuGame(generation));return;}
+        final Bitmap snapshot;
+        try{
+            snapshot=Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
+        }catch(RuntimeException error){
+            Log.w("DH2Native","Could not allocate loading splash snapshot",error);
+            surface.queueEvent(()->startPendingMenuGame(generation));
+            return;
+        }
+        try{
+            PixelCopy.request(surface,snapshot,copyResult->{
+                if(generation!=gameplayStartGeneration||isFinishing()||isDestroyed()){
+                    snapshot.recycle();return;
+                }
+                if(copyResult!=PixelCopy.SUCCESS){
+                    Log.w("DH2Native","Loading splash capture failed | PixelCopy="+copyResult);
+                    snapshot.recycle();
+                    surface.queueEvent(()->startPendingMenuGame(generation));
+                    return;
+                }
+                ImageView overlay=new ImageView(MainActivity.this);
+                overlay.setScaleType(ImageView.ScaleType.FIT_XY);
+                overlay.setImageBitmap(snapshot);
+                overlay.setContentDescription("Dungeon Hunter 2 loading screen");
+                gameplayLoadingSnapshot=snapshot;
+                gameplayLoadingOverlay=overlay;
+                viewport.addView(overlay,new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+                overlay.bringToFront();
+                // One UI frame draws the full-surface captured source image before
+                // the GL thread enters synchronous NativeStartGame.
+                overlay.postOnAnimation(()->overlay.postOnAnimation(()->
+                        surface.queueEvent(()->startPendingMenuGame(generation))));
+            },new android.os.Handler(android.os.Looper.getMainLooper()));
+        }catch(RuntimeException error){
+            Log.w("DH2Native","Could not capture loading splash surface",error);
+            snapshot.recycle();
+            surface.queueEvent(()->startPendingMenuGame(generation));
+        }
+    }
+    private void startPendingMenuGame(int generation){
+        if(generation!=gameplayStartGeneration||pendingStartSlot<0)return;
+        int slot=pendingStartSlot;
+        boolean numeric=pendingStartHasNumericDifficulty;
+        int difficulty=pendingStartDifficulty;
+        pendingStartSlot=-1;
+        String report=startMenuGame(slot,numeric,difficulty);
+        acceptGameStart(slot,report,numeric,difficulty);
+    }
+    private void postLoadingOverlayRemovalAfterPresentedFrame(int generation){
+        // afterNativeFrame() runs before GLSurfaceView swaps its buffer. Queue
+        // a GL event so this UI callback cannot remove the captured splash
+        // while the first world/menu frame is still being rendered.
+        surface.queueEvent(()->surface.post(()->surface.postOnAnimation(()->{
+            if(generation==gameplayStartGeneration)removeGameplayLoadingOverlay();
+        })));
+    }
+    private void removeGameplayLoadingOverlay(){
+        ImageView overlay=gameplayLoadingOverlay;
+        gameplayLoadingOverlay=null;
+        if(overlay!=null){
+            if(overlay.getParent() instanceof ViewGroup)((ViewGroup)overlay.getParent()).removeView(overlay);
+            overlay.setImageDrawable(null);
+        }
+        Bitmap snapshot=gameplayLoadingSnapshot;
+        gameplayLoadingSnapshot=null;
+        if(snapshot!=null&&!snapshot.isRecycled())snapshot.recycle();
+    }
+    private void loadAuthoredMenuAfterOpeningSplash(){
+        for(int i=0;i<assets.length;i++)if(assets[i].equals("ui/original-main-menu")){selected=i;break;}
+        loadSelected();
+        if(openingSequence!=null)openingSequence.menuLoaded();
     }
     private void startTitleMusicIfReady(){
         if(OpeningFlowGate.mayStartTitleMusic(
@@ -633,6 +794,9 @@ public final class MainActivity extends Activity {
         Log.i("DH2Native","Menu game start | slot "+slot+" | "+report);
         if(!isPlayableStart(report)){
             menuGameplaySlot=-1;
+            for(int i=0;i<assets.length;i++)if("ui/original-main-menu".equals(assets[i])){selected=i;break;}
+            loadSelected();
+            awaitingRestoredMenuFrame=true;
             final String failure=report;
             baseReport=failure;
             runOnUiThread(()->{
@@ -642,10 +806,8 @@ public final class MainActivity extends Activity {
                     .setTitle("Unable to start game")
                     .setMessage(failure+"\n\nProfile slot "+slot+
                         (hasNumericDifficulty?" · difficulty "+requestedDifficulty:""))
-                    .setPositiveButton("Retry",(dialog,which)->surface.queueEvent(()->{
-                        String retry=startMenuGame(slot,hasNumericDifficulty,requestedDifficulty);
-                        acceptGameStart(slot,retry,hasNumericDifficulty,requestedDifficulty);
-                    }))
+                    .setPositiveButton("Retry",(dialog,which)->surface.queueEvent(()->
+                        beginMenuGameStart(slot,hasNumericDifficulty,requestedDifficulty)))
                     .setNegativeButton("Main menu",(dialog,which)->{})
                     .show();
             });
@@ -657,6 +819,7 @@ public final class MainActivity extends Activity {
         menuGameplaySlot=slot;menuHasNumericDifficulty=hasNumericDifficulty;menuRequestedDifficulty=requestedDifficulty;
         loadedAsset=report.startsWith("SWAMP |")?"worlds/001_swamp.dwld":"worlds/crypt01.dwld";baseReport=report;
         for(int i=0;i<assets.length;i++)if(assets[i].equals(loadedAsset)){selected=i;break;}
+        awaitingFirstWorldFrame=true;
         runOnUiThread(()->{frontMenuReady=false;titleMusicStarted=false;frontAudio.stop();movement.setVisibility(inspectionMode?View.VISIBLE:View.GONE);attack.setVisibility(inspectionMode?View.VISIBLE:View.GONE);vitals.setVisibility(inspectionMode?View.VISIBLE:View.GONE);status.setVisibility(inspectionMode?View.VISIBLE:View.GONE);});
     }
     private static boolean isPlayableStart(String report){
@@ -738,7 +901,7 @@ public final class MainActivity extends Activity {
         @Override public boolean onTouchEvent(MotionEvent event){
             int action=event.getActionMasked(),actionIndex=event.getActionIndex(),pointerIndex=-1;
             MovementControlPointerV1.Decision decision;
-            if(action==MotionEvent.ACTION_DOWN){pointerIndex=actionIndex;decision=pointer.down(event.getPointerId(pointerIndex));}
+            if(action==MotionEvent.ACTION_DOWN){pointerIndex=actionIndex;decision=pointer.down(event.getPointerId(pointerIndex),event.getX(pointerIndex),event.getY(pointerIndex));}
             else if(action==MotionEvent.ACTION_MOVE){pointerIndex=event.findPointerIndex(pointer.activePointerId());decision=pointer.move(pointerIndex>=0);}
             else if(action==MotionEvent.ACTION_POINTER_DOWN)decision=pointer.pointerDown();
             else if(action==MotionEvent.ACTION_POINTER_UP){pointerIndex=actionIndex;decision=pointer.pointerUp(event.getPointerId(pointerIndex));}
@@ -747,16 +910,18 @@ public final class MainActivity extends Activity {
             else return true;
             if(decision==MovementControlPointerV1.Decision.IGNORE)return true;
             if(decision==MovementControlPointerV1.Decision.UPDATE){
-                axisX=(event.getX(pointerIndex)-getWidth()*.5f)/(getWidth()*.44f);axisY=(event.getY(pointerIndex)-getHeight()*.5f)/(getWidth()*.44f);
-                float length=(float)Math.hypot(axisX,axisY);if(length>1){axisX/=length;axisY/=length;}
+                if(action==MotionEvent.ACTION_DOWN){axisX=axisY=0;}
+                else{pointer.drag(event.getX(pointerIndex),event.getY(pointerIndex),getWidth()*.44f);axisX=pointer.axisX();axisY=pointer.axisY();}
             }else{axisX=axisY=0;if(action==MotionEvent.ACTION_UP||action==MotionEvent.ACTION_CANCEL)performClick();}
-            float x=axisX,y=-axisY;surface.queueEvent(()->NativeBridge.moveAxis(x,y));invalidate();return true;
+            if(decision==MovementControlPointerV1.Decision.RELEASE){surface.queueEvent(NativeBridge::stopMovement);}
+            else if(action!=MotionEvent.ACTION_DOWN){float x=axisX,y=-axisY;surface.queueEvent(()->NativeBridge.moveAxis(x,y));}
+            invalidate();return true;
         }
         @Override public boolean performClick(){super.performClick();return true;}
-        void stop(){pointer.cancel();axisX=axisY=0;invalidate();surface.queueEvent(()->NativeBridge.moveAxis(0,0));}
+        void stop(){MovementControlPointerV1.Decision decision=pointer.cancel();axisX=axisY=0;invalidate();if(decision==MovementControlPointerV1.Decision.RELEASE)surface.queueEvent(NativeBridge::stopMovement);else surface.queueEvent(()->NativeBridge.moveAxis(0,0));}
     }
     @Override protected void onPause(){if(introCinematic!=null)introCinematic.pausePlayback();super.onPause();frontAudio.pause();movement.stop();surface.onPause();}
     @Override protected void onResume(){super.onResume();frontAudio.setCinematic(introCinematic);frontAudio.resume();if(introCinematic!=null)introCinematic.resumePlayback();surface.onResume();}
-    @Override protected void onDestroy(){if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);if(introCinematic!=null)introCinematic.dispose();frontAudio.stop();super.onDestroy();}
-    @Override protected void onSaveInstanceState(Bundle state){super.onSaveInstanceState(state);if(assets.length>0)state.putString("asset",assets[selected]);state.putBoolean("pendingPlayerAttack",pendingActorCommand&&getIntent().getBooleanExtra("player_attack",false));state.putBoolean("enemyAi",enemyAi);state.putInt("inspectionTimeMs",inspectionTimeMs);state.putInt("metadataSlot",metadataSlot);state.putInt("menuGameplaySlot",menuGameplaySlot);state.putBoolean("menuHasNumericDifficulty",menuHasNumericDifficulty);state.putInt("menuRequestedDifficulty",menuRequestedDifficulty);state.putBoolean("openingCinematicPending",introCinematic!=null&&introCinematic.isPending());state.putInt("openingCinematicPositionMs",introCinematic!=null?introCinematic.currentPositionMs():0);}
+    @Override protected void onDestroy(){gameplayStartGeneration++;removeGameplayLoadingOverlay();if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);if(introCinematic!=null)introCinematic.dispose();frontAudio.stop();super.onDestroy();}
+    @Override protected void onSaveInstanceState(Bundle state){super.onSaveInstanceState(state);if(assets.length>0)state.putString("asset",assets[selected]);state.putBoolean("pendingPlayerAttack",pendingActorCommand&&getIntent().getBooleanExtra("player_attack",false));state.putBoolean("enemyAi",enemyAi);state.putInt("inspectionTimeMs",inspectionTimeMs);state.putInt("metadataSlot",metadataSlot);state.putInt("menuGameplaySlot",menuGameplaySlot);state.putBoolean("menuHasNumericDifficulty",menuHasNumericDifficulty);state.putInt("menuRequestedDifficulty",menuRequestedDifficulty);state.putBoolean("openingCinematicPending",introCinematic!=null&&introCinematic.isPending());state.putInt("openingCinematicPositionMs",introCinematic!=null?introCinematic.currentPositionMs():0);if(openingSequence!=null){state.putInt("openingSequenceStage",openingSequence.stage());state.putLong("openingSplashElapsedMs",openingSequence.splashElapsedMs(android.os.SystemClock.uptimeMillis()));}}
 }

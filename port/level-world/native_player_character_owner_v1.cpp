@@ -39,7 +39,15 @@ bool NativePlayerCharacterOwnerV1::bind_session(
         error = "PlayerInfo Character660 already belongs to another Character";
         return false;
     }
-    if (!player_character_660_) ooi_intent_412_ = 0;
+    if (!player_character_660_) {
+        ooi_intent_412_ = 0;
+        ooi_type_14a8_ = -1;
+        reward_gold_1500_ = -1;
+        reward_xp_1504_ = -1;
+        checkpoint_position_1468_[0] = 0;
+        checkpoint_position_1468_[1] = 0;
+        checkpoint_position_1468_[2] = 0;
+    }
     player_character_660_ = player_character_660;
     save_ = &save;
     properties_ = &properties;
@@ -78,6 +86,7 @@ bool NativePlayerCharacterOwnerV1::bind_inventory(
 
 bool NativePlayerCharacterOwnerV1::unbind_session(std::string& error) {
     ooi_intent_412_ = 0;
+    ooi_type_14a8_ = -1;
     if (!player_character_660_) {
         error.clear();
         return true;
@@ -88,6 +97,9 @@ bool NativePlayerCharacterOwnerV1::unbind_session(std::string& error) {
     save_ = nullptr;
     properties_ = nullptr;
     inventory_ = nullptr;
+    checkpoint_position_1468_[0] = 0;
+    checkpoint_position_1468_[1] = 0;
+    checkpoint_position_1468_[2] = 0;
     if (!association_matches) {
         error = "PlayerInfo Character660 changed before native Character retirement";
         return false;
@@ -114,6 +126,33 @@ data::PlayerSavegameV1* NativePlayerCharacterOwnerV1::save_for(
     return character == identity() ? save_ : nullptr;
 }
 
+bool NativePlayerCharacterOwnerV1::sg_block(
+        std::uintptr_t character, std::uint32_t blocked) noexcept {
+    if (blocked > 1 || character != identity() || !player_character_660_ ||
+        *player_character_660_ != identity() || !save_ ||
+        save_->character() != identity()) return false;
+    save_->set_source_save_blocked(blocked != 0);
+    return true;
+}
+
+bool NativePlayerCharacterOwnerV1::save_checkpoint_position(
+        std::uintptr_t character, const std::uint32_t source_xyz[3]) noexcept {
+    if (!source_xyz || character != identity() || !player_character_660_ ||
+        *player_character_660_ != identity() || !save_ ||
+        save_->character() != identity()) return false;
+    checkpoint_position_1468_[0] = source_xyz[0];
+    checkpoint_position_1468_[1] = source_xyz[1];
+    checkpoint_position_1468_[2] = source_xyz[2];
+    return true;
+}
+
+const std::uint32_t* NativePlayerCharacterOwnerV1::checkpoint_position_1468(
+        std::uintptr_t character) const noexcept {
+    return character == identity() && player_character_660_ &&
+           *player_character_660_ == identity() && save_ &&
+           save_->character() == identity() ? checkpoint_position_1468_ : nullptr;
+}
+
 data::PropertyState* NativePlayerCharacterOwnerV1::properties_for(
         std::uintptr_t character) const noexcept {
     return character == identity() ? properties_ : nullptr;
@@ -122,6 +161,18 @@ data::PropertyState* NativePlayerCharacterOwnerV1::properties_for(
 data::FreshInventoryOwnedV4* NativePlayerCharacterOwnerV1::inventory_for(
         std::uintptr_t character) const noexcept {
     return character == identity() ? inventory_ : nullptr;
+}
+
+std::int32_t* NativePlayerCharacterOwnerV1::reward_gold_1500_for(
+        std::uintptr_t character) noexcept {
+    return character == identity() && player_character_660_ &&
+           *player_character_660_ == identity() ? &reward_gold_1500_ : nullptr;
+}
+
+std::int32_t* NativePlayerCharacterOwnerV1::reward_xp_1504_for(
+        std::uintptr_t character) noexcept {
+    return character == identity() && player_character_660_ &&
+           *player_character_660_ == identity() ? &reward_xp_1504_ : nullptr;
 }
 
 bool NativePlayerCharacterOwnerV1::update_inventory_localization(

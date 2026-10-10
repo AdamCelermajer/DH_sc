@@ -1,5 +1,7 @@
 #include "original_ui_session.hpp"
+#include "gameplay_main_menu_request_v1.hpp"
 #include "../../../../../engine-ui/inventory_click_binding_v1.hpp"
+#include "../../../../../engine-ui/native_use_potion_call_v1.hpp"
 #include "menu_class_selection_v1.hpp"
 #include "original_ui_assets.hpp"
 #include "swf_gpu.hpp"
@@ -38,14 +40,17 @@ extern "C" {
 #include "hud_text_format_v1.hpp"
 #include "item_text_varargs_v5.hpp"
 #include "swf_menu_launch_v1.hpp"
+#include "../../../../../engine-ui/fscommand_continue_v1.hpp"
 #include "merchant_item_details_gate_v1.hpp"
 #include "../../../../../engine-ui/faery_selection_transaction_v1.hpp"
+#include "../../../../../engine-ui/skill_equip_callback_v1.hpp"
 #include "font_palette_projection_v1.hpp"
 #include "skill_train_callback_v1.hpp"
 #include "character_menu_reload_v1.hpp"
 #include "model_renderer.hpp"
 #include "native_quest_owner.hpp"
 #include "native_quest_cursor.hpp"
+#include "native_quest_journal_callback_v1.hpp"
 #include "gameswf/gameswf_as_classes/as_array.h"
 #include "gameswf/gameswf_function.h"
 #include "gameswf/gameswf_character.h"
@@ -78,6 +83,7 @@ struct OriginalUiSession::Impl {
     AAssetManager* manager{};
     FrontRuntimeServices runtime;
     std::deque<NativeStartGameIntentV1> launch_requests;
+    inline static Impl* active_fscommand_owner{};
     bool launch_delivered=false;
     OriginalUiAssets assets;
     SwfGpu gpu;
@@ -125,10 +131,17 @@ struct OriginalUiSession::Impl {
     // event has unwound, so the HUD input graph is never re-entered recursively.
     bool gameplay_hud_active=true;
     bool gameplay_hud_input_reset_pending=false;
+    bool gameplay_back_to_hud_draining_stack=false;
     // NativeBackToHud is a synchronous SWF callback in the original game, but
     // its DisplayRightHud action re-enters the shared GameSWF core. Queue the
     // owner transition until the current input dispatch has fully unwound.
     bool gameplay_back_to_hud_pending=false;
+    // The authored NativeBackToHud callback returns to the HUD from any menu
+    // depth; Android system Back instead dismisses one nested overlay first.
+    bool gameplay_native_back_to_hud_pending=false;
+    // NativeGoToMainMenu tears down the source Level and Players. Defer that
+    // operation until the current authored HUD click has returned.
+    dh2::native::GameplayMainMenuRequestV1 gameplay_main_menu_request;
     ui::DeferredHudRefreshV1 gameplay_hud_refresh;
     bool gameplay_multitouch_enabled=false;
     std::int32_t hud_style=-1;
@@ -253,7 +266,7 @@ struct OriginalUiSession::Impl {
             state,driver_width,driver_height);
     }
     std::array<std::int32_t,4> viewport_rectangle()const{
-        return {0,0,driver_width,driver_height};
+        return ui::original_menu_viewport_v1::full_surface(driver_width,driver_height);
     }
     static bool input_accepts(void*,ui::SwfEvent48&,bool& accepted,std::string&){
         // MenuBase::CanHandleEvent, 0x41f3fc, returns true.
@@ -466,6 +479,10 @@ struct OriginalUiSession::Impl {
     }
     static bool refresh_settings_scene(void* context,ui::OwnedHudSettingsV1&,std::int32_t,std::string& error){
         auto& self=*static_cast<Impl*>(context);
+        // GSInit loads the persisted language before the intro movie and splash.
+        // There are no authored menu actors to refresh until the main SWF is
+        // constructed, so the loading-stage refresh is intentionally empty.
+        if(self.front_screen=="loading"&&!self.live_player){error.clear();return true;}
         // This retained front session owns SWF menus and a static menu BDAE,
         // with no attached gameplay level, Character inventories or items.
         // A live gameplay attachment requires its real object traversal.
@@ -493,6 +510,19 @@ struct OriginalUiSession::Impl {
         self.queue_volumes();
         __android_log_print(ANDROID_LOG_INFO,tag,"Front settings loaded | found %d | options %zu | language %d | music %d | fx %d",receipt.found,self.settings->option_count(),self.settings->language(),self.settings->option("VolumeMusic"),self.settings->option("VolumeFX"));
         return true;
+    }
+    bool load_front_settings(std::string& error){
+        if(settings&&settings_files&&settings->has_option("Language"))return true;
+        std::array<std::vector<std::uint8_t>,3> metadata;
+        const char* inputs[]={"design_pyarray.bin","design_pyarraynames.bin","design_pystructnames.bin"};
+        for(unsigned i=0;i<3;++i)
+            if(!raw_asset((std::string("original-cache/data/pydata/")+inputs[i]).c_str(),metadata[i],error))return false;
+        option_table=ui::GameOptionTableV1();
+        if(!option_table.load_design_cache({metadata[0].data(),metadata[0].size()},
+            {metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
+        settings=std::make_unique<ui::OwnedHudSettingsV1>(option_table.borrow());
+        settings_files=std::make_unique<ui::SettingsNativeFilesV1>(directory);
+        return load_settings(this,error);
     }
     static bool save_settings(void* context,std::string& error){
         auto& self=*static_cast<Impl*>(context);if(!self.settings||self.directory.empty()){error="Front settings save owner unavailable";return false;}
@@ -879,6 +909,37 @@ struct OriginalUiSession::Impl {
         __android_log_print(ANDROID_LOG_INFO,tag,"Authored NativeStartGame continuation queued | assigned PlayerInfo slot %d | numeric difficulty %d | requested difficulty %d | deferred until SWF dispatch unwinds",slot,numeric,difficulty);
         return true;
     }
+    static bool continue_resolve_slot(void* context,std::int32_t& slot,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        if(!self.runtime.request_continue_game){error="FS_ContinueGame last-slot provider unavailable";return false;}
+        return self.runtime.request_continue_game(self.runtime.context,slot,error);
+    }
+    static bool continue_queue_resume(void* context,std::int32_t slot,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        if(slot<0){error="FS_ContinueGame returned an invalid last slot";return false;}
+        self.launch_requests.push_back({slot,false,0});
+        __android_log_print(ANDROID_LOG_INFO,tag,
+            "Authored FS_ContinueGame queued | canonical last slot %d | saved level/difficulty resume deferred until SWF dispatch unwinds",slot);
+        error.clear();return true;
+    }
+    static bool continue_fallback_start_game(void* context,const char*,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        // Source FS_ContinueGame dispatches its StartGame menu callback when
+        // SavegameManager+8 is -1. Reuse the already-authored menu state.
+        return push_menu(&self,"menu_StartGame",error);
+    }
+    static void fscommand_handler(gameswf::character*,const char* command,const char* argument){
+        auto* self=active_fscommand_owner;
+        if(!self||!command||std::strcmp(command,"ContinueGame")||
+           !self->selected||self->front_screen!="main"||!self->input_dispatch_movie||
+           self->input_dispatch_movie!=self->active_menu_movie())return;
+        const ui::FsContinueGameServicesV1 services{
+            self,continue_resolve_slot,continue_queue_resume,continue_fallback_start_game};
+        std::string error;
+        if(!ui::fscommand_continue_game_v1(command,argument,services,error))
+            __android_log_print(ANDROID_LOG_ERROR,tag,"Authored FS_ContinueGame failed: %s",
+                error.empty()?"no diagnostic":error.c_str());
+    }
     struct CharacterReloadMenuLookup {Impl* self;std::uintptr_t identity{};};
     struct CharacterReloadPrompt {Impl* self;std::uintptr_t renderer,subject;
         const char* path;const char* method;bool argument;};
@@ -962,6 +1023,19 @@ struct OriginalUiSession::Impl {
         };
         const ui::SwfMenuLaunchServicesV1 launch{self.runtime.context,self.runtime.create_save_slot,
             self.runtime.assign_save_slot,self.runtime.eabi_integer,self.runtime.change_preview_slot};
+        if(!std::strcmp(name,"NativeLockZoom")||!std::strcmp(name,"NativeUnlockZoom")){
+            // IDA: these authored no-argument callbacks call NativeSetLockZoom
+            // with 1/0, writing CameraLevel +134 through the active ZoomHandler.
+            if(!self.runtime.camera_zoom_lock){error="Native camera zoom-lock service unavailable";return false;}
+            self.runtime.camera_zoom_lock(self.runtime.context,
+                !std::strcmp(name,"NativeLockZoom"));
+            error.clear();return true; // renderer preserves source no-op without an active camera
+        }
+        if(!std::strcmp(name,"NativeResetMapZoom")){
+            // IDA 0x43aa84 calls MenuCharMenu_Map::ResetZoom (0x45387c),
+            // which resets the map CameraLevel current/target pair to 0/1.
+            return model_renderer::map_camera_reset_zoom(error);
+        }
         if(!std::strcmp(name,"NativeDoWeHaveInternet")){
             // This build is intentionally offline. The authored Achievements
             // modal still works when its connectivity gate receives false.
@@ -969,13 +1043,31 @@ struct OriginalUiSession::Impl {
             return true;
         }
         if(!std::strcmp(name,"NativeSaveGame")){
-            std::int32_t index=0;
-            if(fn.nargs==1&&!start_integer(&self,fn.arg(0).to_number(),index,error))return false;
-            std::uintptr_t identity=0;
-            if(!local_character(index,false,identity))return false;
-            if(!identity)return true; // NativeGetPlayerChar returned null.
-            if(!self.runtime.save_game){error="NativeSaveGame transport is unavailable";return false;}
-            return self.runtime.save_game(self.runtime.context,identity,error);
+            dh2::ui::SkillSaveCallbackResultV1 saved{};
+            const auto to_integer=[&](std::size_t index,std::int32_t& value,
+                                      std::string& failure){
+                return start_integer(&self,fn.arg(static_cast<int>(index)).to_number(),
+                                     value,failure);
+            };
+            const auto resolve_player=[&](std::int32_t index,
+                    std::uintptr_t& identity,std::string& failure){
+                if(!local_character(index,false,identity)){
+                    failure=error;return false;
+                }
+                return true;
+            };
+            const auto save=[&](std::uintptr_t identity,std::string& failure){
+                if(!self.runtime.save_game){
+                    failure="NativeSaveGame transport is unavailable";return false;
+                }
+                return self.runtime.save_game(self.runtime.context,identity,failure);
+            };
+            const auto save_trophy_tail=[](std::uintptr_t identity,std::string& failure){
+                return model_renderer::ui_player_save_trophy_side_effects(identity,failure);
+            };
+            return dh2::ui::apply_skill_save_callback_v1(
+                std::size_t(fn.nargs),to_integer,resolve_player,save,
+                save_trophy_tail,saved,error);
         }
         if(!std::strcmp(name,"NativeCreateSaveSlot"))return ui::swf_menu_create_save_slot_v1(fn,launch,error);
         if(!std::strcmp(name,"NativeAssignSaveSlotToPlayer"))return ui::swf_menu_assign_save_slot_v1(fn,launch,error);
@@ -1044,12 +1136,13 @@ struct OriginalUiSession::Impl {
             std::uintptr_t identity=0;
             if(!local_character(0,false,identity))return false;
             if(!identity)return true;
-            if(!model_renderer::ui_player_use_skill_slot(identity,slot,error))return false;
-            // The source skill callback can start its cooldown before the
-            // next render. Recheck usability on that next authored HUD update
-            // instead of waiting for the ordinary 500 ms polling interval.
-            self.gameplay_hud_usable_refresh.invalidate();
-            return true;
+            // Both source skill checks can change before the ordinary HUD
+            // polling interval. Recheck usability on the next update after a
+            // successful action, but keep the cached result if dispatch fails.
+            return ui::run_hud_action_and_refresh_usable_v1(
+                self.gameplay_hud_usable_refresh,[&]{
+                    return model_renderer::ui_player_use_skill_slot(identity,slot,error);
+                });
         }
         if(!std::strcmp(name,"NativeHUDSpell")){
             // NativeHUDSpell has no SWF arguments. Keep source CTRLIsAllowed
@@ -1058,7 +1151,10 @@ struct OriginalUiSession::Impl {
             std::uintptr_t identity=0;
             if(!local_character(0,false,identity))return false;
             if(!identity)return true;
-            return model_renderer::ui_player_use_spell(identity,error);
+            return ui::run_hud_action_and_refresh_usable_v1(
+                self.gameplay_hud_usable_refresh,[&]{
+                    return model_renderer::ui_player_use_spell(identity,error);
+                });
         }
         if(!std::strcmp(name,"NativeGetParsedString")){
             ParseContext parse{self,{}};const ui::HudTextServicesV1 services{&parse,parsed_text};
@@ -1104,24 +1200,39 @@ struct OriginalUiSession::Impl {
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeGetQuestIDsInRange")){
-            // IDA 0x443b18: [playerIndex, predicateName, start, count,
-            // outputArray]. The source clips in vector order then sorts the
-            // selected prefix by localized Quest title before appending rows.
-            if(fn.nargs!=5||!fn.arg(0).is_number()||!fn.arg(2).is_number()||
-               !fn.arg(3).is_number()||!fn.arg(4).is_object())return true;
-            auto* array=gameswf::cast_to<gameswf::as_array>(fn.arg(4).to_object());
+            // IDA 0x443b18 and dqcharmenu SWF: [outputArray, playerIndex,
+            // start, count, predicateName, isMultiplayer]. Native consumes
+            // arguments 0..4; the authored sixth argument is ignored.
+            if(fn.nargs!=5&&fn.nargs!=6)return true;
+            std::string predicate=fn.arg(4).is_string()?fn.arg(4).to_xstring():std::string();
+            std::array<dh2::native::ui::QuestJournalCallbackValueV1,6> args{};
+            args[0].kind=fn.arg(0).is_object()?decltype(args[0].kind)::object:decltype(args[0].kind)::other;
+            args[0].object=fn.arg(0).is_object()?fn.arg(0).to_object():nullptr;
+            for(std::size_t i=1;i<=3;++i){
+                if(fn.arg(i).is_number()){
+                    args[i].kind=decltype(args[i].kind)::number;
+                    args[i].number=fn.arg(i).to_number();
+                }
+            }
+            if(fn.arg(4).is_string()){
+                args[4].kind=decltype(args[4].kind)::string;
+                args[4].text=predicate.c_str();
+            }
+            dh2::native::ui::QuestJournalListCallV1 call{};
+            if(!dh2::native::ui::decode_quest_journal_list_call_v1(args.data(),fn.nargs,call))return true;
+            auto* array=gameswf::cast_to<gameswf::as_array>(static_cast<gameswf::as_object*>(call.output_array));
             if(!array)return true;
             std::int32_t player=0,start=0,limit=0;
-            if(!start_integer(&self,fn.arg(0).to_number(),player,error)||
-               !start_integer(&self,fn.arg(2).to_number(),start,error)||
-               !start_integer(&self,fn.arg(3).to_number(),limit,error))return false;
+            if(!start_integer(&self,call.player_index,player,error)||
+               !start_integer(&self,call.start,start,error)||
+               !start_integer(&self,call.count,limit,error))return false;
             std::uintptr_t identity=0;if(!local_character(player,false,identity))return false;
             if(!identity)return true;
             std::vector<model_renderer::UiQuestReadV1> rows;
             if(!model_renderer::ui_player_quest_rows(identity,rows,error))return false;
             std::uint32_t debug_priority=0;
             if(!constant(&self,"v2QuestPriority","Debug",debug_priority,error))return false;
-            const std::string filter=fn.arg(1).to_xstring();
+            const std::string filter=call.predicate;
             const bool closed=filter=="Closed";
             rows.erase(std::remove_if(rows.begin(),rows.end(),[&](const auto& row){
                 return row.priority==std::int32_t(debug_priority)||
@@ -1158,22 +1269,35 @@ struct OriginalUiSession::Impl {
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeGetQuestDetails")){
-            // IDA 0x44c444: [playerIndex, questVectorOrdinal, outputObject].
-            if(fn.nargs!=3||!fn.arg(0).is_number()||!fn.arg(1).is_number()||
-               !fn.arg(2).is_object())return true;
-            auto* object=fn.arg(2).to_object();if(!object)return true;
-            std::int32_t player=0,ordinal=0;
-            if(!start_integer(&self,fn.arg(0).to_number(),player,error)||
-               !start_integer(&self,fn.arg(1).to_number(),ordinal,error))return false;
-            if(ordinal<0)return true;
+            // IDA 0x44c444 and dqcharmenu SWF: [outputObject, playerIndex,
+            // QuestID, isMultiplayer]. The native selects by Quest::id, not
+            // by its ordinal in the player's quest vector.
+            if(fn.nargs!=3&&fn.nargs!=4)return true;
+            std::array<dh2::native::ui::QuestJournalCallbackValueV1,4> args{};
+            if(fn.arg(0).is_object()){
+                args[0].kind=decltype(args[0].kind)::object;
+                args[0].object=fn.arg(0).to_object();
+            }
+            for(std::size_t i=1;i<=2;++i)if(fn.arg(i).is_number()){
+                args[i].kind=decltype(args[i].kind)::number;
+                args[i].number=fn.arg(i).to_number();
+            }
+            dh2::native::ui::QuestJournalDetailsCallV1 call{};
+            if(!dh2::native::ui::decode_quest_journal_details_call_v1(args.data(),fn.nargs,call))return true;
+            auto* object=static_cast<gameswf::as_object*>(call.output_object);
+            if(!object)return true;
+            std::int32_t player=0,quest_id=0;
+            if(!start_integer(&self,call.player_index,player,error)||
+               !start_integer(&self,call.quest_id,quest_id,error))return false;
             std::uintptr_t identity=0;if(!local_character(player,false,identity))return false;
             if(!identity)return true;
             std::vector<model_renderer::UiQuestReadV1> rows;
             const dh2::native::quests::QuestTextServicesV1 objective_text{
                 &self,Impl::option_string};
             if(!model_renderer::ui_player_quest_rows(identity,rows,error,&objective_text))return false;
-            if(std::size_t(ordinal)>=rows.size())return true;
-            const auto& row=rows[std::size_t(ordinal)];
+            const auto* selected=dh2::native::ui::find_quest_journal_row_by_id_v1(rows,quest_id);
+            if(!selected)return true;
+            const auto& row=*selected;
             const auto text=[&](std::int32_t id,std::string& value){
                 // Quest::GetObjectiveDescription delegates this sentinel to
                 // ObjectiveList::GetDesc, composed by the canonical Quest
@@ -1692,13 +1816,15 @@ struct OriginalUiSession::Impl {
             return true;
         }
         if(!std::strcmp(name,"NativeUsePotion")){
-            // 0x43d2c8: [playerIndex], GetPlayerChar(index,false), then
-            // dispatch only when GetHPPercent()<1 OR GetMPPercent()<1.
-            // Controller and Character source gates run against the same live
-            // Player, V4 inventory, and PropertyState owners.
-            if(fn.nargs!=1||!fn.arg(0).is_number())return true;
+            // The authored cmdHUDpotion($playerId) calls NativeUsePotion()
+            // without forwarding its parameter. Preserve the native explicit
+            // [playerIndex] form too; this offline HUD has local player 0.
+            if(fn.nargs>1||(fn.nargs==1&&!fn.arg(0).is_number()))return true;
+            std::int32_t supplied=0,player=0;
+            if(fn.nargs==1&&!start_integer(&self,fn.arg(0).to_number(),supplied,error))return false;
+            if(!dh2::ui::native_use_potion_player_v1(unsigned(fn.nargs),supplied,player))return true;
             std::uintptr_t identity=0;
-            if(!local_character(fn.arg(0).to_int(),false,identity))return false;
+            if(!local_character(player,false,identity))return false;
             if(!identity)return true;
             return model_renderer::ui_player_use_potion(identity,error);
         }
@@ -1821,60 +1947,83 @@ struct OriginalUiSession::Impl {
             return true;
         }
         if(!std::strcmp(name,"NativeSkillsTrainSkill")){
-            dh2::ui::SkillTrainCallbackArgsV1 call;
+            dh2::ui::SkillTrainCallbackResultV1 trained{};
             const auto to_integer=[&](std::size_t index,std::int32_t& value,std::string& failure){
                 return start_integer(&self,fn.arg(static_cast<int>(index)).to_number(),value,failure);
             };
             const auto to_boolean=[&](std::size_t index){
                 return fn.arg(static_cast<int>(index)).to_bool();
             };
-            if(!dh2::ui::decode_skill_train_callback_v1(
-                   std::size_t(fn.nargs),to_integer,to_boolean,call,error))return false;
-            const auto raw_index=call.skill_index;
-            const bool test_only=call.test_only;
-            std::uintptr_t identity=0;if(!local_character(call.player_index,false,identity))return false;
-            if(!identity){error="NativeSkillsTrainSkill requires the attached local Player Character";return false;}
-            // Source IncSkill rejects an invalid negative index without
-            // mutating Save, then the callback still returns current points.
-            if(raw_index<0){
-                std::int32_t points=0;
-                if(!model_renderer::ui_player_skill_points(identity,points,error))return false;
-                if(fn.result){if(test_only)fn.result->set_bool(false);else fn.result->set_double(points);}
+            const auto resolve_player=[&](std::int32_t player_index,
+                    std::uintptr_t& identity,std::string& failure){
+                if(!local_character(player_index,false,identity)){
+                    failure=error;return false;
+                }
+                if(!identity){
+                    failure="NativeSkillsTrainSkill requires the attached local Player Character";
+                    return false;
+                }
                 return true;
-            }
-            std::uint32_t source_return=0;std::int32_t points=0;
-            if(!model_renderer::ui_player_train_skill(identity,std::uint32_t(raw_index),test_only,
-                                                       source_return,points,error))return false;
+            };
+            const auto read_points=[](std::uintptr_t identity,
+                    std::int32_t& points,std::string& failure){
+                return model_renderer::ui_player_skill_points(identity,points,failure);
+            };
+            const auto train=[](std::uintptr_t identity,std::int32_t index,
+                    bool test_only,std::uint32_t& source_return,
+                    std::int32_t& points,std::string& failure){
+                if(index<0){failure="NativeSkillsTrainSkill negative index reached train provider";return false;}
+                return model_renderer::ui_player_train_skill(identity,
+                    std::uint32_t(index),test_only,source_return,points,failure);
+            };
+            if(!dh2::ui::apply_skill_train_callback_v1(
+                   std::size_t(fn.nargs),to_integer,to_boolean,resolve_player,
+                   read_points,train,trained,error))return false;
+            if(trained.training_called)
+                ui::refresh_usable_after_skill_train_v1(
+                    self.gameplay_hud_usable_refresh,trained.test_only,
+                    trained.source_return);
 #ifndef NDEBUG
-            model_renderer::UiSkillReadV1 readback;std::string readback_error;
-            const bool readback_ok=model_renderer::ui_player_skill(identity,
-                std::uint32_t(raw_index),readback,readback_error);
-            __android_log_print(ANDROID_LOG_INFO,tag,
-                "NativeSkillsTrainSkill result | index %d | test %d | source %u | points %d | readback %d | level %d | skill %d | error %s",
-                raw_index,test_only,source_return,points,readback_ok,
-                readback_ok?readback.level:-1,readback_ok?readback.id:-1,
-                readback_error.c_str());
+            if(trained.training_called){
+                model_renderer::UiSkillReadV1 readback;std::string readback_error;
+                const bool readback_ok=model_renderer::ui_player_skill(
+                    trained.character,std::uint32_t(trained.skill_index),
+                    readback,readback_error);
+                __android_log_print(ANDROID_LOG_INFO,tag,
+                    "NativeSkillsTrainSkill result | index %d | test %d | source %u | points %d | readback %d | level %d | skill %d | error %s",
+                    trained.skill_index,trained.test_only,trained.source_return,trained.points_left,
+                    readback_ok,readback_ok?readback.level:-1,
+                    readback_ok?readback.id:-1,readback_error.c_str());
+            }
 #endif
-            if(fn.result){
-                if(test_only)fn.result->set_bool(source_return!=0);
-                else fn.result->set_double(points);
+            if(fn.result&&trained.has_result){
+                if(trained.test_only)fn.result->set_bool(trained.source_return!=0);
+                else fn.result->set_double(trained.points_left);
             }
             return true;
         }
         if(!std::strcmp(name,"NativeEquipSkill")){
-            if(fn.nargs!=3||!fn.arg(0).is_number()||!fn.arg(1).is_number()||!fn.arg(2).is_number()){
-                error="NativeEquipSkill requires [slotIndex, skillIndex, playerIndex]";return false;
-            }
-            const auto slot=fn.arg(0).to_int(),skill=fn.arg(1).to_int();
-            // Character::IsSkillEquippable(-1) is false in the original
-            // callback, so the SWF request is a no-op before SG_SetSkillInSlot.
-            // Keep the lower-level Save sentinel available to its own callers.
-            if(skill<0)return true;
-            std::uintptr_t identity=0;if(!local_character(fn.arg(2).to_int(),false,identity))return false;
-            if(!identity){error="NativeEquipSkill requires the attached local Player Character";return false;}
-            // Source returns undefined. The canonical Save setter preserves
-            // map mutation before its same-owner UpdateSkills tail on failure.
-            return model_renderer::ui_player_equip_skill(identity,slot,skill,error);
+            const auto to_integer=[&](std::size_t index,std::int32_t& value,
+                                      std::string& failure){
+                return start_integer(&self,fn.arg(static_cast<int>(index)).to_number(),
+                                     value,failure);
+            };
+            const auto resolve_player=[&](std::int32_t player_index,
+                    std::uintptr_t& identity,std::string& failure){
+                if(!local_character(player_index,false,identity)){
+                    failure=error;return false;
+                }
+                return true;
+            };
+            const auto equip_skill=[](std::uintptr_t identity,std::int32_t slot,
+                    std::int32_t skill,std::string& failure){
+                // Source returns undefined. The canonical Save setter
+                // preserves its map write and same-owner UpdateSkills tail.
+                return model_renderer::ui_player_equip_skill(identity,slot,
+                                                               skill,failure);
+            };
+            return dh2::ui::apply_skill_equip_callback_v1(
+                std::size_t(fn.nargs),to_integer,resolve_player,equip_skill,error);
         }
         if(!std::strcmp(name,"NativeGetPlayerStats")){
             if(fn.nargs!=2||!fn.arg(0).is_object()||!fn.arg(1).is_number())return true;
@@ -1977,14 +2126,24 @@ struct OriginalUiSession::Impl {
             return model_renderer::ui_player_assign_stat(identity,std::uint32_t(raw_stat),error);
         }
         if(!std::strcmp(name,"NativeSetCurrentQuest")){
-            // IDA 0x43d3b4: [playerIndex, questIndex], then
-            // Character::SG_SetCurrentQuest(index, -1). This updates the
-            // attached Save's source current-quest word only.
-            if(fn.nargs!=2||!fn.arg(0).is_number()||!fn.arg(1).is_number())return true;
+            // dqcharmenu btn_Activate and IDA 0x43d3b4:
+            // [playerIndex, SelectedQuest.ID]. Keep the authored QuestID
+            // order and delegate mutation/persistence to the canonical Save.
+            std::array<dh2::native::ui::QuestJournalCallbackValueV1,2> args{};
+            for(std::size_t i=0;i<args.size();++i)if(fn.arg(i).is_number()){
+                args[i].kind=decltype(args[i].kind)::number;
+                args[i].number=fn.arg(i).to_number();
+            }
+            dh2::native::ui::QuestJournalSetCurrentCallV1 call{};
+            if(!dh2::native::ui::decode_quest_journal_set_current_call_v1(
+                    args.data(),fn.nargs,call))return true;
+            std::int32_t player=0,quest_id=0;
+            if(!start_integer(&self,call.player_index,player,error)||
+               !start_integer(&self,call.quest_id,quest_id,error))return false;
             std::uintptr_t identity=0;
-            if(!local_character(fn.arg(0).to_int(),false,identity))return false;
+            if(!local_character(player,false,identity))return false;
             if(!identity)return true;
-            return model_renderer::ui_player_set_current_quest(identity,fn.arg(1).to_int(),error);
+            return model_renderer::ui_player_set_current_quest(identity,quest_id,error);
         }
         const ui::SwfMenuNavigationServicesV1 navigation{
             context,push_menu,pop_menu,pop_top_menu,pop_above_menu};
@@ -2035,6 +2194,15 @@ struct OriginalUiSession::Impl {
             // Preserve callback success and apply the HUD owner transition at
             // the first post-input-dispatch safe point in OriginalUiSession::touch.
             self.gameplay_back_to_hud_pending=true;
+            self.gameplay_native_back_to_hud_pending=true;
+            error.clear();return true;
+        }
+        if(!std::strcmp(name,"NativeGoToMainMenu")){
+            // Application::GoToMainMenu removes the live Player/Character
+            // owners. The existing JNI returnToMainMenu path performs that
+            // canonical teardown, but only after this SWF callback unwinds.
+            if(self.front_screen.empty()&&self.live_player)
+                self.gameplay_main_menu_request.request();
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeAwayFromHud")){
@@ -2164,9 +2332,16 @@ struct OriginalUiSession::Impl {
         try{model_renderer::draw_class_scene(width,height);return true;}
         catch(const std::exception& e){error=e.what();return false;}
     }
+    static bool render_map_scene(void*,int width,int height,std::string& error){
+        return model_renderer::draw_map_scene(width,height,error);
+    }
     static bool class_pane(void* context,const ui::SwfDraw& pane,std::string& error){
         auto& self=*static_cast<Impl*>(context);
         return self.gpu.scene_pane(pane.rect,&self,render_class_scene,error);
+    }
+    static bool map_pane(void* context,const ui::SwfDraw& pane,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        return self.gpu.scene_pane(pane.rect,&self,render_map_scene,error);
     }
     static bool update_class(void* context,ui::SwfAsGraph& graph,std::string& error){
         auto& self=*static_cast<Impl*>(context);
@@ -2203,6 +2378,7 @@ struct OriginalUiSession::Impl {
         if(!menu.identity()){error="Required authored navigation clip absent";return false;}
         if(change.action!=MenuChangeAction::show){
             if(!graph.invoke(menu,menu,"onHide",{},result,callable,error))return false;
+            if(change.name=="menu_MapSheet")model_renderer::map_camera_close();
             if(change.action==MenuChangeAction::cover)return true;
             return graph.set_member(menu,"_visible",ui::SwfAsValue::boolean(false),accepted,error);
         }
@@ -2244,10 +2420,21 @@ struct OriginalUiSession::Impl {
                 __android_log_print(ANDROID_LOG_INFO,tag,
                     "Original map level title updated | row string id %d | text %s",string_id,text.c_str());
             }
+            if(!model_renderer::map_camera_open(error))return false;
+            if(!change.self->menu_movie(change.name)->menu_display_callback(
+                    "_root.menu_MapSheet.RenderMap",change.self,map_pane,error))return false;
         }
         return true;
     }
     bool transition_menu(const std::string& previous,const std::string& next,bool pushed,std::string& error){
+        // MenuMainMenu::Show can synchronously call NativeSetSaveSlotIDToMainMenu.
+        // Class-scene loading clears the menu preview's borrowed AAssetManager,
+        // so restore the real main-menu scene before dispatching that callback.
+        if(next=="menu_MainMenu"&&
+           (!model_renderer::active()||model_renderer::class_scene_active())){
+            const auto scene=model_renderer::load_menu_background(manager);
+            if(scene.find("3D upload OK")!=0){error=scene;return false;}
+        }
         MenuChange hide{this,previous,MenuChangeAction::hide,false},show{this,next,MenuChangeAction::show,pushed};
         if(!menu_movie(previous)->menu_action_script(&hide,change_menu,error)||
            !menu_movie(next)->menu_action_script(&show,change_menu,error))return false;
@@ -2263,7 +2450,8 @@ struct OriginalUiSession::Impl {
             if(!renderer){error="Gameplay menu renderer unavailable";return false;}
             if(!renderer->menu_action_script(&change,change_menu,error))return false;
         }
-        if(next.empty()&&live_player&&movie&&gameplay_hud){
+        if(next.empty()&&!gameplay_back_to_hud_draining_stack&&
+           live_player&&movie&&gameplay_hud){
             const auto hud_path=gameplay_hud->menu_path();
             if(!movie->menu_input_context(hud_path.c_str(),error))return false;
             // The authored Character/Skills Back action can empty the menu
@@ -2352,7 +2540,7 @@ struct OriginalUiSession::Impl {
         if(name&&ui::gameplay_menu_named_pop_requested_v1(self.menu_stack,name))return pop_top_menu(context,error);
         return true;
     }
-    static bool back_to_hud(void* context,std::string& error){
+    static bool back_to_hud(void* context,std::string& error,bool authored_native=false){
         auto& self=*static_cast<Impl*>(context);
         error.clear();
         // 0x4449ac..0x4449b4 exits when Application.GetCurrentLevel is null.
@@ -2363,7 +2551,8 @@ struct OriginalUiSession::Impl {
             // particular, menu_confirm2 must return to the Inventory/Talent
             // caller instead of abandoning the whole gameplay menu stack.
             // The root CharacterMenu still follows the source BackToHud path.
-            if(ui::gameplay_menu_back_dismisses_overlay_v1(self.game_menu_stack)){
+            if(ui::gameplay_menu_back_dismisses_overlay_v1(
+                   self.game_menu_stack,authored_native)){
                 const auto dismissed=self.game_menu_stack.back();
                 if(!pop_top_menu(context,error))return false;
                 __android_log_print(ANDROID_LOG_INFO,tag,
@@ -2372,7 +2561,14 @@ struct OriginalUiSession::Impl {
                 return true;
             }
             const auto prior_depth=self.game_menu_stack.size();
-            while(!self.game_menu_stack.empty())if(!pop_top_menu(context,error))return false;
+            self.gameplay_back_to_hud_draining_stack=true;
+            while(!self.game_menu_stack.empty()){
+                if(!pop_top_menu(context,error)){
+                    self.gameplay_back_to_hud_draining_stack=false;
+                    return false;
+                }
+            }
+            self.gameplay_back_to_hud_draining_stack=false;
             self.gameplay_hud_active=true;
             // NativeBackToHud calls the authored root DisplayRightHud before
             // resetting input. That callback runs the selected HUD's onPush/
@@ -2394,11 +2590,15 @@ struct OriginalUiSession::Impl {
     static bool flush_deferred_back_to_hud(Impl& self,std::string& error){
         if(self.gameplay_back_to_hud_pending){
             self.gameplay_back_to_hud_pending=false;
-            if(!back_to_hud(&self,error)){
+            const bool authored_native=self.gameplay_native_back_to_hud_pending;
+            self.gameplay_native_back_to_hud_pending=false;
+            if(!back_to_hud(&self,error,authored_native)){
                 // Keep a transient SWF-core contention queued for the next safe
                 // renderer boundary; permanent owner errors still fail the caller.
                 if(error=="SWF core busy"){
-                    self.gameplay_back_to_hud_pending=true;error.clear();return true;
+                    self.gameplay_back_to_hud_pending=true;
+                    self.gameplay_native_back_to_hud_pending=authored_native;
+                    error.clear();return true;
                 }
                 return false;
             }
@@ -2521,18 +2721,14 @@ struct OriginalUiSession::Impl {
             if(!dh2::data::load_characters({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},menu_characters,error))return false;
             for(unsigned i=0;i<3;++i)if(!raw_asset((std::string("data/levels")+suffixes[i]).c_str(),metadata[i],error))return false;
             if(!dh2::data::load_levels({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},menu_levels,error))return false;
-            const char* inputs[]={"design_pyarray.bin","design_pyarraynames.bin","design_pystructnames.bin"};
-            for(unsigned i=0;i<3;++i)if(!raw_asset((std::string("original-cache/data/pydata/")+inputs[i]).c_str(),metadata[i],error))return false;
-            settings.reset();option_table=ui::GameOptionTableV1();
-            if(!option_table.load_design_cache({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
-            settings=std::make_unique<ui::OwnedHudSettingsV1>(option_table.borrow());settings_files=std::make_unique<ui::SettingsNativeFilesV1>(directory);
-            if(!load_settings(this,error))return false;
         }
+        if(front_screen=="main"||front_screen=="loading")
+            if(!load_front_settings(error))return false;
         fonts=std::make_unique<ui::SwfHudFreetypeProvider>(ui::SwfFontServices{this,font_read,font_diagnostic},1.f,bitmap_probe);
         movie=std::make_unique<ui::SwfMovie>();ui::SwfServices services;
         frame_owner=std::make_shared<FrameOwner>();
         services.native_owner=frame_owner;services.graph_start=graph_start;
-        services.native_actions={"NativePlaySoundFX","NativePushMenu","NativePushState","NativePopMenu","NativePopAllAbove","NativePopAllMenus","NativeGetCreditMovement","NativeBackToHud","NativeAwayFromHud","NativeIsMultiplayerEnabled"};services.native_action=native_action;
+        services.native_actions={"NativePlaySoundFX","NativePushMenu","NativePushState","NativePopMenu","NativePopAllAbove","NativePopAllMenus","NativeGetCreditMovement","NativeBackToHud","NativeGoToMainMenu","NativeAwayFromHud","NativeIsMultiplayerEnabled"};services.native_action=native_action;
         if(front_screen=="main")for(const auto* action:{"NativeGetSaveSlotDetails","NativeCreateSaveSlot","NativeAssignSaveSlotToPlayer","NativeSetSaveSlotIDToMainMenu","NativeStartGame","NativeHasPushNotification","NativeStartFromGCInvite"})services.native_actions.emplace_back(action);
         if(front_screen=="main"||live_player)services.native_actions.emplace_back("NativeGetParsedString");
         // Event 38 now reaches the retained Player AI from the authored
@@ -2552,7 +2748,8 @@ struct OriginalUiSession::Impl {
 
             "NativeInvDropItem","NativeInvEquipItem","NativeInvUnequipItem","NativeInvAutoEquipSlot","NativeSwapEquipment","NativeInvGetItemsListForSlot","NativeInvGetItemDetails","NativeInvGetEquipedItem",
             "NativeInvTransmuteItem","NativeInvGetHasOffHandWeapon","NativeInvGetHasTwoHandedWeapon","NativeInvGetPlayerGold",
-            "NativeGetNumPotions","NativeGetStringNumPotions","NativeUsePotion","NativeChangeRolloverInputBehavior"})services.native_actions.emplace_back(action);
+            "NativeGetNumPotions","NativeGetStringNumPotions","NativeUsePotion","NativeChangeRolloverInputBehavior",
+            "NativeLockZoom","NativeUnlockZoom","NativeResetMapZoom"})services.native_actions.emplace_back(action);
         if(live_player)for(const auto action:ui::gameplay_settings_actions_v1)
             services.native_actions.emplace_back(action.data());
         if(front_screen=="main")for(const auto* action:{"NativeGetOptionParameters","NativeSetOptions","NativeLoadSettings","NativeSaveSettings","NativeEnterOptionMenu","NativeRefreshHudManager","NativeChangeRolloverInputBehavior","NativeIsJapaneseVersion","NativeIsKorean","NativeDoWeHaveInternet"})services.native_actions.emplace_back(action);
@@ -2610,6 +2807,10 @@ struct OriginalUiSession::Impl {
             __android_log_print(ANDROID_LOG_INFO,tag,"Original front screen loaded | screen %s | uri %s | clip %s | id %d | frames %d",front_screen.c_str(),movie_uri,path,front.id,front.frames);
             if(front_screen=="main"){
                 menu_stack={"menu_MainMenu"};
+                // Prepare the preview scene before onShow: the authored
+                // callback can select a saved Character during this dispatch.
+                const auto scene=model_renderer::load_menu_background(manager);
+                if(scene.find("3D upload OK")!=0){error=scene;return false;}
                 if(!movie->action_script(this,show_main,error)||!movie->set_visible("_root.menu_bg",true,error))return false;
                 ui::SwfInputCoreServices input;input.owner=frame_owner;input.context=this;
                 input.native_receiver=reinterpret_cast<std::uintptr_t>(&frame_owner->main_events);
@@ -2620,8 +2821,6 @@ struct OriginalUiSession::Impl {
                 frame_owner->main_events.render_bound=true;
                 const auto rectangle=front_rectangle();if(!movie->input_rectangle(rectangle.data(),error))return false;
                 __android_log_print(ANDROID_LOG_INFO,tag,"Original source input connected | direct main event stage | MenuManager/HUDControls forwarding pending");
-                const auto scene=model_renderer::load_menu_background(manager);
-                if(scene.find("3D upload OK")!=0){error=scene;return false;}
             }
             loaded=true;menu_clock.reset();frame_time=std::chrono::steady_clock::now();return true;
         }
@@ -2726,7 +2925,10 @@ struct OriginalUiSession::Impl {
         settings.reset();settings_files.reset();language_selection=-1;
         menu_stack.clear();game_menu_stack.clear();
         gameplay_hud_active=true;gameplay_hud_input_reset_pending=false;
+        gameplay_back_to_hud_draining_stack=false;
         gameplay_back_to_hud_pending=false;
+        gameplay_native_back_to_hud_pending=false;
+        gameplay_main_menu_request.reset();
         gameplay_hud_refresh={};
         gameplay_character_button=0;gameplay_character_button_pressed=false;
         launch_requests.clear();
@@ -2740,6 +2942,10 @@ struct OriginalUiSession::Impl {
 };
 OriginalUiSession::OriginalUiSession():impl_(std::make_unique<Impl>()){}
 OriginalUiSession::~OriginalUiSession(){
+    if(impl_&&Impl::active_fscommand_owner==impl_.get()){
+        Impl::active_fscommand_owner=nullptr;
+        gameswf::register_fscommand_callback(nullptr);
+    }
     if(impl_&&impl_->settings)data::savegame_options_v1::unbind_read_only_settings(impl_->settings.get());
 }
 void OriginalUiSession::bind_front_runtime(const FrontRuntimeServices& services){impl_->runtime=services;}
@@ -2752,6 +2958,9 @@ data::ItemTextServicesV5 OriginalUiSession::item_text_services(
 bool OriginalUiSession::consume_launch_request(NativeStartGameIntentV1& request){
     if(impl_->launch_requests.empty())return false;
     request=impl_->launch_requests.front();impl_->launch_requests.pop_front();impl_->launch_delivered=true;return true;
+}
+bool OriginalUiSession::consume_gameplay_main_menu_request() noexcept{
+    return impl_&&impl_->gameplay_main_menu_request.consume();
 }
 bool OriginalUiSession::game_difficulty_count(std::uint32_t& count,std::string& error){
     const auto table=impl_->option_table.borrow();
@@ -2944,8 +3153,11 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     return succeeded;
 }
 bool OriginalUiSession::camera_pan_allowed()const noexcept{
-    return impl_&&impl_->front_screen.empty()&&impl_->live_player&&impl_->gameplay_hud_active&&
-        impl_->game_menu_stack.empty()&&!impl_->gameplay_ui_touch_owned;
+    if(!impl_||!impl_->front_screen.empty()||!impl_->live_player||!impl_->gameplay_hud_active)return false;
+    const bool map_menu=!impl_->game_menu_stack.empty()&&
+        impl_->game_menu_stack.back()=="menu_MapSheet";
+    return map_menu||
+        (impl_->game_menu_stack.empty()&&!impl_->gameplay_ui_touch_owned);
 }
 bool OriginalUiSession::back_to_hud(std::string& error){
     return Impl::back_to_hud(impl_.get(),error);
@@ -3030,7 +3242,7 @@ bool OriginalUiSession::debug_menu_sound(const std::string& probe,std::string& e
     },error);
 }
 bool OriginalUiSession::initialize(AAssetManager* manager,std::string& error) {
-    try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager);impl_->report_frame=true;error.clear();return true;}
+    try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager);impl_->report_frame=true;Impl::active_fscommand_owner=impl_.get();gameswf::register_fscommand_callback(&Impl::fscommand_handler);error.clear();return true;}
     catch(const std::exception& e){error=e.what();impl_->selected=false;return false;}
 }
 bool OriginalUiSession::load_front_screen(const std::string& directory,const std::string& screen,std::string& error) {
@@ -3040,7 +3252,15 @@ bool OriginalUiSession::load_front_screen(const std::string& directory,const std
     // movie after a consumed gameplay handoff. An open authored Start clip
     // retains its timeline through GL recreation without restarting the UI.
     if((impl_->loaded&&impl_->front_screen!=screen)||(screen=="main"&&impl_->launch_delivered)){
-        if(!impl_->reset_failed(error))return false;
+        if(impl_->loaded&&impl_->front_screen=="loading"&&screen=="main"){
+            // GSInit keeps the one Application settings owner across its
+            // intro/splash -> main-menu transition; only SWF renderers reset.
+            auto retained_settings=std::move(impl_->settings);
+            auto retained_files=std::move(impl_->settings_files);
+            if(!impl_->reset_failed(error))return false;
+            impl_->settings=std::move(retained_settings);
+            impl_->settings_files=std::move(retained_files);
+        }else if(!impl_->reset_failed(error))return false;
     }
     impl_->front_screen=screen;impl_->directory=directory;impl_->live_player=false;
     impl_->front_name_input_active.store(screen=="main"&&!impl_->menu_stack.empty()&&
@@ -3113,16 +3333,19 @@ bool OriginalUiSession::render(int width,int height,std::string& error) {
     if(!impl_->launch_requests.empty())return true;
     if(impl_->front_screen=="loading"){
         // GSInit::Draw 0x384ab4..0x384af4 supplies source rect 0,0,1280,752
-        // separately from the animated loading overlay. Fit those original
-        // image pixels to the modern surface without stretching the artwork.
+        // separately from the animated loading overlay. Stretch the recovered
+        // image across the complete display, matching the original presentation.
         ui::SwfTexture splash;
-        if(!Impl::texture(impl_.get(),"menus/splash_final.tga",0,0,splash,error))return false;
+        const auto language=impl_->settings?impl_->settings->language():-1;
+        const char* splash_name=language==4?"menus/splash_final_jp.tga":
+            language==5?"menus/splash_final_kor.tga":"menus/splash_final.tga";
+        if(!Impl::texture(impl_.get(),splash_name,0,0,splash,error))return false;
         if(splash.width<1280||splash.height<752){error="Original loading splash source rectangle exceeds atlas";return false;}
-        const int w=std::min(width,height*1280/752),h=std::min(height,width*752/1280);
+        const auto splash_viewport=ui::original_menu_viewport_v1::background_viewport(width,height);
         ui::SwfDraw background; background.kind=ui::SwfDraw::begin;
         background.bounds[1]=1280; background.bounds[3]=752;
-        background.viewport[0]=(width-w)/2; background.viewport[1]=(height-h)/2;
-        background.viewport[2]=w; background.viewport[3]=h;
+        background.viewport[0]=splash_viewport[0]; background.viewport[1]=splash_viewport[1];
+        background.viewport[2]=splash_viewport[2]; background.viewport[3]=splash_viewport[3];
         if(!impl_->gpu.draw(background,error))return false;
         background.kind=ui::SwfDraw::bitmap_quad;
         background.fill.kind=ui::SwfFill::bitmap; background.fill.texture=splash;
@@ -3131,7 +3354,7 @@ bool OriginalUiSession::render(int width,int height,std::string& error) {
         if(!impl_->gpu.draw(background,error))return false;
         background.kind=ui::SwfDraw::end;
         if(!impl_->gpu.draw(background,error))return false;
-        if(impl_->report_frame)__android_log_print(ANDROID_LOG_INFO,tag,"Original startup splash submitted | source rect 0 0 1280 752 | aspect fit %d %d",w,h);
+        if(impl_->report_frame)__android_log_print(ANDROID_LOG_INFO,tag,"Original startup splash submitted | source rect 0 0 1280 752 | full surface %d %d",width,height);
     }
     const auto active_path=impl_->active_menu_path();
     const char* path=impl_->front_screen=="main"?active_path.c_str():impl_->front_screen=="loading"?"_root.anim_loading_splash":panel;
@@ -3386,6 +3609,9 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                 }
             }else{
                 const bool dpad=self.settings&&self.settings->saved_option("DPad")!=0;
+                require(self.gameplay_hud->update_action_icon(
+                            projection.object_of_interest_type,error),
+                        "Gameplay HUD action icon update failed without a diagnostic");
                 require(self.gameplay_hud->update(projection.infos,projection.class_id,dpad,error),
                         "Gameplay HUD state update failed without a diagnostic");
                 self.gameplay_hud_state=projection;

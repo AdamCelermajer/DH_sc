@@ -12,11 +12,13 @@ void check(bool condition, const char* message) {
 }
 
 struct HitObservation {
-    const PropertyView* player_properties;
-    const CombatActorState* player_state;
+    PropertyView* player_properties;
+    CombatActorState* player_state;
     const CombatRandom* random;
     std::int32_t hp_before = 0;
     std::uint32_t dead_before = 0, rng_calls = 0, calls = 0;
+    std::uint32_t kill_calls = 0, dead_at_kill = 1;
+    std::int32_t hp_at_kill = -1;
     float threat = 0;
 };
 void observe_before_hit(void* context, float threat) {
@@ -26,6 +28,17 @@ void observe_before_hit(void* context, float threat) {
     observation.dead_before = observation.player_state->dead;
     observation.rng_calls = observation.random->calls;
     observation.threat = threat;
+}
+int complete_source_kill(void* context, CombatResult& result) {
+    auto& observation = *static_cast<HitObservation*>(context);
+    ++observation.kill_calls;
+    observation.hp_at_kill = observation.player_properties->resolved[36];
+    observation.dead_at_kill = observation.player_state->dead;
+    if (observation.hp_at_kill != 0 || observation.dead_at_kill != 0 || result.amount <= 0)
+        return -1;
+    observation.player_state->dead = 1;
+    dh2_property_set(observation.player_properties, 36, 0);
+    return 0;
 }
 
 struct Fixture {
@@ -92,6 +105,25 @@ int main() {
           lethal.hit_observation.dead_before == 0 && lethal.hit_observation.threat == 10.0f,
           "lethal aggro callback did not precede HitFor/death writes");
 
+    Fixture bridged_lethal(1280, 2560);
+    bridged_lethal.request.before_dead = &complete_source_kill;
+    bridged_lethal.request.before_dead_context = &bridged_lethal.hit_observation;
+    check(monster_to_player(&bridged_lethal.request, &bridged_lethal.output) == Status::complete,
+          "melee adapter failed to forward the source Kill callback");
+    check(bridged_lethal.hit_observation.kill_calls == 1 &&
+          bridged_lethal.hit_observation.hp_at_kill == 0 &&
+          bridged_lethal.hit_observation.dead_at_kill == 0 &&
+          bridged_lethal.player_state.dead == 1 &&
+          bridged_lethal.player_properties.resolved[36] == 0,
+          "melee adapter did not preserve the HP-zero, alive-at-entry Kill boundary");
+
+    Fixture bridged_nonlethal(2560, 1280);
+    bridged_nonlethal.request.before_dead = &complete_source_kill;
+    bridged_nonlethal.request.before_dead_context = &bridged_nonlethal.hit_observation;
+    check(monster_to_player(&bridged_nonlethal.request, &bridged_nonlethal.output) == Status::complete &&
+          bridged_nonlethal.hit_observation.kill_calls == 0,
+          "melee adapter invoked the source Kill callback for a nonlethal hit");
+
     Fixture invalid(2560, 1280);
     invalid.output.result.amount = 77;
     const auto output_before = invalid.output;
@@ -104,5 +136,6 @@ int main() {
 
     std::cout << "{\"validation\":\"PASS\",\"source_order\":[\"F_MeleeAttack\",\"F_ApplyResult\"],"
                  "\"nonlethal_hp\":1280,\"pre_hit_aggro_order_verified\":true,"
-                 "\"lethal_kill_prefix\":true,\"invalid_input_atomic\":true}\n";
+                 "\"lethal_kill_prefix\":true,\"pre_dead_kill_callback_verified\":true,"
+                 "\"invalid_input_atomic\":true}\n";
 }

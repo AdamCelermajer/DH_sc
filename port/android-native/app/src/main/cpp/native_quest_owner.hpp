@@ -2,6 +2,9 @@
 #include "player_savegame_v1.hpp"
 #include "player_save_section_writers_v1.hpp"
 #include "quest_table_bindings_v1.hpp"
+#include "quest_reward_execution_v1.hpp"
+#include "quest_update_completed_v1.hpp"
+#include "quest_compile_v1.hpp"
 #include "fresh_inventory_owned_v4.hpp"
 #include "../../../../../level-world/current_level_quest_event_v1.hpp"
 #include "../../../../../level-world/character_kill_quest_tail_v1.hpp"
@@ -53,6 +56,43 @@ struct QuestUpdateActiveServicesV1 {
  bool (*start_script)(void*,const std::string&,std::int32_t argument,
                       bool flag,std::string&)=nullptr;
 };
+struct QuestUpdateCompletedServicesV1 {
+ void* context=nullptr;
+ // Must resolve the same live Character projection used by the retained Save.
+ // Owner verifies its identity; effect providers must use that Character's
+ // existing inventory and Character::_GiveXP implementation.
+ data::quest_reward_execution_v1::CharacterRef* (*resolve_character)(
+     void*,std::uintptr_t)=nullptr;
+ // Required when a Gold reward is reached. Production binds this to the same
+ // Character's existing V4 inventory; the owner never supplies a fake effect.
+ std::int32_t (*add_gold)(void*,data::quest_reward_execution_v1::Record&,
+     data::quest_reward_execution_v1::CharacterRef&,std::int32_t)=nullptr;
+ // Character::_GiveXP remains an explicit provider. No native XP behavior is
+ // guessed or replaced with a successful no-op.
+ std::int32_t (*give_xp)(void*,data::quest_reward_execution_v1::Record&,
+     data::quest_reward_execution_v1::CharacterRef&,std::int32_t,
+     std::uint8_t,bool*)=nullptr;
+ bool (*application_time)(void*,std::int32_t&,std::string&)=nullptr;
+ // ARM Quest::SetState(13) checks source slot 7 and conditionally saves the
+ // current Character, then dispatches that same slot 7 via ScriptManager.
+ // Both providers borrow existing canonical runtime owners.
+ bool (*save_character)(void*,std::uintptr_t,std::string&)=nullptr;
+ bool (*start_script)(void*,const std::string&,std::int32_t argument,
+                      bool flag,std::string&)=nullptr;
+};
+// The Save/Quest compile adapter owns byte_28, canonical log iteration and
+// source member ordering. These are the two live providers it cannot infer:
+// SG_GetGameDifficulty from the same Character, and reached Objective virtual
+// calls (including Compile/Register/markers) backed by the current Level.
+// The Objective reference is the factory Record retained by this Owner.
+struct QuestCompileServicesV1 {
+ void* context=nullptr;
+ std::int32_t (*difficulty)(void*,std::uintptr_t character,
+                            std::int32_t*)=nullptr;
+ std::int32_t (*objective_member)(void*,data::quest_compile_v1::Objective&,
+                                  const data::quest_compile_v1::MemberCall&)=nullptr;
+};
+using QuestUpdateCompletedResultV1=data::quest_update_completed_v1::Result;
 enum class QuestLookupStatusV1 : std::uint8_t {
  unavailable, missing, compile_required, source_fault, found
 };
@@ -103,6 +143,15 @@ struct ClearEnemyTemplatePopulationServicesV1 {
                                        std::string&)=nullptr;
  std::uintptr_t expected_level_identity=0;
 };
+// One source ObjectiveList::Compile pass can dispatch the recovered kill,
+// clear, and template-clear leaves while all population queries still borrow
+// the exact active Level/EventManager pair. Missing per-kind providers fail
+// closed only if that Objective kind is reached.
+struct CombatObjectivePopulationServicesV1 {
+ KillEnemiesPopulationServicesV1 kill_enemies{};
+ ClearEnemiesPopulationServicesV1 clear_enemies{};
+ ClearEnemyTemplatePopulationServicesV1 clear_enemy_template{};
+};
 // Source ObjectiveList::GetDesc semantics: preserve child order, resolve only
 // positive text IDs, omit empty results, and separate visible lines by '\n'.
 bool compose_objective_description_v1(const std::vector<std::int32_t>&,
@@ -122,6 +171,13 @@ public:
  ~Owner();
  Owner(const Owner&)=delete;Owner& operator=(const Owner&)=delete;
  bool initialize(std::uint32_t log,std::string&);
+ // Source QuestSavegame::CompileQuests(force) over the canonical selected
+ // Save log. The owner supplies genuine Quest/Objective/Reward wrappers;
+ // callers must bind every reached Objective virtual to its existing Level
+ // services. The source difficulty marker is the sole compile guard.
+ bool compile_quests(std::uint32_t log,bool force,
+                     const QuestCompileServicesV1&,
+                     data::quest_compile_v1::Result&,std::string&);
  // Borrow a Quest already published in this Save's source log. `ordinal` is
  // the SG_GetQuestByID vector index; the returned text IDs/priority are read
  // from that Quest's retained immutable pydata row, never a second catalogue.
@@ -150,6 +206,24 @@ public:
                         const QuestUpdateActiveServicesV1&,
                         std::vector<QuestUpdateActiveResultV1>&,
                         std::string&);
+ // Source QuestSavegame::UpdateQuests subset in canonical published order:
+ // dispatch state-6 Active and state-12 Completed through their existing
+ // providers, leaving every other state to its own not-yet-bound owner.
+ bool update_gameplay_log(std::uint32_t log,std::uint32_t difficulty,
+                          const QuestUpdateActiveServicesV1&,
+                          const QuestUpdateCompletedServicesV1&,
+                          std::vector<QuestUpdateActiveResultV1>&,
+                          std::vector<QuestUpdateCompletedResultV1>&,
+                          std::string&);
+ bool has_state_in_log(std::uint32_t log,std::uint32_t difficulty,
+                       std::int32_t state,bool& found,std::string&) const;
+ // Canonical state-12 completion over this Save's published Quest and its
+ // existing RewardList. Gold uses the caller's same Character inventory;
+ // Character::_GiveXP and Application time remain explicit providers.
+ bool update_completed(std::uintptr_t quest_identity,std::uint32_t log,
+                       std::uint32_t difficulty,
+                       const QuestUpdateCompletedServicesV1&,
+                       QuestUpdateCompletedResultV1&,std::string&);
  // Borrow the campaign's existing absolute stream. No second cursor or profile
  // is created; failed loads retain its byte position and canonical field prefix.
  // Full reads use real typed readers. Reached source assertion/logger providers
@@ -217,6 +291,15 @@ public:
  bool compile_kill_x_enemies_objective_list_v1(
                                        std::uintptr_t quest_identity,
                                        const KillEnemiesPopulationServicesV1&,
+                                       void* script_context,
+                                       KillObjectiveStartScript,
+                                       std::string&);
+ // Source-order ObjectiveList::Compile/Invalidate/conditional Register for
+ // the three recovered Character::Kill event objectives. Every child remains
+ // the canonical Objective in this Save's published Quest.
+ bool compile_combat_objective_list_v1(
+                                       std::uintptr_t quest_identity,
+                                       const CombatObjectivePopulationServicesV1&,
                                        void* script_context,
                                        KillObjectiveStartScript,
                                        std::string&);

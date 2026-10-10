@@ -30,7 +30,8 @@ void check(bool ok, const char* message) {
 }
 struct Calls { unsigned position{}, gate{}, save{}, save_all{}; std::uint8_t current_gate{7};
     dh2::data::PlayerSavegameV1* canonical_save{}; const void* qest_owner{};
-    std::uintptr_t level_savegame{}; };
+    std::uintptr_t level_savegame{}; std::string published_name;
+    std::vector<std::uint8_t> published_image; };
 int copy_position(void* raw, std::uintptr_t, std::uint32_t, std::uint32_t,
                   std::uint32_t, std::string&) {
     ++static_cast<Calls*>(raw)->position; return 0;
@@ -46,6 +47,11 @@ int save_all(void* raw, std::uintptr_t identity, std::string&) {
     if(identity!=c.level_savegame||!c.canonical_save||!c.qest_owner||
        c.canonical_save->source_quest_log_b8().character_5c!=c.canonical_save->character())return 1;
     ++c.save_all; return 0;
+}
+bool publish_level(void* raw, const std::string& filename,
+                   const std::vector<std::uint8_t>& image, std::string&) {
+    auto& c=*static_cast<Calls*>(raw);
+    c.published_name=filename;c.published_image=image;return true;
 }
 }
 
@@ -71,7 +77,8 @@ int main() {
           "source Level constructor sentinel was not retained by the Level owner");
     check(lifecycle.publish_projection(&projection), "completed projection was not published");
     dh2::data::PlayerSavegameV1 canonical_save;canonical_save.set_character(0x400);
-    Calls calls{0,0,0,0,7,&canonical_save,&canonical_save.source_quest_log_b8(),0};
+    canonical_save.set_slot(0);
+    Calls calls{0,0,0,0,7,&canonical_save,&canonical_save.source_quest_log_b8(),0,{},{}};
     quick::Services quick_services{&calls, copy_position, write_gate, save_level};
     quick::State q{}; q.level=0x200; q.level_savegame=0x300; q.local_character=0x400;
     q.level_state=38; q.level_savegame_gate_39=7;
@@ -82,7 +89,7 @@ int main() {
     int level_fields{};
     const owner::NativeLevelBinding binding{&level_fields, calls.qest_owner,
         reinterpret_cast<std::uintptr_t>(&canonical_save), canonical_save.character(),
-        23, 0, 0, 38};
+        23, 0, 0, 38, 0, false, canonical_save.slot()};
     check(lifecycle.bind_native_level(binding), "Crypt/Save/QEST source owners did not bind");
     const auto bound=lifecycle.snapshot();
     if(!(bound.source_gslevel && bound.source_level && bound.source_level_savegame &&
@@ -90,6 +97,8 @@ int main() {
           bound.canonical_player_savegame==reinterpret_cast<std::uintptr_t>(&canonical_save) &&
           bound.level_fields==&level_fields && bound.quest_owner==calls.qest_owner &&
           bound.level_row==23 && bound.entry_point==0 && bound.difficulty==0 &&
+          bound.source_save_slot==0 && lifecycle.level_savegame().constructed() &&
+          lifecycle.level_savegame().filename()=="dh2_000_0_000_023_level.savegame" &&
           bound.pending_script_id_known && bound.pending_script_id==-1))
       std::fprintf(stderr,"bind identities gs=%zx lev=%zx lsg=%zx save=%zx fields=%p/%p q=%p/%p row=%d entry=%d diff=%d\n",std::size_t(bound.source_gslevel),std::size_t(bound.source_level),std::size_t(bound.source_level_savegame),std::size_t(bound.canonical_player_savegame),bound.level_fields,&level_fields,bound.quest_owner,calls.qest_owner,bound.level_row,bound.entry_point,bound.difficulty);
     check(bound.source_gslevel && bound.source_level && bound.source_level_savegame &&
@@ -98,9 +107,17 @@ int main() {
           bound.canonical_player_savegame==reinterpret_cast<std::uintptr_t>(&canonical_save) &&
           bound.level_fields==&level_fields && bound.quest_owner==calls.qest_owner &&
           bound.level_row==23 && bound.entry_point==0 && bound.difficulty==0 &&
+          bound.source_save_slot==0 && lifecycle.level_savegame().constructed() &&
+          lifecycle.level_savegame().filename()=="dh2_000_0_000_023_level.savegame" &&
           bound.pending_script_id_known && bound.pending_script_id==-1,
           "source identity did not retain actual level/save/QEST bindings");
     calls.level_savegame=bound.source_level_savegame;
+    check(lifecycle.level_savegame().gate_39()==0 &&
+          !lifecycle.sg_block_level(bound.source_level+1,1) &&
+          lifecycle.sg_block_level(bound.source_level,1) &&
+          lifecycle.level_savegame().gate_39()==1 &&
+          !lifecycle.sg_block_level(bound.source_level,2),
+          "SG_BlockLevel did not update only the bound Savegame gate byte");
     dh2::navigation::CollisionWorld floor_world{};
     expected_floor_world = &floor_world;
     check(!lifecycle.bind_floor_query(nullptr, dh2_test_floor_height),
@@ -125,12 +142,35 @@ int main() {
     const auto quick_result=lifecycle.quick_save(&q, 1, &quick_services, &qr, error);
     if(quick_result!=quick::Status::saved)std::fprintf(stderr,"quick status=%u err=%s calls=%u/%u/%u gate=%u restored=%u\n",unsigned(quick_result),error.c_str(),calls.position,calls.gate,calls.save,calls.current_gate,qr.original_gate_restored);
     check(quick_result==quick::Status::saved &&
-          calls.position==1 && calls.save==1 && calls.current_gate==7 &&
-          qr.original_gate_restored, "QuickSave did not run through the single lifecycle owner");
+          calls.position==1 && calls.save==1 &&
+          lifecycle.level_savegame().gate_39()==1 && qr.original_gate_restored,
+          "QuickSave did not restore the bound LevelSavegame gate byte");
+    check(lifecycle.sg_block_level(bound.source_level,0) &&
+          lifecycle.level_savegame().gate_39()==0,
+          "SG_BlockLevel(false) did not clear the current LevelSavegame gate");
     save::State s{}; s.savegame=bound.source_level_savegame;
     save::Services save_services{&calls, save_all}; save::Result sr{};
     check(lifecycle.save_level(&s, &save_services, &sr, error)==save::Status::saved &&
           calls.save_all==1, "LevelSavegame::Save did not use its bound source identity");
+    dh2::level_savegame_owner_v1::Object disabled_menu{};
+    disabled_menu.identity=0x22;disabled_menu.name="MainMenu";
+    disabled_menu.manager_key="MainMenu";disabled_menu.enabled=0;
+    dh2::level_savegame_owner_v1::SaveResult level_result{};
+    const dh2::level_savegame_owner_v1::PublishServices publisher{&calls,publish_level};
+    const dh2::level_savegame_save_v1::State source_save_state{
+        bound.source_level_savegame,0,0,0,0};
+    check(lifecycle.save_level_objects(&source_save_state,&disabled_menu,1,0,
+          nullptr,&publisher,&sr,&level_result,error)==save::Status::saved &&
+          calls.published_name=="dh2_000_0_000_023_level.savegame" &&
+          level_result.object_rows==1 && level_result.saved_objects==0 &&
+          calls.published_image.size()==28 && calls.published_image[0]==2 &&
+          calls.published_image[8]=='I' && calls.published_image[9]=='N' &&
+          calls.published_image[10]=='F' && calls.published_image[11]=='O' &&
+          calls.published_image[12]==23 && calls.published_image[20]=='O' &&
+          calls.published_image[21]=='B' && calls.published_image[22]=='J' &&
+          calls.published_image[23]=='S' && calls.published_image[24]==0,
+          "LevelSavegame Save did not publish exact INFO+OBJS through bound owner");
+    const auto saved_image=lifecycle.level_savegame().last_image();
     check(lifecycle.suspend_projection(), "EGL projection suspend failed");
     check(reinterpret_cast<std::uintptr_t>(&lifecycle.object_manager())==object_manager_identity &&
           lifecycle.object_manager().find_by_name("MainMenu")==retained_menu_object,
@@ -143,6 +183,8 @@ int main() {
           lifecycle.begin_source_load() && lifecycle.publish_projection(&projection),
           "retained logical level did not rebind after EGL recreation");
     check(lifecycle.bind_native_level(binding), "retained Save/QEST owners did not rebind");
+    check(lifecycle.level_savegame().last_image()==saved_image,
+          "same Level Savegame bind discarded its last INFO/OBJS image");
     check(lifecycle.bind_floor_query(&floor_world, dh2_test_floor_height),
           "rebound selected Level floor query did not bind");
     dh2::object_manager_runtime_owner_v1::GameObject duplicate_name{};
@@ -187,6 +229,7 @@ int main() {
           "duplicate source ObjectManager::Flush was accepted");
     check(lifecycle.finish_teardown(),"source lifecycle failed after ordered manager flush");
     check(lifecycle.snapshot().phase==owner::Phase::empty &&
+          !lifecycle.level_savegame().constructed() &&
           lifecycle.snapshot().source_level==0 &&
           lifecycle.snapshot().object_manager_identity==object_manager_identity,
           "terminal teardown lost its Application ObjectManager identity");

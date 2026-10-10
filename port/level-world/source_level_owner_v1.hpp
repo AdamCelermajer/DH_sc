@@ -1,6 +1,7 @@
 #pragma once
 
 #include "level_quick_save_v1.hpp"
+#include "level_savegame_owner_v1.hpp"
 #include "level_savegame_save_v1.hpp"
 #include "navigation_motion.hpp"
 #include "object_manager_runtime_owner_v1.hpp"
@@ -31,6 +32,7 @@ struct Snapshot {
     // source-owned; an unconstructed/unknown Level never borrows the sentinel.
     std::int32_t pending_script_id{};
     bool pending_script_id_known{};
+    std::int32_t source_save_slot{-1};
     const void* level_fields{};
     const void* quest_owner{};
     std::uintptr_t player_character{};
@@ -61,6 +63,9 @@ struct NativeLevelBinding {
     // from the projection or assume the constructor sentinel at bind time.
     std::int32_t pending_script_id{};
     bool pending_script_id_known{};
+    // PlayerSavegame::slot() from the same selected Save owner. Required to
+    // build LevelSavegame::GetFilename without guessing from UI state.
+    std::int32_t source_save_slot{-1};
 };
 
 class Owner {
@@ -86,6 +91,9 @@ public:
     // borrow the already authoritative PlayerSavegame/QEST owners. This does
     // not allocate a second world, Save, inventory, or quest owner.
     bool bind_native_level(const NativeLevelBinding&) noexcept;
+    // Level::SG_BlockLevel(bool) writes this byte on the same owned
+    // LevelSavegame (+0x39). Reject stale Level identities.
+    bool sg_block_level(std::uintptr_t level, std::uint32_t blocked) noexcept;
     // Borrow the selected Level's collision world and its source-backed query
     // implementation. The callback must implement PFWorld filtered traversal;
     // the owner supplies include_special=false and guards the borrowed lifetime
@@ -110,11 +118,28 @@ public:
     level_quick_save_v1::Status quick_save(
         const level_quick_save_v1::State*, std::uint32_t force,
         const level_quick_save_v1::Services*, level_quick_save_v1::Result*,
-        std::string& error) const;
+        std::string& error);
     level_savegame_save_v1::Status save_level(
         const level_savegame_save_v1::State*,
         const level_savegame_save_v1::Services*,
         level_savegame_save_v1::Result*, std::string& error) const;
+    // The LevelSavegame owner bound at Level construction. Object rows passed
+    // to save_level_objects must be one ObjectManager map snapshot in ascending
+    // signed source-handle order.
+    level_savegame_owner_v1::Owner& level_savegame() noexcept {
+        return level_savegame_;
+    }
+    const level_savegame_owner_v1::Owner& level_savegame() const noexcept {
+        return level_savegame_;
+    }
+    level_savegame_save_v1::Status save_level_objects(
+        const level_savegame_save_v1::State*,
+        const level_savegame_owner_v1::Object*, std::size_t,
+        std::uint32_t online,
+        const level_savegame_owner_v1::SerializeServices*,
+        const level_savegame_owner_v1::PublishServices*,
+        level_savegame_save_v1::Result*,
+        level_savegame_owner_v1::SaveResult*, std::string& error);
 
 private:
     Snapshot state_{};
@@ -126,6 +151,7 @@ private:
         const void* quest_owner{};
         std::uintptr_t player_character{};
     } level_savegame_identity_{};
+    level_savegame_owner_v1::Owner level_savegame_{};
     const navigation::CollisionWorld* floor_world_{};
     FloorHeightQuery floor_height_query_{};
     std::uint32_t floor_query_generation_{};

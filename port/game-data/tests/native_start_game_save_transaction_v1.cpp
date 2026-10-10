@@ -14,6 +14,8 @@ struct FakeMetadata {
     std::vector<std::uintptr_t> identities;
     bool fail_numeric = false;
     bool fail_spawn = false;
+    bool mutate_level_row_on_numeric_save = false;
+    std::int32_t saved_difficulty = -1;
 };
 void require(bool condition, const char* message) {
     if (!condition) throw std::runtime_error(message);
@@ -31,7 +33,10 @@ bool save_numeric(void* raw, std::uintptr_t identity,
     owner.calls.emplace_back("numeric-save"); owner.identities.push_back(identity);
     if (identity != owner.identity) { error = "wrong metadata Save"; return false; }
     if (owner.fail_numeric) { error = "numeric save failed"; return false; }
-    owner.save.unlocked_difficulty = difficulty; return true;
+    owner.saved_difficulty = difficulty;
+    if (owner.mutate_level_row_on_numeric_save)
+        owner.save.level_rows[2] = 41;
+    return true;
 }
 bool save_spawn(void* raw, std::uintptr_t identity, std::size_t row,
                 std::int32_t&, std::string& error) {
@@ -65,6 +70,7 @@ int main() {
         metadata.save.level_rows = {41, 23, 23};
         metadata.save.entry_points = {0, 2, 6};
         metadata.save.use_spawn_points = {1, 1, 1};
+        metadata.mutate_level_row_on_numeric_save = true;
         NativeStartGameRequestV1 request;
         request.current_difficulty = 0;
         request.has_numeric_difficulty = true;
@@ -77,11 +83,13 @@ int main() {
             transaction, current_difficulty, error), error.c_str());
         require(transaction.phase == NativeStartGameSavePhaseV1::planned &&
                 transaction.save_identity == metadata.identity &&
-                transaction.plan.slot == 3 && transaction.plan.level_row == 23 &&
-                transaction.plan.entry_point == 6 && current_difficulty == 2,
-                "plan must come from selected metadata and requested difficulty");
-        require(metadata.calls == std::vector<std::string>{"read", "numeric-save"},
-                "optional numeric SG_Save must follow metadata read");
+                transaction.plan.slot == 3 && transaction.plan.level_row == 41 &&
+                transaction.plan.entry_point == 6 &&
+                transaction.plan.difficulty_before_request == 0 && current_difficulty == 2 &&
+                metadata.saved_difficulty == 2,
+                "plan must use the selected Save after numeric SG_Save side effects");
+        require(metadata.calls == std::vector<std::string>{"read", "numeric-save", "read"},
+                "numeric SG_Save must precede the post-save source-field read");
 
         require(save_spawn_flag_before_native_load_v1(owner, transaction,
             current_difficulty, error), error.c_str());

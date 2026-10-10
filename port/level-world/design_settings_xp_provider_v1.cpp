@@ -58,4 +58,30 @@ std::int32_t read(void* context, std::uint32_t source_member_offset,
     return 0;
 }
 
+std::int32_t read_combat_music_trigger(void* context,std::int32_t* value,
+                                       std::string& error) {
+    if(!context||!value){
+        error="DesignSettings combat-music provider received a null owner or output";
+        return static_cast<std::int32_t>(Status::invalid_argument);
+    }
+    const auto& view=*static_cast<const View*>(context);
+    if(!view.bytes||view.size<4+172){
+        error="DesignSettings combat-music table is truncated";
+        return static_cast<std::int32_t>(Status::invalid_table);
+    }
+    const auto count=read_u32(view.bytes);
+    if(!count||count>4096||view.size<4+std::size_t(count)*172){
+        error="DesignSettings combat-music row count is invalid";
+        return static_cast<std::int32_t>(Status::invalid_table);
+    }
+    // IDA: Structs::DesignSettings::read reads the fifth word as int at
+    // runtime member +20; the serialized row omits its four-byte vptr.
+    std::int32_t result=0;
+    const auto bits=read_u32(view.bytes+4+(20-4));
+    std::memcpy(&result,&bits,sizeof(result));
+    *value=result;
+    error.clear();
+    return 0;
+}
+
 } // namespace dh2::design_settings_xp_provider_v1

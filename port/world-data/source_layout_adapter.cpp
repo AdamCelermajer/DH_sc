@@ -455,14 +455,17 @@ extern "C" int dh2_world_compile_static_spawnpoints(const std::uint8_t* mlx,
     return 1;
 }
 
-extern "C" int dh2_world_compile_static_dact(const std::uint8_t* mlx,
+static int compile_static_dact_impl(const std::uint8_t* mlx,
     std::size_t mlx_size, const char* level_name, const char* source_path,
     const dh2_world_source_mgp* mgps, std::size_t mgp_count,
     const dh2::data::CharacterTable* characters,
     const dh2::data::Dictionary* models,
     std::uint8_t* output, std::size_t output_capacity, std::size_t* output_size,
+    dh2_world_source_static_character* source_rows, std::size_t source_capacity,
+    std::size_t* source_count,
     char* error, std::size_t error_capacity) {
     if (output_size) *output_size = 0;
+    if (source_count) *source_count = 0;
     if (error && error_capacity) error[0] = 0;
     if (!mlx || !mlx_size || !level_name || !*level_name || !source_path ||
         !mgps || !characters || !models || !output || !output_size) {
@@ -474,6 +477,14 @@ extern "C" int dh2_world_compile_static_dact(const std::uint8_t* mlx,
     constexpr std::size_t record_size = 256;
     constexpr std::size_t actor_count = expected_direct_actors.size();
     constexpr std::size_t required = header_size + actor_count * record_size;
+    if (source_rows && source_capacity < actor_count) {
+        set_error(error, error_capacity, "Source DACT identity output is too small");
+        return 0;
+    }
+    if (source_rows && !source_count) {
+        set_error(error, error_capacity, "Source DACT identity count output is missing");
+        return 0;
+    }
     if (output_capacity < required) {
         set_error(error, error_capacity, "Source DACT output buffer is too small");
         return 0;
@@ -597,6 +608,20 @@ extern "C" int dh2_world_compile_static_dact(const std::uint8_t* mlx,
             set_error(error, error_capacity, "Supported SWAMP Monster identity does not fit DACT v1");
             return 0;
         }
+        if (source_rows) {
+            auto& source = source_rows[selected_count];
+            source = {};
+            source.module_index = object.module_index;
+            source.source_record = object.source_record;
+            if (!fixed_ascii(reinterpret_cast<std::uint8_t*>(source.name),
+                             sizeof(source.name), object.name) ||
+                !fixed_ascii(reinterpret_cast<std::uint8_t*>(source.character),
+                             sizeof(source.character), character)) {
+                set_error(error, error_capacity,
+                    "Source DACT provenance identity does not fit its bounded output");
+                return 0;
+            }
+        }
         for (unsigned axis = 0; axis < 9; ++axis) {
             if (!write_float(record + 200 + axis * 4, transform[axis])) {
                 set_error(error, error_capacity, "Supported SWAMP Monster transform is non-finite");
@@ -613,7 +638,34 @@ extern "C" int dh2_world_compile_static_dact(const std::uint8_t* mlx,
 
     std::memcpy(output, serialized.data(), required);
     *output_size = required;
+    if (source_count) *source_count = selected_count;
     return 1;
+}
+
+extern "C" int dh2_world_compile_static_dact(const std::uint8_t* mlx,
+    std::size_t mlx_size, const char* level_name, const char* source_path,
+    const dh2_world_source_mgp* mgps, std::size_t mgp_count,
+    const dh2::data::CharacterTable* characters,
+    const dh2::data::Dictionary* models,
+    std::uint8_t* output, std::size_t output_capacity, std::size_t* output_size,
+    char* error, std::size_t error_capacity) {
+    return compile_static_dact_impl(mlx, mlx_size, level_name, source_path,
+        mgps, mgp_count, characters, models, output, output_capacity,
+        output_size, nullptr, 0, nullptr, error, error_capacity);
+}
+
+extern "C" int dh2_world_compile_static_dact_with_sources(const std::uint8_t* mlx,
+    std::size_t mlx_size, const char* level_name, const char* source_path,
+    const dh2_world_source_mgp* mgps, std::size_t mgp_count,
+    const dh2::data::CharacterTable* characters,
+    const dh2::data::Dictionary* models,
+    std::uint8_t* output, std::size_t output_capacity, std::size_t* output_size,
+    dh2_world_source_static_character* source_rows, std::size_t source_capacity,
+    std::size_t* source_count, char* error, std::size_t error_capacity) {
+    return compile_static_dact_impl(mlx, mlx_size, level_name, source_path,
+        mgps, mgp_count, characters, models, output, output_capacity,
+        output_size, source_rows, source_capacity, source_count,
+        error, error_capacity);
 }
 
 extern "C" int dh2_world_compile_static_mvp(const std::uint8_t* mlx,

@@ -612,6 +612,8 @@ def main():
         # rendered. Prove startup from a fresh PID, actual submitted movie and
         # both window/input focus below instead of depending on that wait.
         command = ['shell', 'am', 'start', '-n', PACKAGE + '/.MainActivity']
+        if args.skip_intro:
+            command += ['--ez', 'skip_intro', 'true']
         if args.debug_level_row is not None:
             command += ['--ei', 'debug_level_row', str(args.debug_level_row)]
         reply = adb(*command)
@@ -641,20 +643,17 @@ def main():
             raise AssertionError('Stable fresh app process unavailable')
         pid = candidate
         report.setdefault('fresh_process_receipts', []).append({'pid': pid, 'stable_observations': stable})
-        text = wait(lambda t: 'Original front screen submitted | screen main' in t, 'rendered original main movie')
-        assert 'Original front screen submitted | screen main' in text, 'Original movie not submitted'
         if args.skip_intro:
-            before = len(logs())
-            tap('intro_skip')
-            wait(lambda t: 'Opening cinematic skip control shown' in t[before:],
-                 'source-gated opening skip control reveal')
-            before = len(logs())
-            tap('intro_skip_button')
-            wait(lambda t: 'Opening cinematic skipped by user' in t[before:],
-                 'opening cinematic skip-button callback')
-            report.setdefault('cinematic_receipts', []).append('Opening cinematic skipped by user')
-        # The title movie is rendered underneath the opening cinematic. Wait
-        # for the explicit completion receipt before checking pixels or taps.
+            report.setdefault('cinematic_receipts', []).append('Explicit startup skip extra applied')
+        # The native startup now follows GSInit order: the loading/splash movie
+        # is rendered under the intro first, and the main menu is loaded only
+        # after the intro finishes or the user skips it. Waiting for `main`
+        # before pressing Skip deadlocks the smoke against that intended flow.
+        text = wait(lambda t: 'Original front screen submitted | screen main' in t,
+                    'authored main movie after opening cinematic')
+        assert 'Original front screen submitted | screen main' in text, 'Original movie not submitted'
+        # Title music is gated on the authored main movie being ready. Wait
+        # for both before checking pixels or sending the first menu tap.
         text = wait(lambda t: 'Original title music started after opening flow' in t,
                     'opening cinematic completion and title music', 70)
         report.setdefault('cinematic_receipts', []).append(

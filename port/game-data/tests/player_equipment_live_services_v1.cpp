@@ -2,6 +2,9 @@
 #include "../player_equipment_queries_live_v1.hpp"
 #include "../combat.hpp"
 #include "../item_presentation_v5.hpp"
+#include "../../engine-ui/deferred_hud_refresh_v1.hpp"
+#include "../../android-native/app/src/main/cpp/player_inventory_save_commit_v1.hpp"
+#include "../player_savegame_v1.hpp"
 extern "C" {
 #include "../../random/random.h"
 }
@@ -98,6 +101,51 @@ int main(int argc,char** argv){try{
   skin_calls+=c.skin_fixture;reentries+=c.reentries;
  }
  ck(r.at==starter.size());
+ // Drive the production UI swap/deferred-HUD bridge around the actual live
+ // equipment adapter, then through the same save-commit gate used by native
+ // UI mutations. The fixture save is the canonical Character Save identity;
+ // it verifies callback ordering/ownership, not Android profile-file I/O.
+ {
+  constexpr std::uintptr_t identity=0x200000002ULL;
+  std::uint32_t bridge_base;std::memcpy(&bridge_base,starter.data()+8,4);
+  PropertyState bridge_state;reset_properties(rules,bridge_state,&chars.rows.at(bridge_base));
+  auto bridge_view=property_view(rules,bridge_state);
+  ck(!dh2_class_recalc_base(rows.data(),rows.size(),bridge_state.base.data(),&bridge_view));
+  dh2_random_state bridge_random{{3,5},{0,0}};
+  FreshInventoryOwnedV4 bridge_inventory(identity,table.borrow(),{&bridge_random,random_next},12,bridge_state);
+  Context bridge_context;bridge_context.inventory=&bridge_inventory;bridge_context.view=&bridge_view;
+  bridge_context.visual=identity+16;
+  auto bridge_hooks=hooks(bridge_context);
+  PlayerEquipmentLiveServicesV1 bridge_adapter(bridge_inventory,bridge_view,
+      rows.data(),rows.size(),powers.borrow(),bridge_hooks);
+  bridge_context.adapter=&bridge_adapter;
+  PlayerSavegameV1 canonical_save;canonical_save.set_character(identity);
+  dh2::ui::DeferredHudRefreshV1 pending;unsigned saves=0;
+  std::int32_t persisted_selection=-1;std::vector<int> hud_calls;
+  for(std::int32_t expected=1;expected>=0;--expected){
+   const auto skin_before=bridge_context.skin_fixture;
+   ck(dh2::ui::swap_equipment_and_defer_hud_refresh_v1(pending,true,
+    [&](std::string& e){
+     if(!bridge_adapter.swap(e))return false;
+     return dh2::native::player_inventory_save_commit_v1::after_successful_mutation(
+      [&](std::string& save_error){
+       if(canonical_save.character()!=identity||bridge_inventory.character()!=identity){
+        save_error="UI swap save callback crossed the canonical Character Save";return false;
+       }
+       ++saves;persisted_selection=bridge_inventory.current_equipment();save_error.clear();return true;
+      },e);
+    },error));
+   ck(bridge_inventory.current_equipment()==expected&&persisted_selection==expected&&saves==unsigned(2-expected));
+   ck(bridge_context.skin_fixture>skin_before&&pending.display_right_hud_pending&&pending.fill_action_icon_pending);
+   ck(dh2::ui::flush_deferred_hud_refresh_v1(pending,
+      [&](std::string&){hud_calls.push_back(1);return true;},
+      [&](std::string&){hud_calls.push_back(2);return true;},error));
+   const std::vector<int> expected_hud_calls{1,2};
+   ck(hud_calls==expected_hud_calls&&
+      !pending.display_right_hud_pending&&!pending.fill_action_icon_pending);
+   hud_calls.clear();
+  }
+ }
  // Real stack merge retires the incoming Item before V4 destroys it. No shadow
  // item store is used by the adapter or observer.
  std::uint32_t first_base;std::memcpy(&first_base,starter.data()+8,4);PropertyState state;reset_properties(rules,state,&chars.rows.at(first_base));auto view=property_view(rules,state);ck(!dh2_class_recalc_base(rows.data(),rows.size(),state.base.data(),&view));dh2_random_state random{{7,9},{0,0}};FreshInventoryOwnedV4 inventory(0x100000001ULL,table.borrow(),{&random,random_next},12,state);Context c;c.inventory=&inventory;c.view=&view;ItemPresentationOwnerV5 presentation(powers.borrow());c.presentation=&presentation;auto h=hooks(c);PlayerEquipmentLiveServicesV1 adapter(inventory,view,rows.data(),rows.size(),powers.borrow(),h);c.adapter=&adapter;auto services=adapter.services();std::int32_t stack=-1;

@@ -19,6 +19,7 @@ final class FrontAudio {
     private final AudioManager.OnAudioFocusChangeListener focusListener;
     private AudioFocusRequest focus;
     private MediaPlayer intro, loop, current;
+    private GameplayVxnMusic gameplayMusic;
     private static final class ActiveEffect {
         final MediaPlayer player;
         final long owner;
@@ -38,6 +39,7 @@ final class FrontAudio {
         if(command.equals("pause-all")){
             stopEffects();
             if(current!=null&&started&&current.isPlaying())current.pause();
+            pauseGameplayMusic();
             Log.i("DH2Front","All active menu/game audio paused by native owner");
             return;
         }
@@ -49,6 +51,7 @@ final class FrontAudio {
                 effectVolume=OriginalMusicVolume.gain(fx);
                 if(intro!=null)intro.setVolume(musicVolume,musicVolume);
                 if(loop!=null)loop.setVolume(musicVolume,musicVolume);
+                if(gameplayMusic!=null)gameplayMusic.setVolume(musicVolume);
                 for(ActiveEffect effect:effects)effect.player.setVolume(effectVolume*effect.gain*effect.leftMix,effectVolume*effect.gain*effect.rightMix);
                 Log.i("DH2Front","Menu audio volume applied | music="+music+" | fx="+fx);
             }catch(NumberFormatException e){Log.e("DH2Front","Invalid native volume command",e);}
@@ -66,6 +69,7 @@ final class FrontAudio {
         focused=AudioFocusStartPolicy.focusGained(change,AudioManager.AUDIOFOCUS_GAIN);
         if(!focused)stopEffects();
         if(cinematic!=null)cinematic.setAudioFocusGained(focused&&resumed);
+        updateGameplayMusicPlayback();
         if(AudioFocusStartPolicy.mayStart(focused,resumed,requested)){
             if(started&&current!=null)current.start();else startPrepared();
         }else if(current!=null&&started&&current.isPlaying())current.pause();
@@ -83,7 +87,7 @@ final class FrontAudio {
             view.setMusicVolume(musicVolume);
             view.setAudioFocusGained(focused&&resumed);
         }
-        if(view==null&&!requested&&current==null)abandonFocus();
+        if(view==null&&!requested&&current==null&&gameplayMusic==null)abandonFocus();
     }
     private MediaPlayer create(String name)throws Exception {
         MediaPlayer p=new MediaPlayer();
@@ -101,6 +105,7 @@ final class FrontAudio {
     /** Native menu effects and ordered gameplay audio commands, delivered on UI thread. */
     void effect(String file){
         if(!resumed)return;
+        if(file.startsWith("dh2music,")){gameplayMusicCommand(file);return;}
         if(file.startsWith("dh2fx,")){audioCommand(file);return;}
         final String assetPath;
         if(file.startsWith("gameplay:")){
@@ -115,6 +120,42 @@ final class FrontAudio {
             Log.e("DH2Front","Unsupported menu/gameplay effect asset: "+file);return;
         }
         startEffect(assetPath,0,-1,false,0,16384,16384);
+    }
+    private void gameplayMusicCommand(String command){
+        String[] fields=command.split(",",-1);
+        if(fields.length!=3||!fields[0].equals("dh2music")){
+            Log.e("DH2Front","Invalid source VXN music command: "+command);return;
+        }
+        try{
+            int soundUid=Integer.parseInt(fields[1]);
+            SourceMusicResources.Resource resource=SourceMusicResources.resolve(soundUid,fields[2]);
+            if(resource==null){Log.e("DH2Front","Unsupported source music UID/state: "+command);return;}
+            playGameplayMusic(soundUid,fields[2],resource);
+        }catch(NumberFormatException e){Log.e("DH2Front","Invalid source music UID: "+command,e);}
+    }
+    private void playGameplayMusic(int soundUid,String state,SourceMusicResources.Resource resource){
+        releaseTitleMusic();
+        if(!focused)focused=requestFocus();
+        try{
+            if(gameplayMusic==null)gameplayMusic=new GameplayVxnMusic(context);
+            gameplayMusic.selectState(soundUid,state,resource);gameplayMusic.setVolume(musicVolume);
+            updateGameplayMusicPlayback();
+            Log.i("DH2Front","Source music mixer started | UID="+soundUid+" | state="+state+" | PCM16 stereo/32kHz");
+        }catch(Exception e){Log.e("DH2Front","Source music decoder setup failed | UID="+soundUid+" | state="+state,e);releaseGameplayMusic();}
+    }
+    private void updateGameplayMusicPlayback(){
+        if(gameplayMusic!=null)gameplayMusic.setPlaybackEnabled(resumed&&focused);
+    }
+    private void pauseGameplayMusic(){
+        if(gameplayMusic!=null)gameplayMusic.setPlaybackEnabled(false);
+    }
+    private void releaseGameplayMusic(){
+        if(gameplayMusic!=null){gameplayMusic.stop();gameplayMusic=null;}
+    }
+    private void releaseTitleMusic(){
+        requested=false;
+        if(intro!=null){intro.release();intro=null;}if(loop!=null){loop.release();loop=null;}
+        current=null;started=introReady=loopReady=false;
     }
     private void audioCommand(String command){
         String[] fields=command.split(",",-1);
@@ -213,7 +254,7 @@ final class FrontAudio {
         for(ActiveEffect effect:new ArrayList<>(effects))releaseEffect(effect);
     }
     void title(){
-        requested=true;if(intro!=null){resume();return;}
+        releaseGameplayMusic();requested=true;if(intro!=null){resume();return;}
         try {
             intro=create("title_intro.wav");loop=create("title_loop.wav");loop.setLooping(true);
             intro.setOnPreparedListener(p->{
@@ -245,12 +286,14 @@ final class FrontAudio {
         if(!focused)focused=requestFocus();
         if(resumed&&focused){intro.start();started=true;Log.i("DH2Front","Title music intro started | duration_ms="+intro.getDuration()+" | loop_ms="+loop.getDuration());}
     }
-    void pause(){resumed=false;stopEffects();if(cinematic!=null)cinematic.setAudioFocusGained(false);if(current!=null&&started&&current.isPlaying())current.pause();abandonFocus();}
-    void resume(){resumed=true;if(!requested&&cinematic==null)return;focused=requestFocus();
+    void pause(){resumed=false;stopEffects();pauseGameplayMusic();if(cinematic!=null)cinematic.setAudioFocusGained(false);if(current!=null&&started&&current.isPlaying())current.pause();abandonFocus();}
+    void resume(){resumed=true;if(!requested&&cinematic==null&&gameplayMusic==null)return;focused=requestFocus();
         if(cinematic!=null)cinematic.setAudioFocusGained(focused);
+        updateGameplayMusicPlayback();
         if(requested){if(started&&current!=null&&focused)current.start();else startPrepared();}}
     void stop(){requested=false;
         stopEffects();
+        releaseGameplayMusic();
         if(intro!=null){intro.release();intro=null;}if(loop!=null){loop.release();loop=null;}
         current=null;started=introReady=loopReady=false;cinematic=null;abandonFocus();}
 }

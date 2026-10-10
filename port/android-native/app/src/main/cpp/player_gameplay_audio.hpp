@@ -92,7 +92,7 @@ inline const CharacterSoundRow* character_sound_row_for_character(
     std::int32_t raw_id) noexcept {
     return &character_sound_rows[character_sound_id_or_default(raw_id)];
 }
-enum class Kind : std::uint8_t {play,stop};
+enum class Kind : std::uint8_t {play,stop,music};
 struct Command {
     Kind kind=Kind::play;
     std::uintptr_t owner=0;
@@ -109,6 +109,15 @@ inline std::mutex& queue_mutex(){static std::mutex value;return value;}
 inline std::deque<Command>& queue(){static std::deque<Command> value;return value;}
 inline constexpr auto cue_lifetime=std::chrono::seconds(3);
 inline constexpr std::size_t queue_limit=64;
+inline void prune_expired_plays_locked(std::chrono::steady_clock::time_point now){
+    auto& pending=queue();
+    for(auto it=pending.begin();it!=pending.end();){
+        if(it->kind==Kind::play&&now-it->queued_at>cue_lifetime)
+            it=pending.erase(it);
+        else
+            ++it;
+    }
+}
 inline const CatalogEntry* find_label(const char* label,std::size_t length){
     if(!label||!length)return nullptr;
     const std::string_view requested(label,length);
@@ -139,8 +148,7 @@ inline bool enqueue_spatial_match(
     std::lock_guard<std::mutex> lock(queue_mutex());
     auto& pending=queue();
     const auto now=std::chrono::steady_clock::now();
-    while(!pending.empty()&&pending.front().kind==Kind::play&&now-pending.front().queued_at>cue_lifetime)
-        pending.pop_front();
+    prune_expired_plays_locked(now);
     if(pending.size()>=queue_limit)return false;
     pending.push_back({Kind::play,owner,match->uid,fade_ms,looping,match->filename,now,
                        true,left,right});
@@ -153,8 +161,7 @@ inline bool enqueue_play(const char* label,std::size_t length,std::uintptr_t own
     std::lock_guard<std::mutex> lock(queue_mutex());
     auto& pending=queue();
     const auto now=std::chrono::steady_clock::now();
-    while(!pending.empty()&&pending.front().kind==Kind::play&&now-pending.front().queued_at>cue_lifetime)
-        pending.pop_front();
+    prune_expired_plays_locked(now);
     if(pending.size()>=queue_limit)return false;
     pending.push_back({Kind::play,owner,match->uid,fade_ms,looping,match->filename,now});
     return true;
@@ -192,6 +199,58 @@ inline bool enqueue_stop(const char* label,std::size_t length,std::uintptr_t own
                        std::chrono::steady_clock::now()});
     return true;
 }
+// These source Sounds rows resolve through retained original audio inputs.
+// UIDs 484-487 share the cathedral VXN bank; UID 467 has the SWAMP VXN bank;
+// UID 505 is a single looping SWAMP safe-zone ADPCM WAV. Their state sets are
+// derived from source LevelConfig labels and sounds.xml rows.
+struct SourceMusicResource {
+    std::uint16_t sound_uid;
+    const char* source_label;
+    const char* source_filename;
+    bool has_vxn_states;
+};
+inline constexpr std::array<SourceMusicResource,6> source_music_resources{{
+    {467,"SwampHubAmbientMusic","m_level_swamp_sfx_swamp.vxn",true},
+    {484,"AbbeyRuinsOneAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
+    {485,"PortalRoomAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
+    {486,"CryptOneAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
+    {487,"SecretCryptAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
+    {505,"SwampMerchantCampMusic","m_safe_zone_01_sfx_swamp.wav",false},
+}};
+inline const SourceMusicResource* source_music_resource(std::uint16_t uid) noexcept {
+    for(const auto& row:source_music_resources)
+        if(row.sound_uid==uid)return &row;
+    return nullptr;
+}
+inline const SourceMusicResource* source_vxn_music_resource(std::uint16_t uid) noexcept {
+    const auto* row=source_music_resource(uid);
+    return row&&row->has_vxn_states?row:nullptr;
+}
+inline bool enqueue_source_music_state(std::uint16_t sound_uid,
+                                       std::string_view state){
+    const auto* resource=source_music_resource(sound_uid);
+    if(!resource||
+       (resource->has_vxn_states
+           ?(state!="ambient"&&state!="combat")
+           :state!="ambient"))return false;
+    std::lock_guard<std::mutex> lock(queue_mutex());
+    auto& pending=queue();
+    if(pending.size()>=queue_limit)return false;
+    Command command;command.kind=Kind::music;command.sound_id=sound_uid;
+    command.filename.assign(state);command.queued_at=std::chrono::steady_clock::now();
+    pending.push_back(std::move(command));
+    return true;
+}
+inline bool enqueue_source_vxn_music_state(std::uint16_t sound_uid,
+                                           std::string_view state){
+    return source_vxn_music_resource(sound_uid)&&
+        enqueue_source_music_state(sound_uid,state);
+}
+// The currently selected Crypt LevelConfig resolves specifically to UID 486.
+inline bool enqueue_crypt_music_state(std::uint16_t sound_uid,
+                                      std::string_view state){
+    return sound_uid==486&&enqueue_source_vxn_music_state(sound_uid,state);
+}
 inline bool consume(std::string& serialized){
     std::lock_guard<std::mutex> lock(queue_mutex());
     auto& pending=queue();
@@ -199,8 +258,10 @@ inline bool consume(std::string& serialized){
     while(!pending.empty()){
         auto command=std::move(pending.front());pending.pop_front();
         if(command.kind==Kind::play&&now-command.queued_at>cue_lifetime)continue;
-        serialized="dh2fx,";
-        if(command.kind==Kind::play){
+        if(command.kind==Kind::music){
+            serialized="dh2music,"+std::to_string(command.sound_id)+","+command.filename;
+        }else if(command.kind==Kind::play){
+            serialized="dh2fx,";
             serialized+="play,"+std::to_string(command.owner)+","+
                 std::to_string(command.sound_id)+","+std::to_string(command.fade_ms)+","+
                 (command.looping?"1,":"0,")+command.filename;
@@ -208,6 +269,7 @@ inline bool consume(std::string& serialized){
                 serialized+=",1,"+std::to_string(command.left_q14)+","+
                     std::to_string(command.right_q14);
         }else{
+            serialized="dh2fx,";
             serialized+="stop,"+std::to_string(command.owner)+","+
                 std::to_string(command.sound_id)+","+std::to_string(command.fade_ms);
         }

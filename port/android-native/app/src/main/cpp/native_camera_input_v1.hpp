@@ -130,11 +130,22 @@ inline int map_hud_touch_input(float* direction, bool* active) {
     return 0;
 }
 
-// MainActivity's MovementControl mirrors the original HUD thumbstick. The
-// source HUDControls::Update sends this screen-basis vector directly through
-// Cmd_HeadTowards; only v2GamepadController adds a radial deadzone and
-// CameraBase-relative rotation. Keep those two input routes distinct.
+// MainActivity's MovementControl mirrors HUDControls::OnEvent/Update. It
+// submits a normalized screen vector with screen-up as +Y; source HUD clamps
+// both axes then projects over-radius input back along its original angle.
+// That yields the same unit-circle projection here. Unlike v2GamepadController,
+// this route has no deadzone and is not camera-relative.
 inline int map_movement_control_input(float* direction, bool* active) {
+    if (!direction || !active || !std::isfinite(direction[0]) ||
+        !std::isfinite(direction[1]) || !std::isfinite(direction[2])) return 1;
+    float length = std::sqrt(direction[0] * direction[0] +
+                             direction[1] * direction[1]);
+    if (!std::isfinite(length)) return 1;
+    if (length > 1.0f) {
+        direction[0] /= length;
+        direction[1] /= length;
+    }
+    direction[2] = 0.0f;
     return map_hud_touch_input(direction, active);
 }
 

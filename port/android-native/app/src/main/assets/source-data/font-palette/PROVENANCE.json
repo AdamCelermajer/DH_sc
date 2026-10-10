@@ -1,0 +1,33 @@
+{
+  "format": "Dungeon Hunter 2 PyData source files for equipped-item font colors",
+  "source_archive": "Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "source_archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "source_archive_member_prefix": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/",
+  "files": {
+    "fonts_pyarray.bin": {
+      "size_bytes": 60,
+      "sha256": "cd213d6d5d6cead72e29abf986ce76998f746410d83fed00a508bb10ab8e6888",
+      "crc32": "edc4c9db"
+    },
+    "fonts_pyarraynames.bin": {
+      "size_bytes": 144,
+      "sha256": "e6be591858a22662ab0421290338c99bbfa332685b47790a71ffbdd185cf7b26",
+      "crc32": "78bc6485"
+    },
+    "fonts_pystructnames.bin": {
+      "size_bytes": 30,
+      "sha256": "e789aae2823c12d1df438a60e090b5c868096093949e7b476416a638b334d1e5",
+      "crc32": "bedfb5de"
+    },
+    "fonts_pycst.bin": {
+      "size_bytes": 163,
+      "sha256": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa",
+      "crc32": "96d35545"
+    },
+    "loot_audiovisual_pycst.bin": {
+      "size_bytes": 85,
+      "sha256": "ff1b4a1a5faee0ee2d8cac9bf5113db0eff1a991632b120c4335e8b1b7dc1b34",
+      "crc32": "f1c065e3"
+    }
+  }
+}

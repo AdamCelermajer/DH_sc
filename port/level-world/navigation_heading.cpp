@@ -1,5 +1,4 @@
 #include "navigation_heading.hpp"
-#include <algorithm>
 #include <cmath>
 #include <cstring>
 namespace {
@@ -42,14 +41,21 @@ extern "C" int dh2_nav_rotate_input_for_camera(float* direction,const float* cam
  if(!finite3(direction)||!finite3(camera_look_at))return 1;
  const float x=direction[0],y=direction[1],z=direction[2];
  const float cx=camera_look_at[0],cy=camera_look_at[1],cz=camera_look_at[2];
- const float length=std::hypot(std::hypot(cx,cy),cz);
- if(!std::isfinite(length)||length<=0.f)return 1;
  // Native Update uses Point3D::angle(Vec3f_J, lookAtVec), then rotateXY.
- // Point3D::angle is acos(dot/(|a||b|)), so it loses the X
- // half-plane sign. Keep that source behavior; unrestricted orbit yaw can
- // therefore mirror forward input on the far side of the camera orbit.
- // Vec3f_J is the +Y basis; its dot with the camera target is cy.
- const float cosine=std::clamp(cy/length,-1.f,1.f);
+ // Reproduce Point3D::angleCos binary32 order: dot, each squared-length sum,
+ // sqrt, length product, division, then acos. Vec3f_J=(0,1,0), so the dot is
+ // cy and its length is one. It loses the X half-plane sign; unrestricted
+ // orbit yaw can therefore mirror forward input on the far side of camera.
+ const float camera_length_squared=add(add(mul(cx,cx),mul(cy,cy)),mul(cz,cz));
+ if(!std::isfinite(camera_length_squared)||camera_length_squared<=0.f)return 1;
+ const float basis_length=std::sqrt(add(add(mul(0.f,0.f),mul(1.f,1.f)),mul(0.f,0.f)));
+ const float camera_length=std::sqrt(camera_length_squared);
+ const float denominator=mul(basis_length,camera_length);
+ if(!std::isfinite(denominator)||denominator<=0.f)return 1;
+ const float cosine=divide(cy,denominator);
+ // The original acos receives an out-of-domain value and produces NaN. This
+ // adapter rejects that exceptional pose rather than publishing NaN movement.
+ if(!std::isfinite(cosine)||cosine < -1.f||cosine > 1.f)return 1;
  const float angle=std::acos(cosine),c=std::cos(angle),s=std::sin(angle);
  const float rotated_x=x*c-y*s,rotated_y=x*s+y*c;
  if(!std::isfinite(rotated_x)||!std::isfinite(rotated_y))return 1;

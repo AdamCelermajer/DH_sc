@@ -1,4 +1,5 @@
 #include "../source_handle_ledger_v1.hpp"
+#include "../object_manager_runtime_owner_v1.hpp"
 #include "../crypt_generated_source_dact_v1.hpp"
 #include "../crypt_generated_mvp_v1.hpp"
 #include "../../world-data/world.hpp"
@@ -367,6 +368,61 @@ void check_crypt_generated(const std::filesystem::path& rule_path,
                     entry.lookup_count > 0,
                 "generated Crypt map entry does not retain its first object");
     }
+
+    // Carry the real generated-level registration ledger into the selected
+    // ObjectManager owner, then append Module::InitPost RoomZones and the
+    // five ItemObject shells created for one PreCache category. The zone and
+    // shell identities/names below are fixture tokens only; their integer
+    // source keys come exclusively from the live ledger/manager counter.
+    using RuntimeOwner = dh2::object_manager_runtime_owner_v1::Owner;
+    using RuntimeObject = dh2::object_manager_runtime_owner_v1::GameObject;
+    using RuntimeStatus = dh2::object_manager_runtime_owner_v1::Status;
+    RuntimeOwner runtime_manager;
+    std::uintptr_t fixture_identity = 0x100000u;
+    for (const auto& entry : result.entries) {
+        RuntimeObject object{};
+        object.identity = fixture_identity++;
+        RuntimeObject* retained = nullptr;
+        require(runtime_manager.add_named_object(entry.handle,
+                    entry.retained_source.name, object, &retained) ==
+                    RuntimeStatus::ok && retained &&
+                    retained->source_handle == entry.handle,
+                "runtime ObjectManager did not retain the generated source key");
+    }
+    require(runtime_manager.next_source_handle() == result.next_handle_after,
+            "runtime counter did not continue after generated source registrations");
+    require(generated.modules.size() == 7,
+            "seeded Crypt module count differs from the RoomZone fixture premise");
+    for (std::size_t index = 0; index < generated.modules.size(); ++index) {
+        const auto zone_handle = runtime_manager.next_source_handle();
+        RuntimeObject zone{};
+        zone.identity = fixture_identity++;
+        RuntimeObject* retained = nullptr;
+        require(runtime_manager.add_object(zone_handle, zone, &retained) ==
+                    RuntimeStatus::ok && retained &&
+                    retained->source_handle == zone_handle,
+                "Module::InitPost RoomZone did not consume the next source key");
+    }
+    const auto first_shell_handle = runtime_manager.next_source_handle();
+    for (std::size_t slot = 0; slot < 5; ++slot) {
+        const auto shell_name = "ItemManager::PreCache fixture shell " +
+                                std::to_string(slot);
+        std::int32_t shell_handle = -1;
+        bool created = false;
+        require(runtime_manager.get_or_reserve_named_handle(shell_name, true,
+                    &shell_handle, &created) == RuntimeStatus::ok && created &&
+                    shell_handle == first_shell_handle +
+                        static_cast<std::int32_t>(slot),
+                "ItemManager PreCache fixture did not consume consecutive source keys");
+        RuntimeObject shell{};
+        shell.identity = fixture_identity++;
+        RuntimeObject* retained = nullptr;
+        require(runtime_manager.add_named_object(shell_handle, shell_name,
+                    shell, &retained) == RuntimeStatus::ok && retained,
+                "ItemManager PreCache fixture failed to publish its reserved shell");
+    }
+    require(runtime_manager.next_source_handle() == first_shell_handle + 5,
+            "ItemManager shell registrations did not advance the canonical counter");
 
     const auto character_bytes = read_bytes(
         assets_root / "data" / "character_properties_pyarray.bin");

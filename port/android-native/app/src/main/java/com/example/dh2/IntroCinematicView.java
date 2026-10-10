@@ -24,10 +24,11 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.Locale;
 
-/** Plays the original 16:9 opening movie full-screen over the native menu. */
+/** Plays the opening movie stretched across the full native splash/loading stage. */
 final class IntroCinematicView extends FrameLayout implements TextureView.SurfaceTextureListener {
     private static final String TAG = "DH2Native";
     private static final String ASSET = "original-media/intro.mp4";
+    private String selectedAsset = ASSET;
 
     private final Runnable onFinished;
     private final TextureView video;
@@ -53,6 +54,10 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
     private int videoWidth;
     private int videoHeight;
     private boolean requested;
+    // The source selects intro_jp/intro_kr from persisted game language, not
+    // the Android device locale. MainActivity resolves it after loading the
+    // authored front menu; do not start a potentially wrong movie first.
+    private boolean sourceLanguageReady;
     private boolean prepared;
     private boolean seekPending;
     // MainActivity requests playback during onCreate, before Android resumes
@@ -70,12 +75,23 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
 
     /** Replaces the provisional device locale with the game's persisted source setting. */
     void setSourceLanguageIndex(int languageIndex) {
-        if (languageIndex >= 0 && languageIndex < 8) subtitleLanguage = languageIndex;
+        if (languageIndex >= 0 && languageIndex < 8) {
+            subtitleLanguage = languageIndex;
+            selectedAsset = IntroMovieAssets.pathForSourceLanguage(languageIndex);
+            sourceLanguageReady = true;
+            startIfReady();
+        }
     }
 
     private IntroCinematicView(Context context, AttributeSet attrs, Runnable onFinished) {
         super(context, attrs);
         this.onFinished = onFinished;
+        // Keep the video surface opaque while it fills the native viewport.
+        setBackgroundColor(Color.BLACK);
+        View matte = new View(context);
+        matte.setBackgroundColor(Color.BLACK);
+        addView(matte, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         video = new TextureView(context);
         video.setOpaque(true);
         video.setSurfaceTextureListener(this);
@@ -119,9 +135,8 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
         skipLayout.setMargins(0, dp(24), dp(24), 0);
         addView(skipButton, skipLayout);
         skipButton.setOnClickListener(v -> finish(true));
-        // Keep the native menu visible while MediaPlayer prepares the movie.
-        // An opaque TextureView otherwise covers the already-rendered menu
-        // with an empty black buffer for several seconds on a cold launch.
+        // Keep the native splash/loading stage visible while MediaPlayer
+        // prepares the movie. The menu is loaded only after this sequence.
         setAlpha(0f);
         setContentDescription("Opening cinematic. Tap to show or hide skip control.");
         setOnClickListener(v -> {
@@ -211,12 +226,12 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
     }
 
     private void startIfReady() {
-        if (!requested || finished || player != null || !video.isAvailable()) return;
+        if (!requested || !sourceLanguageReady || finished || player != null || !video.isAvailable()) return;
         // Surface recreation can leave the old opaque frame in the view while
         // a new decoder is preparing. Re-hide it until the new first frame.
         setAlpha(0f);
         try {
-            AssetFileDescriptor source = getContext().getAssets().openFd(ASSET);
+            AssetFileDescriptor source = getContext().getAssets().openFd(selectedAsset);
             MediaPlayer candidate = new MediaPlayer();
             player = candidate;
             videoWidth = videoHeight = 0;
@@ -283,19 +298,17 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
             }
             candidate.prepareAsync();
         } catch (IOException | IllegalArgumentException | IllegalStateException e) {
-            Log.e(TAG, "Could not open bundled opening movie", e);
+            Log.e(TAG, "Could not open bundled opening movie: " + selectedAsset, e);
             finish();
         }
     }
 
     private void fitVideo() {
-        IntroVideoFit.Result fitted = IntroVideoFit.contain(
+        IntroVideoFit.Result fitted = IntroVideoFit.fullSurface(
                 videoWidth, videoHeight, video.getWidth(), video.getHeight());
         if (fitted == null) return;
-        // Preserve every authored frame; wider and portrait surfaces get
-        // centered opaque bars rather than cropping the movie.
-        // TextureView's transform maps its view-sized buffer, so normalize the
-        // fitted movie rectangle to view coordinates before centering it.
+        // Match the source startup presentation: scale each axis to the full
+        // TextureView bounds so wide and portrait sizes receive no mattes.
         Matrix transform = new Matrix();
         transform.setScale(fitted.scaleX, fitted.scaleY,
                 video.getWidth() * 0.5f, video.getHeight() * 0.5f);
@@ -319,7 +332,7 @@ final class IntroCinematicView extends FrameLayout implements TextureView.Surfac
         // A window resize can change the TextureView without recreating its
         // SurfaceTexture. Refit here as well as on texture/video callbacks so
         // rotation, cutout policy, and resizable-window changes keep the movie
-        // centered at its source aspect ratio.
+        // stretched across the complete live surface.
         video.post(this::fitVideo);
     }
 

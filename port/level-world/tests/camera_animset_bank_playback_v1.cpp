@@ -1,4 +1,5 @@
 #include "../camera_animset_bank_playback_v1.hpp"
+#include "../character_critical_camera_bridge_v1.hpp"
 #include "../../game-data/data.hpp"
 
 #include <cmath>
@@ -35,6 +36,26 @@ struct State {
     bool bytes_valid=false;
     bool saw_zoom_before_callback=false;
 };
+struct CriticalQueries {
+    std::vector<dh2::character_critical_camera_bridge_v1::Query> calls;
+    std::uintptr_t identity=0;
+};
+std::int32_t critical_query(void* raw,
+    const dh2::character_critical_camera_bridge_v1::QueryRequest& request,
+    std::int32_t* value){
+    auto& state=*static_cast<CriticalQueries*>(raw);
+    state.calls.push_back(request.operation);
+    if(request.character!=state.identity||!value)return -1;
+    switch(request.operation){
+        case dh2::character_critical_camera_bridge_v1::Query::requester_is_player:
+            *value=1;return 0;
+        case dh2::character_critical_camera_bridge_v1::Query::local_player_count:
+            *value=1;return 0;
+        case dh2::character_critical_camera_bridge_v1::Query::requester_is_local:
+            *value=1;return 0;
+    }
+    return -1;
+}
 bool start_bdae(void* context,const dh2::camera_animset_v1::PlayRequest& request,
                 const std::uint8_t* bytes,std::size_t size){
     auto& state=*static_cast<State*>(context);++state.calls;
@@ -113,12 +134,20 @@ int main(int argc,char** argv){
         dh2::player_camera_rig_v1::Pose idle_pose{},effect_start{},effect_middle{};
         require(timeline.advance(rig,0,&idle_pose,error),"source Idle did not sample");
 
+        dh2::data::CombatResult critical_result{};critical_result.outcomes=8;
+        CriticalQueries critical_queries{};critical_queries.identity=0x1234;
+        const dh2::character_critical_camera_bridge_v1::Request critical_request{
+            &critical_result,critical_queries.identity,&critical_queries,&critical_query};
         dh2::camera_animset_v1::PlayRequest critical;
-        require(requests.combat_shake(true,true,true,critical,error)&&critical.present&&
+        dh2::character_critical_camera_bridge_v1::Report critical_report{};
+        require(dh2::character_critical_camera_bridge_v1::resolve(
+                    &critical_request,requests,&critical,&critical_report)==
+                    dh2::character_critical_camera_bridge_v1::Status::complete&&
+                    critical_report.play_requested&&critical.present&&
                     critical.trigger==dh2::camera_animset_v1::Trigger::combat_crit&&
                     critical.resource.slot==dh2::camera_animset_v1::Resource::Slot::crit&&
-                    critical.preserve_zoom,
-                "Character::F_ApplyResult did not route Crit/PlayAnim(id,0,true)");
+                    critical.preserve_zoom&&critical_queries.calls.size()==4,
+                "Character::F_ApplyResult did not source-gate Crit/PlayAnim(id,0,true)");
         camera.set_zoom(0.25f,0.75f);
         require(dh2::camera_animset_bank_playback_v1::start_rig(
                     camera,bank,critical,rig,timeline,error)==Status::started&&

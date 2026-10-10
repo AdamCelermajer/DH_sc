@@ -29,6 +29,9 @@ struct FrontRuntimeServices {
     bool (*eabi_integer)(void*,double,std::int32_t&,std::string&){};
     bool (*request_start_game)(void*,bool has_numeric_difficulty,std::int32_t requested_difficulty,
                                std::int32_t& selected_slot,std::string&){};
+    // Source FS_ContinueGame reads SavegameManager+8 and queues the same
+    // deferred saved-Level transition as NativeStartGame's port continuation.
+    bool (*request_continue_game)(void*,std::int32_t& last_slot,std::string&){};
     // Borrow the sole native DebugSwitches owner, including its fresh source
     // load/query effects. The frontend never constructs another debug map.
     bool (*debug_load)(void*,std::string&){};
@@ -37,6 +40,9 @@ struct FrontRuntimeServices {
     // Source NativeSaveGame resolves this local Character and calls its same
     // PlayerSavegame::SG_Save owner synchronously on the GL/UI thread.
     bool (*save_game)(void*,std::uintptr_t character,std::string&){};
+    // NativeLockZoom/NativeUnlockZoom mutate +134 on the currently bound
+    // CameraLevel; CameraLevel itself remains owned by the world renderer.
+    void (*camera_zoom_lock)(void*,bool locked){};
 };
 // Retained authored HUD owner. Movie/font/texture CPU state survives GL
 // recreation; the connected status view borrows actual world properties.
@@ -49,6 +55,9 @@ public:
     bool initialize(AAssetManager*,std::string&);
     void bind_front_runtime(const FrontRuntimeServices&);
     bool consume_launch_request(NativeStartGameIntentV1& request);
+    // Consume the authored gameplay HUD's deferred main-menu request after
+    // the current SWF input dispatch has unwound.
+    bool consume_gameplay_main_menu_request() noexcept;
     bool game_difficulty_count(std::uint32_t& count,std::string&);
     // Borrow row zero from the one retained Application DesignSettings owner.
     // Valid while the main/gameplay session keeps its GameOption snapshot.

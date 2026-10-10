@@ -9,6 +9,7 @@ test = root / "tests" / "source_level_owner_v1.cpp"
 sources = [test, root / "source_level_owner_v1.cpp",
            root / "object_manager_runtime_owner_v1.cpp",
            root / "level_quick_save_v1.cpp", root / "level_savegame_save_v1.cpp",
+           root / "level_savegame_owner_v1.cpp",
            root.parent / "game-data" / "player_save_level_states_v1.cpp"]
 with tempfile.TemporaryDirectory(prefix="dh2-source-level-owner-") as tmp:
     exe = Path(tmp) / "source_level_owner_v1.exe"

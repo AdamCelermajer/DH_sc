@@ -7,6 +7,7 @@
 #include "../../../../../../port/level-world/character_skill_fsm_callbacks_v1.hpp"
 #include "../../../../../../port/level-world/character_cast_lifecycle_v1.hpp"
 #include "../../../../../../port/level-world/ais_combat_result_dispatch_v1.hpp"
+#include "../../../../../../port/level-world/character_ai_melee_range.hpp"
 #include <memory>
 #include <vector>
 #include <string>
@@ -153,6 +154,10 @@ public:
     bool train_skill(std::uint32_t skill_index,bool test_only,
                      data::FreshInventoryOwnedV4&,std::uint32_t& source_return,
                      std::string& error);
+    // Character::InitPost's source _InitSkillsSlots call, using this runtime's
+    // Save, buff-aware PropertyView, skill VM/update owner and the canonical V4.
+    bool initialize_initial_skill_grants(data::FreshInventoryOwnedV4&,
+                                         std::string& error);
     // Source AI_SkillInfo on the retained preparation instance. This executes
     // SetSkill(script,index) and OnSkillInfo(level) on the same Player VM, then
     // snapshots the already-shared Character property temp sheet for UI text.
@@ -270,6 +275,21 @@ public:
     // Borrowed source AIS/VCB view for synchronous source-ordered combat
     // dispatch. The pointer is valid only while this Runtime remains alive.
     bool combat_owner(std::uintptr_t& ais,const std::uint32_t*& flags)const noexcept;
+    // Borrow the same AISPlayerIPhone source words at +0xd0/+0xd4 that
+    // SetScript initializes. AISPlayer::OnAggro/OnDeAggro use them as signed
+    // AggroCount/AggroForMusic counters. Requires the requested identity to
+    // be this Runtime's currently active AIS; pointers live with this Runtime.
+    bool aggro_music_owner(std::uintptr_t ais,std::int32_t*& aggro_count,
+        std::int32_t*& aggro_for_music)noexcept;
+    // Original Character::TargetInMeleeRange/CharAI::AI_IsInMeleeRange
+    // over this retained Character, CharAI identity, and current target word.
+    // The renderer supplies only the already-existing native world/provider
+    // boundary; the source kernel owns null-target and operation ordering.
+    bool target_in_melee_range(void* provider_context,
+        std::int32_t (*provider)(void*,character_ai_melee_range::State*,
+            const character_ai_melee_range::Request*,
+            character_ai_melee_range::Response*),
+        std::uint32_t& value,std::string& error)const;
     // Invoke one original Player skill Lua callback through the same retained
     // VM/prepared instance used by HUD checks. The source caller owns timing:
     // OnPreSkill belongs to AI_BeginSkill's passive-skill branch, OnSkill to

@@ -1,6 +1,6 @@
 package com.example.dh2;
 
-/** Centered aspect-preserving geometry for the authored opening movie. */
+/** Full-surface geometry for the opening movie and its modern display target. */
 final class IntroVideoFit {
     static final class Result {
         final float scaleX;
@@ -23,13 +23,13 @@ final class IntroVideoFit {
 
     private IntroVideoFit() { }
 
-    static Result contain(int videoWidth, int videoHeight,
-                          int surfaceWidth, int surfaceHeight) {
+    static Result fullSurface(int videoWidth, int videoHeight,
+                              int surfaceWidth, int surfaceHeight) {
         if (videoWidth <= 0 || videoHeight <= 0 ||
                 surfaceWidth <= 0 || surfaceHeight <= 0) return null;
-        float scale = Math.min(surfaceWidth / (float) videoWidth,
-                surfaceHeight / (float) videoHeight);
+        // The game stretches its startup artwork and movie to the live driver
+        // bounds. Deliberately use independent axes; do not create aspect bars.
         return new Result(surfaceWidth, surfaceHeight,
-                videoWidth * scale, videoHeight * scale);
+                surfaceWidth, surfaceHeight);
     }
 }

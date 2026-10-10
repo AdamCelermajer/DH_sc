@@ -1,12 +1,16 @@
 #include "../authored_gameplay_hud_v1.hpp"
 #include "../gameplay_hud_usable_refresh_v1.hpp"
+#include "../../android-native/app/src/main/cpp/gameplay_main_menu_request_v1.hpp"
 #include "../swf_frame_connection.hpp"
 #include "swf_movie_test_fixture.hpp"
 #include <stdexcept>
 #include <memory>
+#include <vector>
 #include "gameswf/gameswf_character.h"
 unsigned checks{};
 unsigned status_pulls{};
+unsigned main_menu_requests{};
+std::vector<std::string> activation_calls;
 std::string status_pull_shape;
 void require(bool v,const std::string& e){++checks;if(!v)throw std::runtime_error(e);}
 bool orientation(void*,std::int32_t& v,std::string&){v=0;return true;}
@@ -18,9 +22,14 @@ bool graph_start(void* context,const SwfAsLease& lease,std::string& error){
 }
 bool activation_native(void*,const char* name,const gameswf::fn_call& fn,std::string& error){
  const std::string n=name;
+ activation_calls.push_back(n);
  if(n=="NativeGetOptionParameters"){
   if(fn.nargs!=2||std::string(fn.arg(0).to_string())!="HUDStyle"||!fn.arg(1).to_object()){error="Actual activation argument order";return false;}
   fn.arg(1).to_object()->set_member("CurrentOption",gameswf::as_value(2));return true;
+ }
+ if(n=="NativeGoToMainMenu"){
+  if(fn.nargs!=0){error="Source main-menu action takes no arguments";return false;}
+  ++main_menu_requests;return true;
  }
  if(n=="NativeSkillGetEquipedSkillsIDs"){
   auto* array=fn.arg(0).to_object();if(!array){error="Required actual skill receiver";return false;}
@@ -39,6 +48,15 @@ bool activation_native(void*,const char* name,const gameswf::fn_call& fn,std::st
  error="Unprovided activation native "+n;return false;
 }
 int main(){try{Test t;t.base="port/android-native/app/src/main/assets/original-cache/data/menus";FrameOwner frame_owner;SwfMovie movie;std::string e;
+ // The native HUD callback only queues teardown; one post-dispatch consumer
+ // owns the transition and duplicate release events cannot unload twice.
+ {
+  dh2::native::GameplayMainMenuRequestV1 request;
+  require(!request.consume(),"main-menu handoff began pending");
+  request.request();require(request.consume(),"source confirmation did not queue menu handoff");
+  require(!request.consume(),"menu handoff was consumed more than once");
+  request.request();request.request();require(request.consume()&&!request.consume(),"duplicate request did not remain a single transition");
+ }
  // A skill tap can start the cooldown between HUD refresh polls. It must
  // force the next projection to re-run source OnSkillCheck immediately.
  {
@@ -49,10 +67,24 @@ int main(){try{Test t;t.base="port/android-native/app/src/main/assets/original-c
   require(!gate.due(now+std::chrono::milliseconds(499)),"ordinary 500 ms throttle was lost");
   require(gate.due(now+std::chrono::milliseconds(500)),"ordinary usability refresh did not expire");
   gate.refreshed(now+std::chrono::milliseconds(500));
-  gate.invalidate();
-  require(gate.due(now+std::chrono::milliseconds(501)),"skill cast did not invalidate usability cache");
+  require(!dh2::ui::run_hud_action_and_refresh_usable_v1(gate,[]{return false;})&&
+          !gate.due(now+std::chrono::milliseconds(501)),
+          "failed cast changed the cached HUD usability result");
+  require(dh2::ui::run_hud_action_and_refresh_usable_v1(gate,[]{return true;})&&
+          gate.due(now+std::chrono::milliseconds(501)),
+          "successful skill or spell cast did not invalidate usability cache");
+  gate.refreshed(now+std::chrono::milliseconds(600));
+  dh2::ui::refresh_usable_after_skill_train_v1(gate,true,1);
+  require(!gate.due(now+std::chrono::milliseconds(601)),
+          "test-only training invalidated the source HUD cache");
+  dh2::ui::refresh_usable_after_skill_train_v1(gate,false,0);
+  require(!gate.due(now+std::chrono::milliseconds(601)),
+          "rejected training invalidated the source HUD cache");
+  dh2::ui::refresh_usable_after_skill_train_v1(gate,false,1);
+  require(gate.due(now+std::chrono::milliseconds(601)),
+          "successful training did not refresh skill usability");
  }
- auto services=t.services();services.native_owner=std::make_shared<int>(1);services.native_action=activation_native;services.native_actions={"NativeGetOptionParameters","NativeSkillGetEquipedSkillsIDs","NativeHUDGetActiveFaery","NativeGetNextStatusMessage","NativeUseIpodPlayer","NativeChangeRolloverInputBehavior","NativeUpdateOrientation","NativePauseAllSounds"};
+ auto services=t.services();services.native_owner=std::make_shared<int>(1);services.native_action=activation_native;services.native_actions={"NativeGetOptionParameters","NativeGoToMainMenu","NativeSkillGetEquipedSkillsIDs","NativeHUDGetActiveFaery","NativeGetNextStatusMessage","NativeUseIpodPlayer","NativeChangeRolloverInputBehavior","NativeUpdateOrientation","NativePauseAllSounds"};
  t.graph_context=&frame_owner;services.graph_start=graph_start;
  require(movie.load({"dqshared_droid.swf"},"dqhud_droid.swf",services,e),e);require(movie.advance(0,e),e);
  ViewportState64 viewport{{0,9600,0,6400},{0,0,480,320},{0,0,480,320},1,0,0};require(movie.connect_viewport(viewport,{nullptr,orientation,dimensions},e),e);
@@ -64,10 +96,23 @@ int main(){try{Test t;t.base="port/android-native/app/src/main/assets/original-c
  require(hud.cached_action_icon()==-1,"source cache constructor");
  const auto activation_errors=t.errors;require(hud.activate(e),e); // genuine authored CurrentHud producer, no injection
  require(t.errors==activation_errors,"whole activation introduced unresolved authored/native call");
+ const auto before_menu_click=activation_calls.size();
+ require(hud.release(AuthoredHudControlV1::pause,e),e);
+ unsigned pause_sounds=0,rollover=0;
+ for(std::size_t i=before_menu_click;i<activation_calls.size();++i){
+  pause_sounds+=activation_calls[i]=="NativePauseAllSounds";
+  rollover+=activation_calls[i]=="NativeChangeRolloverInputBehavior";
+ }
+ require(pause_sounds==1&&rollover==1&&main_menu_requests==0,
+         "HUD main-menu click must open the authored pause flow without skipping its confirmation");
  const bool status_rendered=hud.notify_status_message(e);
  require(status_pulls==1,"actual onStatusMessage handler did not reach the status queue: "+status_pull_shape);
  require(status_pull_shape=="nargs=2 arg0=0 arg1=false","source SWF status pull arguments changed: "+status_pull_shape);
  if(!status_rendered)require(e=="Required original text glyph provider unavailable","unexpected status-message dispatch failure: "+e);
+ require(hud.update_action_icon(-1,e),e);
+ SwfClipInfo empty_interest_icon;
+ require(movie.clip((hud.control_path(AuthoredHudControlV1::attack)+".btimg").c_str(),empty_interest_icon,e),e);
+ require(empty_interest_icon.frame==5,"source empty object-of-interest type must select native fallback icon frame 5");
  const int icons[]{0,1,2,3,5,5,6,7,5,5,4};
  for(int type=-128;type<128;++type){const auto expected=type>=0&&type<=10?icons[type]:5;require(AuthoredGameplayHudV1::action_icon(static_cast<std::int8_t>(type))==expected,"source full signed-byte mapping");}
  for(int type=0;type<=11;++type){require(hud.update_action_icon(static_cast<std::int8_t>(type),e),e);SwfClipInfo icon;require(movie.clip((hud.control_path(AuthoredHudControlV1::attack)+".btimg").c_str(),icon,e),e);require(icon.frame==AuthoredGameplayHudV1::action_icon(static_cast<std::int8_t>(type)),"actual FillActionIcon authored frame");}
@@ -88,9 +133,15 @@ int main(){try{Test t;t.base="port/android-native/app/src/main/assets/original-c
  // SWF omits SlotId from blank buttons, which must not abort the HUD update.
  auto empty_skills=values;for(unsigned n=6;n<14;++n)empty_skills[n]=0;
  for(int style=2;style<4;++style){require(hud.bind(style,e),e);require(hud.update(empty_skills,290,true,e),e);
-  for(unsigned n=0;n<3;++n){SwfClipInfo cooldown;
-   require(movie.clip((hud.control_path(static_cast<AuthoredHudControlV1>(4+n))+".CoolDown").c_str(),cooldown,e),e);
+  for(unsigned n=0;n<3;++n){const auto path=hud.control_path(static_cast<AuthoredHudControlV1>(4+n));
+   SwfClipInfo slot,icon,cooldown,grey;
+   require(movie.clip(path.c_str(),slot,e),e);require(movie.clip((path+".btimg").c_str(),icon,e),e);
+   require(movie.clip((path+".CoolDown").c_str(),cooldown,e),e);require(movie.clip((path+".Grey").c_str(),grey,e),e);
+   require(slot.visible&&icon.visible,
+           "empty fixed-layout skill row must retain authored button and icon shell | "+path+
+           " | button "+std::to_string(slot.visible)+" icon "+std::to_string(icon.visible));
    require(cooldown.frame==0,"empty fixed-layout skill row must render zero cooldown");
+   require(grey.visible,"empty fixed-layout skill row must remain visibly disabled");
   }
  }
  require(hud.bind(2,e),e);SwfClipInfo info;

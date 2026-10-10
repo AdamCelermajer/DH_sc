@@ -37,6 +37,10 @@ struct OwnedInventoryServicesV4 {
  bool (*after_world_pickup)(void*,std::uintptr_t character,std::int32_t item_id,std::string& error){};
 };
 enum class WorldItemTransferResultV4 : std::uint8_t {not_applied,committed,indeterminate};
+// Character::ItemInventory::TransferItemTo uses the existing two V4 owners.
+// `indeterminate` means the source prefix changed but a required destination
+// callback did not complete; callers must not retry the action blindly.
+enum class OwnedItemTransferResultV4 : std::uint8_t {not_applied,committed,indeterminate};
 // NativeInvDropItem needs a real online-state query and the complete original
 // offline ItemObject::DropInventory continuation. The latter must calculate
 // the source scatter point, spawn/InitAgain through the active ItemManager and
@@ -157,6 +161,15 @@ public:
  // Source AddItemInstance owns input only after delivered storage/merge/delete.
  // Prefix is retained on required effect failure; caller retains unconsumed input.
  bool add_item(std::unique_ptr<ItemInstanceV1>&,bool force,bool convert_gold,std::int32_t& index,const OwnedInventoryServicesV4&,std::string&);
+ // Cross-Character TransferItemTo over these two existing authoritative
+ // owners. The same Item object is moved when the full stack is transferred;
+ // partial stack transfers use this source inventory's normal split callbacks.
+ // ItemPresentation ownership must be shared by both service bindings.
+ OwnedItemTransferResultV4 transfer_item_to(std::uint32_t index,std::int32_t amount,
+     FreshInventoryOwnedV4& destination,bool force,bool convert_gold,
+     std::int32_t& destination_index,const OwnedInventoryServicesV4& source_services,
+     const OwnedInventoryServicesV4& destination_services,RetainedItemSlotV4,
+     std::string&);
  bool inventory_full(bool&,const OwnedInventoryServicesV4&,std::string&);
  bool auto_equip(std::uint32_t,std::int32_t& result,const OwnedInventoryServicesV4&,std::string&);
  bool character_auto_equip(std::uint32_t,std::int32_t& result,const OwnedInventoryServicesV4&,std::string&);

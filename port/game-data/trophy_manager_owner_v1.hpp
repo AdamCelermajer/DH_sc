@@ -110,9 +110,8 @@ public:
     static constexpr TrophyIntegrationAvailabilityV1 integrations() noexcept {
         return {false, false, false};
     }
-    // The original binary stores a separate achievements.savegame bitset.
-    // The current native profile owner has no matching sidecar file seam, so
-    // this owner deliberately does not claim persistence.
+    // This table/progress owner provides only the 128-bit payload codec.
+    // Android's process Trophy runtime owns the source sidecar file boundary.
     static constexpr bool source_persistence_available = false;
 };
 

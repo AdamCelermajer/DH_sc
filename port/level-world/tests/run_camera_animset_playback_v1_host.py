@@ -14,6 +14,7 @@ with tempfile.TemporaryDirectory(prefix="dh2-camera-animset-playback-") as temp:
     subprocess.run([
         COMPILER, "-std=c++17", "-O2", "-Wall", "-Wextra", "-Werror",
         str(ROOT / "camera_animset_v1.cpp"),
+        str(ROOT / "character_critical_camera_bridge_v1.cpp"),
         str(ROOT / "tests" / "camera_animset_playback_v1.cpp"),
         "-o", str(exe),
     ], check=True)

@@ -14,6 +14,13 @@ void check(bool value, const char* message) {
         std::exit(1);
     }
 }
+void precache(Owner& owner, std::int32_t category_id, std::uintptr_t first_shell) {
+    std::array<std::uintptr_t, slots_per_category> shells{};
+    for (std::size_t i = 0; i < shells.size(); ++i) shells[i] = first_shell + i;
+    std::string error;
+    check(precache_category(&owner, category_id, shells, error) == Status::complete,
+          "PreCache binds the five stable source-named shell identities");
+}
 void spawn(Owner& owner, std::int32_t category_id, std::uintptr_t shell,
            std::uintptr_t item, std::uint32_t lock,
            std::uintptr_t expected_eviction = 0) {
@@ -39,6 +46,20 @@ void spawn(Owner& owner, std::int32_t category_id, std::uintptr_t shell,
 
 int main() {
     Owner owner;
+    precache(owner, 7, 101);
+    const auto* first_name = source_object_name(&owner, 7, 0);
+    const auto* fifth_name = source_object_name(&owner, 7, 4);
+    check(first_name && *first_name == "ItemObject_07_00" && fifth_name &&
+          *fifth_name == "ItemObject_07_04",
+          "PreCache reproduces the source category/slot object names");
+    std::array<std::uintptr_t, slots_per_category> conflicting_shells{201, 202, 203, 204, 205};
+    std::string error;
+    check(precache_category(&owner, 7, conflicting_shells, error) ==
+          Status::identity_conflict,
+          "repeated PreCache cannot replace stable source shell identities");
+    SpawnPlan missing{};
+    check(prepare_spawn(&owner, 8, 800, &missing, error) == Status::not_precached,
+          "Spawn fails closed before a source category has all five cached shells");
     for (std::uintptr_t i = 1; i <= slots_per_category; ++i)
         spawn(owner, 7, 100 + i, 200 + i, 0);
     check(owner.categories.size() == 1, "one AudioVisualID creates one category pool");
@@ -50,10 +71,11 @@ int main() {
     // already-transferred identity.
     std::vector<std::uintptr_t> canonical_inventory;
     SpawnPlan reuse{};
-    std::string error;
     check(prepare_spawn(&owner, 7, 999, &reuse, error) == Status::complete &&
           reuse.evicted_item_identity == 201,
           "round-robin selects the canonical world Item attached to the shell");
+    check(owner.categories[0].next_slot == 1,
+          "Spawn advances the source cursor before DeSpawn and InitAgain");
     const auto* prior_category = find_category(&owner, 7);
     check(prior_category && prior_category->slots[reuse.slot_index].shell_identity == 101,
           "the selected source slot retains its stable ItemObject shell");
@@ -74,12 +96,20 @@ int main() {
     check(passes_disabled_save_gate(&owner, 999),
           "enabled ItemObject passes the source Disabled() save gate");
 
-    check(set_pickup_lock(&owner, 999, 5000), "source drop starts its five-second lock");
+    check(set_pickup_lock(&owner, 999, 5000, 27), "source drop starts its five-second player-scoped lock");
     check(pickup_locked(&owner, 999), "pickup is blocked while source lock is positive");
+    check(pickup_locked_for_player(&owner,999,27),
+          "Interact rejects the PlayerInfo ID recorded by DropInventory");
+    check(!pickup_locked_for_player(&owner,999,28),
+          "Interact allows another PlayerInfo ID during the source timer");
     advance_pickup_locks(&owner, 4999);
     check(pickup_locked(&owner, 999), "source lock remains for the first 4999 ms");
+    check(pickup_locked_for_player(&owner,999,27),
+          "the source player remains blocked until its timer reaches zero");
     advance_pickup_locks(&owner, 1);
     check(!pickup_locked(&owner, 999), "source lock reaches zero at 5000 ms");
+    check(!pickup_locked_for_player(&owner,999,27),
+          "expired source timer no longer rejects its recorded player");
 
     check(de_spawn(&owner, 101, 999, error) == Status::complete,
           "source de-spawn keeps the shell but clears its item and lock");
@@ -87,9 +117,24 @@ int main() {
           "disabled ItemObject fails the source save gate");
     check(owner.categories[0].slots[0].shell_identity == 101,
           "DeSpawn retains the pre-cached ItemObject shell identity");
+    check(source_object_name(&owner, 7, 0) &&
+          *source_object_name(&owner, 7, 0) == "ItemObject_07_00",
+          "DeSpawn preserves the exact source shell name for later reuse");
 
+    precache(owner, 8, 801);
     spawn(owner, 8, 801, 901, 0);
     check(owner.categories.size() == 2, "AudioVisualID uses an independent pool");
+    SpawnPlan failed_init{};
+    check(prepare_spawn(&owner, 8, 902, &failed_init, error) == Status::complete &&
+          failed_init.slot_index == 1 && owner.categories[1].next_slot == 2,
+          "a valid Spawn attempt reserves its source slot before InitAgain");
+    check(activate(&owner, &failed_init, 9999, 902, 0, error) ==
+              Status::identity_conflict && owner.categories[1].next_slot == 2,
+          "failed shell initialization does not rewind the already-advanced cursor");
+    spawn(owner, 8, 803, 903, 0);
+    check(owner.categories[1].slots[2].item_identity == 903 &&
+          owner.categories[1].next_slot == 3,
+          "the next successful spawn follows the source cursor after a failed InitAgain");
     std::printf("PASS item_manager_pool_v1 checks=%u\n", checks);
     return 0;
 }

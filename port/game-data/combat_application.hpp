@@ -17,6 +17,19 @@ struct MonsterApplicationRequest {
  // or actor states. Null preserves the offline kernel's standalone contract.
  void (*before_hit)(void*,float)=nullptr;
  void* before_hit_context=nullptr;
+ // Lethal HitFor boundary: called after HP reaches zero but before the
+ // Character::Ctrl_Kill/Character::Kill dead-byte prefix. A bound source
+ // bridge must synchronously complete that same Character kill route and
+ // leave defender_state.dead=1 with property 36 still zero. The kernel checks
+ // those postconditions and does not write a second death prefix. Null keeps
+ // the standalone kernel's historical direct dead/HP projection.
+ int (*before_dead)(void*,CombatResult&)=nullptr;
+ void* before_dead_context=nullptr;
+ // Optional result side-effect at the source boundary after HitFor/death and
+ // outcome cleanup, but before RegenHP/MP. Positive damage only. A provider
+ // failure returns 2 with already reached source effects retained.
+ int (*after_damage_before_regen)(void*,CombatResult&)=nullptr;
+ void* after_damage_context=nullptr;
 };
 enum CombatStatusRequests : std::uint32_t {
  request_dot=1,request_dodge=2,request_block=4,request_hurt=8,

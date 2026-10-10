@@ -6,7 +6,7 @@
 namespace dh2::data::player_attack_result_edge_v1 {
 
 enum class Step : std::uint32_t {
-    cancel_sneaking, combat_text, combat_sound, ai_combat_result
+    lethal_hit, cancel_sneaking, combat_text, combat_sound, ai_combat_result
 };
 using Invoke = int (*)(void*, Step, std::uintptr_t attacker,
                        std::uintptr_t defender, CombatResult&);
@@ -37,7 +37,8 @@ enum class Status : std::uint32_t { complete, invalid_argument,
     application_failed, service_failed };
 
 // Player Character melee result edge: apply the existing source-derived
-// F_ApplyResult core, then run its retained tail in exact source order:
+// F_ApplyResult core. If its HitFor projection requests a lethal continuation,
+// synchronously dispatch it before the source result tail. Then run
 // CancelSneaking, scrolling text, combat sound, and (unless mask bit 29 is set)
 // CharAI::OnCombatResults. It owns none of those objects. Required provider
 // failures stop at their source edge. CombatSound's source return is ignored,

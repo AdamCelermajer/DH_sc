@@ -39,6 +39,15 @@ Status execute(const Request* request, Result* output) {
                                             request->application))
         return Status::application_failed;
     candidate.application_completed = 1;
+    if(candidate.application.health.kill_requested){
+        candidate.last_step=Step::lethal_hit;++candidate.steps_attempted;
+        try{candidate.provider_status=request->invoke(request->service_context,
+              Step::lethal_hit,request->attacker_character,
+              request->defender_character,*request->application->result);}
+        catch(...){candidate.provider_status=-1;}
+        if(candidate.provider_status){*output=candidate;return Status::service_failed;}
+        ++candidate.steps_completed;
+    }
     constexpr Step prefix[]={Step::cancel_sneaking,Step::combat_text};
     for(const auto step:prefix){
         candidate.last_step=step;++candidate.steps_attempted;

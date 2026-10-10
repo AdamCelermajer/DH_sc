@@ -44,6 +44,7 @@ def main():
         ROOT / "port/engine-ui/swf_movie.hpp",
         ROOT / "port/engine-ui/menu_frontend_v69.cmake",
         ROOT / "port/engine-ui/tests/authored_gameplay_hud_v1.cpp",
+        ROOT / "port/android-native/app/src/main/cpp/gameplay_main_menu_request_v1.hpp",
         ROOT / "port/engine-ui/tests/authored_joystick_v1.cpp",
         ROOT / "port/engine-ui/tests/swf_movie_test_fixture.hpp",
         ROOT / "port/engine-ui/reference/authored-joystick-v1/fixtures.bin",

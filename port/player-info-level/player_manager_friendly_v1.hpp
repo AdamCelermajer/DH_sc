@@ -24,6 +24,16 @@ struct Result {
 struct SinglePlayerClassCounts {
     std::int32_t mage=0,rogue=0,warrior=0;
 };
+enum class SinglePlayerVisualClass { warrior,rogue,mage };
+struct SinglePlayerClassProjection {
+    SinglePlayerVisualClass visual_class=SinglePlayerVisualClass::warrior;
+    SinglePlayerClassCounts counts{};
+};
+// Projects the canonical CharacterTable row into the small UI/loot views that
+// need a single-player class. Source Character `ClassID` properties are a
+// separate domain and are rejected here.
+Status project_single_player_class(std::int32_t character_class_row,
+                                   SinglePlayerClassProjection*);
 Status project_single_player_class_counts(std::int32_t character_class_row,
                                            SinglePlayerClassCounts*);
 // Source manager+6a0 or online vector+6a8/6ac. Friendly ordinal selection

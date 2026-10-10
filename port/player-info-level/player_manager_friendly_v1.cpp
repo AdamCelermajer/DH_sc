@@ -66,20 +66,38 @@ bool select(const Registry& registry,const Services& s,int ordinal,unsigned char
     return true;
 }
 }
-Status project_single_player_class_counts(std::int32_t character_class_row,
-                                           SinglePlayerClassCounts* output) {
+Status project_single_player_class(std::int32_t character_class_row,
+                                  SinglePlayerClassProjection* output) {
     if (!output) return Status::invalid_argument;
-    SinglePlayerClassCounts result{};
+    SinglePlayerClassProjection result{};
     // PlayerManager's Warrior/Rogue/Mage wrappers pass these CharacterTable
     // row indices to GetNumPlayerCharactersOfClass (IDA 0x36eab8..0x36eacc).
     // They are row indices, not each row's separate ClassID property.
     switch (character_class_row) {
-    case 263: result.warrior=1; break;
-    case 325: result.rogue=1; break;
-    case 290: result.mage=1; break;
+    case 263:
+        result.visual_class=SinglePlayerVisualClass::warrior;
+        result.counts.warrior=1;
+        break;
+    case 325:
+        result.visual_class=SinglePlayerVisualClass::rogue;
+        result.counts.rogue=1;
+        break;
+    case 290:
+        result.visual_class=SinglePlayerVisualClass::mage;
+        result.counts.mage=1;
+        break;
     default: return Status::missing_projection;
     }
     *output=result;
+    return Status::complete;
+}
+Status project_single_player_class_counts(std::int32_t character_class_row,
+                                           SinglePlayerClassCounts* output) {
+    if (!output) return Status::invalid_argument;
+    SinglePlayerClassProjection projection{};
+    const auto status=project_single_player_class(character_class_row,&projection);
+    if(status!=Status::complete)return status;
+    *output=projection.counts;
     return Status::complete;
 }
 Status get_num_players(const Registry* registry,const Services* services,Result* output){auto status=guard(registry,services,output);if(status!=Status::complete)return status;Result result;count(*registry,*services,result);*output=result;return result.status;}

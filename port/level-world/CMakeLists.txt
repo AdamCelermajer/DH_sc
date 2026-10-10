@@ -30,7 +30,7 @@ if(TARGET dh2_scene_materials)
  target_link_libraries(dh2_level_world PRIVATE dh2_scene_materials)
 endif()
 target_compile_features(dh2_level_world PUBLIC cxx_std_17)
-target_sources(dh2_level_world PRIVATE camera_level_runtime_v1.cpp camera_design_zoom_v1.cpp camera_animset_v1.cpp camera_animset_bank_v1.cpp camera_animset_playback_v1.cpp camera_animset_bank_playback_v1.cpp player_camera_rig_v1.cpp)
+target_sources(dh2_level_world PRIVATE camera_level_runtime_v1.cpp camera_design_zoom_v1.cpp camera_animset_v1.cpp character_critical_camera_bridge_v1.cpp camera_animset_bank_v1.cpp camera_animset_playback_v1.cpp camera_animset_bank_playback_v1.cpp player_camera_rig_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_aggro_character_list.cpp character_aggro_object_manager_list.cpp)
 target_sources(dh2_level_world PRIVATE physical_world.cpp physical_lifecycle.cpp native_body.cpp visual_motion.cpp move_state.cpp player_root_motion_policy_v1.cpp decor_body_config.cpp visual_timeline.cpp actor_rotation.cpp actor_runtime.cpp actor_playback.cpp decor_scene.cpp character_scene.cpp)
 target_sources(dh2_level_world PRIVATE character_physical_component_v1.cpp)
@@ -51,6 +51,7 @@ target_sources(dh2_level_world PRIVATE character_animation_events.cpp)
 target_sources(dh2_level_world PRIVATE character_animation_ai.cpp)
 target_sources(dh2_level_world PRIVATE character_enemy_pursuit_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_enemy_attack_event_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_target_out_of_sight_v1.cpp)
 target_sources(dh2_level_world PRIVATE player_attack_step_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_script_selection.cpp)
 target_sources(dh2_level_world PRIVATE character_script_lifecycle.cpp character_combat_queries.cpp)
@@ -80,6 +81,8 @@ target_sources(dh2_level_world PRIVATE
  source_random_lifecycle_v1.cpp crypt_room_zone_owner_v1.cpp
  object_manager_runtime_owner_v1.cpp object_manager_init_post_v1.cpp
  projectile_lifecycle_runtime_v1.cpp
+ projectile_factory_owner_v1.cpp
+ projectile_manager_runtime_owner_v1.cpp
  crypt_room_zone_manager_bridge_v1.cpp
  crypt_generated_spawnpoints_v1.cpp crypt_generated_source_dact_v1.cpp
  crypt_generated_mvp_v1.cpp
@@ -99,7 +102,9 @@ target_sources(dh2_level_world PRIVATE
  ../random/random.c ../lua-numeric/numeric.c)
 
 target_sources(dh2_level_world PRIVATE character_ai_attack.cpp
- character_kill_death_tail_v1.cpp character_kill_source_bridge_v1.cpp)
+ character_kill_death_tail_v1.cpp character_kill_source_bridge_v1.cpp
+ player_character_kill_provider_v1.cpp character_kill_npc_provider_v1.cpp
+ character_kill_field_14e4_v1.cpp)
 
 target_sources(dh2_level_world PRIVATE character_ai_classification.cpp character_zonability.cpp
  character_update_eligibility.cpp lua_script_load_once.cpp)
@@ -193,15 +198,18 @@ target_sources(dh2_level_world PRIVATE character_level_runtime.cpp character_ini
  character_runtime_factory_v1.cpp object_manager_character_factory_walk_v1.cpp
  character_factory_role_query_v1.cpp
  crypt_conditional_character_runtime_v1.cpp
- character_faery_links_v1.cpp character_init_post_nonplayer_v1.cpp
+ character_faery_links_v1.cpp character_faery_factory_bridge_v1.cpp
+ character_init_post_nonplayer_v1.cpp
  game_object_visual_attachment_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_update_all_skills.cpp
  character_ai_update_skills.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_set_skills_and_spells.cpp
  character_faery_selection.cpp character_faery_placement_v1.cpp
  character_faery_live_binding_v1.cpp character_faery_level_registry_v1.cpp
+ character_faery_selection_owner_v1.cpp
  character_faery_script_session_v1.cpp
  character_faery_record_session_v1.cpp
+ character_faery_record_physical_v1.cpp
  character_ai_skill_script_constructor.cpp
  character_skill_state_queries.cpp)
 
@@ -216,7 +224,8 @@ target_sources(dh2_level_world PRIVATE character_ai_events.cpp player_enemy_kill
  character_give_xp_v1.cpp character_level_up_properties_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_distribute_xp_v1.cpp
  character_distribute_give_xp_dispatch_v1.cpp
- design_settings_xp_provider_v1.cpp character_distribute_xp_player_owners_v1.cpp)
+ design_settings_xp_provider_v1.cpp character_distribute_xp_player_owners_v1.cpp
+ quest_reward_give_xp_bridge_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_attack_geometry.cpp)
 target_sources(dh2_level_world PRIVATE loot_pickup_quest_tail_v10.cpp
  loot_pickup_event_bridge_v1.cpp current_level_quest_event_v1.cpp)
@@ -241,7 +250,7 @@ else()
   crypt_generated_source_dact_v1.cpp crypt_generated_mvp_v1.cpp
   ../random-level/crypt_generated_dact_v1.cpp
   ../world-data/world.cpp ../game-data/data.cpp)
- target_link_libraries(source_handle_ledger_v1_audit PRIVATE dh2_random_level dh2_game_data)
+ target_link_libraries(source_handle_ledger_v1_audit PRIVATE dh2_random_level dh2_game_data dh2_level_world)
  target_compile_features(source_handle_ledger_v1_audit PRIVATE cxx_std_17)
  target_compile_options(source_handle_ledger_v1_audit PRIVATE -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
 add_executable(crypt_generated_template_character_source_v1_audit
@@ -265,7 +274,9 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_compile_options(object_manager_runtime_owner_v1_audit PRIVATE -UNDEBUG -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
  add_executable(projectile_lifecycle_runtime_v1_audit
   tests/projectile_lifecycle_runtime_v1.cpp projectile_lifecycle_runtime_v1.cpp
+  projectile_factory_owner_v1.cpp object_creation_map_v1.cpp
   object_manager_runtime_owner_v1.cpp)
+ target_link_libraries(projectile_lifecycle_runtime_v1_audit PRIVATE dh2_game_data)
  target_compile_features(projectile_lifecycle_runtime_v1_audit PRIVATE cxx_std_17)
  target_compile_options(projectile_lifecycle_runtime_v1_audit PRIVATE -UNDEBUG -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
  add_executable(object_manager_init_post_v1_audit
@@ -294,6 +305,11 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(character_faery_links_v1_audit PRIVATE dh2_level_world)
  target_compile_features(character_faery_links_v1_audit PRIVATE cxx_std_17)
  target_compile_options(character_faery_links_v1_audit PRIVATE -Wall -Wextra -Werror)
+ add_executable(character_faery_factory_bridge_v1_audit
+  tests/character_faery_factory_bridge_v1.cpp)
+ target_link_libraries(character_faery_factory_bridge_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(character_faery_factory_bridge_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(character_faery_factory_bridge_v1_audit PRIVATE -Wall -Wextra -Werror)
  add_executable(character_faery_live_binding_v1_audit
   tests/character_faery_live_binding_v1.cpp)
  target_link_libraries(character_faery_live_binding_v1_audit PRIVATE dh2_level_world)
@@ -315,6 +331,17 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(character_faery_record_session_v1_audit PRIVATE dh2_level_world)
  target_compile_features(character_faery_record_session_v1_audit PRIVATE cxx_std_17)
  target_compile_options(character_faery_record_session_v1_audit PRIVATE -Wall -Wextra -Werror)
+
+ add_executable(character_faery_record_physical_v1_audit
+  tests/character_faery_record_physical_v1.cpp)
+ target_link_libraries(character_faery_record_physical_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(character_faery_record_physical_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(character_faery_record_physical_v1_audit PRIVATE -UNDEBUG -Wall -Wextra -Werror)
+ add_executable(character_faery_selection_owner_v1_audit
+  tests/character_faery_selection_owner_v1.cpp)
+ target_link_libraries(character_faery_selection_owner_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(character_faery_selection_owner_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(character_faery_selection_owner_v1_audit PRIVATE -UNDEBUG -Wall -Wextra -Werror)
  add_executable(ais_faery_update_v1_audit
   tests/ais_faery_update_v1.cpp)
  target_link_libraries(ais_faery_update_v1_audit PRIVATE dh2_level_world)
@@ -397,11 +424,17 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(character_kill_quest_tail_v1_audit PRIVATE dh2_level_world)
  add_executable(character_kill_death_tail_v1_audit tests/character_kill_death_tail_v1.cpp)
  target_link_libraries(character_kill_death_tail_v1_audit PRIVATE dh2_level_world)
+ add_executable(character_kill_field_14e4_v1_audit
+  tests/character_kill_field_14e4_v1.cpp)
+ target_link_libraries(character_kill_field_14e4_v1_audit PRIVATE dh2_level_world)
  add_executable(character_kill_ctrl_composition_v1_audit
   tests/character_kill_ctrl_composition_v1.cpp)
  target_link_libraries(character_kill_ctrl_composition_v1_audit PRIVATE dh2_level_world)
  add_executable(character_give_xp_v1_audit tests/character_give_xp_v1.cpp)
  target_link_libraries(character_give_xp_v1_audit PRIVATE dh2_level_world)
+ add_executable(quest_reward_give_xp_bridge_v1_audit
+  tests/quest_reward_give_xp_bridge_v1.cpp)
+ target_link_libraries(quest_reward_give_xp_bridge_v1_audit PRIVATE dh2_level_world)
  add_executable(character_distribute_xp_v1_audit tests/character_distribute_xp_v1.cpp)
  target_link_libraries(character_distribute_xp_v1_audit PRIVATE dh2_level_world)
  add_executable(design_settings_xp_provider_v1_audit tests/design_settings_xp_provider_v1.cpp)
@@ -435,6 +468,10 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(character_enemy_attack_event_v1_audit PRIVATE dh2_level_world)
  target_compile_features(character_enemy_attack_event_v1_audit PRIVATE cxx_std_17)
  target_compile_options(character_enemy_attack_event_v1_audit PRIVATE -Wall -Wextra -Werror)
+ add_executable(character_target_out_of_sight_v1_audit tests/character_target_out_of_sight_v1.cpp)
+ target_link_libraries(character_target_out_of_sight_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(character_target_out_of_sight_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(character_target_out_of_sight_v1_audit PRIVATE -Wall -Wextra -Werror)
  add_executable(player_attack_step_v1_audit tests/player_attack_step_v1.cpp)
  target_link_libraries(player_attack_step_v1_audit PRIVATE dh2_level_world)
  add_executable(character_script_lifecycle_audit tests/character_script_lifecycle.cpp)

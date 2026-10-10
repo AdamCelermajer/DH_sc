@@ -51,32 +51,37 @@ Status run(const State* state, std::uint32_t force, const Services* services,
     }
     result.position_copied = 1;
 
-    if (!services->write_savegame_gate_39)
-        return fail(result, output, error, Status::service_unavailable,
-                    "LevelSavegame gate-byte writer unavailable");
-    const std::uint8_t temporary_gate = force ? 0 : 0x6c;
-    ++result.service_calls;
-    try {
-        if (services->write_savegame_gate_39(services->context,
-                state->level_savegame, temporary_gate, error))
+    // QuickSave(false) leaves +0x39 untouched. Only the forced branch writes
+    // zero before Save and restores the captured byte afterward.
+    if (force) {
+        if (!services->write_savegame_gate_39)
+            return fail(result, output, error, Status::service_unavailable,
+                        "LevelSavegame gate-byte writer unavailable");
+        ++result.service_calls;
+        try {
+            if (services->write_savegame_gate_39(services->context,
+                    state->level_savegame, 0, error))
+                return fail(result, output, error, Status::service_failed,
+                            "LevelSavegame gate-byte write failed");
+        } catch (...) {
             return fail(result, output, error, Status::service_failed,
-                        "LevelSavegame gate-byte write failed");
-    } catch (...) {
-        return fail(result, output, error, Status::service_failed,
-                    "LevelSavegame gate-byte writer threw");
+                        "LevelSavegame gate-byte writer threw");
+        }
     }
 
     if (!services->save_level_savegame) {
         // The original C++ Save is a void call. A provider outage is new to
         // this adapter, so restore the borrowed field before returning.
         std::string restore_error;
-        ++result.service_calls;
-        try {
-            if (!services->write_savegame_gate_39(services->context,
-                    state->level_savegame, state->level_savegame_gate_39,
-                    restore_error))
-                result.original_gate_restored = 1;
-        } catch (...) {}
+        if (force) {
+            ++result.service_calls;
+            try {
+                if (!services->write_savegame_gate_39(services->context,
+                        state->level_savegame, state->level_savegame_gate_39,
+                        restore_error))
+                    result.original_gate_restored = 1;
+            } catch (...) {}
+        }
         if (error.empty()) error = "LevelSavegame::Save provider unavailable";
         result.status = Status::service_unavailable;
         *output = result;
@@ -87,6 +92,21 @@ Status run(const State* state, std::uint32_t force, const Services* services,
     try {
         if (services->save_level_savegame(services->context,
                 state->level_savegame, error)) {
+            if (force) {
+                std::string restore_error;
+                ++result.service_calls;
+                try {
+                    if (!services->write_savegame_gate_39(services->context,
+                            state->level_savegame, state->level_savegame_gate_39,
+                            restore_error))
+                        result.original_gate_restored = 1;
+                } catch (...) {}
+            }
+            return fail(result, output, error, Status::service_failed,
+                        "LevelSavegame::Save provider failed");
+        }
+    } catch (...) {
+        if (force) {
             std::string restore_error;
             ++result.service_calls;
             try {
@@ -95,34 +115,27 @@ Status run(const State* state, std::uint32_t force, const Services* services,
                         restore_error))
                     result.original_gate_restored = 1;
             } catch (...) {}
-            return fail(result, output, error, Status::service_failed,
-                        "LevelSavegame::Save provider failed");
         }
-    } catch (...) {
-        std::string restore_error;
-        ++result.service_calls;
-        try {
-            if (!services->write_savegame_gate_39(services->context,
-                    state->level_savegame, state->level_savegame_gate_39,
-                    restore_error))
-                result.original_gate_restored = 1;
-        } catch (...) {}
         return fail(result, output, error, Status::service_failed,
                     "LevelSavegame::Save provider threw");
     }
     result.save_called = 1;
 
-    ++result.service_calls;
-    try {
-        if (services->write_savegame_gate_39(services->context,
-                state->level_savegame, state->level_savegame_gate_39, error))
+    if (force) {
+        ++result.service_calls;
+        try {
+            if (services->write_savegame_gate_39(services->context,
+                    state->level_savegame, state->level_savegame_gate_39, error))
+                return fail(result, output, error, Status::service_failed,
+                            "LevelSavegame original gate-byte restore failed");
+        } catch (...) {
             return fail(result, output, error, Status::service_failed,
-                        "LevelSavegame original gate-byte restore failed");
-    } catch (...) {
-        return fail(result, output, error, Status::service_failed,
-                    "LevelSavegame original gate-byte restore threw");
+                        "LevelSavegame original gate-byte restore threw");
+        }
+        result.original_gate_restored = 1;
+    } else {
+        result.original_gate_restored = 1; // no source write was made
     }
-    result.original_gate_restored = 1;
     return finish(Status::saved);
 }
 

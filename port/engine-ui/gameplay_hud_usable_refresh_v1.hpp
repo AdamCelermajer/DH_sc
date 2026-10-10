@@ -1,6 +1,8 @@
 #pragma once
 
 #include <chrono>
+#include <cstdint>
+#include <utility>
 
 namespace dh2::ui {
 
@@ -22,5 +24,22 @@ public:
 private:
     TimePoint last_refresh_{};
 };
+
+// Cast actions can change the source OnSkillCheck/OnSpellCheck result before
+// the normal HUD polling interval expires. Preserve a fresh cache when an
+// action fails; invalidate only after the bound source action completes.
+template<class Action>
+bool run_hud_action_and_refresh_usable_v1(
+        GameplayHudUsableRefreshV1& refresh, Action&& action) {
+    if (!std::forward<Action>(action)()) return false;
+    refresh.invalidate();
+    return true;
+}
+
+inline void refresh_usable_after_skill_train_v1(
+        GameplayHudUsableRefreshV1& refresh, bool test_only,
+        std::uint32_t source_result) noexcept {
+    if (!test_only && source_result != 0) refresh.invalidate();
+}
 
 } // namespace dh2::ui

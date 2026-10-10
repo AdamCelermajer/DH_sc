@@ -40,6 +40,14 @@ int main(int argc, char** argv) {
         xp::View short_view{bytes.data(), 8};
         check(xp::read(&short_view, 160, &untouched, error) != 0 &&
               untouched == 123.0f, "truncated DesignSettings table mutated output");
+        std::int32_t combat_music_trigger=-1;
+        check(xp::read_combat_music_trigger(&view,&combat_music_trigger,error)==0&&
+              combat_music_trigger==4,
+              "source DesignSettings CombatMusicTrigger at +0x14 changed");
+        combat_music_trigger=123;
+        check(xp::read_combat_music_trigger(&short_view,&combat_music_trigger,error)!=0&&
+              combat_music_trigger==123,
+              "truncated combat-music DesignSettings table mutated output");
         std::puts("PASS: seven XP DesignSettings source fields and fail-closed bounds");
         return 0;
     } catch (const std::exception& error) {

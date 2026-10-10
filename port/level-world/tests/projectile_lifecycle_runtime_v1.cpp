@@ -1,18 +1,29 @@
 #include "../projectile_lifecycle_runtime_v1.hpp"
+#include "../projectile_factory_owner_v1.hpp"
+#include "../../game-data/projectile_table_v1.hpp"
 
 #include <cassert>
 #include <cstdint>
+#include <fstream>
+#include <iterator>
 #include <string>
 #include <vector>
 
 namespace projectile = dh2::projectile_lifecycle_runtime_v1;
 namespace objects = dh2::object_manager_runtime_owner_v1;
+namespace factory_owner = dh2::projectile_factory_owner_v1;
 
 struct Fixture {
     std::vector<char> calls;
     objects::Address manager{};
     objects::GameObject* expected_owner{};
     objects::GameObject* expected_target{};
+    const dh2::data::ProjectileRowV1* expected_source_record{};
+    std::int32_t expected_projectile_id{4};
+    projectile::ProjectileCallback expected_check_callback{0x1234};
+    projectile::ProjectileCallback expected_hit_callback{0x5678};
+    objects::Address expected_user_data{0x7788};
+    float expected_angle{17.5f};
     bool fail_stop{};
     bool fail_info{};
     int float_calls{};
@@ -46,12 +57,19 @@ static projectile::Status set_info_float(
     auto& f = *static_cast<Fixture*>(context);
     ++f.float_calls;
     f.calls.push_back('f');
-    assert(args.projectile_id == 4);
+    assert(args.projectile_id == f.expected_projectile_id);
     assert(args.owner == f.expected_owner);
     assert(args.target == f.expected_target);
-    assert(args.on_hit == 0x1234 && args.on_miss == 0x5678);
-    assert(args.user_data == 0x7788);
-    assert(angle == 17.5f);
+    assert(args.collision_check_callback == f.expected_check_callback &&
+           args.collision_hit_callback == f.expected_hit_callback);
+    assert(args.user_data == f.expected_user_data);
+    assert(args.source_record == f.expected_source_record);
+    if (args.source_record != nullptr) {
+        assert(args.source_record->row_index ==
+               static_cast<std::uint32_t>(args.projectile_id));
+        assert(!args.source_record->model_path.empty());
+    }
+    assert(angle == f.expected_angle);
     return f.fail_info ? projectile::Status::hook_failed : projectile::Status::ok;
 }
 
@@ -184,17 +202,183 @@ static projectile::SpawnRequest request_for(std::string name = "Projectile_009")
     request.projectile_manager = 0x99;
     request.owner_identity = 100;
     request.target_identity = 200;
-    request.on_hit = 0x1234;
-    request.on_miss = 0x5678;
+    request.collision_check_callback = 0x1234;
+    request.collision_hit_callback = 0x5678;
     request.user_data = 0x7788;
     request.angle_degrees = 17.5f;
     return request;
 }
 
-int main() {
+static void canonical_factory_reservation_bridge() {
+    objects::Owner manager;
+    (void)add(manager, 1, 100, "player");
+    (void)add(manager, 2, 200, "target");
+    factory_owner::Owner factory(manager);
+    factory_owner::Request source{};
+    source.projectile_id = 4;
+    source.projectile_table_size = 12;
+    source.source_serial = 9; // passed through from ProjectileManager::_Create
+    source.projectile_manager = 0x99;
+    source.owner_identity = 100;
+    source.target_identity = 200;
+    source.collision_check_callback = 0x1234;
+    source.collision_hit_callback = 0x5678;
+    source.user_data = 0x7788;
+    source.angle_degrees = 17.5f;
+
+    factory_owner::Reservation reservation{};
+    assert(factory.reserve(source, &reservation) == factory_owner::Status::ok);
+    assert(reservation.source_handle == 3 &&
+           reservation.name == "Projectile_009" &&
+           reservation.type == projectile::FactoryType::projectile &&
+           manager.find_by_source_handle(3)->identity == 0);
+
+    Fixture fixture{};
+    fixture.manager = source.projectile_manager;
+    fixture.expected_owner = manager.find_by_identity(source.owner_identity);
+    fixture.expected_target = manager.find_by_identity(source.target_identity);
+    projectile::FactoryProduct product{};
+    product.source_handle = reservation.source_handle;
+    product.name = reservation.name;
+    product.type = reservation.type;
+    product.object.identity = 0x300;
+    const auto result = factory.spawn(&reservation, product, hooks(fixture));
+    assert(result.status == factory_owner::Status::ok &&
+           result.lifecycle.status == projectile::Status::ok &&
+           result.lifecycle.registered && reservation.attempted);
+    assert(result.lifecycle.object == manager.find_by_source_handle(3) &&
+           result.lifecycle.object == manager.find_by_name("Projectile_009"));
+    assert((fixture.calls == std::vector<char>{'m', 'u', 'f', 'a'}));
+    assert(factory.spawn(&reservation, product, hooks(fixture)).status ==
+           factory_owner::Status::already_attempted);
+
+    factory_owner::Request laser = source;
+    laser.laser_type = true;
+    laser.source_serial = 4; // caller-owned laser-pool serial
+    factory_owner::Reservation laser_reservation{};
+    assert(factory.reserve(laser, &laser_reservation) == factory_owner::Status::ok);
+    assert(laser_reservation.name == "LTProjectile_004" &&
+           laser_reservation.type == projectile::FactoryType::laser_type_projectile);
+
+    factory_owner::Request invalid = source;
+    invalid.source_serial = 9;
+    factory_owner::Reservation duplicate{};
+    assert(factory.reserve(invalid, &duplicate) ==
+           factory_owner::Status::reservation_failed);
+}
+
+static std::vector<std::uint8_t> read_asset(const std::string& root,
+                                            const char* name) {
+    std::ifstream input(root + "/" + name, std::ios::binary);
+    assert(input);
+    return {std::istreambuf_iterator<char>(input),
+            std::istreambuf_iterator<char>()};
+}
+
+static void source_table_factory_selection(const std::string& asset_data) {
+    const auto records = read_asset(asset_data, "projectiles_pyarray.bin");
+    const auto names = read_asset(asset_data, "projectiles_pyarraynames.bin");
+    const auto schema = read_asset(asset_data, "projectiles_pystructnames.bin");
+    const auto dict_names = read_asset(
+        asset_data, "projectiles_dictionary_pyarraynames.bin");
+    const auto dict_values = read_asset(
+        asset_data, "projectiles_dictionary_pyarray.bin");
+    const auto view = [](const std::vector<std::uint8_t>& bytes) {
+        return dh2::data::Bytes{bytes.data(), bytes.size()};
+    };
+
+    dh2::data::ProjectileTableV1 table{};
+    std::string error;
+    assert(dh2::data::load_projectile_table_v1(
+        view(records), view(names), view(schema), view(dict_names),
+        view(dict_values), table, error));
+    assert(error.empty() && table.rows.size() == 41);
+    const auto* const arrow = dh2::data::projectile_row_v1(table, "ArrowDefault");
+    const auto* const laser = dh2::data::projectile_row_v1(table, "BlueLaser");
+    assert(arrow != nullptr && arrow->model_path ==
+        "data/3D/projectiles/projectile_arrow_default.bdae");
+    assert(!arrow->is_laser && arrow->velocity > 0.0f);
+    assert(laser != nullptr && laser->is_laser && laser->model_path ==
+        "data/3D/projectiles/projectile_dh2_lightbeam_blue.bdae");
+    assert(dh2::data::projectile_row_v1(table, -1) == nullptr);
+
+    objects::Owner manager;
+    (void)add(manager, 1, 100, "player");
+    factory_owner::Owner factory(manager);
+    factory_owner::Request request{};
+    request.projectile_id = static_cast<std::int32_t>(laser->row_index);
+    request.projectile_table_size = 1;  // replaced from the source table
+    request.laser_type = false;         // also replaced from the source row
+    request.source_serial = 4;
+    request.projectile_manager = 0x99;
+    request.owner_identity = 100;
+    factory_owner::Reservation reservation{};
+    assert(factory.reserve_from_source(request, table, &reservation) ==
+           factory_owner::Status::ok);
+    assert(reservation.name == "LTProjectile_004" &&
+           reservation.type == projectile::FactoryType::laser_type_projectile);
+    assert(reservation.request.projectile_table_size == 41 &&
+           reservation.request.laser_type && reservation.source_record_valid &&
+           reservation.source_record.table_name == "BlueLaser" &&
+           reservation.source_record.model_path == laser->model_path);
+
+    Fixture launch{};
+    launch.manager = request.projectile_manager;
+    launch.expected_owner = manager.find_by_identity(request.owner_identity);
+    launch.expected_projectile_id = request.projectile_id;
+    launch.expected_source_record = &reservation.source_record;
+    launch.expected_check_callback = request.collision_check_callback;
+    launch.expected_hit_callback = request.collision_hit_callback;
+    launch.expected_user_data = request.user_data;
+    launch.expected_angle = request.angle_degrees;
+    projectile::FactoryProduct product{};
+    product.source_handle = reservation.source_handle;
+    product.name = reservation.name;
+    product.type = reservation.type;
+    product.object.identity = 0x123456;
+    auto result = factory.spawn(&reservation, product, hooks(launch));
+    assert(result.status == factory_owner::Status::ok &&
+           result.lifecycle.status == projectile::Status::ok &&
+           result.lifecycle.object != nullptr);
+    assert((launch.calls == std::vector<char>{'m', 'u', 'f', 'a'}));
+
+    request.projectile_id = static_cast<std::int32_t>(arrow->row_index);
+    request.source_serial = 9;
+    request.laser_type = true;
+    factory_owner::Reservation normal{};
+    assert(factory.reserve_from_source(request, table, &normal) ==
+           factory_owner::Status::ok);
+    assert(normal.name == "Projectile_009" &&
+           normal.type == projectile::FactoryType::projectile &&
+           !normal.request.laser_type && normal.source_record_valid &&
+           normal.source_record.model_path == arrow->model_path);
+
+    auto mismatched = normal;
+    mismatched.source_record.is_laser = true;
+    projectile::FactoryProduct mismatched_product{};
+    mismatched_product.source_handle = mismatched.source_handle;
+    mismatched_product.name = mismatched.name;
+    mismatched_product.type = mismatched.type;
+    mismatched_product.object.identity = 0x123457;
+    Fixture rejected{};
+    rejected.manager = request.projectile_manager;
+    const auto mismatch_result = factory.spawn(
+        &mismatched, mismatched_product, hooks(rejected));
+    const auto* const still_reserved = manager.find_by_source_handle(
+        mismatched.source_handle);
+    assert(mismatch_result.lifecycle.status ==
+               projectile::Status::invalid_projectile_id &&
+           still_reserved != nullptr && still_reserved->identity == 0 &&
+           rejected.calls.empty());
+}
+
+int main(int argc, char** argv) {
     assert(projectile::factory_name(false, 9) == "Projectile_009");
     assert(projectile::factory_name(true, 9) == "LTProjectile_009");
     assert(projectile::factory_name(false, 1000) == "Projectile_1000");
+
+    canonical_factory_reservation_bridge();
+    if (argc > 1) source_table_factory_selection(argv[1]);
 
     objects::Owner owner;
     (void)add(owner, 1, 100, "player");

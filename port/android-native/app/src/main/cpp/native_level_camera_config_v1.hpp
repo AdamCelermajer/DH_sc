@@ -54,6 +54,24 @@ struct CameraRoute {
     std::string animset="Default";
 };
 
+// LevelConfig::DeclareProperties initializes combat_music_enabled to true;
+// generated Crypt's identity LevelConfig omits the property, so that source
+// default remains active unless the authored row overrides it with 0 or 1.
+inline bool parse_combat_music_enabled(std::string_view xml,bool* out) noexcept {
+    if(!out||xml.size()>1024*1024)return false;
+    try {
+        std::string value;
+        bool enabled=true;
+        if(attribute_text(xml,"combat_music_enabled",&value)){
+            if(value=="1")enabled=true;
+            else if(value=="0")enabled=false;
+            else return false;
+        }
+        *out=enabled;
+        return true;
+    }catch(...){return false;}
+}
+
 // LevelConfig::DeclareProperties supplies Default for camera_animset;
 // LevelConfig::InitPost supplies CameraTests.bdae for an empty camera_file.
 inline bool parse_camera_route(std::string_view xml,CameraRoute* out) noexcept {

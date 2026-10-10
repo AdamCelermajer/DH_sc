@@ -92,6 +92,34 @@ int main(int argc, char** argv) {
               std::fabs(bounds.alternate_min - (-1.5f)) < 1e-6f &&
               std::fabs(bounds.alternate_max - 0.5f) < 1e-6f,
               "serialized words map to HandleZoom runtime offsets and source values");
+        std::uint32_t source_rate_bits=4u;
+        float source_rate=0.0f;
+        std::memcpy(&source_rate,&source_rate_bits,sizeof(source_rate));
+        check(std::fabs(bounds.auto_zoom_step-0.1f)<1e-7f &&
+              bounds.auto_zoom_rate==source_rate &&
+              std::fabs(bounds.coop_bottom-1.0f)<1e-6f &&
+              std::fabs(bounds.coop_sides-0.9f)<1e-6f &&
+              std::fabs(bounds.coop_top-0.4f)<1e-6f,
+              "Level::UpdateCameraZoom cache words map to +12/+16/+24/+28/+32 source fields");
+        const std::uint32_t identity[16]{
+            0x3f800000u,0,0,0,0,0x3f800000u,0,0,
+            0,0,0x3f800000u,0,0,0,0,0x3f800000u};
+        dh2::camera_design_zoom_v1::ScreenPoint point{};
+        check(dh2::camera_design_zoom_v1::project_screen_point(identity,0.25f,-0.5f,0.0f,&point)&&
+              std::fabs(point.x-0.25f)<1e-6f&&std::fabs(point.y+0.5f)<1e-6f,
+              "CameraBase::GetScreenCoord returns homogeneous clip x/w,y/w");
+        dh2::camera_design_zoom_v1::Bounds auto_zoom{};
+        auto_zoom.auto_zoom_step=0.1f;auto_zoom.auto_zoom_rate=2.0f;
+        auto_zoom.coop_bottom=1.0f;auto_zoom.coop_sides=0.9f;auto_zoom.coop_top=0.4f;
+        float target_zoom=1.0f;
+        const dh2::camera_design_zoom_v1::ScreenPoint centered{0.0f,0.0f};
+        check(dh2::camera_design_zoom_v1::update_target_zoom(auto_zoom,&centered,1,&target_zoom)&&
+              std::fabs(target_zoom-1.6f)<1e-6f,
+              "screen margin above AutoZoomStep moves CameraLevel target +140 outward");
+        const dh2::camera_design_zoom_v1::ScreenPoint high{0.0f,0.5f};
+        check(dh2::camera_design_zoom_v1::update_target_zoom(auto_zoom,&high,1,&target_zoom)&&
+              std::fabs(target_zoom-1.2f)<1e-6f,
+              "top-edge margin below AutoZoomStep moves CameraLevel target +140 inward");
 
         const auto preserved = bounds;
         check(dh2::camera_design_zoom_v1::decode_global_bounds(nullptr, 0, &bounds) == Status::invalid_input &&

@@ -15,9 +15,12 @@ namespace dh2::ui::original_menu_viewport_v1 {
 inline constexpr std::int32_t stage_width_twips = 9600;
 inline constexpr std::int32_t stage_height_twips = 6400;
 
-// The original MenuFlash2DCamera passes the full driver bounds to the SWF
-// renderer with display mode 0. Keep the authored stage dimensions for input
-// conversion, but use the complete live surface for display and backdrop.
+// IDA: MenuFlash2DCamera::Update (0x42cd84) submits the full driver viewport
+// and full driver bounds with scale_mode 0. root::set_display_bounds
+// (0x7755f4) does not aspect-adjust mode 0; begin_display maps the authored
+// axes independently. Thus 480x320 on 2400x1080 is horizontally stretched
+// (5.0 vs 3.375 display pixels per authored pixel). Keep that source behavior
+// and use the same full surface for rendering and input conversion.
 inline float surface_aspect(std::int32_t surface_width,
                             std::int32_t surface_height) noexcept {
     if (surface_width <= 0 || surface_height <= 0)

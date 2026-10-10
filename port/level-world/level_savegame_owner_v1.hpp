@@ -107,7 +107,9 @@ public:
                         const PublishServices* publisher,
                         SaveResult*, std::string& error);
     void destroy() noexcept;
+    bool set_gate_39(std::uint8_t value) noexcept;
     bool constructed() const noexcept { return constructed_; }
+    std::uint8_t gate_39() const noexcept { return gate_39_; }
     const std::string& filename() const noexcept { return filename_; }
     const std::vector<std::uint8_t>& last_image() const noexcept { return image_; }
 private:
@@ -115,6 +117,7 @@ private:
     std::int32_t info_word_{};
     std::vector<std::uint8_t> image_;
     bool constructed_{};
+    std::uint8_t gate_39_{};
 };
 
 } // namespace dh2::level_savegame_owner_v1

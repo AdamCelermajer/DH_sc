@@ -22,6 +22,11 @@ struct Request {
     // It must not mutate either borrowed PropertyView or CombatActorState.
     void (*before_hit)(void*, float) = nullptr;
     void* before_hit_context = nullptr;
+    // Optional exact lethal callback from HitFor HP=0 to Character::Kill.
+    // It runs while the player state still reports alive and must complete
+    // the canonical kill prefix before returning.
+    int (*before_dead)(void*, CombatResult&) = nullptr;
+    void* before_dead_context = nullptr;
 };
 struct Exchange {
     CombatResult result;

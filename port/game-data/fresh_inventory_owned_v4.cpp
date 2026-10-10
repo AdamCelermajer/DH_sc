@@ -435,6 +435,65 @@ bool FreshInventoryOwnedV4::update_localization(ItemPresentationOwnerV5& present
 }
 bool FreshInventoryOwnedV4::add_gold(std::int32_t amount,const OwnedInventoryServicesV4& s,std::string& e){if(!mutation_allowed(e))return false;if(amount<0){auto neg=wrap32(0u-std::uint32_t(amount));if(gold_<neg)amount=wrap32(0u-std::uint32_t(gold_));}if(amount>0){auto room=wrap32(std::uint32_t(gold_limit_)-std::uint32_t(gold_));if(amount>room)amount=room<0?0:room;}return set_gold(wrap32(std::uint32_t(gold_)+std::uint32_t(amount)),s,e);}
 bool FreshInventoryOwnedV4::add_item(std::unique_ptr<ItemInstanceV1>& incoming,bool force,bool convert_gold,std::int32_t& index,const OwnedInventoryServicesV4& s,std::string& e){if(!mutation_allowed(e))return false;auto* info=metadata(incoming.get(),e);if(!info)return false;auto* p=incoming.get();index=-1;if(potion_capacity_==0&&item_type(*info)==14)return destroy(incoming,s,0x3ff70c,e);if(!potion_&&item_type(*info)==14)potion_=p;if(convert_gold&&item_type(*info)==13){if(!add_gold(p->value,s,e))return false;return destroy(incoming,s,0x3ff744,e);}if(std::uint8_t(info->record.words[7])&&!force){for(std::size_t i=0;i<items_.size();++i){auto* candidate=items_[i]->item.get();if(!candidate)continue;bool equipped;if(!is_equipped(std::uint32_t(i),equipped,e))return false;if(equipped||!equal(*candidate,*p))continue;auto qty=p->signed_quantity();info=metadata(p,e);if(!info)return false;if(item_type(*info)==14){auto room=wrap32(std::uint32_t(std::int32_t(potion_capacity_))-std::uint32_t(candidate->signed_quantity()));if(room<qty)qty=room<0?0:room;}if(!add_quantity(*candidate,qty,e))return false;index=std::int32_t(i);return destroy(incoming,s,0x3ff794,e);}}auto slot=std::make_unique<OwnedItemSlotV4>();slot->item=std::move(incoming);items_.push_back(std::move(slot));auto i=std::uint32_t(items_.size()-1);bool full;observe(s,OwnedInventoryOperationV4::inventory_full,0x3ff6c4,p,0,i);if(!is_full(full,s,e))return false;if(full){OwnedInventoryResponseV4 r;if(!deliver(s,OwnedInventoryOperationV4::full_notifications,0x3ff7a8,p,nullptr,0,i,r,e))return false;}index=std::int32_t(items_.size()-1);e.clear();return true;}
+OwnedItemTransferResultV4 FreshInventoryOwnedV4::transfer_item_to(
+    std::uint32_t index,std::int32_t amount,FreshInventoryOwnedV4& destination,
+    bool force,bool convert_gold,std::int32_t& destination_index,
+    const OwnedInventoryServicesV4& source_services,
+    const OwnedInventoryServicesV4& destination_services,
+    RetainedItemSlotV4 retained,std::string& e){
+ e.clear();destination_index=-1;
+ if(this==&destination||!mutation_allowed(e)||!destination.mutation_allowed(e)||
+    !lifetime_slot(retained,nullptr,e)||!destination.lifetime_slot(retained,nullptr,e)||
+    !retained.value||*retained.value||amount<=0||
+    index>=items_.size()||!items_[index]||!items_[index]->item){
+  if(e.empty())e="Invalid or aliased TransferItemTo owners/output";
+  return OwnedItemTransferResultV4::not_applied;
+ }
+ auto* source_slot=items_[index].get();auto* instance=source_slot->item.get();
+ auto* info=metadata(instance,e);if(!info)return OwnedItemTransferResultV4::not_applied;
+ const auto quantity=instance->signed_quantity();
+ if(quantity<=0){e="TransferItemTo source has non-positive quantity";return OwnedItemTransferResultV4::not_applied;}
+ // Destination AddItemInstance performs its own metadata lookup. Preflight its
+ // immutable ItemTable so invalid cross-table identities cannot detach source.
+ if(!item(destination.tables_.items(),instance->id)){
+  e="TransferItemTo destination ItemTable lacks source item ID";
+  return OwnedItemTransferResultV4::not_applied;
+ }
+ const auto move_all=amount>=quantity;
+ if(!move_all&&!std::uint8_t(info->record.words[7])){
+  e="Partial TransferItemTo requires the source stackable-item Split path";
+  return OwnedItemTransferResultV4::not_applied;
+ }
+ // TransferItemTo is not Character::RemoveItem: it detaches the item object
+ // from this dense inventory without retiring its shared presentation state.
+ if(move_all){
+  *retained.value=std::move(source_slot->item);
+  for(auto& set:equipment_)for(auto*& equipped:set)if(equipped==source_slot)equipped=nullptr;
+  source_slot->slots={{-1,-1}};
+  if(potion_==instance)potion_=nullptr;
+  items_.erase(items_.begin()+std::ptrdiff_t(index));
+ }else{
+  try{
+   if(!split_item(*instance,amount,retained,source_services,e))
+    return OwnedItemTransferResultV4::indeterminate;
+  }catch(const std::exception& x){e=x.what();return OwnedItemTransferResultV4::indeterminate;}
+  catch(...){e="TransferItemTo source Split callback threw";return OwnedItemTransferResultV4::indeterminate;}
+  if(!*retained.value){e="TransferItemTo source Split produced no retained Item";return OwnedItemTransferResultV4::indeterminate;}
+ }
+ auto* moved=retained.value->get();
+ if(!item(destination.tables_.items(),moved->id)){
+  e="TransferItemTo moved Item ID changed outside its source ItemTable";
+  return OwnedItemTransferResultV4::indeterminate;
+ }
+ try{
+  if(!destination.add_item(*retained.value,force,convert_gold,destination_index,
+                           destination_services,e))
+   return OwnedItemTransferResultV4::indeterminate;
+ }catch(const std::exception& x){e=x.what();return OwnedItemTransferResultV4::indeterminate;}
+ catch(...){e="TransferItemTo destination AddItem callback threw";return OwnedItemTransferResultV4::indeterminate;}
+ if(*retained.value){e="TransferItemTo destination accepted without consuming Item";return OwnedItemTransferResultV4::indeterminate;}
+ e.clear();return OwnedItemTransferResultV4::committed;
+}
 bool FreshInventoryOwnedV4::has_two_hander(bool ignore,bool& out,std::string& e)const{out=false;auto* slot=equipment_[set_for_slot(1)][1];if(!slot){e.clear();return true;}auto* p=metadata(slot->item.get(),e);if(!p)return false;auto type=item_type(*p);auto slotting=p->record.words[26];out=(std::uint32_t(type)-4<=1||ignore)?slotting==-4:slotting==-4&&properties_->resolved[203]==0;e.clear();return true;}
 bool FreshInventoryOwnedV4::unequip_from_slot(std::uint32_t slot,std::int32_t selected,const OwnedInventoryServicesV4& s,std::string& e){if(!mutation_allowed(e))return false;if(slot>=9||selected<-1||selected>1){e="UnEquip assertion domain unsupported";return false;}auto active=selected==-1?set_for_slot(std::int32_t(slot)):selected;auto* old=equipment_[active][slot];equipment_[active][slot]=nullptr;if(!old){e.clear();return true;}old->slots[active]=-1;if(old->slots[0]!=-1||old->slots[1]!=-1){e.clear();return true;}auto* info=metadata(old->item.get(),e);if(!info)return false;if(!std::uint8_t(info->record.words[7])){e.clear();return true;}std::uint32_t index=0;bool found;if(!has_like(old->item.get(),index,found,e))return false;if(!found){e.clear();return true;}bool equipped;if(!is_equipped(index,equipped,e))return false;if(equipped){e.clear();return true;}if(!add_quantity(*items_[index]->item,old->item->signed_quantity(),e))return false;return delete_instance(old->item.get(),s,e);}
 bool FreshInventoryOwnedV4::equip_to_slot_impl(std::uint32_t requested,std::uint32_t index,bool forced,std::unique_ptr<ItemInstanceV1>& remainder,bool retained,const OwnedInventoryServicesV4& s,std::string& e){if(!mutation_allowed(e))return false;if(requested>=9||index>=items_.size()){e="Equip assertion domain unsupported";return false;}auto* slot=items_[index].get();if(!slot||!slot->item){e.clear();return true;}auto active=set_for_slot(std::int32_t(requested));auto* info=metadata(slot->item.get(),e);if(!info)return false;auto slotting=info->record.words[26];auto type=item_type(*info);if(type!=5&&type!=4&&slotting==-4&&properties_->resolved[203])slotting=1;if(info->record.words[26]==-1){e.clear();return true;}auto old=slot->slots[active];if(old==std::int32_t(requested)&&equipment_[active][requested]==slot){e.clear();return true;}if(!unequip_from_slot(requested,-1,s,e))return false;old=slot->slots[active];if(old!=-1){if(old<0||old>=9){e="Invalid live equipment slot byte";return false;}if(equipment_[active][std::uint32_t(old)]==slot&&!unequip_from_slot(std::uint32_t(old),-1,s,e))return false;}auto target=requested;if(slotting==-4){if(!forced&&!unequip_from_slot(2,-1,s,e))return false;if(!unequip_from_slot(1,-1,s,e))return false;target=1;}else if(requested==2){bool two;if(!has_two_hander(false,two,e))return false;if(two&&!forced&&!unequip_from_slot(1,-1,s,e))return false;}if(slot->item->signed_quantity()!=1){if(!(retained?split_item(*slot->item,slot->item->signed_quantity()-1,RetainedItemSlotV4{&remainder},s,e):split_item(*slot->item,slot->item->signed_quantity()-1,remainder,s,e)))return false;if(!remainder){e="Source Equip split failed required assertion continuation";return false;}}equipment_[active][target]=slot;equipment_[active][target]->slots[active]=std::int8_t(target);if(remainder){std::int32_t added;return add_item(remainder,true,true,added,s,e);}e.clear();return true;}

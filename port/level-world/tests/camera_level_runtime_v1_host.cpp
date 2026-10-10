@@ -20,6 +20,15 @@ FrameInput frame(const GameObjectSample& target){
 }
 
 int main(){
+    check(can_play_shake_anim({false,true,4,false}),
+          "source shake gate keeps release return true for a null requester");
+    check(can_play_shake_anim({true,false,4,false}),
+          "source shake gate allows non-Player Character requesters without local-player checks");
+    check(can_play_shake_anim({true,true,1,true})&&
+          !can_play_shake_anim({true,true,1,false})&&
+          !can_play_shake_anim({true,true,2,true}),
+          "source shake gate permits only the sole local Player character");
+
     GameObjectSample a{1,true,{2,3,4},true,{10,20,30},false},b{2,true,{50,60,70},false,{},false};
     Owner initialized_owner;
     check(near(initialized_owner.current_zoom(),0.0f)&&near(initialized_owner.target_zoom(),1.0f),
@@ -126,6 +135,14 @@ int main(){
     in.infinite_zoom=false;in.zoom_clamp_disabled=true;owner.set_zoom(0.4f,0.2f);
     check(owner.update(in,&out)==Status::follow_position_written&&near(owner.effective_zoom(),0.8f),
           "source zoom-clamp-disabled path preserves previous effective zoom");
+    in.zoom_clamp_disabled=false;in.design_zoom_bounds.normal_max=0.35f;
+    owner.set_zoom(0.8f,0.2f);owner.set_zoom_locked(true);
+    check(owner.update(in,&out)==Status::follow_position_written&&near(owner.effective_zoom(),0.8f),
+          "NativeLockZoom +134 persists on CameraLevel and skips HandleZoom clamping");
+    owner.set_zoom_locked(false);
+    check(owner.update(in,&out)==Status::follow_position_written&&near(owner.current_zoom(),0.35f)&&
+          near(owner.effective_zoom(),0.2f),
+          "NativeUnlockZoom clears +134 and resumes the configured zoom clamp");
 
     owner.set_zoom(0.8f,0.8f);owner.set_zoom_animation_state(true,false);in.zoom_clamp_disabled=false;
     check(owner.update(in,&out)==Status::follow_position_written&&near(owner.current_zoom(),0.6f)&&
@@ -190,6 +207,22 @@ int main(){
     check(!input.pinch_zoom(100.0f,116.0f)&&
           near(input_owner.current_zoom(),crypt_zoom_before_gesture),
           "source CameraLevel mode false rejects pinch without changing zoom");
+    check(!input.native_pinch_zoom(16.0f,false)&&
+          near(input_owner.current_zoom(),crypt_zoom_before_gesture),
+          "authored NativePinchZoom is inert unless the saved DPad option is enabled");
+    check(input.native_pinch_zoom(16.9f,true)&&
+          near(input_owner.current_zoom(),crypt_zoom_before_gesture+2.0f)&&
+          near(input_owner.target_zoom(),0.8f),
+          "authored NativePinchZoom truncates its numeric input and applies drawable sensitivity to CameraLevel +136");
+    const float native_zoom_before_lock=input_owner.current_zoom();
+    input_owner.set_zoom_locked(true);
+    check(input_owner.zoom_locked()&&!input.native_pinch_zoom(16.0f,true)&&
+          near(input_owner.current_zoom(),native_zoom_before_lock),
+          "NativeSetLockZoom +134 rejects authored zoom input without changing current zoom");
+    input_owner.set_zoom_locked(false);
+    check(!input_owner.zoom_locked()&&input.native_pinch_zoom(16.0f,true),
+          "NativeUnlockZoom clears +134 and re-enables the authored zoom input");
+    input_owner.set_zoom(crypt_zoom_before_gesture,0.8f);
     crypt_camera_frame.use_object_position=true;
     check(input_owner.update(crypt_camera_frame,&out)==Status::follow_position_written&&
           input_owner.use_object_position(),
@@ -227,5 +260,38 @@ int main(){
           "invalid pinch distances leave camera zoom unchanged");
     check(!input.set_camera(&input_owner,{0,0})&&input_owner.current_zoom()==input_zoom,
           "invalid difficulty counts are rejected without mutating zoom");
+
+    Owner gameplay_camera;gameplay_camera.enable_damping(false);
+    gameplay_camera.set_zoom(0.3f,0.4f);
+    check(gameplay_camera.set_target(&b,0,nullptr),"map session fixture retains live Player identity");
+    const auto gameplay_zoom_before=gameplay_camera.current_zoom();
+    MapCameraSession map;
+    check(map.open(b,{1000,1600})&&map.active()&&map.target_identity()==b.identity&&
+          map.camera_owner().use_object_position()&&near(map.camera_owner().current_zoom(),0.0f)&&
+          near(map.camera_owner().target_zoom(),1.0f),
+          "interactive map opens a distinct object-position CameraLevel with source zoom defaults");
+    check(map.pan(2,-3,true)&&near(map.pan_offset(),{-100,-150,0}),
+          "map menu pan mutates only its bound CameraLevel offsets");
+    check(map.pinch(100.0f,260.0f)&&near(map.camera_owner().current_zoom(),0.1f),
+          "map menu pinch binds ZoomHandler to the separate map camera and drawable sensitivity");
+    const auto map_pan_before_reset=map.pan_offset();
+    map.camera_owner().set_zoom(0.4f,0.6f);
+    check(map.reset_zoom()&&near(map.camera_owner().current_zoom(),0.0f)&&
+          near(map.camera_owner().target_zoom(),1.0f)&&
+          near(map.pan_offset(),map_pan_before_reset)&&
+          near(gameplay_camera.current_zoom(),gameplay_zoom_before),
+          "authored ResetMapZoom restores only the active map CameraLevel current/target zoom");
+    auto map_frame=frame(b);map_frame.dt_ms=16;
+    FrameOutput map_out{};
+    check(map.update(map_frame,&map_out)&&map.update(map_frame,&map_out)&&
+          near(gameplay_camera.current_zoom(),gameplay_zoom_before),
+          "map frame updates require the exact Player target while preserving gameplay camera zoom");
+    auto wrong_map_frame=frame(a);
+    check(!map.update(wrong_map_frame,&map_out),
+          "map camera rejects a frame from any target other than its retained Player");
+    map.close();
+    check(!map.active()&&map.target_identity()==0&&!map.reset_zoom()&&!map.pinch(0,100)&&
+          !map.pan(1,1,true)&&near(gameplay_camera.current_zoom(),gameplay_zoom_before),
+          "map teardown unbinds gestures and retires only its own camera owner");
     std::printf("PASS: CameraLevel source-backed host checks (%d assertions)\n",assertions);
 }

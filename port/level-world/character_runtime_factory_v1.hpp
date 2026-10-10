@@ -4,6 +4,10 @@
 #include "character_net_state_owner_v1.hpp"
 #include "character_aggro_character_list.hpp"
 #include "character_faery_script_session_v1.hpp"
+#include "character_coordinator.hpp"
+#include "character_kill_field_14e4_v1.hpp"
+#include "character_faery_visual_facade_v1.hpp"
+#include "character_ai_initialization.hpp"
 #include "object_manager_runtime_owner_v1.hpp"
 
 #include <array>
@@ -19,6 +23,8 @@ namespace dh2::character_gameplay_save_v1 {
 struct SaveRef;
 struct Result;
 }
+
+namespace dh2::character_physical_component_v1 { class Owner; }
 
 namespace dh2::character_runtime_factory_v1 {
 
@@ -57,6 +63,34 @@ struct ComponentStorage {
     void* find(ctor::Component component) const noexcept;
 };
 
+// Source ItemInventory constructor projection for Character+0x37c. The
+// constructor creates two equipment sets with nine null ItemSlot pointers
+// each, then Character binds the inventory's +4 Character pointer and the
+// selected set reads as zero. This is constructor state only; item creation,
+// Save loading, and inventory mutations belong to later source lifecycle
+// providers. Player V4 remains its separate Save-backed owner.
+struct ItemInventoryConstructorV1 {
+    std::uintptr_t character{};
+    std::array<std::array<void*, 9>, 2> equipment{};
+    std::uint8_t selected_set{};
+    bool constructed{};
+
+    bool construct(std::uintptr_t identity) noexcept {
+        if (!identity || constructed) return false;
+        character = identity;
+        equipment = {};
+        selected_set = 0;
+        constructed = true;
+        return true;
+    }
+    void retire() noexcept {
+        character = 0;
+        equipment = {};
+        selected_set = 0;
+        constructed = false;
+    }
+};
+
 // Component and lifecycle services must use the existing native semantic
 // owners. A successful component call must set the slot to that canonical
 // owner; a failed call must leave its own partial work rolled back.
@@ -90,9 +124,34 @@ public:
     aggro::Character character{};
     ComponentStorage components{};
     ctor::Owner constructor{};
+    // One native composition owner supplies the source CharTimers and
+    // CharStateMachine constructor slots. Both slots point to this same owner;
+    // it owns the single timer store and FSM state for this Character.
+    std::unique_ptr<character::Coordinator> coordinator;
+    // One source ItemInventory constructor owner for this same Character.
+    // It owns only the two empty source equipment-set projections at this
+    // constructor stage; later InitEquipment providers must extend this owner.
+    ItemInventoryConstructorV1 source_inventory{};
+    // Retained Character+0x14e4 projection. Owner initializes it only after
+    // the complete source Character constructor composition succeeds and
+    // retires it with the source Character Record; network-spawn updates must
+    // come from their own source-equivalent message path.
+    character_kill_field_14e4_v1::State kill_field_14e4{};
     // The one AISFaery/CharAIScript session slot for this exact Character
     // Record. Its VM/session lifetime may not outlive this factory owner.
     character_faery_script_session_v1::Owner faery_script{};
+    // Typed POCharacter/POFaerie body owner, bound to this Record's existing
+    // Character and GameObject projections. This does not construct a second
+    // ObjectManager or CharacterList row and does not emulate a native vtable.
+    std::shared_ptr<character_physical_component_v1::Owner> pofaerie_physical;
+    // Per-Character BDAE visual facade. The selected AssetData is shared;
+    // placement, visibility, mutable pose, and clip cursor stay on this
+    // canonical factory Record. Current objects::Resource still owns mutable
+    // geometry buffers, so parsed geometry sharing awaits renderer separation.
+    character_faery_visual_facade_v1::CharacterVisual faery_visual{};
+    // Opaque identity returned by the source POFaerie constructor provider;
+    // zero until that provider actually supplies the native source owner.
+    std::uintptr_t source_pofaerie_identity{};
     net_state::Owner net_state{};
     std::uint64_t net_state_change_counter{};
     std::int16_t property_id_13c8{-1};
@@ -135,6 +194,11 @@ public:
     bool source_properties_ready() const noexcept { return source_properties_ready_; }
     bool init_post_complete() const noexcept { return init_post_complete_; }
     bool init_final_complete() const noexcept { return init_final_complete_; }
+
+    // Resolve the one canonical CharAI owner installed in this Record's AI
+    // component slot. This is a borrowed typed view, never a second owner.
+    character_ai_initialization::State* canonical_ai() noexcept;
+    const character_ai_initialization::State* canonical_ai() const noexcept;
 
 private:
     friend class Owner;
@@ -232,6 +296,11 @@ public:
                           std::string& error);
     Record* find(manager::SourceHandle source_handle) noexcept;
     const Record* find(manager::SourceHandle source_handle) const noexcept;
+    // Identity lookup stays inside the same ObjectManager-keyed Record owner;
+    // it is used by synchronous CharacterList consumers that receive a
+    // Character identity rather than its original source handle.
+    Record* find_character(std::uintptr_t identity) noexcept;
+    const Record* find_character(std::uintptr_t identity) const noexcept;
     std::size_t size() const noexcept { return records_.size(); }
 
 private:

@@ -34,7 +34,7 @@ def main() -> int:
     ran = subprocess.run([str(output)], cwd=ROOT, capture_output=True, text=True)
     if ran.returncode:
         raise RuntimeError(ran.stdout + ran.stderr)
-    print("PASS: full-driver front/menu bounds and hit mapping across four aspect ratios (24 assertions)")
+    print("PASS: source-faithful full-driver front/menu bounds and hit mapping (26 assertions)")
     return 0
 
 

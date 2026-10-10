@@ -109,6 +109,16 @@ Status Owner::add_named_object(SourceHandle source_handle, std::string_view name
             }
         }
         *stored = &inserted.first->second;
+        // SourceLevel construction may publish an already assigned ordered
+        // ledger key before any dynamic GetObjectByName call. Keep the one
+        // canonical +0x4c counter beyond every successfully retained key so
+        // later runtime spawns (including Module-created RoomZones) continue
+        // the same allocation stream instead of retrying from handle 1.
+        if (source_handle >= next_source_handle_) {
+            next_source_handle_ = source_handle ==
+                    std::numeric_limits<SourceHandle>::max()
+                ? source_handle : static_cast<SourceHandle>(source_handle + 1);
+        }
         return Status::ok;
     } catch (const std::bad_alloc&) {
         return Status::allocation_failed;
@@ -168,6 +178,8 @@ Status Owner::remove_object(SourceHandle source_handle, bool* removed) noexcept 
 
     bool no_room_removed = false;
     if (found->second.identity != 0) {
+        update_objects_.remove(found->second.identity);
+        staged_update_objects_.remove(found->second.identity);
         const Status no_room_status =
             remove_no_room_object(found->second.identity, &no_room_removed);
         (void)no_room_removed;
@@ -182,6 +194,65 @@ Status Owner::remove_object(SourceHandle source_handle, bool* removed) noexcept 
     }
     objects_.erase(found);
     *removed = true;
+    return Status::ok;
+}
+
+Status Owner::append_init_post_update_object(Address identity,
+                                             bool source_is_updatable,
+                                             bool* appended) noexcept {
+    if (appended == nullptr || identity == 0) return Status::invalid_argument;
+    *appended = false;
+    if (!source_is_updatable) return Status::ok;
+    if (find_by_identity(identity) == nullptr) return Status::not_found;
+    try {
+        update_objects_.push_back(identity);
+    } catch (...) {
+        return Status::allocation_failed;
+    }
+    *appended = true;
+    return Status::ok;
+}
+
+Status Owner::stage_spawn_update_object(Address identity,
+                                        bool source_is_updatable,
+                                        bool* staged) noexcept {
+    if (staged == nullptr || identity == 0) return Status::invalid_argument;
+    *staged = false;
+    if (!source_is_updatable) return Status::ok;
+    if (find_by_identity(identity) == nullptr) return Status::not_found;
+    try {
+        staged_update_objects_.push_back(identity);
+    } catch (...) {
+        return Status::allocation_failed;
+    }
+    *staged = true;
+    return Status::ok;
+}
+
+void Owner::begin_update_frame() noexcept {
+    update_objects_.splice(update_objects_.end(), staged_update_objects_);
+}
+
+bool Owner::update_object_at(std::size_t index, GameObject** object) noexcept {
+    if (object == nullptr) return false;
+    *object = nullptr;
+    if (index >= update_objects_.size()) return false;
+    auto found = update_objects_.begin();
+    std::advance(found, static_cast<std::ptrdiff_t>(index));
+    *object = find_by_identity(*found);
+    return *object != nullptr;
+}
+
+Status Owner::visit_update_objects(void* context, UpdateCallback callback,
+                                   std::size_t* visited) noexcept {
+    if (callback == nullptr || visited == nullptr) return Status::invalid_argument;
+    *visited = 0;
+    for (const Address identity : update_objects_) {
+        GameObject* object = find_by_identity(identity);
+        if (object == nullptr) return Status::not_found;
+        if (!callback(context, object)) return Status::update_callback_failed;
+        ++*visited;
+    }
     return Status::ok;
 }
 
@@ -342,6 +413,8 @@ void Owner::reset_after_native_flush() noexcept {
     names_.clear();
     no_room_objects_.clear();
     room_objects_.clear();
+    update_objects_.clear();
+    staged_update_objects_.clear();
     visible_room_zone_count_ = 0;
     next_source_handle_ = 1;
 }

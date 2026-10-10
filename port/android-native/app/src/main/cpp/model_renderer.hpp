@@ -8,6 +8,7 @@
 #include "data.hpp"
 #include "item_presentation_v5.hpp"
 #include "loot_entry_selection_v1.hpp"
+namespace dh2::character_runtime_factory_v1 { class Record; }
 namespace dh2::native::quests { struct QuestTextServicesV1; }
 namespace model_renderer {
 using ItemTextServicesFactoryV5 = dh2::data::ItemTextServicesV5 (*)(
@@ -16,6 +17,9 @@ void bind_item_text_services(void*,ItemTextServicesFactoryV5);
 // Borrows the retained OriginalUiSession DesignSettingsTable bytes for
 // source DistributeXP scaling; caller keeps that table owner alive.
 void bind_xp_design_settings(const std::uint8_t*,std::size_t);
+// Source DesignSettings::CombatMusicTrigger (+0x14), borrowed from the same
+// retained OriginalUiSession table owner.
+bool ui_combat_music_trigger(std::int32_t&,std::string&);
 void mod_directory(std::string);
 void runtime_directory(std::string);
 std::string profile_slot(int);
@@ -26,6 +30,7 @@ bool assign_menu_save_slot(std::int32_t slot,std::int32_t ordinal,std::string&);
 bool selected_menu_save_slot(std::int32_t&,std::string&);
 bool select_menu_preview_slot(std::int32_t,bool,std::string&);
 bool request_menu_start(bool,std::int32_t,std::int32_t&,std::string&);
+bool request_menu_continue(std::int32_t&,std::string&);
 std::string start_menu_game(std::int32_t,AAssetManager*,std::int32_t debug_level_row=-1,
                             bool has_numeric_difficulty=false,std::int32_t requested_difficulty=0);
 // Source MenuCharMenu_Map::ShowLevelName reads the active LevelList row's
@@ -53,10 +58,32 @@ std::string load_world(const std::uint8_t*,std::size_t,AAssetManager*,
                        const std::uint8_t* generated_spawnpoints=nullptr,
                        std::size_t generated_spawnpoints_size=0);
 void move_axis(float x,float y);
+// Direct HUD pointer-up route: Stop the GameObject, then raise event 63.
+void stop_movement();
 // Owning GL thread only. Applies the original ZoomHandler pinch delta to the
 // active CameraLevel owner; returns false when that source camera is inactive.
 bool camera_pinch_zoom(float previous_distance,float current_distance);
 bool camera_touch_pan(std::int32_t delta_x,std::int32_t delta_y);
+// Authored NativeLockZoom/NativeUnlockZoom mutate +134 on the currently bound
+// source CameraLevel, retaining the canonical player/map camera ownership.
+void camera_zoom_lock(bool locked) noexcept;
+// MenuCharMenu_Map owns a distinct camera rig and CameraLevel. Open/close are
+// called on the GL/UI owner thread when that authored menu enters/leaves.
+bool map_camera_open(std::string& error);
+void map_camera_close() noexcept;
+// Authored NativeResetMapZoom resets the active MenuCharMenu_Map CameraLevel.
+bool map_camera_reset_zoom(std::string& error);
+// Submit the already-updated world into MenuCharMenu_Map::RenderMap's clipped
+// viewport. This render-only pass never advances Level or actor simulation.
+bool draw_map_scene(int width,int height,std::string& error);
+// Non-owning render registration for the canonical Character factory Record.
+// The factory remains the sole Record owner and must unregister before retire.
+bool register_faery_visual_record(dh2::character_runtime_factory_v1::Record& player,
+                                  dh2::character_runtime_factory_v1::Record& faery,
+                                  std::string& error);
+void unregister_faery_visual_record(
+    dh2::character_runtime_factory_v1::Record& player,
+    dh2::character_runtime_factory_v1::Record& faery) noexcept;
 // Authored HUD joystick already produces the source-rotated direction and
 // magnitude. It enters the existing Player controller directly, bypassing the
 // Android touch/gamepad deadzone and camera remapping. stop=true schedules the
@@ -131,6 +158,7 @@ struct UiPlayerStatsReadV1 {
 // timers, potion count, points and the one selected class/faery stay live.
 struct UiPlayerHudProjectionV1 {
  std::uintptr_t character{};
+ std::int8_t object_of_interest_type{-1};
  std::int32_t class_id{-1},faery_id{-1};
  std::array<std::int32_t,3> skill_slots{-1,-1,-1};
  std::array<std::int32_t,17> infos{};
@@ -153,6 +181,9 @@ struct UiQuestReadV1 {
 bool ui_player_quest_rows(std::uintptr_t,std::vector<UiQuestReadV1>&,std::string&,
                           const dh2::native::quests::QuestTextServicesV1* =nullptr);
 bool ui_player_save_game(std::uintptr_t,std::string&);
+// Authored NativeSaveGame trophy tail, called only after its canonical
+// Player profile save has completed.
+bool ui_player_save_trophy_side_effects(std::uintptr_t,std::string&);
 // Reached only after the original _GiveXP max-level gate. Advances the same
 // Character/Save through LevelUp property reset, base-class recalc, RegenHP,
 // RegenMP, SG_SetPlayerLevel, then the canonical SG_Save transport.

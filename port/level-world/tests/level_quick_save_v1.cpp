@@ -108,9 +108,11 @@ int main() {
     check(qs::run(&forced, 0, &ordinary.services, &result, error) == qs::Status::saved,
           "ordinary QuickSave call failed");
     check(!ordinary.save_saw_open_gate && ordinary.gate == 0x31,
-          "ordinary QuickSave did not preserve source 0x6c gate behavior");
-    check(ordinary.calls == std::vector<std::string>{"position", "block", "save", "restore"},
-          "ordinary QuickSave source order changed");
+          "ordinary QuickSave changed LevelSavegame +0x39");
+    check(ordinary.calls == std::vector<std::string>{"position", "save"},
+          "ordinary QuickSave touched +0x39 instead of calling Save directly");
+    check(result.original_gate_restored,
+          "ordinary QuickSave did not report its unchanged gate");
 
     Fixture failed;
     failed.fail_save = true;

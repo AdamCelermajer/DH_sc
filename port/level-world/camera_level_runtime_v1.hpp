@@ -92,7 +92,13 @@ public:
     void end_animation() noexcept;
     void set_zoom(float current, float target) noexcept;
     void set_zoom_animation_state(bool active, bool preserve_zoom) noexcept;
+    // NativeSetLockZoom writes CameraLevel +134; while set, HandleZoom skips
+    // its normal clamp and NativePinchZoom ignores user input.
+    void set_zoom_locked(bool locked) noexcept { zoom_locked_=locked; }
     void set_default_target_distance(float distance) noexcept;
+    // MenuCharMenu_Map::CreateMapCamera explicitly sets CameraLevel +0x85.
+    // The ordinary Level camera keeps its constructor default (false).
+    void set_use_object_position(bool enabled) noexcept { use_object_position_=enabled; }
 
     Status update(const FrameInput&, FrameOutput*) noexcept;
     std::uintptr_t target_identity() const noexcept { return target_identity_; }
@@ -105,6 +111,7 @@ public:
     bool use_object_position() const noexcept { return use_object_position_; }
     std::int32_t transition_remaining_ms() const noexcept { return transition_remaining_ms_; }
     bool animation_active() const noexcept { return zoom_animation_active_; }
+    bool zoom_locked() const noexcept { return zoom_locked_; }
 
 private:
     std::uintptr_t target_identity_=0;
@@ -120,6 +127,7 @@ private:
     Vec3 ghost_camera_offset_{};
     bool zoom_animation_active_=false;
     bool preserve_zoom_=false;
+    bool zoom_locked_=false;
     bool use_object_position_=false;
     float current_zoom_=0.0f;
     // ZoomHandler's constructor initializes current to 0 and target to 1
@@ -164,6 +172,11 @@ public:
     bool touch_pan(std::int32_t delta_x, std::int32_t delta_y,
                    Vec3* camera_offset, bool touch_pan_enabled) const noexcept;
     bool pinch_zoom(float previous_distance, float current_distance) noexcept;
+    // NativePinchZoom callback: when DPad is enabled, convert its numeric
+    // delta to int and apply it to CameraLevel +136 using ZoomHandler +40.
+    // Unlike ZoomHandler's touch event, this authored callback is not gated
+    // by CameraLevel +133 (map-camera mode).
+    bool native_pinch_zoom(float input_delta,bool dpad_enabled) noexcept;
 
     bool mouse_pan_active() const noexcept { return mouse_pan_active_; }
     float sensitivity() const noexcept { return sensitivity_; }
@@ -177,6 +190,38 @@ private:
     std::int32_t mouse_start_x_=0;
     std::int32_t mouse_start_y_=0;
     Vec3 mouse_pan_baseline_{};
+};
+
+// Separate owner for MenuCharMenu_Map's interactive map camera. The HUD's
+// miniature map only renders a temporary camera and does not bind gestures;
+// this session models the full-screen map menu's CameraLevel/ZoomHandler pair.
+// Scene activation, map-camera animation sampling, map bounds and render-pass
+// placement stay with the native UI/scene providers.
+class MapCameraSession {
+public:
+    bool open(const GameObjectSample& player, DrawableTargetSize drawable,
+              float default_target_distance=0.0f) noexcept;
+    bool resize(DrawableTargetSize drawable) noexcept;
+    bool update(FrameInput input, FrameOutput* output) noexcept;
+    bool pan(std::int32_t delta_x, std::int32_t delta_y, bool source_touch_pan_enabled) noexcept;
+    bool pinch(float previous_distance, float current_distance) noexcept;
+    // Source MenuCharMenu_Map::ResetZoom resets only CameraLevel current/target
+    // zoom; it leaves the map pan offset and gameplay camera untouched.
+    bool reset_zoom() noexcept;
+    void close() noexcept;
+
+    bool active() const noexcept { return active_; }
+    std::uintptr_t target_identity() const noexcept { return target_identity_; }
+    Owner& camera_owner() noexcept { return camera_; }
+    const Owner& camera_owner() const noexcept { return camera_; }
+    Vec3 pan_offset() const noexcept { return pan_offset_; }
+
+private:
+    Owner camera_{};
+    ZoomInput zoom_input_{};
+    std::uintptr_t target_identity_=0;
+    Vec3 pan_offset_{};
+    bool active_=false;
 };
 
 } // namespace dh2::camera_level_runtime_v1

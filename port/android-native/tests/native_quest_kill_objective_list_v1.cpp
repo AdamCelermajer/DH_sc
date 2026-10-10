@@ -74,8 +74,10 @@ int main(int argc,char** argv){
   Fixture fixture;fixture.level_id=objective.args[1]<0?23:objective.args[1];
   fixture.selector=objective.args[0];fixture.count=objective.args[2]+1;
   n::KillEnemiesPopulationServicesV1 level{&fixture,population,UINT64_C(0x620023)};
+  n::CombatObjectivePopulationServicesV1 objective_population{};
+  objective_population.kill_enemies=level;
   quest->state_0=6;
-  if(!quests.compile_kill_x_enemies_objective_list_v1(quest_ref->identity,level,
+  if(!quests.compile_combat_objective_list_v1(quest_ref->identity,objective_population,
        &fixture,start_script,error))throw std::runtime_error("KillX ObjectiveList Compile: "+error);
   if(fixture.selector!=objective.args[0])
    throw std::runtime_error("Compile queried a different source TestCharPropId");

@@ -85,7 +85,8 @@ Status monster_to_player(const Request* request, Exchange* output) {
     const MonsterApplicationRequest apply{
         &candidate.result, args.attacker->properties, args.player->properties,
         args.attacker->state, args.player->state,
-        args.before_hit, args.before_hit_context};
+        args.before_hit, args.before_hit_context,
+        args.before_dead, args.before_dead_context};
     if (dh2_combat_apply_monster_to_player(&candidate.application, &apply, args.player_idle))
         return Status::application_failed;
     *output = candidate;

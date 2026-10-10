@@ -56,12 +56,15 @@ inline bool gameplay_menu_named_pop_requested_v1(
     return std::find(stack.begin(), stack.end(), name) != stack.end();
 }
 
-// NativeBackToHud shares Android Back's stack policy while a gameplay menu is
-// active: an overlay (including menu_confirm2) returns to its authored caller;
-// only the root CharacterMenu returns control to the HUD.
+// Android system Back uses the menu stack while a gameplay menu is active: an
+// overlay (including menu_confirm2) returns to its authored caller; only the
+// root CharacterMenu returns control to the HUD. NativeBackToHud is separate.
 inline bool gameplay_menu_back_dismisses_overlay_v1(
-    const std::vector<std::string>& stack) {
-    return stack.size() > 1;
+    const std::vector<std::string>& stack, bool authored_native = false) {
+    // Android Back dismisses one overlay. The authored NativeBackToHud
+    // callback has a different source contract: it activates the HUD even
+    // when Inventory/Details or another nested menu is active.
+    return !authored_native && stack.size() > 1;
 }
 
 // Character-menu initialization repeats menu_CharacterMenu while adding its

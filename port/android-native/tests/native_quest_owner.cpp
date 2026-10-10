@@ -31,6 +31,16 @@ auto read(const std::string& path){
 }
 struct TextFixture {std::vector<std::int32_t> requested;std::int32_t empty_id=-1;};
 struct ScriptFixture {std::vector<std::int32_t> started;std::vector<std::string> order;};
+struct QuestCompileProbe {std::uintptr_t character=0;unsigned difficulty_calls=0,member_calls=0;};
+std::int32_t quest_compile_difficulty(void* raw,std::uintptr_t character,std::int32_t* out){
+ auto& probe=*static_cast<QuestCompileProbe*>(raw);++probe.difficulty_calls;
+ if(character!=probe.character||!out)return 1;
+ *out=0;return 0;
+}
+std::int32_t quest_compile_member(void* raw,d::quest_compile_v1::Objective&,
+ const d::quest_compile_v1::MemberCall&){
+ ++static_cast<QuestCompileProbe*>(raw)->member_calls;return 1;
+}
 struct LevelSGUpdateFixture {
  bool in_game_view=false,checkpoint=true,script_flag=true;
  std::uintptr_t level=0,character=0;
@@ -117,17 +127,18 @@ bool read_clear_population(void* context,std::uintptr_t expected_owner,
 }
 struct CanonicalRosterFixture {
  character_list::Owner list{};
- character_list::Node nodes[3]{};
+ character_list::Node nodes[4]{};
  aggro::GameObject objects[3]{};
  aggro::Character characters[3]{};
  manager::Owner object_manager;
  std::size_t next_node=0;
  std::uintptr_t event_owner=0x6100,level_identity=0x6200;
  std::int32_t properties[3]{1,1,2};
+ std::int16_t property_cache[3]{1,1,2};
  bool stale_character=false;
  static character_list::Node* allocate(void* raw){
   auto& self=*static_cast<CanonicalRosterFixture*>(raw);
-  return self.next_node<3?&self.nodes[self.next_node++]:nullptr;
+  return self.next_node<4?&self.nodes[self.next_node++]:nullptr;
  }
  static bool safe_property_id(void* raw,std::uintptr_t owner,
   std::uintptr_t level,std::uintptr_t character,std::int32_t* property,
@@ -139,6 +150,20 @@ struct CanonicalRosterFixture {
   }
   for(std::size_t i=0;i<3;++i)if(self.characters[i].identity==character){
    *property=self.properties[i];error.clear();return true;
+  }
+  error="unknown test Character";return false;
+ }
+ static bool safe_get_bindings(void* raw,std::uintptr_t owner,
+  std::uintptr_t level,std::uintptr_t character,
+  population::SafeGetBindings& bindings,std::string& error){
+  auto& self=*static_cast<CanonicalRosterFixture*>(raw);
+  if(owner!=self.event_owner||level!=self.level_identity||
+     (self.stale_character&&character==self.characters[2].identity)){
+   error="stale test Character owner";return false;
+  }
+  for(std::size_t i=0;i<3;++i)if(self.characters[i].identity==character){
+   return population::bind_existing_character_property_cache(character,
+       &self.property_cache[i],bindings,error);
   }
   error="unknown test Character";return false;
  }
@@ -166,8 +191,9 @@ void current_level_character_population_cases(){
  check(cache.add_char_oid(1,7,&cached)==dh2::character_oid_cache_v1::Status::complete);
  check(cache.add_char_oid(9,4,&cached)==dh2::character_oid_cache_v1::Status::complete);
  population::Bindings bindings{&fixture,&fixture.list,&fixture.object_manager,&cache,
-   fixture.event_owner,fixture.level_identity,7,3,32,cache_generation,true,
-   &CanonicalRosterFixture::safe_property_id};
+   fixture.event_owner,fixture.level_identity,7,3,
+   fixture.list.mutation_generation,32,cache_generation,true,
+   nullptr,&CanonicalRosterFixture::safe_get_bindings};
  population::Provider provider(bindings);auto services=provider.services();
  n::ClearEnemiesPopulationSnapshotV1 snapshot{};std::string error;
  check(services.read_current_level_population(services.context,fixture.event_owner,
@@ -221,6 +247,78 @@ void current_level_character_population_cases(){
  check(!services.read_current_level_population(services.context,fixture.event_owner+1,
    fixture.level_identity,1,snapshot,error),
    "stale event owner identity was accepted");
+ bool duplicate_appended=false;
+ check(character_list::append_after_add(&fixture.list,{false,&fixture.characters[0]},
+       CanonicalRosterFixture::allocate,&fixture,&duplicate_appended)==
+       character_list::Status::ok&&duplicate_appended,
+       "duplicate Character fixture was not constructed");
+ bindings.expected_character_count=4;
+ bindings.roster_generation=fixture.list.mutation_generation;
+ population::Provider duplicate_character(bindings);
+ auto duplicate_services=duplicate_character.services();
+ check(!duplicate_services.read_current_level_population(duplicate_services.context,
+       fixture.event_owner,fixture.level_identity,1,snapshot,error)&&
+       error.find("duplicate Character identity")!=std::string::npos,
+       "duplicate CharacterList identity was counted as additional QEST population");
+}
+struct ActiveLevelPopulationFixture {
+ dh2::source_level_owner_v1::Owner level{};
+ dh2::native::character_list::Owner characters{};
+ aggro::GameObject object{};
+ aggro::Character character{};
+ std::int16_t property_cache=7;
+ std::uintptr_t event_owner=0x8100;
+ static bool safe_bindings(void* raw,std::uintptr_t event_owner,
+  std::uintptr_t level_identity,std::uintptr_t character_identity,
+  population::SafeGetBindings& bindings,std::string& error){
+  auto& self=*static_cast<ActiveLevelPopulationFixture*>(raw);
+  if(event_owner!=self.event_owner||level_identity!=self.level.snapshot().source_level||
+     character_identity!=self.character.identity){
+   error="active Level SafeGet identity mismatch";return false;
+  }
+  return population::bind_existing_character_property_cache(
+      character_identity,&self.property_cache,bindings,error);
+ }
+ bool initialize(std::string& error){
+  static int projection_token=0;
+  if(!level.begin_load()||!level.request_level(41,0,0)||
+     !level.begin_source_load()||!level.publish_projection(&projection_token)){
+   error="active Level population fixture lifecycle failed";return false;
+  }
+  const auto identity=level.snapshot().source_level;
+  character.identity=0x8200;object.identity=character.identity;
+  character.object=&object;
+  manager::GameObject row{};row.identity=character.identity;
+  manager::GameObject* stored=nullptr;
+  if(level.object_manager().add_object(1,row,&stored)!=manager::Status::ok||!stored){
+   error="active Level population ObjectManager add failed";return false;
+  }
+  bool appended=false;
+  if(characters.enroll_after_add(&character,false,&appended)!=
+       character_list::Status::ok||!appended){
+   error="active Level population CharacterList add failed";return false;
+  }
+  cache.begin_level(identity,32);
+  return true;
+ }
+ dh2::character_oid_cache_v1::Owner cache{};
+};
+void active_level_population_binding_cases(){
+ ActiveLevelPopulationFixture fixture;std::string error;
+ check(fixture.initialize(error),error);
+ population::Bindings bindings{};
+ check(population::make_active_level_bindings(fixture.level,fixture.characters,
+   fixture.cache,fixture.event_owner,41,32,true,&fixture,
+   nullptr,&ActiveLevelPopulationFixture::safe_bindings,bindings,error),error);
+ check(bindings.object_manager==&fixture.level.object_manager()&&
+       bindings.characters==&fixture.characters.source()&&
+       bindings.expected_character_count==1&&bindings.roster_complete&&
+       bindings.level_identity==fixture.level.snapshot().source_level);
+ population::Provider provider(bindings);auto services=provider.services();
+ n::ClearEnemiesPopulationSnapshotV1 snapshot{};
+ check(services.read_current_level_population(services.context,fixture.event_owner,
+   bindings.level_identity,7,snapshot,error)&&snapshot.loaded_match_count==1,
+   "active source Level/ObjectManager/CharacterList binding did not query its canonical cached Character");
 }
 void objective_description_cases(){
  TextFixture fixture;const n::QuestTextServicesV1 text{&fixture,localized_text};
@@ -638,6 +736,7 @@ int main(int argc,char** argv){try{
  }
  objective_description_cases();
  current_level_character_population_cases();
+ active_level_population_binding_cases();
  check(argc==2);const std::string cache=argv[1];const auto packed=read(cache+"/v2quests_pyarray.bin"),names=read(cache+"/v2quests_pyarraynames.bin"),constants=read(cache+"/v2quests_pycst.bin");
  t::Input input;check(dh2_quests_open(&input.table,packed->data(),std::uint32_t(packed->size()))==0);input.packed_owner=packed;input.names=names->data();input.names_size=names->size();input.names_owner=names;
  t::Owner table;std::string error;check(table.load(input,error));const auto view=table.borrow();check(view.count()==64);
@@ -881,6 +980,21 @@ int main(int argc,char** argv){try{
  auto* first=owner->resolve(save->source_quest_log_b8().quests[0][0]);const auto* action=first->action_18;
  first->state_0=2;check(!owner->initialize(0,error));check(first->state_0==2&&first->action_18==action);
  first->state_0=view.record(*view.row(0))->state;
+ QuestCompileProbe compile_probe{save->character()};
+ n::QuestCompileServicesV1 compile_services{&compile_probe,
+   quest_compile_difficulty,quest_compile_member};
+ d::quest_compile_v1::Result compile_result{};
+ auto& canonical_compile_log=save->source_quest_log_b8();
+ check(canonical_compile_log.byte_28[0]==0);
+ check(!owner->compile_quests(0,false,compile_services,compile_result,error));
+ check(compile_probe.difficulty_calls>0&&canonical_compile_log.byte_28[0]==1);
+ const auto compile_calls=compile_probe.member_calls;
+ check(compile_calls>0);
+ check(owner->compile_quests(0,false,compile_services,compile_result,error));
+ check(compile_probe.member_calls==compile_calls);
+ check(!owner->compile_quests(0,true,compile_services,compile_result,error));
+ check(compile_probe.member_calls>compile_calls&&canonical_compile_log.byte_28[0]==1);
+ canonical_compile_log.byte_28[0]=0;
  check(owner->close(error));check(owner->receipt().destroyed[0]==192&&owner->receipt().destroyed[1]==192);
  for(auto* log:{&save->source_quest_log_b8(),&save->source_quest_log_118()})for(const auto& vector:log->quests)check(vector.empty());
  check(owner->close(error));check(!owner->initialize(0,error));

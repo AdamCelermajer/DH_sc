@@ -19,6 +19,11 @@ struct Fixture {
     std::uint32_t path_calls{};
     std::uintptr_t path_owner{};
     float path_position[3]{};
+    std::int32_t animation_state{4};
+    std::uint32_t routed_state_events{};
+    std::uint32_t last_animation_event{};
+    std::uintptr_t last_animation_payload{};
+    std::uint32_t source_attack_look_at{};
 };
 void ai_invoke(void* raw, AnimationAIState96*, const AnimationAIRequest32* request,
                AnimationAIResponse16* response) {
@@ -28,6 +33,13 @@ void ai_invoke(void* raw, AnimationAIState96*, const AnimationAIRequest32* reque
         std::copy(f.target_position, f.target_position + 3, response->position);
     else if (request->service == ai_melee_radius_squared)
         std::memcpy(&response->word, &f.radius_squared, sizeof(response->word));
+}
+void ai_attack_invoke(void* raw, AnimationAIState96*, const AnimationAIRequest32* request,
+                      AnimationAIResponse16* response) {
+    auto& f = *static_cast<Fixture*>(raw);
+    ++f.ai_calls;
+    if (request->service == ai_animation_step_index) response->word = 3;
+    else if (request->service == ai_animation_step_count) response->word = 4;
 }
 int control_invoke(void* raw, const CharacterControlRequest32* request,
                    CharacterControlResponse16* response) {
@@ -48,6 +60,21 @@ int control_invoke(void* raw, const CharacterControlRequest32* request,
         return 1;
     }
     return -1;
+}
+std::int32_t character_event_invoke(void* raw, const AnimationEventRequest* request) {
+    auto& f = *static_cast<Fixture*>(raw);
+    if (request->service == animation_state_getter) return f.animation_state;
+    if (request->service == animation_state_event) {
+        ++f.routed_state_events;
+        f.last_animation_event = request->event;
+        f.last_animation_payload = request->payload;
+        return 1;
+    }
+    return -1;
+}
+void character_state_invoke(void* raw, State*, const Request* request) {
+    auto& f = *static_cast<Fixture*>(raw);
+    if (request->service == look_at) ++f.source_attack_look_at;
 }
 void require(bool ok, const char* text) {
     if (!ok) { std::fprintf(stderr, "FAIL: %s\n", text); std::exit(1); }
@@ -85,5 +112,63 @@ int main() {
     require(move_begin(binding, &result, error) == Status::invalid_argument &&
             fixture.path_calls == paths_before,
             "mismatched Character/controller identities were accepted");
-    std::puts("PASS character_enemy_pursuit_v1 checks=3");
+
+    controller.owner = ai.owner;
+    fixture.radius_squared = 4.f;
+    AnimationEventFacts facts{0x26, 0, 0, 0, 0x100000007ull};
+    EventBinding event_binding{&facts, binding,
+        {&fixture, character_event_invoke}};
+    EventResult event_result{};
+    const auto event_paths = fixture.path_calls;
+    const auto routed_status = animation_event(event_binding, &event_result, error);
+    if (routed_status != Status::complete || event_result.move_begin_calls != 1 ||
+        fixture.path_calls != event_paths + 1 || fixture.routed_state_events != 1)
+        std::fprintf(stderr, "route status=%u error=%s calls=%u paths=%u/%u state-events=%u forwarded=%u\n",
+            static_cast<unsigned>(routed_status), error.c_str(), event_result.move_begin_calls,
+            fixture.path_calls, event_paths, fixture.routed_state_events, event_result.forwarded_calls);
+    require(routed_status == Status::complete &&
+            event_result.route_calls == 1 && event_result.move_begin_calls == 1 &&
+            event_result.pursuit.path_dispatch_attempted &&
+            fixture.path_calls == event_paths + 1 && fixture.routed_state_events == 1 &&
+            fixture.last_animation_event == facts.event &&
+            fixture.last_animation_payload == facts.payload,
+            "source event 0x26 did not gate and route enemy Move-begin through PathTo");
+
+    fixture.animation_state = 3;
+    const auto wrong_state_paths = fixture.path_calls;
+    require(animation_event(event_binding, &event_result, error) == Status::complete &&
+            event_result.move_begin_calls == 0 &&
+            fixture.path_calls == wrong_state_paths && fixture.routed_state_events == 2,
+            "non-Move FSM state incorrectly dispatched enemy pursuit");
+
+    fixture.animation_state = 4;
+    facts.global_blocked = 1;
+    facts.controller_locked = 1;
+    const auto gated_paths = fixture.path_calls;
+    require(animation_event(event_binding, &event_result, error) == Status::complete &&
+            event_result.move_begin_calls == 0 && event_result.forwarded_calls == 1 &&
+            fixture.path_calls == gated_paths && fixture.routed_state_events == 3,
+            "blocked Character animation event bypassed source movement gates");
+
+    facts.global_blocked = facts.controller_locked = 0;
+    fixture.animation_state = 5;
+    State enemy_state{};
+    enemy_state.current = 5;
+    Facts enemy_facts{};
+    enemy_facts.target = ai.target;
+    const Services enemy_state_services{&fixture, character_state_invoke};
+    const dh2::character_enemy_attack_event_v1::Binding attack_binding{
+        ai.owner, &ai, {&fixture, ai_attack_invoke}, &enemy_state,
+        &enemy_facts, enemy_state_services};
+    event_binding.attack_begin = &attack_binding;
+    const auto paths_before_attack = fixture.path_calls;
+    require(animation_event(event_binding, &event_result, error) == Status::complete &&
+            event_result.attack_begin_calls == 1 &&
+            event_result.attack_begin.character_event_calls == 1 &&
+            event_result.attack_begin.character_event_status == 0 &&
+            fixture.source_attack_look_at == 1 &&
+            fixture.path_calls == paths_before_attack &&
+            fixture.last_animation_event == facts.event,
+            "source event 0x26/state 5 did not route attack-begin before the Character event");
+    std::puts("PASS character_enemy_pursuit_v1 checks=7");
 }

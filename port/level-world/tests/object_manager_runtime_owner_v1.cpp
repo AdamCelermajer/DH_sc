@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cstdint>
 #include <iostream>
+#include <vector>
 
 using namespace dh2::object_manager_runtime_owner_v1;
 
@@ -22,6 +23,32 @@ GameObject object(Address identity) {
     value.in_zone_2f0 = 0;
     value.visible_80 = 1;
     return value;
+}
+
+struct UpdateVisitTrace {
+    std::vector<Address> identities;
+    Owner* owner{};
+    bool stage_during_first_visit{};
+    GameObject* spawned{};
+};
+
+bool record_update_visit(void* raw, GameObject* row) noexcept {
+    auto& trace = *static_cast<UpdateVisitTrace*>(raw);
+    if (!row) return false;
+    try {
+        trace.identities.push_back(row->identity);
+    } catch (...) {
+        return false;
+    }
+    if (trace.stage_during_first_visit && trace.identities.size() == 1) {
+        if (trace.owner->add_object(42, object(0x4200), &trace.spawned) !=
+            Status::ok) return false;
+        bool staged = false;
+        return trace.owner->stage_spawn_update_object(trace.spawned->identity,
+                   true, &staged) ==
+                   Status::ok && staged;
+    }
+    return true;
 }
 
 void ordered_map_and_stable_identity() {
@@ -94,10 +121,11 @@ void named_handle_create_miss_counter_and_collision() {
     assert(collision.add_object(1, object(0x992), &stored) == Status::ok);
     assert(collision.get_or_reserve_named_handle("NewName", true, &handle,
                                                   &created) ==
-           Status::source_handle_collision);
-    assert(handle == 1 && !created && collision.next_source_handle() == 2 &&
+           Status::ok);
+    assert(handle == 2 && created && collision.next_source_handle() == 3 &&
            collision.find_by_source_handle(1)->identity == 0x992 &&
-           collision.find_by_name("NewName") == nullptr);
+           collision.find_by_name("NewName") &&
+           collision.find_by_name("NewName")->source_handle == 2);
     collision.reset_after_native_flush();
     assert(collision.next_source_handle() == 1 && collision.empty());
 }
@@ -223,6 +251,104 @@ void active_room_list_source_duplicate_and_delete() {
     assert(owner.remove_room_object(room_zone, &removed) == Status::ok && !removed);
 }
 
+void active_update_initpost_spawn_splice_and_retirement() {
+    Owner owner;
+    GameObject* low_key = nullptr;
+    GameObject* high_key = nullptr;
+    GameObject* non_character = nullptr;
+    GameObject* spawn_later = nullptr;
+    GameObject* spawn_earlier = nullptr;
+    assert(owner.add_object(22, object(0x2200), &high_key) == Status::ok);
+    assert(owner.add_object(-2, object(0x0200), &low_key) == Status::ok);
+    assert(owner.add_object(12, object(0x1200), &non_character) == Status::ok);
+
+    // InitPost traverses the signed-key map. Its actual virtual +0x38 result
+    // decides membership; map order is only the order these registrations
+    // arrive in, never the update owner’s independently inferred order.
+    Owner::Cursor map_cursor{};
+    owner.reset(&map_cursor);
+    bool saw_low = false, saw_high = false, saw_non_character = false;
+    for (;;) {
+        GameObject* source_row = nullptr;
+        assert(owner.next(&map_cursor, &source_row) == Status::ok);
+        if (!source_row) break;
+        const bool character_row = source_row == low_key || source_row == high_key;
+        const bool source_is_updatable = character_row; // Character inherits GameObject::IsUpdatable()==1.
+        bool inserted = false;
+        assert(owner.append_init_post_update_object(source_row->identity,
+            source_is_updatable, &inserted) == Status::ok);
+        assert(inserted == character_row);
+        saw_low |= source_row == low_key;
+        saw_high |= source_row == high_key;
+        saw_non_character |= source_row == non_character;
+    }
+    assert(saw_low && saw_high && saw_non_character);
+
+    assert(owner.add_object(40, object(0x4000), &spawn_later) == Status::ok);
+    assert(owner.add_object(41, object(0x4100), &spawn_earlier) == Status::ok);
+
+    // Spawn's eligible result tail-inserts into +0x34. The next Update
+    // splices that whole list after the pre-existing +0x2c order.
+    bool inserted = false;
+    assert(owner.stage_spawn_update_object(spawn_later->identity, true,
+                                           &inserted) == Status::ok && inserted);
+    assert(owner.stage_spawn_update_object(spawn_earlier->identity, true,
+                                           &inserted) == Status::ok && inserted);
+    assert(owner.stage_spawn_update_object(0xdead, true, &inserted) ==
+           Status::not_found && !inserted);
+    assert(owner.update_object_count() == 2 &&
+           owner.staged_update_object_count() == 2);
+    owner.begin_update_frame();
+    assert(owner.update_object_count() == 4 &&
+           owner.staged_update_object_count() == 0);
+    GameObject* current = nullptr;
+    assert(owner.update_object_at(0, &current) && current == low_key);
+    assert(owner.update_object_at(1, &current) && current == high_key);
+    assert(owner.update_object_at(2, &current) && current == spawn_later);
+    assert(owner.update_object_at(3, &current) && current == spawn_earlier);
+    assert(!owner.update_object_at(4, &current) && current == nullptr);
+
+    UpdateVisitTrace first_frame{{}, &owner, true, nullptr};
+    std::size_t visited = 0;
+    assert(owner.visit_update_objects(&first_frame, record_update_visit,
+                                      &visited) == Status::ok);
+    const std::vector<Address> first_frame_expected{
+        low_key->identity, high_key->identity,
+        spawn_later->identity, spawn_earlier->identity};
+    assert(visited == 4 && first_frame.identities == first_frame_expected);
+    assert(owner.update_object_count() == 4 &&
+           owner.staged_update_object_count() == 1);
+    owner.begin_update_frame();
+    UpdateVisitTrace second_frame{{}, &owner, false, nullptr};
+    assert(owner.visit_update_objects(&second_frame, record_update_visit,
+                                      &visited) == Status::ok);
+    const std::vector<Address> second_frame_expected{
+        low_key->identity, high_key->identity, spawn_later->identity,
+        spawn_earlier->identity, first_frame.spawned->identity};
+    assert(visited == 5 && second_frame.identities == second_frame_expected);
+    bool callback_spawn_removed = false;
+    assert(owner.remove_object(42, &callback_spawn_removed) == Status::ok &&
+           callback_spawn_removed && owner.update_object_count() == 4);
+
+    // A spawn during an update is not in the iteration snapshot until the
+    // next frame boundary. Retirement removes all identity hooks before the
+    // stable Character/GameObject Record can be freed.
+    assert(owner.stage_spawn_update_object(0x2200, true, &inserted) ==
+           Status::ok && inserted);
+    assert(owner.update_object_count() == 4 &&
+           owner.staged_update_object_count() == 1);
+    bool removed = false;
+    assert(owner.remove_object(22, &removed) == Status::ok && removed);
+    assert(owner.update_object_count() == 3 &&
+           owner.staged_update_object_count() == 0);
+    assert(owner.update_object_at(0, &current) && current == low_key);
+    assert(owner.update_object_at(1, &current) && current == spawn_later);
+    assert(owner.update_object_at(2, &current) && current == spawn_earlier);
+    owner.begin_update_frame();
+    assert(owner.update_object_count() == 3 &&
+           owner.staged_update_object_count() == 0);
+}
+
 void native_flush_reset_retires_only_the_manager_projection() {
     Owner owner;
     GameObject* player = nullptr;
@@ -278,6 +404,7 @@ int main() {
     borrowed_actor_fields_remain_canonical();
     no_room_list_and_player_path();
     active_room_list_source_duplicate_and_delete();
+    active_update_initpost_spawn_splice_and_retirement();
     native_flush_reset_retires_only_the_manager_projection();
     std::cout << "ObjectManager runtime owner v1 host checks passed: ordered registration, manager lists, bounded post-Flush reset\n";
 }

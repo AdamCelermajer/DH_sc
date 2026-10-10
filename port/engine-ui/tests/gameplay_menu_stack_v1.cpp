@@ -46,10 +46,15 @@ int main() {
         const std::vector<std::string> skill_confirmation{
             "menu_CharacterMenu", "menu_SkillTreeSheetNew", "menu_confirm2"};
         require(gameplay_menu_back_dismisses_overlay_v1(skill_confirmation),
-                "NativeBackToHud from a skill confirmation must dismiss only the overlay");
+                "Android Back from a skill confirmation must dismiss only the overlay");
+        const std::vector<std::string> inventory_details{
+            "menu_CharacterMenu", "menu_InventorySheetMain", "menu_InventorySheetDetails"};
+        require(gameplay_menu_back_dismisses_overlay_v1(inventory_details) &&
+                    !gameplay_menu_back_dismisses_overlay_v1(inventory_details, true),
+                "Android Back dismisses Inventory Details, but authored NativeBackToHud returns to HUD");
         require(!gameplay_menu_back_dismisses_overlay_v1(
                     std::vector<std::string>{"menu_CharacterMenu"}),
-                "NativeBackToHud from the root character menu must return to the HUD");
+                "Android Back from the root character menu must return to the HUD");
         require(!gameplay_menu_back_dismisses_overlay_v1({}),
                 "empty gameplay menu stack must not be treated as a nested overlay");
         require(!gameplay_menu_reveal_existing_requested_v1("menu_CharacterMenu"),

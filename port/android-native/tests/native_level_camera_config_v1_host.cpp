@@ -52,6 +52,17 @@ int main(int argc,char** argv) {
        explicit_route.animset!="Boss"){
         std::fprintf(stderr,"FAIL: explicit LevelConfig camera resource/animset was not preserved\n");return 1;
     }
+    bool combat_music=false;
+    if(!dh2::native::level_camera_config_v1::parse_combat_music_enabled(
+          "<Level><GameObject gametype=\"LevelConfig\"/>",&combat_music)||!combat_music||
+       !dh2::native::level_camera_config_v1::parse_combat_music_enabled(
+          "<Level combat_music_enabled=\"0\"/>",&combat_music)||combat_music||
+       !dh2::native::level_camera_config_v1::parse_combat_music_enabled(
+          "<Level combat_music_enabled=\"1\"/>",&combat_music)||!combat_music||
+       dh2::native::level_camera_config_v1::parse_combat_music_enabled(
+          "<Level combat_music_enabled=\"yes\"/>",&combat_music)){
+        std::fprintf(stderr,"FAIL: LevelConfig combat music source default/boolean rejected\n");return 1;
+    }
 
     using namespace dh2::native::crypt_camera_frame_v1;
     const Vec3 target{1090.75f,-212.202f,255.0001f};

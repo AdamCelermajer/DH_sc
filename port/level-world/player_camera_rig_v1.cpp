@@ -88,10 +88,11 @@ bool inverse_affine(const Matrix& in,Matrix& out) {
 
 struct GraphCollector {
     scene::Scene* scene=nullptr;
-    std::string camera_url;
+    std::string camera_selector;
     std::int32_t parents[64]{};
-    std::int32_t camera_node=-1;
-    unsigned camera_instances=0;
+    std::vector<std::pair<std::string,std::int32_t>> camera_instances;
+    std::int32_t selected_node=-1;
+    unsigned selector_matches=0;
     std::string error;
 };
 
@@ -110,6 +111,9 @@ bool collect_node(const scene_payload::Node* source,const dh2::math::Matrix4f* w
     std::copy(world->m,world->m+16,node.world.begin());
     const auto index=static_cast<std::int32_t>(state.scene->graph.size());
     state.parents[depth]=index;state.scene->graph.push_back(std::move(node));
+    if(!state.camera_selector.empty()&&source->name==state.camera_selector){
+        state.selected_node=index;++state.selector_matches;
+    }
 
     // Camera instance type 1 stores the referenced camera URI at payload +4.
     // This is the camera-instance layout present in playercamera.bdae; the
@@ -123,7 +127,8 @@ bool collect_node(const scene_payload::Node* source,const dh2::math::Matrix4f* w
         Reader reader{source->image};
         try{
             const auto uri=reader.string(reader.word(std::uint64_t(instance.payload_offset)+4));
-            if(uri==state.camera_url){state.camera_node=index;++state.camera_instances;}
+            if(uri.size()>1&&uri[0]=='#')
+                state.camera_instances.emplace_back(uri.substr(1),index);
         }catch(const std::exception& e){state.error=e.what();return false;}
     }
     return true;
@@ -136,9 +141,22 @@ std::size_t unique_node(const scene::Scene& graph,const std::string& id) {
     return found;
 }
 
+bool is_descendant_or_same(const scene::Scene& graph,std::size_t node,
+                           std::size_t ancestor) {
+    if(node>=graph.graph.size()||ancestor>=graph.graph.size())return false;
+    auto current=static_cast<std::int32_t>(node);
+    for(std::size_t steps=0;current>=0&&steps<graph.graph.size();++steps){
+        if(static_cast<std::size_t>(current)==ancestor)return true;
+        if(static_cast<std::size_t>(current)>=graph.graph.size())return false;
+        current=graph.graph[static_cast<std::size_t>(current)].parent;
+    }
+    return false;
+}
+
 bool load_impl(const Assets& assets,scene::Scene& out_scene,animation::Player& out_idle,
                Projection& out_projection,std::size_t& out_root,std::size_t& out_camera,
-               std::size_t& out_target,std::size_t& out_up,std::string& error) {
+               std::size_t& out_target,std::size_t& out_up,bool& out_up_from_camera,
+               float& out_default_target_distance,std::string& error) {
     if(!assets.camera_scene||!assets.idle_animation||!assets.camera_scene_size||!assets.idle_animation_size
        ||assets.camera_scene_size>32*1024*1024||assets.idle_animation_size>32*1024*1024){
         error="Invalid or oversized camera rig assets";return false;
@@ -148,15 +166,32 @@ bool load_impl(const Assets& assets,scene::Scene& out_scene,animation::Player& o
         error="Camera scene BRES rejected";return false;
     }
     const auto camera_count=dh2_bres_library_count(&camera_image,resources::Library::camera);
-    if(camera_count!=1){error="Expected one authored Camera record";return false;}
-    const auto* camera_record=dh2_bres_library_item(&camera_image,resources::Library::camera,0);
-    if(!camera_record){error="Missing authored Camera record";return false;}
-    const Reader reader{camera_image};
-    const auto record_offset=static_cast<std::uint64_t>(camera_record-camera_image.bytes);
-    const auto camera_id=field_string(reader,record_offset);
-    const auto target_uri=field_string(reader,record_offset+24);
-    if(target_uri.size()<2||target_uri[0]!='#'){
-        error="Camera target is not a local scene-node reference";return false;
+    if(camera_count==0||camera_count>256){error="Camera scene has no supported Camera records";return false;}
+    const bool named_camera=assets.camera_name&&*assets.camera_name;
+    const auto requested_camera_name=named_camera?std::string(assets.camera_name):std::string{};
+    if(requested_camera_name.size()>4096||requested_camera_name.find('\0')!=std::string::npos){
+        error="Requested camera name is invalid";return false;
+    }
+    if(!named_camera&&camera_count!=1){error="Expected one authored Camera record";return false;}
+    struct CameraRecord {
+        std::string id;
+        const std::uint8_t* bytes=nullptr;
+    };
+    std::vector<CameraRecord> camera_records;
+    camera_records.reserve(camera_count);
+    for(std::uint32_t i=0;i<camera_count;++i){
+        const auto* record=dh2_bres_library_item(&camera_image,resources::Library::camera,
+                                                 static_cast<std::int32_t>(i));
+        if(!record){error="Camera scene contains an invalid Camera record";return false;}
+        try{
+            const auto offset=static_cast<std::uint64_t>(record-camera_image.bytes);
+            const auto id=field_string(Reader{camera_image},offset);
+            if(std::any_of(camera_records.begin(),camera_records.end(),
+                [&id](const CameraRecord& existing){return existing.id==id;})){
+                error="Camera scene contains duplicate Camera record identifiers";return false;
+            }
+            camera_records.push_back({id,record});
+        }catch(const std::exception& e){error=e.what();return false;}
     }
 
     scene_payload::Scene serialized{};
@@ -166,25 +201,82 @@ bool load_impl(const Assets& assets,scene::Scene& out_scene,animation::Player& o
     if(!serialized.visuals||serialized.visuals>256){error="Camera scene has no supported visual";return false;}
     auto candidate_scene=scene::Scene{};
     std::int32_t camera_node=-1;
+    std::int32_t camera_scope_node=-1;
+    std::string camera_id;
     unsigned matching_visuals=0;
     for(std::uint32_t visual_index=0;visual_index<serialized.visuals;++visual_index){
         scene_payload::Visual visual{};
         if(dh2_scene_visual(&serialized,static_cast<std::int32_t>(visual_index),&visual)!=scene_payload::Error::ok){
             error="Camera visual record rejected";return false;
         }
-        scene::Scene graph{};GraphCollector collector{&graph,"#"+camera_id,{},-1,0,{}};
+        scene::Scene graph{};
+        GraphCollector collector{&graph,requested_camera_name,{},
+                                 {},-1,0,{}};
         const auto walked=dh2_scene_walk_visual(&visual,collect_node,&collector,10000);
         if(walked!=scene_payload::Error::ok){
             error=collector.error.empty()?"Camera visual graph rejected":collector.error;return false;
         }
-        if(collector.camera_instances>1){error="Camera visual has duplicate authored camera instances";return false;}
-        if(collector.camera_instances==1){candidate_scene=std::move(graph);camera_node=collector.camera_node;++matching_visuals;}
+        if(named_camera&&collector.selector_matches>1){
+            error="Named camera selector is ambiguous in the visual graph";return false;
+        }
+        std::size_t matching_instances=0;
+        std::string selected_id;
+        std::int32_t selected_camera_node=-1;
+        for(const auto& [instance_id,instance_node]:collector.camera_instances){
+            const bool inside_selected=named_camera&&collector.selector_matches==1&&
+                is_descendant_or_same(graph,static_cast<std::size_t>(instance_node),
+                                      static_cast<std::size_t>(collector.selected_node));
+            const auto record=std::find_if(camera_records.begin(),camera_records.end(),
+                [&instance_id](const CameraRecord& item){return item.id==instance_id;});
+            if(record==camera_records.end())continue;
+            if((named_camera&&inside_selected)||(!named_camera&&camera_count==1)){
+                selected_id=instance_id;selected_camera_node=instance_node;
+                ++matching_instances;
+            }
+        }
+        if(matching_instances>1){
+            error=named_camera?"Named camera selector contains multiple Camera instances":
+                               "Camera visual has duplicate authored Camera instances";
+            return false;
+        }
+        if(matching_instances==1){
+            candidate_scene=std::move(graph);
+            camera_node=selected_camera_node;
+            camera_scope_node=named_camera?collector.selected_node:-1;
+            camera_id=std::move(selected_id);
+            ++matching_visuals;
+        }
     }
-    if(matching_visuals!=1||camera_node<0){error="Could not uniquely bind Camera record to a scene node";return false;}
+    if(matching_visuals!=1||camera_node<0){
+        error=named_camera?"Could not uniquely bind the requested named camera node and its Camera record":
+                           "Could not uniquely bind Camera record to a scene node";
+        return false;
+    }
 
-    const auto root=unique_node(candidate_scene,"Root_Camera-node");
+    const auto camera_record_it=std::find_if(camera_records.begin(),camera_records.end(),
+        [&camera_id](const CameraRecord& item){return item.id==camera_id;});
+    if(camera_record_it==camera_records.end()){
+        error="Selected scene Camera instance has no BRES Camera record";return false;
+    }
+    const auto* camera_record=camera_record_it->bytes;
+    const Reader reader{camera_image};
+    const auto record_offset=static_cast<std::uint64_t>(camera_record-camera_image.bytes);
+    const auto target_uri=field_string(reader,record_offset+24);
+    if(target_uri.size()<2||target_uri[0]!='#'){
+        error="Camera target is not a local scene-node reference";return false;
+    }
+
+    const auto root=unique_node(candidate_scene,assets.root_node&&*assets.root_node
+        ?assets.root_node:"Root_Camera-node");
+    if(named_camera&&!is_descendant_or_same(candidate_scene,
+          static_cast<std::size_t>(camera_scope_node),root)){
+        error="Selected source camera is outside the configured root-relative pose space";return false;
+    }
     const auto target=unique_node(candidate_scene,target_uri.substr(1));
-    const auto up=unique_node(candidate_scene,"upvector-node");
+    const bool up_from_camera=assets.derive_up_from_camera;
+    const auto up=up_from_camera?static_cast<std::size_t>(camera_node):
+        unique_node(candidate_scene,assets.up_vector_node&&*assets.up_vector_node
+            ?assets.up_vector_node:"upvector-node");
     if(static_cast<std::size_t>(camera_node)>=candidate_scene.graph.size()){
         error="Camera instance node is outside the scene graph";return false;
     }
@@ -202,23 +294,46 @@ bool load_impl(const Assets& assets,scene::Scene& out_scene,animation::Player& o
     }
     if(!scene::update_world(candidate_scene,error))return false;
 
+    // IDA CameraLevel::CalculateDefaultTargetDistance (0x40fd18) reads the
+    // absolute targetCam position and its parent's absolute position during
+    // Load. This is intentionally taken from the unanimated BDAE scene, before
+    // the later Level::_LoadCamera PlayAnim(idle, 0, 0) changes those nodes.
+    const auto target_parent=candidate_scene.graph[target].parent;
+    if(target_parent<0||static_cast<std::size_t>(target_parent)>=candidate_scene.graph.size()){
+        error="Camera target node has no source distance parent";return false;
+    }
+    const auto& target_world=candidate_scene.graph[target].world;
+    const auto& parent_world=candidate_scene.graph[static_cast<std::size_t>(target_parent)].world;
+    const double dx=double(target_world[12])-parent_world[12];
+    const double dy=double(target_world[13])-parent_world[13];
+    const double dz=double(target_world[14])-parent_world[14];
+    const double default_distance=std::sqrt(dx*dx+dy*dy+dz*dz);
+    if(!std::isfinite(default_distance)||default_distance<0.0||default_distance>3.4e38){
+        error="Camera target-to-parent source distance is invalid";return false;
+    }
+
     // Store the parsed objects only after every source-backed check succeeded.
     out_scene=std::move(candidate_scene);out_idle=std::move(idle);out_projection=projection;
     out_root=root;out_camera=static_cast<std::size_t>(camera_node);out_target=target;out_up=up;
+    out_up_from_camera=up_from_camera;
+    out_default_target_distance=static_cast<float>(default_distance);
     return true;
 }
 }
 
 bool Rig::load(const Assets& assets,std::string& error) {
     error.clear();loaded_=false;scene_={};animation_=animation::Player{};projection_={};
-    root_=camera_=target_=up_vector_=0;
+    root_=camera_=target_=up_vector_=0;up_from_camera_=false;default_target_distance_=0.0f;
     try{
         scene::Scene candidate_scene;animation::Player candidate_idle;Projection candidate_projection{};
-        std::size_t root=0,camera=0,target=0,up=0;
+        std::size_t root=0,camera=0,target=0,up=0;bool up_from_camera=false;
+        float default_target_distance=0.0f;
         if(!load_impl(assets,candidate_scene,candidate_idle,candidate_projection,
-                      root,camera,target,up,error))return false;
+                      root,camera,target,up,up_from_camera,default_target_distance,error))return false;
         scene_=std::move(candidate_scene);animation_=std::move(candidate_idle);projection_=candidate_projection;
-        root_=root;camera_=camera;target_=target;up_vector_=up;loaded_=true;return true;
+        root_=root;camera_=camera;target_=target;up_vector_=up;
+        up_from_camera_=up_from_camera;default_target_distance_=default_target_distance;
+        loaded_=true;return true;
     }
     catch(const std::exception& e){error=e.what();loaded_=false;scene_={};animation_=animation::Player{};return false;}
 }
@@ -258,7 +373,14 @@ bool Rig::sample(std::int32_t milliseconds,Pose* out,std::string& error) {
     Pose candidate;
     candidate.camera=scene::multiply(root_inverse,scene_.graph[camera_].world);
     candidate.target=scene::multiply(root_inverse,scene_.graph[target_].world);
-    candidate.up_vector=scene::multiply(root_inverse,scene_.graph[up_vector_].world);
+    if(up_from_camera_){
+        candidate.up_vector=candidate.camera;
+        candidate.up_vector[12]+=candidate.camera[4];
+        candidate.up_vector[13]+=candidate.camera[5];
+        candidate.up_vector[14]+=candidate.camera[6];
+    }else{
+        candidate.up_vector=scene::multiply(root_inverse,scene_.graph[up_vector_].world);
+    }
     const auto target_parent=scene_.graph[target_].parent;
     Matrix target_parent_world{};
     if(target_parent>=0){

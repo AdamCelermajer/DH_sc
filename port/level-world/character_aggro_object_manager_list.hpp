@@ -19,6 +19,9 @@ struct Node {
 struct Owner {
   Node sentinel{};
   std::size_t character_count{};
+  // App-side roster proof uses this epoch to reject bindings retained across
+  // Add/Remove/clear. It is a semantic generation, not an engine ABI field.
+  std::uint64_t mutation_generation{};
 };
 
 enum class Status {

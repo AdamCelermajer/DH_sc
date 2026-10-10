@@ -37,6 +37,16 @@ typedef struct dh2_world_source_static_decor {
     float world_transform[9];
 } dh2_world_source_static_decor;
 
+// Source identity retained beside each supported static DACT row. DACT v1
+// itself omits the MGP record index, so this bridge preserves it at compile
+// time instead of asking runtime callers to infer it from an actor name.
+typedef struct dh2_world_source_static_character {
+    uint32_t module_index;
+    uint32_t source_record;
+    char name[64];
+    char character[64];
+} dh2_world_source_static_character;
+
 // Import the original Level MLX with the existing source-world parser and
 // serialize only its translation-only Module layout into runtime DWLD v1.
 int dh2_world_compile_static_layout(const uint8_t* mlx, size_t mlx_size,
@@ -75,6 +85,14 @@ int dh2_world_compile_static_dact(const uint8_t* mlx, size_t mlx_size,
     const dh2::data::Dictionary* models,
     uint8_t* output, size_t output_capacity, size_t* output_size,
     char* error, size_t error_capacity);
+int dh2_world_compile_static_dact_with_sources(const uint8_t* mlx, size_t mlx_size,
+    const char* level_name, const char* source_path,
+    const dh2_world_source_mgp* mgps, size_t mgp_count,
+    const dh2::data::CharacterTable* characters,
+    const dh2::data::Dictionary* models,
+    uint8_t* output, size_t output_capacity, size_t* output_size,
+    dh2_world_source_static_character* source_rows, size_t source_capacity,
+    size_t* source_count, char* error, size_t error_capacity);
 #endif
 
 #ifdef __cplusplus

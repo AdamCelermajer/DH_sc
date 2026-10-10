@@ -426,6 +426,7 @@ void run(const std::filesystem::path& assets) {
       level_binding.entry_point = 0;
       level_binding.difficulty = 0;
       level_binding.level_state = 38;
+      level_binding.source_save_slot = 0;
       require(source_level_owner.bind_native_level(level_binding),
           "Source Level owner rejected a complete native Level binding");
     }

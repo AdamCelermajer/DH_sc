@@ -55,36 +55,41 @@ Status Runtime::run(Result* output,std::string& error) {
             return Status::complete;
         }
 
-        output->killer_credit_attempted=1;
-        if (failed(services_.killer_credit(services_.context,request_.character,
-                                           request_.killer_object,error),error,
-                   "Character::Kill killer credit failed"))
-            return Status::provider_failed;
-        output->killer_credit_completed=1;
-
-        output->killer_conversion_attempted=1;
         bool xp_credit=false;
-        if (failed(services_.resolve_xp_killer(
-                       services_.context,request_.character,
-                       request_.killer_object,output->killer_character,
-                       xp_credit,error),error,
-                   "Character::Kill killer conversion failed"))
-            return Status::provider_failed;
-        if (xp_credit && !output->killer_character) {
-            error="Character::Kill XP attribution resolved a null killer Character";
-            return Status::provider_failed;
-        }
-        output->killer_conversion_completed=1;
-        output->xp_credit=xp_credit?1u:0u;
-
-        if (xp_credit) {
-            output->xp_attempted=1;
-            if (failed(services_.distribute_xp(
-                           services_.context,output->killer_character,
-                           request_.character,error),error,
-                       "Character::DistributeXP failed"))
+        // Character::Kill enters the aggro/credit and ObjectHandle/XP branch
+        // only for a non-null killer. A null killer still reaches the +0x54
+        // and objective tail when force is false.
+        if (request_.killer_object) {
+            output->killer_credit_attempted=1;
+            if (failed(services_.killer_credit(services_.context,request_.character,
+                                               request_.killer_object,error),error,
+                       "Character::Kill killer credit failed"))
                 return Status::provider_failed;
-            output->xp_completed=1;
+            output->killer_credit_completed=1;
+
+            output->killer_conversion_attempted=1;
+            if (failed(services_.resolve_xp_killer(
+                           services_.context,request_.character,
+                           request_.killer_object,output->killer_character,
+                           xp_credit,error),error,
+                       "Character::Kill killer conversion failed"))
+                return Status::provider_failed;
+            if (xp_credit && !output->killer_character) {
+                error="Character::Kill XP attribution resolved a null killer Character";
+                return Status::provider_failed;
+            }
+            output->killer_conversion_completed=1;
+            output->xp_credit=xp_credit?1u:0u;
+
+            if (xp_credit) {
+                output->xp_attempted=1;
+                if (failed(services_.distribute_xp(
+                               services_.context,output->killer_character,
+                               request_.character,error),error,
+                           "Character::DistributeXP failed"))
+                    return Status::provider_failed;
+                output->xp_completed=1;
+            }
         }
 
         output->virtual_54_attempted=1;

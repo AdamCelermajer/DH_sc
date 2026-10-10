@@ -1,5 +1,6 @@
 #pragma once
 #include "../scene-materials/scene.hpp"
+#include "source_handle_ledger_v1.hpp"
 #include "floors.hpp"
 #include <array>
 #include <cstdint>
@@ -23,6 +24,14 @@ struct SourceMvpDecor{
  std::string source_path;
  Transform local;
  Transform world;
+};
+struct StaticDactActorHandleV1 {
+ std::uint32_t dact_record=0;
+ std::uint32_t module_index=0;
+ std::uint32_t source_record=0;
+ std::int32_t source_handle=-1;
+ std::string name;
+ std::string character;
 };
 struct SpawnSelection{EntryPoint source;Point position{};Point rotation_degrees{};bool floor_snapped=false;};
 // Generated worlds with an authoritative SPWN sidecar may defer descriptor
@@ -48,6 +57,17 @@ bool compile_source_dact(const std::uint8_t* mlx,std::size_t mlx_size,
                          const SourceMgpView* mgps,std::size_t mgp_count,
                          const data::CharacterTable& characters,
                          const data::Dictionary& models,
+                         std::vector<std::uint8_t>& dact,std::string& error);
+// Same byte-exact static DACT compile, plus source provenance resolved through
+// the exact MGP (module_index, source_record) tuple and canonical ObjectManager
+// handle ledger. The DACT row ordinal is retained; names are validation facts,
+// never the key used to select a source handle.
+bool compile_source_dact_with_handles(const std::uint8_t* mlx,std::size_t mlx_size,
+                         const SourceMgpView* mgps,std::size_t mgp_count,
+                         const data::CharacterTable& characters,
+                         const data::Dictionary& models,
+                         const source_handle_ledger_v1::Ledger& handle_ledger,
+                         std::vector<StaticDactActorHandleV1>& actor_sources,
                          std::vector<std::uint8_t>& dact,std::string& error);
 // Import the nine source MVPs and project only the ten reviewed unconditional
 // SWAMP static Decor records into owned render-instance descriptions.

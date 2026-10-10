@@ -26,4 +26,10 @@ enum class Status : std::uint32_t {
 std::int32_t read(void* context, std::uint32_t source_member_offset,
                   float* value, std::string& error);
 
+// DesignSettings::CombatMusicTrigger is an integer at source member +0x14.
+// The retained cache view is shared with the XP provider and omits the source
+// vptr from each serialized row.
+std::int32_t read_combat_music_trigger(void* context,std::int32_t* value,
+                                      std::string& error);
+
 } // namespace dh2::design_settings_xp_provider_v1

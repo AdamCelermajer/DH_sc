@@ -72,4 +72,84 @@ Status move_begin(const Binding& binding, Result* output,
     return Status::complete;
 }
 
+namespace {
+
+struct EventDispatch {
+    const EventBinding& binding;
+    EventResult& result;
+    std::string& error;
+    bool pursuit_failed{};
+};
+
+std::int32_t dispatch_event(void* raw, const character::AnimationEventRequest* request) {
+    auto& dispatch = *static_cast<EventDispatch*>(raw);
+    if (!request) return 0;
+    if (request->service == character::animation_attack_begin &&
+        dispatch.binding.attack_begin) {
+        ++dispatch.result.attack_begin_calls;
+        const auto status = character_enemy_attack_event_v1::attack_begin(
+            *dispatch.binding.attack_begin, &dispatch.result.attack_begin,
+            dispatch.error);
+        if (status != character_enemy_attack_event_v1::Status::complete) {
+            dispatch.pursuit_failed = true;
+            return 0;
+        }
+        // The source Attack-begin consumer accepts and forwards the original
+        // Character animation event after its internal event 0x1a handling.
+        return 1;
+    }
+    if (request->service == character::animation_state_event)
+        ++dispatch.result.state_event_calls;
+    if (request->service != character::animation_move_begin) {
+        ++dispatch.result.forwarded_calls;
+        try {
+            return dispatch.binding.character_events.invoke(
+                dispatch.binding.character_events.context, request);
+        } catch (...) {
+            dispatch.pursuit_failed = true;
+            dispatch.error = "Character animation-event provider threw";
+            return 0;
+        }
+    }
+
+    ++dispatch.result.move_begin_calls;
+    const auto status = move_begin(dispatch.binding.pursuit,
+                                   &dispatch.result.pursuit, dispatch.error);
+    if (status != Status::complete) {
+        dispatch.pursuit_failed = true;
+        return 0;
+    }
+    // The source Move-begin consumer returns 1 after accepted dispatch, which
+    // makes Character's animation router deliver the original state event.
+    return 1;
+}
+
+} // namespace
+
+Status animation_event(const EventBinding& binding, EventResult* output,
+                       std::string& error) noexcept {
+    error.clear();
+    if (output) *output = {};
+    if (!output || !binding.facts || !binding.character_events.invoke) {
+        error = "enemy animation event lacks the canonical Character event owner";
+        return Status::invalid_argument;
+    }
+    EventDispatch dispatch{binding, *output, error};
+    const character::AnimationEventServices services{&dispatch, &dispatch_event};
+    int status = -1;
+    try {
+        ++output->route_calls;
+        status = dh2_character_animation_event_route(binding.facts, &services);
+    } catch (...) {
+        error = "source Character animation-event route failed";
+        return Status::provider_failed;
+    }
+    if (status != 1) {
+        error = "source Character animation-event route rejected input";
+        return Status::invalid_argument;
+    }
+    if (dispatch.pursuit_failed) return Status::provider_failed;
+    return Status::complete;
+}
+
 } // namespace dh2::character_enemy_pursuit_v1

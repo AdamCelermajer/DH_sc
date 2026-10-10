@@ -4,6 +4,7 @@
 #include "textures.hpp"
 #include "model_renderer.hpp"
 #include "original_ui_session.hpp"
+#include "original_menu_viewport_v1.hpp"
 #include "menu_start_commit_gate_v1.hpp"
 #include "player_gameplay_audio.hpp"
 #include <cmath>
@@ -32,10 +33,12 @@ void bind_menu_runtime(){
  services.assign_save_slot=[](void*,std::int32_t slot,std::int32_t ordinal,std::string& error){return model_renderer::assign_menu_save_slot(slot,ordinal,error);};
  services.eabi_integer=[](void*,double number,std::int32_t& value,std::string& error){if(!std::isfinite(number)||number<double(INT32_MIN)||number>double(INT32_MAX)){error="Menu integer outside native conversion boundary";return false;}value=static_cast<std::int32_t>(number);return true;};
  services.request_start_game=[](void*,bool numeric,std::int32_t requested,std::int32_t& slot,std::string& error){return model_renderer::request_menu_start(numeric,requested,slot,error);};
+ services.request_continue_game=[](void*,std::int32_t& slot,std::string& error){return model_renderer::request_menu_continue(slot,error);};
  services.change_preview_slot=[](void*,std::int32_t slot,bool force,std::string& error){return model_renderer::select_menu_preview_slot(slot,force,error);};
  services.debug_load=[](void*,std::string& error){return model_renderer::menu_debug_load(menu_assets,error);};
  services.debug_query=[](void*,const char* key,std::string& error){return model_renderer::menu_debug_query(menu_assets,key,error);};
  services.save_game=[](void*,std::uintptr_t character,std::string& error){return model_renderer::ui_player_save_game(character,error);};
+ services.camera_zoom_lock=[](void*,bool locked){model_renderer::camera_zoom_lock(locked);};
  original_ui.bind_front_runtime(services);
  const auto design=original_ui.design_settings_table();
  model_renderer::bind_xp_design_settings(design.data,design.size);
@@ -136,7 +139,9 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadTextu
   return result(env,report);
 }
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_resize(JNIEnv*,jclass,jint w,jint h){
-  surface_width=std::max(1,int(w));surface_height=std::max(1,int(h));glViewport(0,0,surface_width,surface_height);
+  surface_width=std::max(1,int(w));surface_height=std::max(1,int(h));
+  const auto viewport=dh2::ui::original_menu_viewport_v1::full_surface(surface_width,surface_height);
+  glViewport(viewport[0],viewport[1],viewport[2],viewport[3]);
   model_renderer::drawable_target_changed(surface_width,surface_height);
   report_model_frame=true;
   __android_log_print(ANDROID_LOG_INFO,tag,"Surface resized to %d x %d",surface_width,surface_height);
@@ -190,6 +195,7 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadModel
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_orbit(JNIEnv*,jclass,jfloat dx,jfloat dy,jfloat zoom){model_renderer::orbit(dx,dy,zoom);}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_animationTime(JNIEnv*,jclass,jint milliseconds){model_renderer::set_time(milliseconds);}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_moveAxis(JNIEnv*,jclass,jfloat x,jfloat y){model_renderer::move_axis(x,y);}
+extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_stopMovement(JNIEnv*,jclass){model_renderer::stop_movement();}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_cameraPinchZoom(JNIEnv*,jclass,jfloat previous,jfloat current){model_renderer::camera_pinch_zoom(previous,current);}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_cameraTouchPan(JNIEnv*,jclass,jint dx,jint dy){if(original_ui.camera_pan_allowed())model_renderer::camera_touch_pan(dx,dy);}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_focusObject(JNIEnv*,jclass,jint index){model_renderer::focus_object(index);}
@@ -238,6 +244,14 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadFront
  if(!original_ui.load_front_screen(path,"main",error))return result(env,"Menu load failed: "+error);
  return result(env,"Original menu ready");
 }
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadOpeningSplash(JNIEnv* env,jclass,jstring directory,jobject assets){
+ if(!directory||!assets)return result(env,"Opening splash input unavailable");
+ const char* raw=env->GetStringUTFChars(directory,nullptr);if(!raw)return nullptr;const std::string path(raw);env->ReleaseStringUTFChars(directory,raw);
+ menu_assets=AAssetManager_fromJava(env,assets);model_renderer::deactivate();
+ std::string error;ui_frame_failed=false;
+ if(!original_ui.load_front_screen(path,"loading",error))return result(env,"Opening splash load failed: "+error);
+ return result(env,"Original opening splash ready");
+}
 extern "C" JNIEXPORT jint JNICALL Java_com_example_dh2_NativeBridge_frontLanguage(JNIEnv*,jclass){
  return static_cast<jint>(original_ui.language());
 }
@@ -253,7 +267,9 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_returnToM
  return result(env,"Original menu ready");
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_menuTouch(JNIEnv* env,jclass,jfloat x,jfloat y,jint action){
- std::string error;if(!original_ui.touch(x,y,action,error))return result(env,"Menu touch failed: "+error);return result(env,"");
+ std::string error;if(!original_ui.touch(x,y,action,error))return result(env,"Menu touch failed: "+error);
+ if(original_ui.consume_gameplay_main_menu_request())return result(env,"GAMEPLAY_MAIN_MENU_REQUESTED");
+ return result(env,"");
 }
 extern "C" JNIEXPORT jboolean JNICALL Java_com_example_dh2_NativeBridge_menuTextInputActive(JNIEnv*,jclass){
  return original_ui.menu_text_input_active()?JNI_TRUE:JNI_FALSE;

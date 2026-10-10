@@ -36,16 +36,40 @@ int main(int argc,char** argv) {
         const auto camera=read(argv[1]),idle=read(argv[2]);
         dh2::player_camera_rig_v1::Rig rig;std::string error;
         require(rig.load({camera.data(),camera.size(),idle.data(),idle.size()},error),error.c_str());
+        dh2::player_camera_rig_v1::Assets named_assets{
+            camera.data(),camera.size(),idle.data(),idle.size()};
+        named_assets.camera_name="PlayerCamera_Default";
+        dh2::player_camera_rig_v1::Rig named_rig;
+        if(!named_rig.load(named_assets,error))throw std::runtime_error("named rig load: "+error);
+        dh2::player_camera_rig_v1::Pose named_pose{},default_pose{};
+        require(named_rig.sample(named_rig.animation_start(),&named_pose,error),error.c_str());
+        require(rig.sample(rig.animation_start(),&default_pose,error),error.c_str());
+        require(same_pose(named_pose,default_pose),
+                "exact authored Camera name changed the Root_Camera-node-relative pose");
+        named_assets.camera_name="PlayerCamera_Missing";
+        dh2::player_camera_rig_v1::Rig missing_named_rig;
+        if(missing_named_rig.load(named_assets,error)||error.empty())
+            throw std::runtime_error("missing exact authored Camera name fell back to a different camera");
         const auto& projection=rig.projection();
         require(close(projection.source_fov_value,45.0f),"Authored camera FOV changed");
         require(close(projection.aspect_ratio,1.5f),"Authored camera aspect changed");
         require(close(projection.near_clip,600.0f),"Authored camera near plane changed");
         require(close(projection.far_clip,3800.0f),"Authored camera far plane changed");
         require(rig.animation_start()==0&&rig.animation_end()==33,"Unexpected authored idle range");
+        require(std::isfinite(rig.source_default_target_distance())&&
+                rig.source_default_target_distance()>0.0f,
+                "Source CameraLevel rest-scene target-to-parent distance is unavailable");
         require(rig.track_count()==6&&!rig.skipped_tracks()&&!rig.unbound_tracks(),
                 "Camera idle tracks are not fully supported and bound");
         dh2::player_camera_rig_v1::Pose first{},middle{};
         require(rig.sample(rig.animation_start(),&first,error),error.c_str());
+        const float idle_camera_distance=std::hypot(
+            std::hypot(first.camera[12]-first.target[12],
+                       first.camera[13]-first.target[13]),
+            first.camera[14]-first.target[14]);
+        require(close(rig.source_default_target_distance(),4.1e-5f,1.0e-8f)&&
+                idle_camera_distance>1000.0f,
+                "CameraLevel zoom distance must use rest-scene targetCam-to-parent, not idle eye-to-target");
         require(rig.sample(rig.animation_start()+(rig.animation_end()-rig.animation_start())/2,&middle,error),error.c_str());
         for(float value:first.camera)require(std::isfinite(value),"Nonfinite camera matrix");
         for(float value:first.target)require(std::isfinite(value),"Nonfinite target matrix");
@@ -158,7 +182,7 @@ int main(int argc,char** argv) {
                  <<" maxParentVsNodeAxisDelta="<<maximum_parent_vs_node_axis_delta
                  <<" up0="<<first.up_vector[12]<<","<<first.up_vector[13]<<","<<first.up_vector[14]
                  <<"; eyeMid="<<middle.camera[12]<<","<<middle.camera[13]<<","<<middle.camera[14]
-                 <<" poseDelta="<<pose_delta<<"; timeline=game-delta,once,terminal="
+                 <<" poseDelta="<<pose_delta<<" sourceDistance="<<rig.source_default_target_distance()<<" idleEyeDistance="<<idle_camera_distance<<"; timeline=game-delta,once,terminal="
                  <<playback.current_time_ms()<<"\n";
         return 0;
     } catch(const std::exception& e) { std::cerr<<e.what()<<"\n";return 1; }

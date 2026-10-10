@@ -15,6 +15,16 @@ struct Assets {
     std::size_t camera_scene_size=0;
     const std::uint8_t* idle_animation=nullptr;
     std::size_t idle_animation_size=0;
+    // Most source camera rigs name Root_Camera-node and upvector-node. The
+    // minimap rig instead names its root Player_minimap-node and encodes up
+    // in the camera-node basis, so callers may supply that exact variant.
+    const char* root_node=nullptr;
+    const char* up_vector_node=nullptr;
+    bool derive_up_from_camera=false;
+    // Optional LevelConfig::camera_name. When supplied, select the exact
+    // authored scene node and require its Camera instance; null preserves
+    // legacy unique-camera selection. Pose matrices remain relative to root_node.
+    const char* camera_name=nullptr;
 };
 
 // Raw values authored in the BRES Camera record. source_fov_value is retained
@@ -49,6 +59,10 @@ public:
     bool sample(std::int32_t milliseconds,Pose*,std::string& error);
 
     const Projection& projection() const noexcept { return projection_; }
+    // CameraLevel::CalculateDefaultTargetDistance runs during Load, before
+    // PlayAnim. It measures target-node absolute position from its parent,
+    // rather than the animated camera-to-target distance.
+    float source_default_target_distance() const noexcept { return default_target_distance_; }
     std::int32_t animation_start() const noexcept { return animation_.start; }
     std::int32_t animation_end() const noexcept { return animation_.end; }
     unsigned track_count() const noexcept { return animation_.track_count(); }
@@ -60,6 +74,8 @@ private:
     animation::Player animation_;
     Projection projection_{};
     std::size_t root_=0,camera_=0,target_=0,up_vector_=0;
+    bool up_from_camera_=false;
+    float default_target_distance_=0.0f;
     bool loaded_=false;
 };
 

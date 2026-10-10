@@ -34,6 +34,9 @@ int main() {
           "3D menu backdrop and SWF must share full display bounds");
     check(full_surface(1280, 549) == std::array<std::int32_t, 4>{0, 0, 1280, 549},
           "wide surface reference must retain its full-screen bounds");
+    check(viewport_for_screen_state_v1("menu_CharacterMenu", 3200, 1440) ==
+              full_surface(3200, 1440),
+          "high-resolution Android menu must share the canonical physical surface frame");
     check(full_surface(0, 720) == std::array<std::int32_t, 4>{},
           "invalid surface must produce an empty rectangle");
     check(authored_stage_viewport(480, 320) == std::array<std::int32_t, 4>{0, 0, 480, 320},
@@ -95,6 +98,14 @@ int main() {
           std::fabs(top_edge[1]) < 1e-5f,
           "top full-surface edge must reach the source stage edge");
 
+    // Source mode 0 fills the driver viewport and maps each authored axis
+    // independently: at 2400x1080, x uses 5 px/unit while y uses 3.375.
+    float wide_authored_point[2]{500.0f, 337.5f};
+    check(dh2_ui_screen_to_logical(&state, wide_authored_point, &services) == 0 &&
+          std::fabs(wide_authored_point[0] - 100.0f) < 1e-5f &&
+          std::fabs(wide_authored_point[1] - 100.0f) < 1e-5f,
+          "20:9 source mode-0 projection must preserve its anisotropic full-screen mapping");
+
     // Mode 0 intentionally stretches the authored 480x320 stage to the full
     // surface. Confirm the production pixel→SWF transform remains normalized
     // across common 3:2, 16:9, ultrawide landscape, and portrait dimensions.
@@ -113,5 +124,5 @@ int main() {
             std::fabs(point[1] - 240.0f) < 1e-4f;
         check(mapped, "full-surface hit mapping must preserve normalized coordinates at each aspect");
     }
-    return checks == 24 ? 0 : 1;
+    return checks == 26 ? 0 : 1;
 }
