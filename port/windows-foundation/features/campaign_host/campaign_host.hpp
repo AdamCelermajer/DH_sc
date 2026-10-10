@@ -68,6 +68,8 @@ struct ActorVerbServices {
 
 // Facts the host cannot own. main supplies them from the live combat session.
 struct CampaignHostServices {
+    // P17 CONDITIONS: answers trigger zone activate_cond names (main binds the authored evaluator). Unset: gated zones get no contact.
+    std::function<bool(const std::string&)> condition_active;
     std::function<bool(std::vector<ActorId>&,std::string&)> all_actors;
     std::function<bool(ActorId,bool& alive,std::int32_t& state,std::string&)> actor_state;
     std::function<bool(ActorId,std::int32_t state,std::string&)> set_actor_state;

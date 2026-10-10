@@ -9,7 +9,7 @@ std::optional<ArmedExit> find_armed_exit(const ExitZoneSet& zones,
     const auto& all = zones.zones();
     for (std::size_t i = 0; i < all.size(); ++i) {
         const auto& zone = all[i];
-        if (!zone.built || zone.kind != ZoneKind::level_exit || !zone.inside || zone.target_procedural) continue;
+        if (!zone.built || zone.kind != ZoneKind::level_exit || !zone.inside) continue; // procedural targets are generated on confirm (P17 PROCGEN)
         if (!zone.condition.empty() && !conditions.condition_active(zone.condition)) continue;
         ArmedExit armed;
         armed.zone = i;

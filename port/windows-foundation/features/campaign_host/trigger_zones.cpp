@@ -101,7 +101,6 @@ bool TriggerZoneSet::build(const std::vector<ActorDefinition>& declarations,Orig
         std::array<float,3> rotation{}, scale{1,1,1};
         if (!property("rotation").empty() && !parse_vec3(property("rotation"), rotation)) { reject("invalid rotation"); continue; }
         if (!property("scale").empty() && !parse_vec3(property("scale"), scale)) { reject("invalid scale"); continue; }
-        if (!property("activate_cond").empty()) { reject("activate_cond is not evaluated by the host"); continue; }
         bool provider_field = false;
         for (const char* field : kProviderFields) if (!property(field).empty()) { reject(std::string("requires source provider ") + field); provider_field = true; break; }
         if (provider_field) continue;
@@ -134,16 +133,19 @@ bool TriggerZoneSet::build(const std::vector<ActorDefinition>& declarations,Orig
         zone.name = declaration.name;
         zone.script = script;
         zone.script_id = runtime.script_id(script, false);
+        zone.activate_cond = property("activate_cond"); // P17 CONDITIONS: gated by the evaluator at contact time
         zone.box = oriented_zone_box(declaration.placement);
         zones_.push_back(std::move(zone));
     }
     return true;
 }
 
-void TriggerZoneSet::update(OriginalCampaignRuntime& runtime,const std::array<float,3>& player,bool qualified,int module) {
+void TriggerZoneSet::update(OriginalCampaignRuntime& runtime,const std::array<float,3>& player,bool qualified,int module,
+                           const std::function<bool(const std::string&)>& condition_active) {
     for (auto& zone : zones_) {
         if (zone.disabled) continue;
-        zone.inside = point_inside(zone.box, player);
+        const bool allowed = zone.activate_cond.empty() || (condition_active && condition_active(zone.activate_cond));
+        zone.inside = allowed && point_inside(zone.box, player);
         std::string error;
         if (!runtime.trigger_contact(zone.key, zone.inside, qualified, module, error)) {
             zone.disabled = true;

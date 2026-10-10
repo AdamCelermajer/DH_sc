@@ -2093,7 +2093,10 @@ int main(int argc,char** argv) {
         f::CampaignCameraAdapter sourceCameraTargets;
         f::OriginalCampaignWorldAdapter campaignWorld(actorLifecycle,&sourceCameraTargets);
         // P16 HOST: script-host providers and generic trigger zones (bound only with --campaign-triggers).
+        // P17 CONDITIONS: trigger zone activate_cond through the authored evaluator (bound with transitionConditions below).
+        std::function<bool(const std::string&)> conditionActive;
         f::campaign_host::CampaignHostServices hostServices;
+        hostServices.condition_active=[&](const std::string& name){return conditionActive?conditionActive(name):false;};
         f::CameraClipLibrary cameraClipLibrary; // P16 CINE2: PlayCamera dictionary -> cs_* clip bytes
         cameraClipLibrary.set_scene_file(originalCamera.config().file); // the level camera the clips drive
         hostServices.read_camera_clip=[&](std::int32_t id,std::vector<std::uint8_t>& clip,std::vector<std::uint8_t>& scene,std::string& path,std::string& e){return cameraClipLibrary.read(assets,id,clip,scene,path,e);};
@@ -3262,6 +3265,7 @@ int main(int argc,char** argv) {
             const auto world=questRuntime?f::conditions::world_from_quest_runtime(*questRuntime,conditionLevelRow):f::conditions::ConditionWorldV1{};
             return authoredConditions->evaluate(name,world,value,e)&&value;
         });
+        conditionActive=[&](const std::string& name){return transitionConditions.condition_active(name);};
         f::quest_runtime::QuestZoneSetV1 questZones; // P16 QUESTUI: MoveInZone boxes of this level
         f::QuestBannerPresenterV1 questBanners;      // P16 QUESTUI: NEW QUEST / updates / QUEST COMPLETED
         std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)

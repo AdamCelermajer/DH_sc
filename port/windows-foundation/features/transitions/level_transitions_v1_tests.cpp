@@ -221,8 +221,8 @@ void test_prompt_and_persistence() {
     set.update({0, 0, 0}, true);
     check(!find_armed_exit(set, levels, conditions).has_value(), "prompt hides when the player leaves");
 
-    set.update({-1000, 0, 0}, true);                      // procedural target: never a prompt (refused at confirm)
-    check(!find_armed_exit(set, levels, conditions).has_value(), "procedural exit shows no prompt");
+    set.update({-1000, 0, 0}, true);                      // procedural target: the prompt shows; confirm generates the level
+    check(find_armed_exit(set, levels, conditions).has_value(), "procedural exit shows the prompt (P17 PROCGEN)");
     set.update({0, 0, 0}, true);
 
     set.update({0, 1000, 0}, true);                       // gated exit: condition false, no prompt

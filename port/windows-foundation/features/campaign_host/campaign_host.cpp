@@ -548,7 +548,7 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
         else
             std::cout << "[campaign] restore incomplete: " << restore_error << '\n';
     }
-    zones_.update(*runtime_, player, qualified, -1);
+    zones_.update(*runtime_, player, qualified, -1, services_.condition_active);
 }
 
 void CampaignHost::print_summary(std::ostream& out) const {

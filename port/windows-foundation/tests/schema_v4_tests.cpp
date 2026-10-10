@@ -4,6 +4,7 @@
 #include "character_state.hpp"
 #include "save_store.hpp"
 
+#include <random>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -37,7 +38,8 @@ struct TempDirectory {
     std::filesystem::path path;
     TempDirectory() {
         const auto stamp = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-        path = std::filesystem::temp_directory_path() / ("dhsc-schema-v4-" + std::to_string(stamp));
+        // Unique per process and start: parallel ctest runs can share a clock tick.
+        path = std::filesystem::temp_directory_path() / ("dhsc-schema-v4-" + std::to_string(stamp) + "-" + std::to_string(std::random_device{}()));
         require(std::filesystem::create_directory(path), "cannot create test directory");
     }
     ~TempDirectory() { std::error_code error; std::filesystem::remove_all(path, error); }
