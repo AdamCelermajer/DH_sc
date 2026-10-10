@@ -44,6 +44,7 @@
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
 #include "features/frontend/menu_return/menu_return_v1.hpp"
+#include "features/menu_metadata/menu_metadata_v1.hpp" // P14 schema: per-slot menu metadata stamping/projection
 #if defined(_WIN32)
 #include "features/audio/frontend_menu_audio_v1.hpp"
 #endif
@@ -114,7 +115,7 @@ namespace fs = std::filesystem;
 struct GameplayRewardContext {
     std::function<bool(const char*,bool&,std::string&)> debug;
     std::function<bool(f::ActorId,f::loot::RuntimeDeathActorV1&,std::string&)> character;
-    // The current creation/start path admits Normal difficulty only.
+    // Filled from the shared profile (CharacterState current/unlocked difficulty) at each reward binding.
     std::int32_t currentDifficulty{},unlockedDifficulty{};
     bool rewardsSuppressed{};
     static bool admission(void* raw,f::loot::RuntimeDeathRewardAdmissionV1& out,std::string& e) {
@@ -461,6 +462,20 @@ int main(int argc,char** argv) {
         if(options.assets.empty()) options.assets=f::AssetCatalog::discover_root(executablePath);
         f::AssetCatalog assets(options.assets);
         const auto launchOptions=options;
+        // P14 schema: LevelList (data/levels_pyarray.bin) for slot metadata; loaded once, on first use.
+        dh2::data::LevelTables metadataLevels;bool metadataLevelsTried=false,metadataLevelsLoaded=false;
+        const auto loadMetadataLevels=[&](const f::AssetCatalog& catalog)->const dh2::data::LevelTables* {
+            if(!metadataLevelsTried) {
+                metadataLevelsTried=true;std::string levelsError;
+                metadataLevelsLoaded=f::menu_metadata::load_level_tables(catalog,metadataLevels,levelsError);
+                if(!metadataLevelsLoaded)std::cerr<<"Menu metadata LevelList diagnostic: "<<levelsError<<'\n';
+            }
+            return metadataLevelsLoaded?&metadataLevels:nullptr;
+        };
+        // Source SG_SetSaveDate + SG_SetLevelId at a profile save point (Level::SG_SavePlayer, F5/checkpoint, menu return).
+        const auto stampSaveMetadata=[&](f::CharacterState& profile,const std::string& levelUri) {
+            f::menu_metadata::stamp_menu_metadata_for_level(profile,std::uint32_t(std::time(nullptr)),loadMetadataLevels(assets),levelUri);
+        };
         bool returnMenuScriptConsumed=false;
         f::Window window;f::Renderer renderer;bool windowOpened=false;
         for(;;) {
@@ -514,7 +529,10 @@ int main(int argc,char** argv) {
                 assignedSlot=slot;options.selectedSaveSlot=slot;e.clear();return true;
             };
             flowServices.start_same_state=[&](const std::shared_ptr<f::CharacterState>& selected,int difficulty,std::string& e) {
-                if(selected!=sharedCharacter||assignedSlot!=options.selectedSaveSlot||difficulty!=0){e="Selected profile/start owner or difficulty is unavailable";return false;}
+                if(selected!=sharedCharacter||assignedSlot!=options.selectedSaveSlot){e="Selected profile/start owner is unavailable";return false;}
+                // P14 schema: NativeStartGame sets CurrentDifficulty; the menu may choose 0..UnlockedDiff (profile field, no longer fixed to Normal).
+                if(difficulty<0||difficulty>f::character_unlocked_difficulty(*selected)){e="Selected difficulty is not unlocked for this profile";return false;}
+                selected->current_difficulty=difficulty;
                 if(selected->stats.level>std::uint32_t(INT32_MAX/256)){e="Saved level exceeds the source property scale";return false;}
                 const auto* selectedClass=creation::find_class(selected->class_id);
                 if(!selectedClass){e="Saved class is not an authored playable base profile";return false;}
@@ -657,11 +675,16 @@ int main(int argc,char** argv) {
                 if(row==characters.names.end()){e="Saved profile class is absent from source CharacterTable";return false;}
                 std::string classLabel;
                 if(!profileLocalization.string_id(characters.rows[std::size_t(row-characters.names.begin())][5],classLabel,e))return false;
-                const auto projected=creation::saved_profile_text_bindings(saved,[&](const f::CharacterState& same,std::string&){
+                const auto projected=creation::saved_profile_text_bindings(saved,[&](const f::CharacterState& same,std::string& slotError){
                     creation::SavedProfilePresentation value{};
                     value.character_id=same.id;value.class_token=same.class_id;value.class_label=classLabel;
-                    // Portable profiles currently do not retain campaign act,
-                    // difficulty/location or the original saved LNAM date.
+                    // P14 schema: act, location, difficulty and last-save date come from the slot's schema-v4
+                    // metadata through engine-ui menu_save_slot_projection_v1 (NativeGetSaveSlotDetails 0x44aa28).
+                    // Legacy v1-v3 slots (menu_metadata.known=false) keep blank rows until their next save point.
+                    const auto* levelTables=loadMetadataLevels(menuSource);
+                    if(!levelTables){slotError="Menu LevelList assets are unavailable";return std::optional<creation::SavedProfilePresentation>();}
+                    if(!f::menu_metadata::project_slot_presentation(same,fact.id,std::int32_t(row-characters.names.begin()),characters,*levelTables,profileLocalization,0,value,slotError))
+                        return std::optional<creation::SavedProfilePresentation>();
                     return std::optional<creation::SavedProfilePresentation>(std::move(value));
                 });
                 if(!projected.ok()){e=projected.error;return false;}
@@ -1909,7 +1932,7 @@ int main(int argc,char** argv) {
                 f::generic_skills::CharacterDesignSkillCapsV1 skillCaps;
                 skillCaps.known=menuSourceOwner.character_design_caps_known;
                 skillCaps.max_skill_level=menuSourceOwner.character_design_skill_caps;
-                skillCaps.unlocked_difficulty=0; // The current gameplay start accepts Normal only.
+                skillCaps.unlocked_difficulty=std::size_t(f::character_unlocked_difficulty(state)); // P14 schema: profile field (Normal for legacy saves).
                 if(!frontendStarted&&(!state.source_skill_slots_known||directFirstSkillGrantPending)) {
                     const auto* current=combatSession->world()->combat_properties(combatSession->player_id());
                     if(!current||!skillCaps.known)throw std::runtime_error("Direct Skills bootstrap requires current source SkillTree and CharacterDesign caps");
@@ -2013,6 +2036,8 @@ int main(int argc,char** argv) {
         const auto bindDeathRewards=[&]() {
             deathRewards.reset();
             if(!combatSession||!menuSourceOwner.valid())return;
+            // P14 schema: CurrentDifficulty/UnlockedDiff come from the shared profile (single accessor), not a fixed Normal.
+            rewardContext->currentDifficulty=f::character_current_difficulty(state);rewardContext->unlockedDifficulty=f::character_unlocked_difficulty(state);
             if(!worldItems)worldItems=std::make_shared<f::loot::RuntimeWorldItemAdapterV1>(menuSourceOwner.loot_owner->borrow());
             ++rewardBindingGeneration;
             f::loot::RuntimeSessionDeathRewardBindingsV1 rewardBindings;
@@ -2439,6 +2464,7 @@ int main(int argc,char** argv) {
                 const bool admitted=combatSession&&skillCastCoordinator&&
                     f::frontend::menu_return::request_v1({combatSession.get(),skillCastCoordinator.get(),true},ticket,saveError);
                 if(admitted) {
+                    stampSaveMetadata(state,options.level.generic_string()); // P14 schema: SG_SavePlayer date + LevelList row before the slot write
                     f::frontend::menu_return::CommitV1 receipt;
                     if(!f::frontend::menu_return::commit_v1(ticket,*skillCastCoordinator,options.level.generic_string(),options.liveSave,options.save,state,receipt,saveError)||!receipt.may_return_to_frontend)
                         throw std::runtime_error("Pause main-menu save: "+saveError);
@@ -2455,6 +2481,7 @@ int main(int argc,char** argv) {
                         profile.stats.resource=player->resource;profile.stats.max_resource=player->max_resource;
                     }
                     const auto checkpointDiagnostic=saveError;
+                    stampSaveMetadata(profile,options.level.generic_string()); // P14 schema
                     if(!f::save_character(options.save,profile,saveError))throw std::runtime_error("Pause profile-only save: "+saveError);
                     state=std::move(profile);
                     std::cout<<"Pause main-menu profile-only save frame="<<drawn<<" HP="<<state.stats.health<<" MP="<<state.stats.resource<<" profile="<<options.save.generic_string()<<" worldCheckpointOmitted="<<checkpointDiagnostic<<'\n';
@@ -2521,9 +2548,12 @@ int main(int argc,char** argv) {
             if((pressed(VK_F5)||drawn==options.saveFrame)&&checkpointAllowed("Save")) {
                 if(combatSession) {
                     f::GameSave snapshot;
+                    stampSaveMetadata(state,options.level.generic_string()); // P14 schema: checkpoint save = SG_SavePlayer (date + LevelList row)
                     if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),snapshot,error)||!f::save_game(options.liveSave,snapshot,error))throw std::runtime_error("Live save: "+error);
+                    // P14 schema (approved decision 3): F5 in combat also rewrites the slot profile so the menu panel is current.
+                    if(!options.save.empty()&&!f::save_character(options.save,snapshot.character,error))throw std::runtime_error("Live save slot profile: "+error);
                     std::cout<<"Saved live checkpoint frame="<<drawn<<" HP="<<snapshot.character.stats.health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
-                } else if(!f::save_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
+                } else if((stampSaveMetadata(state,options.level.generic_string()),!f::save_character(options.save,state,error)))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
             }
             if((pressed(VK_F9)||drawn==options.loadFrame)&&checkpointAllowed("Restore")) {
                 if(options.combatText)combatText.clear_for_reload();

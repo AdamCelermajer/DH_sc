@@ -226,10 +226,10 @@ FrontendRuntimeResultV1 run_frontend_v1(
   }
   savedProfileActorsLoaded=true;
  };
- FrontendSelectedProfileSnapshotV1 selectedProfileSnapshot;int selectedProfileActor=-1;
+ FrontendSelectedProfileSnapshotV1 selectedProfileSnapshot;int selectedProfileActor=-1;int menuSelectedDifficulty=0; /* P14 schema: menu starts on the profile's own CurrentDifficulty (PDFL); arrows not wired yet */
  std::string selectedProfileRenderKey,profileActorLoggedKey;
  auto projectSavedProfileActor=[&](const flow::SlotFact& fact,const std::string& menu){
-  if(!fact.in_use||!runtimeServices.borrow_selected_profile_snapshot){selectedProfileSnapshot={};selectedProfileActor=-1;selectedProfileRenderKey.clear();return;}
+  if(!fact.in_use||!runtimeServices.borrow_selected_profile_snapshot){selectedProfileSnapshot={};selectedProfileActor=-1;selectedProfileRenderKey.clear();menuSelectedDifficulty=0;return;}
   std::ostringstream renderKey;renderKey<<menu<<'|'<<fact.id<<'|'<<fact.save_path.generic_string();
   const auto key=renderKey.str();
   if(key==selectedProfileRenderKey)return;
@@ -237,7 +237,7 @@ FrontendRuntimeResultV1 run_frontend_v1(
   auto snapshot=runtimeServices.borrow_selected_profile_snapshot(fact,error);
   if(!snapshot||!snapshot->valid_for(fact))throw std::runtime_error(error.empty()?"Selected-profile snapshot does not match the exact occupied slot/path":error);
   loadSavedProfileActors();
-  const auto& state=*snapshot->character;
+  const auto& state=*snapshot->character;menuSelectedDifficulty=state.current_difficulty<0?0:state.current_difficulty>2?2:state.current_difficulty;
   for(unsigned i=0;i<savedProfileActors.size();++i)if(savedProfileActors[i].class_id==state.class_id){selectedProfileActor=static_cast<int>(i);break;}
   if(selectedProfileActor<0)throw std::runtime_error("Selected profile class has no authored source preview actor: "+state.class_id);
   auto& actor=savedProfileActors[static_cast<std::size_t>(selectedProfileActor)];
@@ -294,7 +294,7 @@ FrontendRuntimeResultV1 run_frontend_v1(
     else if(event.phase==f::frontend::input::PointerPhase::up||event.phase==f::frontend::input::PointerPhase::cancel)pressed.erase(event.pointer);
     interaction.pointer(event.pointer,event.phase,event.point);break;}
    case f::frontend::HostEvent::Kind::text:interaction.text(event.text);break;case f::frontend::HostEvent::Kind::focus_lost:interaction.lose_focus();pressed.clear();break;}}
-  if(!interaction.flush(error)){std::cerr<<"Required source frontend operation failed: "<<error<<'\n';sourceOperationFailed=true;sourceFailure=error;if(verifyNative&&smokePhase==5&&error=="NativeCreateSaveSlot owner unavailable")expectedServiceFailure=true;}
+  interaction.selected_difficulty(menuSelectedDifficulty);if(!interaction.flush(error)){std::cerr<<"Required source frontend operation failed: "<<error<<'\n';sourceOperationFailed=true;sourceFailure=error;if(verifyNative&&smokePhase==5&&error=="NativeCreateSaveSlot owner unavailable")expectedServiceFailure=true;}
   if(navigator.start_delivered())break;
   auto menu=std::string(navigator.top());auto currentClass=interaction.class_index();
   if(menu=="menu_SelectClass"){if(previousMenu!=menu){classLoaded=false;loadClass();frontend_rebase_after_blocking_load_v1(config,elapsedClock,f::Window::seconds());lastSelected=-1;}if(lastSelected!=int(currentClass)){if(!characters.select(currentClass,error))throw std::runtime_error(error);lastSelected=int(currentClass);}if(!classScene.sample(currentClass,milliseconds,error)||!characters.update(double(milliseconds)/1000,error))throw std::runtime_error(error);}

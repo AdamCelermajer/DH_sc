@@ -4,6 +4,7 @@
 
 #include "../../../character_state.hpp"
 #include "../../../save_store.hpp"
+#include "../../menu_metadata/menu_metadata_v1.hpp"
 #include "../../../../game-data/loot_creation_v8.hpp"
 
 #include <algorithm>
@@ -538,6 +539,8 @@ RuntimeCreationResultV1 RuntimeCreationPersistenceV1::create_reload(
     if (!build_source_starter(request, services, result, candidate)) return result;
 
     std::string error;
+    // P14 schema: FS_StartGame (0x4220a0) stamps the fresh profile: save date, LevelList row 41, act 1, Normal.
+    menu_metadata::initialize_fresh_menu_metadata(candidate, request.saved_date);
     if (!save_character(request.save_path, candidate, error)) {
         fail(result, RuntimeCreationStatusV1::persistence_failed,
              error.empty() ? "Existing generic save API failed" : error);
