@@ -2622,6 +2622,12 @@ int main(int argc,char** argv) {
                                     done=equipmentTransmuteAmount&&equipmentTransmuteAmount(*ownedAt,amount,error)&&
                                         f::equipment_menu::transmute_inventory_item(*sharedCharacter,pending.selected_instance_id,amount,error);
                                     if(!equipmentTransmuteAmount&&error.empty())error="Transmute value owner is unavailable";
+                                } else if(worldItems&&combatSession&&combatSession->actor(combatSession->player_id())) {
+                                    // Integration (P14 EQUIP + DROPS): the real world-item store publishes the dropped unit at the player.
+                                    const auto* dropper=combatSession->actor(combatSession->player_id());
+                                    f::loot::RuntimeWorldItemIdV1 publishedDrop=f::loot::invalid_runtime_world_item_v1;
+                                    done=f::loot::drop_item_to_world(*worldItems,*sharedCharacter,pending.selected_instance_id,1,
+                                        {dropper->transform.position[0],dropper->transform.position[1],dropper->transform.position[2]},combatSession->player_id(),publishedDrop,error);
                                 } else done=f::equipment_menu::drop_inventory_item(*sharedCharacter,pending.selected_instance_id,error);
                                 if(!done)std::cerr<<(transmute?"Equipment Transmute diagnostic: ":"Equipment Drop diagnostic: ")<<error<<" instance="<<pending.selected_instance_id<<'\n';
                                 else {
