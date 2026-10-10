@@ -98,7 +98,7 @@ std::vector<LevelRow> level_rows(const dh2::data::LevelTables& tables) {
         LevelRow row;
         row.name = i < tables.level_names.size() ? tables.level_names[i] : std::string();
         row.file = tables.levels[i].file;
-        row.description = tables.levels[i].description; // LevelList display text (prompt line 2)
+        row.display_string_id = std::int32_t(tables.levels[i].scalar.words[9]); // LevelList+36 (72-byte row)
         rows.push_back(std::move(row));
     }
     return rows;

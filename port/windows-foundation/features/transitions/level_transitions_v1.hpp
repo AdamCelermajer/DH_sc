@@ -43,7 +43,8 @@ const char* zone_kind_name(ZoneKind kind) noexcept;
 struct LevelRow {
     std::string name;
     std::string file;   // e.g. 003_darkwood.mlx
-    std::string description; // LevelList display text shown by the travel prompt (may be empty)
+    // LevelList display text id (LevelList+36, the word the original passes to StringManager). -1 when unknown.
+    std::int32_t display_string_id = -1;
 };
 std::vector<LevelRow> level_rows(const dh2::data::LevelTables& tables);
 const LevelRow* find_level(const std::vector<LevelRow>& rows, const std::string& name) noexcept;

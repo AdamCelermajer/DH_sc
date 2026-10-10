@@ -205,7 +205,7 @@ void test_prompt_and_persistence() {
         block("TriggerZoneExitLevel", "gated", {{"levelName", "SWAMP"}, {"activate_cond", "IsAfter_Gate"}}, 0, 1000, 0),
     };
     auto levels = rows();
-    levels[0].description = "Darkwood";
+    levels[0].display_string_id = 4242;
     ExitZoneSet set;
     std::string error;
     check(set.build(declarations, levels, registry, error), "prompt build: " + error);
@@ -216,8 +216,8 @@ void test_prompt_and_persistence() {
     set.update({1000, 0, 0}, true);
     auto armed = find_armed_exit(set, levels, conditions);
     check(armed.has_value() && armed->zone_name == "exit", "prompt shows for the inside exit");
-    check(armed->target_display == "Darkwood" && armed->target_name == "DARKWOOD" && armed->entry_id == 0,
-          "prompt carries the display text, level name and entry");
+    check(armed->target_display == "DARKWOOD" && armed->display_string_id == 4242 && armed->target_name == "DARKWOOD" && armed->entry_id == 0,
+          "prompt carries the display string id, level name and entry");
     set.update({0, 0, 0}, true);
     check(!find_armed_exit(set, levels, conditions).has_value(), "prompt hides when the player leaves");
 

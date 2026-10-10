@@ -319,6 +319,7 @@ struct Options {
     float transitionHeading=0.0f; // P17 TRANSITIONS: arrival facing (yaw of the entry SpawnPoint)
     std::vector<std::pair<std::string,int>> playerToZoneFrames; // P17 TRANSITIONS test aid: --player-to ZONE@FRAME
     std::vector<int> transitionConfirmFrames;                   // P17 TRANSITIONS test aid: --transition-confirm FRAME
+    std::vector<int> transitionKeyFrames;                       // P17 TRANSITIONS2 test aid: --transition-key FRAME (one scripted E press)
     std::vector<std::pair<int,std::string>> transitionCaptures; // P17 TRANSITIONS test aid: --capture-at FRAME:PATH
     int campaignSkipFrame=-1; std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
@@ -438,6 +439,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
         else if(arg=="--player-to") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--player-to expects ZONE@FRAME");o.playerToZoneFrames.emplace_back(at.substr(0,sep),std::stoi(at.substr(sep+1)));} // P17 TRANSITIONS
         else if(arg=="--transition-confirm") o.transitionConfirmFrames.push_back(std::stoi(value())); // P17 TRANSITIONS
+        else if(arg=="--transition-key") o.transitionKeyFrames.push_back(std::stoi(value())); // P17 TRANSITIONS2 (test aid; the player presses E)
         else if(arg=="--capture-at") {const auto at=value();const auto sep=at.find(':');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--capture-at expects FRAME:PATH");o.transitionCaptures.emplace_back(std::stoi(at.substr(0,sep)),at.substr(sep+1));} // P17 TRANSITIONS
         else if(arg=="--campaign-skip-frame") o.campaignSkipFrame=std::stoi(value()); // P16 CINE
         else if(arg=="--campaign-start") o.campaignStart=value(); // P16 CINE
@@ -1447,11 +1449,28 @@ int main(int argc,char** argv) {
                 f::GameSave worldSnapshot;std::string worldError;
                 if(!f::load_game(worldPath,worldSnapshot,worldError))std::cout<<"Level world restore status=unreadable detail="<<worldError<<'\n';
                 else {
+                    combatSession->actor(combatSession->player_id())->persistent_character_id=state.id; // same binding as the reload path
+                    // The fresh start and a loaded character name equipment slots differently (slot-N vs source-type/N); the same worn
+                    // instance keeps its live slot name, so the identity check compares equal (the equipment is the same).
+                    if(const auto* live=combatSession->actor(combatSession->player_id()))for(auto& persisted:worldSnapshot.actors)if(persisted.actor.id==worldSnapshot.controlled_actor_id)
+                        for(auto& saved:persisted.actor.equipment)for(const auto& now:live->equipment)if(saved.item_instance_id&&now.item_instance_id&&*saved.item_instance_id==*now.item_instance_id)saved.slot=now.slot;
                     for(auto& persisted:worldSnapshot.actors)if(persisted.actor.id==worldSnapshot.controlled_actor_id)persisted.actor.transform.position={options.actorPosition.x,options.actorPosition.y,options.actorPosition.z};
-                    if(!f::restore_game_save(worldSnapshot,options.level.generic_string(),*combatSession->world(),state,worldError))std::cout<<"Level world restore status=refused detail="<<worldError<<'\n';
+                    // Session restore rule: release the session's bindings, replace the world, then rebind before the next update.
+                    std::string detachError;
+                    if(!combatSession->detach_for_restore([](std::string&){return true;},detachError))
+                        std::cout<<"Level world restore status=detach_refused detail="<<detachError<<'\n';
                     else {
-                        if(arrivedEntryId>=0)f::transitions::set_entry_component(state,options.level.generic_string(),arrivedEntryId);
-                        std::cout<<"Level world restored level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
+                        const bool restored=f::restore_game_save(worldSnapshot,options.level.generic_string(),*combatSession->world(),state,worldError);
+                        std::string rebindError;
+                        if(!combatSession->rebind_after_restore(rebindError))throw std::runtime_error("Level world rebind: "+rebindError);
+                        faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;
+                        if(!restored) {
+                            std::cout<<"Level world restore status=refused detail="<<worldError<<'\n';
+                            if(const auto* live=combatSession->actor(combatSession->player_id()))for(const auto& e:live->equipment)std::cout<<"  live equipment slot="<<e.slot<<" def="<<e.definition_id<<'\n';
+                        } else {
+                            if(arrivedEntryId>=0)f::transitions::set_entry_component(state,options.level.generic_string(),arrivedEntryId);
+                            std::cout<<"Level world restored level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
+                        }
                     }
                 }
             } else std::cout<<"Level world restore status=none level="<<options.level.generic_string()<<'\n';
@@ -3724,12 +3743,16 @@ int main(int argc,char** argv) {
                     // (PC adaptation of the HUD button, edge only). --transition-confirm stays as a test hook below.
                     {
                         auto armed=f::transitions::find_armed_exit(exitZones,transitionRows,transitionConditions);
+                        if(armed&&armed->display_string_id>=0) { // LevelList display text through the menu text owner (same ids as the level list)
+                            std::string localized,localizeError;
+                            if(menuLocalization.string_id(armed->display_string_id,localized,localizeError)&&!localized.empty())armed->target_display=localized;
+                        }
                         if(armed&&(!armedPrompt||armedPrompt->zone!=armed->zone))
                             std::cout<<"Transition prompt shown zone="<<armed->zone_name<<" target="<<armed->target_name<<" display=\""<<armed->target_display<<"\" entry="<<armed->entry_id<<" frame="<<drawn<<'\n';
                         else if(!armed&&armedPrompt)
                             std::cout<<"Transition prompt hidden zone="<<armedPrompt->zone_name<<" frame="<<drawn<<'\n';
                         armedPrompt=armed;
-                        const bool confirmDown=window.key_down('E');
+                        const bool confirmDown=window.key_down('E')||std::find(options.transitionKeyFrames.begin(),options.transitionKeyFrames.end(),int(drawn))!=options.transitionKeyFrames.end();
                         const bool confirmEdge=confirmDown&&!transitionKeyDown;
                         transitionKeyDown=confirmDown;
                         if(armed&&confirmEdge&&!pendingTransition&&!pauseMenuOpen&&!characterMenu.is_open()) {

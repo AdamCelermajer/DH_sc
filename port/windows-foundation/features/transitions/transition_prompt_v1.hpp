@@ -25,7 +25,8 @@ struct ArmedExit {
     std::size_t zone = ExitZoneSet::npos;
     std::string zone_name;
     std::string target_name;     // LevelList name (levelName)
-    std::string target_display;  // LevelList display text (falls back to the level name)
+    std::string target_display;  // prompt line 2: the level name here; the caller swaps in the localized text
+    std::int32_t display_string_id = -1; // LevelList display text id (localize with the menu text owner)
     std::string target_file;     // data/scene/<file>
     int entry_id = 0;
 };
