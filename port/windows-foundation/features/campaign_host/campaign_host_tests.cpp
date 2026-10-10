@@ -1,0 +1,194 @@
+// P16 HOST provider contract tests. Argument: directory containing the campaign original-campaign.xml.
+// Uses the real extracted Swamp script bank through the same executor path as the live host.
+#include "campaign_host.hpp"
+#include "../../campaign_camera_adapter.hpp"
+#include "../../original_actor_lifecycle.hpp"
+#include "../../original_campaign_world_adapter.hpp"
+#include <iostream>
+#include <memory>
+#include <set>
+#include <sstream>
+#include <stdexcept>
+
+using namespace dh::foundation;
+using namespace dh::foundation::campaign_host;
+
+namespace {
+
+void check(bool value, const std::string& message) { if (!value) throw std::runtime_error(message); }
+
+// Fake live owners. Real main.cpp binds the same callback shapes to the live session.
+struct Rig {
+    OriginalCampaignRuntime runtime;
+    OriginalActorLifecycle lifecycle;
+    CampaignCameraAdapter camera;
+    bool globalBlocked = false;
+    std::map<ActorId, bool> characterBlocked;
+    std::map<ActorId, std::int32_t> states;
+    std::unique_ptr<OriginalCampaignWorldAdapter> world;
+    std::unique_ptr<CampaignHost> host;
+
+    explicit Rig(const std::string& campaignDirectory) {
+        AssetCatalog assets(campaignDirectory);
+        std::string error;
+        check(runtime.load(assets, "original-campaign.xml", error), "campaign load: " + error);
+
+        OriginalCampaignWorldProviders providers;
+        providers.global_controller_blocked = [this](bool blocked, std::string&) { globalBlocked = blocked; return true; };
+        providers.character_controller_blocked = [this](ActorId id, bool blocked, std::string&) { characterBlocked[id] = blocked; return true; };
+        providers.named_character = [](const std::string& name, int, ActorId& id, bool& found, std::string&) {
+            found = name == "_prim_Monster_LizManIntro1" || name == "_prim_Monster_LizManIntro2";
+            id = name == "_prim_Monster_LizManIntro1" ? 101 : 102;
+            return true;
+        };
+
+        CampaignCameraProviders camera_providers;
+        camera_providers.local_player = [](std::uint64_t& id, std::string&) { id = 1; return true; };
+        camera_providers.named_target = [](const std::string& name, std::uint64_t& id, bool& found, std::string&) {
+            found = name == "LocalPlayer" || name == "_prim_Waypoint_NewCamSpot";
+            id = name == "LocalPlayer" ? 1 : 2;
+            return true;
+        };
+        camera_providers.anchor = [](std::uint64_t, CameraVec3& anchor, std::string&) { anchor = {}; return true; };
+        camera.bind(camera_providers);
+        check(camera.seed_target(1, error), "camera seed: " + error);
+
+        CampaignHostServices services;
+        services.all_actors = [](std::vector<ActorId>& out, std::string&) { out = {1, 101, 102}; return true; };
+        services.actor_state = [this](ActorId id, bool& alive, std::int32_t& state, std::string&) {
+            alive = true;
+            const auto found = states.find(id);
+            state = found == states.end() ? 3 : found->second;
+            return true;
+        };
+        services.set_actor_state = [this](ActorId id, std::int32_t state, std::string&) { states[id] = state; return true; };
+        host = std::make_unique<CampaignHost>(services);
+
+        world = std::make_unique<OriginalCampaignWorldAdapter>(lifecycle, &camera);
+        host->bind_world_providers(providers);
+        world->bind(std::move(providers));
+        check(host->bind_executor(runtime, *world, error), "executor bind: " + error);
+    }
+
+    // One frame: the executor runs on this clock, then the camera receives the same milliseconds (main order).
+    void step(std::uint32_t ms) {
+        host->frame(static_cast<std::int32_t>(ms), {0, 0, 0}, true);
+        CampaignCameraFrame frame;
+        std::string error;
+        if (camera.target() != 0 && !camera.tick(ms, frame, error)) throw std::runtime_error("camera tick: " + error);
+    }
+};
+
+std::string summary(const CampaignHost& host) {
+    std::stringstream out;
+    host.unsupported().print_summary(out);
+    return out.str();
+}
+
+// Begin/End contract and the explicit failure path: spawn has no lifecycle record, so the executor stops.
+void lizard_intro_contract(const std::string& directory) {
+    Rig rig(directory);
+    std::string error;
+    const int script = rig.runtime.script_id("LizardMan_Intro", false);
+    check(script >= 0, "LizardMan_Intro script present");
+    check(rig.runtime.start(script, -1, false, error), error);
+
+    for (int i = 0; i < 4; ++i) rig.step(0);
+    check(!rig.host->hud_visible(), "BeginScriptedCutScene must hide the HUD");
+    check(rig.host->skip_visible(), "BeginScriptedCutScene must show the SKIP control");
+    check(rig.host->cutscene_mode(), "BeginScriptedCutScene must enter cutscene mode");
+    check(rig.host->save_blocked(), "BeginScriptedCutScene must block saves");
+    check(rig.host->global_controller_blocked() && rig.globalBlocked, "LockCharacter All must set the existing controller flag");
+    check(rig.host->aborts() == 0, "Begin contract must not abort");
+
+    // SetCameraTarget 1000 ms is blocking; Wait 500 then SpawnCharacter has no lifecycle owner for the lizard.
+    for (int i = 0; i < 20 && rig.host->aborts() == 0; ++i) rig.step(100);
+    check(rig.host->aborts() == 1, "Spawn without a bound lifecycle owner must abort the cutscene explicitly");
+    check(rig.host->hud_visible(), "failure must restore the HUD");
+    check(!rig.host->skip_visible() && !rig.host->skip_active(), "failure must hide the SKIP control");
+    check(!rig.host->cutscene_mode() && !rig.host->save_blocked(), "failure must leave cutscene mode and the save block");
+    check(!rig.host->global_controller_blocked() && !rig.globalBlocked, "failure must release the controller lock");
+    check(summary(*rig.host).find("SetCameraTarget") == std::string::npos, "handled commands must not be listed as unsupported");
+    rig.step(0);
+    check(!rig.runtime.running(script), "aborted script is abandoned");
+    // The session keeps its other triggers: a later cutscene runs to completion without a new abort.
+    const int tuto = rig.runtime.script_id("CombatTuto", false);
+    check(rig.runtime.start(tuto, -1, false, error), error);
+    for (int i = 0; i < 20 && rig.runtime.running(tuto); ++i) rig.step(10);
+    check(!rig.runtime.running(tuto) && rig.host->aborts() == 1 && !rig.globalBlocked, "session continues after an abort");
+}
+
+// SKIP is an abstract press: ignored while hidden, sampled by later commands while visible.
+void skip_press_contract(const std::string& directory) {
+    Rig rig(directory);
+    std::string error;
+    rig.host->press_skip();
+    check(!rig.host->skip_active(), "SKIP press while hidden must be ignored");
+    check(rig.runtime.start(rig.runtime.script_id("LizardMan_Intro", false), -1, false, error), error);
+    for (int i = 0; i < 4; ++i) rig.step(0);
+    check(rig.host->skip_visible(), "SKIP visible during the cutscene");
+    rig.host->press_skip();
+    check(rig.host->skip_active(), "SKIP press while visible must be sampled by later commands");
+    for (int i = 0; i < 40 && rig.host->aborts() == 0; ++i) rig.step(100);
+    check(rig.host->aborts() == 1 && !rig.host->skip_active(), "cutscene end or failure must clear the SKIP press");
+}
+
+// Stubs (dialogue, message flush, tutorial persistence) log and never block: CombatTuto runs to completion.
+void stubs_do_not_block(const std::string& directory) {
+    Rig rig(directory);
+    std::string error;
+    const int script = rig.runtime.script_id("CombatTuto", false);
+    check(script >= 0, "CombatTuto present");
+    check(rig.runtime.start(script, -1, false, error), error);
+    for (int i = 0; i < 20 && rig.runtime.running(script) && rig.host->aborts() == 0; ++i) rig.step(10);
+    check(rig.host->aborts() == 0, "stub dialogue and tutorial flag must not abort the cutscene");
+    check(!rig.runtime.running(script), "stub dialogue must not block the script");
+    check(!rig.globalBlocked, "CombatTuto unlock must release the controller lock");
+    const auto text = summary(*rig.host);
+    check(text.find("stub dialogue") != std::string::npos, "dialogue stub must be listed once with a count");
+    check(text.find("stub tutorial flag persistence") != std::string::npos, "tutorial consume stub must be listed");
+}
+
+// Commands with no owner stop the executor with the command named and counted once.
+void unsupported_commands_named(const std::string& directory) {
+    Rig rig(directory);
+    std::string error;
+    const std::set<int> unsupported{5, 6, 7, 40, 41, 42, 43, 44, 45, 46};
+    const std::set<int> safe{1, 2, 4, 8, 10, 12, 22, 23, 24, 25, 26, 31, 32, 39, 69, 70, 77, 78, 79};
+    int chosen = -1;
+    for (const auto& s : rig.runtime.scripts()) {
+        if (s.scope != "level") continue;
+        bool ok = true;
+        for (const auto& c : s.commands) {
+            if (unsupported.count(c.kind)) break;
+            if (!safe.count(c.kind)) { ok = false; break; }
+        }
+        bool hit = false;
+        for (const auto& c : s.commands) if (unsupported.count(c.kind)) { hit = true; break; }
+        if (ok && hit) { chosen = s.id; break; }
+    }
+    check(chosen >= 0, "fixture level script with an unsupported command after safe commands");
+    const auto name = rig.runtime.scripts().at(static_cast<std::size_t>(chosen)).name;
+    check(rig.runtime.start(chosen, -1, false, error), error);
+    for (int i = 0; i < 40 && rig.host->aborts() == 0; ++i) rig.step(100);
+    check(rig.host->aborts() == 1, "unsupported command must abort the cutscene explicitly: " + name);
+    const auto text = summary(*rig.host);
+    check(text.find("(no owner bound) count=1") != std::string::npos, "unsupported command must be listed by name with a count");
+}
+
+} // namespace
+
+int main(int argc, char** argv) {
+    try {
+        check(argc == 2, "Supply the campaign asset directory");
+        lizard_intro_contract(argv[1]);
+        skip_press_contract(argv[1]);
+        stubs_do_not_block(argv[1]);
+        unsupported_commands_named(argv[1]);
+        std::cout << "campaign_host tests passed\n";
+        return 0;
+    } catch (const std::exception& e) {
+        std::cerr << "campaign_host test failed: " << e.what() << '\n';
+        return 1;
+    }
+}
