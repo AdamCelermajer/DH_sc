@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cstring>
 #include <exception>
 #include <sstream>
 #include <stdexcept>
@@ -93,24 +94,109 @@ std::string procedural_backup_uri(const std::string& ruleUri) {
     return folder + base + "_backup.mlx";
 }
 
+namespace {
+
+// The loader objects of one generation, held together because each stage borrows the previous one.
+struct LoaderChain {
+    dh2::loader::ProceduralSourcesV1 sources;
+    dh2::loader::ProceduralBlocksV1 blocks;
+    dh2::loader::ProceduralConnectionsV1 connections;
+    dh2::loader::ProceduralListsV1 lists;
+    dh2::loader::ProceduralRulesV1 rules;
+    dh2::loader::ProceduralLayoutResultV1 layout;
+};
+
+// Canonical order: sources, blocks, connections, lists, rules, then the original Generate (layout). Throws a
+// runtime_error that names the failing stage. A completed no-layout result is not an error here (layout.generated).
+void run_layout_stage(const ProceduralAssetSourceV1& source, const std::string& ruleUri, std::uint32_t seed,
+                      LoaderChain& chain) {
+    std::string error;
+    if (!chain.sources.prepare(source, ruleUri, ruleUri, error)) throw std::runtime_error("sources: " + error);
+    if (!chain.blocks.prepare(chain.sources.borrow(), error)) throw std::runtime_error("blocks: " + error);
+    if (!chain.connections.prepare(chain.blocks.borrow(), error)) throw std::runtime_error("connections: " + error);
+    if (!chain.lists.prepare(chain.connections.borrow(), error)) throw std::runtime_error("lists: " + error);
+    if (!chain.rules.prepare(chain.lists.borrow(), error)) throw std::runtime_error("rules: " + error);
+    if (!dh2::loader::generate_procedural_layout_v1(chain.rules.borrow(), seed, chain.layout, error))
+        throw std::runtime_error("layout: " + error);
+}
+
+} // namespace
+
+bool generate_layout(const AssetCatalog& assets, const std::string& ruleUri, std::uint32_t seed,
+                     LayoutRecord& out, std::string& error) {
+    error.clear();
+    out = LayoutRecord{};
+    try {
+        const CatalogSource source(assets);
+        LoaderChain chain;
+        run_layout_stage(source, ruleUri, seed, chain);
+        const auto& layout = chain.layout;
+        out.generated = layout.generated;
+        out.seed = layout.seed;
+        out.final_state = layout.final_state;
+        out.random_calls = layout.events.random_calls;
+        out.root_attempts = layout.events.root_attempts;
+        out.place_calls = layout.events.place_calls;
+        out.unspawn_calls = layout.events.unspawn_calls;
+        out.step_calls = layout.events.step_calls;
+        out.path_calls = layout.events.path_calls;
+        out.rule_calls = layout.events.rule_calls;
+        for (const auto& tile : layout.tiles) {
+            LayoutTileRecord record;
+            record.block_source = tile.block_source;
+            record.name = tile.name;
+            record.grid_x = tile.grid[0];
+            record.grid_y = tile.grid[1];
+            std::memcpy(&record.height_bits, &tile.height, sizeof record.height_bits);
+            record.list_block = tile.list_element.block_name;
+            record.list_gameplay = tile.list_element.gameplay;
+            record.list_visual = tile.list_element.visual;
+            record.chances = tile.list_element.chances;
+            record.children = tile.children;
+            out.tiles.push_back(std::move(record));
+        }
+        return true;
+    } catch (const std::exception& exception) {
+        error = exception.what();
+        return false;
+    }
+}
+
+std::vector<std::string> procedural_backup_candidates(const std::string& ruleUri) {
+    const std::string suffix = "_backup.mlx";
+    const auto first = procedural_backup_uri(ruleUri);
+    std::vector<std::string> candidates{first};
+    const auto stem = first.substr(0, first.size() - suffix.size());
+    const auto underscore = stem.find_last_of('_');
+    if (underscore != std::string::npos && underscore + 1 < stem.size() &&
+        std::all_of(stem.begin() + std::ptrdiff_t(underscore + 1), stem.end(),
+                    [](unsigned char c) { return std::isdigit(c) != 0; }))
+        candidates.push_back(stem.substr(0, underscore) + suffix);
+    return candidates;
+}
+
+std::string resolve_procedural_backup(const AssetCatalog& assets, const std::string& ruleUri) {
+    const auto candidates = procedural_backup_candidates(ruleUri);
+    for (const auto& candidate : candidates) {
+        try {
+            assets.resolve(candidate);
+            return candidate;
+        } catch (const std::exception&) {
+            // absent: try the next candidate
+        }
+    }
+    return candidates.front();
+}
+
 bool generate_level(const AssetCatalog& assets, const std::string& ruleUri,
                     std::uint32_t seed, GeneratedLevel& out, std::string& error) {
     error.clear();
     try {
         const CatalogSource source(assets);
-        dh2::loader::ProceduralSourcesV1 sources;
-        if (!sources.prepare(source, ruleUri, ruleUri, error)) throw std::runtime_error("sources: " + error);
-        dh2::loader::ProceduralBlocksV1 blocks;
-        if (!blocks.prepare(sources.borrow(), error)) throw std::runtime_error("blocks: " + error);
-        dh2::loader::ProceduralConnectionsV1 connections;
-        if (!connections.prepare(blocks.borrow(), error)) throw std::runtime_error("connections: " + error);
-        dh2::loader::ProceduralListsV1 lists;
-        if (!lists.prepare(connections.borrow(), error)) throw std::runtime_error("lists: " + error);
-        dh2::loader::ProceduralRulesV1 rules;
-        if (!rules.prepare(lists.borrow(), error)) throw std::runtime_error("rules: " + error);
-        dh2::loader::ProceduralLayoutResultV1 layout;
-        if (!dh2::loader::generate_procedural_layout_v1(rules.borrow(), seed, layout, error))
-            throw std::runtime_error("layout: " + error);
+        LoaderChain chain;
+        run_layout_stage(source, ruleUri, seed, chain);
+        auto& sources = chain.sources;
+        const auto& layout = chain.layout;
         if (!layout.generated || layout.tiles.empty()) throw std::runtime_error("layout: generation produced no tiles");
         dh2::loader::ProceduralModulePlanV1 plan;
         if (!dh2::loader::prepare_procedural_modules_v1(source, layout, plan, error))

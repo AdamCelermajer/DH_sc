@@ -53,15 +53,20 @@ int main(int argc, char** argv) {
         std::string firstFailure;
         bool haveFirst = false;
         GeneratedLevel first;
+        // Optional third argument: a rule substring; for those rules every seed is listed (failing seeds for the report).
+        const bool listSeeds = argc > 3 && rule.find(argv[3]) != std::string::npos;
         for (std::uint32_t s = 1; s <= seedCount; ++s) {
             GeneratedLevel generated;
             std::string error;
-            if (generate_level(assets, rule, s * 7919u, generated, error)) {
+            const auto seed = s * 7919u;
+            if (generate_level(assets, rule, seed, generated, error)) {
                 ++okCount;
                 signatures.insert(layout_signature(generated));
                 if (!haveFirst) { first = generated; haveFirst = true; }
-            } else if (firstFailure.empty()) {
-                firstFailure = error;
+                if (listSeeds) std::cout << "seed\t" << rule << '\t' << seed << "\tok\ttiles=" << generated.tiles << '\n';
+            } else {
+                if (firstFailure.empty()) firstFailure = error;
+                if (listSeeds) std::cout << "seed\t" << rule << '\t' << seed << "\tfail\t" << one_line(error) << '\n';
             }
         }
         std::string geometry = "-", declarations = "-", spawn = "-";
@@ -86,9 +91,10 @@ int main(int argc, char** argv) {
                 loadFailure = "declarations: " + error;
             }
         }
-        const auto backup = procedural_backup_uri(rule);
+        // The candidate the EXE fallback would load (IDA name first, then the documented alias), or missing.
+        const auto backup = resolve_procedural_backup(assets, rule);
         std::string backupState = "missing";
-        try { assets.resolve(backup); backupState = "present"; } catch (const std::exception&) {}
+        try { assets.resolve(backup); backupState = backup.substr(backup.find_last_of('/') + 1); } catch (const std::exception&) {}
         const bool loaded = haveFirst && loadFailure.empty();
         if (loaded) ++fullyLoaded;
         std::string failure = firstFailure.empty() ? loadFailure : firstFailure;

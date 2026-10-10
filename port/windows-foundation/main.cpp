@@ -1135,7 +1135,7 @@ int main(int argc,char** argv) {
                 f::procedural::install_generated_level(assets,generated);
                 std::cout<<"Procedural level generated rule="<<generated.rule_uri<<" seed="<<seed<<" difficulty="<<proceduralDifficulty<<" tiles="<<generated.tiles<<" modules="<<generated.modules<<" unplaced="<<generated.unplaced_modules<<" signature="<<std::hex<<f::procedural::layout_signature(generated)<<std::dec<<'\n';
             } else {
-                const auto backup=f::procedural::procedural_backup_uri(options.level.generic_string());
+                const auto backup=f::procedural::resolve_procedural_backup(assets,options.level.generic_string());
                 std::cout<<"Procedural level generation failed rule="<<options.level.generic_string()<<" seed="<<seed<<" reason="<<generateError<<" fallback="<<backup<<'\n';
                 options.level=backup;
             }

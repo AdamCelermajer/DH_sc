@@ -39,9 +39,40 @@ struct GeneratedLevel {
 // True for a procedural level path (suffix `.rule.xml`, case-insensitive).
 bool is_procedural_level_uri(const std::string& uri);
 
-// Original fallback name: first character becomes 'x', extension becomes
-// `_backup.mlx` (IDA Level::Update stage 7; file `x02_swamp_witchcave_backup.mlx`).
+// Original fallback name (IDA Level::_LoadProcess stage 7): the rule's file name with its first character set to
+// 'x', cut at the first '.', plus `_BACKUP.mlx`. The shipped files are lowercase `_backup.mlx` (Windows is case
+// insensitive; this returns the shipped case), e.g. `x02_swamp_witchcave_backup.mlx`.
 std::string procedural_backup_uri(const std::string& ruleUri);
+// Candidates in order: the IDA name, then the same name without a trailing `_NN` rule number. The shipped
+// 007 fallback is `x07_crypt_backup.mlx` (IDA name `x07_crypt_01_backup.mlx`): the only one of the 30 shipped
+// backups that does not follow the IDA rule exactly.
+std::vector<std::string> procedural_backup_candidates(const std::string& ruleUri);
+// The first candidate present in the asset root; the IDA name when none is (so the error names it).
+std::string resolve_procedural_backup(const AssetCatalog& assets, const std::string& ruleUri);
+
+// One generated tile as the original layout reports it (plain values; the fidelity test compares these with the
+// original ARM oracle, reference/original-layout-seeds-0-1.tsv).
+struct LayoutTileRecord {
+    std::uint32_t block_source = 0;       // original Connection-map source index (not a save id)
+    std::string name;
+    std::int32_t grid_x = 0, grid_y = 0;
+    std::uint32_t height_bits = 0;        // IEEE-754 bits of the float height (exact comparison)
+    std::string list_block, list_gameplay, list_visual;
+    std::int32_t chances = 100;
+    std::vector<std::uint32_t> children;  // tile indices, in original order
+};
+// The layout stage of one (rule, seed): the original Generate result, final RNG state and event counters, and tiles.
+struct LayoutRecord {
+    bool generated = false;               // original Generate result (false = completed no-layout run)
+    std::uint32_t seed = 0, final_state = 0;
+    std::uint32_t random_calls = 0, root_attempts = 0, place_calls = 0, unspawn_calls = 0, step_calls = 0,
+                  path_calls = 0, rule_calls = 0;
+    std::vector<LayoutTileRecord> tiles;
+};
+// Layout stage only (sources, blocks, connections, lists, rules, original Generate). False is a checked failure
+// (missing input, unsupported domain); a completed no-layout run is success with generated=false.
+bool generate_layout(const AssetCatalog& assets, const std::string& ruleUri, std::uint32_t seed,
+                     LayoutRecord& out, std::string& error);
 
 // Runs the full canonical chain for `ruleUri` with `seed`. On success `out`
 // holds the Level document. On failure `error` names the failing stage and the

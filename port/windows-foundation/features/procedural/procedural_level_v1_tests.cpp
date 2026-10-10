@@ -37,6 +37,22 @@ int main(int argc, char** argv) {
           "data/scene/x02_swamp_witchcave_backup.mlx", "backup uri follows IDA rule (x + name + _backup.mlx)");
 
     AssetCatalog assets(argv[1]);
+    // Backup candidates: the IDA name, then the documented alias without the rule number (shipped 007 file).
+    check(procedural_backup_candidates("data/scene/007_crypt_01.rule.xml") ==
+          std::vector<std::string>{"data/scene/x07_crypt_01_backup.mlx", "data/scene/x07_crypt_backup.mlx"},
+          "007 IDA backup name is followed by the shipped alias");
+    check(procedural_backup_candidates("data/scene/002_swamp_witchcave.rule.xml").size() == 1,
+          "a name without a rule number has no alias");
+    check(resolve_procedural_backup(assets, "data/scene/007_crypt_01.rule.xml") == "data/scene/x07_crypt_backup.mlx",
+          "007 fallback resolves to the shipped x07_crypt_backup.mlx");
+    check(resolve_procedural_backup(assets, "data/scene/002_swamp_witchcave.rule.xml") ==
+          "data/scene/x02_swamp_witchcave_backup.mlx", "002 fallback resolves to its IDA name");
+    check(resolve_procedural_backup(assets, "data/scene/121_debug_test2.rule.xml") ==
+          "data/scene/x21_debug_test2_backup.mlx", "a rule without a backup names the IDA name (absent)");
+    bool absent121 = false;
+    try { assets.resolve("data/scene/x21_debug_test2_backup.mlx"); } catch (const std::exception&) { absent121 = true; }
+    check(absent121, "121 has no shipped backup (the EXE reports the missing file by name)");
+
     const std::string rule = "data/scene/002_swamp_witchcave.rule.xml";
 
     GeneratedLevel a, b, c;
