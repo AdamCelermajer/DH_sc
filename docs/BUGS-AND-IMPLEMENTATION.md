@@ -107,13 +107,12 @@ B004, B029, B037, B038 and B039 are resolved in Preview 12 and moved to [RESOLVE
 | B042 (update) | Equipment page is "a tiny bit better" but text and art still not conform to the original (user screenshot Torso Details, 1798x1096). | See B042 row above and `coordination/claude-preview13/Q-report.md`; reference `l/ref/p1-t336.png`. | OPEN | agent `eq-text` | Side-by-side with reference: text font/size/position/colour, panel fills, sword texture. |
 
 
-### 2i. Reported on Preview 15 (2026-10-10 night): B053-B065 and B067 fixed or closed in Preview 15.1 (see RESOLVED-BUGS.md); B066 remains
+### 2i. Reported on Preview 15 (2026-10-10 night): B053-B067 fixed or closed in Preview 15.1 and 15.2 (see RESOLVED-BUGS.md)
 
 Screenshots: `.local-inputs/claude-preview15/user-shots/b0NN-*.png`.
 
 | ID | Observed / reproduction | State | Owner |
 |---|---|---|---|
-| B066 | Performance still "not great" on the user's machine with the 15.1 candidate (B062 already in rc1/rc2: texture-path cache etc.). Deeper profiling needed: GPU side (draw calls, state changes, fill rate, SwapBuffers/vsync), CPU skinning, immediate-mode draw cost, per-frame allocations, with the user's scenarios (skills, general play). | OPEN | agent `b066` |
 
 ### 2h. Implementation requests from the same session (feature work, Preview 15)
 

@@ -60,3 +60,9 @@ Preview 15.1 (package `windows-source-clock-v19-preview-15-1`, EXE SHA256 `95F20
 | B064 | TitleMusic (m_title.vxn, uid 464) starts at title/main menu, loops, fades into level music; header bug fixed. | B064 report; transition logs. | not heard; 600 ms crossfade vs original 2 s |
 | B065 | SKIP releases the movie voice (handoff_voices=0); title music follows SKIP and the natural end. | B065 report; startup_intro_soundtrack_v2 test. | not heard; the logo has no sound in the source movie (jingle unknown) |
 | B067 | Rail icons: real dimmed art, no dark plates (B056b). | 151c verifier frames. | none reported |
+
+Preview 15.2 (package `windows-source-clock-v19-preview-15-2`, EXE SHA256 `C165DB04E2FEFF39D8FC0592CDCFC29FD863A22BDCE6B4DE94EBE1C815D7A5E9`, source `p15/patch` 3941cc64). Candidate for the user's hand testing; no independent verifier run.
+
+| ID | Resolved behavior | Evidence | Remaining boundary |
+|---|---|---|---|
+| B066 | Performance pass: deadline frame pacing at 60 fps instead of sleep(1) (15.6 ms tick) with explicit vsync; Swamp geometry in GPU buffers, ~448 -> ~80 draw calls; per-frame glFinish() removed; narrower HUD GL state save; DH_PERF=1 / perf_budget.ps1. CPU per frame 3.9-4.8 -> 2.5-3.4 ms; world draw 1.7-2.7 -> 0.9-1.0 ms; captures byte-identical. | `coordination/claude-preview15/B066-report.md` on branch fix/b066; ctest renderer_static_geometry, frame_pacer; perf_budget.ps1. | slowness could NOT be reproduced on the test machine (GPU 0.1-0.2 ms): not confirmed on the user's machine; first-cast texture hitch 12-44 ms; skinned actors use per-frame client arrays. User to send a DH_PERF=1 log if still slow. |
