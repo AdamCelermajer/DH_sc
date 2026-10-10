@@ -32,6 +32,9 @@ int main(int argc, char** argv) {
         }
         std::cout << argv[i] << "\ttriangles=" << scene.triangleCount << "\tinstances=" << scene.instanceCount
                   << "\tnodes=" << scene.nodeCount << '\n';
+        for (const auto& material : scene.materials)
+            std::cout << "  material id=" << material.id << " diffuse=" << material.diffuse << " alpha=" << material.alphaMap
+                      << " additive=" << (material.additive ? 1 : 0) << " technique=" << material.technique << '\n';
     }
     return 0;
 }

@@ -2181,6 +2181,11 @@ int main(int argc,char** argv) {
             const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             scene.mesh.ranges[i].material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
         }
+        // P17 PROCGEN2: the LevelConfig skybox materials (drawn by the sky pass before the level).
+        if(scene.skybox) for(std::size_t i=0;i<scene.skybox->materials.size()&&i<scene.skybox->mesh.ranges.size();++i) {
+            const auto& m=scene.skybox->materials[i];
+            scene.skybox->mesh.ranges[i].material.texture=loadTexture(m.diffuse,m.alphaMap,false);
+        }
         if(visual.loaded()) for(std::size_t i=0;i<visual.mutable_meshes().size();++i)
             for(auto& r:visual.mutable_meshes()[i].ranges) r.material.texture=loadTexture(visual.texture_uris()[i]);
         for(auto& actor:population.actors()) for(std::size_t i=0;i<actor.visual.mutable_meshes().size();++i) {
@@ -4438,6 +4443,15 @@ int main(int argc,char** argv) {
             auto actorWorld=f::identity();float angle=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0),c=std::cos(angle),s=std::sin(angle);
             actorWorld[0]=c*actorScale.x;actorWorld[1]=s*actorScale.x;actorWorld[4]=-s*actorScale.y;actorWorld[5]=c*actorScale.y;actorWorld[10]=actorScale.z;
             actorWorld[12]=options.actorPosition.x;actorWorld[13]=options.actorPosition.y;actorWorld[14]=options.actorPosition.z;
+            // P17 PROCGEN2 sky pass: the skybox follows the eye and writes no depth, so the level and actors draw over it.
+            if(scene.skybox&&!scene.skybox->mesh.vertices.empty()) {
+                const auto skyWorld=f::translation(activeCamera.eye);
+                for(auto range:scene.skybox->mesh.ranges) {
+                    auto pass=range.material.sourcePass.value_or(f::SourceMaterialPass{});
+                    pass.depthWrite=false;range.material.sourcePass=pass;
+                    renderer.drawRange(scene.skybox->mesh,range,skyWorld);
+                }
+            }
             f::RenderQueue queue;
             if(!scene.mesh.vertices.empty())queue.submit(scene.mesh);
             for(const auto& mesh:visual.meshes())queue.submit(mesh,actorWorld);
