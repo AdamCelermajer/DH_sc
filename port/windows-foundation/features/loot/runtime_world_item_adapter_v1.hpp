@@ -106,8 +106,9 @@ public:
                                 RuntimeWorldItemIdV1& published_item,
                                 std::string& error);
 
-    // Moves every item toward its destination (source ItemObject speed word
-    // 6.0) and ages the owner-protection timers. dt in whole milliseconds.
+    // Moves every item toward its destination on the ground plane (600 units/s,
+    // stops 80 units short; see advance_world_item_step_v1) and ages the
+    // owner-protection timers. dt in whole milliseconds.
     void advance(std::uint32_t dt_ms) noexcept;
     // Drops every world item (session reload). Never grants rewards.
     void clear() noexcept { items_.clear(); }
