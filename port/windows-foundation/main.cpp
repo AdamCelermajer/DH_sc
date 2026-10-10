@@ -629,6 +629,17 @@ bool project(const f::Camera& camera,f::Vec3 point,int width,int height,std::arr
     if(x< -1||x>1||y< -1||y>1||z< -1||z>1)return false;
     screen={(x+1)*width*.5f,(1-y)*height*.5f};return true;
 }
+// P17 TRANSITIONS: process handle and GDI/USER object counts, logged at each session start and end (leak check across transitions).
+std::string transition_resource_counts() {
+#if defined(_WIN32)
+    DWORD handles=0;GetProcessHandleCount(GetCurrentProcess(),&handles);
+    return "handles="+std::to_string(handles)+" gdi="+std::to_string(GetGuiResources(GetCurrentProcess(),GR_GDIOBJECTS))+
+           " user="+std::to_string(GetGuiResources(GetCurrentProcess(),GR_USEROBJECTS));
+#else
+    return "n/a";
+#endif
+}
+
 int main(int argc,char** argv) {
     try {
         const auto executablePath=fs::absolute(argv[0]);
@@ -969,6 +980,8 @@ int main(int argc,char** argv) {
         f::transitions::ExitZoneSet exitZones;
         std::vector<f::transitions::LevelRow> transitionRows;
         f::transitions::LoggedConditionStub transitionConditions; // CONDITIONS session replaces this evaluator
+        bool arrivedByTransition=false;                            // set by the arrival block below
+        std::cout<<"Session start resources "<<transition_resource_counts()<<" level="<<options.level.generic_string()<<" frame="<<transitionFrameBase<<'\n';
         // P16 MAP: module RoomZone sources of the loaded level (empty until load_level_with_module_zones succeeds).
         std::vector<f::LevelModuleZone> levelModuleZones;
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
@@ -1221,6 +1234,7 @@ int main(int argc,char** argv) {
                         std::cout<<"Transition arrival entry="<<options.transitionEntryId<<" spawn="<<spawn.name<<" candidates="<<spawn.candidates<<" position="<<spawn.position[0]<<','<<spawn.position[1]<<','<<spawn.position[2]<<" heading="<<spawn.heading_radians<<" level="<<options.level.generic_string()<<'\n';
                     } else std::cout<<"Transition arrival entry="<<options.transitionEntryId<<" status=no_spawn_point (start position kept) level="<<options.level.generic_string()<<'\n';
                     std::cout<<"Transition arrival character visited_records="<<state.visited_modules.size()<<" level="<<options.level.generic_string()<<'\n';
+                    arrivedByTransition=true;
                     options.transitionEntryId=-1; // consumed by this session
                 }
             }
@@ -2778,9 +2792,11 @@ int main(int argc,char** argv) {
             }
             std::cout<<"Quest runtime bound rows="<<questTable->rows().size()<<" actors="<<questActorIdentity.size()
                      <<" current="<<questRuntime->current_quest()<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
-            for(const auto& banner:takeQuestBanners())
-                std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
-                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" (bind)\n";
+            for(const auto& banner:takeQuestBanners()) {
+                // P17 TRANSITIONS: a continuing character was announced in the previous session; no new-quest banner on arrival.
+                if(arrivedByTransition) std::cout<<"Quest banner suppressed kind="<<questBannerKindName(banner.kind)<<" row="<<banner.row<<" (transition arrival: announced earlier)\n";
+                else std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)<<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" (bind)\n";
+            }
             f::quest_runtime::bind_quest_event_sink([&](const f::quest_runtime::QuestEvent& event) {
                 std::string e;
                 const auto applied=questRuntime->handle(event,e);
@@ -4949,6 +4965,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
         if(pendingTransition) {
             const auto transition=*pendingTransition;
             pendingTransition.reset();
+            std::cout<<"Transition session end resources "<<transition_resource_counts()<<" frame="<<drawn<<'\n';
             stampSaveMetadata(state,transition.target_file);
             std::string transitionSaveError;
             if(options.save.empty()||!f::save_character(options.save,state,transitionSaveError))throw std::runtime_error("Transition save: "+transitionSaveError);
