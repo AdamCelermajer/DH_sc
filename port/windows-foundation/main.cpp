@@ -340,6 +340,7 @@ struct Options {
     int equipmentPageFrame=-1;
     int faeryPageFrame=-1; // P14 FAERY
     int mapPageFrame=-1; // P16 MAP: --map-page-frame=N opens the character menu on the Map tab
+    std::string mapCameraRoot; // P16 MAPFIX: --map-camera-root=DIR, fallback asset root for data/3D/camera/minimapcameras.bdae
     bool mapLegend=false; float mapZoom=1; // P16 MAP diagnostics: --map-legend shows the legend, --map-zoom=Z sets the zoom at selection
     int questPageFrame=-1; // P16 QUESTUI: test aid, opens the menu on the Quest Log tab at this frame
     std::vector<std::string> bagItemIds; // P14 EQUIP: --bag-item diagnostic rows
@@ -458,6 +459,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--map-page-frame") o.mapPageFrame=std::stoi(value()); // P16 MAP
         else if(arg=="--map-legend") o.mapLegend=true; // P16 MAP diagnostic
         else if(arg=="--map-zoom") o.mapZoom=std::stof(value()); // P16 MAP diagnostic
+        else if(arg=="--map-camera-root") o.mapCameraRoot=value(); // P16 MAPFIX: minimapcameras.bdae fallback root (assets-extra/ios)
         else if(arg=="--quest-page-frame") o.questPageFrame=std::stoi(value()); // P16 QUESTUI
         else if(arg=="--menu-release") {
             std::istringstream input(value());Options::MenuRelease release{};char first=0,second=0;
@@ -2215,6 +2217,9 @@ int main(int argc,char** argv) {
         f::character_menu::Presenter characterMenu;
         // P16 MAP: visited-room tracker for the current level, and the Map page zoom state (reset = full level).
         f::map_visit::RoomZoneVisitTrackerV1 mapVisits;bool mapVisitsReady=false;f::map_visit::MapViewV1 mapView;
+        // P16 MAPFIX: authored minimapcameras pose (loaded on the first Map frame), PC view controls state.
+        f::map_visit::MapCameraPoseV1 mapCameraPose;bool mapCameraPoseLoaded=false;
+        bool mapDragging=false;std::array<float,2> mapDragLast{0,0};std::array<bool,5> mapKeysDown{};bool mapMarkersLogged=false;
         // P16 MAP parchment texture (sheet fill, menus/map_bottom.tga), uploaded on the first Map frame.
         std::uint32_t mapParchmentTexture=0;float mapParchmentTexelsW=1,mapParchmentTexelsH=1;
         f::character_menu::Bindings characterMenuBindings;
@@ -4374,6 +4379,17 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     if(classRow==properties.characters.names.end())throw std::runtime_error("Original class header has no same player source row");
                     if(!menuLocalization.character_class_level(properties.characters,static_cast<std::int32_t>(classRow-properties.characters.names.begin()),&state,bindings.class_label,error))throw std::runtime_error("Original class header: "+error);
                     bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e);};
+                    // P16 MAPFIX: MapName = MenuCharMenu_Map::ShowLevelName (IDA 0x45335c): LevelList row of the current
+                    // level (Level+60), LevelName StrID at row word 9 (IDA +36), localized through the StringManager lookup.
+                    bindings.map_name.clear();
+                    if(const auto* levelRows=loadMetadataLevels(assets)) {
+                        const auto levelRow=f::menu_metadata::find_level_row(*levelRows,options.level.generic_string());
+                        if(levelRow>=0&&std::size_t(levelRow)<levelRows->levels.size()) {
+                            std::string mapNameError;
+                            if(!menuLocalization.string_id(std::int32_t(levelRows->levels[std::size_t(levelRow)].scalar.words[9]),bindings.map_name,mapNameError))
+                                bindings.map_name.clear();
+                        }
+                    }
                     // P16 QUESTUI: the Quest Log page is refreshed from the CQPG while its tab is open.
                     if(questMenuBinding&&characterMenu.is_open()&&characterMenu.tab()==f::character_menu::Tab::quest) {
                         std::string questMenuError;
@@ -4430,8 +4446,60 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         std::optional<std::array<float,3>> mapPlayer;
                         if(const auto* playerActor=combatSession?combatSession->actor(combatSession->player_id()):nullptr)
                             mapPlayer=std::array<float,3>{playerActor->transform.position[0],playerActor->transform.position[1],playerActor->transform.position[2]};
+                        // P16 MAPFIX: the camera is the authored minimapcameras pose (CreateMapCamera) placed on the local
+                        // player. The view controls are PC adaptations of the original touch ZoomHandler: wheel or +/- zoom,
+                        // left-button drag or arrow keys pan (kept inside the visited extent), Home or Reset zoom resets.
+                        if(!mapCameraPoseLoaded) {
+                            mapCameraPoseLoaded=true;
+                            std::vector<std::uint8_t> poseBytes;std::string poseError;
+                            try{poseBytes=f::read_content(assets,f::map_visit::map_camera_file_v1);}
+                            catch(const std::exception& first) {
+                                if(options.mapCameraRoot.empty())throw std::runtime_error(std::string("Map camera asset: ")+first.what());
+                                const f::AssetCatalog cameraRoot(options.mapCameraRoot);
+                                poseBytes=f::read_content(cameraRoot,f::map_visit::map_camera_file_v1);
+                            }
+                            if(!f::map_visit::load_map_camera_pose_v1(poseBytes,mapCameraPose,poseError))throw std::runtime_error("Map camera pose: "+poseError);
+                            std::cout<<"Map camera pose eye="<<mapCameraPose.eye_offset[0]<<','<<mapCameraPose.eye_offset[1]<<','<<mapCameraPose.eye_offset[2]
+                                     <<" target="<<mapCameraPose.target_offset[0]<<','<<mapCameraPose.target_offset[1]<<','<<mapCameraPose.target_offset[2]<<'\n';
+                        }
+                        float cursorX=0,cursorY=0;const bool hasCursor=window.cursor_position(cursorX,cursorY);
+                        const bool cursorInRect=hasCursor&&cursorX>=rectX&&cursorX<rectX+rectW&&cursorY>=rectY&&cursorY<rectY+rectH;
+                        const float worldPerPixel=f::map_visit::map_world_per_pixel_v1(mapCameraPose,mapView,rectH);
+                        // Wheel: one notch per zoom step, while the cursor is over the map (PC adaptation of pinch zoom).
+                        const int wheelNotches=window.take_wheel_notches();
+                        if(cursorInRect)for(int i=0;i<std::abs(wheelNotches);++i)mapView=f::map_visit::map_zoom_step_v1(mapView,wheelNotches>0?1.0f:-1.0f);
+                        // Left-button drag inside the map pans by the cursor movement (PC adaptation of the touch drag).
+                        const bool leftDown=window.key_down(VK_LBUTTON);
+                        if(!leftDown)mapDragging=false;
+                        else if(!mapDragging&&cursorInRect){mapDragging=true;mapDragLast={cursorX,cursorY};}
+                        if(mapDragging&&hasCursor) {
+                            mapView=f::map_visit::map_pan_screen_v1(mapView,-(cursorX-mapDragLast[0])*worldPerPixel,(cursorY-mapDragLast[1])*worldPerPixel);
+                            mapDragLast={cursorX,cursorY};
+                        }
+                        // Keys (PC): +/- zoom in steps (edge-triggered), arrows pan 6 px per frame, Home resets.
+                        const auto mapKeyPressed=[&](int key,std::size_t slot) {
+                            const bool down=window.key_down(key);const bool pressed=down&&!mapKeysDown[slot];mapKeysDown[slot]=down;return pressed;
+                        };
+                        const bool zoomInKey=mapKeyPressed(VK_OEM_PLUS,0)|mapKeyPressed(VK_ADD,1);
+                        const bool zoomOutKey=mapKeyPressed(VK_OEM_MINUS,2)|mapKeyPressed(VK_SUBTRACT,3);
+                        const bool homeKey=mapKeyPressed(VK_HOME,4);
+                        if(zoomInKey)mapView=f::map_visit::map_zoom_step_v1(mapView,1.0f);
+                        if(zoomOutKey)mapView=f::map_visit::map_zoom_step_v1(mapView,-1.0f);
+                        if(homeKey)mapView=f::map_visit::map_reset_zoom_v1(mapView);
+                        const float keyStep=6.0f*worldPerPixel;
+                        if(window.key_down(VK_LEFT))mapView=f::map_visit::map_pan_screen_v1(mapView,-keyStep,0.0f);
+                        if(window.key_down(VK_RIGHT))mapView=f::map_visit::map_pan_screen_v1(mapView,keyStep,0.0f);
+                        if(window.key_down(VK_UP))mapView=f::map_visit::map_pan_screen_v1(mapView,0.0f,keyStep);
+                        if(window.key_down(VK_DOWN))mapView=f::map_visit::map_pan_screen_v1(mapView,0.0f,-keyStep);
+                        // Anchor: the local player; the level centre only when no player is present.
+                        const auto mapExtent=f::map_visit::map_extent_v1(mapVisits.zones());
+                        if(!mapExtent.valid)return; // a level without module zones has no map to draw (no throw)
+                        const std::array<float,3> mapAnchor=mapPlayer?*mapPlayer:std::array<float,3>{(mapExtent.minX+mapExtent.maxX)*0.5f,(mapExtent.minY+mapExtent.maxY)*0.5f,mapExtent.minZ};
+                        std::vector<bool> mapVisited;mapVisited.reserve(mapVisits.zones().size());
+                        for(const auto& zone:mapVisits.zones())mapVisited.push_back(mapVisits.visited(zone.id));
+                        mapView=f::map_visit::map_clamp_view_v1(mapCameraPose,mapAnchor,f::map_visit::map_visited_extent_v1(mapVisits.zones(),mapVisited),mapView);
                         f::Camera mapCamera;std::string mapError;
-                        if(!f::map_visit::map_camera_v1(f::map_visit::map_extent_v1(mapVisits.zones()),mapPlayer,mapView,mapCamera,mapError))throw std::runtime_error("Map camera: "+mapError);
+                        if(!f::map_visit::map_camera_v1(mapCameraPose,mapAnchor,mapView,mapCamera,mapError))throw std::runtime_error("Map camera: "+mapError);
                         const int vx=int(std::floor(rectX)),vyTop=int(std::floor(rectY)),vr=int(std::ceil(rectX+rectW)),vb=int(std::ceil(rectY+rectH));
                         if(!renderer.withViewport(vx,window.height()-vb,vr-vx,vb-vyTop,mapCamera,[&] {
                             // Visited modules only (Module::visited3fc). Original map shows visited room geometry as dark slate.
@@ -4451,6 +4519,21 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             // Family 3 (local player) = the authored Character icon (frame 3 of MapIconsDynamic).
                             if(f::map_visit::map_project_v1(mapCamera,mapRect,*mapPlayer,px,py))drawMapIcon(3,px,py);
                         }
+                        // P16 MAPFIX: enemy markers (family 4 = Enemies icon). IDA ShowNpcIcons: a live monster inside a visited
+                        // room is marked. Hostility is the world's eligible-target rule (faction table, player vs actor).
+                        std::size_t enemyMarkers=0;
+                        if(combatSession&&combatSession->world()&&combatSession->actor(combatSession->player_id())) {
+                            const auto* playerActor=combatSession->actor(combatSession->player_id());
+                            for(const auto& [enemyId,enemy]:combatSession->world()->actors()) {
+                                if(enemyId==combatSession->player_id()||!enemy.alive())continue;
+                                if(!combatSession->world()->eligible_target(*playerActor,enemy))continue;
+                                const std::array<float,3> enemyPosition{enemy.transform.position[0],enemy.transform.position[1],enemy.transform.position[2]};
+                                if(!f::map_visit::map_point_visited_v1(mapVisits.zones(),mapVisited,enemyPosition))continue;
+                                float px=0,py=0;
+                                if(f::map_visit::map_project_v1(mapCamera,mapRect,enemyPosition,px,py)) {drawMapIcon(4,px,py);++enemyMarkers;}
+                            }
+                        }
+                        if(!mapMarkersLogged) {mapMarkersLogged=true;std::cout<<"Map enemy markers frame="<<drawn<<" drawn="<<enemyMarkers<<" zoom="<<mapView.zoom<<" pan="<<mapView.panX<<','<<mapView.panY<<'\n';}
                     };
                     for(const auto& solid:menu.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
                     const auto& sourcePanes=f::inventory::original_inventory_character_panes_v1();

@@ -146,31 +146,66 @@ void map_tests() {
     CHECK(view.zoom == map_zoom_min);
     CHECK(map_zoom_step_v1(view, -1.0f).zoom == map_zoom_min);  // never below reset
 
+    // Visited extent: the visited zone's bounds padded by its own width/height on each side (IDA Show).
+    const std::vector<bool> onlyFirst{true, false};
+    const auto visitedExtent = map_visited_extent_v1(zones, onlyFirst);
+    CHECK(visitedExtent.valid);
+    CHECK(visitedExtent.minX == -20 && visitedExtent.maxX == 10 && visitedExtent.minY == -12 && visitedExtent.maxY == 12);
+    CHECK(map_visited_extent_v1(zones, {false, false}).maxX == extent.maxX); // nothing visited: every zone
+
+    // Authored-style pose: the target sits on the anchor, the eye 1000 units above it (looks straight down).
+    MapCameraPoseV1 pose;
+    std::string unloadedError;
+    Camera unloadedCamera;
+    CHECK(!map_camera_v1(pose, std::array<float, 3>{0, 0, 0}, MapViewV1{}, unloadedCamera, unloadedError)); // unloaded
+    pose.loaded = true;
+    pose.eye_offset = {0, 0, 1000};
+    pose.target_offset = {0, 0, 0};
     std::string error;
     Camera reset;
-    CHECK(map_camera_v1(extent, std::array<float, 3>{3, 0, 0}, view, reset, error));
-    // Reset view centres on the level, looks straight down and sees the whole level.
-    CHECK(std::abs(reset.eye.x - 1.0f) < 1e-4f && std::abs(reset.eye.y - (-1.0f)) < 1e-4f);
-    CHECK(reset.eye.z > extent.maxZ);
-    CHECK(reset.target.z == extent.minZ);
+    const std::array<float, 3> anchor{3, 0, 0};
+    CHECK(map_camera_v1(pose, anchor, MapViewV1{}, reset, error));
+    CHECK(reset.eye.x == 3 && reset.eye.y == 0 && reset.eye.z == 1000);
+    CHECK(reset.target.x == 3 && reset.target.y == 0 && reset.target.z == 0);
+    CHECK(reset.up.x == -1 && reset.up.y == 1 && reset.up.z == 0);
+    CHECK(reset.aspectRatio == map_camera_aspect);
     float px = 0, py = 0;
-    // Level corners project inside the rectangle; a point far outside does not.
+    // The player (anchor) projects to the rectangle centre; a point far outside does not.
     MapRectV1 rect{100, 50, 300, 200};
-    CHECK(map_project_v1(reset, rect, {-10, -6, -2}, px, py));
-    CHECK(px >= rect.x && px <= rect.x + rect.width && py >= rect.y && py <= rect.y + rect.height);
-    CHECK(map_project_v1(reset, rect, {12, 4, 3}, px, py));
+    CHECK(map_project_v1(reset, rect, anchor, px, py));
+    CHECK(std::abs(px - 250) < 0.5f && std::abs(py - 150) < 0.5f);
     CHECK(!map_project_v1(reset, rect, {500, 0, 0}, px, py));
-    // The level centre projects to the rectangle centre.
-    CHECK(map_project_v1(reset, rect, {1, -1, 0.5f}, px, py));
+
+    // Zoom moves the eye closer to the target (zoom 2 halves the eye distance); the anchor stays centred.
+    MapViewV1 zoomed2;
+    zoomed2.zoom = 2.0f;
+    Camera zoomed;
+    CHECK(map_camera_v1(pose, anchor, zoomed2, zoomed, error));
+    CHECK(std::abs(zoomed.eye.z - 500.0f) < 1e-3f);
+    CHECK(map_project_v1(zoomed, rect, anchor, px, py));
     CHECK(std::abs(px - 250) < 0.5f && std::abs(py - 150) < 0.5f);
 
-    // Zoomed view follows the player: the player projects to the centre.
-    view.zoom = 3.0f;
-    Camera zoomed;
-    CHECK(map_camera_v1(extent, std::array<float, 3>{6, -2, 0}, view, zoomed, error));
-    CHECK(map_project_v1(zoomed, rect, {6, -2, 0}, px, py));
-    CHECK(std::abs(px - 250) < 0.5f && std::abs(py - 150) < 0.5f);
-    CHECK(!map_camera_v1({}, std::nullopt, view, zoomed, error));
+    // Pan along screen right (1,1,0)/sqrt2 moves the camera by that world vector; the anchor leaves the centre.
+    MapViewV1 panned = map_pan_screen_v1(MapViewV1{}, 100.0f, 0.0f);
+    CHECK(std::abs(panned.panX - 100.0f * 0.70710678f) < 1e-4f && std::abs(panned.panY - 100.0f * 0.70710678f) < 1e-4f);
+    Camera pannedCamera;
+    CHECK(map_camera_v1(pose, anchor, panned, pannedCamera, error));
+    CHECK(std::abs(pannedCamera.eye.x - (3 + panned.panX)) < 1e-4f);
+    CHECK(map_project_v1(pannedCamera, rect, anchor, px, py) && px < 250 - 10.0f);
+    CHECK(map_reset_zoom_v1(panned).panX == 0 && map_reset_zoom_v1(panned).zoom == map_zoom_min);
+
+    // Clamp: a pan that would move the eye past the visited extent is limited to its edge (UpdateMapCamera).
+    MapViewV1 far = map_pan_screen_v1(MapViewV1{}, 500.0f, 0.0f);
+    const auto clampedView = map_clamp_view_v1(pose, anchor, visitedExtent, far);
+    // Both axes overshoot, so the eye lands exactly on the extent's upper corner in XY.
+    CHECK(std::abs(anchor[0] + clampedView.panX - visitedExtent.maxX) < 1e-3f);
+    CHECK(std::abs(anchor[1] + clampedView.panY - visitedExtent.maxY) < 1e-3f);
+    // A view already inside the extent is returned unchanged.
+    const auto inside = map_clamp_view_v1(pose, anchor, visitedExtent, MapViewV1{});
+    CHECK(inside.panX == 0 && inside.panY == 0);
+
+    CHECK(!map_camera_v1(MapCameraPoseV1{}, anchor, MapViewV1{}, zoomed, error));
+    CHECK(!error.empty());
 }
 } // namespace
 

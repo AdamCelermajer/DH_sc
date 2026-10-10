@@ -78,7 +78,8 @@ const char* original_menu_label_symbol(const std::string& path)noexcept {
     // P16 map legend captions: iconTextN of MenuCharMenu_Map LegendPopup/WarningBox, matched by exact index
     // (substring matching would also catch iconText10..12). Order is the authored legend reading order
     // (left column 1..5 = Checkpoint, Entrance, Exit, NPC, Merchant; right column 7..9 = Character, Enemy,
-    // Objective). Index 10 (Unexplored area) has no source symbol in the menu text table and stays blank.
+    // Objective). P16 MAPFIX: index 10 is the Arrow row (icon 13, right column row 4 at y 196.75). Its caption
+    // "Unexplored Area" is gameplaymenus GAMEPLAYMENUS_LEGEND_ARROW (string 530 after "Zone" 529).
     static const std::string legendPrefix="menu_MapSheet/LegendPopup/WarningBox/iconText";
     if(path.compare(0,legendPrefix.size(),legendPrefix)==0&&path.size()>legendPrefix.size()) {
         const auto digits=path.substr(legendPrefix.size());
@@ -92,6 +93,7 @@ const char* original_menu_label_symbol(const std::string& path)noexcept {
         case 7: return "MENU_MAP_CHAR";
         case 8: return "MENU_MAP_ENEMIES";
         case 9: return "MENU_MAP_OBJ";
+        case 10: return "GAMEPLAYMENUS_LEGEND_ARROW";
         default: return nullptr;
         }
     }
