@@ -43,7 +43,7 @@ def batches(art):return '{'+','.join('{'+json.dumps(path)+','+str(ident)+',{'+',
 def fields(text):return '{'+','.join('{'+json.dumps(path)+','+str(ident)+','+str(rec['font'])+','+swf.cpp_number(rec['height_twips']/20)+','+numbers(bounds)+',{'+','.join(str(c) for c in rec['rgba'])+'},'+str(rec['layout'].get('align',0))+','+numbers(m[:4]+[m[4]/20,m[5]/20])+','+numbers([v/20 for v in rec['bounds_twips']])+','+numbers([rec['layout'].get(key,0)/20 for key in ('left_margin','right_margin','indent')])+','+swf.cpp_number(rec['layout'].get('leading',0)/20)+'}' for path,ident,rec,bounds,m in text)+'}'
 panel=swf.placed_path(scope['root'],'menu_InventorySheetMain');anim=swf.placed_path(sprites[439],'inv_anim')
 parent=swf.multiply(panel['matrix'],anim['matrix'])
-mapping=[('btn_torso','torso'),('btn_main_hand','main_hand'),('btn_off_hand','off_hand'),('btn_feet','feet'),('btn_hands','hands'),('btn_ring1','ring'),('btn_ring2','ring'),('btn_head','head'),('btn_waist','waist')]
+mapping=[('btn_torso','torso'),('btn_main_hand','main_hand'),('btn_off_hand','off_hand'),('btn_feet','feet'),('btn_hands','hands'),('btn_ring1','ring'),('btn_ring2','ring'),('btn_waist','waist'),('btn_head','head')]
 lines=['// Generated original SWF inventory category icons, item text and contours.','#include "equipment_menu.hpp"','namespace dh::foundation::equipment_menu {','const std::vector<SlotArt>& original_slot_art(){static const std::vector<SlotArt> slots{']
 evidence=[]
 for slot,(button,category) in enumerate(mapping):

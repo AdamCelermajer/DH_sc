@@ -152,27 +152,6 @@
     },
     {
       "slot": 7,
-      "button": "btn_head",
-      "category": "head",
-      "matrix_twips": [
-        1.0,
-        0.0,
-        0.0,
-        1.0,
-        5523.0,
-        1210.0
-      ],
-      "shapes": [
-        428,
-        401,
-        419
-      ],
-      "text_fields": [
-        432
-      ]
-    },
-    {
-      "slot": 8,
       "button": "btn_waist",
       "category": "waist",
       "matrix_twips": [
@@ -187,6 +166,27 @@
         428,
         401,
         421
+      ],
+      "text_fields": [
+        432
+      ]
+    },
+    {
+      "slot": 8,
+      "button": "btn_head",
+      "category": "head",
+      "matrix_twips": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        5523.0,
+        1210.0
+      ],
+      "shapes": [
+        428,
+        401,
+        419
       ],
       "text_fields": [
         432
