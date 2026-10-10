@@ -241,6 +241,24 @@ const char* questBannerKindName(f::quest_runtime::QuestBannerV1::Kind kind) {
     return kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":
            kind==f::quest_runtime::QuestBannerV1::Kind::updated?"QUEST UPDATED":"QUEST COMPLETED";
 }
+// P16 HUDART: greedy word wrap to an authored field width (source pixels; HudGlyphRun::advance is the run width).
+// A single word wider than the field keeps its own row. Empty result with a set error means the raster failed.
+std::vector<std::string> wrapBannerTextV1(f::HudGlyphFont& font,const std::string& text,int sourceHeight,float width,std::string& error) {
+    std::vector<std::string> rows;
+    std::istringstream words(text);
+    std::string word,row;
+    while(words>>word) {
+        const std::string candidate=row.empty()?word:row+" "+word;
+        f::HudGlyphRun run;
+        if(!font.raster(candidate,sourceHeight,1.f,run,error))return {};
+        if(run.advance<=width||row.empty())row=candidate;
+        else {rows.push_back(row);row=word;}
+    }
+    if(!row.empty())rows.push_back(row);
+    error.clear();
+    return rows;
+}
+
 // P16 HUDART: quest banner = the original dqhud_droid QuestMsgDialog / QuestCompletedMsgDialog frame (hud_panels: exact
 // stage-space batches from the atlas) with its authored text slots (heading, sentence, reward heading, reward values).
 // Lines reach their slot through QuestBannerLineV1::slot/stack; the text uses the Fontin glyphs of the HUD text path.
@@ -264,11 +282,16 @@ bool drawQuestBanner(const f::QuestBannerDisplayV1& display,f::HudGlyphFont& fon
         if(line.slot<0||std::size_t(line.slot)>=slots.size()) {error="Quest banner text slot is outside the original frame";return false;}
         const auto& slot=slots[std::size_t(line.slot)];
         const float centreX=((slot.rect[0]+slot.rect[2])*.5f+offset)*scale;
-        // Baseline: about 0.85 of the glyph height below the field top; reward values stack by 1.15 glyph heights.
-        const float baseline=(slot.rect[1]+slot.height*(.85f+1.15f*float(line.stack)))*scale;
         const auto fade=[&](std::uint32_t channel) {return std::uint32_t(float(channel)*display.alpha);};
         const std::uint32_t rgb=(fade(slot.rgba[0])<<16)|(fade(slot.rgba[1])<<8)|fade(slot.rgba[2]);
-        if(!drawScreenLabel(font,line.text,rgb,int(slot.height),centreX,baseline,scale,renderer,overlay,textures,error))return false;
+        // The authored field wraps its text to its width (the source EditText is word-wrapped).
+        const auto wrapped=wrapBannerTextV1(font,line.text,int(slot.height),slot.rect[2]-slot.rect[0],error);
+        if(!error.empty())return false;
+        for(std::size_t row=0;row<wrapped.size();++row) {
+            // Baseline: about 0.85 of the glyph height below the field top; wrapped and stacked rows step 1.15 glyph heights.
+            const float baseline=(slot.rect[1]+slot.height*(.85f+1.15f*float(line.stack+int(row))))*scale;
+            if(!drawScreenLabel(font,wrapped[row],rgb,int(slot.height),centreX,baseline,scale,renderer,overlay,textures,error))return false;
+        }
     }
     error.clear();return true;
 }
