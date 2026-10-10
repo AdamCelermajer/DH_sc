@@ -289,21 +289,15 @@ bool RuntimeWorldItemAdapterV1::publish_inventory_drop(
 }
 
 void RuntimeWorldItemAdapterV1::advance(std::uint32_t dt_ms) noexcept {
-    const float step_per_ms = source_item_speed_word_v1 * assumed_item_ticks_per_second_v1 / 1000.0f;
+    const float dt_seconds = float(dt_ms) / 1000.0f;
     for (auto& pair : items_) {
         auto& item = pair.second;
         item.age_ms += dt_ms;
         if (item.owner_protect_ms > 0)
             item.owner_protect_ms = item.owner_protect_ms > std::int32_t(dt_ms)
                 ? item.owner_protect_ms - std::int32_t(dt_ms) : 0;
-        float delta[3]{item.destination[0] - item.source_position[0],
-                       item.destination[1] - item.source_position[1],
-                       item.destination[2] - item.source_position[2]};
-        const float distance = std::sqrt(delta[0] * delta[0] + delta[1] * delta[1] + delta[2] * delta[2]);
-        if (!(distance > 0.0f)) continue;
-        const float step = step_per_ms * float(dt_ms);
-        if (step >= distance) item.source_position = item.destination;
-        else for (int i = 0; i < 3; ++i) item.source_position[i] += delta[i] / distance * step;
+        // Ground-plane slide (see advance_world_item_step_v1): Z keeps its spawn height.
+        item.source_position = advance_world_item_step_v1(item.source_position, item.destination, dt_seconds);
     }
 }
 

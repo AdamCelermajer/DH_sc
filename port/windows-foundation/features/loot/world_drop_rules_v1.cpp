@@ -19,6 +19,23 @@ const dh2::data::Item* item_row(const RuntimeWorldItemAdapterV1& store, const st
 }
 }
 
+std::array<float, 3> advance_world_item_step_v1(const std::array<float, 3>& position,
+                                                const std::array<float, 3>& destination,
+                                                float dt_seconds) noexcept {
+    std::array<float, 3> next = position;
+    if (!(dt_seconds > 0.0f)) return next;
+    const float dx = destination[0] - position[0];
+    const float dy = destination[1] - position[1];
+    const float distance = std::sqrt(dx * dx + dy * dy);
+    // IsAtDestination: squared XY distance below the arrival radius stops the item.
+    if (!(distance > world_item_arrival_radius_v1)) return next;
+    const float step = world_item_speed_units_per_second_v1 * dt_seconds;
+    const float travel = std::min(step, distance - world_item_arrival_radius_v1);
+    next[0] += dx / distance * travel;
+    next[1] += dy / distance * travel;
+    return next;
+}
+
 bool world_item_is_automatic_pickup_v1(const RuntimeWorldItemEntryV1& entry) noexcept {
     return entry.authored_item &&
            entry.authored_item->record.words[item_word_pickup_type_v1] == pickup_type_automatic_v1;

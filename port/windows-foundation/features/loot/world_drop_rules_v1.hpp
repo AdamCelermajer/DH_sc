@@ -18,11 +18,20 @@ namespace dh::foundation::loot {
 // ItemManager keeps five ItemObjects per ItemAudioVisual category and recycles
 // them round-robin (ItemManager::Spawn 0x3eacd0 de-spawns a live slot).
 inline constexpr std::size_t world_item_pool_slots_per_category_v1 = 5;
-// ItemObject::InitOnce stores the float word 0x40C00000 at +944 (GetSpeed).
+// ItemObject::InitOnce stores the float word 0x40C00000 (6.0) at +944 (GetSpeed).
 inline constexpr float source_item_speed_word_v1 = 6.0f;
-// UNPROVEN adaptation: the unit of the speed word is not recovered. The port
-// treats it as world units per 1/30 s source tick, i.e. 180 units/s.
-inline constexpr float assumed_item_ticks_per_second_v1 = 30.0f;
+// PhysicalObject::setPosition (0x46e... 259131) scales game units by 0.01 into
+// the Box2D body, but PhysicalObject::setLinearVelocity (259055) stores the
+// speed unscaled as m/s. GameObject::UpdateTargetPosition (0x393d74) sets the
+// velocity to normalize(destination - position) * GetSpeed, so the item slides
+// at 6 m/s = 600 game units/s (1 m = 100 units).
+inline constexpr float physics_units_per_meter_v1 = 100.0f;
+inline constexpr float world_item_speed_units_per_second_v1 =
+    source_item_speed_word_v1 * physics_units_per_meter_v1;
+// GameObject::IsAtDestination (0x39361c): XY distance^2 < 6400, i.e. 80 units.
+// ItemObject::Update (0x3ebee4) calls GameObject::Stop when that holds, so the
+// item rests where it is, up to 80 units short of its landing point.
+inline constexpr float world_item_arrival_radius_v1 = 80.0f;
 // ItemObject sensor half extents: default +-100, non-flat items x1.5 then the
 // two ApplyMeshBox expansions give +-225 XY (item-body-init-events-v2 notes).
 // PC adaptation: the sensor-contact test uses this XY box around the item.
@@ -49,6 +58,17 @@ bool scatter_destination_v1(dh2::data::LootRandom8V2& rng,
                             const std::array<float, 3>& victim,
                             const std::array<float, 3>* killer,
                             std::array<float, 3>& out, std::string& error);
+
+// One movement step of a dropped ItemObject (GameObject::UpdateTargetPosition
+// with ItemObject::Update's arrival Stop). The item is a ground-plane Box2D body:
+// X/Y move at world_item_speed_units_per_second_v1 toward the landing point and
+// stop once within world_item_arrival_radius_v1 (XY). Z is never synchronised
+// from the body, so the item keeps its spawn height: there is no arc, bounce or
+// apex in the original. Travel is clamped so the item stops exactly on the
+// arrival radius (the original stops on the first whole frame inside it).
+std::array<float, 3> advance_world_item_step_v1(const std::array<float, 3>& position,
+                                                const std::array<float, 3>& destination,
+                                                float dt_seconds) noexcept;
 
 // Source ItemInstance::GetColor: number of powers -> ItemPowerColor key ->
 // FontPalette row (constants from loot_audiovisual_pycst.bin:

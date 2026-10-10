@@ -132,8 +132,16 @@ int main(int argc, char** argv) try {
     check(store.inspect(first, entry, error) && entry.source_position != victim.transform.position &&
           entry.age_ms == 16, "advance moves the item toward its landing point");
     for (int i = 0; i < 200; ++i) store.advance(16);
-    check(store.inspect(first, entry, error) && entry.source_position == landing,
-          "item arrives exactly on its landing point");
+    // ItemObject::Update stops the item inside the 80-unit arrival radius (XY); Z keeps its spawn height.
+    check(store.inspect(first, entry, error), error);
+    const float rest_dx = entry.source_position[0] - landing[0], rest_dy = entry.source_position[1] - landing[1];
+    check(std::fabs(std::sqrt(rest_dx * rest_dx + rest_dy * rest_dy) - world_item_arrival_radius_v1) < 0.01f &&
+              entry.source_position[2] == victim.transform.position[2],
+          "item stops on the 80-unit arrival radius at its spawn height");
+    const auto rested = entry.source_position;
+    store.advance(16);
+    check(store.inspect(first, entry, error) && entry.source_position == rested,
+          "a stopped item does not move again");
 
     // Pool: 5 live per visual category; the sixth recycles the oldest.
     std::vector<RuntimeWorldItemIdV1> ids{first};
@@ -291,6 +299,52 @@ int main(int argc, char** argv) try {
               << ",\"gold\":" << entry.visual_row
               << ",\"sword\":" << env.tables.items().rows[std::size_t(env.id_of("Longsword01"))].record.words[item_word_audio_visual_v1]
               << "}}\n";
+
+    // Motion curve (GameObject::UpdateTargetPosition + IsAtDestination). Ground plane only: no apex,
+    // no bounce; speed 600 units/s; rest 80 units short of the landing point.
+    {
+        const std::array<float, 3> spawn{0.0f, 0.0f, 50.0f};
+        const std::array<float, 3> landing{250.0f, 0.0f, 30.0f};
+        check(std::fabs(world_item_speed_units_per_second_v1 - 600.0f) < 1e-3f, "item speed is 6 m/s = 600 units/s");
+        const auto first = advance_world_item_step_v1(spawn, landing, 1.0f / 30.0f);
+        check(std::fabs(first[0] - 20.0f) < 1e-3f && first[1] == 0.0f && first[2] == spawn[2],
+              "one 1/30 s tick moves 20 units along the ground and keeps Z");
+        // Settle: 250 - 80 = 170 units at 600 units/s = 0.2833 s, reached in fixed 1/120 s steps.
+        auto position = spawn;
+        float elapsed = 0.0f, previous_x = position[0];
+        bool monotonic = true, z_fixed = true;
+        for (int step = 0; step < 1200; ++step) {
+            const auto next = advance_world_item_step_v1(position, landing, 1.0f / 120.0f);
+            if (next == position) break;
+            monotonic = monotonic && next[0] >= previous_x;
+            z_fixed = z_fixed && next[2] == spawn[2];
+            previous_x = next[0];
+            position = next;
+            elapsed += 1.0f / 120.0f;
+        }
+        check(monotonic && z_fixed, "item slides monotonically with constant Z (no apex or bounce)");
+        check(std::fabs(position[0] - 170.0f) < 0.01f && std::fabs(elapsed - 170.0f / 600.0f) < 1.0f / 120.0f,
+              "item settles 80 units short of its landing point after about 0.283 s");
+        // Scatter bound: the farthest scatter (349 along + 150 lateral) travels about 0.5 s at most.
+        const std::array<float, 3> far_landing{349.0f, 150.0f, 0.0f};
+        float far_elapsed = 0.0f;
+        auto far_position = spawn;
+        for (int step = 0; step < 1200; ++step) {
+            const auto next = advance_world_item_step_v1(far_position, far_landing, 1.0f / 120.0f);
+            if (next == far_position) break;
+            far_position = next;
+            far_elapsed += 1.0f / 120.0f;
+        }
+        const float far_distance = std::sqrt(349.0f * 349.0f + 150.0f * 150.0f);
+        check(far_elapsed <= (far_distance - 80.0f) / 600.0f + 1.0f / 120.0f && far_elapsed > 0.4f,
+              "farthest scatter settles within about 0.5 s");
+        // A landing point already inside the radius (no-killer scatter can do this) does not move the item.
+        const std::array<float, 3> near_landing{60.0f, 0.0f, 0.0f};
+        check(advance_world_item_step_v1(spawn, near_landing, 1.0f / 30.0f) == spawn,
+              "an item inside the arrival radius stays where it spawned");
+        check(advance_world_item_step_v1(spawn, landing, 0.0f) == spawn, "zero time does not move the item");
+    }
+    std::cout << "{\"motion_curve\":\"PASS\"}\n";
     return 0;
 } catch (const std::exception& exception) {
     std::cerr << "FAIL: " << exception.what() << '\n';
