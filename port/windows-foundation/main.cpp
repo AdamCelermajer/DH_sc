@@ -256,6 +256,7 @@ struct Options {
     std::map<std::string,f::CombatSessionChoice> lifecyclePreSpawns;
     f::InputMove2D scriptedMove{};
     int moveFrames=0;
+    std::vector<std::tuple<int,int,f::InputMove2D>> moveSegments; // B063 test hook: --move-segment FROM:TO:X,Y scripted stick input for frames [FROM,TO)
     bool scriptedRun=true;
     bool sourceBodyBounds=false;
     bool sourceNativeBodies=false;
@@ -406,6 +407,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--combat-text") o.combatText=true;
         else if(arg=="--hud-portrait") {auto n=std::stoi(value());if(n<0||n>2)throw std::runtime_error("HUD portrait source frame must be 0..2");o.hudPortrait=unsigned(n);}
         else if(arg=="--move-axis") {auto v=vector(value());o.scriptedMove={v.x,v.y};}
+        else if(arg=="--move-segment") {const auto text=value();const auto c1=text.find(':'),c2=text.find(':',c1==std::string::npos?0:c1+1);if(c1==std::string::npos||c2==std::string::npos)throw std::runtime_error("Move segment requires FROM:TO:X,Y");auto v=vector(text.substr(c2+1)+",0");o.moveSegments.emplace_back(std::stoi(text.substr(0,c1)),std::stoi(text.substr(c1+1,c2-c1-1)),f::InputMove2D{v.x,v.y});}
         else if(arg=="--move-frames") {o.moveFrames=std::stoi(value());if(o.moveFrames<1)throw std::runtime_error("Move frames must be positive");}
         else if(arg=="--move-run") o.scriptedRun=true;
         else if(arg=="--move-walk") o.scriptedRun=false;
@@ -2228,6 +2230,7 @@ int main(int argc,char** argv) {
         // P14 DROPS: presentation + pickup state for items lying in the world.
         std::unique_ptr<f::interactions::WorldDropRuntimeV1> worldDrops;
         f::loot::RuntimeWorldItemIdV1 worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+        f::loot::WorldItemContactTrackerV1 worldItemContacts; // B063: walk-over pickup (contact begin triggers Interact, no key)
         double worldItemFractionMs=0;
         std::string worldItemStatus;std::uint32_t worldItemStatusRgb=0xFFFFFF;int worldItemStatusFrames=0;
         dh2::ui::HudTextV1* dropHudText=nullptr;dh2::ui::HudTextEnvironmentV1 dropTextEnvironment;
@@ -2253,7 +2256,7 @@ int main(int argc,char** argv) {
             if(!worldItems)worldItems=std::make_shared<f::loot::RuntimeWorldItemAdapterV1>(menuSourceOwner.loot_owner->borrow());
             // P14 DROPS: ground items belong to the session being bound. A reload
             // (R/F5-F9) or new session clears them; nothing is granted or duplicated.
-            if(worldItems){worldItems->clear();worldItemTarget=f::loot::invalid_runtime_world_item_v1;}
+            if(worldItems){worldItems->clear();worldItemTarget=f::loot::invalid_runtime_world_item_v1;worldItemContacts.clear();}
             ++rewardBindingGeneration;
             f::loot::RuntimeSessionDeathRewardBindingsV1 rewardBindings;
             rewardBindings.gameplay_context_lease=rewardContext;rewardBindings.context=rewardContext.get();
@@ -2830,7 +2833,7 @@ int main(int argc,char** argv) {
                 }
             }
             if(returnToFrontend) {
-                if(worldItems)worldItems->clear(); // P14 DROPS: ground items never survive a return to the main menu
+                if(worldItems){worldItems->clear();worldItemContacts.clear();} // P14 DROPS: ground items never survive a return to the main menu
                 // B040: original MenuMainMenu::Hide StopMusic(1000); must run while the gameplay audio host is still alive.
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->on_return_to_menu(audioError))std::cerr<<"Audio return-to-menu diagnostic: "<<audioError<<'\n';}
                 std::string saveError;
@@ -2988,6 +2991,7 @@ int main(int argc,char** argv) {
             if(frontendStarted&&!combatSession){gameplayInput.attack=false;gameplayInput.targetSelect=false;}
             gameplayInput.run=runBound&&gameplayInput.run;
             if(drawn<options.moveFrames){gameplayInput.move2D=options.scriptedMove;gameplayInput.run=options.scriptedRun&&runBound;}
+            for(const auto& segment:options.moveSegments)if(int(drawn)>=std::get<0>(segment)&&int(drawn)<std::get<1>(segment)){gameplayInput.move2D=std::get<2>(segment);gameplayInput.run=options.scriptedRun&&runBound;}
             if(gameplayPaused)gameplayInput={};
             const bool playerControllerBlocked=combatSession&&(!combatSession->actor(combatSession->player_id())->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]);
             bindEnemyAI();
@@ -3259,7 +3263,7 @@ int main(int argc,char** argv) {
                 // P14 DROPS: ground items travel to their landing point. ItemObject::_DoAutoPickupHack: an item whose
                 // PickUpType is Automatic is collected at once by the killer (here: the local player). The nearest item
                 // whose sensor box contains the player becomes the target (ItemObject::OnCollisionBegins -> tooltip), and
-                // PC adaptation: the interact key (E) or --pickup-frame while targeted runs ItemObject::Interact.
+                // B063: sensor contact begin (walking onto the item) runs ItemObject::Interact; no key (--pickup-frame is a scripted test hook).
                 if(!gameplayPaused&&worldItems&&worldDrops) {
                     const double worldItemMs=gameplayDt*1000+worldItemFractionMs;const auto worldItemWhole=std::uint32_t(worldItemMs);worldItemFractionMs=worldItemMs-worldItemWhole;
                     worldItems->advance(worldItemWhole);
@@ -3288,7 +3292,8 @@ int main(int argc,char** argv) {
                             else if(!itemDisplayName(shown,shownName,textError))shownName=pickedId;
                             worldItemStatus=shownName;worldItemStatusRgb=rgb;worldItemStatusFrames=90;
                         } else if(pickup.outcome==f::loot::WorldItemPickupOutcomeV1::inventory_full) {
-                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError))worldItemStatus=text;else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
+                            // B063: the localized line carries font markup and may carry line breaks; the single-line HUD label needs plain text.
+                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError)){{std::string plain;bool inTag=false;for(const char ch:text){if(ch=='<'){inTag=true;continue;}if(ch=='>'&&inTag){inTag=false;continue;}if(!inTag)plain+=(static_cast<unsigned char>(ch)<32||ch==127)?' ':ch;}text=plain;}worldItemStatus=text;}else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
                             worldItemStatusRgb=0xFFFFFF;worldItemStatusFrames=90;
                         }
                     };
@@ -3304,8 +3309,15 @@ int main(int argc,char** argv) {
                     if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItemTarget!=previousTarget&&worldItems->inspect(worldItemTarget,targetEntry,targetError))
                         std::cout<<"World item target frame="<<drawn<<" item="<<worldItemTarget<<" id="<<(targetEntry.authored_item?worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id)):std::string("?"))<<" qty="<<targetEntry.quantity<<" position="<<targetEntry.source_position[0]<<","<<targetEntry.source_position[1]<<","<<targetEntry.source_position[2]<<'\n';
                     const bool scheduledPickup=std::find(options.pickupFrames.begin(),options.pickupFrames.end(),int(drawn))!=options.pickupFrames.end();
-                    if((uiInput.actions.interact||scheduledPickup)&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1)
-                        runWorldItemPickup(worldItemTarget,scheduledPickup&&!uiInput.actions.interact?"scripted":"interact");
+                    // B063: walking onto an item picks it up (user rule; Space/E stays the context button for chests and NPCs
+                    // and is NOT a pickup key). Every item whose sensor begins contact with the living player runs
+                    // ItemObject::Interact once (gates inside interact_world_item_v1: owner window, inventory full, potion capacity).
+                    if(itemPlayer&&itemPlayer->alive()) {
+                        for(const auto contactId:worldItemContacts.begin_contacts(*worldItems,itemPlayer->transform.position,itemPlayer->action==f::CharacterAction::moving))
+                            runWorldItemPickup(contactId,"walkover");
+                    } else worldItemContacts.clear();
+                    if(scheduledPickup&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1)
+                        runWorldItemPickup(worldItemTarget,"scripted");
                     if(worldItemStatusFrames>0)--worldItemStatusFrames;
                 }
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->after_update(audioError))std::cerr<<"Audio output diagnostic: "<<audioError<<'\n';}
