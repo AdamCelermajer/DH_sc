@@ -30,6 +30,7 @@
 // P16 MAP: RoomZone visits and the character-menu Map page model (features/map_visit).
 #include "features/map_visit/room_zone_visit_v1.hpp"
 #include "features/map_visit/map_page_v1.hpp"
+#include "features/map_visit/map_markers_v1.hpp" // P16 MAPMARKERS: marker producers (registry) for the Map page
 #include "features/pause_ui/source_pause_ui_render_v1.hpp"
 #include "features/frontend/rich_text.hpp"
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
@@ -2602,6 +2603,11 @@ int main(int argc,char** argv) {
         // Quest state lives in CharacterState::source_quest_progress_cqpg (saved with the character).
         std::shared_ptr<const f::quest_runtime::QuestTableV1> questTable;
         std::map<f::ActorId,std::pair<std::int32_t,std::int32_t>> questActorIdentity; // (CharacterTable row, Charater_Templates row)
+        // P16 MAPMARKERS: Map page marker facts of the loaded level (built at load) and the producer registry.
+        std::vector<f::map_visit::MapLevelObjectV1> mapLevelObjects;   // CheckpointZone / SpawnPoint / TriggerZoneExitLevel
+        std::vector<f::map_visit::MapCharacterV1> mapCharacters;       // placed characters (quest giver and merchant facts)
+        std::optional<std::int32_t> mapLevelEntryPoint;                // current entry (the spawn the player was placed on)
+        const f::map_visit::MapMarkerRegistryV1 mapMarkers=f::map_visit::standard_map_marker_registry_v1();
         std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
         f::quest_runtime::QuestZoneSetV1 questZones; // P16 QUESTUI: MoveInZone boxes of this level
         f::QuestBannerPresenterV1 questBanners;      // P16 QUESTUI: NEW QUEST / updates / QUEST COMPLETED
@@ -2678,6 +2684,58 @@ int main(int argc,char** argv) {
                 }
                 questActorIdentity[placed.definition.stableId]={row,placed.source_template_cache};
             }
+            // P16 MAPMARKERS: marker facts of this level, once per load. Level objects are the authored classes of the
+            // IDA map producers (activation gate from the active conditions). Characters carry the CharacterTable row
+            // (quest giver match) and the merchant fact (AI row type 7 = Character::IsMerchant, IDA GetCharType).
+            mapLevelObjects.clear();mapCharacters.clear();mapLevelEntryPoint.reset();
+            for(const auto& declaration:population.definitions()) {
+                if(!f::map_visit::map_object_class_rule_v1(declaration.gametype))continue;
+                f::map_visit::MapLevelObjectV1 object;object.gametype=declaration.gametype;
+                object.position={declaration.placement[12],declaration.placement[13],declaration.placement[14]};
+                object.active=f::map_visit::map_activation_gate_v1(declaration.properties,options.activeConditions);
+                const auto entry=declaration.properties.find("entrypointID");
+                if(entry!=declaration.properties.end()) {try{object.entry_point_id=std::stoi(entry->second);}catch(const std::exception&){}}
+                // The current entry is the spawn the player is placed on at load (inference: IDA places the player via
+                // SpawnPoint::PlaceObject and stores Level+272 as the character's entry). Only a unique spawn at the start counts.
+                if(object.gametype=="SpawnPoint"&&object.entry_point_id>=0) {
+                    const float dx=object.position[0]-options.actorPosition.x,dy=object.position[1]-options.actorPosition.y,dz=object.position[2]-options.actorPosition.z;
+                    if(dx*dx+dy*dy+dz*dz<=1.0f) {
+                        if(!mapLevelEntryPoint)mapLevelEntryPoint=object.entry_point_id;
+                        else if(*mapLevelEntryPoint!=object.entry_point_id)mapLevelEntryPoint.reset(); // ambiguous start: unknown
+                    }
+                }
+                mapLevelObjects.push_back(object);
+            }
+            {
+                dh2::data::AiTables mapAiTables;std::string aiError;
+                const bool aiReady=f::load_original_ai_tables(assets,"original-cache/data/pydata",mapAiTables,aiError);
+                if(!aiReady)std::cerr<<"Map markers AI tables diagnostic: "<<aiError<<'\n';
+                std::map<std::int32_t,bool> merchantByRow;
+                for(const auto& placed:population.actors()) {
+                    f::map_visit::MapCharacterV1 character;
+                    character.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};
+                    character.enabled=placed.enabled;
+                    const auto identity=questActorIdentity.find(placed.definition.stableId);
+                    character.character_row=identity==questActorIdentity.end()?-1:identity->second.first;
+                    if(aiReady&&character.character_row>=0&&std::size_t(character.character_row)<properties.characters.names.size()) {
+                        auto cached=merchantByRow.find(character.character_row);
+                        if(cached==merchantByRow.end()) {
+                            bool merchant=false;
+                            f::OriginalCombatProperties props;std::string propsError;
+                            if(f::build_original_combat_properties(properties,properties.characters.names[character.character_row],f::OriginalActorPropertyOptions{},{},f::OriginalCombatFacts{},props,propsError)) {
+                                const auto* ai=dh2::data::ai_props(mapAiTables,props.sheets.resolved[1]);
+                                merchant=ai&&ai->type==7;
+                            }
+                            cached=merchantByRow.emplace(character.character_row,merchant).first;
+                        }
+                        character.merchant=cached->second;
+                    }
+                    mapCharacters.push_back(character);
+                }
+            }
+            std::cout<<"Map marker facts level_objects="<<mapLevelObjects.size()<<" characters="<<mapCharacters.size()
+                     <<" merchants="<<std::count_if(mapCharacters.begin(),mapCharacters.end(),[](const auto& c){return c.merchant;})
+                     <<" entry="<<(mapLevelEntryPoint?std::to_string(*mapLevelEntryPoint):std::string("unknown"))<<'\n';
             // P16 QUESTUI: TalkToNPC oids of the table (CharacterTable rows), for NPC talk.
             questTalkOids.clear();
             for(const auto& row:questTable->rows()) {
@@ -4621,21 +4679,87 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             // Family 3 (local player) = the authored Character icon (frame 3 of MapIconsDynamic).
                             if(f::map_visit::map_project_v1(mapCamera,mapRect,*mapPlayer,px,py))drawMapIcon(3,px,py);
                         }
-                        // P16 MAPFIX: enemy markers (family 4 = Enemies icon). IDA ShowNpcIcons: a live monster inside a visited
-                        // room is marked. Hostility is the world's eligible-target rule (faction table, player vs actor).
-                        std::size_t enemyMarkers=0;
+                        // P16 MAPMARKERS: every marker family comes from the registry (features/map_visit/map_markers_v1), in the
+                        // IDA Show order. Live inputs: visited rooms, enemies (combat owner: hostile, alive), placed characters
+                        // (quest talk rows of ACTIVE quests with open TalkToNPC objectives, merchant facts), level objects, and the
+                        // current quest's MoveInZone objective zones.
+                        f::map_visit::MapMarkerInputsV1 markerInputs;
+                        markerInputs.visited=[&](const std::array<float,3>& point){return f::map_visit::map_point_visited_v1(mapVisits.zones(),mapVisited,point);};
+                        markerInputs.level_objects=mapLevelObjects;
+                        markerInputs.characters=mapCharacters;
+                        markerInputs.level_entry_point=mapLevelEntryPoint;
+                        if(questRuntime&&questTable) {
+                            // IDA +762 (TalkToNPC installed): objectives of quests in the Active state (6), not yet completed.
+                            for(std::int32_t row=0;row<std::int32_t(questTable->rows().size());++row) {
+                                f::quest_runtime::QuestStateV1 state{};
+                                if(!questRuntime->state_of(row,state)||state!=f::quest_runtime::QuestStateV1::active)continue;
+                                const auto* progress=questRuntime->progress_of(row);
+                                const auto& definition=questTable->rows()[std::size_t(row)];
+                                for(std::size_t i=0;i<definition.objectives.size();++i) {
+                                    if(definition.objectives[i].type!=5)continue;
+                                    if(progress&&i<progress->objectives.size()&&progress->objectives[i].completed)continue;
+                                    markerInputs.quest_talk_rows.insert(definition.objectives[i].oid1);
+                                }
+                            }
+                            // IDA ShowObjectivesIcons: the CURRENT quest's objectives; MoveInZone positions at the zone's box centre.
+                            const auto current=questRuntime->current_quest();
+                            if(current>=0&&std::size_t(current)<questTable->rows().size()) {
+                                for(const auto& objective:questTable->rows()[std::size_t(current)].objectives) {
+                                    if(objective.type!=int(f::quest_runtime::QuestObjectiveTypeV1::move_in_zone))continue;
+                                    for(const auto& zone:questZones.zones()) {
+                                        if(zone.name!=objective.str2)continue;
+                                        markerInputs.objective_zones.push_back({zone.name,{(zone.min[0]+zone.max[0])*0.5f,(zone.min[1]+zone.max[1])*0.5f,(zone.min[2]+zone.max[2])*0.5f}});
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        // Enemies (IDA ShowNpcIcons monster branch): live hostile actors. Hostility is the world's eligible-target rule.
                         if(combatSession&&combatSession->world()&&combatSession->actor(combatSession->player_id())) {
                             const auto* playerActor=combatSession->actor(combatSession->player_id());
                             for(const auto& [enemyId,enemy]:combatSession->world()->actors()) {
                                 if(enemyId==combatSession->player_id()||!enemy.alive())continue;
                                 if(!combatSession->world()->eligible_target(*playerActor,enemy))continue;
-                                const std::array<float,3> enemyPosition{enemy.transform.position[0],enemy.transform.position[1],enemy.transform.position[2]};
-                                if(!f::map_visit::map_point_visited_v1(mapVisits.zones(),mapVisited,enemyPosition))continue;
-                                float px=0,py=0;
-                                if(f::map_visit::map_project_v1(mapCamera,mapRect,enemyPosition,px,py)) {drawMapIcon(4,px,py);++enemyMarkers;}
+                                markerInputs.enemies.push_back({f::map_visit::MapMarkerKindV1::enemy,{enemy.transform.position[0],enemy.transform.position[1],enemy.transform.position[2]}});
                             }
                         }
-                        if(!mapMarkersLogged) {mapMarkersLogged=true;std::cout<<"Map enemy markers frame="<<drawn<<" drawn="<<enemyMarkers<<" zoom="<<mapView.zoom<<" pan="<<mapView.panX<<','<<mapView.panY<<'\n';}
+                        const auto markers=mapMarkers.collect(markerInputs);
+                        std::size_t drawnMarkers[14]{},producedMarkers[14]{};
+                        for(const auto& marker:markers) {
+                            ++producedMarkers[unsigned(marker.kind)];
+                            float px=0,py=0;
+                            const bool projected=f::map_visit::map_project_v1(mapCamera,mapRect,marker.position,px,py);
+                            if(!mapMarkersLogged) // diagnostic: every produced marker at the first map draw (world and window pixel)
+                                std::cout<<"Map marker kind="<<unsigned(marker.kind)<<" world="<<marker.position[0]<<','<<marker.position[1]<<','<<marker.position[2]
+                                         <<(projected?" px=":" outside")<<(projected?px:0.0f)<<','<<(projected?py:0.0f)<<'\n';
+                            if(projected) {
+                                drawMapIcon(unsigned(marker.kind),px,py);
+                                ++drawnMarkers[unsigned(marker.kind)];
+                            }
+                        }
+                        if(!mapMarkersLogged && questRuntime && questTable) { // diagnostic: quest rows behind the quest markers
+                            const auto current=questRuntime->current_quest();
+                            std::cout<<"Map quest current="<<current;
+                            if(current>=0&&std::size_t(current)<questTable->rows().size())
+                                for(const auto& objective:questTable->rows()[std::size_t(current)].objectives)
+                                    std::cout<<" obj(type="<<objective.type<<" oid1="<<objective.oid1<<" str2="<<objective.str2<<")";
+                            for(std::int32_t row=0;row<std::int32_t(questTable->rows().size());++row) {
+                                f::quest_runtime::QuestStateV1 state{};
+                                if(questRuntime->state_of(row,state)&&state==f::quest_runtime::QuestStateV1::active)std::cout<<" active_row="<<row;
+                                bool talkOrZone=false;
+                                for(const auto& objective:questTable->rows()[std::size_t(row)].objectives)if(objective.type==5||objective.type==4)talkOrZone=true;
+                                if(talkOrZone)std::cout<<" talk_or_zone_row="<<row<<" state="<<int(state);
+                            }
+                            std::cout<<'\n';
+                        }
+                        if(!mapMarkersLogged) {
+                            mapMarkersLogged=true;
+                            std::cout<<"Map markers frame="<<drawn<<" zoom="<<mapView.zoom<<" pan="<<mapView.panX<<','<<mapView.panY
+                                     <<" talk_rows="<<markerInputs.quest_talk_rows.size()<<" objective_zones="<<markerInputs.objective_zones.size();
+                            static const char* const kindNames[14]{"objective","entrance","exit","character","enemy","champion","boss","player2","player3","player4","quest_giver","merchant","checkpoint","arrow"};
+                            for(unsigned k=0;k<14;++k) if(producedMarkers[k]||drawnMarkers[k]) std::cout<<' '<<kindNames[k]<<"="<<drawnMarkers[k]<<'/'<<producedMarkers[k];
+                            std::cout<<'\n';
+                        }
                     };
                     for(const auto& solid:menu.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
                     const auto& sourcePanes=f::inventory::original_inventory_character_panes_v1();

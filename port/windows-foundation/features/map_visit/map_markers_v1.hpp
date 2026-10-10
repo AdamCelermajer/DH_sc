@@ -58,6 +58,7 @@ struct MapLevelObjectV1 {
     std::string gametype;              // authored class (CheckpointZone, SpawnPoint, TriggerZoneExitLevel, ...)
     std::array<float, 3> position{};   // world translation of the placement
     bool active = true;                // activation gate (map_activation_gate_v1)
+    std::int32_t entry_point_id = -1;  // SpawnPoint entrypointID (IDA SpawnPoint::DeclareProperties: obj+884)
 };
 
 // One placed NPC/character with the facts the NPC rules read (host-gathered; facts cached per actor).
@@ -78,6 +79,9 @@ struct MapMarkerInputsV1 {
     // IDA IsInsideRooms(point, visited): true when the point is inside a visited room (host supplies map_point_visited_v1).
     std::function<bool(const std::array<float, 3>&)> visited;
     std::vector<MapLevelObjectV1> level_objects;
+    // Level entry point (IDA Level+272, set by SG_SetLevelEntryPoint): the Entrance icon is the SpawnPoint with this
+    // entrypointID (ShowMapExitsIcons obj+884 == Level+272). Unknown (nullopt) draws no entrance.
+    std::optional<std::int32_t> level_entry_point;
     std::vector<MapCharacterV1> characters;
     // NPC rows whose installed TalkToNPC objective is still open (IDA +762 && !+763).
     std::set<std::int32_t> quest_talk_rows;

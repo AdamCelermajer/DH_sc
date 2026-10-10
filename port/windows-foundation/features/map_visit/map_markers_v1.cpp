@@ -84,6 +84,9 @@ void map_provider_level_objects_v1(const MapMarkerInputsV1& inputs, MapMarkersV1
         const auto rule = map_object_class_rule_v1(object.gametype);
         if (!rule) continue;
         if (rule->needs_active && !object.active) continue;
+        // IDA ShowMapExitsIcons type 13: only the spawn whose entrypointID is the current level entry point.
+        if (rule->kind == MapMarkerKindV1::entrance &&
+            (!inputs.level_entry_point || object.entry_point_id != *inputs.level_entry_point)) continue;
         if (!visible_on_map(inputs, object.position)) continue;
         out.push_back({rule->kind, object.position});
     }

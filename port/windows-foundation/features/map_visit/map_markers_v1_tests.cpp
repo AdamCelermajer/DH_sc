@@ -76,18 +76,20 @@ void provider_tests() {
 
     // Level objects: checkpoint needs only a visited room; exit and entrance also need the active gate.
     in = base_inputs();
+    in.level_entry_point = 1;
     in.level_objects = {
         {"CheckpointZone", {-5, 0, 0}, false},
         {"CheckpointZone", {10, 0, 0}, true},             // unvisited
         {"TriggerZoneExitLevel", {-5, 1, 0}, true},
         {"TriggerZoneExitLevel", {-5, 2, 0}, false},      // inactive: no exit icon
-        {"SpawnPoint", {-6, 0, 0}, true},
-        {"SpawnPoint", {-6, 1, 0}, false},                // inactive: no entrance icon
+        {"SpawnPoint", {-6, 0, 0}, true, 1},              // the current entry: entrance
+        {"SpawnPoint", {-6, 1, 0}, true, 2},              // another entry: no entrance icon
+        {"SpawnPoint", {-6, 2, 0}, false, 1},             // inactive: no entrance icon
         {"Dummy", {-5, 0, 0}, true},                      // not a map class
     };
     out.clear();
     map_provider_level_objects_v1(in, out);
-    CHECK(out.size() == 3);   // checkpoint (no gate), exit and entrance (both active); inactive, unvisited, Dummy excluded
+    CHECK(out.size() == 3);   // checkpoint (no gate), exit (active) and the current entrance (active); the rest excluded
     int checkpoints = 0, exits = 0, entrances = 0;
     for (const auto& m : out) {
         if (m.kind == MapMarkerKindV1::checkpoint) ++checkpoints;
@@ -97,6 +99,13 @@ void provider_tests() {
     CHECK(checkpoints == 1);
     CHECK(exits == 1);
     CHECK(entrances == 1);
+    // Unknown current entry: no entrance icon at all (the port has no entry state of its own).
+    in.level_entry_point.reset();
+    out.clear();
+    map_provider_level_objects_v1(in, out);
+    entrances = 0;
+    for (const auto& m : out) if (m.kind == MapMarkerKindV1::entrance) ++entrances;
+    CHECK(entrances == 0);
 
     // Objectives: drawn without a visited check (IDA ShowObjectivesIcons).
     in = base_inputs();
