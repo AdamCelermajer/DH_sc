@@ -64,7 +64,8 @@ bool load_level(AssetCatalog& assets,const std::filesystem::path& manifestRelati
     return load_level_with_module_zones(assets,manifestRelative,output,zones,error);
 }
 bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::path& manifestRelative,
-                OriginalScene& output,std::vector<LevelModuleZone>& zones,std::string& error) {
+                OriginalScene& output,std::vector<LevelModuleZone>& zones,std::string& error,
+                const LevelLoadOptions& options) {
     try {
         std::vector<ModulePlacement> placements;
         const auto manifestBytes=assets.read(manifestRelative);
@@ -102,6 +103,7 @@ bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::pa
         // their module-local poses (the swamp cave water caustics, props). Merged like module geometry; no room zone.
         // A missing visual or decor file is a named notice: the module geometry is still valid without it.
         std::size_t decorCount=0;
+        if(options.includeStaticDecor)
         for(const auto& module:placements) {
             if(!module.visible||!module.activateCondition.empty()||module.visualPath.empty()) continue;
             std::vector<ModulePlacement> decor;
@@ -146,6 +148,7 @@ bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::pa
             }
         }
         combined.notices.push_back("Decor instantiated: "+std::to_string(decorCount)+" Decor/AnimatedDecor declarations (authored pose, no animation playback).");
+        if(!options.includeStaticDecor) combined.notices.push_back("Decor rendering deferred to gameplay runtime owners.");
         combined.notices.push_back("Geometry preview only: module gameplay objects, quests, lights, skybox and campaign predicates are not instantiated.");
         output=std::move(combined);zones=std::move(loadedZones);error.clear();return true;
     }catch(const std::exception& ex){error=ex.what();return false;}

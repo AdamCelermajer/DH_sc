@@ -21,8 +21,14 @@ struct LevelModuleZone {
     // B072: Map-page ranges (OriginalScene::mapMesh.ranges) of this module (`_minimap` else `_floor` geometry).
     std::size_t mapFirstRange = 0, mapRangeCount = 0;
 };
+struct LevelLoadOptions {
+    // Geometry tools have no decor runtime. Gameplay supplies its own ambient,
+    // scripted and conditional owners, and must not also bake those into the level.
+    bool includeStaticDecor = true;
+};
 bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::path& manifestRelative,
-                                  OriginalScene& output,std::vector<LevelModuleZone>& zones,std::string& error);
+                                  OriginalScene& output,std::vector<LevelModuleZone>& zones,std::string& error,
+                                  const LevelLoadOptions& options = {});
 // Loads visible, unconditional authored module geometry. Campaign predicates
 // require a gameplay evaluator; conditional declarations are skipped/reported.
 bool load_level(AssetCatalog& assets,const std::filesystem::path& manifestRelative,

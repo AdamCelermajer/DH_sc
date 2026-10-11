@@ -1502,7 +1502,7 @@ int main(int argc,char** argv) {
             }
         }
         if(!options.level.empty()) {
-            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error)) throw std::runtime_error("Level: "+error);
+            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error,{options.meleeBindings.empty()||options.noAmbientDecor})) throw std::runtime_error("Level: "+error);
             loadingScreen.progress(0.4);  // level stage complete
             for(const auto& notice:scene.notices)std::cerr<<"Level notice: "<<notice<<'\n';
             std::cout<<"Level triangles="<<scene.triangleCount<<" instances="<<scene.instanceCount<<" ranges="<<scene.mesh.ranges.size()<<'\n';

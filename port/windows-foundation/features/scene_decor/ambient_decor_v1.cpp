@@ -102,6 +102,15 @@ bool AmbientDecorRuntimeV1::load(const AssetCatalog& assets, const std::vector<A
         // AnimatedDecor (material-animated effects) and Decor (static props: corpses, piles, bloodstain decals) share the
         // declaration form dae + xrefobject; Decor simply has no clips.
         if ((definition.gametype != "AnimatedDecor" && definition.gametype != "Decor") || definition.modelPath.empty()) continue;
+        const auto property = [&](const char* key) {
+            const auto at=definition.properties.find(key);
+            return at==definition.properties.end()?std::string():at->second;
+        };
+        if(property("visible")=="0") continue;
+        // Conditional AnimatedDecor belongs to DecorRuntimeV1. Drawing it here
+        // would bypass its campaign admission gate and duplicate its geometry.
+        const auto conditioned=[](const std::string& v){return !v.empty()&&v!="0";};
+        if(conditioned(property("activate_cond"))||conditioned(property("deactivate_cond"))) continue;
         if (skip.count(definition.name)) continue;
         if (lower(base_name(definition.modelPath)).rfind("cs_", 0) == 0) continue; // cutscene clip libraries
         const auto xref = definition.properties.find("xrefobject");
