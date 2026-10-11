@@ -4427,7 +4427,9 @@ int main(int argc,char** argv) {
             if(!questRuntime||!combatSession)return;
             for(const auto& event:combatSession->events()) {
                 if(std::getenv("DH_QUEST_TRACE")&&event.applied&&event.target_died)std::cout<<"Quest kill trace target="<<event.target<<" attacker="<<event.attacker<<" player="<<combatSession->player_id()<<" known="<<questActorIdentity.count(event.target)<<'\n'; // B093 trace
-                if(!event.applied||!event.target_died||event.attacker!=combatSession->player_id())continue;
+                // B093: Character::Kill (0x3a... Kill, tail after DistributeXP) raises the four kill events for EVERY non-player death
+                // regardless of the killer (ally, DOT, skill), except Summon-created actors (suppress_quest +5348 set by GameObject::_Summon).
+                if(!event.applied||!event.target_died||event.target==combatSession->player_id()||spawnPool.owns(event.target))continue;
                 const auto identity=questActorIdentity.find(event.target);
                 if(identity==questActorIdentity.end())continue;
                 f::quest_runtime::QuestEvent kill;
