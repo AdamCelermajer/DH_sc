@@ -11,6 +11,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
+#include <chrono>
 
 namespace f = dh::foundation;
 namespace sd = dh::foundation::scene_decor;
@@ -54,10 +55,16 @@ static void material_defaults(const std::vector<std::uint8_t>& source) {
 }
 
 static void render_ownership(const std::filesystem::path& root,const std::vector<std::uint8_t>& torches) {
-    f::AssetCatalog assets(root);
-    const auto virtual_xml=[&](const char* path,const std::string& text){assets.set_virtual_file(path,{text.begin(),text.end()});};
+    const auto fixture=std::filesystem::temp_directory_path()/("dh-decor-owner-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+    std::filesystem::create_directories(fixture);
+    struct Cleanup{std::filesystem::path path;~Cleanup(){std::error_code ec;std::filesystem::remove_all(path,ec);}} cleanup{fixture};
+    f::AssetCatalog source(root),assets(fixture);
+    const auto virtual_xml=[&](const char* path,const std::string& text){std::ofstream out(fixture/path,std::ios::binary);out<<text;};
+    std::ofstream(fixture/"torch.bdae",std::ios::binary).put(0);
+    std::ofstream(fixture/"world.bdae",std::ios::binary).put(0);
     assets.set_virtual_file("torch.bdae",torches);
-    virtual_xml("owner-test.mlx","<Level><GameObject name='module' gametype='Module' dae='data/3d/modules/swamp/swamp.bdae' xrefobject='_module_deadend_brdwalk_w_00' mvp='owner-test.mvp'/></Level>");
+    assets.set_virtual_file("world.bdae",source.read("data/3d/modules/swamp/swamp.bdae"));
+    virtual_xml("owner-test.mlx","<Level><GameObject name='module' gametype='Module' dae='world.bdae' xrefobject='_module_deadend_brdwalk_w_00' mvp='owner-test.mvp'/></Level>");
     virtual_xml("owner-test.mvp","<Module><GameObject name='torch' gametype='AnimatedDecor' dae='torch.bdae' xrefobject='_anim_swamp_torchsingle'/></Module>");
     f::OriginalScene preview,gameplay;std::vector<f::LevelModuleZone> zones;std::string error;
     check(f::load_level_with_module_zones(assets,"owner-test.mlx",preview,zones,error),"geometry preview retains static decor");
