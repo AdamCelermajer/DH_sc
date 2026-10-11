@@ -38,3 +38,12 @@ Pending private build/runtime. Existing B087/B088/B100 helper reports and integr
 - Matches video: the existing B087 quest ring path and B100 merchant ring path explain the observed status circles.
 - Matches IDA: pending quest/merchant FX rule and absent separate type3 selection effect.
 - Not verified: complete user pointer selection request, generic dead/disabled transition in production, merged merchant path, final frozen package.
+
+## Clarification and baseline reproduction (2026-10-11)
+Root relayed user clarification: **green circle missing ONLY**. Full pointer targeting is outside B112. Marker fixes B087/B100 are the implementation dependencies; B110 inherits B100 and owns merchant/shop integration. No additional friendly target circle will be invented.
+
+The reusable fixture generator `coordination/v20.1/b112_runtime_fixtures.py` starts from the existing normal root NPC startup arguments, replaces assets/position/window/captures, and creates a new per-case working directory and save paths; it does not write accepted packages/saves. All eight accepted-v20 runs exit0 (quiet/silent), two aspects1280x720 and1024x768, near/distant quest NPC and merchant. Accepted executable SHA256 remains8BA1E537D33D4D4FD5B7DD9822C4CAB5080917FE2427A3903AB7C247827E8CCE. Runtime files: `.local-inputs/v20.1/b112/runtime/before-*`, summary `summary-before.json`.
+
+Inspected before quest-near1280x720 frame260: prisoner visible with speech-bubble HUD, no ! or green ring. Inspected before merchant-near1280x720 frame260: standing merchant visible, sword HUD, no bag or green ring. These reproduce supplied shots8/18. Assets point at the same read-only B100 asset root for both comparisons, so missing rings are source-path omissions in acceptedv20, not absence of art in the comparison. Repeated Space300/550 offers no merchant action in acceptedv20.
+
+Additional original anchor consumer inspected: `AnimatedFX::Update`0x493050 (pseudocode declaration line288795; address to verify against function heading) removes its anchor for virtual+52 dead or anchor+129 disabled. Merchant update checks visible+138, not an invented selection gate. Existing renderer actor alive/enabled guards support that visible invariant; full disabled/dead production branch not yet exercised here.
