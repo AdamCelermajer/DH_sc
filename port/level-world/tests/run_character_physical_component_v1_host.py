@@ -16,6 +16,8 @@ EXPECTED = {
     "typed_component_lifecycle": True,
     "box2d_body_shapes": True,
     "transform": True,
+    "source_stop_body_state": True,
+    "pin_unpin": True,
     "teardown": True,
     "mismatches": 0,
 }
@@ -47,6 +49,7 @@ def main() -> int:
         level / "character_physical_component_v1.cpp",
         level / "character_body_config.cpp",
         level / "physical_world.cpp",
+        level / "physical_controls.cpp",
         level / "native_body.cpp",
         level / "navigation_avoidance.cpp",
     ]
