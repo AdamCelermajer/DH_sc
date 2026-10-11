@@ -98,13 +98,48 @@ target_link_libraries(dh-foundation PRIVATE foundation_containers)
 # P16 CONTAINERS2 (T4-T6): container rewards (DropLootTable into the DROPS store), OBJS persistence,
 # and the OnOpen script contract (Summon verb). Source kernels are the existing interactions owners.
 add_library(foundation_container_drops STATIC
-  features/containers/container_loot_v1.cpp features/containers/container_open_script_v1.cpp
+  features/containers/container_loot_v1.cpp
   features/containers/container_world_v1.cpp
   features/interactions/source_container_loot_v1.cpp features/interactions/world_object_container_state_v1.cpp)
 target_link_libraries(foundation_container_drops PUBLIC foundation_containers foundation_runtime_loot foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_container_drops)
+# v20 GENERAL: authored OnOpen scripts (data/scripts/objects/*.luac, plain Lua text) run in the original Lua
+# runtime (the dh2_script_runtime recipe, minus script_constants.cpp which foundation_runtime_potion owns).
+add_library(foundation_container_open_lua STATIC features/containers/container_open_script_v1.cpp
+  ../script-runtime/script_design_bindings.c ../script-runtime/script_function_alias.cpp
+  ../script-runtime/script_game_bindings.c ../script-runtime/script_int_bindings.cpp
+  ../script-runtime/script_object_bridge.c ../script-runtime/script_runtime_return_v3.c
+  ../script-runtime/script_scalar_bindings.c
+  ../script-runtime/lua/lapi.c
+  ../script-runtime/lua/lauxlib.c
+  ../script-runtime/lua/lbaselib.c
+  ../script-runtime/lua/lcode.c
+  ../script-runtime/lua/ldebug.c
+  ../script-runtime/lua/ldo.c
+  ../script-runtime/lua/ldump.c
+  ../script-runtime/lua/lfunc.c
+  ../script-runtime/lua/lgc.c
+  ../script-runtime/lua/llex.c
+  ../script-runtime/lua/lmathlib.c
+  ../script-runtime/lua/lmem.c
+  ../script-runtime/lua/lobject.c
+  ../script-runtime/lua/lopcodes.c
+  ../script-runtime/lua/lparser.c
+  ../script-runtime/lua/lstate.c
+  ../script-runtime/lua/lstring.c
+  ../script-runtime/lua/lstrlib.c
+  ../script-runtime/lua/ltable.c
+  ../script-runtime/lua/ltablib.c
+  ../script-runtime/lua/ltm.c
+  ../script-runtime/lua/lundump.c
+  ../script-runtime/lua/lvm.c
+  ../script-runtime/lua/lzio.c)
+target_include_directories(foundation_container_open_lua PUBLIC ../script-runtime PRIVATE ../script-runtime/lua)
+target_compile_options(foundation_container_open_lua PRIVATE -fno-fast-math -ffp-contract=off)
+target_link_libraries(foundation_container_open_lua PRIVATE m)
+target_link_libraries(dh-foundation PRIVATE foundation_container_open_lua)
 add_executable(container_open_script_v1_tests features/containers/container_open_script_v1_tests.cpp)
-target_link_libraries(container_open_script_v1_tests PRIVATE foundation_container_drops)
+target_link_libraries(container_open_script_v1_tests PRIVATE foundation_container_drops foundation_container_open_lua)
 
 # P16 DESPAWN: automatic despawn after death (state machine; isolated test with fake owners).
 add_library(foundation_despawn STATIC features/despawn/despawn_after_death_v1.cpp)
@@ -846,12 +881,15 @@ add_library(foundation_runtime_enemy STATIC
   features/enemy_ai/runtime_enemy_controller_v1.cpp
   features/enemy_ai/runtime_enemy_navigation_v1.cpp
   features/enemy_ai/monster_decisions.cpp
-  features/companions/follower_decision_v1.cpp features/companions/runtime_follower_controller_v1.cpp) # B077 FOLLOW
+  features/companions/follower_decision_v1.cpp features/companions/runtime_follower_controller_v1.cpp
+  features/companions/catch_up_buff_v1.cpp) # B077 FOLLOW; v20 GENERAL catch-up buff from the authored AI script
 target_link_libraries(foundation_runtime_enemy PUBLIC foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_enemy)
 # B077 FOLLOW: pure follower decision tests (CharAI::_UpdateMaster events, follower.luac / rene.luac).
 add_executable(follower_decision_v1_tests features/companions/follower_decision_v1_tests.cpp features/companions/follower_decision_v1.cpp)
 add_test(NAME follower_decision_v1 COMMAND follower_decision_v1_tests)
+add_executable(catch_up_buff_v1_tests features/companions/catch_up_buff_v1_tests.cpp features/companions/catch_up_buff_v1.cpp)
+add_test(NAME catch_up_buff_v1 COMMAND catch_up_buff_v1_tests)
 
 # P16 SPAWN: generic spawn-character-from-template owner (pool, plan, placement,
 # clip policy) and its focused test over real CharacterTable/profile assets.

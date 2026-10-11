@@ -1,18 +1,21 @@
 #pragma once
 
-// P16 CONTAINERS2 (T6): OnOpen script contract for authored containers.
+// P16 CONTAINERS2 (T6) / v20 GENERAL: OnOpen of an authored container.
 //
-// The original OnOpen bodies (data/scripts/objects/*_spawn_container.luac) are
-// small decision trees: GetRand(0,100) draws, `slot < percent` tests and
-// Summon(CharacterTable row, spawn=true, 0,0,0, relative) calls. They are kept as
-// DATA here (one contract per authored script name), and one generic interpreter
-// runs any contract with injected services. Nothing is keyed by map or level.
+// The OnOpen body is the authored file data/scripts/objects/<script>.luac. Despite its extension it is plain
+// Lua source (for example moth_spawn_container: local prob_spawn = 25; calc_spawn = GetRand(0,100); if
+// calc_spawn < prob_spawn then Summon(GetPyOID("CharacterTable", "Swamp_Moth_Minions"), true, 0.0, 0.0, 0.0,
+// true) end). It runs in the original Lua runtime (port/script-runtime, dh2_script_vm), with the game
+// callbacks bound below. No script name, map, or container is special-cased here.
 //
-// Unknown script names are not an error: the caller logs them once. A Summon
-// that the spawn owner refuses is a normal script outcome (the Lua call returns
-// and the script continues), reported in the run report.
+// Bound callbacks: GetRand(lo, hi), GetPyOID("CharacterTable", row), Summon(oid, spawn, x, y, z, relative),
+// Trace(text), GetName(). Any other game call raises a Lua error, so the open fails closed and is logged.
+//
+// The OnOpen actor argument is passed as nil. The original passes the opener; the damage branch of
+// container.luac (DealDamages / actor:GetName / actor:PlayFX) is therefore not executed. That gap is listed in
+// the v20 GENERAL report and is not hidden by a fallback.
 
-#include <array>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <string>
@@ -20,58 +23,44 @@
 
 namespace dh::foundation::containers {
 
-struct OpenScriptStepV1 {
-    enum class Kind : std::uint8_t { draw, if_less, summon };
-    Kind kind = Kind::draw;
-    // draw: GetRand(0,100) written to `slot`. if_less: tests slots[slot] < percent.
-    std::int32_t slot = 0;
-    std::int32_t percent = 0;
-    // summon: CharacterTable row name (GetPyOID("CharacterTable", name)).
-    std::string character;
-    std::vector<OpenScriptStepV1> then_steps;
-    std::vector<OpenScriptStepV1> else_steps;
-};
-
-struct OpenScriptContractV1 {
-    std::string script;                 // authored row script name (no .luac)
-    std::vector<OpenScriptStepV1> steps;
-};
-
-// Built-in contracts mirrored from the original scripts (see the .cpp).
-const std::vector<OpenScriptContractV1>& open_script_contracts_v1();
-const OpenScriptContractV1* find_open_script_contract_v1(const std::string& script);
-
 struct OpenScriptSummonRequestV1 {
-    std::string character;    // CharacterTable row
-    bool spawn = true;        // Summon(..., spawn=true)
+    std::string character;     // CharacterTable row (GetPyOID("CharacterTable", row))
+    bool spawn = true;         // Summon(..., spawn)
+    float offset[3] = {0, 0, 0};
+    bool relative = true;      // Summon(..., relative): offset from the opened object
 };
 
 // GetRand(lo, hi): inclusive bounds, as in the original scripts.
 using OpenScriptRandomFn = std::function<bool(std::int32_t lo, std::int32_t hi,
                                               std::int32_t& value, std::string& error)>;
-// One Summon call. Returns true when the owner spawned the character. A false
-// return with `reason` set is a refused summon (the script continues).
+// One Summon call. Returns true when the owner spawned the character. A false return with `reason` set
+// is a refused summon: a normal script outcome, the Lua call returns false and the script continues.
 using OpenScriptSummonFn = std::function<bool(const OpenScriptSummonRequestV1& request,
                                               std::string& reason)>;
+
+struct OpenScriptServicesV1 {
+    OpenScriptRandomFn random;
+    OpenScriptSummonFn summon;
+    // GetPyOID("CharacterTable", row) returns the row index in this table (null: the call fails).
+    const std::vector<std::string>* character_rows = nullptr;
+    std::string object_name;   // GetName()
+};
 
 struct OpenScriptRunReportV1 {
     std::size_t draws = 0;
     std::size_t summon_calls = 0;
     std::size_t summons_spawned = 0;
-    // One line per Summon call, for the caller's single log line each.
-    std::vector<std::string> summon_lines;
+    std::vector<std::string> summon_lines; // one line per Summon call
+    std::vector<std::string> trace_lines;  // Trace() text, in order
 };
 
-// Runs one contract. Draws happen in source order; a random failure aborts.
-bool run_open_script_v1(const OpenScriptContractV1& contract,
-                        const OpenScriptRandomFn& random,
-                        const OpenScriptSummonFn& summon,
-                        OpenScriptRunReportV1& report, std::string& error);
+// Runs OnOpen(nil) of one authored source. `chunk_name` only labels diagnostics.
+bool run_authored_open_script_v1(const std::string& source, const std::string& chunk_name,
+                                 const OpenScriptServicesV1& services,
+                                 OpenScriptRunReportV1& report, std::string& error);
 
-// Every CharacterTable row one contract can Summon (the pool reservation input for a level).
-std::vector<std::string> open_contract_summon_characters_v1(const OpenScriptContractV1& contract);
-
-// Every CharacterTable row that any built-in contract can Summon.
-std::vector<std::string> open_script_summon_characters_v1();
+// CharacterTable rows named by literal GetPyOID("CharacterTable", "row") arguments of Summon calls in the
+// authored source. Used to reserve spawn-pool capacity before the level runs.
+std::vector<std::string> authored_open_summon_rows_v1(const std::string& source);
 
 } // namespace dh::foundation::containers
