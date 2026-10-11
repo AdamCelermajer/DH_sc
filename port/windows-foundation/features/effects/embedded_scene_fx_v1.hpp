@@ -34,7 +34,7 @@ public:
     // attached; false with reason set when the model has no authored FX family or the resource is refused.
     bool attach(std::uint64_t key, const std::string& uri,
                 const std::shared_ptr<const std::vector<std::uint8_t>>& bytes,
-                RuntimeEffectsFactoryV1& factory, std::string& reason);
+                RuntimeEffectsFactoryV1& factory, std::string& reason, bool include_meshes = true);
     void detach(std::uint64_t key);
     void clear();
     bool attached(std::uint64_t key) const { return slots_.count(key) != 0; }
@@ -60,6 +60,8 @@ private:
         std::shared_ptr<dh2::fx::CharacterParticleFxResourceV2> resource;
         std::string uri;
         bool active = false;
+        bool include_meshes = true;
+        std::uint32_t debug_counter = 0; // DH_FX_DEBUG=2 sampling
     };
     std::map<std::uint64_t, Slot> slots_;
 };

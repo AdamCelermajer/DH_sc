@@ -1,0 +1,50 @@
+# B101 wall of fire — implementation checkpoint, OPEN
+
+Owner: `/root/b101_b105_effects`; follow-up owner: root, pending fresh read-only review. Worktree `DH_wt/fixfx`, branch `fix/b101-b105`. B105 is separately owned by the fresh Celeste session. This report supersedes combined completion language; B105 is not resolved here.
+
+## Investigation before implementation
+
+Visual evidence inspected: `DH_wt/fix101-scratch/p1dense.png` (P1 612–623 s, dense sequence), `p2sheet.png` (P2 340–376 s), and earlier baseline/user shot-19 recorded in `B101-B105-report.md`. Original directly shows thick orange billowing puffs with bright cores distributed along the closed doorway. The port baseline showed a smooth red sheet and essentially no visible puffs. The reference camera is cinematic; our focused captures use gameplay camera, so these are mechanism/appearance comparisons, not identical-camera pixel comparisons.
+
+Logic evidence: completed root reports `B101-IDA-door-fire-mechanism.md` and `B105-IDA-particle-emitter-system.md`; original pseudocode additionally inspected at `0x64bf00`, `0x64e830`, `0x667f18`, `0x612bbc`, `0x6268b0`, `0x582e64`. Original Door class initializes the closed/opened clip from state; Open/Close admission requires the opposite state and not busy. Door owns no separate generated FX or light. Its BDAE combines skinned `_mesh_fire` and one GL_PCloud emitter. Existing activation/state/clip gates remain in place; this patch changes their renderer consumer.
+
+- `0x656450` reads shape as RadiusLength/Width/Height. `0x64e750` constructs PDBox(Width,Height,RadiusLength); `0x69b21c` interprets those as centered X/Y/Z dimensions. Actual fire is X=1,Y=862.5,Z=1. Parent/world matrix transforms positions, and normalizes transformed velocity direction without scaling particle size/speed.
+- Actual model decode verified: render-kind field +0x50=0; pointed render block begins with 3 (billboard), remaining decoded words zero. AnimKeyMappingType +0x64=1, AnimLength=0.6667, offset=0, scale=1. Shape +0x0c is (1,1,862.5). See scratch `matdump.py`, `dump_bdae.py` and `ida/resume-bind.c`.
+- `PColorModel::initPColor` at `0x64bf00` initializes per-particle offset and animation length, skipping random draws for zero color variation. `applyPColor` at `0x64e830` samples time=(age*length/life*scale+offset)*1000 for mapping 1; otherwise (age+offset)*1000. Samples occur after age/expiry, before size/motion/render, and live particles survive clip loops. `0x64fd60` binds material color animation separately from clip-driven emitter parameter animation. Actual fire uses a type-86 uchar4 track on Standard_20, `diffuse-color`; clip-driven birth-rate uses type 28. The fuller forceBind parameter dispatch is recorded in the reused helper audit; broader unencountered parameter/vector tracks were not added here.
+- Type-86 key getter `0x612bbc` copies four bytes without swizzle; interpolation `0x6268b0` accumulates adjacent weighted byte values. Actual keys are RGBA (243,47,1,255), not a packed BGRA interpretation. Particle snapshots neutralize material color when the track is present, matching render `0x6572b8`.
+- Original billboard UV baker `0x6c01d8` is empty. Texture transform tracks, when bound, sample stepwise into particle state; they do not alter PCloud quad UVs. Actual fire has no texture-transform track. The material atlas matrix still applies once.
+- Original camera builder `0x582e64` stores +forward in view row 2; port OpenGL camera stores -forward. Passing the OpenGL matrix to the original billboard baker reversed winding and backface-culled the puffs. `sourceCameraViewMatrix` converts this boundary while preserving original quad index order and culling.
+- Actual pass/shader checked: ONE,ONE additive, depth test on/write off, backface cull on. Available `ProfileCOMMON_emul_VS/FS.glsl` does Color0*DiffuseColor*texture; ADDITIVEBLEND only changes the fog branch. No justified brightness multiplier was introduced. Fire BDAE SHA F3910259F2674B9DEA485D63F848DF94FCD716720544FC1B7A090CE2019BB1D3 and smoke texture SHA 4575579F951123FE869E875D4E76CE45A6BF02CDF78A99A976F54FE815FE35F0 match the Android audit inputs and runtime package copies.
+
+Expected behavior/test plan recorded before code in `B101-B105-report.md`: along-wall centered emission, per-particle age colors, independent lifetime through clip loops, source clip birth-rate changes, original static billboard UVs, and visible moving puffs in an isolated production run. No guessed visual tuning or per-door special case.
+
+## Implementation
+
+`6dd26c6d`: shared `particle_box_from_shape_v2` used by all five sibling authored resource consumers; optional `ParticleColorTracksV1` model hook in ParticleCloudRuntimeV3; V32 actual track sampling/parameter storage and source RGBA geometry; safe reversal of carried-over ordinary actor mesh suppression. Actor attachments reject emitter-free models and contribute particles only while CharacterVisual continues normal mesh draw. This is regression containment, not a B105 completion claim.
+
+`52700217`: source-FX camera convention conversion, verified against original camera/billboard consumer, and focused fire resource tests. Final outcome-test commit extends duplicate/zero-rate/expiry/reset branches. No normal Door state/activation behavior changed.
+
+## Isolated tests
+
+`embedded_particle_fidelity` passes. It exercises non-equal box dimensions and rotated emission volume, mapping 0/1 and independent ages, offset/scale, shared variation RNG/no-draw cases, malformed inputs, original camera winding, real fire BDAE color sampling/neutral material/RGBA order, particle continuity through clip loops, duplicate absolute update, open burst/cap, zero birth rate preserving existing particles then expiry, and backward simulation clock reset. A malformed resource refuses construction and clears the output.
+
+Full ctest: 168/169 pass, only documented worktree `session_skill_binding` failure. Log `DH_wt/fixfx_work/ctest-b101.txt`. After extending the test outcome branches, focused ctest was rerun and passed; production code/executable did not change.
+
+## Integrated runtime and visual verification
+
+Frozen EXE: `DH_wt/fixfx_work/runtime-b101/dh-foundation.exe`, SHA256 `D0286E710F9BFBB8A590811655F093D1643982420B9F36695906BC3CD98F7E71`, production source checkpoint `52700217`. `p14_build -Name fixfx -Jobs 2` exit 0. Quiet runs have DH_AUDIO_SILENT=1 and hidden desktops; logs and captures under `fixfx_work/runs`.
+
+- `d2`: first corrected-axis/color build; showed simulated particles but no visible puffs because the camera-facing regression remained. This diagnostic reused the prior template's accepted-package working directory; no profile/gameplay save write occurred (log audited; --game-save was scratch). Subsequent runs use a scratch working directory and explicit scratch --save and --game-save. Accepted v20 EXE hash remains 8BA1E537D33D4D4FD5B7DD9822C4CAB5080917FE2427A3903AB7C247827E8CCE.
+- `d3`: source-camera correction makes puffs visibly render in the normal production frame path. Seven captures f240…f300 at 10-frame spacing. No source-FX presentation diagnostic.
+- `firecenter`: same frozen EXE, hero positioned to include the whole red doorway, frames 240…300. `sequence.png` contains f240/250/260/270. Direct observation: moving orange-red smoke puffs distributed along the wall, independently changing shape/intensity. A broad flat red flame sheet remains conspicuous, and the smoke is thinner/redder than the original thick orange wall.
+- `smokeseq`: diagnostic DH_FX_HIDE=mesh, same frozen EXE/camera. Sequence confirms changing billboard puffs along the wall while the flame sheet is hidden. This diagnostic alone is not the production acceptance result.
+- Logs confirm Standard_20 smoke particle vertex colors vary (e.g. 243,47,1 and 97,19,0), neutral material (1,1,1,1), up to 25 live puffs on the closed idle clip, along-wall extent rather than a vertical column. Source Standard_202 flame mesh remains skinned through the existing palette.
+- Unrelated inherited package gap: quest_marker_blue.bdae unavailable. B101 fire resources load successfully. Sound was silent by design and not assessed.
+
+## Verdict and remaining gaps
+
+**Matches IDA:** emission axes, source color initialization/mapping/order, actual type-86 byte order, clock separation, billboard UV policy, camera-facing boundary, original material pass. These have focused tests and normal production execution.
+
+**Matches video partially:** puffs now exist, move, and span the wall. **Does not yet match video:** the expected thick tall orange/yellow billowing wall is not reproduced closely enough; the static red sheet remains visibly prominent. Do not move B101 to RESOLVED. Root owns follow-up implementation after a fresh review; current runtime evidence should be inspected before choosing the next justified fix.
+
+**Not verified:** identical cinematic camera/state/version comparison; real-production Open/Close outcome sequence (isolated real-resource gate tests pass); unrelated authored material/parameter track domains beyond those present in the fire resource; texture-track fixture (fire has none). B105 faery glow/actor pose integration belongs to the fresh B105 owner. No art replacement, authored brightness tuning, or source behavior was invented to conceal the remaining mismatch.

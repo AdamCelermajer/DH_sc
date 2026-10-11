@@ -101,7 +101,7 @@ public:
   // below; untouched diagnostic context cells never become gameplay defaults.
   ParticleContextSeed92 context{};generation_=ParticleGenerationOwner::create(context);if(!register_particle_cloud_models_v1(*generation_,models_))throw std::runtime_error("Blood parameter owner registration");
   const int initialized=initialize_particle_resource_v2(*generation_,input_,{this,emitter,shape},{this,vector,render_initialize});if(initialized)throw std::runtime_error(failure_.empty()?"Required blood resource initialization":failure_);
-  const float center[3]{};if(input_.record[2]==0?dh2_particle_box_construct_v2(&box_,dimensions_):dh2_particle_sphere_construct_v1(&models_.sphere,center,radius_,0))throw std::runtime_error("Blood source sphere constructor");
+  const float center[3]{};if(input_.record[2]==0?particle_box_from_shape_v2(&box_,dimensions_):dh2_particle_sphere_construct_v1(&models_.sphere,center,radius_,0))throw std::runtime_error("Blood source sphere constructor");
   dh2_particle_billboard_uv_v1(uv_);
   scalar_animation_=ParticleAnimationResource::create(bytes_->data(),bytes_->size(),error);if(!scalar_animation_)return false;
   std::int32_t birth_index=-1;for(unsigned i=0;i<scalar_animation_->track_count();++i)if(*scalar_animation_->target(i)==input_.name){if(birth_index!=-1)throw std::runtime_error("Duplicate emitter birth animation");birth_index=std::int32_t(i);}if(birth_index<0)throw std::runtime_error("Required authored emitter birth animation");birth_={scalar_animation_,generation_->parameter("BirthRate"),std::uint32_t(birth_index),0};
