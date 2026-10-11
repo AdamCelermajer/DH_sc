@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -67,6 +68,15 @@ int main() {
     check(motion.clipped && motion.first_blocking_door == 201 && motion.position_xy[0] < -1.9f,
           "swept segment cannot tunnel through a closed door");
 
+    // A rounded Minkowski corner must not become the square corner of an
+    // expanded AABB: this segment enters both expanded slabs but stays outside
+    // the source rectangle's actor-radius-plus-slop corner arc.
+    const float corner_from[]{-2.0f, -2.0f}, corner_near_miss[]{-1.1f, -1.1f};
+    check(constrain_door_motion_v1({wall}, actor, corner_from, corner_near_miss, motion, error), error.c_str());
+    check(!motion.clipped && motion.position_xy[0] == corner_near_miss[0] &&
+          motion.position_xy[1] == corner_near_miss[1],
+          "diagonal near-miss remains outside the rounded source contact corner");
+
     const float slide_from[]{-5, 5}, slide_to[]{5, 7};
     check(constrain_door_motion_v1({wall}, actor, slide_from, slide_to, motion, error), error.c_str());
     check(motion.clipped && motion.position_xy[0] <= -1.99f && motion.position_xy[1] > 6.9f,
@@ -85,6 +95,16 @@ int main() {
     auto open_wall = wall; open_wall.binding.filter_enabled = false;
     check(constrain_door_motion_v1({open_wall}, actor, cross_from, cross_to, motion, error), error.c_str());
     check(!motion.clipped && motion.position_xy[0] == cross_to[0], "opened door filter permits passage");
+    auto no_collision_wall = wall; no_collision_wall.binding.collision_enabled = false;
+    no_collision_wall.bounds_xy[0] = std::numeric_limits<float>::quiet_NaN();
+    check(constrain_door_motion_v1({no_collision_wall}, actor, cross_from, cross_to, motion, error), error.c_str());
+    check(!motion.clipped && motion.position_xy[0] == cross_to[0],
+          "authored door_collision=false has no body or motion gate");
+    auto absent_wall = wall; absent_wall.binding.present = false;
+    absent_wall.bounds_xy[0] = std::numeric_limits<float>::quiet_NaN();
+    check(constrain_door_motion_v1({absent_wall}, actor, cross_from, cross_to, motion, error), error.c_str());
+    check(!motion.clipped && motion.position_xy[0] == cross_to[0],
+          "condition-absent door has no body or motion gate");
     actor.move_collision_enabled = false;
     check(constrain_door_motion_v1({wall}, actor, cross_from, cross_to, motion, error), error.c_str());
     check(!motion.clipped && motion.position_xy[0] == cross_to[0], "MoveActor ignore-collision policy permits passage");

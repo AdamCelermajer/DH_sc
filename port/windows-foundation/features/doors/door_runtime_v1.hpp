@@ -51,6 +51,10 @@ struct DoorInstanceV1 {
     std::string deactivate_cond;
     bool opened_authored = false;
     bool door_collision = true; // source property default at Door construction
+    // The same authored GameObject placement inputs used to build transform.
+    // Position includes the containing module offset; rotation and scale remain authored.
+    std::array<float, 3> rotation_degrees{};
+    std::array<float, 3> visual_scale{1.0f, 1.0f, 1.0f};
 };
 
 struct DoorViewV1 {
@@ -69,6 +73,10 @@ struct DoorPhysicalBindingV1 {
     bool collision_enabled = true;
     bool present = false;
     bool filter_enabled = true;
+    // Source ApplyMeshBox absolute box in game units; valid only after adopt()
+    // loaded the same visual and projected its _colbox_/CalcMeshBox providers.
+    float source_bounds_xy[4]{};
+    bool source_bounds_valid = false;
 };
 
 class DoorRuntimeV1 {
@@ -127,6 +135,8 @@ private:
         DoorStateV1 state = DoorStateV1::closed;
         bool collision_enabled = true; // authored door_collision property, source ctor default true
         bool filter_enabled = true;    // source PhysicalObject filter state, changed only at Opened/Closed
+        float source_bounds_xy[4]{};
+        bool source_bounds_valid = false;
         bool busy = false;
         bool present = true;
         bool dirty = false;

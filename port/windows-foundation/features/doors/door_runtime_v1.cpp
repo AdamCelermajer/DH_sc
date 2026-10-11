@@ -1,9 +1,13 @@
 #include "door_runtime_v1.hpp"
 
 #include "../../animation_markers.hpp"
+#include "door_collision_geometry_v1.hpp"
 
+#include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <cstdlib>
+#include <sstream>
 #include <stdexcept>
 
 namespace dh::foundation::doors {
@@ -16,6 +20,19 @@ std::string property(const ActorDefinition& definition, const char* key) {
 
 bool is_no_condition(const std::string& name) {
     return name.empty() || name == "Invalid";
+}
+
+std::array<float, 3> authored_tuple(const ActorDefinition& definition, const char* key,
+                                    std::array<float, 3> fallback) {
+    const auto text = property(definition, key);
+    if (text.empty()) return fallback;
+    std::istringstream stream(text);
+    for (auto& value : fallback)
+        if (!(stream >> value) || !std::isfinite(value))
+            throw std::runtime_error("Door " + definition.name + ": invalid " + key + " tuple");
+    stream >> std::ws;
+    if (!stream.eof()) throw std::runtime_error("Door " + definition.name + ": trailing " + key + " tuple data");
+    return fallback;
 }
 
 // Clip names: the source spells them "Open", "IdleOpened"; the embedded scene stores them lower case.
@@ -49,6 +66,8 @@ bool DoorRuntimeV1::load(const containers::ContainerTablesV1& tables, const std:
         instance.name = definition.name;
         instance.data = property(definition, "data");
         instance.transform = definition.placement;
+        instance.rotation_degrees = authored_tuple(definition, "rotation", {});
+        instance.visual_scale = authored_tuple(definition, "scale", {1.0f, 1.0f, 1.0f});
         instance.activate_cond = property(definition, "activate_cond");
         instance.deactivate_cond = property(definition, "deactivate_cond");
         instance.opened_authored = property(definition, "opened") == "1";
@@ -111,6 +130,21 @@ bool DoorRuntimeV1::adopt(const AssetCatalog& assets, std::vector<std::string>& 
         if (!ok) {
             notices.push_back("door visual unavailable " + slot.instance.visual_file + ": " + loadError);
             continue;
+        }
+        if (slot.collision_enabled) {
+            const float position[]{slot.instance.transform[12], slot.instance.transform[13], slot.instance.transform[14]};
+            float source_box[6]{};
+            std::string geometryError;
+            if (source_door_apply_mesh_box_v1(assets, *visual, position,
+                    slot.instance.rotation_degrees.data(), slot.instance.visual_scale.data(), source_box, geometryError)) {
+                slot.source_bounds_xy[0] = source_box[0];
+                slot.source_bounds_xy[1] = source_box[1];
+                slot.source_bounds_xy[2] = source_box[3];
+                slot.source_bounds_xy[3] = source_box[4];
+                slot.source_bounds_valid = true;
+            } else {
+                notices.push_back("door source ApplyMeshBox unavailable " + slot.instance.name + ": " + geometryError);
+            }
         }
         std::string markerError;
         for (int direction = 0; direction < 2; ++direction) {
@@ -185,8 +219,16 @@ std::vector<DoorViewV1> DoorRuntimeV1::views() {
 std::vector<DoorPhysicalBindingV1> DoorRuntimeV1::physical_bindings() const {
     std::vector<DoorPhysicalBindingV1> out;
     out.reserve(slots_.size());
-    for (const auto& slot : slots_)
-        out.push_back({slot.instance.stableId, slot.collision_enabled, slot.present, slot.filter_enabled});
+    for (const auto& slot : slots_) {
+        DoorPhysicalBindingV1 binding{};
+        binding.stable_id = slot.instance.stableId;
+        binding.collision_enabled = slot.collision_enabled;
+        binding.present = slot.present;
+        binding.filter_enabled = slot.filter_enabled;
+        std::copy_n(slot.source_bounds_xy, 4, binding.source_bounds_xy);
+        binding.source_bounds_valid = slot.source_bounds_valid;
+        out.push_back(binding);
+    }
     return out;
 }
 
