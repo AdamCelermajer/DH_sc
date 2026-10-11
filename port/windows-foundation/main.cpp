@@ -36,6 +36,7 @@
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
 #include "features/combat/context_button_v1.hpp" // P16 CONTEXT: Space context button + action icon
 #include "features/interactions/interactable_registry_v1.hpp" // P16 CONTEXT: interaction-type providers (chests/NPCs register here)
+#include "features/interactions/interaction_approach_v1.hpp" // B069: AI_IsInInteractionRange + walk to the interaction spot
 #include "features/generic_skills/runtime_skills_menu_v1.hpp"
 #include "features/generic_skills/runtime_skill_progression_v1.hpp"
 #include "features/generic_skills/runtime_skill_session_training_v1.hpp"
@@ -1452,6 +1453,8 @@ int main(int argc,char** argv) {
         loadContent(scene,visual);
         f::OriginalMeleeBindings meleeBindings;std::shared_ptr<f::CombatSession> combatSession;f::ObjectOfInterestOwnerV1 objectOfInterest; // B004/B029
         f::InteractableRegistryV1 interactables; // P16 CONTEXT: non-actor interaction-type providers (empty until containers/NPC register)
+        // B069: context-button approach (source AI_SetTarget(OOI) then walk to GetInteractionSpot until AI_IsInInteractionRange).
+        f::ActorId contextApproachTarget=f::invalid_actor_id;std::size_t contextApproachIndex=0;int contextApproachStartFrame=0;double contextApproachClock=0,contextApproachCheckClock=0;float contextApproachCheckDistance=0;
         int lastActionIcon=-2; // P16 CONTEXT: last published HUD action-button frame (log on change)
         bool actionButtonHeld=false; // P16 HUDART: Space held this frame (pressed ring of the action button)
         const auto bindSourcePlayerLocomotion=[&](f::CombatSession& session) {
@@ -4321,6 +4324,60 @@ int main(int argc,char** argv) {
                 ctxInput.object_is_actor=combatSession->actor(objectOfInterest.object())!=nullptr; // P16 SPACEBTN
                 const auto ctxDecision=f::decide_context_button_v1(ctxInput);
                 if(!ctxDecision.attack_held)gameplayInput.attack=false;
+                // B069: source CharAI::AI_IsInInteractionRange (0x3d4f98) for a container target; the hero walks to the object
+                // (Cmd_MoveTo(GetInteractionSpot)) until it is true, then AI_InteractWith runs (Container::Interact).
+                const auto ctxContainerRange=[&](std::size_t ci)->bool {
+                    const auto& inst=containerRuntime.instance(ci);
+                    f::InteractionRangeInputV1 in;
+                    in.owner_target_position=ctxOwner->transform.position; // GameObject::GetTargetPosition = +352 object position (the +388 cache is not maintained for the player)
+                    in.interaction_spot={inst.transform[12],inst.transform[13],inst.transform[14]}; // no 'interaction_position' node in the chest scenes: GetTargetPosition
+                    in.owner_melee_radius=combatSession->world()->melee_reach(combatSession->player_id());
+                    in.target_radius=containerRuntime.interaction_radius(ci);
+                    if(const auto* ownerProps=combatSession->world()->combat_properties(combatSession->player_id()))
+                        if(const auto* ownerAi=dh2::data::ai_props(combatSession->world()->factions(),ownerProps->sheets.resolved[1]))in.owner_interact_radius=ownerAi->interact_radius;
+                    in.target_type=containerRuntime.interaction_type(ci);
+                    return f::interaction_in_range_v1(in);
+                };
+                const auto ctxUseContainer=[&](std::size_t ci) {
+                    const float p[3]={ctxOwner->transform.position[0],ctxOwner->transform.position[1],ctxOwner->transform.position[2]};
+                    const auto r=containerRuntime.interact(ci,p,std::numeric_limits<float>::infinity()); // range already satisfied by ctxContainerRange
+                    std::cout<<"Context container declaration="<<containerRuntime.instance(ci).name<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" distance="<<r.distance<<" frame="<<drawn<<'\n';
+                };
+                {   // B069: approach update (cancelled by manual movement, a lock, a spent container, a stall or a timeout)
+                    const bool approachLocked=!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()];
+                    if(contextApproachTarget!=f::invalid_actor_id) {
+                        const char* cancelReason=nullptr;
+                        const auto st=containerRuntime.state(contextApproachIndex);
+                        if(approachLocked)cancelReason="controller_locked";
+                        else if(uiInput.actions.move2D.x!=0||uiInput.actions.move2D.y!=0)cancelReason="manual_move";
+                        else if(st==f::containers::kContainerStateActivating||st==f::containers::kContainerStateOpened)cancelReason="container_spent";
+                        else if(ctxContainerRange(contextApproachIndex)) {
+                            std::cout<<"Context approach arrived frame="<<drawn<<" after="<<drawn-contextApproachStartFrame<<" frames\n";
+                            contextApproachTarget=f::invalid_actor_id;
+                            ctxUseContainer(contextApproachIndex);
+                        } else {
+                            contextApproachClock+=gameplayDt;
+                            const auto& inst=containerRuntime.instance(contextApproachIndex);
+                            const float wx=inst.transform[12]-ctxOwner->transform.position[0],wy=inst.transform[13]-ctxOwner->transform.position[1];
+                            const float remaining=std::hypot(wx,wy);
+                            if(contextApproachClock-contextApproachCheckClock>=.75) { // port safety (no source leash decoded): give up when blocked
+                                if(contextApproachCheckDistance-remaining<5.f)cancelReason="stalled";
+                                contextApproachCheckClock=contextApproachClock;contextApproachCheckDistance=remaining;
+                            }
+                            if(!cancelReason&&contextApproachClock>12.)cancelReason="timeout";
+                            if(!cancelReason) {
+                                const auto basis=options.sourceCamera?originalCamera.movementBasis():f::cameraMovementBasis(freeCamera.pose());
+                                f::InteractionMove2DV1 walk;
+                                if(f::camera_relative_move_v1(basis.right.x,basis.right.y,basis.forward.x,basis.forward.y,wx,wy,walk)){gameplayInput.move2D={walk.x,walk.y};gameplayInput.run=false;}
+                                else cancelReason="no_direction";
+                            }
+                        }
+                        if(cancelReason) {
+                            std::cout<<"Context approach cancelled frame="<<drawn<<" reason="<<cancelReason<<'\n';
+                            contextApproachTarget=f::invalid_actor_id;
+                        }
+                    }
+                }
                 // P16 SPACEBTN: the press-edge use is refused while the controller is locked (cutscene/tutorial LockTutorial,
                 // dead, character lock), as the source HUD does not reach Cmd_UseOOI then. Attack handling is unchanged.
                 const bool ctxControllerLocked=!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()];
@@ -4336,10 +4393,14 @@ int main(int argc,char** argv) {
                         std::size_t containerIndex=0;bool isContainer=false;
                         for(std::size_t ci=0;ci<containerRuntime.size();++ci)if(containerRuntime.instance(ci).stableId==ooi){containerIndex=ci;isContainer=true;break;}
                         if(isContainer) {
-                            float p[3]={0,0,0};
-                            if(const auto* live=combatSession->actor(combatSession->player_id())){p[0]=live->transform.position[0];p[1]=live->transform.position[1];p[2]=live->transform.position[2];}
-                            const auto r=containerRuntime.interact(containerIndex,p);
-                            std::cout<<"Context container declaration="<<containerRuntime.instance(containerIndex).name<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" distance="<<r.distance<<" frame="<<drawn<<'\n';
+                            const auto containerState=containerRuntime.state(containerIndex);
+                            if(ctxContainerRange(containerIndex)||containerState==f::containers::kContainerStateActivating||containerState==f::containers::kContainerStateOpened)
+                                ctxUseContainer(containerIndex); // in range (or spent: the runtime logs rejected_state)
+                            else { // B069: out of the interaction range: the hero walks to the object first (source Cmd_MoveTo(GetInteractionSpot))
+                                contextApproachTarget=ooi;contextApproachIndex=containerIndex;contextApproachStartFrame=drawn;
+                                contextApproachClock=contextApproachCheckClock=0;contextApproachCheckDistance=1e9f;
+                                std::cout<<"Context approach start frame="<<drawn<<" declaration="<<containerRuntime.instance(containerIndex).name<<'\n';
+                            }
                         } else if(!talkToNpcObject(ooi))
                             std::cout<<"Context button ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" status=unhandled frame="<<drawn<<" (logged)\n";
                     }

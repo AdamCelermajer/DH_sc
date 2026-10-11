@@ -72,6 +72,8 @@ target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v
 target_sources(dh-foundation PRIVATE features/combat/auto_target_marker_v1.cpp features/combat/object_of_interest_owner_v1.cpp features/combat/object_of_interest_world_v1.cpp)
 # P16 CONTEXT: Space context button, interaction-type registry, walk-over pickup contact (isolated tests: features/combat/run_context_p16_tests.ps1)
 target_sources(dh-foundation PRIVATE features/combat/context_button_v1.cpp features/interactions/interactable_registry_v1.cpp)
+# B069: context-button approach rule (AI_IsInInteractionRange + walk to the interaction spot).
+target_sources(dh-foundation PRIVATE features/interactions/interaction_approach_v1.cpp)
 add_library(foundation_runtime_potion STATIC
   features/inventory/runtime_session_potion_use_v1.cpp
   ../level-world/character_skill_application_v6.cpp ../level-world/character_skill_attack_v6.cpp
