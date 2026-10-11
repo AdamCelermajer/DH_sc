@@ -5071,7 +5071,7 @@ int main(int argc,char** argv) {
                 if(!population.set_enabled(id,true,e))return false;
                 actor->transform=home->second;
                 if(options.sourceNativeBodies&&!nativeBodies.set_position(id,home->second.position,true,e))return false;
-                f::revive_actor_state(*actor);
+                if(!combatSession->world()->revive_actor(id,e))return false; // sheet + ActorState mirror (B083)
                 return setAuthoredPhysical(id,true,e);};
             return s;
         };
@@ -5303,7 +5303,8 @@ int main(int argc,char** argv) {
             if(!combatSession){e="Character::Revive requires the live Session";return false;}
             auto* player=combatSession->world()->find_actor(combatSession->player_id());
             if(!player){e="Character::Revive: the local player Character is absent";return false;}
-            f::revive_actor_state(*player);
+            // B083: the source sheet (cells 36/41) is revived together with the ActorState mirror; the skill mana gate reads the sheet.
+            if(!combatSession->world()->revive_actor(combatSession->player_id(),e))return false;
             std::cout<<"Death Character::Revive frame="<<drawn<<" HP="<<player->health<<'/'<<player->max_health
                      <<" MP="<<player->resource<<'/'<<player->max_resource<<'\n';
             e.clear();return true;
