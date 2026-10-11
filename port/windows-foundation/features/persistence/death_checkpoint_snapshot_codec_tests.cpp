@@ -1,3 +1,4 @@
+#include <cmath>
 #include "death_checkpoint_snapshot_v1.hpp"
 #include "../../character_state.hpp"
 
@@ -51,6 +52,11 @@ bool initialize_qest(void* p,std::vector<std::uint8_t>& bytes,std::string& error
     if(facts.fail_init){error="INITQUESTS fixture failure";return false;}
     bytes=quest_blob("player-fixture",4);error.clear();return true;
 }
+void sync_fixture_sheets(PersistedPlayableActor& p){
+    auto& r=p.combat.sheets.resolved;const auto& a=p.actor;
+    r[0]=a.faction_id;r[36]=std::int32_t(std::llround(double(a.health)*256.0));r[38]=std::int32_t(std::llround(double(a.max_health)*256.0));
+    r[41]=std::int32_t(std::llround(double(a.resource)*256.0));r[43]=std::int32_t(std::llround(double(a.max_resource)*256.0));
+}
 ActorState actor(ActorId id,const char* definition,bool player,float hp){
     ActorState a;a.id=id;a.definition_id=definition;a.class_id=player?"KnightPlayerBase":"NpcBase";
     a.faction_id=0;a.health=hp;a.max_health=100;a.resource=8;a.max_resource=20;
@@ -92,11 +98,15 @@ void test_snapshot_codec_and_strict_validation(){
     check(!validate_death_checkpoint_snapshot_v1(invalidTransform,error),"nonfinite source transform is rejected");
 }
 void test_capture_applies_exact_source_checkpoint_families(){
-    GameSave game;game.level_uri="data/scene/003_darkwood.mlx";game.controlled_actor_id=1;
-    game.character.source_quest_progress_cqpg={9,8,7};game.character.gold=444;game.character.inventory.push_back({"sword","Sword",1});
+    GameSave game;game.version=4; // current save format (objects need >= 2; physical assignments need >= 3)
+    game.level_uri="data/scene/003_darkwood.mlx";game.controlled_actor_id=1;
+    game.character.id="player-fixture";game.character.name="Death Checkpoint Test";game.character.class_id="KnightPlayerBase";
+    game.character.source_quest_progress_cqpg=quest_blob("player-fixture",1);game.character.gold=444;game.character.inventory.push_back({"sword","Sword",1});
+    game.character.stats.health=51;game.character.stats.max_health=100;game.character.stats.resource=8;game.character.stats.max_resource=20; // mirror the controlled Character vitals
     PersistedPlayableActor hero;hero.actor=actor(1,"KnightPlayerBase",true,51);hero.traits.is_player=true;game.actors.push_back(hero);
     PersistedPlayableActor npc;npc.actor=actor(2,"Bandit",false,31);game.actors.push_back(npc);
     PersistedPlayableActor zoneActor;zoneActor.actor=actor(3,"AreaZone",false,1);game.actors.push_back(zoneActor);
+    for(auto& p:game.actors)sync_fixture_sheets(p); // original sheets must mirror live vitals (validate_game_save)
     auto savedChest=object(10,"Chest","chest","old-material");savedChest.state_components["container_v1"]={1,2};game.objects.push_back(savedChest);
     auto skippedModule=object(11,"SkippedModule","module","stone");game.objects.push_back(skippedModule);
     auto areaZone=object(12,"TriggerZone","zone","none");game.objects.push_back(areaZone);
@@ -114,7 +124,7 @@ void test_capture_applies_exact_source_checkpoint_families(){
           "source checkpoint capture accepts exact family facts");
     check(snapshot.actors.size()==2&&snapshot.actors[0].id==1&&snapshot.actors[0].source_cs_state==3&&
           snapshot.actors[1].id==2&&snapshot.actors[1].source_dead&&snapshot.objects.size()==1&&
-          snapshot.objects[0].id==10&&snapshot.qest==std::vector<std::uint8_t>{9,8,7},
+          snapshot.objects[0].id==10&&snapshot.qest==quest_blob("player-fixture",1),
           "capture includes eligible Characters/Containers, excludes generic Zone and skip_checkpoint module, and keeps QEST only");
     check(snapshot.qest!=std::vector<std::uint8_t>{}&&game.character.gold==444&&game.character.inventory.size()==1,
           "checkpoint projection does not mutate or copy profile gold/inventory into the subset");

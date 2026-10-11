@@ -17,10 +17,10 @@ struct GameSave {
     // Version4 appends each actor's explicit source-dead bool in actor order.
     // Earlier PC checkpoints use their old HP classification as a migration.
 };
-bool validate_game_save(const GameSave&,std::string& error);
+bool validate_game_save(const GameSave&,std::string& error,bool checkpointUnboundVitals=false);
 bool capture_game_save(const std::string& level_uri,ActorId controlled,
-                       const CharacterState&,const PlayableActorWorld&,GameSave&,std::string& error);
-bool save_game(const std::filesystem::path&,const GameSave&,std::string& error);
+                       const CharacterState&,const PlayableActorWorld&,GameSave&,std::string& error,bool checkpointCapture=false);
+bool save_game(const std::filesystem::path&,const GameSave&,std::string& error,bool checkpointWrite=false);
 bool load_game(const std::filesystem::path&,GameSave&,std::string& error);
 // Version1 checkpoint policy requires matching level, ID/definition roster,
 // authorized action groups, original profile/class/faction/role and equipped

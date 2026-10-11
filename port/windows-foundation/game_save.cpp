@@ -235,7 +235,7 @@ bool checkpoint_binding_compatible(const PersistedPlayableActor& saved,const Act
     error.clear();return true;
 }
 }
-bool validate_game_save(const GameSave& g,std::string& error){
+bool validate_game_save(const GameSave& g,std::string& error,bool checkpointUnboundVitals){
     const auto fail=[&](const char* why){error=why;return false;};
     if(g.version<1||g.version>4)return fail("Unsupported game save version");
     if((g.version==1&&!g.objects.empty())||g.objects.size()>character_collection_limit)return fail("Invalid saved object version/count");
@@ -258,9 +258,10 @@ bool validate_game_save(const GameSave& g,std::string& error){
              {p.actor.max_health,38},{p.actor.resource,41},{p.actor.max_resource,43}}){
             const double raw=std::round(double(value.first)*256.0);
             const auto source=p.combat.sheets.resolved[value.second];
-            // An unbound source property (-1) has no live counterpart; live 0 is its only faithful value (I024: a targetable
-            // NPC without MP was refused the checkpoint under the previous non-targetable-only rule).
-            const bool unavailable=source<0&&value.first==0;
+            // An unbound source property (-1) has no live counterpart, so live 0 is its only faithful value. Profile and F5
+            // saves keep the strict non-targetable-only rule (combat_session test: forged targetable vitals must be refused).
+            // Checkpoint capture (checkpointUnboundVitals) admits the unbound pair for targetable NPCs, which the source has.
+            const bool unavailable=source<0&&value.first==0&&(checkpointUnboundVitals||(!p.traits.targetable&&p.actor.attack_ids.empty()));
             if(raw<INT32_MIN||raw>INT32_MAX||(!unavailable&&std::int32_t(raw)!=source))
                 return fail(("Saved live vital/original sheet mismatch actor="+std::to_string(p.actor.id)+
                     " field="+std::to_string(value.second)+" live="+std::to_string(value.first)+
@@ -287,7 +288,7 @@ bool validate_game_save(const GameSave& g,std::string& error){
     error.clear();return true;
 }
 bool capture_game_save(const std::string& level,ActorId controlled,const CharacterState& character_state,
-    const PlayableActorWorld& world,GameSave& output,std::string& error){try{
+    const PlayableActorWorld& world,GameSave& output,std::string& error,bool checkpointCapture){try{
     GameSave next;next.level_uri=level;next.controlled_actor_id=controlled;next.character=character_state;next.random=world.random_state();
     for(const auto& entry:world.actors()){
         const auto* props=world.combat_properties(entry.first);const auto* traits=world.traits(entry.first);
@@ -299,7 +300,7 @@ bool capture_game_save(const std::string& level,ActorId controlled,const Charact
     const auto* live=world.find_actor(controlled);if(!live){error="Controlled live actor absent";return false;}
     next.character.stats.health=live->health;next.character.stats.max_health=live->max_health;
     next.character.stats.resource=live->resource;next.character.stats.max_resource=live->max_resource;
-    if(!validate_game_save(next,error))return false;output=std::move(next);return true;
+    if(!validate_game_save(next,error,checkpointCapture))return false;output=std::move(next);return true;
 }catch(const std::exception& ex){error=ex.what();return false;}}
 bool restore_game_save(const GameSave& g,const std::string& expected,PlayableActorWorld& world,
     CharacterState& character_state,std::string& error){try{
@@ -327,11 +328,11 @@ bool restore_game_save(const GameSave& g,const std::string& expected,PlayableAct
     else if(!world.replace_actors(g.actors,g.random,error))return false;
     character_state=std::move(next_character);error.clear();return true;
 }catch(const std::exception& ex){error=ex.what();return false;}}
-bool save_game(const std::filesystem::path& path,const GameSave& g,std::string& error){
+bool save_game(const std::filesystem::path& path,const GameSave& g,std::string& error,bool checkpointWrite){
     std::filesystem::path temporary;bool created=false;
     try{
         if(path.empty()||path.filename().empty())throw std::runtime_error("Game save filename empty");
-        if(!validate_game_save(g,error))return false;
+        if(!validate_game_save(g,error,checkpointWrite))return false;
         Archive a;for(auto b:magic)a.bytes.push_back(b);auto copy=g;snapshot(a,copy);
         auto hash=checksum(a.bytes);a.u64(hash);
         static std::atomic<std::uint64_t> seq{0};temporary=path;

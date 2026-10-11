@@ -2015,7 +2015,7 @@ int main(int argc,char** argv) {
             };
             services.capture_current_game_save=[](void* raw,f::GameSave& out,std::string& e) {
                 auto& c=*static_cast<Context*>(raw);
-                return f::capture_game_save(c.level_uri,c.session->player_id(),*c.character,*c.session->world(),out,e);
+                return f::capture_game_save(c.level_uri,c.session->player_id(),*c.character,*c.session->world(),out,e,true);
             };
             services.capture_services.context=&context;
             services.capture_services.actor_checkpoint_facts=[](void* raw,f::ActorId id,
@@ -2076,7 +2076,7 @@ int main(int argc,char** argv) {
             };
             services.save_level_checkpoint=[](void* raw,const f::GameSave& save,const DeathCheckpointSnapshotV1& snapshot,std::string& e) {
                 auto& c=*static_cast<Context*>(raw);
-                if(!f::save_game(c.level_world_path,save,e))return false;
+                if(!f::save_game(c.level_world_path,save,e,true))return false; // I024: checkpoint world write (unbound-vital rule, see game_save.cpp)
                 std::vector<std::uint8_t> bytes;
                 if(!encode_death_checkpoint_snapshot_v1(snapshot,bytes,e))return false;
                 fs::create_directories(c.checkpoint_path.parent_path());
