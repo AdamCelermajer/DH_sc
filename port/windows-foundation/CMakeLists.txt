@@ -772,9 +772,13 @@ add_library(foundation_runtime_enemy STATIC
   features/enemy_ai/runtime_enemy_contact_binding_v1.cpp
   features/enemy_ai/runtime_enemy_controller_v1.cpp
   features/enemy_ai/runtime_enemy_navigation_v1.cpp
-  features/enemy_ai/monster_decisions.cpp)
+  features/enemy_ai/monster_decisions.cpp
+  features/companions/follower_decision_v1.cpp features/companions/runtime_follower_controller_v1.cpp) # B077 FOLLOW
 target_link_libraries(foundation_runtime_enemy PUBLIC foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_enemy)
+# B077 FOLLOW: pure follower decision tests (CharAI::_UpdateMaster events, follower.luac / rene.luac).
+add_executable(follower_decision_v1_tests features/companions/follower_decision_v1_tests.cpp features/companions/follower_decision_v1.cpp)
+add_test(NAME follower_decision_v1 COMMAND follower_decision_v1_tests)
 
 # P16 SPAWN: generic spawn-character-from-template owner (pool, plan, placement,
 # clip policy) and its focused test over real CharacterTable/profile assets.

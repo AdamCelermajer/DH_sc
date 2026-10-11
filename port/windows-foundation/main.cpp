@@ -92,6 +92,7 @@
 #include "features/combat_text/combat_text_live.hpp"
 #include "features/enemy_ai/runtime_enemy_navigation_v1.hpp"
 #include "features/enemy_ai/runtime_enemy_contact_binding_v1.hpp"
+#include "features/companions/runtime_follower_controller_v1.hpp" // B077 FOLLOW: script-driven companions (follower/attacking_follower/rene)
 #include "features/physics/runtime_session_contact_v1.hpp"
 #include "features/physics/session_actor_transition_v1.hpp"
 #include "features/audio/runtime_audio_host_v1.hpp"
@@ -3546,6 +3547,7 @@ int main(int argc,char** argv) {
         semanticInput.set_surface(std::move(uiSurface));
         std::shared_ptr<f::enemy_ai::RuntimeEnemyNavigationV1> enemyNavigation;
         std::shared_ptr<f::enemy_ai::RuntimeEnemyControllerV1> enemyController;
+        std::shared_ptr<f::companions::RuntimeFollowerControllerV1> followerController; // B077 FOLLOW
         std::shared_ptr<f::SourceNavigationWorldStorage> enemyNavigationWorld;
         auto bindEnemyAI=[&](){
             if(!options.runtimeEnemyAI)return;
@@ -3556,11 +3558,70 @@ int main(int argc,char** argv) {
             config.navigation_world=sourceObstacles;config.bodies=&nativeBodies;config.scene_collision=&collision;
             config.walk_alias="ai-walk";config.walk_choice={"Walk",0,{0}};
             config.idle_alias="ai-idle";config.idle_choice={"Idle",0,{0}};
+            const f::enemy_ai::RuntimeEnemyNavigationConfigV1 hasteBase=config; // B077 FOLLOW: copy before the move
             enemyNavigation=std::make_shared<f::enemy_ai::RuntimeEnemyNavigationV1>(std::move(config));
             enemyController=std::make_shared<f::enemy_ai::RuntimeEnemyControllerV1>(
                 f::enemy_ai::make_runtime_enemy_navigation_services_v1(enemyNavigation));
-            combatSession->set_actor_decision_provider([owner=enemyNavigation,controller=enemyController](auto& session,double dt,std::string& error){
-                return controller->update(session,dt,error);
+            // B077 FOLLOW: actors whose AI row script is follower/attacking_follower/rene walk after the host player along
+            // the same sewn-floor route/locomotion owner as monsters (CharAI::_UpdateMaster events + follower.luac/rene.luac).
+            // Rene's Buff_Rene_Haste catch-up uses a per-actor navigation instance whose walk rate carries the buff's
+            // Speed_Modifier_Walk change (class table row applied to a copy of the actor sheet).
+            auto hasteNavs=std::make_shared<std::map<f::ActorId,std::shared_ptr<f::enemy_ai::RuntimeEnemyNavigationV1>>>();
+            auto hasteMode=std::make_shared<std::map<f::ActorId,bool>>();
+            f::companions::RuntimeFollowerServicesV1 followServices;
+            followServices.approach=[&,nav=enemyNavigation,hasteNavs,hasteMode,hasteBase](f::CombatSession& session,f::ActorState& owner,f::ActorState& master,const dh2::data::AiProps& ai,bool haste,bool& found,std::string& e){
+                std::shared_ptr<f::enemy_ai::RuntimeEnemyNavigationV1> use=nav;
+                if(haste) {
+                    auto& slot=(*hasteNavs)[owner.id];
+                    if(!slot) {
+                        double factor=1.0;
+                        const auto* props=session.world()->combat_properties(owner.id);
+                        const auto buff=std::find(properties.classes.names.begin(),properties.classes.names.end(),"Buff_Rene_Haste");
+                        std::string classError;
+                        if(props&&buff!=properties.classes.names.end()) {
+                            auto sheet=props->sheets.resolved;
+                            if(dh2::data::apply_class(properties.classes,std::int32_t(buff-properties.classes.names.begin()),sheet,classError)) {
+                                const double before=f::original_speed_modifier(props->sheets.resolved[46]),after=f::original_speed_modifier(sheet[46]);
+                                if(before>0&&after>before)factor=after/before;
+                            }
+                        }
+                        std::cout<<"[follower] actor="<<owner.id<<" catch-up walk rate factor="<<factor<<(factor==1.0?" (Buff_Rene_Haste Speed_Modifier_Walk change unavailable: "+classError+")":"")<<'\n';
+                        auto config2=hasteBase;config2.walk_alias="ai-haste-walk";config2.walk_rate=hasteBase.walk_rate*factor;
+                        slot=std::make_shared<f::enemy_ai::RuntimeEnemyNavigationV1>(std::move(config2));
+                    }
+                    use=slot;
+                }
+                // Switching between the plain and the haste walk drops the other owner's route first (one owner per frame).
+                auto& wasHaste=(*hasteMode)[owner.id];
+                if(wasHaste!=haste) {
+                    if(wasHaste){if(const auto it=hasteNavs->find(owner.id);it!=hasteNavs->end()&&!it->second->stop(session,owner,e))return false;}
+                    else if(!nav->stop(session,owner,e))return false;
+                    wasHaste=haste;
+                }
+                const auto previous=owner.target_id;
+                owner.target_id=master.id; // the navigation owner takes its goal from the canonical target id
+                const bool ok=use->approach(session,owner,master,ai,e);
+                owner.target_id=previous;
+                found=use->route_found(owner.id);
+                return ok;
+            };
+            followServices.stop=[nav=enemyNavigation,hasteNavs,hasteMode](f::CombatSession& session,f::ActorState& owner,std::string& e){
+                (*hasteMode)[owner.id]=false;
+                if(const auto it=hasteNavs->find(owner.id);it!=hasteNavs->end()&&!it->second->stop(session,owner,e))return false;
+                return nav->stop(session,owner,e);
+            };
+            followServices.warp=[&](f::CombatSession&,f::ActorState& owner,const std::array<float,3>& position,std::string& e){
+                if(options.sourceNativeBodies)return nativeBodies.set_position(owner.id,position,true,e);
+                owner.transform.position=position;return true;
+            };
+            followServices.body_radius=[&](const f::ActorState& master){const auto* pf=nativeBodies.navigation(master.id);return pf?pf->radius:0.0f;};
+            followServices.enabled=[&](f::ActorId id){for(const auto& a:population.actors())if(a.definition.stableId==id)return a.enabled!=0;return true;};
+            followServices.active=[&](){return !campaignHost.cutscene_mode();};
+            auto followers=std::make_shared<f::companions::RuntimeFollowerControllerV1>(std::move(followServices));
+            followerController=followers;
+            combatSession->set_actor_decision_provider([owner=enemyNavigation,controller=enemyController,followers](auto& session,double dt,std::string& error){
+                if(!controller->update(session,dt,error))return false;
+                return followers->update(session,dt,error);
             });
             enemyNavigationWorld=sourceObstacles;
         };
@@ -4597,7 +4658,10 @@ int main(int argc,char** argv) {
                         const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==actor.id;});
                         if(placed==population.actors().end()){e="Attack movement visual unavailable";return false;}
                         const auto policy=options.combat.profiles.find(placed->profileId);
-                        if(policy==options.combat.profiles.end()||policy->second.motionRoot.empty())return true;
+                        // B077 FOLLOW: a follower walking after its master consumes its root motion even when its profile names no
+                        // explicit --combat-motion-root (scripted NPC clips keep ignoring theirs).
+                        const auto* walker=followerController?followerController->memory(actor.id):nullptr;
+                        if(policy==options.combat.profiles.end()||(policy->second.motionRoot.empty()&&!(walker&&walker->moving)))return true;
                         scale={std::hypot(placed->transform[0],placed->transform[1]),std::hypot(placed->transform[4],placed->transform[5]),std::abs(placed->transform[10])};
                         auto& owner=populationMotors[actor.id];
                         if(!owner) {
