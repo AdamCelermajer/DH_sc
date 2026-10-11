@@ -70,6 +70,9 @@ add_executable(dh-foundation main.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp rende
 target_sources(foundation_data PRIVATE ../level-world/character_kill.cpp)
 target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp features/generic_skills/pc_gameplay_hud_button_art_v1.cpp)
 target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v1.cpp)
+# v20 SCRIPTSVC: Script_PlaySound/StopSound/SaveGame orchestration (pure; owners bound in main/campaign_host).
+add_executable(script_source_services_v1_tests features/cinematics/script_source_services_v1_tests.cpp features/cinematics/script_source_services_v1.cpp)
+add_test(NAME script_source_services_v1 COMMAND script_source_services_v1_tests)
 # B004/B029: OOI owner (500 ms candidate refresh) and live Session adapter for the rendered target marker.
 target_sources(dh-foundation PRIVATE features/combat/auto_target_marker_v1.cpp features/combat/object_of_interest_owner_v1.cpp features/combat/object_of_interest_world_v1.cpp)
 # P16 CONTEXT: Space context button, interaction-type registry, walk-over pickup contact (isolated tests: features/combat/run_context_p16_tests.ps1)
@@ -592,7 +595,7 @@ target_link_libraries(original_campaign_world_adapter_tests PRIVATE foundation_d
 add_test(NAME original_campaign_world_adapter COMMAND original_campaign_world_adapter_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-encounter-source")
 # P16 HOST (Preview 16): campaign script-host providers, executor dispatch router and generic trigger zones.
 # Additive; the live binding is off unless the EXE gets --campaign-triggers.
-target_sources(foundation_data PRIVATE features/campaign_host/campaign_host.cpp features/campaign_host/trigger_zones.cpp features/campaign_host/actor_clip_manifest.cpp features/cinematics/source_campaign_dispatch_v1.cpp)
+target_sources(foundation_data PRIVATE features/campaign_host/campaign_host.cpp features/campaign_host/trigger_zones.cpp features/campaign_host/actor_clip_manifest.cpp features/cinematics/source_campaign_dispatch_v1.cpp features/cinematics/script_source_services_v1.cpp)
 add_executable(compiled_campaign_bank_tests tests/compiled_campaign_bank_tests.cpp)
 target_link_libraries(compiled_campaign_bank_tests PRIVATE foundation_data)
 add_test(NAME compiled_campaign_bank COMMAND compiled_campaign_bank_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")

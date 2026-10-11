@@ -216,9 +216,15 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         cinematic_.flush_enqueued(); // B068: FlushMessages drops the queued lines only (the EnterLocation title shown at the opening start stays, video t~76-79)
         return true;
     };
-    if (!p.request_save) p.request_save = [this](std::string&) {
-        unsupported_.note("stub SaveGame (schema v4 writer not bound; nothing written)");
-        return true;
+    // v20 SCRIPTSVC: Script_SaveGame45c994 is the REGULAR save (not the death checkpoint): the source order is
+    // level block-off, QuickSave(false), character block-off, PlayerSG_Save. Owners are bound by main; unbound = stub.
+    if (!p.request_save) p.request_save = [this](std::string& e) {
+        if (!script_save_.current_level || !script_save_.save_character) {
+            unsupported_.note("stub SaveGame (regular save owner not bound; nothing written)");
+            e.clear();
+            return true;
+        }
+        return dh::foundation::cinematics::execute_script_save_game_v1(skipping_, script_save_, e);
     };
     if (!p.block_save) p.block_save = [this](std::string&) { save_blocked_ = true; return true; };
     // P17 SAFEZONE: Script_EnterSafeZone / Script_LeaveSafeZone. Non-blocking; the music owner decides the track.
@@ -712,7 +718,19 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         if (!v.stop_effect(signed_field(c, 8), e)) { unsupported_.note("StopEffect set failed: " + e); e.clear(); }
         return true;
     }
-    case 14: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub StopSound (scripted sound stop not bound)"); return true;
+    case 14: { // Script_StopSound45fe2c: music flag @12, ordinal @16 (plain), fade @8. Never skip-suppressed.
+        if (phase != CampaignCommandPhase::execute) return true;
+        dh::foundation::cinematics::ScriptSoundCommandV1 sound;
+        sound.music = signed_field(c, 12) > 0;
+        sound.fade_ms = std::max<std::int32_t>(0, signed_field(c, 8));
+        sound.ordinal = signed_field(c, 16);
+        std::string detail;
+        std::cout << "[campaign] StopSound dispatch music=" << sound.music << " ordinal=" << sound.ordinal << " fade_ms=" << sound.fade_ms
+                  << " frame=" << frames_ << '\n';
+        if (!dh::foundation::cinematics::execute_script_stop_sound_v1(sound, skip_active(), script_sound_, detail))
+            unsupported_.note("StopSound not applied: " + detail);
+        return true; // Script_StopSound::Execute is void; the dispatcher ignores the outcome
+    }
     case 51:   // Script_UnEquipHands: actor @12 (IDA: remember the hand items, unequip slots 1 and 2)
     case 52: { // Script_ReEquipHands: actor @12 (IDA: re-equip the remembered hand slots)
         if (phase != CampaignCommandPhase::execute) return true;
@@ -723,7 +741,20 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     }
     // P16 FIX16: Swamp script verbs with no owner in this host. Stubbed, counted once and non-blocking so the
     // cutscene or trigger script continues instead of aborting (IDA owners are outside the Swamp opening path).
-    case 13: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlaySound (no scripted sound owner bound: the cutscene sound is not played)"); return true;
+    case 13: { // Script_PlaySound45fefc: music @12, loop @13, fade/delay @8, ordinal @16. Plain is skip-suppressed; music always runs.
+        if (phase != CampaignCommandPhase::execute) return true;
+        dh::foundation::cinematics::ScriptSoundCommandV1 sound;
+        sound.music = signed_field(c, 12) > 0;
+        sound.loop = signed_field(c, 13) > 0;
+        sound.fade_ms = std::max<std::int32_t>(0, signed_field(c, 8));
+        sound.ordinal = signed_field(c, 16);
+        std::string detail;
+        std::cout << "[campaign] PlaySound dispatch music=" << sound.music << " ordinal=" << sound.ordinal << " fade_ms=" << sound.fade_ms
+                  << " loop=" << sound.loop << " skip=" << skip_active() << " frame=" << frames_ << '\n';
+        if (!dh::foundation::cinematics::execute_script_play_sound_v1(sound, skip_active(), script_sound_, detail))
+            unsupported_.note("PlaySound not applied: " + detail);
+        return true; // Script_PlaySound::Execute is void; the dispatcher ignores the outcome
+    }
     case 15: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayLevelMusic (resume level track not bound to the script host)"); return true;
     case 63: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub RestartLevel (player death restart is owned by the death flow)"); return true;
     case 68: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub ShowTrophies (no trophy display owner)"); return true;
