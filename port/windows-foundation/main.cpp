@@ -1892,7 +1892,18 @@ int main(int argc,char** argv) {
         hostServices.all_actors=[&](std::vector<f::ActorId>& out,std::string& e){if(!combatSession){e="Campaign host needs the live combat session";return false;}out.clear();for(const auto& entry:combatSession->world()->actors())out.push_back(entry.first);return true;};
         // P16 OPENING: a population-only actor has no combat state: it is not alive for the source Idle gate (a no-op).
         hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){alive=false;state=-1;return true;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
-        hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){return combatSession&&combatSession->set_actor_original_state(id,state,e);};
+        // P161 B071: a lifecycle actor (Limbus/PreSpawn/Spawn pool or declared) owns its CharStateMachine in actorLifecycle; the source
+        // Script_PutCharacterInIdle -> SM_SetIdleState -> _SetState(3) (0x3c1a00) is a full state change (enable, physical, collisions),
+        // so it must go through the lifecycle, not only publish the combat fact (that left scripted moths untargetable, state 1).
+        hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){
+            if(!combatSession)return false;
+            if(const auto* life=actorLifecycle.status(id)) {
+                if(state==3)return actorLifecycle.put_idle(id,e);
+                if(state==1)return actorLifecycle.spawn(id,e);
+                if(state==0)return actorLifecycle.put_limbus(id,e);
+                (void)life;
+            }
+            return combatSession->set_actor_original_state(id,state,e);};
         // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
         // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
         // transform is the owner: column-major translation at 12..14, heading in the 2x2 block).
