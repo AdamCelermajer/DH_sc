@@ -343,6 +343,11 @@ int main(int argc, char** argv) {
                 CHECK(expected_level_text(rank, 12, expected_current));
                 CHECK(expected_level_text(rank + 1u, 17, expected_next));
                 CHECK(details.current_level == expected_current && details.next_level == expected_next);
+                // B097: SetTempProps(CLASS_ID, slvl) scales with the rank, so the
+                // current-level and next-level bodies (MP cost / damage) must differ.
+                std::cout << fixture.script << " rank " << rank << " current=[" << details.current_level
+                          << "] next=[" << details.next_level << "]\n";
+                CHECK(details.current_level != details.next_level);
                 ++detailed_rows;
             }
 

@@ -99,9 +99,16 @@ int main(int argc, char** argv) {
             // CalcManaCost operation order for this real class row.
             auto expected = rules.defaults;
             expected[172] = actual.fixed_skill_level;
+            // B097: source SetProp(SnS_Level) lands on the owner's resolved sheet,
+            // which the mode-1 class reads: the buff carries the rank as well.
+            auto ranked_buff = player_properties.resolved;
+            ranked_buff[172] = actual.fixed_skill_level;
             CHECK(dh2::data::apply_class(classes, skill_class_id, expected, error,
-                                         &player_properties.resolved));
+                                         &ranked_buff));
             CHECK(actual.fixed_mana_cost == expected[173]);
+            // B097 regression: BashDown ManaCost = 6 + 3 * rank (class row 215,
+            // dst173 = 1536 + 768 * SnS_Level); it must scale with the rank.
+            if (rank <= 7) CHECK(actual.fixed_mana_cost == static_cast<std::int32_t>(1536 + 768 * rank));
             CHECK(player_properties.resolved == current_before);
         }
 

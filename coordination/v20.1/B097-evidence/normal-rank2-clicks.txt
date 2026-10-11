@@ -1,0 +1,5 @@
+exit=0
+window 33359110 focus=True
+key t=4.02 vk=50
+click t=8.07 x=470 y=605 hold=10ms
+key t=12.03 vk=50
