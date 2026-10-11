@@ -40,7 +40,7 @@ file, including receipts and notes.
 
 ## Current status
 
-Investigation and assignments started. B068 completion, merges, build/tests,
+The B068 logical phase and P17 branches are merged in v20int. Final B068 completion, build/tests,
 integrated runtime/visual verification, frozen package, independent verdict,
 tracker resolution and remote push are **pending**. No v20 acceptance is claimed.
 Red-door flame may be a known issue by the user's explicit release instruction.
@@ -65,3 +65,47 @@ include finite required asset dependencies in the frozen package. Inherited
 `RENE_FOLLOW` forced condition remains under source investigation; deleting it
 without a source-backed producer would knowingly disable the requested follower
 fix. Any unresolved forced gate must be disclosed as a caveat.
+
+The subsequent source review resolved that uncertainty: `RENE_FOLLOW` is authored
+condition row 115, op 1 on quest 8 (`Darkwoods_GoToCathedral`), threshold 13.
+Authored initial quest state is 0; the authentic predicate is `13 > live_state`.
+Population binds the same profile's CQPG before applying it. Package-style tests
+will therefore remove the inherited forced condition, verify fresh following and
+the false resumed-state branch, then freeze those launcher arguments.
+
+The finite asset plan now contains 264 P17 records plus nine cinematic FX records, all staged under
+`.local-inputs/v20/asset-stage/assets` alongside copied Preview 16 assets. This
+stage has no release EXE and is only for integration tests. Four Abbey-only art
+references remain genuinely unavailable and explicitly documented; source aliases
+for `pvr2_env_castle_alpha` and waterfall texture were verified in the resolver.
+
+Core P17 door collision was confirmed unbound, separately from the permitted
+red-flame issue. I027 owner is fresh `/root/v20_door_collision` (GPT-6 Luna high)
+in `DH_wt/v20doors`, branch `codex/v20-door-collision` from `955d486b`. It owns
+narrow door/physical adapters; integration owns main/CMake hooks. Source tracing
+requires the actual ApplyMeshBox rectangle, authored collision/presence gates,
+and filter changes at terminal door animation events. The production
+closed-blocked/open-passage test remains a release gate.
+
+## Combined runtime progress (candidate not frozen)
+
+The staged package-style Swamp startup passed 160 rendered frames with both
+inherited overrides removed: current-level root derivation loaded nine scopes,
+16 floors and all three doors. The first door geometry startup exposed authored
+comma-delimited rotation tuples; integration repaired that parser and reran its
+three focused door checks. Closed-blocked/open-passage gameplay remains pending.
+
+Witch Cave generation first exposed missing dynamic MGX/index dependencies,
+then the corresponding MVX geometry. The finite plan now includes the index and
+all 41 authored MGX/MVX pairs. After copying the 264 P17 records into the stage,
+integration's hidden, silent seed-1234 Witch run generated seven modules, derived
+the correct rule-root scopes, rendered 160 frames and shut down cleanly. This
+supports packaged procedural startup, not full campaign transition acceptance.
+
+Root inspected the B068 valid-trigger Moth and Captain runtime frame sequences
+in `fix068/v20audit/trigger-moth/sheet.jpg` and `trigger-captain/sheet.jpg`.
+Both moths remain framed during flight and return to authored ground placement;
+the Captain sequence shows the victim falling and the camera returning to play.
+The owner attributes the corrected result to source scripted animation state 14
+and camera rig composition, with no guessed offsets. Exact final committed build,
+reference/IDA comparison and combined regression remain pending before closure.

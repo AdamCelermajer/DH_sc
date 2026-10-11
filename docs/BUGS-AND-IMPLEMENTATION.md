@@ -120,7 +120,7 @@ v20 continuation (2026-10-11): one combined release, `windows-source-clock-v20`,
 
 | ID | Observed / reproduction | State | Owner |
 |---|---|---|---|
-| B068 | ALL cinematic problems: controls (swing/menu) usable during cutscenes; SKIP button does not work and opens the character menu; lizard ambush: lizards do not jump to the right place and attack directly; camera and character animation bugs; overlay problems; tutorial panel off-centre and speaker name missing; tap/click should speed dialogue; "New Quest" banner appeared only after death + relaunch. | PARTIAL (fix/b068 @21e76885, NOT merged): input lock, SKIP hit-test, captions/speaker/tap, banner, lizard heading, opening cutscene audited and fixed. TODO: opening leftovers (faery glow, missing moth, title re-fire); audit MothIntro, lizard ambush recheck, Combat/Movement tutorial scenes, Camp_Intro, serpent/witch/troll-return | fresh Sonnet session |
+| B068 | ALL cinematic problems: controls (swing/menu) usable during cutscenes; SKIP button does not work and opens the character menu; lizard ambush: lizards do not jump to the right place and attack directly; camera and character animation bugs; overlay problems; tutorial panel off-centre and speaker name missing; tap/click should speed dialogue; "New Quest" banner appeared only after death + relaunch. | PARTIAL, logical phase merged into v20int: controls/SKIP/captions/banner, authored faery halo, trigger edges, MoveActor/KillActor and clock/pause fixes. Camera rig and original scripted animation state fix under final regression; valid-trigger Moth/Captain sequences inspected. Full Act 1 ledger, combined runtime and frozen verification still pending. | `/root/b068_cinematics`; root + `/root/v20_evidence_review` |
 | B069 | Space does not open the chest next to the hero. | FIXED on fix/b069, merged in p16.1/integrate (needs v20 release) | fresh Sonnet session |
 | B070 | Movement Tutorial appears again after it was completed. | FIXED on fix/b070, merged in p16.1/integrate | fresh Sonnet session |
 | B071 | Moth animation wrong; spawned moths untargetable/unkillable and follow the player. | PARTIAL FIX on fix/b071 (moths leave Spawn, targetable/killable); wrong animation/following unverified; merged in p16.1/integrate | fresh Sonnet session |
@@ -213,7 +213,7 @@ These are implementation goals, not reported bugs. Component results are not pro
 | I021 | Complete transitions/checkpoints | Modern save route tests exist | Lead authored transition caller and source fields | Normal room transition and restore |
 | I022 | Complete tutorial/cinematic triggers | Source trigger slices exist | Same-world event caller and source timing | Authored Act 1 trigger order |
 | I023 | Complete Act 1 fidelity/playthrough | Feature receipts span systems | Root/lead versioned normal run with independent review | Creation→combat→menus→loot→quest→boss→save/reload |
-| I027 | Bind authored door collision into production movement | P17 door animation/state exists; canonical physical/filter/dead-end callbacks are unbound and collision_closed has no runtime consumer | v20 implementation owner `/root/v20_door_collision` in `DH_wt/v20doors`; integration `/root/v20_integration`; reviewers root + `/root/v20_evidence_review` | Source-backed closed-door blocked/open-door passage run with isolated save, transform logs and before/after frames; required before v20 door-playability claim |
+| I027 | Bind authored door collision into production movement | Source-backed physical rectangle/filter adapter merged into v20int; shared root-motion admission wired; staged startup and focused tests pass, sustained closed/open movement verification pending | v20 implementation owner `/root/v20_door_collision` in `DH_wt/v20doors`; integration `/root/v20_integration`; reviewers root + `/root/v20_evidence_review` | Source-backed closed-door blocked/open-door passage run with isolated save, transform logs and before/after frames; required before v20 door-playability claim |
 
 ## 4. USER ADDITIONS INBOX
 
@@ -233,3 +233,4 @@ Editable checklist. Preserve user requests until assigned a stable bug or TODO I
 ### Release rule
 
 Only root accepts a release. Preview11 (FD850478) is accepted; do not modify that package. Normal-executable proof must identify one frozen build and timestamp. Keep focused/source/visual and normal-runtime evidence distinct. Preserve user saves until root accepts another candidate.
+
