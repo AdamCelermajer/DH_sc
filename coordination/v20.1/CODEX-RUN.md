@@ -139,6 +139,27 @@ worktree; keep evidence separate and prevent duplicate shared-core writes.
   their preserved worktrees. B093 owns actual quest accept/dialogue/script proof;
   merchant B110 does not supply that dependency.
 
+## Latest reviewed repairs and integration
+
+- B095 repaired456b5e23/tip4a5f0012 re-reviewed READY WITH CAVEATS. Actual queued
+  Close→UNEQUIP changes old count4→3; repaired frozen preservesGarb/count4.
+  Merged with B109 into integrationef6360b1; combined checks pending.
+- B109 re-review READY FOR SCOPED INTEGRATION at1a3e199f; source material lookup
+  atomics, alpha policy and specular transport independently checked6/6. User
+  rendering confirmation supersedes stale OPEN appearance wording in its report.
+- B100 fresh review READY WITH CAVEATS as B110 dependency; merchant shop remains
+  B110 gate. Review checks circles/Space/sourcecaller and16/16 B112 runs. Source
+  +138 is visibility, not enabled; wider IsInteractive gates remain unverified.
+- B110 fresh reviewer is checking authored equipped-item SELL admission; native
+  transfer unequipping side effect cannot establish UIpermission.
+- B111 fresh review ongoing; B093 MAKE ACTIVE counter-loss reproduced and fixed,
+  genuinekills/rewardonce proof ongoing. Deadmothresume failure is covered by
+  unreviewed B086 role-gate repair, not a newbug on current evidence.
+- B086 fresh review is checking WM_CLOSE saving, which --quit-frame cannot prove.
+- Integration586a3587 build/ctest169/170 passed (knownassetrootonly), frozen
+  2DF560F3...594DE23F normal Celesteglow360frames passes. Newer B109/B095 build
+  passed; nextfrozencombined check pending. No release accepted.
+
 ## Acceptance gates still open
 
 Finish actual production paths, inspect each report/diff/tests with a fresh

@@ -274,9 +274,9 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B090 | Level-up effect fine but no level-up sound. | OPEN, queued | fresh Sonnet session |
 | B091 | Mobs not targetable/attacking after a scripted animation (shots 10, 13). | OPEN, fresh cinematic continuation with B094 | `/root/b094_b091_boss_cinematics`; root preliminary review, fresh read-only reviewer queued |
 | B092 | Big moth corpse takes a long time to disappear (shot 11). | OPEN, queued | fresh Sonnet session |
-| B093 | Quest system: MAKE ACTIVE does not really work, no kill tracking, killed 8 Bog Moths and nothing happened (shot 12). | OPEN, queued | fresh Sonnet session |
+| B093 | Quest system: MAKE ACTIVE does not really work, no kill tracking, killed 8 Bog Moths and nothing happened (shot 12). | MAKE ACTIVE counter-loss reproduced and patched; genuine kill/save proof ongoing, fresh review pending; resume requires reviewed B086 | `/root/b093_quests`; root integration, fresh reviewer queued |
 | B094 | An NPC (she) appears not targetable; intended? User clarified: "the boss lizard the brown one". | OPEN, prior companion identification invalid; fresh cinematic continuation with B091 | `/root/b094_b091_boss_cinematics`; root preliminary review, fresh read-only reviewer queued |
-| B095 | Clicking the bag again does not return to the equipment global page. | OPEN, fresh worker temporarily interrupted for new B112; corrected isolated reproduction pending | `/root/b095_bag_navigation`; root follow-up, fresh read-only reviewer queued |
+| B095 | Clicking the bag again does not return to the equipment global page. | Reviewed repair READY WITH CAVEATS at4a5f0012; merged, combined frozen verification pending | `/root/b095_bag_navigation`; `/root/b095_review`; root integration |
 | B096 | Level up: no button to learn a new skill (shot 15). | OPEN, reviewed READY WITH CAVEATS and merged; combined executable success/refusal/reload pending | `/root/b096_skill_training`; `/root/b096_review`; root integration |
 | B097 | Skill rank up does not change the skill stats (shot 16). | OPEN, queued | fresh Sonnet session |
 | B098 | Killed monsters do not play the death animation / do not disappear (shot 17). | OPEN, queued | fresh Sonnet session |
@@ -289,7 +289,7 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B105 | Celeste glow is broken (shot 22). | OPEN, separate fresh continuation running; consumes B101 common emitter dependency | `/root/b105_celeste`; root preliminary review, separate fresh read-only B105 reviewer queued |
 | B106 | E does not work / does not teleport (Travel to Bogwitch Cavern, shot 23). | OPEN, queued | fresh Sonnet session |
 | B107 | User note "abomination": it was the cavern rendering (same as B109, shot-24). | MERGED INTO B109 (session assigned) | fresh Sonnet session |
-| B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | User confirms rendering fixed in latest screenshot; specular/alpha transport review repair implemented, re-review and final combined check pending | `/root/b109_cavern`; `/root/b109_review`; root integration |
+| B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | User confirms rendering fixed; repaired material transport re-reviewed READY WITH CAVEATS, merged; final combined check pending | `/root/b109_cavern`; `/root/b109_review`; root integration |
 | B108 | Continue after death fails without a checkpoint-zone contact. | OPEN, existing fix awaits review and combined B086 quit-after-death test | Root follow-up; fresh read-only reviewer queued |
 | B110 | Merchant BUY/SELL UI is missing from the normal interaction path. | OPEN, worker interrupted at checkpoint to prioritize clarified B094; resume queued | `/root/b110_merchant`; root follow-up, fresh read-only reviewer queued |
 | B111 | Statistics icon navigation and four character-sheet sub-pages are missing. | OPEN, source draft awaits fresh implementation continuation | Root follow-up; fresh worker/reviewer queued |

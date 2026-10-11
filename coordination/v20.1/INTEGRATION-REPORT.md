@@ -41,6 +41,51 @@ verification before these runs. Accepted EXE SHA256 is
 `8BA1E537D33D4D4FD5B7DD9822C4CAB5080917FE2427A3903AB7C247827E8CCE`.
 Record `.local-inputs/v20.1/root/v20-baseline-full-hash.json`.
 
+## Reviewed input and training integration
+
+Source389c88064c0b4a96178205031317ff78bb8c3ec8, frozen
+`dh-foundation-input-training.exe`, SHA256
+`950EA00E9B5F392C5D756311727E8D3A91683933142CA39C2AA41ACE88F0B1EC`.
+Build passed; ctest167/168, only permitted session_skill_binding failure.
+Evidence `.local-inputs/v20.1/root/reviewed-runtime/` uses fresh scratch saves,
+silent hidden windows and real posted10ms pointers. Frontend Continue actions
+are diagnostic menu actions and page opening uses the retained page-frame hook;
+physical frontend navigation and natural level-up are not established.
+
+- B096 success: level2 Hardiness rank0→1, points1→0, one transaction and duplicate
+  refusal. Locked EARTHSTRIKE selection gives two refusals/no transaction.
+  Copied success profile reload retains rank1/points0 with two further refusals.
+  Inspected trained and reloaded UI captures. Passive detail effects remain a gap.
+- B102 corrected axe-row fixture: main664→31 once with one attachment, duplicate
+  unchanged; duplicate UNEQUIP remains main−1/no attachment; AUTO-EQUIP restores
+  main664/one attachment. First wrong-row attempt selected Blade, preserved as
+  a failed fixture rather than axe proof.
+- Corrected two-handed row: main1178, stance1, one attachment on both equip and
+  duplicate. Inspected f620 shows the equipped (2H) Useless Cleaver and held model.
+- Blocked Staff row: main664/stance0 remains, f620 displays red X and disabled
+  EQUIP for (2H) Flame Staff. Early wrong-row two-handed attempt also preserved.
+  Pickup was verified privately with a hook, not a root walk-over test.
+
+## Reviewed effects and cinematic core integration
+
+Source586a358716cab4d781e7f5b7d8e5bc1a04466e1e includes reviewed B101 core,
+B105 and B091/B094. Build passed, ctest169/170 in16.86s with only permitted
+session_skill_binding. Frozen `dh-foundation-core-glow-boss.exe` SHA256
+`2DF560F3AD8CB49083B4CBA804B509605481478C03BD2F5E6AD7228F594DE23F`.
+Normal actor-renderer glow check `.local-inputs/v20.1/root/core-glow-runtime/`
+passes360frames/exit0 in9.4s, one Celeste attachment, no FX presentation failure.
+Inspected f240: golden glow accompanies faery, ordinary moth geometry remains.
+Dense frames30–360 retained for continuity review. The first launch rejected
+the unsupported --world-save flag before gameplay; corrected scratch-cwd launch
+is the successful test. Full boss evidence is the independently reviewed five
+private runs; short combined trigger admission verification remains pending.
+B101 residual red-sheet appearance is OPEN and is not resolved by core tests.
+
+B109 material repair and B095 closed-release repair have since merged cleanly
+at ef6360b1. Their combined frozen checks remain pending. User confirms B109
+rendering fixed; original exact pixel parity and inherited renderer limitations
+remain caveats, while travel-message layout is owned independently as B113.
+
 ## Remaining production and release gates
 
 Per-bug reviews, remaining implementation/runtime checks, integration of reviewed
