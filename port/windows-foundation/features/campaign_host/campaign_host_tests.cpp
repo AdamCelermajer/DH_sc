@@ -68,6 +68,7 @@ struct Rig {
             return true;
         };
         services.set_actor_state = [this](ActorId id, std::int32_t state, std::string&) { states[id] = state; return true; };
+        services.set_idle = [this](ActorId id,bool,std::string&){states[id]=3;return true;};
         services.read_camera_clip = [this](std::int32_t id, std::vector<std::uint8_t>& clip, std::vector<std::uint8_t>& scene, std::string& path, std::string& e) {
             return clipLibrary.read(*assetCatalog, id, clip, scene, path, e);
         };

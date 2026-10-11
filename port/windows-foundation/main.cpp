@@ -1898,6 +1898,10 @@ int main(int argc,char** argv) {
         // P16 OPENING: a population-only actor has no combat state: it is not alive for the source Idle gate (a no-op).
         hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){alive=false;state=-1;return true;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
         hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){return combatSession&&(state==3?combatSession->script_put_idle(id,e):combatSession->set_actor_original_state(id,state,e));};
+        hostServices.set_idle=[&](f::ActorId id,bool wait,std::string& e){
+            auto& context=nativeBodyContexts[id];if(!context)context=std::make_shared<NativeBodyContext>();
+            context->idleSuppressed=wait;return combatSession&&combatSession->script_put_idle(id,e,wait);};
+        hostServices.scripted_actor_pose=[&](f::ActorId id){return combatSession&&combatSession->scripted_actor_pose(id);};
         // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
         // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
         // transform is the owner: column-major translation at 12..14, heading in the 2x2 block).
@@ -4642,7 +4646,7 @@ int main(int argc,char** argv) {
                 // Direction/target input still uses the preview admission policy.
                 gameplayInput.move2D={};gameplayInput.run=false;gameplayInput.targetSelect=false;
             }
-            if(!gameplayPaused&&motor&&(!combatSession||(combatSession->actor(combatSession->player_id())->alive()&&!combatSession->owns_pose(combatSession->player_id())&&!campaignHost.scripted_clip_pose(combatSession->player_id())))) { // B068: a scripted PlayActorAnim pose is not replaced by the locomotion selection
+            if(!gameplayPaused&&motor&&(!combatSession||(combatSession->actor(combatSession->player_id())->alive()&&!combatSession->owns_pose(combatSession->player_id())&&!(campaignHost.cutscene_mode()&&campaignHost.scripted_clip_pose(combatSession->player_id()))))) { // B068: a scripted PlayActorAnim pose is not replaced by the locomotion selection
                 f::InputActions input;input.move2D=gameplayInput.move2D;input.run=gameplayInput.run;
                 if(playerControllerBlocked)input={};
                 auto basis=options.sourceCamera?originalCamera.movementBasis():f::cameraMovementBasis(freeCamera.pose());

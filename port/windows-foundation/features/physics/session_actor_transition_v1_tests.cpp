@@ -573,6 +573,18 @@ void run_scripted_anim_physical_state(const char* assets){
     check(f.session.original_actor_state(2)==14&&f.session.actor(2)->source_flags520==0x2240u,
           "Script PlayActorAnim did not enter source CSAnim14/forced flags2240");
     check(f.bodies.physical(2)==body&&body->native().body==physical,"CSAnim replaced its source body");
+    f.idle_suppressed[2]=true;
+    check(f.session.script_put_idle(2,f.error,true),f.error);
+    check(f.session.original_actor_state(2)==3&&f.session.actor(2)->source_flags520==0x2240u,
+          "Played Idle did not preserve CSAnim flags while entering Idle3");
+    check(f.session.scripted_actor_pose(2),"Played Idle lost retained source pose");
+    check(f.session.select_actor_locomotion(2,"transition-idle",f.error),f.error);
+    check(f.session.actor(2)->source_flags520==0x2240u,"Idle alias replaced suppressed source animation");
+    check(f.session.select_actor_locomotion(2,"transition-walk",f.error),f.error);
+    check(!f.idle_suppressed[2]&&!f.session.scripted_actor_pose(2)&&f.session.original_actor_state(2)==4,
+          "New movement failed suppressed Idle departure");
+    check(f.session.play_actor_clip(2,clip.first,clip.second,false,f.error),f.error);
+    f.idle_suppressed[2]=false;
     check(f.session.script_put_idle(2,f.error),f.error);
     check(f.session.original_actor_state(2)==3&&f.session.actor(2)->source_flags520==0x2380u,
           "Script Idle did not restore source Idle3 flags2380");
