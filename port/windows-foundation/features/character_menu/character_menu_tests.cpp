@@ -1,4 +1,6 @@
 #include "character_menu.hpp"
+#include "menu_stats.hpp"
+#include "menu_text.hpp"
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
@@ -146,5 +148,60 @@ int main(){try{
     character.id="actual-character";
     check(!menu.select(static_cast<Tab>(99),error)&&menu.tab()==Tab::equipment,"unsupported source tab mutated menu");
     menu.close();check(character.name==retained_name&&actor.health==retained_health,"UI changed gameplay owner");
+    // B111: admission, five real hit zones, duplicated release and shared point state.
+    check(!menu.select_stat_page(StatPage::defense,error),"closed menu accepted Statistics subpage");
+    menu.open();
+    properties.sheets.resolved[60]=12*256+255;properties.sheets.resolved[61]=7*256;
+    properties.sheets.resolved[207]=23*256;properties.sheets.resolved[209]=11*256;
+    properties.sheets.resolved[165]=8*256;properties.sheets.resolved[208]=31*256;
+    properties.sheets.resolved[166]=44*256;properties.sheets.resolved[39]=3*256;properties.sheets.resolved[44]=2*256;
+    properties.sheets.resolved[132]=4*256;properties.sheets.resolved[133]=5*256;
+    properties.sheets.resolved[95]=9*256;properties.sheets.resolved[96]=14*256;
+    NativeMenuStats native;check(project_original_menu_stats(properties,native,error),error.c_str());
+    struct Expect{const char* path;const char* value;};
+    for(auto q:{Expect{"menu_CharacterSheetDefense/Rating_Dodge/value","12%"},
+        {"menu_CharacterSheetDefense/Rating_Block/value","7%"},
+        {"menu_CharacterSheetDefense/Menu_Melee_Damage_Reduction/value","11"},
+        {"menu_CharacterSheetOffense/Menu_Average_Melee_To_Hit/value","23%"},
+        {"menu_CharacterSheetMagic/Spell_Rating_Critical/value","8%"},
+        {"menu_CharacterSheetMagic/Menu_Average_Spell_To_Hit/value","31%"},
+        {"menu_CharacterSheetMagic/Spell_Damage_Bonus_Fire/value","44"},
+        {"menu_CharacterSheetRecovery/Regen_HP/value","3"},
+        {"menu_CharacterSheetRecovery/Regen_MP/value","2"},
+        {"menu_CharacterSheetRecovery/Leech_HP/value","4%"},
+        {"menu_CharacterSheetRecovery/Leech_MP/value","5%"},
+        {"menu_CharacterSheetOffense/RH/Damage_Elemental_Min_Main_Hand/value","9 - 14"}}){
+        std::string actual;check(original_stats_field(q.path,native,actual)&&actual==q.value,"Statistics field property/format differs");
+    }
+    for(const auto& zone:original_stat_page_hit_zones())for(auto size:{std::pair<int,int>{960,640},{1200,640}}){
+        const float x=(zone.x0+zone.x1)*.5f*size.first/480,y=(zone.y0+zone.y1)*.5f*size.second/320;
+        check(menu.release(x,y,size.first,size.second)==stat_page_action(zone.page)&&menu.stat_page()==zone.page,"Statistics icon navigation failed");
+        check(menu.release(x,y,size.first,size.second)==stat_page_action(zone.page)&&menu.stat_page()==zone.page,"duplicate Statistics release altered page");
+        check(menu.frame(bindings,size.first,size.second,frame,error),error.c_str());
+        check(std::any_of(frame.text.begin(),frame.text.end(),[](const auto& t){return t.field.path.find("Stat_Strength")!=std::string::npos&&t.value=="17";}),"subpage lost shared source stat");
+        properties.sheets.resolved[148]=0;check(menu.frame(bindings,size.first,size.second,frame,error),error.c_str());
+        check(std::count_if(frame.solids.begin(),frame.solids.end(),[](const auto& s){return s.geometry.shape_id==315;})==4,"subpage zero-points overlays absent");
+        properties.sheets.resolved[148]=3*256;
+    }
+    check(!menu.select_stat_page(static_cast<StatPage>(99),error),"invalid subpage admitted");
+    check(menu.select(Tab::equipment,error)&&!menu.select_stat_page(StatPage::magic,error)&&menu.tab()==Tab::equipment,"wrong tab admitted subpage");
+    const auto zone=original_stat_page_hit_zones().front();
+    check(!is_stat_page_action(menu.hit_test((zone.x0+zone.x1),zone.y0+zone.y1,960,640)),"wrong-tab icon accepted");
+    menu.select(Tab::stats,error);menu.select_stat_page(StatPage::magic,error);
+    check(menu.release(200*2,12*2,960,640)==Action::stats&&menu.stat_page()==StatPage::stats,"top Stats release failed to reset subpage");
+    for(int category:{4,5,0}){
+        properties.facts.main_damage_class=category;properties.facts.two_hander=true;
+        const auto* caption=original_stats_caption(&properties,"menu_CharacterSheetOffense/TWOH/TwoHDamage/value");
+        check(caption&&std::string(caption)==(category==4?"GAMEPLAYMENUS_SUMMARY_BOW":category==5?"GAMEPLAYMENUS_SUMMARY_STAFF":"GAMEPLAYMENUS_SUMMARY_2_HAND"),"two-hand source category caption differs");
+        for(int element=0;element<5;++element){
+            properties.sheets.resolved[97]=element*256;check(menu.select_stat_page(StatPage::offense,error)&&menu.frame(bindings,960,640,frame,error),error.c_str());
+            const auto* selected=original_stat_element_art(StatPage::offense,2,element);
+            check(selected&&!selected->batches.empty(),"element icon authored frame missing");
+            check(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[&](const auto& batch){return batch.role==selected->batches[0].role&&batch.shape_id==selected->batches[0].shape_id;}),"selected element frame absent in live projection");
+        }
+    }
+    properties.sheets.resolved[97]=-1;menu.frame(bindings,960,640,frame,error);
+    check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& batch){return batch.role.find("ElementDamageType")!=std::string::npos;}),"negative elemental sentinel did not hide icon");
+    menu.close();
     std::cout<<"character menu native tests PASS\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

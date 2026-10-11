@@ -92,7 +92,7 @@ Action Presenter::hit_test(float x,float y,int width,int height)const noexcept {
 }
 Action Presenter::release(float x,float y,int width,int height)noexcept {
     const auto action=hit_test(x,y,width,height);
-    switch(action){case Action::close:close();break;case Action::stats:tab_=Tab::stats;break;
+    switch(action){case Action::close:close();break;case Action::stats:tab_=Tab::stats;stat_page_=StatPage::stats;break;
     case Action::equipment:tab_=Tab::equipment;break;case Action::skills:tab_=Tab::skills;break;
     case Action::faery:tab_=Tab::faery;break;case Action::quest:tab_=Tab::quest;break;case Action::map:tab_=Tab::map;break;
     case Action::map_legend:case Action::map_reset_zoom:map_control(action);break;

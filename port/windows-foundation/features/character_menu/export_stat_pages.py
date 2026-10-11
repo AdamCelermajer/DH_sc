@@ -55,6 +55,32 @@ for btn,action in (('btnStatisticsTab','stats'),('btnDefenceTab','defense'),('bt
     # axis-aligned bounding rectangle of the clip's shapes (Flash button hit area = clip bounds), one rectangle {x0,y0,x1,y1}
     x0,x1,y0,y1=min(xs),max(xs),min(ys),max(ys)
     zones.append('{StatPage::%s,%s}'%(action,','.join(swf.cpp_number(float(n)) for n in (x0,y0,x1,y1))))
+# Runtime ElementDamageType.gotoAndStop(type+1): export all five authored frames,
+# retaining each hand placement from each sheet. Never regenerate original_art.cpp.
+elements=[]
+for page,placed in (('stats','menu_CharacterSheetStats'),('offense','menu_CharacterSheetOffense')):
+    rootp=placement(placed)
+    def icons(c,m,path):
+        for p in sprites.get(c,[{}])[0].values():
+            q=path+'/'+str(p.get('name','')); mat=swf.multiply(m,p['matrix'])
+            if q.endswith('/ElementDamageType'):
+                yield p['character'],mat,q
+            elif p['character'] in sprites:
+                yield from icons(p['character'],mat,q)
+    for char,m,path in icons(rootp['character'],rootp['matrix'],placed):
+        hand=1 if '/LH/' in path else 2 if '/TWOH/' in path else 0
+        original=sprites[char]
+        for element in range(5):
+            sprites[char]=[original[element]]
+            art=[];text=[];first=len(source_solids);walk(char,m,path,art,text)
+            name=f'element_{page}_{hand}_{element}'
+            emit_block(lines,name,art,text,first)
+            elements.append((page,hand,element,name))
+        sprites[char]=original
+lines.append('const MenuArt* original_stat_element_art(StatPage page,unsigned hand,int element){')
+for page,hand,element,name in elements:
+    lines.append(f'if(page==StatPage::{page}&&hand=={hand}&&element=={element})return &{name};')
+lines.append('return nullptr;}')
 lines.append('const std::vector<StatPageHitZone>& original_stat_page_hit_zones(){static const std::vector<StatPageHitZone> zones{'+','.join(zones)+'};return zones;}')
 sel=[]
 for name,_ in pages[1:]:

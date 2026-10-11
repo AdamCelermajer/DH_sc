@@ -1,4 +1,5 @@
 #include "menu_text.hpp"
+#include "menu_stats.hpp"
 #include "../../../engine-ui/localization_parse_ex_v1.hpp"
 #include "../../asset_catalog.hpp"
 #include "../../content_paths.hpp"
@@ -223,8 +224,9 @@ bool MenuLocalization::character_class_level(const dh2::data::CharacterTable& ch
     if(!string_id(oid,localized_class,error))return false;
     return class_level(localized_class,profile,value,error);
 }
-bool MenuLocalization::label(const std::string& path,const CharacterState* profile,std::string& value,std::string& error){
-    const auto* symbol_name=original_menu_label_symbol(path);
+bool MenuLocalization::label(const std::string& path,const CharacterState* profile,std::string& value,std::string& error,const OriginalCombatProperties* properties){
+    const auto* symbol_name=original_stats_caption(properties,path);
+    if(!symbol_name)symbol_name=original_menu_label_symbol(path);
     if(!symbol_name){value.clear();error.clear();return true;}
     return symbol(symbol_name,profile,value,error);
 }

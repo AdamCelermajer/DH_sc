@@ -30,6 +30,7 @@ bool project_original_menu_stats(const OriginalCombatProperties& p,NativeMenuSta
     next.spell_crit=prop(165);next.spell_hit=prop(208);
     next.spell_bonus={prop(166),prop(167),prop(168),prop(169),prop(170)};
     next.regen_hp=prop(39);next.regen_mp=prop(44);next.leech_hp=prop(132);next.leech_mp=prop(133);
+    next.elemental_damage={prop(95),prop(96),prop(98),prop(99)};
     next.element_type={prop(97),prop(100)};output=next;error.clear();return true;
 }
 bool is_stat_sheet_path(const std::string& path) noexcept {
@@ -41,6 +42,17 @@ bool is_stat_sheet_path(const std::string& path) noexcept {
 // Sheets whose RH/LH/TWOH weapon-damage blocks follow the original hand-visibility actions (Stats and Offense).
 static bool has_weapon_blocks(const std::string& path){
     return path.find("menu_CharacterSheetStats/")!=std::string::npos||path.find("menu_CharacterSheetOffense/")!=std::string::npos;
+}
+const char* original_stats_caption(const OriginalCombatProperties* p,const std::string& path) noexcept {
+    if(!has_weapon_blocks(path))return nullptr;
+    if(component(path,"RightHandDamageMagic"))return "GAMEPLAYMENUS_SUMMARY_R_HAND_ELEM";
+    if(component(path,"LeftHandDamageMagic"))return "GAMEPLAYMENUS_SUMMARY_L_HAND_ELEM";
+    const bool magic=component(path,"TwoHDamageMagic");
+    if(!magic&&!component(path,"TwoHDamage"))return nullptr;
+    const auto category=p?p->facts.main_damage_class:-1;
+    if(category==5)return magic?"GAMEPLAYMENUS_SUMMARY_STAFF_ELEM":"GAMEPLAYMENUS_SUMMARY_STAFF";
+    if(category==4)return magic?"GAMEPLAYMENUS_SUMMARY_BOW_ELEM":"GAMEPLAYMENUS_SUMMARY_BOW";
+    return magic?"GAMEPLAYMENUS_SUMMARY_2_HAND_ELEM":"GAMEPLAYMENUS_SUMMARY_2_HAND";
 }
 bool original_stats_field(const std::string& path,const NativeMenuStats& stats,std::string& out){
     if(!is_stat_sheet_path(path))return false;
@@ -66,6 +78,8 @@ bool original_stats_field(const std::string& path,const NativeMenuStats& stats,s
         for(const char* suffix:percent)if(std::strcmp(field.name,suffix)==0){out+="%";break;}
         return true;
     }
+    if(component(path,"Damage_Elemental_Min_Main_Hand")){out=std::to_string(stats.elemental_damage[0])+" - "+std::to_string(stats.elemental_damage[1]);return true;}
+    if(component(path,"Damage_Elemental_Min_Off_Hand")){out=std::to_string(stats.elemental_damage[2])+" - "+std::to_string(stats.elemental_damage[3]);return true;}
     if(component(path,"Damage_Min_Main_Hand")){out=std::to_string(stats.damage[0])+" - "+std::to_string(stats.damage[1]);return true;}
     if(component(path,"Damage_Min_Off_Hand")){out=std::to_string(stats.damage[2])+" - "+std::to_string(stats.damage[3]);return true;}
     return false;
@@ -85,6 +99,18 @@ bool original_stats_path_visible(const OriginalCombatProperties& p,const NativeM
 void original_stats_visibility(const OriginalCombatProperties& p,const NativeMenuStats& stats,Frame& frame){
     const auto hidden=[&](const std::string& path){return !original_stats_path_visible(p,stats,path);};
     frame.art.batches.erase(std::remove_if(frame.art.batches.begin(),frame.art.batches.end(),[&](const auto& batch){return hidden(batch.role);}),frame.art.batches.end());
+    // Replace first-frame placeholder with the authored element clip frame.
+    StatPage page=StatPage::stats;
+    if(!frame.art.batches.empty()&&std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& batch){return batch.role.find("menu_CharacterSheetOffense/")!=std::string::npos;}))page=StatPage::offense;
+    bool weapon_page=false;
+    frame.art.batches.erase(std::remove_if(frame.art.batches.begin(),frame.art.batches.end(),[&](const auto& batch){
+        if(!has_weapon_blocks(batch.role))return false;
+        weapon_page=true;return component(batch.role,"ElementDamageType");}),frame.art.batches.end());
+    if(weapon_page)for(unsigned hand=0;hand<3;++hand){
+        if((hand==0&&p.facts.two_hander)||(hand==1&&!p.facts.dual_wield)||(hand==2&&!p.facts.two_hander))continue;
+        if(const auto* art=original_stat_element_art(page,hand,stats.element_type[hand==1?1:0]))
+            frame.art.batches.insert(frame.art.batches.end(),art->batches.begin(),art->batches.end());
+    }
     frame.text.erase(std::remove_if(frame.text.begin(),frame.text.end(),[&](const auto& text){return hidden(text.field.path);}),frame.text.end());
     frame.solids.erase(std::remove_if(frame.solids.begin(),frame.solids.end(),[&](const auto& solid){return hidden(solid.geometry.role);}),frame.solids.end());
 }
