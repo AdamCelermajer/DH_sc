@@ -3353,7 +3353,7 @@ int main(int argc,char** argv) {
         sourceEffectsCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
         f::platform_input::SemanticInput semanticInput;
-        std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false,enterHeld=false;
+        std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false,enterHeld=false,cinematicInputWasLocked=false,cinematicSpaceHeld=false;
         bool pauseMenuOpen=false,pauseConfirmation=false;
         // Preview 15 B049: the Stats confirmation box (see statConfirmYes/No below). Every menu close path
         // (Back, Escape, profile key, release actions) goes through the guard while points are staged.
@@ -3847,7 +3847,21 @@ int main(int argc,char** argv) {
             if(!window.focused()){semanticInput.lose_focus();mouseHeld=false;}
             const std::array<int,15> uiKeys{'A','D','W','S',VK_SHIFT,VK_SPACE,VK_TAB,'E','C',VK_ESCAPE,'1','2','3','4','5'};
             const bool scheduledSpaceHeld=std::any_of(options.spaceKeyIntervals.begin(),options.spaceKeyIntervals.end(),[&](const auto& interval){return drawn>=interval.first&&drawn<interval.first+interval.second;});
-            for(int key:uiKeys)semanticInput.key(key,window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld));
+            // B068 (1)(2): while a scripted cutscene owns the screen (SKIP shown / cutscene mode, source HUD hidden by
+            // BeginScriptedCutScene) the gameplay HUD and keyboard are not reachable: no attack, skills, menus, pause or portrait
+            // click. Only SKIP and the caption tap respond (below). Original: the HUD flash is hidden and LockCharacter All runs.
+            const bool cinematicInputLocked=campaignHost.enabled()&&(campaignHost.cutscene_mode()||campaignHost.skip_visible());
+            if(cinematicInputLocked&&!cinematicInputWasLocked){semanticInput.lose_focus();mouseHeld=false;}
+            cinematicInputWasLocked=cinematicInputLocked;
+            if(cinematicInputLocked) {
+                // PC adaptation: Space (the attack/context button) taps a waiting caption on its press edge.
+                const bool spaceDown=window.focused()&&window.key_down(VK_SPACE);
+                if(spaceDown&&!cinematicSpaceHeld)campaignHost.caption_tap();
+                cinematicSpaceHeld=spaceDown;
+            } else {
+                cinematicSpaceHeld=false;
+                for(int key:uiKeys)semanticInput.key(key,window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld));
+            }
             float pointerX=0,pointerY=0;
             bool cursorKnown=window.cursor_position(pointerX,pointerY);
             bool down=cursorKnown&&window.key_down(VK_LBUTTON);
@@ -3857,7 +3871,15 @@ int main(int argc,char** argv) {
                 pointerX=(click.x+view.offset)*view.scale;pointerY=click.y*view.scale;
                 cursorKnown=true;down=drawn==click.frame;
             }
-            if(cursorKnown) {
+            if(cursorKnown&&cinematicInputLocked) {
+                // B068 (2): the SKIP hit test runs BEFORE the HUD sees the pointer; the HUD portrait sits under SKIP.
+                // The press is consumed here, so neither the portrait (character menu) nor the attack button gets it.
+                if(!down&&mouseHeld) {
+                    if(campaignHost.cinematic_skip_hit(pointerX,pointerY,float(window.width()),float(window.height())))campaignHost.press_skip();
+                    else campaignHost.caption_tap();
+                }
+                mouseHeld=down;
+            } else if(cursorKnown) {
                 if(down&&!mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::down,{pointerX,pointerY});
                 else if(!down&&mouseHeld) {
                     // P16 CINE: a release on the SKIP control of a running cutscene presses SKIP (ignored when hidden).
