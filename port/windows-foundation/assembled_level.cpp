@@ -2,6 +2,7 @@
 #include "level_manifest.hpp"
 #include <algorithm>
 #include <cctype>
+#include <cstdlib>
 #include <limits>
 #include <map>
 #include <stdexcept>
@@ -20,6 +21,19 @@ std::filesystem::path find_asset(AssetCatalog& assets,const std::filesystem::pat
     }
     for(const auto& path:paths) {try{assets.resolve(path);return path;}catch(const std::exception&) {}}
     throw std::runtime_error("Level resource is missing: "+uri);
+}
+// B109 diagnostic: DH_LEVEL_SKIP="sub1,sub2" omits modules/decor whose declaration name contains a substring
+// ("@modules" / "@decor" omit every module / decor). Bisection aid only; unset in production.
+bool diagnostic_skip(const std::string& name,bool decor) {
+    static const std::string list=[]{const char* v=std::getenv("DH_LEVEL_SKIP");return std::string(v?v:"");}();
+    if(list.empty()) return false;
+    std::size_t from=0;
+    for(;;) {
+        const auto next=list.find(',',from);const auto token=list.substr(from,next==std::string::npos?std::string::npos:next-from);
+        if(!token.empty()&&((token=="@modules"&&!decor)||(token=="@decor"&&decor)||name.find(token)!=std::string::npos)) return true;
+        if(next==std::string::npos) return false;
+        from=next+1;
+    }
 }
 void merge(OriginalScene& combined,OriginalScene&& part) {
     if(combined.mesh.vertices.size()+part.mesh.vertices.size()>std::numeric_limits<std::uint32_t>::max())
@@ -69,6 +83,7 @@ bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::pa
             const auto path=find_asset(assets,manifestRelative,module.assetPath);
             auto entry=cache.find(path);if(entry==cache.end()) entry=cache.emplace(path,assets.read(path)).first;
             OriginalScene part;
+            if(diagnostic_skip(module.name,false)) {combined.notices.push_back("Diagnostic skip module: "+module.name);continue;}
             if(!decode_original_scene_module(entry->second,module.authoredNode,module.placement,part,error)) {
                 error=module.name+": "+error;return false;
             }
@@ -99,6 +114,7 @@ bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::pa
                 combined.notices.push_back("Module visual skipped: "+module.name+" ["+ex.what()+"]");continue;
             }
             for(const auto& item:decor) {
+                if(diagnostic_skip(item.name,true)) {combined.notices.push_back("Diagnostic skip decor: "+item.name);continue;}
                 try {
                     const auto path=find_asset(assets,manifestRelative,item.assetPath);
                     auto entry=cache.find(path);if(entry==cache.end()) entry=cache.emplace(path,assets.read(path)).first;

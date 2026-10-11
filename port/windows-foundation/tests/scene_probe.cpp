@@ -3,7 +3,9 @@
 #include "../scene-materials/scene.hpp"
 #include "../asset-payloads/payloads.hpp"
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -60,6 +62,13 @@ int dump(const std::vector<std::uint8_t>& bytes,bool nodes,bool anims) {
                     float lo[3]{1e30f,1e30f,1e30f},hi[3]{-1e30f,-1e30f,-1e30f};
                     for(std::uint32_t v=0;v<mesh.vertices;++v) {float p[4]{};if(!dh2_attribute_read(&positions,v,p)) break;for(int c=0;c<3;++c){lo[c]=std::min(lo[c],p[c]);hi[c]=std::max(hi[c],p[c]);}}
                     std::cout<<"  decoded position extent="<<lo[0]<<','<<lo[1]<<','<<lo[2]<<" .. "<<hi[0]<<','<<hi[1]<<','<<hi[2]<<'\n';
+                }
+                // Distinct vertex colours (attribute 2) of this mesh: baked tint vs packed indices.
+                dh2::assets::Attribute colours{};
+                if(std::getenv("SCENE_PROBE_COLORS")&&dh2_mesh_attribute(&mesh,primitive.attributes[2],&colours)==dh2::assets::Error::ok) {
+                    std::vector<std::array<int,4>> seen;
+                    for(std::uint32_t v=0;v<mesh.vertices&&seen.size()<24;++v) {float c[4]{};if(!dh2_attribute_read(&colours,v,c)) break;std::array<int,4> k{int(c[0]),int(c[1]),int(c[2]),int(c[3])};if(std::find(seen.begin(),seen.end(),k)==seen.end())seen.push_back(k);}
+                    std::cout<<"  colours:";for(const auto& k:seen)std::cout<<' '<<k[0]<<','<<k[1]<<','<<k[2]<<','<<k[3];std::cout<<'\n';
                 }
             }
         }
@@ -167,5 +176,17 @@ int main(int argc,char** argv) {
              <<scene.minimum.x<<','<<scene.minimum.y<<','<<scene.minimum.z
              <<"\nmaximum="<<scene.maximum.x<<','<<scene.maximum.y<<','<<scene.maximum.z<<'\n';
     for(const auto& notice:scene.notices) std::cout<<notice<<'\n';
+    if(std::getenv("SCENE_PROBE_MATERIALS")) {
+        // B109 diagnostic: per draw range, the authored material, technique, texture matrix and the decoded UV extent.
+        for(std::size_t r=0;r<scene.mesh.ranges.size()&&r<scene.materials.size();++r) {
+            const auto& range=scene.mesh.ranges[r];const auto& m=scene.materials[r];
+            float ulo=1e30f,uhi=-1e30f,vlo=1e30f,vhi=-1e30f;
+            for(std::size_t k=range.firstIndex;k<range.firstIndex+range.indexCount;++k){const auto& v=scene.mesh.vertices[scene.mesh.indices[k]];ulo=std::min(ulo,v.u);uhi=std::max(uhi,v.u);vlo=std::min(vlo,v.v);vhi=std::max(vhi,v.v);}
+            std::cout<<"range["<<r<<"] tris="<<range.indexCount/3<<" material="<<m.id<<" diffuse="<<m.diffuse<<" alpha="<<m.alphaMap<<" effect="<<m.effectFile
+                     <<" technique="<<m.technique<<" lit="<<range.material.levelLit<<" transparent="<<range.material.transparent<<" additive="<<range.material.additive
+                     <<" tm=["<<m.textureMatrix[0]<<','<<m.textureMatrix[1]<<','<<m.textureMatrix[4]<<','<<m.textureMatrix[5]<<" t "<<m.textureMatrix[8]<<','<<m.textureMatrix[9]<<"]"
+                     <<" uv=["<<ulo<<".."<<uhi<<" x "<<vlo<<".."<<vhi<<"]\n";
+        }
+    }
     if(planPath) write_plan(scene,planPath,plan[0],plan[1],plan[2],plan[3],planPx);
 }
