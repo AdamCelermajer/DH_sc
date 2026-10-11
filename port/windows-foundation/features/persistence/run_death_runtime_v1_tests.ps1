@@ -11,6 +11,7 @@ $args = @('-std=c++17','-O0','-static','-Wall','-Wextra','-Werror','-Wpedantic',
     'port/windows-foundation/features/persistence/death_flow_v1.cpp',
     'port/windows-foundation/features/persistence/death_screen_v1.cpp',
     'port/windows-foundation/features/persistence/death_screen_runtime_v1.cpp',
+    'port/windows-foundation/features/persistence/death_fade_from_black_v1.cpp',
     'port/windows-foundation/features/persistence/death_checkpoint_load_v1.cpp',
     'port/windows-foundation/features/persistence/death_runtime_v1_tests.cpp',
     '-o',$exe)

@@ -1,5 +1,6 @@
 #include "death_checkpoint_load_v1.hpp"
 #include "death_screen_runtime_v1.hpp"
+#include "death_fade_from_black_v1.hpp"
 
 #include <algorithm>
 #include <cstdlib>
@@ -258,6 +259,41 @@ void test_invalid_checkpoint_admission() {
     check(!begin_death_checkpoint_load_v1(false, true, ticket, error) && !ticket.valid,
           "invalid current level rejects checkpoint load");
 }
+
+void test_source_fade_from_black_timeline() {
+    constexpr std::array<std::uint8_t, 33> alpha{{
+        255,248,240,232,224,216,208,200,192,184,176,
+        168,160,152,144,136,128,120,112,104,96,88,
+        80,72,64,56,48,40,32,24,16,8,0
+    }};
+    OriginalFadeFromBlackRuntimeV1 runtime;
+    std::string error;
+    check(runtime.start(error), "source sprite743 fade starts once after native push");
+    FadeFromBlackFrameV1 frame;
+    check(runtime.frame(frame, error) && frame.frame == 0 && frame.black_alpha == 255 &&
+          !frame.pop_menu_callback,
+          "sprite743 begins with the black cover fully opaque");
+    for (std::uint8_t i = 1; i <= 32; ++i) {
+        check(runtime.advance(frame, error), "sprite743 advances one authored frame");
+        check(frame.frame == i && frame.black_alpha == alpha[i] &&
+              frame.pop_menu_callback == (i == 32),
+              "sprite743 frame alpha and frame32 native pop match the source timeline");
+        if (i == 32) {
+            check(!runtime.advance(frame, error),
+                  "frame32 cannot advance before the native menu pop is serviced");
+            check(runtime.confirm_native_pop(true, error) && runtime.popped(),
+                  "frame32 performs one native menu pop");
+        }
+    }
+    check(!runtime.advance(frame, error) && !runtime.confirm_native_pop(true, error),
+          "a completed fade cannot be advanced or popped twice");
+
+    OriginalFadeFromBlackRuntimeV1 failed_pop;
+    check(failed_pop.start(error), "independent source fade instance starts");
+    for (int i = 0; i < 32; ++i) check(failed_pop.advance(frame, error), "failed-pop fixture advances");
+    check(!failed_pop.confirm_native_pop(false, error) && !failed_pop.advance(frame, error),
+          "failed native pop is terminal and cannot silently remove the fade");
+}
 }
 
 int main() {
@@ -268,5 +304,6 @@ int main() {
     test_checkpoint_order_and_optional_source_owners();
     test_checkpoint_failure_prefix_and_cleanup();
     test_invalid_checkpoint_admission();
+    test_source_fade_from_black_timeline();
     std::cout << "PASS: rendered-source death timeline, Continue/Hide/revive, and source-ordered checkpoint QEST load failure prefixes\n";
 }
