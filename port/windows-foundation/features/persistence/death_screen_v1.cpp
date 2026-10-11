@@ -132,4 +132,22 @@ bool original_death_continue_hit_test_v1(float stage_x, float stage_y,
            y >= hit.local_bounds_twips[2] && y <= hit.local_bounds_twips[3];
 }
 
+bool original_death_screen_to_stage_v1(float screen_x, float screen_y,
+                                       int viewport_width, int viewport_height,
+                                       float& stage_x, float& stage_y) noexcept {
+    stage_x = stage_y = 0.f;
+    if (viewport_width <= 0 || viewport_height <= 0 ||
+        !std::isfinite(screen_x) || !std::isfinite(screen_y)) return false;
+    const float scale = std::min(static_cast<float>(viewport_width) / 480.f,
+                                 static_cast<float>(viewport_height) / 320.f);
+    const float ox = (static_cast<float>(viewport_width) - 480.f * scale) * 0.5f;
+    const float oy = (static_cast<float>(viewport_height) - 320.f * scale) * 0.5f;
+    if (screen_x < ox || screen_y < oy ||
+        screen_x >= ox + 480.f * scale || screen_y >= oy + 320.f * scale)
+        return false;
+    stage_x = (screen_x - ox) / scale;
+    stage_y = (screen_y - oy) / scale;
+    return true;
+}
+
 } // namespace dh::foundation::persistence::death_flow
