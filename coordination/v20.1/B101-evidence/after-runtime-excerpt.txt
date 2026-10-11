@@ -1,0 +1,42 @@
+Door view _prim_SwampDoor state=0 present=1 meshes=2 at=-12588.5,11512,73.5546
+Door view _prim_SwampDoor_FIRE state=0 present=1 meshes=1 at=-12754.5,11512,73.5546
+Door view _prim_Swamp2Door_FIRE state=0 present=1 meshes=1 at=-11975.2,9791.12,73.5546
+Embedded FX _prim_SwampDoor not attached: Required external authored mesh effect
+Embedded FX _prim_SwampDoor_FIRE attached model=data/3D/GameObjects/go_swamp_door_ruins_fire.bdae
+Embedded FX _prim_Swamp2Door_FIRE attached model=data/3D/GameObjects/go_door_fire_red.bdae
+Camera named target _prim_Waypoint_BlueDoor found=1 id=10454585578964073914 ok=1
+[campaign] caption frame=4 strid=2031677 actor=8 speaker=Celeste style=MiddleBubble text=That just leads deeper into the bogs, Player.
+Camera named target _prim_Waypoint_BlueDoor found=1 id=10454585578964073914 ok=1
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.333333,0.0627451,0,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.952941,0.184314,0.00392157,1 blend=1,1 lighting=0 texture=23
+[campaign] caption frame=79 strid=2031678 actor=8 speaker=Celeste style=MiddleBubble text=Trust me, only a crazy person would want to go that way...
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.94902,0.184314,0.00392157,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.709804,0.137255,0,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.239216,0.0470588,0,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.94902,0.184314,0.00392157,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.952941,0.184314,0.00392157,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.0941176,0.0156863,0,1 blend=1,1 lighting=0 texture=23
+[door] command kind=54 open declaration=_prim_Swamp2Door_FIRE skip=0 wait=0 state=0->3 busy=1
+[door] command kind=54 open declaration=_prim_Swamp2Door_FIRE skip=0 wait=0 state=3->3 busy=1
+[door] command kind=55 close declaration=_prim_Swamp2Door_FIRE skip=0 wait=0 state=3->3 busy=1
+DOORDBG marker name=_prim_Swamp2Door_FIRE state=1 busy=1 clip=open sourceMs=3049.44
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.952941,0.184314,0.00392157,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.952941,0.184314,0.00392157,1 blend=1,1 lighting=0 texture=23
+DOORDBG end name=_prim_Swamp2Door_FIRE state=1 busy=0 clip=open endedSourceMs=4000
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.952941,0.184314,0.00392157,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.356863,0.0705882,0,1 blend=1,1 lighting=0 texture=23
+[door] command kind=55 close declaration=_prim_Swamp2Door_FIRE skip=0 wait=0 state=1->2 busy=1
+[door] command kind=55 close declaration=_prim_Swamp2Door_FIRE skip=0 wait=0 state=2->2 busy=1
+[door] command kind=54 open declaration=_prim_Swamp2Door_FIRE skip=0 wait=0 state=2->2 busy=1
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.282353,0.054902,0,1 blend=1,1 lighting=0 texture=23
+DOORDBG marker name=_prim_Swamp2Door_FIRE state=0 busy=1 clip=close sourceMs=8683.6
+DOORDBG end name=_prim_Swamp2Door_FIRE state=0 busy=0 clip=close endedSourceMs=9333
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.572549,0.109804,0,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.215686,0.0392157,0,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.858824,0.164706,0,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.239216,0.0470588,0,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.380392,0.0745098,0,1 blend=1,1 lighting=0 texture=23
+[door] command kind=54 open declaration=_prim_Swamp2Door_FIRE skip=0 wait=0 state=0->3 busy=1
+DOORDBG marker name=_prim_Swamp2Door_FIRE state=1 busy=1 clip=open sourceMs=3049.8
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.952941,0.184314,0.00392157,1 blend=1,1 lighting=0 texture=23
+FXPACKET uri=data/3D/GameObjects/go_door_fire_red.bdae material=Standard_20 tint=1,1,1,1 vertex=0.952941,0.184314,0.00392157,1 blend=1,1 lighting=0 texture=23
