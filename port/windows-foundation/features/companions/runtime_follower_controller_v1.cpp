@@ -51,9 +51,15 @@ bool RuntimeFollowerControllerV1::update(CombatSession& session, double dt_secon
         if (!owner || !owner->alive() || owner->action == CharacterAction::dead) continue;
         auto& runtime = actors_[id];
         if (runtime.failed) continue;
-        if (services_.enabled && !services_.enabled(id)) continue;
+        const char* skip = nullptr;
+        if (services_.enabled && !services_.enabled(id)) skip = "not enabled in the level population";
         // A script, cutscene or hit reaction owns the pose: the AI does not run on this actor right now.
-        if (session.owns_pose(id)) continue;
+        else if (session.owns_pose(id)) skip = "pose owned by a script/state sequence";
+        if (skip != runtime.skip) {
+            std::cout << "[follower] actor=" << id << " script=" << ai->script << (skip ? std::string(" waiting: ") + skip : std::string(" running")) << '\n';
+            runtime.skip = skip;
+        }
+        if (skip) continue;
         ++report_.ticks;
 
         FollowerInputV1 input;
