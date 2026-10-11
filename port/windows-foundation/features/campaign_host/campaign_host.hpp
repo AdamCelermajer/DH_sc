@@ -146,6 +146,12 @@ public:
     };
     HostState host_state() const;
     bool cutscene_mode() const noexcept { return cutscene_mode_; }
+    // B068: SetCameraClip planes; 0 = use the level config (camera_znear / camera_zfar).
+    float camera_near_override() const noexcept { return camera_near_override_; }
+    float camera_far_override() const noexcept { return camera_far_override_; }
+    // B068: a scripted PlayActorAnim clip owns the actor's pose (playing, or finished and held) until PutCharacterInIdle: the per-frame
+    // locomotion selection of the local player must not replace it (the original CharStateMachine stays in the scripted anim state).
+    bool scripted_clip_pose(ActorId id) const noexcept { return held_clip_actors_.count(id) != 0; }
     bool save_blocked() const noexcept { return save_blocked_; }
     bool global_controller_blocked() const noexcept { return global_blocked_; }
 
@@ -197,6 +203,8 @@ private:
     // Script_PlayActorAnim::IsBlocking); its chained clip (scalar 12) starts when the first one ends.
     struct ActorClipState { std::int32_t remaining_ms=0; std::int32_t follow_dictionary=-1; };
     std::map<ActorId,ActorClipState> actor_clips_;
+    float camera_near_override_ = 0.f, camera_far_override_ = 0.f; // B068
+    std::set<ActorId> held_clip_actors_; // B068: actors whose scripted clip pose is held until PutCharacterInIdle / the End contract
     bool actor_verb(const OriginalCampaignCommand& c, CampaignCommandPhase phase, int module, bool& blocking, std::string& e);
     bool advance_actor_clips(std::int32_t dt_ms, std::string& error);
     std::set<std::string> actor_verb_unresolved_;

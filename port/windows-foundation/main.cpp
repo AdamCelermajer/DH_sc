@@ -1934,6 +1934,17 @@ int main(int argc,char** argv) {
             if(auto* actor=combatSession?combatSession->actor(id):nullptr) {
                 if(options.sourceNativeBodies) {if(!nativeBodies.set_position(id,position,true,e))return false;}
                 else actor->transform.position=position;
+                if(id==combatSession->player_id()) {
+                    // B068 (9): SetActorPosition on the local player (IDA Script_SetActorPosition: GameObject::SetPosition(waypoint, true) and
+                    // ForceUpdatePosition) also moves the movement owner, the camera anchor and the follow camera; before this the
+                    // player body moved but the per-frame movement owner put it back (the intro hero never reached its cage).
+                    options.actorPosition={position[0],position[1],position[2]};
+                    if(motor)motor->setPosition(options.actorPosition,actor->transform.rotation[2]);
+                    std::string anchorError;
+                    if(actorCameraAnchor.initialized())actorCameraAnchor.reset(actorCameraFrame(),anchorError);
+                    const auto anchorNow=actorCameraAnchor.initialized()?actorCameraAnchor.position():f::CameraVec3{position[0],position[1],position[2]};
+                    if(options.sourceCamera)originalCamera.reset(anchorNow,anchorError);
+                }
                 return true;
             }
             if(auto* placed=populationActor(id)) {placed->transform[12]=position[0];placed->transform[13]=position[1];placed->transform[14]=position[2];return true;}
@@ -4531,7 +4542,7 @@ int main(int argc,char** argv) {
                 // Direction/target input still uses the preview admission policy.
                 gameplayInput.move2D={};gameplayInput.run=false;gameplayInput.targetSelect=false;
             }
-            if(!gameplayPaused&&motor&&(!combatSession||(combatSession->actor(combatSession->player_id())->alive()&&!combatSession->owns_pose(combatSession->player_id())))) {
+            if(!gameplayPaused&&motor&&(!combatSession||(combatSession->actor(combatSession->player_id())->alive()&&!combatSession->owns_pose(combatSession->player_id())&&!campaignHost.scripted_clip_pose(combatSession->player_id())))) { // B068: a scripted PlayActorAnim pose is not replaced by the locomotion selection
                 f::InputActions input;input.move2D=gameplayInput.move2D;input.run=gameplayInput.run;
                 if(playerControllerBlocked)input={};
                 auto basis=options.sourceCamera?originalCamera.movementBasis():f::cameraMovementBasis(freeCamera.pose());
@@ -4899,7 +4910,7 @@ int main(int argc,char** argv) {
             if(playerSourceBox&&!f::OriginalActorBounds::update_absolute(*playerSourceBox,options.actorPosition,error))throw std::runtime_error("Source body absolute bounds: "+error);
             if(options.sourceNativeBodies&&!sourcePhysicalFrameEnabled)for(const auto& entry:sourceBodyPlans){auto* actor=combatSession->actor(entry.first);if(!nativeBodies.set_position(entry.first,actor->transform.position,false,error))throw std::runtime_error("Native body position sync: "+error);}
             auto activeCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
-            if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=originalCamera.config().nearPlane;activeCamera.farPlane=originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
+            if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=campaignHost.camera_near_override()>0?campaignHost.camera_near_override():originalCamera.config().nearPlane;activeCamera.farPlane=campaignHost.camera_far_override()>0?campaignHost.camera_far_override():originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
@@ -4953,8 +4964,14 @@ int main(int argc,char** argv) {
             }
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_prepare);
             renderer.beginFrame(activeCamera);
-            auto actorWorld=f::identity();float angle=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0),c=std::cos(angle),s=std::sin(angle);
-            actorWorld[0]=c*actorScale.x;actorWorld[1]=s*actorScale.x;actorWorld[4]=-s*actorScale.y;actorWorld[5]=c*actorScale.y;actorWorld[10]=actorScale.z;
+            // B068 (4)(9): scripted PlayActorAnim clips (cutscene "cs:" BDAEs) are authored in the world frame of the cutscene: the clip root
+            // carries absolute positions (Bip01 of the hero at the cage, the troll next to it) and the actors are placed at Waypoint_5 and
+            // turned to Waypoint_LookSpot (south) by the script, which is the identity orientation of those clips. The gameplay facing of
+            // this port (+x forward clips) is therefore turned a quarter turn for a scripted pose, and the unit scale is kept.
+            const bool heroScriptedPose=combatSession&&campaignHost.scripted_clip_pose(combatSession->player_id());
+            auto actorWorld=f::identity();float angle=(options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0))+(heroScriptedPose?1.5707963f:0.f),c=std::cos(angle),s=std::sin(angle);
+            const f::Vec3 drawScale=heroScriptedPose?f::Vec3{1,1,1}:actorScale;
+            actorWorld[0]=c*drawScale.x;actorWorld[1]=s*drawScale.x;actorWorld[4]=-s*drawScale.y;actorWorld[5]=c*drawScale.y;actorWorld[10]=drawScale.z;
             actorWorld[12]=options.actorPosition.x;actorWorld[13]=options.actorPosition.y;actorWorld[14]=options.actorPosition.z;
             f::RenderQueue queue;
             scene.mesh.staticGeometry=true; // B066: level geometry never changes after load (GPU buffers, range caches, frustum culling)
@@ -4978,7 +4995,7 @@ int main(int argc,char** argv) {
                 auto placement=actor.transform;
                 if(const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr) {
                     const float sx=std::hypot(placement[0],placement[1]),sy=std::hypot(placement[4],placement[5]);
-                    const float yaw=live->transform.rotation[2];placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
+                    const float yaw=live->transform.rotation[2]+(campaignHost.scripted_clip_pose(actor.definition.stableId)?1.5707963f:0.f);placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
                     placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];
                 }
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);

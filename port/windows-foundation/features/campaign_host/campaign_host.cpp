@@ -1,4 +1,5 @@
 #include "campaign_host.hpp"
+#include <cstdlib>
 #include <algorithm>
 #include <cctype>
 #include <iostream>
@@ -240,6 +241,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         return true;
     };
     if (!p.set_idle) p.set_idle = [this](ActorId id, bool wait, std::string& e) {
+        held_clip_actors_.erase(id); // B068: PutCharacterInIdle ends the scripted clip pose
         if (!services_.actor_state || !services_.set_actor_state) { e = "PutCharacterInIdle requires the live actor state owner"; return false; }
         bool alive = false;
         std::int32_t state = -1;
@@ -435,6 +437,8 @@ bool CampaignHost::advance_camera_clip(std::int32_t dt_ms, std::string& error) {
 bool CampaignHost::abort_cutscene(std::string& error) {
     clip_active_ = false; // P16 CINE2: abort ends a playing camera clip (follow camera resumes)
     actor_clips_.clear(); // P16 OPENING: abort ends scripted actor clip timers (the pose stays as the clip left it)
+    held_clip_actors_.clear(); // B068
+    camera_near_override_ = camera_far_override_ = 0.f; // B068: the level camera clip planes return
     cinematic_.set_active(false); // P16 CINE: abort drops caption lines and the SKIP control
     hud_visible_ = true;
     skip_visible_ = false;
@@ -494,6 +498,7 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         state.remaining_ms = duration;
         state.follow_dictionary = signed_field(c, 12);
         actor_clips_[id] = state;
+        held_clip_actors_.insert(id); // B068
         std::cout << "[campaign] PlayActorAnim actor=" << id << " clip=" << signed_field(c, 8) << " duration_ms=" << duration
                   << " wait=" << signed_field(c, 28) << '\n';
         return true;
@@ -555,7 +560,17 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     // OPENING2: Script_CONSOLE (kind 3) shows its text only when the DisplayScriptConsoleAsDialog debug switch is on;
     // the release default is off (IDA Script_CONSOLE::Execute), so the command does nothing and never blocks.
     case 3:  if (phase == CampaignCommandPhase::execute) unsupported_.note("Script_CONSOLE is a debug command (no-op: DisplayScriptConsoleAsDialog is off)"); return true;
-    case 6:  if (phase == CampaignCommandPhase::execute) unsupported_.note("stub SetCameraClip (camera transition tuning not decoded)"); return true;
+    case 6: { // Script_SetCameraClip (IDA 0x45c670): scalar 12 = camera near plane (camera vtable+304), scalar 8 = far plane (+308);
+              // a value <= 0 changes nothing, except -2 which restores the level config znear/zfar. Not gated by SKIP.
+        if (phase != CampaignCommandPhase::execute) return true;
+        const auto far_value = signed_field(c, 8), near_value = signed_field(c, 12);
+        if (near_value > 0) camera_near_override_ = static_cast<float>(near_value);
+        else if (near_value == -2) camera_near_override_ = 0.f;
+        if (far_value > 0) camera_far_override_ = static_cast<float>(far_value);
+        else if (far_value == -2) camera_far_override_ = 0.f;
+        std::cout << "[campaign] SetCameraClip near=" << camera_near_override_ << " far=" << camera_far_override_ << " (0 = level config)\n";
+        return true;
+    }
     case 19: { // Script_PlayAnimByName: object @24 plays clip @12 on its visual (IDA: visual animator Play(clip,0,0,0)); no wait
         if (phase != CampaignCommandPhase::execute) return true;
         if (skip_active()) return true; // SKIP16: IDA Script_PlayAnimByName::Execute is gated on !skip

@@ -1,6 +1,8 @@
 #include "retained_animation_owner.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
+#include <iostream>
 
 namespace dh::foundation {
 namespace {
@@ -41,6 +43,8 @@ bool RetainedAnimationOwner::select(const std::string& clip,bool loop,float rate
     const auto before=pose_.slots();
     if(!pose_.select(clip,loop,rate,blend_out_ms,error,replay_extra_ms)) return false;
     move_go_=move_go;
+    visual_.set_absolute_root(clip.rfind("cs:",0)==0||clip.find("/cs:")!=std::string::npos);
+    if(std::getenv("DH_DBG_ABS"))std::cout<<"DBG select "<<clip<<std::endl; // B068: scripted cutscene clips keep their authored absolute root
     return collect(before,true,output,error);
 }
 

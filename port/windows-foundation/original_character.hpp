@@ -99,6 +99,9 @@ public:
                       Mat4& output, std::string& error) const;
     // Per-update authored local delta (XYZ); original movement consumes XY and
     // supplies scale, facing and collision externally. Consumption clears it once.
+    // B068: a scripted cutscene clip (PlayActorAnim, name "cs:<id>") draws the actor at its AUTHORED absolute root position: the helper
+    // parent that cancels the animated root (consume_root_motion) is not applied while this is set. Cleared for every other clip.
+    void set_absolute_root(bool absolute) noexcept;
     Vec3 root_motion_delta() const;
     Vec3 take_root_motion();
     const char* root_motion_node_id() const;
