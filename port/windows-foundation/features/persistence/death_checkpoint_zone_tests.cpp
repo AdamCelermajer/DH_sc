@@ -32,9 +32,9 @@ bool record_positions(void* p,const std::string&,const std::array<float,3>& key,
 }
 bool save_qest(void* p,std::string& e){auto& t=*static_cast<Trace*>(p);t.calls.push_back("qest");if(t.fail=="qest"){e="qest failed";return false;}return true;}
 bool capture_game(void* p,GameSave& game,std::string& e){auto& t=*static_cast<Trace*>(p);t.calls.push_back("capture");game.level_uri="data/scene/003_darkwood.mlx";if(t.fail=="capture"){e="capture failed";return false;}return true;}
-bool actor_enabled(void*,ActorId,bool& yes,std::string&){yes=true;return true;}
+bool actor_facts(void*,ActorId,SourceCheckpointObjectFamilyV1& family,bool& skip,std::string&){family=SourceCheckpointObjectFamilyV1::character;skip=false;return true;}
 bool actor_state(void*,ActorId,std::uint32_t& state,bool& dead,std::string&){state=3;dead=false;return true;}
-bool object_enabled(void*,ObjectId,bool& yes,std::string&){yes=true;return true;}
+bool object_facts(void*,ObjectId,SourceCheckpointObjectFamilyV1& family,bool& skip,std::string&){family=SourceCheckpointObjectFamilyV1::container;skip=false;return true;}
 bool persist_level(void* p,const GameSave&,const DeathCheckpointSnapshotV1& s,std::string& e){
     auto& t=*static_cast<Trace*>(p);t.calls.push_back("level-save");
     check(s.checkpoint_key_position==t.key&&s.revive_position==t.revive,"snapshot did not preserve exact zone/revive positions");
@@ -43,7 +43,7 @@ bool persist_level(void* p,const GameSave&,const DeathCheckpointSnapshotV1& s,st
 DeathCheckpointZoneServicesV1 services(Trace& t){
     DeathCheckpointZoneServicesV1 s;s.context=&t;s.record_checkpoint_positions=record_positions;
     s.save_player_qest_checkpoint=save_qest;s.capture_current_game_save=capture_game;
-    s.capture_services={&t,actor_enabled,actor_state,object_enabled};s.save_level_checkpoint=persist_level;return s;
+    s.capture_services={&t,actor_facts,actor_state,object_facts};s.save_level_checkpoint=persist_level;return s;
 }
 DeathCheckpointZoneContactV1 contact(){
     DeathCheckpointZoneContactV1 c;c.source_level_state=38;c.contact_object_zonable=true;
@@ -80,8 +80,26 @@ void test_source_character_restore_state_table(){
           std::find(p.ordered_operations.begin(),p.ordered_operations.end(),SourceCharacterRestoreOpV1::initialize_physical_if_missing)!=p.ordered_operations.end()&&
           std::find(p.ordered_operations.begin(),p.ordered_operations.end(),SourceCharacterRestoreOpV1::set_idle_zero)!=p.ordered_operations.end(),
           "saved-alive branch initializes missing physical body and enters Idle without CanRespawn");
-    check(source_character_restore_plan_v1(0xffffffffu,false,false,false,std::nullopt,false,p,error)&&!p.resulting_dead,
+    check(source_character_restore_plan_v1(3,false,false,false,std::nullopt,std::nullopt,p,error)==false,
+          "saved-alive branch refuses to guess whether its source physical body is absent");
+    check(source_character_restore_plan_v1(0xffffffffu,false,false,false,std::nullopt,true,p,error)&&!p.resulting_dead,
           "out-of-range serialized state avoids undefined bit shifts and follows saved-alive branch");
+}
+void test_source_checkpoint_object_family_table(){
+    std::string error;bool eligible=false;
+    for(const auto family:{SourceCheckpointObjectFamilyV1::character,SourceCheckpointObjectFamilyV1::container,
+            SourceCheckpointObjectFamilyV1::door,SourceCheckpointObjectFamilyV1::module,
+            SourceCheckpointObjectFamilyV1::native_trigger}){
+        check(source_checkpoint_object_eligible_v1(family,false,eligible,error)&&eligible,
+              "source checkpoint-enabled constructor family is eligible by default");
+        check(source_checkpoint_object_eligible_v1(family,true,eligible,error)&&!eligible,
+              "authored skip_checkpoint clears source eligibility");
+    }
+    for(const auto family:{SourceCheckpointObjectFamilyV1::object_base,SourceCheckpointObjectFamilyV1::area_zone})
+        check(source_checkpoint_object_eligible_v1(family,false,eligible,error)&&!eligible,
+              "ObjectBase and area Zone do not inherit checkpoint eligibility");
+    check(!source_checkpoint_object_eligible_v1(SourceCheckpointObjectFamilyV1::unknown,false,eligible,error),
+          "unknown source class family fails closed");
 }
 void test_checkpoint_zone_source_gates_and_order(){
     std::string error;DeathCheckpointZoneReceiptV1 receipt;
@@ -118,6 +136,6 @@ void test_checkpoint_zone_failures_stop_order(){
     }
 }
 }
-int main(){try{test_checkpoint_zone_source_gates_and_order();test_checkpoint_zone_failures_stop_order();test_source_character_restore_state_table();
+int main(){try{test_checkpoint_zone_source_gates_and_order();test_checkpoint_zone_failures_stop_order();test_source_character_restore_state_table();test_source_checkpoint_object_family_table();
     std::cout<<"PASS: CheckpointZone IsZonable/local-player/key/Level+304/savegame/IsDead gates, exact positions, source save order and failure prefixes\n";
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return EXIT_FAILURE;}return EXIT_SUCCESS;}

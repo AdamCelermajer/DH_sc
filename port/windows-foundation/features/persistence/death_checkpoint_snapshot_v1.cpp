@@ -31,13 +31,18 @@ bool finite_transform(const Transform& t) {
 bool finite_position(const std::array<float,3>& p) {
     return std::all_of(p.begin(), p.end(), [](float v) { return std::isfinite(v); });
 }
-bool callback(bool (*fn)(void*, ActorId, bool&, std::string&), void* ctx,
-              ActorId id, bool& output, const char* missing, std::string& error) {
-    if (!fn) { error = missing; return false; }
-    if (!fn(ctx, id, output, error)) {
-        if (error.empty()) error = "Checkpoint actor admission provider failed";
-        return false;
-    }
+bool actor_family(bool (*fn)(void*, ActorId, SourceCheckpointObjectFamilyV1&,
+                 bool&,std::string&),void* ctx,ActorId id,
+                 SourceCheckpointObjectFamilyV1& family,bool& skip,std::string& error) {
+    if(!fn){error="Source actor checkpoint family provider is required";return false;}
+    if(!fn(ctx,id,family,skip,error)){if(error.empty())error="Source actor checkpoint family provider failed";return false;}
+    return true;
+}
+bool object_family(bool (*fn)(void*, ObjectId, SourceCheckpointObjectFamilyV1&,
+                  bool&,std::string&),void* ctx,ObjectId id,
+                  SourceCheckpointObjectFamilyV1& family,bool& skip,std::string& error) {
+    if(!fn){error="Source object checkpoint family provider is required";return false;}
+    if(!fn(ctx,id,family,skip,error)){if(error.empty())error="Source object checkpoint family provider failed";return false;}
     return true;
 }
 
@@ -149,7 +154,7 @@ bool capture_death_checkpoint_snapshot_v1(
     DeathCheckpointSnapshotV1& output, std::string& error) {
     if(!validate_game_save(game,error))return false;
     if(game.level_uri!=level_uri)return (error="GameSave is for a different loaded level",false);
-    if(!services.actor_checkpoint_enabled||!services.actor_source_state||!services.object_checkpoint_enabled)
+    if(!services.actor_checkpoint_facts||!services.actor_source_state||!services.object_checkpoint_facts)
         return (error="Source checkpoint eligibility and Character-state providers are required",false);
     DeathCheckpointSnapshotV1 next;
     next.level_uri=level_uri;next.checkpoint_name=checkpoint_name;
@@ -159,9 +164,10 @@ bool capture_death_checkpoint_snapshot_v1(
     if(next.qest_present)next.qest=game.character.source_quest_progress_cqpg;
     try {
         for(const auto& p:game.actors){
-            bool eligible=false;
-            if(!callback(services.actor_checkpoint_enabled,services.context,p.actor.id,eligible,
-                         "Source actor checkpoint eligibility provider is required",error))return false;
+            SourceCheckpointObjectFamilyV1 family=SourceCheckpointObjectFamilyV1::unknown;
+            bool skipCheckpoint=false,eligible=false;
+            if(!actor_family(services.actor_checkpoint_facts,services.context,p.actor.id,family,skipCheckpoint,error)||
+               !source_checkpoint_object_eligible_v1(family,skipCheckpoint,eligible,error))return false;
             if(!eligible)continue;
             DeathCheckpointActorV1 a;
             a.id=p.actor.id;a.definition_id=p.actor.definition_id;
@@ -175,8 +181,10 @@ bool capture_death_checkpoint_snapshot_v1(
             next.actors.push_back(std::move(a));
         }
         for(const auto& o:game.objects){
-            bool eligible=false;
-            if(!services.object_checkpoint_enabled(services.context,o.id,eligible,error)){
+            SourceCheckpointObjectFamilyV1 family=SourceCheckpointObjectFamilyV1::unknown;
+            bool skipCheckpoint=false,eligible=false;
+            if(!object_family(services.object_checkpoint_facts,services.context,o.id,family,skipCheckpoint,error)||
+               !source_checkpoint_object_eligible_v1(family,skipCheckpoint,eligible,error)){
                 if(error.empty())error="Source object checkpoint eligibility provider failed";return false;
             }
             if(eligible)next.objects.push_back(o);
@@ -288,16 +296,17 @@ bool restore_death_checkpoint_snapshot_v1(
             const auto& saved=*it->second;
             if(saved.definition_id!=p.actor.definition_id||saved.player!=(p.traits.is_player||id==snapshot.controlled_actor_id))
                 return (error="Death checkpoint actor identity/role differs",false);
-            bool alreadyLimbus=false,alreadyPreSpawn=false;std::optional<bool> canRespawn;
+            bool alreadyLimbus=false,alreadyPreSpawn=false;
+            std::optional<bool> canRespawn,physicalBodyPresent;
             if(!services.current_source_states||!services.apply_source_state)
                 return (error="Source Character restore state providers are required",false);
-            if(!services.current_source_states(services.context,id,alreadyLimbus,alreadyPreSpawn,canRespawn,error)){
+            if(!services.current_source_states(services.context,id,alreadyLimbus,alreadyPreSpawn,
+                    canRespawn,physicalBodyPresent,error)){
                 if(error.empty())error="Current source Character state provider failed";return false;
             }
             SourceCharacterRestorePlanV1 plan;
-            const bool physical=p.actor.source_physical_present.value_or(false);
             if(!source_character_restore_plan_v1(saved.source_cs_state,saved.source_dead,
-                    alreadyLimbus,alreadyPreSpawn,canRespawn,physical,plan,error))return false;
+                    alreadyLimbus,alreadyPreSpawn,canRespawn,physicalBodyPresent,plan,error))return false;
             ActorState candidate=p.actor;
             candidate.transform=saved.transform;
             if(saved.npc_vitals_present){candidate.health=saved.health;candidate.max_health=saved.max_health;
@@ -313,6 +322,7 @@ bool restore_death_checkpoint_snapshot_v1(
                candidate.persistent_character_id!=p.actor.persistent_character_id)
                 return (error="Source Character projection changed live actor identity/bindings",false);
             p.actor=std::move(candidate);
+            stagedActors.push_back(std::move(p));
             ++receipt.actors_restored;
         }
     }catch(const std::exception& ex){error=ex.what();return false;}
@@ -340,13 +350,17 @@ bool restore_death_checkpoint_snapshot_v1(
     for(const auto& saved:snapshot.objects)if(!world.find_object(saved.id))++receipt.objects_missing_skipped;
 
     CharacterState stagedCharacter=character;
-    if(snapshot.qest_present){
-        stagedCharacter.source_quest_progress_cqpg=snapshot.qest;
-        const auto validation=validate_character_state(stagedCharacter);
-        if(!validation.ok())return (error=validation.errors.front(),false);
+    if(!services.initialize_source_qest)
+        return (error="Source PlayerSavegame INITQUESTS checkpoint initializer is required",false);
+    std::vector<std::uint8_t> initializedQest;
+    if(!services.initialize_source_qest(services.context,initializedQest,error)){
+        if(error.empty())error="Source PlayerSavegame INITQUESTS checkpoint initializer failed";return false;
     }
+    stagedCharacter.source_quest_progress_cqpg=snapshot.qest_present?snapshot.qest:std::move(initializedQest);
+    const auto validation=validate_character_state(stagedCharacter);
+    if(!validation.ok())return (error=validation.errors.front(),false);
     if(!world.replace_state(stagedActors,std::move(stagedObjects),world.random_state(),error))return false;
-    if(snapshot.qest_present){character=std::move(stagedCharacter);receipt.qest_restored=true;}
+    character=std::move(stagedCharacter);receipt.qest_restored=true;
     receipt.complete=true;error.clear();return true;
 }
 
