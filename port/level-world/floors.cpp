@@ -122,7 +122,7 @@ bool post_load(World& world,std::string& error){
   }
   for(unsigned i=0;i<world.records.size();++i){const auto flags=world.records[i]->flags;world.route_traits[i]={flags.floor,flags.object};world.collision_floors[i]={&world.selectors[i],world.route_traits[i]};}
   world.collision_world.rooms=world.collision_rooms.data();world.collision_world.floors=world.collision_floors.data();world.collision_world.room_count=room_count;world.collision_world.floor_count=world.records.size();
-  world.route_graph={&world.graph,world.search_edges.data(),world.search_offsets.data()};world.failed_routes.resize(4096);world.route_internal_path.resize(world.graph.node_count);
+  world.route_graph={&world.graph,world.search_edges.data(),world.search_offsets.data()};world.failed_routes.resize(4096);world.route_internal_path.resize(std::size_t(world.graph.node_count)+1);
   world.route_world={&world.route_graph,world.floor_graphs.data(),world.route_traits.data(),unsigned(world.records.size()),0,world.failed_routes.data(),0,unsigned(world.failed_routes.size())};
   world.route_search={world.search_nodes.data(),world.search_heap.data(),unsigned(world.search_nodes.size()),unsigned(world.search_heap.size())};world.route_workspace={&world.route_search,world.route_internal_path.data(),unsigned(world.route_internal_path.size()),0};
   world.sewn=true;return true;
@@ -142,6 +142,15 @@ int route(World& world,const float* source,const float* target,unsigned limit,na
 }
 int find_path(World& world,navigation::PathObject& object,const float* target,unsigned limit,navigation::RouteResult& result){
  if(!world.sewn||!target)return 1;
+ const std::uint64_t required=std::uint64_t(world.graph.node_count)+1;
+ if(result.search.path_count>result.search.path_capacity||
+    (result.search.path_capacity&&!result.search.path))return 1;
+ if(!result.search.path||result.search.path_capacity<required){
+  if(result.search.path_count||world.route_internal_path.size()<required||
+     world.route_internal_path.size()>UINT32_MAX)return 2;
+  result.search.path=world.route_internal_path.data();
+  result.search.path_capacity=std::uint32_t(world.route_internal_path.size());
+ }
  navigation::FindRequest request{&world.route_world,&world.collision_world,&object,&result,&world.route_workspace,{},limit,1,0};std::copy(target,target+3,request.target);
  return dh2_nav_find_path(&request);
 }

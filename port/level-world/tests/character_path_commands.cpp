@@ -31,13 +31,16 @@ bool close(float a,float b){
 std::vector<unsigned char> file_bytes(const char* p){std::ifstream f(p,std::ios::binary);require(bool(f));return {std::istreambuf_iterator<char>(f),{}};}
 struct NativeRoute {
  dh2::floors::World* world=nullptr;dh2::navigation::PathObject object{};
- std::vector<dh2::navigation::PathSegment> segments;std::vector<std::uint32_t> edges;
+ std::vector<dh2::navigation::PathSegment> segments;
  std::uint32_t calls=0;
  static int find(void* p,const PathToRequest32* request,std::uint32_t* result){
-  auto& c=*static_cast<NativeRoute*>(p);using namespace dh2::navigation;++c.calls;
-  RouteResult route{0,0,0,0,{0,0,0,0,0,0,c.edges.data(),std::uint32_t(c.edges.size()),0}};
-  FindRequest r{&c.world->route_world,&c.world->collision_world,&c.object,&route,&c.world->route_workspace,{},request->limit,1,0};std::copy(request->target,request->target+3,r.target);
-  const int status=dh2_nav_find_path(&r);*result=route.found;return status;
+  auto& c=*static_cast<NativeRoute*>(p);++c.calls;
+  dh2::navigation::RouteResult route{};
+  const int status=dh2::floors::find_path(*c.world,c.object,request->target,
+                                           request->limit,route);
+  require(route.search.path==c.world->route_internal_path.data()&&
+          route.search.path_capacity>=std::uint64_t(c.world->graph.node_count)+1);
+  *result=route.found;return status;
  }
 };
 }
@@ -61,7 +64,7 @@ int main(int argc,char** argv){try{
  unsigned routes=0,found_routes=0,failed_routes=0;
  if(argc==4){
   auto bres=file_bytes(argv[2]),metadata=file_bytes(argv[3]);dh2::resources::BresView view{};require(dh2_bres_open(&view,bres.data(),bres.size())==dh2::resources::BresError::ok);dh2::world::Level level;std::string error;require(dh2::world::load(view,metadata.data(),metadata.size(),level,error));require(bool(level.native_floor));
-  auto& world=*level.native_floor;NativeRoute backend;backend.world=&world;backend.segments.resize(world.graph.node_count+1);backend.edges.resize(world.graph.node_count+1);backend.object.segments=backend.segments.data();backend.object.capacity=backend.segments.size();backend.object.route.flags=2;backend.object.route.radius=36;
+  auto& world=*level.native_floor;NativeRoute backend;backend.world=&world;backend.segments.resize(world.graph.node_count+1);backend.object.segments=backend.segments.data();backend.object.capacity=backend.segments.size();backend.object.route.flags=2;backend.object.route.radius=36;
   const PathToServices16 native_services{&backend,NativeRoute::find};
   for(unsigned i=0;i<world.collision_world.floor_count;++i){const auto& triangle=world.records[i]->triangles.front();float p[3];for(unsigned k=0;k<3;++k)p[k]=(triangle.points[0][k]+triangle.points[1][k]+triangle.points[2][k])/3.f;
    for(unsigned j=0;j<world.collision_world.floor_count;++j){const auto& target_triangle=world.records[j]->triangles.front();float target_point[3];for(unsigned k=0;k<3;++k)target_point[k]=(target_triangle.points[0][k]+target_triangle.points[1][k]+target_triangle.points[2][k])/3.f;
