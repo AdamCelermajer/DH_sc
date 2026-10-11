@@ -167,6 +167,7 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     for (int i = 0; i < 7; ++i) h.kill_template(94);
     check(h.state(moths) == QuestStateV1::active, "7 Moth kills keep Moths Active");
     check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 7, "7 kills recorded");
+    const auto partial_banners = h.runtime->take_banners();
     // B093: MAKE ACTIVE writes the same CQPG owner, then main reloads the
     // runtime. Selection must preserve saved counts for every other quest.
     check(h.runtime->save(error), error.c_str());
@@ -200,12 +201,17 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     check(completed_banner, "QUEST COMPLETED banner with rewards");
     // P16 QUESTUI: counted progress below the authored count queues a QUEST UPDATED banner with the counter.
     bool counter_banner = false;
-    for (const auto& b : after)
+    for (const auto& b : partial_banners)
         counter_banner = counter_banner || (b.kind == QuestBannerV1::Kind::updated && b.row == std::int32_t(moths) && b.quantity == 7 && b.required == 8);
     check(counter_banner, "objective counter banner shows 7 of 8 before completion");
     check(h.xp_awards.size() == 1 && h.xp_awards[0] == 20, "Moths reward XP 20 once");
     h.kill_template(94); // duplicate after completion is ignored
     check(h.character.gold == 150 && h.xp_awards.size() == 1, "duplicate kill grants nothing");
+    check(h.runtime->save(error) && menu.load_progress_from_character(error) &&
+        menu.refresh(0, 0, CharacterQuestCategoryV1::assigned, error), error.c_str());
+    const auto closed_bytes = h.character.source_quest_progress_cqpg;
+    check(!menu.route_hit(RuntimeQuestMenuHitV1::activate_release, {0, 0, std::int32_t(moths)}, error), "completed activation refused");
+    check(h.character.source_quest_progress_cqpg == closed_bytes, "refused activation preserves counts and states");
 
     // Persistence: reload keeps the closed state, the counters and the rewards (no double).
     std::string load_error;
