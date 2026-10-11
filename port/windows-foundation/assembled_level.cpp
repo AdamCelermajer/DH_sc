@@ -29,6 +29,14 @@ void merge(OriginalScene& combined,OriginalScene&& part) {
     combined.mesh.vertices.insert(combined.mesh.vertices.end(),part.mesh.vertices.begin(),part.mesh.vertices.end());
     for(auto index:part.mesh.indices) combined.mesh.indices.push_back(index+vertexBase);
     for(auto range:part.mesh.ranges) {range.firstIndex+=indexBase;combined.mesh.ranges.push_back(range);}
+    // B072: Map-page geometry, appended per module part; each part keeps its own range (indices rebased).
+    {
+        const auto mapVertexBase=static_cast<std::uint32_t>(combined.mapMesh.vertices.size());
+        const auto mapIndexBase=combined.mapMesh.indices.size();
+        combined.mapMesh.vertices.insert(combined.mapMesh.vertices.end(),part.mapMesh.vertices.begin(),part.mapMesh.vertices.end());
+        for(auto index:part.mapMesh.indices) combined.mapMesh.indices.push_back(index+mapVertexBase);
+        for(auto range:part.mapMesh.ranges) {range.firstIndex+=mapIndexBase;combined.mapMesh.ranges.push_back(range);}
+    }
     combined.materials.insert(combined.materials.end(),std::make_move_iterator(part.materials.begin()),std::make_move_iterator(part.materials.end()));
     combined.minimum={std::min(combined.minimum.x,part.minimum.x),std::min(combined.minimum.y,part.minimum.y),std::min(combined.minimum.z,part.minimum.z)};
     combined.maximum={std::max(combined.maximum.x,part.maximum.x),std::max(combined.maximum.y,part.maximum.y),std::max(combined.maximum.z,part.maximum.z)};
@@ -70,6 +78,7 @@ bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::pa
             const auto boxMax=part.hasModuleBounds?part.moduleMaximum:part.maximum;
             zone.bounds={box.x,box.y,box.z,boxMax.x,boxMax.y,boxMax.z};
             zone.firstRange=combined.mesh.ranges.size();zone.rangeCount=part.mesh.ranges.size();
+            zone.mapFirstRange=combined.mapMesh.ranges.size();zone.mapRangeCount=part.mapMesh.ranges.size(); // B072
             loadedZones.push_back(std::move(zone));
             merge(combined,std::move(part));
         }

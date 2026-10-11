@@ -18,6 +18,8 @@ struct LevelModuleZone {
     std::string name;
     std::array<float, 6> bounds{};
     std::size_t firstRange = 0, rangeCount = 0;
+    // B072: Map-page ranges (OriginalScene::mapMesh.ranges) of this module (`_minimap` else `_floor` geometry).
+    std::size_t mapFirstRange = 0, mapRangeCount = 0;
 };
 bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::path& manifestRelative,
                                   OriginalScene& output,std::vector<LevelModuleZone>& zones,std::string& error);
