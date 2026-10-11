@@ -1538,6 +1538,9 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
     for(const auto& entry:s.entries){
         if(entry.first==s.player||!entry.second.diagnosticAI)continue;
         if(s.actorDecisionProvider)continue;
+        // v20 SCRIPTSVC: animation-only (scripted, non-combat) actors reject command_request by contract (see above); they
+        // never issue attacks, so the AI loop must not abort the frame when a leave-safe-zone gives them a target.
+        if(entry.second.animationOnly)continue;
         auto* a=s.world->find_actor(entry.first);
         if(!s.command_request(entry.first,a->target_id,dt,error))return false;
     }
@@ -1625,6 +1628,11 @@ bool CombatSession::select_next_player_target(ActorId& selected,std::string& err
     }
     if(!refresh_actor_combat_permissions(error))return false;
     return s.cycle_player_target(selected,error);
+}
+bool CombatSession::is_animation_only(ActorId actor) const {
+    if(!impl_)return false;
+    const auto found=impl_->entries.find(actor);
+    return found!=impl_->entries.end()&&found->second.animationOnly;
 }
 bool CombatSession::request_actor_attack(ActorId actor,ActorId target,double dt,std::string& error){
     error.clear();

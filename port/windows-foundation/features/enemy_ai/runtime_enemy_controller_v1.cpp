@@ -395,6 +395,8 @@ bool RuntimeEnemyControllerV1::update(CombatSession& session, double dt, std::st
         const auto* traits = world->traits(id);
         const auto* owner_props = world->combat_properties(id);
         if (!traits || traits->is_player || !owner_props) continue;
+        // v20 SCRIPTSVC: scripted animation-only actors never take enemy-AI owner decisions (the attack request is rejected by contract).
+        if (session.is_animation_only(id)) continue;
         const auto* ai = dh2::data::ai_props(*tables, owner_props->sheets.resolved[1]);
         if (!ai || ai->script != "monster") continue;
 
