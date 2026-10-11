@@ -62,6 +62,7 @@ struct OneAnimationResult {
     std::int32_t animation = -1;
     std::uint32_t mask_queries = 0;
     std::uint32_t stance_queries = 0;
+    std::uint32_t failure_point = 0; // diagnostic: which source check rejected
 };
 
 enum class Status : std::uint32_t {
@@ -105,11 +106,11 @@ inline Status select_one(const OneAnimationRequest* request,
         return Status::invalid_argument;
     OneAnimationResult result{};
     if (!detail::row_scalar(*request->row, request->field, result.animation))
-        return Status::invalid_source_fact;
+        { output->failure_point = 1; return Status::invalid_source_fact; }
     std::int32_t source_mask = 0;
     if (!detail::constant(request->constants, "AnimStancedAnim",
                           "SL__LIST_IPHONE", source_mask))
-        return Status::invalid_source_fact;
+        { output->failure_point = 2; return Status::invalid_source_fact; }
     ++result.mask_queries;
     if ((static_cast<std::uint32_t>(source_mask) & request->stance_mask) != 0) {
         std::int32_t stance = 0;
@@ -119,34 +120,34 @@ inline Status select_one(const OneAnimationRequest* request,
                 code = request->get_anim_stance(request->anim_stance_context,
                                                 request->character, &stance);
             } catch (...) {
-                return Status::invalid_source_fact;
+                { output->failure_point = 3; return Status::invalid_source_fact; }
             }
             if (code != 0)
-                return Status::invalid_source_fact;
+                { output->failure_point = 4; return Status::invalid_source_fact; }
             std::int32_t stance_count = 0;
             if (!detail::constant(request->constants, "AnimStances",
                                   "COUNT_IPHONE", stance_count) ||
                 stance < 0 || stance >= stance_count)
-                return Status::invalid_source_fact;
+                { output->failure_point = 5; return Status::invalid_source_fact; }
         } else {
             if (!request->classification || !request->classification_services ||
                 request->classification->character != request->character)
-                return Status::invalid_source_fact;
+                { output->failure_point = 6; return Status::invalid_source_fact; }
             character_ai_classification::Result classification{};
             if (character_ai_classification::query(
                     character_ai_classification::Query::monster,
                     request->classification, request->classification_services,
                     &classification) != character_ai_classification::Status::complete ||
                 classification.word != 1)
-                return Status::invalid_source_fact;
+                { output->failure_point = 7; return Status::invalid_source_fact; }
             std::int32_t stance_count = 0;
             if (!detail::constant(request->constants, "AnimStances",
                                   "COUNT_IPHONE", stance_count))
-                return Status::invalid_source_fact;
+                { output->failure_point = 8; return Status::invalid_source_fact; }
             character::StanceFacts16 facts{};
             facts.count = stance_count;
             if (dh2_character_anim_stance(&stance, &facts) != 1)
-                return Status::invalid_source_fact;
+                { output->failure_point = 9; return Status::invalid_source_fact; }
         }
         ++result.stance_queries;
         result.animation = detail::wrap_add(result.animation, stance);

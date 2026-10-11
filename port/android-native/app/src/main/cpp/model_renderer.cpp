@@ -10168,7 +10168,7 @@ dh2::character::CombatFacts SpawnOwner::combat_facts(void* raw) {
    throw std::logic_error("Spawn combat CharAnimTable scalar is unavailable");
   auto sequence=row.fields[field][0];
   dh2_pycst_result source_mask{};
-  if(!actor_design.bytes||dh2_pycst_get(&actor_design,"AnimStancedAnim",15,
+  if(!actor_skill_catalogue||!actor_skill_catalogue->animations_constants.bytes||dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStancedAnim",15,
       "SL__LIST_IPHONE",15,&source_mask)!=0||!source_mask.found)
    throw std::logic_error("Spawn combat AnimStancedAnim/SL__LIST_IPHONE is unavailable");
   if((static_cast<std::uint32_t>(source_mask.value)&mask)==0)return sequence;
@@ -10177,7 +10177,7 @@ dh2::character::CombatFacts SpawnOwner::combat_facts(void* raw) {
   if(is_player>1||is_player)
    throw std::logic_error("Spawn nonplayer GetAnimStance branch is not proven");
   dh2_pycst_result count{};
-  if(dh2_pycst_get(&actor_design,"AnimStances",11,"COUNT_IPHONE",12,&count)!=0||
+  if(dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStances",11,"COUNT_IPHONE",12,&count)!=0||
       !count.found||count.value<=0)
    throw std::logic_error("Spawn combat AnimStances/COUNT_IPHONE is unavailable");
   std::int32_t stance=0;
@@ -12014,7 +12014,7 @@ int faery_dead_state_get_anim_stance(void* raw,std::uintptr_t identity,
       dh2::character_ai_classification::Status::complete||is_player.word!=0)
   return 1;
  dh2_pycst_result count{};
- if(!actor_design.bytes||dh2_pycst_get(&actor_design,"AnimStances",11,
+ if(!actor_skill_catalogue||!actor_skill_catalogue->animations_constants.bytes||dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStances",11,
        "COUNT_IPHONE",12,&count)!=0||!count.found||count.value<=0)return 1;
  const dh2::character::StanceFacts16 facts{0,count.value,{0,0}};
  return dh2_character_anim_stance(output,&facts)==1?0:1;
@@ -12192,7 +12192,7 @@ void faery_coordinator_service(void* raw,dh2::character::State* state,
   const dh2::character_sm_set_dead_state_v1::Bindings dead_bindings{
       record.coordinator.get(),
       {owner->identity,&owner->init_hp_mp_view},&actor_animation_tables,
-      &actor_design,{owner,&faery_dead_state_get_anim_stance}};
+      &actor_skill_catalogue->animations_constants,{owner,&faery_dead_state_get_anim_stance}};
   const dh2::character_sm_set_dead_state_v1::Request dead_request{1,0,1};
   dh2::character_sm_set_dead_state_v1::Result dead_result{};
   if(dh2::character_sm_set_dead_state_v1::execute(
@@ -14917,7 +14917,7 @@ int spawn_dead_state_get_anim_stance(void* raw,std::uintptr_t character,
  catch(...) {return 1;}
  if(is_player>1||is_player)return 1;
  dh2_pycst_result count{};
- if(!actor_design.bytes||dh2_pycst_get(&actor_design,"AnimStances",11,
+ if(!actor_skill_catalogue||!actor_skill_catalogue->animations_constants.bytes||dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStances",11,
       "COUNT_IPHONE",12,&count)!=0||!count.found||count.value<=0)return 1;
  const dh2::character::StanceFacts16 facts{0,count.value,{0,0}};
  return dh2_character_anim_stance(stance,&facts)==1?0:1;
@@ -15567,7 +15567,7 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
   auto properties=dh2::data::property_view(actor_property_rules,actor.properties);
   const dh2::character_sm_set_dead_state_v1::Bindings dead_bindings{
       &owner.character,{actor.identity,&properties},&actor_animation_tables,
-      &actor_design,{&actor,&spawn_dead_state_get_anim_stance}};
+      &actor_skill_catalogue->animations_constants,{&actor,&spawn_dead_state_get_anim_stance}};
   const dh2::character_sm_set_dead_state_v1::Request dead_request{1,0,1};
   dh2::character_sm_set_dead_state_v1::Result dead_result{};
   const auto dead_status=dh2::character_sm_set_dead_state_v1::execute(
@@ -24274,7 +24274,7 @@ struct NativeMonsterDeathCall {
     error="Monster GetAnimStance source classification changed";return 1;
    }
    std::int32_t count=-1;dh2_pycst_result value{};
-   if(dh2_pycst_get(&actor_design,"AnimStances",11,"COUNT_IPHONE",12,&value)||!value.found){
+   if(dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStances",11,"COUNT_IPHONE",12,&value)||!value.found){
     error="Monster stance count is unavailable";return 1;
    }
    count=value.value;dh2::character::StanceFacts16 facts{};facts.count=count;
@@ -24391,7 +24391,7 @@ int NativeMonsterInitialization::raise_event2(std::uintptr_t killer,std::string&
  death_bindings.target_owner=&owner->target_owner;
  death_bindings.target_services=&target_services;
  death_bindings.dead_state={&owner->character,{actor().identity,&owner->buff_properties},
-     &actor_animation_tables,&actor_design,{}};
+     &actor_animation_tables,&actor_skill_catalogue->animations_constants,{}};
  death_bindings.group_identity=&ai->state.group_info_identity;
  death_bindings.player_ais_identity=0;death_bindings.backend=backend;
  try{call.death=std::make_unique<MonsterDeathRuntime>(death_bindings);}
@@ -27152,11 +27152,11 @@ int spell_status_select_animation(void* raw,std::uintptr_t character,
  if(field>=row.fields.size()||row.fields[field].size()!=1)return 1;
  auto selected=row.fields[field][0];
  dh2_pycst_result source_mask{};
- if(!actor_design.bytes||dh2_pycst_get(&actor_design,"AnimStancedAnim",15,
+ if(!actor_skill_catalogue||!actor_skill_catalogue->animations_constants.bytes||dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStancedAnim",15,
       "SL__LIST_IPHONE",15,&source_mask)!=0||!source_mask.found)return 1;
  if(static_cast<std::uint32_t>(source_mask.value)&stance_mask) {
   dh2_pycst_result count{};
-  if(dh2_pycst_get(&actor_design,"AnimStances",11,"COUNT_IPHONE",12,
+  if(dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStances",11,"COUNT_IPHONE",12,
        &count)!=0||!count.found||count.value<=0)return 1;
   std::int32_t stance=0;
   if(player) {
@@ -34921,7 +34921,7 @@ int prince_dead_state_get_anim_stance(void*,std::uintptr_t identity,
       dh2::character_ai_classification::Status::complete||is_player.word!=1)
   return 1;
  dh2_pycst_result count{};
- if(!actor_design.bytes||dh2_pycst_get(&actor_design,"AnimStances",11,
+ if(!actor_skill_catalogue||!actor_skill_catalogue->animations_constants.bytes||dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStances",11,
        "COUNT_IPHONE",12,&count)!=0||!count.found||count.value<=0)
   return 1;
  dh2::data::PlayerEquipmentQueriesLiveV1 equipment_queries(
@@ -42788,7 +42788,7 @@ bool native_npc_to_player_interact_prepare(
  }
  std::int32_t sequence=row.fields[15][3];
  dh2_pycst_result stance_mask{};
- if(!actor_design.bytes||dh2_pycst_get(&actor_design,"AnimStancedAnim",15,
+ if(!actor_skill_catalogue||!actor_skill_catalogue->animations_constants.bytes||dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStancedAnim",15,
       "SL__LIST_IPHONE",15,&stance_mask)||!stance_mask.found){
   error="Player SM_SetInteractState AnimStancedAnim/SL__LIST_IPHONE is unavailable";
   return false;
@@ -43343,7 +43343,7 @@ bool ui_player_character_interact_target(std::uintptr_t& identity,
  if(interact.size()<=3){error="SM_SetInteractState target Interact[3] sequence is unavailable";return false;}
  context.interact_sequence=interact[3];
  dh2_pycst_result stance_mask{};
- if(!actor_design.bytes||dh2_pycst_get(&actor_design,"AnimStancedAnim",15,
+ if(!actor_skill_catalogue||!actor_skill_catalogue->animations_constants.bytes||dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStancedAnim",15,
       "SL__LIST_IPHONE",15,&stance_mask)||!stance_mask.found){
   error="SM_SetInteractState AnimStancedAnim/SL__LIST_IPHONE is unavailable";
   return false;
