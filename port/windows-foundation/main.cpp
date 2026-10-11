@@ -1988,7 +1988,8 @@ int main(int argc,char** argv) {
         f::quest_runtime::QuestRuntimeV1* questRuntimeForCheckpoint=nullptr;
         std::array<float,3> activeSourceCheckpointKey{};
         bool sourceCheckpointKeyLoaded=false;
-        bool levelStartCheckpointDone=false; // B108
+        f::persistence::death_flow::DeathCheckpointLevelStartStateV1 levelStartCheckpoint;
+        std::optional<std::array<float,3>> levelStartCheckpointKey;
         if(!options.save.empty()) {
             const auto path=deathCheckpointPath();
             if(fs::exists(path)) {
@@ -2008,7 +2009,9 @@ int main(int argc,char** argv) {
         }
         const auto saveSourceCheckpointContact=[&](const f::transitions::ExitZone& zone,
                                                     const f::ActorState& player,
-                                                    std::string& checkpointError)->bool {
+                                                    std::string& checkpointError,
+                                                    bool initial=false,
+                                                    f::persistence::death_flow::DeathCheckpointZoneReceiptV1* outcome=nullptr)->bool {
             using namespace f::persistence::death_flow;
             if(!combatSession||options.save.empty()) {checkpointError="Source LevelSavegame/profile path is unavailable";return false;}
             struct Context {
@@ -2152,8 +2155,22 @@ int main(int argc,char** argv) {
             contact.current_checkpoint_key=activeSourceCheckpointKey;
             contact.current_character_position=player.transform.position;
             DeathCheckpointZoneReceiptV1 receipt;
-            if(!run_death_checkpoint_zone_contact_v1(contact,services,receipt,checkpointError))return false;
-            if(receipt.result==DeathCheckpointZoneResultV1::saved) {
+            bool ran=false;
+            if(initial) {
+                DeathCheckpointLevelSaveV1 request;
+                request.source_level_state=contact.source_level_state;
+                request.local_character_present=contact.local_character_present;
+                request.local_character_is_dead=contact.local_character_is_dead;
+                request.level_savegame_present=contact.level_savegame_present;
+                request.level_uri=contact.level_uri;request.checkpoint_name=zone.name;
+                request.checkpoint_key=zone.source_position;request.current_character_position=player.transform.position;
+                request.arrival=arrivedByTransition;
+                ran=run_death_checkpoint_level_start_v1(request,sourceCheckpointKeyLoaded,
+                    levelStartCheckpoint,services,receipt,checkpointError);
+            } else ran=run_death_checkpoint_zone_contact_v1(contact,services,receipt,checkpointError);
+            if(outcome)*outcome=receipt;
+            if(!ran)return false;
+            if(receipt.complete&&receipt.result==DeathCheckpointZoneResultV1::saved) {
                 activeSourceCheckpointKey=zone.source_position;sourceCheckpointKeyLoaded=true;
                 std::cout<<"Source checkpoint saved zone="<<zone.name<<" key="<<receipt.snapshot.checkpoint_key_position[0]<<','
                          <<receipt.snapshot.checkpoint_key_position[1]<<','<<receipt.snapshot.checkpoint_key_position[2]<<" revive="
@@ -5889,17 +5906,20 @@ int main(int argc,char** argv) {
             // checkpoint record for this level) or the level was entered by a transition (Level+245), Level::CheckpointSave runs once at the
             // spawn point (key = spawn, revive = the Character position; arrival: revive = spawn). Same selective snapshot as a CheckpointZone
             // contact, so Continue after a death always has a record even when no CheckpointZone was touched.
-            if(combatSession&&!levelStartCheckpointDone&&drawn>=1&&!options.save.empty()&&!pendingTransition) {
+            if(combatSession&&!levelStartCheckpoint.complete&&drawn>=1&&!options.save.empty()&&!pendingTransition) {
                 if(const auto* player=combatSession->actor(combatSession->player_id()); player&&!player->is_dead()) {
-                    levelStartCheckpointDone=true;
-                    if(!fs::exists(deathCheckpointPath())||arrivedByTransition) {
-                        f::transitions::ExitZone startZone;startZone.kind=f::transitions::ZoneKind::checkpoint;startZone.name="level_start";
-                        startZone.source_position={player->transform.position[0],player->transform.position[1],player->transform.position[2]};
-                        activeSourceCheckpointKey={1e30f,1e30f,1e30f}; // Level::CheckpointSave has no same-key suppression (that is the zone's rule)
-                        std::string checkpointError;
-                        if(saveSourceCheckpointContact(startZone,*player,checkpointError))std::cout<<"Level start checkpoint frame="<<drawn<<'\n';
-                        else std::cout<<"Level start checkpoint status=not_saved detail="<<checkpointError<<" frame="<<drawn<<'\n';
-                    } else std::cout<<"Level start checkpoint status=exists frame="<<drawn<<'\n';
+                    f::transitions::ExitZone startZone;startZone.kind=f::transitions::ZoneKind::checkpoint;startZone.name="level_start";
+                    if(!levelStartCheckpointKey)levelStartCheckpointKey=player->transform.position;
+                    startZone.source_position=*levelStartCheckpointKey; // retry keeps the initial key; revive follows source arg3
+                    std::string checkpointError;
+                    f::persistence::death_flow::DeathCheckpointZoneReceiptV1 receipt;
+                    const bool ran=saveSourceCheckpointContact(startZone,*player,checkpointError,true,&receipt);
+                    if(ran&&receipt.complete&&receipt.result==f::persistence::death_flow::DeathCheckpointZoneResultV1::saved)
+                        std::cout<<"Level start checkpoint frame="<<drawn<<'\n';
+                    else if(ran&&receipt.result==f::persistence::death_flow::DeathCheckpointZoneResultV1::skipped_existing_checkpoint)
+                        std::cout<<"Level start checkpoint status=exists frame="<<drawn<<'\n';
+                    else std::cout<<"Level start checkpoint status=not_saved result="<<unsigned(receipt.result)
+                        <<" detail="<<checkpointError<<" frame="<<drawn<<'\n';
                 }
             }
             // P17 TRANSITIONS: exit/checkpoint zone contacts of this frame, the --player-to test aid (places the player at the
