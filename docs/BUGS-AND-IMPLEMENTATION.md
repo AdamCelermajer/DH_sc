@@ -257,45 +257,12 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 
 | ID | Observed / reproduction | State | Owner |
 |---|---|---|---|
-| B079 | Chest opening: no/weird player animation, drops not thrown out of the chest (stay on the spot), no drop sound. | OPEN, session assigned | fresh Sonnet session |
-| B080 | After a SKIPPED cutscene mobs (troll, lizards, moths) are not targetable (also B084 moth). | OPEN, session assigned (cinematics B068b) | fresh Sonnet session |
-| B081 | Inventory potion count shows a red X ("5X Potion"). | OPEN, session assigned | fresh Sonnet session |
-| B082 | Death: black screen, no visible try-again / return-to-checkpoint; hero death animation. | OPEN, session assigned | fresh Sonnet session |
-| B083 | A skill (slot 2) was not usable. | OPEN; revival repair integrated, targetless/object and genuine injured admission repair under final tests/re-review | `/root/b083_cast_repair`; `/root/b083_review`; root integration |
-| B085 | Breaking a vase: no sound, no sword animation. | OPEN, session assigned | fresh Sonnet session |
-| B086 | Quit and relaunch: the hero is placed wrongly beside the cages and cannot move (shot-7). | Review reproduced real WM_CLOSE exiting before save; fresh repair owner implementing normal close and dead-moth resume checks | `/root/b086_close_repair`; `/root/b086_review`; root integration |
-| B087 | No exclamation marker above the NPC head (shot-8). | Static marker/circle integrated checks pass; moved-NPC drift repaird9dbfc60 reviewed and merged, final package checks pending | `/root/npc_marker_motion_repair`; `/root/npc_marker_context_review`; root integration |
-| B088 | Context button shows talk bubble but does not switch to attack when a monster is near; Space does not talk to the NPC (shot-8). | Current position/enabled/faction/source frontal repair2a95fed7 re-reviewed READY WITH CAVEATS and merged; normal compiled dialogue/acceptance and merchant pass | `/root/b088_npc_admission_repair`; `/root/npc_marker_context_review`; root integration |
-| B089 | A destroyed vase stays targetable (red ring remains on the broken pieces) (shot-9). | OPEN, session assigned | fresh Sonnet session |
 
 ### 2m. Second v20 batch (2026-10-11 evening): B090-B107 (fresh Sonnet session per bug; brief section "Second v20 batch" in `coordination/v20.1/BUGFIX-BRIEF.md`)
 
 | ID | Observed | State | Owner |
 |---|---|---|---|
-| B090 | Level-up effect fine but no level-up sound. | Reviewed sound repair merged; normal level-up voice proof passes, final package pending | `/root/event_sounds_repair`; `/root/event_sounds_review`; root integration |
-| B091 | Mobs not targetable/attacking after a scripted animation (shots 10, 13). | Reviewed scripted lifetime repair merged; combined final verification pending | `/root/b094_b091_boss_cinematics`; `/root/boss_cinematics_review`; root integration |
-| B092 | Big moth corpse takes a long time to disappear (shot 11). | OPEN; persistent restored corpse reproduced after genuine skill kill; source terminal/Limbus repair in progress | `/root/b092_b098_corpses`; `/root/b092_b098_review`; root integration |
-| B093 | Quest system: MAKE ACTIVE does not really work, no kill tracking, killed 8 Bog Moths and nothing happened (shot 12). | Reviewed counter/map/current repair a2e1e5f7 merged; combined real eighth-death completion and duplicate refusal pass; world-resume check pending | `/root/b093_quests`; `/root/b093_review`; root integration |
-| B094 | An NPC (she) appears not targetable; intended? User clarified: "the boss lizard the brown one". | Reviewed brown boss-lizard cinematic repair merged; early SKIP targeting/combat proof passes, final combined verification pending | `/root/b094_b091_boss_cinematics`; `/root/boss_cinematics_review`; `/root/b080_b084_review`; root integration |
-| B095 | Clicking the bag again does not return to the equipment global page. | Reviewed repair merged; root queued Close release preserves equipment, final package pending | `/root/b095_bag_navigation`; `/root/b095_review`; root integration |
-| B096 | Level up: no button to learn a new skill (shot 15). | Reviewed repair merged; root normal train/refusal/reload passes, final package pending | `/root/b096_skill_training`; `/root/b096_review`; root integration |
-| B097 | Skill rank up does not change the skill stats (shot 16). | Reviewed READY WITH CAVEATS af2bf2cd merged; normal rank UI/train/save and MP9/12 plus targeted damage verified | `/root/b097_rank_stats`; `/root/b097_review`; root integration |
-| B098 | Killed monsters do not play the death animation / do not disappear (shot 17). | OPEN; persistent restored corpse reproduced after genuine skill kill; source restore retirement repair in progress | `/root/b092_b098_corpses`; `/root/b092_b098_review`; root integration |
-| B099 | No NEW QUEST sound. | Reviewed sound repair merged; ordinary compiled acceptance voice proof passes, final package pending | `/root/event_sounds_repair`; `/root/event_sounds_review`; root integration |
-| B100 | Cannot talk to the merchant, no icon above his head (shot 18). | Normal shop/icon/circle integrated checks pass; reviewed current marker transform repaird9dbfc60 merged, final combined package checks pending | `/root/b110_merchant`; `/root/npc_marker_motion_repair`; `/root/npc_marker_context_review`; root integration |
 | B101 | Wall of fire must be reproduced: deep IDA inspection (shot 19). | OPEN appearance, USER-APPROVED v21 caveat; source Door lifecycle reviewed/merged and original/current comparison accepted for release with remaining visual gap | `/root/b101_b105_effects`; `/root/b101_shader_audit`; `/root/b101_review`; root integration |
-| B102 | EQUIP button does not work (shots 14, 20). | Reviewed repair merged; root equip/unequip/duplicate/blocked controls pass; 778 additional weapon models staged for package | `/root/b102_equipment`; `/root/b102_review`; root integration |
-| B103 | Character menu buttons still not clickable (shot 21). | Reviewed mixed stat/skill cancellation repair1d69d39e merged; root combined No/Yes check pending | `/root/b103_mixed_repair`; `/root/b103_review`; root integration |
-| B104 | No sound on quest completion (Bogwalker quest). | Reviewed sound repair merged; combined genuine eighth-death emits one authentic QuestComplete voice, no duplicate cue on later kill | `/root/event_sounds_repair`; `/root/event_sounds_review`; root integration |
-| B105 | Celeste glow is broken (shot 22). | Reviewed glow repair merged; root normal Celeste frozen visual check passes, final package pending | `/root/b105_celeste`; `/root/b105_review`; root integration |
-| B106 | E does not work / does not teleport (Travel to Bogwitch Cavern, shot 23). | Reviewed held-key/session repair merged; private physical hold/repress normal transition passes, combined prompt check pending | `/root/b106_review`; root integration |
-| B107 | User note "abomination": it was the cavern rendering (same as B109, shot-24). | MERGED INTO B109 (session assigned) | fresh Sonnet session |
-| B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | User confirms rendering fixed; repaired material transport re-reviewed READY WITH CAVEATS, merged; final combined check pending | `/root/b109_cavern`; `/root/b109_review`; root integration |
-| B108 | Continue after death fails without a checkpoint-zone contact. | Reviewed initial producer/retry repair merged; combined death/revive/close/frontend check pending | `/root/b108_review`; root integration |
-| B110 | Merchant BUY/SELL UI is missing from the normal interaction path. | Reviewed equipped SELL and capped BUY repair merged; root normal merchant transaction/refusal/modal/save controls pass | `/root/b110_merchant`; `/root/b110_review`; root integration |
-| B111 | Statistics icon navigation and four character-sheet sub-pages are missing. | Fresh reviewer READY at8903fff5; merged, final combined normal page checks pending | `/root/b111_stat_pages`; `/root/b111_review`; root integration |
-| B112 | User: "in npc in general we dont get the green targeting"; clarified "Green circle missing" only. | Reviewed READY WITH CAVEATS: B087/B100 status-marker assets restore circles; B100 review and final package checks pending | `/root/b112_npc_green_target` in fix112/codex/b112; `/root/b112_review`; root integration |
-| B113 | User: "b109 the rendering is fixed but not the TP text messages it need to be conform"; screenshot `.local-inputs/v20.1/user-shots/B113-travel-prompt.png`. | Original upper destination widget restored, fresh review READY WITH CAVEATS at9623f483; merged, combined B106 input/render checks pending | `/root/b113_travel_prompt` in fix113/codex/b113; `/root/b113_review`; root integration |
 | B114 | User: lighting is extremely bright, no fog/everything clear; original gameplay darkens with distance, especially over water. | OPEN overall brightness/fog; reviewed source specular blue-channel/light transport repair merged; global ambient/light admission investigation continues | `/root/b114_lighting_fog`; `/root/b114_review`; root integration |
 | B115 | User: water texture looks wrong, alongside excessively bright water. | OPEN appearance; existing B109 atlas/ownership fixes verified, but direct original pond sequence shows much subtler cells; material/animation enrollment audit resumed with B114 | `/root/b115_water`; `/root/b115_review`; root integration |
 
@@ -306,3 +273,5 @@ The user requested agents wrap up and output v21. Ship the reviewed current cast
 | ID | Observed | State | Owner |
 |---|---|---|---|
 | B116 | Repeated real F9 after loading/retiring a dead moth rejects saved targetable1/current0; normal frontend Continue and tested alive F9 succeed. | Deferred v21 caveat under user wrap instruction; restore identity guard preserved, no corrective patch claimed | Root/shared-save owner; /root/b092_b098_review reproduction/review evidence |
+
+Accepted v21 on 2026-10-12: resolved stable IDs moved to `docs/RESOLVED-BUGS.md` after reviewed implementation, combined175/175 tests, linked B083/B097 checks and independent frozen approval. B101, B114/B115 and B116 remain active documented caveats.

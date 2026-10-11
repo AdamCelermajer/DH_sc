@@ -225,3 +225,7 @@ Remaining confirmed gates have owners: B083 final injury/skill focus ordering,
 B092/B098 reproduced persistent corpse restore, B101 original fire appearance,
 and B114 overall lighting/distance behavior. Final combined rebuild/full tests,
 asset packaging, independent frozen verification and acceptance remain pending.
+
+## V21 accepted — 2026-10-12
+
+All current subagents wrapped. Reviewed B0832f994d0b, corpse3e294ec6/9934db35 and B1153243b32a integrated; B097/B083 test conflict preserves BOTH suites. Final source046c472a470b6d51b237ecf70a7ed04f93a9fdeb, EXE0D2D0F039667D64719CDE1246FA226E54F9992E6703000220CDD474F4784B538. Build passes, full175/175232.73s, combined linkedrank/focus/pose/source matrix passes. Candidate4420manifestentries independently match,3896assets match testedstage,10UI/504audio match acceptedv20; acceptedv20 full3640entries unchanged and no saves included. Independent APPROVE WITH CAVEATS, report `coordination/v21/VERIFICATION.md`. Root recorded acceptance and refreshed metadata manifest. B101fire is explicitly user-approved caveat; B114/B115 broader brightness/fog and B116 repeatedF9 remain open under userwrap instruction. Resolved stableIDs moved to history. No further source work is pending for this accepted preview; final root merge/publish bookkeeping follows.
