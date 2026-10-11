@@ -712,12 +712,15 @@ struct CombatSession::Impl {
             if(name==entry.attack.animation_clip_id) {if(loop){error="Retained finite action cannot loop";return false;}
                 if(entry.sourceCombo){if(entry.comboGeneration==UINT64_MAX){error="Source combo action generation exhausted";return false;}++entry.comboGeneration;}
                 if(!entry.attackProgram){auto selection=*entry.sequenceCallerSelection;selection.actor_rate=entry.sourceActorRate;if(!entry.retained->prepare_preserving(*assets,*entry.sequencePlan,sequencePolicies,selection,retained_services(world_id(entry)),entry.attack.animation_clip_id,error))return false;entry.attackProgram=true;}
-                entry.stateManaged=entry.stateSequence=entry.stateFrozen=false;entry.sourceAction=true;entry.sourceSelectedClip=name;entry.locomotionSelected.clear();return entry.retained->begin(error);}
+                entry.sourceAction=true;entry.sourceSelectedClip=name;entry.locomotionSelected.clear();
+                if(!entry.retained->begin(error))return false;
+                entry.scriptIdleSuppressed=false;entry.stateManaged=entry.stateSequence=entry.stateFrozen=false;return true;}
             const OriginalCombatPhase* selected=nullptr;
             for(const auto& sequence:entry.sequencePlan->sequences)for(const auto& phase:sequence.phases)if(phase.clipName==name)selected=&phase;
             if(!selected){error="Retained pose source metadata missing: "+name;return false;}
             entry.sourceAction=false;entry.sourceSelectedClip=name;entry.locomotionSelected.clear();RetainedAnimationFrame frame;
-            return seed_source(entry,*selected,loop,static_cast<float>(selected->speed)*entry.sourceActorRate,*entry.retained,frame,error);
+            if(!seed_source(entry,*selected,loop,static_cast<float>(selected->speed)*entry.sourceActorRate,*entry.retained,frame,error))return false;
+            entry.scriptIdleSuppressed=false;entry.stateManaged=entry.stateSequence=entry.stateFrozen=false;return true;
         };
         binding.update=[&entry](double seconds,std::string& error){return entry.sourceAction?entry.retained->advance(seconds,error):entry.retained->advance_seeded(seconds,error);};
         binding.source_clock=[](){return true;};
@@ -845,7 +848,6 @@ struct CombatSession::Impl {
     bool select_source_attack_for_request(ActorId id,std::string& error){
         auto& entry=entries.at(id);if(!entry.sourceAttackStateSelection)return true;
         if(entry.stateSequence||(entry.stateManaged&&!entry.scriptIdleSuppressed)){error="Source attack cannot replace a managed state before departure";return false;}
-        if(entry.scriptIdleSuppressed){entry.scriptIdleSuppressed=false;entry.stateManaged=false;}
         auto selection=*entry.sequenceCallerSelection;
         selection.state=live_original_state(id)==4?"Attack":"AttackStatic";
         const auto* properties=world->combat_properties(id);
