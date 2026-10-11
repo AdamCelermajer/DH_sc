@@ -7,6 +7,7 @@
 // play them. Nothing is keyed by level or actor name: every name comes from the authored scripts and declarations.
 #include "../../original_campaign_runtime.hpp"
 #include <cstdint>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -26,6 +27,12 @@ struct SceneObjectClipRequest {
     std::string clip;
 };
 std::vector<SceneObjectClipRequest> collect_scene_object_clip_requests(const OriginalCampaignRuntime& runtime);
+
+// B080: actors that scripts bring into play with Script_SpawnCharacter (kind 30, name @12) and never retire with
+// Script_PutCharacterInLimbus (kind 29, name @16). A script-spawned actor that no script removes is a gameplay actor
+// (it ends in the Idle state the script puts it in and the monster AI takes over); one that is retired again is a
+// cutscene prop. Names come from the authored scripts only.
+std::set<std::string> collect_script_gameplay_actors(const OriginalCampaignRuntime& runtime);
 
 // The visual clip name of a dictionary clip (the same name everywhere: profile bank, player bank, the session).
 std::string actor_clip_name(std::int32_t dictionary_id);
