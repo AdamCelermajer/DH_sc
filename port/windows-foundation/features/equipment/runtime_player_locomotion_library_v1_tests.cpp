@@ -180,6 +180,21 @@ int main(int argc, char** argv) {
                         std::make_pair(receipt.named_alias,receipt.resolved_path)) != all_visual.clips.end(),
                         "Changed equipment requests an animation absent from the initialized visual bank");
         }
+        for (const char* profile_id : {"RoguePlayerBase", "MagePlayerBase"}) {
+            all_request.profile_id = profile_id;
+            RuntimePlayerLocomotionLibraryV1 class_library;
+            require(RuntimePlayerLocomotionLibraryV1::build(assets,base_visual,all_request,class_library,error),error);
+            CharacterVisualConfig class_visual = base_visual;
+            require(class_library.merge_named_clips(class_visual,error),error);
+            RuntimePlayerLocomotionSelectionV1 class_staff;
+            require(class_library.select_exact(staff,-1,class_staff,error),error);
+            check_selection(class_staff,3,assets);
+            for (const auto& receipt : class_staff.program->named_clips)
+                require(std::find(class_visual.clips.begin(),class_visual.clips.end(),
+                        std::make_pair(receipt.named_alias,receipt.resolved_path)) != class_visual.clips.end(),
+                        "Class stance bank omitted the selected source animation");
+        }
+        all_request.profile_id = "KnightPlayerBase";
         RuntimePlayerLocomotionSelectionV1 preserved_selection;
         require(all_library.select_exact(staff,-1,preserved_selection,error),error);
         const auto preserved_lease = preserved_selection.program;
@@ -232,7 +247,7 @@ int main(int argc, char** argv) {
                 "External bank selection lease did not outlive its library");
 
         std::cout << "PASS exact AssetCatalog tables/profile/constants; ordinary stance=0, dual=2, staff=3; "
-                     "null combinations, selection leases, external clip merge and atomic bounds/collisions\n";
+                     "null combinations, selection leases, external clip merge, all-equipment banks for Knight/Rogue/Mage and atomic bounds/collisions\n";
         return 0;
     } catch (const std::exception& exception) {
         std::cerr << exception.what() << '\n';
