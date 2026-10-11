@@ -1231,6 +1231,19 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
                !policy.sourceAttackBank->sequence("Attack",0)||!policy.sourceAttackBank->sequence("AttackStatic",0)))
                 throw std::runtime_error("Source attack focus selection requires both explicit player full roots without unresolved choices");
             CharacterVisualConfig visualConfig=plan.config;
+            if(policy.animationOnly&&!policy.receiveDamage) {
+                // Presentation-only actors do not consume combat Injury
+                // reactions. Some authored Injury records are valid zero-time
+                // assets (0 tracks, no events, no range); the source animator
+                // leaves the current pose unchanged for those records. Keep
+                // all source sequence metadata in `plan`, but don't eagerly
+                // load unused generated Injury leaves into the visual bank.
+                std::set<std::string> unusedInjuryClips;
+                for(const auto& sequence:plan.sequences)if(sequence.state=="Injured")
+                    for(const auto& phase:sequence.phases)if(!phase.clipName.empty())unusedInjuryClips.insert(phase.clipName);
+                visualConfig.clips.erase(std::remove_if(visualConfig.clips.begin(),visualConfig.clips.end(),
+                    [&](const auto& clip){return unusedInjuryClips.count(clip.first)!=0;}),visualConfig.clips.end());
+            }
             const auto appendSourceClips=[&](const std::vector<std::pair<std::string,std::string>>& clips){
                 for(const auto& extra:clips){
                     if(extra.first.empty()||extra.second.empty())throw std::runtime_error("Source animation bank requires explicit alias and resource path");

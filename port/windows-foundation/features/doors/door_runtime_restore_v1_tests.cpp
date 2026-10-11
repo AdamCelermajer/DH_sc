@@ -31,6 +31,8 @@ int main(int argc, char** argv) {
         definition.gametype = "Door";
         definition.properties["data"] = borrow.doors.names->front();
         definition.properties["door_collision"] = "0";
+        definition.properties["rotation"] = "0.0,0.0,90.5281";
+        definition.properties["scale"] = "1.92012,1.0,1.86059";
         auto second_definition = definition;
         second_definition.stableId += 1;
         second_definition.name += "-second";
@@ -38,6 +40,11 @@ int main(int argc, char** argv) {
         std::vector<std::string> notices;
         check(runtime.load(tables, {definition, second_definition}, notices, error), "load runtime fixture: " + error);
         check(runtime.size() == 2, "two source Door declarations loaded");
+        check(runtime.instance(0).rotation_degrees[2] > 90.52f &&
+              runtime.instance(0).rotation_degrees[2] < 90.54f &&
+              runtime.instance(0).visual_scale[0] > 1.92f &&
+              runtime.instance(0).visual_scale[2] > 1.86f,
+              "source comma-separated MGP rotation and scale tuples are parsed");
         check(runtime.adopt(assets, notices, error), "adopt source door visual: " + error);
         dh2::data::AiTables ai{};
         check(load_original_ai_tables(assets, "original-cache/data/pydata/", ai, error),

@@ -35,6 +35,7 @@
 #include "features/map_visit/map_page_v1.hpp"
 #include "features/map_visit/map_markers_v1.hpp" // P16 MAPMARKERS: marker producers (registry) for the Map page
 #include "features/pause_ui/source_pause_ui_render_v1.hpp"
+#include "features/effects/source_fx_anchor_registry_v1.hpp"
 #include "features/frontend/rich_text.hpp"
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
 #include "features/combat/context_button_v1.hpp" // P16 CONTEXT: Space context button + action icon
@@ -69,6 +70,7 @@
 #include "features/doors/world_objects_v1.hpp" // P17 DOORS: TriggerObject levers and gated AnimatedDecor
 #include "features/doors/door_world_v1.hpp"    // P17 DOORS: door state persisted through world objects
 #include "features/doors/door_commands_v1.hpp" // P17 DOORS: Script_OpenDoor/CloseDoor handler
+#include "features/doors/door_collision_v1.hpp" // P20 DOOR PHYSICS: source door AABB gate at shared root-motion admission
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
@@ -664,7 +666,8 @@ Options parse(int argc, char** argv) {
               " [--combat-locomotion ALIAS:STATE:VARIANT:LEAF_PATH] (explicit source leaf)\n"
               " [--retain-hidden-actors --lifecycle-spawn PROFILE:STATE:VARIANT:GROUP_PATH]\n"
               " [--lifecycle-prespawn PROFILE:STATE:VARIANT:LEAF_PATH]\n"
-              " [--campaign-commands XML --campaign-command SCRIPT:INDEX:FRAME] (serialized command diagnostic, global context)\n"
+              " [--campaign-command SCRIPT:INDEX:FRAME --campaign-triggers] (active compiled-bank diagnostic, global context)\n"
+              " [--campaign-commands XML --campaign-command SCRIPT:INDEX:FRAME] (serialized XML diagnostic)\n"
               " [--combat-sequence PROFILE:STATE:VARIANT:GROUP_PATH] ('*' executes the root)\n"
               " [--combat-marker PROFILE=MARKER --equipped-item ITEM_NAME --combat-main-item ITEM_NAME]\n"
               " [--combat-ai-gate PROFILE=STATE --combat-state PROFILE=INTEGER --combat-auto]\n"
@@ -1196,42 +1199,7 @@ int main(int argc,char** argv) {
         // visual config) before anything loads. Only under campaign triggers, which is the only player of these clips.
         std::map<std::string,std::vector<std::pair<std::string,std::string>>> scriptClipsByProfile; // P16 OPENING: profile id -> script clips
         std::set<std::string> scriptControlledActors;
-        if(options.campaignTriggers&&!options.campaignCommands.empty()&&!options.profiles.empty()) {
-            f::OriginalCampaignRuntime clipScripts;
-            if(!clipScripts.load(assets,options.campaignCommands,error))throw std::runtime_error("Actor clip scripts: "+error);
-            for(const auto& script:clipScripts.scripts())for(const auto& command:script.commands)if(command.kind==40||command.kind==44){
-                const auto actor=command.strings.find(command.kind==40?24:12);if(actor!=command.strings.end())scriptControlledActors.insert(actor->second);}
-            const auto requests=f::campaign_host::collect_actor_clip_requests(clipScripts);
-            if(!requests.empty()) {
-                std::vector<f::ActorDefinition> declared;
-                if(!f::load_actor_definitions(assets,options.level,declared,error))throw std::runtime_error("Actor clip declarations: "+error);
-                f::CameraClipLibrary clipPaths;
-                for(const auto& request:requests) {
-                    std::string path;
-                    if(!clipPaths.dictionary_path(assets,request.dictionary_id,path,error))throw std::runtime_error("Actor clip: "+error);
-                    const auto clip=f::campaign_host::actor_clip_name(request.dictionary_id);
-                    if(request.actor=="LocalPlayer"||request.actor=="Player") {
-                        const bool present=std::any_of(options.character.clips.begin(),options.character.clips.end(),[&](const auto& entry){return entry.first==clip;});
-                        if(!present)options.character.clips.push_back({clip,path});
-                        // The cutscene clips also drive camera nodes (PlayerCamera_Default.Target-node) that the actor does not own:
-                        // the same original missing-target policy as the population actors (their camera channels stay unbound).
-                        options.character.allow_missing_animation_targets=true;
-                        continue;
-                    }
-                    for(const auto& definition:declared) {
-                        if(definition.name!=request.actor)continue;
-                        const auto binding=definition.properties.find("charpropsname");
-                        if(binding==definition.properties.end()||binding->second.empty())continue;
-                        // Population-only actors load their profile bank; session actors are rebuilt from the combat profile's source
-                        // bank (CombatSessionProfile::sourceAnimationClips, applied after the combat policies exist).
-                        if(!profiles.add_state_clip(binding->second,clip,f::ActorClip{path,1.0,false},error))throw std::runtime_error("Actor clip profile: "+error);
-                        auto& bank=scriptClipsByProfile[binding->second];
-                        if(std::none_of(bank.begin(),bank.end(),[&](const auto& entry){return entry.first==clip;}))bank.emplace_back(clip,path);
-                    }
-                }
-                std::cout<<"Actor script clips admitted="<<requests.size()<<'\n';
-            }
-        }
+        std::set<std::string> scriptVisualOnlyProfiles;
         dh2::data::CharacterTemplateTableV78 populationTemplateTable;
         std::optional<dh2::data::CombatRandom> populationStartupRandom;
         const auto populationStartupSeed=frontendRandomState?std::optional<std::uint32_t>(frontendRandomState->seed):options.combat.diagnosticRngSeed;
@@ -1339,6 +1307,91 @@ int main(int argc,char** argv) {
                 options.level=backup;
             }
             proceduralSessionSeed=seed;
+        }
+        // Script bank clip requests are resolved only after procedural rules have
+        // installed their generated active-level declarations into the catalog.
+        if(options.campaignTriggers&&!options.level.empty()) {
+            std::vector<f::ActorDefinition> sourceDeclarations;
+            if(!f::load_actor_definitions(assets,options.level.generic_string(),sourceDeclarations,error))
+                throw std::runtime_error("Campaign source declarations: "+error);
+            for(const auto& definition:sourceDeclarations) {
+                const auto autoSpawn=definition.properties.find("auto_spawn");
+                const auto binding=definition.properties.find("charpropsname");
+                if(definition.gametype!="Character"||autoSpawn==definition.properties.end()||autoSpawn->second!="0"||
+                   binding==definition.properties.end()||binding->second.empty())continue;
+                scriptControlledActors.insert(definition.name);
+                if(!profiles.find(binding->second)) {
+                    if(!derivedTablesLoaded) {
+                        if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))
+                            throw std::runtime_error("Campaign source visual profile tables: "+error);
+                        derivedTablesLoaded=true;
+                    }
+                    f::ActorProfile derived;
+                    if(!f::spawn::derive_actor_profile_v1(derivedTables,binding->second,derived,error))
+                        throw std::runtime_error("Campaign source visual profile "+definition.name+" ("+binding->second+"): "+error);
+                    if(!profiles.add_derived(derived,error))throw std::runtime_error("Campaign source visual profile publish: "+error);
+                    std::cout<<"[campaign] source visual profile derived auto_spawn=0 actor="<<definition.name
+                             <<" profile="<<binding->second<<" propertyRow="<<derived.property_row
+                             <<" animationTable="<<derived.animation_table<<'\n';
+                }
+                // A source declaration can be present for authored lifecycle and
+                // script lookup without an authored combat controller. Keep its
+                // source model/states live without inventing melee or AI policy.
+                if(options.combat.profiles.find(binding->second)==options.combat.profiles.end())
+                    scriptVisualOnlyProfiles.insert(binding->second);
+            }
+        }
+        if(options.campaignTriggers&&!options.profiles.empty()) {
+            f::OriginalCampaignRuntime clipScripts;
+            if(!options.campaignCommands.empty()) {if(!clipScripts.load(assets,options.campaignCommands,error))throw std::runtime_error("Actor clip scripts: "+error);}
+            else if(!clipScripts.load_compiled_level(assets,options.level.generic_string(),error))throw std::runtime_error("Actor clip scripts: "+error);
+            for(const auto& script:clipScripts.scripts())for(const auto& command:script.commands)if(command.kind==40||command.kind==44){
+                const auto actor=command.strings.find(command.kind==40?24:12);if(actor!=command.strings.end())scriptControlledActors.insert(actor->second);}
+            const auto requests=f::campaign_host::collect_actor_clip_requests(clipScripts);
+            if(!requests.empty()) {
+                std::vector<f::ActorDefinition> declared;
+                if(!f::load_actor_definitions(assets,options.level,declared,error))throw std::runtime_error("Actor clip declarations: "+error);
+                f::CameraClipLibrary clipPaths;
+                for(const auto& request:requests) {
+                    scriptControlledActors.insert(request.actor);
+                    std::string path;if(!clipPaths.dictionary_path(assets,request.dictionary_id,path,error))throw std::runtime_error("Actor clip: "+error);
+                    const auto clip=f::campaign_host::actor_clip_name(request.dictionary_id);
+                    if(request.actor=="LocalPlayer"||request.actor=="Player") {
+                        const bool present=std::any_of(options.character.clips.begin(),options.character.clips.end(),[&](const auto& entry){return entry.first==clip;});
+                        if(!present)options.character.clips.push_back({clip,path});
+                        options.character.allow_missing_animation_targets=true;continue;
+                    }
+                    for(const auto& definition:declared) {
+                        if(definition.name!=request.actor)continue;
+                        const auto binding=definition.properties.find("charpropsname");
+                        if(binding==definition.properties.end()||binding->second.empty())continue;
+                        // A source PlayActorAnim can name a declared actor whose profile
+                        // is absent from the curated profile XML. Derive its visual state
+                        // data from the same CharacterTable/ModelFile/CharAnim sources
+                        // used by the existing spawn path before appending the script clip.
+                        // This only admits source animation; it does not invent an AI or
+                        // outgoing combat policy for the actor.
+                        if(!profiles.find(binding->second)) {
+                            if(!derivedTablesLoaded) {
+                                if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))
+                                    throw std::runtime_error("Script visual profile tables: "+error);
+                                derivedTablesLoaded=true;
+                            }
+                            f::ActorProfile derived;
+                            if(!f::spawn::derive_actor_profile_v1(derivedTables,binding->second,derived,error))
+                                throw std::runtime_error("Script visual profile "+request.actor+" ("+binding->second+"): "+error);
+                            if(!profiles.add_derived(derived,error))throw std::runtime_error("Script visual profile publish: "+error);
+                            scriptVisualOnlyProfiles.insert(binding->second);
+                            std::cout<<"[campaign] source visual profile derived actor="<<request.actor<<" profile="<<binding->second
+                                     <<" propertyRow="<<derived.property_row<<" animationTable="<<derived.animation_table<<'\n';
+                        }
+                        if(!profiles.add_state_clip(binding->second,clip,f::ActorClip{path,1.0,false},error))throw std::runtime_error("Actor clip profile: "+error);
+                        auto& bank=scriptClipsByProfile[binding->second];
+                        if(std::none_of(bank.begin(),bank.end(),[&](const auto& entry){return entry.first==clip;}))bank.emplace_back(clip,path);
+                    }
+                }
+                std::cout<<"Actor script clips admitted="<<requests.size()<<'\n';
+            }
         }
         if(!options.level.empty()) {
             if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error)) throw std::runtime_error("Level: "+error);
@@ -1460,13 +1513,20 @@ int main(int argc,char** argv) {
                 if(it!=a.properties.end()&&!f::conditions::is_no_condition(it->second)) {
                     bool value=false;std::string e;
                     if(!conditionValue(it->second,value,e))return f::PopulationDecision::unknown;
-                    if(value)return f::PopulationDecision::exclude;
+                    // ObjectBase::TestEnableCondition disables an existing GameObject;
+                    // it does not remove its name/handle from ObjectManager. Keep the
+                    // source identity and visual available for authored references.
+                    if(value)return options.campaignTriggers&&options.retainHiddenActors?
+                        f::PopulationDecision::deferred:f::PopulationDecision::exclude;
                 }
                 it=a.properties.find("auto_spawn");if(it!=a.properties.end()&&it->second=="0") {
-                    // P16 OPENING: under campaign triggers only declarations with a Limbus/PreSpawn source preset are deferred
-                    // (script-spawnable records). Other auto_spawn=0 objects stay unknown, as without the host.
+                    // InitPost constructs the Character's visual and physical object
+                    // regardless of auto_spawn (0x3b4d60 -> Revive(1) -> 0x3b4088).
+                    // CSM_Spawn consults auto_spawn only when the current AI state is
+                    // PreSpawn17 (0x3ad2e4); an Idle3 actor remains an ordinary live
+                    // source object and may later receive PutCharacterInLimbus.
                     if(!options.retainHiddenActors)return f::PopulationDecision::unknown;
-                    if(options.campaignTriggers) {const auto preset=a.properties.find("ai_state");if(preset==a.properties.end()||(preset->second!="Limbus"&&preset->second!="PreSpawn"))return f::PopulationDecision::unknown;}
+                    if(options.campaignTriggers)return f::PopulationDecision::include;
                     return f::PopulationDecision::deferred;
                 }
                 it=a.properties.find("spawn_prob");if(it!=a.properties.end()&&it->second!="100"&&it->second!="100.0")return f::PopulationDecision::unknown;
@@ -1665,8 +1725,34 @@ int main(int argc,char** argv) {
             if(options.campaignTriggers) for(const auto& placed:population.actors()) {
                 const auto& id=placed.profileId;
                 const auto preset=placed.definition.properties.find("ai_state"),autoSpawn=placed.definition.properties.find("auto_spawn");
-                const bool scriptSpawnable=preset!=placed.definition.properties.end()&&(preset->second=="Limbus"||preset->second=="PreSpawn")&&autoSpawn!=placed.definition.properties.end()&&autoSpawn->second=="0";
-                if((!scriptSpawnable&&!scriptControlledActors.count(placed.definition.name))||!profiles.find(id))continue;
+                const bool campaignRetained=autoSpawn!=placed.definition.properties.end()&&autoSpawn->second=="0";
+                const bool scriptSpawnable=preset!=placed.definition.properties.end()&&(preset->second=="Limbus"||preset->second=="PreSpawn")&&campaignRetained;
+                if((!campaignRetained&&!scriptSpawnable&&!scriptControlledActors.count(placed.definition.name))||!profiles.find(id))continue;
+                if(scriptVisualOnlyProfiles.count(id)) {
+                    if(!derivedTablesLoaded) {
+                        if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))
+                            throw std::runtime_error("Script visual actor tables: "+error);
+                        derivedTablesLoaded=true;
+                    }
+                    if(!meleeBindings.find_actor(id)) {
+                        f::OriginalMeleeActor sourceActor;
+                        if(!f::spawn::derive_melee_actor_v1(derivedTables,id,sourceActor,error))
+                            throw std::runtime_error("Script visual actor source states "+id+": "+error);
+                        if(!meleeBindings.add_derived_actor(std::move(sourceActor),error))
+                            throw std::runtime_error("Script visual actor state publish: "+error);
+                    }
+                    f::CombatSessionProfile presentation;
+                    presentation.animationOnly=true;
+                    presentation.retainedPhaseClock=true;
+                    presentation.customization.allow_missing_animation_targets=true; // Original CSceneNodeAnimator::applyAnimationValues skips NULL targets (0x65d9c4) after validating the clip.
+                    presentation.initialIdle={"Idle",0,{0}};
+                    presentation.propertyOptions.refill_vitals=false;
+                    presentation.motionRoot="auto";
+                    options.combat.profiles.emplace(id,std::move(presentation));
+                    std::cout<<"[campaign] script visual actor admitted without combat policy name="<<placed.definition.name
+                             <<" profile="<<id<<"; source combat remains separate\n";
+                    continue;
+                }
                 // The combat policy is needed by every declared actor (the session admits only policy-bearing actors).
                 if(!derivedTablesLoaded) {
                     if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))throw std::runtime_error("Profile derivation tables: "+error);
@@ -2116,6 +2202,7 @@ int main(int argc,char** argv) {
         f::OriginalActorLifecycle actorLifecycle;
         f::OriginalCampaignRuntime sourceCampaign;
         f::SourceWorldObjects sourceObjects;
+        f::effects::SourceFxAnchorRegistryV1 sourceFxAnchors;
         f::CampaignCameraAdapter sourceCameraTargets;
         f::OriginalCampaignWorldAdapter campaignWorld(actorLifecycle,&sourceCameraTargets);
         // P16 HOST: script-host providers and generic trigger zones (bound only with --campaign-triggers).
@@ -2124,6 +2211,17 @@ int main(int argc,char** argv) {
         f::campaign_host::CampaignHostServices hostServices;
         hostServices.tutorial_settings_path=fs::absolute(options.save).parent_path()/"dh2_settings.tutorials"; // B070: global one-shot tutorial flags (original dh2_settings.savegame)
         hostServices.condition_active=[&](const std::string& name){return conditionActive?conditionActive(name):false;};
+        hostServices.door_gate_suppressed=[&](const std::string& name,bool& suppressed,std::string& e){
+            suppressed=false;std::size_t match=0;bool found=false;
+            for(std::size_t i=0;i<doorRuntime.size();++i)if(doorRuntime.instance(i).name==name){if(found){e="Source door name is ambiguous in active level: "+name;return false;}match=i;found=true;}
+            if(found&&doorRuntime.present(match)){
+                const auto state=doorRuntime.state(match);
+                // IDA TriggerZone::IsDoorClosedActivated returns true for Door states 1/3;
+                // TriggerZone::Update then exits before contact edge mutation.
+                suppressed=state==f::doors::DoorStateV1::opened||state==f::doors::DoorStateV1::opening;
+            }
+            e.clear();return true;
+        };
         f::CameraClipLibrary cameraClipLibrary; // P16 CINE2: PlayCamera dictionary -> cs_* clip bytes
         cameraClipLibrary.set_scene_file(originalCamera.config().file); // the level camera the clips drive
         hostServices.read_camera_clip=[&](std::int32_t id,std::vector<std::uint8_t>& clip,std::vector<std::uint8_t>& scene,std::string& path,std::string& e){return cameraClipLibrary.read(assets,id,clip,scene,path,e);};
@@ -2133,7 +2231,7 @@ int main(int argc,char** argv) {
             return doorCommands->command(phase,c,module,skip,handled,blocking,e);};
         hostServices.all_actors=[&](std::vector<f::ActorId>& out,std::string& e){if(!combatSession){e="Campaign host needs the live combat session";return false;}out.clear();for(const auto& entry:combatSession->world()->actors())out.push_back(entry.first);return true;};
         // P16 OPENING: a population-only actor has no combat state: it is not alive for the source Idle gate (a no-op).
-        hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){alive=false;state=-1;return true;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
+        hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){alive=false;state=-1;return true;}alive=!actor->is_dead();state=combatSession->original_actor_state(id);return true;};
         // P161 B071: lifecycle actors own their full state transition; ordinary actors use the source script Idle behavior.
         hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){
             if(!combatSession)return false;
@@ -2156,6 +2254,25 @@ int main(int argc,char** argv) {
             for(auto& placed:population.actors())if(placed.definition.stableId==id)return &placed;
             return nullptr;
         };
+        // Opaque manager handles keep source ActorIds (full-width hashes) out
+        // of the FX manager namespace. Pose and source lifecycle facts are
+        // sampled from the current session on every request.
+        const auto sourceActorFxProvider=[&](f::ActorId id) {
+            return [&,id](f::effects::SourceFxAnchorPoseV1& out,std::string& problem) {
+                const auto* actor=combatSession?combatSession->actor(id):nullptr;
+                if(!actor){problem="Source FX actor is not present in the active CombatSession";return false;}
+                out.position=actor->transform.position;
+                out.rotation=actor->transform.rotation;
+                out.scale=actor->transform.scale;
+                // AnimatedFX::Update reads ObjectBase deletion byte +129 for
+                // anchor_disabled. Enabled/condition-hidden (+138) is a
+                // different source property; live session actors are retained,
+                // nondeleted objects in this generation.
+                out.alive=!actor->is_dead();out.deleted=false;
+                out.stationary=false; // source renderer policy resamples live transforms each update
+                problem.clear();return true;
+            };
+        };
         // P16 OPENING4: scripted scene objects (AnimatedDecor named by PlayAnimByName, kind 19) and their clip owner.
         f::scene_decor::SceneDecorRuntimeV1 sceneDecor;
         // P16 OPENING4: hand verbs (UnEquipHands 51 / ReEquipHands 52) act on the equipment binding, which exists after the
@@ -2171,6 +2288,75 @@ int main(int argc,char** argv) {
                 id=combatSession->player_id();found=true;return true;
             }
             return sourceObjects.named_character(name,module,id,found,e);
+        };
+        hostServices.actor_verbs.resolve_fx_anchor=[&](const std::string& name,int module,std::uintptr_t& identity,bool& found,std::string& e){
+            identity=0;found=false;
+            if(name=="LocalPlayer"||name=="Player") {
+                if(!combatSession){e="FX Player anchor requires the live session";return false;}
+                if(!sourceFxAnchors.resolve_actor_identity(combatSession->player_id(),identity,found,e))return false;
+                if(!found||!identity){e="FX Player anchor has no opaque actor handle";return false;}
+                e.clear();return true;
+            }
+            f::ActorId object=0;
+            if(!sourceObjects.named_object(name,module,object,found,e))return false;
+            if(!found)return true;
+            int actualModule=-1;if(!sourceObjects.module_context(object,actualModule,e))return false;
+            const auto* definition=sourceObjects.definition(object);
+            if(!definition){e="FX anchor source definition disappeared";return false;}
+            f::effects::SourceFxAnchorKeyV1 key;
+            if(definition->gametype=="Character") {
+                if(!sourceFxAnchors.resolve_actor_identity(object,identity,found,e))return false;
+                if(!found||!identity){e="Named FX Character has no opaque actor handle";return false;}
+                e.clear();return true;
+            }
+            if(definition->gametype!="Dummy") {e="Source FX target is not a supported Character or static Dummy";return false;}
+            if(!sourceFxAnchors.resolve(name,actualModule,key,found,e))return false;
+            if(!found) {
+                // GameObject::GetCameraAnchorPosition returns this object's
+                // own position (0x3943b8); the current Dummy transform is the
+                // active level declaration's immutable placement. Keep the
+                // real SourceWorldObjects ID separate from its manager token.
+                const auto sourceDefinition=*definition;
+                const auto pose=[&,object,sourceDefinition](f::effects::SourceFxAnchorPoseV1& out,std::string& problem) {
+                    f::CameraVec3 position;
+                    if(!sourceObjects.anchor(object,position,problem))return false;
+                    out.position={position.x,position.y,position.z};
+                    const auto tuple=[&](const char* key,std::array<float,3> fallback) {
+                        const auto it=sourceDefinition.properties.find(key);if(it==sourceDefinition.properties.end())return fallback;
+                        std::string value=it->second;std::replace(value.begin(),value.end(),',',' ');
+                        std::istringstream input(value);input.imbue(std::locale::classic());
+                        for(auto& component:fallback)if(!(input>>component)||!std::isfinite(component))
+                            throw std::runtime_error(std::string("Invalid source FX transform ")+key);
+                        input>>std::ws;if(!input.eof())throw std::runtime_error(std::string("Trailing source FX transform ")+key);
+                        return fallback;
+                    };
+                    try {
+                        const auto sourceDegrees=tuple("rotation",{}),scale=tuple("scale",{1.f,1.f,1.f});
+                        constexpr float to_radians=0.01745329251994329577f;
+                        // GameObject::InitPost (0x38be5c) stores authored XYZ
+                        // Euler independently after degree→radian conversion.
+                        out.rotation={sourceDegrees[0]*to_radians,sourceDegrees[1]*to_radians,sourceDegrees[2]*to_radians};
+                        out.scale=scale;
+                        // GameObject::InitPost applies abs(scale)<1e-4→1 on all
+                        // axes (0x38be5c); this is the recovered source rule.
+                        for(auto& component:out.scale)if(std::abs(component)<0.0001f)component=1.f;
+                        // ObjectBase::IsDead is false and Deleted+129 is clear
+                        // while this source identity remains registered. The
+                        // renderer resamples, so stationary=false is safe.
+                        out.alive=true;out.deleted=false;out.stationary=false;
+                        for(float value:out.position)if(!std::isfinite(value)){problem="Nonfinite current source Dummy position";return false;}
+                        for(float value:out.rotation)if(!std::isfinite(value)){problem="Nonfinite current source Dummy rotation";return false;}
+                        for(float value:out.scale)if(!std::isfinite(value)){problem="Nonfinite current source Dummy scale";return false;}
+                    } catch(const std::exception& ex) {problem=ex.what();return false;}
+                    problem.clear();return true;
+                };
+                if(!sourceFxAnchors.register_object(name,actualModule,object,pose,key,e))return false;
+                found=true;
+            }
+            if(found)identity=key.manager_identity;
+            if(!found||!identity){e="Named FX Dummy has no same-world opaque handle";return false;}
+            e.clear();
+            return true;
         };
         hostServices.actor_verbs.waypoint_position=[&](const std::string& name,int module,std::array<float,3>& position,bool& found,std::string& e){
             f::ActorId object=0;
@@ -2294,10 +2480,11 @@ int main(int argc,char** argv) {
         // P16 OPENING: campaign triggers also need the lifecycle (declared Limbus/PreSpawn actors are its records).
         const bool lifecycleEnabled=!options.lifecycleSpawns.empty()||!spawnPool.empty()||!options.spawnDeclared.empty()||options.campaignTriggers; // P16 SPAWN pool slots and declared spawns need the lifecycle
         if((options.retainHiddenActors||lifecycleEnabled)&&!combatSession)throw std::runtime_error("Deferred live actors require the shared combat registry");
-        if(!options.sourceCommands.empty()&&options.campaignCommands.empty())throw std::runtime_error("Source command replay requires original campaign XML");
+        if(!options.sourceCommands.empty()&&options.campaignCommands.empty()&&!options.campaignTriggers)
+            throw std::runtime_error("Source command replay requires either original campaign XML or --campaign-triggers for the active compiled bank");
         std::shared_ptr<f::SourceRootScopes> sourceScopes;
         std::unique_ptr<f::SourceModuleFloors> sourceFloors;
-        if((options.sourceFloorProbe||options.sourceFloorMotion)&&options.sourceRootScopes.empty())throw std::runtime_error("Source floor world requires --source-root-scopes URI");
+        if((options.sourceFloorProbe||options.sourceFloorMotion)&&options.level.empty())throw std::runtime_error("Source floor world requires a current level URI");
         if(options.sourceFloorMotion&&(!options.sourceNativeBodies||!options.sourceBodyBounds||!motor||!combatSession))throw std::runtime_error("Source floor motion requires shared movement, body plans and native actor ownership");
         if(options.sourceHeadingRotation&&(!options.sourceFloorMotion||!combatSession->uses_retained_player_locomotion()))throw std::runtime_error("Source heading/rotation requires shared original floor movement and retained locomotion");
         bool sourceMoveFocusActive=false;
@@ -2342,13 +2529,43 @@ int main(int argc,char** argv) {
         };
         int sourceCommandContext=-1;
         auto rebuildSourceScopes=[&]() {
-            if(options.sourceCommands.empty()&&!options.retainHiddenActors&&!lifecycleEnabled&&options.sourceRootScopes.empty()&&!options.campaignTriggers)return; // P16 HOST
+            if(options.sourceCommands.empty()&&!options.retainHiddenActors&&!lifecycleEnabled&&options.sourceRootScopes.empty()&&!options.campaignTriggers&&!options.sourceFloorProbe&&!options.sourceFloorMotion)return; // P16 HOST
+            sourceFxAnchors.clear_for_new_world();
             if(!sourceObjects.load(population.definitions(),error))throw std::runtime_error(error);
-            if(!options.sourceRootScopes.empty()) {
+            const auto currentSourceRoot=options.sourceRootScopes.empty()?options.level.generic_string():options.sourceRootScopes;
+            if(!currentSourceRoot.empty()) {
                 sourceScopes=std::make_shared<f::SourceRootScopes>();
-                if(!sourceScopes->build(assets,options.sourceRootScopes,population.definitions(),sourceObjects,error))throw std::runtime_error("Source constructor scopes: "+error);
-                std::cout<<"Source root constructor scopes modules="<<sourceScopes->count()<<"; full Level initialization remains incomplete\n";
+                if(!sourceScopes->build(assets,currentSourceRoot,population.definitions(),sourceObjects,error))throw std::runtime_error("Source constructor scopes for "+currentSourceRoot+": "+error);
+                std::cout<<"Source root constructor scopes root="<<currentSourceRoot<<" modules="<<sourceScopes->count()<<"; full Level initialization remains incomplete\n";
                 for(const auto& module:sourceScopes->modules().entries())std::cout<<"Source module scope id="<<module.runtimeId<<" occurrence="<<module.occurrence.hostOccurrence<<'\n';
+            }
+            if(options.campaignTriggers) {
+                std::size_t actorAnchors=0;
+                for(const auto& definition:population.definitions()) {
+                    if(definition.name.empty())continue;
+                    const f::ActorId object=definition.stableId;int module=-1;
+                    if(!sourceObjects.module_context(object,module,error)) {error.clear();continue;}
+                    if(definition.gametype=="Character") {
+                        f::effects::SourceFxAnchorKeyV1 key;
+                        if(!sourceFxAnchors.register_actor(definition.name,module,object,sourceActorFxProvider(object),key,error)) {
+                            std::cout<<"Source FX actor anchor omitted name="<<definition.name<<" reason="<<error<<'\n';error.clear();continue;
+                        }
+                        ++actorAnchors;continue;
+                    }
+                }
+                if(combatSession) {
+                    std::uintptr_t managerIdentity{};bool found=false;
+                    if(!sourceFxAnchors.resolve_actor_identity(combatSession->player_id(),managerIdentity,found,error))
+                        throw std::runtime_error("Source FX player anchor: "+error);
+                    if(!found) {
+                        f::effects::SourceFxAnchorKeyV1 key;
+                        if(!sourceFxAnchors.register_actor("LocalPlayer",-1,combatSession->player_id(),
+                                sourceActorFxProvider(combatSession->player_id()),key,error))
+                            throw std::runtime_error("Source FX player anchor: "+error);
+                        ++actorAnchors;
+                    }
+                }
+                std::cout<<"Source FX actor anchors registered="<<actorAnchors<<" staticObjects=lazy generation="<<sourceFxAnchors.generation()<<'\n';
             }
             if(options.sourceFloorProbe||options.sourceFloorMotion) {
                 if(!sourceScopes)throw std::runtime_error("Source floor probe requires actual constructor scopes");
@@ -2381,10 +2598,10 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::effects::RuntimeEffectsFactoryV1> sourceEffectsFactory;
         // P16 OPENING: scripted FX (PlayEffect/StopEffect) go through the source effects manager, the same owner as the level-up
         // set. Read at command time, so a rebound factory is used. Without a factory the command reports an explicit error.
-        campaignHost.bind_fx([&](std::int32_t set,const std::array<float,3>& position,std::string& e){
+        campaignHost.bind_fx([&](std::int32_t set,const std::array<float,3>& position,std::uintptr_t anchor,std::string& e){
             if(!sourceEffectsFactory){e="FX owner unavailable (no source effects factory)";return false;}
             std::uintptr_t created=0;const float at[3]={position[0],position[1],position[2]};
-            return sourceEffectsFactory->manager().play_set(set,at,nullptr,0,&created,e);
+            return sourceEffectsFactory->manager().play_set(set,at,nullptr,anchor,&created,e);
         },[&](std::int32_t set,std::string& e){
             if(!sourceEffectsFactory){e="FX owner unavailable (no source effects factory)";return false;}
             return sourceEffectsFactory->manager().drop_set_by_id_v117(set,e);
@@ -2437,6 +2654,9 @@ int main(int argc,char** argv) {
                 bindings.scene_view.context=&sourceEffectsCameraContext;
                 bindings.scene_view.camera=[](void* raw,const auto& scene,float* view,float* position,std::string& problem){return static_cast<SourceEffectsCameraContext*>(raw)->sample(scene,view,position,problem);};
                 bindings.scene_view.particle_color_policy=f::effects::RuntimeEffectsParticleColorPolicyV1::source_white;
+                bindings.source_anchor_query=[&](dh2::fx::MeshFxRequestV1& request,bool& handled,std::string& problem){
+                    return sourceFxAnchors.query(request,handled,problem);
+                };
                 sourceEffectsRenderer.bind_factory_services(bindings);
                 sourceEffectsFactory=f::effects::RuntimeEffectsFactoryV1::create(*combatSession,combatSession->player_id(),std::move(bindings),e);
                 if(!sourceEffectsFactory)throw std::runtime_error(e);
@@ -2447,6 +2667,23 @@ int main(int argc,char** argv) {
         struct SourceMotionReceipt {std::uint64_t solves=0,accepted=0,clamped=0;};
         std::map<f::ActorId,SourceMotionReceipt> sourceMotionReceipts;
         std::set<f::ActorId> firstSourceMotionTraced;
+        auto sourceDoorVolumes=[&](std::vector<f::doors::DoorCollisionVolumeV1>& out,std::string& problem) {
+            out.clear();
+            const auto snapshots=doorRuntime.physical_bindings();
+            out.reserve(snapshots.size());
+            for(const auto& binding:snapshots) {
+                if(binding.collision_enabled&&binding.present&&!binding.source_bounds_valid) {
+                    problem="Source-colliding present door lacks its same-visual ApplyMeshBox snapshot (stable ID "+std::to_string(binding.stable_id)+")";
+                    return false;
+                }
+                f::doors::DoorCollisionVolumeV1 volume;volume.binding=binding;
+                std::copy(std::begin(binding.source_bounds_xy),std::end(binding.source_bounds_xy),volume.bounds_xy);
+                volume.group_index=physicsDebug.at("MP_NoCollisions")?-666:0;
+                volume.category_bits=2;volume.mask_bits=0xffff;
+                out.push_back(volume);
+            }
+            problem.clear();return true;
+        };
         auto applyActorRootMotion=[&](f::ActorId id,f::ActorMovement& movement,f::Vec3 delta,std::string& e,bool authored=false) {
             if(!options.sourceFloorMotion){if(authored)movement.apply_authored_root_motion(delta,collision);else movement.apply_root_motion(delta,collision);return true;}
             f::ActorMovement::SourceMotionAdmission admission=[&](f::Vec3 current,f::Vec3 worldDelta,f::ActorMovement::SourceMotionAdmissionResult& out,std::string& problem) {
@@ -2454,6 +2691,35 @@ int main(int argc,char** argv) {
                 const auto previousRoom=nativeBodies.navigation(id)->motion.room;
                 const bool traceMotion=(worldDelta.x!=0||worldDelta.y!=0||worldDelta.z!=0)&&firstSourceMotionTraced.insert(id).second;
                 if(traceMotion){const auto* nav=nativeBodies.navigation(id);std::cout<<"Motion provenance stage=first-admission actor="<<id<<" current="<<current.x<<','<<current.y<<','<<current.z<<" delta="<<worldDelta.x<<','<<worldDelta.y<<','<<worldDelta.z<<" pf="<<nav->motion.position[0]<<','<<nav->motion.position[1]<<','<<nav->motion.position[2]<<" floor="<<previousFloor<<" room="<<previousRoom<<std::endl;}
+                std::vector<f::doors::DoorCollisionVolumeV1> doorVolumes;
+                if(!sourceDoorVolumes(doorVolumes,problem))return false;
+                if(traceMotion)for(const auto& door:doorVolumes) {
+                    std::cout<<"Source door admission actor="<<id<<" door="<<door.binding.stable_id
+                             <<" present="<<(door.binding.present?1:0)<<" collision="<<(door.binding.collision_enabled?1:0)
+                             <<" filter="<<(door.binding.filter_enabled?1:0)<<" boundsXY="<<door.bounds_xy[0]<<','<<door.bounds_xy[1]
+                             <<','<<door.bounds_xy[2]<<','<<door.bounds_xy[3]<<'\n';
+                }
+                if(!doorVolumes.empty()) {
+                    const auto plan=sourceBodyPlans.find(id);
+                    if(plan==sourceBodyPlans.end()){problem="Door collision admission requires the current source actor body plan";return false;}
+                    f::doors::DoorActorCollisionV1 actorCollision;
+                    actorCollision.radius_game_units=plan->second.radius_game_units;
+                    actorCollision.group_index=physicsDebug.at("MP_NoCollisions")?-666:plan->second.group_index;
+                    actorCollision.category_bits=static_cast<std::uint16_t>(plan->second.category_bits);
+                    actorCollision.mask_bits=static_cast<std::uint16_t>(plan->second.mask_bits);
+                    actorCollision.physical_collision_enabled=plan->second.physical_enabled;
+                    const auto scripted=scriptRoutes.find(id);
+                    actorCollision.move_collision_enabled=scripted==scriptRoutes.end()||!scripted->second.ignore_collisions;
+                    const float from_xy[]{current.x,current.y};
+                    const float desired_xy[]{current.x+worldDelta.x,current.y+worldDelta.y};
+                    f::doors::DoorMotionResultV1 doorResult;
+                    if(!f::doors::constrain_door_motion_v1(doorVolumes,actorCollision,from_xy,desired_xy,doorResult,problem))return false;
+                    if(doorResult.clipped) {
+                        worldDelta.x=doorResult.position_xy[0]-current.x;
+                        worldDelta.y=doorResult.position_xy[1]-current.y;
+                        if(traceMotion)std::cout<<"Source door sweep actor="<<id<<" door="<<doorResult.first_blocking_door<<" clippedXY="<<doorResult.position_xy[0]<<','<<doorResult.position_xy[1]<<'\n';
+                    }
+                }
                 f::OriginalActorNavigationMoveResult result;
                 if(!nativeBodies.move_grounded(id,current,worldDelta,result,problem))return false;
                 if(traceMotion)std::cout<<"Motion provenance stage=first-admission-result actor="<<id<<" kind="<<result.kind<<" valid="<<result.position_valid<<" position="<<result.position.x<<','<<result.position.y<<','<<result.position.z<<std::endl;
@@ -2585,7 +2851,7 @@ int main(int argc,char** argv) {
                     if(options.sourceNativeBodies)return nativeBodies.set_position(actor.id,request.initial_transform.position,true,e);
                     actor.transform.position=request.initial_transform.position;return true;
                 case f::OriginalLifecycleOperation::restore_initial_rotation:actor.transform.rotation=request.initial_transform.rotation;return true;
-                case f::OriginalLifecycleOperation::revive:actor.health=actor.max_health;actor.resource=actor.max_resource;f::reset_actor_action(actor,f::CharacterAction::idle);return true;
+                case f::OriginalLifecycleOperation::revive:f::revive_actor_state(actor);return true;
                 case f::OriginalLifecycleOperation::clear_aggro:
                 case f::OriginalLifecycleOperation::clear_and_sync_target:
                     return combatSession->set_source_target(actor.id,f::invalid_actor_id,false,e)&&combatSession->sync_source_last_target(actor.id,e);
@@ -2641,15 +2907,15 @@ int main(int argc,char** argv) {
             // P16 SPAWN: an authored declaration joins the lifecycle only when a --spawn-declared trigger names it (its
             // Limbus/PreSpawn preset then starts at PreSpawn17, as in the source). Every other declaration is unchanged.
             const auto declaredNamed=[&](const std::string& name){return std::any_of(options.spawnDeclared.begin(),options.spawnDeclared.end(),[&](const auto& request){return request.name==name;});};
-            // P16 OPENING: a declaration that does not auto-spawn (auto_spawn=0) and whose source preset is Limbus/PreSpawn
-            // joins the lifecycle under campaign triggers: SpawnCharacter needs its record. Template-inherited presets on
-            // auto-spawning monsters are not admitted.
-            const auto limbusPreset=[&](const auto& p){
-                const auto it=p.definition.properties.find("ai_state"),spawn=p.definition.properties.find("auto_spawn");
-                return it!=p.definition.properties.end()&&(it->second=="Limbus"||it->second=="PreSpawn")&&spawn!=p.definition.properties.end()&&spawn->second=="0";};
+            // Source auto_spawn=0 is consulted by CSM_Spawn only from PreSpawn17.
+            // Keep lifecycle identity for all such live declarations so ordinary
+            // Idle3 actors can later receive PutCharacterInLimbus/Spawn commands.
+            const auto campaignLifecycleActor=[&](const auto& p){
+                const auto spawn=p.definition.properties.find("auto_spawn");
+                return spawn!=p.definition.properties.end()&&spawn->second=="0";};
             for(const auto& placed:population.actors()) {
                 const bool explicitLifecycle=options.lifecycleSpawns.count(placed.profileId)||spawnPool.owns(placed.definition.stableId)||declaredNamed(placed.definition.name);
-                if(!explicitLifecycle&&!(options.campaignTriggers&&limbusPreset(placed)))continue;
+                if(!explicitLifecycle&&!(options.campaignTriggers&&campaignLifecycleActor(placed)))continue;
             // P16 SPAWN pool slots
                 auto* actor=combatSession->actor(placed.definition.stableId);
                 const auto* source=meleeBindings.find_actor(placed.profileId);
@@ -2684,12 +2950,16 @@ int main(int argc,char** argv) {
                 const auto id=sourceCampaign.script_id(scheduled.script);
                 if(id<0||scheduled.index>=sourceCampaign.scripts().at(id).commands.size())throw std::runtime_error("Unknown serialized source command");
             }
-            std::cout<<"Serialized command replay context="<<sourceCommandContext<<"; original trigger admission and complete cutscene/UI providers remain incomplete\n";
-        }
+            std::cout<<(options.campaignCommands.empty()?"Compiled-bank":"Serialized XML")
+                     <<" command replay context="<<sourceCommandContext
+                     <<"; replay is diagnostic and does not establish normal trigger admission\n";
+        } else if((options.campaignTriggers||!options.sourceCommands.empty())&&
+                  !sourceCampaign.load_compiled_level(assets,options.level.generic_string(),error))
+            throw std::runtime_error("Compiled source campaign: "+error);
         std::cout<<"Character name="<<state.name<<" class="<<state.class_id<<" xp="<<state.experience<<'\n';
         // P16 HOST: live executor binding and trigger zones from the loaded level declarations (off by default).
         if(options.campaignTriggers) {
-            if(options.campaignCommands.empty()||!combatSession)throw std::runtime_error("--campaign-triggers requires --campaign-commands and the live combat session");
+            if(!combatSession)throw std::runtime_error("--campaign-triggers requires the live combat session");
             if(!campaignHost.bind_executor(sourceCampaign,campaignWorld,error))throw std::runtime_error("Campaign host: "+error);
             // D3 (OPENING3): campaign lifecycle component on a neutral object (save component mechanism).
             if(options.campaignTriggers){std::string lifecycleBindError;if(!campaignHost.bind_lifecycle_object(*combatSession->world(),lifecycleBindError))throw std::runtime_error("Campaign lifecycle object: "+lifecycleBindError);combatSession->set_lifecycle_serialized_by_host(true);}
@@ -2963,6 +3233,8 @@ int main(int argc,char** argv) {
                         const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& value){return value.definition.stableId==id;});
                         if(placed==population.actors().end()){e="Step FX enabled source actor is unavailable";return false;}
                         enabled=std::uint8_t(placed->enabled);e.clear();return true;
+                    },[&](f::ActorId id,std::uintptr_t& identity,bool& found,std::string& e) {
+                        return sourceFxAnchors.resolve_actor_identity(id,identity,found,e);
                     });
                 std::weak_ptr<f::effects::RuntimeSwingFxObserverV1> weak=sourceSwingFx;
                 f::CombatSessionStepObserver observer=[weak,&combatSession](const auto& entry) {
@@ -3339,7 +3611,11 @@ int main(int argc,char** argv) {
                 const bool ok=f::effects::play_level_up_presentation_v1(sourceEffectsTables.borrow(),
                     [&](std::int32_t set,const float* position,const float* rotation,std::uintptr_t anchor,std::uintptr_t* created,std::string& fxError) {
                         if(!sourceEffectsFactory){fxError="no effects factory";return false;}
-                        return sourceEffectsFactory->manager().play_set(set,position,rotation,anchor,created,fxError);
+                        if(anchor!=static_cast<std::uintptr_t>(id)){fxError="Level-up source anchor differs from the leveling ActorId";return false;}
+                        std::uintptr_t managerIdentity{};bool found=false;
+                        if(!sourceFxAnchors.resolve_actor_identity(id,managerIdentity,found,fxError))return false;
+                        if(!found||!managerIdentity){fxError="Level-up actor has no opaque FX manager identity";return false;}
+                        return sourceEffectsFactory->manager().play_set(set,position,rotation,managerIdentity,created,fxError);
                     },id,result,e);
                 std::cout<<"Level up presentation frame="<<drawn<<" actor="<<id<<" level="<<level<<" "<<result.fx<<" "<<result.text<<'\n';
                 return ok;
@@ -3728,7 +4004,7 @@ int main(int argc,char** argv) {
             dh2::character::KillActor56 sourceActor{};
             sourceActor.identity=id;sourceActor.properties=&view;sourceActor.oid=-1;
             sourceActor.property_id=std::int16_t(identity->second.first);sourceActor.template_id=std::int16_t(identity->second.second);
-            sourceActor.dead=!actor->alive();sourceActor.suppress_quest=spawnPool.owns(id);
+            sourceActor.dead=actor->is_dead();sourceActor.suppress_quest=spawnPool.owns(id);
             dh2::character::KillLevel16 level{reinterpret_cast<std::uintptr_t>(rewardContext.get()),rewardContext->rewardsSuppressed?1u:0u,0};
             dh2::character::KillWorld16 globals{};dh2::character::KillResult24 result{};
             const auto constantsBytes=f::read_content(assets,"data/v2quests_pycst.bin");
@@ -3743,7 +4019,7 @@ int main(int argc,char** argv) {
                 case kill_is_dead:response.word=sourceActor.dead;return 0;
                 case kill_is_player:
                     // Kill's property/dead prefix precedes DropLoot; commit to the SAME world.
-                    if(sourceActor.dead){actor->health=0;if(!world->update_combat_properties(id,sourceProperties,*traits,e))return -1;}
+                    if(sourceActor.dead){f::kill_actor_state(*actor);if(!world->update_combat_properties(id,sourceProperties,*traits,e))return -1;}
                     response.word=traits->is_player;return 0;
                 case kill_current_level:response.pointer=reinterpret_cast<std::uintptr_t>(&level);return 0;
                 case kill_drop_loot:{
@@ -3768,6 +4044,7 @@ int main(int argc,char** argv) {
             };
             const dh2::character::KillServices16 services{&dispatch,[](void* p,auto*,const auto* q,auto* r){return (*static_cast<decltype(dispatch)*>(p))(*q,*r);}};
             const auto status=dh2_character_ctrl_kill(&result,&sourceActor,0,0,&globals,&services);
+            if(result.dead_written)f::kill_actor_state(*actor);
             if(status!=1){if(e.empty())e="Script kill source dispatch failed phase="+std::to_string(result.phase);return false;}
             std::cout<<"Script kill complete victim="<<id<<" deadPrefix="<<result.dead_written<<" events="<<result.events_raised<<'\n';return true;
         };
@@ -4378,7 +4655,7 @@ int main(int argc,char** argv) {
                 if(!population.set_enabled(id,true,e))return false;
                 actor->transform=home->second;
                 if(options.sourceNativeBodies&&!nativeBodies.set_position(id,home->second.position,true,e))return false;
-                actor->health=actor->max_health;actor->resource=actor->max_resource;f::reset_actor_action(*actor,f::CharacterAction::idle);
+                f::revive_actor_state(*actor);
                 return setAuthoredPhysical(id,true,e);};
             return s;
         };
@@ -4786,7 +5063,10 @@ int main(int argc,char** argv) {
                 const auto id=sourceCampaign.script_id(scheduled.script);
                 const auto& command=sourceCampaign.scripts().at(id).commands.at(scheduled.index);
                 bool blocking=false;
-                if(!campaignWorld.command(f::CampaignCommandPhase::execute,command,sourceCommandContext,false,blocking,error)||blocking)throw std::runtime_error("Serialized command replay: "+error);
+                const bool commandOk=campaignHost.enabled()
+                    ?campaignHost.execute_diagnostic_command(command,sourceCommandContext,blocking,error)
+                    :campaignWorld.command(f::CampaignCommandPhase::execute,command,sourceCommandContext,false,blocking,error);
+                if(!commandOk||blocking)throw std::runtime_error("Scheduled source command diagnostic: "+error);
                 std::cout<<"Source command frame="<<drawn<<" script="<<scheduled.script<<" index="<<scheduled.index<<" kind="<<command.kind<<'\n';
                 if(command.kind==8)std::cout<<"Source camera command frame="<<drawn<<" target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<'\n';
             }
@@ -4926,6 +5206,7 @@ int main(int argc,char** argv) {
                 // physical maps, and re-declares every spawn-pool slot free (no duplicate summon survives the world replacement).
                 despawnOwner.clear();despawnCarryMs=0;despawnHome.clear();actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();
                 lifecycleIdleSuppressed.clear();lifecycleFlags.clear();spawnPool.free_all();
+                scriptRoutes.clear(); // session actor identities/route owner are replaced below
                 clearNativeBodies();combatSession.reset();
                 populationMotors.clear();
                 f::OriginalScene nextScene;f::CharacterVisual nextVisual;
@@ -4945,6 +5226,14 @@ int main(int argc,char** argv) {
                 bindContainerLoot();
                 bindQuestRuntime(false); // P16 QUESTS (P17 DOORS2: no bind banners on reload)
                 bindSourcePresentations();
+                if(combatSession) {
+                    if(!sourceCameraTargets.seed_target(combatSession->player_id(),error))throw std::runtime_error("Reload source camera target: "+error);
+                    lastSourceCameraFrame={};cameraFractionMs=0;sourceRotationFractionMs=0;campaignFractionMs=0;
+                    if(actorCameraAnchor.initialized()&&!actorCameraAnchor.reset(actorCameraFrame(),error))throw std::runtime_error("Reload actor camera anchor: "+error);
+                    const auto* currentPlayer=combatSession->actor(combatSession->player_id());
+                    const f::CameraVec3 anchor=actorCameraAnchor.initialized()?actorCameraAnchor.position():f::CameraVec3{currentPlayer->transform.position[0],currentPlayer->transform.position[1],currentPlayer->transform.position[2]};
+                    if(options.sourceCamera&&!originalCamera.reset(anchor,error))throw std::runtime_error("Reload source camera pose: "+error);
+                }
                 std::cout<<"Content unloaded and reloaded at frame="<<drawn<<'\n';
             }
             if((pressed(VK_F5)||drawn==options.saveFrame)&&!campaignSaveRefused("Save")&&checkpointAllowed("Save")) {
@@ -4962,6 +5251,7 @@ int main(int argc,char** argv) {
                 }
             }
             if((pressed(VK_F9)||drawn==options.loadFrame)&&!campaignSaveRefused("Restore")&&checkpointAllowed("Restore")) {
+                scriptRoutes.clear(); // restored actor bindings must not inherit an earlier session's movement goals
                 if(options.combatText)combatText.clear_for_reload();
                 if(combatSession) {
                     f::GameSave snapshot;if(!f::load_game(options.liveSave,snapshot,error))throw std::runtime_error("Read live save: "+error);
@@ -4987,6 +5277,8 @@ int main(int argc,char** argv) {
                     if(motor)motor->setPosition(options.actorPosition,player->transform.rotation[2]);
                     if(actorCameraAnchor.initialized()&&!actorCameraAnchor.reset(actorCameraFrame(),error))throw std::runtime_error(error);
                     cameraFractionMs=0;
+                    campaignFractionMs=0;sourceRotationFractionMs=0;lastSourceCameraFrame={};
+                    if(!sourceCameraTargets.seed_target(combatSession->player_id(),error))throw std::runtime_error("Restore source camera target: "+error);
                     const auto restoredAnchor=actorCameraAnchor.initialized()?actorCameraAnchor.position():f::CameraVec3{options.actorPosition.x,options.actorPosition.y,options.actorPosition.z};
                     if(options.sourceCamera&&!originalCamera.reset(restoredAnchor,error))throw std::runtime_error(error);
                     if(runtimeAudio&&!runtimeAudio->bind(combatSession,error))
@@ -5615,24 +5907,54 @@ int main(int argc,char** argv) {
             }
             if(!gameplayPaused){std::vector<f::containers::ContainerEventV1> containerEvents;std::string containerError;if(!containerRuntime.update(gameplayDt,containerEvents,containerError))throw std::runtime_error("Container update: "+containerError);for(const auto& event:containerEvents){std::cout<<"Container opened declaration="<<event.name<<" loot="<<event.loot_id<<" clipMs="<<event.elapsed_ms<<" frame="<<drawn<<'\n';runContainerOpen(event.index,drawn);}
                 if(combatSession){std::string persistError;if(!f::containers::persist_container_world_state_v1(*combatSession->world(),containerRuntime,persistError))throw std::runtime_error("Container persist: "+persistError);}}
+            // Shared source actor placement used by both target-node consumers
+            // and rendered geometry. Scripted source clips use the same
+            // quarter-turn root correction at both sites; scales stay the
+            // authored actor scale. Keeping one matrix prevents bone targets,
+            // look-at and anchored effects drifting away from the displayed pose.
+            const auto sourceActorWorld=[&](f::ActorId id,const f::Vec3& position,
+                                             const std::array<float,3>& rotation,const f::Vec3& scale) {
+                const bool scripted=campaignHost.scripted_clip_pose(id);
+                const bool player=combatSession&&id==combatSession->player_id();
+                float yaw=player&&options.sourceHeadingRotation&&!scripted
+                    ?sourceVisualYaw
+                    :(player&&!scripted&&motor?motor->state().facingRadians:rotation[2]);
+                if(scripted)yaw=rotation[2]+1.5707963f;
+                const float c=std::cos(yaw),s=std::sin(yaw);
+                auto world=f::identity();
+                world[0]=c*scale.x;world[1]=s*scale.x;
+                world[4]=-s*scale.y;world[5]=c*scale.y;world[10]=scale.z;
+                world[12]=position.x;world[13]=position.y;world[14]=position.z;
+                return world;
+            };
             if(options.sourceTargetPosition) {
                 for(const auto& entry:combatSession->world()->actors()) {
                     auto* actor=combatSession->actor(entry.first);auto* graphics=actorVisual(entry.first);
                     f::OriginalTargetPositionUpdateResult result;
                     auto absolute=[&](std::uintptr_t node,f::OriginalTargetPosition& out,std::string& e){
-                        f::Mat4 local;if(!graphics->source_target_node_world(node,local,e))return false;
-                        f::Vec3 scale=actorScale;float yaw=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0);
+                        if(!actor||!graphics){e="Target cache owner visual missing actor="+std::to_string(entry.first);return false;}
+                        f::Mat4 local;if(!graphics->source_target_node_world(node,local,e)) {
+                            const auto detail=e;std::uintptr_t currentNode=0;std::string lookupError;
+                            graphics->source_target_node(currentNode,lookupError);
+                            const auto* cfg=graphics->configuration();
+                            e="Target node token mismatch actor="+std::to_string(actor->id)+" profile="+actor->definition_id+
+                              " stored="+std::to_string(node)+" current="+std::to_string(currentNode)+
+                              " model="+(cfg?cfg->model_path:std::string("<none>"))+" detail="+detail+
+                              (lookupError.empty()?std::string():" lookup="+lookupError);
+                            return false;
+                        }
+                        f::Vec3 scale=actorScale;
                         if(actor->id!=combatSession->player_id()) {
                             const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& value){return value.definition.stableId==actor->id;});
                             if(placed==population.actors().end()){e="Target node lost its actual visual placement";return false;}
-                            scale={std::hypot(placed->transform[0],placed->transform[1]),std::hypot(placed->transform[4],placed->transform[5]),placed->transform[10]};yaw=actor->transform.rotation[2];
+                            scale={std::hypot(placed->transform[0],placed->transform[1]),std::hypot(placed->transform[4],placed->transform[5]),placed->transform[10]};
                         }
-                        // Same compensated model pose and actor placement used
-                        // by the renderer; no combat-target position is borrowed.
-                        const float c=std::cos(yaw),s=std::sin(yaw);
-                        out={actor->transform.position[0]+c*scale.x*local[12]-s*scale.y*local[13],
-                             actor->transform.position[1]+s*scale.x*local[12]+c*scale.y*local[13],
-                             actor->transform.position[2]+scale.z*local[14]};return true;
+                        const auto rendered=sourceActorWorld(actor->id,
+                            {actor->transform.position[0],actor->transform.position[1],actor->transform.position[2]},
+                            actor->transform.rotation,scale);
+                        out={rendered[12]+rendered[0]*local[12]+rendered[4]*local[13]+rendered[8]*local[14],
+                             rendered[13]+rendered[1]*local[12]+rendered[5]*local[13]+rendered[9]*local[14],
+                             rendered[14]+rendered[2]*local[12]+rendered[6]*local[13]+rendered[10]*local[14]};return true;
                     };
                     if(!f::original_update_target_position(actor->source_target_node180,actor->source_target_position184,absolute,result,error))throw std::runtime_error("Source target cache: "+error);
                     sourceTargetNodeQueries+=result.node_queried;sourceTargetCacheWrites+=result.cache_written;
@@ -5758,12 +6080,31 @@ int main(int argc,char** argv) {
             // B068 (4)(9): scripted PlayActorAnim clips (cutscene "cs:" BDAEs) are authored in the world frame of the cutscene: the clip root
             // carries absolute positions (Bip01 of the hero at the cage, the troll next to it) and the actors are placed at Waypoint_5 and
             // turned to Waypoint_LookSpot (south) by the script, which is the identity orientation of those clips. The gameplay facing of
-            // this port (+x forward clips) is therefore turned a quarter turn for a scripted pose, and the unit scale is kept.
+            // this port (+x forward clips) is therefore turned a quarter turn for a scripted pose.
             const bool heroScriptedPose=combatSession&&campaignHost.scripted_clip_pose(combatSession->player_id());
-            auto actorWorld=f::identity();float angle=(heroScriptedPose?combatSession->actor(combatSession->player_id())->transform.rotation[2]:(options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0)))+(heroScriptedPose?1.5707963f:0.f),c=std::cos(angle),s=std::sin(angle);
-            const f::Vec3 drawScale=heroScriptedPose?f::Vec3{1,1,1}:actorScale;
-            actorWorld[0]=c*drawScale.x;actorWorld[1]=s*drawScale.x;actorWorld[4]=-s*drawScale.y;actorWorld[5]=c*drawScale.y;actorWorld[10]=drawScale.z;
-            actorWorld[12]=options.actorPosition.x;actorWorld[13]=options.actorPosition.y;actorWorld[14]=options.actorPosition.z;
+            auto actorWorld=f::identity();
+            if(combatSession) {
+                const auto* livePlayer=combatSession->actor(combatSession->player_id());
+                if(!livePlayer)throw std::runtime_error("Rendered source player placement is unavailable");
+                actorWorld=sourceActorWorld(livePlayer->id,
+                    {livePlayer->transform.position[0],livePlayer->transform.position[1],livePlayer->transform.position[2]},
+                    livePlayer->transform.rotation,actorScale);
+                if(heroScriptedPose&&std::find(options.captureFrames.begin(),options.captureFrames.end(),drawn+1)!=options.captureFrames.end()) {
+                    std::array<float,3> low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
+                    for(const auto& mesh:visual.meshes())for(const auto& vertex:mesh.vertices) {
+                        const float p[3]{actorWorld[0]*vertex.position.x+actorWorld[4]*vertex.position.y+actorWorld[8]*vertex.position.z+actorWorld[12],
+                                         actorWorld[1]*vertex.position.x+actorWorld[5]*vertex.position.y+actorWorld[9]*vertex.position.z+actorWorld[13],
+                                         actorWorld[2]*vertex.position.x+actorWorld[6]*vertex.position.y+actorWorld[10]*vertex.position.z+actorWorld[14]};
+                        for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}
+                    }
+                    std::cout<<"Capture scripted actor frame="<<(drawn+1)<<" name=LocalPlayer position="<<actorWorld[12]<<','<<actorWorld[13]<<','<<actorWorld[14]
+                             <<" scale="<<std::hypot(actorWorld[0],actorWorld[1])<<','<<std::hypot(actorWorld[4],actorWorld[5])<<','<<actorWorld[10]
+                             <<" bounds="<<low[0]<<','<<low[1]<<','<<low[2]<<".."<<high[0]<<','<<high[1]<<','<<high[2]<<'\n';
+                }
+            } else {
+                const float yaw=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0.f);
+                actorWorld=sourceActorWorld(0,options.actorPosition,{0,0,yaw},actorScale);
+            }
             // P17 PROCGEN2 sky pass: the skybox follows the eye and writes no depth, so the level and actors draw over it.
             if(scene.skybox&&!scene.skybox->mesh.vertices.empty()) {
                 const auto skyWorld=f::translation(activeCamera.eye);
@@ -5793,16 +6134,13 @@ int main(int argc,char** argv) {
             for(const auto& actor:population.actors()) {
                 if(!actor.enabled)continue;
                 auto placement=actor.transform;
-                if(const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr) {
-                    const float sx=std::hypot(placement[0],placement[1]),sy=std::hypot(placement[4],placement[5]);
-                    const float yaw=live->transform.rotation[2]+(campaignHost.scripted_clip_pose(actor.definition.stableId)?1.5707963f:0.f);placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
-                    placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];
-                } else if(campaignHost.scripted_clip_pose(actor.definition.stableId)) {
-                    // B068 (10): a population-only actor (no session body, e.g. the intro prisoner) holding a scripted cutscene clip is turned the same quarter
-                    // turn as the session actors above, otherwise its absolute clip root lies in the wrong frame.
-                    const float sx=std::hypot(placement[0],placement[1]),sy=std::hypot(placement[4],placement[5]);
-                    const float yaw=std::atan2(placement[1],placement[0])+1.5707963f;placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
-                }
+                const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
+                const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}
+                                           :f::Vec3{placement[12],placement[13],placement[14]};
+                const std::array<float,3> rotation=live?live->transform.rotation
+                    :std::array<float,3>{0,0,std::atan2(placement[1],placement[0])};
+                const f::Vec3 scale{std::hypot(placement[0],placement[1]),std::hypot(placement[4],placement[5]),placement[10]};
+                placement=sourceActorWorld(actor.definition.stableId,position,rotation,scale);
                 if(campaignHost.scripted_clip_pose(actor.definition.stableId)&&std::find(options.captureFrames.begin(),options.captureFrames.end(),drawn+1)!=options.captureFrames.end()){
                     std::array<float,3> low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
                     for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}

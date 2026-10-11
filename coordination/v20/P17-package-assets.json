@@ -1,0 +1,1141 @@
+{
+  "schema_version": 1,
+  "purpose": "Finite package copy manifest for P17 Act 1 route closure against Preview 16 accepted package; destinations are self-contained package paths and must not resolve from the scratch source after copy.",
+  "baseline_package": ".local-inputs/windows-source-clock-v19-preview-16/assets",
+  "reference_asset_root": ".local-inputs/claude-preview17/procgen2/asset-root3",
+  "required_level_roots": [
+    "data/scene/001_swamp.mlx",
+    "data/scene/002_swamp_witchcave.rule.xml",
+    "data/scene/003_darkwood.mlx",
+    "data/scene/004_root_den.rule.xml",
+    "data/scene/005_infectedvillage.mlx",
+    "data/scene/006_basement.rule.xml",
+    "data/scene/007_crypt_01.rule.xml",
+    "data/scene/008_gothicus_castle_01.rule.xml",
+    "data/scene/009_abbey.rule.xml",
+    "data/scene/009a_abbey.mlx",
+    "data/scene/022_swamp2.rule.xml",
+    "data/scene/022_swamp2_trollcave.rule.xml"
+  ],
+  "route_basis": [
+    {
+      "from": "data/scene/001_swamp.mlx",
+      "to": "data/scene/002_swamp_witchcave.rule.xml",
+      "evidence": "P17 plan/transition handoff describes the authored Swamp-to-Witch-Cave exit; Witch Cave is procedural."
+    },
+    {
+      "from": "data/scene/001_swamp.mlx",
+      "to": "data/scene/003_darkwood.mlx",
+      "evidence": "P17 plan/transition handoff describes the authored Swamp-to-Darkwood exit and return."
+    },
+    {
+      "from": "data/scene/003_darkwood.mlx",
+      "to": "data/scene/004_root_den.rule.xml / data/scene/005_infectedvillage.mlx / data/scene/006_basement.rule.xml / data/scene/007_crypt_01.rule.xml / data/scene/008_gothicus_castle_01.rule.xml / data/scene/009_abbey.rule.xml / data/scene/009a_abbey.mlx",
+      "evidence": "Level coverage marks these A1? (act bands inferred), included as Act1 closure candidates; exact exit/condition edges remain to be source/runtime verified."
+    },
+    {
+      "from": "Act1 level closure",
+      "to": "data/scene/022_swamp2.rule.xml / data/scene/022_swamp2_trollcave.rule.xml",
+      "evidence": "Included at integration lead request for Swamp2/Troll Cave procedural roots; coverage marks these A2? by inferred band; exact production exit gate remains unverified."
+    }
+  ],
+  "closure_method": "Parsed scene/rule XML roots and module declarations, followed direct BDAE/DAE/MGP/MVP resource references, added the convention-loaded Witch Cave swamp_cave.bdae root, and added compiled per-level Python script/name table pairs for every selected scripted root. Compared resolved files with the Preview 16 accepted package. Textures and shared FX dependencies are checked against that package.",
+  "unresolved_reference_count": 67,
+  "unresolved_reference_disposition": {
+    "embedded_bdae_map_tokens": {
+      "count": 41,
+      "disposition": "Internal Map__ material/index aliases, not external resource URIs."
+    },
+    "canonical_texture_or_shared_fx_basename_refs": {
+      "count": 16,
+      "present_in_preview16_package": 12,
+      "missing": [
+        "20WORK/texture/atlas_cadavers.tga",
+        "20WORK/texture/tex_corpses_tiled128x128.tga",
+        "20videCompleteMap.tga",
+        "data/3D/Textures/env_testing.tga"
+      ],
+      "disposition": "Verified through the runtime content-path resolver. The four missing names are referenced only by the Abbey BDAE closure in this candidate set; no exact or pvr2_ source exists in Preview16, the Android export, or procgen2 asset-root3. Abbey art closure is unverified and remains a caveat.",
+      "resolved_by_runtime_alias": [
+        "Waterfall__fx_waterfall01.tga -> data/3d/textures/fx_waterfall01.tga (alias token); exact target exists in Preview16.",
+        "data/3d/textures/env_castle_alpha.tga -> data/3d/textures/pvr2_env_castle_alpha.tga (content_paths.cpp adds pvr2_ variant before texture basename search); exact target exists in Preview16."
+      ]
+    },
+    "source_pyscript_references": {
+      "count": 8,
+      "disposition": "Source .pyscript text is absent; the corresponding per-level compiled _pyscripts.bin and _pyscriptnames.bin pairs are included in this manifest where supplied by the Android export."
+    },
+    "other": []
+  },
+  "known_reference_limits": "Some optional source text script files are absent from the overlay; compiled per-level script tables are copied. Route edges beyond the authored Swamp->Witch Cave and Swamp->Darkwood paths are closure candidates only until the source exits and gates are read/verified. Act numbers are inferred by level-id bands in Preview16 LEVEL-COVERAGE.md.",
+  "files": [
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/castle/biblio_throneroom.bdae",
+      "destination": "assets/data/3d/animateddecors/castle/biblio_throneroom.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/castle/chandelier_castle.bdae",
+      "destination": "assets/data/3d/animateddecors/castle/chandelier_castle.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/castle/lustre_castle.bdae",
+      "destination": "assets/data/3d/animateddecors/castle/lustre_castle.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_candle1.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_candle1.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_candle1_small.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_candle1_small.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_candle2.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_candle2.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_candle_big.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_candle_big.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_candles.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_candles.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_candles2_small.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_candles2_small.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_candlestand.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_candlestand.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_candlestand_big.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_candlestand_big.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_cryptwater.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_cryptwater.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/crypt/crypt_flame.bdae",
+      "destination": "assets/data/3d/animateddecors/crypt/crypt_flame.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/cs_cage_swamp_intro_part2_03.bdae",
+      "destination": "assets/data/3d/animateddecors/cs_cage_swamp_intro_part2_03.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/darkwood/smog_hellgate.bdae",
+      "destination": "assets/data/3d/animateddecors/darkwood/smog_hellgate.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/fog/fog_infected_village.bdae",
+      "destination": "assets/data/3d/animateddecors/fog/fog_infected_village.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/swamp_cave_entrance_troll.bdae",
+      "destination": "assets/data/3d/animateddecors/swamp_cave_entrance_troll.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/swamp_cave_watercaustics.bdae",
+      "destination": "assets/data/3d/animateddecors/swamp_cave_watercaustics.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "destination": "assets/data/3d/animateddecors/swamp_caveentrance_effect.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/swamp_rayolight_dust.bdae",
+      "destination": "assets/data/3d/animateddecors/swamp_rayolight_dust.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/swamp_tikitorches.bdae",
+      "destination": "assets/data/3d/animateddecors/swamp_tikitorches.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/swamp_waterbulbulle.bdae",
+      "destination": "assets/data/3d/animateddecors/swamp_waterbulbulle.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/animateddecors/swamp_watercaustics.bdae",
+      "destination": "assets/data/3d/animateddecors/swamp_watercaustics.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/castle.lightset_xml",
+      "destination": "assets/data/3d/light/castle.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/castle_es1_1.lightset_xml",
+      "destination": "assets/data/3d/light/castle_es1_1.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/crypt.lightset_xml",
+      "destination": "assets/data/3d/light/crypt.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/crypt_es1_1.lightset_xml",
+      "destination": "assets/data/3d/light/crypt_es1_1.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/darkwood.lightset_xml",
+      "destination": "assets/data/3d/light/darkwood.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/darkwood_es1_1.lightset_xml",
+      "destination": "assets/data/3d/light/darkwood_es1_1.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/default.lightset_xml",
+      "destination": "assets/data/3d/light/default.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/infected.lightset_xml",
+      "destination": "assets/data/3d/light/infected.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/infected_es1_1.lightset_xml",
+      "destination": "assets/data/3d/light/infected_es1_1.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/swampcave.lightset_xml",
+      "destination": "assets/data/3d/light/swampcave.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/light/swampcave_es1_1.lightset_xml",
+      "destination": "assets/data/3d/light/swampcave_es1_1.lightset_xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/abbey/abbey.bdae",
+      "destination": "assets/data/3d/modules/abbey/abbey.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_ws_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_corner_ws_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_deadend_n_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_deadend_n_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_objectiveroom_s_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_objectiveroom_s_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straighta_ns_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_straighta_ns_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_t_new_01.mgp",
+      "destination": "assets/data/3d/modules/castle/mgp/gc01_t_new_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/elemental_corner_se_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/elemental_corner_se_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/elemental_corner_wn_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/elemental_corner_wn_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/elemental_straightb_ew_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/elemental_straightb_ew_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_corner_ws_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/gc01_corner_ws_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_deadend_n_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/gc01_deadend_n_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_entrance_ns_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/gc01_entrance_ns_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_kingroom_s_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/gc01_kingroom_s_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_objectiveroom_s_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/gc01_objectiveroom_s_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_t_new_01.mvp",
+      "destination": "assets/data/3d/modules/castle/mvp/gc01_t_new_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/crypt.bdae",
+      "destination": "assets/data/3d/modules/crypt/crypt.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_corner_ne_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_corner_ne_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_corner_nw_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_corner_nw_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_corner_se_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_corner_se_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_corner_sw_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_corner_sw_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_deadend_e_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_deadend_e_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_deadend_n_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_deadend_n_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_deadend_w_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_deadend_w_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_kings_chamber_s_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_kings_chamber_s_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_straight_a_ew_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_straight_a_ew_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_straight_b_ew_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_straight_b_ew_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_straight_c_ew_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_straight_c_ew_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_straight_d_ew_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_straight_d_ew_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_straight_ns_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_straight_ns_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_t_nse_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_t_nse_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_t_sew_01.mgp",
+      "destination": "assets/data/3d/modules/crypt/mgp/abbey_t_sew_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_corner_ne_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_corner_ne_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_corner_nw_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_corner_nw_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_corner_se_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_corner_se_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_corner_sw_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_corner_sw_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_deadend_e_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_deadend_e_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_deadend_n_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_deadend_n_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_deadend_w_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_deadend_w_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_entrance_n_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_entrance_n_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_entrance_ns_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_entrance_ns_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_kings_chamber_s_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_kings_chamber_s_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_straight_a_ew_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_straight_a_ew_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_straight_b_ew_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_straight_b_ew_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_straight_c_ew_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_straight_c_ew_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_straight_d_ew_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_straight_d_ew_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_straight_ns_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_straight_ns_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_t_nse_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_t_nse_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mvp/abbey_t_sew_01.mvp",
+      "destination": "assets/data/3d/modules/crypt/mvp/abbey_t_sew_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_se_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_corner_ruin_se_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_02.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_02.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_ne_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_ne_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_nw_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_nw_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_se_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_se_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_merchant_n_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_merchant_n_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_n_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_n_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_s_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_s_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_straight_swpcave_ns_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_straight_swpcave_ns_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_straight_swpcave_we_00.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_straight_swpcave_we_00.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_straight_swpcave_we_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_straight_swpcave_we_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_t_swpcave_nse_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/trollcave_t_swpcave_nse_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp",
+      "destination": "assets/data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/corner_swpcave_nw_00_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/corner_swpcave_nw_00_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/corner_swpcave_se_00_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/corner_swpcave_se_00_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/deadend_swpcave_n_00_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/deadend_swpcave_n_00_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/deadend_swpcave_s_00_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/deadend_swpcave_s_00_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/straight_swpcave_we_00_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/straight_swpcave_we_00_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_corner_ruin_se_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_corner_ruin_se_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_obj1of4_brdwalk_nse_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_obj1of4_brdwalk_nse_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/t_swpcave_nse_00_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/t_swpcave_nse_00_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_corner_swpcave_ne_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_corner_swpcave_ne_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_corner_swpcave_nw_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_corner_swpcave_nw_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_corner_swpcave_se_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_corner_swpcave_se_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_corner_swpcave_sw_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_corner_swpcave_sw_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_deadend_swpcave_n_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_deadend_swpcave_n_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_deadend_swpcave_s_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_deadend_swpcave_s_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_deadend_swpcave_w_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_deadend_swpcave_w_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_straight_swpcave_ns_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_straight_swpcave_ns_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_straight_swpcave_we_00.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_straight_swpcave_we_00.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_straight_swpcave_we_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_straight_swpcave_we_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/trollcave_t_swpcave_nse_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/trollcave_t_swpcave_nse_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mvp/witch_a_swpcave_n_00_01.mvp",
+      "destination": "assets/data/3d/modules/swamp/mvp/witch_a_swpcave_n_00_01.mvp"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/swamp_cave.bdae",
+      "destination": "assets/data/3d/modules/swamp/swamp_cave.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "destination": "assets/data/3d/props/swamp/prop_swamp_corpses.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/002_swamp_cave_witch_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/003_darkwood_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/003_darkwood_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/004_root_den_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/004_root_den_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/004_root_den_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/004_root_den_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/005_infectedvillage_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/005_infectedvillage_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/005_infectedvillage_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/005_infectedvillage_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/006_driedwell_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/006_driedwell_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/006_driedwell_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/006_driedwell_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/007_crypt_01_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/007_crypt_01_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/007_crypt_01_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/007_crypt_01_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/008_gothicus_castle_01_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/009_abbey_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/009_abbey_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/022_swamp2_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/022_swamp2_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_troll_cave_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts/022_swamp2_troll_cave_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_troll_cave_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts/022_swamp2_troll_cave_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/scene/002_swamp_witchcave.rule.xml",
+      "destination": "assets/data/scene/002_swamp_witchcave.rule.xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/scene/004_root_den.rule.xml",
+      "destination": "assets/data/scene/004_root_den.rule.xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
+      "destination": "assets/data/scene/006_basement.rule.xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/scene/007_crypt_01.rule.xml",
+      "destination": "assets/data/scene/007_crypt_01.rule.xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+      "destination": "assets/data/scene/008_gothicus_castle_01.rule.xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/scene/009_abbey.rule.xml",
+      "destination": "assets/data/scene/009_abbey.rule.xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/scene/009a_abbey.mlx",
+      "destination": "assets/data/scene/009a_abbey.mlx"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/scene/022_swamp2.rule.xml",
+      "destination": "assets/data/scene/022_swamp2.rule.xml"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/scene/022_swamp2_trollcave.rule.xml",
+      "destination": "assets/data/scene/022_swamp2_trollcave.rule.xml"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/mgxlist.txt",
+      "destination": "assets/data/3d/modules/swamp/mgx/mgxlist.txt"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/bossroomb_swpcave_w_01.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/bossroomb_swpcave_w_01.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/bossroom_ruins_ns_.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/bossroom_ruins_ns_.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/bossroom_swpcave_w_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/bossroom_swpcave_w_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_brdwalk_se_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_brdwalk_se_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_brdwalk_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_brdwalk_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_ne_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_ne_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_nw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_nw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_ws_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_ws_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_swpcave_nw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_swpcave_nw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_swpcave_se_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_swpcave_se_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadendb_swpcave_n_01.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadendb_swpcave_n_01.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_e_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_e_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_se_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_se_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_s_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_s_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_we_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_we_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_ruin_w_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_ruin_w_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_swpcave_e_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_swpcave_e_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/merchantcamp_ruins_swe_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/merchantcamp_ruins_swe_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/obj_3of4_brdwalk_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/obj_3of4_brdwalk_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/obj_4of4_brdwalk_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/obj_4of4_brdwalk_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_ruin_ns_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_ruin_ns_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_ruin_we_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_ruin_we_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/t_ruin_nse_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/t_ruin_nse_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/t_ruin_nsw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/t_ruin_nsw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/t_swpcave_nsw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/t_swpcave_nsw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/bossroomb_swpcave_w_01.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/bossroomb_swpcave_w_01.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/bossroom_ruins_ns_.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/bossroom_ruins_ns_.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/bossroom_swpcave_w_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/bossroom_swpcave_w_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_brdwalk_ne_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_brdwalk_ne_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_brdwalk_se_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_brdwalk_se_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_brdwalk_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_brdwalk_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_ne_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_ne_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_nw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_nw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_se_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_se_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_wn_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_wn_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_ws_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_ws_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_swpcave_ne_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_swpcave_ne_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_swpcave_nw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_swpcave_nw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_swpcave_se_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_swpcave_se_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_swpcave_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_swpcave_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadendb_swpcave_n_01.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadendb_swpcave_n_01.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_e_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_e_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_se_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_se_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_s_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_s_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_we_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_we_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_w_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_w_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_ruin_w_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_ruin_w_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_swpcave_e_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_swpcave_e_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_swpcave_n_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_swpcave_n_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_swpcave_s_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_swpcave_s_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_swpcave_w_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_swpcave_w_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/merchantcamp_ruins_swe_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/merchantcamp_ruins_swe_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/obj_1of4_brdwalk_nse_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/obj_1of4_brdwalk_nse_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/obj_2of4_brdwalk_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/obj_2of4_brdwalk_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/obj_3of4_brdwalk_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/obj_3of4_brdwalk_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/obj_4of4_brdwalk_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/obj_4of4_brdwalk_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_brdwalk_ns_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_brdwalk_ns_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_brdwalk_we_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_brdwalk_we_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_ruin_ns_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_ruin_ns_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_ruin_we_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_ruin_we_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_swpcave_ns_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_swpcave_ns_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_swpcave_we_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_swpcave_we_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/t_ruin_nse_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/t_ruin_nse_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/t_ruin_nsw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/t_ruin_nsw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/t_swpcave_nse_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/t_swpcave_nse_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/t_swpcave_nsw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/t_swpcave_nsw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/witch/witch.bdae",
+      "destination": "assets/data/3d/characters/witch/witch.bdae"
+    }
+  ]
+}

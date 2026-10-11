@@ -48,6 +48,9 @@ private:
 struct ActorVerbServices {
     // found=false (with true) means the name is not in the loaded level: the source does nothing for that command.
     std::function<bool(const std::string& name,int module,ActorId& id,bool& found,std::string& e)> resolve_actor;
+    // Script_PlayEffect keeps the authored local offset separate and passes the
+    // exact named GameObject identity to the FX anchor provider.
+    std::function<bool(const std::string& name,int module,std::uintptr_t& identity,bool& found,std::string& e)> resolve_fx_anchor;
     std::function<bool(const std::string& name,int module,std::array<float,3>& position,bool& found,std::string& e)> waypoint_position;
     std::function<bool(ActorId,std::array<float,3>& position,std::string& e)> position_of;
     std::function<bool(ActorId,std::array<float,3> position,std::string& e)> teleport;
@@ -61,7 +64,7 @@ struct ActorVerbServices {
     std::function<bool(ActorId,std::int32_t dictionary_id,std::int32_t& duration_ms,std::string& e)> play_clip;
     // Script_PlayEffect / Script_StopEffect: VisualFXManager::PlayAnimFXSet(set, waypoint + offsets) and StopAnimFXSet (the set
     // pool, not a stored handle). Failures are logged by the host and do not stop the cutscene (the source ignores the result).
-    std::function<bool(std::int32_t set,const std::array<float,3>& position,std::string& e)> play_effect;
+    std::function<bool(std::int32_t set,const std::array<float,3>& position,std::uintptr_t anchor,std::string& e)> play_effect;
     std::function<bool(std::int32_t set,std::string& e)> stop_effect;
     // P16 OPENING4: Script_PlayAnimByName (kind 19): the named scene object's visual plays the clip (not blocking).
     // found=false when no scene object of that name is instantiated (logged once, the cutscene continues).
@@ -75,6 +78,9 @@ struct ActorVerbServices {
 struct CampaignHostServices {
     // P17 CONDITIONS: answers trigger zone activate_cond names (main binds the authored evaluator). Unset: gated zones get no contact.
     std::function<bool(const std::string&)> condition_active;
+    // Source TriggerZone::Update door predicate. `suppressed=true` means the named Door's
+    // IsDoorClosedActivated returned true and contact/inside state must not advance.
+    std::function<bool(const std::string&,bool& suppressed,std::string&)> door_gate_suppressed;
     std::function<bool(std::vector<ActorId>&,std::string&)> all_actors;
     std::function<bool(ActorId,bool& alive,std::int32_t& state,std::string&)> actor_state;
     std::function<bool(ActorId,std::int32_t state,std::string&)> set_actor_state;
@@ -122,7 +128,7 @@ public:
     bool safe_zone() const noexcept { return safe_zone_; }
     // P16 OPENING: scripted FX owners (PlayEffect/StopEffect). main binds them once the effects factory exists; the host
     // calls them at command time, so the bound functions must read the current owner.
-    void bind_fx(std::function<bool(std::int32_t,const std::array<float,3>&,std::string&)> play,
+    void bind_fx(std::function<bool(std::int32_t,const std::array<float,3>&,std::uintptr_t,std::string&)> play,
                  std::function<bool(std::int32_t,std::string&)> stop) {
         services_.actor_verbs.play_effect = std::move(play);
         services_.actor_verbs.stop_effect = std::move(stop);
@@ -181,6 +187,12 @@ public:
     // An executor error aborts only that cutscene: flags are restored and running scripts abandoned.
     void frame(std::int32_t dt_ms,const std::array<float,3>& player,bool qualified,ActorId local_player=invalid_actor_id);
     bool enabled() const noexcept { return runtime_ != nullptr; }
+    // Diagnostic-only one-shot execute through the same typed dispatch used
+    // by the bound campaign runtime. This keeps command harnesses on the
+    // production owner route (doors, FX, actor verbs) without starting a
+    // second scheduler or changing trigger admission.
+    bool execute_diagnostic_command(const OriginalCampaignCommand&, int module,
+                                    bool& blocking, std::string& error);
     // D3 (OPENING3): campaign lifecycle through the save component mechanism. A neutral world object (fixed ID, bound
     // at level load like the containers) carries component campaign_lifecycle_v1 (trigger once-activation counts).
     // Persist before a GameSave capture; restore after restore_game_save. Quest states already live in CQPG.

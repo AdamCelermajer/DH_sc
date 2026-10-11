@@ -41,6 +41,7 @@ struct TriggerZone {
     bool was_running=false;     // for start/finish logging only
     bool disabled=false;        // set after a contact error; reported once, the other zones keep working
     std::string activate_cond;  // P17 CONDITIONS: authored activation condition (empty = always fed)
+    std::string is_door_closed; // Source IsDoorClosedActivated name gate; early return leaves contact edge untouched.
 };
 
 class TriggerZoneSet {
@@ -51,7 +52,8 @@ public:
     // A zone whose contact fails is disabled and reported; other zones are still fed.
     // condition_active answers a zone's activate_cond (the CONDITIONS evaluator); a gated zone is not in contact while it is false.
     void update(OriginalCampaignRuntime& runtime,const std::array<float,3>& player,bool qualified,int module,
-                const std::function<bool(const std::string&)>& condition_active = {});
+                const std::function<bool(const std::string&)>& condition_active = {},
+                const std::function<bool(const std::string&,bool&,std::string&)>& door_gate_suppressed = {});
     const std::vector<TriggerZone>& zones() const noexcept { return zones_; }
     const std::vector<std::string>& skipped() const noexcept { return skipped_; }
 private:

@@ -45,6 +45,27 @@ int main(int argc,char** argv){try{
     }
     check(session.world()->actors().size()==2&&session.player_id()==1,"Shared source registry missing actors");
     {
+        check(bindings.sequence("SwampKing","Injured",0)!=nullptr,
+              "Presentation-only regression needs the retained source Injury record");
+        auto presentationConfig=config;
+        CombatSessionProfile presentation;presentation.animationOnly=true;presentation.retainedPhaseClock=true;
+        presentation.initialIdle={"Idle",0,{0}};presentation.propertyOptions.refill_vitals=false;
+        presentationConfig.profiles.emplace("SwampKing",presentation);
+        ActorPopulation presentationPopulation;PopulationActor boss;boss.profileId="SwampKing";
+        boss.definition.stableId=3;boss.definition.sourceId="script-visual-only-empty-injury";
+        boss.definition.placement={1,0,0,0,0,1,0,0,0,0,1,0,5000,0,0,1};
+        boss.transform={1,0,0,0,0,1,0,0,0,0,1,0,5000,0,0,1};
+        presentationPopulation.actors().push_back(std::move(boss));
+        CharacterVisual presentationPlayer;CombatSession presentationSession;
+        check(presentationSession.initialize(assets,database,bindings,presentationConfig,presentationPlayer,
+              presentationPopulation,{0,0,0},customization,error),error);
+        const auto* bossVisual=presentationSession.retained_actor_visual_borrow(3);
+        check(bossVisual&&bossVisual->animation_name()!=nullptr,
+              "Presentation-only actor failed to bind its nonempty Idle pose");
+        check(bindings.sequence("SwampKing","Injured",0)!=nullptr,
+              "Visual preload filtering mutated canonical source Injury data");
+    }
+    {
         const auto originalTraits=*session.world()->traits(1);
         auto unequippedTraits=originalTraits;unequippedTraits.main_item.reset();
         check(originalTraits.main_item.has_value(),"Equipment regression requires original main weapon");

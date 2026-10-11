@@ -28,13 +28,17 @@ struct OriginalCampaignServices {
 class OriginalCampaignRuntime {
 public:
     bool load(const AssetCatalog&,const std::string& xml,std::string& error);
+    // Source-backed ScriptManager files: common bank followed by the current
+    // LevelConfig's own compiled script/name banks, retaining native array order.
+    bool load_compiled_level(const AssetCatalog&,const std::string& level_uri,std::string& error);
     void bind(OriginalCampaignServices services) { services_=std::move(services); }
     int script_id(const std::string& name,bool include_common=true) const;
     bool start(int global_id,int module,bool received,std::string& error);
     bool tick(std::int32_t delta_ms,std::string& error);
     // Host supplies original physical inside/condition/alive eligibility facts.
     // Keys are source file + "::" + authored trigger name; no map-specific logic.
-    bool trigger_contact(const std::string& key,bool inside,bool qualified,int module,std::string& error);
+    bool trigger_contact(const std::string& key,bool inside,bool qualified,int module,std::string& error,
+                         bool door_gate_evaluated=false,bool door_gate_suppressed=false);
     // P16 HOST: adds one authored level declaration occurrence that the campaign XML did not carry.
     // Same key format as load(); an existing key is never replaced.
     bool register_trigger(const std::string& key,const std::map<std::string,std::string>& attributes,std::string& error);

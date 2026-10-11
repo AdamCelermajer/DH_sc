@@ -7,6 +7,7 @@
 #include <cctype>
 #include <cmath>
 #include <cstdlib>
+#include <locale>
 #include <sstream>
 #include <stdexcept>
 
@@ -24,9 +25,13 @@ bool is_no_condition(const std::string& name) {
 
 std::array<float, 3> authored_tuple(const ActorDefinition& definition, const char* key,
                                     std::array<float, 3> fallback) {
-    const auto text = property(definition, key);
+    auto text = property(definition, key);
     if (text.empty()) return fallback;
+    // MGP/MVP authored transforms use the same comma-separated tuple format as
+    // ActorDefinition placement. Accept whitespace too for existing test fixtures.
+    std::replace(text.begin(), text.end(), ',', ' ');
     std::istringstream stream(text);
+    stream.imbue(std::locale::classic());
     for (auto& value : fallback)
         if (!(stream >> value) || !std::isfinite(value))
             throw std::runtime_error("Door " + definition.name + ": invalid " + key + " tuple");

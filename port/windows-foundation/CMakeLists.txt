@@ -52,6 +52,7 @@ add_library(foundation_data STATIC character_state.cpp save_store.cpp camera.cpp
   features/skills_animation/skill_animation_program.cpp
   original_pose_blend.cpp
   retained_pose_playback.cpp original_campaign_runtime.cpp
+  ../level-loader/script_manager_owner_v52.cpp
   retained_animation_owner.cpp campaign_camera_adapter.cpp
   retained_sequence_playback.cpp
   original_actor_camera_anchor.cpp
@@ -420,9 +421,19 @@ target_link_libraries(dh-foundation PRIVATE foundation_world_gates)
 # P17 DOORS: Door visuals, Script_OpenDoor/CloseDoor, TriggerObject levers and gated AnimatedDecor (features/doors).
 add_library(foundation_doors STATIC
   features/doors/door_runtime_v1.cpp features/doors/world_objects_v1.cpp
-  features/doors/door_world_v1.cpp features/doors/door_commands_v1.cpp)
+  features/doors/door_world_v1.cpp features/doors/door_commands_v1.cpp
+  features/doors/door_collision_v1.cpp features/doors/door_collision_geometry_v1.cpp)
 target_link_libraries(foundation_doors PUBLIC foundation_containers foundation_world_gates foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_doors)
+add_executable(door_collision_v1_tests features/doors/door_collision_v1_tests.cpp)
+target_link_libraries(door_collision_v1_tests PRIVATE foundation_doors)
+add_test(NAME door_collision_v1 COMMAND door_collision_v1_tests)
+add_executable(door_collision_geometry_v1_tests features/doors/door_collision_geometry_v1_tests.cpp)
+target_link_libraries(door_collision_geometry_v1_tests PRIVATE foundation_doors)
+add_test(NAME door_collision_geometry_v1 COMMAND door_collision_geometry_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
+add_executable(door_runtime_restore_v1_tests features/doors/door_runtime_restore_v1_tests.cpp)
+target_link_libraries(door_runtime_restore_v1_tests PRIVATE foundation_doors)
+add_test(NAME door_runtime_restore_v1 COMMAND door_runtime_restore_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
 # End Preview 17 doors.
 # End Preview 17 world gates.
 
@@ -582,6 +593,27 @@ add_test(NAME original_campaign_world_adapter COMMAND original_campaign_world_ad
 # P16 HOST (Preview 16): campaign script-host providers, executor dispatch router and generic trigger zones.
 # Additive; the live binding is off unless the EXE gets --campaign-triggers.
 target_sources(foundation_data PRIVATE features/campaign_host/campaign_host.cpp features/campaign_host/trigger_zones.cpp features/campaign_host/actor_clip_manifest.cpp features/cinematics/source_campaign_dispatch_v1.cpp)
+add_executable(compiled_campaign_bank_tests tests/compiled_campaign_bank_tests.cpp)
+target_link_libraries(compiled_campaign_bank_tests PRIVATE foundation_data)
+add_test(NAME compiled_campaign_bank COMMAND compiled_campaign_bank_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
+target_sources(foundation_data PRIVATE features/effects/source_script_fx_adapter_v1.cpp)
+target_sources(foundation_data PRIVATE features/effects/source_fx_anchor_registry_v1.cpp)
+add_executable(source_script_fx_adapter_v1_tests features/effects/source_script_fx_adapter_v1_tests.cpp)
+target_link_libraries(source_script_fx_adapter_v1_tests PRIVATE foundation_data)
+add_test(NAME source_script_fx_adapter_v1 COMMAND source_script_fx_adapter_v1_tests)
+add_executable(source_fx_anchor_registry_v1_tests features/effects/source_fx_anchor_registry_v1_tests.cpp)
+target_link_libraries(source_fx_anchor_registry_v1_tests PRIVATE foundation_data)
+add_test(NAME source_fx_anchor_registry_v1 COMMAND source_fx_anchor_registry_v1_tests)
+target_sources(foundation_data PRIVATE features/persistence/death_restart_v1.cpp
+  features/persistence/death_flow_v1.cpp
+  features/persistence/death_screen_v1.cpp features/persistence/death_screen_renderer_v1.cpp
+  features/persistence/death_screen_runtime_v1.cpp features/persistence/death_checkpoint_load_v1.cpp)
+add_executable(death_flow_v1_tests features/persistence/death_flow_v1_tests.cpp)
+target_link_libraries(death_flow_v1_tests PRIVATE foundation_data)
+add_test(NAME death_flow_v1 COMMAND death_flow_v1_tests)
+add_executable(death_runtime_v1_tests features/persistence/death_runtime_v1_tests.cpp)
+target_link_libraries(death_runtime_v1_tests PRIVATE foundation_data)
+add_test(NAME death_runtime_v1 COMMAND death_runtime_v1_tests)
 # P16 OPENING4: scripted scene objects (AnimatedDecor named by PlayAnimByName).
 target_sources(foundation_data PRIVATE features/scene_decor/scene_decor_v1.cpp)
 # B076: level PlayerLight (GL_Diffuse_L1 environment lighting) read from the LevelConfig light set.

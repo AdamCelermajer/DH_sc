@@ -1,4 +1,5 @@
 #include "campaign_host.hpp"
+#include "../effects/source_script_fx_adapter_v1.hpp"
 #include <cmath>
 #include <cstdlib>
 #include <algorithm>
@@ -344,6 +345,17 @@ bool CampaignHost::bind_executor(OriginalCampaignRuntime& runtime, OriginalCampa
     return true;
 }
 
+bool CampaignHost::execute_diagnostic_command(const OriginalCampaignCommand& command, int module,
+                                             bool& blocking, std::string& error) {
+    blocking = false;
+    error.clear();
+    if (!runtime_ || !owned_dispatch_) {
+        error = "Diagnostic source command requires the bound campaign executor";
+        return false;
+    }
+    return owned_dispatch_->command(CampaignCommandPhase::execute, command, module, blocking, error);
+}
+
 bool CampaignHost::build_zones(const std::vector<ActorDefinition>& declarations, std::string& error) {
     if (!runtime_) { error = "Campaign host zones require the bound executor"; return false; }
     if (!zones_.build(declarations, *runtime_, error)) return false;
@@ -678,16 +690,20 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     }
     case 20: { // Script_PlayEffect: set @8 at the position of the object @32 plus the authored offsets @16/@20/@24 (IDA Script_PlayEffect::Execute)
         if (phase != CampaignCommandPhase::execute) return true;
-        if (skip_active()) return true; // SKIP16: IDA Script_PlayEffect::Execute is gated on !skip (no FX while skipping)
         const auto waypoint = string_field(c, 32);
         std::array<float,3> position{};
-        bool placed = false;
-        if (!v.waypoint_position) return unbound("waypoint position");
-        if (!v.waypoint_position(waypoint, module, position, placed, e)) return false;
+        bool placed = false;std::uintptr_t anchor=0;
+        if (!v.resolve_fx_anchor) return unbound("source FX anchor resolver");
+        if (!v.resolve_fx_anchor(waypoint,module,anchor,placed,e)) return false;
         if (!placed) { note_unresolved(waypoint); return true; }
-        for (std::size_t axis = 0; axis < 3; ++axis) position[axis] += static_cast<float>(signed_field(c, 16 + 4 * static_cast<unsigned>(axis)));
+        for (std::size_t axis = 0; axis < 3; ++axis) position[axis] = static_cast<float>(signed_field(c, 16 + 4 * static_cast<unsigned>(axis)));
         if (!v.play_effect) { unsupported_.note("stub PlayEffect (no FX owner bound)"); return true; }
-        if (!v.play_effect(signed_field(c, 8), position, e)) { unsupported_.note("PlayEffect set failed: " + e); e.clear(); }
+        const float at[3]={position[0],position[1],position[2]};
+        const auto result=effects::dispatch_source_play_effect_v1(skip_active(),signed_field(c,8),at,anchor,
+            [&](std::int32_t set,const float xyz[3],std::uintptr_t resolved_anchor,std::string& error){
+                return v.play_effect(set,{xyz[0],xyz[1],xyz[2]},resolved_anchor,error);
+            },e);
+        if(result==effects::SourceScriptFxResultV1::failed){unsupported_.note("PlayEffect set failed: "+e);e.clear();}
         return true;
     }
     case 21: { // Script_StopEffect: set @8
@@ -774,7 +790,7 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
         contact_qualified = false;
         std::cout << "[campaign] trigger position unavailable: " << error << '\n';
     }
-    zones_.update(*runtime_, contact_player, contact_qualified, -1, services_.condition_active);
+    zones_.update(*runtime_, contact_player, contact_qualified, -1, services_.condition_active,services_.door_gate_suppressed);
 }
 
 void CampaignHost::print_summary(std::ostream& out) const {
