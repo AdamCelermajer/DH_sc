@@ -5449,6 +5449,7 @@ int main(int argc,char** argv) {
             if(!window.focused()){semanticInput.lose_focus();mouseHeld=false;}
             const std::array<int,15> uiKeys{'A','D','W','S',VK_SHIFT,VK_SPACE,VK_TAB,'E','C',VK_ESCAPE,'1','2','3','4','5'};
             const bool scheduledSpaceHeld=std::any_of(options.spaceKeyIntervals.begin(),options.spaceKeyIntervals.end(),[&](const auto& interval){return drawn>=interval.first&&drawn<interval.first+interval.second;});
+            const bool scheduledEHeld=std::find(options.transitionKeyFrames.begin(),options.transitionKeyFrames.end(),int(drawn))!=options.transitionKeyFrames.end();
             // I024 DEATH: the death modal captures input. Keys and pointer presses stay out of the game and menus.
             const bool deathModal=deathHost.modal();
             if(deathModal&&!deathModalWasOpen){semanticInput.lose_focus();mouseHeld=false;}
@@ -5466,7 +5467,7 @@ int main(int argc,char** argv) {
                 cinematicSpaceHeld=spaceDown;
             } else {
                 cinematicSpaceHeld=false;
-                for(int key:uiKeys)semanticInput.key(key,!deathModal&&(window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld)));
+                for(int key:uiKeys)semanticInput.key(key,!deathModal&&(window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld)||(key=='E'&&scheduledEHeld))); // B106: --transition-key drives the real E binding
             }
             {
                 // I024 DEATH: Space is the PC release of the death screen (press edge; a held Space does not repeat it).
@@ -5925,7 +5926,7 @@ int main(int argc,char** argv) {
                         const bool confirmDown=std::find(options.transitionKeyFrames.begin(),options.transitionKeyFrames.end(),int(drawn))!=options.transitionKeyFrames.end();
                         const bool confirmEdge=confirmDown&&!transitionKeyDown;
                         transitionKeyDown=confirmDown;
-                        if(armed&&confirmEdge&&!pendingTransition&&!pauseMenuOpen&&!characterMenu.is_open()) {
+                        if(false&&armed&&confirmEdge&&!pendingTransition&&!pauseMenuOpen&&!characterMenu.is_open()) { // B106: superseded, --transition-key now presses the real E key
                             const auto& zone=exitZones.zones()[armed->zone];
                             pendingTransition=f::transitions::PendingTransition{zone.name,zone.kind,zone.target_name,zone.target_file,zone.entry_id};
                             std::cout<<"Transition confirmed key=test zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" frame="<<drawn<<'\n';
@@ -6231,11 +6232,14 @@ int main(int argc,char** argv) {
                 // P17 TRANSITIONS2: the travel prompt is confirmed by this same context button. An armed exit (the player
                 // stands in it and the prompt is shown) takes the press edge when no object of interest is present;
                 // NPCs, chests and levers keep priority.
-                if(ctxInput.pressed_edge&&armedPrompt&&!pendingTransition&&objectOfInterest.object()==f::invalid_actor_id&&!ctxControllerLocked) {
+                // B106: the prompt shows [E]; E is the PC key of the HUD travel button (source: the DisplayFastTravel button calls
+                // NativeGoToZone independently of the context/action button), so it confirms even when an NPC is the object of interest.
+                const bool travelByE=uiInput.actions.interact,travelBySpace=ctxInput.pressed_edge&&objectOfInterest.object()==f::invalid_actor_id;
+                if((travelByE||travelBySpace)&&armedPrompt&&!pendingTransition&&!ctxControllerLocked) {
                     const auto& zone=exitZones.zones()[armedPrompt->zone];
                     pendingTransition=f::transitions::PendingTransition{zone.name,zone.kind,zone.target_name,zone.target_file,zone.entry_id};
-                    gameplayInput.attack=false;
-                    std::cout<<"Transition confirmed key=Space zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" frame="<<drawn<<'\n';
+                    if(!travelByE)gameplayInput.attack=false;
+                    std::cout<<"Transition confirmed key="<<(travelByE?"E":"Space")<<" zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" frame="<<drawn<<'\n';
                 }
                 if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest&&ctxControllerLocked)
                     std::cout<<"Context button frame="<<drawn<<" ooi="<<objectOfInterest.object()<<" type="<<objectOfInterest.interaction_type()<<" status=refused_controller_locked\n";
