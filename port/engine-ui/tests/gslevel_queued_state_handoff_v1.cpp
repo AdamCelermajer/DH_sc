@@ -2,6 +2,7 @@
 #include "../../level-world/level_quick_save_v1.hpp"
 
 #include <cstdlib>
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
@@ -14,6 +15,7 @@ struct Fixture {
     std::uintptr_t sm{0x10}, gs{0x20}, level{0x30}, save{0x40}, objects{0x50}, players{0x60};
     std::vector<std::string> calls;
     bool fail_save_all{}, fail_update{}, update_guard{};
+    bool loading_visible{}, hide_when_sounds_stop{}, fail_visibility{};
     LevelTransitionLoadV1 destination;
     static Fixture& self(void* p) { return *static_cast<Fixture*>(p); }
     static bool quick(void* p, std::uintptr_t l, std::uintptr_t s, std::int32_t state,
@@ -29,7 +31,8 @@ struct Fixture {
         f.calls.emplace_back("quick-save-skipped"); return true;
     }
     static bool push(void* p, std::uintptr_t l, std::string&) {
-        auto& f=self(p); if(l!=f.level)return false; f.calls.emplace_back("loading-push");return true;
+        auto& f=self(p); if(l!=f.level)return false; f.loading_visible=true;
+        f.calls.emplace_back("loading-push");return true;
     }
     static bool c74(void* p, std::uintptr_t l, std::string&) {
         auto& f=self(p); if(l!=f.level)return false; f.calls.emplace_back("cleanup-74");return true;
@@ -44,7 +47,14 @@ struct Fixture {
         if(f.fail_save_all){e="SaveAllPlayer failed";return false;} return true;
     }
     static bool sounds(void* p, std::uint32_t fade, std::string&) {
-        auto& f=self(p); if(fade!=500)return false; f.calls.emplace_back("sounds-500");return true;
+        auto& f=self(p); if(fade!=500)return false; f.calls.emplace_back("sounds-500");
+        if(f.hide_when_sounds_stop)f.loading_visible=false;
+        return true;
+    }
+    static bool visible(void* p, bool& value, std::string& error) {
+        auto& f=self(p); f.calls.emplace_back("loading-visible");
+        if(f.fail_visibility){error="visibility unavailable";return false;}
+        value=f.loading_visible;return true;
     }
     static bool pop(void* p, std::string&) { self(p).calls.emplace_back("loading-pop"); return true; }
     static bool clear(void* p, std::uintptr_t l, std::int32_t v, std::string&) {
@@ -81,9 +91,9 @@ struct Fixture {
     }
     GsLevelQueuedSwitchServicesV1 services() {
         return {this,quick,push,c74,c75,save_players,sounds,pop,clear,network,
-                player_update,seeds,hud,delete_level,clear_gs,construct,guard,update};
+                player_update,seeds,hud,delete_level,clear_gs,construct,guard,update,visible};
     }
-    GsLevelQueuedSwitchStateV1 state() const { return {sm,gs,level,save,objects,players,0,1,1,1,1}; }
+    GsLevelQueuedSwitchStateV1 state() const { return {sm,gs,level,save,objects,players,0,1,1,1}; }
 };
 }
 int main() {
@@ -96,7 +106,7 @@ int main() {
     check(owner.dispatch(f.state(),request,1234,error)==GsLevelQueuedSwitchStatusV1::complete,
           "queued state handoff failed");
     check(error.empty() && f.calls==std::vector<std::string>{"quick-save-skipped","loading-push",
-        "cleanup-74","cleanup-75","save-all-players-force","sounds-500","loading-pop",
+        "cleanup-74","cleanup-75","save-all-players-force","sounds-500","loading-visible","loading-pop",
         "clear-level-state","network-uninit","player-update","seed","close-hud",
         "delete-level","clear-current-gs","construct-destination","guard-on",
         "destination-update","guard-off"}, "source order or force values differ");
@@ -122,5 +132,16 @@ int main() {
           update_failure.calls[update_failure.calls.size()-2]=="destination-update" &&
           update_failure.calls.back()=="guard-off",
           "failed destination update must clear the StateMachine updating guard");
-    std::cout << "PASS gslevel_queued_state_handoff_v1 checks=6\n";
+    Fixture hidden; hidden.hide_when_sounds_stop=true;
+    GsLevelQueuedStateHandoffV1 hidden_owner(hidden.services());
+    check(hidden_owner.dispatch(hidden.state(),request,1234,error)==GsLevelQueuedSwitchStatusV1::complete &&
+          std::find(hidden.calls.begin(),hidden.calls.end(),"loading-pop")==hidden.calls.end(),
+          "visibility changes during unload must suppress loading pop");
+    Fixture invisible_error; invisible_error.fail_visibility=true;
+    GsLevelQueuedStateHandoffV1 visibility_owner(invisible_error.services());
+    check(visibility_owner.dispatch(invisible_error.state(),request,1234,error)==GsLevelQueuedSwitchStatusV1::provider_failed &&
+          visibility_owner.reached_phase()==GsLevelQueuedSwitchPhaseV1::loading_menu_visibility &&
+          invisible_error.calls.back()=="loading-visible",
+          "visibility failure must stop before pop and level destruction");
+    std::cout << "PASS gslevel_queued_state_handoff_v1 checks=8\n";
 }

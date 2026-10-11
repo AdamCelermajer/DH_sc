@@ -28,7 +28,7 @@ GsLevelQueuedSwitchStatusV1 GsLevelQueuedStateHandoffV1::dispatch(
         !state.old_level_savegame || !state.object_manager ||
         !state.player_manager || state.level_state != 0 ||
         state.level_unload_force > 1 || state.has_level_cleanup_74 > 1 ||
-        state.has_level_cleanup_75 > 1 || state.loading_menu_visible > 1) {
+        state.has_level_cleanup_75 > 1) {
         error = "queued GSLevel handoff requires one reset source Level and its canonical owners";
         return GsLevelQueuedSwitchStatusV1::invalid_state;
     }
@@ -58,11 +58,11 @@ GsLevelQueuedSwitchStatusV1 GsLevelQueuedStateHandoffV1::dispatch(
     DH2_GS_HANDOFF_CALL(loading_menu_push, "loading-menu push", push_loading_menu,
                         state.old_level);
     if (state.has_level_cleanup_74) {
-        DH2_GS_HANDOFF_CALL(cleanup_74, "Level cleanup field +0x74", destroy_level_cleanup_74,
+        DH2_GS_HANDOFF_CALL(cleanup_74, "Level cleanup field +0x128", destroy_level_cleanup_74,
                             state.old_level);
     }
     if (state.has_level_cleanup_75) {
-        DH2_GS_HANDOFF_CALL(cleanup_75, "Level cleanup field +0x75", destroy_level_cleanup_75,
+        DH2_GS_HANDOFF_CALL(cleanup_75, "Level cleanup field +0x12c", destroy_level_cleanup_75,
                             state.old_level);
     }
     DH2_GS_HANDOFF_CALL(save_all_players, "PlayerManager::SG_SaveAllPlayer",
@@ -70,7 +70,12 @@ GsLevelQueuedSwitchStatusV1 GsLevelQueuedStateHandoffV1::dispatch(
                         state.level_unload_force != 0);
     DH2_GS_HANDOFF_CALL(stop_sounds, "SoundManager::StopAll", stop_all_sounds,
                         std::uint32_t{500});
-    if (state.loading_menu_visible) {
+    bool loading_menu_visible = false;
+    status = invoke(GsLevelQueuedSwitchPhaseV1::loading_menu_visibility,
+                    "MenuBase::IsVisible", services_.query_loading_menu_visible,
+                    loading_menu_visible);
+    if (status != GsLevelQueuedSwitchStatusV1::complete) return status;
+    if (loading_menu_visible) {
         status = invoke(GsLevelQueuedSwitchPhaseV1::loading_menu_pop, "loading-menu pop", services_.pop_loading_menu);
         if (status != GsLevelQueuedSwitchStatusV1::complete) return status;
     }

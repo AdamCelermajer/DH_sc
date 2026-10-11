@@ -16,9 +16,10 @@ struct GsLevelQueuedSwitchStateV1 {
     std::uintptr_t player_manager{};
     std::int32_t level_state{};
     std::uint8_t level_unload_force{}; // Old Level+0xf0, preserved by ResetIsLoaded.
-    std::uint8_t has_level_cleanup_74{};
-    std::uint8_t has_level_cleanup_75{};
-    std::uint8_t loading_menu_visible{};
+    // Level::_LoadCamera (0x3f1008) publishes these owners; Unload
+    // (0x3f0690) deletes CameraLevel first, then CameraOverview.
+    std::uint8_t has_level_cleanup_74{}; // DWORD index 74: CameraLevel at +0x128.
+    std::uint8_t has_level_cleanup_75{}; // DWORD index 75: CameraOverview at +0x12c.
 };
 
 struct GsLevelQueuedSwitchServicesV1 {
@@ -58,11 +59,14 @@ struct GsLevelQueuedSwitchServicesV1 {
                                        bool updating, std::string&){};
     bool (*update_destination_state)(void*, std::uintptr_t state_machine,
                                      std::string&){};
+    // Level::Unload queries MenuBase::IsVisible after StopAllSounds, because
+    // PushMenu and intervening callbacks can change the retained menu state.
+    bool (*query_loading_menu_visible)(void*, bool& visible, std::string&){};
 };
 
 enum class GsLevelQueuedSwitchPhaseV1 : std::uint8_t {
     idle, quick_save, loading_menu_push, cleanup_74, cleanup_75,
-    save_all_players, stop_sounds, loading_menu_pop, clear_level_state,
+    save_all_players, stop_sounds, loading_menu_visibility, loading_menu_pop, clear_level_state,
     network_uninit, player_manager_update, random_seed, close_hud,
     delete_old_level, clear_current_gslevel, construct_destination,
     set_update_guard, destination_update, clear_update_guard, complete
