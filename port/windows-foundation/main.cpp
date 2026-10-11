@@ -1506,7 +1506,7 @@ int main(int argc,char** argv) {
             }
         }
         if(!options.level.empty()) {
-            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error)) throw std::runtime_error("Level: "+error);
+            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error,{options.meleeBindings.empty()||options.noAmbientDecor})) throw std::runtime_error("Level: "+error);
             loadingScreen.progress(0.4);  // level stage complete
             for(const auto& notice:scene.notices)std::cerr<<"Level notice: "<<notice<<'\n';
             std::cout<<"Level triangles="<<scene.triangleCount<<" instances="<<scene.instanceCount<<" ranges="<<scene.mesh.ranges.size()<<'\n';
@@ -1689,7 +1689,7 @@ int main(int argc,char** argv) {
                 if(!exitZones.build(population.definitions(),transitionRows,transitionClasses,exitError))throw std::runtime_error("Level exits: "+exitError);
                 for(const auto& zone:exitZones.zones()) {
                     if(zone.built&&zone.kind==f::transitions::ZoneKind::level_exit)
-                        std::cout<<"Level exit zone name="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" condition="<<(zone.condition.empty()?"none":zone.condition)<<" procedural="<<(zone.target_procedural?1:0)<<'\n';
+                        std::cout<<"Level exit zone name="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" condition="<<(zone.condition.empty()?"none":zone.condition)<<" procedural="<<(zone.target_procedural?1:0)<<" centre="<<zone.box.centre[0]<<","<<zone.box.centre[1]<<","<<zone.box.centre[2]<<'\n';
                     else if(zone.built)
                         std::cout<<"Level zone name="<<zone.name<<" kind="<<f::transitions::zone_kind_name(zone.kind)
                                  <<" centre="<<zone.box.centre[0]<<','<<zone.box.centre[1]<<','<<zone.box.centre[2]
@@ -3375,9 +3375,7 @@ int main(int argc,char** argv) {
         auto bindMaterials=[&]() {
         for(std::size_t i=0;i<scene.materials.size();++i) {
             const auto& m=scene.materials[i];
-            const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
-            scene.mesh.ranges[i].material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
-            scene.mesh.ranges[i].material.specularTexture=m.specularMap.empty()?0:loadTexture(m.specularMap); // B076: GL_Diffuse_L1 specular map
+            f::bind_original_material_textures(m,scene.mesh.ranges[i].material,loadTexture);
         }
         // P17 PROCGEN2: the LevelConfig skybox materials (drawn by the sky pass before the level).
         if(scene.skybox) for(std::size_t i=0;i<scene.skybox->materials.size()&&i<scene.skybox->mesh.ranges.size();++i) {
@@ -3423,7 +3421,8 @@ int main(int argc,char** argv) {
             const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadDoorTexture(m,blue);}
         bindMaterials();
-        ambientDecor.bind_textures([&](const f::OriginalMaterial& m){return loadTexture(m.diffuse,m.alphaMap,false);}); // B076
+        ambientDecor.bind_textures(loadTexture); // B109: same full material transport as baked level geometry
+        {std::size_t ranges=0,specular=0,opaqueSp=0;for(const auto& decor:ambientDecor.instances())for(const auto& range:decor.scene->mesh.ranges){++ranges;if(range.material.specularTexture){++specular;if(range.material.levelLit&&!range.material.transparent&&range.material.alphaReference<=0)++opaqueSp;}}std::cout<<"[scene] ambient material ranges="<<ranges<<" specularBound="<<specular<<" opaqueSpBound="<<opaqueSp<<'\n';}
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
         // B056: Details list damask is the MenuGraphics02 picture (shipped texture, not the MenusGraphics_droid atlas).
         std::uint32_t menuDamaskTexture=options.hud?loadTexture("MenuGraphics02.tga"):0;
