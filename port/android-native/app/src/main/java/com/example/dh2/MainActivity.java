@@ -921,6 +921,7 @@ public final class MainActivity extends Activity {
         @Override public boolean performClick(){super.performClick();return true;}
         void stop(){MovementControlPointerV1.Decision decision=pointer.cancel();axisX=axisY=0;invalidate();if(decision==MovementControlPointerV1.Decision.RELEASE)surface.queueEvent(NativeBridge::stopMovement);else surface.queueEvent(()->NativeBridge.moveAxis(0,0));}
     }
+    @Override public void onWindowFocusChanged(boolean hasFocus){super.onWindowFocusChanged(hasFocus);if(frontAudio!=null)frontAudio.onWindowFocusChanged(hasFocus);}
     @Override protected void onPause(){if(introCinematic!=null)introCinematic.pausePlayback();super.onPause();frontAudio.pause();movement.stop();surface.onPause();}
     @Override protected void onResume(){super.onResume();frontAudio.setCinematic(introCinematic);frontAudio.resume();if(introCinematic!=null)introCinematic.resumePlayback();surface.onResume();}
     @Override protected void onDestroy(){gameplayStartGeneration++;removeGameplayLoadingOverlay();if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);if(introCinematic!=null)introCinematic.dispose();frontAudio.stop();super.onDestroy();}
