@@ -12,8 +12,9 @@
 //   Deserialize maps 1/3 to opened and anything else to closed.
 //
 // Visual: the game-object row (Arrays::Doors, data name -> row) gives visual14 -> GameObjectDict file.
-// Collision (Opened: disableFilter + FlagFloorAsDeadEnd 0; Closed: enableFilter + FlagFloorAsDeadEnd 1) is
-// reported through DoorRuntimeV1::collision_open(); the world floor owner is not bound yet (gap).
+// Collision: InitPost builds the PhysicalObject only when door_collision is true, from the same visual's
+// ApplyMeshBox AABB. Opened/Closed update its filter at source markers or clip end. Physical geometry is
+// supplied by the canonical visual/body owner; indexed render bounds are not a substitute.
 
 #include "../../actor_definitions.hpp"
 #include "../../asset_catalog.hpp"
@@ -49,6 +50,7 @@ struct DoorInstanceV1 {
     std::string activate_cond; // authored gate (empty when none)
     std::string deactivate_cond;
     bool opened_authored = false;
+    bool door_collision = true; // source property default at Door construction
 };
 
 struct DoorViewV1 {
@@ -56,6 +58,17 @@ struct DoorViewV1 {
     CharacterVisual* visual = nullptr;  // null when absent or without a visual
     DoorStateV1 state = DoorStateV1::closed;
     bool present = true;
+};
+
+// Value snapshot consumed by the shared physical owner. A body is required only when both
+// collision_enabled and present are true. filter_enabled is latched at the source Opened/Closed
+// callback, so it retains the prior value during animated state 2/3 transitions. Geometry remains
+// owned by the same DoorViewV1 visual and authored transform; use the recovered ApplyMeshBox path.
+struct DoorPhysicalBindingV1 {
+    std::uint64_t stable_id = 0;
+    bool collision_enabled = true;
+    bool present = false;
+    bool filter_enabled = true;
 };
 
 class DoorRuntimeV1 {
@@ -81,9 +94,12 @@ public:
     DoorStateV1 state(std::size_t index) const { return slots_.at(index).state; }
     bool busy(std::size_t index) const { return slots_.at(index).busy; }
     bool present(std::size_t index) const { return slots_.at(index).present; }
-    // Authored collision of the door (true = blocks the floor: closed).
-    bool collision_closed(std::size_t index) const { return slots_.at(index).state != DoorStateV1::opened; }
+    // Current source filter state (true = collision filter enabled). It stays latched through clips.
+    bool collision_closed(std::size_t index) const { return slots_.at(index).filter_enabled; }
     std::vector<DoorViewV1> views();
+    // Stable-ID snapshots for idempotent native body/filter reconciliation. Values only; pair them
+    // with the same stable ID's DoorViewV1 visual and DoorInstanceV1 transform for source geometry.
+    std::vector<DoorPhysicalBindingV1> physical_bindings() const;
 
     // Script_OpenDoor / Script_CloseDoor (kind 54 / 55). skip = the script skip flag.
     bool open(std::size_t index, bool skip, std::string& error);
@@ -109,6 +125,8 @@ private:
         DoorInstanceV1 instance;
         std::unique_ptr<CharacterVisual> visual;
         DoorStateV1 state = DoorStateV1::closed;
+        bool collision_enabled = true; // authored door_collision property, source ctor default true
+        bool filter_enabled = true;    // source PhysicalObject filter state, changed only at Opened/Closed
         bool busy = false;
         bool present = true;
         bool dirty = false;

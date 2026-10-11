@@ -52,6 +52,13 @@ bool DoorRuntimeV1::load(const containers::ContainerTablesV1& tables, const std:
         instance.activate_cond = property(definition, "activate_cond");
         instance.deactivate_cond = property(definition, "deactivate_cond");
         instance.opened_authored = property(definition, "opened") == "1";
+        const auto collision = property(definition, "door_collision");
+        if (collision.empty() || collision == "1" || collision == "true") instance.door_collision = true;
+        else if (collision == "0" || collision == "false") instance.door_collision = false;
+        else {
+            error = "Door " + definition.name + ": unsupported door_collision value " + collision;
+            return false;
+        }
         const auto fail = [&](const char* reason) {
             notices.push_back("Door " + definition.name + " data=" + instance.data + ": " + reason);
         };
@@ -79,6 +86,8 @@ bool DoorRuntimeV1::load(const containers::ContainerTablesV1& tables, const std:
         else
             instance.visual_file = *file;
         slot.state = instance.opened_authored ? DoorStateV1::opened : DoorStateV1::closed;
+        slot.collision_enabled = instance.door_collision;
+        slot.filter_enabled = !instance.opened_authored;
         slot.present = true;  // refresh_conditions applies the gates
         slot.dirty = false;
         slots_.push_back(std::move(slot));
@@ -173,6 +182,14 @@ std::vector<DoorViewV1> DoorRuntimeV1::views() {
     return out;
 }
 
+std::vector<DoorPhysicalBindingV1> DoorRuntimeV1::physical_bindings() const {
+    std::vector<DoorPhysicalBindingV1> out;
+    out.reserve(slots_.size());
+    for (const auto& slot : slots_)
+        out.push_back({slot.instance.stableId, slot.collision_enabled, slot.present, slot.filter_enabled});
+    return out;
+}
+
 bool DoorRuntimeV1::show_idle(Slot& slot, std::string& error) {
     if (!slot.visual) return true;
     const bool opened = slot.state == DoorStateV1::opened || slot.state == DoorStateV1::opening;
@@ -201,11 +218,13 @@ bool DoorRuntimeV1::transition(std::size_t index, bool opening, bool skip, std::
             // No transition clip: the source plays the end state at once.
             slot.busy = false;
             slot.state = end;
+            slot.filter_enabled = !opening;
             error.clear();
             if (!show_idle(slot, error)) return false;
         }
     } else {
         slot.state = end;
+        slot.filter_enabled = !opening;
         if (!show_idle(slot, error)) return false;
     }
     request_sound(slot, opening);
@@ -243,12 +262,16 @@ bool DoorRuntimeV1::update(double seconds, std::string& error) {
         if (!slot.marker_fired && slot.marker_ms[direction] >= 0.0 && elapsedMs >= slot.marker_ms[direction]) {
             slot.marker_fired = true;
             slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;
+            slot.filter_enabled = !opening;
             slot.dirty = true;
         }
         // __Callback: the clip ended; the transition is over and the idle clip of the end state plays.
         if (slot.clip_end_ms[direction] >= 0.0 && elapsedMs >= slot.clip_end_ms[direction]) {
             slot.busy = false;
-            if (!slot.marker_fired) slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;
+            if (!slot.marker_fired) {
+                slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;
+                slot.filter_enabled = !opening;
+            }
             slot.dirty = true;
             if (!show_idle(slot, error)) return false;
         }
@@ -271,6 +294,8 @@ bool DoorRuntimeV1::restore(std::size_t index, DoorStateV1 state, std::string& e
     slot.state = state;
     slot.busy = false;
     slot.dirty = false;
+    // Door::Deserialize maps states 1/3 to opened; states 0/2 map closed.
+    slot.filter_enabled = state != DoorStateV1::opened && state != DoorStateV1::opening;
     return show_idle(slot, error);
 }
 
