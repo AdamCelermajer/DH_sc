@@ -1,5 +1,21 @@
 # B091: mobs passive after a scripted animation
 
+## 2026-10-11 resumed investigation before additional behavior changes (B091 + B094 + B080)
+
+The user explicitly identifies B094 as the **brown boss lizard**, not Celeste/Rene. The old fix094 report's identity premise and its INTENDED verdict are invalid for this report. Shot-10/13 show the large brown mace-carrying actor without a ring/plate; a still alone does not prove continuous passivity. This actor matches the captain model and room in the reference.
+
+Visual evidence inspected first: original P1 v1.0.3 `z_Zky7qQdYs`, 462–478 s sampled at 2 fps (`fix091/audit/captain462-478.png`). At 466–470.5 the captain approaches a captive, strikes/fells it, then HUD returns. At 474–477.5 the brown actor has the **Bogwomp Chief** plate and red ring and exchanges blows with the hero. Troll sequence 349–363 s at 2 fps (`troll349-363.png`) shows entry/roar, HUD return, TRUNGUS ring/plate and hits. No original SKIP press occurs in these excerpts.
+
+Logic evidence: `Script_PlayActorAnim::Execute` 0x45e890 skips its body when skip=1 and otherwise calls `SM_SetAnimState(...,0,1)`; setter 0x3c1aa8 enters state14 and writes idle-after-stop byte+69. `CSAnim::OnFocus` 0x3c324c writes flags8768 and selects its animation; `CSAnim::OnUpdate` 0x3c1a3c returns Idle when character animation-playing byte+5248 is false and +1345 is true. `Script_SpawnCharacter::Execute` 0x45f400 enters Spawn even when skipped; `CSSpawn::OnEvent` 0x3c0b04 admits physical interaction at marker40 `is_interactive`. `ScriptManager::SkipScript` 0x460530 sets the skip request/flushes messages and does not cancel character animators. Existing source-adapter kind31 calls `set_idle(id,!skip)` for allowed live actors; EndScriptedCutScene's All selector includes the captain.
+
+Actual production reproduction uses compiled bank + authored TriggerZone contact, no campaign-command injection; isolated copy of the earlier privately generated post-opening m7-skip save. Fresh-player must remain enabled because main.cpp:1284 only loads that direct profile before combat bootstrap under that option. Initial unsaved/direct runs overlapped Swamp_Intro and were discarded as combat evidence. On valid seeded contact, pre-fix captain played ends with lifecycle3 but remains in scripted animation14; skipped at frame80 ends lifecycle1, physical0, HP260 despite End's ordinary session Idle, while the rendered actor tracks the player. This exposes two owners disagreeing: `set_idle` updates CombatSession only, leaving the lifecycle's Spawn state/body gate unchanged; skip also erases running scripted completion timers.
+
+Expected minimal reusable fix: preserve already-playing actor clip completion across skip (new skipped PlayActorAnim remains a no-op), and synchronize a lifecycle actor's explicit non-waiting Idle through the lifecycle owner before ordinary session selection. Never revive dead/limbus/pre-spawn actors merely because a timer ends. Existing B091 no-chain completion callback supplies the source CSAnim return to Idle for live gameplay actors.
+
+Verification defined before coding: host tests for no early release, chained/replacement clips, one completion, callback failure, and completion surviving skip; lifecycle test for skipped Spawn->Idle physical admission and unchanged authored anchor; compiled-bank real EXE runs captain played, early/late skip, troll skipped/played; require plate/ring plus legitimate attacks/damage, and captain legitimate kill->death->corpse removal if reachable. Full ctest with toolchain DLL PATH. Do not rerun an unchanged passing long scene.
+
+Uncertainties: video v1.0.3 versus IDA APK export version; SKIP timing only source-backed; exact shot actor placement may be a different Type2/3 instance. Full route traversal is separate from isolated normal authored-contact fixtures. New runtime result and hash remain pending below.
+
 Branch fix/b091 (from v20.1/integrate), build fix091 (-Jobs 2). Scratch: `.local-inputs/claude-v20.1/fix091/` (mk2.py, addcmd2.py, run.ps1; runs c1/c2/r1).
 
 ## Evidence
