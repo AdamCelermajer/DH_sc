@@ -2673,7 +2673,7 @@ struct NativeCharacterInventoryOwnerV1 {
   value=result!=0;error.clear();return true;
  }
 
- bool melee_radius(ObjectActor& subject,float& value,std::string& error)const{
+ bool melee_radius(const ObjectActor& subject,float& value,std::string& error)const{
   if(!inventory||!source_init_equipment_complete||actor!=&subject||
      inventory->character()!=subject.identity||inventory->properties()!=&subject.properties){
    error="Monster AI_GetMeleeRadius requires its completed canonical Character V4 inventory";return false;
@@ -9590,10 +9590,27 @@ void add_combat_threat_before_hit(void* context,float amount){
  if(request&&request->owner&&request->target)add_combat_threat(*request->owner,*request->target,request->owner_id,request->target_id,amount,request->facts);
 }
 dh2::data::AiRangeResult actor_player_range(const ObjectActor& actor){
- const auto* npc=dh2::data::ai_props(actor_ai_tables,actor.properties.resolved[1]);const auto* prince=dh2::data::ai_props(actor_ai_tables,prince_combat.properties.resolved[1]);dh2::data::AiRangeResult result{};if(!npc||!prince)return result;
- float player_radius=prince->melee_radius;
- if(prince_combat.inventory&&!player_melee_radius_v1(player_radius))return result;
- const dh2::data::AiRangeRequest request{{actor.position[0],actor.position[1],actor.position[2]},{actor_position[0],actor_position[1],actor_position[2]},npc->melee_radius,player_radius,npc->view_radius};dh2_ai_range(&result,&request);return result;
+ const auto* npc=dh2::data::ai_props(actor_ai_tables,actor.properties.resolved[1]);
+ dh2::data::AiRangeResult result{};
+ if(!npc)return result;
+ const dh2::data::AiRangeRequest request{
+     {actor.position[0],actor.position[1],actor.position[2]},
+     {actor_position[0],actor_position[1],actor_position[2]},
+     0.f,0.f,npc->view_radius};
+ dh2_ai_range(&result,&request);
+ // AI_IsInMeleeRange (0x3d6188) uses both live GetTargetPosition values and
+ // both AI_GetMeleeRadius results. Each radius includes that Character's
+ // current main-hand reach (0x3d4c34), not just its AITable base radius.
+ float radii[2]{},npc_position[3]{},player_position[3]{};
+ std::string error;
+ if(!actor.source_inventory||
+    !actor.source_inventory->melee_radius(actor,radii[0],error)||
+    !player_melee_radius_v1(radii[1])||
+    !native_character_position_for_target(actor.identity,npc_position)||
+    !native_character_position_for_target(prince_character.identity(),player_position))
+  return result;
+ result.melee=dh2_attack_melee_distance(npc_position,player_position,radii)==1;
+ return result;
 }
 int direct_monster_find_path(void* raw,const dh2::character::PathToRequest32* request,
                              std::uint32_t* found){
