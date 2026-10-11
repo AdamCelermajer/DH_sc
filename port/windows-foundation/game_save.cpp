@@ -187,8 +187,16 @@ void normalize(PersistedPlayableActor& p){
     p.actor.action_elapsed_seconds=0;p.actor.target_id=0;p.combat.facts.original_state=-1;p.combat.facts.combo_hits=0;
     p.actor.source_flags520.reset();p.actor.source_movement_type.reset();p.actor.source_validate_boundary452.reset();
     p.actor.source_target_node180.reset();p.actor.source_target_position184.reset();
-    for(const unsigned current:{36u,41u}){
-        const auto desired=raw_vital(current==36?p.actor.health:p.actor.resource);
+    // v20 SAVEFIX: the live ActorState is a nonnegative projection of the source sheet (combat_session clamps the -1
+    // "no pool" sentinel to zero for every actor). A combat-capable actor (targetable or with attacks) therefore saves the
+    // live maxima as well as the current values; before, only 36/41 were reconciled and a sentinel max (38/43) of a
+    // targetable scripted NPC such as _prim_NPC (max_resource sheet -1, live 0) failed validate_game_save. The validator is unchanged:
+    // a save whose sheet and live vitals still differ is rejected.
+    for(const unsigned current:{36u,38u,41u,43u}){
+        const auto live=current==36?p.actor.health:current==38?p.actor.max_health:current==41?p.actor.resource:p.actor.max_resource;
+        const auto desired=raw_vital(live);
+        // Maxima are reconciled only for the source -1 sentinel projected to zero; any other max mismatch stays invalid.
+        if((current==38||current==43)&&!(desired==0&&p.combat.sheets.resolved[current]<0))continue;
         // Visual-only actors have no combat actions or target admission. Their
         // source negative/unavailable vital cells project to zero for the live
         // registry; saving that projection must not overwrite source metadata.

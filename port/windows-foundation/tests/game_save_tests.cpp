@@ -106,6 +106,23 @@ int main(int argc,char** argv){try{
     check(saved.actors[0].actor.action==CharacterAction::idle&&saved.actors[0].actor.target_id==0&&
         saved.actors[1].actor.action==CharacterAction::dead,"transient normalization/death lost");
     check(saved.actors[1].combat.sheets.resolved[36]==0,"dead enemy original HP sheet not synchronized");
+    { // v20 SAVEFIX: targetable attacking actor whose source resource sheet is the -1 "no pool" sentinel (projected to 0 live)
+        auto npcProps=mob;npcProps.sheets.resolved[41]=npcProps.sheets.resolved[43]=-1;
+        npcProps.sheets.saved[41]=npcProps.sheets.saved[43]=-1;npcProps.sheets.base[41]=npcProps.sheets.base[43]=-1;
+        dh2::data::CombatRandom rng2{1,0};PlayableActorWorld w2(tables,rng2);
+        auto p2=actor(1,"KnightPlayerBase",knight);p2.persistent_character_id="live-player";p2.attack_ids={"original-main-leaf"};
+        p2.equipment.push_back({"main",items.identifiers.at(664),std::string("sword-instance")});
+        check(w2.bind_actor(p2,knight,{true,true,sword},error),error);
+        auto npc=actor(2,"Swamp_LizadMan_Type1",npcProps);npc.resource=npc.max_resource=0;npc.attack_ids={"npc-melee"};
+        check(w2.bind_actor(npc,npcProps,{false,true,std::nullopt},error),error);
+        check(w2.bind_source("main",{},error),error);
+        GameSave g2;check(capture_game_save("original/level",1,character,w2,g2,error),"Targetable resource-less NPC save rejected: "+error);
+        check(g2.actors[1].combat.sheets.resolved[41]==0&&g2.actors[1].combat.sheets.resolved[43]==0,"Sentinel max not reconciled with live vitals");
+        auto forged=g2;forged.actors[1].combat.sheets.resolved[43]=-1; // live 0 vs sheet -1 must still be rejected
+        check(!validate_game_save(forged,error),"Validator accepted live/sheet vital mismatch");
+        auto forgedMax=g2;forgedMax.actors[1].actor.max_resource=5;
+        check(!validate_game_save(forgedMax,error),"Validator accepted non-sentinel max mismatch");
+    }
     const std::filesystem::path path(argv[3]);check(save_game(path,saved,error),error);
     GameSave loaded;check(load_game(path,loaded,error),error);
     check(loaded.random.seed==98765&&loaded.random.calls==117&&loaded.actors.size()==2&&
