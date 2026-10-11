@@ -228,9 +228,13 @@ void current_level_character_population_cases(){
    fixture.event_owner,fixture.level_identity,5,snapshot,error)&&
    snapshot.loaded_match_count==1,
    "TestCharTemplate did not preserve distinct template selectors");
+ check(template_services.read_current_level_population(template_services.context,
+   fixture.event_owner,fixture.level_identity,32,snapshot,error)&&
+   snapshot.loaded_match_count==0,
+   "TestCharTemplate did not return zero for a valid unmatched halfword selector");
  check(!template_services.read_current_level_population(template_services.context,
-   fixture.event_owner,fixture.level_identity,32,snapshot,error),
-   "TestCharTemplate accepted an out-of-source-range template selector");
+   fixture.event_owner,fixture.level_identity,32768,snapshot,error),
+   "TestCharTemplate accepted a selector outside the source halfword range");
  bindings.roster_complete=false;
  population::Provider incomplete_template(bindings);
  auto incomplete_template_services=incomplete_template.clear_enemy_template_services();

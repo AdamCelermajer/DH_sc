@@ -47,7 +47,9 @@ def main():
  evidence={source,source.with_suffix('.hpp'),source.with_name('native_current_level_character_population_v1.hpp'),cursor,cursor.with_suffix('.hpp'),character_list_source,quest_completed_source,profile_source,profile_header,gameplay_header,kill_kernel,test,Path(__file__).resolve()}
  inputs=actual_dependencies(build,ninja,entries)|evidence
  before={path.relative_to(ROOT).as_posix():sha(path) for path in sorted(inputs)}
- dsos=sorted(library.parent.parent.rglob('*.dll'));binary_before={str(path):sha(path) for path in [library,world,*dsos]}
+ # Desktop CMake places shared libraries beside the executable rather than
+ # beside their import libraries. Keep both layouts in the runtime evidence.
+ dsos=sorted(set(library.parent.parent.rglob('*.dll'))|set((build/'bin').glob('*.dll')));binary_before={str(path):sha(path) for path in [library,world,*dsos]}
  cache=args.cache.resolve();files=[cache/name for name in ['v2quests_pyarray.bin','v2quests_pyarraynames.bin','v2quests_pycst.bin']]
  condition_cache=cache.parent/'original-cache'/'data'/'pydata'
  files += [condition_cache/name for name in ['v2conditions_pyarray.bin','v2conditions_pyarraynames.bin','v2conditions_pystructnames.bin','v2conditions_pycst.bin']]
