@@ -179,13 +179,21 @@ bool height(const World& world,const float* point,float& result){
  return false;
 }
 const std::string* floor_type_at(const World& world,const float* point) noexcept {
- if(!point||!world.sewn||world.records.size()!=world.collision_world.floor_count)
-  return nullptr;
+ // CharAI::_OnAnimEvent reads Character+0x1d8 (the embedded PFObject's
+ // current PFFloor) and compares PFFloor+0x3c, the data pointer of the
+ // source floortypes string. PFWorld/PFRoom GetFloorHeightAt walks floors in
+ // source order, skips void/wall floors, and returns the first collision hit.
+ // Use that same retained floor selector order and tag storage here.
+ if(!point||world.records.size()!=world.selectors.size())return nullptr;
  for(unsigned i=0;i<3;++i)if(!std::isfinite(point[i]))return nullptr;
- navigation::WorldHit hit{};
- if(dh2_nav_world_collision(&hit,&world.collision_world,point,0)!=1||
-    hit.floor>=world.records.size()||!world.records[hit.floor])return nullptr;
- const auto& type=world.records[hit.floor]->floor_type_tag;
- return type.empty()?nullptr:&type;
+ for(unsigned i=0;i<world.selectors.size();++i){
+  if(!world.records[i])return nullptr;
+  if(world.records[i]->flags.floor&0x03000000u)continue;
+  collision::Result hit{};
+  if(dh2_selector_floor(&hit,&world.selectors[i],point)!=1)continue;
+  const auto& type=world.records[i]->floor_type_tag;
+  return type.empty()?nullptr:&type;
+ }
+ return nullptr;
 }
 }
