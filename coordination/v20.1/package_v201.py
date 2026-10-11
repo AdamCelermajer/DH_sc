@@ -1,4 +1,4 @@
-"""Package a frozen v20.1 candidate; run only with py -3 -I.
+"""Package a frozen v21 candidate; run only with py -3 -I.
 
 Metadata is supplied from actual integration results, never inferred by this tool.
 Existing packages and saves are preserved. The manifest covers all other files.
@@ -23,7 +23,7 @@ def main():
     parser.add_argument("--inputs", type=Path, required=True)
     parser.add_argument("--exe", type=Path, required=True)
     parser.add_argument("--metadata", type=Path, required=True)
-    parser.add_argument("--folder", default="windows-source-clock-v20.1")
+    parser.add_argument("--folder", default="windows-source-clock-v21")
     args = parser.parse_args()
     metadata = json.loads(args.metadata.read_text(encoding="utf-8-sig"))
     for key in ("source_commit", "ctest", "fixes", "open", "verification", "readme"):
@@ -93,13 +93,13 @@ def main():
                 del lines[index:index + 2]
         path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     executable_sha = sha(target / "dh-foundation.exe")
-    receipt = {"version": "v20.1", "source_commit": metadata["source_commit"],
+    receipt = {"version": "v21", "source_commit": metadata["source_commit"],
                "exe_sha256": executable_sha,
                "exe_bytes": (target / "dh-foundation.exe").stat().st_size,
                "base_package": source.name, "ctest": metadata["ctest"],
                "verification": metadata["verification"],
                "status": "Frozen candidate; independent verification pending"}
-    notes = {"version": "v20.1", "platform": "Windows x64",
+    notes = {"version": "v21", "platform": "Windows x64",
              "exe_sha256": executable_sha, "source_commit": metadata["source_commit"],
              "fixes": metadata["fixes"], "open": metadata["open"],
              "added_files": [rel for _, rel in added],
@@ -111,7 +111,7 @@ def main():
               "sha256": sha(p)} for p in sorted(target.rglob("*"))
              if p.is_file() and p.name != "manifest.json"]
     (target / "manifest.json").write_text(
-        json.dumps({"version": "v20.1", "files": files}, indent=2) + "\n", encoding="utf-8")
+        json.dumps({"version": "v21", "files": files}, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"folder": str(target), "exe_sha256": executable_sha,
                       "files": len(files)}))
 

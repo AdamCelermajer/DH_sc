@@ -24,8 +24,8 @@ def main():
     notes_path = args.package / "release-notes.json"
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     notes = json.loads(notes_path.read_text(encoding="utf-8"))
-    if receipt.get("version") != "v20.1" or receipt.get("status") != "Frozen candidate; independent verification pending":
-        raise ValueError("Only a pending v20.1 candidate may be accepted")
+    if receipt.get("version") != "v21" or receipt.get("status") != "Frozen candidate; independent verification pending":
+        raise ValueError("Only a pending v21 candidate may be accepted")
     actual = sha(args.package / "dh-foundation.exe")
     if actual != args.sha256.upper() or actual != receipt["exe_sha256"]:
         raise ValueError("The independently verified EXE differs from the candidate")
@@ -41,7 +41,7 @@ def main():
         if path.stat().st_size != entry["bytes"] or sha(path) != entry["sha256"]:
             raise ValueError("Frozen package content changed: " + entry["path"])
     for value in (receipt, notes):
-        value["status"] = "Accepted v20.1 for hand testing: " + args.verdict
+        value["status"] = "Accepted v21 for hand testing: " + args.verdict
         value["independent_verdict"] = args.verdict
         value["independent_report"] = args.report
     receipt_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")

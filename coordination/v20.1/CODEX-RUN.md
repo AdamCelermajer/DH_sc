@@ -1,4 +1,4 @@
-# v20.1 Codex continuation — 2026-10-11
+# v20.1 Codex continuation â€” 2026-10-11
 
 This run supersedes the stale running-session labels in STATUS.md. The latest
 final-status section of HANDOFF-CODEX.md remains the starting evidence.
@@ -50,7 +50,7 @@ audibility. No new bug was added in the user inbox at dispatch time.
 
 - B096 inspected the dependency commits: click latch is `8b5bfcee`, whereas
   `117c2b34` includes the equipment stance fallback/report. Reuse precise hunks.
-- The claimed B096 P2 507–510 s skills-page reference is gameplay/map footage;
+- The claimed B096 P2 507â€“510 s skills-page reference is gameplay/map footage;
   the worker is locating the actual skills sequence before implementation.
 - User clarified B094: "the boss lizard the brown one". The earlier companion
   audit does not cover that actor and its NOT A BUG conclusion must not be used
@@ -115,18 +115,18 @@ worktree; keep evidence separate and prevent duplicate shared-core writes.
   Celeste failure. Broader hide/visibility/parameter clips remain unverified.
 - B101 `/root/b101_review` READY FOR SCOPED CORE WITH B101 OPEN. Moving puffs
   improve but orange-wall appearance still differs. Color peak audit correction:
-  raw133.333–400ms means particle ages roughly0.333–1s, not late-life peak.
+  raw133.333â€“400ms means particle ages roughly0.333â€“1s, not late-life peak.
   An inherited random-direction predicate differs from IDA; fire(0,0,1) unaffected.
 - B091/B094 initial review NEEDS WORK caught missing scripted flag. Owner repaired
   exact current-state !scripted return-Idle gate (not clip-end/Unset-edge only).
   Re-review READY WITH CAVEATS at3a4aec63, frozen96413324...99C680A2,
-  captain Unset301→release302 and five runtime branches checked. Initial schema
+  captain Unset301â†’release302 and five runtime branches checked. Initial schema
   replacement error5 retained, retries/full167/168 pass, cause unproven.
 - Reviewed B101 core, B105 and B091/B094 now merged into integration. Build and
   focused combined executable checks still needed before any resolution.
 - B095 reviewer NEEDS WORK for closed-menu queued release reaching hidden page
   provider. Original accepted-tab reset is sound; owner repairing that admission
-  boundary with a queued Close→second-release regression before integration.
+  boundary with a queued Closeâ†’second-release regression before integration.
 - B109 reviewer NEEDS WORK for specular transport lost on removal of baked decor;
   source repair8b1eb74c/tip1a3e199f binds full diffuse/alpha/specular generically,
   checks source alpha channel and preserves lookup failure atomics. Re-review
@@ -144,14 +144,14 @@ worktree; keep evidence separate and prevent duplicate shared-core writes.
 ## Latest reviewed repairs and integration
 
 - B095 repaired456b5e23/tip4a5f0012 re-reviewed READY WITH CAVEATS. Actual queued
-  Close→UNEQUIP changes old count4→3; repaired frozen preservesGarb/count4.
+  Closeâ†’UNEQUIP changes old count4â†’3; repaired frozen preservesGarb/count4.
   Merged with B109 into integrationef6360b1; combined checks pending.
 - B109 re-review READY FOR SCOPED INTEGRATION at1a3e199f; source material lookup
   atomics, alpha policy and specular transport independently checked6/6. User
   rendering confirmation supersedes stale OPEN appearance wording in its report.
 - B100 fresh review READY WITH CAVEATS as B110 dependency; merchant shop remains
   B110 gate. Review checks circles/Space/sourcecaller and16/16 B112 runs. Source
-  +138 is visibility, not enabled; wider IsInteractive gates remain unverified.
+  +138 is enabled (SetEnable0x33ddc8); +128 is visible (SetVisible0x33dcf8).
 - B110 fresh reviewer is checking authored equipped-item SELL admission; native
   transfer unequipping side effect cannot establish UIpermission.
 - B111 fresh review ongoing; B093 MAKE ACTIVE counter-loss reproduced and fixed,
@@ -170,3 +170,9 @@ checks and full ctest, freeze v20.1, obtain independent A/B verification,
 correct release caveats, update tracker and resolution history, merge to
 windows-foundation and push only publish. Existing long scenes with unchanged
 code and valid passing evidence are reused. No v20.1 release is claimed yet.
+
+## User release naming — 2026-10-12
+
+The user requests the completed package as v21. Working v20.1 coordination paths remain for continuity; package folder, manifest, receipt, acceptance status and README use v21. No candidate has yet been packaged or accepted.
+
+B097 tip af2bf2cd independently reviewed READY WITH CAVEATS and merged into integration. Targeted rank1/rank2 casts verify actual MP9/12 and enemy damage; targetless/hurt remains B083. B088 adc667b7 is in same-reviewer re-review, with a requested IsSummoned predicate correction pending. B092/B098 owner resumed to investigate legitimate skill, ally/script, pause and restore lethal producers rather than closing on sword-only non-reproduction.
