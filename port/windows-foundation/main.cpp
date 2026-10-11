@@ -1942,7 +1942,8 @@ int main(int argc,char** argv) {
                 placed->transform[4]=-sy*std::sin(heading);placed->transform[5]=sy*std::cos(heading);
                 return true;
             }
-            e="Look actor unavailable";return false;
+            // P16 FIX16: no live instance (standalone script start or not yet spawned): LookActor is a logged no-op.
+            std::cout<<"[campaign] LookActor: actor "<<id<<" has no live instance; command is a no-op\n";e.clear();return true;
         };
         // ShowActor/HideActor: population activation (the draw and update gates honour it).
         hostServices.actor_verbs.set_visible=[&](f::ActorId id,bool visible,std::string& e){
@@ -1969,7 +1970,11 @@ int main(int argc,char** argv) {
                 std::int32_t start=0,end=0;
                 if(!placed->visual.animation_range(clip,start,end,e))return false;
                 duration=end-start;
-            } else {e="Actor clip actor is unavailable";return false;}
+            } else {
+                // P16 FIX16: no live instance for the clip (standalone script start or not yet spawned): logged no-op, zero duration.
+                std::cout<<"[campaign] PlayActorAnim: actor "<<id<<" has no live instance; clip "<<clip<<" is a no-op\n";
+                duration=0;return true;
+            }
             std::cout<<"[campaign] actor clip "<<clip<<" "<<path<<" duration_ms="<<duration<<" actor="<<id<<'\n';
             return true;
         };
