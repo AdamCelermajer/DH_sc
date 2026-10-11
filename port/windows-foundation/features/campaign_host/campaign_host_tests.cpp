@@ -567,12 +567,18 @@ void scripted_clip_completion(const std::string& directory) {
     bool blocking=false; std::string error;
     OriginalCampaignCommand clip;clip.kind=45;clip.scalars={{8,33},{12,0xffffffffu},{28,1}};clip.strings={{24,"boss"}};
     auto play=[&](std::uint32_t next=0xffffffffu){clip.scalars[12]=next;check(rig.host->execute_diagnostic_command(clip,-1,blocking,error),error);};
+    OriginalCampaignCommand mark;mark.kind=32;mark.strings={{16,"All"}};
+    auto scripted=[&](bool value){mark.scalars[8]=value;check(rig.world->command(CampaignCommandPhase::execute,mark,-1,false,blocking,error),error);};
+    scripted(true);
     play();rig.step(99);check(finishes==0&&rig.host->scripted_clip_pose(101),"No premature CSAnim release");
+    scripted(false);
     rig.step(1);check(finishes==1&&!rig.host->scripted_clip_pose(101),"Single clip returns to gameplay at completion");
     rig.step(100);check(finishes==1,"Completed clip cannot release twice");
-    play(32);rig.step(100);check(finishes==1&&plays==3,"Chained clip starts before Idle");
+    scripted(true);play(32);rig.step(100);check(finishes==1&&plays==3,"Chained clip starts before Idle");
+    scripted(false);
     rig.step(100);check(finishes==2,"Chained clip releases once at its own end");
-    play();rig.step(50);play();rig.step(50);check(finishes==2,"Replacement cancels earlier completion");
+    scripted(true);play();rig.step(50);play();rig.step(50);check(finishes==2,"Replacement cancels earlier completion");
+    scripted(false);
     rig.step(50);check(finishes==3,"Replacement has its own completion");
     release=false;play();rig.step(100);check(finishes==4&&rig.host->scripted_clip_pose(101),"Owner can retain non-gameplay/dead pose");
     release=true;
@@ -634,6 +640,10 @@ void scripted_clip_deferred_until_unset(const std::string& directory) {
     scripted(true);play();rig.step(100);scripted(false);scripted(true);rig.step(0);
     check(finishes==4&&rig.host->scripted_clip_pose(101),"Re-mark before update closes an earlier Unset admission");
     scripted(false);rig.step(0);check(finishes==5&&!rig.host->scripted_clip_pose(101),"Later real Unset admits the retained clip once");
+    play(32);const int unmarked_plays=plays;rig.step(1);
+    check(finishes==6&&plays==unmarked_plays&&!rig.host->scripted_clip_pose(101),
+        "Already-clear scripted gate admits kind45 Idle next update, before duration or follow");
+    scripted(false);rig.step(200);check(finishes==6&&plays==unmarked_plays,"Duplicate Unset does not repeat admission or start a cancelled follow");
 }
 
 int main(int argc, char** argv) {

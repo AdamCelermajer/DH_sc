@@ -283,14 +283,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         return true;
     };
     if (!p.set_scripted) p.set_scripted = [this](ActorId id, bool scripted, std::string&) {
-        const bool was_scripted=character_scripted(id);
         if (scripted) scripted_.insert(id); else scripted_.erase(id);
-        // Character+5248 is the CSAnim::OnUpdate gate, not an animation-playing flag.
-        // A real Unset admits Idle even for a still-running final nonblocking clip.
-        if(auto clip=actor_clips_.find(id);clip!=actor_clips_.end()) {
-            if(scripted)clip->second.idle_admitted_by_unset=false;
-            else if(was_scripted)clip->second.idle_admitted_by_unset=true;
-        }
         unsupported_.note("scripted flag stored only (no AI consumer bound yet)");
         return true;
     };
@@ -784,9 +777,13 @@ bool CampaignHost::advance_actor_clips(std::int32_t dt_ms, std::string& error) {
     for (auto it = actor_clips_.begin(); it != actor_clips_.end();) {
         const bool advancing = it->second.remaining_ms > 0;
         if (it->second.remaining_ms > 0) it->second.remaining_ms -= step;
-        if (it->second.remaining_ms > 0&&!it->second.idle_admitted_by_unset) { ++it; continue; }
         const auto id = it->first;
-        const auto chained = it->second.idle_admitted_by_unset?-1:it->second.follow_dictionary;
+        // Every host entry is Script_PlayActorAnim(...,0,1): return-Idle flag +1345 is set.
+        // OnUpdate's current !scripted predicate can interrupt an unfinished clip/follow.
+        // Lua animation callers with return-Idle=0 never enter this host clock.
+        const bool idle_admitted=!character_scripted(id);
+        if (it->second.remaining_ms > 0&&!idle_admitted) { ++it; continue; }
+        const auto chained = idle_admitted?-1:it->second.follow_dictionary;
         // CSAnim::OnUpdate 0x3c1a3c gates Idle on Character+5248 (scripted)==0.
         // Keep the completed entry until Unset, rather than losing its deferred release.
         // Script replacements, chained clips and explicit Idle still own their cancellation.
