@@ -275,3 +275,11 @@ The user requested agents wrap up and output v21. Ship the reviewed current cast
 | B116 | Repeated real F9 after loading/retiring a dead moth rejects saved targetable1/current0; normal frontend Continue and tested alive F9 succeed. | Deferred v21 caveat under user wrap instruction; restore identity guard preserved, no corrective patch claimed | Root/shared-save owner; /root/b092_b098_review reproduction/review evidence |
 
 Accepted v21 on 2026-10-12: resolved stable IDs moved to `docs/RESOLVED-BUGS.md` after reviewed implementation, combined175/175 tests, linked B083/B097 checks and independent frozen approval. B101, B114/B115 and B116 remain active documented caveats.
+
+### V21 chest crash — 2026-10-12
+
+| ID | Observed | State | Implementation owner | Reviewer |
+|---|---|---|---|---|
+| B117 | Opening `_prim_OpenableContainer_1` starts `prince_interaction.bdae` at frame10290, then exits with `Live combat: Physical locomotion must be admitted through the current authored locomotion selection`. User supplied facing/context/interaction log. | OPEN; fresh implementation and independent source/runtime review assigned immediately. Suspected retained interaction versus neutralized locomotion admission; not yet reproduced or fixed. | `/root/b117_chest_crash`; root integration | `/root/b117_chest_review` |
+
+Accepted v21 and its user saves remain untouched. Root copied profile, world and selective checkpoint read-only into `.local-inputs/b117/user-seed` for further isolated reproduction copies. Fix must preserve the source locomotion admission guard and distinguish actual interaction/retained pose ownership. Earlier idle chest tests do not cover this moving-to-interaction failure.
