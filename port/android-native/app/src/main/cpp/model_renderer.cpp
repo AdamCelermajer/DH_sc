@@ -8249,6 +8249,16 @@ struct NativeCharacterInventoryOwnerV1 {
  }
 
  bool melee_radius(const ObjectActor& subject,float& value,std::string& error)const{
+  // IDA CharAI::AI_GetMeleeRadius 0x3d4c34: CanMeleeAttack leaves the weapon
+  // range at 0 without an equipped melee item, then adds AITable +32.
+  if(actor==&subject&&(!inventory||!source_init_equipment_complete)) {
+   if(dh2::character::player_attack_melee_radius_v1::query(
+        nullptr,&actor_ai_tables,subject.properties.resolved[1],&value)!=
+        dh2::character::player_attack_melee_radius_v1::Status::complete){
+    error="Monster source AI_GetMeleeRadius table/Character AI ID is unavailable";return false;
+   }
+   error.clear();return true;
+  }
   if(!inventory||!source_init_equipment_complete||actor!=&subject||
      inventory->character()!=subject.identity||inventory->properties()!=&subject.properties){
    error="Monster AI_GetMeleeRadius requires its completed canonical Character V4 inventory";return false;
@@ -24911,6 +24921,8 @@ struct NativeAggroInteractiveContextV1 {
  ObjectActor* actor=nullptr;
  bool player=false;
 };
+// Last provider-side reason for a failed aggro TargetList search.
+const char* native_aggro_fail="";
 std::int32_t native_aggro_interactive_query(void* raw,
     dh2::character_interactive::Character* character,
     dh2::character_interactive::Query query,std::uintptr_t subject,
@@ -24918,19 +24930,22 @@ std::int32_t native_aggro_interactive_query(void* raw,
  using Query=dh2::character_interactive::Query;
  using Classification=dh2::character_ai_classification::Query;
  auto* context=static_cast<NativeAggroInteractiveContextV1*>(raw);
+ // Character::IsInteractive passes the interacting object only to IsFriend.
  if(!context||!character||!value||character->identity!=context->candidate||
-    interacting_object!=context->interacting_object)return 1;
+    (query==Query::is_friend&&interacting_object!=context->interacting_object)){
+  native_aggro_fail="interactive: context mismatch";return 1;
+ }
  if(query==Query::is_dead) {
-  if(subject!=context->candidate)return 1;
+  if(subject!=context->candidate){native_aggro_fail="interactive IsDead: subject";return 1;}
   *value=context->player?prince_combat.life.dead:
       std::uint32_t(context->actor->combat_state.dead);return 0;
  }
  if(query==Query::is_friend) {
-  if(subject!=character->ai)return 1;
+  if(subject!=character->ai){native_aggro_fail="interactive IsFriend: subject is not the candidate CharAI";return 1;}
   return source_relation_for_ooi(context->candidate,interacting_object,
-      dh2::character_ai_relations::Relation::friend_,*value)?0:1;
+      dh2::character_ai_relations::Relation::friend_,*value)?0:(native_aggro_fail="interactive IsFriend: relation lookup failed",1);
  }
- if(subject!=context->candidate)return 1;
+ if(subject!=context->candidate){native_aggro_fail="interactive classification: subject";return 1;}
  if(context->player) {
   const auto classification=query==Query::is_monster?Classification::monster:
       query==Query::is_faerie?Classification::faerie:Classification::summoned;
@@ -24941,14 +24956,14 @@ std::int32_t native_aggro_interactive_query(void* raw,
       nullptr,native_classification_service};
   dh2::character_ai_classification::Result result{};
   if(dh2::character_ai_classification::query(classification,&state,&services,
-      &result)!=dh2::character_ai_classification::Status::complete)return 1;
+      &result)!=dh2::character_ai_classification::Status::complete){native_aggro_fail="interactive Player classification failed";return 1;}
   *value=result.word;return 0;
  }
- if(!context->actor)return 1;
+ if(!context->actor){native_aggro_fail="interactive: no candidate actor";return 1;}
  const auto classification=query==Query::is_monster?Classification::monster:
      query==Query::is_faerie?Classification::faerie:Classification::summoned;
  try {*value=native_character_classification(*context->actor,classification);return 0;}
- catch(...) {return 1;}
+ catch(...) {native_aggro_fail="interactive candidate classification threw";return 1;}
 }
 std::int32_t native_aggro_search_service(void* raw,
     const dh2::character::aggro_search::Request* request,
@@ -24971,18 +24986,18 @@ std::int32_t native_aggro_search_service(void* raw,
  }
  case is_zonable:
   if(candidate_player){response->word=0;return 0;}
-  if(!candidate_object||candidate_object->kind!=1)return 1;
+  if(!candidate_object||candidate_object->kind!=1){native_aggro_fail="IsZonable: candidate has no native Character actor";return 1;}
   try {response->word=native_actor_zonability(*candidate_object);return 0;}
-  catch(...) {return 1;}
+  catch(...) {native_aggro_fail="IsZonable threw";return 1;}
  case is_interactive: {
-  if(!request->other||request->other!=owner.identity)return 1;
+  if(!request->other||request->other!=owner.identity){native_aggro_fail="IsInteractive: interacting object is not the searcher";return 1;}
   NativeAggroInteractiveContextV1 context_interactive{};
   context_interactive.candidate=request->subject;
   context_interactive.interacting_object=request->other;
   context_interactive.player=candidate_player;
   dh2::character_interactive::Character character{};
   if(candidate_player) {
-   if(!prince_source_ai)return 1;
+   if(!prince_source_ai){native_aggro_fail="IsInteractive: Player CharAI unavailable";return 1;}
    context_interactive.candidate=prince_character.identity();
    character={prince_character.identity(),prince_source_ai->ai_identity,
        prince_character.state.flags,prince_character.deleted_81(),
@@ -24990,7 +25005,10 @@ std::int32_t native_aggro_search_service(void* raw,
   } else {
    if(!candidate_object||candidate_object->kind!=1||!candidate_object->native_ai||
       !candidate_object->spawn_owner||candidate_object->spawn_owner->actor!=candidate_object)
-    return 1;
+    {native_aggro_fail="IsInteractive: candidate lacks CharAI/SpawnOwner";return 1;}
+   // A gated (Limbus) Character has no CharAI identity until it spawns;
+   // it cannot be engaged yet, so it is not an interactive candidate.
+   if(!candidate_object->native_ai->ai_identity){response->word=0;return 0;}
    context_interactive.actor=candidate_object;
    character={candidate_object->identity,candidate_object->native_ai->ai_identity,
        candidate_object->spawn_owner->character.state.flags,
@@ -25002,22 +25020,27 @@ std::int32_t native_aggro_search_service(void* raw,
       &context_interactive,native_aggro_interactive_query};
   dh2::character_interactive::Result result{};
   if(dh2::character_interactive::evaluate(&character,request->other,&services,
-      &result)!=dh2::character_interactive::Status::complete)return 1;
+      &result)!=dh2::character_interactive::Status::complete){if(!*native_aggro_fail)native_aggro_fail="IsInteractive evaluation rejected its inputs";return 1;}
   response->word=result.value;return 0;
  }
  case interaction_radius: {
   std::string error;float radius=0.f;
   if(candidate_player) {
-   if(!player_melee_radius_v1(radius))return 1;
+   if(!player_melee_radius_v1(radius)){native_aggro_fail="Player melee radius unavailable";return 1;}
   } else if(!candidate_object||candidate_object->kind!=1||
       !candidate_object->source_inventory||
-      !candidate_object->source_inventory->melee_radius(*candidate_object,radius,error))return 1;
+      !candidate_object->source_inventory->melee_radius(*candidate_object,radius,error)){native_aggro_fail="candidate interaction radius unavailable";return 1;}
   response->number=radius;return 0;
  }
  case ai_melee_radius: {
   std::string error;float radius=0.f;
   if(request->subject!=owner.identity||!owner.source_inventory||
-     !owner.source_inventory->melee_radius(owner,radius,error))return 1;
+     !owner.source_inventory->melee_radius(owner,radius,error)){
+   static std::string reason;
+   reason="searcher AI melee radius unavailable: "+
+       (owner.source_inventory?error:std::string("no source inventory"));
+   native_aggro_fail=reason.c_str();return 1;
+  }
   response->number=radius;return 0;
  }
  }
@@ -25140,7 +25163,8 @@ void update_enemy_acquisition(ObjectActor& actor,const dh2::data::AiProps* props
  constexpr float pi=3.1415927410125732421875f;
  if(dh2::character::aggro_character_list::dh2_aggro_target_search_object_list(
       &targets,&methods,acquisition_radius,pi,&services)!=0)
-  throw std::runtime_error("Monster source TargetList acquisition provider failed");
+  throw std::runtime_error(std::string("Monster source TargetList acquisition provider failed: ")+
+      actor.name+": "+(*native_aggro_fail?native_aggro_fail:"list topology/argument rejected"));
  dh2::character_aggro_candidate_events::State event_state{
      actor.native_ai->ai_identity,actor.identity,
      actor.native_ai->state.target_40};
