@@ -7474,7 +7474,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             const auto current=questRuntime->current_quest();
                             if(current>=0&&std::size_t(current)<questTable->rows().size()) {
                                 // B093: kill objectives GetPositions (IDA 0x47ca18 property id, 0x47cb1c template id): the list holds
-                                // (required - killed) icons, pre-filled with the player position, replaced by the closest LIVE matching characters.
+                                // Capacity is (required - killed); only real closest non-dead matching characters become icons.
                                 if(const auto* killProgress=questRuntime->progress_of(current); killProgress&&combatSession&&combatSession->world()&&combatSession->actor(combatSession->player_id())) {
                                     const auto& killObjectives=questTable->rows()[std::size_t(current)].objectives;
                                     const auto* playerActor=combatSession->actor(combatSession->player_id());

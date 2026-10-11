@@ -134,6 +134,13 @@ bool RuntimeQuestMenuV1::refresh(std::uint32_t collection,
         return fail(error,"Quest menu requires its original CharacterState/progress owner");
     CharacterQuestProgressV1::BucketView bucket;
     if(!progress_->bucket(*character_,collection,difficulty,bucket,error))return false;
+    if(collection==0&&bucket.origin!=CharacterQuestProgressV1::Origin::unknown){
+        if(!tables_)return fail(error,"Quest current verification requires its original table");
+        bool changed=false;
+        if(!progress_->verify_current_quest(*character_,*tables_,difficulty,changed,error))return false;
+        if(changed&&!persist_progress_to_character(error))return false;
+        if(!progress_->bucket(*character_,collection,difficulty,bucket,error))return false;
+    }
     RuntimeQuestMenuFrameV1 staged;
     staged.art=source_art;staged.collection=collection;staged.difficulty=difficulty;
     staged.category=category;staged.progress_origin=bucket.origin;

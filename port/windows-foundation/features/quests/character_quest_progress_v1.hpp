@@ -12,6 +12,7 @@ struct CharacterQuestIdV1 {
     std::int32_t difficulty{}, row{};
 };
 enum class CharacterQuestCategoryV1 { assigned, completed };
+inline constexpr std::int32_t kQuestPriorityPrimaryV1 = 0; // recovered v2QuestPriority.Primary
 struct CharacterQuestLogPolicyV1 {
     bool display_all_quests{};
     bool display_all_debug_only_quests{};
@@ -91,6 +92,11 @@ public:
     // Make Active path must use activate().
     bool set_current_quest(const CharacterState&, std::uint32_t collection,
                            std::int32_t difficulty, std::int32_t row, std::string& error);
+    // SG_VerifyCurrentQuest 0x46b510: preserve any Active current row, else
+    // select the first Active Primary in authored regular-row order. No match
+    // preserves current. The caller persists only when changed is true.
+    bool verify_current_quest(const CharacterState&, const dh2::data::QuestTablesPersistenceV51&,
+                              std::int32_t difficulty, bool& changed, std::string& error);
 };
 
 } // namespace dh::foundation

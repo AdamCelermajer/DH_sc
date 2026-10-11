@@ -1,4 +1,5 @@
 #include "map_markers_v1.hpp"
+#include <algorithm>
 
 namespace dh::foundation::map_visit {
 
@@ -95,16 +96,22 @@ void map_provider_level_objects_v1(const MapMarkerInputsV1& inputs, MapMarkersV1
 std::vector<std::array<float, 3>> map_kill_objective_positions_v1(int remaining, const std::array<float, 3>& player,
                                                                   const std::vector<std::array<float, 3>>& live_matches) {
     if (remaining <= 0) return {};
-    std::vector<std::pair<float, std::array<float, 3>>> slots(std::size_t(remaining), {-1.0f, player}); // -1 = prefill
+    // Vector3DFList::setNew 0x47a9b4 sets capacity, but count starts at zero.
+    // The character position is only the distance reference, never a filler icon.
+    std::vector<std::pair<float, std::array<float, 3>>> slots;
+    slots.reserve(std::min(std::size_t(remaining), live_matches.size()));
     for (const auto& position : live_matches) {
         const float dx = position[0] - player[0], dy = position[1] - player[1], dz = position[2] - player[2];
         const float distance = dx * dx + dy * dy + dz * dz;
-        std::size_t farthest = 0; // addClosest: empty prefill slots are replaced first, then the farthest
-        for (std::size_t s = 1; s < slots.size(); ++s) {
-            const bool sEmpty = slots[s].first < 0.0f, fEmpty = slots[farthest].first < 0.0f;
-            if ((sEmpty && !fEmpty) || (sEmpty == fEmpty && slots[s].first > slots[farthest].first)) farthest = s;
+        if (slots.size() < std::size_t(remaining)) {
+            slots.push_back({distance, position});
+            continue;
         }
-        if (slots[farthest].first < 0.0f || distance < slots[farthest].first) slots[farthest] = {distance, position};
+        std::size_t farthest = 0;
+        for (std::size_t s = 1; s < slots.size(); ++s) {
+            if (slots[s].first > slots[farthest].first) farthest = s;
+        }
+        if (distance < slots[farthest].first) slots[farthest] = {distance, position};
     }
     std::vector<std::array<float, 3>> out;
     for (const auto& slot : slots) out.push_back(slot.second);

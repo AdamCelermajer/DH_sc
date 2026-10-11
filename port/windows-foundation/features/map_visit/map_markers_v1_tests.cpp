@@ -124,16 +124,26 @@ void provider_tests() {
 
 void kill_objective_tests() {
     const std::array<float, 3> player{0, 0, 0};
-    // 3 remaining, 2 live matches: both shown plus one slot at the player position.
+    // Capacity 3, actual count 2: no synthetic player filler (setNew/getCount).
     auto out = map_kill_objective_positions_v1(3, player, {{10, 0, 0}, {5, 0, 0}});
-    CHECK(out.size() == 3);
+    CHECK(out.size() == 2);
     int atPlayer = 0, far = 0, near = 0;
     for (const auto& p : out) { if (p[0] == 0) ++atPlayer; else if (p[0] == 10) ++far; else if (p[0] == 5) ++near; }
-    CHECK(atPlayer == 1 && far == 1 && near == 1);
+    CHECK(atPlayer == 0 && far == 1 && near == 1);
     // 2 remaining, 3 live matches: the two closest win.
     out = map_kill_objective_positions_v1(2, player, {{30, 0, 0}, {10, 0, 0}, {20, 0, 0}});
     CHECK(out.size() == 2 && ((out[0][0] == 10 && out[1][0] == 20) || (out[0][0] == 20 && out[1][0] == 10)));
     CHECK(map_kill_objective_positions_v1(0, player, {{1, 0, 0}}).empty());
+    CHECK(map_kill_objective_positions_v1(-1, player, {{1, 0, 0}}).empty());
+    CHECK(map_kill_objective_positions_v1(3, player, {}).empty());
+    // Equal distances do not replace an existing candidate; Z contributes too.
+    out = map_kill_objective_positions_v1(1, player, {{0, 0, 10}, {10, 0, 0}, {0, 0, 5}});
+    CHECK(out.size() == 1 && out[0][2] == 5);
+    out = map_kill_objective_positions_v1(1, player, {{0, 0, 10}, {10, 0, 0}});
+    CHECK(out.size() == 1 && out[0][2] == 10);
+    // A real matching actor at the player position is still a legitimate point.
+    out = map_kill_objective_positions_v1(3, player, {player});
+    CHECK(out.size() == 1 && out[0] == player);
 }
 
 void registry_tests() {
