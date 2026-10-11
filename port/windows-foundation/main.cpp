@@ -3722,8 +3722,7 @@ int main(int argc,char** argv) {
         f::SourceEquipmentOriginalBindingsV1 equipmentRenderBindings(assets,std::move(equipmentTextureServices),{});
         const f::EquipmentAttachmentSet* runtimeEquipmentAttachments=nullptr;
         std::weak_ptr<const void> equipmentAttemptLease;
-        bool menuUsedSkillPoint=false;
-        // Preview 14/15: Stats +/- staged spends of one menu visit (features/character_menu/stat_training_v1.hpp); cleared at each open.
+        // B103: one shared Stats/Skills allocation visit; cleared at each menu open.
         auto statTrainingVisit=std::make_shared<f::character_menu::StatTrainingVisitV1>();
         bool equipmentRebindRequested=false; // P14 DROPS: a pickup added a definition the equipment text policy must list
         // B061: the gameplay body shows the equipped modular parts (helm/torso/gloves/boots),
@@ -3897,14 +3896,13 @@ int main(int argc,char** argv) {
                     bool available=false;
                     if(!f::generic_skills::probe_skill_training_in_session_v1(character,*combatSession,properties,skillTables,skillCaps,position,available,e))return false;
                     if(!available){e="Source same-Session skill training probe rejected the current row";return false;}
-                    // The authored first skill spend saves before mutation;
-                    // subsequent spends in this menu visit skip that prefix.
-                    if(!menuUsedSkillPoint&&!f::save_character(options.save,character,e))return false;
+                    // B103: both original flags gate one shared pre-allocation
+                    // save. A preceding stat spend must not be saved here.
+                    if(!f::character_menu::begin_allocation_visit_v1(character,*combatSession,*statTrainingVisit,
+                        [&](const f::CharacterState& c,std::string& saveError){return f::save_character(options.save,c,saveError);},e))return false;
                     f::generic_skills::SessionSkillTrainingCommitV1 commit;
                     if(!f::generic_skills::train_skill_in_session_v1(character,*combatSession,properties,skillTables,skillCaps,position,commit,e))return false;
-                    // Preview 14: the authored prefix above saves only the pre-spend state, so persist the committed spend too (every spend, not only the first in a visit).
-                    if(!f::save_character(options.save,character,e))return false;
-                    menuUsedSkillPoint=true;
+                    ++statTrainingVisit->staged_skills; // deferred until shared Yes, restored by shared No
                     std::cout<<"Source skill training row="<<commit.saved_skill_row<<" rank="<<commit.previous_rank<<"->"<<commit.current_rank<<" points="<<commit.remaining_points<<" potionCapacity="<<unsigned(commit.potion_capacity)<<'\n';
                     return true;
                 };
@@ -5174,9 +5172,9 @@ int main(int argc,char** argv) {
         };
         bool gameplayWasPaused=false;std::uint64_t gameplayPausedFrames=0;
         bool returnToFrontend=false;
-        // Preview 15 B049: Stats staged spends. Closing the Character menu with staged points opens the original
+        // B103: either Stats or Skills staging opens the shared original
         // "Confirm character point allocation?" box instead: Yes saves and closes; No refunds every staged spend
-        // on the live Session, saves the reverted state and closes (features/character_menu/stat_training_v1).
+        // on the live Session with current gear, saves the reverted state and closes (stat_training_v1).
         const auto persistStatState=[&](const f::CharacterState& c,std::string& e){return f::save_character(options.save,c,e);};
         const auto statConfirmYes=[&]() {
             std::string e;
@@ -5747,7 +5745,7 @@ int main(int argc,char** argv) {
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
-            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
+            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
             if((options.testStatPoints>0||options.testSkillPoints>0)&&drawn==60&&combatSession) { // B103 TEST ONLY: --test-stat-points N grants N stat points through the profile projection (never in packaged args)
                 const auto* testSheet=combatSession->world()->combat_properties(combatSession->player_id());const auto* testTraits=combatSession->world()->traits(combatSession->player_id());
                 std::string testError;f::OriginalCombatProperties projected;
@@ -5757,18 +5755,18 @@ int main(int argc,char** argv) {
                 else std::cerr<<"Test stat points: "<<testError<<'\n';
             }
             if(drawn==options.skillsPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::skills,error))throw std::runtime_error("Skills page diagnostic selection: "+error);
                 std::cout<<"Character menu Skills selected frame="<<drawn<<" via same-state source provider\n";
             }
             if(drawn==options.equipmentPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::equipment,error))throw std::runtime_error("Equipment page diagnostic selection: "+error);
                 std::cout<<"Character menu Equipment selected frame="<<drawn<<" via same-state source provider\n";
             }
             // P16 MAP: --map-page-frame=N opens the character menu on the Map tab (composition provider).
             if(drawn==options.mapPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::map,error))throw std::runtime_error("Map page diagnostic selection: "+error);
                 std::cout<<"Character menu Map selected frame="<<drawn<<" level="<<options.level.generic_string()<<" zones="<<levelModuleZones.size()<<'\n';
                 if(options.mapLegend&&characterMenu.map_legend_shown()==false)characterMenu.map_control(f::character_menu::Action::map_legend);
@@ -5776,13 +5774,13 @@ int main(int argc,char** argv) {
             }
             // P14 FAERY: --faery-page-frame=N opens the menu on the Faery tab (CharacterState provider).
             if(drawn==options.faeryPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::faery,error))throw std::runtime_error("Faery page diagnostic selection: "+error);
                 std::cout<<"Character menu Faery selected frame="<<drawn<<" via CharacterState provider\n";
             }
             // P16 QUESTUI: --quest-page-frame=N opens the menu on the Quest Log tab (test aid).
             if(drawn==options.questPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::quest,error))throw std::runtime_error("Quest Log page diagnostic selection: "+error);
                 std::cout<<"Character menu Quest Log selected frame="<<drawn<<'\n';
             }
