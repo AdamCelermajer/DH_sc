@@ -583,6 +583,28 @@ void run_scripted_move_handoff(const char* root){
     for(unsigned frame=0;frame<180;++frame)check(f.session.update(1.0/60,{},actor_position(*f.session.actor(1)),0,f.error),f.error);
     check(deaths==1,"Ordinary death after MoveActor replayed Died");
 }
+void run_retained_interaction_leaf_neutral_frame(const char* root){
+    Fixture f(root);
+    check(f.bind([](const CombatSessionActorTransition&,std::string& error){error.clear();return true;}),f.error);
+    check(f.session.bind_player_locomotion("walk",{"Walk",0,{0}},1.0,true,f.error),f.error);
+    check(f.session.select_player_locomotion("walk",f.error),f.error);
+    check(f.session.actor(1)->action==CharacterAction::moving,"Fixture did not admit moving locomotion");
+    const auto* idle=f.knight_plan.phase("Idle",0,{0});check(idle,"Retained clip path unavailable");
+    check(f.session.play_actor_clip(1,"b117-interact",idle->resolvedPath,false,f.error),f.error);
+    check(f.session.scripted_actor_pose(1),"Retained interaction clip did not own the actor leaf");
+    InputActions neutral;
+    check(f.session.update(1.0/60,neutral,actor_position(*f.session.actor(1)),0,f.error),f.error);
+    check(f.session.actor(1)->action==CharacterAction::moving&&f.session.scripted_actor_pose(1),
+          "Neutral locomotion bookkeeping replaced the retained interaction owner's action");
+    check(f.session.script_put_idle(1,f.error,false),f.error);
+    check(!f.session.scripted_actor_pose(1)&&f.session.actor(1)->action==CharacterAction::idle,
+          "Interaction completion did not return ownership to Idle");
+    check(f.session.select_player_locomotion("walk",f.error),f.error);
+    check(f.session.actor(1)->action==CharacterAction::moving,"Physical locomotion did not reacquire action ownership");
+    check(!f.session.update(1.0/60,neutral,actor_position(*f.session.actor(1)),0,f.error)&&
+          f.error=="Physical locomotion must be admitted through the current authored locomotion selection",
+          "Managed-leaf exception weakened physical locomotion admission");
+}
 int main(int argc,char** argv){try{
     check(argc==2,"Original shared asset root required");
     run_attack_and_restore(argv[1]);
@@ -594,6 +616,7 @@ int main(int argc,char** argv){try{
     run_incoming_transitions(argv[1]);
     run_scripted_kill_retirement(argv[1]);
     run_scripted_move_handoff(argv[1]);
+    run_retained_interaction_leaf_neutral_frame(argv[1]);
     std::cout<<"PASS accepted source transition stages, predecessor-selected Attack/AttackStatic roots, held full-bank sourceCombo target continuity, authored positive AttackDelay departure ordering, generic Skill/Cast normal Post ordering and failure prefix, rejected actions, pose-owned retry, zero-time Move freeze, HP-only and gated Injury, death ordering, restore rebind and failure-prefix no replay\n";
     return 0;
 }catch(const std::exception& exception){std::cerr<<"FAIL: "<<exception.what()<<'\n';return 1;}}

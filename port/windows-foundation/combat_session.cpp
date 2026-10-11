@@ -1516,8 +1516,12 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
         // already admitted physical locomotion state/pose; neutral is not Idle
         // admission while the gameplay clock is frozen.
         if(!s.actorTransitionHandler||dt>0){
-            if(s.actorTransitionHandler&&player->action!=action){error="Physical locomotion must be admitted through the current authored locomotion selection";return false;}
-            player->action=action;
+            const auto& playerEntry=s.entries.at(s.player);
+            const bool retainedLeafOwnsAction=playerEntry.stateManaged&&!playerEntry.stateSequence;
+            if(!retainedLeafOwnsAction){
+                if(s.actorTransitionHandler&&player->action!=action){error="Physical locomotion must be admitted through the current authored locomotion selection";return false;}
+                player->action=action;
+            }
         }
     }
     if(input.targetSelect){ActorId selected{};if(!s.cycle_player_target(selected,error))return false;}
