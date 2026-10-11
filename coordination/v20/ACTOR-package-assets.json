@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "evidence": "coordination/v20/ACTOR-ASSETS-audit.md",
+  "purpose": "Source-derived finite Darkwood actor dependencies; runtime verification remains pending",
+  "files": [
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/dark_queen/dark_queen1stform.bdae",
+      "destination": "assets/data/3d/characters/dark_queen/dark_queen1stform.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/lizardman/old_man.bdae",
+      "destination": "assets/data/3d/characters/lizardman/old_man.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/npcs/jeremo_guard.bdae",
+      "destination": "assets/data/3d/characters/npcs/jeremo_guard.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/npcs/castle_maid.bdae",
+      "destination": "assets/data/3d/characters/npcs/castle_maid.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/npcs/cultist.bdae",
+      "destination": "assets/data/3d/characters/npcs/cultist.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/npcs/edward.bdae",
+      "destination": "assets/data/3d/characters/npcs/edward.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/npcs/f_merchant.bdae",
+      "destination": "assets/data/3d/characters/npcs/f_merchant.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/npcs/old_peasant.bdae",
+      "destination": "assets/data/3d/characters/npcs/old_peasant.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/npcs/thamos_merchant.bdae",
+      "destination": "assets/data/3d/characters/npcs/thamos_merchant.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/npcs/young_peasant.bdae",
+      "destination": "assets/data/3d/characters/npcs/young_peasant.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/child.bdae",
+      "destination": "assets/data/3d/characters/statue/child.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/statue.bdae",
+      "destination": "assets/data/3d/characters/statue/statue.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_attack_01.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_attack_01.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_attack_02.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_attack_02.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_despawn.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_despawn.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_dying.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_dying.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_idle_01.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_idle_01.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_post_attack_01.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_post_attack_01.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_post_attack_02.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_post_attack_02.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_pre_attack_01.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_pre_attack_01.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_pre_attack_02.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_pre_attack_02.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_template_anim.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_template_anim.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/child_walk_01.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/child_walk_01.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/statue_crying.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/statue_crying.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/statue_despawn.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/statue_despawn.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/statue_dying.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/statue_dying.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/statue_idle.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/statue_idle.bdae"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/statue/animations/statue_template_anim.bdae",
+      "destination": "assets/data/3d/characters/statue/animations/statue_template_anim.bdae"
+    }
+  ]
+}
