@@ -1,4 +1,5 @@
 #include "death_flow_v1.hpp"
+#include "death_screen_v1.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -26,8 +27,6 @@ bool record(Trace& trace, const char* name, std::string& error) {
     bool name(void* context, std::string& error) { \
         return record(*static_cast<Trace*>(context), #name, error); \
     }
-CALLBACK(hide_continue)
-CALLBACK(play_timeline)
 CALLBACK(pop_fade_to_black)
 CALLBACK(push_fade_from_black)
 CALLBACK(load_level_checkpoint)
@@ -41,6 +40,16 @@ CALLBACK(restart_previous_music)
 CALLBACK(notify_online_handoff)
 #undef CALLBACK
 
+bool goto_parent_label(void* context, const char* label, std::string& error) {
+    auto& trace = *static_cast<Trace*>(context);
+    trace.calls.emplace_back(std::string("goto:") + (label ? label : "<null>"));
+    if (trace.fail_at == "goto") {
+        error = "provider failed at goto";
+        return false;
+    }
+    return true;
+}
+
 void require(bool condition, const char* message) {
     if (!condition) {
         std::cerr << "FAIL: " << message << '\n';
@@ -53,7 +62,7 @@ DeathAdmissionV1 offline_admission() {
 }
 
 ContinueServicesV1 continue_services(Trace& t) {
-    return {hide_continue, play_timeline, &t};
+    return {goto_parent_label, &t};
 }
 
 ReviveServicesV1 revive_services(Trace& t) {
@@ -78,6 +87,21 @@ void test_admission_gates() {
     }
 }
 
+void test_source_death_screen_manifest() {
+    const auto& timeline = original_death_screen_timeline_v1();
+    require(timeline.swf_sprite == 742 && timeline.frame_rate == 30 &&
+            timeline.stage_width_twips == 9600 && timeline.stage_height_twips == 6400,
+            "death screen manifest retains source sprite/stage timing");
+    require(std::string(timeline.continue_label) == "Hide" &&
+            timeline.continue_goto_frame == 76 && timeline.revive_callback_frame == 88,
+            "Continue is the exact Hide label before the authored revive frame");
+    const auto& art = original_death_screen_art_v1();
+    require(art.size() == 5 && art[0].swf_character == 33 &&
+            art[0].local_bounds_twips[1] == 9887 && art[3].swf_character == 739 &&
+            art[4].swf_character == 741,
+            "manifest maps source hitbox, panel art, and quote objects");
+}
+
 void test_continue_then_authored_revive() {
     DeathFlowTicketV1 flow;
     std::string error;
@@ -90,15 +114,15 @@ void test_continue_then_authored_revive() {
             "frame-88 revive cannot run before Continue");
     require(trace.calls.empty(), "pre-Continue callback has no side effects");
     require(activate_continue_v1(flow, ui, error), "Continue action succeeds");
-    const std::vector<std::string> prefix{"hide_continue", "play_timeline"};
-    require(trace.calls == prefix, "Continue performs Hide then parent timeline only");
+    const std::vector<std::string> prefix{"goto:Hide"};
+    require(trace.calls == prefix, "Continue performs one parent.gotoAndPlay(\"Hide\") action");
     require(!activate_continue_v1(flow, ui, error), "duplicate Continue is rejected");
     require(trace.calls == prefix, "duplicate Continue has no repeated effects");
     require(run_authored_revive_v1(flow, true, revive_services(trace),
                                    restart_previous_music, &trace, error),
             "authored frame-88 callback succeeds after Continue");
     const std::vector<std::string> expected{
-        "hide_continue", "play_timeline", "pop_fade_to_black",
+        "goto:Hide", "pop_fade_to_black",
         "push_fade_from_black", "load_level_checkpoint", "clear_character_buffs",
         "restore_revive_position", "revive_to_source_vitals", "set_character_idle",
         "ensure_minimum_potions", "restart_level_music", "restart_previous_music"};
@@ -116,16 +140,16 @@ void test_continue_failure_is_not_replayed() {
     require(begin_death_flow_v1(offline_admission(), flow, error),
             "failure test admission succeeds");
     Trace trace;
-    trace.fail_at = "hide_continue";
+    trace.fail_at = "goto";
     auto ui = continue_services(trace);
-    require(!activate_continue_v1(flow, ui, error), "failed Hide stops timeline");
-    require(trace.calls == std::vector<std::string>{"hide_continue"},
-            "failed Hide has no timeline call");
+    require(!activate_continue_v1(flow, ui, error), "failed parent label call stops flow");
+    require(trace.calls == std::vector<std::string>{"goto:Hide"},
+            "failed timeline call is a single source action");
     trace.fail_at.clear();
     require(!activate_continue_v1(flow, ui, error),
-            "failed Continue prefix cannot be replayed");
-    require(trace.calls == std::vector<std::string>{"hide_continue"},
-            "failed Continue is duplicate-safe");
+            "failed Continue action cannot be replayed");
+    require(trace.calls == std::vector<std::string>{"goto:Hide"},
+            "failed Continue remains duplicate-safe");
 }
 
 void test_revive_failure_and_invalid_level() {
@@ -176,11 +200,12 @@ void test_online_route_excludes_offline_continue() {
 }
 
 int main() {
+    test_source_death_screen_manifest();
     test_admission_gates();
     test_continue_then_authored_revive();
     test_continue_failure_is_not_replayed();
     test_revive_failure_and_invalid_level();
     test_online_route_excludes_offline_continue();
-    std::cout << "PASS: source death admission, Continue→timeline→revive order, online exclusion, invalid Level, failures, and duplicate suppression\n";
+    std::cout << "PASS: exact parent.gotoAndPlay(\"Hide\")→frame-88 revive order, source UI mapping, admission, online exclusion, failures, and duplicate suppression\n";
     return 0;
 }
