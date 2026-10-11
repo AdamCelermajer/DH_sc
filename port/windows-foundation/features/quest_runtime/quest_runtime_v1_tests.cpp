@@ -212,6 +212,11 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     const auto closed_bytes = h.character.source_quest_progress_cqpg;
     check(!menu.route_hit(RuntimeQuestMenuHitV1::activate_release, {0, 0, std::int32_t(moths)}, error), "completed activation refused");
     check(h.character.source_quest_progress_cqpg == closed_bytes, "refused activation preserves counts and states");
+    h.character.source_quest_progress_cqpg.push_back(0); // malformed existing counter section
+    const auto malformed_bytes = h.character.source_quest_progress_cqpg;
+    check(!menu.persist_progress_to_character(error), "malformed saved counters refuse a page write");
+    check(h.character.source_quest_progress_cqpg == malformed_bytes, "failed page write does not replace saved bytes");
+    h.character.source_quest_progress_cqpg = closed_bytes;
 
     // Persistence: reload keeps the closed state, the counters and the rewards (no double).
     std::string load_error;
