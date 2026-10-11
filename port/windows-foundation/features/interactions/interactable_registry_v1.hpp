@@ -23,6 +23,9 @@ struct InteractableProviderV1 {
     std::function<int(ActorId viewer)> interaction_type;
     // Optional. Source candidate+956 == viewer (the type-1 accept clause).
     std::function<bool(ActorId viewer)> type1_targets_viewer;
+    // Optional current owner projection. Resampled synchronously; false means
+    // the object has left its live owner. No authored placement fallback.
+    std::function<bool(ActorId viewer, ObjectOfInterestCandidateV1&)> current_candidate;
 };
 
 struct InteractableEntryV1 {

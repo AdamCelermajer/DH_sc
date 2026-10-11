@@ -37,6 +37,7 @@ std::vector<ObjectOfInterestCandidateV1> InteractableRegistryV1::candidates(Acto
         c.eligible = e.eligible;
         c.interaction_type = e.provider.interaction_type(viewer);
         c.type1_targets_owner = e.provider.type1_targets_viewer ? e.provider.type1_targets_viewer(viewer) : false;
+        if (e.provider.current_candidate && !e.provider.current_candidate(viewer,c)) continue;
         out.push_back(c);
     }
     // Deterministic input order for the owner's stable sort (ties by id).
