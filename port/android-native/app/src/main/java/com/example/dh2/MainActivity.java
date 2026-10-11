@@ -72,6 +72,7 @@ public final class MainActivity extends Activity {
     private BroadcastReceiver debugAttackReceiver;
     @Override public void onCreate(Bundle state) {
         setTheme(android.R.style.Theme_Material_NoActionBar);super.onCreate(state);
+        NativeBridge.bindApplicationContext(getApplicationContext());
         frontAudio=new FrontAudio(this);
         enemyAi=state!=null?state.getBoolean("enemyAi",true):getIntent().getBooleanExtra("enemy_ai",true);
         inspectionTimeMs=state!=null?state.getInt("inspectionTimeMs",-1):getIntent().getIntExtra("time_ms",-1);

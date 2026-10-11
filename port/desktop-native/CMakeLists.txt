@@ -70,6 +70,7 @@ set(DH2_ANDROID_CPP "${DH2_SOURCE_DIR}/port/android-native/app/src/main/cpp")
 include("${DH2_ANDROID_CPP}/native_runtime_sources.cmake")
 add_executable(dh2_desktop_runtime
   desktop_main.cpp asset_manager.cpp gameplay_audio_sdl.cpp
+  "${DH2_ANDROID_CPP}/platform_wifi_alive_windows.cpp"
   ${DH2_NATIVE_RUNTIME_SOURCES})
 if(MINGW AND TARGET dh2_gameswf_core)
   # GameSWF's legacy Windows assert macro uses MSVC-only inline asm. The
@@ -100,7 +101,7 @@ target_link_libraries(dh2_desktop_runtime PRIVATE
   dh2_engine_camera dh2_level_world dh2_script_runtime
   dh2_inventory_text_v1 dh2_engine_ui)
 if(WIN32)
-  target_link_libraries(dh2_desktop_runtime PRIVATE user32 gdi32 shell32)
+  target_link_libraries(dh2_desktop_runtime PRIVATE user32 gdi32 shell32 iphlpapi ws2_32)
   add_custom_command(TARGET dh2_desktop_runtime POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${DH2_GLESV2_DLL}" "$<TARGET_FILE_DIR:dh2_desktop_runtime>"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${DH2_EGL_DLL}" "$<TARGET_FILE_DIR:dh2_desktop_runtime>")

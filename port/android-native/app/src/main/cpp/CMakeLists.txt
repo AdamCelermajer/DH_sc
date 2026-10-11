@@ -12,7 +12,7 @@ add_subdirectory("${DH2_SOURCE_DIR}/port/level-world" "${CMAKE_CURRENT_BINARY_DI
 include("${DH2_SOURCE_DIR}/port/engine-ui/inventory_text_v1.cmake")
 include("${DH2_SOURCE_DIR}/port/engine-ui/menu_frontend_v69.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/native_runtime_sources.cmake")
-add_library(dh2_native SHARED native_app.cpp ${DH2_NATIVE_RUNTIME_SOURCES})
+add_library(dh2_native SHARED native_app.cpp platform_wifi_alive_android.cpp ${DH2_NATIVE_RUNTIME_SOURCES})
 target_compile_features(dh2_native PRIVATE cxx_std_17)
 target_include_directories(dh2_native SYSTEM PRIVATE "${DH2_SOURCE_DIR}/port/engine-ui/vendor/gameswf1714")
 target_compile_options(dh2_native PRIVATE -Wall -Wextra -Werror)

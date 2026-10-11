@@ -1,6 +1,31 @@
 package com.example.dh2;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 final class NativeBridge {
     static { System.loadLibrary("dh2_native"); }
+    private static volatile Context applicationContext;
+
+    static void bindApplicationContext(Context context) {
+        applicationContext = context == null ? null : context.getApplicationContext();
+    }
+
+    /** Mirrors the original DungeonHunter2.isWifiAlive active-network type check. */
+    @SuppressWarnings("deprecation")
+    static boolean platformWifiAlive() {
+        Context context = applicationContext;
+        if (context == null) return false;
+        try {
+            ConnectivityManager manager =
+                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (manager == null) return false;
+            NetworkInfo active = manager.getActiveNetworkInfo();
+            return active != null && active.getType() == ConnectivityManager.TYPE_WIFI;
+        } catch (RuntimeException unavailable) {
+            return false;
+        }
+    }
+
     static native String buildInfo();
     static native void modDirectory(String directory);
     static native void runtimeDirectory(String directory);
