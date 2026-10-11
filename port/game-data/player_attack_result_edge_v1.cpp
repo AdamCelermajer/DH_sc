@@ -35,9 +35,12 @@ Status execute(const Request* request, Result* output) {
         return Status::invalid_argument;
 
     Result candidate{};
-    if (dh2_combat_apply_player_to_monster(&candidate.application,
-                                            request->application))
+    if (const auto applied = dh2_combat_apply_player_to_monster(
+            &candidate.application, request->application)) {
+        candidate.provider_status = static_cast<std::int32_t>(applied);
+        *output = candidate;
         return Status::application_failed;
+    }
     candidate.application_completed = 1;
     if(candidate.application.health.kill_requested){
         candidate.last_step=Step::lethal_hit;++candidate.steps_attempted;

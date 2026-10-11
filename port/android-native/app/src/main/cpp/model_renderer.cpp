@@ -324,6 +324,7 @@
 #include <sys/time.h>
 
 namespace model_renderer {
+dh2::monster_external_script::ObjectServices native_monster_object_services();
 namespace game_object_init_final_v1 = dh2::game_object_init_final_v1;
 namespace {
 extern dh2::data::Dictionary actor_model_table;
@@ -5069,6 +5070,10 @@ bool NativeCryptRoomRuntime::initialize(
    projection.zoning_enabled_2ee=actor->zoning_enabled_2ee;
    projection.visible_80=actor->visible_80;
    projection.visual_object_2d8=actor->visual_object_2d8;
+   // ObjectBase constructor (0x33f15c) starts +0x8a enabled; ordered
+   // TestEnableCondition publishes the receipt after InitPost.
+   projection.serialized_flag_8a=1;
+   projection.serialized_flag_8a_ready=0;
    dh2::object_manager_runtime_owner_v1::GameObject::LiveFields actor_fields{};
    actor_fields.world_x=&actor->position[0];
    actor_fields.world_y=&actor->position[1];
@@ -8093,6 +8098,41 @@ struct NativeLootAdapterV1 {
    case Operation::add_power:
     if(!request.item||!self.presentation||request.index>std::uint32_t(INT32_MAX)){error="Item AddPower owner, identity, or mode is invalid";return false;}
     return self.presentation->add_power(*request.item,request.argument,std::int32_t(request.index),self.text_services(),error);
+   case Operation::update_gear_properties:
+   case Operation::skin:
+   case Operation::validate_hp_mp: {
+    // Non-Player Character auto-equip tail (IDA: CharProperties::
+    // UpdateGearsProperties 0x3e08a8, INV_UpdateSkin 0x3a999c, ValidateHPMP
+    // 0x3bd140; none has a Player-only branch). The Player's own services
+    // handle these for its inventory.
+    if(prince_combat.inventory&&inventory.character()==prince_combat.inventory->character()){
+     error="Player auto-equip tail must use the Player equipment services";return false;
+    }
+    auto* props=inventory.properties();
+    if(!props){error="Monster auto-equip tail has no canonical property state";return false;}
+    if(request.operation==Operation::update_gear_properties){
+     // Gear sheet production from equipped items is not reconstructed for
+     // Monsters yet; re-resolve the existing sheets (RecalcProperties(1)).
+     return dh2::data::recalc_properties(actor_property_rules,*props,error);
+    }
+    if(request.operation==Operation::skin){
+     // Modular/weapon skin swaps are not applied to Monster visuals yet; the
+     // authored default visual stays bound.
+     error.clear();return true;
+    }
+    auto view=dh2::data::property_view(actor_property_rules,*props);
+    for(const auto pair:{std::pair<int,int>{36,38},std::pair<int,int>{41,43}}){
+     std::int32_t current=0,maximum=0;
+     if(dh2_property_resolve(&view,pair.first,&current)||
+        dh2_property_resolve(&view,pair.second,&maximum)){
+      error="Monster ValidateHPMP could not resolve its vitals";return false;
+     }
+     if(current>maximum&&dh2_property_set(&view,pair.first,maximum)){
+      error="Monster ValidateHPMP could not clamp its vitals";return false;
+     }
+    }
+    error.clear();return true;
+   }
    default:
     error="Unsupported required native powered-loot inventory operation";return false;
   }
@@ -13619,7 +13659,7 @@ struct NativeMonsterInitialization {
    response->identity=capable?std::uintptr_t(std::uint32_t(parameters[1])):0;return;
   }
   case attack_range_list_create:{
-   if(request->subject!=actor.identity||request->argument0!=1||request->argument1!=0||
+   if((request->subject!=actor.identity&&request->subject!=state->owner)||request->argument0!=1||request->argument1!=0||
       !init.level_runtime||!init.level_context_current()){
     fail("Monster ranged TargetList requires its current Level owner and filters (1,0,1)");return;}
    auto& manager=init.level_runtime->manager;
@@ -13683,7 +13723,7 @@ struct NativeMonsterInitialization {
    }
    bridge->range_list_view={};bridge->range_identities.clear();bridge->range_heap.clear();return;
   case attack_frontal_angle:{
-   if(request->subject!=actor.identity){fail("Monster ranged frontal-angle owner changed");return;}
+   if((request->subject!=actor.identity&&request->subject!=state->owner)){fail("Monster ranged frontal-angle owner changed");return;}
    dh2_pycst_result value{};
    if(dh2_pycst_get(&actor_design,"CharacterDesign",15,"Attack_FrontalAngle",19,&value)||!value.found){
     fail("Monster ranged Attack_FrontalAngle source constant is unavailable");return;
@@ -13691,7 +13731,7 @@ struct NativeMonsterInitialization {
    response->word=std::uint32_t(value.value);return;
   }
   case attack_look_at_target:{
-   if(request->subject!=actor.identity||!request->payload||!init.owner->runtime_ready||
+   if((request->subject!=actor.identity&&request->subject!=state->owner)||!request->payload||!init.owner->runtime_ready||
       init.owner->character.owner()!=actor.identity){fail("Monster GameObject::LookAt owner/target is invalid");return;}
    float target[3]{};
    if(!native_character_position_for_target(request->payload,target)){
@@ -13708,7 +13748,7 @@ struct NativeMonsterInitialization {
    return;
   }
   case attack_range_melee_fallback:{
-   if(request->subject!=actor.identity){fail("Monster ranged fallback owner changed");return;}
+   if((request->subject!=actor.identity&&request->subject!=state->owner)){fail("Monster ranged fallback owner changed");return;}
    const AttackServices16 services{bridge,attack_service};
    if(dh2_character_ai_melee_attack(state,request->payload,request->argument0,&services)!=0||bridge->failed)
     fail(bridge->error.empty()?"Monster AI_DoMeleeAttack fallback failed":bridge->error.c_str());
@@ -13953,8 +13993,10 @@ struct NativeMonsterInitialization {
     ObjectActor* target=nullptr;
     for(auto& group:object_groups)for(auto& actor:group.instances)
      if(actor.identity==request->target_identity)target=&actor;
-    if(!target||target->kind!=1)return 1;
-    dead=std::uint32_t(target->combat_state.dead!=0);
+    if(!target)target=native_char_ai_actor(request->target_identity);
+    if(target&&target->kind==1)dead=std::uint32_t(target->combat_state.dead!=0);
+    else if(native_faery_owner(request->target_identity))dead=0;
+    else return 1;
    }
    response->word=dead;response->reserved=0;return 0;
   }
@@ -13982,6 +14024,14 @@ struct NativeMonsterInitialization {
      point=&value.owner_point;
     }else if(identity==prince_character.identity()){
      position=prince_runtime.subobjects.position;
+     point=&value.target_point;
+    }else if(auto* other=native_char_ai_actor(identity)){
+     // Monsters may spot other Characters (NPCs, rival factions).
+     position=other->spawn_owner&&other->spawn_owner->runtime_ready
+       ?other->spawn_owner->runtime.subobjects.position:other->position.data();
+     point=&value.target_point;
+    }else if(auto* faery=native_faery_owner(identity)){
+     position=faery->visual_position.data();
      point=&value.target_point;
     }else return 1;
     for(unsigned axis=0;axis<3;++axis)
@@ -14011,10 +14061,17 @@ struct NativeMonsterInitialization {
  static std::int32_t set_target(void* raw,std::uintptr_t id,std::uintptr_t target) {
   if(!raw)return 1;
   auto& s=self(raw);
-  if(!s.subject(id)||!s.owner||s.owner->character.owner()!=id)return 1;
+  if(!s.subject(id)||!s.owner||s.owner->character.owner()!=id){
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Monster SetTarget owner guard | subject %d owner %d",
+       int(s.subject(id)),int(s.owner!=nullptr));
+   return 1;
+  }
   auto& source=s.ai->state;
   auto& owner=s.owner->target_owner;
-  if(owner.identity!=id)return 1;
+  if(owner.identity!=id){
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Monster SetTarget target-owner identity differs");
+   return 1;
+  }
   dh2::character::set_target::State state{
    s.ai->ai_identity,&owner,source.requested_target_3c,source.target_40,
    source.last_target_44,source.alive_48,source.sight_49,source.sticky_4c,0};
@@ -14035,7 +14092,11 @@ struct NativeMonsterInitialization {
   source.alive_48=state.alive_snapshot;
   source.sight_49=state.sight_snapshot;
   source.sticky_4c=state.sticky;
-  if(status!=dh2::character::set_target::complete)return 1;
+  if(status!=dh2::character::set_target::complete){
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Monster AI_SetTarget status %d | target %llx",
+       int(status),static_cast<unsigned long long>(target));
+   return 1;
+  }
   if(target==prince_character.identity()){
    s.actor().combat_target=-2;
    s.actor().target_seeking=true;
@@ -14186,7 +14247,9 @@ struct NativeMonsterInitialization {
   switch(request->operation) {
    case dh2::ais_external_initialization::Operation::lua_construct:
     if(request->argument!=1)return 1;
-    return s.vm.create(s.script_services(),error)==dh2::monster_external_script::Status::complete?0:1;
+    if(s.vm.create(s.script_services(),error)!=dh2::monster_external_script::Status::complete)return 1;
+    return s.vm.bind_object_services(native_monster_object_services(),error)==
+        dh2::monster_external_script::Status::complete?0:1;
    case dh2::ais_external_initialization::Operation::character_create_bindings:
     if(request->subject!=s.ai->character_identity)return 1;
     return s.vm.bind_character_functions(error)==dh2::monster_external_script::Status::complete?0:1;
@@ -24960,6 +25023,58 @@ struct NativeAggroInteractiveContextV1 {
  ObjectActor* actor=nullptr;
  bool player=false;
 };
+// GameObject methods for monster AIS object tables (GetName, IsDead, ...),
+// answered from the same canonical Player/Character owners the AI uses.
+std::int32_t native_monster_object_name(void*,std::uintptr_t identity,char* out,
+                                        std::uint32_t capacity){
+ if(!out||!capacity)return 1;
+ std::string name;
+ if(identity==prince_character.identity())name="PlayerCharacter_0";
+ else if(auto* actor=native_char_ai_actor(identity))name=actor->name;
+ else if(auto* faery=native_faery_owner(identity))name=faery->source.name;
+ else return 1;
+ const auto n=std::min<std::size_t>(name.size(),capacity-1);
+ std::memcpy(out,name.data(),n);out[n]='\0';return 0;
+}
+std::int32_t native_monster_object_query(void*,std::uintptr_t identity,
+    dh2::monster_external_script::ObjectQuery query,std::int32_t* value){
+ using Q=dh2::monster_external_script::ObjectQuery;
+ if(!value)return 1;
+ const bool player=identity==prince_character.identity();
+ auto* actor=player?nullptr:native_char_ai_actor(identity);
+ if(!player&&!actor)return 1;
+ const auto& props=player?prince_combat.properties.resolved:actor->properties.resolved;
+ const auto hp=props.size()>38?props[36]/256:0,max=props.size()>38?props[38]/256:0;
+ switch(query){
+ case Q::is_player:*value=player;return 0;
+ case Q::is_dead:*value=player?int(prince_combat.life.dead!=0):int(actor->combat_state.dead!=0);return 0;
+ case Q::is_character:*value=player||actor->kind==1;return 0;
+ case Q::state:
+  *value=player?prince_state.current:
+      (actor->spawn_owner?actor->spawn_owner->character.state.current:-1);return 0;
+ case Q::hp:case Q::prop_hp_current:*value=hp;return 0;
+ case Q::prop_hp_max:*value=max;return 0;
+ case Q::prop_hp_percent:*value=max>0?hp*100/max:0;return 0;
+ case Q::has_master:*value=0;return 0;
+ }
+ return 1;
+}
+std::int32_t native_monster_object_command(void*,std::uintptr_t,std::uintptr_t identity,
+    dh2::monster_external_script::ObjectCommand command){
+ using C=dh2::monster_external_script::ObjectCommand;
+ // GameObject::LOCK/UNLOCK guard a borrowed object against deletion while a
+ // script holds it; ObjectManager rows here outlive the callback.
+ if(command==C::lock||command==C::unlock)
+  return identity==prince_character.identity()||native_char_ai_actor(identity)?0:1;
+ return 1; // Kill from a script is not bound yet.
+}
+dh2::monster_external_script::ObjectServices native_monster_object_services(){
+ dh2::monster_external_script::ObjectServices services{};
+ services.object_name=native_monster_object_name;
+ services.object_query=native_monster_object_query;
+ services.object_command=native_monster_object_command;
+ return services;
+}
 // Last provider-side reason for a failed aggro TargetList search.
 const char* native_aggro_fail="";
 std::int32_t native_aggro_interactive_query(void* raw,
@@ -25066,9 +25181,18 @@ std::int32_t native_aggro_search_service(void* raw,
   std::string error;float radius=0.f;
   if(candidate_player) {
    if(!player_melee_radius_v1(radius)){native_aggro_fail="Player melee radius unavailable";return 1;}
-  } else if(!candidate_object||candidate_object->kind!=1||
-      !candidate_object->source_inventory||
-      !candidate_object->source_inventory->melee_radius(*candidate_object,radius,error)){native_aggro_fail="candidate interaction radius unavailable";return 1;}
+  } else if(!candidate_object||candidate_object->kind!=1){
+   native_aggro_fail="candidate interaction radius unavailable";return 1;
+  } else if(!candidate_object->source_inventory) {
+   // Unequipped Character: AI_GetMeleeRadius = weapon range 0 + AITable +32.
+   if(dh2::character::player_attack_melee_radius_v1::query(nullptr,&actor_ai_tables,
+        candidate_object->properties.resolved[1],&radius)!=
+        dh2::character::player_attack_melee_radius_v1::Status::complete){
+    native_aggro_fail="candidate interaction radius unavailable";return 1;
+   }
+  } else if(!candidate_object->source_inventory->melee_radius(*candidate_object,radius,error)){
+   native_aggro_fail="candidate interaction radius unavailable";return 1;
+  }
   response->number=radius;return 0;
  }
  case ai_melee_radius: {
@@ -34718,9 +34842,12 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
    // resolved property sheet; a live sneaking Character still needs its
    // canonical BuffOwner/SkillList/AI_CancelSkill service.
    if(context->defender->properties.resolved[198]<=0)return 0;
-   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
-       "Player melee result stopped | Character::CancelSneaking active for NPC but no canonical NPC buff/skill owner is bound");
-   return -1;
+   // The NPC sneak buff/skill owner is not reconstructed yet; continue the
+   // already-applied hit instead of aborting the frame.
+   {static bool warned=false;if(!warned){warned=true;
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+        "Character::CancelSneaking for an NPC has no bound buff/skill owner; sneak state kept");}}
+   return 0;
   case dh2::data::player_attack_result_edge_v1::Step::combat_text:{
    std::string error;
    const auto status=native_sct_apply_combat_v1(context->kill.text,*context->defender,

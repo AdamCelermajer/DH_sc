@@ -120,6 +120,49 @@ struct Services {
         std::uint32_t timer_id) = nullptr;
 };
 
+// Optional GameObject providers for the identity-table methods (GetName, IsDead,
+// LOCK, Kill, ...). Separate from Services so its positional aggregate
+// initializers stay valid. Identities are the opaque native GameObject values
+// carried in `_this`. Callbacks run synchronously, must not re-enter the VM, and
+// read or change live facts without rollback. A missing callback raises a Lua
+// error for that method only.
+enum class ObjectQuery : std::uint32_t {
+    is_player = 0,
+    is_dead = 1,
+    is_character = 2,
+    state = 3,
+    hp = 4,
+    prop_hp_current = 5,
+    prop_hp_max = 6,
+    prop_hp_percent = 7,
+    has_master = 8,
+};
+
+// `owner` is the calling monster (Services::owner); `identity` is the target.
+enum class ObjectCommand : std::uint32_t {
+    lock = 0,
+    unlock = 1,
+    kill = 2,
+};
+
+struct ObjectServices {
+    void* context = nullptr;
+    // Writes a NUL-terminated name, at most capacity-1 bytes before the NUL.
+    std::int32_t (*object_name)(void*, std::uintptr_t identity, char* out,
+                                std::uint32_t capacity) = nullptr;
+    // Boolean queries write 0 or 1. Numeric queries write the integer value.
+    std::int32_t (*object_query)(void*, std::uintptr_t identity, ObjectQuery query,
+                                 std::int32_t* value) = nullptr;
+    // Writes the master identity, or 0 when the object has no master.
+    std::int32_t (*object_master)(void*, std::uintptr_t identity,
+                                  std::uintptr_t* master) = nullptr;
+    // Sets the target of `identity` to another GameObject identity.
+    std::int32_t (*object_set_target)(void*, std::uintptr_t identity,
+                                      std::uintptr_t target) = nullptr;
+    std::int32_t (*object_command)(void*, std::uintptr_t owner, std::uintptr_t identity,
+                                   ObjectCommand command) = nullptr;
+};
+
 enum class Event : std::uint32_t {
     enemy_spotted = 0,
     target_out_of_range = 1,
@@ -204,7 +247,8 @@ struct Statistics {
 // Source bytes are borrowed only for the initialize/stage-load call that reads
 // them. Actor identities use Lua
 // tables with a light-userdata _this field, never float pointer conversions.
-// These neutral tables support only identity transport, not entity methods.
+// These neutral tables expose identity transport plus the methods backed by
+// ObjectServices; other entity methods remain unsupported.
 // One owning thread; initialize/dispatch/reset reject synchronous reentry.
 // The caller must not destroy this session or its borrowed native owners from
 // a service callback. Output arguments (including error storage) remain alive
@@ -249,6 +293,10 @@ public:
     // as one convenience call for existing users.
     Status bind_ais_functions(std::string& error);
     Status bind_character_functions(std::string& error);
+    // Stores the GameObject providers read by the object-method globals bound
+    // in bind_character_functions. Callbacks are read at each call, so this may
+    // run after create. Busy during a synchronous callback.
+    Status bind_object_services(const ObjectServices&, std::string& error);
     Status load_common(Source commons, std::string& error);
     Status load_external(Source external, std::string& error);
     // AISExternal obtains its script path from the selected AITable row.
