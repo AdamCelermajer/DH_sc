@@ -223,6 +223,9 @@ Status Owner::remove_object(SourceHandle source_handle, bool* removed) noexcept 
             remove_no_room_object(found->second.identity, &no_room_removed);
         (void)no_room_removed;
         if (no_room_status != Status::ok) return no_room_status;
+        // A removed row must not stay on the active RoomObjectList.
+        bool room_removed = false;
+        (void)remove_room_object(found->second.identity, &room_removed);
     }
     if (!found->second.name.empty()) {
         const auto named = names_.find(found->second.name);

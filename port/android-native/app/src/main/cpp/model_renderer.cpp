@@ -6002,6 +6002,9 @@ bool NativeCryptRoomRuntime::initialize_source_destructible_containers(
   source_handles.reserve(source_handles.size()+static_cast<std::size_t>(count));
   for(const auto& source:sources) {
    if(source.gametype!="DestructibleContainer")continue;
+   // ObjectManager::Add destroys a candidate whose name is already keyed;
+   // generated layouts can repeat a module's container name.
+   if(source.duplicate_name)continue;
    if(source.template_name!="DestructibleContainer"||
       source.data_desc_pydata!="DestructibleContainers"||
       source.data_desc.empty()||source.duplicate_name||source.source_handle<0||
@@ -10149,6 +10152,22 @@ dh2::character::CombatFacts SpawnOwner::combat_facts(void* raw) {
  }
  return facts;
 }
+// Authored Character templates keep the CharacterTable choice in
+// char_template/Charater_Templates. Their raw MGP `character` field is empty;
+// the exact source actor handle was resolved through SafeGet during staging.
+template<class Census>
+bool census_character_matches_actor(const Census& source,const ObjectActor& actor) {
+ if(source.character==actor.character)return true;
+ return source.character.empty()&&source_character_uses_authored_template(source)&&
+     source.char_template_pydata=="Charater_Templates"&&
+     !source.char_template.empty()&&
+     actor.source_template_name==source.char_template&&
+     actor.character_table_id>=0&&actor.character_template_id>=0&&
+     static_cast<std::size_t>(actor.character_table_id)<actor_character_names.size()&&
+     actor_character_property_rows.size()==actor_character_names.size()&&
+     actor_character_names[static_cast<std::size_t>(actor.character_table_id)]==
+         actor.character;
+}
 bool run_direct_source_character_init_post_v1(NativeCryptRoomRuntime& runtime,
         ObjectActor& actor,std::string& error) {
  error.clear();
@@ -10192,20 +10211,7 @@ bool run_direct_source_character_init_post_v1(NativeCryptRoomRuntime& runtime,
  if(source==active_level_assets.source_character_census.end()||
     source->duplicate_name)
   return fail("Character::InitPost direct actor census/Character tuple differs");
- // Authored Character templates keep the CharacterTable choice in
- // char_template/Charater_Templates. Their raw MGP `character` field is empty;
- // the exact source actor handle was resolved through SafeGet during staging.
- const bool resolved_authored_template=
-     source->character.empty()&&source_character_uses_authored_template(*source)&&
-     source->char_template_pydata=="Charater_Templates"&&
-     !source->char_template.empty()&&
-     actor.source_template_name==source->char_template&&
-     actor.character_table_id>=0&&actor.character_template_id>=0&&
-     static_cast<std::size_t>(actor.character_table_id)<actor_character_names.size()&&
-     actor_character_property_rows.size()==actor_character_names.size()&&
-     actor_character_names[static_cast<std::size_t>(actor.character_table_id)]==
-         actor.character;
- if(source->character!=actor.character&&!resolved_authored_template)
+ if(!census_character_matches_actor(*source,actor))
   return fail("Character::InitPost direct actor census/Character tuple differs");
  const dh2::world::SourceObjectCensusV1* object_source=nullptr;
  for(const auto& candidate:active_level_assets.source_object_census) {
@@ -10616,7 +10622,7 @@ bool run_direct_source_character_init_final_v1(
           row.source_handle==actor.source_handle;
      });
  if(source==active_level_assets.source_character_census.end()||
-    source->duplicate_name||source->character!=actor.character||
+    source->duplicate_name||!census_character_matches_actor(*source,actor)||
     actor.kind!=1||!actor.identity||!actor.source_character_construction||
     runtime.actors.find(actor.identity)==runtime.actors.end()||
     runtime.actors.at(actor.identity)!=&actor) {
@@ -15269,7 +15275,8 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
    case Operation::set_angular_velocity:
     return owner.body.body?dh2_native_body_set_angular(&owner.body,stop_request->values):1;
    case Operation::set_position:
-    return owner.body.body?dh2_native_body_set_position(&owner.body,stop_request->values):1;
+    // SetXForm's bool is discarded by the source; only invalid input fails.
+    return owner.body.body?(dh2_native_body_set_position(&owner.body,stop_request->values)<0?1:0):1;
    }
    return 1;
   };
@@ -15774,7 +15781,8 @@ void SpawnOwner::initialize_runtime(const ObjectGroup& group,
        active_level_assets.source_character_census.end(),[&](const auto& row){
         return !row.duplicate_name&&row.module_index==actor->source_module_index&&
           row.source_record==actor->source_record&&
-          row.source_handle==actor->source_handle&&row.character==actor->character;
+          row.source_handle==actor->source_handle&&
+          census_character_matches_actor(row,*actor);
        });
  if(!defer_source_final) {
   if(dh2_nav_object_defaults(&runtime.object))
@@ -22767,7 +22775,7 @@ bool move_direct_actor_v1(ObjectActor& actor,const float* target_position) {
  actor.placement[14]=target_position[2];
  auto* mutable_manager_object=source_level_owner.object_manager().find_by_identity(
      actor.identity);
- if(!mutable_manager_object)return false;
+ if(!mutable_manager_object){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","SetPosition %s: no row",actor.name.c_str());return false;}
  if(mutable_manager_object->live_fields.world_x)
   *mutable_manager_object->live_fields.world_x=target_position[0];
  else mutable_manager_object->world_x=target_position[0];
@@ -22780,7 +22788,7 @@ bool move_direct_actor_v1(ObjectActor& actor,const float* target_position) {
   owner.runtime.subobjects.absolute_bounds[i]+=delta[i];
   owner.runtime.subobjects.absolute_bounds[i+3]+=delta[i];
  }
- if(owner.runtime.path.count&&dh2_nav_drop_path(&owner.runtime.path))return false;
+ if(owner.runtime.path.count&&dh2_nav_drop_path(&owner.runtime.path)){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","SetPosition %s: path drop",actor.name.c_str());return false;}
  owner.path_to.path_nonempty=0;
  owner.runtime.controller.path_requested=0;
  owner.runtime.controller.heading.active=0;
@@ -22797,9 +22805,9 @@ bool move_direct_actor_v1(ObjectActor& actor,const float* target_position) {
  std::copy(target_position,target_position+3,owner.runtime.object.motion.position);
  std::copy(target_position,target_position+3,owner.runtime.subobjects.path_target);
  std::copy(target_position,target_position+3,owner.visual.root.position);
- if(dh2_native_body_set_position(&owner.body,target_position))return false;
+ if(owner.body.body&&dh2_native_body_set_position(&owner.body,target_position)<0){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","SetPosition %s: body",actor.name.c_str());return false;}
  std::string error;
- if(!owner.visual.update_world(owner.scene,error))return false;
+ if(!owner.visual.update_world(owner.scene,error)){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","SetPosition %s: visual %s",actor.name.c_str(),error.c_str());return false;}
  owner.register_runtime_object();
  sync_search_projection(actor);
  return true;
@@ -22908,7 +22916,7 @@ int native_level_script_actor_command(void*,
    prince_runtime.object.motion.object_flags&=~2u;
    std::copy(target_position,target_position+3,actor_position.begin());
    std::copy(target_position,target_position+3,prince_visual.root.position);
-   if(dh2_native_body_set_position(&prince_body,target_position))return -1;
+   if(dh2_native_body_set_position(&prince_body,target_position)<0)return -1;
    std::string error;
    if(!prince_visual.update_world(current_scene,error))return -1;
    sync_prince_search_projection();
@@ -26240,16 +26248,30 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
  using Target=dh2::target_search::Object48;
  using Character=dh2::character::aggro_search::Character;
  auto& manager=source_level_owner.object_manager();
+ std::string why;
  const auto project=[&](std::uintptr_t identity,Target& output)->bool {
   const auto* row=manager.find_by_identity(identity);
-  if(!identity||!row||row->identity!=identity)return false;
+  if(identity&&!row&&active_crypt_room_runtime) {
+   // RoomZone objects sit on the RoomObjectList as GameObjects in the
+   // original; the port owns them outside ObjectManager. Project them as
+   // disabled (+0x8a 0) so the TargetList filters never select them.
+   auto& zones=active_crypt_room_runtime->zones;
+   dh2::crypt_room_zone_owner_v1::ZoneView view{};
+   for(std::size_t i=0;i<zones.zone_count();++i) {
+    if(!zones.zone_at(i,&view)||view.identity!=identity)continue;
+    output={};output.identity=identity;output.visible=0;
+    if(view.position)std::copy(view.position,view.position+3,output.position);
+    return true;
+   }
+  }
+  if(!identity||!row||row->identity!=identity){why="no canonical row";return false;}
   output={};output.identity=identity;
   const auto enabled=row->live_fields.serialized_flag_8a?
       *row->live_fields.serialized_flag_8a:
       row->serialized_flag_8a;
   if(!row->serialized_flag_8a_ready&& !row->live_fields.serialized_flag_8a)
-   return false;
-  if(enabled>1)return false;
+   {why="enabled byte +0x8a not published";return false;}
+  if(enabled>1){why="enabled byte +0x8a invalid";return false;}
   output.visible=enabled; // Search reads ObjectBase+0x8a, not +0x80.
   output.zoned=row->live_fields.zoning_enabled_2ee?
       *row->live_fields.zoning_enabled_2ee:row->zoning_enabled_2ee;
@@ -26257,7 +26279,7 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
       *row->live_fields.in_zone_2f0:row->in_zone_2f0;
   std::size_t character_count=0;
   if(native_characters.contains_identity(identity,&character_count)) {
-   if(character_count!=1)return false;
+   if(character_count!=1){why="CharacterList identity count differs";return false;}
    Character* character=nullptr;
    const auto& list=native_characters.source();
    if(!dh2::character::aggro::object_manager_list::validate(&list))return false;
@@ -26268,7 +26290,7 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
     if(candidate->identity==identity){character=candidate;++matches;}
    }
    if(matches!=1||!character||!character->object||
-      character->object->identity!=identity)return false;
+      character->object->identity!=identity){why="CharacterList object differs";return false;}
    auto* source_object=character->object;
    if(source_object->has_target_position&&source_object->visible) {
     std::copy(source_object->target_position,source_object->target_position+3,
@@ -26286,7 +26308,7 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
    return true;
   }
   const auto* source=NativeMonsterInitialization::range_source_object(*row);
-  if(!source)return false;
+  if(!source){why="no source range object";return false;}
   const bool visible=row->live_fields.visible_80?
       *row->live_fields.visible_80:row->visible_80;
   if(row->target_node_180&&visible)
@@ -26300,9 +26322,22 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
  };
  const auto add_identity=[&](std::uintptr_t identity)->bool {
   Target projected{};
-  if(!project(identity,projected))return false;
+  why.clear();
+  const auto reject=[&](const char* reason) {
+   const auto* row=manager.find_by_identity(identity);
+   const auto* actor=native_char_ai_actor(identity);
+   state.projection_error="Player TargetList candidate '"+
+       (row?row->name:actor?actor->name:std::string("?"))+"' identity "+
+       std::to_string(identity)+(identity==prince_character.identity()?" (Player)":"")+
+       (native_faery_owner(identity)?" (Faery)":"")+" handle "+
+       std::to_string(row?row->source_handle:actor?actor->source_handle:-1)+": "+reason;
+   return false;
+  };
+  if(!project(identity,projected))
+   return reject(why.empty()?"projection rejected":why.c_str());
   const auto index=state.objects.size();
-  if(!state.by_identity.emplace(identity,index).second)return false;
+  if(!state.by_identity.emplace(identity,index).second)
+   return reject("duplicate identity in candidate list");
   state.objects.push_back(projected);return true;
  };
  // GameObject::_TargetListSearch chooses PlayerManager::PlayerList for flag
@@ -32239,10 +32274,23 @@ int native_faery_placement_service(void*,const FaeryPlacement::Request& request,
    return 0;
   }
   if(!actor||actor->kind!=1)return 1;
+  if(actor->spawn_owner) {
+   // Followers: GameObject::SetPosition moves row, body and visual together.
+   const float placement[3]{request.vector->x,request.vector->y,request.vector->z};
+   if(move_direct_actor_v1(*actor,placement))return 0;
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Follower SetPosition failed | %s | body %d | runtime %d | row %d",
+       actor->name.c_str(),actor->spawn_owner->body.body!=nullptr,
+       int(actor->spawn_owner->runtime_ready),
+       source_level_owner.object_manager().find_by_identity(actor->identity)!=nullptr);
+   return 1;
+  }
   actor->position={request.vector->x,request.vector->y,request.vector->z};
   sync_search_projection(*actor);return 0;
  }
  case Op::force_update_position:
+  // move_direct_actor_v1 already pushed a follower's position everywhere.
+  if(!faery&&actor&&actor->kind==1&&actor->spawn_owner)return 0;
   if(!faery||actor)return 1;
   {const auto* object=manager->find_by_identity(request.subject);
    return object&&object->identity==request.subject&&
@@ -32332,9 +32380,12 @@ bool place_authored_faeries(std::string& error) {
     error="CharacterList Faery placement classification owner is unavailable";
     return false;
    }
-   if(is_follower) {
-    error="Level::PlaceFaeryAndFollowers follower physical/position owner is not connected";
-    return false;
+   if(is_follower&&!is_faery) {
+    auto* follower=native_char_ai_actor(character->identity);
+    if(!follower||follower->kind!=1||!follower->spawn_owner) {
+     error="Level::PlaceFaeryAndFollowers follower physical/position owner is not connected";
+     return false;
+    }
    }
    if(is_faery&&!native_faery_owner(character->identity)) {
     error="Level::PlaceFaeryAndFollowers found a Faery outside the retained authored owner";
@@ -34794,7 +34845,7 @@ bool native_player_remove_set_position(std::uintptr_t character,
  std::copy(position,position+3,prince_runtime.object.motion.position);
  std::copy(position,position+3,actor_position.begin());
  std::copy(position,position+3,prince_visual.root.position);
- if(dh2_native_body_set_position(&prince_body,position)){
+ if(dh2_native_body_set_position(&prince_body,position)<0){
   error="PlayerManager::RemoveCharacter could not move the canonical physical Character";
   return false;
  }
