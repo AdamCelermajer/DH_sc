@@ -51,6 +51,11 @@ int main(int argc,char** argv){try{
         c.stats.health-=1.25f;c.stats.resource-=0.5f;
         check(project_player_profile_properties(db,c,out,repeat,error),error);
         check(repeat.sheets.resolved[36]==fresh.sheets.resolved[36]-320&&repeat.sheets.resolved[41]==fresh.sheets.resolved[41]-128,"Partial vitals were refilled");
+        // B086: a profile saved while dead (HP 0) starts revived at full health (Character::InitPost Revive + _InitHpMp); MP is kept.
+        {auto dead=c;dead.stats.health=0.f;OriginalCombatProperties revived;
+         check(project_player_profile_properties(db,dead,out,revived,error),error);
+         check(revived.sheets.resolved[36]==revived.sheets.resolved[38]&&revived.sheets.resolved[36]>0,"Dead profile did not start revived at full health");
+         check(revived.sheets.resolved[41]==repeat.sheets.resolved[41],"Dead-profile revive changed the saved resource");}
         const auto path=std::filesystem::path(argv[2])/(std::string(row)+".dhsave");
         check(save_character(path,c,error),error);CharacterState loaded;
         check(load_character(path,loaded,error),error);

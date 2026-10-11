@@ -1,0 +1,205 @@
+{
+  "exe_sha256": "5068A6D24C12EF98593DFFF31D152BAEB23FF345B8772C6C1A7D1B2870D66864",
+  "runs": {
+    "moved-close": {
+      "log_sha256": "F752A546EC8E401DC90830C7CB450E650DE315A09EADA34D6C491669701DC1E2",
+      "args_sha256": "5CB25BD277CD23DC1F31F7B92DAFCF113FB9CAF5DE15ACF98D63719C0E0A722B",
+      "quit_requests": 1,
+      "quit_saved": 1,
+      "retry_frames": [],
+      "restore": [
+        "Restored live checkpoint frame=0 HP=165.098 RNG=5947770/26"
+      ],
+      "hero_final": [
+        "Actor final id=18446744073709551615 definition=KnightPlayerBase HP=165.098/165.098 target=0 action=0 position=515.411,-1276.91,255"
+      ],
+      "dead_moth_final": [
+        "Actor final id=11110320080226071524 definition=data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|3|_prim_MothTemplate_08 HP=36/36 target=0 action=0 position=-1065.35,4837.49,35.3872"
+      ],
+      "kill_events": 0,
+      "new_completed_banners": 0,
+      "profile_sha256": "452CA012F4CD7B8B812F1C48CB4EBDC2E40B2B2EABE66B3A0134943738D9855B"
+    },
+    "moved-resume": {
+      "log_sha256": "2897261883F006F035E4BEFB43A2DE7DDC68FD063F6DE82DC4C26C0F308FC02F",
+      "args_sha256": "C1CBD1C56D7F7984EC6DB5B12453B2C66729FE0CB4A79E495BAB004C115D7CBC",
+      "quit_requests": 0,
+      "quit_saved": 0,
+      "retry_frames": [],
+      "restore": [
+        "Restored live checkpoint frame=0 HP=165.098 RNG=5947770/26"
+      ],
+      "hero_final": [
+        "Actor final id=18446744073709551615 definition=KnightPlayerBase HP=165.098/165.098 target=0 action=0 position=990.09,-665.26,255"
+      ],
+      "dead_moth_final": [
+        "Actor final id=11110320080226071524 definition=data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|3|_prim_MothTemplate_08 HP=36/36 target=0 action=0 position=-1065.35,4837.49,35.3872"
+      ],
+      "kill_events": 0,
+      "new_completed_banners": 0,
+      "profile_sha256": "452CA012F4CD7B8B812F1C48CB4EBDC2E40B2B2EABE66B3A0134943738D9855B"
+    },
+    "deadmoth-close": {
+      "log_sha256": "C8F1AA502B9557102EE576FAE84B457026E53A90F21B19BE209C36113146EC9E",
+      "args_sha256": "653D965009D0F9E3BEB48650ACBBA635A6CBBF4B8E216496A64FF1C46EA26B8E",
+      "quit_requests": 1,
+      "quit_saved": 1,
+      "retry_frames": [
+        "319",
+        "320",
+        "321",
+        "322",
+        "323",
+        "324",
+        "325",
+        "326",
+        "327",
+        "328",
+        "329",
+        "330",
+        "331",
+        "332",
+        "333",
+        "334"
+      ],
+      "restore": [
+        "Restored live checkpoint frame=0 HP=139.945 RNG=3242841/400"
+      ],
+      "hero_final": [
+        "Actor final id=18446744073709551615 definition=KnightPlayerBase HP=128.141/165.098 target=0 action=0 position=-2080,5355.5,22.0541"
+      ],
+      "dead_moth_final": [
+        "Actor final id=11110320080226071524 definition=data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|3|_prim_MothTemplate_08 HP=0/36 target=0 action=5 position=-1730.71,5175.39,26.0486"
+      ],
+      "kill_events": 0,
+      "new_completed_banners": 0,
+      "profile_sha256": "CC61ECB7CFCD25A598BAD181E3C4535344590E3E2292FFAC160A8212DA298238",
+      "quest": {
+        "version": 2,
+        "buckets": [
+          {
+            "bucket": 0,
+            "current": 53,
+            "moths_state": 6
+          },
+          {
+            "bucket": 1,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 2,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 4,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 5,
+            "current": -1,
+            "moths_state": 0
+          }
+        ],
+        "counters": [
+          {
+            "row": 53,
+            "objective": 0,
+            "quantity": 4,
+            "done": 0
+          },
+          {
+            "row": 53,
+            "objective": 62,
+            "quantity": 1,
+            "done": 1
+          }
+        ],
+        "xp": 10,
+        "gold": 0
+      }
+    },
+    "deadmoth-resume": {
+      "log_sha256": "CB96BC9FB01FA9B1C429C09A559CEE133140880B96FFB898F7C059E79DEE9919",
+      "args_sha256": "990986C63F40FBB232818F44F7DA857E296DC8701E3B6A0CD06F6B61F686F5ED",
+      "quit_requests": 0,
+      "quit_saved": 0,
+      "retry_frames": [],
+      "restore": [
+        "Restored live checkpoint frame=0 HP=128.141 RNG=10689791/422"
+      ],
+      "hero_final": [
+        "Actor final id=18446744073709551615 definition=KnightPlayerBase HP=121.625/165.098 target=0 action=0 position=-2080,5355.5,22.0541"
+      ],
+      "dead_moth_final": [
+        "Actor final id=11110320080226071524 definition=data/scene/001_swamp.mlx|/obj_2of4_brdwalk_sw_00_9#8|original-cache/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp|3|_prim_MothTemplate_08 HP=0/36 target=0 action=5 position=-1730.71,5175.39,26.0486"
+      ],
+      "kill_events": 0,
+      "new_completed_banners": 0,
+      "profile_sha256": "CC61ECB7CFCD25A598BAD181E3C4535344590E3E2292FFAC160A8212DA298238",
+      "quest": {
+        "version": 2,
+        "buckets": [
+          {
+            "bucket": 0,
+            "current": 53,
+            "moths_state": 6
+          },
+          {
+            "bucket": 1,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 2,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 4,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 5,
+            "current": -1,
+            "moths_state": 0
+          }
+        ],
+        "counters": [
+          {
+            "row": 53,
+            "objective": 0,
+            "quantity": 4,
+            "done": 0
+          },
+          {
+            "row": 53,
+            "objective": 62,
+            "quantity": 1,
+            "done": 1
+          }
+        ],
+        "xp": 10,
+        "gold": 0
+      }
+    }
+  },
+  "full_ctest": {
+    "passed": 165,
+    "total": 166,
+    "known_failure": "session_skill_binding: Asset path escapes asset root"
+  }
+}
