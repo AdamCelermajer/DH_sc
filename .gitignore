@@ -84,3 +84,9 @@ port/engine-camera/build/
 port/engine-ui/build/
 
 tools/rea-local/
+
+# Generated check outputs, per-module build trees and local test archives.
+.checks/
+**/.checks/
+**/build/
+compatibility-work-test*.zip
