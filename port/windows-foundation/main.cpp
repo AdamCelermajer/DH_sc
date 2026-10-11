@@ -3987,8 +3987,8 @@ int main(int argc,char** argv) {
                 // sfx_level_up.wav); it is submitted here through the same plain Play row the script executor uses.
                 {
                     std::string soundError;
-                    const auto ordinal=runtimeAudio?runtimeAudio->play_named_ui_sound("LevelUp",soundError):-1;
-                    std::cout<<"Level up sound LevelUp ordinal="<<ordinal<<" status="<<(!runtimeAudio?"no_audio_runtime":ordinal<0?(soundError.empty()?"absent_in_sound_table":"failed"):"submitted")
+                    const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("LevelUp",soundError):f::audio::NamedUiCueResultV1{};
+                    std::cout<<"Level up sound LevelUp ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token<<" status="<<f::audio::named_ui_cue_status_v1(cue.status)
                              <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
                 }
                 f::effects::RuntimeLevelUpPresentationResultV1 result;
@@ -4059,17 +4059,14 @@ int main(int argc,char** argv) {
         // v20.1 SOUNDS (B099 NEW QUEST, B104 QUEST COMPLETED): the HUD dialog frame show handler (dqhud_droid.swf, QuestMsgDialog
         // frame: NativePlaySoundFX("QuestNew"); QuestCompletedMsgDialog frame: NativePlaySoundFX("QuestComplete")) runs when the
         // banner is shown. NativePlaySoundFX -> VoxSoundManager::PlayMenu(Arrays::Sounds id) (0x43ae10 -> 0x36bc34).
-        int questCueTries=0;
-        const char* questCuePending=nullptr; // a cue whose device clock was not ready yet (banner shown at frame 0) retries per frame
-        const auto playQuestCue=[&](const char* cue) {
-            if(!runtimeAudio) {std::cout<<"Quest banner sound "<<cue<<" status=no_audio_runtime frame="<<drawn<<"\n";return;}
+        f::audio::NamedUiCueRetryV1 questCue([&](const char* cue) {
             std::string soundError;
-            const auto ordinal=runtimeAudio->play_named_ui_sound(cue,soundError);
-            std::cout<<"Quest banner sound "<<cue<<" ordinal="<<ordinal<<" status="<<(ordinal<0?(soundError.empty()?"absent_in_sound_table":"failed"):"submitted")
+            const auto result=runtimeAudio?runtimeAudio->play_named_ui_sound(cue,soundError):f::audio::NamedUiCueResultV1{};
+            std::cout<<"Quest banner sound "<<cue<<" ordinal="<<result.ordinal<<" uid="<<result.uid<<" token="<<result.token<<" status="<<f::audio::named_ui_cue_status_v1(result.status)
                      <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
-            questCuePending=(ordinal<0&&!soundError.empty()&&++questCueTries<300)?cue:nullptr; // audio output not ready yet (frame-0 bind banner): retry
-        };
-        questBanners.on_shown=[&](bool completed){playQuestCue(completed?"QuestComplete":"QuestNew");};
+            return result;
+        });
+        questBanners.on_shown=[&](bool completed){questCue.begin(completed?"QuestComplete":"QuestNew");};
         std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)
         bool questTalkHeld=false;                    // P16 QUESTUI: interact press edge for NPC talk
         std::shared_ptr<f::CharacterQuestProgressV1> questMenuProgress; // P16 QUESTUI: Quest Log page progress (CQPG view)
@@ -6606,7 +6603,7 @@ int main(int argc,char** argv) {
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
                 if(!gameplayPaused) raiseQuestZones(); // P16 QUESTUI: zone entries of this update
                 if(!gameplayPaused) questBanners.tick(float(dt)); // P16 QUESTUI: banner timing
-                if(questCuePending)playQuestCue(questCuePending);
+                questCue.tick(questBanners.visible()); // retired cues cannot play after their banner closes
                 // P16 QUESTUI: NPC talk on the interact press edge (--quest-talk-frame is a scripted press for tests).
                 // P16 SPACEBTN: NPC talk is the Space context button now (E no longer talks); this scripted press stays for tests.
                 const bool questTalkPressed=std::find(options.questTalkFrames.begin(),options.questTalkFrames.end(),int(drawn))!=options.questTalkFrames.end();

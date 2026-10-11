@@ -143,8 +143,8 @@ public:
     bool script_play_plain(std::int32_t ordinal,int delay_ms,std::string& error);
     bool script_stop_plain(std::int32_t ordinal,int fade_ms,std::string& error);
     // v20.1 SOUNDS (B090/B099/B104): NativePlaySoundFX -> VoxSoundManager::PlayMenu of a named Arrays::Sounds row
-    // (plain emitter, same as Script_PlaySound). Returns the ordinal, -1 when the name is not in the table.
-    std::int32_t play_named_ui_sound(const char* name,std::string& error);
+    // (plain emitter, same as Script_PlaySound). Reports actual command submission separately from source no-ops.
+    NamedUiCueResultV1 play_named_ui_sound(const char* name,std::string& error);
     bool shutdown(std::string&);
     void summary() const;
 };

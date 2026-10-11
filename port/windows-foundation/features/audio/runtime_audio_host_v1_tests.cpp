@@ -112,6 +112,29 @@ int main(int argc,char** argv) {
               last_clock.device_samples>first_clock.device_samples,
               "Host clock did not expose advancing TIME_SAMPLES/QPC in one output generation");
 
+        const auto named=host.submit_named_ui_sound("WeaponSwoosh1",error);
+        check(named.status==NamedUiCueStatusV1::submitted&&named.ordinal==ordinal&&named.uid>=0&&named.token>0,
+              "Named cue lacks its own actual queued token/UID: "+error);
+        bool named_started=false;
+        const auto named_deadline=std::chrono::steady_clock::now()+std::chrono::seconds(3);
+        while(std::chrono::steady_clock::now()<named_deadline&&!named_started) {
+            check(host.update(error),"Named cue receipt update failed: "+error);
+            AudioReceiptV34 receipt;
+            while(host.take_receipt(receipt))named_started|=receipt.token==named.token&&receipt.kind==AudioReceiptKindV34::started;
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        check(named_started,"Named cue submitted token was not consumed by the real mixer");
+        const auto unknown=host.submit_named_ui_sound("NoSuchOriginalCue",error);
+        check(unknown.status==NamedUiCueStatusV1::absent_in_sound_table&&unknown.token==0&&error.empty(),
+              "Unknown original name must be an explicit no-op without voice");
+        const auto non_plain=host.submit_named_ui_sound("AbbeyRuinsOneAmbientMusic",error);
+        check(non_plain.status==NamedUiCueStatusV1::failed&&non_plain.token==0&&!error.empty(),
+              "Native music row must remain a permanent failure for the plain UI receiver: "+error);
+        const auto missing=host.submit_named_ui_sound("sfx_cave_troll_smash_ground",error);
+        check(missing.status==NamedUiCueStatusV1::asset_missing&&missing.token==0&&
+              error.find("Unavailable original audio asset: data/sounds/sfx_cave_troll_smash_ground.wav")!=std::string::npos,
+              "Named missing original sample was reported as submitted or substituted: "+error);
+
         play.sound_id=328; // Genuine TrollReturn source ordinal; its exact WAV is absent.
         auto absent_clock=last_clock;absent_clock.qpc_monotonic_ns+=1000000;
         check(!host.submit_actual_play(play,absent_clock.qpc_monotonic_ns,error)&&
@@ -158,6 +181,9 @@ int main(int argc,char** argv) {
         }
         check(clock_invalidated,
               "Unfocused V42 clock exposed a valid source sample");
+        const auto not_ready=host.submit_named_ui_sound("WeaponSwoosh1",error);
+        check(not_ready.status==NamedUiCueStatusV1::output_not_ready&&not_ready.token==0&&!error.empty(),
+              "Lost output must be a typed transient failure with no queued voice: "+error);
         check(host.publish_window_activity(1,3,true,true,true,false),
               "Could not publish window-focus regain");
         check(wait_ready(host,true),"Same WinMM output did not resume after focus regain");
@@ -165,6 +191,9 @@ int main(int argc,char** argv) {
         check(host.device_clock(resumed,error)&&resumed.valid()&&
               resumed.output_generation==first_clock.output_generation,
               "Focus resume did not restore a valid clock on retained output generation");
+        const auto recovered=host.submit_named_ui_sound("WeaponSwoosh1",error);
+        check(recovered.status==NamedUiCueStatusV1::submitted&&recovered.token>named.token,
+              "Recovered output did not accept a fresh named cue: "+error);
 
         provider->facts.listener_initialized=false;
         auto failed_clock=resumed;failed_clock.qpc_monotonic_ns+=1000000;
