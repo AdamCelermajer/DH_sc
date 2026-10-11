@@ -1,4 +1,4 @@
-# Character::F_ApplyResult — offline nonplayer continuation
+# Character::F_ApplyResult — offline NPC and Player combat continuation
 
 ## Scope
 
@@ -11,18 +11,30 @@ Count: **0 new complete caller bodies, 0 complete dependency bodies, 1 bounded
 source caller**. This is not the whole 3388-byte function, a replacement health
 backend, an implemented effect service, or a native-wiring claim.
 
-The supported domain is retained nonnull actors, offline mode byte zero,
-every reached virtual player predicate false, current PlayerManager's signed player
-count at `+0x6c4 <= 1`, and no inventory-gold mask `0x400000` when the damage
-branch reaches its mask check. All nonplayer status continuations and impact
-FX call construction are supported through mandatory, typed original services.
+The supported domain is retained nonnull actors, offline mode byte zero, and
+current PlayerManager's signed player count at `+0x6c4 <= 1`.
+Nonplayer and Player defender status continuations, impact FX construction,
+critical camera selection, and Player attacker/defender stat tails are supported
+through mandatory, typed original services. Player-defender idle-state mutation,
+counter properties, locality checks, and three TrophyTable unlocks follow the
+source caller order. The exact TrophyTable indices are 35 (`epic_invisible`),
+34 (`epic_invincible`), and 55 (`knocked_down_50_times`).
 The real GetEffectiveThreatPerDamage getter reads signed property204 and returns
 binary32 `int32/256`, so its result is finite. A nonfinite external getter reply
 is an explicit port dependency-domain error, not an invented original branch.
 The caller's bool/mode argument is not consulted in this offline domain.
 
-Unsupported network, player, inventory-gold and co-op-scaling branches stop at
-their source entry address, preserving the preceding caller/provider effects.
+The offline inventory-gold mask `0x400000` branch is supported through the
+same attacker's retained V4 ItemInventory: the source reads its gold field at
+Character+0x39c, limits the signed damage amount to `gold<<8`, and debits via
+`ItemInventory::AddGold` at `0x3fe164` before threat/damage processing. The
+native caller must provide the same Character's canonical inventory owner;
+missing ownership fails only when this mask is reached.
+
+Unsupported network behavior stops at its source boundary. The offline
+co-op branch is modeled: count > 1 checks IsMonster first, then IsPlayer,
+reads only DesignSettings members+52 or +56 as reached, and preserves the
+source distinction between AttackResult.amount and the local HitFor amount.
 Null-actor diagnostics, deliberate assertion crashes and stack-corruption traps
 are excluded domains. They are not repaired into successful processing.
 
@@ -39,8 +51,11 @@ are excluded domains. They are not repaired into successful processing.
    this module stops if that predicate is true. Otherwise the live defender
    damage-suppression byte `+0x14f0` can skip the damage branch. Destroy inner
    GOD string before outer NoDamages string on each normally completed path.
-4. Read live result mask for the inventory-gold branch. Capture amount into
-   `r8`; signed nonpositive amounts skip positive damage processing. For
+4. Read live result mask for the inventory-gold branch. The source reads
+   attacker's ItemInventory gold at Character+0x39c, computes signed
+   `min(gold<<8, AttackResult.amount)`, writes the amount, and calls
+   `ItemInventory::AddGold(-(amount>>8))` at `0x3fe164`. Then capture the
+   adjusted amount into `r8`; signed nonpositive amounts skip positive damage processing. For
    positive amounts read current Application+40 PlayerManager's player count,
    then call attacker
    GetEffectiveThreatPerDamage. **Reread result.amount after that callback** for
@@ -63,8 +78,9 @@ are excluded domains. They are not repaired into successful processing.
    that point, defender's live orientation reference `+0x16c`, and two null
    stack arguments. A reached effect provider cannot be a successful no-op.
 7. Requery IsDead; truthy clears only stun/fear/slow outcome bits `0x160` in
-   the mutable result. Critical bit3 invokes attacker virtual IsPlayer and stops
-   at the player skill boundary if true.
+   the mutable result. Critical bit3 invokes attacker virtual IsPlayer. A Player
+   attacker dispatches the optional source camera-level/rig continuation through
+   `critical_camera`; missing current level/camera is a successful source no-op.
 8. RegenHP receives fresh result.hp_leech. RegenMP then receives fresh
    result.mp_leech, after the HP callback. Requery defender IsDead. Dead actors
    skip status work, but continue to notifications.
@@ -72,11 +88,12 @@ are excluded domains. They are not repaired into successful processing.
    duration is arithmetic-shifted8 even when it becomes zero. Capture special
    bool from mask `0x18000000` after the DoT callback; then invoke defender
    virtual IsPlayer, stopping before the player idle-reaction branch if true.
-10. Source nonplayer order is dodge, block, hurt, push, stun, fear, slow. Each
+10. Source nonplayer-defender order is dodge, block, hurt, push, stun, fear, slow. Each
     selected status has a mandatory Debug `isTracingChar_Attack` phase, including
     fear with zero duration (fear service itself is skipped only at zero).
-    Dodge/block/push also requery defender IsPlayer before their player statistic
-    branches. Reload outcome bytes at the original phase after completed status
+    Dodge/block/push also requery defender IsPlayer before their Player-only
+    statistic branches; a Player defender stops at the first such branch. Reload
+    outcome bytes at the original phase after completed status
     Debug calls. Stun property is140/185, fear143/187, slow146/189, selected by
     current mask bits12/14/16. Durations preserve arithmetic-shift8 negative
     words. Stun final bool is zero; fear final bool is the earlier captured
@@ -85,8 +102,12 @@ are excluded domains. They are not repaired into successful processing.
     including nonpositive damage, NoDamages and already dead cases. Read fresh
     mask bit29 only **after audio**. If clear, invoke attacker CharAI virtual
     `+0xb4`, then defender CharAI virtual `+0xb4`, with original attacker,
-    defender and the same live result address. Finally query defender IsPlayer,
-    then attacker IsPlayer. Player achievement continuations remain unsupported.
+    defender and the same live result address. Finally query defender IsPlayer;
+    Player defenders stop at their stat-3 branch. Then query attacker IsPlayer.
+    For a Player attacker, look up the existing PlayerInfo with the source false
+    flag, increment stat 2 if the live outcomes contain `0x160`, query defender
+    IsDead and increment stat 0 if true, then increase stat 1 by the current
+    signed amount shifted right 8.
 
 ### Word110 mapping correction
 
@@ -157,23 +178,26 @@ only then are their binary32 conversions/multiplications/comparison modeled.
 Per-instruction observation excludes intercepted callee entries; basic-block
 coverage is not used to claim execution of skipped dependency tails.
 
-Cases cover the exact self DoT mask `0x20080000`, shared attacker/defender,
+Cases cover the exact self DoT mask `0x20080000`, gold debit caps and signed
+amount behavior, shared attacker/defender,
 amount signs, signed/zero status durations, dead raw words, mask/outcome gates,
 impact element/death key selection, NaN/signed-zero AddAggro returns, retained
 first Debug owner, fresh later Debug/VFX selection, captured HitFor versus
 fresh threat amount, status and notification mutation, unsupported branch
-prefixes, disjoint-control rejection, and each reached provider error/exception.
+prefixes, Player critical camera and stat-tail order, disjoint-control
+rejection, and each reached provider error/exception.
 
-The freeze gate passes **186 original ARM comparisons** (17 with actual shared
-attacker/defender), **34 host behavior cases, 29 guards, and 158 provider
-error/exception cases**, with zero mismatches. It observes 509 distinct reached
+The current Player-defender, inventory-gold, and offline co-op scaling expansion
+passes **194 original ARM comparisons** (17 with actual shared attacker/defender),
+**47 host behavior cases, 29 guards, and 158 provider error/exception cases**,
+with zero mismatches. It observes 679 distinct reached
 caller instructions; this observation does not turn the excluded branches or
 the complete 3388-byte function into a whole-body claim.
 
 Run from repository root:
 
 ```powershell
-python port/level-world/tests/run_character_apply_result_host.py --compiler C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe --original-elf C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/test_strategy/libDungeonHunter2.so --output port/level-world/build/character-apply-result-parent/host.exe --report port/level-world/build/character-apply-result-parent/validation.json
+python port/level-world/tests/run_character_apply_result_host.py --compiler g++ --original-elf ORIGINAL_ELF --output port/level-world/build/character-apply-result-parent/host.exe --report port/level-world/build/character-apply-result-parent/validation.json
 ```
 
 Production native/CMake/renderer/timer wiring is unchanged. Positive real DoT

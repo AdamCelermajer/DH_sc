@@ -34,9 +34,51 @@ struct Call {
         Reply reply;return invoke(op,subject,reply,peer,w0,w1,w2,w3,identity);
     }
     Status unsupported(Status s,std::uint32_t pc){report->unsupported_pc=pc;return s;}
-    Status player(std::uintptr_t subject,std::uint32_t pc){
+    Status is_player(std::uintptr_t subject,bool& value){
         Reply reply;auto s=invoke(Operation::is_player,subject,reply);
-        return s==Status::complete&&reply.word?unsupported(Status::unsupported_player,pc):s;
+        if(s==Status::complete)value=reply.word!=0;
+        return s;
+    }
+    Status player(std::uintptr_t subject,std::uint32_t pc){
+        bool value=false;auto s=is_player(subject,value);
+        return s==Status::complete&&value?unsupported(Status::unsupported_player,pc):s;
+    }
+    Status player_counter(std::uintptr_t subject,std::uint32_t property,
+                          std::int32_t threshold,bool strict,const char* trophy){
+        bool is_player_actor=false;auto s=is_player(subject,is_player_actor);
+        if(s!=Status::complete||!is_player_actor)return s;
+        s=effect(Operation::player_property_add_int,subject,0,property,1);if(s!=Status::complete)return s;
+        Reply reply;s=invoke(Operation::player_property_get_int,subject,reply,0,property,0);if(s!=Status::complete)return s;
+        const auto value=signed_word(reply.word);
+        if(strict?value<=threshold:value<threshold)return Status::complete;
+        s=invoke(Operation::player_is_local,globals->application,reply,subject);if(s!=Status::complete)return s;
+        if(!reply.word)return Status::complete;
+        s=invoke(Operation::trophy_lookup,0,reply,0,0,0,0,0,0,trophy);if(s!=Status::complete)return s;
+        return effect(Operation::trophy_unlock,globals->application,0,reply.word);
+    }
+    Status player_stat(std::uintptr_t subject,std::uint32_t stat){
+        Reply reply;auto s=invoke(Operation::player_by_character,
+            globals->application,reply,subject,0);if(s!=Status::complete)return s;
+        return effect(Operation::player_stat_increment,globals->application,0,
+                      stat,reply.word);
+    }
+    Status inventory_gold_damage(){
+        if(!services.read_inventory_gold)return Status::service_unavailable;
+        std::int32_t gold=0;
+        try{if(services.read_inventory_gold(services.context,a,&gold))return Status::service_failed;}
+        catch(...){return Status::service_failed;}
+        const auto scaled=std::uint32_t(gold)<<8;
+        const auto amount=std::uint32_t(attack->amount);
+        const auto applied=signed_word(scaled)>=signed_word(amount)?amount:scaled;
+        attack->amount=signed_word(applied);
+        const auto debit=std::uint32_t(0)-asr8(applied);
+        return effect(Operation::inventory_add_gold,a,0,debit);
+    }
+    Status read_coop_factor(std::uint32_t offset,std::uint32_t& bits_value){
+        if(!services.read_coop_factor)return Status::service_unavailable;
+        try{if(services.read_coop_factor(services.context,offset,&bits_value))return Status::service_failed;}
+        catch(...){return Status::service_failed;}
+        return Status::complete;
     }
     Status begin_debug(std::uintptr_t debug,const char* key,std::uintptr_t& string,std::uint32_t& value){
         Reply reply;auto s=invoke(Operation::debug_load,debug,reply);if(s!=Status::complete)return s;
@@ -83,17 +125,53 @@ Status execute(const Arguments* args,const Globals* globals,const Services* serv
     if(!skip_damage){
         s=c.begin_debug(debug,"GOD",inner,god);if(s!=Status::complete)return s;
         if(!god){s=c.invoke(Operation::saved_option,globals->application,reply,0,0,0,0,0,0,"GOD");if(s!=Status::complete)return s;god=reply.word;}
-        if(god){s=c.player(c.d,0x3b1a2c);if(s!=Status::complete)return s;}
-        skip_damage=c.defender->invulnerable_14f0!=0;
+        if(god){
+            bool player_defender=false;s=c.is_player(c.d,player_defender);if(s!=Status::complete)return s;
+            skip_damage=player_defender||c.defender->invulnerable_14f0!=0;
+        }else skip_damage=c.defender->invulnerable_14f0!=0;
         s=c.destroy(inner);if(s!=Status::complete)return s;
     }
     s=c.destroy(outer);if(s!=Status::complete)return s;
     if(!skip_damage){
-        if(attack->mask&0x400000u)return c.unsupported(Status::unsupported_gold,0x3b1a00);
-        const auto hit_amount=std::uint32_t(attack->amount);report->captured_hit_amount=hit_amount;
+        if(attack->mask&0x400000u){s=c.inventory_gold_damage();if(s!=Status::complete)return s;}
+        auto hit_amount=std::uint32_t(attack->amount);report->captured_hit_amount=hit_amount;
         if(signed_word(hit_amount)>0){
             s=c.invoke(Operation::coop_player_count,0,reply);if(s!=Status::complete)return s;
-            if(signed_word(reply.word)>1)return c.unsupported(Status::unsupported_coop_scaling,0x3b1580);
+            if(signed_word(reply.word)>1){
+                const auto player_count=signed_word(reply.word);
+                s=c.invoke(Operation::is_monster,c.a,reply);if(s!=Status::complete)return s;
+                std::uint32_t factor_bits=0;bool scale_amount=false,write_attack_amount=false;
+                if(reply.word){
+                    s=c.read_coop_factor(52u,factor_bits);if(s!=Status::complete)return s;
+                    scale_amount=true;write_attack_amount=true;
+                }else{
+                    bool player_attacker=false;s=c.is_player(c.a,player_attacker);if(s!=Status::complete)return s;
+                    if(player_attacker){
+                        s=c.read_coop_factor(56u,factor_bits);if(s!=Status::complete)return s;
+                        scale_amount=true;
+                    }
+                }
+                if(scale_amount){
+                    volatile float extra_players=float(player_count-1);
+                    volatile float factor=floating(factor_bits);
+                    volatile float scaled=extra_players*factor;
+                    volatile float rounded=scaled+1.0f;
+                    const float multiplier_value=rounded;
+                    if(!std::isfinite(multiplier_value)||multiplier_value<-2147483648.0f||multiplier_value>=2147483648.0f)
+                        return c.unsupported(Status::unsupported_coop_scaling,0x3b1580);
+                    const auto multiplier=static_cast<std::int32_t>(multiplier_value);
+                    if(write_attack_amount){
+                        hit_amount=std::uint32_t(signed_word(hit_amount)*multiplier);
+                        attack->amount=signed_word(hit_amount);
+                    }else{
+                        const auto signed_amount=signed_word(hit_amount);
+                        if(multiplier==0||(signed_amount==std::numeric_limits<std::int32_t>::min()&&multiplier==-1))
+                            return c.unsupported(Status::unsupported_coop_scaling,0x3b1b24);
+                        hit_amount=std::uint32_t(signed_amount/multiplier);
+                    }
+                }
+                report->captured_hit_amount=hit_amount;
+            }
             s=c.invoke(Operation::effective_threat,c.a,reply);if(s!=Status::complete)return s;
             if((reply.word&0x7f800000u)==0x7f800000u)return c.unsupported(Status::unsupported_threat_value,0x3b15cc);
             const float per_damage=floating(reply.word);
@@ -120,7 +198,10 @@ Status execute(const Arguments* args,const Globals* globals,const Services* serv
             }
             s=c.invoke(Operation::is_dead,c.d,reply);if(s!=Status::complete)return s;
             if(reply.word)attack->outcomes&=~0x160u;
-            if(attack->outcomes&8u){s=c.player(c.a,0x3b16d8);if(s!=Status::complete)return s;}
+            if(attack->outcomes&8u){
+                bool player_attacker=false;s=c.is_player(c.a,player_attacker);if(s!=Status::complete)return s;
+                if(player_attacker){s=c.effect(Operation::critical_camera,c.a);if(s!=Status::complete)return s;}
+            }
         }
     }
     s=c.effect(Operation::regen_hp,c.a,0,std::uint32_t(attack->hp_leech));if(s!=Status::complete)return s;++report->regenerations;
@@ -133,22 +214,27 @@ Status execute(const Arguments* args,const Globals* globals,const Services* serv
             if(signed_word(amount)>0){s=c.status(Operation::apply_dot,c.d,0,asr8(duration),amount,std::uint32_t(attack->dot_element));if(s!=Status::complete)return s;}
         }
         const std::uint32_t special=bool(attack->mask&0x18000000u);
-        s=c.player(c.d,0x3b17ec);if(s!=Status::complete)return s;
+        bool player_defender=false;s=c.is_player(c.d,player_defender);if(s!=Status::complete)return s;
+        if(player_defender){
+            s=c.invoke(Operation::state_machine_is_idle,c.d,reply,0,0);if(s!=Status::complete)return s;
+            if(reply.word&&!(attack->outcomes&0x16u))
+                attack->outcomes|=signed_word(std::uint32_t(attack->amount))>0?0x10u:2u;
+        }
         auto flags=attack->outcomes&0xffu;
         if(flags&2u){
             s=c.status(Operation::dodge,c.d,c.a,0);if(s!=Status::complete)return s;
-            s=c.player(c.d,0x3b1bf0);if(s!=Status::complete)return s;
+            s=c.player_counter(c.d,215,500,false,"epic_invisible");if(s!=Status::complete)return s;
             s=c.debug("isTracingChar_Attack");if(s!=Status::complete)return s;flags=attack->outcomes&0xffu;
         }
         if(flags&4u){
             s=c.status(Operation::block,c.d,c.a,0);if(s!=Status::complete)return s;
-            s=c.player(c.d,0x3b1b80);if(s!=Status::complete)return s;
+            s=c.player_counter(c.d,214,500,false,"epic_invincible");if(s!=Status::complete)return s;
             s=c.debug("isTracingChar_Attack");if(s!=Status::complete)return s;flags=attack->outcomes&0xffu;
         }
         if(flags&0x10u){s=c.status(Operation::hurt,c.d,c.a,special);if(s!=Status::complete)return s;
             s=c.debug("isTracingChar_Attack");if(s!=Status::complete)return s;flags=attack->outcomes&0xffu;}
         if(flags&0x80u){s=c.status(Operation::push,c.d,c.a,(attack->mask>>20)&1,special);if(s!=Status::complete)return s;
-            s=c.player(c.d,0x3b1c60);if(s!=Status::complete)return s;
+            s=c.player_counter(c.d,222,49,true,"knocked_down_50_times");if(s!=Status::complete)return s;
             s=c.debug("isTracingChar_Attack");if(s!=Status::complete)return s;flags=attack->outcomes&0xffu;}
         if(flags&0x40u){s=c.invoke(Operation::read_property,c.a,reply,0,(attack->mask&0x1000u)?185u:140u);if(s!=Status::complete)return s;
             s=c.status(Operation::stun,c.d,c.a,asr8(reply.word),1,0);if(s!=Status::complete)return s;
@@ -169,7 +255,23 @@ Status execute(const Arguments* args,const Globals* globals,const Services* serv
         s=c.effect(Operation::ai_combat_result,c.a);if(s!=Status::complete)return s;++report->ai_callbacks;
         s=c.effect(Operation::ai_combat_result,c.d);if(s!=Status::complete)return s;++report->ai_callbacks;
     }
-    s=c.player(c.d,0x3b1758);if(s!=Status::complete)return s;
-    return c.player(c.a,0x3b13e0);
+    bool player_defender=false;s=c.is_player(c.d,player_defender);if(s!=Status::complete)return s;
+    if(player_defender){s=c.player_stat(c.d,3);if(s!=Status::complete)return s;}
+    bool player_attacker=false;s=c.is_player(c.a,player_attacker);if(s!=Status::complete)return s;
+    if(!player_attacker)return Status::complete;
+    // PlayerManager::GetPlayerByCharacter(attacker, false), followed by the
+    // source PlayerStatManager tail. Read the mutable result only at each
+    // branch, preserving callbacks that changed outcomes or amount earlier.
+    s=c.invoke(Operation::player_by_character,globals->application,reply,c.a,0);if(s!=Status::complete)return s;
+    const auto player_id=reply.word;
+    if(attack->outcomes&0x160u){
+        s=c.effect(Operation::player_stat_increment,globals->application,0,2u,player_id);if(s!=Status::complete)return s;
+    }
+    s=c.invoke(Operation::is_dead,c.d,reply);if(s!=Status::complete)return s;
+    if(reply.word){
+        s=c.effect(Operation::player_stat_increment,globals->application,0,0u,player_id);if(s!=Status::complete)return s;
+    }
+    return c.effect(Operation::player_stat_increase,globals->application,0,1u,
+                    asr8(std::uint32_t(attack->amount)),player_id);
 }
 } // namespace dh2::character_apply_result

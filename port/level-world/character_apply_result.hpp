@@ -19,7 +19,11 @@ enum class Operation : std::uint32_t {
     saved_option,coop_player_count,effective_threat,add_aggro,hit_for,
     is_dead,blood_death_fx,blood_fx,target_position,play_anim_fx_set,
     regen_hp,regen_mp,apply_dot,dodge,block,hurt,push,read_property,stun,fear,
-    slow,cancel_sneaking,combat_text,combat_sound,ai_combat_result
+    slow,cancel_sneaking,combat_text,combat_sound,ai_combat_result,
+    critical_camera,player_by_character,player_stat_increment,player_stat_increase,
+    state_machine_is_idle,player_property_add_int,player_property_get_int,
+    player_is_local,trophy_lookup,trophy_unlock,inventory_add_gold,
+    is_monster
 };
 struct Request {
     Operation operation;
@@ -30,7 +34,19 @@ struct Request {
     std::uint32_t word0,word1,word2,word3;
 };
 struct Reply { std::uintptr_t identity; std::uint32_t word; };
-struct Services { void* context; std::int32_t (*invoke)(void*,const Request*,Reply*); };
+struct Services {
+    void* context;
+    std::int32_t (*invoke)(void*,const Request*,Reply*);
+    // Source attacker ItemInventory::gold is a direct field read, not a callee. Resolve
+    // it from that same Character's retained canonical inventory owner only
+    // when the gold-damage mask is reached.
+    std::int32_t (*read_inventory_gold)(void*,std::uintptr_t attacker_character,
+                                       std::int32_t* gold){};
+    // DesignSettingsTable::members is a retained global table. Read only source
+    // offsets +52/+56 after the corresponding actor classification branch.
+    std::int32_t (*read_coop_factor)(void*,std::uint32_t member_offset,
+                                     std::uint32_t* binary32){};
+};
 struct Result {
     std::uint32_t calls,last_operation,debug_phases,hits,regenerations,status_calls,
                   notifications,ai_callbacks,unsupported_pc,captured_hit_amount,threat;
@@ -41,9 +57,10 @@ enum class Status : std::int32_t {
     unsupported_coop_scaling,unsupported_threat_value,invalid_provider_result
 };
 
-// Original F_ApplyResult3388B OFFLINE NONPLAYER continuation. This is a bounded
-// caller, not a new whole-body reconstruction. Network, player, inventory-gold
-// and multiplayer-scaling branches stop explicitly at their original boundary.
+// Original F_ApplyResult offline continuation for nonplayer and Player
+// defenders, plus the source-ordered Player attacker tail. This is a bounded
+// caller, not a new whole-body reconstruction. Network effects remain outside
+// this offline traversal; multiplayer damage scaling is supported.
 // All other reached services are mandatory, including Debug/string operations,
 // HitFor, status, visual FX, cancel-sneak, scrolling text and combat audio. A
 // successful no-op effect provider violates this dependency contract. This
@@ -74,6 +91,38 @@ Status execute(const Arguments*,const Globals*,const Services*,data::CombatResul
 // actors/result/control reentry or destruction is forbidden; independent owners
 // may nest. A service error/exception stops without rollback, invented cleanup,
 // or later effect calls. Missing providers fail only when reached. In particular
-// string destruction is not added during error unwinding. mode is the source
+// string destruction is not added during error unwinding. Player operations
+// use Application as subject for PlayerManager lookup/stat dispatch. The
+// lookup request has peer=Character identity and word0=0 (the source's false
+// lookup flag); its reply.word is PlayerInfo+0x1648. Stat increment uses
+// word0=stat enum and word1=internal player ID. Stat increase uses word0=stat,
+// word1=source signed amount>>8 bit pattern, word2=internal player ID.
+// critical_camera receives the live result and attacker identity; its adapter
+// follows the optional source camera-level/rig path and succeeds when no level
+// or camera is present, as the original code does. Player-defender status
+// requests use state_machine_is_idle with word0=the source false flag;
+// player_property_add_int uses word0=property id, word1=integer delta 1;
+// player_property_get_int uses word0=property id, word1=source false flag and
+// returns the source whole integer in Reply.word. player_is_local has subject
+// Application and peer=Character. trophy_lookup receives its exact source name
+// in text and returns its table id; trophy_unlock has subject Application and
+// word0=that id. The three counter pairs are properties 215/214/222, thresholds
+// >=500/>=500/>49, and trophies epic_invisible/epic_invincible/
+// knocked_down_50_times. AddInt uses source integer delta 1; false locality
+// skips the trophy lookup/unlock. mode is the source
 // bool word and is not consulted in the supported offline branch.
+// For mask 0x400000, read_inventory_gold resolves the same attacker's retained
+// ItemInventory and returns its signed gold field without a synthetic service
+// call. The kernel performs the source signed min(gold<<8, amount), updates
+// AttackResult.amount, then inventory_add_gold(subject=attacker, word0=the
+// signed AddGold delta) dispatches ItemInventory::AddGold through that same
+// canonical V4 owner before threat calculation.
+// For a positive amount and PlayerManager count > 1, the source calls
+// is_monster(attacker). A monster reads DesignSettings members+52, multiplies
+// the local HitFor amount, and writes it back to AttackResult. Otherwise it
+// calls is_player(attacker); a player reads members+56 and divides only the
+// local HitFor amount. read_coop_factor receives the exact source member
+// offset and returns its raw binary32 word without a synthetic call event. The
+// player branch leaves AttackResult.amount unchanged, so its later threat
+// calculation uses the unscaled amount. The unused factor is not read.
 } // namespace dh2::character_apply_result
