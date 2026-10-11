@@ -65,7 +65,8 @@ int main() {
         pose.stationary = true;
         int provider_calls = 0;
         SourceFxAnchorKeyV1 waypoint_key;
-        check(registry.register_object("_prim_Waypoint_WitchSpotter", 0,
+        constexpr std::uint64_t source_waypoint_id = 0x12345678u;
+        check(registry.register_object("_prim_Waypoint_WitchSpotter", 0, source_waypoint_id,
             [&](SourceFxAnchorPoseV1& out, std::string&) {
                 ++provider_calls;
                 out = pose;
@@ -73,7 +74,8 @@ int main() {
             }, waypoint_key, error), error.c_str());
         check(waypoint_key.kind == SourceFxAnchorKindV1::level_object &&
               SourceFxAnchorRegistryV1::is_level_object_identity(waypoint_key.manager_identity) &&
-              waypoint_key.manager_identity != actor_key.manager_identity,
+              waypoint_key.manager_identity != actor_key.manager_identity &&
+              waypoint_key.source_object_identity == source_waypoint_id,
               "waypoint is a tagged source-object identity, never a fake ActorId");
         check(registry.current(waypoint_key), "new source object key is current");
 
@@ -94,18 +96,21 @@ int main() {
         check(provider_calls == 7, "moving object provider is resampled on the next frame");
 
         SourceFxAnchorKeyV1 ignored;
-        check(!registry.register_object("_prim_Waypoint_WitchSpotter", 0,
+        check(!registry.register_object("_prim_Waypoint_WitchSpotter", 0, 0x12345679u,
               [](SourceFxAnchorPoseV1&, std::string&) { return true; }, ignored, error),
               "duplicate source name/module is rejected");
         check(!registry.register_actor("Player", 6, 18, error),
               "duplicate actor name/module is rejected");
-        check(!registry.register_object("MissingProvider", 0, {}, ignored, error),
+        check(!registry.register_object("MissingProvider", 0, 0x1234567au, {}, ignored, error),
               "missing object provider is rejected");
+        check(!registry.register_object("MissingIdentity", 0, 0,
+              [](SourceFxAnchorPoseV1&, std::string&) { return true; }, ignored, error),
+              "missing active source-object identity is rejected");
         check(registry.resolve("Absent", 0, resolved, found, error) && !found,
               "missing source name is explicit and harmless");
 
         SourceFxAnchorKeyV1 failing_key;
-        check(registry.register_object("BrokenWaypoint", 0,
+        check(registry.register_object("BrokenWaypoint", 0, 0x1234567bu,
               [](SourceFxAnchorPoseV1&, std::string& e) { e = "source object lease expired"; return false; },
               failing_key, error), error.c_str());
         dh2::fx::MeshFxRequestV1 failing_request{};
@@ -126,7 +131,7 @@ int main() {
         handled = false;
         check(!registry.query(stale_request, handled, error) && handled && !error.empty(),
               "stale tagged object identity fails as handled, without actor fallback");
-        check(registry.register_object("_prim_Waypoint_WitchSpotter", 0,
+        check(registry.register_object("_prim_Waypoint_WitchSpotter", 0, source_waypoint_id,
               [&](SourceFxAnchorPoseV1& out, std::string&) { out = pose; return true; },
               ignored, error), error.c_str());
         check(ignored.manager_identity != waypoint_key.manager_identity &&

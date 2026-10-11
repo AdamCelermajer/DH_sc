@@ -20,6 +20,7 @@ enum class SourceFxAnchorKindV1 { actor, level_object };
 struct SourceFxAnchorKeyV1 {
     SourceFxAnchorKindV1 kind = SourceFxAnchorKindV1::actor;
     std::uint64_t generation{};
+    std::uint64_t source_object_identity{}; // exact active SourceWorldObjects/ObjectId scope
     std::uintptr_t manager_identity{};
     std::int32_t module{};
     std::string source_name;
@@ -46,6 +47,7 @@ public:
     bool register_actor(const std::string& source_name, std::int32_t module,
                         ActorId actor, std::string& error);
     bool register_object(const std::string& source_name, std::int32_t module,
+                         std::uint64_t source_object_identity,
                          SourceFxAnchorProviderV1 provider,
                          SourceFxAnchorKeyV1& key, std::string& error);
     bool resolve(const std::string& source_name, std::int32_t module,

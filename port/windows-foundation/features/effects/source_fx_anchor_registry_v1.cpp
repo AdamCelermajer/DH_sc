@@ -53,11 +53,13 @@ bool SourceFxAnchorRegistryV1::register_actor(const std::string& source_name,
 }
 
 bool SourceFxAnchorRegistryV1::register_object(const std::string& source_name,
-        std::int32_t module, SourceFxAnchorProviderV1 provider,
+        std::int32_t module, std::uint64_t source_object_identity,
+        SourceFxAnchorProviderV1 provider,
         SourceFxAnchorKeyV1& key, std::string& error) {
     key = {};
     error.clear();
     if (source_name.empty()) { error = "Source FX object name is empty"; return false; }
+    if (!source_object_identity) { error = "Source FX object requires its active source-world identity"; return false; }
     if (!provider) { error = "Source FX object requires a live/authored transform provider"; return false; }
     if (generation_exhausted_) { error = "Source FX world generation exhausted"; return false; }
     const NameKey name{module, source_name};
@@ -73,6 +75,7 @@ bool SourceFxAnchorRegistryV1::register_object(const std::string& source_name,
     const std::uintptr_t identity = kLevelObjectTag | next_object_token_++;
     key.kind = SourceFxAnchorKindV1::level_object;
     key.generation = generation_;
+    key.source_object_identity = source_object_identity;
     key.manager_identity = identity;
     key.module = module;
     key.source_name = source_name;
@@ -108,6 +111,7 @@ bool SourceFxAnchorRegistryV1::current(const SourceFxAnchorKeyV1& key) const noe
     }
     const auto found = objects_.find(key.manager_identity);
     return found != objects_.end() && found->second.key.generation == key.generation &&
+           found->second.key.source_object_identity == key.source_object_identity &&
            found->second.key.source_name == key.source_name &&
            found->second.key.module == key.module;
 }
