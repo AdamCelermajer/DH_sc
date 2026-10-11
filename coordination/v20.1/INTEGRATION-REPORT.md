@@ -114,6 +114,50 @@ B111 reviewer fresh physical clicks at two aspects reproduce source-backed
 values and authored pages; older captures used other save states, preserved as
 qualified historical evidence. B103 stat allocation remains a separate gate.
 
+## Merchant, status circles and normal close integration
+
+Behavior source0f7bc40f contains repaired B110 and B086 plus B112 documentation
+and reviewed B100 source once through B110. CMake conflict retained both actor
+effect tests and new merchant/text tests. Build passes, fullctest171/172 in23.28s,
+only permitted session_skill_binding. Frozen `dh-foundation-merchant-close.exe`
+SHA256 `D84799FE8C5B78F9B553FFB1E5BDDEE4C6A6835434D6F16026C67521C66B2168`.
+
+Independent scratch asset tree `assets-integration` copies accepted assets and
+adds verified778 models/two markers; no junction/hardlink or accepted asset edits.
+Receipt `test-assets-receipt.json`. This is an isolated test tree, not a release.
+
+- Five merged merchant cases exit0: equipped SELL blocked, UNEQUIP→SELL once,
+  BUY cancel/confirm/duplicate and equip controls, maximum potions12/12 then
+  blocked ordinary/max BUY, full-bag modal background/OK. Transactions and saved
+  gold/items/equipment asserted in `merchant-close-runtime/asserted-result.json`.
+  Equipped case was repeated with a seeded save because the first read-only
+  no-transaction run created no profile file; both receipts preserved. Inspected
+  blocked SELL and12/12 disabled BUY/MAX UI. Fixtures use diagnostic source menu
+  releases and gold10000, not natural gold acquisition; independent physical
+  pointer evidence remains in reviewed B110 reports.
+- Eight combined NPC near/distant runs at1280×720/1024×768 exit0. Inspected all
+  f260 views, quest f340 after acceptance and merchant f580 after close/reopen.
+  Green circles/blue!/money-bag appear, distant circles persist, acceptance removes
+  quest marker exactly once, repeat Space raises no duplicate accept. Merchant
+  normal Space opens real shop twice around explicit Back; no merchant interaction
+  while distant. `npc-shop-circles/contact-order.json`, contact.png, run logs and
+  strict inspector retained. Campaign scripts are off in this marker fixture;
+  dialogue proof belongs separately to reviewed B093 source run.
+- Real WM_CLOSE twice on normal frontend Continue/movement saves once atframe91.
+  Fresh copied profile without old world starts own session, then snapshot saves
+  hero386.857,−927.156,255. Copy both files to fresh resume directory; normal
+  frontend Continue validates44actor world and restores that exact position at0/1;
+  further movement ends−917.296,−117.013,255. Inspected f1/f200. Root first shell
+  launch rejected malformed array arguments before gameplay; corrected PS wrapper
+  succeeded. Initial resume preparation rejected an overbroad prefix assertion;
+  corrected exact output-path assertion succeeded. Neither failure touched user
+  or accepted files. Evidence `merchant-close-runtime/normal-close[-resume]/`.
+
+Reviewed B106 binding/held-key repair092b3501 and B108 initial-checkpoint repair
+ab1ee317 are now merged at10f8fa3f. New frozen combined death/travel checks pending.
+An initial merge met a transient Git index lock; clean status and subsequent
+ordinary merge succeeded without deleting a lock or resetting files.
+
 ## Remaining production and release gates
 
 Per-bug reviews, remaining implementation/runtime checks, integration of reviewed
