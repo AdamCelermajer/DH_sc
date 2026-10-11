@@ -3,6 +3,7 @@
 Updated: 2026-10-11. Branch: `reconstruction/item-world-runtime-2026-10-07`.
 
 Latest source round (not in R4):
+- [x] Build `a1ac6b9f` for ARM64/x86_64 and verify intro → main menu → new Warrior → SWAMP world/HUD on API 37/16 KiB. Fixed repeated identical menu frame labels that aborted assertion-enabled builds. Android combat and audible cinematic output remain unverified.
 - [x] Connect authored Faery selection to the canonical Save/skill and Level-placement providers, with source-selected BDAE/Idle rendering. Shared Windows target compiles; full Faery factory/AI lifecycle and live selection remain open.
 - [x] Restore local-player starter-slot initialization for loaded Saves with empty slot maps; retain source CharacterList-based interaction selection and activated-enemy target eligibility. Shared Windows target compiles; fresh starter skill 7/level 1 is logged. Restored-empty grant and merchant checks remain open.
 - [x] Reconstruct Irrlicht finite/infinite/orthographic projection and GLES depth conversion (`c8610338`); recovered perspective chain now selected by the shared renderer. Camera host checks and Windows build pass; nine aspect ratios match prior coefficients bit-for-bit.
@@ -18,7 +19,7 @@ Latest source round (not in R4):
 **Goal:** a complete, source-built native Android game, preserving original
 gameplay/content and providing documented fan modding. **The game is unfinished.**
 
-**Latest local APK:** `outputs/releases/Dungeon-Hunter-2-native-combat-ui-r4-2026-10-11.apk` (254,268,660 bytes; SHA-256 `1F1CE62018555A566AAC1A9EA02B7201548A7BC573F24A4BB5CDAABB5EC0F767`). ARM64/x86_64 build passed. API 37 / 16 KiB direct Crypt run confirms the localization fix: initial equipment adds five items. Loading then stops at `Source ObjectManager inputs are incomplete`; combat was not reached. Saves restored. Local, unreleased. [Receipt](../port/android-native/reports/native-combat-ui-r4-2026-10-11.json).
+**Latest local APK:** `outputs/android-next-build/artifacts/Dungeon-Hunter-2-native-a1ac6b9ff24cf597-debug.apk` (249,421,537 bytes; SHA-256 `55F3393DC8D3551B7245A9D04B12457AE92129B5DB81915818145EC1D0AC1E00`). ARM64/x86_64 build passed; API 37 / 16 KiB intro → menu → new Warrior → SWAMP world/HUD passed. Android combat and audible cinematic output remain unverified. Local, unreleased. Earlier R4 evidence remains in its [receipt](../port/android-native/reports/native-combat-ui-r4-2026-10-11.json).
 
 - [ ] Verify reported regressions: cinematic/loading borders and sound, selected-character preview, attack/ability icons, aggro and hit-triggered blank rendering. R3 includes saved-GEAR appearance, enemy HUD and combat callback fixes; preview still samples a static idle pose. Combat remains unverified. Allocator seed 4 is a reconstructed key range, not original menu cursor parity.
 

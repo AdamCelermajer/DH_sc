@@ -63,6 +63,11 @@ std::int32_t count_receiver(void* raw, Runtime&, Event& event, std::string&) {
     return context.result;
 }
 
+std::int32_t failed_provider(void*, Runtime&, Event&, std::string& error) {
+    error = "Objective completion script provider unavailable";
+    return 1;
+}
+
 struct LootContext { std::int32_t quantity=0, script_calls=0, script_id=-1; };
 bool item_quantity(void* raw,std::int32_t item,bool& found,std::int32_t& quantity,std::string& error){
  auto& state=*static_cast<LootContext*>(raw);if(item!=604){error="wrong item";return false;}
@@ -157,6 +162,16 @@ int main() {
               result.delivered == 1 && calls.size() == 1 && calls[0] == 44,
               "source return-1 stop behavior differs");
 
+        check(runtime.attach(89, 66, 0, nullptr, failed_provider, changed, error) ==
+                  Status::complete && changed,
+              "failed provider receiver attach failed");
+        Event failed_event{};
+        failed_event.objective_type = 89;
+        check(runtime.raise(failed_event, result, error) == Status::receiver_failed &&
+                  result.delivered == 1 && !result.stopped &&
+                  error == "Objective completion script provider unavailable",
+              "provider failure was masked as a legitimate consumed event");
+
         runtime.clear();
         using Gather=dh2::data::quest_gather_loot_receiver_v1::Binding;
         dh2::data::quest_objective_factory_v1::Record objective(0x1001);
@@ -183,7 +198,7 @@ int main() {
         check(objective.quantity_20==3&&objective.done_14&&completing.flag0==1&&
               completing.subject_id==3&&loot.script_calls==1&&loot.script_id==42,
               "GatherLoot quantity/completion did not update canonical Objective and start source script");
-        std::puts("{\"validation\":\"PASS\",\"attach_duplicate\":true,\"raise_snapshot\":true,\"synchronous_payload_mutation\":true,\"priority_does_not_reorder\":true,\"delayed_detach\":true,\"return_one_stops\":true,\"gather_loot_register_pickup_progress_completion\":true}");
+        std::puts("{\"validation\":\"PASS\",\"attach_duplicate\":true,\"raise_snapshot\":true,\"synchronous_payload_mutation\":true,\"priority_does_not_reorder\":true,\"delayed_detach\":true,\"return_one_stops\":true,\"provider_failure_preserved\":true,\"gather_loot_register_pickup_progress_completion\":true}");
         return 0;
     } catch (const std::exception& exception) {
         std::fprintf(stderr, "%s\n", exception.what());

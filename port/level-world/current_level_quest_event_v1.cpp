@@ -108,12 +108,15 @@ Status Runtime::raise(Event& event, Result& result, std::string& error) {
             error = "Current-Level event receiver threw";
             return Status::receiver_threw;
         }
+        // A source receiver may legitimately consume delivery with return 1.
+        // Adapter failures use the separate diagnostic channel: never erase a
+        // failed provider merely because its callback also returned 1.
+        if (!error.empty()) return Status::receiver_failed;
         if (stop == 1) {
             result.stopped = true;
             error.clear();
             break;
         }
-        if (!error.empty()) return Status::receiver_failed;
     }
     error.clear();
     return Status::complete;
