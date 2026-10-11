@@ -50,13 +50,21 @@ struct ActorState {
     // physical receivers, pointers and pool ownership remain transient.
     std::optional<bool> source_physical_present;
 
+    // Character+5193, independent of HP, enabled state and animation state.
+    // The original constructor clears it; only Kill/Revive/restore own it.
+    bool source_dead = false;
+
     bool alive() const noexcept;
+    bool is_dead() const noexcept { return source_dead; }
 };
 
 // Definition IDs and world IDs must be bound before validation succeeds.
 // This checks structural consistency, not recovered faction/content existence.
 bool validate_actor_state(const ActorState& actor, std::string& error);
 void reset_actor_action(ActorState& actor, CharacterAction action) noexcept;
+void kill_actor_state(ActorState& actor) noexcept;
+void revive_actor_state(ActorState& actor) noexcept;
+void restore_actor_dead_state(ActorState& actor, bool dead) noexcept;
 // Returns actual health removed. Invalid/nonpositive amounts are ignored.
 // Resistance, attack eligibility and event timing belong to the combat system.
 float apply_actor_damage(ActorState& actor, float amount) noexcept;

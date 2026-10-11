@@ -14,6 +14,8 @@ struct GameSave {
     std::vector<WorldObject> objects;
     // Version3 appends actors' optional actual physical-presence witnesses.
     // Legacy versions omit them and retain unknown; no receiver is serialized.
+    // Version4 appends each actor's explicit source-dead bool in actor order.
+    // Earlier PC checkpoints use their old HP classification as a migration.
 };
 bool validate_game_save(const GameSave&,std::string& error);
 bool capture_game_save(const std::string& level_uri,ActorId controlled,

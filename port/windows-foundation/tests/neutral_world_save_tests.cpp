@@ -63,7 +63,7 @@ int main(int argc,char** argv){try{
           world.find_object(chestId)->state_components.size()==1,"Rejected component changed persistent state");
     check(!world.set_object_component(chestId,"",{},error),"Empty component key admitted");
     const auto before=rng;GameSave captured;check(capture_game_save(level,1,character,world,captured,error),error);
-    check(captured.version==2&&captured.actors.size()==1&&captured.objects.size()==2&&
+    check(captured.version==4&&captured.actors.size()==1&&captured.objects.size()==2&&
           rng.seed==before.seed&&rng.calls==before.calls,"Object capture changed RNG or schema scope");
     const std::filesystem::path path(argv[2]);check(save_game(path,captured,error),error);
     const auto bytes=read(path);GameSave loaded;check(load_game(path,loaded,error),error);

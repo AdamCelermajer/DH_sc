@@ -218,7 +218,7 @@ int main(int argc,char** argv){try{
         protected_output.level_uri==loaded.level_uri&&protected_output.random.seed==loaded.random.seed,"corrupt load changed output");
     damaged=previous_file;damaged.resize(11);write(corrupt_path,damaged);
     check(!load_game(corrupt_path,protected_output,error),"truncated save accepted");
-    invalid=saved;invalid.version=4;check(!save_game(path,invalid,error)&&read(path)==previous_file,"unsupported version replaced valid save");
+    invalid=saved;invalid.version=5;check(!save_game(path,invalid,error)&&read(path)==previous_file,"unsupported version replaced valid save");
     invalid=saved;invalid.actors[0].actor.source_flags520=0x23c1;
     check(!save_game(path,invalid,error)&&read(path)==previous_file,"Transient source motion flags silently persisted/dropped over valid save");
     invalid=saved;invalid.actors[0].actor.source_target_node180=std::uintptr_t(123);
