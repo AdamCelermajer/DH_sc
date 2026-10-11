@@ -1133,3 +1133,8 @@ target_link_libraries(procedural_coverage PRIVATE foundation_procedural)
 # P17 PROCGEN2 diagnostic: module node triangle counts (voidmaze 14-22 triangles investigation; not a ctest).
 add_executable(procedural_module_probe features/procedural/procedural_module_probe.cpp)
 target_link_libraries(procedural_module_probe PRIVATE foundation_procedural)
+
+add_executable(source_actor_placement_tests tests/source_actor_placement_tests.cpp)
+add_test(NAME source_actor_placement COMMAND source_actor_placement_tests)
+add_executable(source_fx_version_overrides_tests tests/source_fx_version_overrides_tests.cpp)
+add_test(NAME source_fx_version_overrides COMMAND source_fx_version_overrides_tests)
