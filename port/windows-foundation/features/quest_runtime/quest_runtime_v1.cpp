@@ -111,6 +111,35 @@ bool QuestRuntimeV1::state_of(std::int32_t row, QuestStateV1& state) const {
     return true;
 }
 
+bool QuestRuntimeV1::talk_objective_registered(std::int32_t npc_row) const {
+    const auto talks = [npc_row](const Objective& def, const QuestObjectiveProgressV1& slot) {
+        return !slot.completed && def.type == static_cast<std::int32_t>(QuestObjectiveTypeV1::talk_to_npc) &&
+               def.oid1 == npc_row;
+    };
+    for (std::int32_t row = 0; row < std::int32_t(table_->rows().size()); ++row) {
+        QuestStateV1 state{};
+        if (!state_of(row, state)) continue;
+        const auto& def = table_->rows()[std::size_t(row)];
+        const auto* progress = progress_of(row);
+        if (!progress) continue;
+        switch (state) {
+        case QuestStateV1::available:
+            if (talks(def.accept, progress->accept)) return true;
+            break;
+        case QuestStateV1::active:
+            for (std::size_t i = 0; i < def.objectives.size() && i < progress->objectives.size(); ++i)
+                if (talks(def.objectives[i], progress->objectives[i])) return true;
+            break;
+        case QuestStateV1::completed:
+            if (talks(def.end, progress->end)) return true;
+            break;
+        default:
+            break;
+        }
+    }
+    return false;
+}
+
 const QuestRowProgressV1* QuestRuntimeV1::progress_of(std::int32_t row) const {
     const auto it = rows_.find({difficulty(), row});
     return it == rows_.end() ? nullptr : &it->second;
