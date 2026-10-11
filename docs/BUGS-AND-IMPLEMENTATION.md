@@ -247,4 +247,13 @@ Editable checklist. Preserve user requests until assigned a stable bug or TODO I
 
 Only root accepts a release. Preview11 (FD850478) is accepted; do not modify that package. Normal-executable proof must identify one frozen build and timestamp. Keep focused/source/visual and normal-runtime evidence distinct. Preserve user saves until root accepts another candidate.
 
+### 2l. Reported on v20 (2026-10-11): B079-B085 -> v20.1 (fresh Sonnet 5.5 medium session per bug; brief `coordination/v20.1/BUGFIX-BRIEF.md`; screenshots `.local-inputs/claude-v20.1/user-shots/`)
 
+| ID | Observed / reproduction | State | Owner |
+|---|---|---|---|
+| B079 | Chest opening: no/weird player animation, drops not thrown out of the chest (stay on the spot), no drop sound. | OPEN, session assigned | fresh Sonnet session |
+| B080 | After a SKIPPED cutscene mobs (troll, lizards, moths) are not targetable (also B084 moth). | OPEN, session assigned (cinematics B068b) | fresh Sonnet session |
+| B081 | Inventory potion count shows a red X ("5X Potion"). | OPEN, session assigned | fresh Sonnet session |
+| B082 | Death: black screen, no visible try-again / return-to-checkpoint; hero death animation. | OPEN, session assigned | fresh Sonnet session |
+| B083 | A skill (slot 2) was not usable. | OPEN, session assigned | fresh Sonnet session |
+| B085 | Breaking a vase: no sound, no sword animation. | OPEN, session assigned | fresh Sonnet session |
