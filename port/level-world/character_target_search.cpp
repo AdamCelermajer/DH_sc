@@ -8,9 +8,6 @@ bool valid_list(const List48* l) { return aligned(l)&&aligned(l->heap)&&l->capac
 bool call(const Services16* s,Service op,const Object48* subject,const Object48* other,Response16& out) {
  out={};Request24 q{op,0,subject?subject->identity:0,other?other->identity:0};return s->invoke(s->context,&q,&out)==0;
 }
-bool call_filter(const Services16* s,Service op,const Object48* subject,const Object48* other,std::uint32_t filter,Response16& out) {
- out={};Request24 q{op,filter,subject?subject->identity:0,other?other->identity:0};return s->invoke(s->context,&q,&out)==0;
-}
 float mul(float a,float b) { volatile float r=a*b;return r; }
 float add(float a,float b) { volatile float r=a+b;return r; }
 float sub(float a,float b) { volatile float r=a-b;return r; }
@@ -102,6 +99,17 @@ int character_valid(List48* l,Object48* candidate,std::uint32_t flags,
  }
  return 0;
 }
+bool game_object_valid(const Services16* s,Object48* object,Object48* owner,
+                       std::uint32_t filter,int& accepted) {
+ accepted=false;
+ if(filter==3) { accepted=true;return true; }
+ if(filter!=0&&filter!=1)return true;
+ Response16 r;
+ if(!call(s,interaction_type,object,owner,r))return false;
+ const auto type=static_cast<std::int32_t>(r.word);
+ accepted=filter==0?type==8:type!=-1;
+ return true;
+}
 } // namespace
 extern "C" int dh2_target_list_init(List48* l,Target24* heap,std::uint32_t capacity,Object48* owner,std::uint32_t sort,const Services16* s) {
  return dh2_target_list_init_filtered(l,heap,capacity,owner,1,0,sort,s);
@@ -141,7 +149,7 @@ extern "C" int dh2_target_search(List48* l,const Registry8* registry,float radiu
     if(r.word) {
      int accepted;
      if(character)accepted=character_valid(l,character,l->character_flags,s);
-     else { if(!call_filter(s,is_game_object_valid,object,l->owner,l->object_filter,r))return 2;accepted=r.word!=0; }
+     else if(!game_object_valid(s,object,l->owner,l->object_filter,accepted))return 2;
      if(accepted<0)return 2;
      if(accepted) {
       if(!call(s,interaction_radius,object,nullptr,r))return 2;
@@ -197,7 +205,7 @@ extern "C" int dh2_target_search_object_list(List48* l,const ObjectListMethods* 
     if(r.word) {
      int accepted=0;
      if(character)accepted=character_valid(l,character,character_flags,s);
-     else {if(!call_filter(s,is_game_object_valid,object,l->owner,object_filter,r))return 2;accepted=r.word!=0;}
+     else if(!game_object_valid(s,object,l->owner,object_filter,accepted))return 2;
      if(accepted<0)return 2;
      if(accepted) {
       if(!call(s,interaction_radius,object,nullptr,r))return 2;

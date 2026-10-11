@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <limits>
 
 namespace {
 using namespace dh2::target_search;
@@ -28,6 +29,8 @@ struct World {
     std::array<bool, 4> flag_2fa{false, false, false, false};
     std::array<std::int32_t, 4> character_state{};
     bool last_entry_is_game_object = false;
+    std::int32_t object_interaction_type = 8;
+    unsigned interaction_type_calls = 0;
     Services16 services{this, invoke};
 
     World() {
@@ -83,9 +86,10 @@ struct World {
             if (index < world.character_state.size())
                 response->word = static_cast<std::uintptr_t>(static_cast<std::intptr_t>(world.character_state[index]));
             break;
-        case is_game_object_valid:
-            response->word = request->reserved == 3 ||
-                (request->reserved == 0 && request->subject == 99);
+        case interaction_type:
+            if (request->other != 99) return 1;
+            ++world.interaction_type_calls;
+            response->word = world.object_interaction_type;
             break;
         case is_zonable: response->word = 0; break;
         case is_interactive: response->word = 1; break;
@@ -186,6 +190,12 @@ int main() {
         dh2_target_search(&world.list, &world.registry, 8.0f, 0.2f, &world.services) ||
         world.list.count != 1 || world.list.heap[0].identity != 100)
         fail("cone filter must exclude the side target while keeping the frontal Enemy");
+    if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
+                                      &world.objects[0], 1, 0, 1, &world.services) ||
+        dh2_target_search(&world.list, &world.registry, 8.0f,
+                          std::numeric_limits<float>::quiet_NaN(), &world.services) ||
+        world.list.count != 0)
+        fail("source cone comparisons must reject all targets for a NaN cone");
 
     constexpr std::uint32_t all_characters = 0x7fffffffu;
     if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
@@ -202,8 +212,32 @@ int main() {
                                       &world.objects[0], 0, 3, 1,
                                       &world.services) ||
         dh2_target_search(&world.list, &world.registry, 8.0f, 3.1416f, &world.services) ||
-        world.list.count != 1 || world.list.heap[0].identity != 102)
+        world.list.count != 1 || world.list.heap[0].identity != 102 ||
+        world.interaction_type_calls != 0)
         fail("object filter 3 must accept the source-valid non-Character object");
+    if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
+                                      &world.objects[0], 0, 0, 1, &world.services) ||
+        dh2_target_search(&world.list, &world.registry, 8.0f, 3.1416f, &world.services) ||
+        world.list.count != 1 || world.list.heap[0].identity != 102 ||
+        world.interaction_type_calls != 1)
+        fail("object filter 0 must call InteractionType and accept type 8");
+    world.interaction_type_calls = 0;
+    world.object_interaction_type = -1;
+    if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
+                                      &world.objects[0], 0, 1, 1, &world.services) ||
+        dh2_target_search(&world.list, &world.registry, 8.0f, 3.1416f, &world.services) ||
+        world.list.count != 0 || world.interaction_type_calls != 1)
+        fail("object filter 1 must call InteractionType and reject type -1");
+    world.object_interaction_type = 7;
+    world.interaction_type_calls = 0;
+    if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
+                                      &world.objects[0], 0, 1, 1, &world.services) ||
+        dh2_target_search(&world.list, &world.registry, 8.0f, 3.1416f, &world.services) ||
+        world.list.count != 1 || world.list.heap[0].identity != 102 ||
+        world.interaction_type_calls != 1)
+        fail("object filter 1 must accept interaction types other than -1");
+    world.object_interaction_type = 8;
+    world.interaction_type_calls = 0;
     if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
                                       &world.objects[0], 0, 0x10003u, 1,
                                       &world.services) ||
