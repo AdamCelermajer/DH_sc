@@ -73,7 +73,7 @@ int main() {
         check(dispatch_source_play_effect_v1(false, 276, before.data(), 77,
                   reject_invalid_set, error) == SourceScriptFxResultV1::failed &&
                   error == "set outside active EffectsTables",
-              "out-of-range set rejection from active source manager is surfaced");
+              "an out-of-range rejection returned by the play callback is surfaced");
         std::cout << "PASS | source Script_PlayEffect adapter branches and duplicate cues\n";
         return 0;
     } catch (const std::exception& e) {
