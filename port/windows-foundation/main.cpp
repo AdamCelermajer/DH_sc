@@ -5098,7 +5098,7 @@ int main(int argc,char** argv) {
                         std::cout<<"Source death reward frame="<<drawn<<" victim="<<reward.victim
                                  <<" state="<<static_cast<int>(reward.state)<<" xpRecipients="<<reward.xp_recipients
                                  <<" xp="<<state.experience<<" level="<<state.stats.level
-                                 <<" spawned="<<reward.spawned_items<<" store="<<worldItems->size()
+                                 <<" selected="<<reward.selected_items<<" spawned="<<reward.spawned_items<<" store="<<worldItems->size()<<" diag="<<int(reward.diagnostic)<<" error="<<error
                                  <<" suppressed="<<reward.rewards_suppressed<<'\n';
                 }
                 // P14 DROPS: ground items travel to their landing point. ItemObject::_DoAutoPickupHack: an item whose
