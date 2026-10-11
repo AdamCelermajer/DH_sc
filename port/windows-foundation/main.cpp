@@ -2577,7 +2577,7 @@ int main(int argc,char** argv) {
         // presentation-only props and companions keep their held pose. Source no longer relies on a later AI command to release the clip.
         hostServices.scripted_clip_finished=[&](f::ActorId id,bool& released,std::string& e){
             released=false;
-            if(!combatSession||!combatSession->actor(id)||combatSession->is_animation_only(id)||!combatSession->scripted_actor_pose(id))return true;
+            if(!combatSession||!combatSession->actor(id)||combatSession->is_animation_only(id)||!combatSession->scripted_actor_pose(id)||campaignHost.character_scripted(id))return true;
             const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==id;});
             if(placed==population.actors().end())return true;
             bool alive=false;std::int32_t actorState=-1;

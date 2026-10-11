@@ -779,6 +779,10 @@ bool CampaignHost::advance_actor_clips(std::int32_t dt_ms, std::string& error) {
         if (it->second.remaining_ms > 0) { ++it; continue; }
         const auto id = it->first;
         const auto chained = it->second.follow_dictionary;
+        // CSAnim::OnUpdate 0x3c1a3c gates Idle on Character+5248 (scripted)==0.
+        // Keep the completed entry until Unset, rather than losing its deferred release.
+        // Script replacements, chained clips and explicit Idle still own their cancellation.
+        if(chained<0&&character_scripted(id)){++it;continue;}
         it = actor_clips_.erase(it);
         if (chained < 0) { // B091: CSAnim::OnUpdate -> SM_SetIdleState when the scripted clip is over
             if (services_.scripted_clip_finished) {
