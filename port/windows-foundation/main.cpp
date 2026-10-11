@@ -95,6 +95,9 @@
 #include "features/persistence/death_checkpoint_zone_v1.hpp"
 #include "features/persistence/death_screen_runtime_v1.hpp"
 #include "features/persistence/death_fade_from_black_v1.hpp"
+#include "features/persistence/death_host_v1.hpp"
+#include "features/persistence/death_screen_v1.hpp"
+#include <random>
 #include "features/menu_metadata/menu_metadata_v1.hpp" // P14 schema: per-slot menu metadata stamping/projection
 #if defined(_WIN32)
 #include "features/audio/frontend_menu_audio_v1.hpp"
@@ -218,6 +221,86 @@ std::string glyphTextureKey(const f::HudGlyphQuad& glyph,const char* prefix) {
     return std::string(prefix)+"/"+std::to_string(glyph.codepoint)+"/"+
         std::to_string(glyph.image.width)+"/"+std::to_string(glyph.image.height)+"/"+std::to_string(hash);
 }
+// I024 DEATH: host callbacks are plain C slots in ServicesV1; each slot dispatches to one
+// lambda in main that owns the real consumer (Session, audio, menu localization, FX).
+struct DeathWireV1 {
+    std::array<std::function<bool(std::string&)>,10> steps;
+    std::function<bool(bool,std::string&)> fx_muted;
+};
+template<std::size_t N>
+bool deathWireStep(void* raw,std::string& error) {
+    auto& wire=*static_cast<DeathWireV1*>(raw);
+    if(!wire.steps[N]) {error="Death host provider is not wired";return false;}
+    return wire.steps[N](error);
+}
+bool deathWireFx(void* raw,bool muted,std::string& error) {
+    auto& wire=*static_cast<DeathWireV1*>(raw);
+    if(!wire.fx_muted) {error="Death FX provider is not wired";return false;}
+    return wire.fx_muted(muted,error);
+}
+// I024 DEATH: sprite741 GLOBAL_DEATH{n}_01 through the menu localization owner. Text is word-wrapped to the
+// authored field width (bounds in twips) and drawn centred with the source alpha. Fontin SmallCaps 18 px.
+struct DeathQuoteDrawV1 {
+    f::character_menu::MenuLocalization* localization=nullptr;
+    const f::CharacterState* profile=nullptr;
+    f::HudGlyphFont* font=nullptr;
+    f::Renderer* renderer=nullptr;
+    f::OverlayRenderer* overlay=nullptr;
+    std::map<std::string,std::uint32_t>* textures=nullptr;
+    int viewport_width=0,viewport_height=0;
+};
+bool deathQuoteDraw(void* raw,std::uint8_t quote,const std::array<float,6>& matrix,
+                    const std::array<std::int32_t,4>& bounds,std::uint8_t alpha,std::string& error) {
+    auto& d=*static_cast<DeathQuoteDrawV1*>(raw);
+    std::string value;
+    if(!d.localization->symbol("GLOBAL_DEATH"+std::to_string(int(quote))+"_01",d.profile,value,error)) return false;
+    std::string plain;bool inTag=false;
+    for(const char ch:value) {
+        if(ch=='<'){inTag=true;continue;}
+        if(ch=='>'&&inTag){inTag=false;continue;}
+        if(!inTag) plain+=(static_cast<unsigned char>(ch)<32)?' ':ch;
+    }
+    const float scale=std::min(float(d.viewport_width)/480.f,float(d.viewport_height)/320.f);
+    const float ox=(float(d.viewport_width)-480.f*scale)*.5f,oy=(float(d.viewport_height)-320.f*scale)*.5f;
+    const float maxWidth=float(bounds[1]-bounds[0])/20.f;
+    std::vector<std::string> lines;std::string line;
+    std::istringstream words(plain);std::string word;
+    while(words>>word) {
+        const std::string candidate=line.empty()?word:line+" "+word;
+        f::HudGlyphRun run;
+        if(!d.font->raster(candidate,18,1.f,run,error)) return false;
+        if(run.advance>maxWidth&&!line.empty()) {lines.push_back(line);line=word;}
+        else line=candidate;
+    }
+    if(!line.empty()) lines.push_back(line);
+    // Field-local centre and top of the first line, projected through the sprite matrix (twips -> stage px).
+    const float localX=float(bounds[0]+bounds[1])*.5f,localY=float(bounds[2]);
+    const float stageX=(matrix[0]*localX+matrix[2]*localY+matrix[4])/20.f;
+    const float stageY=(matrix[1]*localX+matrix[3]*localY+matrix[5])/20.f;
+    const float centreX=ox+stageX*scale,topY=oy+stageY*scale;
+    for(std::size_t i=0;i<lines.size();++i) {
+        f::HudGlyphRun run;
+        if(!d.font->raster(lines[i],18,scale,run,error)) return false;
+        const float baseline=topY+(18.f+float(i)*22.f)*scale;
+        for(const auto& glyph:run.glyphs) {
+            if(glyph.width<=0||glyph.height<=0) continue;
+            const auto key=glyphTextureKey(glyph,"death-quote");
+            auto handle=d.textures->find(key);
+            if(handle==d.textures->end()) {
+                const auto texture=d.renderer->createTexture(glyph.image.width,glyph.image.height,glyph.image.rgba.data());
+                if(!texture){error="Death quote glyph upload failed";return false;}
+                handle=d.textures->emplace(key,texture).first;
+            }
+            f::OverlaySprite sprite;
+            sprite.x=centreX+(glyph.x-run.advance*.5f)*scale;sprite.y=baseline+glyph.y*scale;
+            sprite.width=glyph.width*scale;sprite.height=glyph.height*scale;
+            sprite.u1=glyph.u1;sprite.v1=glyph.v1;sprite.texture=handle->second;
+            sprite.color={1.f,1.f,1.f,float(alpha)/255.f};
+            d.overlay->drawSprite(sprite);
+        }
+    }
+    error.clear();return true;
+}
 // P14 DROPS: centred world/status label from the original Fontin glyph owner.
 // rgb is 0xRRGGBB; (centreX, baselineY) are window pixels; scale = window px per source px.
 bool drawScreenLabel(f::HudGlyphFont& font,const std::string& text,std::uint32_t rgb,int sourceHeight,
@@ -340,6 +423,8 @@ struct Options {
     std::string meleeBindings;
     bool diagnosticAI=false;
     int attackFrames=0, attackStartFrame=0, targetFrame=-1, saveFrame=-1, loadFrame=-1;
+    float testPlayerHealth=0.f; // I024 TEST ONLY: --test-player-hp N[@FRAME] sets the local Character HP at FRAME (inert unless passed)
+    int testPlayerHealthFrame=0;
     f::Vec3 actorPosition{};
     std::optional<f::CameraVec3> focus;
     float distance = 0;
@@ -521,6 +606,12 @@ Options parse(int argc, char** argv) {
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
         else if(arg=="--combat-react") {auto c=choice(value());o.combat.profiles[c.first].reaction=c.second;}
         else if(arg=="--combat-death") {auto c=choice(value());o.combat.profiles[c.first].death=c.second;}
+        else if(arg=="--test-player-hp") { // I024 TEST ONLY: starting HP for the death verification fixture; never set in packaged args
+            const std::string text=value();const auto at=text.find('@');
+            o.testPlayerHealth=std::stof(text.substr(0,at));
+            if(at!=std::string::npos)o.testPlayerHealthFrame=std::stoi(text.substr(at+1));
+            if(!std::isfinite(o.testPlayerHealth)||o.testPlayerHealth<=0.f||o.testPlayerHealthFrame<0)throw std::runtime_error("Test player HP must be N or N@FRAME with positive N");
+        }
         else if(arg=="--combat-marker") {auto c=pair(value());o.combat.profiles[c.first].damageMarkerNames.push_back(c.second);}
         else if(arg=="--combat-ai-gate") {auto c=pair(value());o.combat.profiles[c.first].requiredAIState=c.second;}
         else if(arg=="--combat-state") {auto c=pair(value());o.combat.profiles[c.first].originalCombatState=std::stoi(c.second);}
@@ -1570,7 +1661,9 @@ int main(int argc,char** argv) {
                     if(zone.built&&zone.kind==f::transitions::ZoneKind::level_exit)
                         std::cout<<"Level exit zone name="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" condition="<<(zone.condition.empty()?"none":zone.condition)<<" procedural="<<(zone.target_procedural?1:0)<<'\n';
                     else if(zone.built)
-                        std::cout<<"Level zone name="<<zone.name<<" kind="<<f::transitions::zone_kind_name(zone.kind)<<'\n';
+                        std::cout<<"Level zone name="<<zone.name<<" kind="<<f::transitions::zone_kind_name(zone.kind)
+                                 <<" centre="<<zone.box.centre[0]<<','<<zone.box.centre[1]<<','<<zone.box.centre[2]
+                                 <<" half="<<zone.box.half[0]<<','<<zone.box.half[1]<<','<<zone.box.half[2]<<'\n'; // I024: zone geometry for run placement
                 }
                 for(const auto& notice:exitZones.notices())std::cout<<"Level exit notice: "<<notice<<'\n';
                 if(options.transitionEntryId>=0) {
@@ -1929,7 +2022,10 @@ int main(int argc,char** argv) {
                  SourceCheckpointObjectFamilyV1& family,bool& skip,std::string& e) {
                 auto& c=*static_cast<Context*>(raw);const f::ActorDefinition* definition=nullptr;
                 for(const auto& item:c.population->definitions())if(item.stableId==id){definition=&item;break;}
-                if(!definition||definition->gametype!="Character"){e="Saved actor lacks a source Character declaration";return false;}
+                // Every GameSave actor is a live Character. A runtime-spawned Character (population respawn) has no authored
+                // declaration: the Character constructor default applies and no skip_checkpoint property exists.
+                if(!definition){family=SourceCheckpointObjectFamilyV1::character;skip=false;e.clear();return true;}
+                if(definition->gametype!="Character"){e="Saved actor declaration is not a source Character: "+definition->gametype;return false;}
                 family=SourceCheckpointObjectFamilyV1::character;skip=false;
                 const auto value=definition->properties.find("skip_checkpoint");
                 if(value==definition->properties.end()||value->second=="0"||value->second=="false"){e.clear();return true;}
@@ -1946,9 +2042,32 @@ int main(int argc,char** argv) {
                  SourceCheckpointObjectFamilyV1& family,bool& skip,std::string& e) {
                 auto& c=*static_cast<Context*>(raw);const f::ActorDefinition* definition=nullptr;
                 for(const auto& item:c.population->definitions())if(item.stableId==id){definition=&item;break;}
-                if(!definition){e="Saved world object has no current authored declaration";return false;}
+                if(!definition){
+                    // campaign.lifecycle is the port's host-owned script-lifecycle record, not a source GameObject: LevelSavegame's
+                    // OBJS writer has no entry for it, so it is outside the checkpoint subset (ineligible) and is never restored.
+                    const auto* live=c.session->world()->find_object(id);
+                    if(live&&live->name.rfind("campaign.",0)==0){family=SourceCheckpointObjectFamilyV1::object_base;skip=false;e.clear();return true;}
+                    e="Saved world object has no current authored declaration id="+std::to_string(id)+" name="+(live?live->name:std::string("?"));
+                    return false;
+                }
                 if(definition->gametype=="Door")family=SourceCheckpointObjectFamilyV1::door;
-                else if(definition->gametype=="Container")family=SourceCheckpointObjectFamilyV1::container;
+                else if(definition->gametype=="Container"||definition->gametype=="OpenableContainer"||
+                        definition->gametype=="DestructibleContainer")
+                    family=SourceCheckpointObjectFamilyV1::container; // Container::Container sets byte+40=1 (IDA 0x3a06dc); OpenableContainer 0x3a1cb0, DestructibleContainer 0x3a14bc call it
+                // Ineligible families with source evidence: GetNewInstance<AnimatedDecor> (IDA 0x342600) builds on
+                // GameObject(...,20) -> ObjectBase (0x33f15c) which zeroes byte+40 and nothing sets it; Dummy/Waypoint as in
+                // DEATH-FLOW-report.md. Lever/AnimatedObject and other types stay unmapped and fail closed.
+                else if(definition->gametype=="AnimatedDecor"||definition->gametype=="Dummy"||definition->gametype=="Waypoint")
+                    family=SourceCheckpointObjectFamilyV1::object_base;
+                // Generic area Zone constructors leave byte+40 at zero (Zone::Zone 0x397c2c under GameObject/ObjectBase):
+                // CheckpointZone (0x39594c -> Zone::Zone(...,1,1)) and QuestMoveInZone (0x396330 -> Zone::Zone).
+                else if(definition->gametype=="QuestMoveInZone"||definition->gametype=="CheckpointZone")
+                    family=SourceCheckpointObjectFamilyV1::area_zone;
+                // Native Trigger constructors set byte+40=1 (Trigger::Trigger 0x398f44): TriggerZone (0x39b890) and
+                // TriggerZoneExitLevel (0x39c9a4 -> TriggerZone) are checkpoint-eligible unless skip_checkpoint.
+                else if(definition->gametype=="TriggerZone"||definition->gametype=="TriggerZoneExitLevel"||
+                        definition->gametype=="TriggerObject") // TriggerObject 0x399df0 -> Trigger::Trigger(...,20,0,1) (DEATH-FLOW-report.md)
+                    family=SourceCheckpointObjectFamilyV1::native_trigger;
                 else {e="Checkpoint identity family is not source-mapped: "+definition->gametype;return false;}
                 skip=false;const auto value=definition->properties.find("skip_checkpoint");
                 if(value==definition->properties.end()||value->second=="0"||value->second=="false"){e.clear();return true;}
@@ -4937,6 +5056,276 @@ int main(int argc,char** argv) {
             if(!despawnOwner.advance(static_cast<std::uint32_t>(wholeMs),services,e))return false;
             return despawnOwner.poll(services,e);
         };
+        // I024 DEATH (features/persistence/death_host_v1): offline local-death presentation and the source revive chain.
+        // The host owns the flow state only. Each callback below is the real consumer of a live owner: the CombatSession
+        // (detach/restore/rebind, actor vitals and idle), the profile (player gear/XP/inventory stay), the audio host, the
+        // menu localization, and the checkpoint file written by checkpoint-zone contact.
+        f::persistence::death_host::DeathHostV1 deathHost;
+        DeathWireV1 deathWire;
+        f::persistence::death_host::ServicesV1 deathServices;
+        deathServices.context=&deathWire;
+        deathServices.set_fx_muted=&deathWireFx;
+        deathServices.native_screen_is_black=&deathWireStep<0>;
+        deathServices.load_level_checkpoint=&deathWireStep<1>;
+        deathServices.clear_character_buffs=&deathWireStep<2>;
+        deathServices.restore_revive_position=&deathWireStep<3>;
+        deathServices.revive_to_source_vitals=&deathWireStep<4>;
+        deathServices.set_character_idle=&deathWireStep<5>;
+        deathServices.ensure_minimum_potions=&deathWireStep<6>;
+        deathServices.restart_level_music=&deathWireStep<7>;
+        deathServices.native_play_previous_music=&deathWireStep<8>;
+        deathServices.pop_fade_from_black=&deathWireStep<9>;
+        std::mt19937 deathQuoteRng{std::random_device{}()}; // presentation choice (RandomNumber(5)+1); the Session RNG is untouched
+        bool deathModalWasOpen=false,deathSpaceHeld=false;
+        std::string lastDeathGateError;
+        f::HudGlyphFont deathFont;
+        std::string deathFontError;
+        if(options.hud&&!deathFont.load(assets.resolve("data/Fontin SmallCaps.ttf"),deathFontError))
+            throw std::runtime_error("Death quote font: "+deathFontError);
+        DeathQuoteDrawV1 deathQuoteText{&menuLocalization,&state,&deathFont,&renderer,&overlay,&textures,0,0};
+        f::persistence::death_flow::DeathScreenDrawServicesV1 deathDrawServices;
+        deathDrawServices.draw_localized_quote=&deathQuoteDraw;
+        deathDrawServices.context=&deathQuoteText;
+        // Checkpoint-restore state shared by the load step and the provider callbacks below.
+        struct DeathRestoreStateV1 {
+            f::PlayableActorBodies* bodies=nullptr;
+            f::PlayableActorWorld* world=nullptr;
+            f::CombatSession* session=nullptr;
+            f::persistence::death_flow::DeathCheckpointSnapshotV1 snapshot;
+            bool loaded=false;
+        } deathRestore;
+        struct DeathProfileCountsV1 { std::size_t inventory=0,equipment=0; std::uint64_t xp=0,gold=0; } deathProfileBefore;
+        deathRestore.bodies=&nativeBodies;
+        const auto deathCurrentStates=[](void* raw,f::ActorId id,bool& limbus,bool& preSpawn,std::optional<bool>& canRespawn,
+                                         std::optional<bool>& physical,std::string& e)->bool {
+            auto& r=*static_cast<DeathRestoreStateV1*>(raw);
+            // The port has no Limbus or PreSpawn owner, so both report not-already; CanRespawn stays unknown and
+            // any saved state that needs it fails closed in source_character_restore_plan_v1.
+            limbus=false;preSpawn=false;canRespawn.reset();physical.reset();
+            // "Already" facts come from the live Session state: 1 Spawn and 17 PreSpawn (lifecycle program targets).
+            if(r.session){const auto live=r.session->original_actor_state(id);preSpawn=(live==1||live==17);}
+            // Physical-body presence: the live body registry when it has an entry for this Character, otherwise the
+            // actor's recorded source_physical_present fact (published by the body assembly). Unknown stays unknown.
+            if(r.bodies)if(const auto* body=r.bodies->physical(id))physical=body->native().body!=nullptr;
+            if(!physical&&r.world)if(const auto* actor=r.world->find_actor(id))physical=actor->source_physical_present;
+            e.clear();return true;
+        };
+        const auto deathInitializeQest=[](void* raw,std::vector<std::uint8_t>& bytes,std::string& e)->bool {
+            auto& r=*static_cast<DeathRestoreStateV1*>(raw);
+            // INITQUESTS is only the fallback when the checkpoint carries no QEST section; the source initializer is not ported.
+            bytes.clear();
+            if(r.snapshot.qest_present){e.clear();return true;}
+            e="Source PlayerSavegame INITQUESTS initializer is not ported and the checkpoint has no QEST";return false;
+        };
+        const auto deathApplyState=[](void*,const f::persistence::death_flow::SourceCharacterRestorePlanV1& plan,
+                                      f::ActorState& actor,std::string& e)->bool {
+            using Op=f::persistence::death_flow::SourceCharacterRestoreOpV1;
+            for(const auto op:plan.ordered_operations) {
+                switch(op) {
+                case Op::restore_serialized_dead_bit: actor.source_dead=plan.saved_dead; break;
+                case Op::set_source_dead_true: actor.source_dead=true; break;
+                case Op::set_hp_zero: actor.health=0.f; break;
+                case Op::set_ai_dead: actor.action=f::CharacterAction::dead; actor.target_id=f::invalid_actor_id; break;
+                case Op::set_idle_zero: actor.action=f::CharacterAction::idle; actor.action_elapsed_seconds=0.f; break;
+                case Op::clear_target: actor.target_id=f::invalid_actor_id; break;
+                case Op::can_respawn_gate:
+                case Op::initialize_physical_if_missing: break; // physical bodies are rebuilt from the restored transforms
+                case Op::set_limbus_if_not_already: e="Source Limbus owner is not ported (saved CS state "+std::to_string(plan.saved_state)+")";return false;
+                case Op::set_pre_spawn_if_not_already: e="Source PreSpawn owner is not ported (saved CS state "+std::to_string(plan.saved_state)+")";return false;
+                }
+            }
+            e.clear();return true;
+        };
+        const auto deathCheckpointPathFor=[&]() {return deathCheckpointPath();};
+        // Level::LoadCheckpoint. Same contract as the F9 live restore: detach the Session, restore the selective
+        // checkpoint into the live world (existing named identities only), then rebind every consumer.
+        deathWire.steps[1]=[&](std::string& e)->bool {
+            if(!combatSession||options.save.empty()) {e="Level::LoadCheckpoint requires a live Session and a LevelSavegame";return false;}
+            const auto path=deathCheckpointPathFor();
+            if(!fs::exists(path)) {
+                e="No source checkpoint record exists for this level yet; Level::LoadCheckpoint has no checkpoint to read (the source behaviour for this case is not established)";
+                return false;
+            }
+            std::ifstream input(path,std::ios::binary);
+            if(!input) {e="Cannot open source checkpoint snapshot";return false;}
+            std::vector<std::uint8_t> bytes((std::istreambuf_iterator<char>(input)),{});
+            f::persistence::death_flow::DeathCheckpointSnapshotV1 snapshot;
+            if(!f::persistence::death_flow::decode_death_checkpoint_snapshot_v1(bytes,snapshot,e)) return false;
+            if(snapshot.level_uri!=options.level.generic_string()) {e="Source checkpoint belongs to a different level";return false;}
+            if(!combatSession->world()->find_actor(combatSession->player_id())) {e="Checkpoint restore requires the local player Character";return false;}
+            if(snapshot.controlled_actor_id!=combatSession->player_id()) {e="Checkpoint records a different controlled Character";return false;}
+            // The recorded revive position is the Character position at contact. It must equal the snapshot's own player record
+            // (the current live position may be anywhere when the death happens).
+            const auto recorded=std::find_if(snapshot.actors.begin(),snapshot.actors.end(),
+                [&](const auto& record){return record.id==snapshot.controlled_actor_id;});
+            if(recorded==snapshot.actors.end()) {e="Checkpoint has no record for the controlled Character";return false;}
+            if(recorded->transform.position[0]!=snapshot.revive_position[0]||recorded->transform.position[1]!=snapshot.revive_position[1]||
+               recorded->transform.position[2]!=snapshot.revive_position[2]) {
+                e="Checkpoint revive position differs from its recorded Character contact position";return false;
+            }
+            deathRestore.snapshot=snapshot;deathRestore.loaded=true;deathRestore.world=combatSession->world();deathRestore.session=combatSession.get();
+            f::persistence::death_flow::DeathCheckpointRestoreServicesV1 services;
+            services.context=&deathRestore;services.current_source_states=deathCurrentStates;
+            services.initialize_source_qest=deathInitializeQest;services.apply_source_state=deathApplyState;
+            const auto teardown=[&](std::string& te)->bool {
+                retireSourceEffects();clearNativeBodies();
+                if(runtimeAudio)runtimeAudio->unbind();
+                retireEquipmentPage();deathRewards.reset();
+                te.clear();return true;
+            };
+            std::string restoreError;
+            deathProfileBefore={state.inventory.size(),state.equipment.size(),state.experience,state.gold};
+            const bool detached=combatSession->detach_for_restore(teardown,restoreError);
+            f::persistence::death_flow::DeathCheckpointRestoreReceiptV1 receipt;
+            const bool restored=detached&&f::persistence::death_flow::restore_death_checkpoint_snapshot_v1(
+                snapshot,options.level.generic_string(),*combatSession->world(),state,services,receipt,restoreError);
+            actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear();
+            std::string rebindError;
+            const bool rebound=combatSession->rebind_after_restore(rebindError);
+            if(!detached||!restored) {e=restoreError.empty()?"Death checkpoint restore failed":restoreError;return false;}
+            if(!rebound) {e="Rebind after checkpoint restore: "+rebindError;return false;}
+            {std::string containerError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerError)){e="Checkpoint container restore: "+containerError;return false;}}
+            rebuildNativeBodies();
+            initializeSourceNavigation();
+            initializeSourceTargetNodes();
+            bindCombatText();
+            {std::string audioError;if(runtimeAudio&&!runtimeAudio->bind(combatSession,audioError))std::cerr<<"Audio checkpoint rebind diagnostic: "<<audioError<<'\n';}
+            bindEquipmentPage();
+            bindDeathRewards();
+            bindContainerLoot();
+            bindQuestRuntime(false);
+            bindSourcePresentations();
+            skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
+            faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
+            scriptRoutes.clear();
+            if(options.combatText)combatText.clear_for_reload();
+            std::cout<<"Death profile after restore: equipment="<<state.equipment.size()<<" inventory="<<state.inventory.size()<<" gold="<<state.gold<<" xp="<<state.experience<<" profileInventoryBefore="<<deathProfileBefore.inventory<<" profileEquipmentBefore="<<deathProfileBefore.equipment<<" profileXpBefore="<<deathProfileBefore.xp<<" profileGoldBefore="<<deathProfileBefore.gold<<" frame="<<drawn<<'\n';
+            std::cout<<"Death checkpoint restored frame="<<drawn<<" zone="<<snapshot.checkpoint_name<<" actorsRestored="<<receipt.actors_restored
+                     <<" actorsMissing="<<receipt.actors_missing_skipped<<" objectsRestored="<<receipt.objects_restored
+                     <<" objectsMissing="<<receipt.objects_missing_skipped<<" qest="<<receipt.qest_restored<<'\n';
+            e.clear();return true;
+        };
+        deathWire.steps[2]=[&](std::string& e)->bool {
+            // PROPS_RemoveAllBuffs: the port's Character model has no buff records to remove (no owner is ported).
+            std::cout<<"Death buffs cleared frame="<<drawn<<" records=0\n";
+            e.clear();return true;
+        };
+        deathWire.steps[3]=[&](std::string& e)->bool {
+            // Character revive coordinates: the checkpoint's recorded position is the restored Character position (verified in step 1).
+            if(!combatSession){e="Revive position requires the live Session";return false;}
+            const auto* player=combatSession->actor(combatSession->player_id());
+            if(!player){e="Revive position: the local player Character is absent";return false;}
+            options.actorPosition={player->transform.position[0],player->transform.position[1],player->transform.position[2]};
+            if(motor)motor->setPosition(options.actorPosition,player->transform.rotation[2]);
+            if(actorCameraAnchor.initialized()&&!actorCameraAnchor.reset(actorCameraFrame(),e))return false;
+            cameraFractionMs=0;campaignFractionMs=0;sourceRotationFractionMs=0;lastSourceCameraFrame={};
+            // The source camera adapter is bound only when scripted camera commands or campaign triggers admit it (same rule as the level bind).
+            const bool cameraAdapterBound=(options.sourceCamera&&!options.sourceCommands.empty())||options.campaignTriggers;
+            if(cameraAdapterBound&&!sourceCameraTargets.seed_target(combatSession->player_id(),e))return false;
+            const auto anchor=actorCameraAnchor.initialized()?actorCameraAnchor.position():f::CameraVec3{options.actorPosition.x,options.actorPosition.y,options.actorPosition.z};
+            if(options.sourceCamera&&!originalCamera.reset(anchor,e))return false;
+            std::cout<<"Death revive position frame="<<drawn<<" pos="<<options.actorPosition.x<<','<<options.actorPosition.y<<','<<options.actorPosition.z<<'\n';
+            e.clear();return true;
+        };
+        deathWire.steps[4]=[&](std::string& e)->bool {
+            // Character::Revive(...,1): IsDead=0 and _InitHpMp (RegenHP/RegenMP with -1 = full) on the live Character.
+            if(!combatSession){e="Character::Revive requires the live Session";return false;}
+            auto* player=combatSession->world()->find_actor(combatSession->player_id());
+            if(!player){e="Character::Revive: the local player Character is absent";return false;}
+            f::revive_actor_state(*player);
+            std::cout<<"Death Character::Revive frame="<<drawn<<" HP="<<player->health<<'/'<<player->max_health
+                     <<" MP="<<player->resource<<'/'<<player->max_resource<<'\n';
+            e.clear();return true;
+        };
+        deathWire.steps[5]=[&](std::string& e)->bool {
+            // CharStateMachine::SM_SetIdleState(0). The revived Character's restored action is already idle (the checkpoint plan's
+            // set_idle_zero), and the Session transition is used only for scripted entries; the player is not one (its id is the
+            // sentinel), so an unscripted player is reported as the restored idle state rather than a transition.
+            const auto* me=combatSession->actor(combatSession->player_id());
+            if(!me){e="SM_SetIdleState requires the revived Character";return false;}
+            if(combatSession->script_put_idle(combatSession->player_id(),e,false)) {
+                std::cout<<"Death SM_SetIdleState frame="<<drawn<<" transition=session\n";
+                e.clear();return true;
+            }
+            if(me->action!=f::CharacterAction::idle) {
+                if(e.empty())e="SM_SetIdleState: the revived Character is not idle";
+                return false;
+            }
+            std::cout<<"Death SM_SetIdleState frame="<<drawn<<" transition=restored-idle (player is not a scripted Session entry: "<<e<<")\n";
+            e.clear();return true;
+        };
+        deathWire.steps[6]=[&](std::string& e)->bool {
+            // CharacterDesign.MinimumPotionsOnDeath from design_pycst.bin (same constant table the equipment owner reads).
+            const auto designBytes=assets.read("original-cache/data/pydata/design_pycst.bin");
+            const auto destroyDesign=[](dh2_script_constants* value){if(value)dh2_script_constants_destroy(value);};
+            std::unique_ptr<dh2_script_constants,decltype(destroyDesign)> design(dh2_script_constants_create(),destroyDesign);
+            dh2_script_constants_reload designReload{};std::int32_t minimum{};
+            if(!design||dh2_script_constants_load(design.get(),designBytes.data(),std::uint32_t(designBytes.size()),&designReload)!=0||
+               designReload.consumed!=designBytes.size()||
+               dh2_script_constants_get(design.get(),"CharacterDesign","MinimumPotionsOnDeath",&minimum)!=0) {
+                e="CharacterDesign.MinimumPotionsOnDeath is unavailable";return false;
+            }
+            std::uint64_t owned=0;
+            for(const auto& item:state.inventory)if(item.definition_id=="Potion0")owned+=item.quantity;
+            if(owned<std::uint64_t(minimum)) {
+                auto found=std::find_if(state.inventory.begin(),state.inventory.end(),[](const f::InventoryItem& item){return item.definition_id=="Potion0";});
+                if(found!=state.inventory.end()) found->quantity+=std::uint32_t(std::uint64_t(minimum)-owned);
+                else {
+                    f::InventoryItem potion;potion.definition_id="Potion0";potion.quantity=std::uint32_t(minimum);
+                    potion.instance_id="death-minimum-potions-"+std::to_string(state.inventory.size());
+                    state.inventory.push_back(potion);
+                }
+            }
+            std::cout<<"Death MinimumPotionsOnDeath="<<minimum<<" potionsNow="<<[&]{std::uint64_t n=0;for(const auto& i:state.inventory)if(i.definition_id=="Potion0")n+=i.quantity;return n;}()<<" frame="<<drawn<<'\n';
+            e.clear();return true;
+        };
+        deathWire.steps[7]=[&](std::string& e)->bool {
+            // ReviveLocalPlayers: StopAllMusic(2) then PlayMusic(level music, 1000); the audio host restarts it when focused.
+            if(runtimeAudio&&!runtimeAudio->on_local_players_revived(e))return false;
+            e.clear();return true;
+        };
+        deathWire.steps[8]=[&](std::string& e)->bool {
+            // Frame88 NativePlayPreviousMusic (RestartMusic(0)): a distinct source callback; the port has no separate
+            // previous-track owner, so it is logged and the level track is the one restarted by the revive step.
+            std::cout<<"Death NativePlayPreviousMusic frame="<<drawn<<" (port: no previous-track owner)\n";
+            e.clear();return true;
+        };
+        deathWire.steps[9]=[&](std::string& e)->bool {
+            std::cout<<"Death fade-from-black PopMenu menu_FadeFromBlackScreen frame="<<drawn<<'\n';
+            e.clear();return true;
+        };
+        deathWire.steps[0]=[&](std::string& e)->bool {
+            std::cout<<"Death NativeScreenIsBlack frame="<<drawn<<'\n';
+            e.clear();return true;
+        };
+        deathWire.fx_muted=[&](bool muted,std::string& e)->bool {
+            std::cout<<"Death FX volume "<<(muted?"muted":"restored")<<" frame="<<drawn<<'\n';
+            if(!runtimeAudio){e.clear();return true;}
+            return runtimeAudio->set_fx_muted(muted,e);
+        };
+        const auto applyTestPlayerHealth=[&]() {
+            if(!combatSession) return;
+            // I024 TEST ONLY: the local Character is set to the given HP at the given frame (after the intro's refill). Live HP and the original property sheet entry 36
+            // (raw = HP*256, the value the save validator compares) move together; the kill still comes from a real hit.
+            const auto id=combatSession->player_id();
+            auto* actor=combatSession->world()->find_actor(id);
+            const auto* props=combatSession->world()->combat_properties(id);
+            const auto* traits=combatSession->world()->traits(id);
+            if(!actor||!props||!traits) throw std::runtime_error("Test player HP: local Character bindings are unavailable");
+            auto sheet=*props;
+            sheet.sheets.resolved[36]=std::int32_t(std::llround(double(options.testPlayerHealth)*256.0));
+            actor->health=options.testPlayerHealth;
+            std::string hpError;
+            if(!combatSession->world()->update_combat_properties(id,sheet,*traits,hpError))
+                throw std::runtime_error("Test player HP sheet: "+hpError);
+            std::cout<<"Test player HP set="<<options.testPlayerHealth<<" max="<<actor->max_health<<" player="<<id<<" (test fixture)\n";
+            // Fixture placement aid: every live actor with its authored definition and position.
+            for(const auto& entry:combatSession->world()->actors()) {
+                const auto& a=entry.second;
+                std::cout<<"Test fixture actor id="<<a.id<<" def="<<a.definition_id<<" pos="<<a.transform.position[0]<<','<<a.transform.position[1]
+                         <<','<<a.transform.position[2]<<" hp="<<a.health<<" dead="<<(a.is_dead()?1:0)<<'\n';
+            }
+        };
         dh::foundation::FramePacer framePacer; // B066: deadline pacing replaces sleep(1) (a 15.6 ms tick on Windows)
         while(!window.should_close()) {
             dh::foundation::perf::FramePerf::get().begin_frame(); // B062: unclamped per-phase timing, DH_PERF=1
@@ -4954,6 +5343,10 @@ int main(int argc,char** argv) {
             if(!window.focused()){semanticInput.lose_focus();mouseHeld=false;}
             const std::array<int,15> uiKeys{'A','D','W','S',VK_SHIFT,VK_SPACE,VK_TAB,'E','C',VK_ESCAPE,'1','2','3','4','5'};
             const bool scheduledSpaceHeld=std::any_of(options.spaceKeyIntervals.begin(),options.spaceKeyIntervals.end(),[&](const auto& interval){return drawn>=interval.first&&drawn<interval.first+interval.second;});
+            // I024 DEATH: the death modal captures input. Keys and pointer presses stay out of the game and menus.
+            const bool deathModal=deathHost.modal();
+            if(deathModal&&!deathModalWasOpen){semanticInput.lose_focus();mouseHeld=false;}
+            deathModalWasOpen=deathModal;
             // B068 (1)(2): while a scripted cutscene owns the screen (SKIP shown / cutscene mode, source HUD hidden by
             // BeginScriptedCutScene) the gameplay HUD and keyboard are not reachable: no attack, skills, menus, pause or portrait
             // click. Only SKIP and the caption tap respond (below). Original: the HUD flash is hidden and LockCharacter All runs.
@@ -4967,7 +5360,17 @@ int main(int argc,char** argv) {
                 cinematicSpaceHeld=spaceDown;
             } else {
                 cinematicSpaceHeld=false;
-                for(int key:uiKeys)semanticInput.key(key,window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld));
+                for(int key:uiKeys)semanticInput.key(key,!deathModal&&(window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld)));
+            }
+            {
+                // I024 DEATH: Space is the PC release of the death screen (press edge; a held Space does not repeat it).
+                const bool deathSpaceDown=window.focused()&&(window.key_down(VK_SPACE)||scheduledSpaceHeld);
+                if(deathModal&&deathSpaceDown&&!deathSpaceHeld) {
+                    std::string deathInputError;
+                    if(deathHost.continue_key(deathServices,deathInputError))std::cout<<"Death Continue (Space) frame="<<drawn<<'\n';
+                    else std::cout<<"Death input absorbed (Space) frame="<<drawn<<" reason="<<deathInputError<<'\n';
+                }
+                deathSpaceHeld=deathSpaceDown;
             }
             float pointerX=0,pointerY=0;
             bool cursorKnown=window.cursor_position(pointerX,pointerY);
@@ -4978,7 +5381,16 @@ int main(int argc,char** argv) {
                 pointerX=(click.x+view.offset)*view.scale;pointerY=click.y*view.scale;
                 cursorKnown=true;down=drawn==click.frame;
             }
-            if(cursorKnown&&cinematicInputLocked) {
+            if(deathModal) {
+                // I024 DEATH: the modal takes the pointer. Its release (up edge) is the Continue release; nothing else reaches the game or menus.
+                if(cursorKnown&&!down&&mouseHeld) {
+                    std::string deathInputError;
+                    if(deathHost.pointer_release(pointerX,pointerY,window.width(),window.height(),deathServices,deathInputError))
+                        std::cout<<"Death Continue (pointer) frame="<<drawn<<'\n';
+                    else std::cout<<"Death input absorbed (pointer) frame="<<drawn<<" reason="<<deathInputError<<'\n';
+                }
+                mouseHeld=cursorKnown&&down;
+            } else if(cursorKnown&&cinematicInputLocked) {
                 // B068 (2): the SKIP hit test runs BEFORE the HUD sees the pointer; the HUD portrait sits under SKIP.
                 // The press is consumed here, so neither the portrait (character menu) nor the attack button gets it.
                 if(!down&&mouseHeld) {
@@ -5003,7 +5415,7 @@ int main(int argc,char** argv) {
             {
                 const bool scheduledEnter=std::find(options.campaignEnterFrames.begin(),options.campaignEnterFrames.end(),drawn)!=options.campaignEnterFrames.end();
                 const bool enterDown=window.focused()&&(window.key_down(VK_RETURN)||scheduledEnter);
-                if(enterDown&&!enterHeld&&campaignHost.enabled()) {
+                if(enterDown&&!enterHeld&&campaignHost.enabled()&&!deathModal) {
                     if(campaignHost.skip_visible())campaignHost.press_skip();
                     else campaignHost.caption_tap();
                 }
@@ -5296,8 +5708,51 @@ int main(int argc,char** argv) {
                 std::cout<<"Source command frame="<<drawn<<" script="<<scheduled.script<<" index="<<scheduled.index<<" kind="<<command.kind<<'\n';
                 if(command.kind==8)std::cout<<"Source camera command frame="<<drawn<<" target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<'\n';
             }
+            // I024 DEATH: source _CheckLocalDeaths gate (IsDead of the local Character, Level READY, PlayerManager phase)
+            // and the 30 fps death-UI clock on wall time (the UI is not paused by gameplay). Runs before the pause decision
+            // so a death freezes gameplay on the same frame.
+            if(options.testPlayerHealth>0.f&&drawn==options.testPlayerHealthFrame) applyTestPlayerHealth(); // I024 TEST ONLY
+            if(options.testPlayerHealth>0.f&&combatSession&&drawn%50==0) { // I024 TEST ONLY: nearest enemy trace for the fixture
+                const auto* me=combatSession->actor(combatSession->player_id());
+                const f::ActorState* nearest=nullptr;float best=1e30f;
+                for(const auto& entry:combatSession->world()->actors()) {
+                    const auto& a=entry.second;if(!me||a.id==me->id||a.is_dead())continue;
+                    const float dx=a.transform.position[0]-me->transform.position[0],dy=a.transform.position[1]-me->transform.position[1],dz=a.transform.position[2]-me->transform.position[2];
+                    const float d=std::sqrt(dx*dx+dy*dy+dz*dz);if(d<best){best=d;nearest=&a;}
+                }
+                const f::ActorState* hurt=nullptr;float bestHurt=1e30f;
+                for(const auto& entry:combatSession->world()->actors()) {
+                    const auto& a=entry.second;if(!me||a.id==me->id||a.is_dead()||a.health>=100.f)continue;
+                    const float dx=a.transform.position[0]-me->transform.position[0],dy=a.transform.position[1]-me->transform.position[1],dz=a.transform.position[2]-me->transform.position[2];
+                    const float d=std::sqrt(dx*dx+dy*dy+dz*dz);if(d<bestHurt){bestHurt=d;hurt=&a;}
+                }
+                if(hurt)std::cout<<"Test trace hurt="<<hurt->id<<" hurtDist="<<bestHurt<<" hurtHP="<<hurt->health<<'\n';
+                if(me&&nearest)std::cout<<"Test trace frame="<<drawn<<" playerHP="<<me->health<<" playerPos="<<me->transform.position[0]<<','<<me->transform.position[1]
+                    <<','<<me->transform.position[2]<<" nearest="<<nearest->id<<" dist="<<best<<" hp="<<nearest->health<<" action="<<int(nearest->action)<<'\n';
+            }
+            if(combatSession) {
+                const auto* deathPlayer=combatSession->actor(combatSession->player_id());
+                f::persistence::death_host::AdmissionV1 deathGate;
+                deathGate.level_ready=!pendingTransition;   // READY Level proxy: a live Session that is not leaving the level
+                deathGate.player_manager_phase_active=drawn>0; // PlayerManager phase>0 proxy: a gameplay frame has run
+                deathGate.local_character_assigned=deathPlayer!=nullptr;
+                deathGate.local_character_dead=deathPlayer!=nullptr&&deathPlayer->is_dead();
+                deathGate.online=false;
+                std::string deathError;
+                std::uniform_int_distribution<int> quoteDistribution(1,5);
+                if(deathHost.observe(deathGate,std::uint8_t(quoteDistribution(deathQuoteRng)),deathServices,deathError))
+                    std::cout<<"Death flow admitted frame="<<drawn<<" dead=1 level=READY phase=1\n";
+                else if(!deathError.empty()&&deathError!=lastDeathGateError) {
+                    std::cout<<"Death gate rejected frame="<<drawn<<": "<<deathError<<'\n';
+                    lastDeathGateError=deathError;
+                }
+                if(!deathHost.advance(dt,deathGate.level_ready,deathServices,deathError)&&deathError!=lastDeathGateError) {
+                    std::cout<<"Death host failed frame="<<drawn<<": "<<deathError<<'\n';
+                    lastDeathGateError=deathError;
+                }
+            }
             // P16 HOST: executor tick on the frame clock, then trigger contacts (only with --campaign-triggers).
-            const bool gameplayPaused=characterMenu.is_open()||pauseMenuOpen;
+            const bool gameplayPaused=characterMenu.is_open()||pauseMenuOpen; // I024: the death modal does not pause the Level; _HandleLocalDeaths runs inside PlayerManager::Update while the menu is up
             // VERIFY17: skip the trigger feed on a restore frame so an already-inside zone cannot fire immediately.
             const bool restoreFrame=drawn==options.loadFrame||(options.reloadFrame&&drawn==options.reloadFrame)||window.key_down(VK_F9)||window.key_down('R');
             if(campaignHost.enabled()&&combatSession&&!gameplayPaused&&!restoreFrame) {
@@ -6974,6 +7429,20 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                 }
                 // Preview 15 B049: "Confirm character point allocation?" over the Character menu (original WarningBox frame).
                 if(characterMenu.is_open()&&statConfirmOpen)drawPauseArt(pauseConfirmArt,true,"GAMEPLAYMENUS_POINTS_CONFIRM");
+                // I024 DEATH: the source sprite742 death screen or sprite743 fade draws after the HUD and above the menus.
+                if(deathHost.modal()) {
+                    std::string deathDrawError;
+                    deathQuoteText.viewport_width=window.width();deathQuoteText.viewport_height=window.height();
+                    f::persistence::death_flow::DeathScreenFrameV1 deathScreen;
+                    f::persistence::death_flow::FadeFromBlackFrameV1 deathFade;
+                    if(deathHost.visible_screen(deathScreen)) {
+                        if(!f::persistence::death_flow::draw_original_death_screen_v1(deathScreen,overlay,window.width(),window.height(),deathDrawServices,deathDrawError))
+                            throw std::runtime_error("Death screen draw: "+deathDrawError);
+                    } else if(deathHost.visible_fade(deathFade)) {
+                        if(!f::persistence::death_flow::draw_original_fade_from_black_v1(deathFade,overlay,window.width(),window.height(),deathDrawError))
+                            throw std::runtime_error("Death fade draw: "+deathDrawError);
+                    }
+                }
                 overlay.end();
             }
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::hud_ui);
