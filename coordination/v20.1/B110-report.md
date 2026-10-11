@@ -1,5 +1,15 @@
 # B110 merchant shop — ready for independent review
 
+## Review correction investigation (2026-10-11, before editing)
+
+Reviewer reproduced two authored admission failures on the frozen candidate: SELL of equipped StartingSuit succeeded, and ordinary BUY at 12/12 potions opened a confirmation then native result3. Reinspected P1 585–600s sheet: equipped Ceremonial Garb/Useless Blade selections have the dark disabled SELL button while a different unequipped selection can sell; the footage does not show potion capacity.
+
+Full displaySelectedItemInfos caller audit in authored-actions.txt: BUY first handles selected-row visibility and gold (0xb4c7–0xb5b6). InvSlotId9 computes NumPotions/MaxNumPotions/MissingPotions (0xb5b7–0xb651); maximum is disabled when full price exceeds cash OR MissingPotions==0 (0xb668–0xb6cb). Ordinary btn_Action is additionally disabled when MissingPotions==0 (0xb6cc–0xb6fc). SELL first enables based on selected-row presence (0xb7be–0xb834), then disables when ItemEquipped OR ItemEquippedOtherHand (0xb85c–0xb8a6). Native transfer unequip side effects do not grant UI admission.
+
+IDA NativeInvGetItemsListForSlot0x44bb94, ~235660–235776: ItemEquipped compares selected instance with GetEquippedItem for selected slot; ItemEquippedOtherHand compares the paired right/left weapon or ring slot. Other-set storage alone is not this field. NativeGetNumPotions0x44996c provides held count and player's max byte. Plan: one shared ShopUi action admission for rendering and release, using selected identity, current-set selected/paired equipment bindings, player gold, category9 and potion count/capacity. Preserve native defensive result3 tests but no longer call that result the ordinary UI full-capacity behavior.
+
+Focused tests before edit: current-slot and paired-hand/ring equipped selections render disabled and return no command/modal; inactive-set-only equipment remains sellable. UNEQUIP then SELL succeeds. Capacity BUY and maximum both render disabled and repeated clicks return no confirmation/transaction/error; after maximum fills capacity, ordinary action stays blocked. Quiet production receipts must show blocked frame before an admitted UNEQUIP→SELL and unchanged save/stock/gold at full potions.
+
 Owner: /root/b110_merchant. Private branch fix/b110, worktree DH_wt/fix110; tested source 975f0d66. B100 a66b7f9c supplies merchant registry/context/marker. Reviewed B102 e40538b8 merged as 1652fa40 supplies pointer transport and equipment animation banks. Root owns fresh read-only review, integration, tracker resolution and release.
 
 This authoritative report replaces the obsolete partial handoff. The draft persistent-stock adaptation in 87fcbb43 was removed in 64c42064 after root clarified original save rules. No merchant save component remains.

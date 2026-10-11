@@ -69,6 +69,21 @@ std::int32_t ShopUi::selected_price() const {
     if (id.empty()) return 0;
     return mode_ == Mode::buy ? shop_.buy_price(id, items_) : shop_.sell_price(id, player_, items_);
 }
+bool ShopUi::action_available(std::string& error) const {
+    const auto id = selected_instance(error);
+    if (id.empty()) return false;
+    if (mode_ == Mode::buy)
+        return std::uint64_t(selected_price()) <= player_.gold && !(slot_ == 9 && potions_ == potion_capacity_);
+    // NativeInvGetItemsListForSlot exposes the active selected slot and paired
+    // hand/ring, rather than treating an inactive equipment set as equipped.
+    const unsigned paired = slot_ == 1 ? 2 : slot_ == 2 ? 1 : slot_ == 5 ? 6 : slot_ == 6 ? 5 : slot_;
+    const auto bound_to = [](const EquipmentBinding& b, unsigned slot) {
+        return b.source_slot >= 0 ? b.source_slot == int(slot) : b.slot == "slot" + std::to_string(slot);
+    };
+    return std::none_of(player_.equipment.begin(), player_.equipment.end(), [&](const auto& b) {
+        return b.item_instance_id == id && b.equipment_set <= 0 && (bound_to(b, slot_) || bound_to(b, paired));
+    });
+}
 bool ShopUi::refresh(std::string& error) {
     for (auto* p : {buy_.get(), sell_.get()}) {
         const auto index = p->details->selected_index();
@@ -90,7 +105,7 @@ ShopUi::Command ShopUi::release(float x, float y, std::string& error) {
     if (inside(art.hits[0], x, y)) { if (mode_ != Mode::buy) set_mode(Mode::buy, error); return command; }
     if (inside(art.hits[1], x, y)) { if (mode_ != Mode::sell) set_mode(Mode::sell, error); return command; }
     if (inside(art.hits[2], x, y)) {
-        if(mode_==Mode::buy&&std::uint64_t(selected_price())>player_.gold)return command;
+        if(!action_available(error))return command;
         const auto id = selected_instance(error);
         if(!id.empty()) {
             if(mode_==Mode::buy){pending_.kind=Command::Kind::buy;pending_.instance_id=id;}
@@ -171,8 +186,9 @@ bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::st
     append(f, art.category, value);
     append(f, buy ? art.tab_buy_on : art.tab_buy_idle, value);
     append(f, buy ? art.tab_sell_idle : art.tab_sell_on, value);
-    std::string e2;
-    append(f, selected_instance(e2).empty()||(buy&&std::uint64_t(selected_price())>player_.gold) ? art.action_disabled : art.action_idle, value);
+    const bool action_enabled = action_available(error);
+    if (!error.empty()) return false;
+    append(f, action_enabled ? art.action_idle : art.action_disabled, value);
     f.art.batches.insert(f.art.batches.end(),value_icon.begin(),value_icon.end());
     append(f, art.back, value);
     if(buy&&slot_==9)append(f,potions_>=potion_capacity_||std::uint64_t(selected_price())*std::uint64_t(potion_capacity_-std::min(potions_,potion_capacity_))>player_.gold?art.potions_disabled:art.potions,value);

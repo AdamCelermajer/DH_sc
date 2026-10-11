@@ -62,6 +62,8 @@ private:
     Command pending_;
     std::uint32_t potions_{},potion_capacity_{};
     Pane& pane() const { return mode_ == Mode::buy ? *buy_ : *sell_; }
+    // displaySelectedItemInfos admission, shared by the action art and its release.
+    bool action_available(std::string& error) const;
 };
 
 }

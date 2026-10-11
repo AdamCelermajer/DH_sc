@@ -122,6 +122,47 @@ int main(int argc,char** argv) {
         CHECK(ui.release(410,15,e).kind==ShopUi::Command::Kind::none&&ui.mode()==ShopUi::Mode::sell);
         CHECK(ui.release(20,20,e).kind==ShopUi::Command::Kind::close);
     }
+    // Authored admission is distinct from native defensive transfer behavior.
+    {
+        inventory::DetailBindings bindings;
+        bindings.symbol=[](const std::string& s,std::string& out,std::string& e){out=s;e.clear();return true;};
+        bindings.item_name=[](const InventoryItem& i,const auto&,std::string& out,std::string& e){out=i.definition_id;e.clear();return true;};
+        equipment_menu::Options options;options.item_name=bindings.item_name;
+        ActorState actor;OriginalCombatProperties props;OriginalPropertyDatabase db;std::string e;
+        const auto category=[&](ShopUi& ui,unsigned slot){
+            inventory::DetailRailBox box;CHECK(inventory::details_rail_box(inventory::original_inventory_details(),slot,box));
+            ui.release((box.x0+box.x1)/2,(box.y0+box.y1)/2,e);
+        };
+        const auto action_disabled=[&](ShopUi& ui){character_menu::Frame f;CHECK(ui.frame(960,640,f,e));
+            return std::any_of(f.art.batches.begin(),f.art.batches.end(),[](const auto& b){return b.role=="menu_Merchant/btn_Action/1"&&b.shape_id==198;});};
+        struct Case{unsigned slot,bound;int set,slotting;bool blocked;};
+        for(const auto c:{Case{0,0,0,0,true},Case{1,2,0,-3,true},Case{5,6,0,-2,true},Case{1,2,1,-3,false},Case{0,0,1,0,false}}){
+            auto t=table();t.rows[0].record.words[26]=c.slotting;
+            Shop stock({40,120,{}});stock.add_stock(t,{{0,1}});CharacterState owned;owned.gold=1000;
+            owned.inventory.push_back({"owned","Sword",1});owned.equipment.push_back({"slot"+std::to_string(c.bound),"owned",c.set,int(c.bound)});
+            ShopUi ui(owned,stock,t,actor,props,db,options,bindings);CHECK(ui.open(e));CHECK(ui.set_mode(ShopUi::Mode::sell,e));category(ui,c.slot);
+            CHECK(ui.selected_instance(e)=="owned");
+            CHECK(action_disabled(ui)==c.blocked);
+            const auto command=ui.release(270,305,e);
+            CHECK(command.kind==(c.blocked?ShopUi::Command::Kind::none:ShopUi::Command::Kind::sell));
+            CHECK(!ui.confirmation_visible()&&!ui.error_visible()&&owned.gold==1000&&owned.inventory.size()==1&&stock.inventory().inventory.size()==1);
+            if(c.slot==0&&c.set==0){
+                CHECK(ui.release(400,45,e).kind==ShopUi::Command::Kind::unequip);
+                owned.equipment.clear();CHECK(ui.refresh(e));CHECK(!action_disabled(ui));
+                CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::sell);
+            }
+        }
+        auto t=table();t.rows[1].record.words[26]=-1;
+        Shop stock({40,120,{}});stock.add_stock(t,{{1,20}});CharacterState owned;owned.gold=1000;owned.inventory.push_back({"held","Potion0",12});
+        ShopUi ui(owned,stock,t,actor,props,db,options,bindings);CHECK(ui.open(e));category(ui,9);ui.potion_status(12,12);
+        CHECK(action_disabled(ui));
+        for(unsigned i=0;i<2;++i){CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::none);CHECK(ui.release(410,305,e).kind==ShopUi::Command::Kind::none);}
+        CHECK(!ui.confirmation_visible()&&!ui.error_visible()&&owned.gold==1000&&owned.inventory[0].quantity==12&&stock.inventory().inventory[0].quantity==20);
+        ui.potion_status(11,12);CHECK(!action_disabled(ui));
+        CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::none&&ui.confirmation_visible());ui.cancel_confirmation();
+        CHECK(ui.release(410,305,e).kind==ShopUi::Command::Kind::none&&ui.confirmation_visible());
+        CHECK(ui.release(180,190,e).kind==ShopUi::Command::Kind::buy_potions);
+    }
     if (failures) { std::cerr << failures << " failures\n"; return 1; }
     std::cout << "merchant_shop_v1_tests passed\n";
     return 0;
