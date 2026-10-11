@@ -8,6 +8,8 @@ struct Object48 {
  float position[3], target_position[3], rotation;
  std::int32_t character_word1310, character_word1314;
  // Historical `visible` name represents source ObjectBase enabled byte +0x8a.
+ // 0: use position; 1: use the copied target_position; 2: ask the live
+ // GetTargetPosition provider only after the candidate passes source filters.
  std::uint8_t visible, zoned, in_zone, has_target_position;
 };
 struct Entry16 { Entry16* next; Object48* object; };
@@ -33,11 +35,12 @@ enum Service : std::uint32_t {
  resolve_character=1, is_player, is_dead, is_interactive, interaction_type,
  interaction_radius, is_zonable, is_enemy, melee_radius, is_character,
  is_game_object_valid, is_neutral, is_friend, is_merchant, is_cleaner,
- has_character_flag_2fa, character_state
+ has_character_flag_2fa, character_state, get_target_position
 };
 struct Request24 { std::uint32_t service, reserved; std::uintptr_t subject, other; };
 // resolve_character returns a borrowed Object48* in word; other boolean/integer
-// services return word. Radius services return number. Callbacks are synchronous.
+// services return word. Radius services return number. get_target_position
+// returns a borrowed, 4-byte-aligned float[3]* in word. Callbacks are synchronous.
 struct Response16 { std::uintptr_t word; float number; std::uint32_t reserved; };
 struct Services16 { void* context; int (*invoke)(void*,const Request24*,Response16*); };
 static_assert(sizeof(Object48)==48 && sizeof(Target24)==24 && sizeof(List48)==48);

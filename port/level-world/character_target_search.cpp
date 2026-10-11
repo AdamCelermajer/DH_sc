@@ -18,7 +18,17 @@ float angle(const float* a,const float* b) {
  float result=std::acos(divide(dot,mul(length(a),length(b))));
  std::uint32_t bits;std::memcpy(&bits,&result,4);bits&=0x7fffffff;std::memcpy(&result,&bits,4);return result;
 }
-const float* center(Object48* o) { return o->has_target_position?o->target_position:o->position; }
+bool target_point(const Services16* services,Object48* object,
+                  const float*& point) {
+ if(object->has_target_position==0){point=object->position;return true;}
+ if(object->has_target_position==1){point=object->target_position;return true;}
+ if(object->has_target_position!=2)return false;
+ Response16 response{};
+ if(!call(services,get_target_position,object,nullptr,response)||
+    !response.word||(response.word&3u))return false;
+ point=reinterpret_cast<const float*>(response.word);
+ return true;
+}
 bool less(const Target24& a,const Target24& b,std::uint32_t sort) {
  if(!sort)return false;
  if((a.flags&1)!=(b.flags&1))return (b.flags&1)!=0;
@@ -119,8 +129,10 @@ extern "C" int dh2_target_list_init_filtered(List48* l,Target24* heap,std::uint3
  *l={heap,0,capacity,owner,nullptr,sort,character_flags,object_filter};Response16 r;if(!call(s,is_character,owner,nullptr,r))return 2;if(r.word)l->reference_character=owner;return 0;
 }
 extern "C" int dh2_target_search(List48* l,const Registry8* registry,float radius,float cone,const Services16* s) {
- if(!valid_list(l))return 1;
- return dh2_target_search_at(l,registry,radius,cone,center(l->owner),s);
+ if(!valid_list(l)||!valid_services(s))return 1;
+ const float* origin=nullptr;
+ if(!target_point(s,l->owner,origin))return 2;
+ return dh2_target_search_at(l,registry,radius,cone,origin,s);
 }
 extern "C" int dh2_target_search_at(List48* l,const Registry8* registry,float radius,float cone,const float* origin,const Services16* s) {
  if(!valid_list(l)||!aligned(registry)||!aligned(registry->rooms)||!origin||!valid_services(s))return 1;
@@ -157,7 +169,8 @@ extern "C" int dh2_target_search_at(List48* l,const Registry8* registry,float ra
      if(accepted<0)return 2;
      if(accepted) {
       if(!call(s,interaction_radius,object,nullptr,r))return 2;
-      const float target_radius=r.number;const auto point=center(object);
+      const float target_radius=r.number;const float* point=nullptr;
+      if(!target_point(s,object,point))return 2;
       float delta[3]={sub(point[0],origin[0]),sub(point[1],origin[1]),sub(point[2],origin[2])};float distance=sub(sub(length(delta),target_radius),reference_radius);
       if(!(distance>radius)) {
        float a=angle(delta,look);
@@ -178,8 +191,10 @@ extern "C" int dh2_target_search_at(List48* l,const Registry8* registry,float ra
  return 0;
 }
 extern "C" int dh2_target_search_object_list(List48* l,const ObjectListMethods* methods,float radius,float cone,const Services16* s) {
- if(!valid_list(l))return 1;
- return dh2_target_search_object_list_at(l,methods,radius,cone,center(l->owner),s);
+ if(!valid_list(l)||!valid_services(s))return 1;
+ const float* origin=nullptr;
+ if(!target_point(s,l->owner,origin))return 2;
+ return dh2_target_search_object_list_at(l,methods,radius,cone,origin,s);
 }
 extern "C" int dh2_target_search_object_list_at(List48* l,const ObjectListMethods* methods,float radius,float cone,const float* origin,const Services16* s) {
  if(!valid_list(l)||!aligned(methods)||!methods->context||!methods->reset||!methods->at_end||!methods->get||!methods->next||!origin||!valid_services(s))return 1;
@@ -215,7 +230,8 @@ extern "C" int dh2_target_search_object_list_at(List48* l,const ObjectListMethod
      if(accepted<0)return 2;
      if(accepted) {
       if(!call(s,interaction_radius,object,nullptr,r))return 2;
-      const float* point=center(object);
+      const float* point=nullptr;
+      if(!target_point(s,object,point))return 2;
       float delta[3]={sub(point[0],origin[0]),sub(point[1],origin[1]),sub(point[2],origin[2])};
       float distance=sub(sub(length(delta),r.number),reference_radius);
       if(!(distance>radius)) {

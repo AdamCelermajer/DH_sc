@@ -31,6 +31,7 @@ struct World {
     bool last_entry_is_game_object = false;
     std::int32_t object_interaction_type = 8;
     unsigned interaction_type_calls = 0;
+    unsigned target_position_calls = 0;
     Services16 services{this, invoke};
 
     World() {
@@ -95,6 +96,12 @@ struct World {
         case is_interactive: response->word = 1; break;
         case interaction_radius: response->number = 0.0f; break;
         case melee_radius: response->number = 0.0f; break;
+        case get_target_position:
+            if (index >= world.objects.size()) return 1;
+            ++world.target_position_calls;
+            response->word = reinterpret_cast<std::uintptr_t>(
+                world.objects[index].target_position);
+            break;
         default: return 1;
         }
         return 0;
@@ -236,6 +243,30 @@ int main() {
         world.list.count != 1 || world.list.heap[0].identity != 102 ||
         world.interaction_type_calls != 1)
         fail("object filter 1 must accept interaction types other than -1");
+    world.objects[3].has_target_position = 2;
+    world.object_interaction_type = -1;
+    world.target_position_calls = 0;
+    if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
+                                      &world.objects[0], 0, 1, 1, &world.services) ||
+        dh2_target_search(&world.list, &world.registry, 8.0f, 3.1416f, &world.services) ||
+        world.list.count != 0 || world.target_position_calls != 0)
+        fail("filtered target with deferred target_node must not resolve its position");
+    world.object_interaction_type = 8;
+    world.objects[3].target_position[0] = 0.0f;
+    world.objects[3].target_position[1] = -2.0f;
+    world.objects[3].target_position[2] = 0.0f;
+    if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
+                                      &world.objects[0], 0, 3, 1, &world.services) ||
+        dh2_target_search(&world.list, &world.registry, 8.0f, 3.1416f, &world.services) ||
+        world.list.count != 1 || world.list.heap[0].identity != 102 ||
+        world.target_position_calls != 1 || world.list.heap[0].distance != 2.0f)
+        fail("accepted target_node must resolve GetTargetPosition after source filters");
+    world.objects[3].has_target_position = 3;
+    if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
+                                      &world.objects[0], 0, 3, 1, &world.services) ||
+        dh2_target_search(&world.list, &world.registry, 8.0f, 3.1416f, &world.services) != 2)
+        fail("unknown target position mode must fail at source-point consumption");
+    world.objects[3].has_target_position = 0;
     world.object_interaction_type = 8;
     world.interaction_type_calls = 0;
     if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
@@ -256,6 +287,24 @@ int main() {
         centered.objects[0].position[0]!=0.0f ||
         centered.objects[0].position[1]!=0.0f)
         fail("explicit search center must select locally without replacing/moving its owner");
+    centered.objects[0].has_target_position=2;
+    centered.objects[0].target_position[0]=explicit_center[0];
+    centered.objects[0].target_position[1]=explicit_center[1];
+    centered.objects[0].target_position[2]=explicit_center[2];
+    centered.target_position_calls=0;
+    if (dh2_target_list_init(&centered.list,centered.heap.data(),centered.heap.size(),
+                             &centered.objects[0],1,&centered.services) ||
+        dh2_target_search(&centered.list,&centered.registry,0.25f,3.1416f,
+                          &centered.services) ||
+        centered.list.count!=1 || centered.list.heap[0].identity!=101 ||
+        centered.target_position_calls!=1)
+        fail("default search center must resolve deferred owner TargetPosition without fallback");
+    centered.objects[0].has_target_position=4;
+    if (dh2_target_list_init(&centered.list,centered.heap.data(),centered.heap.size(),
+                             &centered.objects[0],1,&centered.services) ||
+        dh2_target_search(&centered.list,&centered.registry,0.25f,3.1416f,
+                          &centered.services)!=2)
+        fail("default search center must reject unknown owner TargetPosition mode");
 
-    std::puts("player skill target search PASS: source character masks, full-width filters, cone, priority, and pop order");
+    std::puts("player skill target search PASS: source filters, deferred node positions, full-width values, and priority order");
 }
