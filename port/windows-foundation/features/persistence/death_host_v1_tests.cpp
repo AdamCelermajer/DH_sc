@@ -1,5 +1,9 @@
 #include "death_host_v1.hpp"
+#include "death_letterbox_black_v1.hpp"
 
+#include <algorithm>
+#include <array>
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -215,9 +219,32 @@ void test_non_ready_level_at_frame88_fails_closed() {
     ticks(host, 1, false, s, e);
     check(host.failed() && count(t, "load") == 0 && !host.modal(), "non-READY Level at frame88 fails closed before LoadCheckpoint");
 }
+
+// B082: bars outside the letterboxed stage must tile window-minus-stage exactly (no gap = no visible world
+// beside the black screen, no overlap = alpha does not stack).
+double bar_area(const std::array<dh::foundation::persistence::death_flow::LetterboxRectV1, 4>& bars) {
+    double a = 0;
+    for (const auto& r : bars)
+        if (r.x1 > r.x0 && r.y1 > r.y0) a += double(r.x1 - r.x0) * double(r.y1 - r.y0);
+    return a;
+}
+void test_letterbox_bars_tile_window_minus_stage() {
+    using namespace dh::foundation::persistence::death_flow;
+    struct Case { float w, h; } cases[] = {{1800, 1080}, {1200, 900}, {960, 640}, {1920, 1080}};
+    for (const auto& c : cases) {
+        const float scale = std::min(c.w / 480.f, c.h / 320.f);
+        const float ox = (c.w - 480.f * scale) * .5f, oy = (c.h - 320.f * scale) * .5f;
+        const double expected = double(c.w) * c.h - double(480.f * scale) * double(320.f * scale);
+        const auto bars = letterbox_bar_rects_v1(c.w, c.h, scale, ox, oy);
+        check(std::abs(bar_area(bars) - expected) < 2.0, "letterbox bars area == window minus stage");
+    }
+    const auto exact = letterbox_bar_rects_v1(960, 640, 2.f, 0.f, 0.f); // 3:2 window: no bars at all
+    check(bar_area(exact) < 0.5, "no bars when the window matches the stage aspect");
+}
 } // namespace
 
 int main() {
+    test_letterbox_bars_tile_window_minus_stage();
     test_gate_and_single_admission();
     test_timeline_frame64_and_continue_revive_order();
     test_early_continue_skips_frame64();

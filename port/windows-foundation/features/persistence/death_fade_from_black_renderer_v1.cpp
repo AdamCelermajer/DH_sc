@@ -1,6 +1,7 @@
 #include "death_fade_from_black_v1.hpp"
 
 #include "death_screen_art_geometry_v1.hpp"
+#include "death_letterbox_black_v1.hpp"
 #include "../../overlay_renderer.hpp"
 
 #include <algorithm>
@@ -45,6 +46,11 @@ bool draw_original_fade_from_black_v1(const FadeFromBlackFrameV1& frame,
                                      static_cast<float>(frame.black_alpha) / 255.f};
     if (!overlay.drawTriangles(projected, 0, black)) {
         error = "Invalid source sprite743 black fade triangles";
+        return false;
+    }
+    // B082: also fade the window bars outside the letterboxed 480x320 stage.
+    if (!draw_letterbox_black_v1(overlay, viewport_width, viewport_height, scale, ox, oy, frame.black_alpha)) {
+        error = "Invalid letterbox black fade triangles";
         return false;
     }
     error.clear();
