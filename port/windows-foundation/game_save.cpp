@@ -258,11 +258,10 @@ bool validate_game_save(const GameSave& g,std::string& error){
              {p.actor.max_health,38},{p.actor.resource,41},{p.actor.max_resource,43}}){
             const double raw=std::round(double(value.first)*256.0);
             const auto source=p.combat.sheets.resolved[value.second];
-            // v20 SCRIPTSVC: an absent resource sheet (-1) is a zero live resource for any actor (no resource property), not
-            // only for untargetable attack-less actors. Health/max health keep the strict rule. [inf] from the failing actor
-            // (targetable, attack_ids=1, resource sheet -1, live 0); IDA confirmation of the zero-resource default is pending.
-            const bool resource_field=value.second==41||value.second==43;
-            const bool unavailable=source<0&&value.first==0&&((!p.traits.targetable&&p.actor.attack_ids.empty())||resource_field);
+            // Original rule, unchanged: tests/combat_session_tests.cpp requires a targetable actor with an absent vital
+            // sheet to be rejected. The live _prim_NPC mismatch (targetable, resource sheet -1, live 0) is a real live-state
+            // inconsistency and is reported as a gap, not relaxed here.
+            const bool unavailable=!p.traits.targetable&&p.actor.attack_ids.empty()&&source<0&&value.first==0;
             if(raw<INT32_MIN||raw>INT32_MAX||(!unavailable&&std::int32_t(raw)!=source)) {
                 // v20 SCRIPTSVC diagnostic: name the actor and field (the failure aborts the scripted save).
                 error="Saved live vital/original sheet mismatch actor="+std::to_string(p.actor.id)+" name_field="+std::to_string(value.second)+
