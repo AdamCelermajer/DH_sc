@@ -116,6 +116,11 @@ final class FrontAudio {
             // focus transition. Seed its decoder state immediately instead
             // of leaving the first prepared frames at the view's defaults.
             view.setMusicVolume(musicVolume);
+            // The intro is an audio consumer in its own right, so attaching it
+            // requests focus through the shared requestFocus owner. A rejected
+            // or delayed request is still reported as known state, keeping the
+            // movie muted until onAudioFocusChange or onWindowFocusChanged.
+            if(resumed&&!focused)focused=requestFocus();
             // Do not silence the intro during onCreate, before the Activity has
             // made its first focus request. Once focus is known, honor loss.
             if(focusStateKnown)view.setAudioFocusGained(focused&&resumed);

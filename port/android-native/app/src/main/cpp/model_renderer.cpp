@@ -5242,7 +5242,8 @@ bool NativeCryptRoomRuntime::initialize(
   for(std::size_t step=0;step<manager.object_count()*2+8&&
       init_post.phase!=InitPost::Phase::done;++step) {
    const auto status=InitPost::step(&init_post,&init_post_services);
-   if(status!=InitPost::Status::progress&&status!=InitPost::Status::ok) {
+   if(status!=InitPost::Status::progress&&status!=InitPost::Status::ok&&
+      status!=InitPost::Status::complete) {
     if(error.empty())error="Source ObjectManager InitPost object stage failed: ";
     if(error.find("Source ObjectManager InitPost object stage failed:")==0)
      error+=std::to_string(static_cast<unsigned>(status));
