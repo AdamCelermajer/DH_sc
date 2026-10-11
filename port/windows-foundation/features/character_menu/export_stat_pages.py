@@ -58,7 +58,7 @@ for btn,action in (('btnStatisticsTab','stats'),('btnDefenceTab','defense'),('bt
 lines.append('const std::vector<StatPageHitZone>& original_stat_page_hit_zones(){static const std::vector<StatPageHitZone> zones{'+','.join(zones)+'};return zones;}')
 sel=[]
 for name,_ in pages[1:]:
-    sel.append('case StatPage::%s:return points?art_%s:art_%s_no_points;'%(name.lower(),name.lower(),name.lower()))
+    sel.append('case StatPage::%s:return points?&art_%s:&art_%s_no_points;'%(name.lower(),name.lower(),name.lower()))
 lines.append('const MenuArt* original_stat_page_art(StatPage page,bool points){switch(page){'+''.join(sel)+'default:return nullptr;}}')
 lines.append('}')
 out=HERE/'stat_pages_art.cpp'
