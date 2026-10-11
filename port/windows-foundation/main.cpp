@@ -2579,8 +2579,7 @@ int main(int argc,char** argv) {
             bool alive=false;std::int32_t actorState=-1;
             if(!hostServices.actor_state(id,alive,actorState,e))return false;
             if(!alive||actorState==3||actorState<=0||actorState==17)return true; // dead, already idle, limbus, awaiting/pre-spawn
-            std::cout<<"[campaign] scripted clip finished: gameplay actor "<<placed->definition.name<<" state="<<actorState<<" -> Idle (CSAnim::OnUpdate)
-";
+            std::cout<<"[campaign] scripted clip finished: gameplay actor "<<placed->definition.name<<" state="<<actorState<<" -> Idle (CSAnim::OnUpdate)\n";
             released=hostServices.set_actor_state(id,3,e);return released;};
         // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
         // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
