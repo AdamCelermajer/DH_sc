@@ -16,6 +16,7 @@
 #include "authored_fx_transform_v5.hpp"
 #include "authored_fx_mesh_graph_v32.hpp"
 #include "authored_fx_null_tracks_v5.hpp"
+#include "fx_texture_animation_v1.hpp"
 #include <algorithm>
 #include <cstring>
 #include <cmath>
@@ -44,6 +45,7 @@ class AuthoredEmitterV32 final:public CharacterParticleFxResourceV2 {
  std::uint32_t emitter_node_{},emitter_instance_{},material_{};float radius_{},dimensions_[3]{};ParticleBoxV2 box_{};
  std::uint32_t camera_offset_word_{0},rendering_layer_{0};
  struct ColorTrack {assets::Animation accessor;assets::Vector values;};std::vector<ColorTrack> colors_;
+ ParticleColorTracksV1 color_model_;std::vector<assets::Animation> textures_;
  float camera_view_[16]{},camera_position_[3]{},uv_[8]{};math::Matrix4f* source_uv_matrix68_{};
  std::array<float,16> emitter_world_{};ParticleBillboardBoundsV1 bounds_{};
  std::shared_ptr<Snapshot> draw_;std::string failure_;bool ready_{};std::int32_t source_start_{},source_end_{};
@@ -61,11 +63,13 @@ class AuthoredEmitterV32 final:public CharacterParticleFxResourceV2 {
   int rc=dh2_particle_billboard_apply_v32(p,count,camera_position_,emitter_world_.data(),false,&bounds_);if(rc)return rc;
   ParticleBillboardBasisV1 basis{};rc=dh2_particle_billboard_basis_v1(&basis,camera_view_);if(rc)return rc;
   auto s=std::make_shared<Snapshot>();s->materials=scene_.materials;s->binding={material_};auto& g=s->geometry;g.id=input_.name;
+  // Original render6572b8 neutralizes the material only when a color track exists.
+  if(!colors_.empty())std::fill_n(s->materials[material_].color,4,1.f);
   std::copy_n(bounds_.minimum,3,g.minimum);std::copy_n(bounds_.maximum,3,g.maximum);
   skinning::VisualAttributeV6 colors{1,4,{}},uvs{6,2,{}};
   skinning::VisualPrimitiveV6 primitive;primitive.material_symbol=scene_.materials.at(material_).id;primitive.collada_type=0;primitive.engine_type=6;primitive.attributes.fill(-1);primitive.attributes[2]=0;primitive.attributes[4]=1;
   for(unsigned i=0;i<count;++i){ParticleBillboardVertexV1 v[4]{};rc=dh2_particle_billboard_vertices_v1(v,&basis,p+i,uv_);if(rc)return rc;
-   for(const auto& vertex:v){g.positions.push_back({vertex.position[0],vertex.position[1],vertex.position[2]});const auto c=vertex.color;colors.values.insert(colors.values.end(),{float((c>>16)&255),float((c>>8)&255),float(c&255),float(c>>24)});
+   for(const auto& vertex:v){g.positions.push_back({vertex.position[0],vertex.position[1],vertex.position[2]});const auto c=vertex.color;colors.values.insert(colors.values.end(),{float(c&255),float((c>>8)&255),float((c>>16)&255),float(c>>24)});
     // Actual ProfileCOMMON_emul_VS: TextureMatrix0*vec4(TexCoord0,1,0).
     // Bake this source equation because the existing native shader uses w1.
     const float u=source_uv_matrix68_->m[0]*vertex.uv[0]+source_uv_matrix68_->m[4]*vertex.uv[1]+source_uv_matrix68_->m[8];
@@ -75,6 +79,24 @@ class AuthoredEmitterV32 final:public CharacterParticleFxResourceV2 {
    for(unsigned index:{0u,1u,2u,0u,2u,3u})primitive.indices.push_back(i*4+index);
   }g.attributes.push_back(std::move(colors));g.attributes.push_back(std::move(uvs));g.primitives.push_back(std::move(primitive));draw_=std::move(s);return 0;
  }
+ int sample_particle_color(ParticleSeed100& particle,std::int32_t ms){
+  for(const auto& t:textures_){TextureTransform20V1 value;
+   if(!texture_sample_v1(value,t,ms,false,failure_))return -2;
+   const float c=std::cos(value.rotation_degrees),sn=std::sin(value.rotation_degrees);
+   const float matrix[]{value.scale_u*c,-value.scale_u*sn,value.offset_u,value.scale_v*sn,value.scale_v*c,value.offset_v};
+   std::memcpy(particle.data()+28,matrix,24);
+  }
+  for(const auto& t:colors_){std::int32_t key=0;float fraction=0;const bool between=dh2_animation_find(&t.accessor,0,ms,&key,&fraction);
+   if(key<0||unsigned(key)>=t.values.count||(between&&unsigned(key)+1>=t.values.count))return -1;
+   std::uint8_t value[4];std::memcpy(value,particle.data()+24,4);
+   if(t.values.components==1){ColorAccessor24 alpha{t.values.data,t.values.count,1,dh2_animation_default(&t.accessor)};
+    const int rc=between?dh2_material_alpha_between(value,&alpha,key,key+1,fraction):dh2_material_alpha_key(value,&alpha,key);if(rc)return rc;
+   }else if(between){MaterialColorAccessorV3 accessor{t.values.data,t.values.count};const int rc=dh2_material_color_between_v3(value,&accessor,key,key+1,fraction);if(rc)return rc;
+   }else std::memcpy(value,t.values.data+4*key,4);
+   std::memcpy(particle.data()+24,value,4);
+  }return 0;
+ }
+
 public:
  AuthoredEmitterV32(std::shared_ptr<const std::vector<std::uint8_t>> b,CharacterBloodFxSceneServicesV2 s,std::shared_ptr<SharedGraphV32> shared,std::uint32_t index,CharacterFxForceFactoryV4 force):bytes_(std::move(b)),shared_(std::move(shared)),scene_(shared_->scene),emitter_index_(index),force_factory_(force),services_(s){}
  bool initialize(std::string& error){try{
@@ -104,8 +126,12 @@ public:
   // All source model parameter cells used in this authored domain are supplied
   // below; untouched diagnostic context cells never become gameplay defaults.
   ParticleContextSeed92 context{};generation_=ParticleGenerationOwner::create(context);if(!register_particle_cloud_models_v1(*generation_,models_))throw std::runtime_error("Blood parameter owner registration");
+  generation_->register_parameter(generation_->hash_name("AnimKeyMappingType"),&color_model_.mapping);
+  const char* color_names[]{"AnimOffset","AnimOffsetVariation","AnimLength","AnimLengthVariation","AnimScaleMultiplier","AnimScaleMultiplierVariation"};
+  float* color_cells[]{&color_model_.offset,&color_model_.offset_variation,&color_model_.length,&color_model_.length_variation,&color_model_.scale,&color_model_.scale_variation};
+  for(unsigned i=0;i<6;++i)generation_->register_parameter(generation_->hash_name(color_names[i]),color_cells[i]);
   const int initialized=initialize_particle_resource_v32(*generation_,input_,{this,emitter,shape},{this,vector,render_initialize});if(initialized)throw std::runtime_error(failure_.empty()?"Required blood resource initialization":failure_);
-  const float center[3]{};if(input_.record[2]==0?dh2_particle_box_construct_v2(&box_,dimensions_):dh2_particle_sphere_construct_v1(&models_.sphere,center,radius_,0))throw std::runtime_error("Blood source sphere constructor");
+  const float center[3]{};if(input_.record[2]==0?particle_box_from_shape_v2(&box_,dimensions_):dh2_particle_sphere_construct_v1(&models_.sphere,center,radius_,0))throw std::runtime_error("Blood source sphere constructor");
   dh2_particle_billboard_uv_v1(uv_);
   bool has_scalar=false;for(unsigned i=0;i<dh2_bres_library_count(&image_,resources::Library::animation);++i){assets::Animation a{};if(dh2_animation_open(&a,&image_,i,0)!=assets::Error::ok)throw std::runtime_error("Required source scalar accessor");auto type=dh2_animation_type(&a,0);has_scalar|=type==28||type==37||type==38;}
   if(has_scalar){scalar_animation_=ParticleScalarAnimationResourceV6::create(bytes_->data(),bytes_->size(),error);if(!scalar_animation_)return false;
@@ -113,13 +139,14 @@ public:
   }
   if(!animation_.load(bytes_->data(),bytes_->size(),scene_,error,animation::MissingTargets::reject))return false;
   if(animation_.unbound)throw std::runtime_error("Blood unbound node animation");
-  for(unsigned i=0;i<dh2_bres_library_count(&image_,resources::Library::animation);++i){assets::Animation a{};if(dh2_animation_open(&a,&image_,i,0)!=assets::Error::ok)throw std::runtime_error("Blood animation accessor");if(!i){source_start_=a.segment_start;source_end_=a.segment_end;}else{source_start_=std::min(source_start_,a.segment_start);source_end_=std::max(source_end_,a.segment_end);}auto type=dh2_animation_type(&a,0);if(type==86){if(scene_.materials[material_].id!=dh2_animation_target(&a))continue;if(dh2_animation_channels(&a)!=1||dh2_animation_samplers(&a)!=1)throw std::runtime_error("Required authored material animation target");auto ch=dh2_animation_channel(&a,0);std::uint32_t prop;std::memcpy(&prop,ch+12,4);if(text(prop)!="diffuse-color")throw std::runtime_error("Required authored material parameter");assets::Vector values{};if(!dh2_animation_vector(&a,0,true,&values)||values.type!=1||(values.components!=4&&values.components!=1)||!values.count||dh2_animation_animator(&a)||dh2_animation_offsets(&a))throw std::runtime_error("Required uchar4 material sampler");for(unsigned k=1;k<values.count;++k)if(dh2_animation_key_time(&a,0,k)<dh2_animation_key_time(&a,0,k-1))throw std::runtime_error("Unordered material time");if(values.components==1&&(!dh2_animation_has_default(&a)||!dh2_animation_default(&a)))throw std::runtime_error("Required source particle alpha default");colors_.push_back({a,values});}else if(!(type>=1&&type<=13)&&type!=28&&type!=37&&type!=38&&!authored_fx_null_track_v5(type)&&(type<87||type>91))throw std::runtime_error("Required authored other animation continuation");}
-  emission_=std::make_unique<ParticleEmissionOwner>(generation_);cloud_=std::make_unique<ParticleCloudRuntimeV3>(*emission_,models_,seed_,123456789,ParticleCloudRenderV1{[this](){return draw_?0:-2;},[this](ParticleSeed100* p,std::uint32_t n){return apply(p,n);}},ParticleCloudEmitterV2{this,initialize_emitter},ParticleCloudForcesV3{this,[](void* raw,ParticleSeed100* particles,std::uint32_t count,float dt,std::int32_t* seed){auto& r=*static_cast<AuthoredEmitterV32*>(raw);if(!r.bound_.apply)return 0;return r.bound_.apply(r.bound_.context,particles,count,dt,seed,r.outer_,r.failure_);}});if(cloud_->initialize())throw std::runtime_error("Blood cloud source initialize");ready_=true;return true;
+  for(unsigned i=0;i<dh2_bres_library_count(&image_,resources::Library::animation);++i){assets::Animation a{};if(dh2_animation_open(&a,&image_,i,0)!=assets::Error::ok)throw std::runtime_error("Blood animation accessor");if(!i){source_start_=a.segment_start;source_end_=a.segment_end;}else{source_start_=std::min(source_start_,a.segment_start);source_end_=std::max(source_end_,a.segment_end);}auto type=dh2_animation_type(&a,0);if(type==86){if(scene_.materials[material_].id!=dh2_animation_target(&a))continue;if(dh2_animation_channels(&a)!=1||dh2_animation_samplers(&a)!=1)throw std::runtime_error("Required authored material animation target");auto ch=dh2_animation_channel(&a,0);std::uint32_t prop;std::memcpy(&prop,ch+12,4);if(text(prop)!="diffuse-color")throw std::runtime_error("Required authored material parameter");assets::Vector values{};if(!dh2_animation_vector(&a,0,true,&values)||values.type!=1||(values.components!=4&&values.components!=1)||!values.count||dh2_animation_animator(&a)||dh2_animation_offsets(&a))throw std::runtime_error("Required uchar4 material sampler");for(unsigned k=1;k<values.count;++k)if(dh2_animation_key_time(&a,0,k)<dh2_animation_key_time(&a,0,k-1))throw std::runtime_error("Unordered material time");if(values.components==1&&(!dh2_animation_has_default(&a)||!dh2_animation_default(&a)))throw std::runtime_error("Required source particle alpha default");if(colors_.empty())colors_.push_back({a,values});}else if(type>=87&&type<=91){if(scene_.materials[material_].id==dh2_animation_target(&a))textures_.push_back(a);}else if(!(type>=1&&type<=13)&&type!=28&&type!=37&&type!=38&&!authored_fx_null_track_v5(type)&&(type<87||type>91))throw std::runtime_error("Required authored other animation continuation");}
+  if(!colors_.empty()||!textures_.empty())color_model_.sample=[this](ParticleSeed100& p,std::int32_t ms){return sample_particle_color(p,ms);};
+  emission_=std::make_unique<ParticleEmissionOwner>(generation_);cloud_=std::make_unique<ParticleCloudRuntimeV3>(*emission_,models_,seed_,123456789,ParticleCloudRenderV1{[this](){return draw_?0:-2;},[this](ParticleSeed100* p,std::uint32_t n){return apply(p,n);}},ParticleCloudEmitterV2{this,initialize_emitter},ParticleCloudForcesV3{this,[](void* raw,ParticleSeed100* particles,std::uint32_t count,float dt,std::int32_t* seed){auto& r=*static_cast<AuthoredEmitterV32*>(raw);if(!r.bound_.apply)return 0;return r.bound_.apply(r.bound_.context,particles,count,dt,seed,r.outer_,r.failure_);}},&color_model_);if(cloud_->initialize())throw std::runtime_error("Blood cloud source initialize");ready_=true;return true;
  }catch(const std::exception& e){error=e.what();return false;}}
  std::int32_t start_ms()const noexcept override{return source_start_;}
  std::int32_t end_ms()const noexcept override{return source_end_;}
  bool sample_animation(std::int32_t ms,std::string& error)override{if(!ready_){error="Blood resource not initialized";return false;}if((!shared_->pose_sampled&&!animation_.sample(scene_,ms,error))){if(error.empty())error="Authored source animation sample";return false;}
-  if(!shared_->pose_sampled&&!source_fx_rebuild_graph_world_v4(scene_,error))return false;shared_->pose_sampled=true;for(auto& binding:scalar_bindings_)if(binding.sample_apply(ms)){error="Required source scalar particle application";return false;}for(const auto& t:colors_){std::int32_t key=0;float fraction=0;bool between=dh2_animation_find(&t.accessor,0,ms,&key,&fraction);if(key<0||unsigned(key)>=t.values.count||(between&&unsigned(key)+1>=t.values.count)){error="Authored material key";return false;}std::uint8_t value[4];if(t.values.components==1){ColorAccessor24 alpha{t.values.data,t.values.count,1,dh2_animation_default(&t.accessor)};const int status=between?dh2_material_alpha_between(value,&alpha,key,key+1,fraction):dh2_material_alpha_key(value,&alpha,key);if(status){error="Required source particle alpha interpreter";return false;}}else if(between){MaterialColorAccessorV3 accessor{t.values.data,t.values.count};if(dh2_material_color_between_v3(value,&accessor,key,key+1,fraction)){error="Authored color interpolation";return false;}}else std::memcpy(value,t.values.data+4*key,4);ColorParameter32 parameter{8,1,{0,0,0,0},-1,-1};std::memcpy(parameter.words,scene_.materials[material_].color,16);if(dh2_material_color_set(&parameter,0,value)!=1){error="Authored material application";return false;}std::memcpy(scene_.materials[material_].color,parameter.words,16);}
+  if(!shared_->pose_sampled&&!source_fx_rebuild_graph_world_v4(scene_,error))return false;shared_->pose_sampled=true;for(auto& binding:scalar_bindings_)if(binding.sample_apply(ms)){error="Required source scalar particle application";return false;}
   return true;}
  bool scene_frame(std::int32_t absolute,std::int32_t,const std::array<float,16>& outer,std::string& error)override{
   if(!ready_||!services_.camera||!services_.driver_type){error="Required actual blood camera/driver owner";return false;}

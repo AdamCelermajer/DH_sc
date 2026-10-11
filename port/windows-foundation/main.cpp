@@ -6903,8 +6903,9 @@ int main(int argc,char** argv) {
                             std::vector<std::uint8_t> raw;
                             try{raw=assets.read(actor.modelPath);}catch(const std::exception&){raw.clear();}
                             std::string reason;
-                            if(!raw.empty()&&embeddedSceneFx.attach(key,actor.modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason))
+                            if(!raw.empty()&&embeddedSceneFx.attach(key,actor.modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
                                 std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<actor.modelPath<<'\n';
+                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<actor.modelPath<<": "<<(raw.empty()?std::string("unreadable"):reason)<<'\n';
                         }
                         if(!embeddedSceneFx.attached(key))continue;
                         auto placement=actor.transform;
