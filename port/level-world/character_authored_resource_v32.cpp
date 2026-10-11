@@ -176,6 +176,7 @@ class CompositeResourceV32 final:public CharacterAuthoredCompositeFxResourceV4 {
  std::shared_ptr<SharedGraphV32> shared_=std::make_shared<SharedGraphV32>();
  std::vector<std::shared_ptr<AuthoredEmitterV32>> emitters_;
  std::unique_ptr<AuthoredFxMeshGraphV32> meshes_;math::Matrix4f outer_{};bool outer_written_{};
+ bool external_pose_{}; // actor pose already includes source root cancellation
  CharacterBloodFxSceneServicesV2 scene_services_{}; // P16 LEVELUP2: actual scene camera for billboard records
 public:
  bool initialize(std::shared_ptr<const std::vector<std::uint8_t>> bytes,CharacterBloodFxSceneServicesV2 services,CharacterFxForceFactoryV4 forces,std::string& error){
@@ -199,12 +200,29 @@ public:
  }
  std::int32_t start_ms()const noexcept override{return shared_->start;}
  std::int32_t end_ms()const noexcept override{return shared_->end;}
- bool sample_animation(std::int32_t ms,std::string& error)override{if(!shared_->transforms->sample(ms,error))return false;shared_->pose_sampled=true;for(auto& emitter:emitters_)if(!emitter->sample_animation(ms,error))return false;return meshes_->sample(ms,error);}
+ bool sample_animation(std::int32_t ms,std::string& error)override{external_pose_=false;if(!shared_->transforms->sample(ms,error))return false;shared_->pose_sampled=true;for(auto& emitter:emitters_)if(!emitter->sample_animation(ms,error))return false;return meshes_->sample(ms,error);}
  bool scene_frame(std::int32_t,std::int32_t,const std::array<float,16>&,std::string& error)override{error="Required source-produced typed FX outer68";return false;}
+ bool source_actor_pose_v1(const scene::Scene& pose,std::string& error)override{
+  const auto& original=shared_->scene.graph;
+  if(pose.graph.size()!=original.size()){error="Live actor pose graph size differs from attached model";return false;}
+  // Validate the complete same-model mapping before changing any retained receiver.
+  for(unsigned i=0;i<original.size();++i){const auto& a=original[i];const auto& b=pose.graph[i];
+   if(a.id!=b.id||a.name!=b.name||a.parent!=b.parent){error="Live actor pose is not the attached model graph";return false;}
+   for(float v:b.world)if(!std::isfinite(v)){error="Nonfinite live actor pose world";return false;}
+   for(float v:b.translation)if(!std::isfinite(v)){error="Nonfinite live actor pose translation";return false;}
+   for(float v:b.quaternion)if(!std::isfinite(v)){error="Nonfinite live actor pose rotation";return false;}
+   for(float v:b.scale)if(!std::isfinite(v)){error="Nonfinite live actor pose scale";return false;}
+  }
+  for(unsigned i=0;i<original.size();++i){auto& a=shared_->scene.graph[i];const auto& b=pose.graph[i];
+   std::copy_n(b.translation,3,a.translation);std::copy_n(b.quaternion,4,a.quaternion);std::copy_n(b.scale,3,a.scale);a.world=b.world;
+  }
+  for(auto& instance:shared_->scene.instances)instance.world=shared_->scene.graph[instance.node_index].world;
+  external_pose_=true;error.clear();return true;
+ }
  bool source_scene_frame_v4(std::int32_t absolute,std::int32_t dt,const math::Matrix4f& outer,std::string& error)override{std::memcpy(&outer_,&outer,65);outer_written_=true;
   // P16 LEVELUP2: billboard records (glitch CBillboardSceneNode) face the active scene camera each frame.
   // The rebuild runs before emitters and mesh draws read the retained graph; plain scenes skip the camera.
-  if(source_fx_scene_has_billboards_v1(shared_->scene)){
+  if(!external_pose_&&source_fx_scene_has_billboards_v1(shared_->scene)){
    float view[16]{},eye[3]{};
    if(!scene_services_.camera||!scene_services_.camera(scene_services_.context,view,eye,error)){if(error.empty())error="Required actual FX camera for billboard nodes";return false;}
    if(!source_fx_rebuild_graph_world_billboards_v1(shared_->scene,outer,view,eye,error))return false;

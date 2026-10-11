@@ -6807,6 +6807,14 @@ int main(int argc,char** argv) {
                 world[12]=position.x;world[13]=position.y;world[14]=position.z;
                 return world;
             };
+            // B105: prepare the same current pose before target, FX and draw consumers borrow it.
+            const auto actorDrawWorld=[&](const f::PopulationActor& actor) {
+                const auto& p=actor.transform;
+                const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
+                const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}:f::Vec3{p[12],p[13],p[14]};
+                const auto rotation=live?live->transform.rotation:std::array<float,3>{0,0,std::atan2(p[1],p[0])};
+                return sourceActorWorld(actor.definition.stableId,position,rotation,{std::hypot(p[0],p[1]),std::hypot(p[4],p[5]),p[10]});
+            };
             if(options.sourceTargetPosition) {
                 for(const auto& entry:combatSession->world()->actors()) {
                     auto* actor=combatSession->actor(entry.first);auto* graphics=actorVisual(entry.first);
@@ -6859,6 +6867,13 @@ int main(int argc,char** argv) {
             auto activeCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
             if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=campaignHost.camera_near_override()>0?campaignHost.camera_near_override():originalCamera.config().nearPlane;activeCamera.farPlane=campaignHost.camera_far_override()>0?campaignHost.camera_far_override():originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
+            const f::CameraPose billboardCamera{{activeCamera.eye.x,activeCamera.eye.y,activeCamera.eye.z},
+                {activeCamera.target.x,activeCamera.target.y,activeCamera.target.z},
+                {activeCamera.up.x,activeCamera.up.y,activeCamera.up.z},activeCamera.verticalFovDegrees};
+            const auto billboardView=f::sourceCameraViewMatrix(billboardCamera);
+            for(auto& actor:population.actors())if(actor.enabled)
+                if(!actor.visual.prepare_camera_billboards(actorDrawWorld(actor),billboardView,activeCamera.eye,error))
+                    throw std::runtime_error("Actor billboard: "+error);
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
                 std::string effectError;bool prepared=true;
@@ -6925,14 +6940,9 @@ int main(int argc,char** argv) {
                         if(!embeddedActorFx.attached(key))continue;
                         std::int32_t sourceMs=0;
                         if(!f::effects::embedded_clip_source_ms_v1(actor.visual,sourceMs))continue;
-                        const auto& placement=actor.transform;
-                        const auto* live=combatSession?combatSession->actor(key):nullptr;
-                        const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}:f::Vec3{placement[12],placement[13],placement[14]};
-                        const std::array<float,3> rotation=live?live->transform.rotation:std::array<float,3>{0,0,std::atan2(placement[1],placement[0])};
-                        const f::Vec3 scale{std::hypot(placement[0],placement[1]),std::hypot(placement[4],placement[5]),placement[10]};
-                        const auto world=sourceActorWorld(key,position,rotation,scale);
+                        const auto world=actorDrawWorld(actor);
                         std::string embeddedError;
-                        if(!embeddedActorFx.update(key,sourceMs,sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,embeddedError)) {
+                        if(!embeddedActorFx.update(key,sourceMs,sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,embeddedError,actor.visual.retained_scene_borrow())) {
                             std::cerr<<"Embedded FX actor "<<actor.definition.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
                         }
                     }
@@ -7044,19 +7054,7 @@ int main(int argc,char** argv) {
             }
             for(auto& actor:population.actors()) {
                 if(!actor.enabled)continue;
-                auto placement=actor.transform;
-                const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
-                const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}
-                                           :f::Vec3{placement[12],placement[13],placement[14]};
-                const std::array<float,3> rotation=live?live->transform.rotation
-                    :std::array<float,3>{0,0,std::atan2(placement[1],placement[0])};
-                const f::Vec3 scale{std::hypot(placement[0],placement[1]),std::hypot(placement[4],placement[5]),placement[10]};
-                placement=sourceActorWorld(actor.definition.stableId,position,rotation,scale);
-                const f::CameraPose billboardCamera{{activeCamera.eye.x,activeCamera.eye.y,activeCamera.eye.z},
-                    {activeCamera.target.x,activeCamera.target.y,activeCamera.target.z},
-                    {activeCamera.up.x,activeCamera.up.y,activeCamera.up.z},activeCamera.verticalFovDegrees};
-                if(!actor.visual.prepare_camera_billboards(placement,f::sourceCameraViewMatrix(billboardCamera),activeCamera.eye,error))
-                    throw std::runtime_error("Actor billboard: "+error);
+                const auto placement=actorDrawWorld(actor);
                 if(campaignHost.scripted_clip_pose(actor.definition.stableId)&&std::find(options.captureFrames.begin(),options.captureFrames.end(),drawn+1)!=options.captureFrames.end()){
                     std::array<float,3> low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
                     for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}

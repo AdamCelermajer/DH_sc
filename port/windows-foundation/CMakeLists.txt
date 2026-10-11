@@ -1194,6 +1194,6 @@ add_test(NAME embedded_particle_fidelity COMMAND embedded_particle_fidelity_test
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android/data/3d/gameobjects/go_door_fire_red.bdae")
 
 add_executable(actor_embedded_visual_tests tests/actor_embedded_visual_tests.cpp)
-target_link_libraries(actor_embedded_visual_tests PRIVATE foundation_data)
+target_link_libraries(actor_embedded_visual_tests PRIVATE foundation_runtime_effects)
 add_test(NAME actor_embedded_visual COMMAND actor_embedded_visual_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v20/assets")
