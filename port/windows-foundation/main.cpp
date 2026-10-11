@@ -4797,6 +4797,15 @@ int main(int argc,char** argv) {
                     std::cout<<"Source combo boundary frame="<<drawn<<" actor="<<boundary.actor<<" generation="<<boundary.generation<<" begin="<<boundary.beginning<<" depth="<<boundary.depth<<" step="<<boundary.step<<" count="<<boundary.count<<" clip="<<boundary.source_clip<<'\n';
                 for(const auto& event:combatSession->events()) {
                     std::cout<<"Damage frame="<<drawn<<" attacker="<<event.attacker<<" target="<<event.target<<" marker="<<event.marker_name<<" removed="<<event.health_removed<<" dead="<<event.target_died<<'\n';
+                    // B074 diagnostic: positions and original melee reach sum at the hit marker.
+                    if(const auto* hitWorld=combatSession->world()){
+                        const auto* hitA=hitWorld->find_actor(event.attacker);const auto* hitT=hitWorld->find_actor(event.target);
+                        if(hitA&&hitT){float dsq=0;for(int ax=0;ax<3;++ax){const float d=hitA->transform.position[ax]-hitT->transform.position[ax];dsq+=d*d;}
+                            std::cout<<"Hit geometry frame="<<drawn<<" attacker="<<event.attacker<<" target="<<event.target
+                                <<" apos="<<hitA->transform.position[0]<<','<<hitA->transform.position[1]<<','<<hitA->transform.position[2]
+                                <<" tpos="<<hitT->transform.position[0]<<','<<hitT->transform.position[1]<<','<<hitT->transform.position[2]
+                                <<" dist3="<<std::sqrt(dsq)<<" rA="<<hitWorld->melee_reach(event.attacker)<<" rT="<<hitWorld->melee_reach(event.target)<<'\n';}
+                    }
                     if(const auto* sourceAttack=combatSession->source_attack_state(event.attacker))
                         std::cout<<"Source combo hit frame="<<drawn<<" actor="<<event.attacker<<" index="<<sourceAttack->index<<" last="<<sourceAttack->last<<" continued="<<sourceAttack->continued<<'\n';
                 }
