@@ -1,12 +1,20 @@
 # Dungeon Hunter 2 — project completion checklist
 
-Updated: 2026-10-11. Branch: `reconstruction/item-world-runtime-2026-10-07`.
+Updated: 2026-10-12. Branch: `feature/desktop-gameplay-loop` (off `development`).
+
+Desktop gameplay-loop round (2026-10-12):
+- [x] Restore the Windows desktop build (stray brace closed `model_renderer` early) and clear ~40 world-load/runtime gates; SWAMP and Crypt load and run on desktop.
+- [x] Main menu renders the selected character model; player spawns visible at full HP (offline PlayerInfo unpack and +0x144 visibility fixed per IDA `_ManageCharacters`).
+- [x] Monster aggro, player attack, monster attack and enemy death: desktop `--scenario move-kill` kills cultist07 (Crypt) and 4 SWAMP Monsters; enemy bar shows localized name, damage text and XP.
+- [x] Android API 37/16 KiB x86_64 emulator: intro → menu → new Warrior → character preview → SWAMP gameplay with visible player and HUD (APK `09fdefe0…`). Touch combat on device and audible cinematic remain unverified.
+- [ ] Monster `_InitEquipment` powered-loot gap (unequipped fallback in use); monster-VM GameObject methods beyond `GetID`; Faery AIFrameOwner48 frame binding; RoomZone culling for doors/triggers.
+
 
 Latest source round (not in R4):
 - [x] Recover enemy acquisition radii and continuing aggro searches: 45 host cases and 40 original-ARM comparisons pass; live aggro remains unverified.
 - [x] Implement BRES particle simulation and connect existing AnimatedFX rendering; Windows particle fixture passes. Integrated rendering, animated material color and unsupported emitter modes remain open.
 - [x] Replace template-family restrictions with exact authored catalog/cache resolution; 97 selectors scanned across 455 MGPs, five missing catalog entries retained as errors. Multi-level static materialization remains open.
-- [ ] Validate combined Windows snapshot12: condition/update ordering, Character lifecycle, projectile callbacks, particles and template integration. Capture verified 6,981 source files; build/gameplay results pending.
+- [x] (superseded by the 2026-10-12 round) Validate combined Windows snapshot12: condition/update ordering, Character lifecycle, projectile callbacks, particles and template integration. Capture verified 6,981 source files; build/gameplay results pending.
 - [x] Restore SWAMP character resource closure: four models, 20 missing animation clips and one atlas; all 133 animation-provenance inputs match packaged bytes/hashes (`8032f542`). Gameplay validation remains open.
 - [x] Preserve manager-owned FX handles after pool return so repeated objective-marker removal/reinstallation follows the source lifecycle; focused regression passes (`aad90a92`).
 - [x] Build `a1ac6b9f` for ARM64/x86_64 and verify intro → main menu → new Warrior → SWAMP world/HUD on API 37/16 KiB. Fixed repeated identical menu frame labels that aborted assertion-enabled builds. Android combat and audible cinematic output remain unverified.
