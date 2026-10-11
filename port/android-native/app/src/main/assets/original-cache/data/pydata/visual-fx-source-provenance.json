@@ -55,6 +55,66 @@
       "path": "data/pydata/effects_pystructnames.bin",
       "bytes": 346,
       "sha256": "D4296263D954714D560083E058DA3FF4D87D4B35FA7C796C4E88618F4CB2CC2B"
+    },
+    {
+      "path": "data/3d/fx/bloodsplat.bdae",
+      "bytes": 6232,
+      "sha256": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b"
+    },
+    {
+      "path": "data/3d/fx/bloodsplat_hero.bdae",
+      "bytes": 6256,
+      "sha256": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25"
+    },
+    {
+      "path": "data/3d/interface/marker_poisoned.bdae",
+      "bytes": 5752,
+      "sha256": "d8839d29dd6ce8c92ea84d353444b221985dc6c90b03808a4b4031b22e9f4f95"
+    },
+    {
+      "path": "data/3d/interface/spell_dh2_hurt_fire.bdae",
+      "bytes": 7668,
+      "sha256": "b48d8f0bd4f5884d04bdfd79050549a0541d98375a3febe384fe5dbee31ca152"
+    },
+    {
+      "path": "data/3d/interface/spell_dh2_hurt_water.bdae",
+      "bytes": 37324,
+      "sha256": "76a4029a4f815023c347318abfdc76e74e42bf76914e5b7d031408c2c83da62a"
+    },
+    {
+      "path": "data/3d/interface/spell_dh2_hurt_lightning.bdae",
+      "bytes": 6436,
+      "sha256": "5599f7f6e9ad117285eb315c575799b60abb26ac6918789f172c0cb127e0eea4"
+    },
+    {
+      "path": "data/3d/interface/spell_dh2_hurt_earth.bdae",
+      "bytes": 16420,
+      "sha256": "18d31293a92286841fbdc43499b2c0d34025c247a46d0953f19b46aed6737e9b"
+    },
+    {
+      "path": "data/3d/interface/spell_dh2_hurt_wind.bdae",
+      "bytes": 10816,
+      "sha256": "ef04637089e92c71fc0e1d4859292c6e3fc3590a5b0f70260ccb0d7cc490850e"
+    },
+    {
+      "path": "data/3d/textures/atlas_fx_particles_001.tga",
+      "bytes": 131132,
+      "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    },
+    {
+      "path": "data/3d/textures/fx_smoke_03.tga",
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    {
+      "path": "data/3d/textures/fx_spell_lightning_03.tga",
+      "bytes": 32828,
+      "sha256": "24d4bcf87ac5efdda6e6b6333e18de05ff3a198151203ea54a8c60febe5c9816"
+    },
+    {
+      "path": "data/3d/textures/fx_spell_wind_01.tga",
+      "bytes": 8252,
+      "sha256": "f63b083a4e800fd8c02061e6717dc8bc0bbafcd3a675165e68eaeb7bc3b9604f"
     }
   ]
 }
