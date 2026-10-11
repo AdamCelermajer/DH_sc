@@ -505,6 +505,12 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         if (!v.hands) { unsupported_.note("stub UnEquipHands/ReEquipHands (no equipment owner bound)"); return true; }
         return v.hands(id, c.kind == 52, e);
     }
+    // P16 FIX16: Swamp script verbs with no owner in this host. Stubbed, counted once and non-blocking so the
+    // cutscene or trigger script continues instead of aborting (IDA owners are outside the Swamp opening path).
+    case 15: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayLevelMusic (resume level track not bound to the script host)"); return true;
+    case 44: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub KillActor (no scripted kill owner bound)"); return true;
+    case 63: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub RestartLevel (player death restart is owned by the death flow)"); return true;
+    case 68: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub ShowTrophies (no trophy display owner)"); return true;
     default: e = "Unsupported original campaign actor verb kind " + std::to_string(c.kind); return false;
     }
 }

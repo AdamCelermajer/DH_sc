@@ -15,7 +15,8 @@ bool OriginalCampaignWorldAdapter::command(CampaignCommandPhase phase,const Orig
   if(c.kind==4||c.kind==8){if(!camera_){if(c.kind==4)return true;error="Source camera command requires bound CampaignCameraAdapter";return false;}bool handled=false;if(!camera_->command(phase,c,skip,handled,blocking,error))return false;if(!handled){error="Source camera adapter did not handle command";return false;}return true;}
   if(c.kind==10||c.kind==12)return effect(providers_.dialog,"dialog",error,c,phase,blocking);
   if(c.kind==5)return effect(providers_.camera_clip,"camera clip",error,c,phase,blocking); // P16 CINE2
-  if(c.kind==41||c.kind==42||c.kind==43||c.kind==45||c.kind==46||c.kind==29||c.kind==6||c.kind==19||c.kind==20||c.kind==21||c.kind==14||c.kind==51||c.kind==52){ // P16 OPENING
+  // P16 FIX16: 15/44/63/68 (PlayLevelMusic, KillActor, RestartLevel, ShowTrophies) are stubbed by the host's verb table.
+  if(c.kind==41||c.kind==42||c.kind==43||c.kind==45||c.kind==46||c.kind==29||c.kind==6||c.kind==19||c.kind==20||c.kind==21||c.kind==14||c.kind==51||c.kind==52||c.kind==15||c.kind==44||c.kind==63||c.kind==68){ // P16 OPENING
     if(!providers_.actor_verb){error="Unbound original campaign provider: actor verb";return false;}
     if(providers_.actor_verb(c,phase,module,blocking,error))return true;
     if(error.empty())error="Original campaign provider failed: actor verb";return false;}
