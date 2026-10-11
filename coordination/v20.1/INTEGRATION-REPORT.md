@@ -86,6 +86,34 @@ at ef6360b1. Their combined frozen checks remain pending. User confirms B109
 rendering fixed; original exact pixel parity and inherited renderer limitations
 remain caveats, while travel-message layout is owned independently as B113.
 
+## Reviewed decor and closed-input integration
+
+Behavior sourceef6360b1; report-only correction99c6000f. Build passes, full
+ctest169/170 in16.65s with only permitted session_skill_binding. Frozen
+`dh-foundation-decor-bag.exe` SHA256
+`445A167198FE2A5CA67B9E063F571E795F824A1B52C9C30BF17104B1DB3F9047`.
+
+Quiet isolated `.local-inputs/v20.1/root/decor-bag-runtime/` checks:
+
+- B109 exit/cave controlled source fixture: exit0 in7.3/13.5s. One ambient
+  decor owner, baked decor0; Swamp37instances specular14/opaque8, Cave15instances
+  specular7/opaque1. Inspected exitf140/cavef300 confirm rendered material path
+  and geometry. Original benchmark quest states are explicitly seeded; this is
+  a render/transition test, not proof of natural quest progression. Old travel
+  box is expected in this pre-B113 frozen build. User rendering acceptance and
+  re-review bound B109; exact original renderer parity remains unclaimed.
+- B095 main-loop queued Close→UNEQUIP sameframe340: exit0, menuclosed, equipped
+  StartingSuit/count4 unchanged. Inspected f430 ordinary game view. Uses retained
+  --menu-release main dispatch hook; real10ms navigation at both aspects is
+  independently reviewed private evidence and is not repeated as a new claim.
+
+B113 independently reviewed9623f483 and B111 independently verified8903fff5
+have now merged. B113's final private frozen EXE includes a recorded temporary
+B106 dependency absent from its branch; formal B106 review remains required.
+B111 reviewer fresh physical clicks at two aspects reproduce source-backed
+values and authored pages; older captures used other save states, preserved as
+qualified historical evidence. B103 stat allocation remains a separate gate.
+
 ## Remaining production and release gates
 
 Per-bug reviews, remaining implementation/runtime checks, integration of reviewed

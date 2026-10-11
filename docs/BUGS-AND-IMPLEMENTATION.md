@@ -262,7 +262,7 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B082 | Death: black screen, no visible try-again / return-to-checkpoint; hero death animation. | OPEN, session assigned | fresh Sonnet session |
 | B083 | A skill (slot 2) was not usable. | OPEN, session assigned | fresh Sonnet session |
 | B085 | Breaking a vase: no sound, no sword animation. | OPEN, session assigned | fresh Sonnet session |
-| B086 | Quit and relaunch: the hero is placed wrongly beside the cages and cannot move (shot-7). | OPEN, session assigned | fresh Sonnet session |
+| B086 | Quit and relaunch: the hero is placed wrongly beside the cages and cannot move (shot-7). | Review reproduced real WM_CLOSE exiting before save; fresh repair owner implementing normal close and dead-moth resume checks | `/root/b086_close_repair`; `/root/b086_review`; root integration |
 | B087 | No exclamation marker above the NPC head (shot-8). | OPEN, session assigned | fresh Sonnet session |
 | B088 | Context button shows talk bubble but does not switch to attack when a monster is near; Space does not talk to the NPC (shot-8). | OPEN, session assigned | fresh Sonnet session |
 | B089 | A destroyed vase stays targetable (red ring remains on the broken pieces) (shot-9). | OPEN, session assigned | fresh Sonnet session |
@@ -287,11 +287,11 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B103 | Character menu buttons still not clickable (shot 21). | OPEN, queued | fresh Sonnet session |
 | B104 | No sound on quest completion (Bogwalker quest). | OPEN, queued | fresh Sonnet session |
 | B105 | Celeste glow is broken (shot 22). | OPEN, separate fresh continuation running; consumes B101 common emitter dependency | `/root/b105_celeste`; root preliminary review, separate fresh read-only B105 reviewer queued |
-| B106 | E does not work / does not teleport (Travel to Bogwitch Cavern, shot 23). | OPEN, queued | fresh Sonnet session |
+| B106 | E does not work / does not teleport (Travel to Bogwitch Cavern, shot 23). | Existing input repair under fresh review; B113 private runtime uses it, formal integration pending | `/root/b106_review`; root integration |
 | B107 | User note "abomination": it was the cavern rendering (same as B109, shot-24). | MERGED INTO B109 (session assigned) | fresh Sonnet session |
 | B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | User confirms rendering fixed; repaired material transport re-reviewed READY WITH CAVEATS, merged; final combined check pending | `/root/b109_cavern`; `/root/b109_review`; root integration |
 | B108 | Continue after death fails without a checkpoint-zone contact. | OPEN, existing fix awaits review and combined B086 quit-after-death test | Root follow-up; fresh read-only reviewer queued |
-| B110 | Merchant BUY/SELL UI is missing from the normal interaction path. | OPEN, worker interrupted at checkpoint to prioritize clarified B094; resume queued | `/root/b110_merchant`; root follow-up, fresh read-only reviewer queued |
-| B111 | Statistics icon navigation and four character-sheet sub-pages are missing. | OPEN, source draft awaits fresh implementation continuation | Root follow-up; fresh worker/reviewer queued |
+| B110 | Merchant BUY/SELL UI is missing from the normal interaction path. | Review found equipped SELL and capped-potion BUY admission errors; owner repairing source gates before re-review | `/root/b110_merchant`; `/root/b110_review`; root integration |
+| B111 | Statistics icon navigation and four character-sheet sub-pages are missing. | Fresh reviewer READY at8903fff5; merged, final combined normal page checks pending | `/root/b111_stat_pages`; `/root/b111_review`; root integration |
 | B112 | User: "in npc in general we dont get the green targeting"; clarified "Green circle missing" only. | Reviewed READY WITH CAVEATS: B087/B100 status-marker assets restore circles; B100 review and final package checks pending | `/root/b112_npc_green_target` in fix112/codex/b112; `/root/b112_review`; root integration |
-| B113 | User: "b109 the rendering is fixed but not the TP text messages it need to be conform"; screenshot `.local-inputs/v20.1/user-shots/B113-travel-prompt.png`. | OPEN, fresh implementation session assigned immediately; original destination widget investigation | `/root/b113_travel_prompt` in fix113/codex/b113; root preliminary review, fresh read-only reviewer queued |
+| B113 | User: "b109 the rendering is fixed but not the TP text messages it need to be conform"; screenshot `.local-inputs/v20.1/user-shots/B113-travel-prompt.png`. | Original upper destination widget restored, fresh review READY WITH CAVEATS at9623f483; merged, combined B106 input/render checks pending | `/root/b113_travel_prompt` in fix113/codex/b113; `/root/b113_review`; root integration |
