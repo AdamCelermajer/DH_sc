@@ -69,7 +69,7 @@ include("${DH2_SOURCE_DIR}/port/engine-ui/menu_frontend_v69.cmake")
 set(DH2_ANDROID_CPP "${DH2_SOURCE_DIR}/port/android-native/app/src/main/cpp")
 include("${DH2_ANDROID_CPP}/native_runtime_sources.cmake")
 add_executable(dh2_desktop_runtime
-  desktop_main.cpp asset_manager.cpp
+  desktop_main.cpp asset_manager.cpp gameplay_audio_sdl.cpp
   ${DH2_NATIVE_RUNTIME_SOURCES})
 if(MINGW AND TARGET dh2_gameswf_core)
   # GameSWF's legacy Windows assert macro uses MSVC-only inline asm. The

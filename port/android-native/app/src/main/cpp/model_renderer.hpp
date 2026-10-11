@@ -102,6 +102,35 @@ std::string debug_player_death();
 std::string set_combat_target(int index,int target);
 std::string player_attack(int target=-1);
 std::array<int,7> player_vitals();
+// Read-only live Player and nearest source enemy snapshot for bounded desktop
+// input checks. The enemy index is diagnostic only; attack selection remains
+// owned by player_attack() with its default target.
+struct GameplayPoseSnapshotV1 {
+ std::array<float,3> player_position{};
+ std::int32_t enemy_index=-1;
+ std::array<float,3> enemy_position{};
+ std::int32_t enemy_hp=0,enemy_max_hp=0;
+};
+bool gameplay_pose_snapshot(GameplayPoseSnapshotV1&,std::string&);
+// Computes a temporary selected-floor route for the desktop input check. It
+// does not install a Character path or issue Cmd_MoveTo; callers still steer
+// through move_axis and the live collision/controller owners.
+struct GameplayRouteSnapshotV1 {
+ bool graph_sewn{};
+ bool path_found{};
+ std::uint32_t graph_nodes{},graph_edges{};
+ std::uint32_t source_node{},target_node{},query_status{};
+ std::vector<std::array<float,3>> waypoints;
+};
+bool gameplay_route_snapshot(const std::array<float,3>&,
+                             GameplayRouteSnapshotV1&,std::string&);
+struct GameplayEnemyStateSnapshotV1 {
+ std::string name;
+ std::int32_t hp{},max_hp{};
+ bool dead{};
+};
+bool gameplay_enemy_state_snapshot(std::int32_t,
+                                   GameplayEnemyStateSnapshotV1&,std::string&);
 // Read-only localization projection of the one live Player Character and its
 // associated Save name. Requires the attached world; creates no profile owner.
 bool ui_player_identity(std::uintptr_t&,std::string&);
@@ -223,6 +252,12 @@ struct UiItemDetailsReadV1 {
  std::string name,stats,requirements,icon;
  bool stackable{},equippable{},equipped{},equipped_other_hand{};std::vector<std::string> power_descriptions;
 };
+struct UiMerchantItemReadV1 {
+ std::int32_t id{-1},index{-1},quantity{},power_count{};
+ std::int32_t value{},buy_value{},sell_value{};
+ std::string name;
+ bool equippable{},equipped{},equipped_other_hand{},buyback{};
+};
 bool ui_player_skill_slots(std::uintptr_t,std::array<std::int32_t,3>&,std::string&);
 bool ui_player_use_skill_slot(std::uintptr_t identity,std::int32_t hud_slot,std::string& error);
 bool ui_player_use_spell(std::uintptr_t identity,std::string& error);
@@ -240,6 +275,25 @@ bool ui_player_drop_inventory_item(std::uintptr_t,std::int32_t,std::string&);
 bool ui_player_inventory_slot(std::uintptr_t,std::int32_t,std::vector<UiInventoryItemReadV1>&,std::string&);
 bool ui_player_inventory_item_details(std::uintptr_t,std::int32_t,std::uint32_t,
                                       UiItemDetailsReadV1&,std::string&);
+// Merchant callbacks pass ObjectManager::GetObjectByName's source module filter
+// (or -1 wildcard), not the returned ObjectHandle ledger key. Resolve that
+// filter plus the exact source name to a retained CharType 7 ObjectActor/V4.
+bool ui_source_merchant_identity(std::int32_t,const std::string&,std::uintptr_t&,std::string&);
+bool ui_source_merchant_inventory_slot(std::int32_t,const std::string&,std::int32_t,
+                                       std::vector<UiMerchantItemReadV1>&,std::string&);
+bool ui_source_merchant_item_details(std::int32_t,const std::string&,std::int32_t,
+                                     std::uint32_t,UiItemDetailsReadV1&,std::string&);
+bool ui_source_merchant_buy_quote(std::int32_t,const std::string&,std::int32_t,
+                                  std::int32_t&,bool&,std::string&);
+// Source NativeMerchantBuyItem status domain: 0 success/no-op, 1 insufficient
+// gold, 2 full inventory, 3 potion capacity reached. A false return means the
+// live owner rejected a reached source step; its already-applied prefix stays.
+bool ui_source_merchant_buy_transaction(std::int32_t,const std::string&,
+ std::int32_t,std::uintptr_t,std::int32_t&,std::string&);
+// NativeMerchantSellItem mutates once per visible menu_Merchant lifetime and
+// returns false even after completing its source transaction.
+bool ui_source_merchant_sell_transaction(std::int32_t,const std::string&,
+ std::int32_t,std::uintptr_t,std::int32_t&,std::string&);
 bool ui_player_transmute_item(std::uintptr_t,std::int32_t,std::uint32_t,std::string&);
 bool ui_player_equipped_item(std::uintptr_t,std::int32_t,UiEquippedItemReadV1&,bool&,std::string&);
 bool ui_player_equip_item(std::uintptr_t,std::int32_t item_index,std::int32_t equipment_slot,std::string&);

@@ -164,6 +164,9 @@ struct OriginalUiSession::Impl {
     bool inventory_callback_probe_logged=false;
     std::uintptr_t gameplay_character_button{};
     bool gameplay_character_button_pressed=false;
+    // NativeMerchantSellItem consumes MenuManager's one-shot gate. MenuBase::Hide
+    // resets that source gate for the next merchant-menu lifetime.
+    bool merchant_sell_one_shot_used=false;
     std::string active_menu_path()const{return "_root."+(menu_stack.empty()?std::string("menu_MainMenu"):menu_stack.back());}
     static bool shared_state(const std::string& name){return name=="menu_HelpButtons"||name=="menu_Help"||name=="menu_About"||name=="menu_Options";}
     static bool character_menu_state(const std::string& name){
@@ -1644,11 +1647,9 @@ struct OriginalUiSession::Impl {
             // [merchantName, merchantObjectId] but the native only selects its
             // merchant path for exactly six args, so it still reads the first
             // three values from the player's canonical V4 inventory. The
-            // six-argument ABI inserts [remoteFlag] before that identity tail
-            // and reads that Character's canonical V4
-            // inventory when ObjectManager name resolution succeeds. The
-            // current projection has no name lookup or merchant inventory,
-            // so fail closed before reading any Player item.
+            // six-argument ABI is [itemIndex, outputObject, playerIndex,
+            // merchantFlag, merchantName, merchantObjectId]. A true merchant
+            // flag selects that exact Character's retained V4 inventory.
             const auto kind=[](const gameswf::as_value& value){
                 using Kind=dh2::ui::MerchantDetailsValueKindV1;
                 if(value.is_number())return Kind::number;
@@ -1662,14 +1663,9 @@ struct OriginalUiSession::Impl {
             for(std::size_t i=0;i<shape.arguments.size()&&i<std::size_t(fn.nargs);++i)
                 shape.arguments[i]=kind(fn.arg(int(i)));
             const auto form=dh2::ui::merchant_details_call_form_v1(shape);
-            if(form==dh2::ui::MerchantDetailsCallFormV1::merchant_inventory){
-                constexpr dh2::ui::MerchantDetailsOwnerBindingsV1 bindings{};
-                if(!dh2::ui::merchant_details_owner_ready_v1(bindings)){
-                    error="NativeInvGetItemDetails merchant form requires ObjectManager name lookup, a live merchant Character, and its canonical V4 inventory";
-                    return false;
-                }
-            }
-            if(form!=dh2::ui::MerchantDetailsCallFormV1::player_inventory)return true;
+            const bool merchant_form=form==dh2::ui::MerchantDetailsCallFormV1::merchant_inventory&&
+                                     fn.arg(3).to_bool();
+            if(form!=dh2::ui::MerchantDetailsCallFormV1::player_inventory&&!merchant_form)return true;
             auto* object=fn.arg(1).to_object();if(!object)return true;
             std::uintptr_t identity=0;
             if(!local_character(fn.arg(2).to_int(),false,identity))return false;
@@ -1678,7 +1674,12 @@ struct OriginalUiSession::Impl {
             if(!constant(&self,"CharacterDesign","TransmuteMultiplier",
                          transmute_multiplier,error))return false;
             model_renderer::UiItemDetailsReadV1 item;
-            if(!model_renderer::ui_player_inventory_item_details(identity,
+            if(merchant_form){
+                const auto merchant_name=fn.arg(4).to_xstring();
+                if(!model_renderer::ui_source_merchant_item_details(
+                       fn.arg(5).to_int(),merchant_name,fn.arg(0).to_int(),
+                       transmute_multiplier,item,error))return false;
+            }else if(!model_renderer::ui_player_inventory_item_details(identity,
                     fn.arg(0).to_int(),transmute_multiplier,item,error))return false;
             std::array<std::string,4> powers{};
             for(std::size_t i=0;i<powers.size()&&i<item.power_descriptions.size();++i)
@@ -1717,52 +1718,90 @@ struct OriginalUiSession::Impl {
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeMerchantGetItemsListForSlot")){
-            // IDA 0x444168 ABI: [slot, merchantObjectId, merchantName,
-            // playerInfoIndex, outputArray]. Source resolves the Player first,
+            // IDA 0x444168 ABI: [slot, outputArray, playerInfoIndex,
+            // merchantName, merchantObjectId]. Source resolves the Player first,
             // then GetObjectByName(name,id), verifies Character::IsMerchant,
             // reads that Character's ItemInventory, selects GetItemListForSlot
             // or (EquipmentSlots::Count) GetValuableItems, sorts by
             // II_Item_sortbybuyback, and appends ItemName/ItemIndex/
             // ItemEquippable/ItemEquipped/ItemBuyback/ItemQuantity records.
-            // The active Crypt ObjectManager projection has no name lookup,
-            // materialized merchant Character, MerchantTable loot row, or
-            // merchant ItemInventory. Match the source's missing-player / null
-            // merchant result: return the caller's array unchanged; never
-            // synthesize stock or a second inventory.
-            if(fn.nargs!=5||!fn.arg(0).is_number()||!fn.arg(1).is_number()||
-               !fn.arg(2).is_string()||!fn.arg(3).is_number()||!fn.arg(4).is_object())return true;
-            auto* array=gameswf::cast_to<gameswf::as_array>(fn.arg(4).to_object());
+            // The exact source (module filter,name) resolves through the shared
+            // ObjectManager to the imported CharType 7 ObjectActor and its V4.
+            // MerchantTable quoting and
+            // item rows borrow those same canonical owners.
+            if(fn.nargs!=5||!fn.arg(0).is_number()||!fn.arg(1).is_object()||
+               !fn.arg(2).is_number()||!fn.arg(3).is_string()||!fn.arg(4).is_number())return true;
+            auto* array=gameswf::cast_to<gameswf::as_array>(fn.arg(1).to_object());
             if(!array)return true;
+            std::uintptr_t player_identity=0;
+            if(!local_character(fn.arg(2).to_int(),false,player_identity))return false;
+            if(!player_identity)return true;
+            std::vector<model_renderer::UiMerchantItemReadV1> items;
+            if(!model_renderer::ui_source_merchant_inventory_slot(fn.arg(4).to_int(),
+                    fn.arg(3).to_xstring(),fn.arg(0).to_int(),items,error))return false;
+            const bool valuable_list=fn.arg(0).to_int()==9;
+            for(const auto& item:items){
+                std::string formatted_name;
+                if(!item_name_with_palette(self,item.name,item.power_count,formatted_name,error))return false;
+                auto* row=new gameswf::as_object(fn.get_player());
+                const std::string quantity=valuable_list?std::to_string(item.quantity):" ";
+                if(!row->set_member("ItemName",gameswf::as_value(formatted_name.c_str()))||
+                   !row->set_member("ItemIndex",gameswf::as_value(item.index))||
+                   !row->set_member("ItemEquippable",gameswf::as_value(item.equippable))||
+                   !row->set_member("ItemEquipped",gameswf::as_value(!valuable_list&&item.equipped))||
+                   !row->set_member("ItemEquippedOtherHand",gameswf::as_value(item.equipped_other_hand))||
+                   !row->set_member("ItemBuyback",gameswf::as_value(item.buyback))||
+                   !row->set_member("ItemQuantity",gameswf::as_value(quantity.c_str()))){
+                    error="NativeMerchantGetItemsListForSlot output rejected a source field";return false;
+                }
+                array->push(gameswf::as_value(row));
+            }
             if(fn.result)fn.result->set_as_object(array);
+            error.clear();
             return true;
         }
         if(!std::strcmp(name,"NativeMerchantBuyItem")){
-            // IDA 0x4408d4 ABI: [merchantItemIndex, merchantObjectId,
-            // merchantName, playerInfoIndex]. Source resolves Player then the
-            // ObjectManager Character, validates IsMerchant and the merchant
-            // inventory slot, then returns a price quote from MerchantTable
-            // and the ItemBuyback flag. The recovered function has no inventory
-            // or gold mutation calls; it is not the purchase transaction owner.
-            // The live Crypt projection lacks the merchant lookup/inventory,
-            // so preserve the missing-object zero result without altering V4.
+            // IDA 0x4408d4 ABI: [merchantItemIndex, playerInfoIndex,
+            // merchantName, merchantObjectId]. The renderer transaction resolves
+            // the exact merchant Character and both canonical V4 inventories,
+            // then preserves the source mutation prefix and status codes.
+            if(fn.result)fn.result->set_double(0);
             if(fn.nargs!=4||!fn.arg(0).is_number()||!fn.arg(1).is_number()||
                !fn.arg(2).is_string()||!fn.arg(3).is_number())return true;
-            if(fn.result)fn.result->set_double(0);
-            return true;
+            std::uintptr_t player_identity=0;
+            if(!local_character(fn.arg(1).to_int(),false,player_identity))return false;
+            if(!player_identity){if(fn.result)fn.result->set_double(0);return true;}
+            std::int32_t result=0;
+            if(!model_renderer::ui_source_merchant_buy_transaction(fn.arg(3).to_int(),
+                 fn.arg(2).to_xstring(),fn.arg(0).to_int(),player_identity,result,error))return false;
+            if(fn.result)fn.result->set_double(double(result));
+            error.clear();return true;
         }
         if(!std::strcmp(name,"NativeMerchantSellItem")){
-            // IDA 0x44058c ABI uses the same four-argument layout. The source
-            // additionally requires a live menu_Merchant instance with its
-            // one-shot +0xc4 gate, resolves Player and merchant Character,
-            // validates the player item index and reads the merchant price.
-            // The recovered body ends by returning false and shows no gold,
-            // buyback-flag, or inventory mutation. Sale completion is not
-            // established by this callback. The live projection has neither
-            // the menu gate nor the merchant Character/inventory; fail closed.
+            // The source MenuManager gate is consumed before argument parsing.
+            // Its MenuBase::Hide path resets the gate; covering the menu does not.
+            if(self.game_menu_stack.empty()||self.game_menu_stack.back()!="menu_Merchant"||
+               self.merchant_sell_one_shot_used){
+                if(fn.result)fn.result->set_bool(false);
+                error.clear();return true;
+            }
+            self.merchant_sell_one_shot_used=true;
+            // IDA 0x44058c ABI: [playerItemIndex, playerInfoIndex,
+            // merchantName, merchantObjectId].
             if(fn.nargs!=4||!fn.arg(0).is_number()||!fn.arg(1).is_number()||
-               !fn.arg(2).is_string()||!fn.arg(3).is_number())return true;
+               !fn.arg(2).is_string()||!fn.arg(3).is_number()){
+                if(fn.result)fn.result->set_bool(false);
+                error.clear();return true;
+            }
+            std::uintptr_t player_identity=0;
+            if(!local_character(fn.arg(1).to_int(),false,player_identity))return false;
+            if(!player_identity){if(fn.result)fn.result->set_bool(false);return true;}
+            std::int32_t result=0;
+            if(!model_renderer::ui_source_merchant_sell_transaction(fn.arg(3).to_int(),
+                 fn.arg(2).to_xstring(),fn.arg(0).to_int(),player_identity,result,error))return false;
+            // NativeMerchantSellItem returns false after its transaction.
             if(fn.result)fn.result->set_bool(false);
-            return true;
+            error.clear();return true;
         }
         if(!std::strcmp(name,"NativeInvGetPlayerGold")){
             // 0x44a5c4 and the inventory SWF agree on these call forms:
@@ -2394,6 +2433,7 @@ struct OriginalUiSession::Impl {
             if(!graph.invoke(menu,menu,"onHide",{},result,callable,error))return false;
             if(change.name=="menu_MapSheet")model_renderer::map_camera_close();
             if(change.action==MenuChangeAction::cover)return true;
+            if(change.name=="menu_Merchant")change.self->merchant_sell_one_shot_used=false;
             return graph.set_member(menu,"_visible",ui::SwfAsValue::boolean(false),accepted,error);
         }
         if(!graph.set_member(menu,"_visible",ui::SwfAsValue::boolean(true),accepted,error)||
@@ -3711,7 +3751,10 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                         case ui::HudManagerOperation::debug_load:return 1;
                         case ui::HudManagerOperation::debug_switch:response->value=0;return 1;
                         case ui::HudManagerOperation::visible:
-                            if(request->index!=19)return fail("Enemy HUD visibility target differs from authored source");
+                            // Run::visible routes the resolved cache identity in
+                            // subject and leaves index at zero. Cache slot 19
+                            // resolves to this enemy clip's token (20).
+                            if(request->subject!=20)return fail("Enemy HUD visibility target differs from authored source");
                             return context.hud->enemy_visible(request->value!=0,context.error)?1:0;
                         case ui::HudManagerOperation::goto_label:
                             if(request->index!=19||!request->text)return fail("Enemy HUD label target differs from authored source");

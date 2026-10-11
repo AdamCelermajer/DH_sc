@@ -13,6 +13,8 @@ if not COMPILER:
 with tempfile.TemporaryDirectory(prefix="dh2-camera-crypt-frame-") as temp:
     exe = Path(temp) / "native_camera_crypt_frame_v1_host.exe"
     source = ROOT / "port/android-native/tests/native_camera_crypt_frame_v1_host.cpp"
+    projection = ROOT / "port/engine-camera/projection_matrix.cpp"
     subprocess.run([COMPILER, "-std=c++17", "-O2", "-Wall", "-Wextra", "-Werror",
-                    str(source), "-o", str(exe)], check=True)
+                    "-I", str(ROOT / "port/engine-camera"), str(source), str(projection),
+                    "-o", str(exe)], check=True)
     subprocess.run([str(exe)], check=True)

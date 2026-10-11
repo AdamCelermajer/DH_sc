@@ -38,6 +38,8 @@ struct GameObject {
     std::uint8_t in_zone_2f0{};
     std::uint8_t visible_80{1};
     std::uint8_t no_room_member_2f8{};
+    std::int32_t module_id_64{-1};
+    std::uint8_t global_87{};
 
     // Optional borrowed live fields. When supplied, zoning/enrollment views
     // use these pointers instead of the value snapshot above. This lets a
@@ -52,6 +54,8 @@ struct GameObject {
         std::uint8_t* in_zone_2f0{};
         Address* visual_object_2d8{};
         std::uint8_t* visible_80{};
+        std::int32_t* module_id_64{};
+        std::uint8_t* global_87{};
     } live_fields{};
 
     void bind_live_fields(const LiveFields& fields) noexcept {
@@ -143,6 +147,12 @@ public:
     const GameObject* find_by_identity(Address identity) const noexcept;
     GameObject* find_by_name(std::string_view name) noexcept;
     const GameObject* find_by_name(std::string_view name) const noexcept;
+    // Ordinary-name branch of GetObjectByName (0x34aca0): filter -1 accepts
+    // every module; +0x87 accepts global objects. The filter is not a handle.
+    // Duplicate names resolve in signed source-handle order. Name-only reserved
+    // rows are skipped, as the original checks ObjectListItem's object pointer.
+    GameObject* find_by_name(std::string_view name, std::int32_t module_filter) noexcept;
+    const GameObject* find_by_name(std::string_view name, std::int32_t module_filter) const noexcept;
 
     // Each call returns the next live entry in the exact signed-key order used
     // by ObjectManager::InitPost/RoomZone::InitObjectList and GetObjectsByType.

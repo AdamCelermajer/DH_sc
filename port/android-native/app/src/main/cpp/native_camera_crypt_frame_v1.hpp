@@ -3,7 +3,10 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstring>
 #include <string_view>
+
+#include "projection_matrix.hpp"
 
 namespace dh2::native::crypt_camera_frame_v1 {
 
@@ -396,15 +399,26 @@ inline bool build_player_frame(Vec3 target, int width, int height, Frame* out,
         side[2], vertical[2], forward[2], 0.0f,
         -dot(side, frame.eye), -dot(vertical, frame.eye), -dot(forward, frame.eye), 1.0f};
 
-    const float tangent = std::tan(vertical_fov_radians * 0.5f);
-    if (!(tangent > 0.0f) || !std::isfinite(tangent)) return false;
-    // Source perspective v8 followed by CCommonGLDriverBase::fixUpProjection:
-    // m10 = 2*far/(far-near)-1, m11 stays +1, m14 doubles.
-    const Matrix projection{
-        1.0f / (tangent * frame.aspect), 0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f / tangent, 0.0f, 0.0f,
-        0.0f, 0.0f, (far_plane + near_plane) / (far_plane - near_plane), 1.0f,
-        0.0f, 0.0f, -(2.0f * far_plane * near_plane) / (far_plane - near_plane), 0.0f};
+    // Use the recovered Irrlicht LH projection producer and the original
+    // GLES driver's z-[0,1] to z-[-1,1] fix-up. This retains the source
+    // call order at the live frame boundary.
+    using ProjectionStatus = dh2::engine_camera::projection_matrix::Status;
+    using SourceMatrix = dh2::engine_camera::camera_math::Matrix4;
+    std::uint32_t fov_word = 0, aspect_word = 0, near_word = 0, far_word = 0;
+    std::memcpy(&fov_word, &vertical_fov_radians, sizeof(fov_word));
+    std::memcpy(&aspect_word, &frame.aspect, sizeof(aspect_word));
+    std::memcpy(&near_word, &near_plane, sizeof(near_word));
+    std::memcpy(&far_word, &far_plane, sizeof(far_word));
+    SourceMatrix source_projection{};
+    if (dh2::engine_camera::projection_matrix::perspective_fov(
+            fov_word, aspect_word, near_word, far_word, &source_projection) !=
+            ProjectionStatus::complete ||
+        dh2::engine_camera::projection_matrix::fix_up_for_gles_default_orientation(
+            &source_projection) != ProjectionStatus::complete)
+        return false;
+    Matrix projection{};
+    for (std::size_t i = 0; i < projection.size(); ++i)
+        std::memcpy(&projection[i], &source_projection.elements[i], sizeof(float));
     frame.view_projection = multiply(projection, view);
     for (float value : frame.view_projection) if (!std::isfinite(value)) return false;
     *out = frame;

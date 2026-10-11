@@ -42,6 +42,7 @@ bool NativePlayerCharacterOwnerV1::bind_session(
     if (!player_character_660_) {
         ooi_intent_412_ = 0;
         ooi_type_14a8_ = -1;
+        faery_character_420_ = 0;
         reward_gold_1500_ = -1;
         reward_xp_1504_ = -1;
         checkpoint_position_1468_[0] = 0;
@@ -97,6 +98,7 @@ bool NativePlayerCharacterOwnerV1::unbind_session(std::string& error) {
     save_ = nullptr;
     properties_ = nullptr;
     inventory_ = nullptr;
+    faery_character_420_ = 0;
     checkpoint_position_1468_[0] = 0;
     checkpoint_position_1468_[1] = 0;
     checkpoint_position_1468_[2] = 0;
@@ -161,6 +163,27 @@ data::PropertyState* NativePlayerCharacterOwnerV1::properties_for(
 data::FreshInventoryOwnedV4* NativePlayerCharacterOwnerV1::inventory_for(
         std::uintptr_t character) const noexcept {
     return character == identity() ? inventory_ : nullptr;
+}
+
+std::uintptr_t NativePlayerCharacterOwnerV1::faery_character_420_for(
+        std::uintptr_t character) const noexcept {
+    return character == identity() && player_character_660_ &&
+           *player_character_660_ == identity() ? faery_character_420_ : 0;
+}
+
+bool NativePlayerCharacterOwnerV1::set_faery_character_420(
+        std::uintptr_t character, std::uintptr_t faery_character,
+        std::string& error) noexcept {
+    const auto id = identity();
+    if (character != id || !player_character_660_ ||
+        *player_character_660_ != id || !save_ || save_->character() != id ||
+        (faery_character && faery_character == id)) {
+        error = "Character+0x420 write requires the published Player and a distinct Faery Character";
+        return false;
+    }
+    faery_character_420_ = faery_character;
+    error.clear();
+    return true;
 }
 
 std::int32_t* NativePlayerCharacterOwnerV1::reward_gold_1500_for(

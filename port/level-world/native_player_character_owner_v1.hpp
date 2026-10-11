@@ -18,6 +18,10 @@ class NativePlayerCharacterOwnerV1 final : public Coordinator {
     data::PlayerSavegameV1* save_ = nullptr;
     data::PropertyState* properties_ = nullptr;
     data::FreshInventoryOwnedV4* inventory_ = nullptr;
+    // Character::ChangeFaery writes Player Character+0x420 with the live
+    // Faery Character selected by Level::PlaceFaeryAndFollowers. This is one
+    // semantic pointer owner on the canonical Player, not a second faery map.
+    std::uintptr_t faery_character_420_ = 0;
     // Reward_Gold::Give and Reward_XP::Give store their last applied amount
     // in Character+0x1500/+0x1504. The source initializes both to -1 and
     // Character::SG_Update consumes those same fields; keep them on this one
@@ -107,6 +111,10 @@ public:
         std::uintptr_t character) const noexcept;
     data::PropertyState* properties_for(std::uintptr_t character) const noexcept;
     data::FreshInventoryOwnedV4* inventory_for(std::uintptr_t character) const noexcept;
+    std::uintptr_t faery_character_420_for(std::uintptr_t character) const noexcept;
+    bool set_faery_character_420(std::uintptr_t character,
+                                 std::uintptr_t faery_character,
+                                 std::string& error) noexcept;
     std::int32_t* reward_gold_1500_for(std::uintptr_t character) noexcept;
     std::int32_t* reward_xp_1504_for(std::uintptr_t character) noexcept;
     // SavegameManager::SetLanguage's Character::UpdateInventoryLocalization

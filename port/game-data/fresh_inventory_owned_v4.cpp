@@ -13,6 +13,12 @@ bool legacy_fixture_random(void* context,std::int32_t bound,std::uint32_t stream
 }
 FreshInventoryOwnedV4::FreshInventoryOwnedV4(std::uintptr_t id,LootTablesV2::Borrow b,InventoryRandomServiceV4 random,std::int8_t cap,PropertyState& props):tables_(std::move(b)),random_(random),character_(id),properties_(&props),potion_capacity_(cap){if(!id||!tables_)throw std::invalid_argument("Unbound fresh inventory owner");}
 FreshInventoryOwnedV4::FreshInventoryOwnedV4(std::uintptr_t id,LootTablesV2::Borrow b,LootRandom8V2& r,std::int8_t cap,std::shared_ptr<PropertyState> props):tables_(std::move(b)),random_{&r,legacy_fixture_random},character_(id),properties_(props.get()),fixture_properties_(std::move(props)),potion_capacity_(cap){if(!id||!tables_||!properties_)throw std::invalid_argument("Unbound legacy fixture inventory owner");}
+bool FreshInventoryOwnedV4::rebind_properties(std::uintptr_t character,PropertyState& properties,std::string& error){
+ if(!character||character!=character_||!properties_){error="Property rebind must preserve the retained Character inventory identity";return false;}
+ if(running_||callback_depth_){error="Property rebind is unsupported during an active inventory callback";return false;}
+ if(fixture_properties_){error="Fixture-owned PropertyState cannot be rebound";return false;}
+ properties_=&properties;error.clear();return true;
+}
 bool FreshInventoryOwnedV4::mutation_allowed(std::string& e)const{if(callback_depth_){e="Unsupported destructive inventory callback reentry";return false;}return true;}
 bool FreshInventoryOwnedV4::register_quest_gathering_item_id(std::int32_t item_id,std::string& e){
  if(!mutation_allowed(e))return false;
@@ -387,6 +393,13 @@ bool FreshInventoryOwnedV4::add_quantity_to_item(ItemInstanceV1& instance,std::i
  const auto found=std::any_of(items_.begin(),items_.end(),[&](const auto& slot){return slot&&slot->item.get()==&instance;});
  if(!found){e="Quantity item does not belong to this inventory";return false;}
  return add_quantity(instance,amount,e);
+}
+bool FreshInventoryOwnedV4::set_item_buyback(std::uint32_t index,bool buyback,std::string& e){
+ if(!mutation_allowed(e))return false;
+ if(running_||index>=items_.size()||!items_[index]||!items_[index]->item){
+  e="Merchant buyback write requires an idle live ItemInventory index";return false;
+ }
+ items_[index]->item->buyback=std::uint8_t(buyback);e.clear();return true;
 }
 bool FreshInventoryOwnedV4::remove_inventory_item(std::uint32_t index,const OwnedInventoryServicesV4& s,std::string& e){
  if(!mutation_allowed(e))return false;

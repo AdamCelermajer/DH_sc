@@ -294,6 +294,26 @@ const GameObject* Owner::find_by_name(std::string_view name) const noexcept {
     return find_by_source_handle(*found->second.begin());
 }
 
+GameObject* Owner::find_by_name(std::string_view name, std::int32_t module_filter) noexcept {
+    return const_cast<GameObject*>(static_cast<const Owner&>(*this).find_by_name(name, module_filter));
+}
+
+const GameObject* Owner::find_by_name(std::string_view name, std::int32_t module_filter) const noexcept {
+    const auto found = names_.find(name);
+    if (found == names_.end()) return nullptr;
+    for (const auto handle : found->second) {
+        const auto* object = find_by_source_handle(handle);
+        if (!object || !object->identity) continue;
+        const auto module = object->live_fields.module_id_64
+            ? *object->live_fields.module_id_64 : object->module_id_64;
+        const auto global = object->live_fields.global_87
+            ? *object->live_fields.global_87 : object->global_87;
+        if (module_filter == -1 || module_filter == module || global != 0)
+            return object;
+    }
+    return nullptr;
+}
+
 void Owner::reset(Cursor* cursor) const noexcept {
     if (cursor == nullptr) return;
     *cursor = {};

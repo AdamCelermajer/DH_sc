@@ -2,6 +2,15 @@
 
 Updated: 2026-10-11. Branch: `reconstruction/item-world-runtime-2026-10-07`.
 
+Latest source round (not in R4):
+- [x] Reconstruct Irrlicht finite/infinite/orthographic projection and GLES depth conversion (`c8610338`); recovered perspective chain now selected by the shared renderer. Camera host checks and Windows build pass; nine aspect ratios match prior coefficients bit-for-bit.
+- [x] Verify selected quest-owner libraries: 5,414 host checks, 384 actual quest instances. This does not establish live campaign progression.
+- [x] Build Windows SDL gameplay-audio output; three Crypt frames pass with dummy audio. Audible output remains unverified.
+- [ ] Verify source merchant inventory, buy/sell transactions and NPC death integration in gameplay; current implementations remain in progress.
+- [ ] Finish SWAMP startup: nine modules and corrected character census load; 21 original LizardMan clips are restored with cache hashes. Updated launch gets past them, then stops at the merchant's missing `actors/prisoner.bdae`.
+- [ ] Finish Windows frontend framing: source main-menu scene/character/buttons render for three frames, but the button column is cropped. Frontend and gameplay/menu audio adapter compile; dummy audio only.
+- [ ] Reproduce an actual post-fix melee hit and enemy HUD update. Latest routed Windows run remained out of range; no damage verified.
+
 **Goal:** a complete, source-built native Android game, preserving original
 gameplay/content and providing documented fan modding. **The game is unfinished.**
 

@@ -397,7 +397,37 @@ void native_flush_reset_retires_only_the_manager_projection() {
 
 } // namespace
 
+void source_module_filtered_names() {
+    Owner owner;
+    auto early = object(0x1100), late = object(0x2200);
+    early.module_id_64 = 3;
+    late.module_id_64 = 4;
+    GameObject *first = nullptr, *second = nullptr;
+    assert(owner.add_named_object(103, "Merchant", late, &second) == Status::ok);
+    assert(owner.add_named_object(-2, "Merchant", early, &first) == Status::ok);
+    assert(owner.find_by_name("Merchant", 4) == second);
+    assert(owner.find_by_name("Merchant", 3) == first);
+    assert(owner.find_by_name("Merchant", 103) == nullptr);
+    assert(owner.find_by_name("Merchant", -1) == first);
+    assert(owner.find_by_name("merchant", -1) == nullptr);
+    std::int32_t live_module = 5;
+    std::uint8_t live_global = 0;
+    first->live_fields.module_id_64 = &live_module;
+    first->live_fields.global_87 = &live_global;
+    assert(owner.find_by_name("Merchant", 3) == nullptr);
+    assert(owner.find_by_name("Merchant", 5) == first);
+    live_global = 7; // The original accepts any nonzero byte, not only 1.
+    assert(owner.find_by_name("Merchant", 4) == first);
+    const Owner& read_only = owner;
+    assert(read_only.find_by_name("Merchant", 99) == first);
+    SourceHandle reservation = -1;
+    bool created = false;
+    assert(owner.get_or_reserve_named_handle("Reserved", true, &reservation, &created) == Status::ok && created);
+    assert(owner.find_by_name("Reserved", -1) == nullptr);
+}
+
 int main() {
+    source_module_filtered_names();
     ordered_map_and_stable_identity();
     named_handle_create_miss_counter_and_collision();
     canonical_views();

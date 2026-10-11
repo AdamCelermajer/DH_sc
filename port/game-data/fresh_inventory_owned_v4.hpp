@@ -98,6 +98,10 @@ public:
  // Compatibility constructor used only by imported original/host fixtures.
  FreshInventoryOwnedV4(std::uintptr_t,LootTablesV2::Borrow,LootRandom8V2&,std::int8_t,std::shared_ptr<PropertyState>);
  FreshInventoryOwnedV4(const FreshInventoryOwnedV4&)=delete;FreshInventoryOwnedV4& operator=(const FreshInventoryOwnedV4&)=delete;
+ // Rebind this same retained Character inventory after a renderer snapshot
+ // restores the Character into a new ObjectActor address. Identity must be
+ // unchanged; inventory contents/equipment/gold are never copied or reset.
+ bool rebind_properties(std::uintptr_t,PropertyState&,std::string&);
  bool add_fixed_loot(std::int32_t,const OwnedInventoryServicesV4&,std::string&);
  bool add_fixed_loot(std::int32_t,RetainedItemSlotV4,const OwnedInventoryServicesV4&,std::string&);
  bool add_fixed_loot(std::int32_t,const OwnedInventoryServicesV4&,const OwnedLootEffectsV7&,std::string&);
@@ -158,6 +162,9 @@ public:
  // or zero when the Character does not currently own that item.
  bool quest_gathering_item_quantity(std::int32_t,bool& found,std::int32_t&,std::string&)const;
  bool add_quantity_to_item(ItemInstanceV1&,std::int32_t,std::string&);
+ // Native merchant callbacks mutate ItemInstance's buyback byte before
+ // TransferItemTo. Keep that mutation on this same retained Item owner.
+ bool set_item_buyback(std::uint32_t,bool,std::string&);
  // Source AddItemInstance owns input only after delivered storage/merge/delete.
  // Prefix is retained on required effect failure; caller retains unconsumed input.
  bool add_item(std::unique_ptr<ItemInstanceV1>&,bool force,bool convert_gold,std::int32_t& index,const OwnedInventoryServicesV4&,std::string&);
@@ -187,6 +194,7 @@ public:
  const auto& items()const noexcept{return items_;}const auto& equipment()const noexcept{return equipment_;}
  const auto& world_items()const noexcept{return world_items_;}
  const ItemInstanceV1* potion()const noexcept{return potion_;}std::int32_t num_potions()const noexcept;
+ std::int8_t potion_capacity()const noexcept{return potion_capacity_;}
  const ItemTable& table()const{return tables_.items();}
  std::uintptr_t character()const noexcept{return character_;}
  std::int32_t current_equipment()const noexcept{return selected_;}void swap_equipment()noexcept{selected_=std::uint8_t(!selected_);}
