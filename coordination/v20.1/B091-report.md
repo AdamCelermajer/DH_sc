@@ -28,10 +28,10 @@ Expected repair: keep a completed clip pending while the host's existing `charac
 Pseudocode is `.local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c`.
 
 - `Script_PlayActorAnim::Execute` **0x45e890**: skip=1 is a no-op; otherwise resolves the named Character, programs animation dictionary fields, calls `SM_SetAnimState(...,0,1)`.
-- `SM_SetAnimState` **0x3c1aa8**: enters14 and sets idle-after-stop byte+69. `CSAnim::OnFocus` **0x3c324c** writes flags8768 for that mode and selects the animation. `CSAnim::OnUpdate` **0x3c1a3c** enters Idle when Character animation-playing byte+5248 is false and byte+1345 is true. `CSAnim::OnEvent` **0x3c1a14** has a separate event34 path controlled by byte+1344.
+- `SM_SetAnimState` **0x3c1aa8**: enters14 and sets the allow-Idle-on-update byte+69 (+1345 on Character). `CSAnim::OnFocus` **0x3c324c** writes flags8768 for that mode and selects the animation. `CSAnim::OnUpdate` **0x3c1a3c** enters Idle only when Character scripted byte+5248 is false and byte+1345 is true; it does not test an animation-playing byte here. `CSAnim::OnEvent` **0x3c1a14** has a separate event34 path controlled by byte+1344.
 - `Script_SpawnCharacter::Execute` **0x45f400** enters Spawn even when skipping. `CSSpawn::OnEvent` **0x3c0b04** admits physics on marker40 `is_interactive`; **`CSSpawn::OnBlur` 0x3c2f7c** initializes physics when leaving Spawn if marker admission did not already happen. This is the missing early-skip body handoff.
 - `Script_PutCharacterInIdle::Execute` **0x45d590** passes waitForAnim=!skip through `Script_CharacterState_Callback`; **SetState 0x45971c** rejects dead (virtual+52), Limbus and awaiting-to-spawn characters before calling Idle. Adapter kind31 has the same live/state gate. Common `EndScriptedCutScene` uses selector All. `CSIdle::OnBlur` **0x3c2d3c** clears +1336; `CSIdle::OnFocus` **0x3c3020** suppresses selection/flags while that byte is set. The port can hold a scripted pose even while canonical state is3; its completion must release that presentation too.
-- `ScriptManager::SkipScript` **0x460530** flushes messages/sets skip; it does not stop Character animators. Therefore already-playing actor completions survive skip; future skipped clips remain no-ops.
+- `ScriptManager::SkipScript` **0x4604c0** flushes messages/sets skip; it does not stop Character animators. Therefore already-playing actor completions survive skip; future skipped clips remain no-ops.
 - `TargetList::_IsCharacterValid` **0x4a1ab8** admits living enemies through mask1/AI_IsEnemy (virtual+52 is IsDead, not summoned; mask8's dead-friendly path is unrelated to boss targeting). Reconstruction also gates combat through `OriginalActorLifecycle::combat_enabled` (state3, enabled) and physical/collision presence in main.cpp. HP loss/AI target alone is insufficient proof.
 - `CSDead::OnEvent` **0x3c4c3c** on End34 removes physical body and starts `CharacterDesign/Despawn_Delay` for non-player actors. Existing source delay is2000ms; death behavior was not modified.
 
@@ -52,7 +52,7 @@ Root cause: End's non-waiting Idle changed CombatSession only. The lifecycle rem
 - CampaignHost: keep already-running Character clip completions across SKIP/presentation restoration; explicit non-waiting Idle cancels that actor's obsolete completion. Chained clips finish before releasing gameplay.
 - No actor name/map/profile list, engine-platform dependency, or gameplay HP rule added. B080 gameplay actor classification remains the existing data-driven admission dependency.
 
-## Focused tests and frozen runtime verification
+## Historical pre-review tests and frozen runtime verification (superseded for source gate)
 
 Defined before coding: no early release, chains/replacement, one completion, skip survival, failure/duplicate behavior; early Spawn body admission; real ring/plate plus hits both ways; legitimate death/body removal. Implemented tests in `campaign_host_tests.cpp` and `original_actor_lifecycle_tests.cpp`. Host tests cover retained prop refusal, explicit Idle cancellation, and completion failure/abort. Lifecycle tests assert one body admission before Idle.Focus, stable anchor, combat enable, and no second body on duplicate Idle.
 
