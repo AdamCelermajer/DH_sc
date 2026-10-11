@@ -244,7 +244,7 @@ private:
     bool advance_camera_clip(std::int32_t dt_ms, std::string& error); // P16 CINE2
     // P16 OPENING: actor verbs. A PlayActorAnim clip blocks only when its wait flag (scalar 28) is set (IDA
     // Script_PlayActorAnim::IsBlocking); its chained clip (scalar 12) starts when the first one ends.
-    struct ActorClipState { std::int32_t remaining_ms=0; std::int32_t follow_dictionary=-1; };
+    struct ActorClipState { std::int32_t remaining_ms=0; std::int32_t follow_dictionary=-1; bool idle_admitted_by_unset=false; };
     std::map<ActorId,ActorClipState> actor_clips_;
     float camera_near_override_ = 0.f, camera_far_override_ = 0.f; // B068
     std::set<ActorId> held_clip_actors_; // B068: actors whose scripted clip pose is held until PutCharacterInIdle / the End contract

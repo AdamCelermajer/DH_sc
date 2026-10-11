@@ -615,16 +615,20 @@ void scripted_clip_deferred_until_unset(const std::string& directory) {
     rig.step(100);rig.step(100);check(finishes==1,"Completed chain remains pending behind scripted gate");
     scripted(false);rig.step(0);check(finishes==2,"Unset releases completed chain exactly once");
     scripted(true);play();rig.step(100);play();scripted(false);rig.step(0);
-    check(finishes==2,"Replacement discards gated earlier completion");
-    rig.step(100);check(finishes==3,"Replacement releases only after its own completion and clear gate");
+    check(finishes==3,"Unset admits only the current replacement; discarded completion cannot release separately");
+    rig.step(100);check(finishes==3,"Replacement admitted by Unset cannot release twice at its former clip end");
     scripted(true);play();rig.step(100);OriginalCampaignCommand idle;idle.kind=31;idle.strings={{12,"All"}};
     check(rig.world->command(CampaignCommandPhase::execute,idle,-1,true,blocking,error),error);
     scripted(false);rig.step(0);check(finishes==3&&!rig.host->scripted_clip_pose(101),"Explicit skipped Idle cancels gated completion before Unset");
+    scripted(true);play(32);rig.step(50);const int plays_before_unset=plays;
+    scripted(false);rig.step(0);check(finishes==4&&plays==plays_before_unset&&!rig.host->scripted_clip_pose(101),
+        "Unset admits source Idle before clip duration ends and cancels its unstarted follow");
+    scripted(false);rig.step(200);check(finishes==4&&plays==plays_before_unset,"Unset admission and follow cancellation happen once");
     for(int kind:{44,29}) {
         scripted(true);play();rig.step(100);
         OriginalCampaignCommand cancel;cancel.kind=kind;cancel.strings={{kind==44?12u:16u,"boss"}};
         check(rig.host->execute_diagnostic_command(cancel,-1,blocking,error),error);
-        scripted(false);rig.step(0);check(finishes==3&&!rig.host->scripted_clip_pose(101),
+        scripted(false);rig.step(0);check(finishes==4&&!rig.host->scripted_clip_pose(101),
             "Kill/Limbus cancels a deferred completion; Unset cannot restore its gameplay pose");
     }
 }
