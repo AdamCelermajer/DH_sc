@@ -144,7 +144,7 @@ bool TransformSet::compile_internal(const std::vector<TransformClipInput>& input
                 const auto type=dh2_animation_type(&accessor,0);const auto* uri=dh2_animation_target(&accessor);
                 const bool position_axis=type>=2&&type<=4;
                 const bool angle=type==9;
-                if(!uri||(type!=1&&type!=5&&type!=10&&!(dynamic_channels&&(position_axis||angle))))throw std::runtime_error("Unsupported compiled animation channel");
+                if(!uri||(type!=1&&type!=5&&type!=10&&!(dynamic_channels&&(position_axis||angle))))throw std::runtime_error("Unsupported compiled animation channel (type "+std::to_string(type)+", target "+(uri?uri:"<none>")+")"); // B076: type/target in the diagnostic
                 assets::Vector values{};if(!dh2_animation_vector(&accessor,0,true,&values))throw std::runtime_error("Compiled key vector rejected");
                 if(dynamic_channels){
                     assets::Vector times{};

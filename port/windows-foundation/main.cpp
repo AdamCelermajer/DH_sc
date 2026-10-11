@@ -63,6 +63,8 @@
 #include "features/containers/container_declarations_v1.hpp" // P16 containers
 #include "features/containers/container_runtime_v1.hpp" // P16 containers (T2/T3)
 #include "features/scene_decor/scene_decor_v1.hpp" // P16 OPENING4: scripted scene objects (PlayAnimByName, kind 19)
+#include "features/level_lighting/level_light_v1.hpp" // B076: level PlayerLight
+#include "features/scene_decor/ambient_decor_v1.hpp" // B076: ambient AnimatedDecor (torches, caustics, glows)
 #include "features/containers/container_loot_v1.hpp" // P16 CONTAINERS2 (T4 DoOpen loot)
 #include "features/containers/container_open_script_v1.hpp" // P16 CONTAINERS2 (T6 OnOpen contract)
 #include "features/containers/container_world_v1.hpp" // P16 CONTAINERS2 (T5 OBJS persistence)
@@ -341,6 +343,8 @@ struct Options {
     bool verifyFrontendCreation=false,verifyFrontendSlots=false;
     std::string campaignCommands;
     bool campaignTriggers=false; // P16 HOST: --campaign-triggers (off until verified)
+    bool noAmbientDecor=false; // B076: --no-ambient-decor
+    bool noLevelLight=false;   // B076: --no-level-light (A/B diagnostic)
     int campaignSkipFrame=-1; std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
     // SKIP16 verification input: a click at an authored point (480x320 space, mapped like the PC HUD) is a pointer down on
     // FRAME and an up on FRAME+1 through the same cursor branch as a real mouse or touch release. Enter presses are
@@ -467,6 +471,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--lifecycle-prespawn") {auto c=choice(value());o.lifecyclePreSpawns[c.first]=c.second;}
         else if(arg=="--campaign-commands") o.campaignCommands=value();
         else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
+        else if(arg=="--no-level-light") o.noLevelLight=true; // B076 A/B diagnostic
+        else if(arg=="--no-ambient-decor") o.noAmbientDecor=true; // B076 A/B diagnostic: omit ambient AnimatedDecor
         else if(arg=="--campaign-skip-frame") o.campaignSkipFrame=std::stoi(value()); // P16 CINE
         else if(arg=="--campaign-click") { // SKIP16: FRAME:X:Y in the authored 480x320 space
             const auto text=value();const auto a=text.find(':');const auto b=a==std::string::npos?a:text.find(':',a+1);
@@ -2414,6 +2420,12 @@ int main(int argc,char** argv) {
                 std::cout<<"[campaign] harness start script="<<options.campaignStart<<" id="<<script<<'\n';
             }
         }
+        // B076: ambient AnimatedDecor (torches, water caustics, light rays/dust) of the loaded level, always present in the original.
+        f::scene_decor::AmbientDecorRuntimeV1 ambientDecor;
+        if(combatSession&&!options.noAmbientDecor){std::vector<std::string> ambientNotices,scripted;for(const auto& view:sceneDecor.views())scripted.push_back(view.name);if(!ambientDecor.load(assets,population.definitions(),scripted,ambientNotices,error))throw std::runtime_error("Ambient decor: "+error);for(const auto& notice:ambientNotices)std::cout<<"[scene] "<<notice<<'\n';std::cout<<"[scene] ambient AnimatedDecor instances="<<ambientDecor.instances().size()<<'\n';}
+        // B076: level PlayerLight (GL_Diffuse_L1 environment shader Light0) from the LevelConfig light set.
+        f::level_lighting::LevelPlayerLightV1 levelPlayerLight;
+        if(combatSession&&!options.level.empty()&&!options.noLevelLight){std::string lightError;if(!f::level_lighting::read_level_player_light_v1(assets,options.level.generic_string(),false,levelPlayerLight,lightError))std::cout<<"[light] level light unavailable: "<<lightError<<'\n';else if(levelPlayerLight.present)std::cout<<"[light] level PlayerLight from "<<levelPlayerLight.lightSetUri<<" att="<<levelPlayerLight.attenuation[0]<<','<<levelPlayerLight.attenuation[1]<<','<<levelPlayerLight.attenuation[2]<<" offsetZ="<<levelPlayerLight.attachedOffset[2]<<'\n';if(levelPlayerLight.hasClearColor)renderer.setClearColor(levelPlayerLight.clearColor[0],levelPlayerLight.clearColor[1],levelPlayerLight.clearColor[2]);}
         if(options.probe) {
             if(visual.loaded()) for(auto pose:{f::CharacterPose::idle,f::CharacterPose::walk,f::CharacterPose::attack}) {
                 visual.select(pose);if(!visual.update(.25,error)) throw std::runtime_error(error);
@@ -2478,6 +2490,7 @@ int main(int argc,char** argv) {
             const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
         bindMaterials();
+        ambientDecor.bind_textures([&](const f::OriginalMaterial& m){return loadTexture(m.diffuse,m.alphaMap,false);}); // B076
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
         // B056: Details list damask is the MenuGraphics02 picture (shipped texture, not the MenusGraphics_droid atlas).
         std::uint32_t menuDamaskTexture=options.hud?loadTexture("MenuGraphics02.tga"):0;
@@ -4808,7 +4821,7 @@ int main(int argc,char** argv) {
             if(runtimeEquipmentAttachments&&(!runtimeEquipment||!runtimeEquipment->sample_render_pose(error)))throw std::runtime_error("Runtime equipment pose: "+error);
             for(auto& actor:population.actors())if(!gameplayPaused&&actor.enabled&&(!combatSession||!combatSession->owns_population_pose(actor.definition.stableId))&&!actor.visual.update(gameplayDt,error))throw std::runtime_error("Actor pose: "+error);
             // P16 OPENING4: scripted scene objects advance their clips on the gameplay clock.
-            if(!gameplayPaused){std::string sceneError;if(!sceneDecor.update(gameplayDt,sceneError))throw std::runtime_error("Scene objects: "+sceneError);}
+            if(!gameplayPaused){std::string sceneError;if(!sceneDecor.update(gameplayDt,sceneError))throw std::runtime_error("Scene objects: "+sceneError);ambientDecor.update(gameplayDt);}
             // P16 containers: advance activating clips; the authored 'opened' marker is DoOpen (loot via T4, Lua OnOpen later).
             if(!gameplayPaused){std::vector<f::containers::ContainerEventV1> containerEvents;std::string containerError;if(!containerRuntime.update(gameplayDt,containerEvents,containerError))throw std::runtime_error("Container update: "+containerError);for(const auto& event:containerEvents){std::cout<<"Container opened declaration="<<event.name<<" loot="<<event.loot_id<<" clipMs="<<event.elapsed_ms<<" frame="<<drawn<<'\n';runContainerOpen(event.index,drawn);}
                 if(combatSession){std::string persistError;if(!f::containers::persist_container_world_state_v1(*combatSession->world(),containerRuntime,persistError))throw std::runtime_error("Container persist: "+persistError);}}
@@ -4905,6 +4918,7 @@ int main(int argc,char** argv) {
                 }
             }
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_prepare);
+            if(levelPlayerLight.present){f::LevelPointLight light;light.enabled=true;light.position={options.actorPosition.x+levelPlayerLight.attachedOffset[0],options.actorPosition.y+levelPlayerLight.attachedOffset[1],options.actorPosition.z+levelPlayerLight.attachedOffset[2]};light.attenuation=levelPlayerLight.attenuation;light.ambient=levelPlayerLight.ambient;light.diffuse=levelPlayerLight.diffuse;renderer.setLevelLight(light);} // B076
             renderer.beginFrame(activeCamera);
             auto actorWorld=f::identity();float angle=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0),c=std::cos(angle),s=std::sin(angle);
             actorWorld[0]=c*actorScale.x;actorWorld[1]=s*actorScale.x;actorWorld[4]=-s*actorScale.y;actorWorld[5]=c*actorScale.y;actorWorld[10]=actorScale.z;
@@ -4940,6 +4954,7 @@ int main(int argc,char** argv) {
             for(const auto& view:containerRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
             // P16 OPENING4: scripted scene objects at their authored transform (the cage and other PlayAnimByName targets).
             for(const auto& view:sceneDecor.views())if(view.visual)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.transform);
+            for(const auto& decor:ambientDecor.instances())queue.submit(decor.scene->mesh); // B076: ambient AnimatedDecor (already in world space)
             // B004/B029: rendered marker = last target, else OOI, gated by eligibility (combat target is not used).
             const auto* markerTarget=combatSession?combatSession->actor(f::rendered_target_marker_actor_v1(*combatSession,combatSession->player_id(),objectOfInterest)):nullptr;
             if(const auto* target=markerTarget;target&&target->alive()&&!targetMarker.mesh.vertices.empty()) {

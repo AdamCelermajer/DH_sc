@@ -136,6 +136,11 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                 // color shaders forward Color0 directly; avoid adding the
                 // foundation preview's directional lighting over that stream.
                 range.material.lightingEnabled=!hasColors;
+                // B076: materials of the GL_Diffuse_L1 shader family are lit by the level's point light (Renderer::setLevelLight).
+                range.material.levelLit=original.effect_file.rfind("GL_Diffuse_L1",0)==0;
+                // B076: authored NORMAL stream (attribute 1), rotated by the module placement, when the primitive has one.
+                dh2::assets::Attribute normals{};
+                const bool hasNormals=dh2_mesh_attribute(&mesh,primitive.attributes[1],&normals)==dh2::assets::Error::ok&&normals.components>=3;
                 OriginalMaterial metadata; metadata.id=original.id;metadata.diffuse=original.diffuse;
                 metadata.alphaMap=original.alpha_map;metadata.effectFile=original.effect_file;
                 metadata.technique=original.gles2_technique;
@@ -145,6 +150,11 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                     float values[4]{}; Vertex vertex;
                     if(!dh2_attribute_read(&positions,k,values)) throw std::runtime_error("Position decode failed");
                     vertex.position=point(world,values); vertex.normal={}; include(result,vertex.position);
+                    if(hasNormals) {
+                        float n[4]{};
+                        if(!dh2_attribute_read(&normals,k,n)) throw std::runtime_error("Normal decode failed");
+                        vertex.normal={world[0]*n[0]+world[4]*n[1]+world[8]*n[2],world[1]*n[0]+world[5]*n[1]+world[9]*n[2],world[2]*n[0]+world[6]*n[1]+world[10]*n[2]};
+                    }
                     if(hasColors) {
                         if(!dh2_attribute_read(&colors,k,values)) throw std::runtime_error("Vertex color decode failed");
                         for(std::uint32_t c=0;c<colors.components;++c) vertex.color[c]=values[c]/(colors.type==1?255.f:1.f);
@@ -164,7 +174,7 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                     result.mesh.indices.push_back(base+index);
                 }
                 // Face accumulation also handles nonuniform authored scale.
-                for(std::size_t k=range.firstIndex;k<range.firstIndex+range.indexCount;k+=3) {
+                for(std::size_t k=range.firstIndex;!hasNormals&&k<range.firstIndex+range.indexCount;k+=3) {
                     auto& a=result.mesh.vertices[result.mesh.indices[k]];
                     auto& b=result.mesh.vertices[result.mesh.indices[k+1]];
                     auto& c=result.mesh.vertices[result.mesh.indices[k+2]];
