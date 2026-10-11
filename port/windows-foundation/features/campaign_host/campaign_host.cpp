@@ -667,7 +667,7 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         if (!resolve(string_field(c, 16), id, found, e)) return false;
         if (!found) return true;
         if (!v.put_limbus) return unbound("put character in limbus");
-        actor_clips_.erase(id);
+        actor_clips_.erase(id);held_clip_actors_.erase(id);
         return v.put_limbus(id, e);
     }
     // Verbs without an owner in this host: explicit, counted, non-blocking (the cutscene keeps running).

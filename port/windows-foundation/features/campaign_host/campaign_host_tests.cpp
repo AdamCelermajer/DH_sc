@@ -598,6 +598,8 @@ void scripted_clip_deferred_until_unset(const std::string& directory) {
     Rig rig(directory, {}, {}, [&](CampaignHostServices& services) {
         services.actor_verbs.resolve_actor=[](const std::string&,int,ActorId& id,bool& found,std::string&){id=101;found=true;return true;};
         services.actor_verbs.play_clip=[&](ActorId,std::int32_t,std::int32_t& duration,std::string&){++plays;duration=100;return true;};
+        services.actor_verbs.kill=[](ActorId,std::string&){return true;};
+        services.actor_verbs.put_limbus=[](ActorId,std::string&){return true;};
         services.scripted_clip_finished=[&](ActorId,bool& released,std::string&){++finishes;released=true;return true;};
     });
     bool blocking=false;std::string error;
@@ -618,6 +620,13 @@ void scripted_clip_deferred_until_unset(const std::string& directory) {
     scripted(true);play();rig.step(100);OriginalCampaignCommand idle;idle.kind=31;idle.strings={{12,"All"}};
     check(rig.world->command(CampaignCommandPhase::execute,idle,-1,true,blocking,error),error);
     scripted(false);rig.step(0);check(finishes==3&&!rig.host->scripted_clip_pose(101),"Explicit skipped Idle cancels gated completion before Unset");
+    for(int kind:{44,29}) {
+        scripted(true);play();rig.step(100);
+        OriginalCampaignCommand cancel;cancel.kind=kind;cancel.strings={{kind==44?12u:16u,"boss"}};
+        check(rig.host->execute_diagnostic_command(cancel,-1,blocking,error),error);
+        scripted(false);rig.step(0);check(finishes==3&&!rig.host->scripted_clip_pose(101),
+            "Kill/Limbus cancels a deferred completion; Unset cannot restore its gameplay pose");
+    }
 }
 
 int main(int argc, char** argv) {
