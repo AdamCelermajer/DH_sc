@@ -1,0 +1,29 @@
+{
+  "source_archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "files": [
+    {
+      "path": "data/pydata/v2eventmanager_pyarray.bin",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2eventmanager_pyarray.bin",
+      "bytes": 5082,
+      "sha256": "733812ebab464fd991370474a099f5fe29f0af0ae3fca79a4df22e543683c87e"
+    },
+    {
+      "path": "data/pydata/v2eventmanager_pyarraynames.bin",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2eventmanager_pyarraynames.bin",
+      "bytes": 1204,
+      "sha256": "900e2e0afa4d37497deb8fe995fa883f50e4bb9dae632d9dc28dac8d49e273f2"
+    },
+    {
+      "path": "data/pydata/v2eventmanager_pycst.bin",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2eventmanager_pycst.bin",
+      "bytes": 84,
+      "sha256": "13e1ace862c6a8c0857a42fd0476e2ddf7a002389e004a055fb3363ace60e8c8"
+    },
+    {
+      "path": "data/pydata/v2eventmanager_pystructnames.bin",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2eventmanager_pystructnames.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
