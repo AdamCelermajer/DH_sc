@@ -2491,6 +2491,11 @@ int main(int argc,char** argv) {
         for(const auto& view:containerRuntime.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
             const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
+        // B068: scripted scene objects (the intro cage, PlayAnimByName targets) bind their original textures like containers; before this the cage
+        // bars and padlock drew as untextured flat grey in the hero close-up (reference video t~90.5).
+        for(const auto& view:sceneDecor.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
+            const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
+            for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
         bindMaterials();
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
         // B056: Details list damask is the MenuGraphics02 picture (shipped texture, not the MenusGraphics_droid atlas).
