@@ -260,11 +260,11 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B080 | After a SKIPPED cutscene mobs (troll, lizards, moths) are not targetable (also B084 moth). | OPEN, session assigned (cinematics B068b) | fresh Sonnet session |
 | B081 | Inventory potion count shows a red X ("5X Potion"). | OPEN, session assigned | fresh Sonnet session |
 | B082 | Death: black screen, no visible try-again / return-to-checkpoint; hero death animation. | OPEN, session assigned | fresh Sonnet session |
-| B083 | A skill (slot 2) was not usable. | OPEN, session assigned | fresh Sonnet session |
+| B083 | A skill (slot 2) was not usable. | OPEN; revival repair integrated, targetless/object and genuine injured admission repair under final tests/re-review | `/root/b083_cast_repair`; `/root/b083_review`; root integration |
 | B085 | Breaking a vase: no sound, no sword animation. | OPEN, session assigned | fresh Sonnet session |
 | B086 | Quit and relaunch: the hero is placed wrongly beside the cages and cannot move (shot-7). | Review reproduced real WM_CLOSE exiting before save; fresh repair owner implementing normal close and dead-moth resume checks | `/root/b086_close_repair`; `/root/b086_review`; root integration |
-| B087 | No exclamation marker above the NPC head (shot-8). | OPEN, session assigned | fresh Sonnet session |
-| B088 | Context button shows talk bubble but does not switch to attack when a monster is near; Space does not talk to the NPC (shot-8). | OPEN, session assigned | fresh Sonnet session |
+| B087 | No exclamation marker above the NPC head (shot-8). | Static marker/circle integrated checks pass; reviewer reproduced moved-NPC marker drift, fresh bounded repair active | `/root/npc_marker_motion_repair`; `/root/npc_marker_context_review`; root integration |
+| B088 | Context button shows talk bubble but does not switch to attack when a monster is near; Space does not talk to the NPC (shot-8). | Current position/enabled/faction/source frontal repair2a95fed7 re-reviewed READY WITH CAVEATS and merged; normal compiled dialogue/acceptance and merchant pass | `/root/b088_npc_admission_repair`; `/root/npc_marker_context_review`; root integration |
 | B089 | A destroyed vase stays targetable (red ring remains on the broken pieces) (shot-9). | OPEN, session assigned | fresh Sonnet session |
 
 ### 2m. Second v20 batch (2026-10-11 evening): B090-B107 (fresh Sonnet session per bug; brief section "Second v20 batch" in `coordination/v20.1/BUGFIX-BRIEF.md`)
