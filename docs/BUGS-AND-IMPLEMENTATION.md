@@ -247,7 +247,12 @@ Editable checklist. Preserve user requests until assigned a stable bug or TODO I
 
 Only root accepts a release. Preview11 (FD850478) is accepted; do not modify that package. Normal-executable proof must identify one frozen build and timestamp. Keep focused/source/visual and normal-runtime evidence distinct. Preserve user saves until root accepts another candidate.
 
-### 2l. Reported on v20 (2026-10-11): B079-B085 -> v20.1 (fresh Sonnet 5.5 medium session per bug; brief `coordination/v20.1/BUGFIX-BRIEF.md`; screenshots `.local-inputs/claude-v20.1/user-shots/`)
+### 2l. Reported on v20 (2026-10-11): B079-B085 -> v20.1 (brief `coordination/v20.1/BUGFIX-BRIEF.md`; screenshots `.local-inputs/claude-v20.1/user-shots/`)
+
+Codex continuation: the user's latest model rule supersedes older owner labels:
+every bug worker and reviewer uses GPT-6.1 Sol HIGH. Root owns integration and
+queued follow-up until a fresh session is opened. Current dispatch and evidence
+are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatch.
 
 | ID | Observed / reproduction | State | Owner |
 |---|---|---|---|
@@ -272,16 +277,19 @@ Only root accepts a release. Preview11 (FD850478) is accepted; do not modify tha
 | B093 | Quest system: MAKE ACTIVE does not really work, no kill tracking, killed 8 Bog Moths and nothing happened (shot 12). | OPEN, queued | fresh Sonnet session |
 | B094 | An NPC (she) appears not targetable; intended? | OPEN, queued | fresh Sonnet session |
 | B095 | Clicking the bag again does not return to the equipment global page. | OPEN, queued | fresh Sonnet session |
-| B096 | Level up: no button to learn a new skill (shot 15). | OPEN, queued | fresh Sonnet session |
+| B096 | Level up: no button to learn a new skill (shot 15). | OPEN, fresh continuation running | `/root/b096_skill_training`; root preliminary review, fresh read-only reviewer queued |
 | B097 | Skill rank up does not change the skill stats (shot 16). | OPEN, queued | fresh Sonnet session |
 | B098 | Killed monsters do not play the death animation / do not disappear (shot 17). | OPEN, queued | fresh Sonnet session |
 | B099 | No NEW QUEST sound. | OPEN, queued | fresh Sonnet session |
 | B100 | Cannot talk to the merchant, no icon above his head (shot 18). | OPEN, queued | fresh Sonnet session |
-| B101 | Wall of fire must be reproduced: deep IDA inspection (shot 19). | OPEN, queued | fresh Sonnet session |
-| B102 | EQUIP button does not work (shots 14, 20). | OPEN, queued | fresh Sonnet session |
+| B101 | Wall of fire must be reproduced: deep IDA inspection (shot 19). | OPEN, fresh continuation running with B105 | `/root/b101_b105_effects`; root preliminary review, fresh read-only reviewer queued |
+| B102 | EQUIP button does not work (shots 14, 20). | OPEN, fresh continuation running | `/root/b102_equipment`; root preliminary review, fresh read-only reviewer queued |
 | B103 | Character menu buttons still not clickable (shot 21). | OPEN, queued | fresh Sonnet session |
 | B104 | No sound on quest completion (Bogwalker quest). | OPEN, queued | fresh Sonnet session |
-| B105 | Celeste glow is broken (shot 22). | OPEN, queued | fresh Sonnet session |
+| B105 | Celeste glow is broken (shot 22). | OPEN, fresh continuation running with B101 | `/root/b101_b105_effects`; root preliminary review, fresh read-only reviewer queued |
 | B106 | E does not work / does not teleport (Travel to Bogwitch Cavern, shot 23). | OPEN, queued | fresh Sonnet session |
 | B107 | User note "abomination": it was the cavern rendering (same as B109, shot-24). | MERGED INTO B109 (session assigned) | fresh Sonnet session |
-| B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | OPEN, session assigned | fresh Sonnet session |
+| B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | OPEN, fresh continuation running | `/root/b109_cavern`; root preliminary review, fresh read-only reviewer queued |
+| B108 | Continue after death fails without a checkpoint-zone contact. | OPEN, existing fix awaits review and combined B086 quit-after-death test | Root follow-up; fresh read-only reviewer queued |
+| B110 | Merchant BUY/SELL UI is missing from the normal interaction path. | OPEN, fresh continuation running | `/root/b110_merchant`; root preliminary review, fresh read-only reviewer queued |
+| B111 | Statistics icon navigation and four character-sheet sub-pages are missing. | OPEN, source draft awaits fresh implementation continuation | Root follow-up; fresh worker/reviewer queued |
