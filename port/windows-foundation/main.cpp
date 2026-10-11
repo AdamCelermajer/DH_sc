@@ -5617,7 +5617,6 @@ int main(int argc,char** argv) {
             for(const auto& click:uiInput.clicks) {
                 if(statConfirmOpen){routeStatConfirmClick(click.position);continue;}
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
-                const auto action=characterMenu.hit_test(click.position.x,click.position.y,window.width(),window.height());
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
                     characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
