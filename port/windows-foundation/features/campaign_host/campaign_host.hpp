@@ -194,6 +194,7 @@ private:
     std::map<std::int32_t, std::string> dialog_styles_;           // B068
     OriginalCameraClip clip_;                     // P16 CINE2: PlayCamera owner (one clip at a time, as CameraLevel)
     bool clip_active_=false;
+    bool clip_hold_=false; // B068: a finished clip keeps its last pose (CameraLevel::__Callback only clears the playing flag) until the next clip / the End contract
     std::int32_t clip_id_=-1;
     std::int32_t clip_elapsed_ms_=0;
     CameraVec3 clip_eye_{}, clip_target_{};

@@ -129,6 +129,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         if (phase == CampaignCommandPhase::update) return true;
         // A new PlayAnim replaces the playing clip (CameraLevel owns one animator).
         clip_active_ = false;
+        clip_hold_ = false;
         clip_id_ = -1;
         if (skip_active()) {
             // Sampled SKIP: the source plays the level set's own idle clip instead; here the follow camera stays.
@@ -319,6 +320,7 @@ bool CampaignHost::fast_forward(std::string& error) {
     constexpr std::size_t kMaxPasses = 1000;
     skip_requested_ = false;
     clip_active_ = false;
+    clip_hold_ = false;
     clip_id_ = -1;
     actor_clips_.clear();
     cinematic_.flush();
@@ -352,6 +354,7 @@ bool CampaignHost::restore_presentation(std::string& error) {
     skip_visible_ = false;
     save_blocked_ = false;
     clip_active_ = false;
+    clip_hold_ = false;
     clip_id_ = -1;
     actor_clips_.clear();
     std::string restore_error;
@@ -409,7 +412,7 @@ std::string CampaignHost::script_name_of(const OriginalCampaignCommand& c, int& 
 }
 
 CameraPose CampaignHost::source_camera_pose(const CameraPose& follow) const {
-    if (!clip_active_) return follow;
+    if (!clip_active_ && !(clip_hold_ && cutscene_mode_)) return follow;
     CameraPose pose = follow; // P16 OPENING4: the clip drives eye, target, up (when authored) and FOV (when authored)
     pose.position = clip_eye_;
     pose.target = clip_target_;
@@ -438,12 +441,14 @@ bool CampaignHost::advance_camera_clip(std::int32_t dt_ms, std::string& error) {
     if (clip_elapsed_ms_ >= duration) {
         // CameraLevel::__Callback: completion clears the playing flag; the follow camera resumes.
         clip_active_ = false;
+        clip_hold_ = true; // B068: video t~96-100 (Rene dialogue): the camera stays on the clip's last pose after the 3 s clip ended
         std::cout << "[campaign] PlayCamera finished id=" << clip_id_ << " frame=" << frames_ << '\n';
     }
     return true;
 }
 
 bool CampaignHost::abort_cutscene(std::string& error) {
+    clip_hold_ = false;
     clip_active_ = false; // P16 CINE2: abort ends a playing camera clip (follow camera resumes)
     actor_clips_.clear(); // P16 OPENING: abort ends scripted actor clip timers (the pose stays as the clip left it)
     held_clip_actors_.clear(); // B068
