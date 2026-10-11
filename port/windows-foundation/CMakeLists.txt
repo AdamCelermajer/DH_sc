@@ -390,6 +390,10 @@ add_test(NAME quest_conditions_v1 COMMAND quest_conditions_v1_tests)
 add_executable(quest_banner_presenter_v1_tests features/quests/quest_banner_presenter_v1_tests.cpp)
 target_link_libraries(quest_banner_presenter_v1_tests PRIVATE foundation_runtime_quests)
 add_test(NAME quest_banner_presenter_v1 COMMAND quest_banner_presenter_v1_tests)
+# B073: Quest Journal source art invariants (header/completed icons, QuestPrio frames).
+add_executable(quest_journal_art_v1_tests features/quests/quest_journal_art_v1_tests.cpp)
+target_link_libraries(quest_journal_art_v1_tests PRIVATE foundation_runtime_quests)
+add_test(NAME quest_journal_art_v1 COMMAND quest_journal_art_v1_tests)
 add_test(NAME quest_runtime_v1 COMMAND quest_runtime_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
 # End Preview 16 quest runtime.

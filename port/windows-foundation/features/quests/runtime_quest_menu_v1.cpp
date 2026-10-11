@@ -151,6 +151,15 @@ bool RuntimeQuestMenuV1::refresh(std::uint32_t collection,
             staged.selection=std::move(selection);
         }
     }
+    // B073: the journal opens with the current (active) quest selected and its details shown (reference video
+    // Part 2 t=82-92: the page appears with the current row orange and its MAIN QUEST/SIDE QUEST details).
+    if(!staged.selection){
+        for(const auto& row:assigned.rows)if(row.current){
+            CharacterQuestPageSelectionV1 selection;
+            if(!page_.select(assigned,row.id,selection,error))return false;
+            staged.selection=std::move(selection);break;
+        }
+    }
     frame_=std::move(staged);current_page_valid_=true;error.clear();return true;
 }
 
@@ -172,7 +181,8 @@ bool RuntimeQuestMenuV1::route_hit(RuntimeQuestMenuHitV1 hit,
     }
     if(!page_.activate(assigned,id,policy_,error))return false;
     if(!persist_progress_to_character(error))return false;
-    frame_.selection.reset();
+    // B073: the source onRelease (SWF 0x26c94-0x26d48) keeps SelectedQuest and the row highlight after
+    // `NativeSetCurrentQuest`; only the LightOn marker moves. The selection is therefore kept (refresh re-reads it).
     // Source `NativeSetCurrentQuest` mutates currentquest; refresh consumes
     // that same owner and makes the source LightOn marker visible.
     return refresh(frame_.collection,frame_.difficulty,frame_.category,error);
@@ -196,21 +206,32 @@ bool RuntimeQuestCharacterMenuBindingV1::append_source_page(
     const auto& snapshot=menu_->frame();
     const auto& art=original_runtime_quest_menu_art_v1();
     auto next=frame;
-    next.art.batches.insert(next.art.batches.end(),art.page_art.begin(),art.page_art.end());
+    // B073: the COMPLETED header (underline + check icon art) moves down with its text when the Assigned list grows.
+    const float completed_shift=completed_list_shift_v1(snapshot.rows.size());
+    for(auto batch:art.page_art){
+        if(batch.role.find("/Completed/CompletedTitle/")!=std::string::npos)
+            for(auto& v:batch.triangles)v.y+=completed_shift;
+        next.art.batches.push_back(std::move(batch));
+    }
     next.solids.insert(next.solids.end(),art.page_solids.begin(),art.page_solids.end());
+    // B073: QuestPrio (SWF 0x26a87/0x26a9c): hidden while the Assigned list is empty; otherwise frame 1 = main quest
+    // (crown) when Quest::IsPrimary, frame 2 = side quest (bullet), chosen with the details of the selected row.
+    if(!snapshot.rows.empty()){
+        const auto& prio=art.prio_art[snapshot.selection&&!snapshot.selection->details.primary?1:0];
+        next.art.batches.insert(next.art.batches.end(),prio.begin(),prio.end());
+    }
 
     auto symbol=[&](const char* name,std::string& value)->bool{
         if(!source_symbol_text_){error="Original Quest menu source-symbol provider is unavailable";return false;}
         if(!source_symbol_text_(name,value,error)){if(error.empty())error="Original Quest menu symbol lookup failed";return false;}
         return true;
     };
-    const float completed_shift=completed_list_shift_v1(snapshot.rows.size());
     for(auto field:art.page_fields){
         const char* key=nullptr;
         if(field.path=="menu_QuestLogSheetNEW/AllQuests/content/Completed/CompletedTitle/text")
             field.matrix[5]+=completed_shift;
         if(field.path=="menu_QuestLogSheetNEW/menu_title/txt_title")key="GAMEPLAYMENUS_QUEST_JOURNAL_TITLE";
-        else if(field.path=="menu_QuestLogSheetNEW/AllQuests/content/Assigned/Header/text")key="GAMEPLAYMENUS_QUEST_LOG";
+        else if(field.path=="menu_QuestLogSheetNEW/AllQuests/content/Assigned/Header/text")key="GAMEPLAYMENUS_QUEST_JOURNAL_TITLE"; // B073: SWF onShow 0x268e1 (QUEST_LOG only seeds QuestDetailsText)
         else if(field.path=="menu_QuestLogSheetNEW/AllQuests/content/Completed/CompletedTitle/text")key="GAMEPLAYMENUS_COMPLETED";
         else if(field.path=="menu_QuestLogSheetNEW/QuestDetailsText/text"&&snapshot.selection&&snapshot.selection->details.title)
             next.text.push_back({field,*snapshot.selection->details.title});
