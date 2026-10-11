@@ -30028,7 +30028,9 @@ bool native_host_sync_playerinfo_character(std::string& error){
 
  // _LoadPropertiesForClassSelect / SG_SetPlayerClass / AI_ReloadSkills are
  // reached only while the current Level's +0x144 transition flag is set.
- if(level_snapshot.transition_flag_144){
+ // IDA 0x373290: SG_SetPlayerClass from PlayerInfo is in the online unpack
+ // only; offline it reloaded the skill list and cleared the starter slots.
+ if(native_host.online&&level_snapshot.transition_flag_144){
   const auto* class_member=record->at(0x360);
   if(!class_member||!class_member->constructed||
      !native_host_sync_player_class(character,class_member->header.value,error))return false;
@@ -30742,6 +30744,10 @@ bool ui_player_skill_slots(std::uintptr_t identity,std::array<std::int32_t,3>& s
   error="Gameplay skill-slot read requires the active Character's initialized Save";return false;
  }
  for(std::int32_t i=0;i<3;++i)slots[std::size_t(i)]=prince_combat.savegame->skill_in_slot(i);
+ {static int logged=0;if(logged++<3)__android_log_print(ANDROID_LOG_WARN,"DH2Native",
+   "HUD skill slots | %d %d %d | save %p | skill7 level %d",slots[0],slots[1],slots[2],
+   static_cast<const void*>(prince_combat.savegame.get()),
+   int(prince_combat.savegame->skills().size()>7?prince_combat.savegame->skill_level(7):-9));}
  error.clear();return true;
 }
 bool ui_player_use_skill_slot(std::uintptr_t identity,std::int32_t hud_slot,std::string& error){
@@ -39845,6 +39851,12 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         initial_skill_grant_status="failed";
       }else{
         initial_skill_grant_status="complete";
+        // Character::InitFinal ends with SG_Save for the local Player; the
+        // later NativeReloadSkills (SG_Load 32/8) must see the granted slots.
+        std::string save_error;
+        if(!persist_after_gameplay_mutation(prince_character.identity(),save_error))
+          __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+              "Initial skill grant could not be persisted: %s",save_error.c_str());
       }
     }
     const std::int32_t initial_skill_slot0_after=initial_skill_save?
