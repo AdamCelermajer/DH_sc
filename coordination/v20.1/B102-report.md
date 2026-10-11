@@ -1,0 +1,24 @@
+# B102 EQUIP button does not work (shot-14 Vagrant Armor, shot-20 Useless Hand Axe) - HANDOFF
+
+## Status
+Partially solved. Not video/IDA-matched yet (original EQUIP = btn_EquipItem -> NativeInvEquip path; B057 report has the IsEquippableBy gate evidence). Observed only in our EXE.
+
+## Observed (real EXE build-fix102, real Win32 mouse messages via tools/quiet_click.ps1 from B103 branch, hidden desktop, silent)
+1. Torso: Vagrant Armor (--bag-item LeatherArmor01) over StartingSuit: click Equipment tab, Torso slot, 2nd row, EQUIP -> "Equipment state ... slot=0:bag-0-LeatherArmor01", visual changes (poncho body). Works at 1201x720 and 1783x1072 with 60ms clicks.
+2. SHORT CLICKS ARE LOST (root cause 1, shared with B103/B095): the Win32 window only records LBUTTON as a per-frame key state; a click whose down+up land inside one poll (10ms hold) was missed 1 of 3 runs. Fix: latch in platform_win32.cpp (commit "B102: latch sub-frame left clicks"); after fix 5/5 with 10ms clicks.
+3. Weapon equip (BattleAxe01 over Longsword01, right-hand rail icon then row 2 then EQUIP): the equip does nothing. Two causes seen:
+   a. packaged assets/models only has mc_rweapon_longsword/dagger/quarterstaff_01; stderr "Character menu action diagnostic: Original resource not found: data/3d/characters/prince/weapons/MC_RWeapon_BattleAxe_01.bdae" and the transaction is rolled back silently. Models exist in .local-inputs/visual-skin-owner-v6/weapons/ (packaging gap: the package must include the item models of all equippable items; selection-based package manifest lives outside the repo).
+   b. with the model present the EXE aborted: "Foundation error: Source stance selection: Requested exact current equipment pair was not prepared by this source library" (main.cpp bindSourcePlayerLocomotion; RuntimePlayerLocomotionLibraryV1 is only preloaded for the startup pair). UNCOMMITTED-then-committed edit: on select_exact failure rebuild the library for the new (main,off) pair and merge clips (small hunk in bindSourcePlayerLocomotion). BUILT (exit 0) BUT NOT YET RUN in the EXE; clips merged into options.character after the visual loaded may not reach the live visual/session (unverified).
+4. Not reproduced: user's torso failure in shot-14. Hypotheses: lost short click (fixed), or user's real items (generated instance ids/powers) hitting a failure not seen with --bag-item rows; check stderr "Character menu action diagnostic" in the user's run.
+
+## Remaining steps
+- Run weapon equip again with the fixture below (needs pkg overlay with battleaxe model); confirm no abort, equipped item/stat/visual change, unequip and auto-equip buttons (clicks: auto-equip ~ (235,115)px, unequip ~(1000,115)px at 1201x720).
+- Decide asset gap: ship all weapon models (and check armour model parts) in the package; make a missing item model non-fatal AND visible (do not roll back silently).
+- Test via real mouse on a pickup-acquired item; unit test for the latch is not written (platform layer, no test harness).
+- Video/IDA match statement still owed.
+
+## Files touched
+port/windows-foundation/platform_win32.cpp (latch; plus cherry-picked B103 WM_MOUSEMOVE/pointer tracking + tools/quiet_click.ps1), port/windows-foundation/main.cpp (stance rebuild fallback).
+
+## Fixture / traps
+Scratch: DH_sc/.local-inputs/claude-v20.1/fix102 (gen3.ps1, click.sh: `./click.sh tag exe "T:X:Y:HOLD,..." frames "ItemA,ItemB" menuFrame "--arg;value"`; clicks are client px, T seconds after window; portrait click (85,75) opens menu when menuFrame=99999, else menu opens by --profile-click-frame). Args = windows-source-clock-v20/swamp.args minus --fresh-player plus --bag-item, --campaign-skip-frame 60. pkg/assets = hardlink copy of the v20 package assets (models is a real dir where extra weapon models may be added). TRAPS: assets junctions inside the asset root fail ("escapes asset root"); I accidentally wrote models/models + battleaxe into the accepted package windows-source-clock-v20 and removed them again (exe SHA 8ba1e537... unchanged; only the models dir mtime changed). Never Copy-Item into a junction. Item ids: LeatherArmor01 = "Vagrant Armor", BattleAxe01 = "Useless Hand Axe" (assumed). Equip button px at 1201x720 = (1005,433); Drop is (1073,691).

@@ -1823,7 +1823,17 @@ int main(int argc,char** argv) {
             if(!locomotionLibrary)return;
             const auto hands=currentLocomotionItems();
             f::equipment_menu::RuntimePlayerLocomotionSelectionV1 selected;
-            if(!locomotionLibrary->select_exact(hands.first,hands.second,selected,error))throw std::runtime_error("Source stance selection: "+error);
+            if(!locomotionLibrary->select_exact(hands.first,hands.second,selected,error)) {
+                // B102: equipping a weapon whose (main,off) pair was not preloaded at startup (e.g. a hand axe over the start
+                // blade) rebuilds the source stance library for the NEW pair through the same resolver instead of aborting.
+                f::equipment_menu::RuntimePlayerLocomotionLibraryRequestV1 request;
+                request.profile_id=options.combat.playerProfileId;request.profile_library_uri=options.profiles.generic_string();request.role="player-source-locomotion";
+                request.main_hand_item_id=hands.first;request.off_hand_item_id=hands.second;
+                f::equipment_menu::RuntimePlayerLocomotionLibraryV1 rebuilt;
+                if(!f::equipment_menu::RuntimePlayerLocomotionLibraryV1::build(assets,options.character,request,rebuilt,error)||!rebuilt.merge_named_clips(options.character,error)||
+                   !rebuilt.select_exact(hands.first,hands.second,selected,error))throw std::runtime_error("Source stance selection: "+error);
+                locomotionLibrary=std::move(rebuilt);
+            }
             const auto* props=session.world()->combat_properties(session.player_id());
             const double rate=f::original_speed_modifier(props->sheets.resolved[46]);
             for(const auto& named:std::vector<std::pair<std::string,std::string>>{{"idle","Idle"},{"walk","Walk"},{"run","Run"}}) {
