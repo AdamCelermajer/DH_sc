@@ -63,7 +63,7 @@ bool change_stat_point_v1(CharacterState& same_state, CombatSession& same_sessio
     }
     if (static_cast<std::uint32_t>(q8_integer(resolved[stat_points_property])) != same_state.source_stat_points ||
         static_cast<std::uint32_t>(q8_integer(resolved[skill_points_property])) != same_state.source_skill_points)
-        return fail(error, "Session resolved points differ from same CharacterState points");
+        return fail(error, "Session resolved points differ from same CharacterState points (stat "+std::to_string(q8_integer(resolved[stat_points_property]))+"/"+std::to_string(same_state.source_stat_points)+" skill "+std::to_string(q8_integer(resolved[skill_points_property]))+"/"+std::to_string(same_state.source_skill_points)+")");
     // Refused without any mutation: the original button is disabled at zero.
     if (spend && q8_integer(resolved[stat_points_property]) <= 0)
         return fail(error, "Source stat training refused: no Stat_Points remain");
