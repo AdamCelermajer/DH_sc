@@ -2568,6 +2568,20 @@ int main(int argc,char** argv) {
             auto& context=nativeBodyContexts[id];if(!context)context=std::make_shared<NativeBodyContext>();
             context->idleSuppressed=wait;return combatSession&&combatSession->script_put_idle(id,e,wait);};
         hostServices.scripted_actor_pose=[&](f::ActorId id){return combatSession&&combatSession->scripted_actor_pose(id);};
+        // B091: source CSAnim::OnUpdate (0x3c1a3c) returns a character to SM_SetIdleState once its scripted clip is over (Script_PlayActorAnim
+        // starts it with the idle-when-done flag). A script-spawned gameplay actor whose script has no PutCharacterInIdle (LizCaptain_Intro:
+        // Spawn, PlayActorAnim..., Unlock) was left in Spawn (state 1): untargetable and passive. Cutscene props keep their held pose.
+        hostServices.scripted_clip_finished=[&](f::ActorId id,bool& released,std::string& e){
+            released=false;
+            if(!combatSession||!combatSession->actor(id))return true;
+            const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==id;});
+            if(placed==population.actors().end()||!scriptGameplayActors.count(placed->definition.name))return true;
+            bool alive=false;std::int32_t actorState=-1;
+            if(!hostServices.actor_state(id,alive,actorState,e))return false;
+            if(!alive||actorState==3||actorState<=0||actorState==17)return true; // dead, already idle, limbus, awaiting/pre-spawn
+            std::cout<<"[campaign] scripted clip finished: gameplay actor "<<placed->definition.name<<" state="<<actorState<<" -> Idle (CSAnim::OnUpdate)
+";
+            released=hostServices.set_actor_state(id,3,e);return released;};
         // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
         // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
         // transform is the owner: column-major translation at 12..14, heading in the 2x2 block).
