@@ -2200,14 +2200,18 @@ int main(int argc,char** argv) {
         }
         if((options.sourceCamera&&!options.sourceCommands.empty())||options.campaignTriggers) { // P16 HOST: camera admission also serves trigger scripts
             if(!combatSession)throw std::runtime_error("Source camera targets require the bound local player");
-            // P16 CINE3: a live Character camera anchor (IDA GameObject::GetCameraAnchorPosition returns the object's own
-            // position unless an auxiliary anchor is attached; none is decoded) is the live position of the session or
-            // population actor. Bound once here so every script camera command (SetCameraTarget, witch dialogue, cutscenes)
-            // resolves Characters the same way, not only the player.
+            // P16 CINE3: a Character camera anchor (IDA GameObject::GetCameraAnchorPosition returns the object's own
+            // position unless an auxiliary anchor is attached; none is decoded) is the live position of its session or
+            // population actor. A Character with no live instance yet (for example the witch before its zone starts)
+            // uses its authored placement, the same position the object has in the level. Bound once for every script
+            // camera command, not only for the player.
             sourceObjects.bind_actor_anchor([&](f::ActorId id,f::CameraVec3& out,std::string& e){
                 std::array<float,3> position{};
-                if(!hostServices.actor_verbs.position_of(id,position,e))return false;
-                out={position[0],position[1],position[2]};return true;
+                std::string liveError;
+                if(hostServices.actor_verbs.position_of(id,position,liveError)){out={position[0],position[1],position[2]};return true;}
+                const auto* definition=sourceObjects.definition(id);
+                if(!definition){e="Unknown source camera object: "+liveError;return false;}
+                out={definition->placement[12],definition->placement[13],definition->placement[14]};e.clear();return true;
             });
             f::CampaignCameraProviders providers;
             providers.local_player=[&](std::uint64_t& id,std::string&){id=combatSession->player_id();return true;};
