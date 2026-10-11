@@ -66,6 +66,31 @@ const char* original_menu_label_symbol(const std::string& path)noexcept {
         ,{"menu_CharacterSheetStats/RH/RightHandDamage/","GAMEPLAYMENUS_SUMMARY_R_HAND"}
         ,{"menu_CharacterSheetStats/LH/LeftHandDamage/","GAMEPLAYMENUS_SUMMARY_L_HAND"}
         ,{"menu_CharacterSheetStats/TWOH/TwoHDamage/","GAMEPLAYMENUS_SUMMARY_2_HAND"}
+        // B111: Statistics sub-pages. Static captions assigned by CharacterSheetNew.UpdateCharInfos (authored-actions.txt
+        // 0x13caa-0x1490f; Stats-page group above is 0x1318e-0x13bf7).
+        ,{"menu_CharacterSheetDefense/DefenceMenuTitle/","GAMEPLAYMENUS_DEFENCE_TAB"}
+        ,{"menu_CharacterSheetDefense/DefenceRating/","GAMEPLAYMENUS_DEFENCE_RATING_DEFENCE"}
+        ,{"menu_CharacterSheetDefense/ArmorDefence/","GAMEPLAYMENUS_ARMOR_DEFENCE"}
+        ,{"menu_CharacterSheetDefense/BlockRating/","GAMEPLAYMENUS_BLOCK"}
+        ,{"menu_CharacterSheetDefense/DodgeRating/","GAMEPLAYMENUS_DODGE"}
+        ,{"menu_CharacterSheetDefense/DamageReduction/","GAMEPLAYMENUS_DAMAGE_REDUCTION_DEFENSE"}
+        ,{"menu_CharacterSheetDefense/ResistancesTxt/","GAMEPLAYMENUS_RESISTANCES"}
+        ,{"menu_CharacterSheetOffense/OffenceTitle/","GAMEPLAYMENUS_OFFENSE_TAB"}
+        ,{"menu_CharacterSheetOffense/OffenceRating/","GAMEPLAYMENUS_ATTACK_RATING_OFFENSE"}
+        ,{"menu_CharacterSheetOffense/CriticalOffence/","GAMEPLAYMENUS_CRITICAL_OFFENSE"}
+        ,{"menu_CharacterSheetOffense/MeleeHitChance/","GAMEPLAYMENUS_MELEE_TO_HIT_BONUS_OFFENSE"}
+        ,{"menu_CharacterSheetOffense/RH/RightHandDamage/","GAMEPLAYMENUS_SUMMARY_R_HAND"}
+        ,{"menu_CharacterSheetOffense/LH/LeftHandDamage/","GAMEPLAYMENUS_SUMMARY_L_HAND"}
+        ,{"menu_CharacterSheetOffense/TWOH/TwoHDamage/","GAMEPLAYMENUS_SUMMARY_2_HAND"}
+        ,{"menu_CharacterSheetMagic/MenuMagicTitle/","GAMEPLAYMENUS_MAGIC_TAB"}
+        ,{"menu_CharacterSheetMagic/SpellCritText/","GAMEPLAYMENUS_SPELL_CRITICAL_MAGIC"}
+        ,{"menu_CharacterSheetMagic/SpellHit/","GAMEPLAYMENUS_SPELL_TO_HIT_MAGIC"}
+        ,{"menu_CharacterSheetMagic/SpellDamageBonus/","GAMEPLAYMENUS_MAGIC_DAMAGE_BONUS"}
+        ,{"menu_CharacterSheetRecovery/RecoveryTitle/","GAMEPLAYMENUS_RECOVERY_TAB"}
+        ,{"menu_CharacterSheetRecovery/HpRecovery/","GAMEPLAYMENUS_HP_REGEN_RECOVERY"}
+        ,{"menu_CharacterSheetRecovery/MpRecovery/","GAMEPLAYMENUS_MP_REGEN_RECOVERY"}
+        ,{"menu_CharacterSheetRecovery/HpLeech/","GAMEPLAYMENUS_HP_LEECH_RECOVERY"}
+        ,{"menu_CharacterSheetRecovery/MpLeech/","GAMEPLAYMENUS_MP_LEECH_RECOVERY"}
         // InventorySheetMain onShow actions (authored-actions.txt 00019d7f..00019dcf): NativeGetStringFromSymbol.
         ,{"menu_InventorySheetMain/btn_GAMEPLAYMENUS_AUTOEQUIP_ALL/","GAMEPLAYMENUS_AUTOEQUIP_ALL"}
         ,{"menu_InventorySheetMain/Title/","GAMEPLAYMENUS_INVENTORY_TITLE"}

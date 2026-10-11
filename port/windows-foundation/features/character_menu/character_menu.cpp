@@ -17,7 +17,14 @@ bool Presenter::viewport(int width,int height,MenuViewTransform& out,std::string
 bool Presenter::select(Tab next,std::string& error){
     if(!open_){error="Character menu is closed";return false;}
     if(next!=Tab::stats&&next!=Tab::equipment&&next!=Tab::skills&&next!=Tab::faery&&next!=Tab::quest&&next!=Tab::map){error="Unsupported character menu tab";return false;}
+    // Re-entering the Statistics tab (ChangeToStats pushes menu_CharacterSheetStats) shows the default Stats page.
+    if(next==Tab::stats)stat_page_=StatPage::stats;
     tab_=next;error.clear();return true;
+}
+bool Presenter::select_stat_page(StatPage page,std::string& error){
+    if(!open_||tab_!=Tab::stats){error="Statistics sub-pages exist only on the open Statistics tab";return false;}
+    if(page<StatPage::stats||page>StatPage::recovery){error="Unsupported Statistics sub-page";return false;}
+    stat_page_=page;error.clear();return true;
 }
 namespace {
 float edge(const HudGeometryVertex& a,const HudGeometryVertex& b,float x,float y){return (b.x-a.x)*(y-a.y)-(b.y-a.y)*(x-a.x);}
@@ -77,14 +84,19 @@ Action Presenter::hit_test(float x,float y,int width,int height)const noexcept {
         const float distance=(cx-x)*(cx-x)+(cy-y)*(cy-y);
         if(!nearestTab||distance<nearestDistance){nearestTab=&*it;nearestDistance=distance;}
     }
-    return nearestTab?nearestTab->action:Action::none;
+    if(nearestTab)return nearestTab->action;
+    // B111: the five Statistics page icons (CharacterSheetNew/buttons/btn*Tab) exist only on the Statistics tab.
+    if(tab_==Tab::stats)for(const auto& zone:original_stat_page_hit_zones())
+        if(x>=zone.x0&&x<=zone.x1&&y>=zone.y0&&y<=zone.y1)return stat_page_action(zone.page);
+    return Action::none;
 }
 Action Presenter::release(float x,float y,int width,int height)noexcept {
     const auto action=hit_test(x,y,width,height);
     switch(action){case Action::close:close();break;case Action::stats:tab_=Tab::stats;break;
     case Action::equipment:tab_=Tab::equipment;break;case Action::skills:tab_=Tab::skills;break;
     case Action::faery:tab_=Tab::faery;break;case Action::quest:tab_=Tab::quest;break;case Action::map:tab_=Tab::map;break;
-    case Action::map_legend:case Action::map_reset_zoom:map_control(action);break;default:break;}
+    case Action::map_legend:case Action::map_reset_zoom:map_control(action);break;
+    default:if(is_stat_page_action(action)){std::string ignored;select_stat_page(stat_page_of(action),ignored);}break;}
     return action;
 }
 Action Presenter::map_control(Action control) noexcept {
@@ -110,7 +122,9 @@ bool Presenter::frame(const Bindings& b,int width,int height,Frame& output,std::
         if(!project_original_menu_stats(*b.properties,stats,error))return false;
         has_stat_points=source_stat_integer(b.properties->sheets.resolved[148])>0;
     }
-    const auto& authored=original_menu_art(tab_,has_stat_points);next.art.batches=authored.batches;next.solids=authored.solids;
+    const MenuArt* subpage=tab_==Tab::stats&&stat_page_!=StatPage::stats?original_stat_page_art(stat_page_,has_stat_points):nullptr;
+    if(tab_==Tab::stats&&stat_page_!=StatPage::stats&&!subpage){error="Statistics sub-page art is unavailable";return false;}
+    const auto& authored=subpage?*subpage:original_menu_art(tab_,has_stat_points);next.art.batches=authored.batches;next.solids=authored.solids;
     // Map legend popup: its own authored art, drawn above the map only while it is shown.
     const MenuArt* legend=(tab_==Tab::map&&map_legend_)?&original_map_legend_art():nullptr;
     std::vector<MenuTextField> fields=authored.text_fields;

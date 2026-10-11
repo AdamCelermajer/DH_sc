@@ -5600,7 +5600,15 @@ int main(int argc,char** argv) {
                 const auto action=characterMenu.hit_test(click.position.x,click.position.y,window.width(),window.height());
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
-                    characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    const auto releasedAction=characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    if(f::character_menu::is_stat_page_action(releasedAction)) {
+                        // B111: btn*Tab.on_clicked = NativePopMenu + NativePushMenu(menu_CharacterSheet<Page>) + NativePlaySoundFX("MenuSelect").
+                        std::cout<<"Character menu Statistics sub-page="<<int(characterMenu.stat_page())<<" frame="<<drawn<<'
+';
+                        std::string soundError;
+                        if(runtimeAudio&&!runtimeAudio->play_named_plain("MenuSelect",soundError))std::cerr<<"Character menu MenuSelect sound diagnostic: "<<soundError<<'
+';
+                    }
                     // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
                     if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n';
                         if(conditionWatch) { // P17 CONDITIONS: the restored quest state is the new baseline (no flips on reload)
