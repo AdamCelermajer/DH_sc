@@ -56,22 +56,29 @@ bool valid_source(Source source) {
            *static_cast<const unsigned char*>(source.bytes) != 0x1b;
 }
 
-// Authored identity-only transport. The original bounded monster bodies only
-// pass the object to native globals; source-value binding then projects _this
-// as type7, as it does for original object tables. No methods are fabricated.
+// Authored identity transport. Source-value binding projects _this as type7,
+// as it does for original object tables. Object tables share a method table;
+// GetID is the original binding's pointer token (gameplay-object-callbacks
+// row 1). Other GameObject methods are not yet bound and still raise.
 constexpr char identity_transport[] = R"lua(
+local __dh2_object_methods = {}
+function __dh2_object_methods:GetID() return self._this end
+local __dh2_object_mt = {__index = __dh2_object_methods}
+local function __dh2_object(identity)
+    return setmetatable({_this = identity}, __dh2_object_mt)
+end
 local native_GetTarget = GetTarget
 function GetTarget()
     local identity = native_GetTarget()
     if identity == nil then return nil end
-    return {_this = identity}
+    return __dh2_object(identity)
 end
 function __dh2_monster_external_object(callback_name, identity)
     if identity == nil then return _G[callback_name](nil) end
-    return _G[callback_name]({_this = identity})
+    return _G[callback_name](__dh2_object(identity))
 end
 function __dh2_monster_external_combat(callback_name, attacker, defender)
-    return _G[callback_name]({_this = attacker}, {_this = defender})
+    return _G[callback_name](__dh2_object(attacker), __dh2_object(defender))
 end
 )lua";
 
@@ -87,7 +94,7 @@ struct Session::Impl {
                      master_set, clear_target, warp_behind, skill_combat_roll,
                      spawn_skill_projectile, set_projectile_target,
                      create_buff, remove_buff, apply_buff, set_skill_cooldown,
-                     set_spell_cooldown, start_timer, stop_timer,
+                     set_spell_cooldown, start_timer, stop_timer, self_id,
                      unsupported };
     struct Binding { Impl* session; Operation operation; const char* name; };
     static constexpr std::size_t max_bindings = 64;
@@ -479,6 +486,13 @@ struct Session::Impl {
                     number(output[0], static_cast<float>(result.integer));
                     *returned = result.count;
                 }
+            } else if (binding.operation == self_id) {
+                // GameObject::GetID returns the object's pointer token; the
+                // global form is bound to the scripted Character itself.
+                output[0] = {};
+                output[0].type = DH2_SCRIPT_IDENTITY;
+                output[0].identity = services.owner;
+                *returned = 1;
             } else if (binding.operation == target_get) {
                 std::uintptr_t target = 0;
                 if (!services.get_target || services.get_target(services.context, services.owner, &target) != 0)
@@ -601,7 +615,8 @@ struct Session::Impl {
             bind_extra("SetSkillCooldownTimerId__", set_skill_cooldown) &&
             bind_extra("SetSpellCooldownTimerId__", set_spell_cooldown) &&
             bind_extra("StartTimer", start_timer) &&
-            bind_extra("StopTimer", stop_timer);
+            bind_extra("StopTimer", stop_timer) &&
+            bind_extra("GetID", self_id);
     }
 
     bool bind_functions() {
@@ -872,7 +887,7 @@ Status Session::dispatch(Event event, std::uintptr_t enemy, std::string& error) 
     }
     if (status != 0) {
         ++impl_->failed;
-        impl_->faulted = true;
+        // LuaScript::Call reports a runtime error and the VM stays usable.
         error = dh2_script_vm_error(impl_->vm);
         return Status::script_error;
     }
@@ -910,7 +925,7 @@ Status Session::dispatch_combat_result(Event event, std::uintptr_t attacker,
     impl_->object_table_arguments += 2;
     if (status != 0) {
         ++impl_->failed;
-        impl_->faulted = true;
+        // LuaScript::Call reports a runtime error and the VM stays usable.
         error = dh2_script_vm_error(impl_->vm);
         return Status::script_error;
     }
@@ -939,7 +954,7 @@ Status Session::dispatch_animation_event(const char* event_name,
         impl_->vm, impl_->aliases, "OnAnimEvent", arguments, 2);
     if (status != 0) {
         ++impl_->failed;
-        impl_->faulted = true;
+        // LuaScript::Call reports a runtime error and the VM stays usable.
         error = dh2_script_vm_error(impl_->vm);
         if (error.empty()) error = "AISDefault OnAnimEvent Lua callback failed";
         return Status::script_error;
@@ -1072,7 +1087,7 @@ Status Session::call_state(const CurrentState* projection, bool conditions, std:
         error = "nonnull source state has a null callback name"; return Status::invalid_source_fact;
     }
     if (status != ais_state_callbacks::Status::complete) {
-        ++impl_->failed; impl_->faulted = true; error = dh2_script_vm_error(impl_->vm);
+        ++impl_->failed; // runtime error; VM stays usable error = dh2_script_vm_error(impl_->vm);
         return Status::script_error;
     }
     if (result.called) ++impl_->completed;

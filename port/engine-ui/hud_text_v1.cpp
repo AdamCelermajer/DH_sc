@@ -1,3 +1,4 @@
+#include <cstdio>
 #include "hud_text_v1.hpp"
 #include <cstring>
 #include <stdexcept>
@@ -37,7 +38,7 @@ bool HudTextV1::preload_impl(std::uint32_t p,std::uint32_t sheet,bool force,cons
  e.clear();if(!ready_||p>8||sheet>36)return fail(e,"Localization preload outside bounds");auto& target=sheets_[p][sheet];if(target.loaded&&!force)return true;
  if(force){target.strings.clear();target.loaded=false;}if(!svc.open||!svc.close||!svc.debug)return fail(e,"Localization file/debug provider missing");
  bool found=false;std::vector<std::uint8_t> bytes;std::uintptr_t lease=0;const auto uri="text/"+target.filename;
- if(!svc.open(svc.context,uri.c_str(),found,bytes,lease,e))return false;if(!found){if(lease)return fail(e,"Missing localization file returned lease");return true;}
+ if(!svc.open(svc.context,uri.c_str(),found,bytes,lease,e))return false;if(!found){if(lease)return fail(e,"Missing localization file returned lease");std::fprintf(stderr,"[W/DH2Native] Localization sheet file not found | %s\n",uri.c_str());return true;}
  if(!lease)return fail(e,"Localization file has no retained lease");bool success=false;
  try{Reader r({bytes.data(),bytes.size()});auto count=r.word(2);if(count>32767)throw std::runtime_error("Localization signed source count outside port domain");std::vector<std::string> values;values.reserve(count);
  for(unsigned i=0;i<count;++i){auto raw=r.text(2);if(raw.find_first_of("^|")!=std::string::npos){std::string colored;bool changed;if(!localization_colors(raw,add_space(pack_),svc,colored,changed,e))throw std::runtime_error(e);if(changed)raw=std::move(colored);}values.push_back(std::move(raw));}r.end();target.strings=std::move(values);target.loaded=true;
