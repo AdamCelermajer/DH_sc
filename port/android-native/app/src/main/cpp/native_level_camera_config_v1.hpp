@@ -63,8 +63,13 @@ inline bool parse_combat_music_enabled(std::string_view xml,bool* out) noexcept 
         std::string value;
         bool enabled=true;
         if(attribute_text(xml,"combat_music_enabled",&value)){
-            if(value=="1")enabled=true;
-            else if(value=="0")enabled=false;
+            // The source Property<bool> accepts the generated-layout spelling
+            // as well as the numeric spelling present in authored MLX rows.
+            // Generated Crypt writes this property from kConfigDefaults as
+            // `true`; rejecting it previously made the entire camera config
+            // unavailable even though its clip planes and route were valid.
+            if(value=="1"||value=="true")enabled=true;
+            else if(value=="0"||value=="false")enabled=false;
             else return false;
         }
         *out=enabled;
