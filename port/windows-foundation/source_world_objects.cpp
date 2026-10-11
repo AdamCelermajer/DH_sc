@@ -61,9 +61,9 @@ bool SourceWorldObjects::anchor(ActorId id,CameraVec3& out,std::string& error)co
         if(!std::isfinite(value.x)||!std::isfinite(value.y)||!std::isfinite(value.z)){error="Nonfinite live Character anchor";return false;}
         out=value;error.clear();return true;
     }
-    // Only an authored Dummy's absence of an auxiliary Character anchor is
-    // established here. Other object receivers require their source provider.
-    if(object->gametype!="Dummy"){error="Unsupported source camera anchor receiver";return false;}
+    // P16 CINE: IDA GameObject::GetCameraAnchorPosition (0x003943b8) returns the object's own position
+    // (this+352) unless an auxiliary anchor node is attached (this+184; not decoded here). Any authored
+    // non-Character object (Dummy, OpenableContainer, Waypoint...) therefore uses its placement translation.
     out={object->placement[12],object->placement[13],object->placement[14]};error.clear();return true;
 }
 }

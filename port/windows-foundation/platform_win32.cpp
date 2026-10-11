@@ -42,6 +42,7 @@ struct Window::Impl {
     bool close = true;
     bool minimized = false;
     std::array<bool, 256> keys{};
+    int wheel_units = 0; // P16 MAPFIX: WM_MOUSEWHEEL delta accumulated until take_wheel_notches()
     std::string error;
 
     static LRESULT CALLBACK procedure(HWND hwnd, UINT message, WPARAM wp, LPARAM lp) {
@@ -81,6 +82,8 @@ struct Window::Impl {
                 self->keys[VK_LBUTTON]=false;if(GetCapture()==hwnd)ReleaseCapture();return 0;
             case WM_CAPTURECHANGED:
                 self->keys[VK_LBUTTON]=false;return 0;
+            case WM_MOUSEWHEEL: // P16 MAPFIX: consumed by the Map page zoom (take_wheel_notches)
+                self->wheel_units+=GET_WHEEL_DELTA_WPARAM(wp);return 0;
             case WM_ERASEBKGND:
                 return 1;
             case WM_DESTROY:
@@ -228,6 +231,11 @@ bool Window::focused() const noexcept{return impl_->hwnd&&GetFocus()==impl_->hwn
 bool Window::cursor_position(float& x,float& y) const noexcept {
     POINT point{};if(!impl_->hwnd||!GetCursorPos(&point)||!ScreenToClient(impl_->hwnd,&point))return false;
     x=float(point.x);y=float(point.y);return true;
+}
+int Window::take_wheel_notches() noexcept {
+    const int notches=impl_->wheel_units/WHEEL_DELTA;
+    impl_->wheel_units-=notches*WHEEL_DELTA;
+    return notches;
 }
 
 double Window::seconds() noexcept {

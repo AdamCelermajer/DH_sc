@@ -3,6 +3,7 @@
 namespace dh::foundation {
 namespace {
 constexpr std::int32_t source_none_string=1835016;
+constexpr std::int32_t kSourceQuestPriorityPrimaryV1=0; // v2QuestPriority.Primary (quest_runtime_v1.hpp table)
 bool localized_if_present(const CharacterQuestTextV1& resolver,
     const CharacterState& character,std::int32_t id,
     std::optional<std::string>& out,std::string& error) {
@@ -40,7 +41,8 @@ bool resolve_source_quest_page_text_v1(
     if(!source_text(definition.text_fields[0],staged.title)||
        !source_text(definition.text_fields[1],staged.pre_description))return false;
 
-    const auto objective_id=definition.text_fields[2];
+    // IDA Quest::GetObjectiveDescription reads definition +16 = text_fields[3]; GetPostDescription reads +12 = text_fields[2].
+    const auto objective_id=definition.text_fields[3];
     if(objective_id==source_none_string) {
         std::string joined;bool has_description=false,unavailable=false;
         for(const auto& objective:definition.objectives) {
@@ -62,10 +64,12 @@ bool resolve_source_quest_page_text_v1(
                                  staged.objective_description,error))return false;
     }
 
-    if(definition.text_fields[3]==source_none_string)
+    if(definition.text_fields[2]==source_none_string)
         staged.post_description="not specified";
     else
         staged.post_description=std::string{};
+    // Quest::IsPrimary: v2QuestPriority.Primary (0) selects the MAIN QUEST tag, every other priority the SIDE QUEST tag.
+    staged.primary=definition.priority==kSourceQuestPriorityPrimaryV1;
 
     out=std::move(staged);error.clear();return true;
 }

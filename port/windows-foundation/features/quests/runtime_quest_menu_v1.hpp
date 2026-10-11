@@ -28,6 +28,11 @@ struct RuntimeQuestMenuArtV1 {
     const char* activate_hit_target{};
 };
 
+// The source Completed clip follows the Assigned list: its COMPLETED header and its rows move down one authored
+// row step for each Assigned row beyond the first (reference video: four Assigned rows put the header near
+// y 195 of 320). Returns the authored Y shift for the given number of Assigned rows.
+float completed_list_shift_v1(std::size_t assigned_rows);
+
 enum class RuntimeQuestMenuAvailabilityV1 { unknown, ready };
 enum class RuntimeQuestMenuHitV1 { quest_row_release, activate_release };
 
@@ -46,7 +51,8 @@ struct RuntimeQuestMenuFrameV1 {
     CharacterQuestCategoryV1 category{CharacterQuestCategoryV1::assigned};
     std::uint32_t collection{};
     std::int32_t difficulty{};
-    std::vector<RuntimeQuestMenuRowV1> rows;
+    std::vector<RuntimeQuestMenuRowV1> rows;            // Assigned list (AllQuests/content/Assigned)
+    std::vector<RuntimeQuestMenuRowV1> completed_rows;  // Completed list (AllQuests/content/Completed); no activate
     std::optional<CharacterQuestPageSelectionV1> selection;
 };
 

@@ -19,6 +19,10 @@ class ActorProfileLibrary {
 public:
     bool load(const AssetCatalog&, const std::string& uri, std::string& error);
     const ActorProfile* find(const std::string& id) const noexcept;
+    // P16 PROFILES: publishes a profile derived from the original tables; rejects an existing ID.
+    bool add_derived(ActorProfile profile, std::string& error);
+    // P16 OPENING: appends a script clip to a state bank of a published profile (see actor_clip_manifest).
+    bool add_state_clip(const std::string& id, const std::string& state, ActorClip clip, std::string& error);
     const std::map<std::string, ActorProfile>& profiles() const noexcept { return profiles_; }
 private:
     std::map<std::string, ActorProfile> profiles_;

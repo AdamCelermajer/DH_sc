@@ -16,7 +16,7 @@ bool Presenter::viewport(int width,int height,MenuViewTransform& out,std::string
 }
 bool Presenter::select(Tab next,std::string& error){
     if(!open_){error="Character menu is closed";return false;}
-    if(next!=Tab::stats&&next!=Tab::equipment&&next!=Tab::skills&&next!=Tab::faery){error="Unsupported character menu tab";return false;}
+    if(next!=Tab::stats&&next!=Tab::equipment&&next!=Tab::skills&&next!=Tab::faery&&next!=Tab::quest&&next!=Tab::map){error="Unsupported character menu tab";return false;}
     tab_=next;error.clear();return true;
 }
 namespace {
@@ -40,6 +40,8 @@ bool projected(const MenuTextField& field,const Bindings& b,std::string& value){
     auto stat=[&](unsigned i){return std::to_string(source_stat_integer(raw[i]));};
     if(has(path,"player_name")){value=b.character?b.character->name:std::string{};return true;}
     if(has(path,"player_class")){value=b.class_label;return true;}
+    // P16 MAPFIX: the Map page level name (MapName text field). Without a resolved name the field stays empty.
+    if(has(path,"MapName")){if(b.map_name.empty())return false;value=b.map_name;return true;}
     // Source menu uses integer stat values; actual host vitals are current live
     // actor cells even when pending combat effects have not rebuilt raw sheets.
     if(has(path,"HpTextBox")){value=whole(b.actor->health)+" / "+whole(b.actor->max_health);return true;}
@@ -57,16 +59,39 @@ Action Presenter::hit_test(float x,float y,int width,int height)const noexcept {
     if(!open_||width<=0||height<=0||!std::isfinite(x)||!std::isfinite(y))return Action::none;
     x/=width/480.f;y/=height/320.f;
     // Actual contour hit regions, including original invisible tab hit shape263.
-    for(auto it=original_menu_hit_zones().rbegin();it!=original_menu_hit_zones().rend();++it)
-        if(contains(*it,x,y))return it->action;
-    return Action::none;
+    // P16 MAPFIX: adjacent tab rectangles overlap (63.4 px wide, 52 px pitch: Quest Log 369-432 and Map 421-484
+    // share about 11 px). Where several tab zones contain the point, the tab whose centre is nearest answers, so
+    // each tab keeps its own half of the overlap and neither becomes unreachable.
+    const MenuHitZone* nearestTab=nullptr;float nearestDistance=0;
+    const auto isTab=[](Action action){
+        return action==Action::stats||action==Action::equipment||action==Action::skills||
+               action==Action::faery||action==Action::quest||action==Action::map;
+    };
+    for(auto it=original_menu_hit_zones().rbegin();it!=original_menu_hit_zones().rend();++it) {
+        // Map controls exist only on the Map page; elsewhere the same screen area is not a control.
+        if((it->action==Action::map_legend||it->action==Action::map_reset_zoom)&&tab_!=Tab::map)continue;
+        if(!contains(*it,x,y))continue;
+        if(!isTab(it->action))return it->action;
+        float cx=0,cy=0;for(const auto& v:it->triangles){cx+=v.x;cy+=v.y;}
+        if(!it->triangles.empty()){cx/=float(it->triangles.size());cy/=float(it->triangles.size());}
+        const float distance=(cx-x)*(cx-x)+(cy-y)*(cy-y);
+        if(!nearestTab||distance<nearestDistance){nearestTab=&*it;nearestDistance=distance;}
+    }
+    return nearestTab?nearestTab->action:Action::none;
 }
 Action Presenter::release(float x,float y,int width,int height)noexcept {
     const auto action=hit_test(x,y,width,height);
     switch(action){case Action::close:close();break;case Action::stats:tab_=Tab::stats;break;
     case Action::equipment:tab_=Tab::equipment;break;case Action::skills:tab_=Tab::skills;break;
-    case Action::faery:tab_=Tab::faery;break;default:break;}
+    case Action::faery:tab_=Tab::faery;break;case Action::quest:tab_=Tab::quest;break;case Action::map:tab_=Tab::map;break;
+    case Action::map_legend:case Action::map_reset_zoom:map_control(action);break;default:break;}
     return action;
+}
+Action Presenter::map_control(Action control) noexcept {
+    if(!open_||tab_!=Tab::map)return Action::none;
+    if(control==Action::map_legend){map_legend_=!map_legend_;return control;}
+    if(control==Action::map_reset_zoom){map_reset_requested_=true;return control;}
+    return Action::none;
 }
 bool Presenter::frame(const Bindings& b,int width,int height,Frame& output,std::string& error)const {
     if(!open_){error="Character menu is closed";return false;}
@@ -86,8 +111,18 @@ bool Presenter::frame(const Bindings& b,int width,int height,Frame& output,std::
         has_stat_points=source_stat_integer(b.properties->sheets.resolved[148])>0;
     }
     const auto& authored=original_menu_art(tab_,has_stat_points);next.art.batches=authored.batches;next.solids=authored.solids;
-    for(const auto& field:authored.text_fields){
+    // Map legend popup: its own authored art, drawn above the map only while it is shown.
+    const MenuArt* legend=(tab_==Tab::map&&map_legend_)?&original_map_legend_art():nullptr;
+    std::vector<MenuTextField> fields=authored.text_fields;
+    if(legend) {
+        next.art.batches.insert(next.art.batches.end(),legend->batches.begin(),legend->batches.end());
+        next.solids.insert(next.solids.end(),legend->solids.begin(),legend->solids.end());
+        fields.insert(fields.end(),legend->text_fields.begin(),legend->text_fields.end());
+    }
+    for(const auto& field:fields){
         if(tab_==Tab::stats&&!original_stats_path_visible(*b.properties,stats,field.path))continue;
+        // P16 MAPFIX: the legend popup's own title takes the plate; the level name is not drawn under it.
+        if(legend&&has(field.path,"MapName"))continue;
         std::string value;
         if(!projected(field,b,value)&&!(tab_==Tab::stats&&original_stats_field(field.path,stats,value))&&
             b.text&&!b.text(field.path,value,error))return false;

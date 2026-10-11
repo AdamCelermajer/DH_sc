@@ -49,7 +49,25 @@ bool OriginalCampaignRuntime::load(const AssetCatalog&assets,const std::string&p
  }catch(const std::exception&e){error=e.what();return false;}
 }
 int OriginalCampaignRuntime::script_id(const std::string&name,bool common)const{for(std::size_t i=common?0:common_count_;i<scripts_.size();++i)if(scripts_[i].name==name)return int(i);return -1;}
+std::map<std::string,std::int32_t> OriginalCampaignRuntime::trigger_activations()const{
+ std::map<std::string,std::int32_t> out;
+ for(const auto& entry:trigger_state_) if(entry.second.activations) out[entry.first]=entry.second.activations;
+ return out;
+}
+std::vector<std::string> OriginalCampaignRuntime::trigger_inside()const{
+ std::vector<std::string> out;
+ for(const auto& entry:trigger_state_) if(entry.second.inside) out.push_back(entry.first);
+ return out;
+}
+void OriginalCampaignRuntime::restore_trigger_inside(const std::vector<std::string>& keys){
+ for(const auto& key:keys) trigger_state_[key].inside=true;
+}
+void OriginalCampaignRuntime::restore_trigger_activations(const std::map<std::string,std::int32_t>& counts){
+ for(auto& entry:trigger_state_) entry.second=TriggerState{};
+ for(const auto& count:counts) trigger_state_[count.first].activations=count.second;
+}
 bool OriginalCampaignRuntime::running(int id)const{return id>=0&&std::size_t(id)<contexts_.size()&&contexts_[id].state!=2;}
+bool OriginalCampaignRuntime::any_running()const{for(const auto&ctx:contexts_)if(ctx.state!=2)return true;return false;}
 bool OriginalCampaignRuntime::start(int id,int module,bool received,std::string&error){
  try {
  if(failed()){error=failure_;return false;}if(id<0||std::size_t(id)>=scripts_.size()){error.clear();return true;}
@@ -70,7 +88,8 @@ bool OriginalCampaignRuntime::execute(std::size_t id,std::int32_t dt,std::string
    ctx.state=1;
   }
   bool block=false;
-  if(c.kind==26)block=ctx.elapsed<ctx.duration;
+  if(skipping_&&c.kind!=0){} // SKIP16: IDA ExecuteScript does not consult IsBlocking while skipping (Wait included)
+  else if(c.kind==26)block=ctx.elapsed<ctx.duration;
   else if(c.kind==0)block=word(c,24)!=0&&running(ctx.child);
   else if(!services_.command||!services_.command(CampaignCommandPhase::is_blocking,c,ctx.module,block,error))return fail(error.empty()?"Unsupported original blocking query "+c.class_name:error,error);
   if(block){if(c.kind==26)ctx.elapsed=signed_bits(std::uint32_t(ctx.elapsed)+std::uint32_t(dt));else if(c.kind!=0){bool ignored=false;if(!services_.command(CampaignCommandPhase::update,c,ctx.module,ignored,error))return fail(error,error);}return true;}
@@ -81,6 +100,18 @@ bool OriginalCampaignRuntime::tick(std::int32_t dt,std::string&error){
  if(failed()){error=failure_;return false;}if(dt<0||ticking_){error="Invalid campaign dt or reentrant tick";return false;}
  ticking_=true;struct Guard{bool&b;~Guard(){b=false;}}guard{ticking_};
  try{for(auto&entry:trigger_state_)if(entry.second.delay>0)entry.second.delay=signed_bits(std::uint32_t(entry.second.delay)-std::uint32_t(dt));for(std::size_t i=0;i<contexts_.size();++i)if(!execute(i,dt,error))return false;error.clear();return true;}catch(const std::exception&e){return fail(e.what(),error);}
+}
+bool OriginalCampaignRuntime::register_trigger(const std::string&key,const std::map<std::string,std::string>&attributes,std::string&error){
+ if(failed()){error=failure_;return false;}
+ if(key.empty()||attributes.find("name")==attributes.end()){error="Trigger registration needs key and source name";return false;}
+ if(triggers_.count(key)){error="Duplicate source trigger key";return false;}
+ OriginalCampaignTrigger value;value.key=key;value.attributes=attributes;triggers_.emplace(key,std::move(value));error.clear();return true;
+}
+std::size_t OriginalCampaignRuntime::abandon_running_scripts(){
+ std::size_t abandoned=0;
+ for(auto&ctx:contexts_)if(ctx.state!=2){ctx={};++abandoned;}
+ failure_.clear();ticking_=false;
+ return abandoned;
 }
 bool OriginalCampaignRuntime::trigger_contact(const std::string&key,bool inside,bool qualified,int module,std::string&error){
  if(failed()){error=failure_;return false;}auto t=triggers_.find(key);if(t==triggers_.end()){error="Unknown source trigger key";return false;}if(!qualified){error.clear();return true;}

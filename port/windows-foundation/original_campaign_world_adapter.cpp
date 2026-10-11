@@ -14,8 +14,15 @@ bool OriginalCampaignWorldAdapter::command(CampaignCommandPhase phase,const Orig
  blocking=false;error.clear();try{
   if(c.kind==4||c.kind==8){if(!camera_){if(c.kind==4)return true;error="Source camera command requires bound CampaignCameraAdapter";return false;}bool handled=false;if(!camera_->command(phase,c,skip,handled,blocking,error))return false;if(!handled){error="Source camera adapter did not handle command";return false;}return true;}
   if(c.kind==10||c.kind==12)return effect(providers_.dialog,"dialog",error,c,phase,blocking);
+  if(c.kind==5)return effect(providers_.camera_clip,"camera clip",error,c,phase,blocking); // P16 CINE2
+  // P16 FIX16: 13/15/40/44/54/55/63/68 (PlaySound, PlayLevelMusic, MoveActor, KillActor, OpenDoor, CloseDoor, RestartLevel,
+  // ShowTrophies) are stubbed by the host's verb table (logged once, non-blocking).
+  if(c.kind==41||c.kind==42||c.kind==43||c.kind==45||c.kind==46||c.kind==29||c.kind==6||c.kind==19||c.kind==20||c.kind==21||c.kind==14||c.kind==51||c.kind==52||c.kind==13||c.kind==15||c.kind==40||c.kind==44||c.kind==54||c.kind==55||c.kind==63||c.kind==68){ // P16 OPENING
+    if(!providers_.actor_verb){error="Unbound original campaign provider: actor verb";return false;}
+    if(providers_.actor_verb(c,phase,module,blocking,error))return true;
+    if(error.empty())error="Original campaign provider failed: actor verb";return false;}
   if(c.kind==22||c.kind==23){auto wait=scalar(c,20);if(wait>1){error="Invalid source Flash wait byte";return false;}return effect(providers_.flash,"flash",error,c.kind==22,text(c,16),scalar(c,8),wait!=0,phase,blocking);}
-  switch(c.kind){case 1:case 2:case 24:case 25:case 30:case 31:case 32:case 39:case 69:case 70:case 77:case 78:case 79:case 27:case 28:break;default:error="Unsupported original campaign command kind "+std::to_string(c.kind)+" ("+c.class_name+")";return false;}
+  switch(c.kind){case 1:case 2:case 3:case 24:case 25:case 30:case 31:case 32:case 39:case 69:case 70:case 77:case 78:case 79:case 27:case 28:case 16:case 17:break;default:error="Unsupported original campaign command kind "+std::to_string(c.kind)+" ("+c.class_name+")";return false;}
   // Actual source bodies for these kinds are nonblocking and inherit empty Update.
   if(phase!=CampaignCommandPhase::execute)return true;
   switch(c.kind){
@@ -54,6 +61,9 @@ bool OriginalCampaignWorldAdapter::command(CampaignCommandPhase phase,const Orig
    return effect(providers_.consume_tutorial,"consume source tutorial flag",error,tutorial)&&effect(providers_.save_tutorial_settings,"save source tutorial settings",error,gate.settings_menu_open);
   }
   case 79:return effect(providers_.flush_messages,"flush messages",error);
+  // P17 SAFEZONE: Enter (16) / Leave (17) switch the level music to the safezone track and back.
+  case 16:case 17:return effect(providers_.safe_zone,"safe zone",error,c.kind==16);
+  case 3:return true; // OPENING2: Script_CONSOLE is a debug command; release builds do not show it (no-op, never blocks)
   default:error="Unsupported original campaign Execute";return false;
   }
  }catch(const std::exception&e){error=e.what();return false;}

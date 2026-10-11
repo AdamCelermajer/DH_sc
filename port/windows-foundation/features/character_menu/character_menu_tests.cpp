@@ -54,6 +54,8 @@ int main(){try{
           "zero stat points did not select four source deactivated training-button overlays");
     properties.sheets.resolved[148]=3*256;
     for(const auto& zone:original_menu_hit_zones()){
+        // P16 map controls answer only on the Map tab; checked below.
+        if(zone.action==Action::map_legend||zone.action==Action::map_reset_zoom)continue;
         check(zone.triangles.size()>=3&&zone.triangles.size()%3==0,"original source hit contour malformed");
         auto x=(zone.triangles[0].x+zone.triangles[1].x+zone.triangles[2].x)/3;
         auto y=(zone.triangles[0].y+zone.triangles[1].y+zone.triangles[2].y)/3;
@@ -73,7 +75,58 @@ int main(){try{
     check(menu.release(faery_x*2,faery_y*2,960,640)==Action::faery&&menu.tab()==Tab::faery,
           "source Faery tab release did not select the provider route");
     check(menu.select(Tab::stats,error),"source Stats tab did not return from Faery");
-    check(menu.select(Tab::equipment,error)&&menu.frame(bindings,960,640,frame,error),"original equipment pane missing");
+    // P16 QUESTUI Quest Log tab (5th): its own hit zone selects the quest page, and the Map tab's
+    // zone (6th) is a different control, so the two tabs never answer for each other.
+    auto quest_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::quest;});
+    check(quest_zone!=original_menu_hit_zones().end(),"source Quest Log tab hit contour absent");
+    const auto quest_x=(quest_zone->triangles[0].x+quest_zone->triangles[1].x+quest_zone->triangles[2].x)/3;
+    const auto quest_y=(quest_zone->triangles[0].y+quest_zone->triangles[1].y+quest_zone->triangles[2].y)/3;
+    check(menu.release(quest_x*2,quest_y*2,960,640)==Action::quest&&menu.tab()==Tab::quest,"Quest Log tab release did not select the quest page");
+    check(menu.select(Tab::stats,error),"source Stats tab did not return from Quest Log");
+    // P16 MAPFIX: the Quest Log and Map tab rectangles overlapped (Quest 369-432, Map 421-484). P16 QUESTUI2
+    // (e91be20a) narrowed the Quest Log contour to 369.05-420.95, so the two tabs touch and do not overlap. Each tab
+    // answers in its own part (window size 960x640 = sheet x2); the boundary belongs to Map.
+    check(menu.hit_test(380*2,12*2,960,640)==Action::quest,"Quest Log exclusive part not hit");
+    check(menu.hit_test(470*2,12*2,960,640)==Action::map,"Map exclusive part not hit");
+    check(menu.hit_test(418*2,12*2,960,640)==Action::quest,"Quest Log tab edge (left of the seam at 420.95) not answered by Quest Log");
+    check(menu.hit_test(424*2,12*2,960,640)==Action::map,"Map tab (right of the seam at 420.95) not answered by Map");
+    // P16 Map tab: its tab icon hit zone selects it; the legend toggles and the reset request
+    // answer only there, and the legend popup appears in the frame only while it is shown.
+    auto map_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::map;});
+    check(map_zone!=original_menu_hit_zones().end(),"source Map tab hit contour absent");
+    // P16 QUESTUI2: the Quest Log zone ends where the Map zone starts (they overlapped by 11.5 authored px before).
+    {
+        const auto x_range=[](const auto& zone){
+            float lo=zone.triangles[0].x,hi=lo;
+            for(const auto& v:zone.triangles){lo=std::min(lo,v.x);hi=std::max(hi,v.x);}
+            return std::pair<float,float>{lo,hi};
+        };
+        const auto quest_range=x_range(*quest_zone),map_range=x_range(*map_zone);
+        check(quest_range.second<=map_range.first+1e-3f,"Quest Log and Map tab hit zones overlap");
+    }
+    const auto map_x=(map_zone->triangles[0].x+map_zone->triangles[1].x+map_zone->triangles[2].x)/3;
+    const auto map_y=(map_zone->triangles[0].y+map_zone->triangles[1].y+map_zone->triangles[2].y)/3;
+    check(menu.release(map_x*2,map_y*2,960,640)==Action::map&&menu.tab()==Tab::map,"Map tab release did not select the Map page");
+    auto legend_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::map_legend;});
+    check(legend_zone!=original_menu_hit_zones().end(),"Map Show legend hit contour absent");
+    const auto legend_x=(legend_zone->triangles[0].x+legend_zone->triangles[1].x+legend_zone->triangles[2].x)/3;
+    const auto legend_y=(legend_zone->triangles[0].y+legend_zone->triangles[1].y+legend_zone->triangles[2].y)/3;
+    check(menu.hit_test(legend_x*2,legend_y*2,960,640)==Action::map_legend,"Map legend control not hit on Map tab");
+    check(menu.frame(bindings,960,640,frame,error),error.c_str());
+    check(!menu.map_legend_shown(),"legend shown before its control was used");
+    check(menu.release(legend_x*2,legend_y*2,960,640)==Action::map_legend&&menu.map_legend_shown(),"Show legend did not toggle the popup");
+    check(menu.release(legend_x*2,legend_y*2,960,640)==Action::map_legend&&!menu.map_legend_shown(),"Show legend did not toggle back");
+    check(menu.release(legend_x*2,legend_y*2,960,640)==Action::map_legend&&menu.map_legend_shown(),"Show legend third toggle");
+    auto reset_zone=std::find_if(original_menu_hit_zones().begin(),original_menu_hit_zones().end(),[](const auto& z){return z.action==Action::map_reset_zoom;});
+    check(reset_zone!=original_menu_hit_zones().end(),"Map Reset zoom hit contour absent");
+    const auto reset_x=(reset_zone->triangles[0].x+reset_zone->triangles[1].x+reset_zone->triangles[2].x)/3;
+    const auto reset_y=(reset_zone->triangles[0].y+reset_zone->triangles[1].y+reset_zone->triangles[2].y)/3;
+    check(!menu.take_map_reset_zoom(),"reset request present before use");
+    check(menu.release(reset_x*2,reset_y*2,960,640)==Action::map_reset_zoom&&menu.take_map_reset_zoom(),"Reset zoom request not raised on Map tab");
+    check(!menu.take_map_reset_zoom(),"reset request not consumed");
+    check(menu.select(Tab::stats,error)&&menu.hit_test(legend_x*2,legend_y*2,960,640)!=Action::map_legend,"Map control hit outside the Map tab");
+    check(menu.select(Tab::map,error)&&menu.map_legend_shown(),"legend state lost across tabs");
+    check(menu.select(Tab::stats,error)&&menu.select(Tab::equipment,error)&&menu.frame(bindings,960,640,frame,error),"original equipment pane missing");
     const auto retained_name=character.name;const auto retained_health=actor.health;
     unsigned calls=0;bindings.content=[&](Tab tab,Frame& f,std::string&){
         check(tab==Tab::equipment,"borrowed content given wrong tab");++calls;

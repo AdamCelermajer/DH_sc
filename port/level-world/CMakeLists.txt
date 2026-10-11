@@ -295,7 +295,7 @@ target_sources(dh2_level_world PRIVATE canonical_property_map_v1.cpp canonical_g
 target_sources(dh2_level_world PRIVATE character_mesh_fx_owner_v2.cpp
  character_blood_fx_resource_v2.cpp character_authored_particle_fx_v3.cpp character_combat_hit_fx_v2.cpp
  character_animation_step_fx_v2.cpp character_animation_swoosh_v4.cpp
- source_fx_node_matrix_v4.cpp authored_fx_mesh_graph_v4.cpp
+ source_fx_node_matrix_v4.cpp source_fx_billboard_basis_v1.cpp authored_fx_mesh_graph_v4.cpp
  character_authored_particle_fx_v4.cpp character_authored_fx_forces_v4.cpp
     character_authored_resource_v5.cpp
     character_authored_resource_v6.cpp authored_fx_mesh_graph_v6.cpp

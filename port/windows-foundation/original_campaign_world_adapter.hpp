@@ -21,9 +21,18 @@ struct OriginalCampaignWorldProviders {
     std::function<bool(ActorId,bool& allowed,std::string&)> idle_gate;
     std::function<bool(ActorId,bool wait_for_animation,std::string&)> set_idle;
     std::function<bool(bool entering,std::string&)> cutscene_mode;
+    // P17 SAFEZONE: Script_EnterSafeZone (kind 16) and Script_LeaveSafeZone (kind 17). Non-blocking (IsBlocking 0).
+    // IDA Script_EnterSafeZone::Execute only sets VoxSoundManager's in-safe-zone flag, which switches the music to the
+    // level's safezone track; Leave clears it. No save, HUD or checkpoint effect is in either Execute.
+    std::function<bool(bool entering,std::string&)> safe_zone;
     std::function<bool(bool show,const std::string& menu,std::uint32_t duration,bool wait,
                        CampaignCommandPhase,bool& blocking,std::string&)> flash;
     std::function<bool(const OriginalCampaignCommand&,CampaignCommandPhase,bool& blocking,std::string&)> dialog;
+    // P16 CINE2: PlayCamera (kind 5). Execute starts the clip; is_blocking waits while it plays (IDA 0x459370).
+    std::function<bool(const OriginalCampaignCommand&,CampaignCommandPhase,bool& blocking,std::string&)> camera_clip;
+    // P16 OPENING: actor verbs (Show/Hide/Look/SetActorPosition/PlayActorAnim/PutCharacterInLimbus) and the logged stubs of
+    // verbs without an owner. module is the script context (name lookup).
+    std::function<bool(const OriginalCampaignCommand&,CampaignCommandPhase,int module,bool& blocking,std::string&)> actor_verb;
     // P14 FAERY (T3): same-owner source Faery script effects (commands 27/28).
     std::function<bool(std::uint32_t slot,std::uint32_t state,std::string&)> set_faery_state;
     std::function<bool(std::uint32_t slot,std::string&)> inc_faery_level;

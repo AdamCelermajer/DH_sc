@@ -31,6 +31,8 @@ public:
     bool should_close() const noexcept;
     bool key_down(int virtual_key) const noexcept;
     bool cursor_position(float& client_x,float& client_y) const noexcept;
+    // P16 MAPFIX: mouse-wheel notches (120 units each) since the last call; the sub-notch remainder is kept.
+    int take_wheel_notches() noexcept;
     bool focused() const noexcept;
     bool minimized() const noexcept;
     const std::string& error() const noexcept;

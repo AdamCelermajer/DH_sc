@@ -155,6 +155,9 @@ struct CombatSessionSourceSequencePolicy {
     ActorId source_other_actor=invalid_actor_id; // KnockBack attacker only.
     bool source_knockback_great=false;
     bool source_direct_transition=false;
+    // P16 LIFECYCLE: legacy OriginalActorLifecycle program target (1 Spawn, 3 Idle, 17 PreSpawn).
+    // Required when a physical transition handler is bound; -1 otherwise.
+    std::int32_t lifecycle_to_state=-1;
 };
 struct CombatSessionObjectAnimationServices {
     // Consumers may select/remove object visuals, but must defer Session
@@ -339,10 +342,19 @@ public:
     // and clears selections. Call before external target queries after a change.
     bool refresh_actor_combat_permissions(std::string& error);
     bool set_actor_original_state(ActorId,std::int32_t state,std::string& error);
+    // P16 LIFECYCLE: lifecycle_to_state is the OriginalActorLifecycle target. With a bound physical transition
+    // handler it is required: the change is delivered as Blur -> publish -> Focus prefix, the selection, then Focus suffix.
     bool select_actor_state_leaf(ActorId,const CombatSessionChoice&,double actor_rate,bool frozen,
-                                CombatSessionStateAnimationServices,std::string& error);
+                                CombatSessionStateAnimationServices,std::string& error,
+                                std::int32_t lifecycle_to_state=-1);
     bool play_actor_state_sequence(ActorId,const OriginalAttackSelection&,
-                                  CombatSessionStateAnimationServices,std::string& error);
+                                  CombatSessionStateAnimationServices,std::string& error,
+                                  std::int32_t lifecycle_to_state=-1);
+    // P16 OPENING: scripted actor clip (PlayActorAnim). Seeds the named clip from its BDAE path on the actor's retained
+    // playback. No lifecycle callbacks run: completion does not change the actor's source state. The duration is the
+    // clip's authored range (end - start) reported by the actor visual.
+    bool play_actor_clip(ActorId,const std::string& clip,const std::string& path,bool loop,std::string& error);
+    bool actor_clip_duration_ms(ActorId,const std::string& clip,std::int32_t& duration_ms,std::string& error)const;
     // External original skill/cinematic programs execute through the SAME
     // retained pose owner and session clock. Their clips must already be loaded
     // in this actor's visual. Preparation copies metadata; caller banks need
@@ -365,6 +377,9 @@ public:
                                       bool& departed,std::string& error);
     bool freeze_actor_state_animation(ActorId,std::string& error);
     bool validate_lifecycle_checkpoint(std::string& error)const;
+    // D3 (OPENING3): the campaign host serializes its lifecycle state into the GameSave components (campaign_lifecycle_v1)
+    // and rebuilds it on restore, so the bound lifecycle/controller providers are checkpointable. Off by default.
+    void set_lifecycle_serialized_by_host(bool serialized) noexcept;
     // Host must clear its OriginalActorLifecycle borrowed records as well before
     // actor replacement. These lifecycle providers/state flags are not serialized.
     bool clear_lifecycle_services(std::string& error);

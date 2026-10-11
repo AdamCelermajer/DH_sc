@@ -3,7 +3,14 @@
   "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
   "frame_policy": "actual source defaultStats328+386; selected main tab icon sampled at frame32 for Stats/Inventory/Skills/Faery (full source alpha); Faery page art/content comes from its independent provider; source stat-training sprite316 frame10 when resolved Stat_Points property148 is zero; otherwise idle frame0; detail/resistance named frames retained; other AS dynamics unavailable",
   "viewport": "actualFlashCamera mode0 independentaxisstretch; nofitletterbox",
-  "mask_applications": [],
+  "mask_applications": [
+    {
+      "path": "menu_MapSheet/iconsContainer",
+      "mask_vertices": 6,
+      "input_vertices": 12,
+      "output_vertices": 0
+    }
+  ],
   "excluded": [
     {
       "path": "menu_CharacterSheetNew/Energy/btn_train_energy/anim_glow/1",
@@ -168,6 +175,11 @@
     {
       "path": "menu_SkillTreeSheetNew/buttons/skill15/untrained",
       "reason": "mask/color/filter branch excluded"
+    },
+    {
+      "path": "menu_MapSheet/2",
+      "character": 600,
+      "reason": "Shape 600: bitmap is not original HUD atlas1"
     }
   ]
 }

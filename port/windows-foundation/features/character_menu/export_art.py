@@ -54,7 +54,12 @@ if '--inspect' in sys.argv:
 def transform(m,x,y):return ((m[0]*x+m[2]*y+m[4])/20,(m[1]*x+m[3]*y+m[5])/20)
 def vertices(record,m):
     return [[*transform(m,x,y),u,v] for x,y,u,v in record['triangles']]
-excluded={'hitzone','flush_text','btn_ClickPreventer','btn_ClickPreventer2','btn_Dragging'}
+excluded={'hitzone','flush_text','btn_ClickPreventer','btn_ClickPreventer2','btn_Dragging',
+    # P16 map: the legend popup is shown only after Show legend; exported separately as art4_legend.
+    'LegendPopup',
+    # P16 map: MapIconsDynamic clips are per-type icons; drawn by the host from their authored frames (mapIconN).
+    'MapIconsDynamic','MapIconsDynamic1','MapIconsDynamic2','MapIconsDynamic3','MapIconsDynamic4','MapIconsDynamic5','MapIconsDynamic6',
+    'MapIconsDynamic7','MapIconsDynamic8','MapIconsDynamic9','MapIconsDynamic10','MapIconsDynamic11','MapIconsDynamic12'}
 skipped=[];mask_applications=[];source_solids=[]
 def mask_vertices(char,m,depth=0):
     if depth>30:raise ValueError('mask nesting bound')
@@ -106,7 +111,7 @@ def walk(char,m,path,art,text,depth=0,active_tab='stats',has_stat_points=True):
     if char==265:
         # CharacterMenu tab buttons reveal their red TabIcon during the source
         # highlight tween. Freeze at its fully-visible authored frame (32).
-        active_buttons={'stats':'btnCharacterSheet','equipment':'btnInventoryTab','skills':'btnSkillTreeTab','faery':'btnFaeriesTab'}
+        active_buttons={'stats':'btnCharacterSheet','equipment':'btnInventoryTab','skills':'btnSkillTreeTab','faery':'btnFaeriesTab','map':'btnMapTab','quest':'btnQuestLogTab'}
         if path.endswith('/'+active_buttons[active_tab]):frame=32
     if char==316 and not has_stat_points:
         # Original CharacterSheetNew.Init/point update calls deactivated on all
@@ -127,6 +132,10 @@ def walk(char,m,path,art,text,depth=0,active_tab='stats',has_stat_points=True):
     if char==347:
         for name in ('Fire','Water','Lightning','Earth','Air'):
             if path.endswith('/'+name):frame=labels[347][name]
+    if char==654:
+        # P16 map: LegendPopup idles off-screen at frame 0 and slides in over 'show' (frame 1) .. 'hide'-1 (frame 13);
+        # the legend is shown at its settled frame.
+        frame=labels[654]['hide']-1
     masks=[]
     for dep,p in sorted(sprites[char][frame].items()):
         masks=[active for active in masks if dep<=active[0]]
@@ -166,8 +175,21 @@ def walk(char,m,path,art,text,depth=0,active_tab='stats',has_stat_points=True):
             skipped.append({'path':path+'/'+name,'reason':'masked text requires actual glyph clip sink; excluded'});del text[first_text:]
 def placement(name):return swf.placed_path(root,name)
 tabs=placement('menu_CharacterMenu');panels=[placement(n) for n in('menu_CharacterSheetNew','menu_InventorySheetMain','menu_SkillTreeSheetNew')]+[None]
+# P16 map: index 4 = the Map tab page (menu_MapSheet sprite 655); its RenderMap rectangle is drawn by the host.
+panels.append(placement('menu_MapSheet'))
+# P16 QUESTUI: index 5 = the Quest Log tab chrome (no source panel; the runtime quest page is drawn by the host).
+panels.append(None)
 def numbers(v):return '{'+','.join(swf.cpp_number(float(n)) for n in v)+'}'
 lines=['// Generated original dqcharmenu contours and source-selected CharacterMenu tab / stat-point states.','#include "character_menu.hpp"','namespace dh::foundation::character_menu {']
+def emit_block(art_name,art,text,first_solid):
+    # One MenuArt variant: contours, text fields and source solid batches (verbatim emission).
+    lines.append(f'static const MenuArt {art_name}{{')
+    lines.append('{'+','.join('{'+json.dumps(path)+','+str(char)+',{'+','.join(numbers(v) for v in verts)+'}}' for path,char,verts in art if verts)+'},')
+    lines.append('{'+','.join('{'+json.dumps(path)+','+str(char)+','+str(rec['font'])+','+swf.cpp_number(rec['height_twips']/20)+','+numbers(bounds)+',{'+','.join(str(c) for c in rec['rgba'])+'},'+str(rec['layout'].get('align',0))+','+numbers(m[:4]+[m[4]/20,m[5]/20])+','+numbers([v/20 for v in rec['bounds_twips']])+','+numbers([rec['layout'].get(key,0)/20 for key in('left_margin','right_margin','indent')])+','+swf.cpp_number(rec['layout'].get('leading',0)/20)+'}' for path,char,rec,bounds,m in text)+'}')
+    lines[-1]+=','
+    lines.append('{'+','.join('{{'+json.dumps(role)+','+str(ident)+',{'+','.join(numbers(v) for v in verts)+'}},'+numbers(color)+','+json.dumps(after)+'}' for role,ident,verts,color,after in source_solids[first_solid:])+'}')
+    lines.append('};')
+
 for index,panel in enumerate(panels):
   variants=[(True,'art'+str(index))] if index else [(True,'art0'),(False,'art0_no_points')]
   for has_stat_points,art_name in variants:
@@ -177,17 +199,45 @@ for index,panel in enumerate(panels):
     # Actual CharacterMenu.ChangeToStats source59545/59559 pushes BOTH these
     # source sheets; the second is the right-hand default statistics page.
     if index==0:selected.append(placement('menu_CharacterSheetStats'))
-    for p in selected:walk(p['character'],p['matrix'],p.get('name','panel'),art,text,0,('stats','equipment','skills','faery')[index],has_stat_points)
-    lines.append(f'static const MenuArt {art_name}{{')
-    lines.append('{'+','.join('{'+json.dumps(path)+','+str(char)+',{'+','.join(numbers(v) for v in verts)+'}}' for path,char,verts in art if verts)+'},')
-    lines.append('{'+','.join('{'+json.dumps(path)+','+str(char)+','+str(rec['font'])+','+swf.cpp_number(rec['height_twips']/20)+','+numbers(bounds)+',{'+','.join(str(c) for c in rec['rgba'])+'},'+str(rec['layout'].get('align',0))+','+numbers(m[:4]+[m[4]/20,m[5]/20])+','+numbers([v/20 for v in rec['bounds_twips']])+','+numbers([rec['layout'].get(key,0)/20 for key in('left_margin','right_margin','indent')])+','+swf.cpp_number(rec['layout'].get('leading',0)/20)+'}' for path,char,rec,bounds,m in text)+'}')
-    lines[-1]+=','
-    lines.append('{'+','.join('{{'+json.dumps(role)+','+str(ident)+',{'+','.join(numbers(v) for v in verts)+'}},'+numbers(color)+','+json.dumps(after)+'}' for role,ident,verts,color,after in source_solids[first_solid:])+'}')
-    lines.append('};')
-lines.append('const MenuArt& original_menu_art(Tab tab,bool has_stat_points){switch(tab){case Tab::equipment:return art1;case Tab::skills:return art2;case Tab::faery:return art3;default:return has_stat_points?art0:art0_no_points;}}')
+    for p in selected:walk(p['character'],p['matrix'],p.get('name','panel'),art,text,0,('stats','equipment','skills','faery','map','quest')[index],has_stat_points)
+    emit_block(art_name,art,text,first_solid)
+    if index==4:
+        # P16 map legend popup (LegendPopup inside menu_MapSheet), shown only while legend is on.
+        legend_placed=swf.placed_path(sprites[panel['character']],'LegendPopup')
+        legend_m=swf.multiply(panel['matrix'],legend_placed['matrix']);legend_art=[];legend_text=[];legend_first=len(source_solids)
+        walk(legend_placed['character'],legend_m,'menu_MapSheet/LegendPopup',legend_art,legend_text,0,'map',True)
+        emit_block('art4_legend',legend_art,legend_text,legend_first)
+# P16 map icons: MapIconsDynamic (sprite 614) frame t is the authored icon of type t (labels: Objective 0,
+# Entrance 1, Exit 2, Character 3, Enemies 4, Champion 5, Boss 6, Player2..4 7..9, QuestGiver 10, Merchant 11,
+# Checkpoint 12, Arrow 13). The host draws icon art with its origin at the marker position.
+for t in range(14):
+    icon_art=[];icon_text=[];icon_first=len(source_solids)
+    for dep,p in sorted(sprites[614][t].items()):
+        walk(p['character'],p['matrix'],'menu_MapIcon/%d'%t,icon_art,icon_text,0,'map',True)
+    emit_block('mapIcon%d'%t,icon_art,icon_text,icon_first)
+lines.append('static const MenuArt mapIconNone{};')
+lines.append('const MenuArt& original_map_icon_art(unsigned type){switch(type){'+''.join('case %d:return mapIcon%d;'%(t,t) for t in range(14))+'default:return mapIconNone;}}')
+# P16 map legend icons: the twelve MapIconsDynamicK placements in LegendPopup/WarningBox, each showing the
+# icon type of its legend caption (iconTextK in menu_text.cpp): 1 Checkpoint, 2 Entrance, 3 Exit, 4 NPC (QuestGiver),
+# 5 Merchant, 7 Character, 8 Enemies, 9 Objective, 10 Arrow (Unexplored area).
+# Settled legend frame (13), like the walk of LegendPopup above.
+warning_placed=[p for d,p in sorted(sprites[legend_placed['character']][labels[654]['hide']-1].items()) if p.get('name')=='WarningBox'][0]
+legend_icon_types={1:12,2:1,3:2,4:10,5:11,7:3,8:4,9:0,10:13}
+legend_entries=[]
+for k,t in legend_icon_types.items():
+    icon_placed=swf.placed_path(sprites[warning_placed['character']],'MapIconsDynamic%d'%k)
+    icon_m=swf.multiply(swf.multiply(legend_m,warning_placed['matrix']),icon_placed['matrix'])
+    legend_entries.append('{%d,%s,%s}'%(t,swf.cpp_number(icon_m[4]/20),swf.cpp_number(icon_m[5]/20)))
+lines.append('const std::vector<MapLegendIcon>& original_map_legend_icons(){static const std::vector<MapLegendIcon> icons{'+','.join(legend_entries)+'};return icons;}')
+# P16 map parchment: SWF shape 600 fill style 0 is bitmap 2 (ExportAssets tag: menus/map_bottom.tga, 1024 px PVRTC4 BTEX).
+# Its edges span the RenderMap rectangle (bounds 13.6,48.35 - 472.9,277.25 authored px); fill matrix 26.6094970703125
+# twips per texel with offset (-3599,-3417) twips (probed from the shape 600 style list, see the P16 map report).
+lines.append('const MapParchmentSource& original_map_parchment(){static const MapParchmentSource source{13.6f,48.35f,472.9f,277.25f,26.6094970703125f,-3599.0f,-3417.0f,"data/3D/textures/map_bottom.tga"};return source;}')
+lines.append('const MenuArt& original_menu_art(Tab tab,bool has_stat_points){switch(tab){case Tab::equipment:return art1;case Tab::skills:return art2;case Tab::faery:return art3;case Tab::quest:return art5;case Tab::map:return art4;default:return has_stat_points?art0:art0_no_points;}}')
+lines.append('const MenuArt& original_map_legend_art(){return art4_legend;}')
 tabs_child=swf.placed_path(sprites[tabs['character']],'CharacterMenuTabs')
 tab_matrix=swf.multiply(tabs['matrix'],tabs_child['matrix']);zones=[]
-for name,action in [('btnCharacterSheet','stats'),('btnInventoryTab','equipment'),('btnSkillTreeTab','skills'),('btnFaeriesTab','faery'),('btnBack','close')]:
+for name,action in [('btnCharacterSheet','stats'),('btnInventoryTab','equipment'),('btnSkillTreeTab','skills'),('btnFaeriesTab','faery'),('btnQuestLogTab','quest'),('btnMapTab','map'),('btnBack','close')]:
     button=swf.placed_path(sprites[tabs_child['character']],name)
     m=swf.multiply(tab_matrix,button['matrix']);child_name='btimg' if action=='close' else 'hitzone'
     hit=swf.placed_path(sprites[button['character']],child_name)
@@ -199,8 +249,17 @@ for name,action in [('btnCharacterSheet','stats'),('btnInventoryTab','equipment'
     if not zone_art:raise ValueError('source hit contour missing '+name)
     zone_vertices=[v for _,_,verts in zone_art for v in verts]
     zones.append('{Action::'+action+','+json.dumps(name)+',{'+','.join(numbers(v) for v in zone_vertices)+'}}')
+# P16 map controls (Show legend / Reset zoom, sprite 623 placed in menu_MapSheet). Hit contours
+# come from the same walk as the visible button; the presenter accepts them only on the Map tab.
+mapsheet=placement('menu_MapSheet')
+for name,action in [('btn_Legend','map_legend'),('btn_ResetZoom','map_reset_zoom')]:
+    button=swf.placed_path(sprites[mapsheet['character']],name)
+    m=swf.multiply(mapsheet['matrix'],button['matrix']);zone_art=[];zone_text=[]
+    walk(button['character'],m,name,zone_art,zone_text)
+    if not zone_art:raise ValueError('source map control contour missing '+name)
+    zone_vertices=[v for _,_,verts in zone_art for v in verts]
+    zones.append('{Action::'+action+','+json.dumps(name)+',{'+','.join(numbers(v) for v in zone_vertices)+'}}')
 lines.append('const std::vector<MenuHitZone>& original_menu_hit_zones(){static const std::vector<MenuHitZone> zones{'+','.join(zones)+'};return zones;}')
 lines.append('}')
-Path(__file__).with_name('original_art.cpp').write_text('\n'.join(lines)+'\n')
+raise SystemExit('export_art.py: regeneration of original_art.cpp is disabled: the shared hit-only style reader drops solid batches and empties quest/tab hit zones (see coordination/claude-preview16/QUESTUI-report.md). Splice by hand.')
 Path(__file__).with_name('source_layout.json').write_text(json.dumps({'source':str(path.relative_to(ROOT)),'sha256':hashlib.sha256(raw).hexdigest(),'frame_policy':'actual source defaultStats328+386; selected main tab icon sampled at frame32 for Stats/Inventory/Skills/Faery (full source alpha); Faery page art/content comes from its independent provider; source stat-training sprite316 frame10 when resolved Stat_Points property148 is zero; otherwise idle frame0; detail/resistance named frames retained; other AS dynamics unavailable','viewport':'actualFlashCamera mode0 independentaxisstretch; nofitletterbox','mask_applications':mask_applications,'excluded':skipped},indent=2))
-print('generated original art',len(lines),'lines; unsupported branches',len(skipped))

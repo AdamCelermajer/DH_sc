@@ -2,6 +2,7 @@
 
 #include "../skill_ui/original_skill_art.hpp"
 #include "pc_gameplay_hud_button_art_v1.hpp"
+#include "../hud_panels/hud_panels_art_v1.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -227,6 +228,20 @@ bool append_source_hud_icon(const std::vector<HudGeometryVertex>& source,
     return true;
 }
 
+// P16 HUDART: original stage-space batches (btn_interact art, already in the 480x320 stage: no fit, no offset).
+void append_stage_batches(const std::vector<PcGameplayHudArtBatchV1>& source,
+                          const std::string& role, frontend::art::ScreenArt& art) {
+    for (const auto& src : source) {
+        HudGeometryBatch batch;
+        batch.role = role + "/shape" + std::to_string(src.source_shape_id);
+        batch.shape_id = src.source_shape_id;
+        batch.triangles = src.triangles;
+        art.batches.push_back(std::move(batch));
+        art.bitmap_ids.push_back(src.bitmap ? 1u : 0u); // MenusGraphics_droid atlas bitmap1, or solid tint
+        art.batch_colors.push_back({src.rgba[0], src.rgba[1], src.rgba[2], src.rgba[3]});
+    }
+}
+
 void append_key_label(const PcGameplayHudCirclePlacementV1& p,
                       const std::string& label, float height,
                       frontend::art::ScreenArt& art) {
@@ -374,6 +389,17 @@ bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
         : std::string("5");
     append_key_label(layout.potion, potion_label, layout.key_label_height, next.art);
     next.actions[4] = {platform_input::Control::potion, 5};
+    // P16 HUDART: bottom-right action button = the original btn_interact movie (ring, pressed ring and the btimg icon),
+    // drawn at its authored stage position. The pressed ring shows while Space is held (PC adaptation of the touch-down state).
+    if (layout.action_enabled) {
+        const auto& idle = hud_panels::action_base_v1();
+        const auto& pressed = hud_panels::action_pressed_v1();
+        append_stage_batches(layout.action_pressed ? pressed : idle, "pc_hud/action", next.art);
+        const auto icon = layout.action_icon >= 0 &&
+            static_cast<std::size_t>(layout.action_icon) < hud_panels::action_icon_count_v1()
+            ? static_cast<std::size_t>(layout.action_icon) : std::size_t{5}; // out of range -> Attack (source table)
+        append_stage_batches(hud_panels::action_icon_v1(icon), "pc_hud/action_icon", next.art);
+    }
     output = std::move(next);
     error.clear();
     return true;

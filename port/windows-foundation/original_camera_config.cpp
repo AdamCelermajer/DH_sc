@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <iostream>
 #include <limits>
 #include <stdexcept>
 
@@ -19,7 +20,8 @@ float fromBits(std::uint32_t bits){float v;std::memcpy(&v,&bits,4);return v;}
 void require(bool ok,const std::string& error){if(!ok)throw std::runtime_error(error);}
 dh2::data::Bytes bytes(const std::vector<std::uint8_t>& v){return {v.data(),v.size()};}
 bool finite(CameraVec3 v){return std::isfinite(v.x)&&std::isfinite(v.y)&&std::isfinite(v.z);}
-TiXmlElement* levelConfig(TiXmlDocument& doc,const std::vector<std::uint8_t>& data){
+// P16 LEVELS: required=false returns nullptr for a level without LevelConfig (debug maps); callers use the InitPost defaults.
+TiXmlElement* levelConfig(TiXmlDocument& doc,const std::vector<std::uint8_t>& data,bool required=true){
     if(data.empty()||data.size()>8*1024*1024)throw std::runtime_error("Selected level XML outside bounds");
     std::string xml(data.begin(),data.end());
     if(xml.find('\0')!=std::string::npos)throw std::runtime_error("NUL in selected level XML");
@@ -29,7 +31,7 @@ TiXmlElement* levelConfig(TiXmlDocument& doc,const std::vector<std::uint8_t>& da
     auto inspect=[&](TiXmlElement* n){const char* type=n->Attribute("gametype");if(type&&std::string(type)=="LevelConfig"){
         if(result)throw std::runtime_error("Multiple LevelConfig declarations");result=n;}};
     inspect(root);for(auto* n=root->FirstChildElement();n;n=n->NextSiblingElement())inspect(n);
-    if(!result)throw std::runtime_error("Selected level has no LevelConfig");return result;
+    if(!result&&required)throw std::runtime_error("Selected level has no LevelConfig");return result;
 }
 void overrideConfig(const TiXmlElement& node,OriginalCameraConfig& out){
     if(const auto* s=node.Attribute("camera_file"))out.file=*s?s:"data/3D/camera/CameraTests.bdae";
@@ -104,13 +106,14 @@ OriginalGameplayCamera& OriginalGameplayCamera::operator=(OriginalGameplayCamera
 bool OriginalGameplayCamera::load(const AssetCatalog& assets,const std::string& levelUri,const std::filesystem::path& fallbackRoot,std::string& error){
     try{
         auto next=std::make_unique<Impl>();
-        TiXmlDocument doc;auto* config=levelConfig(doc,read_content(assets,levelUri));
-        const auto* tpl=config->Attribute("template");
+        TiXmlDocument doc;auto* config=levelConfig(doc,read_content(assets,levelUri),false);
+        if(!config){static bool noticed=false;if(!noticed){noticed=true;std::cerr<<"Level notice: no LevelConfig; original InitPost camera defaults used (unverified for this level)" << std::endl;}}
+        const auto* tpl=config?config->Attribute("template"):nullptr;
         if(tpl&&*tpl){TiXmlDocument templateDoc;auto data=read_content(assets,tpl,levelUri);
             auto* templateConfig=levelConfig(templateDoc,data);const auto* nested=templateConfig->Attribute("template");
             if(nested&&*nested)throw std::runtime_error("Nested LevelConfig templates require further resolution");
             overrideConfig(*templateConfig,next->config);}
-        overrideConfig(*config,next->config);
+        if(config)overrideConfig(*config,next->config);
         std::unique_ptr<AssetCatalog> fallback;if(!fallbackRoot.empty())fallback=std::make_unique<AssetCatalog>(fallbackRoot);
         const auto read=[&](const std::string& uri){try{return read_content(assets,uri);}catch(const std::exception&){
             if(!fallback)throw;return read_content(*fallback,uri);}};

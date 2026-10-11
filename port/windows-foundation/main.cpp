@@ -1,6 +1,7 @@
 #include "asset_catalog.hpp"
 #include "actor_profiles.hpp"
 #include "actor_population.hpp"
+#include "features/levels/level_class_registry.hpp" // P16 LEVELS: one-time unsupported class log
 #include "actor_movement.hpp"
 #include "collision_scene.hpp"
 #include "controller_policy.hpp"
@@ -26,9 +27,15 @@
 #include "features/character_menu/menu_text.hpp"
 #include "features/character_menu/menu_text_layout_v1.hpp"
 #include "features/character_menu/stat_training_v1.hpp"
+// P16 MAP: RoomZone visits and the character-menu Map page model (features/map_visit).
+#include "features/map_visit/room_zone_visit_v1.hpp"
+#include "features/map_visit/map_page_v1.hpp"
+#include "features/map_visit/map_markers_v1.hpp" // P16 MAPMARKERS: marker producers (registry) for the Map page
 #include "features/pause_ui/source_pause_ui_render_v1.hpp"
 #include "features/frontend/rich_text.hpp"
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
+#include "features/combat/context_button_v1.hpp" // P16 CONTEXT: Space context button + action icon
+#include "features/interactions/interactable_registry_v1.hpp" // P16 CONTEXT: interaction-type providers (chests/NPCs register here)
 #include "features/generic_skills/runtime_skills_menu_v1.hpp"
 #include "features/generic_skills/runtime_skill_progression_v1.hpp"
 #include "features/generic_skills/runtime_skill_session_training_v1.hpp"
@@ -37,6 +44,8 @@
 #include "features/generic_skills/runtime_skill_cast_coordinator_v1.hpp"
 #include "features/generic_skills/runtime_skill_cast_prepare_v1.hpp"
 #include "features/generic_skills/pc_gameplay_hud_v1.hpp"
+#include "features/campaign_host/campaign_host.hpp" // P16 HOST
+#include "features/campaign_host/actor_clip_manifest.hpp" // P16 OPENING: scripted actor clip names (PlayActorAnim)
 #include "features/skill_ui/skill_ui.hpp"
 #include "features/equipment/runtime_equipment_text_v1.hpp"
 #include "features/faery_menu/character_state_faery_v1.hpp" // P14 FAERY: CharacterState Faery page host + script effects
@@ -45,8 +54,24 @@
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "../script-runtime/script_constants.hpp"
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
+// P16 QUESTS: thin quest runtime and the generic quest event bus (raise_quest_event).
+#include "features/quest_runtime/quest_runtime_v1.hpp"
+#include "features/quest_runtime/quest_events_v1.hpp"
+#include "features/quest_runtime/quest_conditions_v1.hpp" // OPENING2: named activation conditions
 // P14 DROPS: world item presentation, pickup rules and item name text
 #include "features/interactions/world_drop_runtime_v1.hpp"
+#include "features/containers/container_declarations_v1.hpp" // P16 containers
+#include "features/containers/container_runtime_v1.hpp" // P16 containers (T2/T3)
+#include "features/scene_decor/scene_decor_v1.hpp" // P16 OPENING4: scripted scene objects (PlayAnimByName, kind 19)
+#include "features/containers/container_loot_v1.hpp" // P16 CONTAINERS2 (T4 DoOpen loot)
+#include "features/containers/container_open_script_v1.hpp" // P16 CONTAINERS2 (T6 OnOpen contract)
+#include "features/containers/container_world_v1.hpp" // P16 CONTAINERS2 (T5 OBJS persistence)
+#include "features/despawn/despawn_after_death_v1.hpp" // P16 DESPAWN (automatic despawn after death)
+#include "features/quest_runtime/quest_zones_v1.hpp" // P16 QUESTUI: quest trigger zones
+#include "features/quests/quest_banner_presenter_v1.hpp" // P16 QUESTUI: quest banners
+#include "features/quests/runtime_quest_menu_v1.hpp" // P16 QUESTUI: Quest Log tab page
+#include "features/quests/source_quest_menu_page_provider_v1.hpp" // P16 QUESTUI
+#include "features/quests/quest_text_resolver_v1.hpp" // P16 QUESTUI
 #include "features/inventory/source_item_descriptors.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
@@ -124,6 +149,8 @@
 #include <set>
 #include <sstream>
 #include <stdexcept>
+#include "features/spawn/spawn_character_v1.hpp" // P16 SPAWN: --spawn-test owner (default off)
+#include "features/spawn/actor_profile_derivation_v1.hpp" // P16 PROFILES: profile/melee/policy derivation from pydata (default path for unauthored rows)
 
 namespace f = dh::foundation;
 namespace fs = std::filesystem;
@@ -213,8 +240,69 @@ bool drawCombatGlyphs(const std::vector<f::CombatTextGlyph>& glyphs,f::Renderer&
     }
     error.clear();return true;
 }
+// P16 QUESTUI: console name of a runtime banner kind (NEW QUEST / QUEST UPDATED / QUEST COMPLETED).
+const char* questBannerKindName(f::quest_runtime::QuestBannerV1::Kind kind) {
+    return kind==f::quest_runtime::QuestBannerV1::Kind::new_quest?"NEW QUEST":
+           kind==f::quest_runtime::QuestBannerV1::Kind::updated?"QUEST UPDATED":"QUEST COMPLETED";
+}
+// P16 HUDART: greedy word wrap to an authored field width (source pixels; HudGlyphRun::advance is the run width).
+// A single word wider than the field keeps its own row. Empty result with a set error means the raster failed.
+std::vector<std::string> wrapBannerTextV1(f::HudGlyphFont& font,const std::string& text,int sourceHeight,float width,std::string& error) {
+    std::vector<std::string> rows;
+    std::istringstream words(text);
+    std::string word,row;
+    while(words>>word) {
+        const std::string candidate=row.empty()?word:row+" "+word;
+        f::HudGlyphRun run;
+        if(!font.raster(candidate,sourceHeight,1.f,run,error))return {};
+        if(run.advance<=width||row.empty())row=candidate;
+        else {rows.push_back(row);row=word;}
+    }
+    if(!row.empty())rows.push_back(row);
+    error.clear();
+    return rows;
+}
+
+// P16 HUDART: quest banner = the original dqhud_droid QuestMsgDialog / QuestCompletedMsgDialog frame (hud_panels: exact
+// stage-space batches from the atlas) with its authored text slots (heading, sentence, reward heading, reward values).
+// Lines reach their slot through QuestBannerLineV1::slot/stack; the text uses the Fontin glyphs of the HUD text path.
+bool drawQuestBanner(const f::QuestBannerDisplayV1& display,f::HudGlyphFont& font,f::Renderer& renderer,
+                     f::OverlayRenderer& overlay,std::map<std::string,std::uint32_t>& textures,std::uint32_t hudTexture,
+                     int windowWidth,int windowHeight,std::string& error) {
+    if(display.lines.empty()||display.alpha<=0.f)return true;
+    constexpr float stageHeight=320.f; // authored stage height (the PC HUD mapping)
+    const float scale=float(windowHeight)/stageHeight;
+    const float offset=(float(windowWidth)/scale-480.f)*.5f;
+    const auto& panel=display.completed?f::hud_panels::quest_done_batches_v1():f::hud_panels::quest_new_batches_v1();
+    const auto& slots=display.completed?f::hud_panels::quest_done_texts_v1():f::hud_panels::quest_new_texts_v1();
+    for(const auto& batch:panel) {
+        std::vector<f::OverlayTriangleVertex> vertices;
+        for(const auto& v:batch.triangles)vertices.push_back({(v.x+offset)*scale,v.y*scale,v.u,v.v});
+        auto color=batch.rgba;
+        color[3]*=display.alpha;
+        if(!overlay.drawTriangles(vertices,batch.bitmap?hudTexture:0,color)) {error="Quest banner panel draw rejected";return false;}
+    }
+    for(const auto& line:display.lines) {
+        if(line.slot<0||std::size_t(line.slot)>=slots.size()) {error="Quest banner text slot is outside the original frame";return false;}
+        const auto& slot=slots[std::size_t(line.slot)];
+        const float centreX=((slot.rect[0]+slot.rect[2])*.5f+offset)*scale;
+        const auto fade=[&](std::uint32_t channel) {return std::uint32_t(float(channel)*display.alpha);};
+        const std::uint32_t rgb=(fade(slot.rgba[0])<<16)|(fade(slot.rgba[1])<<8)|fade(slot.rgba[2]);
+        // The authored field wraps its text to its width (the source EditText is word-wrapped).
+        const auto wrapped=wrapBannerTextV1(font,line.text,int(slot.height),slot.rect[2]-slot.rect[0],error);
+        if(!error.empty())return false;
+        for(std::size_t row=0;row<wrapped.size();++row) {
+            // Baseline: about 0.85 of the glyph height below the field top; wrapped and stacked rows step 1.15 glyph heights.
+            const float baseline=(slot.rect[1]+slot.height*(.85f+1.15f*float(line.stack+int(row))))*scale;
+            if(!drawScreenLabel(font,wrapped[row],rgb,int(slot.height),centreX,baseline,scale,renderer,overlay,textures,error))return false;
+        }
+    }
+    error.clear();return true;
+}
+
 struct Options {
     fs::path assets, scene, level, profiles, save = "character.save", liveSave="gameplay.save", capture;
+    std::vector<std::uint64_t> captureFrames; // P16 OPENING4 verification: extra captures at these drawn frames (<capture dir>/f<frame>.ppm)
     std::set<std::string> activeConditions;
     std::set<std::string> inactiveConditions;
     std::string module, characterName, playClip;
@@ -231,6 +319,7 @@ struct Options {
     std::optional<f::CameraVec3> focus;
     float distance = 0;
     int frames = 0, reloadFrame = 0;
+    std::vector<std::pair<std::string,int>> interactRequests; // P16 containers: --interact-at DECLARATION@FRAME (repeatable; default off)
     double fixedStep = 0;
     bool probe = false, timeline = false, saveNow = false;
     bool movable=false, sourceCamera=false, hud=false, freshPlayer=false;
@@ -251,13 +340,30 @@ struct Options {
     unsigned menuClassIndex=0;
     bool verifyFrontendCreation=false,verifyFrontendSlots=false;
     std::string campaignCommands;
+    bool campaignTriggers=false; // P16 HOST: --campaign-triggers (off until verified)
+    int campaignSkipFrame=-1; std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
+    // SKIP16 verification input: a click at an authored point (480x320 space, mapped like the PC HUD) is a pointer down on
+    // FRAME and an up on FRAME+1 through the same cursor branch as a real mouse or touch release. Enter presses are
+    // scheduled frames through the same key edge as the keyboard.
+    struct AuthoredClick { int frame=0; float x=0, y=0; };
+    std::vector<AuthoredClick> campaignClicks; std::vector<int> campaignEnterFrames;
+    int captionAutoTapMs=0; // OPENING2: verification only; taps tap-wait captions after N ms (0 = the player taps)
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
     std::vector<ScheduledSourceCommand> sourceCommands;
+    // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME (debug; empty by default).
+    std::vector<f::spawn::SpawnTestRequestV1> spawnTests;
+    std::vector<std::pair<std::string,std::string>> containerScriptOverrides; // P16 CONTAINERS2 debug: --container-script DECL=SCRIPT (default none)
+    std::vector<f::spawn::SpawnNamedRequestV1> spawnDeclared; // P16 SPAWN: --spawn-declared NAME@FRAME (authored Limbus/PreSpawn declaration; implies --retain-hidden-actors)
+    std::vector<f::spawn::SpawnNamedRequestV1> despawnTests;  // P16 SPAWN: --despawn-test NAME@FRAME (live pool slot by population name)
+    std::vector<f::spawn::SpawnNamedRequestV1> killTests;     // P16 DESPAWN2: --kill-test NAME@FRAME (debug: authored actor to 0 HP)
+    bool despawnClip=false;  // P16 DESPAWN2: --despawn-clip plays the Despawn clip on the dead actor (opt-in; the decoded original does not select it)
     std::map<std::string,f::OriginalAttackSelection> lifecycleSpawns;
     std::map<std::string,f::CombatSessionChoice> lifecyclePreSpawns;
     f::InputMove2D scriptedMove{};
     int moveFrames=0;
-    std::vector<std::tuple<int,int,f::InputMove2D>> moveSegments; // B063 test hook: --move-segment FROM:TO:X,Y scripted stick input for frames [FROM,TO)
+    int moveFromFrame=0; // P16 CONTEXT: scripted move starts at this frame (quiet walk-over checks)
+    struct MoveSegmentV1{int start=0;int end=0;f::InputMove2D axis{};};
+    std::vector<MoveSegmentV1> moveSegments; // P16 CONTEXT: --move-segment start:end:x,y (quiet walk-over checks)
     bool scriptedRun=true;
     bool sourceBodyBounds=false;
     bool sourceNativeBodies=false;
@@ -272,12 +378,22 @@ struct Options {
     int skillsPageFrame=-1;
     int equipmentPageFrame=-1;
     int faeryPageFrame=-1; // P14 FAERY
+    int mapPageFrame=-1; // P16 MAP: --map-page-frame=N opens the character menu on the Map tab
+    std::string mapCameraRoot; // P16 MAPFIX: --map-camera-root=DIR, fallback asset root for data/3D/camera/minimapcameras.bdae
+    bool mapLegend=false; float mapZoom=1; // P16 MAP diagnostics: --map-legend shows the legend, --map-zoom=Z sets the zoom at selection
+    int questPageFrame=-1; // P16 QUESTUI: test aid, opens the menu on the Quest Log tab at this frame
     std::vector<std::string> bagItemIds; // P14 EQUIP: --bag-item diagnostic rows
     struct MenuRelease {int frame;float x,y;};
     std::vector<MenuRelease> menuReleases;
     std::vector<std::pair<int,int>> skillKeyFrames;
     std::vector<int> pickupFrames; // P14 DROPS: scripted world-item pickup key presses (same action as E)
+    std::vector<int> questTalkFrames; // P16 QUESTUI: test aid, scripted interact presses for NPC talk (not gameplay)
     std::vector<std::pair<int,int>> spaceKeyIntervals;
+    // P16 QUESTS test aid (not gameplay): frame-scheduled quest bus events, so the real EXE path
+    // (bus -> runtime -> CQPG save -> rewards -> banner) can be exercised without scripted combat.
+    // --quest-debug-kill FRAME:TEMPLATE:COUNT raises COUNT kill events; --quest-debug-accept FRAME:ROW accepts a row.
+    struct QuestDebugEventOption {int frame=-1;bool accept=false;int id=-1;int count=1;};
+    std::vector<QuestDebugEventOption> questDebugEvents;
     int menuCloseFrame=-1;
     int pausePageFrame=-1,pauseCloseFrame=-1;
     int windowWidth=0,windowHeight=720,resizeFrame=-1,resizeWidth=0,resizeHeight=0;
@@ -321,6 +437,12 @@ Options parse(int argc, char** argv) {
         else if(arg=="--animation-only") {auto id=value();if(id.empty())throw std::runtime_error("Animation-only profile must be nonempty");auto& profile=o.combat.profiles[id];profile.animationOnly=true;profile.retainedPhaseClock=true;profile.propertyOptions.refill_vitals=false;}
         else if(arg=="--combat-locomotion") {auto c=choice(value());o.locomotionChoices[c.first]=c.second;}
         else if(arg=="--retain-hidden-actors") o.retainHiddenActors=true;
+        else if(arg=="--spawn-test") {f::spawn::SpawnTestRequestV1 test;std::string parseError;if(!f::spawn::parse_spawn_test_v1(value(),test,parseError))throw std::runtime_error(parseError);o.spawnTests.push_back(test);} // P16 SPAWN
+        else if(arg=="--spawn-declared") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--spawn-declared: "+parseError);o.spawnDeclared.push_back(request);o.retainHiddenActors=true;} // P16 SPAWN
+        else if(arg=="--container-script") {const auto text=value();const auto eq=text.find('=');if(eq==std::string::npos||eq==0||eq+1>=text.size())throw std::runtime_error("--container-script expects DECLARATION=SCRIPT");o.containerScriptOverrides.emplace_back(text.substr(0,eq),text.substr(eq+1));} // P16 CONTAINERS2 debug (plant/zombie OnOpen variants on Swamp)
+        else if(arg=="--kill-test") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--kill-test: "+parseError);o.killTests.push_back(request);} // P16 DESPAWN2
+        else if(arg=="--despawn-clip") o.despawnClip=true; // P16 DESPAWN2
+        else if(arg=="--despawn-test") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--despawn-test: "+parseError);o.despawnTests.push_back(request);} // P16 SPAWN
         else if(arg=="--enemy-ai") o.runtimeEnemyAI=true;
         else if(arg=="--population-templates") o.populationTemplates=true;
         else if(arg=="--audio") o.runtimeAudio=true;
@@ -344,6 +466,16 @@ Options parse(int argc, char** argv) {
         else if(arg=="--lifecycle-spawn") {auto c=choice(value(),true);f::OriginalAttackSelection selected;selected.state=c.second.state;selected.variant=c.second.variant;selected.group_path=c.second.leafPath;o.lifecycleSpawns[c.first]=std::move(selected);}
         else if(arg=="--lifecycle-prespawn") {auto c=choice(value());o.lifecyclePreSpawns[c.first]=c.second;}
         else if(arg=="--campaign-commands") o.campaignCommands=value();
+        else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
+        else if(arg=="--campaign-skip-frame") o.campaignSkipFrame=std::stoi(value()); // P16 CINE
+        else if(arg=="--campaign-click") { // SKIP16: FRAME:X:Y in the authored 480x320 space
+            const auto text=value();const auto a=text.find(':');const auto b=a==std::string::npos?a:text.find(':',a+1);
+            if(b==std::string::npos)throw std::runtime_error("Campaign click requires FRAME:X:Y (authored 480x320 space)");
+            o.campaignClicks.push_back({std::stoi(text.substr(0,a)),std::stof(text.substr(a+1,b-a-1)),std::stof(text.substr(b+1))});
+        }
+        else if(arg=="--campaign-enter-frame") o.campaignEnterFrames.push_back(std::stoi(value())); // SKIP16
+        else if(arg=="--caption-auto-tap-ms") o.captionAutoTapMs=std::stoi(value()); // OPENING2 (verification input)
+        else if(arg=="--campaign-start") o.campaignStart=value(); // P16 CINE
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
         else if(arg=="--combat-react") {auto c=choice(value());o.combat.profiles[c.first].reaction=c.second;}
         else if(arg=="--combat-death") {auto c=choice(value());o.combat.profiles[c.first].death=c.second;}
@@ -373,12 +505,18 @@ Options parse(int argc, char** argv) {
         else if(arg=="--skills-page-frame") o.skillsPageFrame=std::stoi(value());
         else if(arg=="--equipment-page-frame") o.equipmentPageFrame=std::stoi(value());
         else if(arg=="--faery-page-frame") o.faeryPageFrame=std::stoi(value()); // P14 FAERY
+        else if(arg=="--map-page-frame") o.mapPageFrame=std::stoi(value()); // P16 MAP
+        else if(arg=="--map-legend") o.mapLegend=true; // P16 MAP diagnostic
+        else if(arg=="--map-zoom") o.mapZoom=std::stof(value()); // P16 MAP diagnostic
+        else if(arg=="--map-camera-root") o.mapCameraRoot=value(); // P16 MAPFIX: minimapcameras.bdae fallback root (assets-extra/ios)
+        else if(arg=="--quest-page-frame") o.questPageFrame=std::stoi(value()); // P16 QUESTUI
         else if(arg=="--menu-release") {
             std::istringstream input(value());Options::MenuRelease release{};char first=0,second=0;
             if(!(input>>release.frame>>first>>release.x>>second>>release.y)||first!=':'||second!=':'||release.frame<0||!std::isfinite(release.x)||!std::isfinite(release.y))throw std::runtime_error("Menu release requires FRAME:AUTHORED_X:AUTHORED_Y");
             o.menuReleases.push_back(release);
         }
         else if(arg=="--menu-close-frame") o.menuCloseFrame=std::stoi(value());
+        else if(arg=="--quest-talk-frame") {const int frame=std::stoi(value());if(frame<0)throw std::runtime_error("Quest talk frame must be nonnegative");o.questTalkFrames.push_back(frame);}
         else if(arg=="--pickup-frame") {const int frame=std::stoi(value());if(frame<0)throw std::runtime_error("Pickup frame must be nonnegative");o.pickupFrames.push_back(frame);}
         else if(arg=="--skill-key-frame") {
             const auto text=value();const auto split=text.find(':');
@@ -386,6 +524,18 @@ Options parse(int argc, char** argv) {
             const int frame=std::stoi(text.substr(0,split)),key=std::stoi(text.substr(split+1));
             if(frame<0||key<1||key>5)throw std::runtime_error("HUD key frame requires nonnegative frame and key1..5");
             o.skillKeyFrames.emplace_back(frame,key);
+        }
+        else if(arg=="--quest-debug-kill"||arg=="--quest-debug-accept") {
+            const auto text=value();const auto first=text.find(':');
+            const auto second=first==std::string::npos?std::string::npos:text.find(':',first+1);
+            Options::QuestDebugEventOption item;item.accept=arg=="--quest-debug-accept";
+            if(first==std::string::npos||(item.accept?second!=std::string::npos:second==std::string::npos))
+                throw std::runtime_error("Quest debug event requires FRAME:ID or FRAME:TEMPLATE:COUNT");
+            item.frame=std::stoi(text.substr(0,first));
+            item.id=std::stoi(text.substr(first+1,item.accept?std::string::npos:second-first-1));
+            if(!item.accept)item.count=std::stoi(text.substr(second+1));
+            if(item.frame<0||item.count<1||item.count>64)throw std::runtime_error("Quest debug event frame/count out of range");
+            o.questDebugEvents.push_back(item);
         }
         else if(arg=="--space-key-interval") {
             const auto text=value();const auto split=text.find(':');
@@ -408,8 +558,9 @@ Options parse(int argc, char** argv) {
         else if(arg=="--combat-text") o.combatText=true;
         else if(arg=="--hud-portrait") {auto n=std::stoi(value());if(n<0||n>2)throw std::runtime_error("HUD portrait source frame must be 0..2");o.hudPortrait=unsigned(n);}
         else if(arg=="--move-axis") {auto v=vector(value());o.scriptedMove={v.x,v.y};}
-        else if(arg=="--move-segment") {const auto text=value();const auto c1=text.find(':'),c2=text.find(':',c1==std::string::npos?0:c1+1);if(c1==std::string::npos||c2==std::string::npos)throw std::runtime_error("Move segment requires FROM:TO:X,Y");auto v=vector(text.substr(c2+1)+",0");o.moveSegments.emplace_back(std::stoi(text.substr(0,c1)),std::stoi(text.substr(c1+1,c2-c1-1)),f::InputMove2D{v.x,v.y});}
         else if(arg=="--move-frames") {o.moveFrames=std::stoi(value());if(o.moveFrames<1)throw std::runtime_error("Move frames must be positive");}
+        else if(arg=="--move-segment") {const auto text=value();const auto c1=text.find(':'),c2=text.find(':',c1==std::string::npos?0:c1+1),c3=text.find(',',c2==std::string::npos?0:c2+1);if(c1==std::string::npos||c2==std::string::npos||c3==std::string::npos)throw std::runtime_error("Move segment must be start:end:x,y");Options::MoveSegmentV1 seg;seg.start=std::stoi(text.substr(0,c1));seg.end=std::stoi(text.substr(c1+1,c2-c1-1));seg.axis={std::stof(text.substr(c2+1,c3-c2-1)),std::stof(text.substr(c3+1))};o.moveSegments.push_back(seg);}
+        else if(arg=="--move-from-frame") {o.moveFromFrame=std::stoi(value());if(o.moveFromFrame<0)throw std::runtime_error("Move start frame must be nonnegative");}
         else if(arg=="--move-run") o.scriptedRun=true;
         else if(arg=="--move-walk") o.scriptedRun=false;
         else if(arg=="--original-body-bounds") o.sourceBodyBounds=true;
@@ -432,6 +583,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--focus") {auto v=vector(value());o.focus=f::CameraVec3{v.x,v.y,v.z};}
         else if(arg=="--distance") {o.distance=std::stof(value());if(!std::isfinite(o.distance)||o.distance<=0)throw std::runtime_error("Distance must be positive");}
         else if(arg=="--reload-frame") {o.reloadFrame=std::stoi(value());if(o.reloadFrame<1)throw std::runtime_error("Reload frame must be positive");}
+        else if(arg=="--interact-at") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--interact-at expects DECLARATION@FRAME");const int frame=std::stoi(at.substr(sep+1));if(frame<0)throw std::runtime_error("Interact frame must be nonnegative");o.interactRequests.emplace_back(at.substr(0,sep),frame);}
         else if(arg=="--model") o.character.model_path=value();
         else if(arg=="--template") o.character.template_clip_path=value();
         else if(arg=="--idle") o.character.animation_paths[0]=value();
@@ -442,6 +594,10 @@ Options parse(int argc, char** argv) {
         else if(arg=="--clip-rate") {auto v=value();auto split=v.find('=');if(split==std::string::npos||split==0)throw std::runtime_error("Clip rate must be NAME=POSITIVE_RATE");auto rate=std::stod(v.substr(split+1));if(!std::isfinite(rate)||rate<=0)throw std::runtime_error("Clip rate must be finite and positive");o.clipRates[v.substr(0,split)]=rate;}
         else if(arg=="--frames") {o.frames=std::stoi(value());if(o.frames<1) throw std::runtime_error("Frames must be positive");}
         else if(arg=="--capture") o.capture=value();
+        else if(arg=="--capture-frames") { // P16 OPENING4: comma list of drawn frames captured next to --capture (f<frame>.ppm)
+            std::string list=value(),item;std::istringstream stream(list);
+            while(std::getline(stream,item,',')) if(!item.empty()) o.captureFrames.push_back(std::stoull(item));
+        }
         else if(arg=="--fixed-step") {o.fixedStep=std::stod(value());if(!std::isfinite(o.fixedStep)||o.fixedStep<=0||o.fixedStep>1)throw std::runtime_error("Fixed step must be in (0,1]");}
         else if(arg=="--probe") o.probe=true;
         else if(arg=="--skip-boot") o.skipBoot=true;  // Preview 15: tests run without logo/movie/title
@@ -488,6 +644,9 @@ Options parse(int argc, char** argv) {
         o.combat.tableRoot="original-cache/data/pydata";
         for(auto& entry:o.combat.profiles) {entry.second.propertyOptions.refill_vitals=!entry.second.animationOnly;entry.second.diagnosticAIEnabled=!entry.second.animationOnly&&o.diagnosticAI&&entry.first!=o.combat.playerProfileId;entry.second.customization.allow_missing_animation_targets=true;}
     }
+    // P16 OPENING: the script host spawns declared Limbus/PreSpawn actors (SpawnCharacter), so their declarations
+    // must exist as deferred actors. Without this, a declaration with auto_spawn=0 is "not instantiated".
+    if(o.campaignTriggers) o.retainHiddenActors=true;
     return o;
 }
 void capture(const fs::path& path,int w,int h) {
@@ -905,7 +1064,11 @@ int main(int argc,char** argv) {
         }
         if(!options.loadingCapture.empty())loadingScreen.set_capture(options.loadingCapture,[](const fs::path& p,int w,int h){capture(p,w,h);});
         loadingScreen.progress(0.0);
+        // P16 MAP: module RoomZone sources of the loaded level (empty until load_level_with_module_zones succeeds).
+        std::vector<f::LevelModuleZone> levelModuleZones;
         f::OriginalScene scene;f::CharacterVisual visual;f::ActorProfileLibrary profiles;f::ActorPopulation population;f::EquipmentAttachmentSet equipment;std::string error;
+        f::containers::ContainerTablesV1 containerTables;f::containers::ContainerClassRegistryV1 containerRegistry;std::vector<f::containers::ContainerInstanceV1> containerInstances;f::containers::ContainerRuntimeV1 containerRuntime; // P16 containers (T2/T3)
+        f::containers::ContainerLootV1 containerLoot;std::set<std::string> containerScriptsNoticed; // P16 CONTAINERS2 (T4 loot, T6 OnOpen contracts)
         f::OriginalPropertyDatabase properties;f::OriginalActorProperties actorProperties;f::Vec3 actorScale{1,1,1};
         dh2::data::PropertyRules menuSkillPropertyRules;
         bool directFirstSkillGrantPending=false;
@@ -940,6 +1103,43 @@ int main(int argc,char** argv) {
         }
         options.character.motion_node_id=options.motionNode;options.character.consume_root_motion=options.movable;
         if(!options.profiles.empty()&&!profiles.load(assets,options.profiles.generic_string(),error))throw std::runtime_error("Profiles: "+error);
+        // P16 OPENING: scripted actor clips (PlayActorAnim) are named clips of their actor's profile (or the local player's
+        // visual config) before anything loads. Only under campaign triggers, which is the only player of these clips.
+        std::map<std::string,std::vector<std::pair<std::string,std::string>>> scriptClipsByProfile; // P16 OPENING: profile id -> script clips
+        if(options.campaignTriggers&&!options.campaignCommands.empty()&&!options.profiles.empty()) {
+            f::OriginalCampaignRuntime clipScripts;
+            if(!clipScripts.load(assets,options.campaignCommands,error))throw std::runtime_error("Actor clip scripts: "+error);
+            const auto requests=f::campaign_host::collect_actor_clip_requests(clipScripts);
+            if(!requests.empty()) {
+                std::vector<f::ActorDefinition> declared;
+                if(!f::load_actor_definitions(assets,options.level,declared,error))throw std::runtime_error("Actor clip declarations: "+error);
+                f::CameraClipLibrary clipPaths;
+                for(const auto& request:requests) {
+                    std::string path;
+                    if(!clipPaths.dictionary_path(assets,request.dictionary_id,path,error))throw std::runtime_error("Actor clip: "+error);
+                    const auto clip=f::campaign_host::actor_clip_name(request.dictionary_id);
+                    if(request.actor=="LocalPlayer"||request.actor=="Player") {
+                        const bool present=std::any_of(options.character.clips.begin(),options.character.clips.end(),[&](const auto& entry){return entry.first==clip;});
+                        if(!present)options.character.clips.push_back({clip,path});
+                        // The cutscene clips also drive camera nodes (PlayerCamera_Default.Target-node) that the actor does not own:
+                        // the same original missing-target policy as the population actors (their camera channels stay unbound).
+                        options.character.allow_missing_animation_targets=true;
+                        continue;
+                    }
+                    for(const auto& definition:declared) {
+                        if(definition.name!=request.actor)continue;
+                        const auto binding=definition.properties.find("charpropsname");
+                        if(binding==definition.properties.end()||binding->second.empty())continue;
+                        // Population-only actors load their profile bank; session actors are rebuilt from the combat profile's source
+                        // bank (CombatSessionProfile::sourceAnimationClips, applied after the combat policies exist).
+                        if(!profiles.add_state_clip(binding->second,clip,f::ActorClip{path,1.0,false},error))throw std::runtime_error("Actor clip profile: "+error);
+                        auto& bank=scriptClipsByProfile[binding->second];
+                        if(std::none_of(bank.begin(),bank.end(),[&](const auto& entry){return entry.first==clip;}))bank.emplace_back(clip,path);
+                    }
+                }
+                std::cout<<"Actor script clips admitted="<<requests.size()<<'\n';
+            }
+        }
         dh2::data::CharacterTemplateTableV78 populationTemplateTable;
         std::optional<dh2::data::CombatRandom> populationStartupRandom;
         const auto populationStartupSeed=frontendRandomState?std::optional<std::uint32_t>(frontendRandomState->seed):options.combat.diagnosticRngSeed;
@@ -998,6 +1198,13 @@ int main(int argc,char** argv) {
             }
             return hands;
         };
+        // P16 SPAWN: pool of admitted slots and the CharacterTemplate table (both used only with --spawn-test).
+        f::spawn::SpawnPoolV1 spawnPool;
+        std::map<std::string,std::string> spawnProfileRefusals; // P16 DESPAWN glue: profiles whose admission was refused (reason)
+        dh2::data::CharacterTemplateTableV78 spawnTemplateTable;
+        // P16 PROFILES: tables for profiles derived from CharacterTable/AnimTable rows, and the derived IDs to publish
+        // into the melee bindings once they load.
+        f::spawn::ProfileDerivationTablesV1 derivedTables;bool derivedTablesLoaded=false;std::vector<std::string> derivedProfileIds;
         auto loadContent=[&](f::OriginalScene& scene,f::CharacterVisual& visual) {
         if(sourcePlayerStanceEnabled) {
             const auto* profile=profiles.find(options.combat.playerProfileId);
@@ -1020,7 +1227,7 @@ int main(int argc,char** argv) {
         }
         if(options.populationTemplates)populationStartupRandom=frontendRandomState.value_or(dh2::data::CombatRandom{*populationStartupSeed,0});
         if(!options.level.empty()) {
-            if(!f::load_level(assets,options.level,scene,error)) throw std::runtime_error("Level: "+error);
+            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error)) throw std::runtime_error("Level: "+error);
             loadingScreen.progress(0.4);  // level stage complete
             for(const auto& notice:scene.notices)std::cerr<<"Level notice: "<<notice<<'\n';
             std::cout<<"Level triangles="<<scene.triangleCount<<" instances="<<scene.instanceCount<<" ranges="<<scene.mesh.ranges.size()<<'\n';
@@ -1095,15 +1302,52 @@ int main(int argc,char** argv) {
         if(!equipment.load(assets,options.equipment,error))throw std::runtime_error("Equipment: "+error);
         if(!options.playClip.empty() && !visual.select(options.playClip,true,error)) throw std::runtime_error("Clip: "+error);
         if(!options.profiles.empty()) {
+            // OPENING2: named conditions (v2conditions) are evaluated from the saved quest states and the current level
+            // (GameStartOnly = quest row 1 in state 0 for a new game). Command-line names still count as active.
+            std::map<std::string,f::quest_runtime::NamedConditionV1> namedConditions;
+            {
+                std::string conditionError;
+                const auto condArray=assets.read("original-cache/data/pydata/v2conditions_pyarray.bin");
+                const auto condNames=assets.read("original-cache/data/pydata/v2conditions_pyarraynames.bin");
+                if(!f::quest_runtime::decode_named_conditions_v1(condArray,condNames,namedConditions,conditionError))
+                    std::cerr<<"Named condition table diagnostic: "<<conditionError<<'\n';
+            }
+            std::shared_ptr<const f::quest_runtime::QuestTableV1> conditionQuests; // authored initial states for a new game
+            {
+                std::string questTableError;
+                const auto questArray=assets.read("original-cache/data/pydata/v2quests_pyarray.bin");
+                const auto questNames=assets.read("original-cache/data/pydata/v2quests_pyarraynames.bin");
+                if(!f::quest_runtime::decode_quest_table_v1(questArray,questNames,conditionQuests,questTableError))
+                    std::cerr<<"Quest table diagnostic (conditions): "<<questTableError<<'\n';
+            }
+            const auto conditionActive=[&](const std::string& name)->bool {
+                if(options.activeConditions.count(name))return true;
+                const auto found=namedConditions.find(name);
+                if(found==namedConditions.end())return false;
+                const auto* levels=loadMetadataLevels(assets);
+                const std::int32_t levelRow=levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;
+                bool met=false,unsupported=false;
+                f::quest_runtime::evaluate_named_condition_v1(found->second,[&](std::int32_t row,std::int32_t& value){
+                    return f::quest_runtime::quest_state_from_character_v1(state,conditionQuests.get(),row,value);},levelRow,met,unsupported);
+                static std::set<std::string> reportedConditions; // logged once per name
+                if(unsupported&&reportedConditions.insert(name).second)std::cout<<"Named condition "<<name<<" type "<<found->second.type<<" is not evaluated (false)\n";
+                return met;
+            };
             auto policy=[&](const f::ActorDefinition& a) {
                 auto it=a.properties.find("activate_cond");
-                if(it!=a.properties.end()&&!it->second.empty()&&!options.activeConditions.count(it->second))return f::PopulationDecision::unknown;
+                if(it!=a.properties.end()&&!it->second.empty()&&!conditionActive(it->second))return f::PopulationDecision::unknown;
                 it=a.properties.find("deactivate_cond");
                 if(it!=a.properties.end()&&!it->second.empty()) {
-                    if(options.activeConditions.count(it->second))return f::PopulationDecision::exclude;
+                    if(conditionActive(it->second))return f::PopulationDecision::exclude;
                     if(!options.inactiveConditions.count(it->second))return f::PopulationDecision::unknown;
                 }
-                it=a.properties.find("auto_spawn");if(it!=a.properties.end()&&it->second=="0")return options.retainHiddenActors?f::PopulationDecision::deferred:f::PopulationDecision::unknown;
+                it=a.properties.find("auto_spawn");if(it!=a.properties.end()&&it->second=="0") {
+                    // P16 OPENING: under campaign triggers only declarations with a Limbus/PreSpawn source preset are deferred
+                    // (script-spawnable records). Other auto_spawn=0 objects stay unknown, as without the host.
+                    if(!options.retainHiddenActors)return f::PopulationDecision::unknown;
+                    if(options.campaignTriggers) {const auto preset=a.properties.find("ai_state");if(preset==a.properties.end()||(preset->second!="Limbus"&&preset->second!="PreSpawn"))return f::PopulationDecision::unknown;}
+                    return f::PopulationDecision::deferred;
+                }
                 it=a.properties.find("spawn_prob");if(it!=a.properties.end()&&it->second!="100"&&it->second!="100.0")return f::PopulationDecision::unknown;
                 return f::PopulationDecision::include;
             };
@@ -1113,14 +1357,103 @@ int main(int argc,char** argv) {
                 return c;
             };
             if(!population.load(assets,options.level.generic_string(),profiles,policy,customization,error,options.populationTemplates?&templateSelection:nullptr))throw std::runtime_error("Population: "+error);
+            f::levels::log_unsupported_classes_once(population.definitions()); // P16 LEVELS: unknown classes logged once per process
             if(populationStartupRandom)std::cout<<"Population source template RNG seed="<<populationStartupRandom->seed<<" calls="<<populationStartupRandom->calls<<'\n';
             for(auto& actor:population.actors())if(!actor.visual.select("Idle",true,error))std::cerr<<"Population initial pose: "<<actor.definition.name<<": "<<error<<'\n';
             std::cout<<"Population visuals="<<population.actors().size()<<" declarations="<<population.authored_count()<<" skipped="<<population.skipped_count()<<'\n';
             for(const auto& notice:population.notices())std::cerr<<"Population notice: "<<notice.sourceId<<": "<<notice.reason<<'\n';
+            // P16 containers: general loader over the authored declarations of the loaded level (class registry; no level data here).
+            {std::string containerError;f::containers::ContainerLoadReportV1 containerReport;std::vector<std::string> containerNotices;std::vector<f::containers::ContainerInstanceV1> containerInstances;
+             if(!containerTables.ready()&&!containerTables.load(assets,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
+             else if(!f::containers::load_container_instances_v1(containerTables,containerRegistry,population.definitions(),containerInstances,containerReport,containerError))std::cout<<"Containers unavailable: "<<containerError<<'\n';
+             else if(![&]{ // P16 CONTAINERS2 debug: --container-script overrides the authored OnOpen script of named declarations (logged)
+                 for(const auto& [declName,script]:options.containerScriptOverrides){
+                     bool found=false;for(auto& instance:containerInstances)if(instance.name==declName){instance.script=script;found=true;}
+                     std::cout<<"Container script override declaration="<<declName<<" script="<<script<<(found?" status=applied":" status=unknown_declaration")<<'\n';
+                 }
+                 return containerRuntime.adopt(assets,std::move(containerInstances),containerNotices,containerError);}())std::cout<<"Containers unavailable: "<<containerError<<'\n';
+             else {
+                 std::size_t visible=0;for(const auto& view:containerRuntime.views())if(view.visual)++visible;
+                 std::string unsupported;for(const auto& u:containerReport.unsupported){if(!unsupported.empty())unsupported+=",";unsupported+=u.first+":"+std::to_string(u.second);}
+                 std::cout<<"Containers instantiated="<<containerReport.instantiated<<" declarations="<<containerReport.declarations<<" visuals="<<visible<<" unsupported="<<(unsupported.empty()?std::string("none"):unsupported)<<'\n';
+                 for(const auto& view:containerRuntime.views())if(view.instance)std::cout<<"Container declaration="<<view.instance->name<<" interaction="<<view.instance->interaction_type<<" at="<<view.instance->transform[12]<<','<<view.instance->transform[13]<<','<<view.instance->transform[14]<<" script="<<(view.instance->script.empty()?std::string("(none)"):view.instance->script)<<'\n';
+                 for(const auto& n:containerReport.notices)std::cerr<<"Container notice: "<<n<<'\n';
+                 for(const auto& n:containerNotices)std::cerr<<"Container notice: "<<n<<'\n';
+             }}
+
+            // P16 SPAWN (--spawn-test only): slots for every candidate profile that has an actor profile AND an
+            // explicit combat policy are admitted into THIS population before the CombatSession is built. Other
+            // candidates are not admitted; the spawn owner then rejects them with an explicit reason.
+            // P16 CONTAINERS2 (T6): Summon targets of this level's OnOpen contracts reserve pool slots like --spawn-test names.
+            std::vector<std::string> spawnNames;
+            for(const auto& test:options.spawnTests)spawnNames.push_back(test.name);
+            for(const auto& view:containerRuntime.views())if(view.instance)if(const auto* contract=f::containers::find_open_script_contract_v1(view.instance->script))for(const auto& character:f::containers::open_contract_summon_characters_v1(*contract))if(std::find(spawnNames.begin(),spawnNames.end(),character)==spawnNames.end())spawnNames.push_back(character);
+            if(!spawnNames.empty()) {
+                if(properties.characters.names.empty()&&!f::load_original_property_tables(assets,"original-cache/data/pydata",properties,error))throw std::runtime_error("Spawn property tables: "+error);
+                const auto templateRecords=assets.read("original-cache/data/pydata/character_templates_pyarray.bin");
+                const auto templateNames=assets.read("original-cache/data/pydata/character_templates_pyarraynames.bin");
+                if(!spawnTemplateTable.load({templateRecords.data(),templateRecords.size()},{templateNames.data(),templateNames.size()},error))throw std::runtime_error("Spawn template table: "+error);
+                f::ActorCustomization spawnCustomization;spawnCustomization.allow_missing_animation_targets=true;spawnCustomization.use_authored_modular_defaults=true;
+                const auto hostLevelRaw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
+                const std::uint32_t spawnSlotsPerProfile=2;
+                std::set<std::string> reservedProfiles;
+                for(const auto& testName:spawnNames) {
+                    std::vector<std::string> candidates;
+                    if(!f::spawn::spawn_candidate_profiles_v1(testName,properties.characters,spawnTemplateTable,candidates,error))throw std::runtime_error("Spawn test: "+error);
+                    for(const auto& profileId:candidates) {
+                        // P16 PROFILES: a CharacterTable row with no authored profile/policy is derived from the original
+                        // tables (features/spawn/actor_profile_derivation_v1). Authored entries always win; derived melee
+                        // bindings are published after the melee XML loads (initializeCombat).
+                        if(!profiles.find(profileId)||options.combat.profiles.find(profileId)==options.combat.profiles.end()) {
+                            if(!derivedTablesLoaded) {
+                                if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))throw std::runtime_error("Profile derivation tables: "+error);
+                                derivedTablesLoaded=true;
+                            }
+                            if(!profiles.find(profileId)) {
+                                f::ActorProfile derived;
+                                if(f::spawn::derive_actor_profile_v1(derivedTables,profileId,derived,error)) {
+                                    if(!profiles.add_derived(derived,error))throw std::runtime_error("Derived profile: "+error);
+                                    derivedProfileIds.push_back(profileId);
+                                    std::cout<<"SPAWN profile derived from tables: "<<profileId<<" animationTable="<<derived.animation_table<<" states="<<derived.states.size()<<'\n';
+                                } else std::cout<<"SPAWN profile not derivable: "<<profileId<<" ("<<error<<")\n";
+                            }
+                            if(profiles.find(profileId)&&options.combat.profiles.find(profileId)==options.combat.profiles.end()) {
+                                f::CombatSessionProfile derivedPolicy;
+                                if(!f::spawn::derive_enemy_combat_policy_v1(derivedTables,profileId,derivedPolicy,error))throw std::runtime_error("Derived combat policy: "+error);
+                                derivedPolicy.diagnosticAIEnabled=options.diagnosticAI&&profileId!=options.combat.playerProfileId;
+                                options.combat.profiles.emplace(profileId,std::move(derivedPolicy));
+                            }
+                        }
+                        const auto* profile=profiles.find(profileId);
+                        const auto policy=options.combat.profiles.find(profileId);
+                        if(!profile||policy==options.combat.profiles.end()||!reservedProfiles.insert(profileId).second) {
+                            if(!profile||policy==options.combat.profiles.end())std::cout<<"SPAWN profile not admitted (no actor profile or combat policy): "<<profileId<<'\n';
+                            continue;
+                        }
+                        std::int32_t level=-1;
+                        if(!f::spawn::spawn_level_raw_v1(properties.characters,profileId,hostLevelRaw,level,error))throw std::runtime_error("Spawn level: "+error);
+                        if(level>=0)policy->second.propertyOptions.level_raw=level;
+                        if(!spawnPool.reserve(profileId,spawnSlotsPerProfile,level,error))throw std::runtime_error("Spawn pool: "+error);
+                        const auto declared=spawnPool.declarations(options.level.generic_string());
+                        bool admittedSlots=true;
+                        for(std::size_t i=declared.size()-spawnSlotsPerProfile;i<declared.size()&&admittedSlots;++i)
+                            if(!population.admit_declared(assets,declared[i],*profile,f::PopulationDecision::deferred,spawnCustomization,error))admittedSlots=false;
+                        if(!admittedSlots) { // P16 DESPAWN glue: an unadmittable profile is refused with its reason (logged), not a startup failure
+                            spawnProfileRefusals[profileId]=error;
+                            std::cout<<"SPAWN admission refused profile="<<profileId<<" reason="<<error<<'\n';
+                            continue;
+                        }
+                        std::cout<<"SPAWN pool profile="<<profileId<<" slots="<<spawnSlotsPerProfile<<" level_raw="<<level<<'\n';
+                    }
+                }
+            }
         }
         };
         loadContent(scene,visual);
         f::OriginalMeleeBindings meleeBindings;std::shared_ptr<f::CombatSession> combatSession;f::ObjectOfInterestOwnerV1 objectOfInterest; // B004/B029
+        f::InteractableRegistryV1 interactables; // P16 CONTEXT: non-actor interaction-type providers (empty until containers/NPC register)
+        int lastActionIcon=-2; // P16 CONTEXT: last published HUD action-button frame (log on change)
+        bool actionButtonHeld=false; // P16 HUDART: Space held this frame (pressed ring of the action button)
         const auto bindSourcePlayerLocomotion=[&](f::CombatSession& session) {
             if(!locomotionLibrary)return;
             const auto hands=currentLocomotionItems();
@@ -1151,6 +1484,43 @@ int main(int argc,char** argv) {
                 }
             }
             if(!meleeBindings.load(assets,options.meleeBindings,error))throw std::runtime_error("Melee bindings: "+error);
+            // P16 OPENING: under campaign triggers, a declared actor whose authored profile has no melee entry (for example
+            // Swamp_ActorTroll) needs the same table derivation as an unauthored row, so SpawnCharacter can play its states.
+            if(options.campaignTriggers) for(const auto& placed:population.actors()) {
+                const auto& id=placed.profileId;
+                const auto preset=placed.definition.properties.find("ai_state"),autoSpawn=placed.definition.properties.find("auto_spawn");
+                const bool scriptSpawnable=preset!=placed.definition.properties.end()&&(preset->second=="Limbus"||preset->second=="PreSpawn")&&autoSpawn!=placed.definition.properties.end()&&autoSpawn->second=="0";
+                if(!scriptSpawnable||!profiles.find(id))continue; // only declarations SpawnCharacter can reach
+                // The combat policy is needed by every declared actor (the session admits only policy-bearing actors).
+                if(!derivedTablesLoaded) {
+                    if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))throw std::runtime_error("Profile derivation tables: "+error);
+                    derivedTablesLoaded=true;
+                }
+                if(options.combat.profiles.find(id)==options.combat.profiles.end()) {
+                    f::CombatSessionProfile derivedPolicy;
+                    if(!f::spawn::derive_enemy_combat_policy_v1(derivedTables,id,derivedPolicy,error))throw std::runtime_error("Derived combat policy: "+error);
+                    derivedPolicy.diagnosticAIEnabled=options.diagnosticAI&&id!=options.combat.playerProfileId;
+                    options.combat.profiles.emplace(id,std::move(derivedPolicy));
+                }
+                if(!meleeBindings.find_actor(id)&&std::find(derivedProfileIds.begin(),derivedProfileIds.end(),id)==derivedProfileIds.end())derivedProfileIds.push_back(id);
+            }
+            // P16 OPENING: script clips join the source bank of their actor's combat profile (the session's visual load).
+            for(const auto& entry:scriptClipsByProfile) {
+                const auto policy=options.combat.profiles.find(entry.first);
+                if(policy==options.combat.profiles.end())continue; // no session actor for this profile (not admitted)
+                for(const auto& clip:entry.second) {
+                    const auto existing=std::find_if(policy->second.sourceAnimationClips.begin(),policy->second.sourceAnimationClips.end(),[&](const auto& item){return item.first==clip.first;});
+                    if(existing==policy->second.sourceAnimationClips.end())policy->second.sourceAnimationClips.push_back(clip);
+                }
+            }
+            // P16 PROFILES: melee bindings for profiles derived from CharacterTable/AnimTable (no authored melee entry).
+            for(const auto& derivedId:derivedProfileIds) {
+                if(meleeBindings.find_actor(derivedId))continue;
+                f::OriginalMeleeActor derivedActor;
+                if(!f::spawn::derive_melee_actor_v1(derivedTables,derivedId,derivedActor,error))throw std::runtime_error("Derived melee: "+error);
+                if(!meleeBindings.add_derived_actor(std::move(derivedActor),error))throw std::runtime_error("Derived melee: "+error);
+                std::cout<<"SPAWN melee bindings derived from tables: "<<derivedId<<'\n';
+            }
             options.combat.playerVisualConfig=options.character;
             options.combat.selectedPlayerProfile=frontendStarted?&state:nullptr;
             if(populationStartupRandom){options.combat.initialRandomState=*populationStartupRandom;options.combat.diagnosticRngSeed.reset();}
@@ -1187,6 +1557,11 @@ int main(int argc,char** argv) {
                 if(!next->bind_player_locomotion(binding.first,binding.second,rate,true,error))throw std::runtime_error("Source locomotion binding: "+error);
             }
             combatSession=std::move(next);
+            // P16 CONTAINERS2 (T5): authored containers become neutral objects of this session, so GameSave persists their OBJS state.
+            {std::vector<std::string> containerObjectNotices;std::string containerObjectError;
+             if(!f::containers::bind_container_world_objects_v1(*combatSession->world(),containerRuntime,containerObjectNotices,containerObjectError))throw std::runtime_error("Container objects: "+containerObjectError);
+             for(const auto& n:containerObjectNotices)std::cerr<<"Container notice: "<<n<<'\n';
+             std::cout<<"Containers world objects declarations="<<containerRuntime.size()<<" notices="<<containerObjectNotices.size()<<'\n';}
             faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;
             combatSession->set_frame_begin_provider([&](auto& session,double delta,std::string& e) {
                 if(sourceFaeryTables&&!f::faery_menu::advance_hotty_cooldown_clock_v1(session,delta,faeryCooldownClock,e))return false;
@@ -1371,7 +1746,7 @@ int main(int argc,char** argv) {
                     const auto* physical=nativeBodies.physical(entry.first);
                     if(!actor||!physical||!actor->source_physical_present||
                        *actor->source_physical_present!=(physical->native().body!=nullptr)) {
-                        e="Body checkpoint lacks matching current source physical-presence facts";return false;
+                        e="Body checkpoint lacks matching current source physical-presence facts actor="+std::to_string(entry.first)+" actor="+std::string(actor?"yes":"no")+" physical="+std::string(physical?"yes":"no")+" known="+std::string(actor&&actor->source_physical_present?"yes":"no")+" present="+std::string(physical&&physical->native().body?"yes":"no");return false;
                     }
                     if(sourcePhysicalFrameEnabled) {
                         const auto context=nativeBodyContexts.find(entry.first);
@@ -1391,8 +1766,12 @@ int main(int argc,char** argv) {
                         case 7:expected=0x6301u;break;
                         case 11:expected=0x2b41u;break;
                         case 12:expected=0x241u|(traits->is_player?0x2000u:0u);break;
+                        case 17:expected=0x1300u;break; // D3: CSPreSpawn::OnFocus (session_actor_transition_v1.cpp)
+                        case 0:expected=0u;break;       // D3: Limbus publishes flags 0
                         }
-                        if(!expected||!actor->source_flags520||*actor->source_flags520!=*expected) {
+                        // D3: Limbus (0) publishes flags 0 (OriginalActorLifecycle::change), which is an unset optional here.
+                        const auto flags520=actor->source_flags520?actor->source_flags520:(props->facts.original_state==0?std::optional<std::uint32_t>(0u):std::nullopt);
+                        if(!expected||!flags520||*flags520!=*expected) {
                             e="Body checkpoint source flags mismatch actor="+std::to_string(entry.first)+
                               " state="+std::to_string(props?props->facts.original_state:-1)+
                               " flags="+std::to_string(actor->source_flags520.value_or(0))+
@@ -1505,12 +1884,132 @@ int main(int argc,char** argv) {
         f::SourceWorldObjects sourceObjects;
         f::CampaignCameraAdapter sourceCameraTargets;
         f::OriginalCampaignWorldAdapter campaignWorld(actorLifecycle,&sourceCameraTargets);
+        // P16 HOST: script-host providers and generic trigger zones (bound only with --campaign-triggers).
+        f::campaign_host::CampaignHostServices hostServices;
+        f::CameraClipLibrary cameraClipLibrary; // P16 CINE2: PlayCamera dictionary -> cs_* clip bytes
+        cameraClipLibrary.set_scene_file(originalCamera.config().file); // the level camera the clips drive
+        hostServices.read_camera_clip=[&](std::int32_t id,std::vector<std::uint8_t>& clip,std::vector<std::uint8_t>& scene,std::string& path,std::string& e){return cameraClipLibrary.read(assets,id,clip,scene,path,e);};
+        hostServices.all_actors=[&](std::vector<f::ActorId>& out,std::string& e){if(!combatSession){e="Campaign host needs the live combat session";return false;}out.clear();for(const auto& entry:combatSession->world()->actors())out.push_back(entry.first);return true;};
+        // P16 OPENING: a population-only actor has no combat state: it is not alive for the source Idle gate (a no-op).
+        hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){alive=false;state=-1;return true;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
+        hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){return combatSession&&combatSession->set_actor_original_state(id,state,e);};
+        // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
+        // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
+        // transform is the owner: column-major translation at 12..14, heading in the 2x2 block).
+        const auto populationActor=[&](f::ActorId id)->f::PopulationActor* {
+            for(auto& placed:population.actors())if(placed.definition.stableId==id)return &placed;
+            return nullptr;
+        };
+        // P16 OPENING4: scripted scene objects (AnimatedDecor named by PlayAnimByName, kind 19) and their clip owner.
+        f::scene_decor::SceneDecorRuntimeV1 sceneDecor;
+        // P16 OPENING4: hand verbs (UnEquipHands 51 / ReEquipHands 52) act on the equipment binding, which exists after the
+        // session; the owner is set when the binding is ready (below). Slots 1 and 2 = the hand slots of IDA Script_UnEquipHands.
+        std::function<bool(f::ActorId,bool,std::string&)> handVerbOwner;
+        std::array<bool,3> handHeldBeforeUnequip{};
+        hostServices.actor_verbs.hands=[&](f::ActorId id,bool equipped,std::string& e){
+            return handVerbOwner?handVerbOwner(id,equipped,e):true;
+        };
+        hostServices.actor_verbs.resolve_actor=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){
+            if(name=="LocalPlayer"||name=="Player") {
+                if(!combatSession){e="Actor lookup needs the live combat session";return false;}
+                id=combatSession->player_id();found=true;return true;
+            }
+            return sourceObjects.named_character(name,module,id,found,e);
+        };
+        hostServices.actor_verbs.waypoint_position=[&](const std::string& name,int module,std::array<float,3>& position,bool& found,std::string& e){
+            f::ActorId object=0;
+            if(!sourceObjects.named_object(name,module,object,found,e))return false;
+            if(!found)return true;
+            f::CameraVec3 anchor;
+            if(!sourceObjects.anchor(object,anchor,e))return false;
+            position={anchor.x,anchor.y,anchor.z};return true;
+        };
+        hostServices.actor_verbs.position_of=[&](f::ActorId id,std::array<float,3>& position,std::string& e){
+            if(const auto* actor=combatSession?combatSession->actor(id):nullptr){position=actor->transform.position;return true;}
+            if(const auto* placed=populationActor(id)){position={placed->transform[12],placed->transform[13],placed->transform[14]};return true;}
+            e="Actor position unavailable";return false;
+        };
+        // SetActorPosition: the physical owner moves with the actor (the same owner the lifecycle restore uses).
+        hostServices.actor_verbs.teleport=[&](f::ActorId id,std::array<float,3> position,std::string& e){
+            if(auto* actor=combatSession?combatSession->actor(id):nullptr) {
+                if(options.sourceNativeBodies) {if(!nativeBodies.set_position(id,position,true,e))return false;}
+                else actor->transform.position=position;
+                return true;
+            }
+            if(auto* placed=populationActor(id)) {placed->transform[12]=position[0];placed->transform[13]=position[1];placed->transform[14]=position[2];return true;}
+            // P16 FIX16: an authored actor with no live instance in this level state is a logged no-op (SetActorPosition).
+            std::cout<<"[campaign] SetActorPosition: actor "<<id<<" has no live instance; command is a no-op\n";e.clear();return true;
+        };
+        // LookActor: source Cmd_LookAt turns the actor toward the target; here the heading is set at once.
+        hostServices.actor_verbs.face=[&](f::ActorId id,std::array<float,3> target,std::string& e){
+            if(auto* actor=combatSession?combatSession->actor(id):nullptr) {
+                actor->transform.rotation[2]=std::atan2(target[1]-actor->transform.position[1],target[0]-actor->transform.position[0]);
+                return true;
+            }
+            if(auto* placed=populationActor(id)) {
+                const float heading=std::atan2(target[1]-placed->transform[13],target[0]-placed->transform[12]);
+                const float sx=std::hypot(placed->transform[0],placed->transform[1]),sy=std::hypot(placed->transform[4],placed->transform[5]);
+                placed->transform[0]=sx*std::cos(heading);placed->transform[1]=sx*std::sin(heading);
+                placed->transform[4]=-sy*std::sin(heading);placed->transform[5]=sy*std::cos(heading);
+                return true;
+            }
+            // P16 FIX16: no live instance (standalone script start or not yet spawned): LookActor is a logged no-op.
+            std::cout<<"[campaign] LookActor: actor "<<id<<" has no live instance; command is a no-op\n";e.clear();return true;
+        };
+        // ShowActor/HideActor: population activation (the draw and update gates honour it).
+        hostServices.actor_verbs.set_visible=[&](f::ActorId id,bool visible,std::string& e){
+            if(id==combatSession->player_id()) {std::cout<<"[campaign] Show/HideActor on the local player is not applied (no player visibility owner)\n";return true;}
+            if(population.set_enabled(id,visible,e))return true;
+            // P16 FIX16: an authored actor with no live instance in this level state (a standalone script start, or not yet
+            // spawned) is a logged no-op for Show/HideActor; the cutscene continues. Other errors still fail.
+            if(e=="Population actor stable ID is unavailable") {std::cout<<"[campaign] Show/HideActor: actor "<<id<<" has no live instance; command is a no-op\n";e.clear();return true;}
+            return false;
+        };
+        hostServices.actor_verbs.put_limbus=[&](f::ActorId id,std::string& e){return actorLifecycle.put_limbus(id,e);};
+        hostServices.actor_verbs.play_clip=[&](f::ActorId id,std::int32_t dictionary,std::int32_t& duration,std::string& e){
+            std::string path;
+            if(!cameraClipLibrary.dictionary_path(assets,dictionary,path,e))return false;
+            const auto clip=f::campaign_host::actor_clip_name(dictionary);
+            if(combatSession&&combatSession->actor(id)) {
+                // Session actor (combat state owns the pose): the retained playback plays the clip.
+                if(!combatSession->play_actor_clip(id,clip,path,false,e))return false;
+                duration=0;std::string rangeError;
+                if(!combatSession->actor_clip_duration_ms(id,clip,duration,rangeError))std::cout<<"[campaign] actor clip range unavailable: "<<rangeError<<'\n';
+            } else if(auto* placed=populationActor(id)) {
+                // Population-only actor: its visual is updated by the frame loop, so the clip is selected on that visual.
+                if(!placed->visual.select(clip,false,e))return false;
+                std::int32_t start=0,end=0;
+                if(!placed->visual.animation_range(clip,start,end,e))return false;
+                duration=end-start;
+            } else {
+                // P16 FIX16: no live instance for the clip (standalone script start or not yet spawned): logged no-op, zero duration.
+                std::cout<<"[campaign] PlayActorAnim: actor "<<id<<" has no live instance; clip "<<clip<<" is a no-op\n";
+                duration=0;return true;
+            }
+            std::cout<<"[campaign] actor clip "<<clip<<" "<<path<<" duration_ms="<<duration<<" actor="<<id<<'\n';
+            return true;
+        };
+        hostServices.actor_verbs.play_object_clip=[&](const std::string& object,const std::string& clip,bool& found,std::string& e){
+            return sceneDecor.play(object,clip,found,e); // P16 OPENING4: PlayAnimByName on an instantiated scene object
+        };
+        f::campaign_host::CampaignHost campaignHost(hostServices);
         bool globalControllerBlocked=false;
         std::map<f::ActorId,bool> characterControllerBlocked;
+        std::set<f::ActorId> characterControllerBlockedNoticeIds; // P16 FIX16: one log line per NPC without a session body
         f::CampaignCameraFrame lastSourceCameraFrame;
         std::map<f::ActorId,bool> lifecyclePhysical,lifecycleCollisions,lifecycleIdleSuppressed;
         std::map<f::ActorId,std::uint32_t> lifecycleFlags;
-        const bool lifecycleEnabled=!options.lifecycleSpawns.empty();
+        // P16 SPAWN: explicit --lifecycle-spawn choice when given (intro path); otherwise the source Spawn state's
+        // first leaf, the same clip Summon(spawn=true) plays through SM_SetSpawnState. Function scope on purpose:
+        // the lifecycle services stored by bind() outlive the enclosing lifecycle block.
+        const auto lifecycleSpawnChoice=[&options](const std::string& profileId)->f::OriginalAttackSelection {
+            const auto explicitChoice=options.lifecycleSpawns.find(profileId);
+            if(explicitChoice!=options.lifecycleSpawns.end())return explicitChoice->second;
+            f::OriginalAttackSelection generic;generic.state="Spawn";generic.variant=0;
+            return generic;
+        };
+        // P16 OPENING: campaign triggers also need the lifecycle (declared Limbus/PreSpawn actors are its records).
+        const bool lifecycleEnabled=!options.lifecycleSpawns.empty()||!spawnPool.empty()||!options.spawnDeclared.empty()||options.campaignTriggers; // P16 SPAWN pool slots and declared spawns need the lifecycle
         if((options.retainHiddenActors||lifecycleEnabled)&&!combatSession)throw std::runtime_error("Deferred live actors require the shared combat registry");
         if(!options.sourceCommands.empty()&&options.campaignCommands.empty())throw std::runtime_error("Source command replay requires original campaign XML");
         std::shared_ptr<f::SourceRootScopes> sourceScopes;
@@ -1560,7 +2059,7 @@ int main(int argc,char** argv) {
         };
         int sourceCommandContext=-1;
         auto rebuildSourceScopes=[&]() {
-            if(options.sourceCommands.empty()&&!options.retainHiddenActors&&!lifecycleEnabled&&options.sourceRootScopes.empty())return;
+            if(options.sourceCommands.empty()&&!options.retainHiddenActors&&!lifecycleEnabled&&options.sourceRootScopes.empty()&&!options.campaignTriggers)return; // P16 HOST
             if(!sourceObjects.load(population.definitions(),error))throw std::runtime_error(error);
             if(!options.sourceRootScopes.empty()) {
                 sourceScopes=std::make_shared<f::SourceRootScopes>();
@@ -1595,6 +2094,16 @@ int main(int argc,char** argv) {
         f::effects::RuntimeEffectsRendererV1 sourceEffectsRenderer(renderer);
         dh2::data::EffectsTables sourceEffectsTables;
         std::unique_ptr<f::effects::RuntimeEffectsFactoryV1> sourceEffectsFactory;
+        // P16 OPENING: scripted FX (PlayEffect/StopEffect) go through the source effects manager, the same owner as the level-up
+        // set. Read at command time, so a rebound factory is used. Without a factory the command reports an explicit error.
+        campaignHost.bind_fx([&](std::int32_t set,const std::array<float,3>& position,std::string& e){
+            if(!sourceEffectsFactory){e="FX owner unavailable (no source effects factory)";return false;}
+            std::uintptr_t created=0;const float at[3]={position[0],position[1],position[2]};
+            return sourceEffectsFactory->manager().play_set(set,at,nullptr,0,&created,e);
+        },[&](std::int32_t set,std::string& e){
+            if(!sourceEffectsFactory){e="FX owner unavailable (no source effects factory)";return false;}
+            return sourceEffectsFactory->manager().drop_set_by_id_v117(set,e);
+        });
         std::shared_ptr<f::effects::RuntimeSwingFxObserverV1> sourceSwingFx;
         std::unique_ptr<f::effects::CelestTargetFxDispatchV1> celestEffects;
         f::Camera sourceEffectsCamera;
@@ -1682,7 +2191,14 @@ int main(int argc,char** argv) {
             f::OriginalCampaignWorldProviders providers;
             providers.named_character=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){return sourceObjects.named_character(name,module,id,found,e);};
             providers.global_controller_blocked=[&](bool blocked,std::string&){globalControllerBlocked=blocked;return true;};
-            providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){if(!combatSession->actor(id)){e="Source character controller unavailable";return false;}characterControllerBlocked[id]=blocked;return true;};
+            // P16 FIX16: only the player has a controller. Lock/Unlock on a named NPC with no live session body records the flag
+            // (nothing else reads it for NPCs) and logs once, instead of aborting the cutscene.
+            providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){
+                if(!combatSession->actor(id)){
+                    if(characterControllerBlockedNoticeIds.insert(id).second)std::cout<<"[campaign] LockCharacter: actor "<<id<<" has no live session body; controller flag recorded only\n";
+                    characterControllerBlocked[id]=blocked;return true;
+                }
+                characterControllerBlocked[id]=blocked;return true;};
             // P14 FAERY (T3): Script_SetFaeryState / Script_IncFaeryLevel write the live CharacterState and persist it.
             // Legacy saves without source Faery rows (known=false) are a logged limitation: the script continues, nothing is invented.
             providers.set_faery_state=[&](std::uint32_t slot,std::uint32_t value,std::string& e){
@@ -1695,6 +2211,7 @@ int main(int argc,char** argv) {
                 if(!f::faery_menu::apply_source_inc_faery_level_v1(state,f::faery_menu::active_faery_difficulty_v1(),slot,e))return false;
                 std::cout<<"Source IncFaeryLevel slot="<<slot<<" level="<<state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].faeries[slot].level<<" committed to CharacterState\n";
                 return f::save_character(options.save,state,e);};
+            if(options.campaignTriggers)campaignHost.bind_world_providers(providers); // P16 HOST
             campaignWorld.bind(std::move(providers));
             if(!options.sourceCommands.empty()) {
                 combatSession->set_diagnostic_controller_admission_provider(
@@ -1710,8 +2227,21 @@ int main(int argc,char** argv) {
                     [](f::ActorId,bool& online,std::string&){online=false;return true;});
             }
         }
-        if(options.sourceCamera&&!options.sourceCommands.empty()) {
+        if((options.sourceCamera&&!options.sourceCommands.empty())||options.campaignTriggers) { // P16 HOST: camera admission also serves trigger scripts
             if(!combatSession)throw std::runtime_error("Source camera targets require the bound local player");
+            // P16 CINE3: a Character camera anchor (IDA GameObject::GetCameraAnchorPosition returns the object's own
+            // position unless an auxiliary anchor is attached; none is decoded) is the live position of its session or
+            // population actor. A Character with no live instance yet (for example the witch before its zone starts)
+            // uses its authored placement, the same position the object has in the level. Bound once for every script
+            // camera command, not only for the player.
+            sourceObjects.bind_actor_anchor([&](f::ActorId id,f::CameraVec3& out,std::string& e){
+                std::array<float,3> position{};
+                std::string liveError;
+                if(hostServices.actor_verbs.position_of(id,position,liveError)){out={position[0],position[1],position[2]};return true;}
+                const auto* definition=sourceObjects.definition(id);
+                if(!definition){e="Unknown source camera object: "+liveError;return false;}
+                out={definition->placement[12],definition->placement[13],definition->placement[14]};e.clear();return true;
+            });
             f::CampaignCameraProviders providers;
             providers.local_player=[&](std::uint64_t& id,std::string&){id=combatSession->player_id();return true;};
             providers.named_target=[&](const std::string& name,std::uint64_t& id,bool& found,std::string& e){
@@ -1772,9 +2302,11 @@ int main(int argc,char** argv) {
                 case f::OriginalLifecycleOperation::clear_idle_suppressed:lifecycleIdleSuppressed[actor.id]=false;return true;
                 case f::OriginalLifecycleOperation::init_physical:
                     if(options.sourceNativeBodies){const auto* body=nativeBodies.physical(actor.id);if(!body){e="Lifecycle native actor unavailable";return false;}if(!body->native().body&&!nativeBodies.initialize_physical(actor.id,e))return false;}
+                    if(auto* live=combatSession->actor(actor.id))if(const auto* body=nativeBodies.physical(actor.id))live->source_physical_present=body->native().body!=nullptr; // D3: the presence fact follows the native body
                     lifecyclePhysical[actor.id]=true;return true;
                 case f::OriginalLifecycleOperation::remove_physical:
                     if(options.sourceNativeBodies&&!nativeBodies.remove_physical(actor.id,e))return false;
+                    if(auto* live=combatSession->actor(actor.id))if(const auto* body=nativeBodies.physical(actor.id))live->source_physical_present=body->native().body!=nullptr; // D3: the presence fact follows the native body
                     lifecyclePhysical[actor.id]=false;return true;
                 case f::OriginalLifecycleOperation::set_collisions_enabled:
                     if(options.sourceNativeBodies&&nativeBodies.physical(actor.id)->native().body&&!nativeBodies.set_physical_filter_enabled(actor.id,request.collisions_enabled,e))return false;
@@ -1786,27 +2318,55 @@ int main(int argc,char** argv) {
                 case f::OriginalLifecycleOperation::select_state_animation: {
                     const auto policy=options.combat.profiles.find(placed->profileId);
                     if(policy==options.combat.profiles.end()){e="Source lifecycle profile unavailable";return false;}
-                    if(request.state==1)return combatSession->play_actor_state_sequence(actor.id,options.lifecycleSpawns.at(placed->profileId),animationServices,e);
-                    if(request.state==3)return combatSession->select_actor_state_leaf(actor.id,policy->second.initialIdle,1,false,animationServices,e);
+                    // P16 LIFECYCLE: request.state is the admitted transition target (Blur/Focus recipes in the consumer).
+                    if(request.state==1)return combatSession->play_actor_state_sequence(actor.id,lifecycleSpawnChoice(placed->profileId),animationServices,e,request.state);
+                    if(request.state==3)return combatSession->select_actor_state_leaf(actor.id,policy->second.initialIdle,1,false,animationServices,e,request.state);
+                    // P16 DESPAWN: lifecycle state 2 is CSDespawn::OnFocus. The source selects no clip there (SM_SetAnim(-1)); the
+                    // port plays the actor's Despawn sequence only with --despawn-clip (DESPAWN2), and its completion is the Limbus
+                    // transition. Without the clip the state changes nothing visible; the owner hides the actor right after.
+                    if(request.state==2) {
+                        const auto* despawnSource=meleeBindings.find_actor(placed->profileId);
+                        const auto clip=despawnSource?despawnSource->states.find("Despawn"):decltype(despawnSource->states.end()){};
+                        if(!options.despawnClip||!despawnSource||clip==despawnSource->states.end()||clip->second.empty())return true;
+                        f::OriginalAttackSelection despawn;despawn.state="Despawn";despawn.variant=0;
+                        for(const auto& sequence:clip->second)std::cout<<"DESPAWN sequence actor="<<actor.id<<" id="<<sequence.id<<" name="<<sequence.name<<" loop="<<sequence.loop<<" type="<<sequence.type<<" steps="<<sequence.steps.size()<<'\n';
+                        return combatSession->play_actor_state_sequence(actor.id,despawn,animationServices,e,request.state);
+                    }
                     const auto* source=meleeBindings.find_actor(placed->profileId);
                     const auto pre=source->states.find("PreSpawn");
                     if(pre==source->states.end()){e="PreSpawn source availability metadata absent";return false;}
                     if(!pre->second.empty()) {
                         const auto chosen=options.lifecyclePreSpawns.find(placed->profileId);
                         if(chosen==options.lifecyclePreSpawns.end()){e="Authored PreSpawn needs explicit leaf selection";return false;}
-                        return combatSession->select_actor_state_leaf(actor.id,chosen->second,1,false,animationServices,e);
+                        return combatSession->select_actor_state_leaf(actor.id,chosen->second,1,false,animationServices,e,request.state);
                     }
-                    const auto& spawn=options.lifecycleSpawns.at(placed->profileId);
+                    const auto spawn=lifecycleSpawnChoice(placed->profileId);
                     auto path=spawn.group_path;path.push_back(0);
-                    return combatSession->select_actor_state_leaf(actor.id,{spawn.state,spawn.variant,path},1,true,animationServices,e);
+                    return combatSession->select_actor_state_leaf(actor.id,{spawn.state,spawn.variant,path},1,true,animationServices,e,request.state);
                 }}
                 e="Unimplemented lifecycle operation";return false;
             };
             actorLifecycle.bind(std::move(services));
-            for(const auto& placed:population.actors())if(options.lifecycleSpawns.count(placed.profileId)) {
+            // P16 SPAWN: an authored declaration joins the lifecycle only when a --spawn-declared trigger names it (its
+            // Limbus/PreSpawn preset then starts at PreSpawn17, as in the source). Every other declaration is unchanged.
+            const auto declaredNamed=[&](const std::string& name){return std::any_of(options.spawnDeclared.begin(),options.spawnDeclared.end(),[&](const auto& request){return request.name==name;});};
+            // P16 OPENING: a declaration that does not auto-spawn (auto_spawn=0) and whose source preset is Limbus/PreSpawn
+            // joins the lifecycle under campaign triggers: SpawnCharacter needs its record. Template-inherited presets on
+            // auto-spawning monsters are not admitted.
+            const auto limbusPreset=[&](const auto& p){
+                const auto it=p.definition.properties.find("ai_state"),spawn=p.definition.properties.find("auto_spawn");
+                return it!=p.definition.properties.end()&&(it->second=="Limbus"||it->second=="PreSpawn")&&spawn!=p.definition.properties.end()&&spawn->second=="0";};
+            for(const auto& placed:population.actors()) {
+                const bool explicitLifecycle=options.lifecycleSpawns.count(placed.profileId)||spawnPool.owns(placed.definition.stableId)||declaredNamed(placed.definition.name);
+                if(!explicitLifecycle&&!(options.campaignTriggers&&limbusPreset(placed)))continue;
+            // P16 SPAWN pool slots
                 auto* actor=combatSession->actor(placed.definition.stableId);
                 const auto* source=meleeBindings.find_actor(placed.profileId);
-                if(!actor||!source)throw std::runtime_error("Lifecycle actor needs a retained shared profile");
+                if(!actor||!source) {
+                    if(explicitLifecycle)throw std::runtime_error("Lifecycle actor needs a retained shared profile");
+                    std::cout<<"Lifecycle declaration skipped (no shared profile bindings): "<<placed.definition.name<<" profile="<<placed.profileId<<'\n';
+                    continue;
+                }
                 f::OriginalLifecycleFacts facts;facts.initial_transform=actor->transform;facts.initially_enabled=placed.enabled;
                 const auto preset=placed.definition.properties.find("ai_state");
                 // Original Character declaration13cc defaults to the empty name.
@@ -1835,6 +2395,25 @@ int main(int argc,char** argv) {
             std::cout<<"Serialized command replay context="<<sourceCommandContext<<"; original trigger admission and complete cutscene/UI providers remain incomplete\n";
         }
         std::cout<<"Character name="<<state.name<<" class="<<state.class_id<<" xp="<<state.experience<<'\n';
+        // P16 HOST: live executor binding and trigger zones from the loaded level declarations (off by default).
+        if(options.campaignTriggers) {
+            if(options.campaignCommands.empty()||!combatSession)throw std::runtime_error("--campaign-triggers requires --campaign-commands and the live combat session");
+            if(!campaignHost.bind_executor(sourceCampaign,campaignWorld,error))throw std::runtime_error("Campaign host: "+error);
+            // D3 (OPENING3): campaign lifecycle component on a neutral object (save component mechanism).
+            if(options.campaignTriggers){std::string lifecycleBindError;if(!campaignHost.bind_lifecycle_object(*combatSession->world(),lifecycleBindError))throw std::runtime_error("Campaign lifecycle object: "+lifecycleBindError);combatSession->set_lifecycle_serialized_by_host(true);}
+            // P16 OPENING4: scene objects named by the campaign scripts (kind 19) get their visuals at the authored transform.
+            {std::vector<std::string> sceneNotices,sceneNames;for(const auto& request:f::campaign_host::collect_scene_object_clip_requests(sourceCampaign))sceneNames.push_back(request.object);
+             if(!sceneDecor.adopt(assets,population.definitions(),sceneNames,sceneNotices,error))throw std::runtime_error("Scene objects: "+error);
+             for(const auto& notice:sceneNotices)std::cout<<"[scene] "<<notice<<'\n';}
+            if(!campaignHost.build_zones(population.definitions(),error))throw std::runtime_error("Campaign trigger zones: "+error);
+            // P16 CINE: harness start of an authored script by name (same runtime start as DoTutorial; not a production starter).
+            if(!options.campaignStart.empty()) {
+                const int script=sourceCampaign.script_id(options.campaignStart,true);
+                if(script<0)throw std::runtime_error("--campaign-start: no authored script named "+options.campaignStart);
+                if(!sourceCampaign.start(script,-1,true,error))throw std::runtime_error("--campaign-start "+options.campaignStart+": "+error);
+                std::cout<<"[campaign] harness start script="<<options.campaignStart<<" id="<<script<<'\n';
+            }
+        }
         if(options.probe) {
             if(visual.loaded()) for(auto pose:{f::CharacterPose::idle,f::CharacterPose::walk,f::CharacterPose::attack}) {
                 visual.select(pose);if(!visual.update(.25,error)) throw std::runtime_error(error);
@@ -1894,6 +2473,10 @@ int main(int argc,char** argv) {
         }
         for(std::size_t i=0;i<targetMarker.materials.size();++i)targetMarker.mesh.ranges[i].material.texture=loadTexture(targetMarker.materials[i].diffuse,targetMarker.materials[i].alphaMap);
         };
+        // P16 containers: bind the original textures of each container visual (same rule as actors).
+        for(const auto& view:containerRuntime.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
+            const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
+            for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
         bindMaterials();
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
         // B056: Details list damask is the MenuGraphics02 picture (shipped texture, not the MenusGraphics_droid atlas).
@@ -1933,7 +2516,9 @@ int main(int argc,char** argv) {
             };
             services.project=[&](f::Vec3 point,float& x,float& y,std::string& e){
                 std::array<float,2> screen;
-                if(!combatTextCamera||!project(*combatTextCamera,point,window.width(),window.height(),screen)){e="Combat text point cannot be projected by current camera";return false;}
+                // P16 OPENING: a point behind the current camera (a scripted camera can look away from a fight) is culled:
+                // it is placed far off screen, so the label is not visible instead of stopping the session.
+                if(!combatTextCamera||!project(*combatTextCamera,point,window.width(),window.height(),screen)){x=y=-100000.f;return true;}
                 x=screen[0];y=screen[1];return true;
             };
             services.glyph_draw=[&](const auto& glyphs,std::string& e){return drawCombatGlyphs(glyphs,renderer,overlay,textures,e);};
@@ -1952,6 +2537,10 @@ int main(int argc,char** argv) {
         f::character_menu::MenuLocalization menuLocalization;
         if(options.hud&&combatSession&&!menuLocalization.load(assets,"original-cache/data",0,error))throw std::runtime_error("Character menu labels: "+error);
         if(options.hud&&combatSession&&!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
+        // P16 CINE: caption lines resolve their authored StrID through the same original localization owner.
+        // P16 OPENING: caption text substitutes the source $player token with the character name (the reference shows the name).
+        if(options.campaignTriggers) campaignHost.set_caption_auto_tap_ms(std::uint32_t(options.captionAutoTapMs>0?options.captionAutoTapMs:0));
+        if(options.campaignTriggers) campaignHost.set_caption_text([&menuLocalization,&state](std::int32_t id,std::string& text,std::string& e){if(!menuLocalization.string_id(id,text,e))return false;for(auto at=text.find("$player");at!=std::string::npos;at=text.find("$player",at+state.name.size()))text.replace(at,7,state.name);return true;});
         f::CameraPose start;
         float extent=200;
         if(!scene.mesh.vertices.empty()) {
@@ -2013,10 +2602,13 @@ int main(int argc,char** argv) {
                 if(!f::audio::read_level_music_names_v1(assets,options.level.generic_string(),levelMusic,error)||
                    !runtimeAudio->set_level_music(levelMusic.music,error))
                     std::cerr<<"Level music diagnostic: "<<error<<'\n';
+                else runtimeAudio->set_level_music_safezone(levelMusic.safezone); // P17 SAFEZONE
             } catch(const std::exception& failure) {
                 std::cerr<<"Audio initialization diagnostic: "<<failure.what()<<"; gameplay continues\n";
             }
         }
+        // P17 SAFEZONE: Script_EnterSafeZone / LeaveSafeZone switch the level music (no audio: state only).
+        campaignHost.bind_safe_zone([&](bool entering,std::string& e){return !runtimeAudio||runtimeAudio->set_level_music_safe_zone(entering,e);});
         std::set<int> held;int drawn=0;double previous=window.seconds(),dt=0;
         const auto bindSourcePresentations=[&]() {
             if(runtimeAudio)runtimeAudio->clear_step_entry_presentation_observers();
@@ -2051,6 +2643,13 @@ int main(int argc,char** argv) {
         f::InputActions gameplayInput;
         std::function<void()> sourcePhysicalPlayerControls;
         f::character_menu::Presenter characterMenu;
+        // P16 MAP: visited-room tracker for the current level, and the Map page zoom state (reset = full level).
+        f::map_visit::RoomZoneVisitTrackerV1 mapVisits;bool mapVisitsReady=false;f::map_visit::MapViewV1 mapView;
+        // P16 MAPFIX: authored minimapcameras pose (loaded on the first Map frame), PC view controls state.
+        f::map_visit::MapCameraPoseV1 mapCameraPose;bool mapCameraPoseLoaded=false;
+        bool mapDragging=false;std::array<float,2> mapDragLast{0,0};std::array<bool,5> mapKeysDown{};bool mapMarkersLogged=false;
+        // P16 MAP parchment texture (sheet fill, menus/map_bottom.tga), uploaded on the first Map frame.
+        std::uint32_t mapParchmentTexture=0;float mapParchmentTexelsW=1,mapParchmentTexelsH=1;
         f::character_menu::Bindings characterMenuBindings;
         characterMenuBindings.character=&state;
         auto characterMenuComposition=std::make_unique<f::character_menu::SourceCompositionV1>(sharedCharacter);
@@ -2164,6 +2763,23 @@ int main(int argc,char** argv) {
                 runtimeEquipmentAttachments=initialRender.attachments;
             } else if(!equipmentError.empty())throw std::runtime_error(equipmentError);
             runtimeEquipment=std::move(binding);runtimeEquipmentPage=std::move(page);
+            // P16 OPENING4: the hand verbs of the campaign act on the local player's equipment (IDA Script_UnEquipHands).
+            handVerbOwner=[&](f::ActorId id,bool equipped,std::string& e)->bool{
+                if(!combatSession||id!=combatSession->player_id()||!runtimeEquipment)return true; // only the player carries equipment
+                for(unsigned slot:{1u,2u}) {
+                    if(!equipped) {
+                        handHeldBeforeUnequip[slot]=false;
+                        for(const auto& binding:state.equipment)
+                            if((binding.source_slot==int(slot)||(binding.source_slot<0&&binding.slot=="slot"+std::to_string(slot)))&&!binding.item_instance_id.empty())handHeldBeforeUnequip[slot]=true;
+                        if(handHeldBeforeUnequip[slot]&&!runtimeEquipment->unequip(slot,e))return false;
+                    } else if(handHeldBeforeUnequip[slot]) {
+                        if(!runtimeEquipment->auto_equip_slot(slot,e))return false;
+                        handHeldBeforeUnequip[slot]=false;
+                    }
+                }
+                std::cout<<"[campaign] hands "<<(equipped?"re-equipped":"unequipped")<<" actor="<<id<<'\n';
+                return true;
+            };
             syncPlayerBodyParts(); // B061
         };
         const auto retireEquipmentPage=[&]() {
@@ -2279,6 +2895,17 @@ int main(int argc,char** argv) {
                     });
                 if(!characterMenuComposition->register_page(f::character_menu::Tab::skills,runtimeSkillsMenu->source_page_provider(),error))
                     throw std::runtime_error("Skills composition: "+error);
+                // P16 MAP: the Map page is selectable on every level. Its content (visited geometry, player marker)
+                // is drawn by the host (drawMapPage); this provider only binds selection to the same character owner.
+                {
+                    f::character_menu::SourcePageProviderV1 mapProvider;
+                    mapProvider.owner=sharedCharacter;
+                    mapProvider.ready=[](std::string&){return true;};
+                    mapProvider.append=[](f::character_menu::Frame&,std::string&){return true;};
+                    mapProvider.release=[](float,float,std::string&){return true;};
+                    if(!characterMenuComposition->register_page(f::character_menu::Tab::map,std::move(mapProvider),error))
+                        throw std::runtime_error("Map composition: "+error);
+                }
                 // Preview 14: live Stats-tab +/- route (was unregistered: "no original source hit resolver").
             if(!f::character_menu::register_stat_training_v1(*characterMenuComposition,sharedCharacter,state,
                    [&]()->f::CombatSession*{return combatSession.get();},properties,
@@ -2330,6 +2957,26 @@ int main(int argc,char** argv) {
             out={};out.binding_lifecycle=rewardBindingGeneration;
             if(id==combatSession->player_id())out.character=sharedCharacter;
             e.clear();return true;
+        };
+        // P16 CONTAINERS2 (T4): DoOpen loot through the same DROPS store and session loot RNG the death rewards use.
+        const auto bindContainerLoot=[&]() {
+            containerLoot=f::containers::ContainerLootV1();
+            if(!combatSession||!deathRewards.bound()||!worldItems)return;
+            f::containers::ContainerLootInputsV1 lootInputs;
+            lootInputs.tables=deathRewards.loot_source().loot;
+            lootInputs.powers=deathRewards.loot_source().power_resources;
+            lootInputs.entry=deathRewards.loot_entry_services();
+            lootInputs.store=worldItems.get();
+            lootInputs.rng_context=combatSession->world();
+            lootInputs.with_rng=[](void* raw,const f::interactions::SourceContainerLootRngOperationV1& operation,std::string& e){return static_cast<f::PlayableActorWorld*>(raw)->with_loot_random(operation,e);};
+            lootInputs.bonus_context=combatSession->world();
+            lootInputs.opener_bonus256=[](void* raw,f::ActorId id,std::int32_t& bonus,std::string& e){
+                const auto* properties=static_cast<f::PlayableActorWorld*>(raw)->combat_properties(id);
+                if(!properties){e="Opener has no source properties";return false;}
+                bonus=properties->sheets.resolved[195];return true;};
+            std::string lootError;
+            if(!containerLoot.bind(lootInputs,lootError))throw std::runtime_error("Container loot: "+lootError);
+            std::cout<<"Container loot bound\n";
         };
         const auto bindDeathRewards=[&]() {
             deathRewards.reset();
@@ -2389,7 +3036,290 @@ int main(int argc,char** argv) {
                 std::cout<<"World item sound uid="<<result.uid<<" event="<<eventName<<" source="<<ordinal<<" item="<<entry.identity<<" status=submitted\n";
             });
         };
+        // P16 QUESTS: the authored v2Quest table is decoded once; the runtime is bound per live session.
+        // Quest state lives in CharacterState::source_quest_progress_cqpg (saved with the character).
+        std::shared_ptr<const f::quest_runtime::QuestTableV1> questTable;
+        std::map<f::ActorId,std::pair<std::int32_t,std::int32_t>> questActorIdentity; // (CharacterTable row, Charater_Templates row)
+        // P16 MAPMARKERS: Map page marker facts of the loaded level (built at load) and the producer registry.
+        std::vector<f::map_visit::MapLevelObjectV1> mapLevelObjects;   // CheckpointZone / SpawnPoint / TriggerZoneExitLevel
+        std::vector<f::map_visit::MapCharacterV1> mapCharacters;       // placed characters (quest giver and merchant facts)
+        std::optional<std::int32_t> mapLevelEntryPoint;                // current entry (the spawn the player was placed on)
+        const f::map_visit::MapMarkerRegistryV1 mapMarkers=f::map_visit::standard_map_marker_registry_v1();
+        std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
+        f::quest_runtime::QuestZoneSetV1 questZones; // P16 QUESTUI: MoveInZone boxes of this level
+        f::QuestBannerPresenterV1 questBanners;      // P16 QUESTUI: NEW QUEST / updates / QUEST COMPLETED
+        std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)
+        bool questTalkHeld=false;                    // P16 QUESTUI: interact press edge for NPC talk
+        std::shared_ptr<f::CharacterQuestProgressV1> questMenuProgress; // P16 QUESTUI: Quest Log page progress (CQPG view)
+        std::shared_ptr<f::RuntimeQuestMenuV1> questMenu;
+        std::shared_ptr<f::RuntimeQuestCharacterMenuBindingV1> questMenuBinding;
+        std::shared_ptr<dh2::ui::HudTextEnvironmentV1> questTextEnvironment; // P16 QUESTUI: outlives the Quest Log text resolver
+        std::shared_ptr<f::CharacterQuestTextV1> questMenuText; // P16 QUESTUI2: the bound Quest Log resolver (page and banner text)
+        // P16 QUESTUI: every runtime banner is queued for the presenter and returned for the console line.
+        const auto takeQuestBanners=[&]() {
+            auto banners=questRuntime?questRuntime->take_banners():std::vector<f::quest_runtime::QuestBannerV1>{};
+            // A banner queued while the runtime is bound before the Quest Log resolver (fresh-game NEW QUEST) gets its
+            // authored text here, when the resolver exists. Event-time banners already carry their text.
+            for(auto& banner:banners) {
+                if(banner.text.empty()&&banner.objective_text_id>=0&&questMenuText&&*questMenuText) {
+                    std::string textError;
+                    if((*questMenuText)(state,banner.objective_text_id,banner.text,textError)) {}
+                }
+                questBanners.push(banner);
+            }
+            return banners;
+        };
+        std::int32_t questLevelRow=-1;
+        const auto bindQuestRuntime=[&]() {
+            f::quest_runtime::bind_quest_event_sink({});
+            questRuntime.reset();questActorIdentity.clear();questZones=f::quest_runtime::QuestZoneSetV1();
+            if(!combatSession||!menuSourceOwner.valid())return;
+            if(!questTable) {
+                std::string questError;
+                const auto questArray=assets.read("original-cache/data/pydata/v2quests_pyarray.bin");
+                const auto questNames=assets.read("original-cache/data/pydata/v2quests_pyarraynames.bin");
+                if(!f::quest_runtime::decode_quest_table_v1(questArray,questNames,questTable,questError)) {
+                    std::cerr<<"Quest table diagnostic: "<<questError<<'\n';return;
+                }
+            }
+            f::quest_runtime::QuestRuntimeServicesV1 questServices;
+            questServices.give_experience=[&](std::int32_t amount,std::string& e) {
+                if(!deathRewards.bound()||!combatSession){e="Quest XP owner is not bound";return false;}
+                return deathRewards.award_experience(combatSession->player_id(),amount,e);
+            };
+            questServices.current_level_row=[&]()->std::int32_t {
+                const auto* levels=loadMetadataLevels(assets);
+                return levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;
+            };
+            // P16 QUESTUI: authored StringIDs (objective text) through the shared StringManager owner (drop-name owner).
+            // The Quest Log resolver (bound once, reused every frame by the page) answers banner text too. Re-binding
+            // the item-name text owner from an event handler (bind_profile/borrow_text) crashed the EXE.
+            questServices.text=[&](std::int32_t id,std::string& text) {
+                std::string textError;
+                if(!questMenuText||!*questMenuText)return false; // bind-time banners get their text in takeQuestBanners
+                if((*questMenuText)(state,id,text,textError))return true;
+                std::cerr<<"Quest banner text diagnostic: StringID "<<id<<": "<<textError<<'\n';
+                return false;
+            };
+            // OPENING2: Quest::ExecScript. A state's authored script starts through the campaign runtime (campaign triggers).
+            questServices.start_script=[&](const std::string& script,std::string& e) {
+                if(!options.campaignTriggers){e="campaign triggers are off";return false;}
+                const int id=sourceCampaign.script_id(script,false);
+                if(id<0){e="no authored script named "+script;return false;}
+                return sourceCampaign.start(id,-1,true,e);
+            };
+            // D1 (OPENING3): Quest::TestIsScriptRunning. A state waits for its authored script slot before it advances.
+            questServices.script_running=[&](const std::string& script) {
+                if(!options.campaignTriggers)return false;
+                const int id=sourceCampaign.script_id(script,false);
+                return id>=0&&sourceCampaign.running(id);
+            };
+            questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
+            std::string questError;
+            if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
+            for(const auto& d:questRuntime->diagnostics())std::cout<<"Quest runtime diagnostic: "<<d<<'\n'; // OPENING2
+            // P16 QUESTUI: explicit charpropsname bindings (NPCs) have no population row; resolve it by name
+            // through the CharacterTable names (the quest talk oids are these rows).
+            std::map<std::string,std::int32_t> characterRows;
+            {
+                std::string rowError;
+                if(!f::quest_runtime::decode_character_row_names_v1(assets.read("original-cache/data/pydata/character_properties_pyarraynames.bin"),characterRows,rowError))
+                    std::cerr<<"Quest character rows diagnostic: "<<rowError<<'\n';
+            }
+            for(const auto& placed:population.actors()) {
+                std::int32_t row=placed.source_character_cache;
+                const auto charprops=placed.definition.properties.find("charpropsname");
+                if(row<0&&charprops!=placed.definition.properties.end()) {
+                    const auto found=characterRows.find(charprops->second);
+                    if(found!=characterRows.end())row=found->second;
+                }
+                questActorIdentity[placed.definition.stableId]={row,placed.source_template_cache};
+            }
+            // P16 MAPMARKERS: marker facts of this level, once per load. Level objects are the authored classes of the
+            // IDA map producers (activation gate from the active conditions). Characters carry the CharacterTable row
+            // (quest giver match) and the merchant fact (AI row type 7 = Character::IsMerchant, IDA GetCharType).
+            mapLevelObjects.clear();mapCharacters.clear();mapLevelEntryPoint.reset();
+            for(const auto& declaration:population.definitions()) {
+                if(!f::map_visit::map_object_class_rule_v1(declaration.gametype))continue;
+                f::map_visit::MapLevelObjectV1 object;object.gametype=declaration.gametype;
+                object.position={declaration.placement[12],declaration.placement[13],declaration.placement[14]};
+                object.active=f::map_visit::map_activation_gate_v1(declaration.properties,options.activeConditions);
+                const auto entry=declaration.properties.find("entrypointID");
+                if(entry!=declaration.properties.end()) {try{object.entry_point_id=std::stoi(entry->second);}catch(const std::exception&){}}
+                // The current entry is the spawn the player is placed on at load (inference: IDA places the player via
+                // SpawnPoint::PlaceObject and stores Level+272 as the character's entry). Only a unique spawn at the start counts.
+                if(object.gametype=="SpawnPoint"&&object.entry_point_id>=0) {
+                    const float dx=object.position[0]-options.actorPosition.x,dy=object.position[1]-options.actorPosition.y,dz=object.position[2]-options.actorPosition.z;
+                    if(dx*dx+dy*dy+dz*dz<=1.0f) {
+                        if(!mapLevelEntryPoint)mapLevelEntryPoint=object.entry_point_id;
+                        else if(*mapLevelEntryPoint!=object.entry_point_id)mapLevelEntryPoint.reset(); // ambiguous start: unknown
+                    }
+                }
+                mapLevelObjects.push_back(object);
+            }
+            {
+                dh2::data::AiTables mapAiTables;std::string aiError;
+                const bool aiReady=f::load_original_ai_tables(assets,"original-cache/data/pydata",mapAiTables,aiError);
+                if(!aiReady)std::cerr<<"Map markers AI tables diagnostic: "<<aiError<<'\n';
+                std::map<std::int32_t,bool> merchantByRow;
+                for(const auto& placed:population.actors()) {
+                    f::map_visit::MapCharacterV1 character;
+                    character.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};
+                    character.enabled=placed.enabled;
+                    const auto identity=questActorIdentity.find(placed.definition.stableId);
+                    character.character_row=identity==questActorIdentity.end()?-1:identity->second.first;
+                    if(aiReady&&character.character_row>=0&&std::size_t(character.character_row)<properties.characters.names.size()) {
+                        auto cached=merchantByRow.find(character.character_row);
+                        if(cached==merchantByRow.end()) {
+                            bool merchant=false;
+                            f::OriginalCombatProperties props;std::string propsError;
+                            if(f::build_original_combat_properties(properties,properties.characters.names[character.character_row],f::OriginalActorPropertyOptions{},{},f::OriginalCombatFacts{},props,propsError)) {
+                                const auto* ai=dh2::data::ai_props(mapAiTables,props.sheets.resolved[1]);
+                                merchant=ai&&ai->type==7;
+                            }
+                            cached=merchantByRow.emplace(character.character_row,merchant).first;
+                        }
+                        character.merchant=cached->second;
+                    }
+                    mapCharacters.push_back(character);
+                }
+            }
+            std::cout<<"Map marker facts level_objects="<<mapLevelObjects.size()<<" characters="<<mapCharacters.size()
+                     <<" merchants="<<std::count_if(mapCharacters.begin(),mapCharacters.end(),[](const auto& c){return c.merchant;})
+                     <<" entry="<<(mapLevelEntryPoint?std::to_string(*mapLevelEntryPoint):std::string("unknown"))<<'\n';
+            // P16 QUESTUI: TalkToNPC oids of the table (CharacterTable rows), for NPC talk.
+            questTalkOids.clear();
+            for(const auto& row:questTable->rows()) {
+                if(row.accept.type==5)questTalkOids.insert(row.accept.oid1);
+                for(const auto& objective:row.objectives)if(objective.type==5)questTalkOids.insert(objective.oid1);
+            }
+            // P16 QUESTUI: quest trigger zones from this level's declarations (quest-named zones only; any level).
+            {
+                std::vector<f::quest_runtime::QuestZoneDeclarationV1> zoneDeclarations;
+                for(const auto& declaration:population.definitions()) {
+                    if(declaration.name.empty())continue;
+                    zoneDeclarations.push_back(f::quest_runtime::make_quest_zone_declaration_v1(declaration.name,declaration.properties,
+                        {declaration.placement[12],declaration.placement[13],declaration.placement[14]}));
+                }
+                questZones.build(*questTable,zoneDeclarations);
+                {const auto* levels=loadMetadataLevels(assets);questLevelRow=levels?f::menu_metadata::find_level_row(*levels,options.level.generic_string()):-1;}
+                for(const auto& note:questZones.notes())std::cout<<"Quest zone note: "<<note<<'\n';
+                std::cout<<"Quest zones built="<<questZones.zones().size();
+                for(const auto& zone:questZones.zones())std::cout<<' '<<zone.name<<'['<<zone.min[0]<<','<<zone.min[1]<<','<<zone.min[2]<<'|'<<zone.max[0]<<','<<zone.max[1]<<','<<zone.max[2]<<']';
+                std::cout<<" level="<<questLevelRow<<'\n';
+            }
+            // P16 QUESTUI: Quest Log tab (btnQuestLogTab). The page reads the same CQPG the runtime writes; the
+            // source art (menu_QuestLogSheetNEW) and hit routes come from the existing provider.
+            if(characterMenuComposition) {
+                std::string menuError;
+                questMenuProgress=std::make_shared<f::CharacterQuestProgressV1>();
+                f::CharacterQuestLogPolicyV1 policy;policy.debug_priority=f::quest_runtime::kQuestPriorityDebugV1;
+                f::CharacterQuestTextV1 menuText;
+                dh2::ui::HudTextV1* menuHud=nullptr;questTextEnvironment=std::make_shared<dh2::ui::HudTextEnvironmentV1>();
+                if(!menuLocalization.bind_profile(&state,menuError)||!menuLocalization.borrow_text(menuHud,*questTextEnvironment,menuError)||!menuHud)
+                    std::cerr<<"Quest Log text diagnostic: "<<menuError<<'\n';
+                else if(!f::bind_source_quest_text_resolver_v1(*menuHud,*questTextEnvironment,menuText,menuError))
+                    std::cerr<<"Quest Log text diagnostic: "<<menuError<<'\n';
+                questMenuText=std::make_shared<f::CharacterQuestTextV1>(menuText);
+                questMenu=std::make_shared<f::RuntimeQuestMenuV1>(state,*questMenuProgress,questTable,policy,menuText);
+                questMenuBinding=std::make_shared<f::RuntimeQuestCharacterMenuBindingV1>(questMenu,sharedCharacter,sharedCharacter,
+                    []{return true;},
+                    [&](const std::string& symbol,std::string& value,std::string& symbolError){return menuLocalization.symbol(symbol,&state,value,symbolError);});
+                f::character_menu::SourcePageProviderV1 questProvider;
+                if(!questMenuBinding->load_progress_from_character(menuError)||!questMenuBinding->show(0,0,f::CharacterQuestCategoryV1::assigned,menuError)||
+                   !f::bind_source_quest_menu_page_provider_v1(questMenuBinding,sharedCharacter,sharedCharacter,questProvider,menuError)||
+                   !characterMenuComposition->register_page(f::character_menu::Tab::quest,std::move(questProvider),menuError))
+                    std::cerr<<"Quest Log page diagnostic: "<<menuError<<'\n';
+            }
+            std::cout<<"Quest runtime bound rows="<<questTable->rows().size()<<" actors="<<questActorIdentity.size()
+                     <<" current="<<questRuntime->current_quest()<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
+            for(const auto& banner:takeQuestBanners())
+                std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
+                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" (bind)\n";
+            f::quest_runtime::bind_quest_event_sink([&](const f::quest_runtime::QuestEvent& event) {
+                std::string e;
+                const auto applied=questRuntime->handle(event,e);
+                if(!e.empty())std::cerr<<"Quest event diagnostic: "<<e<<'\n';
+                std::string saveError;
+                if(!questRuntime->save(saveError))std::cerr<<"Quest save diagnostic: "<<saveError<<'\n';
+                std::cout<<"Quest event kind="<<int(event.kind)<<" property="<<event.property_id<<" template="<<event.template_id
+                         <<" applied="<<applied<<'\n';
+                for(const auto& banner:takeQuestBanners())
+                    std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
+                             <<" row="<<banner.row<<" objective="<<banner.objective_text_id<<" xp="<<banner.reward_xp
+                             <<" gold="<<banner.reward_gold<<" text='"<<banner.text<<"'\n";
+            });
+        };
+        // P16 QUESTS: kills of this update (death events whose attacker is the player) become quest kill events
+        // carrying the victim's CharacterTable row (property) and Charater_Templates row (template).
+        const auto raiseQuestKills=[&]() {
+            if(!questRuntime||!combatSession)return;
+            for(const auto& event:combatSession->events()) {
+                if(!event.applied||!event.target_died||event.attacker!=combatSession->player_id())continue;
+                const auto identity=questActorIdentity.find(event.target);
+                if(identity==questActorIdentity.end())continue;
+                f::quest_runtime::QuestEvent kill;
+                kill.kind=f::quest_runtime::QuestEvent::Kind::kill;
+                kill.property_id=identity->second.first;kill.template_id=identity->second.second;
+                f::quest_runtime::raise_quest_event(kill);
+            }
+        };
+        // P16 QUESTUI: NPC talk on the interact press edge: the nearest live actor whose CharacterTable row is a
+        // TalkToNPC oid, within 200 units (CharacterDesign.OOI_Distance). Approximation of Character::Interact.
+        const auto talkNearestNpc=[&]() {
+            if(!questRuntime||!combatSession||questTalkOids.empty())return;
+            const auto* player=combatSession->actor(combatSession->player_id());
+            if(!player)return;
+            bool found=false;float bestDistance=200.f;std::int32_t bestRow=-1;float nearestAny=-1.f;std::int32_t nearestRow=-1;std::array<float,3> nearestAt{};
+            // Authored NPCs are placed population actors (static world placement), not combat-session actors.
+            for(const auto& placed:population.actors()) {
+                const auto identity=questActorIdentity.find(placed.definition.stableId);
+                if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))continue;
+                const float dx=placed.definition.placement[12]-player->transform.position[0];
+                const float dy=placed.definition.placement[13]-player->transform.position[1];
+                const float dz=placed.definition.placement[14]-player->transform.position[2];
+                const float distance=std::sqrt(dx*dx+dy*dy+dz*dz);
+                if(nearestAny<0.f||distance<nearestAny){nearestAny=distance;nearestRow=identity->second.first;nearestAt={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};}
+                if(distance<=bestDistance){found=true;bestDistance=distance;bestRow=identity->second.first;}
+            }
+            if(!found) {
+                std::cout<<"Quest talk none within 200 nearest_row="<<nearestRow<<" distance="<<nearestAny<<" at="<<nearestAt[0]<<','<<nearestAt[1]<<','<<nearestAt[2]<<" player="<<player->transform.position[0]<<','<<player->transform.position[1]<<','<<player->transform.position[2]<<'\n';
+                return;
+            }
+            f::quest_runtime::QuestEvent talk;
+            talk.kind=f::quest_runtime::QuestEvent::Kind::talk_to_npc;
+            talk.object_id=bestRow;talk.secondary_id=questLevelRow;
+            std::cout<<"Quest talk npc row="<<bestRow<<" distance="<<bestDistance<<" level="<<questLevelRow<<'\n';
+            f::quest_runtime::raise_quest_event(talk);
+        };
+        // P16 SPACEBTN: talk to the NPC the context button selected (object of interest). Same TalkToNPC event as talkNearestNpc.
+        const auto talkToNpcObject=[&](f::ActorId id) -> bool {
+            if(!questRuntime)return false;
+            const auto identity=questActorIdentity.find(id);
+            if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))return false;
+            f::quest_runtime::QuestEvent talk;
+            talk.kind=f::quest_runtime::QuestEvent::Kind::talk_to_npc;
+            talk.object_id=identity->second.first;talk.secondary_id=questLevelRow;
+            std::cout<<"Context talk npc row="<<talk.object_id<<" id="<<id<<" level="<<questLevelRow<<'\n';
+            f::quest_runtime::raise_quest_event(talk);
+            return true;
+        };
+        // P16 QUESTUI: quest zone entries of this frame (player position against the level's quest zones).
+        const auto raiseQuestZones=[&]() {
+            if(!questRuntime||!combatSession||questZones.zones().empty())return;
+            const auto* player=combatSession->actor(combatSession->player_id());
+            if(!player)return;
+            for(const auto& name:questZones.update({player->transform.position[0],player->transform.position[1],player->transform.position[2]})) {
+                f::quest_runtime::QuestEvent entry;
+                entry.kind=f::quest_runtime::QuestEvent::Kind::zone_enter;
+                entry.zone=name;entry.level_row=questLevelRow;
+                std::cout<<"Quest zone entered zone="<<name<<" level="<<questLevelRow<<'\n';
+                f::quest_runtime::raise_quest_event(entry);
+            }
+        };
         bindDeathRewards();
+        bindContainerLoot();
+        bindQuestRuntime();
         // P14 DROPS: source itemdrops.bdae presentation over the same world-item store.
         const auto bindWorldDrops=[&]() {
             if(worldDrops||!combatSession||!worldItems||!menuSourceOwner.valid()||!deathRewards.bound())return;
@@ -2420,10 +3350,10 @@ int main(int argc,char** argv) {
             if(!f::inventory::source_bare_item_descriptors(item,itemTable,dropTextOwner->services(),descriptors,e))return false;
             dropNameCache[item.definition_id]=descriptors.name;out=descriptors.name;e.clear();return true;
         };
-        sourceEffectsCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
+        sourceEffectsCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
         f::platform_input::SemanticInput semanticInput;
-        std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false;
+        std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false,enterHeld=false;
         bool pauseMenuOpen=false,pauseConfirmation=false;
         // Preview 15 B049: the Stats confirmation box (see statConfirmYes/No below). Every menu close path
         // (Back, Escape, profile key, release actions) goes through the guard while points are staged.
@@ -2446,6 +3376,9 @@ int main(int argc,char** argv) {
         int pauseTextSurface=-1,pauseTextWidth=0,pauseTextHeight=0;
         if(options.hud&&combatSession&&!pauseText.load(assets.root()/"original-cache",error))throw std::runtime_error("Pause source font: "+error);
         if(options.hud&&combatSession&&!pcHudText.load(assets.root()/"original-cache",error))throw std::runtime_error("PC HUD font: "+error);
+        f::frontend::FrontendText cinematicText; // P16 CINE: caption and SKIP text (same frontend text owner as the PC HUD)
+        std::string cinematicTextSignature;
+        if(options.campaignTriggers&&combatSession&&!cinematicText.load(assets.root()/"original-cache",error))throw std::runtime_error("Cinematic font: "+error);
         const auto updatePcHud=[&]() {
             pcHudReady=false;
             if(!options.hud||!combatSession||!menuSourceOwner.valid()||!state.source_skill_slots_known)return;
@@ -2461,6 +3394,9 @@ int main(int argc,char** argv) {
             f::generic_skills::PcGameplayHudLayoutV1 layout;
             const auto circle=[](float x,float labelLeft,float labelRight) {return f::generic_skills::PcGameplayHudCirclePlacementV1{x,270,24,{labelLeft,labelRight,298,312}};};
             layout.skills={circle(128,116,140),circle(184,172,196),circle(240,228,252)};layout.faery=circle(296,276,316);layout.potion=circle(352,321,383);
+            // P16 HUDART: action button = original btn_interact art at its authored stage position (hud_panels).
+            // The icon is the published btimg frame; the pressed ring shows while Space is held (PC adaptation).
+            layout.action_enabled=true;layout.action_icon=lastActionIcon<0?5:lastActionIcon;layout.action_pressed=actionButtonHeld;
             // HUDBTN: real CoolDown per physical cell. Each cell's skill timer (SetSkillCooldown, per actor/skill row) gives
             // remaining = 1 - elapsed/total; FastUpdate frame = clamp((int)(remaining*100)-1, 0, 99). Faery uses its 5000 ms spell clock.
             if(skillCastCoordinator) for(auto& cell:frame.left_middle_right) if(cell.skill_table_id) {
@@ -2647,6 +3583,14 @@ int main(int argc,char** argv) {
                 if(!actor||!props||!traits)throw std::runtime_error("Physical reconstruction requires current source facts");
                 if(props->facts.original_state==3)actor->source_flags520=0x2380u;
                 else if(props->facts.original_state==12)actor->source_flags520=0x241u|(traits->is_player?0x2000u:0u);
+                // P16 SPAWN: PreSpawn17 / Spawn1 bodies are owned by the lifecycle, whose source flags for these
+                // states are the ones OriginalActorLifecycle::change publishes (0x1300 / 0x241). Pool and intro
+                // actors reach this point while hidden or spawning.
+                // D3 (OPENING3): a restore drops the lifecycle records (they point into the replaced world), so PreSpawn17 takes
+                // the flags CSPreSpawn::OnFocus writes (0x1300) directly.
+                else if(props->facts.original_state==17)actor->source_flags520=0x1300u;
+                else if(props->facts.original_state==0)actor->source_flags520=0u; // D3: Limbus publishes flags 0
+                else if(const auto* lifecycleStatus=actorLifecycle.status(body.first);lifecycleStatus&&(lifecycleStatus->state==17||lifecycleStatus->state==1))actor->source_flags520=lifecycleStatus->flags;
                 else throw std::runtime_error("Physical reconstruction supports normalized Idle/Dead only: actor="+std::to_string(body.first)+" worldState="+std::to_string(props->facts.original_state)+" sessionState="+std::to_string(combatSession->original_actor_state(body.first)));
                 auto& context=contextFor(body.first);context.idleSuppressed=false;context.gate528=0;
                 context.destination=actor->transform.position;
@@ -2783,6 +3727,109 @@ int main(int argc,char** argv) {
             }
         };
         loadingScreen.finish();  // holds 100% for the minimum display time, then gameplay
+        // P16 DESPAWN: automatic despawn after death (features/despawn/despawn_after_death_v1). Every dead hostile population
+        // actor is tracked: a lifecycle actor through its OriginalActorLifecycle state (Idle -> Despawn -> Limbus), an authored
+        // monster without a lifecycle record through the same owner with population effects (body release, hide, respawn at its
+        // initial anchor). Summoned actors release their spawn-pool slot. Owner state is transient: reset on reload/restore.
+        f::despawn::DespawnAfterDeathV1 despawnOwner;
+        std::uint32_t despawnDelayMs=0;std::uint64_t despawnFrameNow=0;double despawnCarryMs=0;
+        std::map<std::uint64_t,f::Transform> despawnHome; // initial anchor of an authored monster (captured before its first death)
+        // Authored physical presence (no lifecycle record): the body leaves/returns to the native world as the lifecycle does.
+        const auto setAuthoredPhysical=[&](std::uint64_t id,bool present,std::string& e)->bool{
+            if(options.sourceNativeBodies) {
+                if(present) {
+                    const auto* body=nativeBodies.physical(id);if(!body){e="Despawn native actor unavailable";return false;}
+                    if(!body->native().body&&!nativeBodies.initialize_physical(id,e))return false;
+                } else if(!nativeBodies.remove_physical(id,e))return false;
+            }
+            if(auto* live=combatSession->actor(id))if(const auto* body=nativeBodies.physical(id))live->source_physical_present=body->native().body!=nullptr; // D3: the presence fact follows the native body
+            lifecyclePhysical[id]=present;lifecycleCollisions[id]=present;return true;
+        };
+        const auto despawnServices=[&]() {
+            f::despawn::Services s;
+            s.log=[&](const std::string& line){std::cout<<line<<" frame="<<despawnFrameNow<<'\n';};
+            s.release_body=[&](std::uint64_t id,std::string& e){
+                if(actorLifecycle.status(id))return actorLifecycle.release_body(id,e);
+                return setAuthoredPhysical(id,false,e);};
+            // Source CSDespawn::OnFocus. An authored monster has no lifecycle state; the source selects no clip for it either.
+            s.play_clip=[&](std::uint64_t id,std::string& e){
+                if(actorLifecycle.status(id))return actorLifecycle.despawn(id,e);
+                (void)e;return true;};
+            s.hide=[&](std::uint64_t id,std::string& e){
+                if(actorLifecycle.status(id))return actorLifecycle.put_limbus(id,e);
+                if(!population.set_enabled(id,false,e))return false;
+                return setAuthoredPhysical(id,false,e);};
+            s.finished=[&](std::uint64_t id,bool& done,std::string& e){
+                const auto* status=actorLifecycle.status(id);
+                if(!status){(void)e;done=true;return true;}
+                done=status->state==0;return true;};
+            s.release_slot=[&](std::uint64_t id,std::string& e){
+                if(!spawnPool.owns(id)){e="Despawn actor is not a spawn-pool slot";return false;}
+                return spawnPool.release(id,e);};
+            // Source CSLimbus::OnBlur/OnFocus with event 47: revive at the initial anchor, shown and physical again.
+            s.respawn=[&](std::uint64_t id,std::string& e){
+                if(actorLifecycle.status(id)){e="Respawn of a lifecycle actor is not bound (source event 47 owner)";return false;}
+                auto* actor=combatSession->actor(id);const auto home=despawnHome.find(id);
+                if(!actor||home==despawnHome.end()){e="Respawn actor or initial anchor is unavailable";return false;}
+                if(!population.set_enabled(id,true,e))return false;
+                actor->transform=home->second;
+                if(options.sourceNativeBodies&&!nativeBodies.set_position(id,home->second.position,true,e))return false;
+                actor->health=actor->max_health;actor->resource=actor->max_resource;f::reset_actor_action(*actor,f::CharacterAction::idle);
+                return setAuthoredPhysical(id,true,e);};
+            return s;
+        };
+        // One frame of the despawn owner. Returns false with the reason when an owner refuses (the caller reports it).
+        const auto despawnTick=[&](double seconds,std::uint64_t frame,std::string& e)->bool {
+            despawnFrameNow=frame;if(!combatSession)return true; // P16 DESPAWN2: every run (authored monsters on the default path too)
+            if(!despawnDelayMs) { // CharacterDesign.Despawn_Delay from design_pycst (2000 in the source data)
+                const auto designBytes=assets.read("original-cache/data/pydata/design_pycst.bin");
+                const auto destroyDesign=[](dh2_script_constants* value){if(value)dh2_script_constants_destroy(value);};
+                std::unique_ptr<dh2_script_constants,decltype(destroyDesign)> design(dh2_script_constants_create(),destroyDesign);
+                dh2_script_constants_reload designReload{};std::int32_t delay{};
+                if(!design||dh2_script_constants_load(design.get(),designBytes.data(),std::uint32_t(designBytes.size()),&designReload)!=0||designReload.consumed!=designBytes.size()||
+                   dh2_script_constants_get(design.get(),"CharacterDesign","Despawn_Delay",&delay)!=0||delay<0) {e="CharacterDesign.Despawn_Delay is unavailable";return false;}
+                despawnDelayMs=std::uint32_t(delay);
+            }
+            auto services=despawnServices();
+            for(const auto& placed:population.actors()) {
+                const auto id=placed.definition.stableId;
+                const auto* status=actorLifecycle.status(id);
+                if(status&&status->failed)continue;
+                const auto* actor=combatSession->actor(id);
+                if(!actor)continue;
+                const bool summoned=spawnPool.owns(id);
+                // The anchor of an authored monster is the placement it was admitted at (before any death or knockback).
+                if(!status&&actor->alive()&&!despawnHome.count(id))despawnHome[id]=actor->transform;
+                if(!despawnOwner.tracked(id)) {
+                    if(actor->alive())continue;
+                    if(status) {if(status->state!=3)continue;}
+                    else if(!placed.enabled)continue; // already hidden: not a live authored monster
+                    const auto melee=meleeBindings.find_actor(placed.profileId);
+                    bool hasClip=false;
+                    if(status&&melee){const auto clip=melee->states.find("Despawn");hasClip=clip!=melee->states.end()&&!clip->second.empty();}
+                    // Clip playback is opt-in (--despawn-clip): the decoded original selects no Despawn clip (see DESPAWN2).
+                    if(!options.despawnClip)hasClip=false;
+                    // GetRespawnDelay: 1000 * (CharProperty 11 >> 8) ms; 0 = not respawnable. Summoned actors never respawn.
+                    std::uint32_t respawnMs=0;
+                    if(const auto* props=combatSession->world()->combat_properties(id);props&&!summoned) {
+                        const std::int32_t raw=props->sheets.resolved[11];if(raw>0)respawnMs=std::uint32_t(1000*(raw>>8));}
+                    if(!despawnOwner.track(id,summoned,hasClip,despawnDelayMs,e,respawnMs))return false;
+                    std::cout<<"DESPAWN tracked actor="<<id<<" name="<<placed.definition.name<<" summoned="<<summoned<<" lifecycle="<<(status?1:0)
+                             <<" clip="<<(hasClip?"Despawn":"none")<<" respawn_ms="<<respawnMs<<" frame="<<frame<<'\n';
+                    continue;
+                }
+                const auto* record=despawnOwner.record(id);
+                if(record->phase!=f::despawn::Phase::dying)continue;
+                // Source CSDead event 34: the death clip has ended (whole sequence complete).
+                const auto* pose=combatSession->retained_actor_pose(id);
+                if(pose&&pose->current_ended()&&!despawnOwner.death_ended(id,services,e)) {
+                    if(e.empty())e="Despawn death end refused";return false;}
+            }
+            // Whole milliseconds advance the timers; the fraction is carried so 1/60 s frames count exactly (no 16.67 -> 17 drift).
+            const double totalMs=despawnCarryMs+seconds*1000.0;const double wholeMs=std::floor(totalMs);despawnCarryMs=totalMs-wholeMs;
+            if(!despawnOwner.advance(static_cast<std::uint32_t>(wholeMs),services,e))return false;
+            return despawnOwner.poll(services,e);
+        };
         dh::foundation::FramePacer framePacer; // B066: deadline pacing replaces sleep(1) (a 15.6 ms tick on Windows)
         while(!window.should_close()) {
             dh::foundation::perf::FramePerf::get().begin_frame(); // B062: unclamped per-phase timing, DH_PERF=1
@@ -2802,12 +3849,36 @@ int main(int argc,char** argv) {
             const bool scheduledSpaceHeld=std::any_of(options.spaceKeyIntervals.begin(),options.spaceKeyIntervals.end(),[&](const auto& interval){return drawn>=interval.first&&drawn<interval.first+interval.second;});
             for(int key:uiKeys)semanticInput.key(key,window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld));
             float pointerX=0,pointerY=0;
-            if(window.cursor_position(pointerX,pointerY)) {
-                const bool down=window.key_down(VK_LBUTTON);
+            bool cursorKnown=window.cursor_position(pointerX,pointerY);
+            bool down=cursorKnown&&window.key_down(VK_LBUTTON);
+            // SKIP16: verification click (authored point mapped like the PC HUD draw) goes through this same cursor branch.
+            for(const auto& click:options.campaignClicks) if(drawn==click.frame||drawn==click.frame+1) {
+                const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
+                pointerX=(click.x+view.offset)*view.scale;pointerY=click.y*view.scale;
+                cursorKnown=true;down=drawn==click.frame;
+            }
+            if(cursorKnown) {
                 if(down&&!mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::down,{pointerX,pointerY});
-                else if(!down&&mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::up,{pointerX,pointerY});
+                else if(!down&&mouseHeld) {
+                    // P16 CINE: a release on the SKIP control of a running cutscene presses SKIP (ignored when hidden).
+                    // OPENING2: a release advances a tap-wait caption (btn_next, PC adaptation: any tap on the screen).
+                    if(campaignHost.enabled()&&campaignHost.cinematic_skip_hit(pointerX,pointerY,float(window.width()),float(window.height())))campaignHost.press_skip();
+                    else if(campaignHost.enabled())campaignHost.caption_tap();
+                    semanticInput.pointer(0,f::platform_input::PointerPhase::up,{pointerX,pointerY});
+                }
                 else if(down)semanticInput.pointer(0,f::platform_input::PointerPhase::move,{pointerX,pointerY});
                 mouseHeld=down;
+            }
+            // SKIP16: Enter is the keyboard form of the release above (PC adaptation: platform_key_codes enter = the
+            // Preview 15 press/tap key): SKIP when the control is up, otherwise a caption tap. Edge-triggered.
+            {
+                const bool scheduledEnter=std::find(options.campaignEnterFrames.begin(),options.campaignEnterFrames.end(),drawn)!=options.campaignEnterFrames.end();
+                const bool enterDown=window.focused()&&(window.key_down(VK_RETURN)||scheduledEnter);
+                if(enterDown&&!enterHeld&&campaignHost.enabled()) {
+                    if(campaignHost.skip_visible())campaignHost.press_skip();
+                    else campaignHost.caption_tap();
+                }
+                enterHeld=enterDown;
             }
             if(drawn==options.profileClickFrame) {
                 std::array<float,4> bounds;if(!f::original_hud_portrait_bounds(0,bounds,error))throw std::runtime_error(error);
@@ -2827,6 +3898,7 @@ int main(int argc,char** argv) {
             for(const auto& scheduled:options.skillKeyFrames)if(scheduled.first==drawn)semanticInput.key('0'+scheduled.second,false);
             if(drawn==options.menuCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(drawn==options.pauseCloseFrame)semanticInput.key(VK_ESCAPE,false);
+            if(drawn==options.campaignSkipFrame) { campaignHost.press_skip(); std::cout<<"Scripted SKIP press frame="<<drawn<<'\n'; } // P16 CINE (verification input)
             if(uiInput.menu_back){
                 if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
                 else if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
@@ -2845,11 +3917,25 @@ int main(int argc,char** argv) {
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::equipment,error))throw std::runtime_error("Equipment page diagnostic selection: "+error);
                 std::cout<<"Character menu Equipment selected frame="<<drawn<<" via same-state source provider\n";
             }
+            // P16 MAP: --map-page-frame=N opens the character menu on the Map tab (composition provider).
+            if(drawn==options.mapPageFrame) {
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::map,error))throw std::runtime_error("Map page diagnostic selection: "+error);
+                std::cout<<"Character menu Map selected frame="<<drawn<<" level="<<options.level.generic_string()<<" zones="<<levelModuleZones.size()<<'\n';
+                if(options.mapLegend&&characterMenu.map_legend_shown()==false)characterMenu.map_control(f::character_menu::Action::map_legend);
+                if(options.mapZoom>1)mapView.zoom=std::clamp(options.mapZoom,f::map_visit::map_zoom_min,f::map_visit::map_zoom_max);
+            }
             // P14 FAERY: --faery-page-frame=N opens the menu on the Faery tab (CharacterState provider).
             if(drawn==options.faeryPageFrame) {
                 if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::faery,error))throw std::runtime_error("Faery page diagnostic selection: "+error);
                 std::cout<<"Character menu Faery selected frame="<<drawn<<" via CharacterState provider\n";
+            }
+            // P16 QUESTUI: --quest-page-frame=N opens the menu on the Quest Log tab (test aid).
+            if(drawn==options.questPageFrame) {
+                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::quest,error))throw std::runtime_error("Quest Log page diagnostic selection: "+error);
+                std::cout<<"Character menu Quest Log selected frame="<<drawn<<'\n';
             }
             for(const auto& click:uiInput.clicks) {
                 if(statConfirmOpen){routeStatConfirmClick(click.position);continue;}
@@ -2858,6 +3944,8 @@ int main(int argc,char** argv) {
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
                     characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
+                    if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n'; }
                     if(!error.empty())std::cerr<<"Character menu action diagnostic: "<<error<<'\n';
                     if(runtimeEquipmentPage) {
                         f::equipment_menu::RuntimeEquipmentPageReleaseV1::PendingCommand pending;
@@ -2958,6 +4046,111 @@ int main(int argc,char** argv) {
             if(options.frames>0) {static double secondStart=now,worstDt=0;static int secondFrames=0,secondIndex=0;++secondFrames;worstDt=std::max(worstDt,dt);if(now-secondStart>=1.0){++secondIndex;std::cout<<"Frame rate second="<<secondIndex<<" frames="<<secondFrames<<" worstFrameMs="<<worstDt*1000.0<<'\n';secondStart=now;secondFrames=0;worstDt=0;}}
             if(runtimeAudio) {std::string audioError;if(!runtimeAudio->window_activity(window.focused(),window.minimized(),audioError))std::cerr<<"Audio activity diagnostic: "<<audioError<<'\n';}
             if(window.minimized()) {dh::foundation::platform_sleep_milliseconds(10);continue;}
+            // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME. Owners: the pool's admitted actors, this session's
+            // actor transforms/native bodies, the shared combat RNG and the actor lifecycle (same as authored population).
+            // P16 SPAWN/CONTAINERS2: one service set for every caller of the spawn owner (--spawn-test and container Summon).
+            const auto makeSpawnServices=[&]() -> f::spawn::SpawnServicesV1 {
+                f::spawn::SpawnServicesV1 spawnServices;
+                spawnServices.characters=&properties.characters;spawnServices.templates=&spawnTemplateTable;
+                spawnServices.random_index=[&](std::int32_t bound,std::int32_t& index,std::string& e){
+                    std::uint32_t value=0;
+                    if(bound<=0||!combatSession->world()->random_uniform(std::uint32_t(bound),value,e))return false;
+                    index=std::int32_t(value);return true;
+                };
+                spawnServices.profile_available=[&](const std::string& profileId,std::string& e){
+                    if(const auto refused=spawnProfileRefusals.find(profileId);refused!=spawnProfileRefusals.end()){e="profile admission refused: "+refused->second;return false;}
+                    if(!profiles.find(profileId)||!options.combat.profiles.count(profileId)){e="no actor profile or combat policy";return false;}
+                    return true;
+                };
+                spawnServices.place=[&](std::uint64_t actorId,const std::array<float,3>& position,float heading,std::string& e){
+                    auto* spawned=combatSession->actor(actorId);
+                    if(!spawned){e="spawn actor is not in the session";return false;}
+                    if(options.sourceNativeBodies&&!nativeBodies.set_position(actorId,position,true,e))return false;
+                    spawned->transform.position=position;spawned->transform.rotation[2]=heading;return true;
+                };
+                spawnServices.begin=[&](std::uint64_t actorId,f::spawn::SpawnClipPolicy clip,std::string& e){
+                    return clip==f::spawn::SpawnClipPolicy::source_spawn_state?actorLifecycle.spawn(actorId,e):actorLifecycle.put_idle(actorId,e);
+                };
+                spawnServices.hide=[&](std::uint64_t actorId,std::string& e){return actorLifecycle.put_limbus(actorId,e);};
+                spawnServices.log=[&](const std::string& line){std::cout<<line<<'\n';};
+                return spawnServices;
+            };
+            // P16 CONTAINERS2 (T4 DoOpen loot, T6 OnOpen contract): one opened declaration, once per open event.
+            const auto runContainerOpen=[&](std::size_t index,std::uint64_t frame) {
+                if(!combatSession||index>=containerRuntime.size())return;
+                const auto instance=containerRuntime.instance(index);
+                const f::ActorDefinition* definition=nullptr;
+                for(const auto& candidate:population.definitions())if(candidate.stableId==instance.stableId){definition=&candidate;break;}
+                const auto* object=combatSession->world()->find_object(instance.stableId);
+                if(!definition||!object)std::cout<<"Container loot declaration="<<instance.name<<" status=unbound frame="<<frame<<'\n';
+                else if(!containerLoot.bound())std::cout<<"Container loot declaration="<<instance.name<<" status=no_loot_owner frame="<<frame<<'\n';
+                else {
+                    f::containers::ContainerLootOutcomeV1 outcome;std::string lootError;
+                    if(!containerLoot.open(*definition,*object,combatSession->player_id(),rewardBindingGeneration,instance.loot_id,outcome,lootError))
+                        std::cout<<"Container loot declaration="<<instance.name<<" table="<<instance.loot_id<<" status=refused detail="<<lootError<<" frame="<<frame<<'\n';
+                    else std::cout<<"Container loot declaration="<<instance.name<<" table="<<instance.loot_id<<" selected="<<outcome.receipt.selected_items<<" delivered="<<outcome.receipt.delivered_items<<" gold_unpriced="<<outcome.gold_unpriced<<" status=ok frame="<<frame<<'\n';
+                }
+                if(instance.script.empty()){std::cout<<"Container OnOpen script=(none) declaration="<<instance.name<<" frame="<<frame<<'\n';return;}
+                const auto* contract=f::containers::find_open_script_contract_v1(instance.script);
+                if(!contract){if(containerScriptsNoticed.insert(instance.script).second)std::cout<<"Container OnOpen script="<<instance.script<<" status=no_contract (logged once)\n";return;}
+                f::containers::OpenScriptRunReportV1 report;std::string scriptError;
+                const auto random=[&](std::int32_t lo,std::int32_t hi,std::int32_t& value,std::string& e){
+                    std::uint32_t drawnValue=0;
+                    if(lo!=0||hi!=100){e="GetRand bounds outside the original 0..100 contract";return false;}
+                    if(!combatSession->world()->random_uniform(101,drawnValue,e))return false;
+                    value=std::int32_t(drawnValue);std::cout<<"Container OnOpen GetRand(0,100)="<<value<<" declaration="<<instance.name<<" frame="<<frame<<'\n';return true;};
+                const auto summon=[&](const f::containers::OpenScriptSummonRequestV1& request,std::string& reason){
+                    f::spawn::SpawnRequestV1 spawnRequest;spawnRequest.name=request.character;
+                    spawnRequest.position={instance.transform[12],instance.transform[13],instance.transform[14]};
+                    spawnRequest.heading_radians=0;
+                    spawnRequest.host_level_raw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
+                    f::spawn::SpawnResultV1 spawnResult;std::string spawnError;
+                    if(f::spawn::spawn_character_v1(spawnPool,spawnRequest,makeSpawnServices(),spawnResult,spawnError))return true;
+                    reason=spawnError;return false;};
+                if(!f::containers::run_open_script_v1(*contract,random,summon,report,scriptError))
+                    std::cout<<"Container OnOpen script="<<instance.script<<" status=failed detail="<<scriptError<<" frame="<<frame<<'\n';
+                std::cout<<"Container OnOpen script="<<instance.script<<" declaration="<<instance.name<<" draws="<<report.draws<<" summon_calls="<<report.summon_calls<<" spawned="<<report.summons_spawned<<" frame="<<frame<<'\n';
+                for(const auto& line:report.summon_lines)std::cout<<"Container OnOpen script="<<instance.script<<" declaration="<<instance.name<<" "<<line<<" frame="<<frame<<'\n';
+            };
+            for(const auto& test:options.spawnTests)if(test.frame==drawn&&combatSession) {
+                auto spawnServices=makeSpawnServices();
+                f::spawn::SpawnRequestV1 spawnRequest;
+                spawnRequest.name=test.name;spawnRequest.position=test.position;spawnRequest.heading_radians=0;
+                spawnRequest.host_level_raw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
+                f::spawn::SpawnResultV1 spawnResult;std::string spawnError;
+                if(!f::spawn::spawn_character_v1(spawnPool,spawnRequest,spawnServices,spawnResult,spawnError))std::cout<<"SPAWN test frame="<<drawn<<" not spawned: "<<spawnError<<'\n';
+            }
+            // P16 SPAWN: --spawn-declared NAME@FRAME (stub for Script_SpawnCharacter of an authored declaration) and
+            // --despawn-test NAME@FRAME (a live pool slot). Both use the lifecycle owner the pool uses.
+            const auto placedNamed=[&](const std::string& name){return std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.name==name;});};
+            for(const auto& request:options.spawnDeclared)if(request.frame==drawn&&combatSession) {
+                const auto placed=placedNamed(request.name);
+                if(placed==population.actors().end()){std::cout<<"SPAWN declared rejected name="<<request.name<<" reason=no authored declaration in this level\n";continue;}
+                const auto* status=actorLifecycle.status(placed->definition.stableId);
+                if(!status){std::cout<<"SPAWN declared rejected name="<<request.name<<" reason=declaration is not admitted to the lifecycle\n";continue;}
+                f::spawn::SpawnServicesV1 declaredServices;
+                declaredServices.begin=[&](std::uint64_t actorId,f::spawn::SpawnClipPolicy,std::string& e){return actorLifecycle.spawn(actorId,e);};
+                declaredServices.log=[&](const std::string& line){std::cout<<line<<'\n';};
+                std::string declaredLine,declaredError;
+                f::spawn::spawn_declared_v1(request.name,placed->definition.stableId,status->state,declaredServices,declaredLine,declaredError);
+            }
+            // P16 DESPAWN2 debug trigger: --kill-test NAME@FRAME sets an authored actor to 0 HP; the runtime then takes its death pose.
+            for(const auto& request:options.killTests)if(request.frame==drawn&&combatSession) {
+                const auto placed=placedNamed(request.name);
+                auto* victim=placed==population.actors().end()?nullptr:combatSession->actor(placed->definition.stableId);
+                if(!victim){std::cout<<"KILL test rejected name="<<request.name<<" reason=no live population actor\n";continue;}
+                victim->health=0;f::reset_actor_action(*victim,f::CharacterAction::dead);
+                std::cout<<"KILL test actor="<<victim->id<<" name="<<request.name<<" frame="<<drawn<<'\n';
+            }
+            for(const auto& request:options.despawnTests)if(request.frame==drawn&&combatSession) {
+                const auto placed=placedNamed(request.name);
+                if(placed==population.actors().end()){std::cout<<"SPAWN despawn rejected name="<<request.name<<" reason=no population actor with this name\n";continue;}
+                f::spawn::SpawnServicesV1 despawnServices;
+                despawnServices.hide=[&](std::uint64_t actorId,std::string& e){return actorLifecycle.put_limbus(actorId,e);};
+                despawnServices.log=[&](const std::string& line){std::cout<<line<<'\n';};
+                std::string despawnError;
+                if(!f::spawn::despawn_character_v1(spawnPool,placed->definition.stableId,despawnServices,despawnError))std::cout<<"SPAWN despawn rejected name="<<request.name<<" reason="<<despawnError<<'\n';
+            }
             for(const auto& scheduled:options.sourceCommands)if(scheduled.frame==drawn) {
                 const auto id=sourceCampaign.script_id(scheduled.script);
                 const auto& command=sourceCampaign.scripts().at(id).commands.at(scheduled.index);
@@ -2966,6 +4159,20 @@ int main(int argc,char** argv) {
                 std::cout<<"Source command frame="<<drawn<<" script="<<scheduled.script<<" index="<<scheduled.index<<" kind="<<command.kind<<'\n';
                 if(command.kind==8)std::cout<<"Source camera command frame="<<drawn<<" target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<'\n';
             }
+            // P16 HOST: executor tick on the frame clock, then trigger contacts (only with --campaign-triggers).
+            if(campaignHost.enabled()&&combatSession) {
+                if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(std::int32_t(dt*1000.0),{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive());
+            }
+            // D1 (OPENING3): Quest::Update runs every frame after the script executor, so a state whose script has
+            // finished advances on the frame it ends (the Movement tutorial follows the Swamp intro, not the bind).
+            if(questRuntime&&options.campaignTriggers) {
+                std::string questTickError;
+                if(!questRuntime->update(questTickError)) std::cerr<<"Quest update diagnostic: "<<questTickError<<'\n';
+                std::string questSaveError; // D3: transitions made here must reach the character CQPG (save and profile snapshots read it)
+                if(!questRuntime->save(questSaveError)) std::cerr<<"Quest save diagnostic: "<<questSaveError<<'\n';
+                for(const auto& banner:takeQuestBanners())
+                    std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)<<" row="<<banner.row<<" (frame)\n";
+            }
             auto pressed=[&](int key){bool down=window.key_down(key);bool first=down&&!held.count(key);if(down)held.insert(key);else held.erase(key);return first;};
             if(pressed('T')) {useTimeline=!useTimeline;if(useTimeline){timeline.reset();timeline.play();}}
             if(!combatSession||!combatSession->uses_retained_player_locomotion()) {
@@ -2973,6 +4180,15 @@ int main(int argc,char** argv) {
                 if(pressed('2')) visual.select(f::CharacterPose::walk);
                 if(pressed('3')) visual.select(f::CharacterPose::attack);
             }
+            // OPENING2 block-save rule: while a scripted cutscene blocks saving (Script_BlockSaveGame, kind 70) a save is
+            // refused, and a restore is refused during a cutscene (the cutscene owns the HUD, the controller and the script
+            // runtime; loading underneath it would leave a running script on the wrong state). Refusals are logged.
+            const auto campaignSaveRefused=[&](const char* operation) {
+                if(!campaignHost.enabled())return false;
+                if(std::string(operation)=="Save"&&campaignHost.save_blocked()) {std::cout<<"Save refused: cutscene blocks saving (campaign frame="<<drawn<<")\n";return true;}
+                if(std::string(operation)=="Restore"&&campaignHost.cutscene_mode()) {std::cout<<"Restore refused: cutscene is running (campaign frame="<<drawn<<")\n";return true;}
+                return false;
+            };
             const auto checkpointAllowed=[&](const char* operation) {
                 if(!combatSession)return true;
                 if((skillCastCoordinator&&!skillCastCoordinator->checkpoint_v1(*combatSession,error))||
@@ -2982,14 +4198,26 @@ int main(int argc,char** argv) {
                 }
                 return true;
             };
+            // P16 containers: debug interaction request (--interact-at); the context button will call the same API later.
+            for(const auto& request:options.interactRequests)if(request.second==drawn){std::size_t index=0;
+                if(!containerRuntime.find_by_name(request.first,index))std::cout<<"Container interact declaration="<<request.first<<" status=unknown_declaration frame="<<drawn<<'\n';
+                else{float p[3]={0,0,0};if(combatSession)if(const auto* live=combatSession->actor(combatSession->player_id())){p[0]=live->transform.position[0];p[1]=live->transform.position[1];p[2]=live->transform.position[2];}
+                    const auto r=containerRuntime.interact(index,p);
+                    std::cout<<"Container interact declaration="<<request.first<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" distance="<<r.distance<<" frame="<<drawn<<'\n';}}
+
             if((pressed('R')||(options.reloadFrame&&drawn==options.reloadFrame))&&checkpointAllowed("Reload")) {
                 std::optional<f::GameSave> liveSnapshot;
+                if(combatSession&&options.campaignTriggers){std::string lifecycleSnapshotError;if(!campaignHost.persist_lifecycle(*combatSession->world(),lifecycleSnapshotError))throw std::runtime_error("Campaign lifecycle snapshot: "+lifecycleSnapshotError);} // D3
                 if(combatSession){f::GameSave snapshot;if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),snapshot,error))throw std::runtime_error("Reload snapshot: "+error);liveSnapshot=std::move(snapshot);}
                 if(options.combatText)combatText.clear_for_reload();
                 retireSourceEffects();
                 if(runtimeAudio)runtimeAudio->unbind();
                 deathRewards.reset();
                 retireEquipmentPage();
+                // P16 DESPAWN2 restore rule: owner state is transient. A reload drops despawn timers, anchors, lifecycle records and
+                // physical maps, and re-declares every spawn-pool slot free (no duplicate summon survives the world replacement).
+                despawnOwner.clear();despawnCarryMs=0;despawnHome.clear();actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();
+                lifecycleIdleSuppressed.clear();lifecycleFlags.clear();spawnPool.free_all();
                 clearNativeBodies();combatSession.reset();
                 populationMotors.clear();
                 f::OriginalScene nextScene;f::CharacterVisual nextVisual;
@@ -2997,6 +4225,7 @@ int main(int argc,char** argv) {
                 prepareBodyPlans();
                 if(liveSnapshot){combatSession->actor(combatSession->player_id())->persistent_character_id=state.id;combatSession->detach_for_restore();if(!f::restore_game_save(*liveSnapshot,options.level.generic_string(),*combatSession->world(),state,error)||!combatSession->rebind_after_restore(error))throw std::runtime_error("Reload live actors: "+error);}
                 if(combatSession){faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();}
+                if(liveSnapshot&&combatSession){std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);} // P16 CONTAINERS2 (T5)
                 rebuildNativeBodies();
                 rebuildSourceScopes();
                 initializeSourceTargetNodes();
@@ -3005,13 +4234,16 @@ int main(int argc,char** argv) {
                     std::cerr<<"Audio reload diagnostic: "<<error<<'\n';
                 bindEquipmentPage();
                 bindDeathRewards();
+                bindContainerLoot();
+                bindQuestRuntime(); // P16 QUESTS
                 bindSourcePresentations();
                 std::cout<<"Content unloaded and reloaded at frame="<<drawn<<'\n';
             }
-            if((pressed(VK_F5)||drawn==options.saveFrame)&&checkpointAllowed("Save")) {
+            if((pressed(VK_F5)||drawn==options.saveFrame)&&!campaignSaveRefused("Save")&&checkpointAllowed("Save")) {
                 if(combatSession) {
                     f::GameSave snapshot;
                     stampSaveMetadata(state,options.level.generic_string()); // P14 schema: checkpoint save = SG_SavePlayer (date + LevelList row)
+                    if(options.campaignTriggers){std::string lifecycleSaveError;if(!campaignHost.persist_lifecycle(*combatSession->world(),lifecycleSaveError))throw std::runtime_error("Campaign lifecycle save: "+lifecycleSaveError);} // D3: the host serializes its lifecycle (checkpoint rule)
                     if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),snapshot,error)||!f::save_game(options.liveSave,snapshot,error))throw std::runtime_error("Live save: "+error);
                     // P14 schema (approved decision 3): F5 in combat also rewrites the slot profile so the menu panel is current.
                     if(!options.save.empty()&&!f::save_character(options.save,snapshot.character,error))throw std::runtime_error("Live save slot profile: "+error);
@@ -3021,7 +4253,7 @@ int main(int argc,char** argv) {
                     if(!f::save_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
                 }
             }
-            if((pressed(VK_F9)||drawn==options.loadFrame)&&checkpointAllowed("Restore")) {
+            if((pressed(VK_F9)||drawn==options.loadFrame)&&!campaignSaveRefused("Restore")&&checkpointAllowed("Restore")) {
                 if(options.combatText)combatText.clear_for_reload();
                 if(combatSession) {
                     f::GameSave snapshot;if(!f::load_game(options.liveSave,snapshot,error))throw std::runtime_error("Read live save: "+error);
@@ -3034,8 +4266,11 @@ int main(int argc,char** argv) {
                         e.clear();return true;
                     },error))throw std::runtime_error("Prepare live restore: "+error);
                     const bool restored=f::restore_game_save(snapshot,options.level.generic_string(),*combatSession->world(),state,error);const auto restoreError=error;
+                    actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear(); // D3: records hold pointers into the replaced world
                     if(!combatSession->rebind_after_restore(error))throw std::runtime_error("Rebind live save: "+error);
                     if(!restored)throw std::runtime_error("Restore live save: "+restoreError);
+                    {std::string lifecycleRestoreError;if(!campaignHost.restore_lifecycle(*combatSession->world(),lifecycleRestoreError))throw std::runtime_error("Campaign lifecycle restore: "+lifecycleRestoreError);} // D3
+                    {std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);}
                     rebuildNativeBodies();
                     initializeSourceNavigation();
                     initializeSourceTargetNodes();
@@ -3050,6 +4285,8 @@ int main(int argc,char** argv) {
                         std::cerr<<"Audio restore diagnostic: "<<error<<'\n';
                     bindEquipmentPage();
                     bindDeathRewards();
+                    bindContainerLoot();
+                    bindQuestRuntime(); // P16 QUESTS
                     bindSourcePresentations();
                     skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
@@ -3070,13 +4307,52 @@ int main(int argc,char** argv) {
             if(!motor)freeCamera.move((window.key_down('D')-window.key_down('A'))*speed,(window.key_down('E')-window.key_down('Q'))*speed,(window.key_down('W')-window.key_down('S'))*speed);
             freeCamera.rotate(float(gameplayDt)*60*(window.key_down(VK_RIGHT)-window.key_down(VK_LEFT)),float(gameplayDt)*60*(window.key_down(VK_UP)-window.key_down(VK_DOWN)));
             if(!gameplayPaused&&timeline.playing()) timeline.update(gameplayDt);
-            gameplayInput=uiInput.actions;gameplayInput.attack=gameplayInput.attack||(drawn>=options.attackStartFrame&&std::int64_t(drawn)<std::int64_t(options.attackStartFrame)+options.attackFrames);gameplayInput.targetSelect=gameplayInput.targetSelect||drawn==options.targetFrame;
+            gameplayInput=uiInput.actions;
+            actionButtonHeld=uiInput.attack.held; // P16 HUDART: pressed ring of the action button
+            // P16 CONTEXT: Space is one context button (decide_context_button_v1). A held press over a non-combat OOI
+            // (chest, NPC) suppresses the attack (source Cmd_UseOOI replaces Cmd_Attack); the press edge starts the use.
+            if(combatSession&&!gameplayPaused&&combatSession->actor(combatSession->player_id())) {
+                const auto* ctxOwner=combatSession->actor(combatSession->player_id());
+                f::ContextButtonInputV1 ctxInput;
+                ctxInput.pressed_edge=uiInput.attack.pressed;ctxInput.held=uiInput.attack.held;
+                ctxInput.object_present=objectOfInterest.object()!=f::invalid_actor_id;ctxInput.object_type=objectOfInterest.interaction_type();
+                ctxInput.owner_has_attack_target=ctxOwner->target_id!=f::invalid_actor_id;
+                ctxInput.owner_idle_or_moving=ctxOwner->action==f::CharacterAction::idle||ctxOwner->action==f::CharacterAction::moving;
+                ctxInput.object_is_actor=combatSession->actor(objectOfInterest.object())!=nullptr; // P16 SPACEBTN
+                const auto ctxDecision=f::decide_context_button_v1(ctxInput);
+                if(!ctxDecision.attack_held)gameplayInput.attack=false;
+                // P16 SPACEBTN: the press-edge use is refused while the controller is locked (cutscene/tutorial LockTutorial,
+                // dead, character lock), as the source HUD does not reach Cmd_UseOOI then. Attack handling is unchanged.
+                const bool ctxControllerLocked=!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()];
+                if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest&&ctxControllerLocked)
+                    std::cout<<"Context button frame="<<drawn<<" ooi="<<objectOfInterest.object()<<" type="<<objectOfInterest.interaction_type()<<" status=refused_controller_locked\n";
+                if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest&&!ctxControllerLocked) {
+                    const auto ooi=objectOfInterest.object();
+                    const bool ooiIsActor=combatSession->actor(ooi)!=nullptr;
+                    if(ooiIsActor) { // actor OOI: source AI_SetTarget(OOI, 0)
+                        std::string ctxError;
+                        if(!combatSession->set_source_target(combatSession->player_id(),ooi,false,ctxError))throw std::runtime_error("Context button target: "+ctxError);
+                    } else { // P16 SPACEBTN: non-actor OOI. Containers: Container::Interact (open or destructible hit); NPCs: talk.
+                        std::size_t containerIndex=0;bool isContainer=false;
+                        for(std::size_t ci=0;ci<containerRuntime.size();++ci)if(containerRuntime.instance(ci).stableId==ooi){containerIndex=ci;isContainer=true;break;}
+                        if(isContainer) {
+                            float p[3]={0,0,0};
+                            if(const auto* live=combatSession->actor(combatSession->player_id())){p[0]=live->transform.position[0];p[1]=live->transform.position[1];p[2]=live->transform.position[2];}
+                            const auto r=containerRuntime.interact(containerIndex,p);
+                            std::cout<<"Context container declaration="<<containerRuntime.instance(containerIndex).name<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" distance="<<r.distance<<" frame="<<drawn<<'\n';
+                        } else if(!talkToNpcObject(ooi))
+                            std::cout<<"Context button ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" status=unhandled frame="<<drawn<<" (logged)\n";
+                    }
+                    std::cout<<"Context button frame="<<drawn<<" ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" use="<<ctxDecision.use_object_of_interest<<" actor="<<ooiIsActor<<" locked_global="<<globalControllerBlocked<<" locked_char="<<characterControllerBlocked[combatSession->player_id()]<<'\n';
+                }
+            }
+            gameplayInput.attack=gameplayInput.attack||(drawn>=options.attackStartFrame&&std::int64_t(drawn)<std::int64_t(options.attackStartFrame)+options.attackFrames);gameplayInput.targetSelect=gameplayInput.targetSelect||drawn==options.targetFrame;
             const auto playerCapabilities=options.combat.profiles.find(options.combat.playerProfileId);
             if(playerCapabilities!=options.combat.profiles.end()&&playerCapabilities->second.animationOnly){gameplayInput.attack=false;gameplayInput.targetSelect=false;}
             if(frontendStarted&&!combatSession){gameplayInput.attack=false;gameplayInput.targetSelect=false;}
             gameplayInput.run=runBound&&gameplayInput.run;
-            if(drawn<options.moveFrames){gameplayInput.move2D=options.scriptedMove;gameplayInput.run=options.scriptedRun&&runBound;}
-            for(const auto& segment:options.moveSegments)if(int(drawn)>=std::get<0>(segment)&&int(drawn)<std::get<1>(segment)){gameplayInput.move2D=std::get<2>(segment);gameplayInput.run=options.scriptedRun&&runBound;}
+            if(drawn>=options.moveFromFrame&&drawn<options.moveFrames){gameplayInput.move2D=options.scriptedMove;gameplayInput.run=options.scriptedRun&&runBound;}
+            for(const auto& seg:options.moveSegments)if(int(drawn)>=seg.start&&int(drawn)<seg.end){gameplayInput.move2D=seg.axis;gameplayInput.run=options.scriptedRun&&runBound;}
             if(gameplayPaused)gameplayInput={};
             const bool playerControllerBlocked=combatSession&&(!combatSession->actor(combatSession->player_id())->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]);
             bindEnemyAI();
@@ -3310,7 +4586,7 @@ int main(int argc,char** argv) {
                     dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::input);
                     bool minimalRandoms=false;std::string audioError;
                     const bool settingsKnown=!sourceScopes||sourceScopes->debug_switch("MP_MinimalRandoms",minimalRandoms,audioError);
-                    auto listenerCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
+                    auto listenerCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
                     if(settingsKnown)audioClock=runtimeAudio->before_update(listenerCamera,window.focused(),window.minimized(),minimalRandoms,std::uint64_t(drawn),audioError);
                     // P15 FAERYSOUND (B050): submit this frame's queued Faery cast sounds on the same device clock (nullptr drops them, logged).
                     if(runtimeAudio){std::string faeryAudioError;if(!runtimeAudio->flush_faery_pre_sounds(audioClock,faeryAudioError)&&!faeryAudioError.empty())std::cerr<<"Faery cast sound diagnostic: "<<faeryAudioError<<'\n';}
@@ -3320,7 +4596,43 @@ int main(int argc,char** argv) {
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
                 {DH_PROBE("combatSession.update");if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);}
-                if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sim_update); // B004/B029
+                // P16 SPACEBTN: the OOI candidates that are not combat actors are re-registered each frame from their owners:
+                // containers (source GetInteractionType: openable 0, destructible 8; broken destructibles are not candidates)
+                // and talk NPCs (type 3, Character so they queue with the characters, as in the source flag order).
+                {
+                    interactables.clear();
+                    for(std::size_t ci=0;ci<containerRuntime.size();++ci) {
+                        const auto& inst=containerRuntime.instance(ci);
+                        if(inst.stableId==0)continue;
+                        f::InteractableEntryV1 entry;entry.id=inst.stableId;entry.is_character=false;
+                        entry.position={inst.transform[12],inst.transform[13],inst.transform[14]};entry.radius=0.f;
+                        entry.provider.interaction_type=[&containerRuntime,ci](f::ActorId) -> int {
+                            if(containerRuntime.interaction_type(ci)==8&&containerRuntime.state(ci)==f::containers::kContainerStateOpened)return -1;
+                            return containerRuntime.interaction_type(ci);
+                        };
+                        std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable container: "+regError);
+                    }
+                    if(questRuntime&&combatSession&&!questTalkOids.empty()) // P16 SPACEBTN: talk NPCs as type-3 candidates
+                        for(const auto& placed:population.actors()) {
+                            const auto identity=questActorIdentity.find(placed.definition.stableId);
+                            if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))continue;
+                            f::InteractableEntryV1 entry;entry.id=placed.definition.stableId;entry.is_character=true;
+                            entry.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};entry.radius=0.f;
+                            entry.provider.interaction_type=[](f::ActorId) -> int { return 3; }; // source Character::GetInteractionType: friendly NPC
+                            std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable NPC: "+regError);
+                        }
+                }
+                if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest,&interactables); // B004/B029 (+P16 registry)
+                dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sim_update); // B066 frame pacing probe
+                if(!gameplayPaused) { // P16 DESPAWN: per-frame despawn owner (after the combat update that produced the death)
+                    std::string despawnError;
+                    if(!despawnTick(gameplayDt,drawn,despawnError))throw std::runtime_error("Despawn: "+despawnError);
+                }
+                if(!gameplayPaused&&combatSession) { // P16 CONTEXT: HUD action-button frame from the cached OOI type (MenuManager 0x42eab4)
+                    const int icon=f::action_button_icon_v1(objectOfInterest.interaction_type());
+                    if(icon!=lastActionIcon) { lastActionIcon=icon; std::cout<<"Action icon frame="<<drawn<<" icon="<<icon<<" type="<<objectOfInterest.interaction_type()<<'\n';
+                        if(pcHudReady) refreshPcHudForFaery(); } // P16 SPACEBTN: placeholder label follows the icon
+                }
                 sourcePhysicalPlayerControls={};
                 if(!gameplayPaused) {
                     const auto* livePlayer=combatSession->actor(combatSession->player_id());
@@ -3333,6 +4645,36 @@ int main(int argc,char** argv) {
                         const auto rng=combatSession->world()->random_state();
                         std::cout<<"Source skill lifecycle frame="<<drawn<<" generation="<<receipt->generation<<" phase="<<int(receipt->phase)<<" skill="<<receipt->skill_name<<" hits="<<receipt->applied_results.size()<<" MP="<<state.stats.resource<<" RNG="<<rng.seed<<'/'<<rng.calls<<" diagnostic="<<receipt->detail<<'\n';
                     }
+                }
+                if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
+                if(!gameplayPaused) raiseQuestZones(); // P16 QUESTUI: zone entries of this update
+                if(!gameplayPaused) questBanners.tick(float(dt)); // P16 QUESTUI: banner timing
+                // P16 QUESTUI: NPC talk on the interact press edge (--quest-talk-frame is a scripted press for tests).
+                // P16 SPACEBTN: NPC talk is the Space context button now (E no longer talks); this scripted press stays for tests.
+                const bool questTalkPressed=std::find(options.questTalkFrames.begin(),options.questTalkFrames.end(),int(drawn))!=options.questTalkFrames.end();
+                if(!gameplayPaused&&questTalkPressed&&!questTalkHeld) talkNearestNpc();
+                questTalkHeld=questTalkPressed;
+                // P16 QUESTS test aid: frame-scheduled bus events (--quest-debug-kill / --quest-debug-accept).
+                if(!gameplayPaused&&questRuntime) for(const auto& debug:options.questDebugEvents) if(debug.frame==drawn) {
+                    if(!debug.accept) {
+                        for(int i=0;i<debug.count;++i) {
+                            f::quest_runtime::QuestEvent kill;kill.kind=f::quest_runtime::QuestEvent::Kind::kill;kill.template_id=debug.id;
+                            f::quest_runtime::raise_quest_event(kill);
+                        }
+                        std::cout<<"Quest debug kill frame="<<drawn<<" template="<<debug.id<<" count="<<debug.count<<" current="<<questRuntime->current_quest()<<'\n';
+                    } else {
+                        std::string e;
+                        if(!questRuntime->accept_quest(debug.id,e)) std::cout<<"Quest debug accept frame="<<drawn<<" row="<<debug.id<<" refused: "<<e<<'\n';
+                        else {
+                            std::string saveError;
+                            if(!questRuntime->save(saveError))std::cerr<<"Quest save diagnostic: "<<saveError<<'\n';
+                            std::cout<<"Quest debug accept frame="<<drawn<<" row="<<debug.id<<" accepted\n";
+                            for(const auto& banner:takeQuestBanners())
+                                std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)
+                                         <<" row="<<banner.row<<" xp="<<banner.reward_xp<<" gold="<<banner.reward_gold<<" text='"<<banner.text<<"'\n";
+                        }
+                    }
+                    std::cout<<"Quest state frame="<<drawn<<" gold="<<state.gold<<" xp="<<state.experience<<" cqpg="<<state.source_quest_progress_cqpg.size()<<'\n';
                 }
                 if(!gameplayPaused&&deathRewards.bound()) {
                     std::vector<f::loot::RuntimeDeathRewardOutcomeV1> rewards;
@@ -3369,6 +4711,8 @@ int main(int argc,char** argv) {
                         std::string textError;
                         if(picked) {
                             if(worldItemTarget==id)worldItemTarget=f::loot::invalid_runtime_world_item_v1;
+                            // P16 QUESTUI: item pickup event for quest objectives that count pickups (none in Act 1 rows yet).
+                            { f::quest_runtime::QuestEvent pickupEvent;pickupEvent.kind=f::quest_runtime::QuestEvent::Kind::item_pickup;pickupEvent.object_id=std::int32_t(targetEntry.source_outcome.item_id);f::quest_runtime::raise_quest_event(pickupEvent); }
                             equipmentRebindRequested=true; // the equipment page's bare-definition policy lists held items
                             std::uint32_t rgb=0xFFFFFF;worldDrops->item_color(targetEntry,rgb,textError);
                             f::InventoryItem shown;shown.definition_id=pickedId;shown.quantity=targetEntry.quantity;
@@ -3393,6 +4737,7 @@ int main(int argc,char** argv) {
                     f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
                     if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItemTarget!=previousTarget&&worldItems->inspect(worldItemTarget,targetEntry,targetError))
                         std::cout<<"World item target frame="<<drawn<<" item="<<worldItemTarget<<" id="<<(targetEntry.authored_item?worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id)):std::string("?"))<<" qty="<<targetEntry.quantity<<" position="<<targetEntry.source_position[0]<<","<<targetEntry.source_position[1]<<","<<targetEntry.source_position[2]<<'\n';
+                    // --pickup-frame is a scripted test hook (quiet batches), not a player input; it picks the current target.
                     const bool scheduledPickup=std::find(options.pickupFrames.begin(),options.pickupFrames.end(),int(drawn))!=options.pickupFrames.end();
                     // B063: walking onto an item picks it up (user rule; Space/E stays the context button for chests and NPCs
                     // and is NOT a pickup key). Every item whose sensor begins contact with the living player runs
@@ -3462,6 +4807,11 @@ int main(int argc,char** argv) {
             if(!equipment.attachments().empty()&&!equipment.update(visual,error))throw std::runtime_error("Equipment pose: "+error);
             if(runtimeEquipmentAttachments&&(!runtimeEquipment||!runtimeEquipment->sample_render_pose(error)))throw std::runtime_error("Runtime equipment pose: "+error);
             for(auto& actor:population.actors())if(!gameplayPaused&&actor.enabled&&(!combatSession||!combatSession->owns_population_pose(actor.definition.stableId))&&!actor.visual.update(gameplayDt,error))throw std::runtime_error("Actor pose: "+error);
+            // P16 OPENING4: scripted scene objects advance their clips on the gameplay clock.
+            if(!gameplayPaused){std::string sceneError;if(!sceneDecor.update(gameplayDt,sceneError))throw std::runtime_error("Scene objects: "+sceneError);}
+            // P16 containers: advance activating clips; the authored 'opened' marker is DoOpen (loot via T4, Lua OnOpen later).
+            if(!gameplayPaused){std::vector<f::containers::ContainerEventV1> containerEvents;std::string containerError;if(!containerRuntime.update(gameplayDt,containerEvents,containerError))throw std::runtime_error("Container update: "+containerError);for(const auto& event:containerEvents){std::cout<<"Container opened declaration="<<event.name<<" loot="<<event.loot_id<<" clipMs="<<event.elapsed_ms<<" frame="<<drawn<<'\n';runContainerOpen(event.index,drawn);}
+                if(combatSession){std::string persistError;if(!f::containers::persist_container_world_state_v1(*combatSession->world(),containerRuntime,persistError))throw std::runtime_error("Container persist: "+persistError);}}
             if(options.sourceTargetPosition) {
                 for(const auto& entry:combatSession->world()->actors()) {
                     auto* actor=combatSession->actor(entry.first);auto* graphics=actorVisual(entry.first);
@@ -3501,7 +4851,7 @@ int main(int argc,char** argv) {
             }
             if(playerSourceBox&&!f::OriginalActorBounds::update_absolute(*playerSourceBox,options.actorPosition,error))throw std::runtime_error("Source body absolute bounds: "+error);
             if(options.sourceNativeBodies&&!sourcePhysicalFrameEnabled)for(const auto& entry:sourceBodyPlans){auto* actor=combatSession->actor(entry.first);if(!nativeBodies.set_position(entry.first,actor->transform.position,false,error))throw std::runtime_error("Native body position sync: "+error);}
-            auto activeCamera=camera(options.sourceCamera?originalCamera.pose():(useTimeline?timeline.sample():freeCamera.pose()));
+            auto activeCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
             if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=originalCamera.config().nearPlane;activeCamera.farPlane=originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
             sourceEffectsCamera=activeCamera;
@@ -3529,6 +4879,30 @@ int main(int argc,char** argv) {
                 combatTextCamera=activeCamera;
                 const double elapsed=gameplayDt*1000+combatTextFractionMs;const auto integerMs=std::uint32_t(elapsed);combatTextFractionMs=elapsed-integerMs;
                 if(!combatText.after_host_update(std::uint64_t(drawn),integerMs,window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text update: "+error);
+            }
+            // P16 MAP: RoomZone visits for the CURRENT level (RoomZone::Update rule, features/map_visit): a zone in the
+            // gameplay camera frustum that contains the local player (inclusive XY) becomes visited, once. Saved via schema v4.
+            if(!levelModuleZones.empty()&&combatSession) {
+                if(!mapVisitsReady) {
+                    std::string mapError;
+                    if(!mapVisits.configure(levelModuleZones,f::map_visit::visited_module_ids(state,options.level.generic_string()),mapError))throw std::runtime_error("Map room zones: "+mapError);
+                    mapVisitsReady=true;
+                    std::cout<<"Map room zones level="<<options.level.generic_string()<<" modules="<<levelModuleZones.size()<<" visited="<<mapVisits.visited_count()<<'\n';
+                    for(const auto& zone:levelModuleZones)
+                        std::cout<<"Map room zone id="<<zone.id<<" name="<<zone.name<<" bounds="<<zone.bounds[0]<<','<<zone.bounds[1]<<','<<zone.bounds[2]<<" -> "<<zone.bounds[3]<<','<<zone.bounds[4]<<','<<zone.bounds[5]<<" ranges="<<zone.firstRange<<'+'<<zone.rangeCount<<'\n';
+                }
+                f::map_visit::CameraBasisV1 mapBasis;std::string mapError;
+                if(!f::map_visit::camera_basis_v1(activeCamera,float(window.width())/float(window.height()),mapBasis,mapError))throw std::runtime_error("Map camera basis: "+mapError);
+                std::optional<std::array<float,3>> mapPlayer;
+                if(const auto* playerActor=combatSession->actor(combatSession->player_id()))
+                    mapPlayer=std::array<float,3>{playerActor->transform.position[0],playerActor->transform.position[1],playerActor->transform.position[2]};
+                const auto newlyVisited=mapVisits.update(f::map_visit::frustum_planes_v1(mapBasis),mapPlayer);
+                if(!newlyVisited.empty()) {
+                    f::map_visit::record_visited_modules(state,options.level.generic_string(),newlyVisited);
+                    std::cout<<"Map room visited frame="<<drawn<<" level="<<options.level.generic_string()<<" modules=";
+                    for(const auto id:newlyVisited)std::cout<<id<<' ';
+                    std::cout<<"total="<<mapVisits.visited_count()<<'\n';
+                }
             }
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_prepare);
             renderer.beginFrame(activeCamera);
@@ -3562,6 +4936,10 @@ int main(int argc,char** argv) {
                 }
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
             }
+            // P16 containers: visuals at the authored transform (closed or animated pose from ContainerRuntimeV1).
+            for(const auto& view:containerRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);
+            // P16 OPENING4: scripted scene objects at their authored transform (the cage and other PlayAnimByName targets).
+            for(const auto& view:sceneDecor.views())if(view.visual)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.transform);
             // B004/B029: rendered marker = last target, else OOI, gated by eligibility (combat target is not used).
             const auto* markerTarget=combatSession?combatSession->actor(f::rendered_target_marker_actor_v1(*combatSession,combatSession->player_id(),objectOfInterest)):nullptr;
             if(const auto* target=markerTarget;target&&target->alive()&&!targetMarker.mesh.vertices.empty()) {
@@ -3600,9 +4978,10 @@ int main(int argc,char** argv) {
                 f::HudGeometry hud;if(!f::compose_original_hud(0,player?liveFrame(player->health,player->max_health):frame(36,38),player?liveFrame(player->resource,player->max_resource):frame(41,43),xpFrame,options.hudPortrait,hud,error))throw std::runtime_error(error);
                 overlay.begin(window.width(),window.height());
                 const float scale=float(window.height())/hud.height;
-                for(const auto& batch:hud.batches){std::vector<f::OverlayTriangleVertex> vertices;for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.v});if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("HUD triangle draw rejected");}
+                if(campaignHost.hud_visible()) for(const auto& batch:hud.batches){std::vector<f::OverlayTriangleVertex> vertices; // P16 HOST: HideFlash HUD also hides the original HUD batches
+for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.v});if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("HUD triangle draw rejected");}
                 updatePcHud();
-                if(pcHudReady&&!characterMenu.is_open()&&!pauseMenuOpen) {
+                if(pcHudReady&&!characterMenu.is_open()&&!pauseMenuOpen&&campaignHost.hud_visible()) { // P16 HOST: HideFlash HUD
                     const float offset=(window.width()/scale-480.f)*.5f;
                     for(std::size_t i=0;i<pcHudPresentation.art.batches.size();++i) {
                         std::vector<f::OverlayTriangleVertex> vertices;
@@ -3619,6 +4998,38 @@ int main(int argc,char** argv) {
                         pcHudTextSignature=signature;
                     }
                     pcHudText.draw(overlay);
+                }
+                // P16 CINE: cinematic presentation. Original SKIP/caption batches in the PC HUD letterbox mapping;
+                // caption and SKIP text through the frontend text owner (authored x pre-scaled like the PC HUD fields).
+                if(campaignHost.enabled()) {
+                    const auto cinFrame=campaignHost.cinematic().build_frame();
+                    const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
+                    // P16 HUDART: SKIP and caption art are the original dqhud_droid batches (stage space, atlas bitmap 1).
+                    for(const auto* panel:cinFrame.panels) for(const auto& batch:*panel) {
+                        std::vector<f::OverlayTriangleVertex> vertices;
+                        for(const auto& v:batch.triangles)vertices.push_back({(v.x+view.offset)*view.scale,v.y*view.scale,v.u,v.v});
+                        if(!overlay.drawTriangles(vertices,batch.bitmap?hudTexture:0,batch.rgba))throw std::runtime_error("Cinematic panel draw rejected");
+                    }
+                    const float xScale=480.f*view.scale/float(window.width());
+                    f::frontend::art::ScreenArt cinArt;
+                    auto cinSignature=std::to_string(window.width())+":"+std::to_string(window.height());
+                    for(const auto& item:cinFrame.texts) {
+                        f::frontend::art::TextField field;
+                        field.font_id=5; // source EditText font 7 = Fontin SmallCaps (the only mapped source font)
+                        field.source_height=item.height; field.rgba=item.rgba; field.align=item.align; field.margins={2,2,0}; field.leading=0;
+                        field.matrix={xScale,0,0,1,0,0};
+                        const float left=(item.x+view.offset)*xScale; // FrontendText maps left*width/480 back to window pixels
+                        field.local_bounds={left,left+item.w*xScale,item.y,item.y+item.h};
+                        field.bounds=field.local_bounds;
+                        field.initial_text=item.text;
+                        cinArt.text_fields.push_back(field);
+                        cinSignature+=':'+item.text;
+                    }
+                    if(cinematicTextSignature!=cinSignature) {
+                        if(!cinematicText.rebuild(cinArt,window.width(),window.height(),renderer,error))throw std::runtime_error("Cinematic text: "+error);
+                        cinematicTextSignature=cinSignature;
+                    }
+                    cinematicText.draw(overlay);
                 }
                 if(const auto* target=markerTarget;target&&target->alive()) {
                     auto head=f::Vec3{target->transform.position[0],target->transform.position[1],target->transform.position[2]};
@@ -3665,11 +5076,17 @@ int main(int argc,char** argv) {
                         if(!drawScreenLabel(targetFont,worldItemStatus,worldItemStatusRgb,14,window.width()*.5f,window.height()*.25f,scale,renderer,overlay,textures,statusError))throw std::runtime_error("World item status: "+statusError);
                     }
                 }
+                // P16 QUESTUI: quest banner over the HUD (placeholder panel; see report).
+                if(questBanners.visible()&&!characterMenu.is_open()&&!pauseMenuOpen) {
+                    std::string bannerError;
+                    if(!drawQuestBanner(questBanners.current(),targetFont,renderer,overlay,textures,hudTexture,window.width(),window.height(),bannerError))throw std::runtime_error("Quest banner: "+bannerError);
+                }
                 if(options.combatText&&!characterMenu.is_open()) {
                     if(!combatText.draw(window.width()/480.f,window.height()/320.f,error))throw std::runtime_error("Combat text draw: "+error);
                     if(combatText.active_count())++combatTextDrawnFrames;
                 }
-                if(!characterMenu.is_open())drawPauseArt(pauseHudArt,false,nullptr);
+                // D2 (OPENING3): the pause button belongs to the HUD sprite; HideFlash("HUD") hides it in cutscenes.
+                if(!characterMenu.is_open()&&campaignHost.hud_visible())drawPauseArt(pauseHudArt,false,nullptr);
                 if(pauseMenuOpen)drawPauseArt(currentPauseArt(),true,nullptr);
                 if(characterMenu.is_open()) {
                     // Character pages occupy the full viewport. Original SWF
@@ -3684,12 +5101,229 @@ int main(int argc,char** argv) {
                     if(classRow==properties.characters.names.end())throw std::runtime_error("Original class header has no same player source row");
                     if(!menuLocalization.character_class_level(properties.characters,static_cast<std::int32_t>(classRow-properties.characters.names.begin()),&state,bindings.class_label,error))throw std::runtime_error("Original class header: "+error);
                     bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e);};
+                    // P16 MAPFIX: MapName = MenuCharMenu_Map::ShowLevelName (IDA 0x45335c): LevelList row of the current
+                    // level (Level+60), LevelName StrID at row word 9 (IDA +36), localized through the StringManager lookup.
+                    bindings.map_name.clear();
+                    if(const auto* levelRows=loadMetadataLevels(assets)) {
+                        const auto levelRow=f::menu_metadata::find_level_row(*levelRows,options.level.generic_string());
+                        if(levelRow>=0&&std::size_t(levelRow)<levelRows->levels.size()) {
+                            std::string mapNameError;
+                            if(!menuLocalization.string_id(std::int32_t(levelRows->levels[std::size_t(levelRow)].scalar.words[9]),bindings.map_name,mapNameError))
+                                bindings.map_name.clear();
+                        }
+                    }
+                    // P16 QUESTUI: the Quest Log page is refreshed from the CQPG while its tab is open.
+                    if(questMenuBinding&&characterMenu.is_open()&&characterMenu.tab()==f::character_menu::Tab::quest) {
+                        std::string questMenuError;
+                        if(!questMenuBinding->load_progress_from_character(questMenuError)||!questMenuBinding->show(0,0,f::CharacterQuestCategoryV1::assigned,questMenuError))
+                            std::cerr<<"Quest Log refresh diagnostic: "<<questMenuError<<'\n';
+                    }
                     f::character_menu::Frame menu;if(!characterMenu.frame(bindings,window.width(),window.height(),menu,error))throw std::runtime_error("Character menu: "+error);
                     const auto& transform=menu.transform;
                     auto drawMenuSolid=[&](const f::character_menu::MenuSolidBatch& solid) {
                         std::vector<f::OverlayTriangleVertex> vertices;
                         for(const auto& v:solid.geometry.triangles)vertices.push_back({transform.x+v.x*transform.scale_x,transform.y+v.y*transform.scale_y,v.u,v.v});
                         if(!overlay.drawTriangles(vertices,0,solid.rgba))throw std::runtime_error("Character menu original solid draw rejected");
+                    };
+                    // P16 MAP: Map page. The visited level is drawn top-down through the map camera inside the authored
+                    // RenderMap rectangle (after that contour, see the batch loop), then the player marker (family 3).
+                    if(characterMenu.take_map_reset_zoom())mapView=f::map_visit::map_reset_zoom_v1(mapView);
+                    // P16 MAP icon: the authored icon art of an icon type (MapIconsDynamic frame), origin at (x,y) window px.
+                    constexpr float mapIconScale=1.55f;// authored MapIconsDummy/legend icon scale (1.55)
+                    const auto drawMapIcon=[&](unsigned type,float x,float y) {
+                        std::vector<f::OverlayTriangleVertex> vertices;
+                        for(const auto& batch:f::character_menu::original_map_icon_art(type).batches)
+                            for(const auto& v:batch.triangles)vertices.push_back({x+v.x*mapIconScale*transform.scale_x,y+v.y*mapIconScale*transform.scale_y,v.u,v.v});
+                        if(!vertices.empty()&&!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Map icon draw rejected");
+                    };
+                    const auto drawMapPage=[&]() {
+                        if(!mapVisitsReady)return;
+                        float minX=std::numeric_limits<float>::max(),minY=minX,maxX=-minX,maxY=-minX;bool found=false;
+                        for(const auto& solid:menu.solids)if(solid.geometry.role=="menu_MapSheet/RenderMap/1")
+                            for(const auto& v:solid.geometry.triangles){found=true;minX=std::min(minX,v.x);minY=std::min(minY,v.y);maxX=std::max(maxX,v.x);maxY=std::max(maxY,v.y);}
+                        if(!found)throw std::runtime_error("Map page RenderMap rectangle is absent from the authored menu art");
+                        const float rectX=transform.x+minX*transform.scale_x,rectY=transform.y+minY*transform.scale_y;
+                        const float rectW=(maxX-minX)*transform.scale_x,rectH=(maxY-minY)*transform.scale_y;
+                        const f::map_visit::MapRectV1 mapRect{rectX,rectY,rectW,rectH};
+                        // Sheet parchment (SWF shape 600 bitmap fill = menus/map_bottom.tga) over the RenderMap rectangle.
+                        {
+                            const auto& source=f::character_menu::original_map_parchment();
+                            if(!mapParchmentTexture) {
+                                f::TextureImage image;std::string textureError;
+                                if(!f::load_texture(assets.resolve(source.texture),image,textureError))throw std::runtime_error("Map parchment texture: "+textureError);
+                                mapParchmentTexture=renderer.createTexture(int(image.width),int(image.height),image.rgba.data());
+                                if(!mapParchmentTexture)throw std::runtime_error("Map parchment texture upload rejected");
+                                mapParchmentTexelsW=float(image.width);mapParchmentTexelsH=float(image.height);
+                            }
+                            // Bitmap texel = (twips - offset) / twips-per-texel; the texture is 1024 px BTEX (width/height from the file).
+                            const auto texU=[&](float ax){return ((ax*20.0f-source.offset_x_twips)/source.twips_per_texel)/mapParchmentTexelsW;};
+                            const auto texV=[&](float ay){return ((ay*20.0f-source.offset_y_twips)/source.twips_per_texel)/mapParchmentTexelsH;};
+                            const float px0=transform.x+source.x0*transform.scale_x,px1=transform.x+source.x1*transform.scale_x;
+                            const float py0=transform.y+source.y0*transform.scale_y,py1=transform.y+source.y1*transform.scale_y;
+                            const std::vector<f::OverlayTriangleVertex> parchment{
+                                {px0,py0,texU(source.x0),texV(source.y0)},{px1,py0,texU(source.x1),texV(source.y0)},{px1,py1,texU(source.x1),texV(source.y1)},
+                                {px0,py0,texU(source.x0),texV(source.y0)},{px1,py1,texU(source.x1),texV(source.y1)},{px0,py1,texU(source.x0),texV(source.y1)}};
+                            if(!overlay.drawTriangles(parchment,mapParchmentTexture))throw std::runtime_error("Map parchment draw rejected");
+                        }
+                        std::optional<std::array<float,3>> mapPlayer;
+                        if(const auto* playerActor=combatSession?combatSession->actor(combatSession->player_id()):nullptr)
+                            mapPlayer=std::array<float,3>{playerActor->transform.position[0],playerActor->transform.position[1],playerActor->transform.position[2]};
+                        // P16 MAPFIX: the camera is the authored minimapcameras pose (CreateMapCamera) placed on the local
+                        // player. The view controls are PC adaptations of the original touch ZoomHandler: wheel or +/- zoom,
+                        // left-button drag or arrow keys pan (kept inside the visited extent), Home or Reset zoom resets.
+                        if(!mapCameraPoseLoaded) {
+                            mapCameraPoseLoaded=true;
+                            std::vector<std::uint8_t> poseBytes;std::string poseError;
+                            try{poseBytes=f::read_content(assets,f::map_visit::map_camera_file_v1);}
+                            catch(const std::exception& first) {
+                                if(options.mapCameraRoot.empty())throw std::runtime_error(std::string("Map camera asset: ")+first.what());
+                                const f::AssetCatalog cameraRoot(options.mapCameraRoot);
+                                poseBytes=f::read_content(cameraRoot,f::map_visit::map_camera_file_v1);
+                            }
+                            if(!f::map_visit::load_map_camera_pose_v1(poseBytes,mapCameraPose,poseError))throw std::runtime_error("Map camera pose: "+poseError);
+                            std::cout<<"Map camera pose eye="<<mapCameraPose.eye_offset[0]<<','<<mapCameraPose.eye_offset[1]<<','<<mapCameraPose.eye_offset[2]
+                                     <<" target="<<mapCameraPose.target_offset[0]<<','<<mapCameraPose.target_offset[1]<<','<<mapCameraPose.target_offset[2]<<'\n';
+                        }
+                        float cursorX=0,cursorY=0;const bool hasCursor=window.cursor_position(cursorX,cursorY);
+                        const bool cursorInRect=hasCursor&&cursorX>=rectX&&cursorX<rectX+rectW&&cursorY>=rectY&&cursorY<rectY+rectH;
+                        const float worldPerPixel=f::map_visit::map_world_per_pixel_v1(mapCameraPose,mapView,rectH);
+                        // Wheel: one notch per zoom step, while the cursor is over the map (PC adaptation of pinch zoom).
+                        const int wheelNotches=window.take_wheel_notches();
+                        if(cursorInRect)for(int i=0;i<std::abs(wheelNotches);++i)mapView=f::map_visit::map_zoom_step_v1(mapView,wheelNotches>0?1.0f:-1.0f);
+                        // Left-button drag inside the map pans by the cursor movement (PC adaptation of the touch drag).
+                        const bool leftDown=window.key_down(VK_LBUTTON);
+                        if(!leftDown)mapDragging=false;
+                        else if(!mapDragging&&cursorInRect){mapDragging=true;mapDragLast={cursorX,cursorY};}
+                        if(mapDragging&&hasCursor) {
+                            mapView=f::map_visit::map_pan_screen_v1(mapView,-(cursorX-mapDragLast[0])*worldPerPixel,(cursorY-mapDragLast[1])*worldPerPixel);
+                            mapDragLast={cursorX,cursorY};
+                        }
+                        // Keys (PC): +/- zoom in steps (edge-triggered), arrows pan 6 px per frame, Home resets.
+                        const auto mapKeyPressed=[&](int key,std::size_t slot) {
+                            const bool down=window.key_down(key);const bool pressed=down&&!mapKeysDown[slot];mapKeysDown[slot]=down;return pressed;
+                        };
+                        const bool zoomInKey=mapKeyPressed(VK_OEM_PLUS,0)|mapKeyPressed(VK_ADD,1);
+                        const bool zoomOutKey=mapKeyPressed(VK_OEM_MINUS,2)|mapKeyPressed(VK_SUBTRACT,3);
+                        const bool homeKey=mapKeyPressed(VK_HOME,4);
+                        if(zoomInKey)mapView=f::map_visit::map_zoom_step_v1(mapView,1.0f);
+                        if(zoomOutKey)mapView=f::map_visit::map_zoom_step_v1(mapView,-1.0f);
+                        if(homeKey)mapView=f::map_visit::map_reset_zoom_v1(mapView);
+                        const float keyStep=6.0f*worldPerPixel;
+                        if(window.key_down(VK_LEFT))mapView=f::map_visit::map_pan_screen_v1(mapView,-keyStep,0.0f);
+                        if(window.key_down(VK_RIGHT))mapView=f::map_visit::map_pan_screen_v1(mapView,keyStep,0.0f);
+                        if(window.key_down(VK_UP))mapView=f::map_visit::map_pan_screen_v1(mapView,0.0f,keyStep);
+                        if(window.key_down(VK_DOWN))mapView=f::map_visit::map_pan_screen_v1(mapView,0.0f,-keyStep);
+                        // Anchor: the local player; the level centre only when no player is present.
+                        const auto mapExtent=f::map_visit::map_extent_v1(mapVisits.zones());
+                        if(!mapExtent.valid)return; // a level without module zones has no map to draw (no throw)
+                        const std::array<float,3> mapAnchor=mapPlayer?*mapPlayer:std::array<float,3>{(mapExtent.minX+mapExtent.maxX)*0.5f,(mapExtent.minY+mapExtent.maxY)*0.5f,mapExtent.minZ};
+                        std::vector<bool> mapVisited;mapVisited.reserve(mapVisits.zones().size());
+                        for(const auto& zone:mapVisits.zones())mapVisited.push_back(mapVisits.visited(zone.id));
+                        mapView=f::map_visit::map_clamp_view_v1(mapCameraPose,mapAnchor,f::map_visit::map_visited_extent_v1(mapVisits.zones(),mapVisited),mapView);
+                        f::Camera mapCamera;std::string mapError;
+                        if(!f::map_visit::map_camera_v1(mapCameraPose,mapAnchor,mapView,mapCamera,mapError))throw std::runtime_error("Map camera: "+mapError);
+                        const int vx=int(std::floor(rectX)),vyTop=int(std::floor(rectY)),vr=int(std::ceil(rectX+rectW)),vb=int(std::ceil(rectY+rectH));
+                        if(!renderer.withViewport(vx,window.height()-vb,vr-vx,vb-vyTop,mapCamera,[&] {
+                            // Visited modules only (Module::visited3fc). Original map shows visited room geometry as dark slate.
+                            for(const auto& zone:mapVisits.zones()) {
+                                if(!mapVisits.visited(zone.id))continue;
+                                for(std::size_t r=zone.firstRange;r<zone.firstRange+zone.rangeCount&&r<scene.mesh.ranges.size();++r) {
+                                    f::DrawRange range=scene.mesh.ranges[r];
+                                    range.material.texture=0;range.material.transparent=false;range.material.alphaReference=0;
+                                    range.material.additive=false;range.material.lightingEnabled=false;range.material.sourcePass.reset();
+                                    range.material.color={0.23f,0.25f,0.27f,1.0f};
+                                    renderer.drawRange(scene.mesh,range);
+                                }
+                            }
+                        })) throw std::runtime_error("Map page viewport rejected");
+                        if(mapPlayer) {
+                            float px=0,py=0;
+                            // Family 3 (local player) = the authored Character icon (frame 3 of MapIconsDynamic).
+                            if(f::map_visit::map_project_v1(mapCamera,mapRect,*mapPlayer,px,py))drawMapIcon(3,px,py);
+                        }
+                        // P16 MAPMARKERS: every marker family comes from the registry (features/map_visit/map_markers_v1), in the
+                        // IDA Show order. Live inputs: visited rooms, enemies (combat owner: hostile, alive), placed characters
+                        // (quest talk rows of ACTIVE quests with open TalkToNPC objectives, merchant facts), level objects, and the
+                        // current quest's MoveInZone objective zones.
+                        f::map_visit::MapMarkerInputsV1 markerInputs;
+                        markerInputs.visited=[&](const std::array<float,3>& point){return f::map_visit::map_point_visited_v1(mapVisits.zones(),mapVisited,point);};
+                        markerInputs.level_objects=mapLevelObjects;
+                        markerInputs.characters=mapCharacters; // cached per load (same order as population.actors())
+                        for(std::size_t i=0;i<markerInputs.characters.size()&&i<population.actors().size();++i)
+                            markerInputs.characters[i].enabled=population.actors()[i].enabled; // live activation
+                        markerInputs.level_entry_point=mapLevelEntryPoint;
+                        if(questRuntime&&questTable) {
+                            // IDA +762 (TalkToNPC installed): objectives of quests in the Active state (6), not yet completed.
+                            for(std::int32_t row=0;row<std::int32_t(questTable->rows().size());++row) {
+                                f::quest_runtime::QuestStateV1 state{};
+                                if(!questRuntime->state_of(row,state)||state!=f::quest_runtime::QuestStateV1::active)continue;
+                                const auto* progress=questRuntime->progress_of(row);
+                                const auto& definition=questTable->rows()[std::size_t(row)];
+                                for(std::size_t i=0;i<definition.objectives.size();++i) {
+                                    if(definition.objectives[i].type!=5)continue;
+                                    if(progress&&i<progress->objectives.size()&&progress->objectives[i].completed)continue;
+                                    markerInputs.quest_talk_rows.insert(definition.objectives[i].oid1);
+                                }
+                            }
+                            // IDA ShowObjectivesIcons: the CURRENT quest's objectives; MoveInZone positions at the zone's box centre.
+                            const auto current=questRuntime->current_quest();
+                            if(current>=0&&std::size_t(current)<questTable->rows().size()) {
+                                for(const auto& objective:questTable->rows()[std::size_t(current)].objectives) {
+                                    if(objective.type!=int(f::quest_runtime::QuestObjectiveTypeV1::move_in_zone))continue;
+                                    for(const auto& zone:questZones.zones()) {
+                                        if(zone.name!=objective.str2)continue;
+                                        markerInputs.objective_zones.push_back({zone.name,{(zone.min[0]+zone.max[0])*0.5f,(zone.min[1]+zone.max[1])*0.5f,(zone.min[2]+zone.max[2])*0.5f}});
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        // Enemies (IDA ShowNpcIcons monster branch): live hostile actors. Hostility is the world's eligible-target rule.
+                        if(combatSession&&combatSession->world()&&combatSession->actor(combatSession->player_id())) {
+                            const auto* playerActor=combatSession->actor(combatSession->player_id());
+                            for(const auto& [enemyId,enemy]:combatSession->world()->actors()) {
+                                if(enemyId==combatSession->player_id()||!enemy.alive())continue;
+                                if(!combatSession->world()->eligible_target(*playerActor,enemy))continue;
+                                markerInputs.enemies.push_back({f::map_visit::MapMarkerKindV1::enemy,{enemy.transform.position[0],enemy.transform.position[1],enemy.transform.position[2]}});
+                            }
+                        }
+                        const auto markers=mapMarkers.collect(markerInputs);
+                        std::size_t drawnMarkers[14]{},producedMarkers[14]{};
+                        for(const auto& marker:markers) {
+                            ++producedMarkers[unsigned(marker.kind)];
+                            float px=0,py=0;
+                            const bool projected=f::map_visit::map_project_v1(mapCamera,mapRect,marker.position,px,py);
+                            if(!mapMarkersLogged) // diagnostic: every produced marker at the first map draw (world and window pixel)
+                                std::cout<<"Map marker kind="<<unsigned(marker.kind)<<" world="<<marker.position[0]<<','<<marker.position[1]<<','<<marker.position[2]
+                                         <<(projected?" px=":" outside")<<(projected?px:0.0f)<<','<<(projected?py:0.0f)<<'\n';
+                            if(projected) {
+                                drawMapIcon(unsigned(marker.kind),px,py);
+                                ++drawnMarkers[unsigned(marker.kind)];
+                            }
+                        }
+                        if(!mapMarkersLogged && questRuntime && questTable) { // diagnostic: quest rows behind the quest markers
+                            const auto current=questRuntime->current_quest();
+                            std::cout<<"Map quest current="<<current;
+                            if(current>=0&&std::size_t(current)<questTable->rows().size())
+                                for(const auto& objective:questTable->rows()[std::size_t(current)].objectives)
+                                    std::cout<<" obj(type="<<objective.type<<" oid1="<<objective.oid1<<" str2="<<objective.str2<<")";
+                            for(std::int32_t row=0;row<std::int32_t(questTable->rows().size());++row) {
+                                f::quest_runtime::QuestStateV1 state{};
+                                if(questRuntime->state_of(row,state)&&state==f::quest_runtime::QuestStateV1::active)std::cout<<" active_row="<<row;
+                                bool talkOrZone=false;
+                                for(const auto& objective:questTable->rows()[std::size_t(row)].objectives)if(objective.type==5||objective.type==4)talkOrZone=true;
+                                if(talkOrZone)std::cout<<" talk_or_zone_row="<<row<<" state="<<int(state);
+                            }
+                            std::cout<<'\n';
+                        }
+                        if(!mapMarkersLogged) {
+                            mapMarkersLogged=true;
+                            std::cout<<"Map markers frame="<<drawn<<" zoom="<<mapView.zoom<<" pan="<<mapView.panX<<','<<mapView.panY
+                                     <<" talk_rows="<<markerInputs.quest_talk_rows.size()<<" objective_zones="<<markerInputs.objective_zones.size();
+                            static const char* const kindNames[14]{"objective","entrance","exit","character","enemy","champion","boss","player2","player3","player4","quest_giver","merchant","checkpoint","arrow"};
+                            for(unsigned k=0;k<14;++k) if(producedMarkers[k]||drawnMarkers[k]) std::cout<<' '<<kindNames[k]<<"="<<drawnMarkers[k]<<'/'<<producedMarkers[k];
+                            std::cout<<'\n';
+                        }
                     };
                     for(const auto& solid:menu.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
                     const auto& sourcePanes=f::inventory::original_inventory_character_panes_v1();
@@ -3710,7 +5344,10 @@ int main(int argc,char** argv) {
                             e.clear();return true;
                         },error))throw std::runtime_error("Original Equipment avatar: "+error);
                     };
+                    // P16 MAP: the level is drawn after the sheet backdrop batch and before the MapSheet art (icons, legend, buttons).
+                    bool mapDrawn=false;
                     for(const auto& batch:menu.art.batches) {
+                        if(!mapDrawn&&characterMenu.tab()==f::character_menu::Tab::map&&batch.role.compare(0,14,"menu_MapSheet/")==0){drawMapPage();mapDrawn=true;}
                         if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment)
                             for(std::size_t i=0;i<sourcePanes.size();++i)
                                 if(!drawnPanes[i]&&!sourcePanes[i].before_role.empty()&&
@@ -3724,6 +5361,11 @@ int main(int argc,char** argv) {
                         if(!overlay.drawTriangles(vertices,damaskPanel?menuDamaskTexture:hudTexture))throw std::runtime_error("Character menu original-art draw rejected");
                         for(const auto& solid:menu.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
                     }
+                    if(characterMenu.tab()==f::character_menu::Tab::map&&!mapDrawn)drawMapPage();
+                    // P16 MAP legend: each legend caption's icon type at its authored position (legend popup frame).
+                    if(characterMenu.tab()==f::character_menu::Tab::map&&characterMenu.map_legend_shown())
+                        for(const auto& icon:f::character_menu::original_map_legend_icons())
+                            drawMapIcon(icon.type,transform.x+icon.x*transform.scale_x,transform.y+icon.y*transform.scale_y);
                     if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment&&
                        std::none_of(drawnPanes.begin(),drawnPanes.end(),[](bool drawn){return drawn;}))
                         throw std::runtime_error("Original Equipment active avatar display-list anchor is unavailable");
@@ -3766,12 +5408,29 @@ int main(int argc,char** argv) {
                                 advance=measured.advance;return true;
                             },layout,error))throw std::runtime_error("Multiline menu text: "+error);
                             GLint oldClip[4];glGetIntegerv(GL_SCISSOR_BOX,oldClip);const bool wasClipped=glIsEnabled(GL_SCISSOR_TEST)==GL_TRUE;
+                            // P16 QUESTUI2: clip to the union of the wrapped lines' own clip rects (source RECT x clip_matrix).
+                            // The authored field box can be one line high while the original text flows past it (Quest description).
                             const auto& m=field.matrix;
                             float left=std::numeric_limits<float>::max(),right=-left,top=left,bottom=-left;
-                            for(float x:{field.local_rect[0],field.local_rect[1]})for(float y:{field.local_rect[2],field.local_rect[3]}) {
-                                const float px=transform.x+(m[0]*x+m[2]*y+m[4])*transform.scale_x;
-                                const float py=transform.y+(m[1]*x+m[3]*y+m[5])*transform.scale_y;
-                                left=std::min(left,px);right=std::max(right,px);top=std::min(top,py);bottom=std::max(bottom,py);
+                            const auto includeRect=[&](const std::array<float,4>& rect,const std::array<float,6>& cm) {
+                                for(float x:{rect[0],rect[1]})for(float y:{rect[2],rect[3]}) {
+                                    const float px=transform.x+(cm[0]*x+cm[2]*y+cm[4])*transform.scale_x;
+                                    const float py=transform.y+(cm[1]*x+cm[3]*y+cm[5])*transform.scale_y;
+                                    left=std::min(left,px);right=std::max(right,px);top=std::min(top,py);bottom=std::max(bottom,py);
+                                }
+                            };
+                            for(const auto& line:layout.lines) {
+                                if(!(line.clip_rect[1]>line.clip_rect[0]&&line.clip_rect[3]>line.clip_rect[2]))continue;
+                                const bool hasMatrix=line.clip_matrix[0]!=0.f||line.clip_matrix[3]!=0.f;
+                                includeRect(line.clip_rect,hasMatrix?line.clip_matrix:m);
+                            }
+                            if(left>right)includeRect(field.local_rect,m);
+                            // Wrapped lines past the first extend below the authored one-line box (reference: the
+                            // Quest description flows onto a second line), so the clip grows by those lines.
+                            if(layout.lines.size()>1) {
+                                const float lineStep=field.source_height*1.25f+field.paragraph_leading;
+                                includeRect({field.local_rect[0],field.local_rect[1],field.local_rect[2],
+                                             field.local_rect[3]+float(layout.lines.size()-1)*lineStep},m);
                             }
                             const int x0=std::clamp(int(std::floor(left)),0,window.width()),x1=std::clamp(int(std::ceil(right)),0,window.width());
                             const int y0=std::clamp(int(std::floor(top)),0,window.height()),y1=std::clamp(int(std::ceil(bottom)),0,window.height());
@@ -3811,6 +5470,12 @@ int main(int argc,char** argv) {
             if(!sourceEffectsRenderer.finish_and_drain(error))throw std::runtime_error("Source FX drain: "+error);dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_drain);
             ++drawn;
             if(options.frames&&drawn>=options.frames&&!options.capture.empty()) capture(options.capture,window.width(),window.height());
+            // P16 OPENING4: verification captures at the requested drawn frames (same size and format as --capture).
+            if(!options.capture.empty()) for(const auto frame:options.captureFrames) if(frame==drawn) {
+                const auto path=options.capture.parent_path()/("f"+std::to_string(frame)+".ppm");
+                capture(path,window.width(),window.height());
+                std::cout<<"Captured frame="<<frame<<" path="<<path.generic_string()<<'\n';
+            }
             window.swap();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::swap_present);
             if(options.frames&&drawn>=options.frames) break;
             framePacer.wait();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sleep_wait); // B066
@@ -3834,7 +5499,8 @@ int main(int argc,char** argv) {
         std::cout<<"Population final enabled="<<population.enabled_count()<<" deferredInitially="<<population.initial_deferred_count()<<" loaded="<<population.actors().size()<<'\n';
         if(lifecycleEnabled)for(const auto& placed:population.actors())if(const auto* lifecycle=actorLifecycle.status(placed.definition.stableId))std::cout<<"Lifecycle final actor="<<placed.definition.stableId<<" name="<<placed.definition.name<<" state="<<lifecycle->state<<" enabled="<<placed.enabled<<" physical="<<lifecyclePhysical[placed.definition.stableId]<<" collisions="<<lifecycleCollisions[placed.definition.stableId]<<'\n';
         if(actorCameraAnchor.initialized()){const auto p=actorCameraAnchor.position();std::cout<<"Actor camera anchor final="<<p.x<<','<<p.y<<','<<p.z<<'\n';}
-        if(sourceCameraTargets.target()!=0)std::cout<<"Source camera final target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<" globalControllerBlocked="<<globalControllerBlocked<<" anchor="<<lastSourceCameraFrame.anchor.x<<','<<lastSourceCameraFrame.anchor.y<<','<<lastSourceCameraFrame.anchor.z<<" damping="<<lastSourceCameraFrame.applyDamping<<'\n';
+        if(options.campaignTriggers)campaignHost.print_summary(std::cout); // P16 HOST
+    if(sourceCameraTargets.target()!=0)std::cout<<"Source camera final target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<" globalControllerBlocked="<<globalControllerBlocked<<" anchor="<<lastSourceCameraFrame.anchor.x<<','<<lastSourceCameraFrame.anchor.y<<','<<lastSourceCameraFrame.anchor.z<<" damping="<<lastSourceCameraFrame.applyDamping<<'\n';
         if(playerSourceBox){const auto& b=playerSourceBox->absolute_box;std::cout<<"Source body final absolute="<<b[0]<<','<<b[1]<<','<<b[2]<<','<<b[3]<<','<<b[4]<<','<<b[5]<<'\n';}
         if(sourceFloors&&combatSession)for(const auto& entry:sourceBodyPlans) {
             const auto* actor=combatSession->actor(entry.first);dh2::navigation::HeightHit hit{};hit.height=actor->transform.position[2];
@@ -3879,7 +5545,7 @@ int main(int argc,char** argv) {
             std::cout<<'\n';
         }
         if(returnToFrontend) {
-            pcHudText.clear(renderer);pauseText.clear(renderer);
+            pcHudText.clear(renderer);pauseText.clear(renderer);cinematicText.clear(renderer); // P16 CINE
             const int selectedSlot=options.selectedSaveSlot;
             options=launchOptions;options.startMode="menu";options.selectedSaveSlot=selectedSlot;
             options.menuActions.clear();

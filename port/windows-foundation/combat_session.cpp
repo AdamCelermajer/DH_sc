@@ -131,6 +131,7 @@ struct CombatSession::Impl {
     std::string transitionFailure;
     std::vector<CombatSessionAnimationDispatch> animationDispatches;
     bool lifecycleRegistered=false;
+    bool lifecycleSerializedByHost=false; // D3 (OPENING3): see set_lifecycle_serialized_by_host
     bool sourceCheckpointReadyAtDetach=false;
     AttackOwnerProvider attackOwnerProvider;
     std::vector<CombatSessionComboBoundary> comboBoundaries;
@@ -477,9 +478,12 @@ struct CombatSession::Impl {
         return true;
     }
     std::int32_t live_original_state(ActorId id)const{
-        const auto& entry=entries.at(id);if(entry.lifecycleOriginalState)return *entry.lifecycleOriginalState;
+        const auto& entry=entries.at(id);
+        // P16 LIFECYCLE: with a bound transition handler the published World fact is canonical (Blur/Focus
+        // publish the target before Focus), so the lifecycle overlay must not shadow it.
         if(actorTransitionHandler){const auto* properties=world->combat_properties(id);
             return properties?properties->facts.original_state:-1;}
+        if(entry.lifecycleOriginalState)return *entry.lifecycleOriginalState;
         if(entry.stateSequence&&entry.sourceStatePolicy)return entry.sourceStatePolicy->original_state;
         if(entry.animationOnly&&!entry.receiveDamage){const auto* properties=world->combat_properties(id);
             return properties?properties->facts.original_state:-1;}
@@ -811,7 +815,7 @@ struct CombatSession::Impl {
         // combat/action state is not used to infer their pose or visibility.
         if(entries.at(id).animationOnly&&!entries.at(id).receiveDamage&&!entries.at(id).sourceStatePolicy)return true;
         auto properties=*old;
-        if(entries.at(id).lifecycleOriginalState)properties.facts.original_state=*entries.at(id).lifecycleOriginalState;
+        if(entries.at(id).lifecycleOriginalState&&!actorTransitionHandler)properties.facts.original_state=*entries.at(id).lifecycleOriginalState;
         else if(entries.at(id).stateSequence&&entries.at(id).sourceStatePolicy)
             properties.facts.original_state=entries.at(id).sourceStatePolicy->original_state;
         else if(actorTransitionHandler){
@@ -1056,8 +1060,10 @@ void CombatSession::set_motion_handler(MotionHandler handler){
         impl_->motionHandler=std::move(handler);}
 }
 bool CombatSession::set_motion_phase_handler(MotionPhaseHandler handler,std::string& error){
-    error.clear();if(!impl_||impl_->detached||impl_->updating||impl_->restoreTeardown||impl_->checkingAnimationCheckpoint||impl_->transitionDelivering||!handler||!impl_->pendingMotion.empty()){
-        error="Motion phase binding requires idle current Session, handler and no pending samples";return false;
+    // P16 LIFECYCLE: samples queued outside an update (a spawn's begin/select runs between frames) stay queued and
+    // are delivered by the handler bound at the next update. The per-frame rebinding in main.cpp relies on this.
+    error.clear();if(!impl_||impl_->detached||impl_->updating||impl_->restoreTeardown||impl_->checkingAnimationCheckpoint||impl_->transitionDelivering||!handler){
+        error="Motion phase binding requires idle current Session and handler";return false;
     }
     impl_->motionPhaseHandler=std::move(handler);impl_->motionPhaseRequired=true;return true;
 }
@@ -1340,6 +1346,9 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
             actor.faction_id=props.sheets.resolved[0];actor.transform.position={position.x,position.y,position.z};actor.transform.rotation[2]=heading;
             actor.health=original_signed256(props.sheets.resolved[36]);actor.max_health=original_signed256(props.sheets.resolved[38]);
             actor.resource=original_signed256(props.sheets.resolved[41]);actor.max_resource=original_signed256(props.sheets.resolved[43]);
+            // P16 OPENING: a source -1 resource sentinel (no MP pool, e.g. a scripted troll) projects to zero for every
+            // actor, not only animation-only ones; it previously failed ActorState validation (only changes cases that threw).
+            actor.resource=std::max(0.0f,actor.resource);actor.max_resource=std::max(0.0f,actor.max_resource);
             if(policy.animationOnly){
                 // ActorState is a nonnegative gameplay projection; source -1
                 // vital sentinels remain untouched in the original property
@@ -1520,7 +1529,11 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
     }
     for(auto& entry:s.entries){
         if(s.runtime->owns_pose(entry.first))continue;
-        const auto* a=s.world->find_actor(entry.first);if(!a->alive()&&!entry.second.animationOnly)continue;
+        const auto* a=s.world->find_actor(entry.first);
+        // P16 DESPAWN2: a lifecycle-owned state sequence (the Despawn clip after death, CSDespawn) keeps playing on a dead
+        // actor. Generic source sequences (Skill/Cast/KnockedBack) still stop with the actor, as before.
+        const bool lifecycleSequenceOnDead=entry.second.stateManaged&&entry.second.stateSequence&&!entry.second.sourceStatePolicy;
+        if(!a->alive()&&!entry.second.animationOnly&&!lifecycleSequenceOnDead)continue;
         if(entry.second.stateManaged){
             if(entry.second.stateSequence){if(!entry.second.retained->advance(ownedBeforeUpdate.count(entry.first)?0:dt,error))return false;}
             else if(entry.second.retained->seeded()){if(!entry.second.retained->advance_seeded(ownedBeforeUpdate.count(entry.first)?0:dt,error))return false;}
@@ -2055,30 +2068,65 @@ bool CombatSession::refresh_actor_combat_permissions(std::string& error){
 }
 bool CombatSession::set_actor_original_state(ActorId id,std::int32_t state,std::string& error){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Original lifecycle state actor is unavailable";return false;}
-    if(state!=0&&state!=1&&state!=3&&state!=17){error="Session lifecycle state must be original0/1/3/17";return false;}
-    auto& entry=impl_->entries.at(id);entry.lifecycleOriginalState=state==3?std::optional<std::int32_t>{}:state;impl_->lifecycleRegistered=true;return refresh_actor_combat_permissions(error);
+    if(state!=0&&state!=1&&state!=2&&state!=3&&state!=17){error="Session lifecycle state must be original0/1/2/3/17";return false;} // P16 DESPAWN: 2 = Despawn
+    auto& entry=impl_->entries.at(id);
+    // P16 LIFECYCLE: under a bound handler the target was already published by its admitted transition (idempotent).
+    if(impl_->actorTransitionHandler&&!impl_->publish_source_state(id,state,error))return false;
+    entry.lifecycleOriginalState=state==3?std::optional<std::int32_t>{}:state;impl_->lifecycleRegistered=true;return refresh_actor_combat_permissions(error);
 }
 bool CombatSession::select_actor_state_leaf(ActorId id,const CombatSessionChoice& choice,double actor_rate,bool frozen,
-    CombatSessionStateAnimationServices services,std::string& error){
+    CombatSessionStateAnimationServices services,std::string& error,std::int32_t lifecycle_to_state){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="State-animation actor is unavailable";return false;}
     auto& s=*impl_;auto& entry=s.entries.at(id);if(!entry.retained||!entry.sequencePlan){error="State animation requires explicit retained source profile";return false;}
-    if(s.actorTransitionHandler){error="Legacy lifecycle leaf selection has no admitted physical transition recipe";return false;}
+    if(s.actorTransitionHandler&&lifecycle_to_state<0){error="Legacy lifecycle leaf selection has no admitted physical transition recipe";return false;}
     if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="State leaf replacement requires accepted source departure";return false;}
     if(!std::isfinite(actor_rate)||actor_rate<=0||actor_rate>std::numeric_limits<float>::max()){error="State animation caller rate is invalid";return false;}
+    // P16 LIFECYCLE: admitted legacy transition = Blur -> publish -> Focus prefix, selection, Focus suffix.
+    CombatRuntimeTransition receipt;
+    if(s.actorTransitionHandler){
+        receipt={id,s.live_original_state(id),lifecycle_to_state,0,CombatRuntimeTransitionCause::source_program};
+        if(!s.actor_transition(id,receipt,error))return false;
+    }
     try{const auto& selected=choose(*entry.sequencePlan,choice);volatile float rate=static_cast<float>(actor_rate)*static_cast<float>(selected.speed);if(!std::isfinite(rate)){error="State animation effective rate overflow";return false;}
         const auto* sequence=entry.sequencePlan->sequence(choice.state,choice.variant);RetainedAnimationFrame frame;
         s.runtime->interrupt(id);s.combat->interrupt(id);
         if(frozen){if(!entry.retained->seed_sequence(*s.assets,selected.clipName,selected.resolvedPath,0,static_cast<int>(selected.blendOut),selected.moveGO!=0,0,frame,error))return false;}
         else if(!s.seed_source(entry,selected,sequence&&sequence->loop!=0,rate,*entry.retained,frame,error))return false;
-        entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=frozen;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceSelectedClip=selected.clipName;entry.locomotionSelected.clear();entry.sourceEvents.clear();s.lifecycleRegistered=true;error.clear();return true;
+        entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=frozen;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceSelectedClip=selected.clipName;entry.locomotionSelected.clear();entry.sourceEvents.clear();s.lifecycleRegistered=true;error.clear();
     }catch(const std::exception& failure){error=failure.what();return false;}
+    if(s.actorTransitionHandler){receipt.stage=CombatRuntimeTransitionStage::after_change;return s.actor_transition(id,receipt,error);}
+    return true;
+}
+bool CombatSession::play_actor_clip(ActorId id,const std::string& clip,const std::string& path,bool loop,std::string& error){
+    error.clear();
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Actor clip actor is unavailable";return false;}
+    auto& s=*impl_;auto& entry=s.entries.at(id);
+    if(!entry.retained){error="Actor clip requires retained actor playback";return false;}
+    if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="Actor clip requires accepted source departure";return false;}
+    // P16 OPENING: the scripted clip replaces the current pose; the source repeats a single-leaf clip forever for loop
+    // and completes once otherwise (RetainedSequencePlayback::seed_sequence repeat policy).
+    s.runtime->interrupt(id);s.combat->interrupt(id);
+    RetainedAnimationFrame frame;
+    if(!entry.retained->seed_sequence(*s.assets,clip,path,1.0f,0,false,loop?-1:0,frame,error))return false;
+    entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};entry.sourceAction=false;
+    entry.sourceSelectedClip=clip;entry.locomotionSelected.clear();entry.sourceEvents.clear();
+    return true;
+}
+bool CombatSession::actor_clip_duration_ms(ActorId id,const std::string& clip,std::int32_t& duration_ms,std::string& error)const{
+    error.clear();
+    const auto* visual=retained_actor_visual_borrow(id);
+    if(!visual){error="Actor clip duration requires the retained actor visual";return false;}
+    std::int32_t start=0,end=0;
+    if(!visual->animation_range(clip,start,end,error))return false;
+    duration_ms=end-start;return true;
 }
 bool CombatSession::play_actor_state_sequence(ActorId id,const OriginalAttackSelection& selection,
-    CombatSessionStateAnimationServices services,std::string& error){
+    CombatSessionStateAnimationServices services,std::string& error,std::int32_t lifecycle_to_state){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="State-sequence actor is unavailable";return false;}
     const auto& entry=impl_->entries.at(id);
     if(!entry.sequencePlan){error="Whole state sequence needs retained profile";return false;}
-    return play_actor_source_sequence(id,*entry.sequencePlan,impl_->sequencePolicies,selection,std::move(services),error);
+    CombatSessionSourceSequencePolicy policy;policy.lifecycle_to_state=lifecycle_to_state;
+    return play_actor_source_sequence(id,*entry.sequencePlan,impl_->sequencePolicies,selection,std::move(services),policy,error);
 }
 bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVisualPlan& plan,
     const OriginalSequencePolicies& policies,const OriginalAttackSelection& selection,
@@ -2121,12 +2169,16 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     if(s.transitionDelivering||s.restoreTeardown||s.checkingAnimationCheckpoint){error="Source program cannot reenter transition/checkpoint/teardown";return false;}
     CombatRuntimeTransition receipt;
     if(s.actorTransitionHandler){
-        if(!generic){error="Legacy lifecycle source program has no admitted physical transition recipe";return false;}
-        receipt={id,s.world->combat_properties(id)->facts.original_state,policy.original_state,policy.generation,CombatRuntimeTransitionCause::source_program};
+        // P16 LIFECYCLE: a legacy OriginalActorLifecycle program is admitted only with its explicit target state.
+        if(!generic&&policy.lifecycle_to_state!=1&&policy.lifecycle_to_state!=2&&policy.lifecycle_to_state!=3&&policy.lifecycle_to_state!=17){
+            error="Legacy lifecycle source program has no admitted physical transition recipe";return false;
+        }
+        const auto to=generic?policy.original_state:policy.lifecycle_to_state;
+        receipt={id,s.world->combat_properties(id)->facts.original_state,to,generic?policy.generation:0,CombatRuntimeTransitionCause::source_program};
         if(!s.actor_transition(id,receipt,error,nullptr,&policy))return false;
     }
     {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
-        if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;
+        if(s.runtime->owns_pose(id)&&!s.runtime->yield_pose(id,error))return false;
         s.combat->interrupt(id);
         // Interrupted source combo swing: drop continuation/last so the next swing starts fresh.
         entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
@@ -2165,11 +2217,12 @@ bool CombatSession::freeze_actor_state_animation(ActorId id,std::string& error){
     if(!entry.retained||!entry.stateManaged){error="Explicit state animation must be selected before freeze";return false;}
     if(!entry.retained->set_source_rate(0,error))return false;entry.stateFrozen=true;impl_->lifecycleRegistered=true;return true;
 }
+void CombatSession::set_lifecycle_serialized_by_host(bool serialized) noexcept{if(impl_)impl_->lifecycleSerializedByHost=serialized;}
 bool CombatSession::validate_lifecycle_checkpoint(std::string& error)const{
     // Presentation observes an already-applied gameplay event. Its live output
     // and device clock are transient host state; registering it does not add
     // campaign/controller state to the gameplay checkpoint.
-    if(impl_&&(impl_->lifecycleRegistered||impl_->permissionProvider||impl_->controllerAdmissionProvider||impl_->networkModeProvider)){error="Campaign lifecycle/controller providers are not persisted; checkpoint/restore requires explicit serialization or clearing transient services";return false;}
+    if(impl_&&!impl_->lifecycleSerializedByHost&&(impl_->lifecycleRegistered||impl_->permissionProvider||impl_->controllerAdmissionProvider||impl_->networkModeProvider)){error="Campaign lifecycle/controller providers are not persisted; checkpoint/restore requires explicit serialization or clearing transient services";return false;}
     if(impl_){
         if(impl_->detached){if(!impl_->sourceCheckpointReadyAtDetach){error="Detached source program had no quiescent checkpoint admission";return false;}}
         else if(!impl_->source_checkpoint(error)||!impl_->animation_checkpoint(error))return false;

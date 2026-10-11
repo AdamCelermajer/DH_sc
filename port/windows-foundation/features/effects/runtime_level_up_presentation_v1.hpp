@@ -2,6 +2,7 @@
 
 #include "../../actor_state.hpp"
 #include "../../../game-data/effects_tables.hpp"
+#include "../../../level-world/level_up_placeholder_column_v1.hpp" // P16 LEVELUP4 placeholder record
 
 #include <cstdint>
 #include <functional>
@@ -21,6 +22,10 @@ inline constexpr const char* kLevelUpFxSetNameV1 = "level_up";
 // The text is queued by Character::LevelUp into the StatusMsg HUD queue; the
 // Windows runtime has no status-message owner yet, so it is logged, not drawn.
 inline constexpr const char* kLevelUpTextV1 = "LEVEL UP!";
+// P16 LEVELUP4 PLACEHOLDER binding for set 135 (NOT original art). The white column window and the gold
+// sheet suppression are data in level-world/level_up_placeholder_column_v1.hpp; the CharacterMeshFxOwnerV4
+// applies that record to the FX record whose uri is kLevelUpPlaceholderColumnV1.fx_uri (this set's asset).
+inline constexpr const dh2::fx::LevelUpPlaceholderColumnV1& kLevelUpSet135PlaceholderV1 = dh2::fx::kLevelUpPlaceholderColumnV1;
 
 using RuntimeLevelUpPlaySetV1 = std::function<bool(
     std::int32_t set, const float position[3], const float* rotation,

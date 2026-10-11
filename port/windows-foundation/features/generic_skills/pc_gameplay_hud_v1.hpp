@@ -30,6 +30,12 @@ struct PcGameplayHudLayoutV1 {
     std::array<PcGameplayHudCirclePlacementV1, 3> skills{};
     PcGameplayHudCirclePlacementV1 faery{};
     PcGameplayHudCirclePlacementV1 potion{};
+    // P16 SPACEBTN / HUDART: bottom-right action button = original btn_interact movie (hud_panels). Drawn at its
+    // authored stage position. action_icon is the btimg frame (0 Chest .. 7 Inspect; out of range -> Attack);
+    // action_pressed selects the pressed ring (Space held). Off unless action_enabled.
+    bool action_enabled = false;
+    std::int32_t action_icon = 5;
+    bool action_pressed = false;
     // Source btn_spell CoolDown frame (0 ready .. 99 full), from the Faery
     // spell timer (SetSpellCooldown). Potions have no source cooldown.
     std::int32_t faery_cooldown_frame = 0;

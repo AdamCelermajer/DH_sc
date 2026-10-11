@@ -78,6 +78,9 @@ class RuntimeSessionAudioV1 final {
     std::uint64_t started_{},dispatched_{},diagnostics_{};
     bool focused_{},minimized_{},activity_known_{};
     std::string level_music_name_,level_music_error_;
+    // P17 SAFEZONE: the level's own track and its safezone track (empty when the level has none).
+    std::string level_music_base_,level_music_safezone_;
+    bool level_music_in_safe_zone_{};
     bool level_music_revive_pending_{};
     std::ostream& log_;
 public:
@@ -107,6 +110,11 @@ public:
     // original Level::Update path plays it on the first updated frame. An empty
     // name requests nothing.
     bool set_level_music(const std::string& name,std::string& error);
+    // P17 SAFEZONE: names the level's safezone track (LevelMusicNamesV1::safezone); empty keeps the level track.
+    void set_level_music_safezone(const std::string& name);
+    // P17 SAFEZONE: Enter (true) switches to the safezone track, Leave (false) back to the level track. The
+    // after_update start gate performs the switch (ordinal change). Without a safezone track the level track stays.
+    bool set_level_music_safe_zone(bool entering,std::string& error);
     // Original PlayerManager::ReviveLocalPlayers: StopAllMusic(2) then
     // PlayMusic(level music, 1000). Restart is deferred until output is focused.
     // Not yet reached by the normal EXE: no global-death/revive flow is wired.

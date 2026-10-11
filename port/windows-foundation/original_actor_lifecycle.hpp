@@ -47,6 +47,9 @@ public:
     // waitForAnim=true scheduling must use the existing original Idle owner.
     bool put_idle(ActorId,std::string& error);
     bool put_limbus(ActorId,std::string& error);
+    // P16 DESPAWN: Idle -> Despawn(2) with its clip (CSDespawn::OnFocus), and the death-end body release (CSDead event 34).
+    bool despawn(ActorId,std::string& error);
+    bool release_body(ActorId,std::string& error);
     // Must be whole original animation-sequence completion, not a leaf end.
     bool animation_finished(ActorId,std::string& error);
     bool animation_event(ActorId,const std::string& name,std::string& error);
