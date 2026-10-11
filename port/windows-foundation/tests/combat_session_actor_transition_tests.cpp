@@ -590,7 +590,7 @@ void run_retained_interaction_leaf_neutral_frame(const char* root){
     check(f.session.select_player_locomotion("walk",f.error),f.error);
     check(f.session.actor(1)->action==CharacterAction::moving,"Fixture did not admit moving locomotion");
     const auto* idle=f.knight_plan.phase("Idle",0,{0});check(idle,"Retained clip path unavailable");
-    check(f.session.play_actor_clip(1,"b117-interact",idle->resolvedPath,false,f.error),f.error);
+    check(f.session.play_actor_clip(1,idle->clipName,idle->resolvedPath,false,f.error),f.error);
     check(f.session.scripted_actor_pose(1),"Retained interaction clip did not own the actor leaf");
     InputActions neutral;
     check(f.session.update(1.0/60,neutral,actor_position(*f.session.actor(1)),0,f.error),f.error);
