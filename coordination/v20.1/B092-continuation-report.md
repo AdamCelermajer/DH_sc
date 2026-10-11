@@ -94,6 +94,8 @@ Focused tests pass in the full build and independently under the reviewer's stri
 
 Fresh same reviewer independently used copied actual save530 and identical frozen9515202B; dead-resume and dead-resume-with-movement both exit0. Its frames1/120/450 confirm immediate disappearance vs baseline persistent body, no new actor damage/End/cue/reward, physical0, successful hero movement. Reviewer final status is recorded separately after normal/inverse/hidden verification.
 
+**Final independent verdict: READY WITH CAVEATS for code3e294ec6/frozen9515202B.** Reviewer also inspected normal Quit/Continue, successful alive-F9 inverse, and hidden-respawn frames1/1199/1350 with timing logs; immediate restored retirement and live20s respawn confirmed. Full evidence note `.local-inputs/claude-v20.1/fix092/review/evidence-note.md`. Root owns final combined suite/package; repeated real F9 mutable-targetable rejection and exact-shot identities remain the explicit caveats below.
+
 ### Limits and explicit follow-up ownership
 
 - **Repeated in-process F9 remains a separate restore-guard defect:** `duplicate-key-after` first successful actual restore0/hide0, then private real Win32 F9 (VK120,2.10s) aborts: saved Moth13 targetable1/current0. Existing game_save.cpp binding guard treats this mutable lifecycle fact as immutable role. Baseline original fresh-death F9afterhide614 already rejects it; the source-correct immediate hide exposes it earlier. Parent/root and B086 notified with exact input/log. No guard weakened here; this gap must be integrated/tested by that owner before claiming every restore branch works. `duplicate-resume-before/after` scheduled load30 override frame0 and therefore prove only one delayed restore, explicitly not duplicate reload.
