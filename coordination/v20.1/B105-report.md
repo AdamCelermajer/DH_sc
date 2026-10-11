@@ -1,5 +1,40 @@
 # B105 Celeste embedded effects â€” fresh session, 2026-10-11
 
+## Current outcome — ready for independent B105 review
+
+The reported white figure/separated glow is fixed in the private normal executable: authored camera-facing glow follows the animated body, and three authored emitters contribute short-lived golden sparks. Actor meshes retain their normal animated draw exactly once. No Celeste-name/profile recolor or particle-rate override was added. Root integration, fresh read-only review and release acceptance remain pending; B105 is not removed from the active tracker by this worker.
+
+Final behavior commit `52e4a67c` on `fix/b105`; docs/evidence commits after it do not change the executable. Dependencies merged: `6dd26c6d`, `52700217`, B101 final `ee9bafe4`. B101 remains OPEN for its separate visual mismatch; this report makes no wall-of-fire completion claim.
+
+- **Matches video (bounded):** P1 288–293 s white-gold halo stays around a moving faery, with intermittent small bright particles. P2 600–603 s (`fix105_work/ref/p2-600-603.png`, inspected six frames) also shows warm golden glow accompanying the moving followers. Production sheets below preserve continuous glow through changing wing poses and short sparks. Exact camera/brightness/size equivalence across asset versions is not established.
+- **Matches IDA (admitted branch):** actual mode1/sub1 COLLADA billboard record uses the camera/parent basis from `0x60cf88`; particle birth/age/color and world-space placement use recovered source consumer, current actor graph, authored material and emitter records. Full node identity/parent/finite validation precedes copying live pose.
+- **Not verified:** complete opening/cavern cinematics, interactive actor-hide/show and model-switch paths, other billboard modes, external clips that animate emitter parameters/materials, and full original per-node visibility hierarchy. Source pose/body/camera invariants are tested for the actual Celeste asset; actor-enabled admission is used in production. These broader gaps are not claimed as B105 visual proof.
+
+## Final implementation and verification receipt
+
+`CharacterVisual::prepare_camera_billboards` reuses the existing source graph billboard helper, reconstructs root-motion compensation once, and re-deforms the same retained pose without advancing its clock. Main prepares it after selecting the actual active camera and before FX emission/draw; the same `actorDrawWorld` matrix feeds both consumers. Actor effects have a separate stable-ID registry, require actual embedded emitters, contribute particles only, and renew on current visual model changes. Factory retirement clears both registries. A validated optional `source_actor_pose_v1` handoff copies the current graph before particle emission, so model-rest transforms cannot replace animated/cinematic actor transforms. Previously born world particles remain independent when their owner moves. Common source matrix files moved into `recovered_content` for shared linking; no second billboard formula was introduced.
+
+### Frozen production test
+
+- Build: `p14_build.ps1 -Name fix105 -Jobs 2`, success. Final frozen EXE: `C:/Users/adamc/Desktop/workspace/DH_wt/fix105_work/frozen-52e4a67c/dh-foundation.exe`.
+- SHA256: `284886C51935F8BC0C37D4338528C601993B5247E015DF97F3AE89D3EF3A4EC3`.
+- Test time: 2026-10-11 about 22:10 Asia/Jerusalem. `quiet_run.ps1`, hidden desktop, `DH_AUDIO_SILENT=1`, original camera, 1/60 fixed step, fresh isolated profile/game saves. User/accepted package saves were not written.
+- Request, full log, captures, receipt: `DH_wt/fixfx_work/runs/b105-verified/{run.args,jobs.json,run.log,summary.json,f*.ppm}`. Exit0, 360 frames, 9.3 s, no timeout or source-FX presentation errors. Exactly one faery attachment; 34 emitter-free ordinary actor models refused with the correct reason. Ordinary moth mesh/wing poses remain present, as seen in full frames150/240/360.
+- Actual Celeste BDAE SHA256: `841531E0CBA192D00898309E7DC53B0B56445C9E72E71D22163178AE3F6EBE22`.
+- Before EXE preserved at `fix105_work/baseline/dh-foundation.exe`, SHA256 `F2465C7B1F2515C5A89F87450720632943E0B2D3DB39611B818A690420622A41` (shared emitter checkpoint with actor mesh draw restored, before B105 billboard/pose changes). Same original-camera fixture in `fixfx_work/runs/b105-normal-before`, exit0. It is an intermediate source baseline, not the accepted v20 package; user shot22 supplies the accepted-build defect evidence.
+- Intermediate candidate hashes A47F6F4E and 38DAF89B are retained separately in `fix105_work/frozen` and `frozen-final`. Final frame240 PPM is byte-identical to both intermediates: SHA256 `B951AA12B0C9A80C47059A27A74C6218B91AAFEFDF470E94C74906DED0077F09`. The last change corrected only the debug refusal label.
+
+Committed visual evidence (`B105-evidence/`): `before-f240.png` / `after-f240.png` matching camera and placement; `idle.png` frames120,122,124,126,128,130 show continuous halo across wing poses; `wing-motion.png` frames30,60,90,120,150,180 show motion continuity; `star-birth.png` frames148–153 show a gold spark at151/152 and disappearance by153. Every sheet is left-to-right, top-to-bottom, crop x0–225/y220–370, enlarged for inspection. These images were regenerated from the final frozen run and inspected.
+
+### Isolated/focused tests
+
+`actor_embedded_visual`: actual Celeste body/additive/glow parts, camera reface without changing skinned body, unchanged clip clock, repeated preparation idempotence, walk-pose continuation, invalid placement rejection, ordinary Prince pose preservation. Actual V32 Celeste resource: three golden emitters, graph-ID/parent/nonfinite rejection, repeated same-pose adoption, clip-time wrap with continuous absolute lifetime, translated emitter attachment, and already-born world particles trailing a moved owner. `embedded_particle_fidelity` and `source_fx_billboard_basis_v1` also pass.
+
+Final complete ctest: **169/170 pass**, 13.96 s. Sole failure `session_skill_binding`: `Asset path escapes asset root`, the known worktree fixture limitation described by the handoff. Full log `fix105_work/ctest-verified.log`; this is not a claim of 100% ctest. No test files or result branches were disabled.
+
+Earlier fixture attempts are retained honestly: scheduled Camp_Intro actor-position commands failed because the diagnostic executor lacked actor-verb providers; with triggers enabled, they admitted unrelated Swamp_Intro cinematics. Free-camera setup initially rejected the original-camera anchor option. The optional FaeryTwist start with triggers off did not prove a twist clip; those frames were ordinary Idle motion. Final proof uses the actual normal actor renderer with original camera and controlled start position, and no special campaign commands. Long unchanged cinematics were not rerun.
+
+
 Owner: /root/b105_celeste. Worktree `DH_wt/fix105`, branch `fix/b105`. Shared emitter owner: /root/b101_b105_effects. Independent reviewer pending root dispatch.
 
 ## Investigation before new behavior edits
