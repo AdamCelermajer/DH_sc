@@ -33,6 +33,10 @@ assets, use the original cache ZIP as a local input and follow the relevant
 preparation instructions in [level-world](../level-world/README.md) and
 [source availability](../../docs/SOURCE-AVAILABILITY.md).
 
+For supported asset, data, Lua, and level overrides, see the [native modding
+guide](MODDING.md). It distinguishes device-verified overrides from inputs
+that are only routed by the current source.
+
 ## Verification and scope
 
 Run focused host checks with the test runners in

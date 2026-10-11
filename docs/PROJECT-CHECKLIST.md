@@ -538,7 +538,7 @@ the [branch-audit reconciliation](BRANCH-AUDIT-2026-10-05.md#adam-reconciliation
 - [x] Implement validated external asset/world overrides with packaged fallback.
 - [x] Test a real world override, malformed rejection and baseline restoration in the native app.
 - [x] Publish reconstruction source, evidence mappings, tests and build-specific source archives.
-- [ ] Document supported data, Lua, asset, level and gameplay modification entry points.
+- [x] Document supported data, Lua, asset, level and gameplay modification entry points in the [native modding guide](../port/android-native/MODDING.md), with device-verified and source-routed-only scope distinguished.
 - [ ] Provide validation tools for fan changes and meaningful diagnostics for unsupported content.
 - [ ] Complete mod lifecycle/reload/version behavior and restore-to-baseline workflows.
 - [ ] Build and playtest example mods that change a skill, enemy, asset and level.
