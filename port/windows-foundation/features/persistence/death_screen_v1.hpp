@@ -92,6 +92,12 @@ bool project_original_death_screen_frame_v1(std::uint16_t frame,
 bool original_death_continue_hit_test_v1(float stage_x, float stage_y,
                                          std::uint16_t frame);
 
+// Inverts the renderer's 480x320 letterbox transform for mouse/touch release.
+// Returns false for invalid dimensions, nonfinite points, or letterbox bars.
+bool original_death_screen_to_stage_v1(float screen_x, float screen_y,
+                                       int viewport_width, int viewport_height,
+                                       float& stage_x, float& stage_y) noexcept;
+
 struct DeathScreenDrawServicesV1 {
     bool (*draw_localized_quote)(void*, std::uint8_t quote_number,
                                  const std::array<float, 6>& matrix_twips,
