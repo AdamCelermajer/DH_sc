@@ -17,6 +17,9 @@ struct RuntimePlayerLocomotionLibraryRequestV1 {
     // Caller budget for the current pair and its null-slot combinations.
     // The implementation hard ceiling is eight distinct pairs.
     std::size_t max_programs{4};
+    // Preload one source program per reachable equipment stance. This supports
+    // weapons acquired after CharacterVisual initialization without replacing it.
+    bool preload_all_equipment_stances{};
 };
 
 struct RuntimePlayerLocomotionSelectionV1 {
@@ -40,6 +43,12 @@ class RuntimePlayerLocomotionLibraryV1 {
     std::string role_;
     CharacterVisualConfig base_visual_;
     std::vector<Entry> entries_;
+    bool all_equipment_stances_{};
+    std::int32_t animation_table_{-1}, character_flag_1324_{};
+    RuntimePlayerLocomotionConstantsV1 constants_;
+    dh2::data::ItemTable items_;
+    dh2::data::AnimationTables animations_;
+    dh2::data::Dictionary clips_;
 
 public:
     static constexpr std::size_t hard_program_limit = 8;
