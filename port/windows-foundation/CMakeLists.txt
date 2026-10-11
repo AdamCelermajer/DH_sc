@@ -42,7 +42,8 @@ add_library(recovered_content STATIC
   ../game-data/ai.cpp ../level-world/character_attack_geometry.cpp
   ../level-world/actor_rotation.cpp ../level-world/navigation_heading.cpp
   ../engine-ui/localization.cpp ../engine-ui/localization_parse_ex_v1.cpp ../script-runtime/script_constants.cpp
-  ../level-world/gameplay_camera_scene_v3.cpp ../level-world/gameplay_camera_damping_v1.cpp)
+  ../level-world/gameplay_camera_scene_v3.cpp ../level-world/gameplay_camera_damping_v1.cpp
+  ../level-world/source_fx_node_matrix_v4.cpp ../level-world/source_fx_billboard_basis_v1.cpp)
 add_library(content_xml STATIC
   ../level-loader/vendor/tinyxml/tinyxml.cpp
   ../level-loader/vendor/tinyxml/tinyxmlparser.cpp
@@ -339,8 +340,6 @@ add_library(foundation_runtime_effects STATIC
   ../level-world/character_fx_kernels_v1.cpp
   ../level-world/character_fx_state_v1.cpp
   ../level-world/visual_fx_manager_libraries_v63.cpp
-  ../level-world/source_fx_node_matrix_v4.cpp
-  ../level-world/source_fx_billboard_basis_v1.cpp
   ../level-world/fx_texture_animation_v1.cpp
   ../level-world/visual_fx_preload.cpp
   ../scene-materials/particle_scene_v1.cpp
@@ -1193,3 +1192,8 @@ add_executable(embedded_particle_fidelity_tests tests/embedded_particle_fidelity
 target_link_libraries(embedded_particle_fidelity_tests PRIVATE foundation_runtime_effects)
 add_test(NAME embedded_particle_fidelity COMMAND embedded_particle_fidelity_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android/data/3d/gameobjects/go_door_fire_red.bdae")
+
+add_executable(actor_embedded_visual_tests tests/actor_embedded_visual_tests.cpp)
+target_link_libraries(actor_embedded_visual_tests PRIVATE foundation_data)
+add_test(NAME actor_embedded_visual COMMAND actor_embedded_visual_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v20/assets")

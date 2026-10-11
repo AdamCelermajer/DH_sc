@@ -7042,7 +7042,7 @@ int main(int argc,char** argv) {
                     } else queue.submit(mesh,world);
                 }
             }
-            for(const auto& actor:population.actors()) {
+            for(auto& actor:population.actors()) {
                 if(!actor.enabled)continue;
                 auto placement=actor.transform;
                 const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
@@ -7052,6 +7052,11 @@ int main(int argc,char** argv) {
                     :std::array<float,3>{0,0,std::atan2(placement[1],placement[0])};
                 const f::Vec3 scale{std::hypot(placement[0],placement[1]),std::hypot(placement[4],placement[5]),placement[10]};
                 placement=sourceActorWorld(actor.definition.stableId,position,rotation,scale);
+                const f::CameraPose billboardCamera{{activeCamera.eye.x,activeCamera.eye.y,activeCamera.eye.z},
+                    {activeCamera.target.x,activeCamera.target.y,activeCamera.target.z},
+                    {activeCamera.up.x,activeCamera.up.y,activeCamera.up.z},activeCamera.verticalFovDegrees};
+                if(!actor.visual.prepare_camera_billboards(placement,f::sourceCameraViewMatrix(billboardCamera),activeCamera.eye,error))
+                    throw std::runtime_error("Actor billboard: "+error);
                 if(campaignHost.scripted_clip_pose(actor.definition.stableId)&&std::find(options.captureFrames.begin(),options.captureFrames.end(),drawn+1)!=options.captureFrames.end()){
                     std::array<float,3> low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
                     for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}
