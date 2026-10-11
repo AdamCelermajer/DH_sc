@@ -44,7 +44,7 @@ bool AudioGameplayRuntimeV42::submit_actual_play(const dh2::character::CombatSou
  if(last_status_){error=error_.empty()?owner.error():error_+"; "+owner.error();return false;}error.clear();return true;
 }
 void AudioGameplayRuntimeV42::pump_receipts(){if(observations_.size()>=1024)return;bank_.pump_receipts();AudioReceiptV34 receipt;while(observations_.size()<1024&&bank_.take_receipt(receipt)){observations_.push_back(receipt);auto found=voices_.find(receipt.token);if(found==voices_.end())continue;if(receipt.kind==AudioReceiptKindV34::started)found->second.started=true;else if(receipt.kind==AudioReceiptKindV34::control_required)found->second.control_required=true;else voices_.erase(found);}}
-bool AudioGameplayRuntimeV42::submit_plain_source(int ordinal,std::int64_t event,const PlainCommand&make,std::string&error){
+bool AudioGameplayRuntimeV42::submit_plain_source(int ordinal,std::int64_t event,const PlainCommand&make,std::string&error,std::uint64_t delay_frames){
  if(!initialized_||quiescing_||in_submit_){error="Required active non-reentrant SAME Play receiver";return false;}
  const auto*row=bindings_.row(ordinal);const auto*sound=row?catalog_.sound(row->uid):nullptr;
  const auto*group=sound?catalog_.group(sound->group):nullptr;
@@ -58,7 +58,7 @@ bool AudioGameplayRuntimeV42::submit_plain_source(int ordinal,std::int64_t event
  if(voices_.size()>=1024){error="Audio voice observation capacity; drain producer receipts";return false;}
  AudioCommandV34 command;
  if(!make||!make(*sound,*group,command,error)){if(error.empty())error="Required whole original fresh Play emitter/properties body";return false;}
- command.kind=AudioCommandKindV34::play;command.start_frame=frame;
+ command.kind=AudioCommandKindV34::play;command.start_frame=frame+delay_frames;
  std::uint64_t token{};if(!bank_.play_uid(sound->uid,command,token,false)){error=bank_.error();return false;}
  voices_.emplace(token,VoiceV42{sound->uid,command.source_emitter_position});last_token_=token;last_uid_=sound->uid;
  error.clear();return true;

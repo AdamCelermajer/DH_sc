@@ -12,6 +12,7 @@
 //   characterControllerBlocked) stay the single truth; this host wraps the lambdas to track and restore them.
 #include "trigger_zones.hpp"
 #include "../cinematics/source_campaign_dispatch_v1.hpp"
+#include "../cinematics/script_source_services_v1.hpp" // v20 SCRIPTSVC: PlaySound/StopSound/SaveGame orchestration
 #include "../cinematic_runner/cinematic_runner.hpp" // P16 CINE
 #include "../cinematic_runner/dialog_tables.hpp" // B068
 #include "../../original_campaign_world_adapter.hpp"
@@ -176,6 +177,10 @@ public:
     // TriggerZone::Update 0x39b458 ignores contacts while the local character is marked scripted (+5248).
     bool character_scripted(ActorId id) const noexcept { return scripted_.count(id) != 0; }
     bool save_blocked() const noexcept { return save_blocked_; }
+    void set_save_blocked(bool blocked) noexcept { save_blocked_ = blocked; } // SG_BlockLevel(false) clears the cutscene block
+    // v20 SCRIPTSVC: Script_PlaySound/StopSound (kinds 13/14) and Script_SaveGame (kind 69) owners. Unbound = logged stub.
+    void bind_script_sound(cinematics::ScriptSoundServicesV1 s) { script_sound_ = std::move(s); }
+    void bind_script_save(cinematics::ScriptSaveServicesV1 s) { script_save_ = std::move(s); }
     bool global_controller_blocked() const noexcept { return global_blocked_; }
 
     // P16 CINE2: scripted camera clip. While a PlayCamera clip plays, the source camera uses its eye and
@@ -250,6 +255,8 @@ private:
     std::function<bool(bool,std::string&)> safe_zone_music_;
     int cutscene_depth_=0; // OPENING2: nested enters of cutscene mode
     bool save_blocked_=false;
+    cinematics::ScriptSoundServicesV1 script_sound_; // v20 SCRIPTSVC (PlaySound/StopSound owners)
+    cinematics::ScriptSaveServicesV1 script_save_;   // v20 SCRIPTSVC (regular SaveGame owners)
     bool global_blocked_=false;
     bool reported_player_=false;
     std::uint64_t frames_=0;

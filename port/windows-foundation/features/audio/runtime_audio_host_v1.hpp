@@ -110,6 +110,10 @@ public:
     bool submit_world_item_sound(std::int32_t source_ordinal,
         const std::array<float,3>& position,WorldItemSoundResultV1& result,
         std::string& error);
+    // v20 SCRIPTSVC: Script_PlaySound plain (VoxSoundManager::Play, a4 = delay ms, loop from the XML emitter) and
+    // Script_StopSound plain (VoxSoundManager::Stop, fade ms). ordinal<0 is a source no-op. Uses the same producer.
+    bool submit_script_plain_sound(std::int32_t source_ordinal,int delay_ms,std::string& error);
+    bool stop_script_plain_sound(std::int32_t source_ordinal,int fade_ms,std::string& error);
     // Producer-thread source settings, initialized from the exact fresh
     // emitter defaults and updated only when the current source DSP changes.
     bool set_current_emitter_mix(float gain,float pitch,std::string& error);

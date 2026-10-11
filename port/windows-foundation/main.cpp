@@ -3375,6 +3375,55 @@ int main(int argc,char** argv) {
         }
         // P17 SAFEZONE: Script_EnterSafeZone / LeaveSafeZone switch the level music (no audio: state only).
         campaignHost.bind_safe_zone([&](bool entering,std::string& e){return !runtimeAudio||runtimeAudio->set_level_music_safe_zone(entering,e);});
+        // v20 SCRIPTSVC: compiled-bank Script_PlaySound/StopSound (kinds 13/14) and Script_SaveGame (kind 69). The owners
+        // are read at command time. Audio off (no --audio) is a silent no-op, as the source output with sounds disabled.
+        {
+            f::cinematics::ScriptSoundServicesV1 scriptSound;
+            scriptSound.play_music=[&](std::int32_t ordinal,bool,bool change,int fade,std::string& e) {
+                if(!runtimeAudio){e.clear();return true;}
+                return runtimeAudio->script_play_music(ordinal,change,fade,e);
+            };
+            scriptSound.play_plain=[&](std::int32_t ordinal,bool,int delay,std::string& e) {
+                if(!runtimeAudio){e.clear();return true;}
+                return runtimeAudio->script_play_plain(ordinal,delay,e);
+            };
+            scriptSound.stop_music=[&](int fade,std::string& e) {
+                if(!runtimeAudio){e.clear();return true;}
+                return runtimeAudio->script_stop_music(fade,e);
+            };
+            scriptSound.stop_plain=[&](std::int32_t ordinal,int fade,std::string& e) {
+                if(!runtimeAudio){e.clear();return true;}
+                return runtimeAudio->script_stop_plain(ordinal,fade,e);
+            };
+            campaignHost.bind_script_sound(scriptSound);
+            f::cinematics::ScriptSaveServicesV1 scriptSave;
+            // GetCurrentLevel / GetLocalPlayer Character: a level and its local player exist while a combat session runs.
+            scriptSave.current_level=[&](bool& present,std::string& e) {present=combatSession!=nullptr;e.clear();return true;};
+            // SG_BlockLevel(false) ends the cutscene save block (Script_BlockSaveGame, kind 70).
+            scriptSave.block_level=[&](bool blocked,std::string& e) {campaignHost.set_save_blocked(blocked);e.clear();return true;};
+            // QuickSave(false) gates: a live, non-dead local player (the Level phase is the running session). The level
+            // world is written by the regular LevelSavegame path; the source checkpoint-cache copy is NOT made here.
+            scriptSave.quick_save=[&](bool,std::string& e) {
+                const auto* player=combatSession?combatSession->actor(combatSession->player_id()):nullptr;
+                if(!player||player->is_dead()) {std::cout<<"[campaign] QuickSave gate: no live local player; level save skipped\n";e.clear();return true;}
+                return saveLevelWorld("script-quicksave",e);
+            };
+            scriptSave.local_character=[&](bool& present,std::string& e) {present=combatSession&&combatSession->actor(combatSession->player_id());e.clear();return true;};
+            // No character save block owner exists in this build; SG_Block(false) has nothing to clear.
+            scriptSave.block_character=[&](bool,std::string& e) {e.clear();return true;};
+            // PlayerSG_Save: the regular profile write (character.save), not the gameplay/checkpoint files.
+            scriptSave.save_character=[&](std::string& e) {
+                if(options.save.empty()){e.clear();return true;}
+                stampSaveMetadata(state,options.level.generic_string());
+                if(!combatSession)return f::save_character(options.save,state,e);
+                f::GameSave snapshot;
+                if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),snapshot,e))return false;
+                if(!f::save_character(options.save,snapshot.character,e))return false;
+                std::cout<<"[campaign] SaveGame wrote profile="<<options.save.generic_string()<<'\n';
+                e.clear();return true;
+            };
+            campaignHost.bind_script_save(scriptSave);
+        }
         std::set<int> held;int drawn=transitionFrameBase;double previous=window.seconds(),dt=0; // P17 TRANSITIONS: frames continue across sessions
         const auto bindSourcePresentations=[&]() {
             if(runtimeAudio)runtimeAudio->clear_step_entry_presentation_observers();
@@ -3942,7 +3991,10 @@ int main(int argc,char** argv) {
                 if(property==placed.definition.properties.end()||f::conditions::is_no_condition(property->second))return true;
                 has=true;
                 bool value=false;
-                if(!conditionWatch||!conditionWatch->watching(property->second)||!conditionWatch->current(property->second,value)) {
+                // v20 SCRIPTSVC: --condition-active/--condition-inactive debug overrides apply here too (test aid, as the door path).
+                if(options.activeConditions.count(property->second)) value=true;
+                else if(options.inactiveConditions.count(property->second)) value=false;
+                else if(!conditionWatch||!conditionWatch->watching(property->second)||!conditionWatch->current(property->second,value)) {
                     std::cout<<"Source condition lifecycle unresolved actor="<<placed.definition.name<<" key="<<key<<" condition="<<property->second<<"; retained prior enable state\n";
                     return false;
                 }

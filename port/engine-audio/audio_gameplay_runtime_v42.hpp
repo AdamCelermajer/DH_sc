@@ -32,7 +32,8 @@ public:
  // Original Play36b80c uses generated row.uid directly, including event rows.
  // Its fresh emitter/property body is separate from Play3D's listener gates.
  using PlainCommand=std::function<bool(const AudioSoundV34&,const AudioGroupV34&,AudioCommandV34&,std::string&)>;
- bool submit_plain_source(int source_ordinal,std::int64_t,const PlainCommand&,std::string&);
+ // delay_frames is the authored Play delay (Play36b80c a4 ms, converted by the caller); 0 = immediate.
+ bool submit_plain_source(int source_ordinal,std::int64_t,const PlainCommand&,std::string&,std::uint64_t delay_frames=0);
  bool stop_source_ordinal(int source_ordinal,std::uint32_t fade_frames,std::string&);
  bool stop_source_sound_v106(int source_ordinal,int fade_ms,std::string&);
  bool stop_source_3d_v112(int source_ordinal,int fade_ms,const float* center,float radius,std::string&);

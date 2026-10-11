@@ -82,6 +82,10 @@ class RuntimeSessionAudioV1 final {
     std::string level_music_base_,level_music_safezone_;
     bool level_music_in_safe_zone_{};
     bool level_music_revive_pending_{};
+    // v20 SCRIPTSVC: Level::Update starts the level track once (latch this+324) and SetInSafeZoneMusic/revive start it
+    // explicitly. The start is pending from those events until it succeeds; it is not re-asserted every frame, so a
+    // scripted PlayMusic holds until the next source event.
+    bool level_music_start_pending_{};
     std::ostream& log_;
 public:
     explicit RuntimeSessionAudioV1(std::ostream&);
@@ -130,6 +134,12 @@ public:
     // B048: ItemObject drop/pickup Play3D through this session's live host.
     bool submit_world_item_sound(std::int32_t source_ordinal,
         const std::array<float,3>& position,WorldItemSoundResultV1& result,std::string& error);
+    // v20 SCRIPTSVC: compiled-bank Script_PlaySound / Script_StopSound. Music uses the shared PlayMusic/StopMusic voice
+    // (the same owner as level music); plain uses the generated Play row. Missing original assets are logged and silent.
+    bool script_play_music(std::int32_t ordinal,bool change,int fade_ms,std::string& error);
+    bool script_stop_music(int fade_ms,std::string& error);
+    bool script_play_plain(std::int32_t ordinal,int delay_ms,std::string& error);
+    bool script_stop_plain(std::int32_t ordinal,int fade_ms,std::string& error);
     bool shutdown(std::string&);
     void summary() const;
 };
