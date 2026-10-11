@@ -276,14 +276,14 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B092 | Big moth corpse takes a long time to disappear (shot 11). | OPEN, queued | fresh Sonnet session |
 | B093 | Quest system: MAKE ACTIVE does not really work, no kill tracking, killed 8 Bog Moths and nothing happened (shot 12). | OPEN, queued | fresh Sonnet session |
 | B094 | An NPC (she) appears not targetable; intended? User clarified: "the boss lizard the brown one". | OPEN, prior companion identification invalid; fresh cinematic continuation with B091 | `/root/b094_b091_boss_cinematics`; root preliminary review, fresh read-only reviewer queued |
-| B095 | Clicking the bag again does not return to the equipment global page. | OPEN, queued | fresh Sonnet session |
-| B096 | Level up: no button to learn a new skill (shot 15). | OPEN, fresh continuation running | `/root/b096_skill_training`; root preliminary review, fresh read-only reviewer queued |
+| B095 | Clicking the bag again does not return to the equipment global page. | OPEN, fresh worker temporarily interrupted for new B112; corrected isolated reproduction pending | `/root/b095_bag_navigation`; root follow-up, fresh read-only reviewer queued |
+| B096 | Level up: no button to learn a new skill (shot 15). | OPEN, reviewed READY WITH CAVEATS and merged; combined executable success/refusal/reload pending | `/root/b096_skill_training`; `/root/b096_review`; root integration |
 | B097 | Skill rank up does not change the skill stats (shot 16). | OPEN, queued | fresh Sonnet session |
 | B098 | Killed monsters do not play the death animation / do not disappear (shot 17). | OPEN, queued | fresh Sonnet session |
 | B099 | No NEW QUEST sound. | OPEN, queued | fresh Sonnet session |
 | B100 | Cannot talk to the merchant, no icon above his head (shot 18). | OPEN, queued | fresh Sonnet session |
 | B101 | Wall of fire must be reproduced: deep IDA inspection (shot 19). | OPEN, fresh continuation running; scope B101 only | `/root/b101_b105_effects` (B101 only); root preliminary review, fresh read-only B101 reviewer queued |
-| B102 | EQUIP button does not work (shots 14, 20). | OPEN, fresh continuation running | `/root/b102_equipment`; root preliminary review, fresh read-only reviewer queued |
+| B102 | EQUIP button does not work (shots 14, 20). | OPEN, reviewed READY WITH CAVEATS and merged; integrated equipment checks and model packaging pending | `/root/b102_equipment`; `/root/b102_review`; root integration |
 | B103 | Character menu buttons still not clickable (shot 21). | OPEN, queued | fresh Sonnet session |
 | B104 | No sound on quest completion (Bogwalker quest). | OPEN, queued | fresh Sonnet session |
 | B105 | Celeste glow is broken (shot 22). | OPEN, separate fresh continuation running; consumes B101 common emitter dependency | `/root/b105_celeste`; root preliminary review, separate fresh read-only B105 reviewer queued |
@@ -293,3 +293,4 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B108 | Continue after death fails without a checkpoint-zone contact. | OPEN, existing fix awaits review and combined B086 quit-after-death test | Root follow-up; fresh read-only reviewer queued |
 | B110 | Merchant BUY/SELL UI is missing from the normal interaction path. | OPEN, worker interrupted at checkpoint to prioritize clarified B094; resume queued | `/root/b110_merchant`; root follow-up, fresh read-only reviewer queued |
 | B111 | Statistics icon navigation and four character-sheet sub-pages are missing. | OPEN, source draft awaits fresh implementation continuation | Root follow-up; fresh worker/reviewer queued |
+| B112 | User: "in npc in general we dont get the green targeting" (missing green NPC targeting/selection ring). | OPEN, fresh implementation session assigned immediately | `/root/b112_npc_green_target` in fix112/codex/b112; root preliminary review, fresh read-only reviewer queued |

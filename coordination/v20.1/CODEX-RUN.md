@@ -10,13 +10,15 @@ use GPT-6.1 Sol HIGH. Concurrency is limited to five workers plus root.
 
 | Scope | Fresh implementation owner | Worktree | Reviewer / state |
 |---|---|---|---|
-| B102 equipment / input prerequisite | `/root/b102_equipment` | fix102 | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
-| B096 training | `/root/b096_skill_training` | fix096 | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
+| B102 equipment / input prerequisite | `/root/b102_equipment` | fix102 | `/root/b102_review`: READY WITH CAVEATS; merged, integrated checks pending |
+| B096 training | `/root/b096_skill_training` | fix096 | `/root/b096_review`: READY WITH CAVEATS; merged, integrated checks pending |
 | B109/B107 rendering | `/root/b109_cavern` | fix109 | First patch committed; temporarily interrupted to open separate B105; resume queued |
 | B101 fire/common emitter core | `/root/b101_b105_effects` (scope B101 only) | fixfx | Fresh separate B101 reviewer queued |
 | B105 Celeste actor effects | `/root/b105_celeste` | fix105 | Fresh separate B105 worker and reviewer; common-core dependency owned by B101 |
 | B110 merchant shop | `/root/b110_merchant` | fix110 | Temporarily interrupted for clarified B094; resume queued; fresh reviewer queued |
 | B094/B091 boss cinematic state | `/root/b094_b091_boss_cinematics` | fix091 | Fresh session after user clarification; fresh reviewer queued |
+| B095 bag navigation | `/root/b095_bag_navigation` | fix095 | Temporarily interrupted for new B112; corrected cinematic-free reproduction pending |
+| B112 green NPC targeting | `/root/b112_npc_green_target` | fix112 / codex/b112 | New user report assigned immediately; fresh read-only reviewer queued |
 
 Root retains follow-up ownership of B095, B111/B103, B091, B093 and B097 runtime
 gaps until their fresh sessions can start (B091 has now been assigned below). Finished branches and already-merged
@@ -71,6 +73,31 @@ Full PowerShell ctest with toolchain PATH: 167/168 pass; only allowed worktree
 `session_skill_binding` fails. Log `.local-inputs/v20.1/root/ctest-initial-integration.log`.
 This checks the earlier merged batch only; it is not a v20.1 acceptance result.
 Short hidden isolated chest/vase/NPC integrated fixtures are in progress.
+
+## Reviewed input/equipment/training integration
+
+B102 tip `e40538b8` independently reviewed by `/root/b102_review`:
+READY WITH CAVEATS, no blocking defect. Source stance enumeration completeness,
+retained live actor/pose ownership, focused tests, frozen worker hash and all
+781 asset hashes checked. Preserve three matching existing models, add 778
+missing models only to NEW package. Correct historical fixed-axe wording: its
+save paths were scratch-relative defaults, not distinct explicit per-run paths.
+
+B096 tip `5dc852ea` independently reviewed by `/root/b096_review`:
+READY WITH CAVEATS, no blocking defect. Source signed gates/class-list mapping,
+independent regression, retained success/refusal/reload captures and worker
+frozen hash verified. Continue used actual frontend actions via diagnostic
+`--menu-actions`; Skills opened via `--skills-page-frame`, then real 10 ms
+selection/training clicks. Natural leveling and physical menu navigation remain
+unverified; passive skill details/effects are an existing gap.
+
+Both merged into integration at `389c88064c0b4a96178205031317ff78bb8c3ec8`.
+Incremental build and combined executable checks pending. Bugs remain active.
+
+B109 and B110 resumed when those reviews freed slots. New user B112 report then
+opened a fresh worker immediately; B095 was temporarily interrupted to free
+its slot. User clarified that related work may share the existing session/
+worktree; keep evidence separate and prevent duplicate shared-core writes.
 
 ## Acceptance gates still open
 
