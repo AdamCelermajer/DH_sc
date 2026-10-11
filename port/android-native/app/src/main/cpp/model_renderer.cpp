@@ -22492,7 +22492,16 @@ int authored_faery_controller_service(void* context,
  *response={};
  if(request->service==control_target_position) {
   float position[3]{};
-  if(!native_level_script_position_for_target(request->subject,position))return -1;
+  if(!native_level_script_position_for_target(request->subject,position)) {
+   // GameObject::GetTargetPosition for an ordinary Character: its live
+   // runtime position (the source +0x160 field it mirrors).
+   auto* actor=native_char_ai_actor(request->subject);
+   if(!actor)return -1;
+   std::copy(actor->position.begin(),actor->position.end(),position);
+   if(actor->spawn_owner&&actor->spawn_owner->runtime_ready)
+    std::copy(actor->spawn_owner->runtime.subobjects.position,
+              actor->spawn_owner->runtime.subobjects.position+3,position);
+  }
   std::copy(position,position+3,response->position);return 1;
  }
  if(request->subject!=owner.identity)return -1;
@@ -34788,7 +34797,16 @@ int prince_look_service(void*,const dh2::character::CharacterControlRequest32* r
  using namespace dh2::character;
  if(request->service==control_target_position){
   float position[3]{};
-  if(!native_level_script_position_for_target(request->subject,position))return -1;
+  if(!native_level_script_position_for_target(request->subject,position)) {
+   // GameObject::GetTargetPosition for an ordinary Character: its live
+   // runtime position (the source +0x160 field it mirrors).
+   auto* actor=native_char_ai_actor(request->subject);
+   if(!actor)return -1;
+   std::copy(actor->position.begin(),actor->position.end(),position);
+   if(actor->spawn_owner&&actor->spawn_owner->runtime_ready)
+    std::copy(actor->spawn_owner->runtime.subobjects.position,
+              actor->spawn_owner->runtime.subobjects.position+3,position);
+  }
   std::copy(position,position+3,response->position);return 1;
  }
  if(request->service==control_look_at_point&&request->subject==prince_character.identity()){
