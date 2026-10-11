@@ -377,6 +377,16 @@ bool RuntimeSessionAudioV1::script_play_plain(std::int32_t ordinal,int delay_ms,
     return false;
 }
 
+// NativePlaySoundFX: Arrays::GetMemberIDByString<Sounds>(name) then VoxSoundManager::PlayMenu (a miss is a source no-op).
+std::int32_t RuntimeSessionAudioV1::play_named_ui_sound(const char* name,std::string& error) {
+    error.clear();
+    if(!host_)return -1;
+    const auto ordinal=host_->source_ordinal(name);
+    if(ordinal<0)return -1;
+    if(!script_play_plain(ordinal,0,error))return -1;
+    return ordinal;
+}
+
 bool RuntimeSessionAudioV1::script_stop_plain(std::int32_t ordinal,int fade_ms,std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     return host_->stop_script_plain_sound(ordinal,fade_ms,error);

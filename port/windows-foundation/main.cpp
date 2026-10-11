@@ -3982,6 +3982,15 @@ int main(int argc,char** argv) {
             // P15 LEVELUP (I026): Character::LevelUp presentation (FX set 135 on the
             // hero; MENU_LEVEL_UP text logged only). An FX failure does not abort the award.
             rewardBindings.level_up_presentation=[&](f::ActorId id,std::int32_t level,std::string& e) {
+                // v20.1 SOUNDS (B090): Character::LevelUp 0x3beb88 starts ScriptManager "PlayerLevelUp" before FX set 135. That
+                // authored script (encounter-source-scripts.json id 12) is one Script_PlaySound(sound 127 = "LevelUp",
+                // sfx_level_up.wav); it is submitted here through the same plain Play row the script executor uses.
+                {
+                    std::string soundError;
+                    const auto ordinal=runtimeAudio?runtimeAudio->play_named_ui_sound("LevelUp",soundError):-1;
+                    std::cout<<"Level up sound LevelUp ordinal="<<ordinal<<" status="<<(!runtimeAudio?"no_audio_runtime":ordinal<0?(soundError.empty()?"absent_in_sound_table":"failed"):"submitted")
+                             <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
+                }
                 f::effects::RuntimeLevelUpPresentationResultV1 result;
                 const bool ok=f::effects::play_level_up_presentation_v1(sourceEffectsTables.borrow(),
                     [&](std::int32_t set,const float* position,const float* rotation,std::uintptr_t anchor,std::uintptr_t* created,std::string& fxError) {
@@ -4047,6 +4056,17 @@ int main(int argc,char** argv) {
         conditionActive=[&](const std::string& name){return transitionConditions.condition_active(name);};
         f::quest_runtime::QuestZoneSetV1 questZones; // P16 QUESTUI: MoveInZone boxes of this level
         f::QuestBannerPresenterV1 questBanners;      // P16 QUESTUI: NEW QUEST / updates / QUEST COMPLETED
+        // v20.1 SOUNDS (B099 NEW QUEST, B104 QUEST COMPLETED): the HUD dialog frame show handler (dqhud_droid.swf, QuestMsgDialog
+        // frame: NativePlaySoundFX("QuestNew"); QuestCompletedMsgDialog frame: NativePlaySoundFX("QuestComplete")) runs when the
+        // banner is shown. NativePlaySoundFX -> VoxSoundManager::PlayMenu(Arrays::Sounds id) (0x43ae10 -> 0x36bc34).
+        questBanners.on_shown=[&](bool completed) {
+            const char* cue=completed?"QuestComplete":"QuestNew";
+            if(!runtimeAudio) {std::cout<<"Quest banner sound "<<cue<<" status=no_audio_runtime frame="<<drawn<<"\n";return;}
+            std::string soundError;
+            const auto ordinal=runtimeAudio->play_named_ui_sound(cue,soundError);
+            std::cout<<"Quest banner sound "<<cue<<" ordinal="<<ordinal<<" status="<<(ordinal<0?(soundError.empty()?"absent_in_sound_table":"failed"):"submitted")
+                     <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
+        };
         std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)
         bool questTalkHeld=false;                    // P16 QUESTUI: interact press edge for NPC talk
         std::shared_ptr<f::CharacterQuestProgressV1> questMenuProgress; // P16 QUESTUI: Quest Log page progress (CQPG view)
