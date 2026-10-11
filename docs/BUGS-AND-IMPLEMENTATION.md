@@ -260,3 +260,4 @@ Only root accepts a release. Preview11 (FD850478) is accepted; do not modify tha
 | B086 | Quit and relaunch: the hero is placed wrongly beside the cages and cannot move (shot-7). | OPEN, session assigned | fresh Sonnet session |
 | B087 | No exclamation marker above the NPC head (shot-8). | OPEN, session assigned | fresh Sonnet session |
 | B088 | Context button shows talk bubble but does not switch to attack when a monster is near; Space does not talk to the NPC (shot-8). | OPEN, session assigned | fresh Sonnet session |
+| B089 | A destroyed vase stays targetable (red ring remains on the broken pieces) (shot-9). | OPEN, session assigned | fresh Sonnet session |
