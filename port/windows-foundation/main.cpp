@@ -2435,6 +2435,7 @@ int main(int argc,char** argv) {
             providers.local_player=[&](std::uint64_t& id,std::string&){id=combatSession->player_id();return true;};
             providers.named_target=[&](const std::string& name,std::uint64_t& id,bool& found,std::string& e){
                 if(name=="Player"||name=="LocalPlayer"){id=combatSession->player_id();found=true;return true;}
+                { bool ok=sourceObjects.named_object(name,-1,id,found,e); std::cout<<"Camera named target "<<name<<" found="<<found<<" id="<<id<<" ok="<<ok<<"\n"; return ok; }
                 return sourceObjects.named_object(name,-1,id,found,e);
             };
             providers.anchor=[&](std::uint64_t id,f::CameraVec3& anchor,std::string& e){
