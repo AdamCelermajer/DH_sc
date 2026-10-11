@@ -1,5 +1,6 @@
 #include "runtime_effects_renderer_v1.hpp"
 #include "runtime_swing_fx_observer_v1.hpp"
+#include "source_fx_anchor_registry_v1.hpp"
 #include "../../../game-data/data.hpp"
 #include "../../original_actor_properties.hpp"
 #include "../../platform_win32.hpp"
@@ -183,11 +184,38 @@ int main(int argc, char** argv) {
         // test. This mesh-only source set must not request camera/driver policy.
         dh2::navigation::CollisionWorld same_pf_world{};
         SceneRequestFixture cpu;
+        SourceFxAnchorRegistryV1 source_fx_anchors;
+        for (const auto& entry : session.world()->actors()) {
+            const ActorId id = entry.first;
+            SourceFxAnchorKeyV1 key;
+            const auto name = "_wgl_test_actor_" + std::to_string(id);
+            check(source_fx_anchors.register_actor(name, -1, id,
+                [&, id](SourceFxAnchorPoseV1& out, std::string& problem) {
+                    const auto* state = session.actor(id);
+                    if (!state) { problem = "test actor left session"; return false; }
+                    out.position = state->transform.position;
+                    out.rotation = state->transform.rotation;
+                    out.scale = state->transform.scale;
+                    out.alive = true; // fixture actor is explicitly live; production reads source IsDead
+                    out.disabled = false;
+                    out.stationary = false;
+                    problem.clear();
+                    return true;
+                }, key, error), error);
+        }
+        const RuntimeSwingFxManagerAnchorResolverV1 test_manager_anchor =
+            [&](ActorId id, std::uintptr_t& identity, bool& found, std::string& problem) {
+                return source_fx_anchors.resolve_actor_identity(id, identity, found, problem);
+            };
         RuntimeEffectsFactoryBindingsV1 factory_bindings;
         factory_bindings.assets = &source_effect_assets;
         factory_bindings.tables = table;
         factory_bindings.same_pf_world = &same_pf_world;
         factory_bindings.scene_view = {&cpu, SceneRequestFixture::camera, SceneRequestFixture::driver};
+        factory_bindings.source_anchor_query = [&](dh2::fx::MeshFxRequestV1& request,
+                bool& handled, std::string& problem) {
+            return source_fx_anchors.query(request, handled, problem);
+        };
         render_queue.bind_factory_services(factory_bindings);
         TextureDiagnostic texture_diagnostic;
         const auto renderer_texture_upload = factory_bindings.textures.upload;
@@ -225,7 +253,7 @@ int main(int argc, char** argv) {
         RuntimeSwingFxObserverV1 swing(session, animations, item_table, table,
             factory->manager(), [&](const RuntimeSwingFxDiagnosticV1& d) {
                 step_diagnostics.push_back(d);
-            });
+            }, {}, test_manager_anchor);
         const auto step_observer = swing.step_entry_observer();
         std::optional<CombatSessionStepEntry> source_step_entry;
         session.set_step_entry_observer([&](const CombatSessionStepEntry& entry) {
