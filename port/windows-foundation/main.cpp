@@ -2200,6 +2200,15 @@ int main(int argc,char** argv) {
         }
         if((options.sourceCamera&&!options.sourceCommands.empty())||options.campaignTriggers) { // P16 HOST: camera admission also serves trigger scripts
             if(!combatSession)throw std::runtime_error("Source camera targets require the bound local player");
+            // P16 CINE3: a live Character camera anchor (IDA GameObject::GetCameraAnchorPosition returns the object's own
+            // position unless an auxiliary anchor is attached; none is decoded) is the live position of the session or
+            // population actor. Bound once here so every script camera command (SetCameraTarget, witch dialogue, cutscenes)
+            // resolves Characters the same way, not only the player.
+            sourceObjects.bind_actor_anchor([&](f::ActorId id,f::CameraVec3& out,std::string& e){
+                std::array<float,3> position{};
+                if(!hostServices.actor_verbs.position_of(id,position,e))return false;
+                out={position[0],position[1],position[2]};return true;
+            });
             f::CampaignCameraProviders providers;
             providers.local_player=[&](std::uint64_t& id,std::string&){id=combatSession->player_id();return true;};
             providers.named_target=[&](const std::string& name,std::uint64_t& id,bool& found,std::string& e){
