@@ -565,12 +565,30 @@ void run_skill_cast_physical_branches(const char* assets){
 }
 }
 
+void run_scripted_anim_physical_state(const char* assets){
+    Fixture f(assets);const auto* body=f.bodies.physical(2);const auto* visual=f.session.retained_actor_visual_borrow(2);
+    check(body&&visual&&visual->configuration()&&!visual->configuration()->clips.empty(),"Script pose fixture unavailable");
+    const auto clip=visual->configuration()->clips.front();const auto* physical=body->native().body;
+    check(f.session.play_actor_clip(2,clip.first,clip.second,false,f.error),f.error);
+    check(f.session.original_actor_state(2)==14&&f.session.actor(2)->source_flags520==0x2240u,
+          "Script PlayActorAnim did not enter source CSAnim14/forced flags2240");
+    check(f.bodies.physical(2)==body&&body->native().body==physical,"CSAnim replaced its source body");
+    check(f.session.script_put_idle(2,f.error),f.error);
+    check(f.session.original_actor_state(2)==3&&f.session.actor(2)->source_flags520==0x2380u,
+          "Script Idle did not restore source Idle3 flags2380");
+    check(f.session.play_actor_clip(2,clip.first,clip.second,false,f.error),f.error);
+    check(f.session.script_move_handoff(2,f.error),f.error);
+    check(f.session.select_actor_locomotion(2,"transition-walk",f.error),f.error);
+    check(f.session.original_actor_state(2)==4&&f.session.actor(2)->source_flags520==0x23c1u,
+          "Script movement failed CSAnim14->Move4 handoff");
+}
 int main(int argc,char** argv){try{
     check(argc==2,"Supply original shared asset root");
     run_source_player_and_enemy(argv[1]);
     run_attack_injury_dead(argv[1]);
     run_dead_without_physical_receiver(argv[1]);
     run_skill_cast_physical_branches(argv[1]);
+    run_scripted_anim_physical_state(argv[1]);
     std::cout<<"PASS same-Session player/enemy Move/Idle/Attack/Injury/Dead physical projection, source flags/root fact, duplicate suppression and corpse body retention\n";
     return 0;
 }catch(const std::exception& exception){std::cerr<<"FAIL: "<<exception.what()<<'\n';return 1;}}

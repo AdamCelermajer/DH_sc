@@ -603,6 +603,11 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         if (!v.waypoint_position(waypoint, module, position, placed, e)) return false;
         if (!placed) { note_unresolved(waypoint); return true; }
         if (!v.teleport) return unbound("actor position");
+        // Source 0x45e5c8: Character SM_SetIdleState precedes exact SetPosition.
+        if(services_.actor_state&&services_.set_actor_state){bool alive=false;std::int32_t state=-1;
+            if(!services_.actor_state(id,alive,state,e))return false;
+            if(state>=0&&!services_.set_actor_state(id,kStateIdle,e))return false;}
+        actor_clips_.erase(id);held_clip_actors_.erase(id);
         return v.teleport(id, position, e);
     }
     case 41: { // Script_LookActor: actor @20 turns to target @12 (HighestThreatPlayer = the local player)

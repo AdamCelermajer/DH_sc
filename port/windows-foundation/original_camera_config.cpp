@@ -166,6 +166,11 @@ bool OriginalGameplayCamera::update_anchor(CameraVec3 anchor,std::uint32_t dt,bo
     return impl_->scene.set_root_position(desired,error)&&impl_->sample(error)&&impl_->refresh(error);
 }
 const CameraPose& OriginalGameplayCamera::pose() const noexcept{return impl_->pose;}
+bool OriginalGameplayCamera::rig_position(CameraVec3& out,std::string& error) const {
+    if(!loaded()){error="Camera rig requires its loaded scene";return false;}
+    float p[3];if(!impl_->scene.root_position(p,error))return false;
+    out={p[0],p[1],p[2]};return true;
+}
 const OriginalCameraConfig& OriginalGameplayCamera::config() const noexcept{return impl_->config;}
 CameraMovementBasis OriginalGameplayCamera::movementBasis() const{return cameraMovementBasis(impl_->pose,{0,0,1});}
 float OriginalGameplayCamera::authoredDistance() const noexcept{return impl_->distance;}
