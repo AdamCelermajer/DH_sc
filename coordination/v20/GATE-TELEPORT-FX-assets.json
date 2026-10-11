@@ -49,13 +49,13 @@
       "sha256": "5D17D5987362BFF65B3F8D352CBBC43D30F94ABBAAF73D5C822D6ECAC8E2EB14"
     }
   ],
-  "observed_persistent_gate_candidate": {
+  "related_fire_door_asset_family": {
     "source_object": "_prim_BlueDoor",
     "source_model": "Swamp_Door_Ruins_FIRE",
     "authored_idle_sound": "sfx_magical_wall_loop",
     "resolved_model_uri": "data/3D/GameObjects/go_swamp_door_ruins_fire.bdae",
     "model_embedded_fx_node": "fx_doorfire",
-    "visual_match_status": "Candidate only: the supplied P1 frames show a sustained blue-white shaft/spill at the gate, while this authored model is attached by the runtime and contains an embedded fire node; pixel-to-node/color correspondence is not established.",
+    "visual_match_status": "Not a match claim for the P1 prisoner-cage spill. This is a separate authored fire-door family in Swamp Camp and Witch data; no pixel-to-node correspondence is established.",
     "original_dependencies": [
       {
         "uri": "data/3D/GameObjects/go_swamp_door_ruins_fire.bdae",
@@ -78,6 +78,58 @@
         "bytes": 2108,
         "sha256": "4575579F951123FE869E875D4E76CE45A6BF02CDF78A99A976F54FE815FE35F0"
       }
+    ]
+  },
+  "prisoner_cage_transition": {
+    "visual_reference": {
+      "video": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/claude-preview161/fix068/v20audit/camp-witch-dense.jpg",
+      "direct_observation_seconds": [624, 634, 644, 648],
+      "observation": "Sustained blue-white spill/shaft remains visible along the barred prisoner cage as the camera shifts during dialogue. Pixel appearance does not identify whether the light is a model animation, particle effect, or both."
+    },
+    "level": "001_swamp",
+    "module": "obj_4of4_brdwalk_sw_00_0",
+    "animated_decor": "_anim_cage_001",
+    "animated_decor_model_uri": "data/3D/AnimatedDecors/cs_swamp_intro_cage.bdae",
+    "source_script": {
+      "script": "Swamp_Intro",
+      "commands": [
+        {"index": 100, "byte_offset": 7355, "kind": 19, "target": "_anim_cage_001", "clip": "shake"},
+        {"index": 101, "byte_offset": 7388, "kind": 20, "target": "_prim_Waypoint_5", "set": 119},
+        {"index": 106, "byte_offset": 7538, "kind": 19, "target": "_anim_cage_001", "clip": "open"},
+        {"index": 107, "byte_offset": 7570, "kind": 20, "target": "_prim_Waypoint_5", "set": 120},
+        {"index": 112, "byte_offset": 7720, "kind": 19, "target": "_anim_cage_001", "clip": "idle_opened"}
+      ]
+    },
+    "transition_cues": [
+      {
+        "set_index": 119,
+        "set_name": "cs_swamp_intro_13_refletdelumiere",
+        "step_count": 1,
+        "step": {"dictionary_index": 46, "uri": "data/3D/interface/cs_swamp_intro_13_refletdelumiere.bdae", "OrientWithAnchor": 1, "ScaleWithAnchor": 1, "SelfIllum": 1, "PlayTime": -1, "Loop": 0, "speed": 1.0, "subobject": ""},
+        "dependencies": [
+          {"uri": "data/3D/interface/cs_swamp_intro_13_refletdelumiere.bdae", "source_path": ".local-inputs/assets-extra/android/data/3d/interface/cs_swamp_intro_13_refletdelumiere.bdae", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/interface/cs_swamp_intro_13_refletdelumiere.bdae", "bytes": 9596, "sha256": "614D0273E3CA99909EBEF6C8A3D1C7BE64B2B8B318739FDE69871097B4210FB8"},
+          {"uri": "data/3D/textures/fx_magic_lenz_flares_005.tga", "source_path": ".local-inputs/assets-extra/android/data/3d/textures/fx_magic_lenz_flares_005.tga", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/fx_magic_lenz_flares_005.tga", "bytes": 8252, "sha256": "1B43F3316D72F8C753E7A7CE731C7D3FBFC667B1C1F3885899C82F7CE52CF875"}
+        ]
+      },
+      {
+        "set_index": 120,
+        "set_name": "cs_swamp_intro_14_explodedoor",
+        "step_count": 1,
+        "step": {"dictionary_index": 47, "uri": "data/3D/interface/cs_swamp_intro_14_explodedoor.bdae", "OrientWithAnchor": 1, "ScaleWithAnchor": 1, "SelfIllum": 1, "PlayTime": -1, "Loop": 0, "speed": 1.0, "subobject": ""},
+        "dependencies": [
+          {"uri": "data/3D/interface/cs_swamp_intro_14_explodedoor.bdae", "source_path": ".local-inputs/assets-extra/android/data/3d/interface/cs_swamp_intro_14_explodedoor.bdae", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/interface/cs_swamp_intro_14_explodedoor.bdae", "bytes": 28084, "sha256": "A5C4399B7C8555920D95C33495FE6FAF2725E5B7DB31EC8776E907DB5890F784"},
+          {"uri": "data/3D/textures/fx_spell_lightning_01.tga", "source_path": ".local-inputs/assets-extra/android/data/3d/textures/fx_spell_lightning_01.tga", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/fx_spell_lightning_01.tga", "bytes": 8252, "sha256": "EA5976DCF2C4E3C9E001D9D6021A4C9BC65F0A63C58495A678CE31DA83A5CDD8"},
+          {"uri": "data/3D/textures/fx_spell_lightning_ground_flash.tga", "source_path": ".local-inputs/assets-extra/android/data/3d/textures/fx_spell_lightning_ground_flash.tga", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/fx_spell_lightning_ground_flash.tga", "bytes": 8252, "sha256": "EBC5CFAACC129976AED397434D5B67A33A276C6F7CE75780E39A0C12F1E28CBA"},
+          {"uri": "data/3D/textures/fx_magic_lenz_flares_005.tga", "source_path": ".local-inputs/assets-extra/android/data/3d/textures/fx_magic_lenz_flares_005.tga", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/fx_magic_lenz_flares_005.tga", "bytes": 8252, "sha256": "1B43F3316D72F8C753E7A7CE731C7D3FBFC667B1C1F3885899C82F7CE52CF875"},
+          {"uri": "data/3D/textures/fx_magic_lenz_flares_010.tga", "source_path": ".local-inputs/assets-extra/android/data/3d/textures/fx_magic_lenz_flares_010.tga", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/fx_magic_lenz_flares_010.tga", "bytes": 8252, "sha256": "4C0F286E63869AB15C69A5D89B512DA11EC459E519F8ACEC55AC2C3AFC78443C"}
+        ]
+      }
+    ],
+    "cage_model_dependencies": [
+      {"uri": "data/3D/AnimatedDecors/cs_swamp_intro_cage.bdae", "source_path": ".local-inputs/assets-extra/android/data/3d/animateddecors/cs_swamp_intro_cage.bdae", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/animateddecors/cs_swamp_intro_cage.bdae", "bytes": 61376, "sha256": "7FBFA71210CAA9FBDA6842B360CBBBC8F73552ADBFC65BD12519FDBAC09C2E90"},
+      {"uri": "data/3D/textures/env_swamp.tga", "source_path": ".local-inputs/assets-extra/android/data/3d/textures/env_swamp.tga", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/env_swamp.tga", "bytes": 524348, "sha256": "F3EB432F6F2332B65A2BBEEB26528C3A6E3075ADA4DF9C6425AA1934816B4E4E"},
+      {"uri": "data/3D/textures/env_swamp_spec.tga", "source_path": ".local-inputs/assets-extra/android/data/3d/textures/env_swamp_spec.tga", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/env_swamp_spec.tga", "bytes": 131132, "sha256": "CD892B928EA9671BFF1BF49154CECB3EE2271064AA2236127CB5B3542E95C0FC"},
+      {"uri": "data/3D/textures/pvr2_env_swamp_alpha.tga", "source_path": ".local-inputs/assets-extra/android/data/3d/textures/pvr2_env_swamp_alpha.tga", "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/pvr2_env_swamp_alpha.tga", "bytes": 262204, "sha256": "928622D0EF735D0CDA4120B5BBE66E2D58E56D81CD7646579A23F683C20E76A0"}
     ]
   },
   "rendering": "Use the existing same-session CharacterMeshFxOwnerV4::play_set path; no custom geometry, map tint, glow, or substitute asset is authored by this feature."
