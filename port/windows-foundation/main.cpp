@@ -41,6 +41,7 @@
 #include "features/combat/object_of_interest_world_v1.hpp" // B004/B029: OOI owner + rendered target marker
 #include "features/combat/context_button_v1.hpp" // P16 CONTEXT: Space context button + action icon
 #include "features/interactions/interactable_registry_v1.hpp" // P16 CONTEXT: interaction-type providers (chests/NPCs register here)
+#include "features/interactions/character_interest_admission_v1.hpp"
 #include "features/interactions/interaction_approach_v1.hpp" // B069: AI_IsInInteractionRange + walk to the interaction spot
 #include "features/interactions/interaction_facing_v1.hpp" // B079: CSInteract requested LookAt
 #include "features/generic_skills/runtime_skills_menu_v1.hpp"
@@ -4111,6 +4112,7 @@ int main(int argc,char** argv) {
         std::vector<f::map_visit::MapLevelObjectV1> mapLevelObjects;   // CheckpointZone / SpawnPoint / TriggerZoneExitLevel
         std::vector<f::map_visit::MapCharacterV1> mapCharacters;       // placed characters (quest giver and merchant facts)
         std::set<f::ActorId> merchantActors;                           // B100: placed Characters whose AI row type is 7 (Character::IsMerchant)
+        std::map<f::ActorId,std::pair<int,int>> npcInterestTypes; // B088: source AI type/faction from actual resolved sheets
         std::optional<std::int32_t> mapLevelEntryPoint;                // current entry (the spawn the player was placed on)
         const f::map_visit::MapMarkerRegistryV1 mapMarkers=f::map_visit::standard_map_marker_registry_v1();
         std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
@@ -4363,7 +4365,7 @@ int main(int argc,char** argv) {
             // P16 MAPMARKERS: marker facts of this level, once per load. Level objects are the authored classes of the
             // IDA map producers (activation gate from the active conditions). Characters carry the CharacterTable row
             // (quest giver match) and the merchant fact (AI row type 7 = Character::IsMerchant, IDA GetCharType).
-            mapLevelObjects.clear();mapCharacters.clear();merchantActors.clear();mapLevelEntryPoint.reset();
+            mapLevelObjects.clear();mapCharacters.clear();merchantActors.clear();npcInterestTypes.clear();mapLevelEntryPoint.reset();
             for(const auto& declaration:population.definitions()) {
                 if(!f::map_visit::map_object_class_rule_v1(declaration.gametype))continue;
                 f::map_visit::MapLevelObjectV1 object;object.gametype=declaration.gametype;
@@ -4401,10 +4403,17 @@ int main(int argc,char** argv) {
                             if(f::build_original_combat_properties(properties,properties.characters.names[character.character_row],f::OriginalActorPropertyOptions{},{},f::OriginalCombatFacts{},props,propsError)) {
                                 const auto* ai=dh2::data::ai_props(mapAiTables,props.sheets.resolved[1]);
                                 merchant=ai&&ai->type==7;
+                                if(ai)npcInterestTypes[placed.definition.stableId]={ai->type,props.sheets.resolved[0]};
                             }
                             cached=merchantByRow.emplace(character.character_row,merchant).first;
                         }
                         character.merchant=cached->second;
+                        // Multiple instances may share the same row; every identity needs its own projection.
+                        if(!npcInterestTypes.count(placed.definition.stableId)) {
+                            f::OriginalCombatProperties props;std::string propsError;
+                            if(f::build_original_combat_properties(properties,properties.characters.names[character.character_row],f::OriginalActorPropertyOptions{},{},f::OriginalCombatFacts{},props,propsError))
+                                if(const auto* ai=dh2::data::ai_props(mapAiTables,props.sheets.resolved[1]))npcInterestTypes[placed.definition.stableId]={ai->type,props.sheets.resolved[0]};
+                        }
                     }
                     mapCharacters.push_back(character);
                     if(character.merchant)merchantActors.insert(placed.definition.stableId);
@@ -4591,6 +4600,36 @@ int main(int argc,char** argv) {
             if(status!=1){if(e.empty())e="Script kill source dispatch failed phase="+std::to_string(result.phase);return false;}
             std::cout<<"Script kill complete victim="<<id<<" deadPrefix="<<result.dead_written<<" events="<<result.events_raised<<'\n';return true;
         };
+        // B088: resample the same current owner used by Show/HideActor and SetActorPosition.
+        // Population-only visuals are admitted in Idle above (source Idle flags0x2380; constructor interactive1045=1).
+        // Bound actors borrow their actual dead/state/flags, never HP as an IsDead substitute.
+        const auto npcInterestCandidate=[&](f::ActorId id,f::ActorId viewer,f::ObjectOfInterestCandidateV1& out) -> bool {
+            const auto* placed=populationActor(id);
+            const auto kind=npcInterestTypes.find(id);
+            const auto* self=combatSession?combatSession->actor(viewer):nullptr;
+            const auto* world=combatSession?combatSession->world():nullptr;
+            if(!placed||kind==npcInterestTypes.end()||!self||!world)return false;
+            const auto* live=combatSession->actor(id);
+            f::CharacterInterestAdmissionV1 s;
+            s.enabled138=placed->enabled;s.interactive1045=true;s.flags1312=0x2380;
+            f::project_character_interest_identity_v1(s,kind->second.first,kind->second.second,live,*self,world->factions());
+            s.viewer_is_player=viewer==combatSession->player_id();
+            s.owner_state=combatSession->original_actor_state(viewer);s.candidate_state=3;
+            s.merchant=merchantActors.count(id)!=0;
+            const auto identity=questActorIdentity.find(id);
+            s.registered_talk762=questRuntime&&identity!=questActorIdentity.end()&&questRuntime->talk_objective_registered(identity->second.first);
+            out.position={placed->transform[12],placed->transform[13],placed->transform[14]};
+            if(live) {
+                out.position=live->source_target_position184.value_or(live->transform.position);
+                out.radius=world->target_radius(*live);s.dead5193=live->is_dead();s.candidate_state=combatSession->original_actor_state(id);
+                if(const auto* lifecycle=actorLifecycle.status(id))s.flags1312=lifecycle->flags;
+                else if(live->source_flags520)s.flags1312=*live->source_flags520;
+                else if(s.candidate_state!=3)s.flags1312=0; // unavailable state admission must not become Idle
+            }
+            out.id=id;out.is_character=true;out.eligible=f::character_interest_admitted_v1(s);
+            out.interaction_type=f::character_interest_type_v1(s);
+            return true;
+        };
         // P16 QUESTUI: NPC talk on the interact press edge: the nearest live actor whose CharacterTable row is a
         // TalkToNPC oid, within 200 units (CharacterDesign.OOI_Distance). Approximation of Character::Interact.
         const auto talkNearestNpc=[&]() {
@@ -4624,6 +4663,8 @@ int main(int argc,char** argv) {
             if(!questRuntime)return false;
             const auto identity=questActorIdentity.find(id);
             if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))return false;
+            f::ObjectOfInterestCandidateV1 current;
+            if(!npcInterestCandidate(id,combatSession->player_id(),current)||!current.eligible||current.interaction_type!=3)return false;
             f::quest_runtime::QuestEvent talk;
             talk.kind=f::quest_runtime::QuestEvent::Kind::talk_to_npc;
             talk.object_id=identity->second.first;talk.secondary_id=questLevelRow;
@@ -6555,7 +6596,7 @@ int main(int argc,char** argv) {
                 if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest&&!ctxControllerLocked) {
                     const auto ooi=objectOfInterest.object();
                     const bool ooiIsActor=combatSession->actor(ooi)!=nullptr;
-                    if(ooiIsActor) { // actor OOI: source AI_SetTarget(OOI, 0)
+                    if(ooiIsActor&&objectOfInterest.interaction_type()==8) { // attacking actor OOI: source AI_SetTarget(OOI, 0)
                         std::string ctxError;
                         if(!combatSession->set_source_target(combatSession->player_id(),ooi,false,ctxError))throw std::runtime_error("Context button target: "+ctxError);
                     } else { // P16 SPACEBTN: non-actor OOI. Containers: Container::Interact (open or destructible hit); NPCs: talk.
@@ -6864,20 +6905,20 @@ int main(int argc,char** argv) {
                             const auto identity=questActorIdentity.find(placed.definition.stableId);
                             if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))continue;
                             f::InteractableEntryV1 entry;entry.id=placed.definition.stableId;entry.is_character=true;
-                            entry.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};entry.radius=0.f;
-                            entry.eligible=questRuntime->talk_objective_registered(identity->second.first); // B088: source Objective_TalkToNPC::Register sets Character+762 (TargetList mask 0x40)
+                            entry.position={placed.transform[12],placed.transform[13],placed.transform[14]};entry.radius=0.f;
                             entry.provider.interaction_type=[](f::ActorId) -> int { return 3; }; // source Character::GetInteractionType: friendly NPC
+                            const auto id=entry.id;entry.provider.current_candidate=[&,id](f::ActorId viewer,f::ObjectOfInterestCandidateV1& out){return npcInterestCandidate(id,viewer,out);};
                             std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable NPC: "+regError);
                         }
                     // B100: merchants are OOI candidates too (TargetList::_IsCharacterValid 0x4a1ab8 mask bit 0x10 = Character::IsMerchant;
-                    // GetInteractionType: friendly NPC = 3). Always eligible while the placed character is enabled and alive.
+                    // Both merchant and talk registrations pass the same current source admission projection.
                     if(combatSession&&!merchantActors.empty())
                         for(const auto& placed:population.actors()) {
-                            if(!merchantActors.count(placed.definition.stableId)||!placed.enabled)continue;
-                            if(const auto* live=combatSession->actor(placed.definition.stableId))if(!live->alive())continue;
+                            if(!merchantActors.count(placed.definition.stableId))continue;
                             f::InteractableEntryV1 entry;entry.id=placed.definition.stableId;entry.is_character=true;
-                            entry.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};entry.radius=0.f;
+                            entry.position={placed.transform[12],placed.transform[13],placed.transform[14]};entry.radius=0.f;
                             entry.provider.interaction_type=[](f::ActorId) -> int { return 3; };
+                            const auto id=entry.id;entry.provider.current_candidate=[&,id](f::ActorId viewer,f::ObjectOfInterestCandidateV1& out){return npcInterestCandidate(id,viewer,out);};
                             std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable merchant: "+regError);
                         }
                 }
