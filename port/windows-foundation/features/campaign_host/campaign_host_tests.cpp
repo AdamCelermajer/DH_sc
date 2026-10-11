@@ -437,6 +437,10 @@ void actor_clip_manifest_collects_script_clips(const std::string& directory) {
     check(has("Player", 413), "the local player's first cutscene clip is collected");
     check(has("_prim_NPC_PriestGood", 398), "a chained clip (scalar 12) is collected for its actor");
     check(actor_clip_name(413) == "cs:413", "visual clip name is the dictionary id");
+    // B080: script-spawned actors that no script retires are gameplay actors (moths); retired ones are cutscene props (troll).
+    const auto gameplay = collect_script_gameplay_actors(runtime);
+    check(gameplay.count("_prim_Monster_FakeMoth_01") == 1 && gameplay.count("_prim_Monster_FakeMoth_02") == 1, "spawned, never retired moths are gameplay actors");
+    check(gameplay.count("_prim_ActorTroll") == 0, "the opening troll is retired by the opening and stays a cutscene prop");
 }
 
 } // namespace

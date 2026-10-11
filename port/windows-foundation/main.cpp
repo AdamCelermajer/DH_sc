@@ -463,7 +463,8 @@ struct Options {
     std::vector<int> transitionKeyFrames;                       // P17 TRANSITIONS2 test aid: --transition-key FRAME (one scripted E press)
     std::vector<std::pair<int,std::string>> transitionCaptures; // P17 TRANSITIONS test aid: --capture-at FRAME:PATH
     std::optional<std::uint32_t> proceduralSeed;                // P17 PROCGEN test aid: --procedural-seed N (session seed override, recorded in the save)
-    int campaignSkipFrame=-1; std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
+    int campaignSkipFrame=-1; std::vector<int> campaignSkipFrames; // B080: extra SKIP presses (--campaign-skip-frame A,B,C)
+    std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
     // SKIP16 verification input: a click at an authored point (480x320 space, mapped like the PC HUD) is a pointer down on
     // FRAME and an up on FRAME+1 through the same cursor branch as a real mouse or touch release. Enter presses are
     // scheduled frames through the same key edge as the keyboard.
@@ -596,7 +597,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--transition-key") o.transitionKeyFrames.push_back(std::stoi(value())); // P17 TRANSITIONS2 (test aid; the player presses E)
         else if(arg=="--procedural-seed") o.proceduralSeed=static_cast<std::uint32_t>(std::stoul(value())); // P17 PROCGEN
         else if(arg=="--capture-at") {const auto at=value();const auto sep=at.find(':');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--capture-at expects FRAME:PATH");o.transitionCaptures.emplace_back(std::stoi(at.substr(0,sep)),at.substr(sep+1));} // P17 TRANSITIONS
-        else if(arg=="--campaign-skip-frame") o.campaignSkipFrame=std::stoi(value()); // P16 CINE
+        else if(arg=="--campaign-skip-frame") {const std::string list=value();std::size_t at=0;while(at<=list.size()){const auto comma=list.find(',',at);const auto token=list.substr(at,comma==std::string::npos?std::string::npos:comma-at);if(!token.empty()){const int frame=std::stoi(token);if(o.campaignSkipFrame<0)o.campaignSkipFrame=frame;o.campaignSkipFrames.push_back(frame);}if(comma==std::string::npos)break;at=comma+1;}} // P16 CINE / B080 list
         else if(arg=="--campaign-click") { // SKIP16: FRAME:X:Y in the authored 480x320 space
             const auto text=value();const auto a=text.find(':');const auto b=a==std::string::npos?a:text.find(':',a+1);
             if(b==std::string::npos)throw std::runtime_error("Campaign click requires FRAME:X:Y (authored 480x320 space)");
@@ -1303,7 +1304,7 @@ int main(int argc,char** argv) {
         // P16 OPENING: scripted actor clips (PlayActorAnim) are named clips of their actor's profile (or the local player's
         // visual config) before anything loads. Only under campaign triggers, which is the only player of these clips.
         std::map<std::string,std::vector<std::pair<std::string,std::string>>> scriptClipsByProfile; // P16 OPENING: profile id -> script clips
-        std::set<std::string> scriptControlledActors;
+        std::set<std::string> scriptControlledActors,scriptGameplayActors; // B080: scriptGameplayActors = script-spawned and never script-retired (moths) -> real combatants
         std::set<std::string> scriptVisualOnlyProfiles;
         dh2::data::CharacterTemplateTableV78 populationTemplateTable;
         std::optional<dh2::data::CombatRandom> populationStartupRandom;
@@ -1452,6 +1453,7 @@ int main(int argc,char** argv) {
             else if(!clipScripts.load_compiled_level(assets,options.level.generic_string(),error))throw std::runtime_error("Actor clip scripts: "+error);
             for(const auto& script:clipScripts.scripts())for(const auto& command:script.commands)if(command.kind==40||command.kind==44){
                 const auto actor=command.strings.find(command.kind==40?24:12);if(actor!=command.strings.end())scriptControlledActors.insert(actor->second);}
+            scriptGameplayActors=f::campaign_host::collect_script_gameplay_actors(clipScripts); // B080
             const auto requests=f::campaign_host::collect_actor_clip_requests(clipScripts);
             if(!requests.empty()) {
                 std::vector<f::ActorDefinition> declared;
@@ -1835,7 +1837,9 @@ int main(int argc,char** argv) {
                 const bool campaignRetained=autoSpawn!=placed.definition.properties.end()&&autoSpawn->second=="0";
                 const bool scriptSpawnable=preset!=placed.definition.properties.end()&&(preset->second=="Limbus"||preset->second=="PreSpawn")&&campaignRetained;
                 if((!campaignRetained&&!scriptSpawnable&&!scriptControlledActors.count(placed.definition.name))||!profiles.find(id))continue;
-                if(scriptVisualOnlyProfiles.count(id)) {
+                // B080: a script-spawned actor that no script retires is a gameplay monster, not a cutscene prop: it gets the derived combat policy
+                // below (targetable, AI after the script puts it in Idle) instead of the animation-only presentation.
+                if(scriptVisualOnlyProfiles.count(id)&&!scriptGameplayActors.count(placed.definition.name)) {
                     if(!derivedTablesLoaded) {
                         if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))
                             throw std::runtime_error("Script visual actor tables: "+error);
@@ -5510,7 +5514,7 @@ int main(int argc,char** argv) {
             for(const auto& scheduled:options.skillKeyFrames)if(scheduled.first==drawn)semanticInput.key('0'+scheduled.second,false);
             if(drawn==options.menuCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(drawn==options.pauseCloseFrame)semanticInput.key(VK_ESCAPE,false);
-            if(drawn==options.campaignSkipFrame) { campaignHost.press_skip(); std::cout<<"Scripted SKIP press frame="<<drawn<<'\n'; } // P16 CINE (verification input)
+            if(std::find(options.campaignSkipFrames.begin(),options.campaignSkipFrames.end(),int(drawn))!=options.campaignSkipFrames.end()) { campaignHost.press_skip(); std::cout<<"Scripted SKIP press frame="<<drawn<<'\n'; } // P16 CINE (verification input)
             if(uiInput.menu_back){
                 if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
                 else if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
