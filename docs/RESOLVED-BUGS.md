@@ -72,3 +72,15 @@ Preview 16 (package `windows-source-clock-v19-preview-16`, EXE SHA256 `3ACF50D2A
 Feature set (details and gaps in `coordination/claude-preview16/*-report.md`): campaign script host and trigger zones; spawn/lifecycle under AI and derived actor profiles (moth); containers with loot, persistence and moth summon; Space context button with the original dqhud action-button art; quests with live events, Quest Log (Assigned/Completed/detail/MAKE ACTIVE) and banners; Map page with markers; cinematic runner with camera/actor clips, decoded caption timing, SKIP fast-forward (click or Enter), the Swamp opening and the lizard ambush, new-game start; despawn and respawn; level-up billboard mechanism with a labelled white-column PLACEHOLDER.
 
 Open items carried: respawn of Swamp lizards not verified against the original (ABCHECK); witch zone, kill objective, ambush after the opening, helm after in-game equip, red X and continue-after-SKIP not independently verified; level-up column colour/duration placeholder (LEVELUP4); no audio verification.
+
+v20 (package `windows-source-clock-v20`, EXE SHA256 `8BA1E537D33D4D4FD5B7DD9822C4CAB5080917FE2427A3903AB7C247827E8CCE`, source `v20/integrate` 743c56f5, merged into windows-foundation 5f3c1d87). Independent verifier verdict: ACCEPT WITH CAVEATS (`.local-inputs/v20/verification/FROZEN-VERIFICATION-v20.md`). Released for the user's hand testing. ctest 165/166 (session_skill_binding is the known worktree failure). Release notes with the full caveat list: `release-notes.json` in the package.
+
+| ID | Resolved behavior | Evidence | Remaining boundary |
+|---|---|---|---|
+| B068 | Cinematics on the compiled script banks: input lock, SKIP, captions, banner, opening; Witch camera framing (scripted clip poses at unit scale), MothIntro crash (animation-only actors skipped by enemy AI), Witch portal ring (set 121 speed override), condition lifecycle (NPC05 visible). | `coordination/v20/CINE-report.md`, B068-report/inventory, INTEGRATION reports. | faery flat white, Witch red wall, unobserved scenes (see tracker/notes) |
+| B069-B077 | Preview 16.1 fixes merged (chest walk, tutorial one-shot, moths, map, journal, vases ring, light/ambient decor, followers). | fix reports in `coordination/claude-preview161/`; RENE-report (follow measured). | see tracker rows; Celeste after post-opening resume |
+| B078 | Authentic launch logo movie/cue packaged. | `coordination/v20/B078-report.md`. | not heard (silent runs) |
+| I024 | Death -> Continue -> checkpoint revive wired. | `coordination/v20/DEATHWIRE-report.md`; frozen run with --test-player-hp. | see tracker row |
+| I027 | Closed doors block. | `coordination/v20/DOORFIX-report.md`. | open leg, frames |
+| I028 | Gate/teleport effect dispatch verified. | `coordination/v20/FXVERIFY-report.md`. | appearance unmatched |
+| (new) | ScriptSaveGame/PlaySound/StopSound bound; swamp sentinel-vitals save fix; Lua-driven moth container; haste buff from AI script; swamp skybox packaged. | SCRIPTSVC/SAVEFIX/GENERAL reports. | ~120 Act-1 literals remain; other maps cannot construct a session (acts 2+ not runnable) |
