@@ -9,12 +9,14 @@
 #include <iostream>
 #include <limits>
 #include <sstream>
+#include <stdexcept>
 #include <type_traits>
 
 namespace dh::foundation {
 namespace {
 
 constexpr float pi = 3.14159265358979323846f;
+#include "source_l1_specular_gl.inc"
 #if defined(_WIN32)
 constexpr const char* render_context_requirement=
     "GameObject visual quality requires this renderer's current WGL context/thread";
@@ -87,26 +89,11 @@ void applyLevelLighting(bool levelLit) {
     }
 }
 
-// GL_LIGHT1 colours of the level light in diffuse mode (scaled by 1/kLevelLightScale, see above) or specular-only mode.
-void setLevelLightColors(const LevelPointLight& light, bool specularOnly) {
-    const GLfloat none[] = {0, 0, 0, 1}, white[] = {1, 1, 1, 1};
-    const GLfloat diffuseHalf[] = {light.diffuse[0]/kLevelLightScale, light.diffuse[1]/kLevelLightScale, light.diffuse[2]/kLevelLightScale, 1.0f};
-    glLightfv(GL_LIGHT1, GL_AMBIENT, none);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, specularOnly ? none : diffuseHalf);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, specularOnly ? white : none);
-}
-
-// Source: vAttNdotHV = N.L>0 ? att*pow(max(0,N.H),Glossiness) : 0 with H=normalize(L+eye); frag: color += SpecularMap*Light0Specularcolor*vAttNdotHV.
-// Fixed pipeline: local viewer + material specular/shininess, light1 specular only, specular map modulates, additive blend.
-void beginSpecularPass(const Material& material, const LevelPointLight& light) {
-    const GLfloat none[] = {0, 0, 0, 1}, white[] = {1, 1, 1, 1};
+// B114: the source L1 SP vertex shader preserves its light/eye equation.
+// Fixed-function shininess/half-vector is a different equation.
+void beginSpecularPass(const Material& material) {
     gLightState = -1; // the base-pass lighting state is re-established by the next applyLevelLighting call
-    glEnable(GL_LIGHTING); glDisable(GL_LIGHT0); glEnable(GL_LIGHT1);
-    setLevelLightColors(light, true);
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, none);
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, white);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, std::min(128.0f, material.glossiness));
+    glDisable(GL_LIGHTING);
     glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE, 1.0f);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glEnable(GL_TEXTURE_2D);
@@ -114,11 +101,7 @@ void beginSpecularPass(const Material& material, const LevelPointLight& light) {
     glEnable(GL_BLEND); glBlendFunc(GL_ONE, GL_ONE);
     glDepthMask(GL_FALSE);
 }
-void endSpecularPass(const LevelPointLight& light) {
-    const GLfloat none[] = {0, 0, 0, 1};
-    setLevelLightColors(light, false);
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, none);
+void endSpecularPass() {
     glDisable(GL_BLEND);
     glDepthMask(GL_TRUE);
 }
@@ -189,7 +172,17 @@ Mat4 translation(Vec3 position) {
     return result;
 }
 
+void Renderer::releaseSourceSpecularProgram() noexcept {
+    if(sourceSpecularProgram_&&qualityContext_==current_render_context_identity()&&
+       qualityThread_==current_render_thread_identity()){
+        auto& api=sourceSpecularGl(glLoader_);if(api.deleteProgram)api.deleteProgram(sourceSpecularProgram_);
+    }
+    sourceSpecularProgram_=0; // a destroyed/foreign context owns its own lifetime
+}
+Renderer::~Renderer(){releaseSourceSpecularProgram();}
 bool Renderer::initialize(int width, int height) {
+    releaseSourceSpecularProgram();
+    sourceSpecularProgram_=0;
     qualityContext_=qualityDeviceContext_=0;qualityThread_=0;
     const auto context=current_render_context_identity();
     const auto device=current_render_drawable_identity();
@@ -604,14 +597,21 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
         // B076: specular term of the GL_Diffuse_L1 shader (opaque, untinted-alpha ranges only): additive second pass.
         if (gLevelLightActive && range.material.levelLit && range.material.glossiness > 0.0f && range.material.specularTexture
             && !blended && alphaReference <= 0.0f && !range.material.sourcePass) {
-            beginSpecularPass(range.material, levelLight_);
+            auto& specApi=sourceSpecularGl(glLoader_);
+            if(!sourceSpecularProgram_)sourceSpecularProgram_=createSourceSpecularProgram(specApi);
+            GLint previousProgram=0;glGetIntegerv(0x8B8D,&previousProgram);
+            specApi.useProgram(sourceSpecularProgram_);specApi.uniform1i(specApi.uniformLocation(sourceSpecularProgram_,"specularSampler"),0);
+            specApi.uniform3fv(specApi.uniformLocation(sourceSpecularProgram_,"sourceSpecularColor"),1,levelLight_.specular.data());
+            specApi.uniform1f(specApi.uniformLocation(sourceSpecularProgram_,"sourceGlossiness"),range.material.glossiness);
+            beginSpecularPass(range.material);
             if (indexed) {
                 glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(count), GL_UNSIGNED_INT,
                                gpu ? offsetPointer(range.firstIndex*sizeof(std::uint32_t)) : static_cast<const void*>(mesh.indices.data()+range.firstIndex));
             } else if (range.firstIndex <= static_cast<std::size_t>(std::numeric_limits<GLint>::max())) {
                 glDrawArrays(GL_TRIANGLES, static_cast<GLint>(range.firstIndex), static_cast<GLsizei>(count));
             }
-            endSpecularPass(levelLight_);
+            endSpecularPass();
+            specApi.useProgram(static_cast<GLuint>(previousProgram));
         }
     };
 
