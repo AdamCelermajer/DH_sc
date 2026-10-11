@@ -1,0 +1,175 @@
+[
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_sc",
+    "head": "4d66901c91a5f0e7f551b9c27d15f9b1b3dfb827",
+    "branch": "windows-foundation",
+    "dirty_count": 5,
+    "preserved_external": false,
+    "status": [
+      " M coordination/v20/EVIDENCE-review.md",
+      " M coordination/v20/NEW-WORK-review.md",
+      "?? coordination/HANDOFF-v20-CLAUDE.md",
+      "?? docs/ida-fidelity-audit-2026-10-11/",
+      "?? tools/texture_lab/"
+    ]
+  },
+  {
+    "path": "C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc",
+    "head": "45c5348e807607a2825211bb8f26248067ba9106",
+    "branch": null,
+    "dirty_count": 2250,
+    "preserved_external": true
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/b078",
+    "head": "a0062e71ade29cf1d069ff2b455cbb8a8178f821",
+    "branch": "codex/b078-gameloft-audio",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix068",
+    "head": "48c721f8556a38eef1c4228247f95e72ea19399a",
+    "branch": "fix/b068",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix069",
+    "head": "96c5d3ae2b19699e658463b8a989556e059c5dfd",
+    "branch": "fix/b069",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix070",
+    "head": "4a08d8c8cbb370905a6ca9f2e2ea99a10552f532",
+    "branch": "fix/b070",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix071",
+    "head": "8bd4019fa69cd29b3ef7967d0fcab136a7aeb93d",
+    "branch": "fix/b071",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix072",
+    "head": "6c76e90ffc61f3fb4f09b5ca64fdd9055a5de52f",
+    "branch": "fix/b072",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix073",
+    "head": "88847f66f8ce9d13a9bee8c9b50ef26e315cca40",
+    "branch": "fix/b073",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix074",
+    "head": "ecbabee7c7fae8c0c834988412500d4b0aeebe79",
+    "branch": "fix/b074",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix075",
+    "head": "51f2f31c73d968c52f0408d25a3634ac07b29546",
+    "branch": "fix/b075",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix076",
+    "head": "99827d880867a7b8b5b845c6b0b9ce522a86444c",
+    "branch": "fix/b076",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix077",
+    "head": "ed1c39b0d46d4e4755c56876572e220e52c81091",
+    "branch": "fix/b077",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/p161int",
+    "head": "2f0030e2d7bd8e5cec71b56fba93c32d12243cdc",
+    "branch": "p16.1/integrate",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/p16lifecycle2",
+    "head": "3f5536746eaa6bb4641dd17e0bc29d2f2c87e0a9",
+    "branch": "p16/lifecycle2",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/p17fire3",
+    "head": "e447e6687b98dd701b0d57b981b253dd8339d7d4",
+    "branch": "p17/fire3",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/p17int",
+    "head": "955d486bf3594572f7f764ecbb0b295d1b590559",
+    "branch": "p17/integrate",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20death",
+    "head": "afd9fca1bfcd27f9b91c5111c878161ab7ff4f39",
+    "branch": "codex/v20-death-flow",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20doors",
+    "head": "810f6a9adc2d25e26bfc9c53eb103cb554c06317",
+    "branch": "codex/v20-door-collision",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20gatefx",
+    "head": "60e60e852df056ced281ad49b83a76e7a241f017",
+    "branch": "codex/v20-gate-teleport-fx",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  },
+  {
+    "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20int",
+    "head": "948f44a8504957bf4d2d02150a3f5f2c42e426ce",
+    "branch": "v20/integrate",
+    "dirty_count": 0,
+    "preserved_external": false,
+    "status": []
+  }
+]

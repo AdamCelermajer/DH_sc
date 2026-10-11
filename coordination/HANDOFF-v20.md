@@ -1,5 +1,7 @@
 # HANDOFF (2026-10-11) - state for the next agent (GPT/Codex) - goal: ship "v20"
 
+**Latest handoff back to Claude:** read `coordination/HANDOFF-v20-CLAUDE.md` and `coordination/v20/WORKTREE-HANDOFF.json`. The branch/merge states below are historical; v20 integration is now committed at `948f44a8`, B068 at `48c721f8`. v20 remains unfinished and unshipped.
+
 User decision: do NOT release 16.1 or 16.2 separately. When all pieces are finished, integrate everything into ONE release called **v20** (package folder name `windows-source-clock-v20`); the user will then report more bugs, fixed as **v20.1**.
 
 Project: Dungeon Hunter 2 data-driven native engine reconstruction. Repo `C:/Users/adamc/Desktop/workspace/DH_sc` (branch `windows-foundation`, runtime in `port/windows-foundation`). Worktrees in `C:/Users/adamc/Desktop/workspace/DH_wt/<name>` (only the active ones remain after cleanup). Read `AGENTS.md`, `docs/BUGS-AND-IMPLEMENTATION.md` (tracker, section 2j), `docs/RESOLVED-BUGS.md`, `coordination/claude-preview161/BUGFIX-BRIEF.md` (rules for per-bug sessions), `coordination/claude-preview16/WAVE2-BRIEF.md`.

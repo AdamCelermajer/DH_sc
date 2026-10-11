@@ -201,3 +201,15 @@ texture dependencies: 314 unique additions, all source/stage hashes matching.
 Scripted PlaySound/StopSound/regular ScriptSaveGame consumers are being wired
 from the B068 source audit; regular ScriptSaveGame is not checkpoint saving.
 No final package, acceptance, tracker resolution or push has occurred.
+
+## User-requested stop and handoff to Claude
+
+The user stopped implementation and requested committed worktrees and a complete
+handoff. Integration WIP is committed at `948f44a8`; B068 at `48c721f8`;
+death at `afd9fca1`; gate FX at `60e60e85`; B078 at `a0062e71`. All those
+worktrees are clean and their owners report no active game jobs. The latest
+FB1EFF2F condition true/false runs each exited 0, but captures are uninspected.
+See `coordination/HANDOFF-v20-CLAUDE.md`, the worktree inventory and v20int's
+`coordination/v20/INTEGRATION-HANDOFF.md` for exact remaining work. No release
+acceptance is implied by this checkpoint. Unrelated external session files
+were preserved without committing them.
