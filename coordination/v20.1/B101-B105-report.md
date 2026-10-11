@@ -1,5 +1,7 @@
 # B101 (wall of fire) + B105 (Celeste glow): model-embedded particle emitters
 
+> Resumed B101 checkpoint is in `B101-report.md`: B101 remains OPEN because the production visual still differs from the original thick orange wall. B105 is now separately owned by a fresh session. Historical combined notes below are investigation/handoff evidence, not a completion claim.
+
 Branch `fix/b101-b105` (worktree `DH_wt/fixfx`, from `v20.1/integrate` dfc67d8d). Not pushed. Written incrementally.
 
 ## 0. Session state carried over

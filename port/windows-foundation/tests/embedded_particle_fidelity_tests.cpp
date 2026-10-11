@@ -71,6 +71,16 @@ void resource(const std::string& path){
   }
  }
  check(peak>=20,"particles reset at clip loops");check(high-low>600,"fire is not spread along authored Y line");check(reds.size()>10,"particle colors pulse together");
+ auto count=[&](){std::vector<fx::CharacterParticleDrawSourceV3> sources;check(r->draw_sources_v3(sources,error),error.c_str());unsigned n=0;for(const auto& source:sources)n+=source.part.positions.size()/4;return n;};
+ const auto before=count();check(composite->source_scene_frame_v4(3840,0,world,error),error.c_str());check(count()==before,"duplicate absolute update emits again");
+ // The authored open burst reaches the cap; idle-open emission then stops,
+ // while already-born particles finish their lives instead of disappearing.
+ for(int i=1;i<=20;++i){check(r->sample_animation(2850,error),error.c_str());check(composite->source_scene_frame_v4(3840+i*16,16,world,error),error.c_str());}
+ check(count()>before&&count()<=50,"open burst/max-particle gate");
+ check(r->sample_animation(5600,error),error.c_str());check(composite->source_scene_frame_v4(4176,16,world,error),error.c_str());check(count()>0,"zero birth rate prematurely removes existing particles");
+ for(int i=1;i<=120;++i)check(composite->source_scene_frame_v4(4176+i*16,16,world,error),error.c_str());
+ check(count()==0,"idle-open still emits");
+ check(r->sample_animation(0,error),error.c_str());check(composite->source_scene_frame_v4(0,0,world,error),error.c_str());check(count()==0,"backward simulation clock does not reset particles");
  // Fully malformed resource must fail cleanly, without retaining the old result.
  auto bad=std::make_shared<const std::vector<std::uint8_t>>(4,0);
  check(!create.create(create.context,bad,scene,r,error)&&!r,"malformed resource accepted");
