@@ -49,9 +49,93 @@ Mat4 viewMatrix(const Camera& camera) {
             -dot(side,camera.eye), -dot(up,camera.eye), dot(forward,camera.eye), 1};
 }
 
+// GL 1.3 texture-environment combine enums (the Windows GL header stops at 1.1). GL_RGB_SCALE only acts in GL_COMBINE mode.
+#ifndef GL_RGB_SCALE
+#define GL_RGB_SCALE 0x8573
+#define GL_COMBINE 0x8570
+#define GL_COMBINE_RGB 0x8571
+#define GL_COMBINE_ALPHA 0x8572
+#endif
+// B076: whether the source point light (GL_LIGHT1) is configured for this frame (set by Renderer::applyCamera).
+bool gLevelLightActive = false;
+// Light strength headroom: the source varying is lowp but runs unclamped on the target GPUs (clamp commented out in the VS), the
+// fixed pipeline clamps the vertex colour at 1, so lights are scaled by 1/kLevelLightScale and the texture env multiplies back.
+constexpr float kLevelLightScale = 4.0f;
+float gLevelAmbient[4] = {0.25f, 0.25f, 0.25f, 1.0f};
+bool gTextureMatrixActive = false; // B076: texture matrix currently holds a material UV offset
+int gLightState = -1; // -1 unknown, 0 default (preview directional light), 1 level point light
+
+// B076: GL_Diffuse_L1 family: vColor=(Ambient + Diffuse*N.L*att)*Color, colour*texture clamped to [0,1] after a headroom
+// Fixed pipeline: scaled-down lights and a texture-env RGB scale of kLevelLightScale give the same value up to that factor.
+void applyLevelLighting(bool levelLit) {
+    const int wanted = levelLit && gLevelLightActive ? 1 : 0;
+    if (gLightState == wanted) return;
+    gLightState = wanted;
+    if (wanted) {
+        glDisable(GL_LIGHT0); glEnable(GL_LIGHT1);
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, gLevelAmbient);
+        // colour = texture * primary colour * kLevelLightScale (clamped), alpha = texture * primary alpha (as GL_MODULATE); the combine\n        // defaults (SRC0 = texture, SRC1 = previous/primary, colour/alpha operands) are exactly that.
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
+        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_MODULATE); glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
+        glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE, kLevelLightScale);
+    } else {
+        glEnable(GL_LIGHT0); glDisable(GL_LIGHT1);
+        const GLfloat ambient[] = {0.65f,0.65f,0.65f,1};
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
+        glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE, 1.0f);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    }
+}
+
+// GL_LIGHT1 colours of the level light in diffuse mode (scaled by 1/kLevelLightScale, see above) or specular-only mode.
+void setLevelLightColors(const LevelPointLight& light, bool specularOnly) {
+    const GLfloat none[] = {0, 0, 0, 1}, white[] = {1, 1, 1, 1};
+    const GLfloat diffuseHalf[] = {light.diffuse[0]/kLevelLightScale, light.diffuse[1]/kLevelLightScale, light.diffuse[2]/kLevelLightScale, 1.0f};
+    glLightfv(GL_LIGHT1, GL_AMBIENT, none);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, specularOnly ? none : diffuseHalf);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, specularOnly ? white : none);
+}
+
+// Source: vAttNdotHV = N.L>0 ? att*pow(max(0,N.H),Glossiness) : 0 with H=normalize(L+eye); frag: color += SpecularMap*Light0Specularcolor*vAttNdotHV.
+// Fixed pipeline: local viewer + material specular/shininess, light1 specular only, specular map modulates, additive blend.
+void beginSpecularPass(const Material& material, const LevelPointLight& light) {
+    const GLfloat none[] = {0, 0, 0, 1}, white[] = {1, 1, 1, 1};
+    gLightState = -1; // the base-pass lighting state is re-established by the next applyLevelLighting call
+    glEnable(GL_LIGHTING); glDisable(GL_LIGHT0); glEnable(GL_LIGHT1);
+    setLevelLightColors(light, true);
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, none);
+    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, white);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, std::min(128.0f, material.glossiness));
+    glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE, 1.0f);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, material.specularTexture);
+    glEnable(GL_BLEND); glBlendFunc(GL_ONE, GL_ONE);
+    glDepthMask(GL_FALSE);
+}
+void endSpecularPass(const LevelPointLight& light) {
+    const GLfloat none[] = {0, 0, 0, 1};
+    setLevelLightColors(light, false);
+    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, none);
+    glDisable(GL_BLEND);
+    glDepthMask(GL_TRUE);
+}
+
 void applyMaterial(const Material& material, bool blended, float alphaReference) {
     {auto& counters=perf::FramePerf::get().counters();static std::uint32_t lastTexture=0xffffffffu;++counters.stateChanges;if(material.texture!=lastTexture){++counters.texBinds;lastTexture=material.texture;}} // B066 stats
-    if (material.lightingEnabled) glEnable(GL_LIGHTING);
+    applyLevelLighting(material.levelLit);
+    {   // B076: animated UV offset through the texture matrix (reset as soon as a material without one is drawn)
+        const bool wanted = material.uvOffset[0] != 0.0f || material.uvOffset[1] != 0.0f;
+        if (wanted || gTextureMatrixActive) {
+            glMatrixMode(GL_TEXTURE); glLoadIdentity();
+            if (wanted) glTranslatef(material.uvOffset[0], material.uvOffset[1], 0.0f);
+            glMatrixMode(GL_MODELVIEW);
+            gTextureMatrixActive = wanted;
+        }
+    }
+    if (material.lightingEnabled || (material.levelLit && gLevelLightActive)) glEnable(GL_LIGHTING);
     else glDisable(GL_LIGHTING);
     glColor4fv(material.color.data());
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material.color.data());
@@ -154,7 +238,7 @@ void Renderer::beginFrame(const Camera& camera) {
     glEnable(GL_DEPTH_TEST);glDepthFunc(GL_LEQUAL);glCullFace(GL_BACK);glFrontFace(GL_CCW);
     glDisable(GL_BLEND);glDisable(GL_ALPHA_TEST);
     glDepthMask(GL_TRUE);
-    glClearColor(0.035f, 0.045f, 0.06f, 1.0f);
+    glClearColor(clearColor_[0], clearColor_[1], clearColor_[2], 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     applyCamera(camera);
@@ -214,6 +298,25 @@ void Renderer::applyCamera(const Camera& camera) {
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
     glLightfv(GL_LIGHT0, GL_POSITION, direction);
+    // B076: source PlayerLight as GL_LIGHT1 (scaled; the L1 materials are drawn with an RGB scale of kLevelLightScale, see applyLevelLighting).
+    glEnable(GL_LIGHT0); glDisable(GL_LIGHT1);
+    glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE, 1.0f);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    gLightState = 0;
+    gLevelLightActive = levelLight_.enabled;
+    if (gLevelLightActive) {
+        const GLfloat position[] = {levelLight_.position.x, levelLight_.position.y, levelLight_.position.z, 1.0f};
+        const GLfloat none[] = {0, 0, 0, 1};
+        const GLfloat diffuseHalf[] = {levelLight_.diffuse[0]/kLevelLightScale, levelLight_.diffuse[1]/kLevelLightScale, levelLight_.diffuse[2]/kLevelLightScale, 1.0f};
+        for (int i = 0; i < 3; ++i) gLevelAmbient[i] = levelLight_.ambient[i]/kLevelLightScale;
+        glLightfv(GL_LIGHT1, GL_POSITION, position);
+        glLightfv(GL_LIGHT1, GL_AMBIENT, none);
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuseHalf);
+        glLightfv(GL_LIGHT1, GL_SPECULAR, none);
+        glLightf(GL_LIGHT1, GL_CONSTANT_ATTENUATION, std::max(0.0f, levelLight_.attenuation[0]));
+        glLightf(GL_LIGHT1, GL_LINEAR_ATTENUATION, std::max(0.0f, levelLight_.attenuation[1]));
+        glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, std::max(0.0f, levelLight_.attenuation[2]));
+    }
 }
 
 bool Renderer::withViewport(int x, int y, int width, int height,
@@ -498,6 +601,18 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
         } else if (range.firstIndex <= static_cast<std::size_t>(std::numeric_limits<GLint>::max())) {
             glDrawArrays(GL_TRIANGLES, static_cast<GLint>(range.firstIndex), static_cast<GLsizei>(count));
         }
+        // B076: specular term of the GL_Diffuse_L1 shader (opaque, untinted-alpha ranges only): additive second pass.
+        if (gLevelLightActive && range.material.levelLit && range.material.glossiness > 0.0f && range.material.specularTexture
+            && !blended && alphaReference <= 0.0f && !range.material.sourcePass) {
+            beginSpecularPass(range.material, levelLight_);
+            if (indexed) {
+                glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(count), GL_UNSIGNED_INT,
+                               gpu ? offsetPointer(range.firstIndex*sizeof(std::uint32_t)) : static_cast<const void*>(mesh.indices.data()+range.firstIndex));
+            } else if (range.firstIndex <= static_cast<std::size_t>(std::numeric_limits<GLint>::max())) {
+                glDrawArrays(GL_TRIANGLES, static_cast<GLint>(range.firstIndex), static_cast<GLsizei>(count));
+            }
+            endSpecularPass(levelLight_);
+        }
     };
 
     const auto isBlended = [&](const DrawRange& range) {
@@ -544,6 +659,11 @@ void Renderer::drawInternal(const Mesh& mesh, const Mat4& transform, RenderPass 
     if (gpu) {
         api.bind(kArrayBuffer, 0);
         if (indexed) api.bind(kElementBuffer, 0);
+    }
+    applyLevelLighting(false); // B076: never leak the RGB scale / level light state to later draws
+    if (gTextureMatrixActive) { // B076: never leak an animated UV offset to later (HUD/overlay) draws
+        glMatrixMode(GL_TEXTURE); glLoadIdentity(); glMatrixMode(GL_MODELVIEW);
+        gTextureMatrixActive = false;
     }
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);

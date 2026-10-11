@@ -556,6 +556,8 @@ add_test(NAME original_campaign_world_adapter COMMAND original_campaign_world_ad
 target_sources(foundation_data PRIVATE features/campaign_host/campaign_host.cpp features/campaign_host/trigger_zones.cpp features/campaign_host/actor_clip_manifest.cpp features/cinematics/source_campaign_dispatch_v1.cpp)
 # P16 OPENING4: scripted scene objects (AnimatedDecor named by PlayAnimByName).
 target_sources(foundation_data PRIVATE features/scene_decor/scene_decor_v1.cpp)
+# B076: level PlayerLight (GL_Diffuse_L1 environment lighting) read from the LevelConfig light set.
+target_sources(foundation_data PRIVATE features/level_lighting/level_light_v1.cpp features/scene_decor/ambient_decor_v1.cpp)
 add_executable(campaign_host_tests features/campaign_host/campaign_host_tests.cpp)
 target_link_libraries(campaign_host_tests PRIVATE foundation_data)
 add_test(NAME campaign_host COMMAND campaign_host_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
@@ -998,3 +1000,8 @@ target_sources(foundation_data PRIVATE original_camera_clip.cpp)
 add_executable(original_camera_clip_tests features/cinematics/original_camera_clip_tests.cpp)
 target_link_libraries(original_camera_clip_tests PRIVATE foundation_data)
 add_test(NAME original_camera_clip COMMAND original_camera_clip_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
+
+# B076: ambient AnimatedDecor/Decor material clips + level PlayerLight reader (Swamp assets; skipped parts report SKIP).
+add_executable(ambient_decor_tests features/scene_decor/ambient_decor_tests.cpp)
+target_link_libraries(ambient_decor_tests PRIVATE foundation_data)
+add_test(NAME ambient_decor COMMAND ambient_decor_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")

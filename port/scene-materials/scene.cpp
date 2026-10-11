@@ -118,6 +118,12 @@ struct Loader {
                 }else if(name=="Diffuse"||name=="diffuse-sampler"||name=="AlphaMap"){
                     if(type!=11)throw std::runtime_error("Unexpected image parameter type");
                     auto img=r.image(q);if(name=="AlphaMap")m.alpha_map=img;else m.diffuse=img;
+                }else if(name=="Specular"){
+                    if(type!=11)throw std::runtime_error("Unexpected image parameter type");
+                    m.specular_map=r.image(q);
+                }else if(name=="Glossiness"){
+                    if(type!=4||r.w(q+12)!=1)throw std::runtime_error("Unexpected scalar parameter layout");
+                    m.glossiness=r.f(data);
                 }else if(name=="__irrlicht_Diffuse_color"){
                     if(type!=7||r.w(q+12)!=1)throw std::runtime_error("Unexpected material color layout");
                     for(unsigned k=0;k<4;++k)m.color[k]=r.f(data+4*k);

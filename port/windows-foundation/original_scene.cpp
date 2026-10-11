@@ -164,7 +164,17 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                 // color shaders forward Color0 directly; avoid adding the
                 // foundation preview's directional lighting over that stream.
                 range.material.lightingEnabled=!hasColors;
+                // B076: materials of the GL_Diffuse_L1 shader family are lit by the level's point light (Renderer::setLevelLight).
+                range.material.levelLit=original.effect_file.rfind("GL_Diffuse_L1",0)==0;
+                // B076: authored NORMAL stream (attribute 1), rotated by the module placement, when the primitive has one.
+                dh2::assets::Attribute normals{};
+                const bool hasNormals=dh2_mesh_attribute(&mesh,primitive.attributes[1],&normals)==dh2::assets::Error::ok&&normals.components>=3;
                 OriginalMaterial metadata; metadata.id=original.id;metadata.diffuse=original.diffuse;
+                {   // technique "L1_<Vc>_<Al|At>_<Sp>_<..>": the fourth slot enables the specular term
+                    std::vector<std::string> slots;std::size_t from=0;
+                    for(;;){const auto next=original.gles2_technique.find('_',from);slots.push_back(original.gles2_technique.substr(from,next==std::string::npos?std::string::npos:next-from));if(next==std::string::npos)break;from=next+1;}
+                    if(range.material.levelLit&&slots.size()>=4&&slots[3]=="Sp"&&!original.specular_map.empty()&&original.glossiness>0){metadata.specularMap=original.specular_map;metadata.glossiness=original.glossiness;range.material.glossiness=original.glossiness;}
+                }
                 metadata.alphaMap=original.alpha_map;metadata.effectFile=original.effect_file;
                 metadata.technique=original.gles2_technique;
                 std::copy(original.texture_matrix,original.texture_matrix+16,metadata.textureMatrix.begin());
@@ -173,6 +183,11 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                     float values[4]{}; Vertex vertex;
                     if(!dh2_attribute_read(&positions,k,values)) throw std::runtime_error("Position decode failed");
                     vertex.position=point(world,values); vertex.normal={}; include(result,vertex.position);
+                    if(hasNormals) {
+                        float n[4]{};
+                        if(!dh2_attribute_read(&normals,k,n)) throw std::runtime_error("Normal decode failed");
+                        vertex.normal={world[0]*n[0]+world[4]*n[1]+world[8]*n[2],world[1]*n[0]+world[5]*n[1]+world[9]*n[2],world[2]*n[0]+world[6]*n[1]+world[10]*n[2]};
+                    }
                     if(hasColors) {
                         if(!dh2_attribute_read(&colors,k,values)) throw std::runtime_error("Vertex color decode failed");
                         for(std::uint32_t c=0;c<colors.components;++c) vertex.color[c]=values[c]/(colors.type==1?255.f:1.f);
@@ -192,7 +207,7 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                     result.mesh.indices.push_back(base+index);
                 }
                 // Face accumulation also handles nonuniform authored scale.
-                for(std::size_t k=range.firstIndex;k<range.firstIndex+range.indexCount;k+=3) {
+                for(std::size_t k=range.firstIndex;!hasNormals&&k<range.firstIndex+range.indexCount;k+=3) {
                     auto& a=result.mesh.vertices[result.mesh.indices[k]];
                     auto& b=result.mesh.vertices[result.mesh.indices[k+1]];
                     auto& c=result.mesh.vertices[result.mesh.indices[k+2]];
