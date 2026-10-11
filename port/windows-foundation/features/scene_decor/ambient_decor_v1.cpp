@@ -12,7 +12,9 @@
 
 namespace dh::foundation::scene_decor {
 namespace {
-constexpr std::uint32_t channel_color = 86, channel_offset_v = 87, channel_offset_u = 88;
+// Native CTextureTransformEx::getValueEx (0x6e3d78) writes87/88 to
+// state0/1; applyValueEx (0x6e38c4) puts those offsets at matrix8/9.
+constexpr std::uint32_t channel_color = 86, channel_offset_u = 87, channel_offset_v = 88;
 
 std::string lower(std::string text) {
     std::transform(text.begin(), text.end(), text.begin(), [](unsigned char c) { return char(std::tolower(c)); });
@@ -61,7 +63,7 @@ bool parse_ambient_model(const std::vector<std::uint8_t>& bytes, AmbientDecorMod
             const auto type = dh2_animation_type(&animation, std::int32_t(c));
             if (type != channel_color && type != channel_offset_u && type != channel_offset_v) continue;
             int& slot = type == channel_color ? clip.color : type == channel_offset_u ? clip.offsetU : clip.offsetV;
-            if (slot >= 0) continue; // first channel of each kind (the second sampler layer is not representable)
+            if (slot >= 0) continue; // duplicate component curves in the supported grouped material animation
             dh2::assets::Vector values{};
             if (!dh2_animation_vector(&animation, std::int32_t(c), true, &values) || !values.count || values.components > 4) continue;
             AmbientTrack track;

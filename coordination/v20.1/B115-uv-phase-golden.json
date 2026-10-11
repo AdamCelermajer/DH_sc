@@ -1,0 +1,33 @@
+{
+  "scope": "Native texture transform UV channel assignment, not water brightness",
+  "native": {
+    "getValueEx": "0x6e3b48 / 0x6e3d78",
+    "applyValueEx": "0x6e38c4",
+    "buildTextureTransform": "0x6e377c",
+    "channel87": "state[0] -> offset U -> matrix[8]",
+    "channel88": "state[1] -> offset V -> matrix[9]"
+  },
+  "water": {
+    "asset": "data/3d/animateddecors/swamp_watercaustics.bdae",
+    "firstGroupedBinding": "diffuse-sampler-matrix",
+    "defaultState": [0, 0, 0, 0.25, 0.25],
+    "loopMs": 1500,
+    "phases": [
+      {"timeMs": 100, "u": 0.25, "v": 0},
+      {"timeMs": 600, "u": 0.5, "v": 0.25},
+      {"timeMs": 1500, "u": 0, "v": 0}
+    ]
+  },
+  "torchControl": [
+    {"channel": 87, "timeMs": 100, "u": 0.375},
+    {"channel": 88, "timeMs": 300, "v": 0.25}
+  ],
+  "nativeAsmSha256": {
+    "native-matrix-6e377c.asm": "83f9750a04376c3e20c2270e28fd0271e3695dd449ac2704b39fcaebc433e5e1",
+    "native-apply-6e38c4.asm": "dd2173f18d3e738e298815791ab91beadfd81a12dc68fafc61e8e1f64bf80671",
+    "native-getvalue-6e3d78.asm": "7e073c4fc1bc0247dbd3a76139f1ef067e132725836e0eaf4ed3510454abcbe7"
+  },
+  "normalCandidateSha256": "AB06CD57DE760628E20ADA2E24AF579635F05E521328EE0BF3B746B9B4F473C9",
+  "results": {"beforeWaterOracleFailures": 8, "focusedTestsPassed": 4, "normalABJobsPassed": 8},
+  "remainingCaveat": "Original smooth pond versus bright caustic cells and global fog appearance remain unresolved."
+}
