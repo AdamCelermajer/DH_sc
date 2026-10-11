@@ -170,7 +170,6 @@ bool capture_death_checkpoint_snapshot_v1(
             if(!services.actor_source_state(services.context,a.id,a.source_cs_state,a.source_dead,error)){
                 if(error.empty())error="Source Character serialized CS-state provider failed";return false;
             }
-            a.physical_present=p.actor.source_physical_present;
             if(!a.player){a.npc_vitals_present=true;a.health=p.actor.health;a.max_health=p.actor.max_health;
                 a.resource=p.actor.resource;a.max_resource=p.actor.max_resource;}
             next.actors.push_back(std::move(a));
@@ -201,7 +200,6 @@ bool encode_death_checkpoint_snapshot_v1(const DeathCheckpointSnapshotV1& s,
     for(const auto& a:s.actors){
         w.u64(a.id);w.text(a.definition_id);w.u8(a.player?1:0);write_transform(w,a.transform);
         w.u32(a.source_cs_state);w.u8(a.source_dead?1:0);
-        w.u8(a.physical_present.has_value()?1:0);if(a.physical_present)w.u8(*a.physical_present?1:0);
         w.u8(a.npc_vitals_present?1:0);if(a.npc_vitals_present){w.f32(a.health);w.f32(a.max_health);w.f32(a.resource);w.f32(a.max_resource);}
     }
     w.u32(static_cast<std::uint32_t>(s.objects.size()));
@@ -235,15 +233,12 @@ bool decode_death_checkpoint_snapshot_v1(const std::vector<std::uint8_t>& input,
     if(!r.u32(count)||count>max_records)return (error="Death checkpoint actor count is invalid",false);
     next.actors.reserve(count);
     for(std::uint32_t i=0;i<count;++i){
-        DeathCheckpointActorV1 a;std::uint8_t b=0,hasPhysical=0,physical=0,hasVitals=0;
+        DeathCheckpointActorV1 a;std::uint8_t b=0,dead=0,hasVitals=0;
         if(!r.u64(a.id)||!r.text(a.definition_id)||!r.u8(b)||b>1||!read_transform(r,a.transform)||
-           !r.u32(a.source_cs_state)||!r.u8(physical)||physical>1||!r.u8(hasPhysical)||hasPhysical>1)
+           !r.u32(a.source_cs_state)||!r.u8(dead)||dead>1)
             return (error="Death checkpoint actor record is truncated",false);
         a.player=b!=0;
-        // Wire stores hasPhysical then the physical value. Read in the exact order.
-        // The first byte above is the source_dead byte; physical is corrected below.
-        a.source_dead=physical!=0;
-        if(hasPhysical){std::uint8_t value=0;if(!r.u8(value)||value>1)return (error="Death checkpoint physical flag is invalid",false);a.physical_present=value!=0;}
+        a.source_dead=dead!=0;
         if(!r.u8(hasVitals)||hasVitals>1)return (error="Death checkpoint actor vitals flag is invalid",false);
         a.npc_vitals_present=hasVitals!=0;
         if(a.npc_vitals_present&&(!r.f32(a.health)||!r.f32(a.max_health)||!r.f32(a.resource)||!r.f32(a.max_resource)))
@@ -305,7 +300,6 @@ bool restore_death_checkpoint_snapshot_v1(
                     alreadyLimbus,alreadyPreSpawn,canRespawn,physical,plan,error))return false;
             ActorState candidate=p.actor;
             candidate.transform=saved.transform;
-            if(saved.physical_present)candidate.source_physical_present=saved.physical_present;
             if(saved.npc_vitals_present){candidate.health=saved.health;candidate.max_health=saved.max_health;
                 candidate.resource=saved.resource;candidate.max_resource=saved.max_resource;}
             if(!services.apply_source_state(services.context,plan,candidate,error)){
@@ -334,10 +328,10 @@ bool restore_death_checkpoint_snapshot_v1(
         const auto found=objectRecords.find(object.id);
         if(found!=objectRecords.end()){
             const auto& saved=*found->second;
-            if(saved.name!=object.name||saved.visual.model!=object.visual.model||saved.visual.material!=object.visual.material)
+            if(saved.name!=object.name||saved.visual.model!=object.visual.model)
                 return (error="Death checkpoint world object ID/name/model identity differs",false);
             object.transform=saved.transform;
-            object.visual.visible=saved.visual.visible;
+            object.visual=saved.visual;
             object.state_components=saved.state_components;
             ++receipt.objects_restored;
         }

@@ -50,7 +50,6 @@ struct DeathCheckpointActorV1 {
     Transform transform;
     std::uint32_t source_cs_state = 0;
     bool source_dead = false;
-    std::optional<bool> physical_present;
     bool npc_vitals_present = false;
     float health = 0.0f, max_health = 0.0f;
     float resource = 0.0f, max_resource = 0.0f;
