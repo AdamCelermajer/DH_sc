@@ -159,6 +159,7 @@ bool DoorRuntimeV1::adopt(const AssetCatalog& assets, std::vector<std::string>& 
                 notices.push_back("door " + slot.instance.name + " clip missing: " + clip);
                 continue;
             }
+            slot.clip_start_ms[direction] = start;
             slot.clip_end_ms[direction] = end;
             if (const auto* markers = visual->markers(clip, markerError))
                 for (const auto& marker : markers->markers())
@@ -302,18 +303,21 @@ bool DoorRuntimeV1::update(double seconds, std::string& error) {
         if (!slot.visual || !slot.present) continue;
         if (!slot.visual->update(seconds, error)) return false;
         if (!slot.busy) continue;
-        const double elapsedMs = slot.visual->animation_elapsed_seconds() * 1000.0;
+        const double elapsedSeconds = slot.visual->animation_elapsed_seconds();
         const bool opening = slot.state == DoorStateV1::opening;
         // __EventCallback: the authored marker applies the end state (no idle replay).
         const int direction = opening ? 1 : 0;
-        if (!slot.marker_fired && slot.marker_ms[direction] >= 0.0 && elapsedMs >= slot.marker_ms[direction]) {
+        const double clipStart = slot.clip_start_ms[direction];
+        if (!slot.marker_fired && slot.marker_ms[direction] >= 0.0 &&
+            door_clip_reached_v1(clipStart, elapsedSeconds, slot.marker_ms[direction])) {
             slot.marker_fired = true;
             slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;
             slot.filter_enabled = !opening;
             slot.dirty = true;
         }
         // __Callback: the clip ended; the transition is over and the idle clip of the end state plays.
-        if (slot.clip_end_ms[direction] >= 0.0 && elapsedMs >= slot.clip_end_ms[direction]) {
+        if (slot.clip_end_ms[direction] >= 0.0 &&
+            door_clip_reached_v1(clipStart, elapsedSeconds, slot.clip_end_ms[direction])) {
             slot.busy = false;
             if (!slot.marker_fired) {
                 slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;

@@ -98,7 +98,18 @@ int main(int argc, char** argv) {
               second_after->state_components.at(door_state_component_v1) == std::vector<std::uint8_t>{4} &&
               runtime.take_sound_requests().empty() && runtime.take_changed().empty(),
               "invalid restore leaves state, filter, events, and sound untouched");
+        // Authored clip timelines do not start at zero (the source close clip spans 8000..9333 ms).
+        // The visual clock is relative to that start, so a transition finishes at the absolute end.
+        check(!door_clip_reached_v1(8000.0, 1.332, 9333.0), "close clip must not finish before its authored end");
+        check(door_clip_reached_v1(8000.0, 1.333, 9333.0), "close clip must finish at its authored end");
+        check(!door_clip_reached_v1(8000.0, 0.499, 8500.0), "marker must not fire before its authored time");
+        check(door_clip_reached_v1(8000.0, 0.5, 8500.0), "marker must fire at its authored time");
+        check(door_clip_reached_v1(0.0, 2.0, 2000.0), "zero-start clip keeps its absolute timeline");
+        // Regression: the pre-fix comparison (no clip start) stalls at the clip duration and never completes.
+        check(!door_clip_reached_v1(0.0, 1.333, 9333.0), "relative clock must not be compared with absolute end");
+
         std::cout << "PASS: door restore terminal-state, admission, and atomic invalid cases\n";
+        std::cout << "PASS: door transition clock uses authored clip timeline\n";
         return 0;
     } catch (const std::exception& exception) {
         std::cerr << exception.what() << '\n';
