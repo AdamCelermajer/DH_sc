@@ -14,7 +14,11 @@ struct AnimationAIState96 {
  std::int32_t owner_byte14a8;
  std::uint32_t reserved0;
  float owner_position[3];
- std::uint32_t reserved1;
+ // Validity metadata for the existing CharAI+0x79 byte, which aliases
+ // Character+0x441. CharAI::C2 does not initialize it; the Attack-step writer
+ // below makes it known. This occupies the previous trailing reserved word,
+ // so the borrowed projection stays 96 bytes.
+ std::uint32_t attack_last_79_available;
 };
 enum AnimationAIService : std::uint32_t {
  ai_animation_state=0,ai_animation_step_index,ai_animation_step_count,

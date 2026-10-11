@@ -63,7 +63,10 @@ int main(int argc,char** argv){try{
  Reader r(argv[1]);check(r.get<unsigned>()==0x31494141,"AAI1 magic differs");const auto count=r.get<unsigned>();unsigned requests=0;
  for(unsigned i=0;i<count;++i){
   const auto op=r.get<unsigned>();auto input=r.get<AnimationAIState96>();Context c{r.get<std::array<std::uint32_t,16>>(),{}};const auto expected=r.get<AnimationAIState96>();const auto n=r.get<unsigned>();std::vector<Call> calls(n);for(auto& row:calls)row=r.get<Call>();
-  auto state=encode(input);const AnimationAIServices16 services{&c,invoke};check(dh2_character_animation_ai(&state,op,&services)==1,"Consumer rejected original fixture");const auto after=decode(state);
+  auto state=encode(input);const AnimationAIServices16 services{&c,invoke};check(dh2_character_animation_ai(&state,op,&services)==1,"Consumer rejected original fixture");auto after=decode(state);
+  // The trailing word records host projection knowledge for CharAI+0x79; it
+  // is metadata, not source state returned by the original ARM function.
+  after.attack_last_79_available=0;
   if(std::memcmp(&after,&expected,96)||c.calls!=calls){std::cerr<<"Consumer mismatch case "<<i<<" op "<<op<<'\n';return 3;}requests+=n;
  }
  const auto scalars=r.get<unsigned>();
@@ -148,8 +151,16 @@ int main(int argc,char** argv){try{
  reject(nullptr,0,&services);reject(&base,0,nullptr);auto invalid_service=services;invalid_service.invoke=nullptr;reject(&base,0,&invalid_service);reject(&base,7,&services);
  reject(&base,0,reinterpret_cast<const AnimationAIServices16*>(&base));
  for(unsigned field=0;field<12;++field){auto state=base;
-  switch(field){case 0:state.owner=0;break;case 1:state.controller=0;break;case 2:state.reserved0=1;break;case 3:state.reserved1=1;break;case 4:state.seeking=256;break;case 5:state.target_sticky=256;break;case 6:state.attack_continued=256;break;case 7:state.attack_last=256;break;case 8:state.attack_finisher=256;break;case 9:state.skill_started=256;break;case 10:state.skill_stop_requested=256;break;case 11:state.owner_byte14a8=128;break;}
+  switch(field){case 0:state.owner=0;break;case 1:state.controller=0;break;case 2:state.reserved0=1;break;case 3:state.attack_last_79_available=2;break;case 4:state.seeking=256;break;case 5:state.target_sticky=256;break;case 6:state.attack_continued=256;break;case 7:state.attack_last=256;break;case 8:state.attack_finisher=256;break;case 9:state.skill_started=256;break;case 10:state.skill_stop_requested=256;break;case 11:state.owner_byte14a8=128;break;}
   reject(&state,0,&services);
+ }
+ {
+  Context context{};context.params[1]=0;context.params[2]=1;
+  AnimationAIServices16 callbacks{&context,invoke};auto state=base;state.animation_depth=1;
+  check(state.attack_last_79_available==0,"CharAI+0x79 validity did not start unknown");
+  check(dh2_character_animation_ai(&state,ai_attack_begin,&callbacks)==1&&
+        state.attack_last==1&&state.attack_last_79_available==1,
+        "source Attack-step writer did not publish the existing CharAI+0x79 value");
  }
  std::cout<<"{\"validation\":\"PASS\",\"consumer_comparisons\":"<<count<<",\"ordered_service_requests\":"<<requests<<",\"scalar_comparisons\":"<<scalars<<",\"atomic_rejection_checks\":"<<rejects<<",\"mismatches\":0}\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 3;}}

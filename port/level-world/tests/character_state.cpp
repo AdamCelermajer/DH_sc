@@ -107,6 +107,76 @@ int main(int argc,char** argv){
           fixture.calls[1].argument[0]==-1&&fixture.calls[2].service==cancel_sneaking&&
           fixture.calls[3].service==raise_event&&fixture.calls[3].argument[0]==0x1d&&
           fixture.calls[3].argument[1]==12,"CSDespawn source entry order");
+  // Combat handlers share this State/service owner. The added CombatFacts are
+  // transient projections; transitions still use the canonical state and
+  // preserve the source ordered Focus/Blur services.
+  State combat_state;combat_state.current=3;combat_state.body_present=1;
+  Facts combat_character_facts;combat_character_facts.idle=12;
+  CombatFacts combat_facts;combat_facts.scared_animation=107;
+  combat_facts.stunned_animation=205;combat_facts.controller_present=1;
+  combat_facts.machine_flags_44=0;
+  fixture.calls.clear();fixture.facts=&combat_character_facts;
+  require(dh2_character_combat_state_transition(&combat_state,
+      &combat_character_facts,&combat_facts,8,50013,0x12345678,&services)==1&&
+      combat_state.current==8&&combat_state.flags==8768&&
+      combat_state.current_animation==107,"CSScared Focus entry");
+  require(fixture.calls.size()==5&&fixture.calls[0].service==set_animation&&
+      fixture.calls[0].argument[0]==107&&fixture.calls[1].service==scare_focus&&
+      fixture.calls[1].identity==0x12345678&&
+      fixture.calls[2].service==cancel_sneaking&&fixture.calls[3].service==unpin&&
+      fixture.calls[4].service==raise_event&&fixture.calls[4].argument[0]==0x1d,
+      "CSScared Focus service order");
+  fixture.calls.clear();
+  require(dh2_character_combat_state_event(&combat_state,
+      &combat_character_facts,&combat_facts,50012,0x23456789,&services)==1&&
+      combat_state.current==9&&combat_state.flags==8706&&
+      combat_state.current_animation==205&&combat_state.controller_locked==1,
+      "CSScared to CSStunned registered transition");
+  require(fixture.calls.size()==7&&fixture.calls[0].service==scare_blur&&
+      fixture.calls[1].service==pin&&fixture.calls[2].service==set_animation&&
+      fixture.calls[2].argument[0]==205&&fixture.calls[3].service==controller_lock&&
+      fixture.calls[3].argument[0]==1&&fixture.calls[4].service==cancel_sneaking&&
+      fixture.calls[5].service==unpin&&fixture.calls[6].service==raise_event&&
+      fixture.calls[6].argument[0]==0x1d,"CSStunned transition service order");
+  fixture.calls.clear();
+  require(dh2_character_combat_state_update(&combat_state,
+      &combat_character_facts,&combat_facts,16,&services)==1&&
+      combat_state.current==3&&combat_state.flags==0x2380,
+      "CSStunned Update returns to same Coordinator Idle state");
+  require(fixture.calls.size()==4&&fixture.calls[0].service==controller_lock&&
+      fixture.calls[0].argument[0]==0&&fixture.calls[1].service==pin&&
+      fixture.calls[2].service==set_animation&&fixture.calls[2].argument[0]==12&&
+      fixture.calls[3].service==raise_event&&fixture.calls[3].argument[0]==0x1d,
+      "CSStunned Update transition service order");
+  fixture.calls.clear();
+  require(dh2_character_combat_state_event(&combat_state,
+      &combat_character_facts,&combat_facts,50011,0x3456789a,&services)==1&&
+      combat_state.current==10&&combat_state.flags==9025,
+      "Idle registered transition to CSKnockedBack");
+  require(fixture.calls.size()==7&&fixture.calls[0].service==set_animation&&
+      fixture.calls[0].argument[0]==-1&&fixture.calls[1].service==combat_machine_flags&&
+      fixture.calls[1].argument[0]==0x20&&fixture.calls[2].service==controller_lock&&
+      fixture.calls[2].argument[0]==1&&fixture.calls[3].service==look_at&&
+      fixture.calls[3].identity==0x3456789a&&fixture.calls[4].service==cancel_sneaking&&
+      fixture.calls[5].service==unpin&&fixture.calls[6].service==raise_event,
+      "CSKnockedBack Focus service order");
+  State injured;injured.current=11;
+  CombatFacts unknown_injured_facts=combat_facts;
+  unknown_injured_facts.last_target_available=0;
+  fixture.calls.clear();
+  require(dh2_character_combat_state_transition(&injured,
+      &combat_character_facts,&unknown_injured_facts,3,34,0,&services)==-1&&
+      injured.current==11&&fixture.calls.empty(),
+      "CSInjured Blur must fail closed without Character+0x408 projection");
+  unknown_injured_facts.last_target_available=1;
+  unknown_injured_facts.last_target=0; // observed null remains a real source value
+  require(dh2_character_combat_state_transition(&injured,
+      &combat_character_facts,&unknown_injured_facts,3,34,0,&services)==1&&
+      injured.current==3&&fixture.calls.size()==3&&
+      fixture.calls[0].service==look_at&&fixture.calls[0].argument[0]==1&&
+      fixture.calls[0].identity==0&&fixture.calls[1].service==set_animation&&
+      fixture.calls[2].service==raise_event,
+      "CSInjured Blur must preserve a known null Character+0x408 focus");
   // IDA: CharAI::RaiseAIEvent(event2) calls CharAI::OnDied/AI_SetDead before
   // forwarding to the machine. The owner is already Dead(12); CSDead has no
   // event2 registration or OnEvent2 action, so this is an exact no-op.

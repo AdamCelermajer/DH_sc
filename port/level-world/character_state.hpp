@@ -25,6 +25,23 @@ struct Facts {
  std::uint32_t attack_delay=0,despawn_delay=0,reserved=0;
  std::uint32_t is_at_destination=0,following_path=0,has_ranged_weapon=0;
 };
+// Combat-only data is projected separately so the established Facts/State
+// layouts and their differential reference format remain stable.
+struct CombatFacts {
+ // These are source-selected animation sequence IDs after the source
+ // AnimStancedAnim/GetAnimStance gate, not table-row offsets.
+ std::int32_t scared_animation=-1,stunned_animation=-1,injured_animation=-1;
+ // Character+0x528 and CharStateMachine+0x44 are the same source word.
+ // It is retained once in the same Coordinator owner.
+ std::uint32_t machine_flags_44=0,controller_present=0;
+ // Character::CSM_Interrupted loads byte [Character+0x441] for state 5.
+ std::uint32_t interrupted_byte_441=0;
+ // CSInjured::OnBlur loads [Character+0x408] as its focus GameObject.
+ std::uint64_t last_target=0;
+ // The caller must distinguish an observed null/zero source field from an
+ // unimplemented projection; handlers fail closed only when they consume it.
+ std::uint32_t interrupted_byte_available=0,last_target_available=0;
+};
 enum Service : std::uint32_t {
  stop=1,pin,unpin,set_animation,set_speed,swap_animation,stop_loop,
  start_timer,look_at,remove_highlight,set_death_filter,reset_filter,
@@ -38,7 +55,9 @@ enum Service : std::uint32_t {
  init_physical_object,enable_collisions,
  // Source CSDead OnFocus begins with two real Debug load/query calls before
  // flags/LookAt. Appended service preserves all previous enum values and ABI.
- dead_focus_prelude,store_previous_flags // CSDespawn saves Character flags before replacing them.
+ dead_focus_prelude,store_previous_flags, // CSDespawn saves Character flags before replacing them.
+ controller_lock,scare_focus,scare_blur,knockback_impact_event,
+ combat_machine_flags
 };
 struct Request {
  std::uint32_t service;
@@ -78,7 +97,7 @@ struct SpawnFacts {
               can_respawn=0,group_role3=0,group_has_other_in_limbus=0;
 };
 static_assert(sizeof(SpawnFacts)==36);
-static_assert(sizeof(State)==56&&sizeof(Facts)==96);
+static_assert(sizeof(State)==56&&sizeof(Facts)==96&&sizeof(CombatFacts)==40);
 static_assert(sizeof(Request)==32&&sizeof(Services)==16);
 static_assert(sizeof(void*)==8,"native coordinator requires 64-bit pointers");
 }
@@ -99,6 +118,22 @@ int dh2_character_state_event(dh2::character::State*,const dh2::character::Facts
 // machine stun/scare enforcement and general timers/AI are outside this API.
 int dh2_character_state_update(dh2::character::State*,const dh2::character::Facts*,
  std::uint32_t dt_ms,const dh2::character::Services*);
+// Combat IDs 8..11 are handlers on this same State and Coordinator. The
+// additional facts are transient projections of the existing Character,
+// controller, body, and animation-table owners; persistent flags remain in
+// State and the existing Character/CharStateMachine backing.
+int dh2_character_combat_state_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::CombatFacts*,std::int32_t next,std::int32_t event,
+ std::uint64_t payload,const dh2::character::Services*);
+int dh2_character_combat_state_event(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::CombatFacts*,std::uint32_t event,std::uint64_t payload,
+ const dh2::character::Services*);
+int dh2_character_combat_state_update(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::CombatFacts*,std::uint32_t dt_ms,const dh2::character::Services*);
+int dh2_character_combat_skill_state_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::CombatFacts*,dh2::character_skill_state_dispatch_v1::Projection*,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,
+ const dh2::character::Services*);
 // Coordinator-only CSSkill transition path. The projection borrows this same
 // State and the captured callback graph; the original State/Facts/Services
 // layouts and ordinary state entry points remain unchanged.

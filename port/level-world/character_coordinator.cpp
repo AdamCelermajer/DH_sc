@@ -59,6 +59,48 @@ bool Coordinator::bound() const {
     return bindings_.facts && bindings_.services.invoke;
 }
 
+bool Coordinator::register_source_state(std::uintptr_t character,
+                                        std::uint32_t state_id,
+                                        std::uintptr_t handler) noexcept {
+    if (!character || character != timers_.owner || state_id >= source_state_handlers_.size() ||
+        !handler || active_facts_ || timers_.update_depth)
+        return false;
+    auto& slot = source_state_handlers_[state_id];
+    if (slot) return slot == handler;
+    slot = handler;
+    return true;
+}
+
+bool Coordinator::unregister_source_state(std::uintptr_t character,
+                                          std::uint32_t state_id,
+                                          std::uintptr_t handler) noexcept {
+    if (!character || character != timers_.owner || state_id >= source_state_handlers_.size() ||
+        !handler || active_facts_ || timers_.update_depth)
+        return false;
+    auto& slot = source_state_handlers_[state_id];
+    if (slot != handler) return false;
+    slot = 0;
+    return true;
+}
+
+bool Coordinator::source_state_registered(std::uintptr_t character,
+                                         std::uint32_t state_id) const noexcept {
+    return character && character == timers_.owner &&
+        state_id < source_state_handlers_.size() &&
+        source_state_handlers_[state_id] != 0;
+}
+
+std::uint32_t Coordinator::source_state_handler_mask() const noexcept {
+    std::uint32_t mask = 0;
+    for (std::size_t i = 0; i < source_state_handlers_.size(); ++i)
+        if (source_state_handlers_[i]) mask |= (std::uint32_t{1} << i);
+    return mask;
+}
+
+bool Coordinator::source_state_handlers_complete() const noexcept {
+    return source_state_handler_mask() == ((std::uint32_t{1} << source_state_handlers_.size()) - 1);
+}
+
 bool Coordinator::bind_skill_projection(
     character_skill_state_dispatch_v1::Projection* projection) {
     if (!bound() || active_facts_ || timers_.update_depth || !projection ||
@@ -151,6 +193,9 @@ void Coordinator::refresh_facts() {
 
 int Coordinator::event(std::uint32_t event_id, std::uint64_t payload) {
     if (!bound()) return -1;
+    if (source_state_handler_mask() && state.current >= 0 && state.current < 20 &&
+        !source_state_registered(timers_.owner,
+            static_cast<std::uint32_t>(state.current))) return -1;
     if ((state.current == 0 || state.current == 1) &&
         bindings_.spawn_facts) return spawn_event(event_id);
     auto facts = bindings_.facts(bindings_.context);
@@ -168,6 +213,14 @@ int Coordinator::event(std::uint32_t event_id, std::uint64_t payload) {
         return dh2_character_cast_state_transition(&state,&facts,projection,
             result.next,static_cast<std::int32_t>(event_id),payload,&services);
     }
+    if(state.current==11&&event_id==50005u){
+        auto* projection=bindings_.skill_projection;
+        if(!projection||projection->machine!=&state||!bindings_.combat_facts)return -1;
+        const auto combat=bindings_.combat_facts(bindings_.context);
+        const auto services=state_services();
+        return dh2_character_combat_skill_state_transition(&state,&facts,&combat,
+            projection,6,static_cast<std::int32_t>(event_id),payload,&services);
+    }
     const bool selected_skill_state=state.current==3||state.current==4||
         state.current==5||state.current==6;
     if(state.current==6||(event_id==0xc355&&selected_skill_state)){
@@ -184,15 +237,40 @@ int Coordinator::event(std::uint32_t event_id, std::uint64_t payload) {
             result.next,static_cast<std::int32_t>(event_id),payload,&services);
     }
     const auto services = state_services();
+    const bool combat_registration_event=event_id==50008u||event_id==50010u||
+        event_id==50011u||event_id==50012u||event_id==50013u;
+    if((state.current>=8&&state.current<=11)||
+       (combat_registration_event&&(state.current==3||state.current==4||state.current==5))){
+        if(!bindings_.combat_facts)return -1;
+        const auto combat=bindings_.combat_facts(bindings_.context);
+        return dh2_character_combat_state_event(&state,&facts,&combat,event_id,
+                                                payload,&services);
+    }
     return dh2_character_state_event(&state, &facts, event_id, payload, &services);
 }
 
 int Coordinator::transition(std::int32_t next, std::int32_t event_id,
                             std::uint64_t payload) {
     if (!bound()) return -1;
+    if (source_state_handler_mask() &&
+        ((state.current >= 0 && state.current < 20 &&
+          !source_state_registered(timers_.owner,
+              static_cast<std::uint32_t>(state.current))) ||
+         (next >= 0 && next < 20 &&
+          !source_state_registered(timers_.owner,
+              static_cast<std::uint32_t>(next))))) return -1;
     auto facts = bindings_.facts(bindings_.context);
     Scope scope(*this, facts, static_cast<std::uint32_t>(event_id));
     const auto services = state_services();
+    if((state.current>=8&&state.current<=11)||(next>=8&&next<=11)){
+        if(!bindings_.combat_facts)return -1;
+        const auto combat=bindings_.combat_facts(bindings_.context);
+        if(next==6&&state.current==11)
+            return dh2_character_combat_skill_state_transition(&state,&facts,&combat,
+                bindings_.skill_projection,next,event_id,payload,&services);
+        return dh2_character_combat_state_transition(&state,&facts,&combat,next,
+            event_id,payload,&services);
+    }
     if(state.current==7||next==7){
         auto* projection=bindings_.cast_projection;
         if(!projection||projection->character.coordinator_state!=&state||
@@ -212,6 +290,17 @@ int Coordinator::transition(std::int32_t next, std::int32_t event_id,
 
 int Coordinator::update_state(std::uint32_t dt_ms) {
     if (!bound()) return -1;
+    if (source_state_handler_mask() && state.current >= 0 && state.current < 20 &&
+        !source_state_registered(timers_.owner,
+            static_cast<std::uint32_t>(state.current))) return -1;
+    if(state.current>=8&&state.current<=11){
+        if(!bindings_.combat_facts)return -1;
+        auto facts=bindings_.facts(bindings_.context);
+        const auto combat=bindings_.combat_facts(bindings_.context);
+        Scope scope(*this,facts,0);
+        const auto services=state_services();
+        return dh2_character_combat_state_update(&state,&facts,&combat,dt_ms,&services);
+    }
     if(state.current==7){
         if(!bindings_.cast_projection||
            bindings_.cast_projection->character.coordinator_state!=&state||
@@ -258,6 +347,13 @@ int Coordinator::update_ai_frame(AIFrameState32* frame,
 
 int Coordinator::spawn_transition(std::int32_t next) {
     if (!bound() || !bindings_.spawn_facts) return -1;
+    if (source_state_handler_mask() &&
+        ((state.current >= 0 && state.current < 20 &&
+          !source_state_registered(timers_.owner,
+              static_cast<std::uint32_t>(state.current))) ||
+         (next >= 0 && next < 20 &&
+          !source_state_registered(timers_.owner,
+              static_cast<std::uint32_t>(next))))) return -1;
     auto facts = bindings_.facts(bindings_.context);
     const auto spawn = bindings_.spawn_facts(bindings_.context);
     Scope scope(*this, facts, 0);
@@ -267,6 +363,9 @@ int Coordinator::spawn_transition(std::int32_t next) {
 
 int Coordinator::spawn_event(std::uint32_t event_id, const char* exact_name) {
     if (!bound() || !bindings_.spawn_facts) return -1;
+    if (source_state_handler_mask() && state.current >= 0 && state.current < 20 &&
+        !source_state_registered(timers_.owner,
+            static_cast<std::uint32_t>(state.current))) return -1;
     auto facts = bindings_.facts(bindings_.context);
     const auto spawn = bindings_.spawn_facts(bindings_.context);
     Scope scope(*this, facts, event_id);

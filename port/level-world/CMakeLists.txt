@@ -138,7 +138,7 @@ target_sources(dh2_level_world PRIVATE ais_external_init_vcb.cpp)
 target_sources(dh2_level_world PRIVATE ais_player_init_vcb.cpp)
 target_sources(dh2_level_world PRIVATE character_skill_cooldown_services.cpp
  player_skill_timer_provider_v1.cpp player_script_timer_dispatch_v1.cpp)
-target_sources(dh2_level_world PRIVATE character_player_buffs_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_player_buffs_v1.cpp character_combat_status_v1.cpp)
 target_sources(dh2_level_world PRIVATE player_initial_skill_grants_v1.cpp player_skill_progression_v1.cpp)
 target_sources(dh2_level_world PRIVATE player_initial_equipment_v1.cpp)
 target_sources(dh2_level_world PRIVATE player_ais_lifecycle_v1.cpp)

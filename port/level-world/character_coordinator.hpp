@@ -6,6 +6,7 @@
 #include "character_skill_state_dispatch_v1.hpp"
 #include "character_cast_state_dispatch_v1.hpp"
 #include "character_cast_lifecycle_v1.hpp"
+#include <array>
 #include <vector>
 
 namespace dh2::character {
@@ -71,6 +72,9 @@ struct CoordinatorBindings {
     // cannot supply a copied owner record with a forged forced bypass.
     AIFrameOwner48* ai_owner_projection = nullptr;
     std::uintptr_t controller_identity = 0;
+    // Combat states8-11 borrow the same coordinator State and Character
+    // owners; this callback only refreshes transient source facts.
+    CombatFacts (*combat_facts)(void*) = nullptr;
 };
 
 class Coordinator {
@@ -80,6 +84,13 @@ class Coordinator {
     CoordinatorBindings bindings_{};
     Facts* active_facts_ = nullptr;
     std::uint32_t event_cause_ = 0;
+    // Source CharStateMachine+0x44 overlaps Character+0x528. Keep this raw
+    // persistent word on the one Coordinator; CombatFacts only borrow a copy.
+    std::uint32_t source_machine_flags_44_528_ = 0;
+    // Character::RegisterState populates the one source CharStateMachine with
+    // IDs 0..19. The native dispatcher is shared, but each registered source
+    // state retains its handler token on this same Coordinator owner.
+    std::array<std::uintptr_t, 20> source_state_handlers_{};
 
     static void invoke_service(void*, State*, const Request*);
     static int grow_timers(void*, TimerStore32*, std::uint32_t);
@@ -123,6 +134,20 @@ public:
     bool retire_cast_projection(
         character_cast_lifecycle_v1::Projection* projection);
     std::uintptr_t owner() const { return timers_.owner; }
+    std::uint32_t source_machine_flags_44_528() const noexcept {
+        return source_machine_flags_44_528_;
+    }
+    void set_source_machine_flags_44_528(std::uint32_t value) noexcept {
+        source_machine_flags_44_528_ = value;
+    }
+    bool register_source_state(std::uintptr_t character, std::uint32_t state,
+                               std::uintptr_t handler) noexcept;
+    bool unregister_source_state(std::uintptr_t character, std::uint32_t state,
+                                 std::uintptr_t handler) noexcept;
+    bool source_state_registered(std::uintptr_t character,
+                                 std::uint32_t state) const noexcept;
+    std::uint32_t source_state_handler_mask() const noexcept;
+    bool source_state_handlers_complete() const noexcept;
     std::uint32_t event_cause() const { return event_cause_; }
     const TimerStore32& timers() const { return timers_; }
 

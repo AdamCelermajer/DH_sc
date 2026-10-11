@@ -6,6 +6,7 @@
 namespace {
 using namespace dh2::character;
 std::int32_t signed_bits(std::uint32_t value){std::int32_t result;std::memcpy(&result,&value,sizeof result);return result;}
+bool combat_id(int value){return value>=8&&value<=11;}
 bool id(int value){return value==-1||value==2||value==3||value==4||value==5||value==12;}
 bool valid_base(const State* s,const Facts* f,const Services* c){
  return s&&f&&c&&c->invoke&&f->is_player<=1&&!f->reserved&&
@@ -31,15 +32,21 @@ void move_type(State& s,const Facts& f,const Services& c){
  call(s,c,set_animation,selected(f,type==2?f.run:f.walk,type==2?0x20:0x10));
  call(s,c,set_speed,0,0,0,s.cached_speed);
 }
-void blur(State& s,const Facts& f,const Services& c){
+void blur(State& s,const Facts& f,const Services& c,const CombatFacts* combat=nullptr){
  switch(s.current){
  case 3:s.idle_suppressed=0;break;
  case 4:call(s,c,stop);if(s.body_present)call(s,c,pin);break;
  case 5:if(f.attack_delay)call(s,c,start_timer,std::int32_t(f.attack_delay),0,0x2a);if(s.body_present)call(s,c,pin);break;
  case 12:s.controller_locked=0;if(s.body_present)call(s,c,reset_filter);break;
+ case 8:if(combat)call(s,c,scare_blur);if(s.body_present)call(s,c,pin);break;
+ case 9:if(combat&&combat->controller_present){s.controller_locked=0;call(s,c,controller_lock,0);}if(s.body_present)call(s,c,pin);break;
+ case 10:
+  if(combat&&combat->controller_present){s.controller_locked=0;call(s,c,controller_lock,0);}
+  if(s.body_present){call(s,c,reset_filter);call(s,c,pin);}break;
+ case 11:if(combat)call(s,c,look_at,1,0,0,0,combat->last_target);break;
  }
 }
-void focus(State& s,const Facts& f,int prior,std::uint64_t payload,const Services& c){
+void focus(State& s,const Facts& f,int prior,std::uint64_t payload,const Services& c,const CombatFacts* combat=nullptr){
  switch(s.current){
  case 3:
   if(s.idle_suppressed)return;
@@ -73,30 +80,63 @@ void focus(State& s,const Facts& f,int prior,std::uint64_t payload,const Service
   call(s,c,store_previous_flags,std::int32_t(previous));
   call(s,c,set_animation,-1);call(s,c,cancel_sneaking);break;
  }
+ case 8:
+  if(!combat)break;
+  s.flags=8768;call(s,c,set_animation,combat->scared_animation);
+  call(s,c,scare_focus,0,0,0,0,payload);
+  call(s,c,cancel_sneaking);if(s.body_present)call(s,c,unpin);break;
+ case 9:
+  if(!combat)break;
+  s.flags=8706;call(s,c,set_animation,combat->stunned_animation);
+  if(combat->controller_present){s.controller_locked=1;call(s,c,controller_lock,1);}
+  call(s,c,cancel_sneaking);if(s.body_present)call(s,c,unpin);break;
+ case 10:
+  if(!combat)break;
+  s.flags=9025;call(s,c,set_animation,-1);
+  if((combat->machine_flags_44&0x8)&&s.body_present)call(s,c,set_death_filter,0,0x51c,3);
+  call(s,c,combat_machine_flags,0x20,
+       (combat->machine_flags_44&0x10)?0x20:0);
+  if(combat->controller_present){s.controller_locked=1;call(s,c,controller_lock,1);}
+  call(s,c,look_at,0,0,0,0,payload);call(s,c,cancel_sneaking);
+  if(s.body_present)call(s,c,unpin);
+  break;
+ case 11:
+  if(!combat)break;
+  s.flags=11073;call(s,c,set_animation,-1);call(s,c,cancel_sneaking);break;
  }
 }
-int transition(State& s,const Facts& f,int next,int event,std::uint64_t payload,const Services& c){
- const int prior=s.current;blur(s,f,c);s.current=next;if(prior!=next)s.elapsed_ms=0;
- focus(s,f,prior,payload,c);call(s,c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
+int transition(State& s,const Facts& f,int next,int event,std::uint64_t payload,const Services& c,const CombatFacts* combat=nullptr){
+ const int prior=s.current;
+ if(combat&&prior==11&&!combat->last_target_available)return -1;
+ blur(s,f,c,combat);s.current=next;if(prior!=next)s.elapsed_ms=0;
+ focus(s,f,prior,payload,c,combat);call(s,c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
  (void)event;return 1;
+}
+bool interrupted(const State& s,const CombatFacts& f,int target,bool& known){
+ known=true;
+ if(target==6)return (s.flags&1u)!=0;
+ if(target==10)return (f.machine_flags_44&0x20u)==0;
+ if(target==5){known=f.interrupted_byte_available!=0;return known&&f.interrupted_byte_441!=0;}
+ return true;
 }
 bool skill_id(int value){return (id(value)&&value!=2)||value==6;}
 int skill_transition(State& s,const Facts& f,
  dh2::character_skill_state_dispatch_v1::Projection& projection,
- int next,int event,std::uint64_t payload,const Services& c){
+ int next,int event,std::uint64_t payload,const Services& c,const CombatFacts* combat=nullptr){
  namespace skill=dh2::character_skill_state_dispatch_v1;
  const int prior=s.current;
+ if(combat&&prior==11&&!combat->last_target_available)return -1;
  if(prior==6){
   skill::Result callback{};
   if(skill::callback(&projection,dh2::character_skill_fsm_callbacks_v1::Callback::blur,
                      &callback)!=skill::Status::complete)return -1;
- }else blur(s,f,c);
+ }else blur(s,f,c,combat);
  s.current=next;if(prior!=next)s.elapsed_ms=0;
  if(next==6){
   skill::Result callback{};
   if(skill::callback(&projection,dh2::character_skill_fsm_callbacks_v1::Callback::focus,
                      &callback)!=skill::Status::complete)return -1;
- }else focus(s,f,prior,payload,c);
+ }else focus(s,f,prior,payload,c,combat);
  call(s,c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
  (void)event;return 1;
 }
@@ -199,6 +239,19 @@ extern "C" int dh2_character_state_transition(dh2::character::State* s,const dh2
     (next==2&&(s->current!=12||event!=0x2e)))return -1;
  return transition(*s,*f,next,event,payload,*c);
 }
+extern "C" int dh2_character_combat_state_transition(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::CombatFacts* combat,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,
+ const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_base(s,f,c)||!combat||combat->controller_present>1||
+    combat->interrupted_byte_441>1||combat->interrupted_byte_available>1||
+    combat->last_target_available>1||
+    (!id(s->current)&&!combat_id(s->current))||
+    (!id(next)&&!combat_id(next))||next==-1||
+    (next==2&&(s->current!=12||event!=0x2e)))return -1;
+ return transition(*s,*f,next,event,payload,*c,combat);
+}
 extern "C" int dh2_character_state_event(dh2::character::State* s,const dh2::character::Facts* f,
  std::uint32_t event,std::uint64_t payload,const dh2::character::Services* c){
  using namespace dh2::character;if(!valid(s,f,c))return -1;
@@ -235,6 +288,39 @@ extern "C" int dh2_character_state_event(dh2::character::State* s,const dh2::cha
          ((event==0xc352||event==0x22||event==0x23)&&s->current==3))next=3;
  return next<0?0:transition(*s,*f,next,std::int32_t(event),payload,*c);
 }
+extern "C" int dh2_character_combat_state_event(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::CombatFacts* combat,
+ std::uint32_t event,std::uint64_t payload,const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_base(s,f,c)||!combat||combat->controller_present>1||
+    combat->interrupted_byte_441>1||combat->interrupted_byte_available>1||
+    combat->last_target_available>1||
+    (!id(s->current)&&!combat_id(s->current)))return -1;
+ if(event>=0x2a&&event<=0x2c)s->attack_gate&=~(1u<<(event-0x2a));
+ if(s->current==10&&event==35){
+  call(*s,*c,knockback_impact_event,std::int32_t(payload));return 0;
+ }
+ if(s->current==10&&event==39){if(s->body_present)call(*s,*c,reset_filter);return 1;}
+ int next=-1;
+ if(s->current==8&&(event==44||event==34))next=3;
+ else if(event==63&&s->current==4)next=3;
+ else if(event==34&&(s->current==5||s->current==10||s->current==11))next=3;
+ else if(event==50008&&(s->current==3||s->current==4||s->current==5||
+         s->current==8||s->current==9||s->current==10||s->current==11))next=12;
+ else if(event==50010&&(s->current==3||s->current==4||s->current==5||
+         s->current==8||s->current==9||s->current==11))next=11;
+ else if(event==50011&&(s->current==3||s->current==4||s->current==5||
+         s->current==8||s->current==9||s->current==11)){
+  bool known=false;if(!interrupted(*s,*combat,10,known))return known?0:-1;next=10;
+ }
+ else if(event==50012&&(s->current==3||s->current==4||s->current==5||s->current==8)){
+  bool known=false;if(!interrupted(*s,*combat,9,known))return known?0:-1;next=9;
+ }
+ else if(event==50013&&(s->current==3||s->current==4||s->current==5)){
+  bool known=false;if(!interrupted(*s,*combat,8,known))return known?0:-1;next=8;
+ }
+ return next<0?0:transition(*s,*f,next,static_cast<std::int32_t>(event),payload,*c,combat);
+}
 extern "C" int dh2_character_state_update(dh2::character::State* s,const dh2::character::Facts* f,
  std::uint32_t dt,const dh2::character::Services* c){
  using namespace dh2::character;if(!valid(s,f,c))return -1;s->elapsed_ms+=dt;
@@ -247,6 +333,20 @@ extern "C" int dh2_character_state_update(dh2::character::State* s,const dh2::ch
  }else if(s->current==5){call(*s,*c,look_at,0,0,0,0,f->target);if(!(std::fabs(f->attack_speed-s->cached_speed)<0.0001f))speed(*s,*c,f->attack_speed);}
  return 1;
 }
+extern "C" int dh2_character_combat_state_update(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::CombatFacts* combat,
+ std::uint32_t dt,const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_base(s,f,c)||!combat||combat->controller_present>1||
+    combat->interrupted_byte_441>1||combat->interrupted_byte_available>1||
+    combat->last_target_available>1||!combat_id(s->current))return -1;
+ s->elapsed_ms+=dt;
+ if(s->current==8){if(!(combat->machine_flags_44&0x10u))call(*s,*c,stop_loop);}
+ else if(s->current==9&&!(combat->machine_flags_44&0x4u)){
+  s->idle_suppressed=0;return transition(*s,*f,3,0,0,*c,combat);
+ }
+ return 1;
+}
 extern "C" int dh2_character_skill_state_transition(dh2::character::State* s,
  const dh2::character::Facts* f,
  dh2::character_skill_state_dispatch_v1::Projection* projection,
@@ -257,9 +357,22 @@ extern "C" int dh2_character_skill_state_transition(dh2::character::State* s,
     !skill_id(s->current)||next==-1||!skill_id(next))return -1;
  // State 6's registered graph only connects to the selected states below.
  // Entry is selected from Move/Attack/Idle (3/4/5) by C355.
- if((next==6&&s->current!=3&&s->current!=4&&s->current!=5&&s->current!=6)||
+ if((next==6&&s->current!=3&&s->current!=4&&s->current!=5&&s->current!=6&&
+     !(s->current==11&&event==50005))||
     (s->current==6&&next!=3&&next!=4&&next!=5&&next!=6&&next!=12))return -1;
  return skill_transition(*s,*f,*projection,next,event,payload,*c);
+}
+extern "C" int dh2_character_combat_skill_state_transition(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::CombatFacts* combat,
+ dh2::character_skill_state_dispatch_v1::Projection* projection,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,
+ const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_base(s,f,c)||!combat||!projection||projection->machine!=s||
+    !combat_id(s->current)||event!=50005||s->current!=11||next!=6||
+    combat->controller_present>1||combat->interrupted_byte_441>1||
+    combat->interrupted_byte_available>1||combat->last_target_available>1)return -1;
+ return skill_transition(*s,*f,*projection,next,event,payload,*c,combat);
 }
 extern "C" int dh2_character_cast_state_transition(dh2::character::State* s,
  const dh2::character::Facts* f,

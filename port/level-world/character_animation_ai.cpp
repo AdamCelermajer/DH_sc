@@ -10,7 +10,7 @@ float floating(std::uint32_t u){float r;std::memcpy(&r,&u,4);return r;}
 std::int32_t signed_word(std::uint32_t u){std::int32_t r;std::memcpy(&r,&u,4);return r;}
 bool overlap(const void* a,std::size_t an,const void* b,std::size_t bn){auto x=reinterpret_cast<std::uintptr_t>(a),y=reinterpret_cast<std::uintptr_t>(b);return x<=y?y-x<an:x-y<bn;}
 bool valid(const AnimationAIState96* s,const AnimationAIServices16* c,std::uint32_t op){
- return s&&c&&!overlap(s,sizeof(*s),c,sizeof(*c))&&c->invoke&&op<=ai_skill_end&&s->owner&&s->controller&&!s->reserved0&&!s->reserved1&&
+ return s&&c&&!overlap(s,sizeof(*s),c,sizeof(*c))&&c->invoke&&op<=ai_skill_end&&s->owner&&s->controller&&!s->reserved0&&s->attack_last_79_available<=1&&
   s->seeking<=255&&s->target_sticky<=255&&s->attack_continued<=255&&s->attack_last<=255&&s->attack_finisher<=255&&
   s->skill_started<=255&&s->skill_stop_requested<=255&&s->owner_byte14a8>=-128&&s->owner_byte14a8<=127;
 }
@@ -38,10 +38,10 @@ struct Kernel {
   if(depth==0){s.attack_index=signed_word(step);event(0x1a,step);}
   else if(depth==1){
    if(step==0){
-    s.attack_last=1;call(ai_controller_look_at,0,s.controller,s.look_target);
+    s.attack_last=1;s.attack_last_79_available=1;call(ai_controller_look_at,0,s.controller,s.look_target);
     s.attack_finisher=0;call(ai_pre_attack_virtual,std::uint32_t(s.attack_index));
    }else{
-    const bool last=step==n-1;s.attack_last=last;
+    const bool last=step==n-1;s.attack_last=last;s.attack_last_79_available=1;
     call(ai_controller_look_at,0,s.controller,s.look_target);
     s.attack_finisher=last?1u:0u;
    }
