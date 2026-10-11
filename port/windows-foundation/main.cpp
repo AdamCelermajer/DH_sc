@@ -7247,6 +7247,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         // HUD font7 and frontend font5 both bind the original Fontin SmallCaps.ttf.
                         field.font_id=5;
                         field.source_height=item.height; field.rgba=item.rgba; field.align=item.align; field.margins={0,0,0}; field.leading=2;
+                        field.font_metrics={911.f,215.f,102.f}; // DefineFont3 font7 raw ascent/descent/leading divided by20
                         f::HudGlyphRun measured;
                         if(!targetFont.raster(item.text,int(item.height),2,measured,error))throw std::runtime_error("Travel text metrics: "+error);
                         const float fit=f::transitions::prompt_text_fit(item,measured.advance);
