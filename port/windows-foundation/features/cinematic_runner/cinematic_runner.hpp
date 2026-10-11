@@ -100,7 +100,9 @@ public:
     // Script commands.
     void enqueue(CaptionLine line);                // StartDialog
     bool waiting() const noexcept;                 // WaitDialog is blocking while a line is queued or shown
-    void flush() noexcept;                         // FlushMessages: drops queued and shown lines
+    void flush() noexcept;                         // abort/skip/exit: drops queued and shown lines
+    // B068: Script_FlushMessages = MenuMessageManager<DialogMsg>::FlushEnqueuedMessages (IDA 0x383ea8) pops the queued messages only; the one on screen stays.
+    void flush_enqueued() noexcept { queue_.clear(); }
 
     // Player tap (btn_next). Only a skippable line responds; returns true when the tap was used.
     // B068 (PC adaptation, requested): a tap during the hide animation ends it at once, so repeated clicks run through the lines.

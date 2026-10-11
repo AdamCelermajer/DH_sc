@@ -167,7 +167,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         return actor_verb(c, phase, module, blocking, e);
     };
     if (!p.flush_messages) p.flush_messages = [this](std::string&) {
-        cinematic_.flush(); // P16 CINE: FlushMessages drops the queued and shown caption lines
+        cinematic_.flush_enqueued(); // B068: FlushMessages drops the queued lines only (the EnterLocation title shown at the opening start stays, video t~76-79)
         return true;
     };
     if (!p.request_save) p.request_save = [this](std::string&) {

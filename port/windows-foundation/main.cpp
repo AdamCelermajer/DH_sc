@@ -5093,8 +5093,11 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         field.source_height=item.height; field.rgba=item.rgba; field.align=item.align; field.margins={2,2,0}; field.leading=0;
                         field.matrix={xScale,0,0,1,0,0};
                         const float left=(item.x+view.offset)*xScale; // FrontendText maps left*width/480 back to window pixels
-                        field.local_bounds={left,left+item.w*xScale,item.y,item.y+item.h};
-                        field.bounds=field.local_bounds;
+                        // B068: text layout works in field-local coordinates (see pc_gameplay_hud_v1 append_key_label): a global left shifts centred text
+                        // left by about half its origin (captions sat ~8% left of the plate centre, the video centres them).
+                        field.local_bounds={0,item.w,0,item.h};
+                        field.matrix={xScale,0,0,1,left,item.y};
+                        field.bounds={left,left+item.w*xScale,item.y,item.y+item.h};
                         field.initial_text=item.text;
                         cinArt.text_fields.push_back(field);
                         cinSignature+=':'+item.text;

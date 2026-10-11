@@ -34,6 +34,7 @@ void duration_policy() {
     check(!dialog_style_waits_for_tap(6) && !dialog_style_waits_for_tap(7) && !dialog_style_waits_for_tap(10) &&
           !dialog_style_waits_for_tap(19), "ScrollingDialogFull, TopBubble, Warning, QuestCompleted do not wait");
     check(dialog_style_waits_for_tap(99), "unknown style waits for a tap");
+    check(!dialog_style_waits_for_tap(3), "EnterLocationDialog title runs by itself (reference video)");
 }
 
 void tap_driven_queue() {

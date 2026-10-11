@@ -12,6 +12,8 @@ bool dialog_style_waits_for_tap(std::int32_t style) noexcept {
     // isSkipable is false for the frame labels ScrollingDialogFull (6), TopBubble (7), TopBubbleAvatarLeft (8),
     // TopBubbleAvatarRight (9), Warning (10) and QuestCompletedMsgDialog (19). Every other style is skippable.
     switch (style) {
+        case 3: // B068: EnterLocationDialog title ("The Boglands - Ancient Prison") leaves on its own in the reference video (t~76-79, nobody taps); the
+                // Flash isSkipable bit of this frame was not read, so this is video evidence only.
         case 6: case 7: case 8: case 9: case 10: case 19:
             return false;
         default:
@@ -168,8 +170,10 @@ TextItem text_from_slot(const hud_panels::HudPanelTextSlotV1& slot, std::string 
 
 Frame CinematicRunner::build_frame() const {
     Frame frame;
-    if (!active_) return frame;
-    if (skip_visible_) {
+    // B068: the dialog box is independent of the cutscene mode (the EnterLocation title is queued one frame before the opening cutscene starts and
+    // is on screen during its first seconds, video t~76-79); only the SKIP control belongs to the cutscene.
+    if (!active_ && phase_ == Phase::Idle) return frame;
+    if (skip_visible_ && active_) {
         frame.panels.push_back(&hud_panels::skip_batches_v1());
         for (const auto& slot : hud_panels::skip_texts_v1())
             frame.texts.push_back(text_from_slot(slot, hud_panels::kSkipLabelV1));
@@ -180,10 +184,10 @@ Frame CinematicRunner::build_frame() const {
         // exported art falls back to the ChestTuto variant that earlier builds used for every line.
         const hud_panels::DialogVariantV1* variant = nullptr;
         for (const auto& v : hud_panels::dialog_variants_v1())
-            if (shown_line_.style_label == v.label && !v.batches->empty()) variant = &v;
+            if (shown_line_.style_label == v.label) variant = &v; // B068: a variant without art (EnterLocationDialog) is text only, as in the video
         const std::vector<hud_panels::PcGameplayHudArtBatchV1>* batches = variant ? variant->batches : &hud_panels::caption_batches_v1();
         const std::vector<hud_panels::HudPanelTextSlotV1>* slots = variant ? variant->texts : &hud_panels::caption_texts_v1();
-        frame.panels.push_back(batches);
+        if (!batches->empty()) frame.panels.push_back(batches);
         for (const auto& slot : *slots) {
             if (std::string(slot.container) == "TextBox")
                 frame.texts.push_back(text_from_slot(slot, shown_line_.text));
