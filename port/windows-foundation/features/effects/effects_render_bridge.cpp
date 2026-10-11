@@ -3,6 +3,8 @@
 #include "../../../level-world/character_authored_particle_fx_v4.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
+#include <string>
 
 namespace dh::foundation::effects {
 namespace {
@@ -119,11 +121,14 @@ bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& outp
             return true;
         };
     }
+    // B101/B105 diagnostic: DH_FX_HIDE=mesh|particles drops one embedded part kind (isolation runs only).
+    static const std::string hide=std::getenv("DH_FX_HIDE")?std::getenv("DH_FX_HIDE"):"";
     for(const auto& item:embedded) {
         if(!item.resource)continue;
         const auto fx=reinterpret_cast<std::uintptr_t>(item.resource.get());
         std::vector<dh2::fx::CharacterParticleDrawSourceV3> embedded_particles;
         if(!item.resource->draw_sources_v3(embedded_particles,error))return false;
+        if(hide=="particles")embedded_particles.clear();
         for(const auto& source:embedded_particles) {
             if(!source.image||!source.resource_bytes||!source.scene||!source.source_texture_matrix68||
                !source.source_node_render_fields_ready||!source.part.geometry)
@@ -139,9 +144,10 @@ bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& outp
                 result->packets.push_back(std::move(packet));
             }
         }
-        if(const auto* composite=dynamic_cast<const dh2::fx::CharacterAuthoredCompositeFxResourceV4*>(item.resource.get())) {
+        if(const auto* composite=dynamic_cast<const dh2::fx::CharacterAuthoredCompositeFxResourceV4*>(item.resource.get()); item.include_meshes&&composite) {
             std::vector<dh2::fx::CharacterFxMeshDrawSourceV4> embedded_meshes;
             if(!composite->mesh_draw_sources_v4(embedded_meshes,error))return false;
+            if(hide=="mesh")embedded_meshes.clear();
             for(const auto& source:embedded_meshes) {
                 if(!source.image||!source.resource_bytes||!source.scene||!source.source_texture_matrix68)
                     return fail(error,"Required actual embedded mesh FX source provenance");

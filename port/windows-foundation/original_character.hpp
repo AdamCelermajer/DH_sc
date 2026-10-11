@@ -69,6 +69,10 @@ public:
     // B061: swap the drawn modular controllers (equipped parts) on the same Scene/skeleton.
     bool reselect_controllers(const AssetCatalog&,const std::vector<std::string>& controller_ids,std::string& error);
     bool update(double seconds, std::string& error);
+    // Source COLLADA billboard nodes use the actual render camera, on the same retained pose.
+    // Does not advance animation/root motion. Ordinary visuals without billboards are unchanged.
+    bool prepare_camera_billboards(const Mat4& actor_world, const Mat4& camera_view,
+                                   const Vec3& camera_eye, std::string& error);
     bool loaded() const;
     // Borrow the SAME retained scene; no second pose/clock. Invalidated by
     // load, move or destruction of this visual. Callers do not own this scene.

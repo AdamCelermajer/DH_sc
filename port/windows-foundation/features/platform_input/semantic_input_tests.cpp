@@ -85,6 +85,39 @@ int main() {try {
     pauseInput.key(0x1b,true);require(!pauseInput.take_frame().pause_pressed,"Held Escape retriggered pause");
     pauseInput.key(0x1b,false);pauseInput.set_menu_open(true);pauseInput.key(0x1b,true);
     const auto pauseBack=pauseInput.take_frame();require(pauseBack.menu_back&&!pauseBack.pause_pressed,"Modal Escape did not remain Back");
-    std::cout<<"semantic_input_tests PASS: edges, multi-source hold, touch capture, modal consumption, controller gates, focus/level cancel, authored hits, pause routing\n";
+    // The window and input survive a level load; only scene-specific captures
+    // and pending events are replaced. Cover both travel keys and other keys.
+    SemanticInput travelInput;travelInput.set_surface(surface());
+    travelInput.key('E',true);travelInput.key(0x20,true);travelInput.key('1',true);
+    travelInput.key('C',true);travelInput.key(0x1b,true);travelInput.key('D',true);
+    auto departure=travelInput.take_frame();
+    require(departure.actions.interact&&departure.attack.pressed&&departure.skills[0].pressed&&departure.profile_pressed&&departure.pause_pressed,"Departure press admission lost");
+    travelInput.pointer(7,PointerPhase::down,{150,0});
+    travelInput.pointer(8,PointerPhase::down,{250,0});travelInput.pointer(8,PointerPhase::up,{250,0});
+    travelInput.replace_session_surface(surface());
+    for(int code:std::array<int,6>{'E',0x20,'1','C',0x1b,'D'})travelInput.key(code,true);
+    auto arrival=travelInput.take_frame();
+    require(!arrival.actions.interact&&!arrival.attack.pressed&&!arrival.skills[0].pressed&&!arrival.profile_pressed&&!arrival.pause_pressed,"Held keyboard fabricated a press in replacement session");
+    require(arrival.attack.held&&arrival.skills[0].held&&arrival.actions.move2D.x==1,"Replacement session lost held keyboard levels");
+    require(travelInput.captured_pointers()==0,"Replacement session inherited stale pointer capture");
+    travelInput.pointer(7,PointerPhase::up,{150,0});
+    require(!travelInput.take_frame().attack.released,"Old pointer release affected replacement session");
+    for(int code:std::array<int,5>{'E',0x20,'1','C',0x1b})travelInput.key(code,false);
+    arrival=travelInput.take_frame();require(arrival.attack.released&&arrival.skills[0].released,"Keyboard release after arrival lost");
+    for(int code:std::array<int,5>{'E',0x20,'1','C',0x1b})travelInput.key(code,true);
+    arrival=travelInput.take_frame();
+    require(arrival.actions.interact&&arrival.attack.pressed&&arrival.skills[0].pressed&&arrival.profile_pressed&&arrival.pause_pressed,"Fresh keyboard press after arrival rejected");
+    travelInput.set_menu_open(true);travelInput.set_menu_open(false);
+    travelInput.replace_session_surface(surface());arrival=travelInput.take_frame();
+    require(!arrival.attack.held&&!arrival.skills[0].held&&arrival.actions.move2D.x==0,"Session replacement erased modal key suppression");
+    travelInput.key('E',true);require(!travelInput.take_frame().actions.interact,"Held modal travel key revived on arrival");
+    travelInput.key('E',false);travelInput.key('E',true);
+    require(travelInput.take_frame().actions.interact,"Modal travel key failed release/repress");
+    SemanticInput pendingInput;pendingInput.set_surface(surface());pendingInput.key('E',true);
+    pendingInput.replace_session_surface(surface());
+    require(!pendingInput.take_frame().actions.interact,"Pending departed-session travel edge replayed");
+    pendingInput.pointer(1,PointerPhase::down,{250,0});pendingInput.pointer(1,PointerPhase::up,{250,0});
+    require(pendingInput.take_frame().profile_pressed,"Replacement surface rejected a fresh pointer click");
+    std::cout<<"semantic_input_tests PASS: edges, multi-source hold, touch capture, modal consumption, controller gates, focus/level cancel, authored hits, pause routing, session replacement\n";
     return 0;
 }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;} }

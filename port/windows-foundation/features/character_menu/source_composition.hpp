@@ -19,6 +19,10 @@ struct SourcePageProviderV1 {
     std::function<bool(std::string&)> ready;
     std::function<bool(Frame&, std::string&)> append;
     std::function<bool(float authored_x, float authored_y, std::string&)> release;
+    // Discard this provider's subpages after an accepted tab selection, including
+    // reselecting the active tab (authored NativePopAllAbove + NativePushMenu).
+    // Optional for pages without subpages; must be nonthrowing and idempotent.
+    std::function<void()> leave;
 };
 
 inline bool dispatch_source_stat_training_v1(
@@ -259,7 +263,11 @@ public:
                 return false;
             }
         }
-        return presenter.select(tab, error);
+        const auto previous = index(presenter.tab());
+        if (!presenter.select(tab, error)) return false;
+        if (previous < state_->pages.size() && state_->pages[previous].leave)
+            state_->pages[previous].leave();
+        return true;
     }
 
     // Chain with any already registered root content callback. Each feature
@@ -300,6 +308,9 @@ public:
     // tabs directly and would bypass the preselection readiness gate.
     Action release(Presenter& presenter, float screen_x, float screen_y,
                    int width, int height, std::string& error) const {
+        // Close/Escape can retire the modal before another captured release is
+        // drained. A hit-test miss must not dispatch to that hidden page owner.
+        if (!presenter.is_open()) { error.clear(); return Action::none; }
         if (width <= 0 || height <= 0) {
             error = "Source menu release requires positive viewport dimensions";
             return Action::none;
@@ -331,6 +342,15 @@ public:
             // Map controls toggle presenter state only on the Map page (P16).
             presenter.map_control(action);
             error.clear();
+            return action;
+        case Action::stat_page_stats:
+        case Action::stat_page_defense:
+        case Action::stat_page_offense:
+        case Action::stat_page_magic:
+        case Action::stat_page_recovery:
+            // B111: CharacterSheetNew btn*Tab.on_clicked = NativePopMenu + NativePushMenu(menu_CharacterSheet<Page>)
+            // + NativePlaySoundFX("MenuSelect"). The caller plays the sound when the returned action is a page action.
+            if (!presenter.select_stat_page(stat_page_of(action), error)) return Action::none;
             return action;
         case Action::none: break;
         }

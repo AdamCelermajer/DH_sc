@@ -87,6 +87,12 @@ struct CampaignHostServices {
     std::function<bool(ActorId,std::int32_t state,std::string&)> set_actor_state;
     std::function<bool(ActorId,bool wait_for_animation,std::string&)> set_idle;
     std::function<bool(ActorId)> scripted_actor_pose;
+    // B091: source CSAnim Idle admission. Script_PlayActorAnim sets the un-scripted OnUpdate flag (+1345).
+    // CSAnim::OnUpdate (0x3c1a3c) can then call Idle when Character's scripted flag (+5248) clears, even before a clip ends.
+    // Completed clips remain pending while scripted; actual Unset also admits a current unfinished clip and cancels its follow.
+    // The owner decides
+    // which actors it applies to (gameplay actors); released=true drops the held cutscene pose.
+    std::function<bool(ActorId,bool& released,std::string&)> scripted_clip_finished;
     std::int32_t difficulty=0;           // source Normal
     bool tutorials_enabled=true;         // offline normal-difficulty tutorial policy
     // B070: the original keeps the 14 tutorial-enabled bytes in the GLOBAL settings file (SavegameManager +0x29,

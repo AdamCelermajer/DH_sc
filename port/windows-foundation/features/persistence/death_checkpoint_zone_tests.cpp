@@ -51,6 +51,56 @@ DeathCheckpointZoneContactV1 contact(){
     c.level_savegame_present=true;c.level_uri="data/scene/003_darkwood.mlx";c.zone_name="Checkpoint_A";
     c.zone_position={12,34,56};c.current_checkpoint_key={1,2,3};c.current_character_position={7,8,9};return c;
 }
+DeathCheckpointLevelSaveV1 level_request(const DeathCheckpointZoneContactV1& c){
+    DeathCheckpointLevelSaveV1 r;r.source_level_state=c.source_level_state;
+    r.local_character_present=c.local_character_present;r.local_character_is_dead=c.local_character_is_dead;
+    r.level_savegame_present=c.level_savegame_present;r.level_uri=c.level_uri;r.checkpoint_name="level_start";
+    r.checkpoint_key=c.zone_position;r.current_character_position=c.current_character_position;return r;
+}
+void test_initial_checkpoint_admission_and_completion(){
+    auto c=contact();c.contact_object_zonable=false;c.current_checkpoint_key=c.zone_position;
+    auto r=level_request(c);Trace t;DeathCheckpointZoneReceiptV1 receipt;std::string error;
+    check(run_death_checkpoint_zone_contact_v1(c,services(t),receipt,error)&&!receipt.complete&&
+          receipt.result==DeathCheckpointZoneResultV1::skipped_not_zonable&&t.calls.empty(),"zone alone rejects non-zonable player");
+    DeathCheckpointLevelStartStateV1 state;
+    check(run_death_checkpoint_level_start_v1(r,false,state,services(t),receipt,error)&&
+          state.complete&&receipt.complete&&receipt.result==DeathCheckpointZoneResultV1::saved&&t.calls.size()==4,
+          "initial Level producer saves regardless of zonability or equal zone key");
+    check(t.key==r.checkpoint_key&&t.revive==r.current_character_position,"ordinary initial revive uses current Character position");
+    t.calls.clear();
+    check(run_death_checkpoint_level_start_v1(r,false,state,services(t),receipt,error)&&
+          receipt.result==DeathCheckpointZoneResultV1::skipped_initial_complete&&!receipt.complete&&t.calls.empty(),
+          "completed initial producer has no duplicate effects or second saved receipt");
+    for(int gate=0;gate<4;++gate){
+        r=level_request(c);state={};
+        if(gate==0)r.source_level_state=33;
+        if(gate==1)r.local_character_present=false;
+        if(gate==2)r.local_character_is_dead=true;
+        if(gate==3)r.level_savegame_present=false;
+        check(run_death_checkpoint_level_start_v1(r,false,state,services(t),receipt,error)&&
+              !state.complete&&!receipt.complete&&receipt.result==DeathCheckpointZoneResultV1::skipped_level_or_character_gate&&t.calls.empty(),
+              "declined Level save is incomplete and has no provider effects");
+        r=level_request(c);
+        check(run_death_checkpoint_level_start_v1(r,false,state,services(t),receipt,error)&&state.complete&&receipt.complete,
+              "declined initial save retries when admission becomes ready");
+        t.calls.clear();
+    }
+    state={};r=level_request(c);
+    check(run_death_checkpoint_level_start_v1(r,true,state,services(t),receipt,error)&&state.complete&&!receipt.complete&&
+          receipt.result==DeathCheckpointZoneResultV1::skipped_existing_checkpoint&&t.calls.empty(),"valid existing checkpoint deliberately retained without saved receipt");
+    state={};r.arrival=true;
+    check(run_death_checkpoint_level_start_v1(r,true,state,services(t),receipt,error)&&state.complete&&receipt.complete&&
+          t.key==r.checkpoint_key&&t.revive==r.checkpoint_key,"arrival overrides existing checkpoint and revives at key");
+    for(const std::string failed:{"record","qest","capture","level-save"}){
+        t={};t.fail=failed;state={};r=level_request(c);
+        check(!run_death_checkpoint_level_start_v1(r,false,state,services(t),receipt,error)&&
+              !state.complete&&!receipt.complete&&receipt.result==DeathCheckpointZoneResultV1::failed&&!error.empty(),
+              "failed provider cannot complete initial obligation or claim saved receipt");
+        t.calls.clear();t.fail.clear();
+        check(run_death_checkpoint_level_start_v1(r,false,state,services(t),receipt,error)&&state.complete&&receipt.complete&&
+              t.calls==std::vector<std::string>{"record","qest","capture","level-save"},"failed initial provider retries complete source pipeline");
+    }
+}
 void test_source_character_restore_state_table(){
     std::string error;SourceCharacterRestorePlanV1 p;
     check(!source_character_restore_plan_v1(0,false,false,false,std::nullopt,false,p,error),
@@ -136,6 +186,6 @@ void test_checkpoint_zone_failures_stop_order(){
     }
 }
 }
-int main(){try{test_checkpoint_zone_source_gates_and_order();test_checkpoint_zone_failures_stop_order();test_source_character_restore_state_table();test_source_checkpoint_object_family_table();
-    std::cout<<"PASS: CheckpointZone IsZonable/local-player/key/Level+304/savegame/IsDead gates, exact positions, source save order and failure prefixes\n";
+int main(){try{test_initial_checkpoint_admission_and_completion();test_checkpoint_zone_source_gates_and_order();test_checkpoint_zone_failures_stop_order();test_source_character_restore_state_table();test_source_checkpoint_object_family_table();
+    std::cout<<"PASS: Level initial non-zonable/key admission, existing/arrival/completion/retry; CheckpointZone gates, exact positions, source save order and failure prefixes\n";
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return EXIT_FAILURE;}return EXIT_SUCCESS;}

@@ -169,6 +169,7 @@ bool RuntimeEquipmentPageV1::source_page_provider(
     provider.release = [self](float x, float y, std::string& message) {
         return self->release_for_source(x, y, message);
     };
+    provider.leave = [self]() noexcept { self->leave_page(); };
     output = std::move(provider);
     error.clear();
     return true;

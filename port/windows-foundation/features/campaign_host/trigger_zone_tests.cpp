@@ -3,6 +3,7 @@
 //   2. original-cache root with data/scene/001_swamp.mlx (Swamp declarations)
 //   3. Android assets root with data/scene/003_darkwood.mlx (second level, not Swamp)
 #include "trigger_zones.hpp"
+#include "../../authored_transform.hpp"
 #include <chrono>
 #include <cmath>
 #include <filesystem>
@@ -80,6 +81,11 @@ void helper_geometry() {
     check(point_inside(rotated, {-2033.31f + 90, 254.846f, 287.618f}) && !point_inside(rotated, {-2033.31f + 150, 254.846f, 287.618f}),
           "rotated zone is narrow along world X");
     check(near(rotated.min[1], 254.846f - 1229.57f, 0.1f) && near(rotated.max[0], -2033.31f + 100), "axis-aligned bounds of the rotated box");
+    // Arbitrary angle distinguishes source rotation from its inverse; +/-90
+    // symmetric boxes alone cannot catch B109's sign error.
+    const auto diagonal=oriented_zone_box(authored_transform({10,20,30},{0,0,35},{3,0.2f,1}));
+    check(point_inside(diagonal,{214.788f,163.394f,30}), "authored +35 long axis admits positive diagonal");
+    check(!point_inside(diagonal,{214.788f,-123.394f,30}), "inverse-angle point must be outside narrow trigger");
     std::array<float,3> v{};
     check(parse_vec3("1.5,-2,0", v) && near(v[1], -2), "vector parse");
     check(!parse_vec3("1,2", v) && !parse_vec3("1,2,3,4", v) && !parse_vec3("1,x,3", v), "malformed vector rejected");

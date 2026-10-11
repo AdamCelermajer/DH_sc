@@ -39,8 +39,8 @@ int main(int argc, char** argv) {
             const std::string_view input(argv[3]);
             const auto parsed = std::from_chars(input.data(), input.data() + input.size(), diagnostic_level);
             check(parsed.ec == std::errc{} && parsed.ptr == input.data() + input.size() &&
-                  (diagnostic_level == 3 || diagnostic_level == 6),
-                  "Optional diagnostic source level must be 3 or 6");
+                  (diagnostic_level == 2 || diagnostic_level == 3 || diagnostic_level == 6),
+                  "Optional diagnostic source level must be 2, 3 or 6");
         }
         AssetCatalog assets(repo / ".local-inputs/windows-source-clock-v19-preview-9/assets");
         std::string error;
@@ -75,9 +75,10 @@ int main(int argc, char** argv) {
         const auto& list = skills.lists()[static_cast<std::size_t>(list_id)];
         const auto ground_name = std::find_if(list.begin(), list.end(), [&](int row) {
             return row >= 0 && static_cast<std::size_t>(row) < skills.skill_names().size() &&
-                   skills.skill_names()[static_cast<std::size_t>(row)] == "GroundSlam";
+                   skills.skill_names()[static_cast<std::size_t>(row)] ==
+                       (diagnostic_level == 2 ? "Hardiness" : "GroundSlam");
         });
-        check(ground_name != list.end(), "Source Knight SkillList lacks GroundSlam");
+        check(ground_name != list.end(), "Source Knight SkillList lacks the requested training row");
         const auto position = static_cast<int>(ground_name - list.begin());
         const auto design_bytes = assets.read("original-cache/data/pydata/design_pycst.bin");
         std::unique_ptr<dh2_script_constants, decltype(&dh2_script_constants_destroy)> design(
@@ -221,7 +222,8 @@ int main(int argc, char** argv) {
                       << diagnostic_state.stats.max_resource << " SkillPoints="
                       << diagnostic_state.source_skill_points << " BashDown="
                       << diagnostic_state.skills[static_cast<std::size_t>(starter - state.skills.begin())].rank
-                      << " GroundSlam=" << diagnostic_state.skills[static_cast<std::size_t>(position)].rank
+                      << ' ' << diagnostic_state.skills[static_cast<std::size_t>(position)].id << '='
+                      << diagnostic_state.skills[static_cast<std::size_t>(position)].rank
                       << '\n';
         }
 
@@ -242,6 +244,31 @@ int main(int argc, char** argv) {
 
         const auto sheet_before_probe = session.world()->combat_properties(1)->sheets.resolved;
         const auto rng_before_probe = session.world()->random_state();
+        // B096: the source kernel receives class positions, not global table
+        // IDs. Compare every cell's admission to its actual SkillList row;
+        // differing required levels expose an accidental position/table alias.
+        for (std::size_t cell = 0; cell < list.size(); ++cell) {
+            for (unsigned rank : {0u, 1u, caps.max_skill_level[0]}) {
+                auto candidate = state;
+                candidate.skills[cell].rank = rank;
+                SkillProgressionV1 expected;
+                check(evaluate_skill_progression_v1(candidate, characters, skills, caps,
+                          static_cast<int>(cell), expected, error), error);
+                bool actual = false;
+                check(probe_skill_training_in_session_v1(candidate, session, properties, skills, caps,
+                          static_cast<int>(cell), actual, error), error);
+                std::cout << "B096 cell=" << cell << " table=" << list[cell]
+                          << " name=" << candidate.skills[cell].id << " level=" << candidate.stats.level
+                          << " required=" << expected.required_character_level << " rank=" << rank
+                          << " expected=" << expected.can_train << " actual=" << actual << '\n';
+                check(actual == expected.can_train,
+                      "Source IncSkill probe used a different required level than the class SkillList");
+                check(candidate.skills[cell].rank == rank &&
+                          candidate.source_skill_points == state.source_skill_points &&
+                          session.world()->combat_properties(1)->sheets.resolved == sheet_before_probe,
+                      "Cell admission probe mutated saved rank, points or source properties");
+            }
+        }
         bool accepted = false;
         check(probe_skill_training_in_session_v1(state, session, properties, skills, caps,
                   position, accepted, error), error);
