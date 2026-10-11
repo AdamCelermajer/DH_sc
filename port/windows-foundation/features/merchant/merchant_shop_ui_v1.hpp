@@ -41,6 +41,7 @@ public:
     bool confirmation_visible() const noexcept { return pending_.kind != Command::Kind::none; }
     void cancel_confirmation() noexcept { pending_ = {}; }
     void potion_status(std::uint32_t held, std::uint32_t capacity) { potions_ = held; potion_capacity_ = capacity; }
+    void update_properties(const ActorState& actor, const OriginalCombatProperties& properties) { actor_=actor;properties_=properties; }
     bool frame(int width, int height, character_menu::Frame& output, std::string& error) const;
 private:
     struct Pane;

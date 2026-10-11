@@ -30,7 +30,7 @@ std::int32_t item_value(const dh2::data::Item& item) noexcept;
 // (int)(percent/100.0f * value), at least 1 (both Buy and Sell natives).
 std::int32_t trade_price(std::int32_t value, std::int32_t percent) noexcept;
 
-// AddLoot for every Merchandise row with the session loot RNG; every selected item is stocked (give-all).
+// AddLoot for every Merchandise row with the session loot RNG; inventory+45 is false (weighted item selection).
 using WithLootRandom = std::function<bool(const std::function<bool(dh2::data::LootRandom8V2&, std::string&)>&, std::string&)>;
 bool roll_stock(const MerchantRow& row, const dh2::data::LootTablesV2::Borrow& tables,
                 const dh2::data::LootPowerResourcesV7::Borrow& powers, const dh2::data::LootEntryServicesV8& entry,
@@ -64,11 +64,8 @@ public:
     // Transfers one unit of the stock item to `player` and debits gold.
     TradeResult buy(const std::string& stock_instance, CharacterState& player, const dh2::data::ItemTable&,
                     const TradeRules&, std::int32_t& price);
-    // Transfers one unit of an UNEQUIPPED player item to the shop (buyback) and credits gold.
+    // Transfers one unit; moving a whole instance clears both equipment sets as TransferItemTo does.
     TradeResult sell(const std::string& player_instance, CharacterState& player, const dh2::data::ItemTable&, std::int32_t& price);
-    // Portable per-player persistence adaptation. Atomic replacement of optional component chunks.
-    bool save(CharacterState& player, const std::string& key, const dh2::data::ItemTable&, std::string& error) const;
-    bool load(const CharacterState& player, const std::string& key, const dh2::data::ItemTable&, std::string& error);
 private:
     MerchantRow row_;
     CharacterState stock_;

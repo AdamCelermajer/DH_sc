@@ -56,7 +56,7 @@ bool roll_stock(const MerchantRow& row, const dh2::data::LootTablesV2::Borrow& t
             if (!table.select(loot, entries, e)) return false;
             dh2::data::LootItemSelectionV8 selection(tables, rng, entry);
             std::vector<dh2::data::LootItemInfoV8> items;
-            if (!selection.expand(entries, true, items, e)) return false;
+            if (!selection.expand(entries, false, items, e)) return false;
             for (const auto& i : items) if (i.item) next.emplace_back(std::int32_t(i.id), std::uint32_t(i.quantity ? i.quantity : 1));
             return true;
         };
@@ -121,7 +121,6 @@ TradeResult Shop::sell(const std::string& id, CharacterState& player, const dh2:
     price = 0;
     const auto it = std::find_if(player.inventory.begin(), player.inventory.end(), [&](const auto& i) { return i.instance_id == id; });
     if (it == player.inventory.end()) return TradeResult::not_found;
-    if (std::any_of(player.equipment.begin(), player.equipment.end(), [&](const auto& b) { return b.item_instance_id == id; })) return TradeResult::equipped;
     const auto* item = dh2::data::item(items, dh2::data::item_id(items, it->definition_id));
     if (!item) return TradeResult::not_found;
     price = sell_price(id, player, items);
@@ -131,49 +130,11 @@ TradeResult Shop::sell(const std::string& id, CharacterState& player, const dh2:
     if (mine != stock_.inventory.end()) mine->quantity += 1;
     else { const auto sid = new_id(stock_.inventory, player.inventory, "shop-", def, counter_); stock_.inventory.push_back({sid, def, 1}); buyback_.push_back(sid); }
     player.gold += std::uint64_t(price);
-    if (it->quantity > 1) it->quantity -= 1; else player.inventory.erase(it);
+    if (it->quantity > 1) it->quantity -= 1;
+    else {
+        player.equipment.erase(std::remove_if(player.equipment.begin(),player.equipment.end(),[&](const auto& b){return b.item_instance_id==id;}),player.equipment.end());
+        player.inventory.erase(it);
+    }
     return TradeResult::ok;
-}
-bool Shop::save(CharacterState& player, const std::string& key, const dh2::data::ItemTable& items, std::string& error) const {
-    std::vector<std::uint8_t> bytes;
-    const auto word = [&](std::uint32_t n) { for(int i=0;i<4;++i)bytes.push_back(std::uint8_t(n>>(8*i))); };
-    word(1);word(counter_);word(stocked_);word(std::uint32_t(stock_.inventory.size()));
-    for(const auto& item:stock_.inventory) {
-        word(std::uint32_t(dh2::data::item_id(items,item.definition_id)));word(item.quantity);word(is_buyback(item.instance_id));
-        word(std::uint32_t(item.instance_id.size()));bytes.insert(bytes.end(),item.instance_id.begin(),item.instance_id.end());
-    }
-    auto next=player.components;const auto prefix="dh2.merchant.v1/"+key+"/";
-    next.erase(std::remove_if(next.begin(),next.end(),[&](const auto& c){return c.id.compare(0,prefix.size(),prefix)==0;}),next.end());
-    for(std::size_t at=0,part=0;at<bytes.size();at+=character_component_bytes_limit,++part) {
-        const auto end=std::min(bytes.size(),at+character_component_bytes_limit);
-        next.push_back({prefix+std::to_string(part),{bytes.begin()+at,bytes.begin()+end}});
-    }
-    if(next.size()>character_component_limit){error="Merchant save component capacity exceeded";return false;}
-    player.components=std::move(next);error.clear();return true;
-}
-bool Shop::load(const CharacterState& player, const std::string& key, const dh2::data::ItemTable& items, std::string& error) {
-    const auto prefix="dh2.merchant.v1/"+key+"/";std::vector<std::uint8_t> bytes;
-    std::size_t found=0;for(const auto& c:player.components)if(c.id.compare(0,prefix.size(),prefix)==0)++found;
-    if(!found){error.clear();return true;}
-    for(std::size_t part=0;part<found;++part) {
-        const auto at=std::find_if(player.components.begin(),player.components.end(),[&](const auto& c){return c.id==prefix+std::to_string(part);});
-        if(at==player.components.end()){error="Merchant save has missing chunk";return false;}
-        bytes.insert(bytes.end(),at->bytes.begin(),at->bytes.end());
-    }
-    try {
-        Tail t{bytes.data(),bytes.size(),0};if(t.word()!=1)throw std::runtime_error("Merchant save version");
-        auto counter=t.word();auto stocked=t.word();auto count=t.count();CharacterState next;std::vector<std::string> flags;
-        for(std::uint32_t i=0;i<count;++i) {
-            const auto id=t.integer();const auto q=t.word();const auto flag=t.word();const auto n=t.count();
-            if(id<0||std::size_t(id)>=items.identifiers.size()||!q||n>character_text_limit||n>bytes.size()-t.at||flag>1)
-                throw std::runtime_error("Invalid merchant save item");
-            std::string instance(reinterpret_cast<const char*>(bytes.data()+t.at),n);t.at+=n;
-            if(instance.empty()||std::any_of(next.inventory.begin(),next.inventory.end(),[&](const auto& item){return item.instance_id==instance;}))
-                throw std::runtime_error("Duplicate merchant save item");
-            next.inventory.push_back({instance,items.identifiers[std::size_t(id)],q});if(flag)flags.push_back(instance);
-        }
-        if(t.at!=bytes.size())throw std::runtime_error("Trailing merchant save bytes");
-        stock_=std::move(next);buyback_=std::move(flags);counter_=counter;stocked_=stocked!=0;error.clear();return true;
-    } catch(const std::exception& e){error=e.what();return false;}
 }
 }

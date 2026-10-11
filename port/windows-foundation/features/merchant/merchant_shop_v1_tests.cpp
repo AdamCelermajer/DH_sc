@@ -1,6 +1,7 @@
-#include "merchant_shop_v1.hpp"
+#include "merchant_shop_ui_v1.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <algorithm>
 
 using namespace dh::foundation;
 using namespace dh::foundation::merchant;
@@ -68,11 +69,11 @@ int main() {
     // Sell: Buy multiplier 40% of value; the item becomes a buyback entry charged at the same multiplier.
     const auto sword_id = player.inventory[0].instance_id;
     player.equipment.push_back({"slot1", sword_id, 0, 1});
-    CHECK(shop.sell(sword_id, player, items, price) == TradeResult::equipped && player.inventory.size() == 2);
-    player.equipment.clear();
+    player.equipment.push_back({"slot1", sword_id, 1, 1}); // TransferItemTo clears both sets.
     const auto gold = player.gold;
     CHECK(shop.sell(sword_id, player, items, price) == TradeResult::ok && price == 20 && player.gold == gold + 20);
-    CHECK(player.inventory.size() == 1);
+    CHECK(player.inventory.size() == 1 && player.equipment.empty());
+    CHECK(shop.sell(sword_id, player, items, price) == TradeResult::not_found && player.gold == gold+20); // duplicate stale release
     std::string buyback;
     for (const auto& i : shop.inventory().inventory) if (shop.is_buyback(i.instance_id)) buyback = i.instance_id;
     CHECK(!buyback.empty() && shop.buy_price(buyback, items) == 20);
@@ -83,6 +84,35 @@ int main() {
     const auto before = player.inventory[pi].quantity;
     CHECK(shop.sell(player.inventory[pi].instance_id, player, items, price) == TradeResult::ok && price == 1);
     CHECK(player.inventory[pi].quantity == before - 1);
+    {
+        Shop stock({40,120,{}});stock.add_stock(items,{{0,1}});CharacterState fullBag;fullBag.gold=1000;
+        for(unsigned i=0;i<100;++i)fullBag.inventory.push_back({"full"+std::to_string(i),"Helm",1});
+        const auto id=stock.inventory().inventory[0].instance_id;
+        CHECK(stock.buy(id,fullBag,items,{},price)==TradeResult::inventory_full&&fullBag.gold==1000&&stock.inventory().inventory.size()==1);
+        fullBag.inventory.clear();CHECK(stock.buy(id,fullBag,items,{},price)==TradeResult::ok);
+        const auto paid=fullBag.gold;CHECK(stock.buy(id,fullBag,items,{},price)==TradeResult::not_found&&fullBag.gold==paid);
+        stock.add_stock(items,{{0,1}});CHECK(stock.inventory().inventory.size()==1); // source EMPTY-only restock gate
+    }
+    {
+        Shop stock({40,120,{}});stock.add_stock(items,{{0,1}});CharacterState owned;owned.gold=1000;
+        ActorState actor;OriginalCombatProperties props;OriginalPropertyDatabase db;std::string e;
+        inventory::DetailBindings bindings;
+        bindings.symbol=[](const std::string& s,std::string& out,std::string& e){out=s;e.clear();return true;};
+        bindings.item_name=[](const InventoryItem& i,const auto&,std::string& out,std::string& e){out=i.definition_id;e.clear();return true;};
+        equipment_menu::Options options;options.item_name=bindings.item_name;
+        ShopUi ui(owned,stock,items,actor,props,db,options,bindings);CHECK(ui.open(e));
+        CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::none&&ui.confirmation_visible());
+        CHECK(ui.release(340,190,e).kind==ShopUi::Command::Kind::none&&!ui.confirmation_visible()); // cancel
+        CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::none);
+        const auto cmd=ui.release(180,190,e);CHECK(cmd.kind==ShopUi::Command::Kind::buy&&!cmd.instance_id.empty());
+        CHECK(ui.release(180,190,e).kind==ShopUi::Command::Kind::none); // duplicate YES cannot trade again
+        ui.show_error(TradeResult::insufficient_gold);CHECK(ui.error_visible());
+        CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::none&&!ui.error_visible()&&!ui.confirmation_visible());
+        character_menu::Frame frame;CHECK(ui.frame(960,640,frame,e));
+        CHECK(std::any_of(frame.text.begin(),frame.text.end(),[](const auto& t){return t.field.path.find("/player_gold/")!=std::string::npos&&t.value=="1000";}));
+        CHECK(ui.release(410,15,e).kind==ShopUi::Command::Kind::none&&ui.mode()==ShopUi::Mode::sell);
+        CHECK(ui.release(20,20,e).kind==ShopUi::Command::Kind::close);
+    }
     if (failures) { std::cerr << failures << " failures\n"; return 1; }
     std::cout << "merchant_shop_v1_tests passed\n";
     return 0;

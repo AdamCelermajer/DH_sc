@@ -31,7 +31,7 @@ bool inside(const std::vector<float>& pairs, float x, float y) {
 bool merchant_hides(const std::string& role) {
     static const char* const hidden[] = {
         "menu_InventorySheetDetails/btn_Drop/", "menu_InventorySheetDetails/btn_GAMEPLAYMENUS_TRANSMUTE2/",
-        "menu_InventorySheetDetails/btn_AutoEquip/"};
+        "menu_InventorySheetDetails/btn_AutoEquip/", "menu_InventorySheetDetails/237/", "menu_InventorySheetDetails/category_title/"};
     return std::any_of(std::begin(hidden), std::end(hidden), [&](const char* h) { return starts(role, h); });
 }
 void append(character_menu::Frame& f, const character_menu::MenuArt& art, const std::function<bool(const std::string&, std::string&)>& value) {
@@ -126,6 +126,8 @@ bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::st
         for(const auto& t:owned.text)if(upper(t.field.path))f.text.push_back(t);
     }
     for(auto& t:f.text)if(t.field.path.find("/player_gold/")!=std::string::npos)t.value=std::to_string(player_.gold);
+    std::vector<HudGeometryBatch> value_icon;
+    for(const auto& b:f.art.batches)if(b.role.find("/b056b_value_icon")!=std::string::npos)value_icon.push_back(b);
     f.art.batches.erase(std::remove_if(f.art.batches.begin(), f.art.batches.end(), [](const auto& b) { return merchant_hides(b.role); }), f.art.batches.end());
     f.text.erase(std::remove_if(f.text.begin(), f.text.end(), [](const auto& t) { return merchant_hides(t.field.path); }), f.text.end());
     f.solids.erase(std::remove_if(f.solids.begin(), f.solids.end(), [](const auto& s) { return merchant_hides(s.geometry.role); }), f.solids.end());
@@ -134,16 +136,17 @@ bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::st
     const auto symbol = [&](const char* name, std::string& out) { return bindings_.symbol && bindings_.symbol(name, out, sell_error); };
     const auto value = [&](const std::string& path, std::string& out) -> bool {
         if (path.find("/MENU_title/") != std::string::npos) return symbol("GAMEPLAYMENUS_MERCHANT_TITLE", out);
+        if(path.find("/category_title/")!=std::string::npos)return bindings_.symbol("GAMEPLAYMENUS_CATEGORY_"+std::to_string(slot_),out,sell_error);
         if (path.find("/btn_Buy/") != std::string::npos) return symbol("GAMEPLAYMENUS_BUY", out);
         if (path.find("/btn_Sell/") != std::string::npos) return symbol("GAMEPLAYMENUS_SELL", out);
-        if (path.find("/ButtonName/") != std::string::npos) return symbol(buy ? "GAMEPLAYMENUS_BUY" : "GAMEPLAYMENUS_SELL", out);
-        if (path.find("/ValueText/") != std::string::npos) return symbol("MENU_VALUE_TITLE", out);
-        if (path.find("/ValueBox/") != std::string::npos) { const auto p = selected_price(); if (p > 0) out = std::to_string(p); return true; }
         if(path.find("/btn_BuyPotions/")!=std::string::npos){
             if(path.find("/ButtonName/")!=std::string::npos)return symbol("GAMEPLAYMENUS_BUY_MAXIMUM",out);
             if(path.find("/ValueText/")!=std::string::npos)return symbol("GAMEPLAYMENUS_YOUR_POTIONS",out);
             if(path.find("/ValueBox/")!=std::string::npos){out=std::to_string(potions_)+" / "+std::to_string(potion_capacity_);return true;}
         }
+        if (path.find("/ButtonName/") != std::string::npos) return symbol(buy ? "GAMEPLAYMENUS_BUY" : "GAMEPLAYMENUS_SELL", out);
+        if (path.find("/ValueText/") != std::string::npos) return symbol("MENU_VALUE_TITLE", out);
+        if (path.find("/ValueBox/") != std::string::npos) { const auto p = selected_price(); if (p > 0) out = std::to_string(p); return true; }
         if (path.find("/confirm_msg/") != std::string::npos) {
             const char* name = error_ == TradeResult::insufficient_gold ? "GAMEPLAYMENUS_TRANSACTION_INSUFFICIENT_GOLD"
                              : error_ == TradeResult::inventory_full ? "GAMEPLAYMENUS_SHOP_INVENTORY_FULL" : "GAMEPLAYMENUS_SHOP_POTION_FULL";
@@ -152,10 +155,12 @@ bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::st
         return false;
     };
     append(f, art.title, value);
+    append(f, art.category, value);
     append(f, buy ? art.tab_buy_on : art.tab_buy_idle, value);
     append(f, buy ? art.tab_sell_idle : art.tab_sell_on, value);
     std::string e2;
     append(f, selected_instance(e2).empty() ? art.action_disabled : art.action_idle, value);
+    f.art.batches.insert(f.art.batches.end(),value_icon.begin(),value_icon.end());
     append(f, art.back, value);
     if(buy&&slot_==9)append(f,art.potions,value);
     if (error_visible()) append(f, art.error, value);

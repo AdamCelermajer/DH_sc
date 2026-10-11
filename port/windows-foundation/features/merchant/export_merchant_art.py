@@ -35,8 +35,9 @@ def export(name,child_name,sprite=None,frame=None):
     if saved is not None:sprites[sprite]=saved
     block(name,art,tx,first);return p,m
 export('title_art','MENU_title')
-export('tab_buy_idle','btn_Buy',227,0);export('tab_buy_on','btn_Buy',227,2)
-export('tab_sell_idle','btn_Sell',227,0);export('tab_sell_on','btn_Sell',227,2)
+export('tab_buy_idle','btn_Buy',227,0);export('tab_buy_on','btn_Buy',227,6)
+export('tab_sell_idle','btn_Sell',227,0);export('tab_sell_on','btn_Sell',227,6)
+export('category_art','category_title')
 export('action_idle','btn_Action',202,0);export('action_disabled','btn_Action',202,labels[202]['disabled'])
 export('potions_idle','btn_BuyPotions',215,0)
 export('back_art','btn_Back',223,0)
@@ -68,7 +69,7 @@ def hit_back():
     x0,x1,y0,y1=min(xs),max(xs),min(ys),max(ys)
     return 'std::vector<float>'+numbers([x0,y0,x1,y0,x1,y1,x0,y0,x1,y1,x0,y1])
 lines.append('const MerchantArt& merchant_art(){static const MerchantArt art{title_art,tab_buy_idle,tab_buy_on,tab_sell_idle,tab_sell_on,action_idle,action_disabled,potions_idle,back_art,error_art,')
-lines.append('{{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}},confirm_art,{{'+','.join(confirm_hits)+'}}};return art;}')
+lines.append('{{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}},confirm_art,category_art,{{'+','.join(confirm_hits)+'}}};return art;}')
 lines.append('}')
 (here.parent/'merchant_art.cpp').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 print('ok',len(lines))
