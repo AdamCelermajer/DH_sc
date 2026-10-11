@@ -38,6 +38,7 @@ public:
     // Source CameraTarget transitions bypass damping while retaining velocity.
     bool update_anchor(CameraVec3 anchor,std::uint32_t dtMilliseconds,bool applyDamping,std::string& error);
     const CameraPose& pose() const noexcept;
+    bool rig_position(CameraVec3&,std::string& error) const;
     const OriginalCameraConfig& config() const noexcept;
     CameraMovementBasis movementBasis() const;
     float authoredDistance() const noexcept;

@@ -1897,7 +1897,7 @@ int main(int argc,char** argv) {
         hostServices.all_actors=[&](std::vector<f::ActorId>& out,std::string& e){if(!combatSession){e="Campaign host needs the live combat session";return false;}out.clear();for(const auto& entry:combatSession->world()->actors())out.push_back(entry.first);return true;};
         // P16 OPENING: a population-only actor has no combat state: it is not alive for the source Idle gate (a no-op).
         hostServices.actor_state=[&](f::ActorId id,bool& alive,std::int32_t& state,std::string& e){const auto* actor=combatSession?combatSession->actor(id):nullptr;if(!actor){alive=false;state=-1;return true;}alive=actor->alive();state=combatSession->original_actor_state(id);return true;};
-        hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){return combatSession&&combatSession->set_actor_original_state(id,state,e);};
+        hostServices.set_actor_state=[&](f::ActorId id,std::int32_t state,std::string& e){return combatSession&&(state==3?combatSession->script_put_idle(id,e):combatSession->set_actor_original_state(id,state,e));};
         // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
         // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
         // transform is the owner: column-major translation at 12..14, heading in the 2x2 block).
@@ -2021,6 +2021,9 @@ int main(int argc,char** argv) {
             return sceneDecor.play(object,clip,found,e); // P16 OPENING4: PlayAnimByName on an instantiated scene object
         };
         f::campaign_host::CampaignHost campaignHost(hostServices);
+        const auto cinematicCameraPose=[&](){f::CameraVec3 rig{};
+            if(!originalCamera.rig_position(rig,error))throw std::runtime_error("Cinematic camera rig: "+error);
+            return campaignHost.source_camera_pose(originalCamera.pose(),rig);};
         bool globalControllerBlocked=false;
         std::function<bool(f::ActorId,std::string&)> stopActorHook; // B068: Script_StopActor (Cmd_Stop) for enemy AI walkers; set when the enemy navigation is bound
         std::map<f::ActorId,bool> characterControllerBlocked;
@@ -3454,7 +3457,7 @@ int main(int argc,char** argv) {
             if(!f::inventory::source_bare_item_descriptors(item,itemTable,dropTextOwner->services(),descriptors,e))return false;
             dropNameCache[item.definition_id]=descriptors.name;out=descriptors.name;e.clear();return true;
         };
-        sourceEffectsCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
+        sourceEffectsCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
         f::platform_input::SemanticInput semanticInput;
         std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false,enterHeld=false,cinematicInputWasLocked=false,cinematicSpaceHeld=false;
@@ -4741,7 +4744,7 @@ int main(int argc,char** argv) {
                     dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::input);
                     bool minimalRandoms=false;std::string audioError;
                     const bool settingsKnown=!sourceScopes||sourceScopes->debug_switch("MP_MinimalRandoms",minimalRandoms,audioError);
-                    auto listenerCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
+                    auto listenerCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
                     if(settingsKnown)audioClock=runtimeAudio->before_update(listenerCamera,window.focused(),window.minimized(),minimalRandoms,std::uint64_t(drawn),audioError);
                     // P15 FAERYSOUND (B050): submit this frame's queued Faery cast sounds on the same device clock (nullptr drops them, logged).
                     if(runtimeAudio){std::string faeryAudioError;if(!runtimeAudio->flush_faery_pre_sounds(audioClock,faeryAudioError)&&!faeryAudioError.empty())std::cerr<<"Faery cast sound diagnostic: "<<faeryAudioError<<'\n';}
@@ -5006,7 +5009,7 @@ int main(int argc,char** argv) {
             }
             if(playerSourceBox&&!f::OriginalActorBounds::update_absolute(*playerSourceBox,options.actorPosition,error))throw std::runtime_error("Source body absolute bounds: "+error);
             if(options.sourceNativeBodies&&!sourcePhysicalFrameEnabled)for(const auto& entry:sourceBodyPlans){auto* actor=combatSession->actor(entry.first);if(!nativeBodies.set_position(entry.first,actor->transform.position,false,error))throw std::runtime_error("Native body position sync: "+error);}
-            auto activeCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
+            auto activeCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
             if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=campaignHost.camera_near_override()>0?campaignHost.camera_near_override():originalCamera.config().nearPlane;activeCamera.farPlane=campaignHost.camera_far_override()>0?campaignHost.camera_far_override():originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
             sourceEffectsCamera=activeCamera;
@@ -5099,6 +5102,11 @@ int main(int argc,char** argv) {
                     // turn as the session actors above, otherwise its absolute clip root lies in the wrong frame.
                     const float sx=std::hypot(placement[0],placement[1]),sy=std::hypot(placement[4],placement[5]);
                     const float yaw=std::atan2(placement[1],placement[0])+1.5707963f;placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
+                }
+                if(campaignHost.scripted_clip_pose(actor.definition.stableId)&&std::find(options.captureFrames.begin(),options.captureFrames.end(),drawn+1)!=options.captureFrames.end()){
+                    std::array<float,3> low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
+                    for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}
+                    std::cout<<"Capture scripted actor frame="<<(drawn+1)<<" name="<<actor.definition.name<<" position="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" scale="<<std::hypot(placement[0],placement[1])<<','<<std::hypot(placement[4],placement[5])<<','<<placement[10]<<" bounds="<<low[0]<<','<<low[1]<<','<<low[2]<<".."<<high[0]<<','<<high[1]<<','<<high[2]<<'\n';
                 }
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
             }
@@ -5644,6 +5652,9 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                 const auto path=options.capture.parent_path()/("f"+std::to_string(frame)+".ppm");
                 capture(path,window.width(),window.height());
                 std::cout<<"Captured frame="<<frame<<" path="<<path.generic_string()<<'\n';
+                if(options.sourceCamera){f::CameraVec3 rig{};if(!originalCamera.rig_position(rig,error))throw std::runtime_error(error);
+                    const auto clip=campaignHost.source_camera_pose(originalCamera.pose(),{});
+                    std::cout<<"Capture camera frame="<<frame<<" target="<<sourceCameraTargets.target()<<" rig="<<rig.x<<','<<rig.y<<','<<rig.z<<" clipEye="<<clip.position.x<<','<<clip.position.y<<','<<clip.position.z<<" clipTarget="<<clip.target.x<<','<<clip.target.y<<','<<clip.target.z<<'\n';}
             }
             window.swap();dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::swap_present);
             if(options.frames&&drawn>=options.frames) break;

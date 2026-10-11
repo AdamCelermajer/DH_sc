@@ -2102,9 +2102,25 @@ bool CombatSession::script_move_handoff(ActorId id,std::string& error){
     if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="Script move requires source program departure";return false;}
     if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;
     s.combat->interrupt(id);entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
-    entry.stateManaged=false;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};
+    entry.lifecycleOriginalState.reset();entry.stateManaged=false;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};
     entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
     return true;
+}
+bool CombatSession::script_put_idle(ActorId id,std::string& error){
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Script Idle actor unavailable";return false;}
+    auto& s=*impl_;auto& entry=s.entries.at(id);auto* actor=s.world->find_actor(id);
+    if(!actor->alive())return true;
+    CombatRuntimeTransition receipt{id,s.live_original_state(id),3,0,CombatRuntimeTransitionCause::source_program};
+    if(!s.actor_transition(id,receipt,error))return false;
+    {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
+        if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;s.combat->interrupt(id);}
+    entry.lifecycleOriginalState.reset();entry.stateManaged=false;entry.stateSequence=false;entry.stateFrozen=false;
+    entry.stateServices={};entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
+    auto binding=s.retained_binding(entry);if(!binding.select(entry.idle,true,error))return false;
+    reset_actor_action(*actor,CharacterAction::idle);
+    if(!s.facts(id,error))return false;
+    receipt.stage=CombatRuntimeTransitionStage::after_change;
+    return s.actor_transition(id,receipt,error);
 }
 bool CombatSession::select_actor_state_leaf(ActorId id,const CombatSessionChoice& choice,double actor_rate,bool frozen,
     CombatSessionStateAnimationServices services,std::string& error,std::int32_t lifecycle_to_state){
@@ -2137,12 +2153,17 @@ bool CombatSession::play_actor_clip(ActorId id,const std::string& clip,const std
     if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="Actor clip requires accepted source departure";return false;}
     // P16 OPENING: the scripted clip replaces the current pose; the source repeats a single-leaf clip forever for loop
     // and completes once otherwise (RetainedSequencePlayback::seed_sequence repeat policy).
-    s.runtime->interrupt(id);s.combat->interrupt(id);
+    CombatRuntimeTransition receipt{id,s.live_original_state(id),14,0,CombatRuntimeTransitionCause::source_program};
+    if(!s.actor_transition(id,receipt,error))return false;
+    {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
+        if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;s.combat->interrupt(id);}
     RetainedAnimationFrame frame;
     if(!entry.retained->seed_sequence(*s.assets,clip,path,1.0f,0,false,loop?-1:0,frame,error))return false;
     entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};entry.sourceAction=false;
     entry.sourceSelectedClip=clip;entry.locomotionSelected.clear();entry.sourceEvents.clear();
-    return true;
+    entry.lifecycleOriginalState=14;if(!s.facts(id,error))return false;
+    receipt.stage=CombatRuntimeTransitionStage::after_change;
+    return s.actor_transition(id,receipt,error);
 }
 bool CombatSession::actor_clip_duration_ms(ActorId id,const std::string& clip,std::int32_t& duration_ms,std::string& error)const{
     error.clear();

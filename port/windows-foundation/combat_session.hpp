@@ -445,6 +445,7 @@ public:
     bool script_kill_actor(ActorId,std::string& error);
     bool script_death_event(ActorId,std::string& error);
     bool script_move_handoff(ActorId,std::string& error);
+    bool script_put_idle(ActorId,std::string& error);
     // Same-world calculation -> basic health -> existing Injury/death runtime.
     // Repeated/stale occurrences return success with receipt.applied=false and
     // consume no RNG. Frame events include the receipt on the next update.
