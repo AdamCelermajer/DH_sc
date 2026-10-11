@@ -1,4 +1,4 @@
-# B112 â€” generic NPC green targeting report
+# B112 — generic NPC green targeting report
 
 **Ready for fresh read-only review and root integration verification.** User clarified the missing green circle only. The failure is reproduced and the existing B087/B100 implementations restore it in a private frozen executable at both tested aspects. No additional gameplay behavior is needed. Root owns combined production/package verification and keeps B112 open until then.
 
@@ -7,7 +7,7 @@
 User: "in npc in general we dont get the green targeting". Fresh owner: b112_npc_green_target; root owns integration/review. Private branch codex/b112 at389c8806; no behavior patch made yet.
 
 ### Visual evidence
-Inspected original P1 v1.0.3 local mp4 through extracted 2fps contact sheets `.local-inputs/v20.1/b112/video/npc-400-4075.png` and `merchant-580-5875.png`, plus existing404â€“411 sheet and585 merchant still. NPC sequence:404â€“404.5 hero leaves cage;405â€“406.5 Hungry Prisoner retains pale-blue ! and green ground circle; dialogue/removal begins approximately407s (independent reviewer correction, review-t406-407.png). Merchant sequence:580â€“582.5 green ring is already visible under distant merchant at upper-right while Bogwalker dialogue runs;583â€“585 remains through NEW QUEST banner;585.5 hero approaches merchant with money-bag and ring;586 onward shop opens. Directly observed persistence while distant: green circle is NOT proof of selected target. Input events are not visible.
+Inspected original P1 v1.0.3 local mp4 through extracted 2fps contact sheets `.local-inputs/v20.1/b112/video/npc-400-4075.png` and `merchant-580-5875.png`, plus existing404–411 sheet and585 merchant still. NPC sequence:404–404.5 hero leaves cage;405–406.5 Hungry Prisoner retains pale-blue ! and green ground circle; dialogue/removal begins approximately407s (independent reviewer correction, review-t406-407.png). Merchant sequence:580–582.5 green ring is already visible under distant merchant at upper-right while Bogwalker dialogue runs;583–585 remains through NEW QUEST banner;585.5 hero approaches merchant with money-bag and ring;586 onward shop opens. Directly observed persistence while distant: green circle is NOT proof of selected target. Input events are not visible.
 
 Inspected supplied shots8 and18. Shot8 Hungry Prisoner lacks ! and green circle. Shot18 merchant lacks bag and green circle. Both match missing status marker assets/path already investigated in B087/B100, not evidence for a separate friendly attack-target ring.
 
