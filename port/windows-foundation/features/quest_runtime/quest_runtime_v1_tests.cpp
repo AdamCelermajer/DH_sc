@@ -131,9 +131,14 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     std::string error;
     check(!h.runtime->accept_quest(std::int32_t(escape), error) && !error.empty(), "accept rejects non-Available");
 
+    // B088: a talk NPC is an object-of-interest candidate only while a TalkToNPC objective of it is registered
+    // (source Objective_TalkToNPC::Register / Unregister, Character+762): Moths 365 and Lizman 366 offer a quest.
+    check(h.runtime->talk_objective_registered(365) && h.runtime->talk_objective_registered(366), "Available accept NPCs are registered");
+    check(!h.runtime->talk_objective_registered(1) && !h.runtime->talk_objective_registered(-1), "an NPC without a talk objective is not registered");
     // Moths: TalkToNPC accept (oid 365/41) then 8 template-94 kills; 7 kills stay Active.
     check(h.runtime->accept_quest(std::int32_t(moths), error), error.c_str());
     check(h.state(moths) == QuestStateV1::active, "accepted Moths becomes Active");
+    check(!h.runtime->talk_objective_registered(365) && h.runtime->talk_objective_registered(366), "accepted Moths unregisters only its own NPC");
     const auto banners = h.runtime->take_banners();
     bool moths_new = false;
     for (const auto& b : banners) moths_new = moths_new || (b.kind == QuestBannerV1::Kind::new_quest && b.row == std::int32_t(moths));
@@ -174,6 +179,7 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     h.open();
     check(h.runtime->progress_of(std::int32_t(lizman))->objectives[0].quantity == 3, "Lizman counter reloads as 3");
     check(h.state(lizman) == QuestStateV1::active, "Lizman stays Active after reload");
+    check(!h.runtime->talk_objective_registered(366), "accepted Lizman no longer offers talk (the speech bubble must not persist)");
     h.kill_template(93);
     h.kill_template(93);
     check(h.state(lizman) == QuestStateV1::post_closed, "5 Lizman kills complete Lizman");

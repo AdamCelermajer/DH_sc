@@ -6538,6 +6538,7 @@ int main(int argc,char** argv) {
                             if(identity==questActorIdentity.end()||!questTalkOids.count(identity->second.first))continue;
                             f::InteractableEntryV1 entry;entry.id=placed.definition.stableId;entry.is_character=true;
                             entry.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};entry.radius=0.f;
+                            entry.eligible=questRuntime->talk_objective_registered(identity->second.first); // B088: source Objective_TalkToNPC::Register sets Character+762 (TargetList mask 0x40)
                             entry.provider.interaction_type=[](f::ActorId) -> int { return 3; }; // source Character::GetInteractionType: friendly NPC
                             std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable NPC: "+regError);
                         }
