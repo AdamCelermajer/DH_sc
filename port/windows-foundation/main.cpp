@@ -4059,14 +4059,17 @@ int main(int argc,char** argv) {
         // v20.1 SOUNDS (B099 NEW QUEST, B104 QUEST COMPLETED): the HUD dialog frame show handler (dqhud_droid.swf, QuestMsgDialog
         // frame: NativePlaySoundFX("QuestNew"); QuestCompletedMsgDialog frame: NativePlaySoundFX("QuestComplete")) runs when the
         // banner is shown. NativePlaySoundFX -> VoxSoundManager::PlayMenu(Arrays::Sounds id) (0x43ae10 -> 0x36bc34).
-        questBanners.on_shown=[&](bool completed) {
-            const char* cue=completed?"QuestComplete":"QuestNew";
+        const char* questCuePending=nullptr; // a cue whose device clock was not ready yet (banner shown at frame 0) retries per frame
+        const auto playQuestCue=[&](const char* cue) {
             if(!runtimeAudio) {std::cout<<"Quest banner sound "<<cue<<" status=no_audio_runtime frame="<<drawn<<"\n";return;}
             std::string soundError;
             const auto ordinal=runtimeAudio->play_named_ui_sound(cue,soundError);
+                     <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"
+";
             std::cout<<"Quest banner sound "<<cue<<" ordinal="<<ordinal<<" status="<<(ordinal<0?(soundError.empty()?"absent_in_sound_table":"failed"):"submitted")
-                     <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
+            questCuePending=(ordinal<0&&soundError.find("device clock")!=std::string::npos)?cue:nullptr;
         };
+        questBanners.on_shown=[&](bool completed){playQuestCue(completed?"QuestComplete":"QuestNew");};
         std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)
         bool questTalkHeld=false;                    // P16 QUESTUI: interact press edge for NPC talk
         std::shared_ptr<f::CharacterQuestProgressV1> questMenuProgress; // P16 QUESTUI: Quest Log page progress (CQPG view)
@@ -6603,6 +6606,7 @@ int main(int argc,char** argv) {
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
                 if(!gameplayPaused) raiseQuestZones(); // P16 QUESTUI: zone entries of this update
                 if(!gameplayPaused) questBanners.tick(float(dt)); // P16 QUESTUI: banner timing
+                if(questCuePending)playQuestCue(questCuePending);
                 // P16 QUESTUI: NPC talk on the interact press edge (--quest-talk-frame is a scripted press for tests).
                 // P16 SPACEBTN: NPC talk is the Space context button now (E no longer talks); this scripted press stays for tests.
                 const bool questTalkPressed=std::find(options.questTalkFrames.begin(),options.questTalkFrames.end(),int(drawn))!=options.questTalkFrames.end();
