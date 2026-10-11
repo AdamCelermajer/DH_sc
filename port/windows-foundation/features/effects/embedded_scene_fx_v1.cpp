@@ -26,16 +26,24 @@ bool embedded_clip_source_ms_v1(const CharacterVisual& visual, std::int32_t& sou
 
 bool EmbeddedSceneFxV1::attach(std::uint64_t key, const std::string& uri,
                                const std::shared_ptr<const std::vector<std::uint8_t>>& bytes,
-                               RuntimeEffectsFactoryV1& factory, std::string& reason) {
+                               RuntimeEffectsFactoryV1& factory, std::string& reason, bool include_meshes) {
     reason.clear();
     if (slots_.count(key)) return true;
+    if (!include_meshes) {
+        dh2::resources::BresView image{};
+        if (!bytes || dh2_bres_open(&image,bytes->data(),bytes->size()) != dh2::resources::BresError::ok ||
+            !dh2_bres_library_count(&image,dh2::resources::Library::emitter)) {
+            reason = "actor model has no embedded emitters";
+            return false;
+        }
+    }
     std::shared_ptr<dh2::fx::CharacterParticleFxResourceV2> resource;
     std::string error;
     if (!factory.create_embedded_fx(bytes, resource, error)) {
         reason = error.empty() ? "no authored FX resource" : error;
         return false;
     }
-    slots_[key] = Slot{std::move(resource), uri};
+    slots_[key] = Slot{std::move(resource), uri, false, include_meshes};
     return true;
 }
 
@@ -100,7 +108,7 @@ std::vector<EmbeddedFxSourceV1> EmbeddedSceneFxV1::sources() const {
     std::vector<EmbeddedFxSourceV1> result;
     result.reserve(slots_.size());
     for (const auto& entry : slots_)
-        if (entry.second.active) result.push_back(EmbeddedFxSourceV1{entry.second.resource, entry.second.uri});
+        if (entry.second.active) result.push_back(EmbeddedFxSourceV1{entry.second.resource, entry.second.uri, entry.second.include_meshes});
     return result;
 }
 

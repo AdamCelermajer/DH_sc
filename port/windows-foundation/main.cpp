@@ -6903,7 +6903,7 @@ int main(int argc,char** argv) {
                             std::vector<std::uint8_t> raw;
                             try{raw=assets.read(actor.modelPath);}catch(const std::exception&){raw.clear();}
                             std::string reason;
-                            if(!raw.empty()&&embeddedSceneFx.attach(key,actor.modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason))
+                            if(!raw.empty()&&embeddedSceneFx.attach(key,actor.modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
                                 std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<actor.modelPath<<'\n';
                             else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<actor.modelPath<<": "<<(raw.empty()?std::string("unreadable"):reason)<<'\n';
                         }
@@ -7051,7 +7051,6 @@ int main(int argc,char** argv) {
                     for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}
                     std::cout<<"Capture scripted actor frame="<<(drawn+1)<<" name="<<actor.definition.name<<" position="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" scale="<<std::hypot(placement[0],placement[1])<<','<<std::hypot(placement[4],placement[5])<<','<<placement[10]<<" bounds="<<low[0]<<','<<low[1]<<','<<low[2]<<".."<<high[0]<<','<<high[1]<<','<<high[2]<<'\n';
                 }
-                if(!embeddedFxOwnsVisual(embeddedActorKey(actor.definition.stableId)))
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
             }
             // P16 containers: visuals at the authored transform (closed or animated pose from ContainerRuntimeV1).

@@ -46,6 +46,7 @@ struct EffectRenderServices {
 struct EmbeddedFxSourceV1 {
     std::shared_ptr<dh2::fx::CharacterParticleFxResourceV2> resource;
     std::string uri;
+    bool include_meshes = true;
 };
 
 class EffectsRenderBridge {

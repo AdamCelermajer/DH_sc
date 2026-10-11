@@ -144,7 +144,7 @@ bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& outp
                 result->packets.push_back(std::move(packet));
             }
         }
-        if(const auto* composite=dynamic_cast<const dh2::fx::CharacterAuthoredCompositeFxResourceV4*>(item.resource.get())) {
+        if(const auto* composite=dynamic_cast<const dh2::fx::CharacterAuthoredCompositeFxResourceV4*>(item.resource.get()); item.include_meshes&&composite) {
             std::vector<dh2::fx::CharacterFxMeshDrawSourceV4> embedded_meshes;
             if(!composite->mesh_draw_sources_v4(embedded_meshes,error))return false;
             if(hide=="mesh")embedded_meshes.clear();
