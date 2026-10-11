@@ -157,3 +157,47 @@ require production wiring and runtime verification. The authentic launch movie
 has silent decoder and lifecycle checks; audibility remains unverified under
 the user's silent-test rule. Actual Door_Teleport light-effect capture and all
 final frozen package checks remain pending.
+
+## Subsequent diagnostic results
+
+Target-node lifetime fix `c853de9c` passed actual-model pose/reload/foreign-token
+tests and the combined normal Camp run (frozen EXE `5D88EA41…`, 1500 frames,
+exit 0, cinematic end 768). The next normal-bank eight-case batch on `6845E2EC…`
+also exited 0: opening played/SKIP/movement, Serpent, Captain, Witch arena and
+two WitchActivate contacts. Captain's source kill produced one reward/event
+and End34 with physical retirement. Serpent reached its final PutLimbus commands.
+These are intermediate runtime results, not frozen-release verification.
+Hero framing in Serpent/Witch still failed: stale player motor facing overwrote
+accepted scripted facing. Its source-backed publication fix is awaiting the
+focused visual recheck. NPC05 source condition versus reference visibility is
+still an explicit discrepancy; no blanket video/IDA match is claimed.
+
+The compiled-bank diagnostic close/real-zone pair on `6559D139…` both exited 0.
+At the authored teleport zone, opened BlueDoor suppressed `Door_Teleport`; the
+actual compiled `Intro_Witch` command 63 changed it to closing and the ordinary
+zone consumer started `Door_Teleport`. Both set132 commands dispatched and the
+player moved to authored waypoint `(5515.36,-12643.6,88.1133)`. Root inspected
+`i028-compiled-bank-replay-6559/close/f2.png`: localized brightness is visible,
+but the still does not establish effect identity or lifetime independently of
+lighting. This is diagnostic placement plus an original closure command, not
+proof of natural campaign traversal. Natural Intro_Witch closing at frame739
+was separately observed. Dense temporal FX and frozen verification remain open.
+
+Root's supplementary full-video black-screen search decoded all 39,947 P1 and
+27,482 P2 frames (silent output): only P1 opening 0–2.533333 seconds satisfied
+the 95%-black, at least 0.5-second threshold. Logs are under
+`.local-inputs/v20/death-video-scan/`. This finds no obvious opaque death-screen
+candidate after the logo, but is not proof of absence or an observed death-flow
+match. Exact source vtables establish the player OBJS callback is SetVisible,
+not SG_Load; checkpoint quests and player profile are separate. Raw caller
+assembly `0x396034–0x396044` passes false to CheckpointSave: the zone position is
+the checkpoint key, while the actual entering character position is its revive
+location. The source fade-from-black helper and selective checkpoint contracts
+are implemented; main wiring and true lethal-hit/save/world verification remain
+open.
+
+Asset preflight now includes the original Witch portal and explicit gate model/
+texture dependencies: 314 unique additions, all source/stage hashes matching.
+Scripted PlaySound/StopSound/regular ScriptSaveGame consumers are being wired
+from the B068 source audit; regular ScriptSaveGame is not checkpoint saving.
+No final package, acceptance, tracker resolution or push has occurred.
