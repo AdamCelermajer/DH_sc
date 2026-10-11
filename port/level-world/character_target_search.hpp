@@ -7,6 +7,7 @@ struct Object48 {
  std::uintptr_t identity;
  float position[3], target_position[3], rotation;
  std::int32_t character_word1310, character_word1314;
+ // Historical `visible` name represents source ObjectBase enabled byte +0x8a.
  std::uint8_t visible, zoned, in_zone, has_target_position;
 };
 struct Entry16 { Entry16* next; Object48* object; };

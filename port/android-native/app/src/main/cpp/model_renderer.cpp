@@ -10696,7 +10696,12 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
   object.rotation=actor->rotation_degrees[2]*0.01745329251994329577f;
   object.character_word1310=actor->properties.resolved[198];
   object.character_word1314=actor->properties.resolved[199];
-  object.visible=std::uint8_t(native_target_search_character_available(actor));
+  const auto* canonical=source_level_owner.object_manager().find_by_identity(actor->identity);
+  if(!canonical||canonical->source_handle!=actor->source_handle)return;
+  // TargetList::Search reads ObjectBase +0x8a, not drawing visibility +0x80
+  // (ARM LDRB at 0x4a3114). SpawnOwner retains that canonical enabled fact.
+  if(!actor->spawn_owner)return;
+  object.visible=std::uint8_t(actor->spawn_owner->source_enabled);
   object.zoned=0;object.in_zone=actor->in_zone_2f0;object.has_target_position=1;
   if(!state.by_identity.emplace(object.identity,i).second)return;
   auto& entry=state.entries[i];entry={&state.heads[record.room],&object};
