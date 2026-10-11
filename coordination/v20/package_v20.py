@@ -53,6 +53,13 @@ def main():
     for path in [args.exe, source / "README.txt"] + [p for p, _ in added]:
         if not path.is_file():
             raise FileNotFoundError(path)
+    unique = {}
+    for path, relative in added:
+        key = relative.lower()
+        if key in unique and sha(path) != sha(unique[key][0]):
+            raise ValueError("Conflicting asset sources: " + relative)
+        unique[key] = (path, relative)
+    added = list(unique.values())
     if any(p.name.lower() in {"gameplay.save", "character.save", "dh2_settings.tutorials"}
            or p.suffix.lower() == ".save" for p in source.rglob("*") if p.is_file()):
         raise ValueError("Base package contains user save data; do not copy")
@@ -62,6 +69,18 @@ def main():
         destination = target / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(path, destination)
+    for filename, flags in metadata.get("remove_arg_pairs", {}).items():
+        if filename not in ("startup.args", "swamp.args"):
+            raise ValueError("Only the shipped startup argument files may be edited")
+        path = target / filename
+        lines = path.read_text(encoding="utf-8-sig").splitlines()
+        for flag in flags:
+            while flag in lines:
+                index = lines.index(flag)
+                if index + 1 == len(lines) or lines[index + 1].startswith("--"):
+                    raise ValueError("Missing argument value for " + flag)
+                del lines[index:index + 2]
+        path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     executable_sha = sha(target / "dh-foundation.exe")
     receipt = {"version": "v20", "source_commit": metadata["source_commit"],
                "exe_sha256": executable_sha,

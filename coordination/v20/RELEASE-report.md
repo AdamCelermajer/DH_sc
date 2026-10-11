@@ -44,3 +44,24 @@ Investigation and assignments started. B068 completion, merges, build/tests,
 integrated runtime/visual verification, frozen package, independent verdict,
 tracker resolution and remote push are **pending**. No v20 acceptance is claimed.
 Red-door flame may be a known issue by the user's explicit release instruction.
+
+## Root intermediate review (not release verification)
+
+B068 logical step `a4f88744`: root inspected the code diff, runtime
+`fix068/audit-opening-before/f1500.png`, `audit-opening-rigid/f1500.png` and
+`fix068/v20audit/opening.jpg` reference sequence t85..142 s. The restored authored
+rigid mesh visibly adds the missing gold halo; source evidence is VisualObject
+constructor `0x472a0c`, with collider ancestry excluded. This supports that bounded
+change, not a claim of full cinematic fidelity. Root verified that unqualified
+trigger contact returns before modifying runtime edge state, and identified a
+remaining stale pre-tick position edge when a script teleports/unmarks the actor;
+the B068 owner is addressing it using current post-command actor facts and will
+test full played/SKIP openings plus genuine free-play re-entry.
+
+Integration investigation found inherited Swamp source-scope URI stays static
+through level transitions, and P17 tests had used external asset overlays.
+Integration owns current-level scope derivation and production tests; root will
+include finite required asset dependencies in the frozen package. Inherited
+`RENE_FOLLOW` forced condition remains under source investigation; deleting it
+without a source-backed producer would knowingly disable the requested follower
+fix. Any unresolved forced gate must be disclosed as a caveat.

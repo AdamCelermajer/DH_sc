@@ -213,6 +213,7 @@ These are implementation goals, not reported bugs. Component results are not pro
 | I021 | Complete transitions/checkpoints | Modern save route tests exist | Lead authored transition caller and source fields | Normal room transition and restore |
 | I022 | Complete tutorial/cinematic triggers | Source trigger slices exist | Same-world event caller and source timing | Authored Act 1 trigger order |
 | I023 | Complete Act 1 fidelity/playthrough | Feature receipts span systems | Root/lead versioned normal run with independent review | Creation→combat→menus→loot→quest→boss→save/reload |
+| I027 | Bind authored door collision into production movement | P17 door animation/state exists; canonical physical/filter/dead-end callbacks are unbound and collision_closed has no runtime consumer | v20 implementation owner `/root/v20_door_collision` in `DH_wt/v20doors`; integration `/root/v20_integration`; reviewers root + `/root/v20_evidence_review` | Source-backed closed-door blocked/open-door passage run with isolated save, transform logs and before/after frames; required before v20 door-playability claim |
 
 ## 4. USER ADDITIONS INBOX
 
