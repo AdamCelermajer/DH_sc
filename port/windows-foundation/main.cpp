@@ -1926,7 +1926,8 @@ int main(int argc,char** argv) {
                 return true;
             }
             if(auto* placed=populationActor(id)) {placed->transform[12]=position[0];placed->transform[13]=position[1];placed->transform[14]=position[2];return true;}
-            e="Scripted position: actor unavailable";return false;
+            // P16 FIX16: an authored actor with no live instance in this level state is a logged no-op (SetActorPosition).
+            std::cout<<"[campaign] SetActorPosition: actor "<<id<<" has no live instance; command is a no-op\n";e.clear();return true;
         };
         // LookActor: source Cmd_LookAt turns the actor toward the target; here the heading is set at once.
         hostServices.actor_verbs.face=[&](f::ActorId id,std::array<float,3> target,std::string& e){
@@ -1946,7 +1947,11 @@ int main(int argc,char** argv) {
         // ShowActor/HideActor: population activation (the draw and update gates honour it).
         hostServices.actor_verbs.set_visible=[&](f::ActorId id,bool visible,std::string& e){
             if(id==combatSession->player_id()) {std::cout<<"[campaign] Show/HideActor on the local player is not applied (no player visibility owner)\n";return true;}
-            return population.set_enabled(id,visible,e);
+            if(population.set_enabled(id,visible,e))return true;
+            // P16 FIX16: an authored actor with no live instance in this level state (a standalone script start, or not yet
+            // spawned) is a logged no-op for Show/HideActor; the cutscene continues. Other errors still fail.
+            if(e=="Population actor stable ID is unavailable") {std::cout<<"[campaign] Show/HideActor: actor "<<id<<" has no live instance; command is a no-op\n";e.clear();return true;}
+            return false;
         };
         hostServices.actor_verbs.put_limbus=[&](f::ActorId id,std::string& e){return actorLifecycle.put_limbus(id,e);};
         hostServices.actor_verbs.play_clip=[&](f::ActorId id,std::int32_t dictionary,std::int32_t& duration,std::string& e){

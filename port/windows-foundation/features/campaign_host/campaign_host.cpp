@@ -507,10 +507,14 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     }
     // P16 FIX16: Swamp script verbs with no owner in this host. Stubbed, counted once and non-blocking so the
     // cutscene or trigger script continues instead of aborting (IDA owners are outside the Swamp opening path).
+    case 13: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlaySound (no scripted sound owner bound: the cutscene sound is not played)"); return true;
     case 15: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayLevelMusic (resume level track not bound to the script host)"); return true;
     case 44: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub KillActor (no scripted kill owner bound)"); return true;
     case 63: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub RestartLevel (player death restart is owned by the death flow)"); return true;
     case 68: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub ShowTrophies (no trophy display owner)"); return true;
+    case 40: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub MoveActor (no scripted move owner bound: the actor stays in place)"); return true;
+    case 54: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub OpenDoor (no door owner bound; doors are not collidable in Preview 16)"); return true;
+    case 55: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub CloseDoor (no door owner bound; doors are not collidable in Preview 16)"); return true;
     default: e = "Unsupported original campaign actor verb kind " + std::to_string(c.kind); return false;
     }
 }
