@@ -49,5 +49,36 @@
       "sha256": "5D17D5987362BFF65B3F8D352CBBC43D30F94ABBAAF73D5C822D6ECAC8E2EB14"
     }
   ],
+  "observed_persistent_gate_candidate": {
+    "source_object": "_prim_BlueDoor",
+    "source_model": "Swamp_Door_Ruins_FIRE",
+    "authored_idle_sound": "sfx_magical_wall_loop",
+    "resolved_model_uri": "data/3D/GameObjects/go_swamp_door_ruins_fire.bdae",
+    "model_embedded_fx_node": "fx_doorfire",
+    "visual_match_status": "Candidate only: the supplied P1 frames show a sustained blue-white shaft/spill at the gate, while this authored model is attached by the runtime and contains an embedded fire node; pixel-to-node/color correspondence is not established.",
+    "original_dependencies": [
+      {
+        "uri": "data/3D/GameObjects/go_swamp_door_ruins_fire.bdae",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/gameobjects/go_swamp_door_ruins_fire.bdae",
+        "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/gameobjects/go_swamp_door_ruins_fire.bdae",
+        "bytes": 28968,
+        "sha256": "41176C47A5C6EC81D40D09F534195716FFBF65D09318E3A90C1E88B8A8E03500"
+      },
+      {
+        "uri": "data/3D/textures/fx_doorfire.tga",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/textures/fx_doorfire.tga",
+        "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/fx_doorfire.tga",
+        "bytes": 8252,
+        "sha256": "FB7D25F7566126E877A3C58AC2B01219F2CCB82E0DB23C972EA814365A78A37E"
+      },
+      {
+        "uri": "data/3D/textures/fx_smoke_03.tga",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/textures/fx_smoke_03.tga",
+        "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/fx_smoke_03.tga",
+        "bytes": 2108,
+        "sha256": "4575579F951123FE869E875D4E76CE45A6BF02CDF78A99A976F54FE815FE35F0"
+      }
+    ]
+  },
   "rendering": "Use the existing same-session CharacterMeshFxOwnerV4::play_set path; no custom geometry, map tint, glow, or substitute asset is authored by this feature."
 }

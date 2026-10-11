@@ -33,4 +33,20 @@ for row in manifest["required_original_files"]:
            hashlib.sha256((root / row["staged_path"]).read_bytes()).digest()
     print(f"PASS | exact source/stage asset {row['uri']} ({row['bytes']} bytes)")
 
+# The persistent BlueDoor model is a visual candidate, separate from set 132's
+# guaranteed dependency closure. Pin its original files without asserting a
+# pixel-to-node match with the v1.0.3 footage.
+gate = manifest["observed_persistent_gate_candidate"]
+assert gate["source_object"] == "_prim_BlueDoor"
+assert gate["resolved_model_uri"].endswith("go_swamp_door_ruins_fire.bdae")
+for row in gate["original_dependencies"]:
+    for key in ("source_path", "staged_path"):
+        path = root / row[key]
+        content = path.read_bytes()
+        assert len(content) == row["bytes"], f"size mismatch: {path}"
+        assert hashlib.sha256(content).hexdigest().upper() == row["sha256"], f"hash mismatch: {path}"
+    assert hashlib.sha256((root / row["source_path"]).read_bytes()).digest() == \
+           hashlib.sha256((root / row["staged_path"]).read_bytes()).digest()
+    print(f"PASS | exact source/stage gate candidate {row['uri']} ({row['bytes']} bytes)")
+
 print("PASS | set 132 projection matches the finite I028 asset manifest")
