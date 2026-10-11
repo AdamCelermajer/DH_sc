@@ -4000,7 +4000,9 @@ int faery_init_final_invoke(void* raw,
        owner->identity,0,request.argument0,nullptr,
        static_cast<std::int32_t>(request.argument1)};
    if(native_faery_placement_service(nullptr,query,&player)!=0||!player.identity) {
-    error="Character::InitFinal GetLocalPlayer source provider failed";return 1;
+    // No local Player yet: the original follow block is a no-op and
+    // Level::PlaceFaeryAndFollowers places the Faery afterwards.
+    reply.character_660=0;return 0;
    }
    dh2::character_faery_placement_v1::Reply character{};
    const dh2::character_faery_placement_v1::Request resolve{
@@ -4127,9 +4129,12 @@ bool run_authored_faery_init_final(NativeCryptRoomRuntime& runtime,
     owner.identity==0||owner.record->character.identity!=owner.identity||
     owner.record->game_object.identity!=owner.identity||
     owner.record->source_handle!=owner.source.source_handle||
-    runtime.manager.find_by_identity(owner.identity)!=&owner.record->game_object||
-    runtime.manager.find_by_source_handle(owner.source.source_handle)!=
-        &owner.record->game_object||!owner.record->init_post_complete()) {
+    // ObjectManager::Add stores its own row for the factory's GameObject;
+    // require that same row by identity and handle, not the factory copy.
+    !runtime.manager.find_by_identity(owner.identity)||
+    runtime.manager.find_by_identity(owner.identity)!=
+        runtime.manager.find_by_source_handle(owner.source.source_handle)||
+    !owner.record->init_post_complete()) {
   error="Faery InitFinal dispatch lost its exact same-Record manager and InitPost owners";
   return false;
  }
@@ -4697,6 +4702,9 @@ bool NativeCryptRoomRuntime::object_init_post_service_body(void* raw,GameObject&
    }
    row.deleted_state_82=0; // CheckSpawnProbability clears Delete's +0x82=2.
    if(row.live_fields.deleted_state_82)*row.live_fields.deleted_state_82=0;
+  } else {
+   // IDA 0x38bd64: an accepted roll stores the -2 "already resolved" cache.
+   row.spawn_probability_result_270=-2;
   }
  }
  return true;
