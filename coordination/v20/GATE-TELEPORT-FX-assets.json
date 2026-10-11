@@ -1,0 +1,53 @@
+{
+  "feature": "I028-authentic-scripted-teleport-fx",
+  "source_table": {
+    "projection": "port/game-data/reference/effects-tables/original-reader-projection.json",
+    "reader_address": "0x4bc504",
+    "set_index": 132,
+    "set_name": "fx_airtemple_teleportshockwave",
+    "step_count": 1,
+    "step": {
+      "dictionary_index": 56,
+      "uri": "data/3D/interface/fx_airtemple_teleportshockwave.bdae",
+      "OrientWithAnchor": 1,
+      "ScaleWithAnchor": 1,
+      "SelfIllum": 1,
+      "PlayTime": -1,
+      "Loop": 0,
+      "speed": 1.0,
+      "subobject": ""
+    },
+    "source_script": {
+      "script": "Door_Teleport",
+      "command": "Script_PlayEffect (kind 20)",
+      "object": "LocalPlayer",
+      "set": 132,
+      "offset": [0, 0, 0],
+      "calls": "twice, before and after SetActorPosition to _prim_Waypoint_doorport"
+    }
+  },
+  "required_original_files": [
+    {
+      "uri": "data/3D/interface/fx_airtemple_teleportshockwave.bdae",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/interface/fx_airtemple_teleportshockwave.bdae",
+      "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/interface/fx_airtemple_teleportshockwave.bdae",
+      "bytes": 23612,
+      "sha256": "245993C1BB2B15234D95741CC1C9AFADCB943A50C427BA47F375AC5093562FB8"
+    },
+    {
+      "uri": "data/3D/textures/atlas_fx_particles_002.tga",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/textures/atlas_fx_particles_002.tga",
+      "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/atlas_fx_particles_002.tga",
+      "bytes": 524348,
+      "sha256": "8A64E888F2D57F72143B07644EE29D91D5E4A1A46DB26D4E482B5F2F7BFABE18"
+    },
+    {
+      "uri": "data/3D/textures/fx_magic_lenz_flares_004.tga",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/textures/fx_magic_lenz_flares_004.tga",
+      "staged_path": ".local-inputs/v20/asset-stage/assets/data/3d/textures/fx_magic_lenz_flares_004.tga",
+      "bytes": 8252,
+      "sha256": "5D17D5987362BFF65B3F8D352CBBC43D30F94ABBAAF73D5C822D6ECAC8E2EB14"
+    }
+  ],
+  "rendering": "Use the existing same-session CharacterMeshFxOwnerV4::play_set path; no custom geometry, map tint, glow, or substitute asset is authored by this feature."
+}
