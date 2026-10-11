@@ -1,4 +1,4 @@
-# B112 — generic NPC green targeting report
+# B112 â€” generic NPC green targeting report
 
 **Ready for fresh read-only review and root integration verification.** User clarified the missing green circle only. The failure is reproduced and the existing B087/B100 implementations restore it in a private frozen executable at both tested aspects. No additional gameplay behavior is needed. Root owns combined production/package verification and keeps B112 open until then.
 
@@ -7,7 +7,7 @@
 User: "in npc in general we dont get the green targeting". Fresh owner: b112_npc_green_target; root owns integration/review. Private branch codex/b112 at389c8806; no behavior patch made yet.
 
 ### Visual evidence
-Inspected original P1 v1.0.3 local mp4 through extracted 2fps contact sheets `.local-inputs/v20.1/b112/video/npc-400-4075.png` and `merchant-580-5875.png`, plus existing404–411 sheet and585 merchant still. NPC sequence:404–404.5 hero leaves cage;405–406.5 Hungry Prisoner retains pale-blue ! and green ground circle; dialogue/removal begins approximately407s (independent reviewer correction, review-t406-407.png). Merchant sequence:580–582.5 green ring is already visible under distant merchant at upper-right while Bogwalker dialogue runs;583–585 remains through NEW QUEST banner;585.5 hero approaches merchant with money-bag and ring;586 onward shop opens. Directly observed persistence while distant: green circle is NOT proof of selected target. Input events are not visible.
+Inspected original P1 v1.0.3 local mp4 through extracted 2fps contact sheets `.local-inputs/v20.1/b112/video/npc-400-4075.png` and `merchant-580-5875.png`, plus existing404â€“411 sheet and585 merchant still. NPC sequence:404â€“404.5 hero leaves cage;405â€“406.5 Hungry Prisoner retains pale-blue ! and green ground circle; dialogue/removal begins approximately407s (independent reviewer correction, review-t406-407.png). Merchant sequence:580â€“582.5 green ring is already visible under distant merchant at upper-right while Bogwalker dialogue runs;583â€“585 remains through NEW QUEST banner;585.5 hero approaches merchant with money-bag and ring;586 onward shop opens. Directly observed persistence while distant: green circle is NOT proof of selected target. Input events are not visible.
 
 Inspected supplied shots8 and18. Shot8 Hungry Prisoner lacks ! and green circle. Shot18 merchant lacks bag and green circle. Both match missing status marker assets/path already investigated in B087/B100, not evidence for a separate friendly attack-target ring.
 
@@ -61,7 +61,7 @@ The reusable fixture generator `coordination/v20.1/b112_runtime_fixtures.py` sta
 
 Inspected before quest-near1280x720 frame260: prisoner visible with speech-bubble HUD, no ! or green ring. Inspected before merchant-near1280x720 frame260: standing merchant visible, sword HUD, no bag or green ring. These reproduce supplied shots8/18. Assets point at the same read-only B100 asset root for both comparisons, so missing rings are source-path omissions in acceptedv20, not absence of art in the comparison. Repeated Space300/550 offers no merchant action in acceptedv20.
 
-Additional original anchor consumer inspected: `AnimatedFX::Update`0x492f68 (pseudocode declaration line288795) removes its anchor for virtual+52 dead or anchor+129 disabled. Merchant update checks visible+138, not an invented selection gate. Existing renderer actor alive/enabled guards support that visible invariant; full disabled/dead production branch not yet exercised here.
+Additional original anchor consumer inspected: `AnimatedFX::Update`0x492f68 (pseudocode declaration line288795) removes its anchor for virtual+52 dead or anchor+129 disabled. Merchant update checks enabled+138 (raw SetEnable0x33ddc8); visible is +128 via SetVisible0x33dcf8. This corrects the earlier visibility interpretation using the actual setters. Existing renderer actor alive/enabled guards support that visible invariant; full disabled/dead production branch not yet exercised here.
 
 
 ## Required package content and root handoff
