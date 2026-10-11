@@ -53,7 +53,7 @@ Root cause: End's non-waiting Idle changed CombatSession only. The lifecycle rem
 
 - main.cpp `hostServices.set_idle`: a non-waiting lifecycle actor Idle goes through `actorLifecycle.put_idle` before the ordinary session selection, preserving Spawn.Blur/body admission.
 - Existing B091 `scripted_clip_finished`: apply to every registered gameplay actor with a still-held scripted pose, including held Idle; exclude animation-only props/companions, dead/Limbus/PreSpawn. Use the existing non-waiting Idle owner to clear all presentation/body suppression.
-- CampaignHost: keep already-running Character clip completions across SKIP/presentation restoration; explicit non-waiting Idle cancels that actor's obsolete completion. Chained clips finish before releasing gameplay.
+- CampaignHost: keep current Character clip entries across SKIP/presentation restoration; explicit non-waiting Idle cancels that actor's obsolete completion. While scripted, durations control waits/follow playback and a completed final clip remains pending. The current un-scripted/returnIdle1 predicate admits Idle on the next host update even before duration, cancelling its follow. This applies only to kind45's returnIdle1 entries, not Lua's returnIdle0 animations.
 - No actor name/map/profile list, engine-platform dependency, or gameplay HP rule added. B080 gameplay actor classification remains the existing data-driven admission dependency.
 
 ## Historical pre-review tests and frozen runtime verification (superseded for source gate)
@@ -76,11 +76,29 @@ Receipt recorded **2026-10-11 18:57:06 UTC** in `audit/receipt.json`, including 
 
 Captain capture frames180,300,600,700,800,900,1000,1100,1200,1300,1400,1500,1800 were inspected. Troll frames300,450,550,600,700,800,900,1000,1100,1200,1300,1400,1500 were inspected. Each run retains `job.args`, `run.log`, frame PPMs, contact `sheet.jpg`; summaries in `summary-final.json`/`summary-compare.json`. Initial troll stationary runs proved only lifecycle release or hits received; they are superseded by approach fixtures for combat claims. No unchanged passing long opening/moth scene was replayed.
 
+## Final reviewer repair verification
+
+Gameplay source **58510459**, frozen `audit/gate-final/frozen.exe` SHA256 **964133243B31BCC7B2E17F3B4A43B07D287F291F53AD6662718AC8CA99C680A2**, receipt **2026-10-11 19:23:52 UTC** at `audit/gate-final/receipt.json`. Earlier `audit/final.exe` and interim `audit/gate/frozen.exe` receipts remain preserved and are superseded for the scripted source gate. Build exit0. Relevant short captain/troll paths only were retested; no long opening or unchanged moth scene replay.
+
+Unit tests now cover completed clip retained for multiple scripted=true updates, Unset release once, duplicate Unset, chain and replacement, explicit skipped Idle cancellation, Kill/Limbus cancellation, Unset before final duration/follow, re-mark before update, and already-un-scripted kind45 admission on the next update. Both `campaign_host` and `original_actor_lifecycle` pass. Full recheck **167/168**, only known `session_skill_binding` fails (`ctest-recheck.txt`). First final ctest also had `schema_v4` fail with Windows save replacement error5; no source in that test/save code changed. Three focused retries and the full recheck pass; the first failure is retained in `ctest.txt`/`schema-retry.txt` and its environmental cause is not proven.
+
+Normal compiled-bank trigger fixtures, same private post-opening save and HP-duration fixture as above, silent/hidden: all five exit0/no timeout/no abort. All five show correct actor ring/plate, motion/hits both ways, legitimate death clip, body removal and later corpse disappearance. Captain dense frames177/201/230/252/296/301/302/330 plus gameplay/death frames600/800/900/1100/1300/1400/1500/1650/1800 were inspected; troll approach frames300-1500 as above were inspected. Final logs/args/PPMs/sheets are under `audit/gate-final/<run>/`.
+
+| Run | Source gate receipt | Damage lines (enemy hits) | Kill / body release / hidden frames |
+|---|---|---|---|
+| `captain-play` | deferred201/252 while scripted1; Unset301; **one** admitted Idle302, scripted0, released1 |23 (5)|1327 /1388 /1507|
+| `captain-skip` (80) | explicit non-waiting Idle cancels entry before Unset81; no obsolete automatic completion |26 (6)|1445 /1506 /1625|
+| `captain-late-skip` (230) | deferred201; skipped End/Idle cancels pending entry before Unset231 |29 (7)|1447 /1508 /1627|
+| `troll-play` | deferred196/294; authored MoveActor14 at309 cancels entry; Unset310; no early automatic Idle |10 (3)|897 /1037 /1156|
+| `troll-skip` (80) | authored move/Idle cancellation precedes Unset81 |10 (3)|897 /1037 /1156|
+
+The final captain32 still has unexpired duration at Unset301: release302 proves the source's current scripted predicate, rather than an animation-ended test. Repeated host updates do not produce another admission. Follow/cancel/failure negative branches are isolated unit evidence; exact B098 user save/shot remains unverified. No XP correctness claim because the private player-health fixture still produces the previously documented maximum-consistency diagnostic.
+
 ## Explicit match statements / limits
 
 **Matches video:** bounded post-captain and post-troll ring/plate, combat, legitimate death and disappearance. Scene action ordering matches the inspected captain captive-strike and troll walk/roar sequences. Exact visual lighting/FX/framing parity is outside this patch. Approximate captain corpse duration is consistent with483.5-486.5 footage.
 
-**Matches IDA:** non-skipped script animation eventually returns to gameplay Idle; skip keeps new animation commands as no-ops; explicit skipped Idle leaves Spawn through physical admission; dead/retired actors are not revived. The port's timer callback for held Idle is a minimal implementation of gameplay release, not a claim of identical original callback structure.
+**Matches IDA:** kind45 enables Character+1345 and automatic Idle is gated by the current scripted byte+5248=0, including an unfinished final nonblocking clip. Completed clips are retained while scripted; actual Unset permits release next update, cancelling a follow. Skip keeps new animation commands as no-ops; explicit skipped Idle leaves Spawn through physical admission; dead/retired actors are not revived. This is a minimal host implementation of the source predicates, not a claim of an identical original object graph/callback structure.
 
 **Not verified:** complete route from New Game through every scene; other user save/skip phases; continuous non-skipped B091 passivity; exact identity of B098 shot17. Witch/Serpent/Camp other skip paths were not replayed. Existing B080 moth/lizard evidence is reused; this establishes captain and TRUNGUS branches only. Original video v1.0.3 versus exported APK version differences remain possible. Audio unheard because runs are silent. B092/B098 user exact-case reproduction remains a separate caveat, although this actor's legitimate death and removal now work.
 
