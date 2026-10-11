@@ -4059,6 +4059,7 @@ int main(int argc,char** argv) {
         // v20.1 SOUNDS (B099 NEW QUEST, B104 QUEST COMPLETED): the HUD dialog frame show handler (dqhud_droid.swf, QuestMsgDialog
         // frame: NativePlaySoundFX("QuestNew"); QuestCompletedMsgDialog frame: NativePlaySoundFX("QuestComplete")) runs when the
         // banner is shown. NativePlaySoundFX -> VoxSoundManager::PlayMenu(Arrays::Sounds id) (0x43ae10 -> 0x36bc34).
+        int questCueTries=0;
         const char* questCuePending=nullptr; // a cue whose device clock was not ready yet (banner shown at frame 0) retries per frame
         const auto playQuestCue=[&](const char* cue) {
             if(!runtimeAudio) {std::cout<<"Quest banner sound "<<cue<<" status=no_audio_runtime frame="<<drawn<<"\n";return;}
@@ -4066,7 +4067,7 @@ int main(int argc,char** argv) {
             const auto ordinal=runtimeAudio->play_named_ui_sound(cue,soundError);
             std::cout<<"Quest banner sound "<<cue<<" ordinal="<<ordinal<<" status="<<(ordinal<0?(soundError.empty()?"absent_in_sound_table":"failed"):"submitted")
                      <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
-            questCuePending=(ordinal<0&&soundError.find("device clock")!=std::string::npos)?cue:nullptr;
+            questCuePending=(ordinal<0&&!soundError.empty()&&++questCueTries<300)?cue:nullptr; // audio output not ready yet (frame-0 bind banner): retry
         };
         questBanners.on_shown=[&](bool completed){playQuestCue(completed?"QuestComplete":"QuestNew");};
         std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)
