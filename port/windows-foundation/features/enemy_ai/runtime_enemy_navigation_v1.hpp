@@ -54,6 +54,8 @@ public:
     // It does not select locomotion or implement the source PF/physical Stop.
     bool release_route(CombatSession&, ActorId, std::string& error);
     bool stop(CombatSession&, ActorState&, std::string& error);
+    // B077: whether the cached route of this actor found a path (source HasPath for follower scripts).
+    bool route_found(ActorId id) const noexcept { const auto r = routes_.find(id); return r != routes_.end() && r->second.found; }
 
 private:
     struct ActorRoute {
