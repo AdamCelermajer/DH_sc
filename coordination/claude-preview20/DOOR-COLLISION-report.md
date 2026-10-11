@@ -35,4 +35,23 @@ Isolated tests were built with `p14_build.ps1 -Name v20doors -Jobs 4` after a pr
 
 Test artifact SHA-256: geometry test `1BBF87B786B7814182CC055DC02A431DB027C68CEB588432F93B3F142A02AE78`; motion test `92600B38109E711FF93D572B184524033CDFDF3855FB12510DC9DD89BE0B1E82`; temporary `libfoundation_doors.a` `1DFF59A28559D5E56F75F43361D20A1702E7D56C16F64E6B25647603AA79FBC9`. The actual frozen game executable still does not include these sources until integration registers them.
 
+Committed implementation files in `d4c251ac`:
+
+- `port/windows-foundation/features/doors/door_collision_geometry_v1.{hpp,cpp}`: same-scene source marker/fallback projection and padded absolute box.
+- `port/windows-foundation/features/doors/door_collision_geometry_v1_tests.cpp`: packaged marker/fallback assets and authored placement coverage.
+- `port/windows-foundation/features/doors/door_runtime_v1.{hpp,cpp}`: authored placement components and cached physical binding bounds.
+- `port/windows-foundation/features/doors/door_collision_v1_tests.cpp`: rounded-corner, `door_collision=false`, and absent-door movement cases.
+- `coordination/claude-preview20/DOOR-COLLISION-report.md` and `door-collision-integration-proposal.md`: evidence/results and exact main/CMake ownership boundary.
+
+Private test commands (temporary CMake source/test registration in this isolated worktree only; `CMakeLists.txt` was restored and is not committed):
+
+```powershell
+powershell -NoProfile -File C:/Users/adamc/Desktop/workspace/DH_wt/p14_build.ps1 -Name v20doors -Jobs 4
+$build='C:/Users/adamc/Desktop/workspace/DH_wt/build-v20doors'
+& "$build/door_collision_geometry_v1_tests.exe" 'C:/Users/adamc/Desktop/workspace/DH_wt/v20doors/.local-inputs/v20/asset-stage/assets'
+& "$build/door_collision_v1_tests.exe"
+```
+
+Result: build exit 0; all seven geometry cases printed `source ApplyMeshBox PASS` (four marker, three no-marker); motion printed `PASS: door physical reconciliation branches`.
+
 Integrated runtime verification is pending. The required shared root-motion hook, main/CMake registration, hidden `quiet_run.ps1` before/after movement test with isolated saves, and normal-path follower/actor control remain owned by the integration pass. See `door-collision-integration-proposal.md` for the exact ownership boundary and wiring contract.
