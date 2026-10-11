@@ -4329,7 +4329,7 @@ int main(int argc,char** argv) {
                 const auto ctxContainerRange=[&](std::size_t ci)->bool {
                     const auto& inst=containerRuntime.instance(ci);
                     f::InteractionRangeInputV1 in;
-                    in.owner_target_position=ctxOwner->source_target_position184?*ctxOwner->source_target_position184:ctxOwner->transform.position;
+                    in.owner_target_position=ctxOwner->transform.position; // GameObject::GetTargetPosition = +352 object position (the +388 cache is not maintained for the player)
                     in.interaction_spot={inst.transform[12],inst.transform[13],inst.transform[14]}; // no 'interaction_position' node in the chest scenes: GetTargetPosition
                     in.owner_melee_radius=combatSession->world()->melee_reach(combatSession->player_id());
                     in.target_radius=containerRuntime.interaction_radius(ci);
