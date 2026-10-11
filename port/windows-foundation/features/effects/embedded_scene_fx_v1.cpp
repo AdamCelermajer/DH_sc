@@ -56,7 +56,8 @@ void EmbeddedSceneFxV1::begin_frame() {
 }
 
 bool EmbeddedSceneFxV1::update(std::uint64_t key, std::int32_t source_ms, std::int32_t absolute_ms,
-                               std::int32_t dt_ms, const std::array<float, 16>& outer, std::string& error) {
+                               std::int32_t dt_ms, const std::array<float, 16>& outer, std::string& error,
+                               const dh2::scene::Scene* actor_pose) {
     error.clear();
     const auto found = slots_.find(key);
     if (found == slots_.end()) return true;
@@ -66,6 +67,7 @@ bool EmbeddedSceneFxV1::update(std::uint64_t key, std::int32_t source_ms, std::i
         return false;
     }
     if (!composite->sample_animation(source_ms, error)) return false;
+    if (actor_pose && !composite->source_actor_pose_v1(*actor_pose, error)) return false;
     dh2::math::Matrix4f placement{};
     std::memcpy(placement.m, outer.data(), sizeof(placement.m));
     if (!composite->source_scene_frame_v4(absolute_ms, dt_ms, placement, error)) return false;

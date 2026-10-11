@@ -2922,9 +2922,9 @@ int main(int argc,char** argv) {
         initializeSourceTargetNodes();
         f::effects::RuntimeEffectsRendererV1 sourceEffectsRenderer(renderer);
         f::effects::EmbeddedSceneFxV1 embeddedSceneFx; // P17 FIREWALL: scene-owned authored FX (doors)
+        f::effects::EmbeddedSceneFxV1 embeddedActorFx; // B105: separate actor identity domain, particles only
         const void* embeddedSceneFxOwner=nullptr;
-        std::set<std::uint64_t> embeddedActorTried; // B105: actor models already offered to the embedded-emitter system
-        const auto embeddedActorKey=[](std::uint64_t actorId){return actorId|(std::uint64_t(1)<<62);};
+        std::map<std::uint64_t,std::string> embeddedActorTried; // B105: current model offered for each actor
         dh2::data::EffectsTables sourceEffectsTables;
         std::unique_ptr<f::effects::RuntimeEffectsFactoryV1> sourceEffectsFactory;
         // P16 OPENING: scripted FX (PlayEffect/StopEffect) go through the source effects manager, the same owner as the level-up
@@ -2963,7 +2963,7 @@ int main(int argc,char** argv) {
             if(!sourceEffectsRenderer.finish_and_drain(e))throw std::runtime_error("FX queue drain: "+e);
             celestEffects.reset();
             if(sourceEffectsFactory)sourceEffectsFactory->clear_original_textures();
-            embeddedSceneFx.clear();embeddedSceneFxOwner=nullptr;embeddedActorTried.clear(); // P17 FIREWALL: resources die with their factory
+            embeddedSceneFx.clear();embeddedActorFx.clear();embeddedSceneFxOwner=nullptr;embeddedActorTried.clear(); // P17 FIREWALL: resources die with their factory
             sourceEffectsFactory.reset();
         };
         const auto bindSourceEffects=[&]() {
@@ -6819,6 +6819,14 @@ int main(int argc,char** argv) {
                 world[12]=position.x;world[13]=position.y;world[14]=position.z;
                 return world;
             };
+            // B105: prepare the same current pose before target, FX and draw consumers borrow it.
+            const auto actorDrawWorld=[&](const f::PopulationActor& actor) {
+                const auto& p=actor.transform;
+                const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
+                const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}:f::Vec3{p[12],p[13],p[14]};
+                const auto rotation=live?live->transform.rotation:std::array<float,3>{0,0,std::atan2(p[1],p[0])};
+                return sourceActorWorld(actor.definition.stableId,position,rotation,{std::hypot(p[0],p[1]),std::hypot(p[4],p[5]),p[10]});
+            };
             if(options.sourceTargetPosition) {
                 for(const auto& entry:combatSession->world()->actors()) {
                     auto* actor=combatSession->actor(entry.first);auto* graphics=actorVisual(entry.first);
@@ -6871,6 +6879,13 @@ int main(int argc,char** argv) {
             auto activeCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
             if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=campaignHost.camera_near_override()>0?campaignHost.camera_near_override():originalCamera.config().nearPlane;activeCamera.farPlane=campaignHost.camera_far_override()>0?campaignHost.camera_far_override():originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
+            const f::CameraPose billboardCamera{{activeCamera.eye.x,activeCamera.eye.y,activeCamera.eye.z},
+                {activeCamera.target.x,activeCamera.target.y,activeCamera.target.z},
+                {activeCamera.up.x,activeCamera.up.y,activeCamera.up.z},activeCamera.verticalFovDegrees};
+            const auto billboardView=f::sourceCameraViewMatrix(billboardCamera);
+            for(auto& actor:population.actors())if(actor.enabled)
+                if(!actor.visual.prepare_camera_billboards(actorDrawWorld(actor),billboardView,activeCamera.eye,error))
+                    throw std::runtime_error("Actor billboard: "+error);
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
                 std::string effectError;bool prepared=true;
@@ -6892,7 +6907,7 @@ int main(int argc,char** argv) {
                     for(const auto& view:leverRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->visual_file,view.visual,view.instance->transform);
                     for(const auto& view:decorRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->dae,view.visual,view.instance->transform);
                     if(embeddedSceneFxOwner!=sourceEffectsFactory.get()) {
-                        embeddedSceneFx.clear();embeddedActorTried.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
+                        embeddedSceneFx.clear();embeddedActorFx.clear();embeddedActorTried.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
                         for(const auto& item:embeddedVisuals) {
                             if(item.model->empty())continue;
                             std::vector<std::uint8_t> raw;
@@ -6903,31 +6918,6 @@ int main(int argc,char** argv) {
                                 std::cout<<"Embedded FX "<<*item.name<<" not attached: "<<reason<<'\n';
                             else std::cout<<"Embedded FX "<<*item.name<<" attached model="<<*item.model<<'\n';
                         }
-                    }
-                    // B105: model-embedded emitters of placed actors (faery glow, ...): offered once per actor, placed at the
-                    // same world matrix the actor mesh draw uses (reuses sourceActorWorld), stepped at the actor's clip time.
-                    std::deque<std::array<float,16>> embeddedActorPlacements;
-                    std::vector<std::string> embeddedActorNames;embeddedActorNames.reserve(population.actors().size());
-                    for(auto& actor:population.actors()) {
-                        if(!actor.enabled||actor.modelPath.empty())continue;
-                        const auto key=embeddedActorKey(actor.definition.stableId);
-                        if(embeddedActorTried.insert(key).second) {
-                            std::vector<std::uint8_t> raw;
-                            try{raw=assets.read(actor.modelPath);}catch(const std::exception&){raw.clear();}
-                            std::string reason;
-                            if(!raw.empty()&&embeddedSceneFx.attach(key,actor.modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
-                                std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<actor.modelPath<<'\n';
-                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<actor.modelPath<<": "<<(reason.empty()?std::string("unreadable"):reason)<<'\n';
-                        }
-                        if(!embeddedSceneFx.attached(key))continue;
-                        auto placement=actor.transform;
-                        const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
-                        const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}:f::Vec3{placement[12],placement[13],placement[14]};
-                        const std::array<float,3> rotation=live?live->transform.rotation:std::array<float,3>{0,0,std::atan2(placement[1],placement[0])};
-                        const f::Vec3 scale{std::hypot(placement[0],placement[1]),std::hypot(placement[4],placement[5]),placement[10]};
-                        embeddedActorPlacements.push_back(sourceActorWorld(actor.definition.stableId,position,rotation,scale));
-                        embeddedActorNames.push_back(actor.definition.name);
-                        addEmbeddedVisual(key,embeddedActorNames.back(),actor.modelPath,&actor.visual,embeddedActorPlacements.back());
                     }
                     // P17 FIREWALL: DH_PERF=1 prints the mean cost of the scene-owned FX block (update + list) every 120 frames.
                     static const bool embeddedPerf=std::getenv("DH_PERF")!=nullptr&&std::string(std::getenv("DH_PERF"))=="1";
@@ -6945,7 +6935,39 @@ int main(int argc,char** argv) {
                             std::cerr<<"Embedded FX "<<*item.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
                         }
                     }
-                    sourceEffectsFactory->set_embedded_sources(embeddedSceneFx.sources());
+                    // B105: keep skinned actor meshes on CharacterVisual. Embedded resources contribute only
+                    // particles, and use a separate ID domain because actor IDs are full-width content hashes.
+                    embeddedActorFx.begin_frame();
+                    for(auto& actor:population.actors()) {
+                        const auto* config=actor.visual.configuration();
+                        if(!actor.enabled||!config||config->model_path.empty())continue;
+                        const auto& modelPath=config->model_path;
+                        const auto key=actor.definition.stableId;
+                        const auto tried=embeddedActorTried.find(key);
+                        if(tried==embeddedActorTried.end()||tried->second!=modelPath) {
+                            embeddedActorFx.detach(key);
+                            embeddedActorTried[key]=modelPath;
+                            std::vector<std::uint8_t> raw;
+                            try{raw=assets.read(modelPath);}catch(const std::exception&){raw.clear();}
+                            const bool readable=!raw.empty();
+                            std::string reason;
+                            if(readable&&embeddedActorFx.attach(key,modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
+                                std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<modelPath<<'\n';
+                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<modelPath<<": "<<(!readable?std::string("unreadable"):reason)<<'\n';
+                        }
+                        if(!embeddedActorFx.attached(key))continue;
+                        std::int32_t sourceMs=0;
+                        if(!f::effects::embedded_clip_source_ms_v1(actor.visual,sourceMs))continue;
+                        const auto world=actorDrawWorld(actor);
+                        std::string embeddedError;
+                        if(!embeddedActorFx.update(key,sourceMs,sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,embeddedError,actor.visual.retained_scene_borrow())) {
+                            std::cerr<<"Embedded FX actor "<<actor.definition.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
+                        }
+                    }
+                    auto embeddedSources=embeddedSceneFx.sources();
+                    const auto actorSources=embeddedActorFx.sources();
+                    embeddedSources.insert(embeddedSources.end(),actorSources.begin(),actorSources.end());
+                    sourceEffectsFactory->set_embedded_sources(std::move(embeddedSources));
                     if(embeddedPerf){embeddedMs+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-embeddedT0).count();
                         if(++embeddedFrames==120){std::cout<<"DH_PERF embedded_fx_ms_avg="<<embeddedMs/embeddedFrames<<" attached="<<embeddedSceneFx.size()<<" frames="<<embeddedFrames<<'\n';embeddedMs=0;embeddedFrames=0;}}
                 }
@@ -7048,16 +7070,9 @@ int main(int argc,char** argv) {
                     } else queue.submit(mesh,world);
                 }
             }
-            for(const auto& actor:population.actors()) {
+            for(auto& actor:population.actors()) {
                 if(!actor.enabled)continue;
-                auto placement=actor.transform;
-                const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
-                const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}
-                                           :f::Vec3{placement[12],placement[13],placement[14]};
-                const std::array<float,3> rotation=live?live->transform.rotation
-                    :std::array<float,3>{0,0,std::atan2(placement[1],placement[0])};
-                const f::Vec3 scale{std::hypot(placement[0],placement[1]),std::hypot(placement[4],placement[5]),placement[10]};
-                placement=sourceActorWorld(actor.definition.stableId,position,rotation,scale);
+                const auto placement=actorDrawWorld(actor);
                 if(campaignHost.scripted_clip_pose(actor.definition.stableId)&&std::find(options.captureFrames.begin(),options.captureFrames.end(),drawn+1)!=options.captureFrames.end()){
                     std::array<float,3> low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
                     for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}

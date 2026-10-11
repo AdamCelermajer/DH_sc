@@ -50,7 +50,8 @@ public:
     void begin_frame();
     // Advances one attached resource: authored sample at source_ms, typed outer transform, emission clock.
     bool update(std::uint64_t key, std::int32_t source_ms, std::int32_t absolute_ms, std::int32_t dt_ms,
-                const std::array<float, 16>& outer, std::string& error);
+                const std::array<float, 16>& outer, std::string& error,
+                const dh2::scene::Scene* actor_pose = nullptr);
 
     // Every active resource, for RuntimeEffectsFactoryV1::set_embedded_sources (replaced each frame).
     std::vector<EmbeddedFxSourceV1> sources() const;

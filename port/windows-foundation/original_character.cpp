@@ -3,6 +3,7 @@
 #include "source_material_pass.hpp"
 #include "actor_lighting.hpp"
 #include "modular_defaults.hpp"
+#include "../level-world/source_fx_node_matrix_v4.hpp"
 #include <set>
 #include "asset_catalog.hpp"
 #include "animation_markers.hpp"
@@ -432,6 +433,29 @@ bool CharacterVisual::update(double seconds,std::string& error) {
     if(samePose) {state.clock=nextClock;error.clear();return true;}
     if(!state.deform(error))return false;
     state.clock=nextClock;state.sampled=true;state.sampled_time=time;error.clear();return true;
+}
+bool CharacterVisual::prepare_camera_billboards(const Mat4& actor_world,const Mat4& camera_view,
+                                                const Vec3& camera_eye,std::string& error) {
+    if(!loaded()){error="Character visual not loaded";return false;}
+    auto& state=*impl_;
+    if(!dh2::fx::source_fx_scene_has_billboards_v1(state.scene)){error.clear();return true;}
+    for(float v:actor_world)if(!std::isfinite(v)){error="Nonfinite billboard actor placement";return false;}
+    for(float v:camera_view)if(!std::isfinite(v)){error="Nonfinite billboard camera view";return false;}
+    const float eye[]{camera_eye.x,camera_eye.y,camera_eye.z};
+    for(float v:eye)if(!std::isfinite(v)){error="Nonfinite billboard camera eye";return false;}
+    // The source helper rebuilds local TRS, so put the source root cancellation in the
+    // outer boundary for camera conversion and apply it once to the resulting model worlds.
+    Mat4 compensation{1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+    if(state.motion_node>=0&&state.config.consume_root_motion&&!state.absolute_root) {
+        const auto& root=state.scene.graph[state.motion_node];
+        for(unsigned axis=0;axis<3;++axis)compensation[12+axis]=-root.translation[axis];
+    }
+    const auto outer=dh2::scene::multiply(actor_world,compensation);
+    dh2::math::Matrix4f typed_outer{};std::copy(outer.begin(),outer.end(),typed_outer.m);
+    if(!dh2::fx::source_fx_rebuild_graph_world_billboards_v1(state.scene,typed_outer,camera_view.data(),eye,error))return false;
+    for(auto& node:state.scene.graph)node.world=dh2::scene::multiply(compensation,node.world);
+    for(auto& instance:state.scene.instances)instance.world=dh2::scene::multiply(compensation,instance.world);
+    return state.deform(error);
 }
 // B061: gameplay body follows the equipped modular parts. Rebuilds only the drawable
 // parts on the SAME retained scene/skeleton/clips (the Scene address stays valid), then
