@@ -25,7 +25,7 @@ struct ArmedExit {
     std::size_t zone = ExitZoneSet::npos;
     std::string zone_name;
     std::string target_name;     // LevelList name (levelName)
-    std::string target_display;  // prompt line 2: the level name here; the caller swaps in the localized text
+    std::string target_display;  // destination button: caller swaps in the localized LevelList display text
     std::int32_t display_string_id = -1; // LevelList display text id (localize with the menu text owner)
     std::string target_file;     // data/scene/<file>
     int entry_id = 0;
@@ -59,3 +59,4 @@ PromptFrame build_prompt_frame(const ArmedExit& exit);
 float prompt_text_fit(const PromptText& text, float measured_width) noexcept;
 
 } // namespace dh::foundation::transitions
+
