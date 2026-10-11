@@ -31902,7 +31902,16 @@ bool faery_external_character_position(std::uintptr_t identity,float (&position)
  // use the source GameObject position field at +0x160.
  if(object->target_node_180&&visible)
   return faery_external_visual_target_position(identity,*object,position);
- return native_level_script_position_for_target(identity,position);
+ if(native_level_script_position_for_target(identity,position))return true;
+ // Faeries are not level-script targets; GameObject +0x160 is the placement
+ // the Faery owner retains (SetPosition writes it with the row x/y).
+ if(const auto* faery=native_faery_owner(identity)) {
+  position[0]=object->world_x;position[1]=object->world_y;
+  position[2]=faery->visual_position[2];
+  return std::isfinite(position[0])&&std::isfinite(position[1])&&
+         std::isfinite(position[2]);
+ }
+ return false;
 }
 
 bool faery_external_owner(void* raw,std::uintptr_t identity,
@@ -32159,7 +32168,16 @@ bool advance_authored_faery_path(AuthoredCryptFaeryOwner& owner,
  if(!state.navigation_ready||state.character!=owner.identity)return true;
  float position[3]{};
  if(!faery_external_character_position(owner.identity,position)) {
-  error="Faery path update cannot resolve the live source GameObject position";
+  {
+   std::size_t occurrences=0;
+   const bool listed=native_characters.contains_identity(owner.identity,&occurrences);
+   const auto* object=active_crypt_room_runtime->manager.find_by_identity(owner.identity);
+   const bool node=object&&object->target_node_180;
+   error="Faery path update cannot resolve the live source GameObject position (listed "+
+       std::to_string(int(listed))+"x"+std::to_string(occurrences)+" row "+
+       std::to_string(object!=nullptr)+" target node "+std::to_string(int(node))+
+       " visual "+std::to_string(object?object->visual_object_2d8!=0:0)+")";
+  }
   return false;
  }
  state.path.segments=state.path_storage.data();
