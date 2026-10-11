@@ -4948,6 +4948,14 @@ int main(int argc,char** argv) {
                 if(original!=population.actors().end()){placement[0]=std::hypot(original->transform[0],original->transform[1]);placement[5]=std::hypot(original->transform[4],original->transform[5]);placement[10]=original->transform[10];}
                 queue.submit(targetMarker.mesh,placement);
             }
+            // B075: a destructible OOI (source type 8, Character FX[8] "attack" circle, CONTEXT report 1.3) gets the same ring under it
+            // as an enemy target. Only unbroken destructibles are OOI candidates; chests (type 0) need their own circle art (not drawn).
+            if(!markerTarget&&combatSession&&!targetMarker.mesh.vertices.empty()&&objectOfInterest.object()!=f::invalid_actor_id&&objectOfInterest.interaction_type()==8) {
+                for(std::size_t ci=0;ci<containerRuntime.size();++ci)if(containerRuntime.instance(ci).stableId==objectOfInterest.object()) {
+                    auto placement=f::identity();const auto& at=containerRuntime.instance(ci).transform;placement[12]=at[12];placement[13]=at[13];placement[14]=at[14];
+                    queue.submit(targetMarker.mesh,placement);break;
+                }
+            }
             // P14 DROPS: world items drawn from the original itemdrops.bdae packets in the normal queue.
             if(worldDrops&&worldItems&&worldItems->size()) {
                 std::string dropError;
