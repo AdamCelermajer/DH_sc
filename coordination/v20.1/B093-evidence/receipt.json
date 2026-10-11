@@ -1,0 +1,519 @@
+{
+  "implementation_commit": "d9a9f761",
+  "final_test_commit": "57ce783a",
+  "exe": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\b093-d9a9f761.exe",
+  "exe_sha256": "3134EC4823B61BF81A6D9E016F679785668163ED9FE04EA1685CFA2C2EAB59C3",
+  "exe_size": 19494400,
+  "runs": {
+    "final-talk": {
+      "args": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\final-talk\\run.args",
+      "log": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\final-talk\\run.log",
+      "log_sha256": "0897C8502D4E175AC2F49CD825F217C218D190F3D69D401497B9B4952E75DA7B",
+      "profile": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\final-talk\\character.save",
+      "profile_state": {
+        "version": 2,
+        "buckets": [
+          {
+            "bucket": 0,
+            "origin": 2,
+            "current": 53,
+            "moths_state": 6
+          },
+          {
+            "bucket": 1,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 2,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 3,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 4,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 5,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          }
+        ],
+        "counters": [
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 62,
+            "quantity": 1,
+            "completed": true
+          }
+        ],
+        "xp": 0,
+        "gold": 0
+      },
+      "matching_kill_events_applied": 0,
+      "completion_banners": 0,
+      "failure": null
+    },
+    "kills-menu": {
+      "args": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-menu\\run.args",
+      "log": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-menu\\run.log",
+      "log_sha256": "8CE5897A5A137A53B35EA6BAD5FC0DD62DF57F00403C42D82E73E1A4657AA426",
+      "profile": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-menu\\character.save",
+      "profile_state": {
+        "version": 2,
+        "buckets": [
+          {
+            "bucket": 0,
+            "origin": 2,
+            "current": 53,
+            "moths_state": 6
+          },
+          {
+            "bucket": 1,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 2,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 3,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 4,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 5,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          }
+        ],
+        "counters": [
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 0,
+            "quantity": 4,
+            "completed": false
+          },
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 62,
+            "quantity": 1,
+            "completed": true
+          }
+        ],
+        "xp": 10,
+        "gold": 0
+      },
+      "matching_kill_events_applied": 5,
+      "completion_banners": 0,
+      "failure": null
+    },
+    "final-map": {
+      "args": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\final-map\\run.args",
+      "log": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\final-map\\run.log",
+      "log_sha256": "CC72D3799EE6F4E0A1A7CE507240E995DEB916467C668B7CC783794632438B5A",
+      "profile": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\final-map\\character.save",
+      "profile_state": {
+        "version": 2,
+        "buckets": [
+          {
+            "bucket": 0,
+            "origin": 2,
+            "current": 53,
+            "moths_state": 6
+          },
+          {
+            "bucket": 1,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 2,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 3,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 4,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 5,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          }
+        ],
+        "counters": [
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 0,
+            "quantity": 4,
+            "completed": false
+          },
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 62,
+            "quantity": 1,
+            "completed": true
+          }
+        ],
+        "xp": 10,
+        "gold": 0
+      },
+      "matching_kill_events_applied": 0,
+      "completion_banners": 0,
+      "failure": null
+    },
+    "kills-finish": {
+      "args": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-finish\\run.args",
+      "log": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-finish\\run.log",
+      "log_sha256": "ED7B1CFFE0FFCCD9D6B9D01AA632E7428C26C5893C1D852C5EB32CFA80A9D28F",
+      "profile": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-finish\\character.save",
+      "profile_state": {
+        "version": 2,
+        "buckets": [
+          {
+            "bucket": 0,
+            "origin": 3,
+            "current": 53,
+            "moths_state": 6
+          },
+          {
+            "bucket": 1,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 2,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 3,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 4,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 5,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          }
+        ],
+        "counters": [
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 0,
+            "quantity": 7,
+            "completed": false
+          },
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 62,
+            "quantity": 1,
+            "completed": true
+          }
+        ],
+        "xp": 20,
+        "gold": 0
+      },
+      "matching_kill_events_applied": 3,
+      "completion_banners": 0,
+      "failure": null
+    },
+    "kills-eighth": {
+      "args": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-eighth\\run.args",
+      "log": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-eighth\\run.log",
+      "log_sha256": "9A4AD619993B75BDA3B5EF36F4CEC15465E7248EF35CA89595C0424FAE653AB8",
+      "profile": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-eighth\\character.save",
+      "profile_state": {
+        "version": 2,
+        "buckets": [
+          {
+            "bucket": 0,
+            "origin": 2,
+            "current": -1,
+            "moths_state": 13
+          },
+          {
+            "bucket": 1,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 2,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 3,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 4,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 5,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          }
+        ],
+        "counters": [
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 0,
+            "quantity": 8,
+            "completed": true
+          },
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 62,
+            "quantity": 1,
+            "completed": true
+          },
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 63,
+            "quantity": 0,
+            "completed": true
+          }
+        ],
+        "xp": 45,
+        "gold": 150
+      },
+      "matching_kill_events_applied": 1,
+      "completion_banners": 1,
+      "failure": null
+    },
+    "kills-duplicate": {
+      "args": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-duplicate\\run.args",
+      "log": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-duplicate\\run.log",
+      "log_sha256": "08990EB158D689BDD69D585E314C267A7EA71998ED40C87605CDB73E0CDAF781",
+      "profile": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-duplicate\\character.save",
+      "profile_state": {
+        "version": 2,
+        "buckets": [
+          {
+            "bucket": 0,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 13
+          },
+          {
+            "bucket": 1,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 2,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 3,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 4,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 5,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          }
+        ],
+        "counters": [
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 0,
+            "quantity": 8,
+            "completed": true
+          },
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 62,
+            "quantity": 1,
+            "completed": true
+          },
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 63,
+            "quantity": 0,
+            "completed": true
+          }
+        ],
+        "xp": 50,
+        "gold": 150
+      },
+      "matching_kill_events_applied": 0,
+      "completion_banners": 0,
+      "failure": null
+    },
+    "kills-resume": {
+      "args": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-resume\\run.args",
+      "log": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-resume\\run.log",
+      "log_sha256": "67B867D51872A90CC5D85C0CFA14226670C381B7DFD40BDA9DD0C37AE2629143",
+      "profile": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\claude-v20.1\\fix093\\resume\\kills-resume\\character.save",
+      "profile_state": {
+        "version": 2,
+        "buckets": [
+          {
+            "bucket": 0,
+            "origin": 2,
+            "current": 53,
+            "moths_state": 6
+          },
+          {
+            "bucket": 1,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 2,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 3,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 4,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          },
+          {
+            "bucket": 5,
+            "origin": 3,
+            "current": -1,
+            "moths_state": 0
+          }
+        ],
+        "counters": [
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 0,
+            "quantity": 4,
+            "completed": false
+          },
+          {
+            "collection": 0,
+            "difficulty": 0,
+            "row": 53,
+            "objective": 62,
+            "quantity": 1,
+            "completed": true
+          }
+        ],
+        "xp": 10,
+        "gold": 0
+      },
+      "matching_kill_events_applied": 0,
+      "completion_banners": 0,
+      "failure": "player/targetable role changed"
+    }
+  },
+  "full_ctest": {
+    "passed": 167,
+    "failed": 1,
+    "failed_list": "52:session_skill_binding"
+  },
+  "focused_final_regression": "quest_runtime_v1: zone builder ok (names=39)\nquest_runtime_v1: all tests passed (rows=64)\n",
+  "limitations": [
+    "Bounded startup relocation/world-reset fixtures, not continuous Act1 playthrough",
+    "Actual world resume failed; B086 review/repair owns follow-up",
+    "Actual ally-AI kills and chest-minion suppression not exercised in final EXE",
+    "Source primary fallback after completion remains a thin-runtime gap"
+  ]
+}
