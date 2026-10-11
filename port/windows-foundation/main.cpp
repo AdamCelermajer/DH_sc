@@ -7418,7 +7418,7 @@ int main(int argc,char** argv) {
                         const auto identity=questActorIdentity.find(placed.definition.stableId);
                         if(identity==questActorIdentity.end()||identity->second.first!=marker.npc_row)continue;
                         if(!placed.enabled)break;
-                        auto placement=f::identity();placement[12]=placed.definition.placement[12];placement[13]=placed.definition.placement[13];placement[14]=placed.definition.placement[14];
+                        auto placement=f::identity();placement[12]=placed.transform[12];placement[13]=placed.transform[13];placement[14]=placed.transform[14];
                         if(const auto* live=combatSession->actor(placed.definition.stableId)){if(!live->alive())break;placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];}
                         // the marker mesh (z 2..568) carries its own height above the character origin (AnimatedFX attached at the NPC, 0x47d8e8)
                         queue.submit(art.mesh,placement);
@@ -7435,7 +7435,7 @@ int main(int argc,char** argv) {
                     if(!merchantActors.count(placed.definition.stableId)||!placed.enabled)continue;
                     const auto identity=questActorIdentity.find(placed.definition.stableId);
                     if(questRuntime&&identity!=questActorIdentity.end()&&questRuntime->talk_objective_registered(identity->second.first))continue;
-                    auto placement=f::identity();placement[12]=placed.definition.placement[12];placement[13]=placed.definition.placement[13];placement[14]=placed.definition.placement[14];
+                    auto placement=f::identity();placement[12]=placed.transform[12];placement[13]=placed.transform[13];placement[14]=placed.transform[14];
                     if(const auto* live=combatSession->actor(placed.definition.stableId)){if(!live->alive())continue;placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];}
                     queue.submit(questMarker[2].mesh,placement);
                     static std::set<f::ActorId> loggedMerchantMarkers;
