@@ -77,8 +77,15 @@ bool evaluate_skill_temp_properties_v1(
     auto temporary = rules.defaults;
     const auto fixed_level = to_fixed_rank(rank);
     temporary[172] = fixed_level;
+    // B097: source SetProp(SnS_Level, slvl) writes the OWNER's resolved sheet
+    // (its third Boolean is ignored, see hud-formatting-v1 NOTES), and the
+    // mode-1 ApplyPropClass reads type-1 sources from that owner sheet. So
+    // the buff sheet the class sees must carry the rank in SnS_Level too;
+    // otherwise every rank-scaled formula evaluates at rank 0.
+    auto buff_with_rank = current_resolved;
+    buff_with_rank[172] = fixed_level;
     if (!dh2::data::apply_class(classes, class_id, temporary, error,
-                                &current_resolved)) {
+                                &buff_with_rank)) {
         if (error.empty()) error = "Original skill property class evaluation failed";
         return false;
     }

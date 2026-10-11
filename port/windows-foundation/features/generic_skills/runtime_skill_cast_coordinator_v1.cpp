@@ -254,8 +254,12 @@ bool source_skill_class_projection(
         return fail(error, "Authored skill source CLASS_ID is missing from the actual ClassTables");
     output = rules.defaults;
     output[skill_level] = static_cast<std::int32_t>(std::uint32_t(rank) << 8);
+    // B097: the source SetProp(SnS_Level) lands on the owner's resolved sheet,
+    // which mode-1 ApplyPropClass reads as the type-1 source (see mana_v1).
+    auto live_with_rank = live;
+    live_with_rank[skill_level] = output[skill_level];
     if (!dh2::data::apply_class(classes, static_cast<std::int32_t>(found - classes.names.begin()),
-                               output, error, &live)) {
+                               output, error, &live_with_rank)) {
         if (error.empty()) error = "Original skill CalcManaCost class projection failed";
         return false;
     }
