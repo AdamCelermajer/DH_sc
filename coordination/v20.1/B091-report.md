@@ -19,6 +19,12 @@ Reference P1 v1.0.3 `Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4`.
 
 ## IDA/callers/gates
 
+### Reviewer correction investigated before repair
+
+Independent review found the prior byte+5248 interpretation wrong. Re-read `Script_MarkCharacterAsScripted::Set` **0x45958c** and `Unset` **0x459550**: they write Character+5248=1/0. It is the scripted gate, not an animation-playing flag. `CSAnim::OnUpdate` **0x3c1a3c** requires that byte to be0 and +1345 to be nonzero. The original P1 captain/troll sequences above already establish that scripted poses remain during the scene and combat returns after it; no unchanged footage replay is required. Previous reconstructed release logs at captain201/252 preceded End/Unset301 and therefore failed this source gate.
+
+Expected repair: keep a completed clip pending while the host's existing `character_scripted(id)` flag is true; a replacement/chained/cancel command replaces or removes that pending completion; after Unset, the next host update may release exactly once through the existing live/dead/Limbus/PreSpawn owner gate. Explicit scripted Idle remains an authored command and can cancel pending animation completion, including during skip. Keep future skipped PlayActorAnim as no-op. Test before coding: true flag + completed clip produces no callback/release over multiple frames, Unset gives one release, duplicate updates/Unset do not repeat, chains/replacement/cancel remove obsolete completions, and skip preserves order until actual Unset. Runtime: short captain played/early/late skip and troll played/skip, assert no automatic release while scripted and retain plate/ring/hits/death behavior. Old frozen runtime is historical evidence; reviewer approval awaits a new frozen hash.
+
 Pseudocode is `.local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c`.
 
 - `Script_PlayActorAnim::Execute` **0x45e890**: skip=1 is a no-op; otherwise resolves the named Character, programs animation dictionary fields, calls `SM_SetAnimState(...,0,1)`.
