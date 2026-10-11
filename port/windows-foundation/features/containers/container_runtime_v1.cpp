@@ -156,6 +156,8 @@ ContainerInteractResultV1 ContainerRuntimeV1::interact(std::size_t index, const 
     // Container::Interact (openable) and the final destructible hit both set state 3 and
     // play 'activate'. DoOpen runs on the 'opened' event (update), never during the clip.
     slot.dirty = true;
+    // B085: the final destructible hit also plays the row sound (session_destructible_interaction_v1 interact()).
+    if (slot.instance.family == ContainerFamilyV1::destructible) result.sound_id = slot.instance.sound_id;
     if (!slot.visual->select("activate", false, error)) {
         // No activate clip: the source's no-visual branch opens at once (DoOpen now).
         slot.state = kContainerStateOpened;
