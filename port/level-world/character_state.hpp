@@ -76,6 +76,11 @@ struct Request {
 // argument[1] also contains the previous state ID. set_heading arguments carry
 // three IEEE float words; scalar1 means enabled. set_visible[0] is bool;
 // true restores ObjectBase enabled-byte visibility. Other services use zeros.
+// knockback_impact_event is CSKnockedBack::OnEvent(event=35)'s conditional
+// same-Character sequence: call Character::IsDead; if true, CharAnimator::ANIM_Stop
+// then CharStateMachine::SM_SetDeadState(true,nullptr,true). The service owns
+// those real app Character/animator/machine objects and must update this same
+// Coordinator before returning; Scheduler.StopLoop is not ANIM_Stop.
 // Callback is synchronous and may change State or reenter the coordinator.
 // Animation/body/timer/AI/FX services must preserve the emitted call order.
 using Callback=void(*)(void*,State*,const Request*);
