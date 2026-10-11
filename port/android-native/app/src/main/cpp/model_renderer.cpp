@@ -16969,9 +16969,29 @@ void initialize_native_player_skills(AAssetManager* assets,bool restore){
 GLuint upload(AAssetManager* assets,const std::string& name,std::map<std::string,GLuint>& cache,std::vector<GLuint>& owned,const std::string& folder="textures"){
   auto found=cache.find(name);if(found!=cache.end())return found->second;
   std::vector<std::uint8_t> rgba;unsigned w=1,h=1;
-  if(name.empty())rgba={255,255,255,255};
+  std::vector<std::uint8_t> raw;
+  if(!name.empty()){
+    try{raw=read(assets,name,folder);}
+    catch(const std::exception& failure){
+      if(std::string(failure.what()).rfind("Bundled asset missing: ",0)!=0)throw;
+      // The supplied cache keeps source textures under data/3d/textures.
+      auto lowered=name;
+      std::transform(lowered.begin(),lowered.end(),lowered.begin(),
+          [](unsigned char c){return static_cast<char>(std::tolower(c));});
+      try{raw=read(assets,"original-cache/data/3d/textures/"+lowered,"");}
+      catch(const std::exception&){
+        // glitch's texture manager leaves a missing source texture unbound
+        // and keeps loading the scene; use a neutral texel instead of
+        // rejecting the whole model.
+        __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+            "Source texture unavailable; using neutral texel | %s/%s",
+            folder.c_str(),name.c_str());
+      }
+    }
+  }
+  if(raw.empty())rgba={255,255,255,255};
   else{
-    auto raw=read(assets,name,folder);dh2::textures::View view{};
+    dh2::textures::View view{};
     if(dh2_texture_open(raw.data(),raw.size(),&view)!=dh2::textures::Error::ok)throw std::runtime_error("Texture header rejected: "+name);
     w=view.width;h=view.height;rgba.resize(std::size_t(w)*h*4);
     if(dh2_texture_decode(&view,rgba.data(),rgba.size())!=dh2::textures::Error::ok)throw std::runtime_error("Texture decode rejected: "+name);
