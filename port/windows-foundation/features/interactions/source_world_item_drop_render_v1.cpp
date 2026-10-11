@@ -3,6 +3,7 @@
 #include "../../content_paths.hpp"
 #include "../../../engine-skinning/skinning.hpp"
 #include <algorithm>
+#include <cmath>
 #include <map>
 #include <set>
 
@@ -46,7 +47,48 @@ bool same_record(const loot::RuntimeWorldItemRecordV1& a,
            a.authored_entry == b.authored_entry &&
            a.resolved_gold_value == b.resolved_gold_value;
 }
+
+// B079: ItemObject::InitAgain (0x3ec0f0) plays clip 0 of the item visual once at spawn. itemdrops.bdae holds a single
+// scene clip (AUTO_SceneAnims_Range, 0..2566 ms) that lifts every item dummy ~600 units, tumbles it and lets it fall
+// back to its rest pose by ~1.6 s. The per-visual delta matrix W(t)*W(0)^-1 of the animated node is tabulated once.
+constexpr std::int32_t arc_step_ms = 8;
+
+Mat4 mat_mul(const Mat4& a, const Mat4& b) {
+    Mat4 c{};
+    for (int col = 0; col < 4; ++col)
+        for (int row = 0; row < 4; ++row) {
+            float sum = 0;
+            for (int k = 0; k < 4; ++k) sum += a[k * 4 + row] * b[col * 4 + k];
+            c[col * 4 + row] = sum;
+        }
+    return c;
 }
+
+// Inverse of an affine matrix (3x3 block via adjugate).
+bool affine_inverse(const Mat4& m, Mat4& out) {
+    const float a = m[0], b = m[4], c = m[8], d = m[1], e = m[5], f = m[9], g = m[2], h = m[6], i = m[10];
+    const float det = a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
+    if (!(std::fabs(det) > 1e-12f)) return false;
+    const float r = 1.0f / det;
+    const float n[9] = {(e * i - f * h) * r, (c * h - b * i) * r, (b * f - c * e) * r,
+                        (f * g - d * i) * r, (a * i - c * g) * r, (c * d - a * f) * r,
+                        (d * h - e * g) * r, (b * g - a * h) * r, (a * e - b * d) * r};
+    out = identity();
+    out[0] = n[0]; out[4] = n[1]; out[8] = n[2];
+    out[1] = n[3]; out[5] = n[4]; out[9] = n[5];
+    out[2] = n[6]; out[6] = n[7]; out[10] = n[8];
+    out[12] = -(out[0] * m[12] + out[4] * m[13] + out[8] * m[14]);
+    out[13] = -(out[1] * m[12] + out[5] * m[13] + out[9] * m[14]);
+    out[14] = -(out[2] * m[12] + out[6] * m[13] + out[10] * m[14]);
+    return true;
+}
+
+bool differs(const Mat4& a, const Mat4& b) {
+    for (int i = 0; i < 16; ++i) if (std::fabs(a[i] - b[i]) > 1e-3f) return true;
+    return false;
+}
+}
+
 
 struct SourceWorldItemDropRenderV1::SourceAssetsV1 {
     struct MeshSource {
@@ -65,6 +107,7 @@ struct SourceWorldItemDropRenderV1::SourceAssetsV1 {
     std::vector<std::unique_ptr<CharacterVisual>> skinned;
     std::map<std::string, std::vector<MeshSource>> visuals;
     std::map<std::string, std::string> unresolved_visuals;
+    std::map<std::string, std::vector<Mat4>> arc; // B079: per visual, delta pose every arc_step_ms of the spawn clip
 };
 
 SourceWorldItemDropRenderV1::SourceWorldItemDropRenderV1(
@@ -185,6 +228,78 @@ bool SourceWorldItemDropRenderV1::load(
             source->skinned.push_back(std::move(visual));
             source->visuals[visual_name] = std::move(parts);
         }
+        // B079: tabulate the spawn clip (clip 0) for every resolved visual. A visual without an animated node keeps no table.
+        {
+            std::vector<EmbeddedSceneClip> clips;
+            std::string clipError;
+            CharacterVisual clock;
+            if (decode_embedded_scene_clips(source->bdae_bytes.data(), source->bdae_bytes.size(), clips, clipError) &&
+                !clips.empty() && clock.load_embedded_scene(catalog, itemdrop_uri, clipError) &&
+                clock.select(clips.front().name, false, clipError)) {
+                const std::int32_t clip_ms = clips.front().end_ms - clips.front().start_ms;
+                const std::size_t samples = std::size_t(clip_ms / arc_step_ms) + 2;
+                struct Driver { std::vector<std::string> nodes; bool own{}; };
+                std::map<std::string, Driver> drivers;
+                for (const auto& pair : source->visuals) {
+                    const auto root = find_visual_root(source->scene, pair.first);
+                    if (root < 0) continue;
+                    Driver driver;
+                    driver.nodes.push_back(source->scene.graph[std::size_t(root)].name);
+                    for (std::size_t i = 0; i < source->scene.graph.size(); ++i) {
+                        auto node = std::int32_t(i);
+                        while (node >= 0 && node != root) node = source->scene.graph[std::size_t(node)].parent;
+                        const auto& name = source->scene.graph[i].name;
+                        if (node == root && std::int32_t(i) != root && name.rfind("glow_", 0) != 0 &&
+                            name.find("_batch") == std::string::npos)
+                            driver.nodes.push_back(name);
+                    }
+                    drivers[pair.first] = std::move(driver);
+                }
+                std::map<std::string, std::vector<std::vector<Mat4>>> raw; // visual -> node -> sample
+                for (std::size_t sample = 0; sample < samples; ++sample) {
+                    if (sample && !clock.update(double(arc_step_ms) / 1000.0, clipError)) { raw.clear(); break; }
+                    for (const auto& pair : drivers) {
+                        auto& per_node = raw[pair.first];
+                        per_node.resize(pair.second.nodes.size());
+                        for (std::size_t n = 0; n < pair.second.nodes.size(); ++n) {
+                            Mat4 world = identity();
+                            std::string boneError;
+                            if (!clock.bone_world(pair.second.nodes[n], world, boneError)) world = identity();
+                            per_node[n].push_back(world);
+                        }
+                    }
+                }
+                for (const auto& pair : raw) {
+                    const auto& nodes = pair.second;
+                    // The visual's own node when it animates (dummy_*), otherwise the mean translation of its animated
+                    // skeleton descendants (gold coin bones).
+                    std::vector<Mat4> table;
+                    if (!nodes.empty() && !nodes[0].empty() && [&] { for (const auto& m : nodes[0]) if (differs(m, nodes[0][0])) return true; return false; }()) {
+                        Mat4 inverse;
+                        if (affine_inverse(nodes[0][0], inverse))
+                            for (const auto& m : nodes[0]) table.push_back(mat_mul(m, inverse));
+                    } else {
+                        std::vector<std::size_t> moving;
+                        for (std::size_t n = 1; n < nodes.size(); ++n)
+                            if (!nodes[n].empty() && [&] { for (const auto& m : nodes[n]) if (differs(m, nodes[n][0])) return true; return false; }())
+                                moving.push_back(n);
+                        if (!moving.empty()) {
+                            for (std::size_t t = 0; t < samples; ++t) {
+                                Vec3 mean{};
+                                for (auto n : moving) {
+                                    mean.x += nodes[n][t][12] - nodes[n][0][12];
+                                    mean.y += nodes[n][t][13] - nodes[n][0][13];
+                                    mean.z += nodes[n][t][14] - nodes[n][0][14];
+                                }
+                                const float k = 1.0f / float(moving.size());
+                                table.push_back(translation({mean.x * k, mean.y * k, mean.z * k}));
+                            }
+                        }
+                    }
+                    if (!table.empty()) source->arc[pair.first] = std::move(table);
+                }
+            }
+        }
         output.reset(new SourceWorldItemDropRenderV1(items, std::move(audiovisual),
                                                      std::move(services), std::move(source)));
         error.clear();
@@ -218,7 +333,12 @@ bool SourceWorldItemDropRenderV1::prepare(
                 stored.source_outcome.item_id != item.source_record.item_id ||
                 stored.source_position != item.position || !stored.authored_item)
                 return fail(error, "World-item render row no longer matches its exact same-store record/position");
-            const auto world = translation({item.position[0], item.position[1], item.position[2]});
+            auto world = translation({item.position[0], item.position[1], item.position[2]});
+            // B079: spawn clip (ItemObject::InitAgain PlayClip(0), one shot) lifts and tumbles the visual for its first ~1.6 s.
+            if (const auto arc = assets_->arc.find(item.source_visual_uri); arc != assets_->arc.end() && !arc->second.empty()) {
+                const auto index = std::min<std::size_t>(std::size_t(stored.age_ms / std::uint32_t(arc_step_ms)), arc->second.size() - 1);
+                world = mat_mul(world, arc->second[index]);
+            }
             std::vector<SourceWorldItemDropDrawV1> item_draws;
             std::string skip_reason;
             for (const auto& source_mesh : found->second) {

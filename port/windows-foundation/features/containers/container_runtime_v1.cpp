@@ -169,12 +169,14 @@ ContainerInteractResultV1 ContainerRuntimeV1::interact(std::size_t index, const 
         pending_.push_back(std::move(event));
         result.status = ContainerInteractStatusV1::accepted;
         result.state_after = slot.state;
+        result.sound_id = slot.instance.sound_id; // B079: Container::Interact plays the row sound on every accepted interaction
         return result;
     }
     slot.state = kContainerStateActivating;
     slot.opened_fired = false;
     result.status = ContainerInteractStatusV1::accepted;
     result.state_after = slot.state;
+    result.sound_id = slot.instance.sound_id; // B079: Container::Interact plays the row sound on every accepted interaction
     return result;
 }
 

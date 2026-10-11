@@ -37,7 +37,7 @@ struct ContainerInteractResultV1 {
     std::size_t index = 0;
     float distance = 0.0f;
     std::uint32_t hits_remaining = 0;   // destructible only, after this interaction
-    std::int32_t sound_id = -1;         // destructible: row sound (played by the caller's sound owner)
+    std::int32_t sound_id = -1;         // row sound (destructible hits and accepted opens; played by the caller's sound owner)
 };
 
 const char* container_status_name(ContainerInteractStatusV1 status);
