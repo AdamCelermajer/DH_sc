@@ -1188,3 +1188,8 @@ add_executable(source_actor_placement_tests tests/source_actor_placement_tests.c
 add_test(NAME source_actor_placement COMMAND source_actor_placement_tests)
 add_executable(source_fx_version_overrides_tests tests/source_fx_version_overrides_tests.cpp)
 add_test(NAME source_fx_version_overrides COMMAND source_fx_version_overrides_tests)
+
+add_executable(embedded_particle_fidelity_tests tests/embedded_particle_fidelity_tests.cpp)
+target_link_libraries(embedded_particle_fidelity_tests PRIVATE foundation_runtime_effects)
+add_test(NAME embedded_particle_fidelity COMMAND embedded_particle_fidelity_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android/data/3d/gameobjects/go_door_fire_red.bdae")
