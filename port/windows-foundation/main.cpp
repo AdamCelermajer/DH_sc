@@ -5428,7 +5428,7 @@ int main(int argc,char** argv) {
         // A cutscene that blocks saving, a dead hero or a rejected checkpoint keeps the previous level save (never a half state).
         // Returns 1 saved, 0 skipped for good (dead hero, cutscene, profile write failure), -1 rejected for now (an active action
         // such as an attack window blocks the checkpoint): the quit path retries for a short grace period.
-        bool quitPending=false,quitDone=false;int quitDeadline=0;
+        bool quitPending=false;int quitDeadline=0;
         const auto saveResumePoint=[&](const char* reason)->int {
             if(!combatSession||options.save.empty())return 0;
             const auto* hero=combatSession->actor(combatSession->player_id());
@@ -5445,14 +5445,16 @@ int main(int argc,char** argv) {
             return 1;
         };
         dh::foundation::FramePacer framePacer; // B066: deadline pacing replaces sleep(1) (a 15.6 ms tick on Windows)
-        while(!window.should_close()||(quitPending&&!quitDone)) {
+        // Poll can latch a platform close before the next iteration. Admit that iteration so the
+        // Application::Quit save/retry handler below owns shutdown instead of bypassing it.
+        while(true) {
             // B086 Application::Quit: closing the window (or --quit-frame) quick-saves the level world and the profile first. An active
             // action can reject the checkpoint for a moment; the game keeps running up to 90 frames until the save is accepted.
             if(!returnToFrontend&&(window.should_close()||(options.quitFrame>=0&&drawn>=options.quitFrame))) {
                 if(!quitPending){quitPending=true;quitDeadline=drawn+90;std::cout<<"Quit requested frame="<<drawn<<'\n';}
                 const int quitResult=saveResumePoint("quit");
                 if(quitResult==-1)std::cout<<"Resume point retry frame="<<drawn<<'\n';
-                if(quitResult>=0||drawn>=quitDeadline){quitDone=true;break;}
+                if(quitResult>=0||drawn>=quitDeadline)break;
             }
             dh::foundation::perf::FramePerf::get().begin_frame(); // B062: unclamped per-phase timing, DH_PERF=1
             framePacer.begin(); // B066
