@@ -343,6 +343,15 @@ public:
             presenter.map_control(action);
             error.clear();
             return action;
+        case Action::stat_page_stats:
+        case Action::stat_page_defense:
+        case Action::stat_page_offense:
+        case Action::stat_page_magic:
+        case Action::stat_page_recovery:
+            // B111: CharacterSheetNew btn*Tab.on_clicked = NativePopMenu + NativePushMenu(menu_CharacterSheet<Page>)
+            // + NativePlaySoundFX("MenuSelect"). The caller plays the sound when the returned action is a page action.
+            if (!presenter.select_stat_page(stat_page_of(action), error)) return Action::none;
+            return action;
         case Action::none: break;
         }
         const float authored_x = screen_x / (width / 480.f);

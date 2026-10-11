@@ -821,7 +821,7 @@ target_sources(foundation_data PRIVATE original_actor_subobjects.cpp ../level-wo
 add_executable(original_actor_subobjects_tests tests/original_actor_subobjects_tests.cpp)
 target_link_libraries(original_actor_subobjects_tests PRIVATE foundation_data)
 add_test(NAME original_actor_subobjects COMMAND original_actor_subobjects_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
-target_sources(foundation_data PRIVATE features/character_menu/character_menu.cpp features/character_menu/original_art.cpp features/platform_input/semantic_input.cpp)
+target_sources(foundation_data PRIVATE features/character_menu/character_menu.cpp features/character_menu/original_art.cpp features/character_menu/stat_pages_art.cpp features/platform_input/semantic_input.cpp)
 target_sources(foundation_data PRIVATE features/character_menu/menu_text.cpp)
 target_sources(foundation_data PRIVATE features/character_menu/menu_stats.cpp)
 target_sources(foundation_data PRIVATE ../engine-ui/hud_text_v1.cpp ../engine-ui/hud_text_format_v1.cpp)

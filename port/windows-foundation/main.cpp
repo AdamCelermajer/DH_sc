@@ -5619,7 +5619,13 @@ int main(int argc,char** argv) {
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
-                    characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    const auto releasedAction=characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    if(f::character_menu::is_stat_page_action(releasedAction)) {
+                        // B111: btn*Tab.on_clicked = NativePopMenu + NativePushMenu(menu_CharacterSheet<Page>) + NativePlaySoundFX("MenuSelect").
+                        std::cout<<"Character menu Statistics sub-page="<<int(characterMenu.stat_page())<<" frame="<<drawn<<"\n";
+                        std::string soundError;
+                        if(runtimeAudio&&!runtimeAudio->play_named_plain("MenuSelect",soundError))std::cerr<<"Character menu MenuSelect sound diagnostic: "<<soundError<<"\n";
+                    }
                     // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
                     if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n';
                         if(conditionWatch) { // P17 CONDITIONS: the restored quest state is the new baseline (no flips on reload)
@@ -7335,7 +7341,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     const auto classRow=std::find(properties.characters.names.begin(),properties.characters.names.end(),player->definition_id);
                     if(classRow==properties.characters.names.end())throw std::runtime_error("Original class header has no same player source row");
                     if(!menuLocalization.character_class_level(properties.characters,static_cast<std::int32_t>(classRow-properties.characters.names.begin()),&state,bindings.class_label,error))throw std::runtime_error("Original class header: "+error);
-                    bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e);};
+                    bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e,bindings.properties);};
                     // P16 MAPFIX: MapName = MenuCharMenu_Map::ShowLevelName (IDA 0x45335c): LevelList row of the current
                     // level (Level+60), LevelName StrID at row word 9 (IDA +36), localized through the StringManager lookup.
                     bindings.map_name.clear();

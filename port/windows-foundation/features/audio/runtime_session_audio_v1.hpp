@@ -141,6 +141,9 @@ public:
     bool script_play_music(std::int32_t ordinal,bool change,int fade_ms,std::string& error);
     bool script_stop_music(int fade_ms,std::string& error);
     bool script_play_plain(std::int32_t ordinal,int delay_ms,std::string& error);
+    // B111: NativePlaySoundFX(name) from an authored in-game menu handler (e.g. "MenuSelect"): plain Play of the named
+    // generated source sound. Unknown names are a source no-op (returns true).
+    bool play_named_plain(const char* name,std::string& error);
     bool script_stop_plain(std::int32_t ordinal,int fade_ms,std::string& error);
     bool shutdown(std::string&);
     void summary() const;
