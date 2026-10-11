@@ -16,6 +16,8 @@ Verification defined before coding: host tests for no early release, chained/rep
 
 Uncertainties: video v1.0.3 versus IDA APK export version; SKIP timing only source-backed; exact shot actor placement may be a different Type2/3 instance. Full route traversal is separate from isolated normal authored-contact fixtures. New runtime result and hash remain pending below.
 
+First integrated pass found the inherited B091 completion predicate too narrow: it excluded authored gameplay actors not spawned by a script (TRUNGUS), and skipped state3 even when `script_put_idle(wait=true)` still held a scripted pose. IDA `CSIdle::OnBlur` 0x3c2d3c clears +1336; `CSIdle::OnFocus` 0x3c3020 suppresses flags/selection while that byte is set. The port's held Idle selection leaves the animated presentation and body suppression pending. Additional minimal correction: accept every registered combat gameplay actor (excluding animation-only props/companions), and complete a still-held scripted pose through the existing non-waiting Idle owner even if its source state is already3. This reproduces visible gameplay release, without inferring that the original uses a second timer callback in CSIdle.
+
 Branch fix/b091 (from v20.1/integrate), build fix091 (-Jobs 2). Scratch: `.local-inputs/claude-v20.1/fix091/` (mk2.py, addcmd2.py, run.ps1; runs c1/c2/r1).
 
 ## Evidence
