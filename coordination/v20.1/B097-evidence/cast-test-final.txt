@@ -1,0 +1,5 @@
+PASS PC visual mapping regression: key1 rejects empty source2; key2 selects middle-circle source0 JumpKick row0/root521.
+B097 rank1 MP=9 damage=2.5 target=3 outcomes=0 RNGbefore=1:0 RNGafter=12133000:9 min/max=536/1608
+B097 rank2 MP=12 damage=2.34375 target=3 outcomes=0 RNGbefore=1:0 RNGafter=12133000:9 min/max=560/1680
+PASS B097 paired ranks1/2 actual do_skill damage, MP9/12, duplicate and mana/empty branches
+PASS linked coordinator fixture: Warrior source slots0/1/2 BashDown/GroundSlam/Charge; Rogue logical slot0→saved row0 JumpKick rank1/root521; logical slot1 empty rejection without shifting; level3/level6 source progression and SaveStore roundtrips; exact pre-init animation roots; retained do_skill Use/Post, mana, same-world result/HP/RNG and duplicate suppression. Hotty/other result tails remain separate.

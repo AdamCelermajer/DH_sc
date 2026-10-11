@@ -34,7 +34,7 @@ dh2::data::Bytes bytes(const std::vector<std::uint8_t>& value) {
 }
 
 void run_rogue_jumpkick_source_slot0_fixture(
-    const std::filesystem::path& repo, AssetCatalog& assets,
+    const std::filesystem::path& scratch, AssetCatalog& assets,
     OriginalPropertyDatabase& properties, OriginalMeleeBindings& bindings,
     const dh2::data::CharacterTable& characters,
     dh2::data::SkillTables::Borrow skill_tables,
@@ -81,7 +81,7 @@ void run_rogue_jumpkick_source_slot0_fixture(
     rogue_state.skills[0].rank = 1; // Exact native starter grant for source row0.
     rogue_state.skill_slots.push_back({0, 0, 0});
 
-    const auto save_path = repo / ".local-inputs/windows-skill-cast-session-test/rogue-jumpkick-source.dhsave";
+    const auto save_path = scratch / "rogue-jumpkick-source.dhsave";
     check(save_character(save_path, rogue_state, error), error);
     CharacterState loaded_rogue;
     check(load_character(save_path, loaded_rogue, error), error);
@@ -348,9 +348,12 @@ void run_rogue_jumpkick_source_slot0_fixture(
 
 int main(int argc, char** argv) {
     try {
-        check(argc == 2 || argc == 3, "Repository root and optional diagnostic RNG seed required");
+        check(argc >= 2 && argc <= 4, "Repository root, optional diagnostic RNG seed and optional scratch root required");
         const std::filesystem::path repo(argv[1]);
-        const auto source_rng_seed = argc == 3 ? static_cast<std::uint32_t>(std::stoul(argv[2])) : 1u;
+        const auto source_rng_seed = argc >= 3 ? static_cast<std::uint32_t>(std::stoul(argv[2])) : 1u;
+        const auto scratch = argc == 4 ? std::filesystem::path(argv[3]) :
+            repo / ".local-inputs/windows-skill-cast-session-test";
+        std::filesystem::create_directories(scratch);
         // This extracted source asset snapshot contains both authored roots
         // needed below. Its original pydata payloads are byte-identical to
         // windows-shared-assets; the latter omits GroundSlam's crushing-blow
@@ -506,7 +509,7 @@ int main(int argc, char** argv) {
                                                animation_tables, error), error);
         dh2::data::PropertyRules property_rules;
         check(dh2::data::load_property_rules(properties.characters, property_rules, error), error);
-        run_rogue_jumpkick_source_slot0_fixture(repo, assets, properties, bindings,
+        run_rogue_jumpkick_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules);
         std::cout << "PASS PC visual mapping regression: key1 rejects empty source2; "
                      "key2 selects middle-circle source0 JumpKick row0/root521.\n";
@@ -559,7 +562,7 @@ int main(int argc, char** argv) {
               state.skills[static_cast<std::size_t>(ground_slam_position)].rank == 0 &&
               state.skills[static_cast<std::size_t>(charge_position)].rank == 0,
               "Pre-init class bank did not preload exact unlearned GroundSlam/Charge roots independent of rank/slot eligibility");
-        const auto missing_asset_root = repo / ".local-inputs/windows-skill-animation-bank-missing";
+        const auto missing_asset_root = scratch / "missing-animation-bank";
         std::filesystem::remove_all(missing_asset_root);
         const auto assigned_bash_uri = std::string(
             "data/3D/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae");
@@ -1146,6 +1149,9 @@ int main(int argc, char** argv) {
         cast_request.downstream_animation_services = callbacks;
         RuntimeSkillCastCoordinatorV1 cast_coordinator;
         RuntimeSkillCastReceiptV1 cast_receipt;
+        GameSave b097_same_roll_checkpoint;
+        check(capture_game_save("b097-same-roll", session.player_id(), state,
+                  *session.world(), b097_same_roll_checkpoint, error), error);
         const auto mana_before_unlearned_rows = session.world()->combat_properties(1)->sheets.resolved[41];
         const auto rng_before_unlearned_rows = session.world()->random_state();
         for (const auto slot_position : {ground_slam_position, charge_position}) {
@@ -1254,7 +1260,7 @@ int main(int argc, char** argv) {
         check(train_skill_v1(state, characters, skill_tables, source_caps,
                   ground_slam_position, error), error);
         state.skill_slots.push_back({0, 1, ground_slam_saved_row});
-        const auto advanced_save_path = repo / ".local-inputs/windows-skill-cast-session-test/groundslam-advanced.dhsave";
+        const auto advanced_save_path = scratch / "groundslam-advanced.dhsave";
         check(save_character(advanced_save_path, state, error), error);
         CharacterState loaded_advanced_state;
         check(load_character(advanced_save_path, loaded_advanced_state, error), error);
@@ -1380,7 +1386,7 @@ int main(int argc, char** argv) {
         state.skill_slots.push_back({0, 2, charge_saved_row});
         check(state.skills[charge_saved_row].rank == 1 && state.source_skill_points == 3,
               "Same-session Charge training did not preserve the exact source point/rank rules");
-        const auto slot_matrix_save_path = repo / ".local-inputs/windows-skill-cast-session-test/slot-matrix.dhsave";
+        const auto slot_matrix_save_path = scratch / "slot-matrix.dhsave";
         check(save_character(slot_matrix_save_path, state, error), error);
         CharacterState loaded_slot_matrix_state;
         check(load_character(slot_matrix_save_path, loaded_slot_matrix_state, error), error);
@@ -1404,7 +1410,7 @@ int main(int argc, char** argv) {
         check(state.skill_slots.size() == 2 && state.skill_slots[0].slot == 0 &&
               state.skill_slots[1].slot == 2,
               "Removing the trained middle assignment shifted the saved Charge slot");
-        const auto slot_matrix_save_path_empty = repo / ".local-inputs/windows-skill-cast-session-test/slot-matrix-empty.dhsave";
+        const auto slot_matrix_save_path_empty = scratch / "slot-matrix-empty.dhsave";
         check(save_character(slot_matrix_save_path_empty, state, error), error);
         CharacterState loaded_slot_matrix_state_empty;
         check(load_character(slot_matrix_save_path_empty, loaded_slot_matrix_state_empty, error), error);
@@ -1601,7 +1607,155 @@ int main(int argc, char** argv) {
               error.find("replaced Session") != std::string::npos,
               error.empty() ? "Quiescent restore silently reused a transient source clock from the prior Session lease" : error);
 
+        // B097: restore the identical source sheets, target and combat RNG for
+        // each rank, then run the production coordinator and actual authored
+        // marker. This isolates rank from weapon, defense and random variance.
+        std::array<float, 2> ranked_damage{};
+        std::array<std::int32_t, 2> ranked_min{}, ranked_max{};
+        cast_request.source_slot = 0;
+        cast_request.selection.state = runtime_bank.hotbar[0]->selection_state;
+        for (std::uint32_t rank : {1u, 2u}) {
+            session.detach_for_restore();
+            check(restore_game_save(b097_same_roll_checkpoint, "b097-same-roll",
+                      *session.world(), state, error), error);
+            state.skills[0].rank = rank;
+            check(session.rebind_after_restore(error), error);
+            const auto paired_rng_before = session.world()->random_state();
+            check(paired_rng_before.seed == b097_same_roll_checkpoint.random.seed &&
+                  paired_rng_before.calls == b097_same_roll_checkpoint.random.calls,
+                  "B097 paired restore changed the initial source RNG");
+            SkillTempPropertiesV1 ranked_info;
+            check(evaluate_skill_temp_properties_v1(properties.classes, property_rules,
+                      session.world()->combat_properties(1)->sheets.resolved,
+                      "Skill_Warrior_BashDown", rank, ranked_info, error), error);
+            ranked_min[rank - 1] = ranked_info.properties[174];
+            ranked_max[rank - 1] = ranked_info.properties[175];
+            check(ranked_info.properties[190] == 256 + static_cast<int>(12 * rank),
+                  "B097 source BashDown damage factor did not include the current rank");
+            unsigned ranked_markers = 0, ranked_completions = 0;
+            RetainedAnimationEvent ranked_event;
+            cast_request.downstream_animation_services.event =
+                [&](ActorId actor, const RetainedAnimationEvent& event, std::string& failure) {
+                    check(actor == 1, "B097 marker reached another actor");
+                    if (event.name == "do_skill") { ++ranked_markers; ranked_event = event; }
+                    failure.clear(); return true;
+                };
+            cast_request.downstream_animation_services.finished =
+                [&](ActorId, std::string& failure) { ++ranked_completions; failure.clear(); return true; };
+            RuntimeSkillCastCoordinatorV1 ranked_coordinator;
+            RuntimeSkillCastReceiptV1 ranked_begin;
+            check(ranked_coordinator.begin_skill_cast_v1(cast_request, session, ranked_begin, error), error);
+            check(ranked_begin.phase == RuntimeSkillCastPhaseV1::prepared_pending_use &&
+                  ranked_begin.mana.cost.fixed_mana_cost == static_cast<int>((6 + 3 * rank) * 256) &&
+                  ranked_begin.mana.mana_before - ranked_begin.mana.mana_after ==
+                      ranked_begin.mana.cost.fixed_mana_cost,
+                  "B097 cast did not consume the exact current-rank source MP cost");
+            for (unsigned frame = 0; frame < 180 && ranked_completions == 0; ++frame) {
+                check(session.update(1.0 / 60.0, {}, {0, 0, 0}, 0.0f, error), error);
+                check(ranked_coordinator.advance_after_session_update(session, 1.0 / 60.0, error), error);
+            }
+            const auto* ranked_final = ranked_coordinator.receipt(1);
+            check(ranked_markers == 1 && ranked_completions == 1 && ranked_final &&
+                  ranked_final->phase == RuntimeSkillCastPhaseV1::completed &&
+                  ranked_final->applied_results.size() == 1,
+                  "B097 paired cast did not reach the actual source marker/result exactly once");
+            ranked_damage[rank - 1] = ranked_final->applied_results.front().health_removed;
+            check(ranked_damage[rank - 1] > 0 &&
+                  session.actor(target_query.selected)->health ==
+                      target_health_before_bashdown - ranked_damage[rank - 1],
+                  "B097 rank-dependent result did not reach the same target HP owner");
+            const auto after_rng = session.world()->random_state();
+            const auto after_mp = session.world()->combat_properties(1)->sheets.resolved[41];
+            RuntimeSkillCastReceiptV1 ranked_duplicate;
+            check(ranked_coordinator.apply_retained_use_event_v1(session, 1,
+                      ranked_final->generation, RuntimeSkillSourceAnimStateV1::skill,
+                      ranked_event, ranked_duplicate, error), error);
+            check(session.world()->random_state().seed == after_rng.seed &&
+                  session.world()->random_state().calls == after_rng.calls &&
+                  session.world()->combat_properties(1)->sheets.resolved[41] == after_mp &&
+                  session.actor(target_query.selected)->health ==
+                      target_health_before_bashdown - ranked_damage[rank - 1],
+                  "B097 duplicate marker spent MP or replayed damage/RNG");
+            std::cout << "B097 rank" << rank << " MP=" << ranked_begin.mana.cost.fixed_mana_cost / 256
+                      << " damage=" << ranked_damage[rank - 1] << " target=" << ranked_final->applied_results.front().target
+                      << " outcomes=" << ranked_final->applied_results.front().source_outcomes.value_or(0)
+                      << " RNGbefore=" << paired_rng_before.seed << ':' << paired_rng_before.calls
+                      << " RNGafter=" << after_rng.seed << ':' << after_rng.calls
+                      << " min/max=" << ranked_min[rank - 1] << '/' << ranked_max[rank - 1] << '\n';
+            // The retained source sequence borrows this coordinator in its
+            // checkpoint callback. Release that service while the owner lives.
+            session.detach_for_restore();
+        }
+        // Original RNG uses seed % range, so widening a damage interval can
+        // produce a smaller individual hit even from the same seed. Verify
+        // growing source bounds and the reached result instead of guessing
+        // that every sampled hit must grow monotonically.
+        check(ranked_min[1] > ranked_min[0] && ranked_max[1] > ranked_max[0] &&
+              ranked_damage[1] != ranked_damage[0],
+              "B097 source damage bounds/current-rank hit did not change from rank1 to rank2");
+        if (source_rng_seed == 1u) {
+            // Independent source arithmetic for this unarmed/defense0 fixture:
+            // base bounds512/1536 * (256+12*rank)/256 give536/1608
+            // and560/1680. Random::GetRandom(0x33ff90), nine admitted
+            // rolls from seed1, finishes at12133000. Its damage roll is
+            // min + seed % (max-min):640 and600 fixed, respectively.
+            check(ranked_min == std::array<std::int32_t, 2>{536, 560} &&
+                  ranked_max == std::array<std::int32_t, 2>{1608, 1680} &&
+                  ranked_damage == std::array<float, 2>{640.0f / 256.0f, 600.0f / 256.0f},
+                  "B097 rank1/rank2 actual cast differs from independent source gold arithmetic");
+        }
+
+        // Rank2 is unaffordable at rank1's cost; Check must reject before
+        // target/lifecycle/RNG/mana changes. Equality at rank2 cost succeeds.
+        for (const bool sufficient : {false, true}) {
+            session.detach_for_restore();
+            check(restore_game_save(b097_same_roll_checkpoint, "b097-same-roll",
+                      *session.world(), state, error), error);
+            state.skills[0].rank = 2;
+            auto threshold_properties = *session.world()->combat_properties(1);
+            auto threshold_view = dh2::data::property_view(property_rules, threshold_properties.sheets);
+            const int threshold_mp = (sufficient ? 12 : 9) * 256;
+            check(dh2_property_set(&threshold_view, 41, threshold_mp) == 0,
+                  "B097 could not arrange source mana threshold");
+            check(session.world()->update_combat_properties(1, threshold_properties,
+                      *session.world()->traits(1), error), error);
+            session.actor(1)->resource = state.stats.resource = float(threshold_mp) / 256.0f;
+            // An empty target search must still commit source mana.
+            if (sufficient) {
+                session.actor(2)->transform.position = {10000, 10000, 0};
+                session.actor(3)->transform.position = {10000, 10000, 0};
+            }
+            check(session.rebind_after_restore(error), error);
+            cast_request.downstream_animation_services = callbacks;
+            const auto before_rng = session.world()->random_state();
+            RuntimeSkillCastCoordinatorV1 threshold_coordinator;
+            RuntimeSkillCastReceiptV1 threshold_begin;
+            check(threshold_coordinator.begin_skill_cast_v1(cast_request, session, threshold_begin, error), error);
+            if (!sufficient) {
+                check(threshold_begin.phase == RuntimeSkillCastPhaseV1::rejected &&
+                      !threshold_begin.mana.mana_spent &&
+                      session.world()->combat_properties(1)->sheets.resolved[41] == threshold_mp &&
+                      session.actor(1)->action == CharacterAction::idle &&
+                      session.world()->random_state().seed == before_rng.seed &&
+                      session.world()->random_state().calls == before_rng.calls,
+                      "B097 rank2 insufficient-MP Check mutated the live cast owners");
+            } else {
+                check(threshold_begin.mana.mana_spent && threshold_begin.mana.mana_after == 0 &&
+                      threshold_begin.target_order.empty(),
+                      "B097 exact rank2 mana/empty search did not spend12 MP");
+                for (unsigned frame = 0; frame < 180; ++frame) {
+                    check(session.update(1.0 / 60.0, {}, {0, 0, 0}, 0.0f, error), error);
+                    check(threshold_coordinator.advance_after_session_update(session, 1.0 / 60.0, error), error);
+                }
+                const auto* empty_final = threshold_coordinator.receipt(1);
+                check(empty_final && empty_final->phase == RuntimeSkillCastPhaseV1::completed &&
+                      empty_final->applied_results.empty(),
+                      "B097 admitted empty-target cast created a fabricated hit");
+            }
+            session.detach_for_restore();
+        }
         session.detach_for_restore();
+        std::cout << "PASS B097 paired ranks1/2 actual do_skill damage, MP9/12, duplicate and mana/empty branches\n";
         std::cout << "PASS linked coordinator fixture: Warrior source slots0/1/2 BashDown/GroundSlam/Charge; "
                      "Rogue logical slot0→saved row0 JumpKick rank1/root521; logical slot1 empty "
                      "rejection without shifting; "

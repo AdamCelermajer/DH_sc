@@ -20,7 +20,7 @@ bool fail(std::string& error, const char* message) {
 
 // P15 FAERYSOUND (B050): original OnPreSkill_ PlaySound3D labels. Called after the
 // UseMana/cooldown prefix is committed, for every cast (empty target list included).
-void request_faery_pre_sound(const RuntimeSkillFaeryPreSoundSinkV1& sink, CombatSession& session,
+[[maybe_unused]] void request_faery_pre_sound(const RuntimeSkillFaeryPreSoundSinkV1& sink, CombatSession& session,
                              ActorId caster, bool hotty, std::size_t target_count) {
     if (!sink) return;
     RuntimeSkillFaeryPreSoundV1 request;

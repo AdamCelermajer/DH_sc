@@ -1,0 +1,7 @@
+exit=0
+window 24644848 focus=True
+click t=8.06 x=90 y=184 hold=10ms
+click t=10.06 x=916 y=650 hold=10ms
+click t=12.07 x=916 y=650 hold=10ms
+key t=20.02 vk=50
+
