@@ -1,6 +1,6 @@
 # SOUNDS report (B090 level-up, B099 NEW QUEST, B104 QUEST COMPLETED)
 
-Branch `fix/sounds` (from v20.1/integrate). Build exit 0 (-Jobs 2); ctest quest_banner_presenter_v1 (extended with cue tests) and runtime_level_up_presentation_v1 pass. Full ctest not run.
+Initial implementation at6e0313d4 on branch `fix/sounds` (from v20.1/integrate): build exit0 (-Jobs2), focused banner/level-up tests passed; full CTest was not run then. The repair/runtime/review sections below supersede those initial checks and record the final167/168 result.
 Scratch: `.local-inputs/claude-v20.1/fixsounds/` (lvl, quest runs, logs).
 
 ## IDA evidence
@@ -23,11 +23,11 @@ Owner: event_sounds_repair; independent reviewer: event_sounds_review; root owns
 - main.cpp level-up callback plays "LevelUp" (the PlayerLevelUp script content) next to the FX set 135.
 ## Verification (quiet run, silent)
 Log lines: `Level up sound LevelUp ordinal=127 status=submitted frame=143`; `Quest banner sound QuestNew ordinal=166 status=submitted` (frame 124 after accept, and frame 0 after retry); `Quest banner sound QuestComplete ordinal=165 status=submitted frame=249` after the 8th Bog Moth kill. (Ordinal = source table index; the sound-table ids above are from the routing census.) Unit test covers once-per-banner and queued ordering.
-## Video / audio
-Reference video part1 has an opus audio track. Envelope check: quest complete panel at ~761.2-763.6 s shows a loudness rise/decay (peak ~762.0) consistent with the 6.3 s sfx_quest_complete envelope; level-up at ~769.0-770.5 s shows a rise consistent with sfx_level_up; NEW QUEST at ~171.4-177 s has raised levels. Cross-correlation against the music/ambient mix was inconclusive (score ~0.2, music masks it), so this is timing plausibility only, not a waveform match.
+## Video / audio (initial timing check; no sound identity proof)
+Reference video part1 has an opus audio track. Initial envelope check found a loudness rise/decay around the completion panel761.2..763.6s, raised levels near New Quest171.4..177s, and a rise near769..770.5s. Cross-correlation against the music/ambient mix was inconclusive (~0.2). Neither the envelope nor the white/blue769s burst identifies the LevelUp sound/event; exact onset and waveform alignment remain unverified.
 ## Observed / inferred / not verified
-- Observed: the log lines above in our EXE; SWF strings; IDA SetState/LevelUp.
-- Inferred: the NativePlaySoundFX calls belong to the show frames (string order in SWF bytecode, not decompiled ActionScript); sound ids.
+- Observed: initial log lines above; IDA SetState/LevelUp; independent decoded SWF show actions subsequently confirmed the actual named NativePlaySoundFX calls (sprite684/725 show frame2,0x22b38/0x2490d). Source bindings establish127/166/165 and XML UIDs9/10/12 directly.
+- Inferred: original mixed-recording sound onset and audible identity; no waveform match established.
 - Not verified: audibility (all runs silent); the level-up FX itself still fails in this run (`Level-up actor has no opaque FX manager identity`, FX not part of this bug); exact video waveform alignment; real-game hand test. B104 tested with debug kill/accept, not a natural kill route.
 
 ## Repair implementation and isolated checks
