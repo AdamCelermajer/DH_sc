@@ -53,6 +53,11 @@ public:
     bool bind_source(std::string id, OriginalMeleeSource, std::string& error);
     bool update_combat_properties(ActorId, OriginalCombatProperties,
                                  PlayableActorTraits, std::string& error);
+    // Source Character::Revive(..,1) (_InitHpMp: RegenHP/RegenMP -1 = full). The live ActorState vitals are only a
+    // mirror of the source property sheet (cells 36/41 current, 38/43 maximum): the sheet is what the skill/mana
+    // owners (CalcManaCost/UseMana, cast-prepare vitals check), potions and saves read. Reviving only the ActorState
+    // left the sheet at the pre-death value, so every later skill cast was rejected (B083). One owner updates both.
+    bool revive_actor(ActorId, std::string& error);
     ActorState* find_actor(ActorId) override;
     const ActorState* find_actor(ActorId) const;
     const std::map<ActorId, ActorState>& actors() const noexcept { return actors_; }
