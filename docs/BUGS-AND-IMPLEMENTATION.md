@@ -282,14 +282,14 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B098 | Killed monsters do not play the death animation / do not disappear (shot 17). | OPEN, queued | fresh Sonnet session |
 | B099 | No NEW QUEST sound. | OPEN, queued | fresh Sonnet session |
 | B100 | Cannot talk to the merchant, no icon above his head (shot 18). | OPEN, queued | fresh Sonnet session |
-| B101 | Wall of fire must be reproduced: deep IDA inspection (shot 19). | OPEN, fresh continuation running with B105 | `/root/b101_b105_effects`; root preliminary review, fresh read-only reviewer queued |
+| B101 | Wall of fire must be reproduced: deep IDA inspection (shot 19). | OPEN, fresh continuation running; scope B101 only | `/root/b101_b105_effects` (B101 only); root preliminary review, fresh read-only B101 reviewer queued |
 | B102 | EQUIP button does not work (shots 14, 20). | OPEN, fresh continuation running | `/root/b102_equipment`; root preliminary review, fresh read-only reviewer queued |
 | B103 | Character menu buttons still not clickable (shot 21). | OPEN, queued | fresh Sonnet session |
 | B104 | No sound on quest completion (Bogwalker quest). | OPEN, queued | fresh Sonnet session |
-| B105 | Celeste glow is broken (shot 22). | OPEN, fresh continuation running with B101 | `/root/b101_b105_effects`; root preliminary review, fresh read-only reviewer queued |
+| B105 | Celeste glow is broken (shot 22). | OPEN, separate fresh continuation running; consumes B101 common emitter dependency | `/root/b105_celeste`; root preliminary review, separate fresh read-only B105 reviewer queued |
 | B106 | E does not work / does not teleport (Travel to Bogwitch Cavern, shot 23). | OPEN, queued | fresh Sonnet session |
 | B107 | User note "abomination": it was the cavern rendering (same as B109, shot-24). | MERGED INTO B109 (session assigned) | fresh Sonnet session |
-| B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | OPEN, fresh continuation running | `/root/b109_cavern`; root preliminary review, fresh read-only reviewer queued |
+| B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | OPEN, committed first patch; interrupted temporarily to open separate B105 session; resume queued | `/root/b109_cavern`; root follow-up, fresh read-only reviewer queued |
 | B108 | Continue after death fails without a checkpoint-zone contact. | OPEN, existing fix awaits review and combined B086 quit-after-death test | Root follow-up; fresh read-only reviewer queued |
 | B110 | Merchant BUY/SELL UI is missing from the normal interaction path. | OPEN, worker interrupted at checkpoint to prioritize clarified B094; resume queued | `/root/b110_merchant`; root follow-up, fresh read-only reviewer queued |
 | B111 | Statistics icon navigation and four character-sheet sub-pages are missing. | OPEN, source draft awaits fresh implementation continuation | Root follow-up; fresh worker/reviewer queued |

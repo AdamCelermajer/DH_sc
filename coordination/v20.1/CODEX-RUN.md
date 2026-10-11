@@ -12,8 +12,9 @@ use GPT-6.1 Sol HIGH. Concurrency is limited to five workers plus root.
 |---|---|---|---|
 | B102 equipment / input prerequisite | `/root/b102_equipment` | fix102 | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
 | B096 training | `/root/b096_skill_training` | fix096 | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
-| B109/B107 rendering | `/root/b109_cavern` | fix109 | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
-| B101/B105 particle/fire effects | `/root/b101_b105_effects` | fixfx | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
+| B109/B107 rendering | `/root/b109_cavern` | fix109 | First patch committed; temporarily interrupted to open separate B105; resume queued |
+| B101 fire/common emitter core | `/root/b101_b105_effects` (scope B101 only) | fixfx | Fresh separate B101 reviewer queued |
+| B105 Celeste actor effects | `/root/b105_celeste` | fix105 | Fresh separate B105 worker and reviewer; common-core dependency owned by B101 |
 | B110 merchant shop | `/root/b110_merchant` | fix110 | Temporarily interrupted for clarified B094; resume queued; fresh reviewer queued |
 | B094/B091 boss cinematic state | `/root/b094_b091_boss_cinematics` | fix091 | Fresh session after user clarification; fresh reviewer queued |
 
@@ -54,6 +55,22 @@ audibility. No new bug was added in the user inbox at dispatch time.
 - Packaging guard checks pass: the v20.1 packager refuses an existing accepted
   v20 target, and the v20.1 acceptance tool refuses the accepted v20 receipt.
   Evidence: `.local-inputs/v20.1/root/package-guard-tests.json`.
+- User reiterated one fresh session per bug. B101/B105 continuation ownership
+  is now split: B101 retains the shared core, B105 consumes its committed API
+  and owns actor/glow integration in its own worktree. Cinematic bugs remain
+  together under the user's explicit exception. B109 was temporarily interrupted
+  after commit `24873fb8` to keep the concurrency cap; its unfinished cave
+  validation must resume. Each sound bug also needs a separate reviewer.
+
+## Initial combined baseline result
+
+Source `v20.1/integrate` at `dfc67d8d` built successfully (1,042 Ninja steps).
+Frozen test copy `.local-inputs/v20.1/root/dh-foundation-initial-integration.exe`
+SHA256 `18708E183185B68C512807AEA448357A072A6B65BD76B033D06D168014D05CEB`.
+Full PowerShell ctest with toolchain PATH: 167/168 pass; only allowed worktree
+`session_skill_binding` fails. Log `.local-inputs/v20.1/root/ctest-initial-integration.log`.
+This checks the earlier merged batch only; it is not a v20.1 acceptance result.
+Short hidden isolated chest/vase/NPC integrated fixtures are in progress.
 
 ## Acceptance gates still open
 
