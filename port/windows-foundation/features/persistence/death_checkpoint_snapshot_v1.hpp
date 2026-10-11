@@ -24,6 +24,22 @@ enum class SourceCharacterRestoreOpV1 : std::uint8_t {
     clear_target
 };
 
+enum class SourceCheckpointObjectFamilyV1 : std::uint8_t {
+    unknown,
+    object_base,
+    character,
+    container,
+    door,
+    module,
+    native_trigger,
+    area_zone
+};
+
+// Constructor byte+40 eligibility with GameObject::InitPost's
+// skip_checkpoint override. Unknown and generic area-zone families fail closed.
+bool source_checkpoint_object_eligible_v1(SourceCheckpointObjectFamilyV1 family,
+    bool skip_checkpoint, bool& eligible, std::string& error);
+
 struct SourceCharacterRestorePlanV1 {
     std::uint32_t saved_state = 0;
     bool saved_dead = false;
@@ -40,7 +56,7 @@ bool source_character_restore_plan_v1(
     std::uint32_t saved_state, bool saved_dead,
     bool already_limbus, bool already_pre_spawn,
     std::optional<bool> can_respawn,
-    bool physical_body_present,
+    std::optional<bool> physical_body_present,
     SourceCharacterRestorePlanV1&, std::string& error);
 
 struct DeathCheckpointActorV1 {
@@ -70,10 +86,12 @@ struct DeathCheckpointSnapshotV1 {
 
 struct DeathCheckpointCaptureServicesV1 {
     void* context = nullptr;
-    bool (*actor_checkpoint_enabled)(void*, ActorId, bool&, std::string&) = nullptr;
+    bool (*actor_checkpoint_facts)(void*, ActorId, SourceCheckpointObjectFamilyV1&,
+                                   bool& skip_checkpoint, std::string&) = nullptr;
     bool (*actor_source_state)(void*, ActorId, std::uint32_t& cs_state,
                                bool& source_dead, std::string&) = nullptr;
-    bool (*object_checkpoint_enabled)(void*, ObjectId, bool&, std::string&) = nullptr;
+    bool (*object_checkpoint_facts)(void*, ObjectId, SourceCheckpointObjectFamilyV1&,
+                                   bool& skip_checkpoint, std::string&) = nullptr;
 };
 
 bool capture_death_checkpoint_snapshot_v1(
@@ -98,7 +116,12 @@ struct DeathCheckpointRestoreServicesV1 {
     bool (*current_source_states)(void*, ActorId, bool& already_limbus,
                                   bool& already_pre_spawn,
                                   std::optional<bool>& can_respawn,
+                                  std::optional<bool>& physical_body_present,
                                   std::string&) = nullptr;
+    // Mirrors PlayerSavegame::_Load(16)'s INITQUESTS prefix. It returns the
+    // source-initialized CQPG bytes without mutating other CharacterState.
+    bool (*initialize_source_qest)(void*, std::vector<std::uint8_t>&,
+                                   std::string&) = nullptr;
     // Applies only the source state operations represented by plan to staged
     // ActorState. It must not mutate the live owner or profile/inventory.
     bool (*apply_source_state)(void*, const SourceCharacterRestorePlanV1&,

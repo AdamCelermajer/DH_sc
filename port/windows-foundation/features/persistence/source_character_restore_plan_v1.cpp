@@ -2,10 +2,28 @@
 
 namespace dh::foundation::persistence::death_flow {
 
+bool source_checkpoint_object_eligible_v1(SourceCheckpointObjectFamilyV1 family,
+    bool skip_checkpoint, bool& eligible, std::string& error) {
+    switch (family) {
+    case SourceCheckpointObjectFamilyV1::character:
+    case SourceCheckpointObjectFamilyV1::container:
+    case SourceCheckpointObjectFamilyV1::door:
+    case SourceCheckpointObjectFamilyV1::module:
+    case SourceCheckpointObjectFamilyV1::native_trigger:
+        eligible=!skip_checkpoint;error.clear();return true;
+    case SourceCheckpointObjectFamilyV1::object_base:
+    case SourceCheckpointObjectFamilyV1::area_zone:
+        eligible=false;error.clear();return true;
+    case SourceCheckpointObjectFamilyV1::unknown:
+        error="Source checkpoint family is unknown; admission cannot be inferred";return false;
+    }
+    error="Source checkpoint family value is invalid";return false;
+}
+
 bool source_character_restore_plan_v1(
     std::uint32_t saved_state, bool saved_dead,
     bool already_limbus, bool already_pre_spawn,
-    std::optional<bool> can_respawn, bool physical_body_present,
+    std::optional<bool> can_respawn, std::optional<bool> physical_body_present,
     SourceCharacterRestorePlanV1& output, std::string& error) {
     SourceCharacterRestorePlanV1 plan;
     plan.saved_state=saved_state;
@@ -42,7 +60,11 @@ bool source_character_restore_plan_v1(
         if (*can_respawn) plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_limbus_if_not_already);
         plan.resulting_dead=true;
     } else {
-        if (!physical_body_present)
+        if (!physical_body_present) {
+            error="Character::Deserialize requires current physical-body presence for the saved-alive branch";
+            return false;
+        }
+        if (!*physical_body_present)
             plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::initialize_physical_if_missing);
         plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_idle_zero);
         plan.resulting_dead=false;
