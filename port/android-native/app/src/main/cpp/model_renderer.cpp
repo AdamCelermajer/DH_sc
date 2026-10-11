@@ -12169,7 +12169,13 @@ bool bind_authored_faery_coordinator(AuthoredCryptFaeryOwner& owner,
      &faery_coordinator_combat_facts};
  const auto status=dh2::character_faery_coordinator_v1::bind(
      record,bindings,error);
- return status==dh2::character_faery_coordinator_v1::Status::complete;
+ if(status!=dh2::character_faery_coordinator_v1::Status::complete)return false;
+ // A constructed source Character starts in Idle (state 3), as the direct
+ // Characters do; the Faery coordinator otherwise stays at -1.
+ if(record.coordinator->state.current<0&&record.coordinator->transition(3)<0) {
+  error="Faery coordinator could not enter its initial Idle state";return false;
+ }
+ return true;
 }
 
 using FaeryScriptCallback=std::int32_t (*)(void*,const dh2_script_value*,
@@ -22406,7 +22412,11 @@ bool advance_authored_faery_rotation(AuthoredCryptFaeryOwner& owner,
     record->faery_controller.character!=owner.identity||
     !record->faery_controller.controller||
     !record->faery_controller.controllable) {
-  error="Faery rotation requires the live Character state, properties, and controller on its canonical Record";
+  error=std::string("Faery rotation requires the live Character state, properties, and controller on its canonical Record (")+
+      (!record||record->character.identity!=owner.identity?"record":
+       !record->coordinator?"coordinator":record->coordinator->state.current<0?"state":
+       !record->source_properties_ready()?"source properties":!owner.properties_ready?"owner properties":
+       owner.properties.resolved.size()!=224?"property count":"controller")+")";
   return false;
  }
  auto& character_state=record->coordinator->state;
@@ -25611,6 +25621,19 @@ bool update_ordered_character_v1(void* raw,
  if(!object->serialized_flag_8a_ready) {
   context.error="ObjectManager Character update lacks the canonical +0x8a condition result";
   return false;
+ }
+ if(actor->spawn_owner&&
+    actor->spawn_owner->source_enabled!=
+        (object->serialized_flag_8a!=0)) {
+  // A condition can disable the row before its SpawnOwner exists; apply the
+  // canonical Character Enabled/Disabled once so both owners agree.
+  std::string sync_error;
+  if(apply_source_character_enable_v1(*active_crypt_room_runtime,*actor,*object,
+       object->serialized_flag_8a!=0,sync_error)) {
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Character +0x8a reconciled with its SpawnOwner | %s | enabled %d",
+       actor->name.c_str(),int(object->serialized_flag_8a));
+  }
  }
  if(actor->spawn_owner&&
     actor->spawn_owner->source_enabled!=
