@@ -109,3 +109,22 @@ the Captain sequence shows the victim falling and the camera returning to play.
 The owner attributes the corrected result to source scripted animation state 14
 and camera rig composition, with no guessed offsets. Exact final committed build,
 reference/IDA comparison and combined regression remain pending before closure.
+
+## User steering during integration
+
+The user added the missing Gameloft launch buzz as B078, requested full original
+player death/UI/respawn/world-state work (existing I024), and asked to investigate
+remembered gate/teleport light effects (I028). Fresh owners are respectively
+`/root/b078_gameloft_audio`, `/root/v20_death_flow`, and
+`/root/v20_gate_teleport_fx`; reviewer `/root/v20_new_work_review`. Main/core/build
+integration remains with `/root/v20_integration`. These extend v20; no final
+package has been frozen. Audio checks remain silent and cannot prove audibility.
+
+Door investigation traced the actual Witch `Door_Teleport` compiled sequence:
+effect ordinal 132, sound 604, wait, source SetActorPosition to the door waypoint,
+wait and repeat effect. The `is_door_closed` trigger gate suppresses processing
+in door states 1/3 (opened/opening), rather than proving open walk-through.
+Current consumer rejects that field and current Witch test did not activate the
+campaign trigger path. Integration must bind the generic source gate and active
+level script bank before claiming this original route works. Physical open-cross
+attempts that clamp at missing source floor remain disqualified as passage proof.
