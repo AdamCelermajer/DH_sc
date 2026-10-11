@@ -226,7 +226,9 @@ struct Fixture {
             detail.clear();return true;};
         consumer_config.source.skill_focus_gate528=[&](const CombatSessionActorTransition& event,bool moving,std::string& detail){
             if(event.actor!=1||event.generation!=active_skill_generation){detail="Skill gate receipt is stale";return false;}
-            auto& gate=source_gate528[event.actor];gate=(gate&~0x140u)|(moving?0x100u:0u);
+            auto& gate=source_gate528[event.actor];
+            if(event.stage==CombatSessionTransitionStage::focus_prefix)gate&=~0x140u;
+            else if(moving)gate|=0x100u;
             calls.push_back("skill-gate528:"+std::to_string(gate));detail.clear();return true;};
         consumer_config.source.skill_blur_timer10_event48=[&](const CombatSessionActorTransition& event,bool& started,std::string& detail){
             if(event.actor!=1){detail="Skill Blur timer lacks current source actor";return false;}
@@ -473,6 +475,10 @@ void run_skill_cast_physical_branches(const char* assets){
             check(id==1&&from==state&&to==3,"Skill/Cast interruption Post received the wrong source transition");
             ++f.skill_source_departed;detail.clear();return true;};
         services.checkpoint=[](std::string& detail){detail.clear();return true;};
+        services.focused=[&f,state](ActorId id,std::string& detail){
+            check(id==1&&f.session.original_actor_state(1)==state,"Source Pre did not observe the published incoming state");
+            if(state==6)check((f.source_gate528.at(1)&0x140u)==0,"Skill Pre observed unreached moving-bit suffix");
+            f.calls.push_back("source-pre:"+std::to_string(state));detail.clear();return true;};
         f.session.actor(1)->action=CharacterAction::casting;
         const CombatSessionSourceSequencePolicy policy{state,state==6?0x6341u:0x6301u,generation};
         check(f.session.play_actor_source_sequence(1,f.player_skill_bank.plan,f.player_skill_bank.policies,

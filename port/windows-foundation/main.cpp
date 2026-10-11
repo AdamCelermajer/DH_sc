@@ -433,6 +433,7 @@ struct Options {
     int testStatPoints=0,testSkillPoints=0; // B103 TEST ONLY\r
     float testPlayerHealth=0.f; // I024 TEST ONLY: --test-player-hp N[@FRAME] sets the local Character HP at FRAME (inert unless passed)
     int testPlayerHealthFrame=0;
+    f::ActorId testSkillOldTarget=0;int testSkillOldTargetFrame=-1; // isolated Character408 field fixture, default inert
     f::ActorId testEnemyInjuryActor=0;int testEnemyInjuryRating=0; // B083 isolated source-formula branch fixture, default inert
     f::Vec3 actorPosition{};
     std::optional<f::CameraVec3> focus;
@@ -625,6 +626,10 @@ Options parse(int argc, char** argv) {
             o.testPlayerHealth=std::stof(text.substr(0,at));
             if(at!=std::string::npos)o.testPlayerHealthFrame=std::stoi(text.substr(at+1));
             if(!std::isfinite(o.testPlayerHealth)||o.testPlayerHealth<=0.f||o.testPlayerHealthFrame<0)throw std::runtime_error("Test player HP must be N or N@FRAME with positive N");
+        }
+        else if(arg=="--test-skill-old-target") {
+            const auto input=pair(value());o.testSkillOldTarget=std::stoull(input.first);o.testSkillOldTargetFrame=std::stoi(input.second);
+            if(!o.testSkillOldTarget||o.testSkillOldTargetFrame<0)throw std::runtime_error("Test skill old target must be ACTOR_ID=FRAME");
         }
         else if(arg=="--test-enemy-injury-rating") {
             const auto input=pair(value());o.testEnemyInjuryActor=std::stoull(input.first);o.testEnemyInjuryRating=std::stoi(input.second);
@@ -5138,7 +5143,11 @@ int main(int argc,char** argv) {
                 moving=(rows.skills()[std::size_t(receipt->skill_table_id)].scalar.words[2]&0xff)!=0;e.clear();return true;
             };
             config.source.skill_focus_gate528=[contextFor](const auto& event,bool moving,std::string& e) {
-                auto& gate=contextFor(event.actor).gate528;gate=(gate&~0x140u)|(moving?0x100u:0u);e.clear();return true;
+                auto& gate=contextFor(event.actor).gate528;
+                if(event.stage==f::CombatSessionTransitionStage::focus_prefix)gate&=~0x140u;
+                else if(event.stage==f::CombatSessionTransitionStage::focus_suffix){if(moving)gate|=0x100u;}
+                else {e="Skill gate528 requires actual Focus prefix/suffix stage";return false;}
+                e.clear();return true;
             };
             config.source.skill_blur_timer10_event48=[contextFor](const auto& event,bool& started,std::string& e) {
                 auto& context=contextFor(event.actor);started=(context.gate528&0x100u)!=0;
@@ -6595,6 +6604,10 @@ int main(int argc,char** argv) {
                     throw std::runtime_error("Source preferred target: "+error);
                 std::cout<<"Source target command frame="<<drawn<<" actor="<<combatSession->player_id()<<" selected="<<selected<<" serial="<<combatSession->update_serial()<<std::endl;
             }
+            if(combatSession&&options.testSkillOldTarget&&int(drawn)==options.testSkillOldTargetFrame) {
+                if(!combatSession->set_source_target(combatSession->player_id(),options.testSkillOldTarget,false,error))throw std::runtime_error("Source old-target fixture: "+error);
+                std::cout<<"Test source Character408 frame="<<drawn<<" target="<<options.testSkillOldTarget<<" state="<<combatSession->original_actor_state(combatSession->player_id())<<'\n';
+            }
             if(!gameplayPaused&&!playerControllerBlocked&&combatSession&&skillCastCoordinator)for(unsigned pcKeyIndex=0;pcKeyIndex<3;++pcKeyIndex)if(uiInput.skills[pcKeyIndex].pressed) {
                 std::uint32_t slot=0;
                 if(!f::generic_skills::pc_skill_number_to_source_slot_v1(pcKeyIndex+1,slot,error))throw std::runtime_error("PC skill mapping: "+error);
@@ -6678,6 +6691,12 @@ int main(int argc,char** argv) {
                                 e="Skill object Interact lacks its source container consumer";return false;
                             };
                             request.object_targets=&objectTargets;
+                            request.downstream_animation_services.focused=[&](f::ActorId id,std::string& e) {
+                                const auto* caster=combatSession->actor(id);const auto* pre=skillCastCoordinator->receipt(id);
+                                std::cout<<"Source skill Pre frame="<<drawn<<" actor="<<id<<" oldtarget408="<<caster->target_id<<" heading="<<caster->transform.rotation[2]<<" targets=";
+                                if(pre)for(const auto target:pre->target_order)std::cout<<target<<',';
+                                std::cout<<" MP="<<state.stats.resource<<'\n';e.clear();return true;
+                            };
                             request.downstream_animation_services.event=[&](f::ActorId id,const f::RetainedAnimationEvent& event,std::string&) {
                                 if(event.name!="do_skill")return true;
                                 const auto* caster=combatSession->actor(id);

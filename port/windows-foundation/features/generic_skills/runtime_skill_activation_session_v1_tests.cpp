@@ -1671,6 +1671,118 @@ int main(int argc, char** argv) {
               error.find("replaced Session") != std::string::npos,
               error.empty() ? "Quiescent restore silently reused a transient source clock from the prior Session lease" : error);
 
+
+        // B083 departure/Pre ordering. A synchronous source transition arm
+        // borrows the same live Character408 and native LookAt kernel; the
+        // full physical owner is independently exercised by its linked test.
+        unsigned blur_calls=0,focus_calls=0,suffix_calls=0,pre_calls=0;
+        auto order_request=slot_matrix_request;
+        order_request.source_slot=0;order_request.animation_bank=&runtime_bank;
+        order_request.selection=selection;
+        order_request.downstream_animation_services={};
+        order_request.downstream_animation_services.finished=[](ActorId,std::string& e){e.clear();return true;};
+        order_request.downstream_animation_services.focused=[&](ActorId,std::string& e){++pre_calls;check(blur_calls==1&&focus_calls==1&&suffix_calls==0,"Pre did not follow one Blur/Focus prefix and precede animation suffix");e.clear();return true;};
+        auto reset_order_fixture=[&](ActorId old_target,bool two_candidates) {
+            // Each branch starts from a fresh source Session. A failed reached
+            // prefix remains noncheckpointable; this fixture never restores it.
+            session.detach_for_restore();
+            check(session.initialize(assets,properties,bindings,config,player_visual,population,{0,0,0},customization,error),error);
+            session.actor(1)->persistent_character_id=quiescent_skill_checkpoint.character.id;
+            session.detach_for_restore();
+            check(restore_game_save(quiescent_skill_checkpoint,"same-session-quiescent-skill",*session.world(),state,error),error);
+            check(session.rebind_after_restore(error),error);
+            blur_calls=focus_calls=suffix_calls=pre_calls=0;
+            auto* owner=session.actor(1);owner->transform.position={0,0,0};owner->transform.rotation[2]=0;
+            for(ActorId id:{2,3}){auto* a=session.actor(id);a->health=a->max_health;a->action=CharacterAction::idle;a->source_target_node180=0;a->source_target_position184.reset();}
+            session.actor(2)->transform.position=two_candidates?std::array<float,3>{0,100,0}:std::array<float,3>{100,40,0};
+            session.actor(3)->transform.position=two_candidates?std::array<float,3>{20,-110,0}:std::array<float,3>{0,1000,0};
+            restore_b083_mp();
+            check(session.bind_reconstructible_actor_transition_handler([&](const CombatSessionActorTransition& event,std::string& e){
+                if(event.actor!=1){e.clear();return true;}
+                if(event.stage==CombatSessionTransitionStage::blur){
+                    ++blur_calls;
+                    if(event.from_state==11&&session.actor(1)->target_id){
+                        SkillActorTargetQueryV1 old;old.caster=1;old.selected=session.actor(1)->target_id;old.status=SkillActorTargetQueryStatusV1::selected_character;
+                        if(!look_at_bashdown_target_v1(session,old,e))return false;
+                    }
+                }else if(event.stage==CombatSessionTransitionStage::focus_prefix){++focus_calls;session.actor(1)->source_flags520=0x6341u;}
+                else ++suffix_calls;
+                e.clear();return true;
+            },[](std::string& e){e.clear();return true;},error),error);
+            auto injury_props=*session.world()->combat_properties(1);injury_props.facts.original_state=11;
+            check(session.world()->update_combat_properties(1,injury_props,*session.world()->traits(1),error),error);owner->action=CharacterAction::hurt;
+            check(session.set_source_target(1,old_target,false,error),error);
+            order_request.mana_policy=mana_facts;order_request.object_targets=nullptr;
+        };
+        RuntimeSkillCastReceiptV1 ordered_cast;
+        reset_order_fixture(2,true);
+        RuntimeSkillCastCoordinatorV1 frontal_coordinator;
+        check(frontal_coordinator.begin_skill_cast_v1(order_request,session,ordered_cast,error),error);
+        check(ordered_cast.target_order==std::vector<ActorId>{2,3}&&pre_calls==1&&suffix_calls==1&&ordered_cast.mana.mana_spent,
+              "FrontalFirst searched before outgoing injury LookAt (old heading selects actor3)");
+        const auto ordered_mp=session.world()->combat_properties(1)->sheets.resolved[41];
+        RuntimeSkillCastReceiptV1 ordered_duplicate;
+        check(!frontal_coordinator.begin_skill_cast_v1(order_request,session,ordered_duplicate,error)&&blur_calls==1&&pre_calls==1&&session.world()->combat_properties(1)->sheets.resolved[41]==ordered_mp,
+              "Duplicate injured cast replayed Blur/Pre/debit");
+
+        reset_order_fixture(3,false);
+        RuntimeSkillCastCoordinatorV1 differing_coordinator;
+        check(differing_coordinator.begin_skill_cast_v1(order_request,session,ordered_cast,error),error);
+        const float different_heading=session.actor(1)->transform.rotation[2];
+        check(ordered_cast.target_order==std::vector<ActorId>{2}&&different_heading>1.8f&&different_heading<2.1f&&pre_calls==1&&blur_calls==1,
+              "Outgoing oldtarget408 overwrote the different skill target facing");
+
+        reset_order_fixture(3,false);
+        RuntimeSkillCastCoordinatorV1 frame_begin_coordinator;bool frame_cast_started=false;
+        session.set_frame_begin_provider([&](CombatSession& current,double,std::string& e){
+            if(frame_cast_started){e.clear();return true;}frame_cast_started=true;
+            return frame_begin_coordinator.begin_skill_cast_v1(order_request,current,ordered_cast,e);
+        });
+        check(session.update(1./60.,{},{0,0,0},0.f,error),error);session.clear_frame_begin_provider();
+        check(ordered_cast.target_order==std::vector<ActorId>{2}&&session.actor(1)->transform.rotation[2]>1.8f&&session.actor(1)->transform.rotation[2]<2.1f&&pre_calls==1&&blur_calls==1,
+              "Stale beginning host facing erased source Pre LookAt dispatched inside the physical frame callback");
+
+        reset_order_fixture(3,false);session.actor(2)->transform.position={1000,400,0};
+        RuntimeSkillCastCoordinatorV1 nil_order_coordinator;
+        check(nil_order_coordinator.begin_skill_cast_v1(order_request,session,ordered_cast,error),error);
+        check(ordered_cast.target_order.empty()&&std::abs(std::abs(session.actor(1)->transform.rotation[2])-3.1415927f)<.0001f&&ordered_cast.mana.mana_spent,
+              "Nil skill Pre discarded the reached outgoing injury LookAt or skipped mana");
+
+        reset_order_fixture(3,false);
+        auto low_props=*session.world()->combat_properties(1);auto low_mp_view=dh2::data::property_view(property_rules,low_props.sheets);
+        check(dh2_property_set(&low_mp_view,41,source_cost.fixed_mana_cost-1)==0,"Low MP order fixture failed");
+        check(session.world()->update_combat_properties(1,low_props,*session.world()->traits(1),error),error);
+        session.actor(1)->resource=original_signed256(low_props.sheets.resolved[41]);state.stats.resource=session.actor(1)->resource;
+        RuntimeSkillCastCoordinatorV1 low_order_coordinator;
+        check(low_order_coordinator.begin_skill_cast_v1(order_request,session,ordered_cast,error),error);
+        check(ordered_cast.phase==RuntimeSkillCastPhaseV1::rejected&&blur_calls==0&&focus_calls==0&&pre_calls==0&&session.original_actor_state(1)==11&&session.actor(1)->action==CharacterAction::hurt&&session.actor(1)->transform.rotation[2]==0,
+              "HasMana refusal departed injury, queried target, or changed facing");
+
+        reset_order_fixture(3,false);
+        RuntimeSkillCastCoordinatorV1 bank_order_coordinator;auto invalid_order_request=order_request;invalid_order_request.animation_bank=nullptr;invalid_order_request.selection.state="missing-source-root";
+        check(!bank_order_coordinator.begin_skill_cast_v1(invalid_order_request,session,ordered_cast,error)&&blur_calls==0&&session.original_actor_state(1)==11&&session.world()->combat_properties(1)->sheets.resolved[41]==session.world()->combat_properties(1)->sheets.resolved[43],
+              "Invalid bank departed or debited before hierarchy admission");
+
+        reset_order_fixture(3,false);check(session.world()->bind_object(barrel,error),error);
+        SkillObjectTargetArmV1 unavailable_arm;unavailable_arm.authored_order={99};
+        unavailable_arm.facts=[](const WorldObject&,ActorId,SkillObjectTargetFactsV1&,std::string& e){e="ordering fixture unavailable typed object facts";return false;};
+        order_request.object_targets=&unavailable_arm;
+        RuntimeSkillCastCoordinatorV1 query_failure_coordinator;
+        check(!query_failure_coordinator.begin_skill_cast_v1(order_request,session,ordered_cast,error)&&ordered_cast.phase==RuntimeSkillCastPhaseV1::partial_failure&&!ordered_cast.mana.mana_spent&&blur_calls==1&&focus_calls==1&&suffix_calls==0&&pre_calls==0&&session.original_actor_state(1)==6,
+              "Pre query failure rolled back reached departure or spent unreached mana");
+        const auto query_failure_mp=session.world()->combat_properties(1)->sheets.resolved[41];
+        check(!query_failure_coordinator.begin_skill_cast_v1(order_request,session,ordered_duplicate,error)&&blur_calls==1&&session.world()->combat_properties(1)->sheets.resolved[41]==query_failure_mp,
+              "Partial Pre query failure replayed departure or debit");
+
+        reset_order_fixture(3,false);order_request.mana_policy.tracing_character_stats.reset();
+        RuntimeSkillCastCoordinatorV1 debit_failure_coordinator;
+        check(!debit_failure_coordinator.begin_skill_cast_v1(order_request,session,ordered_cast,error)&&ordered_cast.phase==RuntimeSkillCastPhaseV1::partial_failure&&ordered_cast.mana.mana_spent&&blur_calls==1&&focus_calls==1&&suffix_calls==0&&session.original_actor_state(1)==6,
+              "Postdebit provider failure refunded mana or rolled back departure");
+        const auto partial_mp=session.world()->combat_properties(1)->sheets.resolved[41];
+        check(!debit_failure_coordinator.begin_skill_cast_v1(order_request,session,ordered_duplicate,error)&&blur_calls==1&&session.world()->combat_properties(1)->sheets.resolved[41]==partial_mp,
+              "Postdebit partial cast replayed departure or mana");
+        std::cout<<"PASS B083 order: postBlur FrontalFirst; differing Character408/new target; nil facing; HasMana/bank refusal; pre/postdebit failures; duplicates\n";
+
         session.detach_for_restore();
         std::cout << "PASS linked coordinator fixture: Warrior source slots0/1/2 BashDown/GroundSlam/Charge; "
                      "Rogue logical slot0→saved row0 JumpKick rank1/root521; logical slot1 empty "

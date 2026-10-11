@@ -67,6 +67,8 @@ CombatSessionStateAnimationServices source_sequence_services(
         ? RuntimeSkillSourceAnimStateV1::cast
         : RuntimeSkillSourceAnimStateV1::skill;
     CombatSessionStateAnimationServices services;
+    services.focused=std::move(existing.focused);
+    existing.focused={}; // downstream retained callbacks cannot retain Focus stack captures
     services.event = [&coordinator, &session, actor, generation, event_state,
                       use_event, existing](ActorId event_actor,
                           const RetainedAnimationEvent& event,
@@ -714,9 +716,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     if (skill_row.scalar.words[7] & 0x00800000u)
         return fail(error, "Paired-hand skill result requests are not supported by this source owner");
 
-    // Build the target order from the live, active population in enrollment
-    // order. Reached object-only results remain unsupported; a Character hit
-    // is never substituted from cursor distance or ActorId sorting.
+    // Borrow the live population enrollment order. Source Pre consumes it
+    // after outgoing Blur, using the then-current heading and typed objects.
     auto order = active_population_order(*request.population, session, error);
     if (!error.empty()) return false;
     const auto* current = session.world()->combat_properties(request.actor);
@@ -754,44 +755,6 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         }
     }
 
-    SkillActorTargetQueryV1 target;
-    target.caster = request.actor;
-    target.status = SkillActorTargetQueryStatusV1::no_actor_target;
-    float pre_range = 0.0f;
-    bool pre_search = true;
-    if (branch == RuntimeWarriorSkillBranchV1::bashdown) pre_range = 160.0f;
-    else if (branch == RuntimeWarriorSkillBranchV1::charge) pre_range = 300.0f;
-    else if (branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick) pre_range = 250.0f;
-    else pre_search = false; // GroundSlam's authored OnPre has no target query.
-    if (pre_search && !query_source_character_targets_v1(session, request.actor,
-            order, request.target_facts, request.non_character_attackable_objects_absent,
-            pre_range, 3.1415927410125732421875f,
-            SkillTargetSortV1::frontal_first, target, error, request.object_targets)) return false;
-    if ((branch == RuntimeWarriorSkillBranchV1::bashdown ||
-         branch == RuntimeWarriorSkillBranchV1::charge ||
-         branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick) &&
-        target.status == SkillActorTargetQueryStatusV1::non_character_target_unknown) {
-        output.actor = request.actor;
-        output.source_slot = request.source_slot;
-        output.saved_skill_row = saved_row;
-        output.class_skill_position = position;
-        output.skill_table_id = visual.skill_table_id;
-        output.skill_name = visual.source_skill_name;
-        output.source_script = visual.source_script;
-        output.phase = RuntimeSkillCastPhaseV1::rejected;
-        output.detail = "Character-only host scope cannot resolve an AttackableOnly source object candidate";
-        error.clear();
-        return true;
-    }
-
-    const auto old_heading = actor->transform.rotation[2];
-    if ((branch == RuntimeWarriorSkillBranchV1::bashdown ||
-         branch == RuntimeWarriorSkillBranchV1::charge ||
-         branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick) &&
-        (target.status == SkillActorTargetQueryStatusV1::selected_character ||
-         target.status == SkillActorTargetQueryStatusV1::selected_object) &&
-        !look_at_bashdown_target_v1(session, target, error)) return false;
-
     ActiveCastV1 active;
     active.receipt.actor = request.actor;
     active.receipt.generation = next_generation_++;
@@ -804,7 +767,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     active.receipt.skill_table_id = visual.skill_table_id;
     active.receipt.skill_name = visual.source_skill_name;
     active.receipt.source_script = visual.source_script;
-    active.receipt.target_order = request.object_targets ? target.ordered_targets : target.ordered_character_targets;
+
     active.receipt.phase = RuntimeSkillCastPhaseV1::prepared_pending_use;
     active.source_state = 6;
     active.source_focus_flags = 0x6341u;
@@ -819,7 +782,6 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         request.classes->names.end(), use_class_token) - request.classes->names.begin());
     if (active.source_class_id < 0 ||
         std::size_t(active.source_class_id) >= request.classes->names.size()) {
-        actor->transform.rotation[2] = old_heading;
         return fail(error, "Authored skill CLASS_ID token is unavailable in source ClassTables");
     }
     active.row_mask = skill_row.scalar.words[7];
@@ -847,57 +809,20 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         : branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick
             ? 4.71238898038468986f : 3.1415927410125732421875f;
     active.cooldown_ms = cooldown_ms;
-    active.target_query = target;
     if (request.object_targets) active.object_targets = *request.object_targets;
     // An admitted skill departs the swing (CSAttack::OnBlur/interrupt), so a
     // failed sequence start must not restore Attack with no attack owner.
     active.previous_action = (actor->action == CharacterAction::attacking || actor->action == CharacterAction::hurt)
         ? CharacterAction::idle : actor->action;
 
-    const bool mana_ok = prepare_skill_cast_mana_v1(*request.character, session, request.actor,
-            *request.characters, request.skills, *request.classes,
-            *request.property_rules, position, class_token, request.mana_policy,
-            active.receipt.mana, error);
-    if (!mana_ok) {
-        actor->transform.rotation[2] = old_heading;
-        if (active.receipt.mana.mana_spent ||
-            active.receipt.mana.status == SkillManaPrepareStatusV1::provider_failure_after_mana_commit) {
-            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
-            active.receipt.detail = "Reached source UseMana prefix committed MP before a later provider failed";
-            output = active.receipt;
-            active_[request.actor] = std::move(active);
-        }
-        return false;
-    }
-    if (active.receipt.mana.status == SkillManaPrepareStatusV1::insufficient_mana) {
-        actor->transform.rotation[2] = old_heading;
-        active.receipt.phase = RuntimeSkillCastPhaseV1::rejected;
-        active.receipt.detail = "Authored OnSkillCheck_ HasMana returned false; no UseMana prefix ran";
-        output = active.receipt;
-        active_[request.actor] = std::move(active);
-        error.clear();
-        return true;
-    }
-    if (active.receipt.mana.status != SkillManaPrepareStatusV1::mana_committed &&
-        active.receipt.mana.status != SkillManaPrepareStatusV1::mana_bypass) {
-        actor->transform.rotation[2] = old_heading;
-        active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
-        active.receipt.detail = "Source OnPre UseMana did not reach a completed result";
-        output = active.receipt;
-        active_[request.actor] = std::move(active);
-        return false;
-    }
-    if (active.cooldown_ms > 0.0) {
-        const auto ready = elapsed_ms_ + active.cooldown_ms;
-        if (!std::isfinite(ready)) {
-            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
-            active.receipt.detail = "Source UseMana committed but skill timer overflowed";
-            output = active.receipt;
-            active_[request.actor] = std::move(active);
-            return fail(error, "Source skill cooldown timer overflowed after UseMana");
-        }
-        skill_ready_at_ms_[{request.actor, visual.skill_table_id}] = ready;
-        skill_cooldown_total_ms_[{request.actor, visual.skill_table_id}] = active.cooldown_ms;
+    // AI_IsSkillUsable/OnSkillCheck HasMana precedes any source departure.
+    if(!prepare_skill_cast_mana_v1(*request.character,session,request.actor,
+        *request.characters,request.skills,*request.classes,*request.property_rules,
+        position,class_token,request.mana_policy,active.receipt.mana,error,true))return false;
+    if(active.receipt.mana.status==SkillManaPrepareStatusV1::insufficient_mana){
+        active.receipt.phase=RuntimeSkillCastPhaseV1::rejected;
+        active.receipt.detail="Authored OnSkillCheck_ HasMana returned false; no departure or UseMana prefix ran";
+        output=active.receipt;active_[request.actor]=std::move(active);error.clear();return true;
     }
 
     const auto generation = active.receipt.generation;
@@ -905,28 +830,93 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         generation, 6, request.downstream_animation_services);
     const CombatSessionSourceSequencePolicy source_policy{6, 0x6341u, generation};
 
-    actor->action = CharacterAction::casting;
-    active_[request.actor] = std::move(active);
-    const auto& retained = active_.at(request.actor);
     if (source_selection.state.empty() ||
         std::none_of(request.visual_plan->sequences.begin(), request.visual_plan->sequences.end(),
             [&](const OriginalCombatSequencePlan& sequence) {
                 return sequence.id == visual.animation_sequence_id;
             })) {
-        actor->action = retained.previous_action;
-        active_.at(request.actor).receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
-        active_.at(request.actor).receipt.detail = "Exact SkillTable animation root is not bound in the supplied source bank";
-        output = active_.at(request.actor).receipt;
         return fail(error, "Skill cast requires its actual SkillTable animation sequence in the retained source bank");
     }
-    if (!session.play_actor_source_sequence(request.actor, *request.visual_plan,
-            *request.sequence_policies, source_selection, std::move(services),
-            source_policy, error)) {
-        actor->action = retained.previous_action;
-        active_.at(request.actor).receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
-        active_.at(request.actor).receipt.detail = "Source UseMana prefix committed but source sequence could not start";
-        output = active_.at(request.actor).receipt;
-        return false;
+    active_[request.actor]=std::move(active);
+    const auto downstream_focused=std::move(services.focused);
+    services.focused=[&,generation,downstream_focused](ActorId focused_actor,std::string& error){
+        if(focused_actor!=request.actor)return fail(error,"Source Focus Pre reached a foreign actor");
+        auto& active=active_.at(request.actor);
+        if(active.receipt.generation!=generation)return fail(error,"Source Focus Pre occurrence is stale");
+        actor->action=CharacterAction::casting;
+        SkillActorTargetQueryV1 target;
+        target.caster = request.actor;
+        target.status = SkillActorTargetQueryStatusV1::no_actor_target;
+        float pre_range = 0.0f;
+        bool pre_search = true;
+        if (branch == RuntimeWarriorSkillBranchV1::bashdown) pre_range = 160.0f;
+        else if (branch == RuntimeWarriorSkillBranchV1::charge) pre_range = 300.0f;
+        else if (branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick) pre_range = 250.0f;
+        else pre_search = false; // GroundSlam's authored OnPre has no target query.
+        if (pre_search && !query_source_character_targets_v1(session, request.actor,
+                order, request.target_facts, request.non_character_attackable_objects_absent,
+                pre_range, 3.1415927410125732421875f,
+                SkillTargetSortV1::frontal_first, target, error, request.object_targets)) return false;
+        if(target.status==SkillActorTargetQueryStatusV1::non_character_target_unknown)
+            return fail(error,"Source Focus Pre target query lacks its typed AttackableOnly owner");
+
+        if ((branch == RuntimeWarriorSkillBranchV1::bashdown ||
+             branch == RuntimeWarriorSkillBranchV1::charge ||
+             branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick) &&
+            (target.status == SkillActorTargetQueryStatusV1::selected_character ||
+             target.status == SkillActorTargetQueryStatusV1::selected_object) &&
+            !look_at_bashdown_target_v1(session, target, error)) return false;
+
+        active.target_query=target;
+        active.receipt.target_order=request.object_targets?target.ordered_targets:target.ordered_character_targets;
+        const bool mana_ok = prepare_skill_cast_mana_v1(*request.character, session, request.actor,
+                *request.characters, request.skills, *request.classes,
+                *request.property_rules, position, class_token, request.mana_policy,
+                active.receipt.mana, error);
+        if (!mana_ok) {
+            if (active.receipt.mana.mana_spent ||
+                active.receipt.mana.status == SkillManaPrepareStatusV1::provider_failure_after_mana_commit) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Reached source UseMana prefix committed MP before a later provider failed";
+                output = active.receipt;
+            }
+            return false;
+        }
+        if (active.receipt.mana.status == SkillManaPrepareStatusV1::insufficient_mana) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::rejected;
+            active.receipt.detail = "Authored OnSkillCheck_ HasMana returned false; no UseMana prefix ran";
+            output = active.receipt;
+            return fail(error,"Source UseMana no longer has the admitted mana after departure");
+        }
+        if (active.receipt.mana.status != SkillManaPrepareStatusV1::mana_committed &&
+            active.receipt.mana.status != SkillManaPrepareStatusV1::mana_bypass) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+            active.receipt.detail = "Source OnPre UseMana did not reach a completed result";
+            output = active.receipt;
+            return false;
+        }
+        if (active.cooldown_ms > 0.0) {
+            const auto ready = elapsed_ms_ + active.cooldown_ms;
+            if (!std::isfinite(ready)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source UseMana committed but skill timer overflowed";
+                output = active.receipt;
+                return fail(error, "Source skill cooldown timer overflowed after UseMana");
+            }
+            skill_ready_at_ms_[{request.actor, visual.skill_table_id}] = ready;
+            skill_cooldown_total_ms_[{request.actor, visual.skill_table_id}] = active.cooldown_ms;
+        }
+
+        return !downstream_focused||downstream_focused(focused_actor,error);
+    };
+    if (!session.play_actor_source_sequence(request.actor,*request.visual_plan,
+        *request.sequence_policies,source_selection,std::move(services),source_policy,error)) {
+        auto& failed=active_.at(request.actor);
+        failed.receipt.phase=RuntimeSkillCastPhaseV1::partial_failure;
+        failed.receipt.detail=failed.receipt.mana.mana_spent
+            ? "Source Focus Pre failed after its reached UseMana prefix"
+            : "Source sequence/Focus Pre failed before a UseMana debit; reached departure prefix retained";
+        output=failed.receipt;return false;
     }
     output = active_.at(request.actor).receipt;
     error.clear();

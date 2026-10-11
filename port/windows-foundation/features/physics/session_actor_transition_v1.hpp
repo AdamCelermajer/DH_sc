@@ -42,8 +42,9 @@ struct SessionActorTransitionProvidersV1 {
     // that same source row/owner is unavailable.
     std::function<bool(const CombatSessionActorTransition&, bool& moving_byte,
                        std::string&)> skill_focus_moving_byte;
-    // Same live Character+0x528 owner; apply exactly
-    // (gate & ~0x140) | (moving_byte ? 0x100 : 0).
+    // Same live Character+0x528 owner. focus_prefix clears bits0x140
+    // before OnPre (moving_byte=false); focus_suffix, after animation,
+    // ORs bit0x100 iff the actual moving byte is true.
     std::function<bool(const CombatSessionActorTransition&, bool moving_byte,
                        std::string&)> skill_focus_gate528;
     // After modern route release and Stop, read that same gate528 bit0x100.
