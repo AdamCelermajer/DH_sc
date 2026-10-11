@@ -16,5 +16,8 @@ Uncertainties: original video is v1.0.3, local Android source may be v1.0.2. Upp
 
 Focused observable test defined BEFORE coding: source-export receipt must identify sprite480â†’477â†’473/476 and preserve bounds/font/alignment; packet must contain destination once, no Travel to heading, separate E hint, no placeholder rectangles; fit test must keep normal and long translated name in the source one-line box with finite measured-width failures handled. Existing zone tests cover arm, remove and false-condition branch. Real hidden EXE using fresh saves must show upper button near SwampCaveExit, change caption on cave arrival, remove when leaving; at 1280x720 and 960x720 art/text remain centered together and clear of HUD controls with no clipping. Verify current frozen EXE hash, screenshots, log and ctest. Never control user window or modify accepted packages.
 
+## Additional source gate investigated before correction
+First frozen check (32EAE9893B0FB0BD5445AF470EC7F08940803F07EE837B4F9589E0CB890E7C78) reproduced an overlap when the initial quest banner was still visible at frame55. Original SWF QuestMsgDialog sprite684 frame2 action 0x22bcf–0x22be8 plays LocationsMenu.Hide; frame58 0x22d90–0x22da9 restores Show when not InIGM. QuestCompletedMsgDialog repeats this gate. Expected invariant: an active quest banner suppresses travel-control rendering, then the still-armed destination appears when the banner leaves. Minimal correction: consult the existing QuestBannerPresenter visible state in the B113 renderer; do not change banner timing, zone/contact state, or B106 confirm ownership. Focused runtime check: frame55 contains the banner and NO travel control; frame65 (after 2s banner expiry) contains the source travel control clear of HUD; E70 still works. Exact SWF slide animation remains outside the bounded presentation change.
+
 ## Implementation / verification
-Pending.
+Pending final checks.

@@ -7230,7 +7230,8 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     cinematicText.draw(overlay);
                 }
                 // B113: original destination button, mapped with the same aspect-preserving stage viewport as its text.
-                if(options.hud&&armedPrompt&&combatSession&&campaignHost.hud_visible()) {
+                // Original QuestMsgDialog/QuestCompletedMsgDialog hides LocationsMenu until its banner leaves.
+                if(options.hud&&armedPrompt&&combatSession&&campaignHost.hud_visible()&&!questBanners.visible()) {
                     const auto promptFrame=f::transitions::build_prompt_frame(*armedPrompt);
                     const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
                     if(promptFrame.art) for(const auto& batch:*promptFrame.art) {
