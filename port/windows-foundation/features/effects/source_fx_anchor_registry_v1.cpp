@@ -183,8 +183,8 @@ bool SourceFxAnchorRegistryV1::query(dh2::fx::MeshFxRequestV1& request,
         if (!pose.alive) { error = "Source FX anchor dead-state is unavailable"; return false; }
         request.result = *pose.alive ? 0u : 1u; break;
     case Op::anchor_disabled:
-        if (!pose.disabled) { error = "Source FX anchor disabled-state is unavailable"; return false; }
-        request.result = *pose.disabled ? 1u : 0u; break;
+        if (!pose.deleted) { error = "Source FX anchor deletion state is unavailable"; return false; }
+        request.result = *pose.deleted ? 1u : 0u; break;
     case Op::anchor_stationary:
         if (!pose.stationary) { error = "Source FX anchor stationary-state is unavailable"; return false; }
         request.result = *pose.stationary ? 1u : 0u; break;
