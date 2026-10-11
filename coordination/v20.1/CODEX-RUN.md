@@ -12,14 +12,14 @@ use GPT-6.1 Sol HIGH. Concurrency is limited to five workers plus root.
 |---|---|---|---|
 | B102 equipment / input prerequisite | `/root/b102_equipment` | fix102 | `/root/b102_review`: READY WITH CAVEATS; merged, integrated checks pending |
 | B096 training | `/root/b096_skill_training` | fix096 | `/root/b096_review`: READY WITH CAVEATS; merged, integrated checks pending |
-| B109/B107 rendering | `/root/b109_cavern` | fix109 | First patch committed; temporarily interrupted to open separate B105; resume queued |
-| B101 fire/common emitter core | `/root/b101_b105_effects` (scope B101 only) | fixfx | Fresh separate B101 reviewer queued |
-| B105 Celeste actor effects | `/root/b105_celeste` | fix105 | Fresh separate B105 worker and reviewer; common-core dependency owned by B101 |
-| B110 merchant shop | `/root/b110_merchant` | fix110 | Temporarily interrupted for clarified B094; resume queued; fresh reviewer queued |
-| B094/B091 boss cinematic state | `/root/b094_b091_boss_cinematics` | fix091 | Fresh session after user clarification; fresh reviewer queued |
-| B095 bag navigation | `/root/b095_bag_navigation` | fix095 | Temporarily interrupted for new B112; corrected cinematic-free reproduction pending |
-| B112 green NPC targeting | `/root/b112_npc_green_target` | fix112 / codex/b112 | New user report assigned immediately; fresh read-only reviewer queued |
-| B113 original travel-message widget | `/root/b113_travel_prompt` | fix113 / codex/b113 | New screenshot/report assigned immediately; fresh reviewer queued |
+| B109/B107 rendering | `/root/b109_cavern` | fix109 | repaired and re-reviewed READY; merged, root exit/cave checks pass; user accepts rendering |
+| B101 fire/common emitter core | `/root/b101_b105_effects` (scope B101 only) | fixfx | core reviewed and merged, residual appearance OPEN; owner resumed normal door/camera audit |
+| B105 Celeste actor effects | `/root/b105_celeste` | fix105 | /root/b105_review READY WITH CAVEATS; merged and root glow check passes |
+| B110 merchant shop | `/root/b110_merchant` | fix110 | source admission repair re-reviewed READY919a0a3d; merged, combined checks pending |
+| B094/B091 boss cinematic state | `/root/b094_b091_boss_cinematics` | fix091 | /root/boss_cinematics_review repaired gate READY; merged, short combined check pending |
+| B095 bag navigation | `/root/b095_bag_navigation` | fix095 | repaired closed-input gate READY4a5f0012; merged, root no-mutation check passes |
+| B112 green NPC targeting | `/root/b112_npc_green_target` | fix112 / codex/b112 | /root/b112_review READY WITH CAVEATS; docs integrated, final package checks pending |
+| B113 original travel-message widget | `/root/b113_travel_prompt` | fix113 / codex/b113 | /root/b113_review READY WITH CAVEATS9623f483; merged, B106 held-key repair pending |
 
 Root retains follow-up ownership of B095, B111/B103, B091, B093 and B097 runtime
 gaps until their fresh sessions can start (B091 has now been assigned below). Finished branches and already-merged
