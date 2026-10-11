@@ -2268,7 +2268,7 @@ int main(int argc,char** argv) {
             animationServices.event=[&](f::ActorId id,const f::RetainedAnimationEvent& event,std::string& e){return actorLifecycle.animation_event(id,event.name,e);};
             animationServices.finished=[&](f::ActorId id,std::string& e){
                 if(!actorLifecycle.animation_finished(id,e))return false;
-                std::cout<<"Lifecycle whole sequence finished actor="<<id<<" state="<<actorLifecycle.status(id)->state<<'\n';return true;
+                std::cout<<"Lifecycle whole sequence finished actor="<<id<<" state="<<actorLifecycle.status(id)->state;if(const auto* liveA=combatSession->actor(id))std::cout<<" position="<<liveA->transform.position[0]<<','<<liveA->transform.position[1]<<','<<liveA->transform.position[2]<<" yaw="<<liveA->transform.rotation[2];std::cout<<'\n';return true;
             };
             f::OriginalLifecycleServices services;
             services.floor_height=[&](std::array<float,3> p,bool& found,float& height,std::string& e){
@@ -2314,7 +2314,7 @@ int main(int argc,char** argv) {
                 case f::OriginalLifecycleOperation::freeze_animation_speed:return combatSession->freeze_actor_state_animation(actor.id,e);
                 case f::OriginalLifecycleOperation::notify_state_changed:
                     if(!combatSession->set_actor_original_state(actor.id,request.state,e))return false;
-                    std::cout<<"Lifecycle state actor="<<actor.id<<" previous="<<request.previous_state<<" state="<<request.state<<" enabled="<<placed->enabled<<'\n';return true;
+                    std::cout<<"Lifecycle state actor="<<actor.id<<" previous="<<request.previous_state<<" state="<<request.state<<" enabled="<<placed->enabled;if(const auto* liveB=combatSession->actor(actor.id))std::cout<<" position="<<liveB->transform.position[0]<<','<<liveB->transform.position[1]<<','<<liveB->transform.position[2]<<" yaw="<<liveB->transform.rotation[2];std::cout<<'\n';return true;
                 case f::OriginalLifecycleOperation::select_state_animation: {
                     const auto policy=options.combat.profiles.find(placed->profileId);
                     if(policy==options.combat.profiles.end()){e="Source lifecycle profile unavailable";return false;}
@@ -3530,7 +3530,11 @@ int main(int argc,char** argv) {
             enemyNavigation=std::make_shared<f::enemy_ai::RuntimeEnemyNavigationV1>(std::move(config));
             enemyController=std::make_shared<f::enemy_ai::RuntimeEnemyControllerV1>(
                 f::enemy_ai::make_runtime_enemy_navigation_services_v1(enemyNavigation));
-            combatSession->set_actor_decision_provider([owner=enemyNavigation,controller=enemyController](auto& session,double dt,std::string& error){
+            combatSession->set_actor_decision_provider([owner=enemyNavigation,controller=enemyController,&globalControllerBlocked](auto& session,double dt,std::string& error){
+                // B068 (3): original CharAI::Update (pseudocode line 149489) returns before any target/aggro/generic decision while
+                // the controller is blocked (v2Controller::s_blocked, set by LockCharacter All). Enemies spawned by a cutscene
+                // (LizardMan_Intro) therefore stand still until UnlockCharacter instead of charging the locked player.
+                if(globalControllerBlocked)return true;
                 return controller->update(session,dt,error);
             });
             enemyNavigationWorld=sourceObstacles;

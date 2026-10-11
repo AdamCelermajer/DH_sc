@@ -1404,7 +1404,11 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
             const auto policy=config.profiles.find(populationActor.profileId);if(policy==config.profiles.end())continue;
             const auto& matrix=populationActor.definition.placement;
             prepare(populationActor.definition.stableId,populationActor.profileId,policy->second,populationActor.visual,
-                    policy->second.customization,{matrix[12],matrix[13],matrix[14]},std::atan2(matrix[1],matrix[0]),false,&populationActor.definition);
+                    policy->second.customization,{matrix[12],matrix[13],matrix[14]},
+                    // B068 (3): an authored Character faces the OPPOSITE way of the placement x-axis. Evidence: the LizardMan_Intro
+                    // lizards (obj_3of4_brdwalk_sw_00.mgp, rotation z=89.62) with +pi jump from the wall perch to the landing exactly as
+                    // in the reference video (t=224.5-226 s), while the bare x-axis heading jumps in from the opposite side.
+                    std::atan2(-matrix[1],-matrix[0]),false,&populationActor.definition);
         }
         // Validate runtime bindings against staged visuals before publishing.
         for(auto& stage:staged)if(!next->runtime->bind(*next->world->find_actor(stage.id),
