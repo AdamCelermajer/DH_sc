@@ -35,7 +35,9 @@ struct Rig {
     std::unique_ptr<OriginalCampaignWorldAdapter> world;
     std::unique_ptr<CampaignHost> host;
 
-    explicit Rig(const std::string& campaignDirectory, const std::filesystem::path& tutorialSettings = {}) {
+    // fxResolver (optional) binds Script_PlayEffect's anchor resolver; unset keeps the production-unbound default.
+    explicit Rig(const std::string& campaignDirectory, const std::filesystem::path& tutorialSettings = {},
+                 std::function<bool(const std::string&, int, std::uintptr_t&, bool&, std::string&)> fxResolver = {}) {
         assetCatalog = std::make_unique<AssetCatalog>(campaignDirectory);
         std::string error;
         check(runtime.load(*assetCatalog, "original-campaign.xml", error), "campaign load: " + error);
@@ -62,6 +64,7 @@ struct Rig {
 
         CampaignHostServices services;
         services.tutorial_settings_path = tutorialSettings; // B070
+        if (fxResolver) services.actor_verbs.resolve_fx_anchor = std::move(fxResolver);
         services.actor_verbs.position_of = [this](ActorId, std::array<float,3>& p, std::string&) { p=livePosition; return true; };
         services.all_actors = [](std::vector<ActorId>& out, std::string&) { out = {1, 101, 102}; return true; };
         services.actor_state = [this](ActorId id, bool& alive, std::int32_t& state, std::string&) {
@@ -480,6 +483,72 @@ void camera_clip_blocks_then_releases(const std::string& directory) {
     check(!rig.host->camera_clip_active(), "a failed PlayCamera leaves no clip playing");
 }
 
+// Script_PlayEffect (kind 20) branches through the real executor: placed target plays once per command (no dedupe),
+// unplaced target and resolver failure do not play, an unbound resolver fails closed, and a play failure continues.
+void play_effect_branches(const std::string& directory) {
+    struct Play { std::int32_t set; std::array<float,3> at; std::uintptr_t anchor; };
+    const auto make_command = [](std::int32_t set, const std::string& target) {
+        OriginalCampaignCommand c;
+        c.kind = 20; c.class_name = "Script_PlayEffect";
+        c.scalars[8] = static_cast<std::uint32_t>(set);
+        c.scalars[16] = 0; c.scalars[20] = 0; c.scalars[24] = 0;
+        c.strings[32] = target;
+        return c;
+    };
+    // Placed target: two identical authored cues produce two plays with the same anchor and local offset.
+    {
+        int resolves = 0; bool placed = true; bool failResolver = false;
+        Rig rig(directory, {}, [&](const std::string&, int, std::uintptr_t& id, bool& found, std::string& e) {
+            ++resolves;
+            if (failResolver) { e = "anchor lookup failed"; return false; }
+            id = 0x8000000000000001ull; found = placed; return true;
+        });
+        std::vector<Play> plays;
+        rig.host->bind_fx([&](std::int32_t set, const std::array<float,3>& at, std::uintptr_t anchor, std::string&) {
+            plays.push_back({set, at, anchor}); return true; }, [](std::int32_t, std::string&) { return true; });
+        bool blocking = true; std::string error;
+        const auto cue = make_command(132, "_prim_Waypoint_doorport");
+        check(rig.host->execute_diagnostic_command(cue, -1, blocking, error) && !blocking && error.empty(), "placed PlayEffect continues: " + error);
+        check(rig.host->execute_diagnostic_command(cue, -1, blocking, error), "second authored cue continues: " + error);
+        check(resolves == 2 && plays.size() == 2, "each authored cue resolves and plays once (no dedupe)");
+        check(plays[0].set == 132 && plays[1].set == 132 && plays[0].anchor == plays[1].anchor && plays[0].anchor == 0x8000000000000001ull,
+              "set and opaque anchor are forwarded unchanged");
+        check(plays[0].at == std::array<float,3>{0.f, 0.f, 0.f} && plays[1].at == plays[0].at, "authored local offset is unchanged");
+
+        // Unplaced target: the command completes without any play call.
+        placed = false;
+        check(rig.host->execute_diagnostic_command(make_command(119, "_prim_Missing"), -1, blocking, error) && plays.size() == 2,
+              "unplaced target is a logged no-op, not a fabricated cue");
+        // Resolver failure: the error propagates and nothing plays.
+        failResolver = true;
+        check(!rig.host->execute_diagnostic_command(make_command(119, "_prim_Waypoint_5"), -1, blocking, error) &&
+              error.find("anchor lookup failed") != std::string::npos && plays.size() == 2,
+              "resolver failure propagates without a cue");
+        failResolver = false;
+    }
+    // Play failure: the reason is reported and the cutscene command still completes.
+    {
+        Rig rig(directory, {}, [](const std::string&, int, std::uintptr_t& id, bool& found, std::string&) { id = 0x8000000000000002ull; found = true; return true; });
+        int plays = 0;
+        rig.host->bind_fx([&](std::int32_t, const std::array<float,3>&, std::uintptr_t, std::string& e) { ++plays; e = "original asset missing"; return false; },
+                          [](std::int32_t, std::string&) { return true; });
+        bool blocking = true; std::string error;
+        check(rig.host->execute_diagnostic_command(make_command(120, "_prim_Waypoint_5"), -1, blocking, error) && plays == 1,
+              "failed play continues the command after one attempt");
+        check(summary(*rig.host).find("PlayEffect set failed") != std::string::npos, "failed play is listed explicitly");
+    }
+    // Unbound resolver: fail closed before any play.
+    {
+        Rig rig(directory);
+        int plays = 0;
+        rig.host->bind_fx([&](std::int32_t, const std::array<float,3>&, std::uintptr_t, std::string&) { ++plays; return true; },
+                          [](std::int32_t, std::string&) { return true; });
+        bool blocking = true; std::string error;
+        check(!rig.host->execute_diagnostic_command(make_command(119, "_prim_Waypoint_5"), -1, blocking, error) && plays == 0,
+              "unbound FX anchor resolver fails closed");
+    }
+}
+
 int main(int argc, char** argv) {
     try {
         check(argc == 2, "Supply the campaign asset directory");
@@ -495,6 +564,7 @@ int main(int argc, char** argv) {
         unsupported_commands_named(argv[1]);
         camera_clip_blocks_then_releases(argv[1]);
         actor_clip_manifest_collects_script_clips(argv[1]);
+        play_effect_branches(argv[1]);
         std::cout << "campaign_host tests passed\n";
         return 0;
     } catch (const std::exception& e) {

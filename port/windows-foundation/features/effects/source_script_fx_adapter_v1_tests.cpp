@@ -35,6 +35,9 @@ int main() {
         check(dispatch_source_play_effect_v1(true, 132, source_offset.data(), 77, play, error) ==
                   SourceScriptFxResultV1::skipped, "skip result");
         check(calls.empty() && error.empty(), "skip must make no call");
+        check(dispatch_source_play_effect_v1(true, 132, nullptr, 77, play, error) ==
+                  SourceScriptFxResultV1::skipped && calls.empty() && error.empty(),
+              "skip wins over an absent position without a call or diagnostic");
 
         // Authored two-cue transition: the script sends the same local zero
         // offset and actor identity around SetActorPosition. The active manager
