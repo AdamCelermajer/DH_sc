@@ -31,3 +31,25 @@ B068 as above; B071 moth animation/following only inferred; B072 map zoom/pan an
 
 ## Prompt to paste to GPT
 See the chat message of 2026-10-11 (same content as this file); the one-paragraph version: "Continue the Dungeon Hunter 2 reconstruction in C:/Users/adamc/Desktop/workspace/DH_sc. Read coordination/HANDOFF-v20.md, AGENTS.md and docs/BUGS-AND-IMPLEMENTATION.md first. Goal: ship ONE release v20 = windows-foundation + p16.1/integrate + fix/b068 (finish it) + p17/integrate (merge in DH_wt/v20int), verified by an independent verifier on the frozen EXE, then push to remote 'publish' only. Follow the standing rules in the handoff."
+
+## Methodology of work (versions and bugs) - how the user wants it run
+
+**Model tiers (rule: user-reported bugs are handled by a BETTER model than implementation work).**
+- With Claude it was: bugs reported by the user = Sonnet 5.5 MEDIUM; all other fixes/implementations/verifiers = Haiku 5.5 HIGH; Opus only by explicit user exception.
+- For GPT/Codex the equivalent is: **implementation, integration helpers, verifiers, investigations = GPT-6 LUNA HIGH; every bug the user reports directly = GPT-6.1 SOL** (stronger model). Escalate to a stronger model only on explicit user request.
+
+**Versioning.**
+- A release = one numbered version (now **v20**). The user tests it by hand, reports bugs, and the fixes ship as the next dot version (**v20.1**, then v20.2...). Do not publish intermediate previews unless the user asks ("wait for everything to finish and integrate"). Packages live in `.local-inputs/windows-source-clock-<version>` (never modify an accepted package; copy it for the next one). Keep every package that the user accepted.
+- Each package has `release-notes.json` (fixes, open items, honest status), `package-receipt.json` (EXE SHA256, source commit, ctest result), `README.txt`, `manifest.json` (path/bytes/sha256 of every file). Open caveats are written plainly; if a check could not be run, it says "not verified" and why. When the user says "make it pass", ship with caveats listed.
+
+**Bug flow (every user-reported bug).**
+1. Give the bug a stable ID in `docs/BUGS-AND-IMPLEMENTATION.md` (next free B number) with the user's words and screenshot paths (copy screenshots to `.local-inputs/claude-preview<NNN>/user-shots/<id>-*.png`).
+2. ONE fresh session per bug (never reuse a finished session), in its own worktree + branch `fix/bNNN` created from the last released base; junction `.local-inputs`; own build dir (`p14_build.ps1 -Name fixNNN -Jobs 4`). Exception demanded by the user: ALL cinematic problems share ONE session (B068).
+3. Session order of work: reproduce in the real EXE (quiet run, frames/logs) -> reference VIDEO FIRST (frame sequences, not stills, around the right timestamps) -> THEN IDA (function addresses, callers and gates) -> root cause (not a guess) -> smallest general, data-driven, portable fix (no map/item-specific hacks) -> tests covering outcome branches -> before/after frames in the real EXE -> regression ctest -> report `coordination/<release>/B<NNN>-report.md` (video timestamps + what was seen, IDA addresses, root cause, change, tests, before/after, gaps, "Package files required") -> commit per logical step. The report must state whether the result matches BOTH the video and IDA; unknowns stay explicit ("not verified", "inferred").
+4. Final reply of a session is short (<150 words), plain about what is verified and what is not.
+5. The root (integration lead) merges the `fix/bNNN` branches into the integration branch (`<version>/integrate`), resolves conflicts keeping both sides, builds, runs ctest, packages, and starts an INDEPENDENT verifier session on the FROZEN EXE (A/B against the previous accepted EXE). Verifier verdicts: APPROVE / APPROVE WITH CAVEATS / REJECT; a REJECT is fixed by new fresh sessions, then re-packaged as a new rc.
+6. After verification: move fixed rows from the active tracker to `docs/RESOLVED-BUGS.md` (ID, fix, evidence, build), merge into `windows-foundation`, push to `publish` only.
+
+**Implementation (features) flow.** Same as bugs but they come from the plan (`coordination/claude-preview16/PLAN.md`, `claude-preview17/PLAN.md`): general data-driven systems first (Act 1 is only the proving ground), registry-based, unknown classes/commands logged once and reported, never silently ignored. Art/HUD that is not in the cache may be drawn in code: trace the original draw path in IDA first, else use a clearly labelled placeholder and list it in a "Placeholders" report section with video timestamps.
+
+**Safety rules learned the hard way.** Never kill processes by name (other sessions run games); quiet/hidden/silent runs only; audio timing runs are skipped by user decision (the user reports sound bugs by hand); never scan all of `DH_wt` (it was 170 GB; commands hang); watch `Get-PSDrive C` free space; remove a worktree only after `cmd /c rmdir <wt>\.local-inputs` (junction); check an agent is really alive by looking at its worktree/log timestamps before saying it is running; report a skipped or failed check as such; never claim an agent was opened when it was not.
