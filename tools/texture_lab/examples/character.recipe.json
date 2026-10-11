@@ -1,0 +1,30 @@
+{
+  "name": "packaged-character-01",
+  "atlas": "../inputs/player.png",
+  "output": "../runs/character-01",
+  "resolution": 1024,
+  "atlas_size": [
+    4096,
+    4096
+  ],
+  "view_angles": [
+    0,
+    90,
+    180,
+    270
+  ],
+  "ratio_min": 0.3,
+  "ratio_max": 3,
+  "strength": 0.8,
+  "prompt": "Enhance the surface textures of this EXACT classic hand-painted low polygon fantasy warrior. Preserve original outfit design, silhouette, pose, proportions, camera, every edge and ornament position, lighting and background. Preserve gold tan vest, dark purple pants, red enamel shoulders with SILVER trim, SILVER bracers and greaves. Add fine rich hand-painted surface details: subtle cloth fiber weave, stitching along existing hems, restrained small metal scratches and nicks, leather grain, crisp existing ornament relief. Keep original large painted highlights and shadows. No redesign, no new motifs, no new equipment, no comic lines, no photographic pores, no smooth plastic. Leave entire face, eyes and hair completely unchanged. Output the same rendered model with richly detailed classic game material painting.",
+  "seed": 424242,
+  "source_obj": "../inputs/player.obj",
+  "obj_rotation_degrees": [
+    0,
+    0,
+    0
+  ],
+  "protect_objects": [
+    "Head"
+  ]
+}

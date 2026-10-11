@@ -1,0 +1,145 @@
+0x3a2e1c	8	pseudocode/003a/003a2e1c.c	Character::IsCharacter(void)const
+0x3a2e24	8	pseudocode/003a/003a2e24.c	Character::GetFocusObject(void)const
+0x3a2e2c	12	pseudocode/003a/003a2e2c.c	Character::IsUpdatingPath(void)const
+0x3a2e38	12	pseudocode/003a/003a2e38.c	Character::IsUpdatingPositionFromVisual(void)const
+0x3a2e44	12	pseudocode/003a/003a2e44.c	Character::IsUpdatingPositionFromPhysics(void)const
+0x3a2e50	12	pseudocode/003a/003a2e50.c	Character::IsUpdatingRotationFromVisual(void)const
+0x3a2e5c	12	pseudocode/003a/003a2e5c.c	Character::IsUpdatingRotationFromPhysics(void)const
+0x3a2e68	16	pseudocode/003a/003a2e68.c	Character::IsUpdatingVisualWithRotation(void)const
+0x3a2e78	16	pseudocode/003a/003a2e78.c	Character::IsValidatingFloorPosition(void)const
+0x3a2e88	20	pseudocode/003a/003a2e88.c	Character::IsValidatingCameraLimits(void)const
+0x3a2e9c	48	pseudocode/003a/003a2e9c.c	Character::GetFXScale(void)const
+0x3a2ecc	8	pseudocode/003a/003a2ecc.c	Character::GetFXScaleValue(void)const
+0x3a2ed4	12	pseudocode/003a/003a2ed4.c	Character::IsDead(void)const
+0x3a2ee0	8	pseudocode/003a/003a2ee0.c	Character::IsAnimated(void)const
+0x3a2ee8	8	pseudocode/003a/003a2ee8.c	Character::IsObstacle(void)const
+0x3a2ef0	12	pseudocode/003a/003a2ef0.c	Character::GetObstacleRadius(void)const
+0x3a2efc	12	pseudocode/003a/003a2efc.c	Character::GetObstacleStrength(void)const
+0x3a2f08	12	pseudocode/003a/003a2f08.c	Character::getUDTypeName(void)const
+0x3a2f48	124	pseudocode/003a/003a2f48.c	Character::HasCharOIDInCache(int)
+0x3a2fcc	12	pseudocode/003a/003a2fcc.c	Character::GetLoot(void)const
+0x3a2fd8	20	pseudocode/003a/003a2fd8.c	Character::HasLoot(void)const
+0x3a2fec	48	pseudocode/003a/003a2fec.c	Character::GetCharAIId(void)const
+0x3a3024	40	pseudocode/003a/003a3024.c	Character::GetCharAI(void)const
+0x3a3054	16	pseudocode/003a/003a3054.c	Character::GetCharType(void)const
+0x3a3064	24	pseudocode/003a/003a3064.c	Character::IsMonster(void)const
+0x3a307c	24	pseudocode/003a/003a307c.c	Character::IsFollower(void)const
+0x3a3094	24	pseudocode/003a/003a3094.c	Character::IsFaerie(void)const
+0x3a30ac	24	pseudocode/003a/003a30ac.c	Character::IsSummoned(void)const
+0x3a30c4	24	pseudocode/003a/003a30c4.c	Character::IsMerchant(void)const
+0x3a30dc	24	pseudocode/003a/003a30dc.c	Character::IsInvisibleMan(void)const
+0x3a30f4	24	pseudocode/003a/003a30f4.c	Character::IsCleaner(void)const
+0x3a310c	56	pseudocode/003a/003a310c.c	Character::IsNPC(void)const
+0x3a3144	20	pseudocode/003a/003a3144.c	Character::IsMiniBoss(void)const
+0x3a3158	20	pseudocode/003a/003a3158.c	Character::IsBoss(void)const
+0x3a316c	20	pseudocode/003a/003a316c.c	Character::IsCharSitting(void)const
+0x3a3180	48	pseudocode/003a/003a3180.c	Character::GetCharAIFactionId(void)const
+0x3a31b8	40	pseudocode/003a/003a31b8.c	Character::GetCharAIFaction(void)const
+0x3a31e8	56	pseudocode/003a/003a31e8.c	Character::GetCharModelId(void)const
+0x3a3228	52	pseudocode/003a/003a3228.c	Character::GetCharAnimTableId(void)const
+0x3a3264	40	pseudocode/003a/003a3264.c	Character::GetCharAnimTable(void)const
+0x3a3294	52	pseudocode/003a/003a3294.c	Character::GetCharSoundsId(void)const
+0x3a32d0	40	pseudocode/003a/003a32d0.c	Character::GetCharSounds(void)const
+0x3a3300	92	pseudocode/003a/003a3300.c	Character::GetFXFootprint(void)const
+0x3a3368	92	pseudocode/003a/003a3368.c	Character::GetFXBloodDeath(void)const
+0x3a33d0	92	pseudocode/003a/003a33d0.c	Character::GetFXBlood(void)const
+0x3a3438	44	pseudocode/003a/003a3438.c	Character::GetAttackDelay(void)const
+0x3a346c	116	pseudocode/003a/003a346c.c	Character::HasComboAttack(void)const
+0x3a34f0	116	pseudocode/003a/003a34f0.c	Character::GetNumComboAttack(void)const
+0x3a36e4	64	pseudocode/003a/003a36e4.c	Character::IsZonable(void)const
+0x3a3724	8	pseudocode/003a/003a3724.c	Character::GetOpacity(void)const
+0x3a372c	32	pseudocode/003a/003a372c.c	Character::GetRotationSpeed(void)const
+0x3a374c	8	pseudocode/003a/003a374c.c	Character::GetInteractionRadius(void)const
+0x3a3754	16	pseudocode/003a/003a3754.c	Character::IsAvoidingObstacles(void)const
+0x3a3fe4	120	pseudocode/003a/003a3fe4.c	Character::CheckForAllQuestsTrophy(void)
+0x3a4068	64	pseudocode/003a/003a4068.c	Character::RemoveMultiplayerHighlight(void)
+0x3a40b0	44	pseudocode/003a/003a40b0.c	Character::DisableSelfFX(void)
+0x3a40e4	44	pseudocode/003a/003a40e4.c	Character::DisableStateFX(void)
+0x3a41a0	312	pseudocode/003a/003a41a0.c	Character::AddMultiplayerHighlight(void)
+0x3a4344	84	pseudocode/003a/003a4344.c	Character::UpdateAIPointers(void)
+0x3a4398	216	pseudocode/003a/003a4398.c	Character::SetRelativeAABB(aabb<float> const&, bool)
+0x3a4470	540	pseudocode/003a/003a4470.c	Character::UpdateStateFX(void)
+0x3a469c	320	pseudocode/003a/003a469c.c	Character::UpdateSpotTarget(void)
+0x3a47e8	136	pseudocode/003a/003a47e8.c	Character::GetInteractionType(GameObject *)const
+0x3a4870	192	pseudocode/003a/003a4870.c	Character::IsInteractive(GameObject *)const
+0x3a4930	192	pseudocode/003a/003a4930.c	Character::INV_DoesMeetRequirements(ItemInstance *)
+0x3a49f0	72	pseudocode/003a/003a49f0.c	Character::IsPlayer(void)const
+0x3a4a3c	344	pseudocode/003a/003a4a3c.c	Character::INV_TransmuteItem(ItemInstance *, bool)
+0x3a4bac	64	pseudocode/003a/003a4bac.c	Character::GetRespawnDelay(void)const
+0x3a4bec	40	pseudocode/003a/003a4bec.c	Character::INV_TransmuteItem(unsigned int, bool)
+0x3a4c14	172	pseudocode/003a/003a4c14.c	Character::EquipAllSlotsAuto(void)
+0x3a4cc0	8	pseudocode/003a/003a4cc0.c	Character::AddItemInstance(ItemInstance *, bool, bool)
+0x3a4cc8	8	pseudocode/003a/003a4cc8.c	`non-virtual thunk to'Character::CanRangeAttack(int &, int &, int &)const
+0x3a4cd0	100	pseudocode/003a/003a4cd0.c	Character::CanRangeAttack(int &, int &, int &)const
+0x3a4d34	8	pseudocode/003a/003a4d34.c	`non-virtual thunk to'Character::CanRangeAttack(void)const
+0x3a4d3c	32	pseudocode/003a/003a4d3c.c	Character::CanRangeAttack(void)const
+0x3a4d5c	28	pseudocode/003a/003a4d5c.c	Character::RaiseEvent(int, void *)
+0x3a4d78	968	pseudocode/003a/003a4d78.c	Character::Interact(GameObject *)
+0x3a5184	172	pseudocode/003a/003a5184.c	Character::GetImmunityTimer(int)
+0x3a5248	92	pseudocode/003a/003a5248.c	Character::CanRespawn(void)const
+0x3a52a4	308	pseudocode/003a/003a52a4.c	Character::CanUpdate(void)
+0x3a53e0	196	pseudocode/003a/003a53e0.c	Character::GetAnimStance(void)const
+0x3a54b4	32	pseudocode/003a/003a54b4.c	Character::GetCharUniqueAnimSetId(void)const
+0x3a54d4	428	pseudocode/003a/003a54d4.c	Character::GetCharModelName(void)const
+0x3a56a4	112	pseudocode/003a/003a56a4.c	Character::GetClassName(void)const
+0x3a5784	104	pseudocode/003a/003a5784.c	Character::GetPreSetAIState(void)const
+0x3a57f4	124	pseudocode/003a/003a57f4.c	Character::GetLeftFootPosition(void)const
+0x3a5874	124	pseudocode/003a/003a5874.c	Character::GetRightFootPosition(void)const
+0x3a58f4	120	pseudocode/003a/003a58f4.c	Character::SetInitialPosition(Point3D<float> const&)
+0x3a5974	24	pseudocode/003a/003a5974.c	Character::Disabled(void)
+0x3a598c	4	pseudocode/003a/003a598c.c	Character::Enabled(void)
+0x3a5990	28	pseudocode/003a/003a5990.c	Character::HasPotion(void)const
+0x3a59ac	304	pseudocode/003a/003a59ac.c	Character::Revive(GameObject *, bool)
+0x3a5ae4	52	pseudocode/003a/003a5ae4.c	Character::DropLoot(GameObject *)const
+0x3a5b18	1676	pseudocode/003a/003a5b18.c	Character::Kill(GameObject *, bool)
+0x3a6208	8	pseudocode/003a/003a6208.c	`non-virtual thunk to'Character::Deserialize(IStreamBase *)
+0x3a6210	932	pseudocode/003a/003a6210.c	Character::Deserialize(IStreamBase *)
+0x3a65bc	8	pseudocode/003a/003a65bc.c	`non-virtual thunk to'Character::Serialize(IStreamBase *)
+0x3a65c4	248	pseudocode/003a/003a65c4.c	Character::Serialize(IStreamBase *)
+0x3a66f8	284	pseudocode/003a/003a66f8.c	Character::Clean(void)
+0x3a6a24	1216	pseudocode/003a/003a6a24.c	Character::NetStructCharacter::NetStructCharacter(void)
+0x3a6f0c	2548	pseudocode/003a/003a6f0c.c	Character::PopulateOutgoingNetStruct(bool)
+0x3a799c	64	pseudocode/003a/003a799c.c	Character::ClearConcurrentAI(void)
+0x3a7a50	168	pseudocode/003a/003a7a50.c	Character::NetStructCharacter::~NetStructCharacter()
+0x3a7b08	28	pseudocode/003a/003a7b08.c	Character::NetStructCharacter::~NetStructCharacter()
+0x3a7b24	272	pseudocode/003a/003a7b24.c	Character::UnLoadScriptProcess(std::priv::_Rb_tree_iterator<std::pair<int const, Character*>, std::priv::_MapTraitsT<std::pair<int const, Character*>>>, bool)
+0x3a7c3c	8	pseudocode/003a/003a7c3c.c	`non-virtual thunk to'Character::~Character()
+0x3a7c44	12	pseudocode/003a/003a7c44.c	`non-virtual thunk to'Character::~Character()
+0x3a7c50	12	pseudocode/003a/003a7c50.c	`non-virtual thunk to'Character::~Character()
+0x3a7c5c	8	pseudocode/003a/003a7c5c.c	`non-virtual thunk to'Character::~Character()
+0x3a7c64	8	pseudocode/003a/003a7c64.c	`non-virtual thunk to'Character::~Character()
+0x3a7c6c	8	pseudocode/003a/003a7c6c.c	`non-virtual thunk to'Character::~Character()
+0x3a7c74	8	pseudocode/003a/003a7c74.c	`non-virtual thunk to'Character::~Character()
+0x3a7c7c	8	pseudocode/003a/003a7c7c.c	`non-virtual thunk to'Character::~Character()
+0x3a7c84	268	pseudocode/003a/003a7c84.c	Character::~Character()
+0x3a7d98	8	pseudocode/003a/003a7d98.c	`non-virtual thunk to'Character::~Character()
+0x3a7da0	12	pseudocode/003a/003a7da0.c	`non-virtual thunk to'Character::~Character()
+0x3a7dac	12	pseudocode/003a/003a7dac.c	`non-virtual thunk to'Character::~Character()
+0x3a7db8	8	pseudocode/003a/003a7db8.c	`non-virtual thunk to'Character::~Character()
+0x3a7dc0	8	pseudocode/003a/003a7dc0.c	`non-virtual thunk to'Character::~Character()
+0x3a7dc8	8	pseudocode/003a/003a7dc8.c	`non-virtual thunk to'Character::~Character()
+0x3a7dd0	8	pseudocode/003a/003a7dd0.c	`non-virtual thunk to'Character::~Character()
+0x3a7dd8	8	pseudocode/003a/003a7dd8.c	`non-virtual thunk to'Character::~Character()
+0x3a7de0	28	pseudocode/003a/003a7de0.c	Character::~Character()
+0x3a7dfc	268	pseudocode/003a/003a7dfc.c	Character::~Character()
+0x3a7f10	1484	pseudocode/003a/003a7f10.c	Character::InterpretIncomingNetStruct(bool)
+0x3a84f4	1684	pseudocode/003a/003a84f4.c	Character::Draw(void)const
+0x3a8bc4	1624	pseudocode/003a/003a8bc4.c	Character::HitFor(unsigned int, GameObject *)
+0x3a9340	1416	pseudocode/003a/003a9340.c	Character::Character(ObjectBase::GO_IDS)
+0x3a999c	840	pseudocode/003a/003a999c.c	Character::INV_UpdateSkin(void)
+0x3a9d10	164	pseudocode/003a/003a9d10.c	Character::INV_CheckItemsRequirements(void)
+0x3a9db4	244	pseudocode/003a/003a9db4.c	Character::ReloadSkills(void)
+0x3a9eb0	56	pseudocode/003a/003a9eb0.c	Character::UnEquipItemFromSlot(unsigned int)
+0x3a9ee8	64	pseudocode/003a/003a9ee8.c	Character::EquipSlotAuto(unsigned int)
+0x3a9f28	8	pseudocode/003a/003a9f28.c	`non-virtual thunk to'Character::EquipItemToSlot(unsigned int, unsigned int)
+0x3a9f30	52	pseudocode/003a/003a9f30.c	Character::EquipItemToSlot(unsigned int, unsigned int)
+0x3a9f64	8	pseudocode/003a/003a9f64.c	`non-virtual thunk to'Character::UnEquipItemAuto(unsigned int)
+0x3a9f6c	52	pseudocode/003a/003a9f6c.c	Character::UnEquipItemAuto(unsigned int)
+0x3a9fa0	8	pseudocode/003a/003a9fa0.c	`non-virtual thunk to'Character::EquipItemAuto(unsigned int)
+0x3a9fa8	52	pseudocode/003a/003a9fa8.c	Character::EquipItemAuto(unsigned int)
+0x3a9fdc	8	pseudocode/003a/003a9fdc.c	`non-virtual thunk to'Character::DeclareProperties(void)
+0x3a9fe4	408	pseudocode/003a/003a9fe4.c	Character::DeclareProperties(void)
+0x3aa1b4	1416	pseudocode/003a/003aa1b4.c	Character::Character(ObjectBase::GO_IDS)
+0x3ab674	1284	pseudocode/003a/003ab674.c	Character::AddCharOIDToCache(int, unsigned int)
+0x3abb9c	736	pseudocode/003a/003abb9c.c	Character::UpdateObjectOfInterest(void)
+0x3abe98	3680	pseudocode/003a/003abe98.c	Character::Update(void)

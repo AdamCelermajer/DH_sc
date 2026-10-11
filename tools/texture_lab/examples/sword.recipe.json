@@ -1,0 +1,22 @@
+{
+  "name": "packaged-sword-01",
+  "source_obj": "../inputs/sword.obj",
+  "obj_rotation_degrees": [
+    0,
+    0,
+    0
+  ],
+  "atlas": "../inputs/weapons.tga",
+  "output": "../runs/sword-01",
+  "resolution": 1024,
+  "atlas_size": [
+    2048,
+    2048
+  ],
+  "view_angles": [
+    0,
+    180
+  ],
+  "prompt": "Enhance ONLY the painted texture surfaces of this exact low polygon fantasy longsword. Preserve every pixel position of silhouette, blade geometry, hilt, guard, proportions, engravings and ornament shapes. Keep the same colors, background, framing and lighting. Add beautiful small classic hand-painted RPG metal details: fine restrained blade scratches, crisp existing bevel highlights, small wear marks and subtle forged steel grain, leather grip grain and original bindings. Rich classic game painted texture, no photographic noise, no smooth plastic, no redesign, no new ornaments. Output the same sword with richer material detail.",
+  "seed": 424242
+}

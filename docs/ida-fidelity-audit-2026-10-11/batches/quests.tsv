@@ -1,0 +1,634 @@
+0x31feb0	40	pseudocode/0031/0031feb0.c	DialogMsg::~DialogMsg()
+0x33805c	88	pseudocode/0033/0033805c.c	EventManager::EventManager(void)
+0x3380bc	88	pseudocode/0033/003380bc.c	EventManager::EventManager(void)
+0x33811c	172	pseudocode/0033/0033811c.c	EventManager::Detach(int, IEventReceiver *)
+0x3382a4	208	pseudocode/0033/003382a4.c	EventManager::DelayedDetach(int, IEventReceiver *)
+0x3383f4	68	pseudocode/0033/003383f4.c	EventManager::DropDelayedDetach(void)
+0x3384ac	76	pseudocode/0033/003384ac.c	EventManager::Flush(void)
+0x3384f8	116	pseudocode/0033/003384f8.c	EventManager::~EventManager()
+0x338574	28	pseudocode/0033/00338574.c	EventManager::~EventManager()
+0x338590	116	pseudocode/0033/00338590.c	EventManager::~EventManager()
+0x338da0	284	pseudocode/0033/00338da0.c	EventManager::Attach(int, IEventReceiver *, int)
+0x338ebc	336	pseudocode/0033/00338ebc.c	EventManager::Raise(IEvent const&)const
+0x33900c	132	pseudocode/0033/0033900c.c	EventManager::Update(double)
+0x339090	4	pseudocode/0033/00339090.c	EventManager::RaiseAsync(IEvent const&)const
+0x33dd24	8	pseudocode/0033/0033dd24.c	ConditionData::SetAsTested(bool)
+0x33e5f8	36	pseudocode/0033/0033e5f8.c	ConditionData::IsTrue(void)const
+0x33e7c8	48	pseudocode/0033/0033e7c8.c	ConditionData::Clear(void)
+0x33e7f8	56	pseudocode/0033/0033e7f8.c	ConditionData::~ConditionData()
+0x33eacc	28	pseudocode/0033/0033eacc.c	ConditionData::~ConditionData()
+0x33eae8	56	pseudocode/0033/0033eae8.c	ConditionData::~ConditionData()
+0x33eb28	208	pseudocode/0033/0033eb28.c	ConditionData::Init(void)
+0x33ed7c	84	pseudocode/0033/0033ed7c.c	ConditionData::ConditionData(void)
+0x33edd8	84	pseudocode/0033/0033edd8.c	ConditionData::ConditionData(void)
+0x379e68	64	pseudocode/0037/00379e68.c	LuaManager::LuaManager(void)
+0x379eb0	64	pseudocode/0037/00379eb0.c	LuaManager::LuaManager(void)
+0x379fe8	196	pseudocode/0037/00379fe8.c	LuaManager::FlushBufferedFiles(void)
+0x37a0ac	92	pseudocode/0037/0037a0ac.c	LuaManager::~LuaManager()
+0x37a110	28	pseudocode/0037/0037a110.c	LuaManager::~LuaManager()
+0x37a12c	92	pseudocode/0037/0037a12c.c	LuaManager::~LuaManager()
+0x37b23c	748	pseudocode/0037/0037b23c.c	LuaManager::AddFile(LuaScript *, char const*)
+0x37b568	4	pseudocode/0037/0037b568.c	LuaScript::_IncludePyCst(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37b56c	4	pseudocode/0037/0037b56c.c	LuaScript::_IncludePyStruct(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37b570	4	pseudocode/0037/0037b570.c	LuaScript::_IncludePyArray(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37b574	36	pseudocode/0037/0037b574.c	LuaScript::Load(char const*)
+0x37b5a0	984	pseudocode/0037/0037b5a0.c	LuaScript::BindFunction(void)
+0x37be00	68	pseudocode/0037/0037be00.c	LuaScript::_PushVFTable(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37bec0	312	pseudocode/0037/0037bec0.c	LuaScript::~LuaScript()
+0x37c004	312	pseudocode/0037/0037c004.c	LuaScript::~LuaScript()
+0x37c148	28	pseudocode/0037/0037c148.c	LuaScript::~LuaScript()
+0x37c2a0	116	pseudocode/0037/0037c2a0.c	LuaScript::IsInVFTable(char const*)const
+0x37c314	124	pseudocode/0037/0037c314.c	LuaScript::_GetFuncName(char const*)const
+0x37c390	132	pseudocode/0037/0037c390.c	LuaScript::Call(char const*, sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &)
+0x37c41c	112	pseudocode/0037/0037c41c.c	LuaScript::Call(char const*, sfc::script::lua::Arguments const&)
+0x37c494	120	pseudocode/0037/0037c494.c	LuaScript::Call(char const*, sfc::script::lua::ReturnValues &)
+0x37c514	104	pseudocode/0037/0037c514.c	LuaScript::Call(char const*)
+0x37c584	228	pseudocode/0037/0037c584.c	LuaScript::LuaScript(bool)
+0x37c674	228	pseudocode/0037/0037c674.c	LuaScript::LuaScript(bool)
+0x37c934	60	pseudocode/0037/0037c934.c	LuaScript::_GetGameScript(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37ca60	52	pseudocode/0037/0037ca60.c	LuaScript::_GetHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37cb8c	68	pseudocode/0037/0037cb8c.c	LuaScript::_GetHostPlayerDifficulty(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37cbd8	32	pseudocode/0037/0037cbd8.c	LuaScript::_GetNumPlayers(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37cc00	52	pseudocode/0037/0037cc00.c	LuaScript::_GetHostPlayerLevel(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37d990	160	pseudocode/0037/0037d990.c	LuaScript::SetInt(char const*, int)
+0x37da30	148	pseudocode/0037/0037da30.c	LuaScript::GetInt(char const*)const
+0x37dc44	384	pseudocode/0037/0037dc44.c	LuaScript::_PopVFTable(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37ddc8	136	pseudocode/0037/0037ddc8.c	LuaScript::_IsPlayerCharacter(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37de5c	204	pseudocode/0037/0037de5c.c	LuaScript::_SetInt(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37df30	300	pseudocode/0037/0037df30.c	LuaScript::_Rand(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37e068	304	pseudocode/0037/0037e068.c	LuaScript::_DivFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37e1a4	296	pseudocode/0037/0037e1a4.c	LuaScript::_MulFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37e2d8	316	pseudocode/0037/0037e2d8.c	LuaScript::_RandF(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37e420	316	pseudocode/0037/0037e420.c	LuaScript::_PlayMusic(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37e578	416	pseudocode/0037/0037e578.c	LuaScript::_PlaySound(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37e730	212	pseudocode/0037/0037e730.c	LuaScript::_StopSound(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37e814	460	pseudocode/0037/0037e814.c	LuaScript::_BitOr(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37e9ec	460	pseudocode/0037/0037e9ec.c	LuaScript::_BitAnd(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37ebc4	80	pseudocode/0037/0037ebc4.c	LuaScript::_ToFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37ec14	92	pseudocode/0037/0037ec14.c	LuaScript::_GetInt(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37ec70	516	pseudocode/0037/0037ec70.c	LuaScript::_AddToVFTable(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37ee80	4	pseudocode/0037/0037ee80.c	LuaScript::_Trace(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37ee84	180	pseudocode/0037/0037ee84.c	LuaScript::_FromFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37ef3c	160	pseudocode/0037/0037ef3c.c	LuaScript::_CallPyScript(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37efe4	88	pseudocode/0037/0037efe4.c	LuaScript::_Include(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37f03c	428	pseudocode/0037/0037f03c.c	LuaScript::_GetGameObjectsByType(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37f1f0	344	pseudocode/0037/0037f1f0.c	LuaScript::_GetCurrentLevelRange(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37f354	320	pseudocode/0037/0037f354.c	LuaScript::_GetPyCst(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37f4a8	320	pseudocode/0037/0037f4a8.c	LuaScript::_GetPyStruct(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37f5fc	320	pseudocode/0037/0037f5fc.c	LuaScript::_GetPyOID(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37f750	192	pseudocode/0037/0037f750.c	LuaScript::_BitXOr(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37f814	100	pseudocode/0037/0037f814.c	LuaScript::_BitNot(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x37f878	308	pseudocode/0037/0037f878.c	LuaScript::_SetGameType(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues &, void *)
+0x396120	264	pseudocode/0039/00396120.c	QuestMoveInZone::OnCollisionBegins(GameObject *)
+0x396284	8	pseudocode/0039/00396284.c	`non-virtual thunk to'QuestMoveInZone::~QuestMoveInZone()
+0x39628c	56	pseudocode/0039/0039628c.c	QuestMoveInZone::~QuestMoveInZone()
+0x3962cc	8	pseudocode/0039/003962cc.c	`non-virtual thunk to'QuestMoveInZone::~QuestMoveInZone()
+0x3962d4	28	pseudocode/0039/003962d4.c	QuestMoveInZone::~QuestMoveInZone()
+0x3962f0	56	pseudocode/0039/003962f0.c	QuestMoveInZone::~QuestMoveInZone()
+0x396330	64	pseudocode/0039/00396330.c	QuestMoveInZone::QuestMoveInZone(ObjectBase::GO_IDS)
+0x396378	64	pseudocode/0039/00396378.c	QuestMoveInZone::QuestMoveInZone(ObjectBase::GO_IDS)
+0x433b9c	56	pseudocode/0043/00433b9c.c	DialogMsg::DialogMsg(DialogMsg const&)
+0x433dd8	192	pseudocode/0043/00433dd8.c	DialogMsg::SetActorName(int)
+0x433ea8	92	pseudocode/0043/00433ea8.c	DialogMsg::DialogMsg(std::string const&, std::string const&, int, int)
+0x4343d8	92	pseudocode/0043/004343d8.c	DialogMsg::DialogMsg(std::string const&, std::string const&, int, int)
+0x434434	236	pseudocode/0043/00434434.c	DialogMsg::DialogMsg(int, int, int, int)
+0x43452c	236	pseudocode/0043/0043452c.c	DialogMsg::DialogMsg(int, int, int, int)
+0x43f828	104	pseudocode/0043/0043f828.c	DialogMsg::operator=(DialogMsg const&)
+0x455630	8	pseudocode/0045/00455630.c	Script_EmptyImpl::IsBlocking(void)const
+0x455638	8	pseudocode/0045/00455638.c	Script_EnterCutSceneMode::IsBlocking(void)const
+0x455640	8	pseudocode/0045/00455640.c	Script_ExitCutSceneMode::IsBlocking(void)const
+0x455648	8	pseudocode/0045/00455648.c	Script_CONSOLE::IsBlocking(void)const
+0x455650	8	pseudocode/0045/00455650.c	Script_PlaySound::IsBlocking(void)const
+0x455658	8	pseudocode/0045/00455658.c	Script_StopSound::IsBlocking(void)const
+0x455660	8	pseudocode/0045/00455660.c	Script_PlayLevelMusic::IsBlocking(void)const
+0x455668	8	pseudocode/0045/00455668.c	Script_EnterSafeZone::IsBlocking(void)const
+0x455670	8	pseudocode/0045/00455670.c	Script_LeaveSafeZone::IsBlocking(void)const
+0x455678	4	pseudocode/0045/00455678.c	Script_SetCamera::Execute(bool, int)
+0x45567c	8	pseudocode/0045/0045567c.c	Script_SetCamera::IsBlocking(void)const
+0x455684	8	pseudocode/0045/00455684.c	Script_SetCameraClip::IsBlocking(void)const
+0x45568c	8	pseudocode/0045/0045568c.c	Script_StartDialog::IsBlocking(void)const
+0x455694	8	pseudocode/0045/00455694.c	Script_StartDialogID::IsBlocking(void)const
+0x45569c	8	pseudocode/0045/0045569c.c	Script_PlayAnimById::IsBlocking(void)const
+0x4556a4	8	pseudocode/0045/004556a4.c	Script_PlayAnimByName::IsBlocking(void)const
+0x4556ac	8	pseudocode/0045/004556ac.c	Script_PlayEffect::IsBlocking(void)const
+0x4556b4	8	pseudocode/0045/004556b4.c	Script_StopEffect::IsBlocking(void)const
+0x4556bc	8	pseudocode/0045/004556bc.c	Script_LockCharacter::IsBlocking(void)const
+0x4556c4	68	pseudocode/0045/004556c4.c	Script_ShowFlash::IsBlocking(void)const
+0x455708	68	pseudocode/0045/00455708.c	Script_HideFlash::IsBlocking(void)const
+0x45574c	8	pseudocode/0045/0045574c.c	Script_UnlockCharacter::IsBlocking(void)const
+0x455754	24	pseudocode/0045/00455754.c	Script_Wait::IsBlocking(void)const
+0x45576c	8	pseudocode/0045/0045576c.c	Script_SetFaeryState::IsBlocking(void)const
+0x455774	8	pseudocode/0045/00455774.c	Script_IncFaeryLevel::IsBlocking(void)const
+0x45577c	8	pseudocode/0045/0045577c.c	Script_PutCharacterInLimbus::IsBlocking(void)const
+0x455784	8	pseudocode/0045/00455784.c	Script_SpawnCharacter::IsBlocking(void)const
+0x45578c	8	pseudocode/0045/0045578c.c	Script_PutCharacterInIdle::IsBlocking(void)const
+0x455794	8	pseudocode/0045/00455794.c	Script_MarkCharacterAsScripted::IsBlocking(void)const
+0x45579c	4	pseudocode/0045/0045579c.c	Script_AIEnableTimer::Execute(bool, int)
+0x4557a0	8	pseudocode/0045/004557a0.c	Script_AIEnableTimer::IsBlocking(void)const
+0x4557a8	4	pseudocode/0045/004557a8.c	Script_AIResetTimer::Execute(bool, int)
+0x4557ac	8	pseudocode/0045/004557ac.c	Script_AIResetTimer::IsBlocking(void)const
+0x4557b4	4	pseudocode/0045/004557b4.c	Script_AIDoSkill::Execute(bool, int)
+0x4557b8	8	pseudocode/0045/004557b8.c	Script_AIDoSkill::IsBlocking(void)const
+0x4557c0	4	pseudocode/0045/004557c0.c	Script_AISetHP::Execute(bool, int)
+0x4557c4	8	pseudocode/0045/004557c4.c	Script_AISetHP::IsBlocking(void)const
+0x4557cc	4	pseudocode/0045/004557cc.c	Script_AIChangeScript::Execute(bool, int)
+0x4557d0	8	pseudocode/0045/004557d0.c	Script_AIChangeScript::IsBlocking(void)const
+0x4557d8	8	pseudocode/0045/004557d8.c	Script_AISetInt::IsBlocking(void)const
+0x4557e0	8	pseudocode/0045/004557e0.c	Script_StopActor::IsBlocking(void)const
+0x4557e8	8	pseudocode/0045/004557e8.c	Script_DropLoot::IsBlocking(void)const
+0x4557f0	8	pseudocode/0045/004557f0.c	Script_AutoEquip::IsBlocking(void)const
+0x4557f8	8	pseudocode/0045/004557f8.c	Script_UnEquipItemFromSlot::IsBlocking(void)const
+0x455800	8	pseudocode/0045/00455800.c	Script_UnEquipHands::IsBlocking(void)const
+0x455808	8	pseudocode/0045/00455808.c	Script_ReEquipHands::IsBlocking(void)const
+0x455810	8	pseudocode/0045/00455810.c	Script_SetStatic::IsBlocking(void)const
+0x455818	8	pseudocode/0045/00455818.c	Script_LookActor::IsBlocking(void)const
+0x455820	8	pseudocode/0045/00455820.c	Script_ShowActor::IsBlocking(void)const
+0x455828	8	pseudocode/0045/00455828.c	Script_HideActor::IsBlocking(void)const
+0x455830	8	pseudocode/0045/00455830.c	Script_KillActor::IsBlocking(void)const
+0x455838	8	pseudocode/0045/00455838.c	Script_SetActorPosition::IsBlocking(void)const
+0x455840	8	pseudocode/0045/00455840.c	Script_SetActorMaster::IsBlocking(void)const
+0x455848	60	pseudocode/0045/00455848.c	Script_OpenDoor::IsBlocking(void)const
+0x455884	56	pseudocode/0045/00455884.c	Script_CloseDoor::IsBlocking(void)const
+0x4558bc	8	pseudocode/0045/004558bc.c	Script_ActivateProjectileTrap::IsBlocking(void)const
+0x4558c4	8	pseudocode/0045/004558c4.c	Script_DeactivateProjectileTrap::IsBlocking(void)const
+0x4558cc	8	pseudocode/0045/004558cc.c	Script_ActivateTriggerPlate::IsBlocking(void)const
+0x4558d4	8	pseudocode/0045/004558d4.c	Script_DeactivateTriggerPlate::IsBlocking(void)const
+0x4558dc	8	pseudocode/0045/004558dc.c	Script_SpawnContainer::IsBlocking(void)const
+0x4558e4	8	pseudocode/0045/004558e4.c	Script_SetLevelState::IsBlocking(void)const
+0x4558ec	8	pseudocode/0045/004558ec.c	Script_SetWorldMapLocationState::IsBlocking(void)const
+0x4558f4	8	pseudocode/0045/004558f4.c	Script_RestartLevel::IsBlocking(void)const
+0x4558fc	8	pseudocode/0045/004558fc.c	Script_ChangeLevel::IsBlocking(void)const
+0x455904	4	pseudocode/0045/00455904.c	Script_ShowTrophies::Execute(bool, int)
+0x455908	8	pseudocode/0045/00455908.c	Script_ShowTrophies::IsBlocking(void)const
+0x455910	8	pseudocode/0045/00455910.c	Script_EndGame::IsBlocking(void)const
+0x455918	8	pseudocode/0045/00455918.c	Script_AwardEndGameTrophies::IsBlocking(void)const
+0x455920	8	pseudocode/0045/00455920.c	Script_AwardTrophy::IsBlocking(void)const
+0x455928	8	pseudocode/0045/00455928.c	Script_SaveGame::IsBlocking(void)const
+0x455930	8	pseudocode/0045/00455930.c	Script_BlockSaveGame::IsBlocking(void)const
+0x455938	8	pseudocode/0045/00455938.c	Script_EnqueueTutorialMessage::IsBlocking(void)const
+0x455940	8	pseudocode/0045/00455940.c	Script_SkipTutorialMessage::IsBlocking(void)const
+0x455948	8	pseudocode/0045/00455948.c	Script_SkipAllTutorialMessages::IsBlocking(void)const
+0x455950	8	pseudocode/0045/00455950.c	Script_EnqueueCharMenuTutorialMessage::IsBlocking(void)const
+0x455958	8	pseudocode/0045/00455958.c	Script_SkipCharMenuTutorialMessage::IsBlocking(void)const
+0x455960	8	pseudocode/0045/00455960.c	Script_SkipAllCharMenuTutorialMessages::IsBlocking(void)const
+0x455968	8	pseudocode/0045/00455968.c	Script_LockTutorial::IsBlocking(void)const
+0x455970	8	pseudocode/0045/00455970.c	Script_DoTutorial::IsBlocking(void)const
+0x455978	8	pseudocode/0045/00455978.c	Script_FlushMessages::IsBlocking(void)const
+0x455980	60	pseudocode/0045/00455980.c	ScriptManager::ScriptManager(void)
+0x4559bc	60	pseudocode/0045/004559bc.c	ScriptManager::ScriptManager(void)
+0x455ad8	180	pseudocode/0045/00455ad8.c	ScriptManager::InitCommands(void)
+0x455b8c	44	pseudocode/0045/00455b8c.c	ScriptManager::GetNameFromID(int)const
+0x455bb8	40	pseudocode/0045/00455bb8.c	ScriptManager::StopScript(int, bool)
+0x455be0	12	pseudocode/0045/00455be0.c	ScriptManager::StopSkipping(void)
+0x455bec	28	pseudocode/0045/00455bec.c	ScriptManager::IsScriptRunning(int)const
+0x455c08	48	pseudocode/0045/00455c08.c	Script_ExecScript::IsBlocking(void)const
+0x455c40	20	pseudocode/0045/00455c40.c	ScriptManager::GetScriptModule(int)const
+0x455c54	108	pseudocode/0045/00455c54.c	ScriptManager::IsCutSceneRunning(void)const
+0x45632c	104	pseudocode/0045/0045632c.c	ScriptManager::ScriptCmds::Free(void)
+0x457714	64	pseudocode/0045/00457714.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_FlushMessages>(void)
+0x45775c	64	pseudocode/0045/0045775c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_DoTutorial>(void)
+0x4577a4	64	pseudocode/0045/004577a4.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_LockTutorial>(void)
+0x4577ec	64	pseudocode/0045/004577ec.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SkipAllCharMenuTutorialMessages>(void)
+0x457834	64	pseudocode/0045/00457834.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SkipCharMenuTutorialMessage>(void)
+0x45787c	64	pseudocode/0045/0045787c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_EnqueueCharMenuTutorialMessage>(void)
+0x4578c4	64	pseudocode/0045/004578c4.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SkipAllTutorialMessages>(void)
+0x45790c	64	pseudocode/0045/0045790c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SkipTutorialMessage>(void)
+0x457954	64	pseudocode/0045/00457954.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_EnqueueTutorialMessage>(void)
+0x45799c	64	pseudocode/0045/0045799c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_BlockSaveGame>(void)
+0x4579e4	64	pseudocode/0045/004579e4.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SaveGame>(void)
+0x457a2c	64	pseudocode/0045/00457a2c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_ShowTrophies>(void)
+0x457a74	64	pseudocode/0045/00457a74.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_AwardEndGameTrophies>(void)
+0x457abc	64	pseudocode/0045/00457abc.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_AwardTrophy>(void)
+0x457b04	64	pseudocode/0045/00457b04.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_EndGame>(void)
+0x457b4c	64	pseudocode/0045/00457b4c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_ChangeLevel>(void)
+0x457b94	64	pseudocode/0045/00457b94.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_RestartLevel>(void)
+0x457bdc	64	pseudocode/0045/00457bdc.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SetWorldMapLocationState>(void)
+0x457c24	64	pseudocode/0045/00457c24.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SetLevelState>(void)
+0x457c6c	64	pseudocode/0045/00457c6c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SpawnContainer>(void)
+0x457cb4	68	pseudocode/0045/00457cb4.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_DeactivateTriggerPlate>(void)
+0x457d00	68	pseudocode/0045/00457d00.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_ActivateTriggerPlate>(void)
+0x457d4c	68	pseudocode/0045/00457d4c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_DeactivateProjectileTrap>(void)
+0x457d98	68	pseudocode/0045/00457d98.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_ActivateProjectileTrap>(void)
+0x457de4	72	pseudocode/0045/00457de4.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_CloseDoor>(void)
+0x457e34	72	pseudocode/0045/00457e34.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_OpenDoor>(void)
+0x457e84	64	pseudocode/0045/00457e84.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SetStatic>(void)
+0x457ecc	64	pseudocode/0045/00457ecc.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_ReEquipHands>(void)
+0x457f14	64	pseudocode/0045/00457f14.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_UnEquipHands>(void)
+0x457f5c	64	pseudocode/0045/00457f5c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_UnEquipItemFromSlot>(void)
+0x457fa4	64	pseudocode/0045/00457fa4.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_AutoEquip>(void)
+0x457fec	64	pseudocode/0045/00457fec.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_DropLoot>(void)
+0x458034	64	pseudocode/0045/00458034.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SetActorMaster>(void)
+0x45807c	64	pseudocode/0045/0045807c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SetActorPosition>(void)
+0x4580c4	64	pseudocode/0045/004580c4.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_KillActor>(void)
+0x45810c	64	pseudocode/0045/0045810c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_HideActor>(void)
+0x458154	64	pseudocode/0045/00458154.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_ShowActor>(void)
+0x45819c	64	pseudocode/0045/0045819c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_LookActor>(void)
+0x4581e4	76	pseudocode/0045/004581e4.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_MoveActor>(void)
+0x458238	64	pseudocode/0045/00458238.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_StopActor>(void)
+0x458280	64	pseudocode/0045/00458280.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_AISetInt>(void)
+0x4582c8	64	pseudocode/0045/004582c8.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_AIChangeScript>(void)
+0x458310	64	pseudocode/0045/00458310.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_AISetHP>(void)
+0x458358	64	pseudocode/0045/00458358.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_AIDoSkill>(void)
+0x4583a0	64	pseudocode/0045/004583a0.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_AIResetTimer>(void)
+0x4583e8	64	pseudocode/0045/004583e8.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_AIEnableTimer>(void)
+0x458430	64	pseudocode/0045/00458430.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_MarkCharacterAsScripted>(void)
+0x458478	64	pseudocode/0045/00458478.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_PutCharacterInIdle>(void)
+0x4584c0	64	pseudocode/0045/004584c0.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SpawnCharacter>(void)
+0x458508	64	pseudocode/0045/00458508.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_PutCharacterInLimbus>(void)
+0x458550	64	pseudocode/0045/00458550.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_IncFaeryLevel>(void)
+0x458598	64	pseudocode/0045/00458598.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SetFaeryState>(void)
+0x4585e0	72	pseudocode/0045/004585e0.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_Wait>(void)
+0x458630	64	pseudocode/0045/00458630.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_UnlockCharacter>(void)
+0x458678	64	pseudocode/0045/00458678.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_LockCharacter>(void)
+0x4586c0	68	pseudocode/0045/004586c0.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_HideFlash>(void)
+0x45870c	68	pseudocode/0045/0045870c.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_ShowFlash>(void)
+0x458758	64	pseudocode/0045/00458758.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_StopEffect>(void)
+0x4587a0	64	pseudocode/0045/004587a0.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_PlayEffect>(void)
+0x4587e8	64	pseudocode/0045/004587e8.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_PlayAnimByName>(void)
+0x458830	64	pseudocode/0045/00458830.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_PlayAnimById>(void)
+0x458878	64	pseudocode/0045/00458878.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_LeaveSafeZone>(void)
+0x4588c0	64	pseudocode/0045/004588c0.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_EnterSafeZone>(void)
+0x458908	64	pseudocode/0045/00458908.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_PlayLevelMusic>(void)
+0x458950	64	pseudocode/0045/00458950.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_StopSound>(void)
+0x458998	64	pseudocode/0045/00458998.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_PlaySound>(void)
+0x4589e0	64	pseudocode/0045/004589e0.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_WaitDialog>(void)
+0x458a28	64	pseudocode/0045/00458a28.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_StartDialogID>(void)
+0x458a70	64	pseudocode/0045/00458a70.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_StartDialog>(void)
+0x458ab8	64	pseudocode/0045/00458ab8.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_EmptyImpl>(void)
+0x458b00	64	pseudocode/0045/00458b00.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SetCameraTarget>(void)
+0x458b48	64	pseudocode/0045/00458b48.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_WaitCamera>(void)
+0x458b90	64	pseudocode/0045/00458b90.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SetCameraClip>(void)
+0x458bd8	64	pseudocode/0045/00458bd8.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_PlayCamera>(void)
+0x458c20	64	pseudocode/0045/00458c20.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_SetCamera>(void)
+0x458c68	64	pseudocode/0045/00458c68.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_CONSOLE>(void)
+0x458cb0	64	pseudocode/0045/00458cb0.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_ExitCutSceneMode>(void)
+0x458cf8	64	pseudocode/0045/00458cf8.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_EnterCutSceneMode>(void)
+0x458d40	68	pseudocode/0045/00458d40.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_ExecScript>(void)
+0x459034	76	pseudocode/0045/00459034.c	Script_StartDialog::Init(void)
+0x4591f0	108	pseudocode/0045/004591f0.c	ScriptManager::GetIDFromName(char const*, bool)const
+0x45925c	96	pseudocode/0045/0045925c.c	Script_LockTutorial::Execute(bool, int)
+0x4592cc	88	pseudocode/0045/004592cc.c	Script_SetCameraTarget::IsBlocking(void)const
+0x45932c	60	pseudocode/0045/0045932c.c	Script_WaitCamera::IsBlocking(void)const
+0x459370	76	pseudocode/0045/00459370.c	Script_PlayCamera::IsBlocking(void)const
+0x4593c4	40	pseudocode/0045/004593c4.c	Script_AwardTrophy::Execute(bool, int)
+0x459550	60	pseudocode/0045/00459550.c	Script_MarkCharacterAsScripted::Unset(ObjectBase *)
+0x45958c	60	pseudocode/0045/0045958c.c	Script_MarkCharacterAsScripted::Set(ObjectBase *)
+0x4595c8	88	pseudocode/0045/004595c8.c	ScriptCmdImpl * GetNewScriptCmdImplInstance<Script_PlayActorAnim>(void)
+0x459628	112	pseudocode/0045/00459628.c	Script_PlayActorAnim::IsBlocking(void)const
+0x459698	132	pseudocode/0045/00459698.c	Script_MoveActor::IsBlocking(void)const
+0x45971c	144	pseudocode/0045/0045971c.c	Script_PutCharacterInIdle::SetState(ObjectBase *)
+0x4597b4	44	pseudocode/0045/004597b4.c	Script_Wait::Update(void)
+0x4597e8	80	pseudocode/0045/004597e8.c	Script_HideFlash::Init(void)
+0x45983c	80	pseudocode/0045/0045983c.c	Script_ShowFlash::Init(void)
+0x459890	28	pseudocode/0045/00459890.c	Script_StopEffect::Execute(bool, int)
+0x4598b4	28	pseudocode/0045/004598b4.c	Script_PlayEffect::Init(void)
+0x4598d8	32	pseudocode/0045/004598d8.c	Script_WaitDialog::IsBlocking(void)const
+0x4599ac	320	pseudocode/0045/004599ac.c	Script_ExitCutSceneMode::Execute(bool, int)
+0x459b04	1028	pseudocode/0045/00459b04.c	Script_AwardEndGameTrophies::Execute(bool, int)
+0x45a1c8	228	pseudocode/0045/0045a1c8.c	ScriptManager::UnLoadAllScripts(void)
+0x45a2ac	56	pseudocode/0045/0045a2ac.c	ScriptManager::Flush(void)
+0x45a2ec	144	pseudocode/0045/0045a2ec.c	Script_PlayActorAnim::Init(void)
+0x45a384	712	pseudocode/0045/0045a384.c	Script_EnterCutSceneMode::Execute(bool, int)
+0x45a880	104	pseudocode/0045/0045a880.c	ScriptManager::~ScriptManager()
+0x45ad40	540	pseudocode/0045/0045ad40.c	ScriptManager::LoadScriptFileNames(char const*, bool)
+0x45b264	932	pseudocode/0045/0045b264.c	ScriptManager::LoadScriptFile(char const*, bool)
+0x45c16c	496	pseudocode/0045/0045c16c.c	ScriptManager::ExecuteScript(int)
+0x45c37c	180	pseudocode/0045/0045c37c.c	ScriptManager::ExecuteAllScripts(void)
+0x45c438	144	pseudocode/0045/0045c438.c	Script_Wait::Execute(bool, int)
+0x45c4d8	120	pseudocode/0045/0045c4d8.c	Script_WaitDialog::Execute(bool, int)
+0x45c560	120	pseudocode/0045/0045c560.c	Script_EmptyImpl::Execute(bool, int)
+0x45c5e8	120	pseudocode/0045/0045c5e8.c	Script_WaitCamera::Execute(bool, int)
+0x45c670	540	pseudocode/0045/0045c670.c	Script_SetCameraClip::Execute(bool, int)
+0x45c8c0	192	pseudocode/0045/0045c8c0.c	Script_BlockSaveGame::Execute(bool, int)
+0x45c994	216	pseudocode/0045/0045c994.c	Script_SaveGame::Execute(bool, int)
+0x45ca80	264	pseudocode/0045/0045ca80.c	Script_EndGame::Execute(bool, int)
+0x45cba0	528	pseudocode/0045/0045cba0.c	Script_ChangeLevel::Execute(bool, int)
+0x45cdd0	148	pseudocode/0045/0045cdd0.c	Script_RestartLevel::Execute(bool, int)
+0x45ce78	180	pseudocode/0045/0045ce78.c	Script_SetWorldMapLocationState::Execute(bool, int)
+0x45cf40	180	pseudocode/0045/0045cf40.c	Script_SetLevelState::Execute(bool, int)
+0x45d008	196	pseudocode/0045/0045d008.c	Script_SpawnContainer::Execute(bool, int)
+0x45d0e0	228	pseudocode/0045/0045d0e0.c	Script_DeactivateTriggerPlate::Execute(bool, int)
+0x45d1d8	232	pseudocode/0045/0045d1d8.c	Script_ActivateTriggerPlate::Execute(bool, int)
+0x45d2d4	228	pseudocode/0045/0045d2d4.c	Script_DeactivateProjectileTrap::Execute(bool, int)
+0x45d3cc	232	pseudocode/0045/0045d3cc.c	Script_ActivateProjectileTrap::Execute(bool, int)
+0x45d4c8	176	pseudocode/0045/0045d4c8.c	Script_MarkCharacterAsScripted::Execute(bool, int)
+0x45d590	168	pseudocode/0045/0045d590.c	Script_PutCharacterInIdle::Execute(bool, int)
+0x45d650	248	pseudocode/0045/0045d650.c	Script_CloseDoor::Execute(bool, int)
+0x45d75c	248	pseudocode/0045/0045d75c.c	Script_OpenDoor::Execute(bool, int)
+0x45d868	224	pseudocode/0045/0045d868.c	Script_SetStatic::Execute(bool, int)
+0x45d95c	284	pseudocode/0045/0045d95c.c	Script_ReEquipHands::Execute(bool, int)
+0x45da8c	232	pseudocode/0045/0045da8c.c	Script_UnEquipItemFromSlot::Execute(bool, int)
+0x45db88	228	pseudocode/0045/0045db88.c	Script_AutoEquip::Execute(bool, int)
+0x45dc80	260	pseudocode/0045/0045dc80.c	Script_UnlockCharacter::Execute(bool, int)
+0x45dda0	276	pseudocode/0045/0045dda0.c	Script_LockCharacter::Execute(bool, int)
+0x45ded0	324	pseudocode/0045/0045ded0.c	Script_UnEquipHands::Execute(bool, int)
+0x45e028	232	pseudocode/0045/0045e028.c	Script_HideActor::Execute(bool, int)
+0x45e124	276	pseudocode/0045/0045e124.c	Script_PlayAnimByName::Execute(bool, int)
+0x45e24c	276	pseudocode/0045/0045e24c.c	Script_PlayAnimById::Execute(bool, int)
+0x45e374	304	pseudocode/0045/0045e374.c	Script_DropLoot::Execute(bool, int)
+0x45e4b8	252	pseudocode/0045/0045e4b8.c	Script_SetActorMaster::Execute(bool, int)
+0x45e5c8	692	pseudocode/0045/0045e5c8.c	Script_SetActorPosition::Execute(bool, int)
+0x45e890	348	pseudocode/0045/0045e890.c	Script_PlayActorAnim::Execute(bool, int)
+0x45ea04	252	pseudocode/0045/0045ea04.c	Script_KillActor::Execute(bool, int)
+0x45eb14	296	pseudocode/0045/0045eb14.c	Script_ShowActor::Execute(bool, int)
+0x45ec50	600	pseudocode/0045/0045ec50.c	Script_LookActor::Execute(bool, int)
+0x45eec0	464	pseudocode/0045/0045eec0.c	Script_StopActor::Execute(bool, int)
+0x45f0a8	576	pseudocode/0045/0045f0a8.c	Script_MoveActor::Execute(bool, int)
+0x45f2fc	240	pseudocode/0045/0045f2fc.c	Script_AISetInt::Execute(bool, int)
+0x45f400	212	pseudocode/0045/0045f400.c	Script_SpawnCharacter::Execute(bool, int)
+0x45f4e8	208	pseudocode/0045/0045f4e8.c	Script_PutCharacterInLimbus::Execute(bool, int)
+0x45f5cc	232	pseudocode/0045/0045f5cc.c	Script_IncFaeryLevel::Execute(bool, int)
+0x45f6c8	176	pseudocode/0045/0045f6c8.c	Script_SetFaeryState::Execute(bool, int)
+0x45f78c	292	pseudocode/0045/0045f78c.c	Script_HideFlash::Execute(bool, int)
+0x45f8c8	432	pseudocode/0045/0045f8c8.c	Script_ShowFlash::Execute(bool, int)
+0x45fa9c	300	pseudocode/0045/0045fa9c.c	Script_PlayEffect::Execute(bool, int)
+0x45fbe0	140	pseudocode/0045/0045fbe0.c	Script_LeaveSafeZone::Execute(bool, int)
+0x45fc80	140	pseudocode/0045/0045fc80.c	Script_EnterSafeZone::Execute(bool, int)
+0x45fd20	236	pseudocode/0045/0045fd20.c	Script_PlayLevelMusic::Execute(bool, int)
+0x45fe2c	188	pseudocode/0045/0045fe2c.c	Script_StopSound::Execute(bool, int)
+0x45fefc	244	pseudocode/0045/0045fefc.c	Script_PlaySound::Execute(bool, int)
+0x460004	248	pseudocode/0046/00460004.c	Script_SetCameraTarget::Execute(bool, int)
+0x460110	220	pseudocode/0046/00460110.c	Script_PlayCamera::Execute(bool, int)
+0x460204	104	pseudocode/0046/00460204.c	ScriptManager::~ScriptManager()
+0x460338	4	pseudocode/0046/00460338.c	Script_SkipTutorialMessage::Execute(bool, int)
+0x46033c	140	pseudocode/0046/0046033c.c	Script_SkipAllTutorialMessages::Execute(bool, int)
+0x4603d0	76	pseudocode/0046/004603d0.c	Script_SkipCharMenuTutorialMessage::Execute(bool, int)
+0x460428	68	pseudocode/0046/00460428.c	Script_SkipAllCharMenuTutorialMessages::Execute(bool, int)
+0x4604c0	236	pseudocode/0046/004604c0.c	ScriptManager::SkipScript(int, bool)
+0x4605c0	536	pseudocode/0046/004605c0.c	ScriptManager::StartScript(int, int, bool)
+0x4607f4	320	pseudocode/0046/004607f4.c	Script_ExecScript::Execute(bool, int)
+0x460950	244	pseudocode/0046/00460950.c	Script_DoTutorial::Execute(bool, int)
+0x460a58	180	pseudocode/0046/00460a58.c	Script_FlushMessages::Execute(bool, int)
+0x460b1c	260	pseudocode/0046/00460b1c.c	Script_EnqueueCharMenuTutorialMessage::Execute(bool, int)
+0x460e68	348	pseudocode/0046/00460e68.c	Script_CONSOLE::Execute(bool, int)
+0x460fe8	268	pseudocode/0046/00460fe8.c	Script_StartDialog::Execute(bool, int)
+0x461114	288	pseudocode/0046/00461114.c	Script_StartDialogID::Execute(bool, int)
+0x4613d4	184	pseudocode/0046/004613d4.c	Script_EnqueueTutorialMessage::Execute(bool, int)
+0x46b004	152	pseudocode/0046/0046b004.c	QuestSavegame::QuestSavegame(void)
+0x46b0a4	152	pseudocode/0046/0046b0a4.c	QuestSavegame::QuestSavegame(void)
+0x46b144	44	pseudocode/0046/0046b144.c	QuestSavegame::IsActCompatible(int, int)const
+0x46b170	96	pseudocode/0046/0046b170.c	QuestSavegame::SG_GetNumQuests(bool (*)(Quest const*), int)const
+0x46b1d0	136	pseudocode/0046/0046b1d0.c	QuestSavegame::SG_GetQuestByID(bool (*)(Quest const*), int, int)const
+0x46b258	124	pseudocode/0046/0046b258.c	QuestSavegame::SG_GetNextQuest(bool (*)(Quest const*), int, int)const
+0x46b2d4	136	pseudocode/0046/0046b2d4.c	QuestSavegame::SG_GetPrevQuest(bool (*)(Quest const*), int, int)const
+0x46b35c	12	pseudocode/0046/0046b35c.c	QuestSavegame::SG_GetCurrentPrimaryQuest(int)
+0x46b510	176	pseudocode/0046/0046b510.c	QuestSavegame::SG_VerifyCurrentQuest(int)
+0x46b5c0	28	pseudocode/0046/0046b5c0.c	QuestSavegame::SG_GetCurrentQuest(int)
+0x46b5dc	104	pseudocode/0046/0046b5dc.c	QuestSavegame::HasMainQuestUpdated(int)const
+0x46b644	480	pseudocode/0046/0046b644.c	QuestSavegame::Synchronize(QuestSavegame const&, bool)
+0x46b824	140	pseudocode/0046/0046b824.c	QuestSavegame::CompileQuests(bool)
+0x46b8b0	144	pseudocode/0046/0046b8b0.c	QuestSavegame::SG_DBG_TraceDetailedQuestInformation(__sFILE *, int, int)
+0x46b940	244	pseudocode/0046/0046b940.c	QuestSavegame::SG_GetQuestByID(int, int, bool)
+0x46ba4c	236	pseudocode/0046/0046ba4c.c	QuestSavegame::SG_GetQuestByName(char const*, int)
+0x46bb58	124	pseudocode/0046/0046bb58.c	QuestSavegame::UpdateQuests(bool)
+0x46be6c	216	pseudocode/0046/0046be6c.c	QuestSavegame::~QuestSavegame()
+0x46bf4c	28	pseudocode/0046/0046bf4c.c	QuestSavegame::~QuestSavegame()
+0x46bf68	216	pseudocode/0046/0046bf68.c	QuestSavegame::~QuestSavegame()
+0x46c1a8	396	pseudocode/0046/0046c1a8.c	QuestSavegame::InitQuests(void)
+0x46c344	300	pseudocode/0046/0046c344.c	QuestSavegame::UnpackQuest(int, int, IStreamBase *, bool)
+0x46c48c	196	pseudocode/0046/0046c48c.c	QuestSavegame::UnpackQuests(int, IStreamBase *, bool)
+0x46c550	52	pseudocode/0046/0046c550.c	QuestSavegame::LoadQuests(IStreamBase *)
+0x46c584	204	pseudocode/0046/0046c584.c	QuestSavegame::PackQuest(int, int, IStreamBase *)
+0x46c658	164	pseudocode/0046/0046c658.c	QuestSavegame::PackQuests(int, IStreamBase *)
+0x46c6fc	60	pseudocode/0046/0046c6fc.c	QuestSavegame::SaveQuests(IStreamBase *)
+0x478634	4	pseudocode/0047/00478634.c	Condition::Compile(void)
+0x478638	8	pseudocode/0047/00478638.c	Condition_IsLevelInState::Eval(void)
+0x478640	8	pseudocode/0047/00478640.c	Condition_IsPlayerAtLevel::Eval(void)
+0x478648	36	pseudocode/0047/00478648.c	Condition::Condition(void)
+0x478674	36	pseudocode/0047/00478674.c	Condition::Condition(void)
+0x4786a0	4	pseudocode/0047/004786a0.c	Condition::~Condition()
+0x4786a4	44	pseudocode/0047/004786a4.c	Condition_IsQuestInStateGeneric::~Condition_IsQuestInStateGeneric()
+0x4786d8	4	pseudocode/0047/004786d8.c	Condition::~Condition()
+0x4786dc	20	pseudocode/0047/004786dc.c	ConditionList::ConditionList(void)
+0x4786f0	20	pseudocode/0047/004786f0.c	ConditionList::ConditionList(void)
+0x478704	88	pseudocode/0047/00478704.c	ConditionList::Eval(void)
+0x47875c	76	pseudocode/0047/0047875c.c	ConditionList::DBG_TraceDetailedConditionListInformation(__sFILE *)const
+0x4787a8	44	pseudocode/0047/004787a8.c	Condition_IsEventInState::~Condition_IsEventInState()
+0x4787dc	44	pseudocode/0047/004787dc.c	Condition_IsPlayerInLevel::~Condition_IsPlayerInLevel()
+0x478810	44	pseudocode/0047/00478810.c	Condition_IsPlayerAtLevel::~Condition_IsPlayerAtLevel()
+0x478844	44	pseudocode/0047/00478844.c	Condition_IsLevelInState::~Condition_IsLevelInState()
+0x478878	44	pseudocode/0047/00478878.c	Condition_IsQuestStateHigher::~Condition_IsQuestStateHigher()
+0x4788ac	44	pseudocode/0047/004788ac.c	Condition_IsQuestStateLower::~Condition_IsQuestStateLower()
+0x4788e0	44	pseudocode/0047/004788e0.c	Condition_IsQuestInState::~Condition_IsQuestInState()
+0x478914	132	pseudocode/0047/00478914.c	ConditionList::AssignPyData(Structs::v2ConditionStub *, int)
+0x47899c	68	pseudocode/0047/0047899c.c	Condition * GetConditionImplInstance<Condition_IsEventInState>(void)
+0x4789e8	68	pseudocode/0047/004789e8.c	Condition * GetConditionImplInstance<Condition_IsPlayerAtLevel>(void)
+0x478a34	68	pseudocode/0047/00478a34.c	Condition * GetConditionImplInstance<Condition_IsLevelInState>(void)
+0x478a80	68	pseudocode/0047/00478a80.c	Condition * GetConditionImplInstance<Condition_IsPlayerInLevel>(void)
+0x478acc	64	pseudocode/0047/00478acc.c	Condition * GetConditionImplInstance<Condition_IsQuestStateHigher>(void)
+0x478b14	64	pseudocode/0047/00478b14.c	Condition * GetConditionImplInstance<Condition_IsQuestStateLower>(void)
+0x478b5c	64	pseudocode/0047/00478b5c.c	Condition * GetConditionImplInstance<Condition_IsQuestInState>(void)
+0x478ba4	88	pseudocode/0047/00478ba4.c	Condition_IsPlayerInLevel::DBG_TraceDetailedConditionInformation(__sFILE *)
+0x478c10	148	pseudocode/0047/00478c10.c	Condition_IsEventInState::DBG_TraceDetailedConditionInformation(__sFILE *)
+0x478cc4	148	pseudocode/0047/00478cc4.c	Condition_IsQuestInStateGeneric::DBG_TraceDetailedConditionInformation(__sFILE *)
+0x478d78	52	pseudocode/0047/00478d78.c	Condition_IsPlayerInLevel::Eval(void)
+0x478db4	192	pseudocode/0047/00478db4.c	Condition_IsEventInState::Eval(void)
+0x478e90	28	pseudocode/0047/00478e90.c	Condition::~Condition()
+0x478eac	116	pseudocode/0047/00478eac.c	ConditionList::~ConditionList()
+0x478f20	116	pseudocode/0047/00478f20.c	ConditionList::~ConditionList()
+0x478f94	24	pseudocode/0047/00478f94.c	Condition_IsPlayerAtLevel::DBG_TraceDetailedConditionInformation(__sFILE *)
+0x478fb0	24	pseudocode/0047/00478fb0.c	Condition_IsLevelInState::DBG_TraceDetailedConditionInformation(__sFILE *)
+0x478fcc	24	pseudocode/0047/00478fcc.c	Condition::DBG_TraceDetailedConditionInformation(__sFILE *)
+0x478fe8	176	pseudocode/0047/00478fe8.c	Condition_IsQuestInStateGeneric::Eval(void)
+0x47917c	52	pseudocode/0047/0047917c.c	Condition_IsLevelInState::~Condition_IsLevelInState()
+0x4791b8	52	pseudocode/0047/004791b8.c	Condition_IsQuestInStateGeneric::~Condition_IsQuestInStateGeneric()
+0x4791f4	52	pseudocode/0047/004791f4.c	Condition_IsEventInState::~Condition_IsEventInState()
+0x479230	52	pseudocode/0047/00479230.c	Condition_IsPlayerInLevel::~Condition_IsPlayerInLevel()
+0x47926c	52	pseudocode/0047/0047926c.c	Condition_IsPlayerAtLevel::~Condition_IsPlayerAtLevel()
+0x4792a8	52	pseudocode/0047/004792a8.c	Condition_IsQuestStateHigher::~Condition_IsQuestStateHigher()
+0x4792e4	52	pseudocode/0047/004792e4.c	Condition_IsQuestStateLower::~Condition_IsQuestStateLower()
+0x479320	52	pseudocode/0047/00479320.c	Condition_IsQuestInState::~Condition_IsQuestInState()
+0x47935c	56	pseudocode/0047/0047935c.c	GameEvent::DBG_GetCurrentStateName(void)const
+0x4793a4	36	pseudocode/0047/004793a4.c	GameEvent::ExecScript(int)
+0x4793d0	56	pseudocode/0047/004793d0.c	GameEvent::SetState(int)
+0x479408	212	pseudocode/0047/00479408.c	GameEvent::Update(void)
+0x4794fc	60	pseudocode/0047/004794fc.c	GameEvent::Compile(void)
+0x479538	12	pseudocode/0047/00479538.c	GameEvent::ReInit(void)
+0x479544	28	pseudocode/0047/00479544.c	GameEvent::DBG_TraceDetailedInformation(void)const
+0x479568	20	pseudocode/0047/00479568.c	GameEvent::AssignPyData(Structs::v2Event *)
+0x47957c	24	pseudocode/0047/0047957c.c	GameEvent::~GameEvent()
+0x479594	24	pseudocode/0047/00479594.c	GameEvent::~GameEvent()
+0x4795ac	52	pseudocode/0047/004795ac.c	GameEvent::GameEvent(void)
+0x4795e0	52	pseudocode/0047/004795e0.c	GameEvent::GameEvent(void)
+0x4796f0	40	pseudocode/0047/004796f0.c	GameEventManager::GetEventByID(int)const
+0x479718	100	pseudocode/0047/00479718.c	GameEventManager::LoopOnAllEvents(void (GameEvent::*)(void))
+0x47977c	44	pseudocode/0047/0047977c.c	GameEventManager::Compile(void)
+0x4797b0	100	pseudocode/0047/004797b0.c	GameEventManager::LoopOnAllEvents(void (GameEvent::*)(void)const)const
+0x479814	44	pseudocode/0047/00479814.c	GameEventManager::DBG_TraceDetailedInformation(void)const
+0x479848	116	pseudocode/0047/00479848.c	GameEventManager::GetEventByName(char const*)const
+0x4798c8	88	pseudocode/0047/004798c8.c	GameEventManager::Update(void)
+0x47992c	60	pseudocode/0047/0047992c.c	GameEventManager::ReInit(void)
+0x479968	84	pseudocode/0047/00479968.c	GameEventManager::Unload(void)
+0x479bec	56	pseudocode/0047/00479bec.c	GameEventManager::~GameEventManager()
+0x479cf4	20	pseudocode/0047/00479cf4.c	GameEventManager::GameEventManager(void)
+0x479d08	20	pseudocode/0047/00479d08.c	GameEventManager::GameEventManager(void)
+0x479e5c	200	pseudocode/0047/00479e5c.c	GameEventManager::Load(void)
+0x479f34	56	pseudocode/0047/00479f34.c	GameEventManager::~GameEventManager()
+0x479f6c	4	pseudocode/0047/00479f6c.c	Objective::Compile(void)
+0x479f70	16	pseudocode/0047/00479f70.c	Objective::InvalidateCompile(void)
+0x479f80	4	pseudocode/0047/00479f80.c	Objective::InstallObjectiveMarker(int, int)
+0x479f84	4	pseudocode/0047/00479f84.c	Objective::RemoveObjectiveMarker(void)
+0x47a1d4	4	pseudocode/0047/0047a1d4.c	Objective_GatherLoot::GetPositions(Vector3DFList &)const
+0x47a1d8	4	pseudocode/0047/0047a1d8.c	Objective_Automatic::GetPositions(Vector3DFList &)const
+0x47a1dc	4	pseudocode/0047/0047a1dc.c	Objective_Automatic::Register(void)
+0x47a1e0	4	pseudocode/0047/0047a1e0.c	Objective_Automatic::Unregister(void)
+0x47a1e4	4	pseudocode/0047/0047a1e4.c	Objective::~Objective()
+0x47a1e8	8	pseudocode/0047/0047a1e8.c	`non-virtual thunk to'Objective_GatherLoot::~Objective_GatherLoot()
+0x47a1f0	60	pseudocode/0047/0047a1f0.c	Objective_GatherLoot::~Objective_GatherLoot()
+0x47a238	8	pseudocode/0047/0047a238.c	`non-virtual thunk to'Objective_SavedQty::~Objective_SavedQty()
+0x47a240	60	pseudocode/0047/0047a240.c	Objective_SavedQty::~Objective_SavedQty()
+0x47a288	8	pseudocode/0047/0047a288.c	`non-virtual thunk to'Objective_Qty::~Objective_Qty()
+0x47a290	60	pseudocode/0047/0047a290.c	Objective_Qty::~Objective_Qty()
+0x47a2d8	8	pseudocode/0047/0047a2d8.c	`non-virtual thunk to'Objective_MoveInZone::~Objective_MoveInZone()
+0x47a2e0	60	pseudocode/0047/0047a2e0.c	Objective_MoveInZone::~Objective_MoveInZone()
+0x47a328	8	pseudocode/0047/0047a328.c	`non-virtual thunk to'Objective_EventReceiver::~Objective_EventReceiver()
+0x47a330	60	pseudocode/0047/0047a330.c	Objective_EventReceiver::~Objective_EventReceiver()
+0x47a378	4	pseudocode/0047/0047a378.c	Objective::~Objective()
+0x47a37c	12	pseudocode/0047/0047a37c.c	Objective::_resetData(void)
+0x47a388	24	pseudocode/0047/0047a388.c	Objective_SavedQty::_resetData(void)
+0x47a3a0	12	pseudocode/0047/0047a3a0.c	Objective::GetDescStrId(void)const
+0x47a3c0	20	pseudocode/0047/0047a3c0.c	ObjectiveList::ObjectiveList(void)
+0x47a3d4	20	pseudocode/0047/0047a3d4.c	ObjectiveList::ObjectiveList(void)
+0x47a3e8	40	pseudocode/0047/0047a3e8.c	ObjectiveList::CreateObjectiveWithPyData(Structs::v2QuestObjectiveStub *)
+0x47a414	48	pseudocode/0047/0047a414.c	ObjectiveList::SetOwner(Character *)
+0x47a444	84	pseudocode/0047/0047a444.c	ObjectiveList::Eval(void)
+0x47a498	84	pseudocode/0047/0047a498.c	ObjectiveList::IsValid(void)
+0x47a4ec	84	pseudocode/0047/0047a4ec.c	ObjectiveList::InstallObjectiveMarkers(int, int)
+0x47a540	104	pseudocode/0047/0047a540.c	ObjectiveList::LoopOnAll(void (Objective::*)(void))
+0x47a5a8	36	pseudocode/0047/0047a5a8.c	ObjectiveList::_resetData(void)
+0x47a5cc	36	pseudocode/0047/0047a5cc.c	ObjectiveList::RemoveObjectiveMarkers(void)
+0x47a5f0	36	pseudocode/0047/0047a5f0.c	ObjectiveList::Unregister(void)
+0x47a614	36	pseudocode/0047/0047a614.c	ObjectiveList::Register(void)
+0x47a638	44	pseudocode/0047/0047a638.c	ObjectiveList::InvalidateCompile(void)
+0x47a66c	36	pseudocode/0047/0047a66c.c	ObjectiveList::Compile(void)
+0x47a690	104	pseudocode/0047/0047a690.c	ObjectiveList::LoopOnAll(void (Objective::*)(void)const)const
+0x47a6f8	116	pseudocode/0047/0047a6f8.c	ObjectiveList::LoopOnAll(void (Objective::*)(IStreamBase *), IStreamBase *)
+0x47a76c	44	pseudocode/0047/0047a76c.c	ObjectiveList::_saveData(IStreamBase *)
+0x47a798	44	pseudocode/0047/0047a798.c	ObjectiveList::_loadData(IStreamBase *)
+0x47a7c4	116	pseudocode/0047/0047a7c4.c	ObjectiveList::LoopOnAll(void (Objective::*)(__sFILE *)const, __sFILE *)const
+0x47a838	44	pseudocode/0047/0047a838.c	ObjectiveList::DBG_TraceDetailedObjectiveListInformation(__sFILE *)const
+0x47a864	44	pseudocode/0047/0047a864.c	Objective_Automatic::~Objective_Automatic()
+0x47a8b0	28	pseudocode/0047/0047a8b0.c	Objective::~Objective()
+0x47a8cc	116	pseudocode/0047/0047a8cc.c	ObjectiveList::~ObjectiveList()
+0x47a940	116	pseudocode/0047/0047a940.c	ObjectiveList::~ObjectiveList()
+0x47aa48	108	pseudocode/0047/0047aa48.c	ObjectiveList::AssignPyData(Structs::v2QuestObjectiveStub *, int)
+0x47aab4	112	pseudocode/0047/0047aab4.c	Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation(__sFILE *)const
+0x47ab3c	24	pseudocode/0047/0047ab3c.c	Objective::_loadData(IStreamBase *)
+0x47ab54	32	pseudocode/0047/0047ab54.c	Objective_SavedQty::_loadData(IStreamBase *)
+0x47ab74	16	pseudocode/0047/0047ab74.c	Objective::_saveData(IStreamBase *)
+0x47ab84	32	pseudocode/0047/0047ab84.c	Objective_SavedQty::_saveData(IStreamBase *)
+0x47aba4	156	pseudocode/0047/0047aba4.c	Objective_GatherLoot::InitWithCurrentQty(void)
+0x47ac94	84	pseudocode/0047/0047ac94.c	Objective_EventReceiver::CheckMustSendThroughNetwork(IEvent const*)
+0x47ace8	8	pseudocode/0047/0047ace8.c	`non-virtual thunk to'Objective_EventReceiver::onEvent(IEvent const*, EventManager const*)
+0x47acf0	180	pseudocode/0047/0047acf0.c	Objective_EventReceiver::onEvent(IEvent const*, EventManager const*)
+0x47adbc	152	pseudocode/0047/0047adbc.c	Objective_EventReceiver::Unregister(void)
+0x47ae70	172	pseudocode/0047/0047ae70.c	Objective_EventReceiver::Register(void)
+0x47af38	244	pseudocode/0047/0047af38.c	Objective_GatherLoot::DBG_TraceDetailedObjectiveInformation(__sFILE *)const
+0x47b364	100	pseudocode/0047/0047b364.c	Objective_Automatic::DBG_TraceDetailedObjectiveInformation(__sFILE *)const
+0x47b3dc	208	pseudocode/0047/0047b3dc.c	Objective_MoveInZone::DBG_TraceDetailedObjectiveInformation(__sFILE *)const
+0x47b7ac	96	pseudocode/0047/0047b7ac.c	Objective::DBG_TraceDetailedObjectiveInformation(__sFILE *)const
+0x47b850	352	pseudocode/0047/0047b850.c	Objective_MoveInZone::GetPositions(Vector3DFList &)const
+0x47b9b8	76	pseudocode/0047/0047b9b8.c	Objective::GetDescStr(void)const
+0x47ba10	68	pseudocode/0047/0047ba10.c	Objective::SetIsCompleted(void)
+0x47ba5c	136	pseudocode/0047/0047ba5c.c	Objective_GatherLoot::handleEvent(IEvent const*, EventManager const*)
+0x47bae4	444	pseudocode/0047/0047bae4.c	Objective_GatherLoot::Compile(void)
+0x47bcd4	172	pseudocode/0047/0047bcd4.c	Objective_MoveInZone::handleEvent(IEvent const*, EventManager const*)
+0x47bd80	12	pseudocode/0047/0047bd80.c	Objective_Automatic::Compile(void)
+0x47bd8c	96	pseudocode/0047/0047bd8c.c	Objective::Objective(void)
+0x47be00	96	pseudocode/0047/0047be00.c	Objective::Objective(void)
+0x47c6b4	52	pseudocode/0047/0047c6b4.c	Objective_Automatic::~Objective_Automatic()
+0x47c868	164	pseudocode/0047/0047c868.c	Objective_MoveInZone::Compile(void)
+0x47ccb4	8	pseudocode/0047/0047ccb4.c	`non-virtual thunk to'Objective_EventReceiver::~Objective_EventReceiver()
+0x47ccbc	68	pseudocode/0047/0047ccbc.c	Objective_EventReceiver::~Objective_EventReceiver()
+0x47cd0c	8	pseudocode/0047/0047cd0c.c	`non-virtual thunk to'Objective_TalkToNPC::~Objective_TalkToNPC()
+0x47cd14	68	pseudocode/0047/0047cd14.c	Objective_TalkToNPC::~Objective_TalkToNPC()
+0x47cd64	8	pseudocode/0047/0047cd64.c	`non-virtual thunk to'Objective_Qty::~Objective_Qty()
+0x47cd6c	68	pseudocode/0047/0047cd6c.c	Objective_Qty::~Objective_Qty()
+0x47cdbc	8	pseudocode/0047/0047cdbc.c	`non-virtual thunk to'Objective_MoveInZone::~Objective_MoveInZone()
+0x47cdc4	68	pseudocode/0047/0047cdc4.c	Objective_MoveInZone::~Objective_MoveInZone()
+0x47ce14	8	pseudocode/0047/0047ce14.c	`non-virtual thunk to'Objective_GatherLoot::~Objective_GatherLoot()
+0x47ce1c	68	pseudocode/0047/0047ce1c.c	Objective_GatherLoot::~Objective_GatherLoot()
+0x47ce6c	8	pseudocode/0047/0047ce6c.c	`non-virtual thunk to'Objective_SavedQty::~Objective_SavedQty()
+0x47ce74	68	pseudocode/0047/0047ce74.c	Objective_SavedQty::~Objective_SavedQty()
+0x47d46c	8	pseudocode/0047/0047d46c.c	`non-virtual thunk to'Objective_TalkToNPC::~Objective_TalkToNPC()
+0x47d474	60	pseudocode/0047/0047d474.c	Objective_TalkToNPC::~Objective_TalkToNPC()
+0x47d6fc	52	pseudocode/0047/0047d6fc.c	Objective_GatherLoot::Unregister(void)
+0x47d8e8	372	pseudocode/0047/0047d8e8.c	Objective_TalkToNPC::InstallObjectiveMarker(int, int)
+0x47da6c	192	pseudocode/0047/0047da6c.c	Objective_TalkToNPC::RemoveObjectiveMarker(void)
+0x47db34	136	pseudocode/0047/0047db34.c	Objective_TalkToNPC::Register(void)
+0x47dbc4	136	pseudocode/0047/0047dbc4.c	Objective_TalkToNPC::Unregister(void)
+0x47e8e4	48	pseudocode/0047/0047e8e4.c	Objective::GetDesc(void)const
+0x47e914	460	pseudocode/0047/0047e914.c	ObjectiveList::GetDesc(void)const
+0x47eaec	164	pseudocode/0047/0047eaec.c	Objective_GatherLoot::Register(void)
+0x47f700	4	pseudocode/0047/0047f700.c	Quest::UpdatePostClosed(void)
+0x47f704	8	pseudocode/0047/0047f704.c	Quest::DBG_GetCurrentStateName(void)const
+0x47f70c	36	pseudocode/0047/0047f70c.c	Quest::IsVolatileState(int)const
+0x47f734	88	pseudocode/0047/0047f734.c	Quest::_saveQuestData(IStreamBase *)
+0x47f78c	112	pseudocode/0047/0047f78c.c	Quest::_loadQuestData(IStreamBase *, bool)
+0x47f7fc	68	pseudocode/0047/0047f7fc.c	Quest::IsDialog(void)const
+0x47f850	68	pseudocode/0047/0047f850.c	Quest::IsDebug(void)const
+0x47f8a4	68	pseudocode/0047/0047f8a4.c	Quest::IsSecondary(void)const
+0x47f8f8	68	pseudocode/0047/0047f8f8.c	Quest::IsPrimary(void)const
+0x47f94c	48	pseudocode/0047/0047f94c.c	Quest::GetPostDescription(void)const
+0x47f984	76	pseudocode/0047/0047f984.c	Quest::GetPreDescription(void)const
+0x47f9dc	76	pseudocode/0047/0047f9dc.c	Quest::GetTitle(void)const
+0x47fa80	244	pseudocode/0047/0047fa80.c	Quest::GetScriptIDFromID(int)const
+0x47fb74	596	pseudocode/0047/0047fb74.c	Quest::HandleSaveInStateTransitonIfNeeded(int)
+0x47fde4	276	pseudocode/0047/0047fde4.c	Quest::TestIsScriptRunning(int)
+0x47ff20	280	pseudocode/0047/0047ff20.c	Quest::ExecScript(int)
+0x480060	252	pseudocode/0048/00480060.c	Quest::ReInit(void)
+0x48015c	28	pseudocode/0048/0048015c.c	Quest::GiveRewards(void)
+0x480178	316	pseudocode/0048/00480178.c	Quest::Compile(void)
+0x4802b4	116	pseudocode/0048/004802b4.c	Quest::Synchronize(Quest const*, bool)
+0x480328	1044	pseudocode/0048/00480328.c	Quest::DBG_TraceDetailedQuestInformation(__sFILE *)const
+0x4807d8	68	pseudocode/0048/004807d8.c	Quest::SetOwnerToChildren(void)
+0x48081c	200	pseudocode/0048/0048081c.c	Quest::AssignPyData(Structs::v2Quest *)
+0x4808e4	96	pseudocode/0048/004808e4.c	Quest::Quest(int)
+0x480944	96	pseudocode/0048/00480944.c	Quest::Quest(int)
+0x4809a4	112	pseudocode/0048/004809a4.c	Quest::~Quest()
+0x480a14	112	pseudocode/0048/00480a14.c	Quest::~Quest()
+0x480a84	124	pseudocode/0048/00480a84.c	Quest::GetObjectiveDescription(void)const
+0x480c78	1204	pseudocode/0048/00480c78.c	Quest::SetState(int)
+0x481150	8	pseudocode/0048/00481150.c	Quest::ReinitStateAfterLoading(void)
+0x481158	44	pseudocode/0048/00481158.c	Quest::DBG_IncState(void)
+0x481184	92	pseudocode/0048/00481184.c	Quest::UpdatePreClosed(void)
+0x4811f0	84	pseudocode/0048/004811f0.c	Quest::UpdatePostCompleted(void)
+0x481254	84	pseudocode/0048/00481254.c	Quest::UpdatePreCompleted(void)
+0x4812b8	84	pseudocode/0048/004812b8.c	Quest::UpdatePostActive(void)
+0x48131c	84	pseudocode/0048/0048131c.c	Quest::UpdatePostAvailable(void)
+0x481380	84	pseudocode/0048/00481380.c	Quest::UpdatePreAvailable(void)
+0x4813e4	84	pseudocode/0048/004813e4.c	Quest::UpdatePostLocked(void)
+0x481448	128	pseudocode/0048/00481448.c	Quest::UpdateClosed(void)
+0x4814d8	236	pseudocode/0048/004814d8.c	Quest::UpdateCompleted(void)
+0x4815d4	164	pseudocode/0048/004815d4.c	Quest::UpdatePreActive(void)
+0x481688	104	pseudocode/0048/00481688.c	Quest::UpdateActive(void)
+0x481700	156	pseudocode/0048/00481700.c	Quest::UpdateAvailable(void)
+0x4817b4	84	pseudocode/0048/004817b4.c	Quest::UpdateLocked(void)
+0x481818	892	pseudocode/0048/00481818.c	Quest::Update(void)
+0x4a4588	144	pseudocode/004a/004a4588.c	Arrays::v2Quests::finalizeNames(void)
+0x4a4624	216	pseudocode/004a/004a4624.c	Arrays::v2Quests::finalize(void)
+0x4a4708	144	pseudocode/004a/004a4708.c	Arrays::v2Events::finalizeNames(void)
+0x4a47a4	216	pseudocode/004a/004a47a4.c	Arrays::v2Events::finalize(void)
+0x4a4888	144	pseudocode/004a/004a4888.c	Arrays::v2Conditions::finalizeNames(void)
+0x4a4924	204	pseudocode/004a/004a4924.c	Arrays::v2Conditions::finalize(void)
+0x4a8a28	144	pseudocode/004a/004a8a28.c	Arrays::Dialogs::finalizeNames(void)
+0x4a8ac4	216	pseudocode/004a/004a8ac4.c	Arrays::Dialogs::finalize(void)
+0x4a8ba8	144	pseudocode/004a/004a8ba8.c	Arrays::DialogActors::finalizeNames(void)
+0x4a8c44	216	pseudocode/004a/004a8c44.c	Arrays::DialogActors::finalize(void)
+0x4b1460	396	pseudocode/004b/004b1460.c	Arrays::v2Events::readNames(IStreamBase *)
+0x4b15f8	396	pseudocode/004b/004b15f8.c	Arrays::v2Conditions::readNames(IStreamBase *)
+0x4b1928	396	pseudocode/004b/004b1928.c	Arrays::v2Quests::readNames(IStreamBase *)
+0x4b2c6c	396	pseudocode/004b/004b2c6c.c	Arrays::Dialogs::readNames(IStreamBase *)
+0x4b2e04	4	pseudocode/004b/004b2e04.c	Arrays::Dialogs::skipNames(IStreamBase *)
+0x4b3470	396	pseudocode/004b/004b3470.c	Arrays::DialogActors::readNames(IStreamBase *)
+0x4b3608	4	pseudocode/004b/004b3608.c	Arrays::DialogActors::skipNames(IStreamBase *)
+0x4b8acc	440	pseudocode/004b/004b8acc.c	Arrays::v2Quests::read(IStreamBase *)
+0x4b8c9c	320	pseudocode/004b/004b8c9c.c	Arrays::v2Events::read(IStreamBase *)
+0x4b8dec	300	pseudocode/004b/004b8dec.c	Arrays::v2Conditions::read(IStreamBase *)
+0x4bc64c	316	pseudocode/004b/004bc64c.c	Arrays::Dialogs::read(IStreamBase *)
+0x4bc798	312	pseudocode/004b/004bc798.c	Arrays::DialogActors::read(IStreamBase *)
+0x4da94c	100	pseudocode/004d/004da94c.c	Structs::ConditionalDialog::finalize(void)
+0x4da9b0	116	pseudocode/004d/004da9b0.c	Structs::ConditionalDialog::~ConditionalDialog()
+0x4daa2c	28	pseudocode/004d/004daa2c.c	Structs::ConditionalDialog::~ConditionalDialog()
+0x4daa48	116	pseudocode/004d/004daa48.c	Structs::ConditionalDialog::~ConditionalDialog()
+0x4dcbd4	348	pseudocode/004d/004dcbd4.c	Structs::ConditionalDialog::read(IStreamBase *)

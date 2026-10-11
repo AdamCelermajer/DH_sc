@@ -1,0 +1,22 @@
+{
+  "name": "packaged-armor-01",
+  "source_obj": "../inputs/armor.obj",
+  "obj_rotation_degrees": [
+    0,
+    0,
+    0
+  ],
+  "atlas": "../inputs/armor.png",
+  "output": "../runs/armor-01",
+  "resolution": 1024,
+  "atlas_size": [
+    4096,
+    4096
+  ],
+  "view_angles": [
+    0,
+    180
+  ],
+  "prompt": "Retouch ONLY the surface texture of this exact low polygon classic fantasy game armor torso. Keep original shape, contours, decorations, trim placement, every garment edge, colors, camera, lighting and background fixed. Enhance existing surfaces with rich classic hand-painted material detail: fine restrained scratches inside metal plates, tiny edge wear, subtle cloth weave and stitching on seams, leather grain, precise original ornament relief highlights. Preserve the exact design and palette. No new decorations, no new armor, no smooth waxy surfaces, no photographic pores, no comic outlines, no redesign. Output identical armor with richer painted surface details.",
+  "seed": 73192
+}

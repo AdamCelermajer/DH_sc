@@ -1,0 +1,189 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "dh2-front-paint-reference.png"
+    }
+  },
+  "2": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "flux-2-klein-4b-fp8.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "3": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen_3_4b.safetensors",
+      "type": "flux2",
+      "device": "cpu"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    }
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "3",
+        0
+      ],
+      "text": "Retouch ONLY the surface textures of this existing low-polygon fantasy game character to add beautifully detailed classic hand-painted RPG materials. Keep the EXACT same character silhouette, body proportions, standing arm pose, face identity and expression, hairstyle, armor shapes and placement, camera, framing, background, and lighting. Do not reshape anything. Keep every garment edge and border at the same pixel position. Preserve existing warm golden tan vest, dark purple trousers, red shoulder enamel, SILVER shoulder trim, silver bracers and silver greaves. Add clearly visible SMALL hand-painted material details: fine woven cloth fibers and doubled stitching along the original vest hems and trouser seams, crisp small fold edges, tiny leather grain and fastening seams, fine restrained scratches and engraving inside the silver armor, small edge chips on red enamel, more legible existing ornate belt carving. Original surfaces should become richly painted and textured, not merely sharper or smoother. Natural hand-painted fantasy game texture work, neither comic-book ink outlines nor waxy simplified modern game shading. Avoid large random scars, grunge, added motifs, new armor, oversaturated colors, gold bracers and photographic pores. Keep the entire face, eyes and hair unchanged; concentrate detail on outfit only. Output the exact same full-body game character image with richer clothing and metal surface detail."
+    }
+  },
+  "6": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": [
+        "5",
+        0
+      ]
+    }
+  },
+  "7": {
+    "class_type": "VAEEncodeTiled",
+    "inputs": {
+      "pixels": [
+        "1",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    }
+  },
+  "8": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "5",
+        0
+      ],
+      "latent": [
+        "7",
+        0
+      ]
+    }
+  },
+  "9": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "6",
+        0
+      ],
+      "latent": [
+        "7",
+        0
+      ]
+    }
+  },
+  "10": {
+    "class_type": "EmptyFlux2LatentImage",
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    }
+  },
+  "11": {
+    "class_type": "Flux2Scheduler",
+    "inputs": {
+      "steps": 4,
+      "width": 1024,
+      "height": 1024
+    }
+  },
+  "12": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 424242
+    }
+  },
+  "13": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler"
+    }
+  },
+  "14": {
+    "class_type": "CFGGuider",
+    "inputs": {
+      "model": [
+        "2",
+        0
+      ],
+      "positive": [
+        "8",
+        0
+      ],
+      "negative": [
+        "9",
+        0
+      ],
+      "cfg": 1.0
+    }
+  },
+  "15": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "12",
+        0
+      ],
+      "guider": [
+        "14",
+        0
+      ],
+      "sampler": [
+        "13",
+        0
+      ],
+      "sigmas": [
+        "11",
+        0
+      ],
+      "latent_image": [
+        "10",
+        0
+      ]
+    }
+  },
+  "16": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "15",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    }
+  },
+  "17": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "16",
+        0
+      ],
+      "filename_prefix": "dh2-tests/warrior-front-outfit-paint"
+    }
+  }
+}
