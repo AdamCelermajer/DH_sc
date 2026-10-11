@@ -1,3 +1,5 @@
+#include <cmath>
+#include <limits>
 // P17 TRANSITIONS tests. Arguments:
 //   1. package asset root with data/levels_pyarray.bin (the level table; Swamp rc3 assets)
 //   2. Android asset root with data/scene/001_swamp.mlx, data/scene/003_darkwood.mlx and their modules
@@ -236,9 +238,22 @@ void test_prompt_and_persistence() {
           "gated exit shows once its condition holds (display falls back to the level name)");
 
     const auto frame = build_prompt_frame(*armed);
-    check(frame.texts.size() == 3 && frame.texts[0].text == "Travel to:" && frame.texts[1].text == "SWAMP",
-          "prompt text is the original 'Travel to:' plus the display name");
-    check(!frame.rects.empty(), "prompt has a panel");
+    check(frame.texts.size() == 2 && frame.texts[0].text == "SWAMP" && frame.texts[1].text == "[E]",
+          "source destination-only button and separate PC hint");
+    check(frame.rects.empty() && frame.art && frame.art->size()==1 && frame.art->front().source_shape_id==473,
+          "source shape473 replaces the placeholder panel");
+    const auto& caption=frame.texts[0];
+    check(std::abs(caption.x-157.1f)<.01f && std::abs(caption.y-228.45f)<.01f &&
+          std::abs(caption.w-155.45f)<.01f && caption.height==10.f && caption.align==2,
+          "source EditText476 anchor, width, font size and center alignment");
+    check(prompt_text_fit(caption,80.f)==1.f,"normal names retain source font size");
+    auto translated=*armed; translated.target_display="Die au�ergew�hnlich lange H�hle der Sumpfhexe";
+    const auto longFrame=build_prompt_frame(translated);
+    check(longFrame.texts[0].text==translated.target_display,"translated caption is preserved without a map-name rule");
+    const auto fit=prompt_text_fit(longFrame.texts[0],300.f);
+    check(fit>0.f && fit<1.f && 300.f*fit<=caption.w-4.f+.001f,"long caption fits authored box on one line");
+    check(prompt_text_fit(caption,-1.f)==0.f && prompt_text_fit(caption,std::numeric_limits<float>::infinity())==0.f,
+          "invalid measured widths reject");
 
     // Entry record: set, read, replace, clear, and the schema v4 tail round trip through the save file.
     CharacterState state = make_default_character();
@@ -286,3 +301,4 @@ int main(int argc, char** argv) {
         return 1;
     }
 }
+

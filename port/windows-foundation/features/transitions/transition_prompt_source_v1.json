@@ -1,0 +1,89 @@
+{
+  "source_sha256": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+  "path": "LocationsMenu/btn_LocTravel/text",
+  "root": {
+    "matrix": [
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      3,
+      6
+    ],
+    "color": [
+      [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "character": 480,
+    "name": "LocationsMenu"
+  },
+  "button": {
+    "matrix": [
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      3075,
+      4369
+    ],
+    "color": [
+      [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "character": 477,
+    "name": "btn_LocTravel"
+  },
+  "idle_frame": 0,
+  "texts": [
+    {
+      "container": "text",
+      "name": "text",
+      "variable": "",
+      "rect": [
+        157.1,
+        228.45,
+        312.55,
+        244.35
+      ],
+      "height": 10.0,
+      "rgba": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "align": 2,
+      "font": 7,
+      "leading": 40
+    }
+  ],
+  "shape_ids": [
+    473
+  ],
+  "art_bounds": [
+    154.5,
+    220.75,
+    317.65,
+    251.25
+  ]
+}

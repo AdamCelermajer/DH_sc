@@ -7227,26 +7227,35 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     }
                     cinematicText.draw(overlay);
                 }
-                // P17 TRANSITIONS2: travel prompt (placeholder frame; text through the frontend text owner, stage units as the cinematic boxes).
-                if(armedPrompt&&combatSession&&campaignHost.hud_visible()) {
+                // B113: original destination button, mapped with the same aspect-preserving stage viewport as its text.
+                // Original QuestMsgDialog/QuestCompletedMsgDialog hides LocationsMenu until its banner leaves.
+                if(options.hud&&armedPrompt&&combatSession&&campaignHost.hud_visible()&&!questBanners.visible()) {
                     const auto promptFrame=f::transitions::build_prompt_frame(*armedPrompt);
                     const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
-                    for(const auto& rect:promptFrame.rects) {
-                        const float x0=(rect.x+view.offset)*view.scale,y0=rect.y*view.scale,x1=(rect.x+rect.w+view.offset)*view.scale,y1=(rect.y+rect.h)*view.scale;
-                        const std::vector<f::OverlayTriangleVertex> quad{{x0,y0,0,0},{x1,y0,0,0},{x1,y1,0,0},{x0,y0,0,0},{x1,y1,0,0},{x0,y1,0,0}};
-                        if(!overlay.drawTriangles(quad,0,{rect.rgba[0]/255.f,rect.rgba[1]/255.f,rect.rgba[2]/255.f,rect.rgba[3]/255.f}))throw std::runtime_error("Transition prompt box draw rejected");
+                    if(promptFrame.art) for(const auto& batch:*promptFrame.art) {
+                        std::vector<f::OverlayTriangleVertex> vertices; vertices.reserve(batch.triangles.size());
+                        for(const auto& vertex:batch.triangles)
+                            vertices.push_back({(vertex.x+view.offset)*view.scale,vertex.y*view.scale,vertex.u,vertex.v});
+                        if(!overlay.drawTriangles(vertices,batch.bitmap?hudTexture:0,batch.rgba))throw std::runtime_error("Travel source button draw rejected");
                     }
                     const float promptScale=480.f*view.scale/float(window.width());
                     f::frontend::art::ScreenArt promptArt;
                     auto promptSignature=std::to_string(window.width())+":"+std::to_string(window.height());
                     for(const auto& item:promptFrame.texts) {
                         f::frontend::art::TextField field;
-                        field.font_id=5; // placeholder face (Fontin SmallCaps), as the cinematic caption
-                        field.source_height=14; field.rgba=item.rgba; field.align=0; field.margins={2,2,0}; field.leading=0;
-                        field.matrix={promptScale,0,0,1,0,0};
+                        // HUD font7 and frontend font5 both bind the original Fontin SmallCaps.ttf.
+                        field.font_id=5;
+                        field.source_height=item.height; field.rgba=item.rgba; field.align=item.align; field.margins={0,0,0}; field.leading=2;
+                        field.font_metrics={911.f,215.f,102.f}; // DefineFont3 font7 raw ascent/descent/leading divided by20
+                        f::HudGlyphRun measured;
+                        if(!targetFont.raster(item.text,int(item.height),2,measured,error))throw std::runtime_error("Travel text metrics: "+error);
+                        const float fit=f::transitions::prompt_text_fit(item,measured.advance);
+                        if(fit<=0)throw std::runtime_error("Travel text metrics rejected");
+                        // Keep long translations on one line within the authored box. Fit is a PC adaptation.
                         const float left=(item.x+view.offset)*promptScale;
-                        field.local_bounds={left,left+item.w*promptScale,item.y,item.y+item.h};
-                        field.bounds=field.local_bounds;
+                        field.matrix={promptScale*fit,0,0,fit,left,item.y+(1.f-fit)*item.height*.5f};
+                        field.local_bounds={0,item.w/fit,0,item.h/fit};
+                        field.bounds={left,left+item.w*promptScale,item.y,item.y+item.h};
                         field.initial_text=item.text;
                         promptArt.text_fields.push_back(field);
                         promptSignature+=':'+item.text;
