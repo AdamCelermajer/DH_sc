@@ -42,6 +42,7 @@ struct Window::Impl {
     bool close = true;
     bool minimized = false;
     std::array<bool, 256> keys{};
+    int pointer_x = 0, pointer_y = 0; bool pointer_known = false; // B103: last WM_MOUSEMOVE client position
     int wheel_units = 0; // P16 MAPFIX: WM_MOUSEWHEEL delta accumulated until take_wheel_notches()
     std::string error;
 
@@ -76,7 +77,10 @@ struct Window::Impl {
             case WM_KILLFOCUS:
                 self->keys.fill(false);
                 return 0;
+            case WM_MOUSEMOVE: // B103: client-space pointer position as the window system delivers it
+                self->pointer_x=int(short(LOWORD(lp)));self->pointer_y=int(short(HIWORD(lp)));self->pointer_known=true;return 0;
             case WM_LBUTTONDOWN:
+                self->pointer_x=int(short(LOWORD(lp)));self->pointer_y=int(short(HIWORD(lp)));self->pointer_known=true;
                 self->keys[VK_LBUTTON]=true;SetCapture(hwnd);return 0;
             case WM_LBUTTONUP:
                 self->keys[VK_LBUTTON]=false;if(GetCapture()==hwnd)ReleaseCapture();return 0;
@@ -229,6 +233,7 @@ bool Window::key_down(int key) const noexcept {
 }
 bool Window::focused() const noexcept{return impl_->hwnd&&GetFocus()==impl_->hwnd;}
 bool Window::cursor_position(float& x,float& y) const noexcept {
+    if(impl_->pointer_known){x=float(impl_->pointer_x);y=float(impl_->pointer_y);return true;}
     POINT point{};if(!impl_->hwnd||!GetCursorPos(&point)||!ScreenToClient(impl_->hwnd,&point))return false;
     x=float(point.x);y=float(point.y);return true;
 }
