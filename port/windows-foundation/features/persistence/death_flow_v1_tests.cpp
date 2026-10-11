@@ -2,6 +2,7 @@
 #include "death_screen_v1.hpp"
 #include "death_screen_art_geometry_v1.hpp"
 
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -107,6 +108,28 @@ void test_source_death_screen_manifest() {
 
     DeathScreenFrameV1 frame;
     std::string error;
+    constexpr std::array<std::uint8_t, 19> fade_in_alpha{{
+        13, 27, 40, 54, 67, 81, 94, 108, 121, 135,
+        148, 162, 175, 189, 202, 216, 229, 243, 255}};
+    for (std::uint16_t i = 0; i < fade_in_alpha.size(); ++i) {
+        require(project_original_death_screen_frame_v1(
+                    static_cast<std::uint16_t>(46 + i), false, 3, frame, error) &&
+                frame.black_alpha == fade_in_alpha[i],
+                "source black-fade alpha is preserved at every authored transition frame");
+    }
+    for (std::uint16_t i = 1; i <= 32; ++i) {
+        require(project_original_death_screen_frame_v1(i, false, 3, frame, error) &&
+                frame.draw_items[1].alpha == static_cast<std::uint8_t>(std::min(i * 8, 255)),
+                "source panel alpha is preserved at every authored transition frame");
+    }
+    constexpr std::array<std::uint8_t, 10> quote_fade_alpha{{
+        26, 51, 77, 102, 128, 154, 179, 205, 230, 255}};
+    for (std::uint16_t i = 0; i < quote_fade_alpha.size(); ++i) {
+        require(project_original_death_screen_frame_v1(
+                    static_cast<std::uint16_t>(65 + i), false, 3, frame, error) &&
+                frame.draw_items[2].alpha == quote_fade_alpha[i],
+                "source quote alpha is preserved at every authored transition frame");
+    }
     require(project_original_death_screen_frame_v1(64, false, 3, frame, error) &&
             frame.screen_black_callback && frame.black_alpha == 255 &&
             frame.continue_visible && frame.quote_number == 3 && frame.draw_count == 3 &&
