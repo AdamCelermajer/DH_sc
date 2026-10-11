@@ -135,7 +135,7 @@ v20 continuation (2026-10-11): one combined release, `windows-source-clock-v20`,
 
 | ID | User report / request | State | Owner / reviewer |
 |---|---|---|---|
-| B078 | During launch the Gameloft logo's buzzing sound is missing; the user likes the original cue. | OPEN: reference/audio provenance and original startup audio source investigation; authentic media only. Added to v20 scope. | Fresh `/root/b078_gameloft_audio` (GPT-6.1 Sol medium); `/root/v20_new_work_review`; integration `/root/v20_integration` |
+| B078 | During launch the Gameloft logo's buzzing sound is missing; the user likes the original cue. | OPEN release gate: authentic original logo movie/audio converted and staged; silent decoder, logo/story skip gates and natural voice release verified on diagnostic EXE. Final package verification pending; audibility unverified under silent-test rule. | Fresh `/root/b078_gameloft_audio` (GPT-6.1 Sol medium); `/root/v20_new_work_review`; integration `/root/v20_integration` |
 
 The same user message requested a full original death-flow audit and implementation
 (I024, reused existing ID), and investigation of remembered gate/teleport light
@@ -214,7 +214,7 @@ These are implementation goals, not reported bugs. Component results are not pro
 | I011 | Finish Linux alternate-platform backend | Private Ubuntu configure and partial compile pass; Linux owner active | SDL2/OpenGL compile/link, headless runtime and Jammy baseline; linux_preview | Linux-only verification; preserve Windows outputs and user saves |
 | I012 | Package and accept next Preview | Preview11 accepted; subsequent package remains root-owned | Root acceptance after selected gates, coherent build, review and save preservation | One frozen candidate with complete evidence, versioned package and preserved user saves |
 | I020 | Verify profile persistence fields | GameSave v3 and SaveStore focused tests; 9C40 body restore pass | Lead normal save/reload matrix | HP/MP, XP, currency, gear, skill rows, Faery and restart |
-| I024 | Implement original player death UI and revival/checkpoint continuation; user explicitly requests full IDA audit (2026-10-11) | Same-process HP0 return to Single Player is safe; no auto-revive inferred; reference death occurrence unconfirmed | Fresh `/root/v20_death_flow`; reviewer `/root/v20_new_work_review`; integration owns main/shared APIs | Video check then full source death/fade/UI/buttons/respawn/world/save audit; legitimate lethal hit to UI and each source-supported choice, preserved profile/world and no duplicate rewards/bodies |
+| I024 | Implement original player death UI and revival/checkpoint continuation; user explicitly requests full IDA audit (2026-10-11) | Source callers, original SWF geometry/hit target/timeline and checkpoint field scope audited; renderer and ordered restart helpers pass isolated tests. Actual lethal-hit/UI/Continue/revive and world restoration still pending production wiring; sparse video samples show no player death. | Fresh `/root/v20_death_flow`; reviewer `/root/v20_new_work_review`; integration owns main/shared APIs | Legitimate lethal hit to original rendered UI, source Continue/Hide/frame88 callback, preserved profile and source-supported checkpoint world/quest restore, failure and duplicate checks |
 
 ### World progression and full Act 1 fidelity
 
@@ -226,7 +226,7 @@ These are implementation goals, not reported bugs. Component results are not pro
 | I023 | Complete Act 1 fidelity/playthrough | Feature receipts span systems | Root/lead versioned normal run with independent review | Creation→combat→menus→loot→quest→boss→save/reload |
 | I027 | Bind authored door collision into production movement | Source-backed physical rectangle/filter adapter merged into v20int; shared root-motion admission wired; staged startup and focused tests pass, sustained closed/open movement verification pending | v20 implementation owner `/root/v20_door_collision` in `DH_wt/v20doors`; integration `/root/v20_integration`; reviewers root + `/root/v20_evidence_review` | Source-backed closed-door blocked/open-door passage run with isolated save, transform logs and before/after frames; required before v20 door-playability claim |
 
-| I028 | Investigate and restore original gate/teleport light effects remembered by user (2026-10-11) | Effect presence/type not yet established; no guessed glow | Fresh `/root/v20_gate_teleport_fx`; reviewer `/root/v20_new_work_review`; integration owns door/trigger production hooks | Reference sequences then exact IDA effect/asset/state gates; observable effect enable/disable/transition with authentic data |
+| I028 | Investigate and restore original gate/teleport light effects remembered by user (2026-10-11) | Authentic Door_Teleport effect set132 and compiled sequence audited; original assets staged, opaque live-anchor adapter integrated and isolated tests pass. Actual effect sequence/transform/runtime capture pending; older fire-gate still timestamps belong to another recording. | Fresh `/root/v20_gate_teleport_fx`; reviewer `/root/v20_new_work_review`; integration owns door/trigger production hooks | Source door admission gate and real compiled teleport with before/after anchored effect; source transform/death/deletion/reset and missing-target failures; matched reference sequence where available |
 
 ## 4. USER ADDITIONS INBOX
 
