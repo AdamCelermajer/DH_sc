@@ -29,6 +29,7 @@ struct PopulationActor {
     std::int16_t source_character_cache = -1;
     std::int16_t source_template_cache = -1;
     CharacterVisual visual;
+    std::string modelPath; // B105: model asset path (model-embedded emitters)
     // Authored actor placement multiplied by the profile's documented scales.
     Mat4 transform{};
     // Explicit caller-owned activation. Deferred actors have ready visuals but

@@ -2919,6 +2919,8 @@ int main(int argc,char** argv) {
         f::effects::RuntimeEffectsRendererV1 sourceEffectsRenderer(renderer);
         f::effects::EmbeddedSceneFxV1 embeddedSceneFx; // P17 FIREWALL: scene-owned authored FX (doors)
         const void* embeddedSceneFxOwner=nullptr;
+        std::set<std::uint64_t> embeddedActorTried; // B105: actor models already offered to the embedded-emitter system
+        const auto embeddedActorKey=[](std::uint64_t actorId){return actorId|(std::uint64_t(1)<<62);};
         dh2::data::EffectsTables sourceEffectsTables;
         std::unique_ptr<f::effects::RuntimeEffectsFactoryV1> sourceEffectsFactory;
         // P16 OPENING: scripted FX (PlayEffect/StopEffect) go through the source effects manager, the same owner as the level-up
@@ -2957,7 +2959,7 @@ int main(int argc,char** argv) {
             if(!sourceEffectsRenderer.finish_and_drain(e))throw std::runtime_error("FX queue drain: "+e);
             celestEffects.reset();
             if(sourceEffectsFactory)sourceEffectsFactory->clear_original_textures();
-            embeddedSceneFx.clear();embeddedSceneFxOwner=nullptr; // P17 FIREWALL: resources die with their factory
+            embeddedSceneFx.clear();embeddedSceneFxOwner=nullptr;embeddedActorTried.clear(); // P17 FIREWALL: resources die with their factory
             sourceEffectsFactory.reset();
         };
         const auto bindSourceEffects=[&]() {
@@ -6878,7 +6880,7 @@ int main(int argc,char** argv) {
                     for(const auto& view:leverRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->visual_file,view.visual,view.instance->transform);
                     for(const auto& view:decorRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->dae,view.visual,view.instance->transform);
                     if(embeddedSceneFxOwner!=sourceEffectsFactory.get()) {
-                        embeddedSceneFx.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
+                        embeddedSceneFx.clear();embeddedActorTried.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
                         for(const auto& item:embeddedVisuals) {
                             if(item.model->empty())continue;
                             std::vector<std::uint8_t> raw;
@@ -6889,6 +6891,30 @@ int main(int argc,char** argv) {
                                 std::cout<<"Embedded FX "<<*item.name<<" not attached: "<<reason<<'\n';
                             else std::cout<<"Embedded FX "<<*item.name<<" attached model="<<*item.model<<'\n';
                         }
+                    }
+                    // B105: model-embedded emitters of placed actors (faery glow, ...): offered once per actor, placed at the
+                    // same world matrix the actor mesh draw uses (reuses sourceActorWorld), stepped at the actor's clip time.
+                    std::deque<std::array<float,16>> embeddedActorPlacements;
+                    std::vector<std::string> embeddedActorNames;embeddedActorNames.reserve(population.actors().size());
+                    for(auto& actor:population.actors()) {
+                        if(!actor.enabled||actor.modelPath.empty())continue;
+                        const auto key=embeddedActorKey(actor.definition.stableId);
+                        if(embeddedActorTried.insert(key).second) {
+                            std::vector<std::uint8_t> raw;
+                            try{raw=assets.read(actor.modelPath);}catch(const std::exception&){raw.clear();}
+                            std::string reason;
+                            if(!raw.empty()&&embeddedSceneFx.attach(key,actor.modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason))
+                                std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<actor.modelPath<<'\n';
+                        }
+                        if(!embeddedSceneFx.attached(key))continue;
+                        auto placement=actor.transform;
+                        const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
+                        const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}:f::Vec3{placement[12],placement[13],placement[14]};
+                        const std::array<float,3> rotation=live?live->transform.rotation:std::array<float,3>{0,0,std::atan2(placement[1],placement[0])};
+                        const f::Vec3 scale{std::hypot(placement[0],placement[1]),std::hypot(placement[4],placement[5]),placement[10]};
+                        embeddedActorPlacements.push_back(sourceActorWorld(actor.definition.stableId,position,rotation,scale));
+                        embeddedActorNames.push_back(actor.definition.name);
+                        addEmbeddedVisual(key,embeddedActorNames.back(),actor.modelPath,&actor.visual,embeddedActorPlacements.back());
                     }
                     // P17 FIREWALL: DH_PERF=1 prints the mean cost of the scene-owned FX block (update + list) every 120 frames.
                     static const bool embeddedPerf=std::getenv("DH_PERF")!=nullptr&&std::string(std::getenv("DH_PERF"))=="1";
@@ -7024,6 +7050,7 @@ int main(int argc,char** argv) {
                     for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}
                     std::cout<<"Capture scripted actor frame="<<(drawn+1)<<" name="<<actor.definition.name<<" position="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" scale="<<std::hypot(placement[0],placement[1])<<','<<std::hypot(placement[4],placement[5])<<','<<placement[10]<<" bounds="<<low[0]<<','<<low[1]<<','<<low[2]<<".."<<high[0]<<','<<high[1]<<','<<high[2]<<'\n';
                 }
+                if(!embeddedFxOwnsVisual(embeddedActorKey(actor.definition.stableId)))
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
             }
             // P16 containers: visuals at the authored transform (closed or animated pose from ContainerRuntimeV1).
