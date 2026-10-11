@@ -1,6 +1,6 @@
 # B078 — Gameloft logo buzzing cue
 
-Status: authentic media fix implemented; isolated decoder and silent production startup checks pass. Independent review, exact integration build provenance, final package and audible user confirmation remain pending. Owner `/root/b078_gameloft_audio`; reviewer `/root/v20_new_work_review`; integration `/root/v20_integration`.
+Status: authentic media fix implemented; isolated decoder and silent production startup checks pass. Independent review, final package and audible user confirmation remain pending. Owner `/root/b078_gameloft_audio`; reviewer `/root/v20_new_work_review`; integration `/root/v20_integration`.
 
 ## Evidence recorded before implementation
 
@@ -28,7 +28,7 @@ Private strict C++17 decoder build checks candidate frame24 vs independent ffmpe
 
 ## Integrated runtime and visual checks
 
-All game runs use quiet_run.ps1 hidden desktop and DH_AUDIO_SILENT=1, fresh per-case scratch/save paths, never user windows/saves. Frozen scratch EXE `.local-inputs/v20/b078/frozen.exe` SHA256 `CA62EAFFDA2CF3713A3CE854979D55193FA13DFFCF617C3C7783C554CFDFED87`, copied from build-v20int; observed source HEAD at copy was `a35b34f1ae973c94d259186864f2171b38032358`. Exact build-to-source mapping is pending lead confirmation; this is not a final package verification claim.
+All game runs use quiet_run.ps1 hidden desktop and DH_AUDIO_SILENT=1, fresh per-case scratch/save paths, never user windows/saves. Frozen scratch EXE `.local-inputs/v20/b078/frozen.exe` SHA256 `CA62EAFFDA2CF3713A3CE854979D55193FA13DFFCF617C3C7783C554CFDFED87`, copied from build-v20int; observed source HEAD at copy was `a35b34f1ae973c94d259186864f2171b38032358`. Integration lead confirmed this exact EXE was built from a35b34f1; it predates current integration WIP. This is not a final package verification claim.
 
 Corrected receipt `.local-inputs/v20/b078/summary-final.json`: baseline15.8s, candidate SKIP15.8s, candidate natural54.9s, all exit0/no timeout. `baseline/run.log` uses prior accepted movie; `skip/run.log` and `natural/run.log` use candidate. All in `.local-inputs/v20/b078/`. Boot outcome1 means deliberately bounded boot-max-seconds quit at title, not a test process failure. Initial receipt summary.json had exit1 after successful boot because inherited menu actions required a populated profile; that unrelated post-boot error was removed for focused startup tests. Initial logs were overwritten by corrected runs; do not use initial receipt as final verification.
 
@@ -46,3 +46,4 @@ Source startup gates/lifecycle are preserved and portable. Reference animation p
 Additional production transition capture: `.local-inputs/v20/b078/summary-story.json` reports exit0/no timeout. Viewed `skip/story8.png` (parchment visible with SKIP), `skip/story87.png` (king illustration fading in with SKIP), and `natural/title.png` (splash/Touch prompt). This confirms logo→story and natural title transition visually in the same frozen executable. Raw audio reference was provided explicitly in root assignment (existing file, no external download); ffprobe established it has Opus audio before envelope comparison. The older `.local-inputs/reference-video/dh2-act1/` handoff copy was intentionally not used for audible-evidence inference because it is silent.
 
 Additional native completion gate: `appInit` 0x530ba8 initializes videoDone=0; `appResume` 0x530974 sets videoDone=1 when isDevicePause, then native application resume/unpause. `appPause` 0x5309d8 sets isDevicePause=1 and pauses application. Thus movie activity completion/return admits GSInit case6; manager bank playback is not responsible for the logo cue. Original separate stop listener `bh.onClick` 0x4dc30 stops VideoView playback and clears its pointer; SKIP listener bi clears movie-active and finishes activity. No independent Gameloft sample was discovered or invented.
+
