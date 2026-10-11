@@ -266,7 +266,30 @@ bool RuntimeSessionAudioV1::window_activity(bool focused,bool minimized,std::str
 
 bool RuntimeSessionAudioV1::set_level_music(const std::string& name,std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
-    level_music_name_=name;level_music_error_.clear();level_music_revive_pending_=false;error.clear();return true;
+    level_music_name_=name;level_music_base_=name;level_music_in_safe_zone_=false;
+    level_music_error_.clear();level_music_revive_pending_=false;error.clear();return true;
+}
+
+void RuntimeSessionAudioV1::set_level_music_safezone(const std::string& name) {
+    level_music_safezone_=name;
+}
+
+bool RuntimeSessionAudioV1::set_level_music_safe_zone(bool entering,std::string& error) {
+    error.clear();
+    if(!host_) {error="Audio host is unavailable";return false;}
+    // P17 SAFEZONE: the source switch is the VoxSoundManager in-safe-zone flag. Without a level track there is nothing to switch.
+    if(level_music_base_.empty()) return true;
+    if(entering&&level_music_safezone_.empty()) {
+        log_<<"Safe zone music: level has no safezone track; keeping "<<level_music_base_<<'\n';
+        return true;
+    }
+    level_music_in_safe_zone_=entering;
+    const std::string& target=entering?level_music_safezone_:level_music_base_;
+    if(level_music_name_!=target) {
+        level_music_name_=target;
+        log_<<"Safe zone music: "<<(entering?"enter":"leave")<<" track="<<target<<'\n';
+    }
+    return true;
 }
 
 bool RuntimeSessionAudioV1::on_local_players_revived(std::string& error) {

@@ -2560,10 +2560,13 @@ int main(int argc,char** argv) {
                 if(!f::audio::read_level_music_names_v1(assets,options.level.generic_string(),levelMusic,error)||
                    !runtimeAudio->set_level_music(levelMusic.music,error))
                     std::cerr<<"Level music diagnostic: "<<error<<'\n';
+                else runtimeAudio->set_level_music_safezone(levelMusic.safezone); // P17 SAFEZONE
             } catch(const std::exception& failure) {
                 std::cerr<<"Audio initialization diagnostic: "<<failure.what()<<"; gameplay continues\n";
             }
         }
+        // P17 SAFEZONE: Script_EnterSafeZone / LeaveSafeZone switch the level music (no audio: state only).
+        campaignHost.bind_safe_zone([&](bool entering,std::string& e){return !runtimeAudio||runtimeAudio->set_level_music_safe_zone(entering,e);});
         std::set<int> held;int drawn=0;double previous=window.seconds(),dt=0;
         const auto bindSourcePresentations=[&]() {
             if(runtimeAudio)runtimeAudio->clear_step_entry_presentation_observers();

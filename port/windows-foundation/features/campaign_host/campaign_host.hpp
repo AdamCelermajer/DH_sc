@@ -95,6 +95,10 @@ public:
     // P16 CINE: StrID resolver for caption lines (main binds the original MenuLocalization after its load).
     // Without it a caption line shows an explicit "[StrID n unresolved]" marker.
     void set_caption_text(std::function<bool(std::int32_t,std::string&,std::string&)> resolver) { caption_text_=std::move(resolver); }
+    // P17 SAFEZONE: the music owner for Script_EnterSafeZone (true) and Script_LeaveSafeZone (false). Without it the
+    // command still updates the host state (safe_zone()), and the log records the transition.
+    void bind_safe_zone(std::function<bool(bool entering,std::string&)> music) { safe_zone_music_=std::move(music); }
+    bool safe_zone() const noexcept { return safe_zone_; }
     // P16 OPENING: scripted FX owners (PlayEffect/StopEffect). main binds them once the effects factory exists; the host
     // calls them at command time, so the bound functions must read the current owner.
     void bind_fx(std::function<bool(std::int32_t,const std::array<float,3>&,std::string&)> play,
@@ -172,6 +176,8 @@ private:
     bool skip_visible_=false;
     bool skip_pressed_=false;
     bool cutscene_mode_=false;
+    bool safe_zone_=false; // P17 SAFEZONE: Enter/Leave state (IDA VoxSoundManager in-safe-zone flag)
+    std::function<bool(bool,std::string&)> safe_zone_music_;
     int cutscene_depth_=0; // OPENING2: nested enters of cutscene mode
     bool save_blocked_=false;
     bool global_blocked_=false;
