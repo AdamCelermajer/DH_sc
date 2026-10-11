@@ -5636,6 +5636,7 @@ int main(int argc,char** argv) {
             if(uiInput.menu_back){
                 if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
                 else if(merchantOpen&&merchantUi&&merchantUi->confirmation_visible())merchantUi->cancel_confirmation();
+                else if(merchantOpen&&merchantUi&&merchantUi->error_visible())merchantUi->dismiss_error();
                 else if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
                 else if(pauseConfirmation)pauseConfirmation=false;
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
@@ -5673,6 +5674,7 @@ int main(int argc,char** argv) {
                 std::cout<<"Character menu Quest Log selected frame="<<drawn<<'\n';
             }
             if(merchantOpen&&!characterMenu.is_open()){merchantOpen=false;merchantUi.reset();merchantShop=nullptr;std::cout<<"Merchant closed frame="<<drawn<<'\n';}
+            bool merchantSoldThisFrame=false; // MenuMerchant::Update 0x433548 / NativeMerchantSellItem +196 gate
             for(const auto& click:uiInput.clicks) {
                 if(merchantOpen&&merchantUi) {
                     const auto cmd=merchantUi->release(click.position.x*480.f/window.width(),click.position.y*320.f/window.height(),error);
@@ -5685,6 +5687,8 @@ int main(int argc,char** argv) {
                     if(cmd.kind==Kind::equip)changed=runtimeEquipment->equip_to_slot(cmd.instance_id,cmd.slot,error);
                     else if(cmd.kind==Kind::unequip)changed=runtimeEquipment->unequip(cmd.slot,error);
                     else if(cmd.kind==Kind::sell) {
+                        if(merchantSoldThisFrame){std::cout<<"Merchant duplicate sell blocked frame="<<drawn<<'\n';continue;}
+                        merchantSoldThisFrame=true;
                         // TransferItemTo removes equipment in both sets before transferring the whole instance.
                         const auto bindings=state.equipment;
                         const auto owned=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const auto& i){return i.instance_id==cmd.instance_id;});

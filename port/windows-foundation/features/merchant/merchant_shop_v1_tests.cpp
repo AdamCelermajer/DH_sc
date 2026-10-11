@@ -115,7 +115,9 @@ int main(int argc,char** argv) {
         const auto cmd=ui.release(180,190,e);CHECK(cmd.kind==ShopUi::Command::Kind::buy&&!cmd.instance_id.empty());
         CHECK(ui.release(180,190,e).kind==ShopUi::Command::Kind::none); // duplicate YES cannot trade again
         ui.show_error(TradeResult::insufficient_gold);CHECK(ui.error_visible());
-        CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::none&&!ui.error_visible()&&!ui.confirmation_visible());
+        CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::none&&ui.error_visible()&&!ui.confirmation_visible());
+        const auto& hit=merchant_art().error_ok_hit;float x=0,y=0;for(std::size_t i=0;i<hit.size();i+=2){x+=hit[i];y+=hit[i+1];}
+        CHECK(ui.release(x/(hit.size()/2),y/(hit.size()/2),e).kind==ShopUi::Command::Kind::none&&!ui.error_visible());
         character_menu::Frame frame;CHECK(ui.frame(960,640,frame,e));
         CHECK(std::any_of(frame.text.begin(),frame.text.end(),[](const auto& t){return t.field.path.find("/player_gold/")!=std::string::npos&&t.value=="1000";}));
         CHECK(ui.release(410,15,e).kind==ShopUi::Command::Kind::none&&ui.mode()==ShopUi::Mode::sell);

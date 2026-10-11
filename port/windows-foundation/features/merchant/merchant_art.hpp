@@ -11,6 +11,7 @@ struct MerchantArt {
     character_menu::MenuArt confirm,category,potions_disabled;
     std::array<std::vector<float>,2> confirm_hits;
     std::vector<inventory::SourceCharacterPaneV1> panes;
+    std::vector<float> error_ok_hit;
 };
 const MerchantArt& merchant_art();
 }

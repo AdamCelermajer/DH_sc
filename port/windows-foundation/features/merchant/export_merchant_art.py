@@ -77,7 +77,10 @@ for code,tag in swf.tags(ns['data'],ns['at'],len(ns['data'])):
         bounds,_=swf.rect(tag,2);break
 points=[(am[0]*x+am[2]*y+am[4],am[1]*x+am[3]*y+am[5]) for x,y in [(bounds[0],bounds[2]),(bounds[1],bounds[3])]]
 pane='{{"_root.menu_Merchant.avatarpane",0u,236u,"","menu_Merchant/btn_Back/",'+numbers(am[:4]+[am[4]/20,am[5]/20])+','+numbers([points[0][0]/20,points[0][1]/20,points[1][0]/20,points[1][1]/20])+'}}'
-lines.append('{{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}},confirm_art,category_art,potions_disabled,{{'+','.join(confirm_hits)+'}},'+pane+'};return art;}')
+ep,em=child('MerchantErrorPopup');wp=swf.placed_path([sprites[250][labels[250]['hide']-1]],'WarningBox');em=swf.multiply(em,wp['matrix'])
+op=swf.placed_path(sprites[249],'btn_Ok');em=swf.multiply(em,op['matrix']);hp=swf.placed_path(sprites[248],'hitzone');em=swf.multiply(em,hp['matrix']);em=swf.multiply(em,sprites[247][0][1]['matrix'])
+ok_hit='std::vector<float>'+numbers([c for v in vertices(hit_shapes[82],em) for c in v[:2]])
+lines.append('{{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}},confirm_art,category_art,potions_disabled,{{'+','.join(confirm_hits)+'}},'+pane+','+ok_hit+'};return art;}')
 lines.append('}')
 (here.parent/'merchant_art.cpp').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 print('ok',len(lines))

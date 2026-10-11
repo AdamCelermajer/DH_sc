@@ -79,8 +79,8 @@ bool ShopUi::refresh(std::string& error) {
 ShopUi::Command ShopUi::release(float x, float y, std::string& error) {
     Command command;
     error.clear();
-    if (error_ != TradeResult::ok) { error_ = TradeResult::ok; return command; }   // MerchantErrorPopup btn_deadzone swallows the click
     const auto& art = merchant_art();
+    if(error_visible()){if(inside(art.error_ok_hit,x,y))dismiss_error();return command;} // deadzone swallows background; only btn_Ok hides
     if (confirmation_visible()) {
         if(inside(art.confirm_hits[0],x,y)){command=pending_;pending_={};}
         else if(inside(art.confirm_hits[1],x,y))pending_={};

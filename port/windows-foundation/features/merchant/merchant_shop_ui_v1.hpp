@@ -38,6 +38,7 @@ public:
     bool refresh(std::string& error);
     void show_error(TradeResult result) { error_ = result; }
     bool error_visible() const noexcept { return error_ != TradeResult::ok; }
+    void dismiss_error() noexcept { error_=TradeResult::ok; }
     bool confirmation_visible() const noexcept { return pending_.kind != Command::Kind::none; }
     void cancel_confirmation() noexcept { pending_ = {}; }
     void potion_status(std::uint32_t held, std::uint32_t capacity) { potions_ = held; potion_capacity_ = capacity; }
