@@ -7,6 +7,8 @@ struct MerchantArt {
     character_menu::MenuArt title,tab_buy_idle,tab_buy_on,tab_sell_idle,tab_sell_on,action_idle,action_disabled,potions,back,error;
     // Hit contours as x,y pairs (two triangles): btn_Buy, btn_Sell, btn_Action, btn_BuyPotions, btn_Back.
     std::array<std::vector<float>,5> hits;
+    character_menu::MenuArt confirm;
+    std::array<std::vector<float>,2> confirm_hits;
 };
 const MerchantArt& merchant_art();
 }

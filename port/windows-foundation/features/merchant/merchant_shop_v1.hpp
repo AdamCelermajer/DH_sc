@@ -66,6 +66,9 @@ public:
                     const TradeRules&, std::int32_t& price);
     // Transfers one unit of an UNEQUIPPED player item to the shop (buyback) and credits gold.
     TradeResult sell(const std::string& player_instance, CharacterState& player, const dh2::data::ItemTable&, std::int32_t& price);
+    // Portable per-player persistence adaptation. Atomic replacement of optional component chunks.
+    bool save(CharacterState& player, const std::string& key, const dh2::data::ItemTable&, std::string& error) const;
+    bool load(const CharacterState& player, const std::string& key, const dh2::data::ItemTable&, std::string& error);
 private:
     MerchantRow row_;
     CharacterState stock_;

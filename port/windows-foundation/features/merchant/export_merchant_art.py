@@ -42,6 +42,22 @@ export('potions_idle','btn_BuyPotions',215,0)
 export('back_art','btn_Back',223,0)
 # settled error popup: hide label frame - 1 is the fully shown state
 export('error_art','MerchantErrorPopup',250,labels[250]['hide']-1)
+cp=swf.placed_path(root,'menu_confirm2');cm=cp['matrix'];saved=sprites[785]
+sprites[785]=[dict(saved[labels[785]['hide']-1])]
+wp=swf.placed_path(sprites[785],'WarningBox');wm=swf.multiply(cm,wp['matrix'])
+saved_box=sprites[686];sprites[686]=[dict(saved_box[0])]
+sprites[686][0]={d:p for d,p in sprites[686][0].items() if p.get('name')!='btn_exit'}
+art=[];tx=[];first=len(source_solids)
+walk(785,cm,'menu_confirm2',art,tx,0,'equipment',True)
+art=[a for a in art if '/btimg/' not in a[0]]
+confirm_hits=[]
+for name,label in [('btn_yes','yes'),('btn_no','no')]:
+    p=swf.placed_path(sprites[686],name);m=swf.multiply(wm,p['matrix'])
+    hp=swf.placed_path(sprites[685],'None') if False else sprites[685][0][5]
+    confirm_hits.append('std::vector<float>'+numbers([c for v in vertices(hit_shapes[82],swf.multiply(m,hp['matrix'])) for c in v[:2]]))
+    bp=swf.placed_path(sprites[685],'btimg');bm=swf.multiply(m,bp['matrix']);save_icon=sprites[684];sprites[684]=[save_icon[labels[684][label]]]
+    walk(684,bm,'menu_confirm2/WarningBox/'+name+'/btimg',art,tx,0,'equipment',True);sprites[684]=save_icon
+block('confirm_art',art,tx,first);sprites[785]=saved;sprites[686]=saved_box
 def hit(child_name,sprite):
     p,m=child(child_name);hp=swf.placed_path(sprites[sprite],'hitzone');hm=swf.multiply(m,hp['matrix'])
     return 'std::vector<float>'+numbers([c for v in vertices(hit_shapes[82],hm) for c in v[:2]])
@@ -52,7 +68,7 @@ def hit_back():
     x0,x1,y0,y1=min(xs),max(xs),min(ys),max(ys)
     return 'std::vector<float>'+numbers([x0,y0,x1,y0,x1,y1,x0,y0,x1,y1,x0,y1])
 lines.append('const MerchantArt& merchant_art(){static const MerchantArt art{title_art,tab_buy_idle,tab_buy_on,tab_sell_idle,tab_sell_on,action_idle,action_disabled,potions_idle,back_art,error_art,')
-lines.append('{{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}}};return art;}')
+lines.append('{{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}},confirm_art,{{'+','.join(confirm_hits)+'}}};return art;}')
 lines.append('}')
 (here.parent/'merchant_art.cpp').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 print('ok',len(lines))

@@ -16,8 +16,9 @@ class ShopUi {
 public:
     enum class Mode { buy, sell };
     struct Command {
-        enum class Kind { none, close, buy, sell } kind{Kind::none};
+        enum class Kind { none, close, buy, sell, equip, unequip, buy_potions } kind{Kind::none};
         std::string instance_id;
+        unsigned slot{};
     };
     ShopUi(CharacterState& player, Shop& shop, const dh2::data::ItemTable& items, const ActorState& actor,
            const OriginalCombatProperties& properties, const OriginalPropertyDatabase& database,
@@ -37,6 +38,9 @@ public:
     bool refresh(std::string& error);
     void show_error(TradeResult result) { error_ = result; }
     bool error_visible() const noexcept { return error_ != TradeResult::ok; }
+    bool confirmation_visible() const noexcept { return pending_.kind != Command::Kind::none; }
+    void cancel_confirmation() noexcept { pending_ = {}; }
+    void potion_status(std::uint32_t held, std::uint32_t capacity) { potions_ = held; potion_capacity_ = capacity; }
     bool frame(int width, int height, character_menu::Frame& output, std::string& error) const;
 private:
     struct Pane;
@@ -50,6 +54,8 @@ private:
     Mode mode_{Mode::buy};
     unsigned slot_{0};
     TradeResult error_{TradeResult::ok};
+    Command pending_;
+    std::uint32_t potions_{},potion_capacity_{};
     Pane& pane() const { return mode_ == Mode::buy ? *buy_ : *sell_; }
 };
 

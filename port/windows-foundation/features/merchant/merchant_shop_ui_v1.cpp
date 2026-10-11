@@ -27,14 +27,11 @@ bool inside(const std::vector<float>& pairs, float x, float y) {
     }
     return false;
 }
-// Details-panel controls that do not exist on the merchant screen (Drop/Transmute/Auto-equip) and the EQUIP/UNEQUIP column
-// buttons (not ported: the merchant screen shows only the pane the player trades from).
+// Details controls absent from the authored merchant screen.
 bool merchant_hides(const std::string& role) {
     static const char* const hidden[] = {
         "menu_InventorySheetDetails/btn_Drop/", "menu_InventorySheetDetails/btn_GAMEPLAYMENUS_TRANSMUTE2/",
-        "menu_InventorySheetDetails/btn_AutoEquip/", "menu_InventorySheetDetails/btn_EquipItem/",
-        "menu_InventorySheetDetails/btn_Unequip/"};
-    if (role.size() >= 17 && role.compare(role.size() - 17, 17, "/b056b_value_icon") == 0) return false; // keep the VALUE coin icon
+        "menu_InventorySheetDetails/btn_AutoEquip/"};
     return std::any_of(std::begin(hidden), std::end(hidden), [&](const char* h) { return starts(role, h); });
 }
 void append(character_menu::Frame& f, const character_menu::MenuArt& art, const std::function<bool(const std::string&, std::string&)>& value) {
@@ -55,6 +52,7 @@ ShopUi::~ShopUi() = default;
 
 bool ShopUi::open(std::string& error) {
     error_ = TradeResult::ok;
+    pending_ = {};
     return buy_->details->open(slot_, error) && sell_->details->open(slot_, error) && (pane().details->open(slot_, error));
 }
 bool ShopUi::set_mode(Mode mode, std::string& error) {
@@ -83,16 +81,30 @@ ShopUi::Command ShopUi::release(float x, float y, std::string& error) {
     error.clear();
     if (error_ != TradeResult::ok) { error_ = TradeResult::ok; return command; }   // MerchantErrorPopup btn_deadzone swallows the click
     const auto& art = merchant_art();
+    if (confirmation_visible()) {
+        if(inside(art.confirm_hits[0],x,y)){command=pending_;pending_={};}
+        else if(inside(art.confirm_hits[1],x,y))pending_={};
+        return command;
+    }
     if (inside(art.hits[4], x, y)) { command.kind = Command::Kind::close; return command; }
     if (inside(art.hits[0], x, y)) { if (mode_ != Mode::buy) set_mode(Mode::buy, error); return command; }
     if (inside(art.hits[1], x, y)) { if (mode_ != Mode::sell) set_mode(Mode::sell, error); return command; }
     if (inside(art.hits[2], x, y)) {
         const auto id = selected_instance(error);
-        if (!id.empty()) { command.kind = mode_ == Mode::buy ? Command::Kind::buy : Command::Kind::sell; command.instance_id = id; }
+        if (!id.empty()) { pending_.kind = mode_ == Mode::buy ? Command::Kind::buy : Command::Kind::sell; pending_.instance_id = id; }
+        return command;
+    }
+    if(mode_==Mode::buy&&slot_==9&&potions_<potion_capacity_&&inside(art.hits[3],x,y)) {
+        const auto id=selected_instance(error);
+        const auto at=std::find_if(shop_.inventory().inventory.begin(),shop_.inventory().inventory.end(),[&](const auto& i){return i.instance_id==id;});
+        const auto* item=at==shop_.inventory().inventory.end()?nullptr:dh2::data::item(items_,dh2::data::item_id(items_,at->definition_id));
+        if(item&&dh2::data::item_type(*item)==14){pending_.kind=Command::Kind::buy_potions;pending_.instance_id=id;}
         return command;
     }
     inventory::DetailAction action{};
     if (!pane().details->release(x, y, action, error)) return command;
+    if(action==inventory::DetailAction::equip&&mode_==Mode::sell&&slot_<9){command.kind=Command::Kind::equip;command.instance_id=selected_instance(error);command.slot=slot_;}
+    if(action==inventory::DetailAction::unequip&&slot_<9){command.kind=Command::Kind::unequip;command.slot=slot_;}
     if (action == inventory::DetailAction::slot || action == inventory::DetailAction::previous || action == inventory::DetailAction::next)
         slot_ = pane().selection->selected_slot();
     // Keep both lists on the same category (the slot rail and arrows act on the visible one).
@@ -103,11 +115,21 @@ bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::st
     character_menu::Frame f;
     if (!character_menu::Presenter::viewport(width, height, f.transform, error)) return false;
     if (!pane().details->frame(bindings_, f, error)) return false;
+    const bool buy = mode_ == Mode::buy;
+    const auto upper=[](const std::string& p){return p.find("/EquipedItem")!=std::string::npos||p.find("/EquipedSwordIcon/")!=std::string::npos||p.find("/btn_Unequip/")!=std::string::npos;};
+    // BUY's comparison column is the player's equipment, never the merchant's inventory.
+    if(buy){
+        character_menu::Frame owned;if(!sell_->details->frame(bindings_,owned,error))return false;
+        f.art.batches.erase(std::remove_if(f.art.batches.begin(),f.art.batches.end(),[&](const auto& b){return upper(b.role)||b.role.find("/btn_EquipItem/")!=std::string::npos;}),f.art.batches.end());
+        f.text.erase(std::remove_if(f.text.begin(),f.text.end(),[&](const auto& t){return upper(t.field.path)||t.field.path.find("/btn_EquipItem/")!=std::string::npos;}),f.text.end());
+        for(const auto& b:owned.art.batches)if(upper(b.role))f.art.batches.push_back(b);
+        for(const auto& t:owned.text)if(upper(t.field.path))f.text.push_back(t);
+    }
+    for(auto& t:f.text)if(t.field.path.find("/player_gold/")!=std::string::npos)t.value=std::to_string(player_.gold);
     f.art.batches.erase(std::remove_if(f.art.batches.begin(), f.art.batches.end(), [](const auto& b) { return merchant_hides(b.role); }), f.art.batches.end());
     f.text.erase(std::remove_if(f.text.begin(), f.text.end(), [](const auto& t) { return merchant_hides(t.field.path); }), f.text.end());
     f.solids.erase(std::remove_if(f.solids.begin(), f.solids.end(), [](const auto& s) { return merchant_hides(s.geometry.role); }), f.solids.end());
     const auto& art = merchant_art();
-    const bool buy = mode_ == Mode::buy;
     std::string sell_error;
     const auto symbol = [&](const char* name, std::string& out) { return bindings_.symbol && bindings_.symbol(name, out, sell_error); };
     const auto value = [&](const std::string& path, std::string& out) -> bool {
@@ -117,6 +139,11 @@ bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::st
         if (path.find("/ButtonName/") != std::string::npos) return symbol(buy ? "GAMEPLAYMENUS_BUY" : "GAMEPLAYMENUS_SELL", out);
         if (path.find("/ValueText/") != std::string::npos) return symbol("MENU_VALUE_TITLE", out);
         if (path.find("/ValueBox/") != std::string::npos) { const auto p = selected_price(); if (p > 0) out = std::to_string(p); return true; }
+        if(path.find("/btn_BuyPotions/")!=std::string::npos){
+            if(path.find("/ButtonName/")!=std::string::npos)return symbol("GAMEPLAYMENUS_BUY_MAXIMUM",out);
+            if(path.find("/ValueText/")!=std::string::npos)return symbol("GAMEPLAYMENUS_YOUR_POTIONS",out);
+            if(path.find("/ValueBox/")!=std::string::npos){out=std::to_string(potions_)+" / "+std::to_string(potion_capacity_);return true;}
+        }
         if (path.find("/confirm_msg/") != std::string::npos) {
             const char* name = error_ == TradeResult::insufficient_gold ? "GAMEPLAYMENUS_TRANSACTION_INSUFFICIENT_GOLD"
                              : error_ == TradeResult::inventory_full ? "GAMEPLAYMENUS_SHOP_INVENTORY_FULL" : "GAMEPLAYMENUS_SHOP_POTION_FULL";
@@ -130,7 +157,18 @@ bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::st
     std::string e2;
     append(f, selected_instance(e2).empty() ? art.action_disabled : art.action_idle, value);
     append(f, art.back, value);
+    if(buy&&slot_==9)append(f,art.potions,value);
     if (error_visible()) append(f, art.error, value);
+    if(confirmation_visible())append(f,art.confirm,[&](const std::string& path,std::string& out){
+        if(path.find("/confirm_msg/")==std::string::npos)return false;
+        std::string label;symbol(pending_.kind==Command::Kind::sell?"GAMEPLAYMENUS_SELL":"GAMEPLAYMENUS_BUY",label);
+        std::string e;const auto id=pending_.instance_id;const auto& inv=buy?shop_.inventory().inventory:player_.inventory;
+        const auto at=std::find_if(inv.begin(),inv.end(),[&](const auto& i){return i.instance_id==id;});
+        std::string name;const auto* item=at==inv.end()?nullptr:dh2::data::item(items_,dh2::data::item_id(items_,at->definition_id));
+        if(item&&bindings_.item_name)bindings_.item_name(*at,*item,name,e);
+        auto price=selected_price();if(pending_.kind==Command::Kind::buy_potions)price*=std::int32_t(potion_capacity_-std::min(potions_,potion_capacity_));
+        out=label+" "+name+" ("+std::to_string(price)+")?";return true;
+    });
     output = std::move(f); error.clear(); return true;
 }
 

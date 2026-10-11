@@ -65,7 +65,7 @@ bool roll_stock(const MerchantRow& row, const dh2::data::LootTablesV2::Borrow& t
     out = std::move(next); error.clear(); return true;
 }
 void Shop::add_stock(const dh2::data::ItemTable& items, const std::vector<std::pair<std::int32_t, std::uint32_t>>& list) {
-    if (stocked_) return;
+    if (!stock_.inventory.empty()) return;
     for (const auto& [id, quantity] : list) {
         const auto* item = dh2::data::item(items, id);
         if (!item || id < 0 || std::size_t(id) >= items.identifiers.size()) continue;
@@ -133,5 +133,47 @@ TradeResult Shop::sell(const std::string& id, CharacterState& player, const dh2:
     player.gold += std::uint64_t(price);
     if (it->quantity > 1) it->quantity -= 1; else player.inventory.erase(it);
     return TradeResult::ok;
+}
+bool Shop::save(CharacterState& player, const std::string& key, const dh2::data::ItemTable& items, std::string& error) const {
+    std::vector<std::uint8_t> bytes;
+    const auto word = [&](std::uint32_t n) { for(int i=0;i<4;++i)bytes.push_back(std::uint8_t(n>>(8*i))); };
+    word(1);word(counter_);word(stocked_);word(std::uint32_t(stock_.inventory.size()));
+    for(const auto& item:stock_.inventory) {
+        word(std::uint32_t(dh2::data::item_id(items,item.definition_id)));word(item.quantity);word(is_buyback(item.instance_id));
+        word(std::uint32_t(item.instance_id.size()));bytes.insert(bytes.end(),item.instance_id.begin(),item.instance_id.end());
+    }
+    auto next=player.components;const auto prefix="dh2.merchant.v1/"+key+"/";
+    next.erase(std::remove_if(next.begin(),next.end(),[&](const auto& c){return c.id.compare(0,prefix.size(),prefix)==0;}),next.end());
+    for(std::size_t at=0,part=0;at<bytes.size();at+=character_component_bytes_limit,++part) {
+        const auto end=std::min(bytes.size(),at+character_component_bytes_limit);
+        next.push_back({prefix+std::to_string(part),{bytes.begin()+at,bytes.begin()+end}});
+    }
+    if(next.size()>character_component_limit){error="Merchant save component capacity exceeded";return false;}
+    player.components=std::move(next);error.clear();return true;
+}
+bool Shop::load(const CharacterState& player, const std::string& key, const dh2::data::ItemTable& items, std::string& error) {
+    const auto prefix="dh2.merchant.v1/"+key+"/";std::vector<std::uint8_t> bytes;
+    std::size_t found=0;for(const auto& c:player.components)if(c.id.compare(0,prefix.size(),prefix)==0)++found;
+    if(!found){error.clear();return true;}
+    for(std::size_t part=0;part<found;++part) {
+        const auto at=std::find_if(player.components.begin(),player.components.end(),[&](const auto& c){return c.id==prefix+std::to_string(part);});
+        if(at==player.components.end()){error="Merchant save has missing chunk";return false;}
+        bytes.insert(bytes.end(),at->bytes.begin(),at->bytes.end());
+    }
+    try {
+        Tail t{bytes.data(),bytes.size(),0};if(t.word()!=1)throw std::runtime_error("Merchant save version");
+        auto counter=t.word();auto stocked=t.word();auto count=t.count();CharacterState next;std::vector<std::string> flags;
+        for(std::uint32_t i=0;i<count;++i) {
+            const auto id=t.integer();const auto q=t.word();const auto flag=t.word();const auto n=t.count();
+            if(id<0||std::size_t(id)>=items.identifiers.size()||!q||n>character_text_limit||n>bytes.size()-t.at||flag>1)
+                throw std::runtime_error("Invalid merchant save item");
+            std::string instance(reinterpret_cast<const char*>(bytes.data()+t.at),n);t.at+=n;
+            if(instance.empty()||std::any_of(next.inventory.begin(),next.inventory.end(),[&](const auto& item){return item.instance_id==instance;}))
+                throw std::runtime_error("Duplicate merchant save item");
+            next.inventory.push_back({instance,items.identifiers[std::size_t(id)],q});if(flag)flags.push_back(instance);
+        }
+        if(t.at!=bytes.size())throw std::runtime_error("Trailing merchant save bytes");
+        stock_=std::move(next);buyback_=std::move(flags);counter_=counter;stocked_=stocked!=0;error.clear();return true;
+    } catch(const std::exception& e){error=e.what();return false;}
 }
 }
