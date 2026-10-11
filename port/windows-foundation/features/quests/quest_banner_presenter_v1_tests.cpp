@@ -81,6 +81,25 @@ int main() {
         presenter.push(nq);
         presenter.tick(1.75f);
         check(presenter.current().alpha < 1.0f && presenter.current().alpha > 0.0f, "banner fades before it ends");
+
+        // v20.1 SOUNDS (B099/B104): the show cue fires once per banner, when it becomes the shown one (queued banners later).
+        {
+            QuestBannerPresenterV1 sounds;
+            std::vector<bool> shown;
+            sounds.on_shown = [&](bool completed) { shown.push_back(completed); };
+            sounds.push(nq);
+            check(shown.size() == 1 && !shown[0], "NEW QUEST cue on show");
+            sounds.push(counter);
+            check(shown.size() == 1, "counter has no cue");
+            sounds.push(done);
+            check(shown.size() == 1, "queued completion waits for its turn");
+            sounds.tick(1.0f);
+            check(shown.size() == 1, "no repeat while the same banner stays");
+            sounds.tick(1.5f);
+            check(shown.size() == 2 && shown[1], "QUEST COMPLETED cue when it becomes current");
+            sounds.tick(5.0f);
+            check(shown.size() == 2 && !sounds.visible(), "no cue when the queue empties");
+        }
         std::printf("quest_banner_presenter_v1: all tests passed\n");
         return 0;
     } catch (const std::exception& e) {
