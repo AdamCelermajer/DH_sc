@@ -42,6 +42,7 @@
 #include "features/combat/context_button_v1.hpp" // P16 CONTEXT: Space context button + action icon
 #include "features/interactions/interactable_registry_v1.hpp" // P16 CONTEXT: interaction-type providers (chests/NPCs register here)
 #include "features/interactions/interaction_approach_v1.hpp" // B069: AI_IsInInteractionRange + walk to the interaction spot
+#include "features/interactions/interaction_facing_v1.hpp" // B079: CSInteract requested LookAt
 #include "features/generic_skills/runtime_skills_menu_v1.hpp"
 #include "features/generic_skills/runtime_skill_progression_v1.hpp"
 #include "features/generic_skills/runtime_skill_session_training_v1.hpp"
@@ -6426,20 +6427,39 @@ int main(int argc,char** argv) {
                         else std::cout<<"Container sound ordinal="<<r.sound_id<<" uid="<<sr.uid<<" status="<<(sr.status==f::audio::WorldItemSoundStatusV1::asset_missing?"asset_missing":"submitted")<<" frame="<<drawn<<'\n';
                     }
                 };
+                const auto ctxFaceContainer=[&](std::size_t ci,bool respectSitting) {
+                    auto* owner=combatSession->actor(combatSession->player_id());
+                    const auto& at=containerRuntime.instance(ci).transform;
+                    const auto* props=combatSession->world()->combat_properties(owner->id);
+                    const auto* ai=props?dh2::data::ai_props(combatSession->world()->factions(),props->sheets.resolved[1]):nullptr;
+                    // Character::GetCharAI returns AITable; IsCharSitting is Flags bit3.
+                    const bool sitting=respectSitting&&ai&&(ai->flags&8u);
+                    const float before=owner->transform.rotation[2];float yaw=before;
+                    if(f::interaction_facing_v1(owner->transform.position,{at[12],at[13],at[14]},true,sitting,yaw,respectSitting)) {
+                        owner->transform.rotation[2]=yaw;
+                        if(motor)motor->setFacingRadians(yaw);
+                        std::cout<<"Context container facing declaration="<<containerRuntime.instance(ci).name<<" before="<<before<<" after="<<yaw<<" frame="<<drawn<<'\n';
+                    }
+                };
                 const auto ctxUseContainer=[&](std::size_t ci) {
+                    // Recheck the same UseOOI admission on approach arrival, too.
+                    if(!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]||heroInteract.active||
+                       ctxOwner->target_id!=f::invalid_actor_id||!ctxInput.owner_idle_or_moving)return;
+                    const bool idleContainer=containerRuntime.state(ci)==f::containers::kContainerStateIdle;
+                    if(idleContainer&&!ctxContainerRange(ci))return;
                     if(ctxIsDestructible(ci)&&containerRuntime.state(ci)==f::containers::kContainerStateIdle) {
                         // B085: attacking a destructible = the hero's weapon swing; the hit lands on the swing's hit marker
                         // (source AISDefault::OnAttack 0x3dc12c -> target->Interact). The press edge only starts the swing.
-                        {const auto& at=containerRuntime.instance(ci).transform; // face the target (source Cmd_LookAt before the melee)
-                         auto* swinger=combatSession->actor(combatSession->player_id());
-                         swinger->transform.rotation[2]=std::atan2(at[13]-swinger->transform.position[1],at[12]-swinger->transform.position[0]);
-                         if(motor)motor->setFacingRadians(swinger->transform.rotation[2]);}
+                        ctxFaceContainer(ci,false); // preserve B085's destructible heading policy
                         gameplayInput.attack=true;
                         std::cout<<"Context destructible swing declaration="<<containerRuntime.instance(ci).name<<" frame="<<drawn<<'\n';
                         return;
                     }
                     // B079: an openable container (interaction type >= 0, not the destructible 8) is opened from the hero's Interact clip.
                     const auto type=containerRuntime.interaction_type(ci);
+                    // AI_InteractWith passes look-at=true to SM_SetInteractState;
+                    // CSInteract::OnFocus turns non-sitting actors before the pose.
+                    if(type>=0&&type!=8&&idleContainer)ctxFaceContainer(ci,true);
                     const auto* interactSequence=(type>=0&&type!=8&&!heroInteract.active&&containerRuntime.state(ci)==f::containers::kContainerStateIdle&&skillAnimationTables.characters.size())?
                         dh2::data::animation_state(skillAnimationTables,dh2_character_animation_table_id(actorProperties.sheets.resolved[2],std::int32_t(skillAnimationTables.characters.size())),"Interact",std::size_t(type)):nullptr;
                     const std::string* clipPath=(interactSequence&&!interactSequence->steps.empty())?dh2::data::animation_clip(interactSequence->steps.front(),skillAnimationDictionary):nullptr;

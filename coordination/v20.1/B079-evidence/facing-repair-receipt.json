@@ -1,0 +1,75 @@
+{
+  "base_source": "10f8fa3f",
+  "baseline_sha256": "1b439038bd00825ac353d8c9836b31e00f8ff9e94f613b5a4d384c86bd83cef3",
+  "repaired_sha256": "65996a03c7b7b5f10dd7064660087abe66756745ec415573b41e230ce9cacc33",
+  "runtime": {
+    "side": {
+      "start": 260,
+      "marker": 289,
+      "opened": 303,
+      "end": 332,
+      "loot_delivered_once": 4,
+      "open_sound_uid": 162,
+      "normal_space": true
+    },
+    "cached-approach-final": {
+      "start": 265,
+      "marker": 294,
+      "opened": 308,
+      "end": 337,
+      "loot_delivered_once": 4,
+      "open_sound_uid": 162,
+      "normal_space": true
+    },
+    "locked-retry": {
+      "start": 290,
+      "marker": 319,
+      "opened": 333,
+      "end": 362,
+      "loot_delivered_once": 4,
+      "open_sound_uid": 162,
+      "normal_space": true
+    },
+    "vase": {
+      "heading_radians": 1.5708,
+      "start": 260,
+      "hit": 276,
+      "opened": 292,
+      "sound_ordinal": 325,
+      "sound_uid": 166,
+      "heading_policy_unchanged": true
+    },
+    "discarded_fixtures": [
+      "before/approach: no OOI/off floor",
+      "before/vase: different actor OOI",
+      "before-retry/approach and before-approach/approach: already in range/off floor",
+      "after/approach: already in range/off floor",
+      "after/locked: missing XML command replay config",
+      "after/cached-approach: OOI lost before press"
+    ]
+  },
+  "runtime_evidence_root": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\v20.1\\b079-facing-repair",
+  "source_files": {
+    "port/windows-foundation/main.cpp": "2b5879d39ee8f211e5d0b6b46dcaef2fd64df18c956c44b532bbc4906700d42b",
+    "port/windows-foundation/features/interactions/interaction_facing_v1.hpp": "6ff93da516a325aa58335a1cceff43c86b93b265c28acaeb3dd2cc656e7c4af1",
+    "port/windows-foundation/features/interactions/interaction_approach_v1_tests.cpp": "9b482b9cfc70ed36e421b23041afe90cfe524cb800ad52c8e1fc028ba855901b"
+  },
+  "repaired_exe_build_utc": "2026-10-11T20:42:11.156087+00:00",
+  "validation": {
+    "build_exit": 0,
+    "strict_facing_range_suite": "PASS",
+    "strict_context_suite": "PASS",
+    "focused_ctest": "3/3 PASS",
+    "full_ctest": "170/172 PASS; session_skill_binding failed (documented worktree asset root); campaign_host timeout126.38s",
+    "full_ctest_total_seconds": 464.67,
+    "campaign_host_serial_retry": "1/1 PASS,1.13s; no code change",
+    "timeout_cause": "not established; transient load is an inference"
+  },
+  "test_logs_sha256": {
+    "facing-test.log": "e4b44a6415f5039e4ff6d805eb85152b938dfe7bd8115245cafd7ac45705c1e6",
+    "context-test.log": "aec55b13c1e35b42ce4c2a6aefc2debaffb30eea6e5d4977c82b1554b28a8cf2",
+    "ctest-focused.log": "83af88de231c95244068b95d4d3fbb25214bd67fe37c48a26d3e9623663101b9",
+    "ctest-full.log": "5e2f6280c94c7e7502b68afea9b63247f8ee8c5d6d35a1455f3d8ff1b4759b97",
+    "ctest-campaign-retry.log": "4f35755ff02c3c2d11c8bdbe89ee80833a50fdcc17da8558b16ade3611de1255"
+  }
+}
