@@ -42,6 +42,7 @@ struct Window::Impl {
     bool close = true;
     bool minimized = false;
     std::array<bool, 256> keys{};
+    bool lbutton_latched = false; // B102: a click shorter than one frame (down+up inside one poll) is still seen as held for one frame
     int pointer_x = 0, pointer_y = 0; bool pointer_known = false; // B103: last WM_MOUSEMOVE client position
     int wheel_units = 0; // P16 MAPFIX: WM_MOUSEWHEEL delta accumulated until take_wheel_notches()
     std::string error;
@@ -81,7 +82,7 @@ struct Window::Impl {
                 self->pointer_x=int(short(LOWORD(lp)));self->pointer_y=int(short(HIWORD(lp)));self->pointer_known=true;return 0;
             case WM_LBUTTONDOWN:
                 self->pointer_x=int(short(LOWORD(lp)));self->pointer_y=int(short(HIWORD(lp)));self->pointer_known=true;
-                self->keys[VK_LBUTTON]=true;SetCapture(hwnd);return 0;
+                self->keys[VK_LBUTTON]=true;self->lbutton_latched=true;SetCapture(hwnd);return 0;
             case WM_LBUTTONUP:
                 self->keys[VK_LBUTTON]=false;if(GetCapture()==hwnd)ReleaseCapture();return 0;
             case WM_CAPTURECHANGED:
@@ -211,6 +212,7 @@ bool Window::resize(int width, int height) {
 }
 
 void Window::poll() {
+    impl_->lbutton_latched=false;
     MSG message{};
     while (PeekMessageW(&message, nullptr, 0, 0, PM_REMOVE)) {
         if (message.message == WM_QUIT) impl_->close = true;
@@ -229,6 +231,7 @@ bool Window::should_close() const noexcept { return impl_->close; }
 bool Window::minimized() const noexcept { return impl_->minimized; }
 const std::string& Window::error() const noexcept { return impl_->error; }
 bool Window::key_down(int key) const noexcept {
+    if (key == VK_LBUTTON && impl_->lbutton_latched) return true;
     return key >= 0 && key < static_cast<int>(impl_->keys.size()) && impl_->keys[key];
 }
 bool Window::focused() const noexcept{return impl_->hwnd&&GetFocus()==impl_->hwnd;}

@@ -157,6 +157,54 @@ int main(int argc, char** argv) {
                 invalid_ordinary.program == ordinary.program,
                 "Staff was accepted as an ordinary one-hand stance or changed output on failure");
 
+        // B102: source stances must remain selectable for weapons acquired
+        // after startup, while exact current IDs and failure atomicity survive.
+        RuntimePlayerLocomotionLibraryRequestV1 all_request;
+        all_request.profile_id = "KnightPlayerBase";
+        all_request.role = "library-all-equipment-test";
+        all_request.main_hand_item_id = sword;
+        all_request.max_programs = RuntimePlayerLocomotionLibraryV1::hard_program_limit;
+        all_request.preload_all_equipment_stances = true;
+        RuntimePlayerLocomotionLibraryV1 all_library;
+        require(RuntimePlayerLocomotionLibraryV1::build(assets, base_visual, all_request, all_library, error), error);
+        require(all_library.program_count() <= all_request.max_programs, "Equipment stance cache exceeded its bound");
+        CharacterVisualConfig all_visual = base_visual;
+        require(all_library.merge_named_clips(all_visual, error), error);
+        for (const auto& pair : std::vector<std::pair<int,int>>{{sword,-1},{staff,-1},{sword,dagger},{-1,-1}}) {
+            RuntimePlayerLocomotionSelectionV1 selected;
+            require(all_library.select_exact(pair.first, pair.second, selected, error), error);
+            require(selected.main_hand_item_id == pair.first && selected.off_hand_item_id == pair.second,
+                    "Stance cache substituted representative equipment IDs");
+            for (const auto& receipt : selected.program->named_clips)
+                require(std::find(all_visual.clips.begin(),all_visual.clips.end(),
+                        std::make_pair(receipt.named_alias,receipt.resolved_path)) != all_visual.clips.end(),
+                        "Changed equipment requests an animation absent from the initialized visual bank");
+        }
+        for (const char* profile_id : {"RoguePlayerBase", "MagePlayerBase"}) {
+            all_request.profile_id = profile_id;
+            RuntimePlayerLocomotionLibraryV1 class_library;
+            require(RuntimePlayerLocomotionLibraryV1::build(assets,base_visual,all_request,class_library,error),error);
+            CharacterVisualConfig class_visual = base_visual;
+            require(class_library.merge_named_clips(class_visual,error),error);
+            RuntimePlayerLocomotionSelectionV1 class_staff;
+            require(class_library.select_exact(staff,-1,class_staff,error),error);
+            check_selection(class_staff,3,assets);
+            for (const auto& receipt : class_staff.program->named_clips)
+                require(std::find(class_visual.clips.begin(),class_visual.clips.end(),
+                        std::make_pair(receipt.named_alias,receipt.resolved_path)) != class_visual.clips.end(),
+                        "Class stance bank omitted the selected source animation");
+        }
+        all_request.profile_id = "KnightPlayerBase";
+        RuntimePlayerLocomotionSelectionV1 preserved_selection;
+        require(all_library.select_exact(staff,-1,preserved_selection,error),error);
+        const auto preserved_lease = preserved_selection.program;
+        require(!all_library.select_exact(INT32_MAX,-1,preserved_selection,error) &&
+                preserved_selection.program == preserved_lease, "Invalid acquired item changed selection");
+        all_request.max_programs = 2;
+        const auto preserved_count = all_library.program_count();
+        require(!RuntimePlayerLocomotionLibraryV1::build(assets,base_visual,all_request,all_library,error) &&
+                all_library.program_count() == preserved_count, "Undersized stance cache changed the live library");
+
         // An undersized request fails before replacing a previously complete
         // library. Its existing shared selection lease remains valid.
         auto preserved_program = ordinary.program;
@@ -199,7 +247,7 @@ int main(int argc, char** argv) {
                 "External bank selection lease did not outlive its library");
 
         std::cout << "PASS exact AssetCatalog tables/profile/constants; ordinary stance=0, dual=2, staff=3; "
-                     "null combinations, selection leases, external clip merge and atomic bounds/collisions\n";
+                     "null combinations, selection leases, external clip merge, all-equipment banks for Knight/Rogue/Mage and atomic bounds/collisions\n";
         return 0;
     } catch (const std::exception& exception) {
         std::cerr << exception.what() << '\n';

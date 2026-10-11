@@ -426,7 +426,7 @@ struct Options {
     std::string meleeBindings;
     bool diagnosticAI=false;
     int attackFrames=0, attackStartFrame=0, targetFrame=-1, saveFrame=-1, loadFrame=-1;
-    int testStatPoints=0; // B103 TEST ONLY\r
+    int testStatPoints=0,testSkillPoints=0; // B103 TEST ONLY\r
     float testPlayerHealth=0.f; // I024 TEST ONLY: --test-player-hp N[@FRAME] sets the local Character HP at FRAME (inert unless passed)
     int testPlayerHealthFrame=0;
     f::Vec3 actorPosition{};
@@ -628,6 +628,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--attack-start-frame") {o.attackStartFrame=std::stoi(value());if(o.attackStartFrame<0)throw std::runtime_error("Attack start frame must be nonnegative");}
         else if(arg=="--target-frame") {o.targetFrame=std::stoi(value());if(o.targetFrame<0)throw std::runtime_error("Target frame must be nonnegative");}
         else if(arg=="--move") o.movable=true;
+        else if(arg=="--test-skill-points") o.testSkillPoints=std::stoi(value()); // B096 TEST ONLY
         else if(arg=="--test-stat-points") o.testStatPoints=std::stoi(value()); // B103 TEST ONLY
         else if(arg=="--fresh-player") o.freshPlayer=true;
         else if(arg=="--motion-node") o.motionNode=value();
@@ -1388,6 +1389,7 @@ int main(int argc,char** argv) {
             f::equipment_menu::RuntimePlayerLocomotionLibraryRequestV1 request;
             request.profile_id=options.combat.playerProfileId;request.profile_library_uri=options.profiles.generic_string();request.role="player-source-locomotion";
             request.main_hand_item_id=hands.first;request.off_hand_item_id=hands.second;
+            request.preload_all_equipment_stances=true;request.max_programs=f::equipment_menu::RuntimePlayerLocomotionLibraryV1::hard_program_limit;
             const auto prefix=request.role+"/";
             options.character.clips.erase(std::remove_if(options.character.clips.begin(),options.character.clips.end(),[&](const auto& clip){return clip.first.compare(0,prefix.size(),prefix)==0;}),options.character.clips.end());
             f::equipment_menu::RuntimePlayerLocomotionLibraryV1 next;
@@ -5556,10 +5558,10 @@ int main(int argc,char** argv) {
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
             if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
-            if(options.testStatPoints>0&&drawn==60&&combatSession) { // B103 TEST ONLY: --test-stat-points N grants N stat points through the profile projection (never in packaged args)
+            if((options.testStatPoints>0||options.testSkillPoints>0)&&drawn==60&&combatSession) { // B103 TEST ONLY: --test-stat-points N grants N stat points through the profile projection (never in packaged args)
                 const auto* testSheet=combatSession->world()->combat_properties(combatSession->player_id());const auto* testTraits=combatSession->world()->traits(combatSession->player_id());
                 std::string testError;f::OriginalCombatProperties projected;
-                state.source_stat_points=std::uint32_t(options.testStatPoints);state.source_points_known=true;
+                state.source_stat_points=std::uint32_t(options.testStatPoints);state.source_skill_points=std::uint32_t(options.testSkillPoints);state.source_points_known=true;
                 if(testSheet&&testTraits&&f::project_player_profile_properties(properties,state,*testSheet,projected,testError)&&
                    combatSession->world()->update_combat_properties(combatSession->player_id(),std::move(projected),*testTraits,testError))std::cout<<"Test stat points granted="<<options.testStatPoints<<'\n';
                 else std::cerr<<"Test stat points: "<<testError<<'\n';
