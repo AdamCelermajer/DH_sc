@@ -5318,7 +5318,8 @@ int main(int argc,char** argv) {
                     for(const auto& item:embeddedVisuals) {
                         if(!item.visual||!embeddedSceneFx.attached(item.id))continue;
                         std::int32_t sourceMs=0;
-                        if(!f::effects::embedded_clip_source_ms_v1(*item.visual,sourceMs))continue;
+                        if(!f::effects::embedded_clip_source_ms_v1(*item.visual,sourceMs)){static int noClip=0;if(noClip++<3)std::cout<<"Embedded FX "<<*item.name<<" no active clip (not stepped)";continue;}
+                        { static const bool fxDebug=std::getenv("DH_FX_DEBUG")!=nullptr; static int dbgFrames=0; if(fxDebug&&(dbgFrames++%30)==0)std::cout<<"Embedded FX debug "<<*item.name<<" clip="<<(item.visual->active_clip_name()?item.visual->active_clip_name():"none")<<" sourceMs="<<sourceMs<<" elapsed="<<item.visual->animation_elapsed_seconds()<<std::endl; }
                         std::string embeddedError;
                         const std::int32_t embeddedDtMs=gameplayPaused?0:std::int32_t(gameplayDt*1000);
                         if(!embeddedSceneFx.update(item.id,sourceMs,sourceEffectsMs,embeddedDtMs,*item.transform,embeddedError)) {
