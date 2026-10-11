@@ -15,6 +15,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -44,5 +45,14 @@ bool bind_world_gates_v1(PlayableActorWorld& world, std::vector<WorldGateV1>& ga
 bool apply_world_gate_flips_v1(PlayableActorWorld& world, std::vector<WorldGateV1>& gates,
                                const std::vector<conditions::ConditionFlipV1>& flips,
                                const WorldGateOwnerV1& owner, std::string& error);
+
+// ObjectBase::TestEnableCondition and TestDisableCondition are separate,
+// ordered source calls. TestEnable sets the object to the condition result;
+// TestDisable only disables when its condition is false. Unknown values fail
+// without changing the retained object's current enable state.
+bool source_test_enable_condition_v1(bool has_condition, std::optional<bool> value,
+                                     bool& enabled, std::string& error);
+bool source_test_disable_condition_v1(bool has_condition, std::optional<bool> value,
+                                      bool& enabled, std::string& error);
 
 } // namespace dh::foundation::world_gates

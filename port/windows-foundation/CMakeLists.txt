@@ -607,13 +607,23 @@ add_test(NAME source_fx_anchor_registry_v1 COMMAND source_fx_anchor_registry_v1_
 target_sources(foundation_data PRIVATE features/persistence/death_restart_v1.cpp
   features/persistence/death_flow_v1.cpp
   features/persistence/death_screen_v1.cpp features/persistence/death_screen_renderer_v1.cpp
-  features/persistence/death_screen_runtime_v1.cpp features/persistence/death_checkpoint_load_v1.cpp)
+  features/persistence/death_screen_runtime_v1.cpp features/persistence/death_checkpoint_load_v1.cpp
+  features/persistence/death_checkpoint_snapshot_v1.cpp features/persistence/death_checkpoint_zone_v1.cpp
+  features/persistence/source_character_restore_plan_v1.cpp
+  features/persistence/death_fade_from_black_v1.cpp
+  features/persistence/death_fade_from_black_renderer_v1.cpp)
 add_executable(death_flow_v1_tests features/persistence/death_flow_v1_tests.cpp)
 target_link_libraries(death_flow_v1_tests PRIVATE foundation_data)
 add_test(NAME death_flow_v1 COMMAND death_flow_v1_tests)
 add_executable(death_runtime_v1_tests features/persistence/death_runtime_v1_tests.cpp)
 target_link_libraries(death_runtime_v1_tests PRIVATE foundation_data)
 add_test(NAME death_runtime_v1 COMMAND death_runtime_v1_tests)
+add_executable(death_checkpoint_zone_v1_tests features/persistence/death_checkpoint_zone_tests.cpp)
+target_link_libraries(death_checkpoint_zone_v1_tests PRIVATE foundation_data)
+add_test(NAME death_checkpoint_zone_v1 COMMAND death_checkpoint_zone_v1_tests)
+add_executable(death_checkpoint_snapshot_v1_tests features/persistence/death_checkpoint_snapshot_codec_tests.cpp)
+target_link_libraries(death_checkpoint_snapshot_v1_tests PRIVATE foundation_data)
+add_test(NAME death_checkpoint_snapshot_v1 COMMAND death_checkpoint_snapshot_v1_tests)
 # P16 OPENING4: scripted scene objects (AnimatedDecor named by PlayAnimByName).
 target_sources(foundation_data PRIVATE features/scene_decor/scene_decor_v1.cpp)
 # B076: level PlayerLight (GL_Diffuse_L1 environment lighting) read from the LevelConfig light set.

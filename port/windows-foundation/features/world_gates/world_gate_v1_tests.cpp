@@ -41,6 +41,19 @@ WorldGateV1 gate(std::uint64_t id, const char* name, const char* key, const char
 }
 
 void run(const std::string& assets_root) {
+    {
+        bool enabled=true;std::string error;
+        check(source_test_enable_condition_v1(true,true,enabled,error)&&enabled,"true TestEnable enables");
+        check(source_test_disable_condition_v1(true,true,enabled,error)&&enabled,"true TestDisable is a no-op");
+        check(source_test_disable_condition_v1(true,false,enabled,error)&&!enabled,"false TestDisable disables");
+        check(source_test_disable_condition_v1(true,true,enabled,error)&&!enabled,"true TestDisable does not re-enable");
+        check(source_test_enable_condition_v1(true,false,enabled,error)&&!enabled,"false TestEnable disables");
+        check(source_test_enable_condition_v1(true,true,enabled,error)&&enabled,"later true TestEnable restores the retained object");
+        check(source_test_enable_condition_v1(false,std::nullopt,enabled,error)&&enabled,"missing condition list is source no-op");
+        const bool before=enabled;
+        check(!source_test_disable_condition_v1(true,std::nullopt,enabled,error)&&enabled==before,
+              "unknown condition fails without guessing or mutating");
+    }
     AssetCatalog assets(assets_root);
     dh2::data::AiTables tables;
     std::string loadError;

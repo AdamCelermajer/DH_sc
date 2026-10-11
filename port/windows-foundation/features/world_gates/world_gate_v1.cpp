@@ -80,4 +80,22 @@ bool apply_world_gate_flips_v1(PlayableActorWorld& world, std::vector<WorldGateV
     return true;
 }
 
+bool source_test_enable_condition_v1(bool has_condition,std::optional<bool> value,
+                                     bool& enabled,std::string& error) {
+    error.clear();
+    if(!has_condition)return true;
+    if(!value){error="TestEnableCondition value is unavailable";return false;}
+    enabled=*value;
+    return true;
+}
+
+bool source_test_disable_condition_v1(bool has_condition,std::optional<bool> value,
+                                      bool& enabled,std::string& error) {
+    error.clear();
+    if(!has_condition)return true;
+    if(!value){error="TestDisableCondition value is unavailable";return false;}
+    if(!*value)enabled=false;
+    return true;
+}
+
 } // namespace dh::foundation::world_gates

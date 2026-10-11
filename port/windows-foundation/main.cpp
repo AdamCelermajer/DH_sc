@@ -91,6 +91,10 @@
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
 #include "features/frontend/menu_return/menu_return_v1.hpp"
+#include "features/persistence/death_checkpoint_snapshot_v1.hpp"
+#include "features/persistence/death_checkpoint_zone_v1.hpp"
+#include "features/persistence/death_screen_runtime_v1.hpp"
+#include "features/persistence/death_fade_from_black_v1.hpp"
 #include "features/menu_metadata/menu_metadata_v1.hpp" // P14 schema: per-slot menu metadata stamping/projection
 #if defined(_WIN32)
 #include "features/audio/frontend_menu_audio_v1.hpp"
@@ -1501,23 +1505,19 @@ int main(int argc,char** argv) {
                 return authoredConditions->evaluate(name,conditionWorld,value,e);
             };
             auto policy=[&](const f::ActorDefinition& a) {
-                // activate_cond false: hidden (deferred when hidden actors are retained, else excluded), like auto_spawn.
-                // deactivate_cond true: excluded. Unknown names stay unknown and are logged once by the evaluator.
+                // TestEnableCondition/TestDisableCondition run after object construction
+                // and mutate SetEnable; they do not decide whether ObjectManager retains
+                // the authored name/handle. Keep condition-gated declarations in the
+                // roster, then apply both source calls in their original order below.
                 auto it=a.properties.find("activate_cond");
                 if(it!=a.properties.end()&&!f::conditions::is_no_condition(it->second)) {
                     bool value=false;std::string e;
-                    if(!conditionValue(it->second,value,e))return f::PopulationDecision::unknown;
-                    if(!value)return options.retainHiddenActors?f::PopulationDecision::deferred:f::PopulationDecision::exclude;
+                    if(!conditionValue(it->second,value,e))std::cerr<<"Condition lifecycle unresolved actor="<<a.name<<" key=activate_cond condition="<<it->second<<" detail="<<e<<'\n';
                 }
                 it=a.properties.find("deactivate_cond");
                 if(it!=a.properties.end()&&!f::conditions::is_no_condition(it->second)) {
                     bool value=false;std::string e;
-                    if(!conditionValue(it->second,value,e))return f::PopulationDecision::unknown;
-                    // ObjectBase::TestEnableCondition disables an existing GameObject;
-                    // it does not remove its name/handle from ObjectManager. Keep the
-                    // source identity and visual available for authored references.
-                    if(value)return options.campaignTriggers&&options.retainHiddenActors?
-                        f::PopulationDecision::deferred:f::PopulationDecision::exclude;
+                    if(!conditionValue(it->second,value,e))std::cerr<<"Condition lifecycle unresolved actor="<<a.name<<" key=deactivate_cond condition="<<it->second<<" detail="<<e<<'\n';
                 }
                 it=a.properties.find("auto_spawn");if(it!=a.properties.end()&&it->second=="0") {
                     // InitPost constructs the Character's visual and physical object
@@ -1848,6 +1848,161 @@ int main(int argc,char** argv) {
             if(!f::save_game(worldPath,worldSnapshot,e))return false;
             std::cout<<"Level world saved reason="<<reason<<" level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
             return true;
+        };
+        const auto deathCheckpointPath=[&]() {
+            auto path=f::transitions::level_world_path(options.save,options.level.generic_string());
+            path += ".source-checkpoint-v1";
+            return path;
+        };
+        f::quest_runtime::QuestRuntimeV1* questRuntimeForCheckpoint=nullptr;
+        std::array<float,3> activeSourceCheckpointKey{};
+        bool sourceCheckpointKeyLoaded=false;
+        if(!options.save.empty()) {
+            const auto path=deathCheckpointPath();
+            if(fs::exists(path)) {
+                std::ifstream input(path,std::ios::binary);
+                if(!input)throw std::runtime_error("Cannot open source checkpoint snapshot: "+path.generic_string());
+                std::vector<std::uint8_t> bytes((std::istreambuf_iterator<char>(input)),{});
+                f::persistence::death_flow::DeathCheckpointSnapshotV1 savedCheckpoint;
+                if(!f::persistence::death_flow::decode_death_checkpoint_snapshot_v1(bytes,savedCheckpoint,error))
+                    throw std::runtime_error("Source checkpoint snapshot is invalid: "+error);
+                if(savedCheckpoint.level_uri!=options.level.generic_string())
+                    throw std::runtime_error("Source checkpoint snapshot belongs to a different level");
+                activeSourceCheckpointKey=savedCheckpoint.checkpoint_key_position;
+                sourceCheckpointKeyLoaded=true;
+                std::cout<<"Source checkpoint loaded level="<<savedCheckpoint.level_uri<<" zone="<<savedCheckpoint.checkpoint_name
+                         <<" key="<<activeSourceCheckpointKey[0]<<','<<activeSourceCheckpointKey[1]<<','<<activeSourceCheckpointKey[2]<<'\n';
+            }
+        }
+        const auto saveSourceCheckpointContact=[&](const f::transitions::ExitZone& zone,
+                                                    const f::ActorState& player,
+                                                    std::string& checkpointError)->bool {
+            using namespace f::persistence::death_flow;
+            if(!combatSession||options.save.empty()) {checkpointError="Source LevelSavegame/profile path is unavailable";return false;}
+            struct Context {
+                f::CombatSession* session{};
+                f::ActorPopulation* population{};
+                f::containers::ContainerRuntimeV1* containers{};
+                f::doors::DoorRuntimeV1* doors{};
+                f::CharacterState* character{};
+                f::quest_runtime::QuestRuntimeV1** quests{};
+                fs::path level_world_path;
+                fs::path checkpoint_path;
+                std::string level_uri;
+                std::array<float,3> key{},revive{};
+            };
+            Context context;
+            context.session=combatSession.get();context.population=&population;
+            context.containers=&containerRuntime;context.doors=&doorRuntime;
+            context.character=&state;context.quests=&questRuntimeForCheckpoint;
+            context.level_world_path=f::transitions::level_world_path(options.save,options.level.generic_string());
+            context.checkpoint_path=deathCheckpointPath();context.level_uri=options.level.generic_string();
+            const auto find_definition=[](Context& c,std::uint64_t id)->const f::ActorDefinition* {
+                for(const auto& definition:c.population->definitions())if(definition.stableId==id)return &definition;
+                return nullptr;
+            };
+            const auto skip_checkpoint=[](const f::ActorDefinition* definition,bool& skip,std::string& e)->bool {
+                skip=false;if(!definition){e="Source checkpoint declaration identity is unavailable";return false;}
+                const auto value=definition->properties.find("skip_checkpoint");
+                if(value==definition->properties.end()){e.clear();return true;} // native default is false
+                if(value->second=="0"||value->second=="false"){e.clear();return true;}
+                if(value->second=="1"||value->second=="true"){skip=true;e.clear();return true;}
+                e="Authored skip_checkpoint value is not a source boolean: "+value->second;return false;
+            };
+            DeathCheckpointZoneServicesV1 services;
+            services.context=&context;
+            services.record_checkpoint_positions=[](void* raw,const std::string&,const std::array<float,3>& key,
+                                                      const std::array<float,3>& revive,std::string& e) {
+                auto& c=*static_cast<Context*>(raw);c.key=key;c.revive=revive;e.clear();return true;
+            };
+            services.save_player_qest_checkpoint=[](void* raw,std::string& e) {
+                auto& c=*static_cast<Context*>(raw);
+                if(c.quests&&*c.quests&&!(*c.quests)->save(e))return false;
+                e.clear();return true;
+            };
+            services.capture_current_game_save=[](void* raw,f::GameSave& out,std::string& e) {
+                auto& c=*static_cast<Context*>(raw);
+                return f::capture_game_save(c.level_uri,c.session->player_id(),*c.character,*c.session->world(),out,e);
+            };
+            services.capture_services.context=&context;
+            services.capture_services.actor_checkpoint_facts=[](void* raw,f::ActorId id,
+                 SourceCheckpointObjectFamilyV1& family,bool& skip,std::string& e) {
+                auto& c=*static_cast<Context*>(raw);const f::ActorDefinition* definition=nullptr;
+                for(const auto& item:c.population->definitions())if(item.stableId==id){definition=&item;break;}
+                if(!definition||definition->gametype!="Character"){e="Saved actor lacks a source Character declaration";return false;}
+                family=SourceCheckpointObjectFamilyV1::character;skip=false;
+                const auto value=definition->properties.find("skip_checkpoint");
+                if(value==definition->properties.end()||value->second=="0"||value->second=="false"){e.clear();return true;}
+                if(value->second=="1"||value->second=="true"){skip=true;e.clear();return true;}
+                e="Authored skip_checkpoint value is not a source boolean: "+value->second;return false;
+            };
+            services.capture_services.actor_source_state=[](void* raw,f::ActorId id,std::uint32_t& cs_state,bool& dead,std::string& e) {
+                auto& c=*static_cast<Context*>(raw);const auto* actor=c.session->actor(id);
+                const auto source_state=c.session->original_actor_state(id);
+                if(!actor||source_state<0){e="Source checkpoint actor state/death fact is unavailable";return false;}
+                cs_state=static_cast<std::uint32_t>(source_state);dead=actor->is_dead();e.clear();return true;
+            };
+            services.capture_services.object_checkpoint_facts=[](void* raw,f::ObjectId id,
+                 SourceCheckpointObjectFamilyV1& family,bool& skip,std::string& e) {
+                auto& c=*static_cast<Context*>(raw);const f::ActorDefinition* definition=nullptr;
+                for(const auto& item:c.population->definitions())if(item.stableId==id){definition=&item;break;}
+                if(!definition){e="Saved world object has no current authored declaration";return false;}
+                if(definition->gametype=="Door")family=SourceCheckpointObjectFamilyV1::door;
+                else if(definition->gametype=="Container")family=SourceCheckpointObjectFamilyV1::container;
+                else {e="Checkpoint identity family is not source-mapped: "+definition->gametype;return false;}
+                skip=false;const auto value=definition->properties.find("skip_checkpoint");
+                if(value==definition->properties.end()||value->second=="0"||value->second=="false"){e.clear();return true;}
+                if(value->second=="1"||value->second=="true"){skip=true;e.clear();return true;}
+                e="Authored skip_checkpoint value is not a source boolean: "+value->second;return false;
+            };
+            services.save_level_checkpoint=[](void* raw,const f::GameSave& save,const DeathCheckpointSnapshotV1& snapshot,std::string& e) {
+                auto& c=*static_cast<Context*>(raw);
+                if(!f::save_game(c.level_world_path,save,e))return false;
+                std::vector<std::uint8_t> bytes;
+                if(!encode_death_checkpoint_snapshot_v1(snapshot,bytes,e))return false;
+                fs::create_directories(c.checkpoint_path.parent_path());
+                auto temporary=c.checkpoint_path;temporary += ".tmp";
+                {std::ofstream output(temporary,std::ios::binary|std::ios::trunc);
+                 if(!output){e="Cannot create source checkpoint snapshot temporary";return false;}
+                 output.write(reinterpret_cast<const char*>(bytes.data()),std::streamsize(bytes.size()));output.flush();
+                 if(!output){e="Cannot write source checkpoint snapshot temporary";return false;}}
+#if defined(_WIN32)
+                if(!MoveFileExW(temporary.c_str(),c.checkpoint_path.c_str(),MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) {
+                    e="Cannot atomically replace source checkpoint snapshot";return false;
+                }
+#else
+                std::error_code ec;fs::rename(temporary,c.checkpoint_path,ec);
+                if(ec){e="Cannot atomically replace source checkpoint snapshot: "+ec.message();return false;}
+#endif
+                e.clear();return true;
+            };
+            DeathCheckpointZoneContactV1 contact;
+            contact.source_level_state=38; // this callback runs only for the active ready Level/CombatSession owner
+            const auto player_definition=find_definition(context,player.id);
+            contact.contact_object_zonable=true;
+            if(player_definition) {
+                const auto non_zonable=player_definition->properties.find("non_zonable");
+                contact.contact_object_zonable=non_zonable==player_definition->properties.end()||
+                    (non_zonable->second!="1"&&non_zonable->second!="true");
+            }
+            contact.contact_character_is_player=player.id==combatSession->player_id();
+            contact.contact_is_local_player_zero=contact.contact_character_is_player;
+            contact.local_character_present=contact.contact_character_is_player;
+            contact.local_character_is_dead=player.is_dead();
+            contact.level_savegame_present=!options.save.empty();
+            contact.level_uri=context.level_uri;contact.zone_name=zone.name;contact.zone_position=zone.source_position;
+            contact.current_checkpoint_key=activeSourceCheckpointKey;
+            contact.current_character_position=player.transform.position;
+            DeathCheckpointZoneReceiptV1 receipt;
+            if(!run_death_checkpoint_zone_contact_v1(contact,services,receipt,checkpointError))return false;
+            if(receipt.result==DeathCheckpointZoneResultV1::saved) {
+                activeSourceCheckpointKey=zone.source_position;sourceCheckpointKeyLoaded=true;
+                std::cout<<"Source checkpoint saved zone="<<zone.name<<" key="<<receipt.snapshot.checkpoint_key_position[0]<<','
+                         <<receipt.snapshot.checkpoint_key_position[1]<<','<<receipt.snapshot.checkpoint_key_position[2]<<" revive="
+                         <<receipt.snapshot.revive_position[0]<<','<<receipt.snapshot.revive_position[1]<<','<<receipt.snapshot.revive_position[2]
+                         <<" actors="<<receipt.snapshot.actors.size()<<" objects="<<receipt.snapshot.objects.size()<<" qest="<<receipt.snapshot.qest_present<<'\n';
+            } else std::cout<<"Source checkpoint contact zone="<<zone.name<<" result="<<unsigned(receipt.result)<<"\n";
+            checkpointError.clear();return true;
         };
         if(arrivedByTransition&&combatSession) {
             const auto worldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
@@ -3766,10 +3921,50 @@ int main(int argc,char** argv) {
             for(const auto& gate:worldGates) // applied = the persisted owner state after bind (restored or created)
                 std::cout<<"World gate state "<<gate.name<<" "<<gate.key<<" applied="<<(gate.applied?"true":"false")<<'\n';
         };
+        const auto setCharacterSourceEnabled=[&](f::ActorId id,bool enabled,std::string& e)->bool {
+            if(!population.set_enabled(id,enabled,e))return false;
+            if(options.sourceNativeBodies) {
+                const auto* body=nativeBodies.physical(id);
+                if(body&&body->native().body&&!nativeBodies.set_physical_filter_enabled(id,enabled,e))return false;
+            }
+            if(lifecyclePhysical.count(id))lifecyclePhysical[id]=enabled;
+            if(lifecycleCollisions.count(id))lifecycleCollisions[id]=enabled;
+            e.clear();return true;
+        };
+        const auto refreshCharacterSourceConditions=[&](f::PopulationActor& placed,std::string& e)->bool {
+            bool enabled=placed.enabled;
+            const auto apply=[&](const char* key,bool is_enable)->bool {
+                const auto property=placed.definition.properties.find(key);
+                if(property==placed.definition.properties.end()||f::conditions::is_no_condition(property->second))return true;
+                bool value=false;
+                if(!conditionWatch||!conditionWatch->watching(property->second)||!conditionWatch->current(property->second,value)) {
+                    std::cout<<"Source condition lifecycle unresolved actor="<<placed.definition.name<<" key="<<key<<" condition="<<property->second<<"; retained prior enable state\n";
+                    return true;
+                }
+                const bool ok=is_enable
+                    ?f::world_gates::source_test_enable_condition_v1(true,value,enabled,e)
+                    :f::world_gates::source_test_disable_condition_v1(true,value,enabled,e);
+                if(!ok)return false;
+                std::cout<<"Source condition lifecycle actor="<<placed.definition.name<<" key="<<key<<" condition="<<property->second
+                         <<" value="<<(value?"true":"false")<<" enabled="<<(enabled?"true":"false")<<'\n';
+                return true;
+            };
+            if(!apply("activate_cond",true)||!apply("deactivate_cond",false))return false;
+            if(enabled!=placed.enabled)return setCharacterSourceEnabled(placed.definition.stableId,enabled,e);
+            e.clear();return true;
+        };
+        const auto refreshAllCharacterSourceConditions=[&]() {
+            for(auto& placed:population.actors()) {
+                if(placed.definition.gametype!="Character")continue;
+                std::string gateError;
+                if(!refreshCharacterSourceConditions(placed,gateError))
+                    std::cerr<<"Character source condition apply failed actor="<<placed.definition.name<<" detail="<<gateError<<'\n';
+            }
+        };
         // P17 DOORS2: showBindBanners=false on restore/reload (no replay of NEW QUEST or other banners of the saved state).
         const auto bindQuestRuntime=[&](bool showBindBanners=true) {
             f::quest_runtime::bind_quest_event_sink({});
-            questRuntime.reset();questActorIdentity.clear();questZones=f::quest_runtime::QuestZoneSetV1();
+            questRuntime.reset();questRuntimeForCheckpoint=nullptr;questActorIdentity.clear();questZones=f::quest_runtime::QuestZoneSetV1();
             if(!combatSession||!menuSourceOwner.valid())return;
             if(!questTable) {
                 std::string questError;
@@ -3814,6 +4009,7 @@ int main(int argc,char** argv) {
             // P17 CONDITIONS: authored state transitions mark dependent conditions dirty (event-driven flips).
             questServices.state_changed=[&](std::int32_t row,std::int32_t) {if(conditionWatch)conditionWatch->quest_changed(row);};
             questRuntime=std::make_unique<f::quest_runtime::QuestRuntimeV1>(state,questTable,std::move(questServices));
+            questRuntimeForCheckpoint=questRuntime.get();
             std::string questError;
             if(!questRuntime->load(questError))std::cerr<<"Quest runtime load diagnostic: "<<questError<<'\n';
             for(const auto& d:questRuntime->diagnostics())std::cout<<"Quest runtime diagnostic: "<<d<<'\n'; // OPENING2
@@ -3823,6 +4019,7 @@ int main(int argc,char** argv) {
                     std::cerr<<"Condition prime diagnostic: "<<conditionError<<'\n';
             }
             bindWorldGates(); // P17 CONDITIONS: after the watch is primed from the restored state
+            refreshAllCharacterSourceConditions();
             refreshDoorWorld(); // P17 DOORS: presence, lever unlock and persisted door states
             // P16 QUESTUI: explicit charpropsname bindings (NPCs) have no population row; resolve it by name
             // through the CharacterTable names (the quest talk oids are these rows).
@@ -3979,6 +4176,20 @@ int main(int argc,char** argv) {
                 std::string gateError;
                 if(!f::world_gates::apply_world_gate_flips_v1(*combatSession->world(),worldGates,flips,worldGateOwner,gateError))
                     std::cerr<<"World gate flip diagnostic: "<<gateError<<'\n';
+                for(auto& placed:population.actors()) {
+                    if(placed.definition.gametype!="Character")continue;
+                    bool affected=false;
+                    for(const char* key:{"activate_cond","deactivate_cond"}) {
+                        const auto property=placed.definition.properties.find(key);
+                        if(property==placed.definition.properties.end())continue;
+                        affected|=std::any_of(flips.begin(),flips.end(),[&](const auto& flip){return flip.name==property->second;});
+                    }
+                    if(affected) {
+                        std::string characterGateError;
+                        if(!refreshCharacterSourceConditions(placed,characterGateError))
+                            std::cerr<<"Character source condition flip failed actor="<<placed.definition.name<<" detail="<<characterGateError<<'\n';
+                    }
+                }
             }
         };
         const auto raiseQuestKills=[&]() {
@@ -5109,17 +5320,12 @@ int main(int argc,char** argv) {
                 }
                 if(const auto* player=combatSession->actor(combatSession->player_id())) {
                     const std::array<float,3> at{player->transform.position[0],player->transform.position[1],player->transform.position[2]};
-                    for(const auto& event:exitZones.update(at,player->alive())) {
+                    for(const auto& event:exitZones.update(at,!player->is_dead())) {
                         const auto& zone=exitZones.zones()[event.zone];
                         if(event.kind==f::transitions::ZoneKind::checkpoint) {
-                            stampSaveMetadata(state,options.level.generic_string());
                             std::string checkpointError;
-                            f::transitions::clear_entry_component(state); // P17 TRANSITIONS2: the checkpoint, not the entry, is the current place
-                            if(options.save.empty()||!f::save_character(options.save,state,checkpointError)) std::cout<<"Checkpoint zone="<<zone.name<<" status=not_saved detail="<<checkpointError<<" frame="<<drawn<<'\n';
-                            else {
-                                std::cout<<"Checkpoint zone="<<zone.name<<" level="<<options.level.generic_string()<<" saved frame="<<drawn<<'\n';
-                                std::string worldError;if(!saveLevelWorld("checkpoint",worldError))std::cout<<"Level world save status=failed detail="<<worldError<<'\n';
-                            }
+                            if(!saveSourceCheckpointContact(zone,*player,checkpointError))
+                                std::cout<<"Checkpoint zone="<<zone.name<<" status=not_saved detail="<<checkpointError<<" frame="<<drawn<<'\n';
                         } else if(event.kind==f::transitions::ZoneKind::level_exit)
                             std::cout<<"Exit zone entered="<<zone.name<<" target="<<zone.target_name<<" entry="<<zone.entry_id<<" frame="<<drawn<<"\n";
                     }
