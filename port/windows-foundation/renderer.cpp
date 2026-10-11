@@ -55,15 +55,6 @@ Mat4 viewMatrix(const Camera& camera) {
 #define GL_COMBINE 0x8570
 #define GL_COMBINE_RGB 0x8571
 #define GL_COMBINE_ALPHA 0x8572
-#define GL_SOURCE0_RGB 0x8580
-#define GL_SOURCE1_RGB 0x8581
-#define GL_SOURCE0_ALPHA 0x8588
-#define GL_SOURCE1_ALPHA 0x8589
-#define GL_OPERAND0_RGB 0x0590
-#define GL_OPERAND1_RGB 0x0591
-#define GL_OPERAND0_ALPHA 0x0598
-#define GL_OPERAND1_ALPHA 0x0599
-#define GL_PREVIOUS 0x8578
 #endif
 // B076: whether the source point light (GL_LIGHT1) is configured for this frame (set by Renderer::applyCamera).
 bool gLevelLightActive = false;
@@ -83,13 +74,9 @@ void applyLevelLighting(bool levelLit) {
     if (wanted) {
         glDisable(GL_LIGHT0); glEnable(GL_LIGHT1);
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, gLevelAmbient);
-        // colour = texture * primary colour * kLevelLightScale (clamped), alpha = texture * primary alpha (as GL_MODULATE)
+        // colour = texture * primary colour * kLevelLightScale (clamped), alpha = texture * primary alpha (as GL_MODULATE); the combine\n        // defaults (SRC0 = texture, SRC1 = previous/primary, colour/alpha operands) are exactly that.
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_MODULATE); glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_TEXTURE); glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_PREVIOUS);
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA, GL_TEXTURE); glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, GL_PREVIOUS);
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR); glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA); glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
         glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE, kLevelLightScale);
     } else {
         glEnable(GL_LIGHT0); glDisable(GL_LIGHT1);
