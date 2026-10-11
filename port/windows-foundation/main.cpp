@@ -2194,13 +2194,13 @@ int main(int argc,char** argv) {
             } else std::cout<<"Level world restore status=none level="<<options.level.generic_string()<<'\n';
         }
         f::OriginalScene targetMarker;f::OriginalActorLabels actorLabels;f::HudGlyphFont targetFont;
-        f::OriginalScene questMarker[2]; // B087: quest-giver "!" over NPC heads (DesignSettings QuestMarker / QuestMarkerSecondary); [1] may stay empty (falls back to [0])
+        f::OriginalScene questMarker[3]; // B100: [2] = quest_marker_merchant (DesignSettings effect 139, Character::Update merchant marker); B087: quest-giver "!" over NPC heads (DesignSettings QuestMarker / QuestMarkerSecondary); [1] may stay empty (falls back to [0])
         if(combatSession&&options.hud) {
             const auto& markers=f::original_target_marker_art();const auto marker=std::find_if(markers.begin(),markers.end(),[](const auto& art){return art.interaction_type==8;});
             if(marker==markers.end()||!f::decode_original_scene(f::read_content(assets,marker->model_uri),targetMarker,error))throw std::runtime_error("Original attack marker: "+error);
             for(auto& range:targetMarker.mesh.ranges)range.material.lightingEnabled=!marker->self_illum;
-            for(int variant=0;variant<2;++variant) { // B087: quest_marker.bdae (effect 137), quest_marker_blue.bdae (effect 138)
-                const char* uri=variant?"data/3D/interface/quest_marker_blue.bdae":"data/3D/interface/quest_marker.bdae";
+            for(int variant=0;variant<3;++variant) { // B087: quest_marker.bdae (effect 137), quest_marker_blue.bdae (138); B100: quest_marker_merchant.bdae (139)
+                const char* uri=variant==2?"data/3D/interface/quest_marker_merchant.bdae":variant?"data/3D/interface/quest_marker_blue.bdae":"data/3D/interface/quest_marker.bdae";
                 std::string markerError;
                 try {
                     if(!f::decode_original_scene(f::read_content(assets,uri),questMarker[variant],markerError)){std::cout<<"Quest marker "<<uri<<" not decoded: "<<markerError<<'\n';questMarker[variant]=f::OriginalScene();}
@@ -4031,6 +4031,7 @@ int main(int argc,char** argv) {
         // P16 MAPMARKERS: Map page marker facts of the loaded level (built at load) and the producer registry.
         std::vector<f::map_visit::MapLevelObjectV1> mapLevelObjects;   // CheckpointZone / SpawnPoint / TriggerZoneExitLevel
         std::vector<f::map_visit::MapCharacterV1> mapCharacters;       // placed characters (quest giver and merchant facts)
+        std::set<f::ActorId> merchantActors;                           // B100: placed Characters whose AI row type is 7 (Character::IsMerchant)
         std::optional<std::int32_t> mapLevelEntryPoint;                // current entry (the spawn the player was placed on)
         const f::map_visit::MapMarkerRegistryV1 mapMarkers=f::map_visit::standard_map_marker_registry_v1();
         std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
@@ -4271,7 +4272,7 @@ int main(int argc,char** argv) {
             // P16 MAPMARKERS: marker facts of this level, once per load. Level objects are the authored classes of the
             // IDA map producers (activation gate from the active conditions). Characters carry the CharacterTable row
             // (quest giver match) and the merchant fact (AI row type 7 = Character::IsMerchant, IDA GetCharType).
-            mapLevelObjects.clear();mapCharacters.clear();mapLevelEntryPoint.reset();
+            mapLevelObjects.clear();mapCharacters.clear();merchantActors.clear();mapLevelEntryPoint.reset();
             for(const auto& declaration:population.definitions()) {
                 if(!f::map_visit::map_object_class_rule_v1(declaration.gametype))continue;
                 f::map_visit::MapLevelObjectV1 object;object.gametype=declaration.gametype;
@@ -4315,6 +4316,7 @@ int main(int argc,char** argv) {
                         character.merchant=cached->second;
                     }
                     mapCharacters.push_back(character);
+                    if(character.merchant)merchantActors.insert(placed.definition.stableId);
                 }
             }
             std::cout<<"Map marker facts level_objects="<<mapLevelObjects.size()<<" characters="<<mapCharacters.size()
@@ -4531,6 +4533,22 @@ int main(int argc,char** argv) {
             talk.object_id=identity->second.first;talk.secondary_id=questLevelRow;
             std::cout<<"Context talk npc row="<<talk.object_id<<" id="<<id<<" level="<<questLevelRow<<'\n';
             f::quest_runtime::raise_quest_event(talk);
+            return true;
+        };
+        // B100: Character::Interact 0x3a4d78 for a merchant: raises the TalkToNPC quest event for its CharacterTable row (any NPC),
+        // then (when it is not a registered quest NPC, +762 == 0) opens the merchant menu (openMerchantMenu, MenuMerchant).
+        // The shop menu is NOT ported yet (no buy/sell page exists in features/character_menu), so only the event is raised.
+        const auto merchantInteract=[&](f::ActorId id) -> bool {
+            if(!merchantActors.count(id))return false;
+            const auto identity=questActorIdentity.find(id);
+            if(questRuntime&&identity!=questActorIdentity.end()) {
+                f::quest_runtime::QuestEvent talk;
+                talk.kind=f::quest_runtime::QuestEvent::Kind::talk_to_npc;
+                talk.object_id=identity->second.first;talk.secondary_id=questLevelRow;
+                f::quest_runtime::raise_quest_event(talk);
+            }
+            std::cout<<"Context merchant interact id="<<id<<" row="<<(identity==questActorIdentity.end()?-1:identity->second.first)<<" menu=openMerchantMenu (shop UI not ported)
+";
             return true;
         };
         // P16 QUESTUI: quest zone entries of this frame (player position against the level's quest zones).
@@ -6259,6 +6277,7 @@ int main(int argc,char** argv) {
                                 std::cout<<"Context approach start frame="<<drawn<<" declaration="<<containerRuntime.instance(containerIndex).name<<'\n';
                             }
                         } else if(useLeverObject(ooi)) {
+                        } else if(merchantInteract(ooi)) {
                         } else if(!talkToNpcObject(ooi))
                             std::cout<<"Context button ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" status=unhandled frame="<<drawn<<" (logged)\n";
                     }
@@ -6554,6 +6573,17 @@ int main(int argc,char** argv) {
                             entry.eligible=questRuntime->talk_objective_registered(identity->second.first); // B088: source Objective_TalkToNPC::Register sets Character+762 (TargetList mask 0x40)
                             entry.provider.interaction_type=[](f::ActorId) -> int { return 3; }; // source Character::GetInteractionType: friendly NPC
                             std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable NPC: "+regError);
+                        }
+                    // B100: merchants are OOI candidates too (TargetList::_IsCharacterValid 0x4a1ab8 mask bit 0x10 = Character::IsMerchant;
+                    // GetInteractionType: friendly NPC = 3). Always eligible while the placed character is enabled and alive.
+                    if(combatSession&&!merchantActors.empty())
+                        for(const auto& placed:population.actors()) {
+                            if(!merchantActors.count(placed.definition.stableId)||!placed.enabled)continue;
+                            if(const auto* live=combatSession->actor(placed.definition.stableId))if(!live->alive())continue;
+                            f::InteractableEntryV1 entry;entry.id=placed.definition.stableId;entry.is_character=true;
+                            entry.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};entry.radius=0.f;
+                            entry.provider.interaction_type=[](f::ActorId) -> int { return 3; };
+                            std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable merchant: "+regError);
                         }
                 }
                 if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest,&interactables); // B004/B029 (+P16 registry)
@@ -7060,6 +7090,21 @@ int main(int argc,char** argv) {
                         if(loggedQuestMarkers.insert({marker.quest_row,marker.npc_row}).second)std::cout<<"Quest marker drawn quest_row="<<marker.quest_row<<" npc_row="<<marker.npc_row<<" secondary="<<marker.secondary<<" at="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" frame="<<(drawn+1)<<" mesh_min="<<art.minimum.x<<','<<art.minimum.y<<','<<art.minimum.z<<" mesh_max="<<art.maximum.x<<','<<art.maximum.y<<','<<art.maximum.z<<" verts="<<art.mesh.vertices.size()<<'\n';
                         break;
                     }
+                }
+            }
+            // B100: merchant marker (Character::Update, pseudocode-all.c line 126689: IsMerchant && enabled(+138): GrabAnimFX(139) while the
+            // character is not a registered quest NPC (+762 == 0); dropped otherwise). Effect 139 = quest_marker_merchant (money bag).
+            if(combatSession&&!merchantActors.empty()&&!questMarker[2].mesh.vertices.empty()) {
+                for(const auto& placed:population.actors()) {
+                    if(!merchantActors.count(placed.definition.stableId)||!placed.enabled)continue;
+                    const auto identity=questActorIdentity.find(placed.definition.stableId);
+                    if(questRuntime&&identity!=questActorIdentity.end()&&questRuntime->talk_objective_registered(identity->second.first))continue;
+                    auto placement=f::identity();placement[12]=placed.definition.placement[12];placement[13]=placed.definition.placement[13];placement[14]=placed.definition.placement[14];
+                    if(const auto* live=combatSession->actor(placed.definition.stableId)){if(!live->alive())continue;placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];}
+                    queue.submit(questMarker[2].mesh,placement);
+                    static std::set<f::ActorId> loggedMerchantMarkers;
+                    if(loggedMerchantMarkers.insert(placed.definition.stableId).second)std::cout<<"Merchant marker drawn id="<<placed.definition.stableId<<" at="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" frame="<<(drawn+1)<<'
+';
                 }
             }
             // B075: a destructible OOI (source type 8, Character FX[8] "attack" circle, CONTEXT report 1.3) gets the same ring under it
