@@ -6,11 +6,11 @@ Reviewer reproduced two authored admission failures on the frozen candidate: SEL
 
 Full displaySelectedItemInfos caller audit in authored-actions.txt: BUY first handles selected-row visibility and gold (0xb4c7–0xb5b6). InvSlotId9 computes NumPotions/MaxNumPotions/MissingPotions (0xb5b7–0xb651); maximum is disabled when full price exceeds cash OR MissingPotions==0 (0xb668–0xb6cb). Ordinary btn_Action is additionally disabled when MissingPotions==0 (0xb6cc–0xb6fc). SELL first enables based on selected-row presence (0xb7be–0xb834), then disables when ItemEquipped OR ItemEquippedOtherHand (0xb85c–0xb8a6). Native transfer unequip side effects do not grant UI admission.
 
-IDA NativeInvGetItemsListForSlot0x44bb94, ~235660–235776: ItemEquipped compares selected instance with GetEquippedItem for selected slot; ItemEquippedOtherHand compares the paired right/left weapon or ring slot. Other-set storage alone is not this field. NativeGetNumPotions0x44996c provides held count and player's max byte. Plan: one shared ShopUi action admission for rendering and release, using selected identity, current-set selected/paired equipment bindings, player gold, category9 and potion count/capacity. Preserve native defensive result3 tests but no longer call that result the ordinary UI full-capacity behavior.
+IDA NativeInvGetItemsListForSlot 0x44bb94, ~235660–235776: ItemEquipped compares selected instance with GetEquippedItem for selected slot; ItemEquippedOtherHand compares the paired right/left weapon or ring slot. Other-set storage alone is not this field. NativeGetNumPotions 0x44996c provides held count and player's max byte. Plan: one shared ShopUi action admission for rendering and release, using selected identity, current-set selected/paired equipment bindings, player gold, category9 and potion count/capacity. Preserve native defensive result3 tests but no longer call that result the ordinary UI full-capacity behavior.
 
 Focused tests before edit: current-slot and paired-hand/ring equipped selections render disabled and return no command/modal; inactive-set-only equipment remains sellable. UNEQUIP then SELL succeeds. Capacity BUY and maximum both render disabled and repeated clicks return no confirmation/transaction/error; after maximum fills capacity, ordinary action stays blocked. Quiet production receipts must show blocked frame before an admitted UNEQUIP→SELL and unchanged save/stock/gold at full potions.
 
-Owner: /root/b110_merchant. Private branch fix/b110, worktree DH_wt/fix110; tested source 975f0d66. B100 a66b7f9c supplies merchant registry/context/marker. Reviewed B102 e40538b8 merged as 1652fa40 supplies pointer transport and equipment animation banks. Root owns fresh read-only review, integration, tracker resolution and release.
+Owner: /root/b110_merchant. Private branch fix/b110, worktree DH_wt/fix110; tested source d6567ebc. B100 a66b7f9c supplies merchant registry/context/marker. Reviewed B102 e40538b8 merged as 1652fa40 supplies pointer transport and equipment animation banks. Root owns the same reviewer's recheck, integration, tracker resolution and release.
 
 This authoritative report replaces the obsolete partial handoff. The draft persistent-stock adaptation in 87fcbb43 was removed in 64c42064 after root clarified original save rules. No merchant save component remains.
 
@@ -46,7 +46,7 @@ Evidence/test plan committed before behavior changes in 6f402e1a: normal open/cl
 - MerchantTable parser; source bare value/prices; weighted table/item rolls; stock/buyback sort, one-unit transfers and failure ordering. Capacity 100 bag instances, potion exemption and player property 194.
 - Per-level/difficulty/actor current-session shop. Close/reopen retains stock/buyback; empty shop refills on interaction. Level change/new process rebuilds stock; same-level checkpoint retains shop. Only successful player transactions save. No persistent merchant-stock adaptation.
 - Normal merchantInteract→ShopUi open, characterMenu pause/HUD gate, ordinary pointer routes, frame drawing/avatar. BUY compares player equipment and gold. SELL uses authoritative RuntimeEquipmentBinding; whole current-set sale unequips before transfer, pure model clears matching both-set metadata; inactive-set sale preserves unrelated active equipment.
-- BUY/maximum confirmation, immediate SELL, affordability/max disabling, exact localized error lines/deadzone/OK, once-per-frame SELL. Escape cancel/error dismissal is PC adaptation.
+- BUY/maximum confirmation, immediate SELL, shared rendering/release admission for selected/paired equipment, gold and full category9 potion capacity; max-price disabling; exact localized error lines/deadzone/OK; once-per-frame SELL. Escape cancel/error dismissal is PC adaptation.
 - Compiled original chrome/panes/hits, existing atlas/fonts; general newline formatter repair and registered regression test.
 - No shared quest-dialogue API: inherited B100 emits QuestEvent::talk_to_npc; shop declines while pending active TalkToNPC targets merchant. B093 owns quest acceptance/CharacterEvent5/scripts.
 
@@ -54,26 +54,30 @@ Evidence/test plan committed before behavior changes in 6f402e1a: normal open/cl
 
 Quiet_run/quiet_click hidden isolated desktop, DH_AUDIO_SILENT=1; fresh/copied scratch saves only under .local-inputs/claude-v20.1/fix110. Accepted v20 and user saves unchanged. Build: powershell -NoProfile -File C:/Users/adamc/Desktop/workspace/DH_wt/p14_build.ps1 -Name fix110 -Jobs 2, exit0.
 
-Final source 975f0d66 EXE:
-C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/claude-v20.1/fix110/frozen-ok/dh-foundation.exe
+Final source d6567ebc EXE:
+C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/claude-v20.1/fix110/frozen-admission/dh-foundation.exe
 
-SHA256: BCD92C3055EB6EE55A09C4CE6548839A1A4F6BF3DC0A5990BC29F5F19D40556B.
+SHA256: 48D470E09DF9908FB3099D7D18CFD56114D8ED73AF52E299BC65FF98E6F8A68F.
 
-Full ctest 169/170 pass, permitted session_skill_binding failure only (Asset path escapes asset root). Log fix110/ctest-ok.log, elapsed19.72s. Merchant/newline tests pass: price/failure ordering, one-unit/stale duplicate, buyback, both-set clearing, empty refill; UI confirmation/duplicate/background/visible OK/navigation/player gold; HTML newline/plain CRLF and retained one-line stats.
+Full ctest 169/170 pass, permitted session_skill_binding failure only (Asset path escapes asset root). Log fix110/ctest-admission.log, elapsed17.97s. Merchant/newline tests pass: price/failure ordering, one-unit/stale duplicate, buyback, both-set clearing, empty refill; UI confirmation/duplicate/background/visible OK/navigation/player gold; current-slot/paired-hand/paired-ring blocked sale and inactive-set-only allowed sale; UNEQUIP then SELL; full potion action disabled without confirmation/error; below-capacity BUY/maximum still admitted; HTML newline/plain CRLF and retained one-line stats.
 
-Final frozen matrix receipt fix110/final-checks/result.json: seven exit0/no-timeout cases, run.log/cap.ppm per directory. Scheduled releases enter ordinary production input/UI, staged merchant proximity.
+Final frozen matrix receipt fix110/admission-checks/result.json: nine exit0/no-timeout cases, run.log/cap.ppm per directory. Scheduled releases enter ordinary production input/UI, staged merchant proximity.
 
 | Case | Observed |
 |---|---|
 | poor-final | gold 0 disabled BUY; attempted release leaves player 4/stock 81/gold 0. |
-| controls | Cancel unchanged; confirmed ClothArmor03 costs 300→9700/player 5/stock 80; duplicate YES ignored. UNEQUIP/EQUIP Starter; SELL pays2→9702/player 4/stock 81; duplicate SELL in frame 160 blocked, next item preserved. Unmet Mage equip does not mutate. |
-| buyback | SELL Starter pays2, exact buyback at list tail repurchased for2 and equipped; final gold 10000/player 4/equipment 4. |
-| potions | Maximum fills 12 at 10/unit→gold 9880; potion stock 254→242. Further buy result 3 unchanged, both localized lines render. |
+| equipped-blocked | SELL tab, two action clicks; no transaction/confirmation/error. Saved gold0/items4/equipment4 and stock81 unchanged. Inspected cap.png: equipped glyph and dark disabled SELL. |
+| unequip-sell | Frame100 equipped SELL blocked; UNEQUIP120 admitted; SELL140 pays2→gold2/items3/stock82; same-frame duplicate ignored. |
+| controls | Cancel unchanged; confirmed ClothArmor03 costs300→9700/player5/stock80; duplicate YES ignored. UNEQUIP140/EQUIP150 Starter; equipped SELL155 blocked; UNEQUIP160 enables SELL170→gold9702/player4/stock81; duplicate SELL170 blocked, next item preserved. |
+| buyback | UNEQUIP95 then SELL Starter pays2, exact buyback at list tail repurchased for2 and equipped; final gold10000/player4/equipment4. |
+| potions | Maximum120 fills12 at10/unit→gold9880; stock254→242. Ordinary BUY140/170 and maximum150 are blocked; no further native transaction, confirmation or error. Saved quantity12/gold9880. Inspected cap.png: both dark disabled buttons and12/12, no modal. |
 | full-bag | 100 diagnostic bag rows+4 equipment; result 2 keeps gold 10000/player 104/stock 81. Background does not dismiss. |
 | modal-dismiss | Result2, swallowed background, visible OK235,208 dismisses; no additional transaction. Final cap.png inspected without popup. |
 | reload | Actual frontend SinglePlayer→Continue authored controller actions choose copied physical slot; Space opens merchant, SELL contains bought Druid. Exact saved gold 9702/items 4/equipment 3 preserved; new stock 81. |
 
-Separate physical proof on f017e4e0, before the final OK-contour-only repair: frozen-final/dh-foundation.exe SHA256 7D53B9C002F19A71BDB2C0C3D127D78398B92FC5698D719164B3E62B1B7185F1; fix110/physical/injection.txt/run.log/cap.png. Own 960×640 window, no scheduled releases/fixed step. Physical Space 30ms, pointer 10ms. Opens, UNEQUIP/EQUIP, SELL frame 653 pays2→10002, cancel unchanged, confirmed BUY frame 952 costs 300→9702, Back frame 1012 closes, Space reopens stock 81/gold 9702. Final inventory boots/gloves/sword+merchant-83-ClothArmor03; StartingSuit absent. Final frozen semantic matrix repeats transactions after the contour-only change.
+Physical proof on the same final frozen EXE: fix110/admission-checks/physical/injection.txt (exit0), run.log/cap.ppm. Own960×640 window, no scheduled releases/fixed step. Physical Space30ms, pointer10ms: SELL tab9s, equipped SELL10s produces no transaction, UNEQUIP11s (frame619), SELL12s succeeds (frame678) pays2→10002. BUY cancel15s unchanged; confirm17s (frame977) costs300→9702; Back18s closes; Space19s reopens stock81/gold9702. Final saved inventory boots/gloves/sword+merchant-83-ClothArmor03, equipment3, StartingSuit absent. Continue reload case verifies this same resulting profile state (its copied seed was the prior physical save with identical gold/items/equipment).
+
+Superseded receipts remain preserved: frozen-ok/final-checks and frozen-final/physical allowed equipped sales or ordinary full-capacity BUY confirmation. They are not source-admission passes. Native model result3 and whole-transfer unequip tests remain valid defensive logic; normal UI prevents those calls for the reviewed cases.
 
 Visually inspected original sequence and quiet 1200×720/960×640 captures: orange tabs, categories/row symbols, comparison/paperdoll and original VALUE/TOTAL GOLD chrome; error 2/3 show both lines. Preserved early failed receipts (give-all stock 312, missing preview anchor, newline failure and narrow OK); they are not final passes. Frontend Continue actions are injected controller actions, not physical frontend clicks/natural travel.
 
@@ -81,7 +85,7 @@ Visually inspected original sequence and quiet 1200×720/960×640 captures: oran
 
 **Matches video:** merchant screen structure/navigation, active tabs, equipment comparison and immediate individual sales. Production interaction now opens/trades/closes; no longer helper-only.
 
-**Matches IDA/authored callers:** bare prices, one unit, stock/buyback distinction, failure order/capacity, empty-only weighted refill, equipment transfer, BUY confirm/SELL immediate, maximum loop, SELL update gate, error admission/newline consumer and player-only save ownership.
+**Matches IDA/authored callers:** bare prices, one unit, stock/buyback distinction, native failure order/capacity, empty-only weighted refill, equipment transfer, BUY confirm/SELL immediate, selected/paired equipped-sale admission, full-capacity ordinary BUY admission, maximum loop, SELL update gate, error admission/newline consumer and player-only save ownership.
 
 **Not verified/inherited gaps:** InventoryItem lacks generated powers; bare stock cannot reproduce purple names/powered prices/stats, exact roster or power RNG consumption. Hard/VeryHard variant conversion is not implemented/tested. Original trophy counters/transaction sounds not added; silent runs do not prove audio. EXE covers Warrior/Swamp only; other classes/merchants, inactive-set-only sale, empty-all-stock production refill, active quest admission and same-level checkpoint retention source/model-audited but not staged. Exact paper doll animation/drag/version/pixel parity unproven. Natural campaign travel and physical frontend Continue untested. NPC reaction/CharacterEvent5 outside B110.
 
