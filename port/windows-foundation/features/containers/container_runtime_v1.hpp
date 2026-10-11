@@ -80,7 +80,13 @@ public:
     // Container::Interact gate order: unknown -> visual -> range -> state 3/4 -> accept.
     // Destructibles: each accepted interaction is one hit (stage clip) until the
     // stage count is used up, then the break starts the activate clip.
-    ContainerInteractResultV1 interact(std::size_t index, const float player_position[3]);
+    // B069: max_distance is the horizontal distance gate; the context button passes infinity after its own
+    // source range rule (interaction_in_range_v1) has been satisfied.
+    ContainerInteractResultV1 interact(std::size_t index, const float player_position[3],
+                                       float max_distance = kContainerInteractRange);
+    // B069: source GameObject::GetInteractionRadius (0x38ad7c): half the smaller horizontal bounding side of
+    // the placed object (visual bounds scaled by the authored placement). 0 when there is no visual.
+    float interaction_radius(std::size_t index) const;
     // Advances activating clips; emits 'opened' (DoOpen) once per break/open.
     bool update(double seconds, std::vector<ContainerEventV1>& events, std::string& error);
 
