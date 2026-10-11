@@ -119,7 +119,8 @@ target_sources(dh2_level_world PRIVATE game_object_stop.cpp character_physics_po
  character_update_script_scheduler.cpp)
 
 target_sources(dh2_level_world PRIVATE character_script_timers.cpp)
-target_sources(dh2_level_world PRIVATE character_enemy_retention.cpp character_target_search.cpp)
+target_sources(dh2_level_world PRIVATE character_enemy_retention.cpp character_target_search.cpp
+ character_target_list_backup_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_master_update.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_update_target.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_melee_range.cpp)
