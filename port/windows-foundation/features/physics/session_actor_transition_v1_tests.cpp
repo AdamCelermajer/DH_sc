@@ -578,11 +578,22 @@ void run_scripted_anim_physical_state(const char* assets){
     check(f.session.original_actor_state(2)==3&&f.session.actor(2)->source_flags520==0x2240u,
           "Played Idle did not preserve CSAnim flags while entering Idle3");
     check(f.session.scripted_actor_pose(2),"Played Idle lost retained source pose");
+    check(!f.session.owns_pose(2),"Suppressed Idle incorrectly blocked ordinary controller admission");
+    const auto held_name=visual->animation_name();
+    for(int frame=0;frame<500;++frame)check(f.session.update(.02,{},Vec3{0,0,0},0,f.error),f.error);
+    check(visual->animation_name()==held_name&&f.session.scripted_actor_pose(2)&&
+          f.session.original_actor_state(2)==3&&f.session.actor(2)->source_flags520==0x2240u,
+          "Clip completion replaced nonblocking suppressed Idle pose/flags");
     check(f.session.select_actor_locomotion(2,"transition-idle",f.error),f.error);
     check(f.session.actor(2)->source_flags520==0x2240u,"Idle alias replaced suppressed source animation");
     check(f.session.select_actor_locomotion(2,"transition-walk",f.error),f.error);
     check(!f.idle_suppressed[2]&&!f.session.scripted_actor_pose(2)&&f.session.original_actor_state(2)==4,
           "New movement failed suppressed Idle departure");
+    check(f.session.play_actor_clip(2,clip.first,clip.second,false,f.error),f.error);
+    f.idle_suppressed[2]=true;check(f.session.script_put_idle(2,f.error,true),f.error);
+    f.idle_suppressed[2]=true;check(f.session.script_put_idle(2,f.error,true),f.error);
+    check(!f.idle_suppressed[2]&&!f.session.scripted_actor_pose(2)&&f.session.actor(2)->source_flags520==0x2380u,
+          "Repeated Idle3->3 did not clear suppression through source Blur");
     check(f.session.play_actor_clip(2,clip.first,clip.second,false,f.error),f.error);
     f.idle_suppressed[2]=false;
     check(f.session.script_put_idle(2,f.error),f.error);
@@ -594,6 +605,23 @@ void run_scripted_anim_physical_state(const char* assets){
     check(f.session.original_actor_state(2)==4&&f.session.actor(2)->source_flags520==0x23c1u,
           "Script movement failed CSAnim14->Move4 handoff");
 }
+void run_suppressed_idle_attack(const char* assets){
+    Fixture f(assets);const auto* visual=f.session.retained_actor_visual_borrow(1);
+    const auto clip=visual->configuration()->clips.front();
+    check(f.session.play_actor_clip(1,clip.first,clip.second,false,f.error),f.error);
+    f.idle_suppressed[1]=true;check(f.session.script_put_idle(1,f.error,true),f.error);
+    const auto held_name=visual->animation_name();
+    check(!f.session.select_actor_locomotion(1,"unbound-alias",f.error),"Invalid alias was admitted");
+    check(f.session.scripted_actor_pose(1)&&visual->animation_name()==held_name&&f.idle_suppressed[1],
+          "Rejected alias mutated source Idle suppression");
+    check(f.session.request_actor_attack(1,2,0.0,f.error),f.error);
+    check(!f.session.scripted_actor_pose(1)&&!f.idle_suppressed[1]&&f.session.original_actor_state(1)==5,
+          "Accepted ordinary attack retained script Idle pose/root ownership");
+    for(int frame=0;frame<500;++frame)check(f.session.update(.02,{},Vec3{0,0,0},0,f.error),f.error);
+    check(f.session.select_actor_locomotion(1,"transition-idle",f.error),f.error);
+    check(!f.session.scripted_actor_pose(1)&&f.session.original_actor_state(1)==3&&
+          f.session.actor(1)->source_flags520==0x2380u,"Ordinary Attack->Idle retained stale scripted suppression");
+}
 int main(int argc,char** argv){try{
     check(argc==2,"Supply original shared asset root");
     run_source_player_and_enemy(argv[1]);
@@ -601,6 +629,7 @@ int main(int argc,char** argv){try{
     run_dead_without_physical_receiver(argv[1]);
     run_skill_cast_physical_branches(argv[1]);
     run_scripted_anim_physical_state(argv[1]);
+    run_suppressed_idle_attack(argv[1]);
     std::cout<<"PASS same-Session player/enemy Move/Idle/Attack/Injury/Dead physical projection, source flags/root fact, duplicate suppression and corpse body retention\n";
     return 0;
 }catch(const std::exception& exception){std::cerr<<"FAIL: "<<exception.what()<<'\n';return 1;}}
