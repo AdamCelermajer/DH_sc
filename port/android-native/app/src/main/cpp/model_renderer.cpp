@@ -15647,8 +15647,17 @@ int SpawnOwner::controller_service(void* context,
   }
    float position[3]{};
    if(!native_level_script_position_for_target(request->subject,position)){
-   owner.control_failure_stage=2;return -1;
-  }
+    // GameObject::GetTargetPosition for the Player or an ordinary Character:
+    // its live runtime position (source +0x160).
+    if(request->subject==prince_character.identity()) {
+     std::copy(prince_runtime.subobjects.position,prince_runtime.subobjects.position+3,position);
+    } else if(auto* actor=native_char_ai_actor(request->subject)) {
+     std::copy(actor->position.begin(),actor->position.end(),position);
+     if(actor->spawn_owner&&actor->spawn_owner->runtime_ready)
+      std::copy(actor->spawn_owner->runtime.subobjects.position,
+                actor->spawn_owner->runtime.subobjects.position+3,position);
+    } else {owner.control_failure_stage=2;return -1;}
+   }
    std::copy(position,position+3,response->position);
   return 1;
  }
@@ -33555,7 +33564,9 @@ bool ui_player_enemy_hud_projection(std::uintptr_t identity,
   }
   try{
    view.identity=actor->identity;view.debug_name=actor->name.c_str();
-   view.name_symbol=source_level(actor->properties.resolved[18]);
+   // Property 18 (Name) holds a raw StringManager ID (sheet<<16|string), not
+   // a 24.8 fixed-point value like Level.
+   view.name_symbol=actor->properties.resolved[18];
    view.level=source_level(actor->properties.resolved[19]);
    view.hp_fraction=(float(actor->properties.resolved[36])/256.f)/
                     (float(actor->properties.resolved[38])/256.f);
