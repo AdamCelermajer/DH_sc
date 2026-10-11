@@ -87,6 +87,12 @@ public:
     // B069: source GameObject::GetInteractionRadius (0x38ad7c): half the smaller horizontal bounding side of
     // the placed object (visual bounds scaled by the authored placement). 0 when there is no visual.
     float interaction_radius(std::size_t index) const;
+    // Source ctor38c130: zoned750=1/inZone752=0. The PC loaded-world
+    // registry binds these objects through explicit DisableZoning38c600
+    // (no RoomZone consumer exists yet), rather than guessing inZone=true.
+    void disable_source_zoning(std::size_t index) { slots_.at(index).source_zoned750 = false; }
+    bool source_zoned(std::size_t index) const { return slots_.at(index).source_zoned750; }
+    bool source_in_zone(std::size_t index) const { return slots_.at(index).source_in_zone752; }
     // Advances activating clips; emits 'opened' (DoOpen) once per break/open.
     bool update(double seconds, std::vector<ContainerEventV1>& events, std::string& error);
 
@@ -110,6 +116,7 @@ private:
         std::uint32_t stages = 0;
         std::uint32_t remaining = 0;
         bool dirty = false;
+        bool source_zoned750 = true, source_in_zone752 = false;
     };
     std::vector<Slot> slots_;
     std::vector<ContainerEventV1> pending_;  // events raised by interact (break without an activate clip)

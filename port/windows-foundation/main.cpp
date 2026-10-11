@@ -62,6 +62,7 @@
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "../script-runtime/script_constants.hpp"
 #include "../level-world/character_kill.hpp"
+#include "../level-world/character_path_commands.hpp"
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
 // P16 QUESTS: thin quest runtime and the generic quest event bus (raise_quest_event).
 #include "features/quest_runtime/quest_runtime_v1.hpp"
@@ -85,6 +86,7 @@
 #include "features/containers/container_loot_v1.hpp" // P16 CONTAINERS2 (T4 DoOpen loot)
 #include "features/containers/container_open_script_v1.hpp" // P16 CONTAINERS2 (T6 OnOpen: authored Lua via the script runtime)
 #include "features/companions/catch_up_buff_v1.hpp" // v20 GENERAL: follower catch-up buff from the authored AI script
+#include "features/interactions/world_object_container_state_v1.hpp"
 #include "features/containers/container_world_v1.hpp" // P16 CONTAINERS2 (T5 OBJS persistence)
 #include "features/despawn/despawn_after_death_v1.hpp" // P16 DESPAWN (automatic despawn after death)
 #include "features/quest_runtime/quest_zones_v1.hpp" // P16 QUESTUI: quest trigger zones
@@ -433,6 +435,8 @@ struct Options {
     int testStatPoints=0,testSkillPoints=0; // B103 TEST ONLY\r
     float testPlayerHealth=0.f; // I024 TEST ONLY: --test-player-hp N[@FRAME] sets the local Character HP at FRAME (inert unless passed)
     int testPlayerHealthFrame=0;
+    f::ActorId testSkillOldTarget=0;int testSkillOldTargetFrame=-1; // isolated Character408 field fixture, default inert
+    f::ActorId testEnemyInjuryActor=0;int testEnemyInjuryRating=0; // B083 isolated source-formula branch fixture, default inert
     f::Vec3 actorPosition{};
     std::optional<f::CameraVec3> focus;
     float distance = 0;
@@ -624,6 +628,14 @@ Options parse(int argc, char** argv) {
             o.testPlayerHealth=std::stof(text.substr(0,at));
             if(at!=std::string::npos)o.testPlayerHealthFrame=std::stoi(text.substr(at+1));
             if(!std::isfinite(o.testPlayerHealth)||o.testPlayerHealth<=0.f||o.testPlayerHealthFrame<0)throw std::runtime_error("Test player HP must be N or N@FRAME with positive N");
+        }
+        else if(arg=="--test-skill-old-target") {
+            const auto input=pair(value());o.testSkillOldTarget=std::stoull(input.first);o.testSkillOldTargetFrame=std::stoi(input.second);
+            if(!o.testSkillOldTarget||o.testSkillOldTargetFrame<0)throw std::runtime_error("Test skill old target must be ACTOR_ID=FRAME");
+        }
+        else if(arg=="--test-enemy-injury-rating") {
+            const auto input=pair(value());o.testEnemyInjuryActor=std::stoull(input.first);o.testEnemyInjuryRating=std::stoi(input.second);
+            if(!o.testEnemyInjuryActor||o.testEnemyInjuryRating<0||o.testEnemyInjuryRating>100)throw std::runtime_error("Test enemy Injury must be ACTOR_ID=0..100");
         }
         else if(arg=="--combat-marker") {auto c=pair(value());o.combat.profiles[c.first].damageMarkerNames.push_back(c.second);}
         else if(arg=="--combat-ai-gate") {auto c=pair(value());o.combat.profiles[c.first].requiredAIState=c.second;}
@@ -5171,6 +5183,23 @@ int main(int argc,char** argv) {
                 std::uint32_t delay=0;if(!attackDelay(event.actor,delay,e))return false;
                 if(delay)contextFor(event.actor).attackTimerMs=delay;return true;
             };
+            config.source.injured_blur_look_at=[&](const auto& event,std::string& e) {
+                // CSInjured3c4ba4 -> Cmd_LookAt4052bc: actual controller gates,
+                // Character target408; Ctrl_LookAt3ad9ac permits null.
+                if(globalControllerBlocked||characterControllerBlocked[event.actor]){e.clear();return true;}
+                auto* owner=combatSession->actor(event.actor);
+                if(!owner){e="Injured Blur lost same-session actor";return false;}
+                const auto* target=combatSession->actor(owner->target_id);
+                std::cout<<"Source Injured Blur actor="<<event.actor<<" target408="<<owner->target_id<<" state="<<event.from_state<<"->"<<event.to_state<<'\n';
+                if(owner->target_id==f::invalid_actor_id){e.clear();return true;}
+                if(!target){e="Injured Blur source target408 is stale";return false;}
+                const float* point=(target->source_target_node180&&*target->source_target_node180&&target->source_target_position184)?target->source_target_position184->data():target->transform.position.data();
+                dh2::character::LookAtState16 look{{owner->transform.position[0],owner->transform.position[1],owner->transform.position[2]},owner->transform.rotation[2]};
+                if(dh2_character_look_at_point(&look,point)){e="Injured Blur source LookAt failed";return false;}
+                owner->transform.rotation[2]=look.heading_angle;
+                if(event.actor==combatSession->player_id()&&motor)motor->setFacingRadians(look.heading_angle);
+                e.clear();return true;
+            };
             config.source.skill_focus_moving_byte=[&](const auto& event,bool& moving,std::string& e) {
                 const auto* receipt=skillCastCoordinator?skillCastCoordinator->receipt(event.actor):nullptr;
                 const auto rows=menuSourceOwner.skill_owner->borrow();
@@ -5180,7 +5209,11 @@ int main(int argc,char** argv) {
                 moving=(rows.skills()[std::size_t(receipt->skill_table_id)].scalar.words[2]&0xff)!=0;e.clear();return true;
             };
             config.source.skill_focus_gate528=[contextFor](const auto& event,bool moving,std::string& e) {
-                auto& gate=contextFor(event.actor).gate528;gate=(gate&~0x140u)|(moving?0x100u:0u);e.clear();return true;
+                auto& gate=contextFor(event.actor).gate528;
+                if(event.stage==f::CombatSessionTransitionStage::focus_prefix)gate&=~0x140u;
+                else if(event.stage==f::CombatSessionTransitionStage::focus_suffix){if(moving)gate|=0x100u;}
+                else {e="Skill gate528 requires actual Focus prefix/suffix stage";return false;}
+                e.clear();return true;
             };
             config.source.skill_blur_timer10_event48=[contextFor](const auto& event,bool& started,std::string& e) {
                 auto& context=contextFor(event.actor);started=(context.gate528&0x100u)!=0;
@@ -6132,6 +6165,19 @@ int main(int argc,char** argv) {
             // I024 DEATH: source _CheckLocalDeaths gate (IsDead of the local Character, Level READY, PlayerManager phase)
             // and the 30 fps death-UI clock on wall time (the UI is not paused by gameplay). Runs before the pause decision
             // so a death freezes gameplay on the same frame.
+            if(options.testEnemyInjuryActor&&drawn==0) {
+                auto* world=combatSession?combatSession->world():nullptr;
+                const auto* current=world?world->combat_properties(options.testEnemyInjuryActor):nullptr;
+                const auto* traits=world?world->traits(options.testEnemyInjuryActor):nullptr;
+                if(!current||!traits||traits->is_player)throw std::runtime_error("Injury fixture needs existing nonplayer source owner");
+                auto props=*current;
+                // Explicit isolated resolved-formula fixture, matching the
+                // source incoming-receiver test. These are the genuine
+                // F_MeleeAttack inputs, not synthesized outcome bits or state.
+                props.sheets.resolved[135]=props.sheets.resolved[182]=options.testEnemyInjuryRating*256;
+                if(!world->update_combat_properties(options.testEnemyInjuryActor,std::move(props),*traits,error))throw std::runtime_error("Source Injury fixture: "+error);
+                std::cout<<"Test source Injury actor="<<options.testEnemyInjuryActor<<" rating="<<options.testEnemyInjuryRating<<" cells=135,182; real enemy attack/result gates retained\n";
+            }
             if(options.testPlayerHealth>0.f&&drawn==options.testPlayerHealthFrame) applyTestPlayerHealth(); // I024 TEST ONLY
             if(options.testPlayerHealth>0.f&&combatSession&&drawn%50==0) { // I024 TEST ONLY: nearest enemy trace for the fixture
                 const auto* me=combatSession->actor(combatSession->player_id());
@@ -6643,12 +6689,18 @@ int main(int argc,char** argv) {
                     throw std::runtime_error("Source preferred target: "+error);
                 std::cout<<"Source target command frame="<<drawn<<" actor="<<combatSession->player_id()<<" selected="<<selected<<" serial="<<combatSession->update_serial()<<std::endl;
             }
+            if(combatSession&&options.testSkillOldTarget&&int(drawn)==options.testSkillOldTargetFrame) {
+                if(!combatSession->set_source_target(combatSession->player_id(),options.testSkillOldTarget,false,error))throw std::runtime_error("Source old-target fixture: "+error);
+                std::cout<<"Test source Character408 frame="<<drawn<<" target="<<options.testSkillOldTarget<<" state="<<combatSession->original_actor_state(combatSession->player_id())<<'\n';
+            }
             if(!gameplayPaused&&!playerControllerBlocked&&combatSession&&skillCastCoordinator)for(unsigned pcKeyIndex=0;pcKeyIndex<3;++pcKeyIndex)if(uiInput.skills[pcKeyIndex].pressed) {
                 std::uint32_t slot=0;
                 if(!f::generic_skills::pc_skill_number_to_source_slot_v1(pcKeyIndex+1,slot,error))throw std::runtime_error("PC skill mapping: "+error);
                 const auto* livePlayer=combatSession->actor(combatSession->player_id());
                 state.stats.health=livePlayer->health;state.stats.max_health=livePlayer->max_health;
                 state.stats.resource=livePlayer->resource;state.stats.max_resource=livePlayer->max_resource;
+                const auto castAdmissionState=combatSession->original_actor_state(combatSession->player_id());
+                const auto castAdmissionAction=livePlayer->action;
                 f::generic_skills::RuntimeSkillCastReceiptV1 receipt;std::string castError;
                 if(!skillAnimationBank||!menuSourceOwner.valid())castError="Selected profile has no initialized source skill bank";
                 else {
@@ -6674,7 +6726,62 @@ int main(int argc,char** argv) {
                                 // no separately activated zone owner exists in this scope.
                                 request.target_facts.push_back({placed.definition.stableId,placed.enabled,false,false,true,targetTraits&&targetTraits->targetable});
                             }
-                            request.non_character_attackable_objects_absent=combatSession->world()->objects().empty();
+                            f::generic_skills::SkillObjectTargetArmV1 objectTargets;
+                            for(const auto& definition:population.definitions()) {
+                                const auto id=definition.stableId;
+                                if(combatSession->actor(id)||combatSession->world()->find_object(id))objectTargets.registry_order.push_back(id);
+                                if(combatSession->world()->find_object(id))objectTargets.authored_order.push_back(id);
+                            }
+                            objectTargets.facts=[&](const f::WorldObject& object,f::ActorId,
+                                f::generic_skills::SkillObjectTargetFactsV1& facts,std::string& e) {
+                                for(std::size_t ci=0;ci<containerRuntime.size();++ci)if(containerRuntime.instance(ci).stableId==object.id) {
+                                    // Container IsZonable39f534 -> MeetCondition38ab60=true.
+                                    // The same typed runtime owns explicit DisableZoning during
+                                    // no-room world enrollment; inspect its actual stored fields.
+                                    f::interactions::SourceContainerObjsFieldsV1 fields;
+                                    if(!f::interactions::read_source_container_objs_v1(object,fields,e))return false;
+                                    facts.visible=fields.visible80!=0;facts.zonable=true;facts.zoned=containerRuntime.source_zoned(ci);facts.in_zone=containerRuntime.source_in_zone(ci);
+                                    facts.interactive=containerRuntime.state(ci)==f::containers::kContainerStateIdle;
+                                    facts.interaction_type=containerRuntime.interaction_type(ci);
+                                    facts.interaction_radius=containerRuntime.interaction_radius(ci);
+                                    e.clear();return true;
+                                }
+                                for(std::size_t li=0;li<leverRuntime.size();++li)if(leverRuntime.instance(li).stableId==object.id) {
+                                    facts.interaction_type=leverRuntime.instance(li).interaction_type;
+                                    if(*facts.interaction_type==8){e="Attackable TriggerObject lacks complete live CanActivate query/Interact owner";return false;}
+                                    e.clear();return true;
+                                }
+                                const auto* definition=sourceObjects.definition(object.id);
+                                if(definition&&(definition->gametype=="Door"||definition->gametype=="AnimatedDecor"||definition->gametype=="Dummy"||definition->gametype=="Trigger"||definition->gametype=="TriggerZone"||definition->gametype=="TriggerZoneExitLevel"||definition->gametype=="QuestMoveInZone")) {
+                                    // Default GameObject GetInteractionType38ad74=-1.
+                                    // Typed nonattackable persistence entries cannot enter filter0.
+                                    facts.interaction_type=-1;e.clear();return true;
+                                }
+                                e="Skill object query lacks its same-world typed source owner: "+object.name;return false;
+                            };
+                            objectTargets.interact=[&](f::CombatSession& session,f::ObjectId id,f::ActorId caster,std::string& e) {
+                                const auto* actor=session.actor(caster);
+                                if(!actor||!session.world()->find_object(id)){e="Skill object Interact lost its same-world owner";return false;}
+                                for(std::size_t ci=0;ci<containerRuntime.size();++ci)if(containerRuntime.instance(ci).stableId==id) {
+                                    if(containerRuntime.interaction_type(ci)!=8){e.clear();return true;} // source Use rechecks vt144
+                                    const auto r=containerRuntime.interact(ci,actor->transform.position.data(),std::numeric_limits<float>::infinity());
+                                    std::cout<<"Source skill object Interact id="<<id<<" declaration="<<containerRuntime.instance(ci).name<<" status="<<f::containers::container_status_name(r.status)<<" frame="<<drawn<<'\n';
+                                    if(r.status==f::containers::ContainerInteractStatusV1::hit||r.status==f::containers::ContainerInteractStatusV1::accepted) {
+                                        const auto& at=containerRuntime.instance(ci).transform;
+                                        f::audio::WorldItemSoundResultV1 sound;std::string soundError;
+                                        if(r.sound_id>=0&&runtimeAudio&&!runtimeAudio->submit_world_item_sound(r.sound_id,{at[12],at[13],at[14]},sound,soundError))std::cout<<"Skill container sound: "<<soundError<<'\n';
+                                    }
+                                    return f::containers::persist_container_world_state_v1(*session.world(),containerRuntime,e);
+                                }
+                                e="Skill object Interact lacks its source container consumer";return false;
+                            };
+                            request.object_targets=&objectTargets;
+                            request.downstream_animation_services.focused=[&](f::ActorId id,std::string& e) {
+                                const auto* caster=combatSession->actor(id);const auto* pre=skillCastCoordinator->receipt(id);
+                                std::cout<<"Source skill Pre frame="<<drawn<<" actor="<<id<<" oldtarget408="<<caster->target_id<<" heading="<<caster->transform.rotation[2]<<" targets=";
+                                if(pre)for(const auto target:pre->target_order)std::cout<<target<<',';
+                                std::cout<<" MP="<<state.stats.resource<<'\n';e.clear();return true;
+                            };
                             request.downstream_animation_services.event=[&](f::ActorId id,const f::RetainedAnimationEvent& event,std::string&) {
                                 if(event.name!="do_skill")return true;
                                 const auto* caster=combatSession->actor(id);
@@ -6692,7 +6799,7 @@ int main(int argc,char** argv) {
                         }
                     }
                 }
-                std::cout<<"Source skill key="<<pcKeyIndex+1<<" slot="<<slot<<" frame="<<drawn<<" generation="<<receipt.generation<<" phase="<<int(receipt.phase)<<" skill="<<receipt.skill_name<<" MP="<<state.stats.resource<<" diagnostic="<<castError<<'\n';
+                std::cout<<"Source skill key="<<pcKeyIndex+1<<" slot="<<slot<<" frame="<<drawn<<" admissionState="<<castAdmissionState<<" admissionAction="<<int(castAdmissionAction)<<" generation="<<receipt.generation<<" phase="<<int(receipt.phase)<<" skill="<<receipt.skill_name<<" MP="<<state.stats.resource<<" diagnostic="<<(castError.empty()?receipt.detail:castError)<<'\n';
             }
             if(!gameplayPaused&&!playerControllerBlocked&&uiInput.spell.pressed&&combatSession&&skillCastCoordinator) {
                 std::string castError;f::generic_skills::RuntimeSkillCastReceiptV1 receipt;
@@ -6743,7 +6850,7 @@ int main(int argc,char** argv) {
                         }
                     }
                 }
-                std::cout<<"Source Faery key=4 frame="<<drawn<<" slot="<<selected.faery_slot<<" sequence="<<selected.animation_sequence_id<<" generation="<<receipt.generation<<" phase="<<int(receipt.phase)<<" MP="<<state.stats.resource<<" diagnostic="<<castError<<'\n';
+                std::cout<<"Source Faery key=4 frame="<<drawn<<" slot="<<selected.faery_slot<<" sequence="<<selected.animation_sequence_id<<" generation="<<receipt.generation<<" phase="<<int(receipt.phase)<<" MP="<<state.stats.resource<<" diagnostic="<<(castError.empty()?receipt.detail:castError)<<'\n';
             }
             if(!gameplayPaused&&!playerControllerBlocked&&combatSession&&uiInput.potion.pressed) {
                 f::inventory::RuntimePotionUseReceiptV1 receipt;std::string potionError;
@@ -7124,6 +7231,11 @@ int main(int argc,char** argv) {
                     std::cout<<"Source combo boundary frame="<<drawn<<" actor="<<boundary.actor<<" generation="<<boundary.generation<<" begin="<<boundary.beginning<<" depth="<<boundary.depth<<" step="<<boundary.step<<" count="<<boundary.count<<" clip="<<boundary.source_clip<<'\n';
                 for(const auto& event:combatSession->events()) {
                     std::cout<<"Damage frame="<<drawn<<" attacker="<<event.attacker<<" target="<<event.target<<" marker="<<event.marker_name<<" removed="<<event.health_removed<<" dead="<<event.target_died<<'\n';
+                    if(options.testEnemyInjuryActor&&event.attacker==options.testEnemyInjuryActor) {
+                        const auto* props=combatSession->world()->combat_properties(event.attacker);
+                        const auto* defender=combatSession->world()->combat_properties(event.target);
+                        std::cout<<"Test Injury result frame="<<drawn<<" outcomes="<<event.source_outcomes.value_or(0)<<" mask="<<event.source_mask.value_or(0)<<" targetState="<<combatSession->original_actor_state(event.target)<<" cells="<<(props?props->sheets.resolved[135]:-1)<<','<<(props?props->sheets.resolved[182]:-1)<<" levels="<<(props?props->sheets.resolved[19]:-1)<<','<<(defender?defender->sheets.resolved[19]:-1)<<" resist134="<<(defender?defender->sheets.resolved[134]:-1)<<'\n';
+                    }
                     if(const auto* sourceAttack=combatSession->source_attack_state(event.attacker))
                         std::cout<<"Source combo hit frame="<<drawn<<" actor="<<event.attacker<<" index="<<sourceAttack->index<<" last="<<sourceAttack->last<<" continued="<<sourceAttack->continued<<'\n';
                 }

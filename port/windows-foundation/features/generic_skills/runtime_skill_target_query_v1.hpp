@@ -20,9 +20,24 @@ struct SkillTargetSourceFactsV1 {
     std::optional<bool> interactive;
 };
 
+// The object registry and typed source owner are borrowed synchronously. Unknown
+// reached predicates reject; no Character sheets or IDs are fabricated.
+struct SkillObjectTargetFactsV1 {
+    std::optional<bool> visible, zonable, zoned, in_zone, interactive;
+    std::optional<int> interaction_type;
+    std::optional<float> interaction_radius;
+};
+struct SkillObjectTargetArmV1 {
+    std::vector<ObjectId> authored_order;
+    std::vector<ObjectId> registry_order; // actual mixed actor/object enrollment order, when supplied
+    std::function<bool(const WorldObject&, ActorId, SkillObjectTargetFactsV1&, std::string&)> facts;
+    std::function<bool(CombatSession&, ObjectId, ActorId, std::string&)> interact;
+};
+
 enum class SkillActorTargetQueryStatusV1 : unsigned char {
     unavailable,
     selected_character,
+    selected_object,
     no_actor_target,
     non_character_target_unknown
 };
@@ -38,6 +53,8 @@ struct SkillActorTargetQueryV1 {
     ActorId caster = invalid_actor_id;
     ActorId selected = invalid_actor_id;
     std::vector<ActorId> ordered_character_targets;
+    std::vector<ObjectId> ordered_targets; // exact mixed source heap pop order
+    std::vector<ObjectId> ordered_object_targets;
     float selected_distance = 0.0f;
     float selected_angle = 0.0f;
     float look_at_heading = 0.0f;
@@ -49,7 +66,7 @@ struct SkillActorTargetQueryV1 {
 // FrontalFirst, RANGE=160 TargetListSearch over the same generic Session.
 // `authored_actor_order` is the active actor order from the caller's source
 // population, not an ActorId sort. Non-character destructible objects are not
-// represented by PlayableActorWorld; if there are no eligible character rows,
+// represented by this legacy Character-only query; if there are no eligible character rows,
 // the caller must establish that no AttackableOnly object can be selected
 // before treating the source Lua local as nil.
 bool query_bashdown_character_targets_v1(
@@ -59,7 +76,7 @@ bool query_bashdown_character_targets_v1(
     std::optional<bool> non_character_attackable_objects_absent,
     SkillActorTargetQueryV1&, std::string& error);
 
-// General source TargetListSearch Character subset. `sort` follows the
+// General source TargetListSearch; optional typed arm includes real world objects. `sort` follows the
 // original heap values (0 NoSort, 1 ClosestFirst, 2 FrontalFirst); cone is in
 // radians and a value >= pi preserves the full authored radius. It uses the
 // same active population order and same source property/AI facts as BashDown.
@@ -69,7 +86,8 @@ bool query_source_character_targets_v1(
     const std::vector<SkillTargetSourceFactsV1>& source_facts,
     std::optional<bool> non_character_attackable_objects_absent,
     float range, float cone_radians, SkillTargetSortV1 sort,
-    SkillActorTargetQueryV1&, std::string& error);
+    SkillActorTargetQueryV1&, std::string& error,
+    const SkillObjectTargetArmV1* objects = nullptr);
 
 // Source GameObject::LookAt(Point) leaf on this same session actor. This does
 // not write ActorState::target_id: BashDown keeps its selected target in a Lua

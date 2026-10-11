@@ -34,13 +34,17 @@ struct SessionActorTransitionProvidersV1 {
     std::function<bool(const CombatSessionActorTransition&, std::string&)> attack_focus_delay_gate;
     std::function<bool(const CombatSessionActorTransition&, std::string&)> attack_blur_delay_timer;
 
+    // CSInjured OnBlur3c4ba4 -> Cmd_LookAt(Character408), including null.
+    std::function<bool(const CombatSessionActorTransition&, std::string&)> injured_blur_look_at;
+
     // Skill6 joins the current coordinator receipt's actor+generation to its
     // actual SkillTable row and returns scalar.words[2]&0xff; it must fail if
     // that same source row/owner is unavailable.
     std::function<bool(const CombatSessionActorTransition&, bool& moving_byte,
                        std::string&)> skill_focus_moving_byte;
-    // Same live Character+0x528 owner; apply exactly
-    // (gate & ~0x140) | (moving_byte ? 0x100 : 0).
+    // Same live Character+0x528 owner. focus_prefix clears bits0x140
+    // before OnPre (moving_byte=false); focus_suffix, after animation,
+    // ORs bit0x100 iff the actual moving byte is true.
     std::function<bool(const CombatSessionActorTransition&, bool moving_byte,
                        std::string&)> skill_focus_gate528;
     // After modern route release and Stop, read that same gate528 bit0x100.

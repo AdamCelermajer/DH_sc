@@ -226,7 +226,8 @@ bool query_source_character_targets_v1(
     const std::vector<SkillTargetSourceFactsV1>& source_facts,
     std::optional<bool> non_character_attackable_objects_absent,
     float range, float cone_radians, SkillTargetSortV1 sort,
-    SkillActorTargetQueryV1& output, std::string& error) {
+    SkillActorTargetQueryV1& output, std::string& error,
+    const SkillObjectTargetArmV1* objects) {
     output = {};
     error.clear();
     if (!std::isfinite(range) || range < 0.0f || !std::isfinite(cone_radians) ||
@@ -303,24 +304,81 @@ bool query_source_character_targets_v1(
         source_push(heap, {id, distance, angle, 1u, static_cast<std::uint32_t>(sort)});
     }
 
+    if (objects) {
+        if (!objects->facts || objects->authored_order.size() != world->objects().size())
+            return fail(error, "Source object query requires complete same-world typed registry facts/order");
+        std::set<ObjectId> seen_objects;
+        for (const auto id : objects->authored_order) {
+            const auto* object = world->find_object(id);
+            if (!object || !seen_objects.insert(id).second)
+                return fail(error, "Source object query contains stale or duplicate identity");
+            SkillObjectTargetFactsV1 facts;
+            if (!objects->facts(*object, caster_id, facts, error)) return false;
+            // GetInteractionType is a pure typed admission fact. A proven
+            // non8 can never enter AttackableOnly regardless of earlier gates;
+            // do not demand unavailable zone data for this excluded domain.
+            if (facts.interaction_type && *facts.interaction_type != 8) continue;
+            if (!facts.visible) return fail(error, "Reached object visible field is unknown");
+            if (!*facts.visible) continue;
+            if (!facts.zonable) return fail(error, "Reached object IsZonable result is unknown");
+            if (*facts.zonable) {
+                if (!facts.zoned) return fail(error, "Reached object zoned field is unknown");
+                if (*facts.zoned) {
+                    if (!facts.in_zone) return fail(error, "Reached object in-zone field is unknown");
+                    if (!*facts.in_zone) continue;
+                }
+            }
+            if (!facts.interactive) return fail(error, "Reached object IsInteractive result is unknown");
+            if (!*facts.interactive) continue;
+            if (!facts.interaction_type) return fail(error, "Reached object interaction type is unknown");
+            if (*facts.interaction_type != 8) continue;
+            if (!facts.interaction_radius || !std::isfinite(*facts.interaction_radius) || *facts.interaction_radius < 0)
+                return fail(error, "Reached object interaction radius is unknown/invalid");
+            const auto* origin = source_target_position(*caster);
+            const auto& point = object->transform.position;
+            const float delta[3] = {source_sub(point[0], origin[0]), source_sub(point[1], origin[1]), source_sub(point[2], origin[2])};
+            const float distance = source_sub(source_sub(source_length(delta), *facts.interaction_radius), source_radius);
+            if (distance > range) continue;
+            const float angle = source_angle(delta, look);
+            if (cone_radians < 3.1415927410125732421875f && cone_radians < angle) continue;
+            source_push(heap, {id, distance, angle, 0u, static_cast<std::uint32_t>(sort)});
+        }
+    }
+
+    if (objects && !objects->registry_order.empty()) {
+        // Rebuild in genuine mixed enrollment order so NoSort and heap ties
+        // retain the same intrusive-registry insertion semantics.
+        std::map<ObjectId,Candidate> admitted;
+        for(const auto& candidate:heap)admitted.emplace(candidate.id,candidate);
+        heap.clear();std::set<ObjectId> registry_seen;
+        for(const auto id:objects->registry_order) {
+            if(!id||!registry_seen.insert(id).second)return fail(error,"Source mixed registry order contains invalid/duplicate identity");
+            const auto found=admitted.find(id);
+            if(found!=admitted.end()){source_push(heap,found->second);admitted.erase(found);}
+        }
+        if(!admitted.empty())return fail(error,"Source mixed registry order omits an admitted target");
+    }
     SkillActorTargetQueryV1 next;
     next.caster = caster_id;
     next.source_character_order_preserved = sort == SkillTargetSortV1::source_order;
     Candidate selected_candidate{};
     while (!heap.empty()) {
         const auto current = source_pop(heap);
-        if (next.ordered_character_targets.empty()) selected_candidate = current;
-        next.ordered_character_targets.push_back(current.id);
+        if (next.ordered_targets.empty()) selected_candidate = current;
+        next.ordered_targets.push_back(current.id);
+        if (current.flags & 1u) next.ordered_character_targets.push_back(current.id);
+        else next.ordered_object_targets.push_back(current.id);
     }
-    if (next.ordered_character_targets.empty()) {
-        next.status = non_character_attackable_objects_absent && *non_character_attackable_objects_absent
+    if (next.ordered_targets.empty()) {
+        next.status = objects || (non_character_attackable_objects_absent && *non_character_attackable_objects_absent)
             ? SkillActorTargetQueryStatusV1::no_actor_target
             : SkillActorTargetQueryStatusV1::non_character_target_unknown;
         output = std::move(next);
         error.clear();
         return true;
     }
-    next.status = SkillActorTargetQueryStatusV1::selected_character;
+    next.status = selected_candidate.flags & 1u ? SkillActorTargetQueryStatusV1::selected_character
+                                               : SkillActorTargetQueryStatusV1::selected_object;
     next.selected = selected_candidate.id;
     next.selected_distance = selected_candidate.distance;
     next.selected_angle = selected_candidate.angle;
@@ -333,16 +391,18 @@ bool look_at_bashdown_target_v1(CombatSession& session,
                                 SkillActorTargetQueryV1& query,
                                 std::string& error) {
     error.clear();
-    if (query.status != SkillActorTargetQueryStatusV1::selected_character ||
+    if ((query.status != SkillActorTargetQueryStatusV1::selected_character &&
+         query.status != SkillActorTargetQueryStatusV1::selected_object) ||
         query.caster == invalid_actor_id || query.selected == invalid_actor_id)
         return fail(error, "BashDown LookAt requires a selected character target from its source query");
     auto* world = session.world();
     auto* caster = session.actor(query.caster);
     const auto* target = session.actor(query.selected);
-    if (!world || !caster || !target || caster != world->find_actor(query.caster) ||
-        target != world->find_actor(query.selected))
+    const auto* object = world ? world->find_object(query.selected) : nullptr;
+    if (!world || !caster || (!target && !object) || caster != world->find_actor(query.caster) ||
+        (target && target != world->find_actor(query.selected)))
         return fail(error, "BashDown LookAt actors no longer belong to the same Session world");
-    const float* target_point = source_target_position(*target);
+    const float* target_point = target ? source_target_position(*target) : object->transform.position.data();
     dh2::character::LookAtState16 look{{caster->transform.position[0], caster->transform.position[1],
                                        caster->transform.position[2]}, caster->transform.rotation[2]};
     if (dh2_character_look_at_point(&look, target_point))

@@ -30,7 +30,8 @@ enum class SkillManaPrepareStatusV1 : unsigned char {
     insufficient_mana,
     mana_bypass,
     mana_committed,
-    provider_failure_after_mana_commit
+    provider_failure_after_mana_commit,
+    mana_check_passed
 };
 
 struct SkillManaPrepareResultV1 {
@@ -63,14 +64,16 @@ bool resolve_assigned_skill_position_v1(
 
 // Resolve one exact source SkillList position and execute the authored
 // HasMana/UseMana property41 prefix over the existing session actor's property
-// state. It does not search targets or execute SkillCombatRoll, so a committed
-// mana result is preparation, never a completed cast receipt.
+// state. check_only executes the readonly OnSkillCheck HasMana prefix;
+// UseMana remains a later source Focus/Pre consumer. It does not search
+// targets or execute SkillCombatRoll, so a committed mana result is
+// preparation, never a completed cast receipt.
 bool prepare_skill_cast_mana_v1(
     CharacterState&, CombatSession&, ActorId,
     const dh2::data::CharacterTable&, dh2::data::SkillTables::Borrow,
     const dh2::data::ClassTables&, const dh2::data::PropertyRules&,
     int class_skill_position, const std::string& authored_class_table_token,
     const SkillManaSourceFactsV1&, SkillManaPrepareResultV1&,
-    std::string& error);
+    std::string& error, bool check_only = false);
 
 } // namespace dh::foundation::generic_skills

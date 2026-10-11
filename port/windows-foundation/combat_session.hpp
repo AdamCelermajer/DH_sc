@@ -147,6 +147,10 @@ struct CombatSessionStateAnimationServices {
     // Retained after generic completion/departure: transient cooldown owners
     // must reject checkpoints while a timer cannot be persisted faithfully.
     std::function<bool(std::string&)> checkpoint;
+    // Synchronous source OnFocus/Pre consumer after accepted outgoing Blur and
+    // incoming prefix, before selecting the new animation. Invoked once and
+    // retired immediately; never retained with the animation callbacks.
+    std::function<bool(ActorId,std::string&)> focused;
 };
 struct CombatSessionSourceSequencePolicy {
     std::int32_t original_state=-1; // Audited Skill6, Cast7 or KnockedBack10.

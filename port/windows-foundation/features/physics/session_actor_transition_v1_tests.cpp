@@ -56,7 +56,7 @@ struct Fixture {
     std::shared_ptr<enemy_ai::RuntimeEnemyNavigationV1> navigation;
     std::shared_ptr<SessionActorTransitionConsumerV1> consumer;
     std::vector<std::string> calls;
-    std::size_t dead_filter_calls=0,dead_reset_calls=0,attack_gate_calls=0,attack_timer_calls=0;
+    std::size_t dead_filter_calls=0,dead_reset_calls=0,attack_gate_calls=0,attack_timer_calls=0,injured_blur_calls=0;
     std::optional<bool> attack_root_moving;
     std::map<ActorId,std::uint32_t> source_gate528;
     std::uint64_t active_skill_generation=0;
@@ -212,6 +212,7 @@ struct Fixture {
             calls.push_back("attack-focus-gate:"+std::to_string(event.actor));return true;};
         consumer_config.source.attack_blur_delay_timer=[&](const CombatSessionActorTransition& event,std::string&){
             ++attack_timer_calls;calls.push_back("attack-blur-timer:"+std::to_string(event.actor));return true;};
+        consumer_config.source.injured_blur_look_at=[&](const auto& event,std::string& detail){++injured_blur_calls;calls.push_back("injured-blur-look-at:"+std::to_string(event.actor));detail.clear();return true;};
         consumer_config.source.skill_focus_moving_byte=[&](const CombatSessionActorTransition& event,bool& value,std::string& detail){
             if(event.actor!=1||event.generation!=active_skill_generation||active_skill_table_id<0||
                static_cast<std::size_t>(active_skill_table_id)>=skill_tables.skills().size()){
@@ -225,7 +226,9 @@ struct Fixture {
             detail.clear();return true;};
         consumer_config.source.skill_focus_gate528=[&](const CombatSessionActorTransition& event,bool moving,std::string& detail){
             if(event.actor!=1||event.generation!=active_skill_generation){detail="Skill gate receipt is stale";return false;}
-            auto& gate=source_gate528[event.actor];gate=(gate&~0x140u)|(moving?0x100u:0u);
+            auto& gate=source_gate528[event.actor];
+            if(event.stage==CombatSessionTransitionStage::focus_prefix)gate&=~0x140u;
+            else if(moving)gate|=0x100u;
             calls.push_back("skill-gate528:"+std::to_string(gate));detail.clear();return true;};
         consumer_config.source.skill_blur_timer10_event48=[&](const CombatSessionActorTransition& event,bool& started,std::string& detail){
             if(event.actor!=1){detail="Skill Blur timer lacks current source actor";return false;}
@@ -419,8 +422,8 @@ void run_attack_injury_dead(const char* assets){
           enemy_observation.pinned==1&&enemy_observation.mass==0.f,
           "Dead12 transition entry changed the actual body's pin/mass state");
     check(f.session.apply_source_result(lethal,dead,f.error)&&!dead.applied,f.error);
-    check(f.dead_filter_calls==1&&f.attack_timer_calls==0,
-          "Duplicate Died occurrence replayed filter/timer effects");
+    check(f.dead_filter_calls==1&&f.attack_timer_calls==0&&f.injured_blur_calls==1,
+          "Injured Blur was lost or duplicate Died occurrence replayed its effects");
     std::cout<<"attack_state=5 flags=0x2341 body_id="<<player_identity
              <<" injury_state=11 flags=0x2b41 death_state=12 flags=0x241 body_id="
              <<enemy_identity<<" dead_filter_calls="<<f.dead_filter_calls
@@ -472,6 +475,10 @@ void run_skill_cast_physical_branches(const char* assets){
             check(id==1&&from==state&&to==3,"Skill/Cast interruption Post received the wrong source transition");
             ++f.skill_source_departed;detail.clear();return true;};
         services.checkpoint=[](std::string& detail){detail.clear();return true;};
+        services.focused=[&f,state](ActorId id,std::string& detail){
+            check(id==1&&f.session.original_actor_state(1)==state,"Source Pre did not observe the published incoming state");
+            if(state==6)check((f.source_gate528.at(1)&0x140u)==0,"Skill Pre observed unreached moving-bit suffix");
+            f.calls.push_back("source-pre:"+std::to_string(state));detail.clear();return true;};
         f.session.actor(1)->action=CharacterAction::casting;
         const CombatSessionSourceSequencePolicy policy{state,state==6?0x6341u:0x6301u,generation};
         check(f.session.play_actor_source_sequence(1,f.player_skill_bank.plan,f.player_skill_bank.policies,

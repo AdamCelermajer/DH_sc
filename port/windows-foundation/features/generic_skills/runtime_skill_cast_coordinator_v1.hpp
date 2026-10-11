@@ -84,6 +84,7 @@ struct RuntimeSkillCastReceiptV1 {
     std::string skill_name, source_script;
     std::vector<ActorId> target_order;
     std::vector<DamageEvent> applied_results;
+    std::vector<ObjectId> delivered_object_interactions;
     // Formula-only Celest rolls against a target killed by the prior source
     // roll consume the exact RNG occurrence but do not apply a second hit.
     std::vector<faery_menu::CelestDeadTargetCalculationV1> celest_dead_target_calculations;
@@ -113,6 +114,7 @@ struct RuntimeSkillCastRequestV1 {
     // native fields are available. The Character-only coordinator never
     // treats an absent object registry as a successful no-target result.
     std::optional<bool> non_character_attackable_objects_absent;
+    const SkillObjectTargetArmV1* object_targets = nullptr;
     const OriginalCombatVisualPlan* visual_plan = nullptr;
     const OriginalSequencePolicies* sequence_policies = nullptr;
     // When supplied, NativeHUDSkill selection is resolved fresh from the
@@ -224,6 +226,7 @@ private:
         faery_menu::CelestTargetFxDispatchV1* celest_effect_dispatch = nullptr;
         faery_menu::CelestEffectReceiptV1 celest_player_pre;
         SkillActorTargetQueryV1 target_query;
+        std::optional<SkillObjectTargetArmV1> object_targets;
         dh2::data::PropertySheet formula_sheet{};
         CharacterAction previous_action = CharacterAction::idle;
         bool source_post_clears_target = false;

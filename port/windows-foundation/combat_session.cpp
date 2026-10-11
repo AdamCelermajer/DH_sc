@@ -1494,8 +1494,12 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
     s.events.clear();s.resolutions.clear();s.animationDispatches.clear();s.comboBoundaries.clear();s.retainedFrameAudioDiagnostics.clear();
     s.retainedFrameAudioClock.reset();if(audio_clock&&audio_clock->valid())s.retainedFrameAudioClock=*audio_clock;
     struct ClockReset {std::optional<RetainedFrameAudioClock>& value;~ClockReset(){value.reset();}} clockReset{s.retainedFrameAudioClock};
-    {DH_PROBE("sim.frameBeginProvider(physics)");if(s.frameBeginProvider&&!s.frameBeginProvider(*this,dt,error))return false;}
     auto* player=s.world->find_actor(s.player);
+    // Import the host's beginning-of-frame mirror before source controls.
+    // A source LookAt/position mutation inside frameBegin must not be erased
+    // by arguments captured before that synchronous command was dispatched.
+    player->transform.position={position.x,position.y,position.z};player->transform.rotation[2]=facing;
+    {DH_PROBE("sim.frameBeginProvider(physics)");if(s.frameBeginProvider&&!s.frameBeginProvider(*this,dt,error))return false;}
     // A clear published between session frames belongs to its source owner
     // (for example an explicit skill ClearTarget). Do not resurrect it from
     // this convenience record. Finish/combo clears happen synchronously below
@@ -1506,7 +1510,6 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
             player->target_id!=s.stickyPlayerTarget)
         s.stickyPlayerTarget=invalid_actor_id;
     if(!refresh_actor_combat_permissions(error))return false;
-    player->transform.position={position.x,position.y,position.z};player->transform.rotation[2]=facing;
     if(!s.runtime->owns_pose(s.player)&&!s.entries.at(s.player).stateSequence&&player->alive()){
         const auto action=(input.move2D.x!=0||input.move2D.y!=0)?CharacterAction::moving:CharacterAction::idle;
         // A paused host supplies neutral input with zero elapsed time. Keep the
@@ -2275,6 +2278,19 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
         s.combat->interrupt(id);
         // Interrupted source combo swing: drop continuation/last so the next swing starts fresh.
         entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
+    }
+    if(services.focused){
+        auto focused=std::move(services.focused); // one synchronous occurrence
+        services.focused={}; // never retain borrowed Focus stack captures
+        bool accepted=false;
+        try{accepted=focused(id,error);}
+        catch(const std::exception& ex){error=ex.what();}
+        catch(...){error="Source Focus Pre consumer threw after accepted departure";}
+        if(!accepted){
+            if(error.empty())error="Source Focus Pre consumer failed after accepted departure";
+            if(s.actorTransitionHandler)s.transitionFailure=error;
+            return false;
+        }
     }
     if(!entry.retained->prepare_preserving(*s.assets,plan,policies,selection,s.retained_services(id),alias,error))return false;
     entry.attackProgram=false;entry.stateManaged=true;entry.stateSequence=true;entry.stateFrozen=false;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
