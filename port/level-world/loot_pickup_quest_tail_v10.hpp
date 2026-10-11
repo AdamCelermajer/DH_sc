@@ -15,6 +15,10 @@ struct LootPickupQuestEventV10 {
     std::uint8_t flag1{};
     std::int32_t subject_id{-1};
     std::int32_t item_id{};
+    // Native 32-bit IEvent payloads can carry an ObjectBase* in the word at
+    // +0x18 (QuestMoveInZone). Keep that identity pointer-width on the host;
+    // do not overload the independent network_id/item_id semantics.
+    std::uintptr_t object_identity{};
 };
 
 struct LootPickupQuestServicesV10 {

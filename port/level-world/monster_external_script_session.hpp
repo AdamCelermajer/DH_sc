@@ -7,6 +7,9 @@
 #include "lua_script_load_once.hpp"
 #include "ais_state_callbacks.hpp"
 #include "character_oid_cache_v1.hpp"
+extern "C" {
+#include "../adam-script-runtime/script_runtime.h"
+}
 
 namespace dh2::monster_external_script {
 
@@ -70,6 +73,15 @@ struct Services {
                                bool looping, float fade_ms, bool stop_music) = nullptr;
     std::int32_t (*stop_sound)(void*, const char* label, std::size_t label_bytes,
                                float fade_ms) = nullptr;
+    // Generic external-AIS methods used by the source follower script. These
+    // providers resolve the same canonical Character/CharAI Record as owner.
+    std::int32_t (*has_master)(void*, std::uintptr_t owner,
+                               std::uint32_t* value) = nullptr;
+    std::int32_t (*set_master)(void*, std::uintptr_t owner,
+                               std::uintptr_t master) = nullptr;
+    std::int32_t (*clear_target)(void*, std::uintptr_t owner) = nullptr;
+    std::int32_t (*warp_behind)(void*, std::uintptr_t owner,
+                                std::uintptr_t master) = nullptr;
 };
 
 enum class Event : std::uint32_t {
@@ -89,6 +101,14 @@ enum class Event : std::uint32_t {
     target_missed = 9,
     // AISExternal::OnEndOfAnim invokes the named Lua callback without args.
     animation_end = 10,
+    // Generic AISExternal source callbacks used by the authored follower.lua
+    // path. These dispatch through this same AIS VM and alias map.
+    friend_spotted = 11,
+    master_out_of_sight = 12,
+    master_out_of_range = 13,
+    master_in_ranged_range = 14,
+    master_in_close_range = 15,
+    master_in_melee_range = 16,
 };
 
 // Logical retained source AIS+0xb4 projection, not an ARM overlay. The current
@@ -191,6 +211,11 @@ public:
     Status bind_character_functions(std::string& error);
     Status load_common(Source commons, std::string& error);
     Status load_external(Source external, std::string& error);
+    // AISExternal obtains its script path from the selected AITable row.
+    // This overload loads those exact bytes and path into the existing VM;
+    // it does not construct another AIS, VM, or alias table.
+    Status load_external_named(Source external, const char* source_path,
+                               std::string& error);
     // AISExternal::OnDied passes one Lua argument: a GameObject userdata table
     // for a nonnull killer, or nil for null. `enemy` carries that identity for
     // Event::died. Event 2's FSM payload remains a separate later dispatch.
@@ -200,6 +225,13 @@ public:
     // alias map; the caller must have checked the active AIS VCB membership.
     Status dispatch_combat_result(Event event, std::uintptr_t attacker,
                                   std::uintptr_t defender, std::string& error);
+    // Call a source-registered Lua alias on this same AIS VM and observe every
+    // ReturnValues entry from that one call. Used by CharAISkillScript's
+    // SetSkill/OnSkillUpdate path after the source skill loader has registered
+    // its callbacks; this creates no VM and performs no alias replay.
+    int call_all(const char* name, const dh2_script_value* arguments,
+                 std::uint32_t count, dh2_script_returns_observer_v1 observer,
+                 void* context, std::string& error);
     // Reuse the independent complete20B source CallState wrappers. Each call reads the
     // current pointer once, skips only an actual null projection, otherwise
     // reads its selected name and calls the current source alias with no args.

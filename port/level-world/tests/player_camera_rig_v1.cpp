@@ -23,7 +23,8 @@ bool same_pose(const dh2::player_camera_rig_v1::Pose& a,
                const dh2::player_camera_rig_v1::Pose& b) {
     for(unsigned i=0;i<16;++i)
         if(!close(a.camera[i],b.camera[i])||!close(a.target[i],b.target[i])||
-           !close(a.up_vector[i],b.up_vector[i]))return false;
+           !close(a.up_vector[i],b.up_vector[i])||
+           !close(a.camera_world[i],b.camera_world[i]))return false;
     for(unsigned i=0;i<3;++i)
         if(!close(a.target_parent_z_axis[i],b.target_parent_z_axis[i]))return false;
     return true;

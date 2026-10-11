@@ -22,11 +22,11 @@ struct View {
     std::uint8_t is_player{};
     ByteSpan properties_primary{};   // Structs::CharacterProperties, 900 bytes.
     ByteSpan properties_secondary{}; // Structs::CharacterProperties, 900 bytes.
-    ByteSpan position{};             // Point3D<float>, 12 bytes.
-    ByteSpan target_position{};       // Point3D<float>, 12 bytes.
-    std::uint8_t dead{};
-    ByteSpan vector_1306{};           // Point3D<float>, 12 bytes.
-    ByteSpan vector_1309{};           // Point3D<float>, 12 bytes.
+    ByteSpan position{};              // GameObject position at Character+0x160.
+    ByteSpan rotation{};              // GameObject rotation at Character+0x16c.
+    std::uint8_t dead{};              // Character+0x1449.
+    ByteSpan vector_1306{};           // Serialized Point3D at Character+0x1468.
+    ByteSpan vector_1309{};           // Revive position at Character+0x1474.
     std::uint8_t has_ai{};
     std::int32_t ai_word_36{};
     std::uint8_t ai_flag_40{};

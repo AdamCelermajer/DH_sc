@@ -41,11 +41,26 @@ struct SourceCharacterCensusV1 {
  std::uint32_t source_record=0;
  std::int32_t source_handle=-1;
  bool duplicate_name=false;
+ // MGP runtime template fields (kept distinct from editor _templateName and
+ // CharacterTable charpropsname above).
+ std::string char_template_pydata,char_template;
  std::string name,character,template_name,activate_condition,
              deactivate_condition,script,spawn_probability,auto_spawn,ai_state;
  bool is_global=false;
  std::uint32_t deferred_reason_mask=0;
  bool supported_direct_dact_v1=false;
+ Transform local,world;
+};
+// Generic exact MGP GameObject projection joined to the same canonical
+// ObjectManager occurrence ledger. It carries authored conditions and
+// transforms only; callers own type-specific activation and lifecycle.
+struct SourceObjectCensusV1 {
+ std::uint32_t module_index=0;
+ std::uint32_t source_record=0;
+ std::int32_t source_handle=-1;
+ bool duplicate_name=false;
+ std::string name,gametype,template_name,activate_condition,deactivate_condition,
+             dimensions;
  Transform local,world;
 };
 struct SpawnSelection{EntryPoint source;Point position{};Point rotation_degrees{};bool floor_snapped=false;};
@@ -93,6 +108,25 @@ bool census_source_characters_with_handles(const std::uint8_t* mlx,
                          std::size_t mgp_count,
                          const source_handle_ledger_v1::Ledger& handle_ledger,
                          std::vector<SourceCharacterCensusV1>& output,
+                         std::string& error);
+// Same exact source census, generalized for other retained Level MLX/MGP
+// owners (including generated Crypt). The overload above remains the
+// byte/source-path contract for authored SWAMP callers.
+bool census_source_characters_with_handles_for_level(const std::uint8_t* mlx,
+                         std::size_t mlx_size,const char* level_name,
+                         const char* source_path,const SourceMgpView* mgps,
+                         std::size_t mgp_count,
+                         const source_handle_ledger_v1::Ledger& handle_ledger,
+                         std::vector<SourceCharacterCensusV1>& output,
+                         std::string& error);
+// Generic MGP object census joined by exact (module_index, source_record).
+// Empty gametype_filter includes all records; nonempty filters exact gametype.
+bool census_source_objects_with_handles_for_level(const std::uint8_t* mlx,
+                         std::size_t mlx_size,const char* level_name,
+                         const char* source_path,const SourceMgpView* mgps,
+                         std::size_t mgp_count,const char* gametype_filter,
+                         const source_handle_ledger_v1::Ledger& handle_ledger,
+                         std::vector<SourceObjectCensusV1>& output,
                          std::string& error);
 // Import the nine source MVPs and project only the ten reviewed unconditional
 // SWAMP static Decor records into owned render-instance descriptions.

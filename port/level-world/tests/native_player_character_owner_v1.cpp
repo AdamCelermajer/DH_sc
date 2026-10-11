@@ -102,6 +102,16 @@ int main(int argc, char** argv) {
             owner.checkpoint_position_1468(identity)[1] == checkpoint_words[1] &&
             owner.checkpoint_position_1468(identity)[2] == checkpoint_words[2],
             "QuickSave checkpoint point did not preserve the current Character XYZ words");
+    const std::uint32_t revive_words[]{0x00000000u, 0xc2480001u, 0x7fc0abcdu};
+    require(!owner.save_checkpoint_revive_position(identity + 8, revive_words) &&
+            !owner.save_checkpoint_revive_position(identity, nullptr) &&
+            owner.save_checkpoint_revive_position(identity, revive_words) &&
+            owner.checkpoint_revive_position_1474(identity) &&
+            owner.checkpoint_revive_position_1474(identity)[0] == revive_words[0] &&
+            owner.checkpoint_revive_position_1474(identity)[1] == revive_words[1] &&
+            owner.checkpoint_revive_position_1474(identity)[2] == revive_words[2] &&
+            !owner.checkpoint_revive_position_1474(identity + 8),
+            "CheckpointSave revive destination did not preserve raw XYZ words on the canonical Player");
     require(!owner.ooi_intent() && character_660 == identity && owner.save_for(identity) == &save &&
             owner.properties_for(identity) == &properties &&
             owner.inventory_for(identity) == nullptr,
@@ -187,7 +197,8 @@ int main(int argc, char** argv) {
 
     *ooi_intent = 1;
     require(owner.unbind_session(error) && character_660 == 0 &&
-            !owner.ooi_intent(),
+            !owner.ooi_intent() &&
+            !owner.checkpoint_revive_position_1474(identity),
             "terminal Character retirement did not clear Character660");
     require(owner.ooi_intent()==0 && owner.ooi_intent_storage()==ooi_intent,
             "terminal Character retirement did not clear canonical OOI intent");
@@ -201,6 +212,10 @@ int main(int argc, char** argv) {
     *ooi_intent=1;
     require(owner.bind_session(&character_660, save, properties, nullptr, error) &&
             !owner.ooi_intent() && character_660 == identity &&
+            owner.checkpoint_revive_position_1474(identity) &&
+            owner.checkpoint_revive_position_1474(identity)[0] == 0 &&
+            owner.checkpoint_revive_position_1474(identity)[1] == 0 &&
+            owner.checkpoint_revive_position_1474(identity)[2] == 0 &&
             *owner.reward_gold_1500_for(identity) == -1 &&
             *owner.reward_xp_1504_for(identity) == -1,
             "fresh session rebind did not clear OOI intent");

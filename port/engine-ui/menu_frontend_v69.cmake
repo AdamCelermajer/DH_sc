@@ -60,7 +60,8 @@ set(DH2_MENU_UI_SOURCES gfnt.cpp swf_movie.cpp freetype_font.cpp
  swf_drag_values.cpp swf_cursor_input.cpp swf_input_geometry.cpp swf_input_policy.cpp
  swf_input_connection.cpp swf_event_dispatch.cpp swf_event_core.cpp)
 list(APPEND DH2_MENU_UI_SOURCES world_map_list_v1.cpp level_transition_v1.cpp
- application_level_load_handoff_v1.cpp gslevel_queued_state_handoff_v1.cpp)
+ application_level_load_handoff_v1.cpp gslevel_queued_state_handoff_v1.cpp
+ gslevel_activation_step_v1.cpp)
 list(TRANSFORM DH2_MENU_UI_SOURCES PREPEND "${DH2_MENU_UI_DIR}/")
 add_library(dh2_engine_ui SHARED ${DH2_MENU_UI_SOURCES})
 target_sources(dh2_engine_ui PRIVATE

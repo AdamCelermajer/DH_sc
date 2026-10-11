@@ -372,6 +372,7 @@ bool Rig::sample(std::int32_t milliseconds,Pose* out,std::string& error) {
     }
     Pose candidate;
     candidate.camera=scene::multiply(root_inverse,scene_.graph[camera_].world);
+    candidate.camera_world=scene_.graph[camera_].world;
     candidate.target=scene::multiply(root_inverse,scene_.graph[target_].world);
     if(up_from_camera_){
         candidate.up_vector=candidate.camera;

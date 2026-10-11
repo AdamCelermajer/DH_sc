@@ -1,0 +1,12 @@
+{
+  "source_head_before_checkpoint": "aad90a926e410a46686741d62821148dba352167",
+  "snapshot_manifest_sha256": "aee5196ae2630b4f816f6c778aabbe6e76648352bfbf3a527b9db35e67d1634b",
+  "executable_sha256": "f048b5669e6fa985df62db10f2956430e9baa33dea96a8366e663c978a60de5e",
+  "snapshot_files": 5971,
+  "windows_selected_runtime_build": "passed",
+  "scenario": "fixed-cultist07-kill",
+  "observed": ["Crypt world and HUD rendered", "starter skill 7 level 1", "candidate 4 cultist07 HP 25600", "route 373 nodes, 934 edges, 10 waypoints"],
+  "first_failure": "monster.luac:68 HeadTo provider status 205 during OnEnemySpotted",
+  "not_verified": ["normal attack", "enemy death", "XP", "loot", "Android execution of this snapshot"],
+  "release": "not published"
+}

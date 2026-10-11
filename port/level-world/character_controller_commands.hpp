@@ -2,6 +2,9 @@
 #include <cstdint>
 namespace dh2::character {
 enum ControllerCommand : std::uint32_t {controller_look_object=0,controller_move_object,controller_stop};
+enum ControllerPointCommand : std::uint32_t {
+ controller_warp_to_point=0,controller_head_towards_point,controller_head_to_point
+};
 struct ControllerCommandState32 {
  std::uintptr_t controller,owner;
  std::uint32_t global_blocked,locked,forced,reserved;
@@ -15,6 +18,17 @@ struct ControllerCommandServices16 {
  // Dispatches the actual owner's controllable virtual synchronously.
  // Return1 completed, -1 missing/error; do not fabricate acceptance.
  int(*invoke)(void*,const ControllerCommandRequest24*);
+};
+struct ControllerPointCommandRequest32 {
+ std::uint32_t command,reserved;
+ std::uintptr_t owner;
+ float point[3];std::uint32_t reserved2;
+};
+struct ControllerPointCommandServices16 {
+ void* context;
+ // Dispatches the actual owner's point-controllable virtual synchronously.
+ // Return 1 when completed, -1 when the owner or dispatch is unavailable.
+ int(*invoke)(void*,const ControllerPointCommandRequest32*);
 };
 enum CharacterControlService : std::uint32_t {
  control_is_remotely_updated=0,control_target_position,control_stop_object,
@@ -32,6 +46,7 @@ struct CharacterControlServices16 {
 };
 static_assert(sizeof(void*)==8&&sizeof(ControllerCommandState32)==32);
 static_assert(sizeof(ControllerCommandRequest24)==24&&sizeof(CharacterControlRequest32)==32);
+static_assert(sizeof(ControllerPointCommandRequest32)==32);
 static_assert(sizeof(CharacterControlResponse16)==16);
 }
 extern "C" {
@@ -40,6 +55,11 @@ extern "C" {
 // missing synchronous service. Raw byte flags support0..255 as in the source.
 int dh2_character_controller_command(const dh2::character::ControllerCommandState32*,
  std::uint32_t command,std::uintptr_t target,const dh2::character::ControllerCommandServices16*);
+// v2Controller point wrappers: WarpTo, HeadTowards and HeadTo. Evaluates the
+// same source gate before requiring the live controllable owner.
+int dh2_character_controller_point_command(const dh2::character::ControllerCommandState32*,
+ std::uint32_t command,const float point[3],
+ const dh2::character::ControllerPointCommandServices16*);
 // Complete Character controllable methods for the verified Character vtable.
 // Its Ctrl_LookAt(Point) override tail-branches to GameObject::LookAt(Point).
 // Object LookAt queries the target position before invoking that point service.

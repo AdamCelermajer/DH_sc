@@ -15,6 +15,8 @@ bool same_owner(const Session& left, const Session& right) noexcept {
         left.functions_bound == right.functions_bound &&
         left.common_loaded == right.common_loaded &&
         left.initialized == right.initialized &&
+        left.init_post_called == right.init_post_called &&
+        left.init_final_called == right.init_final_called &&
         left.close_owned == right.close_owned;
 }
 
@@ -157,6 +159,12 @@ Status Owner::dispatch(Operation operation, Stage expected, Stage completed,
         return Status::provider_failed;
     }
 
+    // These are lifecycle certificates for callbacks that successfully
+    // dispatched through this exact AIS-owned CharAIScript/LuaScript. The
+    // provider does not own a parallel copy of the stage flags.
+    if (operation == Operation::init_post) session_.init_post_called = true;
+    if (operation == Operation::init_final) session_.init_final_called = true;
+
     bool valid = false;
     if (operation == Operation::bind_functions) {
         valid = same_addresses(before, session_) && valid_function_bound_session();
@@ -168,6 +176,13 @@ Status Owner::dispatch(Operation operation, Stage expected, Stage completed,
     } else if (operation == Operation::initialize) {
         valid = same_addresses(before, session_) && valid_bound_session() &&
             session_.common_loaded && session_.initialized;
+    } else if (operation == Operation::init_post) {
+        valid = same_addresses(before, session_) && valid_bound_session() &&
+            session_.initialized && session_.init_post_called;
+    } else if (operation == Operation::init_final) {
+        valid = same_addresses(before, session_) && valid_bound_session() &&
+            session_.initialized && session_.init_post_called &&
+            session_.init_final_called;
     } else if (operation == Operation::update) {
         valid = same_owner(before, session_) && valid_bound_session() &&
             session_.common_loaded && session_.initialized;
@@ -205,6 +220,26 @@ Status Owner::initialize(std::string& error) {
     // The faery's staged built-in has no external path; source StepInitScript
     // invokes its inherited AISDefault::OnInit after common has loaded.
     return dispatch(Operation::initialize, Stage::common_loaded,
+                    Stage::initialized, error);
+}
+
+Status Owner::init_post(std::string& error) {
+    error.clear();
+    if (session_.init_post_called) {
+        error = "AISFaery OnInitPost was already dispatched";
+        return Status::wrong_stage;
+    }
+    return dispatch(Operation::init_post, Stage::initialized,
+                    Stage::initialized, error);
+}
+
+Status Owner::init_final(std::string& error) {
+    error.clear();
+    if (!session_.init_post_called || session_.init_final_called) {
+        error = "AISFaery OnInitFinal requires one prior OnInitPost";
+        return Status::wrong_stage;
+    }
+    return dispatch(Operation::init_final, Stage::initialized,
                     Stage::initialized, error);
 }
 

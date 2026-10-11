@@ -77,6 +77,18 @@ Status initialize(factory::Record& record, std::string& error) {
     });
 }
 
+Status init_post(factory::Record& record, std::string& error) {
+    return dispatch(record, error, [](auto& owner, auto& out) {
+        return owner.init_post(out);
+    });
+}
+
+Status init_final(factory::Record& record, std::string& error) {
+    return dispatch(record, error, [](auto& owner, auto& out) {
+        return owner.init_final(out);
+    });
+}
+
 Status update(factory::Record& record, std::string& error) {
     return dispatch(record, error, [](auto& owner, auto& out) {
         return owner.update(out);

@@ -7,9 +7,11 @@
 #include "../../../../../../port/level-world/debug_switches_runtime.hpp"
 extern "C" {
 #include "../../../../../../port/pydata-constants/constants.h"
+#include "../../../../../../port/adam-script-runtime/script_runtime.h"
 }
 
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -30,6 +32,15 @@ struct Bindings {
     const debug_switches::Services* debug_services;
     void* init_vcb_context;
     std::int32_t (*init_vcb)(void*, std::uintptr_t active_ais);
+    // These providers load/execute on the same AIS-owned Lua VM already used
+    // by Monster Init/Update. A missing resource is a normal loaded=false
+    // source result; VM/provider errors remain failures.
+    void* script_context = nullptr;
+    std::int32_t (*load_script)(void*, const char* name, std::size_t name_bytes,
+                                bool* loaded) = nullptr;
+    std::int32_t (*call_script)(void*, const char* function,
+                                const dh2_script_value* arguments,
+                                std::uint32_t count) = nullptr;
 };
 
 struct Result {
@@ -61,14 +72,16 @@ enum class Status : std::int32_t {
     service_failed = 6,
 };
 
-// Per-CharAI persistent native vector owner. It implements the exact cached
-// Ghost branch (empty default SkillList and five zero-length Fake_* faeries)
-// through the source SetSkillsAndSpells caller. Any non-null script load,
-// DeclareSkill call, or skill-script allocation is an explicit failure until
-// those providers are connected to the retained source VM.
+// Per-CharAI persistent native vector and CharAISkillScript owner. It executes
+// nonempty source rows through the caller-supplied existing AIS VM/load/call
+// services; it creates no VM. Zero-length Fake_* faeries remain null entries.
 class Runtime {
 public:
-    Runtime() = default;
+    struct SkillArguments {
+        std::string script_name;
+        float skill_index = 0.0f;
+    };
+    Runtime();
     ~Runtime();
     Runtime(const Runtime&) = delete;
     Runtime& operator=(const Runtime&) = delete;
@@ -78,6 +91,7 @@ public:
     Status prepare(const Bindings&, Result&);
     const std::vector<std::uintptr_t>& skill_scripts() const { return skill_scripts_; }
     const std::vector<std::uintptr_t>& faery_scripts() const { return faery_scripts_; }
+    const SkillArguments* arguments_for(std::uintptr_t script) const noexcept;
     // Source _SkillCleanUp/_SpellCleanUp list prefix over these exact owned
     // vectors. Null entries are skipped as the source does. Non-null entries
     // require the actual CharAISkillScript cleanup owner and fail closed here.
@@ -86,6 +100,7 @@ public:
 
 private:
     struct ScratchArguments;
+    struct ScriptInstance;
     static std::int32_t invoke(void*, character_ai_set_skills_and_spells::State*,
                                const character_ai_set_skills_and_spells::Request*,
                                character_ai_set_skills_and_spells::Response*);
@@ -94,6 +109,10 @@ private:
                                         character_faery_selection::Response*);
     static std::int32_t report_faery_assertion(void*, character_faery_selection::Character*,
                                                const character_faery_selection::Request*);
+    static std::int32_t construct_invoke(void*, character_ai_skill_script_constructor::State*,
+                                         const character_ai_skill_script_constructor::Request*);
+    static std::int32_t construct_assertion(void*, character_ai_skill_script_constructor::State*,
+                                            const character_ai_skill_script_constructor::Request*);
     std::int32_t perform(character_ai_set_skills_and_spells::State&,
                          const character_ai_set_skills_and_spells::Request&,
                          character_ai_set_skills_and_spells::Response&);
@@ -114,7 +133,9 @@ private:
     std::string saved_ais_path_;
     bool path_snapshot_live_ = false;
     std::vector<ScratchArguments*> arguments_;
-    Status operation_failure_ = Status::service_failed;
+    std::vector<std::unique_ptr<ScriptInstance>> script_instances_;
+    std::uintptr_t prepared_ai_identity_ = 0;
+    std::uintptr_t prepared_character_identity_ = 0;
     bool prepared_ = false;
 };
 

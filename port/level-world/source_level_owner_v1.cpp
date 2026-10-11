@@ -214,7 +214,7 @@ bool Owner::bind_native_level(const NativeLevelBinding& binding) noexcept {
     std::string error;
     if (!level_savegame_owner_v1::format_filename(
             static_cast<std::uint32_t>(binding.source_save_slot),
-            binding.entry_point, binding.level_row, binding.difficulty,
+            binding.level_list_hub, binding.level_row, binding.difficulty,
             filename, error) ||
         !level_savegame_.construct(filename, binding.level_row, error))
         return false;

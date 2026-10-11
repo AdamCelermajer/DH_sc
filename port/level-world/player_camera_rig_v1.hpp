@@ -42,6 +42,12 @@ struct Pose {
     std::array<float,16> camera{};
     std::array<float,16> target{};
     std::array<float,16> up_vector{};
+    // The sampled camera node's authored scene-world transform before the
+    // root-relative conversion above. CameraBase::GetCameraLookAtVec/UpVec
+    // read its basis columns [4..6] and [8..10] from the active node matrix.
+    // CameraLevel updates only node positions, so these basis values remain
+    // valid for listener orientation after follow/zoom updates.
+    std::array<float,16> camera_world{};
     // CameraLevel::Update writes a local position to the target node. A local
     // translation is transformed by the node's parent, not its own rotation.
     // Keep that parent-space Z basis explicit for the native zoom projection.

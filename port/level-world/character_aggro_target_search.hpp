@@ -23,6 +23,11 @@ struct Character {
     GameObject* object;
     std::int32_t source_word_1310;
     std::int32_t source_word_1314;
+    // Source Objective_TalkToNPC marker state on this canonical Character
+    // projection. These are semantic byte values, not offsets into this
+    // adapter struct or a second marker registry.
+    std::uint8_t talk_objective_marker_2fa{};
+    std::uint8_t talk_objective_priority_marker_2fb{};
 };
 
 struct ObjectEntry { ObjectEntry* next; GameObject* object; };
@@ -102,7 +107,7 @@ extern "C" int dh2_aggro_target_search(TargetList*, const RoomRegistry*,
 extern "C" int dh2_aggro_target_pop(TargetList*, TargetInfo*);
 
 static_assert(sizeof(GameObject) == 48);
-static_assert(sizeof(Character) == 24);
+static_assert(sizeof(Character) == 32);
 static_assert(sizeof(ObjectEntry) == 16);
 static_assert(sizeof(Room) == 16);
 static_assert(sizeof(TargetInfo) == 32);

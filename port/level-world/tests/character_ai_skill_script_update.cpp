@@ -56,8 +56,10 @@ struct Fixture {
                 if(f.bad==12)state->owner=nullptr;
                 if(f.bad==13)state->owner->lua_script=0;
                 if(f.bad==14)values->resource=7;
-            }else if(op==3){
-                assert(request->script==state->owner->lua_script&&!request->arguments&&std::string(request->function)=="OnSkillUpdate"&&f.storage.empty());
+            }else if(op==3||op==5){
+                assert(request->script==state->owner->lua_script&&!request->arguments&&
+                    std::string(request->function)==(op==3?"OnSkillUpdate":"OnSkillCleanUp")&&
+                    f.storage.empty());
                 // Source doesn't check this second Call's script error code.
                 values->error=0x80000007u;f.storage.push_back(123);f.refresh();
                 if(f.bad==15)values->resource=7;
@@ -68,7 +70,7 @@ struct Fixture {
         if(f.throwing==op)throw std::runtime_error("provider failure after real fixture effects");
         return f.fail==op?7:0;
     }
-    su::Status run(){return su::update(&state,&services,&result);}
+    su::Status run(bool cleanup=false){return cleanup?su::cleanup(&state,&services,&result):su::update(&state,&services,&result);}
 };
 void print(const Fixture& f,su::Status status){
     std::cout<<"{\"status\":"<<int(status)<<",\"phase\":"<<unsigned(f.result.phase)<<",\"decision\":"<<unsigned(f.result.decision)<<",\"calls\":"<<f.result.service_calls<<",\"set_error\":"<<f.result.set_skill_error<<",\"erased\":"<<f.result.erased<<",\"updated\":"<<f.result.updated<<",\"constructed\":"<<f.result.constructed<<",\"destroyed\":"<<f.result.destroyed<<",\"trace\":[";
@@ -85,14 +87,28 @@ int main(int argc,char** argv){
         assert(f.result.decision==(has_script?(error?su::Decision::set_skill_error:su::Decision::updated):su::Decision::no_script));
         assert(f.result.service_calls==f.trace.size()&&f.alternate_calls==0);++cases;
     }
+    for(unsigned has_script=0;has_script<2;++has_script)for(unsigned error:std::array<unsigned,2>{0,7})
+      for(unsigned count:std::array<unsigned,2>{0,2}){
+        Fixture f;f.a.lua_script=has_script?113:0;f.error=error;f.count=count;
+        assert(f.run(true)==su::Status::complete&&f.result.constructed==1&&
+            f.result.destroyed==1&&!f.live&&f.storage.empty());
+        const bool cleaned=has_script&&!error;
+        assert(f.result.cleaned==unsigned(cleaned)&&f.result.updated==0&&
+            f.result.erased==unsigned(cleaned&&count)&&
+            f.result.decision==(has_script?(error?su::Decision::set_skill_error:
+                                                    su::Decision::cleaned):su::Decision::no_script));
+        if(cleaned)assert(f.trace[f.trace.size()-2][0]==5);
+        ++cases;
+      }
     {Fixture f;f.nested=true;assert(f.run()==su::Status::complete&&f.nested_ok);++cases;}
-    for(unsigned op=0;op<5;++op)for(unsigned throwing=0;throwing<2;++throwing){
+    for(unsigned op=0;op<6;++op)for(unsigned throwing=0;throwing<2;++throwing){
         Fixture f;f.count=3;if(throwing)f.throwing=op;else f.fail=op;
-        assert(f.run()==su::Status::service_failed&&f.trace.back()[0]==op&&f.effects==f.trace.size());
-        assert(f.result.service_calls==f.trace.size()&&f.result.destroyed==0&&f.live==(op!=4));
+        assert((op==5?f.run(true):f.run())==su::Status::service_failed&&f.trace.back()[0]==op&&f.effects==f.trace.size());
+        assert(f.result.service_calls==f.trace.size()&&f.result.destroyed==0&&
+               f.live==(op!=4));
         // No added destructor after failure or exception. Earlier erase/update
         // effects and provider-created resources remain observable.
-        assert(f.trace.size()==op+1);++failures;
+        assert(f.trace.size()==(op==5?4u:op+1));++failures;
     }
     {Fixture f;f.services.invoke=nullptr;assert(f.run()==su::Status::service_unavailable&&f.result.service_calls==0&&f.result.phase==su::Phase::construct);++failures;}
     for(unsigned bad=1;bad<=16;++bad){Fixture f;f.count=3;f.bad=bad;assert(f.run()==su::Status::invalid_source_fact&&f.result.destroyed==0&&f.live);++boundaries;}

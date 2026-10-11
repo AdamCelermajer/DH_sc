@@ -31,6 +31,12 @@ const char* callback_name(Event event) {
         case Event::target_hit: return "OnTargetHit";
         case Event::target_missed: return "OnTargetMissed";
         case Event::animation_end: return "OnEndOfAnim";
+        case Event::friend_spotted: return "OnFriendSpotted";
+        case Event::master_out_of_sight: return "OnMasterOutOfSight";
+        case Event::master_out_of_range: return "OnMasterOutOfRange";
+        case Event::master_in_ranged_range: return "OnMasterInRangedRange";
+        case Event::master_in_close_range: return "OnMasterInCloseRange";
+        case Event::master_in_melee_range: return "OnMasterInMeleeRange";
     }
     return nullptr;
 }
@@ -67,9 +73,10 @@ struct Session::Impl {
                      to_fixed, mul_fixed, div_fixed, alias_add, alias_push, alias_pop,
                      bit_not, bit_xor, bit_and, bit_or, py_oid, position,
                      host_level, host_difficulty, level_range, level_set, stop,
-                     attack, register_summon, play_sound, stop_sound, unsupported };
+                     attack, register_summon, play_sound, stop_sound, master_exists,
+                     master_set, clear_target, warp_behind, unsupported };
     struct Binding { Impl* session; Operation operation; const char* name; };
-    static constexpr std::size_t max_bindings = 48;
+    static constexpr std::size_t max_bindings = 52;
     Services services;
     dh2_script_vm* vm = nullptr;
     dh2_script_aliases* aliases = nullptr;
@@ -152,6 +159,41 @@ struct Session::Impl {
                     status = dh2_script_alias_pop(binding.session->aliases);
                 return status ? reject(error, error_capacity, "source VFTable update failed") : 0;
             }
+            if (binding.operation == master_exists) {
+                std::uint32_t value = 0;
+                if (!output || capacity < 1 || !services.has_master ||
+                    services.has_master(services.context, services.owner, &value) != 0 ||
+                    value > 1)
+                    return reject(error, error_capacity, "follower HasMaster failed or unsupported");
+                output[0] = {};
+                output[0].type = DH2_SCRIPT_BOOLEAN;
+                output[0].boolean = value;
+                *returned = 1;
+                return 0;
+            }
+            if (binding.operation == master_set || binding.operation == warp_behind) {
+                // The original follower passes GameObject userdata for both
+                // operations. Preserve the source non-object no-op overload.
+                if (count == 0 || !identity(arguments[0])) return 0;
+                if (!arguments[0].identity)
+                    return reject(error, error_capacity, "follower master identity missing");
+                if (arguments[0].type == 7) ++binding.session->object_table_arguments;
+                const auto callback = binding.operation == master_set
+                    ? services.set_master : services.warp_behind;
+                if (!callback || callback(services.context, services.owner,
+                        arguments[0].identity) != 0)
+                    return reject(error, error_capacity, binding.operation == master_set
+                        ? "follower SetMaster failed or unsupported"
+                        : "follower WarpBehind failed or unsupported");
+                return 0;
+            }
+            if (binding.operation == clear_target) {
+                if (!services.clear_target || services.clear_target(
+                        services.context, services.owner) != 0)
+                    return reject(error, error_capacity,
+                                  "follower ClearTarget failed or unsupported");
+                return 0;
+            }
             if (binding.operation == target_set || binding.operation == face ||
                 binding.operation == move) {
                 // Original object overloads ignore non-object values. This
@@ -160,9 +202,20 @@ struct Session::Impl {
                 if (arguments[0].type == 7) ++binding.session->object_table_arguments;
                 const auto callback = binding.operation == target_set ? services.set_target :
                                       binding.operation == face ? services.head_to : services.move_to;
-                if (!callback || callback(services.context, services.owner,
-                                           arguments[0].identity) != 0)
-                    return reject(error, error_capacity, "monster actor action failed or unsupported");
+                if (!callback)
+                    return reject(error, error_capacity, binding.operation == face ?
+                        "monster HeadTo provider missing" : binding.operation == move ?
+                        "monster MoveTo provider missing" : "monster SetTarget provider missing");
+                const auto status=callback(services.context,services.owner,arguments[0].identity);
+                if(status!=0){
+                    char detail[160]{};
+                    std::snprintf(detail,sizeof(detail),
+                        "monster %s provider failed (status %d owner %llx target %llx)",
+                        binding.operation==face?"HeadTo":binding.operation==move?"MoveTo":"SetTarget",
+                        status,static_cast<unsigned long long>(services.owner),
+                        static_cast<unsigned long long>(arguments[0].identity));
+                    return reject(error,error_capacity,detail);
+                }
                 return 0;
             }
             if (binding.operation == stop) {
@@ -443,7 +496,11 @@ struct Session::Impl {
             bind_extra("HeadTo", face) && bind_extra("MoveTo", move) &&
             bind_extra("GetPosition", position) && bind_extra("SetLevel", level_set) &&
             bind_extra("Stop", stop) && bind_extra("Attack", attack) &&
-            bind_extra("RegisterSummon", register_summon);
+            bind_extra("RegisterSummon", register_summon) &&
+            bind_extra("HasMaster", master_exists) &&
+            bind_extra("SetMaster", master_set) &&
+            bind_extra("ClearTarget", clear_target) &&
+            bind_extra("WarpBehind", warp_behind);
     }
 
     bool bind_functions() {
@@ -464,13 +521,18 @@ struct Session::Impl {
         return dh2_script_vm_load(session.vm, bytes, size, name);
     }
 
-    bool load_external(Source source) {
+    bool load_external(Source source, const char* source_path,
+                       bool require_monster_callbacks) {
+        if (!source_path || !*source_path || std::strlen(source_path) > 256)
+            return false;
         if (dh2_script_vm_load(vm, source.bytes, source.size,
-                               "data/scripts/ai/monster.luac") != 0 ||
+                               source_path) != 0 ||
             dh2_script_vm_load(vm, identity_transport, sizeof(identity_transport) - 1,
                                "monster-neutral-identity-transport") != 0) return false;
-        if (std::strcmp(dh2_script_alias_resolve(aliases, "OnEnemySpotted"), "monster_OnEnemySpotted") ||
+        if (require_monster_callbacks &&
+            (std::strcmp(dh2_script_alias_resolve(aliases, "OnEnemySpotted"), "monster_OnEnemySpotted") ||
             std::strcmp(dh2_script_alias_resolve(aliases, "OnTargetOutOfRange"), "monster_OnTargetOutOfRange"))
+           )
             return false;
         stage = Stage::external_loaded;
         return true;
@@ -512,7 +574,7 @@ Status Session::initialize(Source commons, Source monster, const Services& servi
         error = dh2_script_vm_error(candidate->vm);
         return Status::script_error;
     }
-    if (!candidate->load_external(monster)) {
+    if (!candidate->load_external(monster, "data/scripts/ai/monster.luac", true)) {
         candidate->faulted = true;
         candidate->stage = Stage::faulted;
         error = dh2_script_vm_error(candidate->vm);
@@ -638,11 +700,33 @@ Status Session::load_external(Source external, std::string& error) {
         return Status::not_ready;
     }
     BusyScope scope(busy_);
-    if (!impl_->load_external(external)) {
+    if (!impl_->load_external(external, "data/scripts/ai/monster.luac", true)) {
         impl_->faulted = true;
         impl_->stage = Stage::faulted;
         error = dh2_script_vm_error(impl_->vm);
         if (error.empty()) error = "original monster callback registration absent";
+        return Status::script_error;
+    }
+    error.clear();
+    return Status::complete;
+}
+
+Status Session::load_external_named(Source external, const char* source_path,
+                                    std::string& error) {
+    if (busy_) { error = "monster session busy"; return Status::busy; }
+    if (!impl_) { error = "monster session not created"; return Status::not_ready; }
+    if (impl_->stage != Stage::common_loaded || impl_->faulted ||
+        !valid_source(external) || !source_path || !*source_path ||
+        std::strlen(source_path) > 256) {
+        error = "named external-script stage, source, or path is invalid";
+        return Status::not_ready;
+    }
+    BusyScope scope(busy_);
+    if (!impl_->load_external(external, source_path, false)) {
+        impl_->faulted = true;
+        impl_->stage = Stage::faulted;
+        error = dh2_script_vm_error(impl_->vm);
+        if (error.empty()) error = "named AISExternal source load failed";
         return Status::script_error;
     }
     error.clear();
@@ -657,16 +741,17 @@ Status Session::dispatch(Event event, std::uintptr_t enemy, std::string& error) 
         error = "combat callback requires attacker and defender identities";
         return Status::invalid_argument;
     }
-    if (event == Event::enemy_spotted && enemy == 0) {
-        error = "enemy identity missing";
+    if ((event == Event::enemy_spotted || event == Event::friend_spotted) && enemy == 0) {
+        error = "spotted Character identity missing";
         return Status::invalid_argument;
     }
     if (!ready()) { error = "monster session not ready"; return Status::not_ready; }
     BusyScope scope(busy_);
     int status = 0;
-    if (event == Event::enemy_spotted || event == Event::died) {
-        // Both source AIS callbacks receive one GameObject userdata. OnDied's
-        // argument is the killer passed to AISExternal::OnDied(GameObject*).
+    if (event == Event::enemy_spotted || event == Event::friend_spotted ||
+        event == Event::died) {
+        // These source AIS callbacks receive one GameObject userdata.
+        // OnDied's argument is the killer passed to AISExternal::OnDied.
         const char* resolved = dh2_script_alias_resolve(impl_->aliases, requested);
         dh2_script_value arguments[2]{};
         arguments[0].type = DH2_SCRIPT_STRING;
@@ -730,6 +815,30 @@ Status Session::dispatch_combat_result(Event event, std::uintptr_t attacker,
     ++impl_->completed;
     error.clear();
     return Status::complete;
+}
+
+int Session::call_all(const char* name, const dh2_script_value* arguments,
+                      std::uint32_t count,
+                      dh2_script_returns_observer_v1 observer, void* context,
+                      std::string& error) {
+    if (busy_) { error = "monster session busy"; return -1; }
+    if (!name || !*name || (count && !arguments) || !observer) {
+        error = "invalid source callback call";
+        return -1;
+    }
+    if (!ready()) { error = "monster session not ready"; return -1; }
+    const char* alias = dh2_script_alias_resolve(impl_->aliases, name);
+    if (!alias) { error = "source callback alias is absent"; return -1; }
+    std::string captured;
+    try { captured.assign(alias); }
+    catch (...) { error = "source callback alias capture failed"; return -1; }
+    BusyScope scope(busy_);
+    const int status = dh2_script_vm_call_all_source_v1(
+        impl_->vm, captured.c_str(), arguments, count, observer, context);
+    error = dh2_script_vm_error(impl_->vm);
+    if (status == -5 && error.empty())
+        error = "required monster native service failure caught by Lua";
+    return status;
 }
 
 Status Session::call_state(const CurrentState* projection, bool conditions, std::string& error) {

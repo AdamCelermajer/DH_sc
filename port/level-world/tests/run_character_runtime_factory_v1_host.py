@@ -34,6 +34,8 @@ def main() -> int:
         *[arg for path in include_dirs for arg in ("-I", str(path))],
         str(LEVEL_WORLD / "tests" / "character_runtime_factory_v1.cpp"),
         str(LEVEL_WORLD / "character_runtime_factory_v1.cpp"),
+        str(LEVEL_WORLD / "character_faery_controller_v1.cpp"),
+        str(LEVEL_WORLD / "character_controller_commands.cpp"),
         str(LEVEL_WORLD / "character_faery_script_session_v1.cpp"),
         str(LEVEL_WORLD / "character_gameplay_save_v1.cpp"),
         str(LEVEL_WORLD / "character_constructor_owner_v1.cpp"),

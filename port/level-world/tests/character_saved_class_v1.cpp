@@ -1,4 +1,5 @@
 #include "../character_saved_class_v1.hpp"
+#include "../source_character_safeget_v1.hpp"
 #include "../../game-data/properties.hpp"
 #include "../../game-data/player_profile_filename_v1.hpp"
 #include <array>
@@ -91,7 +92,46 @@ unsigned failure_guards(){unsigned cases=0;std::string error;Result result;
  {data::PlayerSavegameV1 save;save.set_character(Fixture::identity);data::PropertyRules rules;data::PropertyState state;auto v=data::property_view(rules,state);v.saved=v.resolved;std::size_t used;B payload;word(payload,224);check(!save.load_properties({payload.data(),payload.size()},v,used,error)&&used==4&&state.resolved[0]==0,"PROP authority alias after count prefix");++cases;}
  return cases;
 }
-void real_mask1(const std::filesystem::path& cache){
+unsigned source_import_resolution(){
+ using namespace dh2::source_character_safeget_v1;
+ Fixture f;
+ f.catalog.templates={{"SwampCommon",{1,1}}};
+ f.characters.names={"Other","SwampMonster"};
+ f.characters.rows.resize(f.characters.names.size());
+ dh2::world::SourceCharacterCensusV1 source{};
+ source.module_index=0;source.source_record=23;source.source_handle=41;
+ source.name="_prim_swamp_monster";
+ source.template_name="MonsterCommonType1";
+ source.char_template_pydata="Charater_Templates";
+ source.char_template="SwampCommon";
+ source.activate_condition="IsBefore_Swamp_Escape";
+ std::string error;
+ character::template_factory::Source authored{};
+ check(make_authored_source(source,&authored,error),"source MGP fields construct canonical template source");
+ check(authored.object_name==source.name&&
+       authored.editor_template_name=="MonsterCommonType1"&&
+       authored.template_data_class=="Charater_Templates"&&
+       authored.template_name=="SwampCommon"&&
+       authored.explicit_property_name.empty(),
+       "source MGP fields remain distinct from editor/table labels");
+ auto bindings=f.binding();bindings.authored=nullptr;
+ Resolved resolved{};
+ check(resolve(source,f.characters,bindings,&resolved,error),
+       "source MGP Character SafeGet resolution");
+ check(resolved.module_index==0&&resolved.source_record==23&&
+       resolved.source_handle==41&&resolved.character_identity==Fixture::identity&&
+       resolved.object_name==source.name&&resolved.character_table_name=="SwampMonster"&&
+       resolved.property_cache==1&&resolved.template_cache==0&&
+       resolved.random_draws==1&&f.cache==1&&f.template_cache==0,
+       "source MGP provenance/template/property cache retention");
+ source.duplicate_name=true;f.cache=-1;f.template_cache=-1;
+ const auto seed=f.random.seeds[0],counter=f.random.counters[0];
+ check(!resolve(source,f.characters,bindings,&resolved,error)&&
+       f.cache==-1&&f.template_cache==-1&&f.random.seeds[0]==seed&&
+       f.random.counters[0]==counter,
+       "duplicate ObjectManager row must not create another Character owner");
+ return 3;
+}void real_mask1(const std::filesystem::path& cache){
  data::CharacterTable characters;auto records=file(cache/"data/pydata/character_properties_pyarray.bin"),names=file(cache/"data/pydata/character_properties_pyarraynames.bin"),schema=file(cache/"data/pydata/character_properties_pystructnames.bin");std::string error;
  check(data::load_characters({records.data(),records.size()},{names.data(),names.size()},{schema.data(),schema.size()},characters,error),"real CharacterTable");
  auto bytes=file(cache/"dh2_000.savegame");auto index=std::make_shared<data::PlayerProfileIndexV1>();check(index->load({bytes.data(),bytes.size()},error),"private campaign index");
@@ -109,6 +149,11 @@ void real_mask1(const std::filesystem::path& cache){
 }
 }
 int main(int argc,char** argv){try{
- check(argc==3,"usage: saved_class <reference> <cache>");const std::filesystem::path ref=argv[1];const auto classes=original_classes(ref/"class-fixtures.bin"),props=original_properties(ref/"prop-fixtures.bin"),guards=failure_guards();real_mask1(argv[2]);
- std::cout<<"{\"validation\":\"PASS\",\"class_original_cases\":"<<classes<<",\"prop_original_cases\":"<<props<<",\"failure_guard_cases\":"<<guards<<",\"actual_gameplay_mask1\":true,\"saved_class_id\":263,\"mismatches\":0}\n";return 0;
+ if(argc==2&&std::string(argv[1])=="--source-only"){
+  const auto rows=source_import_resolution();
+  std::cout<<"{\"validation\":\"PASS\",\"source_import_resolution_cases\":"<<rows<<"}\n";
+  return 0;
+ }
+ check(argc==3,"usage: saved_class <reference> <cache>");const std::filesystem::path ref=argv[1];const auto classes=original_classes(ref/"class-fixtures.bin"),props=original_properties(ref/"prop-fixtures.bin"),guards=failure_guards(),source_rows=source_import_resolution();real_mask1(argv[2]);
+ std::cout<<"{\"validation\":\"PASS\",\"class_original_cases\":"<<classes<<",\"prop_original_cases\":"<<props<<",\"failure_guard_cases\":"<<guards<<",\"source_import_resolution_cases\":"<<source_rows<<",\"actual_gameplay_mask1\":true,\"saved_class_id\":263,\"mismatches\":0}\n";return 0;
  }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

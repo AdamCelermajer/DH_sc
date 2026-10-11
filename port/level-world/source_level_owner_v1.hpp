@@ -66,6 +66,10 @@ struct NativeLevelBinding {
     // PlayerSavegame::slot() from the same selected Save owner. Required to
     // build LevelSavegame::GetFilename without guessing from UI state.
     std::int32_t source_save_slot{-1};
+    // LevelSavegame::GetFilename's second argument is Level+0x40, populated
+    // from the selected LevelList row's +0x10 hub field. It is distinct from
+    // the Level entry point (+0x110) and must come from the same row owner.
+    std::int32_t level_list_hub{};
 };
 
 class Owner {

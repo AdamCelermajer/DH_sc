@@ -30,6 +30,7 @@ if(TARGET dh2_scene_materials)
  target_link_libraries(dh2_level_world PRIVATE dh2_scene_materials)
 endif()
 target_compile_features(dh2_level_world PUBLIC cxx_std_17)
+target_sources(dh2_level_world PRIVATE native_visual_fx_manager_v1.cpp)
 target_sources(dh2_level_world PRIVATE camera_level_runtime_v1.cpp camera_design_zoom_v1.cpp camera_animset_v1.cpp character_critical_camera_bridge_v1.cpp camera_animset_bank_v1.cpp camera_animset_playback_v1.cpp camera_animset_bank_playback_v1.cpp player_camera_rig_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_aggro_character_list.cpp character_aggro_object_manager_list.cpp)
 target_sources(dh2_level_world PRIVATE physical_world.cpp physical_lifecycle.cpp native_body.cpp visual_motion.cpp move_state.cpp player_root_motion_policy_v1.cpp decor_body_config.cpp visual_timeline.cpp actor_rotation.cpp actor_runtime.cpp actor_playback.cpp decor_scene.cpp character_scene.cpp)
@@ -129,7 +130,7 @@ target_sources(dh2_level_world PRIVATE character_ai_ranged_range.cpp)
 target_sources(dh2_level_world PRIVATE character_range_capability.cpp character_ai_queue.cpp character_ai_queue_owner_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_interactive.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_initialization.cpp)
-target_sources(dh2_level_world PRIVATE ais_faery_update_v1.cpp)
+target_sources(dh2_level_world PRIVATE ais_faery_update_v1.cpp ais_faery_master_callbacks_v1.cpp)
 target_sources(dh2_level_world PRIVATE ais_external_init_vcb.cpp)
 target_sources(dh2_level_world PRIVATE ais_player_init_vcb.cpp)
 target_sources(dh2_level_world PRIVATE character_skill_cooldown_services.cpp
@@ -209,7 +210,11 @@ target_sources(dh2_level_world PRIVATE character_ai_set_skills_and_spells.cpp
  character_faery_live_binding_v1.cpp character_faery_level_registry_v1.cpp
  character_faery_selection_owner_v1.cpp
  character_faery_script_session_v1.cpp
+ character_faery_controller_v1.cpp
+ character_faery_navigation_v1.cpp
  character_faery_record_session_v1.cpp
+ character_faery_script_process_v1.cpp
+ character_faery_source_physical_owner_v1.cpp
  character_faery_record_physical_v1.cpp
  character_ai_skill_script_constructor.cpp
  character_skill_state_queries.cpp)
@@ -230,6 +235,9 @@ target_sources(dh2_level_world PRIVATE character_distribute_xp_v1.cpp
 target_sources(dh2_level_world PRIVATE character_attack_geometry.cpp)
 target_sources(dh2_level_world PRIVATE loot_pickup_quest_tail_v10.cpp
  loot_pickup_event_bridge_v1.cpp current_level_quest_event_v1.cpp)
+target_sources(dh2_level_world PRIVATE quest_move_in_zone_collision_v1.cpp
+ quest_move_in_zone_sensor_owner_v1.cpp)
+target_sources(dh2_level_world PRIVATE open_game_object_objective_v1.cpp)
 target_sources(dh2_level_world PRIVATE game_object_position_owner_v1.cpp
  player_sct_position_provider_v1.cpp)
 target_sources(dh2_level_world PRIVATE ais_combat_result_dispatch_v1.cpp)
@@ -332,6 +340,11 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(character_faery_record_session_v1_audit PRIVATE dh2_level_world)
  target_compile_features(character_faery_record_session_v1_audit PRIVATE cxx_std_17)
  target_compile_options(character_faery_record_session_v1_audit PRIVATE -Wall -Wextra -Werror)
+ add_executable(character_faery_script_process_v1_audit
+  tests/character_faery_script_process_v1.cpp)
+ target_link_libraries(character_faery_script_process_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(character_faery_script_process_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(character_faery_script_process_v1_audit PRIVATE -Wall -Wextra -Werror)
 
  add_executable(character_faery_record_physical_v1_audit
   tests/character_faery_record_physical_v1.cpp)
@@ -348,6 +361,11 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(ais_faery_update_v1_audit PRIVATE dh2_level_world)
  target_compile_features(ais_faery_update_v1_audit PRIVATE cxx_std_17)
  target_compile_options(ais_faery_update_v1_audit PRIVATE -Wall -Wextra -Werror)
+ add_executable(ais_faery_master_callbacks_v1_audit
+  tests/ais_faery_master_callbacks_v1.cpp)
+ target_link_libraries(ais_faery_master_callbacks_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(ais_faery_master_callbacks_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(ais_faery_master_callbacks_v1_audit PRIVATE -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
  add_executable(source_spawnpoints_adapter_audit
   tests/source_spawnpoints_adapter.cpp ../world-data/world.cpp ../world-data/source_layout_adapter.cpp)
  target_link_libraries(source_spawnpoints_adapter_audit PRIVATE dh2_game_data)
@@ -629,6 +647,18 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(current_level_quest_event_v1_audit PRIVATE dh2_game_data)
  target_compile_features(current_level_quest_event_v1_audit PRIVATE cxx_std_17)
  target_compile_options(current_level_quest_event_v1_audit PRIVATE
+  -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+ add_executable(quest_move_in_zone_collision_v1_audit
+  tests/quest_move_in_zone_collision_v1.cpp)
+ target_link_libraries(quest_move_in_zone_collision_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(quest_move_in_zone_collision_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(quest_move_in_zone_collision_v1_audit PRIVATE
+  -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+ add_executable(quest_move_in_zone_sensor_owner_v1_audit
+  tests/quest_move_in_zone_sensor_owner_v1.cpp)
+ target_link_libraries(quest_move_in_zone_sensor_owner_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(quest_move_in_zone_sensor_owner_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(quest_move_in_zone_sensor_owner_v1_audit PRIVATE
   -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
  add_executable(loot_pickup_event_bridge_v1_audit
   tests/loot_pickup_event_bridge_v1.cpp)

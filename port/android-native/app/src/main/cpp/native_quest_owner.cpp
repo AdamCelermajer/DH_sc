@@ -12,6 +12,7 @@
 #include "fresh_inventory_owned_v4.hpp"
 #include "quest_gather_loot_receiver_v1.hpp"
 #include "../../../../../quest-kill/quest.h"
+#include "../../../../../level-world/open_game_object_objective_v1.hpp"
 #include <algorithm>
 #include <map>
 #include <cstring>
@@ -33,6 +34,7 @@ namespace rf=data::quest_reward_factory_v1;
 namespace re=data::quest_reward_execution_v1;
 namespace qu=data::quest_update_completed_v1;
 namespace qc=data::quest_compile_v1;
+namespace og=level_world::open_game_object_objective_v1;
 namespace {
 template<class T>std::int32_t retire(std::map<std::uintptr_t,std::unique_ptr<T>>& arena,T* record,std::uintptr_t identity){
  const auto found=arena.find(identity);
@@ -67,6 +69,18 @@ bool objective_definition(const of::Record& objective,dh2_quest_objective& value
  }
  return true;
 }
+bool objective_string(const of::Record& objective,const dh2_quest_objective& definition,
+                      std::size_t index,std::string& value,std::string& error){
+ if(index>=2){error="Objective string index is outside the source stub";return false;}
+ const auto& pydata=objective.fields.py_data_c;
+ if(!pydata.view){error="Objective string requires its retained immutable pydata View";return false;}
+ data::quest_table_bindings_v1::Span span{};
+ if(!pydata.view.bytes(definition.strings[index],&span,error))return false;
+ if(span.size&&!span.data){error="Objective string span has no retained bytes";return false;}
+ if(span.size)value.assign(reinterpret_cast<const char*>(span.data),span.size);
+ else value.clear();
+ error.clear();return true;
+}
 }
 struct Owner::Impl {
  struct Slot {std::unique_ptr<instance::Instance> value;bool constructed=false;};
@@ -85,12 +99,45 @@ struct Owner::Impl {
   of::Dispatch expected_dispatch=of::Dispatch::kill_enemies;
   std::int32_t event_type=0,match_id=-1,script_id=-1;
   void* script_context=nullptr;
-  Owner::KillObjectiveStartScript start_script=nullptr;
+  KillObjectiveStartScript start_script=nullptr;
+  bool attached=false,detach_pending=false,target_marked=false;
+  static std::int32_t receive(void*,Owner::LevelEventRuntime&,
+                              Owner::LevelEvent&,std::string&);
+ };
+ struct TalkToNpcBinding {
+  Owner* owner=nullptr;of::Record* objective=nullptr;
+  std::uintptr_t quest_identity=0;
+  std::uint32_t ordinal=0;
+  std::int32_t event_type=0,target_props_id=-1,target_count=0,script_id=-1;
+  void* script_context=nullptr;KillObjectiveStartScript start_script=nullptr;
+  void* marker_context=nullptr;TalkObjectiveMarkerV1 marker=nullptr;
+  bool attached=false,detach_pending=false,target_marked=false;
+  static std::int32_t receive(void*,Owner::LevelEventRuntime&,
+                              Owner::LevelEvent&,std::string&);
+ };
+ struct MoveInZoneBinding {
+  Owner* owner=nullptr;of::Record* objective=nullptr;
+  std::uintptr_t quest_identity=0,target_identity=0;
+  std::uint32_t ordinal=0;
+  std::int32_t event_type=0,target_props_id=-1,script_id=-1;
+  void* script_context=nullptr;KillObjectiveStartScript start_script=nullptr;
+  MoveInZoneCharacterServicesV1 character{};
   bool attached=false,detach_pending=false;
   static std::int32_t receive(void*,Owner::LevelEventRuntime&,
                               Owner::LevelEvent&,std::string&);
  };
+ struct OpenGameObjectBinding {
+  Owner* owner=nullptr;of::Record* objective=nullptr;
+  std::uintptr_t quest_identity=0;
+  std::uint32_t ordinal=0;
+  void* script_context=nullptr;KillObjectiveStartScript start_script=nullptr;
+  og::Binding objective_binding{};
+  static bool complete(void*,og::Objective&,std::string&);
+ };
  std::map<std::uintptr_t,std::unique_ptr<KillXEnemiesBinding>> kill_x_enemies;
+ std::map<std::uintptr_t,std::unique_ptr<TalkToNpcBinding>> talk_to_npc;
+ std::map<std::uintptr_t,std::unique_ptr<MoveInZoneBinding>> move_in_zone;
+ std::map<std::uintptr_t,std::unique_ptr<OpenGameObjectBinding>> open_game_object;
  std::map<std::uintptr_t,std::unique_ptr<c::Array>> ca;
  std::map<std::uintptr_t,std::unique_ptr<o::Array>> oa;
  std::map<std::uintptr_t,std::unique_ptr<r::Array>> ra;
@@ -337,6 +384,103 @@ std::int32_t Owner::Impl::KillXEnemiesBinding::receive(
  }
  error.clear();return 0;
 }
+std::int32_t Owner::Impl::TalkToNpcBinding::receive(
+ void* raw,Owner::LevelEventRuntime&,Owner::LevelEvent& event,
+ std::string& error){
+ if(!raw){error="TalkToNPC receiver context is null";return 1;}
+ auto& binding=*static_cast<TalkToNpcBinding*>(raw);
+ if(!binding.owner||!binding.objective||!binding.objective->compiled_8||
+    binding.objective->dispatch_0!=of::Dispatch::talk_to_npc||
+    binding.objective->derived_24.index()!=0||
+    std::get<std::int32_t>(binding.objective->derived_24)!=binding.target_props_id){
+  error="TalkToNPC receiver lost its canonical compiled Objective/target";return 1;
+ }
+ if(event.objective_type!=binding.event_type||event.network_id!=binding.target_props_id)return 0;
+ auto& objective=*binding.objective;
+ if(event.flag1){
+  if(static_cast<std::int32_t>(objective.quantity_20)>=event.subject_id)return 0;
+  objective.quantity_20=std::uint32_t(event.subject_id);
+ }else{
+  ++objective.quantity_20;
+  event.flag0=1;event.subject_id=static_cast<std::int32_t>(objective.quantity_20);
+ }
+ if(static_cast<std::int32_t>(objective.quantity_20)<binding.target_count||objective.done_14){
+  error.clear();return 0;
+ }
+ if(!binding.owner->complete_objective(binding.quest_identity,binding.ordinal,
+       binding.script_context,binding.start_script,error))return 1;
+ // Source Objective_TalkToNPC::Unregister is delayed detach followed by
+ // clearing Character+0x2fa for the matching SafeGetCharPropsId.
+ if(!binding.owner->unregister_talk_to_npc_objective(binding.quest_identity,
+      binding.ordinal,error))return 1;
+ error.clear();return 0;
+}
+bool Owner::Impl::OpenGameObjectBinding::complete(
+ void* raw,og::Objective& objective,std::string& error){
+ if(!raw){error="OpenGameObject completion binding is null";return false;}
+ auto& binding=*static_cast<OpenGameObjectBinding*>(raw);
+ if(!binding.owner||binding.objective!=&objective||
+    !binding.objective->ref.action.identity){
+  error="OpenGameObject completion lost its canonical Save Objective";return false;
+ }
+ return binding.owner->complete_objective(binding.quest_identity,binding.ordinal,
+       binding.script_context,binding.start_script,error);
+}
+std::int32_t Owner::Impl::MoveInZoneBinding::receive(
+ void* raw,Owner::LevelEventRuntime&,Owner::LevelEvent& event,std::string& error){
+ if(!raw){error="MoveInZone receiver context is null";return 1;}
+ auto& binding=*static_cast<MoveInZoneBinding*>(raw);
+ if(!binding.owner||!binding.objective||!binding.objective->compiled_8||
+    binding.objective->dispatch_0!=of::Dispatch::move_in_zone||
+    binding.objective->derived_28!=binding.target_identity){
+  error="MoveInZone receiver lost its canonical compiled Objective/target";return 1;
+ }
+ if(event.objective_type!=binding.event_type||
+    event.object_identity!=binding.target_identity)return 0;
+ // IDA 0x47bcd4: null Character is accepted only for the source sync form
+ // (flag1=1). Otherwise the target filter runs; -1 means IsPlayer, with the
+ // source SafeGetCharPropsId==-1 fallback for non-player Characters.
+ if(event.character||!event.flag1){
+  if(!event.character){error="MoveInZone local event requires its canonical Character; only a null sync event bypasses filtering";return 1;}
+  if(binding.target_props_id!=-1){
+   std::int32_t props_id=-1;
+   if(!binding.character.safe_get_char_props_id||
+      !binding.character.safe_get_char_props_id(binding.character.context,
+         event.character,props_id,error)){
+    if(error.empty())error="MoveInZone requires the canonical Character::SafeGetCharPropsId provider";
+    return 1;
+   }
+   if(props_id!=binding.target_props_id)return 0;
+  }else{
+   bool is_player=false;
+   if(!binding.character.is_player||
+      !binding.character.is_player(binding.character.context,event.character,
+                                   is_player,error)){
+    if(error.empty())error="MoveInZone target=-1 requires the canonical Character::IsPlayer provider";
+    return 1;
+   }
+   if(!is_player){
+    std::int32_t props_id=-1;
+    if(!binding.character.safe_get_char_props_id||
+       !binding.character.safe_get_char_props_id(binding.character.context,
+          event.character,props_id,error)){
+     if(error.empty())error="MoveInZone non-player fallback requires Character::SafeGetCharPropsId";
+     return 1;
+    }
+    if(props_id!=-1)return 0;
+   }
+  }
+ }
+ auto& objective=*binding.objective;
+ if(!objective.done_14&&
+    !binding.owner->complete_objective(binding.quest_identity,binding.ordinal,
+       binding.script_context,binding.start_script,error))return 1;
+ if(!binding.detach_pending&&
+    !binding.owner->unregister_move_in_zone_objective(binding.quest_identity,
+       binding.ordinal,error))return 1;
+ if(!event.flag1)event.flag0=1;
+ error.clear();return 0;
+}
 Owner::Owner(std::shared_ptr<data::PlayerSavegameV1> save,data::quest_table_bindings_v1::View definitions,Constants constants):
  impl_(std::make_unique<Impl>(std::move(save),std::move(definitions),std::move(constants))) {}
 Owner::~Owner(){std::string error;if(!close(error))std::terminate();}
@@ -550,6 +694,12 @@ bool Owner::update_active(std::uintptr_t quest_identity,std::uint32_t log,
   switch(objective->dispatch_0){
    case of::Dispatch::gather_loot:
     ok=unregister_gather_loot_objective(identity,error);break;
+   case of::Dispatch::talk_to_npc:
+    ok=unregister_talk_to_npc_objective(quest_identity,ordinal,error);break;
+   case of::Dispatch::move_in_zone:
+    ok=unregister_move_in_zone_objective(quest_identity,ordinal,error);break;
+   case of::Dispatch::open_game_object:
+    ok=unregister_open_game_object_objective(quest_identity,ordinal,error);break;
    case of::Dispatch::kill_enemies:
     ok=unregister_kill_x_enemies_objective(quest_identity,ordinal,error);break;
    case of::Dispatch::clear_enemies:
@@ -1006,6 +1156,12 @@ bool Owner::flush_current_level_detaches(std::string& error){
   if(binding.detach_pending&&!binding.inventory_registered)at=impl_->gather_loot.erase(at);
   else ++at;
  }
+ for(auto at=impl_->move_in_zone.begin();at!=impl_->move_in_zone.end();){
+  if(at->second->detach_pending)at=impl_->move_in_zone.erase(at);else ++at;
+ }
+ for(auto at=impl_->open_game_object.begin();at!=impl_->open_game_object.end();){
+  if(at->second->objective_binding.detach_pending)at=impl_->open_game_object.erase(at);else ++at;
+ }
  return true;
 }
 bool Owner::register_gather_loot_objective(std::uintptr_t identity,
@@ -1259,6 +1415,534 @@ bool Owner::compile_combat_objective_list_v1(
   return false;
  }
  error.clear();return true;
+}
+bool Owner::dispatch_objective_compile_member_v1(
+ std::uintptr_t quest_identity,qc::Objective& objective,
+ const qc::MemberCall& call,const ObjectiveCompileDispatchServicesV1& services,
+ std::string& error){
+ if(impl_->busy||impl_->closed){error="Native Quest owner unavailable for Objective member dispatch";return false;}
+ auto* quest=impl_->resolve_quest_identity(quest_identity);
+ if(!quest){error="Objective member dispatch requires this Owner's canonical Quest";return false;}
+ auto& list=quest->objectives();
+ if(list.count_0<0||(list.count_0>0&&(!list.children_4||
+    std::uint64_t(std::uint32_t(list.count_0))>list.children_4->slots.size()))){
+  error="Objective member dispatch saw invalid canonical ObjectiveList storage";return false;
+ }
+ std::uint32_t ordinal=UINT32_MAX;
+ for(std::uint32_t i=0;i<std::uint32_t(list.count_0);++i){
+  auto* candidate=impl_->resolve_objective(list.children_4->slots[i]);
+  if(candidate==&objective){ordinal=i;break;}
+ }
+ if(ordinal==UINT32_MAX){error="Objective member dispatch lost the canonical Quest child identity";return false;}
+ const auto& ref=objective.ref;
+ if(!ref.action.identity||ref.fields!=&objective.fields||
+    ref.action.character_10!=&objective.fields.character_10){
+  error="Objective member dispatch found a changed factory projection";return false;
+ }
+ const auto clear_error=[&](){error.clear();return true;};
+ if(call.is_virtual&&call.adjustment==0&&call.function==8){
+  switch(objective.dispatch_0){
+  case of::Dispatch::base:case of::Dispatch::event_receiver:
+   return clear_error(); // Source Objective base Compile is empty.
+  case of::Dispatch::automatic:{
+   dh2_quest_objective definition{};
+   if(!objective_definition(objective,definition,error))return false;
+   if(definition.common[0]!=objective.fields.type_4){
+    error="Automatic Compile found a changed retained source selector";return false;
+   }
+   // IDA 0x47bd80 stores compiled_8 before Objective::SetIsCompleted.
+   objective.compiled_8=1;
+   return complete_objective(quest_identity,ordinal,services.script_context,
+                            services.start_script,error);
+  }
+  case of::Dispatch::kill_enemies:
+   return compile_kill_x_enemies_objective_from_level(quest_identity,ordinal,
+       services.population.kill_enemies,services.script_context,
+       services.start_script,error);
+  case of::Dispatch::clear_enemies:
+   return compile_clear_enemies_objective_from_level(quest_identity,ordinal,
+       services.population.clear_enemies,services.script_context,
+       services.start_script,error);
+  case of::Dispatch::kill_enemy_template:
+   return compile_kill_enemy_template_objective_from_level(quest_identity,ordinal,
+       services.population.kill_enemy_template,services.script_context,
+       services.start_script,error);
+  case of::Dispatch::clear_enemy_template:
+   return compile_clear_enemy_template_objective_from_level(quest_identity,ordinal,
+       services.population.clear_enemy_template,services.script_context,
+       services.start_script,error);
+  case of::Dispatch::gather_loot:{
+   if(!services.inventory||services.current_level_id<0||
+      services.inventory->character()!=objective.fields.character_10){
+    error="GatherLoot Compile requires the same Character's current V4 inventory and Level ID";return false;
+   }
+   dh2_quest_objective definition{};
+   if(!objective_definition(objective,definition,error))return false;
+   if(definition.common[0]!=objective.fields.type_4){error="GatherLoot Compile found a changed source selector";return false;}
+   const auto level_filter=definition.args[0],item_id=definition.args[1],target=definition.args[2];
+   if(item_id<=0||target<=0||std::size_t(item_id)>=services.inventory->table().rows.size()){
+    error="GatherLoot Compile reached invalid source item/target fields";return false;
+   }
+   if(level_filter!=-1&&level_filter!=services.current_level_id)return clear_error();
+   bool found=false;std::int32_t quantity=0;
+   if(!services.inventory->quest_gathering_item_quantity(item_id,found,quantity,error))return false;
+   return data::quest_gather_loot_receiver_v1::compile(objective,true,item_id,target,
+       definition.common[2],found,quantity,services.script_context,
+       services.start_script,error);
+  }
+  case of::Dispatch::talk_to_npc:{
+   dh2_quest_objective definition{};
+   if(!objective_definition(objective,definition,error))return false;
+   if(definition.common[0]!=objective.fields.type_4){error="TalkToNPC Compile found a changed source selector";return false;}
+   // Source v2QuestTalkToNPC::Compile reads pydata+32 (args[0]) as target
+   // SafeGetCharPropsId and pydata+40 (args[2]) as required interaction count.
+   const auto target=definition.args[0],required=definition.args[2];
+   objective.derived_24=target;
+   if(target!=-1){
+    objective.compiled_8=1;
+    if(static_cast<std::int32_t>(objective.quantity_20)>=required&&!objective.done_14){
+     if(!complete_objective(quest_identity,ordinal,services.script_context,
+                            services.start_script,error))return false;
+     if(impl_->talk_to_npc.find(objective.ref.action.identity)!=impl_->talk_to_npc.end()){
+      if(!unregister_talk_to_npc_objective(quest_identity,ordinal,error))return false;
+     }else if(definition.common[1]==5){
+      if(!services.talk_marker){error="TalkToNPC Compile completion needs the current-Level target marker provider";return false;}
+      if(!services.talk_marker(services.talk_marker_context,
+          objective.ref.action.identity,&objective.derived_28,target,
+          TalkObjectiveMarkerOperationV1::unregister_target,0,0,error))return false;
+     }
+    }
+   }
+   return clear_error();
+  }
+  case of::Dispatch::move_in_zone:{
+   dh2_quest_objective definition{};std::string target_name;
+   if(!objective_definition(objective,definition,error)||
+      !objective_string(objective,definition,1,target_name,error))return false;
+   if(definition.common[0]!=objective.fields.type_4){error="MoveInZone Compile found a changed source selector";return false;}
+   if(!services.object_manager){error="MoveInZone Compile requires the current Level's canonical ObjectManager";return false;}
+   // Source MoveInZone::Compile calls GetObjectByName(name,-1,false). The
+   // source MeetCondition(Object) body is a literal true at 0x38ab60.
+   auto* target=services.object_manager->find_by_name(target_name,-1);
+   objective.derived_24=std::int32_t(-1);objective.derived_28=0;
+   if(!target){objective.compiled_8=0;return clear_error();}
+   if(!target->identity){error="MoveInZone ObjectManager returned a name row without its canonical object identity";return false;}
+   bool loaded=true;
+   const auto target_props_id=definition.args[1];
+   if(target_props_id!=-1){
+    const auto& population=services.population.kill_enemies;
+    if(!population.read_current_level_population||!population.expected_level_identity){
+     error="MoveInZone Compile requires current-Level TestCharPropId population services";return false;
+    }
+    ClearEnemiesPopulationSnapshotV1 snapshot{};
+    if(!population.read_current_level_population(population.context,
+        reinterpret_cast<std::uintptr_t>(this),population.expected_level_identity,
+        target_props_id,snapshot,error)){
+     if(error.empty())error="MoveInZone current-Level TestCharPropId query failed";
+     return false;
+    }
+    if(snapshot.event_owner_identity!=reinterpret_cast<std::uintptr_t>(this)||
+       snapshot.level_identity!=population.expected_level_identity||snapshot.level_id<0||
+       snapshot.loaded_match_count<0){
+     error="MoveInZone population query returned a stale Level or invalid count";return false;
+    }
+    loaded=snapshot.loaded_match_count>0;
+   }
+   if(!loaded){objective.compiled_8=0;return clear_error();}
+   objective.derived_24=target->source_handle;objective.derived_28=target->identity;
+   objective.compiled_8=1;
+   if(definition.common[2]>=0&&!services.start_script){
+    error="MoveInZone Compile requires its source completion-script provider";return false;
+   }
+   const auto identity=objective.ref.action.identity;
+   auto existing=impl_->move_in_zone.find(identity);
+   if(existing!=impl_->move_in_zone.end()){
+    auto& binding=*existing->second;
+    if(binding.objective!=&objective||binding.quest_identity!=quest_identity||
+       binding.ordinal!=ordinal||binding.target_identity!=target->identity||
+       binding.target_props_id!=target_props_id||binding.script_context!=services.script_context||
+       binding.start_script!=services.start_script||
+       binding.character.context!=services.move_in_zone_character.context||
+       binding.character.safe_get_char_props_id!=services.move_in_zone_character.safe_get_char_props_id||
+       binding.character.is_player!=services.move_in_zone_character.is_player||
+       binding.detach_pending){error="MoveInZone receiver already has different live services";return false;}
+    return clear_error();
+   }
+   std::int32_t event_type=-1;
+   if(impl_->constant("v2QuestObjectiveType","MoveInZone",&event_type)||event_type<0){
+    error="Actual v2QuestObjectiveType.MoveInZone constant unavailable";return false;
+   }
+   auto binding=std::make_unique<Impl::MoveInZoneBinding>();
+   binding->owner=this;binding->objective=&objective;binding->quest_identity=quest_identity;
+   binding->ordinal=ordinal;binding->event_type=event_type;
+   binding->target_identity=target->identity;binding->target_props_id=target_props_id;
+   binding->script_id=definition.common[2];binding->script_context=services.script_context;
+   binding->start_script=services.start_script;binding->character=services.move_in_zone_character;
+   try{if(!impl_->move_in_zone.emplace(identity,std::move(binding)).second){
+    error="MoveInZone receiver metadata allocation raced another binding";return false;
+   }}catch(const std::exception&){error="MoveInZone receiver metadata allocation failed";return false;}
+   return clear_error();
+  }
+  case of::Dispatch::open_game_object:{
+   dh2_quest_objective definition{};
+   if(!objective_definition(objective,definition,error))return false;
+   if(definition.common[0]!=objective.fields.type_4){error="OpenGameObject Compile found a changed source selector";return false;}
+   if(definition.common[2]>=0&&!services.start_script){error="OpenGameObject Compile requires its source completion-script provider";return false;}
+   std::int32_t event_type=-1;
+   if(impl_->constant("v2QuestObjectiveType","OpenGameObject",&event_type)||event_type<0){
+    error="Actual v2QuestObjectiveType.OpenGameObject constant unavailable";return false;
+   }
+   const auto identity=objective.ref.action.identity;
+   auto existing=impl_->open_game_object.find(identity);
+   Impl::OpenGameObjectBinding* binding=nullptr;
+   if(existing==impl_->open_game_object.end()){
+    auto owned=std::make_unique<Impl::OpenGameObjectBinding>();
+    owned->owner=this;owned->objective=&objective;owned->quest_identity=quest_identity;
+    owned->ordinal=ordinal;owned->script_context=services.script_context;
+    owned->start_script=services.start_script;binding=owned.get();
+    try{if(!impl_->open_game_object.emplace(identity,std::move(owned)).second){
+     error="OpenGameObject receiver metadata allocation raced another binding";return false;
+    }}catch(const std::exception&){error="OpenGameObject receiver metadata allocation failed";return false;}
+   }else{
+    binding=existing->second.get();
+    if(binding->objective!=&objective||binding->quest_identity!=quest_identity||
+       binding->ordinal!=ordinal||binding->script_context!=services.script_context||
+       binding->start_script!=services.start_script||binding->objective_binding.detach_pending){
+     error="OpenGameObject receiver already has different live services";return false;
+    }
+   }
+   og::Services open_services{};open_services.context=binding;
+   open_services.complete=Impl::OpenGameObjectBinding::complete;
+   open_services.events=&impl_->current_level_events;
+   if(!og::compile(objective,definition,event_type,open_services,
+                   binding->objective_binding,error))return false;
+   error.clear();return true;
+  }
+  default:
+   error="Objective Compile dispatch has no source kernel for this canonical kind";return false;
+  }
+ }
+ if(call.is_virtual&&call.adjustment==0&&call.function==0x18){
+  if(!objective.compiled_8)return clear_error();
+  switch(objective.dispatch_0){
+  case of::Dispatch::kill_enemies:
+   return register_kill_x_enemies_objective(quest_identity,ordinal,
+       services.script_context,services.start_script,error);
+  case of::Dispatch::clear_enemies:
+   return register_clear_enemies_objective(quest_identity,ordinal,
+       services.script_context,services.start_script,error);
+  case of::Dispatch::kill_enemy_template:
+   return register_kill_enemy_template_objective(quest_identity,ordinal,
+       services.script_context,services.start_script,error);
+  case of::Dispatch::clear_enemy_template:
+   return register_clear_enemy_template_objective(quest_identity,ordinal,
+       services.script_context,services.start_script,error);
+  case of::Dispatch::gather_loot:
+   if(!services.inventory){error="GatherLoot Register requires the current Character V4 inventory";return false;}
+   return register_gather_loot_objective(objective.ref.action.identity,
+       *services.inventory,services.script_context,services.start_script,error);
+  case of::Dispatch::talk_to_npc:{
+   dh2_quest_objective definition{};
+   if(!objective_definition(objective,definition,error))return false;
+   if(definition.common[0]!=objective.fields.type_4||objective.derived_24.index()!=0){
+    error="TalkToNPC Register requires its compiled source target projection";return false;
+   }
+   const bool marks_target=definition.common[1]==5;
+   if(marks_target&&!services.talk_marker){error="TalkToNPC Register requires the current-Level CharacterList marker provider";return false;}
+   const auto identity=objective.ref.action.identity;
+   const auto existing=impl_->talk_to_npc.find(identity);
+   if(existing!=impl_->talk_to_npc.end()){
+    const auto& binding=*existing->second;
+    if(binding.objective!=&objective||binding.quest_identity!=quest_identity||
+       binding.ordinal!=ordinal||binding.target_props_id!=std::get<std::int32_t>(objective.derived_24)||
+       binding.marker_context!=services.talk_marker_context||binding.marker!=services.talk_marker||
+       binding.script_context!=services.script_context||binding.start_script!=services.start_script||
+       binding.detach_pending){error="TalkToNPC receiver already has different live services";return false;}
+    error.clear();return true;
+   }
+   dh2_pycst_result event_constant{};
+   if(dh2_pycst_get(&impl_->constants.view,"v2QuestObjectiveType",20,
+       "TalkToNPC",9,&event_constant)||!event_constant.found){
+    error="Actual v2QuestObjectiveType.TalkToNPC constant unavailable";return false;
+   }
+   if(definition.common[2]>=0&&!services.start_script){error="TalkToNPC Register requires its source completion-script provider";return false;}
+   auto binding=std::make_unique<Impl::TalkToNpcBinding>();
+   binding->owner=this;binding->objective=&objective;binding->quest_identity=quest_identity;
+   binding->ordinal=ordinal;binding->event_type=event_constant.value;
+   binding->target_props_id=std::get<std::int32_t>(objective.derived_24);
+   binding->target_count=definition.args[2];binding->script_id=definition.common[2];
+   binding->script_context=services.script_context;binding->start_script=services.start_script;
+   binding->marker_context=services.talk_marker_context;binding->marker=services.talk_marker;
+   auto* context=binding.get();
+   try{if(!impl_->talk_to_npc.emplace(identity,std::move(binding)).second){
+    error="TalkToNPC receiver registration raced another binding";return false;
+   }}catch(const std::exception&){error="TalkToNPC receiver metadata allocation failed";return false;}
+   bool attached=false;
+   const auto status=impl_->current_level_events.attach(event_constant.value,identity,0,
+       context,Impl::TalkToNpcBinding::receive,attached,error);
+   if(status!=LevelEventStatus::complete||!attached){
+    impl_->talk_to_npc.erase(identity);
+    if(error.empty())error="TalkToNPC receiver was attached outside this Owner";
+    return false;
+   }
+   context->attached=true;
+   // Objective_TalkToNPC::Register attaches the base receiver before setting
+   // matching Character+0x2fa. Keep that source prefix if the marker provider fails.
+   if(marks_target){
+    if(!services.talk_marker(services.talk_marker_context,
+        objective.ref.action.identity,&objective.derived_28,context->target_props_id,
+        TalkObjectiveMarkerOperationV1::register_target,0,0,error))return false;
+    context->target_marked=true;
+   }
+   error.clear();return true;
+  }
+  case of::Dispatch::move_in_zone:{
+   const auto identity=objective.ref.action.identity;
+   const auto found=impl_->move_in_zone.find(identity);
+   if(found==impl_->move_in_zone.end()){error="MoveInZone Register requires its source Compile binding";return false;}
+   auto& binding=*found->second;
+   if(binding.objective!=&objective||binding.quest_identity!=quest_identity||
+      binding.ordinal!=ordinal||binding.target_identity!=objective.derived_28||
+      objective.derived_24.index()!=0||
+      std::get<std::int32_t>(objective.derived_24)<0||binding.detach_pending){
+    error="MoveInZone Register requires its unchanged compiled target binding";return false;
+   }
+   if(binding.script_id>=0&&!binding.start_script){error="MoveInZone Register requires its completion-script provider";return false;}
+   if(binding.attached){error.clear();return true;}
+   auto* context=&binding;bool attached=false;
+   const auto status=impl_->current_level_events.attach(binding.event_type,identity,0,
+       context,Impl::MoveInZoneBinding::receive,attached,error);
+   if(status!=LevelEventStatus::complete||!attached){
+    if(error.empty())error="MoveInZone EventManager::Attach did not add its receiver";
+    return false;
+   }
+   binding.attached=true;error.clear();return true;
+  }
+  case of::Dispatch::open_game_object:{
+   const auto found=impl_->open_game_object.find(objective.ref.action.identity);
+   if(found==impl_->open_game_object.end()){
+    error="OpenGameObject Register requires its source Compile binding";return false;
+   }
+   return og::register_objective(objective,found->second->objective_binding,error);
+  }
+  case of::Dispatch::base:case of::Dispatch::event_receiver:
+   return clear_error(); // no registration override on the base Objective.
+  default:
+   error="Objective Register dispatch has no source owner for this canonical kind";return false;
+  }
+ }
+ if(call.is_virtual&&call.adjustment==0&&call.function==0x10){
+  if(objective.dispatch_0==of::Dispatch::open_game_object){
+   if(!objective.compiled_8)return clear_error();
+   const auto found=impl_->open_game_object.find(objective.ref.action.identity);
+   if(found==impl_->open_game_object.end()){
+    error="OpenGameObject InstallObjectiveMarker requires its source Compile binding";return false;
+   }
+   return og::marker(objective,og::MarkerOperation::install,error);
+  }
+  if(objective.dispatch_0!=of::Dispatch::talk_to_npc)return clear_error();
+  if(!objective.compiled_8)return clear_error();
+  if(!services.talk_marker){error="TalkToNPC InstallObjectiveMarker requires the current-Level CharacterList/VisualFX provider";return false;}
+  dh2_quest_objective definition{};
+  if(!objective_definition(objective,definition,error))return false;
+  if(definition.common[1]!=5)return clear_error();
+  const auto target=std::get_if<std::int32_t>(&objective.derived_24);
+  if(!target){error="TalkToNPC marker target projection is unavailable";return false;}
+  return services.talk_marker(services.talk_marker_context,
+       objective.ref.action.identity,&objective.derived_28,*target,
+       TalkObjectiveMarkerOperationV1::install,call.marker_priority,
+       call.quest_state,error);
+ }
+ if(call.is_virtual&&call.adjustment==0&&call.function==0x14){
+  if(objective.dispatch_0==of::Dispatch::open_game_object){
+   const auto found=impl_->open_game_object.find(objective.ref.action.identity);
+   if(found==impl_->open_game_object.end())return clear_error();
+   return og::marker(objective,og::MarkerOperation::remove,error);
+  }
+  if(objective.dispatch_0==of::Dispatch::talk_to_npc){
+   if(!services.talk_marker){error="TalkToNPC RemoveObjectiveMarker requires the current-Level CharacterList/VisualFX provider";return false;}
+   dh2_quest_objective definition{};
+   if(!objective_definition(objective,definition,error))return false;
+   if(definition.common[1]!=5)return clear_error();
+   const auto target=std::get_if<std::int32_t>(&objective.derived_24);
+   if(!target){error="TalkToNPC marker target projection is unavailable";return false;}
+   return services.talk_marker(services.talk_marker_context,
+       objective.ref.action.identity,&objective.derived_28,*target,
+       TalkObjectiveMarkerOperationV1::remove,call.marker_priority,
+       call.quest_state,error);
+  }
+  return clear_error();
+ }
+ if(call.is_virtual&&call.adjustment==0&&call.function==0x1c){
+  switch(objective.dispatch_0){
+  case of::Dispatch::base:case of::Dispatch::event_receiver:
+   return clear_error();
+  case of::Dispatch::kill_enemies:
+   return unregister_kill_x_enemies_objective(quest_identity,ordinal,error);
+  case of::Dispatch::clear_enemies:
+   return unregister_clear_enemies_objective(quest_identity,ordinal,error);
+  case of::Dispatch::kill_enemy_template:
+   return unregister_kill_enemy_template_objective(quest_identity,ordinal,error);
+  case of::Dispatch::clear_enemy_template:
+   return unregister_clear_enemy_template_objective(quest_identity,ordinal,error);
+  case of::Dispatch::gather_loot:
+   return unregister_gather_loot_objective(objective.ref.action.identity,error);
+  case of::Dispatch::talk_to_npc:
+   return unregister_talk_to_npc_objective(quest_identity,ordinal,error);
+  case of::Dispatch::move_in_zone:
+   return unregister_move_in_zone_objective(quest_identity,ordinal,error);
+  case of::Dispatch::open_game_object:
+   return unregister_open_game_object_objective(quest_identity,ordinal,error);
+  default:
+   error="Objective Unregister dispatch has no source owner for this canonical kind";return false;
+  }
+ }
+ error="Objective Compile adapter reached an unsupported virtual/member call";return false;
+}
+bool Owner::dispatch_objective_compile_member_v1(
+ qc::Objective& objective,const qc::MemberCall& call,
+ const ObjectiveCompileDispatchServicesV1& services,std::string& error){
+ if(impl_->closed||!impl_->save){error="Objective Compile callback has no live canonical Save";return false;}
+ // CompileQuests visits each Quest's accept/end ActionRefs before iterating
+ // ObjectiveList children. Those refs borrow canonical Objective factory
+ // Records too, but are deliberately not members of the child list; the base
+ // Objective virtuals reached here are source no-ops. Recognize only records
+ // retained by this factory and actually referenced by a published Quest.
+ const auto objective_factory_record=impl_->objectives.find(
+     objective.ref.action.identity);
+ if(objective_factory_record!=impl_->objectives.end()&&
+    objective_factory_record->second.get()==&objective&&
+    objective.ref.fields==&objective.fields&&
+    objective.ref.action.character_10==&objective.fields.character_10){
+  bool quest_action=false;
+  for(const auto& entry:impl_->slots){
+   const auto& slot=*entry.second;
+   if(!slot.value||slot.value->record().ref.identity!=entry.first)continue;
+   const auto& quest=slot.value->record();
+   if(quest.action_18==&objective.ref.action||
+      quest.action_1c==&objective.ref.action){quest_action=true;break;}
+  }
+  if(quest_action){
+   if(objective.dispatch_0==of::Dispatch::talk_to_npc&&call.is_virtual&&
+      call.adjustment==0&&call.function==8){
+    dh2_quest_objective definition{};
+    if(!objective_definition(objective,definition,error))return false;
+    if(definition.common[0]!=objective.fields.type_4){
+     error="TalkToNPC Quest action Compile found a changed retained source selector";return false;
+    }
+    // IDA 0x47ec80 (v2QuestTalkToNPC::Compile): target props ID -> +0x24,
+    // compiled iff target != -1; already-satisfied saved counts complete now.
+    objective.derived_24=definition.args[0];
+    if(definition.args[0]!=-1){
+     objective.compiled_8=1;
+     if(static_cast<std::int32_t>(objective.quantity_20)>=definition.args[2]&&
+        !objective.done_14){
+      objective.done_14=1; // Objective::SetIsCompleted writes before its script call.
+      if(definition.common[2]>=0){
+       if(!services.start_script){error="TalkToNPC Quest action completion requires the current ScriptManager provider";return false;}
+       if(!services.start_script(services.script_context,definition.common[2],error)){
+        if(error.empty())error="TalkToNPC Quest action completion script activation failed";
+        return false;
+       }
+      }
+     }
+    }
+    error.clear();return true;
+   }
+   if(objective.dispatch_0==of::Dispatch::automatic&&call.is_virtual&&
+      call.adjustment==0&&call.function==8){
+    dh2_quest_objective definition{};
+    if(!objective_definition(objective,definition,error))return false;
+    if(definition.common[0]!=objective.fields.type_4){
+     error="Automatic Compile found a changed retained source selector";return false;
+    }
+    // IDA 0x47bd80: Objective_Automatic::Compile stores compiled_8=1,
+    // then calls Objective::SetIsCompleted on this same Quest action record.
+    objective.compiled_8=1;
+    if(objective.done_14){error.clear();return true;}
+    objective.done_14=1;
+    if(definition.common[2]>=0){
+     if(!services.start_script){error="Automatic SetIsCompleted requires the current ScriptManager provider";return false;}
+     if(!services.start_script(services.script_context,definition.common[2],error)){
+      if(error.empty())error="Automatic SetIsCompleted source script activation failed";
+      return false;
+     }
+    }
+    error.clear();return true;
+   }
+   if(objective.dispatch_0==of::Dispatch::move_in_zone&&call.is_virtual&&
+      call.adjustment==0&&call.function==8){
+    dh2_quest_objective definition{};std::string target_name;
+    if(!objective_definition(objective,definition,error)||
+       !objective_string(objective,definition,1,target_name,error))return false;
+    if(definition.common[0]!=objective.fields.type_4){
+     error="MoveInZone Compile found a changed retained source selector";return false;
+    }
+    if(!services.object_manager){
+     error="MoveInZone Compile requires the current Level's canonical ObjectManager";return false;
+    }
+    auto* target=services.object_manager->find_by_name(target_name,-1);
+    objective.derived_24=std::int32_t(-1);objective.derived_28=0;
+    if(!target){objective.compiled_8=0;error.clear();return true;}
+    if(!target->identity){error="MoveInZone ObjectManager target lacks its canonical identity";return false;}
+    if(definition.args[1]!=-1){
+     const auto& population=services.population.kill_enemies;
+     if(!population.read_current_level_population||!population.expected_level_identity){
+      error="MoveInZone Compile requires current-Level TestCharPropId population services";return false;
+     }
+     ClearEnemiesPopulationSnapshotV1 snapshot{};
+     if(!population.read_current_level_population(population.context,
+         reinterpret_cast<std::uintptr_t>(this),population.expected_level_identity,
+         definition.args[1],snapshot,error)){
+      if(error.empty())error="MoveInZone current-Level TestCharPropId query failed";
+      return false;
+     }
+     if(snapshot.event_owner_identity!=reinterpret_cast<std::uintptr_t>(this)||
+        snapshot.level_identity!=population.expected_level_identity||
+        snapshot.level_id<0||snapshot.loaded_match_count<0){
+      error="MoveInZone population query returned a stale Level or invalid count";return false;
+     }
+     if(snapshot.loaded_match_count==0){objective.compiled_8=0;error.clear();return true;}
+    }
+    objective.derived_24=target->source_handle;objective.derived_28=target->identity;
+    objective.compiled_8=1;error.clear();return true;
+   }
+   if((objective.dispatch_0==of::Dispatch::base&&call.is_virtual&&
+       call.adjustment==0&&(call.function==8||call.function==0x18||
+        call.function==0x10||call.function==0x14||call.function==0x1c))||
+      (objective.dispatch_0==of::Dispatch::automatic&&call.is_virtual&&
+       call.adjustment==0&&(call.function==0x18||call.function==0x10||
+        call.function==0x14||call.function==0x1c))){
+    error.clear();return true;
+   }
+   error="Quest action Objective dispatch "+
+     std::to_string(static_cast<unsigned>(objective.dispatch_0))+" member "+
+     std::to_string(call.function)+" virtual "+
+     std::to_string(call.is_virtual)+" adjustment "+
+     std::to_string(call.adjustment)+" is unsupported";
+   return false;
+  }
+ }
+ std::uintptr_t parent=0;unsigned matches=0;
+ for(const auto& entry:impl_->slots){
+  const auto& slot=*entry.second;
+  if(!slot.value||slot.value->record().ref.identity!=entry.first)continue;
+  const auto& list=slot.value->objectives();
+  if(list.count_0<0||(list.count_0>0&&(!list.children_4||
+     std::uint64_t(std::uint32_t(list.count_0))>list.children_4->slots.size()))){
+   error="Objective Compile callback encountered an invalid canonical ObjectiveList";return false;
+  }
+  for(std::uint32_t index=0;index<std::uint32_t(list.count_0);++index){
+   if(impl_->resolve_objective(list.children_4->slots[index])!=&objective)continue;
+   parent=entry.first;++matches;
+  }
+ }
+ if(matches!=1){
+  error=matches?"Objective Compile callback found an aliased parent identity":
+                "Objective Compile callback cannot find this canonical Objective in its Save";
+  return false;
+ }
+ return dispatch_objective_compile_member_v1(parent,objective,call,services,error);
 }
 bool Owner::register_kill_x_enemies_objective(std::uintptr_t quest_identity,
  std::uint32_t objective_ordinal,
@@ -1714,6 +2398,74 @@ bool Owner::unregister_gather_loot_objective(std::uintptr_t identity,std::string
  }
  error.clear();return true;
 }
+bool Owner::unregister_talk_to_npc_objective(std::uintptr_t quest_identity,
+ std::uint32_t objective_ordinal,std::string& error){
+ if(impl_->busy||impl_->closed){error="Native Quest owner unavailable for TalkToNPC Unregister";return false;}
+ auto* objective=impl_->objective_at(quest_identity,objective_ordinal);
+ if(!objective||objective->dispatch_0!=of::Dispatch::talk_to_npc){
+  error="TalkToNPC Unregister requires its canonical Quest Objective";return false;
+ }
+ const auto found=impl_->talk_to_npc.find(objective->ref.action.identity);
+ if(found==impl_->talk_to_npc.end()){error="TalkToNPC Objective is not registered by this Owner";return false;}
+ auto& binding=*found->second;
+ if(binding.objective!=objective||binding.quest_identity!=quest_identity||
+    binding.ordinal!=objective_ordinal){error="TalkToNPC receiver identity/projection changed";return false;}
+ if(!binding.detach_pending){
+  bool scheduled=false;
+  const auto status=impl_->current_level_events.delayed_detach(binding.event_type,
+       objective->ref.action.identity,scheduled,error);
+  if(status!=LevelEventStatus::complete||!scheduled){
+   if(error.empty())error="TalkToNPC EventManager delayed detach failed";
+   return false;
+  }
+  binding.detach_pending=true;
+ }
+ if(binding.target_marked){
+  if(!binding.marker){error="TalkToNPC Unregister lost its borrowed Character marker provider";return false;}
+  if(!binding.marker(binding.marker_context,binding.objective->ref.action.identity,
+       &binding.objective->derived_28,binding.target_props_id,
+       TalkObjectiveMarkerOperationV1::unregister_target,0,0,error)){
+   if(error.empty())error="TalkToNPC target Character marker clear failed";
+   return false;
+  }
+  binding.target_marked=false;
+ }
+ error.clear();return true;
+}
+bool Owner::unregister_move_in_zone_objective(std::uintptr_t quest_identity,
+ std::uint32_t objective_ordinal,std::string& error){
+ if(impl_->busy||impl_->closed){error="Native Quest owner unavailable for MoveInZone Unregister";return false;}
+ auto* objective=impl_->objective_at(quest_identity,objective_ordinal);
+ if(!objective||objective->dispatch_0!=of::Dispatch::move_in_zone){
+  error="MoveInZone Unregister requires its canonical Quest Objective";return false;
+ }
+ const auto found=impl_->move_in_zone.find(objective->ref.action.identity);
+ if(found==impl_->move_in_zone.end()){error="MoveInZone Objective has no source Compile binding";return false;}
+ auto& binding=*found->second;
+ if(binding.objective!=objective||binding.quest_identity!=quest_identity||
+    binding.ordinal!=objective_ordinal){error="MoveInZone receiver identity/projection changed";return false;}
+ if(binding.detach_pending){error.clear();return true;}
+ bool scheduled=false;
+ if(impl_->current_level_events.delayed_detach(binding.event_type,
+      objective->ref.action.identity,scheduled,error)!=LevelEventStatus::complete)return false;
+ if(binding.attached&&!scheduled){error="MoveInZone EventManager receiver disappeared before Unregister";return false;}
+ binding.attached=false;binding.detach_pending=scheduled;
+ error.clear();return true;
+}
+bool Owner::unregister_open_game_object_objective(std::uintptr_t quest_identity,
+ std::uint32_t objective_ordinal,std::string& error){
+ if(impl_->busy||impl_->closed){error="Native Quest owner unavailable for OpenGameObject Unregister";return false;}
+ auto* objective=impl_->objective_at(quest_identity,objective_ordinal);
+ if(!objective||objective->dispatch_0!=of::Dispatch::open_game_object){
+  error="OpenGameObject Unregister requires its canonical Quest Objective";return false;
+ }
+ const auto found=impl_->open_game_object.find(objective->ref.action.identity);
+ if(found==impl_->open_game_object.end()){error="OpenGameObject Objective has no source Compile binding";return false;}
+ auto& binding=*found->second;
+ if(binding.objective!=objective||binding.quest_identity!=quest_identity||
+    binding.ordinal!=objective_ordinal){error="OpenGameObject receiver identity/projection changed";return false;}
+ return og::unregister_objective(*objective,binding.objective_binding,error);
+}
 bool Owner::compile_gather_loot_objectives(std::uintptr_t quest_identity,
  data::FreshInventoryOwnedV4& inventory,std::int32_t current_level_id,
  void* script_context,GatherLootStartScript start_script,std::string& error){
@@ -1896,6 +2648,47 @@ bool Owner::close(std::string& error){
    binding.inventory_registered=false;
   }
   impl_->gather_loot.erase(found);
+ }
+ while(!impl_->talk_to_npc.empty()){
+  const auto found=impl_->talk_to_npc.begin();const auto identity=found->first;
+  auto& binding=*found->second;
+  if(binding.attached){bool detached=false;
+   if(impl_->current_level_events.detach(binding.event_type,identity,detached,error)!=LevelEventStatus::complete)return false;
+   if(!detached){error="TalkToNPC EventManager receiver disappeared during Owner close";return false;}
+   binding.attached=false;
+  }
+  if(binding.target_marked){
+   if(!binding.marker||!binding.marker(binding.marker_context,
+       binding.objective->ref.action.identity,&binding.objective->derived_28,
+       binding.target_props_id,
+       TalkObjectiveMarkerOperationV1::unregister_target,0,0,error)){
+    if(error.empty())error="TalkToNPC target marker clear failed during Owner close";
+    return false;
+   }
+   binding.target_marked=false;
+  }
+  impl_->talk_to_npc.erase(found);
+ }
+ while(!impl_->move_in_zone.empty()){
+  const auto found=impl_->move_in_zone.begin();const auto identity=found->first;
+  auto& binding=*found->second;
+  if(binding.attached){bool detached=false;
+   if(impl_->current_level_events.detach(binding.event_type,identity,detached,error)!=LevelEventStatus::complete)return false;
+   if(!detached){error="MoveInZone EventManager receiver disappeared during Owner close";return false;}
+   binding.attached=false;
+  }
+  impl_->move_in_zone.erase(found);
+ }
+ while(!impl_->open_game_object.empty()){
+  const auto found=impl_->open_game_object.begin();const auto identity=found->first;
+  auto& binding=*found->second;
+  if(binding.objective_binding.registered){bool detached=false;
+   if(impl_->current_level_events.detach(binding.objective_binding.event_type,
+       identity,detached,error)!=LevelEventStatus::complete)return false;
+   if(!detached){error="OpenGameObject EventManager receiver disappeared during Owner close";return false;}
+   binding.objective_binding.registered=false;
+  }
+  impl_->open_game_object.erase(found);
  }
  // These thin source-runtime adapters borrow the same Instances. Retire them
  // before the canonical Quest factory records are destroyed below.

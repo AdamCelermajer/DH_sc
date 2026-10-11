@@ -4,6 +4,7 @@
 #include "character_net_state_owner_v1.hpp"
 #include "character_aggro_character_list.hpp"
 #include "character_faery_script_session_v1.hpp"
+#include "character_faery_controller_v1.hpp"
 #include "character_coordinator.hpp"
 #include "character_kill_field_14e4_v1.hpp"
 #include "character_faery_visual_facade_v1.hpp"
@@ -140,6 +141,10 @@ public:
     // The one AISFaery/CharAIScript session slot for this exact Character
     // Record. Its VM/session lifetime may not outlive this factory owner.
     character_faery_script_session_v1::Owner faery_script{};
+    // The Faery's one source controller/controllable binding lives with this
+    // canonical Character Record. Navigation/body/scene providers borrow it;
+    // no second Character or Coordinator is created.
+    character_faery_controller_v1::State faery_controller{};
     // Typed POCharacter/POFaerie body owner, bound to this Record's existing
     // Character and GameObject projections. This does not construct a second
     // ObjectManager or CharacterList row and does not emulate a native vtable.

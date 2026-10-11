@@ -761,6 +761,8 @@ extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
         row.source_record = object.source_record;
         const auto* character = dh2_world_field(&object, "charpropsname");
         const auto* template_name = dh2_world_field(&object, "_templateName");
+        const auto* char_template_pydata = dh2_world_field(&object, "char_template_pydata");
+        const auto* char_template = dh2_world_field(&object, "char_template");
         const auto* activate = dh2_world_field(&object, "activate_cond");
         const auto* deactivate = dh2_world_field(&object, "deactivate_cond");
         const auto* script = dh2_world_field(&object, "script");
@@ -771,6 +773,8 @@ extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
         if (!copy_source_text(row.name, sizeof(row.name), object.name) ||
             !copy_source_text(row.character, sizeof(row.character), character) ||
             !copy_source_text(row.template_name, sizeof(row.template_name), template_name) ||
+            !copy_source_text(row.char_template_pydata, sizeof(row.char_template_pydata), char_template_pydata) ||
+            !copy_source_text(row.char_template, sizeof(row.char_template), char_template) ||
             !copy_source_text(row.activate_condition, sizeof(row.activate_condition), activate) ||
             !copy_source_text(row.deactivate_condition, sizeof(row.deactivate_condition), deactivate) ||
             !copy_source_text(row.script, sizeof(row.script), script) ||
@@ -836,6 +840,120 @@ extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
                 !std::isfinite(row.world_transform[3 + axis]) ||
                 !std::isfinite(row.world_transform[6 + axis])) {
                 set_error(error, error_capacity, "Source Character transform is non-finite");
+                return 0;
+            }
+        }
+        output[selected_count++] = row;
+    }
+    *output_count = selected_count;
+    return 1;
+}
+
+extern "C" int dh2_world_census_source_objects(const std::uint8_t* mlx,
+    std::size_t mlx_size, const char* level_name, const char* source_path,
+    const dh2_world_source_mgp* mgps, std::size_t mgp_count,
+    const char* gametype_filter, dh2_world_source_object_row* output,
+    std::size_t output_capacity, std::size_t* output_count,
+    char* error, std::size_t error_capacity) {
+    if (output_count) *output_count = 0;
+    if (error && error_capacity) error[0] = 0;
+    if (!mlx || !mlx_size || !level_name || !*level_name || !source_path ||
+        !*source_path || !mgps || !mgp_count || mgp_count > 256 ||
+        !output_count || ((!output) != (output_capacity == 0))) {
+        set_error(error, error_capacity, "Missing generic source MGP census input/output");
+        return 0;
+    }
+
+    SourceOwner owner;
+    dh2::world::Diagnostic diagnostic{};
+    auto status = dh2_world_import_level(&owner.level, level_name, source_path,
+        mlx, mlx_size, &diagnostic);
+    if (status != dh2::world::Error::ok) {
+        set_error(error, error_capacity, diagnostic.message);
+        return 0;
+    }
+    if (owner.level.module_count != mgp_count) {
+        set_error(error, error_capacity, "Generic source MGP census requires one file per MLX Module");
+        return 0;
+    }
+    for (std::uint32_t i = 0; i < owner.level.module_count; ++i) {
+        if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
+            set_error(error, error_capacity, "Generic source MGP census input is incomplete");
+            return 0;
+        }
+        status = dh2_world_import_module_objects(&owner.level, i,
+            dh2::world::RecordKind::mgp, mgps[i].source_path, mgps[i].data,
+            mgps[i].size, &diagnostic);
+        if (status != dh2::world::Error::ok) {
+            set_error(error, error_capacity, diagnostic.message);
+            return 0;
+        }
+    }
+
+    const auto matches = [gametype_filter](const dh2::world::Object& object) {
+        return object.kind == dh2::world::RecordKind::mgp &&
+            (!gametype_filter || !*gametype_filter ||
+             !std::strcmp(object.gametype, gametype_filter));
+    };
+    std::size_t count = 0;
+    for (std::uint32_t i = 0; i < owner.level.entity_count; ++i) {
+        if (!matches(owner.level.entities[i])) continue;
+        if (count >= 32768) {
+            set_error(error, error_capacity, "Generic source MGP census exceeds its bounded row count");
+            return 0;
+        }
+        ++count;
+    }
+    if (!output) {
+        *output_count = count;
+        return 1;
+    }
+    if (output_capacity < count) {
+        set_error(error, error_capacity, "Generic source MGP census output is too small");
+        return 0;
+    }
+
+    std::size_t selected_count = 0;
+    for (std::uint32_t i = 0; i < owner.level.entity_count; ++i) {
+        const auto& object = owner.level.entities[i];
+        if (!matches(object)) continue;
+        if (object.module_index >= owner.level.module_count) {
+            set_error(error, error_capacity, "Generic source MGP module index is invalid");
+            return 0;
+        }
+        dh2_world_source_object_row row{};
+        row.module_index = object.module_index;
+        row.source_record = object.source_record;
+        if (!copy_source_text(row.name, sizeof(row.name), object.name) ||
+            !copy_source_text(row.gametype, sizeof(row.gametype), object.gametype) ||
+            !copy_source_text(row.template_name, sizeof(row.template_name),
+                              dh2_world_field(&object, "_templateName")) ||
+            !copy_source_text(row.activate_condition, sizeof(row.activate_condition),
+                              dh2_world_field(&object, "activate_cond")) ||
+            !copy_source_text(row.deactivate_condition, sizeof(row.deactivate_condition),
+                              dh2_world_field(&object, "deactivate_cond")) ||
+            !copy_source_text(row.dimensions, sizeof(row.dimensions),
+                              dh2_world_field(&object, "dimensions"))) {
+            set_error(error, error_capacity, "Generic source MGP identity/condition field exceeds census bounds");
+            return 0;
+        }
+        const auto& module = owner.level.modules[object.module_index].record;
+        for (unsigned axis = 0; axis < 3; ++axis) {
+            row.local_transform[axis] = object.local.position[axis];
+            row.local_transform[3 + axis] = object.local.rotation_degrees[axis];
+            row.local_transform[6 + axis] = object.local.scale[axis];
+            row.world_transform[axis] = object.world_position[axis];
+            row.world_transform[3 + axis] = object.local.rotation_degrees[axis] +
+                module.local.rotation_degrees[axis];
+            row.world_transform[6 + axis] = object.local.scale[axis] *
+                module.local.scale[axis];
+            if (!std::isfinite(row.local_transform[axis]) ||
+                !std::isfinite(row.local_transform[3 + axis]) ||
+                !std::isfinite(row.local_transform[6 + axis]) ||
+                !std::isfinite(row.world_transform[axis]) ||
+                !std::isfinite(row.world_transform[3 + axis]) ||
+                !std::isfinite(row.world_transform[6 + axis])) {
+                set_error(error, error_capacity, "Generic source MGP transform is non-finite");
                 return 0;
             }
         }

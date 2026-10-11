@@ -19,6 +19,7 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <map>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -36,6 +37,7 @@ struct Options {
     std::int32_t level_row = -1;
     bool movement_attack_scenario = false;
     bool fixed_cultist_scenario = false;
+    bool fixed_cultist_kill_scenario = false;
 };
 
 Options parse(int argc, char** argv) {
@@ -71,6 +73,7 @@ Options parse(int argc, char** argv) {
             const auto scenario = value("--scenario");
             if (scenario == "move-attack") options.movement_attack_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
+            else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
         }
         else if (arg == "--frames") {
@@ -91,10 +94,14 @@ Options parse(int argc, char** argv) {
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
                          "  --scenario fixed-cultist07 route to Crypt enemy 4; attack when nearest and in melee range\n"
+                         "  --scenario fixed-cultist07-kill route to Crypt enemy 4; repeat normal attacks until death or frame bound\n"
                          "Controls: click/touch authored menus; type for character names; WASD move, Space attack, mouse drag orbit, wheel zoom, Esc quit.\n";
             std::exit(0);
         } else throw std::runtime_error("Unknown argument: " + arg);
     }
+    const auto scenario_count = unsigned(options.movement_attack_scenario) +
+        unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario);
+    if (scenario_count > 1) throw std::runtime_error("Select only one gameplay scenario per run");
     if (options.movement_attack_scenario) {
         if (options.level_row < 0) options.level_row = 23;
         if (!frames_supplied) options.frames = 300;
@@ -104,6 +111,11 @@ Options parse(int argc, char** argv) {
         if (options.level_row != 23) throw std::runtime_error("fixed-cultist07 requires Crypt row 23");
         if (!frames_supplied) options.frames = 2400;
         if (options.frames < 4) throw std::runtime_error("fixed-cultist07 requires at least four gameplay frames");
+    } else if (options.fixed_cultist_kill_scenario) {
+        if (options.level_row < 0) options.level_row = 23;
+        if (options.level_row != 23) throw std::runtime_error("fixed-cultist07-kill requires Crypt row 23");
+        if (!frames_supplied) options.frames = 6000;
+        if (options.frames < 4) throw std::runtime_error("fixed-cultist07-kill requires at least four gameplay frames");
     } else if (!options.initial_capture.empty()) {
         throw std::runtime_error("--capture-initial requires a gameplay scenario");
     }
@@ -129,6 +141,55 @@ void print_vitals_snapshot(const char* label, const std::array<int, 7>& values) 
               << " (" << (values[0] - values[1]) / 256.0f << " from max)"
               << " MP " << values[2] / 256.0f << '/' << values[3] / 256.0f
               << " state " << values[6] << (values[4] ? " defeated" : " alive") << '\n';
+}
+
+struct CombatReceiptSnapshot {
+    std::array<int, 7> vitals{};
+    model_renderer::UiPlayerStatsReadV1 stats;
+    std::int32_t gold{};
+    std::map<std::int32_t, std::int64_t> inventory_by_item;
+};
+
+bool read_combat_receipt(CombatReceiptSnapshot& output, std::string& error) {
+    std::uintptr_t player = 0;
+    if (!model_renderer::ui_player_identity(player, error)) return false;
+    CombatReceiptSnapshot candidate;
+    candidate.vitals = model_renderer::player_vitals();
+    if (!model_renderer::ui_player_stats(player, candidate.stats, error) ||
+        !model_renderer::ui_player_inventory_gold(player, candidate.gold, error)) return false;
+    for (std::int32_t slot = 0; slot <= 9; ++slot) {
+        std::vector<model_renderer::UiInventoryItemReadV1> items;
+        if (!model_renderer::ui_player_inventory_slot(player, slot, items, error)) return false;
+        for (const auto& item : items) candidate.inventory_by_item[item.id] += item.quantity;
+    }
+    output = std::move(candidate);
+    error.clear();
+    return true;
+}
+
+void print_combat_receipt(const char* label, const CombatReceiptSnapshot& value) {
+    std::cout << label << " HP " << value.vitals[0] / 256.0f
+              << " | XP " << value.stats.xp << " | level " << value.stats.level
+              << " | gold " << value.gold << " | inventory item IDs "
+              << value.inventory_by_item.size() << " (UI slots 0..9)\n";
+}
+
+void print_combat_receipt_delta(const CombatReceiptSnapshot& before,
+                                const CombatReceiptSnapshot& after) {
+    auto items = after.inventory_by_item;
+    for (const auto& [id, quantity] : before.inventory_by_item) items[id] -= quantity;
+    for (auto it = items.begin(); it != items.end();) {
+        if (it->second == 0) it = items.erase(it);
+        else ++it;
+    }
+    std::cout << "Combat receipt delta | HP "
+              << (after.vitals[0] - before.vitals[0]) / 256.0f
+              << " | XP " << (after.stats.xp - before.stats.xp)
+              << " | level " << before.stats.level << " -> " << after.stats.level
+              << " | gold " << (after.gold - before.gold) << " | item deltas";
+    if (items.empty()) std::cout << " none";
+    for (const auto& [id, quantity] : items) std::cout << ' ' << id << ':' << quantity;
+    std::cout << " (UI slots 0..9)\n";
 }
 
 bool steer_toward_nearest_enemy() {
@@ -488,6 +549,8 @@ void save_capture(const std::filesystem::path& path, int width, int height) {
 int main(int argc, char** argv) {
     try {
         auto options = parse(argc, argv);
+        const bool any_fixed_cultist_scenario =
+            options.fixed_cultist_scenario || options.fixed_cultist_kill_scenario;
         SDL_SetMainReady();
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
             throw std::runtime_error(std::string("SDL_Init: ") + SDL_GetError());
@@ -609,6 +672,14 @@ int main(int argc, char** argv) {
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
         std::uint64_t fixed_attack_frame = 0;
+        std::uint64_t fixed_next_attack_frame = 0;
+        std::uint64_t fixed_target_dead_frame = 0;
+        std::uintptr_t fixed_target_identity = 0;
+        std::uint32_t fixed_attack_count = 0;
+        bool fixed_kill_complete = false;
+        std::string fixed_kill_failure;
+        CombatReceiptSnapshot fixed_receipt_before;
+        bool fixed_receipt_before_ready = false;
         std::uint32_t fixed_route_nodes = 0, fixed_route_edges = 0,
                       fixed_route_status = 0, fixed_route_waypoints = 0;
         bool fixed_route_found = false;
@@ -810,6 +881,103 @@ int main(int argc, char** argv) {
                     }
                 }
             }
+            if (options.fixed_cultist_kill_scenario && scenario_started &&
+                !fixed_kill_complete && fixed_kill_failure.empty() &&
+                rendered_frames && rendered_frames % 15 == 0) {
+                model_renderer::GameplayEnemyStateSnapshotV1 target_state;
+                if (!model_renderer::gameplay_enemy_state_snapshot(
+                        fixed_target_index, target_state, ui_error)) {
+                    fixed_kill_failure = "Fixed Crypt target snapshot failed: " + ui_error;
+                } else if (target_state.name != "_prim_tmp_cultist07") {
+                    fixed_kill_failure = "Fixed Crypt target identity changed: " + target_state.name;
+                } else if (target_state.dead || target_state.hp <= 0) {
+                    if (!fixed_target_dead_frame) {
+                        fixed_target_dead_frame = rendered_frames + 1;
+                        keys.fill(false);
+                        update_movement(keys);
+                        model_renderer::stop_movement();
+                        std::cout << "Fixed Crypt target death observed | " << target_state.name
+                                  << " | HP " << target_state.hp << '/' << target_state.max_hp
+                                  << " | attack attempts " << fixed_attack_count << '\n';
+                    }
+                } else {
+                    model_renderer::GameplayPoseSnapshotV1 pose;
+                    if (!model_renderer::gameplay_pose_snapshot(pose, ui_error)) {
+                        fixed_kill_failure = "Fixed Crypt target pose failed: " + ui_error;
+                    } else if (pose.enemy_index != fixed_target_index) {
+                        if (!steer_toward_fixed_position(fixed_target_position, fixed_route_nodes,
+                                fixed_route_edges, fixed_route_status, fixed_route_found,
+                                fixed_route_waypoints))
+                            fixed_kill_failure = "No selected-floor path to fixed Crypt target";
+                    } else {
+                        const float target_distance = std::hypot(
+                            pose.player_position[0] - fixed_target_position[0],
+                            pose.player_position[1] - fixed_target_position[1]);
+                        constexpr float source_melee_range_xy = 180.0f;
+                        if (target_distance > source_melee_range_xy) {
+                            if (!steer_toward_fixed_position(fixed_target_position, fixed_route_nodes,
+                                    fixed_route_edges, fixed_route_status, fixed_route_found,
+                                    fixed_route_waypoints))
+                                fixed_kill_failure = "No selected-floor path to fixed Crypt target";
+                        } else if (!fixed_target_dead_frame &&
+                                   rendered_frames >= fixed_next_attack_frame) {
+                            keys.fill(false);
+                            update_movement(keys);
+                            model_renderer::stop_movement();
+                            // The SDL Space handler calls this same source-owned
+                            // entry; cooldown and animation acceptance stay live.
+                            const auto attack_result = model_renderer::player_attack();
+                            std::cout << "Fixed Crypt normal attack | attempt "
+                                      << (fixed_attack_count + 1) << " | candidate " << pose.enemy_index
+                                      << " | target XY " << target_distance << " | HP "
+                                      << target_state.hp << '/' << target_state.max_hp
+                                      << " | result " << attack_result << '\n';
+                            if (attack_result == "Attacking") {
+                                std::uintptr_t player = 0;
+                                model_renderer::UiEnemyHudProjectionV1 hud_target;
+                                if (!model_renderer::ui_player_identity(player, ui_error) ||
+                                    !model_renderer::ui_player_enemy_hud_projection(
+                                        player, hud_target, ui_error)) {
+                                    fixed_kill_failure = "Player attack target projection failed: " + ui_error;
+                                } else if (!hud_target.character_target.present ||
+                                    !hud_target.character_target.debug_name ||
+                                    std::string_view(hud_target.character_target.debug_name) !=
+                                        "_prim_tmp_cultist07") {
+                                    fixed_kill_failure = "Default Player attack selected a different target";
+                                } else if (fixed_target_identity &&
+                                    fixed_target_identity != hud_target.character_target.identity) {
+                                    fixed_kill_failure = "Fixed Crypt target Character identity changed";
+                                } else {
+                                    fixed_target_identity = hud_target.character_target.identity;
+                                    scenario_target_index = fixed_target_index;
+                                    if (fixed_attack_count == 0) {
+                                        scenario_target_initial_hp = target_state.hp;
+                                        fixed_attack_frame = rendered_frames;
+                                        scenario_attack_result = attack_result;
+                                    }
+                                    ++fixed_attack_count;
+                                    scenario_attack_sent = true;
+                                    fixed_next_attack_frame = rendered_frames + 60;
+                                    std::cout << "Fixed Crypt selected target identity "
+                                              << fixed_target_identity << " | Player AI target "
+                                              << (hud_target.ai_target.debug_name ?
+                                                  hud_target.ai_target.debug_name : "<none>") << '\n';
+                                }
+                            } else if (attack_result == "Attack is cooling down" ||
+                                       attack_result == "Attack is already in progress") {
+                                fixed_next_attack_frame = rendered_frames + 15;
+                            } else {
+                                fixed_kill_failure = "Normal Player attack failed: " + attack_result;
+                            }
+                        }
+                        if (rendered_frames % 300 == 0)
+                            std::cout << "Fixed Crypt kill progress | nearest " << pose.enemy_index
+                                      << " | target XY " << target_distance << " | target HP "
+                                      << target_state.hp << '/' << target_state.max_hp
+                                      << " | attacks " << fixed_attack_count << '\n';
+                    }
+                }
+            }
             int width = 1, height = 1;
             SDL_GetWindowSizeInPixels(window, &width, &height);
             glViewport(0, 0, width, height);
@@ -836,22 +1004,32 @@ int main(int argc, char** argv) {
             }
             pump_front_audio();
             gameplay_audio.pump(assets.get());
-            if ((options.movement_attack_scenario || options.fixed_cultist_scenario) && scenario_attack_sent &&
+            if ((options.movement_attack_scenario || options.fixed_cultist_scenario ||
+                 options.fixed_cultist_kill_scenario) && scenario_attack_sent &&
                 (rendered_frames + 1) % 30 == 0) {
                 model_renderer::GameplayEnemyStateSnapshotV1 target_state;
                 if (!model_renderer::gameplay_enemy_state_snapshot(
-                        scenario_target_index, target_state, ui_error))
-                    throw std::runtime_error("Shared exact-target HP snapshot failed: " + ui_error);
-                std::cout << "Scenario target HP | " << target_state.name << ' '
-                          << target_state.hp << '/' << target_state.max_hp
-                          << " | delta " << target_state.hp - scenario_target_initial_hp
-                          << " | dead " << target_state.dead << '\n';
+                        scenario_target_index, target_state, ui_error)) {
+                    if (options.fixed_cultist_kill_scenario)
+                        fixed_kill_failure = "Shared exact-target HP snapshot failed: " + ui_error;
+                    else
+                        throw std::runtime_error("Shared exact-target HP snapshot failed: " + ui_error);
+                } else {
+                    std::cout << "Scenario target HP | " << target_state.name << ' '
+                              << target_state.hp << '/' << target_state.max_hp
+                              << " | delta " << target_state.hp - scenario_target_initial_hp
+                              << " | dead " << target_state.dead << '\n';
+                    if (options.fixed_cultist_kill_scenario && target_state.dead &&
+                        !fixed_target_dead_frame)
+                        fixed_target_dead_frame = rendered_frames + 1;
+                }
             }
-            if (gameplay && (options.movement_attack_scenario || options.fixed_cultist_scenario) && !scenario_started) {
+            if (gameplay && (options.movement_attack_scenario || options.fixed_cultist_scenario ||
+                             options.fixed_cultist_kill_scenario) && !scenario_started) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
                 model_renderer::move_axis(0.0f, 0.0f);
-                if (options.fixed_cultist_scenario) {
+                if (any_fixed_cultist_scenario) {
                     model_renderer::GameplayEnemyStateSnapshotV1 target_state;
                     if (!model_renderer::gameplay_enemy_state_snapshot(fixed_target_index, target_state, ui_error))
                         throw std::runtime_error("Fixed Crypt target snapshot failed: " + ui_error);
@@ -862,6 +1040,12 @@ int main(int argc, char** argv) {
                               << ',' << fixed_target_position[2] << '\n';
                     if (target_state.name != "_prim_tmp_cultist07")
                         throw std::runtime_error("Fixed Crypt target identity differs from expected candidate 4");
+                    if (options.fixed_cultist_kill_scenario) {
+                        if (!read_combat_receipt(fixed_receipt_before, ui_error))
+                            throw std::runtime_error("Initial Player XP/inventory snapshot failed: " + ui_error);
+                        fixed_receipt_before_ready = true;
+                        print_combat_receipt("Fixed Crypt player receipt before", fixed_receipt_before);
+                    }
                     if (!steer_toward_fixed_position(fixed_target_position, fixed_route_nodes,
                             fixed_route_edges, fixed_route_status, fixed_route_found,
                             fixed_route_waypoints))
@@ -872,15 +1056,38 @@ int main(int argc, char** argv) {
                 scenario_started = true;
                 if (!options.initial_capture.empty()) save_capture(options.initial_capture, width, height);
             }
-            if (options.frames && rendered_frames + 1 == options.frames && !options.capture.empty())
+            bool capture_saved_this_frame = false;
+            if (options.frames && rendered_frames + 1 == options.frames && !options.capture.empty()) {
                 save_capture(options.capture, width, height);
+                capture_saved_this_frame = true;
+            }
+            const auto completed_frame = rendered_frames + 1;
+            const bool fixed_attack_settled = options.fixed_cultist_scenario &&
+                scenario_attack_sent && completed_frame >= fixed_attack_frame + 120 &&
+                (!options.frames || completed_frame < options.frames);
+            const bool fixed_kill_dead_settled = options.fixed_cultist_kill_scenario &&
+                fixed_target_dead_frame && completed_frame >= fixed_target_dead_frame + 120;
+            if (!capture_saved_this_frame && !options.capture.empty() &&
+                (fixed_attack_settled || fixed_kill_dead_settled ||
+                 (options.fixed_cultist_kill_scenario && !fixed_kill_failure.empty()))) {
+                save_capture(options.capture, width, height);
+                capture_saved_this_frame = true;
+            }
+            if (fixed_kill_dead_settled) {
+                fixed_kill_complete = true;
+                std::cout << "Fixed Crypt kill scenario completed its 120-frame post-death observation\n";
+                running = false;
+            }
+            if (options.fixed_cultist_kill_scenario && !fixed_kill_failure.empty()) {
+                std::cout << "Fixed Crypt kill scenario stopped on source failure: "
+                          << fixed_kill_failure << '\n';
+                running = false;
+            }
             eglSwapBuffers(display, surface);
             ++rendered_frames;
             if (options.frames && rendered_frames >= options.frames) running = false;
             if (options.fixed_cultist_scenario && scenario_attack_sent &&
                 rendered_frames >= fixed_attack_frame + 120) {
-                if (!options.capture.empty() && rendered_frames < options.frames)
-                    save_capture(options.capture, width, height);
                 running = false;
             }
             const auto now = SDL_GetTicks64();
@@ -888,6 +1095,30 @@ int main(int argc, char** argv) {
         }
 
         model_renderer::stop_movement();
+        if (options.fixed_cultist_kill_scenario && gameplay) {
+            if (!fixed_receipt_before_ready)
+                throw std::runtime_error("Fixed Crypt kill scenario did not capture its initial Player receipt");
+            CombatReceiptSnapshot receipt_after;
+            if (!read_combat_receipt(receipt_after, ui_error))
+                throw std::runtime_error("Final Player XP/inventory snapshot failed: " + ui_error);
+            print_combat_receipt("Fixed Crypt player receipt after", receipt_after);
+            print_combat_receipt_delta(fixed_receipt_before, receipt_after);
+            model_renderer::GameplayEnemyStateSnapshotV1 target_state;
+            if (!model_renderer::gameplay_enemy_state_snapshot(
+                    fixed_target_index, target_state, ui_error))
+                throw std::runtime_error("Final fixed Crypt target snapshot failed: " + ui_error);
+            std::cout << "Fixed Crypt kill result | " << target_state.name << ' '
+                      << target_state.hp << '/' << target_state.max_hp
+                      << " | dead " << target_state.dead
+                      << " | attacks " << fixed_attack_count
+                      << " | selected identity " << fixed_target_identity << '\n';
+            if (!fixed_kill_failure.empty())
+                throw std::runtime_error(fixed_kill_failure);
+            if (!fixed_kill_complete || !target_state.dead || target_state.hp > 0)
+                throw std::runtime_error("fixed-cultist07-kill reached its frame bound before verified death");
+            if (fixed_attack_count == 0 || !fixed_target_identity)
+                throw std::runtime_error("fixed-cultist07-kill completed without a verified normal attack");
+        }
         if ((options.movement_attack_scenario || options.fixed_cultist_scenario) && gameplay) {
             if (!scenario_attack_sent) {
                 if (options.fixed_cultist_scenario) {

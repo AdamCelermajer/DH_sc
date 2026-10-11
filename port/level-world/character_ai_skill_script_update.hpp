@@ -12,7 +12,8 @@ struct ReturnValues {
     ValueVector* values;
 };
 enum class Operation : std::uint32_t {
-    construct_values,call_set_skill,erase_values,call_on_skill_update,destroy_values
+    construct_values,call_set_skill,erase_values,call_on_skill_update,destroy_values,
+    call_on_skill_cleanup
 };
 struct Request {
     Operation operation;
@@ -30,12 +31,12 @@ struct Services {
     // or missing implementations fail, never return successful empty no-ops.
     std::int32_t (*invoke)(void*,State*,const Request*,ReturnValues*);
 };
-enum class Phase : std::uint32_t {not_started,construct,set_skill,erase,update,destroy,complete};
-enum class Decision : std::uint32_t {updated,no_script,set_skill_error};
+enum class Phase : std::uint32_t {not_started,construct,set_skill,erase,update,destroy,complete,cleanup};
+enum class Decision : std::uint32_t {updated,no_script,set_skill_error,cleaned};
 struct Result {
     std::uintptr_t resource;
     Phase phase;Decision decision;
-    std::uint32_t service_calls,set_skill_error,erased,updated,constructed,destroyed;
+    std::uint32_t service_calls,set_skill_error,erased,updated,constructed,destroyed,cleaned;
 };
 enum class Status : std::int32_t {complete,invalid_argument,invalid_source_fact,service_unavailable,service_failed};
 // Complete original OnSkillUpdate212B caller. Capture this; construct temporary
@@ -44,6 +45,9 @@ enum class Status : std::int32_t {complete,invalid_argument,invalid_source_fact,
 // OnSkillUpdate(no arguments); destroy. No state/skill-ID/cooldown write is
 // invented. SetSkill and OnSkillUpdate Lua bodies remain provider boundaries.
 Status update(State*,const Services*,Result*);
+// Source CharAI::_SkillCleanUp/_SpellCleanUp calls OnSkillCleanUp through the
+// same SetSkill, ReturnValues, erase and no-argument callback sequence.
+Status cleanup(State*,const Services*,Result*);
 // One owning thread retains controls, actors, scripts, ReturnValues and retired
 // vector backing through synchronous return, including port errors. Provider
 // context retains resources after a failed operation; no added destructor or

@@ -50,6 +50,9 @@ bool NativePlayerCharacterOwnerV1::bind_session(
         checkpoint_position_1468_[0] = 0;
         checkpoint_position_1468_[1] = 0;
         checkpoint_position_1468_[2] = 0;
+        checkpoint_revive_position_1474_[0] = 0;
+        checkpoint_revive_position_1474_[1] = 0;
+        checkpoint_revive_position_1474_[2] = 0;
     }
     player_character_660_ = player_character_660;
     save_ = &save;
@@ -105,6 +108,9 @@ bool NativePlayerCharacterOwnerV1::unbind_session(std::string& error) {
     checkpoint_position_1468_[0] = 0;
     checkpoint_position_1468_[1] = 0;
     checkpoint_position_1468_[2] = 0;
+    checkpoint_revive_position_1474_[0] = 0;
+    checkpoint_revive_position_1474_[1] = 0;
+    checkpoint_revive_position_1474_[2] = 0;
     if (!association_matches) {
         error = "PlayerInfo Character660 changed before native Character retirement";
         return false;
@@ -156,6 +162,24 @@ const std::uint32_t* NativePlayerCharacterOwnerV1::checkpoint_position_1468(
     return character == identity() && player_character_660_ &&
            *player_character_660_ == identity() && save_ &&
            save_->character() == identity() ? checkpoint_position_1468_ : nullptr;
+}
+
+bool NativePlayerCharacterOwnerV1::save_checkpoint_revive_position(
+        std::uintptr_t character, const std::uint32_t source_xyz[3]) noexcept {
+    if (!source_xyz || character != identity() || !player_character_660_ ||
+        *player_character_660_ != identity() || !save_ ||
+        save_->character() != identity()) return false;
+    checkpoint_revive_position_1474_[0] = source_xyz[0];
+    checkpoint_revive_position_1474_[1] = source_xyz[1];
+    checkpoint_revive_position_1474_[2] = source_xyz[2];
+    return true;
+}
+
+const std::uint32_t* NativePlayerCharacterOwnerV1::checkpoint_revive_position_1474(
+        std::uintptr_t character) const noexcept {
+    return character == identity() && player_character_660_ &&
+           *player_character_660_ == identity() && save_ &&
+           save_->character() == identity() ? checkpoint_revive_position_1474_ : nullptr;
 }
 
 data::PropertyState* NativePlayerCharacterOwnerV1::properties_for(

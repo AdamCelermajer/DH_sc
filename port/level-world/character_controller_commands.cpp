@@ -10,6 +10,18 @@ extern "C" int dh2_character_controller_command(
  const ControllerCommandRequest24 request{command,0,state->owner,target};
  return services->invoke(services->context,&request)==1?1:-1;
 }
+extern "C" int dh2_character_controller_point_command(
+ const dh2::character::ControllerCommandState32* state,std::uint32_t command,
+ const float point[3],const dh2::character::ControllerPointCommandServices16* services){
+ using namespace dh2::character;
+ if(!state||!services||!state->controller||command>controller_head_to_point||state->reserved||
+    state->global_blocked>255||state->locked>255||state->forced>255)return -1;
+ if(!state->forced&&(state->global_blocked||state->locked))return 1;
+ if(!state->owner||!point||!services->invoke)return -1;
+ const ControllerPointCommandRequest32 request{command,0,state->owner,
+  {point[0],point[1],point[2]},0};
+ return services->invoke(services->context,&request)==1?1:-1;
+}
 extern "C" int dh2_character_control(std::uintptr_t owner,std::uint32_t command,
  std::uintptr_t target,const dh2::character::CharacterControlServices16* services){
  using namespace dh2::character;

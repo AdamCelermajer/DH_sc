@@ -30,15 +30,31 @@ std::size_t fallback_row(std::int32_t source_id, std::size_t count,
 
 struct Runtime::ScratchArguments {
     struct Entry {
-        enum class Kind : std::uint8_t { text, integer } kind;
+        enum class Kind : std::uint8_t { text, integer, number } kind;
         std::string text;
         std::uint32_t integer = 0;
+        float number = 0.0f;
     };
     std::vector<Entry> entries;
 };
 
+struct Runtime::ScriptInstance {
+    character_ai_skill_script_constructor::State constructor{};
+    SkillArguments arguments{};
+    std::uintptr_t embedded_arguments = 0;
+};
+
+Runtime::Runtime() = default;
+
 Runtime::~Runtime() {
     for (auto* argument : arguments_) delete argument;
+    // Source CharAI::AIUnLoadScriptProcess destroys each nonnull pointer through
+    // CharAISkillScript D0 and resets the vector end. These host-owned records
+    // project that ownership: clearing unique_ptrs releases their embedded
+    // Arguments strings (D1) before the containing AIS VM owner is destroyed.
+    script_instances_.clear();
+    skill_scripts_.clear();
+    faery_scripts_.clear();
 }
 
 bool Runtime::build_selector_tables(const Bindings& bindings) {
@@ -121,6 +137,48 @@ std::int32_t Runtime::report_faery_assertion(void*, Selector::Character*,
     // The authored Ghost list/table fixtures satisfy all selector invariants
     // at assert level 0. Reaching a nonfatal source diagnostic requires a real
     // game logger binding; fail visibly instead of reporting fake success.
+    return 1;
+}
+
+std::int32_t Runtime::construct_invoke(
+    void* raw, character_ai_skill_script_constructor::State* state,
+    const character_ai_skill_script_constructor::Request* request) {
+    auto* self = static_cast<Runtime*>(raw);
+    if (!self || !state || !request || !self->active_bindings_) return 1;
+    const auto found = std::find_if(self->script_instances_.begin(),
+        self->script_instances_.end(), [&](const auto& record) {
+            return reinterpret_cast<std::uintptr_t>(record.get()) == state->identity;
+        });
+    if (found == self->script_instances_.end() ||
+        state->identity != reinterpret_cast<std::uintptr_t>(found->get())) return 1;
+    auto& instance = **found;
+    switch (request->operation) {
+    case character_ai_skill_script_constructor::Operation::arguments_construct:
+        if (request->arguments_identity != state->identity + 0x0cu ||
+            instance.embedded_arguments) return 1;
+        instance.embedded_arguments = request->arguments_identity;
+        return 0;
+    case character_ai_skill_script_constructor::Operation::arguments_push_string:
+        if (request->arguments_identity != instance.embedded_arguments ||
+            !request->text) return 1;
+        instance.arguments.script_name.assign(request->text);
+        return 0;
+    case character_ai_skill_script_constructor::Operation::arguments_push_integer:
+        if (request->arguments_identity != instance.embedded_arguments) return 1;
+        instance.arguments.skill_index = static_cast<float>(request->integer);
+        return 0;
+    case character_ai_skill_script_constructor::Operation::report_assertion:
+        return 1;
+    }
+    return 1;
+}
+
+std::int32_t Runtime::construct_assertion(
+    void* raw, character_ai_skill_script_constructor::State* state,
+    const character_ai_skill_script_constructor::Request* request) {
+    if (!raw || !state || !request) return 1;
+    // Nonfatal assertions need the real source logger. Ghost skill rows in the
+    // shipped cache satisfy the constructor's Character/name assertions.
     return 1;
 }
 
@@ -260,10 +318,9 @@ std::int32_t Runtime::perform(Source::State& state, const Source::Request& reque
     }
     case Source::Operation::append_skill_script: {
         auto& target = request.list == Source::List::skill ? skill_scripts_ : faery_scripts_;
-        if (request.list == Source::List::none || request.script_name != 0 ||
-            target.size() >= target.capacity())
+        if (request.list == Source::List::none || target.size() >= target.capacity())
             return 1;
-        try { target.push_back(0); }
+        try { target.push_back(request.script_name); }
         catch (...) { return 1; }
         sync_vectors(state);
         return 0;
@@ -281,6 +338,20 @@ std::int32_t Runtime::perform(Source::State& state, const Source::Request& reque
     }
     case Source::Operation::arguments_push_string:
     case Source::Operation::arguments_push_integer: {
+        const auto embedded = std::find_if(script_instances_.begin(), script_instances_.end(),
+            [&](const auto& instance) {
+                return instance->embedded_arguments == request.arguments;
+            });
+        if (embedded != script_instances_.end()) {
+            if (request.operation == Source::Operation::arguments_push_string) {
+                if ((!request.text && request.text_size)) return 1;
+                (*embedded)->arguments.script_name.assign(request.text ? request.text : "",
+                                                           request.text_size);
+            } else {
+                (*embedded)->arguments.skill_index = static_cast<float>(request.integer);
+            }
+            return 0;
+        }
         auto found = std::find_if(arguments_.begin(), arguments_.end(), [&](auto* p) {
             return reinterpret_cast<std::uintptr_t>(p) == request.arguments;
         });
@@ -296,6 +367,103 @@ std::int32_t Runtime::perform(Source::State& state, const Source::Request& reque
         }
         try { (*found)->entries.push_back(std::move(entry)); }
         catch (...) { return 1; }
+        return 0;
+    }
+    case Source::Operation::arguments_set_string:
+    case Source::Operation::arguments_set_number: {
+        auto found = std::find_if(arguments_.begin(), arguments_.end(), [&](auto* p) {
+            return reinterpret_cast<std::uintptr_t>(p) == request.arguments;
+        });
+        if (found == arguments_.end() || (*found)->entries.size() != 2) return 1;
+        ScratchArguments::Entry entry{};
+        if (request.operation == Source::Operation::arguments_set_string) {
+            const std::string* name = nullptr;
+            for (const auto& row : bindings.skills->skills)
+                if (reinterpret_cast<std::uintptr_t>(row.script.c_str()) == request.script_name) {
+                    name = &row.script; break;
+                }
+            if (!name) for (const auto& row : bindings.faeries->faeries)
+                if (reinterpret_cast<std::uintptr_t>(row.spell_script.c_str()) == request.script_name) {
+                    name = &row.spell_script; break;
+                }
+            if (!name) return 1;
+            entry.kind = ScratchArguments::Entry::Kind::text;
+            entry.text = *name;
+            (*found)->entries[0] = std::move(entry);
+        } else {
+            entry.kind = ScratchArguments::Entry::Kind::number;
+            std::memcpy(&entry.number, &request.number_bits, sizeof(entry.number));
+            (*found)->entries[1] = std::move(entry);
+        }
+        return 0;
+    }
+    case Source::Operation::load_script: {
+        if (!bindings.script_context || !bindings.load_script) return 1;
+        const std::string* name = nullptr;
+        std::string supplied;
+        if (request.text) {
+            supplied.assign(request.text, request.text_size);
+        } else {
+            for (const auto& row : bindings.skills->skills)
+                if (reinterpret_cast<std::uintptr_t>(row.script.c_str()) == request.script_name) {
+                    name = &row.script; break;
+                }
+            if (!name) for (const auto& row : bindings.faeries->faeries)
+                if (reinterpret_cast<std::uintptr_t>(row.spell_script.c_str()) == request.script_name) {
+                    name = &row.spell_script; break;
+                }
+            if (!name) return 1;
+            supplied = *name;
+        }
+        if (supplied.empty() || supplied.size() > (1u << 20)) return 1;
+        bool loaded = false;
+        if (bindings.load_script(bindings.script_context, supplied.data(), supplied.size(), &loaded)) return 1;
+        response.loaded = loaded ? 1u : 0u;
+        return 0;
+    }
+    case Source::Operation::call_script: {
+        if (!bindings.script_context || !bindings.call_script || !request.text ||
+            request.text_size > 128) return 1;
+        dh2_script_value values[2]{};
+        std::uint32_t count = 0;
+        if (request.arguments) {
+            auto found = std::find_if(arguments_.begin(), arguments_.end(), [&](auto* p) {
+                return reinterpret_cast<std::uintptr_t>(p) == request.arguments;
+            });
+            if (found == arguments_.end() || (*found)->entries.size() != 2) return 1;
+            const auto& entries = (*found)->entries;
+            if (entries[0].kind != ScratchArguments::Entry::Kind::text ||
+                entries[1].kind != ScratchArguments::Entry::Kind::number) return 1;
+            values[0].type = DH2_SCRIPT_STRING;
+            values[0].text = entries[0].text.c_str();
+            values[0].text_bytes = entries[0].text.size();
+            values[1].type = DH2_SCRIPT_NUMBER;
+            values[1].number = entries[1].number;
+            count = 2;
+        }
+        const std::string function(request.text, request.text_size);
+        return bindings.call_script(bindings.script_context, function.c_str(),
+                                    count ? values : nullptr, count);
+    }
+    case Source::Operation::allocate_skill_script: {
+        if (request.allocation_bytes != 0x1cu || !request.script_name ||
+            !active_bindings_->ai || !state.owner) return 1;
+        try {
+            auto instance = std::make_unique<ScriptInstance>();
+            const auto identity = reinterpret_cast<std::uintptr_t>(instance.get());
+            instance->constructor.identity = identity;
+            script_instances_.push_back(std::move(instance));
+            response.identity = identity;
+            return 0;
+        } catch (...) { return 1; }
+    }
+    case Source::Operation::release_skill_script_allocation: {
+        const auto found = std::find_if(script_instances_.begin(), script_instances_.end(),
+            [&](const auto& instance) {
+                return reinterpret_cast<std::uintptr_t>(instance.get()) == request.script_name;
+            });
+        if (found == script_instances_.end()) return 1;
+        script_instances_.erase(found);
         return 0;
     }
     case Source::Operation::arguments_destroy: {
@@ -315,17 +483,6 @@ std::int32_t Runtime::perform(Source::State& state, const Source::Request& reque
         ++active_result_->init_vcb_calls;
         return bindings.init_vcb(bindings.init_vcb_context, active);
     }
-    case Source::Operation::arguments_set_string:
-    case Source::Operation::arguments_set_number:
-    case Source::Operation::load_script:
-    case Source::Operation::call_script:
-    case Source::Operation::allocate_skill_script:
-    case Source::Operation::release_skill_script_allocation:
-        // These are reachable only for a non-null Script/SpellScript. The
-        // authored Crypt Ghost path never enters them. Until connected to the
-        // retained Lua VM and source allocator, fail at the exact first use.
-        operation_failure_ = Status::unsupported_script_dependency;
-        return 1;
     }
     return 1;
 }
@@ -341,14 +498,20 @@ Status Runtime::prepare(const Bindings& bindings, Result& result) {
         !bindings.debug_globals->singleton || !bindings.init_vcb ||
         (bindings.skills->skill_lists.size() && bindings.skills->skill_lists.size() > kMaximumRows))
         return Status::invalid_argument;
-    if (!build_selector_tables(bindings)) return Status::invalid_source_tables;
+    if (prepared_ && (prepared_ai_identity_ != bindings.ai->identity ||
+                      prepared_character_identity_ != bindings.ai->owner_04))
+        return Status::invalid_argument;
+    if (!bindings.script_context || !bindings.load_script || !bindings.call_script ||
+        !build_selector_tables(bindings)) return Status::invalid_source_tables;
     const auto faery_size_before = faery_scripts_.size();
-    if (!skill_scripts_.empty() || (faery_size_before != 0 && faery_size_before != 5) ||
+    if ((faery_size_before != 0 && faery_size_before != 5) ||
         std::any_of(faery_scripts_.begin(), faery_scripts_.end(),
                     [](std::uintptr_t identity) { return identity != 0; }))
         return Status::invalid_source_tables;
-    operation_failure_ = Status::service_failed;
-
+    if (skill_scripts_.size() > kMaximumRows ||
+        std::any_of(skill_scripts_.begin(),skill_scripts_.end(),[&](std::uintptr_t identity) {
+            return identity && !arguments_for(identity);
+        })) return Status::invalid_source_tables;
     active_bindings_ = &bindings;
     active_result_ = &result;
     struct Reset {
@@ -373,22 +536,35 @@ Status Runtime::prepare(const Bindings& bindings, Result& result) {
     state.faery_binding.full_width_script_names = &full_width_names_;
     sync_vectors(state);
 
-    Source::Services services{this, invoke, nullptr, nullptr};
+    const character_ai_skill_script_constructor::Globals constructor_globals{
+        bindings.assert_level};
+    const character_ai_skill_script_constructor::Services constructor_services{
+        this, construct_invoke, construct_assertion};
+    Source::Services services{this, invoke, &constructor_services,
+                              &constructor_globals};
     result.source_status = Source::prepare(&state, &services, &result.source);
-    if (result.source_status != Source::Status::complete)
-        return operation_failure_ == Status::unsupported_script_dependency
-            ? operation_failure_ : Status::source_failed;
-    if (skill_scripts_.size() != 0 || faery_scripts_.size() != 5 ||
+    if (result.source_status != Source::Status::complete) return Status::source_failed;
+    if (faery_scripts_.size() != 5 ||
         std::any_of(faery_scripts_.begin(), faery_scripts_.end(),
                     [](std::uintptr_t identity) { return identity != 0; }) ||
-        result.source.skill_slots != 0 ||
+        result.source.skill_slots != skill_scripts_.size() ||
         result.source.faery_slots != (faery_size_before == 0 ? 5u : 0u) ||
         result.source.null_appends != (faery_size_before == 0 ? 5u : 0u) ||
-        result.source.declarations != 0 ||
-        result.source.script_allocations != 0 || result.arguments_created != result.arguments_destroyed)
+        result.arguments_created != result.arguments_destroyed)
         return Status::invalid_source_tables;
     prepared_ = true;
+    prepared_ai_identity_ = bindings.ai->identity;
+    prepared_character_identity_ = bindings.ai->owner_04;
     return Status::complete;
+}
+
+const Runtime::SkillArguments* Runtime::arguments_for(std::uintptr_t script) const noexcept {
+    if (!script) return nullptr;
+    for (const auto& instance : script_instances_)
+        if (reinterpret_cast<std::uintptr_t>(instance.get()) == script &&
+            instance->constructor.identity == script && instance->embedded_arguments == script + 0x0cu)
+            return &instance->arguments;
+    return nullptr;
 }
 
 Status Runtime::cleanup_death_list(Source::List list,

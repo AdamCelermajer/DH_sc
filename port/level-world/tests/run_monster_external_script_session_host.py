@@ -58,8 +58,10 @@ def main() -> int:
     objects.mkdir(exist_ok=True)
     original = ROOT / "recovered/scripts/original/data/scripts/ai"
     commons, monster = original / "_commons.luac", original / "monster.luac"
+    follower = original / "follower.luac"
     assert digest(commons) == "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c"
     assert digest(monster) == "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d"
+    assert digest(follower) == "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d"
     c_sources = [RUNTIME / "lua" / (name + ".c") for name in CORE] + [
         RUNTIME / "script_runtime.c", ROOT / "port/lua-numeric/numeric.c"]
     cpp_sources = [RUNTIME / "script_function_alias.cpp", MODULE / "ais_native_bindings.cpp",
@@ -100,11 +102,14 @@ def main() -> int:
         remote = "/data/local/tmp/dh2-monster-external-session-host"
         remote_commons = "/data/local/tmp/dh2-monster-external-session-commons.luac"
         remote_monster = "/data/local/tmp/dh2-monster-external-session-monster.luac"
+        remote_follower = "/data/local/tmp/dh2-monster-external-session-follower.luac"
         subprocess.run([adb, "-s", serial, "push", str(output), remote], check=True,
                        capture_output=True, text=True)
         subprocess.run([adb, "-s", serial, "push", str(commons), remote_commons], check=True,
                        capture_output=True, text=True)
         subprocess.run([adb, "-s", serial, "push", str(monster), remote_monster], check=True,
+                       capture_output=True, text=True)
+        subprocess.run([adb, "-s", serial, "push", str(follower), remote_follower], check=True,
                        capture_output=True, text=True)
         try:
             subprocess.run([adb, "-s", serial, "shell", "chmod", "700", remote], check=True,
@@ -112,17 +117,29 @@ def main() -> int:
             result = subprocess.run([adb, "-s", serial, "shell", remote,
                                      remote_commons, remote_monster], cwd=ROOT,
                                     capture_output=True, text=True)
+            follower_result = subprocess.run([adb, "-s", serial, "shell", remote,
+                                              "--follower-only", remote_commons,
+                                              remote_follower], cwd=ROOT,
+                                             capture_output=True, text=True)
         finally:
             subprocess.run([adb, "-s", serial, "shell", "rm", "-f", remote,
-                            remote_commons, remote_monster], check=False,
+                            remote_commons, remote_monster, remote_follower], check=False,
                            capture_output=True, text=True)
     else:
         result = subprocess.run([str(output), str(commons), str(monster)], cwd=ROOT,
                                 capture_output=True, text=True)
+        follower_result = subprocess.run([str(output), "--follower-only", str(commons),
+                                          str(follower)], cwd=ROOT, capture_output=True,
+                                         text=True)
     sys.stdout.write(result.stdout)
     sys.stderr.write(result.stderr)
     if result.returncode:
         return result.returncode
+    sys.stdout.write(follower_result.stdout)
+    sys.stderr.write(follower_result.stderr)
+    if follower_result.returncode:
+        return follower_result.returncode
+    assert follower_result.stdout.strip() == "PASS: recovered follower AISExternal callbacks on one VM"
     host = json.loads(result.stdout)
     assert host["monster_external_session_cases"] == 41 and host["mismatches"] == 0, host
     for key in ("unchanged_original_scripts_executed", "spotted_callback_order", "idle_path_short_circuit",
@@ -151,10 +168,10 @@ def main() -> int:
         Path(__file__).resolve()] + list((RUNTIME / "lua").glob("*.h"))
     evidence = {"validation": "PASS", "host_report": host, "compiler_commands": commands,
         "compiled_source_and_header_sha256": {p.relative_to(ROOT).as_posix(): digest(p) for p in dependencies},
-        "unchanged_script_sha256": {p.relative_to(ROOT).as_posix(): digest(p) for p in (commons, monster)},
+        "unchanged_script_sha256": {p.relative_to(ROOT).as_posix(): digest(p) for p in (commons, monster, follower)},
         "executable_sha256": digest(output), "dependency_warnings": warnings,
         "native_wired": False, "whole_original_vm_parity": False,
-        "scope": "Original monster Lua callbacks on one VM; OnDied always receives one killer argument (identity table when nonnull, nil when null), while Stop and explicit Attack preserve service order and target identity; missing providers and the unmodeled no-argument ReturnValues target fail closed; source skills/full lifecycle and live autonomous actor services remain pending"}
+        "scope": "Original monster callbacks plus the recovered generic follower AISExternal callback entrypoints on one VM; follower FriendSpotted/master-range dispatch preserves callback alias and object identity with same-session SetMaster/MoveTo/Stop/WarpBehind/ClearTarget providers; live app Record wiring remains pending"}
     report = args.report.resolve()
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf8")

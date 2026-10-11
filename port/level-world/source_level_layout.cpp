@@ -230,15 +230,17 @@ bool compile_source_dact_with_handles(const std::uint8_t* mlx,
     return true;
 }
 
-bool census_source_characters_with_handles(const std::uint8_t* mlx,
-                         std::size_t mlx_size,const SourceMgpView* mgps,
+bool census_source_characters_with_handles_for_level(const std::uint8_t* mlx,
+                         std::size_t mlx_size,const char* level_name,
+                         const char* source_path,const SourceMgpView* mgps,
                          std::size_t mgp_count,
                          const source_handle_ledger_v1::Ledger& handle_ledger,
                          std::vector<SourceCharacterCensusV1>& output,
                          std::string& error) {
     output.clear();
     error.clear();
-    if (!mlx || !mlx_size || !mgps || !mgp_count || mgp_count > 256 ||
+    if (!mlx || !mlx_size || !level_name || !*level_name || !source_path ||
+        !*source_path || !mgps || !mgp_count || mgp_count > 256 ||
         handle_ledger.occurrences.empty()) {
         error = "Source Character census or ObjectManager handle ledger is incomplete";
         return false;
@@ -256,8 +258,8 @@ bool census_source_characters_with_handles(const std::uint8_t* mlx,
 
     std::size_t row_count = 0;
     char message[160]{};
-    if (!dh2_world_census_source_characters(mlx, mlx_size, "SWAMP",
-            "data/scene/001_swamp.mlx", source_mgps.data(), source_mgps.size(),
+    if (!dh2_world_census_source_characters(mlx, mlx_size, level_name,
+            source_path, source_mgps.data(), source_mgps.size(),
             nullptr, 0, &row_count, message, sizeof(message))) {
         error = message[0] ? message : "Source Character census sizing pass failed";
         return false;
@@ -268,8 +270,8 @@ bool census_source_characters_with_handles(const std::uint8_t* mlx,
     }
     std::vector<dh2_world_source_character_row> rows(row_count);
     std::size_t written = 0;
-    if (!dh2_world_census_source_characters(mlx, mlx_size, "SWAMP",
-            "data/scene/001_swamp.mlx", source_mgps.data(), source_mgps.size(),
+    if (!dh2_world_census_source_characters(mlx, mlx_size, level_name,
+            source_path, source_mgps.data(), source_mgps.size(),
             rows.empty() ? nullptr : rows.data(), rows.size(), &written,
             message, sizeof(message))) {
         error = message[0] ? message : "Source Character census population pass failed";
@@ -319,6 +321,8 @@ bool census_source_characters_with_handles(const std::uint8_t* mlx,
         record.name = row.name;
         record.character = row.character;
         record.template_name = row.template_name;
+        record.char_template_pydata = row.char_template_pydata;
+        record.char_template = row.char_template;
         record.activate_condition = row.activate_condition;
         record.deactivate_condition = row.deactivate_condition;
         record.script = row.script;
@@ -343,6 +347,128 @@ bool census_source_characters_with_handles(const std::uint8_t* mlx,
             record.world.scale[axis] = row.world_transform[6 + axis];
         }
         candidate.push_back(std::move(record));
+    }
+    output = std::move(candidate);
+    error.clear();
+    return true;
+}
+
+bool census_source_characters_with_handles(const std::uint8_t* mlx,
+                         std::size_t mlx_size,const SourceMgpView* mgps,
+                         std::size_t mgp_count,
+                         const source_handle_ledger_v1::Ledger& handle_ledger,
+                         std::vector<SourceCharacterCensusV1>& output,
+                         std::string& error) {
+    return census_source_characters_with_handles_for_level(mlx, mlx_size,
+        "SWAMP", "data/scene/001_swamp.mlx", mgps, mgp_count,
+        handle_ledger, output, error);
+}
+
+bool census_source_objects_with_handles_for_level(const std::uint8_t* mlx,
+                         std::size_t mlx_size,const char* level_name,
+                         const char* source_path,const SourceMgpView* mgps,
+                         std::size_t mgp_count,const char* gametype_filter,
+                         const source_handle_ledger_v1::Ledger& handle_ledger,
+                         std::vector<SourceObjectCensusV1>& output,
+                         std::string& error) {
+    output.clear();
+    error.clear();
+    if (!mlx || !mlx_size || !level_name || !*level_name || !source_path ||
+        !*source_path || !mgps || !mgp_count || mgp_count > 256 ||
+        handle_ledger.occurrences.empty()) {
+        error = "Generic source MGP census or ObjectManager ledger is incomplete";
+        return false;
+    }
+    std::vector<dh2_world_source_mgp> source_mgps;
+    source_mgps.reserve(mgp_count);
+    for (std::size_t i = 0; i < mgp_count; ++i) {
+        if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
+            error = "Generic source MGP census input is incomplete";
+            return false;
+        }
+        source_mgps.push_back({mgps[i].source_path, mgps[i].data,
+                               mgps[i].size});
+    }
+
+    std::size_t row_count = 0;
+    char message[160]{};
+    if (!dh2_world_census_source_objects(mlx, mlx_size, level_name,
+            source_path, source_mgps.data(), source_mgps.size(),
+            gametype_filter, nullptr, 0, &row_count, message, sizeof(message))) {
+        error = message[0] ? message : "Generic source MGP census sizing pass failed";
+        return false;
+    }
+    if (row_count > 32768) {
+        error = "Generic source MGP census exceeds the bounded source object count";
+        return false;
+    }
+    std::vector<dh2_world_source_object_row> rows(row_count);
+    std::size_t written = 0;
+    if (!dh2_world_census_source_objects(mlx, mlx_size, level_name,
+            source_path, source_mgps.data(), source_mgps.size(),
+            gametype_filter, rows.empty() ? nullptr : rows.data(), rows.size(),
+            &written, message, sizeof(message))) {
+        error = message[0] ? message : "Generic source MGP census population pass failed";
+        return false;
+    }
+    if (written != row_count) {
+        error = "Generic source MGP census changed between bounded passes";
+        return false;
+    }
+
+    constexpr RecordKind mgp_kind = static_cast<RecordKind>(1);
+    std::vector<SourceObjectCensusV1> candidate;
+    candidate.reserve(row_count);
+    std::size_t ledger_matches = 0;
+    for (const auto& occurrence : handle_ledger.occurrences) {
+        if (occurrence.source.kind == mgp_kind &&
+            (!gametype_filter || !*gametype_filter ||
+             occurrence.source.gametype == gametype_filter))
+            ++ledger_matches;
+    }
+    if (ledger_matches != row_count) {
+        error = "Generic source MGP census count differs from ObjectManager ledger occurrences";
+        return false;
+    }
+
+    for (const auto& row : rows) {
+        const source_handle_ledger_v1::Occurrence* selected = nullptr;
+        for (const auto& occurrence : handle_ledger.occurrences) {
+            const auto& source = occurrence.source;
+            if (source.kind != mgp_kind || source.module_index != row.module_index ||
+                source.record_index != row.source_record) continue;
+            if (selected) {
+                error = "Generic source MGP provenance maps to multiple handle occurrences";
+                return false;
+            }
+            selected = &occurrence;
+        }
+        if (!selected || selected->handle < 0 ||
+            selected->source.name != row.name ||
+            selected->source.gametype != row.gametype) {
+            error = "Generic source MGP row has no exact ObjectManager ledger key";
+            return false;
+        }
+        SourceObjectCensusV1 object{};
+        object.module_index = row.module_index;
+        object.source_record = row.source_record;
+        object.source_handle = selected->handle;
+        object.duplicate_name = selected->duplicate_name;
+        object.name = row.name;
+        object.gametype = row.gametype;
+        object.template_name = row.template_name;
+        object.activate_condition = row.activate_condition;
+        object.deactivate_condition = row.deactivate_condition;
+        object.dimensions = row.dimensions;
+        for (unsigned axis = 0; axis < 3; ++axis) {
+            object.local.position[axis] = row.local_transform[axis];
+            object.local.rotation_degrees[axis] = row.local_transform[3 + axis];
+            object.local.scale[axis] = row.local_transform[6 + axis];
+            object.world.position[axis] = row.world_transform[axis];
+            object.world.rotation_degrees[axis] = row.world_transform[3 + axis];
+            object.world.scale[axis] = row.world_transform[6 + axis];
+        }
+        candidate.push_back(std::move(object));
     }
     output = std::move(candidate);
     error.clear();

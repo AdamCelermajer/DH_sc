@@ -54,6 +54,9 @@ static int dispatch(void* raw, const session::Request& request,
         owner.common_loaded = true; return 0;
     case session::Operation::initialize:
         owner.initialized = true; return 0;
+    case session::Operation::init_post:
+    case session::Operation::init_final:
+        return owner.initialized ? 0 : 1;
     case session::Operation::update:
         return owner.initialized ? 0 : 1;
     case session::Operation::close:
@@ -99,6 +102,12 @@ int main() {
            record_session::Status::complete);
     assert(record_session::initialize(record, error) ==
            record_session::Status::complete);
+    assert(record_session::init_post(record, error) ==
+           record_session::Status::complete);
+    assert(record_session::init_final(record, error) ==
+           record_session::Status::complete);
+    assert(record_session::init_final(record, error) ==
+           record_session::Status::session_rejected);
 
     // A different factory AI component cannot update this Character's AIS.
     auto& ai_slot = record.components.slots[
@@ -118,6 +127,9 @@ int main() {
         session::Operation::bind_character,
         session::Operation::load_common,
         session::Operation::initialize,
+        session::Operation::init_post,
+        session::Operation::init_final,
+        session::Operation::init_final,
         session::Operation::update,
         session::Operation::close}));
 

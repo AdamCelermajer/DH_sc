@@ -31,6 +31,7 @@ struct Fixture {
     Source commons{}, monster{};
     std::vector<std::string> trace;
     std::uintptr_t target = 0;
+    std::uintptr_t master = 0, last_master = 0, last_warp_master = 0;
     std::int32_t state = 3;
     std::uint32_t path = 0, has_target_override = 0;
     bool override_has_target = false;
@@ -44,6 +45,7 @@ struct Fixture {
     std::uintptr_t last_face = 0, last_move = 0;
     std::uintptr_t last_attack = 0;
     unsigned property_reads = 0, faces = 0, moves = 0, stops = 0, attacks = 0;
+    unsigned master_sets = 0, target_clears = 0, warps = 0;
     unsigned play_sound_calls = 0, stop_sound_calls = 0;
     std::string sound_label, stopped_sound_label;
     std::size_t sound_label_bytes = 0, stopped_sound_label_bytes = 0;
@@ -76,9 +78,10 @@ std::int32_t constant(void* raw, const char* category, const char* member,
                        std::int32_t* value) {
     auto& fixture = *static_cast<Fixture*>(raw);
     fixture.trace.emplace_back("Idle");
-    require(std::string(category) == "AIStates" && std::string(member) == "Idle",
-            "original Idle query changed");
-    *value = 3;
+    require(std::string(category) == "AIStates" &&
+                (std::string(member) == "Idle" || std::string(member) == "Move"),
+            "original AI state query changed");
+    *value = std::string(member) == "Idle" ? 3 : 4;
     return 0;
 }
 Services bind(Fixture&);
@@ -141,6 +144,22 @@ std::int32_t actor_stop(void* raw, std::uintptr_t identity) {
     ++fixture.stops;
     return 0;
 }
+std::int32_t has_master(void* raw,std::uintptr_t identity,std::uint32_t* value) {
+    auto& fixture=actor(raw,identity);fixture.trace.emplace_back("HasMaster");
+    *value=fixture.master!=0;return 0;
+}
+std::int32_t set_master(void* raw,std::uintptr_t identity,std::uintptr_t master) {
+    auto& fixture=actor(raw,identity);fixture.trace.emplace_back("SetMaster");
+    fixture.master=fixture.last_master=master;++fixture.master_sets;return 0;
+}
+std::int32_t clear_target(void* raw,std::uintptr_t identity) {
+    auto& fixture=actor(raw,identity);fixture.trace.emplace_back("ClearTarget");
+    fixture.target=0;++fixture.target_clears;return 0;
+}
+std::int32_t warp_behind(void* raw,std::uintptr_t identity,std::uintptr_t master) {
+    auto& fixture=actor(raw,identity);fixture.trace.emplace_back("WarpBehind");
+    fixture.last_warp_master=master;++fixture.warps;return 0;
+}
 std::int32_t actor_attack(void* raw, std::uintptr_t identity, std::uintptr_t target) {
     auto& fixture = actor(raw, identity);
     fixture.trace.emplace_back("Attack");
@@ -181,6 +200,10 @@ Services bind(Fixture& fixture) {
     services.attack = actor_attack;
     services.play_sound = play_sound;
     services.stop_sound = stop_sound;
+    services.has_master = has_master;
+    services.set_master = set_master;
+    services.clear_target = clear_target;
+    services.warp_behind = warp_behind;
     return services;
 }
 void initialized(Session& session, Fixture& fixture, Source commons, Source monster) {
@@ -272,6 +295,70 @@ AddToVFTable('OnTargetInMeleeRange', 'NativeMissingStopFade')
 
 int main(int argc, char** argv) {
     try {
+        if (argc == 4 && std::string(argv[1]) == "--follower-only") {
+            const auto commons_bytes=read(argv[2]),follower_bytes=read(argv[3]);
+            const auto commons=source(commons_bytes),follower=source(follower_bytes);
+            Session follower_session;Fixture follower_fixture;
+            follower_fixture.session=&follower_session;
+            auto services=bind(follower_fixture);
+            std::string follower_error;
+            require(follower_session.create(services,follower_error)==Status::complete &&
+                    follower_session.bind_functions(follower_error)==Status::complete &&
+                    follower_session.load_common(commons,follower_error)==Status::complete &&
+                    follower_session.load_external_named(follower,
+                        "data/scripts/ai/follower.luac",follower_error)==Status::complete &&
+                    follower_session.ready(),
+                    "source follower must load on the same external AIS VM");
+            bool present=false;
+            for (const auto event : {Event::friend_spotted,Event::master_out_of_sight,
+                    Event::master_out_of_range,Event::master_in_ranged_range,
+                    Event::master_in_close_range,Event::master_in_melee_range}) {
+                const char* alias=follower_session.source_alias(event);
+                require(alias&&follower_session.contains_source_alias(
+                    event==Event::friend_spotted?"OnFriendSpotted":
+                    event==Event::master_out_of_sight?"OnMasterOutOfSight":
+                    event==Event::master_out_of_range?"OnMasterOutOfRange":
+                    event==Event::master_in_ranged_range?"OnMasterInRangedRange":
+                    event==Event::master_in_close_range?"OnMasterInCloseRange":
+                    "OnMasterInMeleeRange",present)&&present,
+                    "source follower callback alias missing from its AIS VF table");
+            }
+            const auto master_identity=0x2345678900000023ull;
+            require(follower_session.dispatch(Event::friend_spotted,master_identity,
+                        follower_error)==Status::complete&&
+                    follower_fixture.master==master_identity&&
+                    follower_fixture.master_sets==1,
+                    "follower friend callback did not set its first live master");
+            require(follower_session.dispatch(Event::friend_spotted,
+                        0x3456789a00000035ull,follower_error)==Status::complete&&
+                    follower_fixture.master==master_identity&&
+                    follower_fixture.master_sets==1,
+                    "follower replaced an existing master");
+            require(follower_session.dispatch(Event::master_out_of_sight,0,
+                        follower_error)==Status::complete&&follower_fixture.warps==1&&
+                    follower_fixture.last_warp_master==master_identity,
+                    "follower out-of-sight callback lost cached master identity");
+            follower_fixture.state=3;
+            require(follower_session.dispatch(Event::master_out_of_range,0,
+                        follower_error)==Status::complete&&follower_fixture.moves==1&&
+                    follower_fixture.last_move==master_identity&&
+                    follower_fixture.target_clears==1,
+                    "follower out-of-range MoveTo/ClearTarget order changed");
+            follower_fixture.state=4;
+            require(follower_session.dispatch(Event::master_out_of_range,0,
+                        follower_error)==Status::complete&&follower_fixture.moves==1&&
+                    follower_fixture.target_clears==2,
+                    "follower Move state did not suppress only MoveTo");
+            require(follower_session.dispatch(Event::master_in_ranged_range,0,
+                        follower_error)==Status::complete&&
+                    follower_session.dispatch(Event::master_in_close_range,0,
+                        follower_error)==Status::complete&&
+                    follower_session.dispatch(Event::master_in_melee_range,0,
+                        follower_error)==Status::complete&&follower_fixture.stops==3,
+                    "follower range callbacks did not route Stop through the same VM");
+            std::puts("PASS: recovered follower AISExternal callbacks on one VM");
+            return 0;
+        }
         if (argc == 4 && std::string(argv[1]) == "--audio-only") {
             const auto commons_bytes=read(argv[2]),monster_bytes=read(argv[3]);
             audio_bridge_case(source(commons_bytes),source(monster_bytes));

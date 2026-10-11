@@ -18,6 +18,8 @@ enum class Operation : std::uint32_t {
     bind_functions,
     load_common,
     initialize,
+    init_post,
+    init_final,
     update,
     close,
 };
@@ -47,6 +49,8 @@ struct Session {
     bool functions_bound{};
     bool common_loaded{};
     bool initialized{};
+    bool init_post_called{};
+    bool init_final_called{};
     bool close_owned{};
 };
 
@@ -103,6 +107,8 @@ public:
     Status bind_functions(std::string& error);
     Status load_common(std::string& error);
     Status initialize(std::string& error);
+    Status init_post(std::string& error);
+    Status init_final(std::string& error);
     Status update(std::string& error);
     Status close(std::string& error);
 

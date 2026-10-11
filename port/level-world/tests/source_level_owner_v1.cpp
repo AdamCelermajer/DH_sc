@@ -89,7 +89,7 @@ int main() {
     int level_fields{};
     const owner::NativeLevelBinding binding{&level_fields, calls.qest_owner,
         reinterpret_cast<std::uintptr_t>(&canonical_save), canonical_save.character(),
-        23, 0, 0, 38, 0, false, canonical_save.slot()};
+        23, 0, 0, 38, 0, false, canonical_save.slot(), 5};
     check(lifecycle.bind_native_level(binding), "Crypt/Save/QEST source owners did not bind");
     const auto bound=lifecycle.snapshot();
     if(!(bound.source_gslevel && bound.source_level && bound.source_level_savegame &&
@@ -98,7 +98,7 @@ int main() {
           bound.level_fields==&level_fields && bound.quest_owner==calls.qest_owner &&
           bound.level_row==23 && bound.entry_point==0 && bound.difficulty==0 &&
           bound.source_save_slot==0 && lifecycle.level_savegame().constructed() &&
-          lifecycle.level_savegame().filename()=="dh2_000_0_000_023_level.savegame" &&
+          lifecycle.level_savegame().filename()=="dh2_000_0_005_023_level.savegame" &&
           bound.pending_script_id_known && bound.pending_script_id==-1))
       std::fprintf(stderr,"bind identities gs=%zx lev=%zx lsg=%zx save=%zx fields=%p/%p q=%p/%p row=%d entry=%d diff=%d\n",std::size_t(bound.source_gslevel),std::size_t(bound.source_level),std::size_t(bound.source_level_savegame),std::size_t(bound.canonical_player_savegame),bound.level_fields,&level_fields,bound.quest_owner,calls.qest_owner,bound.level_row,bound.entry_point,bound.difficulty);
     check(bound.source_gslevel && bound.source_level && bound.source_level_savegame &&
@@ -108,7 +108,7 @@ int main() {
           bound.level_fields==&level_fields && bound.quest_owner==calls.qest_owner &&
           bound.level_row==23 && bound.entry_point==0 && bound.difficulty==0 &&
           bound.source_save_slot==0 && lifecycle.level_savegame().constructed() &&
-          lifecycle.level_savegame().filename()=="dh2_000_0_000_023_level.savegame" &&
+          lifecycle.level_savegame().filename()=="dh2_000_0_005_023_level.savegame" &&
           bound.pending_script_id_known && bound.pending_script_id==-1,
           "source identity did not retain actual level/save/QEST bindings");
     calls.level_savegame=bound.source_level_savegame;

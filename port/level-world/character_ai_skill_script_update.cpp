@@ -19,6 +19,7 @@ Phase phase(Operation op){
         case Operation::call_set_skill:return Phase::set_skill;
         case Operation::erase_values:return Phase::erase;
         case Operation::call_on_skill_update:return Phase::update;
+        case Operation::call_on_skill_cleanup:return Phase::cleanup;
         case Operation::destroy_values:return Phase::destroy;
     }
     return Phase::not_started;
@@ -27,7 +28,9 @@ Status invoke(const Services& bound,State* state,ReturnValues& values,Result& ou
               Operation op,std::uintptr_t skill,std::uintptr_t script=0,
               std::uintptr_t args=0,std::uintptr_t first=0,std::uintptr_t last=0){
     out.phase=phase(op);if(!bound.invoke)return Status::service_unavailable;
-    const char* fn=op==Operation::call_set_skill?"SetSkill":op==Operation::call_on_skill_update?"OnSkillUpdate":nullptr;
+    const char* fn=op==Operation::call_set_skill?"SetSkill":
+        op==Operation::call_on_skill_update?"OnSkillUpdate":
+        op==Operation::call_on_skill_cleanup?"OnSkillCleanUp":nullptr;
     const Request request{op,skill,script,args,out.resource,first,last,fn};
     ++out.service_calls;
     try{if(bound.invoke(bound.context,state,&request,&values))return Status::service_failed;}
@@ -35,7 +38,7 @@ Status invoke(const Services& bound,State* state,ReturnValues& values,Result& ou
     return Status::complete;
 }
 }
-Status update(State* state,const Services* services,Result* out){
+Status execute(State* state,const Services* services,Result* out,bool cleanup_call){
     Range controls[3];
     if(!range(state,controls[0])||!range(services,controls[1])||!range(out,controls[2]))return Status::invalid_argument;
     for(unsigned i=0;i<3;++i)for(unsigned j=0;j<i;++j)if(overlap(controls[i],controls[j]))return Status::invalid_argument;
@@ -72,15 +75,24 @@ Status update(State* state,const Services* services,Result* out){
                 out->erased=1;
             }
             if(!live(state->owner,controls)||!state->owner->identity||!state->owner->lua_script)return Status::invalid_source_fact;
-            status=invoke(bound,state,values,*out,Operation::call_on_skill_update,skill,state->owner->lua_script);
+            status=invoke(bound,state,values,*out,
+                cleanup_call?Operation::call_on_skill_cleanup:Operation::call_on_skill_update,
+                skill,state->owner->lua_script);
             if(status!=Status::complete)return status;
             if(values.resource!=out->resource)return Status::invalid_source_fact;
-            out->updated=1;
+            if(cleanup_call){out->cleaned=1;out->decision=Decision::cleaned;}
+            else out->updated=1;
         }
     }
     status=invoke(bound,state,values,*out,Operation::destroy_values,skill);
     if(status!=Status::complete)return status;
     out->destroyed=1;out->phase=Phase::complete;
     return Status::complete;
+}
+Status update(State* state,const Services* services,Result* out){
+    return execute(state,services,out,false);
+}
+Status cleanup(State* state,const Services* services,Result* out){
+    return execute(state,services,out,true);
 }
 } // namespace dh2::character_ai_skill_script_update

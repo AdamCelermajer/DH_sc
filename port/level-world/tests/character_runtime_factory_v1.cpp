@@ -287,6 +287,21 @@ static void rollback(void* context, ctor::Action action, std::uint32_t value,
     }
 }
 
+struct FaeryPointCommandFixture {
+    std::uint32_t calls = 0;
+    dh2::character::ControllerPointCommandRequest32 last{};
+};
+
+static int invoke_faery_point_command(
+        void* raw,
+        const dh2::character::ControllerPointCommandRequest32* request) {
+    auto* fixture = static_cast<FaeryPointCommandFixture*>(raw);
+    if (!fixture || !request) return -1;
+    ++fixture->calls;
+    fixture->last = *request;
+    return 1;
+}
+
 static int enroll(void* context, aggro::Character* character, bool duplicate,
                   bool* appended) {
     auto& fixture = *static_cast<Fixture*>(context);
@@ -856,6 +871,33 @@ int main() {
     assert(selected_factory.create(71, game_object(2), aggro_object(2),
         services(selected_fixture), &selected, &result, error) == factory::Status::complete);
     assert(selected && selected_roster.owned_nodes() == 1);
+    const auto controller = reinterpret_cast<std::uintptr_t>(
+        selected->components.find(ctor::Component::controller));
+    const auto controllable = reinterpret_cast<std::uintptr_t>(
+        selected->components.find(ctor::Component::controllable));
+    assert(dh2::character_faery_controller_v1::bind(
+        *selected, controller, controllable, error) ==
+        dh2::character_faery_controller_v1::Status::complete);
+    FaeryPointCommandFixture point_fixture{};
+    const dh2::character::ControllerPointCommandServices16 point_services{
+        &point_fixture, invoke_faery_point_command};
+    const float point[3]{3.f, 4.f, 5.f};
+    dh2::character_faery_controller_v1::Result point_result{};
+    assert(dh2::character_faery_controller_v1::point_command(*selected,
+        dh2::character::controller_head_to_point, point, 1, 0, 0,
+        point_services, &point_result, error) ==
+        dh2::character_faery_controller_v1::Status::complete);
+    assert(!point_result.dispatched && point_fixture.calls == 0);
+    assert(dh2::character_faery_controller_v1::point_command(*selected,
+        dh2::character::controller_head_to_point, point, 0, 0, 0,
+        point_services, &point_result, error) ==
+        dh2::character_faery_controller_v1::Status::complete);
+    assert(point_result.dispatched && point_fixture.calls == 1 &&
+        point_fixture.last.owner == selected->character.identity &&
+        point_fixture.last.command == dh2::character::controller_head_to_point &&
+        point_fixture.last.point[0] == point[0] &&
+        point_fixture.last.point[1] == point[1] &&
+        point_fixture.last.point[2] == point[2]);
     std::size_t occurrences = 0;
     assert(selected_roster.contains_identity(selected->character.identity, &occurrences));
     assert(occurrences == 1);

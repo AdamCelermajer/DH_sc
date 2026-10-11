@@ -37,6 +37,48 @@
       "scope": "complete rebuilt caller"
     },
     {
+      "original_symbol": "_ZN17CharAISkillScript14OnSkillCleanUpEv",
+      "elf_address": "0x3daafc",
+      "size": 212,
+      "sha256": "0efeaf8f00d568bebdf907a13085f0d1384a6769cb072b341d573c30591d05d0",
+      "scope": "source cleanup caller; reused provider path, host-tested, not separately ARM-oracle compared"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SkillCleanUpEv",
+      "elf_address": "0x3d8ae0",
+      "size": 72,
+      "sha256": "48496c272608ec923072a79d7bc3d31e383592b9f64010437647596b90bc415c",
+      "scope": "source list loop; nonnull callback evidence"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SpellCleanUpEv",
+      "elf_address": "0x3d8a98",
+      "size": 72,
+      "sha256": "221946bb28d69c3a38b1c8facd237368549c342a8282399bda287b871377d5aa",
+      "scope": "source list loop; nonnull callback evidence"
+    },
+    {
+      "original_symbol": "_ZN6CharAI21AIUnLoadScriptProcessEb",
+      "elf_address": "0x3cc9dc",
+      "size": 280,
+      "sha256": "28d98bde99f30223e5a33795e19cf4b86f0a545cd434fa2afdb451b401d0c4cf",
+      "scope": "source unload ordering, D0 destruction and vector reset evidence"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScriptD1Ev",
+      "elf_address": "0x3cc238",
+      "size": 52,
+      "sha256": "a0f47f6fe84501bf0dd7d5c4d8870b6c097038306953a1e9fd98815277f2fede",
+      "scope": "source embedded Arguments destructor evidence"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScriptD0Ev",
+      "elf_address": "0x3cc448",
+      "size": 60,
+      "sha256": "4f58eb598adf40b04eac727d1a3a44cfed00f8d8067fdaaf293e07b2a0099762",
+      "scope": "source deleting destructor evidence"
+    },
+    {
       "original_symbol": "_ZN3sfc6script3lua5ErrorC1Ev",
       "elf_address": "0x31a804",
       "size": 84,
@@ -63,6 +105,12 @@
       "size": 14,
       "text": "OnSkillUpdate",
       "sha256": "0faba60e65f06c95710e06698e26071b01e2455c9551cbb939225fe1d02d9e2c"
+    },
+    {
+      "elf_address": "0x8c58a0",
+      "size": 15,
+      "text": "OnSkillCleanUp",
+      "sha256": "21163d8df4111f4c9cbb07116601716ab3980ac5ea8015080a497845efef6ab6"
     }
   ],
   "script_dependencies": [
@@ -76,6 +124,6 @@
   "new_complete_caller_bodies": 1,
   "new_complete_dependency_bodies": 0,
   "new_lua_callback_bodies": 0,
-  "native_wired": false,
-  "scope": "Complete normal OnSkillUpdate212B caller; named ReturnValues/value-vector/LuaCall providers external; compiler stack-corruption trap excluded."
+  "native_wired": true,
+  "scope": "OnSkillUpdate caller ARM-oracle compared; OnSkillCleanUp caller and both CharAI list loops are source-hash pinned and use the same retained-Vm provider; cleanup host cases do not claim a separate ARM instruction oracle."
 }

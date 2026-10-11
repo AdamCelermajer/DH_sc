@@ -3,11 +3,13 @@
 Updated: 2026-10-11. Branch: `reconstruction/item-world-runtime-2026-10-07`.
 
 Latest source round (not in R4):
+- [x] Restore SWAMP character resource closure: four models, 20 missing animation clips and one atlas; all 133 animation-provenance inputs match packaged bytes/hashes (`8032f542`). Gameplay validation remains open.
+- [x] Preserve manager-owned FX handles after pool return so repeated objective-marker removal/reinstallation follows the source lifecycle; focused regression passes (`aad90a92`).
 - [x] Build `a1ac6b9f` for ARM64/x86_64 and verify intro → main menu → new Warrior → SWAMP world/HUD on API 37/16 KiB. Fixed repeated identical menu frame labels that aborted assertion-enabled builds. Android combat and audible cinematic output remain unverified.
 - [x] Connect authored Faery selection to the canonical Save/skill and Level-placement providers, with source-selected BDAE/Idle rendering. Shared Windows target compiles; full Faery factory/AI lifecycle and live selection remain open.
 - [x] Restore local-player starter-slot initialization for loaded Saves with empty slot maps; retain source CharacterList-based interaction selection and activated-enemy target eligibility. Shared Windows target compiles; fresh starter skill 7/level 1 is logged. Restored-empty grant and merchant checks remain open.
 - [x] Reconstruct Irrlicht finite/infinite/orthographic projection and GLES depth conversion (`c8610338`); recovered perspective chain now selected by the shared renderer. Camera host checks and Windows build pass; nine aspect ratios match prior coefficients bit-for-bit.
-- [x] Verify selected quest-owner libraries: 5,414 host checks, 384 actual quest instances. This does not establish live campaign progression.
+- [x] Verify selected quest-owner libraries: 5,552 host checks, 384 actual quest instances, including authored MoveInZone/OpenGameObject delivery. Live campaign progression remains open.
 - [x] Build Windows SDL gameplay-audio output; three Crypt frames pass with dummy audio. Audible output remains unverified.
 - [ ] Verify source merchant inventory, buy/sell transactions and NPC death integration in gameplay; current implementations remain in progress.
 - [x] Reach SWAMP startup on Windows: nine modules, four Monsters and one merchant load; 69 original assets restored. Source instance-material overrides fixed (`constructController` 0x61ace8); SwampKing regression passes. Three frames render player/world/HUD; combat and Android remain unverified.
@@ -15,6 +17,7 @@ Latest source round (not in R4):
 - [x] Verify Windows frontend framing with the source-selected SWF and seven restored original textures: Start/Options/Info fit after the entrance animation (60/120 frames). Remaining ornamental overflow is authored outside the stage. Audible output remains unverified.
 - [x] Fix canonical static-Character SCT ownership and verify a Windows Crypt kill through normal input: cultist07 HP 12160 → 3711 → 0, dead=1, exit 0 with rendered world/player/HUD. XP providers, loot tail and ordinary enemy aggro remain open.
 - [ ] Connect TalkToNPC objective markers to canonical Character `+0x2fa`: source Register/Install sets it, Unregister/Remove clears it (`0x47dbb4`, `0x47d998`, `0x47dc44`, `0x47daec`). Generic quest-NPC interaction remains incomplete.
+- [ ] Clear current Windows combat gate: the combined runtime builds and renders Crypt/HUD; first aggro fails at `monster.luac:68` (`HeadTo`, status 205). No attack/death/XP/loot verification for this batch. [Receipt](../port/desktop-native/reports/crypt-combat-snapshot-2026-10-11.json).
 
 **Goal:** a complete, source-built native Android game, preserving original
 gameplay/content and providing documented fan modding. **The game is unfinished.**

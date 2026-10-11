@@ -21,6 +21,113 @@ using ObjectManager = dh2::object_manager_runtime_owner_v1::Owner;
 using OidCache = dh2::character_oid_cache_v1::Owner;
 using SafeGetBindings = dh2::character_saved_class_v1::Bindings;
 
+struct ImportedCharacterIdentityV1 {
+    std::uintptr_t identity{};
+    std::int32_t source_handle{-1};
+    std::int32_t source_module_id{-1};
+};
+
+// The retained source Level import is the expected population for authored
+// Characters. Dynamic source Characters (for example, the player and a
+// factory-created Faery) must be listed explicitly by their canonical owner.
+// This proof never promotes a count-only approximation: every imported and
+// dynamic identity must occur once in both the active ObjectManager and its
+// CharacterList, and every live CharacterList entry must be in that expected
+// identity set.
+inline bool prove_imported_character_roster_complete(
+    const list::Owner& characters, const ObjectManager& object_manager,
+    const ImportedCharacterIdentityV1* imported, std::size_t imported_count,
+    const std::uintptr_t* dynamic_identities, std::size_t dynamic_count,
+    std::string& error) {
+    if ((imported_count && !imported) || (dynamic_count && !dynamic_identities) ||
+        imported_count > std::numeric_limits<std::size_t>::max() - dynamic_count ||
+        !list::validate(&characters) ||
+        characters.character_count != imported_count + dynamic_count) {
+        error = "Active CharacterList does not match retained imported Character rows";
+        return false;
+    }
+    const auto expected = [&](std::uintptr_t identity) {
+        if (!identity) return false;
+        for (std::size_t i = 0; i < imported_count; ++i)
+            if (imported[i].identity == identity) return true;
+        for (std::size_t i = 0; i < dynamic_count; ++i)
+            if (dynamic_identities[i] == identity) return true;
+        return false;
+    };
+    const auto listed_once = [&](std::uintptr_t identity) {
+        std::size_t occurrences = 0;
+        auto* node = characters.sentinel.next;
+        while (node != &characters.sentinel) {
+            if (!node || !node->character) return false;
+            const auto* character = static_cast<const aggro::Character*>(node->character);
+            if (character->identity == identity) ++occurrences;
+            node = node->next;
+        }
+        return occurrences == 1;
+    };
+    const auto manager_has = [&](std::uintptr_t identity) {
+        const auto* object = object_manager.find_by_identity(identity);
+        return object && object->identity == identity;
+    };
+    for (std::size_t i = 0; i < imported_count; ++i) {
+        const auto identity = imported[i].identity;
+        const auto* object = identity ? object_manager.find_by_identity(identity) : nullptr;
+        if (!identity || imported[i].source_handle < 0 || !object ||
+            object->identity != identity ||
+            object->source_handle != imported[i].source_handle ||
+            object->module_id_64 != imported[i].source_module_id ||
+            !listed_once(identity)) {
+            error = "Imported Character row is absent or duplicated in the active Level owners";
+            return false;
+        }
+        for (std::size_t j = 0; j < i; ++j)
+            if (imported[j].identity == identity) {
+                error = "Retained source import contains a duplicate Character identity";
+                return false;
+            }
+    }
+    for (std::size_t i = 0; i < dynamic_count; ++i) {
+        const auto identity = dynamic_identities[i];
+        if (!identity || !manager_has(identity) || !listed_once(identity)) {
+            error = "Dynamic Character is absent or duplicated in the active Level owners";
+            return false;
+        }
+        for (std::size_t j = 0; j < imported_count; ++j)
+            if (imported[j].identity == identity) {
+                error = "Dynamic Character duplicates a retained source import row";
+                return false;
+            }
+        for (std::size_t j = 0; j < i; ++j)
+            if (dynamic_identities[j] == identity) {
+                error = "Dynamic Character owner supplied a duplicate identity";
+                return false;
+            }
+    }
+    std::size_t visited = 0;
+    auto* node = characters.sentinel.next;
+    while (node != &characters.sentinel) {
+        if (!node || !node->character || visited >= characters.character_count) {
+            error = "Active CharacterList has malformed links or stale entries";
+            return false;
+        }
+        const auto* character = static_cast<const aggro::Character*>(node->character);
+        if (!character->identity || !character->object ||
+            character->object->identity != character->identity ||
+            !expected(character->identity) || !manager_has(character->identity)) {
+            error = "Active CharacterList contains a Character outside retained source owners";
+            return false;
+        }
+        ++visited;
+        node = node->next;
+    }
+    if (visited != characters.character_count) {
+        error = "Active CharacterList traversal differs from its retained count";
+        return false;
+    }
+    error.clear();
+    return true;
+}
+
 inline bool bind_existing_character_property_cache(
     std::uintptr_t character_identity, std::int16_t* property_cache,
     SafeGetBindings& output, std::string& error) {
@@ -160,6 +267,41 @@ inline bool make_active_level_bindings(
     output.safe_get_bindings = safe_get_bindings;
     error.clear();
     return true;
+}
+
+// Production overload: the caller supplies identities read from the active
+// Level's retained source import and identities retained by the dynamic
+// Character owners. `roster_complete` is derived only after the complete live
+// ObjectManager/CharacterList set matches those owners exactly.
+inline bool make_active_level_bindings_from_imported_roster(
+    const dh2::source_level_owner_v1::Owner& level_owner,
+    const dh2::native::character_list::Owner& characters,
+    const OidCache& oid_cache, std::uintptr_t event_owner_identity,
+    std::int32_t level_id, std::uint32_t character_table_size,
+    const ImportedCharacterIdentityV1* imported, std::size_t imported_count,
+    const std::uintptr_t* dynamic_identities, std::size_t dynamic_count,
+    void* safe_get_context,
+    bool (*safe_get_character_property_id)(void*,std::uintptr_t,
+        std::uintptr_t,std::uintptr_t,std::int32_t*,std::string&),
+    bool (*safe_get_bindings)(void*,std::uintptr_t,std::uintptr_t,
+        std::uintptr_t,SafeGetBindings&,std::string&),
+    Bindings& output, std::string& error) {
+    output = {};
+    const auto level = level_owner.snapshot();
+    if (level.phase != dh2::source_level_owner_v1::Phase::active ||
+        !level.source_level || !level.object_manager_identity ||
+        level.object_manager_identity != reinterpret_cast<std::uintptr_t>(
+            &level_owner.object_manager())) {
+        error = "Active Level ObjectManager is unavailable for source roster proof";
+        return false;
+    }
+    if (!prove_imported_character_roster_complete(
+            characters.source(), level_owner.object_manager(), imported, imported_count,
+            dynamic_identities, dynamic_count, error)) return false;
+    return make_active_level_bindings(level_owner, characters, oid_cache,
+        event_owner_identity, level_id, character_table_size, true,
+        safe_get_context, safe_get_character_property_id, safe_get_bindings,
+        output, error);
 }
 
 class Provider final {

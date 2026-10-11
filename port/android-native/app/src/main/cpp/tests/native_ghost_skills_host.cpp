@@ -11,6 +11,7 @@ extern "C" {
 }
 
 #include <array>
+#include <algorithm>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
@@ -53,6 +54,21 @@ std::int32_t init_vcb(void* raw, std::uintptr_t active) {
     auto& fixture = *static_cast<InitVcbFixture*>(raw);
     if (active != fixture.expected_active) return 1;
     ++fixture.calls;
+    return 0;
+}
+struct ScriptFixture { unsigned loads=0,calls=0,declared_with_args=0,declared_without_args=0; };
+std::int32_t load_skill_script(void* raw,const char* name,std::size_t bytes,bool* loaded) {
+    if(!raw||(!name&&bytes)||!loaded)return 1;
+    auto& f=*static_cast<ScriptFixture*>(raw);++f.loads;*loaded=true;return 0;
+}
+std::int32_t call_skill_script(void* raw,const char* function,
+                               const dh2_script_value* args,std::uint32_t count) {
+    if(!raw||!function||std::string(function)!="DeclareSkill"||(count&&!args))return 1;
+    auto& f=*static_cast<ScriptFixture*>(raw);++f.calls;
+    if(count==2&&args[0].type==DH2_SCRIPT_STRING&&args[1].type==DH2_SCRIPT_NUMBER)
+        ++f.declared_with_args;
+    else if(count==0)++f.declared_without_args;
+    else return 1;
     return 0;
 }
 
@@ -109,11 +125,12 @@ void run_actor(const char* name, std::size_t row_index,
     ai.owner_04 = reinterpret_cast<std::uintptr_t>(&properties);
     ai.active_ais_1c = ai.identity + 0x100;
     InitVcbFixture vcb{ai.active_ais_1c, 0};
+    ScriptFixture scripts{};
     std::string ais_path = "data/scripts/ai/";
     native::Runtime runtime;
     native::Bindings bindings{&ai, &property_view, &skills, &faeries, &ais_path,
                               0, &constants, &debug.globals(), &debug.services(),
-                              &vcb, init_vcb};
+                              &vcb, init_vcb,&scripts,load_skill_script,call_skill_script};
     native::DeathCleanupResult premature_cleanup{};
     require(runtime.cleanup_death_list(
                 dh2::character_ai_set_skills_and_spells::List::skill,
@@ -247,6 +264,65 @@ void run_actor(const char* name, std::size_t row_index,
     std::cout << "ghost=" << name << " first_slots=0/5 repeated_slots="
               << repeated.source.faery_slots << " vcb=" << vcb.calls << '\n';
 }
+
+void run_nonempty_skill_case(const data::CharacterTable& character_table,
+               const data::PropertyRules& rules,
+               const data::SkillTables& skills, const data::FaeryTables& faeries,
+               const dh2_pycst_view& constants,
+               dh2::native::debug_files::Backend& debug, std::size_t row_index) {
+    std::size_t list_index=skills.skill_lists.size();
+    for(std::size_t i=0;i<skills.skill_lists.size();++i) {
+        const auto& members=skills.skill_lists[i].members;
+        if(!members.empty()&&std::any_of(members.begin(),members.end(),[&](std::int32_t row) {
+            return row>=0&&static_cast<std::size_t>(row)<skills.skills.size()&&
+                   skills.skills[static_cast<std::size_t>(row)].script_length!=0;
+        })) {list_index=i;break;}
+    }
+    require(list_index<skills.skill_lists.size(),"real skill cache has no scripted list for focused Ghost provider case");
+    data::PropertyState properties{};
+    data::reset_properties(rules,properties,&character_table.rows[row_index]);
+    properties.base[28]=static_cast<std::int32_t>(list_index);
+    std::string error;
+    require(data::recalc_properties(rules,properties,error),error.c_str());
+    auto view=data::property_view(rules,properties);
+    dh2::character_ai_initialization::State ai{};
+    ai.identity=reinterpret_cast<std::uintptr_t>(&ai);ai.owner_04=reinterpret_cast<std::uintptr_t>(&properties);
+    ai.active_ais_1c=ai.identity+0x100;
+    InitVcbFixture vcb{ai.active_ais_1c,0};ScriptFixture scripts{};
+    std::string ais_path="data/scripts/ai/";
+    native::Runtime runtime;
+    native::Bindings bindings{&ai,&view,&skills,&faeries,&ais_path,0,&constants,
+        &debug.globals(),&debug.services(),&vcb,init_vcb,&scripts,load_skill_script,call_skill_script};
+    native::Result prepared{};
+    const auto prepare_status=runtime.prepare(bindings,prepared);
+    require(prepare_status==native::Status::complete,
+            (std::string("nonempty source Ghost skill preparation failed; status ")+
+             std::to_string(static_cast<int>(prepare_status))+" source "+
+             std::to_string(static_cast<int>(prepared.source_status))+" slots "+
+             std::to_string(prepared.source.skill_slots)+" calls "+
+             std::to_string(scripts.calls)+" loads "+std::to_string(scripts.loads)+" op "+
+             std::to_string(prepared.source.last_operation)).c_str());
+    const auto& members=skills.skill_lists[list_index].members;
+    require(runtime.skill_scripts().size()==members.size()&&
+            prepared.source.skill_slots==members.size()&&prepared.source.script_allocations>0,
+            "source nonempty skill vector or CharAISkillScript ownership was not retained");
+    require(scripts.loads>0&&scripts.calls==scripts.declared_with_args+scripts.declared_without_args&&
+            scripts.declared_with_args>0&&scripts.declared_without_args>0,
+            "real preparation did not load skills and execute both DeclareSkill overloads on the callback VM");
+    bool found=false;
+    for(std::size_t slot=0;slot<members.size();++slot) {
+        const auto row_index=members[slot];
+        if(row_index<0||static_cast<std::size_t>(row_index)>=skills.skills.size())continue;
+        const auto& row=skills.skills[static_cast<std::size_t>(row_index)];
+        if(row.script_length==0)continue;
+        const auto identity=runtime.skill_scripts()[slot];
+        const auto* args=runtime.arguments_for(identity);
+        require(identity&&args&&args->script_name==row.script&&args->skill_index==static_cast<float>(slot),
+                "retained CharAISkillScript Arguments differ from source name/slot inputs");
+        found=true;break;
+    }
+    require(found,"source list did not retain a nonnull skill script instance");
+}
 } // namespace
 
 int main(int argc, char** argv) {
@@ -319,6 +395,7 @@ int main(int argc, char** argv) {
                   animation_constants, debug);
         run_actor("Crypt_Ghost_RE", ghost_re, characters, rules, skills, faeries, constants,
                   animation_constants, debug);
+        run_nonempty_skill_case(characters,rules,skills,faeries,constants,debug,ghost);
         std::cout << "{\"validation\":\"PASS\",\"cache_tables\":\"real\","
                      "\"actors\":2,\"source_vectors\":\"0 skills / 5 null faeries\","
                      "\"repeat_preserves_faeries\":true,\"unsupported_nonnull_script\":\"fail-closed\"}\n";

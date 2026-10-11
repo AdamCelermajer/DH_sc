@@ -23,6 +23,8 @@ Status bind_functions(factory::Record&, std::string&);
 Status bind_character(factory::Record&, std::string&);
 Status load_common(factory::Record&, std::string&);
 Status initialize(factory::Record&, std::string&);
+Status init_post(factory::Record&, std::string&);
+Status init_final(factory::Record&, std::string&);
 Status update(factory::Record&, std::string&);
 Status close(factory::Record&, std::string&);
 

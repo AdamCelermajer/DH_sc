@@ -12,7 +12,7 @@ void check(bool value, const char* message) {
 }
 struct Fixture {
     save::View view{};
-    std::vector<std::uint8_t> primary, secondary, p, target, v1306, v1309;
+    std::vector<std::uint8_t> primary, secondary, p, rotation, v1306, v1309;
     std::uintptr_t object{};
     std::uint8_t game_object_owner{}, properties_owner{}, state_owner{}, ai_owner{};
     static bool read(void* raw, std::uintptr_t identity, save::View* out,
@@ -65,11 +65,11 @@ struct Fixture {
     }
     void initialize() {
         primary.assign(900, 0x11); secondary.assign(900, 0x22);
-        p.assign(12, 0x33); target.assign(12, 0x44);
+        p.assign(12, 0x33); rotation.assign(12, 0x44);
         v1306.assign(12, 0x55); v1309.assign(12, 0x66);
         view = {7, 0, {primary.data(),primary.size()},
             {secondary.data(),secondary.size()}, {p.data(),p.size()},
-            {target.data(),target.size()}, 1, {v1306.data(),v1306.size()},
+            {rotation.data(),rotation.size()}, 1, {v1306.data(),v1306.size()},
             {v1309.data(),v1309.size()}, 1, -2, 0, 1};
     }
 };

@@ -58,6 +58,8 @@ typedef struct dh2_world_source_character_row {
     char name[96];
     char character[96];
     char template_name[64];
+    char char_template_pydata[128];
+    char char_template[128];
     char activate_condition[128];
     char deactivate_condition[128];
     char script[128];
@@ -70,6 +72,22 @@ typedef struct dh2_world_source_character_row {
     float local_transform[9];
     float world_transform[9];
 } dh2_world_source_character_row;
+
+// Generic authored MGP GameObject census row. It retains the exact source
+// occurrence and transform/condition fields needed to construct non-Character
+// owners from the same imported bytes; it never creates or activates objects.
+typedef struct dh2_world_source_object_row {
+    uint32_t module_index;
+    uint32_t source_record;
+    char name[96];
+    char gametype[64];
+    char template_name[64];
+    char activate_condition[128];
+    char deactivate_condition[128];
+    char dimensions[64];
+    float local_transform[9];
+    float world_transform[9];
+} dh2_world_source_object_row;
 
 enum dh2_world_source_character_deferred_reason {
     DH2_SOURCE_CHARACTER_DEFER_NONE = 0,
@@ -142,6 +160,16 @@ int dh2_world_census_source_characters(const uint8_t* mlx, size_t mlx_size,
     const dh2_world_source_mgp* mgps, size_t mgp_count,
     dh2_world_source_character_row* output, size_t output_capacity,
     size_t* output_count, char* error, size_t error_capacity);
+
+// Census MGP GameObjects with an optional exact gametype filter. A null or
+// empty filter includes every MGP object. With output==NULL and capacity==0,
+// returns the required row count for a bounded second pass.
+int dh2_world_census_source_objects(const uint8_t* mlx, size_t mlx_size,
+    const char* level_name, const char* source_path,
+    const dh2_world_source_mgp* mgps, size_t mgp_count,
+    const char* gametype_filter, dh2_world_source_object_row* output,
+    size_t output_capacity, size_t* output_count,
+    char* error, size_t error_capacity);
 #endif
 
 #ifdef __cplusplus

@@ -8,6 +8,7 @@
 #include "fresh_inventory_owned_v4.hpp"
 #include "../../../../../level-world/current_level_quest_event_v1.hpp"
 #include "../../../../../level-world/character_kill_quest_tail_v1.hpp"
+#include "../../../../../level-world/object_manager_runtime_owner_v1.hpp"
 extern "C" {
 #include "../../../../../pydata-constants/constants.h"
 }
@@ -157,6 +158,39 @@ struct CombatObjectivePopulationServicesV1 {
  KillEnemyTemplatePopulationServicesV1 kill_enemy_template{};
  ClearEnemyTemplatePopulationServicesV1 clear_enemy_template{};
 };
+using GatherLootStartScript=bool (*)(void*,std::int32_t,std::string&);
+using KillObjectiveStartScript=GatherLootStartScript;
+enum class TalkObjectiveMarkerOperationV1 : std::uint8_t {
+ register_target,unregister_target,install,remove
+};
+// Borrowed Level CharacterList/marker bridge for Objective_TalkToNPC. The
+// provider resolves SafeGetCharPropsId over the canonical current-Level list;
+// install/remove also own the source VisualFX/DesignSettings side effects.
+using TalkObjectiveMarkerV1=bool (*)(void*,std::uintptr_t objective_identity,
+    std::uintptr_t* objective_fx_handle,std::int32_t target_props_id,
+    TalkObjectiveMarkerOperationV1,std::int32_t priority,
+    std::int32_t quest_state,std::string&);
+// QuestMoveInZone's source Compile resolves its authored object name through
+// this same active Level ObjectManager. Event delivery resolves Character
+// properties through the existing Character owner; neither callback owns a
+// second object/character registry.
+struct MoveInZoneCharacterServicesV1 {
+ void* context=nullptr;
+ bool (*safe_get_char_props_id)(void*,std::uintptr_t character,
+                                std::int32_t&,std::string&)=nullptr;
+ bool (*is_player)(void*,std::uintptr_t character,bool&,std::string&)=nullptr;
+};
+struct ObjectiveCompileDispatchServicesV1 {
+ CombatObjectivePopulationServicesV1 population{};
+ data::FreshInventoryOwnedV4* inventory=nullptr;
+ object_manager_runtime_owner_v1::Owner* object_manager=nullptr;
+ std::int32_t current_level_id=-1;
+ void* script_context=nullptr;
+ KillObjectiveStartScript start_script=nullptr;
+ void* talk_marker_context=nullptr;
+ TalkObjectiveMarkerV1 talk_marker=nullptr;
+ MoveInZoneCharacterServicesV1 move_in_zone_character{};
+};
 // Source ObjectiveList::GetDesc semantics: preserve child order, resolve only
 // positive text IDs, omit empty results, and separate visible lines by '\n'.
 bool compose_objective_description_v1(const std::vector<std::int32_t>&,
@@ -263,10 +297,8 @@ public:
  // uncompiled records reject rather than manufacturing an objective.
  // Receives the recovered pydata script id; its caller must apply the source
  // script base before dispatching ScriptManager::StartScript.
- using GatherLootStartScript=bool (*)(void*,std::int32_t,std::string&);
  // Character::Kill's existing tail emits these source event records. The
  // adapter below borrows the same current-Level EventManager as loot events.
- using KillObjectiveStartScript=GatherLootStartScript;
  // Objective::SetIsCompleted writes canonical Objective+0x14 once, then
  // starts its optional pydata+12 completion script through the same manager.
  bool complete_objective(std::uintptr_t quest_identity,
@@ -307,6 +339,24 @@ public:
                                        const CombatObjectivePopulationServicesV1&,
                                        void* script_context,
                                        KillObjectiveStartScript,
+                                       std::string&);
+ // Single callback entry for Owner::compile_quests' Objective member provider.
+ // It routes only recovered Compile/Register/marker virtuals to this Save's
+ // canonical Objective records, the sole current-Level event table, and
+ // caller-borrowed population/inventory/Character marker owners.
+ bool dispatch_objective_compile_member_v1(
+                                       std::uintptr_t quest_identity,
+                                       data::quest_compile_v1::Objective&,
+                                       const data::quest_compile_v1::MemberCall&,
+                                       const ObjectiveCompileDispatchServicesV1&,
+                                       std::string&);
+ // QuestCompileServicesV1::objective_member receives only its canonical
+ // Objective; this overload resolves the unique parent by walking this Save's
+ // existing Quest/Objectivelist records before dispatching the source member.
+ bool dispatch_objective_compile_member_v1(
+                                       data::quest_compile_v1::Objective&,
+                                       const data::quest_compile_v1::MemberCall&,
+                                       const ObjectiveCompileDispatchServicesV1&,
                                        std::string&);
  bool register_kill_x_enemies_objective(std::uintptr_t quest_identity,
                                         std::uint32_t objective_ordinal,
@@ -386,6 +436,15 @@ public:
                                      std::string&);
  bool unregister_gather_loot_objective(std::uintptr_t objective_identity,
                                        std::string&);
+ bool unregister_talk_to_npc_objective(std::uintptr_t quest_identity,
+                                       std::uint32_t objective_ordinal,
+                                       std::string&);
+ bool unregister_move_in_zone_objective(std::uintptr_t quest_identity,
+                                        std::uint32_t objective_ordinal,
+                                        std::string&);
+ bool unregister_open_game_object_objective(std::uintptr_t quest_identity,
+                                            std::uint32_t objective_ordinal,
+                                            std::string&);
  // Objective_GatherLoot::Compile over the Quest's existing objective list.
  // current_level_id must be the actual Level field at +0x3c; no level or
  // inventory is synthesized. Other compiled objective kinds fail closed.

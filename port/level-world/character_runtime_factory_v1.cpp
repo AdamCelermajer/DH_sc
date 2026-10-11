@@ -232,6 +232,10 @@ void Owner::rollback_completed(Record& record) noexcept {
     if (record.kill_field_14e4.constructor_write_seen)
         (void)character_kill_field_14e4_v1::retire(
             &record.kill_field_14e4, record.character.identity);
+    // The Faery adapter borrows the already-constructed controller and
+    // controllable component addresses. Retire that binding with the same
+    // canonical Record, after the source component rollback sequence.
+    character_faery_controller_v1::retire(record.faery_controller);
     record.constructor = {};
 }
 

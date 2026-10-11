@@ -49,7 +49,7 @@ Status serialize(std::uintptr_t character, const Services* services,
         if (view.is_player > 1 || view.dead > 1 || view.has_ai > 1 ||
             view.ai_flag_40 > 1 || view.ai_flag_41 > 1 ||
             !valid_span(view.position, kVectorBytes) ||
-            !valid_span(view.target_position, kVectorBytes) ||
+            !valid_span(view.rotation, kVectorBytes) ||
             !valid_span(view.vector_1306, kVectorBytes) ||
             !valid_span(view.vector_1309, kVectorBytes) ||
             (!view.is_player &&
@@ -90,7 +90,7 @@ Status serialize(std::uintptr_t character, const Services* services,
             append_span(bytes, view.properties_secondary);
         }
         append_span(bytes, view.position);
-        append_span(bytes, view.target_position);
+        append_span(bytes, view.rotation);
         bytes.push_back(view.dead);
         append_span(bytes, view.vector_1306);
         append_span(bytes, view.vector_1309);

@@ -59,6 +59,10 @@ class NativePlayerCharacterOwnerV1 final : public Coordinator {
     // the serialized Character +0x1468 Point3D. Keep these as raw words so the
     // source memcpy is exact and does not change float representations.
     std::uint32_t checkpoint_position_1468_[3]{};
+    // Level::CheckpointSave optionally records Character::Revive's destination
+    // in serialized Character +0x1474. Preserve its three raw source words on
+    // the same canonical Player owner used by Character serialization.
+    std::uint32_t checkpoint_revive_position_1474_[3]{};
 
 public:
     NativePlayerCharacterOwnerV1();
@@ -141,6 +145,10 @@ public:
     bool save_checkpoint_position(std::uintptr_t character,
                                   const std::uint32_t source_xyz[3]) noexcept;
     const std::uint32_t* checkpoint_position_1468(
+        std::uintptr_t character) const noexcept;
+    bool save_checkpoint_revive_position(
+        std::uintptr_t character, const std::uint32_t source_xyz[3]) noexcept;
+    const std::uint32_t* checkpoint_revive_position_1474(
         std::uintptr_t character) const noexcept;
     data::PropertyState* properties_for(std::uintptr_t character) const noexcept;
     data::FreshInventoryOwnedV4* inventory_for(std::uintptr_t character) const noexcept;

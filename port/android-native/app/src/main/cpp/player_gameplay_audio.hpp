@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../../../engine-audio/spatial_playback_contract_v1.hpp"
+#include "../../../../../level-world/character_combat_sound_v1.hpp"
 #include <array>
 #include <chrono>
 #include <cmath>
@@ -54,19 +55,8 @@ inline constexpr std::array<CatalogEntry,28> catalog{{
     {"ImpactMetalFlesh2","sfx_impact_metal_flesh_2.wav","sfx_impact_metal_flesh_2.wav",45,121},
     {"ImpactMetalFlesh3","sfx_impact_metal_flesh_3.wav","sfx_impact_metal_flesh_3.wav",46,122},
 }};
-struct SourceSoundList {
-    std::array<std::uint16_t,3> ids{};
-    std::uint8_t count=0;
-};
-struct CharacterSoundRow {
-    const char* name;
-    SourceSoundList die;
-    SourceSoundList hurt;
-    SourceSoundList impact_vs_flesh;
-    SourceSoundList impact_vs_metal;
-    bool is_flesh;
-    bool is_metallic;
-};
+using SourceSoundList=dh2::character_combat_sound_v1::SoundList;
+using CharacterSoundRow=dh2::character_combat_sound_v1::SoundProfile;
 // Exact source rows decoded by ELF CharSoundsTable::read (0x004b96bc) from
 // data/pydata/sounds_pyarray.bin. These IDs index the 12-byte SDD Sounds row;
 // VoxSoundManager::Play3D (0x0036b5d8) resolves its sound-pack UID at +4.
@@ -91,6 +81,17 @@ inline std::uint8_t character_sound_id_or_default(std::int32_t raw_id) noexcept 
 inline const CharacterSoundRow* character_sound_row_for_character(
     std::int32_t raw_id) noexcept {
     return &character_sound_rows[character_sound_id_or_default(raw_id)];
+}
+inline dh2::character_combat_sound_v1::Result apply_character_combat_sound(
+    std::int32_t attacker_sound_row,std::int32_t defender_sound_row,
+    std::uintptr_t defender_identity,std::int32_t damage,bool defender_dead,
+    bool minimal_randoms,
+    const dh2::character_combat_sound_v1::Services& services) noexcept {
+    const dh2::character_combat_sound_v1::Request request{
+        character_sound_row_for_character(attacker_sound_row),
+        character_sound_row_for_character(defender_sound_row),
+        defender_identity,damage,defender_dead,minimal_randoms};
+    return dh2::character_combat_sound_v1::apply(request,services);
 }
 enum class Kind : std::uint8_t {play,stop,music};
 struct Command {
