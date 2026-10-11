@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstring>
 #include <stdexcept>
+#include <map>
 
 namespace dh::foundation::merchant {
 namespace {
@@ -77,6 +78,16 @@ void Shop::add_stock(const dh2::data::ItemTable& items, const std::vector<std::p
     stocked_ = true;
 }
 bool Shop::is_buyback(const std::string& id) const { return std::find(buyback_.begin(), buyback_.end(), id) != buyback_.end(); }
+bool Shop::sort_stock(const dh2::data::ItemTable& items,const std::function<bool(const InventoryItem&,std::string&,std::string&)>& name,std::string& error) {
+    std::map<std::string,std::string> names;
+    for(const auto& i:stock_.inventory)if(!name(i,names[i.instance_id],error))return false;
+    std::stable_sort(stock_.inventory.begin(),stock_.inventory.end(),[&](const auto& a,const auto& b){
+        if(is_buyback(a.instance_id)!=is_buyback(b.instance_id))return !is_buyback(a.instance_id); // II_Item_sortbybuyback 0x3fd9f8
+        const auto* ai=dh2::data::item(items,dh2::data::item_id(items,a.definition_id));const auto* bi=dh2::data::item(items,dh2::data::item_id(items,b.definition_id));
+        const auto av=ai?item_value(*ai):0,bv=bi?item_value(*bi):0;
+        return av!=bv?av>bv:names[a.instance_id]<names[b.instance_id]; // II_Item_sortbyvalue then name
+    });error.clear();return true;
+}
 std::int32_t Shop::buy_price(const std::string& id, const dh2::data::ItemTable& items) const {
     const auto it = std::find_if(stock_.inventory.begin(), stock_.inventory.end(), [&](const auto& i) { return i.instance_id == id; });
     if (it == stock_.inventory.end()) return 0;

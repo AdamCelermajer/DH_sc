@@ -42,6 +42,8 @@ public:
     void cancel_confirmation() noexcept { pending_ = {}; }
     void potion_status(std::uint32_t held, std::uint32_t capacity) { potions_ = held; potion_capacity_ = capacity; }
     void update_properties(const ActorState& actor, const OriginalCombatProperties& properties) { actor_=actor;properties_=properties; }
+    using ParsedText = std::function<bool(const std::string&,const std::vector<std::string>&,std::string&,std::string&)>;
+    void parsed_text(ParsedText callback) { parsed_=std::move(callback); }
     bool frame(int width, int height, character_menu::Frame& output, std::string& error) const;
 private:
     struct Pane;
@@ -51,6 +53,7 @@ private:
     ActorState actor_;
     OriginalCombatProperties properties_;
     inventory::DetailBindings bindings_;
+    ParsedText parsed_;
     std::unique_ptr<Pane> buy_, sell_;
     Mode mode_{Mode::buy};
     unsigned slot_{0};

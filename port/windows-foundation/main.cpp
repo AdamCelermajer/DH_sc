@@ -92,6 +92,7 @@
 #include "features/quests/quest_text_resolver_v1.hpp" // P16 QUESTUI
 #include "features/inventory/source_item_descriptors.hpp"
 #include "features/merchant/merchant_shop_ui_v1.hpp"
+#include "../engine-ui/localization_parse_ex_v1.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
 #include "features/frontend/menu_return/menu_return_v1.hpp"
@@ -4641,6 +4642,7 @@ int main(int argc,char** argv) {
                     [&](const auto& op,std::string& error){return combatSession->world()->with_loot_random(op,error);},stock,e))throw std::runtime_error("Merchant stock: "+e);
                 shop->add_stock(table,stock);
             }
+            if(!shop->sort_stock(table,itemDisplayName,e))throw std::runtime_error("Merchant stock names: "+e);
             bindEquipmentPage();if(!runtimeEquipment||!runtimeEquipment->ready(e))throw std::runtime_error("Merchant equipment owner: "+e);
             const auto* actor=combatSession->actor(combatSession->player_id());const auto* props=combatSession->world()->combat_properties(actor->id);
             f::equipment_menu::Options menuOptions;menuOptions.player_class_id=actor->definition_id;
@@ -4654,6 +4656,12 @@ int main(int argc,char** argv) {
                 out=path.find("ItemInfo1")!=std::string::npos?desc.stats:path.find("ItemReq")!=std::string::npos?desc.requirements:std::string();return true;
             };
             merchantShop=shop.get();merchantUi=std::make_unique<f::merchant::ShopUi>(state,*shop,table,*actor,*props,properties,std::move(menuOptions),std::move(bindings));
+            merchantUi->parsed_text([&](const std::string& symbol,const std::vector<std::string>& values,std::string& out,std::string& e) {
+                dh2::ui::HudTextV1* text=nullptr;dh2::ui::HudTextEnvironmentV1 env;
+                if(!menuLocalization.bind_profile(&state,e)||!menuLocalization.borrow_text(text,env,e))return false;
+                std::vector<dh2::ui::LocalizationArgumentV1> args;for(const auto& value:values)args.push_back({0.f,true,value});
+                return text->parsed_string_v4(symbol,args,env,out,e);
+            });
             if(!merchantUi->open(e))throw std::runtime_error("Merchant open: "+e);
             merchantPotionStatus();characterMenu.open();merchantOpen=true;
             std::cout<<"Merchant opened key="<<merchantKey<<" loot="<<loot<<" stock="<<shop->inventory().inventory.size()<<" gold="<<state.gold<<'\n';
@@ -5694,6 +5702,7 @@ int main(int argc,char** argv) {
                         equipmentRebindRequested=true;
                         f::equipment_menu::RuntimeEquipmentRenderChangeV1 change;
                         if(runtimeEquipment->take_render_change(change,error)){runtimeEquipmentAttachments=change.attachments;syncPlayerBodyParts();if(locomotionLibrary)bindSourcePlayerLocomotion(*combatSession);}
+                        if(!merchantShop->sort_stock(table,itemDisplayName,error))throw std::runtime_error("Merchant stock sort: "+error);
                         if(!merchantUi->refresh(error))throw std::runtime_error("Merchant refresh: "+error);
                     }
                     std::cout<<"Merchant transaction frame="<<drawn<<" kind="<<int(cmd.kind)<<" instance="<<cmd.instance_id<<" result="<<int(result)<<" price="<<price<<" gold="<<goldBefore<<"->"<<state.gold<<" playerItems="<<state.inventory.size()<<" stock="<<merchantShop->inventory().inventory.size()<<" changed="<<changed<<" error="<<error<<'\n';
@@ -7655,7 +7664,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         }
                     };
                     for(const auto& solid:menu.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
-                    const auto& sourcePanes=f::inventory::original_inventory_character_panes_v1();
+                    const auto& sourcePanes=merchantOpen?f::merchant::merchant_art().panes:f::inventory::original_inventory_character_panes_v1();
                     std::vector<bool> drawnPanes(sourcePanes.size(),false);
                     const auto drawEquipmentPane=[&](const f::inventory::SourceCharacterPaneV1& pane) {
                         if(!runtimeEquipment->with_preview_packets(equipmentRenderBindings.callbacks(),[&](const auto& frame,std::string& e) {

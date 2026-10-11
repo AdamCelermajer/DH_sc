@@ -59,6 +59,7 @@ public:
     CharacterState& inventory() noexcept { return stock_; }
     const CharacterState& inventory() const noexcept { return stock_; }
     bool is_buyback(const std::string& stock_instance) const;
+    bool sort_stock(const dh2::data::ItemTable&, const std::function<bool(const InventoryItem&,std::string&,std::string&)>& name, std::string& error);
     std::int32_t buy_price(const std::string& stock_instance, const dh2::data::ItemTable&) const;
     std::int32_t sell_price(const std::string& player_instance, const CharacterState& player, const dh2::data::ItemTable&) const;
     // Transfers one unit of the stock item to `player` and debits gold.

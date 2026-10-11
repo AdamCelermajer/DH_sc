@@ -40,6 +40,7 @@ export('tab_sell_idle','btn_Sell',227,0);export('tab_sell_on','btn_Sell',227,6)
 export('category_art','category_title')
 export('action_idle','btn_Action',202,0);export('action_disabled','btn_Action',202,labels[202]['disabled'])
 export('potions_idle','btn_BuyPotions',215,0)
+export('potions_disabled','btn_BuyPotions',215,labels[215]['disabled'])
 export('back_art','btn_Back',223,0)
 # settled error popup: hide label frame - 1 is the fully shown state
 export('error_art','MerchantErrorPopup',250,labels[250]['hide']-1)
@@ -69,7 +70,14 @@ def hit_back():
     x0,x1,y0,y1=min(xs),max(xs),min(ys),max(ys)
     return 'std::vector<float>'+numbers([x0,y0,x1,y0,x1,y1,x0,y0,x1,y1,x0,y1])
 lines.append('const MerchantArt& merchant_art(){static const MerchantArt art{title_art,tab_buy_idle,tab_buy_on,tab_sell_idle,tab_sell_on,action_idle,action_disabled,potions_idle,back_art,error_art,')
-lines.append('{{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}},confirm_art,category_art,{{'+','.join(confirm_hits)+'}}};return art;}')
+ap,am=child('avatarpane');am=swf.multiply(am,sprites[218][0][1]['matrix'])
+import struct
+for code,tag in swf.tags(ns['data'],ns['at'],len(ns['data'])):
+    if code in (2,22,32) and struct.unpack_from('<H',tag)[0]==217:
+        bounds,_=swf.rect(tag,2);break
+points=[(am[0]*x+am[2]*y+am[4],am[1]*x+am[3]*y+am[5]) for x,y in [(bounds[0],bounds[2]),(bounds[1],bounds[3])]]
+pane='{{"_root.menu_Merchant.avatarpane",0u,236u,"","menu_Merchant/btn_Back/",'+numbers(am[:4]+[am[4]/20,am[5]/20])+','+numbers([points[0][0]/20,points[0][1]/20,points[1][0]/20,points[1][1]/20])+'}}'
+lines.append('{{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}},confirm_art,category_art,potions_disabled,{{'+','.join(confirm_hits)+'}},'+pane+'};return art;}')
 lines.append('}')
 (here.parent/'merchant_art.cpp').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 print('ok',len(lines))

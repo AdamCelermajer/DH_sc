@@ -1,4 +1,5 @@
 #include "merchant_shop_ui_v1.hpp"
+#include "../../save_store.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <algorithm>
@@ -19,7 +20,14 @@ static dh2::data::ItemTable table() {
     return t;
 }
 
-int main() {
+int main(int argc,char** argv) {
+    // Isolated EXE verification fixture/inspector, never touches default or user save paths.
+    if(argc>1) {
+        CharacterState state;std::string e;if(!load_character(argv[1],state,e)){std::cerr<<e;return 1;}
+        if(argc>2){state.gold=std::stoull(argv[2]);if(!save_character(argv[1],state,e)){std::cerr<<e;return 1;}}
+        std::cout<<"profile gold="<<state.gold<<" items="<<state.inventory.size()<<" equipment="<<state.equipment.size()<<'\n';
+        for(const auto& i:state.inventory)std::cout<<i.instance_id<<' '<<i.definition_id<<" qty="<<i.quantity<<'\n';return 0;
+    }
     // MerchantTable tail: count, then (buy, sell, n, n*(condition, merchandise)).
     {
         std::vector<std::uint8_t> b(4, 0xEE);   // pretend six loot tables occupy the first 4 bytes
