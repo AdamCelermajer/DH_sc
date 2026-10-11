@@ -1386,6 +1386,7 @@ int main(int argc,char** argv) {
             f::equipment_menu::RuntimePlayerLocomotionLibraryRequestV1 request;
             request.profile_id=options.combat.playerProfileId;request.profile_library_uri=options.profiles.generic_string();request.role="player-source-locomotion";
             request.main_hand_item_id=hands.first;request.off_hand_item_id=hands.second;
+            request.preload_all_equipment_stances=true;request.max_programs=f::equipment_menu::RuntimePlayerLocomotionLibraryV1::hard_program_limit;
             const auto prefix=request.role+"/";
             options.character.clips.erase(std::remove_if(options.character.clips.begin(),options.character.clips.end(),[&](const auto& clip){return clip.first.compare(0,prefix.size(),prefix)==0;}),options.character.clips.end());
             f::equipment_menu::RuntimePlayerLocomotionLibraryV1 next;
