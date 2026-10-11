@@ -258,3 +258,5 @@ Only root accepts a release. Preview11 (FD850478) is accepted; do not modify tha
 | B083 | A skill (slot 2) was not usable. | OPEN, session assigned | fresh Sonnet session |
 | B085 | Breaking a vase: no sound, no sword animation. | OPEN, session assigned | fresh Sonnet session |
 | B086 | Quit and relaunch: the hero is placed wrongly beside the cages and cannot move (shot-7). | OPEN, session assigned | fresh Sonnet session |
+| B087 | No exclamation marker above the NPC head (shot-8). | OPEN, session assigned | fresh Sonnet session |
+| B088 | Context button shows talk bubble but does not switch to attack when a monster is near; Space does not talk to the NPC (shot-8). | OPEN, session assigned | fresh Sonnet session |
