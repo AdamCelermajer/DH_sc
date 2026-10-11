@@ -68,6 +68,11 @@ struct RuntimeEffectsFactoryBindingsV1 {
     EffectTextureServices textures;
     std::function<bool(std::shared_ptr<const EffectRenderFrame>, std::string&)> submit;
     FxActorPolicyResolverV1 actor_policy;
+    // Optional same-active-world GameObject/Waypoint anchor path. A registry
+    // handles only its tagged level-object identities; unhandled identities
+    // continue through the built-in same-session ActorId path.
+    std::function<bool(dh2::fx::MeshFxRequestV1&, bool& handled, std::string& error)>
+        source_anchor_query;
 };
 
 // Owns the actual source FX manager and the resource/material adapters around

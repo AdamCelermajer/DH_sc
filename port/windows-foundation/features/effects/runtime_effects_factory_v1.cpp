@@ -115,6 +115,11 @@ struct RuntimeEffectsFactoryV1::Impl {
         case Op::anchor_position:
         case Op::anchor_rotation:
         case Op::anchor_scale: {
+            if (self.bindings.source_anchor_query) {
+                bool handled = false;
+                if (!self.bindings.source_anchor_query(q, handled, error)) return false;
+                if (handled) { error.clear(); return true; }
+            }
             ActorId id{}; const ActorState* state{};
             if (!self.actor(q.identity, id, state, error)) return false;
             if (q.operation == Op::anchor_dead) {
