@@ -3441,15 +3441,22 @@ bool OriginalUiSession::display_fast_travel(bool source_flag,
         const std::string& level_name,const std::string& repeated_level_name,
         std::int32_t entry_point,std::string& error) {
     if(!impl_||!impl_->loaded||!impl_->movie||!impl_->live_player||
-       level_name.empty()||level_name!=repeated_level_name||entry_point<0) {
+       // IDA TriggerZoneExitLevel::Update 0x39c388: localized LevelList name,
+       // then the raw LevelList key, then the entry point.
+       level_name.empty()||repeated_level_name.empty()||entry_point<0) {
         error="DisplayFastTravel requires the retained gameplay HUD and matching source arguments";
+        if(!impl_||!impl_->loaded||!impl_->movie)error+=" (HUD movie not loaded)";
+        else if(!impl_->live_player)error+=" (no live player)";
+        else error+=" (level '"+level_name+"'/'"+repeated_level_name+"' entry "+
+            std::to_string(entry_point)+")";
         return false;
     }
     struct Call {
         bool source_flag{};
         const std::string* name{};
+        const std::string* key{};
         std::int32_t entry{};
-    } call{source_flag,&level_name,entry_point};
+    } call{source_flag,&level_name,&repeated_level_name,entry_point};
     return impl_->movie->menu_action_script(&call,
         [](void* raw,ui::SwfAsGraph& graph,std::string& nested_error){
             const auto& call=*static_cast<Call*>(raw);
@@ -3463,7 +3470,7 @@ bool OriginalUiSession::display_fast_travel(bool source_flag,
             const std::vector<ui::SwfAsValue> args{
                 ui::SwfAsValue::boolean(call.source_flag),
                 ui::SwfAsValue::text(call.name->c_str()),
-                ui::SwfAsValue::text(call.name->c_str()),
+                ui::SwfAsValue::text(call.key->c_str()),
                 ui::SwfAsValue::number(call.entry)};
             if(!graph.invoke(hud,hud,"DisplayFastTravel",args,result,callable,nested_error))
                 return false;

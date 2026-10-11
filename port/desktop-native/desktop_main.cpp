@@ -465,6 +465,7 @@ bool start_from_authored_menu(const dh2::android_ui::NativeStartGameIntentV1& re
                               startup.rfind("SWAMP |", 0) == 0;
     std::string attach_error;
     const bool hud_attached = world_loaded && ui.attach_player(runtime.string(), attach_error);
+    model_renderer::bind_gameplay_ui_session(hud_attached ? &ui : nullptr);
     if (dh2::android_ui::menu_start_commit_gate_v1(world_loaded, hud_attached)) {
         gameplay = true;
         std::cout << "Authored NativeStartGame | slot " << request.slot << " | " << startup << '\n';
@@ -642,6 +643,7 @@ int main(int argc, char** argv) {
             std::cout << loaded << '\n';
             if (!original_ui.attach_player(options.runtime.string(), ui_error))
                 throw std::runtime_error("Shared player HUD attach failed: " + ui_error);
+            model_renderer::bind_gameplay_ui_session(&original_ui);
             gameplay = true;
         } else {
             if (!original_ui.load_front_screen(options.runtime.string(), "main", ui_error))
