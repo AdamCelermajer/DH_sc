@@ -52,6 +52,10 @@ extern "C" int dh2_target_list_init_filtered(List48*,Target24*,std::uint32_t,Obj
  std::uint32_t character_flags,std::uint32_t object_filter,std::uint32_t sort,
  const Services16*);
 extern "C" int dh2_target_search(List48*,const Registry8*,float radius,float cone,const Services16*);
+// GameObject::_TargetListSearch supplies an explicit copied center while the
+// reference Character, heading and predicate identity remain the same owner.
+extern "C" int dh2_target_search_at(List48*,const Registry8*,float radius,float cone,
+ const float* origin_xyz,const Services16*);
 extern "C" int dh2_target_search_object_list(List48*,const ObjectListMethods*,
  float radius,float cone,const Services16*);
 extern "C" int dh2_target_pop(List48*,Target24*);

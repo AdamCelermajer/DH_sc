@@ -194,8 +194,8 @@ int main() {
                                       &world.objects[0], 1, 0, 1, &world.services) ||
         dh2_target_search(&world.list, &world.registry, 8.0f,
                           std::numeric_limits<float>::quiet_NaN(), &world.services) ||
-        world.list.count != 0)
-        fail("source cone comparisons must reject all targets for a NaN cone");
+        world.list.count != 2)
+        fail("source rejection comparisons must accept every otherwise valid target for a NaN cone");
 
     constexpr std::uint32_t all_characters = 0x7fffffffu;
     if (dh2_target_list_init_filtered(&world.list, world.heap.data(), world.heap.size(),
@@ -244,6 +244,18 @@ int main() {
         dh2_target_search(&world.list, &world.registry, 8.0f, 3.1416f, &world.services) ||
         world.list.count != 0)
         fail("object filter must preserve high bits instead of truncating to 3");
+
+    World centered;
+    const float explicit_center[3]={2.0f,-3.0f,0.0f};
+    if (dh2_target_list_init(&centered.list,centered.heap.data(),centered.heap.size(),
+                             &centered.objects[0],1,&centered.services) ||
+        dh2_target_search_at(&centered.list,&centered.registry,0.25f,3.1416f,
+                             explicit_center,&centered.services) ||
+        centered.list.count!=1 || centered.list.heap[0].identity!=101 ||
+        centered.list.owner!=&centered.objects[0] ||
+        centered.objects[0].position[0]!=0.0f ||
+        centered.objects[0].position[1]!=0.0f)
+        fail("explicit search center must select locally without replacing/moving its owner");
 
     std::puts("player skill target search PASS: source character masks, full-width filters, cone, priority, and pop order");
 }

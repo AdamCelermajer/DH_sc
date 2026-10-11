@@ -10817,7 +10817,39 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
    // GameObject::_TargetListSearch 0x38fcf0 converts full degrees to half radians.
    cone=(degrees*0.017453f)*0.5f;
   }
-  if(count>2)return fail("TargetListSearch alternate center/backup provider is unavailable");
+  float search_center[3]={actor_position[0],actor_position[1],actor_position[2]};
+  std::uint32_t backup_index=2;
+  if(count>2&&args[2].type==2){
+   const auto center_identity=args[2].identity;
+   if(center_identity==prince_character.identity()){
+    std::copy(actor_position.begin(),actor_position.end(),search_center);
+   }else{
+    auto* center_actor=native_char_ai_actor(center_identity);
+    if(!center_actor||center_actor->identity!=center_identity)
+     return fail("TargetListSearch center requires a live source GameObject");
+    std::copy(center_actor->position.begin(),center_actor->position.end(),search_center);
+    if(center_actor->spawn_owner&&center_actor->spawn_owner->runtime_ready)
+     std::copy(center_actor->spawn_owner->runtime.subobjects.position,
+         center_actor->spawn_owner->runtime.subobjects.position+3,search_center);
+   }
+   backup_index=3;
+  }else if(count>4&&args[2].type==3&&args[3].type==3&&args[4].type==3){
+   float x=0,y=0,z=0;
+   if(!number_arg(2,x)||!number_arg(3,y)||!number_arg(4,z))
+    return fail("TargetListSearch center coordinates must be numeric");
+   if(count>5&&args[5].type==1&&args[5].boolean){
+    // Source basis: right=up cross look, forward=look, up=Vec3f_K.
+    const float heading=prince_runtime.rotation.heading_angle;
+    const float look_x=std::sin(heading),look_y=-std::cos(heading);
+    search_center[0]=(search_center[0]+x*(-look_y))+y*look_x;
+    search_center[1]=(search_center[1]+x*look_x)+y*look_y;
+    search_center[2]+=z;
+   }else{search_center[0]=x;search_center[1]=y;search_center[2]=z;}
+   backup_index=6;
+  }
+  if(count>backup_index&&((args[backup_index].type==1&&args[backup_index].boolean)||
+                         args[backup_index].type==4))
+   return fail("TargetListSearch named result backup provider is unavailable");
   skill_sync_target_objects(*state);if(!state->ready)return fail("Crypt target-search world is unavailable");
   state->owner.identity=prince_character.identity();
   std::copy(actor_position.begin(),actor_position.end(),state->owner.position);
@@ -10831,7 +10863,7 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   if(dh2_target_list_init_filtered(&state->list,state->heap.data(),std::uint32_t(state->heap.size()),
       &state->owner,std::uint32_t(state->character_filter),std::uint32_t(state->object_filter),
       std::uint32_t(state->sort),&state->services))return fail("TargetList initialization failed");
-  if(dh2_target_search(&state->list,&state->registry,radius,cone,&state->services))
+  if(dh2_target_search_at(&state->list,&state->registry,radius,cone,search_center,&state->services))
    return fail("TargetListSearch source provider failed");
   return 0;
  }

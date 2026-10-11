@@ -119,10 +119,14 @@ extern "C" int dh2_target_list_init_filtered(List48* l,Target24* heap,std::uint3
  *l={heap,0,capacity,owner,nullptr,sort,character_flags,object_filter};Response16 r;if(!call(s,is_character,owner,nullptr,r))return 2;if(r.word)l->reference_character=owner;return 0;
 }
 extern "C" int dh2_target_search(List48* l,const Registry8* registry,float radius,float cone,const Services16* s) {
- if(!valid_list(l)||!aligned(registry)||!aligned(registry->rooms)||!valid_services(s))return 1;
- // SearchEff captures heading first and a live pointer to the owner's selected
- // center second. Nested callbacks may alter fields, but not that pointer choice.
- const float rotation=l->owner->rotation;float look[3]={std::sin(rotation),-std::cos(rotation),0};const float* origin=center(l->owner);
+ if(!valid_list(l))return 1;
+ return dh2_target_search_at(l,registry,radius,cone,center(l->owner),s);
+}
+extern "C" int dh2_target_search_at(List48* l,const Registry8* registry,float radius,float cone,const float* origin,const Services16* s) {
+ if(!valid_list(l)||!aligned(registry)||!aligned(registry->rooms)||!origin||!valid_services(s))return 1;
+ // Retain the explicit center independently of the reference Character. The
+ // default adapter still borrows its original selected live center pointer.
+ const float rotation=l->owner->rotation;float look[3]={std::sin(rotation),-std::cos(rotation),0};
  while(l->count)pop(l);
  float reference_radius=0;Response16 r;
  if(l->reference_character) { if(!call(s,melee_radius,l->reference_character,nullptr,r))return 2;reference_radius=r.number; }
@@ -157,7 +161,9 @@ extern "C" int dh2_target_search(List48* l,const Registry8* registry,float radiu
       float delta[3]={sub(point[0],origin[0]),sub(point[1],origin[1]),sub(point[2],origin[2])};float distance=sub(sub(length(delta),target_radius),reference_radius);
       if(!(distance>radius)) {
        float a=angle(delta,look);
-       if(cone>=3.1416f||cone>=a) {
+       // Match the source rejection branch directly. Its ordered `<` tests
+       // intentionally accept unordered NaN values for either operand.
+       if(!(cone<3.1416f&&cone<a)) {
         if(l->count>=l->capacity)return 2;
         push(l,{object->identity,distance,a,character?1u:0u,0});
        }
@@ -214,7 +220,7 @@ extern "C" int dh2_target_search_object_list(List48* l,const ObjectListMethods* 
       float distance=sub(sub(length(delta),r.number),reference_radius);
       if(!(distance>radius)) {
        const float a=angle(delta,look);
-       if(cone>=3.1416f||cone>=a) {
+       if(!(cone<3.1416f&&cone<a)) {
         if(l->count>=l->capacity)return 2;
         push(l,{object->identity,distance,a,character?1u:0u,0});
        }

@@ -17,7 +17,8 @@ Latest source round (not in R4):
 - [x] Verify Windows frontend framing with the source-selected SWF and seven restored original textures: Start/Options/Info fit after the entrance animation (60/120 frames). Remaining ornamental overflow is authored outside the stage. Audible output remains unverified.
 - [x] Fix canonical static-Character SCT ownership and verify a Windows Crypt kill through normal input: cultist07 HP 12160 → 3711 → 0, dead=1, exit 0 with rendered world/player/HUD. XP providers, loot tail and ordinary enemy aggro remain open.
 - [ ] Connect TalkToNPC objective markers to canonical Character `+0x2fa`: source Register/Install sets it, Unregister/Remove clears it (`0x47dbb4`, `0x47d998`, `0x47dc44`, `0x47daec`). Generic quest-NPC interaction remains incomplete.
-- [ ] Clear current Windows combat gate: the combined runtime builds and renders Crypt/HUD; first aggro fails at `monster.luac:68` (`HeadTo`, status 205). No attack/death/XP/loot verification for this batch. [Receipt](../port/desktop-native/reports/crypt-combat-snapshot-2026-10-11.json).
+- [ ] Clear Windows startup/combat gates: selected runtime snapshot `3889586C` compiles with Faery InitPost/Final, rotation and timer adapters. Delayed follower AIS startup and full Player logical removal remain open; this batch has no live combat/progression result.
+- [x] Recover TargetList filters, callback order and NaN cone behavior: 412 original-ARM cases match (26,580 callbacks, zero mismatches). Explicit skill search centers pass a focused host check; Android/live skills remain unverified.
 
 **Goal:** a complete, source-built native Android game, preserving original
 gameplay/content and providing documented fan modding. **The game is unfinished.**
