@@ -250,8 +250,9 @@ Only root accepts a release. Preview11 (FD850478) is accepted; do not modify tha
 ### 2l. Reported on v20 (2026-10-11): B079-B085 -> v20.1 (brief `coordination/v20.1/BUGFIX-BRIEF.md`; screenshots `.local-inputs/claude-v20.1/user-shots/`)
 
 Codex continuation: the user's latest model rule supersedes older owner labels:
-every bug worker and reviewer uses GPT-6.1 Sol HIGH. Root owns integration and
-queued follow-up until a fresh session is opened. Current dispatch and evidence
+existing Sol HIGH sessions retain their settings; the latest supplied AGENTS.md
+selects Luna HIGH for new ordinary workers, with Sol MEDIUM escalation. Root
+owns integration and follow-up; no current implementation gate is unassigned. Current dispatch and evidence
 are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatch.
 
 | ID | Observed / reproduction | State | Owner |
