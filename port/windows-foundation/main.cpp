@@ -7236,7 +7236,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     if(promptFrame.art) for(const auto& batch:*promptFrame.art) {
                         std::vector<f::OverlayTriangleVertex> vertices; vertices.reserve(batch.triangles.size());
                         for(const auto& vertex:batch.triangles)
-                            vertices.push_back({(vertex[0]+view.offset)*view.scale,vertex[1]*view.scale,vertex[2],vertex[3]});
+                            vertices.push_back({(vertex.x+view.offset)*view.scale,vertex.y*view.scale,vertex.u,vertex.v});
                         if(!overlay.drawTriangles(vertices,batch.bitmap?hudTexture:0,batch.rgba))throw std::runtime_error("Travel source button draw rejected");
                     }
                     const float promptScale=480.f*view.scale/float(window.width());
