@@ -78,6 +78,8 @@ struct CampaignHostServices {
     std::function<bool(std::vector<ActorId>&,std::string&)> all_actors;
     std::function<bool(ActorId,bool& alive,std::int32_t& state,std::string&)> actor_state;
     std::function<bool(ActorId,std::int32_t state,std::string&)> set_actor_state;
+    std::function<bool(ActorId,bool wait_for_animation,std::string&)> set_idle;
+    std::function<bool(ActorId)> scripted_actor_pose;
     std::int32_t difficulty=0;           // source Normal
     bool tutorials_enabled=true;         // offline normal-difficulty tutorial policy
     // B070: the original keeps the 14 tutorial-enabled bytes in the GLOBAL settings file (SavegameManager +0x29,
@@ -164,7 +166,7 @@ public:
     float camera_far_override() const noexcept { return camera_far_override_; }
     // B068: a scripted PlayActorAnim clip owns the actor's pose (playing, or finished and held) until PutCharacterInIdle: the per-frame
     // locomotion selection of the local player must not replace it (the original CharStateMachine stays in the scripted anim state).
-    bool scripted_clip_pose(ActorId id) const noexcept { return held_clip_actors_.count(id) != 0; }
+    bool scripted_clip_pose(ActorId id) const noexcept { return held_clip_actors_.count(id)!=0&&(!services_.scripted_actor_pose||services_.scripted_actor_pose(id)); }
     // TriggerZone::Update 0x39b458 ignores contacts while the local character is marked scripted (+5248).
     bool character_scripted(ActorId id) const noexcept { return scripted_.count(id) != 0; }
     bool save_blocked() const noexcept { return save_blocked_; }

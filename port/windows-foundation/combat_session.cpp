@@ -66,6 +66,7 @@ struct CombatSession::Impl {
         std::string sourceSelectedClip;
         bool diagnosticAI=false;
         bool stateManaged=false,stateSequence=false,stateFrozen=false,attackProgram=true;
+        bool scriptIdleSuppressed=false;
         bool permission=true,baseTargetable=true;
         std::optional<std::int32_t> lifecycleOriginalState;
         std::optional<std::int32_t> presentationInitialState;
@@ -847,7 +848,8 @@ struct CombatSession::Impl {
     }
     bool select_source_attack_for_request(ActorId id,std::string& error){
         auto& entry=entries.at(id);if(!entry.sourceAttackStateSelection)return true;
-        if(entry.stateSequence||entry.stateManaged){error="Source attack cannot replace a managed state before departure";return false;}
+        if(entry.stateSequence||(entry.stateManaged&&!entry.scriptIdleSuppressed)){error="Source attack cannot replace a managed state before departure";return false;}
+        if(entry.scriptIdleSuppressed){entry.scriptIdleSuppressed=false;entry.stateManaged=false;}
         auto selection=*entry.sequenceCallerSelection;
         selection.state=live_original_state(id)==4?"Attack":"AttackStatic";
         const auto* properties=world->combat_properties(id);
@@ -1937,6 +1939,8 @@ bool CombatSession::select_actor_locomotion(ActorId id,const std::string& alias,
     if(!entry.retainedPhaseClock||!entry.retained||policy==entry.locomotion.end()){error="Explicit player locomotion alias is not bound: "+alias;return false;}
     const auto* actor=impl_->world->find_actor(id);
     if(!actor||!actor->alive()||impl_->runtime->owns_pose(id)||entry.stateSequence){error="Combat/death/source sequence owns actor pose; locomotion selection is unavailable";return false;}
+    // CSIdle.Focus suppresses selection while +1336 is set; a new Move departs Idle and clears it.
+    if(entry.scriptIdleSuppressed&&policy->second.originalState==3)return true;
     if(entry.locomotionSelected==alias&&entry.sourceSelectedClip==policy->second.phase.clipName&&!entry.sourceAction)return true;
     auto& s=*impl_;const auto& phase=policy->second.phase;RetainedAnimationFrame frame;
     CombatRuntimeTransition receipt;
@@ -1950,6 +1954,7 @@ bool CombatSession::select_actor_locomotion(ActorId id,const std::string& alias,
     }
     if(!entry.retained->seed_sequence(*impl_->assets,phase.clipName,phase.resolvedPath,policy->second.rate,
         static_cast<std::int32_t>(phase.blendOut),phase.moveGO!=0,policy->second.repeats,frame,error))return false;
+    entry.scriptIdleSuppressed=false;entry.stateManaged=false;
     entry.sourceAction=false;entry.sourceEvents.clear();entry.sourceSerial=0;entry.sourceSelectedClip=phase.clipName;entry.locomotionSelected=alias;
     if(s.actorTransitionHandler){
         reset_actor_action(*s.world->find_actor(id),policy->second.originalState==4?CharacterAction::moving:CharacterAction::idle);
@@ -2106,11 +2111,15 @@ bool CombatSession::script_move_handoff(ActorId id,std::string& error){
     if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="Script move requires source program departure";return false;}
     if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;
     s.combat->interrupt(id);entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
-    entry.lifecycleOriginalState.reset();entry.stateManaged=false;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};
+    entry.lifecycleOriginalState.reset();entry.scriptIdleSuppressed=false;entry.stateManaged=false;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};
     entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
     return true;
 }
-bool CombatSession::script_put_idle(ActorId id,std::string& error){
+bool CombatSession::scripted_actor_pose(ActorId id)const noexcept{
+    if(!impl_||impl_->detached)return false;const auto it=impl_->entries.find(id);
+    return it!=impl_->entries.end()&&it->second.stateManaged&&!it->second.stateSequence;
+}
+bool CombatSession::script_put_idle(ActorId id,std::string& error,bool wait_for_animation){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Script Idle actor unavailable";return false;}
     auto& s=*impl_;auto& entry=s.entries.at(id);auto* actor=s.world->find_actor(id);
     if(!actor->alive())return true;
@@ -2118,9 +2127,13 @@ bool CombatSession::script_put_idle(ActorId id,std::string& error){
     if(!s.actor_transition(id,receipt,error))return false;
     {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
         if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;s.combat->interrupt(id);}
-    entry.lifecycleOriginalState.reset();entry.stateManaged=false;entry.stateSequence=false;entry.stateFrozen=false;
+    // SM_SetIdleState enters 3 immediately. CSIdle.Focus skips flags and animation when +1336 is set.
+    // A 3->3 transition first runs CSIdle.Blur, which clears that byte.
+    const bool suppressed=wait_for_animation&&receipt.from_state!=3;
+    entry.lifecycleOriginalState.reset();entry.scriptIdleSuppressed=suppressed;
+    entry.stateManaged=suppressed;entry.stateSequence=false;entry.stateFrozen=false;
     entry.stateServices={};entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
-    auto binding=s.retained_binding(entry);if(!binding.select(entry.idle,true,error))return false;
+    if(!suppressed){auto binding=s.retained_binding(entry);if(!binding.select(entry.idle,true,error))return false;}
     reset_actor_action(*actor,CharacterAction::idle);
     if(!s.facts(id,error))return false;
     receipt.stage=CombatRuntimeTransitionStage::after_change;
@@ -2165,7 +2178,7 @@ bool CombatSession::play_actor_clip(ActorId id,const std::string& clip,const std
     if(!entry.retained->seed_sequence(*s.assets,clip,path,1.0f,0,false,loop?-1:0,frame,error))return false;
     entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};entry.sourceAction=false;
     entry.sourceSelectedClip=clip;entry.locomotionSelected.clear();entry.sourceEvents.clear();
-    entry.lifecycleOriginalState=14;if(!s.facts(id,error))return false;
+    entry.scriptIdleSuppressed=false;entry.lifecycleOriginalState=14;if(!s.facts(id,error))return false;
     receipt.stage=CombatRuntimeTransitionStage::after_change;
     return s.actor_transition(id,receipt,error);
 }

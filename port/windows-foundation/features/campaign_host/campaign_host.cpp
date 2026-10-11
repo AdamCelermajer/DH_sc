@@ -293,13 +293,14 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         return true;
     };
     if (!p.set_idle) p.set_idle = [this](ActorId id, bool wait, std::string& e) {
-        held_clip_actors_.erase(id); // B068: PutCharacterInIdle ends the scripted clip pose
+        if(!wait)held_clip_actors_.erase(id); // played Idle preserves the retained source animation
+        if(services_.set_idle)return services_.set_idle(id,wait,e);
         if (!services_.actor_state || !services_.set_actor_state) { e = "PutCharacterInIdle requires the live actor state owner"; return false; }
         bool alive = false;
         std::int32_t state = -1;
         if (!services_.actor_state(id, alive, state, e)) return false;
         if (state == kStateIdle) return true;
-        if (wait) unsupported_.note("approximation: PutCharacterInIdle waitForAnim applied as immediate _SetState(3)");
+        if(wait){e="Played PutCharacterInIdle requires source animation-suppression owner";return false;}
         return services_.set_actor_state(id, kStateIdle, e);
     };
 }
