@@ -2945,7 +2945,7 @@ int main(int argc,char** argv) {
             f::CameraPose pose{{sourceEffectsCamera.eye.x,sourceEffectsCamera.eye.y,sourceEffectsCamera.eye.z},
                 {sourceEffectsCamera.target.x,sourceEffectsCamera.target.y,sourceEffectsCamera.target.z},
                 {sourceEffectsCamera.up.x,sourceEffectsCamera.up.y,sourceEffectsCamera.up.z},sourceEffectsCamera.verticalFovDegrees};
-            const auto matrix=f::cameraViewMatrix(pose);std::copy(matrix.begin(),matrix.end(),view);
+            const auto matrix=f::sourceCameraViewMatrix(pose);std::copy(matrix.begin(),matrix.end(),view);
             position[0]=sourceEffectsCamera.eye.x;position[1]=sourceEffectsCamera.eye.y;position[2]=sourceEffectsCamera.eye.z;e.clear();return true;
         };
         std::int32_t sourceEffectsMs=0;double sourceEffectsFractionMs=0;
@@ -6905,7 +6905,7 @@ int main(int argc,char** argv) {
                             std::string reason;
                             if(!raw.empty()&&embeddedSceneFx.attach(key,actor.modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
                                 std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<actor.modelPath<<'\n';
-                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<actor.modelPath<<": "<<(raw.empty()?std::string("unreadable"):reason)<<'\n';
+                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<actor.modelPath<<": "<<(reason.empty()?std::string("unreadable"):reason)<<'\n';
                         }
                         if(!embeddedSceneFx.attached(key))continue;
                         auto placement=actor.transform;
