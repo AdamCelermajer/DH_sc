@@ -135,6 +135,16 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     // (source Objective_TalkToNPC::Register / Unregister, Character+762): Moths 365 and Lizman 366 offer a quest.
     check(h.runtime->talk_objective_registered(365) && h.runtime->talk_objective_registered(366), "Available accept NPCs are registered");
     check(!h.runtime->talk_objective_registered(1) && !h.runtime->talk_objective_registered(-1), "an NPC without a talk objective is not registered");
+    // B094: the escort priest Rene (WanderingPriest = CharacterTable row 419, AI 50 script "rene") and the Faery are
+    // never the oid of any TalkToNPC objective, so (source TargetList mask 0x59 via +762) they are never targetable/talkable.
+    {
+        bool rene_talk = false;
+        for (const auto& row : t.rows()) {
+            rene_talk = rene_talk || (row.accept.type == 5 && row.accept.oid1 == 419) || (row.end.type == 5 && row.end.oid1 == 419);
+            for (const auto& o : row.objectives) rene_talk = rene_talk || (o.type == 5 && o.oid1 == 419);
+        }
+        check(!rene_talk && !h.runtime->talk_objective_registered(419), "B094: no quest offers a TalkToNPC objective on the priest Rene (row 419)");
+    }
     // Moths: TalkToNPC accept (oid 365/41) then 8 template-94 kills; 7 kills stay Active.
     check(h.runtime->accept_quest(std::int32_t(moths), error), error.c_str());
     check(h.state(moths) == QuestStateV1::active, "accepted Moths becomes Active");
