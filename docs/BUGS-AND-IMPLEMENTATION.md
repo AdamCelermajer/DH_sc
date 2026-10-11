@@ -116,6 +116,8 @@ Screenshots: `.local-inputs/claude-preview15/user-shots/b0NN-*.png`.
 
 ### 2j. Reported on Preview 16 (2026-10-11): B068-B077, fix sessions running (Sonnet 5.5 medium, one session each; brief `coordination/claude-preview161/BUGFIX-BRIEF.md`, screenshots `.local-inputs/claude-preview161/user-shots/`)
 
+v20 continuation (2026-10-11): one combined release, `windows-source-clock-v20`, pending completion and verification. Fresh B068 implementation owner `/root/b068_cinematics` (GPT-6.1 Sol medium), reviewer root plus `/root/v20_evidence_review`. Integration owner `/root/v20_integration` (GPT-6 Luna high) in `DH_wt/v20int`; root owns packaging, acceptance and push to `publish` only. B069-B077 retain their existing implementation sessions; `/root/v20_evidence_review` reviews their evidence before frozen-EXE verification. No v20 package has been accepted yet.
+
 | ID | Observed / reproduction | State | Owner |
 |---|---|---|---|
 | B068 | ALL cinematic problems: controls (swing/menu) usable during cutscenes; SKIP button does not work and opens the character menu; lizard ambush: lizards do not jump to the right place and attack directly; camera and character animation bugs; overlay problems; tutorial panel off-centre and speaker name missing; tap/click should speed dialogue; "New Quest" banner appeared only after death + relaunch. | PARTIAL (fix/b068 @21e76885, NOT merged): input lock, SKIP hit-test, captions/speaker/tap, banner, lizard heading, opening cutscene audited and fixed. TODO: opening leftovers (faery glow, missing moth, title re-fire); audit MothIntro, lizard ambush recheck, Combat/Movement tutorial scenes, Camp_Intro, serpent/witch/troll-return | fresh Sonnet session |
