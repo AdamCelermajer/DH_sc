@@ -2573,8 +2573,8 @@ int main(int argc,char** argv) {
             return combatSession&&combatSession->script_put_idle(id,e,wait);};
         hostServices.scripted_actor_pose=[&](f::ActorId id){return combatSession&&combatSession->scripted_actor_pose(id);};
         // B091: source CSAnim::OnUpdate (0x3c1a3c) returns a character to SM_SetIdleState once its scripted clip is over (Script_PlayActorAnim
-        // starts it with the idle-when-done flag). A script-spawned gameplay actor whose script has no PutCharacterInIdle (LizCaptain_Intro:
-        // Spawn, PlayActorAnim..., Unlock) was left in Spawn (state 1): untargetable and passive. Cutscene props keep their held pose.
+        // starts it with the idle-when-done flag). Release all gameplay actors, including held Idle after the End command;
+        // presentation-only props and companions keep their held pose. Source no longer relies on a later AI command to release the clip.
         hostServices.scripted_clip_finished=[&](f::ActorId id,bool& released,std::string& e){
             released=false;
             if(!combatSession||!combatSession->actor(id)||combatSession->is_animation_only(id)||!combatSession->scripted_actor_pose(id))return true;
