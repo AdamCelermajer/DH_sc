@@ -277,6 +277,14 @@ bool SpawnPoolV1::release(std::uint64_t stable_id, std::string& error) {
     return false;
 }
 
+bool SpawnPoolV1::reconcile_restored_slot(std::uint64_t stable_id, std::string& error) {
+    const auto* restored = slot(stable_id);
+    if (!restored) { error = "Unknown spawn slot"; return false; }
+    if (restored->failed) { error = "Failed spawn slot is not released by despawn"; return false; }
+    if (!restored->busy) { error.clear(); return true; }
+    return release(stable_id, error);
+}
+
 void SpawnPoolV1::mark_failed(std::uint64_t stable_id) noexcept {
     for (auto& slot : slots_)
         if (slot.stable_id == stable_id) slot.failed = true;

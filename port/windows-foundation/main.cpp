@@ -5361,6 +5361,8 @@ int main(int argc,char** argv) {
             s.release_slot=[&](std::uint64_t id,std::string& e){
                 if(!spawnPool.owns(id)){e="Despawn actor is not a spawn-pool slot";return false;}
                 return spawnPool.release(id,e);};
+            s.reconcile_restored_slot=[&](std::uint64_t id,std::string& e){
+                return spawnPool.reconcile_restored_slot(id,e);};
             // Source CSLimbus::OnBlur/OnFocus with event 47: revive at the initial anchor, shown and physical again.
             s.respawn=[&](std::uint64_t id,std::string& e){
                 if(actorLifecycle.status(id)){e="Respawn of a lifecycle actor is not bound (source event 47 owner)";return false;}

@@ -124,6 +124,10 @@ public:
     bool acquire(const std::string& profile_id, std::uint64_t summoner, std::uint64_t& stable_id, std::string& error);
     // Frees a slot after despawn. Failed slots are not freed here.
     bool release(std::uint64_t stable_id, std::string& error);
+    // After the restored dead actor has reached hidden Limbus, reconcile its
+    // transient slot: an owned free slot is already retired. Ordinary release
+    // remains strict; unknown or failed slots are never accepted here.
+    bool reconcile_restored_slot(std::uint64_t stable_id, std::string& error);
     // P16 DESPAWN2: a world replacement (reload/restore) re-declares every slot free; stable IDs are kept.
     void free_all() noexcept;
     // Marks a busy slot whose owner state became unknown after begin().

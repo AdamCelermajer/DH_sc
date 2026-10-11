@@ -164,6 +164,23 @@ int main(int argc, char** argv) {
                 "free_all re-declares every slot free");
         require(pool.acquire(lizard, 0, c, f.error) && c == a, "first slot after free_all keeps its stable ID");
         require(pool.release(c, f.error), "released after free_all");
+        require(pool.reconcile_restored_slot(a, f.error) && !pool.slot(a)->busy && f.error.empty(),
+                "restored hidden actor accepts its already-free owned slot");
+        require(!pool.release(a, f.error), "ordinary release still refuses the restored free slot");
+        require(!pool.reconcile_restored_slot(12345, f.error) && f.error == "Unknown spawn slot",
+                "restored reconciliation refuses unknown membership");
+        require(pool.acquire(lizard, 42, c, f.error) && pool.reconcile_restored_slot(c, f.error) &&
+                !pool.slot(c)->busy && pool.slot(c)->summoner == 0,
+                "restored reconciliation releases busy ownership through strict release");
+        require(pool.acquire(lizard, 42, c, f.error), "reconciled capacity can be reused");
+        pool.mark_failed(c);
+        require(!pool.reconcile_restored_slot(c, f.error) && pool.slot(c)->busy && pool.slot(c)->failed,
+                "restored reconciliation preserves failed busy ownership");
+        pool.free_all();
+        pool.mark_failed(a);
+        require(!pool.reconcile_restored_slot(a, f.error) && !pool.slot(a)->busy && pool.slot(a)->failed,
+                "restored reconciliation also refuses failed free capacity");
+        pool.free_all();
 
         // --- real population admission (same loader family as authored actors) ---
         ActorPopulation population;
