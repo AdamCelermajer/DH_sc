@@ -5591,6 +5591,11 @@ int main(int argc,char** argv) {
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
                     characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    // B095: every tab onRelease runs NativePopAllAbove(menu_CharacterMenu) then pushes its sheet (authored-actions 0000e9a3-e9c3),
+                    // so a tab click, also on the already active bag tab, pops the per-slot Details page back to the global Equipment page.
+                    if(runtimeEquipmentPage&&(action==f::character_menu::Action::stats||action==f::character_menu::Action::equipment||action==f::character_menu::Action::skills||
+                       action==f::character_menu::Action::faery||action==f::character_menu::Action::quest||action==f::character_menu::Action::map))
+                        runtimeEquipmentPage->leave_page();
                     // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
                     if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n';
                         if(conditionWatch) { // P17 CONDITIONS: the restored quest state is the new baseline (no flips on reload)
