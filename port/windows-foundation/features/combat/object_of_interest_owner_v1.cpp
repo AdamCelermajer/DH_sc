@@ -48,7 +48,9 @@ void ObjectOfInterestOwnerV1::update(const ObjectOfInterestOwnerStateV1& owner, 
     // not cleared here, matching the source, which only zeroes the OOI pointer.
     if (object_ != invalid_actor_id) {
         const bool still_valid = std::any_of(candidates.begin(), candidates.end(), [this](const auto& c) {
-            return c.id == object_ && c.eligible;
+            // B089: source vt+140 for a GameObject (Container::IsInteractive 0x39f384: state == 2) is false once the object
+            // is spent, i.e. its action type is gone (-1): the stored OOI is cleared that frame, not after the 500 ms refresh.
+            return c.id == object_ && c.eligible && (c.is_character || c.interaction_type != interaction_type_none_v1);
         });
         if (!still_valid) object_ = invalid_actor_id;
     }

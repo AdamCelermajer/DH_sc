@@ -6456,7 +6456,9 @@ int main(int argc,char** argv) {
                         f::InteractableEntryV1 entry;entry.id=inst.stableId;entry.is_character=false;
                         entry.position={inst.transform[12],inst.transform[13],inst.transform[14]};entry.radius=0.f;
                         entry.provider.interaction_type=[&containerRuntime,ci](f::ActorId) -> int {
-                            if(containerRuntime.interaction_type(ci)==8&&containerRuntime.state(ci)==f::containers::kContainerStateOpened)return -1;
+                            // B089: source Container::IsInteractive (0x39f384) = state 2 (idle) only; Container::Interact leaves state 2 at once
+                            // (activating 3 / opened 4), so a destroyed destructible or an opening chest is no longer a candidate.
+                            if(containerRuntime.state(ci)!=f::containers::kContainerStateIdle)return -1;
                             return containerRuntime.interaction_type(ci);
                         };
                         std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable container: "+regError);

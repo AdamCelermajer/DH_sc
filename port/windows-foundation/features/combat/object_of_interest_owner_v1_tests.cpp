@@ -161,6 +161,17 @@ int main() {
         check(o.owner() == 2 && o.object() == invalid_actor_id, "owner change resets the state");
     }
 
+    // --- B089: a spent object (type -1 after Interact) is dropped from the OOI the same frame, not after the 500 ms refresh ---
+    {
+        ObjectOfInterestOwnerV1 o;
+        o.update(owner_at_origin(), 0.0, {at(barrel, 0, 60, false, 8)});
+        check(o.object() == barrel && o.interaction_type() == 8, "B089 barrel selected while idle");
+        o.update(owner_at_origin(), 0.016, {at(barrel, 0, 60, false, -1)});
+        check(o.object() == invalid_actor_id, "B089 destroyed barrel (type -1) leaves the OOI before the refresh timer");
+        o.update(owner_at_origin(), 0.6, {at(barrel, 0, 60, false, -1)});
+        check(o.object() == invalid_actor_id && o.interaction_type() == interaction_type_none_v1, "B089 stays out after the refresh");
+    }
+
     // --- Marker policy (B004): last target first, OOI fallback, render eligibility gate ---
     {
         const auto live = std::set<ActorId>{enemy};
