@@ -123,7 +123,7 @@ bool DeathHostV1::fail(const std::string& message, std::string& error) {
 bool DeathHostV1::observe(const AdmissionV1& admission, std::uint8_t quote_number,
                           const ServicesV1& services, std::string& error) {
     error.clear();
-    if (failed_) return fail("Death host failed earlier: " + failure_, error);
+    if (failed_) { error = failure_; return false; } // latched: report the original failure once, no re-wrapping
     if (phase_ != PhaseV1::idle) return false; // one flow per death
     if (!admission.local_character_assigned || !admission.local_character_dead) return false;
     if (admission.online)
@@ -226,7 +226,7 @@ bool DeathHostV1::run_ticks(double seconds, bool level_ready, const ServicesV1& 
 
 bool DeathHostV1::advance(double seconds, bool level_ready, const ServicesV1& services, std::string& error) {
     error.clear();
-    if (failed_) return fail("Death host failed earlier: " + failure_, error);
+    if (failed_) { error = failure_; return false; } // latched: report the original failure once, no re-wrapping
     level_ready_ = level_ready;
     return run_ticks(seconds, level_ready, services, error);
 }

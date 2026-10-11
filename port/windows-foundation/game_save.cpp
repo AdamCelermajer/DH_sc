@@ -258,9 +258,13 @@ bool validate_game_save(const GameSave& g,std::string& error){
              {p.actor.max_health,38},{p.actor.resource,41},{p.actor.max_resource,43}}){
             const double raw=std::round(double(value.first)*256.0);
             const auto source=p.combat.sheets.resolved[value.second];
-            const bool unavailable=!p.traits.targetable&&p.actor.attack_ids.empty()&&source<0&&value.first==0;
+            // An unbound source property (-1) has no live counterpart; live 0 is its only faithful value (I024: a targetable
+            // NPC without MP was refused the checkpoint under the previous non-targetable-only rule).
+            const bool unavailable=source<0&&value.first==0;
             if(raw<INT32_MIN||raw>INT32_MAX||(!unavailable&&std::int32_t(raw)!=source))
-                return fail("Saved live vital/original sheet mismatch");
+                return fail(("Saved live vital/original sheet mismatch actor="+std::to_string(p.actor.id)+
+                    " field="+std::to_string(value.second)+" live="+std::to_string(value.first)+
+                    " raw="+std::to_string(raw)+" sheet="+std::to_string(source)).c_str());
         }
         const auto& f=p.combat.facts;
         if(f.main_damage_class< -1||f.main_damage_class>=141||f.off_damage_class< -1||f.off_damage_class>=141||

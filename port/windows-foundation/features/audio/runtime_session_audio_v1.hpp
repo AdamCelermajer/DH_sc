@@ -122,6 +122,8 @@ public:
     // Original MenuMainMenu::Hide StopMusic(1000) on the way out of gameplay.
     // Clears the track so after_update cannot restart it before teardown.
     bool on_return_to_menu(std::string& error);
+    // I024 DEATH: source SetSoundVolume(VolumeFX) for the death mute (true) and the revive restore (false).
+    bool set_fx_muted(bool muted,std::string& error);
     // Publish actual camera/player and window state before the Session update.
     // A missing device sample returns nullptr; it never supplies a private clock.
     const RetainedFrameAudioClock* before_update(const Camera&,bool focused,

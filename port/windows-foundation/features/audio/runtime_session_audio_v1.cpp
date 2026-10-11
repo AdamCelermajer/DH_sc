@@ -302,6 +302,11 @@ bool RuntimeSessionAudioV1::on_local_players_revived(std::string& error) {
     level_music_revive_pending_=true;error.clear();return true;
 }
 
+bool RuntimeSessionAudioV1::set_fx_muted(bool muted,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    host_->set_fx_muted(muted);error.clear();return true;
+}
+
 bool RuntimeSessionAudioV1::on_return_to_menu(std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     level_music_revive_pending_=false;
