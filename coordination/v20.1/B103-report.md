@@ -1,4 +1,4 @@
-# B103 report: mixed stat and skill allocation repair (in progress)
+# B103 report: mixed stat and skill allocation repair (reviewed, root integration pending)
 
 ## 2026-10-11 investigation and test contract (before implementation)
 
@@ -36,7 +36,9 @@ Normal Win32 WM_MOUSEMOVE/DOWN/UP releases use10ms holds (C key180ms); hidden pr
 
 All seven allocation jobs and all three fresh/reload jobs printed actual game `exit=0`. Inspected chronological captures: original failed review mixed/f850; repaired stats-first-no/f1450 Statistics10/point1/Attack69/R-Dam13–17 and/f1750 SkillsHardiness0/point1; skill-first-yes/f1450 Statistics11/point0/Attack72/R-Dam14–18 and/f1750 Hardiness1/point0; skill-only-no/f950 shared confirmation. Fresh process reload-no/f450/f750 shows both refunded values; reload-yes/f450/f750 shows both confirmed values. These directly verify UI state, saved identity/rank mapping, derived stat effects, and normal integrated allocation paths. Source-backed No semantics match the observed repair; original No footage remains unavailable.
 
-Test receipts: pre-lock focused CTest2/2; actual-lock test initially failed at re-entry in full parallel CTest, then passed independently and8 consecutive focused repeats after adding failure diagnostics (no gameplay code change). That initial failure is retained honestly; its cause is not yet proven. Full CTest completion/recheck is pending; reviewer must not treat the worker runtime receipt as root package acceptance.
+Test receipts: pre-lock focused CTest2/2; actual-lock test initially failed at re-entry in the first parallel CTest run, then passed independently and8 consecutive focused repeats after adding failure diagnostics (no gameplay code change). That initial failure is retained honestly; its cause is not yet proven. The first parallel run was stopped at159/172 after buffered progress was incorrectly treated as a hung runner; it is **incomplete**, not a full-suite result. Overlapping focused CTest invocations also replaced its Temporary receipts. The observed failure text/time and interruption are recorded in `initial-test-note.txt` without claiming a preserved raw full log.
+
+Final standalone full recheck with no overlapping CTest: **171/172 pass**, only permitted `session_skill_binding` (`Asset path escapes asset root`) fails. New mixed transaction/real atomic-failure test passes within that full run (11.79s); complete tee output `full-ctest-final.txt` and copied `full-LastTest.log` are preserved. Build exits0; `git diff --check` passes. Independent same reviewer `b103_review` reran focused3/3 and normal old-reproduction No + reverse-order Yes with10ms releases, confirmed saved/UI results, and reports **READY WITH CAVEATS** in `.local-inputs/v20.1/b103-review/REVIEW-REPAIRED.md`. No new scoped source blocker found. Root owns merged executable, tracker closure and package acceptance; this worker receipt is not a package acceptance claim.
 
 ## Historical partial investigation (superseded where noted above)
 
