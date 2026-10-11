@@ -231,13 +231,13 @@ int main(int argc,char** argv){try{
     for(unsigned frame=0;frame<100&&!restoredHit;++frame){check(session.update(.016,input,{0,0,0},0,error),error);restoredHit=!session.events().empty();}
     check(restoredHit,"Retained owners or event services lost after save rebind");
     std::cout<<"Retained source combat passed firstHitFrame="<<firstSourceHit<<" motionSegments="<<retainedSegments<<" saveRebind=verified\n";
-    session.actor(2)->health=0;const auto savedCorpsePosition=session.actor(2)->transform.position;
+    kill_actor_state(*session.actor(2));const auto savedCorpsePosition=session.actor(2)->transform.position;
     check(capture_game_save("source-test-level",1,character,*session.world(),captured,error),error);
     session.detach_for_restore();check(restore_game_save(captured,"source-test-level",*session.world(),character,error)&&session.rebind_after_restore(error),error);
     input={};for(unsigned frame=0;frame<100;++frame)check(session.update(.016,input,{0,0,0},0,error),error);
     check(session.actor(2)->transform.position==savedCorpsePosition&&session.owns_pose(2),"Restored source death replay moved saved corpse");
     std::cout<<"Retained saved corpse position preserved with terminal source pose\n";
-    session.actor(2)->health=session.actor(2)->max_health;session.actor(2)->action=CharacterAction::idle;
+    revive_actor_state(*session.actor(2));
     session.actor(2)->transform.position={10000,0,0};session.actor(1)->target_id=invalid_actor_id;input.attack=true;
     check(session.update(0,input,{0,0,0},0,error)&&session.actor(1)->target_id==invalid_actor_id,"Basic melee auto-target selected an actor beyond original melee reach");
     check(!session.uses_retained_player_locomotion()&&!session.has_player_locomotion("walk"),"Unbound locomotion aliases were inferred");
@@ -275,7 +275,7 @@ int main(int argc,char** argv){try{
     for(unsigned i=0;i<180;++i)check(session.select_player_locomotion("walk",error)&&session.update(.032,input,{0,0,0},0,error),error);pose=session.retained_player_pose();check(pose->slots()[pose->current_slot()].timeline.loop==0&&(pose->slots()[0].generation>generation||pose->slots()[1].generation>generation),"Source locomotion used raw wrap instead of completion/NewAnim repeat");
     session.set_motion_handler([](ActorState&,Vec3,bool,std::string&){return true;});
     check(session.select_player_locomotion("idle",error),error);input={};check(session.update(.05,input,{0,0,0},0,error),error);
-    session.actor(2)->transform.position={0,-100,0};session.actor(2)->health=session.actor(2)->max_health;session.actor(2)->action=CharacterAction::idle;
+    session.actor(2)->transform.position={0,-100,0};revive_actor_state(*session.actor(2));
     const auto outgoingSlot=session.retained_player_pose()->current_slot();const auto outgoingClip=session.retained_player_pose()->slots()[outgoingSlot].clip_id;const auto outgoingTime=session.retained_player_pose()->slots()[outgoingSlot].timeline.last_seconds;
     // B051 (Equipment avatar): the pane presents the bound idle clip on its own clock. Record the idle clip now, while the actor is idle.
     std::string idlePreviewClip;

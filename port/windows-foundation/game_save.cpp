@@ -124,7 +124,7 @@ void actor_record(Archive& a,PersistedPlayableActor& p){
     for(auto* array:{&s.transform.position,&s.transform.rotation,&s.transform.scale})for(float& v:*array)a.real(v);
     for(float* v:{&s.health,&s.max_health,&s.resource,&s.max_resource})a.real(*v);
     // Transient control state is never serialized; restored actors idle/dead.
-    if(a.reading){s.action=s.health>0?CharacterAction::idle:CharacterAction::dead;s.action_elapsed_seconds=0;s.target_id=0;}
+    if(a.reading){s.action_elapsed_seconds=0;s.target_id=0;}
     a.list(s.equipment,[&](auto& e){a.text(e.slot);a.text(e.definition_id);a.optional_text(e.item_instance_id);});
     a.list(s.attack_ids,[&](auto& id){a.text(id);});a.optional_text(s.persistent_character_id);
     for(auto* sheet:{&p.combat.sheets.base,&p.combat.sheets.saved,&p.combat.sheets.gear,&p.combat.sheets.resolved})
@@ -158,7 +158,7 @@ void object_record(Archive& a,WorldObject& object){
     }
 }
 void snapshot(Archive& a,GameSave& g){a.u32(g.version);
-    if(g.version<1||g.version>3)throw std::runtime_error("Unsupported game save version");
+    if(g.version<1||g.version>4)throw std::runtime_error("Unsupported game save version");
     character(a,g.character);a.text(g.level_uri);
     a.u64(g.controlled_actor_id);a.u32(g.random.seed);a.u32(g.random.calls);
     a.list(g.actors,[&](auto& actor){actor_record(a,actor);});
@@ -166,6 +166,14 @@ void snapshot(Archive& a,GameSave& g){a.u32(g.version);
     // Append in the already serialized actor order. Never change v1/v2 actor
     // bytes, infer presence from HP, or serialize physical receiver pointers.
     if(g.version>=3)for(auto& actor:g.actors)a.optional_flag(actor.actor.source_physical_present);
+    // V4 appends the explicit Character+5193 witness in validated actor order.
+    // Earlier PC checkpoints classified corpses from HP; retain that migration
+    // only for their missing witness, never for a freshly constructed actor.
+    for(auto& record:g.actors){
+        if(g.version>=4)a.flag(record.actor.source_dead);
+        else if(a.reading)restore_actor_dead_state(record.actor,record.actor.health==0);
+        if(a.reading)record.actor.action=record.actor.is_dead()?CharacterAction::dead:CharacterAction::idle;
+    }
 }
 std::uint64_t checksum(const std::vector<unsigned char>& bytes){std::uint64_t hash=14695981039346656037ull;
     for(auto b:bytes){hash^=b;hash*=1099511628211ull;}return hash;}
@@ -175,7 +183,7 @@ std::int32_t raw_vital(float value){const double raw=std::round(double(value)*25
     if(!std::isfinite(raw)||raw<INT32_MIN||raw>INT32_MAX)throw std::runtime_error("Live vital outside original signed256 range");
     return std::int32_t(raw);}
 void normalize(PersistedPlayableActor& p){
-    p.actor.action=p.actor.health>0?CharacterAction::idle:CharacterAction::dead;
+    p.actor.action=p.actor.is_dead()?CharacterAction::dead:CharacterAction::idle;
     p.actor.action_elapsed_seconds=0;p.actor.target_id=0;p.combat.facts.original_state=-1;p.combat.facts.combo_hits=0;
     p.actor.source_flags520.reset();p.actor.source_movement_type.reset();p.actor.source_validate_boundary452.reset();
     p.actor.source_target_node180.reset();p.actor.source_target_position184.reset();
@@ -229,7 +237,7 @@ bool checkpoint_binding_compatible(const PersistedPlayableActor& saved,const Act
 }
 bool validate_game_save(const GameSave& g,std::string& error){
     const auto fail=[&](const char* why){error=why;return false;};
-    if(g.version<1||g.version>3)return fail("Unsupported game save version");
+    if(g.version<1||g.version>4)return fail("Unsupported game save version");
     if((g.version==1&&!g.objects.empty())||g.objects.size()>character_collection_limit)return fail("Invalid saved object version/count");
     const auto character_valid=validate_character_state(g.character);
     if(!character_valid.ok()){error=character_valid.errors.front();return false;}
@@ -283,9 +291,7 @@ bool capture_game_save(const std::string& level,ActorId controlled,const Charact
         PersistedPlayableActor record{entry.second,*props,*traits};normalize(record);next.actors.push_back(std::move(record));
     }
     for(const auto& entry:world.objects())next.objects.push_back(entry.second);
-    if(!next.objects.empty())next.version=2;
-    if(std::any_of(next.actors.begin(),next.actors.end(),[](const auto& p){
-        return p.actor.source_physical_present.has_value();}))next.version=3;
+    next.version=4;
     const auto* live=world.find_actor(controlled);if(!live){error="Controlled live actor absent";return false;}
     next.character.stats.health=live->health;next.character.stats.max_health=live->max_health;
     next.character.stats.resource=live->resource;next.character.stats.max_resource=live->max_resource;

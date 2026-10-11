@@ -43,5 +43,10 @@
     "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_outro_scene07_smokinhead.bdae",
     "destination": "assets/data/3d/interface/cs_sk_outro_scene07_smokinhead.bdae",
     "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/pydata/dialogs_pyarray.bin",
+    "destination": "assets/data/pydata/dialogs_pyarray.bin",
+    "reason": "Original DialogActors name StrID rows required by StartDialog speaker plate; combined diagnostic missing table logged"
   }
 ]

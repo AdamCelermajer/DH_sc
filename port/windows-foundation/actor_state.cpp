@@ -41,8 +41,8 @@ bool validate_actor_state(const ActorState& actor, std::string& error) {
     case CharacterAction::hurt: case CharacterAction::dead: case CharacterAction::knocked_back: break;
     default: return fail("actor action is invalid");
     }
-    if ((actor.health == 0.0f) != (actor.action == CharacterAction::dead))
-        return fail("actor health and dead action disagree");
+    if (actor.is_dead() && actor.health != 0.0f)
+        return fail("source-dead actor retains health");
     if (actor.target_id == actor.id) return fail("actor cannot target itself");
     if (!actor.alive() && actor.target_id != invalid_actor_id)
         return fail("dead actor retains a target");
@@ -68,15 +68,31 @@ bool validate_actor_state(const ActorState& actor, std::string& error) {
 }
 
 void reset_actor_action(ActorState& actor, CharacterAction action) noexcept {
-    actor.action = actor.alive() ? action : CharacterAction::dead;
+    actor.action = actor.is_dead() ? CharacterAction::dead : action;
     actor.action_elapsed_seconds = 0.0f;
     if (actor.action == CharacterAction::dead) actor.target_id = invalid_actor_id;
+}
+
+void kill_actor_state(ActorState& actor) noexcept {
+    actor.source_dead = true; // Kill publishes +5193 before PROPS_Set(HP,0).
+    actor.health = 0.0f;
+}
+void revive_actor_state(ActorState& actor) noexcept {
+    actor.source_dead = false;
+    actor.health = actor.max_health;
+    actor.resource = actor.max_resource;
+    reset_actor_action(actor, CharacterAction::idle);
+}
+void restore_actor_dead_state(ActorState& actor, bool dead) noexcept {
+    actor.source_dead = dead;
+    if (dead) actor.health = 0.0f;
 }
 
 float apply_actor_damage_health_prefix(ActorState& actor, float amount) noexcept {
     if (!actor.alive() || !std::isfinite(amount) || amount <= 0.0f) return 0.0f;
     const float removed = std::min(actor.health, amount);
-    actor.health -= removed;
+    if (removed == actor.health) kill_actor_state(actor);
+    else actor.health -= removed;
     return removed;
 }
 float apply_actor_damage(ActorState& actor,float amount)noexcept{

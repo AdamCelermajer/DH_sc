@@ -46,7 +46,7 @@ int main(int argc,char** argv){try{
     dh2::data::CombatRandom rng{0x51a7u,29};PlayableActorWorld world(ai,rng);
     auto player=make_actor(1,"KnightPlayerBase",knight);player.persistent_character_id="physical-presence-test";
     player.attack_ids={"original-main-leaf"};player.source_physical_present=true;
-    auto corpse=make_actor(2,"Swamp_LizadMan_Type1",lizard);corpse.health=0;corpse.action=CharacterAction::dead;
+    auto corpse=make_actor(2,"Swamp_LizadMan_Type1",lizard);kill_actor_state(corpse);corpse.action=CharacterAction::dead;
     // Model the value the host publishes after its End34 body-removal path;
     // this fixture does not invoke that producer or persist its animation cursor.
     // The corpse remains in the same PlayableActorWorld actor roster.
@@ -54,6 +54,7 @@ int main(int argc,char** argv){try{
     auto unknown=make_actor(3,"Swamp_LizadMan_Type1",lizard);
     check(world.bind_actor(player,knight,{true,true,std::nullopt},error),error);
     check(world.bind_actor(corpse,lizard,{false,true,std::nullopt},error),error);
+    unknown.health=0; // Source not-dead PreSpawn/visual actor has independent HP.
     check(world.bind_actor(unknown,lizard,{false,true,std::nullopt},error),error);
     check(world.bind_source("main",{},error),error);
     auto character=make_default_character("physical-presence-test","Test","warrior");
@@ -61,7 +62,7 @@ int main(int argc,char** argv){try{
 
     GameSave captured;
     check(capture_game_save(level,1,character,world,captured,error),error);
-    check(captured.version==3&&captured.actors.size()==3&&
+    check(captured.version==4&&captured.actors.size()==3&&
           captured.actors[0].actor.source_physical_present==std::optional<bool>(true)&&
           captured.actors[1].actor.source_physical_present==std::optional<bool>(false)&&
           !captured.actors[2].actor.source_physical_present,
@@ -71,24 +72,31 @@ int main(int argc,char** argv){try{
     check(save_game(path,captured,error),error);
     const auto v3bytes=read_bytes(path);GameSave loaded;
     check(load_game(path,loaded,error),error);
-    check(loaded.version==3&&loaded.actors[0].actor.source_physical_present==std::optional<bool>(true)&&
+    check(loaded.version==4&&loaded.actors[0].actor.source_physical_present==std::optional<bool>(true)&&
           loaded.actors[1].actor.source_physical_present==std::optional<bool>(false)&&
           !loaded.actors[2].actor.source_physical_present&&loaded.actors[1].actor.health==0&&
           loaded.actors[1].actor.action==CharacterAction::dead,
           "V3 disk roundtrip conflated absent body, present body, unknown, or dead actor state");
 
+    check(loaded.actors[1].actor.is_dead()&&!loaded.actors[2].actor.is_dead()&&loaded.actors[2].actor.health==0&&loaded.actors[2].actor.action==CharacterAction::idle,"V4 conflated HP0 PreSpawn with actual corpse");
+    // A valid checksum does not authorize a nonboolean dead witness or a truncated tail.
+    auto badflag=v3bytes;badflag[badflag.size()-9]=2;
+    auto hash=checksum(badflag,badflag.size()-8);for(unsigned i=0;i<8;++i)badflag[badflag.size()-8+i]=static_cast<char>(hash>>(8*i));
+    const auto badflagpath=std::filesystem::path(path.string()+".deadflag");write_bytes(badflagpath,badflag);GameSave sentinel=loaded;sentinel.level_uri="sentinel/deadflag";
+    check(!load_game(badflagpath,sentinel,error)&&sentinel.level_uri=="sentinel/deadflag","Malformed dead witness mutated output");
+    auto truncated=v3bytes;truncated.erase(truncated.end()-9);hash=checksum(truncated,truncated.size()-8);for(unsigned i=0;i<8;++i)truncated[truncated.size()-8+i]=static_cast<char>(hash>>(8*i));write_bytes(badflagpath,truncated);
+    check(!load_game(badflagpath,sentinel,error)&&sentinel.level_uri=="sentinel/deadflag","Truncated dead witness accepted or mutated output");std::filesystem::remove(badflagpath);
     // Older versions remain exactly actor-only and never guess body presence
     // from a dead/zero-HP actor. Their current-format bytes round-trip exactly.
-    for(const std::uint32_t old_version:{1u,2u}){
+    for(const std::uint32_t old_version:{1u,2u,3u}){
         auto old=captured;old.version=old_version;old.objects.clear();
-        for(auto& actor:old.actors)actor.actor.source_physical_present.reset();
+        if(old_version<3)for(auto& actor:old.actors)actor.actor.source_physical_present.reset();
         const auto oldpath=std::filesystem::path(path.string()+".v"+std::to_string(old_version));
         const auto rewritepath=std::filesystem::path(path.string()+".v"+std::to_string(old_version)+".rewrite");
         check(save_game(oldpath,old,error),error);const auto oldbytes=read_bytes(oldpath);
         GameSave reread;check(load_game(oldpath,reread,error),error);
         check(reread.version==old_version&&reread.actors[1].actor.health==0&&
-              !reread.actors[0].actor.source_physical_present&&
-              !reread.actors[1].actor.source_physical_present,
+              (old_version>=3||(!reread.actors[0].actor.source_physical_present&&!reread.actors[1].actor.source_physical_present))&&reread.actors[1].actor.is_dead()&&reread.actors[2].actor.is_dead(),
               "Legacy checkpoint inferred body presence from live/dead actor state");
         check(save_game(rewritepath,reread,error),error);
         check(read_bytes(rewritepath)==oldbytes,"Legacy v1/v2 bytes changed on read/write roundtrip");
@@ -108,7 +116,7 @@ int main(int argc,char** argv){try{
     check(restore_game_save(loaded,level,world,character,error),error);
     check(world.find_actor(1)->source_physical_present==std::optional<bool>(true)&&
           world.find_actor(2)->source_physical_present==std::optional<bool>(false)&&
-          !world.find_actor(3)->source_physical_present&&world.find_actor(2)->health==0&&
+          !world.find_actor(3)->source_physical_present&&world.find_actor(2)->health==0&&world.find_actor(2)->is_dead()&&!world.find_actor(3)->is_dead()&&
           rng.seed==0x51a7u&&rng.calls==29&&character.name=="Test",
           "Same-roster v3 restore did not atomically restore body facts/actor/character/RNG");
 
@@ -138,7 +146,7 @@ int main(int argc,char** argv){try{
           rng.seed==world_before_bad_load.seed&&rng.calls==world_before_bad_load.calls&&
           world.find_actor(1)->source_physical_present==actor_before_bad_load&&character.name==saved_name,
           "Truncated checkpoint changed caller output or was accepted");
-    damaged=v3bytes;for(unsigned i=0;i<4;++i)damaged[8+i]=static_cast<char>((4u>>(8*i))&0xffu);
+    damaged=v3bytes;for(unsigned i=0;i<4;++i)damaged[8+i]=static_cast<char>((5u>>(8*i))&0xffu);
     const auto invalid_hash=checksum(damaged,damaged.size()-8);
     for(unsigned i=0;i<8;++i)damaged[damaged.size()-8+i]=static_cast<char>(invalid_hash>>(8*i));
     write_bytes(malformed,damaged);
@@ -146,7 +154,7 @@ int main(int argc,char** argv){try{
           rng.seed==world_before_bad_load.seed&&rng.calls==world_before_bad_load.calls&&
           world.find_actor(1)->source_physical_present==actor_before_bad_load&&character.name==saved_name,
           "Unsupported on-disk version changed output or live world state");
-    invalid=loaded;invalid.version=4;
+    invalid=loaded;invalid.version=5;
     check(!restore_game_save(invalid,level,world,character,error)&&
           rng.seed==before_failure.seed&&rng.calls==before_failure.calls&&
           world.find_actor(1)->source_physical_present==saved_true&&character.name==saved_name,
