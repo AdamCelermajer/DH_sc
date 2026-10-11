@@ -336,7 +336,7 @@ struct Options {
     std::vector<std::pair<std::string,int>> interactRequests; // P16 containers: --interact-at DECLARATION@FRAME (repeatable; default off)
     std::vector<std::pair<std::string,int>> leverUseRequests; // P17 DOORS: --lever-use DECLARATION@FRAME (debug use of a lever, default off)
     double fixedStep = 0;
-    bool probe = false, timeline = false, saveNow = false;
+    bool probe = false, timeline = false, saveNow = false, resumeGame = false;
     bool movable=false, sourceCamera=false, hud=false, freshPlayer=false;
     bool combatText=false;
     std::optional<bool> staticActorAnchor;
@@ -590,7 +590,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--combat-motion-root") {auto v=value();auto split=v.find('=');if(split==std::string::npos||split==0||split+1==v.size())throw std::runtime_error("Combat motion root must be PROFILE=ROOT");o.combat.profiles[v.substr(0,split)].motionRoot=v.substr(split+1);}
         else if(arg=="--combat-retained-phase") o.combat.profiles[value()].retainedPhaseClock=true;
         else if(arg=="--combat-source-combo") o.combat.profiles[value()].sourceCombo=true;
-        else if(arg=="--resume-game") o.loadFrame=0;
+        else if(arg=="--resume-game") {o.loadFrame=0;o.resumeGame=true;} // P17 VERIFY17: continue from --game-save at frame 0 (F9 rule)
         else if(arg=="--save-frame") {o.saveFrame=std::stoi(value());if(o.saveFrame<0)throw std::runtime_error("Save frame must be nonnegative");}
         else if(arg=="--load-frame") {o.loadFrame=std::stoi(value());if(o.loadFrame<0)throw std::runtime_error("Load frame must be nonnegative");}
         else if(arg=="--character-name") o.characterName=value();
@@ -3644,7 +3644,7 @@ int main(int argc,char** argv) {
         };
         bindDeathRewards();
         bindContainerLoot();
-        bindQuestRuntime();
+        bindQuestRuntime(!options.resumeGame); // VERIFY17: a continued save shows no bind banners (its quest state is restored at frame 0)
         // P14 DROPS: source itemdrops.bdae presentation over the same world-item store.
         const auto bindWorldDrops=[&]() {
             if(worldDrops||!combatSession||!worldItems||!menuSourceOwner.valid()||!deathRewards.bound())return;
@@ -4477,7 +4477,10 @@ int main(int argc,char** argv) {
                 if(command.kind==8)std::cout<<"Source camera command frame="<<drawn<<" target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<'\n';
             }
             // P16 HOST: executor tick on the frame clock, then trigger contacts (only with --campaign-triggers).
-            if(campaignHost.enabled()&&combatSession) {
+            // VERIFY17: a restore frame (F9, R, or the frame-0 continue) replaces the trigger edge state after this point, so the
+            // feed is skipped on that frame. Otherwise a zone the restored character is already inside fires its script first.
+            const bool restoreFrame=drawn==options.loadFrame||(options.reloadFrame&&drawn==options.reloadFrame)||window.key_down(VK_F9)||window.key_down('R');
+            if(campaignHost.enabled()&&combatSession&&!restoreFrame) {
                 if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(std::int32_t(dt*1000.0),{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive());
             }
             // D1 (OPENING3): Quest::Update runs every frame after the script executor, so a state whose script has
