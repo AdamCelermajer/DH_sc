@@ -2471,6 +2471,7 @@ int main(int argc,char** argv) {
             const auto& m=scene.materials[i];
             const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             scene.mesh.ranges[i].material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
+            scene.mesh.ranges[i].material.specularTexture=m.specularMap.empty()?0:loadTexture(m.specularMap); // B076: GL_Diffuse_L1 specular map
         }
         if(visual.loaded()) for(std::size_t i=0;i<visual.mutable_meshes().size();++i)
             for(auto& r:visual.mutable_meshes()[i].ranges) r.material.texture=loadTexture(visual.texture_uris()[i]);

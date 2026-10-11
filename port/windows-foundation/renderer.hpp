@@ -52,6 +52,10 @@ struct Material {
     // B076: material uses the source GL_Diffuse_L1 shader family: (ambient + diffuse*N.L*attenuation) * vertex colour with the
     // level point light. Ignored (old look) until Renderer::setLevelLight enabled a light.
     bool levelLit = false;
+    // B076: level-lit materials with the shader's Sp slot add light0.specular * specularMap.rgb * att * pow(N.H, glossiness)
+    // in a second additive pass (source GL_Diffuse_L1_iPhone_FS/VS.glsl). glossiness 0 = no specular.
+    std::uint32_t specularTexture = 0;
+    float glossiness = 0.0f;
     // B076: texture-matrix translation added to the vertex UVs (source material animation of offsetU/offsetV).
     std::array<float, 2> uvOffset{0.0f, 0.0f};
     std::optional<SourceMaterialPass> sourcePass;

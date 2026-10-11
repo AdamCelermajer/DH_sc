@@ -13,6 +13,9 @@ struct OriginalMaterial {
     std::array<float,16> textureMatrix{};
     float alphaReference = 0;
     bool additive = false;
+    // B076: GL_Diffuse_L1 "Specular" sampler (image basename) when the GLES2 technique has the Sp slot; glossiness = exponent.
+    std::string specularMap;
+    float glossiness = 0;
 };
 
 struct OriginalScene {

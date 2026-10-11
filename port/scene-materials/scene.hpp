@@ -16,6 +16,9 @@ struct Material {
     float texture_matrix[16]{1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
     float alpha_ref=0;
     bool additive=false, backface=false;
+    // B076: GL_Diffuse_L1 family "Specular" sampler (image basename, empty when unbound) and "Glossiness" exponent.
+    std::string specular_map;
+    float glossiness=0;
 };
 // A COLLADA instance_material is keyed by the geometry's primitive symbol,
 // then points at a material record whose ID can be different from that symbol.

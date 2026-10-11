@@ -142,6 +142,11 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                 dh2::assets::Attribute normals{};
                 const bool hasNormals=dh2_mesh_attribute(&mesh,primitive.attributes[1],&normals)==dh2::assets::Error::ok&&normals.components>=3;
                 OriginalMaterial metadata; metadata.id=original.id;metadata.diffuse=original.diffuse;
+                {   // technique "L1_<Vc>_<Al|At>_<Sp>_<..>": the fourth slot enables the specular term
+                    std::vector<std::string> slots;std::size_t from=0;
+                    for(;;){const auto next=original.gles2_technique.find('_',from);slots.push_back(original.gles2_technique.substr(from,next==std::string::npos?std::string::npos:next-from));if(next==std::string::npos)break;from=next+1;}
+                    if(range.material.levelLit&&slots.size()>=4&&slots[3]=="Sp"&&!original.specular_map.empty()&&original.glossiness>0){metadata.specularMap=original.specular_map;metadata.glossiness=original.glossiness;range.material.glossiness=original.glossiness;}
+                }
                 metadata.alphaMap=original.alpha_map;metadata.effectFile=original.effect_file;
                 metadata.technique=original.gles2_technique;
                 std::copy(original.texture_matrix,original.texture_matrix+16,metadata.textureMatrix.begin());
