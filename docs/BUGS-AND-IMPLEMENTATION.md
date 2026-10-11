@@ -284,3 +284,11 @@ Accepted v21 on 2026-10-12: resolved stable IDs moved to `docs/RESOLVED-BUGS.md`
 Accepted v21 and its user saves remain untouched. Root copied profile, world and selective checkpoint read-only into `.local-inputs/b117/user-seed` for further isolated reproduction copies. Fix must preserve the source locomotion admission guard and distinguish actual interaction/retained pose ownership. Earlier idle chest tests do not cover this moving-to-interaction failure.
 
 B117 resolved in accepted v21.1: exact shipped crash reproduced with full physical transition admission; retained managed animation ownership repaired; independent source/runtime/visual and packaged checks READY;175 checks pass across full run plus corrected reruns. Evidence and stable ID retained in `docs/RESOLVED-BUGS.md` and `coordination/v21/B117-hotfix.md`. Existing v21 progress copied to the separate hotfix folder; originals preserved.
+
+### V21.1 Continue crash — 2026-10-12
+
+| ID | Observed | State | Implementation owner | Reviewer |
+|---|---|---|---|---|
+| B118 | User reports resuming crashes; clarified **Continue from the main menu**. | OPEN; fresh worker and reviewer assigned immediately. Current profile/world/selective checkpoint/tutorial progress copied read-only to `.local-inputs/b118/user-seed`; reproduction pending. | `/root/b118_continue_crash`; root integration | `/root/b118_continue_review` |
+
+Accepted packages and original saves remain untouched. Reproduce the actual normal frontend Continue using further isolated copies before changing code; preserve authored restore/identity admission and inspect mutable saved state rather than weakening the guard. B116 may be related but no relation is established yet.
