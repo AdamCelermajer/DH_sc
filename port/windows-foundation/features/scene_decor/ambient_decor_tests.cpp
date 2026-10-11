@@ -83,6 +83,40 @@ static void render_ownership(const std::filesystem::path& root,const std::vector
     check(runtime.load(assets,defs,{},notices,error)&&runtime.instances().size()==1,"Invalid sentinel leaves ordinary decor admitted");
 }
 
+// B115: native CTextureTransformEx stores channel87/88 in state0/1,
+// then buildTextureTransform places them at matrix8/9. The actual atlas
+// phases below are deliberately unequal, so a transposed traversal fails.
+static void water_texture_transform(const std::filesystem::path& extra) {
+    f::AssetCatalog assets(extra); sd::AmbientDecorRuntimeV1 runtime;
+    f::ActorDefinition water; water.name="water"; water.gametype="AnimatedDecor";
+    water.modelPath="data/3d/animateddecors/swamp_watercaustics.bdae";
+    water.properties["xrefobject"]="_anim_animwater_corner_brdwalk_sw_";
+    water.placement={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+    std::vector<std::string> notices; std::string error;
+    check(runtime.load(assets,{water},{},notices,error)&&runtime.instances().size()==1,"source water loads one owner");
+    if(runtime.instances().empty()) return;
+    const auto colors=[&]{std::vector<std::array<float,4>> out;for(const auto& range:runtime.instances()[0].scene->mesh.ranges)out.push_back(range.material.color);return out;}();
+    const auto vertices=runtime.instances()[0].scene->mesh.vertices.size();
+    const auto triangles=runtime.instances()[0].scene->triangleCount;
+    const auto verify=[&](float u,float v,const char* message){
+        const auto& instance=runtime.instances()[0];
+        check(instance.scene->mesh.vertices.size()==vertices&&instance.scene->triangleCount==triangles,"UV update preserves geometry multiplicity");
+        for(std::size_t i=0;i<instance.scene->mesh.ranges.size();++i){
+            const auto& material=instance.scene->mesh.ranges[i].material;
+            check(near(material.uvOffset[0],u)&&near(material.uvOffset[1],v),message);
+            check(material.color==colors[i],"texture transform does not animate RGBA");
+            check(near(instance.scene->materials[i].textureMatrix[0],.25f)&&near(instance.scene->materials[i].textureMatrix[5],.25f),"water keeps source atlas scale");
+        }
+    };
+    runtime.update(0);verify(0,0,"water initial native transform");
+    runtime.update(.1);verify(.25f,0,"native water100ms U=.25 V=0");
+    runtime.update(.5);verify(.5f,.25f,"native water600ms U=.5 V=.25");
+    runtime.update(.9);verify(0,0,"water1500ms wraps to native initial transform");
+    water.properties["xrefobject"]="missing-water-root";
+    notices.clear();
+    check(runtime.load(assets,{water},{},notices,error)&&runtime.instances().empty()&&!notices.empty(),"missing water root rejects instead of publishing stale geometry");
+}
+
 static void full_material_transport(const std::filesystem::path& extra) {
     f::AssetCatalog assets(extra);sd::AmbientDecorRuntimeV1 runtime;
     f::ActorDefinition entrance;entrance.name="entrance";entrance.gametype="AnimatedDecor";
@@ -148,6 +182,7 @@ int main(int argc, char** argv) {
     if (torches.empty()) { std::cerr << "SKIP decor libraries missing\n"; }
     else {
         material_defaults(read_file(extra / "data/3d/animateddecors/swamp_cave_watercaustics.bdae"));
+        water_texture_transform(extra);
         render_ownership(assets,torches);
         full_material_transport(extra);
         sd::AmbientDecorModel model;
@@ -158,10 +193,10 @@ int main(int argc, char** argv) {
         for (const auto& clip : model.clips) if (clip.materialId == "torch_fire") fire = &clip;
         check(fire && fire->offsetU >= 0 && fire->offsetV >= 0 && fire->color < 0, "torch_fire has offsetU/offsetV only");
         if (fire) {
-            const auto u = sd::sample_ambient_track(model.tracks[std::size_t(fire->offsetU)], 300);
-            const auto v = sd::sample_ambient_track(model.tracks[std::size_t(fire->offsetV)], 100);
-            check(near(u[0], 0.25f), "torch_fire U at 300 ms is 0.25 (hold of key 266)");
-            check(near(v[0], 0.375f) || near(v[0], 0.375f + 0.0f) || v[0] > 0.3f, "torch_fire V flip-book advances");
+            const auto u = sd::sample_ambient_track(model.tracks[std::size_t(fire->offsetU)], 100);
+            const auto v = sd::sample_ambient_track(model.tracks[std::size_t(fire->offsetV)], 300);
+            check(near(u[0], 0.375f), "native torch_fire U100ms=.375 (channel87)");
+            check(near(v[0], 0.25f), "native torch_fire V300ms=.25 (channel88)");
         }
         const auto cave = read_file(extra / "data/3d/animateddecors/swamp_caveentrance_effect.bdae");
         sd::AmbientDecorModel caveModel;
