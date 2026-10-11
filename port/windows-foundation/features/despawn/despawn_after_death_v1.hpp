@@ -32,11 +32,12 @@
 #include <cstdint>
 #include <functional>
 #include <map>
+#include <set>
 #include <string>
 
 namespace dh::foundation::despawn {
 
-enum class Phase : std::uint8_t { dying, corpse, despawning, awaiting_respawn };
+enum class Phase : std::uint8_t { dying, corpse, despawning, awaiting_respawn, restoring };
 
 struct Record {
     Phase phase = Phase::dying;
@@ -45,6 +46,7 @@ struct Record {
     std::uint32_t respawn_ms = 0;   // GetRespawnDelay (0 = not respawnable)
     bool summoned = false;   // pool slot: released when the despawn completes, never respawns
     bool has_clip = false;   // profile has a Despawn clip AND the clip option is on
+    bool restored_hidden = false; // reached hide prefix retained on a slot-release retry
 };
 
 struct Services {
@@ -70,6 +72,11 @@ public:
                std::uint32_t respawn_ms = 0);
     // The death animation has ended (source event 34): release the body and start the delay timer.
     bool death_ended(std::uint64_t actor, Services& services, std::string& error);
+    // Character::Deserialize -> SM_SetLimbusState: saved source-dead goes
+    // directly to hidden Limbus, without a new death clip/End/delay/reward.
+    // Caller supplies actual restored source-dead admission; HP0 is insufficient.
+    bool restore_dead(std::uint64_t actor, bool summoned, std::uint32_t respawn_ms,
+                      Services& services, std::string& error);
     // Advances every timer. Expired corpse timers (event 46) enter Despawn; expired respawn timers (event 47) respawn.
     bool advance(std::uint32_t elapsed_ms, Services& services, std::string& error);
     // Completes despawns whose clip finished; releases pool slots of summoned actors.
@@ -78,10 +85,11 @@ public:
     const Record* record(std::uint64_t actor) const noexcept;
     std::size_t size() const noexcept { return records_.size(); }
     // Transient state is dropped with the world (load, reset). No owner is touched.
-    void clear() noexcept { records_.clear(); }
+    void clear() noexcept { records_.clear(); restored_.clear(); }
 
 private:
     std::map<std::uint64_t, Record> records_;
+    std::set<std::uint64_t> restored_;
 };
 
 } // namespace dh::foundation::despawn

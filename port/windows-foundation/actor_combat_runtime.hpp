@@ -117,6 +117,9 @@ public:
     bool kill(ActorId actor,std::string& error);
     bool death_event(ActorId,std::string& error);
     bool death_complete(ActorId actor) const;
+    // Saved source-dead admission, distinct from HP0 and a new lethal hit.
+    // The host retires it through Deserialize/Limbus without replaying events.
+    bool restored_dead(ActorId actor) const noexcept;
     bool interrupt(ActorId actor,std::string& error);
     // P16 DESPAWN2: hands the actor's pose to a lifecycle-owned state sequence. The death pose is released and not re-asserted
     // while the actor is dead (synchronize); a new pose from this runtime clears the hand-over.
@@ -147,6 +150,7 @@ private:
         std::uint64_t duration_ms = 0;
         float source_injury_gate_ms=-1.0f;
         bool terminal_hold=false;
+        bool restored_dead=false;
         bool yielded=false; // P16 DESPAWN2: pose handed to a lifecycle state sequence (no death re-assertion)
         bool delivering_transition=false;
         std::string transition_failure;

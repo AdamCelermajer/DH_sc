@@ -1803,7 +1803,7 @@ bool CombatSession::rebind_after_restore(std::string& error){
         if(entry.second.animationOnly)actor->action=actor->alive()?CharacterAction::idle:CharacterAction::dead;
         else reset_actor_action(*actor,CharacterAction::idle);
         actor->target_id=invalid_actor_id;
-        entry.second.poses.restore_dead_terminal=!actor->alive();
+        entry.second.poses.restore_dead_terminal=actor->is_dead();
         if(entry.second.sequence){
             auto selection=*entry.second.sequenceCallerSelection;
             const auto* properties=s.world->combat_properties(entry.first);
@@ -1996,6 +1996,9 @@ const RetainedPosePlayback* CombatSession::retained_player_pose()const noexcept{
 }
 const RetainedPosePlayback* CombatSession::retained_actor_pose(ActorId id)const noexcept{
     if(!impl_||impl_->detached)return nullptr;const auto entry=impl_->entries.find(id);return entry!=impl_->entries.end()&&entry->second.retained?&entry->second.retained->animation()->pose():nullptr;
+}
+bool CombatSession::restored_actor_dead(ActorId id)const noexcept{
+    return impl_&&!impl_->detached&&impl_->runtime&&impl_->runtime->restored_dead(id);
 }
 const CharacterVisual* CombatSession::retained_actor_visual_borrow(ActorId id)const noexcept{
     if(!impl_||impl_->detached)return nullptr;

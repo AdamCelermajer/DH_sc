@@ -59,6 +59,7 @@ bool ActorCombatRuntime::bind(ActorState& actor, CombatVisualBinding visual,
         }else if(!binding.visual.update(double(binding.duration_ms)/1000,error))return false;
         binding.elapsed=double(binding.duration_ms)/1000;binding.cursor.elapsed_ms=binding.duration_ms;binding.terminal_hold=true;
     }
+    binding.restored_dead=binding.poses.restore_dead_terminal&&actor.is_dead();
     bindings_.emplace(actor.id, std::move(binding));
     return true;
 }
@@ -200,6 +201,7 @@ bool ActorCombatRuntime::apply_calculated_hit(ActorId attacker, ActorId target,
 bool ActorCombatRuntime::start_pose(Binding& binding, Pose pose, std::string& error,
     const CombatRuntimeTransition* admitted,bool silent,bool prefix_delivered) {
     binding.yielded = false; // P16 DESPAWN2: the runtime starts a pose again (a hand-over ends here)
+    binding.restored_dead=false;
     const auto& clip = pose == Pose::death ? binding.poses.death_clip_id : binding.poses.react_clip_id;
     if (clip.empty()) return true;
     const AnimationMarkers* track = nullptr; std::uint64_t duration = 0;
@@ -278,6 +280,7 @@ bool ActorCombatRuntime::start_injure_reaction(Binding& binding,const DamageEven
 bool ActorCombatRuntime::synchronize(Binding& binding, std::string& error) {
     auto& actor = *binding.actor;
     if (actor.is_dead()) {
+        if(binding.restored_dead)return true; // Deserialize/Limbus owner retires it; no new pose/events, including absent Died
         if (binding.pose != Pose::death && !binding.yielded) {
             if (!start_pose(binding, Pose::death, error)) return false;
         }
@@ -289,6 +292,7 @@ bool ActorCombatRuntime::synchronize(Binding& binding, std::string& error) {
         if(current.from_state!=-1&&!combat_.active_attack_valid(actor.id))
             return depart(binding,CombatRuntimeTransitionCause::interruption,error);
     }
+    binding.restored_dead=false; // revival is a fresh live occurrence
     if (binding.pose == Pose::death&&!depart(binding,CombatRuntimeTransitionCause::interruption,error))return false;
     if (binding.pose == Pose::attack
         && (!combat_.attacking(actor.id) || actor.action != CharacterAction::attacking)&&
@@ -306,6 +310,7 @@ bool ActorCombatRuntime::kill(ActorId id,std::string& error) {
     if(found==bindings_.end()){error="Script kill requires the live bound actor";return false;}
     auto& binding=found->second;
     if(binding.actor->is_dead())return true;
+    if(binding.restored_dead){binding.restored_dead=false;release(binding);}
     kill_actor_state(*binding.actor);
     binding.yielded=false;
     return synchronize(binding,error);
@@ -317,10 +322,15 @@ bool ActorCombatRuntime::death_complete(ActorId id) const {
     if(binding.visual.source_clock&&binding.visual.source_clock())return binding.visual.source_finished&&binding.visual.source_finished();
     return binding.cursor.elapsed_ms>=binding.duration_ms;
 }
+bool ActorCombatRuntime::restored_dead(ActorId id) const noexcept {
+    const auto found=bindings_.find(id);
+    return found!=bindings_.end()&&found->second.restored_dead&&found->second.actor->is_dead();
+}
 bool ActorCombatRuntime::death_event(ActorId id,std::string& error){
     if(!validate_transition_checkpoint(error))return false;
     const auto found=bindings_.find(id);
     if(found==bindings_.end()||!found->second.actor->is_dead()){error="Death event requires its bound dead actor";return false;}
+    if(found->second.restored_dead){found->second.restored_dead=false;release(found->second);}
     found->second.yielded=false;
     return synchronize(found->second,error);
 }
@@ -381,6 +391,7 @@ bool ActorCombatRuntime::handle_applied_hit(const DamageEvent& result,
         effect_occurrence,CombatRuntimeHitEffectStage::after_effects,error);
     bool new_pose = false;
     if (result.target_died) {
+        if(victim->second.restored_dead){victim->second.restored_dead=false;release(victim->second);}
         if (!synchronize(victim->second, error)) {if(result.applied&&hit_effect_observer_)hit_effect_failure_=error;return false;}
         new_pose = victim->second.pose == Pose::death;
     } else if (!start_injure_reaction(victim->second, result, new_pose, error)) {
