@@ -26,7 +26,7 @@ bool queue_ranges(const List* l, const SearchServices* s, Range (&r)[4]) {
     if(!range(l,sizeof(*l),alignof(List),r[0]) ||
        !range(s,sizeof(*s),alignof(SearchServices),r[1])) return false;
     if(!l->capacity || l->capacity>65536 || l->count>l->capacity ||
-       l->sort!=1 || l->reserved ||
+       l->sort!=1 || l->character_flags || l->object_filter ||
        !range(l->heap,l->capacity*sizeof(Target),alignof(Target),r[2]) ||
        !range(l->owner,sizeof(Object),alignof(Object),r[3])) return false;
     return disjoint(r,4) && l->owner->identity &&
@@ -95,7 +95,9 @@ Status init(List* l,Target* heap,std::uint32_t capacity,Object* owner,const Sear
        !range(owner,sizeof(*owner),alignof(Object),r[3]) || !disjoint(r,4) || !owner->identity)
         return Status::invalid_argument;
     const auto s=*services;
-    *l={heap,0,capacity,owner,nullptr,1,0};
+    // This provider uses its own source-backed Character predicate below;
+    // keep the generic TargetList filter fields explicitly disabled.
+    *l={heap,0,capacity,owner,nullptr,1,0,0};
     SearchResponse out; const auto status=query(s,l,SearchOperation::is_character,id(owner),0,out);
     if(status==Status::complete && out.identity) {
         // SetRefObject reloads its reference object after the virtual callback.

@@ -4,9 +4,12 @@
 namespace dh2::target_search { namespace {
 bool aligned(const void* p,std::uintptr_t a=8) { return p && !(reinterpret_cast<std::uintptr_t>(p)&(a-1)); }
 bool valid_services(const Services16* s) { return aligned(s)&&s->invoke; }
-bool valid_list(const List40* l) { return aligned(l)&&aligned(l->heap)&&l->capacity>0&&l->capacity<=65536&&l->count<=l->capacity&&aligned(l->owner)&&l->sort<=2&&l->reserved==0; }
+bool valid_list(const List48* l) { return aligned(l)&&aligned(l->heap)&&l->capacity>0&&l->capacity<=65536&&l->count<=l->capacity&&aligned(l->owner)&&l->sort<=2; }
 bool call(const Services16* s,Service op,const Object48* subject,const Object48* other,Response16& out) {
  out={};Request24 q{op,0,subject?subject->identity:0,other?other->identity:0};return s->invoke(s->context,&q,&out)==0;
+}
+bool call_filter(const Services16* s,Service op,const Object48* subject,const Object48* other,std::uint32_t filter,Response16& out) {
+ out={};Request24 q{op,filter,subject?subject->identity:0,other?other->identity:0};return s->invoke(s->context,&q,&out)==0;
 }
 float mul(float a,float b) { volatile float r=a*b;return r; }
 float add(float a,float b) { volatile float r=a+b;return r; }
@@ -24,38 +27,90 @@ bool less(const Target24& a,const Target24& b,std::uint32_t sort) {
  if((a.flags&1)!=(b.flags&1))return (b.flags&1)!=0;
  return sort==1?a.distance>b.distance:a.angle>b.angle;
 }
-void push(List40* l,Target24 value) {
+void push(List48* l,Target24 value) {
  auto hole=l->count++;
  while(hole) { auto parent=(hole-1)/2;if(!less(l->heap[parent],value,l->sort))break;l->heap[hole]=l->heap[parent];hole=parent; }
  l->heap[hole]=value;
 }
-void pop(List40* l) {
+void pop(List48* l) {
  const auto n=--l->count;if(!n)return;auto value=l->heap[n];std::uint32_t hole=0,right=2;
  while(right<n) { auto selected=less(l->heap[right],l->heap[right-1],l->sort)?right-1:right;l->heap[hole]=l->heap[selected];hole=selected;right=(selected+1)*2; }
  if(right==n) { l->heap[hole]=l->heap[right-1];hole=right-1; }
  while(hole) { auto parent=(hole-1)/2;if(!less(l->heap[parent],value,l->sort))break;l->heap[hole]=l->heap[parent];hole=parent; }
  l->heap[hole]=value;
 }
-// Return -1 on provider error; exact flags1 character path otherwise.
-int character_valid(List40* l,Object48* candidate,const Services16* s) {
+// Return -1 on provider error; otherwise execute the source's bitwise-OR
+// Character filter in _IsCharacterValid, including ordered short-circuits.
+int character_valid(List48* l,Object48* candidate,std::uint32_t flags,
+                    const Services16* s) {
  auto ref=l->reference_character;if(!ref)return 1;
  if(ref->character_word1314<candidate->character_word1310)return 0;
+ if(flags==0x7fffffffu)return 1;
  Response16 r;
- if(!call(s,is_dead,candidate,nullptr,r))return -1;
- if(r.word)return 0;
- if(!call(s,is_enemy,ref,candidate,r))return -1;
- if(!r.word)return 0;
- if(!call(s,is_player,candidate,nullptr,r))return -1;
- if(!r.word)return 1;
- if(!call(s,is_player,l->reference_character,nullptr,r))return -1;
- return !r.word;
+ if((flags&0x80u)!=0) {
+  if(!call(s,is_player,candidate,nullptr,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x10u)!=0) {
+  if(!call(s,is_merchant,candidate,nullptr,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x20u)!=0) {
+  if(!call(s,is_cleaner,candidate,nullptr,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x40u)!=0) {
+  if(!call(s,has_character_flag_2fa,candidate,nullptr,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x01u)!=0) {
+  if(!call(s,is_dead,candidate,nullptr,r))return -1;
+  if(!r.word) {
+   if(!call(s,is_enemy,ref,candidate,r))return -1;
+   if(r.word) {
+    if(!call(s,is_player,candidate,nullptr,r))return -1;
+    if(!r.word)return 1;
+    if(!call(s,is_player,ref,nullptr,r))return -1;
+    if(!r.word)return 1;
+   }
+  }
+ }
+ if((flags&0x02u)!=0) {
+  if(!call(s,is_dead,candidate,nullptr,r))return -1;
+  if(!r.word) {
+   if(!call(s,is_neutral,ref,candidate,r))return -1;
+   if(r.word)return 1;
+  }
+ }
+ if((flags&0x04u)!=0) {
+  if(!call(s,is_friend,ref,candidate,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x08u)!=0) {
+  if(!call(s,is_dead,candidate,nullptr,r))return -1;
+  if(r.word) {
+   if(!call(s,is_friend,ref,candidate,r))return -1;
+   if(r.word) {
+    if(!call(s,character_state,ref,nullptr,r))return -1;
+    const auto owner_state=static_cast<std::int32_t>(r.word);
+    if(owner_state!=15) {
+     if(!call(s,character_state,candidate,nullptr,r))return -1;
+     if(static_cast<std::int32_t>(r.word)!=16)return 1;
+    }
+   }
+  }
+ }
+ return 0;
 }
 } // namespace
-extern "C" int dh2_target_list_init(List40* l,Target24* heap,std::uint32_t capacity,Object48* owner,std::uint32_t sort,const Services16* s) {
- if(!aligned(l)||!aligned(heap)||!aligned(owner)||!owner->identity||!capacity||capacity>65536||sort>2||!valid_services(s))return 1;
- *l={heap,0,capacity,owner,nullptr,sort,0};Response16 r;if(!call(s,is_character,owner,nullptr,r))return 2;if(r.word)l->reference_character=owner;return 0;
+extern "C" int dh2_target_list_init(List48* l,Target24* heap,std::uint32_t capacity,Object48* owner,std::uint32_t sort,const Services16* s) {
+ return dh2_target_list_init_filtered(l,heap,capacity,owner,1,0,sort,s);
 }
-extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radius,float cone,const Services16* s) {
+extern "C" int dh2_target_list_init_filtered(List48* l,Target24* heap,std::uint32_t capacity,Object48* owner,std::uint32_t character_flags,std::uint32_t object_filter,std::uint32_t sort,const Services16* s) {
+ if(!aligned(l)||!aligned(heap)||!aligned(owner)||!owner->identity||!capacity||capacity>65536||sort>2||!valid_services(s))return 1;
+ *l={heap,0,capacity,owner,nullptr,sort,character_flags,object_filter};Response16 r;if(!call(s,is_character,owner,nullptr,r))return 2;if(r.word)l->reference_character=owner;return 0;
+}
+extern "C" int dh2_target_search(List48* l,const Registry8* registry,float radius,float cone,const Services16* s) {
  if(!valid_list(l)||!aligned(registry)||!aligned(registry->rooms)||!valid_services(s))return 1;
  // SearchEff captures heading first and a live pointer to the owner's selected
  // center second. Nested callbacks may alter fields, but not that pointer choice.
@@ -85,8 +140,8 @@ extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radiu
     if(!call(s,is_interactive,object,l->owner,r))return 2;
     if(r.word) {
      int accepted;
-     if(character)accepted=character_valid(l,character,s);
-     else { if(!call(s,interaction_type,object,l->owner,r))return 2;accepted=r.word==8; }
+     if(character)accepted=character_valid(l,character,l->character_flags,s);
+     else { if(!call_filter(s,is_game_object_valid,object,l->owner,l->object_filter,r))return 2;accepted=r.word!=0; }
      if(accepted<0)return 2;
      if(accepted) {
       if(!call(s,interaction_radius,object,nullptr,r))return 2;
@@ -94,7 +149,7 @@ extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radiu
       float delta[3]={sub(point[0],origin[0]),sub(point[1],origin[1]),sub(point[2],origin[2])};float distance=sub(sub(length(delta),target_radius),reference_radius);
       if(!(distance>radius)) {
        float a=angle(delta,look);
-       if(!(cone<3.1415927410125732421875f&&cone<a)) {
+       if(cone>=3.1416f||cone>=a) {
         if(l->count>=l->capacity)return 2;
         push(l,{object->identity,distance,a,character?1u:0u,0});
        }
@@ -108,7 +163,64 @@ extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radiu
  }
  return 0;
 }
-extern "C" int dh2_target_pop(List40* l,Target24* out) {
+extern "C" int dh2_target_search_object_list(List48* l,const ObjectListMethods* methods,float radius,float cone,const Services16* s) {
+ if(!valid_list(l)||!aligned(methods)||!methods->context||!methods->reset||!methods->at_end||!methods->get||!methods->next||!valid_services(s)||!std::isfinite(radius)||!std::isfinite(cone)||cone<0.0f)return 1;
+ const std::uint32_t character_flags=l->character_flags;
+ const std::uint32_t object_filter=l->object_filter;
+ // This adapter currently implements the ranged TargetList(owner,1,0,1)
+ // shape. Other source constructors remain explicit and cannot silently
+ // inherit this caller's character/object predicates.
+ if(character_flags!=1||object_filter!=0||l->sort!=1)return 1;
+ const float rotation=l->owner->rotation;float look[3]={std::sin(rotation),-std::cos(rotation),0};const float* origin=center(l->owner);
+ while(l->count)pop(l);
+ float reference_radius=0;Response16 r;
+ if(l->reference_character) {if(!call(s,melee_radius,l->reference_character,nullptr,r))return 2;reference_radius=r.number;}
+ if(methods->reset(methods->context)!=0)return 2;
+ std::uint32_t visits=0;
+ for(;;) {
+  std::uint32_t at_end=0;
+  if(methods->at_end(methods->context,&at_end)!=0)return 2;
+  if(at_end)break;
+  if(++visits>65536)return 2;
+  Object48* object=nullptr;
+  if(methods->get(methods->context,&object)!=0)return 2;
+  Object48* character=nullptr;
+  // Source GetChar is evaluated for each ObjectList entry before filtering.
+  if(!call(s,resolve_character,object,nullptr,r))return 2;
+  character=reinterpret_cast<Object48*>(r.word);
+  if(character&&!aligned(character))return 2;
+  if(object&&object!=l->owner&&object->visible) {
+   if(!aligned(object))return 2;
+   if(!call(s,is_zonable,object,nullptr,r))return 2;
+   if(!(r.word&&object->zoned&&!object->in_zone)) {
+    if(!call(s,is_interactive,object,l->owner,r))return 2;
+    if(r.word) {
+     int accepted=0;
+     if(character)accepted=character_valid(l,character,character_flags,s);
+     else {if(!call_filter(s,is_game_object_valid,object,l->owner,object_filter,r))return 2;accepted=r.word!=0;}
+     if(accepted<0)return 2;
+     if(accepted) {
+      if(!call(s,interaction_radius,object,nullptr,r))return 2;
+      const float* point=center(object);
+      float delta[3]={sub(point[0],origin[0]),sub(point[1],origin[1]),sub(point[2],origin[2])};
+      float distance=sub(sub(length(delta),r.number),reference_radius);
+      if(!(distance>radius)) {
+       const float a=angle(delta,look);
+       if(cone>=3.1416f||cone>=a) {
+        if(l->count>=l->capacity)return 2;
+        push(l,{object->identity,distance,a,character?1u:0u,0});
+       }
+      }
+     }
+    }
+   }
+  }
+  // Like the source list adapter, Next observes links after callbacks.
+  if(methods->next(methods->context)!=0)return 2;
+ }
+ return 0;
+}
+extern "C" int dh2_target_pop(List48* l,Target24* out) {
  if(!valid_list(l)||!aligned(out)||(reinterpret_cast<std::uintptr_t>(out)>=reinterpret_cast<std::uintptr_t>(l->heap)&&reinterpret_cast<std::uintptr_t>(out)<reinterpret_cast<std::uintptr_t>(l->heap)+l->capacity*sizeof(Target24)))return 1;
  if(!l->count)return 2;
  *out=l->heap[0];pop(l);return 0;

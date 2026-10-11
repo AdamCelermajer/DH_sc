@@ -854,7 +854,8 @@ struct PlayerSkillTargetList {
  dh2::target_search::Registry8 registry{};
  dh2::target_search::Services16 services{};
  std::unordered_map<std::uintptr_t,std::size_t> by_identity;
- std::int32_t character_filter=-1,object_filter=-1,sort=2;
+ // GameObject ctor 0x38c398: TargetList(nullptr, 1, 0, 1).
+ std::int32_t character_filter=1,object_filter=0,sort=1;
  bool ready=false;
  void clear(){list={};owner={};heap.clear();objects.clear();heads.clear();entries.clear();rooms.clear();sentinel={};registry={};by_identity.clear();ready=false;}
 } prince_skill_targets;
@@ -10792,27 +10793,45 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
  case Fn::game_object_set_target_list_character_filter:
  case Fn::game_object_set_target_list_object_filter:
  case Fn::game_object_set_target_list_sorting:{
-  float value=0;if(!number_arg(0,value)||value<0||value>65535||std::floor(value)!=value)
-   return fail("filter/sort requires a source integer constant");
-  if(fn==Fn::game_object_set_target_list_character_filter)state->character_filter=int(value);
-  else if(fn==Fn::game_object_set_target_list_object_filter)state->object_filter=int(value);
-  else if(value>2)return fail("target sorting constant is outside the retained source enum");
-  else state->sort=int(value);
+  float value=0;
+  if(!number_arg(0,value)||double(value)<-2147483648.0||double(value)>2147483647.0)
+   return fail("filter/sort requires a representable source integer");
+  // Source setters convert the Lua number to int, preserving full filter bits.
+  const auto converted=static_cast<std::int32_t>(value);
+  if(fn==Fn::game_object_set_target_list_character_filter)state->character_filter=converted;
+  else if(fn==Fn::game_object_set_target_list_object_filter)state->object_filter=converted;
+  else{
+   // _SetTargetListSorting 0x390548 empties results; other values select NoSort.
+   state->list.count=0;
+   state->sort=converted==1?1:converted==2?2:0;
+   state->list.sort=std::uint32_t(state->sort);
+  }
   return 0;
  }
  case Fn::game_object_target_list_search:{
   float radius=0;if(!number_arg(0,radius)||radius<0)return fail("TargetListSearch requires a nonnegative source range");
+  float cone=3.1416f;
+  if(count>1){
+   float degrees=0;
+   if(!number_arg(1,degrees))return fail("TargetListSearch angle must be numeric");
+   // GameObject::_TargetListSearch 0x38fcf0 converts full degrees to half radians.
+   cone=(degrees*0.017453f)*0.5f;
+  }
+  if(count>2)return fail("TargetListSearch alternate center/backup provider is unavailable");
   skill_sync_target_objects(*state);if(!state->ready)return fail("Crypt target-search world is unavailable");
   state->owner.identity=prince_character.identity();
   std::copy(actor_position.begin(),actor_position.end(),state->owner.position);
+  // _TargetListSearch defaults to GameObject::GetPosition, not its target point.
+  state->owner.has_target_position=0;
   std::copy(prince_runtime.subobjects.position,prince_runtime.subobjects.position+3,state->owner.target_position);
   state->owner.rotation=prince_runtime.rotation.heading_angle;
   state->owner.character_word1310=prince_combat.properties.resolved[198];
   state->owner.character_word1314=prince_combat.properties.resolved[199];
   state->services={state,player_skill_target_service};
-  if(dh2_target_list_init(&state->list,state->heap.data(),std::uint32_t(state->heap.size()),
-      &state->owner,std::uint32_t(state->sort),&state->services))return fail("TargetList initialization failed");
-  if(dh2_target_search(&state->list,&state->registry,radius,3.1415927410125732f,&state->services))
+  if(dh2_target_list_init_filtered(&state->list,state->heap.data(),std::uint32_t(state->heap.size()),
+      &state->owner,std::uint32_t(state->character_filter),std::uint32_t(state->object_filter),
+      std::uint32_t(state->sort),&state->services))return fail("TargetList initialization failed");
+  if(dh2_target_search(&state->list,&state->registry,radius,cone,&state->services))
    return fail("TargetListSearch source provider failed");
   return 0;
  }
