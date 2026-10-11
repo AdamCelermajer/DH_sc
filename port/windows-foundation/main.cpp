@@ -2570,8 +2570,25 @@ int main(int argc,char** argv) {
             return combatSession->set_actor_original_state(id,state,e);};
         hostServices.set_idle=[&](f::ActorId id,bool wait,std::string& e){
             auto& context=nativeBodyContexts[id];if(!context)context=std::make_shared<NativeBodyContext>();
-            context->idleSuppressed=wait;return combatSession&&combatSession->script_put_idle(id,e,wait);};
+            context->idleSuppressed=wait;
+            // B080/B094: skipped PutCharacterInIdle must leave Spawn through its lifecycle
+            // owner too, admitting the physical body; a session-only Idle leaves combat gated.
+            if(!wait&&actorLifecycle.status(id)&&!actorLifecycle.put_idle(id,e))return false;
+            return combatSession&&combatSession->script_put_idle(id,e,wait);};
         hostServices.scripted_actor_pose=[&](f::ActorId id){return combatSession&&combatSession->scripted_actor_pose(id);};
+        // B091: source CSAnim::OnUpdate (0x3c1a3c) returns a character to SM_SetIdleState when its scripted flag clears (Script_PlayActorAnim
+        // enables the un-scripted OnUpdate flag). The host owns that admission gate. Release gameplay actors, including held Idle after End;
+        // presentation-only props and companions keep their held pose. Source no longer relies on a later AI command to release the clip.
+        hostServices.scripted_clip_finished=[&](f::ActorId id,bool& released,std::string& e){
+            released=false;
+            if(!combatSession||!combatSession->actor(id)||combatSession->is_animation_only(id)||!combatSession->scripted_actor_pose(id))return true;
+            const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==id;});
+            if(placed==population.actors().end())return true;
+            bool alive=false;std::int32_t actorState=-1;
+            if(!hostServices.actor_state(id,alive,actorState,e))return false;
+            if(!alive||actorState<=0||actorState==17)return true; // dead, limbus, awaiting/pre-spawn; held Idle also needs release
+            std::cout<<"[campaign] scripted clip finished: gameplay actor "<<placed->definition.name<<" state="<<actorState<<" -> Idle (CSAnim::OnUpdate)\n";
+            released=hostServices.set_idle(id,false,e);return released;};
         // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
         // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
         // transform is the owner: column-major translation at 12..14, heading in the 2x2 block).
