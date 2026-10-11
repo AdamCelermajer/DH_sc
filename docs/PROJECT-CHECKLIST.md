@@ -19,6 +19,7 @@ Latest source round (not in R4):
 - [ ] Connect TalkToNPC objective markers to canonical Character `+0x2fa`: source Register/Install sets it, Unregister/Remove clears it (`0x47dbb4`, `0x47d998`, `0x47dc44`, `0x47daec`). Generic quest-NPC interaction remains incomplete.
 - [ ] Clear Windows startup/combat gates: selected runtime snapshot `3889586C` compiles with Faery InitPost/Final, rotation and timer adapters. Delayed follower AIS startup and full Player logical removal remain open; this batch has no live combat/progression result.
 - [x] Recover TargetList filters, callback order and NaN cone behavior: 412 original-ARM cases match (26,580 callbacks, zero mismatches). Explicit skill search centers pass a focused host check; Android/live skills remain unverified.
+- [x] Reconstruct named TargetList backups and canonical ObjectBase +0x29 locks (0x4a36b0/0x4a20f0/0x4a19f8); host checks pass for explicit-center candidate searches, full-width filters and lock retirement. Renderer wiring awaits the next Windows build.
 
 **Goal:** a complete, source-built native Android game, preserving original
 gameplay/content and providing documented fan modding. **The game is unfinished.**
