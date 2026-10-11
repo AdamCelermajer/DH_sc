@@ -4551,8 +4551,7 @@ int main(int argc,char** argv) {
                 talk.object_id=identity->second.first;talk.secondary_id=questLevelRow;
                 f::quest_runtime::raise_quest_event(talk);
             }
-            std::cout<<"Context merchant interact id="<<id<<" row="<<(identity==questActorIdentity.end()?-1:identity->second.first)<<" menu=openMerchantMenu (shop UI not ported)
-";
+            std::cout<<"Context merchant interact id="<<id<<" row="<<(identity==questActorIdentity.end()?-1:identity->second.first)<<" menu=openMerchantMenu (shop UI not ported)\n";
             return true;
         };
         // P16 QUESTUI: quest zone entries of this frame (player position against the level's quest zones).
@@ -7115,8 +7114,7 @@ int main(int argc,char** argv) {
                     if(const auto* live=combatSession->actor(placed.definition.stableId)){if(!live->alive())continue;placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];}
                     queue.submit(questMarker[2].mesh,placement);
                     static std::set<f::ActorId> loggedMerchantMarkers;
-                    if(loggedMerchantMarkers.insert(placed.definition.stableId).second)std::cout<<"Merchant marker drawn id="<<placed.definition.stableId<<" at="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" frame="<<(drawn+1)<<'
-';
+                    if(loggedMerchantMarkers.insert(placed.definition.stableId).second)std::cout<<"Merchant marker drawn id="<<placed.definition.stableId<<" at="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" frame="<<(drawn+1)<<'\n';
                 }
             }
             // B075: a destructible OOI (source type 8, Character FX[8] "attack" circle, CONTEXT report 1.3) gets the same ring under it
