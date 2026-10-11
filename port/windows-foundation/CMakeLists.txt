@@ -611,7 +611,11 @@ target_sources(foundation_data PRIVATE features/persistence/death_restart_v1.cpp
   features/persistence/death_checkpoint_snapshot_v1.cpp features/persistence/death_checkpoint_zone_v1.cpp
   features/persistence/source_character_restore_plan_v1.cpp
   features/persistence/death_fade_from_black_v1.cpp
-  features/persistence/death_fade_from_black_renderer_v1.cpp)
+  features/persistence/death_fade_from_black_renderer_v1.cpp
+  features/persistence/death_host_v1.cpp)
+add_executable(death_host_v1_tests features/persistence/death_host_v1_tests.cpp)
+target_link_libraries(death_host_v1_tests PRIVATE foundation_data)
+add_test(NAME death_host_v1 COMMAND death_host_v1_tests)
 add_executable(death_flow_v1_tests features/persistence/death_flow_v1_tests.cpp)
 target_link_libraries(death_flow_v1_tests PRIVATE foundation_data)
 add_test(NAME death_flow_v1 COMMAND death_flow_v1_tests)
