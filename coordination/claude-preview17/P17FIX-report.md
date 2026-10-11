@@ -55,3 +55,16 @@ Evidence folder: `DH_sc/.local-inputs/claude-preview17/p17fix/reg/` (args, logs,
 - Log `reg/lu-pl-s2-163/levelup.log`: `Level up presentation frame=143 ... fx=135:level_up:played text=LEVEL UP!`.
 - Frame `reg/png/lu-pl-s2-163.png` (viewed): tall white column with bloom from above the hero to the feet, the `LEVELUP_PLACEHOLDER_COLUMN` window (white phase 100-430 ms after play; capture is +20 frames, about 320 ms).
 - Seed 3 also presents (frame 111, `reg/lu-pl-s3-131`).
+
+## Red door fire (task 2): partial, not fixed
+Evidence: `DH_sc/.local-inputs/claude-preview17/p17fix/fire/` (`d-30.png`, `door2/d-120.png`, `f-60/120/200/240.png`); reference `claude-preview16/ref-wall-of-fire-0759.png`.
+- Observed (direct): in the red door cutscene (`door2` args, `DH_FX_DEBUG=1`) the cutscene starts, the camera target `_prim_Waypoint_BlueDoor` resolves (`Camera named target ... found=1 ok=1`), and the line "That just leads deeper into the bogs, Player." plays (matches swamp.english 61). The thin red band on the floor at the left edge (`door2/d-30`) is the only flame visible; the reference wall of fire is not reproduced.
+- Model facts (BRES strings, `go_door_fire_red.bdae`): clips `closed`, `opened`, `close`, `idleclosed`, `idleopened`, `open`; flame skin `_mesh_fire-mesh-skin` on `Bone1..4`; bones `_bone_01..03`; emitter `GL_PCloud01-emitter` with birth-rate track; material `Standard_20`/`Standard_202`, additive, `fx_doorfire.tga`.
+- Runtime: the red door plays clip `idleclosed`, looped (sourceMs cycles 0..about 750 ms, `DH_FX_DEBUG` log). Violet door plays `open` clamped at its end. Log: `Animation channel skipped (target is not a scene node) type=28 target=GL_PCloud01-emitter`.
+- Not decided: whether the 750 ms loop has the authored tall flame, whether bones are posed (rest vs animated), the birth-rate sample, and the colour. These need the BRES decoder; not done.
+- Diagnostics added (no gameplay effect): `DH_FX_DEBUG=1` prints the embedded FX clip and sample time; `Camera named target` log in the named_target provider; `Embedded FX ... no active clip` notice.
+
+## Remaining tasks, status
+- (3) save/reload with doors in one run: NOT run this session.
+- (4) Quest tab frame (Assigned row): NOT checked this session.
+- (5) ctest (`ctest -j 6`, build-p17fix, llvm-mingw on PATH): 146 of 147 pass; only `session_skill_binding` fails (allowed). Log: `DH_sc/.local-inputs/claude-preview17/p17fix/ctest.txt`.
