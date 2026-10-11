@@ -7,6 +7,8 @@
 #include "../engine-animation/material_color_v3.hpp"
 #include "../scene-materials/material_matrix_v4.hpp"
 #include <cstring>
+#include <cstdio>
+#include <cstdlib>
 #include <algorithm>
 #include <stdexcept>
 #include <cmath>
@@ -92,7 +94,14 @@ bool AuthoredFxMeshGraphV32::sample(std::int32_t ms,std::string& error){try{auto
  return true;
 }catch(const std::exception& e){error=e.what();return false;}}
 bool AuthoredFxMeshGraphV32::draw_sources(const math::Matrix4f& outer,std::vector<CharacterFxMeshDrawSourceV4>& out,std::string& error)const{try{auto s=impl_;std::vector<CharacterFxMeshDrawSourceV4> result;
- for(const auto& receiver:s->receivers){math::Matrix4f local{},world{};if(!source_fx_node_world_matrix_v4(s->scene,receiver->node,local,error))return false;source_fx_matrix_multiply_v4(world,outer,local);std::vector<std::array<float,3>> deformed;if(!receiver->skin.nodes.empty()){std::vector<skinning::Matrix> palette;if(!skinning::palette(receiver->skin,s->scene,palette,error)||!skinning::positions(receiver->skin,palette,receiver->geometry.positions,deformed,error))return false;world=outer;}
+ for(const auto& receiver:s->receivers){math::Matrix4f local{},world{};if(!source_fx_node_world_matrix_v4(s->scene,receiver->node,local,error))return false;source_fx_matrix_multiply_v4(world,outer,local);std::vector<std::array<float,3>> deformed;if(!receiver->skin.nodes.empty()){std::vector<skinning::Matrix> palette;if(!skinning::palette(receiver->skin,s->scene,palette,error)||!skinning::positions(receiver->skin,palette,receiver->geometry.positions,deformed,error))return false;world=outer;
+   { static const bool dbg=std::getenv("DH_FX_DEBUG")!=nullptr; static int n=0;
+     if(dbg&&(n++%60)==0){ float umin[3]{1e9f,1e9f,1e9f},umax[3]{-1e9f,-1e9f,-1e9f},dmin[3]{1e9f,1e9f,1e9f},dmax[3]{-1e9f,-1e9f,-1e9f};
+       for(const auto& p:receiver->geometry.positions)for(int k=0;k<3;++k){umin[k]=std::min(umin[k],p[k]);umax[k]=std::max(umax[k],p[k]);}
+       for(const auto& p:deformed)for(int k=0;k<3;++k){dmin[k]=std::min(dmin[k],p[k]);dmax[k]=std::max(dmax[k],p[k]);}
+       std::fprintf(stderr,"FXDBG node=%u skin=%zu joints=%zu bind=[%.0f %.0f %.0f]-[%.0f %.0f %.0f] deformed=[%.0f %.0f %.0f]-[%.0f %.0f %.0f] outer_t=[%.0f %.0f %.0f] world_t=[%.0f %.0f %.0f] local_t=[%.0f %.0f %.0f]\n",
+         receiver->node,deformed.size(),receiver->skin.nodes.size(),umin[0],umin[1],umin[2],umax[0],umax[1],umax[2],dmin[0],dmin[1],dmin[2],dmax[0],dmax[1],dmax[2],outer.m[12],outer.m[13],outer.m[14],world.m[12],world.m[13],world.m[14],local.m[12],local.m[13],local.m[14]);
+     }}}
   for(unsigned i=0;i<receiver->geometry.primitives.size();++i){auto snapshot=std::make_shared<Impl::Snapshot>();snapshot->owner=s;snapshot->geometry=receiver->geometry;if(!deformed.empty()){snapshot->geometry.positions=deformed;for(const auto& primitive:snapshot->geometry.primitives){const auto index=primitive.attributes[0];if(index<0||std::size_t(index)>=snapshot->geometry.attributes.size())throw std::runtime_error("Required source skinned position stream");auto& stream=snapshot->geometry.attributes[index];if(stream.components!=3||stream.values.size()!=deformed.size()*3)throw std::runtime_error("Required source skin vertex count");for(unsigned v=0;v<deformed.size();++v)std::copy_n(deformed[v].data(),3,stream.values.data()+v*3);}}snapshot->materials=s->scene.materials;snapshot->bindings=receiver->materials;
    const auto material=receiver->materials.at(i);const auto uv=snapshot->geometry.primitives[i].attributes[4];if(uv<0||std::size_t(uv)>=snapshot->geometry.attributes.size())throw std::runtime_error("Required actual source mesh UV stream");auto& values=snapshot->geometry.attributes[uv];if(values.components!=2)throw std::runtime_error("Required actual source mesh UV2 layout");const auto& matrix=s->matrices[material];
    for(unsigned v=0;v<values.values.size();v+=2){const float u=values.values[v],t=values.values[v+1];values.values[v]=matrix.m[0]*u+matrix.m[4]*t+matrix.m[8];values.values[v+1]=matrix.m[1]*u+matrix.m[5]*t+matrix.m[9];}
