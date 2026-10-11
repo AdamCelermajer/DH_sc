@@ -27,6 +27,20 @@ int main() {
     using dh2::ui::original_menu_viewport_v1::full_surface;
     using dh2::ui::original_menu_viewport_v1::surface_aspect;
     using dh2::ui::original_menu_viewport_v1::viewport_for_screen_state_v1;
+    using dh2::ui::original_menu_viewport_v1::source_front_menu_assets_v1;
+
+    const auto droid_assets = source_front_menu_assets_v1(854);
+    check(std::string(droid_assets.main_movie) == "data/menus/dqmenus_droid.swf" &&
+          std::string(droid_assets.shared_movie) == "data/menus/dqshared_droid.swf" &&
+          droid_assets.width_twips == 9600 && droid_assets.height_twips == 6400 &&
+          droid_assets.width_pixels == 480 && droid_assets.height_pixels == 320,
+          "source 854px profile selects the Droid SWFs and their 480x320 stage");
+    const auto standard_assets = source_front_menu_assets_v1(1280);
+    check(std::string(standard_assets.main_movie) == "data/menus/dqmenus.swf" &&
+          std::string(standard_assets.shared_movie) == "data/menus/dqshared.swf" &&
+          standard_assets.width_twips == 20480 && standard_assets.height_twips == 15360 &&
+          standard_assets.width_pixels == 1024 && standard_assets.height_pixels == 768,
+          "non-854px profile selects standard SWFs and their 1024x768 stage");
 
     check(full_surface(2400, 1080) == std::array<std::int32_t, 4>{0, 0, 2400, 1080},
           "20:9 backdrop must use the entire live display bounds");
@@ -124,5 +138,5 @@ int main() {
             std::fabs(point[1] - 240.0f) < 1e-4f;
         check(mapped, "full-surface hit mapping must preserve normalized coordinates at each aspect");
     }
-    return checks == 26 ? 0 : 1;
+    return checks == 28 ? 0 : 1;
 }

@@ -42,6 +42,8 @@ bool NativePlayerCharacterOwnerV1::bind_session(
     if (!player_character_660_) {
         ooi_intent_412_ = 0;
         clear_ooi();
+        // Character ctor 0x3a9684 initializes +0x14aa to zero.
+        ooi_refresh_timer_14aa_ = 0;
         faery_character_420_ = 0;
         reward_gold_1500_ = -1;
         reward_xp_1504_ = -1;
@@ -88,6 +90,7 @@ bool NativePlayerCharacterOwnerV1::bind_inventory(
 bool NativePlayerCharacterOwnerV1::unbind_session(std::string& error) {
     ooi_intent_412_ = 0;
     clear_ooi();
+    ooi_refresh_timer_14aa_ = 0;
     if (!player_character_660_) {
         error.clear();
         return true;

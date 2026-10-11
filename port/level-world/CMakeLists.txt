@@ -123,7 +123,8 @@ target_sources(dh2_level_world PRIVATE character_ai_master_update.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_update_target.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_melee_range.cpp)
 
-target_sources(dh2_level_world PRIVATE character_ai_interaction_range.cpp ais_external_update.cpp)
+target_sources(dh2_level_world PRIVATE character_ai_interaction_range.cpp
+ character_interaction_spot_owner_v1.cpp ais_external_update.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_ranged_range.cpp)
 target_sources(dh2_level_world PRIVATE character_range_capability.cpp character_ai_queue.cpp character_ai_queue_owner_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_interactive.cpp)
@@ -674,6 +675,11 @@ add_executable(object_manager_runtime_owner_v1_audit
   tests/game_object_visual_attachment_v1.cpp game_object_visual_attachment_v1.cpp)
  target_compile_features(game_object_visual_attachment_v1_audit PRIVATE cxx_std_17)
  target_compile_options(game_object_visual_attachment_v1_audit PRIVATE
+  -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+ add_executable(character_interaction_spot_owner_v1_audit
+  tests/character_interaction_spot_owner_v1.cpp character_interaction_spot_owner_v1.cpp)
+ target_compile_features(character_interaction_spot_owner_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(character_interaction_spot_owner_v1_audit PRIVATE
   -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
  add_executable(character_level_save_serialize_v1_audit
   tests/character_level_save_serialize_v1.cpp character_level_save_serialize_v1.cpp

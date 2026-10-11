@@ -43,7 +43,6 @@ extern "C" {
 #include "swf_menu_launch_v1.hpp"
 #include "../../../../../engine-ui/fscommand_continue_v1.hpp"
 #include "merchant_item_details_gate_v1.hpp"
-#include "../../../../../engine-ui/faery_selection_transaction_v1.hpp"
 #include "../../../../../engine-ui/skill_equip_callback_v1.hpp"
 #include "font_palette_projection_v1.hpp"
 #include "skill_train_callback_v1.hpp"
@@ -1594,25 +1593,20 @@ struct OriginalUiSession::Impl {
         }
         if(!std::strcmp(name,"NativeHUDSetActiveFaery")){
             // IDA NativeHUDSetActiveFaery (0x43ee40) reads [playerIndex,
-            // faeryId] and calls Character::ChangeFaery. The native wrapper
-            // also calls Level::PlaceFaeryAndFollowers. Require a combined
-            // prepare/commit owner so a missing Level provider cannot leave
-            // Save/skills changed while the visible Faery stays in place.
+            // faeryId], calls Character::ChangeFaery, then calls
+            // Level::PlaceFaeryAndFollowers when a Level exists. The existing
+            // renderer provider owns the canonical Save, skill update, live
+            // Level placement, and persistence for that same Player.
             if(fn.nargs!=2||!fn.arg(0).is_number()||!fn.arg(1).is_number())return true;
             const auto raw_id=fn.arg(1).to_int();
             if(raw_id<0)return true;
             std::uintptr_t identity=0;
             if(!faery_character(fn.arg(0).to_int(),identity))return false;
             if(!identity)return true;
-            // No production transaction is currently bound: the physical
-            // Faery component is not yet the source Character/Level owner.
-            // Keep the UI click explicitly gated and leave canonical state
-            // untouched until that complete owner can be supplied.
-            const dh2::ui::FaerySelectionTransactionServicesV1 transaction{};
-            if(!dh2::ui::transact_faery_selection_v1(identity,
-                    std::uint32_t(raw_id),transaction,error))return false;
-            // The source callback discards ChangeFaery/placement results and
-            // explicitly writes undefined after completing the transaction.
+            if(!model_renderer::ui_player_set_active_faery(
+                    identity,std::uint32_t(raw_id),error))return false;
+            // The source callback returns undefined after completing the
+            // ChangeFaery and Level placement sequence.
             if(fn.result)fn.result->set_undefined();
             return true;
         }
@@ -2777,6 +2771,9 @@ struct OriginalUiSession::Impl {
     }
     bool load(std::string& error) {
         if(!ensure_localization_ready(error))return false;
+        const auto front_menu_assets=ui::original_menu_viewport_v1::source_front_menu_assets_v1(driver_width);
+        const auto viewport_assets=front_screen=="main"?front_menu_assets:
+            ui::original_menu_viewport_v1::source_front_menu_assets_v1(854);
         if(!raw_asset("source-data/font-palette/fonts_pyarray.bin",font_palette_bytes,error))return false;
         std::uint32_t font_probe=0;
         if(!ui::font_palette_text_color_at_index_v1(font_palette_bytes.data(),font_palette_bytes.size(),
@@ -2832,8 +2829,11 @@ struct OriginalUiSession::Impl {
             auto shared_services=services;
             shared_services.native_owner=shared_frame_owner;
             shared_services.graph_start=shared_graph_start;
-            if(!shared_menu_movie->load({},"data/menus/dqshared_droid.swf",shared_services,error))return false;
-            const ui::ViewportState64 shared_seed{{0,9600,0,6400},{0,0,480,320},{0,0,480,320},1.f,0,0};
+            if(!shared_menu_movie->load({},front_menu_assets.shared_movie,shared_services,error))return false;
+            const ui::ViewportState64 shared_seed{
+                {0,float(front_menu_assets.width_twips),0,float(front_menu_assets.height_twips)},
+                {0,0,front_menu_assets.width_pixels,front_menu_assets.height_pixels},
+                {0,0,front_menu_assets.width_pixels,front_menu_assets.height_pixels},1.f,0,0};
             std::vector<std::string> shared_states;
             ui::SwfClipInfo options;
             if(!shared_menu_movie->connect_viewport(shared_seed,{this,orientation,dimensions},error)||
@@ -2852,14 +2852,17 @@ struct OriginalUiSession::Impl {
                 shared_frame_owner->input_selection,{this,orientation,dimensions},shared_input,error))return false;
             shared_frame_owner->main_events.render_bound=true;
         }
-        const char* movie_uri=front_screen=="main"?"data/menus/dqmenus_droid.swf":front_screen=="loading"?"data/menus/loadanims_droid.swf":"data/menus/dqhud_droid.swf";
-        if(!movie->load({"data/menus/dqshared_droid.swf"},movie_uri,services,error))return false;
+        const char* movie_uri=front_screen=="main"?front_menu_assets.main_movie:front_screen=="loading"?"data/menus/loadanims_droid.swf":"data/menus/dqhud_droid.swf";
+        if(!movie->load({viewport_assets.shared_movie},movie_uri,services,error))return false;
         if(shared_menu_movie){
             const auto primary=movie->player_identity(),shared=shared_menu_movie->player_identity();
             if(!primary||!shared||primary==shared){error="Menu renderers did not retain independent players";return false;}
             __android_log_print(ANDROID_LOG_INFO,tag,"Original menu renderer player identities | main %zx | shared %zx | distinct 1",primary,shared);
         }
-        const ui::ViewportState64 seed{{0,9600,0,6400},{0,0,480,320},{0,0,480,320},1.f,0,0};
+        const ui::ViewportState64 seed{
+            {0,float(viewport_assets.width_twips),0,float(viewport_assets.height_twips)},
+            {0,0,viewport_assets.width_pixels,viewport_assets.height_pixels},
+            {0,0,viewport_assets.width_pixels,viewport_assets.height_pixels},1.f,0,0};
         if(!movie->connect_viewport(seed,{this,orientation,dimensions},error)||
            !movie->update_viewport(camera,error)||!movie->advance(0,error))return false;
         if(!front_screen.empty()){
@@ -3129,6 +3132,41 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                     },error);
                     if(!pressed){impl_->gameplay_hud_pointer=-1;return false;}
                 }else{
+                    std::string merchant_name,interaction_error;std::int32_t module_filter=-1;
+                    std::uintptr_t merchant_identity=0;
+                    if(!model_renderer::ui_player_merchant_interaction_target(
+                           merchant_name,module_filter,merchant_identity,interaction_error)){
+                        if(!interaction_error.empty()){
+                            error=std::move(interaction_error);impl_->gameplay_hud_pointer=-1;return false;
+                        }
+                    }else{
+                        struct MerchantOpen {
+                            const std::string* name;
+                            std::int32_t module_filter;
+                        } context{&merchant_name,module_filter};
+                        const bool opened=impl_->movie->action_script(&context,
+                            [](void* raw,ui::SwfAsGraph& graph,std::string& nested){
+                                const auto& request=*static_cast<MerchantOpen*>(raw);
+                                ui::SwfAsValue root,result;bool callable=false;
+                                if(!graph.root_value(root,nested))return false;
+                                if(!graph.invoke(root,root,"openMerchantMenu",
+                                     {ui::SwfAsValue::number(0)},result,callable,nested))return false;
+                                if(!callable){nested="Authored openMerchantMenu callback is unavailable";return false;}
+                                result={};callable=false;
+                                if(!graph.invoke(root,root,"AdditionnalInfosForMerchant",
+                                     {ui::SwfAsValue::text(*request.name),
+                                      ui::SwfAsValue::number(request.module_filter)},
+                                     result,callable,nested))return false;
+                                if(!callable){nested="Authored AdditionnalInfosForMerchant callback is unavailable";return false;}
+                                nested.clear();return true;
+                            },error);
+                        impl_->gameplay_hud_pointer=-1;
+                        if(!opened)return false;
+                        __android_log_print(ANDROID_LOG_INFO,tag,
+                            "Source Character::Interact merchant route | identity %zx | module filter %d | name %s | callbacks open then additionals",
+                            merchant_identity,module_filter,merchant_name.c_str());
+                        return true;
+                    }
                     const auto response=model_renderer::player_attack(-1);
                     __android_log_print(ANDROID_LOG_INFO,tag,"Authored HUD attack press | %s",response.c_str());
                 }
@@ -3451,9 +3489,19 @@ bool OriginalUiSession::render(int width,int height,std::string& error) {
         if(impl_->front_screen=="main"&&!impl_->movie->action_script(impl_.get(),Impl::probe_main_background,error))return false;
         if(front){
             const auto rectangle=impl_->front_rectangle();
+            const auto selected_assets=ui::original_menu_viewport_v1::
+                source_front_menu_assets_v1(impl_->driver_width);
+            const char* selected_movie=impl_->front_screen=="main"?
+                selected_assets.main_movie:impl_->front_screen=="loading"?
+                "data/menus/loadanims_droid.swf":"data/menus/dqhud_droid.swf";
+            const auto stage_width=impl_->front_screen=="main"?
+                selected_assets.width_pixels:480;
+            const auto stage_height=impl_->front_screen=="main"?
+                selected_assets.height_pixels:320;
             __android_log_print(ANDROID_LOG_INFO,tag,
-                "Original front screen submitted | screen %s | source stage 480x320 | display/input rect %d %d %d %d",
-                impl_->front_screen.c_str(),rectangle[0],rectangle[1],rectangle[2],rectangle[3]);
+                "Original front screen submitted | screen %s | movie %s | authored stage %d x %d | display/input rect %d %d %d %d",
+                impl_->front_screen.c_str(),selected_movie,stage_width,stage_height,
+                rectangle[0],rectangle[1],rectangle[2],rectangle[3]);
         }else{
             __android_log_print(ANDROID_LOG_INFO,tag,"Original HUD screen submitted | source viewport %d %d",width,height);
         }

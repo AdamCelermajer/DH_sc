@@ -279,6 +279,10 @@ bool ui_player_inventory_item_details(std::uintptr_t,std::int32_t,std::uint32_t,
 // (or -1 wildcard), not the returned ObjectHandle ledger key. Resolve that
 // filter plus the exact source name to a retained CharType 7 ObjectActor/V4.
 bool ui_source_merchant_identity(std::int32_t,const std::string&,std::uintptr_t&,std::string&);
+// Resolves the current canonical Player OOI to a merchant only when the
+// Character::GetInteractionSpot/AI range kernel accepts the live interaction.
+bool ui_player_merchant_interaction_target(std::string&,std::int32_t&,
+                                           std::uintptr_t&,std::string&);
 bool ui_source_merchant_inventory_slot(std::int32_t,const std::string&,std::int32_t,
                                        std::vector<UiMerchantItemReadV1>&,std::string&);
 bool ui_source_merchant_item_details(std::int32_t,const std::string&,std::int32_t,

@@ -35,6 +35,7 @@ struct Options {
     std::uint64_t frames = 0;
     std::int32_t level_row = -1;
     bool movement_attack_scenario = false;
+    bool fixed_cultist_scenario = false;
 };
 
 Options parse(int argc, char** argv) {
@@ -68,8 +69,9 @@ Options parse(int argc, char** argv) {
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
         else if (arg == "--scenario") {
             const auto scenario = value("--scenario");
-            if (scenario != "move-attack") throw std::runtime_error("Unknown scenario: " + scenario);
-            options.movement_attack_scenario = true;
+            if (scenario == "move-attack") options.movement_attack_scenario = true;
+            else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
+            else throw std::runtime_error("Unknown scenario: " + scenario);
         }
         else if (arg == "--frames") {
             const auto count = value("--frames");
@@ -86,8 +88,9 @@ Options parse(int argc, char** argv) {
                          "  --level-row N      skip the menu and start source row 23 or 41 directly\n"
                          "  --frames N         exit after N rendered UI/gameplay frames\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
-                         "  --capture-initial FILE.ppm save the initial frame (for move-attack scenario)\n"
+                         "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
+                         "  --scenario fixed-cultist07 route to Crypt enemy 4; attack when nearest and in melee range\n"
                          "Controls: click/touch authored menus; type for character names; WASD move, Space attack, mouse drag orbit, wheel zoom, Esc quit.\n";
             std::exit(0);
         } else throw std::runtime_error("Unknown argument: " + arg);
@@ -96,8 +99,13 @@ Options parse(int argc, char** argv) {
         if (options.level_row < 0) options.level_row = 23;
         if (!frames_supplied) options.frames = 300;
         if (options.frames < 4) throw std::runtime_error("move-attack requires at least four gameplay frames");
+    } else if (options.fixed_cultist_scenario) {
+        if (options.level_row < 0) options.level_row = 23;
+        if (options.level_row != 23) throw std::runtime_error("fixed-cultist07 requires Crypt row 23");
+        if (!frames_supplied) options.frames = 2400;
+        if (options.frames < 4) throw std::runtime_error("fixed-cultist07 requires at least four gameplay frames");
     } else if (!options.initial_capture.empty()) {
-        throw std::runtime_error("--capture-initial requires --scenario move-attack");
+        throw std::runtime_error("--capture-initial requires a gameplay scenario");
     }
     return options;
 }
@@ -157,6 +165,50 @@ bool steer_toward_nearest_enemy() {
               << " via waypoint " << waypoint[0] << ',' << waypoint[1] << '\n';
     // move_axis accepts Android MovementControl screen axes. Invert its
     // recovered fixed +45-degree basis for this selected-floor world vector.
+    constexpr float inverse_sqrt_two = 0.7071067811865475f;
+    model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
+                              (dy - dx) * inverse_sqrt_two / distance);
+    return true;
+}
+
+bool steer_toward_fixed_position(const std::array<float, 3>& target,
+                                 std::uint32_t& graph_nodes,
+                                 std::uint32_t& graph_edges,
+                                 std::uint32_t& query_status,
+                                 bool& path_found,
+                                 std::uint32_t& waypoint_count) {
+    model_renderer::GameplayPoseSnapshotV1 pose;
+    std::string error;
+    if (!model_renderer::gameplay_pose_snapshot(pose, error))
+        throw std::runtime_error("Shared fixed-target pose snapshot failed: " + error);
+    model_renderer::GameplayRouteSnapshotV1 route;
+    if (!model_renderer::gameplay_route_snapshot(target, route, error))
+        throw std::runtime_error("Fixed-target selected-floor route query unavailable: " + error);
+    graph_nodes = route.graph_nodes;
+    graph_edges = route.graph_edges;
+    query_status = route.query_status;
+    path_found = route.path_found;
+    waypoint_count = static_cast<std::uint32_t>(route.waypoints.size());
+    std::cout << "Fixed target route | sewn " << route.graph_sewn
+              << " | nodes " << route.graph_nodes << " | edges " << route.graph_edges
+              << " | status " << route.query_status << " | found " << route.path_found
+              << " | node pair " << route.source_node << " -> " << route.target_node
+              << " | waypoints " << route.waypoints.size()
+              << " | start " << pose.player_position[0] << ',' << pose.player_position[1]
+              << ',' << pose.player_position[2] << " | target " << target[0] << ','
+              << target[1] << ',' << target[2] << '\n';
+    if (route.query_status != 0 || !route.path_found || route.waypoints.empty())
+        return false;
+    const auto& waypoint = route.waypoints.front();
+    const float dx = waypoint[0] - pose.player_position[0];
+    const float dy = waypoint[1] - pose.player_position[1];
+    const float distance = std::hypot(dx, dy);
+    if (!std::isfinite(distance))
+        throw std::runtime_error("Fixed-target route produced a non-finite waypoint");
+    if (distance <= 48.0f) {
+        model_renderer::move_axis(0.0f, 0.0f);
+        return true;
+    }
     constexpr float inverse_sqrt_two = 0.7071067811865475f;
     model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
                               (dy - dx) * inverse_sqrt_two / distance);
@@ -556,6 +608,12 @@ int main(int argc, char** argv) {
         std::int32_t scenario_target_initial_hp = 0;
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
+        std::uint64_t fixed_attack_frame = 0;
+        std::uint32_t fixed_route_nodes = 0, fixed_route_edges = 0,
+                      fixed_route_status = 0, fixed_route_waypoints = 0;
+        bool fixed_route_found = false;
+        constexpr std::int32_t fixed_target_index = 4;
+        constexpr std::array<float, 3> fixed_target_position{-1234.43f, -369.638f, 198.437f};
         auto sync_text_input = [&] {
             const bool should_start = !gameplay && original_ui.menu_text_input_active();
             if (should_start == text_input_started) return;
@@ -706,6 +764,52 @@ int main(int argc, char** argv) {
                     steer_toward_nearest_enemy();
                 }
             }
+            if (options.fixed_cultist_scenario && scenario_started && !scenario_attack_sent &&
+                rendered_frames && rendered_frames % 30 == 0) {
+                model_renderer::GameplayEnemyStateSnapshotV1 target_state;
+                if (!model_renderer::gameplay_enemy_state_snapshot(fixed_target_index, target_state, ui_error))
+                    throw std::runtime_error("Fixed Crypt target snapshot failed: " + ui_error);
+                if (target_state.name != "_prim_tmp_cultist07")
+                    throw std::runtime_error("Fixed Crypt target identity changed: " + target_state.name);
+                model_renderer::GameplayPoseSnapshotV1 pose;
+                if (!model_renderer::gameplay_pose_snapshot(pose, ui_error))
+                    throw std::runtime_error("Fixed Crypt target pose failed: " + ui_error);
+                const float target_distance = std::hypot(
+                    pose.player_position[0] - fixed_target_position[0],
+                    pose.player_position[1] - fixed_target_position[1]);
+                constexpr float source_melee_range_xy = 180.0f;
+                if (pose.enemy_index == fixed_target_index &&
+                    target_distance <= source_melee_range_xy) {
+                    keys.fill(false);
+                    update_movement(keys);
+                    model_renderer::stop_movement();
+                    scenario_target_index = fixed_target_index;
+                    scenario_target_initial_hp = target_state.hp;
+                    scenario_attack_result = model_renderer::player_attack();
+                    scenario_attack_sent = true;
+                    fixed_attack_frame = rendered_frames;
+                    std::cout << "Fixed Crypt attack | index " << fixed_target_index
+                              << " | name " << target_state.name << " | player-target XY "
+                              << target_distance << " | HP " << target_state.hp << '/'
+                              << target_state.max_hp << " | result " << scenario_attack_result << '\n';
+                } else {
+                    if (rendered_frames % 300 == 0)
+                        std::cout << "Fixed Crypt approach progress | nearest " << pose.enemy_index
+                                  << " | target XY " << target_distance << " | target HP "
+                                  << target_state.hp << '/' << target_state.max_hp
+                                  << " | melee threshold " << source_melee_range_xy << '\n';
+                    if (!steer_toward_fixed_position(fixed_target_position, fixed_route_nodes,
+                            fixed_route_edges, fixed_route_status, fixed_route_found,
+                            fixed_route_waypoints)) {
+                        std::cout << "Fixed Crypt route blocked | nearest " << pose.enemy_index
+                                  << " | target XY " << target_distance << " | graph nodes "
+                                  << fixed_route_nodes << " | edges " << fixed_route_edges
+                                  << " | status " << fixed_route_status << " | found "
+                                  << fixed_route_found << " | waypoints " << fixed_route_waypoints << '\n';
+                        throw std::runtime_error("No selected-floor path to fixed Crypt target");
+                    }
+                }
+            }
             int width = 1, height = 1;
             SDL_GetWindowSizeInPixels(window, &width, &height);
             glViewport(0, 0, width, height);
@@ -732,7 +836,7 @@ int main(int argc, char** argv) {
             }
             pump_front_audio();
             gameplay_audio.pump(assets.get());
-            if (options.movement_attack_scenario && scenario_attack_sent &&
+            if ((options.movement_attack_scenario || options.fixed_cultist_scenario) && scenario_attack_sent &&
                 (rendered_frames + 1) % 30 == 0) {
                 model_renderer::GameplayEnemyStateSnapshotV1 target_state;
                 if (!model_renderer::gameplay_enemy_state_snapshot(
@@ -743,12 +847,28 @@ int main(int argc, char** argv) {
                           << " | delta " << target_state.hp - scenario_target_initial_hp
                           << " | dead " << target_state.dead << '\n';
             }
-            if (gameplay && options.movement_attack_scenario && !scenario_started) {
+            if (gameplay && (options.movement_attack_scenario || options.fixed_cultist_scenario) && !scenario_started) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
                 model_renderer::move_axis(0.0f, 0.0f);
-                if (!steer_toward_nearest_enemy())
+                if (options.fixed_cultist_scenario) {
+                    model_renderer::GameplayEnemyStateSnapshotV1 target_state;
+                    if (!model_renderer::gameplay_enemy_state_snapshot(fixed_target_index, target_state, ui_error))
+                        throw std::runtime_error("Fixed Crypt target snapshot failed: " + ui_error);
+                    std::cout << "Fixed Crypt target baseline | index " << fixed_target_index
+                              << " | name " << target_state.name << " | HP " << target_state.hp
+                              << '/' << target_state.max_hp << " | position "
+                              << fixed_target_position[0] << ',' << fixed_target_position[1]
+                              << ',' << fixed_target_position[2] << '\n';
+                    if (target_state.name != "_prim_tmp_cultist07")
+                        throw std::runtime_error("Fixed Crypt target identity differs from expected candidate 4");
+                    if (!steer_toward_fixed_position(fixed_target_position, fixed_route_nodes,
+                            fixed_route_edges, fixed_route_status, fixed_route_found,
+                            fixed_route_waypoints))
+                        throw std::runtime_error("No selected-floor path to fixed Crypt target");
+                } else if (!steer_toward_nearest_enemy()) {
                     throw std::runtime_error("No nearest source enemy is available for move-attack");
+                }
                 scenario_started = true;
                 if (!options.initial_capture.empty()) save_capture(options.initial_capture, width, height);
             }
@@ -757,14 +877,32 @@ int main(int argc, char** argv) {
             eglSwapBuffers(display, surface);
             ++rendered_frames;
             if (options.frames && rendered_frames >= options.frames) running = false;
+            if (options.fixed_cultist_scenario && scenario_attack_sent &&
+                rendered_frames >= fixed_attack_frame + 120) {
+                if (!options.capture.empty() && rendered_frames < options.frames)
+                    save_capture(options.capture, width, height);
+                running = false;
+            }
             const auto now = SDL_GetTicks64();
             if (gameplay && now - last_vitals >= 1000) { print_vitals(); last_vitals = now; }
         }
 
         model_renderer::stop_movement();
-        if (options.movement_attack_scenario && gameplay) {
-            if (!scenario_attack_sent)
+        if ((options.movement_attack_scenario || options.fixed_cultist_scenario) && gameplay) {
+            if (!scenario_attack_sent) {
+                if (options.fixed_cultist_scenario) {
+                    model_renderer::GameplayPoseSnapshotV1 pose;
+                    if (model_renderer::gameplay_pose_snapshot(pose, ui_error))
+                        std::cout << "Fixed Crypt scenario ended before attack | nearest " << pose.enemy_index
+                                  << " | target XY " << std::hypot(pose.player_position[0] - fixed_target_position[0],
+                                                                      pose.player_position[1] - fixed_target_position[1])
+                                  << " | graph nodes " << fixed_route_nodes << " | edges " << fixed_route_edges
+                                  << " | status " << fixed_route_status << " | found " << fixed_route_found
+                                  << " | waypoints " << fixed_route_waypoints << '\n';
+                    throw std::runtime_error("fixed-cultist07 reached frame bound without candidate 4 becoming nearest");
+                }
                 throw std::runtime_error("move-attack scenario ended before its nearest-enemy attack");
+            }
             const auto final_vitals = model_renderer::player_vitals();
             print_vitals_snapshot("Scenario final", final_vitals);
             std::cout << "Scenario HP delta " << (final_vitals[0] - scenario_initial_vitals[0]) / 256.0f

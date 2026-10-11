@@ -15,6 +15,27 @@ namespace dh2::ui::original_menu_viewport_v1 {
 inline constexpr std::int32_t stage_width_twips = 9600;
 inline constexpr std::int32_t stage_height_twips = 6400;
 
+// MenuManager::LoadMainMenu (IDA 0x4324dc) selects the compact Droid front
+// SWF only when Width_Screen is 854; other widths use dqmenus.swf. The
+// matching shared movies carry the same authored stage rectangle.
+struct SourceFrontMenuAssetsV1 {
+    const char* shared_movie;
+    const char* main_movie;
+    std::int32_t width_twips;
+    std::int32_t height_twips;
+    std::int32_t width_pixels;
+    std::int32_t height_pixels;
+};
+
+inline constexpr SourceFrontMenuAssetsV1 source_front_menu_assets_v1(
+        std::int32_t physical_width) noexcept {
+    if (physical_width == 854)
+        return {"data/menus/dqshared_droid.swf", "data/menus/dqmenus_droid.swf",
+                stage_width_twips, stage_height_twips, 480, 320};
+    return {"data/menus/dqshared.swf", "data/menus/dqmenus.swf",
+            20480, 15360, 1024, 768};
+}
+
 // IDA: MenuFlash2DCamera::Update (0x42cd84) submits the full driver viewport
 // and full driver bounds with scale_mode 0. root::set_display_bounds
 // (0x7755f4) does not aspect-adjust mode 0; begin_display maps the authored

@@ -42,6 +42,11 @@ class NativePlayerCharacterOwnerV1 final : public Coordinator {
     // +0x14a4. Keep that identity beside its type on the same Player owner;
     // it is the target consumed by Ctrl_UseOOI, not CharAI's combat target.
     std::uintptr_t ooi_identity_14a4_ = 0;
+    // UpdateObjectOfInterest's signed16 refresh countdown and +0x14ac/+0x14ad
+    // per-update marker/changed bytes stay with this same Character owner.
+    std::int16_t ooi_refresh_timer_14aa_ = 0;
+    std::uint8_t ooi_marker_14ac_ = 0;
+    std::uint8_t ooi_changed_14ad_ = 0;
     // Source GameObject visibility/enabled bytes are modeled as semantic state,
     // not ARM32 offsets in this native 64-bit owner.
     std::uint8_t visibility_80_ = 1;
@@ -77,11 +82,29 @@ public:
     std::int8_t ooi_type() const noexcept { return ooi_type_14a8_; }
     std::int8_t* ooi_type_storage() noexcept { return &ooi_type_14a8_; }
     std::uintptr_t ooi_identity() const noexcept { return ooi_identity_14a4_; }
+    std::int16_t ooi_refresh_timer() const noexcept { return ooi_refresh_timer_14aa_; }
+    void set_ooi_refresh_timer(std::int16_t value) noexcept { ooi_refresh_timer_14aa_ = value; }
+    std::uint8_t ooi_marker() const noexcept { return ooi_marker_14ac_; }
+    std::uint8_t ooi_changed() const noexcept { return ooi_changed_14ad_; }
+    void clear_ooi_changed() noexcept { ooi_changed_14ad_ = 0; }
+    // UpdateObjectOfInterest clears only +0x14a4 when a retained Character is
+    // no longer interactive. Type and marker remain until the next 500ms scan.
+    void clear_ooi_target() noexcept { ooi_identity_14a4_ = 0; }
     bool set_ooi(std::uintptr_t identity, std::int8_t type) noexcept {
-        if (!identity) { ooi_identity_14a4_ = 0; ooi_type_14a8_ = -1; return true; }
+        if (!identity) { ooi_identity_14a4_ = 0; ooi_type_14a8_ = -1; ooi_marker_14ac_ = 0; return true; }
         ooi_identity_14a4_ = identity; ooi_type_14a8_ = type; return true;
     }
-    void clear_ooi() noexcept { ooi_identity_14a4_ = 0; ooi_type_14a8_ = -1; }
+    void set_ooi_selected(std::uintptr_t identity, std::int8_t type,
+                          std::uint8_t marker, bool changed) noexcept {
+        ooi_identity_14a4_ = identity;
+        ooi_type_14a8_ = identity ? type : std::int8_t{-1};
+        ooi_marker_14ac_ = identity ? marker : 0;
+        ooi_changed_14ad_ = identity && changed ? 1 : 0;
+    }
+    void clear_ooi() noexcept {
+        ooi_identity_14a4_ = 0; ooi_type_14a8_ = -1;
+        ooi_marker_14ac_ = 0; ooi_changed_14ad_ = 0;
+    }
     std::uint8_t visibility_80() const noexcept { return visibility_80_; }
     std::uint8_t enabled_8a() const noexcept { return enabled_8a_; }
     std::uint8_t deleted_81() const noexcept { return deleted_81_; }
