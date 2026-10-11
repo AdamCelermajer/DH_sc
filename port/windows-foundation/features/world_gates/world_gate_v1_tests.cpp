@@ -54,6 +54,40 @@ void run(const std::string& assets_root) {
         check(!source_test_disable_condition_v1(true,std::nullopt,enabled,error)&&enabled==before,
               "unknown condition fails without guessing or mutating");
     }
+    {   // ObjectManager lifecycle (0x52835 loop, TestEnable 0x33e6d4, TestDisable 0x33e61c, IsTrue 0x33e5f8).
+        std::string error;SourceConditionLatchV1 latch;bool enabled=true;
+        // NPC_05 shape: no activate list, deactivate_cond=BeforeKillWitch.
+        check(source_condition_lifecycle_step_v1(false,std::nullopt,true,true,false,latch,enabled,error)&&enabled&&!latch.disable_tested,
+              "deactivate true keeps the object enabled and unlatched");
+        check(source_condition_lifecycle_step_v1(false,std::nullopt,true,false,false,latch,enabled,error)&&!enabled&&latch.disable_tested,
+              "deactivate false disables and latches");
+        check(source_condition_lifecycle_step_v1(false,std::nullopt,true,true,false,latch,enabled,error)&&!enabled,
+              "a latched disable is never re-enabled by a later flip");
+        SourceConditionLatchV1 none;enabled=false;
+        check(source_condition_lifecycle_step_v1(false,std::nullopt,false,std::nullopt,false,none,enabled,error)&&!enabled,
+              "no lists: ObjectManager skips the object");
+        SourceConditionLatchV1 act;enabled=true;
+        check(source_condition_lifecycle_step_v1(true,false,false,std::nullopt,false,act,enabled,error)&&!enabled&&!act.enable_tested,
+              "activate false disables without latching");
+        check(source_condition_lifecycle_step_v1(true,true,false,std::nullopt,false,act,enabled,error)&&enabled&&act.enable_tested,
+              "activate true enables and latches");
+        check(source_condition_lifecycle_step_v1(true,false,false,std::nullopt,false,act,enabled,error)&&enabled,
+              "a latched activation ignores a later false");
+        SourceConditionLatchV1 both;enabled=false;
+        check(source_condition_lifecycle_step_v1(true,true,true,false,false,both,enabled,error)&&!enabled&&both.enable_tested&&both.disable_tested,
+              "enable runs first and the false disable wins");
+        SourceConditionLatchV1 emptyAct;enabled=false;
+        check(source_condition_lifecycle_step_v1(false,std::nullopt,true,true,false,emptyAct,enabled,error)&&enabled,
+              "empty activate list is true: enables rather than no-op");
+        SourceConditionLatchV1 demo;enabled=true;
+        check(source_condition_lifecycle_step_v1(true,true,false,std::nullopt,true,demo,enabled,error)&&!enabled&&!demo.enable_tested,
+              "demo-only object is disabled");
+        SourceConditionLatchV1 unk;enabled=true;
+        check(!source_condition_lifecycle_step_v1(true,std::nullopt,false,std::nullopt,false,unk,enabled,error)&&enabled&&!error.empty(),
+              "unknown activate value fails without mutating");
+        check(!source_condition_lifecycle_step_v1(false,std::nullopt,true,std::nullopt,false,unk,enabled,error)&&enabled,
+              "unknown deactivate value fails without mutating");
+    }
     AssetCatalog assets(assets_root);
     dh2::data::AiTables tables;
     std::string loadError;

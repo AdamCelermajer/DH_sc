@@ -3931,25 +3931,35 @@ int main(int argc,char** argv) {
             if(lifecycleCollisions.count(id))lifecycleCollisions[id]=enabled;
             e.clear();return true;
         };
+        std::map<f::ActorId,f::world_gates::SourceConditionLatchV1> sourceConditionLatches; // reset on every bind (ObjectBase::Deserialize)
         const auto refreshCharacterSourceConditions=[&](f::PopulationActor& placed,std::string& e)->bool {
+            // ObjectManager::Update -> TestEnableCondition(true) then TestDisableCondition(true), with the
+            // ConditionData tested latches (0x33e5f8 IsTrue). Empty lists are source-true / skipped.
             bool enabled=placed.enabled;
-            const auto apply=[&](const char* key,bool is_enable)->bool {
+            const auto resolve=[&](const char* key,bool& has,std::optional<bool>& result)->bool {
+                has=false;result.reset();
                 const auto property=placed.definition.properties.find(key);
                 if(property==placed.definition.properties.end()||f::conditions::is_no_condition(property->second))return true;
+                has=true;
                 bool value=false;
                 if(!conditionWatch||!conditionWatch->watching(property->second)||!conditionWatch->current(property->second,value)) {
                     std::cout<<"Source condition lifecycle unresolved actor="<<placed.definition.name<<" key="<<key<<" condition="<<property->second<<"; retained prior enable state\n";
-                    return true;
+                    return false;
                 }
-                const bool ok=is_enable
-                    ?f::world_gates::source_test_enable_condition_v1(true,value,enabled,e)
-                    :f::world_gates::source_test_disable_condition_v1(true,value,enabled,e);
-                if(!ok)return false;
-                std::cout<<"Source condition lifecycle actor="<<placed.definition.name<<" key="<<key<<" condition="<<property->second
-                         <<" value="<<(value?"true":"false")<<" enabled="<<(enabled?"true":"false")<<'\n';
-                return true;
+                result=value;return true;
             };
-            if(!apply("activate_cond",true)||!apply("deactivate_cond",false))return false;
+            bool hasEnable=false,hasDisable=false;std::optional<bool> enableValue,disableValue;
+            if(!resolve("activate_cond",hasEnable,enableValue)||!resolve("deactivate_cond",hasDisable,disableValue)){e.clear();return true;}
+            bool demoOnly=false;
+            if(const auto demo=placed.definition.properties.find("is_demo_only");demo!=placed.definition.properties.end())
+                demoOnly=demo->second=="true"||demo->second=="1";
+            auto& latch=sourceConditionLatches[placed.definition.stableId];
+            if(!f::world_gates::source_condition_lifecycle_step_v1(hasEnable,enableValue,hasDisable,disableValue,demoOnly,latch,enabled,e))return false;
+            if(hasEnable||hasDisable)
+                std::cout<<"Source condition lifecycle actor="<<placed.definition.name
+                         <<" activate="<<(hasEnable?(enableValue?(*enableValue?"true":"false"):"?"):"none")
+                         <<" deactivate="<<(hasDisable?(disableValue?(*disableValue?"true":"false"):"?"):"none")
+                         <<" tested="<<latch.enable_tested<<latch.disable_tested<<" enabled="<<(enabled?"true":"false")<<'\n';
             if(enabled!=placed.enabled)return setCharacterSourceEnabled(placed.definition.stableId,enabled,e);
             e.clear();return true;
         };
@@ -3965,6 +3975,7 @@ int main(int argc,char** argv) {
         const auto bindQuestRuntime=[&](bool showBindBanners=true) {
             f::quest_runtime::bind_quest_event_sink({});
             questRuntime.reset();questRuntimeForCheckpoint=nullptr;questActorIdentity.clear();questZones=f::quest_runtime::QuestZoneSetV1();
+            sourceConditionLatches.clear();
             if(!combatSession||!menuSourceOwner.valid())return;
             if(!questTable) {
                 std::string questError;

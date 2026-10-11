@@ -98,4 +98,21 @@ bool source_test_disable_condition_v1(bool has_condition,std::optional<bool> val
     return true;
 }
 
+bool source_condition_lifecycle_step_v1(bool has_enable,std::optional<bool> enable_value,
+                                        bool has_disable,std::optional<bool> disable_value,
+                                        bool demo_only,SourceConditionLatchV1& latch,
+                                        bool& enabled,std::string& error) {
+    error.clear();
+    const bool enable_idle=latch.enable_tested||!has_enable;
+    const bool disable_idle=latch.disable_tested||!has_disable;
+    if(enable_idle&&disable_idle)return true; // ObjectManager skips objects with nothing left to test
+    if(!enable_idle&&!enable_value){error="TestEnableCondition value is unavailable";return false;}
+    if(!disable_idle&&!disable_value){error="TestDisableCondition value is unavailable";return false;}
+    const bool activation=enable_idle||*enable_value;
+    if(demo_only||!activation)enabled=false;
+    else{enabled=true;latch.enable_tested=true;}
+    if(!disable_idle&&!*disable_value){enabled=false;latch.disable_tested=true;}
+    return true;
+}
+
 } // namespace dh::foundation::world_gates

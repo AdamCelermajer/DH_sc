@@ -55,4 +55,17 @@ bool source_test_enable_condition_v1(bool has_condition, std::optional<bool> val
 bool source_test_disable_condition_v1(bool has_condition, std::optional<bool> value,
                                       bool& enabled, std::string& error);
 
+// ObjectManager::Update loop (0x52835 region) gate + TestEnableCondition(true) + TestDisableCondition(true).
+// ConditionData::IsTrue (0x33e5f8) is true when its "tested" latch is set or its list is empty, so:
+//  - an empty activate list enables the object (SetEnable(true)); it is not a no-op;
+//  - a true enable test latches (SetAsTested) and stays true for the rest of the load;
+//  - a false deactivate test disables and latches, so later flips do not re-enable the object.
+// is_demo_only (ObjectBase byte 241) forces the enable test false. Latches are not persisted
+// (ObjectBase::Deserialize 0x33e0f8 resets them); only the enable byte is. min_difficulty is not modeled.
+struct SourceConditionLatchV1 { bool enable_tested{}; bool disable_tested{}; };
+bool source_condition_lifecycle_step_v1(bool has_enable, std::optional<bool> enable_value,
+                                        bool has_disable, std::optional<bool> disable_value,
+                                        bool demo_only, SourceConditionLatchV1& latch,
+                                        bool& enabled, std::string& error);
+
 } // namespace dh::foundation::world_gates
