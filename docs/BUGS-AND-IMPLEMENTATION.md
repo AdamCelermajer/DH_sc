@@ -272,10 +272,10 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | ID | Observed | State | Owner |
 |---|---|---|---|
 | B090 | Level-up effect fine but no level-up sound. | OPEN, queued | fresh Sonnet session |
-| B091 | Mobs not targetable/attacking after a scripted animation (shots 10, 13). | OPEN, queued | fresh Sonnet session |
+| B091 | Mobs not targetable/attacking after a scripted animation (shots 10, 13). | OPEN, fresh cinematic continuation with B094 | `/root/b094_b091_boss_cinematics`; root preliminary review, fresh read-only reviewer queued |
 | B092 | Big moth corpse takes a long time to disappear (shot 11). | OPEN, queued | fresh Sonnet session |
 | B093 | Quest system: MAKE ACTIVE does not really work, no kill tracking, killed 8 Bog Moths and nothing happened (shot 12). | OPEN, queued | fresh Sonnet session |
-| B094 | An NPC (she) appears not targetable; intended? | OPEN, queued | fresh Sonnet session |
+| B094 | An NPC (she) appears not targetable; intended? User clarified: "the boss lizard the brown one". | OPEN, prior companion identification invalid; fresh cinematic continuation with B091 | `/root/b094_b091_boss_cinematics`; root preliminary review, fresh read-only reviewer queued |
 | B095 | Clicking the bag again does not return to the equipment global page. | OPEN, queued | fresh Sonnet session |
 | B096 | Level up: no button to learn a new skill (shot 15). | OPEN, fresh continuation running | `/root/b096_skill_training`; root preliminary review, fresh read-only reviewer queued |
 | B097 | Skill rank up does not change the skill stats (shot 16). | OPEN, queued | fresh Sonnet session |
@@ -291,5 +291,5 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B107 | User note "abomination": it was the cavern rendering (same as B109, shot-24). | MERGED INTO B109 (session assigned) | fresh Sonnet session |
 | B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | OPEN, fresh continuation running | `/root/b109_cavern`; root preliminary review, fresh read-only reviewer queued |
 | B108 | Continue after death fails without a checkpoint-zone contact. | OPEN, existing fix awaits review and combined B086 quit-after-death test | Root follow-up; fresh read-only reviewer queued |
-| B110 | Merchant BUY/SELL UI is missing from the normal interaction path. | OPEN, fresh continuation running | `/root/b110_merchant`; root preliminary review, fresh read-only reviewer queued |
+| B110 | Merchant BUY/SELL UI is missing from the normal interaction path. | OPEN, worker interrupted at checkpoint to prioritize clarified B094; resume queued | `/root/b110_merchant`; root follow-up, fresh read-only reviewer queued |
 | B111 | Statistics icon navigation and four character-sheet sub-pages are missing. | OPEN, source draft awaits fresh implementation continuation | Root follow-up; fresh worker/reviewer queued |

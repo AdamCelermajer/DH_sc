@@ -14,13 +14,14 @@ use GPT-6.1 Sol HIGH. Concurrency is limited to five workers plus root.
 | B096 training | `/root/b096_skill_training` | fix096 | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
 | B109/B107 rendering | `/root/b109_cavern` | fix109 | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
 | B101/B105 particle/fire effects | `/root/b101_b105_effects` | fixfx | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
-| B110 merchant shop | `/root/b110_merchant` | fix110 | Root preliminary audit; fresh read-only Sol HIGH reviewer queued |
+| B110 merchant shop | `/root/b110_merchant` | fix110 | Temporarily interrupted for clarified B094; resume queued; fresh reviewer queued |
+| B094/B091 boss cinematic state | `/root/b094_b091_boss_cinematics` | fix091 | Fresh session after user clarification; fresh reviewer queued |
 
 Root retains follow-up ownership of B095, B111/B103, B091, B093 and B097 runtime
-gaps until their fresh sessions can start. Finished branches and already-merged
+gaps until their fresh sessions can start (B091 has now been assigned below). Finished branches and already-merged
 branches still need individual read-only reviews. B086/B108 require a combined
 quit-after-death check after reviewed integration. B092/B098 and B094 remain
-unconfirmed, not resolved by non-reproduction. Sound submission is distinct from
+unconfirmed, not resolved by non-reproduction; B094 is explicitly reopened below. Sound submission is distinct from
 audibility. No new bug was added in the user inbox at dispatch time.
 
 ## Baseline and infrastructure
@@ -45,6 +46,14 @@ audibility. No new bug was added in the user inbox at dispatch time.
   `117c2b34` includes the equipment stance fallback/report. Reuse precise hunks.
 - The claimed B096 P2 507–510 s skills-page reference is gameplay/map footage;
   the worker is locating the actual skills sequence before implementation.
+- User clarified B094: "the boss lizard the brown one". The earlier companion
+  audit does not cover that actor and its NOT A BUG conclusion must not be used
+  to close B094. A fresh shared cinematic session now owns B094/B091 and the
+  remaining B080 lizard/troll branch. Merchant work was interrupted to free a
+  slot; its worktree and changes are preserved for resumption.
+- Packaging guard checks pass: the v20.1 packager refuses an existing accepted
+  v20 target, and the v20.1 acceptance tool refuses the accepted v20 receipt.
+  Evidence: `.local-inputs/v20.1/root/package-guard-tests.json`.
 
 ## Acceptance gates still open
 
