@@ -36969,6 +36969,11 @@ int native_frame_level_v1(void* raw,std::uint32_t dt_ms) noexcept {
      !updated_source.transition_flag_144){
    if(!source_level_owner.publish_level_update_complete(updated_source.generation))
     throw std::runtime_error("Source Level Update could not publish its +0x144 loaded byte");
+   // _ManageCharacters passes Level +0x144 to the Character's vtable +0x40
+   // (0x372e8c); the next PlayerManager pass after the loaded byte is set
+   // therefore re-enables the local Player that the loading pass hid.
+   if(!native_host.online&&updated_source.player_character==prince_character.identity())
+    prince_character.set_visible(1);
   }
   return 0;
  }catch(const std::exception& e){context.error=e.what();return 1;}
@@ -42099,6 +42104,19 @@ void draw(int width,int height){
     if(!player_equipment_native->visual->draw_views(views,error)||!views)
       throw std::runtime_error("V6 live player draw views failed: "+error);
     player_equipment_native->sync_draws(*views);
+  }
+  {
+    // Temporary: report what the player draw pass has to work with.
+    static unsigned reported=0;
+    if(world_mode&&reported<3) {
+      ++reported;std::size_t body=0;
+      for(const auto& b:draws)if(!b.environment)++body;
+      __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+          "Player draw pass | body batches %zu | body visible %d | equipment draws %zu | dead %d",
+          body,int(prince_character.render_batch_visible(false)),
+          player_equipment_native?equipment_draws.size():std::size_t(0),
+          int(prince_combat.life.dead));
+    }
   }
   for(auto& b:draws){
     if(world_mode&&!prince_character.render_batch_visible(b.environment))continue;
