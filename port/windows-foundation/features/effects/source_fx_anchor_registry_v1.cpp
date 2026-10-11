@@ -1,6 +1,8 @@
 #include "source_fx_anchor_registry_v1.hpp"
 
 #include <algorithm>
+#include <cstdlib>
+#include <iostream>
 #include <limits>
 
 namespace dh::foundation::effects {
@@ -124,6 +126,11 @@ bool SourceFxAnchorRegistryV1::resolve(const std::string& source_name,
     }
     key = it->second;
     found = true;
+    // DH_FX_DEBUG: anchor generation and opaque handle for each resolved source name (diagnostic only).
+    static const bool fxDebug = std::getenv("DH_FX_DEBUG") != nullptr;
+    if (fxDebug) std::cout << "[fx-debug] anchor resolve name=" << source_name << " module=" << module
+        << " kind=" << (key.kind == SourceFxAnchorKindV1::actor ? "actor" : "level_object")
+        << " generation=" << key.generation << " handle=0x" << std::hex << key.manager_identity << std::dec << std::endl;
     return true;
 }
 
@@ -140,6 +147,9 @@ bool SourceFxAnchorRegistryV1::resolve_actor_identity(ActorId actor,
     }
     manager_identity = it->second.manager_identity;
     found = true;
+    static const bool fxDebug = std::getenv("DH_FX_DEBUG") != nullptr;
+    if (fxDebug) std::cout << "[fx-debug] anchor actor name=" << it->second.source_name << " module=" << it->second.module
+        << " generation=" << it->second.generation << " handle=0x" << std::hex << manager_identity << std::dec << std::endl;
     return true;
 }
 

@@ -703,6 +703,12 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
             [&](std::int32_t set,const float xyz[3],std::uintptr_t resolved_anchor,std::string& error){
                 return v.play_effect(set,{xyz[0],xyz[1],xyz[2]},resolved_anchor,error);
             },e);
+        // DH_FX_DEBUG: one line per Script_PlayEffect with target, anchor handle and play result (diagnostic only).
+        static const bool fxDebug = std::getenv("DH_FX_DEBUG") != nullptr;
+        if(fxDebug) std::cout << "[fx-debug] PlayEffect set=" << signed_field(c,8) << " target=" << waypoint << " module=" << module
+            << " pos=(" << at[0] << "," << at[1] << "," << at[2] << ") anchor=0x" << std::hex << anchor << std::dec
+            << " skip=" << (skip_active() ? 1 : 0) << " result=" << (result==effects::SourceScriptFxResultV1::played ? "played" : result==effects::SourceScriptFxResultV1::skipped ? "skipped" : "failed")
+            << (e.empty() ? "" : " error=" + e) << std::endl;
         if(result==effects::SourceScriptFxResultV1::failed){unsupported_.note("PlayEffect set failed: "+e);e.clear();}
         return true;
     }

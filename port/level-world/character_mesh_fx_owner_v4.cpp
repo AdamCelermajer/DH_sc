@@ -10,7 +10,9 @@
 #include "../engine-animation/animation.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
+#include <iostream>
 #include <map>
 #include <stdexcept>
 namespace dh2::fx {
