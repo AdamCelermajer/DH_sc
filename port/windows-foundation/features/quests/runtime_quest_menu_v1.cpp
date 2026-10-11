@@ -151,6 +151,15 @@ bool RuntimeQuestMenuV1::refresh(std::uint32_t collection,
             staged.selection=std::move(selection);
         }
     }
+    // B073: the journal opens with the current (active) quest selected and its details shown (reference video
+    // Part 2 t=82-92: the page appears with the current row orange and its MAIN QUEST/SIDE QUEST details).
+    if(!staged.selection){
+        for(const auto& row:assigned.rows)if(row.current){
+            CharacterQuestPageSelectionV1 selection;
+            if(!page_.select(assigned,row.id,selection,error))return false;
+            staged.selection=std::move(selection);break;
+        }
+    }
     frame_=std::move(staged);current_page_valid_=true;error.clear();return true;
 }
 
@@ -172,7 +181,8 @@ bool RuntimeQuestMenuV1::route_hit(RuntimeQuestMenuHitV1 hit,
     }
     if(!page_.activate(assigned,id,policy_,error))return false;
     if(!persist_progress_to_character(error))return false;
-    frame_.selection.reset();
+    // B073: the source onRelease (SWF 0x26c94-0x26d48) keeps SelectedQuest and the row highlight after
+    // `NativeSetCurrentQuest`; only the LightOn marker moves. The selection is therefore kept (refresh re-reads it).
     // Source `NativeSetCurrentQuest` mutates currentquest; refresh consumes
     // that same owner and makes the source LightOn marker visible.
     return refresh(frame_.collection,frame_.difficulty,frame_.category,error);

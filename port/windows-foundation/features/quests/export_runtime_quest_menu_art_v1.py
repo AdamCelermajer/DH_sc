@@ -510,10 +510,9 @@ def flatten_groups(groups):
 
 def flatten_solids(groups):
     out = []
-    for path, shape_id, vertices, rgba, _ in groups:
+    for path, shape_id, vertices, rgba, after in groups:
         if not vertices:
             continue
-        after = ""
         out.append((path, shape_id, vertices, rgba, after))
     return out
 
