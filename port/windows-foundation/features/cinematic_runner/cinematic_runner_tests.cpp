@@ -1,6 +1,8 @@
 // P16 CINE: cinematic runner unit tests (caption queue, cutscene contract, SKIP hit test, frame content).
 #include "cinematic_runner.hpp"
+#include "dialog_tables.hpp"
 
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -53,8 +55,7 @@ void tap_driven_queue() {
     check(r.phase() == CinematicRunner::Phase::Showing, "the next line starts its own show animation");
     check(r.update(frames_to_ms(kDialogShowFrames)) == 0 && r.phase() == CinematicRunner::Phase::WaitTap, "second line waits at its show end");
     check(r.tap() && r.phase() == CinematicRunner::Phase::Hiding, "the second line is tapped away too");
-    check(!r.tap(), "a tap during the hide is ignored");
-    check(r.update(frames_to_ms(kDialogHideFrames)) == 1 && !r.waiting(), "second line ends after its hide");
+    check(r.tap() && r.update(0) == 1 && !r.waiting(), "B068 PC adaptation: a tap during the hide ends it at once (the next line / the end follows)");
     check(!r.waiting() && r.current() == nullptr, "WaitDialog releases after the last line");
 }
 
@@ -142,6 +143,81 @@ void frame_content() {
     check(frame.panels.size() == 1 && frame.texts.size() == 1, "caption box is gone after the line ends (SKIP only)");
 }
 
+// B068: the caption box follows the line's DialogStyles variant; the name plate shows the speaker; a tap during the hide runs on.
+void variant_and_speaker() {
+    using namespace dh::foundation;
+    CinematicRunner r;
+    r.set_active(true);
+    CaptionLine l = line(5, "He's dead alright...");
+    l.style_label = "MiddleBubble";
+    l.speaker = "Celeste";
+    r.enqueue(l);
+    auto frame = r.build_frame();
+    const hud_panels::DialogVariantV1* middle = nullptr;
+    const hud_panels::DialogVariantV1* chest = nullptr;
+    for (const auto& v : hud_panels::dialog_variants_v1()) {
+        if (std::string(v.label) == "MiddleBubble") middle = &v;
+        if (std::string(v.label) == "ChestTuto") chest = &v;
+    }
+    check(middle && chest && !middle->batches->empty(), "MiddleBubble and ChestTuto variants are exported");
+    check(frame.panels.size() == 1 && frame.panels[0] == middle->batches, "the MiddleBubble line draws the MiddleBubble art");
+    check(frame.texts.size() == 2, "line text and speaker name are both drawn");
+    float lineLeft = 0, lineRight = 0;
+    bool haveName = false;
+    for (const auto& t : frame.texts) {
+        if (t.text == "Celeste") haveName = true;
+        else { lineLeft = t.x; lineRight = t.x + t.w; }
+    }
+    check(haveName, "speaker name plate text is the resolved name");
+    // MiddleBubble text band is centred on the stage (3.9..478.7), the ChestTuto tutorial band leaves room for its icon (3.9..370.3).
+    check(std::abs((lineLeft + lineRight) * 0.5f - 241.3f) < 2.f, "MiddleBubble text is centred on the 480 px stage");
+    CinematicRunner t;
+    t.set_active(true);
+    CaptionLine tuto = line(6, "When wielding a melee weapon");
+    tuto.style_label = "ChestTuto";
+    tuto.speaker = "Tutorial";
+    t.enqueue(tuto);
+    const auto tf = t.build_frame();
+    check(tf.panels.size() == 1 && tf.panels[0] == chest->batches, "a tutorial style draws its own variant");
+    float tutoRight = 0;
+    for (const auto& x : tf.texts) if (x.text != "Tutorial") tutoRight = x.x + x.w;
+    check(tutoRight < 372.f, "the tutorial text band stops left of the icon");
+    // No speaker: no name text.
+    CinematicRunner n;
+    n.set_active(true);
+    CaptionLine anon = line(7, "narration");
+    anon.actor = -1;
+    anon.style_label = "MiddleBubble";
+    n.enqueue(anon);
+    check(n.build_frame().texts.size() == 1, "no speaker, no name plate text");
+    // Unknown style label falls back to the default variant art.
+    CinematicRunner u;
+    u.set_active(true);
+    CaptionLine odd = line(8, "x");
+    odd.style_label = "NoSuchStyle";
+    u.enqueue(odd);
+    check(u.build_frame().panels.size() == 1 && u.build_frame().panels[0] == &hud_panels::caption_batches_v1(), "unknown style falls back to the default art");
+}
+
+void dialog_tables() {
+    std::vector<std::uint8_t> bytes;
+    const auto word = [&](std::uint32_t v) { for (int i = 0; i < 4; ++i) bytes.push_back(std::uint8_t(v >> (8 * i))); };
+    word(2); word(49); word(0); word(0x170117); word(28); word(3); for (char c : std::string("abc")) bytes.push_back(std::uint8_t(c)); word(0x170088);
+    std::vector<DialogActorRow> rows;
+    std::string e;
+    check(decode_dialog_actors(bytes, rows, e) && rows.size() == 2 && rows[0].name_string_id == 0x170117 && rows[1].frame_label == "abc", "DialogActors rows decode");
+    bytes.pop_back();
+    check(!decode_dialog_actors(bytes, rows, e) && rows.empty(), "a truncated DialogActors table is rejected");
+    std::vector<std::uint8_t> cst;
+    const auto cword = [&](std::uint32_t v) { for (int i = 0; i < 4; ++i) cst.push_back(std::uint8_t(v >> (8 * i))); };
+    const auto cstr = [&](const std::string& s) { cword(std::uint32_t(s.size())); for (char c : s) cst.push_back(std::uint8_t(c)); };
+    cword(1); cstr("DialogStyles"); cword(2); cstr("MiddleBubble"); cword(4); cstr("ChestTuto"); cword(13);
+    std::map<std::int32_t, std::string> styles;
+    check(decode_dialog_styles(cst, styles, e) && styles.at(4) == "MiddleBubble" && styles.at(13) == "ChestTuto", "DialogStyles constants decode");
+    cst.resize(cst.size() - 2);
+    check(!decode_dialog_styles(cst, styles, e), "a truncated DialogStyles group is rejected");
+}
+
 }  // namespace
 
 // SKIP16: the hit area is the exported SKIP art bounds (every triangle of the drawn control), and it follows the same
@@ -176,6 +252,8 @@ int main() {
         flush_and_end_drop_everything();
         skip_hit_follows_viewport();
         frame_content();
+        variant_and_speaker();
+        dialog_tables();
         std::cout << "cinematic_runner tests passed\n";
         return 0;
     } catch (const std::exception& e) {
