@@ -122,7 +122,11 @@ inline bool build_swamp_census_rows(
             object->module_id_64 != static_cast<std::int32_t>(
                 retained->retained_source.module_index)) {
             output.clear();
-            error = "SWAMP MGP Character handle differs from the exact retained ObjectManager winner";
+            error = "SWAMP MGP Character handle differs from the exact retained ObjectManager winner: " +
+                source.name + " handle " + std::to_string(source.source_handle) +
+                (object ? " row '" + object->name + "' module " + std::to_string(object->module_id_64) :
+                          std::string(" no row")) +
+                " winner module " + std::to_string(retained->retained_source.module_index);
             return false;
         }
         row.source_module_id = object->module_id_64;

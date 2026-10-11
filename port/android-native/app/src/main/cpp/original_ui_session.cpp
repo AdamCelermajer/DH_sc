@@ -3474,9 +3474,13 @@ bool OriginalUiSession::display_fast_travel(bool source_flag,
                 ui::SwfAsValue::number(call.entry)};
             if(!graph.invoke(hud,hud,"DisplayFastTravel",args,result,callable,nested_error))
                 return false;
-            if(!callable) {
-                nested_error="Authored gameplay HUD DisplayFastTravel method is absent";
+            // IDA 0x39c388 invokes on the HUD RenderFX's root movie.
+            if(!callable&&!graph.invoke(root,root,"DisplayFastTravel",args,result,
+                                        callable,nested_error))
                 return false;
+            if(!callable) {
+                __android_log_print(ANDROID_LOG_WARN,tag,
+                    "Authored gameplay HUD has no DisplayFastTravel method; fast-travel prompt skipped");
             }
             nested_error.clear();return true;
         },error);

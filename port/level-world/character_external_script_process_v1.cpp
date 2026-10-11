@@ -65,7 +65,10 @@ bool valid_record(factory::Record& record,
         selected_ai_id < 0 ||
         !record.nonplayer_ai_postload_complete ||
         record.nonplayer_source_ai_id != selected_ai_id ||
-        record.source_delay_init_3ec != row.delayed_load || ai.byte_24 != row.delayed_load) {
+        // CharAI+0x24 is constructor-zeroed and InitPost does not copy the
+        // delayed flag into it (IDA LoadNInitScriptProcess 0x3cf3a4 only tests
+        // the +0x1c process), so it is not part of this precondition.
+        record.source_delay_init_3ec != row.delayed_load) {
         error = "external script process requires the selected canonical Character, delayed AITable row, CharAI and source AI selection receipt";
         return false;
     }

@@ -278,7 +278,8 @@ Status Owner::create(manager::SourceHandle source_handle,
                      const aggro::GameObject& aggro_object_seed,
                      const Services& services, Record** output, Result* result,
                      std::string& error) {
-    return create_impl(source_handle, {}, -1, {}, game_object_seed,
+    // ObjectManager::Add keys the source row by its MGP name.
+    return create_impl(source_handle, game_object_seed.name, -1, {}, game_object_seed,
                        aggro_object_seed, services, output, result, error);
 }
 

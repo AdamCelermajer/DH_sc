@@ -50,7 +50,8 @@ Status clear_loading_info(p::Record& record, Result& result) {
 
 bool fail(Result* output, Status status, const char* message, std::string& error) {
     if (output) output->status = status;
-    error = message;
+    // Keep a provider's own reason after the wrapper's step name.
+    error = error.empty() ? std::string(message) : std::string(message) + ": " + error;
     return false;
 }
 }

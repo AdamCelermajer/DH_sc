@@ -5090,7 +5090,7 @@ bool NativeCryptRoomRuntime::initialize(
    dh2::native::character_roster_transaction::Result registration{};
    const auto add_status=dh2::native::character_roster_transaction::register_after_add(
        &manager,&native_characters,actor->source_handle,&projection,
-       &actor_projection.character,false,&registration);
+       &actor_projection.character,false,&registration,actor->name);
    if(add_status!=dh2::native::character_roster_transaction::Status::complete) {
     // Preserve an orphaned manager prefix for the normal clear path to retry.
     if(add_status==dh2::native::character_roster_transaction::Status::rollback_failed&&
@@ -12161,7 +12161,9 @@ bool bind_authored_faery_coordinator(AuthoredCryptFaeryOwner& owner,
  const dh2::character::CoordinatorBindings bindings{
      &owner,&faery_coordinator_facts,{&owner,&faery_coordinator_service},
      nullptr,nullptr,nullptr,&faery_route_timer_event,nullptr,nullptr,0,
-     nullptr,record.faery_controller.controller,
+     // No Faery AIFrameOwner48 projection exists yet; the coordinator's
+     // frame binding is all-or-nothing, so leave it unestablished.
+     nullptr,0,
      &faery_coordinator_combat_facts};
  const auto status=dh2::character_faery_coordinator_v1::bind(
      record,bindings,error);
@@ -15819,7 +15821,9 @@ bool initialize_script_summon_runtime(ScriptSummonActorOwnerV1& summoned,
      runtime->script_npcs_by_identity.at(actor->identity)!=&summoned||
      record->character.identity!=actor->identity||
      record->game_object.identity!=actor->identity||
-     runtime->manager.find_by_identity(actor->identity)!=&record->game_object||
+     !runtime->manager.find_by_identity(actor->identity)||
+     runtime->manager.find_by_identity(actor->identity)!=
+       runtime->manager.find_by_source_handle(record->source_handle)||
      !record->coordinator||record->coordinator->owner()!=actor->identity||
      !record->coordinator->bound()||!actor->native_ai||
      actor->native_ai->character_identity!=actor->identity||
@@ -23215,7 +23219,8 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
      runtime->level_table->script_count,seeds.size());
 }
 void update_crypt_contact() {
- if(!native_level_script_session.ready())return;
+ // The GhostAmbush01 spawn trigger belongs to the Crypt ScriptManager only.
+ if(!native_level_script_session.ready()||active_level_assets.name=="SWAMP")return;
  const auto* box=prince_runtime.subobjects.absolute_bounds;
  const dh2_crypt_spawn_trigger::PlayerAabb player{{box[0],box[1],box[2],box[3],box[4],box[5]},1};
  // The selected original program never marks/locks a player and this local
@@ -29812,8 +29817,12 @@ bool native_host_sync_playerinfo_character(std::string& error){
   if(error.empty())error="PlayerManager offline sync gold member is unavailable";
   return false;
  }
- const auto potion_target=potions->header.value;
- if(potion_target<0||potion_target>32767){error="PlayerManager SetPotionQty value is outside the source signed16 domain";return false;}
+ // PlayerInfo +0x338 still holds the unset -1 sentinel until a source
+ // writer publishes it; ItemInventory::SetPotionQty would store 0xffffffff.
+ // Keep the canonical inventory's potion stack until then.
+ const auto potion_target=potions->header.value==-1?
+     prince_combat.inventory->num_potions():potions->header.value;
+ if(potion_target<0||potion_target>32767){error="PlayerManager SetPotionQty value is outside the source signed16 domain: "+std::to_string(potion_target);return false;}
  auto potion_count=prince_combat.inventory->num_potions();
  if(potion_count<0){error="Canonical Player potion Item has a negative source quantity";return false;}
  if(!prince_combat.inventory->potion()&&potion_target>0){
