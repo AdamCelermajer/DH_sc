@@ -300,7 +300,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         return true;
     };
     if (!p.set_idle) p.set_idle = [this](ActorId id, bool wait, std::string& e) {
-        if(!wait)held_clip_actors_.erase(id); // played Idle preserves the retained source animation
+        if(!wait){actor_clips_.erase(id);held_clip_actors_.erase(id);} // explicit Idle replaces the animation/completion
         if(services_.set_idle)return services_.set_idle(id,wait,e);
         if (!services_.actor_state || !services_.set_actor_state) { e = "PutCharacterInIdle requires the live actor state owner"; return false; }
         bool alive = false;
@@ -393,7 +393,8 @@ bool CampaignHost::fast_forward(std::string& error) {
     clip_active_ = false;
     clip_hold_ = false;
     clip_id_ = -1;
-    actor_clips_.clear();
+    // ScriptManager::SkipScript does not stop Character's animator. Already-playing
+    // clips retain CSAnim's completion; future skipped PlayActorAnim remains a no-op.
     cinematic_.flush();
     skipping_ = true;
     runtime_->set_skipping(true);
@@ -427,7 +428,7 @@ bool CampaignHost::restore_presentation(std::string& error) {
     clip_active_ = false;
     clip_hold_ = false;
     clip_id_ = -1;
-    actor_clips_.clear();
+    // Presentation restoration does not cancel Character's CSAnim completion.
     std::string restore_error;
     bool ok = true;
     if (global_blocked_ && previous_global_ && !previous_global_(false, restore_error)) ok = false;

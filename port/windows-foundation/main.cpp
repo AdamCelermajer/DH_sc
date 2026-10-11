@@ -2566,7 +2566,11 @@ int main(int argc,char** argv) {
             return combatSession->set_actor_original_state(id,state,e);};
         hostServices.set_idle=[&](f::ActorId id,bool wait,std::string& e){
             auto& context=nativeBodyContexts[id];if(!context)context=std::make_shared<NativeBodyContext>();
-            context->idleSuppressed=wait;return combatSession&&combatSession->script_put_idle(id,e,wait);};
+            context->idleSuppressed=wait;
+            // B080/B094: skipped PutCharacterInIdle must leave Spawn through its lifecycle
+            // owner too, admitting the physical body; a session-only Idle leaves combat gated.
+            if(!wait&&actorLifecycle.status(id)&&!actorLifecycle.put_idle(id,e))return false;
+            return combatSession&&combatSession->script_put_idle(id,e,wait);};
         hostServices.scripted_actor_pose=[&](f::ActorId id){return combatSession&&combatSession->scripted_actor_pose(id);};
         // B091: source CSAnim::OnUpdate (0x3c1a3c) returns a character to SM_SetIdleState once its scripted clip is over (Script_PlayActorAnim
         // starts it with the idle-when-done flag). A script-spawned gameplay actor whose script has no PutCharacterInIdle (LizCaptain_Intro:

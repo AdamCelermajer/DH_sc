@@ -37,7 +37,8 @@ struct Rig {
 
     // fxResolver (optional) binds Script_PlayEffect's anchor resolver; unset keeps the production-unbound default.
     explicit Rig(const std::string& campaignDirectory, const std::filesystem::path& tutorialSettings = {},
-                 std::function<bool(const std::string&, int, std::uintptr_t&, bool&, std::string&)> fxResolver = {}) {
+                 std::function<bool(const std::string&, int, std::uintptr_t&, bool&, std::string&)> fxResolver = {},
+                 std::function<void(CampaignHostServices&)> configure = {}) {
         assetCatalog = std::make_unique<AssetCatalog>(campaignDirectory);
         std::string error;
         check(runtime.load(*assetCatalog, "original-campaign.xml", error), "campaign load: " + error);
@@ -78,6 +79,7 @@ struct Rig {
         services.read_camera_clip = [this](std::int32_t id, std::vector<std::uint8_t>& clip, std::vector<std::uint8_t>& scene, std::string& path, std::string& e) {
             return clipLibrary.read(*assetCatalog, id, clip, scene, path, e);
         };
+        if(configure) configure(services);
         host = std::make_unique<CampaignHost>(services);
 
         world = std::make_unique<OriginalCampaignWorldAdapter>(lifecycle, &camera);
@@ -553,6 +555,41 @@ void play_effect_branches(const std::string& directory) {
     }
 }
 
+// B091/B094: actual host clock and actor-verb path, independent of the visual backend.
+// The owner can preserve a retired prop/dead actor, and errors follow normal abort handling.
+void scripted_clip_completion(const std::string& directory) {
+    int finishes=0,plays=0; bool release=true,fail=false;
+    Rig rig(directory, {}, {}, [&](CampaignHostServices& services) {
+        services.actor_verbs.resolve_actor=[](const std::string&,int,ActorId& id,bool& found,std::string&){id=101;found=true;return true;};
+        services.actor_verbs.play_clip=[&](ActorId,std::int32_t,std::int32_t& duration,std::string&){++plays;duration=100;return true;};
+        services.scripted_clip_finished=[&](ActorId,bool& released,std::string& e){++finishes;released=release;if(fail){e="completion rejected";return false;}return true;};
+    });
+    bool blocking=false; std::string error;
+    OriginalCampaignCommand clip;clip.kind=45;clip.scalars={{8,33},{12,0xffffffffu},{28,1}};clip.strings={{24,"boss"}};
+    auto play=[&](std::uint32_t next=0xffffffffu){clip.scalars[12]=next;check(rig.host->execute_diagnostic_command(clip,-1,blocking,error),error);};
+    play();rig.step(99);check(finishes==0&&rig.host->scripted_clip_pose(101),"No premature CSAnim release");
+    rig.step(1);check(finishes==1&&!rig.host->scripted_clip_pose(101),"Single clip returns to gameplay at completion");
+    rig.step(100);check(finishes==1,"Completed clip cannot release twice");
+    play(32);rig.step(100);check(finishes==1&&plays==3,"Chained clip starts before Idle");
+    rig.step(100);check(finishes==2,"Chained clip releases once at its own end");
+    play();rig.step(50);play();rig.step(50);check(finishes==2,"Replacement cancels earlier completion");
+    rig.step(50);check(finishes==3,"Replacement has its own completion");
+    release=false;play();rig.step(100);check(finishes==4&&rig.host->scripted_clip_pose(101),"Owner can retain non-gameplay/dead pose");
+    release=true;
+    // Enter the real common Begin contract so SKIP is visible, with no fake actor state events.
+    check(rig.runtime.start(rig.runtime.script_id("BeginScriptedCutScene",true),-1,true,error),error);
+    for(int i=0;i<10&&rig.runtime.any_running();++i)rig.step(0);
+    check(rig.host->skip_visible(),"Begin provides SKIP");
+    play();rig.step(50);rig.host->press_skip();rig.step(0);
+    check(finishes==4&&rig.host->scripted_clip_pose(101),"SKIP keeps existing animator completion");
+    rig.step(50);check(finishes==5&&!rig.host->scripted_clip_pose(101),"Skipped presentation still returns CSAnim to gameplay");
+    // Explicit non-waiting Idle replaces the clip and cannot later release it again.
+    play();OriginalCampaignCommand idle;idle.kind=31;idle.strings={{12,"All"}};
+    check(rig.world->command(CampaignCommandPhase::execute,idle,-1,true,blocking,error),error);
+    rig.step(100);check(finishes==5&&!rig.host->scripted_clip_pose(101),"Explicit Idle cancels obsolete timer");
+    fail=true;play();rig.step(100);check(rig.host->aborts()==1&&!rig.host->scripted_clip_pose(101),"Completion failure aborts and releases host pose");
+}
+
 int main(int argc, char** argv) {
     try {
         check(argc == 2, "Supply the campaign asset directory");
@@ -569,6 +606,7 @@ int main(int argc, char** argv) {
         camera_clip_blocks_then_releases(argv[1]);
         actor_clip_manifest_collects_script_clips(argv[1]);
         play_effect_branches(argv[1]);
+        scripted_clip_completion(argv[1]);
         std::cout << "campaign_host tests passed\n";
         return 0;
     } catch (const std::exception& e) {
