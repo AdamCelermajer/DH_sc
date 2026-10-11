@@ -3,4 +3,3 @@ window 32520030 focus=True
 key t=4.03 vk=50
 click t=8.07 x=470 y=605 hold=10ms
 key t=12.03 vk=50
-
