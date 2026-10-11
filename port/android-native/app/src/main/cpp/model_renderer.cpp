@@ -5660,6 +5660,18 @@ std::vector<std::uint8_t> read(AAssetManager* assets,const std::string& name,con
   if(override_status==dh2::mods::Lookup::rejected)throw std::runtime_error(mod_error);
   if(override_status==dh2::mods::Lookup::loaded){__android_log_print(ANDROID_LOG_INFO,"DH2Native","Mod asset loaded | %s | bytes %zu",relative.c_str(),override_bytes.size());return override_bytes;}
   auto* a=AAssetManager_open(assets,relative.c_str(),AASSET_MODE_BUFFER);
+  // Source tables retain mixed case (Priest_good), while the supplied cache
+  // and packaged actor files use lowercase. Keep exact/mod lookup first;
+  // resolve the packaged spelling without case-colliding source files.
+  if(!a&&folder=="actors"){
+    auto packaged=path;
+    std::transform(packaged.begin(),packaged.end(),packaged.begin(),
+        [](unsigned char c){return static_cast<char>(std::tolower(c));});
+    if(packaged!=path){
+      const auto packaged_relative=folder+"/"+packaged;
+      a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
+    }
+  }
   if(!a&&folder=="actors"&&path.rfind("data/3d/",0)==0){
     const auto original_relative="original-cache/"+path;
     a=AAssetManager_open(assets,original_relative.c_str(),AASSET_MODE_BUFFER);
