@@ -2100,7 +2100,7 @@ bool CombatSession::script_move_handoff(ActorId id,std::string& error){
     auto& s=*impl_;auto& entry=s.entries.at(id);
     if(!s.world->find_actor(id)->alive()){error="Script move cannot replace a dead actor pose";return false;}
     if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="Script move requires source program departure";return false;}
-    if(s.runtime->owns_pose(id)&&!s.runtime->yield_pose(id,error))return false;
+    if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;
     s.combat->interrupt(id);entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
     entry.stateManaged=false;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};
     entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
