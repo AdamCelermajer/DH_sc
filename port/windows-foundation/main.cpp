@@ -7521,6 +7521,15 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     if(deathHost.visible_screen(deathScreen)) {
                         if(!f::persistence::death_flow::draw_original_death_screen_v1(deathScreen,overlay,window.width(),window.height(),deathDrawServices,deathDrawError))
                             throw std::runtime_error("Death screen draw: "+deathDrawError);
+                        // B082 PC ADAPTATION (not in the original, which shows only the quote with a full-screen
+                        // Continue hit area): a dim hint once the quote is fully visible, so the click/Space action
+                        // (= the source Continue, which reloads the checkpoint and revives) is discoverable.
+                        if(deathScreen.continue_hit_enabled&&deathScreen.frame>=f::persistence::death_flow::original_death_screen_timeline_v1().quote_fully_visible_frame) {
+                            const float hintScale=std::min(float(window.width())/480.f,float(window.height())/320.f);
+                            if(!drawScreenLabel(deathFont,"Click or press Space to return to the checkpoint",0x9A9A9A,14,
+                                                float(window.width())*.5f,float(window.height())*.5f+135.f*hintScale,hintScale,renderer,overlay,textures,deathDrawError))
+                                throw std::runtime_error("Death hint draw: "+deathDrawError);
+                        }
                     } else if(deathHost.visible_fade(deathFade)) {
                         if(!f::persistence::death_flow::draw_original_fade_from_black_v1(deathFade,overlay,window.width(),window.height(),deathDrawError))
                             throw std::runtime_error("Death fade draw: "+deathDrawError);
