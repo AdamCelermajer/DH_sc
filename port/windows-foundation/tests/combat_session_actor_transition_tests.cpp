@@ -567,14 +567,21 @@ void run_scripted_kill_retirement(const char* root){
     check(rng.seed==after.seed&&rng.calls==after.calls&&f.session.actor(1)->health==playerHealth,"Script kill fabricated RNG/damage for another actor");
 }
 void run_scripted_move_handoff(const char* root){
-    Fixture f(root);const auto lease=f.session.actor_binding_lease();
+    Fixture f(root);const auto lease=f.session.actor_binding_lease();unsigned deaths=0;
+    f.session.set_step_entry_observer([&](const CombatSessionStepEntry& step){if(step.actor==2&&step.role==CombatSessionStepRole::death)++deaths;});
     check(f.session.request_actor_attack(2,1,0,f.error),f.error);
     check(f.session.owns_pose(2),"Fixture did not hold a combat pose");
     check(f.session.script_move_handoff(2,f.error),f.error);
     check(!f.session.owns_pose(2)&&same_owner(lease,f.session.actor_binding_lease()),"Script move failed to transfer pose in the same session");
     check(f.session.script_move_handoff(2,f.error),f.error);
-    check(f.session.script_kill_actor(2,f.error),f.error);
+    CombatSessionSourceHit hit;hit.attacker=1;hit.target=2;hit.binding_lease=lease;hit.generation=1;
+    hit.source_id="ordinary-lethal-after-scripted-move";hit.marker_name="source-hit";hit.mask=0x20080000u;
+    hit.direct_amount=static_cast<std::int32_t>(std::ceil(f.session.actor(2)->health*256.0f));
+    DamageEvent damage;check(f.session.apply_source_result(hit,damage,f.error)&&damage.applied&&damage.target_died,f.error);
+    check(deaths==1&&f.session.owns_pose(2),"Movement handoff suppressed ordinary lethal Died");
     check(!f.session.script_move_handoff(2,f.error)&&f.session.owns_pose(2),"Script move replaced Died");
+    for(unsigned frame=0;frame<180;++frame)check(f.session.update(1.0/60,{},actor_position(*f.session.actor(1)),0,f.error),f.error);
+    check(deaths==1,"Ordinary death after MoveActor replayed Died");
 }
 int main(int argc,char** argv){try{
     check(argc==2,"Original shared asset root required");
