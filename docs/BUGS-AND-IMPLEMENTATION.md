@@ -284,3 +284,4 @@ Only root accepts a release. Preview11 (FD850478) is accepted; do not modify tha
 | B105 | Celeste glow is broken (shot 22). | OPEN, queued | fresh Sonnet session |
 | B106 | E does not work / does not teleport (Travel to Bogwitch Cavern, shot 23). | OPEN, queued | fresh Sonnet session |
 | B107 | User note about one screenshot ("abomination"): not identified, no action. | NEEDS USER CLARIFICATION | fresh Sonnet session |
+| B109 | The whole rendered Bogwitch Cavern / exit area is wrong (stretched tilted stone geometry); clarification of B106 (shot-24). | OPEN, session assigned | fresh Sonnet session |
