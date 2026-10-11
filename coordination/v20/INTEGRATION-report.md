@@ -135,3 +135,25 @@ Facing publication runtime recheck: frozen EXE SHA-256 `E8F1AF3639EF0F7552513099
 ### Stop-handoff condition lifecycle runtime check
 
 The current WIP candidate (`FB1EFF2FDD29E3E852F0B99015AA6614342258C119FFEDAEAFAF04BFA62A6271`, parent HEAD `37c617f8` plus the committed integration patch) ran two hidden, silent, fresh-save source-bank sessions for 2,000 frames each. Both exited 0. With CQPG row 52 set to 3, the log reported `_prim_NPC_05` `BeforeKillWitch=true`, enabled, and later resolved its name for the normal `Swamp_Witch_Activate` camera command. With row 52 set to 13, the log reported the same retained declaration disabled. Logs and summary are under `.local-inputs/v20/integration/condition-lifecycle-fb1/`. Captures were generated but not inspected visually; these runs establish the integrated condition-state log path, not visible appearance or a live transition between branches. Source semantics remain distinct: TestEnable false disables; TestDisable false disables; ObjectManager calls them in that order. Remaining owner guards and authored-family coverage are open.
+
+### World gate TestEnable/TestDisable audit against source (sync session, 2026-10-11)
+
+Source re-read in `.local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c`: ObjectBase ctor 0x33f15c `*(a1+138)=1` (l.41597); ConditionData::IsTrue 0x33e5f8 (l.41124: tested byte32 or absent list returns 1); TestDisable 0x33e61c (l.41138); TestEnable 0x33e6d4 (l.41162); ObjectManager loop skip test l.52825, calls TestEnable(v,1) l.52835 then TestDisable(v,1) l.52836.
+
+Agree:
+- Ordering: enable runs before disable. Helper `source_condition_lifecycle_step_v1` enable block (`world_gate_v1.cpp` l.111-113) precedes the disable block (l.115); main adapter calls only that step (`main.cpp` l.3957).
+- False activation disables: source l.41188-41190 `!IsTrue -> SetEnable(0)`; helper l.112-113 (`if(demo_only||!activation) enabled=false`).
+- False deactivation disables and latches: source TestDisable `!IsTrue -> SetEnable(0); SetAsTested` (l.41146-41150); helper l.115. True leaves the state unchanged (no re-enable): helper l.98 and l.115.
+- Skip rule: source skips only when enable is idle (tested or absent) and deactivate is idle (tested or absent); helper l.109 `if(enable_idle&&disable_idle)return true;` matches.
+- Tested latches are not persisted and are cleared on bind: main `sourceConditionLatches.clear()` (`main.cpp` l.3978) matches ObjectBase::Deserialize resetting both bits (B068 `35c93c6e`).
+- Initial enabled=true: `actor_population.hpp:36` default matches ctor l.41597; per B068 this is not permission to admit a missing actor.
+
+Defect, fixed in this session:
+- The standalone `source_test_enable_condition_v1` returned without changing `enabled` when its activate list was absent (old `world_gate_v1.cpp` l.86). Source IsTrue returns 1 for an absent list, so TestEnable performs SetEnable(true). The helper's own header comment and the lifecycle step (l.112) already treat an absent list as enabling. The old test "missing condition list is source no-op" (`world_gate_v1_tests.cpp` l.52) could not detect it because the object was already enabled. Now `world_gate_v1.cpp` l.87 sets enabled=true, and the test starts from disabled and also covers the absent deactivate list being skipped. The standalone helper is test-only; main wires only the lifecycle step, so runtime behaviour is unchanged.
+
+Gaps, not changed (open):
+- Source guards are not modelled. TestEnable (l.41171-41172) and TestDisable (l.41140-41145) do nothing when a local player exists and its PlayerSave (`+5352`) is absent or `+20` is zero. TestEnable also applies a current-level guard (l.41177-41181: object level `this+236` above `CurrentLevel+280` gives SetEnable(0)). Neither the helpers nor `refreshCharacterSourceConditions` (`main.cpp` l.3935-3963) take PlayerSave readiness or current level; min_difficulty is also unmodelled.
+- Per-update semantics differ. Source runs both tests on every ObjectManager update; the adapter runs them only at bind (`main.cpp` l.4033) and for actors whose conditions flip (`main.cpp` l.4187-4204). A latched activate would be re-applied by source each update after any other SetEnable; the adapter does not do that.
+- Unresolved condition (`main.cpp` l.3945-3948: not watched or not current) returns without evaluating either test. This is fail-closed, not a source state.
+
+Verdict: main adapter and lifecycle helper agree with the source ordered enable-then-disable semantics and latch rules. The one clear helper defect is fixed with a unit test. Guard coverage and per-update re-evaluation remain open, as the handoff states.
