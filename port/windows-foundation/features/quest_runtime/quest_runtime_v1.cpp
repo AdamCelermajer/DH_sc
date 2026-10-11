@@ -350,6 +350,7 @@ bool QuestRuntimeV1::prerequisites_met(std::int32_t row, bool& met) {
 }
 
 bool QuestRuntimeV1::objective_matches(const Objective& def, const QuestEvent& event) const {
+    if(event.objective_type>=0&&event.objective_type!=def.type)return false;
     switch (static_cast<QuestObjectiveTypeV1>(def.type)) {
     case QuestObjectiveTypeV1::kill_x_enemies:
         return event.kind == QuestEvent::Kind::kill && event.property_id == def.oid1;

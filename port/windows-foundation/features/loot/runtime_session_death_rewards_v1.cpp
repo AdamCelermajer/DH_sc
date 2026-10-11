@@ -123,6 +123,17 @@ bool RuntimeSessionDeathRewardsV1::after_update(
     dh::foundation::CombatSession& session,
     std::vector<RuntimeDeathRewardOutcomeV1>& outcomes,
     std::string& error) {
+    std::vector<RuntimeDeathRewardsV1::DeathNotice> deaths;
+    for(const auto& event:session.events())if(event.applied&&event.target_died)deaths.push_back({event.target,event.attacker});
+    return dispatch_deaths(session,deaths,outcomes,error);
+}
+bool RuntimeSessionDeathRewardsV1::scripted_death(CombatSession& session,ActorId victim,
+    std::vector<RuntimeDeathRewardOutcomeV1>& outcomes,std::string& error){
+    return dispatch_deaths(session,{{victim,invalid_actor_id}},outcomes,error);
+}
+bool RuntimeSessionDeathRewardsV1::dispatch_deaths(CombatSession& session,
+    const std::vector<RuntimeDeathRewardsV1::DeathNotice>& deaths,
+    std::vector<RuntimeDeathRewardOutcomeV1>& outcomes,std::string& error){
     outcomes.clear();
     error.clear();
     if (dispatching_) return fail(error, "Death-reward update is already dispatching");
@@ -138,9 +149,7 @@ bool RuntimeSessionDeathRewardsV1::after_update(
     if (!world_items_->uses_loot_snapshot(creation_owner_->loot_owner->borrow()))
         return fail(error, "Existing WorldItemStore no longer owns the bound source Loot snapshot");
 
-    const auto has_death = std::any_of(session.events().begin(), session.events().end(),
-        [](const dh::foundation::DamageEvent& event) { return event.applied && event.target_died; });
-    if (!has_death) return true;
+    if (deaths.empty()) return true;
 
     RuntimeDeathRewardAdmissionV1 admission;
     if (!bindings_.read_reward_admission(bindings_.context, admission, error)) return false;
@@ -176,12 +185,12 @@ bool RuntimeSessionDeathRewardsV1::after_update(
 
     dispatching_ = true;
     const bool ok = admission.rewards_suppressed
-        ? rewards_.consume(session, services, outcomes, error)
+        ? rewards_.consume_deaths(*world_, deaths, services, outcomes, error)
         : world_->with_loot_random(
             [&](dh2::data::LootRandom8V2& random, std::string& inner_error) {
                 services.gameplay_rng = &random;
                 scatter_rng_ = &random;
-                const bool consumed = rewards_.consume(session, services, outcomes, inner_error);
+                const bool consumed = rewards_.consume_deaths(*world_, deaths, services, outcomes, inner_error);
                 scatter_rng_ = nullptr;
                 return consumed;
             }, error);

@@ -1404,7 +1404,11 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
             const auto policy=config.profiles.find(populationActor.profileId);if(policy==config.profiles.end())continue;
             const auto& matrix=populationActor.definition.placement;
             prepare(populationActor.definition.stableId,populationActor.profileId,policy->second,populationActor.visual,
-                    policy->second.customization,{matrix[12],matrix[13],matrix[14]},std::atan2(matrix[1],matrix[0]),false,&populationActor.definition);
+                    policy->second.customization,{matrix[12],matrix[13],matrix[14]},
+                    // B068 (3): an authored Character faces the OPPOSITE way of the placement x-axis. Evidence: the LizardMan_Intro
+                    // lizards (obj_3of4_brdwalk_sw_00.mgp, rotation z=89.62) with +pi jump from the wall perch to the landing exactly as
+                    // in the reference video (t=224.5-226 s), while the bare x-axis heading jumps in from the opposite side.
+                    std::atan2(-matrix[1],-matrix[0]),false,&populationActor.definition);
         }
         // Validate runtime bindings against staged visuals before publishing.
         for(auto& stage:staged)if(!next->runtime->bind(*next->world->find_actor(stage.id),
@@ -2061,7 +2065,16 @@ bool CombatSession::refresh_actor_combat_permissions(std::string& error){
     error.clear();if(!impl_||impl_->detached){error="Actor permissions require attached initialized session";return false;}
     auto& s=*impl_;try{for(auto& pair:s.entries){auto& entry=pair.second;bool allowed=!s.permissionProvider||s.permissionProvider(pair.first);allowed=allowed&&!entry.lifecycleOriginalState;
         entry.permission=allowed;entry.traits.targetable=entry.baseTargetable&&allowed;
-        if(!allowed){if(s.runtime->owns_pose(pair.first)&&!s.runtime->interrupt(pair.first,error))return false;s.combat->interrupt(pair.first);entry.sourceEvents.clear();s.world->find_actor(pair.first)->target_id=invalid_actor_id;}
+        if(!allowed){
+            auto* actor=s.world->find_actor(pair.first);
+            if(s.runtime->owns_pose(pair.first)) {
+                // B068: CSDespawn/hidden retirement releases Died permanently; interrupting it every
+                // frame lets synchronize restart Died, replaying the clip, sound and root motion.
+                if(actor->alive()){if(!s.runtime->interrupt(pair.first,error))return false;}
+                else if(s.runtime->death_complete(pair.first)&&!s.runtime->yield_pose(pair.first,error))return false;
+            }
+            s.combat->interrupt(pair.first);if(actor->alive()||!s.runtime->owns_pose(pair.first))entry.sourceEvents.clear();actor->target_id=invalid_actor_id;
+        }
         if(!s.facts(pair.first,error))return false;
     }for(const auto& pair:s.entries){auto* actor=s.world->find_actor(pair.first);const auto target=s.entries.find(actor->target_id);if(target!=s.entries.end()&&!target->second.permission)actor->target_id=invalid_actor_id;}
     }catch(const std::exception& failure){error=failure.what();return false;}return true;
@@ -2073,6 +2086,25 @@ bool CombatSession::set_actor_original_state(ActorId id,std::int32_t state,std::
     // P16 LIFECYCLE: under a bound handler the target was already published by its admitted transition (idempotent).
     if(impl_->actorTransitionHandler&&!impl_->publish_source_state(id,state,error))return false;
     entry.lifecycleOriginalState=state==3?std::optional<std::int32_t>{}:state;impl_->lifecycleRegistered=true;return refresh_actor_combat_permissions(error);
+}
+bool CombatSession::script_kill_actor(ActorId id,std::string& error){
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Script kill actor is unavailable";return false;}
+    return impl_->runtime->kill(id,error);
+}
+bool CombatSession::script_death_event(ActorId id,std::string& error){
+    if(!impl_||impl_->detached){error="Death event requires live session";return false;}
+    return impl_->runtime->death_event(id,error);
+}
+bool CombatSession::script_move_handoff(ActorId id,std::string& error){
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Script move actor is unavailable";return false;}
+    auto& s=*impl_;auto& entry=s.entries.at(id);
+    if(!s.world->find_actor(id)->alive()){error="Script move cannot replace a dead actor pose";return false;}
+    if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="Script move requires source program departure";return false;}
+    if(s.runtime->owns_pose(id)&&!s.runtime->yield_pose(id,error))return false;
+    s.combat->interrupt(id);entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
+    entry.stateManaged=false;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};
+    entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
+    return true;
 }
 bool CombatSession::select_actor_state_leaf(ActorId id,const CombatSessionChoice& choice,double actor_rate,bool frozen,
     CombatSessionStateAnimationServices services,std::string& error,std::int32_t lifecycle_to_state){

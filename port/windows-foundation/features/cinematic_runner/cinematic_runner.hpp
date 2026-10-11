@@ -50,6 +50,9 @@ struct CaptionLine {
     std::int32_t style = -1;
     std::int32_t actor = -1;
     std::string text;
+    // B068: speaker name for the name plate (DialogActors row of `actor`, localized) and the DialogBox variant (DialogStyles name).
+    std::string speaker;
+    std::string style_label;
 };
 
 struct TextItem {
@@ -97,9 +100,12 @@ public:
     // Script commands.
     void enqueue(CaptionLine line);                // StartDialog
     bool waiting() const noexcept;                 // WaitDialog is blocking while a line is queued or shown
-    void flush() noexcept;                         // FlushMessages: drops queued and shown lines
+    void flush() noexcept;                         // abort/skip/exit: drops queued and shown lines
+    // B068: Script_FlushMessages = MenuMessageManager<DialogMsg>::FlushEnqueuedMessages (IDA 0x383ea8) pops the queued messages only; the one on screen stays.
+    void flush_enqueued() noexcept { queue_.clear(); }
 
     // Player tap (btn_next). Only a skippable line responds; returns true when the tap was used.
+    // B068 (PC adaptation, requested): a tap during the hide animation ends it at once, so repeated clicks run through the lines.
     bool tap() noexcept;
     // Advances the timers. Returns the number of lines that finished.
     std::size_t update(std::uint32_t dt_ms) noexcept;

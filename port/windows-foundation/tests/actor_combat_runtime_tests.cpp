@@ -464,8 +464,25 @@ void yielded_death_pose_not_reasserted() {
         check(runtime.update(0.05,events,error)&&!runtime.owns_pose(1),"Dead actor re-asserted its death pose after the hand-over");
     check(runtime.yield_pose(99,error),"Hand-over of an unbound actor must be a no-op");
 }
+void scripted_kill_uses_death_without_hit() {
+    TestWorld world;world.actors[1]=actor(1);world.actors[2]=actor(2);
+    Visual visual;visual.add("death",0,100,1000);
+    CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;
+    std::int32_t state=3;unsigned deaths=0;CombatPoseBindings poses;poses.death_clip_id="death";
+    poses.transition_state=[&](std::int32_t& out,std::string&){out=state;return true;};
+    poses.transition=[&](const CombatRuntimeTransition& t,std::string&){if(t.stage==CombatRuntimeTransitionStage::after_change){state=t.to_state;++deaths;}return true;};
+    check(runtime.bind(world.actors[1],visual.binding(),poses,error),error);
+    check(runtime.kill(1,error),error);
+    check(!world.actors[1].alive()&&state==12&&deaths==1&&visual.selected=="death","Script kill must publish existing Dead/Died path");
+    check(runtime.kill(1,error)&&deaths==1,"Duplicate scripted kill repeated death focus");
+    std::vector<DamageEvent> events;check(runtime.update(.2,events,error),error);
+    check(events.empty()&&world.damage_queries==0&&world.eligibility_queries==0&&world.actors[2].health==10,"Script kill fabricated a hit/query or changed another actor");
+    check(!runtime.kill(999,error),"Unavailable kill actor must fail explicitly");
+}
+
 int main() {
     try {
+        scripted_kill_uses_death_without_hit();
         nullable_melee_swing();
         invalidated_nullable_melee_swing();
         departure_timing();

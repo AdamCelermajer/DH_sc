@@ -408,10 +408,13 @@ int main(int argc,char** argv){try{
         [&](ActorId id,bool& value,std::string&){if(id==1)++playerNetworkQueries;else ++npcNetworkQueries;value=online;return true;});
     check(session.uses_diagnostic_controller_admission()&&session.original_ai_tables()==&session.world()->factions(),
         "Session lost typed source-controller/AI table binding");
+    // B068: a placed Character's initial heading is the opposite of the placement x-axis (identity placement -> pi); the test only
+    // requires that the blocked command leaves both headings unchanged.
+    const float blockedHeading1=session.actor(1)->transform.rotation[2],blockedHeading2=session.actor(2)->transform.rotation[2];
     input={};input.attack=true;
     check(session.update(.01,input,{0,0,0},0,error),error);
     check(!session.owns_pose(1)&&!session.owns_pose(2)&&session.actor(1)->target_id==0&&session.actor(2)->target_id==0&&
-        session.actor(1)->transform.rotation[2]==0&&session.actor(2)->transform.rotation[2]==0&&
+        session.actor(1)->transform.rotation[2]==blockedHeading1&&session.actor(2)->transform.rotation[2]==blockedHeading2&&
         playerNetworkQueries==0&&npcNetworkQueries==0,"blocked command mutated target/turn/pose or queried network");
     playerFlags.forced=255;
     check(session.update(.01,input,{0,0,0},0,error),error);

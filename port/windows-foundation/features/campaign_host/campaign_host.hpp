@@ -13,6 +13,7 @@
 #include "trigger_zones.hpp"
 #include "../cinematics/source_campaign_dispatch_v1.hpp"
 #include "../cinematic_runner/cinematic_runner.hpp" // P16 CINE
+#include "../cinematic_runner/dialog_tables.hpp" // B068
 #include "../../original_campaign_world_adapter.hpp"
 #include "../../original_camera_clip.hpp" // P16 CINE2: PlayCamera clips
 #include "../../camera.hpp"
@@ -52,6 +53,9 @@ struct ActorVerbServices {
     std::function<bool(ActorId,std::array<float,3> position,std::string& e)> teleport;
     std::function<bool(ActorId,std::array<float,3> target,std::string& e)> face;
     std::function<bool(ActorId,bool visible,std::string& e)> set_visible;
+    std::function<bool(ActorId,std::array<float,3>,bool warp,bool ignore_collisions,std::string&)> move_to;
+    std::function<bool(ActorId,bool& blocking,std::string&)> move_blocking;
+    std::function<bool(ActorId,std::string&)> kill;
     std::function<bool(ActorId,std::string& e)> put_limbus;
     // Plays the animations_dictionary clip on the actor (no loop). duration_ms = authored clip range.
     std::function<bool(ActorId,std::int32_t dictionary_id,std::int32_t& duration_ms,std::string& e)> play_clip;
@@ -100,6 +104,11 @@ public:
     // P16 CINE: StrID resolver for caption lines (main binds the original MenuLocalization after its load).
     // Without it a caption line shows an explicit "[StrID n unresolved]" marker.
     void set_caption_text(std::function<bool(std::int32_t,std::string&,std::string&)> resolver) { caption_text_=std::move(resolver); }
+    // B068: DialogActors rows (speaker name plate) and DialogStyles names (box variant) of the original dialogs tables.
+    void set_dialog_tables(std::vector<cinematic_runner::DialogActorRow> actors, std::map<std::int32_t, std::string> styles) {
+        dialog_actors_ = std::move(actors);
+        dialog_styles_ = std::move(styles);
+    }
     // P17 SAFEZONE: the music owner for Script_EnterSafeZone (true) and Script_LeaveSafeZone (false). Without it the
     // command still updates the host state (safe_zone()), and the log records the transition.
     void bind_safe_zone(std::function<bool(bool entering,std::string&)> music) { safe_zone_music_=std::move(music); }
@@ -145,17 +154,25 @@ public:
     };
     HostState host_state() const;
     bool cutscene_mode() const noexcept { return cutscene_mode_; }
+    // B068: SetCameraClip planes; 0 = use the level config (camera_znear / camera_zfar).
+    float camera_near_override() const noexcept { return camera_near_override_; }
+    float camera_far_override() const noexcept { return camera_far_override_; }
+    // B068: a scripted PlayActorAnim clip owns the actor's pose (playing, or finished and held) until PutCharacterInIdle: the per-frame
+    // locomotion selection of the local player must not replace it (the original CharStateMachine stays in the scripted anim state).
+    bool scripted_clip_pose(ActorId id) const noexcept { return held_clip_actors_.count(id) != 0; }
+    // TriggerZone::Update 0x39b458 ignores contacts while the local character is marked scripted (+5248).
+    bool character_scripted(ActorId id) const noexcept { return scripted_.count(id) != 0; }
     bool save_blocked() const noexcept { return save_blocked_; }
     bool global_controller_blocked() const noexcept { return global_blocked_; }
 
     // P16 CINE2: scripted camera clip. While a PlayCamera clip plays, the source camera uses its eye and
     // target (up and FOV from the follow camera); otherwise the follow pose is returned unchanged.
     bool camera_clip_active() const noexcept { return clip_active_; }
-    CameraPose source_camera_pose(const CameraPose& follow) const;
+    CameraPose source_camera_pose(const CameraPose& follow,CameraVec3 rig_position={}) const;
 
     // One frame: advances the executor on the caller clock, then feeds trigger contacts.
     // An executor error aborts only that cutscene: flags are restored and running scripts abandoned.
-    void frame(std::int32_t dt_ms,const std::array<float,3>& player,bool qualified);
+    void frame(std::int32_t dt_ms,const std::array<float,3>& player,bool qualified,ActorId local_player=invalid_actor_id);
     bool enabled() const noexcept { return runtime_ != nullptr; }
     // D3 (OPENING3): campaign lifecycle through the save component mechanism. A neutral world object (fixed ID, bound
     // at level load like the containers) carries component campaign_lifecycle_v1 (trigger once-activation counts).
@@ -186,8 +203,11 @@ private:
     bool save_tutorial_settings(std::string&); // B070: writes it back (atomic replace)
     cinematic_runner::CinematicRunner cinematic_; // P16 CINE
     std::function<bool(std::int32_t,std::string&,std::string&)> caption_text_; // P16 CINE
+    std::vector<cinematic_runner::DialogActorRow> dialog_actors_; // B068
+    std::map<std::int32_t, std::string> dialog_styles_;           // B068
     OriginalCameraClip clip_;                     // P16 CINE2: PlayCamera owner (one clip at a time, as CameraLevel)
     bool clip_active_=false;
+    bool clip_hold_=false; // B068: a finished clip keeps its last pose (CameraLevel::__Callback only clears the playing flag) until the next clip / the End contract
     std::int32_t clip_id_=-1;
     std::int32_t clip_elapsed_ms_=0;
     CameraVec3 clip_eye_{}, clip_target_{};
@@ -197,6 +217,8 @@ private:
     // Script_PlayActorAnim::IsBlocking); its chained clip (scalar 12) starts when the first one ends.
     struct ActorClipState { std::int32_t remaining_ms=0; std::int32_t follow_dictionary=-1; };
     std::map<ActorId,ActorClipState> actor_clips_;
+    float camera_near_override_ = 0.f, camera_far_override_ = 0.f; // B068
+    std::set<ActorId> held_clip_actors_; // B068: actors whose scripted clip pose is held until PutCharacterInIdle / the End contract
     bool actor_verb(const OriginalCampaignCommand& c, CampaignCommandPhase phase, int module, bool& blocking, std::string& e);
     bool advance_actor_clips(std::int32_t dt_ms, std::string& error);
     std::set<std::string> actor_verb_unresolved_;

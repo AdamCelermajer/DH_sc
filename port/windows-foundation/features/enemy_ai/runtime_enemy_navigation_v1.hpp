@@ -50,6 +50,10 @@ public:
     bool line_of_sight(Vec3 from, Vec3 to, bool& visible, std::string& error);
     bool approach(CombatSession&, ActorState&, ActorState&,
                   const dh2::data::AiProps&, std::string& error);
+    // Script_MoveActor uses the same authored floor route and retained Walk root toward a waypoint.
+    bool move_to(CombatSession&, ActorState&, const std::array<float,3>& goal,
+                 ActorId goal_identity, bool ignore_collisions, std::string& error);
+    bool route_finished(CombatSession&,ActorId,bool& finished,std::string& error);
     // Releases this adapter's cached route for a source Stop/Blur transition.
     // It does not select locomotion or implement the source PF/physical Stop.
     bool release_route(CombatSession&, ActorId, std::string& error);

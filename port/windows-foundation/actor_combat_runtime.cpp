@@ -300,6 +300,31 @@ bool ActorCombatRuntime::synchronize(Binding& binding, std::string& error) {
     return true;
 }
 
+bool ActorCombatRuntime::kill(ActorId id,std::string& error) {
+    if(!validate_transition_checkpoint(error))return false;
+    const auto found=bindings_.find(id);
+    if(found==bindings_.end()){error="Script kill requires the live bound actor";return false;}
+    auto& binding=found->second;
+    if(!binding.actor->alive())return true;
+    apply_actor_damage_health_prefix(*binding.actor,binding.actor->health);
+    binding.yielded=false;
+    return synchronize(binding,error);
+}
+bool ActorCombatRuntime::death_complete(ActorId id) const {
+    const auto found=bindings_.find(id);if(found==bindings_.end()||found->second.pose!=Pose::death)return false;
+    const auto& binding=found->second;
+    if(binding.terminal_hold)return true;
+    if(binding.visual.source_clock&&binding.visual.source_clock())return binding.visual.source_finished&&binding.visual.source_finished();
+    return binding.cursor.elapsed_ms>=binding.duration_ms;
+}
+bool ActorCombatRuntime::death_event(ActorId id,std::string& error){
+    if(!validate_transition_checkpoint(error))return false;
+    const auto found=bindings_.find(id);
+    if(found==bindings_.end()||found->second.actor->alive()){error="Death event requires its bound dead actor";return false;}
+    found->second.yielded=false;
+    return synchronize(found->second,error);
+}
+
 bool ActorCombatRuntime::interrupt(ActorId actor) {
     std::string error;return interrupt(actor,error);
 }

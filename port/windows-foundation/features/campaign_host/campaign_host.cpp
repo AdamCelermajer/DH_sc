@@ -1,4 +1,6 @@
 #include "campaign_host.hpp"
+#include <cmath>
+#include <cstdlib>
 #include <algorithm>
 #include <cctype>
 #include <fstream>
@@ -145,7 +147,14 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
             line.text = "[StrID " + std::to_string(line.text_id) + " unresolved]";
             unsupported_.note("dialogue StrID unresolved");
         }
-        std::cout << "[campaign] caption frame=" << frames_ << " strid=" << line.text_id << " actor=" << line.actor << " text=" << line.text << '\n';
+        // B068: speaker name plate = localized DialogActors row name; box variant = DialogStyles name of the style value.
+        if (line.actor >= 0 && static_cast<std::size_t>(line.actor) < dialog_actors_.size() && caption_text_) {
+            std::string speaker, speaker_error;
+            if (caption_text_(dialog_actors_[static_cast<std::size_t>(line.actor)].name_string_id, speaker, speaker_error)) line.speaker = speaker;
+            else unsupported_.note("dialogue speaker name unresolved");
+        }
+        if (const auto style = dialog_styles_.find(line.style); style != dialog_styles_.end()) line.style_label = style->second;
+        std::cout << "[campaign] caption frame=" << frames_ << " strid=" << line.text_id << " actor=" << line.actor << " speaker=" << line.speaker << " style=" << line.style_label << " text=" << line.text << '\n';
         cinematic_.enqueue(std::move(line));
         return true;
     };
@@ -165,6 +174,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         if (phase == CampaignCommandPhase::update) return true;
         // A new PlayAnim replaces the playing clip (CameraLevel owns one animator).
         clip_active_ = false;
+        clip_hold_ = false;
         clip_id_ = -1;
         if (skip_active()) {
             // Sampled SKIP: the source plays the level set's own idle clip instead; here the follow camera stays.
@@ -202,7 +212,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         return actor_verb(c, phase, module, blocking, e);
     };
     if (!p.flush_messages) p.flush_messages = [this](std::string&) {
-        cinematic_.flush(); // P16 CINE: FlushMessages drops the queued and shown caption lines
+        cinematic_.flush_enqueued(); // B068: FlushMessages drops the queued lines only (the EnterLocation title shown at the opening start stays, video t~76-79)
         return true;
     };
     if (!p.request_save) p.request_save = [this](std::string&) {
@@ -283,6 +293,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         return true;
     };
     if (!p.set_idle) p.set_idle = [this](ActorId id, bool wait, std::string& e) {
+        held_clip_actors_.erase(id); // B068: PutCharacterInIdle ends the scripted clip pose
         if (!services_.actor_state || !services_.set_actor_state) { e = "PutCharacterInIdle requires the live actor state owner"; return false; }
         bool alive = false;
         std::int32_t state = -1;
@@ -359,6 +370,7 @@ bool CampaignHost::fast_forward(std::string& error) {
     constexpr std::size_t kMaxPasses = 1000;
     skip_requested_ = false;
     clip_active_ = false;
+    clip_hold_ = false;
     clip_id_ = -1;
     actor_clips_.clear();
     cinematic_.flush();
@@ -392,6 +404,7 @@ bool CampaignHost::restore_presentation(std::string& error) {
     skip_visible_ = false;
     save_blocked_ = false;
     clip_active_ = false;
+    clip_hold_ = false;
     clip_id_ = -1;
     actor_clips_.clear();
     std::string restore_error;
@@ -448,13 +461,23 @@ std::string CampaignHost::script_name_of(const OriginalCampaignCommand& c, int& 
     return "<unknown>";
 }
 
-CameraPose CampaignHost::source_camera_pose(const CameraPose& follow) const {
-    if (!clip_active_) return follow;
+CameraPose CampaignHost::source_camera_pose(const CameraPose& follow,CameraVec3 rig_position) const {
+    if (!clip_active_ && !(clip_hold_ && cutscene_mode_)) return follow;
     CameraPose pose = follow; // P16 OPENING4: the clip drives eye, target, up (when authored) and FOV (when authored)
     pose.position = clip_eye_;
     pose.target = clip_target_;
+    pose.position.x+=rig_position.x;pose.position.y+=rig_position.y;pose.position.z+=rig_position.z;
+    pose.target.x+=rig_position.x;pose.target.y+=rig_position.y;pose.target.z+=rig_position.z;
     if (clip_view_.has_up) pose.up = clip_view_.up;
-    if (clip_view_.has_fov) pose.verticalFovDegrees = clip_view_.vertical_fov_degrees;
+    if (clip_view_.has_fov) {
+        // B068 (4): the clip channel is the camera's xfov, a HORIZONTAL field of view in degrees (the camera node default is 45). The render
+        // camera takes a vertical FOV; the original stage is 800x480 (OriginalGameplayCamera::sourceAspect 0x3fd578e9), so
+        // vertical = 2 atan(tan(xfov/2) / aspect). Before this the horizontal value was used as the vertical one (view far too wide).
+        constexpr float kSourceAspect = 1.6670971f; // float 0x3fd578e9
+        constexpr float kRadiansToDegrees = 57.29577951308232f;
+        const float half = clip_view_.vertical_fov_degrees * 0.5f / kRadiansToDegrees;
+        pose.verticalFovDegrees = 2.0f * std::atan(std::tan(half) / kSourceAspect) * kRadiansToDegrees;
+    }
     return pose;
 }
 
@@ -470,14 +493,18 @@ bool CampaignHost::advance_camera_clip(std::int32_t dt_ms, std::string& error) {
     if (clip_elapsed_ms_ >= duration) {
         // CameraLevel::__Callback: completion clears the playing flag; the follow camera resumes.
         clip_active_ = false;
+        clip_hold_ = true; // B068: video t~96-100 (Rene dialogue): the camera stays on the clip's last pose after the 3 s clip ended
         std::cout << "[campaign] PlayCamera finished id=" << clip_id_ << " frame=" << frames_ << '\n';
     }
     return true;
 }
 
 bool CampaignHost::abort_cutscene(std::string& error) {
+    clip_hold_ = false;
     clip_active_ = false; // P16 CINE2: abort ends a playing camera clip (follow camera resumes)
     actor_clips_.clear(); // P16 OPENING: abort ends scripted actor clip timers (the pose stays as the clip left it)
+    held_clip_actors_.clear(); // B068
+    camera_near_override_ = camera_far_override_ = 0.f; // B068: the level camera clip planes return
     cinematic_.set_active(false); // P16 CINE: abort drops caption lines and the SKIP control
     hud_visible_ = true;
     skip_visible_ = false;
@@ -518,6 +545,27 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     ActorId id = invalid_actor_id;
     bool found = false;
     switch (c.kind) {
+    case 40: {
+        if (!resolve(string_field(c,24),id,found,e)) return false;
+        if (!found) return true;
+        if (phase == CampaignCommandPhase::is_blocking) {
+            if (signed_field(c,28)==0 || skip_active()) return true;
+            return v.move_blocking ? v.move_blocking(id,blocking,e) : unbound("scripted movement completion");
+        }
+        if (phase != CampaignCommandPhase::execute) return true;
+        std::array<float,3> position{};bool target_found=false;
+        if (!v.waypoint_position || !v.waypoint_position(string_field(c,12),module,position,target_found,e)) return unbound("scripted move target");
+        if (!target_found) { note_unresolved(string_field(c,12)); return true; }
+        actor_clips_.erase(id);held_clip_actors_.erase(id);
+        return v.move_to ? v.move_to(id,position,skip_active(),signed_field(c,16)!=0,e) : unbound("scripted move owner");
+    }
+    case 44: {
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!resolve(string_field(c,12),id,found,e)) return false;
+        if (!found) return true;
+        actor_clips_.erase(id);held_clip_actors_.erase(id);
+        return v.kill ? v.kill(id,e) : unbound("scripted kill owner");
+    }
     case 45: { // Script_PlayActorAnim: actor @24, clip @8 (dictionary), chained clip @12 (none = -1), wait flag @28
         if (phase == CampaignCommandPhase::is_blocking) {
             if (signed_field(c, 28) <= 0) return true;
@@ -537,6 +585,7 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         state.remaining_ms = duration;
         state.follow_dictionary = signed_field(c, 12);
         actor_clips_[id] = state;
+        held_clip_actors_.insert(id); // B068
         std::cout << "[campaign] PlayActorAnim actor=" << id << " clip=" << signed_field(c, 8) << " duration_ms=" << duration
                   << " wait=" << signed_field(c, 28) << '\n';
         return true;
@@ -598,7 +647,17 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     // OPENING2: Script_CONSOLE (kind 3) shows its text only when the DisplayScriptConsoleAsDialog debug switch is on;
     // the release default is off (IDA Script_CONSOLE::Execute), so the command does nothing and never blocks.
     case 3:  if (phase == CampaignCommandPhase::execute) unsupported_.note("Script_CONSOLE is a debug command (no-op: DisplayScriptConsoleAsDialog is off)"); return true;
-    case 6:  if (phase == CampaignCommandPhase::execute) unsupported_.note("stub SetCameraClip (camera transition tuning not decoded)"); return true;
+    case 6: { // Script_SetCameraClip (IDA 0x45c670): scalar 12 = camera near plane (camera vtable+304), scalar 8 = far plane (+308);
+              // a value <= 0 changes nothing, except -2 which restores the level config znear/zfar. Not gated by SKIP.
+        if (phase != CampaignCommandPhase::execute) return true;
+        const auto far_value = signed_field(c, 8), near_value = signed_field(c, 12);
+        if (near_value > 0) camera_near_override_ = static_cast<float>(near_value);
+        else if (near_value == -2) camera_near_override_ = 0.f;
+        if (far_value > 0) camera_far_override_ = static_cast<float>(far_value);
+        else if (far_value == -2) camera_far_override_ = 0.f;
+        std::cout << "[campaign] SetCameraClip near=" << camera_near_override_ << " far=" << camera_far_override_ << " (0 = level config)\n";
+        return true;
+    }
     case 19: { // Script_PlayAnimByName: object @24 plays clip @12 on its visual (IDA: visual animator Play(clip,0,0,0)); no wait
         if (phase != CampaignCommandPhase::execute) return true;
         if (skip_active()) return true; // SKIP16: IDA Script_PlayAnimByName::Execute is gated on !skip
@@ -642,10 +701,8 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     // cutscene or trigger script continues instead of aborting (IDA owners are outside the Swamp opening path).
     case 13: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlaySound (no scripted sound owner bound: the cutscene sound is not played)"); return true;
     case 15: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayLevelMusic (resume level track not bound to the script host)"); return true;
-    case 44: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub KillActor (no scripted kill owner bound)"); return true;
     case 63: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub RestartLevel (player death restart is owned by the death flow)"); return true;
     case 68: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub ShowTrophies (no trophy display owner)"); return true;
-    case 40: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub MoveActor (no scripted move owner bound: the actor stays in place)"); return true;
     case 54: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub OpenDoor (no door owner bound; doors are not collidable in Preview 16)"); return true;
     case 55: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub CloseDoor (no door owner bound; doors are not collidable in Preview 16)"); return true;
     default: e = "Unsupported original campaign actor verb kind " + std::to_string(c.kind); return false;
@@ -671,7 +728,7 @@ bool CampaignHost::advance_actor_clips(std::int32_t dt_ms, std::string& error) {
     return true;
 }
 
-void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, bool qualified) {
+void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, bool qualified, ActorId local_player) {
     if (!runtime_) return;
     // Diagnostic trace (trigger mode only): first frame, then every 30 frames.
     if (!reported_player_ || frames_ % 30 == 0) {
@@ -700,7 +757,16 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
         else
             std::cout << "[campaign] restore incomplete: " << restore_error << '\n';
     }
-    zones_.update(*runtime_, player, qualified, -1);
+    // Evaluate after commands: Begin/End can mark or teleport in this tick. The caller's position
+    // was sampled before tick, so refresh it from the existing live owner on the production path.
+    auto contact_player = player;
+    bool contact_qualified = qualified && !character_scripted(local_player);
+    if (contact_qualified && local_player != invalid_actor_id && services_.actor_verbs.position_of &&
+        !services_.actor_verbs.position_of(local_player, contact_player, error)) {
+        contact_qualified = false;
+        std::cout << "[campaign] trigger position unavailable: " << error << '\n';
+    }
+    zones_.update(*runtime_, contact_player, contact_qualified, -1);
 }
 
 void CampaignHost::print_summary(std::ostream& out) const {

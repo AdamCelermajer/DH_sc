@@ -113,6 +113,10 @@ struct RuntimeDeathRewardServicesV1 {
 // the actor lifetime, so a retry cannot duplicate loot or XP.
 class RuntimeDeathRewardsV1 {
 public:
+    struct DeathNotice { ActorId target; ActorId attacker{invalid_actor_id}; };
+    bool consume_deaths(PlayableActorWorld&,const std::vector<DeathNotice>&,
+                        const RuntimeDeathRewardServicesV1&,
+                        std::vector<RuntimeDeathRewardOutcomeV1>&,std::string&);
     // P16 QUESTS: a quest XP reward through the same award path as kill XP (level-up included).
     bool award_experience(dh::foundation::PlayableActorWorld& world, dh::foundation::ActorId player,
                           std::int32_t xp, const RuntimeDeathRewardServicesV1& services, std::string& error);

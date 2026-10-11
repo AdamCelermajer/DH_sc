@@ -54,6 +54,7 @@
 #include "features/equipment/runtime_player_locomotion_library_v1.hpp"
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "../script-runtime/script_constants.hpp"
+#include "../level-world/character_kill.hpp"
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
 // P16 QUESTS: thin quest runtime and the generic quest event bus (raise_quest_event).
 #include "features/quest_runtime/quest_runtime_v1.hpp"
@@ -1114,9 +1115,12 @@ int main(int argc,char** argv) {
         // P16 OPENING: scripted actor clips (PlayActorAnim) are named clips of their actor's profile (or the local player's
         // visual config) before anything loads. Only under campaign triggers, which is the only player of these clips.
         std::map<std::string,std::vector<std::pair<std::string,std::string>>> scriptClipsByProfile; // P16 OPENING: profile id -> script clips
+        std::set<std::string> scriptControlledActors;
         if(options.campaignTriggers&&!options.campaignCommands.empty()&&!options.profiles.empty()) {
             f::OriginalCampaignRuntime clipScripts;
             if(!clipScripts.load(assets,options.campaignCommands,error))throw std::runtime_error("Actor clip scripts: "+error);
+            for(const auto& script:clipScripts.scripts())for(const auto& command:script.commands)if(command.kind==40||command.kind==44){
+                const auto actor=command.strings.find(command.kind==40?24:12);if(actor!=command.strings.end())scriptControlledActors.insert(actor->second);}
             const auto requests=f::campaign_host::collect_actor_clip_requests(clipScripts);
             if(!requests.empty()) {
                 std::vector<f::ActorDefinition> declared;
@@ -1362,6 +1366,7 @@ int main(int argc,char** argv) {
             auto customization=[&](const f::ActorDefinition&,const f::ActorProfile&) {
                 f::ActorCustomization c;c.allow_missing_animation_targets=true;
                 c.use_authored_modular_defaults=true;
+                c.include_static_instances=true; // B068: source VisualObject registers the whole model, including rigid glow meshes.
                 return c;
             };
             if(!population.load(assets,options.level.generic_string(),profiles,policy,customization,error,options.populationTemplates?&templateSelection:nullptr))throw std::runtime_error("Population: "+error);
@@ -1500,7 +1505,7 @@ int main(int argc,char** argv) {
                 const auto& id=placed.profileId;
                 const auto preset=placed.definition.properties.find("ai_state"),autoSpawn=placed.definition.properties.find("auto_spawn");
                 const bool scriptSpawnable=preset!=placed.definition.properties.end()&&(preset->second=="Limbus"||preset->second=="PreSpawn")&&autoSpawn!=placed.definition.properties.end()&&autoSpawn->second=="0";
-                if(!scriptSpawnable||!profiles.find(id))continue; // only declarations SpawnCharacter can reach
+                if((!scriptSpawnable&&!scriptControlledActors.count(placed.definition.name))||!profiles.find(id))continue;
                 // The combat policy is needed by every declared actor (the session admits only policy-bearing actors).
                 if(!derivedTablesLoaded) {
                     if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))throw std::runtime_error("Profile derivation tables: "+error);
@@ -1534,7 +1539,7 @@ int main(int argc,char** argv) {
             options.combat.playerVisualConfig=options.character;
             options.combat.selectedPlayerProfile=frontendStarted?&state:nullptr;
             if(populationStartupRandom){options.combat.initialRandomState=*populationStartupRandom;options.combat.diagnosticRngSeed.reset();}
-            for(auto& profile:options.combat.profiles)if(profile.first!=options.combat.playerProfileId)profile.second.customization.use_authored_modular_defaults=true;
+            for(auto& profile:options.combat.profiles)if(profile.first!=options.combat.playerProfileId){profile.second.customization.use_authored_modular_defaults=true;profile.second.customization.include_static_instances=true;}
             options.combat.profiles[options.combat.playerProfileId].propertyOptions.level_raw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
             f::ActorCustomization customization;customization.skin_id_contains=options.character.skin_id_contains;customization.allow_missing_animation_targets=options.character.allow_missing_animation_targets;
             customization.controller_ids=options.character.controller_ids;
@@ -1956,6 +1961,17 @@ int main(int argc,char** argv) {
             if(auto* actor=combatSession?combatSession->actor(id):nullptr) {
                 if(options.sourceNativeBodies) {if(!nativeBodies.set_position(id,position,true,e))return false;}
                 else actor->transform.position=position;
+                if(id==combatSession->player_id()) {
+                    // B068 (9): SetActorPosition on the local player (IDA Script_SetActorPosition: GameObject::SetPosition(waypoint, true) and
+                    // ForceUpdatePosition) also moves the movement owner, the camera anchor and the follow camera; before this the
+                    // player body moved but the per-frame movement owner put it back (the intro hero never reached its cage).
+                    options.actorPosition={position[0],position[1],position[2]};
+                    if(motor)motor->setPosition(options.actorPosition,actor->transform.rotation[2]);
+                    std::string anchorError;
+                    if(actorCameraAnchor.initialized())actorCameraAnchor.reset(actorCameraFrame(),anchorError);
+                    const auto anchorNow=actorCameraAnchor.initialized()?actorCameraAnchor.position():f::CameraVec3{position[0],position[1],position[2]};
+                    if(options.sourceCamera)originalCamera.reset(anchorNow,anchorError);
+                }
                 return true;
             }
             if(auto* placed=populationActor(id)) {placed->transform[12]=position[0];placed->transform[13]=position[1];placed->transform[14]=position[2];return true;}
@@ -1988,6 +2004,18 @@ int main(int argc,char** argv) {
             return false;
         };
         hostServices.actor_verbs.put_limbus=[&](f::ActorId id,std::string& e){return actorLifecycle.put_limbus(id,e);};
+        struct ScriptRoute {std::array<float,3> goal;bool ignore_collisions=false;};
+        std::map<f::ActorId,ScriptRoute> scriptRoutes;
+        std::function<bool(f::ActorId,std::array<float,3>,bool,std::string&)> scriptMoveHook;
+        std::function<bool(f::ActorId,std::string&)> scriptKillHook;
+        hostServices.actor_verbs.move_to=[&](f::ActorId id,std::array<float,3> goal,bool warp,bool ignore,std::string& e){
+            if(ignore&&options.sourceNativeBodies&&!nativeBodies.set_physical_filter_enabled(id,false,e))return false;
+            if(!combatSession->script_move_handoff(id,e))return false;
+            if(warp){scriptRoutes.erase(id);return hostServices.actor_verbs.teleport(id,goal,e);}
+            return scriptMoveHook?scriptMoveHook(id,goal,ignore,e):(e="Script movement navigator unavailable",false);
+        };
+        hostServices.actor_verbs.move_blocking=[&](f::ActorId id,bool& blocking,std::string&){blocking=scriptRoutes.count(id)!=0;return true;};
+        hostServices.actor_verbs.kill=[&](f::ActorId id,std::string& e){return scriptKillHook?scriptKillHook(id,e):(e="Script kill source services unavailable",false);};
         hostServices.actor_verbs.play_clip=[&](f::ActorId id,std::int32_t dictionary,std::int32_t& duration,std::string& e){
             std::string path;
             if(!cameraClipLibrary.dictionary_path(assets,dictionary,path,e))return false;
@@ -2016,6 +2044,7 @@ int main(int argc,char** argv) {
         };
         f::campaign_host::CampaignHost campaignHost(hostServices);
         bool globalControllerBlocked=false;
+        std::function<bool(f::ActorId,std::string&)> stopActorHook; // B068: Script_StopActor (Cmd_Stop) for enemy AI walkers; set when the enemy navigation is bound
         std::map<f::ActorId,bool> characterControllerBlocked;
         std::set<f::ActorId> characterControllerBlockedNoticeIds; // P16 FIX16: one log line per NPC without a session body
         f::CampaignCameraFrame lastSourceCameraFrame;
@@ -2213,6 +2242,8 @@ int main(int argc,char** argv) {
             f::OriginalCampaignWorldProviders providers;
             providers.named_character=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){return sourceObjects.named_character(name,module,id,found,e);};
             providers.global_controller_blocked=[&](bool blocked,std::string&){globalControllerBlocked=blocked;return true;};
+            // B068: Script_StopActor (IDA 0x45dd.. region, Cmd_Stop) ends an AI actor's walk: the route is dropped and the idle pose selected.
+            providers.stop_actor=[&](f::ActorId id,std::string& e){return stopActorHook?stopActorHook(id,e):true;};
             // P16 FIX16: only the player has a controller. Lock/Unlock on a named NPC with no live session body records the flag
             // (nothing else reads it for NPCs) and logs once, instead of aborting the cutscene.
             providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){
@@ -2290,7 +2321,7 @@ int main(int argc,char** argv) {
             animationServices.event=[&](f::ActorId id,const f::RetainedAnimationEvent& event,std::string& e){return actorLifecycle.animation_event(id,event.name,e);};
             animationServices.finished=[&](f::ActorId id,std::string& e){
                 if(!actorLifecycle.animation_finished(id,e))return false;
-                std::cout<<"Lifecycle whole sequence finished actor="<<id<<" state="<<actorLifecycle.status(id)->state<<'\n';return true;
+                std::cout<<"Lifecycle whole sequence finished actor="<<id<<" state="<<actorLifecycle.status(id)->state;if(const auto* liveA=combatSession->actor(id))std::cout<<" position="<<liveA->transform.position[0]<<','<<liveA->transform.position[1]<<','<<liveA->transform.position[2]<<" yaw="<<liveA->transform.rotation[2];std::cout<<'\n';return true;
             };
             f::OriginalLifecycleServices services;
             services.floor_height=[&](std::array<float,3> p,bool& found,float& height,std::string& e){
@@ -2336,7 +2367,7 @@ int main(int argc,char** argv) {
                 case f::OriginalLifecycleOperation::freeze_animation_speed:return combatSession->freeze_actor_state_animation(actor.id,e);
                 case f::OriginalLifecycleOperation::notify_state_changed:
                     if(!combatSession->set_actor_original_state(actor.id,request.state,e))return false;
-                    std::cout<<"Lifecycle state actor="<<actor.id<<" previous="<<request.previous_state<<" state="<<request.state<<" enabled="<<placed->enabled<<'\n';return true;
+                    std::cout<<"Lifecycle state actor="<<actor.id<<" previous="<<request.previous_state<<" state="<<request.state<<" enabled="<<placed->enabled;if(const auto* liveB=combatSession->actor(actor.id))std::cout<<" position="<<liveB->transform.position[0]<<','<<liveB->transform.position[1]<<','<<liveB->transform.position[2]<<" yaw="<<liveB->transform.rotation[2];std::cout<<'\n';return true;
                 case f::OriginalLifecycleOperation::select_state_animation: {
                     const auto policy=options.combat.profiles.find(placed->profileId);
                     if(policy==options.combat.profiles.end()){e="Source lifecycle profile unavailable";return false;}
@@ -2506,6 +2537,11 @@ int main(int argc,char** argv) {
         for(const auto& view:containerRuntime.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
             const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
+        // B068: scripted scene objects (the intro cage, PlayAnimByName targets) bind their original textures like containers; before this the cage
+        // bars and padlock drew as untextured flat grey in the hero close-up (reference video t~90.5).
+        for(const auto& view:sceneDecor.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
+            const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
+            for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);}
         bindMaterials();
         ambientDecor.bind_textures([&](const f::OriginalMaterial& m){return loadTexture(m.diffuse,m.alphaMap,false);}); // B076
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
@@ -2570,6 +2606,16 @@ int main(int argc,char** argv) {
         // P16 CINE: caption lines resolve their authored StrID through the same original localization owner.
         // P16 OPENING: caption text substitutes the source $player token with the character name (the reference shows the name).
         if(options.campaignTriggers) campaignHost.set_caption_auto_tap_ms(std::uint32_t(options.captionAutoTapMs>0?options.captionAutoTapMs:0));
+        if(options.campaignTriggers) { // B068: original dialogs tables (speaker names, DialogBox style variants); absent tables are logged, lines stay text-only
+            std::vector<f::cinematic_runner::DialogActorRow> dialogActors;std::map<std::int32_t,std::string> dialogStyles;std::string tableError;
+            try{
+                if(!f::cinematic_runner::decode_dialog_actors(f::read_content(assets,"data/pydata/dialogs_pyarray.bin"),dialogActors,tableError))std::cout<<"Dialog actors table: "<<tableError<<'\n';
+            }catch(const std::exception& ex){std::cout<<"Dialog actors table unavailable ("<<ex.what()<<"): speaker names are not shown\n";}
+            try{
+                if(!f::cinematic_runner::decode_dialog_styles(f::read_content(assets,"data/pydata/dialogs_pycst.bin"),dialogStyles,tableError))std::cout<<"Dialog styles table: "<<tableError<<'\n';
+            }catch(const std::exception& ex){std::cout<<"Dialog styles table unavailable ("<<ex.what()<<"): caption box uses the default variant\n";}
+            campaignHost.set_dialog_tables(std::move(dialogActors),std::move(dialogStyles));
+        }
         if(options.campaignTriggers) campaignHost.set_caption_text([&menuLocalization,&state](std::int32_t id,std::string& text,std::string& e){if(!menuLocalization.string_id(id,text,e))return false;for(auto at=text.find("$player");at!=std::string::npos;at=text.find("$player",at+state.name.size()))text.replace(at,7,state.name);return true;});
         f::CameraPose start;
         float extent=200;
@@ -3294,6 +3340,64 @@ int main(int argc,char** argv) {
                 f::quest_runtime::raise_quest_event(kill);
             }
         };
+        // Source Script_KillActor has a null attacker. Keep Character::Kill's
+        // actual gates and ordering; no DamageEvent or player credit is invented.
+        scriptKillHook=[&](f::ActorId id,std::string& e){
+            scriptRoutes.erase(id);
+            auto* actor=combatSession->actor(id);auto* world=combatSession->world();
+            if(!actor){e.clear();return true;}
+            const auto* live=world->combat_properties(id);const auto* traits=world->traits(id);
+            const auto identity=questActorIdentity.find(id);
+            if(!live||!traits||identity==questActorIdentity.end()){e="Script kill source actor/property identity unavailable";return false;}
+            auto sourceProperties=*live;dh2::data::PropertyRules rules;
+            if(!dh2::data::load_property_rules(properties.characters,rules,e))return false;
+            auto view=dh2::data::property_view(rules,sourceProperties.sheets);
+            dh2::character::KillActor56 sourceActor{};
+            sourceActor.identity=id;sourceActor.properties=&view;sourceActor.oid=-1;
+            sourceActor.property_id=std::int16_t(identity->second.first);sourceActor.template_id=std::int16_t(identity->second.second);
+            sourceActor.dead=!actor->alive();sourceActor.suppress_quest=spawnPool.owns(id);
+            dh2::character::KillLevel16 level{reinterpret_cast<std::uintptr_t>(rewardContext.get()),rewardContext->rewardsSuppressed?1u:0u,0};
+            dh2::character::KillWorld16 globals{};dh2::character::KillResult24 result{};
+            const auto constantsBytes=f::read_content(assets,"data/v2quests_pycst.bin");
+            const auto destroy=[](dh2_script_constants* p){dh2_script_constants_destroy(p);};
+            std::unique_ptr<dh2_script_constants,decltype(destroy)> constants(dh2_script_constants_create(),destroy);
+            dh2_script_constants_reload reload{};
+            if(!constants||dh2_script_constants_load(constants.get(),constantsBytes.data(),std::uint32_t(constantsBytes.size()),&reload)!=0){e="Script kill source constants unavailable";return false;}
+            std::function<int(const dh2::character::KillRequest56&,dh2::character::KillResponse16&)> dispatch;
+            dispatch=[&](const auto& q,auto& response)->int{
+                using namespace dh2::character;
+                switch(q.service){
+                case kill_is_dead:response.word=sourceActor.dead;return 0;
+                case kill_is_player:
+                    // Kill's property/dead prefix precedes DropLoot; commit to the SAME world.
+                    if(sourceActor.dead){actor->health=0;if(!world->update_combat_properties(id,sourceProperties,*traits,e))return -1;}
+                    response.word=traits->is_player;return 0;
+                case kill_current_level:response.pointer=reinterpret_cast<std::uintptr_t>(&level);return 0;
+                case kill_drop_loot:{
+                    std::vector<f::loot::RuntimeDeathRewardOutcomeV1> outcomes;
+                    if(!deathRewards.scripted_death(*combatSession,id,outcomes,e))return -1;
+                    for(const auto& outcome:outcomes)std::cout<<"Script kill reward victim="<<id<<" items="<<outcome.spawned_items<<" suppressed="<<outcome.rewards_suppressed<<'\n';
+                    return 0;}
+                case kill_is_remotely_updated:response.word=0;return 0; // this runtime is offline
+                case kill_constant:
+                    return dh2_script_constants_get(constants.get(),q.name,q.key,&response.word)==0?0:-1;
+                case kill_raise_async:{
+                    f::quest_runtime::QuestEvent event;event.kind=f::quest_runtime::QuestEvent::Kind::kill;
+                    event.objective_type=std::int32_t(q.event->type);event.property_id=identity->second.first;event.template_id=identity->second.second;
+                    if(!f::quest_runtime::raise_quest_event(event)){e="Script kill requires bound quest sink";return -1;}
+                    std::cout<<"Script kill quest victim="<<id<<" type="<<event.objective_type<<'\n';return 0;}
+                case kill_raise_event:
+                    if(q.argument==2)return combatSession->script_death_event(id,e)?0:-1;
+                    break;
+                default:break;
+                }
+                e="Unsupported ScriptKill required source service "+std::to_string(q.service);return -1;
+            };
+            const dh2::character::KillServices16 services{&dispatch,[](void* p,auto*,const auto* q,auto* r){return (*static_cast<decltype(dispatch)*>(p))(*q,*r);}};
+            const auto status=dh2_character_ctrl_kill(&result,&sourceActor,0,0,&globals,&services);
+            if(status!=1){if(e.empty())e="Script kill source dispatch failed phase="+std::to_string(result.phase);return false;}
+            std::cout<<"Script kill complete victim="<<id<<" deadPrefix="<<result.dead_written<<" events="<<result.events_raised<<'\n';return true;
+        };
         // P16 QUESTUI: NPC talk on the interact press edge: the nearest live actor whose CharacterTable row is a
         // TalkToNPC oid, within 200 units (CharacterDesign.OOI_Distance). Approximation of Character::Interact.
         const auto talkNearestNpc=[&]() {
@@ -3383,7 +3487,7 @@ int main(int argc,char** argv) {
         sourceEffectsCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
         f::platform_input::SemanticInput semanticInput;
-        std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false,enterHeld=false;
+        std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false,enterHeld=false,cinematicInputWasLocked=false,cinematicSpaceHeld=false;
         bool pauseMenuOpen=false,pauseConfirmation=false;
         // Preview 15 B049: the Stats confirmation box (see statConfirmYes/No below). Every menu close path
         // (Back, Escape, profile key, release actions) goes through the guard while points are staged.
@@ -3408,6 +3512,7 @@ int main(int argc,char** argv) {
         if(options.hud&&combatSession&&!pcHudText.load(assets.root()/"original-cache",error))throw std::runtime_error("PC HUD font: "+error);
         f::frontend::FrontendText cinematicText; // P16 CINE: caption and SKIP text (same frontend text owner as the PC HUD)
         std::string cinematicTextSignature;
+        double campaignFractionMs=0; // B068: retain 1/60-second fractions, like the source actor/camera clocks.
         if(options.campaignTriggers&&combatSession&&!cinematicText.load(assets.root()/"original-cache",error))throw std::runtime_error("Cinematic font: "+error);
         const auto updatePcHud=[&]() {
             pcHudReady=false;
@@ -3619,10 +3724,41 @@ int main(int argc,char** argv) {
             followServices.active=[&](){return !campaignHost.cutscene_mode();};
             auto followers=std::make_shared<f::companions::RuntimeFollowerControllerV1>(std::move(followServices));
             followerController=followers;
-            combatSession->set_actor_decision_provider([owner=enemyNavigation,controller=enemyController,followers](auto& session,double dt,std::string& error){
+            scriptMoveHook=[&](f::ActorId id,std::array<float,3> goal,bool ignore,std::string& e){
+                auto* actor=combatSession->actor(id);if(!actor){e="Script movement requires its live session actor";return false;}
+                scriptRoutes[id]={goal,ignore};
+                return enemyNavigation->move_to(*combatSession,*actor,goal,0,ignore,e);
+            };
+            auto updateScriptRoutes=[owner=enemyNavigation,&scriptRoutes](auto& session,std::string& error){
+                for(auto it=scriptRoutes.begin();it!=scriptRoutes.end();) {
+                    auto* actor=session.actor(it->first);
+                    if(!actor||!actor->alive()){it=scriptRoutes.erase(it);continue;}
+                    bool finished=false;if(!owner->route_finished(session,it->first,finished,error))return false;
+                    if(finished){if(!owner->stop(session,*actor,error))return false;it=scriptRoutes.erase(it);continue;}
+                    if(!owner->move_to(session,*actor,it->second.goal,0,it->second.ignore_collisions,error))return false;
+                    ++it;
+                }
+                return true;
+            };
+            combatSession->set_actor_decision_provider([controller=enemyController,followers,updateScriptRoutes,&globalControllerBlocked](auto& session,double dt,std::string& error){
+                // B068 (3): original CharAI::Update (pseudocode line 149489) returns before any target/aggro/generic decision while
+                // the controller is blocked (v2Controller::s_blocked, set by LockCharacter All). ScriptMoveActor remains an
+                // explicit source verb and keeps its route during the cutscene controller block.
+                if(globalControllerBlocked)return updateScriptRoutes(session,error);
                 if(!controller->update(session,dt,error))return false;
-                return followers->update(session,dt,error);
+                if(!followers->update(session,dt,error))return false;
+                // Script-owned movement is applied last so follower/monster AI cannot replace its destination this frame.
+                return updateScriptRoutes(session,error);
             });
+            stopActorHook=[&](f::ActorId id,std::string& e){
+                scriptRoutes.erase(id);
+                if(!combatSession||id==combatSession->player_id()||!enemyNavigation)return true;
+                auto* stopped=combatSession->actor(id);
+                if(!stopped||!stopped->alive())return true;
+                std::string stopError;
+                if(!enemyNavigation->stop(*combatSession,*stopped,stopError)){std::cout<<"[campaign] StopActor actor="<<id<<" not applied: "<<stopError<<'\n';}
+                return true; // actors without an enemy walk owner (NPCs, hidden spawns) have nothing to stop
+            };
             enemyNavigationWorld=sourceObstacles;
         };
         auto bindSourceContacts=[&](f::CombatSession& session,std::uint32_t dtMs,std::string& e) {
@@ -3937,7 +4073,21 @@ int main(int argc,char** argv) {
             if(!window.focused()){semanticInput.lose_focus();mouseHeld=false;}
             const std::array<int,15> uiKeys{'A','D','W','S',VK_SHIFT,VK_SPACE,VK_TAB,'E','C',VK_ESCAPE,'1','2','3','4','5'};
             const bool scheduledSpaceHeld=std::any_of(options.spaceKeyIntervals.begin(),options.spaceKeyIntervals.end(),[&](const auto& interval){return drawn>=interval.first&&drawn<interval.first+interval.second;});
-            for(int key:uiKeys)semanticInput.key(key,window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld));
+            // B068 (1)(2): while a scripted cutscene owns the screen (SKIP shown / cutscene mode, source HUD hidden by
+            // BeginScriptedCutScene) the gameplay HUD and keyboard are not reachable: no attack, skills, menus, pause or portrait
+            // click. Only SKIP and the caption tap respond (below). Original: the HUD flash is hidden and LockCharacter All runs.
+            const bool cinematicInputLocked=campaignHost.enabled()&&(campaignHost.cutscene_mode()||campaignHost.skip_visible());
+            if(cinematicInputLocked&&!cinematicInputWasLocked){semanticInput.lose_focus();mouseHeld=false;}
+            cinematicInputWasLocked=cinematicInputLocked;
+            if(cinematicInputLocked) {
+                // PC adaptation: Space (the attack/context button) taps a waiting caption on its press edge.
+                const bool spaceDown=window.focused()&&window.key_down(VK_SPACE);
+                if(spaceDown&&!cinematicSpaceHeld)campaignHost.caption_tap();
+                cinematicSpaceHeld=spaceDown;
+            } else {
+                cinematicSpaceHeld=false;
+                for(int key:uiKeys)semanticInput.key(key,window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld));
+            }
             float pointerX=0,pointerY=0;
             bool cursorKnown=window.cursor_position(pointerX,pointerY);
             bool down=cursorKnown&&window.key_down(VK_LBUTTON);
@@ -3947,7 +4097,15 @@ int main(int argc,char** argv) {
                 pointerX=(click.x+view.offset)*view.scale;pointerY=click.y*view.scale;
                 cursorKnown=true;down=drawn==click.frame;
             }
-            if(cursorKnown) {
+            if(cursorKnown&&cinematicInputLocked) {
+                // B068 (2): the SKIP hit test runs BEFORE the HUD sees the pointer; the HUD portrait sits under SKIP.
+                // The press is consumed here, so neither the portrait (character menu) nor the attack button gets it.
+                if(!down&&mouseHeld) {
+                    if(campaignHost.cinematic_skip_hit(pointerX,pointerY,float(window.width()),float(window.height())))campaignHost.press_skip();
+                    else campaignHost.caption_tap();
+                }
+                mouseHeld=down;
+            } else if(cursorKnown) {
                 if(down&&!mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::down,{pointerX,pointerY});
                 else if(!down&&mouseHeld) {
                     // P16 CINE: a release on the SKIP control of a running cutscene presses SKIP (ignored when hidden).
@@ -4250,12 +4408,15 @@ int main(int argc,char** argv) {
                 if(command.kind==8)std::cout<<"Source camera command frame="<<drawn<<" target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<'\n';
             }
             // P16 HOST: executor tick on the frame clock, then trigger contacts (only with --campaign-triggers).
-            if(campaignHost.enabled()&&combatSession) {
-                if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(std::int32_t(dt*1000.0),{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive());
+            const bool gameplayPaused=characterMenu.is_open()||pauseMenuOpen;
+            if(campaignHost.enabled()&&combatSession&&!gameplayPaused) {
+                const double elapsed=campaignFractionMs+dt*1000.0;
+                const auto wholeMs=std::int32_t(std::floor(elapsed));campaignFractionMs=elapsed-wholeMs;
+                if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(wholeMs,{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive(),player->id);
             }
             // D1 (OPENING3): Quest::Update runs every frame after the script executor, so a state whose script has
             // finished advances on the frame it ends (the Movement tutorial follows the Swamp intro, not the bind).
-            if(questRuntime&&options.campaignTriggers) {
+            if(questRuntime&&options.campaignTriggers&&!gameplayPaused) {
                 std::string questTickError;
                 if(!questRuntime->update(questTickError)) std::cerr<<"Quest update diagnostic: "<<questTickError<<'\n';
                 std::string questSaveError; // D3: transitions made here must reach the character CQPG (save and profile snapshots read it)
@@ -4385,7 +4546,6 @@ int main(int argc,char** argv) {
             }
             // Original offline GSFlashMenu updates its UI without recursing
             // into the underlying gameplay state. Keep device/UI clocks live.
-            const bool gameplayPaused=characterMenu.is_open()||pauseMenuOpen;
             const double gameplayDt=gameplayPaused?0.0:dt;
             if(gameplayPaused!=gameplayWasPaused)reportGameplayPause(gameplayPaused?"paused":"resumed");
             // B051: the Equipment avatar has its own idle clock. Opening a paused page restarts it
@@ -4632,7 +4792,7 @@ int main(int argc,char** argv) {
                 // Direction/target input still uses the preview admission policy.
                 gameplayInput.move2D={};gameplayInput.run=false;gameplayInput.targetSelect=false;
             }
-            if(!gameplayPaused&&motor&&(!combatSession||(combatSession->actor(combatSession->player_id())->alive()&&!combatSession->owns_pose(combatSession->player_id())))) {
+            if(!gameplayPaused&&motor&&(!combatSession||(combatSession->actor(combatSession->player_id())->alive()&&!combatSession->owns_pose(combatSession->player_id())&&!campaignHost.scripted_clip_pose(combatSession->player_id())))) { // B068: a scripted PlayActorAnim pose is not replaced by the locomotion selection
                 f::InputActions input;input.move2D=gameplayInput.move2D;input.run=gameplayInput.run;
                 if(playerControllerBlocked)input={};
                 auto basis=options.sourceCamera?originalCamera.movementBasis():f::cameraMovementBasis(freeCamera.pose());
@@ -5003,7 +5163,7 @@ int main(int argc,char** argv) {
             if(playerSourceBox&&!f::OriginalActorBounds::update_absolute(*playerSourceBox,options.actorPosition,error))throw std::runtime_error("Source body absolute bounds: "+error);
             if(options.sourceNativeBodies&&!sourcePhysicalFrameEnabled)for(const auto& entry:sourceBodyPlans){auto* actor=combatSession->actor(entry.first);if(!nativeBodies.set_position(entry.first,actor->transform.position,false,error))throw std::runtime_error("Native body position sync: "+error);}
             auto activeCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
-            if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=originalCamera.config().nearPlane;activeCamera.farPlane=originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
+            if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=campaignHost.camera_near_override()>0?campaignHost.camera_near_override():originalCamera.config().nearPlane;activeCamera.farPlane=campaignHost.camera_far_override()>0?campaignHost.camera_far_override():originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
@@ -5058,8 +5218,14 @@ int main(int argc,char** argv) {
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_prepare);
             if(levelPlayerLight.present){f::LevelPointLight light;light.enabled=true;light.position={options.actorPosition.x+levelPlayerLight.attachedOffset[0],options.actorPosition.y+levelPlayerLight.attachedOffset[1],options.actorPosition.z+levelPlayerLight.attachedOffset[2]};light.attenuation=levelPlayerLight.attenuation;light.ambient=levelPlayerLight.ambient;light.diffuse=levelPlayerLight.diffuse;renderer.setLevelLight(light);} // B076
             renderer.beginFrame(activeCamera);
-            auto actorWorld=f::identity();float angle=options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0),c=std::cos(angle),s=std::sin(angle);
-            actorWorld[0]=c*actorScale.x;actorWorld[1]=s*actorScale.x;actorWorld[4]=-s*actorScale.y;actorWorld[5]=c*actorScale.y;actorWorld[10]=actorScale.z;
+            // B068 (4)(9): scripted PlayActorAnim clips (cutscene "cs:" BDAEs) are authored in the world frame of the cutscene: the clip root
+            // carries absolute positions (Bip01 of the hero at the cage, the troll next to it) and the actors are placed at Waypoint_5 and
+            // turned to Waypoint_LookSpot (south) by the script, which is the identity orientation of those clips. The gameplay facing of
+            // this port (+x forward clips) is therefore turned a quarter turn for a scripted pose, and the unit scale is kept.
+            const bool heroScriptedPose=combatSession&&campaignHost.scripted_clip_pose(combatSession->player_id());
+            auto actorWorld=f::identity();float angle=(heroScriptedPose?combatSession->actor(combatSession->player_id())->transform.rotation[2]:(options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0)))+(heroScriptedPose?1.5707963f:0.f),c=std::cos(angle),s=std::sin(angle);
+            const f::Vec3 drawScale=heroScriptedPose?f::Vec3{1,1,1}:actorScale;
+            actorWorld[0]=c*drawScale.x;actorWorld[1]=s*drawScale.x;actorWorld[4]=-s*drawScale.y;actorWorld[5]=c*drawScale.y;actorWorld[10]=drawScale.z;
             actorWorld[12]=options.actorPosition.x;actorWorld[13]=options.actorPosition.y;actorWorld[14]=options.actorPosition.z;
             f::RenderQueue queue;
             scene.mesh.staticGeometry=true; // B066: level geometry never changes after load (GPU buffers, range caches, frustum culling)
@@ -5083,8 +5249,13 @@ int main(int argc,char** argv) {
                 auto placement=actor.transform;
                 if(const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr) {
                     const float sx=std::hypot(placement[0],placement[1]),sy=std::hypot(placement[4],placement[5]);
-                    const float yaw=live->transform.rotation[2];placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
+                    const float yaw=live->transform.rotation[2]+(campaignHost.scripted_clip_pose(actor.definition.stableId)?1.5707963f:0.f);placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
                     placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];
+                } else if(campaignHost.scripted_clip_pose(actor.definition.stableId)) {
+                    // B068 (10): a population-only actor (no session body, e.g. the intro prisoner) holding a scripted cutscene clip is turned the same quarter
+                    // turn as the session actors above, otherwise its absolute clip root lies in the wrong frame.
+                    const float sx=std::hypot(placement[0],placement[1]),sy=std::hypot(placement[4],placement[5]);
+                    const float yaw=std::atan2(placement[1],placement[0])+1.5707963f;placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
                 }
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
             }
@@ -5180,8 +5351,11 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         field.source_height=item.height; field.rgba=item.rgba; field.align=item.align; field.margins={2,2,0}; field.leading=0;
                         field.matrix={xScale,0,0,1,0,0};
                         const float left=(item.x+view.offset)*xScale; // FrontendText maps left*width/480 back to window pixels
-                        field.local_bounds={left,left+item.w*xScale,item.y,item.y+item.h};
-                        field.bounds=field.local_bounds;
+                        // B068: text layout works in field-local coordinates (see pc_gameplay_hud_v1 append_key_label): a global left shifts centred text
+                        // left by about half its origin (captions sat ~8% left of the plate centre, the video centres them).
+                        field.local_bounds={0,item.w,0,item.h};
+                        field.matrix={xScale,0,0,1,left,item.y};
+                        field.bounds={left,left+item.w*xScale,item.y,item.y+item.h};
                         field.initial_text=item.text;
                         cinArt.text_fields.push_back(field);
                         cinSignature+=':'+item.text;
@@ -5755,3 +5929,4 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
         }
     } catch(const std::exception& e) {std::cerr<<"Foundation error: "<<e.what()<<'\n';return 1;}
 }
+

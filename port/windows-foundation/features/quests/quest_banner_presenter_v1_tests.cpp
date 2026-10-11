@@ -62,8 +62,8 @@ int main() {
         // Queue: counters are not shown; a completion is shown and carries its reward slots.
         QuestBannerPresenterV1 presenter;
         presenter.push(nq);
-        presenter.tick(3.1f);
-        check(!presenter.visible(), "NEW QUEST ends after 3 seconds");
+        presenter.tick(2.1f);
+        check(!presenter.visible(), "NEW QUEST ends after 2 seconds (reference video 174.5-176.5 s)");
         presenter.push(counter);
         check(!presenter.visible(), "counter is not shown");
         presenter.push(done);
@@ -79,7 +79,7 @@ int main() {
 
         // Fade over the last half second.
         presenter.push(nq);
-        presenter.tick(2.75f);
+        presenter.tick(1.75f);
         check(presenter.current().alpha < 1.0f && presenter.current().alpha > 0.0f, "banner fades before it ends");
         std::printf("quest_banner_presenter_v1: all tests passed\n");
         return 0;

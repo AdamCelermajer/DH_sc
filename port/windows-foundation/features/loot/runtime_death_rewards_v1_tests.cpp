@@ -310,7 +310,7 @@ int main(int argc,char** argv){try{
     for(const auto& rendered:live_drops)previous_last_id=std::max(previous_last_id,rendered.identity);
     loot_rng={chosen_seed,0};
     RuntimeDeathRewardsV1 zero_bonus_runtime;
-    check(zero_bonus_runtime.consume_events(world,{no_killer_death},services,results,error),error);
+    check(zero_bonus_runtime.consume_deaths(world,{{no_killer_death.target,invalid_actor_id}},services,results,error),error);
     check(results.size()==1&&results[0].gold_bonus_source==RuntimeGoldValueBonusSourceV1::absent_killer_zero_baseline&&
           results[0].diagnostic==RuntimeDeathRewardDiagnosticV1::none,
           "absent/deleted killer did not use the verified source 0/0 bonus baseline");

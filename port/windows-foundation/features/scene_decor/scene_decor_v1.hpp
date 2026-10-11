@@ -21,7 +21,7 @@ namespace dh::foundation::scene_decor {
 
 struct SceneDecorView {
     std::string name;
-    const CharacterVisual* visual = nullptr;
+    CharacterVisual* visual = nullptr; // B068: non-const so the frame owner can bind the original textures (as for containers)
     Mat4 transform{};
 };
 

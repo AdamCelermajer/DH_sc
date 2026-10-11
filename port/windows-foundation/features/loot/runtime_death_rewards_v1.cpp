@@ -332,6 +332,13 @@ bool RuntimeDeathRewardsV1::consume_events(dh::foundation::PlayableActorWorld& w
     const std::vector<dh::foundation::DamageEvent>& events,
     const RuntimeDeathRewardServicesV1& services,
     std::vector<RuntimeDeathRewardOutcomeV1>& outcomes, std::string& error) {
+    std::vector<DeathNotice> deaths;
+    for(const auto& event:events)if(event.applied&&event.target_died)deaths.push_back({event.target,event.attacker});
+    return consume_deaths(world,deaths,services,outcomes,error);
+}
+bool RuntimeDeathRewardsV1::consume_deaths(PlayableActorWorld& world,
+    const std::vector<DeathNotice>& events,const RuntimeDeathRewardServicesV1& services,
+    std::vector<RuntimeDeathRewardOutcomeV1>& outcomes,std::string& error) {
     outcomes.clear(); error.clear();
     const bool suppressed = services.admission.rewards_suppressed;
     if (!services.resolve_character || (!suppressed &&
@@ -340,7 +347,6 @@ bool RuntimeDeathRewardsV1::consume_events(dh::foundation::PlayableActorWorld& w
          services.max_level <= 0)))
         return fail(error, "Incomplete original death reward data providers");
     for (const auto& event : events) {
-        if (!event.applied || !event.target_died) continue;
         auto* victim = world.find_actor(event.target);
         if (!victim || victim->alive()) return fail(error, "Death event victim is absent or no longer dead");
         const auto* victim_traits = world.traits(event.target);

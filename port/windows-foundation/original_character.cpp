@@ -53,6 +53,7 @@ struct CharacterVisual::Impl {
     bool dynamic_channels=false;
     std::vector<AnimationMarkers> marker_tracks;
     std::int32_t motion_node=-1;
+    bool absolute_root=false; // B068: scripted cutscene clip, root translation is not cancelled
     std::vector<std::array<float,3>> motion_starts,motion_ends;
     std::array<float,3> motion_previous{};
     Vec3 motion_delta{};
@@ -107,7 +108,7 @@ struct CharacterVisual::Impl {
                 // Original object _colbox_ groups supply physical bounds, not
                 // visible model geometry. Retain their graph for source sampling.
                 // Existing actor configurations keep their established policy.
-                if(object_scene){
+                { // B068: VisualObject ctor 0x472a0c hides `_colbox_` for characters as well as decor.
                     auto node=static_cast<std::int32_t>(instance.node_index);bool collider=false;
                     while(node>=0){const auto& source=scene.graph.at(node);
                         const auto& name=source.name.empty()?source.id:source.name;
@@ -410,7 +411,7 @@ bool CharacterVisual::update(double seconds,std::string& error) {
         }
         state.motion_delta={delta[0],delta[1],delta[2]};
         std::copy(node.translation,node.translation+3,state.motion_previous.begin());
-        if(state.config.consume_root_motion && !samePose) {
+        if(state.config.consume_root_motion && !state.absolute_root && !samePose) {
             // Original VisualObject helper parent cancels the animated root's XYZ.
             Mat4 compensation{1,0,0,0,0,1,0,0,0,0,1,0,-node.translation[0],-node.translation[1],-node.translation[2],1};
             for(auto& sceneNode:state.scene.graph)sceneNode.world=dh2::scene::multiply(compensation,sceneNode.world);
@@ -513,6 +514,7 @@ bool CharacterVisual::socket_world(const std::string& name,const Mat4& offset,Ma
 }
 Vec3 CharacterVisual::root_motion_delta() const {return impl_ ? impl_->motion_delta : Vec3{};}
 Vec3 CharacterVisual::take_root_motion() {const auto delta=root_motion_delta();if(impl_)impl_->motion_delta={};return delta;}
+void CharacterVisual::set_absolute_root(bool absolute) noexcept {if(impl_)impl_->absolute_root=absolute;}
 const char* CharacterVisual::root_motion_node_id() const {return impl_ && impl_->motion_node>=0 ? impl_->scene.graph[impl_->motion_node].id.c_str() : "";}
 Vec3 CharacterVisual::root_motion_rest_origin() const {return impl_ ? impl_->motion_rest_origin : Vec3{};}
 const char* CharacterVisual::source_motion_root_name(bool characterOnly) const {
@@ -561,7 +563,7 @@ bool CharacterVisual::sample_local_pose(const std::string& name,std::int32_t tim
 bool CharacterVisual::apply_local_pose(const SkeletalPose& pose,std::string& error) {
     if(!loaded()) {error="Actor visual not loaded";return false;}
     auto candidate=impl_->scene;if(!apply_scene_pose(pose,candidate,error))return false;
-    if(impl_->config.consume_root_motion && impl_->motion_node>=0) {
+    if(impl_->config.consume_root_motion && !impl_->absolute_root && impl_->motion_node>=0) {
         const auto* root=candidate.graph[impl_->motion_node].translation;
         Mat4 helper{1,0,0,0,0,1,0,0,0,0,1,0,-root[0],-root[1],-root[2],1};
         for(auto& node:candidate.graph)node.world=dh2::scene::multiply(helper,node.world);
