@@ -36,6 +36,7 @@ struct Options {
     std::uint64_t frames = 0;
     std::int32_t level_row = -1;
     bool movement_attack_scenario = false;
+    bool movement_kill_scenario = false;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
 };
@@ -72,6 +73,8 @@ Options parse(int argc, char** argv) {
         else if (arg == "--scenario") {
             const auto scenario = value("--scenario");
             if (scenario == "move-attack") options.movement_attack_scenario = true;
+            else if (scenario == "move-kill")
+                options.movement_attack_scenario = options.movement_kill_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -210,7 +213,14 @@ bool steer_toward_nearest_enemy() {
               << ',' << pose.enemy_position[1] << ',' << pose.enemy_position[2] << '\n';
     if (route.query_status != 0 || !route.path_found || route.waypoints.empty())
         throw std::runtime_error("Selected-floor route is unavailable; refusing direct steering fallback");
-    const auto& waypoint = route.waypoints.front();
+    // Skip waypoints the player already stands on; otherwise steering stalls
+    // at the route's first node.
+    std::size_t next = 0;
+    while (next + 1 < route.waypoints.size() &&
+           std::hypot(route.waypoints[next][0] - pose.player_position[0],
+                      route.waypoints[next][1] - pose.player_position[1]) <= 48.0f)
+        ++next;
+    const auto& waypoint = route.waypoints[next];
     const float dx = waypoint[0] - pose.player_position[0];
     const float dy = waypoint[1] - pose.player_position[1];
     const float distance = std::hypot(dx, dy);
@@ -673,6 +683,7 @@ int main(int argc, char** argv) {
         std::int32_t scenario_target_initial_hp = 0;
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
+        unsigned scenario_kills = 0;
         std::uint64_t fixed_attack_frame = 0;
         std::uint64_t fixed_next_attack_frame = 0;
         std::uint64_t fixed_target_dead_frame = 0;
@@ -817,7 +828,34 @@ int main(int argc, char** argv) {
             }
             return_to_authored_menu();
             sync_text_input();
-            if (options.movement_attack_scenario && scenario_started && !scenario_attack_sent) {
+            // move-kill: steer to the nearest enemy and keep attacking it through the
+            // normal player_attack() route until its source HP reaches zero.
+            if (options.movement_kill_scenario && scenario_started &&
+                rendered_frames && rendered_frames % 15 == 0) {
+                model_renderer::GameplayPoseSnapshotV1 pose;
+                if (!model_renderer::gameplay_pose_snapshot(pose, ui_error))
+                    throw std::runtime_error("Shared attack pose snapshot failed: " + ui_error);
+                if (scenario_target_index >= 0) {
+                    model_renderer::GameplayEnemyStateSnapshotV1 target;
+                    if (model_renderer::gameplay_enemy_state_snapshot(scenario_target_index, target, ui_error) &&
+                        (target.dead || target.hp <= 0)) {
+                        std::cout << "Scenario kill verified | " << target.name << " HP " << target.hp
+                                  << '/' << target.max_hp << " dead " << target.dead << '\n';
+                        ++scenario_kills;scenario_target_index = -1;
+                    }
+                }
+                if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
+                    keys.fill(false);update_movement(keys);model_renderer::stop_movement();
+                    scenario_target_index = pose.enemy_index;
+                    const auto attack = model_renderer::player_attack();
+                    std::cout << "Scenario attack | enemy " << pose.enemy_index << " HP " << pose.enemy_hp
+                              << '/' << pose.enemy_max_hp << " | " << attack << '\n';
+                } else if (pose.enemy_index >= 0) {
+                    steer_toward_nearest_enemy();
+                }
+            }
+            if (options.movement_attack_scenario && !options.movement_kill_scenario &&
+                scenario_started && !scenario_attack_sent) {
                 if (rendered_frames >= options.frames / 2) {
                     keys.fill(false);
                     update_movement(keys);
@@ -1120,7 +1158,11 @@ int main(int argc, char** argv) {
             if (fixed_attack_count == 0 || !fixed_target_identity)
                 throw std::runtime_error("fixed-cultist07-kill completed without a verified normal attack");
         }
-        if ((options.movement_attack_scenario || options.fixed_cultist_scenario) && gameplay) {
+        if (options.movement_kill_scenario && gameplay) {
+            if (!scenario_kills)
+                throw std::runtime_error("move-kill reached its frame bound without a verified enemy death");
+            std::cout << "Scenario move-kill complete | verified kills " << scenario_kills << '\n';
+        } else if ((options.movement_attack_scenario || options.fixed_cultist_scenario) && gameplay) {
             if (!scenario_attack_sent) {
                 if (options.fixed_cultist_scenario) {
                     model_renderer::GameplayPoseSnapshotV1 pose;

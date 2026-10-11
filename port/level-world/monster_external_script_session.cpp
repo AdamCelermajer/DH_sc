@@ -872,7 +872,7 @@ Status Session::dispatch(Event event, std::uintptr_t enemy, std::string& error) 
     }
     if (status != 0) {
         ++impl_->failed;
-        impl_->faulted = true;
+        // LuaScript::Call reports a runtime error and the VM stays usable.
         error = dh2_script_vm_error(impl_->vm);
         return Status::script_error;
     }
@@ -910,7 +910,7 @@ Status Session::dispatch_combat_result(Event event, std::uintptr_t attacker,
     impl_->object_table_arguments += 2;
     if (status != 0) {
         ++impl_->failed;
-        impl_->faulted = true;
+        // LuaScript::Call reports a runtime error and the VM stays usable.
         error = dh2_script_vm_error(impl_->vm);
         return Status::script_error;
     }
@@ -939,7 +939,7 @@ Status Session::dispatch_animation_event(const char* event_name,
         impl_->vm, impl_->aliases, "OnAnimEvent", arguments, 2);
     if (status != 0) {
         ++impl_->failed;
-        impl_->faulted = true;
+        // LuaScript::Call reports a runtime error and the VM stays usable.
         error = dh2_script_vm_error(impl_->vm);
         if (error.empty()) error = "AISDefault OnAnimEvent Lua callback failed";
         return Status::script_error;
@@ -1072,7 +1072,7 @@ Status Session::call_state(const CurrentState* projection, bool conditions, std:
         error = "nonnull source state has a null callback name"; return Status::invalid_source_fact;
     }
     if (status != ais_state_callbacks::Status::complete) {
-        ++impl_->failed; impl_->faulted = true; error = dh2_script_vm_error(impl_->vm);
+        ++impl_->failed; // runtime error; VM stays usable error = dh2_script_vm_error(impl_->vm);
         return Status::script_error;
     }
     if (result.called) ++impl_->completed;

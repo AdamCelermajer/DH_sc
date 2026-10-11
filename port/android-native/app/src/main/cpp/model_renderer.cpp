@@ -25882,7 +25882,13 @@ bool combat_actor(ObjectActor& actor,combat_dispatch::Actor& output,std::string&
  if(!active)return true; // CharAI's source virtual call is a no-op without active AIS.
  const auto& owner=actor.native_ai->initialization;
  if(!owner||!owner->initialized||!owner->vm.ready()||owner->lifecycle.active!=active||
-    owner->ais.identity!=active){error="active Monster AIS has no matching retained combat VM/VCB";return false;}
+    owner->ais.identity!=active){
+  error=std::string("active Monster AIS has no matching retained combat VM/VCB (")+actor.name+": "+
+      (!owner?"no initialization owner":!owner->initialized?"not initialized":
+       !owner->vm.ready()?"VM not ready":owner->lifecycle.active!=active?"lifecycle active differs":
+       "AIS identity differs")+")";
+  return false;
+ }
  output.ais=active;output.flags_b8=&owner->ais.flags_b8;return true;
 }
 std::int32_t dispatch_native_combat_callback(void* raw,std::uintptr_t ais,
