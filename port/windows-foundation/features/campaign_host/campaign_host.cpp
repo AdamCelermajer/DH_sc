@@ -1,6 +1,7 @@
 #include "campaign_host.hpp"
 #include <algorithm>
 #include <cctype>
+#include <fstream>
 #include <iostream>
 #include <stdexcept>
 
@@ -49,6 +50,50 @@ void UnsupportedLog::print_summary(std::ostream& out) const {
 }
 
 CampaignHost::CampaignHost(CampaignHostServices services) : services_(std::move(services)) {}
+
+// B070: tutorial-enabled bytes (IDA SavegameManager::__loadTutorials/__saveTutorials: 14 bytes, 1 = still enabled).
+// File: "DH2TUT1\n" + 14 bytes. A missing or malformed file means the defaults (all enabled).
+namespace { constexpr char tutorial_magic[] = "DH2TUT1\n"; constexpr std::size_t tutorial_count = 14; }
+
+void CampaignHost::load_tutorial_settings() {
+    if (tutorials_loaded_) return;
+    tutorials_loaded_ = true;
+    if (services_.tutorial_settings_path.empty()) return;
+    std::ifstream in(services_.tutorial_settings_path, std::ios::binary);
+    if (!in) return;
+    char magic[sizeof(tutorial_magic) - 1] = {};
+    unsigned char bytes[tutorial_count] = {};
+    in.read(magic, sizeof(magic));
+    in.read(reinterpret_cast<char*>(bytes), sizeof(bytes));
+    if (!in || std::string(magic, sizeof(magic)) != std::string(tutorial_magic)) {
+        std::cout << "[campaign] tutorial settings file is malformed; defaults used\n";
+        return;
+    }
+    for (std::size_t i = 0; i < tutorial_count; ++i) if (bytes[i] == 0) consumed_tutorials_.insert(static_cast<int>(i));
+    std::cout << "[campaign] tutorial settings loaded: " << consumed_tutorials_.size() << " consumed\n";
+}
+
+bool CampaignHost::save_tutorial_settings(std::string& error) {
+    if (services_.tutorial_settings_path.empty()) return true;
+    unsigned char bytes[tutorial_count];
+    for (std::size_t i = 0; i < tutorial_count; ++i) bytes[i] = consumed_tutorials_.count(static_cast<int>(i)) ? 0 : 1;
+    auto tmp = services_.tutorial_settings_path;
+    tmp += ".tmp";
+    {
+        std::ofstream out(tmp, std::ios::binary | std::ios::trunc);
+        out.write(tutorial_magic, sizeof(tutorial_magic) - 1);
+        out.write(reinterpret_cast<const char*>(bytes), sizeof(bytes));
+        if (!out) { error = "Tutorial settings write failed: " + tmp.generic_string(); return false; }
+    }
+    std::error_code ec;
+    std::filesystem::rename(tmp, services_.tutorial_settings_path, ec);
+    if (ec) { // rename over an existing file can fail on some platforms
+        std::filesystem::remove(services_.tutorial_settings_path, ec);
+        std::filesystem::rename(tmp, services_.tutorial_settings_path, ec);
+        if (ec) { error = "Tutorial settings replace failed: " + ec.message(); return false; }
+    }
+    return true;
+}
 
 void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
     // Controller locks: main's lambdas keep writing globalControllerBlocked and characterControllerBlocked.
@@ -186,19 +231,24 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
     if (!p.tutorial_gate) p.tutorial_gate = [this](int id, OriginalTutorialGate& gate, std::string&) {
         gate.player_available = true;
         gate.online = false;
+        load_tutorial_settings();
         gate.enabled = services_.tutorials_enabled && consumed_tutorials_.count(id) == 0;
         gate.difficulty = services_.difficulty;
         gate.settings_menu_open = false;
         return true;
     };
-    if (!p.consume_tutorial) p.consume_tutorial = [this](int id, std::string&) {
+    if (!p.consume_tutorial) p.consume_tutorial = [this](int id, std::string& e) {
+        load_tutorial_settings();
         consumed_tutorials_.insert(id);
-        unsupported_.note("stub tutorial flag persistence (session only; save schema v4 pending)");
-        return true;
+        if (services_.tutorial_settings_path.empty()) {
+            unsupported_.note("stub tutorial flag persistence (session only; no settings path bound)");
+            return true;
+        }
+        return save_tutorial_settings(e); // original: DoTutorial/LockTutorial clear the byte, then saveSettings
     };
-    if (!p.save_tutorial_settings) p.save_tutorial_settings = [this](bool, std::string&) {
-        unsupported_.note("stub tutorial settings save (nothing written)");
-        return true;
+    if (!p.save_tutorial_settings) p.save_tutorial_settings = [this](bool, std::string& e) {
+        if (services_.tutorial_settings_path.empty()) { unsupported_.note("stub tutorial settings save (nothing written)"); return true; }
+        return save_tutorial_settings(e);
     };
     // P16 OPENING: any other selector is a source character NAME (GetObjectByName, as Script_CharacterState_Callback
     // resolves it): one actor when the level declares it, none (a no-op) when it does not.

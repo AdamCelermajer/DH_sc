@@ -1,5 +1,7 @@
 // P16 HOST provider contract tests. Argument: directory containing the campaign original-campaign.xml.
 // Uses the real extracted Swamp script bank through the same executor path as the live host.
+#include <filesystem>
+#include <fstream>
 #include "campaign_host.hpp"
 #include "../../campaign_camera_adapter.hpp"
 #include "../../original_actor_lifecycle.hpp"
@@ -32,7 +34,7 @@ struct Rig {
     std::unique_ptr<OriginalCampaignWorldAdapter> world;
     std::unique_ptr<CampaignHost> host;
 
-    explicit Rig(const std::string& campaignDirectory) {
+    explicit Rig(const std::string& campaignDirectory, const std::filesystem::path& tutorialSettings = {}) {
         assetCatalog = std::make_unique<AssetCatalog>(campaignDirectory);
         std::string error;
         check(runtime.load(*assetCatalog, "original-campaign.xml", error), "campaign load: " + error);
@@ -58,6 +60,7 @@ struct Rig {
         check(camera.seed_target(1, error), "camera seed: " + error);
 
         CampaignHostServices services;
+        services.tutorial_settings_path = tutorialSettings; // B070
         services.all_actors = [](std::vector<ActorId>& out, std::string&) { out = {1, 101, 102}; return true; };
         services.actor_state = [this](ActorId id, bool& alive, std::int32_t& state, std::string&) {
             alive = true;
@@ -296,6 +299,44 @@ void do_tutorial_starts_named_script(const std::string& directory) {
     check(!rig.host->cinematic().active() && !rig.globalBlocked, "tutorial leaves no cutscene flags behind");
 }
 
+// B070: the one-shot tutorial flag is stored in the settings file: a second session (relaunch, save/load, new
+// character) does not replay the tutorial; deleting the file restores the default (all enabled); a malformed file
+// means defaults.
+void tutorial_is_one_shot_across_sessions(const std::string& directory) {
+    const auto file = std::filesystem::temp_directory_path() / "dh_b070_tutorials.bin";
+    std::filesystem::remove(file);
+    std::string error;
+    const auto run = [&](bool& started) {
+        Rig rig(directory, file);
+        rig.host->set_caption_text([](std::int32_t id, std::string& t, std::string&) { t = "line " + std::to_string(id); return true; });
+        rig.host->set_caption_auto_tap_ms(300);
+        const int movement = rig.runtime.script_id("Movement_Tuto", false);
+        const int movement2 = rig.runtime.script_id("Movement_Tuto2", false);
+        check(rig.runtime.start(movement, -1, false, error), error);
+        started = false;
+        for (int i = 0; i < 4000 && rig.host->aborts() == 0; ++i) {
+            rig.step(10);
+            if (rig.runtime.running(movement2)) started = true;
+            if (started && !rig.runtime.running(movement2)) break;
+            if (!started && !rig.runtime.running(movement)) break;
+        }
+        check(rig.host->aborts() == 0, "tutorial run must not abort");
+    };
+    bool started = false;
+    run(started);
+    check(started, "first session shows the Movement tutorial");
+    check(std::filesystem::exists(file), "consuming the tutorial writes the settings file");
+    run(started);
+    check(!started, "second session must not replay the consumed tutorial");
+    std::filesystem::remove(file); // fresh settings = defaults, all enabled
+    run(started);
+    check(started, "default settings enable the tutorial again");
+    { std::ofstream bad(file, std::ios::binary | std::ios::trunc); bad << "garbage"; }
+    run(started);
+    check(started, "a malformed settings file means defaults");
+    std::filesystem::remove(file);
+}
+
 // Without a resolver the line is an explicit marker, listed as unresolved, and the script still finishes.
 void unresolved_caption_is_explicit(const std::string& directory) {
     Rig rig(directory);
@@ -423,6 +464,7 @@ int main(int argc, char** argv) {
         captions_block_then_release(argv[1]);
         unresolved_caption_is_explicit(argv[1]);
         do_tutorial_starts_named_script(argv[1]);
+        tutorial_is_one_shot_across_sessions(argv[1]);
         unsupported_commands_named(argv[1]);
         camera_clip_blocks_then_releases(argv[1]);
         actor_clip_manifest_collects_script_clips(argv[1]);

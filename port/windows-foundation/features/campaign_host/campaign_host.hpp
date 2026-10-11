@@ -19,6 +19,7 @@
 #include "../../playable_actor_world.hpp" // D3 (OPENING3): campaign lifecycle component
 #include <array>
 #include <cstdint>
+#include <filesystem>
 #include <functional>
 #include <iosfwd>
 #include <memory>
@@ -73,6 +74,10 @@ struct CampaignHostServices {
     std::function<bool(ActorId,std::int32_t state,std::string&)> set_actor_state;
     std::int32_t difficulty=0;           // source Normal
     bool tutorials_enabled=true;         // offline normal-difficulty tutorial policy
+    // B070: the original keeps the 14 tutorial-enabled bytes in the GLOBAL settings file (SavegameManager +0x29,
+    // all 1 by _initSettings; DoTutorial/LockTutorial clear one and save the settings), not in a per-character save.
+    // Empty path = session only (tests, no settings location).
+    std::filesystem::path tutorial_settings_path;
     // P16 CINE2: resolves a PlayCamera dictionary id to clip bytes, the level camera scene bytes and the path
     // (main binds CameraClipLibrary).
     std::function<bool(std::int32_t,std::vector<std::uint8_t>&,std::vector<std::uint8_t>&,std::string&,std::string&)> read_camera_clip;
@@ -176,6 +181,9 @@ private:
     std::set<ActorId> character_blocked_;
     std::set<ActorId> scripted_;
     std::set<int> consumed_tutorials_;
+    bool tutorials_loaded_=false;
+    void load_tutorial_settings();           // B070: reads consumed_tutorials_ from services_.tutorial_settings_path
+    bool save_tutorial_settings(std::string&); // B070: writes it back (atomic replace)
     cinematic_runner::CinematicRunner cinematic_; // P16 CINE
     std::function<bool(std::int32_t,std::string&,std::string&)> caption_text_; // P16 CINE
     OriginalCameraClip clip_;                     // P16 CINE2: PlayCamera owner (one clip at a time, as CameraLevel)
