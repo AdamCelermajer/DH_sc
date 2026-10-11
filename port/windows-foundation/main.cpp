@@ -5481,6 +5481,7 @@ int main(int argc,char** argv) {
             float pointerX=0,pointerY=0;
             bool cursorKnown=window.cursor_position(pointerX,pointerY);
             bool down=cursorKnown&&window.key_down(VK_LBUTTON);
+            if(std::getenv("DH_CLICK_DEBUG")&&(down||mouseHeld))std::cout<<"B095dbg frame="<<drawn<<" down="<<down<<" held="<<mouseHeld<<" focused="<<window.focused()<<" at "<<pointerX<<','<<pointerY<<" menu="<<characterMenu.is_open()<<'\n';
             // SKIP16: verification click (authored point mapped like the PC HUD draw) goes through this same cursor branch.
             for(const auto& click:options.campaignClicks) if(drawn==click.frame||drawn==click.frame+1) {
                 const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
@@ -5591,6 +5592,7 @@ int main(int argc,char** argv) {
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
                     characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    if(std::getenv("DH_CLICK_DEBUG"))std::cout<<"B095dbg click action="<<int(action)<<" page="<<(runtimeEquipmentPage?1:0)<<" err="<<error<<'\n';
                     // B095: every tab onRelease runs NativePopAllAbove(menu_CharacterMenu) then pushes its sheet (authored-actions 0000e9a3-e9c3),
                     // so a tab click, also on the already active bag tab, pops the per-slot Details page back to the global Equipment page.
                     if(runtimeEquipmentPage&&(action==f::character_menu::Action::stats||action==f::character_menu::Action::equipment||action==f::character_menu::Action::skills||
