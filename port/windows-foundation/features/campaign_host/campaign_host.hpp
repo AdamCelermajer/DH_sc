@@ -52,6 +52,9 @@ struct ActorVerbServices {
     std::function<bool(ActorId,std::array<float,3> position,std::string& e)> teleport;
     std::function<bool(ActorId,std::array<float,3> target,std::string& e)> face;
     std::function<bool(ActorId,bool visible,std::string& e)> set_visible;
+    std::function<bool(ActorId,std::array<float,3>,bool warp,bool ignore_collisions,std::string&)> move_to;
+    std::function<bool(ActorId,bool& blocking,std::string&)> move_blocking;
+    std::function<bool(ActorId,std::string&)> kill;
     std::function<bool(ActorId,std::string& e)> put_limbus;
     // Plays the animations_dictionary clip on the actor (no loop). duration_ms = authored clip range.
     std::function<bool(ActorId,std::int32_t dictionary_id,std::int32_t& duration_ms,std::string& e)> play_clip;
@@ -160,7 +163,7 @@ public:
     // P16 CINE2: scripted camera clip. While a PlayCamera clip plays, the source camera uses its eye and
     // target (up and FOV from the follow camera); otherwise the follow pose is returned unchanged.
     bool camera_clip_active() const noexcept { return clip_active_; }
-    CameraPose source_camera_pose(const CameraPose& follow) const;
+    CameraPose source_camera_pose(const CameraPose& follow,CameraVec3 rig_position={}) const;
 
     // One frame: advances the executor on the caller clock, then feeds trigger contacts.
     // An executor error aborts only that cutscene: flags are restored and running scripts abandoned.

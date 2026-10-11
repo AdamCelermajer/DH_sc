@@ -66,6 +66,7 @@ target_sources(dh2_freetype237 PRIVATE "${DH2_FT237}/src/base/ftbitmap.c")
 target_include_directories(foundation_data PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(foundation_data PUBLIC recovered_content content_xml dh2_freetype237)
 add_executable(dh-foundation main.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp render_queue.cpp overlay_renderer.cpp)
+target_sources(foundation_data PRIVATE ../level-world/character_kill.cpp)
 target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp features/generic_skills/pc_gameplay_hud_button_art_v1.cpp)
 target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v1.cpp)
 # B004/B029: OOI owner (500 ms candidate refresh) and live Session adapter for the rendered target marker.
@@ -797,6 +798,12 @@ add_library(foundation_runtime_loot STATIC
   ../game-data/loot_audiovisual_v8.cpp)
 target_link_libraries(foundation_runtime_loot PUBLIC foundation_data foundation_frontend foundation_runtime_equipment_menu)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_loot)
+add_executable(runtime_death_rewards_v1_tests features/loot/runtime_death_rewards_v1_tests.cpp)
+target_link_libraries(runtime_death_rewards_v1_tests PRIVATE foundation_runtime_loot)
+add_test(NAME runtime_death_rewards_v1 COMMAND runtime_death_rewards_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/player-loot-v7/cache"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/design-settings")
 
 # P14 DROPS: world item rules, source item-drop renderer projection and its
 # focused test (rules/pool/scatter/pickup gates over the actual ItemTable).

@@ -549,6 +549,33 @@ void run_incoming_transitions(const char* root){
     check(recorder.events.size()==deathStart+3,"Death transition emitted extra stages");
 }
 }
+void run_scripted_kill_retirement(const char* root){
+    Fixture f(root);unsigned deathEntries=0;
+    f.session.set_step_entry_observer([&](const CombatSessionStepEntry& step){if(step.actor==2&&step.role==CombatSessionStepRole::death)++deathEntries;});
+    const auto rng=f.session.world()->random_state();const float playerHealth=f.session.actor(1)->health;
+    check(f.session.script_kill_actor(2,f.error),f.error);
+    check(!f.session.actor(2)->alive()&&deathEntries==1,"Scripted kill did not enter Died once");
+    check(f.session.script_kill_actor(2,f.error)&&deathEntries==1,"Duplicate kill re-entered Died");
+    f.session.set_actor_combat_permission_provider([](ActorId id){return id!=2;});
+    check(f.session.refresh_actor_combat_permissions(f.error),f.error);
+    check(f.session.owns_pose(2),"Permission loss before End34 released active Died");
+    check(f.session.update(.05,{},actor_position(*f.session.actor(1)),0,f.error),f.error);
+    check(f.session.owns_pose(2)&&deathEntries==1,"Died stopped or replayed before authored completion");
+    for(unsigned frame=0;frame<180;++frame)check(f.session.update(1.0/60,{},actor_position(*f.session.actor(1)),0,f.error),f.error);
+    const auto after=f.session.world()->random_state();
+    check(deathEntries==1&&!f.session.owns_pose(2),"Hidden dead actor restarted Died during permission refresh");
+    check(rng.seed==after.seed&&rng.calls==after.calls&&f.session.actor(1)->health==playerHealth,"Script kill fabricated RNG/damage for another actor");
+}
+void run_scripted_move_handoff(const char* root){
+    Fixture f(root);const auto lease=f.session.actor_binding_lease();
+    check(f.session.request_actor_attack(2,1,0,f.error),f.error);
+    check(f.session.owns_pose(2),"Fixture did not hold a combat pose");
+    check(f.session.script_move_handoff(2,f.error),f.error);
+    check(!f.session.owns_pose(2)&&same_owner(lease,f.session.actor_binding_lease()),"Script move failed to transfer pose in the same session");
+    check(f.session.script_move_handoff(2,f.error),f.error);
+    check(f.session.script_kill_actor(2,f.error),f.error);
+    check(!f.session.script_move_handoff(2,f.error)&&f.session.owns_pose(2),"Script move replaced Died");
+}
 int main(int argc,char** argv){try{
     check(argc==2,"Original shared asset root required");
     run_attack_and_restore(argv[1]);
@@ -558,6 +585,8 @@ int main(int argc,char** argv){try{
     run_generic_skill_cast_order(argv[1]);
     run_failure_prefix(argv[1]);
     run_incoming_transitions(argv[1]);
+    run_scripted_kill_retirement(argv[1]);
+    run_scripted_move_handoff(argv[1]);
     std::cout<<"PASS accepted source transition stages, predecessor-selected Attack/AttackStatic roots, held full-bank sourceCombo target continuity, authored positive AttackDelay departure ordering, generic Skill/Cast normal Post ordering and failure prefix, rejected actions, pose-owned retry, zero-time Move freeze, HP-only and gated Injury, death ordering, restore rebind and failure-prefix no replay\n";
     return 0;
 }catch(const std::exception& exception){std::cerr<<"FAIL: "<<exception.what()<<'\n';return 1;}}

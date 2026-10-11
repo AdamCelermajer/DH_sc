@@ -411,11 +411,13 @@ std::string CampaignHost::script_name_of(const OriginalCampaignCommand& c, int& 
     return "<unknown>";
 }
 
-CameraPose CampaignHost::source_camera_pose(const CameraPose& follow) const {
+CameraPose CampaignHost::source_camera_pose(const CameraPose& follow,CameraVec3 rig_position) const {
     if (!clip_active_ && !(clip_hold_ && cutscene_mode_)) return follow;
     CameraPose pose = follow; // P16 OPENING4: the clip drives eye, target, up (when authored) and FOV (when authored)
     pose.position = clip_eye_;
     pose.target = clip_target_;
+    pose.position.x+=rig_position.x;pose.position.y+=rig_position.y;pose.position.z+=rig_position.z;
+    pose.target.x+=rig_position.x;pose.target.y+=rig_position.y;pose.target.z+=rig_position.z;
     if (clip_view_.has_up) pose.up = clip_view_.up;
     if (clip_view_.has_fov) {
         // B068 (4): the clip channel is the camera's xfov, a HORIZONTAL field of view in degrees (the camera node default is 45). The render
@@ -493,6 +495,27 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     ActorId id = invalid_actor_id;
     bool found = false;
     switch (c.kind) {
+    case 40: {
+        if (!resolve(string_field(c,24),id,found,e)) return false;
+        if (!found) return true;
+        if (phase == CampaignCommandPhase::is_blocking) {
+            if (signed_field(c,28)==0 || skip_active()) return true;
+            return v.move_blocking ? v.move_blocking(id,blocking,e) : unbound("scripted movement completion");
+        }
+        if (phase != CampaignCommandPhase::execute) return true;
+        std::array<float,3> position{};bool target_found=false;
+        if (!v.waypoint_position || !v.waypoint_position(string_field(c,12),module,position,target_found,e)) return unbound("scripted move target");
+        if (!target_found) { note_unresolved(string_field(c,12)); return true; }
+        actor_clips_.erase(id);held_clip_actors_.erase(id);
+        return v.move_to ? v.move_to(id,position,skip_active(),signed_field(c,16)!=0,e) : unbound("scripted move owner");
+    }
+    case 44: {
+        if (phase != CampaignCommandPhase::execute) return true;
+        if (!resolve(string_field(c,12),id,found,e)) return false;
+        if (!found) return true;
+        actor_clips_.erase(id);held_clip_actors_.erase(id);
+        return v.kill ? v.kill(id,e) : unbound("scripted kill owner");
+    }
     case 45: { // Script_PlayActorAnim: actor @24, clip @8 (dictionary), chained clip @12 (none = -1), wait flag @28
         if (phase == CampaignCommandPhase::is_blocking) {
             if (signed_field(c, 28) <= 0) return true;
@@ -628,10 +651,8 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     // cutscene or trigger script continues instead of aborting (IDA owners are outside the Swamp opening path).
     case 13: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlaySound (no scripted sound owner bound: the cutscene sound is not played)"); return true;
     case 15: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub PlayLevelMusic (resume level track not bound to the script host)"); return true;
-    case 44: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub KillActor (no scripted kill owner bound)"); return true;
     case 63: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub RestartLevel (player death restart is owned by the death flow)"); return true;
     case 68: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub ShowTrophies (no trophy display owner)"); return true;
-    case 40: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub MoveActor (no scripted move owner bound: the actor stays in place)"); return true;
     case 54: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub OpenDoor (no door owner bound; doors are not collidable in Preview 16)"); return true;
     case 55: if (phase == CampaignCommandPhase::execute) unsupported_.note("stub CloseDoor (no door owner bound; doors are not collidable in Preview 16)"); return true;
     default: e = "Unsupported original campaign actor verb kind " + std::to_string(c.kind); return false;
@@ -686,8 +707,16 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
         else
             std::cout << "[campaign] restore incomplete: " << restore_error << '\n';
     }
-    // Evaluate after commands: BeginScriptedCutScene can mark/teleport the player in this very tick.
-    zones_.update(*runtime_, player, qualified && !character_scripted(local_player), -1);
+    // Evaluate after commands: Begin/End can mark or teleport in this tick. The caller's position
+    // was sampled before tick, so refresh it from the existing live owner on the production path.
+    auto contact_player = player;
+    bool contact_qualified = qualified && !character_scripted(local_player);
+    if (contact_qualified && local_player != invalid_actor_id && services_.actor_verbs.position_of &&
+        !services_.actor_verbs.position_of(local_player, contact_player, error)) {
+        contact_qualified = false;
+        std::cout << "[campaign] trigger position unavailable: " << error << '\n';
+    }
+    zones_.update(*runtime_, contact_player, contact_qualified, -1);
 }
 
 void CampaignHost::print_summary(std::ostream& out) const {

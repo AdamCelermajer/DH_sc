@@ -1,6 +1,7 @@
 #include "runtime_enemy_navigation_v1.hpp"
 
 #include "../../../level-world/navigation_heading.hpp"
+#include "../../../level-world/navigation_controller.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -55,12 +56,6 @@ bool segment_hits_interior(Vec3 from, Vec3 to, const CollisionTriangle& triangle
     const double along = dot(edge2, q) * inverse;
     constexpr double endpoint_epsilon = 1e-4;
     return along > endpoint_epsilon && along < 1.0-endpoint_epsilon;
-}
-
-bool same_position(const std::array<float,3>& left, const ActorState& right) {
-    return left[0] == right.transform.position[0] &&
-           left[1] == right.transform.position[1] &&
-           left[2] == right.transform.position[2];
 }
 
 } // namespace
@@ -151,6 +146,13 @@ bool RuntimeEnemyNavigationV1::approach(CombatSession& session, ActorState& owne
     if (&owner != session.actor(owner.id) || &target != session.actor(target.id) ||
         owner.target_id != target.id)
         return fail(error, "Enemy route must receive the same live actor records and canonical target id");
+    return move_to(session, owner, target.transform.position, target.id, false, error);
+}
+
+bool RuntimeEnemyNavigationV1::move_to(CombatSession& session, ActorState& owner,
+        const std::array<float,3>& goal, ActorId goal_identity, bool ignore_collisions, std::string& error) {
+    error.clear();reset_for_session(session.actor_binding_lease());
+    if (&owner != session.actor(owner.id)) return fail(error,"Scripted route requires its live session actor");
     if (session.owns_pose(owner.id)) return true;
     if (!config_.scene_collision ||
         (!config_.scene_collision->floorInstances && !config_.scene_collision->collisionInstances))
@@ -163,8 +165,7 @@ bool RuntimeEnemyNavigationV1::approach(CombatSession& session, ActorState& owne
         return fail(error, "Original route graph exceeds bounded path storage");
 
     auto& route = routes_[owner.id];
-    const bool must_build = !route.initialized || route.target != target.id ||
-                            !same_position(route.goal, target);
+    const bool must_build = !route.initialized || route.target != goal_identity || route.goal != goal;
     if (must_build) {
         route = ActorRoute{};
         const auto capacity = static_cast<std::uint32_t>(capacity64);
@@ -175,12 +176,12 @@ bool RuntimeEnemyNavigationV1::approach(CombatSession& session, ActorState& owne
         route.path.segments = route.segments.data();
         route.path.capacity = capacity;
         std::copy(owner.transform.position.begin(), owner.transform.position.end(), route.path.position);
-        std::copy(target.transform.position.begin(), target.transform.position.end(), route.goal.begin());
-        route.target = target.id;
+        route.goal = goal;
+        route.target = goal_identity;
         dh2::navigation::RouteResult result{};
         result.search.path = route.search_path.data();
         result.search.path_capacity = capacity;
-        if (dh2::floors::find_path(world, route.path, target.transform.position.data(),
+        if (dh2::floors::find_path(world, route.path, goal.data(),
                                    std::numeric_limits<unsigned>::max(), result))
             return fail(error, "Shared sewn-floor path kernel rejected the actor route request");
         route.initialized = true;
@@ -208,7 +209,7 @@ bool RuntimeEnemyNavigationV1::approach(CombatSession& session, ActorState& owne
                       destination[1]-owner.transform.position[1],0.0f};
     const Vec3 current{owner.transform.position[0],owner.transform.position[1],owner.transform.position[2]};
     const Vec3 waypoint{destination[0],destination[1],destination[2]};
-    for (const auto& triangle : config_.scene_collision->triangles) {
+    if (!ignore_collisions) for (const auto& triangle : config_.scene_collision->triangles) {
         if (triangle.floor || !segment_hits_interior(current, waypoint, triangle)) continue;
         ++report_.paths_blocked_by_collision;
         return select(session, owner.id, config_.idle_alias, error);
@@ -216,7 +217,7 @@ bool RuntimeEnemyNavigationV1::approach(CombatSession& session, ActorState& owne
     // Original Character construction stores validate_boundary=1 at +0x1c4.
     // Respect an explicitly retained source value when available; generic
     // same-session monster actors use that recovered Character default.
-    if (owner.source_validate_boundary452.value_or(1) != 0) {
+    if (!ignore_collisions && owner.source_validate_boundary452.value_or(1) != 0) {
         const auto before = std::array<float,3>{direction[0],direction[1],direction[2]};
         dh2::navigation::DirectionRequest boundary{
             &world.collision_world, pf->motion.position, pf->radius,
@@ -250,6 +251,18 @@ bool RuntimeEnemyNavigationV1::stop(CombatSession& session, ActorState& owner,
     if (!select(session, owner.id, config_.idle_alias, error)) return false;
     ++report_.idle_selections;
     return true;
+}
+
+bool RuntimeEnemyNavigationV1::route_finished(CombatSession& session,ActorId id,bool& finished,std::string& error) {
+    error.clear();finished=true;reset_for_session(session.actor_binding_lease());
+    const auto route=routes_.find(id);if(route==routes_.end())return true;
+    const auto* actor=session.actor(id);if(!actor){error="Script route actor unavailable";return false;}
+    dh2::navigation::PathController controller{};
+    std::copy(actor->transform.position.begin(),actor->transform.position.end(),controller.position);
+    std::copy(route->second.goal.begin(),route->second.goal.end(),controller.destination);
+    const auto result=dh2_nav_is_at_destination(&controller,&route->second.path);
+    if(result<0){error="Source IsAtDestination rejected route";return false;}
+    finished=!route->second.found||result!=0;return true;
 }
 
 bool RuntimeEnemyNavigationV1::release_route(CombatSession& session, ActorId id,

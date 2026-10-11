@@ -27,6 +27,7 @@ struct Rig {
     OriginalActorLifecycle lifecycle;
     CampaignCameraAdapter camera;
     bool globalBlocked = false;
+    std::array<float,3> livePosition{};
     std::map<ActorId, bool> characterBlocked;
     std::map<ActorId, std::int32_t> states;
     std::unique_ptr<OriginalCampaignWorldAdapter> world;
@@ -58,6 +59,7 @@ struct Rig {
         check(camera.seed_target(1, error), "camera seed: " + error);
 
         CampaignHostServices services;
+        services.actor_verbs.position_of = [this](ActorId, std::array<float,3>& p, std::string&) { p=livePosition; return true; };
         services.all_actors = [](std::vector<ActorId>& out, std::string&) { out = {1, 101, 102}; return true; };
         services.actor_state = [this](ActorId id, bool& alive, std::int32_t& state, std::string&) {
             alive = true;
@@ -90,6 +92,26 @@ std::string summary(const CampaignHost& host) {
     std::stringstream out;
     host.unsupported().print_summary(out);
     return out.str();
+}
+
+void scripted_trigger_contacts(const std::string& directory) {
+    Rig rig(directory);std::string error;
+    ActorDefinition zone;zone.name="gate-test";zone.sourcePath="gate-test.mgp";zone.gametype="TriggerZone";
+    zone.placement={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};zone.properties={{"name","gate-test"},{"gametype","TriggerZone"},{"type","Block"},{"script","enterLocation_StartRoom"},{"triggercount","-1"}};
+    check(rig.host->build_zones({zone},error),error);
+    const std::string key="gate-test.mgp::gate-test";
+    rig.host->frame(0,{0,0,0},true,1);
+    check(rig.runtime.trigger_activations().at(key)==1,"Initial zone entry must fire once");
+    OriginalCampaignCommand mark;mark.kind=32;mark.scalars={{8,1}};mark.strings={{16,"All"}};bool blocking=false;
+    check(rig.world->command(CampaignCommandPhase::execute,mark,-1,false,blocking,error),error);
+    rig.livePosition={1000,0,0};rig.host->frame(0,rig.livePosition,true,1);
+    check(rig.runtime.trigger_inside().size()==1,"Scripted displacement must preserve the contact edge");
+    mark.scalars[8]=0;check(rig.world->command(CampaignCommandPhase::execute,mark,-1,false,blocking,error),error);
+    rig.livePosition={0,0,0};rig.host->frame(0,{1000,0,0},true,1);
+    check(rig.runtime.trigger_inside().size()==1&&rig.runtime.trigger_activations().at(key)==1,"End teleport must use current position, not stale pre-tick input");
+    rig.livePosition={1000,0,0};rig.host->frame(0,{},true,1);
+    rig.livePosition={0,0,0};rig.host->frame(0,{},true,1);
+    check(rig.runtime.trigger_activations().at(key)==2,"Free-play re-entry still fires repeatable zone");
 }
 
 // Begin/End contract and the explicit failure path: spawn has no lifecycle record, so the executor stops.
@@ -391,6 +413,9 @@ void camera_clip_blocks_then_releases(const std::string& directory) {
     follow.position = {10, 20, 30};
     follow.target = {11, 21, 31};
     const CameraPose early = rig.host->source_camera_pose(follow);
+    const CameraPose translated = rig.host->source_camera_pose(follow,{-6000,12000,255});
+    check(std::abs(translated.position.x-early.position.x+6000)<.01f&&std::abs(translated.target.y-early.target.y-12000)<.01f&&
+          std::abs(translated.position.z-early.position.z-255)<.01f,"Script camera must share the live module rig translation exactly once");
     check(early.position.x != follow.position.x || early.position.y != follow.position.y, "the source pose follows the clip, not the follow camera");
     check(rig.host->camera_clip_active(), "clip is active after execute");
     rig.step(2000);
@@ -418,6 +443,7 @@ int main(int argc, char** argv) {
         check(argc == 2, "Supply the campaign asset directory");
         lizard_intro_contract(argv[1]);
         skip_press_contract(argv[1]);
+        scripted_trigger_contacts(argv[1]);
         skipped_cutscene_matches_played(argv[1]);
         skip_ends_captions_in_one_frame(argv[1]);
         captions_block_then_release(argv[1]);

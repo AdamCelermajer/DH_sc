@@ -61,6 +61,8 @@ class RuntimeSessionDeathRewardsV1 {
     static bool spawn_world_item_thunk(void*, const RuntimeWorldItemRecordV1&,
                                        const ActorState&, const ActorState*,
                                        std::string&);
+    bool dispatch_deaths(CombatSession&,const std::vector<RuntimeDeathRewardsV1::DeathNotice>&,
+                         std::vector<RuntimeDeathRewardOutcomeV1>&,std::string&);
 
 public:
     bool bind(dh::foundation::CombatSession&,
@@ -73,6 +75,8 @@ public:
     bool after_update(dh::foundation::CombatSession&,
                       std::vector<RuntimeDeathRewardOutcomeV1>&,
                       std::string& error);
+    bool scripted_death(CombatSession&,ActorId,
+                        std::vector<RuntimeDeathRewardOutcomeV1>&,std::string&);
 
     // P16 QUESTS: quest XP reward through the same progression owner as kill XP.
     bool award_experience(dh::foundation::ActorId player, std::int32_t xp, std::string& error);

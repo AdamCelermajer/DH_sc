@@ -53,6 +53,7 @@
 #include "features/equipment/runtime_player_locomotion_library_v1.hpp"
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "../script-runtime/script_constants.hpp"
+#include "../level-world/character_kill.hpp"
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
 // P16 QUESTS: thin quest runtime and the generic quest event bus (raise_quest_event).
 #include "features/quest_runtime/quest_runtime_v1.hpp"
@@ -1106,9 +1107,12 @@ int main(int argc,char** argv) {
         // P16 OPENING: scripted actor clips (PlayActorAnim) are named clips of their actor's profile (or the local player's
         // visual config) before anything loads. Only under campaign triggers, which is the only player of these clips.
         std::map<std::string,std::vector<std::pair<std::string,std::string>>> scriptClipsByProfile; // P16 OPENING: profile id -> script clips
+        std::set<std::string> scriptControlledActors;
         if(options.campaignTriggers&&!options.campaignCommands.empty()&&!options.profiles.empty()) {
             f::OriginalCampaignRuntime clipScripts;
             if(!clipScripts.load(assets,options.campaignCommands,error))throw std::runtime_error("Actor clip scripts: "+error);
+            for(const auto& script:clipScripts.scripts())for(const auto& command:script.commands)if(command.kind==40||command.kind==44){
+                const auto actor=command.strings.find(command.kind==40?24:12);if(actor!=command.strings.end())scriptControlledActors.insert(actor->second);}
             const auto requests=f::campaign_host::collect_actor_clip_requests(clipScripts);
             if(!requests.empty()) {
                 std::vector<f::ActorDefinition> declared;
@@ -1491,7 +1495,7 @@ int main(int argc,char** argv) {
                 const auto& id=placed.profileId;
                 const auto preset=placed.definition.properties.find("ai_state"),autoSpawn=placed.definition.properties.find("auto_spawn");
                 const bool scriptSpawnable=preset!=placed.definition.properties.end()&&(preset->second=="Limbus"||preset->second=="PreSpawn")&&autoSpawn!=placed.definition.properties.end()&&autoSpawn->second=="0";
-                if(!scriptSpawnable||!profiles.find(id))continue; // only declarations SpawnCharacter can reach
+                if((!scriptSpawnable&&!scriptControlledActors.count(placed.definition.name))||!profiles.find(id))continue;
                 // The combat policy is needed by every declared actor (the session admits only policy-bearing actors).
                 if(!derivedTablesLoaded) {
                     if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))throw std::runtime_error("Profile derivation tables: "+error);
@@ -1978,6 +1982,18 @@ int main(int argc,char** argv) {
             return false;
         };
         hostServices.actor_verbs.put_limbus=[&](f::ActorId id,std::string& e){return actorLifecycle.put_limbus(id,e);};
+        struct ScriptRoute {std::array<float,3> goal;bool ignore_collisions=false;};
+        std::map<f::ActorId,ScriptRoute> scriptRoutes;
+        std::function<bool(f::ActorId,std::array<float,3>,bool,std::string&)> scriptMoveHook;
+        std::function<bool(f::ActorId,std::string&)> scriptKillHook;
+        hostServices.actor_verbs.move_to=[&](f::ActorId id,std::array<float,3> goal,bool warp,bool ignore,std::string& e){
+            if(ignore&&options.sourceNativeBodies&&!nativeBodies.set_physical_filter_enabled(id,false,e))return false;
+            if(!combatSession->script_move_handoff(id,e))return false;
+            if(warp){scriptRoutes.erase(id);return hostServices.actor_verbs.teleport(id,goal,e);}
+            return scriptMoveHook?scriptMoveHook(id,goal,ignore,e):(e="Script movement navigator unavailable",false);
+        };
+        hostServices.actor_verbs.move_blocking=[&](f::ActorId id,bool& blocking,std::string&){blocking=scriptRoutes.count(id)!=0;return true;};
+        hostServices.actor_verbs.kill=[&](f::ActorId id,std::string& e){return scriptKillHook?scriptKillHook(id,e):(e="Script kill source services unavailable",false);};
         hostServices.actor_verbs.play_clip=[&](f::ActorId id,std::int32_t dictionary,std::int32_t& duration,std::string& e){
             std::string path;
             if(!cameraClipLibrary.dictionary_path(assets,dictionary,path,e))return false;
@@ -3294,6 +3310,64 @@ int main(int argc,char** argv) {
                 f::quest_runtime::raise_quest_event(kill);
             }
         };
+        // Source Script_KillActor has a null attacker. Keep Character::Kill's
+        // actual gates and ordering; no DamageEvent or player credit is invented.
+        scriptKillHook=[&](f::ActorId id,std::string& e){
+            scriptRoutes.erase(id);
+            auto* actor=combatSession->actor(id);auto* world=combatSession->world();
+            if(!actor){e.clear();return true;}
+            const auto* live=world->combat_properties(id);const auto* traits=world->traits(id);
+            const auto identity=questActorIdentity.find(id);
+            if(!live||!traits||identity==questActorIdentity.end()){e="Script kill source actor/property identity unavailable";return false;}
+            auto sourceProperties=*live;dh2::data::PropertyRules rules;
+            if(!dh2::data::load_property_rules(properties.characters,rules,e))return false;
+            auto view=dh2::data::property_view(rules,sourceProperties.sheets);
+            dh2::character::KillActor56 sourceActor{};
+            sourceActor.identity=id;sourceActor.properties=&view;sourceActor.oid=-1;
+            sourceActor.property_id=std::int16_t(identity->second.first);sourceActor.template_id=std::int16_t(identity->second.second);
+            sourceActor.dead=!actor->alive();sourceActor.suppress_quest=spawnPool.owns(id);
+            dh2::character::KillLevel16 level{reinterpret_cast<std::uintptr_t>(rewardContext.get()),rewardContext->rewardsSuppressed?1u:0u,0};
+            dh2::character::KillWorld16 globals{};dh2::character::KillResult24 result{};
+            const auto constantsBytes=f::read_content(assets,"data/v2quests_pycst.bin");
+            const auto destroy=[](dh2_script_constants* p){dh2_script_constants_destroy(p);};
+            std::unique_ptr<dh2_script_constants,decltype(destroy)> constants(dh2_script_constants_create(),destroy);
+            dh2_script_constants_reload reload{};
+            if(!constants||dh2_script_constants_load(constants.get(),constantsBytes.data(),std::uint32_t(constantsBytes.size()),&reload)!=0){e="Script kill source constants unavailable";return false;}
+            std::function<int(const dh2::character::KillRequest56&,dh2::character::KillResponse16&)> dispatch;
+            dispatch=[&](const auto& q,auto& response)->int{
+                using namespace dh2::character;
+                switch(q.service){
+                case kill_is_dead:response.word=sourceActor.dead;return 0;
+                case kill_is_player:
+                    // Kill's property/dead prefix precedes DropLoot; commit to the SAME world.
+                    if(sourceActor.dead){actor->health=0;if(!world->update_combat_properties(id,sourceProperties,*traits,e))return -1;}
+                    response.word=traits->is_player;return 0;
+                case kill_current_level:response.pointer=reinterpret_cast<std::uintptr_t>(&level);return 0;
+                case kill_drop_loot:{
+                    std::vector<f::loot::RuntimeDeathRewardOutcomeV1> outcomes;
+                    if(!deathRewards.scripted_death(*combatSession,id,outcomes,e))return -1;
+                    for(const auto& outcome:outcomes)std::cout<<"Script kill reward victim="<<id<<" items="<<outcome.spawned_items<<" suppressed="<<outcome.rewards_suppressed<<'\n';
+                    return 0;}
+                case kill_is_remotely_updated:response.word=0;return 0; // this runtime is offline
+                case kill_constant:
+                    return dh2_script_constants_get(constants.get(),q.name,q.key,&response.word)==0?0:-1;
+                case kill_raise_async:{
+                    f::quest_runtime::QuestEvent event;event.kind=f::quest_runtime::QuestEvent::Kind::kill;
+                    event.objective_type=std::int32_t(q.event->type);event.property_id=identity->second.first;event.template_id=identity->second.second;
+                    if(!f::quest_runtime::raise_quest_event(event)){e="Script kill requires bound quest sink";return -1;}
+                    std::cout<<"Script kill quest victim="<<id<<" type="<<event.objective_type<<'\n';return 0;}
+                case kill_raise_event:
+                    if(q.argument==2)return combatSession->script_death_event(id,e)?0:-1;
+                    break;
+                default:break;
+                }
+                e="Unsupported ScriptKill required source service "+std::to_string(q.service);return -1;
+            };
+            const dh2::character::KillServices16 services{&dispatch,[](void* p,auto*,const auto* q,auto* r){return (*static_cast<decltype(dispatch)*>(p))(*q,*r);}};
+            const auto status=dh2_character_ctrl_kill(&result,&sourceActor,0,0,&globals,&services);
+            if(status!=1){if(e.empty())e="Script kill source dispatch failed phase="+std::to_string(result.phase);return false;}
+            std::cout<<"Script kill complete victim="<<id<<" deadPrefix="<<result.dead_written<<" events="<<result.events_raised<<'\n';return true;
+        };
         // P16 QUESTUI: NPC talk on the interact press edge: the nearest live actor whose CharacterTable row is a
         // TalkToNPC oid, within 200 units (CharacterDesign.OOI_Distance). Approximation of Character::Interact.
         const auto talkNearestNpc=[&]() {
@@ -3408,6 +3482,7 @@ int main(int argc,char** argv) {
         if(options.hud&&combatSession&&!pcHudText.load(assets.root()/"original-cache",error))throw std::runtime_error("PC HUD font: "+error);
         f::frontend::FrontendText cinematicText; // P16 CINE: caption and SKIP text (same frontend text owner as the PC HUD)
         std::string cinematicTextSignature;
+        double campaignFractionMs=0; // B068: retain 1/60-second fractions, like the source actor/camera clocks.
         if(options.campaignTriggers&&combatSession&&!cinematicText.load(assets.root()/"original-cache",error))throw std::runtime_error("Cinematic font: "+error);
         const auto updatePcHud=[&]() {
             pcHudReady=false;
@@ -3560,7 +3635,20 @@ int main(int argc,char** argv) {
             enemyNavigation=std::make_shared<f::enemy_ai::RuntimeEnemyNavigationV1>(std::move(config));
             enemyController=std::make_shared<f::enemy_ai::RuntimeEnemyControllerV1>(
                 f::enemy_ai::make_runtime_enemy_navigation_services_v1(enemyNavigation));
-            combatSession->set_actor_decision_provider([owner=enemyNavigation,controller=enemyController,&globalControllerBlocked](auto& session,double dt,std::string& error){
+            scriptMoveHook=[&](f::ActorId id,std::array<float,3> goal,bool ignore,std::string& e){
+                auto* actor=combatSession->actor(id);if(!actor){e="Script movement requires its live session actor";return false;}
+                scriptRoutes[id]={goal,ignore};
+                return enemyNavigation->move_to(*combatSession,*actor,goal,0,ignore,e);
+            };
+            combatSession->set_actor_decision_provider([owner=enemyNavigation,controller=enemyController,&globalControllerBlocked,&scriptRoutes](auto& session,double dt,std::string& error){
+                for(auto it=scriptRoutes.begin();it!=scriptRoutes.end();) {
+                    auto* actor=session.actor(it->first);
+                    if(!actor||!actor->alive()){it=scriptRoutes.erase(it);continue;}
+                    bool finished=false;if(!owner->route_finished(session,it->first,finished,error))return false;
+                    if(finished){if(!owner->stop(session,*actor,error))return false;it=scriptRoutes.erase(it);continue;}
+                    if(!owner->move_to(session,*actor,it->second.goal,0,it->second.ignore_collisions,error))return false;
+                    ++it;
+                }
                 // B068 (3): original CharAI::Update (pseudocode line 149489) returns before any target/aggro/generic decision while
                 // the controller is blocked (v2Controller::s_blocked, set by LockCharacter All). Enemies spawned by a cutscene
                 // (LizardMan_Intro) therefore stand still until UnlockCharacter instead of charging the locked player.
@@ -3568,6 +3656,7 @@ int main(int argc,char** argv) {
                 return controller->update(session,dt,error);
             });
             stopActorHook=[&](f::ActorId id,std::string& e){
+                scriptRoutes.erase(id);
                 if(!combatSession||id==combatSession->player_id()||!enemyNavigation)return true;
                 auto* stopped=combatSession->actor(id);
                 if(!stopped||!stopped->alive())return true;
@@ -4224,12 +4313,15 @@ int main(int argc,char** argv) {
                 if(command.kind==8)std::cout<<"Source camera command frame="<<drawn<<" target="<<sourceCameraTargets.target()<<" remaining="<<sourceCameraTargets.transition_remaining()<<'\n';
             }
             // P16 HOST: executor tick on the frame clock, then trigger contacts (only with --campaign-triggers).
-            if(campaignHost.enabled()&&combatSession) {
-                if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(std::int32_t(dt*1000.0),{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive(),player->id);
+            const bool gameplayPaused=characterMenu.is_open()||pauseMenuOpen;
+            if(campaignHost.enabled()&&combatSession&&!gameplayPaused) {
+                const double elapsed=campaignFractionMs+dt*1000.0;
+                const auto wholeMs=std::int32_t(std::floor(elapsed));campaignFractionMs=elapsed-wholeMs;
+                if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(wholeMs,{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive(),player->id);
             }
             // D1 (OPENING3): Quest::Update runs every frame after the script executor, so a state whose script has
             // finished advances on the frame it ends (the Movement tutorial follows the Swamp intro, not the bind).
-            if(questRuntime&&options.campaignTriggers) {
+            if(questRuntime&&options.campaignTriggers&&!gameplayPaused) {
                 std::string questTickError;
                 if(!questRuntime->update(questTickError)) std::cerr<<"Quest update diagnostic: "<<questTickError<<'\n';
                 std::string questSaveError; // D3: transitions made here must reach the character CQPG (save and profile snapshots read it)
@@ -4359,7 +4451,6 @@ int main(int argc,char** argv) {
             }
             // Original offline GSFlashMenu updates its UI without recursing
             // into the underlying gameplay state. Keep device/UI clocks live.
-            const bool gameplayPaused=characterMenu.is_open()||pauseMenuOpen;
             const double gameplayDt=gameplayPaused?0.0:dt;
             if(gameplayPaused!=gameplayWasPaused)reportGameplayPause(gameplayPaused?"paused":"resumed");
             // B051: the Equipment avatar has its own idle clock. Opening a paused page restarts it
