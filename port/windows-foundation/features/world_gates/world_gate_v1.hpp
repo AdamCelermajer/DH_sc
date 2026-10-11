@@ -47,7 +47,8 @@ bool apply_world_gate_flips_v1(PlayableActorWorld& world, std::vector<WorldGateV
                                const WorldGateOwnerV1& owner, std::string& error);
 
 // ObjectBase::TestEnableCondition and TestDisableCondition are separate,
-// ordered source calls. TestEnable sets the object to the condition result;
+// ordered source calls. TestEnable sets the object to the condition result
+// (an absent activate list is true: IsTrue=1, so it enables);
 // TestDisable only disables when its condition is false. Unknown values fail
 // without changing the retained object's current enable state.
 bool source_test_enable_condition_v1(bool has_condition, std::optional<bool> value,

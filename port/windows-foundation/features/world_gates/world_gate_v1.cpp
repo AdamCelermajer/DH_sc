@@ -83,7 +83,8 @@ bool apply_world_gate_flips_v1(PlayableActorWorld& world, std::vector<WorldGateV
 bool source_test_enable_condition_v1(bool has_condition,std::optional<bool> value,
                                      bool& enabled,std::string& error) {
     error.clear();
-    if(!has_condition)return true;
+    // ConditionData::IsTrue (0x33e5f8) returns 1 for an absent list, so TestEnable(true) runs SetEnable(true).
+    if(!has_condition){enabled=true;return true;}
     if(!value){error="TestEnableCondition value is unavailable";return false;}
     enabled=*value;
     return true;

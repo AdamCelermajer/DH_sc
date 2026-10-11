@@ -49,7 +49,9 @@ void run(const std::string& assets_root) {
         check(source_test_disable_condition_v1(true,true,enabled,error)&&!enabled,"true TestDisable does not re-enable");
         check(source_test_enable_condition_v1(true,false,enabled,error)&&!enabled,"false TestEnable disables");
         check(source_test_enable_condition_v1(true,true,enabled,error)&&enabled,"later true TestEnable restores the retained object");
-        check(source_test_enable_condition_v1(false,std::nullopt,enabled,error)&&enabled,"missing condition list is source no-op");
+        enabled=false; // absent activate list is IsTrue=1 in source: TestEnable must enable, not no-op
+        check(source_test_enable_condition_v1(false,std::nullopt,enabled,error)&&enabled,"missing activate list enables (IsTrue=1)");
+        check(source_test_disable_condition_v1(false,std::nullopt,enabled,error)&&enabled,"missing deactivate list is skipped");
         const bool before=enabled;
         check(!source_test_disable_condition_v1(true,std::nullopt,enabled,error)&&enabled==before,
               "unknown condition fails without guessing or mutating");
