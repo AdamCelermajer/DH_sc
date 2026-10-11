@@ -292,7 +292,7 @@ Status Owner::DropAnimatedFX(void** instance, std::string& error) {
 
 Status Owner::BindCharacter(void* instance, void* character, std::string& error) {
     error.clear(); auto* slot = find(instance);
-    if (!slot || !slot->active) { error = "Character bind uses a stale AnimatedFX"; return Status::stale_instance; }
+    if (!slot) { error = "Character bind uses an unowned AnimatedFX"; return Status::stale_instance; }
     if (!backend_.bind_game_object || !backend_.bind_game_object(backend_.context, instance, character, error)) {
         if (error.empty()) error = "AnimatedFX GameObject binding backend is missing";
         return backend_.bind_game_object ? Status::lifecycle_failed : Status::backend_missing;
@@ -301,7 +301,7 @@ Status Owner::BindCharacter(void* instance, void* character, std::string& error)
 }
 Status Owner::BindAnimatorCharacter(void* instance, void* character, std::string& error) {
     error.clear(); auto* slot = find(instance);
-    if (!slot || !slot->active) { error = "Animator character bind uses a stale AnimatedFX"; return Status::stale_instance; }
+    if (!slot) { error = "Animator character bind uses an unowned AnimatedFX"; return Status::stale_instance; }
     if (!backend_.bind_animator_character || !backend_.bind_animator_character(backend_.context, instance, character, error)) {
         if (error.empty()) error = "AnimatedFX nested animator binding backend is missing";
         return backend_.bind_animator_character ? Status::lifecycle_failed : Status::backend_missing;
@@ -310,7 +310,7 @@ Status Owner::BindAnimatorCharacter(void* instance, void* character, std::string
 }
 Status Owner::SyncIrrData(void* instance, bool force, std::string& error) {
     error.clear(); auto* slot = find(instance);
-    if (!slot || !slot->active) { error = "Irrlicht sync uses a stale AnimatedFX"; return Status::stale_instance; }
+    if (!slot) { error = "Irrlicht sync uses an unowned AnimatedFX"; return Status::stale_instance; }
     if (!backend_.sync_irr_data || !backend_.sync_irr_data(backend_.context, instance, force, error)) {
         if (error.empty()) error = "AnimatedFX Irrlicht synchronization backend is missing";
         return backend_.sync_irr_data ? Status::lifecycle_failed : Status::backend_missing;
@@ -319,7 +319,7 @@ Status Owner::SyncIrrData(void* instance, bool force, std::string& error) {
 }
 Status Owner::SetVisible(void* instance, bool visible, std::string& error) {
     error.clear(); auto* slot = find(instance);
-    if (!slot || !slot->active) { error = "Visibility change uses a stale AnimatedFX"; return Status::stale_instance; }
+    if (!slot) { error = "Visibility change uses an unowned AnimatedFX"; return Status::stale_instance; }
     if (!backend_.set_visible || !backend_.set_visible(backend_.context, instance, visible, error)) {
         if (error.empty()) error = "AnimatedFX visibility backend is missing";
         return backend_.set_visible ? Status::lifecycle_failed : Status::backend_missing;
@@ -328,7 +328,7 @@ Status Owner::SetVisible(void* instance, bool visible, std::string& error) {
 }
 Status Owner::ResumeAnimator(void* instance, std::string& error) {
     error.clear(); auto* slot = find(instance);
-    if (!slot || !slot->active) { error = "Animator resume uses a stale AnimatedFX"; return Status::stale_instance; }
+    if (!slot) { error = "Animator resume uses an unowned AnimatedFX"; return Status::stale_instance; }
     if (!backend_.resume_animator || !backend_.resume_animator(backend_.context, instance, error)) {
         if (error.empty()) error = "AnimatedFX animator resume backend is missing";
         return backend_.resume_animator ? Status::lifecycle_failed : Status::backend_missing;

@@ -123,6 +123,9 @@ public:
     Status GrabAnimFX(std::int32_t effect_table_id, void* source_game_object,
                       void** output, std::string& error);
     Status DropAnimatedFX(void** instance, std::string& error);
+    // Source FX methods accept any still allocated AnimatedFX, even after the
+    // manager returned it to a free pool. DropAnimatedFX separately requires
+    // active membership; these direct source object operations do not.
     Status BindCharacter(void* instance, void* character, std::string& error);
     Status BindAnimatorCharacter(void* instance, void* character,
                                  std::string& error);

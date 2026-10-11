@@ -15,7 +15,7 @@ struct Fake {
     std::size_t created{};
     std::vector<std::string> calls;
     void* expected_null_source{};
-    bool finish_next{};
+    void* finish_instance{};
 };
 bool create(void* raw, std::int32_t id, std::string_view path,
             void** out, std::string&) {
@@ -50,11 +50,12 @@ bool visible(void* raw, void*, bool value, std::string&) {
 bool resume(void* raw, void*, std::string&) {
     static_cast<Fake*>(raw)->calls.emplace_back("resume"); return true;
 }
-bool update(void* raw, void*, const EffectSequence& sequence, bool& drop,
+bool update(void* raw, void* instance, const EffectSequence& sequence, bool& drop,
             std::string&) {
     auto& f = *static_cast<Fake*>(raw);
     if (sequence.row != 137) return false;
-    drop = f.finish_next; f.finish_next = false;
+    drop = instance == f.finish_instance;
+    if (drop) f.finish_instance = nullptr;
     f.calls.emplace_back("update"); return true;
 }
 bool render(void* raw, void*, std::string&) {
@@ -137,10 +138,28 @@ int main() {
     if (!require(tail == std::vector<std::string>{"object", "sync", "animator", "hidden"},
         "marker install ordering and retained remove handle")) return 1;
     if (owner.Update(error) != Status::ok || owner.Render(error) != Status::ok) return 1;
-    fake.finish_next = true;
+    fake.finish_instance = reinterpret_cast<void*>(current);
     if (owner.Update(error) != Status::ok || objective_slot != current) return 1;
-    if (owner.pool(69).allocated != 6 || owner.pool(69).active != 1 ||
-        owner.pool(69).free != 5) return 1;
+    if (!require(owner.pool(69).allocated == 6 && owner.pool(69).active == 1 &&
+        owner.pool(69).free == 5,
+        "hidden marker is auto-dropped to the free pool while Objective retains its pointer")) return 1;
+    const auto after_drop_calls = fake.calls.size();
+    if (!require(owner.RemoveObjectiveMarker(&objective_slot, character, error) == Status::ok &&
+        objective_slot == current,
+        "source Remove accepts a retained allocated handle after manager auto-drop")) return 1;
+    const auto post_drop_remove = std::vector<std::string>(fake.calls.begin() + after_drop_calls,
+                                                            fake.calls.end());
+    if (!require(post_drop_remove == std::vector<std::string>{"object", "sync", "animator", "hidden"},
+        "post-drop source Remove still runs detach, sync, animator clear, and hide")) return 1;
+    if (!require(owner.InstallObjectiveMarker(&objective_slot, 137, character, nullptr, error) ==
+        Status::ok && objective_slot == current,
+        "reinstall after auto-drop removes retained handle then reuses the same free allocation")) return 1;
+    if (!require(owner.pool(69).allocated == 6 && owner.pool(69).active == 2 &&
+        owner.pool(69).free == 4,
+        "post-drop reinstall reactivates pooled allocation without creating a second pool")) return 1;
+    std::uintptr_t forged_slot = static_cast<std::uintptr_t>(0xdeadbeef);
+    if (!require(owner.RemoveObjectiveMarker(&forged_slot, character, error) == Status::stale_instance,
+        "retained-handle support still rejects pointers outside the manager allocation set")) return 1;
     std::cout << "native_visual_fx_manager_v1 source catalog/pool/marker/update checks passed\n";
     return 0;
 }
