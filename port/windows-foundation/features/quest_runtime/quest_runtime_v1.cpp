@@ -145,9 +145,13 @@ const QuestRowProgressV1* QuestRuntimeV1::progress_of(std::int32_t row) const {
     return it == rows_.end() ? nullptr : &it->second;
 }
 
-std::int32_t QuestRuntimeV1::current_quest() const {
+std::int32_t QuestRuntimeV1::current_quest() {
     CharacterQuestProgressV1::BucketView view;
     std::string error;
+    if(!table_||!table_->ready())return -1;
+    bool changed=false;
+    if(!progress_.verify_current_quest(character_,*table_,difficulty(),changed,error))return -1;
+    if(changed&&!save(error))return -1; // Preserve the SAME runtime objective counters; no state transition/banners.
     if (!progress_.bucket(character_, 0, difficulty(), view, error)) return -1;
     return view.current_quest;
 }
