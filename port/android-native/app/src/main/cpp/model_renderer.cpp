@@ -6444,7 +6444,10 @@ bool door_play_animation(void* raw,std::uintptr_t identity,const char* name,
     reinterpret_cast<std::uintptr_t>(door)!=identity) {
   error="Door animation has no same-row VisualObject";return false;
  }
- if(!door->visual->controller_present()) {
+ // glitch ignores a request for a clip the BDAE does not carry; finish the
+ // transition immediately, as for a door without an animation controller.
+ if(!door->visual->controller_present()||
+    !door->visual->has_clip(name)) {
   auto* object=door->runtime->manager.find_by_identity(identity);
   if(!object) {error="Door animation lost its canonical row";return false;}
   const auto services=door_services(*door);
@@ -6466,7 +6469,9 @@ bool door_play_idle(void* raw,std::uintptr_t identity,const char* name,bool loop
  if(!door||!door->visual||!name||reinterpret_cast<std::uintptr_t>(door)!=identity) {
   error="Door idle has no same-row VisualObject";return false;
  }
- if(!door->visual->controller_present()) {error.clear();return true;}
+ if(!door->visual->controller_present()||!door->visual->has_clip(name)) {
+  error.clear();return true;
+ }
  return door->visual->play_named(name,loop,door_visual_event,
      door_visual_completion,door,error);
 }
@@ -6973,8 +6978,11 @@ bool native_source_container_init_final_v1(std::uintptr_t source_level,
   input.position[0]=binding->source.world.position[0];
   input.position[1]=binding->source.world.position[1];
   dh2::physical::CharacterBodyConfig config{};
+  // The trailing assign/pin-zero-mass/UpdatePFObject requests are the
+  // binding->body assignment, the density-zero static body and the nav
+  // update below.
   if(dh2_character_body_config(&config,&input)||!config.enabled||
-     config.request_count!=4||config.requests[0]!=dh2::physical::allocate_physical||
+     config.request_count<4||config.requests[0]!=dh2::physical::allocate_physical||
      config.requests[1]!=dh2::physical::create_body||
      config.requests[2]!=dh2::physical::create_shape||
      config.requests[3]!=dh2::physical::mass_from_shapes) {
@@ -10451,7 +10459,10 @@ int direct_character_init_final_invoke_v1(void* raw,
     return 1;
    }
    auto& owner=*actor->spawn_owner;
-   if(!owner.runtime_ready||!owner.body.body||
+   // Gated (Limbus) Characters create their body at SpawnCharacter; only a
+   // Character whose state already owns a body must present it here.
+   if(!owner.runtime_ready||
+      (owner.character.state.body_present&&!owner.body.body)||
       (owner.pf_object_ready&&owner.runtime.object.user!=actor->identity)||
       !runtime->level.native_floor) {
     error="Direct GameObject::InitFinal lost its same-Character PF/body owner";
@@ -42067,7 +42078,9 @@ void draw(int width,int height){
       if(object->door.visibility_sync_ready&&object->zoning_enabled_2ee&&
          !object->in_zone_2f0)continue;
       std::string visual_error;
+      // A door whose BDAE lacks the requested idle clip has nothing to advance.
       if(!frozen&&retained->visual->controller_present()&&
+         retained->visual->clip_active()&&
          !retained->visual->update(scene_time,visual_error))
         throw std::runtime_error("Source Door Animator update failed: "+visual_error);
       auto& resource=retained->visual->resource();

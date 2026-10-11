@@ -54,6 +54,8 @@ public:
     bool load(const std::uint8_t* bdae, std::size_t size,
               std::string& error) noexcept;
     bool controller_present() const noexcept { return controller_present_; }
+    bool has_clip(const char* name) const noexcept { return name && find_clip(name); }
+    bool clip_active() const noexcept { return loaded_ && !active_clip_.empty(); }
     std::uint32_t root_animator_count() const noexcept {
         return controller_present_ ? 1u : 0u;
     }
