@@ -150,7 +150,7 @@ float map_world_per_pixel_v1(const MapCameraPoseV1& pose, const MapViewV1& view,
     return 2.0f * std::sqrt(square) * std::tan(map_camera_fov_radians * 0.5f) / rectHeightPx;
 }
 
-bool map_project_v1(const Camera& camera, const MapRectV1& rect, const std::array<float, 3>& world, float& px, float& py) {
+bool map_project_v1(const Camera& camera, const MapRectV1& rect, const std::array<float, 3>& world, float& px, float& py, float marginPx) {
     if (!(rect.width > 0) || !(rect.height > 0) || !std::isfinite(world[0]) || !std::isfinite(world[1]) || !std::isfinite(world[2])) return false;
     CameraBasisV1 basis;
     std::string error;
@@ -161,7 +161,8 @@ bool map_project_v1(const Camera& camera, const MapRectV1& rect, const std::arra
     if (!(depth > 0.0f)) return false;
     const float ndcX = dot3(d, basis.right) / (depth * basis.tanHalfX);
     const float ndcY = dot3(d, basis.up) / (depth * basis.tanHalfY);
-    if (ndcX < -1.0f || ndcX > 1.0f || ndcY < -1.0f || ndcY > 1.0f) return false;
+    const float marginX = marginPx / rect.width * 2.0f, marginY = marginPx / rect.height * 2.0f;
+    if (ndcX < -1.0f - marginX || ndcX > 1.0f + marginX || ndcY < -1.0f - marginY || ndcY > 1.0f + marginY) return false;
     px = rect.x + (ndcX + 1.0f) * 0.5f * rect.width;
     py = rect.y + (1.0f - ndcY) * 0.5f * rect.height;
     return true;

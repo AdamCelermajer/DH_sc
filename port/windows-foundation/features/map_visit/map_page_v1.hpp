@@ -76,6 +76,8 @@ float map_world_per_pixel_v1(const MapCameraPoseV1& pose, const MapViewV1& view,
 // Projects a world point to a pixel in the RenderMap rectangle (top-left origin,
 // y down). Returns false when the point is behind the camera or outside the rectangle.
 struct MapRectV1 { float x = 0, y = 0, width = 0, height = 0; };
-bool map_project_v1(const Camera& camera, const MapRectV1& rect, const std::array<float, 3>& world, float& px, float& py);
+// marginPx > 0 keeps points up to that many pixels outside the rectangle (icons are clipped to it by the host, as the
+// sheet's clip layer 602 does: SWF sprite 655 depth 5 clip_depth 10).
+bool map_project_v1(const Camera& camera, const MapRectV1& rect, const std::array<float, 3>& world, float& px, float& py, float marginPx = 0.0f);
 
 } // namespace dh::foundation::map_visit

@@ -175,6 +175,8 @@ void map_tests() {
     CHECK(map_project_v1(reset, rect, anchor, px, py));
     CHECK(std::abs(px - 250) < 0.5f && std::abs(py - 150) < 0.5f);
     CHECK(!map_project_v1(reset, rect, {500, 0, 0}, px, py));
+    // B072: a margin keeps icons that overhang the rectangle (the host clips them).
+    CHECK(map_project_v1(reset, rect, {500, 0, 0}, px, py, 100000.0f));
 
     // Zoom moves the eye closer to the target (zoom 2 halves the eye distance); the anchor stays centred.
     MapViewV1 zoomed2;

@@ -5202,11 +5202,33 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     // RenderMap rectangle (after that contour, see the batch loop), then the player marker (family 3).
                     if(characterMenu.take_map_reset_zoom())mapView=f::map_visit::map_reset_zoom_v1(mapView);
                     // P16 MAP icon: the authored icon art of an icon type (MapIconsDynamic frame), origin at (x,y) window px.
+                    constexpr std::array<float,4> mapFloorColour{0.15f,0.14f,0.15f,1.0f};// B072: flat slate sampled from video Part 2 t=163 (38,36,38)
+                    std::array<float,4> mapClip{-1e9f,-1e9f,1e9f,1e9f}; // B072: icon clip rectangle (x0,y0,x1,y1), set by drawMapPage
                     constexpr float mapIconScale=1.55f;// authored MapIconsDummy/legend icon scale (1.55)
                     const auto drawMapIcon=[&](unsigned type,float x,float y) {
                         std::vector<f::OverlayTriangleVertex> vertices;
                         for(const auto& batch:f::character_menu::original_map_icon_art(type).batches)
-                            for(const auto& v:batch.triangles)vertices.push_back({x+v.x*mapIconScale*transform.scale_x,y+v.y*mapIconScale*transform.scale_y,v.u,v.v});
+                            for(std::size_t t=0;t+2<batch.triangles.size();t+=3) {
+                                // B072: icons are clipped to the RenderMap rectangle (sheet clip layer 602, clip_depth 10): Sutherland-Hodgman
+                                // against the rectangle with UV interpolation.
+                                std::vector<f::OverlayTriangleVertex> poly;
+                                for(std::size_t k=0;k<3;++k){const auto& v=batch.triangles[t+k];poly.push_back({x+v.x*mapIconScale*transform.scale_x,y+v.y*mapIconScale*transform.scale_y,v.u,v.v});}
+                                for(int edge=0;edge<4&&!poly.empty();++edge) {
+                                    const auto inside=[&](const f::OverlayTriangleVertex& p){return edge==0?p.x>=mapClip[0]:edge==1?p.x<=mapClip[2]:edge==2?p.y>=mapClip[1]:p.y<=mapClip[3];};
+                                    const auto limit=edge==0?mapClip[0]:edge==1?mapClip[2]:edge==2?mapClip[1]:mapClip[3];
+                                    std::vector<f::OverlayTriangleVertex> next;
+                                    for(std::size_t i=0;i<poly.size();++i) {
+                                        const auto a=poly[i],b=poly[(i+1)%poly.size()];
+                                        if(inside(a))next.push_back(a);
+                                        if(inside(a)!=inside(b)) {
+                                            const float f=edge<2?(limit-a.x)/(b.x-a.x):(limit-a.y)/(b.y-a.y);
+                                            next.push_back({a.x+(b.x-a.x)*f,a.y+(b.y-a.y)*f,a.u+(b.u-a.u)*f,a.v+(b.v-a.v)*f});
+                                        }
+                                    }
+                                    poly=std::move(next);
+                                }
+                                for(std::size_t i=1;i+1<poly.size();++i){vertices.push_back(poly[0]);vertices.push_back(poly[i]);vertices.push_back(poly[i+1]);}
+                            }
                         if(!vertices.empty()&&!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Map icon draw rejected");
                     };
                     const auto drawMapPage=[&]() {
@@ -5218,6 +5240,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         const float rectX=transform.x+minX*transform.scale_x,rectY=transform.y+minY*transform.scale_y;
                         const float rectW=(maxX-minX)*transform.scale_x,rectH=(maxY-minY)*transform.scale_y;
                         const f::map_visit::MapRectV1 mapRect{rectX,rectY,rectW,rectH};
+                        mapClip={rectX,rectY,rectX+rectW,rectY+rectH};
                         // Sheet parchment (SWF shape 600 bitmap fill = menus/map_bottom.tga) over the RenderMap rectangle.
                         {
                             const auto& source=f::character_menu::original_map_parchment();
@@ -5226,7 +5249,9 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                                 if(!f::load_texture(assets.resolve(source.texture),image,textureError))throw std::runtime_error("Map parchment texture: "+textureError);
                                 mapParchmentTexture=renderer.createTexture(int(image.width),int(image.height),image.rgba.data());
                                 if(!mapParchmentTexture)throw std::runtime_error("Map parchment texture upload rejected");
-                                mapParchmentTexelsW=float(image.width);mapParchmentTexelsH=float(image.height);
+                                // B072: the sheet's fill matrix addresses a 512x512 bitmap (authored size), not the 1024 px shipped texture. Measured on video
+                                // Part 2 t=58 (crosses/tower/arch landmarks land at texel (533,.)/(933,.) of 1024 = UV region x .28-.96, y .32-.66).
+                                mapParchmentTexelsW=512.0f;mapParchmentTexelsH=512.0f;
                             }
                             // Bitmap texel = (twips - offset) / twips-per-texel; the texture is 1024 px BTEX (width/height from the file).
                             const auto texU=[&](float ax){return ((ax*20.0f-source.offset_x_twips)/source.twips_per_texel)/mapParchmentTexelsW;};
@@ -5236,7 +5261,9 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             const std::vector<f::OverlayTriangleVertex> parchment{
                                 {px0,py0,texU(source.x0),texV(source.y0)},{px1,py0,texU(source.x1),texV(source.y0)},{px1,py1,texU(source.x1),texV(source.y1)},
                                 {px0,py0,texU(source.x0),texV(source.y0)},{px1,py1,texU(source.x1),texV(source.y1)},{px0,py1,texU(source.x0),texV(source.y1)}};
-                            if(!overlay.drawTriangles(parchment,mapParchmentTexture))throw std::runtime_error("Map parchment draw rejected");
+                            // B072: video Part 2 shows the parchment dimmer and desaturated against the texture: mean RGB (91,81,63) against the texture
+                            // region (183,142,74) = multiply (0.50,0.57,0.85). Cause in the original unknown (render/clear blend?): measured tint.
+                            if(!overlay.drawTriangles(parchment,mapParchmentTexture,{0.50f,0.57f,0.85f,1.0f}))throw std::runtime_error("Map parchment draw rejected");
                         }
                         std::optional<std::array<float,3>> mapPlayer;
                         if(const auto* playerActor=combatSession?combatSession->actor(combatSession->player_id()):nullptr)
@@ -5297,22 +5324,25 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         if(!f::map_visit::map_camera_v1(mapCameraPose,mapAnchor,mapView,mapCamera,mapError))throw std::runtime_error("Map camera: "+mapError);
                         const int vx=int(std::floor(rectX)),vyTop=int(std::floor(rectY)),vr=int(std::ceil(rectX+rectW)),vb=int(std::ceil(rectY+rectH));
                         if(!renderer.withViewport(vx,window.height()-vb,vr-vx,vb-vyTop,mapCamera,[&] {
-                            // Visited modules only (Module::visited3fc). Original map shows visited room geometry as dark slate.
+                            // Visited modules only (Module::visited3fc). B072: the original map scene holds the module `_minimap` nodes
+                            // (else the `_floor` nodes): SceneManager::AddNodeToMap via the PFWorld floor loader (IDA 377589-377625), shown
+                            // per room by SetRoomVisibility-style IsInsideRooms. Video Part 2 t=163 shows exactly these walkable-floor silhouettes
+                            // as flat dark slate over the parchment, not the module visuals (the earlier full-module draw filled the room black).
                             for(const auto& zone:mapVisits.zones()) {
                                 if(!mapVisits.visited(zone.id))continue;
-                                for(std::size_t r=zone.firstRange;r<zone.firstRange+zone.rangeCount&&r<scene.mesh.ranges.size();++r) {
-                                    f::DrawRange range=scene.mesh.ranges[r];
+                                for(std::size_t r=zone.mapFirstRange;r<zone.mapFirstRange+zone.mapRangeCount&&r<scene.mapMesh.ranges.size();++r) {
+                                    f::DrawRange range=scene.mapMesh.ranges[r];
                                     range.material.texture=0;range.material.transparent=false;range.material.alphaReference=0;
                                     range.material.additive=false;range.material.lightingEnabled=false;range.material.sourcePass.reset();
-                                    range.material.color={0.23f,0.25f,0.27f,1.0f};
-                                    renderer.drawRange(scene.mesh,range);
+                                    range.material.color=mapFloorColour;
+                                    renderer.drawRange(scene.mapMesh,range);
                                 }
                             }
                         })) throw std::runtime_error("Map page viewport rejected");
                         if(mapPlayer) {
                             float px=0,py=0;
                             // Family 3 (local player) = the authored Character icon (frame 3 of MapIconsDynamic).
-                            if(f::map_visit::map_project_v1(mapCamera,mapRect,*mapPlayer,px,py))drawMapIcon(3,px,py);
+                            if(f::map_visit::map_project_v1(mapCamera,mapRect,*mapPlayer,px,py,80.0f))drawMapIcon(3,px,py);
                         }
                         // P16 MAPMARKERS: every marker family comes from the registry (features/map_visit/map_markers_v1), in the
                         // IDA Show order. Live inputs: visited rooms, enemies (combat owner: hostile, alive), placed characters
@@ -5365,7 +5395,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         for(const auto& marker:markers) {
                             ++producedMarkers[unsigned(marker.kind)];
                             float px=0,py=0;
-                            const bool projected=f::map_visit::map_project_v1(mapCamera,mapRect,marker.position,px,py);
+                            const bool projected=f::map_visit::map_project_v1(mapCamera,mapRect,marker.position,px,py,80.0f);
                             if(!mapMarkersLogged) // diagnostic: every produced marker at the first map draw (world and window pixel)
                                 std::cout<<"Map marker kind="<<unsigned(marker.kind)<<" world="<<marker.position[0]<<','<<marker.position[1]<<','<<marker.position[2]
                                          <<(projected?" px=":" outside")<<(projected?px:0.0f)<<','<<(projected?py:0.0f)<<'\n';
@@ -5436,6 +5466,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     }
                     if(characterMenu.tab()==f::character_menu::Tab::map&&!mapDrawn)drawMapPage();
                     // P16 MAP legend: each legend caption's icon type at its authored position (legend popup frame).
+                    mapClip={-1e9f,-1e9f,1e9f,1e9f}; // legend icons are not clipped to the map rectangle
                     if(characterMenu.tab()==f::character_menu::Tab::map&&characterMenu.map_legend_shown())
                         for(const auto& icon:f::character_menu::original_map_legend_icons())
                             drawMapIcon(icon.type,transform.x+icon.x*transform.scale_x,transform.y+icon.y*transform.scale_y);
