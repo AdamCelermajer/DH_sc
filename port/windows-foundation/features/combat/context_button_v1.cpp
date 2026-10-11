@@ -26,7 +26,11 @@ ContextButtonDecisionV1 decide_context_button_v1(const ContextButtonInputV1& in)
 
     // Source Cmd_UseOOI runs instead of Cmd_Attack while an OOI exists. Enemy OOIs keep the
     // attack flowing (now aimed at the OOI); non-combat OOIs suppress the attack.
-    out.attack_held = combat;
+    // B085: a destructible (non-actor type 8) is attacked like an enemy: the press edge starts the weapon swing
+    // (source AISDefault::OnAttack 0x3dc12c calls target->Interact on the swing's hit marker when the target is
+    // not a Character). PC adaptation: one swing per press edge, no repeat by holding.
+    const bool destructible = in.object_type == combat_type_v1 && !in.object_is_actor;
+    out.attack_held = combat || (destructible && in.pressed_edge);
     // PC adaptation: non-combat interactions start on the press edge only (never by holding).
     out.use_object_of_interest = use_gate_open && (in.pressed_edge || combat);
     if (in.pressed_edge && !combat) out.interaction_type = in.object_type;

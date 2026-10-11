@@ -1794,6 +1794,8 @@ int main(int argc,char** argv) {
         f::OriginalMeleeBindings meleeBindings;std::shared_ptr<f::CombatSession> combatSession;f::ObjectOfInterestOwnerV1 objectOfInterest; // B004/B029
         f::InteractableRegistryV1 interactables; // P16 CONTEXT: non-actor interaction-type providers (empty until containers/NPC register)
         // B069: context-button approach (source AI_SetTarget(OOI) then walk to GetInteractionSpot until AI_IsInInteractionRange).
+        // B085: the destructible the hero may hit with the current swing (in range, unbroken, no actor target); refreshed every frame.
+        bool destructibleSwingValid=false;std::size_t destructibleSwingIndex=0;
         f::ActorId contextApproachTarget=f::invalid_actor_id;std::size_t contextApproachIndex=0;int contextApproachStartFrame=0;double contextApproachClock=0,contextApproachCheckClock=0;float contextApproachCheckDistance=0;
         int lastActionIcon=-2; // P16 CONTEXT: last published HUD action-button frame (log on change)
         bool actionButtonHeld=false; // P16 HUDART: Space held this frame (pressed ring of the action button)
@@ -6089,11 +6091,32 @@ int main(int argc,char** argv) {
                     in.target_type=containerRuntime.interaction_type(ci);
                     return f::interaction_in_range_v1(in);
                 };
+                const auto ctxIsDestructible=[&](std::size_t ci){return containerRuntime.instance(ci).family==f::containers::ContainerFamilyV1::destructible;};
                 const auto ctxUseContainer=[&](std::size_t ci) {
+                    if(ctxIsDestructible(ci)&&containerRuntime.state(ci)==f::containers::kContainerStateIdle) {
+                        // B085: attacking a destructible = the hero's weapon swing; the hit lands on the swing's hit marker
+                        // (source AISDefault::OnAttack 0x3dc12c -> target->Interact). The press edge only starts the swing.
+                        {const auto& at=containerRuntime.instance(ci).transform; // face the target (source Cmd_LookAt before the melee)
+                         auto* swinger=combatSession->actor(combatSession->player_id());
+                         swinger->transform.rotation[2]=std::atan2(at[13]-swinger->transform.position[1],at[12]-swinger->transform.position[0]);
+                         if(motor)motor->setFacingRadians(swinger->transform.rotation[2]);}
+                        gameplayInput.attack=true;
+                        std::cout<<"Context destructible swing declaration="<<containerRuntime.instance(ci).name<<" frame="<<drawn<<'\n';
+                        return;
+                    }
                     const float p[3]={ctxOwner->transform.position[0],ctxOwner->transform.position[1],ctxOwner->transform.position[2]};
                     const auto r=containerRuntime.interact(ci,p,std::numeric_limits<float>::infinity()); // range already satisfied by ctxContainerRange
                     std::cout<<"Context container declaration="<<containerRuntime.instance(ci).name<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" distance="<<r.distance<<" frame="<<drawn<<'\n';
                 };
+                { // B085: refresh the destructible the current swing may hit: the OOI is an unbroken destructible, in interaction range, no actor target
+                    destructibleSwingValid=false;
+                    const auto ooiNow=objectOfInterest.object();
+                    if(ooiNow!=f::invalid_actor_id&&!combatSession->actor(ooiNow)&&ctxOwner->target_id==f::invalid_actor_id)
+                        for(std::size_t ci=0;ci<containerRuntime.size();++ci)if(containerRuntime.instance(ci).stableId==ooiNow) {
+                            destructibleSwingValid=ctxIsDestructible(ci)&&containerRuntime.state(ci)==f::containers::kContainerStateIdle&&ctxContainerRange(ci);
+                            destructibleSwingIndex=ci;break;
+                        }
+                }
                 {   // B069: approach update (cancelled by manual movement, a lock, a spent container, a stall or a timeout)
                     const bool approachLocked=!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()];
                     if(contextApproachTarget!=f::invalid_actor_id) {
@@ -6157,6 +6180,7 @@ int main(int argc,char** argv) {
                             if(ctxContainerRange(containerIndex)||containerState==f::containers::kContainerStateActivating||containerState==f::containers::kContainerStateOpened)
                                 ctxUseContainer(containerIndex); // in range (or spent: the runtime logs rejected_state)
                             else { // B069: out of the interaction range: the hero walks to the object first (source Cmd_MoveTo(GetInteractionSpot))
+                                gameplayInput.attack=false; // B085: no swing until the hero has arrived
                                 contextApproachTarget=ooi;contextApproachIndex=containerIndex;contextApproachStartFrame=drawn;
                                 contextApproachClock=contextApproachCheckClock=0;contextApproachCheckDistance=1e9f;
                                 std::cout<<"Context approach start frame="<<drawn<<" declaration="<<containerRuntime.instance(containerIndex).name<<'\n';
@@ -6598,6 +6622,24 @@ int main(int argc,char** argv) {
                              <<" service="<<event.service<<" name="<<event.authored_name<<" lag="<<event.lag_ms
                              <<" controllerBlocked="<<(globalControllerBlocked||characterControllerBlocked[event.actor])
                              <<" synchronousHit="<<event.synchronous_source_hit<<'\n';
+                // B085: the hero's swing hit marker (mainhand/offhand) on a destructible target = source AISDefault::OnAttack
+                // (0x3dc12c): no Character target -> target->Interact (DestructibleContainer::Interact: stage clip + sound,
+                // final hit = destroy + loot). Gate: the swing was aimed at an in-range unbroken destructible OOI.
+                for(const auto& event:combatSession->original_animation_dispatches()) {
+                    if(event.actor!=combatSession->player_id()||!destructibleSwingValid)continue;
+                    const auto kind=f::classify_original_named_animation_event(event.authored_name,combatSession->original_actor_state(event.actor),false);
+                    if(kind!=f::OriginalNamedAnimationKind::mainhand&&kind!=f::OriginalNamedAnimationKind::offhand)continue;
+                    const auto* swinger=combatSession->actor(event.actor);
+                    const float p[3]={swinger->transform.position[0],swinger->transform.position[1],swinger->transform.position[2]};
+                    const auto r=containerRuntime.interact(destructibleSwingIndex,p,std::numeric_limits<float>::infinity());
+                    std::cout<<"Destructible swing hit declaration="<<containerRuntime.instance(destructibleSwingIndex).name<<" marker="<<event.authored_name<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" hits_remaining="<<r.hits_remaining<<" sound="<<r.sound_id<<" frame="<<drawn<<'\n';
+                    if(r.sound_id>=0&&runtimeAudio&&(r.status==f::containers::ContainerInteractStatusV1::hit||r.status==f::containers::ContainerInteractStatusV1::accepted)) {
+                        f::audio::WorldItemSoundResultV1 sr;std::string se;const auto& at=containerRuntime.instance(destructibleSwingIndex).transform;
+                        if(!runtimeAudio->submit_world_item_sound(r.sound_id,{at[12],at[13],at[14]},sr,se))std::cout<<"Destructible sound ordinal="<<r.sound_id<<" status=failed detail="<<se<<'\n';
+                        else std::cout<<"Destructible sound ordinal="<<r.sound_id<<" status="<<(sr.status==f::audio::WorldItemSoundStatusV1::asset_missing?"asset_missing":"submitted")<<" uid="<<sr.uid<<" uri="<<sr.uri<<'\n';
+                    }
+                    destructibleSwingValid=false; // one Interact per swing marker pass
+                }
                 // Reaction/death and diagnostic leaf playback have no authored
                 // movement service yet. Never leak their delta into locomotion.
                 visual.take_root_motion();
