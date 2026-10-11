@@ -2920,7 +2920,7 @@ int main(int argc,char** argv) {
         f::effects::EmbeddedSceneFxV1 embeddedSceneFx; // P17 FIREWALL: scene-owned authored FX (doors)
         f::effects::EmbeddedSceneFxV1 embeddedActorFx; // B105: separate actor identity domain, particles only
         const void* embeddedSceneFxOwner=nullptr;
-        std::set<std::uint64_t> embeddedActorTried; // B105: actor models already offered to the embedded-emitter system
+        std::map<std::uint64_t,std::string> embeddedActorTried; // B105: current model offered for each actor
         dh2::data::EffectsTables sourceEffectsTables;
         std::unique_ptr<f::effects::RuntimeEffectsFactoryV1> sourceEffectsFactory;
         // P16 OPENING: scripted FX (PlayEffect/StopEffect) go through the source effects manager, the same owner as the level-up
@@ -6927,15 +6927,20 @@ int main(int argc,char** argv) {
                     // particles, and use a separate ID domain because actor IDs are full-width content hashes.
                     embeddedActorFx.begin_frame();
                     for(auto& actor:population.actors()) {
-                        if(!actor.enabled||actor.modelPath.empty())continue;
+                        const auto* config=actor.visual.configuration();
+                        if(!actor.enabled||!config||config->model_path.empty())continue;
+                        const auto& modelPath=config->model_path;
                         const auto key=actor.definition.stableId;
-                        if(embeddedActorTried.insert(key).second) {
+                        const auto tried=embeddedActorTried.find(key);
+                        if(tried==embeddedActorTried.end()||tried->second!=modelPath) {
+                            embeddedActorFx.detach(key);
+                            embeddedActorTried[key]=modelPath;
                             std::vector<std::uint8_t> raw;
-                            try{raw=assets.read(actor.modelPath);}catch(const std::exception&){raw.clear();}
+                            try{raw=assets.read(modelPath);}catch(const std::exception&){raw.clear();}
                             std::string reason;
-                            if(!raw.empty()&&embeddedActorFx.attach(key,actor.modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
-                                std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<actor.modelPath<<'\n';
-                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<actor.modelPath<<": "<<(raw.empty()?std::string("unreadable"):reason)<<'\n';
+                            if(!raw.empty()&&embeddedActorFx.attach(key,modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
+                                std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<modelPath<<'\n';
+                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<modelPath<<": "<<(raw.empty()?std::string("unreadable"):reason)<<'\n';
                         }
                         if(!embeddedActorFx.attached(key))continue;
                         std::int32_t sourceMs=0;

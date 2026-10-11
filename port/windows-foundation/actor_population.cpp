@@ -183,7 +183,6 @@ bool ActorPopulation::load(const AssetCatalog& assets, const std::string& levelU
                 notices.push_back({definition.sourceId, "Original visual unavailable for " + binding + ": " + gap});
                 continue;
             }
-            actor.modelPath = config.model_path; // B105: model-embedded emitters
             actor.definition = std::move(definition);
             actors.push_back(std::move(actor));
         }
@@ -220,7 +219,6 @@ bool ActorPopulation::admit_declared(const AssetCatalog& assets, const ActorDefi
         error = "Original visual unavailable for " + profile.id + ": " + gap;
         return false;
     }
-    actor.modelPath = config.model_path; // B105: model-embedded emitters
     actor.definition = definition;
     actors_.push_back(std::move(actor));
     definitions_.push_back(definition);
