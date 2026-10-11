@@ -411,6 +411,7 @@ add_library(foundation_runtime_quests STATIC
   features/quest_runtime/quest_runtime_v1.cpp
   features/quest_runtime/quest_conditions_v1.cpp
   features/quest_runtime/quest_zones_v1.cpp
+  features/quest_runtime/quest_npc_marker_v1.cpp
   features/quests/quest_banner_presenter_v1.cpp
   features/quests/character_quest_progress_v1.cpp
   features/quests/character_quest_page_v1.cpp
@@ -437,6 +438,9 @@ target_link_libraries(quest_journal_art_v1_tests PRIVATE foundation_runtime_ques
 add_test(NAME quest_journal_art_v1 COMMAND quest_journal_art_v1_tests)
 add_test(NAME quest_runtime_v1 COMMAND quest_runtime_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
+add_executable(quest_npc_marker_v1_tests features/quest_runtime/quest_npc_marker_v1_tests.cpp) # B087
+target_link_libraries(quest_npc_marker_v1_tests PRIVATE foundation_runtime_quests)
+add_test(NAME quest_npc_marker_v1 COMMAND quest_npc_marker_v1_tests)
 # End Preview 16 quest runtime.
 # P17 CONDITIONS: one authored v2Conditions evaluator (features/conditions) and the event-driven flip watch.
 add_library(foundation_conditions STATIC
