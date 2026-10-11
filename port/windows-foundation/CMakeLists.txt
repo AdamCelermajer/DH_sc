@@ -27,7 +27,7 @@ endif()
 add_library(recovered_content STATIC
   ../engine-resources/resources.cpp ../asset-payloads/payloads.cpp
   ../engine-math/math.cpp ../scene-materials/scene.cpp
-  ../engine-animation/animation.cpp ../engine-animation/angle_interpreter.cpp
+  ../engine-animation/animation.cpp ../engine-animation/angle_interpreter.cpp ../engine-animation/channel_filter.cpp
   ../engine-animation/events.cpp ../engine-animation/event_track.cpp
   ../engine-animation/animation_blend.cpp ../level-world/animation_blender.cpp
   ../level-world/visual_timeline.cpp
@@ -280,6 +280,7 @@ add_library(foundation_runtime_effects STATIC
   ../asset-payloads/sha256.cpp
   features/effects/runtime_source_fx_asset_v1.cpp
   features/effects/runtime_swing_fx_observer_v1.cpp
+  features/effects/embedded_scene_fx_v1.cpp
   features/effects/runtime_level_up_presentation_v1.cpp
   features/effects/runtime_effects_factory_v1.cpp
   features/effects/runtime_combat_effects_v1.cpp
@@ -398,6 +399,32 @@ add_test(NAME quest_journal_art_v1 COMMAND quest_journal_art_v1_tests)
 add_test(NAME quest_runtime_v1 COMMAND quest_runtime_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
 # End Preview 16 quest runtime.
+# P17 CONDITIONS: one authored v2Conditions evaluator (features/conditions) and the event-driven flip watch.
+add_library(foundation_conditions STATIC
+  features/conditions/authored_conditions_v1.cpp
+  features/conditions/condition_watch_v1.cpp)
+target_link_libraries(foundation_conditions PUBLIC foundation_runtime_quests foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_conditions)
+add_executable(conditions_v1_tests features/conditions/conditions_v1_tests.cpp)
+target_link_libraries(conditions_v1_tests PRIVATE foundation_conditions)
+add_test(NAME conditions_v1 COMMAND conditions_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
+# End Preview 17 conditions.
+# P17 CONDITIONS: gated world declarations as persistent world objects (component dh2.world-gate.v1).
+add_library(foundation_world_gates STATIC features/world_gates/world_gate_v1.cpp)
+add_executable(world_gate_v1_tests features/world_gates/world_gate_v1_tests.cpp)
+target_link_libraries(world_gate_v1_tests PRIVATE foundation_world_gates)
+add_test(NAME world_gate_v1 COMMAND world_gate_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+target_link_libraries(foundation_world_gates PUBLIC foundation_conditions foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_world_gates)
+# P17 DOORS: Door visuals, Script_OpenDoor/CloseDoor, TriggerObject levers and gated AnimatedDecor (features/doors).
+add_library(foundation_doors STATIC
+  features/doors/door_runtime_v1.cpp features/doors/world_objects_v1.cpp
+  features/doors/door_world_v1.cpp features/doors/door_commands_v1.cpp)
+target_link_libraries(foundation_doors PUBLIC foundation_containers foundation_world_gates foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_doors)
+# End Preview 17 doors.
+# End Preview 17 world gates.
 
 enable_testing()
 foreach(test save camera asset level_manifest animation_markers combat_system actor_movement gameplay_camera actor_definitions content_paths actor_root_motion original_actor_properties equipment_visual original_melee_bindings original_combat_visual_plan original_attack_sequence)
@@ -1016,3 +1043,48 @@ add_test(NAME original_camera_clip COMMAND original_camera_clip_tests "${CMAKE_C
 add_executable(ambient_decor_tests features/scene_decor/ambient_decor_tests.cpp)
 target_link_libraries(ambient_decor_tests PRIVATE foundation_data)
 add_test(NAME ambient_decor COMMAND ambient_decor_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
+# P17 DOORS: compiled animation channels without a scene-node target are skipped and logged once.
+add_executable(channel_filter_tests features/animation_channels/channel_filter_tests.cpp ../engine-animation/channel_filter.cpp)
+add_test(NAME animation_channel_filter COMMAND channel_filter_tests)
+# End Preview 17 doors channel filter.
+# P17 TRANSITIONS: generic level exit/checkpoint zones (TriggerZoneExitLevel, CheckpointZone; QuestMoveInZone delegated),
+# level-table target resolution, SpawnPoint entry resolution and the condition interface stub.
+target_sources(foundation_data PRIVATE features/transitions/level_transitions_v1.cpp)
+# P17 TRANSITIONS2: travel prompt (armed exit, placeholder frame), entry-point component and per-level world snapshot paths.
+target_sources(foundation_data PRIVATE features/transitions/transition_prompt_v1.cpp features/transitions/transition_persistence_v1.cpp)
+add_executable(level_transitions_tests features/transitions/level_transitions_v1_tests.cpp)
+target_link_libraries(level_transitions_tests PRIVATE foundation_data foundation_frontend)
+add_test(NAME level_transitions COMMAND level_transitions_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
+
+# P17 PROCGEN: procedural `.rule.xml` levels. The canonical generator (port/level-loader procedural_*_v1,
+# reader interface in procedural_asset_source_v1) runs over the AssetCatalog; features/procedural emits a
+# Level document per (rule, seed) that the fixed-map loaders consume. See coordination/claude-preview17/PROCGEN-report.md.
+add_library(foundation_procedural STATIC
+  features/procedural/procedural_level_v1.cpp
+  ../level-loader/procedural_asset_source_v1.cpp
+  ../level-loader/procedural_random_v1.cpp ../level-loader/procedural_file_list_v1.cpp
+  ../level-loader/procedural_sources_v1.cpp ../level-loader/procedural_blocks_v1.cpp
+  ../level-loader/procedural_connections_v1.cpp ../level-loader/procedural_lists_v1.cpp
+  ../level-loader/procedural_rules_v1.cpp ../level-loader/procedural_instances_v1.cpp
+  ../level-loader/procedural_layout_v1.cpp ../level-loader/procedural_modules_v1.cpp)
+target_include_directories(foundation_procedural PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_compile_options(foundation_procedural PRIVATE -fno-fast-math -ffp-contract=off)
+target_link_libraries(foundation_procedural PUBLIC foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_procedural)
+add_executable(procedural_level_v1_tests features/procedural/procedural_level_v1_tests.cpp)
+target_link_libraries(procedural_level_v1_tests PRIVATE foundation_procedural)
+add_test(NAME procedural_level_v1 COMMAND procedural_level_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root")
+# P17 MERGE: one character save carries every feature component (seed, entry, owned bytes) and reloads exact at schema 4.
+add_executable(save_all_components_v4_tests features/save_components/save_all_components_v4_tests.cpp)
+target_link_libraries(save_all_components_v4_tests PRIVATE foundation_procedural)
+add_test(NAME save_all_components_v4 COMMAND save_all_components_v4_tests)
+# P17 PROCGEN2: RNG and layout locked against the original ARM oracle (features/procedural/reference/*.tsv).
+add_executable(procedural_layout_fidelity_tests features/procedural/procedural_layout_fidelity_tests.cpp)
+target_link_libraries(procedural_layout_fidelity_tests PRIVATE foundation_procedural)
+add_test(NAME procedural_layout_fidelity COMMAND procedural_layout_fidelity_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root")
+# P17 PROCGEN diagnostic: per-rule generation and fixed-map load coverage over the asset root (not a ctest).
+add_executable(procedural_coverage features/procedural/procedural_coverage.cpp)
+target_link_libraries(procedural_coverage PRIVATE foundation_procedural)
+# P17 PROCGEN2 diagnostic: module node triangle counts (voidmaze 14-22 triangles investigation; not a ctest).
+add_executable(procedural_module_probe features/procedural/procedural_module_probe.cpp)
+target_link_libraries(procedural_module_probe PRIVATE foundation_procedural)

@@ -1,0 +1,39 @@
+rule	seeds_ok	seeds	distinct_layouts	tiles	modules	unplaced	geometry_triangles	declarations	first_spawn	backup_fallback	first_failure
+data/scene/002_swamp_witchcave.rule.xml	64	64	4	7	7	0	11406	92	203.610992,557.531982,37.059799	x02_swamp_witchcave_backup.mlx	-
+data/scene/004_root_den.rule.xml	64	64	6	8	8	0	24142	106	-1568.290039,876.679993,861.838013	x04_root_den_backup.mlx	-
+data/scene/006_basement.rule.xml	64	64	22	8	8	0	19857	72	-1473.719971,1131.589966,11.734100	x06_basement_backup.mlx	-
+data/scene/007_crypt_01.rule.xml	64	64	57	8	8	0	15769	199	-2227.770020,1220.930054,812.557007	x07_crypt_backup.mlx	-
+data/scene/008_gothicus_castle_01.rule.xml	64	64	1	7	7	0	17581	102	115.148003,-841.320984,0.000000	x08_gothicus_castle_01_backup.mlx	-
+data/scene/009_abbey.rule.xml	64	64	28	11	11	0	16094	221	-21.403799,-1373.239990,16.594200	x09_abbey_backup.mlx	-
+data/scene/010_el_lightning.rule.xml	64	64	8	7	7	0	16966	121	-1553.140015,-1315.920044,306.415009	x10_el_lightning_backup.mlx	-
+data/scene/011_earth_temple_01.rule.xml	64	64	22	7	7	0	20860	178	-10.465000,-1214.619995,1327.469971	x11_earth_temple_01_backup.mlx	-
+data/scene/012_earth_temple_02.rule.xml	64	64	39	7	7	0	18876	128	-336.549011,-151.335007,-292.533997	x12_earth_temple_02_backup.mlx	-
+data/scene/013_earth_temple_03.rule.xml	64	64	6	5	5	0	15538	115	80.210999,-1295.010010,-304.158997	x13_earth_temple_03_backup.mlx	-
+data/scene/014_el_earth.rule.xml	64	64	8	7	7	0	16966	125	-1553.140015,-1315.920044,306.415009	x14_el_earth_backup.mlx	-
+data/scene/016_red_desert_cave_01.rule.xml	64	64	23	9	9	0	27984	166	-1507.869995,1839.400024,824.945007	x16_red_desert_cave_01_backup.mlx	-
+data/scene/017_red_desert_cave_02.rule.xml	20	64	8	10	10	0	21334	107	-15.857600,-593.229980,19.416000	x17_red_desert_cave_02_backup.mlx	layout: generation produced no tiles
+data/scene/018_red_desert_cave_03.rule.xml	58	64	6	9	9	0	21657	107	127.001999,-546.353027,19.416000	x18_red_desert_cave_03_backup.mlx	layout: generation produced no tiles
+data/scene/019_light_house_01.rule.xml	64	64	12	5	5	0	18113	175	2712.034912,-1894.729980,1.700000	x19_light_house_01_backup.mlx	-
+data/scene/019_light_house_02.rule.xml	64	64	12	5	5	0	22384	166	597.699951,1408.479980,2338.090088	x19_light_house_02_backup.mlx	-
+data/scene/019_light_house_03.rule.xml	64	64	1	1	1	0	2776	25	2003.728027,1676.949951,743.549011	x19_light_house_03_backup.mlx	-
+data/scene/020_crypt_02.rule.xml	64	64	64	11	11	0	17872	214	1234.430054,1120.719971,7.861080	x20_crypt_02_backup.mlx	-
+data/scene/021_gothicus_castle_02.rule.xml	64	64	1	7	7	0	18365	119	-1818.099976,-1143.979980,0.000000	x21_gothicus_castle_02_backup.mlx	-
+data/scene/022_swamp2.rule.xml	64	64	46	10	10	0	26762	144	53.444302,708.692993,332.231995	x22_swamp2_backup.mlx	-
+data/scene/022_swamp2_trollcave.rule.xml	64	64	36	9	9	0	13566	81	457.225006,474.523987,60.633099	x22_swamp2_trollcave_backup.mlx	-
+data/scene/023_watertemple.rule.xml	64	64	63	13	13	0	34852	145	59.992199,1136.719971,252.544998	x23_watertemple_backup.mlx	-
+data/scene/024_el_water.rule.xml	64	64	12	8	8	0	19976	143	-1553.140015,-1315.920044,306.415009	x24_el_water_backup.mlx	-
+data/scene/026_icy_cavern_01.rule.xml	64	64	15	10	10	0	29607	82	-1691.890015,-46.054901,1407.599976	x26_icy_cavern_01_backup.mlx	-
+data/scene/027_icy_cavern_02.rule.xml	0	64	0	0	0	0	-	-	-	x27_icy_cavern_02_backup.mlx	layout: generation produced no tiles
+data/scene/028_icy_cavern_03.rule.xml	64	64	31	11	11	0	33920	110	2216.629883,-188.626007,1521.760010	x28_icy_cavern_03_backup.mlx	-
+data/scene/029_wind_temple.rule.xml	64	64	1	12	12	0	32941	123	-39.574200,30.155300,1935.839966	x29_wind_temple_backup.mlx	-
+data/scene/030_el_air.rule.xml	64	64	21	8	8	0	19608	148	-1553.140015,-1315.920044,306.415009	x30_el_air_backup.mlx	-
+data/scene/032_el_fire.rule.xml	64	64	17	8	8	0	19608	139	-1553.140015,-1315.920044,306.415009	x32_el_fire_backup.mlx	-
+data/scene/033_voidmaze_01.rule.xml	64	64	6	9	9	0	13696	44	-416.867004,1846.489990,1328.280029	missing	-
+data/scene/034_voidmaze_02.rule.xml	64	64	8	11	11	0	16392	26	-419.050995,1507.329956,1316.069946	missing	-
+data/scene/035_voidmaze_03.rule.xml	64	64	24	7	7	0	10548	18	-1198.400024,-398.177002,1317.069946	missing	-
+data/scene/050_earth_temple_demo.rule.xml	64	64	1	4	4	0	12518	44	-10.465000,-1214.619995,1327.469971	x50_earth_temple_demo_backup.mlx	-
+data/scene/102_debug_questtest.rule.xml	64	64	4	7	7	0	12319	24	6461.540039,-4470.846191,-783.033997	missing	-
+data/scene/121_debug_test2.rule.xml	0	64	0	0	0	0	-	-	-	missing	sources: Rule data/scene/121_debug_test2.rule.xml has no folder on its rules element (legacy RootRule folder format)
+data/scene/122_debug_test.rule.xml	0	64	0	0	0	0	-	-	-	missing	sources: Rule data/scene/122_debug_test.rule.xml has no folder on its rules element (legacy RootRule folder format)
+data/scene/125_randomforalexb.rule.xml	64	64	6	5	5	0	12398	39	-1553.140015,-1315.920044,306.415009	missing	-
+# rules=37 loaded_from_generation=34

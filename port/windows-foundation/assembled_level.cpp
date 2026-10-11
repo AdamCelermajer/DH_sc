@@ -53,7 +53,8 @@ bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::pa
                 OriginalScene& output,std::vector<LevelModuleZone>& zones,std::string& error) {
     try {
         std::vector<ModulePlacement> placements;
-        if(!decode_level_manifest(assets.read(manifestRelative),placements,error)) return false;
+        const auto manifestBytes=assets.read(manifestRelative);
+        if(!decode_level_manifest(manifestBytes,placements,error)) return false;
         OriginalScene combined;combined.source=manifestRelative.generic_string();
         const auto infinity=std::numeric_limits<float>::infinity();
         combined.minimum={infinity,infinity,infinity};combined.maximum={-infinity,-infinity,-infinity};
@@ -82,7 +83,53 @@ bool load_level_with_module_zones(AssetCatalog& assets,const std::filesystem::pa
             loadedZones.push_back(std::move(zone));
             merge(combined,std::move(part));
         }
+        // P17 PROCGEN2: the Decor and AnimatedDecor declarations of each visible module's visual document (mvp), in
+        // their module-local poses (the swamp cave water caustics, props). Merged like module geometry; no room zone.
+        // A missing visual or decor file is a named notice: the module geometry is still valid without it.
+        std::size_t decorCount=0;
+        for(const auto& module:placements) {
+            if(!module.visible||!module.activateCondition.empty()||module.visualPath.empty()) continue;
+            std::vector<ModulePlacement> decor;
+            try {
+                const auto visualPath=find_asset(assets,manifestRelative,module.visualPath);
+                auto visual=cache.find(visualPath);if(visual==cache.end()) visual=cache.emplace(visualPath,assets.read(visualPath)).first;
+                std::string decorError;
+                if(!decode_module_decor(visual->second,module.placement,decor,decorError)) throw std::runtime_error(decorError);
+            } catch(const std::exception& ex) {
+                combined.notices.push_back("Module visual skipped: "+module.name+" ["+ex.what()+"]");continue;
+            }
+            for(const auto& item:decor) {
+                try {
+                    const auto path=find_asset(assets,manifestRelative,item.assetPath);
+                    auto entry=cache.find(path);if(entry==cache.end()) entry=cache.emplace(path,assets.read(path)).first;
+                    OriginalScene part;std::string partError;
+                    if(!decode_original_scene_module(entry->second,item.authoredNode,item.placement,part,partError))
+                        throw std::runtime_error(partError);
+                    merge(combined,std::move(part));++decorCount;
+                } catch(const std::exception& ex) {
+                    combined.notices.push_back("Decor skipped: "+item.name+" ["+ex.what()+"]");
+                }
+            }
+        }
         if(combined.mesh.indices.empty()) {error="Level has no visible unconditional module geometry";return false;}
+        // P17 PROCGEN2: the LevelConfig skybox, decoded as a whole BRES scene (the same decoder as module geometry).
+        // A missing or invalid skybox is a named notice; the level still loads without it.
+        const auto skyName=decode_level_skybox(manifestBytes);
+        if(!skyName.empty()) {
+            try {
+                auto sky=std::make_shared<OriginalScene>();
+                std::string skyError;
+                // Whole-scene decode: the placement is the identity (no renderer symbol, so the loader tools link without it).
+                const Mat4 identityPlacement{1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
+                if(!decode_original_scene_module(assets.read(std::filesystem::path(skyName)),std::string(),identityPlacement,*sky,skyError))
+                    throw std::runtime_error(skyError);
+                combined.notices.push_back("Skybox loaded: "+skyName+" triangles="+std::to_string(sky->triangleCount));
+                combined.skybox=std::move(sky);
+            } catch(const std::exception& ex) {
+                combined.notices.push_back("Skybox skipped: "+skyName+" ["+ex.what()+"]");
+            }
+        }
+        combined.notices.push_back("Decor instantiated: "+std::to_string(decorCount)+" Decor/AnimatedDecor declarations (authored pose, no animation playback).");
         combined.notices.push_back("Geometry preview only: module gameplay objects, quests, lights, skybox and campaign predicates are not instantiated.");
         output=std::move(combined);zones=std::move(loadedZones);error.clear();return true;
     }catch(const std::exception& ex){error=ex.what();return false;}

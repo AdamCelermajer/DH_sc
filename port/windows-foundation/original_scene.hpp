@@ -2,6 +2,7 @@
 
 #include "renderer.hpp"
 #include <filesystem>
+#include <memory>
 #include <string>
 
 namespace dh::foundation {
@@ -33,6 +34,9 @@ struct OriginalScene {
     std::size_t nodeCount = 0, instanceCount = 0, triangleCount = 0;
     std::string source;
     std::vector<std::string> notices;
+    // P17 PROCGEN2: the LevelConfig skybox (data/3D/skybox/*.bdae), loaded with the level and drawn at the eye with
+    // depth writes off. Null when the level declares none or it could not be loaded (then a notice says why).
+    std::shared_ptr<OriginalScene> skybox;
 };
 
 // Decodes visible static visual geometry with the original scene transforms baked

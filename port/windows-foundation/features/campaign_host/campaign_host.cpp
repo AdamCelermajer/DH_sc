@@ -316,8 +316,10 @@ bool CampaignHost::bind_executor(OriginalCampaignRuntime& runtime, OriginalCampa
     routes.cinematics = [](CampaignCommandPhase, const OriginalCampaignCommand&, int, bool, bool& handled, bool& blocking, std::string&) {
         handled = false; blocking = false; return true;
     };
-    routes.doors = [](CampaignCommandPhase, const OriginalCampaignCommand&, int, bool, bool& handled, bool& blocking, std::string&) {
-        handled = false; blocking = false; return true;
+    routes.doors = [this](CampaignCommandPhase phase, const OriginalCampaignCommand& c, int module, bool skip, bool& handled, bool& blocking, std::string& e) {
+        // P17 DOORS: the door owner answers Script_OpenDoor/CloseDoor; without an owner the command passes through.
+        if (!services_.doors) { handled = false; blocking = false; return true; }
+        return services_.doors(phase, c, module, skip, handled, blocking, e);
     };
     routes.audio = [](CampaignCommandPhase, const OriginalCampaignCommand&, bool, std::int64_t, bool& handled, bool& blocking, std::string&) {
         handled = false; blocking = false; return true;
@@ -766,7 +768,7 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
         contact_qualified = false;
         std::cout << "[campaign] trigger position unavailable: " << error << '\n';
     }
-    zones_.update(*runtime_, contact_player, contact_qualified, -1);
+    zones_.update(*runtime_, contact_player, contact_qualified, -1, services_.condition_active);
 }
 
 void CampaignHost::print_summary(std::ostream& out) const {

@@ -1,0 +1,607 @@
+# Original ARM32 layout oracle (P17 PROCGEN2). Source: port/level-loader/reports/procedural-layout-original.json
+# (generic-level-loader checkout). Original cache sha256 3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679, engine sha256 36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80
+# R: rule seed generated final_state random_calls root_attempts place_calls unspawn_calls step_calls path_calls rule_calls
+# T: rule seed index block_source name grid_x grid_y height_bits list_block list_gameplay list_visual chances children
+R	data/scene/002_swamp_witchcave.rule.xml	0	1	2247711126	8	1	7	0	7	0	6
+T	data/scene/002_swamp_witchcave.rule.xml	0	0	24	deadend_swpcave_s_00	0	0	0	deadend_swpcave_s_00	deadend_swpcave_s_00.mgp	deadend_swpcave_s_00_01.mvp	100	1
+T	data/scene/002_swamp_witchcave.rule.xml	0	1	12	corner_swpcave_nw_00	0	1	0	corner_swpcave_nw_00	witch_a_wpcave_nw_00_01.mgp	corner_swpcave_nw_00_01.mvp	100	2
+T	data/scene/002_swamp_witchcave.rule.xml	0	2	13	corner_swpcave_se_00	-1	1	0	corner_swpcave_se_00	witch_a_wpcave_se_00_01.mgp	corner_swpcave_se_00_01.mvp	100	3
+T	data/scene/002_swamp_witchcave.rule.xml	0	3	39	t_swpcave_nse_00	-1	2	0	t_swpcave_nse_00	witch_a_e_nse_00_01.mgp	t_swpcave_nse_00_01.mvp	100	4,5
+T	data/scene/002_swamp_witchcave.rule.xml	0	4	23	deadend_swpcave_n_00	-1	3	0	deadend_swpcave_n_00	deadend_swpcave_n_00.mgp	deadend_swpcave_n_00_01.mvp	100	
+T	data/scene/002_swamp_witchcave.rule.xml	0	5	36	straight_swpcave_we_00	0	2	0	straight_swpcave_we_00	witch_a__swpcave_we_00_01.mgp	straight_swpcave_we_00_01.mvp	100	6
+T	data/scene/002_swamp_witchcave.rule.xml	0	6	2	bossroom_swpcave_w_00	1	2	0	bossroom_swpcave_w_00	bossroom_witch_.mgp	witch_a_swpcave_n_00_01.mvp	100	
+R	data/scene/002_swamp_witchcave.rule.xml	1	1	3860601557	8	1	7	0	7	0	7
+T	data/scene/002_swamp_witchcave.rule.xml	1	0	24	deadend_swpcave_s_00	0	0	0	deadend_swpcave_s_00	deadend_swpcave_s_00.mgp	deadend_swpcave_s_00_01.mvp	100	1
+T	data/scene/002_swamp_witchcave.rule.xml	1	1	12	corner_swpcave_nw_00	0	1	0	corner_swpcave_nw_00	witch_a_wpcave_nw_00_01.mgp	corner_swpcave_nw_00_01.mvp	100	2
+T	data/scene/002_swamp_witchcave.rule.xml	1	2	13	corner_swpcave_se_00	-1	1	0	corner_swpcave_se_00	witch_a_wpcave_se_00_01.mgp	corner_swpcave_se_00_01.mvp	100	3
+T	data/scene/002_swamp_witchcave.rule.xml	1	3	39	t_swpcave_nse_00	-1	2	0	t_swpcave_nse_00	witch_a_e_nse_00_01.mgp	t_swpcave_nse_00_01.mvp	100	4,6
+T	data/scene/002_swamp_witchcave.rule.xml	1	4	36	straight_swpcave_we_00	0	2	0	straight_swpcave_we_00	witch_a__swpcave_we_00_01.mgp	straight_swpcave_we_00_01.mvp	100	5
+T	data/scene/002_swamp_witchcave.rule.xml	1	5	2	bossroom_swpcave_w_00	1	2	0	bossroom_swpcave_w_00	bossroom_witch_.mgp	witch_a_swpcave_n_00_01.mvp	100	
+T	data/scene/002_swamp_witchcave.rule.xml	1	6	23	deadend_swpcave_n_00	-1	3	0	deadend_swpcave_n_00	deadend_swpcave_n_00.mgp	deadend_swpcave_n_00_01.mvp	100	
+R	data/scene/004_root_den.rule.xml	0	1	634820695	7	1	8	0	8	0	11
+T	data/scene/004_root_den.rule.xml	0	0	10	objentry_rootden_e_	0	0	0	objentry_rootden_e_	objentry_rootden_e__01.mgp	objentry_rootden_e__01.mvp	100	1
+T	data/scene/004_root_den.rule.xml	0	1	1	corner_rootden_nw_	1	0	0	corner_rootden_nw_	corner_rootden_nw__01.mgp	corner_rootden_nw__01.mvp	100	2
+T	data/scene/004_root_den.rule.xml	0	2	12	straight_rootden_ns_	1	-1	0	straight_rootden_ns_	straight_rootden_ns__01.mgp	straight_rootden_ns__01.mvp	100	3
+T	data/scene/004_root_den.rule.xml	0	3	9	objcross_rootden_nesw_	1	-2	0	objcross_rootden_nesw_	objcross_rootden_nesw__01.mgp	objcross_rootden_nesw__01.mvp	100	4,5,6
+T	data/scene/004_root_den.rule.xml	0	4	7	deadend_rootden_w_	2	-2	0	deadend_rootden_w_	deadend_rootden_w__01.mgp	deadend_rootden_w__01.mvp	100	
+T	data/scene/004_root_den.rule.xml	0	5	4	deadend_rootden_e_	0	-2	0	deadend_rootden_e_	deadend_rootden_e__01.mgp	deadend_rootden_e__01.mvp	100	
+T	data/scene/004_root_den.rule.xml	0	6	2	corner_rootden_se_	1	-3	0	corner_rootden_se_	corner_rootden_se__01.mgp	corner_rootden_se__01.mvp	100	7
+T	data/scene/004_root_den.rule.xml	0	7	8	objboss_rootden_w_	2	-3	0	objboss_rootden_w_	objboss_rootden_w__01.mgp	objboss_rootden_w__01.mvp	100	
+R	data/scene/004_root_den.rule.xml	1	1	2564135766	7	1	9	1	9	0	9
+T	data/scene/004_root_den.rule.xml	1	0	10	objentry_rootden_e_	0	0	0	objentry_rootden_e_	objentry_rootden_e__01.mgp	objentry_rootden_e__01.mvp	100	1
+T	data/scene/004_root_den.rule.xml	1	1	1	corner_rootden_nw_	1	0	0	corner_rootden_nw_	corner_rootden_nw__01.mgp	corner_rootden_nw__01.mvp	100	2
+T	data/scene/004_root_den.rule.xml	1	2	12	straight_rootden_ns_	1	-1	0	straight_rootden_ns_	straight_rootden_ns__01.mgp	straight_rootden_ns__01.mvp	100	3
+T	data/scene/004_root_den.rule.xml	1	3	9	objcross_rootden_nesw_	1	-2	0	objcross_rootden_nesw_	objcross_rootden_nesw__01.mgp	objcross_rootden_nesw__01.mvp	100	4,5,6
+T	data/scene/004_root_den.rule.xml	1	4	4	deadend_rootden_e_	0	-2	0	deadend_rootden_e_	deadend_rootden_e__01.mgp	deadend_rootden_e__01.mvp	100	
+T	data/scene/004_root_den.rule.xml	1	5	7	deadend_rootden_w_	2	-2	0	deadend_rootden_w_	deadend_rootden_w__01.mgp	deadend_rootden_w__01.mvp	100	
+T	data/scene/004_root_den.rule.xml	1	6	2	corner_rootden_se_	1	-3	0	corner_rootden_se_	corner_rootden_se__01.mgp	corner_rootden_se__01.mvp	100	7
+T	data/scene/004_root_den.rule.xml	1	7	8	objboss_rootden_w_	2	-3	0	objboss_rootden_w_	objboss_rootden_w__01.mgp	objboss_rootden_w__01.mvp	100	
+R	data/scene/006_basement.rule.xml	0	1	2623206589	16	1	12	4	9	10	6
+T	data/scene/006_basement.rule.xml	0	0	6	deadend_rootden_s_	0	0	0	deadend_rootden_s_	basement_deadend_s_01.mgp	basement_deadend_s_01.mvp	100	1
+T	data/scene/006_basement.rule.xml	0	1	0	corner_rootden_ne_	0	1	0	corner_rootden_ne_	basement_corner_ne_01.mgp	basement_corner_ne_01.mvp	100	2
+T	data/scene/006_basement.rule.xml	0	2	11	straight_rootden_ew_	1	1	0	straight_rootden_ew_	basement_straight_ew_01.mgp	basement_straight_ew_01.mvp	100	3
+T	data/scene/006_basement.rule.xml	0	3	13	t_rootden_esw_	2	1	0	t_rootden_esw_	basement_t_merchant_sew_01.mgp	basement_t_sew_01.mvp	100	4,5
+T	data/scene/006_basement.rule.xml	0	4	5	deadend_rootden_n_	2	2	0	deadend_rootden_n_	basement_obj_n_01.mgp	basement_deadend_n_01.mvp	100	
+T	data/scene/006_basement.rule.xml	0	5	3	corner_rootden_sw_	3	1	0	corner_rootden_sw_	basement_corner_sw_01.mgp	basement_corner_sw_01.mvp	100	6
+T	data/scene/006_basement.rule.xml	0	6	0	corner_rootden_ne_	3	2	0	corner_rootden_ne_	basement_corner_ne_01.mgp	basement_corner_ne_01.mvp	100	7
+T	data/scene/006_basement.rule.xml	0	7	7	deadend_rootden_w_	4	2	0	deadend_rootden_w_	basement_deadend_w_01.mgp	basement_deadend_w_01.mvp	100	
+R	data/scene/006_basement.rule.xml	1	1	2981212427	43	1	44	36	32	42	29
+T	data/scene/006_basement.rule.xml	1	0	6	deadend_rootden_s_	0	0	0	deadend_rootden_s_	basement_deadend_s_01.mgp	basement_deadend_s_01.mvp	100	1
+T	data/scene/006_basement.rule.xml	1	1	0	corner_rootden_ne_	0	1	0	corner_rootden_ne_	basement_corner_ne_01.mgp	basement_corner_ne_01.mvp	100	2
+T	data/scene/006_basement.rule.xml	1	2	11	straight_rootden_ew_	1	1	0	straight_rootden_ew_	basement_straight_ew_01.mgp	basement_straight_ew_01.mvp	100	3
+T	data/scene/006_basement.rule.xml	1	3	13	t_rootden_esw_	2	1	0	t_rootden_esw_	basement_t_sew_01.mgp	basement_t_sew_01.mvp	100	4,7
+T	data/scene/006_basement.rule.xml	1	4	1	corner_rootden_nw_	3	1	0	corner_rootden_nw_	basement_corner_nw_01.mgp	basement_corner_nw_01.mvp	100	5
+T	data/scene/006_basement.rule.xml	1	5	2	corner_rootden_se_	3	0	0	corner_rootden_se_	basement_corner_se_01.mgp	basement_corner_se_01.mvp	100	6
+T	data/scene/006_basement.rule.xml	1	6	7	deadend_rootden_w_	4	0	0	deadend_rootden_w_	basement_deadend_w_01.mgp	basement_deadend_w_01.mvp	100	
+T	data/scene/006_basement.rule.xml	1	7	5	deadend_rootden_n_	2	2	0	deadend_rootden_n_	basement_obj_n_01.mgp	basement_deadend_n_01.mvp	100	
+R	data/scene/007_crypt_01.rule.xml	0	1	968143298	18	1	8	0	7	5	4
+T	data/scene/007_crypt_01.rule.xml	0	0	1	cemetery_entrance	0	0	0	cemetery_entrance	crypt_cemetery_entrance_01.mgp	crypt_cemetery_entrance_01.mvp	100	1
+T	data/scene/007_crypt_01.rule.xml	0	1	18	straight_ns	0	-1	0	straight_ns	crypt_straight_ns_01.mgp	crypt2_straight_ns_01.mvp	100	2
+T	data/scene/007_crypt_01.rule.xml	0	2	5	corner_sw	0	-2	0	corner_sw	crypt_corner_sw_02.mgp	crypt_corner_sw_01.mvp	100	3
+T	data/scene/007_crypt_01.rule.xml	0	3	2	corner_ne	-1	-2	0	corner_ne	crypt_corner_ne_01.mgp	crypt_corner_ne_01.mvp	100	4
+T	data/scene/007_crypt_01.rule.xml	0	4	20	t_sew	-1	-3	0	t_sew	crypt_t_sew_01.mgp	crypt_t_sew_01.mvp	100	5,7
+T	data/scene/007_crypt_01.rule.xml	0	5	3	corner_nw	0	-3	0	corner_nw	crypt_corner_nw_02.mgp	crypt_corner_nw_02.mvp	100	6
+T	data/scene/007_crypt_01.rule.xml	0	6	16	straight_c_ns	0	-4	0	straight_c_ns	crypt_straight_c_ns_02.mgp	crypt_straight_c_ns_01.mvp	100	
+T	data/scene/007_crypt_01.rule.xml	0	7	6	deadend_e	-2	-3	0	deadend_e	crypt_deadend_e_01.mgp	crypt_deadend_e_01.mvp	100	
+R	data/scene/007_crypt_01.rule.xml	1	1	3347120605	18	1	8	0	7	5	4
+T	data/scene/007_crypt_01.rule.xml	1	0	1	cemetery_entrance	0	0	0	cemetery_entrance	crypt_cemetery_entrance_01.mgp	crypt_cemetery_entrance_01.mvp	100	1
+T	data/scene/007_crypt_01.rule.xml	1	1	18	straight_ns	0	-1	0	straight_ns	crypt_straight_ns_01.mgp	crypt2_straight_ns_01.mvp	100	2
+T	data/scene/007_crypt_01.rule.xml	1	2	4	corner_se	0	-2	0	corner_se	crypt_corner_se_01.mgp	crypt_corner_se_01.mvp	100	3
+T	data/scene/007_crypt_01.rule.xml	1	3	3	corner_nw	1	-2	0	corner_nw	crypt_corner_nw_01.mgp	crypt_corner_nw_01.mvp	100	4
+T	data/scene/007_crypt_01.rule.xml	1	4	20	t_sew	1	-3	0	t_sew	crypt_t_sew_01.mgp	crypt_t_sew_01.mvp	100	5,7
+T	data/scene/007_crypt_01.rule.xml	1	5	2	corner_ne	0	-3	0	corner_ne	crypt_corner_ne_01.mgp	crypt_corner_ne_01.mvp	100	6
+T	data/scene/007_crypt_01.rule.xml	1	6	16	straight_c_ns	0	-4	0	straight_c_ns	crypt_straight_c_ns_01.mgp	crypt_straight_c_ns_01.mvp	100	
+T	data/scene/007_crypt_01.rule.xml	1	7	8	deadend_w	2	-3	0	deadend_w	crypt_deadend_w_01.mgp	crypt_deadend_w_01.mvp	100	
+R	data/scene/008_gothicus_castle_01.rule.xml	0	1	0	0	1	7	0	7	0	6
+T	data/scene/008_gothicus_castle_01.rule.xml	0	0	9	kingroom_s	0	0	0	kingroom_s	gc01_kingroom_s_01.mgp	gc01_kingroom_s_01.mvp	100	1
+T	data/scene/008_gothicus_castle_01.rule.xml	0	1	2	corner_wn	0	1	3087007750	corner_wn	gc01_corner_wn_01.mgp	elemental_corner_wn_01.mvp	100	2
+T	data/scene/008_gothicus_castle_01.rule.xml	0	2	12	straightb_ew	-1	1	3087007750	straightb_ew	gc01_straightb_ew_01.mgp	elemental_straightb_ew_01.mvp	100	3
+T	data/scene/008_gothicus_castle_01.rule.xml	0	3	1	corner_se	-2	1	960495612	corner_se	gc01_corner_se_01.mgp	elemental_corner_se_01.mvp	100	4
+T	data/scene/008_gothicus_castle_01.rule.xml	0	4	8	entrance_ns	-2	2	960495612	entrance_ns	gc01_entrance_ns_01.mgp	gc01_entrance_ns_01.mvp	100	5
+T	data/scene/008_gothicus_castle_01.rule.xml	0	5	11	straighta_ns	-2	3	1075644417	straighta_ns	gc01_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	6
+T	data/scene/008_gothicus_castle_01.rule.xml	0	6	5	deadend_n	-2	4	962592768	deadend_n	gc01_deadend_n_01.mgp	gc01_deadend_n_01.mvp	100	
+R	data/scene/008_gothicus_castle_01.rule.xml	1	1	1	0	1	7	0	7	0	6
+T	data/scene/008_gothicus_castle_01.rule.xml	1	0	9	kingroom_s	0	0	0	kingroom_s	gc01_kingroom_s_01.mgp	gc01_kingroom_s_01.mvp	100	1
+T	data/scene/008_gothicus_castle_01.rule.xml	1	1	2	corner_wn	0	1	3087007750	corner_wn	gc01_corner_wn_01.mgp	elemental_corner_wn_01.mvp	100	2
+T	data/scene/008_gothicus_castle_01.rule.xml	1	2	12	straightb_ew	-1	1	3087007750	straightb_ew	gc01_straightb_ew_01.mgp	elemental_straightb_ew_01.mvp	100	3
+T	data/scene/008_gothicus_castle_01.rule.xml	1	3	1	corner_se	-2	1	960495612	corner_se	gc01_corner_se_01.mgp	elemental_corner_se_01.mvp	100	4
+T	data/scene/008_gothicus_castle_01.rule.xml	1	4	8	entrance_ns	-2	2	960495612	entrance_ns	gc01_entrance_ns_01.mgp	gc01_entrance_ns_01.mvp	100	5
+T	data/scene/008_gothicus_castle_01.rule.xml	1	5	11	straighta_ns	-2	3	1075644417	straighta_ns	gc01_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	6
+T	data/scene/008_gothicus_castle_01.rule.xml	1	6	5	deadend_n	-2	4	962592768	deadend_n	gc01_deadend_n_01.mgp	gc01_deadend_n_01.mvp	100	
+R	data/scene/009_abbey.rule.xml	0	1	3955892657	23	1	16	5	16	10	13
+T	data/scene/009_abbey.rule.xml	0	0	9	entrance_n	0	0	0	entrance_n	ABBEY_entrance_n_01.mgp	ABBEY_entrance_n_01.mvp	100	1
+T	data/scene/009_abbey.rule.xml	0	1	18	straight_ns	0	-1	0	straight_ns	abbey_straight_ns_01.mgp	abbey_straight_ns_01.mvp	100	2
+T	data/scene/009_abbey.rule.xml	0	2	20	t_sew	0	-2	0	t_sew	abbey_t_sew_01.mgp	abbey_t_sew_01.mvp	100	3,4
+T	data/scene/009_abbey.rule.xml	0	3	6	deadend_e	-1	-2	0	deadend_e	abbey_deadend_e_01.mgp	abbey_deadend_e_01.mvp	100	
+T	data/scene/009_abbey.rule.xml	0	4	15	straight_c_ew	1	-2	0	straight_c_ew	abbey_straight_c_ew_01.mgp	abbey_straight_c_ew_01.mvp	100	5
+T	data/scene/009_abbey.rule.xml	0	5	20	t_sew	2	-2	0	t_sew	abbey_t_sew_01.mgp	abbey_t_sew_01.mvp	100	6,10
+T	data/scene/009_abbey.rule.xml	0	6	3	corner_nw	3	-2	0	corner_nw	abbey_corner_nw_01.mgp	abbey_corner_nw_01.mvp	100	7
+T	data/scene/009_abbey.rule.xml	0	7	19	t_nse	3	-3	0	t_nse	abbey_t_nse_01.mgp	abbey_t_nse_01.mvp	100	8,9
+T	data/scene/009_abbey.rule.xml	0	8	0	boss_room	3	-4	0	boss_room	abbey_kings_chamber_s_01.mgp	abbey_kings_chamber_s_01.mvp	100	
+T	data/scene/009_abbey.rule.xml	0	9	8	deadend_w	4	-3	0	deadend_w	abbey_deadend_w_01.mgp	abbey_deadend_w_01.mvp	100	
+T	data/scene/009_abbey.rule.xml	0	10	7	deadend_n	2	-1	0	deadend_n	abbey_deadend_n_01.mgp	abbey_deadend_n_01.mvp	100	
+R	data/scene/009_abbey.rule.xml	1	1	2041967032	66	1	57	46	57	34	59
+T	data/scene/009_abbey.rule.xml	1	0	9	entrance_n	0	0	0	entrance_n	ABBEY_entrance_n_01.mgp	ABBEY_entrance_n_01.mvp	100	1
+T	data/scene/009_abbey.rule.xml	1	1	18	straight_ns	0	-1	0	straight_ns	abbey_straight_ns_01.mgp	abbey_straight_ns_01.mvp	100	2
+T	data/scene/009_abbey.rule.xml	1	2	20	t_sew	0	-2	0	t_sew	abbey_t_sew_01.mgp	abbey_t_sew_01.mvp	100	3,10
+T	data/scene/009_abbey.rule.xml	1	3	12	straight_a_ew	1	-2	0	straight_a_ew	abbey_straight_a_ew_01.mgp	abbey_straight_a_ew_01.mvp	100	4
+T	data/scene/009_abbey.rule.xml	1	4	20	t_sew	2	-2	0	t_sew	abbey_t_sew_01.mgp	abbey_t_sew_01.mvp	100	5,9
+T	data/scene/009_abbey.rule.xml	1	5	3	corner_nw	3	-2	0	corner_nw	abbey_corner_nw_01.mgp	abbey_corner_nw_01.mvp	100	6
+T	data/scene/009_abbey.rule.xml	1	6	19	t_nse	3	-3	0	t_nse	abbey_t_nse_01.mgp	abbey_t_nse_01.mvp	100	7,8
+T	data/scene/009_abbey.rule.xml	1	7	8	deadend_w	4	-3	0	deadend_w	abbey_deadend_w_01.mgp	abbey_deadend_w_01.mvp	100	
+T	data/scene/009_abbey.rule.xml	1	8	0	boss_room	3	-4	0	boss_room	abbey_kings_chamber_s_01.mgp	abbey_kings_chamber_s_01.mvp	100	
+T	data/scene/009_abbey.rule.xml	1	9	7	deadend_n	2	-1	0	deadend_n	abbey_deadend_n_01.mgp	abbey_deadend_n_01.mvp	100	
+T	data/scene/009_abbey.rule.xml	1	10	6	deadend_e	-1	-2	0	deadend_e	abbey_deadend_e_01.mgp	abbey_deadend_e_01.mvp	100	
+R	data/scene/010_el_lightning.rule.xml	0	1	2247711126	8	1	8	1	6	5	4
+T	data/scene/010_el_lightning.rule.xml	0	0	5	deadend_n	0	0	0	deadend_n	el_lightning_deadend_n_01.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/010_el_lightning.rule.xml	0	1	11	straighta_ns	0	-1	1075643521	straighta_ns	el_lightning_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	2
+T	data/scene/010_el_lightning.rule.xml	0	2	1	corner_se	0	-2	0	corner_se	el_lightning_corner_se_01.mgp	elemental_corner_se_01.mvp	100	3
+T	data/scene/010_el_lightning.rule.xml	0	3	12	straightb_ew	1	-2	3110076413	straightb_ew	el_lightning_straightb_ew_01.mgp	elemental_straightb_ew_01.mvp	100	4
+T	data/scene/010_el_lightning.rule.xml	0	4	13	t_new	2	-2	3211845123	t_new	el_lightning_t_new_01.mgp	elemental_t_new_01.mvp	100	5,6
+T	data/scene/010_el_lightning.rule.xml	0	5	7	deadend_w	3	-2	3290774092	deadend_w	el_lightning_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+T	data/scene/010_el_lightning.rule.xml	0	6	10	objectiveroom_s	2	-3	1135913700	objectiveroom_s	boss_lightning.mgp	elemental_objectiveroom_s_01.mvp	100	
+R	data/scene/010_el_lightning.rule.xml	1	1	2903793695	11	1	11	4	9	6	9
+T	data/scene/010_el_lightning.rule.xml	1	0	5	deadend_n	0	0	0	deadend_n	el_lightning_deadend_n_01.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/010_el_lightning.rule.xml	1	1	1	corner_se	0	-1	0	corner_se	el_lightning_corner_se_01.mgp	elemental_corner_se_01.mvp	100	2
+T	data/scene/010_el_lightning.rule.xml	1	2	2	corner_wn	1	-1	0	corner_wn	el_lightning_corner_wn_01.mgp	elemental_corner_wn_01.mvp	100	3
+T	data/scene/010_el_lightning.rule.xml	1	3	1	corner_se	1	-2	0	corner_se	el_lightning_corner_se_01.mgp	elemental_corner_se_01.mvp	100	4
+T	data/scene/010_el_lightning.rule.xml	1	4	13	t_new	2	-2	3211841539	t_new	el_lightning_t_new_01.mgp	elemental_t_new_01.mvp	100	5,6
+T	data/scene/010_el_lightning.rule.xml	1	5	7	deadend_w	3	-2	3290774088	deadend_w	el_lightning_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+T	data/scene/010_el_lightning.rule.xml	1	6	10	objectiveroom_s	2	-3	1135913707	objectiveroom_s	boss_lightning.mgp	elemental_objectiveroom_s_01.mvp	100	
+R	data/scene/011_earth_temple_01.rule.xml	0	1	634820695	7	1	7	0	4	5	2
+T	data/scene/011_earth_temple_01.rule.xml	0	0	8	entry_earthtemp_w_	0	0	0	entry_earthtemp_w_	et01_entry_earthtemp_w__01.mgp	et01_entry_earthtemp_w__01.mvp	100	1
+T	data/scene/011_earth_temple_01.rule.xml	0	1	11	straight_earthtemp_ew_	-1	1	0	straight_earthtemp_ew_	et01_straight_objrootdoors_ew__01.mgp	et01_straight_objrootdoors_ew__01.mvp	100	2
+T	data/scene/011_earth_temple_01.rule.xml	0	2	0	corner_earthtemp_ne_	-2	1	0	corner_earthtemp_ne_	et01_corner_earthtemp_ne__01.mgp	et01_corner_earthtemp_ne__01.mvp	100	3
+T	data/scene/011_earth_temple_01.rule.xml	0	3	12	straight_earthtemp_ns_	-2	0	0	straight_earthtemp_ns_	et01_straight_earthtemp_ns__01.mgp	et01_straight_earthtemp_ns__01.mvp	100	4
+T	data/scene/011_earth_temple_01.rule.xml	0	4	3	corner_earthtemp_sw_	-2	-1	0	corner_earthtemp_sw_	et01_corner_earthtemp_sw__01.mgp	et01_corner_earthtemp_sw__01.mvp	100	5
+T	data/scene/011_earth_temple_01.rule.xml	0	5	0	corner_earthtemp_ne_	-3	-1	0	corner_earthtemp_ne_	et01_corner_earthtemp_ne__01.mgp	et01_corner_earthtemp_ne__01.mvp	100	6
+T	data/scene/011_earth_temple_01.rule.xml	0	6	6	deadend_earthtemp_s_	-3	-2	0	deadend_earthtemp_s_	et01_deadend_toet02_s__01.mgp	et01_deadend_toet02_s__01.mvp	100	
+R	data/scene/011_earth_temple_01.rule.xml	1	1	388089412	5	1	6	0	4	4	2
+T	data/scene/011_earth_temple_01.rule.xml	1	0	8	entry_earthtemp_w_	0	0	0	entry_earthtemp_w_	et01_entry_earthtemp_w__01.mgp	et01_entry_earthtemp_w__01.mvp	100	1
+T	data/scene/011_earth_temple_01.rule.xml	1	1	11	straight_earthtemp_ew_	-1	1	0	straight_earthtemp_ew_	et01_straight_objrootdoors_ew__01.mgp	et01_straight_objrootdoors_ew__01.mvp	100	2
+T	data/scene/011_earth_temple_01.rule.xml	1	2	0	corner_earthtemp_ne_	-2	1	0	corner_earthtemp_ne_	et01_corner_earthtemp_ne__01.mgp	et01_corner_earthtemp_ne__01.mvp	100	3
+T	data/scene/011_earth_temple_01.rule.xml	1	3	12	straight_earthtemp_ns_	-2	0	0	straight_earthtemp_ns_	et01_straight_earthtemp_ns__01.mgp	et01_straight_earthtemp_ns__01.mvp	100	4
+T	data/scene/011_earth_temple_01.rule.xml	1	4	3	corner_earthtemp_sw_	-2	-1	0	corner_earthtemp_sw_	et01_corner_earthtemp_sw__01.mgp	et01_corner_earthtemp_sw__01.mvp	100	5
+T	data/scene/011_earth_temple_01.rule.xml	1	5	4	deadend_earthtemp_e_	-3	-1	1110484976	deadend_earthtemp_e_	et01_deadend_toet02_e__01.mgp	et01_deadend_toet02_e__01.mvp	100	
+R	data/scene/012_earth_temple_02.rule.xml	0	1	1587687257	38	1	33	25	28	15	32
+T	data/scene/012_earth_temple_02.rule.xml	0	0	4	deadend_earthtemp_e_	0	0	0	deadend_earthtemp_e_	et02_deadend_toet01_e__01.mgp	et02_deadend_toet01_e__01.mvp	100	1
+T	data/scene/012_earth_temple_02.rule.xml	0	1	3	corner_earthtemp_sw_	1	0	3257968624	corner_earthtemp_sw_	et02_corner_earthtemp_sw__02.mgp	et01_corner_earthtemp_sw__01.mvp	100	2
+T	data/scene/012_earth_temple_02.rule.xml	0	2	0	corner_earthtemp_ne_	1	1	3257968624	corner_earthtemp_ne_	et02_corner_earthtemp_ne__01.mgp	et01_corner_earthtemp_ne__01.mvp	100	3
+T	data/scene/012_earth_temple_02.rule.xml	0	3	3	corner_earthtemp_sw_	2	1	3257968624	corner_earthtemp_sw_	et02_corner_earthtemp_sw__02.mgp	et01_corner_earthtemp_sw__01.mvp	100	4
+T	data/scene/012_earth_temple_02.rule.xml	0	4	14	t_earthtemp_nsw_	2	2	3257968624	t_earthtemp_nsw_	et02_t_objspittrap_nsw__01.mgp	et02_t_objspittrap_nsw__01.mvp	100	5,7
+T	data/scene/012_earth_temple_02.rule.xml	0	5	9	midboss_earthtemp_ns_	2	3	3257968624	midboss_earthtemp_ns_	et02_midboss_earthtemp_ns__01.mgp	et02_midboss_earthtemp_ns__01.mvp	100	6
+T	data/scene/012_earth_temple_02.rule.xml	0	6	5	deadend_earthtemp_n_	2	4	3257968624	deadend_earthtemp_n_	et02_deadend_toet03_n__01.mgp	et02_deadend_toet03_n__01.mvp	100	
+T	data/scene/012_earth_temple_02.rule.xml	0	7	4	deadend_earthtemp_e_	1	2	0	deadend_earthtemp_e_	et01_deadend_earthtemp_e__02.mgp	et01_deadend_earthtemp_e__01.mvp	100	
+R	data/scene/012_earth_temple_02.rule.xml	1	1	1817535748	85	2	90	83	74	49	78
+T	data/scene/012_earth_temple_02.rule.xml	1	0	4	deadend_earthtemp_e_	0	0	0	deadend_earthtemp_e_	et02_deadend_toet01_e__01.mgp	et02_deadend_toet01_e__01.mvp	100	1
+T	data/scene/012_earth_temple_02.rule.xml	1	1	3	corner_earthtemp_sw_	1	0	3257968624	corner_earthtemp_sw_	et02_corner_earthtemp_sw__02.mgp	et01_corner_earthtemp_sw__01.mvp	100	2
+T	data/scene/012_earth_temple_02.rule.xml	1	2	12	straight_earthtemp_ns_	1	1	3257968624	straight_earthtemp_ns_	et02_straight_earthtemp_ns__01.mgp	et01_straight_earthtemp_ns__01.mvp	100	3
+T	data/scene/012_earth_temple_02.rule.xml	1	3	14	t_earthtemp_nsw_	1	2	3257968624	t_earthtemp_nsw_	et02_t_objspittrap_nsw__01.mgp	et02_t_objspittrap_nsw__01.mvp	100	4,5
+T	data/scene/012_earth_temple_02.rule.xml	1	4	4	deadend_earthtemp_e_	0	2	0	deadend_earthtemp_e_	et01_deadend_earthtemp_e__02.mgp	et01_deadend_earthtemp_e__01.mvp	100	
+T	data/scene/012_earth_temple_02.rule.xml	1	5	9	midboss_earthtemp_ns_	1	3	3257968624	midboss_earthtemp_ns_	et02_midboss_earthtemp_ns__01.mgp	et02_midboss_earthtemp_ns__01.mvp	100	6
+T	data/scene/012_earth_temple_02.rule.xml	1	6	5	deadend_earthtemp_n_	1	4	3257968624	deadend_earthtemp_n_	et02_deadend_toet03_n__01.mgp	et02_deadend_toet03_n__01.mvp	100	
+R	data/scene/013_earth_temple_03.rule.xml	0	1	3241966324	15	1	15	10	15	0	12
+T	data/scene/013_earth_temple_03.rule.xml	0	0	13	t_earthtemp_new_	0	0	0	t_earthtemp_new_	et03_tmodule_toet02_nsw__01.mgp	et03_tmodule_toet02_nsw__01.mvp	100	1,2,3
+T	data/scene/013_earth_temple_03.rule.xml	0	1	4	deadend_earthtemp_e_	-1	0	1110484976	deadend_earthtemp_e_	et01_deadend_earthtemp_e__01.mgp	et01_deadend_earthtemp_e__01.mvp	100	
+T	data/scene/013_earth_temple_03.rule.xml	0	2	7	deadend_earthtemp_w_	1	0	0	deadend_earthtemp_w_	et01_deadend_earthtemp_w__01.mgp	et01_deadend_earthtemp_w__01.mvp	100	
+T	data/scene/013_earth_temple_03.rule.xml	0	3	12	straight_earthtemp_ns_	0	-1	0	straight_earthtemp_ns_	et02_straight_earthtemp_ns__01.mgp	et01_straight_earthtemp_ns__01.mvp	100	4
+T	data/scene/013_earth_temple_03.rule.xml	0	4	10	objboss_earthtemp_s_	0	-2	0	objboss_earthtemp_s_	et03_objboss_earthtemp_s__01.mgp	et03_objboss_earthtemp_s__01.mvp	100	
+R	data/scene/013_earth_temple_03.rule.xml	1	1	1284375241	9	1	6	1	6	0	4
+T	data/scene/013_earth_temple_03.rule.xml	1	0	13	t_earthtemp_new_	0	0	0	t_earthtemp_new_	et03_tmodule_toet02_nsw__01.mgp	et03_tmodule_toet02_nsw__01.mvp	100	1,2,3
+T	data/scene/013_earth_temple_03.rule.xml	1	1	7	deadend_earthtemp_w_	1	0	0	deadend_earthtemp_w_	et01_deadend_earthtemp_w__01.mgp	et01_deadend_earthtemp_w__01.mvp	100	
+T	data/scene/013_earth_temple_03.rule.xml	1	2	4	deadend_earthtemp_e_	-1	0	1110484976	deadend_earthtemp_e_	et01_deadend_earthtemp_e__01.mgp	et01_deadend_earthtemp_e__01.mvp	100	
+T	data/scene/013_earth_temple_03.rule.xml	1	3	12	straight_earthtemp_ns_	0	-1	0	straight_earthtemp_ns_	et02_straight_earthtemp_ns__01.mgp	et01_straight_earthtemp_ns__01.mvp	100	4
+T	data/scene/013_earth_temple_03.rule.xml	1	4	10	objboss_earthtemp_s_	0	-2	0	objboss_earthtemp_s_	et03_objboss_earthtemp_s__01.mgp	et03_objboss_earthtemp_s__01.mvp	100	
+R	data/scene/014_el_earth.rule.xml	0	1	2247711126	8	1	8	1	6	5	4
+T	data/scene/014_el_earth.rule.xml	0	0	5	deadend_n	0	0	0	deadend_n	el_earth_deadend_n_01.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/014_el_earth.rule.xml	0	1	11	straighta_ns	0	-1	1075643521	straighta_ns	el_earth_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	2
+T	data/scene/014_el_earth.rule.xml	0	2	1	corner_se	0	-2	0	corner_se	el_earth_corner_se_01.mgp	elemental_corner_se_01.mvp	100	3
+T	data/scene/014_el_earth.rule.xml	0	3	12	straightb_ew	1	-2	3110076413	straightb_ew	el_earth_straighta_ew_01.mgp	elemental_straightb_ew_01.mvp	100	4
+T	data/scene/014_el_earth.rule.xml	0	4	13	t_new	2	-2	3211845123	t_new	el_earth_t_new_01.mgp	elemental_t_new_01.mvp	100	5,6
+T	data/scene/014_el_earth.rule.xml	0	5	7	deadend_w	3	-2	3290774092	deadend_w	el_earth_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+T	data/scene/014_el_earth.rule.xml	0	6	10	objectiveroom_s	2	-3	1135913700	objectiveroom_s	boss_earth.mgp	elemental_objectiveroom_s_01.mvp	100	
+R	data/scene/014_el_earth.rule.xml	1	1	2903793695	11	1	11	4	9	6	9
+T	data/scene/014_el_earth.rule.xml	1	0	5	deadend_n	0	0	0	deadend_n	el_earth_deadend_n_01.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/014_el_earth.rule.xml	1	1	1	corner_se	0	-1	0	corner_se	el_earth_corner_se_01.mgp	elemental_corner_se_01.mvp	100	2
+T	data/scene/014_el_earth.rule.xml	1	2	2	corner_wn	1	-1	0	corner_wn	el_earth_corner_wn_01.mgp	elemental_corner_wn_01.mvp	100	3
+T	data/scene/014_el_earth.rule.xml	1	3	1	corner_se	1	-2	0	corner_se	el_earth_corner_se_01.mgp	elemental_corner_se_01.mvp	100	4
+T	data/scene/014_el_earth.rule.xml	1	4	13	t_new	2	-2	3211841539	t_new	el_earth_t_new_01.mgp	elemental_t_new_01.mvp	100	5,6
+T	data/scene/014_el_earth.rule.xml	1	5	7	deadend_w	3	-2	3290774088	deadend_w	el_earth_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+T	data/scene/014_el_earth.rule.xml	1	6	10	objectiveroom_s	2	-3	1135913707	objectiveroom_s	boss_earth.mgp	elemental_objectiveroom_s_01.mvp	100	
+R	data/scene/016_red_desert_cave_01.rule.xml	0	1	3077297660	10	1	9	0	5	8	2
+T	data/scene/016_red_desert_cave_01.rule.xml	0	0	8	obj01_dsrtcave_e_00	0	0	0	obj01_dsrtcave_e_00	rdc01_obj01_dsrtcave_e_00_01.mgp	rdc01_obj01_dsrtcave_e_00_01.mvp	100	1
+T	data/scene/016_red_desert_cave_01.rule.xml	0	1	14	straight_dsrtcave_we_00	1	0	0	straight_dsrtcave_we_00	rdc01_straight_dsrtcave_we_00_01.mgp	rdc01_straight_dsrtcave_we_00_01.mvp	100	2
+T	data/scene/016_red_desert_cave_01.rule.xml	0	2	2	corner_dsrtcave_wn_00	2	0	0	corner_dsrtcave_wn_00	rdc01_corner_dsrtcave_wn_00_01.mgp	rdc01_corner_dsrtcave_wn_00_01.mvp	100	3
+T	data/scene/016_red_desert_cave_01.rule.xml	0	3	1	corner_dsrtcave_se_00	2	-1	0	corner_dsrtcave_se_00	rdc01_corner_dsrtcave_se_00_01.mgp	rdc01_corner_dsrtcave_se_00_01.mvp	100	4
+T	data/scene/016_red_desert_cave_01.rule.xml	0	4	9	obj02_dsrtcave_ws_00	3	-1	0	obj02_dsrtcave_ws_00	rdc01_obj02_dsrtcave_ws_00_01.mgp	rdc01_obj02_dsrtcave_ws_00_01.mvp	100	5
+T	data/scene/016_red_desert_cave_01.rule.xml	0	5	0	corner_dsrtcave_ne_00	3	0	0	corner_dsrtcave_ne_00	rdc01_corner_dsrtcave_ne_00_02.mgp	rdc01_corner_dsrtcave_ne_00_02.mvp	100	6
+T	data/scene/016_red_desert_cave_01.rule.xml	0	6	14	straight_dsrtcave_we_00	4	0	0	straight_dsrtcave_we_00	rdc01_straight_dsrtcave_we_00_02.mgp	rdc01_straight_dsrtcave_we_00_02.mvp	100	7
+T	data/scene/016_red_desert_cave_01.rule.xml	0	7	3	corner_dsrtcave_ws_00	5	0	0	corner_dsrtcave_ws_00	rdc01_corner_dsrtcave_ws_00_02.mgp	rdc01_corner_dsrtcave_ws_00_02.mvp	100	8
+T	data/scene/016_red_desert_cave_01.rule.xml	0	8	12	obj05_dsrtcave_n_00	5	1	0	obj05_dsrtcave_n_00	rdc01_obj05_dsrtcave_n_00_01.mgp	rdc01_obj05_dsrtcave_n_00_01.mvp	100	
+R	data/scene/016_red_desert_cave_01.rule.xml	1	1	3860601557	8	1	7	0	5	6	2
+T	data/scene/016_red_desert_cave_01.rule.xml	1	0	8	obj01_dsrtcave_e_00	0	0	0	obj01_dsrtcave_e_00	rdc01_obj01_dsrtcave_e_00_01.mgp	rdc01_obj01_dsrtcave_e_00_01.mvp	100	1
+T	data/scene/016_red_desert_cave_01.rule.xml	1	1	2	corner_dsrtcave_wn_00	1	0	0	corner_dsrtcave_wn_00	rdc01_corner_dsrtcave_wn_00_01.mgp	rdc01_corner_dsrtcave_wn_00_01.mvp	100	2
+T	data/scene/016_red_desert_cave_01.rule.xml	1	2	1	corner_dsrtcave_se_00	1	-1	0	corner_dsrtcave_se_00	rdc01_corner_dsrtcave_se_00_01.mgp	rdc01_corner_dsrtcave_se_00_01.mvp	100	3
+T	data/scene/016_red_desert_cave_01.rule.xml	1	3	9	obj02_dsrtcave_ws_00	2	-1	0	obj02_dsrtcave_ws_00	rdc01_obj02_dsrtcave_ws_00_01.mgp	rdc01_obj02_dsrtcave_ws_00_01.mvp	100	4
+T	data/scene/016_red_desert_cave_01.rule.xml	1	4	0	corner_dsrtcave_ne_00	2	0	0	corner_dsrtcave_ne_00	rdc01_corner_dsrtcave_ne_00_02.mgp	rdc01_corner_dsrtcave_ne_00_02.mvp	100	5
+T	data/scene/016_red_desert_cave_01.rule.xml	1	5	3	corner_dsrtcave_ws_00	3	0	0	corner_dsrtcave_ws_00	rdc01_corner_dsrtcave_ws_00_02.mgp	rdc01_corner_dsrtcave_ws_00_02.mvp	100	6
+T	data/scene/016_red_desert_cave_01.rule.xml	1	6	12	obj05_dsrtcave_n_00	3	1	0	obj05_dsrtcave_n_00	rdc01_obj05_dsrtcave_n_00_01.mgp	rdc01_obj05_dsrtcave_n_00_01.mvp	100	
+R	data/scene/017_red_desert_cave_02.rule.xml	0	0	3146929004	26	1	33	33	19	31	15
+R	data/scene/017_red_desert_cave_02.rule.xml	1	1	1284375241	9	1	11	1	8	8	6
+T	data/scene/017_red_desert_cave_02.rule.xml	1	0	5	deadend_dsrtcave_n_00	0	0	0	deadend_dsrtcave_n_00	rdc02_objentrance_dsrtcave_n_00_01.mgp	rdc02_objentrance_dsrtcave_n_00_01.mvp	100	1
+T	data/scene/017_red_desert_cave_02.rule.xml	1	1	15	t_dsrtcave_nse_00	0	-1	0	t_dsrtcave_nse_00	rdc02_t_dsrtcave_nse_00_01.mgp	rdc02_t_dsrtcave_nse_00_01.mvp	100	2,9
+T	data/scene/017_red_desert_cave_02.rule.xml	1	2	2	corner_dsrtcave_wn_00	1	-1	0	corner_dsrtcave_wn_00	rdc02_corner_dsrtcave_wn_00_01.mgp	rdc02_corner_dsrtcave_wn_00_01.mvp	100	3
+T	data/scene/017_red_desert_cave_02.rule.xml	1	3	1	corner_dsrtcave_se_00	1	-2	0	corner_dsrtcave_se_00	rdc02_corner_dsrtcave_se_00_01.mgp	rdc02_corner_dsrtcave_se_00_01.mvp	100	4
+T	data/scene/017_red_desert_cave_02.rule.xml	1	4	14	straight_dsrtcave_we_00	2	-2	0	straight_dsrtcave_we_00	rdc02_straight_dsrtcave_we_00_01.mgp	rdc02_straight_dsrtcave_we_00_01.mvp	100	5
+T	data/scene/017_red_desert_cave_02.rule.xml	1	5	3	corner_dsrtcave_ws_00	3	-2	0	corner_dsrtcave_ws_00	rdc02_corner_dsrtcave_ws_00_01.mgp	rdc02_corner_dsrtcave_ws_00_01.mvp	100	6
+T	data/scene/017_red_desert_cave_02.rule.xml	1	6	0	corner_dsrtcave_ne_00	3	-1	0	corner_dsrtcave_ne_00	rdc02_corner_dsrtcave_ne_00_01.mgp	rdc02_corner_dsrtcave_ne_00_01.mvp	100	7
+T	data/scene/017_red_desert_cave_02.rule.xml	1	7	3	corner_dsrtcave_ws_00	4	-1	0	corner_dsrtcave_ws_00	rdc02_corner_dsrtcave_ws_00_01.mgp	rdc02_corner_dsrtcave_ws_00_01.mvp	100	8
+T	data/scene/017_red_desert_cave_02.rule.xml	1	8	12	obj05_dsrtcave_n_00	4	0	0	obj05_dsrtcave_n_00	rdc02_obj05_dsrtcave_n_00_01.mgp	rdc02_obj05_dsrtcave_n_00_01.mvp	100	
+T	data/scene/017_red_desert_cave_02.rule.xml	1	9	6	deadend_dsrtcave_s_00	0	-2	0	deadend_dsrtcave_s_00	rdc02_deadend_dsrtcave_s_00_01.mgp	rdc02_deadend_dsrtcave_s_00_01.mvp	100	
+R	data/scene/018_red_desert_cave_03.rule.xml	0	1	3489403281	12	1	14	4	10	10	7
+T	data/scene/018_red_desert_cave_03.rule.xml	0	0	5	deadend_dsrtcave_n_00	0	0	0	deadend_dsrtcave_n_00	rdc03_objentrance_dsrtcave_n_00_01.mgp	rdc03_objentrance_dsrtcave_n_00_01.mvp	100	1
+T	data/scene/018_red_desert_cave_03.rule.xml	0	1	16	t_dsrtcave_nsw_00	0	-1	0	t_dsrtcave_nsw_00	rdc03_t_dsrtcave_nsw_00_01.mgp	rdc03_t_dsrtcave_nsw_00_01.mvp	100	2,8
+T	data/scene/018_red_desert_cave_03.rule.xml	0	2	3	corner_dsrtcave_ws_00	0	-2	0	corner_dsrtcave_ws_00	rdc03_corner_obj_dsrtcave_ws_00_01.mgp	rdc03_corner_obj_dsrtcave_ws_00_01.mvp	100	3
+T	data/scene/018_red_desert_cave_03.rule.xml	0	3	14	straight_dsrtcave_we_00	-1	-2	0	straight_dsrtcave_we_00	rdc03_straight_dsrtcave_we_00_01.mgp	rdc03_straight_dsrtcave_we_00_01.mvp	100	4
+T	data/scene/018_red_desert_cave_03.rule.xml	0	4	14	straight_dsrtcave_we_00	-2	-2	0	straight_dsrtcave_we_00	rdc03_straight_dsrtcave_we_00_01.mgp	rdc03_straight_dsrtcave_we_00_01.mvp	100	5
+T	data/scene/018_red_desert_cave_03.rule.xml	0	5	0	corner_dsrtcave_ne_00	-3	-2	0	corner_dsrtcave_ne_00	rdc03_corner_dsrtcave_ne_00_01.mgp	rdc03_corner_dsrtcave_ne_00_01.mvp	100	6
+T	data/scene/018_red_desert_cave_03.rule.xml	0	6	10	obj03_dsrtcave_ns_00	-3	-3	0	obj03_dsrtcave_ns_00	rdc03_obj03_dsrtcave_ns_00_01.mgp	rdc03_obj03_dsrtcave_ns_00_01.mvp	100	7
+T	data/scene/018_red_desert_cave_03.rule.xml	0	7	6	deadend_dsrtcave_s_00	-3	-4	0	deadend_dsrtcave_s_00	rdc03_objexit_dsrtcave_s_00_01.mgp	rdc03_objexit_dsrtcave_s_00_01.mvp	100	
+T	data/scene/018_red_desert_cave_03.rule.xml	0	8	14	straight_dsrtcave_we_00	-1	-1	0	straight_dsrtcave_we_00	rdc03_straight_dsrtcave_we_00_01.mgp	rdc03_straight_dsrtcave_we_00_01.mvp	100	9
+T	data/scene/018_red_desert_cave_03.rule.xml	0	9	4	deadend_dsrtcave_e_00	-2	-1	0	deadend_dsrtcave_e_00	rdc03_deadend_dsrtcave_e_00_01.mgp	rdc03_corner_dsrtcave_ne_00_01.mvp	100	
+R	data/scene/018_red_desert_cave_03.rule.xml	1	1	1840777239	12	1	15	5	12	10	10
+T	data/scene/018_red_desert_cave_03.rule.xml	1	0	5	deadend_dsrtcave_n_00	0	0	0	deadend_dsrtcave_n_00	rdc03_objentrance_dsrtcave_n_00_01.mgp	rdc03_objentrance_dsrtcave_n_00_01.mvp	100	1
+T	data/scene/018_red_desert_cave_03.rule.xml	1	1	16	t_dsrtcave_nsw_00	0	-1	0	t_dsrtcave_nsw_00	rdc03_t_dsrtcave_nsw_00_01.mgp	rdc03_t_dsrtcave_nsw_00_01.mvp	100	2,4
+T	data/scene/018_red_desert_cave_03.rule.xml	1	2	14	straight_dsrtcave_we_00	-1	-1	0	straight_dsrtcave_we_00	rdc03_straight_dsrtcave_we_00_01.mgp	rdc03_straight_dsrtcave_we_00_01.mvp	100	3
+T	data/scene/018_red_desert_cave_03.rule.xml	1	3	4	deadend_dsrtcave_e_00	-2	-1	0	deadend_dsrtcave_e_00	rdc03_deadend_dsrtcave_e_00_01.mgp	rdc03_corner_dsrtcave_ne_00_01.mvp	100	
+T	data/scene/018_red_desert_cave_03.rule.xml	1	4	3	corner_dsrtcave_ws_00	0	-2	0	corner_dsrtcave_ws_00	rdc03_corner_obj_dsrtcave_ws_00_01.mgp	rdc03_corner_obj_dsrtcave_ws_00_01.mvp	100	5
+T	data/scene/018_red_desert_cave_03.rule.xml	1	5	0	corner_dsrtcave_ne_00	-1	-2	0	corner_dsrtcave_ne_00	rdc03_corner_dsrtcave_ne_00_01.mgp	rdc03_corner_dsrtcave_ne_00_01.mvp	100	6
+T	data/scene/018_red_desert_cave_03.rule.xml	1	6	3	corner_dsrtcave_ws_00	-1	-3	0	corner_dsrtcave_ws_00	rdc03_corner_dsrtcave_ws_00_01.mgp	rdc03_corner_dsrtcave_ws_00_01.mvp	100	7
+T	data/scene/018_red_desert_cave_03.rule.xml	1	7	0	corner_dsrtcave_ne_00	-2	-3	0	corner_dsrtcave_ne_00	rdc03_corner_dsrtcave_ne_00_01.mgp	rdc03_corner_dsrtcave_ne_00_01.mvp	100	8
+T	data/scene/018_red_desert_cave_03.rule.xml	1	8	10	obj03_dsrtcave_ns_00	-2	-4	0	obj03_dsrtcave_ns_00	rdc03_obj03_dsrtcave_ns_00_01.mgp	rdc03_obj03_dsrtcave_ns_00_01.mvp	100	9
+T	data/scene/018_red_desert_cave_03.rule.xml	1	9	6	deadend_dsrtcave_s_00	-2	-5	0	deadend_dsrtcave_s_00	rdc03_objexit_dsrtcave_s_00_01.mgp	rdc03_objexit_dsrtcave_s_00_01.mvp	100	
+R	data/scene/019_light_house_01.rule.xml	0	1	3591385125	5	1	5	0	5	0	4
+T	data/scene/019_light_house_01.rule.xml	0	0	7	startroom	0	0	0	startroom	lh01_startroom_01.mgp	lh01_startroom_01.mvp	100	1
+T	data/scene/019_light_house_01.rule.xml	0	1	6	open_03	3	0	0	open_03	lh01_lv03_open_03_01.mgp	lh01_lv03_open_03_01.mvp	100	2
+T	data/scene/019_light_house_01.rule.xml	0	2	6	open_03	6	0	0	open_03	lh01_lv04_open_03_01.mgp	lh01_lv04_open_03_01.mvp	100	3
+T	data/scene/019_light_house_01.rule.xml	0	3	1	close_01	9	0	0	close_01	lh01_lv05_close_01_01.mgp	lh01_lv05_close_01_01.mvp	100	4
+T	data/scene/019_light_house_01.rule.xml	0	4	2	close_02	12	0	0	close_02	lh01_lv06_close_02_01.mgp	lh01_lv06_close_02_01.mvp	100	
+R	data/scene/019_light_house_01.rule.xml	1	1	388089412	5	1	5	0	5	0	4
+T	data/scene/019_light_house_01.rule.xml	1	0	7	startroom	0	0	0	startroom	lh01_startroom_01.mgp	lh01_startroom_01.mvp	100	1
+T	data/scene/019_light_house_01.rule.xml	1	1	6	open_03	-3	0	0	open_03	lh01_lv03_open_03_01.mgp	lh01_lv03_open_03_01.mvp	100	2
+T	data/scene/019_light_house_01.rule.xml	1	2	6	open_03	-6	0	0	open_03	lh01_lv04_open_03_01.mgp	lh01_lv04_open_03_01.mvp	100	3
+T	data/scene/019_light_house_01.rule.xml	1	3	4	open_01	-9	0	0	open_01	lh01_lv05_open_01_01.mgp	lh01_lv05_open_01_01.mvp	100	4
+T	data/scene/019_light_house_01.rule.xml	1	4	2	close_02	-12	0	0	close_02	lh01_lv06_close_02_01.mgp	lh01_lv06_close_02_01.mvp	100	
+R	data/scene/019_light_house_02.rule.xml	0	1	3591385125	5	1	5	0	5	0	4
+T	data/scene/019_light_house_02.rule.xml	0	0	5	open_02	0	0	0	open_02	lh01_lv07_open_02_01.mgp	lh01_lv07_open_02_01.mvp	100	1
+T	data/scene/019_light_house_02.rule.xml	0	1	3	close_03	-3	0	0	close_03	lh01_lv08_close_03_01.mgp	lh01_lv08_close_03_01.mvp	100	2
+T	data/scene/019_light_house_02.rule.xml	0	2	6	open_03	-6	0	0	open_03	lh01_lv09_open_03_01.mgp	lh01_lv09_open_03_01.mvp	100	3
+T	data/scene/019_light_house_02.rule.xml	0	3	3	close_03	-9	0	0	close_03	lh01_lv10_close_03_01.mgp	lh01_lv10_close_03_01.mvp	100	4
+T	data/scene/019_light_house_02.rule.xml	0	4	1	close_01	-12	0	0	close_01	lh01_lv02_close_01_01.mgp	lh01_lv02_close_01_01.mvp	100	
+R	data/scene/019_light_house_02.rule.xml	1	1	388089412	5	1	5	0	5	0	4
+T	data/scene/019_light_house_02.rule.xml	1	0	5	open_02	0	0	0	open_02	lh01_lv07_open_02_01.mgp	lh01_lv07_open_02_01.mvp	100	1
+T	data/scene/019_light_house_02.rule.xml	1	1	3	close_03	3	0	0	close_03	lh01_lv08_close_03_01.mgp	lh01_lv08_close_03_01.mvp	100	2
+T	data/scene/019_light_house_02.rule.xml	1	2	6	open_03	6	0	0	open_03	lh01_lv09_open_03_01.mgp	lh01_lv09_open_03_01.mvp	100	3
+T	data/scene/019_light_house_02.rule.xml	1	3	5	open_02	9	0	0	open_02	lh01_lv10_open_02_01.mgp	lh01_lv10_open_02_01.mvp	100	4
+T	data/scene/019_light_house_02.rule.xml	1	4	1	close_01	12	0	0	close_01	lh01_lv02_close_01_01.mgp	lh01_lv02_close_01_01.mvp	100	
+R	data/scene/019_light_house_03.rule.xml	0	1	0	0	1	1	0	1	0	0
+T	data/scene/019_light_house_03.rule.xml	0	0	0	bossroom	0	0	0	bossroom	lh01_bossroom_01.mgp	lh01_bossroom_01.mvp	100	
+R	data/scene/019_light_house_03.rule.xml	1	1	1	0	1	1	0	1	0	0
+T	data/scene/019_light_house_03.rule.xml	1	0	0	bossroom	0	0	0	bossroom	lh01_bossroom_01.mgp	lh01_bossroom_01.mvp	100	
+R	data/scene/020_crypt_02.rule.xml	0	1	190250551	30	1	11	0	6	9	3
+T	data/scene/020_crypt_02.rule.xml	0	0	8	deadend_w	0	0	0	deadend_w	crypt2_deadend_w_01.mgp	crypt2_deadend_w_01.mvp	100	1
+T	data/scene/020_crypt_02.rule.xml	0	1	2	corner_ne	-1	0	0	corner_ne	crypt2_corner_ne_01.mgp	crypt2_corner_ne_01.mvp	100	2
+T	data/scene/020_crypt_02.rule.xml	0	2	18	straight_ns	-1	-1	0	straight_ns	crypt2_straight_ns_01.mgp	crypt2_straight_ns_01.mvp	100	3
+T	data/scene/020_crypt_02.rule.xml	0	3	5	corner_sw	-1	-2	0	corner_sw	crypt2_corner_sw_01.mgp	crypt2_corner_sw_01.mvp	100	4
+T	data/scene/020_crypt_02.rule.xml	0	4	17	straight_d_ew	-2	-2	0	straight_d_ew	crypt2_straight_d_ew_01.mgp	crypt2_straight_d_ew_01.mvp	100	5
+T	data/scene/020_crypt_02.rule.xml	0	5	20	t_sew	-3	-2	0	t_sew	crypt2_t_sew_01.mgp	crypt2_t_sew_01.mvp	100	6,7
+T	data/scene/020_crypt_02.rule.xml	0	6	7	deadend_n	-3	-1	0	deadend_n	crypt2_deadend_n_02.mgp	crypt2_deadend_n_01.mvp	100	
+T	data/scene/020_crypt_02.rule.xml	0	7	15	straight_c_ew	-4	-2	0	straight_c_ew	crypt2_straight_c_ew_01.mgp	crypt2_straight_c_ew_01.mvp	100	8
+T	data/scene/020_crypt_02.rule.xml	0	8	13	straight_b_ew	-5	-2	0	straight_b_ew	crypt2_straight_b_ew_01.mgp	crypt2_straight_b_ew_01.mvp	100	9
+T	data/scene/020_crypt_02.rule.xml	0	9	2	corner_ne	-6	-2	0	corner_ne	crypt2_corner_ne_01.mgp	crypt2_corner_ne_01.mvp	100	10
+T	data/scene/020_crypt_02.rule.xml	0	10	11	kings_chamber_s	-6	-3	0	kings_chamber_s	crypt2_kingsroom_s_01.mgp	crypt_kings_chamber_s_01.mvp	100	
+R	data/scene/020_crypt_02.rule.xml	1	1	2141986941	122	1	103	92	78	100	74
+T	data/scene/020_crypt_02.rule.xml	1	0	8	deadend_w	0	0	0	deadend_w	crypt2_deadend_w_01.mgp	crypt2_deadend_w_01.mvp	100	1
+T	data/scene/020_crypt_02.rule.xml	1	1	4	corner_se	-1	0	0	corner_se	crypt2_corner_se_04.mgp	crypt2_corner_se_01.mvp	100	2
+T	data/scene/020_crypt_02.rule.xml	1	2	18	straight_ns	-1	1	0	straight_ns	crypt2_straight_ns_01.mgp	crypt2_straight_ns_01.mvp	100	3
+T	data/scene/020_crypt_02.rule.xml	1	3	3	corner_nw	-1	2	0	corner_nw	crypt2_corner_nw_01.mgp	crypt2_corner_nw_01.mvp	100	4
+T	data/scene/020_crypt_02.rule.xml	1	4	12	straight_a_ew	-2	2	0	straight_a_ew	crypt2_straight_a_ew_01.mgp	crypt2_straight_a_01.mvp	100	5
+T	data/scene/020_crypt_02.rule.xml	1	5	19	t_nse	-3	2	0	t_nse	crypt2_t_nse_01.mgp	crypt2_t_nse_01.mvp	100	6,7
+T	data/scene/020_crypt_02.rule.xml	1	6	7	deadend_n	-3	3	0	deadend_n	crypt2_deadend_n_02.mgp	crypt2_deadend_n_01.mvp	100	
+T	data/scene/020_crypt_02.rule.xml	1	7	5	corner_sw	-3	1	0	corner_sw	crypt2_corner_sw_01.mgp	crypt2_corner_sw_01.mvp	100	8
+T	data/scene/020_crypt_02.rule.xml	1	8	17	straight_d_ew	-4	1	0	straight_d_ew	crypt2_straight_d_ew_01.mgp	crypt2_straight_d_ew_01.mvp	100	9
+T	data/scene/020_crypt_02.rule.xml	1	9	2	corner_ne	-5	1	0	corner_ne	crypt2_corner_ne_01.mgp	crypt2_corner_ne_01.mvp	100	10
+T	data/scene/020_crypt_02.rule.xml	1	10	11	kings_chamber_s	-5	0	0	kings_chamber_s	crypt2_kingsroom_s_01.mgp	crypt_kings_chamber_s_01.mvp	100	
+R	data/scene/021_gothicus_castle_02.rule.xml	0	1	0	0	1	7	0	7	0	6
+T	data/scene/021_gothicus_castle_02.rule.xml	0	0	9	kingroom_s	0	0	0	kingroom_s	gc02_kingroom_s_01.mgp	gc02_kingroom_s_01.mvp	100	1
+T	data/scene/021_gothicus_castle_02.rule.xml	0	1	2	corner_wn	0	1	3087007750	corner_wn	gc02_corner_wn_01.mgp	gc02_corner_wn_01.mvp	100	2
+T	data/scene/021_gothicus_castle_02.rule.xml	0	2	12	straightb_ew	-1	1	3087007750	straightb_ew	gc02_straightb_ew_01.mgp	gc02_straightb_ew_01.mvp	100	3
+T	data/scene/021_gothicus_castle_02.rule.xml	0	3	1	corner_se	-2	1	960495612	corner_se	gc02_corner_se_01.mgp	gc02_corner_se_01.mvp	100	4
+T	data/scene/021_gothicus_castle_02.rule.xml	0	4	8	entrance_ns	-2	2	960495612	entrance_ns	gc02_entrance_ns_01.mgp	gc02_entrance_ns_01.mvp	100	5
+T	data/scene/021_gothicus_castle_02.rule.xml	0	5	11	straighta_ns	-2	3	1075644417	straighta_ns	gc02_straighta_ns_01.mgp	gc02_straighta_ns_01.mvp	100	6
+T	data/scene/021_gothicus_castle_02.rule.xml	0	6	5	deadend_n	-2	4	962592768	deadend_n	gc02_deadend_n_01.mgp	gc02_deadend_n_01.mvp	100	
+R	data/scene/021_gothicus_castle_02.rule.xml	1	1	1	0	1	7	0	7	0	6
+T	data/scene/021_gothicus_castle_02.rule.xml	1	0	9	kingroom_s	0	0	0	kingroom_s	gc02_kingroom_s_01.mgp	gc02_kingroom_s_01.mvp	100	1
+T	data/scene/021_gothicus_castle_02.rule.xml	1	1	2	corner_wn	0	1	3087007750	corner_wn	gc02_corner_wn_01.mgp	gc02_corner_wn_01.mvp	100	2
+T	data/scene/021_gothicus_castle_02.rule.xml	1	2	12	straightb_ew	-1	1	3087007750	straightb_ew	gc02_straightb_ew_01.mgp	gc02_straightb_ew_01.mvp	100	3
+T	data/scene/021_gothicus_castle_02.rule.xml	1	3	1	corner_se	-2	1	960495612	corner_se	gc02_corner_se_01.mgp	gc02_corner_se_01.mvp	100	4
+T	data/scene/021_gothicus_castle_02.rule.xml	1	4	8	entrance_ns	-2	2	960495612	entrance_ns	gc02_entrance_ns_01.mgp	gc02_entrance_ns_01.mvp	100	5
+T	data/scene/021_gothicus_castle_02.rule.xml	1	5	11	straighta_ns	-2	3	1075644417	straighta_ns	gc02_straighta_ns_01.mgp	gc02_straighta_ns_01.mvp	100	6
+T	data/scene/021_gothicus_castle_02.rule.xml	1	6	5	deadend_n	-2	4	962592768	deadend_n	gc02_deadend_n_01.mgp	gc02_deadend_n_01.mvp	100	
+R	data/scene/022_swamp2.rule.xml	0	1	1411672719	141	1	49	38	40	35	38
+T	data/scene/022_swamp2.rule.xml	0	0	9	corner_ruin_wn_00	0	0	0	corner_ruin_wn_00	swamp2_corner_ruin_wn_00.mgp	swamp2_corner_ruin_wn_00.mvp	100	1
+T	data/scene/022_swamp2.rule.xml	0	1	32	straight_brdwalk_we_00	-1	0	0	straight_brdwalk_we_00	swamp2_straight_brdwalk_we_00.mgp	swamp2_straight_brdwalk_we_00.mvp	100	2
+T	data/scene/022_swamp2.rule.xml	0	2	3	corner_brdwalk_ne_00	-2	0	0	corner_brdwalk_ne_00	swamp2_corner_brdwalk_ne_00.mgp	swamp2_corner_brdwalk_ne_00.mvp	100	3
+T	data/scene/022_swamp2.rule.xml	0	3	28	obj_2of4_brdwalk_sw_00	-2	-1	0	obj_2of4_brdwalk_sw_00	swamp2_obj2of4_brdwalk_sw_00.mgp	swamp2_obj2of4_brdwalk_sw_00.mvp	100	4
+T	data/scene/022_swamp2.rule.xml	0	4	3	corner_brdwalk_ne_00	-3	-1	0	corner_brdwalk_ne_00	swamp2_corner_brdwalk_ne_00.mgp	swamp2_corner_brdwalk_ne_00.mvp	100	5
+T	data/scene/022_swamp2.rule.xml	0	5	27	obj_1of4_brdwalk_nse_00	-3	-2	0	obj_1of4_brdwalk_nse_00	swamp2_obj_1of4_brdwalk_nse_00.mgp	swamp2_obj1of4_brdwalk_nse_00.mvp	100	6,10
+T	data/scene/022_swamp2.rule.xml	0	6	28	obj_2of4_brdwalk_sw_00	-3	-3	0	obj_2of4_brdwalk_sw_00	swamp2_obj2of4_brdwalk_sw_00.mgp	swamp2_obj2of4_brdwalk_sw_00.mvp	100	7
+T	data/scene/022_swamp2.rule.xml	0	7	32	straight_brdwalk_we_00	-4	-3	0	straight_brdwalk_we_00	swamp2_straight_brdwalk_we_00.mgp	swamp2_straight_brdwalk_we_00.mvp	100	8
+T	data/scene/022_swamp2.rule.xml	0	8	8	corner_ruin_se_00	-5	-3	0	corner_ruin_se_00	swamp2_corner_ruin_se_00.mgp	swamp2_corner_ruin_se_00.mvp	100	9
+T	data/scene/022_swamp2.rule.xml	0	9	31	straight_brdwalk_ns_00	-5	-2	0	straight_brdwalk_ns_00	swamp2_straight_brdwalk_ns_01.mgp	swamp2_straight_brdwalk_ns_01.mvp	100	
+T	data/scene/022_swamp2.rule.xml	0	10	20	deadend_brdwalk_w_00	-2	-2	0	deadend_brdwalk_w_00	swamp2_deadend_brdwalk_w_00.mgp	swamp2_deadend_brdwalk_w_00.mvp	100	
+R	data/scene/022_swamp2.rule.xml	1	1	1159212760	229	1	176	164	155	90	152
+T	data/scene/022_swamp2.rule.xml	1	0	9	corner_ruin_wn_00	0	0	0	corner_ruin_wn_00	swamp2_corner_ruin_wn_00.mgp	swamp2_corner_ruin_wn_00.mvp	100	1
+T	data/scene/022_swamp2.rule.xml	1	1	32	straight_brdwalk_we_00	-1	0	0	straight_brdwalk_we_00	swamp2_straight_brdwalk_we_00.mgp	swamp2_straight_brdwalk_we_00.mvp	100	2
+T	data/scene/022_swamp2.rule.xml	1	2	3	corner_brdwalk_ne_00	-2	0	0	corner_brdwalk_ne_00	swamp2_corner_brdwalk_ne_00.mgp	swamp2_corner_brdwalk_ne_00.mvp	100	3
+T	data/scene/022_swamp2.rule.xml	1	3	31	straight_brdwalk_ns_00	-2	-1	0	straight_brdwalk_ns_00	swamp2_straight_brdwalk_ns_00.mgp	swamp2_straight_brdwalk_ns_00.mvp	100	4
+T	data/scene/022_swamp2.rule.xml	1	4	31	straight_brdwalk_ns_00	-2	-2	0	straight_brdwalk_ns_00	swamp2_straight_brdwalk_ns_00.mgp	swamp2_straight_brdwalk_ns_00.mvp	100	5
+T	data/scene/022_swamp2.rule.xml	1	5	27	obj_1of4_brdwalk_nse_00	-2	-3	0	obj_1of4_brdwalk_nse_00	swamp2_obj_1of4_brdwalk_nse_00.mgp	swamp2_obj1of4_brdwalk_nse_00.mvp	100	6,7
+T	data/scene/022_swamp2.rule.xml	1	6	20	deadend_brdwalk_w_00	-1	-3	0	deadend_brdwalk_w_00	swamp2_deadend_brdwalk_w_00.mgp	swamp2_deadend_brdwalk_w_00.mvp	100	
+T	data/scene/022_swamp2.rule.xml	1	7	31	straight_brdwalk_ns_00	-2	-4	0	straight_brdwalk_ns_00	swamp2_straight_brdwalk_ns_00.mgp	swamp2_straight_brdwalk_ns_00.mvp	100	8
+T	data/scene/022_swamp2.rule.xml	1	8	28	obj_2of4_brdwalk_sw_00	-2	-5	0	obj_2of4_brdwalk_sw_00	swamp2_obj2of4_brdwalk_sw_00.mgp	swamp2_obj2of4_brdwalk_sw_00.mvp	100	9
+T	data/scene/022_swamp2.rule.xml	1	9	32	straight_brdwalk_we_00	-3	-5	0	straight_brdwalk_we_00	swamp2_straight_brdwalk_we_00.mgp	swamp2_straight_brdwalk_we_00.mvp	100	10
+T	data/scene/022_swamp2.rule.xml	1	10	8	corner_ruin_se_00	-4	-5	0	corner_ruin_se_00	swamp2_corner_ruin_se_00.mgp	swamp2_corner_ruin_se_00.mvp	100	11
+T	data/scene/022_swamp2.rule.xml	1	11	31	straight_brdwalk_ns_00	-4	-4	0	straight_brdwalk_ns_00	swamp2_straight_brdwalk_ns_01.mgp	swamp2_straight_brdwalk_ns_01.mvp	100	
+R	data/scene/022_swamp2_trollcave.rule.xml	0	1	2884133282	17	1	11	2	8	6	8
+T	data/scene/022_swamp2_trollcave.rule.xml	0	0	25	deadend_swpcave_w_00	0	0	0	deadend_swpcave_w_00	trollcave_deadend_swpcave_w_00.mgp	trollcave_deadend_swpcave_w_00.mvp	100	1
+T	data/scene/022_swamp2_trollcave.rule.xml	0	1	36	straight_swpcave_we_00	-1	0	0	straight_swpcave_we_00	trollcave_straight_swpcave_we_01.mgp	trollcave_straight_swpcave_we_01.mvp	100	2
+T	data/scene/022_swamp2_trollcave.rule.xml	0	2	11	corner_swpcave_ne_00	-2	0	0	corner_swpcave_ne_00	trollcave_corner_swpcave_ne_00.mgp	trollcave_corner_swpcave_ne_00.mvp	100	3
+T	data/scene/022_swamp2_trollcave.rule.xml	0	3	14	corner_swpcave_sw_00	-2	-1	0	corner_swpcave_sw_00	trollcave_corner_swpcave_sw_01.mgp	trollcave_corner_swpcave_sw_00.mvp	100	4
+T	data/scene/022_swamp2_trollcave.rule.xml	0	4	11	corner_swpcave_ne_00	-3	-1	0	corner_swpcave_ne_00	trollcave_corner_swpcave_ne_00.mgp	trollcave_corner_swpcave_ne_00.mvp	100	5
+T	data/scene/022_swamp2_trollcave.rule.xml	0	5	14	corner_swpcave_sw_00	-3	-2	0	corner_swpcave_sw_00	trollcave_corner_swpcave_sw_00.mgp	trollcave_corner_swpcave_sw_00.mvp	100	6
+T	data/scene/022_swamp2_trollcave.rule.xml	0	6	39	t_swpcave_nse_00	-4	-2	0	t_swpcave_nse_00	trollcave_t_swpcave_nse_01.mgp	trollcave_t_swpcave_nse_01.mvp	100	7,8
+T	data/scene/022_swamp2_trollcave.rule.xml	0	7	23	deadend_swpcave_n_00	-4	-1	0	deadend_swpcave_n_00	trollcave_deadend_swpcave_n_00.mgp	trollcave_deadend_swpcave_n_00.mvp	100	
+T	data/scene/022_swamp2_trollcave.rule.xml	0	8	24	deadend_swpcave_s_00	-4	-3	0	deadend_swpcave_s_00	trollcave_deadend_swpcave_s_00.mgp	trollcave_deadend_swpcave_s_00.mvp	100	
+R	data/scene/022_swamp2_trollcave.rule.xml	1	1	1840777239	12	1	8	0	6	4	5
+T	data/scene/022_swamp2_trollcave.rule.xml	1	0	25	deadend_swpcave_w_00	0	0	0	deadend_swpcave_w_00	trollcave_deadend_swpcave_w_00.mgp	trollcave_deadend_swpcave_w_00.mvp	100	1
+T	data/scene/022_swamp2_trollcave.rule.xml	1	1	36	straight_swpcave_we_00	-1	0	0	straight_swpcave_we_00	trollcave_straight_swpcave_we_01.mgp	trollcave_straight_swpcave_we_01.mvp	100	2
+T	data/scene/022_swamp2_trollcave.rule.xml	1	2	11	corner_swpcave_ne_00	-2	0	0	corner_swpcave_ne_00	trollcave_corner_swpcave_ne_00.mgp	trollcave_corner_swpcave_ne_00.mvp	100	3
+T	data/scene/022_swamp2_trollcave.rule.xml	1	3	35	straight_swpcave_ns_00	-2	-1	0	straight_swpcave_ns_00	trollcave_straight_swpcave_ns_00.mgp	trollcave_straight_swpcave_ns_00.mvp	100	4
+T	data/scene/022_swamp2_trollcave.rule.xml	1	4	14	corner_swpcave_sw_00	-2	-2	0	corner_swpcave_sw_00	trollcave_corner_swpcave_sw_01.mgp	trollcave_corner_swpcave_sw_00.mvp	100	5
+T	data/scene/022_swamp2_trollcave.rule.xml	1	5	39	t_swpcave_nse_00	-3	-2	0	t_swpcave_nse_00	trollcave_t_swpcave_nse_01.mgp	trollcave_t_swpcave_nse_01.mvp	100	6,7
+T	data/scene/022_swamp2_trollcave.rule.xml	1	6	24	deadend_swpcave_s_00	-3	-3	0	deadend_swpcave_s_00	trollcave_deadend_swpcave_s_00.mgp	trollcave_deadend_swpcave_s_00.mvp	100	
+T	data/scene/022_swamp2_trollcave.rule.xml	1	7	23	deadend_swpcave_n_00	-3	-1	0	deadend_swpcave_n_00	trollcave_deadend_swpcave_n_00.mgp	trollcave_deadend_swpcave_n_00.mvp	100	
+R	data/scene/023_watertemple.rule.xml	0	1	1307961529	45	1	24	11	20	13	19
+T	data/scene/023_watertemple.rule.xml	0	0	11	objstart_watertemp_s_00	0	0	0	objstart_watertemp_s_00	watertemple_deadend_objstart_w_01.mgp	watertemple_deadend_objstart_w_01.mvp	100	1
+T	data/scene/023_watertemple.rule.xml	0	1	0	corner_watertemp_ne_00	-1	0	0	corner_watertemp_ne_00	watertemple_corner_ne_02.mgp	watertemple_corner_ne_01.mvp	100	2
+T	data/scene/023_watertemple.rule.xml	0	2	14	straight_watertemp_ns_00	-1	-1	0	straight_watertemp_ns_00	watertemple_straight_ns_05.mgp	watertemple_straight_ns_01.mvp	100	3
+T	data/scene/023_watertemple.rule.xml	0	3	14	straight_watertemp_ns_00	-1	-2	0	straight_watertemp_ns_00	watertemple_straight_ns_01.mgp	watertemple_straight_ns_01.mvp	100	4
+T	data/scene/023_watertemple.rule.xml	0	4	15	t_watertemp_nsw_00	-1	-3	0	t_watertemp_nsw_00	watertemple_t_nsw_01.mgp	watertemple_t_nsw_01.mvp	100	5,6
+T	data/scene/023_watertemple.rule.xml	0	5	4	deadend_watertemp_e_00	-2	-3	0	deadend_watertemp_e_00	watertemple_deadend_e_01.mgp	watertemple_deadend_e_01.mvp	100	
+T	data/scene/023_watertemple.rule.xml	0	6	9	objmid_watertemp_ns_00	-1	-4	0	objmid_watertemp_ns_00	watertemple_straight_objmid_ns_01.mgp	watertemple_straight_objmid_ns_01.mvp	100	7
+T	data/scene/023_watertemple.rule.xml	0	7	16	t_watertemp_wse_00	-1	-5	0	t_watertemp_wse_00	watertemple_t_wse_02.mgp	watertemple_t_wse_01.mvp	100	8,12
+T	data/scene/023_watertemple.rule.xml	0	8	2	corner_watertemp_sw_00	0	-5	0	corner_watertemp_sw_00	watertemple_corner_sw_02.mgp	watertemple_corner_sw_01.mvp	100	9
+T	data/scene/023_watertemple.rule.xml	0	9	0	corner_watertemp_ne_00	0	-4	0	corner_watertemp_ne_00	watertemple_corner_ne_02.mgp	watertemple_corner_ne_01.mvp	100	10
+T	data/scene/023_watertemple.rule.xml	0	10	3	corner_watertemp_wn_00	1	-4	1049583616	corner_watertemp_wn_00	watertemple_corner_wn_02.mgp	watertemple_corner_wn_01.mvp	100	11
+T	data/scene/023_watertemple.rule.xml	0	11	8	objend_watertemp_s_00	1	-5	0	objend_watertemp_s_00	watertemple_deadend_objend_s_01.mgp	watertemple_deadend_objend_s_01.mvp	100	
+T	data/scene/023_watertemple.rule.xml	0	12	4	deadend_watertemp_e_00	-2	-5	0	deadend_watertemp_e_00	watertemple_deadend_e_01.mgp	watertemple_deadend_e_01.mvp	100	
+R	data/scene/023_watertemple.rule.xml	1	1	953200578	42	1	21	8	17	10	16
+T	data/scene/023_watertemple.rule.xml	1	0	11	objstart_watertemp_s_00	0	0	0	objstart_watertemp_s_00	watertemple_deadend_objstart_w_01.mgp	watertemple_deadend_objstart_w_01.mvp	100	1
+T	data/scene/023_watertemple.rule.xml	1	1	0	corner_watertemp_ne_00	-1	0	0	corner_watertemp_ne_00	watertemple_corner_ne_03.mgp	watertemple_corner_ne_01.mvp	100	2
+T	data/scene/023_watertemple.rule.xml	1	2	14	straight_watertemp_ns_00	-1	-1	0	straight_watertemp_ns_00	watertemple_straight_ns_05.mgp	watertemple_straight_ns_01.mvp	100	3
+T	data/scene/023_watertemple.rule.xml	1	3	14	straight_watertemp_ns_00	-1	-2	0	straight_watertemp_ns_00	watertemple_straight_ns_01.mgp	watertemple_straight_ns_01.mvp	100	4
+T	data/scene/023_watertemple.rule.xml	1	4	15	t_watertemp_nsw_00	-1	-3	0	t_watertemp_nsw_00	watertemple_t_nsw_01.mgp	watertemple_t_nsw_01.mvp	100	5,6
+T	data/scene/023_watertemple.rule.xml	1	5	4	deadend_watertemp_e_00	-2	-3	0	deadend_watertemp_e_00	watertemple_deadend_e_01.mgp	watertemple_deadend_e_01.mvp	100	
+T	data/scene/023_watertemple.rule.xml	1	6	9	objmid_watertemp_ns_00	-1	-4	0	objmid_watertemp_ns_00	watertemple_straight_objmid_ns_01.mgp	watertemple_straight_objmid_ns_01.mvp	100	7
+T	data/scene/023_watertemple.rule.xml	1	7	16	t_watertemp_wse_00	-1	-5	0	t_watertemp_wse_00	watertemple_t_wse_02.mgp	watertemple_t_wse_01.mvp	100	8,9
+T	data/scene/023_watertemple.rule.xml	1	8	7	deadend_watertemp_w_00	0	-5	0	deadend_watertemp_w_00	watertemple_deadend_w_02.mgp	watertemple_deadend_w_00.mvp	100	
+T	data/scene/023_watertemple.rule.xml	1	9	0	corner_watertemp_ne_00	-2	-5	0	corner_watertemp_ne_00	watertemple_corner_ne_03.mgp	watertemple_corner_ne_01.mvp	100	10
+T	data/scene/023_watertemple.rule.xml	1	10	2	corner_watertemp_sw_00	-2	-6	0	corner_watertemp_sw_00	watertemple_corner_sw_01.mgp	watertemple_corner_sw_01.mvp	100	11
+T	data/scene/023_watertemple.rule.xml	1	11	0	corner_watertemp_ne_00	-3	-6	0	corner_watertemp_ne_00	watertemple_corner_ne_03.mgp	watertemple_corner_ne_01.mvp	100	12
+T	data/scene/023_watertemple.rule.xml	1	12	8	objend_watertemp_s_00	-3	-7	0	objend_watertemp_s_00	watertemple_deadend_objend_s_01.mgp	watertemple_deadend_objend_s_01.mvp	100	
+R	data/scene/024_el_water.rule.xml	0	1	1433291314	14	1	14	6	11	12	8
+T	data/scene/024_el_water.rule.xml	0	0	5	deadend_n	0	0	0	deadend_n	el_water_deadend_n_01.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/024_el_water.rule.xml	0	1	11	straighta_ns	0	-1	1075643521	straighta_ns	el_water_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	2
+T	data/scene/024_el_water.rule.xml	0	2	1	corner_se	0	-2	0	corner_se	el_water_corner_se_01.mgp	elemental_corner_se_01.mvp	100	3
+T	data/scene/024_el_water.rule.xml	0	3	13	t_new	1	-2	3211841539	t_new	el_water_t_new_01.mgp	elemental_t_new_01.mvp	100	4,5
+T	data/scene/024_el_water.rule.xml	0	4	7	deadend_w	2	-2	3290774088	deadend_w	el_water_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+T	data/scene/024_el_water.rule.xml	0	5	11	straighta_ns	1	-3	1135994101	straighta_ns	el_water_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	6
+T	data/scene/024_el_water.rule.xml	0	6	11	straighta_ns	1	-4	1135994101	straighta_ns	el_water_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	7
+T	data/scene/024_el_water.rule.xml	0	7	10	objectiveroom_s	1	-5	1135913707	objectiveroom_s	boss_water.mgp	elemental_objectiveroom_s_01.mvp	100	
+R	data/scene/024_el_water.rule.xml	1	1	1840777239	12	1	10	2	8	8	5
+T	data/scene/024_el_water.rule.xml	1	0	5	deadend_n	0	0	0	deadend_n	el_water_deadend_n_01.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/024_el_water.rule.xml	1	1	1	corner_se	0	-1	0	corner_se	el_water_corner_se_01.mgp	elemental_corner_se_01.mvp	100	2
+T	data/scene/024_el_water.rule.xml	1	2	12	straightb_ew	1	-1	3110076413	straightb_ew	el_water_straightb_ew_01.mgp	elemental_straightb_ew_01.mvp	100	3
+T	data/scene/024_el_water.rule.xml	1	3	13	t_new	2	-1	3211845123	t_new	el_water_t_new_01.mgp	elemental_t_new_01.mvp	100	4,5
+T	data/scene/024_el_water.rule.xml	1	4	7	deadend_w	3	-1	3290774092	deadend_w	el_water_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+T	data/scene/024_el_water.rule.xml	1	5	1	corner_se	2	-2	1135913701	corner_se	el_water_corner_se_01.mgp	elemental_corner_se_01.mvp	100	6
+T	data/scene/024_el_water.rule.xml	1	6	2	corner_wn	3	-2	1135913701	corner_wn	el_water_corner_wn_01.mgp	elemental_corner_wn_01.mvp	100	7
+T	data/scene/024_el_water.rule.xml	1	7	10	objectiveroom_s	3	-3	1135913700	objectiveroom_s	boss_water.mgp	elemental_objectiveroom_s_01.mvp	100	
+R	data/scene/026_icy_cavern_01.rule.xml	0	1	3977909938	22	1	24	14	18	18	15
+T	data/scene/026_icy_cavern_01.rule.xml	0	0	5	deadend_icycavern_w_00	0	0	0	deadend_icycavern_w_00	IC01_entrance_icycavern_w_00_01.mgp	IC01_entrance_icycavern_w_00_01.mvp	100	1
+T	data/scene/026_icy_cavern_01.rule.xml	0	1	1	corner_icycavern_ne_00	-1	0	0	corner_icycavern_ne_00	ic01_corner_icycavern_ne_00_01.mgp	ic01_corner_icycavern_ne_00_01.mvp	100	2
+T	data/scene/026_icy_cavern_01.rule.xml	0	2	4	corner_icycavern_sw_00	-1	-1	0	corner_icycavern_sw_00	ic01_corner_icycavern_sw_00_01.mgp	ic01_corner_icycavern_sw_00_01.mvp	100	3
+T	data/scene/026_icy_cavern_01.rule.xml	0	3	10	straight_icycavern_we_00	-2	-1	0	straight_icycavern_we_00	ic01_straight_icycavern_we_00_01.mgp	ic01_straight_icycavern_we_00_01.mvp	100	4
+T	data/scene/026_icy_cavern_01.rule.xml	0	4	3	corner_icycavern_se_00	-3	-1	0	corner_icycavern_se_00	ic01_corner_icycavern_se_00_01.mgp	ic01_corner_icycavern_se_00_01.mvp	100	5
+T	data/scene/026_icy_cavern_01.rule.xml	0	5	11	t_icycavern_nse_00	-3	0	0	t_icycavern_nse_00	ic01_t_icycavern_nse_00_01.mgp	ic01_t_icycavern_nse_00_01.mvp	100	6,7
+T	data/scene/026_icy_cavern_01.rule.xml	0	6	5	deadend_icycavern_w_00	-2	0	0	deadend_icycavern_w_00	ic01_deadend_icycavern_w_00_01.mgp	ic01_deadend_icycavern_w_00_01.mvp	100	
+T	data/scene/026_icy_cavern_01.rule.xml	0	7	1	corner_icycavern_ne_00	-3	1	0	corner_icycavern_ne_00	ic01_corner_icycavern_ne_00_01.mgp	ic01_corner_icycavern_ne_00_01.mvp	100	8
+T	data/scene/026_icy_cavern_01.rule.xml	0	8	10	straight_icycavern_we_00	-2	1	0	straight_icycavern_we_00	ic01_straight_icycavern_we_00_01.mgp	ic01_straight_icycavern_we_00_01.mvp	100	9
+T	data/scene/026_icy_cavern_01.rule.xml	0	9	0	bossroom_icycavern_w_00	-1	1	0	bossroom_icycavern_w_00	ic01_bossroom_icycavern_w_00_01.mgp	ic01_bossroom_icycavern_w_00_01.mvp	100	
+R	data/scene/026_icy_cavern_01.rule.xml	1	1	2903793695	11	1	11	1	8	8	5
+T	data/scene/026_icy_cavern_01.rule.xml	1	0	5	deadend_icycavern_w_00	0	0	0	deadend_icycavern_w_00	IC01_entrance_icycavern_w_00_01.mgp	IC01_entrance_icycavern_w_00_01.mvp	100	1
+T	data/scene/026_icy_cavern_01.rule.xml	1	1	3	corner_icycavern_se_00	-1	0	0	corner_icycavern_se_00	ic01_corner_icycavern_se_00_01.mgp	ic01_corner_icycavern_se_00_01.mvp	100	2
+T	data/scene/026_icy_cavern_01.rule.xml	1	2	9	straight_icycavern_ns_00	-1	1	0	straight_icycavern_ns_00	ic01_straight_icycavern_ns_00_01.mgp	ic01_straight_icycavern_ns_00_01.mvp	100	3
+T	data/scene/026_icy_cavern_01.rule.xml	1	3	2	corner_icycavern_nw_00	-1	2	0	corner_icycavern_nw_00	ic01_corner_icycavern_nw_00_01.mgp	ic01_corner_icycavern_nw_00_01.mvp	100	4
+T	data/scene/026_icy_cavern_01.rule.xml	1	4	3	corner_icycavern_se_00	-2	2	0	corner_icycavern_se_00	ic01_corner_icycavern_se_00_01.mgp	ic01_corner_icycavern_se_00_01.mvp	100	5
+T	data/scene/026_icy_cavern_01.rule.xml	1	5	11	t_icycavern_nse_00	-2	3	0	t_icycavern_nse_00	ic01_t_icycavern_nse_00_01.mgp	ic01_t_icycavern_nse_00_01.mvp	100	6,9
+T	data/scene/026_icy_cavern_01.rule.xml	1	6	1	corner_icycavern_ne_00	-2	4	0	corner_icycavern_ne_00	ic01_corner_icycavern_ne_00_01.mgp	ic01_corner_icycavern_ne_00_01.mvp	100	7
+T	data/scene/026_icy_cavern_01.rule.xml	1	7	10	straight_icycavern_we_00	-1	4	0	straight_icycavern_we_00	ic01_straight_icycavern_we_00_01.mgp	ic01_straight_icycavern_we_00_01.mvp	100	8
+T	data/scene/026_icy_cavern_01.rule.xml	1	8	0	bossroom_icycavern_w_00	0	4	0	bossroom_icycavern_w_00	ic01_bossroom_icycavern_w_00_01.mgp	ic01_bossroom_icycavern_w_00_01.mvp	100	
+T	data/scene/026_icy_cavern_01.rule.xml	1	9	5	deadend_icycavern_w_00	-1	3	0	deadend_icycavern_w_00	ic01_deadend_icycavern_w_00_01.mgp	ic01_deadend_icycavern_w_00_01.mvp	100	
+R	data/scene/027_icy_cavern_02.rule.xml	0	0	2499713547	4	1	5	5	5	9	1
+R	data/scene/027_icy_cavern_02.rule.xml	1	0	2922999758	13	1	16	16	13	18	8
+R	data/scene/028_icy_cavern_03.rule.xml	0	1	3913526829	9	1	13	2	9	9	6
+T	data/scene/028_icy_cavern_03.rule.xml	0	0	0	bossroom_icycavern_w_00	0	0	0	bossroom_icycavern_w_00	ic03_entrance_icycavern_w_00_01.mgp	ic03_entrance_icycavern_w_00_01.mvp	100	1
+T	data/scene/028_icy_cavern_03.rule.xml	0	1	1	corner_icycavern_ne_00	-1	0	0	corner_icycavern_ne_00	ic03_corner_icycavern_ne_00_01.mgp	ic03_corner_icycavern_ne_00_01.mvp	100	2
+T	data/scene/028_icy_cavern_03.rule.xml	0	2	9	straight_icycavern_ns_00	-1	-1	0	straight_icycavern_ns_00	ic03_straight_icycavern_ns_00_01.mgp	ic03_straight_icycavern_ns_00_01.mvp	100	3
+T	data/scene/028_icy_cavern_03.rule.xml	0	3	9	straight_icycavern_ns_00	-1	-2	0	straight_icycavern_ns_00	ic03_straight_icycavern_ns_00_01.mgp	ic03_straight_icycavern_ns_00_01.mvp	100	4
+T	data/scene/028_icy_cavern_03.rule.xml	0	4	11	t_icycavern_nse_00	-1	-3	0	t_icycavern_nse_00	ic03_t_icycavern_nse_00_01.mgp	ic03_t_icycavern_nse_00_01.mvp	100	5,9
+T	data/scene/028_icy_cavern_03.rule.xml	0	5	3	corner_icycavern_se_00	-1	-4	0	corner_icycavern_se_00	ic03_corner_icycavern_se_00_01.mgp	ic03_corner_icycavern_se_00_01.mvp	100	6
+T	data/scene/028_icy_cavern_03.rule.xml	0	6	2	corner_icycavern_nw_00	0	-4	0	corner_icycavern_nw_00	ic03_corner_icycavern_nw_00_01.mgp	ic03_corner_icycavern_nw_00_01.mvp	100	7
+T	data/scene/028_icy_cavern_03.rule.xml	0	7	3	corner_icycavern_se_00	0	-5	0	corner_icycavern_se_00	ic03_corner_icycavern_se_00_01.mgp	ic03_corner_icycavern_se_00_01.mvp	100	8
+T	data/scene/028_icy_cavern_03.rule.xml	0	8	5	deadend_icycavern_w_00	1	-5	0	deadend_icycavern_w_00	ic03_objend_icycavern_w_00_01.mgp	ic03_objend_icycavern_w_00_01.mvp	100	
+T	data/scene/028_icy_cavern_03.rule.xml	0	9	10	straight_icycavern_we_00	0	-3	0	straight_icycavern_we_00	ic03_straight_icycavern_we_00_01.mgp	ic03_straight_icycavern_we_00_01.mvp	100	10
+T	data/scene/028_icy_cavern_03.rule.xml	0	10	5	deadend_icycavern_w_00	1	-3	0	deadend_icycavern_w_00	ic03_deadend_icycavern_w_00_01.mgp	ic03_deadend_icycavern_w_00_01.mvp	100	
+R	data/scene/028_icy_cavern_03.rule.xml	1	1	2922999758	13	1	15	4	9	10	7
+T	data/scene/028_icy_cavern_03.rule.xml	1	0	0	bossroom_icycavern_w_00	0	0	0	bossroom_icycavern_w_00	ic03_entrance_icycavern_w_00_01.mgp	ic03_entrance_icycavern_w_00_01.mvp	100	1
+T	data/scene/028_icy_cavern_03.rule.xml	1	1	3	corner_icycavern_se_00	-1	0	0	corner_icycavern_se_00	ic03_corner_icycavern_se_00_01.mgp	ic03_corner_icycavern_se_00_01.mvp	100	2
+T	data/scene/028_icy_cavern_03.rule.xml	1	2	9	straight_icycavern_ns_00	-1	1	0	straight_icycavern_ns_00	ic03_straight_icycavern_ns_00_01.mgp	ic03_straight_icycavern_ns_00_01.mvp	100	3
+T	data/scene/028_icy_cavern_03.rule.xml	1	3	2	corner_icycavern_nw_00	-1	2	0	corner_icycavern_nw_00	ic03_corner_icycavern_nw_00_01.mgp	ic03_corner_icycavern_nw_00_01.mvp	100	4
+T	data/scene/028_icy_cavern_03.rule.xml	1	4	11	t_icycavern_nse_00	-2	2	0	t_icycavern_nse_00	ic03_t_icycavern_nse_00_01.mgp	ic03_t_icycavern_nse_00_01.mvp	100	5,9
+T	data/scene/028_icy_cavern_03.rule.xml	1	5	9	straight_icycavern_ns_00	-2	1	0	straight_icycavern_ns_00	ic03_straight_icycavern_ns_00_01.mgp	ic03_straight_icycavern_ns_00_01.mvp	100	6
+T	data/scene/028_icy_cavern_03.rule.xml	1	6	9	straight_icycavern_ns_00	-2	0	0	straight_icycavern_ns_00	ic03_straight_icycavern_ns_00_01.mgp	ic03_straight_icycavern_ns_00_01.mvp	100	7
+T	data/scene/028_icy_cavern_03.rule.xml	1	7	3	corner_icycavern_se_00	-2	-1	0	corner_icycavern_se_00	ic03_corner_icycavern_se_00_01.mgp	ic03_corner_icycavern_se_00_01.mvp	100	8
+T	data/scene/028_icy_cavern_03.rule.xml	1	8	5	deadend_icycavern_w_00	-1	-1	0	deadend_icycavern_w_00	ic03_objend_icycavern_w_00_01.mgp	ic03_objend_icycavern_w_00_01.mvp	100	
+T	data/scene/028_icy_cavern_03.rule.xml	1	9	1	corner_icycavern_ne_00	-2	3	0	corner_icycavern_ne_00	ic03_corner_icycavern_ne_00_01.mgp	ic03_corner_icycavern_ne_00_01.mvp	100	10
+T	data/scene/028_icy_cavern_03.rule.xml	1	10	5	deadend_icycavern_w_00	-1	3	0	deadend_icycavern_w_00	ic03_deadend_icycavern_w_00_01.mgp	ic03_deadend_icycavern_w_00_01.mvp	100	
+R	data/scene/029_wind_temple.rule.xml	0	1	1475680373	2	1	12	0	12	0	11
+T	data/scene/029_wind_temple.rule.xml	0	0	8	entry_windtemp_n_	0	0	0	entry_windtemp_n_	entry_windtemp_n_01.mgp	entry_windtemp_n_01.mvp	100	1
+T	data/scene/029_wind_temple.rule.xml	0	1	2	corner_windtemp_se_	0	-1	3197067264	corner_windtemp_se_	corner_windtemp_se_01.mgp	corner_windtemp_se_01.mvp	100	2
+T	data/scene/029_wind_temple.rule.xml	0	2	3	corner_windtemp_sw_	1	-1	3197067264	corner_windtemp_sw_	corner_windtemp_sw_01.mgp	corner_windtemp_sw_01.mvp	100	3
+T	data/scene/029_wind_temple.rule.xml	0	3	0	corner_windtemp_ne_	1	0	0	corner_windtemp_ne_	corner_windtemp_ne_01.mgp	corner_windtemp_ne_01.mvp	100	4
+T	data/scene/029_wind_temple.rule.xml	0	4	1	corner_windtemp_nw_	2	0	0	corner_windtemp_nw_	corner_windtemp_nw_01.mgp	corner_windtemp_nw_01.mvp	100	5
+T	data/scene/029_wind_temple.rule.xml	0	5	12	straight_windtemp_ns_	2	-1	3197067264	straight_windtemp_ns_	straight_windtemp_ns_01.mgp	straight_windtemp_ns_01.mvp	100	6
+T	data/scene/029_wind_temple.rule.xml	0	6	3	corner_windtemp_sw_	2	-2	3197067264	corner_windtemp_sw_	corner_windtemp_sw_01.mgp	corner_windtemp_sw_01.mvp	100	7
+T	data/scene/029_wind_temple.rule.xml	0	7	11	straight_windtemp_ew_	1	-2	3197067264	straight_windtemp_ew_	straight_windtemp_ew_01.mgp	straight_windtemp_ew_01.mvp	100	8
+T	data/scene/029_wind_temple.rule.xml	0	8	13	t_windtemp_esw_	0	-2	3197067264	t_windtemp_esw_	t_windtemp_esw_01.mgp	t_windtemp_esw_01.mvp	100	9
+T	data/scene/029_wind_temple.rule.xml	0	9	0	corner_windtemp_ne_	-1	-2	3197067264	corner_windtemp_ne_	corner_windtemp_ne_01.mgp	corner_windtemp_ne_01.mvp	100	10
+T	data/scene/029_wind_temple.rule.xml	0	10	9	midboss_windtemp_ws_	-1	-4	3205455872	midboss_windtemp_ws_	midboss_windtemp_ws_01.mgp	midboss_windtemp_ws_01.mvp	100	11
+T	data/scene/029_wind_temple.rule.xml	0	11	10	objboss_windtemp_e_	-3	-4	3205455872	objboss_windtemp_e_	objboss_windtemp_e_01.mgp	objboss_windtemp_e_01.mvp	100	
+R	data/scene/029_wind_temple.rule.xml	1	1	2671890473	2	1	12	0	12	0	12
+T	data/scene/029_wind_temple.rule.xml	1	0	8	entry_windtemp_n_	0	0	0	entry_windtemp_n_	entry_windtemp_n_01.mgp	entry_windtemp_n_01.mvp	100	1
+T	data/scene/029_wind_temple.rule.xml	1	1	2	corner_windtemp_se_	0	-1	3197067264	corner_windtemp_se_	corner_windtemp_se_01.mgp	corner_windtemp_se_01.mvp	100	2
+T	data/scene/029_wind_temple.rule.xml	1	2	3	corner_windtemp_sw_	1	-1	3197067264	corner_windtemp_sw_	corner_windtemp_sw_01.mgp	corner_windtemp_sw_01.mvp	100	3
+T	data/scene/029_wind_temple.rule.xml	1	3	0	corner_windtemp_ne_	1	0	0	corner_windtemp_ne_	corner_windtemp_ne_01.mgp	corner_windtemp_ne_01.mvp	100	4
+T	data/scene/029_wind_temple.rule.xml	1	4	1	corner_windtemp_nw_	2	0	0	corner_windtemp_nw_	corner_windtemp_nw_01.mgp	corner_windtemp_nw_01.mvp	100	5
+T	data/scene/029_wind_temple.rule.xml	1	5	12	straight_windtemp_ns_	2	-1	3197067264	straight_windtemp_ns_	straight_windtemp_ns_01.mgp	straight_windtemp_ns_01.mvp	100	6
+T	data/scene/029_wind_temple.rule.xml	1	6	3	corner_windtemp_sw_	2	-2	3197067264	corner_windtemp_sw_	corner_windtemp_sw_01.mgp	corner_windtemp_sw_01.mvp	100	7
+T	data/scene/029_wind_temple.rule.xml	1	7	11	straight_windtemp_ew_	1	-2	3197067264	straight_windtemp_ew_	straight_windtemp_ew_01.mgp	straight_windtemp_ew_01.mvp	100	8
+T	data/scene/029_wind_temple.rule.xml	1	8	13	t_windtemp_esw_	0	-2	3197067264	t_windtemp_esw_	t_windtemp_esw_01.mgp	t_windtemp_esw_01.mvp	100	9
+T	data/scene/029_wind_temple.rule.xml	1	9	0	corner_windtemp_ne_	-1	-2	3197067264	corner_windtemp_ne_	corner_windtemp_ne_01.mgp	corner_windtemp_ne_01.mvp	100	10
+T	data/scene/029_wind_temple.rule.xml	1	10	9	midboss_windtemp_ws_	-1	-4	3205455872	midboss_windtemp_ws_	midboss_windtemp_ws_01.mgp	midboss_windtemp_ws_01.mvp	100	11
+T	data/scene/029_wind_temple.rule.xml	1	11	10	objboss_windtemp_e_	-3	-4	3205455872	objboss_windtemp_e_	objboss_windtemp_e_01.mgp	objboss_windtemp_e_01.mvp	100	
+R	data/scene/030_el_air.rule.xml	0	1	3489403281	12	1	12	4	9	7	8
+T	data/scene/030_el_air.rule.xml	0	0	5	deadend_n	0	0	0	deadend_n	el_air_deadend_n_01.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/030_el_air.rule.xml	0	1	11	straighta_ns	0	-1	1075643521	straighta_ns	el_air_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	2
+T	data/scene/030_el_air.rule.xml	0	2	1	corner_se	0	-2	0	corner_se	el_air_corner_se_01.mgp	elemental_corner_se_01.mvp	100	3
+T	data/scene/030_el_air.rule.xml	0	3	2	corner_wn	1	-2	0	corner_wn	el_air_corner_wn_01.mgp	elemental_corner_wn_01.mvp	100	4
+T	data/scene/030_el_air.rule.xml	0	4	1	corner_se	1	-3	0	corner_se	el_air_corner_se_01.mgp	elemental_corner_se_01.mvp	100	5
+T	data/scene/030_el_air.rule.xml	0	5	13	t_new	2	-3	3211841539	t_new	el_air_t_new_01.mgp	elemental_t_new_01.mvp	100	6,7
+T	data/scene/030_el_air.rule.xml	0	6	10	objectiveroom_s	2	-4	1135913707	objectiveroom_s	boss_air.mgp	elemental_objectiveroom_s_01.mvp	100	
+T	data/scene/030_el_air.rule.xml	0	7	7	deadend_w	3	-3	3290774088	deadend_w	el_air_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+R	data/scene/030_el_air.rule.xml	1	1	2903793695	11	1	11	4	9	6	9
+T	data/scene/030_el_air.rule.xml	1	0	5	deadend_n	0	0	0	deadend_n	el_air_deadend_n_01.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/030_el_air.rule.xml	1	1	1	corner_se	0	-1	0	corner_se	el_air_corner_se_01.mgp	elemental_corner_se_01.mvp	100	2
+T	data/scene/030_el_air.rule.xml	1	2	2	corner_wn	1	-1	0	corner_wn	el_air_corner_wn_01.mgp	elemental_corner_wn_01.mvp	100	3
+T	data/scene/030_el_air.rule.xml	1	3	1	corner_se	1	-2	0	corner_se	el_air_corner_se_01.mgp	elemental_corner_se_01.mvp	100	4
+T	data/scene/030_el_air.rule.xml	1	4	13	t_new	2	-2	3211841539	t_new	el_air_t_new_01.mgp	elemental_t_new_01.mvp	100	5,6
+T	data/scene/030_el_air.rule.xml	1	5	7	deadend_w	3	-2	3290774088	deadend_w	el_air_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+T	data/scene/030_el_air.rule.xml	1	6	10	objectiveroom_s	2	-3	1135913707	objectiveroom_s	boss_air.mgp	elemental_objectiveroom_s_01.mvp	100	
+R	data/scene/032_el_fire.rule.xml	0	1	3489403281	12	1	12	4	9	7	8
+T	data/scene/032_el_fire.rule.xml	0	0	5	deadend_n	0	0	0	deadend_n	el_fire_deadend_n.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/032_el_fire.rule.xml	0	1	11	straighta_ns	0	-1	1075643521	straighta_ns	el_fire_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	2
+T	data/scene/032_el_fire.rule.xml	0	2	1	corner_se	0	-2	0	corner_se	el_fire_corner_se_01.mgp	elemental_corner_se_01.mvp	100	3
+T	data/scene/032_el_fire.rule.xml	0	3	2	corner_wn	1	-2	0	corner_wn	el_fire_corner_nw_01.mgp	elemental_corner_wn_01.mvp	100	4
+T	data/scene/032_el_fire.rule.xml	0	4	1	corner_se	1	-3	0	corner_se	el_fire_corner_se_01.mgp	elemental_corner_se_01.mvp	100	5
+T	data/scene/032_el_fire.rule.xml	0	5	13	t_new	2	-3	3211841539	t_new	el_fire_t_new_01.mgp	elemental_t_new_01.mvp	100	6,7
+T	data/scene/032_el_fire.rule.xml	0	6	10	objectiveroom_s	2	-4	1135913707	objectiveroom_s	boss_fire.mgp	elemental_objectiveroom_s_01.mvp	100	
+T	data/scene/032_el_fire.rule.xml	0	7	7	deadend_w	3	-3	3290774088	deadend_w	el_fire_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+R	data/scene/032_el_fire.rule.xml	1	1	2241068491	10	1	8	0	5	5	4
+T	data/scene/032_el_fire.rule.xml	1	0	5	deadend_n	0	0	0	deadend_n	el_fire_deadend_n.mgp	elemental_deadend_n_01.mvp	100	1
+T	data/scene/032_el_fire.rule.xml	1	1	1	corner_se	0	-1	0	corner_se	el_fire_corner_se_01.mgp	elemental_corner_se_01.mvp	100	2
+T	data/scene/032_el_fire.rule.xml	1	2	2	corner_wn	1	-1	0	corner_wn	el_fire_corner_nw_01.mgp	elemental_corner_wn_01.mvp	100	3
+T	data/scene/032_el_fire.rule.xml	1	3	11	straighta_ns	1	-2	1075643521	straighta_ns	el_fire_straighta_ns_01.mgp	elemental_straighta_ns_01.mvp	100	4
+T	data/scene/032_el_fire.rule.xml	1	4	1	corner_se	1	-3	0	corner_se	el_fire_corner_se_01.mgp	elemental_corner_se_01.mvp	100	5
+T	data/scene/032_el_fire.rule.xml	1	5	13	t_new	2	-3	3211841539	t_new	el_fire_t_new_01.mgp	elemental_t_new_01.mvp	100	6,7
+T	data/scene/032_el_fire.rule.xml	1	6	7	deadend_w	3	-3	3290774088	deadend_w	el_fire_deadend_w_01.mgp	elemental_deadend_w_01.mvp	100	
+T	data/scene/032_el_fire.rule.xml	1	7	10	objectiveroom_s	2	-4	1135913707	objectiveroom_s	boss_fire.mgp	elemental_objectiveroom_s_01.mvp	100	
+R	data/scene/033_voidmaze_01.rule.xml	0	1	634820695	7	1	10	1	10	0	12
+T	data/scene/033_voidmaze_01.rule.xml	0	0	8	deadend_voidmaze_s_00	0	0	0	deadend_voidmaze_s_00	vm01_deadend_voidmaze_s_00_01.mgp	vm01_deadend_voidmaze_s_00_01.mvp	100	1
+T	data/scene/033_voidmaze_01.rule.xml	0	1	15	x_voidmaze_nswe_00	0	1	0	x_voidmaze_nswe_00	vm01_x_voidmaze_nswe_00.mgp	vm01_x_voidmaze_nswe_00.mvp	100	2,3,8
+T	data/scene/033_voidmaze_01.rule.xml	0	2	5	deadend_voidmaze_e_00	-1	1	0	deadend_voidmaze_e_00	vm01_deadend_voidmaze_e_00_02.mgp	vm01_deadend_voidmaze_e_00_02.mvp	100	
+T	data/scene/033_voidmaze_01.rule.xml	0	3	6	deadend_voidmaze_n_00	0	2	0	deadend_voidmaze_n_00	vm01_deadend_voidmaze_n_00_01.mgp	vm01_deadend_voidmaze_n_00_01.mvp	100	4
+T	data/scene/033_voidmaze_01.rule.xml	0	4	10	island_voidmaze_00	0	3	1075293184	island_voidmaze_00	vm01_island_voidmaze_00_01.mgp	vm01_island_voidmaze_00_01.mvp	100	5
+T	data/scene/033_voidmaze_01.rule.xml	0	5	10	island_voidmaze_00	0	5	1075293184	island_voidmaze_00	vm01_island_voidmaze_00_02.mgp	vm01_island_voidmaze_00_01.mvp	100	6
+T	data/scene/033_voidmaze_01.rule.xml	0	6	0	assassin_voidmaze_s_00	0	7	0	assassin_voidmaze_s_00	vm01_assassin_voidmaze_s_00_01.mgp	vm01_assassin_voidmaze_s_00_01.mvp	100	7
+T	data/scene/033_voidmaze_01.rule.xml	0	7	6	deadend_voidmaze_n_00	0	9	0	deadend_voidmaze_n_00	vm01_deadend_voidmaze_n_00_02.mgp	vm01_deadend_voidmaze_n_00_01.mvp	100	
+T	data/scene/033_voidmaze_01.rule.xml	0	8	9	deadend_voidmaze_w_00	1	1	0	deadend_voidmaze_w_00	vm01_deadend_voidmaze_w_00_03.mgp	vm01_deadend_voidmaze_w_00_03.mvp	100	
+R	data/scene/033_voidmaze_01.rule.xml	1	1	2564135766	7	1	14	5	14	0	18
+T	data/scene/033_voidmaze_01.rule.xml	1	0	8	deadend_voidmaze_s_00	0	0	0	deadend_voidmaze_s_00	vm01_deadend_voidmaze_s_00_01.mgp	vm01_deadend_voidmaze_s_00_01.mvp	100	1
+T	data/scene/033_voidmaze_01.rule.xml	1	1	15	x_voidmaze_nswe_00	0	1	0	x_voidmaze_nswe_00	vm01_x_voidmaze_nswe_00.mgp	vm01_x_voidmaze_nswe_00.mvp	100	2,7,8
+T	data/scene/033_voidmaze_01.rule.xml	1	2	6	deadend_voidmaze_n_00	0	2	0	deadend_voidmaze_n_00	vm01_deadend_voidmaze_n_00_01.mgp	vm01_deadend_voidmaze_n_00_01.mvp	100	3
+T	data/scene/033_voidmaze_01.rule.xml	1	3	10	island_voidmaze_00	0	3	1075293184	island_voidmaze_00	vm01_island_voidmaze_00_01.mgp	vm01_island_voidmaze_00_01.mvp	100	4
+T	data/scene/033_voidmaze_01.rule.xml	1	4	10	island_voidmaze_00	0	5	1075293184	island_voidmaze_00	vm01_island_voidmaze_00_02.mgp	vm01_island_voidmaze_00_01.mvp	100	5
+T	data/scene/033_voidmaze_01.rule.xml	1	5	0	assassin_voidmaze_s_00	0	7	0	assassin_voidmaze_s_00	vm01_assassin_voidmaze_s_00_01.mgp	vm01_assassin_voidmaze_s_00_01.mvp	100	6
+T	data/scene/033_voidmaze_01.rule.xml	1	6	6	deadend_voidmaze_n_00	0	9	0	deadend_voidmaze_n_00	vm01_deadend_voidmaze_n_00_02.mgp	vm01_deadend_voidmaze_n_00_01.mvp	100	
+T	data/scene/033_voidmaze_01.rule.xml	1	7	5	deadend_voidmaze_e_00	-1	1	0	deadend_voidmaze_e_00	vm01_deadend_voidmaze_e_00_02.mgp	vm01_deadend_voidmaze_e_00_02.mvp	100	
+T	data/scene/033_voidmaze_01.rule.xml	1	8	9	deadend_voidmaze_w_00	1	1	0	deadend_voidmaze_w_00	vm01_deadend_voidmaze_w_00_03.mgp	vm01_deadend_voidmaze_w_00_03.mvp	100	
+R	data/scene/034_voidmaze_02.rule.xml	0	1	3077297660	10	1	11	0	11	4	9
+T	data/scene/034_voidmaze_02.rule.xml	0	0	8	deadend_voidmaze_s_00	0	0	0	deadend_voidmaze_s_00	vm01_deadend_voidmaze_s_00_02.mgp	vm01_deadend_voidmaze_s_00_01.mvp	100	1
+T	data/scene/034_voidmaze_02.rule.xml	0	1	13	t_voidmaze_nse_00	0	1	0	t_voidmaze_nse_00	vm01_t_voidmaze_nse_00_01.mgp	vm01_t_voidmaze_nse_00_01.mvp	100	2,10
+T	data/scene/034_voidmaze_02.rule.xml	0	2	11	straight_voidmaze_ns_00	0	2	0	straight_voidmaze_ns_00	vm01_straight_voidmaze_ns_00_01.mgp	vm01_straight_voidmaze_ns_00_01.mvp	100	3
+T	data/scene/034_voidmaze_02.rule.xml	0	3	14	t_voidmaze_nsw_00	0	3	0	t_voidmaze_nsw_00	vm01_t_voidmaze_nsw_00_01.mgp	vm01_t_voidmaze_nsw_00_01.mvp	100	4,5
+T	data/scene/034_voidmaze_02.rule.xml	0	4	5	deadend_voidmaze_e_00	-1	3	0	deadend_voidmaze_e_00	vm01_deadend_voidmaze_e_00_01.mgp	vm01_deadend_voidmaze_e_00_01.mvp	100	
+T	data/scene/034_voidmaze_02.rule.xml	0	5	11	straight_voidmaze_ns_00	0	4	0	straight_voidmaze_ns_00	vm01_straight_voidmaze_ns_00_01.mgp	vm01_straight_voidmaze_ns_00_01.mvp	100	6
+T	data/scene/034_voidmaze_02.rule.xml	0	6	11	straight_voidmaze_ns_00	0	5	0	straight_voidmaze_ns_00	vm01_straight_voidmaze_ns_00_01.mgp	vm01_straight_voidmaze_ns_00_01.mvp	100	7
+T	data/scene/034_voidmaze_02.rule.xml	0	7	13	t_voidmaze_nse_00	0	6	0	t_voidmaze_nse_00	vm01_t_voidmaze_nse_00_01.mgp	vm01_t_voidmaze_nse_00_01.mvp	100	8,9
+T	data/scene/034_voidmaze_02.rule.xml	0	8	7	deadend_voidmaze_n_01	0	7	0	deadend_voidmaze_n_01	vm01_deadend_voidmaze_n_00_03.mgp	vm01_deadend_voidmaze_n_00_03.mvp	100	
+T	data/scene/034_voidmaze_02.rule.xml	0	9	9	deadend_voidmaze_w_00	1	6	0	deadend_voidmaze_w_00	vm01_deadend_voidmaze_w_00_01.mgp	vm01_deadend_voidmaze_w_00_01.mvp	100	
+T	data/scene/034_voidmaze_02.rule.xml	0	10	9	deadend_voidmaze_w_00	1	1	0	deadend_voidmaze_w_00	vm01_deadend_voidmaze_w_00_01.mgp	vm01_deadend_voidmaze_w_00_01.mvp	100	
+R	data/scene/034_voidmaze_02.rule.xml	1	1	2241068491	10	1	13	2	13	6	12
+T	data/scene/034_voidmaze_02.rule.xml	1	0	8	deadend_voidmaze_s_00	0	0	0	deadend_voidmaze_s_00	vm01_deadend_voidmaze_s_00_02.mgp	vm01_deadend_voidmaze_s_00_01.mvp	100	1
+T	data/scene/034_voidmaze_02.rule.xml	1	1	13	t_voidmaze_nse_00	0	1	0	t_voidmaze_nse_00	vm01_t_voidmaze_nse_00_01.mgp	vm01_t_voidmaze_nse_00_01.mvp	100	2,3
+T	data/scene/034_voidmaze_02.rule.xml	1	2	9	deadend_voidmaze_w_00	1	1	0	deadend_voidmaze_w_00	vm01_deadend_voidmaze_w_00_01.mgp	vm01_deadend_voidmaze_w_00_01.mvp	100	
+T	data/scene/034_voidmaze_02.rule.xml	1	3	11	straight_voidmaze_ns_00	0	2	0	straight_voidmaze_ns_00	vm01_straight_voidmaze_ns_00_01.mgp	vm01_straight_voidmaze_ns_00_01.mvp	100	4
+T	data/scene/034_voidmaze_02.rule.xml	1	4	14	t_voidmaze_nsw_00	0	3	0	t_voidmaze_nsw_00	vm01_t_voidmaze_nsw_00_01.mgp	vm01_t_voidmaze_nsw_00_01.mvp	100	5,10
+T	data/scene/034_voidmaze_02.rule.xml	1	5	11	straight_voidmaze_ns_00	0	4	0	straight_voidmaze_ns_00	vm01_straight_voidmaze_ns_00_01.mgp	vm01_straight_voidmaze_ns_00_01.mvp	100	6
+T	data/scene/034_voidmaze_02.rule.xml	1	6	11	straight_voidmaze_ns_00	0	5	0	straight_voidmaze_ns_00	vm01_straight_voidmaze_ns_00_01.mgp	vm01_straight_voidmaze_ns_00_01.mvp	100	7
+T	data/scene/034_voidmaze_02.rule.xml	1	7	13	t_voidmaze_nse_00	0	6	0	t_voidmaze_nse_00	vm01_t_voidmaze_nse_00_01.mgp	vm01_t_voidmaze_nse_00_01.mvp	100	8,9
+T	data/scene/034_voidmaze_02.rule.xml	1	8	7	deadend_voidmaze_n_01	0	7	0	deadend_voidmaze_n_01	vm01_deadend_voidmaze_n_00_03.mgp	vm01_deadend_voidmaze_n_00_03.mvp	100	
+T	data/scene/034_voidmaze_02.rule.xml	1	9	9	deadend_voidmaze_w_00	1	6	0	deadend_voidmaze_w_00	vm01_deadend_voidmaze_w_00_01.mgp	vm01_deadend_voidmaze_w_00_01.mvp	100	
+T	data/scene/034_voidmaze_02.rule.xml	1	10	5	deadend_voidmaze_e_00	-1	3	0	deadend_voidmaze_e_00	vm01_deadend_voidmaze_e_00_01.mgp	vm01_deadend_voidmaze_e_00_01.mvp	100	
+R	data/scene/035_voidmaze_03.rule.xml	0	1	3913526829	9	1	8	1	4	7	2
+T	data/scene/035_voidmaze_03.rule.xml	0	0	5	deadend_voidmaze_e_00	0	0	0	deadend_voidmaze_e_00	vm01_deadend_voidmaze_e_00_03.mgp	vm01_deadend_voidmaze_e_00_01.mvp	100	1
+T	data/scene/035_voidmaze_03.rule.xml	0	1	2	corner_voidmaze_nw_00	1	0	0	corner_voidmaze_nw_00	vm01_corner_voidmaze_nw_00_01.mgp	vm01_corner_voidmaze_nw_00_01.mvp	100	2
+T	data/scene/035_voidmaze_03.rule.xml	0	2	11	straight_voidmaze_ns_00	1	-1	0	straight_voidmaze_ns_00	vm01_straight_voidmaze_ns_00_01.mgp	vm01_straight_voidmaze_ns_00_01.mvp	100	3
+T	data/scene/035_voidmaze_03.rule.xml	0	3	3	corner_voidmaze_se_00	1	-2	0	corner_voidmaze_se_00	vm01_corner_voidmaze_se_00_01.mgp	vm01_corner_voidmaze_se_00_01.mvp	100	4
+T	data/scene/035_voidmaze_03.rule.xml	0	4	2	corner_voidmaze_nw_00	2	-2	0	corner_voidmaze_nw_00	vm01_corner_voidmaze_nw_00_01.mgp	vm01_corner_voidmaze_nw_00_01.mvp	100	5
+T	data/scene/035_voidmaze_03.rule.xml	0	5	3	corner_voidmaze_se_00	2	-3	0	corner_voidmaze_se_00	vm01_corner_voidmaze_se_00_01.mgp	vm01_corner_voidmaze_se_00_01.mvp	100	6
+T	data/scene/035_voidmaze_03.rule.xml	0	6	9	deadend_voidmaze_w_00	3	-3	0	deadend_voidmaze_w_00	vm01_deadend_voidmaze_w_00_02.mgp	vm01_deadend_voidmaze_w_00_02.mvp	100	
+R	data/scene/035_voidmaze_03.rule.xml	1	1	3860601557	8	1	9	2	5	8	3
+T	data/scene/035_voidmaze_03.rule.xml	1	0	5	deadend_voidmaze_e_00	0	0	0	deadend_voidmaze_e_00	vm01_deadend_voidmaze_e_00_03.mgp	vm01_deadend_voidmaze_e_00_01.mvp	100	1
+T	data/scene/035_voidmaze_03.rule.xml	1	1	4	corner_voidmaze_sw_00	1	0	0	corner_voidmaze_sw_00	vm01_corner_voidmaze_sw_00_01.mgp	vm01_corner_voidmaze_sw_00_01.mvp	100	2
+T	data/scene/035_voidmaze_03.rule.xml	1	2	11	straight_voidmaze_ns_00	1	1	0	straight_voidmaze_ns_00	vm01_straight_voidmaze_ns_00_01.mgp	vm01_straight_voidmaze_ns_00_01.mvp	100	3
+T	data/scene/035_voidmaze_03.rule.xml	1	3	1	corner_voidmaze_ne_00	1	2	0	corner_voidmaze_ne_00	vm011_corner_voidmaze_ne_00_01.mgp	vm01_corner_voidmaze_ne_00_01.mvp	100	4
+T	data/scene/035_voidmaze_03.rule.xml	1	4	12	straight_voidmaze_we_00	2	2	0	straight_voidmaze_we_00	vm01_straight_voidmaze_we_00_01.mgp	vm01_straight_voidmaze_we_00_01.mvp	100	5
+T	data/scene/035_voidmaze_03.rule.xml	1	5	12	straight_voidmaze_we_00	3	2	0	straight_voidmaze_we_00	vm01_straight_voidmaze_we_00_01.mgp	vm01_straight_voidmaze_we_00_01.mvp	100	6
+T	data/scene/035_voidmaze_03.rule.xml	1	6	9	deadend_voidmaze_w_00	4	2	0	deadend_voidmaze_w_00	vm01_deadend_voidmaze_w_00_02.mgp	vm01_deadend_voidmaze_w_00_02.mvp	100	
+R	data/scene/050_earth_temple_demo.rule.xml	0	1	0	0	1	4	0	4	0	3
+T	data/scene/050_earth_temple_demo.rule.xml	0	0	8	entry_earthtemp_w_	0	0	0	entry_earthtemp_w_	ET01_entry_earthtemp_w__DEMO.mgp	demo_entrance_w.mvp	100	1
+T	data/scene/050_earth_temple_demo.rule.xml	0	1	0	corner_earthtemp_ne_	-1	1	0	corner_earthtemp_ne_	ET02_corner_earthtemp_ne__DEMO.mgp	demo_corner_ne.mvp	100	2
+T	data/scene/050_earth_temple_demo.rule.xml	0	2	9	midboss_earthtemp_ns_	-1	0	0	midboss_earthtemp_ns_	demo_midboss.mgp	demo_corner_ne.mvp	100	3
+T	data/scene/050_earth_temple_demo.rule.xml	0	3	6	deadend_earthtemp_s_	-1	-1	0	deadend_earthtemp_s_	demo_deadend_s.mgp	demo_deadend_s.mvp	100	
+R	data/scene/050_earth_temple_demo.rule.xml	1	1	1	0	1	4	0	4	0	3
+T	data/scene/050_earth_temple_demo.rule.xml	1	0	8	entry_earthtemp_w_	0	0	0	entry_earthtemp_w_	ET01_entry_earthtemp_w__DEMO.mgp	demo_entrance_w.mvp	100	1
+T	data/scene/050_earth_temple_demo.rule.xml	1	1	0	corner_earthtemp_ne_	-1	1	0	corner_earthtemp_ne_	ET02_corner_earthtemp_ne__DEMO.mgp	demo_corner_ne.mvp	100	2
+T	data/scene/050_earth_temple_demo.rule.xml	1	2	9	midboss_earthtemp_ns_	-1	0	0	midboss_earthtemp_ns_	demo_midboss.mgp	demo_corner_ne.mvp	100	3
+T	data/scene/050_earth_temple_demo.rule.xml	1	3	6	deadend_earthtemp_s_	-1	-1	0	deadend_earthtemp_s_	demo_deadend_s.mgp	demo_deadend_s.mvp	100	
+R	data/scene/102_debug_questtest.rule.xml	0	1	2499713547	4	1	7	0	7	0	8
+T	data/scene/102_debug_questtest.rule.xml	0	0	6	deadend_e	0	0	0	deadend_e	questtest_deadend_e.mgp		100	1
+T	data/scene/102_debug_questtest.rule.xml	0	1	20	t_sew	1	0	0	t_sew	questtest_t_sew.mgp		100	2,6
+T	data/scene/102_debug_questtest.rule.xml	0	2	12	straight_a_ew	2	0	0	straight_a_ew	questtest_straight_a_ew.mgp		100	3
+T	data/scene/102_debug_questtest.rule.xml	0	3	20	t_sew	3	0	0	t_sew	questtest_t_sew2.mgp		100	4,5
+T	data/scene/102_debug_questtest.rule.xml	0	4	8	deadend_w	4	0	0	deadend_w	questtest_deadend_w.mgp		100	
+T	data/scene/102_debug_questtest.rule.xml	0	5	7	deadend_n	3	1	0	deadend_n	questtest_deadend_n2.mgp		100	
+T	data/scene/102_debug_questtest.rule.xml	0	6	7	deadend_n	1	1	0	deadend_n	questtest_deadend_n.mgp		100	
+R	data/scene/102_debug_questtest.rule.xml	1	1	1727768847	4	1	7	0	7	0	6
+T	data/scene/102_debug_questtest.rule.xml	1	0	6	deadend_e	0	0	0	deadend_e	questtest_deadend_e.mgp		100	1
+T	data/scene/102_debug_questtest.rule.xml	1	1	20	t_sew	1	0	0	t_sew	questtest_t_sew.mgp		100	2,3
+T	data/scene/102_debug_questtest.rule.xml	1	2	7	deadend_n	1	1	0	deadend_n	questtest_deadend_n.mgp		100	
+T	data/scene/102_debug_questtest.rule.xml	1	3	12	straight_a_ew	2	0	0	straight_a_ew	questtest_straight_a_ew.mgp		100	4
+T	data/scene/102_debug_questtest.rule.xml	1	4	20	t_sew	3	0	0	t_sew	questtest_t_sew2.mgp		100	5,6
+T	data/scene/102_debug_questtest.rule.xml	1	5	7	deadend_n	3	1	0	deadend_n	questtest_deadend_n2.mgp		100	
+T	data/scene/102_debug_questtest.rule.xml	1	6	8	deadend_w	4	0	0	deadend_w	questtest_deadend_w.mgp		100	
+R	data/scene/125_randomforalexb.rule.xml	0	1	3000472915	6	1	5	0	3	4	1
+T	data/scene/125_randomforalexb.rule.xml	0	0	5	deadend_n	0	0	0	deadend_n	el_lightning_deadend_n_01.mgp	elemental_deadend_startroom.mvp	100	1
+T	data/scene/125_randomforalexb.rule.xml	0	1	11	straighta_ns	0	-1	1075643521	straighta_ns		elemental_straighta_ns_01.mvp	100	2
+T	data/scene/125_randomforalexb.rule.xml	0	2	1	corner_se	0	-2	0	corner_se		elemental_corner_se_01.mvp	100	3
+T	data/scene/125_randomforalexb.rule.xml	0	3	2	corner_wn	1	-2	0	corner_wn		elemental_corner_wn_01.mvp	100	4
+T	data/scene/125_randomforalexb.rule.xml	0	4	10	objectiveroom_s	1	-3	3087007750	objectiveroom_s	boss_lightning.mgp	elemental_objectiveroom_s_01.mvp	100	
+R	data/scene/125_randomforalexb.rule.xml	1	1	2564135766	7	1	5	0	3	4	1
+T	data/scene/125_randomforalexb.rule.xml	1	0	5	deadend_n	0	0	0	deadend_n	el_lightning_deadend_n_01.mgp	elemental_deadend_startroom.mvp	100	1
+T	data/scene/125_randomforalexb.rule.xml	1	1	1	corner_se	0	-1	0	corner_se		elemental_corner_se_01.mvp	100	2
+T	data/scene/125_randomforalexb.rule.xml	1	2	2	corner_wn	1	-1	0	corner_wn		elemental_corner_wn_01.mvp	100	3
+T	data/scene/125_randomforalexb.rule.xml	1	3	11	straighta_ns	1	-2	1075643521	straighta_ns		elemental_straighta_ns_01.mvp	100	4
+T	data/scene/125_randomforalexb.rule.xml	1	4	10	objectiveroom_s	1	-3	3087007750	objectiveroom_s	boss_lightning.mgp	elemental_objectiveroom_s_01.mvp	100	

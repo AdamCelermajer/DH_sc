@@ -12,6 +12,6 @@ struct ProceduralMapSourcesV1 {
 // documents and every original selected MGP/MVP declaration remain retained.
 // This derived XML is not original serialized output or the shared runtime ABI.
 // It does not supply property defaults or activate/instantiate gameplay objects.
-bool prepare_procedural_map_sources_v1(const assets::ZipAssetPackV1&,
+bool prepare_procedural_map_sources_v1(const ProceduralAssetSourceV1&,
     ProceduralModulePlanV1,ProceduralMapSourcesV1& out,std::string& error);
 }

@@ -73,6 +73,8 @@ struct ActorVerbServices {
 
 // Facts the host cannot own. main supplies them from the live combat session.
 struct CampaignHostServices {
+    // P17 CONDITIONS: answers trigger zone activate_cond names (main binds the authored evaluator). Unset: gated zones get no contact.
+    std::function<bool(const std::string&)> condition_active;
     std::function<bool(std::vector<ActorId>&,std::string&)> all_actors;
     std::function<bool(ActorId,bool& alive,std::int32_t& state,std::string&)> actor_state;
     std::function<bool(ActorId,std::int32_t state,std::string&)> set_actor_state;
@@ -86,6 +88,9 @@ struct CampaignHostServices {
     // (main binds CameraClipLibrary).
     std::function<bool(std::int32_t,std::vector<std::uint8_t>&,std::vector<std::uint8_t>&,std::string&,std::string&)> read_camera_clip;
     ActorVerbServices actor_verbs; // P16 OPENING: actor show/hide/look/move and PlayActorAnim owners (main binds)
+    // P17 DOORS: Script_OpenDoor / Script_CloseDoor (kinds 54/55) through the existing routes.doors slot.
+    // Unset = pass-through (no door owner bound), as before.
+    std::function<bool(CampaignCommandPhase,const OriginalCampaignCommand&,int module,bool skip,bool& handled,bool& blocking,std::string&)> doors;
 };
 
 class CampaignHost {

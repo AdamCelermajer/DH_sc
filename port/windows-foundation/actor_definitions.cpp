@@ -91,8 +91,9 @@ void bounds(std::string_view text) {
     }
 }
 std::unique_ptr<TiXmlDocument> document(const AssetCatalog& assets, const std::string& path) {
-    if (std::filesystem::file_size(assets.resolve(path)) > maximum_bytes) throw std::runtime_error("Actor XML exceeds byte limit: " + path);
+    // P17 PROCGEN: sized from the bytes (a virtual document has no file on disk).
     const auto bytes = assets.read(path);
+    if (bytes.size() > maximum_bytes) throw std::runtime_error("Actor XML exceeds byte limit: " + path);
     if (bytes.empty() || std::find(bytes.begin(), bytes.end(), 0) != bytes.end()) throw std::runtime_error("Empty or NUL-containing actor XML: " + path);
     const std::string text(bytes.begin(), bytes.end());
     bounds(text);

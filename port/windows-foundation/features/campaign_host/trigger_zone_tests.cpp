@@ -132,10 +132,10 @@ void swamp_edges(const std::string& campaign, const std::string& cache) {
     zones.update(runtime, camp_centre, true, -1);
     check(counter.starts["enterLocation_MerchantCamp"] == 2, "unlimited zone starts on each entry");
 
-// Activation-conditioned zones are not evaluated, so they are not fed.
+// P17 CONDITIONS: activation-conditioned zones are built and gated by their condition, not skipped.
     bool listed = false;
-    for (const auto& line : zones.skipped()) listed = listed || line.find("activate_cond is not evaluated") != std::string::npos;
-    check(listed, "zones with unevaluated activate_cond are reported, not fed");
+    for (const auto& line : zones.skipped()) listed = listed || line.find("activate_cond") != std::string::npos;
+    check(!listed, "activate_cond zones are no longer skipped");
     std::cout << "swamp: fed=" << zones.zones().size() << " not-fed=" << zones.skipped().size() << '\n';
 }
 
@@ -220,6 +220,7 @@ void second_level_loader(const std::string& android) {
     int tested = 0;
     for (const auto& zone : zones.zones()) {
         if (uses[zone.script] != 1) continue;
+        if (!zone.activate_cond.empty()) continue; // P17 CONDITIONS: gated zones need a condition answer (covered by the EXE runs)
         settle(runtime);
         const std::array<float,3> centre_point{(zone.box.min[0] + zone.box.max[0]) * 0.5f, (zone.box.min[1] + zone.box.max[1]) * 0.5f, (zone.box.min[2] + zone.box.max[2]) * 0.5f};
         const std::array<float,3> far_point{zone.box.max[0] + 100000.f, centre_point[1], centre_point[2]};

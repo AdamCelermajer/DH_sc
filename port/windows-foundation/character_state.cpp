@@ -174,6 +174,19 @@ ValidationResult validate_character_state(const CharacterState& state) {
             }
         }
     }
+    // P17 TRANSITIONS2: optional components (unique ids, bounded size).
+    if (state.components.size() > character_component_limit) {
+        result.errors.emplace_back("character components exceed their entry limit");
+    } else {
+        std::unordered_set<std::string> component_ids;
+        for (const auto& component : state.components) {
+            check_text(result, component.id, "components.id");
+            if (!component_ids.insert(component.id).second)
+                result.errors.emplace_back("duplicate character component: " + component.id);
+            if (component.bytes.size() > character_component_bytes_limit)
+                result.errors.emplace_back("character component bytes exceed their limit: " + component.id);
+        }
+    }
     if(!validate_character_quest_blob(state.id,state.source_quest_progress_cqpg,quest_error))result.errors.push_back(quest_error);
     return result;
 }

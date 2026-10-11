@@ -451,6 +451,8 @@ bool CharacterVisual::loaded() const {return impl_ && impl_->ready;}
 const dh2::scene::Scene* CharacterVisual::retained_scene_borrow() const noexcept {return loaded()?&impl_->scene:nullptr;}
 const CharacterVisualConfig* CharacterVisual::configuration() const noexcept {return loaded()?&impl_->config:nullptr;}
 const char* CharacterVisual::animation_name() const {return loaded() && !impl_->clips.empty() ? impl_->clips[impl_->active_clip].second.c_str() : "";}
+// P17 FIREWALL: the NAME of the active clip (the key of select/animation_range), not its source path.
+const char* CharacterVisual::active_clip_name() const {return loaded() && !impl_->clips.empty() ? impl_->clips[impl_->active_clip].first.c_str() : "";}
 const std::vector<Mesh>& CharacterVisual::meshes() const {static const std::vector<Mesh> empty;return impl_ ? impl_->meshes : empty;}
 std::vector<Mesh>& CharacterVisual::mutable_meshes() {if(!impl_)impl_=std::make_unique<Impl>();return impl_->meshes;}
 const std::vector<std::string>& CharacterVisual::texture_uris() const {static const std::vector<std::string> empty;return impl_ ? impl_->textures : empty;}
