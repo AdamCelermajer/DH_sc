@@ -43,6 +43,7 @@ struct SourceCharacterCensusV1 {
  bool duplicate_name=false;
  std::string name,character,template_name,activate_condition,
              deactivate_condition,script,spawn_probability,auto_spawn,ai_state;
+ bool is_global=false;
  std::uint32_t deferred_reason_mask=0;
  bool supported_direct_dact_v1=false;
  Transform local,world;

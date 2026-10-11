@@ -108,7 +108,13 @@ static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const 
    for(unsigned j=0;j<mesh.primitives;++j){assets::Primitive raw{};dh2_mesh_primitive(&mesh,j,&raw);
     if(raw.collada_type||raw.index_count%3||raw.index_count>3000000||mesh.vertices>65536||total>1000000-mesh.vertices)throw std::runtime_error("Object primitive budget rejected");
     total+=mesh.vertices;
-    Primitive p;p.node=instance.node_index;p.material=instance.materials[j];if(candidate.scene.materials.at(p.material).id!=raw.material)throw std::runtime_error("Object material binding differs");
+    // CColladaDatabase::constructGeometry (0x61aeb8) and constructController
+    // (0x61ace8) apply each instance material to mesh buffer j by ordinal.
+    // The instance target may override the geometry's material symbol; the
+    // original SwampKing binds Box01 this way. scene::load has already
+    // resolved the target URI. Retain range checks without requiring equal IDs.
+    Primitive p;p.node=instance.node_index;p.material=instance.materials[j];
+    if(p.material>=candidate.scene.materials.size())throw std::runtime_error("Object material binding outside library");
     if(instance.controller>=0&&!skinning::load(view,instance.controller,candidate.scene,p.skin,error))throw std::runtime_error(error);
     assets::Attribute positions{},uv{},color{};if(dh2_mesh_attribute(&mesh,raw.attributes[0],&positions)!=assets::Error::ok||positions.components<3)throw std::runtime_error("Object position missing");
     const bool have_uv=dh2_mesh_attribute(&mesh,raw.attributes[4],&uv)==assets::Error::ok&&uv.components>=2;

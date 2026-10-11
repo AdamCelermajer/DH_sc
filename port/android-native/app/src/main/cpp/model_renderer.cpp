@@ -277,7 +277,7 @@ void raise_actor_kill_objective_events(ObjectActor&,std::uintptr_t killer);
 struct ObjectActor:dh2::objects::Record {
  dh2::data::AnimationScheduler scheduler;double cursor=0;unsigned completions=0;std::string state="Idle";
  dh2::world::Point initial_position{};
- dh2::data::PropertySheet base_class{};int class_id=-1;std::int16_t character_table_id=-1,character_template_id=-1;std::int32_t loot_table_id=-1,source_object_module_id=-1;
+ dh2::data::PropertySheet base_class{};int class_id=-1;std::int16_t character_table_id=-1,character_template_id=-1;std::int32_t loot_table_id=-1,source_object_module_id=-1;std::uint8_t source_global_87=0;
  dh2::data::PropertyState properties;
  dh2::animation::EventCursor event_cursor;unsigned animation_events=0;
  dh2::data::CombatActorState combat_state;int combat_target=-1;bool pending_death=false;
@@ -1391,6 +1391,7 @@ bool NativeCryptRoomRuntime::initialize(
    // ObjectManager::GetObjectByName's final argument. Keep it on the shared
    // manager projection so authored callbacks use canonical name resolution.
    projection.module_id_64=actor->source_object_module_id;
+   projection.global_87=actor->source_global_87;
    projection.world_x=actor->position[0];projection.world_y=actor->position[1];
    projection.zoning_enabled_2ee=actor->zoning_enabled_2ee;
    projection.visible_80=actor->visible_80;
@@ -1398,7 +1399,7 @@ bool NativeCryptRoomRuntime::initialize(
    projection.bind_live_fields({&actor->position[0],&actor->position[1],
        &actor->room_zone_2f4,&actor->in_room_list_2ef,&actor->zoning_enabled_2ee,
        &actor->in_zone_2f0,&actor->visual_object_2d8,&actor->visible_80,
-       &actor->source_object_module_id});
+       &actor->source_object_module_id,&actor->source_global_87});
    const auto actor_entry=actors.emplace(actor->identity,actor);
    if(!actor_entry.second) {
     error="Source ObjectManager actor identity index failed";clear();return false;
@@ -6017,7 +6018,8 @@ static std::string load_scene(const std::uint8_t* bytes,std::size_t size,AAssetM
         const bool have_color=dh2_mesh_attribute(&mesh,p.attributes[2],&color_attribute)==dh2::assets::Error::ok;
         Draw d;d.node=instance.node_index;d.material=scene.materials.at(instance.materials[j]);
         if(instance.controller>=0&&!dh2::skinning::load(view,instance.controller,scene,d.skin,error))throw std::runtime_error(error);
-        if(d.material.id!=p.material)throw std::runtime_error("Material binding order/symbol mismatch");
+        // Original constructGeometry/constructController apply instance targets
+        // by buffer ordinal, including material-name overrides (0x61ace8).
         candidate.push_back(std::move(d));auto& batch=candidate.back();
         batch.diffuse=upload(assets,batch.material.diffuse,cache,textures);batch.alpha=upload(assets,batch.material.alpha_map,cache,textures);
         std::vector<Vertex> vertices(mesh.vertices);
@@ -7602,6 +7604,19 @@ bool update_ordered_character_v1(void* raw,
   // retained Coordinator have a state machine provider; other DACT records
   // remain explicitly partial rather than receiving a synthetic FSM.
   if(spawn_owner) {
+   // CSMove::OnUpdate reads these facts from this Character's canonical
+   // controller/path after actor runtime has consumed its root motion.
+   // Keep the FSM view synchronized with that retained route rather than
+   // constructing a second Monster movement controller.
+   auto& runtime=spawn_owner->runtime;
+   spawn_owner->facts.is_at_destination=
+    dh2_nav_is_at_destination(&runtime.controller,&runtime.path)==1;
+   spawn_owner->facts.following_path=runtime.path.count!=0;
+   spawn_owner->facts.target=actor->native_ai
+    ?actor->native_ai->state.target_40:0;
+   std::copy(runtime.controller.heading.direction,
+             runtime.controller.heading.direction+3,spawn_owner->facts.heading);
+   spawn_owner->character.state.heading_active=runtime.controller.heading.active;
    if(spawn_owner->character.update_state(context.dt_ms)<0) {
     context.error="Ordered Character state-machine provider failed";return false;
    }
@@ -11736,6 +11751,11 @@ void initialize_gated_characters(AAssetManager* assets,
   auto& owner=*actor.spawn_owner;owner.bind(actor,group.animation_table);owner.body_creations=0;
   auto sequence=[&](const char* name){const auto* value=dh2::data::animation_state(actor_animation_tables,group.animation_table,name);return value?int(value-actor_animation_tables.sequences.data()):-1;};
   owner.facts={};owner.facts.idle=sequence("Idle");owner.facts.walk=sequence("Walk");
+  const float authored_step_speed=1.f;dh2::move::Speed movement_speed{};
+  if(dh2_move_speed(&movement_speed,actor.properties.resolved.data(),
+                    &authored_step_speed))
+   throw std::runtime_error("Spawn Character movement-speed producer failed");
+  owner.facts.walk_speed=movement_speed.walk_multiplier;
   dh2_pycst_result despawn_delay{};
   if(dh2_pycst_get(&actor_design,"CharacterDesign",15,"Despawn_Delay",13,&despawn_delay)||
      !despawn_delay.found||despawn_delay.value<0)
@@ -13844,6 +13864,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
             throw std::runtime_error("SWAMP Character source gates are absent from the exact MGP census row");
            actor.source_activate_condition=census->activate_condition;
            actor.source_deactivate_condition=census->deactivate_condition;
+           actor.source_global_87=census->is_global?1:0;
           }
           // Level::Level resets Module::s_moduleId to zero; each authored
           // Module constructor stores then increments it, and Module::LoadModule
@@ -14042,7 +14063,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       for(unsigned j=0;j<mesh.primitives;++j){dh2::assets::Primitive p{};dh2_mesh_primitive(&mesh,j,&p);
         if(p.collada_type||p.index_count%3||mesh.vertices>65536)throw std::runtime_error("World topology rejected");
         Draw batch;batch.environment=true;batch.placement=instance.world;batch.material=candidate.scene.materials.at(instance.materials[j]);
-        if(batch.material.id!=p.material)throw std::runtime_error("World visual binding differs");
+        // Keep the resolved instance material override, as the source loader does.
         environment.push_back(std::move(batch));auto& d=environment.back();d.diffuse=upload(assets,d.material.diffuse,cache,textures);d.alpha=upload(assets,d.material.alpha_map,cache,textures);
         dh2::assets::Attribute position_attribute{},uv{},color_attribute{};
         if(dh2_mesh_attribute(&mesh,p.attributes[0],&position_attribute)!=dh2::assets::Error::ok||position_attribute.components<3)throw std::runtime_error("World position missing");
@@ -15609,7 +15630,12 @@ void draw(int width,int height){
       }
       double remaining=frozen?0:frame_dt*1000;unsigned events=0;
       while(!frozen&&actor.scheduler.active()){
-        const auto& clip=group.clips.at(actor.scheduler.clip().anim);const double duration=clip.end-clip.start,speed=actor.scheduler.clip().speed,needed=(duration-actor.cursor)/speed;
+        const auto& clip=group.clips.at(actor.scheduler.clip().anim);
+        const double duration=clip.end-clip.start;
+        const double speed=actor.scheduler.clip().speed*
+          (actor.spawn_owner?actor.spawn_owner->animation_speed:1.f);
+        if(speed<=0.)break;
+        const double needed=(duration-actor.cursor)/speed;
         struct EventContext{ObjectActor* actor;int clip,ms;};
         auto dispatch_events=[&](double next){
           const int previous=clip.start+int(std::clamp(actor.cursor,0.,duration)),current=clip.start+int(std::clamp(next,0.,duration));EventContext context{&actor,actor.scheduler.clip().anim,current};

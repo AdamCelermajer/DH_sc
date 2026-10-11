@@ -41,7 +41,7 @@ bool NativePlayerCharacterOwnerV1::bind_session(
     }
     if (!player_character_660_) {
         ooi_intent_412_ = 0;
-        ooi_type_14a8_ = -1;
+        clear_ooi();
         faery_character_420_ = 0;
         reward_gold_1500_ = -1;
         reward_xp_1504_ = -1;
@@ -87,7 +87,7 @@ bool NativePlayerCharacterOwnerV1::bind_inventory(
 
 bool NativePlayerCharacterOwnerV1::unbind_session(std::string& error) {
     ooi_intent_412_ = 0;
-    ooi_type_14a8_ = -1;
+    clear_ooi();
     if (!player_character_660_) {
         error.clear();
         return true;

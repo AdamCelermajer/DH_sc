@@ -64,6 +64,7 @@ typedef struct dh2_world_source_character_row {
     char spawn_probability[32];
     char auto_spawn[16];
     char ai_state[64];
+    uint8_t is_global;
     uint32_t deferred_reason_mask;
     uint32_t supported_direct_dact_v1;
     float local_transform[9];

@@ -608,6 +608,8 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(inspect_scene PRIVATE dh2_scene_materials)
  add_executable(objects_audit tests/objects.cpp)
  target_link_libraries(objects_audit PRIVATE dh2_level_world)
+ add_executable(object_instance_material_override_host tests/object_instance_material_override.cpp)
+ target_link_libraries(object_instance_material_override_host PRIVATE dh2_level_world)
  add_executable(idle_options_audit tests/idle_options.cpp)
  target_link_libraries(idle_options_audit PRIVATE dh2_level_world)
  add_executable(actor_clips_audit tests/actor_clips.cpp)

@@ -38,6 +38,10 @@ class NativePlayerCharacterOwnerV1 final : public Coordinator {
     // Character ctor 0x3a9594 initializes signed OOI type +0x14a8 to -1.
     // MenuManager reads this same byte for the HUD action artwork.
     std::int8_t ooi_type_14a8_ = -1;
+    // Character::UpdateObjectOfInterest retains the selected GameObject at
+    // +0x14a4. Keep that identity beside its type on the same Player owner;
+    // it is the target consumed by Ctrl_UseOOI, not CharAI's combat target.
+    std::uintptr_t ooi_identity_14a4_ = 0;
     // Source GameObject visibility/enabled bytes are modeled as semantic state,
     // not ARM32 offsets in this native 64-bit owner.
     std::uint8_t visibility_80_ = 1;
@@ -72,6 +76,12 @@ public:
     std::uint8_t ooi_intent() const noexcept { return ooi_intent_412_; }
     std::int8_t ooi_type() const noexcept { return ooi_type_14a8_; }
     std::int8_t* ooi_type_storage() noexcept { return &ooi_type_14a8_; }
+    std::uintptr_t ooi_identity() const noexcept { return ooi_identity_14a4_; }
+    bool set_ooi(std::uintptr_t identity, std::int8_t type) noexcept {
+        if (!identity) { ooi_identity_14a4_ = 0; ooi_type_14a8_ = -1; return true; }
+        ooi_identity_14a4_ = identity; ooi_type_14a8_ = type; return true;
+    }
+    void clear_ooi() noexcept { ooi_identity_14a4_ = 0; ooi_type_14a8_ = -1; }
     std::uint8_t visibility_80() const noexcept { return visibility_80_; }
     std::uint8_t enabled_8a() const noexcept { return enabled_8a_; }
     std::uint8_t deleted_81() const noexcept { return deleted_81_; }

@@ -158,6 +158,10 @@ int main(int argc, char** argv) {
         std::size_t deferred_nonidle_rows = 0;
         std::size_t deferred_template_rows = 0;
         std::size_t deferred_probability_rows = 0;
+        std::size_t global_rows = 0;
+        bool global_priest = false;
+        bool global_faery = false;
+        bool default_non_global_merchant = false;
         for (const auto& row : character_census) {
             const auto found = std::find_if(handles.occurrences.begin(),
                 handles.occurrences.end(), [&](const auto& occurrence) {
@@ -170,6 +174,20 @@ int main(int argc, char** argv) {
                         found->source.name == row.name &&
                         found->duplicate_name == row.duplicate_name,
                     "census row lost exact MGP/handle-ledger provenance");
+            if (row.is_global) {
+                ++global_rows;
+                require(row.module_index == 0 &&
+                        ((row.name == "_prim_NPC_PriestGood" &&
+                          row.character == "WanderingPriest") ||
+                         (row.name == "_prim_Faery" &&
+                          row.character == "DefaultFairy")),
+                    "source-global bit was attached to an unexpected Character row");
+                global_priest |= row.name == "_prim_NPC_PriestGood";
+                global_faery |= row.name == "_prim_Faery";
+            }
+            if (row.name == "_prim_NPC_04" &&
+                row.character == "NPCmerchantCamp")
+                default_non_global_merchant = !row.is_global;
             for (float component : row.local.position)
                 require(std::isfinite(component), "census local position is non-finite");
             for (float component : row.world.position)
@@ -227,6 +245,9 @@ int main(int argc, char** argv) {
         }
         require(supported_rows == actor_sources.size(),
             "source census and supported DACT projection disagree");
+        require(global_rows == 2 && global_priest && global_faery &&
+                    default_non_global_merchant,
+            "source-global MGP values or absent-isGlobal default were not preserved");
         auto duplicate_handles=handles;
         auto duplicate=std::find_if(duplicate_handles.occurrences.begin(),
             duplicate_handles.occurrences.end(),[](const auto& occurrence){
@@ -284,7 +305,8 @@ int main(int argc, char** argv) {
                   << deferred_template_rows << " non-Monster-template, "
                   << deferred_probability_rows << " unsupported-probability, "
                   << deferred_other_rows << " other deferred; exact handle provenance; "
-                  << "duplicate-name and spawn_prob mutations rejected\n";
+                  << "isGlobal source/default values preserved; duplicate-name and "
+                  << "spawn_prob mutations rejected\n";
         return 0;
     } catch (const std::exception& exception) {
         std::cerr << exception.what() << '\n';

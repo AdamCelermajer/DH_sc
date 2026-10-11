@@ -325,6 +325,7 @@ bool census_source_characters_with_handles(const std::uint8_t* mlx,
         record.spawn_probability = row.spawn_probability;
         record.auto_spawn = row.auto_spawn;
         record.ai_state = row.ai_state;
+        record.is_global = row.is_global != 0;
         record.deferred_reason_mask = row.deferred_reason_mask;
         record.supported_direct_dact_v1 = row.supported_direct_dact_v1 != 0;
         if (record.duplicate_name) {

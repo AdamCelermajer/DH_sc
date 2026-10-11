@@ -7,7 +7,8 @@ Latest source round (not in R4):
 - [x] Verify selected quest-owner libraries: 5,414 host checks, 384 actual quest instances. This does not establish live campaign progression.
 - [x] Build Windows SDL gameplay-audio output; three Crypt frames pass with dummy audio. Audible output remains unverified.
 - [ ] Verify source merchant inventory, buy/sell transactions and NPC death integration in gameplay; current implementations remain in progress.
-- [ ] Finish SWAMP startup: nine modules and corrected character census load; 21 original LizardMan clips are restored with cache hashes. Updated launch gets past them, then stops at the merchant's missing `actors/prisoner.bdae`.
+- [x] Reach SWAMP startup on Windows: nine modules, four Monsters and one merchant load; 69 original assets restored. Source instance-material overrides fixed (`constructController` 0x61ace8); SwampKing regression passes. Three frames render player/world/HUD; combat and Android remain unverified.
+- [x] Retain source `isGlobal` through the exact MGP census and canonical ObjectManager; focused 50-row SWAMP census passes. Source Monster movement facts and animation-speed timing compile; gameplay movement remains unverified.
 - [ ] Finish Windows frontend framing: source main-menu scene/character/buttons render for three frames, but the button column is cropped. Frontend and gameplay/menu audio adapter compile; dummy audio only.
 - [ ] Reproduce an actual post-fix melee hit and enemy HUD update. Latest routed Windows run remained out of range; no damage verified.
 

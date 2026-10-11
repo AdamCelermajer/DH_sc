@@ -117,6 +117,20 @@ bool copy_source_text(char* output, std::size_t capacity, const char* value) {
     return true;
 }
 
+bool parse_source_global(const char* value, std::uint8_t& output) {
+    // ObjectBase::DeclareProperties supplies the source default of zero when
+    // the MGP omits isGlobal. Preserve an explicit source value and reject
+    // spellings outside the authored numeric boolean representation.
+    output = 0;
+    if (!value) return true;
+    while (*value && std::isspace(static_cast<unsigned char>(*value))) ++value;
+    const char* end = value + std::strlen(value);
+    while (end != value && std::isspace(static_cast<unsigned char>(end[-1]))) --end;
+    if (end - value == 1 && value[0] == '0') return true;
+    if (end - value == 1 && value[0] == '1') { output = 1; return true; }
+    return false;
+}
+
 struct ExpectedDirectActor {
     std::uint32_t module_index;
     std::uint32_t source_record;
@@ -753,6 +767,7 @@ extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
         const auto* spawn_probability = dh2_world_field(&object, "spawn_prob");
         const auto* auto_spawn = dh2_world_field(&object, "auto_spawn");
         const auto* ai_state = dh2_world_field(&object, "ai_state");
+        const auto* is_global = dh2_world_field(&object, "isGlobal");
         if (!copy_source_text(row.name, sizeof(row.name), object.name) ||
             !copy_source_text(row.character, sizeof(row.character), character) ||
             !copy_source_text(row.template_name, sizeof(row.template_name), template_name) ||
@@ -763,6 +778,10 @@ extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
             !copy_source_text(row.auto_spawn, sizeof(row.auto_spawn), auto_spawn) ||
             !copy_source_text(row.ai_state, sizeof(row.ai_state), ai_state)) {
             set_error(error, error_capacity, "Source Character identity/activation field exceeds census bounds");
+            return 0;
+        }
+        if (!parse_source_global(is_global, row.is_global)) {
+            set_error(error, error_capacity, "Source Character isGlobal value is not numeric 0 or 1");
             return 0;
         }
 
