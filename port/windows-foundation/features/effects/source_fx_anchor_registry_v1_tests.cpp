@@ -46,7 +46,7 @@ int main() {
         actor_pose.rotation = {0.1f, 0.2f, 0.3f};
         actor_pose.scale = {1.f, 1.f, 1.f};
         actor_pose.alive = true;
-        actor_pose.disabled = false;
+        actor_pose.deleted = false;
         actor_pose.stationary = false;
         int actor_provider_calls = 0;
         constexpr ActorId source_actor_id = static_cast<ActorId>(0xC123456789abcdefULL);
@@ -84,7 +84,7 @@ int main() {
         actor_pose.rotation = {0.4f, 0.5f, 0.6f};
         actor_pose.scale = {2.f, 3.f, 4.f};
         actor_pose.alive = false;
-        actor_pose.disabled = true;
+        actor_pose.deleted = true;
         actor_pose.stationary = true;
         query_vector(registry, actor_key.manager_identity, Op::anchor_rotation, actor_pose.rotation);
         query_vector(registry, actor_key.manager_identity, Op::anchor_scale, actor_pose.scale);
@@ -116,7 +116,7 @@ int main() {
         pose.rotation = {0.f, 0.f, 0.f};
         pose.scale = {1.f, 1.f, 1.f};
         pose.alive = false;
-        pose.disabled = true;
+        pose.deleted = true;
         pose.stationary = true;
         int provider_calls = 0;
         SourceFxAnchorKeyV1 waypoint_key;

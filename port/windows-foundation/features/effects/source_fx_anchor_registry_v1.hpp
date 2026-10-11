@@ -34,7 +34,9 @@ struct SourceFxAnchorPoseV1 {
     std::array<float, 3> rotation{}; // source radians, same as ActorState transform
     std::array<float, 3> scale{1.f, 1.f, 1.f};
     std::optional<bool> alive;
-    std::optional<bool> disabled;
+    // Source AnimatedFX::Update anchor_disabled reads ObjectBase deletion byte
+    // +0x81, not GameObject Enable byte +0x8a.
+    std::optional<bool> deleted;
     std::optional<bool> stationary;
 };
 
