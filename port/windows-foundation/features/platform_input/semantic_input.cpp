@@ -17,6 +17,13 @@ bool same_hit(Hit a, Hit b) { return a.control == b.control && a.item == b.item;
 }
 SemanticInput::SemanticInput(Bindings bindings):bindings_(bindings) {}
 void SemanticInput::set_surface(Surface surface) { cancel_controls(); surface_=std::move(surface); }
+void SemanticInput::replace_session_surface(Surface surface) {
+    pointers_.clear();
+    pending_={};
+    refresh_buttons();
+    for(auto& button:buttons_) {button.pressed=false;button.released=false;}
+    surface_=std::move(surface);
+}
 std::array<bool,6> SemanticInput::held_buttons() const {
     std::array<bool,6> result{};
     if(menu_open_ || !level_enabled_)return result;

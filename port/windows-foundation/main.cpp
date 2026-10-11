@@ -859,6 +859,9 @@ int main(int argc,char** argv) {
         bool returnMenuScriptConsumed=false;
         bool bootShown=false;  // Preview 15: the boot runs once per process, not on return-to-menu
         f::Window window;f::Renderer renderer;bool windowOpened=false;renderer.setGlLoader(&f::Window::gl_proc); // B066: buffer objects for static level geometry
+        // B106: keyboard press history belongs to the persistent window. A held
+        // travel key must not become a new press when loading replaces a session.
+        f::platform_input::SemanticInput semanticInput;
         // P17 TRANSITIONS: state that survives a level transition (the session loop below re-enters on the target level
         // in this process). The character itself travels through the profile save file, like a checkpoint.
         std::optional<f::transitions::PendingTransition> pendingTransition; // set by the frame loop, consumed after its cleanup
@@ -4603,7 +4606,6 @@ int main(int argc,char** argv) {
         };
         sourceEffectsCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
-        f::platform_input::SemanticInput semanticInput;
         std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false,enterHeld=false,cinematicInputWasLocked=false,cinematicSpaceHeld=false;
         bool pauseMenuOpen=false,pauseConfirmation=false;
         // Preview 15 B049: the Stats confirmation box (see statConfirmYes/No below). Every menu close path
@@ -4771,7 +4773,7 @@ int main(int argc,char** argv) {
             if(point.x>=bounds[0]*scale&&point.x<=bounds[1]*scale&&point.y>=bounds[2]*scale&&point.y<=bounds[3]*scale)return Hit{Control::profile,0};
             return Hit{};
         };
-        semanticInput.set_surface(std::move(uiSurface));
+        semanticInput.replace_session_surface(std::move(uiSurface));
         std::shared_ptr<f::enemy_ai::RuntimeEnemyNavigationV1> enemyNavigation;
         std::shared_ptr<f::enemy_ai::RuntimeEnemyControllerV1> enemyController;
         std::shared_ptr<f::companions::RuntimeFollowerControllerV1> followerController; // B077 FOLLOW
