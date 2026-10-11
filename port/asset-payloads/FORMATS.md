@@ -6,7 +6,11 @@ Offsets below are decimal byte offsets within each ARM32 serialized record. Word
 
 The root's geometry count/pointer are at `0x68` / `0x6c`; records occupy 16 bytes. `SGeometry` stores ID/name string offsets at 0/4, a type at 8, and a payload offset at 12. The original `constructGeometry` normal-mesh branch accepts type 0. This cache contains 10,924 type-0 and nine type-1 records.
 
-All nine type-1 records are named `Circle01-spline` or `Line01-spline`. Their payload begins with five 32-bit words, observed as `[0, 15, 3, 0, 0]` in every file. Their meanings are unproven, so `Type1Geometry` exposes them as opaque words. A mesh-shaped record begins at payload+20 and uses the same 44-byte `SMesh`, stream, attribute, primitive, vertex and index layouts below. The separate `dh2_type1_geometry_open` reads that embedded record; `dh2_mesh_open` continues to reject type 1 because the original `constructGeometry` returns null for it. This is a checked asset view, not evidence that the original game draws these records as meshes or interprets the prefix as spline control data.
+All nine type-1 records are geometry index zero and are named `Circle01-spline` or `Line01-spline`, with an empty name. Their payload begins with five 32-bit words, observed as `[0, 15, 3, 0, 0]` in every file. Their meanings are unproven, so `Type1Geometry` exposes them as opaque words.
+
+For every one of the nine records, `type1.payload + 20` is exactly equal to adjacent geometry index one's payload offset. That adjacent row is type 0, and the 44-byte `SMesh` record is therefore the same bytes when reached through either row. The stream, attribute, primitive, vertex and index data below belong to that ordinary type-0 payload. `source_mesh_geometry` reports the adjacent row.
+
+The separate `dh2_type1_geometry_open` is intentionally limited to this exact index, ID, empty-name, prefix and adjacent-alias pattern. It validates the source mesh through the normal checked reader before returning. `dh2_mesh_open` continues to reject the type-1 row because the original `constructGeometry` returns null for it. This is a checked corpus view, not a general type-1 schema or evidence that the original game interprets the prefix as spline control data. See [the evidence boundary](TYPE1-GEOMETRY.md).
 
 | `SMesh` offset | Field |
 | ---: | --- |

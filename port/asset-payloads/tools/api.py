@@ -16,7 +16,7 @@ class Mesh(c.Structure):
                 ('minimum', c.c_float*3), ('maximum', c.c_float*3)]
 
 class Type1Geometry(c.Structure):
-    _fields_ = [('embedded_mesh', Mesh), ('opaque_header', U*5)]
+    _fields_ = [('embedded_mesh', Mesh), ('opaque_header', U*5), ('source_mesh_geometry', U)]
 
 class Attribute(c.Structure):
     _fields_ = [('data', P)] + [(x, U) for x in ['type', 'components', 'stride', 'vertices']]

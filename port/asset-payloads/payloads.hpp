@@ -17,12 +17,14 @@ struct Mesh {
     std::uint32_t stream, buffers;
     float minimum[3], maximum[3];
 };
-// Type-1 records in the recovered cache contain five opaque words followed
-// by a mesh-shaped payload. The original constructGeometry rejects type 1;
-// this view only exposes the serialized payload for inspection.
+// The nine observed type-1 records contain five opaque words followed by the
+// exact payload of the adjacent type-0 geometry. The original
+// constructGeometry rejects type 1; this bounded view exposes the serialized
+// alias for inspection without treating it as a runtime type-1 mesh schema.
 struct Type1Geometry {
     Mesh embedded_mesh;
     std::uint32_t opaque_header[5];
+    std::uint32_t source_mesh_geometry;
 };
 struct Attribute {
     const std::uint8_t* data;
