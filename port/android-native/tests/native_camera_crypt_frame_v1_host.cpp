@@ -116,6 +116,30 @@ int main() {
                 "authored camera up direction projects to positive GLES screen Y")) return 47;
 
     ForwardAnchorState anchor{};
+    ForwardAnchorState owned_anchor{};
+    if (!expect(initialize_character_camera_anchor(&owned_anchor,0x1234,
+                    {4.0f,5.0f,6.0f},false,800.0f,20.0f,25.0f) &&
+                owned_anchor.source_initialized && owned_anchor.character_identity==0x1234 &&
+                near(owned_anchor.source_threshold,0.25f) &&
+                near(owned_anchor.target[0],4.0f),
+                "Character InitCam retains its identity, source inputs and AnchorBase reset position")) return 57;
+    if (!expect(update_character_camera_anchor(&owned_anchor,0x1234,
+                    {4.0f,5.0f,6.0f},{0.0f,1.0f,0.0f},{0.0f,1.0f,0.0f},
+                    true,true,false) && near(owned_anchor.distance,400.0f),
+                "owned AnchorForward uses CharacterDesign max distance and per-frame increment")) return 58;
+    if (!expect(!retire_character_camera_anchor(&owned_anchor,0x9999) &&
+                owned_anchor.source_initialized &&
+                retire_character_camera_anchor(&owned_anchor,0x1234) &&
+                !owned_anchor.source_initialized,
+                "SetCameraAnchorObject lifetime retires only for the matching Character identity")) return 59;
+    ForwardAnchorState static_anchor{};
+    if (!expect(initialize_character_camera_anchor(&static_anchor,0x4321,
+                    {1.0f,2.0f,3.0f},true,0.0f,0.0f,0.0f) &&
+                update_character_camera_anchor(&static_anchor,0x4321,
+                    {7.0f,8.0f,9.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},
+                    false,false,false) && near(static_anchor.target[0],7.0f) &&
+                near(static_anchor.target[1],8.0f) && near(static_anchor.target[2],9.0f),
+                "UseStaticCamera follows the Character position through its AnchorBase owner")) return 60;
     if (!expect(update_forward_anchor(&anchor, 0.0f, false, false) &&
                 near(anchor.distance, 0.0f), "idle camera anchor starts at the character")) return 21;
     if (!expect(update_forward_anchor(&anchor, 0.0f, true, true) &&
@@ -144,6 +168,16 @@ int main() {
                                      {1.0f,0.0f,0.0f},{0.0f,1.0f,0.0f},
                                      true,true,false) && near(look_at_gate.distance,320.0f),
                 "source zero-initialized look-at keeps first active frame finite and ramps to half distance")) return 34;
+    ForwardAnchorState source_heading_gate{};
+    if (!expect(update_forward_anchor(&source_heading_gate,{0.0f,0.0f,0.0f},
+                                     {0.0f,1.0f,0.0f},{0.0f,1.0f,0.0f},
+                                     false,true,false) &&
+                near(source_heading_gate.distance,320.0f) &&
+                update_forward_anchor(&source_heading_gate,{0.0f,0.0f,0.0f},
+                                     {0.0f,0.0f,0.0f},{0.0f,1.0f,0.0f},
+                                     true,true,false) &&
+                near(source_heading_gate.distance,kForwardAnchorIdleCap),
+                "AnchorForward uses GameObject +0x1b5 heading availability instead of controller heading-active")) return 44;
     if (!expect(update_forward_anchor(&look_at_gate,{10.0f,21.0f,30.0f},
                                      {0.0f,1.0f,0.0f},{0.0f,1.0f,0.0f},
                                      true,true,false) && near(look_at_gate.distance,337.0f) &&
@@ -165,9 +199,10 @@ int main() {
             &slow_walk,{x,0.0f,0.0f},{0.0f,1.0f,0.0f},{0.0f,1.0f,0.0f},
             true,true,false);
     }
-    if (!expect(slow_walk_ok && near(slow_walk.distance,422.0f) &&
-                near(slow_walk.target[1],422.0f),
-                "many individually sub-threshold movement frames expand from the retained idle baseline")) return 43;
+    if (!expect(slow_walk_ok && near(slow_walk.distance,320.0f) &&
+                near(slow_walk.target[1],320.0f) &&
+                near(slow_walk.previous_actor_position[0],0.25f),
+                "AnchorForward compares each movement frame with the immediately preceding position")) return 43;
     ForwardAnchorState look_at_turn{};
     look_at_turn.distance=320.0f;look_at_turn.previous_actor_look_at={1.0f,0.0f,0.0f};
     look_at_turn.previous_actor_position={0.0f,0.0f,0.0f};

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdint>
 #include <cstring>
 #include <string_view>
 
@@ -109,7 +110,57 @@ struct ForwardAnchorState {
     Vec3 previous_actor_position{};
     Vec3 target{};
     bool has_target{};
+    // Native semantic equivalent of GameObject::SetCameraAnchorObject's
+    // owned +0x2e0 pointer. The anchor remains part of this existing camera
+    // state, but is tied to the canonical Character identity and can be
+    // retired only by that same owner.
+    std::uintptr_t character_identity{};
+    bool source_initialized{};
+    bool use_static_camera{};
+    float source_max_distance{kForwardAnchorMaxDistance};
+    float source_distance_per_frame{kForwardAnchorDistancePerFrame};
+    float source_threshold{};
 };
+
+// Character::InitCam (0x3b4bc4) constructs AnchorBase when UseStaticCamera
+// is set, otherwise AnchorForward(character, maxDistance, distancePerSec,
+// threshold * 0.01). SetCameraAnchorObject (0x394378) transfers ownership to
+// the Character's +0x2e0 field and destroys any previous anchor. `identity`
+// is the port's stable semantic Character token, never an original pointer.
+inline bool initialize_character_camera_anchor(
+        ForwardAnchorState* state, std::uintptr_t identity, Vec3 character_position,
+        bool use_static_camera, float max_distance, float distance_per_frame,
+        float source_threshold) noexcept {
+    if (!state || identity == 0) return false;
+    for (float component : character_position)
+        if (!std::isfinite(component)) return false;
+    if (!use_static_camera &&
+        (!std::isfinite(max_distance) || max_distance < 0.0f ||
+         !std::isfinite(distance_per_frame) || distance_per_frame < 0.0f ||
+         !std::isfinite(source_threshold) || source_threshold < 0.0f ||
+         source_threshold > 100.0f)) return false;
+
+    ForwardAnchorState next{};
+    next.character_identity = identity;
+    next.source_initialized = true;
+    next.use_static_camera = use_static_camera;
+    next.source_max_distance = use_static_camera ? kForwardAnchorMaxDistance : max_distance;
+    next.source_distance_per_frame = use_static_camera
+        ? kForwardAnchorDistancePerFrame : distance_per_frame;
+    next.source_threshold = use_static_camera ? 0.0f : source_threshold * 0.01f;
+    next.target = character_position; // AnchorBase::Reset copies GameObject position.
+    next.has_target = true;
+    *state = next;
+    return true;
+}
+
+inline bool retire_character_camera_anchor(ForwardAnchorState* state,
+                                           std::uintptr_t identity) noexcept {
+    if (!state || identity == 0 || !state->source_initialized ||
+        state->character_identity != identity) return false;
+    *state = ForwardAnchorState{};
+    return true;
+}
 
 // Bounded Character::InitCam/AnchorForward projection. The original anchor
 // updates before CameraLevel consumes CameraTarget each frame. Its exact
@@ -177,15 +228,31 @@ inline float source_point3d_angle(Vec3 a, Vec3 b) noexcept {
     return std::acos(dot / (a_length * b_length));
 }
 
+// GameObject::SetHeadingDirection writes +0x1b5 from x*x+y*y > 0.0001,
+// after setting the stored heading Z component to zero (IDA 0x393c48–0x393c60).
+// That Character byte, rather than the controller's active bit, gates the
+// AnchorForward moving/attacking branch.
+inline bool source_game_object_heading_set(Vec3 heading) noexcept {
+    return std::isfinite(heading[0]) && std::isfinite(heading[1]) &&
+           heading[0] * heading[0] + heading[1] * heading[1] > 0.0001f;
+}
+
 inline bool update_forward_anchor(ForwardAnchorState* state,
                                   Vec3 actor_position,
                                   Vec3 current_heading_direction,
                                   Vec3 current_actor_look_at,
-                                  bool heading_active,
+                                  bool,
                                   bool moving,
                                   bool attacking) noexcept {
-    if (!state || !std::isfinite(state->distance) || state->distance < 0.0f ||
-        state->distance > kForwardAnchorMaxDistance) return false;
+    if (!state) return false;
+    const float max_distance = state->source_initialized
+        ? state->source_max_distance : kForwardAnchorMaxDistance;
+    const float distance_per_frame = state->source_initialized
+        ? state->source_distance_per_frame : kForwardAnchorDistancePerFrame;
+    if (!std::isfinite(max_distance) || max_distance < 0.0f ||
+        !std::isfinite(distance_per_frame) || distance_per_frame < 0.0f ||
+        !std::isfinite(state->distance) || state->distance < 0.0f ||
+        state->distance > max_distance) return false;
     for (float component : actor_position)
         if (!std::isfinite(component)) return false;
     for (float component : current_heading_direction)
@@ -200,7 +267,12 @@ inline bool update_forward_anchor(ForwardAnchorState* state,
         state->has_target = true;
     }
 
-    if (heading_active && (moving || attacking)) {
+    if (state->source_initialized && state->use_static_camera) {
+        state->distance = 0.0f;
+        state->target = actor_position;
+        return true;
+    } else if (source_game_object_heading_set(current_heading_direction) &&
+               (moving || attacking)) {
         const float heading_length = std::hypot(
             std::hypot(current_heading_direction[0], current_heading_direction[1]),
             current_heading_direction[2]);
@@ -215,16 +287,16 @@ inline bool update_forward_anchor(ForwardAnchorState* state,
         const float dz = actor_position[2] - state->previous_actor_position[2];
         const float target_limit = moving && dx * dx + dy * dy + dz * dz >
                 kForwardAnchorTranslationSquaredThreshold
-            ? kForwardAnchorMaxDistance : kForwardAnchorMaxDistance * 0.5f;
+            ? max_distance : max_distance * 0.5f;
 
         if (turn > kForwardAnchorTurnThresholdRadians) {
             state->distance = std::max(0.0f,
-                state->distance - kForwardAnchorDistancePerFrame * 0.25f);
-        } else if (state->distance < kForwardAnchorMaxDistance * 0.5f) {
-            state->distance = kForwardAnchorMaxDistance * 0.5f;
+                state->distance - distance_per_frame * 0.25f);
+        } else if (state->distance < max_distance * 0.5f) {
+            state->distance = max_distance * 0.5f;
         } else {
             state->distance = std::min(target_limit,
-                state->distance + kForwardAnchorDistancePerFrame);
+                state->distance + distance_per_frame);
         }
 
         const Vec3 full_target{actor_position[0] + direction[0] * target_limit,
@@ -242,22 +314,42 @@ inline bool update_forward_anchor(ForwardAnchorState* state,
                              actor_position[2] + direction[2] * state->distance};
         }
     } else {
-        state->distance = std::min(state->distance, kForwardAnchorIdleCap);
+        state->distance = std::min(state->distance, max_distance * 0.4f);
         state->target = {
             actor_position[0] + state->distance * state->previous_actor_look_at[0],
             actor_position[1] + state->distance * state->previous_actor_look_at[1],
             actor_position[2] + state->distance * state->previous_actor_look_at[2]};
     }
 
-    // AnchorForward keeps the last idle actor position in its +0x40..+0x48
-    // fields while its movement transition is active. Compare displacement
-    // from that stable baseline, rather than the immediately preceding frame;
-    // otherwise slow joystick movement can never unlock the full target range.
-    if (!heading_active || (!moving && !attacking))
-        state->previous_actor_position = actor_position;
+    // AnchorForward::Update compares against +0x2c..+0x34 at entry and writes
+    // the current GameObject position back to those fields at its common exit
+    // (IDA 0x4773fc, 0x477760..0x47777c). This uses a per-frame
+    // squared-displacement threshold (0.05 world-units squared),
+    // not a cumulative distance; do not accumulate small frames.
+    state->previous_actor_position = actor_position;
     state->previous_actor_look_at = current_actor_look_at;
     state->has_previous_actor_look_at = true;
     return true;
+}
+
+inline bool update_character_camera_anchor(
+        ForwardAnchorState* state, std::uintptr_t identity,
+        Vec3 actor_position, Vec3 current_heading_direction,
+        Vec3 current_actor_look_at, bool,
+        bool moving, bool attacking) noexcept {
+    if (!state || !state->source_initialized || identity == 0 ||
+        state->character_identity != identity) return false;
+    if (state->use_static_camera) {
+        for (float component : actor_position)
+            if (!std::isfinite(component)) return false;
+        state->target = actor_position;
+        state->distance = 0.0f;
+        state->has_target = true;
+        return true;
+    }
+    return update_forward_anchor(state, actor_position, current_heading_direction,
+                                 current_actor_look_at, false,
+                                 moving, attacking);
 }
 
 inline Vec3 forward_anchor_target(const ForwardAnchorState* state,
