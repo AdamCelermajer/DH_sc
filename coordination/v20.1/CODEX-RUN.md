@@ -6,7 +6,9 @@ Nothing in this document resolves a reported bug or accepts a release.
 
 Root owns integration in `DH_wt/v201int` (`v20.1/integrate`), review scheduling,
 the shared tracker, packaging and acceptance. Bug workers and read-only reviewers
-use GPT-6.1 Sol HIGH. Concurrency is limited to five workers plus root.
+use GPT-6.1 Sol HIGH. User explicitly corrected the concurrency cap to23 active
+sessions; the earlier six-session queue is revoked. All remaining implementation
+follow-ups and reviews are launched in parallel, with disjoint worktree ownership.
 
 | Scope | Fresh implementation owner | Worktree | Reviewer / state |
 |---|---|---|---|
