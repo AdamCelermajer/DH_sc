@@ -58,5 +58,7 @@ extern "C" int dh2_target_search_at(List48*,const Registry8*,float radius,float 
  const float* origin_xyz,const Services16*);
 extern "C" int dh2_target_search_object_list(List48*,const ObjectListMethods*,
  float radius,float cone,const Services16*);
+extern "C" int dh2_target_search_object_list_at(List48*,const ObjectListMethods*,
+ float radius,float cone,const float* origin_xyz,const Services16*);
 extern "C" int dh2_target_pop(List48*,Target24*);
 }

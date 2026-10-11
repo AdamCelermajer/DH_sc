@@ -56,6 +56,45 @@ dh2::room_zone_enrollment::GameObject GameObject::enrollment_view() noexcept {
             visible};
 }
 
+bool evaluate_source_interactive(const GameObject& object,
+                                 SourceInteractiveClass source_class,
+                                 Address interacting_object,
+                                 bool* interactive) noexcept {
+    if (!interactive || object.identity == 0) return false;
+    *interactive = false;
+    const auto deleted = object.live_fields.deleted_81
+        ? *object.live_fields.deleted_81 : object.deleted_81;
+    if (deleted > 1) return false;
+
+    switch (source_class) {
+    case SourceInteractiveClass::container:
+        if (!object.container_state_ready) return false;
+        *interactive = deleted == 0 && object.container_state_394 == 2;
+        return true;
+    case SourceInteractiveClass::liftable:
+        if (!object.liftable_state_ready) return false;
+        *interactive = deleted == 0 && object.liftable_owner_390 == 0 &&
+            (object.liftable_state_394 ^ std::uint8_t{1}) != 0;
+        return true;
+    case SourceInteractiveClass::trigger_object: {
+        if (!object.trigger_interactive_ready ||
+            !object.serialized_flag_8a_ready || object.serialized_flag_8a > 1 ||
+            object.trigger_interactive_784 > 1)
+            return false;
+        const bool can_activate =
+            !((object.trigger_count_3a8 >= 0 &&
+               object.trigger_count_3a8 <= object.trigger_max_count_3b4) ||
+              object.trigger_pending_3b8 > 0) &&
+            object.serialized_flag_8a != 0;
+        *interactive = deleted == 0 && can_activate &&
+            object.trigger_interactive_784 != 0;
+        (void)interacting_object; // TriggerObject's source predicate ignores it.
+        return true;
+    }
+    }
+    return false;
+}
+
 Status Owner::add_object(SourceHandle source_handle, const GameObject& object,
                          GameObject** stored) noexcept {
     return add_named_object(source_handle, {}, object, stored);
@@ -194,6 +233,162 @@ Status Owner::remove_object(SourceHandle source_handle, bool* removed) noexcept 
     }
     objects_.erase(found);
     *removed = true;
+    return Status::ok;
+}
+
+Status Owner::mark_deleted_81(Address identity, bool* changed) noexcept {
+    if (changed == nullptr || identity == 0) return Status::invalid_argument;
+    *changed = false;
+    GameObject* object = find_by_identity(identity);
+    if (object == nullptr) return Status::not_found;
+    auto* deleted = object->live_fields.deleted_81
+        ? object->live_fields.deleted_81 : &object->deleted_81;
+    if (*deleted > 1) return Status::invalid_argument;
+    if (*deleted != 0) return Status::ok;
+    *deleted = 1;
+    object->deleted_81 = 1;
+    *changed = true;
+    return Status::ok;
+}
+
+Status Owner::delete_object(Address identity, bool* changed) noexcept {
+    if (!changed || !identity) return Status::invalid_argument;
+    *changed = false;
+    GameObject* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    auto* deleted = object->live_fields.deleted_81
+        ? object->live_fields.deleted_81 : &object->deleted_81;
+    if (*deleted > 1) return Status::invalid_argument;
+
+    // ObjectBase::Delete stores byte +0x82 first, then byte +0x81. It does
+    // not erase the ObjectManager row or destroy the Character.
+    if (object->live_fields.deleted_state_82)
+        *object->live_fields.deleted_state_82 = 2;
+    object->deleted_state_82 = 2;
+    *deleted = 1;
+    object->deleted_81 = 1;
+    *changed = true;
+    return Status::ok;
+}
+
+Status Owner::set_updating(Address identity, std::uint8_t value) noexcept {
+    if (!identity || value > 1) return Status::invalid_argument;
+    GameObject* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    if (object->live_fields.updating_85)
+        *object->live_fields.updating_85 = value;
+    object->updating_85 = value;
+    return Status::ok;
+}
+
+Status Owner::set_visible(Address identity, std::uint8_t value) noexcept {
+    if (!identity || value > 1) return Status::invalid_argument;
+    GameObject* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    const std::uint8_t enabled = object->live_fields.serialized_flag_8a
+        ? *object->live_fields.serialized_flag_8a : object->serialized_flag_8a;
+    if (enabled > 1 || (value && !object->serialized_flag_8a_ready &&
+                        !object->live_fields.serialized_flag_8a))
+        return Status::invalid_argument;
+    const std::uint8_t visible = value ? enabled : 0;
+    if (object->live_fields.visible_80)
+        *object->live_fields.visible_80 = visible;
+    object->visible_80 = visible;
+    return Status::ok;
+}
+
+Status Owner::lock_object(Address identity) noexcept {
+    if (!identity) return Status::invalid_argument;
+    auto* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    if (!object->locked_29_ready && !object->live_fields.locked_29)
+        return Status::invalid_argument;
+    auto* locked = object->live_fields.locked_29
+        ? object->live_fields.locked_29 : &object->locked_29;
+    // BackupObjectList::_Add 0x4a20f0 increments the ARM byte directly.
+    *locked = static_cast<std::uint8_t>(*locked + 1u);
+    object->locked_29 = *locked;
+    return Status::ok;
+}
+
+Status Owner::unlock_object(Address identity) noexcept {
+    if (!identity) return Status::invalid_argument;
+    auto* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    if (!object->locked_29_ready && !object->live_fields.locked_29)
+        return Status::invalid_argument;
+    auto* locked = object->live_fields.locked_29
+        ? object->live_fields.locked_29 : &object->locked_29;
+    // BackupObjectList::_Clear 0x4a19f8 tests zero before decrementing.
+    if (*locked) --*locked;
+    object->locked_29 = *locked;
+    return Status::ok;
+}
+
+Status Owner::rename_object(Address identity, std::string_view name) noexcept {
+    if (!identity) return Status::invalid_argument;
+    GameObject* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    if (object->name == name) return Status::ok;
+    const auto previous_index = object->name.empty()
+        ? names_.end() : names_.find(object->name);
+
+    try {
+        std::string replacement = name.empty()
+            ? std::string{} : std::string(name.data(), name.size());
+        auto replacement_index = names_.try_emplace(replacement);
+        try {
+            replacement_index.first->second.insert(object->source_handle);
+        } catch (...) {
+            if (replacement_index.second && replacement_index.first->second.empty())
+                names_.erase(replacement_index.first);
+            throw;
+        }
+
+        object->name.swap(replacement);
+        if (previous_index != names_.end()) {
+            previous_index->second.erase(object->source_handle);
+            if (previous_index->second.empty()) names_.erase(previous_index);
+        }
+    } catch (...) {
+        return Status::allocation_failed;
+    }
+    return Status::ok;
+}
+
+Status Owner::publish_container_state(Address identity,
+                                     std::int32_t state) noexcept {
+    if (identity == 0) return Status::invalid_argument;
+    auto* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    object->container_state_394 = state;
+    object->container_state_ready = 1;
+    return Status::ok;
+}
+
+Status Owner::publish_liftable_state(Address identity, Address owner,
+                                     std::uint8_t state) noexcept {
+    if (identity == 0) return Status::invalid_argument;
+    auto* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    object->liftable_owner_390 = owner;
+    object->liftable_state_394 = state;
+    object->liftable_state_ready = 1;
+    return Status::ok;
+}
+
+Status Owner::publish_trigger_state(Address identity, std::int32_t count,
+                                    std::int32_t max_count,
+                                    std::int32_t pending,
+                                    std::uint8_t interactive) noexcept {
+    if (identity == 0 || interactive > 1) return Status::invalid_argument;
+    auto* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    object->trigger_count_3a8 = count;
+    object->trigger_max_count_3b4 = max_count;
+    object->trigger_pending_3b8 = pending;
+    object->trigger_interactive_784 = interactive;
+    object->trigger_interactive_ready = 1;
     return Status::ok;
 }
 
@@ -414,6 +609,35 @@ bool Owner::room_object_at(std::size_t index, Address* identity) const noexcept 
     auto found = room_objects_.begin();
     std::advance(found, static_cast<std::ptrdiff_t>(index));
     *identity = *found;
+    return true;
+}
+
+bool Owner::room_object_cursor_reset(RoomObjectCursor* cursor) const noexcept {
+    if (!cursor) return false;
+    cursor->owner = this;
+    cursor->current = room_objects_.cbegin();
+    cursor->visits = 0;
+    return true;
+}
+
+bool Owner::room_object_cursor_at_end(const RoomObjectCursor* cursor) const noexcept {
+    return cursor && cursor->owner == this && cursor->current == room_objects_.cend();
+}
+
+bool Owner::room_object_cursor_get(const RoomObjectCursor* cursor,
+                                   Address* identity) const noexcept {
+    if (!identity || !cursor || cursor->owner != this ||
+        cursor->current == room_objects_.cend()) return false;
+    *identity = *cursor->current;
+    return true;
+}
+
+bool Owner::room_object_cursor_next(RoomObjectCursor* cursor) const noexcept {
+    if (!cursor || cursor->owner != this ||
+        cursor->current == room_objects_.cend() ||
+        cursor->visits >= 65536) return false;
+    ++cursor->current;
+    ++cursor->visits;
     return true;
 }
 

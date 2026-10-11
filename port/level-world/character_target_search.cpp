@@ -178,14 +178,14 @@ extern "C" int dh2_target_search_at(List48* l,const Registry8* registry,float ra
  return 0;
 }
 extern "C" int dh2_target_search_object_list(List48* l,const ObjectListMethods* methods,float radius,float cone,const Services16* s) {
- if(!valid_list(l)||!aligned(methods)||!methods->context||!methods->reset||!methods->at_end||!methods->get||!methods->next||!valid_services(s)||!std::isfinite(radius)||!std::isfinite(cone)||cone<0.0f)return 1;
- const std::uint32_t character_flags=l->character_flags;
- const std::uint32_t object_filter=l->object_filter;
- // This adapter currently implements the ranged TargetList(owner,1,0,1)
- // shape. Other source constructors remain explicit and cannot silently
- // inherit this caller's character/object predicates.
- if(character_flags!=1||object_filter!=0||l->sort!=1)return 1;
- const float rotation=l->owner->rotation;float look[3]={std::sin(rotation),-std::cos(rotation),0};const float* origin=center(l->owner);
+ if(!valid_list(l))return 1;
+ return dh2_target_search_object_list_at(l,methods,radius,cone,center(l->owner),s);
+}
+extern "C" int dh2_target_search_object_list_at(List48* l,const ObjectListMethods* methods,float radius,float cone,const float* origin,const Services16* s) {
+ if(!valid_list(l)||!aligned(methods)||!methods->context||!methods->reset||!methods->at_end||!methods->get||!methods->next||!origin||!valid_services(s))return 1;
+ // The IObjectList overload (0x4a2f34) uses the same live filters and
+ // comparators as room search. Its ARM fcmp branches accept unordered inputs.
+ const float rotation=l->owner->rotation;float look[3]={std::sin(rotation),-std::cos(rotation),0};
  while(l->count)pop(l);
  float reference_radius=0;Response16 r;
  if(l->reference_character) {if(!call(s,melee_radius,l->reference_character,nullptr,r))return 2;reference_radius=r.number;}
@@ -210,8 +210,8 @@ extern "C" int dh2_target_search_object_list(List48* l,const ObjectListMethods* 
     if(!call(s,is_interactive,object,l->owner,r))return 2;
     if(r.word) {
      int accepted=0;
-     if(character)accepted=character_valid(l,character,character_flags,s);
-     else if(!game_object_valid(s,object,l->owner,object_filter,accepted))return 2;
+     if(character)accepted=character_valid(l,character,l->character_flags,s);
+     else if(!game_object_valid(s,object,l->owner,l->object_filter,accepted))return 2;
      if(accepted<0)return 2;
      if(accepted) {
       if(!call(s,interaction_radius,object,nullptr,r))return 2;

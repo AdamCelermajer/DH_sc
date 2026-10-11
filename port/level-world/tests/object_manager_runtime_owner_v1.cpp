@@ -237,11 +237,20 @@ void active_room_list_source_duplicate_and_delete() {
     constexpr Address room_zone = 0x7000;
     assert(owner.add_room_object(room_zone, &added) == Status::ok && added);
     assert(owner.room_object_count() == 1);
+    Owner::RoomObjectCursor cursor{};
+    assert(owner.room_object_cursor_reset(&cursor));
+    Address identity = 0;
+    assert(owner.room_object_cursor_get(&cursor, &identity) && identity == room_zone);
 
     // AddRoomObjects' duplicate assertion does not prevent its list insertion.
     assert(owner.add_room_object(room_zone, &added) == Status::ok && added);
     assert(owner.room_object_count() == 2);
-    Address identity = 0;
+    // The borrowed cursor advances through the live successor after the add;
+    // it does not hold a copied list of identities.
+    assert(owner.room_object_cursor_next(&cursor));
+    assert(owner.room_object_cursor_get(&cursor, &identity) && identity == room_zone);
+    assert(owner.room_object_cursor_next(&cursor));
+    assert(owner.room_object_cursor_at_end(&cursor));
     assert(owner.room_object_at(0, &identity) && identity == room_zone);
     assert(owner.room_object_at(1, &identity) && identity == room_zone);
 
@@ -426,8 +435,121 @@ void source_module_filtered_names() {
     assert(owner.find_by_name("Reserved", -1) == nullptr);
 }
 
+void save_base_facts_stay_on_the_canonical_manager_row() {
+    Owner owner;
+    auto value = object(0x7700);
+    GameObject* stored = nullptr;
+    assert(owner.add_named_object(7, "SourceCharacter", value, &stored) == Status::ok);
+    assert(stored);
+    std::uint8_t gate = 0, deleted = 0;
+    assert(!stored->read_save_base_facts(&gate, &deleted));
+
+    std::uint8_t live_gate = 1, live_deleted = 0;
+    stored->save_facts_ready = 1;
+    stored->live_fields.save_eligibility_28 = &live_gate;
+    stored->live_fields.deleted_81 = &live_deleted;
+    assert(stored->read_save_base_facts(&gate, &deleted));
+    assert(gate == 1 && deleted == 0);
+
+    bool changed = false;
+    assert(owner.mark_deleted_81(0x7700, &changed) == Status::ok && changed);
+    assert(live_deleted == 1 && stored->deleted_81 == 1);
+    assert(owner.mark_deleted_81(0x7700, &changed) == Status::ok && !changed);
+    assert(owner.mark_deleted_81(0x7701, &changed) == Status::not_found);
+    live_deleted = 2;
+    assert(!stored->read_save_base_facts(&gate, &deleted));
+}
+
+void source_logical_delete_keeps_the_same_manager_identity() {
+    Owner owner;
+    GameObject* stored = nullptr;
+    assert(owner.add_named_object(19, "PlayerCharacter", object(0x7719),
+                                  &stored) == Status::ok);
+    assert(stored);
+    std::uint8_t visible = 1, updating = 1, deleted = 0;
+    stored->live_fields.visible_80 = &visible;
+    stored->live_fields.updating_85 = &updating;
+    stored->live_fields.deleted_81 = &deleted;
+
+    assert(owner.set_updating(0x7719, 0) == Status::ok);
+    assert(updating == 0 && stored->updating_85 == 0);
+    assert(owner.set_visible(0x7719, 0) == Status::ok);
+    assert(visible == 0 && stored->visible_80 == 0);
+    stored->serialized_flag_8a = 1;
+    stored->serialized_flag_8a_ready = 1;
+    assert(owner.set_visible(0x7719, 1) == Status::ok);
+    assert(visible == 1 && stored->visible_80 == 1);
+
+    assert(owner.rename_object(0x7719, "PlayerCharacter_Deleted_17") ==
+           Status::ok);
+    assert(owner.find_by_name("PlayerCharacter") == nullptr);
+    assert(owner.find_by_name("PlayerCharacter_Deleted_17") == stored);
+    bool changed = false;
+    assert(owner.delete_object(0x7719, &changed) == Status::ok && changed);
+    assert(deleted == 1 && stored->deleted_81 == 1 &&
+           stored->deleted_state_82 == 2);
+    assert(owner.find_by_identity(0x7719) == stored && owner.object_count() == 1);
+}
+
+void source_interactive_facts_stay_on_the_canonical_manager_row() {
+    Owner owner;
+    GameObject* stored = nullptr;
+    assert(owner.add_named_object(12, "Container", object(0x7712), &stored) == Status::ok);
+    bool interactive = false;
+    assert(!evaluate_source_interactive(*stored, SourceInteractiveClass::container,
+                                        0x7000, &interactive));
+    assert(owner.publish_container_state(0x7712, 2) == Status::ok);
+    assert(evaluate_source_interactive(*stored, SourceInteractiveClass::container,
+                                       0x7000, &interactive) && interactive);
+    assert(owner.publish_container_state(0x7712, 1) == Status::ok);
+    assert(evaluate_source_interactive(*stored, SourceInteractiveClass::container,
+                                       0x7000, &interactive) && !interactive);
+
+    assert(owner.publish_liftable_state(0x7712, 0, 0) == Status::ok);
+    assert(evaluate_source_interactive(*stored, SourceInteractiveClass::liftable,
+                                       0x7000, &interactive) && interactive);
+    assert(owner.publish_liftable_state(0x7712, 0x7000, 0) == Status::ok);
+    assert(evaluate_source_interactive(*stored, SourceInteractiveClass::liftable,
+                                       0x7000, &interactive) && !interactive);
+
+    stored->serialized_flag_8a = 1;
+    stored->serialized_flag_8a_ready = 1;
+    assert(owner.publish_trigger_state(0x7712, 1, 0, 0, 1) == Status::ok);
+    assert(evaluate_source_interactive(*stored, SourceInteractiveClass::trigger_object,
+                                       0x7000, &interactive) && interactive);
+    assert(owner.publish_trigger_state(0x7712, 0, 0, 0, 1) == Status::ok);
+    assert(evaluate_source_interactive(*stored, SourceInteractiveClass::trigger_object,
+                                       0x7000, &interactive) && !interactive);
+}
+
+void backup_locks_use_the_canonical_source_byte() {
+    Owner owner;
+    GameObject* stored = nullptr;
+    assert(owner.add_object(1, object(0x7711), &stored) == Status::ok);
+    assert(owner.lock_object(0x7711) == Status::invalid_argument);
+    assert(stored->locked_29 == 0);
+    stored->locked_29_ready = 1;
+    assert(owner.lock_object(0x7711) == Status::ok);
+    assert(stored->locked_29 == 1);
+    assert(owner.unlock_object(0x7711) == Status::ok);
+    assert(owner.unlock_object(0x7711) == Status::ok);
+    assert(stored->locked_29 == 0);
+    std::uint8_t live_lock = 254;
+    stored->live_fields.locked_29 = &live_lock;
+    assert(owner.lock_object(0x7711) == Status::ok && live_lock == 255);
+    assert(owner.lock_object(0x7711) == Status::ok && live_lock == 0);
+    assert(stored->locked_29 == 0);
+    assert(owner.unlock_object(0x7711) == Status::ok && live_lock == 0);
+    assert(owner.lock_object(0x9999) == Status::not_found);
+    assert(owner.unlock_object(0) == Status::invalid_argument);
+}
+
 int main() {
+    backup_locks_use_the_canonical_source_byte();
     source_module_filtered_names();
+    save_base_facts_stay_on_the_canonical_manager_row();
+    source_logical_delete_keeps_the_same_manager_identity();
+    source_interactive_facts_stay_on_the_canonical_manager_row();
     ordered_map_and_stable_identity();
     named_handle_create_miss_counter_and_collision();
     canonical_views();
