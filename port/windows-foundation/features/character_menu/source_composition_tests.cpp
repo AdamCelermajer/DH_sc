@@ -14,7 +14,7 @@ int main() {
         auto owner = std::static_pointer_cast<void>(std::make_shared<int>(7));
         SourceCompositionV1 composition(owner);
         bool ready = false;
-        unsigned render_calls = 0, root_calls = 0, release_calls = 0;
+        unsigned render_calls = 0, root_calls = 0, release_calls = 0, leave_calls = 0;
         SourcePageProviderV1 equipment;
         equipment.owner = owner;
         equipment.ready = [&](std::string& e) { e = ready ? "" : "actual ItemName provider unavailable"; return ready; };
@@ -25,6 +25,7 @@ int main() {
             return true;
         };
         equipment.release = [&](float, float, std::string&) { ++release_calls; return true; };
+        equipment.leave = [&]() noexcept { ++leave_calls; };
         check(composition.register_page(Tab::equipment, equipment, error), error.c_str());
         auto wrong_owner = std::static_pointer_cast<void>(std::make_shared<int>(8));
         auto rejected = equipment; rejected.owner = wrong_owner;
@@ -41,8 +42,38 @@ int main() {
               presenter.tab() == Tab::equipment,
               "ready page was not selected after its readiness check");
         check(!composition.select(presenter, Tab::faery, error) &&
-              presenter.tab() == Tab::equipment,
+              presenter.tab() == Tab::equipment && leave_calls == 0,
               "unbound Faery page displaced the selected Equipment page");
+        ready = false;
+        check(composition.release(presenter, 245.f, 18.f, 480, 320, error) == Action::none &&
+              presenter.tab() == Tab::equipment && leave_calls == 0,
+              "unready active tab discarded the current subpage");
+        ready = true;
+        for (int i = 0; i < 2; ++i)
+            check(composition.release(presenter, 245.f, 18.f, 480, 320, error) == Action::equipment &&
+                  presenter.tab() == Tab::equipment && leave_calls == unsigned(i + 1),
+                  "accepted active tab did not reset its retained provider");
+        presenter.close();
+        check(!composition.select(presenter, Tab::equipment, error) && leave_calls == 2,
+              "closed menu dispatched provider leave");
+        error = "stale previous action error";
+        check(composition.release(presenter, 0.f, 0.f, 480, 320, error) == Action::none &&
+              error.empty() && release_calls == 0 && leave_calls == 2,
+              "closed menu dispatched a hidden page body release");
+        presenter.open();
+        check(composition.select(presenter, Tab::equipment, error), error.c_str());
+        check(composition.release(presenter, 19.f, 20.f, 480, 320, error) == Action::close && !presenter.is_open(),
+              "queued Close did not retire the menu");
+        check(composition.release(presenter, 0.f, 0.f, 480, 320, error) == Action::none &&
+              composition.release(presenter, 245.f, 18.f, 480, 320, error) == Action::none &&
+              error.empty() && release_calls == 0 && leave_calls == 2,
+              "release queued after Close dispatched a hidden provider or leave callback");
+        presenter.open();
+        check(composition.select(presenter, Tab::equipment, error), error.c_str());
+        presenter.close_guard = [] { return false; };
+        check(composition.release(presenter, 19.f, 20.f, 480, 320, error) == Action::close && presenter.is_open(),
+              "close guard refusal retired the still-open menu");
+        presenter.close_guard = {};
 
         // Instantiate the generic release path as well as page selection.
         // This consumer deliberately never registers a NativeStats action;

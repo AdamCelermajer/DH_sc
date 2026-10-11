@@ -1,0 +1,8 @@
+Internal ctest changing into directory: C:/Users/adamc/Desktop/workspace/DH_wt/build-fix097
+Test project C:/Users/adamc/Desktop/workspace/DH_wt/build-fix097
+    Start 82: campaign_host
+1/1 Test #82: campaign_host ....................   Passed    0.84 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.86 sec

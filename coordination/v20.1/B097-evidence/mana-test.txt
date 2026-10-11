@@ -1,0 +1,1 @@
+PASS original ClassTables CalcManaCost: BashDown ranks 0/1/2/7/65535, same resolved-property buff input, raw SnS_ManaCost, no owner mutation; unknown class/u16 overflow rejected

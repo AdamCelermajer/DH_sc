@@ -111,7 +111,7 @@ bool prepare_skill_cast_mana_v1(
     const dh2::data::CharacterTable& characters, dh2::data::SkillTables::Borrow tables,
     const dh2::data::ClassTables& classes, const dh2::data::PropertyRules& rules,
     int position, const std::string& class_token, const SkillManaSourceFactsV1& facts,
-    SkillManaPrepareResultV1& output, std::string& error) {
+    SkillManaPrepareResultV1& output, std::string& error, bool check_only) {
     error.clear();
     if (actor_id == invalid_actor_id || !session.world())
         return fail(error, "Skill mana preparation requires the existing CombatSession world and actor");
@@ -185,6 +185,11 @@ bool prepare_skill_cast_mana_v1(
     // The source-equivalent BashDown OnSkillCheck_ HasMana comparison is true.
     // Keep this computed callback result distinct from outer CharAI/FSM admission.
     next.source_has_mana_check = true;
+    if(check_only){
+        next.status=SkillManaPrepareStatusV1::mana_check_passed;
+        next.mana_before=current_mp;next.mana_after=current_mp;
+        output=std::move(next);error.clear();return true;
+    }
 
     // Native UseMana calls the same Application/player bypass again before
     // querying GOD_MANA and the Character byte14f0 gate.

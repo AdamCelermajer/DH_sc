@@ -50,7 +50,7 @@ bool DoorCommandsV1::command(CampaignCommandPhase phase, const OriginalCampaignC
         executed_.erase(&c);
         return true;
     }
-    const bool before = doors_.state(index) == DoorStateV1::opened;
+    const auto before = doors_.state(index);
     std::string doorError;
     const bool ok = c.kind == 54 ? doors_.open(index, skip, doorError) : doors_.close(index, skip, doorError);
     if (!ok) {

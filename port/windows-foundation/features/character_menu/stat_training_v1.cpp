@@ -63,7 +63,7 @@ bool change_stat_point_v1(CharacterState& same_state, CombatSession& same_sessio
     }
     if (static_cast<std::uint32_t>(q8_integer(resolved[stat_points_property])) != same_state.source_stat_points ||
         static_cast<std::uint32_t>(q8_integer(resolved[skill_points_property])) != same_state.source_skill_points)
-        return fail(error, "Session resolved points differ from same CharacterState points");
+        return fail(error, "Session resolved points differ from same CharacterState points (stat "+std::to_string(q8_integer(resolved[stat_points_property]))+"/"+std::to_string(same_state.source_stat_points)+" skill "+std::to_string(q8_integer(resolved[skill_points_property]))+"/"+std::to_string(same_state.source_skill_points)+")");
     // Refused without any mutation: the original button is disabled at zero.
     if (spend && q8_integer(resolved[stat_points_property]) <= 0)
         return fail(error, "Source stat training refused: no Stat_Points remain");
@@ -168,6 +168,36 @@ bool change_stat_point_v1(CharacterState& same_state, CombatSession& same_sessio
 
 } // namespace
 
+bool begin_allocation_visit_v1(const CharacterState& same_state, CombatSession& same_session,
+    StatTrainingVisitV1& visit, const StatTrainingPersistV1& persist, std::string& error) {
+    if (visit.has_staged()) {
+        if (!visit.baseline || visit.session_owner != &same_session ||
+            visit.baseline->id != same_state.id || visit.baseline->class_id != same_state.class_id)
+            return fail(error, "Allocation visit lost its same character/Session baseline");
+        error.clear();
+        return true;
+    }
+    const auto* world = same_session.world();
+    const auto* sheet = world ? world->combat_properties(same_session.player_id()) : nullptr;
+    const auto* actor = same_session.actor(same_session.player_id());
+    if (!sheet || !actor || !actor->persistent_character_id ||
+        *actor->persistent_character_id != same_state.id || actor->definition_id != same_state.class_id)
+        return fail(error, "Allocation baseline requires the current same character/Session");
+    if (!persist) return fail(error, "Allocation baseline requires an actual persistence owner");
+    // Allocate the snapshot before touching disk; a failed prefix never admits a spend.
+    CharacterState baseline = same_state;
+    const auto saved = sheet->sheets.saved;
+    if (!persist(baseline, error)) {
+        if (error.empty()) error = "Allocation baseline persistence failed";
+        return false;
+    }
+    visit.baseline = std::move(baseline);
+    visit.baseline_saved = saved;
+    visit.session_owner = &same_session;
+    error.clear();
+    return true;
+}
+
 bool train_stat_in_session_v1(CharacterState& same_state, CombatSession& same_session,
     const OriginalPropertyDatabase& source_properties, std::uint32_t stat,
     const StatTrainingPersistV1& persist, StatTrainingCommitV1& output, std::string& error) {
@@ -184,6 +214,8 @@ bool commit_stat_visit_v1(CharacterState& same_state, StatTrainingVisitV1& visit
     const StatTrainingPersistV1& persist, std::string& error) {
     if (!persist) return fail(error, "Stat confirmation requires an actual persistence owner");
     if (!visit.has_staged()) return fail(error, "Stat confirmation has no staged spend");
+    if (visit.baseline && (visit.baseline->id != same_state.id || visit.baseline->class_id != same_state.class_id))
+        return fail(error, "Allocation confirmation character differs from its baseline");
     if (!persist(same_state, error)) {
         if (error.empty()) error = "Stat confirmation persistence failed";
         return false;
@@ -214,6 +246,65 @@ bool cancel_stat_visit_v1(CharacterState& same_state, CombatSession& same_sessio
     if (!actor) return fail(error, "Stat cancellation requires the live actor");
     const float health_before = actor->health, resource_before = actor->resource;
     const float max_health_before = actor->max_health, max_resource_before = actor->max_resource;
+
+    if (visit.baseline) {
+        if (visit.session_owner != &same_session || visit.baseline->id != same_state.id ||
+            visit.baseline->class_id != same_state.class_id || !actor->persistent_character_id ||
+            *actor->persistent_character_id != same_state.id)
+            return fail(error, "Allocation cancellation lost its same character/Session baseline");
+        // NativeReloadSkills loads PROP and SKIL, leaving current equipment.
+        // Rebuild base to avoid repeating additive class formulas; retain gear,
+        // combat facts and runtime-only resolved values from the current sheet.
+        auto reverted = *live;
+        reverted.sheets.saved = visit.baseline_saved;
+        const auto row = std::find(source_properties.characters.names.begin(),
+                                  source_properties.characters.names.end(), same_state.class_id);
+        if (row == source_properties.characters.names.end()) return fail(error, "Allocation class row is absent");
+        const auto index = static_cast<std::size_t>(row - source_properties.characters.names.begin());
+        if (index >= source_properties.characters.rows.size()) return fail(error, "Allocation class row is outside the table");
+        const auto level = reverted.sheets.base[level_property];
+        reverted.sheets.base = source_properties.characters.rows[index];
+        reverted.sheets.base[level_property] = level;
+        dh2::data::PropertyRules rules;
+        if (!dh2::data::load_property_rules(source_properties.characters, rules, error) ||
+            !dh2::data::recalc_properties_with_class(source_properties.classes, rules, reverted.sheets, error)) return false;
+        CharacterState restored = same_state;
+        restored.skills = visit.baseline->skills;
+        restored.skill_slots = visit.baseline->skill_slots;
+        restored.source_skill_slots_known = visit.baseline->source_skill_slots_known;
+        restored.source_points_known = visit.baseline->source_points_known;
+        restored.source_endurance_energy_known = visit.baseline->source_endurance_energy_known;
+        const auto& resolved = reverted.sheets.resolved;
+        restored.source_stat_points = static_cast<std::uint32_t>(q8_integer(resolved[148]));
+        restored.source_skill_points = static_cast<std::uint32_t>(q8_integer(resolved[157]));
+        restored.stats.strength = vital_value(resolved[149]);
+        restored.stats.dexterity = vital_value(resolved[150]);
+        restored.stats.endurance = vital_value(resolved[151]);
+        restored.stats.energy = vital_value(resolved[152]);
+        restored.stats.max_health = vital_value(resolved[38]);
+        restored.stats.max_resource = vital_value(resolved[43]);
+        restored.stats.health = std::min(visit.baseline->stats.health, restored.stats.max_health);
+        restored.stats.resource = std::min(visit.baseline->stats.resource, restored.stats.max_resource);
+        const auto* traits = world->traits(player);
+        if (!traits) return fail(error, "Allocation cancellation requires the live player traits");
+        // Publish then persist, rolling back exactly if persistence fails.
+        if (!world->update_combat_properties(player, std::move(reverted), *traits, error)) return false;
+        if (!persist(restored, error)) {
+            if (error.empty()) error = "Allocation cancellation persistence failed";
+            std::string restore_error;
+            world->update_combat_properties(player, OriginalCombatProperties(sheet_before), *traits, restore_error);
+            return false;
+        }
+        actor->max_health = restored.stats.max_health;
+        actor->max_resource = restored.stats.max_resource;
+        actor->health = restored.stats.health;
+        actor->resource = restored.stats.resource;
+        using std::swap;
+        swap(same_state, restored);
+        visit.open_visit();
+        error.clear();
+        return true;
+    }
 
     const StatTrainingPersistV1 no_save;
     // The rollback keeps the caller's failure message: it must not reuse `error`.
@@ -278,7 +369,7 @@ bool register_stat_training_v1(SourceCompositionV1& composition,
     return composition.register_stat_training_callbacks(
         std::move(owner),
         [](float x, float y) { return stats_training_button_at_v1(x, y); },
-        [&character, session = std::move(session), &source_properties, visit](std::uint32_t stat, std::string& message) {
+        [&character, session = std::move(session), &source_properties, persist, visit](std::uint32_t stat, std::string& message) {
             CombatSession* live = session();
             if (!live) {
                 message = "Stats training requires the current Session";
@@ -287,6 +378,9 @@ bool register_stat_training_v1(SourceCompositionV1& composition,
             // Staged: the spend is applied to the live Session now and persisted
             // by the confirmation (commit) or undone by cancel.
             StatTrainingCommitV1 commit;
+            if (stat > 3 || !character.source_stat_points)
+                return fail(message, "Source stat training refused: no Stat_Points remain or invalid stat");
+            if (!begin_allocation_visit_v1(character, *live, *visit, persist, message)) return false;
             if (!train_stat_in_session_v1(character, *live, source_properties, stat, StatTrainingPersistV1{}, commit, message))
                 return false;
             ++visit->staged[stat];

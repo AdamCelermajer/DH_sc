@@ -1,5 +1,6 @@
 #include "scene.hpp"
 #include "../engine-math/math.hpp"
+#include "material_matrix_v4.hpp"
 #include <cmath>
 #include <cstring>
 #include <stdexcept>
@@ -108,6 +109,22 @@ struct Loader {
         for(unsigned i=0;i<n;++i){
             auto p=r.item(Library::material,i);Material m;m.id=r.field(p);
             m.effect_file=r.field(p+8,true);m.effect_uri=r.field(p+12,true);
+            // createMaterialRendererForProfile (0x6361e8) installs effect
+            // defaults before createMaterial (0x631ce8) applies overrides.
+            // ProfileCOMMON caustic atlases carry their UV scale here rather
+            // than in the material's parameter list.
+            if(m.effect_file.empty()&&!m.effect_uri.empty()&&m.effect_uri.front()=='#') {
+                const auto effect=r.item(Library::effect,r.find(Library::effect,m.effect_uri));
+                const auto count=r.w(effect+16),base=r.w(effect+20);r.array(base,count,24);
+                for(unsigned j=0;j<count;++j) {
+                    const auto q=base+24*j;
+                    if(r.field(q)!="diffuse-sampler-matrix")continue;
+                    if(r.w(q+4)!=10||r.w(q+12)!=1)throw std::runtime_error("Unexpected effect texture matrix layout");
+                    float values[16];for(unsigned k=0;k<16;++k)values[k]=r.f(r.w(q+20)+4*k);
+                    math::Matrix4f matrix;material_matrix_from_bres_v4(matrix,values);
+                    std::copy(matrix.m,matrix.m+16,m.texture_matrix);
+                }
+            }
             auto count=r.w(p+16),base=r.w(p+20);r.array(base,count,24);
             for(unsigned j=0;j<count;++j){
                 auto q=base+24*j;auto name=r.field(q);const auto type=r.w(q+8),data=r.w(q+20);
@@ -127,7 +144,7 @@ struct Loader {
                 }else if(name=="__irrlicht_Diffuse_color"){
                     if(type!=7||r.w(q+12)!=1)throw std::runtime_error("Unexpected material color layout");
                     for(unsigned k=0;k<4;++k)m.color[k]=r.f(data+4*k);
-                }else if(name=="texture-matrix"){
+                }else if(name=="texture-matrix"||name=="diffuse-sampler-matrix"){
                     if(type!=10||r.w(q+12)!=1)throw std::runtime_error("Unexpected texture matrix layout");
                     for(unsigned k=0;k<16;++k)m.texture_matrix[k]=r.f(data+4*k);
                 }else if(name=="Object_Alpha"||name=="alpha-ref"){

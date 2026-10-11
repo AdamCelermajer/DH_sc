@@ -263,4 +263,24 @@ bool CharacterQuestProgressV1::set_current_quest(const CharacterState& character
     error.clear();return true;
 }
 
+bool CharacterQuestProgressV1::verify_current_quest(const CharacterState& character,
+    const dh2::data::QuestTablesPersistenceV51& tables,std::int32_t difficulty,
+    bool& changed,std::string& error) {
+    changed=false;
+    if(!belongs_to(character))return fail(error,"Quest progress belongs to a different CharacterState");
+    if(!tables.ready()||difficulty<0||difficulty>=3)
+        return fail(error,"Quest current verification requires original table and difficulty");
+    auto& source=buckets_[0][std::size_t(difficulty)];
+    if(source.origin==Origin::unknown||source.states.size()!=tables.rows().size())
+        return fail(error,"Quest current verification requires initialized regular rows");
+    if(source.current_quest>=0&&std::size_t(source.current_quest)<source.states.size()&&
+       source.states[std::size_t(source.current_quest)]==6){error.clear();return true;}
+    for(std::size_t row=0;row<tables.rows().size();++row) {
+        if(source.states[row]!=6||tables.rows()[row].priority!=kQuestPriorityPrimaryV1)continue;
+        source.current_quest=std::int32_t(row);source.origin=Origin::modified;
+        changed=true;break;
+    }
+    error.clear();return true;
+}
+
 } // namespace dh::foundation

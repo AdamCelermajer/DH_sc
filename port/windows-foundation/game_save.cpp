@@ -221,13 +221,22 @@ bool checkpoint_binding_compatible(const PersistedPlayableActor& saved,const Act
         std::sort(result.begin(),result.end());return result;};
     if(equipment_keys(saved.actor.equipment)!=equipment_keys(current.equipment))
         return fail("equipped source definitions/instances changed");
-    if(saved.traits.is_player!=traits.is_player||saved.traits.targetable!=traits.targetable)
-        return fail("player/targetable role changed");
+    // B086: `targetable` is runtime-derived (base targetable AND the lifecycle permission, refreshed from the actor state). A fresh
+    // process restoring at frame 0 has the unrestricted value for an actor the save holds hidden/untargetable (the prisoner after the
+    // opening), so a saved-untargetable/now-targetable pair is the normal Continue case. A save that claims targetable for an actor the
+    // loaded declaration cannot target, or a different player owner, is still refused.
+    if(saved.traits.is_player!=traits.is_player||(saved.traits.targetable&&!traits.targetable))
+        return fail(("player/targetable role changed (player saved "+std::to_string(saved.traits.is_player)+" now "+std::to_string(traits.is_player)+", targetable saved "+std::to_string(saved.traits.targetable)+" now "+std::to_string(traits.targetable)+")").c_str());
     if(!traits.targetable&&current.attack_ids.empty())
         for(const unsigned index:{36u,38u,41u,43u})
-            if((saved.combat.sheets.resolved[index]<0||combat.sheets.resolved[index]<0)&&
-               saved.combat.sheets.resolved[index]!=combat.sheets.resolved[index])
-                return fail("unavailable source vital metadata changed");
+            // B086: a visual-only actor (no targeting, no attacks) can legitimately hold a value in a cell the fresh load still has at
+            // the source "unavailable" sentinel: its lifecycle revive filled it (cave troll 110 HP vs -1) before the save. A Continue in a
+            // fresh process restores that value. Only a save that claims "unavailable" for a cell the session defines differently is refused.
+            if(saved.combat.sheets.resolved[index]<0&&
+               saved.combat.sheets.resolved[index]!=combat.sheets.resolved[index]) {
+                const auto why="unavailable source vital metadata changed (cell "+std::to_string(index)+" saved "+std::to_string(saved.combat.sheets.resolved[index])+" now "+std::to_string(combat.sheets.resolved[index])+")";
+                return fail(why.c_str());
+            }
     if(saved.traits.main_item.has_value()!=traits.main_item.has_value()||
        (traits.main_item&&!std::equal(std::begin(saved.traits.main_item->words),
           std::end(saved.traits.main_item->words),std::begin(traits.main_item->words))))

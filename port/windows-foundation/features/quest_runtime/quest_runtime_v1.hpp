@@ -151,7 +151,13 @@ public:
 
     bool state_of(std::int32_t row, QuestStateV1& state) const;
     const QuestRowProgressV1* progress_of(std::int32_t row) const;
-    std::int32_t current_quest() const;
+    std::int32_t current_quest(); // Source getter verifies/persists the regular current field.
+    // B088: true while a TalkToNPC objective of this NPC (CharacterTable row = objective oid1) is registered.
+    // Source Objective_TalkToNPC::Register 0x47db34 / Unregister 0x47dbc4 set / clear Character+762 on that NPC;
+    // quest states register the accept objective in Available (3), the objective list in Active (6) and the end
+    // objective in Completed (9) (Quest::SetState 0x480c78). A talk NPC is an object-of-interest candidate only
+    // while this holds (TargetList mask 0x40 reads +762); the same predicate gates its quest marker.
+    bool talk_objective_registered(std::int32_t npc_row) const;
     // Unsupported authored features and failed services, each reported once.
     const std::vector<std::string>& diagnostics() const noexcept { return diagnostics_; }
     const QuestTableV1& table() const noexcept { return *table_; }

@@ -1,0 +1,8 @@
+Internal ctest changing into directory: C:/Users/adamc/Desktop/workspace/DH_wt/build-fixfx
+Test project C:/Users/adamc/Desktop/workspace/DH_wt/build-fixfx
+    Start 83: campaign_host
+1/1 Test #83: campaign_host ....................   Passed    1.45 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   1.46 sec

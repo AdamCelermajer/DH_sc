@@ -6,7 +6,7 @@
 //  * Every Module's .mvp declares AnimatedDecor objects: `dae` (data/3D/AnimatedDecors/*.bdae) + `xrefobject` (the root
 //    node of that library scene, id "<xrefobject>-node"). The declaration's position/rotation REPLACES the root TRS and
 //    the child locals are kept, exactly like a Module declaration (decode_original_scene_module).
-//  * Their clips animate MATERIALS, not nodes: channel type 88 = texture-matrix offsetU, 87 = offsetV (flip-book of the
+//  * Their clips animate MATERIALS, not nodes: channel type87 = texture-matrix offsetU,88 = offsetV (flip-book of the
 //    fire/caustic atlas, targets "torch_fire"/"watercaustic" = material ids), 86 = diffuse colour RGBA 0..255 (glow
 //    pulse "wiimaterial_shader*"). The clip loops from segment start to segment end.
 //  * `Decor` declarations (Props/Swamp/prop_swamp_corpses.bdae: corpses, corpse piles, bloodstain decals) use the same
@@ -17,6 +17,7 @@
 #include "../../actor_definitions.hpp"
 #include "../../asset_catalog.hpp"
 #include "../../original_scene.hpp"
+#include "../../original_material_texture_binding.hpp"
 
 #include <functional>
 #include <memory>
@@ -65,8 +66,9 @@ public:
     // decodes. Unavailable ones are reported in `notices` and skipped.
     bool load(const AssetCatalog& assets, const std::vector<ActorDefinition>& definitions,
               const std::vector<std::string>& skipNames, std::vector<std::string>& notices, std::string& error);
-    // Binds the GPU texture of every draw range (fn receives the range's original material).
-    void bind_textures(const std::function<std::uint32_t(const OriginalMaterial&)>& fn);
+    // Binds diffuse/alpha and authored specular textures through the same
+    // transport as baked level geometry. Lookup owns resource failure policy.
+    void bind_textures(const OriginalTextureLookup& lookup);
     void update(double seconds);
     std::vector<Instance>& instances() noexcept { return instances_; }
     const std::vector<Instance>& instances() const noexcept { return instances_; }

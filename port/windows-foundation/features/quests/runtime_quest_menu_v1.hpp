@@ -90,7 +90,7 @@ public:
     bool route_hit(RuntimeQuestMenuHitV1, const CharacterQuestIdV1&,
         std::string& error);
     bool load_progress_from_character(std::string& error);
-    bool persist_progress_to_character(std::string& error);
+    bool persist_progress_to_character(std::string& error, bool preserve_objective_counters = true);
     bool initialize_fresh_progress(std::string& error);
     bool record_accepted_source_state(const CharacterQuestIdV1&,
         std::int32_t source_state, std::string& error);

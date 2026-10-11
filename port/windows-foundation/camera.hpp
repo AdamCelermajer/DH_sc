@@ -21,6 +21,13 @@ struct CameraPose {
 
 // Matrices are column-major, right-handed, with OpenGL [-1, 1] clip depth.
 std::array<float, 16> cameraViewMatrix(const CameraPose& pose);
+// Original buildCameraLookAtMatrix582e64 uses +forward; OpenGL uses -forward.
+// Source FX bakers consume the original view convention, then draw world vertices in OpenGL.
+inline std::array<float,16> sourceCameraViewMatrix(const CameraPose& pose) {
+    auto view=cameraViewMatrix(pose);
+    for(unsigned i : {2u,6u,10u,14u})view[i]=-view[i];
+    return view;
+}
 std::array<float, 16> cameraProjectionMatrix(float verticalFovDegrees,
                                            float aspectRatio,
                                            float nearPlane, float farPlane);

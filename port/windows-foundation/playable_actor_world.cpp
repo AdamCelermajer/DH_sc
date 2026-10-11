@@ -1,3 +1,4 @@
+#include <cstring>
 #include "playable_actor_world.hpp"
 #include "asset_catalog.hpp"
 #include "../level-world/character_attack_geometry.hpp"
@@ -139,6 +140,23 @@ bool PlayableActorWorld::update_combat_properties(ActorId id,OriginalCombatPrope
     if(!damage_.bind_actor(id,std::move(properties),error))return false;
     bindings_.at(id)=std::move(binding);actor->second.faction_id=faction;
     error.clear();return true;
+}
+bool PlayableActorWorld::revive_actor(ActorId id,std::string& error) {
+    auto* actor=find_actor(id);const auto* current=combat_properties(id);const auto* live_traits=traits(id);
+    if(!actor||!current||!live_traits){error="Revive requires a bound actor with its source property sheet";return false;}
+    revive_actor_state(*actor);
+    OriginalCombatProperties next=*current;
+    // Same additive bookkeeping as the save reconciliation (game_save normalize): saved cell moves with the resolved
+    // cell. A source -1 "no pool" sentinel (negative resolved cell) has no live counterpart and is left untouched.
+    for(const unsigned cell:{36u,41u}){
+        const unsigned maximum=cell==36?38u:43u;
+        auto& resolved=next.sheets.resolved[cell];
+        const auto target=next.sheets.resolved[maximum];
+        if(resolved<0||target<0||resolved==target)continue;
+        const auto bits=std::uint32_t(next.sheets.saved[cell])+std::uint32_t(target)-std::uint32_t(resolved);
+        std::memcpy(&next.sheets.saved[cell],&bits,4);resolved=target;
+    }
+    return update_combat_properties(id,std::move(next),PlayableActorTraits(*live_traits),error);
 }
 ActorState* PlayableActorWorld::find_actor(ActorId id) {
     auto found=actors_.find(id);return found==actors_.end()?nullptr:&found->second;

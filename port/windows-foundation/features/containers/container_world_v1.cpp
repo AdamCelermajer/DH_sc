@@ -24,7 +24,7 @@ bool decode_hits(const std::vector<std::uint8_t>& bytes, std::uint32_t& value) {
 
 } // namespace
 
-bool bind_container_world_objects_v1(PlayableActorWorld& world, const ContainerRuntimeV1& runtime,
+bool bind_container_world_objects_v1(PlayableActorWorld& world, ContainerRuntimeV1& runtime,
                                      std::vector<std::string>& notices, std::string& error) {
     error.clear();
     for (std::size_t i = 0; i < runtime.size(); ++i) {
@@ -37,6 +37,10 @@ bool bind_container_world_objects_v1(PlayableActorWorld& world, const ContainerR
             notices.push_back("container ID already bound, not persisted: " + instance.name);
             continue;
         }
+        // Actual current host enrollment is one whole loaded-level/no-room
+        // registry. Reproduce source DisableZoning (750=0) explicitly; a
+        // future RoomZone binding must own its own zone-enter/exit fields.
+        runtime.disable_source_zoning(i);
         WorldObject object;
         object.id = instance.stableId;
         object.name = instance.name;

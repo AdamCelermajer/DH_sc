@@ -56,6 +56,7 @@ bool DespawnAfterDeathV1::track(std::uint64_t actor, bool summoned, bool has_cli
     record.delay_ms = delay_ms;
     record.respawn_ms = respawn_ms;
     records_.emplace(actor, record);
+    restored_.erase(actor); // a fresh admitted death is a new occurrence
     error.clear();
     return true;
 }
@@ -81,6 +82,30 @@ bool DespawnAfterDeathV1::death_ended(std::uint64_t actor, Services& services, s
                        std::to_string(found->second.delay_ms) + (found->second.has_clip ? " clip=Despawn" : " clip=none"));
     error.clear();
     return true;
+}
+
+bool DespawnAfterDeathV1::restore_dead(std::uint64_t actor, bool summoned, std::uint32_t respawn_ms,
+                                     Services& services, std::string& error) {
+    if(restored_.count(actor)){error.clear();return true;}
+    auto found=records_.find(actor);
+    if(found==records_.end())found=records_.emplace(actor,Record{}).first;
+    auto& record=found->second;
+    if(record.phase!=Phase::restoring) {
+        record=Record{};record.phase=Phase::restoring;record.summoned=summoned;record.respawn_ms=respawn_ms;
+    }else if(record.summoned!=summoned||record.respawn_ms!=respawn_ms) {
+        error="Restored retirement retry changed actor facts";return false;
+    }
+    if(!record.restored_hidden) {
+        if(!services.hide){error="Restored dead actor requires the Limbus owner";return false;}
+        if(!services.hide(actor,error)){if(error.empty())error="Restored dead actor hide failed";return false;}
+        record.restored_hidden=true;
+    }
+    // Hide also removes the body's physical/collision presence. Do not synthesize
+    // End34, play a clip, or restart CharacterDesign.Despawn_Delay after a load.
+    if(!enter_limbus_or_finish(actor,record,services,error,found,records_))return false;
+    restored_.insert(actor);
+    note(services,"DESPAWN restored actor="+name_of(actor)+" state=Limbus clip=not-replayed");
+    error.clear();return true;
 }
 
 bool DespawnAfterDeathV1::advance(std::uint32_t elapsed_ms, Services& services, std::string& error) {

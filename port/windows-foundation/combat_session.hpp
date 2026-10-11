@@ -147,6 +147,10 @@ struct CombatSessionStateAnimationServices {
     // Retained after generic completion/departure: transient cooldown owners
     // must reject checkpoints while a timer cannot be persisted faithfully.
     std::function<bool(std::string&)> checkpoint;
+    // Synchronous source OnFocus/Pre consumer after accepted outgoing Blur and
+    // incoming prefix, before selecting the new animation. Invoked once and
+    // retired immediately; never retained with the animation callbacks.
+    std::function<bool(ActorId,std::string&)> focused;
 };
 struct CombatSessionSourceSequencePolicy {
     std::int32_t original_state=-1; // Audited Skill6, Cast7 or KnockedBack10.
@@ -270,6 +274,7 @@ public:
     bool has_player_locomotion(const std::string& alias)const noexcept;
     const class RetainedPosePlayback* retained_player_pose()const noexcept;
     const class RetainedPosePlayback* retained_actor_pose(ActorId)const noexcept;
+    bool restored_actor_dead(ActorId)const noexcept;
     // Same visual animated by this session. Borrow only while the current
     // actor_binding_lease is retained; reacquire after detach/restore.
     const CharacterVisual* retained_actor_visual_borrow(ActorId)const noexcept;

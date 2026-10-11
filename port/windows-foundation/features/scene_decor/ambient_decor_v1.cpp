@@ -12,7 +12,9 @@
 
 namespace dh::foundation::scene_decor {
 namespace {
-constexpr std::uint32_t channel_color = 86, channel_offset_v = 87, channel_offset_u = 88;
+// Native CTextureTransformEx::getValueEx (0x6e3d78) writes87/88 to
+// state0/1; applyValueEx (0x6e38c4) puts those offsets at matrix8/9.
+constexpr std::uint32_t channel_color = 86, channel_offset_u = 87, channel_offset_v = 88;
 
 std::string lower(std::string text) {
     std::transform(text.begin(), text.end(), text.begin(), [](unsigned char c) { return char(std::tolower(c)); });
@@ -61,7 +63,7 @@ bool parse_ambient_model(const std::vector<std::uint8_t>& bytes, AmbientDecorMod
             const auto type = dh2_animation_type(&animation, std::int32_t(c));
             if (type != channel_color && type != channel_offset_u && type != channel_offset_v) continue;
             int& slot = type == channel_color ? clip.color : type == channel_offset_u ? clip.offsetU : clip.offsetV;
-            if (slot >= 0) continue; // first channel of each kind (the second sampler layer is not representable)
+            if (slot >= 0) continue; // duplicate component curves in the supported grouped material animation
             dh2::assets::Vector values{};
             if (!dh2_animation_vector(&animation, std::int32_t(c), true, &values) || !values.count || values.components > 4) continue;
             AmbientTrack track;
@@ -102,6 +104,15 @@ bool AmbientDecorRuntimeV1::load(const AssetCatalog& assets, const std::vector<A
         // AnimatedDecor (material-animated effects) and Decor (static props: corpses, piles, bloodstain decals) share the
         // declaration form dae + xrefobject; Decor simply has no clips.
         if ((definition.gametype != "AnimatedDecor" && definition.gametype != "Decor") || definition.modelPath.empty()) continue;
+        const auto property = [&](const char* key) {
+            const auto at=definition.properties.find(key);
+            return at==definition.properties.end()?std::string():at->second;
+        };
+        if(property("visible")=="0") continue;
+        // Conditional AnimatedDecor belongs to DecorRuntimeV1. Drawing it here
+        // would bypass its campaign admission gate and duplicate its geometry.
+        const auto conditioned=[](const std::string& v){return !v.empty()&&v!="Invalid";};
+        if(conditioned(property("activate_cond"))||conditioned(property("deactivate_cond"))) continue;
         if (skip.count(definition.name)) continue;
         if (lower(base_name(definition.modelPath)).rfind("cs_", 0) == 0) continue; // cutscene clip libraries
         const auto xref = definition.properties.find("xrefobject");
@@ -151,10 +162,10 @@ bool AmbientDecorRuntimeV1::load(const AssetCatalog& assets, const std::vector<A
     return true;
 }
 
-void AmbientDecorRuntimeV1::bind_textures(const std::function<std::uint32_t(const OriginalMaterial&)>& fn) {
+void AmbientDecorRuntimeV1::bind_textures(const OriginalTextureLookup& lookup) {
     for (auto& instance : instances_)
         for (std::size_t k = 0; k < instance.scene->mesh.ranges.size() && k < instance.scene->materials.size(); ++k)
-            instance.scene->mesh.ranges[k].material.texture = fn(instance.scene->materials[k]);
+            bind_original_material_textures(instance.scene->materials[k], instance.scene->mesh.ranges[k].material, lookup);
 }
 
 void AmbientDecorRuntimeV1::update(double seconds) {

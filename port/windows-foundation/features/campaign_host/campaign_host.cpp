@@ -300,7 +300,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         return true;
     };
     if (!p.set_idle) p.set_idle = [this](ActorId id, bool wait, std::string& e) {
-        if(!wait)held_clip_actors_.erase(id); // played Idle preserves the retained source animation
+        if(!wait){actor_clips_.erase(id);held_clip_actors_.erase(id);} // explicit Idle replaces the animation/completion
         if(services_.set_idle)return services_.set_idle(id,wait,e);
         if (!services_.actor_state || !services_.set_actor_state) { e = "PutCharacterInIdle requires the live actor state owner"; return false; }
         bool alive = false;
@@ -393,7 +393,8 @@ bool CampaignHost::fast_forward(std::string& error) {
     clip_active_ = false;
     clip_hold_ = false;
     clip_id_ = -1;
-    actor_clips_.clear();
+    // ScriptManager::SkipScript does not stop Character's animator. Already-playing
+    // clips retain CSAnim's completion; future skipped PlayActorAnim remains a no-op.
     cinematic_.flush();
     skipping_ = true;
     runtime_->set_skipping(true);
@@ -427,7 +428,7 @@ bool CampaignHost::restore_presentation(std::string& error) {
     clip_active_ = false;
     clip_hold_ = false;
     clip_id_ = -1;
-    actor_clips_.clear();
+    // Presentation restoration does not cancel Character's CSAnim completion.
     std::string restore_error;
     bool ok = true;
     if (global_blocked_ && previous_global_ && !previous_global_(false, restore_error)) ok = false;
@@ -666,7 +667,7 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
         if (!resolve(string_field(c, 16), id, found, e)) return false;
         if (!found) return true;
         if (!v.put_limbus) return unbound("put character in limbus");
-        actor_clips_.erase(id);
+        actor_clips_.erase(id);held_clip_actors_.erase(id);
         return v.put_limbus(id, e);
     }
     // Verbs without an owner in this host: explicit, counted, non-blocking (the cutscene keeps running).
@@ -774,12 +775,32 @@ bool CampaignHost::advance_actor_clips(std::int32_t dt_ms, std::string& error) {
     error.clear();
     const auto step = std::max<std::int32_t>(0, dt_ms);
     for (auto it = actor_clips_.begin(); it != actor_clips_.end();) {
+        const bool advancing = it->second.remaining_ms > 0;
         if (it->second.remaining_ms > 0) it->second.remaining_ms -= step;
-        if (it->second.remaining_ms > 0) { ++it; continue; }
         const auto id = it->first;
-        const auto chained = it->second.follow_dictionary;
+        // Every host entry is Script_PlayActorAnim(...,0,1): return-Idle flag +1345 is set.
+        // OnUpdate's current !scripted predicate can interrupt an unfinished clip/follow.
+        // Lua animation callers with return-Idle=0 never enter this host clock.
+        const bool idle_admitted=!character_scripted(id);
+        if (it->second.remaining_ms > 0&&!idle_admitted) { ++it; continue; }
+        const auto chained = idle_admitted?-1:it->second.follow_dictionary;
+        // CSAnim::OnUpdate 0x3c1a3c gates Idle on Character+5248 (scripted)==0.
+        // Keep the completed entry until Unset, rather than losing its deferred release.
+        // Script replacements, chained clips and explicit Idle still own their cancellation.
+        if(chained<0&&character_scripted(id)){
+            if(advancing)std::cout<<"[campaign] actor clip completion deferred actor="<<id<<" scripted=1 frame="<<frames_<<'\n';
+            ++it;continue;
+        }
         it = actor_clips_.erase(it);
-        if (chained < 0) continue;
+        if (chained < 0) { // B091: CSAnim::OnUpdate -> Idle only after the source scripted gate clears
+            if (services_.scripted_clip_finished) {
+                bool released = false;
+                if (!services_.scripted_clip_finished(id, released, error)) return false;
+                std::cout<<"[campaign] actor clip completion actor="<<id<<" scripted=0 released="<<released<<" frame="<<frames_<<'\n';
+                if (released) held_clip_actors_.erase(id);
+            }
+            continue;
+        }
         // The chained clip (scalar 12) follows the first one; its own wait is not set, so it does not block.
         if (!services_.actor_verbs.play_clip) { error = "Unbound original campaign provider: actor clip"; return false; }
         ActorClipState next;

@@ -1,0 +1,13 @@
+prince_warrior_bashdown rank 1 current=[MP cost: 9
+Damage: 2-6] next=[MP cost: 12
+Damage: 2-6]
+prince_warrior_bashdown rank 2 current=[MP cost: 12
+Damage: 2-6] next=[MP cost: 15
+Damage: 2-6]
+prince_rogue_jump_kick rank 1 current=[MP cost: 12
+Damage: 1-7] next=[MP cost: 14
+Damage: 3-10]
+prince_rogue_jump_kick rank 2 current=[MP cost: 14
+Damage: 3-10] next=[MP cost: 16
+Damage: 5-13]
+runtime skills text PASS: 73 actual localized names, 73 actual base descriptions, 0 FaeryDependantText rows; 42 source SkillInfo current/next rows projected from actual SkillTable scripts/OIDs; 4 exact SetTempProps/current-next rows matched ordered display_props + parseEx; 48 actual Rogue specialization-cell states audited across SkillTrees 27/28/29

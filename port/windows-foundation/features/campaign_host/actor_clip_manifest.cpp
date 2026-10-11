@@ -39,3 +39,21 @@ std::string actor_clip_name(std::int32_t dictionary_id) {
 }
 
 } // namespace dh::foundation::campaign_host
+
+namespace dh::foundation::campaign_host {
+
+std::set<std::string> collect_script_gameplay_actors(const OriginalCampaignRuntime& runtime) {
+    std::set<std::string> spawned, retired;
+    for (const auto& script : runtime.scripts()) {
+        for (const auto& command : script.commands) {
+            if (command.kind != 30 && command.kind != 29) continue;
+            const auto name = command.strings.find(command.kind == 30 ? 12u : 16u);
+            if (name == command.strings.end() || name->second.empty()) continue;
+            (command.kind == 30 ? spawned : retired).insert(name->second);
+        }
+    }
+    for (const auto& name : retired) spawned.erase(name);
+    return spawned;
+}
+
+} // namespace dh::foundation::campaign_host

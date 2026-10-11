@@ -200,6 +200,8 @@ bool SessionActorTransitionConsumerV1::blur(
         return set_body_pinned(session,actor.id,true,error);
     }
     case 11:
+        if(!config_.source.injured_blur_look_at)return fail(error,"Injured Blur requires actual controller/target408 LookAt provider");
+        return config_.source.injured_blur_look_at(event,error);
     case 14:error.clear();return true; // CSAnim::OnBlur 0x3c2dd0 has no effects.
     case 12:{
         // Controller unlock is a lifecycle tail owned elsewhere. The physical
@@ -246,13 +248,11 @@ bool SessionActorTransitionConsumerV1::focus_prefix(
         return config_.source.attack_focus_delay_gate(event,error);
     case 6:{
         actor.source_flags520=0x6341u;
-        bool moving_byte=false;
-        if(!config_.source.skill_focus_moving_byte)
-            return fail(error,"Reached Skill Focus requires current SkillTable moving-byte provider");
-        if(!config_.source.skill_focus_moving_byte(event,moving_byte,error))return false;
+        // CSSkill3c44ec clears bits before Raise30/OnPre. Moving bit554
+        // is consumed only after SM_SetAnim, in focus_suffix below.
         if(!config_.source.skill_focus_gate528)
-            return fail(error,"Reached Skill Focus requires actual Character+0x528 gate owner");
-        return config_.source.skill_focus_gate528(event,moving_byte,error);
+            return fail(error,"Reached Skill Focus prefix requires actual Character+0x528 gate owner");
+        return config_.source.skill_focus_gate528(event,false,error);
     }
     case 7:
         actor.source_flags520=0x6301u;
@@ -319,10 +319,17 @@ bool SessionActorTransitionConsumerV1::focus_suffix(
         // Attack unpins; AttackStatic pins. No predecessor/action/clip guess.
         return set_body_pinned(session,actor.id,!*event.source_attack_moving,error);
     }
-    case 6:
-        // CSSkill.Focus unpins only after its actual retained source selection
-        // and animation publication have completed.
+    case 6:{
+        bool moving_byte=false;
+        if(!config_.source.skill_focus_moving_byte)
+            return fail(error,"Reached Skill Focus suffix requires current SkillTable moving-byte provider");
+        if(!config_.source.skill_focus_moving_byte(event,moving_byte,error))return false;
+        if(!config_.source.skill_focus_gate528)
+            return fail(error,"Reached Skill Focus suffix requires actual Character+0x528 gate owner");
+        if(!config_.source.skill_focus_gate528(event,moving_byte,error))return false;
+        // CSSkill3c4534 moving bit/unpin follows actual animation publication.
         return set_body_pinned(session,actor.id,false,error);
+    }
     case 7:error.clear();return true;
     case 2:
     case 0:

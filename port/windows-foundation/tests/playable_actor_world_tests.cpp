@@ -211,6 +211,19 @@ int main(int argc,char** argv){try {
     check(world.update_combat_properties(2,lizard,{false,true,std::nullopt},error),error);
     apply_actor_damage(*target,target->health);
     check(!world.eligible_target(*stable,*target),"dead actor accepted");
+    { // B083: revive refills the SOURCE sheet (36/41), not only the ActorState mirror the skill mana gate cross-checks.
+        auto spent=*world.combat_properties(1);
+        spent.sheets.resolved[41]-=256*6;spent.sheets.saved[41]-=256*6;spent.sheets.resolved[36]-=256*20;spent.sheets.saved[36]-=256*20;
+        check(world.update_combat_properties(1,spent,*world.traits(1),error),error);
+        stable->resource=original_signed256(spent.sheets.resolved[41]);stable->health=original_signed256(spent.sheets.resolved[36]);
+        kill_actor_state(*stable);
+        check(world.revive_actor(1,error),error);
+        const auto* revived=world.combat_properties(1);
+        check(revived&&revived->sheets.resolved[41]==revived->sheets.resolved[43]&&revived->sheets.resolved[36]==revived->sheets.resolved[38],"revive left the source sheet below maximum");
+        check(stable->alive()&&stable->resource==original_signed256(revived->sheets.resolved[41])&&stable->health==original_signed256(revived->sheets.resolved[36]),"revive ActorState does not mirror the sheet");
+        check(revived->sheets.resolved[43]==knight.sheets.resolved[43]&&revived->sheets.saved[41]==knight.sheets.saved[41],"revive changed the maximum or lost the additive bookkeeping");
+        check(!world.revive_actor(99,error),"revive of an unbound actor accepted");
+    }
     stable->target_id=2;check(world.remove_actor(2)&&stable->target_id==0,"removed target reference retained");
     // Exercise directed signed relationship semantics using genuine faction rows.
     bool directed=false;

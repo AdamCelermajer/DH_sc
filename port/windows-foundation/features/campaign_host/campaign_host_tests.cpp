@@ -37,7 +37,8 @@ struct Rig {
 
     // fxResolver (optional) binds Script_PlayEffect's anchor resolver; unset keeps the production-unbound default.
     explicit Rig(const std::string& campaignDirectory, const std::filesystem::path& tutorialSettings = {},
-                 std::function<bool(const std::string&, int, std::uintptr_t&, bool&, std::string&)> fxResolver = {}) {
+                 std::function<bool(const std::string&, int, std::uintptr_t&, bool&, std::string&)> fxResolver = {},
+                 std::function<void(CampaignHostServices&)> configure = {}) {
         assetCatalog = std::make_unique<AssetCatalog>(campaignDirectory);
         std::string error;
         check(runtime.load(*assetCatalog, "original-campaign.xml", error), "campaign load: " + error);
@@ -78,6 +79,7 @@ struct Rig {
         services.read_camera_clip = [this](std::int32_t id, std::vector<std::uint8_t>& clip, std::vector<std::uint8_t>& scene, std::string& path, std::string& e) {
             return clipLibrary.read(*assetCatalog, id, clip, scene, path, e);
         };
+        if(configure) configure(services);
         host = std::make_unique<CampaignHost>(services);
 
         world = std::make_unique<OriginalCampaignWorldAdapter>(lifecycle, &camera);
@@ -437,6 +439,10 @@ void actor_clip_manifest_collects_script_clips(const std::string& directory) {
     check(has("Player", 413), "the local player's first cutscene clip is collected");
     check(has("_prim_NPC_PriestGood", 398), "a chained clip (scalar 12) is collected for its actor");
     check(actor_clip_name(413) == "cs:413", "visual clip name is the dictionary id");
+    // B080: script-spawned actors that no script retires are gameplay actors (moths); retired ones are cutscene props (troll).
+    const auto gameplay = collect_script_gameplay_actors(runtime);
+    check(gameplay.count("_prim_Monster_FakeMoth_01") == 1 && gameplay.count("_prim_Monster_FakeMoth_02") == 1, "spawned, never retired moths are gameplay actors");
+    check(gameplay.count("_prim_ActorTroll") == 0, "the opening troll is retired by the opening and stays a cutscene prop");
 }
 
 } // namespace
@@ -549,6 +555,97 @@ void play_effect_branches(const std::string& directory) {
     }
 }
 
+// B091/B094: actual host clock and actor-verb path, independent of the visual backend.
+// The owner can preserve a retired prop/dead actor, and errors follow normal abort handling.
+void scripted_clip_completion(const std::string& directory) {
+    int finishes=0,plays=0; bool release=true,fail=false;
+    Rig rig(directory, {}, {}, [&](CampaignHostServices& services) {
+        services.actor_verbs.resolve_actor=[](const std::string&,int,ActorId& id,bool& found,std::string&){id=101;found=true;return true;};
+        services.actor_verbs.play_clip=[&](ActorId,std::int32_t,std::int32_t& duration,std::string&){++plays;duration=100;return true;};
+        services.scripted_clip_finished=[&](ActorId,bool& released,std::string& e){++finishes;released=release;if(fail){e="completion rejected";return false;}return true;};
+    });
+    bool blocking=false; std::string error;
+    OriginalCampaignCommand clip;clip.kind=45;clip.scalars={{8,33},{12,0xffffffffu},{28,1}};clip.strings={{24,"boss"}};
+    auto play=[&](std::uint32_t next=0xffffffffu){clip.scalars[12]=next;check(rig.host->execute_diagnostic_command(clip,-1,blocking,error),error);};
+    OriginalCampaignCommand mark;mark.kind=32;mark.strings={{16,"All"}};
+    auto scripted=[&](bool value){mark.scalars[8]=value;check(rig.world->command(CampaignCommandPhase::execute,mark,-1,false,blocking,error),error);};
+    scripted(true);
+    play();rig.step(99);check(finishes==0&&rig.host->scripted_clip_pose(101),"No premature CSAnim release");
+    scripted(false);
+    rig.step(1);check(finishes==1&&!rig.host->scripted_clip_pose(101),"Single clip returns to gameplay at completion");
+    rig.step(100);check(finishes==1,"Completed clip cannot release twice");
+    scripted(true);play(32);rig.step(100);check(finishes==1&&plays==3,"Chained clip starts before Idle");
+    scripted(false);
+    rig.step(100);check(finishes==2,"Chained clip releases once at its own end");
+    scripted(true);play();rig.step(50);play();rig.step(50);check(finishes==2,"Replacement cancels earlier completion");
+    scripted(false);
+    rig.step(50);check(finishes==3,"Replacement has its own completion");
+    release=false;play();rig.step(100);check(finishes==4&&rig.host->scripted_clip_pose(101),"Owner can retain non-gameplay/dead pose");
+    release=true;
+    // Enter the real common Begin contract so SKIP is visible, with no fake actor state events.
+    check(rig.runtime.start(rig.runtime.script_id("BeginScriptedCutScene",true),-1,true,error),error);
+    for(int i=0;i<10&&rig.runtime.any_running();++i)rig.step(0);
+    check(rig.host->skip_visible(),"Begin provides SKIP");
+    play();rig.step(50);rig.host->press_skip();rig.step(0);
+    check(finishes==4&&rig.host->scripted_clip_pose(101),"SKIP keeps existing animator completion");
+    rig.step(50);check(finishes==4&&rig.host->scripted_clip_pose(101),"Completed skipped clip remains gated while Character is scripted");
+    OriginalCampaignCommand unmark;unmark.kind=32;unmark.scalars={{8,0}};unmark.strings={{16,"All"}};
+    check(rig.world->command(CampaignCommandPhase::execute,unmark,-1,true,blocking,error),error);
+    rig.step(0);check(finishes==5&&!rig.host->scripted_clip_pose(101),"Actual Unset releases the skipped completed clip once");
+    // Explicit non-waiting Idle replaces the clip and cannot later release it again.
+    play();OriginalCampaignCommand idle;idle.kind=31;idle.strings={{12,"All"}};
+    check(rig.world->command(CampaignCommandPhase::execute,idle,-1,true,blocking,error),error);
+    rig.step(100);check(finishes==5&&!rig.host->scripted_clip_pose(101),"Explicit Idle cancels obsolete timer");
+    fail=true;play();rig.step(100);check(rig.host->aborts()==1&&!rig.host->scripted_clip_pose(101),"Completion failure aborts and releases host pose");
+}
+
+void scripted_clip_deferred_until_unset(const std::string& directory) {
+    int finishes=0,plays=0;
+    Rig rig(directory, {}, {}, [&](CampaignHostServices& services) {
+        services.actor_verbs.resolve_actor=[](const std::string&,int,ActorId& id,bool& found,std::string&){id=101;found=true;return true;};
+        services.actor_verbs.play_clip=[&](ActorId,std::int32_t,std::int32_t& duration,std::string&){++plays;duration=100;return true;};
+        services.actor_verbs.kill=[](ActorId,std::string&){return true;};
+        services.actor_verbs.put_limbus=[](ActorId,std::string&){return true;};
+        services.scripted_clip_finished=[&](ActorId,bool& released,std::string&){++finishes;released=true;return true;};
+    });
+    bool blocking=false;std::string error;
+    OriginalCampaignCommand mark;mark.kind=32;mark.strings={{16,"All"}};
+    auto scripted=[&](bool value){mark.scalars[8]=value;check(rig.world->command(CampaignCommandPhase::execute,mark,-1,false,blocking,error),error);};
+    OriginalCampaignCommand clip;clip.kind=45;clip.scalars={{8,33},{12,0xffffffffu},{28,1}};clip.strings={{24,"boss"}};
+    auto play=[&](std::uint32_t next=0xffffffffu){clip.scalars[12]=next;check(rig.host->execute_diagnostic_command(clip,-1,blocking,error),error);};
+    scripted(true);play();rig.step(100);rig.step(100);rig.step(0);
+    check(finishes==0&&rig.host->scripted_clip_pose(101),"Scripted gate retains completed clip across frames");
+    scripted(false);rig.step(0);check(finishes==1&&!rig.host->scripted_clip_pose(101),"Unset releases retained completion");
+    scripted(false);rig.step(100);check(finishes==1,"Duplicate Unset/update cannot release twice");
+    scripted(true);play(32);rig.step(100);check(plays==3&&finishes==1,"Chain starts while scripted without releasing Idle");
+    rig.step(100);rig.step(100);check(finishes==1,"Completed chain remains pending behind scripted gate");
+    scripted(false);rig.step(0);check(finishes==2,"Unset releases completed chain exactly once");
+    scripted(true);play();rig.step(100);play();scripted(false);rig.step(0);
+    check(finishes==3,"Unset admits only the current replacement; discarded completion cannot release separately");
+    rig.step(100);check(finishes==3,"Replacement admitted by Unset cannot release twice at its former clip end");
+    scripted(true);play();rig.step(100);OriginalCampaignCommand idle;idle.kind=31;idle.strings={{12,"All"}};
+    check(rig.world->command(CampaignCommandPhase::execute,idle,-1,true,blocking,error),error);
+    scripted(false);rig.step(0);check(finishes==3&&!rig.host->scripted_clip_pose(101),"Explicit skipped Idle cancels gated completion before Unset");
+    scripted(true);play(32);rig.step(50);const int plays_before_unset=plays;
+    scripted(false);rig.step(0);check(finishes==4&&plays==plays_before_unset&&!rig.host->scripted_clip_pose(101),
+        "Unset admits source Idle before clip duration ends and cancels its unstarted follow");
+    scripted(false);rig.step(200);check(finishes==4&&plays==plays_before_unset,"Unset admission and follow cancellation happen once");
+    for(int kind:{44,29}) {
+        scripted(true);play();rig.step(100);
+        OriginalCampaignCommand cancel;cancel.kind=kind;cancel.strings={{kind==44?12u:16u,"boss"}};
+        check(rig.host->execute_diagnostic_command(cancel,-1,blocking,error),error);
+        scripted(false);rig.step(0);check(finishes==4&&!rig.host->scripted_clip_pose(101),
+            "Kill/Limbus cancels a deferred completion; Unset cannot restore its gameplay pose");
+    }
+    scripted(true);play();rig.step(100);scripted(false);scripted(true);rig.step(0);
+    check(finishes==4&&rig.host->scripted_clip_pose(101),"Re-mark before update closes an earlier Unset admission");
+    scripted(false);rig.step(0);check(finishes==5&&!rig.host->scripted_clip_pose(101),"Later real Unset admits the retained clip once");
+    play(32);const int unmarked_plays=plays;rig.step(1);
+    check(finishes==6&&plays==unmarked_plays&&!rig.host->scripted_clip_pose(101),
+        "Already-clear scripted gate admits kind45 Idle next update, before duration or follow");
+    scripted(false);rig.step(200);check(finishes==6&&plays==unmarked_plays,"Duplicate Unset does not repeat admission or start a cancelled follow");
+}
+
 int main(int argc, char** argv) {
     try {
         check(argc == 2, "Supply the campaign asset directory");
@@ -565,6 +662,8 @@ int main(int argc, char** argv) {
         camera_clip_blocks_then_releases(argv[1]);
         actor_clip_manifest_collects_script_clips(argv[1]);
         play_effect_branches(argv[1]);
+        scripted_clip_completion(argv[1]);
+        scripted_clip_deferred_until_unset(argv[1]);
         std::cout << "campaign_host tests passed\n";
         return 0;
     } catch (const std::exception& e) {

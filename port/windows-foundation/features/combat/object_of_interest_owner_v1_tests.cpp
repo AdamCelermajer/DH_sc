@@ -69,6 +69,16 @@ int main() {
         check(s.object == npc && s.interaction_type == 3, "friendly NPC character is accepted before a chest");
     }
     {
+        // B088: a talk NPC without a registered TalkToNPC objective (source Character+762 clear) is not admitted, so a
+        // frontal NPC no longer shadows an enemy at the side; with the objective registered the frontal NPC wins (source angle rule).
+        const auto off = select({at(npc, 0, 60, true, 3, false), at(enemy, 50, 60, true, 8)});
+        check(off.object == enemy && off.interaction_type == 8, "unregistered NPC does not shadow an enemy (attack)");
+        const auto on = select({at(npc, 0, 60, true, 3, true), at(enemy, 50, 60, true, 8)});
+        check(on.object == npc && on.interaction_type == 3, "registered frontal NPC keeps the source frontal-angle priority");
+        const auto alone = select({at(npc, 0, 60, true, 3, false)});
+        check(alone.object == invalid_actor_id, "lone unregistered NPC gives no OOI (button stays attack)");
+    }
+    {
         const auto s = select({at(chest, 0, 80, false, 0), at(barrel, 30, 60, false, 8)});
         check(s.object == chest && s.interaction_type == 0, "frontal chest accepted before a side barrel");
     }
@@ -159,6 +169,17 @@ int main() {
         other.owner = 2;
         o.update(other, 0.0, {});
         check(o.owner() == 2 && o.object() == invalid_actor_id, "owner change resets the state");
+    }
+
+    // --- B089: a spent object (type -1 after Interact) is dropped from the OOI the same frame, not after the 500 ms refresh ---
+    {
+        ObjectOfInterestOwnerV1 o;
+        o.update(owner_at_origin(), 0.0, {at(barrel, 0, 60, false, 8)});
+        check(o.object() == barrel && o.interaction_type() == 8, "B089 barrel selected while idle");
+        o.update(owner_at_origin(), 0.016, {at(barrel, 0, 60, false, -1)});
+        check(o.object() == invalid_actor_id, "B089 destroyed barrel (type -1) leaves the OOI before the refresh timer");
+        o.update(owner_at_origin(), 0.6, {at(barrel, 0, 60, false, -1)});
+        check(o.object() == invalid_actor_id && o.interaction_type() == interaction_type_none_v1, "B089 stays out after the refresh");
     }
 
     // --- Marker policy (B004): last target first, OOI fallback, render eligibility gate ---

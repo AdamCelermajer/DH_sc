@@ -39,6 +39,26 @@ bool fail(std::string& error, const char* message) {
     return false;
 }
 
+bool source_required_level(StagedTrainingV1& staged, int position, std::int32_t& required) {
+    // Character::GetCharSkill (0x3bc784) resolves the class position through
+    // GetCharSkillListId before indexing the global SkillTable. Property28 is
+    // that unscaled list ID; saved ranks continue to use the class position.
+    const auto list_id = staged.combat->sheets.resolved[28];
+    if (!staged.skills || list_id < 0 ||
+        static_cast<std::size_t>(list_id) >= staged.skills.lists().size() || position < 0 ||
+        static_cast<std::size_t>(position) >= staged.skills.lists()[list_id].size()) {
+        staged.error = "IncSkill class position is outside the source SkillList";
+        return false;
+    }
+    const auto table_id = staged.skills.lists()[list_id][position];
+    if (table_id < 0 || static_cast<std::size_t>(table_id) >= staged.skills.skills().size()) {
+        staged.error = "IncSkill source SkillList references an absent SkillTable row";
+        return false;
+    }
+    required = signed_word(staged.skills.skills()[table_id].scalar.words[8]);
+    return true;
+}
+
 int invoke_staged(void* raw, const InitialGrantRequest32V2* request,
                   InitialGrantResponse8V2* response) noexcept {
     if (!raw || !request || !response) return -1;
@@ -68,14 +88,10 @@ int invoke_staged(void* raw, const InitialGrantRequest32V2* request,
             return 0;
         }
         case skill_available: {
-            if (!staged.skills || row < 0 ||
-                static_cast<std::size_t>(row) >= staged.skills.skills().size()) {
-                staged.error = "IncSkill source SkillTable row is unavailable";
-                return -1;
-            }
+            std::int32_t required{};
+            if (!source_required_level(staged, row, required)) return -1;
             const auto level = staged.combat->sheets.resolved[19] >> 8;
-            const auto required = staged.skills.skills()[static_cast<std::size_t>(row)].scalar.words[8];
-            response->value = level >= 0 && static_cast<std::uint32_t>(level) >= required;
+            response->value = level >= required;
             return 0;
         }
         case skill_limit: {
@@ -103,14 +119,14 @@ int invoke_staged(void* raw, const InitialGrantRequest32V2* request,
                 staged.character->skills[static_cast<std::size_t>(row)].rank);
             return 0;
         case can_increment: {
-            if (row < 0 || static_cast<std::size_t>(row) >= staged.character->skills.size() ||
-                !staged.skills || static_cast<std::size_t>(row) >= staged.skills.skills().size()) {
+            if (row < 0 || static_cast<std::size_t>(row) >= staged.character->skills.size()) {
                 staged.error = "IncSkill CanIncrement row is outside same saved/source skill rows";
                 return -1;
             }
+            std::int32_t required{};
+            if (!source_required_level(staged, row, required)) return -1;
             const auto level = staged.combat->sheets.resolved[19] >> 8;
-            const auto required = staged.skills.skills()[static_cast<std::size_t>(row)].scalar.words[8];
-            const auto difference_bits = static_cast<std::uint32_t>(level) - required;
+            const auto difference_bits = static_cast<std::uint32_t>(level) - static_cast<std::uint32_t>(required);
             const auto difference = signed_word(difference_bits);
             response->value = static_cast<std::int32_t>(
                 staged.character->skills[static_cast<std::size_t>(row)].rank) <= difference;

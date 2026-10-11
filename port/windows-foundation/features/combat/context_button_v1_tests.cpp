@@ -94,7 +94,7 @@ int main() {
         ContextButtonInputV1 barrelPress = press(true, 8);
         barrelPress.object_is_actor = false;
         const auto d = decide_context_button_v1(barrelPress);
-        check(d.use_object_of_interest && !d.attack_held, "barrel (non-actor type 8) press uses the OOI, no held melee");
+        check(d.use_object_of_interest && d.attack_held, "B085: barrel (non-actor type 8) press uses the OOI and starts the weapon swing");
         ContextButtonInputV1 barrelHold = hold(true, 8);
         barrelHold.object_is_actor = false;
         const auto h = decide_context_button_v1(barrelHold);

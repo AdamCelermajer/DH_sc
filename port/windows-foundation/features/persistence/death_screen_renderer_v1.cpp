@@ -1,5 +1,6 @@
 #include "death_screen_v1.hpp"
 #include "death_screen_art_geometry_v1.hpp"
+#include "death_letterbox_black_v1.hpp"
 
 #include "../../overlay_renderer.hpp"
 
@@ -85,6 +86,18 @@ bool draw_original_death_screen_v1(const DeathScreenFrameV1& frame,
                                  static_cast<float>(viewport_height) / 320.f);
     const float ox = (static_cast<float>(viewport_width) - 480.f * scale) * 0.5f;
     const float oy = (static_cast<float>(viewport_height) - 320.f * scale) * 0.5f;
+    // B082: the black panel surround and the black fade cover only the letterboxed stage; the bars outside
+    // it take the strongest black alpha of those layers (drawn first, bars never overlap the stage).
+    std::uint8_t bar_alpha = 0;
+    for (std::size_t i = 0; i < frame.draw_count; ++i) {
+        const auto role = frame.draw_items[i].role;
+        if (role == DeathScreenArtRoleV1::original_panel_art || role == DeathScreenArtRoleV1::black_fade_overlay)
+            bar_alpha = std::max(bar_alpha, frame.draw_items[i].alpha);
+    }
+    if (!draw_letterbox_black_v1(overlay, viewport_width, viewport_height, scale, ox, oy, bar_alpha)) {
+        error = "Invalid letterbox black triangles";
+        return false;
+    }
     for (std::size_t i = 0; i < frame.draw_count; ++i) {
         const auto& item = frame.draw_items[i];
         const auto matrix = with_parent_transform(item.matrix_twips);

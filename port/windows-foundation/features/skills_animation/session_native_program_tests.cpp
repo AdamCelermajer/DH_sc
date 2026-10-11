@@ -71,7 +71,7 @@ int main(int argc,char** argv){try{
 
     const std::string root="original-cache/data/pydata/";
     const auto ar=assets.read(root+"animations_pyarray.bin"),an=assets.read(root+"animations_pyarraynames.bin"),af=assets.read(root+"animations_pystructnames.bin");
-    const auto dictionaryNames=AssetCatalog(repo).read(".local-inputs/actors/animations_dictionary_pyarraynames.bin");
+    const auto dictionaryNames=AssetCatalog(repo/".local-inputs/actors").read("animations_dictionary_pyarraynames.bin");
     const auto dictionaryData=assets.read(root+"animations_dictionary_pyarray.bin");
     dh2::data::Dictionary dictionary;dh2::data::AnimationTables animationTables;
     check(dh2::data::load_dictionary(view(dictionaryNames),view(dictionaryData),dictionary,error),error);

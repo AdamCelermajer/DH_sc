@@ -22,6 +22,8 @@ struct Fake {
     bool fail_release_body = false;
     bool fail_play = false;
     bool clip_done = false;
+    bool fail_hide = false;
+    bool fail_slot = false;
     Services services() {
         Services s;
         s.release_body = [this](std::uint64_t a, std::string& e) {
@@ -34,8 +36,9 @@ struct Fake {
             if (fail_play) { e = "clip refused"; return false; }
             return true;
         };
-        s.hide = [this](std::uint64_t a, std::string&) {
+        s.hide = [this](std::uint64_t a, std::string& e) {
             calls.push_back("hide " + std::to_string(a));
+            if(fail_hide){e="hide refused";return false;}
             return true;
         };
         s.finished = [this](std::uint64_t a, bool& done, std::string&) {
@@ -43,8 +46,9 @@ struct Fake {
             (void)a;
             return true;
         };
-        s.release_slot = [this](std::uint64_t a, std::string&) {
+        s.release_slot = [this](std::uint64_t a, std::string& e) {
             calls.push_back("release_slot " + std::to_string(a));
+            if(fail_slot){e="slot refused";return false;}
             return true;
         };
         s.respawn = [this](std::uint64_t a, std::string&) {
@@ -193,6 +197,53 @@ int main() {
                "clip completion schedules the respawn in Limbus");
         owner.advance(1000, services, error);
         expect(fake.count("respawn 42") == 1 && !owner.tracked(42), "clip path respawns after event 47");
+    }
+
+    // A saved source-dead actor enters Limbus directly. No retained timeline
+    // advancement/End34 or another Despawn_Delay is required after a load.
+    {
+        DespawnAfterDeathV1 owner;Fake fake;auto services=fake.services();
+        owner.track(50,false,false,2000,error);owner.death_ended(50,services,error);
+        owner.advance(500,services,error);fake.calls.clear();
+        expect(owner.restore_dead(50,false,0,services,error)&&!owner.tracked(50),
+               "restored dead replaces a pending corpse timer with immediate Limbus");
+        expect(fake.count("hide 50")==1&&fake.count("release_body")==0&&fake.count("play_clip")==0,
+               "restore hides once without new death End or animation");
+        expect(owner.restore_dead(50,false,0,services,error)&&owner.advance(10000,services,error)&&
+               fake.count("hide 50")==1,"duplicate restore and updates do not repeat retirement");
+        owner.clear();
+        expect(owner.restore_dead(50,false,0,services,error)&&fake.count("hide 50")==2,
+               "a replacement world can retire the same stable actor identity again");
+        expect(owner.track(50,false,false,2000,error)&&owner.death_ended(50,services,error)&&
+               owner.advance(1999,services,error)&&fake.count("hide 50")==2,
+               "new actual death after restore retains the source 2000ms delay");
+        expect(owner.advance(1,services,error)&&fake.count("hide 50")==3,"new death hides at the exact delay");
+    }
+    {
+        DespawnAfterDeathV1 owner;Fake fake;auto services=fake.services();fake.fail_hide=true;
+        expect(!owner.restore_dead(60,true,0,services,error)&&owner.tracked(60)&&
+               owner.record(60)->phase==Phase::restoring&&fake.count("release_slot")==0,
+               "restore hide refusal retains the record and does not free a visible slot");
+        fake.fail_hide=false;fake.fail_slot=true;
+        expect(!owner.restore_dead(60,true,0,services,error)&&owner.record(60)->restored_hidden,
+               "slot refusal retains the reached hide prefix");
+        const auto hidden=fake.count("hide 60");fake.fail_slot=false;
+        expect(owner.restore_dead(60,true,0,services,error)&&!owner.tracked(60)&&fake.count("hide 60")==hidden,
+               "slot retry completes without repeating reached hide");
+        owner.restore_dead(60,true,0,services,error);
+        expect(fake.count("release_slot 60")==2,"completed restored slot is not released twice");
+        expect(owner.restore_dead(61,false,1000,services,error)&&owner.record(61)->phase==Phase::awaiting_respawn&&
+               fake.count("play_clip")==0&&owner.advance(999,services,error)&&fake.count("respawn 61")==0&&
+               owner.advance(1,services,error)&&fake.count("respawn 61")==1,
+               "admitted respawn delay starts at restored Limbus without a corpse delay");
+    }
+    // Restoring an alive world discards later death timers; no hidden side effect
+    // may survive the owning world's replacement.
+    {
+        DespawnAfterDeathV1 owner;Fake fake;auto services=fake.services();
+        owner.track(70,false,false,2000,error);owner.death_ended(70,services,error);owner.clear();
+        expect(owner.advance(10000,services,error)&&fake.count("hide 70")==0,
+               "world reset cancels a later kill timer before an alive snapshot resumes");
     }
 
     std::cout << (failures == 0 ? "despawn_after_death_v1 OK" : "despawn_after_death_v1 FAILED") << '\n';

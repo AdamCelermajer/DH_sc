@@ -1,4 +1,5 @@
 #include "runtime_skill_session_training_v1.hpp"
+#include "../character_menu/stat_training_v1.hpp"
 
 #include "../../asset_catalog.hpp"
 #include "../../game_save.hpp"
@@ -16,6 +17,10 @@
 #include <memory>
 #include <stdexcept>
 #include <string_view>
+#ifdef _WIN32
+#define NOMINMAX
+#include <windows.h>
+#endif
 
 using namespace dh::foundation;
 using namespace dh::foundation::generic_skills;
@@ -39,8 +44,8 @@ int main(int argc, char** argv) {
             const std::string_view input(argv[3]);
             const auto parsed = std::from_chars(input.data(), input.data() + input.size(), diagnostic_level);
             check(parsed.ec == std::errc{} && parsed.ptr == input.data() + input.size() &&
-                  (diagnostic_level == 3 || diagnostic_level == 6),
-                  "Optional diagnostic source level must be 3 or 6");
+                  (diagnostic_level == 2 || diagnostic_level == 3 || diagnostic_level == 6),
+                  "Optional diagnostic source level must be 2, 3 or 6");
         }
         AssetCatalog assets(repo / ".local-inputs/windows-source-clock-v19-preview-9/assets");
         std::string error;
@@ -75,9 +80,10 @@ int main(int argc, char** argv) {
         const auto& list = skills.lists()[static_cast<std::size_t>(list_id)];
         const auto ground_name = std::find_if(list.begin(), list.end(), [&](int row) {
             return row >= 0 && static_cast<std::size_t>(row) < skills.skill_names().size() &&
-                   skills.skill_names()[static_cast<std::size_t>(row)] == "GroundSlam";
+                   skills.skill_names()[static_cast<std::size_t>(row)] ==
+                       (diagnostic_level == 2 ? "Hardiness" : "GroundSlam");
         });
-        check(ground_name != list.end(), "Source Knight SkillList lacks GroundSlam");
+        check(ground_name != list.end(), "Source Knight SkillList lacks the requested training row");
         const auto position = static_cast<int>(ground_name - list.begin());
         const auto design_bytes = assets.read("original-cache/data/pydata/design_pycst.bin");
         std::unique_ptr<dh2_script_constants, decltype(&dh2_script_constants_destroy)> design(
@@ -221,7 +227,8 @@ int main(int argc, char** argv) {
                       << diagnostic_state.stats.max_resource << " SkillPoints="
                       << diagnostic_state.source_skill_points << " BashDown="
                       << diagnostic_state.skills[static_cast<std::size_t>(starter - state.skills.begin())].rank
-                      << " GroundSlam=" << diagnostic_state.skills[static_cast<std::size_t>(position)].rank
+                      << ' ' << diagnostic_state.skills[static_cast<std::size_t>(position)].id << '='
+                      << diagnostic_state.skills[static_cast<std::size_t>(position)].rank
                       << '\n';
         }
 
@@ -242,6 +249,31 @@ int main(int argc, char** argv) {
 
         const auto sheet_before_probe = session.world()->combat_properties(1)->sheets.resolved;
         const auto rng_before_probe = session.world()->random_state();
+        // B096: the source kernel receives class positions, not global table
+        // IDs. Compare every cell's admission to its actual SkillList row;
+        // differing required levels expose an accidental position/table alias.
+        for (std::size_t cell = 0; cell < list.size(); ++cell) {
+            for (unsigned rank : {0u, 1u, caps.max_skill_level[0]}) {
+                auto candidate = state;
+                candidate.skills[cell].rank = rank;
+                SkillProgressionV1 expected;
+                check(evaluate_skill_progression_v1(candidate, characters, skills, caps,
+                          static_cast<int>(cell), expected, error), error);
+                bool actual = false;
+                check(probe_skill_training_in_session_v1(candidate, session, properties, skills, caps,
+                          static_cast<int>(cell), actual, error), error);
+                std::cout << "B096 cell=" << cell << " table=" << list[cell]
+                          << " name=" << candidate.skills[cell].id << " level=" << candidate.stats.level
+                          << " required=" << expected.required_character_level << " rank=" << rank
+                          << " expected=" << expected.can_train << " actual=" << actual << '\n';
+                check(actual == expected.can_train,
+                      "Source IncSkill probe used a different required level than the class SkillList");
+                check(candidate.skills[cell].rank == rank &&
+                          candidate.source_skill_points == state.source_skill_points &&
+                          session.world()->combat_properties(1)->sheets.resolved == sheet_before_probe,
+                      "Cell admission probe mutated saved rank, points or source properties");
+            }
+        }
         bool accepted = false;
         check(probe_skill_training_in_session_v1(state, session, properties, skills, caps,
                   position, accepted, error), error);
@@ -324,7 +356,138 @@ int main(int argc, char** argv) {
               restored->sheets.resolved[157] ==
                   static_cast<std::int32_t>(committed.remaining_points * 256u),
               "GameSave restore split same-Session trained rank and point ownership");
+        // B103: exercise the real shared allocation owner with both providers,
+        // both orders, repeated spends, durable reload and atomic save failure.
+        using namespace dh::foundation::character_menu;
+        const auto hardiness = std::find_if(list.begin(), list.end(), [&](int row) {
+            return skills.skill_names()[static_cast<std::size_t>(row)] == "Hardiness";
+        });
+        check(hardiness != list.end(), "Mixed allocation requires the source Hardiness row");
+        const auto passive_position = static_cast<int>(hardiness - list.begin());
+        for (bool stats_first : {false, true}) for (bool confirm : {false, true}) {
+            state = before_bad_state;
+            auto prepared = before_zero_points;
+            auto prepared_view = dh2::data::property_view(rules, prepared.sheets);
+            check(dh2_property_add(&prepared_view, 148, 512 - prepared.sheets.resolved[148]) == 0 &&
+                  dh2_property_add(&prepared_view, 157, 512 - prepared.sheets.resolved[157]) == 0 &&
+                  prepared.sheets.resolved[148] == 512 && prepared.sheets.resolved[157] == 512,
+                  "Mixed seed points failed");
+            check(session.world()->update_combat_properties(1, prepared, *session.world()->traits(1), error), error);
+            state.source_stat_points = state.source_skill_points = 2;
+            state.source_endurance_energy_known = true;
+            state.stats.strength = prepared.sheets.resolved[149] / 256.f;
+            state.stats.dexterity = prepared.sheets.resolved[150] / 256.f;
+            state.stats.endurance = prepared.sheets.resolved[151] / 256.f;
+            state.stats.energy = prepared.sheets.resolved[152] / 256.f;
+            state.stats.health = session.actor(1)->health;
+            state.stats.resource = session.actor(1)->resource;
+            state.stats.max_health = session.actor(1)->max_health = prepared.sheets.resolved[38] / 256.f;
+            state.stats.max_resource = session.actor(1)->max_resource = prepared.sheets.resolved[43] / 256.f;
+            const auto original = state;
+            const auto original_sheet = prepared.sheets;
+            StatTrainingVisitV1 visit;
+            int writes = 0;
+            StatTrainingPersistV1 persist = [&](const CharacterState& candidate, std::string& e) {
+                if (!save_character(save_path, candidate, e)) return false;
+                ++writes; return true;
+            };
+            StatTrainingPersistV1 fail_save = [](const CharacterState&, std::string& e) {
+                e = "forced mixed save failure"; return false;
+            };
+            check(!begin_allocation_visit_v1(state, session, visit, fail_save, error) &&
+                  !visit.baseline && !visit.has_staged() && writes == 0,
+                  "Failed first save admitted a mixed visit");
+            auto stat_spends = [&]() {
+                for (unsigned stat : {2u, 3u}) {
+                    check(begin_allocation_visit_v1(state, session, visit, persist, error), error);
+                    StatTrainingCommitV1 result;
+                    check(train_stat_in_session_v1(state, session, properties, stat, {}, result, error), error);
+                    ++visit.staged[stat];
+                }
+            };
+            auto skill_spends = [&]() {
+                for (int i = 0; i < 2; ++i) {
+                    bool allowed = false;
+                    check(probe_skill_training_in_session_v1(state, session, properties, skills, caps,
+                              passive_position, allowed, error) && allowed, error);
+                    check(begin_allocation_visit_v1(state, session, visit, persist, error), error);
+                    SessionSkillTrainingCommitV1 result;
+                    check(train_skill_in_session_v1(state, session, properties, skills, caps,
+                              passive_position, result, error), error);
+                    ++visit.staged_skills;
+                }
+            };
+            if (stats_first) { stat_spends(); skill_spends(); }
+            else { skill_spends(); stat_spends(); }
+            check(writes == 1 && visit.staged_total() == 4, "Mixed spends overwrote baseline or missed staging");
+            CharacterState durable;
+            check(load_character(save_path, durable, error) && durable.source_stat_points == 2 &&
+                  durable.source_skill_points == 2 && durable.skills[passive_position].rank == 0,
+                  "Durable first-save contains staged allocations");
+            const auto staged = state;
+            const auto staged_sheet = session.world()->combat_properties(1)->sheets;
+            StatTrainingCommitV1 refused;
+            check(!train_stat_in_session_v1(state, session, properties, 0, {}, refused, error), "Mixed zero stat accepted");
+            SessionSkillTrainingCommitV1 refused_skill;
+            check(!train_skill_in_session_v1(state, session, properties, skills, caps,
+                      passive_position, refused_skill, error), "Mixed zero skill accepted");
+            auto wrong_identity = state; wrong_identity.id += "wrong";
+            check(!begin_allocation_visit_v1(wrong_identity, session, visit, persist, error), "Visit admitted another identity");
+            check(!commit_stat_visit_v1(state, visit, fail_save, error) && visit.staged_total() == 4,
+                  "Failed Yes cleared mixed batch");
+            check(!cancel_stat_visit_v1(state, session, properties, visit, fail_save, error) &&
+                  error == "forced mixed save failure" && visit.staged_total() == 4 &&
+                  state.source_stat_points == staged.source_stat_points &&
+                  state.source_skill_points == staged.source_skill_points &&
+                  state.skills[passive_position].rank == staged.skills[passive_position].rank &&
+                  session.world()->combat_properties(1)->sheets.resolved == staged_sheet.resolved &&
+                  session.world()->combat_properties(1)->sheets.saved == staged_sheet.saved,
+                  "Failed No split mixed allocations or live source sheet");
+            check(load_character(save_path, durable, error) && durable.source_stat_points == 2 &&
+                  durable.source_skill_points == 2 && durable.skills[passive_position].rank == 0,
+                  "Failed save changed durable mixed baseline");
+#ifdef _WIN32
+            // Actual SaveStore replacement failure: keep the durable file
+            // readable while denying DELETE sharing needed by MoveFileEx.
+            const HANDLE lock = CreateFileW(save_path.c_str(), GENERIC_READ, FILE_SHARE_READ,
+                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+            check(lock != INVALID_HANDLE_VALUE, "Cannot lock mixed baseline for atomic failure test");
+            const bool yes_failed = !commit_stat_visit_v1(state, visit, persist, error);
+            const bool no_failed = !cancel_stat_visit_v1(state, session, properties, visit, persist, error);
+            CloseHandle(lock);
+            check(yes_failed && no_failed && writes == 1 && visit.staged_total() == 4 &&
+                  session.world()->combat_properties(1)->sheets.resolved == staged_sheet.resolved &&
+                  state.skills[passive_position].rank == 2 && state.source_stat_points == 0 && state.source_skill_points == 0,
+                  "Real atomic SaveStore failure split live mixed state");
+            check(load_character(save_path, durable, error) && durable.source_stat_points == 2 &&
+                  durable.source_skill_points == 2 && durable.skills[passive_position].rank == 0,
+                  "Real atomic SaveStore failure replaced durable baseline");
+#endif
+            if (confirm) check(commit_stat_visit_v1(state, visit, persist, error), error);
+            else check(cancel_stat_visit_v1(state, session, properties, visit, persist, error), error);
+            check(!visit.has_staged() && !visit.baseline && writes == 2, "Mixed finish did not clear the shared visit");
+            check(load_character(save_path, durable, error), error);
+            check(durable.source_stat_points == (confirm ? 0u : 2u) &&
+                  durable.source_skill_points == (confirm ? 0u : 2u) &&
+                  durable.skills[passive_position].rank == (confirm ? 2u : 0u) &&
+                  durable.stats.endurance == original.stats.endurance + (confirm ? 1.f : 0.f) &&
+                  durable.stats.energy == original.stats.energy + (confirm ? 1.f : 0.f),
+                  "Mixed durable Yes/No result split stat and skill allocation");
+            if (!confirm) {
+                const auto& result = session.world()->combat_properties(1)->sheets;
+                for (unsigned property : {38u, 43u, 148u, 149u, 150u, 151u, 152u, 157u})
+                    check(result.resolved[property] == original_sheet.resolved[property], "Mixed No lost source recalc/point effect");
+            }
+            check(!commit_stat_visit_v1(state, visit, persist, error), "Duplicate Yes persisted again");
+            check(cancel_stat_visit_v1(state, session, properties, visit, persist, error) && writes == 2,
+                  "Duplicate No persisted again");
+            const bool reopened = begin_allocation_visit_v1(state, session, visit, persist, error);
+            check(reopened && writes == 3,
+                  "Re-entry did not capture a fresh common baseline: " + error + " writes=" + std::to_string(writes));
+            visit.open_visit();
+        }
         session.detach_for_restore();
+        std::filesystem::remove(save_path);
         std::filesystem::remove(save_root);
         std::cout << "PASS same-Session source IncSkill probe/commit, SaveStore and GameSave point-rank consistency\n";
         return 0;

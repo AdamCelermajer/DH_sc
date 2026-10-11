@@ -179,6 +179,7 @@ private:
         double clip_end_ms[2] = {-1.0, -1.0};
         double marker_ms[2] = {-1.0, -1.0};
         bool marker_fired = false;
+        int transition_direction = 0; // Fixed at admission; marker may change state before clip end.
     };
     bool transition(std::size_t index, bool opening, bool skip, std::string& error);
     bool show_idle(Slot& slot, std::string& error);
