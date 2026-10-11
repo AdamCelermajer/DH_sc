@@ -71,6 +71,7 @@ class RuntimeAudioHostV1 {
 public:
     struct Context;
 private:
+    bool fx_muted_{};
     std::shared_ptr<Context> context_;
     dh2::audio::AudioLifecycleGateV40 lifecycle_;
     std::unique_ptr<dh2::audio::AudioNativeSessionV42> session_;
@@ -99,6 +100,10 @@ public:
     bool device_clock(RetainedFrameAudioClock&,std::string& error) const;
     bool submit_actual_play(const dh2::character::CombatSoundPlayV1&,
         std::int64_t event_qpc_ns,std::string& error);
+    // I024 DEATH: source SetSoundVolume(VolumeFX,0) while the death screen is up. A muted submission is accepted
+    // and dropped (the source plays at zero volume); producer state is not altered.
+    void set_fx_muted(bool muted) noexcept { fx_muted_=muted; }
+    bool fx_muted() const noexcept { return fx_muted_; }
     // Source-authored AnimTable/ItemTable sound ID through this exact manager,
     // provider gate and AudioNativeSessionV42 producer.
     bool submit_source_sound(ActorId subject,std::int32_t sound_id,

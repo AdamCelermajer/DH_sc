@@ -152,7 +152,7 @@ bool capture_death_checkpoint_snapshot_v1(
     const std::array<float,3>& revive_position,
     const DeathCheckpointCaptureServicesV1& services,
     DeathCheckpointSnapshotV1& output, std::string& error) {
-    if(!validate_game_save(game,error))return false;
+    if(!validate_game_save(game,error,true))return false; // checkpoint subset: see game_save.cpp checkpointUnboundVitals
     if(game.level_uri!=level_uri)return (error="GameSave is for a different loaded level",false);
     if(!services.actor_checkpoint_facts||!services.actor_source_state||!services.object_checkpoint_facts)
         return (error="Source checkpoint eligibility and Character-state providers are required",false);

@@ -138,6 +138,7 @@ bool RuntimeAudioHostV1::device_clock(RetainedFrameAudioClock& out,
 bool RuntimeAudioHostV1::submit_actual_play(
     const dh2::character::CombatSoundPlayV1& play,std::int64_t event_qpc,
     std::string& error) {
+    if(fx_muted_) {error.clear();return true;} // I024 DEATH: FX muted (source VolumeFX 0)
     if(!session_) {error=std::string("Required live same-session ")+native_audio_backend_name+" host";return false;}
     context_->gate_error.clear();
     if(!session_->submit_actual_play(play,event_qpc,error)) {
