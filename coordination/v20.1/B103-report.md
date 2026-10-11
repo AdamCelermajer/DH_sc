@@ -40,6 +40,8 @@ Test receipts: pre-lock focused CTest2/2; actual-lock test initially failed at r
 
 Final standalone full recheck with no overlapping CTest: **171/172 pass**, only permitted `session_skill_binding` (`Asset path escapes asset root`) fails. New mixed transaction/real atomic-failure test passes within that full run (11.79s); complete tee output `full-ctest-final.txt` and copied `full-LastTest.log` are preserved. Build exits0; `git diff --check` passes. Independent same reviewer `b103_review` reran focused3/3 and normal old-reproduction No + reverse-order Yes with10ms releases, confirmed saved/UI results, and reports **READY WITH CAVEATS** in `.local-inputs/v20.1/b103-review/REVIEW-REPAIRED.md`. No new scoped source blocker found. Root owns merged executable, tracker closure and package acceptance; this worker receipt is not a package acceptance claim.
 
+Failure-path audit: the source test uses its own `temp_directory_path()/dh2-session-skill-training-test-<steady_clock nonce>/profile.dhsave`; the diagnostic export is inactive for CTest's argc2 invocation. SaveStore adds a steady-clock timestamp and process-local atomic sequence to each temporary filename and opens it CREATE_NEW before replace. No fixed shared profile path or observed nonce collision was found. The earlier assertion lacked the underlying error; its expanded diagnostic has not failed in individual/eight-repeat/final-full/reviewer runs. No attribution to load, parallelism or a specific Windows sharing error is justified from the available evidence.
+
 ## Historical partial investigation (superseded where noted above)
 
 ### Root cause (what was established in the initial session)
