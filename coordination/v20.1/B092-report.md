@@ -1,4 +1,6 @@
-# B092 / B098 report (corpses): no code change, not reproduced on v20.1/integrate
+# Historical B092 / B098 audit — superseded; both exact reports remain OPEN
+
+The fresh continuation at [B092-continuation-report.md](B092-continuation-report.md) supersedes the verdict below. The former assertions that shot11 was a movie moth and shot17 was a LIVE/B091 lizard are withdrawn: their stills do not establish actor identity, timing or source-dead state. Preserve the runtime evidence below as historical scoped non-reproductions, not bug closure.
 
 ## Evidence
 - Video (P1, 422-430 s, 3 fps sheet): Bog Moth killed ~423.5 s, "+4 EXP", body lies, "8 GOLD" ~426.5 s, gone by ~426.5 s. Kill-to-vanish about 2.2-3.0 s, no visible fade/sink. (Prior DESPAWN2 report 1c, same footage, agrees.) Observed.

@@ -1,0 +1,53 @@
+# B092 / B098 — scoped runtime passes; exact reported cases OPEN
+
+Owner `/root/b092_b098_corpses`, fresh reviewer `/root/b092_b098_review`; root owns integration/closure. This supersedes the old report's unsupported movie-moth and LIVE/B091 explanations. No gameplay patch is justified by the evidence acquired. A non-reproduction does not resolve a reported bug.
+
+Worktree `DH_wt/fix092`, branch `fix/b092`. Preserved tip8a26594c; merged only reviewed cinematic gate fixes3a4aec63 privately, merge149985e3. Accepted packages, user saves/windows, shared source and unreviewed worker residuals were untouched.
+
+## Investigation before further work
+
+**Viewed supplied visuals:** `.local-inputs/claude-v20.1/user-shots/shot-11.png` shows a folded/lying moth next to the hero in open water, bone piles, Rene and a wooden platform. Shot17 shows an upright green lizard in a tiled ruin/tree corridor with no ring/plate. Still images establish neither duration, actor identity, lethal admission, source-dead state nor animation continuity. Earlier confident claims are withdrawn.
+
+**Original sequence inspected first:** P1v1.0.3 `Dungeon Hunter 2 (v1.0.3) Part 1 [720p] [z_Zky7qQdYs].mp4`, reused `fix092/vid/m422.png` (422–430s,3fps) and denser5fps evidence in `coordination/claude-preview16/DESPAWN2-report.md`. Bog Moth dies around423.5–424.5, EXP+4 follows; folded body remains through approximately426.3, gone426.5. Existing dense investigation tracked camera motion against ground markers. Kill-to-vanish approximately2.2–3.0s; no visible fade/sink established. Reused reviewed B091 captain478–494s sheet2fps: falls around483.5, absent486.5, partly occluded by another green actor. Those reviewed captain/TRUNGUS kills do not identify user17.
+
+**Source and callers/gates:** raw `.local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c` (APK1.0.2), DESPAWN2 recovered handoff and monster-state registration plan.
+
+- `Character::HitFor`0x3a8bc4 refuses IsDead, applies permitted HP loss (God/online gates can suppress it), then HP<=0 calls actual controller Cmd_Kill. `Ctrl_Kill`0x3ad528 rejects duplicate IsDead, calls `Kill`0x3a5b18, then raises2. Kill writes source byte5193 and HPproperty36=0, with forced/player/offline reward distinctions. HP0 alone is not this chain.
+- `CharAI::OnDied`0x3d1000 runs group/script callbacks then `AI_SetDead`0x3d6cdc: clears targets, forces Dead, stops timers, clears aggro/skills/spells. `SM_SetDeadState`0x3c58c8 selects Died variant/stance then force12 or event50008. Ordinary injury/interact admit50008→12. Missing plate/ring or HP loss is insufficient.
+- `CSDead::OnFocus`0x3c4d50 writes flags577, preserves/stops the selected loop and starts nonplayer Despawn_Delay immediately **if selected animator clip+1256 is-1**. Otherwise End34 `CSDead::OnEvent`0x3c4c3c removes the physical body and starts the timer. Source delay2000ms.
+- `CSDead::OnInit`0x3c8920 registers46→Despawn2. `CSDespawn::OnFocus`0x3c32fc selects SM_SetAnim(-1), not the available named Despawn row. OnBlur0x3c3794 clears target/deletes summoned/disposable actors when appropriate and sets respawn flag; Limbus OnFocus0x3c2e58 hides and schedules47 when permitted. GetRespawnDelay0x3a4bac reads property11; CanRespawn0x3a5248 also checks group permission (existing port gap). Fade functions are empty in this export.
+- `IsInteractive`0x3a4870 and target validation0x4a1ab8 separately gate disabled/removed/dead/type/faction/flags/targetable state; `AI_CanAttack`0x3d67f4 separately checks enemy, weapon and range.
+- `Deserialize`0x3a6210 puts saved source-dead actors through AI_SetDead then Limbus. Existing checkpoint restore plan represents this branch; broader resume is B086 ownership, not changed here.
+- Port `ActorCombatRuntime::synchronize/start_pose/handle_applied_hit` uses actual is_dead and bound Died; `CombatSession::refresh_actor_combat_permissions` preserves unfinished death and yields completed retirement. Main despawnTick waits on current_ended, releases body, advances source delay and hides. This real consumer is verified below, not inferred from HP.
+
+**Expected/test defined before additional runs:** admitted lethal hit→authored Died→terminal corpse→2s End34 delay→hidden/non-targetable, once per event. Preserve profile-specific duration and source default no Despawn clip. Run accepted/current paired normal attacks in isolated post-opening saves; inspect before/fall/held/postdelay and assert actual Damage dead1, never kill-test/enemy HP injection. Existing despawn/runtime/lifecycle tests cover exact timer boundaries, duplicates, refused-owner retry, no-Despawn-clip, slot release and respawn; reviewed B091 played/early/late skip tests are reused rather than replayed.
+
+## Frozen production consumer verification
+
+Source149985e3, frozen `.local-inputs/claude-v20.1/fix092/continuation/frozen.exe`, SHA256 **F1CF74ED9130738C81A17E023F66E0E5A26221C573501F93FEC083A0049D2A97**. Acceptedv20 SHA256 **8BA1E537D33D4D4FD5B7DD9822C4CAB5080917FE2427A3903AB7C247827E8CCE** unchanged.
+
+Hidden quiet_run, silent DH_AUDIO_SILENT1, unique scratch cwd/save. Exact command `EXE --startup-config <run>/job.args`; full args/log/PPMs/sheets under `continuation/<run>/`. Inherited reviewed B091 fixture uses `.local-inputs/v20/asset-stage/assets`; copies `fix080/m7-skip/character.save` privately, ordinary compiled-bank/campaign triggers and Space inputs, fixed-step0.0166667. No condition/campaign command/enemy HP/dead injection. Starting positions are test fixtures, not a full NewGame route. All six exit0/no timeout/no abort,1100 rendered frames.
+
+| Current / acceptedv20 pair | Actual fixture actor | Lethal / End-body-release / hidden frames, equal on both builds |
+|---|---|---|
+|ruin-current / ruin-v20|LizTemplate08 id8585292138116424832;07 id8259250760555622400|08:177/227/346;07:315/364/483|
+|moth-current / moth-v20|MothTemplate01 id13982471039583375744;02 id17937632967283937838|01:177/239/358;02:285/346/465 (20s respawn scheduled)|
+|water-current / water-v20|MothTemplate13 id12512633228945178598|177/239/358|
+
+Death-End/hide each occur once despite continued attacks. Placed moth total≈3.02s, regular lizard≈2.8s, consistent with footage and source delay. No invented shorter corpse lifetime.
+
+Viewed current sequences50–1100 every50frames: ruin first lizard falls/holds200–300, absent350; second falls after315 and holds by bottom HUD through450, absent500. Moth pair falling/folded200, two bodies300, absent500. Water150/200/250/300/350/400/450/500: moth dying200, terminal300/350, absent400. Water/root/bones confirm a water-room instance, but platform/hero/Rene placement differs from shot11. Accepted pairs' same selected sequences retained/inspected. Before regular kills ring/plate visible; disappearance is corroborated by lethal/source-dead/End/hide receipts. ffmpeg scratch sheets are previews; PPM originals retained.
+
+Build `p14_build.ps1 -Name fix092 -Jobs2` exit0. Full CTest **167/168 pass**, only known worktree `session_skill_binding` fails; no other failures. Relevant despawn, actor runtime, lifecycle, campaign, death-end and restore tests pass. `continuation/ctest.txt` preserves output. `continuation/receipt.json` records source/frozen/args/log/capture/test hashes. No gameplay delta was made, so these checks validate the inherited consumer plus reviewed private cinematic merge.
+
+Fresh independent reviewer outcome: **scoped lifecycle evidence PASS; B092/B098 closure/corrective integration NOT READY**. Reviewer inspected original moth/captain sequences, raw gates, supplied shots, actual lethal A/B logs and fallen/removed moth/lizard/water frames. Its own evidence note is `.local-inputs/claude-v20.1/fix092/review/evidence-note.md`. These scoped passes do not replace exact-case investigation.
+
+## Outcome and remaining owned work
+
+- No gameplay patch is ready to integrate. Root may cherry-pick this corrected report separately; reviewed3a4aec63 is already integrated.
+- B092 scoped water/placed moth duration passes on accepted/current. User11 duration and identity remain unestablished; do not call it a movie-moth failure or NOTBUG.
+- B098 ordinary green lizards and reviewed captain/TRUNGUS finish legitimate death/removal. Exact user17 actor, lethal input, previous save and scripted state remain unknown. **Do not close B098 on these non-reproductions.**
+- Distinct infrastructure gaps, not reported-user fixes: absent Died selection needs source immediate-timer fallback; ordinary killable moth/lizard policy binds Died, no affected production actor demonstrated. Also despawnTick's alive(HP) gate differs from runtime is_dead(source byte): it logs initially HP0/dead0 animation-only SnackMan/SwampKing as tracked, then waits on looping Idle. Those frame0 records are not actual death/corpse proof. Future narrowly owned correction should admit actual source-dead and add negative coverage; no speculative screenshot diagnosis or patch here.
+- Required follow-up remains owned by this continuation/root: acquire affected save or normal route/kill-method reproduction, identify source-dead/physical/lifecycle/clip state, rerun bounded before/lethal/death/postdelay frames. This handoff is unfinished reproduction/implementation work, not closure. APK1.0.2 vs video1.0.3 differences explicit.20s respawn and all maps/classes/weapons are not newly tested. Silent audio not heard.
+
+Package files required: none.
