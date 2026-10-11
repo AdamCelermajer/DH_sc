@@ -1,4 +1,5 @@
 #include "door_collision_v1.hpp"
+#include "door_runtime_v1.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -21,6 +22,22 @@ void plan(const std::vector<DoorPhysicalBindingV1>& before,
 }
 
 int main() {
+    for (std::uint8_t serialized = 0; serialized <= 3; ++serialized) {
+        DoorRestoreProjectionV1 restored{};
+        check(project_door_restore_v1(serialized, restored), "valid serialized restore state accepted");
+        const bool opened = serialized == 1 || serialized == 3;
+        check(restored.state == (opened ? DoorStateV1::opened : DoorStateV1::closed) &&
+              restored.filter_enabled == !opened && !restored.busy && !restored.dirty,
+              "restore normalizes state/filter and clears busy/dirty without transition replay");
+        check(door_open_admitted_v1(restored.state, restored.busy) == !opened &&
+              door_close_admitted_v1(restored.state, restored.busy) == opened,
+              "normalized restore admits only the matching subsequent source transition");
+    }
+    DoorRestoreProjectionV1 unchanged{DoorStateV1::opening, false, true, true};
+    check(!project_door_restore_v1(4, unchanged) && unchanged.state == DoorStateV1::opening &&
+          !unchanged.filter_enabled && unchanged.busy && unchanged.dirty,
+          "invalid restore state fails atomically");
+
     std::vector<DoorPhysicalOperationV1> operations;
     const DoorPhysicalBindingV1 closed{101, true, true, true};
     const DoorPhysicalBindingV1 open{101, true, true, false};

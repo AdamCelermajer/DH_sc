@@ -5,6 +5,10 @@
 
 namespace dh::foundation::doors {
 
+// Source PhysicalObject is XY-only: finite positive XY and ordered Z are the
+// validity gate; a planar Z interval is legal.
+bool validate_source_door_apply_mesh_box_v1(const float absolute6[6], std::string& error);
+
 // Replays the source Door::InitPost -> VisualObject::ApplyMeshBox producer on
 // the actual retained object Scene. Marker geometry uses the verified
 // _colbox_ group path; the no-marker branch uses the existing source

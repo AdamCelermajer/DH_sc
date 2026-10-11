@@ -43,22 +43,37 @@ bool persist_door_world_state_v1(PlayableActorWorld& world, DoorRuntimeV1& runti
     return true;
 }
 
-bool restore_door_world_state_v1(const PlayableActorWorld& world, DoorRuntimeV1& runtime, std::string& error) {
+bool restore_door_world_state_v1(PlayableActorWorld& world, DoorRuntimeV1& runtime, std::string& error) {
     error.clear();
+    // Validate every persisted component before changing runtime/world state.
+    for (std::size_t index = 0; index < runtime.size(); ++index) {
+        const auto* object = world.find_object(runtime.instance(index).stableId);
+        if (!object) continue;
+        const auto found = object->state_components.find(door_state_component_v1);
+        if (found == object->state_components.end()) continue;
+        if (found->second.size() != 1 || found->second[0] > 3) {
+            error = "Door state component is malformed: " + runtime.instance(index).name;
+            return false;
+        }
+    }
+
     for (std::size_t index = 0; index < runtime.size(); ++index) {
         const auto& instance = runtime.instance(index);
         const auto* object = world.find_object(instance.stableId);
         if (!object) continue;
         const auto found = object->state_components.find(door_state_component_v1);
         if (found == object->state_components.end()) continue;  // no component: authored start state
-        if (found->second.size() != 1 || found->second[0] > 3) {
+        // Door::Deserialize: 1 and 3 are opened, others closed. A persisted transition is finished at once.
+        DoorRestoreProjectionV1 restored{};
+        if (!project_door_restore_v1(found->second[0], restored)) {
             error = "Door state component is malformed: " + instance.name;
             return false;
         }
-        // Door::Deserialize: 1 and 3 are opened, others closed. A persisted transition is finished at once.
-        const auto value = DoorStateV1(found->second[0]);
-        const auto end = (value == DoorStateV1::opened || value == DoorStateV1::opening) ? DoorStateV1::opened : DoorStateV1::closed;
-        if (!runtime.restore(index, end, error)) return false;
+        if (!runtime.restore(index, restored.state, error)) return false;
+        const std::uint8_t terminal = static_cast<std::uint8_t>(restored.state);
+        if (found->second[0] != terminal &&
+            !world.set_object_component(instance.stableId, door_state_component_v1, {terminal}, error))
+            return false;
     }
     error.clear();
     return true;

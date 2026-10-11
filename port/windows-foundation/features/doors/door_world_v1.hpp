@@ -21,6 +21,6 @@ bool bind_door_world_objects_v1(PlayableActorWorld& world, const DoorRuntimeV1& 
 bool persist_door_world_state_v1(PlayableActorWorld& world, DoorRuntimeV1& runtime, std::string& error);
 
 // Applies the persisted state of every door (after a GameSave load). No sound, no replay.
-bool restore_door_world_state_v1(const PlayableActorWorld& world, DoorRuntimeV1& runtime, std::string& error);
+bool restore_door_world_state_v1(PlayableActorWorld& world, DoorRuntimeV1& runtime, std::string& error);
 
 } // namespace dh::foundation::doors

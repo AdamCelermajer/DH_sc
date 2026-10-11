@@ -276,14 +276,14 @@ bool DoorRuntimeV1::transition(std::size_t index, bool opening, bool skip, std::
 bool DoorRuntimeV1::open(std::size_t index, bool skip, std::string& error) {
     error.clear();
     auto& slot = slots_.at(index);
-    if (slot.busy || slot.state != DoorStateV1::closed) return true;  // Door::Open guard: state 0 and not busy
+    if (!door_open_admitted_v1(slot.state, slot.busy)) return true;  // Door::Open guard: state 0 and not busy
     return transition(index, true, skip, error);
 }
 
 bool DoorRuntimeV1::close(std::size_t index, bool skip, std::string& error) {
     error.clear();
     auto& slot = slots_.at(index);
-    if (slot.busy || slot.state != DoorStateV1::opened) return true;  // Door::Close guard: state 1 and not busy
+    if (!door_close_admitted_v1(slot.state, slot.busy)) return true;  // Door::Close guard: state 1 and not busy
     return transition(index, false, skip, error);
 }
 
@@ -333,11 +333,15 @@ bool DoorRuntimeV1::set_present(std::size_t index, bool present, std::string& er
 bool DoorRuntimeV1::restore(std::size_t index, DoorStateV1 state, std::string& error) {
     error.clear();
     auto& slot = slots_.at(index);
-    slot.state = state;
-    slot.busy = false;
-    slot.dirty = false;
-    // Door::Deserialize maps states 1/3 to opened; states 0/2 map closed.
-    slot.filter_enabled = state != DoorStateV1::opened && state != DoorStateV1::opening;
+    DoorRestoreProjectionV1 projection{};
+    if (!project_door_restore_v1(static_cast<std::uint8_t>(state), projection)) {
+        error = "Door restore state is outside the serialized range";
+        return false;
+    }
+    slot.state = projection.state;
+    slot.busy = projection.busy;
+    slot.dirty = projection.dirty;
+    slot.filter_enabled = projection.filter_enabled;
     return show_idle(slot, error);
 }
 

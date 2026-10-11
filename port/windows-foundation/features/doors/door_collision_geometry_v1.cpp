@@ -4,10 +4,33 @@
 #include "../../../level-world/decor_scene.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <stdexcept>
 
 namespace dh::foundation::doors {
+
+bool validate_source_door_apply_mesh_box_v1(const float absolute6[6], std::string& error) {
+    error.clear();
+    if (!absolute6) {
+        error = "Source door ApplyMeshBox has no output bounds";
+        return false;
+    }
+    for (const float value : std::array<float, 6>{absolute6[0], absolute6[1], absolute6[2],
+                                                  absolute6[3], absolute6[4], absolute6[5]}) {
+        if (!std::isfinite(value)) {
+            error = "Source door ApplyMeshBox has a nonfinite extent";
+            return false;
+        }
+    }
+    // Source door PhysicalObject is a 2D polygon. ApplyMeshBox preserves Z,
+    // but neither body construction nor collision admission requires positive Z.
+    if (!(absolute6[0] < absolute6[3] && absolute6[1] < absolute6[4] && absolute6[2] <= absolute6[5])) {
+        error = "Source door ApplyMeshBox has invalid XY or ordered-Z bounds";
+        return false;
+    }
+    return true;
+}
 
 bool source_door_apply_mesh_box_v1(const AssetCatalog& assets,
                                    const CharacterVisual& visual,
@@ -80,8 +103,8 @@ bool source_door_apply_mesh_box_v1(const AssetCatalog& assets,
             throw std::runtime_error("Source door GameObject::ApplyMeshBox admission rejected");
         float absolute[6]{};
         std::copy_n(applied.absolute_box, 6, absolute);
-        if (!(absolute[0] < absolute[3] && absolute[1] < absolute[4] && absolute[2] < absolute[5]))
-            throw std::runtime_error("Source door ApplyMeshBox has a degenerate extent");
+        if (!validate_source_door_apply_mesh_box_v1(absolute, error))
+            throw std::runtime_error(error);
         std::copy_n(absolute, 6, output_absolute6);
         error.clear();
         return true;

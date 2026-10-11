@@ -34,6 +34,31 @@ inline constexpr const char* door_state_component_v1 = "dh2.world-gate.door.v1";
 
 enum class DoorStateV1 : std::uint8_t { closed = 0, opened = 1, closing = 2, opening = 3 };
 
+struct DoorRestoreProjectionV1 {
+    DoorStateV1 state = DoorStateV1::closed;
+    bool filter_enabled = true;
+    bool busy = false;
+    bool dirty = false;
+};
+
+// Door::Deserialize persists terminal state: serialized 1/3 means opened;
+// 0/2 means closed. Invalid components fail without modifying the output.
+inline bool project_door_restore_v1(std::uint8_t serialized, DoorRestoreProjectionV1& output) noexcept {
+    if (serialized > 3) return false;
+    DoorRestoreProjectionV1 result{};
+    result.state = serialized == 1 || serialized == 3 ? DoorStateV1::opened : DoorStateV1::closed;
+    result.filter_enabled = result.state == DoorStateV1::closed;
+    output = result;
+    return true;
+}
+
+inline bool door_open_admitted_v1(DoorStateV1 state, bool busy) noexcept {
+    return !busy && state == DoorStateV1::closed;
+}
+inline bool door_close_admitted_v1(DoorStateV1 state, bool busy) noexcept {
+    return !busy && state == DoorStateV1::opened;
+}
+
 // One Play3D request for the caller's audio owner (ordinal = authored Arrays::Doors sound id).
 struct DoorSoundRequestV1 {
     std::int32_t ordinal = -1;

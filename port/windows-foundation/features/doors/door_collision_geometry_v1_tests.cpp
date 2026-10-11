@@ -1,6 +1,7 @@
 #include "door_collision_geometry_v1.hpp"
 #include "../../../level-world/decor_scene.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <iostream>
@@ -59,12 +60,39 @@ int main(int argc, char** argv) {
             check(source_door_apply_mesh_box_v1(assets, visual, position, rotation, scale, bounds, error),
                   model + std::string(": ") + error);
             for (const float value : bounds) check(std::isfinite(value), model + std::string(": nonfinite box"));
-            check(bounds[0] < bounds[3] && bounds[1] < bounds[4] && bounds[2] < bounds[5],
+            check(bounds[0] < bounds[3] && bounds[1] < bounds[4] && bounds[2] <= bounds[5],
                   model + std::string(": degenerate source box"));
             check(std::abs((bounds[0] + bounds[3]) * 0.5f - position[0]) < 0.001f &&
                   std::abs((bounds[1] + bounds[4]) * 0.5f - position[1]) < 0.001f &&
                   std::abs((bounds[2] + bounds[5]) * 0.5f - position[2]) < 0.001f,
                   model + std::string(": ApplyMeshBox lost authored owner position"));
+
+            // Focused planar-Z gate fixture: preserve XY from this actual
+            // source CalcMeshBox result and collapse only Z to the owner's
+            // plane. The original Door PhysicalObject is a 2D XY rectangle;
+            // this does not claim the staged model itself has planar bounds.
+            dh2::physical::DecorBodyInput planar{};
+            std::uint8_t owner_token = 0, physical_token = 0;
+            planar.owner = &owner_token; planar.new_physical = &physical_token;
+            planar.visual_present = planar.colbox_found = 1;
+            for (unsigned axis = 0; axis < 3; ++axis) {
+                planar.position[axis] = position[axis];
+                planar.mesh_box[axis] = bounds[axis] - position[axis];
+                planar.mesh_box[axis + 3] = bounds[axis + 3] - position[axis];
+            }
+            planar.mesh_box[2] = planar.mesh_box[5] = 0.0f;
+            float planar_absolute[6]{};
+            std::copy_n(bounds, 6, planar_absolute);
+            planar_absolute[2] = planar_absolute[5] = position[2];
+            check(validate_source_door_apply_mesh_box_v1(planar_absolute, error),
+                  model + std::string(": source door geometry validity rejected ordered planar Z: ") + error);
+            dh2::physical::DecorBodyConfig planar_config{};
+            check(dh2_decor_body_config(&planar_config, &planar) == 0,
+                  model + std::string(": source 2D body rejected ordered zero-Z CalcMeshBox input"));
+            check(planar_config.absolute_box[0] < planar_config.absolute_box[3] &&
+                  planar_config.absolute_box[1] < planar_config.absolute_box[4] &&
+                  planar_config.absolute_box[2] == planar_config.absolute_box[5],
+                  model + std::string(": planar source body changed XY or expanded Z"));
             std::cout << model << " source ApplyMeshBox PASS marker=" << marker.found << " sizeXY="
                       << bounds[3] - bounds[0] << ',' << bounds[4] - bounds[1]
                       << " center=" << (bounds[0] + bounds[3]) * 0.5f << ','
