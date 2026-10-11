@@ -60,6 +60,7 @@ private:
         std::shared_ptr<dh2::fx::CharacterParticleFxResourceV2> resource;
         std::string uri;
         bool active = false;
+        std::uint32_t debug_counter = 0; // DH_FX_DEBUG=2 sampling
     };
     std::map<std::uint64_t, Slot> slots_;
 };
