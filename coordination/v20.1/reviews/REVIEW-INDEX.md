@@ -28,12 +28,12 @@ verification, asset completeness and unresolved follow-up.
 | B081 | /root/b081_review | READY; normal stacked potion refresh/reselection has no X, blocked staff control retained |
 | B082 | /root/b082_review | READY WITH CAVEATS; wide/tall negative letterbox, duplicate and complete revive proof; combined B108/B086 pending |
 | B083 | /root/b083_review | revival repair ready; fresh owner repairs targetless/object and injured admission; full source/runtime re-review pending |
-| B088 | /root/npc_marker_context_review | adc667b7 current enabled/position and normal compiled dialogue reviewed; live faction/IsSummoned projection correction pending |
+| B088 | /root/npc_marker_context_review | corrected2a95fed7 current enabled/position/faction/source priority READY WITH CAVEATS; merged; live marker follow-up d9dbfc60 independently reviewed and merged |
 | B090/B099/B104 | /root/event_sounds_review | sound repair758d970a approved and merged; B104 combined genuine eighth-death sound check running |
-| B092/B098 | /root/b092_b098_review | closure NOT READY; sword lifecycle non-reproduction qualified; owner resumed skill/ally/script/pause/restore lethal audit |
+| B092/B098 | /root/b092_b098_review | closure NOT READY; real skill-killed restored corpse persists indefinitely, same owner/reviewer verify source restore/Limbus repair |
 | B097 | /root/b097_review | READY WITH CAVEATS af2bf2cd; normal ranked UI/train/save and actual targeted MP/damage verified, merged |
 | B114 | /root/b114_review | narrow source specular patch f6720b2d READY WITH CAVEATS and merged; overall lighting/fog remains OPEN with owner |
-| B115 | /root/b115_review | texture scope READY WITH CAVEATS b0499ca2, report integrated; existing B109 normal atlas/animation proven; final lighting comparison pending |
+| B115 | /root/b115_review | prior atlas/animation checks approved b0499ca2; direct original pond sequence reveals material appearance gap, B115/B114 continuation active |
 
 Private reviewer evidence remains in `.local-inputs/claude-v20.1/` or
 `.local-inputs/v20.1/`. Frozen hashes and qualified test routes are recorded in
