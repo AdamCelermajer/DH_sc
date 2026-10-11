@@ -28,15 +28,18 @@ const ActorDefinition& named(const std::vector<ActorDefinition>& actors,const st
 void fixtures(){
     Fixture fixture;AssetCatalog catalog(fixture.root);std::string error;std::vector<ActorDefinition> actors;
     put(fixture.root/"levels/test.mlx",R"(<Level><GameObject name="one" gametype="Module" dae="world.bdae" xrefobject="root" mgp="units.mgp" position="10 20 30" rotation="0 90 0"/><GameObject name="two" gametype="Module" dae="world.bdae" xrefobject="root" mgp="units.mgp" position="100 200 300"/></Level>)");
-    put(fixture.root/"levels/units.mgp",R"(<Module><GameObject name="guard" gametype="Character" template="elite" position="1 2 3" health="99" activate_cond="quest_started"/><GameObject name="spawn" gametype="SpawnPoint" probability="37" data="authored_spawn_table"/></Module>)");
+    put(fixture.root/"levels/units.mgp",R"(<Module><GameObject name="guard" gametype="Character" template="elite" position="1 2 3" rotation="0 0 35" health="99" activate_cond="quest_started"/><GameObject name="spawn" gametype="SpawnPoint" probability="37" data="authored_spawn_table"/><GameObject name="chest" gametype="Container" position="4 5 6" rotation="0 0 -60"/></Module>)");
     put(fixture.root/"data/templates.xml",R"(<Templates><Template name="base" health="50" role="enemy" speed="7"><Property name="attack" value="4"/></Template><Template name="elite" template="base" health="75" armor="12"/></Templates>)");
     ActorLoadOptions options;options.referenceDocuments={"data/templates.xml"};options.requireReferencedFiles=true;
     check(load_actor_definitions(catalog,"levels/test.mlx",actors,error,options),"Valid actor fixture rejected: "+error);
-    check(actors.size()==6,"Module declarations were not loaded once per placed instance");unique_ids(actors);
+    check(actors.size()==8,"Module declarations were not loaded once per placed instance");unique_ids(actors);
     const auto& guard=named(actors,"guard");
     check(guard.properties.at("health")=="99"&&guard.properties.at("speed")=="7"&&guard.properties.at("armor")=="12"&&guard.properties.at("attack")=="4","Authored override or multilevel template defaults lost");
     check(guard.properties.at("activate_cond")=="quest_started"&&guard.role=="enemy","Authored condition or inherited role lost");
     check(std::abs(guard.placement[12]-11)<0.001f&&std::abs(guard.placement[13]-22)<0.001f&&std::abs(guard.placement[14]-33)<0.001f,"Child placement was rotated or failed to receive module offset");
+    check(std::abs(guard.placement[0]-0.819152f)<0.0001f&&std::abs(guard.placement[1]-0.573576f)<0.0001f,"NPC placement facing must follow authored +35");
+    const auto& chest=named(actors,"chest");
+    check(std::abs(chest.placement[0]-0.5f)<0.0001f&&std::abs(chest.placement[1]+0.866025f)<0.0001f,"Chest facing must follow authored -60");
     check(named(actors,"spawn").properties.at("probability")=="37","Authored spawn probability not preserved");
     std::vector<ActorDefinition> again;
     check(load_actor_definitions(catalog,"levels/test.mlx",again,error,options)&&same(actors,again),"Reload changed actor data or stable IDs");

@@ -15,6 +15,8 @@ struct CharacterFxForceFactoryV4 {
 };
 class CharacterAuthoredCompositeFxResourceV4:public CharacterParticleFxResourceV2 {
 public:
+ // Optional same-model live actor pose, copied before emission. Nonactor resources keep model sampling.
+ virtual bool source_actor_pose_v1(const scene::Scene&,std::string& error){error="Resource does not support live actor pose";return false;}
  virtual bool source_scene_frame_v4(std::int32_t absolute,std::int32_t dt,
   const math::Matrix4f& actual_outer,std::string&)=0;
  virtual bool mesh_draw_sources_v4(std::vector<CharacterFxMeshDrawSourceV4>&,std::string&)const=0;

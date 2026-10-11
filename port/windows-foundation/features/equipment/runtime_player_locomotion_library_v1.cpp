@@ -80,7 +80,7 @@ bool RuntimePlayerLocomotionLibraryV1::build(
         if (same_character_visual.model_path.empty())
             throw std::runtime_error("Player locomotion clips require the same initialized-character model path");
 
-        const auto pairs = equipment_pairs(request.main_hand_item_id, request.off_hand_item_id);
+        auto pairs = equipment_pairs(request.main_hand_item_id, request.off_hand_item_id);
         if (pairs.size() > hard_program_limit || pairs.size() > request.max_programs)
             throw std::runtime_error("Player locomotion equipment/null combinations exceed the requested program bound");
 
@@ -150,13 +150,27 @@ bool RuntimePlayerLocomotionLibraryV1::build(
         next.profile_id_ = request.profile_id;
         next.role_ = request.role;
         next.base_visual_ = same_character_visual;
-        next.entries_.reserve(pairs.size());
+        if (request.preload_all_equipment_stances) {
+            // GetAnimStance gives main-hand staff/bow precedence, then off-hand
+            // dual, then main-hand two-hander/default/null. Every reachable
+            // stance therefore occurs in a source row + null tuple; no item
+            // identifier, category or class is substituted by this cache.
+            for (std::size_t id = 0; id < items.rows.size(); ++id) {
+                pairs.emplace_back(static_cast<std::int32_t>(id), -1);
+                pairs.emplace_back(-1, static_cast<std::int32_t>(id));
+            }
+        }
+        next.entries_.reserve(request.max_programs);
         for (const auto& pair : pairs) {
             RuntimePlayerLocomotionV1 resolved;
             if (!resolve_runtime_player_locomotion_v1(animation_table, items, pair.first,
                     pair.second, request.character_flag_1324, source_constants, animations,
                     clip_dictionary, resolved, error))
                 throw std::runtime_error(error.empty() ? "Actual equipment/stance resolver failed" : error);
+            if (request.preload_all_equipment_stances && std::any_of(next.entries_.begin(), next.entries_.end(),
+                    [&](const Entry& entry) { return entry.stance == resolved.stance; })) continue;
+            if (next.entries_.size() >= request.max_programs)
+                throw std::runtime_error("Reachable equipment stances exceed the requested program bound");
             RuntimePlayerLocomotionProgramV1 program;
             if (!build_runtime_player_locomotion_program_v1(actual_assets, resolved, animations,
                     clip_dictionary, same_character_visual, request.role, program, error))
@@ -165,6 +179,15 @@ bool RuntimePlayerLocomotionLibraryV1::build(
                 std::make_shared<const RuntimePlayerLocomotionProgramV1>(std::move(program))});
         }
 
+        if (request.preload_all_equipment_stances) {
+            next.all_equipment_stances_ = true;
+            next.animation_table_ = animation_table;
+            next.character_flag_1324_ = request.character_flag_1324;
+            next.constants_ = source_constants;
+            next.items_ = std::move(items);
+            next.animations_ = std::move(animations);
+            next.clips_ = std::move(clip_dictionary);
+        }
         output = std::move(next);
         error.clear();
         return true;
@@ -177,17 +200,24 @@ bool RuntimePlayerLocomotionLibraryV1::build(
 bool RuntimePlayerLocomotionLibraryV1::select_exact(
         std::int32_t main_hand_item_id, std::int32_t off_hand_item_id,
         RuntimePlayerLocomotionSelectionV1& output, std::string& error) const {
-    const auto found = std::find_if(entries_.begin(), entries_.end(), [&](const Entry& entry) {
+    auto found = std::find_if(entries_.begin(), entries_.end(), [&](const Entry& entry) {
         return entry.main_hand_item_id == main_hand_item_id &&
                entry.off_hand_item_id == off_hand_item_id;
     });
+    if (found == entries_.end() && all_equipment_stances_) {
+        RuntimePlayerLocomotionV1 resolved;
+        if (!resolve_runtime_player_locomotion_v1(animation_table_, items_, main_hand_item_id,
+                off_hand_item_id, character_flag_1324_, constants_, animations_, clips_, resolved, error)) return false;
+        found = std::find_if(entries_.begin(), entries_.end(),
+            [&](const Entry& entry) { return entry.stance == resolved.stance; });
+    }
     if (found == entries_.end() || !found->program) {
         error = "Requested exact current equipment pair was not prepared by this source library";
         return false;
     }
     RuntimePlayerLocomotionSelectionV1 next;
-    next.main_hand_item_id = found->main_hand_item_id;
-    next.off_hand_item_id = found->off_hand_item_id;
+    next.main_hand_item_id = main_hand_item_id;
+    next.off_hand_item_id = off_hand_item_id;
     next.stance = found->stance;
     next.program = found->program;
     output = std::move(next);

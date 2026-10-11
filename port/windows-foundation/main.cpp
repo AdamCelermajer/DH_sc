@@ -426,6 +426,7 @@ struct Options {
     std::string meleeBindings;
     bool diagnosticAI=false;
     int attackFrames=0, attackStartFrame=0, targetFrame=-1, saveFrame=-1, loadFrame=-1;
+    int testStatPoints=0,testSkillPoints=0; // B103 TEST ONLY\r
     float testPlayerHealth=0.f; // I024 TEST ONLY: --test-player-hp N[@FRAME] sets the local Character HP at FRAME (inert unless passed)
     int testPlayerHealthFrame=0;
     f::Vec3 actorPosition{};
@@ -627,6 +628,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--attack-start-frame") {o.attackStartFrame=std::stoi(value());if(o.attackStartFrame<0)throw std::runtime_error("Attack start frame must be nonnegative");}
         else if(arg=="--target-frame") {o.targetFrame=std::stoi(value());if(o.targetFrame<0)throw std::runtime_error("Target frame must be nonnegative");}
         else if(arg=="--move") o.movable=true;
+        else if(arg=="--test-skill-points") o.testSkillPoints=std::stoi(value()); // B096 TEST ONLY
+        else if(arg=="--test-stat-points") o.testStatPoints=std::stoi(value()); // B103 TEST ONLY
         else if(arg=="--fresh-player") o.freshPlayer=true;
         else if(arg=="--motion-node") o.motionNode=value();
         else if(arg=="--controller-policy") o.controllerPolicy=value();
@@ -1386,6 +1389,7 @@ int main(int argc,char** argv) {
             f::equipment_menu::RuntimePlayerLocomotionLibraryRequestV1 request;
             request.profile_id=options.combat.playerProfileId;request.profile_library_uri=options.profiles.generic_string();request.role="player-source-locomotion";
             request.main_hand_item_id=hands.first;request.off_hand_item_id=hands.second;
+            request.preload_all_equipment_stances=true;request.max_programs=f::equipment_menu::RuntimePlayerLocomotionLibraryV1::hard_program_limit;
             const auto prefix=request.role+"/";
             options.character.clips.erase(std::remove_if(options.character.clips.begin(),options.character.clips.end(),[&](const auto& clip){return clip.first.compare(0,prefix.size(),prefix)==0;}),options.character.clips.end());
             f::equipment_menu::RuntimePlayerLocomotionLibraryV1 next;
@@ -1502,7 +1506,7 @@ int main(int argc,char** argv) {
             }
         }
         if(!options.level.empty()) {
-            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error)) throw std::runtime_error("Level: "+error);
+            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error,{options.meleeBindings.empty()||options.noAmbientDecor})) throw std::runtime_error("Level: "+error);
             loadingScreen.progress(0.4);  // level stage complete
             for(const auto& notice:scene.notices)std::cerr<<"Level notice: "<<notice<<'\n';
             std::cout<<"Level triangles="<<scene.triangleCount<<" instances="<<scene.instanceCount<<" ranges="<<scene.mesh.ranges.size()<<'\n';
@@ -1685,7 +1689,7 @@ int main(int argc,char** argv) {
                 if(!exitZones.build(population.definitions(),transitionRows,transitionClasses,exitError))throw std::runtime_error("Level exits: "+exitError);
                 for(const auto& zone:exitZones.zones()) {
                     if(zone.built&&zone.kind==f::transitions::ZoneKind::level_exit)
-                        std::cout<<"Level exit zone name="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" condition="<<(zone.condition.empty()?"none":zone.condition)<<" procedural="<<(zone.target_procedural?1:0)<<'\n';
+                        std::cout<<"Level exit zone name="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" condition="<<(zone.condition.empty()?"none":zone.condition)<<" procedural="<<(zone.target_procedural?1:0)<<" centre="<<zone.box.centre[0]<<","<<zone.box.centre[1]<<","<<zone.box.centre[2]<<'\n';
                     else if(zone.built)
                         std::cout<<"Level zone name="<<zone.name<<" kind="<<f::transitions::zone_kind_name(zone.kind)
                                  <<" centre="<<zone.box.centre[0]<<','<<zone.box.centre[1]<<','<<zone.box.centre[2]
@@ -2566,8 +2570,25 @@ int main(int argc,char** argv) {
             return combatSession->set_actor_original_state(id,state,e);};
         hostServices.set_idle=[&](f::ActorId id,bool wait,std::string& e){
             auto& context=nativeBodyContexts[id];if(!context)context=std::make_shared<NativeBodyContext>();
-            context->idleSuppressed=wait;return combatSession&&combatSession->script_put_idle(id,e,wait);};
+            context->idleSuppressed=wait;
+            // B080/B094: skipped PutCharacterInIdle must leave Spawn through its lifecycle
+            // owner too, admitting the physical body; a session-only Idle leaves combat gated.
+            if(!wait&&actorLifecycle.status(id)&&!actorLifecycle.put_idle(id,e))return false;
+            return combatSession&&combatSession->script_put_idle(id,e,wait);};
         hostServices.scripted_actor_pose=[&](f::ActorId id){return combatSession&&combatSession->scripted_actor_pose(id);};
+        // B091: source CSAnim::OnUpdate (0x3c1a3c) returns a character to SM_SetIdleState when its scripted flag clears (Script_PlayActorAnim
+        // enables the un-scripted OnUpdate flag). The host owns that admission gate. Release gameplay actors, including held Idle after End;
+        // presentation-only props and companions keep their held pose. Source no longer relies on a later AI command to release the clip.
+        hostServices.scripted_clip_finished=[&](f::ActorId id,bool& released,std::string& e){
+            released=false;
+            if(!combatSession||!combatSession->actor(id)||combatSession->is_animation_only(id)||!combatSession->scripted_actor_pose(id))return true;
+            const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==id;});
+            if(placed==population.actors().end())return true;
+            bool alive=false;std::int32_t actorState=-1;
+            if(!hostServices.actor_state(id,alive,actorState,e))return false;
+            if(!alive||actorState<=0||actorState==17)return true; // dead, limbus, awaiting/pre-spawn; held Idle also needs release
+            std::cout<<"[campaign] scripted clip finished: gameplay actor "<<placed->definition.name<<" state="<<actorState<<" -> Idle (CSAnim::OnUpdate)\n";
+            released=hostServices.set_idle(id,false,e);return released;};
         // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
         // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
         // transform is the owner: column-major translation at 12..14, heading in the 2x2 block).
@@ -2918,7 +2939,9 @@ int main(int argc,char** argv) {
         initializeSourceTargetNodes();
         f::effects::RuntimeEffectsRendererV1 sourceEffectsRenderer(renderer);
         f::effects::EmbeddedSceneFxV1 embeddedSceneFx; // P17 FIREWALL: scene-owned authored FX (doors)
+        f::effects::EmbeddedSceneFxV1 embeddedActorFx; // B105: separate actor identity domain, particles only
         const void* embeddedSceneFxOwner=nullptr;
+        std::map<std::uint64_t,std::string> embeddedActorTried; // B105: current model offered for each actor
         dh2::data::EffectsTables sourceEffectsTables;
         std::unique_ptr<f::effects::RuntimeEffectsFactoryV1> sourceEffectsFactory;
         // P16 OPENING: scripted FX (PlayEffect/StopEffect) go through the source effects manager, the same owner as the level-up
@@ -2943,7 +2966,7 @@ int main(int argc,char** argv) {
             f::CameraPose pose{{sourceEffectsCamera.eye.x,sourceEffectsCamera.eye.y,sourceEffectsCamera.eye.z},
                 {sourceEffectsCamera.target.x,sourceEffectsCamera.target.y,sourceEffectsCamera.target.z},
                 {sourceEffectsCamera.up.x,sourceEffectsCamera.up.y,sourceEffectsCamera.up.z},sourceEffectsCamera.verticalFovDegrees};
-            const auto matrix=f::cameraViewMatrix(pose);std::copy(matrix.begin(),matrix.end(),view);
+            const auto matrix=f::sourceCameraViewMatrix(pose);std::copy(matrix.begin(),matrix.end(),view);
             position[0]=sourceEffectsCamera.eye.x;position[1]=sourceEffectsCamera.eye.y;position[2]=sourceEffectsCamera.eye.z;e.clear();return true;
         };
         std::int32_t sourceEffectsMs=0;double sourceEffectsFractionMs=0;
@@ -2957,7 +2980,7 @@ int main(int argc,char** argv) {
             if(!sourceEffectsRenderer.finish_and_drain(e))throw std::runtime_error("FX queue drain: "+e);
             celestEffects.reset();
             if(sourceEffectsFactory)sourceEffectsFactory->clear_original_textures();
-            embeddedSceneFx.clear();embeddedSceneFxOwner=nullptr; // P17 FIREWALL: resources die with their factory
+            embeddedSceneFx.clear();embeddedActorFx.clear();embeddedSceneFxOwner=nullptr;embeddedActorTried.clear(); // P17 FIREWALL: resources die with their factory
             sourceEffectsFactory.reset();
         };
         const auto bindSourceEffects=[&]() {
@@ -3352,9 +3375,7 @@ int main(int argc,char** argv) {
         auto bindMaterials=[&]() {
         for(std::size_t i=0;i<scene.materials.size();++i) {
             const auto& m=scene.materials[i];
-            const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
-            scene.mesh.ranges[i].material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
-            scene.mesh.ranges[i].material.specularTexture=m.specularMap.empty()?0:loadTexture(m.specularMap); // B076: GL_Diffuse_L1 specular map
+            f::bind_original_material_textures(m,scene.mesh.ranges[i].material,loadTexture);
         }
         // P17 PROCGEN2: the LevelConfig skybox materials (drawn by the sky pass before the level).
         if(scene.skybox) for(std::size_t i=0;i<scene.skybox->materials.size()&&i<scene.skybox->mesh.ranges.size();++i) {
@@ -3400,7 +3421,8 @@ int main(int argc,char** argv) {
             const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadDoorTexture(m,blue);}
         bindMaterials();
-        ambientDecor.bind_textures([&](const f::OriginalMaterial& m){return loadTexture(m.diffuse,m.alphaMap,false);}); // B076
+        ambientDecor.bind_textures(loadTexture); // B109: same full material transport as baked level geometry
+        {std::size_t ranges=0,specular=0,opaqueSp=0;for(const auto& decor:ambientDecor.instances())for(const auto& range:decor.scene->mesh.ranges){++ranges;if(range.material.specularTexture){++specular;if(range.material.levelLit&&!range.material.transparent&&range.material.alphaReference<=0)++opaqueSp;}}std::cout<<"[scene] ambient material ranges="<<ranges<<" specularBound="<<specular<<" opaqueSpBound="<<opaqueSp<<'\n';}
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
         // B056: Details list damask is the MenuGraphics02 picture (shipped texture, not the MenusGraphics_droid atlas).
         std::uint32_t menuDamaskTexture=options.hud?loadTexture("MenuGraphics02.tga"):0;
@@ -5555,6 +5577,14 @@ int main(int argc,char** argv) {
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
             if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
+            if((options.testStatPoints>0||options.testSkillPoints>0)&&drawn==60&&combatSession) { // B103 TEST ONLY: --test-stat-points N grants N stat points through the profile projection (never in packaged args)
+                const auto* testSheet=combatSession->world()->combat_properties(combatSession->player_id());const auto* testTraits=combatSession->world()->traits(combatSession->player_id());
+                std::string testError;f::OriginalCombatProperties projected;
+                state.source_stat_points=std::uint32_t(options.testStatPoints);state.source_skill_points=std::uint32_t(options.testSkillPoints);state.source_points_known=true;
+                if(testSheet&&testTraits&&f::project_player_profile_properties(properties,state,*testSheet,projected,testError)&&
+                   combatSession->world()->update_combat_properties(combatSession->player_id(),std::move(projected),*testTraits,testError))std::cout<<"Test stat points granted="<<options.testStatPoints<<'\n';
+                else std::cerr<<"Test stat points: "<<testError<<'\n';
+            }
             if(drawn==options.skillsPageFrame) {
                 if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::skills,error))throw std::runtime_error("Skills page diagnostic selection: "+error);
@@ -5588,10 +5618,15 @@ int main(int argc,char** argv) {
             for(const auto& click:uiInput.clicks) {
                 if(statConfirmOpen){routeStatConfirmClick(click.position);continue;}
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
-                const auto action=characterMenu.hit_test(click.position.x,click.position.y,window.width(),window.height());
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
-                    characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    const auto releasedAction=characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    if(f::character_menu::is_stat_page_action(releasedAction)) {
+                        // B111: btn*Tab.on_clicked = NativePopMenu + NativePushMenu(menu_CharacterSheet<Page>) + NativePlaySoundFX("MenuSelect").
+                        std::cout<<"Character menu Statistics sub-page="<<int(characterMenu.stat_page())<<" frame="<<drawn<<"\n";
+                        std::string soundError;
+                        if(runtimeAudio&&!runtimeAudio->play_named_plain("MenuSelect",soundError))std::cerr<<"Character menu MenuSelect sound diagnostic: "<<soundError<<"\n";
+                    }
                     // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
                     if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n';
                         if(conditionWatch) { // P17 CONDITIONS: the restored quest state is the new baseline (no flips on reload)
@@ -6809,6 +6844,14 @@ int main(int argc,char** argv) {
                 world[12]=position.x;world[13]=position.y;world[14]=position.z;
                 return world;
             };
+            // B105: prepare the same current pose before target, FX and draw consumers borrow it.
+            const auto actorDrawWorld=[&](const f::PopulationActor& actor) {
+                const auto& p=actor.transform;
+                const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
+                const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}:f::Vec3{p[12],p[13],p[14]};
+                const auto rotation=live?live->transform.rotation:std::array<float,3>{0,0,std::atan2(p[1],p[0])};
+                return sourceActorWorld(actor.definition.stableId,position,rotation,{std::hypot(p[0],p[1]),std::hypot(p[4],p[5]),p[10]});
+            };
             if(options.sourceTargetPosition) {
                 for(const auto& entry:combatSession->world()->actors()) {
                     auto* actor=combatSession->actor(entry.first);auto* graphics=actorVisual(entry.first);
@@ -6861,6 +6904,13 @@ int main(int argc,char** argv) {
             auto activeCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
             if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=campaignHost.camera_near_override()>0?campaignHost.camera_near_override():originalCamera.config().nearPlane;activeCamera.farPlane=campaignHost.camera_far_override()>0?campaignHost.camera_far_override():originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
+            const f::CameraPose billboardCamera{{activeCamera.eye.x,activeCamera.eye.y,activeCamera.eye.z},
+                {activeCamera.target.x,activeCamera.target.y,activeCamera.target.z},
+                {activeCamera.up.x,activeCamera.up.y,activeCamera.up.z},activeCamera.verticalFovDegrees};
+            const auto billboardView=f::sourceCameraViewMatrix(billboardCamera);
+            for(auto& actor:population.actors())if(actor.enabled)
+                if(!actor.visual.prepare_camera_billboards(actorDrawWorld(actor),billboardView,activeCamera.eye,error))
+                    throw std::runtime_error("Actor billboard: "+error);
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
                 std::string effectError;bool prepared=true;
@@ -6882,7 +6932,7 @@ int main(int argc,char** argv) {
                     for(const auto& view:leverRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->visual_file,view.visual,view.instance->transform);
                     for(const auto& view:decorRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->dae,view.visual,view.instance->transform);
                     if(embeddedSceneFxOwner!=sourceEffectsFactory.get()) {
-                        embeddedSceneFx.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
+                        embeddedSceneFx.clear();embeddedActorFx.clear();embeddedActorTried.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
                         for(const auto& item:embeddedVisuals) {
                             if(item.model->empty())continue;
                             std::vector<std::uint8_t> raw;
@@ -6910,7 +6960,39 @@ int main(int argc,char** argv) {
                             std::cerr<<"Embedded FX "<<*item.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
                         }
                     }
-                    sourceEffectsFactory->set_embedded_sources(embeddedSceneFx.sources());
+                    // B105: keep skinned actor meshes on CharacterVisual. Embedded resources contribute only
+                    // particles, and use a separate ID domain because actor IDs are full-width content hashes.
+                    embeddedActorFx.begin_frame();
+                    for(auto& actor:population.actors()) {
+                        const auto* config=actor.visual.configuration();
+                        if(!actor.enabled||!config||config->model_path.empty())continue;
+                        const auto& modelPath=config->model_path;
+                        const auto key=actor.definition.stableId;
+                        const auto tried=embeddedActorTried.find(key);
+                        if(tried==embeddedActorTried.end()||tried->second!=modelPath) {
+                            embeddedActorFx.detach(key);
+                            embeddedActorTried[key]=modelPath;
+                            std::vector<std::uint8_t> raw;
+                            try{raw=assets.read(modelPath);}catch(const std::exception&){raw.clear();}
+                            const bool readable=!raw.empty();
+                            std::string reason;
+                            if(readable&&embeddedActorFx.attach(key,modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
+                                std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<modelPath<<'\n';
+                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<modelPath<<": "<<(!readable?std::string("unreadable"):reason)<<'\n';
+                        }
+                        if(!embeddedActorFx.attached(key))continue;
+                        std::int32_t sourceMs=0;
+                        if(!f::effects::embedded_clip_source_ms_v1(actor.visual,sourceMs))continue;
+                        const auto world=actorDrawWorld(actor);
+                        std::string embeddedError;
+                        if(!embeddedActorFx.update(key,sourceMs,sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,embeddedError,actor.visual.retained_scene_borrow())) {
+                            std::cerr<<"Embedded FX actor "<<actor.definition.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
+                        }
+                    }
+                    auto embeddedSources=embeddedSceneFx.sources();
+                    const auto actorSources=embeddedActorFx.sources();
+                    embeddedSources.insert(embeddedSources.end(),actorSources.begin(),actorSources.end());
+                    sourceEffectsFactory->set_embedded_sources(std::move(embeddedSources));
                     if(embeddedPerf){embeddedMs+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-embeddedT0).count();
                         if(++embeddedFrames==120){std::cout<<"DH_PERF embedded_fx_ms_avg="<<embeddedMs/embeddedFrames<<" attached="<<embeddedSceneFx.size()<<" frames="<<embeddedFrames<<'\n';embeddedMs=0;embeddedFrames=0;}}
                 }
@@ -7013,16 +7095,9 @@ int main(int argc,char** argv) {
                     } else queue.submit(mesh,world);
                 }
             }
-            for(const auto& actor:population.actors()) {
+            for(auto& actor:population.actors()) {
                 if(!actor.enabled)continue;
-                auto placement=actor.transform;
-                const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
-                const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}
-                                           :f::Vec3{placement[12],placement[13],placement[14]};
-                const std::array<float,3> rotation=live?live->transform.rotation
-                    :std::array<float,3>{0,0,std::atan2(placement[1],placement[0])};
-                const f::Vec3 scale{std::hypot(placement[0],placement[1]),std::hypot(placement[4],placement[5]),placement[10]};
-                placement=sourceActorWorld(actor.definition.stableId,position,rotation,scale);
+                const auto placement=actorDrawWorld(actor);
                 if(campaignHost.scripted_clip_pose(actor.definition.stableId)&&std::find(options.captureFrames.begin(),options.captureFrames.end(),drawn+1)!=options.captureFrames.end()){
                     std::array<float,3> low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
                     for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}
@@ -7162,26 +7237,35 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     }
                     cinematicText.draw(overlay);
                 }
-                // P17 TRANSITIONS2: travel prompt (placeholder frame; text through the frontend text owner, stage units as the cinematic boxes).
-                if(armedPrompt&&combatSession&&campaignHost.hud_visible()) {
+                // B113: original destination button, mapped with the same aspect-preserving stage viewport as its text.
+                // Original QuestMsgDialog/QuestCompletedMsgDialog hides LocationsMenu until its banner leaves.
+                if(options.hud&&armedPrompt&&combatSession&&campaignHost.hud_visible()&&!questBanners.visible()) {
                     const auto promptFrame=f::transitions::build_prompt_frame(*armedPrompt);
                     const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
-                    for(const auto& rect:promptFrame.rects) {
-                        const float x0=(rect.x+view.offset)*view.scale,y0=rect.y*view.scale,x1=(rect.x+rect.w+view.offset)*view.scale,y1=(rect.y+rect.h)*view.scale;
-                        const std::vector<f::OverlayTriangleVertex> quad{{x0,y0,0,0},{x1,y0,0,0},{x1,y1,0,0},{x0,y0,0,0},{x1,y1,0,0},{x0,y1,0,0}};
-                        if(!overlay.drawTriangles(quad,0,{rect.rgba[0]/255.f,rect.rgba[1]/255.f,rect.rgba[2]/255.f,rect.rgba[3]/255.f}))throw std::runtime_error("Transition prompt box draw rejected");
+                    if(promptFrame.art) for(const auto& batch:*promptFrame.art) {
+                        std::vector<f::OverlayTriangleVertex> vertices; vertices.reserve(batch.triangles.size());
+                        for(const auto& vertex:batch.triangles)
+                            vertices.push_back({(vertex.x+view.offset)*view.scale,vertex.y*view.scale,vertex.u,vertex.v});
+                        if(!overlay.drawTriangles(vertices,batch.bitmap?hudTexture:0,batch.rgba))throw std::runtime_error("Travel source button draw rejected");
                     }
                     const float promptScale=480.f*view.scale/float(window.width());
                     f::frontend::art::ScreenArt promptArt;
                     auto promptSignature=std::to_string(window.width())+":"+std::to_string(window.height());
                     for(const auto& item:promptFrame.texts) {
                         f::frontend::art::TextField field;
-                        field.font_id=5; // placeholder face (Fontin SmallCaps), as the cinematic caption
-                        field.source_height=14; field.rgba=item.rgba; field.align=0; field.margins={2,2,0}; field.leading=0;
-                        field.matrix={promptScale,0,0,1,0,0};
+                        // HUD font7 and frontend font5 both bind the original Fontin SmallCaps.ttf.
+                        field.font_id=5;
+                        field.source_height=item.height; field.rgba=item.rgba; field.align=item.align; field.margins={0,0,0}; field.leading=2;
+                        field.font_metrics={911.f,215.f,102.f}; // DefineFont3 font7 raw ascent/descent/leading divided by20
+                        f::HudGlyphRun measured;
+                        if(!targetFont.raster(item.text,int(item.height),2,measured,error))throw std::runtime_error("Travel text metrics: "+error);
+                        const float fit=f::transitions::prompt_text_fit(item,measured.advance);
+                        if(fit<=0)throw std::runtime_error("Travel text metrics rejected");
+                        // Keep long translations on one line within the authored box. Fit is a PC adaptation.
                         const float left=(item.x+view.offset)*promptScale;
-                        field.local_bounds={left,left+item.w*promptScale,item.y,item.y+item.h};
-                        field.bounds=field.local_bounds;
+                        field.matrix={promptScale*fit,0,0,fit,left,item.y+(1.f-fit)*item.height*.5f};
+                        field.local_bounds={0,item.w/fit,0,item.h/fit};
+                        field.bounds={left,left+item.w*promptScale,item.y,item.y+item.h};
                         field.initial_text=item.text;
                         promptArt.text_fields.push_back(field);
                         promptSignature+=':'+item.text;
@@ -7261,7 +7345,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     const auto classRow=std::find(properties.characters.names.begin(),properties.characters.names.end(),player->definition_id);
                     if(classRow==properties.characters.names.end())throw std::runtime_error("Original class header has no same player source row");
                     if(!menuLocalization.character_class_level(properties.characters,static_cast<std::int32_t>(classRow-properties.characters.names.begin()),&state,bindings.class_label,error))throw std::runtime_error("Original class header: "+error);
-                    bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e);};
+                    bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e,bindings.properties);};
                     // P16 MAPFIX: MapName = MenuCharMenu_Map::ShowLevelName (IDA 0x45335c): LevelList row of the current
                     // level (Level+60), LevelName StrID at row word 9 (IDA +36), localized through the StringManager lookup.
                     bindings.map_name.clear();

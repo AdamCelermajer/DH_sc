@@ -1,5 +1,6 @@
 #pragma once
 #include "particle_cloud_runtime_v2.hpp"
+#include "particle_color_tracks_v1.hpp"
 namespace dh2::animation {
 struct ParticleCloudForcesV3 {
  void* context{};
@@ -12,10 +13,11 @@ class ParticleCloudRuntimeV3 {
  ParticleEmissionOwner& emission_;ParticleCloudModelsV1& models_;
  std::int32_t& seed_;const std::int32_t initial_seed_;
  ParticleCloudRenderV1 render_;ParticleCloudEmitterV2 emitter_;ParticleCloudForcesV3 forces_;
+ const ParticleColorTracksV1* color_{};
  float now_=0,last_=0;bool initialized_=false;
 public:
  ParticleCloudRuntimeV3(ParticleEmissionOwner&,ParticleCloudModelsV1&,std::int32_t&,
-  std::int32_t,ParticleCloudRenderV1,ParticleCloudEmitterV2,ParticleCloudForcesV3);
+  std::int32_t,ParticleCloudRenderV1,ParticleCloudEmitterV2,ParticleCloudForcesV3,const ParticleColorTracksV1* color=nullptr);
  int initialize();
  int update(float,const ParticleSeed100&,const ParticleCloudFrameV1&);
 };

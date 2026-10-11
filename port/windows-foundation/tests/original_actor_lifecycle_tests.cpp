@@ -20,6 +20,16 @@ int main(){try{
  calls.clear();check(lifecycle.put_idle(actor.id,e),e);check(!calls.empty(),"Original same-state blur/focus incorrectly suppressed");
  check(lifecycle.put_limbus(actor.id,e),e);actor.transform.position={100,200,300};calls.clear();check(lifecycle.spawn(actor.id,e),e);check(actor.transform.position==facts.initial_transform.position||actor.transform.position==std::array<float,3>{10,20,258},"Limbus source anchor not restored");
  check(calls.size()>4&&calls[1].operation==OriginalLifecycleOperation::restore_initial_position&&calls[2].operation==OriginalLifecycleOperation::restore_initial_rotation&&calls[3].operation==OriginalLifecycleOperation::revive,"Limbus Blur restoration order");
+ // B080/B094: an early skipped cutscene leaves Spawn before its interactive marker.
+ // The explicit Idle owner must perform Spawn.Blur and admit the body exactly once.
+ const auto anchor=actor.transform.position;calls.clear();check(lifecycle.put_idle(actor.id,e),e);
+ unsigned physicalAdmissions=0;for(const auto&q:calls)physicalAdmissions+=q.operation==OriginalLifecycleOperation::init_physical;
+ check(physicalAdmissions==1&&calls.front().operation==OriginalLifecycleOperation::init_physical,
+       "Skipped Spawn must admit physics through Spawn.Blur before Idle.Focus");
+ check(lifecycle.combat_enabled(actor.id)&&lifecycle.status(actor.id)->state==3&&actor.transform.position==anchor,
+       "Skipped Spawn must become targetable/combat-ready at its existing authored anchor");
+ calls.clear();check(lifecycle.put_idle(actor.id,e),e);for(const auto&q:calls)check(q.operation!=OriginalLifecycleOperation::init_physical,
+       "Duplicate skipped Idle must not create a second physical body");
  lifecycle.clear();check(!lifecycle.status(actor.id),"Restore detach must clear lifecycle references");
  ActorState missing;missing.id=2;OriginalLifecycleFacts bad=facts;bad.pre_spawn_has_animation.reset();check(!lifecycle.add(missing,bad,e),"Unbound source PreSpawn fact accepted");
  std::cout<<"Original lifecycle tests passed preset0->state17->Spawn1->Idle3 sameActor=true sourceFlags=true\n";
