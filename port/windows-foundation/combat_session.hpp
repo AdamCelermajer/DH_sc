@@ -274,6 +274,7 @@ public:
     bool has_player_locomotion(const std::string& alias)const noexcept;
     const class RetainedPosePlayback* retained_player_pose()const noexcept;
     const class RetainedPosePlayback* retained_actor_pose(ActorId)const noexcept;
+    bool restored_actor_dead(ActorId)const noexcept;
     // Same visual animated by this session. Borrow only while the current
     // actor_binding_lease is retained; reacquire after detach/restore.
     const CharacterVisual* retained_actor_visual_borrow(ActorId)const noexcept;

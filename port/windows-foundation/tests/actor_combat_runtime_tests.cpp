@@ -218,9 +218,51 @@ void restored_terminal_death() {
     CombatPoseBindings poses;poses.death_clip_id="death";poses.restore_dead_terminal=true;
     check(runtime.bind(world.actors[1],binding,poses,error),error);std::vector<DamageEvent> events;
     check(runtime.owns_pose(1)&&holds==1,"Restored corpse did not acquire terminal pose");
+    check(runtime.restored_dead(1)&&runtime.death_complete(1),"Restored source-dead fact lost when retained source never finishes");
     check(runtime.update(2,events,error)&&visual.updates==0&&world.actors[1].transform.position==std::array<float,3>{12,34,56},"Restored death replayed visual displacement");
     revive_actor_state(world.actors[1]);
+    check(!runtime.restored_dead(1),"Revived actor retained restored source-dead admission");
     check(runtime.update(0,events,error)&&!runtime.owns_pose(1),"Revived corpse retained terminal hold");
+}
+void restored_dead_source_gate() {
+    TestWorld world;world.actors[1]=actor(1);world.actors[1].health=0;
+    world.actors[2]=actor(2);kill_actor_state(world.actors[2]);
+    Visual visual;visual.add("death",0,200,1000);
+    CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;
+    CombatPoseBindings poses;poses.death_clip_id="death";poses.restore_dead_terminal=true;
+    check(runtime.bind(world.actors[1],visual.binding(),poses,error),error);
+    check(!runtime.restored_dead(1),"HP0 presentation actor was treated as a restored actual death");
+    poses.death_clip_id.clear();
+    check(runtime.bind(world.actors[2],visual.binding(),poses,error)&&runtime.restored_dead(2),
+          "Saved actual source-dead admission incorrectly requires a selected death clip");
+    std::vector<DamageEvent> events;
+    check(runtime.update(1,events,error)&&runtime.restored_dead(2)&&!runtime.restored_dead(1),
+          "Background update lost restored source-dead/no-Died admission or promoted HP0");
+    check(runtime.kill(1,error)&&!runtime.restored_dead(1),"A new actual kill inherited saved-dead admission");
+    check(!runtime.restored_dead(999),"Unknown actor has restored-dead admission");
+}
+void revived_restored_actor_new_death() {
+    // Source-dead restoration is an occurrence, not a permanent actor role.
+    // Cover re-kill both before and after the runtime observes revival.
+    for(int producer=0;producer<4;++producer) {
+        TestWorld world;world.actors[1]=actor(1);world.actors[2]=actor(2);kill_actor_state(world.actors[2]);
+        Visual visual;visual.add("death",0,200,1000);
+        CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;
+        CombatPoseBindings poses;poses.death_clip_id="death";poses.restore_dead_terminal=true;
+        check(runtime.bind(world.actors[2],visual.binding(),poses,error)&&runtime.restored_dead(2),error);
+        revive_actor_state(world.actors[2]);std::vector<DamageEvent> events;
+        if(producer==0)check(runtime.update(0,events,error),error);
+        if(producer<2)check(runtime.kill(2,error),error);
+        else if(producer==2) {
+            DamageEvent hit;
+            check(runtime.apply_calculated_hit(1,2,"ally-source-result","lethal-after-revive",20,{}, {},hit,error)&&
+                  hit.applied&&hit.target_died,error);
+        }else {kill_actor_state(world.actors[2]);check(runtime.death_event(2,error),error);}
+        check(runtime.owns_pose(2)&&!runtime.restored_dead(2)&&!runtime.death_complete(2),
+              "New legitimate death reused old restored terminal pose/admission");
+        check(runtime.update(.1,events,error)&&!runtime.death_complete(2),"New Died ended immediately after restored revival");
+        check(runtime.update(.11,events,error)&&runtime.death_complete(2),"New Died did not advance to its actual end");
+    }
 }
 void synchronous_source_delivery() {
     for(int scenario=0;scenario<5;++scenario) {
@@ -509,6 +551,8 @@ int main() {
         departure_timing();
         source_clock_timing();
         restored_terminal_death();
+        restored_dead_source_gate();
+        revived_restored_actor_new_death();
         yielded_death_pose_not_reasserted();
         synchronous_source_delivery();
         source_outcome_reactions();
