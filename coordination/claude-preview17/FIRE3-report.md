@@ -27,6 +27,11 @@ Evidence folder (not committed): `DH_sc/.local-inputs/claude-preview17/fire3/` (
 - The composite used by the embedded path is `CharacterAuthoredResourceFactoryV32` -> `AuthoredFxMeshGraphV32` (`runtime_effects_factory_v1.cpp` line 25).
 - Mesh path: skinned receivers use palette = bone world * inverse bind * bind shape (`engine-skinning/skinning.cpp`), then world = outer. Bone world matrices are rebuilt in `AuthoredFxTransformOwnerV5::sample`.
 
+### Runtime skin diagnostic (`DH_FX_DEBUG=1`, build `p17fire3` at `cb89b539`, run `fire3/dbg/`)
+- The skinned flame mesh (node 1, 63 vertices, 4 joints) has bind (undeformed) bounds x 21..818, y -752..752, z -139..529 as read from the receiver geometry.
+- After `skinning::palette`/`positions` the deformed bounds are x 177..1037, y -716..808, **z 259..967**. The whole sheet is lifted about 400 units and its base floats at z 259 (door origin z 74). The sheet is no longer on the floor and also not tall in the expected place.
+- The palette offset is the cause: each joint's palette is `world * inverse_bind * bind_shape` with the animated bone world. Bone_01 animated translation is (206, 146, 904), which is absolute in the clip. If the inverse bind assumes a different rest pose, the offset appears. The joint-level breakdown is being measured (`FXJOINT` lines, build `p17fire3` after `joint diagnostic` commit).
+
 ## Implementation
 - (pending)
 
