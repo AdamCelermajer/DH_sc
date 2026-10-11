@@ -1,5 +1,7 @@
-// P17 TRANSITIONS2: travel prompt selection and placeholder frame (see the header for the original rule).
+// P17 TRANSITIONS2: travel prompt selection and original destination button (see the header for the original rule).
 #include "transition_prompt_v1.hpp"
+#include <algorithm>
+#include <cmath>
 
 namespace dh::foundation::transitions {
 
@@ -25,16 +27,25 @@ std::optional<ArmedExit> find_armed_exit(const ExitZoneSet& zones,
     return std::nullopt;
 }
 
+#include "transition_prompt_art_v1.inc"
+
 PromptFrame build_prompt_frame(const ArmedExit& exit) {
-    // PLACEHOLDER art: dark panel, gold frame. Text positions are the frame's own layout (stage units).
     PromptFrame frame;
-    frame.rects.push_back({130.f, 196.f, 220.f, 52.f, {0, 0, 0, 184}});          // panel
-    frame.rects.push_back({130.f, 196.f, 220.f, 1.f, {168, 128, 64, 255}});       // gold frame, top
-    frame.rects.push_back({130.f, 247.f, 220.f, 1.f, {168, 128, 64, 255}});       // gold frame, bottom
-    frame.texts.push_back({140.f, 202.f, 200.f, 14.f, "Travel to:", {255, 230, 171, 255}});
-    frame.texts.push_back({140.f, 218.f, 200.f, 20.f, exit.target_display, {255, 255, 255, 255}});
-    frame.texts.push_back({300.f, 202.f, 44.f, 14.f, "[E]", {191, 191, 191, 255}});  // PC key hint
+    frame.art = &travelButtonArt;
+    auto destination = travelDestination;
+    destination.text = exit.target_display;
+    frame.texts.push_back(std::move(destination));
+    // PC adaptation: dedicated travel key beside the authored control. No extra original caption.
+    frame.texts.push_back({320.f, 228.45f, 24.f, 15.9f, "[E]", {255,255,255,255}, 10.f, 0});
     return frame;
+}
+
+float prompt_text_fit(const PromptText& text, float measured_width) noexcept {
+    // EditText keeps a two-pixel internal gutter on either side (source text layout WIDTH_FUDGE).
+    const float available = text.w - 4.f;
+    if (!std::isfinite(measured_width) || measured_width < 0.f ||
+        !std::isfinite(available) || available <= 0.f) return 0.f;
+    return measured_width <= available ? 1.f : available / measured_width;
 }
 
 } // namespace dh::foundation::transitions
