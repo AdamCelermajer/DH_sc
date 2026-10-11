@@ -721,6 +721,9 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(level_savegame_object_manager_v1_audit PRIVATE dh2_level_world)
  target_compile_features(level_savegame_object_manager_v1_audit PRIVATE cxx_std_17)
  target_compile_options(level_savegame_object_manager_v1_audit PRIVATE -Wall -Wextra -Werror -UNDEBUG)
+ add_executable(packet_slot_owner_v1_audit tests/packet_slot_owner_v1.cpp)
+ target_compile_features(packet_slot_owner_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(packet_slot_owner_v1_audit PRIVATE -Wall -Wextra -Werror -UNDEBUG)
  add_executable(level_savegame_player_load_v1_audit
   tests/level_savegame_player_load_v1.cpp)
  target_link_libraries(level_savegame_player_load_v1_audit PRIVATE dh2_level_world)

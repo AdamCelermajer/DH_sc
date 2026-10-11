@@ -2,6 +2,7 @@
 
 #include "game_object_zoning_visibility.hpp"
 #include "room_zone_enrollment.hpp"
+#include "packet_slot_owner_v1.hpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -97,6 +98,24 @@ public:
     Owner& operator=(const Owner&) = delete;
     Owner(Owner&&) = delete;
     Owner& operator=(Owner&&) = delete;
+
+    // NetworkInitLevel 0x340be0 always sets +0x1ac, including offline mode;
+    // only the source online+5 route registers packet slot 3.
+    void network_init_level(packet_slot_owner_v1::Owner& packets,
+                            bool online_byte_5,
+                            packet_slot_owner_v1::Callbacks callbacks) noexcept {
+        if (online_byte_5) packets.register_slot(3, callbacks);
+        network_initialized_1ac_ = 1;
+    }
+    // NetworkUnInitLevel 0x340bc4 unregisters slot 3 before clearing +0x1ac.
+    // It neither Flushes GameObjects nor destroys the process packet registry.
+    void network_uninit_level(packet_slot_owner_v1::Owner& packets) noexcept {
+        packets.unregister_slot(3);
+        network_initialized_1ac_ = 0;
+    }
+    std::uint8_t network_initialized_1ac() const noexcept {
+        return network_initialized_1ac_;
+    }
 
     Status add_object(SourceHandle source_handle, const GameObject& object,
                       GameObject** stored) noexcept;
@@ -220,6 +239,7 @@ private:
     std::list<Address> update_objects_;
     std::list<Address> staged_update_objects_;
     std::uint32_t visible_room_zone_count_{};
+    std::uint8_t network_initialized_1ac_{};
 };
 
 } // namespace dh2::object_manager_runtime_owner_v1
