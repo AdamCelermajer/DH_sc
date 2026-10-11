@@ -94,7 +94,11 @@ bool AuthoredFxMeshGraphV32::sample(std::int32_t ms,std::string& error){try{auto
  return true;
 }catch(const std::exception& e){error=e.what();return false;}}
 bool AuthoredFxMeshGraphV32::draw_sources(const math::Matrix4f& outer,std::vector<CharacterFxMeshDrawSourceV4>& out,std::string& error)const{try{auto s=impl_;std::vector<CharacterFxMeshDrawSourceV4> result;
- for(const auto& receiver:s->receivers){math::Matrix4f local{},world{};if(!source_fx_node_world_matrix_v4(s->scene,receiver->node,local,error))return false;source_fx_matrix_multiply_v4(world,outer,local);std::vector<std::array<float,3>> deformed;if(!receiver->skin.nodes.empty()){std::vector<skinning::Matrix> palette;if(!skinning::palette(receiver->skin,s->scene,palette,error)||!skinning::positions(receiver->skin,palette,receiver->geometry.positions,deformed,error))return false;world=outer;
+ for(const auto& receiver:s->receivers){math::Matrix4f local{},world{};if(!source_fx_node_world_matrix_v4(s->scene,receiver->node,local,error))return false;source_fx_matrix_multiply_v4(world,outer,local);std::vector<std::array<float,3>> deformed;if(!receiver->skin.nodes.empty()){std::vector<skinning::Matrix> palette;
+   { static const bool nobind=std::getenv("DH_FX_NOBIND")!=nullptr; // EXPERIMENT: palette without bind_shape
+     if(nobind){ palette.clear(); for(std::size_t j=0;j<receiver->skin.nodes.size();++j){ skinning::Matrix m{}; float inter[16]; dh2_skin_matrix(inter,s->scene.graph[receiver->skin.nodes[j]].world.data(),receiver->skin.inverse_bind[j].data()); std::copy_n(inter,16,m.begin()); palette.push_back(m);} }
+     else if(!skinning::palette(receiver->skin,s->scene,palette,error))return false; }
+   if(!skinning::positions(receiver->skin,palette,receiver->geometry.positions,deformed,error))return false;world=outer;
    { static const bool dbg=std::getenv("DH_FX_DEBUG")!=nullptr; static int n=0;
      if(dbg&&(n++%60)==0){ float umin[3]{1e9f,1e9f,1e9f},umax[3]{-1e9f,-1e9f,-1e9f},dmin[3]{1e9f,1e9f,1e9f},dmax[3]{-1e9f,-1e9f,-1e9f};
        for(const auto& p:receiver->geometry.positions)for(int k=0;k<3;++k){umin[k]=std::min(umin[k],p[k]);umax[k]=std::max(umax[k],p[k]);}
