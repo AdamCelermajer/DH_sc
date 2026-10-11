@@ -657,7 +657,7 @@ bool CampaignHost::advance_actor_clips(std::int32_t dt_ms, std::string& error) {
     return true;
 }
 
-void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, bool qualified) {
+void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, bool qualified, ActorId local_player) {
     if (!runtime_) return;
     // Diagnostic trace (trigger mode only): first frame, then every 30 frames.
     if (!reported_player_ || frames_ % 30 == 0) {
@@ -686,7 +686,8 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
         else
             std::cout << "[campaign] restore incomplete: " << restore_error << '\n';
     }
-    zones_.update(*runtime_, player, qualified, -1);
+    // Evaluate after commands: BeginScriptedCutScene can mark/teleport the player in this very tick.
+    zones_.update(*runtime_, player, qualified && !character_scripted(local_player), -1);
 }
 
 void CampaignHost::print_summary(std::ostream& out) const {

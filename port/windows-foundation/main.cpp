@@ -1354,6 +1354,7 @@ int main(int argc,char** argv) {
             auto customization=[&](const f::ActorDefinition&,const f::ActorProfile&) {
                 f::ActorCustomization c;c.allow_missing_animation_targets=true;
                 c.use_authored_modular_defaults=true;
+                c.include_static_instances=true; // B068: source VisualObject registers the whole model, including rigid glow meshes.
                 return c;
             };
             if(!population.load(assets,options.level.generic_string(),profiles,policy,customization,error,options.populationTemplates?&templateSelection:nullptr))throw std::runtime_error("Population: "+error);
@@ -1524,7 +1525,7 @@ int main(int argc,char** argv) {
             options.combat.playerVisualConfig=options.character;
             options.combat.selectedPlayerProfile=frontendStarted?&state:nullptr;
             if(populationStartupRandom){options.combat.initialRandomState=*populationStartupRandom;options.combat.diagnosticRngSeed.reset();}
-            for(auto& profile:options.combat.profiles)if(profile.first!=options.combat.playerProfileId)profile.second.customization.use_authored_modular_defaults=true;
+            for(auto& profile:options.combat.profiles)if(profile.first!=options.combat.playerProfileId){profile.second.customization.use_authored_modular_defaults=true;profile.second.customization.include_static_instances=true;}
             options.combat.profiles[options.combat.playerProfileId].propertyOptions.level_raw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
             f::ActorCustomization customization;customization.skin_id_contains=options.character.skin_id_contains;customization.allow_missing_animation_targets=options.character.allow_missing_animation_targets;
             customization.controller_ids=options.character.controller_ids;
@@ -4224,7 +4225,7 @@ int main(int argc,char** argv) {
             }
             // P16 HOST: executor tick on the frame clock, then trigger contacts (only with --campaign-triggers).
             if(campaignHost.enabled()&&combatSession) {
-                if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(std::int32_t(dt*1000.0),{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive());
+                if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(std::int32_t(dt*1000.0),{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive(),player->id);
             }
             // D1 (OPENING3): Quest::Update runs every frame after the script executor, so a state whose script has
             // finished advances on the frame it ends (the Movement tutorial follows the Swamp intro, not the bind).

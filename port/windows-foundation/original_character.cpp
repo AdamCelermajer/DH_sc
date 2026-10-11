@@ -108,7 +108,7 @@ struct CharacterVisual::Impl {
                 // Original object _colbox_ groups supply physical bounds, not
                 // visible model geometry. Retain their graph for source sampling.
                 // Existing actor configurations keep their established policy.
-                if(object_scene){
+                { // B068: VisualObject ctor 0x472a0c hides `_colbox_` for characters as well as decor.
                     auto node=static_cast<std::int32_t>(instance.node_index);bool collider=false;
                     while(node>=0){const auto& source=scene.graph.at(node);
                         const auto& name=source.name.empty()?source.id:source.name;

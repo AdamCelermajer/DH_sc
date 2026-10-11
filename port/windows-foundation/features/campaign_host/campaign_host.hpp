@@ -152,6 +152,8 @@ public:
     // B068: a scripted PlayActorAnim clip owns the actor's pose (playing, or finished and held) until PutCharacterInIdle: the per-frame
     // locomotion selection of the local player must not replace it (the original CharStateMachine stays in the scripted anim state).
     bool scripted_clip_pose(ActorId id) const noexcept { return held_clip_actors_.count(id) != 0; }
+    // TriggerZone::Update 0x39b458 ignores contacts while the local character is marked scripted (+5248).
+    bool character_scripted(ActorId id) const noexcept { return scripted_.count(id) != 0; }
     bool save_blocked() const noexcept { return save_blocked_; }
     bool global_controller_blocked() const noexcept { return global_blocked_; }
 
@@ -162,7 +164,7 @@ public:
 
     // One frame: advances the executor on the caller clock, then feeds trigger contacts.
     // An executor error aborts only that cutscene: flags are restored and running scripts abandoned.
-    void frame(std::int32_t dt_ms,const std::array<float,3>& player,bool qualified);
+    void frame(std::int32_t dt_ms,const std::array<float,3>& player,bool qualified,ActorId local_player=invalid_actor_id);
     bool enabled() const noexcept { return runtime_ != nullptr; }
     // D3 (OPENING3): campaign lifecycle through the save component mechanism. A neutral world object (fixed ID, bound
     // at level load like the containers) carries component campaign_lifecycle_v1 (trigger once-activation counts).
