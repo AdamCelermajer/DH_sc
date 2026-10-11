@@ -165,7 +165,8 @@ bool DoorRuntimeV1::adopt(const AssetCatalog& assets, std::vector<std::string>& 
             if (const auto* markers = visual->markers(clip, markerError))
                 for (const auto& marker : markers->markers())
                     if (marker.name == (direction ? "opened" : "closed") &&
-                        marker.time_ms >= start && marker.time_ms <= end)
+                        marker.time_ms >= start && marker.time_ms <= end &&
+                        (slot.marker_ms[direction] < 0 || marker.time_ms < slot.marker_ms[direction]))
                         slot.marker_ms[direction] = marker.time_ms;
         }
         slot.visual = std::move(visual);

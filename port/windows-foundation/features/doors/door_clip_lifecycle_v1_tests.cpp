@@ -25,10 +25,12 @@ int main(int argc,char** argv){try{
  auto execute=[&](OriginalCampaignCommand& command,bool skip=false){check(commands.command(CampaignCommandPhase::execute,command,-1,skip,handled,blocking,error),error);check(handled,"door router admission");};
  execute(missing);check(!runtime.busy(0)&&runtime.state(0)==DoorStateV1::closed,"missing name mutates door");
  execute(open);check(runtime.busy(0)&&runtime.state(0)==DoorStateV1::opening,"normal open admission");
+ check(runtime.take_sound_requests().size()==(runtime.instance(0).sound_open<0?0u:1u),"one source open sound request");
  check(runtime.update(.5,error),error);
  check(runtime.state(0)==DoorStateV1::opened&&runtime.busy(0)&&!runtime.collision_closed(0),"opened marker applies filter before clip end");
  const auto clock=visual.animation_elapsed_seconds();execute(open);execute(close);
  check(visual.animation_elapsed_seconds()==clock&&std::string(visual.active_clip_name())=="open","busy duplicate/reverse command restarts clip");
+ check(runtime.take_sound_requests().empty(),"busy duplicate/reverse command repeats sound");
  check(commands.command(CampaignCommandPhase::is_blocking,open,-1,false,handled,blocking,error)&&blocking,"wait command unblocks at marker");
  check(runtime.update(1,error),error);
  check(!runtime.busy(0)&&runtime.state(0)==DoorStateV1::opened,"open callback clears busy");
