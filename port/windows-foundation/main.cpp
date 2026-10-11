@@ -1988,6 +1988,7 @@ int main(int argc,char** argv) {
         f::quest_runtime::QuestRuntimeV1* questRuntimeForCheckpoint=nullptr;
         std::array<float,3> activeSourceCheckpointKey{};
         bool sourceCheckpointKeyLoaded=false;
+        bool levelStartCheckpointDone=false; // B108
         if(!options.save.empty()) {
             const auto path=deathCheckpointPath();
             if(fs::exists(path)) {
@@ -5883,6 +5884,23 @@ int main(int argc,char** argv) {
                 if(!questRuntime->save(questSaveError)) std::cerr<<"Quest save diagnostic: "<<questSaveError<<'\n';
                 for(const auto& banner:takeQuestBanners())
                     std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)<<" row="<<banner.row<<" (frame)\n";
+            }
+            // B108: Level state 0x23 initial checkpoint (IDA Level state machine ~179586): when LevelSavegame::ValidateCheckpoint fails (no
+            // checkpoint record for this level) or the level was entered by a transition (Level+245), Level::CheckpointSave runs once at the
+            // spawn point (key = spawn, revive = the Character position; arrival: revive = spawn). Same selective snapshot as a CheckpointZone
+            // contact, so Continue after a death always has a record even when no CheckpointZone was touched.
+            if(combatSession&&!levelStartCheckpointDone&&drawn>=1&&!options.save.empty()&&!pendingTransition) {
+                if(const auto* player=combatSession->actor(combatSession->player_id()); player&&!player->is_dead()) {
+                    levelStartCheckpointDone=true;
+                    if(!fs::exists(deathCheckpointPath())||arrivedByTransition) {
+                        f::transitions::ExitZone startZone;startZone.kind=f::transitions::ZoneKind::checkpoint;startZone.name="level_start";
+                        startZone.source_position={player->transform.position[0],player->transform.position[1],player->transform.position[2]};
+                        activeSourceCheckpointKey={1e30f,1e30f,1e30f}; // Level::CheckpointSave has no same-key suppression (that is the zone's rule)
+                        std::string checkpointError;
+                        if(saveSourceCheckpointContact(startZone,*player,checkpointError))std::cout<<"Level start checkpoint frame="<<drawn<<'\n';
+                        else std::cout<<"Level start checkpoint status=not_saved detail="<<checkpointError<<" frame="<<drawn<<'\n';
+                    } else std::cout<<"Level start checkpoint status=exists frame="<<drawn<<'\n';
+                }
             }
             // P17 TRANSITIONS: exit/checkpoint zone contacts of this frame, the --player-to test aid (places the player at the
             // zone centre), and the fast-travel confirm. An armed exit (player inside, condition true) becomes a pending transition
