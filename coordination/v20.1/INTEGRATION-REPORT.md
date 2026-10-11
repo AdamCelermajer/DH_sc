@@ -166,3 +166,62 @@ asset manifest, frozen v20.1 independent verification and corrected release
 notes are pending. See CODEX-RUN.md and the shared bug tracker for live ownership.
 No active bug has been moved to RESOLVED-BUGS and no package is accepted by this
 baseline report.
+
+## Combined root verification continuation — requested release v21
+
+The user requests the finished release as v21. Existing working coordination
+paths retain v20.1 for continuity; package/manifest/receipt/README use v21.
+
+- Reviewed B093 a2e1e5f7, B1031d69d39e, sounds758d970a, B07945571237 and
+  B097af2bf2cd integrated. Audio merge retains both plain B111 menu cues and the
+  typed original UI sound result API; no accepted cue implementation discarded.
+- Frozen root quest/skill build926ECA2E0DD4FDF62B09E945F5C1D2A62849E36FCDC01483AF970E7B5D7BE9B8
+  uses independent staged assets and own saves. Actual eighth moth death157
+  yields one row53 completion,20EXP/150GOLD, saved count8/state13. Authentic
+  QuestComplete165/UID12/token13 has300275 output sample frames. A subsequent
+  actual death is applied0, no quest repayment or completion cue, enemyXP5 only.
+  Strict decoded-save/token assertions and inspected f150/200/300 sequence are
+  preserved at `.local-inputs/v20.1/root/quest-sound-runtime`. These are copied
+  genuine count7/count8 profiles with bounded world-reset/startup relocation,
+  not an uninterrupted Act1 playthrough; silent output does not prove audibility.
+- Same frozen build: ordinary10ms mixed allocation controls spend stats then
+  skill and No, or skill then stats and Yes. No restores Strength10/statpoints2,
+  Hardiness0/skillpoints1; Yes saves Strength11/statpoints1, Hardiness1/skillpoints0.
+  Both reopen Skills correctly. Strict saved-field assertions and inspected
+  f1450 views in `root/mixed-allocation-runtime`. Existing isolated profile
+  has2stat/1skill points; no point grant or forced menu-release used.
+- Same frozen build: isolated sourceHP10 fixture with44actor campaign roster
+  genuinely dies132, Continue400 restores44actors/25objects and revives422 at
+  fullHP165.098/MP27.25. Space440/470 absorbed. Real duplicate WM_CLOSE at15s
+  saves once withHP98.8867 after further ordinary combat. Fresh copied profile,
+  world and selective checkpoint launch through normal frontend Continue,
+  validate44actors and restore exactHP98.8867/RNG10090467:129 atframe0, then
+  ordinary movement/combat. Inspected death300/revive430/resume30 sequence.
+  `root/death-close-runtime` and `root/death-frontend-resume` retain source
+  args/logs/captures/private close receipts. This is not dead-moth persistence proof.
+- Full root suite on that pre-B114/pre-B088 build:171/173 pass, known
+  session_skill_binding path failure and campaign_host timeout. Unchanged
+  isolated campaign_host retry passes0.92s; timeout cause remains unproven.
+  Full LastTest and failed list preserved as `ctest-quest-sound-rank*`.
+- Reviewed source specular patchf6720b2d, B115 reportb0499ca2 and B0882a95fed7
+  merged. New frozen2CC32B26ADEB44334C6C1B1853AA9628070A778645E194E157C260DCC6E90004,
+  `root/dh-foundation-npc-specular.exe`, builds successfully. Focused6/6 checks
+  (normal world/campaign, mixed training, source specular logic and WGL rendered
+  pixel/negative controls) pass. Overall B114 brightness/fog remains OPEN.
+- That new frozen build: normal frontend, own copied profile, E down held3500ms
+  confirms Cave192/arrival193, remains there through the hold; release then
+  new press confirms Swamp389/arrival390. Exactly2confirmations, no automatic
+  return. Inspected frame80 upper Bogwitch Cavern bronze destination, frame280
+  The Boglands in cave, frame500 back in Swamp. Fixture uses source player-to
+  exit relocation and a bounded3actor roster, not full campaign progression.
+  `root/travel-input-prompt-runtime` retains captures and Win32 input receipt.
+- Fresh moved-NPC marker repairc02bd8dd/docsd9dbfc60 independently reviewed and
+  merged after that freeze. Original raw setter evidence corrects +138 to
+  enabled(SetEnable0x33ddc8), +128visible(SetVisible0x33dcf8); B100/B112 reports
+  corrected. Original MothIntro footage267–283.5 supersedes B080's old absence
+  claim; B082 death scan absence is qualified rather than asserted for all footage.
+
+Remaining confirmed gates have owners: B083 final injury/skill focus ordering,
+B092/B098 reproduced persistent corpse restore, B101 original fire appearance,
+and B114 overall lighting/distance behavior. Final combined rebuild/full tests,
+asset packaging, independent frozen verification and acceptance remain pending.
