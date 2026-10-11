@@ -160,10 +160,10 @@ bool AmbientDecorRuntimeV1::load(const AssetCatalog& assets, const std::vector<A
     return true;
 }
 
-void AmbientDecorRuntimeV1::bind_textures(const std::function<std::uint32_t(const OriginalMaterial&)>& fn) {
+void AmbientDecorRuntimeV1::bind_textures(const OriginalTextureLookup& lookup) {
     for (auto& instance : instances_)
         for (std::size_t k = 0; k < instance.scene->mesh.ranges.size() && k < instance.scene->materials.size(); ++k)
-            instance.scene->mesh.ranges[k].material.texture = fn(instance.scene->materials[k]);
+            bind_original_material_textures(instance.scene->materials[k], instance.scene->mesh.ranges[k].material, lookup);
 }
 
 void AmbientDecorRuntimeV1::update(double seconds) {

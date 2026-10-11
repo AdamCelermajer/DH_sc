@@ -83,6 +83,48 @@ static void render_ownership(const std::filesystem::path& root,const std::vector
     check(runtime.load(assets,defs,{},notices,error)&&runtime.instances().size()==1,"Invalid sentinel leaves ordinary decor admitted");
 }
 
+static void full_material_transport(const std::filesystem::path& extra) {
+    f::AssetCatalog assets(extra);sd::AmbientDecorRuntimeV1 runtime;
+    f::ActorDefinition entrance;entrance.name="entrance";entrance.gametype="AnimatedDecor";
+    entrance.modelPath="data/3d/animateddecors/swamp_cave_entrance_troll.bdae";
+    entrance.properties["xrefobject"]="_anim_caveentrance_troll_";
+    entrance.placement={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+    std::vector<std::string> notices;std::string error;
+    check(runtime.load(assets,{entrance},{},notices,error)&&runtime.instances().size()==1,"real entrance loads once for material transport");
+    if(runtime.instances().empty())return;
+    auto& scene=*runtime.instances()[0].scene;
+    bool opaque=false,alpha=false;std::size_t lookups=0;
+    runtime.bind_textures([&](const std::string& uri,const std::string& mask,bool blue){
+        ++lookups;check(!uri.empty(),"real entrance texture URI retained");
+        if(!mask.empty())check(blue,"all entrance L1 alpha variants use source blue channel");
+        return mask.empty()&&uri=="env_swamp_spec.tga"?202u:101u;
+    });
+    for(std::size_t i=0;i<scene.materials.size();++i){const auto& source=scene.materials[i];const auto& range=scene.mesh.ranges[i];
+        if(source.id=="Material__11610"){
+            opaque=true;check(range.indexCount==380*3&&range.material.levelLit&&!range.material.transparent&&range.material.alphaReference==0,"authored opaque Sp flags and geometry retained");
+            check(source.specularMap=="env_swamp_spec.tga"&&near(source.glossiness,10)&&range.material.specularTexture==202&&near(range.material.glossiness,10),"opaque entrance retains authored specular binding");
+        }
+        if(source.id=="Material__11611"){
+            alpha=true;check(range.material.transparent&&source.specularMap=="env_swamp_spec.tga"&&range.material.specularTexture==202,"alpha Sp binding retained without claiming renderer alpha pass");
+        }
+    }
+    check(opaque&&alpha&&lookups>scene.materials.size()&&runtime.instances().size()==1,"specular lookups add resources without adding geometry");
+    for(const auto technique:{"L1_Vc_Al_Sp_----_----_----","L1_Vc_At_----_----_----_----","L1_Vc_Al_----_----_----_----"}){
+        f::OriginalMaterial source;source.diffuse="d";source.alphaMap="a";source.effectFile="GL_Diffuse_L1_VC_iPhone.bdae";source.technique=technique;
+        f::Material target;target.specularTexture=999;target.glossiness=10;
+        f::bind_original_material_textures(source,target,[&](const std::string&,const std::string& mask,bool blue){check(mask=="a"&&blue,"L1 alpha/alpha-test technique requests blue");return 123u;});
+        check(target.texture==123&&target.specularTexture==0&&target.glossiness==0,"non-Sp map branch clears stale specular state");
+        source.effectFile="ProfileCOMMON";
+        f::bind_original_material_textures(source,target,[&](const std::string&,const std::string&,bool blue){check(!blue,"generic alpha retains red channel policy");return 124u;});
+    }
+    f::OriginalMaterial source;source.diffuse="d";source.specularMap="missing";source.glossiness=10;
+    f::Material target;target.texture=7;target.specularTexture=8;target.glossiness=9;
+    try{f::bind_original_material_textures(source,target,[&](const std::string& uri,const std::string&,bool){if(uri=="missing")throw std::runtime_error("lookup failed");return 77u;});check(false,"throwing lookup unexpectedly succeeded");}catch(const std::runtime_error&){}
+    check(target.texture==7&&target.specularTexture==8&&target.glossiness==9,"failed second lookup preserves previous material binding");
+    f::bind_original_material_textures(source,target,[&](const std::string& uri,const std::string&,bool){return uri=="missing"?0u:77u;});
+    check(target.texture==77&&target.specularTexture==0,"unavailable specular texture remains zero without fabricated binding");
+}
+
 int main(int argc, char** argv) {
     if (argc < 3) { std::cerr << "usage\n"; return 2; }
     const std::filesystem::path assets = argv[1], extra = argv[2];
@@ -107,6 +149,7 @@ int main(int argc, char** argv) {
     else {
         material_defaults(read_file(extra / "data/3d/animateddecors/swamp_cave_watercaustics.bdae"));
         render_ownership(assets,torches);
+        full_material_transport(extra);
         sd::AmbientDecorModel model;
         std::string error;
         check(sd::parse_ambient_model(torches, model, error), "parse torches");
