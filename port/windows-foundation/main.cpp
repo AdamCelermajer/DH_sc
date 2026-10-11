@@ -15,6 +15,7 @@
 #include "original_actor_labels.hpp"
 #include "original_camera_config.hpp"
 #include "original_actor_camera_anchor.hpp"
+#include "source_actor_placement.hpp"
 #include "original_actor_lifecycle.hpp"
 #include "original_campaign_world_adapter.hpp"
 #include "source_world_objects.hpp"
@@ -6143,8 +6144,12 @@ int main(int argc,char** argv) {
                 if(scripted)yaw=rotation[2]+1.5707963f;
                 const float c=std::cos(yaw),s=std::sin(yaw);
                 auto world=f::identity();
-                world[0]=c*scale.x;world[1]=s*scale.x;
-                world[4]=-s*scale.y;world[5]=c*scale.y;world[10]=scale.z;
+                // B068 camera framing: a scripted cutscene clip (CSAnim state 14) is authored in the shared unit-scale cutscene frame
+                // (witch intro, reference P1 945-955 s: Prince left / Rene right only at unit scale; the 0.9 gameplay scale put Rene
+                // at the screen centre and cropped the Prince). Gameplay actor scale applies to ordinary poses only.
+                const auto drawScaleArray=f::source_actor_draw_scale(scripted,{scale.x,scale.y,scale.z});const f::Vec3 drawScale{drawScaleArray[0],drawScaleArray[1],drawScaleArray[2]};
+                world[0]=c*drawScale.x;world[1]=s*drawScale.x;
+                world[4]=-s*drawScale.y;world[5]=c*drawScale.y;world[10]=drawScale.z;
                 world[12]=position.x;world[13]=position.y;world[14]=position.z;
                 return world;
             };
