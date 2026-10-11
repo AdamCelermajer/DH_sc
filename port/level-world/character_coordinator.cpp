@@ -198,6 +198,16 @@ int Coordinator::event(std::uint32_t event_id, std::uint64_t payload) {
             static_cast<std::uint32_t>(state.current))) return -1;
     if ((state.current == 0 || state.current == 1) &&
         bindings_.spawn_facts) return spawn_event(event_id);
+    // CSInteract registers event34 -> CSM_AfterInteraction. That callback
+    // selects CSLiftingIdle only for requested Interact row 4; row 3, the
+    // authored normal-NPC path currently produced by Character::Interact,
+    // returns to Idle. Rows 4/5 require the separate LiftableObject owner and
+    // remain unavailable until that canonical provider is present.
+    if (state.current == 13 && event_id == 34u) {
+        if (source_interaction_row_48_ == 4) return -1;
+        if (source_interaction_row_48_ != 3) return -1;
+        return transition(3, static_cast<std::int32_t>(event_id), payload);
+    }
     auto facts = bindings_.facts(bindings_.context);
     Scope scope(*this, facts, event_id);
     const bool cast_source_state=state.current==3||state.current==4||state.current==5;
@@ -249,6 +259,60 @@ int Coordinator::event(std::uint32_t event_id, std::uint64_t payload) {
     return dh2_character_state_event(&state, &facts, event_id, payload, &services);
 }
 
+int Coordinator::raise_dead_state_event_50008(std::uint64_t payload) {
+    constexpr std::uint32_t event_id = 50008u;
+    if (!bound()) return -1;
+    if (source_state_handler_mask() && state.current >= 0 && state.current < 20 &&
+        !source_state_registered(timers_.owner,
+            static_cast<std::uint32_t>(state.current))) return -1;
+    if (state.current == 1 && bindings_.spawn_facts) {
+        auto facts = bindings_.facts(bindings_.context);
+        const auto spawn = bindings_.spawn_facts(bindings_.context);
+        Scope scope(*this, facts, event_id);
+        const auto services = state_services();
+        return dh2_character_spawn_dead_transition(&state, &facts, &spawn,
+                                                    payload, &services);
+    }
+    if (state.current == 0 && bindings_.spawn_facts)
+        return spawn_event(event_id);
+
+    auto facts = bindings_.facts(bindings_.context);
+    Scope scope(*this, facts, event_id);
+    const auto services = state_services();
+    if (state.current == 7) {
+        auto* projection = bindings_.cast_projection;
+        if (!projection || projection->character.coordinator_state != &state ||
+            projection->character.flags_520 != &state.flags) return -1;
+        character_cast_state_dispatch_v1::Result result{};
+        if (character_cast_state_dispatch_v1::event(&state, event_id, &result) !=
+            character_cast_state_dispatch_v1::Status::complete) return -1;
+        if (!result.registered) return 0;
+        return dh2_character_cast_state_transition(&state, &facts, projection,
+            result.next, static_cast<std::int32_t>(event_id), payload, &services);
+    }
+    if (state.current == 6) {
+        auto* projection = bindings_.skill_projection;
+        if (!projection || projection->machine != &state) return -1;
+        character_skill_state_dispatch_v1::Result result{};
+        if (character_skill_state_dispatch_v1::event(&state, event_id, nullptr,
+                &result) != character_skill_state_dispatch_v1::Status::complete)
+            return -1;
+        if (result.next < 0) return 0;
+        return dh2_character_skill_state_transition(&state, &facts, projection,
+            result.next, static_cast<std::int32_t>(event_id), payload, &services);
+    }
+    const bool combat_registration_event = state.current == 3 ||
+        state.current == 4 || state.current == 5;
+    if ((state.current >= 8 && state.current <= 11) || combat_registration_event) {
+        if (!bindings_.combat_facts) return -1;
+        const auto combat = bindings_.combat_facts(bindings_.context);
+        return dh2_character_combat_state_event(&state, &facts, &combat,
+            event_id, payload, &services);
+    }
+    return dh2_character_state_event(&state, &facts, event_id, payload,
+                                    &services);
+}
+
 int Coordinator::transition(std::int32_t next, std::int32_t event_id,
                             std::uint64_t payload) {
     if (!bound()) return -1;
@@ -262,6 +326,12 @@ int Coordinator::transition(std::int32_t next, std::int32_t event_id,
     auto facts = bindings_.facts(bindings_.context);
     Scope scope(*this, facts, static_cast<std::uint32_t>(event_id));
     const auto services = state_services();
+    if (state.current == 1 && next == 12 && event_id == 50008 &&
+        bindings_.spawn_facts) {
+        const auto spawn = bindings_.spawn_facts(bindings_.context);
+        return dh2_character_spawn_dead_transition(&state, &facts, &spawn,
+                                                    payload, &services);
+    }
     if((state.current>=8&&state.current<=11)||(next>=8&&next<=11)){
         if(!bindings_.combat_facts)return -1;
         const auto combat=bindings_.combat_facts(bindings_.context);
@@ -286,6 +356,14 @@ int Coordinator::transition(std::int32_t next, std::int32_t event_id,
     }
     return dh2_character_state_transition(&state, &facts, next, event_id,
                                           payload, &services);
+}
+
+int Coordinator::set_idle_state(bool suppressed) {
+    if (!bound()) return -1;
+    // SM_SetIdleState writes +0x60 before invoking _SetState. Preserve that
+    // source prefix even if a later state transition provider rejects.
+    state.idle_suppressed = suppressed ? 1u : 0u;
+    return transition(3, -1, 0);
 }
 
 int Coordinator::update_state(std::uint32_t dt_ms) {

@@ -28,10 +28,81 @@ bool bounded(const char* value, std::size_t size) {
 bool spawn_program(const dh2_script& script,const SpawnDispatch& dispatch) {
     for (std::uint32_t i = 0; i < script.command_count; ++i) {
         const auto& command = script.commands[i];
+        if (command.command_id == 0) {
+            if (command.field_count != 4 ||
+                command.fields[0].kind != DH2_SCRIPT_VALUE_BOOL ||
+                command.fields[1].kind != DH2_SCRIPT_VALUE_I32 ||
+                command.fields[2].kind != DH2_SCRIPT_VALUE_I32_ARRAY ||
+                command.fields[2].value.i32_array.count != 0 ||
+                command.fields[3].kind != DH2_SCRIPT_VALUE_BOOL) return false;
+            continue;
+        }
         if(command.command_id==5){
             if(!dispatch.play_camera||command.field_count!=2||
                command.fields[0].kind!=DH2_SCRIPT_VALUE_I32||
                command.fields[1].kind!=DH2_SCRIPT_VALUE_BOOL)return false;
+            continue;
+        }
+        if(command.command_id==41||command.command_id==46){
+            if(!dispatch.actor_command||command.field_count!=2||
+               command.fields[0].kind!=DH2_SCRIPT_VALUE_STRING||
+               command.fields[1].kind!=DH2_SCRIPT_VALUE_STRING||
+               command.fields[0].value.string.size>=
+                   dh2_script_runtime::MAX_NAME_BYTES||
+               command.fields[1].value.string.size>=
+                   dh2_script_runtime::MAX_NAME_BYTES)return false;
+            continue;
+        }
+        if(command.command_id==45){
+            if(command.field_count!=5||
+               command.fields[0].kind!=DH2_SCRIPT_VALUE_I32||
+               command.fields[1].kind!=DH2_SCRIPT_VALUE_I32||
+               command.fields[2].kind!=DH2_SCRIPT_VALUE_I32||
+               command.fields[3].kind!=DH2_SCRIPT_VALUE_STRING||
+               command.fields[4].kind!=DH2_SCRIPT_VALUE_BOOL||
+               !dispatch.play_actor_animation||
+               (command.fields[4].value.boolean&&!dispatch.actor_animation_active)||
+               command.fields[3].value.string.size>=
+                   dh2_script_runtime::MAX_NAME_BYTES)return false;
+            continue;
+        }
+        if(command.command_id==10){
+            if(!dispatch.start_dialog||command.field_count!=3||
+               command.fields[0].kind!=DH2_SCRIPT_VALUE_I32||
+               command.fields[1].kind!=DH2_SCRIPT_VALUE_I32||
+               command.fields[2].kind!=DH2_SCRIPT_VALUE_I32)return false;
+            continue;
+        }
+        if(command.command_id==11){
+            if(!dispatch.start_dialog_id||command.field_count!=1||
+               command.fields[0].kind!=DH2_SCRIPT_VALUE_I32)return false;
+            continue;
+        }
+        if(command.command_id==12){
+            if(!dispatch.dialog_active||command.field_count!=0)return false;
+            continue;
+        }
+        if(command.command_id==74){
+            if(!dispatch.enqueue_char_menu_tutorial||command.field_count!=3||
+               command.fields[0].kind!=DH2_SCRIPT_VALUE_STRING||
+               command.fields[1].kind!=DH2_SCRIPT_VALUE_STRING||
+               command.fields[2].kind!=DH2_SCRIPT_VALUE_I32||
+               command.fields[0].value.string.size>=dh2_script_runtime::MAX_NAME_BYTES||
+               command.fields[1].value.string.size>=dh2_script_runtime::MAX_NAME_BYTES)
+                return false;
+            continue;
+        }
+        if(command.command_id==75||command.command_id==76){
+            if(!dispatch.skip_char_menu_tutorial||command.field_count!=0)return false;
+            continue;
+        }
+        if(command.command_id==54||command.command_id==55){
+            if(!dispatch.door_command||!dispatch.door_is_blocking||
+               command.field_count!=2||
+               command.fields[0].kind!=DH2_SCRIPT_VALUE_STRING||
+               command.fields[1].kind!=DH2_SCRIPT_VALUE_BOOL||
+               command.fields[0].value.string.size>=
+                   dh2_script_runtime::MAX_NAME_BYTES)return false;
             continue;
         }
         if ((command.command_id != 26 && command.command_id != 30) ||
@@ -74,7 +145,8 @@ bool SpawnSession::load(const std::vector<std::uint8_t>& common_names,
                        std::int32_t trigger_count, const SpawnDispatch& dispatch,
                        std::string& error) {
     using namespace dh2_script_runtime;
-    if ((impl_ && impl_->updating) || !dispatch.request || !trigger_name || !script_name ||
+    if ((impl_ && impl_->updating) || !dispatch.request ||
+        ((trigger_name == nullptr) != (script_name == nullptr)) ||
         count > MAX_OBJECTS || (count && !objects)) {
         error = "Crypt script session arguments are invalid";
         return false;
@@ -93,20 +165,22 @@ bool SpawnSession::load(const std::vector<std::uint8_t>& common_names,
     auto candidate = std::make_unique<Impl>();
     if (!decode(common_names, common_programs, candidate->common, error) ||
         !decode(level_names, level_programs, candidate->level, error)) return false;
-    const auto id = dh2_script_resolve_id(&candidate->common, &candidate->level,
-        reinterpret_cast<const std::uint8_t*>(script_name),
-        std::uint32_t(std::strlen(script_name)), 0);
-    if (id < std::int32_t(candidate->common.script_count)) {
-        error = "Crypt level script is absent";
-        return false;
-    }
-    const auto& script = candidate->level.scripts[id - candidate->common.script_count];
-    // This adapter executes source Wait and SpawnCharacter. Other programs
-    // must fail before activation; the generic diagnostic scheduler's
-    // unsupported-command no-ops must never silently change this live flow.
-    if (!spawn_program(script,dispatch)) {
-        error = "Crypt script requires an unbound command service";
-        return false;
+    if (trigger_name != nullptr) {
+        const auto id = dh2_script_resolve_id(&candidate->common, &candidate->level,
+            reinterpret_cast<const std::uint8_t*>(script_name),
+            std::uint32_t(std::strlen(script_name)), 0);
+        if (id < std::int32_t(candidate->common.script_count)) {
+            error = "Crypt level script is absent";
+            return false;
+        }
+        const auto& script = candidate->level.scripts[id - candidate->common.script_count];
+        // The selected Crypt trigger runs Wait/SpawnCharacter/PlayCamera. Other
+        // programs must fail before activation instead of taking diagnostic
+        // scheduler no-ops.
+        if (!spawn_program(script,dispatch)) {
+            error = "Crypt script requires an unbound command service";
+            return false;
+        }
     }
     const auto result = init(&candidate->scheduler, &candidate->common, &candidate->level,
         objects, count, trigger_name, script_name, trigger_count, 0, nullptr);
@@ -131,10 +205,195 @@ bool SpawnSession::load(const std::vector<std::uint8_t>& common_names,
         catch(...){owner.failed=true;throw;}
         if(accepted<0)owner.failed=true;
         return accepted;
-    }};
+    },nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,
+      nullptr,nullptr,nullptr};
+    if(dispatch.lookup_object) {
+        candidate->scheduler.spawn_services.lookup_object =
+            [](void* raw,const char* name,ObjectRecord* output) {
+                auto& owner=*static_cast<Impl*>(raw);
+                int result;
+                try {
+                    result=owner.dispatch.lookup_object(
+                        owner.dispatch.context,name,output);
+                } catch(...) {
+                    owner.failed=true;
+                    throw;
+                }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.actor_command) {
+        candidate->scheduler.spawn_services.actor_command =
+            [](void* raw,const SpawnServices::ActorCommandRequest* request) {
+                auto& owner=*static_cast<Impl*>(raw);
+                int result;
+                try {
+                    result=owner.dispatch.actor_command(
+                        owner.dispatch.context,request);
+                } catch(...) {
+                    owner.failed=true;
+                    throw;
+                }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.play_actor_animation) {
+        candidate->scheduler.spawn_services.play_actor_animation =
+            [](void* raw,const SpawnServices::ActorAnimationRequest* request,
+               std::uintptr_t* identity) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!request||!identity||!owner.dispatch.play_actor_animation)
+                    return -1;
+                int result;
+                try {
+                    result=owner.dispatch.play_actor_animation(
+                        owner.dispatch.context,request,identity);
+                } catch(...) {
+                    owner.failed=true;
+                    throw;
+                }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.actor_animation_active) {
+        candidate->scheduler.spawn_services.actor_animation_active =
+            [](void* raw,std::uintptr_t identity,std::int32_t expected_state) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!owner.dispatch.actor_animation_active)return -1;
+                int result;
+                try {
+                    result=owner.dispatch.actor_animation_active(
+                        owner.dispatch.context,identity,expected_state);
+                } catch(...) {
+                    owner.failed=true;
+                    throw;
+                }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.start_dialog) {
+        candidate->scheduler.spawn_services.start_dialog =
+            [](void* raw,const SpawnServices::DialogRequest* request) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!request||!owner.dispatch.start_dialog)return -1;
+                int result;
+                try {
+                    result=owner.dispatch.start_dialog(
+                        owner.dispatch.dialog_context,request);
+                } catch(...) {
+                    owner.failed=true;
+                    throw;
+                }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.start_dialog_id) {
+        candidate->scheduler.spawn_services.start_dialog_id =
+            [](void* raw,const SpawnServices::DialogIdRequest* request) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!request||!owner.dispatch.start_dialog_id)return -1;
+                int result;
+                try {
+                    result=owner.dispatch.start_dialog_id(
+                        owner.dispatch.dialog_context,request);
+                } catch(...) {
+                    owner.failed=true;
+                    throw;
+                }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.enqueue_char_menu_tutorial) {
+        candidate->scheduler.spawn_services.enqueue_char_menu_tutorial =
+            [](void* raw,const SpawnServices::CharMenuTutorialRequest* request) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!request||!owner.dispatch.enqueue_char_menu_tutorial)return -1;
+                int result;
+                try { result=owner.dispatch.enqueue_char_menu_tutorial(
+                    owner.dispatch.char_menu_tutorial_context,request); }
+                catch(...) { owner.failed=true; throw; }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.skip_char_menu_tutorial) {
+        candidate->scheduler.spawn_services.skip_char_menu_tutorial =
+            [](void* raw,uint8_t skip_all) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!owner.dispatch.skip_char_menu_tutorial)return -1;
+                int result;
+                try { result=owner.dispatch.skip_char_menu_tutorial(
+                    owner.dispatch.char_menu_tutorial_context,skip_all!=0); }
+                catch(...) { owner.failed=true; throw; }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.door_command) {
+        candidate->scheduler.spawn_services.door_command =
+            [](void* raw,const SpawnServices::DoorCommandRequest* request,
+               uintptr_t* identity) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!request||!identity||!owner.dispatch.door_command)return -1;
+                int result;
+                try { result=owner.dispatch.door_command(
+                    owner.dispatch.context,request,identity); }
+                catch(...) { owner.failed=true; throw; }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.door_is_blocking) {
+        candidate->scheduler.spawn_services.door_is_blocking =
+            [](void* raw,uintptr_t identity,uint32_t command_id) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!owner.dispatch.door_is_blocking)return -1;
+                int result;
+                try { result=owner.dispatch.door_is_blocking(
+                    owner.dispatch.context,identity,command_id); }
+                catch(...) { owner.failed=true; throw; }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.dialog_active) {
+        candidate->scheduler.spawn_services.dialog_active =
+            [](void* raw) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!owner.dispatch.dialog_active)return -1;
+                int result;
+                try {
+                    result=owner.dispatch.dialog_active(
+                        owner.dispatch.dialog_context);
+                } catch(...) {
+                    owner.failed=true;
+                    throw;
+                }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
     impl_ = std::move(candidate);
     error.clear();
     return true;
+}
+
+
+bool SpawnSession::load_level(
+        const std::vector<std::uint8_t>& common_names,
+        const std::vector<std::uint8_t>& common_programs,
+        const std::vector<std::uint8_t>& level_names,
+        const std::vector<std::uint8_t>& level_programs,
+        const dh2_script_runtime::ObjectSeed* objects, std::uint32_t count,
+        const SpawnDispatch& dispatch, std::string& error) {
+    return load(common_names, common_programs, level_names, level_programs,
+                objects, count, nullptr, nullptr, -1, dispatch, error);
 }
 
 bool SpawnSession::activate() {

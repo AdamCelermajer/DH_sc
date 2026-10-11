@@ -24,6 +24,15 @@ struct Request {
     // observe a changed flag before choosing the despawn variant.
     std::uint8_t great_knockback_for_death = 0;
     std::uint8_t great_knockback_for_despawn = 0;
+    // SM_SetDeadState rereads machine byte +0x3f for the despawn branch after
+    // the first animation's optional GetAnimStance call. This live projection
+    // preserves that ordering when a provider reenters the same Coordinator.
+    const std::uint32_t* live_great_knockback_for_despawn = nullptr;
+    // Exact Character::GetAnimStance projection. Reached only if the selected
+    // sequence is marked in AnimStancedAnim/SL__LIST_IPHONE.
+    void* anim_stance_context = nullptr;
+    int (*get_anim_stance)(void*, std::uintptr_t character,
+                           std::int32_t* stance) = nullptr;
 };
 
 struct Result {
@@ -32,6 +41,25 @@ struct Result {
     std::uint32_t row_valid = 0;
     std::int32_t death_animation = -1;
     std::int32_t despawn_animation = -1;
+    std::uint32_t mask_queries = 0;
+    std::uint32_t stance_queries = 0;
+};
+
+struct OneAnimationRequest {
+    std::uintptr_t character = 0;
+    const data::CharacterAnimations* row = nullptr;
+    const dh2_pycst_view* constants = nullptr;
+    std::uint32_t field = 0;
+    std::uint32_t stance_mask = 0;
+    character_ai_classification::State* classification = nullptr;
+    const character_ai_classification::Services* classification_services = nullptr;
+    void* anim_stance_context = nullptr;
+    int (*get_anim_stance)(void*, std::uintptr_t character,
+                           std::int32_t* stance) = nullptr;
+};
+
+struct OneAnimationResult {
+    std::int32_t animation = -1;
     std::uint32_t mask_queries = 0;
     std::uint32_t stance_queries = 0;
 };
@@ -70,13 +98,70 @@ inline std::int32_t wrap_add(std::int32_t value, std::int32_t stance) noexcept {
 }
 } // namespace detail
 
+inline Status select_one(const OneAnimationRequest* request,
+                         OneAnimationResult* output) noexcept {
+    if (!request || !output || !request->character || !request->row ||
+        !request->constants || request->field >= request->row->fields.size())
+        return Status::invalid_argument;
+    OneAnimationResult result{};
+    if (!detail::row_scalar(*request->row, request->field, result.animation))
+        return Status::invalid_source_fact;
+    std::int32_t source_mask = 0;
+    if (!detail::constant(request->constants, "AnimStancedAnim",
+                          "SL__LIST_IPHONE", source_mask))
+        return Status::invalid_source_fact;
+    ++result.mask_queries;
+    if ((static_cast<std::uint32_t>(source_mask) & request->stance_mask) != 0) {
+        std::int32_t stance = 0;
+        if (request->get_anim_stance) {
+            int code = 1;
+            try {
+                code = request->get_anim_stance(request->anim_stance_context,
+                                                request->character, &stance);
+            } catch (...) {
+                return Status::invalid_source_fact;
+            }
+            if (code != 0)
+                return Status::invalid_source_fact;
+            std::int32_t stance_count = 0;
+            if (!detail::constant(request->constants, "AnimStances",
+                                  "COUNT_IPHONE", stance_count) ||
+                stance < 0 || stance >= stance_count)
+                return Status::invalid_source_fact;
+        } else {
+            if (!request->classification || !request->classification_services ||
+                request->classification->character != request->character)
+                return Status::invalid_source_fact;
+            character_ai_classification::Result classification{};
+            if (character_ai_classification::query(
+                    character_ai_classification::Query::monster,
+                    request->classification, request->classification_services,
+                    &classification) != character_ai_classification::Status::complete ||
+                classification.word != 1)
+                return Status::invalid_source_fact;
+            std::int32_t stance_count = 0;
+            if (!detail::constant(request->constants, "AnimStances",
+                                  "COUNT_IPHONE", stance_count))
+                return Status::invalid_source_fact;
+            character::StanceFacts16 facts{};
+            facts.count = stance_count;
+            if (dh2_character_anim_stance(&stance, &facts) != 1)
+                return Status::invalid_source_fact;
+        }
+        ++result.stance_queries;
+        result.animation = detail::wrap_add(result.animation, stance);
+    }
+    *output = result;
+    return Status::complete;
+}
+
 // Reads the same cached CharAnimTable row and source fields used by
 // SM_SetDeadState: DeadlyGreatKB +0x10 (field 4), Despawn +0x14 (field 5),
 // DespawnGreatKB +0x18 (field 6), and Died +0x1c (field 7). The caller must
 // supply two fresh great-knockback observations. Stance is reached only when
 // the selected bit is present in AnimStancedAnim/SL__LIST_IPHONE. This slice
-// accepts only a source-verified Monster/Ghost, whose exact GetAnimStance
-// branch uses no equipment and returns the non-player stance (zero).
+// accepts either the legacy verified Monster path or an explicit source
+// Character::GetAnimStance provider, which also covers Faeries and Players.
 inline Status select(const Request* request, Result* output) noexcept {
     if (!request || !output || !request->character.identity ||
         !request->character.properties || !request->tables ||
@@ -100,57 +185,36 @@ inline Status select(const Request* request, Result* output) noexcept {
     }
     result.row_valid = 1;
 
-    const auto choose = [&](std::size_t field,
-                            std::uint32_t mask, std::int32_t& animation,
-                            Result& partial) -> Status {
-        if (!detail::row_scalar(*table.row, field, animation))
-            return Status::invalid_source_fact;
-        std::int32_t source_mask = 0;
-        if (!detail::constant(request->constants, "AnimStancedAnim",
-                              "SL__LIST_IPHONE", source_mask))
-            return Status::invalid_source_fact;
-        ++partial.mask_queries;
-        if ((static_cast<std::uint32_t>(source_mask) & mask) == 0)
-            return Status::complete;
-
-        if (!request->classification || !request->classification_services ||
-            request->classification->character != request->character.identity)
-            return Status::invalid_source_fact;
-        character_ai_classification::Result classification{};
-        if (character_ai_classification::query(
-                character_ai_classification::Query::monster,
-                request->classification, request->classification_services,
-                &classification) != character_ai_classification::Status::complete ||
-            classification.word != 1)
-            return Status::invalid_source_fact;
-
-        std::int32_t stance_count = 0;
-        if (!detail::constant(request->constants, "AnimStances",
-                              "COUNT_IPHONE", stance_count))
-            return Status::invalid_source_fact;
-        character::StanceFacts16 facts{};
-        facts.count = stance_count;
-        std::int32_t stance = 0;
-        if (dh2_character_anim_stance(&stance, &facts) != 1)
-            return Status::invalid_source_fact;
-        ++partial.stance_queries;
-        animation = detail::wrap_add(animation, stance);
-        return Status::complete;
-    };
-
     const bool death_great = request->great_knockback_for_death != 0;
-    auto status = choose(death_great ? 4u : 7u,
-                         death_great ? 0x20000u : 0x8000u,
-                         result.death_animation, result);
+    OneAnimationRequest one{};
+    one.character = request->character.identity;
+    one.row = table.row;
+    one.constants = request->constants;
+    one.field = death_great ? 4u : 7u;
+    one.stance_mask = death_great ? 0x20000u : 0x8000u;
+    one.classification = request->classification;
+    one.classification_services = request->classification_services;
+    one.anim_stance_context = request->anim_stance_context;
+    one.get_anim_stance = request->get_anim_stance;
+    OneAnimationResult selected{};
+    auto status = select_one(&one, &selected);
     if (status != Status::complete) {
         *output = result;
         return status;
     }
+    result.death_animation = selected.animation;
+    result.mask_queries += selected.mask_queries;
+    result.stance_queries += selected.stance_queries;
 
-    const bool despawn_great = request->great_knockback_for_despawn != 0;
-    status = choose(despawn_great ? 6u : 5u,
-                    despawn_great ? 0x40000u : 0x10000u,
-                    result.despawn_animation, result);
+    const bool despawn_great = request->live_great_knockback_for_despawn
+        ? *request->live_great_knockback_for_despawn != 0
+        : request->great_knockback_for_despawn != 0;
+    one.field = despawn_great ? 6u : 5u;
+    one.stance_mask = despawn_great ? 0x40000u : 0x10000u;
+    status = select_one(&one, &selected);
+    result.despawn_animation = selected.animation;
+    result.mask_queries += selected.mask_queries;
+    result.stance_queries += selected.stance_queries;
     *output = result;
     return status;
 }

@@ -13,13 +13,14 @@ struct Fixture {
     std::uintptr_t looked_at{};
     std::uint32_t look_kind{};
 };
-void animation_invoke(void* raw, AnimationAIState96*,
+std::int32_t animation_invoke(void* raw, AnimationAIState96*,
                       const AnimationAIRequest32* request,
                       AnimationAIResponse16* response) {
     auto& f = *static_cast<Fixture*>(raw);
     ++f.animation_queries;
     if (request->service == ai_animation_step_index) response->word = 3;
     else if (request->service == ai_animation_step_count) response->word = 4;
+    return 0;
 }
 void state_invoke(void* raw, State*, const Request* request) {
     auto& f = *static_cast<Fixture*>(raw);

@@ -24,6 +24,16 @@ Status network_spawn_marker_written(State* state, std::uintptr_t character) {
     return Status::complete;
 }
 
+Status script_summon_marker_written(State* state, std::uintptr_t character) {
+    if (!state || !character) return Status::invalid_argument;
+    if (state->retired) return Status::retired;
+    if (!state->constructor_write_seen) return Status::not_initialized;
+    if (state->character != character) return Status::wrong_character;
+    state->value = 1;
+    state->script_summon_write_seen = 1;
+    return Status::complete;
+}
+
 Status read(const State* state, std::uintptr_t character, std::uint8_t* value) {
     if (!state || !character || !value) return Status::invalid_argument;
     if (state->retired) return Status::retired;

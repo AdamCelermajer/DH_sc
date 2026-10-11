@@ -79,8 +79,9 @@ dialog trigger is a later overlap event, distinct from initial player spawn.
 ## Scope and evidence
 
 The command schema covers every command observed in the supplied common and
-SWAMP script files. Other native commands remain unsupported here, including
-`SetCamera`, `WaitCamera`, `StartDialogID`, `PlayAnimById`, AI commands,
+SWAMP script files, plus source-traced `StartDialogID` (one signed dialog
+index). Other native commands remain unsupported here, including
+`SetCamera`, `WaitCamera`, `PlayAnimById`, AI commands,
 container/loot operations, level changes, trophy operations, and tutorial
 message queue commands. Add a schema only after tracing its native reader;
 until then the parser rejects it. Parsing fields also does not prove that
@@ -101,6 +102,10 @@ Useful source evidence in `recovered/native/decompiled/libDungeonHunter2.so/`:
   `SpawnCharacter::read` (`0x00511d80`), `PlayEffect::read` (`0x005122e4`),
   `Wait::read` (`0x0051327c`), `DoTutorial::read` (`0x0050fe38`), and
   `StartDialog::read` (`0x0051345c`).
+- `Structs::StartDialogID::read` (`0x005033e4`) reads one signed dialog ID;
+  `Script_StartDialogID::Execute` (`0x00461114`) expands that row through
+  `GetDialogMsgListById` (`0x00433f04`) and appends every step to the shared
+  `MenuMessageManager<DialogMsg,1>` queue.
 - `functions-006.pseudo.c`: `GetIDFromName` (`0x004691f0`),
   `Script_ExecScript::Execute` (`0x004707f4`), and
   `Script_StartDialog::Execute` (`0x00470fe8`).

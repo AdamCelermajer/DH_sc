@@ -298,7 +298,22 @@ bool Player::load(const std::uint8_t* input,std::size_t size,const scene::Scene&
         const auto count=dh2_bres_library_count(&view,resources::Library::animation);
         if(count>10000)throw std::runtime_error("Animation track count exceeds limit");
         const auto segments=dh2_animation_segments(&view);
-        if(!count)return true;
+        if(!count){
+            if(segments>256)throw std::runtime_error("Animation segment count exceeds limit");
+            for(unsigned segment=0;segment<segments;++segment){
+                std::int32_t begin=0,finish=0;
+                if(!dh2_animation_segment_range(&view,static_cast<std::int32_t>(segment),&begin,&finish)
+                   ||finish<=begin||(segment&&begin!=ranges.back()[1]))
+                    throw std::runtime_error("Animation segments are not contiguous");
+                ranges.push_back({begin,finish});
+            }
+            if(!ranges.empty()){
+                start=ranges.front()[0];end=ranges.back()[1];
+                if(start<0||std::int64_t(end)-start<=0||std::int64_t(end)-start>3600000)
+                    throw std::runtime_error("Animation playback range exceeds limit");
+            }
+            return true;
+        }
         if(!segments||segments>256||std::uint64_t(segments)*count>100000)throw std::runtime_error("Animation segment count exceeds limit");
         for(unsigned segment=0;segment<segments;++segment){
         for(unsigned i=0;i<count;++i){
@@ -346,13 +361,14 @@ bool Player::load(const std::uint8_t* input,std::size_t size,const scene::Scene&
             if(std::any_of(tracks.begin(),tracks.end(),[&](const Track& t){return t.node==index&&t.type==type&&t.segment==segment;}))
                 throw std::runtime_error("Multiple tracks target the same property");
             tracks.push_back({index,type,segment,a,values});
-            if(tracks.size()==1){start=a.segment_start;end=a.segment_end;}
-            else{start=std::min(start,a.segment_start);end=std::max(end,a.segment_end);}
         }
         }
         skipped/=segments;
         unbound/=segments;
-        if(!tracks.empty()&&(std::int64_t(end)-start<=0||std::int64_t(end)-start>3600000))throw std::runtime_error("Animation playback range exceeds limit");
+        // Clip time belongs to the authored segment range even when every
+        // transform target is absent (for example an invisible Character).
+        if(!ranges.empty()){start=ranges.front()[0];end=ranges.back()[1];}
+        if(!ranges.empty()&&(std::int64_t(end)-start<=0||std::int64_t(end)-start>3600000))throw std::runtime_error("Animation playback range exceeds limit");
         return true;
     }catch(const std::exception& e){tracks.clear();ranges.clear();rest.clear();bytes.clear();events=EventTrack{};start=end=0;skipped=unbound=0;error=e.what();return false;}
 }

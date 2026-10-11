@@ -34,3 +34,10 @@ target_link_libraries(application_level_load_handoff_v1_host PRIVATE dh2_engine_
 add_executable(gslevel_queued_state_handoff_v1_host
  ../../tests/gslevel_queued_state_handoff_v1.cpp ../../../level-world/level_quick_save_v1.cpp)
 target_link_libraries(gslevel_queued_state_handoff_v1_host PRIVATE dh2_engine_ui)
+add_executable(native_level_transition_owner_v1_host
+ ../../tests/native_level_transition_owner_v1.cpp)
+target_link_libraries(native_level_transition_owner_v1_host PRIVATE dh2_engine_ui)
+add_executable(native_level_transition_plan_v1_host
+ ../../tests/native_level_transition_plan_v1.cpp ../../native_level_transition_plan_v1.cpp)
+target_include_directories(native_level_transition_plan_v1_host PRIVATE ../..)
+target_link_libraries(native_level_transition_plan_v1_host PRIVATE dh2_game_data)

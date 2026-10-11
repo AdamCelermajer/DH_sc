@@ -14,9 +14,12 @@ that as live Android or gameplay validation.
   DeSpawns them; the native shell constructor is still unbound.
 - `ProjectileManager::Spawn` `0x3e6edc` / `0x3e701c`: id bounds, `_Create`,
   SetUpdating(true), matching float/bool SetInfo overload, then active byte.
-- `Projectile::Update` `0x3e51b0`: pending impact/target gate, destination,
-  GameObject update, motion/time/range, floor/path and room tests; expiry calls
-  OnExpire. Physics and complete update remain unimplemented here.
+- `Projectile::Update` `0x3e51b0`: handles queued `+0x3d1` collision first;
+  with stored `+0x3cc` target it calls `_ProjectileHit`, then either clears both
+  collision gates when that callback returns 1 or runs impact FX and
+  `ProjectileManager::DeSpawn` when it returns 0. Otherwise it updates the
+  destination/GameObject, motion/time/range and PFWorld floor/path/room gates;
+  terminal conditions call OnExpire followed by DeSpawn.
 - `Projectile::OnCollision` `0x3e55b4`: active/exit and target filters, stores
   target/point, optional callback, then handles callback result.
 - `Projectile::OnExpire` `0x3e5078`: optional row+52 floor correction, clear
@@ -24,13 +27,25 @@ that as live Android or gameplay validation.
 - `ProjectileManager::DeSpawn` `0x3e61b4`: SetUpdating(false), Stop, clear
   active byte, then release the source pool slot; the ObjectManager object stays.
 
-The selected port implements fresh/reused Spawn choreography, a typed pair of
-ProjectileManager pools over the shared ObjectManager owner, the post-GameObject
-Update lifetime/speed/range gates, OnExpire ordering, DeSpawn, and OnCollision
-filter/store/callback dispatch. Collision detection and source relation/callback
-bodies remain supplied by the caller; row+4's owner-target predicate is injected.
-Native product construction/vtables, PreCache shells, physics, floor/room Update
-tests, and production animation-event binding remain open.
+The selected port retains Projectile payloads on the canonical ObjectManager,
+uses the shared PhysicalWorld for BDAE-bound circle contacts, and dispatches
+accepted contacts through source relation/check callbacks. The pending `+0x3d1`
+branch runs from the existing ordered ObjectManager update. Its retained VM
+callback invokes `OnDelayedSkill` with collision target and Projectile identity;
+source ReturnValues decide resume versus impact FX/DeSpawn. Timer and vertical
+speed expiry call OnExpire through the same Level floor owner and AnimatedFX
+manager, then release the existing pool slot and destroy the shared-world body.
+The selected floor query is the same PFWorld-backed Level collision world.
+Update queries that world with include-special=1 only after lifetime/speed
+checks pass and the squared-distance gate allows continued flight. A valid
+floor is tested against the source projectile capability mask (flying and
+swimming, bits 1|2), with the source wall-flag exception. If there is no floor,
+`GetRoomAt` scans the same Level's inclusive room bounds and accepts only room
+flag bit 0 clear. `PFRoom::PFRoom @0x521540` initializes `+0x24` flags to zero;
+the selected path has no call that mutates them. `CollisionRoom::source_flags`
+projects that field, and its current floor importer sets zero from this source
+constructor fact. Expiry sound and source visual/rotation behavior remain
+partial.
 
 `projectile_factory_owner_v1` now validates the source type map, reserves the
 exact generated name/handle in the borrowed canonical ObjectManager, then
@@ -39,25 +54,20 @@ ProjectileManager identity remain caller inputs. The unbound production
 callback is the source `ObjectManager::GetNewObject` factory provider for
 `Projectile`/`LaserTypeProjectile`: it must construct the real class, initialize
 its inherited/source fields and vtable, and return its lifetime-owned product.
-This typed bridge has host coverage only; Android animation dispatch is still
-not connected and no live projectile behavior is claimed.
+The current app binds a semantic projectile product to the Level ObjectManager,
+shared PhysicalWorld and selected script VM. It does not instantiate the original
+ARM32 Projectile class or install its binary vtable.
 
 | Needed provider | Retained source contract | Port gap |
 |---|---|---|
 | Factory product | `GetNewObject` `0x34b520` -> Add `0x34b270`; `GetNewInstance<Projectile>` `0x340d14` allocates 980 bytes with GO_ID 9 and calls C1 `0x3e5e40`; Laser thunk `0x340cf0` allocates 996 bytes with GO_ID 10 and calls C1 `0x3e4b6c`. | Map is metadata only; no constructor/provider execution or object lifetime owner. ARM32 sizes/GO_IDs cannot be used as a 64-bit C++ allocation/layout. |
 | State/vtable | Projectile C1 calls GameObject C2 and initializes source fields: `+0x374=-1`, `+0x378/+0x380/+0x384=0`, `+0x388..+0x39c=0`, `+0x3a4=0`, `+0x3b8=0`, `+0x3c4/+0x3c8/+0x3cc=0`, `+0x3d0/+0x3d1=0`, active `+0x85=1`. It installs three Projectile vtable address points at object `+0/+4/+0x24`; Laser C1 calls Projectile C2, initializes `+0x3d4/+0x3d8/+0x3dc=0`, `+0x3e0=-1`, and installs its three address points. | No semantic 64-bit state owner/default-init adapter or real virtual provider. Vtable symbols are `_ZTV10Projectile` `0x966f90` and `_ZTV19LaserTypeProjectile` `0x966e90` (each 256 bytes); binary pointers are not callable in the port. |
 | SetInfo/motion | Bool `SetInfo` `0x3e58cc` stores projectile id `+0x374`, owner `+0x380`, target restriction `+0x384`, callbacks `+0x3b8/+0x3bc`, user data `+0x3c0`, and gate bytes `+0x3d0/+0x3d1`; resolves owner/target/node positions and visual node, then sets start/velocity/destination state. It maps row Model through ProjectileDict and calls `GameObject::SetVisualObject(path,nullptr,0)`; `VisualObject` C1 `0x472a0c` calls `AssetManager::loadSceneNode(path,empty,0,255)`, refreshes root bounds, finds `_colbox_`, then runs `CalcMeshBox`/`ApplyMeshBox`. Float overload `0x3e57cc` dispatches the vtable `+0xc8` virtual to bool SetInfo (Laser override `0x3e4570`), then derives look-at/target positions, calls `SetDestination`, and optionally syncs visual rotation. | Animation event supplies only template id and actor state. No source-equivalent owner/target resolver, SceneManager/AssetManager loadSceneNode provider, visual-node owner, manager, or target/destination virtual providers are bound. The portable path and BDAE bytes alone do not produce source scene-node state. |
-| Physical/collision | Bool `SetInfo` allocates 40 bytes for `PhysicalObject` and calls ctor `0x46f2f0` as `(world, GameObject, 0,1,1,1,0,32,0x51f,0)`, installs `POProjectile` vptr, then `SetPhysicalObject(...,0)` `0x394bf8`. With the second bool set, the ctor builds a circle of radius `max(AABB width,height)*0.005`, using GameObject floats `+88/+89` scaled by `0.01` as shape offset; the definition's density is `0.1`. `_init` `0x46edf0` calls `PhysicalWorld::createBody`, stores the PhysicalObject as body user data, then creates/adds the shape. SetPhysicalObject stores the physical owner and calls UpdatePFObject; it only pins on a true third argument, which Projectile SetInfo does not pass. `POProjectile::onCollisionTest` `0x470520` runs base filtering, then accepts source IDs 9/10; `onCollisionBegins` `0x4704b4` accepts ID 9 and dispatches projectile vtable `+0xd0` -> `OnCollision` `0x3e55b4`. The latter gates `+0x3d0/+0x3d1`, applies owner/target relation filters, stores target/point and dispatches callbacks. | `physical::NativeWorld` has Box2D body/contact services and the port's character component, but neither owns a projectile `PhysicalObject` semantic or POProjectile contact adapter. Exact body radius/offset can be calculated only after source scene bounds and GameObject placement exist. No callback maps `WorldObject` contacts to ObjectManager target handles or the source relation/callbacks. Do not reuse the character physical component as a projectile owner. |
-| Expire/effects | `OnExpire` `0x3e5078` optionally corrects floor height from projectile row+52 via PFWorld/PFRoom/PFFloor, clears target `+0x3cc`, sets expiry `+0x3d1`, gets target position and calls `HandleImpactFX`. `HandleImpactFX` `0x3e4eec` dispatches character/non-character FX; visual routines include `0x3e4db0`. | Kernel's injected hooks preserve ordering but are not bound to floor/world, target-position, VisualFX config or renderer owners. `OnCollision` callback return 1 rejects after storing; 2 invokes optional hit callback then impact FX; 3 runs type-1 OnExpire; default follows pending-expiry path. |
-| Update/despawn | `Update` `0x3e51b0` calls GameObject update, then source dt, motion/range, PFWorld floor/path and room tests; calls OnExpire on terminal conditions. Manager `DeSpawn` `0x3e61b4` disables updating, stops, clears active and releases its pool slot while ObjectManager retains the object. | Portable pool release is tested, but no native Projectile product, manager callsite, frame-update owner, or PFWorld floor/path/room provider is connected. Keep the lifecycle kernel out of frame/pool ownership. |
+| Physical/collision | Bool `SetInfo` allocates 40 bytes for `PhysicalObject` and calls ctor `0x46f2f0` as `(world, GameObject, 0,1,1,1,0,32,0x51f,0)`, installs `POProjectile` vptr, then `SetPhysicalObject(...,0)` `0x394bf8`. With the second bool set, the ctor builds a circle of radius `max(AABB width,height)*0.005`, using GameObject floats `+88/+89` scaled by `0.01` as shape offset; the definition's density is `0.1`. `POProjectile::onCollisionTest` `0x470520` filters source IDs 9/10; `onCollisionBegins` `0x4704b4` dispatches source ID 9 to `OnCollision` `0x3e55b4`. | App creates a BDAE-bounded circle in the shared PhysicalWorld and maps character contacts to canonical ObjectManager targets and the recovered relation/callback path. This is a semantic adapter, not the original PhysicalObject/POProjectile instance; source rotation and exact visual-node offset remain partial. |
+| Expire/effects | `OnExpire` `0x3e5078` optionally corrects floor height from row+52 through PFWorld/PFRoom/PFFloor, clears collision target `+0x3cc`, sets `+0x3d1`, gets GameObject target position and calls `HandleImpactFX`. Type 1 selects row `expire_fx`/`expire_sfx`; type 4 selects character `impact_fx`/`impact_sfx`. | App uses the selected Level's PFWorld-backed floor query with `include_special=0`; a miss uses source's initialized zero output height. It clears target before dispatching the authored effect through the existing AnimatedFX owner. Expiry sound and cached PFRoom/PFFloor identity remain open. |
+| Update/despawn | `Update` `0x3e51b0` first consumes a queued collision: `_ProjectileHit` return 1 clears `+0x3d0/+0x3d1` and resumes; return 0 dispatches character impact FX and DeSpawns. Normal path calls GameObject update, adjusts vertical velocity/timer, checks squared distance and PFWorld floor/path/room, and expires terminal shots. `DeSpawn` `0x3e61b4` disables updating, stops, clears active and releases the pool slot while retaining ObjectManager identity. | App uses the existing ordered ObjectManager callback and shared PhysicalWorld; pending target/Projectile identities, retained script args, same-VM delayed check/hit, impact FX, pool release and body destruction share those owners. Timer/vertical-speed gates, same-Level floor query, `CanPathOn`, wall exception, room bit-0 test and target-position resolution are connected. Source visual/rotation and floor-cache identity remain partial. |
 
-Source launch callers are `CharAISkillScript::SpawnProjectile` and
-`CharAI::_OnAnimEvent` (`attack_ranged`, `attack_mainhand`, `do_skill`). The
-animation path gates on `CanRangeAttack` and calls the float Spawn overload with
-the Character GameObject, null target, `_HandleProjectile` in callback slot
-`+0x3b8`, null hit callback, null userdata, and angle 0. The skill path passes
-its script-owned owner/callback/userdata. The native pool owner accepts these
-requests; neither caller is yet bound to it in production.
+Spawn/Check/Hit caller xrefs are the two `CharAISkillScript::SpawnProjectile` overloads, which store the skill script as callback userdata. Mage Chain Lightning passes `(row, startingTarget, ourTarget)`; the native injects a skill index, so the wrapper sees four Lua values and returns no Projectile pointer (the native Pointer return is used only for at most two values). Its following `SetProjectileTarget(projectile, ourTarget)` therefore receives nil and is a source no-op. The source check then takes its normal 0 result; `OnCollision` queues the hit for the next `Projectile::Update`, which invokes `_ProjectileHit`/`OnDelayedSkill` and reaches the existing SkillCombatRoll/ApplyResult route. These wrappers do not produce OnCollision result 2. Ranged Character animation events use distinct `_HandleProjectile` callback and remain outside this script-delayed path.
 
 Model bounds are source-derived. Projectile row `+40` is a signed
 ProjectileDict index; SetInfo resolves it as
@@ -123,19 +133,77 @@ Those overloads pass owner `script+4`, null target, `_ProjectileCheck`,
 chooses the `ProjectileTable` row's concrete class. Optional userdata arguments
 then set start position and destination on the returned object.
 
-This caller is not yet bindable in the port. Player skill VM registers the
-`SpawnSkillProjectile__` key, but `native_player_skills.cpp` has no dispatch for
-`character_spawn_skill_projectile`, so it fails closed. The renderer's ranged
-animation action only reports the template ID and currently returns before
-projectile creation. Neither path owns `CharAISkillScript`/its callback userdata
-or the singleton manager's pool counters, and the existing ObjectManager
-reservation requires that exact serial. Retained Player preparation exposes
-ordered skill-slot identities; each resolves to a portable constructor State
-holding identity, Character owner, script name and index. This can validate a
-userdata index/owner, but is not the allocated source class/vtable or callable
-`_ProjectileCheck`/`_ProjectileHit` object. Generic Box2D `NativeWorld` has no
-projectile pool/product owner; actor and item bodies have distinct owners. Do
-not synthesize a request from the animation event. Next required provider is
-one canonical projectile owner binding the retained skill identity to manager
-pool/serial and product lifetime. SetInfo visual/physics and downstream
-collision/update/effects remain separate blockers.
+`Character::_SpawnSkillProjectile` and `_SetProjectileTarget` are now wired on
+the selected Android Level path, including SWAMP as well as Crypt. Player `native_player_skills.cpp`
+forwards both function IDs into `player_skill_gameplay_native`; its adapter
+uses the retained Player skill-script vector and canonical Character identity.
+`NativeMonsterInitialization::script_services()` registers the same two
+callbacks on each Monster's existing AIS VM, resolving `skill_index` through
+that same retained Monster CharAI skill vector. Neither path creates a VM.
+The shared caller kernel preserves the second numeric argument as the
+ProjectileTable row ID, optional bool/angle SetInfo variant, source call order
+(Spawn, then optional position and destination), and <=2 argument Pointer
+return behavior. `_SetProjectileTarget` preserves its non-Pointer/missing
+argument no-op and forwards only a source userdata target.
+
+The app projection loads the verified ProjectileTable from the active Level
+assets. `projectile_product_owner_v1::Owner` borrows the Level's existing
+ObjectManager, routes acquisitions through the existing manager/factory and
+lifecycle kernels, retains a per-projectile payload with source row, manager,
+owner, target, callback and skill-script userdata identities, and enrolls
+updating through the existing ObjectManager staging path. It does not allocate
+a native ARM-layout `Projectile`/`LaserTypeProjectile` object or install source
+vtables. Optional point userdata resolves positions only when it names a
+Character in that same selected Level's canonical ObjectManager and retained
+Character owner. Other userdata kinds still fail closed because there is no
+generic source userdata position reader. The Player/Monster callback bindings are
+host-audited at the Session/kernel boundaries; Android runtime invocation has
+not been exercised.
+
+The product-owner host fixture drives accepted-contact filtering and the
+source-real `_ProjectileCheck` result 0: it verifies that the collision target
+and point are stored and the pending `+0x3d1` gate is set. It then exercises the
+retained delayed-hit callback boundary used by the next Projectile::Update,
+through the SkillCombatRoll kernel and an ApplyResult provider stand-in. It
+does not verify Android physics contact, the app VM adapters, or the full
+ordered renderer update.
+
+Live IDA analysis of `_ProjectileCheck` (`0x3daff4`) and `_ProjectileHit`
+(`0x3dae7c`) establishes the actual callback ABI: `R0` is the Projectile and
+`R1` is its retained CharAISkillScript. `SetSkill` uses the script's embedded
+`Arguments` at `script+0x0c`; after that call succeeds, the delayed alias gets
+the target userdata stored at Projectile `+0x3cc` and a Pointer to the
+Projectile itself. An absent Projectile LuaScript returns 1. Otherwise only
+an explicit boolean false from `OnDelayedSkillCheck` maps to native return 1;
+errors, no return, nonboolean, and true map to 0. SetSkill ReturnValues are
+discarded and do not gate the delayed call. `Projectile::OnCollision`
+(`0x3e55b4`) interprets check result 1 as non-consuming contact, 0 as
+expiration, and 2 as the path that invokes `_ProjectileHit` plus impact FX.
+The concrete `_ProjectileCheck` function returns only 0 or 1, so it does not
+itself select the result-2 path. On result 2, `Projectile::OnCollision`
+ignores `_ProjectileHit`'s integer return and continues to impact-FX handling.
+
+The current native renderer connects Player and Monster skill projectile
+registrations to one Level-owned product owner and the same ObjectManager. It
+loads each selected ProjectileDict BDAE through the active Level asset owner,
+builds a bounds-derived circle on the existing actor PhysicalWorld, advances
+that body in the ordered ObjectManager phase, and synchronizes its position
+after the existing shared physics step. Add-contact dispatch runs the shared
+source collision filters and invokes `OnDelayedSkillCheck` through the
+retained same-VM owner with distinct target and Projectile identities. The
+source-0 collision result queues contact for the next ordered update; that
+pending route invokes `_ProjectileHit`/`OnDelayedSkill`, and a delayed
+SkillCombatRoll reaches the canonical ApplyResult owner. The shared lifecycle
+also performs source floor/path/room and expiry checks, target position
+resolution, impact FX through the existing AnimatedFX owner, pool release and
+body destruction. The source check's result-2 branch is not selected by these
+concrete wrappers. The product fixture exercises pending delivery through the
+kernel and an ApplyResult provider stand-in; it does not emulate Android
+PhysicalWorld or Lua runtime.
+
+Remaining gaps include source VisualObject/rendered projectile models,
+rotation/node offsets, cached PFRoom/PFFloor identity, expiry sound and the
+separate ranged Character animation-event `_HandleProjectile` caller. The
+Windows renderer/NDK build was not rerun after this slice; the desktop build
+closure owns full integration compilation. Do not treat the bounded host
+fixture as Android runtime validation.

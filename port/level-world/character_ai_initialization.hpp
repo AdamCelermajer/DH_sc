@@ -21,6 +21,12 @@ struct State {
     std::uintptr_t pointer_28;
     std::uint8_t byte_2c;
     std::uintptr_t script_name_30;
+    // Native-width semantic projection of the optional Character+0x3fc /
+    // CharAI+0x34 GroupInfo pointer. The source constructor initializes it
+    // null; a later AddToGroup-equivalent owner may retain a stable pointee.
+    // Preserve the original constructor-initialized 32-bit source word for
+    // layout comparison. The native GroupInfo pointer is retained separately
+    // below because a host pointer cannot fit in this ARM32 slot.
     std::uint32_t word_34, word_38;
     std::uintptr_t requested_target_3c, target_40, last_target_44;
     // +48 is deliberately not initialized by this original constructor.
@@ -33,6 +39,7 @@ struct State {
     std::array<std::uintptr_t, 6> words_b4_to_c8;
     std::uint32_t word_cc;
     std::uint8_t byte_d0, byte_d1;
+    std::uintptr_t group_info_identity{};
 };
 struct Services {
     void* context;

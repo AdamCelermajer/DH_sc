@@ -8,7 +8,7 @@ MODULE=Path(__file__).resolve().parents[1];ROOT=MODULE.parents[1]
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--compiler',type=Path,required=True);p.add_argument('--cache',type=Path,required=True);p.add_argument('--original-elf',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--report',type=Path,default=MODULE/'reports/player-ai-death-v1-selected-host.json');a=p.parse_args()
  out=a.output.resolve();out.mkdir(parents=True,exist_ok=True);original=capture(a.original_elf.resolve(),out/'original')
- modules=['player_ai_death_v1','character_aggro_cleanup','player_skill_cleanup_session_v1'];selection=(MODULE/'CMakeLists.txt').read_text();assert all(m+'.cpp' in selection for m in modules),'Parent must select modules centrally'
+ modules=['player_ai_death_v1','character_sm_set_dead_state_v1','character_aggro_cleanup','player_skill_cleanup_session_v1'];selection=(MODULE/'CMakeLists.txt').read_text();assert all(m+'.cpp' in selection for m in modules),'Parent must select modules centrally'
  compiler=a.compiler.resolve();cmake=shutil.which('cmake');ninja=shutil.which('ninja');cc=compiler.with_name(compiler.name.replace('g++','gcc'))
  wrapper=out/'wrapper';wrapper.mkdir(exist_ok=True);build=out/'build';test=MODULE/'tests/player_ai_death_v1.cpp'
  body=f'''cmake_minimum_required(VERSION 3.22)
@@ -28,14 +28,17 @@ target_link_libraries(player_death_audit PRIVATE dh2_level_world dh2_script_runt
  assert sum(p.name=='script_runtime.c' for p in sources)==1
  evidence={Path(__file__).resolve(),MODULE/'tests/player_ai_death_v1_original.py',MODULE/'tests/run_player_skill_cleanup_session_v1_host.py',ROOT/'port/engine-resources/tests/cpu.py'}
  before=hashes(actual_dependencies(build,ninja,entries)|evidence)
- prior=json.loads((MODULE/'build/player-skill-session-v1/validation.json').read_text());cache=a.cache.resolve();inputs=dict(prior['cache_inputs_sha256'])
- for name in ['data/pydata/animations_dictionary_pyarraynames.bin','data/pydata/animations_dictionary_pyarray.bin','data/pydata/animations_pyarray.bin','data/pydata/animations_pyarraynames.bin','data/pydata/animations_pystructnames.bin','data/pydata/animations_pycst.bin']:inputs[name]=sha(cache/name)
- assert all(sha(cache/name)==value for name,value in inputs.items())
+ cache=a.cache.resolve()
+ inputs={p.relative_to(cache).as_posix():sha(p) for p in cache.rglob('*') if p.is_file()}
+ required=['data/pydata/animations_dictionary_pyarraynames.bin','data/pydata/animations_dictionary_pyarray.bin','data/pydata/animations_pyarray.bin','data/pydata/animations_pyarraynames.bin','data/pydata/animations_pystructnames.bin','data/pydata/animations_pycst.bin',
+  'data/pydata/skills_pyarray.bin','data/pydata/skills_pyarraynames.bin','data/pydata/skills_pystructnames.bin','data/pydata/faeries_pyarray.bin','data/pydata/faeries_pyarraynames.bin','data/pydata/faeries_pystructnames.bin',
+  'data/pydata/character_properties_pyarray.bin','data/pydata/character_properties_pyarraynames.bin','data/pydata/character_properties_pystructnames.bin','data/pydata/character_classes_pyarray.bin','data/pydata/character_classes_pyarraynames.bin','data/pydata/character_classes_pystructnames.bin']
+ assert all(name in inputs for name in required),'Selected source cache lacks a Player death audit input'
  print(f'Clean selected rebuild from {len(before)} guarded project inputs',flush=True);logs.append(run([cmake,'--build',build,'--target','player_death_audit','--clean-first','--parallel','2']))
  dlls=sorted(build.rglob('*.dll'));exe=build/'player_death_audit.exe';env=os.environ.copy();env['PATH']=os.pathsep.join([str(compiler.parent),*(str(d.parent) for d in dlls),env.get('PATH','')])
  imports={p.relative_to(out).as_posix():re.findall(r'DLL Name: (\S+)',run([compiler.with_name('objdump.exe'),'-p',p])) for p in [exe,*dlls]}
  assert 'libdh2_level_world.dll' in imports[exe.relative_to(out).as_posix()] and sum(p.name=='libdh2_script_runtime.dll' for p in dlls)==1
- host=json.loads(run([exe,cache,out/'real-debug',out/'original/original-cases.bin'],env));assert host['validation']=='PASS' and host['original_route_cases']==18 and host['actual_player_classes']==3
+ host=json.loads(run([exe,cache,out/'real-debug',out/'original/original-cases.bin'],env));assert host['validation']=='PASS' and host['original_route_cases']==21 and host['actual_player_classes']==3
  raw=out/'raw-execution.json';raw.write_text(json.dumps({'validation':'EXECUTED','host':host},indent=2)+'\n')
  after_commands=run([ninja,'-C',build,'-t','commands','player_death_audit']);after=hashes(actual_dependencies(build,ninja,selected_entries(build,after_commands))|evidence)
  changes={k:{'before':before.get(k),'after':after.get(k)} for k in before.keys()|after.keys() if before.get(k)!=after.get(k)};cache_changes=[name for name,value in inputs.items() if sha(cache/name)!=value]

@@ -40,6 +40,20 @@ bool NativePlayerCharacterOwnerV1::bind_session(
         return false;
     }
     if (!player_character_660_) {
+        // Native Player publication follows the completed Character
+        // constructor. Character C1/C2 overwrite ObjectBase's initial zero
+        // gate with one; do not expose that gate before this fresh bind.
+        save_eligibility_28_ = 1;
+        // A source PlayerManager::RemoveCharacter receipt belongs to the
+        // retired Level's Character. The next fresh Character C1 writes
+        // ObjectBase+0x81=0 and +0x8a=1; _AddCharacter then calls
+        // GameObject::SetVisible(1) for the local Player before QuickSave.
+        // Recreate those active-generation facts here instead of carrying the
+        // prior Level's delete/hide writes through this retained native owner.
+        deleted_81_ = 0;
+        deleted_state_82_ = 0; // Native neutral state; source C1 does not write +0x82.
+        enabled_8a_ = 1;
+        visibility_80_ = enabled_8a_;
         ooi_intent_412_ = 0;
         clear_ooi();
         // Character ctor 0x3a9684 initializes +0x14aa to zero.
@@ -47,19 +61,44 @@ bool NativePlayerCharacterOwnerV1::bind_session(
         faery_character_420_ = 0;
         reward_gold_1500_ = -1;
         reward_xp_1504_ = -1;
+        spawn_probability_result_270_ = -1;
+        disabled_373_ = 0;
+        // Character C1/C2 owns the fresh reaction gate at +0x14fc and writes
+        // binary32 -1.0 before the first Character::Update can decay it.
+        reaction_gate_14fc_ = -1.0f;
         checkpoint_position_1468_[0] = 0;
         checkpoint_position_1468_[1] = 0;
         checkpoint_position_1468_[2] = 0;
         checkpoint_revive_position_1474_[0] = 0;
         checkpoint_revive_position_1474_[1] = 0;
         checkpoint_revive_position_1474_[2] = 0;
+        interaction_sequence_28_ = -1;
+        interaction_active_4c_ = 0;
+        interacting_object_50_ = 0;
+        talk_objective_marker_2fa_ = 0;
     }
     player_character_660_ = player_character_660;
     save_ = &save;
     properties_ = &properties;
     inventory_ = inventory;
     *player_character_660_ = id;
+    // This is the native Player component-adoption boundary for the source
+    // PlayerManager::AddCharacter factory route. IDA: both source class names
+    // resolve to GetNewInstance<Character>(0x340800), whose C1 argument at
+    // 0x340818 is literal GO_IDS=0. The getter remains identity/session bound.
+    go_ids_0f4_ = 0;
+    go_ids_0f4_ready_ = 1;
     error.clear();
+    return true;
+}
+
+bool NativePlayerCharacterOwnerV1::object_base_go_ids_0f4_for(
+        std::uintptr_t character, std::uint32_t* value) const noexcept {
+    if (!value || character != identity() || !go_ids_0f4_ready_ ||
+        !player_character_660_ || *player_character_660_ != character ||
+        !save_ || save_->character() != character)
+        return false;
+    *value = go_ids_0f4_;
     return true;
 }
 
@@ -104,13 +143,22 @@ bool NativePlayerCharacterOwnerV1::unbind_session(std::string& error) {
     save_ = nullptr;
     properties_ = nullptr;
     inventory_ = nullptr;
+    go_ids_0f4_ = 0;
+    go_ids_0f4_ready_ = 0;
     faery_character_420_ = 0;
+    spawn_probability_result_270_ = -1;
+    disabled_373_ = 0;
+    reaction_gate_14fc_ = -1.0f;
     checkpoint_position_1468_[0] = 0;
     checkpoint_position_1468_[1] = 0;
     checkpoint_position_1468_[2] = 0;
     checkpoint_revive_position_1474_[0] = 0;
     checkpoint_revive_position_1474_[1] = 0;
     checkpoint_revive_position_1474_[2] = 0;
+    interaction_sequence_28_ = -1;
+    interaction_active_4c_ = 0;
+    interacting_object_50_ = 0;
+    talk_objective_marker_2fa_ = 0;
     if (!association_matches) {
         error = "PlayerInfo Character660 changed before native Character retirement";
         return false;
@@ -135,6 +183,46 @@ bool NativePlayerCharacterOwnerV1::matches_session(
 data::PlayerSavegameV1* NativePlayerCharacterOwnerV1::save_for(
         std::uintptr_t character) const noexcept {
     return character == identity() ? save_ : nullptr;
+}
+
+bool NativePlayerCharacterOwnerV1::check_spawn_probability_player_branch(
+        std::uintptr_t character) noexcept {
+    const auto id = identity();
+    if (character != id || !player_character_660_ ||
+        *player_character_660_ != id || !save_ || save_->character() != id)
+        return false;
+    spawn_probability_result_270_ = -2;
+    return true;
+}
+
+bool NativePlayerCharacterOwnerV1::restore_object_base_flags_v1(
+        std::uintptr_t character, std::uint8_t visible,
+        std::uint8_t enabled) noexcept {
+    if (visible > 1 || enabled > 1 || character != identity() ||
+        !player_character_660_ || *player_character_660_ != identity() ||
+        !save_ || save_->character() != identity()) return false;
+    visibility_80_ = visible;
+    enabled_8a_ = enabled;
+    return true;
+}
+
+bool NativePlayerCharacterOwnerV1::restore_spawn_probability_result_270_v1(
+        std::uintptr_t character, std::int32_t value) noexcept {
+    if (character != identity() || !player_character_660_ ||
+        *player_character_660_ != identity() || !save_ ||
+        save_->character() != identity()) return false;
+    spawn_probability_result_270_ = value;
+    return true;
+}
+
+bool NativePlayerCharacterOwnerV1::set_disabled_373(
+        std::uintptr_t character, std::uint8_t value) noexcept {
+    const auto id = identity();
+    if (value > 1 || character != id || !player_character_660_ ||
+        *player_character_660_ != id || !save_ || save_->character() != id)
+        return false;
+    disabled_373_ = value;
+    return true;
 }
 
 bool NativePlayerCharacterOwnerV1::sg_block(
@@ -182,6 +270,63 @@ const std::uint32_t* NativePlayerCharacterOwnerV1::checkpoint_revive_position_14
            save_->character() == identity() ? checkpoint_revive_position_1474_ : nullptr;
 }
 
+bool NativePlayerCharacterOwnerV1::set_interaction_state_v1(
+        std::uintptr_t character, std::int32_t sequence,
+        std::uint8_t active, std::uintptr_t interactor) noexcept {
+    const auto id = identity();
+    if (character != id || sequence < 0 || active > 1 || !interactor ||
+        interactor == id || !player_character_660_ ||
+        *player_character_660_ != id || !save_ || save_->character() != id)
+        return false;
+    interaction_sequence_28_ = sequence;
+    interaction_active_4c_ = active;
+    interacting_object_50_ = interactor;
+    return true;
+}
+
+bool NativePlayerCharacterOwnerV1::interaction_state_v1(
+        std::uintptr_t character, std::int32_t* sequence,
+        std::uint8_t* active, std::uintptr_t* interactor) const noexcept {
+    const auto id = identity();
+    if (character != id || !sequence || !active || !interactor ||
+        !player_character_660_ || *player_character_660_ != id ||
+        !save_ || save_->character() != id)
+        return false;
+    *sequence = interaction_sequence_28_;
+    *active = interaction_active_4c_;
+    *interactor = interacting_object_50_;
+    return true;
+}
+
+bool NativePlayerCharacterOwnerV1::consume_interaction_sequence_v1(
+        std::uintptr_t character, std::int32_t* sequence) noexcept {
+    const auto id = identity();
+    if (character != id || !sequence || interaction_sequence_28_ < 0 ||
+        !player_character_660_ || *player_character_660_ != id ||
+        !save_ || save_->character() != id)
+        return false;
+    *sequence = interaction_sequence_28_;
+    interaction_sequence_28_ = -1;
+    return true;
+}
+
+std::uint8_t NativePlayerCharacterOwnerV1::talk_objective_marker_2fa_for(
+        std::uintptr_t character) const noexcept {
+    return character == identity() && player_character_660_ &&
+           *player_character_660_ == identity() && save_ &&
+           save_->character() == identity() ? talk_objective_marker_2fa_ : 0;
+}
+
+bool NativePlayerCharacterOwnerV1::set_talk_objective_marker_2fa(
+        std::uintptr_t character, std::uint8_t value) noexcept {
+    const auto id = identity();
+    if (character != id || value > 1 || !player_character_660_ ||
+        *player_character_660_ != id || !save_ || save_->character() != id)
+        return false;
+    talk_objective_marker_2fa_ = value;
+    return true;
+}
+
 data::PropertyState* NativePlayerCharacterOwnerV1::properties_for(
         std::uintptr_t character) const noexcept {
     return character == identity() ? properties_ : nullptr;
@@ -210,6 +355,30 @@ bool NativePlayerCharacterOwnerV1::set_faery_character_420(
     }
     faery_character_420_ = faery_character;
     error.clear();
+    return true;
+}
+
+bool NativePlayerCharacterOwnerV1::read_reaction_gate_14fc(
+        std::uintptr_t character, float* value) const noexcept {
+    const auto id = identity();
+    if (!value || character != id || !player_character_660_ ||
+        *player_character_660_ != id || !save_ || save_->character() != id ||
+        Coordinator::owner() != id) {
+        return false;
+    }
+    *value = reaction_gate_14fc_;
+    return true;
+}
+
+bool NativePlayerCharacterOwnerV1::write_reaction_gate_14fc(
+        std::uintptr_t character, float value) noexcept {
+    const auto id = identity();
+    if (character != id || !player_character_660_ ||
+        *player_character_660_ != id || !save_ || save_->character() != id ||
+        Coordinator::owner() != id) {
+        return false;
+    }
+    reaction_gate_14fc_ = value;
     return true;
 }
 

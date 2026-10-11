@@ -32,6 +32,17 @@ int search(Calls& c,AttackTargetList24* list,bool narrow){
  c.call(attack_list_search,list->token,reinterpret_cast<std::uintptr_t>(list),0,angle);
  return list_valid(list)?0:2;
 }
+int range_search(Calls& c,AttackTargetList24* list,bool narrow,std::uint32_t maximum_range){
+ std::uint32_t angle=0x40c90fdb;
+ if(narrow){
+  const auto frontal=c.call(attack_frontal_angle,c.state->owner);if(frontal.reserved)return 2;
+  const auto degrees=static_cast<std::int32_t>(frontal.word);
+  const auto half=degrees/2-(degrees<0&&(degrees%2)!=0);
+  angle=bits(static_cast<float>(half)*floating(0x3c8efa35));
+ }else if(c.call(attack_list_reset_sort,list->token,reinterpret_cast<std::uintptr_t>(list)).reserved)return 2;
+ if(c.call(attack_range_list_search,list->token,reinterpret_cast<std::uintptr_t>(list),maximum_range,angle).reserved)return 2;
+ return list_valid(list)?0:2;
+}
 int melee(Calls& c,std::uintptr_t requested,std::uint32_t speculative){
  auto& s=*c.state;
  if(c.query(attack_owner_dead))return 0;
@@ -72,10 +83,66 @@ int melee(Calls& c,std::uintptr_t requested,std::uint32_t speculative){
  if(s.target&&!c.query(attack_current_in_melee))return 0;
  c.call(attack_set_attack_state,s.owner,s.target,0);return 0;
 }
+int ranged(Calls& c,std::uintptr_t requested,std::uint32_t speculative){
+ auto& s=*c.state;
+ const auto dead=c.call(attack_owner_dead,s.owner);if(dead.reserved)return 2;
+ if(dead.word)return 0;
+ if(s.owner_flags528&1)return 0;
+ const auto parameters=c.call(attack_range_parameters,s.owner);
+ if(parameters.reserved)return 2;
+ if(!parameters.word)return c.call(attack_range_melee_fallback,s.owner,requested,speculative).reserved?2:0;
+ const auto maximum_range=std::uint32_t(parameters.identity);
+ const auto attacking=c.call(attack_is_attacking,s.owner);if(attacking.reserved)return 2;
+ const bool continued=attacking.word!=0;
+ if(continued&&s.last)return 0;
+ s.continued=continued?1:0;
+ if(continued||!requested){
+  const auto created=c.call(attack_range_list_create,s.owner,0,1,0);
+  if(created.reserved)return 2;
+  auto* list=reinterpret_cast<AttackTargetList24*>(created.identity);
+  if(!list_valid(list))return 2;
+  const bool narrow=s.heading_active!=0;
+  bool retain=false;
+  if(continued&&!narrow&&s.target){
+   const auto can_attack=c.call(attack_can_attack_current,s.owner,s.target);
+   if(can_attack.reserved){c.call(attack_list_destroy,list->token,reinterpret_cast<std::uintptr_t>(list));return 2;}
+   if(can_attack.word){
+    const auto target_dead=c.call(attack_target_dead,s.owner,s.target);
+    if(target_dead.reserved){c.call(attack_list_destroy,list->token,reinterpret_cast<std::uintptr_t>(list));return 2;}
+    if(!target_dead.word){
+    retain=true;if(c.query(attack_owner_player))c.log(0x3d06b4);
+    }
+   }
+  }
+  int result=0;
+  if(!retain)result=range_search(c,list,narrow,maximum_range);
+  if(!result){
+   if(!list_valid(list))result=2;
+   else if(list->cursor<list->count){
+    const auto next=list->entries[list->cursor];
+    if(next!=s.target){
+     if(c.call(attack_set_target,s.owner,next,0).reserved||
+        c.call(attack_look_at_target,s.owner,next).reserved)result=2;
+    }
+   }
+  }
+  if(c.call(attack_list_destroy,list->token,reinterpret_cast<std::uintptr_t>(list)).reserved)result=2;
+  if(result)return result;
+  if(continued)return 0;
+ }else{
+  if(c.call(attack_look_at_target,s.owner,requested).reserved)return 2;
+ }
+ if(!speculative&&c.call(attack_set_attack_state,s.owner,s.target,0).reserved)return 2;
+ return 0;
+}
 }
 extern "C" int dh2_character_ai_melee_attack(dh2::character::AttackState64* state,std::uintptr_t target,std::uint32_t speculative,const dh2::character::AttackServices16* services){
  if(!valid(state)||!services_valid(services)||speculative>255)return 1;
  Calls calls{state,nullptr,services};return melee(calls,target,speculative);
+}
+extern "C" int dh2_character_ai_range_attack(dh2::character::AttackState64* state,std::uintptr_t target,std::uint32_t speculative,const dh2::character::AttackServices16* services){
+ if(!valid(state)||!services_valid(services)||speculative>255)return 1;
+ Calls calls{state,nullptr,services};return ranged(calls,target,speculative);
 }
 extern "C" int dh2_character_cmd_attack(dh2::character::ControllerAttackState32* controller,dh2::character::AttackState64* state,std::uintptr_t target,const dh2::character::AttackServices16* services){
  using namespace dh2::character;

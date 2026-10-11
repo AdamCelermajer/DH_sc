@@ -57,7 +57,7 @@ enum Service : std::uint32_t {
  // flags/LookAt. Appended service preserves all previous enum values and ABI.
  dead_focus_prelude,store_previous_flags, // CSDespawn saves Character flags before replacing them.
  controller_lock,scare_focus,scare_blur,knockback_impact_event,
- combat_machine_flags
+ combat_machine_flags,restore_interaction_rotation
 };
 struct Request {
  std::uint32_t service;
@@ -160,6 +160,10 @@ int dh2_character_spawn_transition(dh2::character::State*,const dh2::character::
 int dh2_character_spawn_event(dh2::character::State*,const dh2::character::Facts*,
  const dh2::character::SpawnFacts*,std::uint32_t event,const char* event_name,
  const dh2::character::Services*);
+// CSSpawn::OnInit registers event 50008 -> CSDead (12). This transition
+// preserves the exact _SetState/RaiseStateEvent payload as CSDead's killer.
+int dh2_character_spawn_dead_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::SpawnFacts*,std::uint64_t payload,const dh2::character::Services*);
 // Limbus and CSSpawn OnUpdate are source no-ops; this never invents a timeout
 // or idle transition. Return 0 for a valid no-op and -1 for malformed input.
 int dh2_character_spawn_update(const dh2::character::State*,

@@ -157,7 +157,29 @@ static Error start_task(Runtime *runtime, int32_t script_id,
         ? ERROR_OK : runtime->error;
 }
 
-static ObjectRecord *lookup_object(Runtime *runtime, const char *name) {
+static ObjectRecord *lookup_object(Runtime *runtime, const char *name,
+                                   Error *status) {
+    if (status == NULL) return NULL;
+    *status = ERROR_OK;
+    if (runtime->spawn_services.lookup_object != NULL) {
+        memset(&runtime->lookup_scratch, 0, sizeof(runtime->lookup_scratch));
+        const int resolved = runtime->spawn_services.lookup_object(
+            runtime->spawn_services.context, name, &runtime->lookup_scratch);
+        if (resolved < 0) {
+            *status = ERROR_CHARACTER_SERVICE;
+            return NULL;
+        }
+        if (resolved == 0) return NULL;
+        if (resolved != 1 ||
+            memchr(runtime->lookup_scratch.name, 0,
+                   sizeof(runtime->lookup_scratch.name)) == NULL ||
+            strcmp(runtime->lookup_scratch.name, name) != 0 ||
+            runtime->lookup_scratch.is_character > 1) {
+            *status = ERROR_CHARACTER_SERVICE;
+            return NULL;
+        }
+        return &runtime->lookup_scratch;
+    }
     for (uint32_t i = 0; i < runtime->object_count; ++i) {
         if (strcmp(runtime->objects[i].name, name) == 0) {
             return &runtime->objects[i];
@@ -298,6 +320,147 @@ static Error execute_command(Runtime *runtime, Task *task,
             if (accepted < 0) return ERROR_CAMERA_SERVICE;
             return ERROR_OK;
         }
+        case 10: { // StartDialog(actor, style, textStringId)
+            if (command->field_count != 3 ||
+                command->fields[0].kind != DH2_SCRIPT_VALUE_I32 ||
+                command->fields[1].kind != DH2_SCRIPT_VALUE_I32 ||
+                command->fields[2].kind != DH2_SCRIPT_VALUE_I32) {
+                return ERROR_INVALID_ARGUMENT;
+            }
+            if (runtime->spawn_services.start_dialog == NULL) {
+                return unsupported(runtime, task, command,
+                    "source DialogMsg/UI owner is unbound")
+                    ? ERROR_OK : runtime->error;
+            }
+            SpawnServices::DialogRequest request{
+                command->fields[0].value.i32,
+                command->fields[1].value.i32,
+                command->fields[2].value.i32};
+            const int accepted = runtime->spawn_services.start_dialog(
+                runtime->spawn_services.context, &request);
+            return accepted < 0 ? ERROR_DIALOG_SERVICE : ERROR_OK;
+        }
+        case 11: { // StartDialogID resolves a source Dialogs table entry.
+            if (command->field_count != 1 ||
+                command->fields[0].kind != DH2_SCRIPT_VALUE_I32)
+                return ERROR_INVALID_ARGUMENT;
+            if (runtime->spawn_services.start_dialog_id == NULL) {
+                return unsupported(runtime, task, command,
+                    "source Dialogs table and DialogMsg/UI owner are unbound")
+                    ? ERROR_OK : runtime->error;
+            }
+            SpawnServices::DialogIdRequest request{
+                command->fields[0].value.i32};
+            const int accepted = runtime->spawn_services.start_dialog_id(
+                runtime->spawn_services.context, &request);
+            return accepted < 0 ? ERROR_DIALOG_SERVICE : ERROR_OK;
+        }
+        case 12: { // WaitDialog::IsBlocking checks Level::hasActiveDialog.
+            if (command->field_count != 0) return ERROR_INVALID_ARGUMENT;
+            if (runtime->spawn_services.dialog_active == NULL) {
+                return unsupported(runtime, task, command,
+                    "source current-Level DialogMsg queue is unbound")
+                    ? ERROR_OK : runtime->error;
+            }
+            const int active = runtime->spawn_services.dialog_active(
+                runtime->spawn_services.context);
+            if (active < 0) return ERROR_DIALOG_SERVICE;
+            if (active != 0) {
+                task->waiting_for_dialog = 1;
+                *yield_task = true;
+            }
+            return ERROR_OK;
+        }
+        case 74: { // EnqueueCharMenuTutorialMessage(frame, menu, stringId).
+            if (command->field_count != 3 ||
+                command->fields[0].kind != DH2_SCRIPT_VALUE_STRING ||
+                command->fields[1].kind != DH2_SCRIPT_VALUE_STRING ||
+                command->fields[2].kind != DH2_SCRIPT_VALUE_I32)
+                return ERROR_INVALID_ARGUMENT;
+            if (!runtime->spawn_services.enqueue_char_menu_tutorial)
+                return unsupported(runtime, task, command,
+                    "retained CharacterMenu tutorial queue owner is unbound")
+                    ? ERROR_OK : runtime->error;
+            SpawnServices::CharMenuTutorialRequest request{};
+            request.string_id=command->fields[2].value.i32;
+            if (!copy_string(request.frame,sizeof(request.frame),
+                    command->fields[0].value.string.data,
+                    command->fields[0].value.string.size) ||
+                !copy_string(request.menu,sizeof(request.menu),
+                    command->fields[1].value.string.data,
+                    command->fields[1].value.string.size))
+                return unsupported(runtime,task,command,
+                    "CharacterMenu tutorial frame or menu exceeds source bound")
+                    ? ERROR_OK : runtime->error;
+            return runtime->spawn_services.enqueue_char_menu_tutorial(
+                runtime->spawn_services.context,&request)<0
+                    ? ERROR_CHAR_MENU_TUTORIAL_SERVICE : ERROR_OK;
+        }
+        case 75: case 76: {
+            if (command->field_count != 0) return ERROR_INVALID_ARGUMENT;
+            if (!runtime->spawn_services.skip_char_menu_tutorial)
+                return unsupported(runtime,task,command,
+                    "retained CharacterMenu tutorial queue owner is unbound")
+                    ? ERROR_OK : runtime->error;
+            return runtime->spawn_services.skip_char_menu_tutorial(
+                runtime->spawn_services.context,command->command_id==76)
+                    <0 ? ERROR_CHAR_MENU_TUTORIAL_SERVICE : ERROR_OK;
+        }
+        case 45: { // PlayActorAnim; its final BOOL selects source IsBlocking.
+            if (command->field_count != 5 ||
+                command->fields[0].kind != DH2_SCRIPT_VALUE_I32 ||
+                command->fields[1].kind != DH2_SCRIPT_VALUE_I32 ||
+                command->fields[2].kind != DH2_SCRIPT_VALUE_I32 ||
+                command->fields[3].kind != DH2_SCRIPT_VALUE_STRING ||
+                command->fields[4].kind != DH2_SCRIPT_VALUE_BOOL) {
+                return ERROR_INVALID_ARGUMENT;
+            }
+            if(command->fields[2].value.i32<0||
+               command->fields[2].value.i32>INT32_MAX-8)
+                return ERROR_INVALID_ARGUMENT;
+            if (runtime->spawn_services.play_actor_animation == NULL) {
+                return unsupported(runtime, task, command,
+                    "source Character::PlayActorAnim owner is unbound")
+                    ? ERROR_OK : runtime->error;
+            }
+            SpawnServices::ActorAnimationRequest request{};
+            request.anim_dictionary_a=command->fields[0].value.i32;
+            request.anim_dictionary_b=command->fields[1].value.i32;
+            request.animation_type=command->fields[2].value.i32;
+            if (!copy_string(request.actor_name,sizeof(request.actor_name),
+                    command->fields[3].value.string.data,
+                    command->fields[3].value.string.size)) {
+                return unsupported(runtime,task,command,
+                    "PlayActorAnim name exceeds host slice bound")
+                    ? ERROR_OK : runtime->error;
+            }
+            uintptr_t identity=0;
+            const int accepted=runtime->spawn_services.play_actor_animation(
+                runtime->spawn_services.context,&request,&identity);
+            if(accepted<0)return ERROR_ACTOR_ANIMATION_SERVICE;
+            if(accepted==0)
+                return emit(runtime,EVENT_OBJECT_LOOKUP_MISS,task,
+                    command->command_id,0,request.actor_name)
+                    ?ERROR_OK:runtime->error;
+            if(accepted!=1||!identity)return ERROR_ACTOR_ANIMATION_SERVICE;
+            if(command->fields[4].value.boolean) {
+                if(!runtime->spawn_services.actor_animation_active)
+                    return unsupported(runtime,task,command,
+                        "source Character animator IsBlocking owner is unbound")
+                        ?ERROR_OK:runtime->error;
+                const int active=runtime->spawn_services.actor_animation_active(
+                    runtime->spawn_services.context,identity,
+                    request.animation_type+2);
+                if(active<0)return ERROR_ACTOR_ANIMATION_SERVICE;
+                if(active!=0) {
+                    task->waiting_for_actor_animation=1;
+                    task->actor_animation_identity=identity;
+                    task->actor_animation_state=request.animation_type+2;
+                    *yield_task=true;
+                }
+            }
+            return ERROR_OK;
+        }
         case 8: {  // SetCameraTarget resolves the named object; native ignores fields 0 and 2.
             if (command->field_count != 3 ||
                 command->fields[1].kind != DH2_SCRIPT_VALUE_STRING) {
@@ -310,12 +473,23 @@ static Error execute_command(Runtime *runtime, Task *task,
                                    "camera target name exceeds host slice bound")
                     ? ERROR_OK : runtime->error;
             }
-            if (strcmp(name, "LocalPlayer") != 0 && lookup_object(runtime, name) == NULL) {
+            Error lookup_status = ERROR_OK;
+            if (runtime->spawn_services.lookup_object != NULL) {
+                if (lookup_object(runtime, name, &lookup_status) == NULL) {
+                    if (lookup_status != ERROR_OK) return lookup_status;
+                    return emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task,
+                                command->command_id, 0, name)
+                        ? ERROR_OK : runtime->error;
+                }
+            } else if (strcmp(name, "LocalPlayer") != 0 &&
+                       lookup_object(runtime, name, &lookup_status) == NULL) {
+                if (lookup_status != ERROR_OK) return lookup_status;
                 return emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task,
                             command->command_id, 0, name)
                     ? ERROR_OK : runtime->error;
             }
-            if (strcmp(name, "LocalPlayer") == 0 &&
+            if (runtime->spawn_services.lookup_object == NULL &&
+                strcmp(name, "LocalPlayer") == 0 &&
                 runtime->options.local_player_has_character == 0) {
                 return emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task,
                             command->command_id, 0, name)
@@ -373,7 +547,9 @@ static Error execute_command(Runtime *runtime, Task *task,
                                    "character name exceeds host slice bound")
                     ? ERROR_OK : runtime->error;
             }
-            ObjectRecord *object = lookup_object(runtime, name);
+            Error lookup_status = ERROR_OK;
+            ObjectRecord *object = lookup_object(runtime, name, &lookup_status);
+            if (lookup_status != ERROR_OK) return lookup_status;
             if (object == NULL || object->is_character == 0) {
                 return emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task,
                             command->command_id, 0, name)
@@ -404,6 +580,83 @@ static Error execute_command(Runtime *runtime, Task *task,
                         command->command_id, 1, name)
                 ? ERROR_OK : runtime->error;
         }
+        case 41:  // LookActor(target, actor) dispatches v2Controller::Cmd_LookAt.
+        case 46: { // SetActorPosition(target, actor) copies target position.
+            if (command->field_count != 2 ||
+                command->fields[0].kind != DH2_SCRIPT_VALUE_STRING ||
+                command->fields[1].kind != DH2_SCRIPT_VALUE_STRING) {
+                return ERROR_INVALID_ARGUMENT;
+            }
+            if (runtime->spawn_services.actor_command == NULL) {
+                return unsupported(runtime, task, command,
+                    "source Character/ObjectManager actor command owner is unbound")
+                    ? ERROR_OK : runtime->error;
+            }
+            SpawnServices::ActorCommandRequest request{};
+            request.command_id = command->command_id;
+            if (!copy_string(request.target_name, sizeof(request.target_name),
+                    command->fields[0].value.string.data,
+                    command->fields[0].value.string.size) ||
+                !copy_string(request.actor_name, sizeof(request.actor_name),
+                    command->fields[1].value.string.data,
+                    command->fields[1].value.string.size)) {
+                return unsupported(runtime, task, command,
+                    "source actor command name exceeds host slice bound")
+                    ? ERROR_OK : runtime->error;
+            }
+            const int accepted = runtime->spawn_services.actor_command(
+                runtime->spawn_services.context, &request);
+            if (accepted < 0) return ERROR_ACTOR_SERVICE;
+            if (accepted == 0)
+                return emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task,
+                    command->command_id, 0, request.actor_name)
+                    ? ERROR_OK : runtime->error;
+            return accepted == 1 ? ERROR_OK : ERROR_ACTOR_SERVICE;
+        }
+        case 54: case 55: { // OpenDoor/CloseDoor(name, blocking)
+            if (command->field_count != 2 ||
+                command->fields[0].kind != DH2_SCRIPT_VALUE_STRING ||
+                command->fields[1].kind != DH2_SCRIPT_VALUE_BOOL)
+                return ERROR_INVALID_ARGUMENT;
+            if (!runtime->spawn_services.door_command)
+                return unsupported(runtime, task, command,
+                    "source Door/ObjectManager owner is unbound")
+                    ? ERROR_OK : runtime->error;
+            SpawnServices::DoorCommandRequest request{};
+            request.command_id = command->command_id;
+            request.force = command->fields[1].value.boolean;
+            if (!copy_string(request.door_name, sizeof(request.door_name),
+                    command->fields[0].value.string.data,
+                    command->fields[0].value.string.size))
+                return ERROR_INVALID_ARGUMENT;
+            uintptr_t identity = 0;
+            const int accepted = runtime->spawn_services.door_command(
+                runtime->spawn_services.context, &request, &identity);
+            if (accepted < 0 || (accepted > 0 && !identity))
+                return ERROR_DOOR_SERVICE;
+            if (accepted == 0)
+                return emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task,
+                    command->command_id, 0, request.door_name)
+                    ? ERROR_OK : runtime->error;
+            if (accepted != 1) return ERROR_DOOR_SERVICE;
+            if (request.force) {
+                if (!runtime->spawn_services.door_is_blocking)
+                    return unsupported(runtime, task, command,
+                        "source Door IsBlocking owner is unbound")
+                        ? ERROR_OK : runtime->error;
+                const int blocking = runtime->spawn_services.door_is_blocking(
+                    runtime->spawn_services.context, identity,
+                    command->command_id);
+                if (blocking < 0) return ERROR_DOOR_SERVICE;
+                if (blocking != 0) {
+                    task->waiting_for_door = 1;
+                    task->door_identity = identity;
+                    task->door_command_id = command->command_id;
+                    *yield_task = true;
+                }
+            }
+            return ERROR_OK;
+        }
         case 78:
             return execute_tutorial(runtime, task, command);
         default:
@@ -417,6 +670,57 @@ static Error drain(Runtime *runtime, uint64_t runnable_ticket_limit, uint32_t de
     for (uint32_t i = 0; i < runtime->task_slots_used; ++i) {
         Task *task = &runtime->tasks[i];
         if (!task->active || task->ticket > runnable_ticket_limit) continue;
+        if (task->waiting_for_actor_animation) {
+            if (!runtime->spawn_services.actor_animation_active) {
+                runtime->error=ERROR_ACTOR_ANIMATION_SERVICE;
+                return runtime->error;
+            }
+            const int active=runtime->spawn_services.actor_animation_active(
+                runtime->spawn_services.context,task->actor_animation_identity,
+                task->actor_animation_state);
+            if(active<0) {
+                runtime->error=ERROR_ACTOR_ANIMATION_SERVICE;
+                return runtime->error;
+            }
+            if(active!=0)continue;
+            task->waiting_for_actor_animation=0;
+            task->actor_animation_identity=0;
+            task->actor_animation_state=-1;
+            ++task->pc;
+        }
+        if (task->waiting_for_door) {
+            if (!runtime->spawn_services.door_is_blocking) {
+                runtime->error = ERROR_DOOR_SERVICE;
+                return runtime->error;
+            }
+            const int blocking = runtime->spawn_services.door_is_blocking(
+                runtime->spawn_services.context, task->door_identity,
+                task->door_command_id);
+            if (blocking < 0) {
+                runtime->error = ERROR_DOOR_SERVICE;
+                return runtime->error;
+            }
+            if (blocking != 0) continue;
+            task->waiting_for_door = 0;
+            task->door_identity = 0;
+            task->door_command_id = 0;
+            ++task->pc;
+        }
+        if (task->waiting_for_dialog) {
+            if (runtime->spawn_services.dialog_active == NULL) {
+                runtime->error = ERROR_DIALOG_SERVICE;
+                return runtime->error;
+            }
+            const int active = runtime->spawn_services.dialog_active(
+                runtime->spawn_services.context);
+            if (active < 0) {
+                runtime->error = ERROR_DIALOG_SERVICE;
+                return runtime->error;
+            }
+            if (active != 0) continue;
+            task->waiting_for_dialog = 0;
+            ++task->pc;
+        }
         if (task->waiting) {
             // Original ExecuteScript tests IsBlocking before Update, then
             // returns for this task even when Update reaches its target.
@@ -472,7 +776,7 @@ Error init(Runtime *runtime,
            const Options *options) {
     if (runtime == NULL || common_table == NULL || level_table == NULL ||
         (object_count != 0 && object_seeds == NULL) || object_count > MAX_OBJECTS ||
-        trigger_name == NULL || trigger_script_name == NULL ||
+        ((trigger_name == NULL) != (trigger_script_name == NULL)) ||
         trigger_delay_ms < 0 ||
         trigger_delay_ms > 0 ||
         common_table->script_count > INT32_MAX ||
@@ -483,14 +787,17 @@ Error init(Runtime *runtime,
     memset(runtime, 0, sizeof(*runtime));
     runtime->common_table = common_table;
     runtime->level_table = level_table;
-    runtime->trigger_count = trigger_count;
-    runtime->trigger_script_id = dh2_script_resolve_id(
-        common_table, level_table,
-        (const uint8_t *)trigger_script_name,
-        (uint32_t)strlen(trigger_script_name), 0);
-    if (runtime->trigger_script_id < 0 ||
-        !copy_cstring(runtime->trigger_name, sizeof(runtime->trigger_name), trigger_name)) {
-        return ERROR_BAD_SCRIPT;
+    runtime->trigger_count = trigger_name ? trigger_count : -1;
+    runtime->trigger_script_id = -1;
+    if (trigger_name != NULL) {
+        runtime->trigger_script_id = dh2_script_resolve_id(
+            common_table, level_table,
+            (const uint8_t *)trigger_script_name,
+            (uint32_t)strlen(trigger_script_name), 0);
+        if (runtime->trigger_script_id < 0 ||
+            !copy_cstring(runtime->trigger_name, sizeof(runtime->trigger_name), trigger_name)) {
+            return ERROR_BAD_SCRIPT;
+        }
     }
     if (options != NULL) runtime->options = *options;
     for (uint32_t i = 0; i < object_count; ++i) {
@@ -514,7 +821,7 @@ Error init(Runtime *runtime,
 }
 
 bool enter_trigger(Runtime *runtime) {
-    if (runtime == NULL) return false;
+    if (runtime == NULL || runtime->trigger_script_id < 0) return false;
     return enter_trigger_for(runtime, runtime->trigger_script_id,
         runtime->trigger_name, runtime->trigger_count,
         &runtime->trigger_activations, &runtime->trigger_fired);
@@ -624,6 +931,12 @@ const char *error_name(Error error) {
         case ERROR_EVENT_CAPACITY: return "event capacity reached";
         case ERROR_CHARACTER_SERVICE: return "bound Character spawn service failed";
         case ERROR_CAMERA_SERVICE: return "bound CameraLevel playback service failed";
+        case ERROR_ACTOR_SERVICE: return "bound Character actor-command service failed";
+        case ERROR_DIALOG_SERVICE: return "bound source DialogMsg service failed";
+        case ERROR_CHAR_MENU_TUTORIAL_SERVICE:
+            return "bound source CharacterMenu tutorial service failed";
+        case ERROR_DOOR_SERVICE: return "bound source Door command service failed";
+        case ERROR_ACTOR_ANIMATION_SERVICE: return "bound source Character animator service failed";
         case ERROR_UNSUPPORTED_ONLINE: return "online ScriptManager routing is not implemented";
         default: return "unknown scheduler error";
     }

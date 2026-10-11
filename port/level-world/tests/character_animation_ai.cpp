@@ -21,7 +21,7 @@ constexpr std::uintptr_t identity[5]={0,0x100001001ull,0x200002002ull,0x30000300
 std::uintptr_t canonical(std::uintptr_t p){for(unsigned i=0;i<5;++i)if(identity[i]==p)return i;return p;}
 AnimationAIState96 encode(AnimationAIState96 s){s.owner=identity[s.owner];s.controller=identity[s.controller];s.target=identity[s.target];s.look_target=identity[s.look_target];return s;}
 AnimationAIState96 decode(AnimationAIState96 s){s.owner=canonical(s.owner);s.controller=canonical(s.controller);s.target=canonical(s.target);s.look_target=canonical(s.look_target);return s;}
-struct Context {std::array<std::uint32_t,16> params;std::vector<Call> calls;};
+struct Context {std::array<std::uint32_t,16> params;std::vector<Call> calls;std::uint32_t fail_service=UINT32_MAX;};
 struct MonsterClassFixture {dh2::character_ai_classification::AiRow row{0,4};
  dh2::character_ai_classification::AiTable table{&row,1};};
 std::int32_t monster_class_invoke(void* raw,
@@ -40,7 +40,7 @@ void put_name(std::vector<unsigned char>& bytes,const char* value){
  const auto length=std::strlen(value);put_word(bytes,static_cast<std::uint32_t>(length));
  bytes.insert(bytes.end(),value,value+length);
 }
-void invoke(void* raw,AnimationAIState96* s,const AnimationAIRequest32* request,AnimationAIResponse16* response){
+std::int32_t invoke(void* raw,AnimationAIState96* s,const AnimationAIRequest32* request,AnimationAIResponse16* response){
  auto& c=*static_cast<Context*>(raw);check(!request->reserved0&&!request->reserved1,"Reserved request bytes");
  auto normalized=*request;normalized.subject=canonical(request->subject);normalized.payload=canonical(request->payload);
  const auto snapshot=decode(*s);Call call{};std::memcpy(call.data(),&normalized,32);std::memcpy(call.data()+32,&snapshot,96);c.calls.push_back(call);
@@ -56,9 +56,16 @@ void invoke(void* raw,AnimationAIState96* s,const AnimationAIRequest32* request,
  check(request->service<16,"Unknown request");
  response->word=(request->service<4||request->service==5||request->service==9||request->service==10)?c.params[indices[request->service]]:0;
  std::memcpy(response->position,c.params.data()+9,12);
+ if(request->service==c.fail_service)return -1;
+ return 0;
 }
 }
 int main(int argc,char** argv){try{
+ check(!dh2::character::source_game_object_is_dead(),
+       "base GameObject::IsDead must preserve its source false result");
+ for(std::int32_t state=0;state<=4;++state)
+  check(dh2::character::source_container_is_dead(state)==(state>=3),
+        "Container::IsDead must match its source +0x394 unsigned range");
  if(argc!=2)return 2;
  Reader r(argv[1]);check(r.get<unsigned>()==0x31494141,"AAI1 magic differs");const auto count=r.get<unsigned>();unsigned requests=0;
  for(unsigned i=0;i<count;++i){
@@ -161,6 +168,16 @@ int main(int argc,char** argv){try{
   check(dh2_character_animation_ai(&state,ai_attack_begin,&callbacks)==1&&
         state.attack_last==1&&state.attack_last_79_available==1,
         "source Attack-step writer did not publish the existing CharAI+0x79 value");
+ }
+ {
+  Context context{};context.fail_service=ai_animation_step_index;
+  AnimationAIServices16 callbacks{&context,invoke};auto state=base;state.animation_depth=0;
+  const auto before=state;
+  check(dh2_character_animation_ai(&state,ai_attack_begin,&callbacks)==-1,
+        "animation AI provider failure was reported as a completed source callback");
+  check(context.calls.size()==1&&state.attack_index==before.attack_index&&
+        state.attack_last==before.attack_last,
+        "animation AI continued mutating after a failed step-index provider");
  }
  std::cout<<"{\"validation\":\"PASS\",\"consumer_comparisons\":"<<count<<",\"ordered_service_requests\":"<<requests<<",\"scalar_comparisons\":"<<scalars<<",\"atomic_rejection_checks\":"<<rejects<<",\"mismatches\":0}\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 3;}}

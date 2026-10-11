@@ -14,7 +14,7 @@ if ($SnapshotRoot.StartsWith($SourceRoot + '\', [System.StringComparison]::Ordin
     throw 'SourceRoot and SnapshotRoot must be separate trees.'
 }
 
-$excludedDirectoryNames = @('.git', '.checks', '.cxx', '.gradle', 'build', 'outputs', 'reports')
+$excludedDirectoryNames = @('.git', '.checks', '.cxx', '.gradle', '__pycache__', 'build', 'outputs', 'reports')
 $sourceRoots = @(
     'port/desktop-native',
     'port/android-native/app/src/main/cpp',
@@ -24,6 +24,7 @@ $sourceRoots = @(
     'port/engine-animation',
     'port/engine-audio',
     'port/engine-camera',
+    'port/engine-particles',
     'port/engine-math',
     'port/engine-resources',
     'port/engine-skinning',
@@ -95,7 +96,17 @@ function Get-SourceSnapshotManifest {
     $git = Get-Command git -ErrorAction Stop
     $head = (& $git.Source -C $Root rev-parse HEAD 2>$null | Select-Object -First 1)
     if ($LASTEXITCODE -ne 0) { $head = 'unknown' }
-    $statusRaw = @(& $git.Source -C $Root status --short --untracked-files=all -- $sourceRoots 2>$null)
+    # Exclude generated trees in Git's pathspec itself. Filtering after status
+    # still makes Git enumerate deeply nested host builds (and can overflow
+    # Windows path limits) before the snapshotter discards those entries.
+    $statusRaw = @(& $git.Source -C $Root status --short --untracked-files=all -- $sourceRoots
+        ':(exclude,glob)**/.checks/**'
+        ':(exclude,glob)**/.cxx/**'
+        ':(exclude,glob)**/.gradle/**'
+        ':(exclude,glob)**/__pycache__/**'
+        ':(exclude,glob)**/build/**'
+        ':(exclude,glob)**/outputs/**'
+        ':(exclude,glob)**/reports/**' 2>$null)
     if ($LASTEXITCODE -ne 0) { throw 'Could not collect Git dirty/untracked provenance.' }
     $status = @($statusRaw | Where-Object {
         $statusPath = $_.Substring([Math]::Min(3, $_.Length)).Trim('"')

@@ -24,7 +24,7 @@ bool valid_record(const factory::Record& record) noexcept {
     return record.character.identity != 0 &&
         record.character.identity == record.game_object.identity &&
         record.character.object == &record.aggro_object &&
-        record.constructor.constructor_complete && record.source_properties_ready() &&
+        record.constructor.constructor_complete &&
         !record.init_post_complete() && !record.init_final_complete() &&
         record.net_state.constructed &&
         record.components.find(Component::game_object) != nullptr &&
@@ -197,6 +197,13 @@ Status run_prefix(factory::Record& record, const Services& services,
         if (!invoke(services.recalc_properties, services.context, result, error,
                     "RecalcProperties provider failed", properties, true))
             return Status::provider_failed;
+        // LoadBaseProperties/RecalcProperties are the prefix producers for
+        // the canonical factory readiness barrier.  Do not accept a caller
+        // that merely pre-marked an empty/unresolved Character Record.
+        if (!record.source_properties_ready()) {
+            error = "Character RecalcProperties provider did not publish canonical source properties";
+            return Status::provider_failed;
+        }
         record.nonplayer_init_post_prefix_stage =
             static_cast<std::uint8_t>(Stage::get_model_name);
         stage = Stage::get_model_name;
@@ -297,7 +304,7 @@ AiBranchStatus run_ai_branch(factory::Record& record,
         !record.nonplayer_init_post_selected ||
         record.nonplayer_init_post_prefix_stage !=
             static_cast<std::uint8_t>(Stage::waiting_for_scene_runtime) ||
-        !record.source_save_mask2_complete ||
+        !record.source_properties_ready() || !record.source_save_mask2_complete ||
         record.source_save_slot_kind != factory::SourceSaveSlotKind::nonplayer_null ||
         record.source_save_14e8 ||
         record.components.find(Component::ai) != &ai || !ai.identity ||
@@ -328,8 +335,12 @@ AiBranchStatus run_ai_branch(factory::Record& record,
     }
     result.ai_id = ai_id;
     const auto* declaration = data::ai_props(*services.ai_tables, ai_id);
+    // Character::InitPost tests AITable::delayed_load and writes the result to
+    // Character+0x3ec. It does not copy that value into CharAI+0x24: the
+    // source CharAI constructor initializes +0x24 independently to zero.
+    // Keep the actual Character delay projection below and validate only the
+    // selected table row plus the signed CharAI script-step range here.
     if (!declaration || declaration->delayed_load > 1 ||
-        ai.byte_24 != declaration->delayed_load ||
         ai.pointer_28 > 0x7fffffffu) {
         error = "Character CharAI state does not match its selected AITable row";
         return AiBranchStatus::invalid_argument;
@@ -392,7 +403,7 @@ EffectChainStatus run_effect_chain(factory::Record& record,
         !record.nonplayer_init_post_selected ||
         record.nonplayer_init_post_prefix_stage !=
             static_cast<std::uint8_t>(Stage::waiting_for_scene_runtime) ||
-        !record.source_save_mask2_complete ||
+        !record.source_properties_ready() || !record.source_save_mask2_complete ||
         record.source_save_slot_kind != factory::SourceSaveSlotKind::nonplayer_null ||
         record.source_save_14e8 || !record.nonplayer_ai_postload_complete) {
         if (output && record.nonplayer_init_post_effects_stage == 4) {
@@ -440,14 +451,11 @@ EffectChainStatus run_effect_chain(factory::Record& record,
         result.complete = true;
         return EffectChainStatus::already_complete;
     }
-    if (!services.read_anim_fx_base || !services.grab_anim_fx ||
-        !services.register_character_fx_table || !services.set_animation_set ||
-        !services.init_sounds) {
-        error = "VisualFXManager/CharAnimator/CharSounds provider is unavailable";
-        return EffectChainStatus::service_unavailable;
-    }
-
     if (!record.source_anim_fx_base_ready) {
+        if (!services.read_anim_fx_base) {
+            error = "Character+0x1488 FX base provider is unavailable";
+            return EffectChainStatus::service_unavailable;
+        }
         std::int32_t base = 0;
         ++result.provider_calls;
         try {
@@ -467,6 +475,30 @@ EffectChainStatus run_effect_chain(factory::Record& record,
     while (record.nonplayer_init_post_effects_stage < 4) {
         const auto operation = static_cast<EffectOperation>(
             record.nonplayer_init_post_effects_stage);
+        const bool provider_available = [&] {
+            switch (operation) {
+            case EffectOperation::grab_anim_fx: return services.grab_anim_fx != nullptr;
+            case EffectOperation::register_character_fx_table:
+                return services.register_character_fx_table != nullptr;
+            case EffectOperation::set_animation_set:
+                return services.set_animation_set != nullptr;
+            case EffectOperation::init_sounds: return services.init_sounds != nullptr;
+            }
+            return false;
+        }();
+        if (!provider_available) {
+            error = operation == EffectOperation::grab_anim_fx
+                ? "VisualFXManager::GrabAnimFX provider is unavailable"
+                : operation == EffectOperation::register_character_fx_table
+                    ? "Character::RegisterCharacterFXTable provider is unavailable"
+                    : operation == EffectOperation::set_animation_set
+                        ? "CharAnimator::SetAnimationSet provider is unavailable"
+                        : "Character::_InitSounds provider is unavailable";
+            result.completed_operations = record.nonplayer_init_post_effects_stage;
+            result.fx_id = record.source_self_anim_fx_id;
+            result.fx_handle = record.source_self_anim_fx_1484;
+            return EffectChainStatus::service_unavailable;
+        }
         const auto op_index = record.nonplayer_init_post_effects_stage;
         // Before any operation that can affect external owners, poison replay.
         record.nonplayer_init_post_effects_attempted = op_index;

@@ -1,5 +1,8 @@
 #include "../script_runtime.hpp"
+#include "../../engine-ui/source_char_menu_tutorial_queue_v1.hpp"
 
+#include <cstdint>
+#include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,7 +40,8 @@ static void test_play_camera_command() {
     dh2_script_table level={};
     CameraCall call={0,0,0,0};
     Runtime runtime={};runtime.common_table=&common;runtime.level_table=&level;
-    runtime.spawn_services={&call,NULL,camera_dispatch};
+    runtime.spawn_services.context=&call;
+    runtime.spawn_services.play_camera=camera_dispatch;
     runtime.tasks[0].script=&script;runtime.tasks[0].ticket=1;
     runtime.tasks[0].script_id=0;runtime.tasks[0].active=1;
     runtime.task_slots_used=1;runtime.next_task_ticket=1;
@@ -47,12 +51,303 @@ static void test_play_camera_command() {
 
     CameraCall rejected={0,0,0,-1};
     Runtime failed={};failed.common_table=&common;failed.level_table=&level;
-    failed.spawn_services={&rejected,NULL,camera_dispatch};
+    failed.spawn_services.context=&rejected;
+    failed.spawn_services.play_camera=camera_dispatch;
     failed.tasks[0].script=&script;failed.tasks[0].ticket=1;
     failed.tasks[0].script_id=0;failed.tasks[0].active=1;
     failed.task_slots_used=1;failed.next_task_ticket=1;
     check(advance(&failed,16)==ERROR_CAMERA_SERVICE&&rejected.calls==1,
           "PlayCamera provider failure stops the same scheduler at its command boundary");
+}
+
+struct ActorCommandCall {
+    uint32_t calls;
+    uint32_t command_id;
+    char actor_name[MAX_NAME_BYTES];
+    char target_name[MAX_NAME_BYTES];
+    int result;
+};
+static int actor_command_dispatch(void *context,
+        const SpawnServices::ActorCommandRequest *request) {
+    ActorCommandCall *call=(ActorCommandCall *)context;
+    if(call==NULL||request==NULL)return -1;
+    ++call->calls;
+    call->command_id=request->command_id;
+    memcpy(call->actor_name,request->actor_name,sizeof(call->actor_name));
+    memcpy(call->target_name,request->target_name,sizeof(call->target_name));
+    return call->result;
+}
+
+static void test_actor_command(uint32_t command_id) {
+    const uint8_t script_name_bytes[]={'A','c','t','o','r'};
+    const uint8_t target_bytes[]={'W','a','y','p','o','i','n','t'};
+    const uint8_t actor_bytes[]={'L','o','c','a','l','P','l','a','y','e','r'};
+    dh2_script_command command={};
+    command.command_id=command_id;command.field_count=2;
+    command.fields[0].kind=DH2_SCRIPT_VALUE_STRING;
+    command.fields[0].value.string={target_bytes,sizeof(target_bytes)};
+    command.fields[1].kind=DH2_SCRIPT_VALUE_STRING;
+    command.fields[1].value.string={actor_bytes,sizeof(actor_bytes)};
+    dh2_script script={};
+    script.command_count=1;script.name={script_name_bytes,sizeof(script_name_bytes)};
+    script.commands=&command;
+    dh2_script_table common={};common.script_count=1;common.scripts=&script;
+    dh2_script_table level={};
+    ActorCommandCall call={};call.result=1;
+    Runtime runtime={};runtime.common_table=&common;runtime.level_table=&level;
+    runtime.spawn_services.context=&call;
+    runtime.spawn_services.actor_command=actor_command_dispatch;
+    runtime.tasks[0].script=&script;runtime.tasks[0].ticket=1;
+    runtime.tasks[0].script_id=0;runtime.tasks[0].active=1;
+    runtime.task_slots_used=1;runtime.next_task_ticket=1;
+    check(advance(&runtime,16)==ERROR_OK,
+          "synchronous actor command completes through shared scheduler");
+    check(call.calls==1&&call.command_id==command_id&&
+          strcmp(call.actor_name,"LocalPlayer")==0&&
+          strcmp(call.target_name,"Waypoint")==0,
+          "actor command preserves source target-first payload order");
+
+    ActorCommandCall rejected={};rejected.result=-1;
+    Runtime failed={};failed.common_table=&common;failed.level_table=&level;
+    failed.spawn_services.context=&rejected;
+    failed.spawn_services.actor_command=actor_command_dispatch;
+    failed.tasks[0].script=&script;failed.tasks[0].ticket=1;
+    failed.tasks[0].script_id=0;failed.tasks[0].active=1;
+    failed.task_slots_used=1;failed.next_task_ticket=1;
+    check(advance(&failed,16)==ERROR_ACTOR_SERVICE&&rejected.calls==1,
+          "actor command provider failure stops the same scheduler at its command boundary");
+}
+
+struct ActorAnimationCall {
+    std::uint32_t starts=0,polls=0;
+    std::int32_t dict_a=-1,dict_b=-1,anim_type=-1;
+    char actor_name[MAX_NAME_BYTES]{};
+    std::uintptr_t identity=0x1234;
+    bool active=true;
+};
+static int actor_animation_start(void* raw,
+        const SpawnServices::ActorAnimationRequest* request,
+        std::uintptr_t* identity) {
+    auto* call=static_cast<ActorAnimationCall*>(raw);
+    if(!call||!request||!identity)return -1;
+    ++call->starts;call->dict_a=request->anim_dictionary_a;
+    call->dict_b=request->anim_dictionary_b;
+    call->anim_type=request->animation_type;
+    std::memcpy(call->actor_name,request->actor_name,sizeof(call->actor_name));
+    *identity=call->identity;return 1;
+}
+static int actor_animation_active(void* raw,std::uintptr_t identity,
+                                  std::int32_t expected_state) {
+    auto* call=static_cast<ActorAnimationCall*>(raw);
+    if(!call||identity!=call->identity||expected_state!=call->anim_type+2)return -1;
+    ++call->polls;return call->active?1:0;
+}
+static void test_play_actor_animation_wait() {
+    const uint8_t script_name[]={'A','n','i','m'};
+    const uint8_t actor_name[]={'N','P','C'};
+    dh2_script_command command={};command.command_id=45;command.field_count=5;
+    for(unsigned i=0;i<3;++i) {
+        command.fields[i].kind=DH2_SCRIPT_VALUE_I32;
+        command.fields[i].value.i32=static_cast<int32_t>(31+i);
+    }
+    command.fields[2].value.i32=6;
+    command.fields[3].kind=DH2_SCRIPT_VALUE_STRING;
+    command.fields[3].value.string={actor_name,sizeof(actor_name)};
+    command.fields[4].kind=DH2_SCRIPT_VALUE_BOOL;
+    command.fields[4].value.boolean=1;
+    dh2_script script={};script.command_count=1;
+    script.name={script_name,sizeof(script_name)};script.commands=&command;
+    dh2_script_table common={};common.script_count=1;common.scripts=&script;
+    dh2_script_table level={};ActorAnimationCall call{};
+    Runtime runtime={};runtime.common_table=&common;runtime.level_table=&level;
+    runtime.spawn_services.context=&call;
+    runtime.spawn_services.play_actor_animation=actor_animation_start;
+    runtime.spawn_services.actor_animation_active=actor_animation_active;
+    runtime.tasks[0].script=&script;runtime.tasks[0].ticket=1;
+    runtime.tasks[0].script_id=0;runtime.tasks[0].active=1;
+    runtime.task_slots_used=1;runtime.next_task_ticket=1;
+    check(advance(&runtime,16)==ERROR_OK&&call.starts==1&&call.polls==1&&
+          runtime.tasks[0].waiting_for_actor_animation&&runtime.tasks[0].pc==0,
+          "blocking PlayActorAnim starts once and polls source state immediately");
+    call.active=false;
+    check(advance(&runtime,16)==ERROR_OK&&call.starts==1&&call.polls==2&&
+          !runtime.tasks[0].active&&runtime.tasks[0].pc==1,
+          "PlayActorAnim resumes at next command when source IsBlocking clears");
+
+    command.fields[4].value.boolean=0;ActorAnimationCall nonblocking{};
+    Runtime immediate={};immediate.common_table=&common;immediate.level_table=&level;
+    immediate.spawn_services.context=&nonblocking;
+    immediate.spawn_services.play_actor_animation=actor_animation_start;
+    immediate.spawn_services.actor_animation_active=actor_animation_active;
+    immediate.tasks[0].script=&script;immediate.tasks[0].ticket=1;
+    immediate.tasks[0].script_id=0;immediate.tasks[0].active=1;
+    immediate.task_slots_used=1;immediate.next_task_ticket=1;
+    check(advance(&immediate,16)==ERROR_OK&&nonblocking.starts==1&&
+          nonblocking.polls==0&&!immediate.tasks[0].active,
+          "nonblocking PlayActorAnim does not poll or yield");
+}
+
+struct DialogCall {
+    uint32_t starts;
+    uint32_t id_starts;
+    uint32_t active_queries;
+    int32_t actor_id;
+    int32_t style_id;
+    int32_t text_string_id;
+    int32_t dialog_id;
+    int queue_active;
+};
+static int start_dialog_dispatch(void *context,
+        const SpawnServices::DialogRequest *request) {
+    DialogCall *call=(DialogCall *)context;
+    if(call==NULL||request==NULL)return -1;
+    ++call->starts;
+    call->actor_id=request->actor_id;
+    call->style_id=request->style_id;
+    call->text_string_id=request->text_string_id;
+    call->queue_active=1;
+    return 1;
+}
+static int start_dialog_id_dispatch(void *context,
+        const SpawnServices::DialogIdRequest *request) {
+    DialogCall *call=(DialogCall *)context;
+    if(call==NULL||request==NULL)return -1;
+    ++call->id_starts;call->dialog_id=request->dialog_id;
+    call->queue_active=1;return 1;
+}
+static int dialog_active_dispatch(void *context) {
+    DialogCall *call=(DialogCall *)context;
+    if(call==NULL)return -1;
+    ++call->active_queries;
+    return call->queue_active;
+}
+static void test_source_dialog_wait() {
+    const uint8_t script_name_bytes[]={'D','i','a','l','o','g'};
+    dh2_script_command commands[3]={};
+    commands[0].command_id=10;commands[0].field_count=3;
+    for(uint32_t i=0;i<3;++i)commands[0].fields[i].kind=DH2_SCRIPT_VALUE_I32;
+    commands[0].fields[0].value.i32=7;
+    commands[0].fields[1].value.i32=2;
+    commands[0].fields[2].value.i32=341;
+    commands[1].command_id=11;commands[1].field_count=1;
+    commands[1].fields[0].kind=DH2_SCRIPT_VALUE_I32;
+    commands[1].fields[0].value.i32=0;
+    commands[2].command_id=12;commands[2].field_count=0;
+    dh2_script script={};script.command_count=3;
+    script.name={script_name_bytes,sizeof(script_name_bytes)};
+    script.commands=commands;
+    dh2_script_table common={};common.script_count=1;common.scripts=&script;
+    dh2_script_table level={};
+    DialogCall call={};
+    Runtime runtime={};runtime.common_table=&common;runtime.level_table=&level;
+    runtime.spawn_services.context=&call;
+    runtime.spawn_services.start_dialog=start_dialog_dispatch;
+    runtime.spawn_services.start_dialog_id=start_dialog_id_dispatch;
+    runtime.spawn_services.dialog_active=dialog_active_dispatch;
+    runtime.tasks[0].script=&script;runtime.tasks[0].ticket=1;
+    runtime.tasks[0].script_id=0;runtime.tasks[0].active=1;
+    runtime.task_slots_used=1;runtime.next_task_ticket=1;
+
+    check(advance(&runtime,16)==ERROR_OK,
+          "StartDialog enqueues through the shared source scheduler");
+    check(call.starts==1&&call.actor_id==7&&call.style_id==2&&
+          call.text_string_id==341,
+          "StartDialog preserves actor/style/text IDs for UI resolution");
+    check(call.id_starts==1&&call.dialog_id==0,
+          "StartDialogID resolves through the source dialog-ID service");
+    check(runtime.tasks[0].active&&runtime.tasks[0].waiting_for_dialog&&
+          runtime.tasks[0].pc==2,
+          "WaitDialog blocks at its command while source queue is active");
+    check(advance(&runtime,16)==ERROR_OK&&runtime.tasks[0].active&&
+          runtime.tasks[0].waiting_for_dialog&&runtime.tasks[0].pc==2,
+          "active DialogMsg queue keeps the same task and PC suspended");
+    call.queue_active=0;
+    check(advance(&runtime,16)==ERROR_OK&&!runtime.tasks[0].active&&
+          runtime.tasks[0].pc==3,
+          "WaitDialog resumes after the source queue becomes empty");
+    check(call.active_queries==3,
+          "WaitDialog queries the source queue on start and each resumed update");
+}
+
+struct TutorialQueueCall {
+    uint32_t enqueues{}, skips{}, skip_all_calls{};
+    int32_t string_id{-1};
+    bool skip_all{};
+    char frame[MAX_NAME_BYTES]{},menu[MAX_NAME_BYTES]{};
+    uint32_t queue_size{};
+};
+static int enqueue_char_menu_tutorial_dispatch(void* context,
+        const SpawnServices::CharMenuTutorialRequest* request) {
+    auto* call=static_cast<TutorialQueueCall*>(context);
+    if(!call||!request)return -1;
+    ++call->enqueues;call->string_id=request->string_id;
+    std::memcpy(call->frame,request->frame,sizeof(call->frame));
+    std::memcpy(call->menu,request->menu,sizeof(call->menu));
+    ++call->queue_size;return 1;
+}
+static int skip_char_menu_tutorial_dispatch(void* context,uint8_t skip_all) {
+    auto* call=static_cast<TutorialQueueCall*>(context);
+    if(!call)return -1;
+    ++call->skips;call->skip_all=skip_all!=0;
+    if(skip_all){++call->skip_all_calls;call->queue_size=0;}
+    else if(call->queue_size)--call->queue_size;
+    return 1;
+}
+static void test_source_char_menu_tutorial_queue_commands() {
+    const uint8_t name_bytes[]={'T'};
+    const uint8_t frame_bytes[]={'S','k','i','l','l','s'};
+    const uint8_t menu_bytes[]={'m','e','n','u','_','C','h','a','r','a','c','t','e','r'};
+    dh2_script_command commands[4]={};
+    commands[0].command_id=74;commands[0].field_count=3;
+    commands[0].fields[0].kind=DH2_SCRIPT_VALUE_STRING;
+    commands[0].fields[0].value.string={frame_bytes,sizeof(frame_bytes)};
+    commands[0].fields[1].kind=DH2_SCRIPT_VALUE_STRING;
+    commands[0].fields[1].value.string={menu_bytes,sizeof(menu_bytes)};
+    commands[0].fields[2].kind=DH2_SCRIPT_VALUE_I32;
+    commands[0].fields[2].value.i32=341;
+    commands[1].command_id=75;
+    commands[2]=commands[0];commands[2].fields[2].value.i32=342;
+    commands[3].command_id=76;
+    dh2_script script={};script.command_count=4;
+    script.name={name_bytes,sizeof(name_bytes)};script.commands=commands;
+    dh2_script_table common={};common.script_count=1;common.scripts=&script;
+    dh2_script_table level={};TutorialQueueCall call{};
+    Runtime runtime{};runtime.common_table=&common;runtime.level_table=&level;
+    runtime.spawn_services.context=&call;
+    runtime.spawn_services.enqueue_char_menu_tutorial=
+        enqueue_char_menu_tutorial_dispatch;
+    runtime.spawn_services.skip_char_menu_tutorial=
+        skip_char_menu_tutorial_dispatch;
+    runtime.tasks[0].script=&script;runtime.tasks[0].ticket=1;
+    runtime.tasks[0].script_id=0;runtime.tasks[0].active=1;
+    runtime.task_slots_used=1;runtime.next_task_ticket=1;
+    check(advance(&runtime,16)==ERROR_OK&&!runtime.tasks[0].active,
+          "source tutorial producer and skip commands complete in scheduler order");
+    check(call.enqueues==2&&call.string_id==342&&
+          std::strcmp(call.frame,"Skills")==0&&
+          std::strcmp(call.menu,"menu_Character")==0,
+          "command 74 preserves source frame/menu/string-ID payload order");
+    check(call.skips==2&&call.skip_all&&call.skip_all_calls==1&&call.queue_size==0,
+          "command 75 skips one record and command 76 drains the remaining queue");
+}
+static void test_source_char_menu_tutorial_queue_owner() {
+    dh2::ui::SourceCharMenuTutorialQueueV1 queue;
+    dh2::ui::SourceCharMenuTutorialQueueV1::Message message;
+    bool found=true;
+    check(queue.front(message,found)&&!found&&message.string_id==-1&&
+          message.frame.empty()&&message.menu.empty(),
+          "empty CharacterMenu tutorial queue preserves source empty sentinel");
+    queue.enqueue(341,"Skills","menu_Character");
+    queue.enqueue(342,"Faery","menu_Character");
+    check(queue.front(message,found)&&found&&message.string_id==341&&
+          message.frame=="Skills"&&message.menu=="menu_Character",
+          "NativeGetCharMenuTutorialMessage peeks the first source record");
+    check(queue.skip_one()&&queue.size()==1&&queue.front(message,found)&&
+          found&&message.string_id==342,
+          "NativeSkipCharMenuTutorialMessage removes one front record");
+    queue.skip_all();
+    check(!queue.active()&&!queue.skip_one(),
+          "Script_SkipAllCharMenuTutorialMessages drains the canonical queue");
 }
 
 static uint8_t *read_file(const char *path, uint32_t *out_size) {
@@ -506,6 +801,27 @@ int main(int argc, char **argv) {
         printf("typed PlayCamera scheduler checks passed\n");
         return 0;
     }
+    if(argc==2&&strcmp(argv[1],"--actor-command-only")==0){
+        test_actor_command(41);
+        test_actor_command(46);
+        if(failures!=0)return 1;
+        printf("typed actor command scheduler checks passed\n");
+        return 0;
+    }
+    if(argc==2&&strcmp(argv[1],"--play-actor-animation-only")==0){
+        test_play_actor_animation_wait();
+        if(failures!=0)return 1;
+        printf("PlayActorAnim source wait checks passed\n");
+        return 0;
+    }
+    if(argc==2&&strcmp(argv[1],"--dialog-only")==0){
+        test_source_dialog_wait();
+        test_source_char_menu_tutorial_queue_owner();
+        test_source_char_menu_tutorial_queue_commands();
+        if(failures!=0)return 1;
+        printf("source dialog and CharacterMenu tutorial queue checks passed\n");
+        return 0;
+    }
     if (argc != 6) {
         fprintf(stderr, "usage: %s COMMON_NAMES COMMON_PROGRAMS SWAMP_NAMES "
                 "SWAMP_PROGRAMS SOURCE_SEED_TSV\n", argv[0]);
@@ -517,6 +833,7 @@ int main(int argc, char **argv) {
     const bool swamp_ok = load_table(argv[3], argv[4], &swamp, "SWAMP");
     check(common_ok && swamp_ok, "decode original common and SWAMP tables");
     test_play_camera_command();
+    test_play_actor_animation_wait();
     if (common_ok && swamp_ok) {
         check(common.name_count == 15 && swamp.name_count == 55,
               "native tables expose all common and SWAMP names");

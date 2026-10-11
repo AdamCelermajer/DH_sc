@@ -130,13 +130,13 @@ int main() {
 
     const auto* armored=character_sound_row(1);
     check(armored!=nullptr,true,"source CharSounds row resolves by Character sound-table ID");
-    check(std::string(armored->name)=="ArmoredHuman"&&armored->die.count==1&&
-          armored->die.ids[0]==28&&armored->hurt.ids==std::array<std::uint16_t,3>{29,30,31}&&
+    check(std::string(armored->name)=="ArmoredHuman"&&armored->death.count==1&&
+          armored->death.ids[0]==28&&armored->hurt.ids==std::array<std::uint16_t,3>{29,30,31}&&
           armored->impact_vs_flesh.ids==std::array<std::uint16_t,3>{120,121,122}&&
           armored->impact_vs_metal.ids==std::array<std::uint16_t,3>{117,118,119}&&
           !armored->is_flesh&&armored->is_metallic,
           true,"CharSounds table preserves original lists and flags");
-    check(character_sound_row(0)->die.count==0&&character_sound_row(2)->hurt.count==0&&
+    check(character_sound_row(0)->death.count==0&&character_sound_row(2)->hurt.count==0&&
           character_sound_row(-1)==nullptr&&character_sound_row(3)==nullptr,
           true,"empty and out-of-range CharSounds rows stay bounded");
     check(character_sound_id_or_default(-1)==2&&character_sound_id_or_default(3)==2&&
@@ -152,6 +152,35 @@ int main() {
         check(entry&&entry->uid==mapping[1],true,
               "every CharSounds ID resolves to its original sound-pack UID");
     }
+    const auto marker_sound=resolve_sfx_marker_sound("skill_mage_thunder_braid_add_2");
+    check(source_sound_names_v1.size()==638&&marker_sound.source&&
+          marker_sound.source->id==540&&marker_sound.playback&&
+          marker_sound.playback->uid==118&&
+          marker_sound.status==SourceSoundStatusV1::playable,true,
+          "full SDD name table resolves a retained animation sound to its source row");
+    bool retained_catalog_ids_match=true;
+    for(const auto& entry:catalog)
+        retained_catalog_ids_match=retained_catalog_ids_match&&
+            entry.source_sound_id<source_sound_names_v1.size()&&
+            source_sound_names_v1[entry.source_sound_id].name==entry.label;
+    check(retained_catalog_ids_match,true,
+          "every retained playback asset carries its exact source Sounds row ID");
+    const auto unavailable=resolve_source_sound_name("AbbeyRuinsOneAmbientMusic");
+    check(unavailable.status==SourceSoundStatusV1::known_but_unavailable&&
+          unavailable.source&&unavailable.source->id==0&&!unavailable.playback,true,
+          "known source Sounds names remain distinct from unavailable playback backends");
+    const auto marker_unavailable=resolve_sfx_marker_sound("serpent_attack");
+    check(marker_unavailable.status==SourceSoundStatusV1::known_but_unavailable&&
+          marker_unavailable.source&&marker_unavailable.source->id==514,true,
+          "known animation SFX without local PCM is not mistaken for a source-name miss");
+    const auto double_prefixed_marker=resolve_sfx_marker_sound(
+        "sfx_skill_rogue_arc_burst_shot");
+    check(double_prefixed_marker.status==SourceSoundStatusV1::playable&&
+          double_prefixed_marker.source&&double_prefixed_marker.source->id==542,true,
+          "animation markers containing an authored sfx_ sound label resolve exactly");
+    check(resolve_source_sound_name("DefinitelyNotASourceSound").status==
+              SourceSoundStatusV1::not_in_source_table,true,
+          "names absent from the complete SDD table remain source no-match");
 
     spatial.sound_id=28;
     spatial.distance_model_id=observed_default_distance_model_id;
@@ -186,6 +215,30 @@ int main() {
           "queued stop remains ahead of the newly accepted cue");
     check(consume(cue)&&cue=="dh2fx,play,85,118,0,0,sfx_skill_mage_thunder_braid_add_2.wav",true,
           "fresh cue survives expired backlog pruning");
+
+    {
+        std::lock_guard<std::mutex> lock(queue_mutex());
+        auto& pending=queue();
+        pending.clear();
+        Command ordinary{};
+        ordinary.kind=Kind::stop;
+        for(std::size_t i=0;i<queue_limit;++i)pending.push_back(ordinary);
+    }
+    check(enqueue_stop_all(500),true,
+          "source lifecycle StopAll can use one reserved slot beyond the ordinary cap");
+    check(queue().size()==queue_limit+1,true,
+          "reserved StopAll preserves all 64 queued commands");
+    check(enqueue_stop_all(500),true,
+          "an identical pending tail StopAll coalesces without another slot");
+    check(queue().size()==queue_limit+1,true,
+          "coalesced StopAll does not grow the queue");
+    check(enqueue_play(chain_lightning_cue,sizeof(chain_lightning_cue)-1,0x55,false,0),false,
+          "ordinary playback cannot consume the reserved control slot");
+    for(std::size_t i=0;i<queue_limit;++i)
+        check(consume(cue),true,"ordinary queued commands remain ahead of StopAll");
+    check(consume(cue)&&cue=="dh2fx,stopAll,500",true,
+          "reserved StopAll remains FIFO after the existing ordinary commands");
+    check(enqueue_stop_all(-1),false,"negative StopAll fade is rejected");
 
     std::cout << "PASS: native gameplay cue and CharSounds UID routing\n";
 }

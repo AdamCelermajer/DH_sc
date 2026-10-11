@@ -65,4 +65,12 @@ inline bool merchant_details_owner_ready_v1(
            bindings.canonical_merchant_inventory;
 }
 
+// A true merchant flag selects merchant inventory only when exact ObjectManager
+// lookup resolves a live merchant Character. Source falls back to Player
+// inventory when that selection is missing or resolves to another Character.
+inline bool merchant_details_uses_merchant_inventory_v1(
+        bool merchant_requested, bool source_selection_is_noop) noexcept {
+    return merchant_requested && !source_selection_is_noop;
+}
+
 } // namespace dh2::ui

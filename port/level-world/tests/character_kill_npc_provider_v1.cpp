@@ -201,7 +201,8 @@ int main() {
         services.raise_event2 = Fixture::raise_for_test;
         services.general_tail = tail_services;
         npc::Runtime runtime({character, &dead, &properties,
-            &classification_state, &classification_services, services});
+            &classification_state, &classification_services, services,
+            nullptr, nullptr});
         auto& caller = runtime.caller();
         ctrl::Result result{};
         std::string error;
@@ -246,7 +247,7 @@ int main() {
         null_services.general_tail = null_tail_services;
         npc::Runtime null_runtime({character, &second_dead, &second_properties,
             &null_classification_state, &null_classification_services,
-            null_services});
+            null_services, nullptr, nullptr});
         check(null_runtime.caller().kill(0, 0, &result, error) ==
                   ctrl::Status::complete && result.kill_completed &&
               null_killer.xp_calls == 0 && second_dead == 1 &&

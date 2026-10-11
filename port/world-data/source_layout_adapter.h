@@ -24,6 +24,17 @@ typedef struct dh2_world_source_mvp {
     size_t size;
 } dh2_world_source_mvp;
 
+// Exact normalized cache references retained from one imported MLX Module.
+// This is an in-memory source bridge, not a runtime asset format. Call with
+// output==NULL/capacity==0 to query the bounded module count, then call again
+// with that capacity to receive every module in authored order.
+typedef struct dh2_world_source_module_ref {
+    uint32_t module_index;
+    char name[256];
+    char mgp_path[512];
+    char mvp_path[512];
+} dh2_world_source_module_ref;
+
 // Internal adapter result. This is an in-memory bridge to the typed
 // level-world API, not an asset or runtime serialization format.
 typedef struct dh2_world_source_static_decor {
@@ -66,6 +77,13 @@ typedef struct dh2_world_source_character_row {
     char spawn_probability[32];
     char auto_spawn[16];
     char ai_state[64];
+    // Character::DeclareProperties exposes these exact authored MGP names;
+    // AddToGroup consumes them after Character property initialization.
+    char char_group[128];
+    char char_group_role[32];
+    // Character::DeclareProperties maps this authored MGP float to
+    // Character+0x143c (`spawn_view_radius`).
+    char spawn_view_radius[32];
     uint8_t is_global;
     uint32_t deferred_reason_mask;
     uint32_t supported_direct_dact_v1;
@@ -78,13 +96,50 @@ typedef struct dh2_world_source_character_row {
 // owners from the same imported bytes; it never creates or activates objects.
 typedef struct dh2_world_source_object_row {
     uint32_t module_index;
+    // Per-Level Module constructor ID which ObjectManager::LoadFromXML
+    // passes into ObjectBase+0x64 for this module's MGP rows.
+    int32_t source_module_id;
     uint32_t source_record;
     char name[96];
     char gametype[64];
     char template_name[64];
     char activate_condition[128];
     char deactivate_condition[128];
+    char spawn_probability[32];
+    // ObjectBase::TestEnableCondition consumes these after InitPost. Empty
+    // values retain constructor/default-property semantics.
+    char min_difficulty[32];
+    char is_demo_only[16];
     char dimensions[64];
+    // Authored GameObject `data_desc` key. Type-specific source factories use
+    // this to resolve their immutable table row; it is not the runtime data ID.
+    char data_desc[128];
+    // Door::DeclareProperties uses the authored `data` key to select its
+    // immutable Doors table row; opened and door_collision are source bytes
+    // retained until the canonical Door owner runs InitPost/InitFinal.
+    char door_data[128];
+    char door_opened[16];
+    char door_collision[16];
+    // Source PyArray selector paired with data_desc (for example,
+    // DestructibleContainers). Some MGP classes derive this through their
+    // source virtual instead of storing an explicit field.
+    char data_desc_pydata[64];
+    // TriggerZoneExitLevel::DeclareProperties authored fields. These stay
+    // immutable on the retained MGP source census; only its +2072/+2073
+    // runtime flags are published on the canonical ObjectManager row.
+    char level_id[32];
+    char level_name[128];
+    char entrypoint_id[32];
+    char fasttravel[128];
+    // GameObject::DeclareProperties defaults skip_checkpoint to false; the
+    // source MGP override is retained for ObjectBase +0x28 save eligibility.
+    char skip_checkpoint[16];
+    // ObjectBase::DeclareProperties `visible` value; an empty field preserves
+    // the constructor-time PropertyMap default of true.
+    char visible[16];
+    // GameObject::GetTargetPosition returns the cached source position unless
+    // InitPost resolved this authored node name to a visual child.
+    char target_node[128];
     float local_transform[9];
     float world_transform[9];
 } dh2_world_source_object_row;
@@ -108,6 +163,13 @@ int dh2_world_compile_static_layout(const uint8_t* mlx, size_t mlx_size,
     const char* level_name, const char* source_path,
     uint8_t* output, size_t output_capacity, size_t* output_size,
     char* error, size_t error_capacity);
+
+// Enumerate the exact normalized MGP/MVP paths and Module names from any
+// supported authored Level MLX. Does not read files or create runtime objects.
+int dh2_world_source_module_refs(const uint8_t* mlx, size_t mlx_size,
+    const char* level_name, const char* source_path,
+    dh2_world_source_module_ref* output, size_t output_capacity,
+    size_t* output_count, char* error, size_t error_capacity);
 
 // Import the MLX and its referenced MGPs through the source-world importer,
 // then serialize only the three unconditional SWAMP entrypoints (IDs 0, 3,

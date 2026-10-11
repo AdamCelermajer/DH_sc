@@ -61,8 +61,9 @@ public:
  bool displacement=false;
  bool stop_requested=false; // original animator+4a; consumed before pending gate
  // Authored28, finite22, Update27/25/23 and selection24/26 synchronously route
- // here. Scheduler events have null payload; their RaiseEvent returns are
- // ignored by the animator (AI forwarding remains an explicit caller service).
+ // here. Update finite closure carries the stable close-latch address; the
+ // other scheduler events carry null. RaiseEvent returns are ignored by the
+ // animator (AI forwarding remains an explicit caller service).
  BlendedEventObserver observer{};
  std::int32_t last_event_lag=0;
  // Source enabled/bound target gates. Unbound compiled channels remain in the

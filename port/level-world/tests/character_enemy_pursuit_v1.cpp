@@ -25,7 +25,7 @@ struct Fixture {
     std::uintptr_t last_animation_payload{};
     std::uint32_t source_attack_look_at{};
 };
-void ai_invoke(void* raw, AnimationAIState96*, const AnimationAIRequest32* request,
+std::int32_t ai_invoke(void* raw, AnimationAIState96*, const AnimationAIRequest32* request,
                AnimationAIResponse16* response) {
     auto& f = *static_cast<Fixture*>(raw);
     ++f.ai_calls;
@@ -33,13 +33,15 @@ void ai_invoke(void* raw, AnimationAIState96*, const AnimationAIRequest32* reque
         std::copy(f.target_position, f.target_position + 3, response->position);
     else if (request->service == ai_melee_radius_squared)
         std::memcpy(&response->word, &f.radius_squared, sizeof(response->word));
+    return 0;
 }
-void ai_attack_invoke(void* raw, AnimationAIState96*, const AnimationAIRequest32* request,
+std::int32_t ai_attack_invoke(void* raw, AnimationAIState96*, const AnimationAIRequest32* request,
                       AnimationAIResponse16* response) {
     auto& f = *static_cast<Fixture*>(raw);
     ++f.ai_calls;
     if (request->service == ai_animation_step_index) response->word = 3;
     else if (request->service == ai_animation_step_count) response->word = 4;
+    return 0;
 }
 int control_invoke(void* raw, const CharacterControlRequest32* request,
                    CharacterControlResponse16* response) {

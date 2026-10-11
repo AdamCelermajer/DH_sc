@@ -19,6 +19,10 @@ struct LootPickupQuestEventV10 {
     // +0x18 (QuestMoveInZone). Keep that identity pointer-width on the host;
     // do not overload the independent network_id/item_id semantics.
     std::uintptr_t object_identity{};
+    // Distinct source payload used by DestroyGameObject at native tail +0x18.
+    // Event types have different source tail meanings; keep DataID separate
+    // from MoveInZone's ObjectBase pointer and GatherLoot's item ID.
+    std::int32_t source_data_id{-1};
 };
 
 struct LootPickupQuestServicesV10 {

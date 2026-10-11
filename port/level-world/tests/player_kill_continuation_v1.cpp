@@ -20,28 +20,42 @@ template<class T>T read_gold(std::istream& file){T x{};file.read(reinterpret_cas
 struct Core {
  Gold gold{};dh2::character_ai_initialization::State ai{};ch::Coordinator coordinator{CHAR};
  target::OwnerFacts owner{CHAR,0,0x1234,0};target::Services target_services{this,20,debug};
- death::DeadFields fields{};std::uintptr_t group=0;
+ std::array<std::int32_t,224> defaults{},types{},base{},saved{},gear{},resolved{};
+ d::PropertyView death_properties{};d::AnimationTables* tables=nullptr;
+ std::uintptr_t group=0;
  std::unique_ptr<death::Runtime> runtime;std::vector<Trace> trace;
  dh2::character_aggro_cleanup::PeerRef peer{PEER,0};
- unsigned call=0,fail=0,held=0,mask_calls=0,state_calls=0,state_fail=0;
+ unsigned call=0,fail=0,held=0,state_calls=0,state_fail=0;
  bool throw_provider=false,reenter=false,mirror=false,missing_link=false;
  std::vector<death::Operation> operations;
- Fixture* fixture=nullptr;c::Runtime* cleanup=nullptr;d::AnimationTables* tables=nullptr;
- std::vector<std::uint8_t> constants;c::Result skills{},spells{};
+ Fixture* fixture=nullptr;c::Runtime* cleanup=nullptr;
+ std::vector<std::uint8_t> constants;dh2_pycst_view constants_view{};c::Result skills{},spells{};
  Core(){
   ai.identity=AI;dh2::character_ai_initialization::Result result{};
   const dh2::character_ai_initialization::Services queue{this,[](void*,auto*,auto){return 0;}};
   check(dh2::character_ai_initialization::construct(&ai,0x600000001ull,&queue,&result)==dh2::character_ai_initialization::Status::complete,"source AI constructor failed");
   check(dh2::character_ai_association::associate(&ai,CHAR)==dh2::character_ai_association::Status::complete,"source association failed");
   coordinator.bind({this,[](void*){ch::Facts f{};f.is_player=1;return f;},{this,state}});
-  reset();runtime=std::make_unique<death::Runtime>(death::Bindings{&ai,&coordinator,&owner,&target_services,&fields,&group,AIS,{this,invoke}});
+  reset();
+ }
+ void bind_runtime(){
+  death::Bindings bindings{};bindings.ai=&ai;bindings.coordinator=&coordinator;
+  bindings.target_owner=&owner;bindings.target_services=&target_services;
+  bindings.dead_state={&coordinator,{CHAR,&death_properties},tables,
+      &constants_view,{}};
+  bindings.group_identity=&group;bindings.player_ais_identity=AIS;
+  bindings.backend={this,invoke};runtime=std::make_unique<death::Runtime>(bindings);
  }
  void reset(const Gold& value=Gold{}){
-  gold=value;trace.clear();operations.clear();call=mask_calls=state_calls=held=0;coordinator.stop_timers();
-  coordinator.state={};coordinator.state.current=std::int32_t(gold.in[9]);coordinator.state.dead_alternate=123;
+  gold=value;trace.clear();operations.clear();call=state_calls=held=0;coordinator.stop_timers();
+  coordinator.state={};coordinator.state.current=std::int32_t(gold.in[9]);coordinator.state.dead_alternate=gold.in[4];
   ai.active_ais_1c=gold.in[1]?AIS:0;ai.requested_target_3c=0;ai.target_40=gold.in[2]?PEER:0;ai.last_target_44=PEER;
   ai.alive_48=3;ai.sight_49=4;ai.sticky_4c=1;owner.target_change_marker_14d0=0x1234;
-  fields={-1,std::uint8_t(gold.in[4])};group=gold.in[0]?GROUP:0;
+  coordinator.set_source_despawn_animation_38(-1);
+  coordinator.set_source_dead_byte_3e(123);
+  group=gold.in[0]?GROUP:0;
+  resolved.fill(0);resolved[2]=std::int32_t(gold.in[5]);
+  death_properties={defaults.data(),types.data(),base.data(),saved.data(),gear.data(),resolved.data(),nullptr,0};
   ai.tree_7c.count=gold.in[11];ai.tree_94.count=gold.in[12];
   ai.word_10=coordinator.start_timer(500,-1,0x33,0);ai.word_14=coordinator.start_timer(500,-1,0x34,0);
   check(coordinator.start_timer(1000,-1,0x35,PEER)==2,"source test timer allocation changed");
@@ -66,7 +80,7 @@ struct Core {
   auto& x=*static_cast<Core*>(raw);++x.state_calls;
   // The state kernel and all reached services run. Their external bodies are
   // declared callee fixtures here, as _SetState is in the ARM caller replay.
-  if(q->service==ch::dead_focus_prelude)x.trace.push_back({16,std::uint32_t(s->animation_override),std::uint32_t(x.fields.despawn_sequence)});
+  if(q->service==ch::dead_focus_prelude)x.trace.push_back({16,std::uint32_t(s->animation_override),std::uint32_t(x.coordinator.source_despawn_animation_38())});
   if(x.state_calls==x.state_fail)throw std::runtime_error("explicit state service failure");
   if(q->service==ch::set_animation)s->current_animation=q->argument[0];
   if(q->service==ch::look_at&&q->argument[0]==1)check(!q->identity,"direct dead state carried killer payload");
@@ -81,24 +95,7 @@ struct Core {
   switch(op){
   case death::Operation::group_died:check(q->subject==GROUP&&q->killer==PEER,"GroupInfo/killer truncated");s.trace.push_back({0,0,0});break;
   case death::Operation::ais_died:check(q->subject&&q->killer==PEER,"active AIS/killer lost");s.trace.push_back({1,0,0});break;
-  case death::Operation::animation_table:{
-   const auto count=s.tables?s.tables->characters.size():s.gold.in[6];
-   const auto row=s.fixture?s.fixture->properties.resolved[2]:std::int32_t(s.gold.in[5]);
-   r->word=row>=0&&std::uint32_t(row)<count?row:17;r->count=std::uint32_t(count);s.trace.push_back({2,std::uint32_t(r->word),r->count});break;
-  }
-  case death::Operation::animation_value:{
-   static constexpr const char* keys[]={"Died","DeadlyGreatKB","Despawn","DespawnGreatKB"};
-   if(s.tables){const auto it=std::find(s.tables->state_names.begin(),s.tables->state_names.end(),keys[std::uint32_t(q->animation)]);check(it!=s.tables->state_names.end(),"real death field absent");
-    const auto& values=s.tables->characters.at(q->row).fields.at(it-s.tables->state_names.begin());check(values.size()==1,"real death scalar malformed");r->word=values[0];
-   }else r->word=(std::uint32_t(q->animation)+1)*10;
-   s.trace.push_back({3,std::uint32_t(q->animation),std::uint32_t(r->word)});break;
-  }
-  case death::Operation::stance_mask:{
-   check(std::string(q->group)=="AnimStancedAnim"&&std::string(q->key)=="SL__LIST_IPHONE","source stance key changed");r->word=s.gold.in[7];
-   if(!s.constants.empty()){dh2_pycst_view v{};dh2_pycst_result value{};check(!dh2_pycst_open(&v,s.constants.data(),s.constants.size())&&!dh2_pycst_get(&v,q->group,std::strlen(q->group),q->key,std::strlen(q->key),&value)&&value.found,"real stance constant missing");r->word=value.value;}
-   s.trace.push_back({4,0,std::uint32_t(r->word)});if(++s.mask_calls==1&&s.gold.in[10])s.fields.great_knockback=0;break;
-  }
-  case death::Operation::anim_stance:check(!s.fixture,"real absent inventory reached stance");r->word=s.gold.in[8];s.trace.push_back({5,0,std::uint32_t(r->word)});break;
+  case death::Operation::anim_stance:check(!s.fixture,"real absent inventory reached stance");r->word=s.gold.in[8];s.trace.push_back({5,0,std::uint32_t(r->word)});if(s.gold.in[10])s.coordinator.state.dead_alternate=0;break;
   case death::Operation::relations:r->count=dir?s.ai.tree_94.count:s.ai.tree_7c.count;r->peers=r->count?&s.peer:nullptr;s.trace.push_back({6,dir,r->count});if(s.missing_link&&r->count){error="actual linked peer provider absent";return 1;}break;
   case death::Operation::retain_peer:check(q->subject==PEER,"peer identity truncated");++s.held;r->lifetime_handle=&s.peer;break;
   case death::Operation::contains_mirror:check(q->subject==PEER&&q->lifetime_handle==&s.peer,"mirror lifetime lost");r->word=s.mirror;break;
@@ -112,7 +109,7 @@ struct Core {
   return 0;
  }
  std::array<std::uint32_t,19> output(const death::Result& r)const{
-  const auto& ts=coordinator.timers();return {std::uint32_t(coordinator.state.current),std::uint32_t(r.death_animation),std::uint32_t(fields.despawn_sequence),coordinator.state.dead_alternate,fields.great_knockback,
+  const auto& ts=coordinator.timers();return {std::uint32_t(coordinator.state.current),std::uint32_t(r.death_animation),std::uint32_t(coordinator.source_despawn_animation_38()),coordinator.source_dead_byte_3e(),coordinator.state.dead_alternate,
    std::uint32_t(ai.requested_target_3c),std::uint32_t(ai.target_40),std::uint32_t(ai.last_target_44),ai.alive_48,ai.sight_49,ai.sticky_4c,owner.target_change_marker_14d0,ai.word_10,ai.word_14,ts.slots[0].active,ts.slots[1].active,ts.slots[2].active,ai.tree_7c.count,ai.tree_94.count};
  }
 };
@@ -270,7 +267,11 @@ int main(int argc,char** argv){try{
  check(d::load_dictionary(bytes(dn),bytes(dv),clips,error)&&d::load_animation_tables(bytes(ar),bytes(an),bytes(af),clips,animations,error),error.c_str());
  for(const char* name:{"KnightPlayerBase","MagePlayerBase","RoguePlayerBase"}){
   Fixture player(argv[1],std::filesystem::path(argv[2])/name,cat,name);cleanup_prepare(player);auto* slot=player.session.get();c::Runtime cleanup(&slot,*player.owner,CHAR);
-  Core core;Gold gold{};gold.in={0,1,1,0,0,2,20,0,5,3,0,0,0};core.reset(gold);core.fixture=&player;core.cleanup=&cleanup;core.tables=&animations;core.constants=load("data/pydata/animations_pycst.bin");
+  Core core;Gold gold{};gold.in={0,1,1,0,0,2,20,0,5,3,0,0,0};core.reset(gold);core.fixture=&player;core.cleanup=&cleanup;core.tables=&animations;core.death_properties=player.view;core.constants=load("data/pydata/animations_pycst.bin");
+  check(core.constants.size()<=UINT32_MAX&&
+      !dh2_pycst_open(&core.constants_view,core.constants.data(),
+                      std::uint32_t(core.constants.size())),
+      "Player death constants rejected");core.bind_runtime();
   KillCore x(player);x.actual_death=&core;x.dead=0;check(!dh2_property_set_int(&player.view,36,123),"composition HP set failed");const auto vm=slot->vm();const auto loads=slot->statistics().load_calls;k::Result r{};
   check(x.caller.kill(PEER,0,&r,error)==k::Status::complete,error.c_str());
   check(r.kill_completed&&r.event2_completed&&x.resumed.death_count_added&&core.coordinator.state.current==12&&core.skills.completed+core.spells.completed==13,"actual event2 composition omitted source owners");

@@ -29,7 +29,12 @@ enum Error {
     ERROR_EVENT_CAPACITY,
     ERROR_CHARACTER_SERVICE,
     ERROR_CAMERA_SERVICE,
-    ERROR_UNSUPPORTED_ONLINE
+    ERROR_ACTOR_SERVICE,
+    ERROR_DIALOG_SERVICE,
+    ERROR_ACTOR_ANIMATION_SERVICE,
+    ERROR_UNSUPPORTED_ONLINE,
+    ERROR_CHAR_MENU_TUTORIAL_SERVICE,
+    ERROR_DOOR_SERVICE
 };
 
 enum EventType {
@@ -72,6 +77,12 @@ struct ObjectRecord {
     uint8_t spawn_state_requested;
     uint32_t transition_count;
     CharacterState state;
+    // Optional canonical ObjectManager identity resolved on demand by the
+    // live Level provider. These are provenance fields, not another registry.
+    uintptr_t identity;
+    int32_t source_handle;
+    int32_t module_id;
+    uint8_t global_object;
 };
 
 struct Options {
@@ -100,6 +111,65 @@ struct SpawnServices {
     // use_crit selects the selected CamAnimSet Crit; otherwise clip_id is
     // resolved as an AnimDict ID in that same selected set.
     int (*play_camera)(void*, uint8_t use_crit, int32_t clip_id);
+    // Optional live ObjectManager lookup. Returns 1 for an exact canonical
+    // row, 0 for source lookup miss, and -1 when identity validation fails.
+    int (*lookup_object)(void*, const char*, ObjectRecord*);
+    // Source actor commands are dispatched synchronously against the active
+    // ObjectManager/Character owners. Names preserve command payload order
+    // after decoding: actor_name is the acted-on object, target_name the
+    // position/look target.
+    struct ActorCommandRequest {
+        uint32_t command_id;
+        char actor_name[MAX_NAME_BYTES];
+        char target_name[MAX_NAME_BYTES];
+    };
+    // >0 accepted, 0 canonical ObjectManager name miss, <0 provider failure.
+    int (*actor_command)(void*, const ActorCommandRequest*);
+    struct DialogRequest {
+        int32_t actor_id;
+        int32_t style_id;
+        int32_t text_string_id;
+    };
+    struct DialogIdRequest {
+        int32_t dialog_id;
+    };
+    // StartDialog executes at its source scheduler boundary. A zero result is
+    // a valid source flush/no-enqueue branch; negative is a provider failure.
+    int (*start_dialog)(void*, const DialogRequest*);
+    // StartDialogID resolves every row from the source Dialogs table, then
+    // appends those rows to the same retained DialogMsg queue.
+    int (*start_dialog_id)(void*, const DialogIdRequest*);
+    // WaitDialog::IsBlocking reads the one active Level's DialogMsg queue.
+    // Returns 1 while nonempty, 0 when empty, and -1 when stale/unavailable.
+    int (*dialog_active)(void*);
+    struct ActorAnimationRequest {
+        int32_t anim_dictionary_a;
+        int32_t anim_dictionary_b;
+        int32_t animation_type;
+        char actor_name[MAX_NAME_BYTES];
+    };
+    // Executes PlayActorAnim against one canonical Character and returns its
+    // retained identity for the subsequent source IsBlocking polls.
+    int (*play_actor_animation)(void*, const ActorAnimationRequest*, uintptr_t*);
+    // Source IsBlocking checks the retained ObjectHandle and current animator
+    // state. Returns 1 while the requested state remains active, 0 otherwise.
+    int (*actor_animation_active)(void*, uintptr_t, int32_t);
+    struct CharMenuTutorialRequest {
+        char frame[MAX_NAME_BYTES];
+        char menu[MAX_NAME_BYTES];
+        int32_t string_id;
+    };
+    int (*enqueue_char_menu_tutorial)(void*, const CharMenuTutorialRequest*);
+    int (*skip_char_menu_tutorial)(void*, uint8_t skip_all);
+    struct DoorCommandRequest {
+        uint32_t command_id;
+        char door_name[MAX_NAME_BYTES];
+        uint8_t force;
+    };
+    // Door commands target the canonical ObjectManager row. The returned
+    // identity is retained on the script task for the source IsBlocking poll.
+    int (*door_command)(void*, const DoorCommandRequest*, uintptr_t*);
+    int (*door_is_blocking)(void*, uintptr_t, uint32_t command_id);
 };
 
 struct Task {
@@ -117,7 +187,14 @@ struct Task {
     uint8_t depth;
     uint8_t active;
     uint8_t waiting;
+    uint8_t waiting_for_dialog;
     uint8_t start_check_running;
+    uint8_t waiting_for_actor_animation;
+    uintptr_t actor_animation_identity;
+    int32_t actor_animation_state;
+    uint8_t waiting_for_door;
+    uintptr_t door_identity;
+    uint32_t door_command_id;
 };
 
 struct Runtime {
@@ -142,6 +219,7 @@ struct Runtime {
     uint8_t camera_target_is_player;
     char camera_target[MAX_NAME_BYTES];
     SpawnServices spawn_services;
+    ObjectRecord lookup_scratch;
     Error error;
 };
 

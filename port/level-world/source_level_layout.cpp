@@ -329,6 +329,9 @@ bool census_source_characters_with_handles_for_level(const std::uint8_t* mlx,
         record.spawn_probability = row.spawn_probability;
         record.auto_spawn = row.auto_spawn;
         record.ai_state = row.ai_state;
+        record.char_group = row.char_group;
+        record.char_group_role = row.char_group_role;
+        record.spawn_view_radius = row.spawn_view_radius;
         record.is_global = row.is_global != 0;
         record.deferred_reason_mask = row.deferred_reason_mask;
         record.supported_direct_dact_v1 = row.supported_direct_dact_v1 != 0;
@@ -451,6 +454,7 @@ bool census_source_objects_with_handles_for_level(const std::uint8_t* mlx,
         }
         SourceObjectCensusV1 object{};
         object.module_index = row.module_index;
+        object.source_module_id = row.source_module_id;
         object.source_record = row.source_record;
         object.source_handle = selected->handle;
         object.duplicate_name = selected->duplicate_name;
@@ -459,7 +463,22 @@ bool census_source_objects_with_handles_for_level(const std::uint8_t* mlx,
         object.template_name = row.template_name;
         object.activate_condition = row.activate_condition;
         object.deactivate_condition = row.deactivate_condition;
+        object.spawn_probability = row.spawn_probability;
+        object.min_difficulty = row.min_difficulty;
+        object.is_demo_only = row.is_demo_only;
         object.dimensions = row.dimensions;
+        object.data_desc = row.data_desc;
+        object.data_desc_pydata = row.data_desc_pydata;
+        object.door_data = row.door_data;
+        object.door_opened = row.door_opened;
+        object.door_collision = row.door_collision;
+        object.exit_level_id = row.level_id;
+        object.exit_level_name = row.level_name;
+        object.exit_entrypoint_id = row.entrypoint_id;
+        object.exit_fasttravel = row.fasttravel;
+        object.visible = row.visible;
+        object.skip_checkpoint = row.skip_checkpoint;
+        object.target_node = row.target_node;
         for (unsigned axis = 0; axis < 3; ++axis) {
             object.local.position[axis] = row.local_transform[axis];
             object.local.rotation_degrees[axis] = row.local_transform[3 + axis];

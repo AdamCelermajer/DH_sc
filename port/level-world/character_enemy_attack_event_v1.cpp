@@ -9,7 +9,7 @@ struct Dispatch {
     bool failed{};
 };
 
-void invoke(void* raw, character::AnimationAIState96* ai,
+std::int32_t invoke(void* raw, character::AnimationAIState96* ai,
             const character::AnimationAIRequest32* request,
             character::AnimationAIResponse16* response) {
     auto& dispatch = *static_cast<Dispatch*>(raw);
@@ -17,29 +17,31 @@ void invoke(void* raw, character::AnimationAIState96* ai,
     if (!ai || ai != dispatch.binding.ai || !request || !response ||
         ai->owner != dispatch.binding.character_identity) {
         dispatch.failed = true;
-        return;
+        return -1;
     }
     if (request->service == character::ai_character_event &&
         request->argument == 0x1a) {
         ++dispatch.result.character_event_calls;
         if (request->subject != dispatch.binding.character_identity) {
             dispatch.failed = true;
-            return;
+            return -1;
         }
         const int status = dh2_character_state_event(dispatch.binding.state,
             dispatch.binding.facts, 0x1a,
             static_cast<std::uint64_t>(request->payload),
             &dispatch.binding.state_services);
         dispatch.result.character_event_status = status;
-        if (status < 0) dispatch.failed = true;
-        else response->word = static_cast<std::uint32_t>(status);
-        return;
+        if (status < 0) {dispatch.failed = true;return -1;}
+        response->word = static_cast<std::uint32_t>(status);
+        return 0;
     }
     ++dispatch.result.forwarded_calls;
     try {
-        dispatch.binding.animation_services.invoke(
+        const auto status=dispatch.binding.animation_services.invoke(
             dispatch.binding.animation_services.context, ai, request, response);
-    } catch (...) { dispatch.failed = true; }
+        if(status!=0)dispatch.failed=true;
+        return status;
+    } catch (...) { dispatch.failed = true;return -1; }
 }
 
 } // namespace

@@ -57,6 +57,32 @@ Runtime::~Runtime() {
     faery_scripts_.clear();
 }
 
+bool Runtime::cooldown_count(std::uint32_t kind, std::uint32_t* count) const noexcept {
+    if (!count || !prepared_ || kind > 1) return false;
+    const auto& scripts = kind == 0 ? skill_scripts_ : faery_scripts_;
+    if (scripts.size() > UINT32_MAX) return false;
+    *count = static_cast<std::uint32_t>(scripts.size());
+    return true;
+}
+
+bool Runtime::cooldown_slot(std::uint32_t kind, std::uint32_t index,
+        character_skill_cooldown_services::Slot* slot) const noexcept {
+    if (!slot || !prepared_ || kind > 1) return false;
+    *slot = {};
+    const auto& scripts = kind == 0 ? skill_scripts_ : faery_scripts_;
+    if (index >= scripts.size()) return false;
+    const auto identity = scripts[index];
+    if (!identity) return true; // The source vector retains null script rows.
+    const auto instance = std::find_if(script_instances_.begin(), script_instances_.end(),
+        [identity](const auto& candidate) {
+            return candidate && candidate->constructor.identity == identity;
+        });
+    if (instance == script_instances_.end()) return false;
+    slot->instance = identity;
+    slot->timer_id_18 = &(*instance)->constructor.last_skill_id_18;
+    return true;
+}
+
 bool Runtime::build_selector_tables(const Bindings& bindings) {
     if (!bindings.faeries || bindings.faeries->faery_lists.empty() ||
         bindings.faeries->faeries.empty() ||
@@ -498,20 +524,14 @@ Status Runtime::prepare(const Bindings& bindings, Result& result) {
         !bindings.debug_globals->singleton || !bindings.init_vcb ||
         (bindings.skills->skill_lists.size() && bindings.skills->skill_lists.size() > kMaximumRows))
         return Status::invalid_argument;
-    if (prepared_ && (prepared_ai_identity_ != bindings.ai->identity ||
-                      prepared_character_identity_ != bindings.ai->owner_04))
+    // SetSkillsAndSpells owns one construction pass over initially empty
+    // CharAI vectors. A second invocation would reserve/append a second set
+    // of source instances, so this Runtime is deliberately one-shot.
+    if (prepared_ || !skill_scripts_.empty() || !faery_scripts_.empty() ||
+        !script_instances_.empty())
         return Status::invalid_argument;
     if (!bindings.script_context || !bindings.load_script || !bindings.call_script ||
         !build_selector_tables(bindings)) return Status::invalid_source_tables;
-    const auto faery_size_before = faery_scripts_.size();
-    if ((faery_size_before != 0 && faery_size_before != 5) ||
-        std::any_of(faery_scripts_.begin(), faery_scripts_.end(),
-                    [](std::uintptr_t identity) { return identity != 0; }))
-        return Status::invalid_source_tables;
-    if (skill_scripts_.size() > kMaximumRows ||
-        std::any_of(skill_scripts_.begin(),skill_scripts_.end(),[&](std::uintptr_t identity) {
-            return identity && !arguments_for(identity);
-        })) return Status::invalid_source_tables;
     active_bindings_ = &bindings;
     active_result_ = &result;
     struct Reset {
@@ -544,17 +564,25 @@ Status Runtime::prepare(const Bindings& bindings, Result& result) {
                               &constructor_globals};
     result.source_status = Source::prepare(&state, &services, &result.source);
     if (result.source_status != Source::Status::complete) return Status::source_failed;
-    if (faery_scripts_.size() != 5 ||
-        std::any_of(faery_scripts_.begin(), faery_scripts_.end(),
-                    [](std::uintptr_t identity) { return identity != 0; }) ||
-        result.source.skill_slots != skill_scripts_.size() ||
-        result.source.faery_slots != (faery_size_before == 0 ? 5u : 0u) ||
-        result.source.null_appends != (faery_size_before == 0 ? 5u : 0u) ||
-        result.arguments_created != result.arguments_destroyed)
+    const auto live_scripts = [](const std::vector<std::uintptr_t>& scripts) {
+        return static_cast<std::size_t>(std::count_if(scripts.begin(), scripts.end(),
+            [](std::uintptr_t identity) { return identity != 0; }));
+    };
+    const auto live_count = live_scripts(skill_scripts_) + live_scripts(faery_scripts_);
+    const auto total_slots = skill_scripts_.size() + faery_scripts_.size();
+    if (result.source.skill_slots != skill_scripts_.size() ||
+        result.source.faery_slots != faery_scripts_.size() ||
+        result.source.null_appends != total_slots - live_count ||
+        result.source.script_allocations != live_count ||
+        result.arguments_created != result.arguments_destroyed ||
+        std::any_of(skill_scripts_.begin(), skill_scripts_.end(), [&](std::uintptr_t identity) {
+            return identity && !arguments_for(identity);
+        }) ||
+        std::any_of(faery_scripts_.begin(), faery_scripts_.end(), [&](std::uintptr_t identity) {
+            return identity && !arguments_for(identity);
+        }))
         return Status::invalid_source_tables;
     prepared_ = true;
-    prepared_ai_identity_ = bindings.ai->identity;
-    prepared_character_identity_ = bindings.ai->owner_04;
     return Status::complete;
 }
 

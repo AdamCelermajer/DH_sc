@@ -13,6 +13,7 @@ struct State {
     std::uint8_t value = 0;
     std::uint32_t constructor_write_seen = 0;
     std::uint32_t network_spawn_write_seen = 0;
+    std::uint32_t script_summon_write_seen = 0;
     std::uint32_t retired = 0;
 };
 
@@ -31,6 +32,11 @@ Status character_constructor_completed(State*, std::uintptr_t character);
 // Call only from the source-equivalent HandleSpawnObjectMessage branch after
 // its explicit `NPC+5348 = 1` store at 0x49abac. Repeated calls are harmless.
 Status network_spawn_marker_written(State*, std::uintptr_t character);
+
+// GameObject::_Summon's CreateNPC tail writes this same byte at the source
+// script-spawn callsite. Keep this producer distinct from the network message
+// writer while sharing the Character's one +0x14e4 byte.
+Status script_summon_marker_written(State*, std::uintptr_t character);
 
 // Read the retained byte for the same canonical Character. A never-seen or
 // retired Character is unavailable; callers must not substitute zero.

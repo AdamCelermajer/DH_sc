@@ -26,6 +26,18 @@ struct FactsServices {
     bool (*serialize_noncharacter)(void*, const manager::GameObject&,
                                    std::vector<std::uint8_t>&, std::string&){};
     const character_level_save_serialize_v1::CanonicalServices* character{};
+    // Identity-checked path for a canonical Character that is owned outside
+    // CharacterRuntimeFactory (the retained Player is one such source owner).
+    // This does not enroll a synthetic factory Record or alter ObjectManager.
+    const character_level_save_serialize_v1::Services* character_identity{};
+    // Identity-checked admission for Character rows that are canonical in the
+    // ObjectManager/CharacterList but do not own a CharacterRuntimeFactory
+    // Record (the retained Player and direct native actor owners). The facts
+    // provider remains responsible for verifying the exact live source row.
+    bool (*is_canonical_character_identity)(void*, std::uintptr_t){};
+    // Compatibility-specific Player check: keeps the retained local Player
+    // distinct from any other Record-less canonical Character.
+    bool (*is_canonical_player_identity)(void*, std::uintptr_t){};
 };
 
 enum class Status : std::uint8_t {

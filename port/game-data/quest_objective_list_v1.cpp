@@ -19,7 +19,8 @@ struct Call {
  bool coherent(ObjectiveRef* child,Operation op){if(!aligned(child)||!child->action.identity||!aligned(child->fields)||child->action.character_10!=&child->fields->character_10||overlap(child->fields,sizeof(*child->fields),&list,sizeof(list)))return fail(Status::source_fault,op);return true;}
  bool make(const Definition& input,ObjectiveRef*& child){
   result.last_operation=Operation::read_definition;Definition definition=input;dh2_quest_objective value{};std::string error;
-  if(definition.stub){if(definition.list||!definition.view||!definition.stub->row||definition.view.resolve_stub(definition.stub->row->identity+definition.stub->offset)!=definition.stub||!definition.stub->definition)return fail(Status::source_fault,Operation::read_definition);value=*definition.stub->definition;}
+  if(definition.event){if(definition.stub||definition.list||definition.index>=definition.event->triggers.size())return fail(Status::source_fault,Operation::read_definition);value.common[0]=definition.event->triggers[definition.index].type;}
+  else if(definition.stub){if(definition.list||!definition.view||!definition.stub->row||definition.view.resolve_stub(definition.stub->row->identity+definition.stub->offset)!=definition.stub||!definition.stub->definition)return fail(Status::source_fault,Operation::read_definition);value=*definition.stub->definition;}
   else if(!definition.list||definition.list->kind!=1||!definition.view.objective(*definition.list,definition.index,&value,error))return fail(Status::source_fault,Operation::read_definition);
   // Source stub +0 is its vtable; decoded common[0] is the +4 selector.
   const auto kind=value.common[0];
@@ -61,6 +62,22 @@ struct Call {
    ++result.loaded;if(list.count_0<=0||std::uint32_t(list.count_0)<=i+1)return true;
   }
  }
+ bool members(MemberOperation operation,std::uint32_t function,std::int32_t encoded,std::string& error){
+  if(list.count_0<=0)return true;
+  const auto adjustment=encoded>=0?std::int64_t(encoded)/2:-((-std::int64_t(encoded)+1)/2);
+  for(std::uint32_t i=0;;++i){
+   ObjectiveRef* child=nullptr;if(!slot(list.children_4,i,child,Operation::member_call)||!coherent(child,Operation::member_call))return false;
+   const auto address=child->action.identity;
+   if((adjustment>=0&&std::uint64_t(adjustment)>UINTPTR_MAX-address)||(adjustment<0&&std::uint64_t(-adjustment)>address))return fail(Status::unsafe_storage,Operation::member_call);
+   if(!services.member)return fail(Status::service_unavailable,Operation::member_call);
+   MemberCall call{child,operation,adjustment>=0?address+std::uintptr_t(adjustment):address-std::uintptr_t(-adjustment),function,encoded,(std::uint32_t(encoded)&1u)!=0,&error};
+   if(!send(Operation::member_call,[&]{return services.member(services.member_context?services.member_context:services.context,list,call);})){
+    if(error.empty())error="ObjectiveList member provider failed";
+    return false;
+   }
+   ++result.member_calls;if(list.count_0<=0||std::uint32_t(list.count_0)<=i+1)return true;
+  }
+ }
  bool destroy(){
   auto count=list.count_0;auto* array=list.children_4;
   if(count>0)for(std::uint32_t i=0;;++i){
@@ -86,6 +103,20 @@ Status Runtime::create_objective(const Definition& input,ObjectiveRef** created,
 Status Runtime::set_owner(std::uintptr_t character,Result* out){DH2_OBJECTIVE_CALL(call.owner(character));}
 Status Runtime::loop_stream(std::uint32_t function,std::int32_t encoded,player_saved_quests_v1::StreamRef& stream,Result* out){if(!aligned(&stream)||!stream.identity||!output(list_,this,out)||overlap(out,sizeof(*out),&stream,sizeof(stream)))return Status::invalid_argument;DH2_OBJECTIVE_CALL(call.stream(function,encoded,stream));}
 Status Runtime::load(player_saved_quests_v1::StreamRef& stream,Result* out){return loop_stream(0x28,1,stream,out);}
+Status Runtime::loop_member(MemberOperation operation,std::uint32_t function,std::int32_t encoded,Result* out,std::string& error){
+ if(!output(list_,this,out))return Status::invalid_argument;
+ if(busy_)return Status::reentrant;
+ busy_=true;Guard guard{busy_};Call call{list_,services_};
+ const bool ok=call.members(operation,function,encoded,error);
+ if(ok)call.result.last_operation=Operation::complete;
+ *out=call.result;if(ok)error.clear();return out->status;
+}
+Status Runtime::reset_data(Result* out,std::string& error){return loop_member(MemberOperation::reset_data,0x30,1,out,error);}
+// Original ELF Objective::InvalidateCompile entry is 0x479f70. Preserve that
+// nonvirtual member target as metadata; the provider resolves the same Record.
+Status Runtime::invalidate_compile(Result* out,std::string& error){return loop_member(MemberOperation::invalidate_compile,0x479f70,0,out,error);}
+Status Runtime::compile(Result* out,std::string& error){return loop_member(MemberOperation::compile,0x8,1,out,error);}
+Status Runtime::register_objectives(Result* out,std::string& error){return loop_member(MemberOperation::register_objectives,0x18,1,out,error);}
 Status Runtime::destroy(Result* out){DH2_OBJECTIVE_CALL(call.destroy());}
 #undef DH2_OBJECTIVE_CALL
 }

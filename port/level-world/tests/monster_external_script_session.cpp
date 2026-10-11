@@ -3,6 +3,7 @@
 #include "../../android-native/app/src/main/cpp/player_gameplay_audio.hpp"
 
 #include <cstdio>
+#include <cstring>
 #include <fstream>
 #include <iterator>
 #include <stdexcept>
@@ -47,6 +48,15 @@ struct Fixture {
     unsigned property_reads = 0, faces = 0, moves = 0, stops = 0, attacks = 0;
     unsigned master_sets = 0, target_clears = 0, warps = 0;
     unsigned play_sound_calls = 0, stop_sound_calls = 0;
+    unsigned skill_roll_calls = 0;
+    unsigned skill_projectile_spawns = 0, projectile_target_sets = 0;
+    unsigned character_skill_service_calls = 0;
+    std::vector<std::uint32_t> character_skill_service_arities;
+    unsigned character_timer_starts = 0, character_timer_stops = 0;
+    std::uint32_t timer_duration = 0, timer_stopped = 0;
+    std::int32_t timer_repeat = 0, timer_event = 0;
+    std::uintptr_t timer_user_ref = 0;
+    std::uintptr_t last_projectile = 0, last_projectile_target = 0;
     std::string sound_label, stopped_sound_label;
     std::size_t sound_label_bytes = 0, stopped_sound_label_bytes = 0;
     bool sound_looping = false, sound_stop_music = false;
@@ -193,6 +203,84 @@ std::int32_t stop_sound(void* raw, const char* label, std::size_t label_bytes, f
     ++fixture.stop_sound_calls;
     return dh2::player_gameplay_audio::stop_source_sound(raw,label,label_bytes,fade_ms);
 }
+std::int32_t skill_combat_roll(void* raw,std::uintptr_t identity,
+    const dh2_script_value* arguments,std::uint32_t count,
+    dh2_script_value* output,std::uint32_t capacity,std::uint32_t* returned,
+    char*,std::size_t) {
+    auto& fixture=actor(raw,identity);
+    require(arguments&&count==2&&arguments[0].type==DH2_SCRIPT_NUMBER&&
+        arguments[0].number==4.0f&&arguments[1].type==7&&
+        arguments[1].identity==fixture.target,"SkillCombatRoll source arguments changed");
+    require(output&&capacity>=2&&returned,"SkillCombatRoll return buffer missing");
+    ++fixture.skill_roll_calls;
+    output[0]={};output[0].type=DH2_SCRIPT_NUMBER;output[0].number=31.0f;
+    output[1]={};output[1].type=DH2_SCRIPT_NUMBER;output[1].number=32.0f;
+    *returned=2;
+    return 0;
+}
+std::int32_t spawn_skill_projectile(void* raw,std::uintptr_t identity,
+    const dh2_script_value* arguments,std::uint32_t count,
+    dh2_script_value* output,std::uint32_t capacity,std::uint32_t* returned,
+    char*,std::size_t) {
+    auto& fixture=actor(raw,identity);
+    require(arguments&&count==2&&arguments[0].type==DH2_SCRIPT_NUMBER&&
+        arguments[0].number==4.0f&&arguments[1].type==DH2_SCRIPT_NUMBER&&
+        arguments[1].number==21.0f,"SpawnSkillProjectile source arguments changed");
+    require(output&&capacity>=1&&returned,"SpawnSkillProjectile return buffer missing");
+    ++fixture.skill_projectile_spawns;
+    fixture.last_projectile=0x456789ab00000045ull;
+    output[0]={};output[0].type=DH2_SCRIPT_IDENTITY;
+    output[0].identity=fixture.last_projectile;*returned=1;
+    return 0;
+}
+std::int32_t set_projectile_target(void* raw,std::uintptr_t identity,
+    const dh2_script_value* arguments,std::uint32_t count,
+    dh2_script_value*,std::uint32_t,std::uint32_t* returned,char*,std::size_t) {
+    auto& fixture=actor(raw,identity);
+    require(arguments&&count==2&&arguments[0].type==DH2_SCRIPT_IDENTITY&&
+        arguments[0].identity==fixture.last_projectile&&arguments[1].type==7&&
+        arguments[1].identity==fixture.target,"SetProjectileTarget source arguments changed");
+    ++fixture.projectile_target_sets;fixture.last_projectile_target=arguments[1].identity;
+    if(returned)*returned=0;
+    return 0;
+}
+std::int32_t character_skill_service(void* raw,std::uintptr_t identity,
+    const dh2_script_value*,std::uint32_t count,
+    dh2_script_value*,std::uint32_t,std::uint32_t* returned,char*,std::size_t) {
+    auto& fixture=actor(raw,identity);
+    fixture.character_skill_service_arities.push_back(count);
+    ++fixture.character_skill_service_calls;
+    if(returned)*returned=0;
+    return 0;
+}
+std::int32_t character_timer_start(void* raw,std::uintptr_t identity,
+    std::uint32_t duration,std::int32_t repeat,std::int32_t event,
+    std::uintptr_t user_ref) {
+    auto& fixture=actor(raw,identity);
+    ++fixture.character_timer_starts;
+    fixture.timer_duration=duration;fixture.timer_repeat=repeat;
+    fixture.timer_event=event;fixture.timer_user_ref=user_ref;
+    return 17;
+}
+void character_timer_stop(void* raw,std::uintptr_t identity,std::uint32_t timer) {
+    auto& fixture=actor(raw,identity);
+    ++fixture.character_timer_stops;fixture.timer_stopped=timer;
+}
+int observe_skill_combat_returns(void*,const dh2_script_first_return_v1* values,
+    std::uint32_t count,char*,std::size_t) {
+    return count==2&&values&&values[0].type==DH2_SCRIPT_NUMBER&&
+        values[0].number==31.0f&&values[1].type==DH2_SCRIPT_NUMBER&&
+        values[1].number==32.0f?0:1;
+}
+int observe_projectile_returns(void*,const dh2_script_first_return_v1* values,
+    std::uint32_t count,char*,std::size_t) {
+    return count==3&&values&&values[0].type==DH2_SCRIPT_BOOLEAN&&
+        values[0].boolean==0&&values[1].type==DH2_SCRIPT_NUMBER&&
+        values[1].number==41.0f&&values[2].type==DH2_SCRIPT_STRING&&
+        values[2].text&&std::string(values[2].text,values[2].text_bytes)=="tail"?0:1;
+}
+int observe_no_returns(void*,const dh2_script_first_return_v1*,std::uint32_t count,
+    char*,std::size_t) {return count==0?0:1;}
 Services bind(Fixture& fixture) {
     Services services{&fixture, owner, structure, property, constant, has_target, get_target,
                       get_state, has_path, set_target, head_to, move_to};
@@ -204,6 +292,16 @@ Services bind(Fixture& fixture) {
     services.set_master = set_master;
     services.clear_target = clear_target;
     services.warp_behind = warp_behind;
+    services.skill_combat_roll = skill_combat_roll;
+    services.spawn_skill_projectile = spawn_skill_projectile;
+    services.set_projectile_target = set_projectile_target;
+    services.create_buff = character_skill_service;
+    services.remove_buff = character_skill_service;
+    services.apply_buff = character_skill_service;
+    services.set_skill_cooldown = character_skill_service;
+    services.set_spell_cooldown = character_skill_service;
+    services.start_timer = character_timer_start;
+    services.stop_timer = character_timer_stop;
     return services;
 }
 void initialized(Session& session, Fixture& fixture, Source commons, Source monster) {
@@ -291,6 +389,139 @@ AddToVFTable('OnTargetInMeleeRange', 'NativeMissingStopFade')
             error.find("unsupported monster StopSound arguments")!=std::string::npos,
             "source StopSound requires its numeric fade argument");
 }
+void skill_combat_roll_bridge_case(Source commons,const std::string& monster) {
+    const std::string extension=monster+R"lua(
+function NativeSkillCombatProbe()
+    return SkillCombatRoll__(4, GetTarget())
+end
+AddToVFTable('OnTargetDied', 'NativeSkillCombatProbe')
+)lua";
+    Fixture fixture;fixture.target=enemy;
+    Session session;initialized(session,fixture,commons,source(extension));
+    std::string error;
+    require(session.call_all("OnTargetDied",nullptr,0,
+        observe_skill_combat_returns,nullptr,error)==0&&error.empty()&&
+        fixture.skill_roll_calls==1,
+        "SkillCombatRoll was not forwarded through the retained AIS VM and ReturnValues");
+}
+void skill_projectile_bridge_case(Source commons,const std::string& monster) {
+    const std::string extension=monster+R"lua(
+function NativeSkillProjectileProbe()
+    local projectile = SpawnSkillProjectile__(4, 21)
+    SetProjectileTarget(projectile, GetTarget())
+end
+AddToVFTable('OnTargetDied', 'NativeSkillProjectileProbe')
+)lua";
+    Fixture fixture;fixture.target=enemy;
+    Session session;initialized(session,fixture,commons,source(extension));
+    auto changed_services=bind(fixture);
+    changed_services.spawn_skill_projectile=nullptr;
+    require(!session.uses_services(changed_services),
+        "same-session ownership check ignored SpawnSkillProjectile provider");
+    changed_services=bind(fixture);
+    changed_services.set_projectile_target=nullptr;
+    require(!session.uses_services(changed_services),
+        "same-session ownership check ignored SetProjectileTarget provider");
+    std::string error;
+    const int call_status=session.call_all("OnTargetDied",nullptr,0,
+        observe_no_returns,nullptr,error);
+    if(call_status!=0||!error.empty()||fixture.skill_projectile_spawns!=1||
+       fixture.projectile_target_sets!=1||fixture.last_projectile_target!=enemy)
+        std::fprintf(stderr,"projectile trace status=%d error=%s spawn=%u target=%u pid=%llx tid=%llx expected=%llx\n",
+            call_status,error.c_str(),fixture.skill_projectile_spawns,fixture.projectile_target_sets,
+            static_cast<unsigned long long>(fixture.last_projectile),
+            static_cast<unsigned long long>(fixture.last_projectile_target),
+            static_cast<unsigned long long>(enemy));
+    require(call_status==0&&error.empty()&&
+        fixture.skill_projectile_spawns==1&&fixture.projectile_target_sets==1&&
+        fixture.last_projectile_target==enemy,
+        "SpawnSkillProjectile Pointer result or SetProjectileTarget did not round trip through the same AIS VM");
+}
+void delayed_projectile_skill_case(Source commons,const std::string& monster) {
+    const std::string extension=monster+R"lua(
+projectile_order=''
+function SetSkill(name,index)
+    assert(name=='data/scripts/ai/test_skill.luac' and index==9)
+    projectile_order=projectile_order..'S'
+    return 'SetSkill return values are discarded'
+end
+function SetProjectileExpected(target,projectile)
+    expected_target=target; expected_projectile=projectile
+end
+function OnDelayedSkill(target,projectile)
+    assert(type(target)=='table' and target._this==expected_target and projectile==expected_projectile)
+    assert(projectile_order=='S')
+    projectile_order=projectile_order..'D'
+    return false,41,'tail'
+end
+function ReadProjectileOrder() return projectile_order end
+)lua";
+    Fixture fixture;Session session;initialized(session,fixture,commons,source(extension));
+    const char* script_name="data/scripts/ai/test_skill.luac";
+    dh2_script_value args[2]{};
+    args[0].type=DH2_SCRIPT_STRING;args[0].text=script_name;
+    args[0].text_bytes=std::strlen(script_name);
+    args[1].type=DH2_SCRIPT_NUMBER;args[1].number=9.0f;
+    std::string error;
+    dh2_script_value identities[2]{};
+    identities[0].type=DH2_SCRIPT_IDENTITY;identities[0].identity=enemy;
+    identities[1].type=DH2_SCRIPT_IDENTITY;identities[1].identity=0x456789ab76543210ull;
+    require(session.call_all("SetProjectileExpected",identities,2,
+        observe_no_returns,nullptr,error)==0&&error.empty(),
+        "projectile fixture could not retain the exact native identities");
+    require(session.call_projectile_skill("OnDelayedSkill",args,2,enemy,
+        0x456789ab76543210ull,observe_projectile_returns,nullptr,error)==0&&error.empty(),
+        "same-VM projectile SetSkill/delayed callback dispatch failed or lost full ReturnValues");
+    const auto order=std::string("SD");
+    const auto capture_order=[](void* raw,const dh2_script_first_return_v1* values,
+        std::uint32_t returned,char*,std::size_t)->int {
+        if(!raw||returned!=1||!values||values[0].type!=DH2_SCRIPT_STRING)return 1;
+        *static_cast<std::string*>(raw)=std::string(values[0].text,values[0].text_bytes);return 0;
+    };
+    std::string actual_order;
+    require(session.call_all("ReadProjectileOrder",nullptr,0,capture_order,
+        &actual_order,error)==0&&error.empty()&&actual_order==order,
+        "projectile callback order was not SetSkill then delayed callback on the same VM");
+}
+void character_buff_cooldown_bridge_case(Source commons,const std::string& monster) {
+    const std::string extension=monster+R"lua(
+function NativeCharacterSkillServices()
+    CreateBuff(11)
+    RemoveBuff(12, 3)
+    ApplyBuff(13, 4)
+    SetSkillCooldownTimerId__(2, 19)
+    SetSpellCooldownTimerId__(27)
+    local timer = StartTimer(250, true)
+    StopTimer(timer)
+end
+AddToVFTable('OnTargetDied', 'NativeCharacterSkillServices')
+)lua";
+    Fixture fixture;
+    Session session;initialized(session,fixture,commons,source(extension));
+    auto services=bind(fixture);
+    services.create_buff=nullptr;
+    require(!session.uses_services(services),"same-session ownership ignored CreateBuff provider");
+    services=bind(fixture);services.remove_buff=nullptr;
+    require(!session.uses_services(services),"same-session ownership ignored RemoveBuff provider");
+    services=bind(fixture);services.apply_buff=nullptr;
+    require(!session.uses_services(services),"same-session ownership ignored ApplyBuff provider");
+    services=bind(fixture);services.set_skill_cooldown=nullptr;
+    require(!session.uses_services(services),"same-session ownership ignored skill cooldown provider");
+    services=bind(fixture);services.set_spell_cooldown=nullptr;
+    require(!session.uses_services(services),"same-session ownership ignored spell cooldown provider");
+    services=bind(fixture);services.start_timer=nullptr;
+    require(!session.uses_services(services),"same-session ownership ignored StartTimer provider");
+    services=bind(fixture);services.stop_timer=nullptr;
+    require(!session.uses_services(services),"same-session ownership ignored StopTimer provider");
+    std::string error;
+    require(session.call_all("OnTargetDied",nullptr,0,observe_no_returns,nullptr,error)==0&&
+        error.empty()&&fixture.character_skill_service_calls==5&&
+        fixture.character_skill_service_arities==std::vector<std::uint32_t>{1,2,2,2,1}&&
+        fixture.character_timer_starts==1&&fixture.character_timer_stops==1&&
+        fixture.timer_duration==250&&fixture.timer_repeat==-1&&fixture.timer_event==0x35&&
+        fixture.timer_user_ref==0&&fixture.timer_stopped==17,
+        "same-VM Character buff and cooldown methods did not forward source argument arities");
+}
 }  // namespace
 
 int main(int argc, char** argv) {
@@ -307,8 +538,28 @@ int main(int argc, char** argv) {
                     follower_session.load_common(commons,follower_error)==Status::complete &&
                     follower_session.load_external_named(follower,
                         "data/scripts/ai/follower.luac",follower_error)==Status::complete &&
-                    follower_session.ready(),
+                    follower_session.ready()&&follower_session.uses_services(services),
                     "source follower must load on the same external AIS VM");
+            auto changed_services=services;
+            changed_services.has_master=nullptr;
+            require(!follower_session.uses_services(changed_services),
+                    "same-session ownership check ignored follower HasMaster provider");
+            changed_services=services;
+            changed_services.set_master=nullptr;
+            require(!follower_session.uses_services(changed_services),
+                    "same-session ownership check ignored follower SetMaster provider");
+            changed_services=services;
+            changed_services.clear_target=nullptr;
+            require(!follower_session.uses_services(changed_services),
+                    "same-session ownership check ignored follower ClearTarget provider");
+            changed_services=services;
+            changed_services.warp_behind=nullptr;
+            require(!follower_session.uses_services(changed_services),
+                    "same-session ownership check ignored follower WarpBehind provider");
+            changed_services=services;
+            changed_services.skill_combat_roll=nullptr;
+            require(!follower_session.uses_services(changed_services),
+                    "same-session ownership check ignored SkillCombatRoll provider");
             bool present=false;
             for (const auto event : {Event::friend_spotted,Event::master_out_of_sight,
                     Event::master_out_of_range,Event::master_in_ranged_range,
@@ -373,7 +624,9 @@ int main(int argc, char** argv) {
         Session session;
         Fixture fixture;
         initialized(session, fixture, commons, monster);
-        require(session.ready() && session.statistics().lua_memory_used > 0, "owned Lua state absent");
+        require(session.ready() && session.has_source_lua_script() &&
+                    session.statistics().lua_memory_used > 0,
+                "owned Lua state absent");
         require(std::string(session.source_alias(Event::enemy_spotted)) == "monster_OnEnemySpotted" &&
                     std::string(session.source_alias(Event::target_out_of_range)) == "monster_OnTargetOutOfRange" &&
                     std::string(session.source_alias(Event::died)) == "monster_OnDied" &&
@@ -659,7 +912,8 @@ AddToVFTable('OnDied', 'NativeNullIdentityAttack')
         require(copied_session.dispatch(Event::enemy_spotted, enemy, error) == Status::complete &&
                     copied_fixture.target == enemy, "service table must be copied rather than borrowed stack storage");
         ++cases;
-        require(session.reset(error) == Status::complete && !session.ready() && copied_session.ready() &&
+        require(session.reset(error) == Status::complete && !session.ready() &&
+                    !session.has_source_lua_script() && copied_session.ready() &&
                     copied_session.dispatch(Event::target_out_of_range, 0, error) == Status::complete,
                 "one session teardown must not invalidate another VM/map/context");
         ++cases;
@@ -856,6 +1110,10 @@ AddToVFTable('OnInitPost', 'NativePostProof')
             trace(live,{"HasTarget","HasTarget"});++cases;
         }
         {audio_bridge_case(commons,monster);++cases;}
+        {skill_combat_roll_bridge_case(commons,monster_bytes);++cases;}
+        {skill_projectile_bridge_case(commons,monster_bytes);++cases;}
+        {delayed_projectile_skill_case(commons,monster_bytes);++cases;}
+        {character_buff_cooldown_bridge_case(commons,monster_bytes);++cases;}
 
         std::printf("{\"monster_external_session_cases\":%u,\"unchanged_original_scripts_executed\":true,"
                     "\"spotted_callback_order\":true,\"idle_path_short_circuit\":true,"
@@ -865,6 +1123,10 @@ AddToVFTable('OnInitPost', 'NativePostProof')
                     "\"source_libraries_and_35_bindings\":true,\"unsupported_globals_fail_closed\":true,"
                     "\"numeric_result_arity\":true,\"unknown_callbacks_rejected\":true,"
                     "\"same_vm_post_final_callbacks\":true,\"post_discarded_return_updates_final_alias\":true,"
+                    "\"skill_combat_roll_same_vm_returns\":true,"
+                    "\"skill_projectile_same_vm_target\":true,"
+                    "\"projectile_delayed_full_returns_and_order\":true,"
+                    "\"same_vm_character_buff_cooldown_callbacks\":true,"
                     "\"death_callback_same_vm\":true,\"death_killer_identity_and_nil\":true,"
                     "\"combat_callback_two_character_abi\":true,"
                     "\"stop_attack_callbacks\":true,"

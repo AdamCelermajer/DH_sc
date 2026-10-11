@@ -3,6 +3,7 @@
 #include "../app/src/main/cpp/native_level_quest_active_v1.hpp"
 #include "../../game-data/condition_data_v1.hpp"
 #include "../app/src/main/cpp/native_current_level_character_population_v1.hpp"
+#include <algorithm>
 #include <fstream>
 #include <cstdio>
 #include <cstring>
@@ -124,6 +125,195 @@ bool read_clear_population(void* context,std::uintptr_t expected_owner,
  snapshot.level_identity=fixture.stale_level?expected_level+1:expected_level;
  snapshot.level_id=fixture.level_id;snapshot.loaded_match_count=fixture.count;
  error.clear();return true;
+}
+struct MoveCharacterFixture {std::uintptr_t character=0;std::int32_t props_id=-1;
+ std::uint32_t safe_props_calls=0,is_player_calls=0;};
+bool move_character_props_id(void* raw,std::uintptr_t character,
+ std::int32_t& property,std::string& error){
+ if(!raw){error="MoveInZone Character provider is null";return false;}
+ auto& f=*static_cast<MoveCharacterFixture*>(raw);
+ if(!character||character!=f.character){error="unknown MoveInZone Character";return false;}
+ ++f.safe_props_calls;property=f.props_id;error.clear();return true;
+}
+bool move_character_is_player(void* raw,std::uintptr_t character,bool& is_player,
+ std::string& error){
+ if(!raw){error="MoveInZone Character provider is null";return false;}
+ auto& f=*static_cast<MoveCharacterFixture*>(raw);
+ if(!character||character!=f.character){error="unknown MoveInZone Character";return false;}
+ ++f.is_player_calls;is_player=true;error.clear();return true;
+}
+bool talk_marker_fixture(void*,std::uintptr_t,std::uintptr_t*,std::int32_t,
+ n::TalkObjectiveMarkerOperationV1,std::int32_t,std::int32_t,std::string& error){error.clear();return true;}
+struct ObjectiveDispatchCapture {d::quest_objective_factory_v1::Record* objective=nullptr;
+ d::quest_objective_factory_v1::Dispatch dispatch=d::quest_objective_factory_v1::Dispatch::uninitialized;
+ dh2_quest_objective definition{};std::uint32_t quest_row=UINT32_MAX,ordinal=UINT32_MAX;};
+struct ObjectiveCompileBridge {n::Owner* owner=nullptr;
+ QuestCompileProbe probe{};
+ const t::View* view=nullptr;n::ObjectiveCompileDispatchServicesV1 services{};
+ std::vector<ObjectiveDispatchCapture> captured;
+ std::string error;
+ static std::int32_t difficulty(void* raw,std::uintptr_t character,std::int32_t* out){
+  auto& self=*static_cast<ObjectiveCompileBridge*>(raw);
+  return quest_compile_difficulty(&self.probe,character,out);
+ }
+ static std::int32_t member(void* raw,d::quest_compile_v1::Objective& objective,
+  const d::quest_compile_v1::MemberCall& call){
+  auto& self=*static_cast<ObjectiveCompileBridge*>(raw);
+  if(call.is_virtual&&call.adjustment==0&&call.function==8){
+   ObjectiveDispatchCapture capture{};capture.objective=&objective;
+   capture.dispatch=objective.dispatch_0;
+   const auto& pydata=objective.fields.py_data_c;
+   if(pydata.stub){if(!pydata.stub->definition){self.error="test Objective stub lost its source definition";return 1;}
+    capture.definition=*pydata.stub->definition;
+   }else if(!pydata.list||!pydata.view.objective(*pydata.list,pydata.index,
+              &capture.definition,self.error)){return 1;}
+   if(self.view&&pydata.list){
+    for(std::uint32_t row=0;row<self.view->count()&&capture.quest_row==UINT32_MAX;++row){
+     const auto* list=self.view->list(*self.view->row(row),1);
+     if(list!=pydata.list||!list->definition)continue;
+     for(std::uint32_t index=0;index<list->definition->count;++index){
+      dh2_quest_objective selected{};std::string ignored;
+      if(!self.view->objective(*list,index,&selected,ignored))continue;
+      if(index==pydata.index&&selected.common[0]==capture.definition.common[0]){
+       capture.quest_row=row;capture.ordinal=index;break;
+      }
+     }
+    }
+   }
+   self.captured.push_back(capture);
+  }
+  return self.owner->dispatch_objective_compile_member_v1(objective,call,
+       self.services,self.error)?0:1;
+ }
+};
+void live_objective_event_owner_cases(n::Owner& owner,
+ const std::shared_ptr<d::PlayerSavegameV1>& save,const t::View& view,
+ const n::Constants& constants){
+ std::string error;manager::Owner object_manager;std::set<std::string> names;
+ manager::SourceHandle handle=1000;std::uintptr_t identity=UINT64_C(0x100000000);
+ std::uint32_t selected_move_row=UINT32_MAX,selected_move_ordinal=UINT32_MAX;
+ std::uint32_t selected_sync_move_row=UINT32_MAX,selected_sync_move_ordinal=UINT32_MAX;
+ std::string selected_move_name;
+ std::uint32_t selected_open_row=UINT32_MAX,selected_open_ordinal=UINT32_MAX;
+ std::vector<std::pair<d::quest_runtime_fields_v1::Record*,std::int32_t>> prior_states;
+ for(std::uint32_t row=0;row<view.count();++row){
+  const auto* list=view.list(*view.row(row),1);if(!list||!list->definition)continue;
+  for(std::uint32_t i=0;i<list->definition->count;++i){
+   dh2_quest_objective definition{};check(view.objective(*list,i,&definition,error),error);
+   if(definition.common[0]==4){
+    t::Span bytes{};check(view.bytes(definition.strings[1],&bytes,error),error);
+    std::string name;if(bytes.size)name.assign(reinterpret_cast<const char*>(bytes.data),bytes.size);
+    if(!name.empty()&&names.insert(name).second){
+     manager::GameObject object{};object.identity=identity;object.name=name;
+     manager::GameObject* stored=nullptr;
+     check(object_manager.add_named_object(handle++,name,object,&stored)==manager::Status::ok&&stored,
+           "MoveInZone test did not publish its source-named target into the canonical ObjectManager");
+     identity+=UINT64_C(0x1000);
+    }
+    if(!name.empty()&&definition.args[1]==-1){
+     if(selected_move_row==UINT32_MAX){selected_move_row=row;selected_move_ordinal=i;selected_move_name=name;}
+     else if(selected_sync_move_row==UINT32_MAX&&
+       (selected_move_row!=row||selected_move_ordinal!=i)&&name!=selected_move_name){
+      selected_sync_move_row=row;selected_sync_move_ordinal=i;
+     }
+    }
+   }else if(definition.common[0]==7&&selected_open_row==UINT32_MAX&&
+            definition.args[0]!=-1&&definition.args[2]>0){
+    selected_open_row=row;selected_open_ordinal=i;
+   }
+  }
+ }
+ check(!names.empty()&&selected_move_row!=UINT32_MAX&&selected_sync_move_row!=UINT32_MAX,
+       "actual Quest table has fewer than two target=-1 MoveInZone objectives for IsPlayer/null-sync regression");
+ check(selected_open_row!=UINT32_MAX,
+       "actual Quest table has no counted OpenGameObject target for focused owner regression");
+ auto activate_row=[&](std::uint32_t row){
+  auto* record=owner.resolve(save->source_quest_log_b8().quests[0][row]);check(record);
+  if(std::none_of(prior_states.begin(),prior_states.end(),[&](const auto& state){return state.first==record;})){
+   prior_states.emplace_back(record,record->state_0);record->state_0=6;
+  }
+ };
+ activate_row(selected_move_row);activate_row(selected_sync_move_row);activate_row(selected_open_row);
+ ClearPopulationFixture population_fixture{};population_fixture.level_id=41;
+ population_fixture.count=1;population_fixture.level_identity=UINT64_C(0x100020000);
+ MoveCharacterFixture character_fixture{UINT64_C(0x100030000),-1};
+ ScriptFixture scripts{};ObjectiveCompileBridge bridge{};bridge.owner=&owner;
+ bridge.view=&view;bridge.probe.character=save->character();
+ auto& dispatch=bridge.services;dispatch.object_manager=&object_manager;
+ dispatch.current_level_id=41;dispatch.script_context=&scripts;
+ dispatch.start_script=start_objective_script;
+ dispatch.talk_marker=talk_marker_fixture;
+ dispatch.move_in_zone_character={&character_fixture,move_character_props_id,
+                                  move_character_is_player};
+ const n::ClearEnemiesPopulationServicesV1 live_population{
+  &population_fixture,read_clear_population,population_fixture.level_identity};
+ dispatch.population.kill_enemies=live_population;
+ dispatch.population.clear_enemies=live_population;
+ dispatch.population.kill_enemy_template={&population_fixture,read_clear_population,population_fixture.level_identity};
+ dispatch.population.clear_enemy_template={&population_fixture,read_clear_population,population_fixture.level_identity};
+ const n::QuestCompileServicesV1 compile_services{&bridge,ObjectiveCompileBridge::difficulty,
+                                                   ObjectiveCompileBridge::member};
+ d::quest_compile_v1::Result compiled{};
+ const bool compile_ok=owner.compile_quests(0,false,compile_services,compiled,error);
+ check(compile_ok,
+       std::string("actual source ObjectiveList compile failed: ")+error+
+       " | Objective dispatch: "+bridge.error);
+ check(compiled.visited==64&&save->source_quest_log_b8().byte_28[0]==1,
+       "complete QEST pass did not publish its source CompileQuests marker");
+
+ ObjectiveDispatchCapture* move=nullptr;ObjectiveDispatchCapture* sync_move=nullptr;
+ ObjectiveDispatchCapture* open=nullptr;
+ for(auto& capture:bridge.captured){
+  if(!move&&capture.quest_row==selected_move_row&&capture.ordinal==selected_move_ordinal&&
+     capture.dispatch==d::quest_objective_factory_v1::Dispatch::move_in_zone&&
+     capture.objective->compiled_8)move=&capture;
+  if(!sync_move&&capture.quest_row==selected_sync_move_row&&
+     capture.ordinal==selected_sync_move_ordinal&&
+     capture.dispatch==d::quest_objective_factory_v1::Dispatch::move_in_zone&&
+     capture.objective->compiled_8)sync_move=&capture;
+  if(!open&&capture.quest_row==selected_open_row&&capture.ordinal==selected_open_ordinal&&
+     capture.dispatch==d::quest_objective_factory_v1::Dispatch::open_game_object&&
+     capture.objective->compiled_8&&capture.definition.args[0]!=-1&&
+     capture.definition.args[2]>0)open=&capture;
+ }
+ check(move,"actual Save compile did not retain a compiled MoveInZone Objective");
+ check(sync_move,"actual Save compile did not retain a second MoveInZone Objective");
+ check(open,"actual Save compile did not retain a counted OpenGameObject Objective");
+ check(move->objective->derived_28>UINT32_MAX,
+       "MoveInZone test zone identity does not exercise a host-width pointer");
+ character_fixture.props_id=move->definition.args[1];
+ dh2_pycst_result move_type{},open_type{};
+ check(!dh2_pycst_get(&constants.view,"v2QuestObjectiveType",20,"MoveInZone",10,&move_type)&&move_type.found);
+ check(!dh2_pycst_get(&constants.view,"v2QuestObjectiveType",20,"OpenGameObject",14,&open_type)&&open_type.found);
+ n::Owner::LevelEvent event{};event.objective_type=move_type.value;
+ event.character=character_fixture.character;event.object_identity=move->objective->derived_28;
+ check(owner.raise_current_level_event(event,error),std::string("MoveInZone source event failed: ")+error);
+ check(move->objective->done_14&&event.flag0==1&&event.flag1==0,
+       "MoveInZone did not match host-width zone identity and complete the canonical Objective");
+ check(character_fixture.is_player_calls==1&&character_fixture.safe_props_calls==0,
+       "MoveInZone target=-1 did not use the canonical IsPlayer predicate");
+ n::Owner::LevelEvent sync_event{};sync_event.objective_type=move_type.value;
+ sync_event.flag1=1;sync_event.object_identity=sync_move->objective->derived_28;
+ check(owner.raise_current_level_event(sync_event,error),
+       std::string("MoveInZone null sync event failed: ")+error);
+ check(sync_move->objective->done_14&&sync_event.flag0==0&&
+       character_fixture.is_player_calls==1,
+       "MoveInZone did not accept null sync completion without Character filtering/consumption");
+ for(std::int32_t i=0;i<open->definition.args[2];++i){
+  n::Owner::LevelEvent opened{};opened.objective_type=open_type.value;
+  opened.network_id=open->definition.args[0];opened.character=character_fixture.character;
+  check(owner.raise_current_level_event(opened,error),
+        std::string("OpenGameObject source event failed: ")+error);
+  if(i+1==open->definition.args[2])
+   check(open->objective->done_14&&opened.flag0==1&&
+         opened.subject_id==open->definition.args[2],
+         "OpenGameObject did not update source count/complete its canonical Objective");
+ }
+ check(owner.flush_current_level_detaches(error),error);
+ check(move->objective->done_14&&open->objective->done_14,
+       "event detach erased a completed Objective from the canonical Save");
+ for(const auto& saved:prior_states)saved.first->state_0=saved.second;
+ save->source_quest_log_b8().byte_28[0]=0;
 }
 struct CanonicalRosterFixture {
  character_list::Owner list{};
@@ -1036,6 +1226,7 @@ int main(int argc,char** argv){try{
  check(!owner->compile_quests(0,true,compile_services,compile_result,error));
  check(compile_probe.member_calls>compile_calls&&canonical_compile_log.byte_28[0]==1);
  canonical_compile_log.byte_28[0]=0;
+ live_objective_event_owner_cases(*owner,save,view,constants_input);
  check(owner->close(error));check(owner->receipt().destroyed[0]==192&&owner->receipt().destroyed[1]==192);
  for(auto* log:{&save->source_quest_log_b8(),&save->source_quest_log_118()})for(const auto& vector:log->quests)check(vector.empty());
  check(owner->close(error));check(!owner->initialize(0,error));

@@ -16,7 +16,7 @@ Status run(const State* state, const Services* services, Result* output,
         return status;
     };
     const bool host_can_save = state->local_player_is_host &&
-                               !state->application_gate_719;
+                               !state->player_manager_gate_719;
     if (!state->savegame || state->gate_39 ||
         (state->online && !host_can_save))
         return finish(Status::skipped);

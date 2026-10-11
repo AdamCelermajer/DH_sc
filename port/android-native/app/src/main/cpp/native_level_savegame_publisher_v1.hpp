@@ -22,11 +22,33 @@ public:
         directory_ = std::move(directory);
     }
 
+    void preserve_existing_image() noexcept { preserve_existing_image_ = true; }
+    void allow_replacement() noexcept { preserve_existing_image_ = false; }
+
     const std::filesystem::path& directory() const noexcept { return directory_; }
 
     bool publish(const std::string& filename,
                  const std::vector<std::uint8_t>& image,
                  std::string& error) const;
+
+    // Read only the selected LevelSavegame filename from the same bound
+    // private directory. The reader is size bounded and never creates a
+    // missing save or follows a filename supplied by the save image.
+    bool read(const std::string& filename,
+              std::vector<std::uint8_t>& image,
+              std::string& error) const;
+
+    // Source LevelSavegame::LoadCheckPoint temporarily substitutes this
+    // sibling file before using the same Savegame INFO/OBJS reader.
+    bool read_checkpoint(const std::string& filename,
+                         std::vector<std::uint8_t>& image,
+                         std::string& error) const;
+
+    // PlayerSavegame::SG_LoadCheckpoint reads the independently named
+    // campaign checkpoint (for example dh2_003_single.checkpoint).
+    bool read_player_checkpoint(const std::string& filename,
+                                std::vector<std::uint8_t>& image,
+                                std::string& error) const;
 
     static bool publish_callback(void* context, const std::string& filename,
                                  const std::vector<std::uint8_t>& image,
@@ -44,7 +66,11 @@ public:
     }
 
 private:
+    bool read_named(const std::string& filename, const char* suffix,
+                    std::vector<std::uint8_t>& image,
+                    std::string& error) const;
     std::filesystem::path directory_;
+    bool preserve_existing_image_{};
 };
 
 } // namespace dh2::native::level_savegame_publisher_v1

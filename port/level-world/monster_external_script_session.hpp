@@ -82,6 +82,42 @@ struct Services {
     std::int32_t (*clear_target)(void*, std::uintptr_t owner) = nullptr;
     std::int32_t (*warp_behind)(void*, std::uintptr_t owner,
                                 std::uintptr_t master) = nullptr;
+    // Character::_SkillCombatRoll bridge for a skill script loaded into this
+    // same AIS VM. The app provider must borrow the existing Character combat
+    // and ApplyResult owners; this Session only forwards ReturnValues.
+    std::int32_t (*skill_combat_roll)(void*, std::uintptr_t owner,
+        const dh2_script_value* arguments, std::uint32_t count,
+        dh2_script_value* output, std::uint32_t capacity,
+        std::uint32_t* returned, char* error, std::size_t error_capacity) = nullptr;
+    // Skill projectile calls are registered in this same AIS VM. Providers
+    // must use the active Character/Level projectile owner and retain the
+    // calling CharAISkillScript identity as Projectile user_data.
+    std::int32_t (*spawn_skill_projectile)(void*, std::uintptr_t owner,
+        const dh2_script_value* arguments, std::uint32_t count,
+        dh2_script_value* output, std::uint32_t capacity,
+        std::uint32_t* returned, char* error, std::size_t error_capacity) = nullptr;
+    std::int32_t (*set_projectile_target)(void*, std::uintptr_t owner,
+        const dh2_script_value* arguments, std::uint32_t count,
+        dh2_script_value* output, std::uint32_t capacity,
+        std::uint32_t* returned, char* error, std::size_t error_capacity) = nullptr;
+    // Same-Character script methods used by shipped Monster and follower AIS
+    // code. App providers must forward to the existing BuffOwner and retained
+    // CharAISkillScript vectors; this Session does not create either owner.
+    using CharacterScriptCallback = std::int32_t (*)(void*, std::uintptr_t owner,
+        const dh2_script_value*, std::uint32_t, dh2_script_value*,
+        std::uint32_t, std::uint32_t*, char*, std::size_t);
+    CharacterScriptCallback create_buff = nullptr;
+    CharacterScriptCallback remove_buff = nullptr;
+    CharacterScriptCallback apply_buff = nullptr;
+    CharacterScriptCallback set_skill_cooldown = nullptr;
+    CharacterScriptCallback set_spell_cooldown = nullptr;
+    // Source skill _commons timer functions. These route through the same
+    // Character Coordinator timer vector and retain event0x35/user_ref0.
+    std::int32_t (*start_timer)(void*, std::uintptr_t character,
+        std::uint32_t duration_ms, std::int32_t repeat, std::int32_t event,
+        std::uintptr_t user_ref) = nullptr;
+    void (*stop_timer)(void*, std::uintptr_t character,
+        std::uint32_t timer_id) = nullptr;
 };
 
 enum class Event : std::uint32_t {
@@ -109,6 +145,10 @@ enum class Event : std::uint32_t {
     master_in_ranged_range = 14,
     master_in_close_range = 15,
     master_in_melee_range = 16,
+    // AISExternal::OnTerminate is reached from CharAI::AI_ScriptCleanUp.
+    terminate = 17,
+    // AISExternal::OnNeutralSpotted forwards the candidate Character userdata.
+    neutral_spotted = 18,
 };
 
 // Logical retained source AIS+0xb4 projection, not an ARM overlay. The current
@@ -158,8 +198,8 @@ struct Statistics {
 // dispatch uses the current alias map and retained VM. The source caller owns
 // skills-before-post/final ordering; adding dispatch support does not perform
 // SetSkillsAndSpells or complete InitScriptProcess. Combat,
-// timers/candidate search and full AISExternal lifecycle remain outside this
-// bounded session. Dispatching OnInit does not by itself promote an active AIS.
+// timers/candidate search remain outside this bounded session. Dispatching
+// OnInit does not by itself promote an active AIS.
 //
 // Source bytes are borrowed only for the initialize/stage-load call that reads
 // them. Actor identities use Lua
@@ -225,6 +265,11 @@ public:
     // alias map; the caller must have checked the active AIS VCB membership.
     Status dispatch_combat_result(Event event, std::uintptr_t attacker,
                                   std::uintptr_t defender, std::string& error);
+    // AISDefault::OnAnimEvent forwards the event name (after CharAI strips the
+    // `ev_` prefix) and current CharAnimator step index to the same Lua VM.
+    Status dispatch_animation_event(const char* event_name,
+                                    std::uint32_t step_index,
+                                    std::string& error);
     // Call a source-registered Lua alias on this same AIS VM and observe every
     // ReturnValues entry from that one call. Used by CharAISkillScript's
     // SetSkill/OnSkillUpdate path after the source skill loader has registered
@@ -232,6 +277,17 @@ public:
     int call_all(const char* name, const dh2_script_value* arguments,
                  std::uint32_t count, dh2_script_returns_observer_v1 observer,
                  void* context, std::string& error);
+    // Source _ProjectileHit/_Check uses Args at script+0x0c, target UserData
+    // at Projectile+0x3cc, then the Projectile Pointer. SetSkill ReturnValues
+    // are discarded; the observer receives all delayed callback ReturnValues.
+    // Source only maps an explicit first boolean false to callback result 1;
+    // callers may derive that disposition from the full observer snapshot.
+    int call_projectile_skill(const char* callback_name,
+                 const dh2_script_value* set_skill_arguments,
+                 std::uint32_t count, std::uintptr_t target_identity,
+                 std::uintptr_t projectile_identity,
+                 dh2_script_returns_observer_v1 observer, void* context,
+                 std::string& error);
     // Reuse the independent complete20B source CallState wrappers. Each call reads the
     // current pointer once, skips only an actual null projection, otherwise
     // reads its selected name and calls the current source alias with no args.
@@ -248,6 +304,9 @@ public:
     Status load_resolved(const char* resolved_path, Source, LoadResult*, std::string& error);
     Status reset(std::string& error);
     bool ready() const noexcept;
+    // Whether the canonical LuaScript pointer owned by this Session is
+    // present. This does not imply that its source stages are ready.
+    bool has_source_lua_script() const noexcept;
     Stage stage() const noexcept;
     // Opaque identity of the actual owned VM, for ownership/provenance checks.
     // Never dereference it; it is valid only while this VM remains owned.

@@ -54,10 +54,10 @@ already running, the trigger activation is consumed but native
 
 `DoTutorial` starts `CombatTuto` only when the caller supplies a local player
 Character, offline state, normal difficulty (`0`), and pending flag 7. On an
-eligible call the flag is consumed. The host slice does not implement the
-actual UI/save effects. In the recovered `CombatTuto` path, `StartDialog` and
-`WaitDialog` are therefore reported as unsupported no-ops; no dialog is
-displayed and the native dialog wait cannot block this host model.
+eligible call the flag is consumed. The host slice has no UI owner unless a
+caller binds one. When unbound, `StartDialog`, `StartDialogID`, and
+`WaitDialog` remain unsupported no-ops; the Android app binds them to the
+retained `OriginalUiSession` dialog queue.
 
 ## Runtime and integration contract
 

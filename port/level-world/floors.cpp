@@ -123,7 +123,7 @@ bool post_load(World& world,std::string& error){
   std::sort(world.search_edges.begin(),world.search_edges.end(),[&](unsigned a,unsigned b){const auto& x=world.graph.edges[a-1];const auto& y=world.graph.edges[b-1];return x.from!=y.from?x.from<y.from:x.to<y.to;});
   world.search_nodes.resize(world.graph.node_count);world.search_heap.resize(world.graph.edge_count+1);
   world.collision_room_floors=std::move(groups);world.collision_rooms.resize(room_count);world.collision_floors.resize(world.records.size());world.route_traits.resize(world.records.size());
-  bool first_room=true;for(unsigned i=0;i<room_count;++i){const auto& ids=world.collision_room_floors[i];world.collision_rooms[i]={bounds[i],ids.data(),unsigned(ids.size()),0};
+  bool first_room=true;for(unsigned i=0;i<room_count;++i){const auto& ids=world.collision_room_floors[i];world.collision_rooms[i]={bounds[i],ids.data(),unsigned(ids.size()),0,0};
    if(ids.empty())continue;
    if(first_room){world.collision_world.bounds=bounds[i];first_room=false;}
    else for(unsigned k=0;k<3;++k){world.collision_world.bounds.minimum[k]=std::min(world.collision_world.bounds.minimum[k],bounds[i].minimum[k]);world.collision_world.bounds.maximum[k]=std::max(world.collision_world.bounds.maximum[k],bounds[i].maximum[k]);}
@@ -195,5 +195,38 @@ const std::string* floor_type_at(const World& world,const float* point) noexcept
   return type.empty()?nullptr:&type;
  }
  return nullptr;
+}
+bool flag_dead_end(World& world,const float* point,bool dead_end,bool& hit,
+                   std::string& error) {
+ error.clear();hit=false;
+ if(!point||world.records.size()!=world.selectors.size()||
+    world.route_traits.size()!=world.records.size()||
+    world.collision_floors.size()!=world.records.size()) {
+  error="PFWorld FlagFloorAsDeadEnd requires the active retained floor selectors";
+  return false;
+ }
+ for(unsigned i=0;i<3;++i)if(!std::isfinite(point[i])) {
+  error="PFWorld FlagFloorAsDeadEnd point is not finite";return false;
+ }
+ for(unsigned i=0;i<world.selectors.size();++i) {
+  if(!world.records[i]) {
+   error="PFWorld FlagFloorAsDeadEnd lost a source floor record";return false;
+  }
+  if(world.records[i]->flags.floor&0x03000000u)continue;
+  collision::Result collision{};
+  if(dh2_selector_floor(&collision,&world.selectors[i],point)!=1)continue;
+  auto& source_flags=world.records[i]->source_flags_20;
+  if(dead_end)source_flags|=2u;else source_flags&=~2u;
+  // Keep the same bit in the active navigation collision grid. FloorTraits
+  // are copied into CollisionFloor during source Level load, so mutating only
+  // PFFloor's retained source word would leave route/obstacle queries stale.
+  auto& route_object_flags=world.route_traits[i].object;
+  if(dead_end)route_object_flags|=2u;else route_object_flags&=~2u;
+  world.collision_floors[i].traits.object=route_object_flags;
+  hit=true;return true;
+ }
+ // PFWorld::FlagFloorAsDeadEnd dereferences the embedded PFObject's floor
+ // pointer only when non-null; GetFloorHeightAt leaves it null on a miss.
+ return true;
 }
 }

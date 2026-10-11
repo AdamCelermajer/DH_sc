@@ -96,6 +96,58 @@ bool ZoomInput::set_camera(Owner* owner,DrawableTargetSize target) noexcept {
     return std::isfinite(sensitivity_)&&sensitivity_>0.0f;
 }
 
+bool CameraOverviewOwner::construct(DrawableTargetSize drawable) noexcept {
+    if(live_||drawable.width<=1||drawable.height<=1)return false;
+    projection_=OverviewProjection{};
+    projection_.drawable=drawable;
+    live_=true;
+    active_=false;
+    return true;
+}
+
+bool CameraOverviewOwner::resize(DrawableTargetSize drawable) noexcept {
+    if(!live_||drawable.width<=1||drawable.height<=1)return false;
+    projection_.drawable=drawable;
+    return true;
+}
+
+bool CameraOverviewOwner::activate(const GameObjectSample& local_player,
+                                   float world_center_z) noexcept {
+    if(!live_||active_||!local_player.present||!local_player.identity||
+       !std::isfinite(world_center_z)||!std::isfinite(world_center_z+15000.0f)||
+       !std::isfinite(world_center_z+25000.0f)||
+       !finite(local_player.object_position))return false;
+    // CameraOverview::Activated positions its camera directly above the local
+    // Player at the PFWorld Z midpoint. The scene camera keeps the constructor
+    // up vector (+Y) and the 20,000 unit vertical separation.
+    projection_.target={local_player.object_position.x,
+                       local_player.object_position.y,world_center_z};
+    projection_.position={local_player.object_position.x,
+                         local_player.object_position.y,world_center_z+20000.0f};
+    projection_.near_clip=world_center_z+15000.0f;
+    projection_.far_clip=world_center_z+25000.0f;
+    active_=true;
+    return true;
+}
+
+bool CameraOverviewOwner::deactivate() noexcept {
+    if(!live_||!active_)return false;
+    active_=false;
+    return true;
+}
+
+std::uintptr_t CameraOverviewOwner::projection_identity() const noexcept {
+    return live_?reinterpret_cast<std::uintptr_t>(&projection_):0;
+}
+
+bool CameraOverviewOwner::destroy(std::uintptr_t expected_projection_identity) noexcept {
+    if(!live_||active_||!expected_projection_identity||
+       expected_projection_identity!=projection_identity())return false;
+    projection_=OverviewProjection{};
+    live_=false;
+    return true;
+}
+
 bool ZoomInput::update_drawable_target(DrawableTargetSize target) noexcept {
     const auto count=std::max(target.width,target.height);
     if(!owner_||count<=0)return false;

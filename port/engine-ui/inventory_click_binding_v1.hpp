@@ -40,4 +40,27 @@ inline InventoryEquipCallV1 inventory_click_equip_call_v1(
         std::int32_t callback_arg2) noexcept {
  return {callback_arg2,callback_arg1,callback_arg0};
 }
+// NativeInvAutoEquipSlot is a source menu refresh command: a selected slot is
+// unequipped, then EquipSlotAuto builds/sorts its candidate list and refreshes
+// Character gear state. The -1 form runs Character::EquipAllSlotsAuto's exact
+// unequip/query order. Keep these calls visible to the canonical owner.
+template<class UnequipSlot,class QueryAndRefresh,class IsTaken>
+bool inventory_auto_equip_slot_calls_v1(std::int32_t requested,
+        std::uint32_t slot_count,UnequipSlot&& unequip_slot,
+        QueryAndRefresh&& query_and_refresh,IsTaken&& is_taken) {
+ if(requested==-1){
+  for(std::uint32_t slot=0;slot<slot_count;++slot)
+   if(!unequip_slot(slot))return false;
+  for(std::uint32_t cursor=slot_count;cursor>0;--cursor)
+   if(!query_and_refresh(cursor-1))return false;
+  for(std::uint32_t cursor=slot_count;cursor>0;--cursor){
+   const auto slot=cursor-1;
+   if(slot!=1&&slot!=2&&!is_taken(slot)&&!query_and_refresh(slot))return false;
+  }
+  return true;
+ }
+ if(requested<0||std::uint32_t(requested)>=slot_count)return true;
+ const auto slot=std::uint32_t(requested);
+ return unequip_slot(slot)&&query_and_refresh(slot);
+}
 }

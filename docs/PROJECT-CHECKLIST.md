@@ -3,6 +3,10 @@
 Updated: 2026-10-11. Branch: `reconstruction/item-world-runtime-2026-10-07`.
 
 Latest source round (not in R4):
+- [x] Recover enemy acquisition radii and continuing aggro searches: 45 host cases and 40 original-ARM comparisons pass; live aggro remains unverified.
+- [x] Implement BRES particle simulation and connect existing AnimatedFX rendering; Windows particle fixture passes. Integrated rendering, animated material color and unsupported emitter modes remain open.
+- [x] Replace template-family restrictions with exact authored catalog/cache resolution; 97 selectors scanned across 455 MGPs, five missing catalog entries retained as errors. Multi-level static materialization remains open.
+- [ ] Validate combined Windows snapshot12: condition/update ordering, Character lifecycle, projectile callbacks, particles and template integration. Capture verified 6,981 source files; build/gameplay results pending.
 - [x] Restore SWAMP character resource closure: four models, 20 missing animation clips and one atlas; all 133 animation-provenance inputs match packaged bytes/hashes (`8032f542`). Gameplay validation remains open.
 - [x] Preserve manager-owned FX handles after pool return so repeated objective-marker removal/reinstallation follows the source lifecycle; focused regression passes (`aad90a92`).
 - [x] Build `a1ac6b9f` for ARM64/x86_64 and verify intro → main menu → new Warrior → SWAMP world/HUD on API 37/16 KiB. Fixed repeated identical menu frame labels that aborted assertion-enabled builds. Android combat and audible cinematic output remain unverified.
@@ -17,9 +21,10 @@ Latest source round (not in R4):
 - [x] Verify Windows frontend framing with the source-selected SWF and seven restored original textures: Start/Options/Info fit after the entrance animation (60/120 frames). Remaining ornamental overflow is authored outside the stage. Audible output remains unverified.
 - [x] Fix canonical static-Character SCT ownership and verify a Windows Crypt kill through normal input: cultist07 HP 12160 → 3711 → 0, dead=1, exit 0 with rendered world/player/HUD. XP providers, loot tail and ordinary enemy aggro remain open.
 - [ ] Connect TalkToNPC objective markers to canonical Character `+0x2fa`: source Register/Install sets it, Unregister/Remove clears it (`0x47dbb4`, `0x47d998`, `0x47dc44`, `0x47daec`). Generic quest-NPC interaction remains incomplete.
-- [ ] Clear Windows startup/combat gates: selected runtime snapshot `3889586C` compiles with Faery InitPost/Final, rotation and timer adapters. Delayed follower AIS startup and full Player logical removal remain open; this batch has no live combat/progression result.
+- [x] Fix route scratch capacity and generated camera Booleans; focused host checks pass (`274b5333`, `81538b1c`). Restore the source Idle→Move event and both equipped-weapon melee reaches (`17da2f79`); combined Windows compilation passes, gameplay verification remains open.
+- [ ] Clear current Windows startup/combat gates; frozen snapshot11 reached ObjectManager InitPost but produced no frame. Source-order and typed lifecycle corrections are included in snapshot12; current gameplay remains unverified.
 - [x] Recover TargetList filters, callback order and NaN cone behavior: 412 original-ARM cases match (26,580 callbacks, zero mismatches). Explicit skill search centers pass a focused host check; Android/live skills remain unverified.
-- [x] Reconstruct named TargetList backups and canonical ObjectBase +0x29 locks (0x4a36b0/0x4a20f0/0x4a19f8); host checks pass for explicit-center candidate searches, full-width filters and lock retirement. Renderer wiring awaits the next Windows build.
+- [x] Reconstruct named TargetList backups and canonical ObjectBase +0x29 locks (0x4a36b0/0x4a20f0/0x4a19f8); host checks pass for explicit-center candidate searches, full-width filters and lock retirement. Renderer wiring compiles in Windows checkpoint `8B4FD0F7`; live skill behavior remains unverified.
 
 **Goal:** a complete, source-built native Android game, preserving original
 gameplay/content and providing documented fan modding. **The game is unfinished.**
@@ -214,7 +219,7 @@ Historical reports retain their original APK identities and test scopes.
 - [x] Port `Level::PlaceFaeryAndFollowers` as a source-ordered kernel over borrowed Character/Player services. Android providers, an instantiated Faery, and live selection/placement remain open.
 - [ ] Rebuild the original camera producer and static module visibility; add remaining factories/conditions/scripts and complete the object update lifecycle. Port-side RoomZone frustum transitions already gate direct Crypt Characters.
 - [ ] Connect authored and generated levels to the actual level stack and loading lifecycle.
-- [ ] Complete exits, level transitions, hubs, fast travel and return-to-level behavior.
+- [ ] Complete exits, level transitions, hubs, fast travel and return-to-level behavior. Loading visibility follows sound shutdown (`d71dc1f3`); packet cleanup is host-tested (`7b4474f1`), retained HUD hide compiles on Windows (`ab2e52ab`). PlayerManager synchronization, fresh destination Save/QEST and camera teardown integration remain in progress; no live transition result.
 
 ## 5. Character properties, equipment and state
 

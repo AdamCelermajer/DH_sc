@@ -95,6 +95,7 @@ struct Fixture {
     std::vector<std::uint32_t> timer_order;
     unsigned facts_reads = 0;
     unsigned service_calls = 0;
+    unsigned interaction_blurs = 0;
     bool change_idle_on_stop = false;
     bool nested_gate_event = false;
     bool throw_animation = false;
@@ -122,7 +123,9 @@ struct Fixture {
         auto& fixture = *static_cast<Fixture*>(context);
         check(state == &fixture.character.state, "borrowed Character owner differs");
         ++fixture.service_calls;
-        if (request->service == set_animation) {
+        if (request->service == restore_interaction_rotation) {
+            ++fixture.interaction_blurs;
+        } else if (request->service == set_animation) {
             if (fixture.throw_animation) throw std::runtime_error("injected backend failure");
             state->current_animation = request->argument[0];
         } else if (request->service == stop && fixture.change_idle_on_stop) {
@@ -273,6 +276,99 @@ struct SkillMachineBridgeFixture {
 
 int main() {
     try {
+        {
+            Coordinator character{0x400000001ull, 1};
+            check(character.source_machine_flags_44_528() == 0,
+                  "CharStateMachine+0x44 constructor word is not zero");
+            character.set_source_machine_flags_44_528(0x00000824u);
+            check(character.source_machine_flags_44_528() == 0x00000824u &&
+                  character.owner() == 0x400000001ull,
+                  "Character+0x528 / CharStateMachine+0x44 word lost its canonical Coordinator owner");
+        }
+        {
+            Fixture fixture;
+            fixture.character.state.current=12;
+            check(fixture.character.set_idle_state(true)==1&&
+                  fixture.character.state.current==3&&
+                  fixture.character.state.idle_suppressed==1,
+                  "SM_SetIdleState(true) did not store suppression before the same FSM transition");
+            check(fixture.character.set_idle_state(false)==1&&
+                  fixture.character.state.current==3&&
+                  fixture.character.state.idle_suppressed==0,
+                  "SM_SetIdleState(false) did not clear suppression on the canonical FSM");
+        }
+        {
+            Fixture fixture;
+            const auto before = fixture.character.state;
+            const auto timers_before = fixture.character.timers();
+            check(fixture.character.register_source_state(
+                      fixture.character.owner() + 1, 0, 0x600) == false &&
+                  fixture.character.register_source_state(
+                      fixture.character.owner(), 20, 0x600) == false &&
+                  fixture.character.register_source_state(
+                      fixture.character.owner(), 0, 0) == false,
+                  "Source state registration accepted a foreign identity, invalid ID, or null handler");
+            check(fixture.character.register_source_state(
+                      fixture.character.owner(), 0, 0x600) &&
+                  fixture.character.register_source_state(
+                      fixture.character.owner(), 0, 0x600) &&
+                  !fixture.character.register_source_state(
+                      fixture.character.owner(), 0, 0x601) &&
+                  !fixture.character.source_state_handlers_complete() &&
+                  fixture.character.source_state_handler_mask() == 1 &&
+                  fixture.character.source_state_registered(
+                      fixture.character.owner(), 0) &&
+                  !fixture.character.source_state_registered(
+                      fixture.character.owner() + 1, 0) &&
+                  !fixture.character.source_state_registered(
+                      fixture.character.owner(), 1),
+                  "Source state registration did not retain a stable handler token");
+            for (std::uint32_t state = 1; state < 20; ++state)
+                check(fixture.character.register_source_state(
+                          fixture.character.owner(), state, 0x600),
+                      "Canonical Coordinator rejected a valid source state handler");
+            check(fixture.character.source_state_handlers_complete() &&
+                  fixture.character.unregister_source_state(
+                      fixture.character.owner(), 0, 0x600) &&
+                  !fixture.character.source_state_handlers_complete() &&
+                  fixture.character.register_source_state(
+                      fixture.character.owner(), 0, 0x600) &&
+                  fixture.character.state.current == before.current &&
+                  fixture.character.state.elapsed_ms == before.elapsed_ms &&
+                  fixture.character.timers().slots == timers_before.slots &&
+                  fixture.character.timers().count == timers_before.count &&
+                  fixture.character.timers().capacity == timers_before.capacity,
+                  "Source state table changed live state/timers or failed exact rollback");
+        }
+        {
+            Fixture fixture;
+            fixture.character.state.current=3;
+            fixture.character.set_source_interaction_row_48(3);
+            check(fixture.character.event(50003u,0x410)==1&&
+                  fixture.character.state.current==13&&
+                  fixture.character.event(34u,0x410)==1&&
+                  fixture.character.state.current==3&&
+                  fixture.character.source_interaction_row_48()==3&&
+                  fixture.interaction_blurs==1,
+                  "Character::Interact 50003/CSInteract 34 did not close on the same Coordinator");
+        }
+        {
+            Fixture fixture;
+            fixture.character.state.current=13;
+            fixture.character.set_source_interaction_row_48(3);
+            check(fixture.character.event(34u,0)==1&&
+                  fixture.character.state.current==3&&
+                  fixture.character.source_interaction_row_48()==3&&
+                  fixture.interaction_blurs==1,
+                  "CSInteract event34 did not return the retained row3 Character to Idle");
+            fixture.character.state.current=13;
+            fixture.character.set_source_interaction_row_48(4);
+            const auto before=fixture.character.state;
+            check(fixture.character.event(34u,0)==-1&&
+                  fixture.character.state.current==before.current&&
+                  fixture.character.state.flags==before.flags,
+                  "Unsupported LiftableObject event34 branch mutated the Character Coordinator");
+        }
         {
             BodyIdentity::Projection projection{};
             int first_body=0,second_body=0;

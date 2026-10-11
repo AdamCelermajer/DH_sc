@@ -88,9 +88,9 @@ int main() {
     check(qs::run(&network_gate, 1, &untouched.services, &result, error) == qs::Status::skipped,
           "online non-host did not skip QuickSave");
     network_gate.local_player_is_host = 1;
-    network_gate.application_gate_719 = 1;
+    network_gate.player_manager_gate_719 = 1;
     check(qs::run(&network_gate, 1, &untouched.services, &result, error) == qs::Status::skipped,
-          "Application+0x719 gate did not skip QuickSave");
+          "PlayerManager+0x719 gate did not skip QuickSave");
     check(untouched.calls.empty(), "a skipped QuickSave mutated source state");
 
     auto forced = valid_state();

@@ -63,7 +63,8 @@ def main() -> int:
     assert digest(monster) == "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d"
     assert digest(follower) == "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d"
     c_sources = [RUNTIME / "lua" / (name + ".c") for name in CORE] + [
-        RUNTIME / "script_runtime.c", ROOT / "port/lua-numeric/numeric.c"]
+        RUNTIME / "script_runtime.c", RUNTIME / "script_game_bindings.c",
+        ROOT / "port/lua-numeric/numeric.c"]
     cpp_sources = [RUNTIME / "script_function_alias.cpp", MODULE / "ais_native_bindings.cpp",
                    MODULE / "ais_external_init_callbacks.cpp",
                    MODULE / "lua_script_load_once.cpp",
@@ -141,7 +142,7 @@ def main() -> int:
         return follower_result.returncode
     assert follower_result.stdout.strip() == "PASS: recovered follower AISExternal callbacks on one VM"
     host = json.loads(result.stdout)
-    assert host["monster_external_session_cases"] == 41 and host["mismatches"] == 0, host
+    assert host["monster_external_session_cases"] == 45 and host["mismatches"] == 0, host
     for key in ("unchanged_original_scripts_executed", "spotted_callback_order", "idle_path_short_circuit",
                 "fresh_target_after_path_query", "opaque_64bit_identity_tables", "service_lifetime_and_reentry",
                 "failure_preserves_prior_effects", "unknown_callbacks_rejected"):
@@ -156,12 +157,17 @@ def main() -> int:
     assert host["death_killer_identity_and_nil"] is True
     assert host["combat_callback_two_character_abi"] is True
     assert host["stop_attack_callbacks"] is True
+    assert host["skill_combat_roll_same_vm_returns"] is True
+    assert host["skill_projectile_same_vm_target"] is True
+    assert host["projectile_delayed_full_returns_and_order"] is True
+    assert host["same_vm_character_buff_cooldown_callbacks"] is True
     assert host["native_wired"] is False
     dependencies = c_sources + cpp_sources + [MODULE / "monster_external_script_session.hpp",
         ROOT / "port/android-native/app/src/main/cpp/player_gameplay_audio.hpp",
         MODULE / "ais_external_init_callbacks.hpp",
         MODULE / "ais_native_bindings.hpp", MODULE / "character_oid_cache_v1.hpp",
         ROOT / "port/adam-script-runtime/script_runtime.h",
+        RUNTIME / "script_game_bindings.h",
         MODULE / "lua_script_load_once.hpp",
         MODULE / "ais_state_callbacks.hpp",
         RUNTIME / "script_runtime.h", RUNTIME / "script_function_alias.h", ROOT / "port/lua-numeric/numeric.h",

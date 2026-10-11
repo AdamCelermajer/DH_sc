@@ -18,8 +18,9 @@ struct State {
     std::int32_t character_quicksave_predicate{};
     std::uint32_t online{};
     std::uint32_t local_player_is_host{};
-    // Application byte at +0x719, preserved as an unnamed source gate.
-    std::uint32_t application_gate_719{};
+    // PlayerManager byte at +0x719, read only on the online host branch.
+    // Offline QuickSave short-circuits this source gate.
+    std::uint32_t player_manager_gate_719{};
     // Original Character words copied by Level::QuickSave: +0x168, +0x160,
     // +0x164 into +0x1470, +0x1468, +0x146c respectively.
     std::uint32_t character_word_168{}, character_word_160{}, character_word_164{};

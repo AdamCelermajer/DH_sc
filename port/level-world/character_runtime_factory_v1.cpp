@@ -1,7 +1,11 @@
 #include "character_runtime_factory_v1.hpp"
 #include "character_gameplay_save_v1.hpp"
+#include "character_faery_init_hp_mp_v1.hpp"
+#include "monster_external_script_session.hpp"
 
 #include <new>
+#include <cstdio>
+#include <limits>
 
 namespace dh2::character_runtime_factory_v1 {
 namespace {
@@ -24,6 +28,9 @@ void copy_lifecycle_state(Result* result, const Record& record) noexcept {
 }
 
 } // namespace
+
+Record::Record() = default;
+Record::~Record() = default;
 
 void* ComponentStorage::find(ctor::Component component) const noexcept {
     if (!valid_component(component)) return nullptr;
@@ -173,6 +180,33 @@ int Owner::register_state(void* context, ctor::Identity identity,
     }
 }
 
+int Owner::construct_object_base(void* context, ctor::Identity identity,
+                                 std::uint32_t go_ids, std::string& error) {
+    auto* record = static_cast<Record*>(context);
+    if (!record || !identity || record->character.identity != identity ||
+        record->game_object.identity != identity ||
+        record->game_object.go_ids_0f4_ready) {
+        error = "Character ObjectBase constructor does not match its stable factory Record";
+        return 1;
+    }
+    if (record->services.construct_object_base) {
+        int status = 1;
+        try {
+            status = record->services.construct_object_base(
+                record->services.context, identity, go_ids, error);
+        } catch (...) {
+            status = 1;
+        }
+        if (status != 0) {
+            if (error.empty()) error = "Character ObjectBase provider rejected GO_IDS";
+            return 1;
+        }
+    }
+    record->game_object.go_ids_0f4 = go_ids;
+    record->game_object.go_ids_0f4_ready = 1;
+    return 0;
+}
+
 void Owner::rollback(void* context, ctor::Action action, std::uint32_t value,
                      ctor::Identity identity) noexcept {
     auto* record = static_cast<Record*>(context);
@@ -244,6 +278,18 @@ Status Owner::create(manager::SourceHandle source_handle,
                      const aggro::GameObject& aggro_object_seed,
                      const Services& services, Record** output, Result* result,
                      std::string& error) {
+    return create_impl(source_handle, {}, -1, {}, game_object_seed,
+                       aggro_object_seed, services, output, result, error);
+}
+
+Status Owner::create_impl(manager::SourceHandle source_handle,
+                          std::string_view object_name,
+                          std::int32_t character_table_id,
+                          std::string_view character_table_name,
+                          const manager::GameObject& game_object_seed,
+                          const aggro::GameObject& aggro_object_seed,
+                          const Services& services, Record** output,
+                          Result* result, std::string& error) {
     error.clear();
     if (output) *output = nullptr;
     if (result) *result = {};
@@ -269,6 +315,16 @@ Status Owner::create(manager::SourceHandle source_handle,
     record.source_handle = source_handle;
     record.game_object = game_object_seed;
     record.aggro_object = aggro_object_seed;
+    if (character_table_id >= 0) {
+        record.dynamic_character_table_id = character_table_id;
+        try {
+            record.dynamic_character_table_name.assign(character_table_name);
+            record.game_object.name.assign(object_name);
+        } catch (...) {
+            error = "Character dynamic metadata allocation failed";
+            return Status::object_manager_failed;
+        }
+    }
     const auto object_identity = reinterpret_cast<std::uintptr_t>(&record.game_object);
     record.game_object.identity = object_identity;
     record.aggro_object.identity = object_identity;
@@ -281,7 +337,7 @@ Status Owner::create(manager::SourceHandle source_handle,
     }
     record.services = services;
     record.constructor_services = {&record, &Owner::component, &Owner::associate,
-        &Owner::register_state, &Owner::rollback};
+        &Owner::register_state, &Owner::rollback, &Owner::construct_object_base};
 
     try {
         const auto inserted = records_.emplace(source_handle, std::move(owned));
@@ -303,6 +359,34 @@ Status Owner::create(manager::SourceHandle source_handle,
         return constructed == ctor::Status::service_unavailable
             ? Status::service_unavailable : Status::constructor_failed;
     }
+    // ObjectBase::C1/C2 establish +0x110=-1 and +0x118=0. Retain the exact
+    // source Character remote-update projection only after the complete ctor
+    // transaction, for the controller's live IsRemotelyUpdated query.
+    stable.source_remote_culling = {stable.character.identity, UINT32_MAX,
+                                    0, 0, {0, 0}};
+    stable.source_remote_culling_ready = true;
+    // Character::C2 writes +0x1449 and the six raw words at +0x1468/+0x1474
+    // to zero. Publish those save fields only after the ordered constructor
+    // transaction has completed; default-initialized Record storage alone is
+    // not a source-constructor receipt.
+    stable.serialized_dead_1449 = 0;
+    stable.quick_save_position_1468 = {};
+    stable.revive_position_1474 = {};
+    stable.serialized_constructor_fields_ready = true;
+    // HitFor's Character constructor fields share the same canonical Record:
+    // Character C2 writes low-health hysteresis +0x1448=1; ObjectBase C2
+    // writes the outer lifecycle word +0x11c=0.
+    stable.hit_for_low_health_armed_1448 = 1;
+    stable.hit_for_lifecycle_11c = 0;
+    stable.hit_for_constructor_fields_ready = true;
+    // ObjectBase::C1 writes its +0x8a serialized enabled byte to one.
+    stable.game_object.serialized_flag_8a = 1;
+    stable.game_object.serialized_flag_8a_ready = 1;
+    // The concrete Character constructor overwrites ObjectBase's +0x28 zero
+    // with one. Publish the save gate only after every ordered constructor
+    // component, association, and state registration has completed.
+    stable.game_object.save_eligibility_28 = 1;
+    stable.game_object.save_facts_ready = 1;
     if (character_kill_field_14e4_v1::character_constructor_completed(
             &stable.kill_field_14e4, stable.character.identity) !=
         character_kill_field_14e4_v1::Status::complete) {
@@ -313,8 +397,8 @@ Status Owner::create(manager::SourceHandle source_handle,
     }
 
     manager::GameObject* manager_object = nullptr;
-    result->object_manager_status = object_manager_.add_object(source_handle,
-        stable.game_object, &manager_object);
+    result->object_manager_status = object_manager_.add_named_object(
+        source_handle, object_name, stable.game_object, &manager_object);
     if (result->object_manager_status != manager::Status::ok) {
         rollback_completed(stable);
         records_.erase(source_handle);
@@ -364,6 +448,96 @@ Status Owner::create(manager::SourceHandle source_handle,
     return Status::complete;
 }
 
+Status Owner::create_script_npc(
+    std::int32_t character_table_id,
+    std::string_view character_table_name,
+    const manager::GameObject& game_object_seed,
+    const aggro::GameObject& aggro_object_seed,
+    const Services& services, Record** output, Result* result,
+    std::string& generated_name, std::string& error) {
+    error.clear();
+    generated_name.clear();
+    if (output) *output = nullptr;
+    if (result) *result = {};
+    if (!output || !result || character_table_id < 0 ||
+        character_table_name.empty()) {
+        error = "CreateNPC requires a resolved CharacterTable OID and name";
+        return Status::invalid_argument;
+    }
+
+    // Character::CreateNPC's null-name path increments its own process-static
+    // counter before ObjectManager::Spawn is attempted. Keep that independent
+    // source static here; failed construction still consumes the name.
+    static std::uint32_t create_npc_counter = 0;
+    ++create_npc_counter;
+    char name_buffer[20]{};
+    const int name_length = std::snprintf(name_buffer, sizeof(name_buffer),
+        "NPC_%04u", static_cast<unsigned>(create_npc_counter));
+    if (name_length <= 0 ||
+        static_cast<std::size_t>(name_length) >= sizeof(name_buffer)) {
+        error = "CreateNPC source name formatter rejected its counter value";
+        return Status::invalid_argument;
+    }
+    try {
+        generated_name.assign(name_buffer, static_cast<std::size_t>(name_length));
+    } catch (...) {
+        error = "CreateNPC source name allocation failed";
+        return Status::object_manager_failed;
+    }
+
+    // Source Spawn creates a Character before ObjectManager::Add allocates the
+    // next +0x4c key. Peeking here preserves that ordering: constructor
+    // failure leaves the manager counter untouched, and successful Add inside
+    // create() advances the same canonical owner's counter.
+    const auto source_handle = object_manager_.next_source_handle();
+    if (source_handle == std::numeric_limits<manager::SourceHandle>::max()) {
+        error = "ObjectManager source-handle counter is exhausted";
+        return Status::object_manager_failed;
+    }
+    if (object_manager_.find_by_name(generated_name) != nullptr) {
+        error = "CreateNPC generated name already resolves to an ObjectManager object";
+        return Status::duplicate_source_handle;
+    }
+    if (object_manager_.find_by_source_handle(source_handle) != nullptr) {
+        error = "ObjectManager next source-handle key is already occupied";
+        return Status::object_manager_failed;
+    }
+
+    Record* record = nullptr;
+    const auto status = create_impl(source_handle, generated_name,
+        character_table_id, character_table_name, game_object_seed,
+        aggro_object_seed, services, &record, result, error);
+    if (status != Status::complete) return status;
+    auto* manager_row = object_manager_.find_by_source_handle(source_handle);
+    if (!manager_row ||
+        manager_row->identity != record->character.identity ||
+        manager_row->source_handle != source_handle ||
+        manager_row->name != generated_name) {
+        error = "CreateNPC could not publish its name on the canonical ObjectManager row";
+        Result retire_result{};
+        std::string retire_error;
+        const auto retired = retire(source_handle, &retire_result, retire_error);
+        if (retired != Status::complete) {
+            error += "; canonical cleanup incomplete";
+            return Status::cleanup_incomplete;
+        }
+        return Status::object_manager_failed;
+    }
+    const auto marked = mark_script_created(source_handle, error);
+    if (marked != Status::complete) {
+        Result retire_result{};
+        std::string retire_error;
+        const auto retired = retire(source_handle, &retire_result, retire_error);
+        if (retired != Status::complete) {
+            error += "; canonical cleanup incomplete";
+            return Status::cleanup_incomplete;
+        }
+        return marked;
+    }
+    *output = record;
+    return Status::complete;
+}
+
 Status Owner::retire(manager::SourceHandle source_handle, Result* result,
                      std::string& error) noexcept {
     if (result) *result = {};
@@ -378,6 +552,12 @@ Status Owner::retire(manager::SourceHandle source_handle, Result* result,
         record.faery_script.stage() !=
             character_faery_script_session_v1::Stage::closed) {
         error = "Character cannot retire before its AISFaery session is closed";
+        return Status::cleanup_incomplete;
+    }
+    if (record.source_external_ais &&
+        record.source_external_ais->stage() !=
+            monster_external_script::Stage::empty) {
+        error = "Character cannot retire before its source AISExternal Session is reset";
         return Status::cleanup_incomplete;
     }
     if (record.pofaerie_physical ||

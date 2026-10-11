@@ -33,14 +33,14 @@ struct Core {
 struct Native {
  Fixture f;dh2::character_ai_initialization::State ai{};c::Coordinator coordinator{CHAR};
  dh2::object_update_culling::Object object{CHAR,UINT32_MAX,0,0,{0,0}};
- std::uint32_t dead=0;dh2::character_dot_attack::Runtime attack;
+ std::uint32_t dead=0;std::uint8_t dead_byte=0;dh2::character_dot_attack::Runtime attack;
  dh2::character_dot_attack::Actor actor{CHAR,nullptr};dh2::character_dot_attack::CombatContext combat{};
  d::CombatRandom random{};dh2::character_dot_attack::Storage attack_storage{};
  std::unique_ptr<pt::Runtime> runtime;pt::Result output{};std::string error;
  std::unique_ptr<bf::Owner> buffs;std::uintptr_t buff_instance=0;
  std::vector<unsigned> order;unsigned facts=0,machine_services=0,applications=0;
  bool fail_route=false,throw_route=false,mutate_event=false,fail_apply=false,reenter=false;
- Native(const std::filesystem::path& cache,const std::filesystem::path& folder,Catalogue& cat,const char* name,bool attack_provider=true,bool apply_provider=true)
+ Native(const std::filesystem::path& cache,const std::filesystem::path& folder,Catalogue& cat,const char* name,bool attack_provider=true,bool apply_provider=true,bool byte_dead=false)
   :f(cache,folder,cat,name,false){
   ai.identity=0x300000001ull;const dh2::character_ai_initialization::Services queue{this,[](void*,auto*,auto){return 0;}};
   dh2::character_ai_initialization::Result result{};
@@ -50,7 +50,8 @@ struct Native {
   coordinator.bind({this,[](void* p){++static_cast<Native*>(p)->facts;return c::Facts{};},{this,[](void* p,c::State*,const c::Request*){++static_cast<Native*>(p)->machine_services;}},
     before,after,nullptr,route});
   actor.resolved=f.view.resolved;attack_storage={&actor,1,&combat,&random,&f.debug.globals(),&f.debug.services()};
-  pt::Bindings b{&ai,&coordinator,&object,0x420000001ull,reinterpret_cast<std::uintptr_t>(&f.properties),&f.view,&dead,&f.debug.globals(),&f.debug.services(),attack_provider?&attack:nullptr,attack_provider?&attack_storage:nullptr,{this,apply_provider?apply:nullptr}};
+  pt::Bindings b{&ai,&coordinator,&object,0x420000001ull,reinterpret_cast<std::uintptr_t>(&f.properties),&f.view,byte_dead?nullptr:&dead,&f.debug.globals(),&f.debug.services(),attack_provider?&attack:nullptr,attack_provider?&attack_storage:nullptr,{this,apply_provider?apply:nullptr}};
+  if(byte_dead)b.dead_byte=&dead_byte;
   runtime=std::make_unique<pt::Runtime>(b);
  }
  ~Native(){
@@ -124,6 +125,8 @@ void cases(const std::filesystem::path& cache,const std::filesystem::path& folde
   check(s.output.dots.dead_skips==1&&!s.output.dots.attacks&&!s.applications,"dead DoT positive source gate differs");++native_cases;
   s.dead=0;s.reenter=true;s.tick(0x34);check(s.output.dots.attacks==1&&s.output.dots.applications==1&&s.output.attack.calculated==1&&s.applications==1&&!s.facts,"same real DotAttack/runtime application route differs");++native_cases;++guards;
  }
+ {Native s(cache,folder/"byte-dead",cat,"KnightPlayerBase",true,true,true);for(unsigned p=126;p<132;++p)s.set(p,0);s.set(126,256);
+  s.dead_byte=1;s.tick(0x34);check(s.output.dots.dead_skips==1&&!s.output.dots.attacks&&!s.applications,"byte-backed Character IsDead source gate differs");++native_cases;}
  {Native s(cache,folder/"prefix",cat,"KnightPlayerBase");for(unsigned p=126;p<132;++p)s.set(p,0);s.set(126,256);s.fail_apply=true;
   const auto id=s.coordinator.start_timer(10,2,0x34,0);bool failed=false;try{s.coordinator.update_timers(25,0);}catch(...){failed=true;}
  const auto& timer=s.coordinator.timers().slots[id];check(failed&&s.output.dots.attacks==1&&!s.output.dots.applications&&s.output.attack.calculated&&

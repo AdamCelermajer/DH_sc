@@ -34,6 +34,27 @@ enum class Status : std::uint8_t {
     provider_failed,
 };
 
+enum class ProviderBoundary : std::uint8_t {
+    none,
+    load_module,
+    object_init_post,
+    resolve_init_post_row,
+    test_enable_condition,
+    publish_condition_tested,
+    clear_post_init_lists,
+    is_room_zone,
+    append_room_zone,
+    room_zone_init_object_list,
+    has_additional_init_list,
+    append_additional_init_object,
+    active_list_condition_gate,
+    read_active_list_flags,
+    append_active_object,
+};
+
+const char* provider_boundary_name(ProviderBoundary boundary) noexcept;
+const char* phase_name(Phase phase) noexcept;
+
 // Services are borrowed native-provider boundaries. The port owns sequencing
 // and the object cursor; it does not own modules, queues, virtual methods, or
 // RoomZone initialization.
@@ -72,6 +93,10 @@ struct State {
     std::size_t module_load_calls{};
     std::size_t object_init_calls{};
     std::size_t post_init_object_calls{};
+    Phase failed_phase{Phase::unstarted};
+    ProviderBoundary failed_provider{ProviderBoundary::none};
+    Address failed_identity{};
+    Address failed_source_handle{};
 };
 
 Status begin(State* state, ObjectOwner* objects,

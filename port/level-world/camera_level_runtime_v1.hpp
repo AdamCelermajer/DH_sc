@@ -146,6 +146,52 @@ struct DrawableTargetSize {
     std::int32_t height=0;
 };
 
+// Level::_LoadCamera also constructs a distinct CameraOverview (+0x12c).
+// Its CameraBase and scene-camera node are not the gameplay CameraLevel and
+// must have their own retained lifetime. This value owns the semantic camera
+// projection/node state used by non-Irrlicht render backends; the address of
+// projection() is its native owner identity for Level teardown binding.
+struct OverviewProjection {
+    std::uint32_t scene_node_id=1601003875; // CameraOverview ctor immediate
+    float vertical_fov_radians=0.42963001132011414f;
+    float authored_aspect_ratio=1.7778f;
+    float near_clip=15000.0f;
+    float far_clip=25000.0f;
+    DrawableTargetSize drawable{};
+    Vec3 position{0.0f,0.0f,20000.0f};
+    Vec3 target{};
+    Vec3 up{0.0f,1.0f,0.0f};
+};
+
+class CameraOverviewOwner {
+public:
+    // Mirrors CameraOverview::CameraOverview's own camera-node allocation.
+    bool construct(DrawableTargetSize drawable) noexcept;
+    bool resize(DrawableTargetSize drawable) noexcept;
+    // Mirrors Activated's player-centered, world-midpoint overview pose.
+    bool activate(const GameObjectSample& local_player,
+                  float world_center_z) noexcept;
+    // Deactivated only detaches this camera's event listener; it does not
+    // change the independent gameplay CameraLevel/ZoomHandler binding.
+    bool deactivate() noexcept;
+    // Level::Unload destroys CameraLevel first, then CameraOverview. The
+    // transition owner supplies this retained projection address to reject a
+    // stale cleanup callback from a different level lifetime.
+    bool destroy(std::uintptr_t expected_projection_identity) noexcept;
+
+    bool live() const noexcept { return live_; }
+    bool active() const noexcept { return active_; }
+    std::uintptr_t projection_identity() const noexcept;
+    const OverviewProjection* projection() const noexcept {
+        return live_?&projection_:nullptr;
+    }
+
+private:
+    OverviewProjection projection_{};
+    bool live_=false;
+    bool active_=false;
+};
+
 class ZoomInput {
 public:
     // setCamera reads the active IRenderTarget width/height and computes

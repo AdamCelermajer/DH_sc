@@ -13,6 +13,12 @@ constexpr std::size_t slots_per_category = 5;
 struct Slot {
     std::uintptr_t shell_identity{};
     std::uintptr_t item_identity{};
+    // ItemObject::InitAgain only overwrites +0x3bc when its Character
+    // argument is nonnull. ItemManager::DeSpawn does not clear this field.
+    std::uintptr_t receiver_character_identity{};
+    // GameObject::Update consumes ItemObject +0x2e4 as the Character argument
+    // to virtual ItemObject::Interact, then clears it. DeSpawn leaves it alone.
+    std::uintptr_t deferred_interact_character_identity{};
     std::uint32_t pickup_lock_ms{};
     // ItemObject+0x3c0 is compared to PlayerInfo+0x678 by Interact.
     std::int32_t pickup_lock_player_id{-1};
@@ -62,6 +68,22 @@ Status bind_shell(Owner*, const SpawnPlan*, std::uintptr_t shell_identity,
 Status de_spawn(Owner*, std::uintptr_t shell_identity,
                 std::uintptr_t expected_item_identity,
                 std::string& error);
+// Preserve the pooled ItemObject receiver across DeSpawn/reuse when InitAgain
+// receives nullptr. A nonnull Character replaces the retained receiver.
+Status bind_receiver(Owner*, std::uintptr_t shell_identity,
+                     std::uintptr_t receiver_character_identity,
+                     std::uintptr_t* effective_receiver_identity,
+                     std::string& error);
+std::uintptr_t receiver_for_shell(const Owner*,
+                                  std::uintptr_t shell_identity) noexcept;
+// Mirrors the independent GameObject +0x2e4 deferred-action field. DeSpawn
+// and shell reuse preserve it; the source Update call consumes and clears it.
+Status queue_deferred_interact(Owner*, std::uintptr_t shell_identity,
+                               std::uintptr_t character_identity,
+                               std::string& error);
+std::uintptr_t deferred_interact_for_shell(const Owner*,
+                                           std::uintptr_t shell_identity) noexcept;
+bool clear_deferred_interact(Owner*, std::uintptr_t shell_identity) noexcept;
 Status activate(Owner*, const SpawnPlan*, std::uintptr_t shell_identity,
                 std::uintptr_t item_identity, std::uint32_t pickup_lock_ms,
                 std::string& error);

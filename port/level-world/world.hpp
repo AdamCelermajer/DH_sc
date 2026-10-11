@@ -45,22 +45,30 @@ struct SourceCharacterCensusV1 {
  // CharacterTable charpropsname above).
  std::string char_template_pydata,char_template;
  std::string name,character,template_name,activate_condition,
-             deactivate_condition,script,spawn_probability,auto_spawn,ai_state;
+             deactivate_condition,script,spawn_probability,auto_spawn,ai_state,
+             char_group,char_group_role,spawn_view_radius;
  bool is_global=false;
  std::uint32_t deferred_reason_mask=0;
  bool supported_direct_dact_v1=false;
  Transform local,world;
 };
 // Generic exact MGP GameObject projection joined to the same canonical
-// ObjectManager occurrence ledger. It carries authored conditions and
-// transforms only; callers own type-specific activation and lifecycle.
+// ObjectManager occurrence ledger. It carries authored conditions, spawn
+// probability, class-table keys, and transforms; callers own type-specific
+// activation and lifecycle.
 struct SourceObjectCensusV1 {
  std::uint32_t module_index=0;
+ // Runtime ObjectBase+0x64 module owner for this source MGP row. Module
+ // constructors receive their per-Level ID in Module::s_moduleId order,
+ // which is the same ordered module slot retained by module_index here.
+ std::int32_t source_module_id=-1;
  std::uint32_t source_record=0;
  std::int32_t source_handle=-1;
  bool duplicate_name=false;
  std::string name,gametype,template_name,activate_condition,deactivate_condition,
-             dimensions;
+             spawn_probability,min_difficulty,is_demo_only,dimensions,data_desc,data_desc_pydata,target_node,
+             exit_level_id,exit_level_name,exit_entrypoint_id,exit_fasttravel,
+             visible,skip_checkpoint,door_data,door_opened,door_collision;
  Transform local,world;
 };
 struct SpawnSelection{EntryPoint source;Point position{};Point rotation_degrees{};bool floor_snapped=false;};

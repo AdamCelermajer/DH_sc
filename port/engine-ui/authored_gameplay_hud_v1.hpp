@@ -27,9 +27,13 @@ public:
  // MenuManager.Update: signed Character+14a8 raw OOI type, NOT AI target.
  bool update_action_icon(std::int8_t actual_object_of_interest_type,std::string&);
  bool refresh_action_icon(std::string&); // source menu-return/equipment refresh
+ // PlayerManager::RemoveCharacter calls RenderFX::InvokeASCallback on the
+ // retained menu_HUD_0 with completeRefresh and no arguments.
+ bool complete_refresh(std::string&);
  static std::int32_t action_icon(std::int8_t actual_object_of_interest_type) noexcept;
  std::int32_t cached_action_icon()const noexcept{return action_icon_;}
  bool update(const std::array<std::int32_t,17>& actual_infos,
+             const std::array<std::int32_t,3>& actual_skill_slots,
              std::int32_t actual_class,bool actual_dpad,std::string&);
  bool display(std::string&);
  // Synchronous read/write access to the authored enemy HUD clips. These

@@ -39,7 +39,6 @@ public final class MainActivity extends Activity {
     private boolean awaitingRestoredMenuFrame;
     private TextView status;
     private String[] assets=new String[0];
-    private final int[] nativeMenuLaunchRequest=new int[2];
     private final FrontMenuTouchGestureV1 frontMenuTouchGesture=new FrontMenuTouchGestureV1();
     private int frontMenuTouchPointer=-1;
     private volatile int selected;
@@ -354,7 +353,7 @@ public final class MainActivity extends Activity {
                 });
                 String effect;
                 do{effect=NativeBridge.consumeMenuSound();if(!effect.isEmpty()&&introCinematic==null){final String cue=effect;runOnUiThread(()->frontAudio.effect(cue));}}while(!effect.isEmpty());
-                int startSlot=NativeBridge.consumeMenuLaunch(nativeMenuLaunchRequest);if(startSlot>=0){boolean numeric=nativeMenuLaunchRequest[0]!=0;int difficulty=nativeMenuLaunchRequest[1];beginMenuGameStart(startSlot,numeric,difficulty);}long now=android.os.SystemClock.uptimeMillis();if(now-lastVitals>=200&&loadedAsset!=null&&loadedAsset.startsWith("worlds/")){lastVitals=now;int[] values=NativeBridge.playerVitals();if(attackDisplayPending&&values[6]!=5){attackDisplayPending=false;show(baseReport+"\n"+(values[4]!=0?"Defeated":"Attack finished."));}runOnUiThread(()->{vitals.setText(String.format(java.util.Locale.ROOT,"HP %.1f / %.1f   MP %.1f / %.1f%s",values[0]/256f,values[1]/256f,values[2]/256f,values[3]/256f,values[4]!=0?"   Defeated":""));vitals.setTextColor(values[4]!=0||values[5]==0?Color.rgb(255,150,150):Color.WHITE);});}}
+                NativeLaunchRequest launch=NativeBridge.consumeMenuLaunch();if(launch!=null){if(launch.kind==NativeLaunchRequest.START_GAME){beginMenuGameStart(launch.slot,launch.hasNumericDifficulty,launch.requestedDifficulty);}else if(launch.kind==NativeLaunchRequest.LEVEL_TRANSITION){String transition=NativeBridge.transitionLevel(launch.destinationName,launch.rawEntryPoint,getAssets());baseReport=transition;if(transition!=null&&transition.startsWith("Level transition queued:")){loadedAsset="worlds/"+launch.destinationName;Log.i("DH2Native",transition);}else Log.e("DH2Native",transition==null?"NativeGoToZone returned no result":transition);}}long now=android.os.SystemClock.uptimeMillis();if(now-lastVitals>=200&&loadedAsset!=null&&loadedAsset.startsWith("worlds/")){lastVitals=now;int[] values=NativeBridge.playerVitals();if(attackDisplayPending&&values[6]!=5){attackDisplayPending=false;show(baseReport+"\n"+(values[4]!=0?"Defeated":"Attack finished."));}runOnUiThread(()->{vitals.setText(String.format(java.util.Locale.ROOT,"HP %.1f / %.1f   MP %.1f / %.1f%s",values[0]/256f,values[1]/256f,values[2]/256f,values[3]/256f,values[4]!=0?"   Defeated":""));vitals.setTextColor(values[4]!=0||values[5]==0?Color.rgb(255,150,150):Color.WHITE);});}}
     });
         surface.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         viewport=new FrameLayout(this);viewport.addView(surface,new FrameLayout.LayoutParams(-1,-1));

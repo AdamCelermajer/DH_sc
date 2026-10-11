@@ -136,7 +136,7 @@ def main():
     report = {
         "validation": "PASS",
         "host_runtime_cases": 4,
-        "death_provider_operations_per_actor": 6,
+        "death_provider_source_operations_per_actor": 3,
         "actors": ["Crypt_Ghost", "Crypt_Ghost_RE"],
         "source_kernel_host_cases": source_report.get("host_report", {}).get("host_cases"),
         "source_kernel_original_arm_cases": source_arm.get("cases"),

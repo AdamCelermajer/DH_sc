@@ -42,5 +42,11 @@ int main() {
           "a merchant identity without its canonical inventory is insufficient");
     check(merchant_details_owner_ready_v1({true, true, true}),
           "a complete borrowed canonical merchant owner is sufficient");
-    std::cout << "{\"validation\":\"PASS\",\"checks\":7}\n";
+    check(merchant_details_uses_merchant_inventory_v1(true, false),
+          "a live exact merchant selection keeps merchant inventory details");
+    check(!merchant_details_uses_merchant_inventory_v1(true, true),
+          "a missing or nonmerchant selection falls back to Player details");
+    check(!merchant_details_uses_merchant_inventory_v1(false, false),
+          "a nonmerchant-form call always uses Player inventory details");
+    std::cout << "{\"validation\":\"PASS\",\"checks\":10}\n";
 }

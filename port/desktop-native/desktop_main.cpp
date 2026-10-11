@@ -848,9 +848,8 @@ int main(int argc, char** argv) {
                 const float target_distance = std::hypot(
                     pose.player_position[0] - fixed_target_position[0],
                     pose.player_position[1] - fixed_target_position[1]);
-                constexpr float source_melee_range_xy = 180.0f;
                 if (pose.enemy_index == fixed_target_index &&
-                    target_distance <= source_melee_range_xy) {
+                    pose.enemy_in_melee_range) {
                     keys.fill(false);
                     update_movement(keys);
                     model_renderer::stop_movement();
@@ -868,7 +867,7 @@ int main(int argc, char** argv) {
                         std::cout << "Fixed Crypt approach progress | nearest " << pose.enemy_index
                                   << " | target XY " << target_distance << " | target HP "
                                   << target_state.hp << '/' << target_state.max_hp
-                                  << " | melee threshold " << source_melee_range_xy << '\n';
+                                  << " | live melee reach " << pose.enemy_in_melee_range << '\n';
                     if (!steer_toward_fixed_position(fixed_target_position, fixed_route_nodes,
                             fixed_route_edges, fixed_route_status, fixed_route_found,
                             fixed_route_waypoints)) {
@@ -913,8 +912,7 @@ int main(int argc, char** argv) {
                         const float target_distance = std::hypot(
                             pose.player_position[0] - fixed_target_position[0],
                             pose.player_position[1] - fixed_target_position[1]);
-                        constexpr float source_melee_range_xy = 180.0f;
-                        if (target_distance > source_melee_range_xy) {
+                        if (!pose.enemy_in_melee_range) {
                             if (!steer_toward_fixed_position(fixed_target_position, fixed_route_nodes,
                                     fixed_route_edges, fixed_route_status, fixed_route_found,
                                     fixed_route_waypoints))
@@ -974,6 +972,7 @@ int main(int argc, char** argv) {
                             std::cout << "Fixed Crypt kill progress | nearest " << pose.enemy_index
                                       << " | target XY " << target_distance << " | target HP "
                                       << target_state.hp << '/' << target_state.max_hp
+                                      << " | live melee reach " << pose.enemy_in_melee_range
                                       << " | attacks " << fixed_attack_count << '\n';
                     }
                 }

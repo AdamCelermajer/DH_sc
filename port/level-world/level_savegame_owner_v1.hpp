@@ -32,9 +32,35 @@ struct GameObjectFields {
     std::uint8_t object_base_flag_8a{};
     std::int32_t game_object_word_270{};
 };
+struct TriggerFields {
+    GameObjectFields game_object{};
+    std::int32_t pending_3b8{};
+    std::int32_t max_count_3b4{};
+};
+struct ContainerFields {
+    GameObjectFields game_object{};
+    std::uint8_t state_394{};
+};
+struct DoorFields {
+    GameObjectFields game_object{};
+    std::int32_t state_3a8{};
+};
 bool serialize_game_object(const GameObjectFields*,
                            std::vector<std::uint8_t>& output,
                            std::string& error);
+// Trigger::Serialize at ELF 0x398978: GameObject's exact six-byte payload,
+// then source +0x3b8 and +0x3b4 words in that order.
+bool serialize_trigger(const TriggerFields*,
+                       std::vector<std::uint8_t>& output,
+                       std::string& error);
+// Container::Serialize at ELF 0x39f8e0 appends its +0x394 state byte.
+bool serialize_container(const ContainerFields*,
+                         std::vector<std::uint8_t>& output,
+                         std::string& error);
+// Door::Serialize at ELF 0x3e7b74 appends its +0x3a8 DoorStates word.
+bool serialize_door(const DoorFields*,
+                    std::vector<std::uint8_t>& output,
+                    std::string& error);
 bool serialize_info_word(std::int32_t source_info_word,
                          std::vector<std::uint8_t>& output,
                          std::string& error);
@@ -66,6 +92,12 @@ bool format_filename(std::uint32_t source_arg0, std::int32_t source_arg1,
                      std::int32_t source_arg2, std::int32_t source_arg3,
                      std::string& output, std::string& error);
 
+// LevelSavegame::GetCheckpointFilename at ELF 0x4622c8. Checkpoints use the
+// same LevelSavegame INFO/OBJS image under a distinct slot/difficulty name.
+bool format_checkpoint_filename(std::int32_t source_save_slot,
+                                std::int32_t source_difficulty,
+                                std::string& output, std::string& error);
+
 struct Section {
     std::string tag;
     std::vector<std::uint8_t> payload;
@@ -76,6 +108,12 @@ struct Section {
 bool serialize_savegame(const Section* sections, std::size_t count,
                         std::vector<std::uint8_t>& output,
                         std::string& error);
+
+// Validate the source Savegame section framing emitted by serialize_savegame
+// and expose its canonical INFO word. OBJS is retained as an opaque payload;
+// its rows are validated/applied by the Level ObjectManager loader.
+bool read_savegame_info_word(const std::uint8_t* image, std::size_t image_size,
+                             std::int32_t& info_word, std::string& error);
 
 struct PublishServices {
     void* context{};
@@ -106,6 +144,11 @@ public:
                         const SerializeServices* serializers,
                         const PublishServices* publisher,
                         SaveResult*, std::string& error);
+    // Source Savegame::Load on this existing LevelSavegame owner. The filename
+    // remains the regular per-level name after LoadCheckPoint's temporary
+    // checkpoint-name substitution has unwound.
+    bool load_image(const std::uint8_t* image, std::size_t image_size,
+                    std::string& error);
     void destroy() noexcept;
     bool set_gate_39(std::uint8_t value) noexcept;
     bool constructed() const noexcept { return constructed_; }

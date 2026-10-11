@@ -23,13 +23,20 @@ struct Fake {
     void* callback_instance{};
     std::uint32_t random_choice{};
     std::vector<std::uint32_t> random_bounds;
+    std::string no_launch_path;
+    void* bound_target_object{};
+    bool fail_create{};
 };
-bool create(void* raw, std::int32_t id, std::string_view path,
-            void** out, std::string&) {
+CreateResult create(void* raw, std::int32_t id, std::string_view path,
+                    void** out, std::string& error) {
     auto& f = *static_cast<Fake*>(raw);
-    if (f.created == f.instances.size() || path.empty()) return false;
+    if (f.fail_create || f.created == f.instances.size() || path.empty()) {
+        error = "fake malformed-resource failure";
+        return CreateResult::failed;
+    }
+    if (path == f.no_launch_path) return CreateResult::source_no_launch;
     auto& instance = f.instances[f.created++]; instance = {id, true}; *out = &instance;
-    f.calls.emplace_back("create:" + std::to_string(id)); return true;
+    f.calls.emplace_back("create:" + std::to_string(id)); return CreateResult::created;
 }
 void destroy(void*, void*) {}
 bool start(void* raw, void* instance, const EffectSequence& sequence,
@@ -57,6 +64,12 @@ bool reset(void* raw, void*, std::string&) {
 }
 bool bind_object(void* raw, void*, void*, std::string&) {
     static_cast<Fake*>(raw)->calls.emplace_back("object"); return true;
+}
+bool bind_target_object(void* raw, void*, void* object, std::string&) {
+    auto& fake = *static_cast<Fake*>(raw);
+    fake.bound_target_object = object;
+    fake.calls.emplace_back("target-object");
+    return object != nullptr;
 }
 bool bind_animator(void* raw, void*, void*, std::string&) {
     static_cast<Fake*>(raw)->calls.emplace_back("animator"); return true;
@@ -91,6 +104,23 @@ bool random_below(void* raw, std::uint32_t bound, std::uint32_t& value,
     f.random_bounds.push_back(bound);
     f.calls.emplace_back("random:" + std::to_string(bound));
     value = bound ? f.random_choice % bound : 0;
+    return true;
+}
+bool get_anim_controller(void*, void* instance, void** controller,
+                         std::string&) {
+    if (!instance || !controller) return false;
+    *controller = instance; // Fake backend's controller token is FX-owned.
+    return true;
+}
+bool play_anim_controller_clip(void* raw, void* controller,
+                              std::uint32_t clip_index, bool enabled,
+                              std::string&) {
+    if (!controller) return false;
+    auto& fake = *static_cast<Fake*>(raw);
+    auto* fx = static_cast<Fx*>(controller);
+    if (!fx->live) return false;
+    fake.calls.emplace_back("play:" + std::to_string(clip_index) + ":" +
+                            (enabled ? "1" : "0"));
     return true;
 }
 std::vector<std::uint8_t> read(const char* path) {
@@ -139,11 +169,63 @@ int main() {
         catalog.remaining_effect_array_suffix == 0,
         "source effect, CharEffect and material-specific FootstepEffect tables decode");
     if (!ok) return 1;
+    std::int32_t target_circle_base = -1;
+    for (const auto& sequence : catalog.sequences)
+        if (sequence.name == "target_circle_00_chest")
+            target_circle_base = static_cast<std::int32_t>(sequence.row);
+    if (!require(target_circle_base >= 0 &&
+        static_cast<std::size_t>(target_circle_base) + 8 < catalog.sequences.size(),
+        "Character::InitPost target-circle base and nine source rows are present")) return 1;
+    for (std::int32_t i = 0; i < 9; ++i) {
+        const auto& sequence = catalog.sequences[static_cast<std::size_t>(target_circle_base + i)];
+        const auto dict = sequence.steps.empty() ? -2 : sequence.steps.front().effect_dict_id;
+        if (!require(sequence.row == static_cast<std::uint32_t>(target_circle_base + i) &&
+            !sequence.steps.empty() &&
+            (dict == -1 || (dict >= 0 && static_cast<std::size_t>(dict) < catalog.effect_paths.size())),
+            "Character::InitPost target-circle handle resolves to a source EffectDict row")) return 1;
+    }
+
+    Fake optional_fx;
+    optional_fx.no_launch_path = catalog.effect_paths[
+        static_cast<std::size_t>(catalog.sequences[249].steps[0].effect_dict_id)];
+    if (!require(exact_missing_effect_dict_asset(
+            "Bundled asset missing: actors/" + optional_fx.no_launch_path,
+            optional_fx.no_launch_path) &&
+            !exact_missing_effect_dict_asset(
+                "Bundled asset missing: actors/other.bdae", optional_fx.no_launch_path) &&
+            !exact_missing_effect_dict_asset(
+                "Bundled asset missing: original-cache/" + optional_fx.no_launch_path,
+                optional_fx.no_launch_path),
+        "optional no-launch classification matches only the exact selected actor BDAE path")) return 1;
+    Backend optional_backend{&optional_fx, create, destroy, start, reset,
+        bind_object, bind_animator, sync, visible, resume, update, render};
+    optional_backend.random_below = random_below;
+    optional_backend.start_anim_fx_set_step = start_set_step;
+    Owner optional_owner(&catalog); optional_owner.bind_backend(optional_backend);
+    void* optional_handle = reinterpret_cast<void*>(std::uintptr_t{1});
+    if (!require(optional_owner.GrabAnimFX(249, nullptr, &optional_handle, error) ==
+            Status::ok && optional_handle == nullptr &&
+            optional_owner.pool(catalog.sequences[249].steps[0].effect_dict_id).allocated == 0,
+        "a source no-launch for the fear-marker row returns null without allocating a pool slot")) return 1;
+    bool optional_matched = false, optional_launched = true;
+    if (!require(optional_owner.PlayAnimFXSet(249, {1.0f, 2.0f, 3.0f}, nullptr,
+            optional_matched, optional_launched, error) == Status::ok &&
+            optional_matched && !optional_launched,
+        "a valid FX set with a missing optional EffectDict remains a successful no-launch")) return 1;
+    optional_fx.fail_create = true;
+    optional_handle = nullptr;
+    if (!require(optional_owner.GrabAnimFX(137, nullptr, &optional_handle, error) ==
+            Status::load_failed && optional_handle == nullptr &&
+            error == "fake malformed-resource failure",
+        "non-optional FX construction failures remain visible to the caller")) return 1;
 
     Fake fake; Backend backend{&fake, create, destroy, start, reset, bind_object,
         bind_animator, sync, visible, resume, update, render};
     backend.random_below = random_below;
     backend.start_anim_fx_set_step = start_set_step;
+    backend.get_anim_controller = get_anim_controller;
+    backend.play_anim_controller_clip = play_anim_controller_clip;
+    backend.bind_target_object = bind_target_object;
     Owner owner(&catalog); owner.bind_backend(backend);
     if (!require(owner.footstep_effect("water") &&
         owner.footstep_effect("water")->effect == 275 &&
@@ -154,9 +236,27 @@ int main() {
         owner.registered_effect_dicts() == std::vector<std::int32_t>{69} &&
         owner.pool(69).allocated == 0,
         "RegisterFXSetToLoad records a direct source EffectDict without creating a second pool")) return 1;
+    void* generic_target_fx = nullptr;
+    int generic_game_object_projection = 0;
+    if (!require(owner.GrabAnimFX(137, nullptr, &generic_target_fx, error) == Status::ok &&
+        owner.BindTargetObject(generic_target_fx, &generic_game_object_projection, error) == Status::ok &&
+        owner.SyncIrrData(generic_target_fx, true, error) == Status::ok &&
+        owner.SetVisible(generic_target_fx, true, error) == Status::ok &&
+        fake.bound_target_object == &generic_game_object_projection &&
+        owner.DropAnimatedFX(&generic_target_fx, error) == Status::ok && !generic_target_fx,
+        "target-circle GameObject binding preserves a generic object pointer through the shared pool")) return 1;
     std::array<void*, 6> grabbed{};
     for (auto& handle : grabbed)
         if (owner.GrabAnimFX(137, nullptr, &handle, error) != Status::ok) return 1;
+    void* controller = nullptr;
+    if (!require(owner.GetAnimController(grabbed[0], &controller, error) == Status::ok &&
+        controller == grabbed[0] &&
+        owner.PlayAnimControllerClip(controller, 1, true, error) == Status::ok &&
+        fake.calls.back() == "play:1:1",
+        "buff controller and PlayClip route through the same pooled AnimatedFX handle")) return 1;
+    if (!require(owner.GetAnimController(grabbed[0], &controller, error) == Status::ok &&
+        owner.PlayAnimControllerClip(nullptr, 0, true, error) == Status::ok,
+        "source null controller result remains a no-op")) return 1;
     void* extra = nullptr;
     if (!require(owner.GrabAnimFX(137, nullptr, &extra, error) == Status::pool_exhausted,
                  "source per-dictionary allocation cap is six")) return 1;

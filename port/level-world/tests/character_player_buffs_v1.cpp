@@ -1,6 +1,7 @@
 #include "../character_player_buffs_v1.hpp"
 #include "../character_coordinator.hpp"
 extern "C" {
+#include "../../adam-script-runtime/script_runtime.h"
 #include "../../pydata-constants/constants.h"
 }
 #include <algorithm>

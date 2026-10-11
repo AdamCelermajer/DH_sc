@@ -61,10 +61,23 @@ bool sample(Resource& r,const animation::Player& clip,std::int32_t ms,std::strin
   }
  }return true;
 }
-static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const std::vector<std::string>* modules,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
+static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const std::vector<std::string>* modules,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error,bool allow_intentional_empty=false){
  out={};error.clear();try{
   resources::BresView view{};if(dh2_bres_open(&view,input,size)!=resources::BresError::ok)throw std::runtime_error("Object BRES rejected");
-  Resource candidate;if(!scene::load(view,candidate.scene,error))throw std::runtime_error(error);
+  const bool empty_asset=allow_intentional_empty&&size==960&&
+   dh2_bres_library_count(&view,resources::Library::geometry)==0&&
+   dh2_bres_library_count(&view,resources::Library::controller)==0&&
+   dh2_bres_library_count(&view,resources::Library::material)==0;
+  Resource candidate;if(!scene::load(view,candidate.scene,error,empty_asset?scene::EmptyGeometryPolicy::allow:scene::EmptyGeometryPolicy::reject))throw std::runtime_error(error);
+  if(empty_asset){
+   const auto& graph=candidate.scene.graph;
+   if(graph.size()!=3||candidate.scene.nodes!=3||candidate.scene.ignored_instances!=1||
+      !candidate.scene.instances.empty()||graph[0].id!="VisualSceneNode"||
+      graph[0].parent!=-1||graph[1].id!="root_camera-node"||graph[1].parent!=-1||
+      graph[2].id!="_character_invisible_man-node"||graph[2].parent!=1)
+    throw std::runtime_error("Source invisible Character scene signature differs");
+  }
+  candidate.intentional_empty_visual=empty_asset;
   if(modules){
    if(modules->empty()||modules->size()>32)throw std::runtime_error("Modular controller selection empty or oversized");
    const auto root=std::find_if(candidate.scene.graph.begin(),candidate.scene.graph.end(),[](const scene::Node& n){return n.id=="prince_modular-node";});
@@ -131,7 +144,7 @@ static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const 
     p.indices.resize(raw.index_count);for(unsigned k=0;k<raw.index_count;++k){unsigned index;dh2_index_read(&raw,k,&index);p.indices[k]=index;}candidate.triangles+=raw.index_count/3;candidate.primitives.push_back(std::move(p));
    }
   }
-  if(candidate.primitives.empty())throw std::runtime_error("Object has no visible primitives");
+  if(candidate.primitives.empty()&&!empty_asset)throw std::runtime_error("Object has no visible primitives");
   candidate.rest_scene=candidate.scene;
   if(!candidate.animation.load(clip?clip:input,clip?clip_size:size,candidate.scene,error,animation::MissingTargets::ignore)||!sample(candidate,candidate.animation.start,error))throw std::runtime_error(error);
   out=std::move(candidate);return true;
@@ -139,6 +152,9 @@ static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const 
 }
 bool load_resource(const std::uint8_t* input,std::size_t size,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
  return load_resource_impl(input,size,nullptr,clip,clip_size,out,error);
+}
+bool load_intentional_empty_character_visual(const std::uint8_t* input,std::size_t size,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
+ return load_resource_impl(input,size,nullptr,clip,clip_size,out,error,true);
 }
 bool load_modular_resource(const std::uint8_t* input,std::size_t size,const std::vector<std::string>& modules,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
  return load_resource_impl(input,size,&modules,clip,clip_size,out,error);

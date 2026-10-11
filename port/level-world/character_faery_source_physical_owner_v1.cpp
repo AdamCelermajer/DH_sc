@@ -1,7 +1,9 @@
 #include "character_faery_source_physical_owner_v1.hpp"
 
 #include "character_faery_record_physical_v1.hpp"
+#include "character_faery_visual_facade_v1.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <memory>
 
@@ -130,6 +132,84 @@ Status attach(factory::Record& record, physical::NativeWorld& world,
         std::shared_ptr<component::Owner>(owner, &owner->body);
     record.source_pofaerie_identity = identity;
     return Status::complete;
+}
+
+Status initialize_from_revive(factory::Record& record,
+              physical::NativeWorld& world,
+              const physical::CharacterOwnerBounds& source_bounds,
+              std::string& error) {
+    error.clear();
+    if (!canonical_record(record)) {
+        error = "POFaerie InitPhysicalObject requires the registered canonical Character Record";
+        return Status::incomplete_record;
+    }
+
+    const auto facade_address = reinterpret_cast<std::uintptr_t>(
+        &record.faery_visual);
+    auto* live_visual = record.game_object.live_fields.visual_object_2d8;
+    if (!character_faery_visual_facade_v1::ready(
+            record.faery_visual, record.character.identity) ||
+        record.game_object.visual_object_2d8 != facade_address ||
+        (live_visual && *live_visual != facade_address)) {
+        error = "POFaerie InitPhysicalObject requires the same-Record synced Faery visual facade";
+        return Status::visual_unavailable;
+    }
+
+    if (record.pofaerie_physical || record.source_pofaerie_identity) {
+        if (!record.pofaerie_physical || !record.source_pofaerie_identity) {
+            error = "POFaerie Record has a partial physical owner binding";
+            return Status::already_attached;
+        }
+        auto* owner = reinterpret_cast<POFaerieOwner*>(
+            record.source_pofaerie_identity);
+        if (record.pofaerie_physical.get() != &owner->body ||
+            !owner->body.created() ||
+            owner->body.callbacks() != &owner->callbacks ||
+            owner->body.character_identity() != record.character.identity ||
+            owner->body.game_object_identity() != record.game_object.identity) {
+            error = "POFaerie Revive encountered a different or retired physical owner";
+            return Status::already_attached;
+        }
+        if (!valid_bounds(source_bounds)) {
+            error = "POFaerie Revive requires finite ordered source Character bounds";
+            return Status::invalid_source_bounds;
+        }
+        const float source_radius = std::max(
+            source_bounds.absolute_box[3] - source_bounds.absolute_box[0],
+            source_bounds.absolute_box[4] - source_bounds.absolute_box[1]) *
+            0.005f;
+        if (!std::isfinite(source_radius)) {
+            error = "POFaerie Revive source body radius is not finite";
+            return Status::invalid_source_bounds;
+        }
+        const bool requires_replacement = !owner->body.belongs_to(world) ||
+            std::fabs(owner->body.config().radius - source_radius) > 0.0001f;
+        if (requires_replacement) {
+            // InitPhysicalObject constructs the selected source body and
+            // SetPhysicalObject retires the old physical owner. Reuse the
+            // same canonical Record slot and callback owner, destroying the
+            // prior Box2D body before creating its replacement so this port
+            // never has two Faery bodies live in actor_world.
+            const auto destroyed = owner->body.destroy();
+            if (destroyed != component::Status::complete &&
+                destroyed != component::Status::world_retired) {
+                error = "POFaerie Revive could not retire the previous native body";
+                return Status::body_creation_failed;
+            }
+            record.pofaerie_physical.reset();
+            record.source_pofaerie_identity = 0;
+            return attach(record, world, source_bounds, error);
+        }
+        const auto moved = owner->body.set_position(record.game_object.world_x,
+                                                   record.game_object.world_y);
+        if (moved != component::Status::complete) {
+            error = "POFaerie Revive could not synchronize the existing native body position";
+            return Status::body_creation_failed;
+        }
+        return Status::already_complete;
+    }
+
+    return attach(record, world, source_bounds, error);
 }
 
 Status detach(factory::Record& record, std::string& error) {

@@ -5,7 +5,9 @@ set(DH2_NATIVE_RUNTIME_SOURCES)
 foreach(source IN ITEMS
     model_renderer.cpp mod_assets.cpp ghost_ai_owner.cpp native_debug_files.cpp
     native_character_list.cpp native_character_roster_transaction.cpp
-    native_ghost_skills.cpp native_ghost_skill_update_v1.cpp native_ghost_death_v1.cpp native_ghost_script_queries.cpp
+    native_faery_combat_v1.cpp
+    native_faery_hit_for_v1.cpp
+    native_ghost_skills.cpp native_ghost_skill_update_v1.cpp native_character_skill_process_v1.cpp native_ghost_death_v1.cpp native_ghost_script_queries.cpp
     native_character_stop.cpp native_loot_pickup_quest_binding_v1.cpp
     native_player_skills.cpp native_player_profile.cpp native_quest_owner.cpp
     native_level_savegame_publisher_v1.cpp

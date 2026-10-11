@@ -5,9 +5,11 @@
 `character_enemy_spotted.{hpp,cpp}` implements one bounded source gate/dispatch
 from `CharAI::OnEnemySpotted(Character*)` (480 bytes at `0x3d14b4`). It owns the
 ordering of group notification, state gates, optional threat addition, and late
-selected-AIS dispatch. It does not implement a candidate search, the GroupInfo
-notification body, combat producers, aggro map storage, native Lua bindings, or
-the complete external-AI lifecycle. It has no native/CMake wiring in this change.
+selected-AIS dispatch. The GroupInfo notification body is implemented separately
+by `character_group_info_owner_v1.{hpp,cpp}` from source function
+`0x3d27cc`; the native event-9 adapter wires both owners in `model_renderer.cpp`.
+Candidate search, complete combat producers, universal aggro storage, native Lua
+bindings, and the complete external-AI lifecycle remain outside these kernels.
 
 The exact source body includes debug-switch/string services and stack-canary
 code. A supplied `debug_switch` adapter runs the entry and positive-add diagnostic
@@ -119,6 +121,13 @@ the selected plain `monster` AISExternal, using this hold to retain that session
 The existing original Lua body then performs `HasTarget`, optional `SetTarget`
 and `HeadTo`. The gate does not synthesize candidates or substitute AISMonster.
 
-Native integration still needs real GroupInfo/combat/aggro producers and selected
-AIS/session lifecycle ownership. The existing multiple raw Lua cores also need
-one compatible production link boundary. Neither integration is claimed here.
+The native adapter currently binds GroupInfo member state-17 queries and spawn
+transitions through each member's existing retained `SpawnOwner`/Coordinator.
+That provider is available for an object with a live native ObjectActor; group
+members without that retained owner fail explicitly after preserving earlier
+source-order effects. The adapter also binds only its supported combat/aggro
+providers and selected monster AIS session. Candidate production, coverage of
+other Character providers such as Faery controllers, and a compatible production
+link boundary for the multiple raw Lua cores remain unresolved. Static source and
+host-fixture evidence do not establish gameplay behavior in the original engine
+or a running native build.

@@ -208,6 +208,80 @@ Status de_spawn(Owner* owner, std::uintptr_t shell_identity,
     return Status::invalid_argument;
 }
 
+Status bind_receiver(Owner* owner, std::uintptr_t shell_identity,
+                     std::uintptr_t receiver_character_identity,
+                     std::uintptr_t* effective_receiver_identity,
+                     std::string& error) {
+    if (!owner || !shell_identity || !effective_receiver_identity) {
+        error = "ItemObject::InitAgain requires a pooled shell and receiver output";
+        return Status::invalid_argument;
+    }
+    for (auto& group : owner->categories) {
+        for (auto& slot : group.slots) {
+            if (slot.shell_identity != shell_identity) continue;
+            if (receiver_character_identity)
+                slot.receiver_character_identity = receiver_character_identity;
+            *effective_receiver_identity = slot.receiver_character_identity;
+            error.clear();
+            return Status::complete;
+        }
+    }
+    error = "ItemObject::InitAgain shell was not precached by ItemManager";
+    return Status::invalid_argument;
+}
+
+std::uintptr_t receiver_for_shell(const Owner* owner,
+                                  std::uintptr_t shell_identity) noexcept {
+    if (!owner || !shell_identity) return 0;
+    for (const auto& group : owner->categories)
+        for (const auto& slot : group.slots)
+            if (slot.shell_identity == shell_identity)
+                return slot.receiver_character_identity;
+    return 0;
+}
+
+Status queue_deferred_interact(Owner* owner, std::uintptr_t shell_identity,
+                               std::uintptr_t character_identity,
+                               std::string& error) {
+    if (!owner || !shell_identity || !character_identity) {
+        error = "ItemObject::OnCollisionBegins requires its pooled shell and Character";
+        return Status::invalid_argument;
+    }
+    for (auto& group : owner->categories) {
+        for (auto& slot : group.slots) {
+            if (slot.shell_identity != shell_identity) continue;
+            slot.deferred_interact_character_identity = character_identity;
+            error.clear();
+            return Status::complete;
+        }
+    }
+    error = "ItemObject::OnCollisionBegins shell was not precached by ItemManager";
+    return Status::invalid_argument;
+}
+
+std::uintptr_t deferred_interact_for_shell(
+    const Owner* owner, std::uintptr_t shell_identity) noexcept {
+    if (!owner || !shell_identity) return 0;
+    for (const auto& group : owner->categories)
+        for (const auto& slot : group.slots)
+            if (slot.shell_identity == shell_identity)
+                return slot.deferred_interact_character_identity;
+    return 0;
+}
+
+bool clear_deferred_interact(Owner* owner,
+                             std::uintptr_t shell_identity) noexcept {
+    if (!owner || !shell_identity) return false;
+    for (auto& group : owner->categories) {
+        for (auto& slot : group.slots) {
+            if (slot.shell_identity != shell_identity) continue;
+            slot.deferred_interact_character_identity = 0;
+            return true;
+        }
+    }
+    return false;
+}
+
 Status activate(Owner* owner, const SpawnPlan* plan,
                 std::uintptr_t shell_identity, std::uintptr_t item_identity,
                 std::uint32_t pickup_lock_ms, std::string& error) {

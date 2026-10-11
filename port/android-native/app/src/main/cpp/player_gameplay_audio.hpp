@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../../../engine-audio/spatial_playback_contract_v1.hpp"
 #include "../../../../../level-world/character_combat_sound_v1.hpp"
+#include "source_sound_names_v1.hpp"
 #include <array>
 #include <chrono>
 #include <cmath>
@@ -24,33 +25,59 @@ struct CatalogEntry {
     // Most script cues enter by label and do not need this field.
     std::uint16_t source_sound_id=0xffff;
 };
-inline constexpr std::array<CatalogEntry,28> catalog{{
-    {"sfx_impact_burst_shot","sfx_impact_burst_shot.wav","sfx_impact_burst_shot.wav",63},
-    {"sfx_passive_skill_activate_1","sfx_passive_skill_activate_1.wav","sfx_passive_skill_activate_1.wav",143},
-    {"sfx_passive_skill_activate_2","sfx_passive_skill_activate_2.wav","sfx_passive_skill_activate_2.wav",144},
-    {"sfx_passive_skill_activate_3","sfx_passive_skill_activate_3.wav","sfx_passive_skill_activate_3.wav",145},
-    {"sfx_passive_skill_activate_4","sfx_passive_skill_activate_4.wav","sfx_passive_skill_activate_4.wav",146},
-    {"sfx_skill_mage_doppelganger_statue_explode","sfx_skill_mage_doppelganger_statue_explode.wav","sfx_skill_mage_doppelganger_statue_explode.wav",115},
-    {"sfx_skill_mage_ilu_hold_time_hit","sfx_skill_mage_ilu_hold_time_hit.wav","sfx_skill_mage_ilu_hold_time_hit.wav",125},
-    {"sfx_skill_mage_ilu_nightmare","sfx_skill_mage_ilu_nightmare.wav","sfx_skill_mage_ilu_nightmare.wav",123},
-    {"sfx_skill_mage_thunder_braid","sfx_skill_mage_thunder_braid.wav","sfx_skill_mage_thunder_braid.wav",116},
-    {"sfx_skill_mage_thunder_braid_add_1","sfx_skill_mage_thunder_braid_add_1.wav","sfx_skill_mage_thunder_braid_add_1.wav",117},
-    {"sfx_skill_mage_thunder_braid_add_2","sfx_skill_mage_thunder_braid_add_2,wav","sfx_skill_mage_thunder_braid_add_2.wav",118},
-    {"sfx_skill_rogue_ass_throwing_knife","sfx_skill_rogue_ass_throw_knife.wav","sfx_skill_rogue_ass_throw_knife.wav",139},
-    {"sfx_skill_rogue_desert_pinwheel","sfx_skill_rogue_desert_pinwheel.wav","sfx_skill_rogue_desert_pinwheel.wav",133},
-    {"sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear","sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav","sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav",110},
-    {"sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun","sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav","sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav",111},
-    {"sfx_spell_lightning_big","sfx_faerie_lightning_big.wav","sfx_faerie_lightning_big.wav",90},
-    {"sfx_spell_lightning_medium","sfx_faerie_lightning_medium.wav","sfx_faerie_lightning_medium.wav",89},
-    {"sfx_spell_lightning_small","sfx_faerie_lightning_small.wav","sfx_faerie_lightning_small.wav",88},
+inline constexpr std::array<CatalogEntry,51> catalog{{
+    {"sfx_impact_burst_shot","sfx_impact_burst_shot.wav","sfx_impact_burst_shot.wav",63,457},
+    {"sfx_passive_skill_activate_1","sfx_passive_skill_activate_1.wav","sfx_passive_skill_activate_1.wav",143,503},
+    {"sfx_passive_skill_activate_2","sfx_passive_skill_activate_2.wav","sfx_passive_skill_activate_2.wav",144,504},
+    {"sfx_passive_skill_activate_3","sfx_passive_skill_activate_3.wav","sfx_passive_skill_activate_3.wav",145,505},
+    {"sfx_passive_skill_activate_4","sfx_passive_skill_activate_4.wav","sfx_passive_skill_activate_4.wav",146,506},
+    {"sfx_skill_mage_doppelganger_statue_explode","sfx_skill_mage_doppelganger_statue_explode.wav","sfx_skill_mage_doppelganger_statue_explode.wav",115,527},
+    {"sfx_skill_mage_ilu_hold_time_hit","sfx_skill_mage_ilu_hold_time_hit.wav","sfx_skill_mage_ilu_hold_time_hit.wav",125,530},
+    {"sfx_skill_mage_ilu_nightmare","sfx_skill_mage_ilu_nightmare.wav","sfx_skill_mage_ilu_nightmare.wav",123,531},
+    {"sfx_skill_mage_thunder_braid","sfx_skill_mage_thunder_braid.wav","sfx_skill_mage_thunder_braid.wav",116,538},
+    {"sfx_skill_mage_thunder_braid_add_1","sfx_skill_mage_thunder_braid_add_1.wav","sfx_skill_mage_thunder_braid_add_1.wav",117,539},
+    {"sfx_skill_mage_thunder_braid_add_2","sfx_skill_mage_thunder_braid_add_2,wav","sfx_skill_mage_thunder_braid_add_2.wav",118,540},
+    {"sfx_skill_rogue_ass_throwing_knife","sfx_skill_rogue_ass_throw_knife.wav","sfx_skill_rogue_ass_throw_knife.wav",139,550},
+    {"sfx_skill_rogue_desert_pinwheel","sfx_skill_rogue_desert_pinwheel.wav","sfx_skill_rogue_desert_pinwheel.wav",133,551},
+    {"sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear","sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav","sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav",110,555},
+    {"sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun","sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav","sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav",111,556},
+    {"sfx_spell_lightning_big","sfx_faerie_lightning_big.wav","sfx_faerie_lightning_big.wav",90,584},
+    {"sfx_spell_lightning_medium","sfx_faerie_lightning_medium.wav","sfx_faerie_lightning_medium.wav",89,585},
+    {"sfx_spell_lightning_small","sfx_faerie_lightning_small.wav","sfx_faerie_lightning_small.wav",88,586},
+    // Original BDAE sfx_ event cues found in the supplied source cache.
+    // The final field is the exact ordered SDD Sounds row; UID is from sounds.xml.
+    {"sfx_cs_earth_troll_intro_spawn","sfx_cutscene_earth_troll_spawn.wav","sfx_cutscene_earth_troll_spawn.wav",434,338},
+    {"sfx_cs_swampking_death","sfx_cutscene_swamp_king_die.wav","sfx_cutscene_swamp_king_die.wav",435,341},
+    {"sfx_cutscene_final_outro","sfx_cutscene_final_outro.wav","sfx_cutscene_final_outro.wav",458,356},
+    {"sfx_cutscene_swamp_intro_cave_troll_1","sfx_cutscene_swamp_intro_cave_troll_1.wav","sfx_cutscene_swamp_intro_cave_troll_1.wav",436,365},
+    {"sfx_cutscene_swamp_intro_cave_troll_2","sfx_cutscene_swamp_intro_cave_troll_2.wav","sfx_cutscene_swamp_intro_cave_troll_2.wav",437,366},
+    {"sfx_cutscene_swamp_intro_faerie","sfx_cutscene_swamp_intro_faerie.wav","sfx_cutscene_swamp_intro_faerie.wav",438,367},
+    {"sfx_cutscene_swamp_intro_rene_thunder","sfx_cutscene_swamp_intro_rene_thunder.wav","sfx_cutscene_swamp_intro_rene_thunder.wav",439,368},
+    {"sfx_mc_shoot_arrow","sfx_mc_shoot_arrow.wav","sfx_mc_shoot_arrow.wav",28,491},
+    {"sfx_skill_rogue_arc_burst_shot","sfx_skill_rogue_arc_burst_shot.wav","sfx_skill_rogue_arc_burst_shot.wav",137,542},
+    {"sfx_skill_rogue_arc_maim_shot","sfx_skill_rogue_arc_maim_shot.wav","sfx_skill_rogue_arc_maim_shot.wav",136,543},
+    {"sfx_skill_rogue_arc_pierce_shot","sfx_skill_rogue_arc_pierce_shot.wav","sfx_skill_rogue_arc_pierce_shot.wav",135,544},
+    {"sfx_skill_rogue_arc_rain_of_arrows","sfx_skill_rogue_arc_rain_of_arrows.wav","sfx_skill_rogue_arc_rain_of_arrows.wav",134,545},
+    {"sfx_skill_rogue_arc_venom_shot","sfx_skill_rogue_arc_venom_shot.wav","sfx_skill_rogue_arc_venom_shot.wav",138,546},
+    // Source-scripted Faery elemental loops and spell hits.
+    {"sfx_mage_staff_elemental_earth","sfx_mage_staff_elemental_earth.wav","sfx_mage_staff_elemental_earth.wav",31,478},
+    {"sfx_mage_staff_elemental_fire","sfx_mage_staff_elemental_fire.wav","sfx_mage_staff_elemental_fire.wav",29,479},
+    {"sfx_mage_staff_elemental_ice","sfx_mage_staff_elemental_ice.wav","sfx_mage_staff_elemental_ice.wav",30,480},
+    {"sfx_mage_staff_elemental_wind","sfx_mage_staff_elemental_wind.wav","sfx_mage_staff_elemental_wind.wav",32,482},
+    {"sfx_spell_fire_big","sfx_faerie_fire_big.wav","sfx_faerie_fire_big.wav",97,581},
+    {"sfx_spell_fire_medium","sfx_faerie_fire_medium.wav","sfx_faerie_fire_medium.wav",96,582},
+    {"sfx_spell_fire_small","sfx_faerie_fire_small.wav","sfx_faerie_fire_small.wav",95,583},
+    {"sfx_spell_water_big","sfx_faerie_water_big.wav","sfx_faerie_water_big.wav",100,587},
+    {"sfx_spell_water_medium","sfx_faerie_water_medium.wav","sfx_faerie_water_medium.wav",99,588},
+    {"sfx_spell_water_small","sfx_faerie_water_small.wav","sfx_faerie_water_small.wav",98,589},
     // Source-derived CharSounds IDs -> SDD Sounds array -> sounds.xml UID.
     {"CharacterDie","sfx_character_death.wav","sfx_character_death.wav",50,28},
     {"CharacterHurt1","sfx_character_hurt_1.wav","sfx_character_hurt_1.wav",38,29},
     {"CharacterHurt2","sfx_character_hurt_2.wav","sfx_character_hurt_2.wav",39,30},
     {"CharacterHurt3","sfx_character_hurt_3.wav","sfx_character_hurt_3.wav",40,31},
-    {"ImpactMetal1","sfx_impact_metal_1.wav","sfx_impact_metal_1.wav",41,117},
-    {"ImpactMetal2","sfx_impact_metal_2.wav","sfx_impact_metal_2.wav",42,118},
-    {"ImpactMetal3","sfx_impact_metal_3.wav","sfx_impact_metal_3.wav",43,119},
+    {"ImpactMetal1","sfx_impact_metal_metal_1.wav","sfx_impact_metal_1.wav",41,117},
+    {"ImpactMetal2","sfx_impact_metal_metal_2.wav","sfx_impact_metal_2.wav",42,118},
+    {"ImpactMetal3","sfx_impact_metal_metal_3.wav","sfx_impact_metal_3.wav",43,119},
     {"ImpactMetalFlesh1","sfx_impact_metal_flesh_1.wav","sfx_impact_metal_flesh_1.wav",44,120},
     {"ImpactMetalFlesh2","sfx_impact_metal_flesh_2.wav","sfx_impact_metal_flesh_2.wav",45,121},
     {"ImpactMetalFlesh3","sfx_impact_metal_flesh_3.wav","sfx_impact_metal_flesh_3.wav",46,122},
@@ -93,7 +120,7 @@ inline dh2::character_combat_sound_v1::Result apply_character_combat_sound(
         defender_identity,damage,defender_dead,minimal_randoms};
     return dh2::character_combat_sound_v1::apply(request,services);
 }
-enum class Kind : std::uint8_t {play,stop,music};
+enum class Kind : std::uint8_t {play,stop,stop_all,music};
 struct Command {
     Kind kind=Kind::play;
     std::uintptr_t owner=0;
@@ -128,6 +155,50 @@ inline const CatalogEntry* find_label(const char* label,std::size_t length){
 inline const CatalogEntry* find_source_sound_id(std::uint16_t id){
     for(const auto& entry:catalog)if(entry.source_sound_id==id)return &entry;
     return nullptr;
+}
+enum class SourceSoundStatusV1 : std::uint8_t {
+    not_in_source_table,
+    known_but_unavailable,
+    playable,
+};
+struct SourceSoundResolutionV1 {
+    SourceSoundStatusV1 status=SourceSoundStatusV1::not_in_source_table;
+    const SourceSoundNameV1* source=nullptr;
+    const CatalogEntry* playback=nullptr;
+};
+inline const SourceSoundNameV1* find_source_sound_name(std::string_view name) noexcept {
+    for(const auto& source:source_sound_names_v1)
+        if(source.name==name)return &source;
+    return nullptr;
+}
+// Resolve an exact SDD Sounds member name. Source-table membership is
+// independent of whether this build retained its PCM/audio backend.
+inline SourceSoundResolutionV1 resolve_source_sound_name(
+    std::string_view name) noexcept {
+    SourceSoundResolutionV1 result{};
+    result.source=find_source_sound_name(name);
+    if(!result.source)return result;
+    result.playback=find_source_sound_id(result.source->id);
+    result.status=result.playback?SourceSoundStatusV1::playable:
+                                  SourceSoundStatusV1::known_but_unavailable;
+    return result;
+}
+// Animation events supply the text after the marker's `sfx_` prefix. The
+// source Sounds members include that prefix for authored animation cues.
+inline SourceSoundResolutionV1 resolve_sfx_marker_sound(
+    std::string_view marker_name) noexcept {
+    constexpr std::string_view prefix="sfx_";
+    if(marker_name.size()>=prefix.size()&&marker_name.substr(0,prefix.size())==prefix)
+        return resolve_source_sound_name(marker_name);
+    for(const auto& source:source_sound_names_v1)
+        if(source.name.size()==prefix.size()+marker_name.size()&&
+           source.name.substr(0,prefix.size())==prefix&&
+           source.name.substr(prefix.size())==marker_name){
+            return resolve_source_sound_name(source.name);
+        }
+    // If a source event uses a non-prefixed SDD name, retain its exact-table
+    // semantics as a fallback rather than inventing a prefixed lookup.
+    return resolve_source_sound_name(marker_name);
 }
 inline bool enqueue_spatial_match(
     const CatalogEntry* match,std::uint16_t request_sound_id,
@@ -200,6 +271,27 @@ inline bool enqueue_stop(const char* label,std::size_t length,std::uintptr_t own
                        std::chrono::steady_clock::now()});
     return true;
 }
+// VoxSoundManager::StopAllSounds sends a millisecond fade to every active
+// emitter, then lets the retained audio owner release each voice at its end.
+inline bool enqueue_stop_all(std::int32_t fade_ms){
+    if(fade_ms<0)return false;
+    std::lock_guard<std::mutex> lock(queue_mutex());
+    auto& pending=queue();
+    // Level::Unload must enqueue StopAllSounds after its source-ordered
+    // teardown work. Reserve one command beyond the ordinary 64-entry cap so
+    // a full cue backlog cannot make that lifecycle edge fail. A repeated
+    // identical request already at the tail is source-equivalent and can be
+    // coalesced; a different pending control still reports exhausted reserve.
+    if(pending.size()>queue_limit){
+        if(pending.size()==queue_limit+1&&pending.back().kind==Kind::stop_all&&
+           pending.back().fade_ms==fade_ms)return true;
+        return false;
+    }
+    Command command;command.kind=Kind::stop_all;command.fade_ms=fade_ms;
+    command.queued_at=std::chrono::steady_clock::now();
+    pending.push_back(std::move(command));
+    return true;
+}
 // These source Sounds rows resolve through retained original audio inputs.
 // UIDs 484-487 share the cathedral VXN bank; UID 467 has the SWAMP VXN bank;
 // UID 505 is a single looping SWAMP safe-zone ADPCM WAV. Their state sets are
@@ -269,10 +361,12 @@ inline bool consume(std::string& serialized){
             if(command.spatial_mix)
                 serialized+=",1,"+std::to_string(command.left_q14)+","+
                     std::to_string(command.right_q14);
-        }else{
+        }else if(command.kind==Kind::stop){
             serialized="dh2fx,";
             serialized+="stop,"+std::to_string(command.owner)+","+
                 std::to_string(command.sound_id)+","+std::to_string(command.fade_ms);
+        }else{
+            serialized="dh2fx,stopAll,"+std::to_string(command.fade_ms);
         }
         return true;
     }

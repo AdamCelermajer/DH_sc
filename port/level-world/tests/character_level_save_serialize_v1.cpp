@@ -14,7 +14,9 @@ struct Fixture {
     save::View view{};
     std::vector<std::uint8_t> primary, secondary, p, rotation, v1306, v1309;
     std::uintptr_t object{};
-    std::uint8_t game_object_owner{}, properties_owner{}, state_owner{}, ai_owner{};
+    std::uint8_t game_object_owner{}, properties_owner{}, state_owner{};
+    std::uintptr_t group_identity{};
+    dh2::character_ai_initialization::State ai_owner{};
     static bool read(void* raw, std::uintptr_t identity, save::View* out,
                      std::string&) {
         auto& self = *static_cast<Fixture*>(raw);
@@ -63,6 +65,17 @@ struct Fixture {
         *out = {1, 0, 0x12345678};
         return false;
     }
+    static bool read_group_tail(void* raw, std::uintptr_t identity,
+        std::int32_t* word_36, std::uint8_t* flag_40,
+        std::uint8_t* flag_41, std::string& error) {
+        auto& self = *static_cast<Fixture*>(raw);
+        if (identity != self.group_identity || !word_36 || !flag_40 || !flag_41) {
+            error = "GroupInfo identity mismatch";
+            return true;
+        }
+        *word_36 = -7; *flag_40 = 1; *flag_41 = 0;
+        return false;
+    }
     void initialize() {
         primary.assign(900, 0x11); secondary.assign(900, 0x22);
         p.assign(12, 0x33); rotation.assign(12, 0x44);
@@ -90,7 +103,7 @@ int main() {
           "Character::Serialize provider rejected exact source view");
     check(f.object == 0x1234 && bytes.size() == 1865 &&
           result.game_object_bytes == 6 && result.property_blocks == 2 &&
-          result.ai_tail_bytes == 6 && result.character_bytes == bytes.size(),
+          result.group_info_tail_bytes == 6 && result.character_bytes == bytes.size(),
           "Character::Serialize length or provider identity differs");
     check(bytes[0] == 1 && bytes[1] == 0 && word(bytes, 6) == 7 &&
           bytes[10] == 0x11 && bytes[910] == 0x22 &&
@@ -103,6 +116,8 @@ int main() {
     dh2::character_runtime_factory_v1::Record record;
     record.character.identity = record.game_object.identity =
         record.aggro_object.identity = 0x1234;
+    record.constructor.identity = 0x1234;
+    f.ai_owner.identity = f.ai_owner.owner_04 = 0x1234;
     record.character.object = &record.aggro_object;
     auto bind_component = [&](dh2::character_constructor_owner_v1::Component c,
                               void* owner) {
@@ -110,26 +125,56 @@ int main() {
         slot.component = c;
         slot.canonical_owner = owner;
         slot.constructed = true;
+        slot.character_record = &record;
     };
     bind_component(dh2::character_constructor_owner_v1::Component::game_object, &f.game_object_owner);
     bind_component(dh2::character_constructor_owner_v1::Component::properties, &f.properties_owner);
     bind_component(dh2::character_constructor_owner_v1::Component::state_machine, &f.state_owner);
     bind_component(dh2::character_constructor_owner_v1::Component::ai, &f.ai_owner);
     const save::CanonicalServices canonical{&f, Fixture::read_record,
-                                             Fixture::read_record_object};
+        Fixture::read_record_object, Fixture::read_group_tail};
+    // The factory record owns CharAI but no GroupInfo. Its Character+0x3fc
+    // source slot is null, so the optional pointed-object tail is absent.
     f.initialize();
+    f.view.has_group_info = 0;
     check(save::serialize_record(record, &canonical, bytes, &result, error) ==
-              save::Status::complete && bytes.size() == 1865,
+              save::Status::complete && bytes.size() == 1859,
           "canonical Character factory record did not serialize through existing component owners");
+    f.view.has_group_info = 1;
+    f.view.group_word_36 = -7; f.view.group_flag_40 = 1; f.view.group_flag_41 = 0;
+    f.group_identity = f.ai_owner.group_info_identity = 1;
+    check(save::serialize_record(record, &canonical, bytes, &result, error) ==
+              save::Status::complete && bytes.size() == 1865 &&
+              result.group_info_tail_bytes == 6 && word(bytes, 1859) == 0xfffffff9u &&
+              bytes[1863] == 1 && bytes[1864] == 0,
+          "factory serializer did not read GroupInfo through the exact canonical identity");
+    const save::CanonicalServices no_group_provider{&f, Fixture::read_record,
+        Fixture::read_record_object, nullptr};
+    bytes = {0xaa};
+    check(save::serialize_record(record, &no_group_provider, bytes, &result, error) ==
+              save::Status::provider_failed &&
+          error.find("no canonical pointee provider") != std::string::npos &&
+          bytes == std::vector<std::uint8_t>{0xaa},
+          "factory serializer accepted GroupInfo without its canonical pointee provider");
+    f.group_identity = 2;
+    bytes = {0xaa};
+    check(save::serialize_record(record, &canonical, bytes, &result, error) ==
+              save::Status::provider_failed &&
+          error.find("GroupInfo identity mismatch") != std::string::npos &&
+          bytes == std::vector<std::uint8_t>{0xaa},
+          "factory serializer accepted a mismatched canonical GroupInfo identity");
+    f.ai_owner.group_info_identity = 0;
+    f.view.has_group_info = 0;
     f.view.is_player = 1;
     f.view.properties_primary = {};
     f.view.properties_secondary = {};
     check(save::serialize_record(record, &canonical, bytes, &result, error) ==
-              save::Status::complete && bytes.size() == 65 &&
+              save::Status::complete && bytes.size() == 59 &&
               result.property_blocks == 0,
           "canonical player save should not require the raw NPC property images");
     f.view.is_player = 0;
     f.initialize();
+    f.view.has_group_info = 0;
     f.primary.resize(896);
     f.secondary.resize(896);
     f.view.properties_primary = {f.primary.data(), f.primary.size()};
@@ -149,6 +194,7 @@ int main() {
         dh2::character_constructor_owner_v1::Component::properties)].constructed = true;
 
     f.view.is_player = 1;
+    f.view.has_group_info = 1;
     f.view.properties_primary = {};
     f.view.properties_secondary = {};
     check(save::serialize(0x1234, &services, bytes, &result, error) ==
@@ -161,5 +207,5 @@ int main() {
     check(save::serialize(0x1234, &missing, bytes, &result, error) ==
               save::Status::provider_unavailable && bytes == std::vector<std::uint8_t>{0xaa},
           "missing canonical Character providers did not fail closed");
-    std::puts("PASS character_level_save_serialize_v1 checks=8");
+    std::puts("PASS character_level_save_serialize_v1 checks=10");
 }

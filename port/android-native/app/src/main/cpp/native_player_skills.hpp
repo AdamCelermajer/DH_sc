@@ -4,10 +4,13 @@
 #include "player_ai_death_v1.hpp"
 #include "player_enemy_kill_credit_v1.hpp"
 #include "player_hud_skill_slot_resolution_v1.hpp"
+#include "../../../../../../port/level-world/character_ai_on_revived_v1.hpp"
 #include "../../../../../../port/level-world/character_skill_fsm_callbacks_v1.hpp"
 #include "../../../../../../port/level-world/character_cast_lifecycle_v1.hpp"
 #include "../../../../../../port/level-world/ais_combat_result_dispatch_v1.hpp"
 #include "../../../../../../port/level-world/character_ai_melee_range.hpp"
+#include "../../../../../../port/level-world/character_player_buffs_v1.hpp"
+#include "../../../../../../port/adam-script-runtime/script_runtime.h"
 #include <memory>
 #include <vector>
 #include <string>
@@ -64,12 +67,20 @@ struct CastStateServices {
     std::uint8_t* ooi_intent_412=nullptr;
     character_cast_lifecycle_v1::Services callbacks{};
 };
+// Borrows the single level-owned VisualFXManager used by Faery and spawned
+// Characters. Player BuffOwner forwards only its source fx_* requests here;
+// it creates no AnimatedFX pool, controller, or renderer state of its own.
+struct BuffFxServices {
+    void* context=nullptr;
+    int (*invoke)(void*,const character_player_buffs_v1::Request*,
+                  character_player_buffs_v1::Response*)=nullptr;
+};
 struct Bindings {
     std::uintptr_t character=0,ai=0;
     std::shared_ptr<void> ai_lifetime;
     character_ai_initialization::State* source_ai=nullptr;
     character::set_target::OwnerFacts* target_owner=nullptr;
-    player_ai_death_v1::DeadFields* dead_fields=nullptr;
+    character_sm_set_dead_state_v1::AnimStanceServices death_anim_stance{};
     const std::uintptr_t* group_identity=nullptr;
     const data::AiTables* ai_tables=nullptr;
     const data::AnimationTables* animation_tables=nullptr;
@@ -112,6 +123,15 @@ struct Bindings {
     debug_files::Backend* debug=nullptr;
     AAssetManager* assets=nullptr;
     std::vector<std::uint8_t> (*read)(AAssetManager*,const std::string&)=nullptr;
+    // Optional source Character::_SpellCombatRoll adapter. It is distinct from
+    // SkillCombatRoll__ and borrows the same Player gameplay/target owners.
+    int (*spell_combat_roll_native)(void*,std::uint32_t,
+        const void*,std::uint32_t,void*,
+        std::uint32_t,std::uint32_t*,char*,std::size_t,const char*)=nullptr;
+    BuffFxServices buff_fx{};
+    // UINT32_MAX keeps the BuffOwner's source string/name guard explicitly
+    // unresolved until the loaded AnimatedEffectTable is supplied.
+    std::uint32_t fx_count=UINT32_MAX;
 };
 // Sole per-Prince skill VM/preparation owner, borrowing current properties,
 // Coordinator and immutable catalogue. Full Player AIS/savegame/skill-use
@@ -119,6 +139,11 @@ struct Bindings {
 // their respective translation units; neither is reinterpreted as the other.
 class Runtime {
 public:
+    enum class ProjectileSourceState : std::int32_t {
+        invalid = -1,
+        lua_script_present = 0,
+        lua_script_absent = 1,
+    };
     static std::unique_ptr<Runtime> create(Bindings,std::string&);
     ~Runtime();
     Runtime(const Runtime&)=delete;Runtime& operator=(const Runtime&)=delete;
@@ -165,6 +190,18 @@ public:
     // a required owner/provider failure. No VM, sheet, or timer owner is made.
     int skill_info(std::uint32_t skill_index,std::int32_t level,
                    std::vector<std::int32_t>& shared_temp,std::string& error);
+    // Route a projectile's delayed callback through this Player's retained
+    // skill VM and the exact Arguments owned by the prepared script instance.
+    int projectile_skill_callback(const char* callback_name,
+        std::uintptr_t target_identity,std::uintptr_t projectile_identity,
+        std::uintptr_t skill_script_identity,
+        dh2_script_returns_observer_v1 observer,void* context,
+        std::string& error);
+    // Validates the exact retained CharAISkillScript+0x0c Arguments owner
+    // before observing this Character's canonical LuaScript pointer. Only
+    // lua_script_absent corresponds to the original callback's return-1 path.
+    ProjectileSourceState projectile_skill_callback_source_state(
+        std::uintptr_t skill_script_identity,std::string& error)const;
     // Read HUD usability and cooldown visuals from the same prepared Player
     // script instance, Save slot and Coordinator timer store. This executes
     // the retained OnSkillCheck query but creates no skill/timer/property owner.
@@ -176,6 +213,11 @@ public:
     // UpdateSkills/reload changes it; cast dispatch refreshes it per call.
     const std::vector<std::uintptr_t>* prepared_skill_scripts()const noexcept;
     std::uintptr_t character_identity()const noexcept;
+    // Borrow the same Player BuffOwner and attached PropertyView used by
+    // status/buff operations. The returned pointers remain owned here and are
+    // valid only while this Runtime stays initialized.
+    data::PropertyView* combat_status_properties() noexcept;
+    character_player_buffs_v1::Owner* combat_status_buffs() noexcept;
     // Resolve NativeHUDSkill's HUD slot through the canonical Save map to its
     // selected SkillList/Save row and same-index retained Player script. The
     // SkillList selector is explicit for callers that have a source value.
@@ -310,6 +352,14 @@ public:
     // Source CharAI::OnDied only. Character::Kill/rewards/event2 caller is a
     // separate integration boundary; this retains the same AIS and VM.
     void died(std::uintptr_t killer);
+    // Character::Revive event3 reaches CharAI::OnRevived on this same
+    // CharAI/Coordinator/AIS owner and reopens its source tick timers.
+    bool on_revived(std::string& error);
+    // Character::Deserialize's reusable CharAI::AI_ScriptCleanUp followed by
+    // AI_ScriptInit. Uses this same timer store, Player skill/spell instances,
+    // and AIS; this is not the one-shot terminal teardown operation.
+    bool deserialize_script_lifecycle(std::string& error);
+    bool deserialize_clear_target(std::string& error);
     // One reached Character::Kill episode, after its initial DropLoot attempt.
     // Reuses the live CharAI, Player AIS/Session, Coordinator, source target,
     // and PropertyView. Renderer callback only projects the direct target write.

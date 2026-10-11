@@ -27,7 +27,7 @@ def provenance(path):
  return {'original_sha256':ELF_SHA,'functions':rows,'vtables':tables,'scope':'Whole OnDied and AI_SetDead callers and all SM_SetDeadState forced/false branches; existing target/sync/timer/aggro and skill-vector callers execute. Group, Debug/string, design mask/stance, state transition, STL storage, OnDeAggro and individual OnSkillCleanUp are declared callee fixtures. Character constructors are statically pinned for marker14d0 proof, not dynamically executed.'}
 def cases():
  # group,active,target,trace,great,row,count,mask,stance,prior,mutate_great,out,in
- rows=[[0,1,1,0,0,2,20,0,5,s,0,0,0] for s in [-1,3,4,5,12,18]]
+ rows=[[0,1,1,0,0,2,20,0,5,s,0,0,0] for s in [-1,0,1,3,4,5,12,16,17]]
  rows += [[0,1,0,0,1,2,20,0,5,3,0,0,0],
   [1,1,1,1,1,2,20,0x78000,5,3,0,0,0],
   [1,0,1,0,0,2,20,0x78000,5,3,0,0,0],
@@ -85,7 +85,7 @@ def capture(path,out):
     done(mask)
    elif address==0x3a53e0:trace.append([5,0,stance]);done(stance)
    elif address==0x3c1938:
-    assert [cpu.reg(i) for i in range(1,4)]==[12,0xc358,0];direct.extend([word(sm+0x28),word(sm+0x38)]);trace.append([16,*direct]);cpu.pointer(state,12);done()
+    assert [cpu.reg(i) for i in range(1,4)]==[12,50008,0];direct.extend([word(sm+0x28),word(sm+0x38)]);trace.append([16,*direct]);cpu.pointer(state,12);done()
    elif address==0x3db2d8:trace.append([18,cpu.reg(1),0]) # Actual source stop body executes.
    elif address==0x3d5fa8:direction=0;trace.append([6,0,word(ai+0x8c)])
    elif address==0x3d6abc:direction=1;assert cpu.reg(1)==0;trace.append([6,1,word(ai+0xa4)])

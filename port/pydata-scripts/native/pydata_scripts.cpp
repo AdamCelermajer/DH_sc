@@ -27,7 +27,7 @@ struct Schema {
 #define S5(ID, NAME, A, B, C, D, E) {ID, NAME, 5, {A, B, C, D, E}}
 #define S6(ID, NAME, A, B, C, D, E, F) {ID, NAME, 6, {A, B, C, D, E, F}}
 
-/* Exact union of command IDs decoded from common + 001_swamp corpus files. */
+/* Corpus commands plus the source-verified CharacterMenu tutorial commands. */
 static const Schema kSchemas[] = {
     S4(0, "ExecScript", FIELD_BOOL, FIELD_I32, FIELD_I32_ARRAY, FIELD_BOOL),
     S0(1, "EnterCutSceneMode"),
@@ -37,6 +37,7 @@ static const Schema kSchemas[] = {
     S2(6, "SetCameraClip", FIELD_I32, FIELD_I32),
     S3(8, "SetCameraTarget", FIELD_I32, FIELD_STRING, FIELD_BOOL),
     S3(10, "StartDialog", FIELD_I32, FIELD_I32, FIELD_I32),
+    S1(11, "StartDialogID", FIELD_I32),
     S0(12, "WaitDialog"),
     S4(13, "PlaySound", FIELD_I32, FIELD_BOOL, FIELD_BOOL, FIELD_I32),
     S3(14, "StopSound", FIELD_I32, FIELD_BOOL, FIELD_I32),
@@ -74,6 +75,9 @@ static const Schema kSchemas[] = {
     S0(68, "ShowTrophies"),
     S0(69, "SaveGame"),
     S0(70, "BlockSaveGame"),
+    S3(74, "EnqueueCharMenuTutorialMessage", FIELD_STRING, FIELD_STRING, FIELD_I32),
+    S0(75, "SkipCharMenuTutorialMessage"),
+    S0(76, "SkipAllCharMenuTutorialMessages"),
     S1(77, "LockTutorial", FIELD_I32),
     S2(78, "DoTutorial", FIELD_STRING, FIELD_I32),
     S0(79, "FlushMessages")

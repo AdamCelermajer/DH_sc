@@ -31,6 +31,9 @@ struct Bindings {
     character_dot_attack::Runtime* dot_attack=nullptr;
     const character_dot_attack::Storage* dot_storage=nullptr;
     ApplyProvider apply{};
+    // Some canonical factory Records expose Character::IsDead's source byte
+    // directly. Existing uint32-backed owners continue to use `dead`.
+    const std::uint8_t* dead_byte=nullptr;
 };
 enum class Status {complete,invalid_argument,busy,failed};
 struct Result {

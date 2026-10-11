@@ -53,6 +53,7 @@ Status construct(State* s, std::uintptr_t table, const Services* c, Result* out)
     s->byte_d1 = 0;
     s->words_b4_to_c8.fill(0);
     s->byte_d0 = 0;
+    s->group_info_identity = 0;
     if (!services.append_queue) return Status::service_unavailable;
     ++out->queue_calls;
     try {

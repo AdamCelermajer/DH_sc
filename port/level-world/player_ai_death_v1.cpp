@@ -4,16 +4,20 @@
 
 namespace dh2::player_ai_death_v1 { namespace {
 namespace st=character::set_target;namespace ac=character_aggro_cleanup;
+namespace ds=character_sm_set_dead_state_v1;
 struct Range{std::uintptr_t b,e;};
 template<class T>bool range(const T* p,Range& r){const auto a=reinterpret_cast<std::uintptr_t>(p);if(!p||a%alignof(T)||a>UINTPTR_MAX-sizeof(T))return false;r={a,a+sizeof(T)};return true;}
 bool overlap(Range a,Range b){return a.b<b.e&&b.b<a.e;}
-std::int32_t signed_word(std::uint32_t n){std::int32_t out;std::memcpy(&out,&n,4);return out;}
 bool valid(const Bindings& b){return b.ai&&b.ai->identity&&b.ai->owner_04&&b.coordinator&&b.coordinator->bound()&&
  b.coordinator->owner()==b.ai->owner_04&&b.target_owner&&b.target_owner->identity==b.ai->owner_04&&!b.target_owner->reserved&&
- b.target_services&&b.dead_fields&&b.group_identity;}
+ b.target_services&&b.dead_state.coordinator==b.coordinator&&
+ b.dead_state.character.identity==b.ai->owner_04&&b.dead_state.character.properties&&
+ b.dead_state.tables&&b.dead_state.constants&&b.group_identity;}
 bool separate(const Bindings& b,Range r){
  const auto clear=[&](const auto* p){Range c;return range(p,c)&&!overlap(c,r);};
- if(!clear(b.ai)||!clear(b.coordinator)||!clear(b.target_owner)||!clear(b.target_services)||!clear(b.dead_fields)||!clear(b.group_identity))return false;
+ if(!clear(b.ai)||!clear(b.coordinator)||!clear(b.target_owner)||!clear(b.target_services)||
+    !clear(&b.dead_state)||!clear(b.dead_state.character.properties)||!clear(b.dead_state.tables)||
+    !clear(b.dead_state.constants)||!clear(&b.dead_state.anim_stance)||!clear(b.group_identity))return false;
  const auto& timers=b.coordinator->timers();
  for(std::uint32_t i=0;i<timers.count;++i)if(!clear(timers.slots+i))return false;
  return true;
@@ -22,7 +26,7 @@ struct Call {
  Bindings& b;Result& out;std::string& error;const std::uintptr_t ai,character;
  bool release_failed=false;
  Call(Bindings& bindings,Result& result,std::string& why):b(bindings),out(result),error(why),ai(b.ai->identity),character(b.ai->owner_04){}
- bool coherent()const{return b.ai->identity==ai&&b.ai->owner_04==character&&b.coordinator->owner()==character&&b.target_owner->identity==character;}
+ bool coherent()const{return b.ai->identity==ai&&b.ai->owner_04==character&&b.coordinator->owner()==character&&b.target_owner->identity==character&&b.dead_state.coordinator==b.coordinator&&b.dead_state.character.identity==character;}
  int fail(const char* why){if(error.empty())error=why;return 1;}
  Request request(Operation operation)const{Request q{};q.operation=operation;q.ai=ai;q.character=character;return q;}
  int invoke(const Request& q,Reply& r){
@@ -53,30 +57,24 @@ struct Call {
   if(status!=st::complete)return fail("Player death source SetTarget failed");
   out.target_completed=1;b.ai->last_target_44=b.ai->target_40;out.sync_completed=1;return 0;
  }
- int animation(Animation field,std::uint32_t mask,std::int32_t row,std::int32_t& value){
-  auto q=request(Operation::animation_value);q.row=row;q.animation=field;Reply reply{};
-  if(invoke(q,reply))return 1;
-  value=reply.word;
-  q=request(Operation::stance_mask);q.group="AnimStancedAnim";q.key="SL__LIST_IPHONE";
-  if(invoke(q,reply))return 1;
-  if(std::uint32_t(reply.word)&mask){q=request(Operation::anim_stance);if(invoke(q,reply))return 1;value=signed_word(std::uint32_t(value)+std::uint32_t(reply.word));}
+ static int get_anim_stance(void* raw,std::uintptr_t character,std::int32_t* stance){
+  auto& self=*static_cast<Call*>(raw);if(!stance||character!=self.character)return 1;
+  auto q=self.request(Operation::anim_stance);q.subject=character;Reply reply{};
+  if(self.invoke(q,reply))return 1;
+  *stance=reply.word;
   return 0;
  }
  int dead_state(){
-  Reply reply{};if(invoke(request(Operation::animation_table),reply))return 1;
-  const auto row=reply.word;if(row<0||std::uint32_t(row)>=reply.count)return 0;
-  out.animation_table_valid=1;auto& s=b.coordinator->state;auto& fields=*b.dead_fields;
-  const bool great=fields.great_knockback!=0;std::int32_t death=-1,despawn=-1;
-  if(animation(great?Animation::deadly_great_kb:Animation::died,great?0x20000u:0x8000u,row,death))return 1;
-  s.animation_override=death;out.death_animation=death;
-  const bool despawn_great=fields.great_knockback!=0;
-  if(animation(despawn_great?Animation::despawn_great_kb:Animation::despawn,despawn_great?0x40000u:0x10000u,row,despawn))return 1;
-  fields.despawn_sequence=despawn;out.despawn_animation=despawn;s.dead_alternate=0;fields.great_knockback=0;
-  // Source SM_IsAwaitingToRevive compares the selected state ID18. Clearing
-  // its pointer becomes current=-1 in the existing logical projection.
-  if(s.current==18)s.current=-1;
-  if(b.coordinator->transition(12,0xc358,0)!=1)return fail("Player death direct state transition failed");
-  out.state_completed=1;return 0;
+  auto bindings=b.dead_state;
+  bindings.anim_stance={this,get_anim_stance};
+  const ds::Request request{0,0,1};ds::Result result{};
+  const auto status=ds::execute(bindings,request,&result,error);
+  if(status!=ds::Status::complete)return fail("Player AI_SetDead SM_SetDeadState failed");
+  out.animation_table_valid=result.table_valid;
+  out.death_animation=result.death_animation;
+  out.despawn_animation=result.despawn_animation;
+  out.state_completed=result.state_transitioned;
+  return 0;
  }
  struct AggroCall {
   Call& c;Direction direction;

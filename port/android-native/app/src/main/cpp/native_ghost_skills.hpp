@@ -4,6 +4,7 @@
 #include "../../../../../../port/game-data/skill_tables.hpp"
 #include "../../../../../../port/level-world/character_ai_initialization.hpp"
 #include "../../../../../../port/level-world/character_ai_set_skills_and_spells.hpp"
+#include "../../../../../../port/level-world/character_skill_cooldown_services.hpp"
 #include "../../../../../../port/level-world/debug_switches_runtime.hpp"
 extern "C" {
 #include "../../../../../../port/pydata-constants/constants.h"
@@ -74,7 +75,7 @@ enum class Status : std::int32_t {
 
 // Per-CharAI persistent native vector and CharAISkillScript owner. It executes
 // nonempty source rows through the caller-supplied existing AIS VM/load/call
-// services; it creates no VM. Zero-length Fake_* faeries remain null entries.
+// services; it creates no VM. Source rows without scripts retain null entries.
 class Runtime {
 public:
     struct SkillArguments {
@@ -91,6 +92,12 @@ public:
     Status prepare(const Bindings&, Result&);
     const std::vector<std::uintptr_t>& skill_scripts() const { return skill_scripts_; }
     const std::vector<std::uintptr_t>& faery_scripts() const { return faery_scripts_; }
+    // Source cooldown callbacks operate on these exact retained CharAI vectors
+    // and CharAISkillScript +0x18 fields. kind0 is skills, kind1 faery spells.
+    bool cooldown_count(std::uint32_t kind, std::uint32_t* count) const noexcept;
+    bool cooldown_slot(std::uint32_t kind, std::uint32_t index,
+        character_skill_cooldown_services::Slot* slot) const noexcept;
+    bool prepared() const noexcept { return prepared_; }
     const SkillArguments* arguments_for(std::uintptr_t script) const noexcept;
     // Source _SkillCleanUp/_SpellCleanUp list prefix over these exact owned
     // vectors. Null entries are skipped as the source does. Non-null entries
@@ -134,8 +141,6 @@ private:
     bool path_snapshot_live_ = false;
     std::vector<ScratchArguments*> arguments_;
     std::vector<std::unique_ptr<ScriptInstance>> script_instances_;
-    std::uintptr_t prepared_ai_identity_ = 0;
-    std::uintptr_t prepared_character_identity_ = 0;
     bool prepared_ = false;
 };
 

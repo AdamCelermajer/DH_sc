@@ -23,6 +23,41 @@ struct CharacterContext {
     std::uint8_t expected_player{};
 };
 
+struct IdentityCharacterContext {
+    const character_level_save_serialize_v1::Services* services{};
+    std::uintptr_t identity{};
+    std::uint8_t expected_player{};
+};
+
+bool read_identity_character_view(void* raw, std::uintptr_t identity,
+                         character_level_save_serialize_v1::View* view,
+                         std::string& error) {
+    auto& context = *static_cast<IdentityCharacterContext*>(raw);
+    if (identity != context.identity || !view ||
+        context.services->read_view(context.services->context, identity, view, error)) {
+        if (error.empty()) error = "identity Character save facts are unavailable";
+        return true;
+    }
+    if (view->is_player != context.expected_player) {
+        error = "Character::IsPlayer disagrees with source OBJS eligibility facts";
+        return true;
+    }
+    return false;
+}
+
+bool read_identity_character_game_object(void* raw, std::uintptr_t identity,
+                                level_savegame_owner_v1::GameObjectFields* fields,
+                                std::string& error) {
+    auto& context = *static_cast<IdentityCharacterContext*>(raw);
+    if (identity != context.identity || !fields ||
+        context.services->read_game_object_fields(context.services->context,
+                                                   identity, fields, error)) {
+        if (error.empty()) error = "identity GameObject save fields are unavailable";
+        return true;
+    }
+    return false;
+}
+
 bool read_character_view(void* raw, const factory::Record& record,
                          character_level_save_serialize_v1::View* view,
                          std::string& error) {
@@ -64,19 +99,43 @@ bool serialize_row(void* raw, std::uintptr_t identity,
         }
         if (row.save_facts.is_character) {
             const auto* record = context.factory->find(row.handle);
-            if (!row.character || record != row.character ||
-                record->character.identity != identity ||
-                !context.facts->character) {
-                error = "Character OBJS row lost its canonical factory/save providers";
-                return true;
-            }
-            CharacterContext character_context{context.facts->character, record,
-                                                row.save_facts.is_player};
-            const character_level_save_serialize_v1::CanonicalServices character_services{
-                &character_context, &read_character_view, &read_character_game_object};
             character_level_save_serialize_v1::Result result{};
-            const auto status = character_level_save_serialize_v1::serialize_record(
-                *record, &character_services, output, &result, error);
+            character_level_save_serialize_v1::Status status{};
+            if (record) {
+                if (!row.character || record != row.character ||
+                    record->character.identity != identity ||
+                    !context.facts->character) {
+                    error = "Character OBJS row lost its canonical factory/save providers";
+                    return true;
+                }
+                CharacterContext character_context{context.facts->character, record,
+                                                    row.save_facts.is_player};
+                const character_level_save_serialize_v1::CanonicalServices character_services{
+                    &character_context, &read_character_view, &read_character_game_object};
+                status = character_level_save_serialize_v1::serialize_record(
+                    *record, &character_services, output, &result, error);
+            } else {
+                const bool canonical_character =
+                    context.facts->is_canonical_character_identity &&
+                    context.facts->is_canonical_character_identity(
+                        context.facts->context, identity);
+                if (!row.save_facts.is_character || !canonical_character ||
+                    (row.save_facts.is_player != row.save_facts.is_local_player) ||
+                    !context.facts->character_identity ||
+                    !context.facts->character_identity->read_view ||
+                    !context.facts->character_identity->read_game_object_fields) {
+                    error = "Record-less Character OBJS row has no canonical identity serializer";
+                    return true;
+                }
+                IdentityCharacterContext character_context{
+                    context.facts->character_identity, identity,
+                    row.save_facts.is_player};
+                const character_level_save_serialize_v1::Services character_services{
+                    &character_context, &read_identity_character_view,
+                    &read_identity_character_game_object};
+                status = character_level_save_serialize_v1::serialize(
+                    identity, &character_services, output, &result, error);
+            }
             if (status != character_level_save_serialize_v1::Status::complete) {
                 if (error.empty()) error = "source Character::Serialize provider failed";
                 return true;
@@ -144,11 +203,30 @@ Status save_all(level_savegame_owner_v1::Owner& save,
             return Status::facts_failed;
         }
         const auto& object = row.save_facts;
+        const bool canonical_character = !record &&
+            facts->is_canonical_character_identity &&
+            facts->is_canonical_character_identity(facts->context, live->identity);
+        const bool canonical_player = !record && facts->is_canonical_player_identity &&
+            facts->is_canonical_player_identity(facts->context, live->identity);
         if (object.identity != live->identity || object.is_character > 1 ||
             object.is_player > 1 || object.is_local_player > 1 || object.enabled > 1 ||
             object.source_flag_129 > 1 ||
-            (record && !object.is_character) || (!record && object.is_character)) {
+            (record && !object.is_character)) {
             error = "ObjectManager source facts conflict with canonical factory/type identity";
+            return Status::identity_mismatch;
+        }
+        if (!record && object.is_character &&
+            (!canonical_character ||
+             (object.is_player && (!canonical_player || !object.is_local_player)) ||
+             (!object.is_player && object.is_local_player) ||
+             !facts->character_identity ||
+             !facts->character_identity->read_view ||
+             !facts->character_identity->read_game_object_fields)) {
+            error = "Record-less Character OBJS row is not a canonical Character owner";
+            return Status::identity_mismatch;
+        }
+        if (!record && !object.is_character && canonical_player) {
+            error = "canonical retained Player is misclassified as a non-Character ObjectManager row";
             return Status::identity_mismatch;
         }
         if (record && !facts->character) {
@@ -164,8 +242,12 @@ Status save_all(level_savegame_owner_v1::Owner& save,
             return Status::manager_failed;
         }
     }
-    for (const auto& row : rows) if (row.character) ++result.character_rows;
-    if (result.character_rows != characters.size()) {
+    std::uint32_t factory_character_rows = 0;
+    for (const auto& row : rows) {
+        if (row.save_facts.is_character) ++result.character_rows;
+        if (row.character) ++factory_character_rows;
+    }
+    if (factory_character_rows != characters.size()) {
         error = "canonical Character factory contains rows absent from ObjectManager snapshot";
         return Status::identity_mismatch;
     }

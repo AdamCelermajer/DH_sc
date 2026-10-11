@@ -49,6 +49,10 @@ int main(int argc, char** argv) {
             identity == reinterpret_cast<std::uintptr_t>(&owner) &&
             owner.owner() == identity,
             "native object address is not the Coordinator identity");
+    require(owner.save_eligibility_28() == 0 &&
+            owner.save_eligibility_28_storage() &&
+            *owner.save_eligibility_28_storage() == 0,
+            "Player save gate was enabled before fresh Character binding");
     require(owner.visibility_80() == 1 && owner.enabled_8a() == 1,
             "native player visibility bytes did not start at source defaults");
     owner.set_visible(0);
@@ -89,6 +93,63 @@ int main(int argc, char** argv) {
 
     require(owner.bind_session(&character_660, save, properties, nullptr, error),
             error.c_str());
+    std::int32_t interaction_sequence=-1;
+    std::uint8_t interaction_active=0;
+    std::uintptr_t interacting_object=0;
+    require(owner.talk_objective_marker_2fa_for(identity)==0&&
+            !owner.set_interaction_state_v1(identity+8,91,1,0x701)&&
+            !owner.set_interaction_state_v1(identity,91,1,identity)&&
+            owner.set_interaction_state_v1(identity,91,1,0x701)&&
+            owner.interaction_state_v1(identity,&interaction_sequence,
+                 &interaction_active,&interacting_object)&&
+            interaction_sequence==91&&interaction_active==1&&
+            interacting_object==0x701&&
+            !owner.consume_interaction_sequence_v1(identity+8,&interaction_sequence)&&
+            owner.consume_interaction_sequence_v1(identity,&interaction_sequence)&&
+            interaction_sequence==91&&
+            owner.interaction_state_v1(identity,&interaction_sequence,
+                 &interaction_active,&interacting_object)&&
+            interaction_sequence==-1&&interaction_active==1&&
+            interacting_object==0x701&&
+            owner.set_talk_objective_marker_2fa(identity,1)&&
+            owner.talk_objective_marker_2fa_for(identity)==1&&
+            !owner.set_talk_objective_marker_2fa(identity+8,0),
+            "Player Character::Interact facts are not retained on its identity-bound owner");
+    require(owner.set_talk_objective_marker_2fa(identity,0),
+            "Player TalkToNPC marker did not clear on its canonical owner");
+    float reaction_gate = 0.0f;
+    require(owner.read_reaction_gate_14fc(identity, &reaction_gate) &&
+            reaction_gate == -1.0f &&
+            !owner.read_reaction_gate_14fc(identity + 8, &reaction_gate) &&
+            !owner.write_reaction_gate_14fc(identity + 8, 3000.0f) &&
+            owner.read_reaction_gate_14fc(identity, &reaction_gate) &&
+            reaction_gate == -1.0f &&
+            owner.write_reaction_gate_14fc(identity, 3000.0f) &&
+            owner.read_reaction_gate_14fc(identity, &reaction_gate) &&
+            reaction_gate == 3000.0f,
+            "Character reaction gate was not source-initialized or identity-bound");
+    std::uint32_t player_go_ids = 99;
+    require(owner.object_base_go_ids_0f4_for(identity, &player_go_ids) &&
+            player_go_ids == 0,
+            "successful Player Character adoption did not publish source GO_IDS=0");
+    require(owner.save_eligibility_28() == 1 &&
+            owner.save_eligibility_28_storage() &&
+            *owner.save_eligibility_28_storage() == 1 &&
+            owner.deleted_81() == 0 && owner.deleted_81_storage() &&
+            *owner.deleted_81_storage() == 0,
+            "LevelSavegame ObjectBase +0x28/+0x81 facts are not on the canonical Player owner");
+    require(owner.spawn_probability_result_270() == -1 &&
+            !owner.check_spawn_probability_player_branch(identity + 8) &&
+            owner.spawn_probability_result_270() == -1 &&
+            owner.check_spawn_probability_player_branch(identity) &&
+            owner.spawn_probability_result_270() == -2,
+            "CheckSpawnProbability Player branch did not retain its canonical -1 to -2 write");
+    require(owner.disabled_373() == 0 &&
+            !owner.set_disabled_373(identity + 8, 1) && owner.disabled_373() == 0 &&
+            !owner.set_disabled_373(identity, 2) && owner.disabled_373() == 0 &&
+            owner.set_disabled_373(identity, 1) && owner.disabled_373() == 1 &&
+            owner.set_disabled_373(identity, 0) && owner.disabled_373() == 0,
+            "GameObject::Disabled +0x373 was not retained on the identity-checked Player owner");
     require(!save.source_save_blocked() &&
             !owner.sg_block(identity + 8, 1) && !owner.sg_block(identity, 2) &&
             owner.sg_block(identity, 1) && save.source_save_blocked() &&
@@ -196,10 +257,21 @@ int main(int argc, char** argv) {
             "rejected publication changed foreign Character660");
 
     *ooi_intent = 1;
+    // Source PlayerManager::RemoveCharacter writes Delete(+0x82=2,+0x81=1)
+    // and SetVisible(false). Keep those facts through retirement, then verify
+    // that binding the next fresh Level's Character recreates the active C1 /
+    // _AddCharacter state on this same semantic Player owner.
+    *owner.deleted_state_82_storage() = 2;
+    *owner.deleted_81_storage() = 1;
+    owner.set_visible(0);
     require(owner.unbind_session(error) && character_660 == 0 &&
             !owner.ooi_intent() &&
-            !owner.checkpoint_revive_position_1474(identity),
+            !owner.checkpoint_revive_position_1474(identity) &&
+            owner.spawn_probability_result_270() == -1,
             "terminal Character retirement did not clear Character660");
+    player_go_ids = 99;
+    require(!owner.object_base_go_ids_0f4_for(identity, &player_go_ids),
+            "Player ObjectBase constructor receipt survived session retirement");
     require(owner.ooi_intent()==0 && owner.ooi_intent_storage()==ooi_intent,
             "terminal Character retirement did not clear canonical OOI intent");
     require(!owner.save_for(identity) && !owner.properties_for(identity) &&
@@ -208,21 +280,28 @@ int main(int argc, char** argv) {
             "retired Character still resolves borrowed owners");
     require(owner.unbind_session(error) && !owner.ooi_intent(),
             "empty retirement was not idempotent or retained OOI intent");
+    require(owner.deleted_81() == 1 &&
+            *owner.deleted_state_82_storage() == 2 &&
+            owner.visibility_80() == 0,
+            "retirement incorrectly erased the old Level's source Delete/SetVisible writes");
 
     *ooi_intent=1;
     require(owner.bind_session(&character_660, save, properties, nullptr, error) &&
             !owner.ooi_intent() && character_660 == identity &&
+            owner.deleted_81() == 0 &&
+            *owner.deleted_state_82_storage() == 0 &&
+            owner.enabled_8a() == 1 && owner.visibility_80() == 1 &&
             owner.checkpoint_revive_position_1474(identity) &&
             owner.checkpoint_revive_position_1474(identity)[0] == 0 &&
             owner.checkpoint_revive_position_1474(identity)[1] == 0 &&
             owner.checkpoint_revive_position_1474(identity)[2] == 0 &&
             *owner.reward_gold_1500_for(identity) == -1 &&
             *owner.reward_xp_1504_for(identity) == -1,
-            "fresh session rebind did not clear OOI intent");
+            "fresh Level Character bind did not restore constructor and local Player visibility facts");
     require(owner.unbind_session(error) && !owner.ooi_intent(),
             "rebound session retirement retained OOI intent");
 
-    std::cout << "{\"validation\":\"PASS\",\"checks\":41,"
+    std::cout << "{\"validation\":\"PASS\",\"checks\":42,"
                  "\"identity_is_native_object_address\":true,"
                  "\"source_visibility_enabled_semantics\":true,"
                  "\"coordinator_save_properties_inventory_single_owner\":true,"

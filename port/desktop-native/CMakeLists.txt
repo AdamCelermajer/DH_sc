@@ -59,6 +59,7 @@ endif()
 
 add_subdirectory("${DH2_SOURCE_DIR}/port/engine-textures" "${CMAKE_CURRENT_BINARY_DIR}/engine-textures")
 add_subdirectory("${DH2_SOURCE_DIR}/port/scene-materials" "${CMAKE_CURRENT_BINARY_DIR}/scene-materials")
+add_subdirectory("${DH2_SOURCE_DIR}/port/engine-particles" "${CMAKE_CURRENT_BINARY_DIR}/engine-particles")
 add_subdirectory("${DH2_SOURCE_DIR}/port/engine-animation" "${CMAKE_CURRENT_BINARY_DIR}/engine-animation")
 add_subdirectory("${DH2_SOURCE_DIR}/port/engine-skinning" "${CMAKE_CURRENT_BINARY_DIR}/engine-skinning")
 add_subdirectory("${DH2_SOURCE_DIR}/port/engine-camera" "${CMAKE_CURRENT_BINARY_DIR}/engine-camera")
@@ -97,7 +98,7 @@ target_include_directories(dh2_desktop_runtime PRIVATE
   "${DH2_GLES2_INCLUDE_DIR}")
 target_link_libraries(dh2_desktop_runtime PRIVATE
   ${DH2_SDL_TARGET} "${DH2_GLESV2_LIBRARY}" "${DH2_EGL_LIBRARY}"
-  dh2_engine_textures dh2_scene_materials dh2_engine_animation dh2_engine_skinning
+  dh2_engine_textures dh2_scene_materials dh2_engine_particles dh2_engine_animation dh2_engine_skinning
   dh2_engine_camera dh2_level_world dh2_script_runtime
   dh2_inventory_text_v1 dh2_engine_ui)
 if(WIN32)

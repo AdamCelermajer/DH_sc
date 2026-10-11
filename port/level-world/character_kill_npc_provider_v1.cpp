@@ -4,16 +4,26 @@
 #include <stdexcept>
 
 namespace dh2::character_kill_npc_provider_v1 {
+namespace {
+std::uint32_t dead_value(const Bindings& bindings) noexcept {
+    return bindings.dead_byte ? *bindings.dead_byte : *bindings.dead;
+}
+void write_dead(const Bindings& bindings, std::uint8_t value) noexcept {
+    if (bindings.dead_byte) *bindings.dead_byte = value;
+    else *bindings.dead = value;
+}
+}
 
 Runtime::Runtime(Bindings bindings)
     : bindings_(bindings),
       caller_(bindings.character, {this, invoke}) {
-    if (!bindings_.character || !bindings_.dead ||
+    if (!bindings_.character ||
+        (bindings_.dead == nullptr) == (bindings_.dead_byte == nullptr) ||
         !bindings_.properties || dh2_property_validate(bindings_.properties) ||
         !bindings_.classification_state ||
         bindings_.classification_state->character != bindings_.character ||
         !bindings_.classification_services ||
-        *bindings_.dead > 1 || !bindings_.services.preflight ||
+        dead_value(bindings_) > 1 || !bindings_.services.preflight ||
         !bindings_.services.player_branch ||
         !bindings_.services.raise_event2) {
         throw std::invalid_argument("Invalid Character::Kill NPC provider bindings");
@@ -50,7 +60,7 @@ int Runtime::dispatch(const ctrl::Request& request, ctrl::Reply& reply,
                 return 1;
             }
             ++snapshot_.inner_is_dead_reads;
-            reply.word = static_cast<std::int32_t>(*bindings_.dead);
+            reply.word = static_cast<std::int32_t>(dead_value(bindings_));
             return 0;
         case ctrl::Operation::kill:
             if (request.subject != bindings_.character) {
@@ -82,7 +92,7 @@ int Runtime::inner_kill(std::uintptr_t killer, std::uint32_t force,
     // Character::Kill performs its own IsDead after Ctrl_Kill's outer check.
     // Already-dead is a successful no-op and does not consume a new episode.
     ++snapshot_.inner_is_dead_reads;
-    if (*bindings_.dead != 0) return 0;
+    if (dead_value(bindings_) != 0) return 0;
     if (kill_consumed_) {
         error = "Character::Kill episode was already consumed";
         return 1;
@@ -100,7 +110,7 @@ int Runtime::inner_kill(std::uintptr_t killer, std::uint32_t force,
     snapshot_.prefix_started = 1;
     // Source Character::Kill 0x3a5b5c/0x3a5b68: dead byte +0x1449 first,
     // then PROPS_Set(36, 0). This is the same canonical state used by combat.
-    *bindings_.dead = 1;
+    write_dead(bindings_, 1);
     snapshot_.dead_written = 1;
     snapshot_.hp_zero_attempted = 1;
     if (dh2_property_set(bindings_.properties, 36, 0)) {
@@ -108,6 +118,7 @@ int Runtime::inner_kill(std::uintptr_t killer, std::uint32_t force,
         return 1;
     }
     snapshot_.hp_zero_completed = 1;
+    if (killer && bindings_.killer_144c) *bindings_.killer_144c = killer;
 
     snapshot_.is_player_attempted = 1;
     const auto classification_status = character_ai_classification::query(

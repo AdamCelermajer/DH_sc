@@ -63,4 +63,30 @@ int main() {
     const std::vector<Row> rows{{9007}, {9012}};
     assert(dh2::native::ui::find_quest_journal_row_by_id_v1(rows, 9012)->id == 9012);
     assert(dh2::native::ui::find_quest_journal_row_by_id_v1(rows, 1) == nullptr);
+
+    // These rows exercise the predicates selected by the shipped
+    // dqcharmenu.swf journal calls and the original GetQuestFunctor switch.
+    struct QuestRow { std::int32_t id, state, priority; };
+    const std::vector<QuestRow> journal_rows{
+        {1, 5, 1}, {2, 6, 1}, {3, 12, 1}, {4, 13, 1},
+        {5, 6, 9}, {6, 13, 9},
+    };
+    dh2::native::ui::QuestJournalPredicateV1 policy{false, false, 9};
+    auto count_matching = [&](const char* predicate) {
+        std::size_t count = 0;
+        for (const auto& row : journal_rows)
+            count += dh2::native::ui::quest_journal_matches_v1(
+                row, predicate, policy);
+        return count;
+    };
+    assert(count_matching("Active") == 2);
+    assert(count_matching("Closed") == 1);
+    assert(count_matching("UnexpectedPredicate") == 2);
+    policy.display_all_non_debug = true;
+    assert(count_matching("Closed") == 4);
+    policy.display_debug_only = true;
+    assert(count_matching("Active") == 4); // first source switch wins
+    policy.display_all_non_debug = false;
+    assert(count_matching("Active") == 2);
+    assert(count_matching("Closed") == 2);
 }

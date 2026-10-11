@@ -408,7 +408,15 @@ struct GameplayAudioSdl::Impl {
                 }
             }
             for (auto it = self->effects.begin(); it != self->effects.end();) {
-                if (it->paused) { ++it; continue; }
+                if (it->paused) {
+                    if (it->fade_remaining && --it->fade_remaining == 0) {
+                        it->gain = it->target_gain; it->gain_step = 0.f;
+                        if (it->target_gain == 0.f && !it->pause_when_silent) {
+                            it = self->effects.erase(it); continue;
+                        }
+                    } else if (it->fade_remaining) it->gain += it->gain_step;
+                    ++it; continue;
+                }
                 if (it->samples.empty() || it->cursor + 1 >= it->samples.size()) {
                     if (it->looping && !it->samples.empty()) it->cursor = 0;
                     else { it = self->effects.erase(it); continue; }
@@ -557,6 +565,26 @@ struct GameplayAudioSdl::Impl {
         }
     }
 
+    void stop_all_sounds(std::int32_t fade_ms) {
+        std::lock_guard<std::mutex> lock(mutex);
+        if (fade_ms <= 0) { effects.clear(); music = {}; return; }
+        const auto frames64 = static_cast<std::uint64_t>(fade_ms) * kRate / 1000;
+        const auto frames = static_cast<std::uint32_t>(std::clamp<std::uint64_t>(
+            frames64, 1, std::numeric_limits<std::uint32_t>::max()));
+        for (auto& voice : effects) {
+            voice.target_gain = 0.f; voice.pause_when_silent = false;
+            voice.fade_remaining = frames;
+            voice.gain_step = -voice.gain / static_cast<float>(frames);
+        }
+        for (auto& voice : music) {
+            if (!voice.asset) continue;
+            voice.fade_target_q30 = 0; voice.pause_when_silent = false;
+            voice.fade_remaining = frames;
+            voice.step_q30 = static_cast<std::int32_t>(
+                -static_cast<std::int64_t>(voice.gain_q30) / frames);
+        }
+    }
+
     void select_music(std::shared_ptr<MusicAsset> selected) {
         std::lock_guard<std::mutex> lock(mutex);
         auto& current = music[2];
@@ -651,6 +679,10 @@ void GameplayAudioSdl::pump(AAssetManager* assets) {
                 values[2] > std::numeric_limits<std::int32_t>::max()) continue;
             impl_->stop_effect(static_cast<std::uintptr_t>(values[0]),
                 static_cast<std::uint16_t>(values[1]), static_cast<std::int32_t>(values[2]));
+        } else if (count == 3 && fields[0] == "dh2fx" && fields[1] == "stopAll") {
+            if (!parse_integer(fields[2], values[0]) || values[0] < 0 ||
+                values[0] > 60000) continue;
+            impl_->stop_all_sounds(static_cast<std::int32_t>(values[0]));
         }
     }
 }

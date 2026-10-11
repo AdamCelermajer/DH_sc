@@ -41,9 +41,12 @@ The result marks whether group status was observed: state 0 and unsupported
 actor states do not read or report the status. For status 1, callback failure
 is a port-adapter error; it leaves both the group status and output unchanged.
 The game source's predicate is synchronous and has no such failure return.
-Native membership construction, registration/removal, `GroupInfo::OnDied`,
-aggro cleanup, `CanSpawn`, and linking this predicate into the current native
-coordinator remain outside this slice.
+This `CanRespawn` kernel does not own membership construction, registration or
+removal, `GroupInfo::OnDied`, aggro cleanup, `CanSpawn`, or native coordinator
+integration. Membership and GroupInfo death/removal now have a separate owner
+kernel documented in
+[`character-group-info-lifecycle`](../character-group-info-lifecycle/NOTES.md);
+that separate kernel still depends on its explicit native member providers.
 
 ## Host validation
 

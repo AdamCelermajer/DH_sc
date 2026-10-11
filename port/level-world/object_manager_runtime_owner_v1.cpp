@@ -392,6 +392,74 @@ Status Owner::publish_trigger_state(Address identity, std::int32_t count,
     return Status::ok;
 }
 
+Status Owner::publish_exit_level_definition(
+    Address identity, std::int32_t level_list_row, std::int32_t level_id,
+    std::string_view level_name, std::int32_t entrypoint_id,
+    std::string_view fasttravel_id) noexcept {
+    if (identity == 0 || level_list_row < -1 || entrypoint_id < -1)
+        return Status::invalid_argument;
+    auto* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    if (object->exit_level.definition_ready) return Status::invalid_argument;
+    try {
+        TriggerZoneExitLevelV1 definition;
+        definition.level_list_row_2004 = level_list_row;
+        definition.level_id_2008 = level_id;
+        if (!level_name.empty())
+            definition.level_name_2012.assign(level_name.data(), level_name.size());
+        definition.entrypoint_id_2036 = entrypoint_id;
+        if (!fasttravel_id.empty())
+            definition.fasttravel_id_2048.assign(fasttravel_id.data(), fasttravel_id.size());
+        definition.definition_ready = 1;
+        object->exit_level = std::move(definition);
+        // Trigger::Trigger (0x398f44) initializes +0x3a8=1, +0x3b4=0,
+        // and +0x3b8=0. The latter two are exactly the words Trigger::Serialize
+        // appends after GameObject::Serialize; keep them on this same row.
+        object->trigger_count_3a8 = 1;
+        object->trigger_max_count_3b4 = 0;
+        object->trigger_pending_3b8 = 0;
+        object->trigger_save_state_ready = 1;
+    } catch (...) {
+        return Status::allocation_failed;
+    }
+    return Status::ok;
+}
+
+Status Owner::publish_exit_level_active_players(
+    Address identity, std::int32_t active_players) noexcept {
+    if (identity == 0 || active_players < 0) return Status::invalid_argument;
+    auto* object = find_by_identity(identity);
+    if (!object) return Status::not_found;
+    if (!object->exit_level.definition_ready) return Status::invalid_argument;
+    object->exit_level.active_players_960 = active_players;
+    return Status::ok;
+}
+
+Status Owner::publish_door_definition(Address identity,std::int32_t state,
+    std::uint8_t opened,std::uint8_t door_collision,
+    std::uint8_t physical_present) noexcept {
+    if(identity==0||state<0||state>3||opened>1||door_collision>1||
+       physical_present>1)return Status::invalid_argument;
+    auto* object=find_by_identity(identity);
+    if(!object)return Status::not_found;
+    if(object->door.definition_ready)return Status::invalid_argument;
+    object->door={state,opened,door_collision,0,0,physical_present,0,1};
+    return Status::ok;
+}
+
+Status Owner::publish_condition_tested(Address identity,
+    std::uint8_t tested_ac,std::uint8_t tested_d0) noexcept {
+    if(identity==0||tested_ac>1||tested_d0>1)
+        return Status::invalid_argument;
+    auto* object=find_by_identity(identity);
+    if(!object)return Status::not_found;
+    object->condition_tested_ac=tested_ac;
+    object->condition_tested_d0=tested_d0;
+    object->condition_tested_ac_ready=1;
+    object->condition_tested_d0_ready=1;
+    return Status::ok;
+}
+
 Status Owner::append_init_post_update_object(Address identity,
                                              bool source_is_updatable,
                                              bool* appended) noexcept {
@@ -406,6 +474,26 @@ Status Owner::append_init_post_update_object(Address identity,
     }
     *appended = true;
     return Status::ok;
+}
+
+Status Owner::append_init_post_condition_object(Address identity,
+                                                 bool* appended) noexcept {
+    if (appended == nullptr || identity == 0) return Status::invalid_argument;
+    *appended = false;
+    if (find_by_identity(identity) == nullptr) return Status::not_found;
+    try {
+        init_post_condition_objects_.push_back(identity);
+    } catch (...) {
+        return Status::allocation_failed;
+    }
+    *appended = true;
+    return Status::ok;
+}
+
+void Owner::clear_init_post_lists() noexcept {
+    update_objects_.clear();
+    staged_update_objects_.clear();
+    init_post_condition_objects_.clear();
 }
 
 Status Owner::stage_spawn_update_object(Address identity,
@@ -436,6 +524,32 @@ bool Owner::update_object_at(std::size_t index, GameObject** object) noexcept {
     std::advance(found, static_cast<std::ptrdiff_t>(index));
     *object = find_by_identity(*found);
     return *object != nullptr;
+}
+
+bool Owner::init_post_condition_object_at(std::size_t index,
+                                           Address* identity) const noexcept {
+    if (identity == nullptr || index >= init_post_condition_objects_.size())
+        return false;
+    auto found = init_post_condition_objects_.cbegin();
+    std::advance(found, static_cast<std::ptrdiff_t>(index));
+    *identity = *found;
+    return true;
+}
+
+Status Owner::visit_condition_objects(void* context,
+                                     ConditionUpdateCallback callback,
+                                     std::size_t* visited) noexcept {
+    if (callback == nullptr || visited == nullptr)
+        return Status::invalid_argument;
+    *visited = 0;
+    for (const Address identity : init_post_condition_objects_) {
+        GameObject* object = find_by_identity(identity);
+        if (object == nullptr) return Status::not_found;
+        if (!callback(context, object))
+            return Status::update_callback_failed;
+        ++*visited;
+    }
+    return Status::ok;
 }
 
 Status Owner::visit_update_objects(void* context, UpdateCallback callback,
@@ -659,6 +773,7 @@ void Owner::reset_after_native_flush() noexcept {
     room_objects_.clear();
     update_objects_.clear();
     staged_update_objects_.clear();
+    init_post_condition_objects_.clear();
     visible_room_zone_count_ = 0;
     next_source_handle_ = 1;
 }

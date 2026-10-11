@@ -1,4 +1,6 @@
 #include "character_state.hpp"
+#include "../character_sm_set_dead_state_v1.hpp"
+#include "../game-data/properties.hpp"
 #include <array>
 #include <cmath>
 #include <cstdio>
@@ -9,6 +11,109 @@
 using namespace dh2::character;
 namespace {
 void require(bool condition,const char* message){if(!condition)throw std::runtime_error(message);}
+namespace dead_state=dh2::character_sm_set_dead_state_v1;
+namespace animation_data=dh2::data;
+
+void append_word(std::vector<std::uint8_t>& bytes,std::uint32_t value){
+ for(unsigned i=0;i<4;++i)bytes.push_back(std::uint8_t(value>>(i*8)));
+}
+void append_name(std::vector<std::uint8_t>& bytes,const char* value){
+ const auto size=std::strlen(value);append_word(bytes,std::uint32_t(size));
+ bytes.insert(bytes.end(),value,value+size);
+}
+void append_group(std::vector<std::uint8_t>& bytes,const char* group,
+                  const char* key,std::int32_t value){
+ append_name(bytes,group);append_word(bytes,1);append_name(bytes,key);
+ append_word(bytes,std::uint32_t(value));
+}
+struct DeadStateFixture {
+ Coordinator coordinator{0x4d0000001ull,1};
+ Facts facts{};CombatFacts combat{};std::vector<std::uint32_t> services;
+ std::uintptr_t look_payload=0;std::uint32_t stance_calls=0;
+ bool mutate_great_after_death_stance=false;
+ static Facts read_facts(void* raw){return static_cast<DeadStateFixture*>(raw)->facts;}
+ static CombatFacts read_combat(void* raw){return static_cast<DeadStateFixture*>(raw)->combat;}
+ static void state_service(void* raw,State* state,const Request* request){
+  auto& self=*static_cast<DeadStateFixture*>(raw);self.services.push_back(request->service);
+  if(request->service==set_animation)state->current_animation=request->argument[0];
+  if(request->service==look_at)self.look_payload=std::uintptr_t(request->identity);
+ }
+ static int anim_stance(void* raw,std::uintptr_t character,std::int32_t* stance){
+  auto& self=*static_cast<DeadStateFixture*>(raw);
+  if(character!=self.coordinator.owner()||!stance)return 1;
+  ++self.stance_calls;*stance=2;
+  if(self.mutate_great_after_death_stance&&self.stance_calls==1)
+   self.coordinator.state.dead_alternate=0;
+  return 0;
+ }
+ DeadStateFixture(){
+  CoordinatorBindings bindings{};bindings.context=this;bindings.facts=read_facts;
+  bindings.services={this,state_service};bindings.combat_facts=read_combat;
+  coordinator.bind(bindings);
+ }
+};
+
+void dead_state_helper_audit(){
+ std::array<std::int32_t,224> defaults{},types{},base{},saved{},gear{},resolved{};
+ types.fill(-1);resolved[2]=0;
+ animation_data::PropertyView properties{defaults.data(),types.data(),base.data(),
+  saved.data(),gear.data(),resolved.data(),nullptr,0};
+ animation_data::AnimationTables tables;tables.characters.resize(1);
+ auto& row=tables.characters[0];row.fields[4]={300};row.fields[5]={400};
+ row.fields[6]={500};row.fields[7]={200};
+ std::vector<std::uint8_t> constants_bytes;append_word(constants_bytes,2);
+ append_group(constants_bytes,"AnimStancedAnim","SL__LIST_IPHONE",0x78000);
+ append_group(constants_bytes,"AnimStances","COUNT_IPHONE",6);
+ dh2_pycst_view constants{};require(!dh2_pycst_open(&constants,constants_bytes.data(),
+  std::uint32_t(constants_bytes.size())),"SM_SetDeadState constants fixture");
+
+ DeadStateFixture direct;direct.coordinator.state.current=10;
+ direct.coordinator.state.dead_alternate=1;
+ direct.mutate_great_after_death_stance=true;
+ dead_state::Bindings bindings{};bindings.coordinator=&direct.coordinator;
+ bindings.character={direct.coordinator.owner(),&properties};bindings.tables=&tables;
+ bindings.constants=&constants;bindings.anim_stance={&direct,DeadStateFixture::anim_stance};
+ dead_state::Request request{1,0x4d1000001ull,1};dead_state::Result result{};
+ std::string error;
+ require(dead_state::execute(bindings,request,&result,error)==dead_state::Status::complete,
+  "SM_SetDeadState direct transition failed");
+ require(result.table_valid&&result.death_animation==302&&
+  result.despawn_animation==402&&direct.stance_calls==2&&
+  direct.coordinator.state.dead_alternate==0&&
+  direct.coordinator.source_dead_byte_3e()==1&&
+  direct.coordinator.source_despawn_animation_38()==402&&
+  direct.coordinator.state.current==12&&
+  direct.coordinator.state.current_animation==302&&
+  direct.coordinator.state.animation_override==-1&&
+  direct.look_payload==request.killer,
+  "SM_SetDeadState lost exact stance reread/field/transition order");
+
+ DeadStateFixture raised;raised.coordinator.state.current=10;
+ raised.coordinator.state.dead_alternate=0;
+ bindings.coordinator=&raised.coordinator;
+ bindings.character.identity=raised.coordinator.owner();
+ bindings.anim_stance.context=&raised;
+ request={0,0x4d2000001ull,0};result={};
+ require(dead_state::execute(bindings,request,&result,error)==dead_state::Status::complete&&
+  result.state_transitioned&&raised.coordinator.state.current==12&&
+  raised.coordinator.source_dead_byte_3e()==0&&
+  raised.coordinator.state.current_animation==202&&
+  raised.look_payload==request.killer,
+  "SM_SetDeadState RaiseStateEvent branch failed");
+
+ DeadStateFixture invalid;invalid.coordinator.state.current=10;
+ invalid.coordinator.state.dead_alternate=1;resolved[2]=7;
+ bindings.coordinator=&invalid.coordinator;
+ bindings.character.identity=invalid.coordinator.owner();
+ bindings.anim_stance.context=&invalid;
+ request={1,0,1};result={};
+ require(dead_state::execute(bindings,request,&result,error)==dead_state::Status::complete&&
+  !result.table_valid&&invalid.coordinator.state.current==10&&
+  invalid.coordinator.state.dead_alternate==1&&
+  invalid.coordinator.source_dead_byte_3e()==0&&
+  invalid.coordinator.source_despawn_animation_38()==0,
+  "SM_SetDeadState invalid table must return before mutation");
+}
 struct Case {std::uint32_t operation,a,b,count,result,callback_mode;std::uint64_t payload;};
 static_assert(sizeof(Case)==32);
 template<class T>T read(std::ifstream& input){T value{};input.read(reinterpret_cast<char*>(&value),sizeof value);require(bool(input),"truncated reference");return value;}
@@ -55,6 +160,7 @@ void callback(void* context,State* state,const Request* request){
 }
 int main(int argc,char** argv){
  try{
+  dead_state_helper_audit();
   require(argc==2,"usage: character_state REFERENCE");std::ifstream input(argv[1],std::ios::binary);require(bool(input),"open reference");
   auto magic=read<std::uint32_t>(input),count=read<std::uint32_t>(input);require(magic==0x31545343,"reference format");
   Fixture fixture;Services services{&fixture,callback};std::uint64_t request_count=0;
@@ -72,6 +178,20 @@ int main(int argc,char** argv){
    request_count+=item.count;
   }
   require(input.peek()==std::ifstream::traits_type::eof(),"trailing reference bytes");
+  // Character::Interact reaches the active StateMachine through event 50003.
+  // Exercise the same Coordinator kernel path used by NPC owners and keep the
+  // source CSInteract focus prefix observable through its existing services.
+  State interacting;interacting.current=3;interacting.body_present=1;
+  Facts interaction_facts;interaction_facts.is_player=0;
+  fixture.calls.clear();fixture.facts=&interaction_facts;
+  require(dh2_character_state_event(&interacting,&interaction_facts,50003,
+      0x12345678,&services)==1,"Character::Interact registered FSM event");
+  require(interacting.current==13&&interacting.flags==25537&&
+      interacting.current_animation==-1,"CSInteract source focus state");
+  require(fixture.calls.size()==3&&fixture.calls[0].service==set_animation&&
+      fixture.calls[0].argument[0]==-1&&fixture.calls[1].service==cancel_sneaking&&
+      fixture.calls[2].service==raise_event&&fixture.calls[2].argument[0]==0x1d,
+      "CSInteract focus source service order");
   unsigned malformed=0;
   State base;base.current=3;Facts facts;fixture.mode=0;fixture.facts=&facts;
   auto reject=[&](State state,Facts value,const Services* callbacks){fixture.calls.clear();State before=state;require(dh2_character_state_event(&state,&value,0xc351,0,callbacks)==-1,"malformed input accepted");require(state_equal(state,before)&&fixture.calls.empty(),"malformed input mutated state");++malformed;};

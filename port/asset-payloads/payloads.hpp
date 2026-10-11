@@ -55,6 +55,8 @@ dh2::assets::Error dh2_mesh_primitive(const dh2::assets::Mesh*, std::int32_t, dh
 bool dh2_attribute_read(const dh2::assets::Attribute*, std::uint32_t vertex, float* components);
 bool dh2_index_read(const dh2::assets::Primitive*, std::uint32_t index, std::uint32_t*);
 std::uint32_t dh2_animation_segments(const dh2::resources::BresView*);
+bool dh2_animation_segment_range(const dh2::resources::BresView*, std::int32_t segment,
+                                std::int32_t* start_ms, std::int32_t* end_ms);
 dh2::assets::Error dh2_animation_open(dh2::assets::Animation*, const dh2::resources::BresView*, std::int32_t animation, std::int32_t segment);
 const char* dh2_animation_target(const dh2::assets::Animation*);
 std::uint32_t dh2_animation_type(const dh2::assets::Animation*, std::int32_t channel);

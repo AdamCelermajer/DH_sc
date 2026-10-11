@@ -12,6 +12,9 @@ namespace dh2::floors {
 // addresses; neither APK assets nor original ABI service pointers are retained.
 struct Record {
  std::string name;std::string floor_type_tag;unsigned room=0,geometry=0;
+ // PFFloor+0x20 begins at 1 in PFRoom::_LoadFloor. Door::Opened/Closed
+ // toggles only bit 1 through PFWorld::FlagFloorAsDeadEnd.
+ std::uint32_t source_flags_20=1;
  selector::Matrix clone{};floor_source::Flags flags{};octree::Box local{},world{},bounds{};
  std::vector<collision::Triangle> triangles,retained,selected;
  std::vector<octree::Node> octants;std::vector<unsigned> indices,scratch,selected_ids;
@@ -57,4 +60,8 @@ bool height(const World&,const float* point,float&);
 // Returns the source `floortypes` tag of the first selected floor hit at this
 // world point. The returned string is owned by the retained floor record.
 const std::string* floor_type_at(const World&,const float* point) noexcept;
+// PFWorld::FlagFloorAsDeadEnd on the same selected Level floor record. A
+// point with no floor hit follows the source null-floor no-op path.
+bool flag_dead_end(World&,const float* point,bool dead_end,bool& hit,
+                   std::string& error);
 }

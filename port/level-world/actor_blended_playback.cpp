@@ -240,7 +240,10 @@ bool BlendedPlayback::apply_selection(const ClipBank& bank,visual::SceneBinding&
 }
 void BlendedPlayback::scheduler_event(std::uint32_t id){
  EventHandoff handoff{id,0,nullptr};
- if(id==0x22&&dh2_actor_sequence_close(&handoff,&sequence_closed)!=1)return;
+ if(id==0x22){
+  if(dh2_actor_sequence_close(&handoff,&sequence_closed)!=1)return;
+  handoff.payload=reinterpret_cast<const char*>(&sequence_closed);
+ }
  const auto phase=id==0x22?std::uint32_t(sequence_event):
                   (id==0x24||id==0x26)?std::uint32_t(selection_event):std::uint32_t(animator_event);
  const BlendedPlaybackEvent event{{handoff,current_clip(),root_timestamp,phase,0},blend.current};

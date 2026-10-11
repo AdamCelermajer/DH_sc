@@ -1,0 +1,97 @@
+{
+  "source_archive": "Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "source_sound_names_report": "reports/pydata-array-name-trace.json",
+  "source_audio_catalog": "recovered/assets/source-data/com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds_he.xml",
+  "script_sound_assets": [
+    {
+      "source_sound_name": "sfx_mage_staff_elemental_earth",
+      "source_sound_id": 478,
+      "uid": 31,
+      "filename": "sfx_mage_staff_elemental_earth.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_earth.wav",
+      "sha256": "6a141f680109df6a54d87b40990ede377f28de700ae5b2551a3c9ec36f97b080",
+      "bytes": 122032
+    },
+    {
+      "source_sound_name": "sfx_mage_staff_elemental_fire",
+      "source_sound_id": 479,
+      "uid": 29,
+      "filename": "sfx_mage_staff_elemental_fire.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_fire.wav",
+      "sha256": "573cc45750d1c9c66e0bb15f97e0f85ba05d34da7023090e617bea43cab4d92f",
+      "bytes": 80106
+    },
+    {
+      "source_sound_name": "sfx_mage_staff_elemental_ice",
+      "source_sound_id": 480,
+      "uid": 30,
+      "filename": "sfx_mage_staff_elemental_ice.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_ice.wav",
+      "sha256": "57fec44b685df57e5921afb882a6ae35d77b53738733109ef456c7e593c154de",
+      "bytes": 140672
+    },
+    {
+      "source_sound_name": "sfx_mage_staff_elemental_wind",
+      "source_sound_id": 482,
+      "uid": 32,
+      "filename": "sfx_mage_staff_elemental_wind.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_wind.wav",
+      "sha256": "d7352ecaee5f09d94b881beab87b48fc2f8a2748917c6e38d40fe32f4f90d210",
+      "bytes": 92178
+    },
+    {
+      "source_sound_name": "sfx_spell_fire_big",
+      "source_sound_id": 581,
+      "uid": 97,
+      "filename": "sfx_faerie_fire_big.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_big.wav",
+      "sha256": "e23f41ceeb683a9181403869748ef1bd59e8635bc668186d1ecc9fff26cf8a6c",
+      "bytes": 259736
+    },
+    {
+      "source_sound_name": "sfx_spell_fire_medium",
+      "source_sound_id": 582,
+      "uid": 96,
+      "filename": "sfx_faerie_fire_medium.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_medium.wav",
+      "sha256": "635fc9f570ee210ad01d899e1009243fd5b22fd44275199c5298af9c4e5d4cb8",
+      "bytes": 161454
+    },
+    {
+      "source_sound_name": "sfx_spell_fire_small",
+      "source_sound_id": 583,
+      "uid": 95,
+      "filename": "sfx_faerie_fire_small.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_small.wav",
+      "sha256": "eb0839f09b886b3a4486d7ac55b55d2d2339aefb484c71d862a3b25adba42862",
+      "bytes": 154024
+    },
+    {
+      "source_sound_name": "sfx_spell_water_big",
+      "source_sound_id": 587,
+      "uid": 100,
+      "filename": "sfx_faerie_water_big.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_big.wav",
+      "sha256": "7334b03e327f520b4d2d91426d352eba344918ef44207bbaee2e97fc0b4bc5e8",
+      "bytes": 277086
+    },
+    {
+      "source_sound_name": "sfx_spell_water_medium",
+      "source_sound_id": 588,
+      "uid": 99,
+      "filename": "sfx_faerie_water_medium.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_medium.wav",
+      "sha256": "36cd8bb66933b21104cc24b52f7d7e1420e9eaad1d5476fb82d263894bef627c",
+      "bytes": 158312
+    },
+    {
+      "source_sound_name": "sfx_spell_water_small",
+      "source_sound_id": 589,
+      "uid": 98,
+      "filename": "sfx_faerie_water_small.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_small.wav",
+      "sha256": "caf95d73c1f48ba375f74d28aa24fdd96445a1fd36c9526b4febc30357793e63",
+      "bytes": 144892
+    }
+  ]
+}

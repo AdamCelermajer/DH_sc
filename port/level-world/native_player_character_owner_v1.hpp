@@ -49,12 +49,38 @@ class NativePlayerCharacterOwnerV1 final : public Coordinator {
     std::uint8_t ooi_changed_14ad_ = 0;
     // Source GameObject visibility/enabled bytes are modeled as semantic state,
     // not ARM32 offsets in this native 64-bit owner.
+    // ObjectBase starts +0x28 at zero. The first successful fresh Player bind
+    // is the native projection's receipt that Character construction completed;
+    // that source constructor writes the LevelSave gate to one.
+    std::uint8_t save_eligibility_28_ = 0;
+    // PlayerManager::AddCharacter asks the source factory for "Character";
+    // the retained source factory table maps both Character and Player to
+    // GetNewInstance<Character>(GO_IDS=0). Publish this adoption receipt only
+    // with the successful same-identity PlayerInfo/Save session bind.
+    std::uint32_t go_ids_0f4_ = 0;
+    std::uint8_t go_ids_0f4_ready_ = 0;
     std::uint8_t visibility_80_ = 1;
     std::uint8_t enabled_8a_ = 1;
+    // Source ObjectBase::setUpdating(+0x85) and Delete(+0x82) writes stay on
+    // this same retained Player Character. +0x82 is only meaningful after
+    // Delete; its source constructor does not establish an initial value.
+    std::uint8_t updating_85_ = 0;
+    std::uint8_t deleted_state_82_ = 0;
+    // GameObject::CheckSpawnProbability initializes +0x270 to -1. Its
+    // Character::IsPlayer branch writes -2 without consulting shared RNG.
+    // Keep that result with this canonical Player GameObject.
+    std::int32_t spawn_probability_result_270_ = -1;
+    // GameObject constructor 0x38c130 zeros +0x373. GameObject::Disabled
+    // writes one at the end of its source tail; retain that byte on the same
+    // canonical Player GameObject rather than in a removal-side mirror.
+    std::uint8_t disabled_373_ = 0;
     // ObjectBase::ObjectBase initializes +0x81 to zero. The player owner is
     // retained for the process lifetime, so only an explicit source Delete
     // producer may change this; renderer/session teardown is not deletion.
     std::uint8_t deleted_81_ = 0;
+    // Character C2 initializes +0x14fc to the source binary32 -1.0f. Status
+    // reactions read and replace this same Character field.
+    float reaction_gate_14fc_ = -1.0f;
     // Character::QuickSave copies the current Character position words into
     // the serialized Character +0x1468 Point3D. Keep these as raw words so the
     // source memcpy is exact and does not change float representations.
@@ -63,6 +89,15 @@ class NativePlayerCharacterOwnerV1 final : public Coordinator {
     // in serialized Character +0x1474. Preserve its three raw source words on
     // the same canonical Player owner used by Character serialization.
     std::uint32_t checkpoint_revive_position_1474_[3]{};
+    // Character::SM_SetInteractState writes the selected sequence at +0x28,
+    // its active/suppression byte at +0x4c, and the interacting GameObject at
+    // +0x50. Character::Interact also consults +0x2fa before raising event 5.
+    // These are the Player's canonical source facts, stored on this existing
+    // Character/Coordinator owner rather than in a renderer callback mirror.
+    std::int32_t interaction_sequence_28_ = -1;
+    std::uint8_t interaction_active_4c_ = 0;
+    std::uintptr_t interacting_object_50_ = 0;
+    std::uint8_t talk_objective_marker_2fa_ = 0;
 
 public:
     NativePlayerCharacterOwnerV1();
@@ -111,7 +146,36 @@ public:
     }
     std::uint8_t visibility_80() const noexcept { return visibility_80_; }
     std::uint8_t enabled_8a() const noexcept { return enabled_8a_; }
+    std::uint8_t* visibility_80_storage() noexcept { return &visibility_80_; }
+    std::uint8_t* enabled_8a_storage() noexcept { return &enabled_8a_; }
+    bool restore_object_base_flags_v1(std::uintptr_t character,
+                                      std::uint8_t visible,
+                                      std::uint8_t enabled) noexcept;
+    std::uint8_t* updating_85_storage() noexcept { return &updating_85_; }
+    std::uint8_t* deleted_state_82_storage() noexcept { return &deleted_state_82_; }
+    std::uint8_t save_eligibility_28() const noexcept {
+        return save_eligibility_28_;
+    }
+    std::uint8_t* save_eligibility_28_storage() noexcept {
+        return &save_eligibility_28_;
+    }
     std::uint8_t deleted_81() const noexcept { return deleted_81_; }
+    std::uint8_t* deleted_81_storage() noexcept { return &deleted_81_; }
+    std::int32_t spawn_probability_result_270() const noexcept {
+        return spawn_probability_result_270_;
+    }
+    bool restore_spawn_probability_result_270_v1(
+        std::uintptr_t character, std::int32_t value) noexcept;
+    std::uint8_t disabled_373() const noexcept { return disabled_373_; }
+    bool set_disabled_373(std::uintptr_t character,
+                          std::uint8_t value) noexcept;
+    // Exact CheckSpawnProbability Player branch: only a bound canonical
+    // Character can take the IsPlayer fast path, which stores -2.
+    bool check_spawn_probability_player_branch(std::uintptr_t character) noexcept;
+    bool read_reaction_gate_14fc(std::uintptr_t character,
+                                 float* value) const noexcept;
+    bool write_reaction_gate_14fc(std::uintptr_t character,
+                                  float value) noexcept;
     bool render_batch_visible(bool environment_batch) const noexcept {
         return environment_batch || visibility_80_ != 0;
     }
@@ -127,6 +191,8 @@ public:
                       data::PropertyState& properties,
                       data::FreshInventoryOwnedV4* inventory,
                       std::string& error);
+    bool object_base_go_ids_0f4_for(std::uintptr_t character,
+                                    std::uint32_t* value) const noexcept;
     // Attach the already-created authoritative inventory after source Save/
     // property setup, without clearing and republishing Character660. Exactly
     // one inventory may be adopted, and it must borrow these same owners.
@@ -150,6 +216,20 @@ public:
         std::uintptr_t character, const std::uint32_t source_xyz[3]) noexcept;
     const std::uint32_t* checkpoint_revive_position_1474(
         std::uintptr_t character) const noexcept;
+    bool set_interaction_state_v1(std::uintptr_t character,
+                                  std::int32_t sequence,
+                                  std::uint8_t active,
+                                  std::uintptr_t interactor) noexcept;
+    bool interaction_state_v1(std::uintptr_t character,
+                              std::int32_t* sequence,
+                              std::uint8_t* active,
+                              std::uintptr_t* interactor) const noexcept;
+    bool consume_interaction_sequence_v1(std::uintptr_t character,
+                                         std::int32_t* sequence) noexcept;
+    std::uint8_t talk_objective_marker_2fa_for(
+        std::uintptr_t character) const noexcept;
+    bool set_talk_objective_marker_2fa(std::uintptr_t character,
+                                       std::uint8_t value) noexcept;
     data::PropertyState* properties_for(std::uintptr_t character) const noexcept;
     data::FreshInventoryOwnedV4* inventory_for(std::uintptr_t character) const noexcept;
     std::uintptr_t faery_character_420_for(std::uintptr_t character) const noexcept;

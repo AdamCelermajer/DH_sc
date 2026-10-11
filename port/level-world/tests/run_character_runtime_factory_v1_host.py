@@ -1,4 +1,4 @@
-"""Compile and run the bounded native Character factory regression."""
+"""Compile and run the Character factory audit against the real CMake targets."""
 from __future__ import annotations
 
 import argparse
@@ -10,95 +10,102 @@ import subprocess
 import sys
 
 LEVEL_WORLD = Path(__file__).resolve().parents[1]
+REPOSITORY = LEVEL_WORLD.parents[1]
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--compiler", help="C++17 host compiler")
-    parser.add_argument("--output", type=Path,
-        default=LEVEL_WORLD / "build" / "character_runtime_factory_v1_host.exe")
+    parser.add_argument("--cmake", default=shutil.which("cmake"))
+    parser.add_argument("--ninja", default=shutil.which("ninja"))
+    parser.add_argument("--compiler", default=os.environ.get("CXX") or shutil.which("g++") or shutil.which("clang++"))
+    parser.add_argument("--c-compiler", default=os.environ.get("CC") or shutil.which("gcc") or shutil.which("clang"))
+    parser.add_argument("--build-dir", type=Path,
+        default=LEVEL_WORLD / ".checks" / "character-runtime-factory-v1-host")
     args = parser.parse_args()
-    compiler = args.compiler or os.environ.get("CXX") or shutil.which("g++") or shutil.which("clang++")
-    if not compiler:
-        parser.error("no C++ host compiler found; pass --compiler or set CXX")
-    output = args.output.resolve()
-    output.parent.mkdir(parents=True, exist_ok=True)
-    include_dirs = [LEVEL_WORLD, LEVEL_WORLD.parent / "game-data",
-        LEVEL_WORLD.parent / "engine-skinning",
-        LEVEL_WORLD.parent / "engine-animation",
-        LEVEL_WORLD.parent / "scene-materials",
-        LEVEL_WORLD.parent / "adam-script-runtime",
-        LEVEL_WORLD.parent / "player-info-level",
-        LEVEL_WORLD.parent / "physics-backend" / "box2d-2.0.1" / "Include"]
-    command = [compiler, "-std=c++17", "-O1", "-Wall", "-Wextra", "-Werror",
-        *[arg for path in include_dirs for arg in ("-I", str(path))],
-        str(LEVEL_WORLD / "tests" / "character_runtime_factory_v1.cpp"),
-        str(LEVEL_WORLD / "character_runtime_factory_v1.cpp"),
-        str(LEVEL_WORLD / "character_faery_controller_v1.cpp"),
-        str(LEVEL_WORLD / "character_controller_commands.cpp"),
-        str(LEVEL_WORLD / "character_faery_script_session_v1.cpp"),
-        str(LEVEL_WORLD / "character_gameplay_save_v1.cpp"),
-        str(LEVEL_WORLD / "character_constructor_owner_v1.cpp"),
-        str(LEVEL_WORLD / "character_kill_field_14e4_v1.cpp"),
-        str(LEVEL_WORLD / "character_kill_death_tail_v1.cpp"),
-        str(LEVEL_WORLD / "object_update_culling.cpp"),
-        str(LEVEL_WORLD / "character_net_state_owner_v1.cpp"),
-        str(LEVEL_WORLD / "character_coordinator.cpp"),
-        str(LEVEL_WORLD / "character_state.cpp"),
-        str(LEVEL_WORLD / "character_timers.cpp"),
-        str(LEVEL_WORLD / "character_skill_state_dispatch_v1.cpp"),
-        str(LEVEL_WORLD / "character_skill_fsm_callbacks_v1.cpp"),
-        str(LEVEL_WORLD / "character_cast_state_dispatch_v1.cpp"),
-        str(LEVEL_WORLD / "character_cast_lifecycle_v1.cpp"),
-        str(LEVEL_WORLD / "character_ai_frame.cpp"),
-        str(LEVEL_WORLD / "character_init_post_nonplayer_v1.cpp"),
-        str(LEVEL_WORLD / "character_script_lifecycle.cpp"),
-        str(LEVEL_WORLD / ".." / "game-data" / "ai.cpp"),
-        str(LEVEL_WORLD / "object_manager_runtime_owner_v1.cpp"),
-        str(LEVEL_WORLD / "character_aggro_object_manager_list.cpp"),
-        str(LEVEL_WORLD / ".." / "game-data" / "player_save_load_owner_v1.cpp"),
-        str(LEVEL_WORLD / ".." / "game-data" / "player_profile_index_v1.cpp"),
-        str(LEVEL_WORLD / ".." / "game-data" / "player_save_level_states_v1.cpp"),
-        str(LEVEL_WORLD / ".." / "game-data" / "player_savegame_v1.cpp"),
-        str(LEVEL_WORLD / ".." / "android-native" / "app" / "src" / "main" / "cpp" / "native_character_list.cpp"),
-        "-o", str(output)]
-    built = subprocess.run(command, text=True, capture_output=True)
-    if built.stdout:
-        sys.stdout.write(built.stdout)
-    if built.stderr:
-        sys.stderr.write(built.stderr)
-    if built.returncode:
-        return built.returncode
-    run = subprocess.run([str(output)], text=True, capture_output=True)
-    if run.stdout:
-        sys.stdout.write(run.stdout)
-    if run.stderr:
-        sys.stderr.write(run.stderr)
-    if run.returncode:
-        return run.returncode
-    report = json.loads(run.stdout)
-    expected = {"stable_owner": True, "constructor_order": True,
-        "kill_field_14e4_constructor_projection": True,
-        "source_item_inventory_constructor": True,
-        "net_state_pair": True, "canonical_timer_fsm_owner": True,
-        "nonplayer_init_post_prefix": True,
-        "nonplayer_ai_postload_branch": True,
-        "nonplayer_init_post_fx_animation_sound_chain": True,
-        "script_created_character_flag": True,
-        "script_created_kill_objective_gate": True,
-        "init_final_gated": True,
-        "source_save_slot_null_and_player_mask2": True,
-        "registered_states": 20,
-        "manager_roster_publication": True,
-        "constructor_and_roster_rollback": True, "retirement": True,
-        "staged_lifecycle_order": True,
-        "premature_stage_rejection": True,
-        "lifecycle_failure_retry": True,
-        "lifecycle_idempotence": True, "faery_session_retirement_gate": True,
-        "native_roster_adapter": True}
-    if report != expected:
-        raise SystemExit(f"unexpected regression result: {report}")
-    print(json.dumps({"validation": "PASS", "host_report": report}))
+    if not all((args.cmake, args.ninja, args.compiler, args.c_compiler)):
+        parser.error("focused factory audit requires CMake, Ninja, a C++ compiler, and a C compiler")
+
+    test = LEVEL_WORLD / "tests" / "character_runtime_factory_v1.cpp"
+    player_test = LEVEL_WORLD / "tests" / "native_player_character_owner_v1.cpp"
+    cache = REPOSITORY / "port" / "android-native" / "app" / "src" / "main" / "assets" / "data"
+    native_character_list = REPOSITORY / "port" / "android-native" / "app" / "src" / "main" / "cpp" / "native_character_list.cpp"
+    wrapper = args.build_dir.resolve() / "wrapper"
+    build = args.build_dir.resolve() / "selected"
+    wrapper.mkdir(parents=True, exist_ok=True)
+    (wrapper / "CMakeLists.txt").write_text("\n".join((
+            "cmake_minimum_required(VERSION 3.22)",
+            "project(character_runtime_factory_v1_host LANGUAGES C CXX)",
+            "set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)",
+            f'add_subdirectory("{LEVEL_WORLD.as_posix()}" selected-world)',
+            f'add_executable(character_runtime_factory_v1_host "{test.as_posix()}" "{native_character_list.as_posix()}")',
+            "target_link_libraries(character_runtime_factory_v1_host PRIVATE dh2_level_world dh2_script_runtime)",
+            "target_compile_features(character_runtime_factory_v1_host PRIVATE cxx_std_17)",
+            "target_compile_options(character_runtime_factory_v1_host PRIVATE -UNDEBUG -Wall -Wextra -Werror)",
+            f'add_executable(native_player_character_owner_v1_host "{player_test.as_posix()}")',
+            "target_link_libraries(native_player_character_owner_v1_host PRIVATE dh2_level_world dh2_script_runtime)",
+            "target_compile_features(native_player_character_owner_v1_host PRIVATE cxx_std_17)",
+            "target_compile_options(native_player_character_owner_v1_host PRIVATE -UNDEBUG -Wall -Wextra -Werror)",
+            "",
+    )), encoding="utf-8")
+    subprocess.run([args.cmake, "-S", str(wrapper), "-B", str(build), "-G", "Ninja",
+                        f"-DCMAKE_MAKE_PROGRAM={args.ninja}",
+                        f"-DCMAKE_C_COMPILER={args.c_compiler}",
+                        f"-DCMAKE_CXX_COMPILER={args.compiler}",
+                    "-DCMAKE_BUILD_TYPE=Release"], check=True)
+    subprocess.run([args.cmake, "--build", str(build), "--target",
+                    "character_runtime_factory_v1_host",
+                    "native_player_character_owner_v1_host"], check=True)
+    executable_names = ["character_runtime_factory_v1_host",
+                        "native_player_character_owner_v1_host"]
+    runtime_dirs = [build / "selected-world",
+        build / "selected-world" / "adam-script-runtime",
+        build / "selected-world" / "game-data",
+        build / "selected-world" / "engine-skinning",
+        build / "selected-world" / "engine-skinning" / "engine-animation",
+        build / "selected-world" / "engine-skinning" / "engine-animation" / "scene-materials",
+        Path(args.compiler).resolve().parent]
+    env = os.environ.copy()
+    env["PATH"] = os.pathsep.join(str(path) for path in runtime_dirs) + os.pathsep + env.get("PATH", "")
+    for executable_name in executable_names:
+        executable = build / (executable_name + ".exe" if os.name == "nt"
+                              else executable_name)
+        command = [str(executable)]
+        if executable_name == "native_player_character_owner_v1_host":
+            command.append(str(cache))
+        run = subprocess.run(command, text=True, capture_output=True, env=env)
+        if run.stdout:
+            sys.stdout.write(run.stdout)
+        if run.stderr:
+            sys.stderr.write(run.stderr)
+        if run.returncode:
+            return run.returncode
+        if executable_name == "character_runtime_factory_v1_host":
+            report = json.loads(run.stdout)
+            expected = {"stable_owner": True, "constructor_order": True,
+                "kill_field_14e4_constructor_projection": True,
+                "source_item_inventory_constructor": True,
+                "net_state_pair": True, "canonical_timer_fsm_owner": True,
+                "nonplayer_init_post_prefix": True,
+                "nonplayer_ai_postload_branch": True,
+                "nonplayer_init_post_fx_animation_sound_chain": True,
+                "script_created_character_flag": True,
+                "script_created_kill_objective_gate": True,
+                "init_final_gated": True,
+                "source_save_slot_null_and_player_mask2": True,
+                "registered_states": 20,
+                "manager_roster_publication": True,
+                "constructor_and_roster_rollback": True, "retirement": True,
+                "staged_lifecycle_order": True,
+                "premature_stage_rejection": True,
+                "lifecycle_failure_retry": True,
+                "lifecycle_idempotence": True, "faery_session_retirement_gate": True,
+                "native_roster_adapter": True,
+                "dynamic_script_npc_same_owner": True,
+                "script_summon_order": True}
+            if report != expected:
+                raise SystemExit(f"unexpected factory regression result: {report}")
+        elif not json.loads(run.stdout).get("validation") == "PASS":
+            raise SystemExit(f"Player Character owner audit did not report PASS: {run.stdout}")
     return 0
 
 

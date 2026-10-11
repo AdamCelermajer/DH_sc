@@ -193,43 +193,18 @@ void run_actor(const char* name, std::size_t row_index,
             target_state.requested_target == 0 && target_fixture.calls == 2,
             "source AI_SetTarget did not clear the live Crypt target on the same CharAI");
 
-    data::AnimationTables animation_tables;
-    animation_tables.state_names = {"Interact", "Spells", "Idle", "Move",
-        "DeadlyGreatKB", "Despawn", "DespawnGreatKB", "Died"};
-    animation_tables.characters.resize(18);
-    animation_tables.characters[17].fields[4] = {20};
-    animation_tables.characters[17].fields[5] = {30};
-    animation_tables.characters[17].fields[6] = {40};
-    animation_tables.characters[17].fields[7] = {10};
     MonsterClassFixture class_fixture;
     dh2::character_ai_classification::State classification{
         ai.owner_04, 0, -1, name, 0};
     const dh2::character_ai_classification::Services class_services{
         &class_fixture, monster_class_invoke};
-    death::Bindings death_bindings{ai.identity, ai.owner_04, &property_view,
-        &animation_tables, &animation_constants, &classification, &class_services,
-        &runtime};
+    death::Bindings death_bindings{ai.identity, ai.owner_04, &animation_constants,
+        &classification, &class_services, &runtime};
     dh2::player_ai_death_v1::Request death_request{};
     death_request.ai = ai.identity;
     death_request.character = ai.owner_04;
     dh2::player_ai_death_v1::Reply death_reply{};
     error.clear();
-    death_request.operation = dh2::player_ai_death_v1::Operation::animation_table;
-    require(death::invoke(&death_bindings, &death_request, &death_reply, error) == 0 &&
-            death_reply.word == 17 && death_reply.count == 18,
-            "player_ai_death backend did not resolve the current Monster animation table");
-    death_request.operation = dh2::player_ai_death_v1::Operation::animation_value;
-    death_request.animation = dh2::player_ai_death_v1::Animation::died;
-    death_request.row = death_reply.word;
-    require(death::invoke(&death_bindings, &death_request, &death_reply, error) == 0 &&
-            death_reply.word == 10,
-            "player_ai_death backend did not resolve the authored Died scalar");
-    death_request.operation = dh2::player_ai_death_v1::Operation::stance_mask;
-    death_request.group = "AnimStancedAnim";
-    death_request.key = "SL__LIST_IPHONE";
-    require(death::invoke(&death_bindings, &death_request, &death_reply, error) == 0 &&
-            death_reply.word == 210,
-            "player_ai_death backend did not read the authored stance mask");
     death_request.operation = dh2::player_ai_death_v1::Operation::anim_stance;
     require(death::invoke(&death_bindings, &death_request, &death_reply, error) == 0 &&
             death_reply.word == 0,

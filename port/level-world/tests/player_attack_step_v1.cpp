@@ -40,7 +40,7 @@ std::int32_t raise_character_event(void* raw, std::uint32_t event,
     return dh2_character_state_event(f.state, f.facts, event, payload,
                                      &f.character_services);
 }
-void animation_ai_service(void* raw, dh2::character::AnimationAIState96*,
+std::int32_t animation_ai_service(void* raw, dh2::character::AnimationAIState96*,
                           const dh2::character::AnimationAIRequest32* request,
                           dh2::character::AnimationAIResponse16* response) {
     auto& f = *static_cast<Fixture*>(raw);
@@ -64,6 +64,7 @@ void animation_ai_service(void* raw, dh2::character::AnimationAIState96*,
     default:
         throw std::runtime_error("Unexpected AttackBegin source service");
     }
+    return 0;
 }
 }
 

@@ -27,9 +27,9 @@ Status run(const State* state, std::uint32_t force, const Services* services,
 
     // Original Level::QuickSave checks LevelSavegame, Level state 38, local
     // Character, Character virtual+0x34 == 0, then offline or local-host with
-    // Application byte +0x719 == 0. No provider is called before this gate.
+    // PlayerManager byte +0x719 == 0. No provider is called before this gate.
     const bool host_can_save = state->local_player_is_host &&
-                               !state->application_gate_719;
+                               !state->player_manager_gate_719;
     if (!state->level_savegame || state->level_state != 38 ||
         !state->local_character || state->character_quicksave_predicate ||
         (state->online && !host_can_save))

@@ -7,7 +7,7 @@ namespace {
 using namespace dh2::character;
 std::int32_t signed_bits(std::uint32_t value){std::int32_t result;std::memcpy(&result,&value,sizeof result);return result;}
 bool combat_id(int value){return value>=8&&value<=11;}
-bool id(int value){return value==-1||value==2||value==3||value==4||value==5||value==12;}
+bool id(int value){return value==-1||value==2||value==3||value==4||value==5||value==12||value==13;}
 bool valid_base(const State* s,const Facts* f,const Services* c){
  return s&&f&&c&&c->invoke&&f->is_player<=1&&!f->reserved&&
  f->is_at_destination<=1&&f->following_path<=1&&f->has_ranged_weapon<=1&&
@@ -38,6 +38,7 @@ void blur(State& s,const Facts& f,const Services& c,const CombatFacts* combat=nu
  case 4:call(s,c,stop);if(s.body_present)call(s,c,pin);break;
  case 5:if(f.attack_delay)call(s,c,start_timer,std::int32_t(f.attack_delay),0,0x2a);if(s.body_present)call(s,c,pin);break;
  case 12:s.controller_locked=0;if(s.body_present)call(s,c,reset_filter);break;
+ case 13:call(s,c,restore_interaction_rotation);break;
  case 8:if(combat)call(s,c,scare_blur);if(s.body_present)call(s,c,pin);break;
  case 9:if(combat&&combat->controller_present){s.controller_locked=0;call(s,c,controller_lock,0);}if(s.body_present)call(s,c,pin);break;
  case 10:
@@ -74,6 +75,10 @@ void focus(State& s,const Facts& f,int prior,std::uint64_t payload,const Service
   if(s.body_present)call(s,c,set_death_filter,0,0x51c,3);
   call(s,c,cancel_sneaking);call(s,c,disable_state_fx);call(s,c,disable_self_fx);call(s,c,remove_buffs);
   call(s,c,raise_event,0x2a);call(s,c,raise_event,0x2c);call(s,c,raise_event,0x2b);break;
+ case 13:
+  // CSInteract::OnFocus for a non-monster Character: source flags, clear the
+  // current animation, then the existing Character::CancelSneaking path.
+  s.flags=25537;call(s,c,set_animation,-1);call(s,c,cancel_sneaking);break;
  case 2:{
   // CSDespawn::OnFocus saves prior flags, disables animation, then cancels sneaking.
   const auto previous=s.flags;s.flags=512;
@@ -280,7 +285,8 @@ extern "C" int dh2_character_state_event(dh2::character::State* s,const dh2::cha
  // registers 46 and 50009, while CSDead::OnEvent handles only 34; event2 is
  // therefore the source no-op here, not another transition to Dead.
  int next=-1;
- if(event==0xc358&&(s->current==3||s->current==4||s->current==5))next=12;
+ if(event==50003&&(s->current==3||s->current==4))next=13;
+ else if(event==0xc358&&(s->current==3||s->current==4||s->current==5))next=12;
  else if(event==0x2e&&s->current==12)next=2;
  else if(event==0xc354&&(s->current==3||s->current==4)&&!(s->attack_gate&1))next=5;
  else if(event==0xc351&&(s->current==3||(s->current==5&&s->stop_attack_allowed)))next=4;
@@ -402,6 +408,17 @@ extern "C" int dh2_character_spawn_transition(dh2::character::State* s,
  if(!valid_spawn(s,f,sf,c)||(next!=0&&next!=1&&next!=3))return -1;
  return spawn_transition(*s,*f,*sf,next,*c);
 }
+extern "C" int dh2_character_spawn_dead_transition(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::SpawnFacts* sf,
+ std::uint64_t payload,const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_spawn(s,f,sf,c)||s->current!=1)return -1;
+ const int prior=s->current;
+ source_blur(*s,*f,*sf,*c);s->current=12;s->elapsed_ms=0;
+ focus(*s,*f,prior,payload,*c);
+ call(*s,*c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
+ return 1;
+}
 extern "C" int dh2_character_spawn_event(dh2::character::State* s,
  const dh2::character::Facts* f,const dh2::character::SpawnFacts* sf,
  std::uint32_t event,const char* event_name,const dh2::character::Services* c){
@@ -422,6 +439,11 @@ extern "C" int dh2_character_spawn_event(dh2::character::State* s,
  }
  if(s->current==1&&event==0x22)
   return spawn_transition(*s,*f,*sf,3,*c);
+ if(s->current==1&&event==50008){
+  // The legacy public event wrapper has no payload; the Coordinator calls
+  // dh2_character_spawn_dead_transition directly for the real opaque value.
+  return dh2_character_spawn_dead_transition(s,f,sf,0,c);
+ }
  if(s->current==3)
   return dh2_character_state_event(s,f,event,0,c);
  // CSLimbus::OnEvent and CSSpawn::OnEvent have no other source-owned effect.

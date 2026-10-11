@@ -8,6 +8,7 @@ root = Path(__file__).resolve().parents[1]
 test = root / "tests" / "source_level_owner_v1.cpp"
 sources = [test, root / "source_level_owner_v1.cpp",
            root / "object_manager_runtime_owner_v1.cpp",
+           root / "character_oid_cache_v1.cpp",
            root / "level_quick_save_v1.cpp", root / "level_savegame_save_v1.cpp",
            root / "level_savegame_owner_v1.cpp",
            root.parent / "game-data" / "player_save_level_states_v1.cpp"]

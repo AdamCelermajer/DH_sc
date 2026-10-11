@@ -1,5 +1,6 @@
 #include "monster_external_script_session.hpp"
 #include "ais_native_bindings.hpp"
+#include "../adam-script-runtime/script_game_bindings.h"
 
 #include "../adam-script-runtime/script_function_alias.h"
 #include "../lua-numeric/numeric.h"
@@ -12,6 +13,13 @@
 
 namespace dh2::monster_external_script {
 namespace {
+constexpr char projectile_identity_transport[] = R"lua(
+function __dh2_monster_projectile_delayed(callback_name, target, skill_script)
+    return _G[callback_name]({_this = target}, skill_script)
+end
+)lua";
+int discard_projectile_returns(void*,const dh2_script_first_return_v1*,
+                               std::uint32_t,char*,std::size_t){return 0;}
 struct BusyScope {
     bool& busy;
     explicit BusyScope(bool& value) : busy(value) { busy = true; }
@@ -32,11 +40,13 @@ const char* callback_name(Event event) {
         case Event::target_missed: return "OnTargetMissed";
         case Event::animation_end: return "OnEndOfAnim";
         case Event::friend_spotted: return "OnFriendSpotted";
+        case Event::neutral_spotted: return "OnNeutralSpotted";
         case Event::master_out_of_sight: return "OnMasterOutOfSight";
         case Event::master_out_of_range: return "OnMasterOutOfRange";
         case Event::master_in_ranged_range: return "OnMasterInRangedRange";
         case Event::master_in_close_range: return "OnMasterInCloseRange";
         case Event::master_in_melee_range: return "OnMasterInMeleeRange";
+        case Event::terminate: return "OnTerminate";
     }
     return nullptr;
 }
@@ -74,10 +84,15 @@ struct Session::Impl {
                      bit_not, bit_xor, bit_and, bit_or, py_oid, position,
                      host_level, host_difficulty, level_range, level_set, stop,
                      attack, register_summon, play_sound, stop_sound, master_exists,
-                     master_set, clear_target, warp_behind, unsupported };
+                     master_set, clear_target, warp_behind, skill_combat_roll,
+                     spawn_skill_projectile, set_projectile_target,
+                     create_buff, remove_buff, apply_buff, set_skill_cooldown,
+                     set_spell_cooldown, start_timer, stop_timer,
+                     unsupported };
     struct Binding { Impl* session; Operation operation; const char* name; };
-    static constexpr std::size_t max_bindings = 52;
+    static constexpr std::size_t max_bindings = 64;
     Services services;
+    dh2_script_game_bindings timer_bindings{};
     dh2_script_vm* vm = nullptr;
     dh2_script_aliases* aliases = nullptr;
     Binding bindings[max_bindings]{};
@@ -90,10 +105,30 @@ struct Session::Impl {
     std::uint32_t object_table_arguments = 0;
     bool faulted = false;
     Stage stage = Stage::empty;
+    bool projectile_identity_transport_loaded = false;
     std::shared_ptr<void> service_lifetime;
     lua_script_load_once::State resolved_loads;
 
-    explicit Impl(const Services& value) : services(value) {}
+    explicit Impl(const Services& value) : services(value) {
+        timer_bindings = {this, services.owner, timer_start_bridge,
+                          timer_stop_bridge, 0};
+    }
+    static std::int32_t timer_start_bridge(void* raw,std::uintptr_t owner,
+            std::uint32_t duration,std::int32_t repeat,std::int32_t event,
+            std::uintptr_t user_ref) {
+        if (!raw) return -1;
+        auto& self=*static_cast<Impl*>(raw);
+        return self.services.start_timer
+            ? self.services.start_timer(self.services.context,owner,duration,
+                repeat,event,user_ref) : -1;
+    }
+    static void timer_stop_bridge(void* raw,std::uintptr_t owner,
+            std::uint32_t timer_id) {
+        if (!raw) return;
+        auto& self=*static_cast<Impl*>(raw);
+        if (self.services.stop_timer)
+            self.services.stop_timer(self.services.context,owner,timer_id);
+    }
     ~Impl() {
         // VM closures borrow Binding and aliases; close them before the map.
         dh2_script_vm_destroy(vm);
@@ -170,6 +205,62 @@ struct Session::Impl {
                 output[0].boolean = value;
                 *returned = 1;
                 return 0;
+            }
+            if (binding.operation == skill_combat_roll) {
+                if (!services.skill_combat_roll)
+                    return reject(error, error_capacity,
+                        "Character SkillCombatRoll provider missing");
+                return services.skill_combat_roll(services.context, services.owner,
+                    arguments, count, output, capacity, returned, error,
+                    error_capacity);
+            }
+            if (binding.operation == spawn_skill_projectile ||
+                binding.operation == set_projectile_target) {
+                const auto callback = binding.operation == spawn_skill_projectile
+                    ? services.spawn_skill_projectile : services.set_projectile_target;
+                if (!callback)
+                    return reject(error, error_capacity,
+                        binding.operation == spawn_skill_projectile
+                            ? "Character SpawnSkillProjectile provider missing"
+                            : "Character SetProjectileTarget provider missing");
+                return callback(services.context, services.owner, arguments,
+                    count, output, capacity, returned, error, error_capacity);
+            }
+            if (binding.operation == create_buff || binding.operation == remove_buff ||
+                binding.operation == apply_buff || binding.operation == set_skill_cooldown ||
+                binding.operation == set_spell_cooldown) {
+                const auto callback = binding.operation == create_buff ? services.create_buff :
+                    binding.operation == remove_buff ? services.remove_buff :
+                    binding.operation == apply_buff ? services.apply_buff :
+                    binding.operation == set_skill_cooldown ? services.set_skill_cooldown :
+                    services.set_spell_cooldown;
+                if (!callback) {
+                    const char* name = binding.operation == create_buff ? "CreateBuff" :
+                        binding.operation == remove_buff ? "RemoveBuff" :
+                        binding.operation == apply_buff ? "ApplyBuff" :
+                        binding.operation == set_skill_cooldown ? "SetSkillCooldownTimerId__" :
+                        "SetSpellCooldownTimerId__";
+                    char message[128];
+                    std::snprintf(message, sizeof(message),
+                        "Character %s provider missing", name);
+                    return reject(error, error_capacity, message);
+                }
+                return callback(services.context, services.owner, arguments, count,
+                    output, capacity, returned, error, error_capacity);
+            }
+            if (binding.operation == start_timer) {
+                if (!services.start_timer)
+                    return reject(error,error_capacity,
+                                  "Character StartTimer provider missing");
+                return dh2_script_game_start_timer(&binding.session->timer_bindings,
+                    arguments,count,output,capacity,returned,error,error_capacity);
+            }
+            if (binding.operation == stop_timer) {
+                if (!services.stop_timer)
+                    return reject(error,error_capacity,
+                                  "Character StopTimer provider missing");
+                return dh2_script_game_stop_timer(&binding.session->timer_bindings,
+                    arguments,count,output,capacity,returned,error,error_capacity);
             }
             if (binding.operation == master_set || binding.operation == warp_behind) {
                 // The original follower passes GameObject userdata for both
@@ -500,7 +591,17 @@ struct Session::Impl {
             bind_extra("HasMaster", master_exists) &&
             bind_extra("SetMaster", master_set) &&
             bind_extra("ClearTarget", clear_target) &&
-            bind_extra("WarpBehind", warp_behind);
+            bind_extra("WarpBehind", warp_behind) &&
+            bind_extra("SkillCombatRoll__", skill_combat_roll) &&
+            bind_extra("SpawnSkillProjectile__", spawn_skill_projectile) &&
+            bind_extra("SetProjectileTarget", set_projectile_target) &&
+            bind_extra("CreateBuff", create_buff) &&
+            bind_extra("RemoveBuff", remove_buff) &&
+            bind_extra("ApplyBuff", apply_buff) &&
+            bind_extra("SetSkillCooldownTimerId__", set_skill_cooldown) &&
+            bind_extra("SetSpellCooldownTimerId__", set_spell_cooldown) &&
+            bind_extra("StartTimer", start_timer) &&
+            bind_extra("StopTimer", stop_timer);
     }
 
     bool bind_functions() {
@@ -741,7 +842,8 @@ Status Session::dispatch(Event event, std::uintptr_t enemy, std::string& error) 
         error = "combat callback requires attacker and defender identities";
         return Status::invalid_argument;
     }
-    if ((event == Event::enemy_spotted || event == Event::friend_spotted) && enemy == 0) {
+    if ((event == Event::enemy_spotted || event == Event::friend_spotted ||
+         event == Event::neutral_spotted) && enemy == 0) {
         error = "spotted Character identity missing";
         return Status::invalid_argument;
     }
@@ -749,7 +851,7 @@ Status Session::dispatch(Event event, std::uintptr_t enemy, std::string& error) 
     BusyScope scope(busy_);
     int status = 0;
     if (event == Event::enemy_spotted || event == Event::friend_spotted ||
-        event == Event::died) {
+        event == Event::neutral_spotted || event == Event::died) {
         // These source AIS callbacks receive one GameObject userdata.
         // OnDied's argument is the killer passed to AISExternal::OnDied.
         const char* resolved = dh2_script_alias_resolve(impl_->aliases, requested);
@@ -817,6 +919,36 @@ Status Session::dispatch_combat_result(Event event, std::uintptr_t attacker,
     return Status::complete;
 }
 
+Status Session::dispatch_animation_event(const char* event_name,
+                                        std::uint32_t step_index,
+                                        std::string& error) {
+    if (busy_) { error = "monster session busy"; return Status::busy; }
+    if (!event_name || !*event_name || std::strlen(event_name) > 255) {
+        error = "invalid AISDefault animation event name";
+        return Status::invalid_argument;
+    }
+    if (!ready()) { error = "monster session not ready"; return Status::not_ready; }
+    dh2_script_value arguments[2]{};
+    arguments[0].type = DH2_SCRIPT_STRING;
+    arguments[0].text = event_name;
+    arguments[0].text_bytes = std::strlen(event_name);
+    arguments[1].type = DH2_SCRIPT_NUMBER;
+    arguments[1].number = static_cast<float>(step_index);
+    BusyScope scope(busy_);
+    const int status = dh2_script_alias_call_discard_source(
+        impl_->vm, impl_->aliases, "OnAnimEvent", arguments, 2);
+    if (status != 0) {
+        ++impl_->failed;
+        impl_->faulted = true;
+        error = dh2_script_vm_error(impl_->vm);
+        if (error.empty()) error = "AISDefault OnAnimEvent Lua callback failed";
+        return Status::script_error;
+    }
+    ++impl_->completed;
+    error.clear();
+    return Status::complete;
+}
+
 int Session::call_all(const char* name, const dh2_script_value* arguments,
                       std::uint32_t count,
                       dh2_script_returns_observer_v1 observer, void* context,
@@ -839,6 +971,75 @@ int Session::call_all(const char* name, const dh2_script_value* arguments,
     if (status == -5 && error.empty())
         error = "required monster native service failure caught by Lua";
     return status;
+}
+
+int Session::call_projectile_skill(const char* callback_name,
+        const dh2_script_value* set_skill_arguments,std::uint32_t count,
+        std::uintptr_t target_identity,std::uintptr_t projectile_identity,
+        dh2_script_returns_observer_v1 observer,void* context,
+        std::string& error) {
+    if(busy_) {error="monster session busy";return -1;}
+    if(!ready() || !set_skill_arguments || count!=2 || !target_identity ||
+       !projectile_identity || !callback_name || !observer ||
+       (std::strcmp(callback_name,"OnDelayedSkill")!=0 &&
+        std::strcmp(callback_name,"OnDelayedSkillCheck")!=0) ||
+       set_skill_arguments[0].type!=DH2_SCRIPT_STRING ||
+       !set_skill_arguments[0].text ||
+       set_skill_arguments[1].type!=DH2_SCRIPT_NUMBER) {
+        error="invalid same-VM Monster projectile skill callback request";return -1;
+    }
+    const char* set_skill_alias=dh2_script_alias_resolve(impl_->aliases,"SetSkill");
+    if(!set_skill_alias) {
+        error="Monster projectile SetSkill alias is absent";return -1;
+    }
+    BusyScope scope(busy_);
+    try {
+        const std::string set_skill_name(set_skill_alias);
+        const auto discard=dh2_script_vm_call_all_source_v1(
+            impl_->vm,set_skill_name.c_str(),set_skill_arguments,count,
+            discard_projectile_returns,nullptr);
+        error=dh2_script_vm_error(impl_->vm);
+        // SetSkill ReturnValues are erased before the delayed call; only its
+        // error flag suppresses that later call in the original callback.
+        if(discard!=0) {
+            if(discard==-5 && error.empty())
+                error="required Monster SetSkill service failure caught by Lua";
+            return discard;
+        }
+        // The source calls LuaScript::Call twice, resolving each alias as it
+        // reaches that call; preserve SetSkill's alias-table side effects.
+        const char* delayed_alias=dh2_script_alias_resolve(impl_->aliases,callback_name);
+        if(!delayed_alias) {
+            error="Monster delayed projectile callback alias is absent";return -1;
+        }
+        const std::string delayed_name(delayed_alias);
+        if(!impl_->projectile_identity_transport_loaded) {
+            const int loaded=dh2_script_vm_load(impl_->vm,projectile_identity_transport,
+                sizeof(projectile_identity_transport)-1,
+                "monster-projectile-identity-transport");
+            if(loaded) {
+                error=dh2_script_vm_error(impl_->vm);
+                if(error.empty())error="Monster projectile identity transport load failed";
+                return loaded;
+            }
+            impl_->projectile_identity_transport_loaded=true;
+        }
+        dh2_script_value arguments[3]{};
+        arguments[0].type=DH2_SCRIPT_STRING;
+        arguments[0].text=delayed_name.c_str();
+        arguments[0].text_bytes=delayed_name.size();
+        arguments[1].type=DH2_SCRIPT_IDENTITY;arguments[1].identity=target_identity;
+        arguments[2].type=DH2_SCRIPT_IDENTITY;arguments[2].identity=projectile_identity;
+        const auto delayed=dh2_script_vm_call_all_source_v1(impl_->vm,
+            "__dh2_monster_projectile_delayed",arguments,3,
+            observer,context);
+        error=dh2_script_vm_error(impl_->vm);
+        if(delayed==-5 && error.empty())
+            error="required Monster delayed projectile service failure caught by Lua";
+        return delayed;
+    } catch(...) {
+        error="Monster projectile callback dependency exception";return -1;
+    }
 }
 
 Status Session::call_state(const CurrentState* projection, bool conditions, std::string& error) {
@@ -911,6 +1112,7 @@ Status Session::reset(std::string& error) {
 }
 
 bool Session::ready() const noexcept { return impl_ && !impl_->faulted && impl_->stage == Stage::external_loaded; }
+bool Session::has_source_lua_script() const noexcept { return impl_ && impl_->vm != nullptr; }
 Stage Session::stage() const noexcept { return impl_ ? impl_->stage : Stage::empty; }
 std::uintptr_t Session::vm_identity() const noexcept {
     return impl_ ? reinterpret_cast<std::uintptr_t>(impl_->vm) : 0;
@@ -930,7 +1132,17 @@ bool Session::uses_services(const Services& services) const noexcept {
         own.get_current_level_range == services.get_current_level_range && own.set_level == services.set_level &&
         own.stop == services.stop && own.attack == services.attack &&
         own.current_level_oid_cache == services.current_level_oid_cache &&
-        own.play_sound == services.play_sound && own.stop_sound == services.stop_sound;
+        own.play_sound == services.play_sound && own.stop_sound == services.stop_sound &&
+        own.has_master == services.has_master && own.set_master == services.set_master &&
+        own.clear_target == services.clear_target && own.warp_behind == services.warp_behind &&
+        own.skill_combat_roll == services.skill_combat_roll &&
+        own.spawn_skill_projectile == services.spawn_skill_projectile &&
+        own.set_projectile_target == services.set_projectile_target &&
+        own.create_buff == services.create_buff && own.remove_buff == services.remove_buff &&
+        own.apply_buff == services.apply_buff &&
+        own.set_skill_cooldown == services.set_skill_cooldown &&
+        own.set_spell_cooldown == services.set_spell_cooldown &&
+        own.start_timer == services.start_timer && own.stop_timer == services.stop_timer;
 }
 const char* Session::source_alias(Event event) const noexcept {
     const char* requested = callback_name(event);

@@ -95,17 +95,28 @@ struct AnimFXSetPlayback {
     const void* parent_set_data_token{};
 };
 
+// Keep the renderer's missing optional EffectDict asset outcome distinct from
+// malformed resource/backend failures. The manager maps source_no_launch to
+// the source null-handle/no-effect path without allocating a pool slot.
+enum class CreateResult : std::uint8_t { created, source_no_launch, failed };
+
+// True only for the renderer's exact missing actor asset diagnostic for this
+// selected EffectDict path; texture misses and other path failures do not match.
+bool exact_missing_effect_dict_asset(std::string_view diagnostic,
+                                     std::string_view source_path) noexcept;
+
 bool load_catalog(Bytes effect_array, Bytes effect_names, Bytes effect_fields,
                   Bytes effect_dictionary, Bytes dictionary_names,
                   Catalog& output, std::string& error);
 
 struct Backend {
     void* context{};
-    // create must construct and load the engine's AnimatedFX for this exact
-    // EffectDict row/path. It must not return success without an instance.
-    bool (*create)(void*, std::int32_t effect_dict_id,
-                   std::string_view source_path, void** instance,
-                   std::string& error){};
+    // A found asset produces a loaded instance. A missing optional source
+    // EffectDict is source_no_launch and produces no instance; malformed BDAE
+    // or backend problems are failed.
+    CreateResult (*create)(void*, std::int32_t effect_dict_id,
+                           std::string_view source_path, void** instance,
+                           std::string& error){};
     void (*destroy)(void*, void* instance){};
     // Starts one source step on the already loaded instance. Owner selects
     // and allocates the EffectDict pool entry for step_index.
@@ -155,12 +166,29 @@ struct Backend {
                                    const EffectSequence& sequence,
                                    const AnimFXSetPlayback& playback,
                                    std::string& error){};
+    // CharProperties::PROPS_AddBuff obtains AnimatedFX::GetAnimController
+    // from the same pooled instance and invokes its numeric PlayClip method.
+    // A missing controller is a source null result; controller tokens remain
+    // owned by the corresponding AnimatedFX allocation.
+    bool (*get_anim_controller)(void*, void* instance, void** controller,
+                                std::string& error){};
+    // Source AnimController::PlayClip(index, enabled, 0, 0). The trailing
+    // source arguments are fixed by PROPS_AddBuff's callsite.
+    bool (*play_anim_controller_clip)(void*, void* controller,
+                                      std::uint32_t clip_index, bool enabled,
+                                      std::string& error){};
+    // Source Character::Update binds the target-circle AnimatedFX to an
+    // arbitrary GameObject projection. Appended to preserve existing backend
+    // aggregate initialization and never reinterpret the object as Character.
+    bool (*bind_target_object)(void*, void* instance, void* object,
+                               std::string& error){};
 };
 
 enum class Status : std::uint8_t {
     ok, invalid_request, catalog_missing, backend_missing, load_failed,
     start_failed, pool_exhausted, stale_instance, lifecycle_failed,
-    allocation_failed, unsupported_sequence
+    allocation_failed, unsupported_sequence,
+    source_no_launch // internal start result; public source calls normalize to null/ok
 };
 
 struct PoolSnapshot {
@@ -218,19 +246,24 @@ public:
     // manager returned it to a free pool. DropAnimatedFX separately requires
     // active membership; these direct source object operations do not.
     Status BindCharacter(void* instance, void* character, std::string& error);
+    Status BindTargetObject(void* instance, void* object, std::string& error);
     Status BindAnimatorCharacter(void* instance, void* character,
                                  std::string& error);
     Status SyncIrrData(void* instance, bool force, std::string& error);
     Status SetVisible(void* instance, bool visible, std::string& error);
     Status ResumeAnimator(void* instance, std::string& error);
+    Status GetAnimController(void* instance, void** controller,
+                             std::string& error);
+    Status PlayAnimControllerClip(void* controller, std::uint32_t clip_index,
+                                  bool enabled, std::string& error);
     Status Update(std::string& error);
     Status Render(std::string& error);
     // Objective+0x28 is the single persistent handle slot. Install invokes
     // source RemoveObjectiveMarker on any prior handle (detach/hide but keep
     // it owned), then overwrites the slot with the new GrabAnimFX result before
     // applying the source marker attachment sequence. Source pool exhaustion
-    // is an actual null Grab result and therefore clears Objective+0x28;
-    // missing backend/catalog errors do not pretend a source Grab occurred.
+    // or an unavailable optional EffectDict yields a null Grab and clears
+    // Objective+0x28; malformed resource/backend errors remain visible.
     // Remove deliberately leaves the retained slot untouched.
     Status InstallObjectiveMarker(std::uintptr_t* objective_fx_slot,
                                   std::int32_t effect_table_id,
@@ -255,7 +288,9 @@ private:
         std::int32_t sequence_loops_remaining{};
         void* source_game_object{};
         void* target_character{};
+        void* target_object{};
         void* animator_character{};
+        void* anim_controller{};
         const SetData* set_data{};
         bool active{};
     };
@@ -269,6 +304,7 @@ private:
                                bool random_set_entry,
                                void* source_game_object,
                                void* target_character,
+                               void* target_object,
                                void* animator_character,
                                void** output,
                                std::string& error,

@@ -87,6 +87,16 @@ class Coordinator {
     // Source CharStateMachine+0x44 overlaps Character+0x528. Keep this raw
     // persistent word on the one Coordinator; CombatFacts only borrow a copy.
     std::uint32_t source_machine_flags_44_528_ = 0;
+    // Canonical source CharStateMachine fields used by SM_SetDeadState. The
+    // death sequence itself is State.animation_override (+0x28); these retain
+    // the neighboring +0x38 despawn sequence and +0x3e dead byte on this same
+    // Coordinator instead of creating a parallel machine owner.
+    std::int32_t source_despawn_animation_38_ = 0;
+    std::uint8_t source_dead_byte_3e_ = 0;
+    // SM_SetInteractState's requested row (+0x48) is retained on this same
+    // Character Coordinator so registered event34 can select its source next
+    // state without borrowing an animation label or a second FSM owner.
+    std::int32_t source_interaction_row_48_ = -1;
     // Character::RegisterState populates the one source CharStateMachine with
     // IDs 0..19. The native dispatcher is shared, but each registered source
     // state retains its handler token on this same Coordinator owner.
@@ -140,6 +150,24 @@ public:
     void set_source_machine_flags_44_528(std::uint32_t value) noexcept {
         source_machine_flags_44_528_ = value;
     }
+    std::int32_t source_despawn_animation_38() const noexcept {
+        return source_despawn_animation_38_;
+    }
+    void set_source_despawn_animation_38(std::int32_t value) noexcept {
+        source_despawn_animation_38_ = value;
+    }
+    std::uint8_t source_dead_byte_3e() const noexcept {
+        return source_dead_byte_3e_;
+    }
+    void set_source_dead_byte_3e(std::uint8_t value) noexcept {
+        source_dead_byte_3e_ = value;
+    }
+    std::int32_t source_interaction_row_48() const noexcept {
+        return source_interaction_row_48_;
+    }
+    void set_source_interaction_row_48(std::int32_t value) noexcept {
+        source_interaction_row_48_ = value;
+    }
     bool register_source_state(std::uintptr_t character, std::uint32_t state,
                                std::uintptr_t handler) noexcept;
     bool unregister_source_state(std::uintptr_t character, std::uint32_t state,
@@ -158,8 +186,15 @@ public:
     // In CSSkill state6, event0x28 payload is the source NUL-terminated label
     // pointer; other events retain their ordinary opaque payload semantics.
     int event(std::uint32_t event, std::uint64_t payload = 0);
+    // CharStateMachine::RaiseStateEvent(50008,payload), bypassing Character's
+    // RaiseEvent/CharAI routing and the source-spawn timer/script shortcut.
+    int raise_dead_state_event_50008(std::uint64_t payload = 0);
     int transition(std::int32_t next, std::int32_t event = 0,
                    std::uint64_t payload = 0);
+    // Source CharStateMachine::SM_SetIdleState(bool): store the existing
+    // machine idle-suppression byte, then run the ordinary _SetState(3,-1,0)
+    // transition on this same Coordinator.
+    int set_idle_state(bool suppressed);
     int spawn_transition(std::int32_t next);
     int spawn_event(std::uint32_t event, const char* exact_event_name = nullptr);
     int update_state(std::uint32_t dt_ms);

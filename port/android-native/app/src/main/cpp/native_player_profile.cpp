@@ -702,6 +702,34 @@ bool Transport::save_gameplay(std::string& error){
  }
  return save_gameplay(providers,error);
 }
+bool Transport::load_checkpoint_quests(
+ const std::vector<std::uint8_t>& image,std::string& error){
+ auto& state=*impl_;
+ if(state.active||!state.input||state.save.slot()<0||!state.profile.identity||
+    state.profile.identity!=reinterpret_cast<std::uintptr_t>(state.input.get())||
+    state.profile.owner.get()!=state.input.get()||!state.profile.campaign||
+    state.input->slot!=state.save.slot()||!state.bindings.quests||
+    !state.bindings.quests->owns_save(&state.save)){
+  error="checkpoint QEST load requires this active canonical Save/profile/Quest owner";
+  return false;
+ }
+ data::PlayerProfileIndexV1 checkpoint_index;
+ if(!checkpoint_index.load({image.data(),image.size()},error))return false;
+ const auto campaign=state.profile.campaign;
+ struct RestoreCampaign {
+  data::PlayerSaveProfileV1& profile;
+  data::PlayerProfileIndexV1::Borrow campaign;
+  ~RestoreCampaign(){profile.campaign=std::move(campaign);}
+ } restore{state.profile,campaign};
+ state.profile.campaign=checkpoint_index.borrow();
+ // This is the authored PlayerSavegame::SG_LoadCheckpoint(16) route: the
+ // same LoadOwner initializes both quest logs and dispatches only QEST from
+ // the temporary checkpoint image. No parallel Save/Quest owner is created.
+ if(!loader_->load(16,error))return false;
+ state.refresh();
+ error.clear();
+ return true;
+}
 data::PlayerSaveLoadOwnerV1& Transport::loader()noexcept{return *loader_;}
 const Receipt& Transport::receipt()const noexcept{impl_->refresh();return impl_->receipt;}
 

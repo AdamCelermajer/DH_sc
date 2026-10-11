@@ -19,6 +19,7 @@ extern "C" {
 #include "authored_gameplay_hud_v1.hpp"
 #include "gameplay_hud_usable_refresh_v1.hpp"
 #include "deferred_hud_refresh_v1.hpp"
+#include "deferred_hud_skills_refresh_v1.hpp"
 #include "gameplay_menu_stack_v1.hpp"
 #include "authored_joystick_v1.hpp"
 #include "authored_hud_edge_layout_v6.hpp"
@@ -43,9 +44,13 @@ extern "C" {
 #include "swf_menu_launch_v1.hpp"
 #include "../../../../../engine-ui/fscommand_continue_v1.hpp"
 #include "merchant_item_details_gate_v1.hpp"
+#include "../../../../../engine-ui/source_dialog_message_queue_v1.hpp"
+#include "../../../../../engine-ui/source_status_message_queue_v1.hpp"
+#include "../../../../../engine-ui/source_char_menu_tutorial_queue_v1.hpp"
 #include "../../../../../engine-ui/skill_equip_callback_v1.hpp"
 #include "font_palette_projection_v1.hpp"
 #include "skill_train_callback_v1.hpp"
+#include "skill_details_preview_v1.hpp"
 #include "character_menu_reload_v1.hpp"
 #include "model_renderer.hpp"
 #include "native_quest_owner.hpp"
@@ -100,6 +105,20 @@ struct OriginalUiSession::Impl {
     std::string directory,font_failure,provider_failure;
     std::array<std::vector<std::uint8_t>,4> constant_bytes;
     std::array<dh2_pycst_view,4> constants{};
+    std::vector<std::uint8_t> dialog_constant_bytes;
+    dh2_pycst_view dialog_constants{};
+    std::vector<std::int32_t> dialog_actor_name_ids;
+    struct SourceDialogStepV1 {
+        std::int32_t style=-1;
+        std::int32_t actor=-1;
+        std::int32_t text=-1;
+        std::int32_t title=-1;
+    };
+    std::vector<std::vector<SourceDialogStepV1>> source_dialog_table;
+    bool source_dialog_table_loaded=false;
+    ui::SourceDialogMessageQueueV1 source_dialog_messages;
+    ui::SourceStatusMessageQueueV1 source_status_messages;
+    ui::SourceCharMenuTutorialQueueV1 source_char_menu_tutorial_messages;
     std::vector<std::uint8_t> font_palette_bytes;
     ui::Localization localization;
     const dh2::data::ItemTable* item_text_items{};
@@ -149,6 +168,9 @@ struct OriginalUiSession::Impl {
     // The authored NativeBackToHud callback returns to the HUD from any menu
     // depth; Android system Back instead dismisses one nested overlay first.
     bool gameplay_native_back_to_hud_pending=false;
+    // NativeReviveAllPlayers mutates the level and runs menu transitions. Defer
+    // its work until the active GameSWF input dispatch has released its core.
+    bool gameplay_native_revive_pending=false;
     // NativeGoToMainMenu tears down the source Level and Players. Defer that
     // operation until the current authored HUD click has returned.
     dh2::native::GameplayMainMenuRequestV1 gameplay_main_menu_request;
@@ -159,6 +181,7 @@ struct OriginalUiSession::Impl {
     ui::HudManagerState gameplay_enemy_hud_state{};
     std::uintptr_t gameplay_enemy_hud_player_identity{};
     ui::GameplayHudUsableRefreshV1 gameplay_hud_usable_refresh;
+    ui::DeferredHudSkillsRefreshV1 gameplay_hud_skills_refresh;
     bool gameplay_hud_projection_warned=false;
     bool inventory_callback_probe_logged=false;
     std::uintptr_t gameplay_character_button{};
@@ -176,7 +199,7 @@ struct OriginalUiSession::Impl {
                name=="menu_InventorySheetDetails"||name=="menu_SkillTreeSheetNew"||
                name=="menu_FaerySheet"||name=="menu_QuestLogSheetNEW"||
                name=="menu_MapSheet"||name=="menu_Specialisation"||
-               name=="menu_Merchant"||name=="menu_MultiplayerLobbyMulti"||
+               name=="menu_Merchant"||name=="menu_Loading"||name=="menu_MultiplayerLobbyMulti"||
                name=="menu_FriendInvitationMulti"||name=="menu_confirm2";
     }
     static bool gameplay_menu_state(const std::string& name){
@@ -417,6 +440,24 @@ struct OriginalUiSession::Impl {
     bool debug_query(const char* key,std::string& error) {
         if(!runtime.debug_query){error="Canonical DebugSwitches query provider unavailable";return false;}
         return runtime.debug_query(runtime.context,key,error);
+    }
+    bool quest_journal_predicate(dh2::native::ui::QuestJournalPredicateV1& policy,
+                                 std::string& error) {
+        // Native GetQuestFunctor loads and reads these switches for each
+        // journal query. Read through the one process-wide DebugSwitches
+        // owner already used by the authored UI and gameplay callbacks.
+        bool display_all_non_debug=false,display_debug_only=false;
+        if(!model_renderer::menu_debug_load(manager,error)||
+           !model_renderer::menu_debug_switch_value(manager,
+                "DisplayAllQuestInLog",display_all_non_debug,error))return false;
+        if(!display_all_non_debug&&
+           !model_renderer::menu_debug_switch_value(manager,
+                "DisplayAllDebugOnlyQuestInLog",display_debug_only,error))return false;
+        std::uint32_t debug_priority=0;
+        if(!constant(this,"v2QuestPriority","Debug",debug_priority,error))return false;
+        policy={display_all_non_debug,display_debug_only,
+                static_cast<std::int32_t>(debug_priority)};
+        error.clear();return true;
     }
     static bool localization_debug(void* context,const char* key,std::string& error) {
         auto& self=*static_cast<Impl*>(context);return self.debug_load(error)&&self.debug_query(key,error);
@@ -921,7 +962,8 @@ struct OriginalUiSession::Impl {
         // NativeStartGame has a source state-38 early return. The renderer
         // reports it as a successful no-op with no assigned launch slot.
         if(slot<0)return true;
-        self.launch_requests.push_back({slot,numeric,difficulty});
+        self.launch_requests.push_back({slot,numeric,difficulty,
+            NativeStartGameIntentV1::Kind::start_game,{},0.0});
         __android_log_print(ANDROID_LOG_INFO,tag,"Authored NativeStartGame continuation queued | assigned PlayerInfo slot %d | numeric difficulty %d | requested difficulty %d | deferred until SWF dispatch unwinds",slot,numeric,difficulty);
         return true;
     }
@@ -933,7 +975,8 @@ struct OriginalUiSession::Impl {
     static bool continue_queue_resume(void* context,std::int32_t slot,std::string& error){
         auto& self=*static_cast<Impl*>(context);
         if(slot<0){error="FS_ContinueGame returned an invalid last slot";return false;}
-        self.launch_requests.push_back({slot,false,0});
+        self.launch_requests.push_back({slot,false,0,
+            NativeStartGameIntentV1::Kind::start_game,{},0.0});
         __android_log_print(ANDROID_LOG_INFO,tag,
             "Authored FS_ContinueGame queued | canonical last slot %d | saved level/difficulty resume deferred until SWF dispatch unwinds",slot);
         error.clear();return true;
@@ -944,8 +987,31 @@ struct OriginalUiSession::Impl {
         // SavegameManager+8 is -1. Reuse the already-authored menu state.
         return push_menu(&self,"menu_StartGame",error);
     }
+    static bool stop_source_dialog(Impl& self,std::string& error){
+        if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+           !self.movie){
+            error="Source StopDialog requires the retained gameplay HUD session";
+            return false;
+        }
+        bool start_next=false;
+        if(!self.source_dialog_messages.stop(start_next)){
+            error.clear();return true;
+        }
+        if(start_next&&!self.movie->action_script(&self,invoke_source_dialog_start,error))
+            return false;
+        error.clear();return true;
+    }
     static void fscommand_handler(gameswf::character*,const char* command,const char* argument){
         auto* self=active_fscommand_owner;
+        if(self&&command&&!std::strcmp(command,"StopDialog")&&self->selected&&
+           self->front_screen.empty()&&self->live_player&&self->loaded&&self->movie&&
+           self->input_dispatch_movie==self->movie.get()){
+            std::string error;
+            if(!stop_source_dialog(*self,error))
+                __android_log_print(ANDROID_LOG_ERROR,tag,"Authored StopDialog failed: %s",
+                    error.empty()?"no diagnostic":error.c_str());
+            return;
+        }
         if(!self||!command||std::strcmp(command,"ContinueGame")||
            !self->selected||self->front_screen!="main"||!self->input_dispatch_movie||
            self->input_dispatch_movie!=self->active_menu_movie())return;
@@ -955,6 +1021,18 @@ struct OriginalUiSession::Impl {
         if(!ui::fscommand_continue_game_v1(command,argument,services,error))
             __android_log_print(ANDROID_LOG_ERROR,tag,"Authored FS_ContinueGame failed: %s",
                 error.empty()?"no diagnostic":error.c_str());
+    }
+    static bool invoke_source_dialog_start(void* raw,ui::SwfAsGraph& graph,std::string& error){
+        auto& self=*static_cast<Impl*>(raw);
+        if(!self.movie||!self.live_player||!self.loaded||!self.front_screen.empty()){
+            error="Source StartDialog requires the retained gameplay HUD movie";return false;
+        }
+        ui::SwfAsValue root,result;bool callable=false;
+        if(!graph.root_value(root,error))return false;
+        const std::vector<ui::SwfAsValue> args{ui::SwfAsValue::number(0)};
+        if(!graph.invoke(root,root,"StartDialog",args,result,callable,error))return false;
+        if(!callable){error="Retained gameplay SWF root has no StartDialog callback";return false;}
+        error.clear();return true;
     }
     struct CharacterReloadMenuLookup {Impl* self;std::uintptr_t identity{};};
     struct CharacterReloadPrompt {Impl* self;std::uintptr_t renderer,subject;
@@ -1204,13 +1282,12 @@ struct OriginalUiSession::Impl {
             if(!identity)return true;
             std::vector<model_renderer::UiQuestReadV1> rows;
             if(!model_renderer::ui_player_quest_rows(identity,rows,error))return false;
-            std::uint32_t debug_priority=0;
-            if(!constant(&self,"v2QuestPriority","Debug",debug_priority,error))return false;
             const std::string filter=fn.arg(1).to_xstring();
-            const bool closed=filter=="Closed";
+            dh2::native::ui::QuestJournalPredicateV1 policy{};
+            if(!self.quest_journal_predicate(policy,error))return false;
             const auto count=std::count_if(rows.begin(),rows.end(),[&](const auto& row){
-                return row.priority!=std::int32_t(debug_priority)&&
-                    (closed?row.state>12:(row.state>=6&&row.state<=12));
+                return dh2::native::ui::quest_journal_matches_v1(
+                    row,filter.c_str(),policy);
             });
             if(fn.result)fn.result->set_double(double(count));
             error.clear();return true;
@@ -1246,19 +1323,20 @@ struct OriginalUiSession::Impl {
             if(!identity)return true;
             std::vector<model_renderer::UiQuestReadV1> rows;
             if(!model_renderer::ui_player_quest_rows(identity,rows,error))return false;
-            std::uint32_t debug_priority=0;
-            if(!constant(&self,"v2QuestPriority","Debug",debug_priority,error))return false;
-            const std::string filter=call.predicate;
-            const bool closed=filter=="Closed";
+            const auto source_order=rows;
+            dh2::native::ui::QuestJournalPredicateV1 policy{};
+            if(!self.quest_journal_predicate(policy,error))return false;
             rows.erase(std::remove_if(rows.begin(),rows.end(),[&](const auto& row){
-                return row.priority==std::int32_t(debug_priority)||
-                    (closed?row.state<=12:(row.state<6||row.state>12));
+                return !dh2::native::ui::quest_journal_matches_v1(
+                    row,call.predicate,policy);
             }),rows.end());
             const auto begin=std::size_t(std::max(0,start));
             const auto end=std::min(rows.size(),begin+std::size_t(std::max(0,limit)));
             if(begin<rows.size())rows=std::vector<model_renderer::UiQuestReadV1>(
                 rows.begin()+std::ptrdiff_t(begin),rows.begin()+std::ptrdiff_t(end));
             else rows.clear();
+            if(!rows.empty()&&!model_renderer::ui_player_resolve_current_quest(
+                    identity,source_order,rows,error))return false;
             struct LocalizedQuest {model_renderer::UiQuestReadV1 row;std::string title;};
             std::vector<LocalizedQuest> localized;localized.reserve(rows.size());
             for(const auto& row:rows){
@@ -1336,7 +1414,7 @@ struct OriginalUiSession::Impl {
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeGetWorldMapLocations")){
-            // IDA 0x4535e4: [outputArray, playerIndex]. Preserve FastTravelList
+            // IDA 0x4435e4: [outputArray, playerIndex]. Preserve FastTravelList
             // order and source keys; visibility comes from this difficulty's
             // unlock words in the active Character's canonical Save.
             if(fn.nargs!=2||!fn.arg(0).is_object()||!fn.arg(1).is_number())return true;
@@ -1356,7 +1434,7 @@ struct OriginalUiSession::Impl {
                        !self.localization.string_id(std::uint32_t(row.description_id),
                             self.text_services(),description,error))return false;
                     auto* object=new gameswf::as_object(fn.get_player());
-                    if(!object->set_member("StrIDShift",gameswf::as_value(name.c_str()))||
+                    if(!object->set_member("Name",gameswf::as_value(name.c_str()))||
                        !object->set_member("Importance",gameswf::as_value(row.importance))||
                        !object->set_member("LevelName",gameswf::as_value(row.level_name.c_str()))||
                        !object->set_member("EntryPointId",gameswf::as_value(row.entry_point_id))||
@@ -1374,11 +1452,20 @@ struct OriginalUiSession::Impl {
             // IDA 0x4422b8 saves/quicksaves the live Level and Players, resolves
             // a LevelList row, calls DisplayFastTravel, then enters
             // Application::LoadLevel with the selected entry point, Save slot,
-            // and difficulty. This runtime has no complete live-Level
-            // teardown/load transaction; never mutate Save or fake arrival.
+            // and difficulty. The existing launch request queue delivers the
+            // transaction after this SWF callback stack has unwound.
             if(fn.nargs!=2||!fn.arg(0).is_string()||!fn.arg(1).is_number())return true;
-            error="NativeGoToZone is gated: source Level save/teardown and Application::LoadLevel destination transaction are not connected";
-            return false;
+            NativeStartGameIntentV1 request{};
+            request.kind=NativeStartGameIntentV1::Kind::level_transition;
+            request.destination_name=fn.arg(0).to_string();
+            request.raw_entry_point=fn.arg(1).to_number();
+            if(request.destination_name.empty())return true;
+            self.launch_requests.push_back(std::move(request));
+            __android_log_print(ANDROID_LOG_INFO,tag,
+                "Authored NativeGoToZone queued | %s | raw entry %.9g | deferred until SWF dispatch unwinds",
+                self.launch_requests.back().destination_name.c_str(),
+                self.launch_requests.back().raw_entry_point);
+            error.clear();return true;
         }
         if(!std::strcmp(name,"NativeSetMultitouch")){
             // NativeSetMultitouch writes MenuManager+0x110. The native event
@@ -1510,8 +1597,10 @@ struct OriginalUiSession::Impl {
             return true;
         }
         if(!std::strcmp(name,"NativeInvAutoEquipSlot")){
-            // IDA 0x43da2c calls NativeGetPlayerChar(arg1), then uses arg0
-            // as equipmentSlot; -1 requests a full set: [slot, player].
+            // IDA 0x43da2c calls NativeGetPlayerChar(arg1), then dispatches
+            // Character::EquipSlotAuto(arg0); -1 requests EquipAllSlotsAuto:
+            // [slot, player]. The source slot-auto wrapper refreshes gear
+            // state after sorting candidates; it does not equip a candidate.
             if(fn.nargs!=2||!fn.arg(0).is_number()||!fn.arg(1).is_number())return true;
             std::uintptr_t identity=0;
             if(!local_character(fn.arg(1).to_int(),false,identity))return false;
@@ -1559,15 +1648,18 @@ struct OriginalUiSession::Impl {
         }
         if(!std::strcmp(name,"NativeHUDGetActiveFaery")){
             // 0x44a820 returns the ID directly or fills the optional SWF
-            // record with Id and Upgraded.
-            if((fn.nargs!=1&&fn.nargs!=2)||!fn.arg(0).is_number()||
-               (fn.nargs==2&&!fn.arg(1).is_object()))return true;
+            // record with Id and Upgraded. The source only selects object
+            // output when arg1 is an object; any other two-argument call
+            // still returns the scalar active Faery ID.
+            if((fn.nargs!=1&&fn.nargs!=2)||!fn.arg(0).is_number())return true;
             std::uintptr_t identity=0;
             if(!faery_character(fn.arg(0).to_int(),identity))return false;
             if(!identity)return true;
             std::int32_t id=-1,level=-1;
             if(!model_renderer::ui_player_active_faery(identity,id,level,error))return false;
-            if(fn.nargs==1){if(fn.result)fn.result->set_int(id);return true;}
+            if(fn.nargs==1||!fn.arg(1).is_object()){
+                if(fn.result)fn.result->set_int(id);return true;
+            }
             auto* object=fn.arg(1).to_object();if(!object)return true;
             if(!object->set_member("Id",gameswf::as_value(id))||
                !object->set_member("Upgraded",gameswf::as_value(level>0))){
@@ -1605,34 +1697,107 @@ struct OriginalUiSession::Impl {
             if(!identity)return true;
             if(!model_renderer::ui_player_set_active_faery(
                     identity,std::uint32_t(raw_id),error))return false;
+            // CharacterMenu's Faery buttons update their own preview clip,
+            // but do not refresh the retained HUD's skill buttons. Schedule
+            // its authored onPush after this native dispatch returns so the
+            // HUD reads the just-changed canonical Save.
+            if(self.gameplay_hud&&self.gameplay_hud_bound)
+                self.gameplay_hud_skills_refresh.request();
             // The source callback returns undefined after completing the
             // ChangeFaery and Level placement sequence.
             if(fn.result)fn.result->set_undefined();
             return true;
         }
         if(!std::strcmp(name,"NativeGetCharMenuTutorialMessage")){
-            // 0x44c7a0 yields the native empty sentinel (id -1 and empty
-            // strings) when the char-menu tutorial queue is empty. This port
-            // has no tutorial-message queue owner, so leave the SWF's supplied
-            // output object at that empty/default state and return the source
-            // queue-empty result. The object is written only when a message
-            // exists; do not invent or duplicate the process-wide queue.
             if(fn.nargs!=1||!fn.arg(0).is_object())return true;
+            auto* object=fn.arg(0).to_object();if(!object)return true;
+            ui::SourceCharMenuTutorialQueueV1::Message message;
+            bool found=false;
+            if(!self.source_char_menu_tutorial_messages.front(message,found)){
+                error="Retained CharMenuTutorialMsg queue could not return its front record";return false;
+            }
+            if(found){
+                std::string text;
+                if(!self.ensure_localization_ready(error)||
+                   !self.localization.string_id(static_cast<std::uint32_t>(message.string_id),
+                                                 self.text_services(),text,error))return false;
+                const auto assign=[&](const char* key,const gameswf::as_value& value){
+                    if(object->set_member(key,value))return true;
+                    error=std::string("NativeGetCharMenuTutorialMessage output rejected ")+key;
+                    return false;
+                };
+                if(!assign("TutorialMessage",gameswf::as_value(text.c_str()))||
+                   !assign("TutorialFrame",gameswf::as_value(message.frame.c_str()))||
+                   !assign("TutorialMenu",gameswf::as_value(message.menu.c_str())))return false;
+            }
             if(fn.result)fn.result->set_bool(false);
+            if(fn.result&&found)fn.result->set_bool(true);
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeSkipCharMenuTutorialMessage")){
-            // 0x442838 is a no-op when the native tutorial queue is empty.
-            // The queue is not attached to this reconstruction's menu owner.
+            if(!self.source_char_menu_tutorial_messages.skip_one()){
+                error.clear();return true;
+            }
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeGetNextStatusMessage")){
-            // The authored HUD calls this as (0, false) from onStatusMessage.
-            // The native StatusMsg singleton queue is not attached yet, so
-            // preserve its empty-queue result instead of leaving a registered
-            // SWF native action unresolved. Do not borrow combat-text state.
-            if(fn.nargs!=2||!fn.arg(0).is_number()||!fn.arg(1).is_bool())return true;
-            if(fn.result)fn.result->set_bool(false);
+            // NativeGetNextStatusMessage (IDA 0x43fec4) accepts one numeric
+            // argument and an optional preceding boolean, then returns the
+            // head StatusMsg text. NativeStopMessage("status") owns removal.
+            if((fn.nargs!=1&&fn.nargs!=2)||!fn.arg(0).is_number()||
+               (fn.nargs==2&&!fn.arg(1).is_bool()))return true;
+            std::string message;bool found=false;
+            if(!self.source_status_messages.front(message,found)){
+                error="Retained StatusMsg queue could not return its front text";return false;
+            }
+            if(fn.result&&found)fn.result->set_string(message.c_str());
+            error.clear();return true;
+        }
+        if(!std::strcmp(name,"NativeStopMessage")){
+            // The source StatusMsg::s_SkipFuncName is null; only the queue
+            // pop and next onStatusMessage callback are required here.
+            if(fn.nargs!=1||!fn.arg(0).is_string())return true;
+            if(std::strcmp(fn.arg(0).to_string(),"status"))return true;
+            bool start_next=false;
+            if(!self.source_status_messages.stop(start_next)||!start_next){
+                error.clear();return true;
+            }
+            if(!self.gameplay_hud||!self.gameplay_hud_bound){
+                error="Queued StatusMsg has no retained authored HUD callback";return false;
+            }
+            return self.gameplay_hud->notify_status_message(error);
+        }
+        if(!std::strcmp(name,"NativeStopDialog")){
+            // The authored dqhud.swf dialog advance action calls this native
+            // directly. It is the UI equivalent of MenuBase::FS_StopDialog:
+            // pop one DialogMsg and re-enter the same root StartDialog only
+            // when another queued message remains. WaitDialog observes this
+            // exact queue and resumes on the following LevelVM update.
+            if(fn.nargs!=0)return true;
+            return stop_source_dialog(self,error);
+        }
+        if(!std::strcmp(name,"NativeGetNextDialogMessage")){
+            // MenuManager::Init registers this exact one-object callback.
+            // GetNextEnqueuedMessage peeks (StopDialog owns the pop) and the
+            // SWF consumes these five source field names verbatim.
+            if(fn.nargs!=1||!fn.arg(0).is_object())return true;
+            auto* object=fn.arg(0).to_object();if(!object)return true;
+            ui::SourceDialogMessageQueueV1::Message message;
+            bool found=false;
+            if(!self.source_dialog_messages.front(message,found)){
+                error="Retained DialogMsg queue could not return its front record";return false;
+            }
+            const auto assign=[&](const char* key,const gameswf::as_value& value){
+                if(object->set_member(key,value))return true;
+                error=std::string("NativeGetNextDialogMessage output rejected ")+key;
+                return false;
+            };
+            if(!assign("DialogTitle",gameswf::as_value(message.title.c_str()))||
+               !assign("DialogMessage",gameswf::as_value(message.text.c_str()))||
+               !assign("DialogStyle",gameswf::as_value(found?message.style:-1))||
+               !assign("DialogStyleStr",gameswf::as_value(message.style_name.c_str()))||
+               !assign("DialogActorStr",gameswf::as_value(message.actor_name.c_str())))return false;
+            if(fn.result)fn.result->set_bool(found);
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeInvGetItemDetails")){
@@ -1671,7 +1836,7 @@ struct OriginalUiSession::Impl {
             if(merchant_form){
                 const auto merchant_name=fn.arg(4).to_xstring();
                 if(!model_renderer::ui_source_merchant_item_details(
-                       fn.arg(5).to_int(),merchant_name,fn.arg(0).to_int(),
+                       identity,fn.arg(5).to_int(),merchant_name,fn.arg(0).to_int(),
                        transmute_multiplier,item,error))return false;
             }else if(!model_renderer::ui_player_inventory_item_details(identity,
                     fn.arg(0).to_int(),transmute_multiplier,item,error))return false;
@@ -1694,6 +1859,8 @@ struct OriginalUiSession::Impl {
                !assign("ItemPowers1Desc",gameswf::as_value(powers[1].c_str()))||
                !assign("ItemPowers2Desc",gameswf::as_value(powers[2].c_str()))||
                !assign("ItemPowers3Desc",gameswf::as_value(powers[3].c_str()))||
+               !assign("ItemMagics",gameswf::as_value(
+                   static_cast<int>(item.power_descriptions.size())))||
                !assign("ItemReqsDesc",gameswf::as_value(item.requirements.c_str()))||
                !assign("ItemEquippable",gameswf::as_value(item.equippable))||
                !assign("ItemIcon",gameswf::as_value(item.icon.c_str()))||
@@ -1910,8 +2077,21 @@ struct OriginalUiSession::Impl {
                     self.text_services(),name_text,error)||
                !self.localization.string_id(std::uint32_t(skill.description_text),
                     self.text_services(),description_text,error))return false;
-            const bool skill_level_available=skill.level>=0&&
-                skill.character_level>=skill.required_level;
+            static constexpr const char* skill_cap_keys[]={
+                "MaxSkillLevelBNormal","MaxSkillLevelCHard","MaxSkillLevelDVeryHard"};
+            std::uint32_t cap_bits=0;
+            std::int32_t skill_cap=0;
+            if(skill.character_level>=skill.required_level){
+                if(skill.difficulty<0||skill.difficulty>2){
+                    error="NativeGetSkillDetails unlocked difficulty is outside the source cap table";return false;
+                }
+                if(!constant(&self,"CharacterDesign",skill_cap_keys[skill.difficulty],
+                             cap_bits,error))return false;
+                std::memcpy(&skill_cap,&cap_bits,sizeof(skill_cap));
+            }
+            const auto preview=dh2::ui::skill_detail_preview_v1(
+                skill.character_level,skill.required_level,skill.level,
+                skill_cap,skill.can_increment);
             // NativeGetSkillDetails offsets the rank StringIDs by
             // FaeryTable+8 for FairieDependantText (ELF 0x44615c/0x446244).
             // ui_player_skill resolves that word from the active Save's
@@ -1925,7 +2105,15 @@ struct OriginalUiSession::Impl {
                 result=value;return true;
             };
             std::vector<std::int32_t> current_properties,next_properties;
-            if(skill_level_available){
+            if(!preview.unlocked){
+                std::uint32_t text_id=0;
+                std::string pattern;
+                if(!constant(&self,"StrID","GAMEPLAYMENUS_SKILL_UNLOCK_AT_LEVEL",
+                             text_id,error)||
+                   !self.localization.string_id(text_id,self.text_services(),pattern,error)||
+                   !format_integer_text(self,pattern.c_str(),skill.required_level,
+                                        current_text,error))return false;
+            }else{
                 if(!model_renderer::ui_player_skill_display_properties(identity,
                        std::uint32_t(raw_index),skill.level,current_properties,error))return false;
                 if(skill.level==std::numeric_limits<std::int32_t>::max()){
@@ -1933,7 +2121,13 @@ struct OriginalUiSession::Impl {
                 }
                 if(!model_renderer::ui_player_skill_display_properties(identity,
                        std::uint32_t(raw_index),skill.level+1,next_properties,error))return false;
-                if(skill.level>0){
+                if(preview.current==dh2::ui::SkillDetailCurrentTextV1::needs_skill_points){
+                    std::uint32_t text_id=0;
+                    if(!constant(&self,"StrID","GAMEPLAYMENUS_NEEDS_SKILL_POINTS",
+                                 text_id,error)||
+                       !self.localization.string_id(text_id,self.text_services(),
+                                                   current_text,error))return false;
+                }else if(preview.current==dh2::ui::SkillDetailCurrentTextV1::current_rank){
                     std::uint32_t current_text_id=0;
                     if(skill_rank_text_id(skill.current_text,current_text_id)&&
                        (!self.localization.string_id(current_text_id,
@@ -1941,22 +2135,25 @@ struct OriginalUiSession::Impl {
                         !format_skill_level_text(self,current_text,current_properties,
                             current_text,error)))return false;
                 }
-                static constexpr const char* skill_cap_keys[]={
-                    "MaxSkillLevelBNormal","MaxSkillLevelCHard","MaxSkillLevelDVeryHard"};
-                if(skill.difficulty<0||skill.difficulty>2){
-                    error="NativeGetSkillDetails unlocked difficulty is outside the source cap table";return false;
-                }
-                std::uint32_t cap_bits=0;
-                if(!constant(&self,"CharacterDesign",skill_cap_keys[skill.difficulty],
-                             cap_bits,error))return false;
-                std::int32_t skill_cap=0;std::memcpy(&skill_cap,&cap_bits,sizeof(skill_cap));
-                if(skill.level<skill_cap&&skill.can_increment){
+                if(preview.next==dh2::ui::SkillDetailNextTextV1::next_rank){
                     std::uint32_t next_text_id=0;
                     if(skill_rank_text_id(skill.next_text,next_text_id)&&
                        (!self.localization.string_id(next_text_id,
                             self.text_services(),next_text,error)||
                         !format_skill_level_text(self,next_text,next_properties,
                             next_text,error)))return false;
+                }else if(preview.next==dh2::ui::SkillDetailNextTextV1::maximum_level){
+                    std::uint32_t text_id=0;
+                    if(!constant(&self,"StrID","GAMEPLAYMENUS_MAX_SKILL_LEVEL",
+                                 text_id,error)||
+                       !self.localization.string_id(text_id,self.text_services(),
+                                                   next_text,error))return false;
+                }else if(preview.next==dh2::ui::SkillDetailNextTextV1::training_blocked){
+                    std::uint32_t text_id=0;
+                    if(!constant(&self,"StrID","GAMEPLAYMENUS_SKILL_MAXIMUM_LEVEL_TRAINING",
+                                 text_id,error)||
+                       !self.localization.string_id(text_id,self.text_services(),
+                                                   next_text,error))return false;
                 }
             }
             const auto assign=[&](const char* key,const gameswf::as_value& value){
@@ -1974,7 +2171,7 @@ struct OriginalUiSession::Impl {
                !assign("SkillAssignedToSlot",gameswf::as_value(skill.slot)))return false;
             // The source sets this after both DisplayProps passes, after its
             // character-level gate. Keep it separate from CanIncrementSkill.
-            if(!assign("SkillUnlocked",gameswf::as_value(skill_level_available)))return false;
+            if(!assign("SkillUnlocked",gameswf::as_value(preview.unlocked)))return false;
             if(fn.result)fn.result->set_as_object(object);
             if(!self.talent_detail_callback_logged){
                 self.talent_detail_callback_logged=true;
@@ -2166,11 +2363,18 @@ struct OriginalUiSession::Impl {
             // an unavailable remote player are source no-ops.
             if(fn.nargs!=2||!fn.arg(0).is_number()||!fn.arg(1).is_number())return true;
             const auto raw_stat=fn.arg(1).to_int();
-            if(raw_stat<0||raw_stat>3)return true;
             std::uintptr_t identity=0;
             if(!local_character(fn.arg(0).to_int(),false,identity))return false;
             if(!identity)return true;
-            return model_renderer::ui_player_assign_stat(identity,std::uint32_t(raw_stat),error);
+            // The source callback still clears its return value after the
+            // dispatch switch for an out-of-range stat index. Keep that
+            // harmless default case distinct from a malformed call or a
+            // missing Player, neither of which writes the result.
+            if(raw_stat>=0&&raw_stat<=3&&
+               !model_renderer::ui_player_assign_stat(identity,
+                    std::uint32_t(raw_stat),error))return false;
+            if(fn.result)fn.result->set_undefined();
+            return true;
         }
         if(!std::strcmp(name,"NativeSetCurrentQuest")){
             // dqcharmenu btn_Activate and IDA 0x43d3b4:
@@ -2265,6 +2469,17 @@ struct OriginalUiSession::Impl {
                 self.gameplay_hud_input_reset_pending=true;
             }
             return true;
+        }
+        if(!std::strcmp(name,"NativeReviveAllPlayers")){
+            if(!self.live_player||!self.front_screen.empty()){
+                error="NativeReviveAllPlayers requires the attached gameplay session";return false;
+            }
+            if(fn.nargs!=0){error="NativeReviveAllPlayers takes no authored arguments";return false;}
+            if(!self.runtime.revive_local_players){
+                error="NativeReviveAllPlayers source host is not bound";return false;
+            }
+            self.gameplay_native_revive_pending=true;
+            error.clear();return true;
         }
         if(!std::strcmp(name,"NativeShowStatusBar")){
             // IDA 0x43aa18 converts the authored visibility argument and calls
@@ -2489,6 +2704,10 @@ struct OriginalUiSession::Impl {
             const auto scene=model_renderer::load_menu_background(manager);
             if(scene.find("3D upload OK")!=0){error=scene;return false;}
         }
+        // Source MenuMainMenu::Show calls SetupCharacter after the scene is
+        // ready. Class selection tears down this visual resource, so restore
+        // the retained source-selected slot before the MainMenu SWF is shown.
+        if(next=="menu_MainMenu"&&!model_renderer::restore_menu_preview(error))return false;
         MenuChange hide{this,previous,MenuChangeAction::hide,false},show{this,next,MenuChangeAction::show,pushed};
         if(!menu_movie(previous)->menu_action_script(&hide,change_menu,error)||
            !menu_movie(next)->menu_action_script(&show,change_menu,error))return false;
@@ -2667,6 +2886,36 @@ struct OriginalUiSession::Impl {
             [&](std::string& nested){return self.gameplay_hud->refresh_action_icon(nested);},
             error);
     }
+    static bool flush_deferred_faery_hud_skills(Impl& self,std::string& error){
+        if(!self.gameplay_hud_skills_refresh.pending){error.clear();return true;}
+        if(!self.gameplay_hud||!self.gameplay_hud_bound){
+            // The selected gameplay HUD may have been torn down before the
+            // queued refresh reaches a safe boundary. There is no retained HUD
+            // movie to refresh in that lifetime.
+            self.gameplay_hud_skills_refresh.pending=false;
+            error.clear();return true;
+        }
+        return self.gameplay_hud_skills_refresh.flush(
+            [&](std::string& nested){return self.gameplay_hud->refresh_skills(nested);},
+            error);
+    }
+    static bool flush_deferred_native_revive(Impl& self,std::string& error){
+        if(!self.gameplay_native_revive_pending){error.clear();return true;}
+        if(!self.runtime.revive_local_players){
+            error="NativeReviveAllPlayers source host is not bound";return false;
+        }
+        self.gameplay_native_revive_pending=false;
+        // The source native first removes the authored death fade, then pushes
+        // its return fade, and only then calls PlayerManager::ReviveLocalPlayers.
+        if(!pop_menu(&self,"menu_FadeToBlackScreen",error)||
+           !push_game_menu(&self,"menu_FadeFromBlackScreen",error)){
+            if(error=="SWF core busy"){
+                self.gameplay_native_revive_pending=true;error.clear();return true;
+            }
+            return false;
+        }
+        return self.runtime.revive_local_players(self.runtime.context,error);
+    }
     static bool pop_above_menu(void* context,const char* name,std::string& error){
         auto& self=*static_cast<Impl*>(context);
         if(!name){error="Missing pop-above menu name";return false;}
@@ -2686,9 +2935,13 @@ struct OriginalUiSession::Impl {
     static bool show_main(void*,ui::SwfAsGraph& graph,std::string& error) {
         ui::SwfAsValue root,menu,result;bool callable=false;
         if(!graph.root_value(root,error)||!graph.find_target(root,"menu_MainMenu",menu,error))return false;
+        if(!model_renderer::restore_menu_preview(error))return false;
         if(!graph.invoke(menu,menu,"onShow",{},result,callable,error))return false;
         if(!callable){error="Authored main menu onShow missing";return false;}
-        return true;
+        // The authored onShow may select the retained profile through
+        // NativeSetSaveSlotIDToMainMenu. Recheck afterward, matching the
+        // source Show path without creating a synthetic slot selection.
+        return model_renderer::restore_menu_preview(error);
     }
     static bool verify_native_skill_menu_runtime(void*,ui::SwfAsGraph& graph,std::string& error){
         ui::SwfAsValue global,version;bool found=false;std::string value;
@@ -2775,6 +3028,142 @@ struct OriginalUiSession::Impl {
         localization=std::move(next_localization);
         error.clear();return true;
     }
+    bool ensure_dialog_metadata_ready(std::string& error) {
+        if(dialog_constants.bytes&&!dialog_actor_name_ids.empty()&&
+           source_dialog_table_loaded){
+            error.clear();return true;
+        }
+        std::vector<std::uint8_t> records,names,style_bytes;
+        if(!assets.read("data/pydata/dialogs_pyarray.bin",records,error)||
+           !assets.read("data/pydata/dialogs_pyarraynames.bin",names,error)||
+           !assets.read("data/pydata/dialogs_pycst.bin",style_bytes,error))return false;
+        const auto word=[](const std::vector<std::uint8_t>& bytes,std::size_t at,
+                           std::uint32_t& value)->bool{
+            if(at>bytes.size()||bytes.size()-at<4)return false;
+            value=std::uint32_t(bytes[at])|(std::uint32_t(bytes[at+1])<<8)|
+                  (std::uint32_t(bytes[at+2])<<16)|(std::uint32_t(bytes[at+3])<<24);
+            return true;
+        };
+        std::size_t name_at=0,record_at=0;
+        const auto parse_names=[&](std::vector<std::string>& parsed)->bool{
+            std::uint32_t count=0;
+            if(!word(names,name_at,count)||count>4096)return false;
+            name_at+=4;parsed.clear();parsed.reserve(count);
+            for(std::uint32_t i=0;i<count;++i){
+            std::uint32_t length=0;
+            if(!word(names,name_at,length)||!length||length>256||
+               name_at>names.size()||names.size()-name_at<4||
+               length>names.size()-(name_at+4))return false;
+            name_at+=4;
+            std::string actor(reinterpret_cast<const char*>(names.data()+name_at),length);
+            if(actor.find('\0')!=std::string::npos||
+               std::any_of(actor.begin(),actor.end(),[](unsigned char c){return c<32||c>126;})){
+                return false;
+            }
+            parsed.push_back(std::move(actor));name_at+=length;
+            }
+            return true;
+        };
+        std::vector<std::string> actor_names,dialog_names;
+        if(!parse_names(actor_names)||!parse_names(dialog_names)||name_at!=names.size()){
+            error="Dialogs source name tables are truncated or malformed";return false;
+        }
+        std::uint32_t count=0;
+        if(!word(records,record_at,count)||count!=actor_names.size()||
+           !count||count>4096){error="DialogActors source table dimensions differ";return false;}
+        record_at+=4;
+        std::vector<std::int32_t> actor_ids;actor_ids.reserve(count);
+        for(std::uint32_t i=0;i<count;++i){
+            std::uint32_t frame=0,label_size=0,name_id=0;
+            if(!word(records,record_at,frame)||!word(records,record_at+4,label_size)||
+               label_size>4096||record_at>records.size()||records.size()-record_at<8||
+               label_size>records.size()-(record_at+8)){
+                error="DialogActors source record is truncated";return false;
+            }
+            (void)frame;
+            record_at+=8+label_size;
+            if(!word(records,record_at,name_id)||name_id>std::uint32_t(std::numeric_limits<std::int32_t>::max())){
+                error="DialogActors StringManager ID is outside source range";return false;
+            }
+            actor_ids.push_back(static_cast<std::int32_t>(name_id));record_at+=4;
+        }
+        std::uint32_t dialog_count=0;
+        if(!word(records,record_at,dialog_count)||dialog_count!=dialog_names.size()||
+           dialog_count>4096){error="Dialogs source table dimensions differ";return false;}
+        record_at+=4;
+        std::vector<std::vector<SourceDialogStepV1>> dialog_table;
+        dialog_table.reserve(dialog_count);
+        std::size_t total_steps=0;
+        for(std::uint32_t i=0;i<dialog_count;++i){
+            std::uint32_t steps=0;
+            if(!word(records,record_at,steps)||steps>4096||
+               total_steps>16384-steps){error="Dialogs source step count is invalid";return false;}
+            record_at+=4;total_steps+=steps;
+            if(steps>(records.size()-std::min(record_at,records.size()))/16){
+                error="Dialogs source step list is truncated";return false;
+            }
+            std::vector<SourceDialogStepV1> row;row.reserve(steps);
+            for(std::uint32_t j=0;j<steps;++j){
+                std::uint32_t style=0,actor=0,text=0,title=0;
+                if(!word(records,record_at,style)||!word(records,record_at+4,actor)||
+                   !word(records,record_at+8,text)||!word(records,record_at+12,title)){
+                    error="Dialogs source step is truncated";return false;
+                }
+                row.push_back({static_cast<std::int32_t>(style),
+                    static_cast<std::int32_t>(actor),static_cast<std::int32_t>(text),
+                    static_cast<std::int32_t>(title)});
+                record_at+=16;
+            }
+            dialog_table.push_back(std::move(row));
+        }
+        if(record_at!=records.size()){
+            error="Dialogs source pyarray contains trailing data";return false;
+        }
+        dh2_pycst_view style_view{};
+        if(dh2_pycst_open(&style_view,style_bytes.data(),
+                static_cast<std::uint32_t>(style_bytes.size()))!=0){
+            error="DialogStyles source constants are malformed";return false;
+        }
+        dialog_constant_bytes=std::move(style_bytes);
+        dialog_constants=style_view;
+        dialog_actor_name_ids=std::move(actor_ids);
+        source_dialog_table=std::move(dialog_table);
+        source_dialog_table_loaded=true;
+        error.clear();return true;
+    }
+    bool source_dialog_string(std::int32_t id,std::string& out,std::string& error) {
+        if(id<0){error="Source DialogMsg has a negative StringManager ID";return false;}
+        if(!ensure_localization_ready(error)||
+           !localization.string_id(static_cast<std::uint32_t>(id),text_services(),out,error))return false;
+        std::uintptr_t character=0;
+        if(!player_character(this,character,error))return false;
+        if(!character){error.clear();return true;}
+        std::string name,parsed;
+        if(!player_name(this,character,name,error)||
+           !ui::localization_player(out,name,localization.pack()>=4&&localization.pack()<=6,
+                                    parsed,error))return false;
+        out=std::move(parsed);error.clear();return true;
+    }
+    bool source_dialog_style_name(std::int32_t style,std::string& out,std::string& error) {
+        if(!ensure_dialog_metadata_ready(error))return false;
+        out.clear();
+        std::string first;
+        bool found=false;
+        const auto group="DialogStyles";
+        for(std::uint32_t i=0;i<dialog_constants.entries;++i){
+            dh2_pycst_entry entry{};
+            if(dh2_pycst_entry_at(&dialog_constants,i,&entry)!=0){
+                error="DialogStyles source constant traversal failed";return false;
+            }
+            if(entry.value!=style||entry.group_length!=sizeof("DialogStyles")-1||
+               std::memcmp(dialog_constant_bytes.data()+entry.group_offset,group,entry.group_length))continue;
+            std::string name(reinterpret_cast<const char*>(dialog_constant_bytes.data()+entry.name_offset),
+                             entry.name_length);
+            if(!found||name<first){first=std::move(name);found=true;}
+        }
+        if(found)out=std::move(first);
+        error.clear();return true;
+    }
     bool load(std::string& error) {
         if(!ensure_localization_ready(error))return false;
         const auto front_menu_assets=ui::original_menu_viewport_v1::source_front_menu_assets_v1(driver_width);
@@ -2814,7 +3203,11 @@ struct OriginalUiSession::Impl {
             "NativeSetMultitouch",
             "NativeGetCharMenuTutorialMessage","NativeSkipCharMenuTutorialMessage","NativeGetQuestCount","NativeGetQuestIDsInRange","NativeGetQuestDetails","NativeGetWorldMapLocations","NativeGoToZone","NativeHUDSkill","NativeHUDSpell","NativeHUDGetActiveFaery","NativeHUDGetIsFaeryUnlocked",
             "NativeGetNextStatusMessage",
+            "NativeStopMessage",
+            "NativeStopDialog",
+            "NativeGetNextDialogMessage",
             "NativeHUDSetActiveFaery","NativeMerchantGetItemsListForSlot","NativeMerchantBuyItem","NativeMerchantSellItem",
+            "NativeReviveAllPlayers",
 
             "NativeInvDropItem","NativeInvEquipItem","NativeInvUnequipItem","NativeInvAutoEquipSlot","NativeSwapEquipment","NativeInvGetItemsListForSlot","NativeInvGetItemDetails","NativeInvGetEquipedItem",
             "NativeInvTransmuteItem","NativeInvGetHasOffHandWeapon","NativeInvGetHasTwoHandedWeapon","NativeInvGetPlayerGold",
@@ -2909,6 +3302,7 @@ struct OriginalUiSession::Impl {
         if(!font_failure.empty()){error=font_failure;return false;}
         gameplay_hud=std::make_unique<ui::AuthoredGameplayHudV1>(*movie);
         gameplay_hud_bound=false;gameplay_hud_pointer=-1;gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;
+        gameplay_hud_skills_refresh={};
         // DisplayRightHud performs the original selected-HUD onPush then
         // onShow sequence, including the skill/faery refresh. Do not call
         // refresh_skills() again: it would replay onPush outside that order.
@@ -2990,7 +3384,7 @@ struct OriginalUiSession::Impl {
     }
     bool reset_failed(std::string& error) {
         front_name_input_active.store(false,std::memory_order_release);
-        gpu.abort();gameplay_hud.reset();gameplay_hud_bound=false;gameplay_hud_pointer=-1;gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;authored_joystick={};authored_joystick_ready=false;
+        gpu.abort();gameplay_hud.reset();gameplay_hud_bound=false;gameplay_hud_pointer=-1;gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;gameplay_hud_skills_refresh={};authored_joystick={};authored_joystick_ready=false;
         status.reset();character_menu_movie.reset();shared_menu_movie.reset();movie.reset();
         character_frame_owner.reset();shared_frame_owner.reset();frame_owner.reset();fonts.reset();loaded=false;selected=false;
         last_width=last_height=0;loading_bitmap_reported=false;reported_frames={{-1,-1,-1,-1,-1}};
@@ -3002,10 +3396,11 @@ struct OriginalUiSession::Impl {
         menu_stack.clear();game_menu_stack.clear();
         gameplay_hud_active=true;gameplay_hud_input_reset_pending=false;
         gameplay_back_to_hud_draining_stack=false;
-        gameplay_back_to_hud_pending=false;
+        gameplay_back_to_hud_pending=false;gameplay_native_revive_pending=false;
         gameplay_native_back_to_hud_pending=false;
         gameplay_main_menu_request.reset();
         gameplay_hud_refresh={};
+        source_status_messages.flush();
         gameplay_character_button=0;gameplay_character_button_pressed=false;
         launch_requests.clear();
         launch_delivered=false;
@@ -3034,6 +3429,43 @@ data::ItemTextServicesV5 OriginalUiSession::item_text_services(
 bool OriginalUiSession::consume_launch_request(NativeStartGameIntentV1& request){
     if(impl_->launch_requests.empty())return false;
     request=impl_->launch_requests.front();impl_->launch_requests.pop_front();impl_->launch_delivered=true;return true;
+}
+bool OriginalUiSession::display_fast_travel(bool source_flag,
+        const std::string& level_name,const std::string& repeated_level_name,
+        std::int32_t entry_point,std::string& error) {
+    if(!impl_||!impl_->loaded||!impl_->movie||!impl_->live_player||
+       level_name.empty()||level_name!=repeated_level_name||entry_point<0) {
+        error="DisplayFastTravel requires the retained gameplay HUD and matching source arguments";
+        return false;
+    }
+    struct Call {
+        bool source_flag{};
+        const std::string* name{};
+        std::int32_t entry{};
+    } call{source_flag,&level_name,entry_point};
+    return impl_->movie->menu_action_script(&call,
+        [](void* raw,ui::SwfAsGraph& graph,std::string& nested_error){
+            const auto& call=*static_cast<Call*>(raw);
+            ui::SwfAsValue root,hud,result;bool callable=false;
+            if(!graph.root_value(root,nested_error)||
+               !graph.find_target(root,"_root.menu_HUD_0",hud,nested_error)||
+               !hud.identity()) {
+                if(nested_error.empty())nested_error="Authored gameplay HUD movie is unavailable";
+                return false;
+            }
+            const std::vector<ui::SwfAsValue> args{
+                ui::SwfAsValue::boolean(call.source_flag),
+                ui::SwfAsValue::text(call.name->c_str()),
+                ui::SwfAsValue::text(call.name->c_str()),
+                ui::SwfAsValue::number(call.entry)};
+            if(!graph.invoke(hud,hud,"DisplayFastTravel",args,result,callable,nested_error))
+                return false;
+            if(!callable) {
+                nested_error="Authored gameplay HUD DisplayFastTravel method is absent";
+                return false;
+            }
+            nested_error.clear();return true;
+        },error);
 }
 bool OriginalUiSession::consume_gameplay_main_menu_request() noexcept{
     return impl_&&impl_->gameplay_main_menu_request.consume();
@@ -3138,6 +3570,15 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                     },error);
                     if(!pressed){impl_->gameplay_hud_pointer=-1;return false;}
                 }else{
+                    std::uintptr_t interacted_identity=0;
+                    std::string npc_interaction_error;
+                    const bool npc_interacted=
+                        model_renderer::ui_player_character_interact_target(
+                            interacted_identity,npc_interaction_error);
+                    if(!npc_interaction_error.empty()){
+                        error=std::move(npc_interaction_error);
+                        impl_->gameplay_hud_pointer=-1;return false;
+                    }
                     std::string merchant_name,interaction_error;std::int32_t module_filter=-1;
                     std::uintptr_t merchant_identity=0;
                     if(!model_renderer::ui_player_merchant_interaction_target(
@@ -3171,6 +3612,12 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                         __android_log_print(ANDROID_LOG_INFO,tag,
                             "Source Character::Interact merchant route | identity %zx | module filter %d | name %s | callbacks open then additionals",
                             merchant_identity,module_filter,merchant_name.c_str());
+                        return true;
+                    }
+                    if(npc_interacted){
+                        __android_log_print(ANDROID_LOG_INFO,tag,
+                            "Source Character::Interact NPC route | identity %zx | HUD attack press",
+                            interacted_identity);
                         return true;
                     }
                     const auto response=model_renderer::player_attack(-1);
@@ -3256,6 +3703,10 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     // Flush only after the touch-dispatch lambda returns: its Dispatch RAII
     // guard must restore input_dispatch_movie/frames before DisplayRightHud
     // re-enters the authored SWF.
+    if(succeeded&&impl_->gameplay_native_revive_pending&&
+       !Impl::flush_deferred_native_revive(*impl_,error))return false;
+    if(succeeded&&impl_->gameplay_hud_skills_refresh.pending&&
+       !Impl::flush_deferred_faery_hud_skills(*impl_,error))return false;
     if(succeeded&&(impl_->gameplay_back_to_hud_pending||
        impl_->gameplay_hud_refresh.display_right_hud_pending||
        impl_->gameplay_hud_refresh.fill_action_icon_pending)&&
@@ -3273,6 +3724,45 @@ bool OriginalUiSession::camera_pan_allowed()const noexcept{
 bool OriginalUiSession::back_to_hud(std::string& error){
     return Impl::back_to_hud(impl_.get(),error);
 }
+bool OriginalUiSession::push_source_loading_menu(std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.character_menu_movie){
+        error="Source menu_Loading overlay requires the retained live gameplay UI session";
+        return false;
+    }
+    ui::SwfClipInfo state;
+    if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
+    if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
+    return Impl::push_game_menu(&self,"menu_Loading",error);
+}
+bool OriginalUiSession::pop_source_loading_menu(std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.character_menu_movie){
+        error="Source menu_Loading overlay requires the retained live gameplay UI session";
+        return false;
+    }
+    ui::SwfClipInfo state;
+    if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
+    if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
+    return Impl::pop_menu(&self,"menu_Loading",error);
+}
+bool OriginalUiSession::source_loading_menu_visible(bool& visible,std::string& error){
+    visible=false;
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.character_menu_movie){
+        error="Source menu_Loading visibility requires the retained live gameplay UI session";
+        return false;
+    }
+    ui::SwfClipInfo state;
+    if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
+    if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
+    // MenuBase::IsVisible reads the actual source +0x74 visibility byte.
+    visible=state.visible;
+    error.clear();return true;
+}
 bool OriginalUiSession::close_source_hud(std::string& error){
     if(!impl_||!impl_->selected||!impl_->loaded||!impl_->live_player||
        !impl_->front_screen.empty()||!impl_->movie){
@@ -3283,7 +3773,7 @@ bool OriginalUiSession::close_source_hud(std::string& error){
     // GSLevel::Dtor 0x3860bc queries menu_HUD_0 and invokes virtual Hide.
     // MenuBase::Hide 0x424af4 exits when hidden; otherwise it sets visibility
     // false, unregisters the listener, then invokes the authored onPop.
-    return self.movie->menu_action_script(&self,
+    const bool hidden=self.movie->menu_action_script(&self,
         [](void* raw,ui::SwfAsGraph& graph,std::string& nested_error){
             auto& owner=*static_cast<Impl*>(raw);
             ui::SwfAsValue root,hud,visibility,result;
@@ -3306,7 +3796,36 @@ bool OriginalUiSession::close_source_hud(std::string& error){
             owner.gameplay_back_to_hud_pending=false;
             owner.gameplay_native_back_to_hud_pending=false;
             owner.gameplay_hud_refresh={};
+            owner.gameplay_hud_skills_refresh={};
             return graph.invoke(hud,hud,"onPop",{},result,callable,nested_error);
+        },error);
+    // Level::~Level flushes MenuMessageManager<StatusMsg,4> after hiding its
+    // HUD. Do the same only after the authored hide/onPop sequence succeeds.
+    if(hidden)self.source_status_messages.flush();
+    return hidden;
+}
+bool OriginalUiSession::complete_source_hud_refresh(std::string& error){
+    if(!impl_||!impl_->loaded||!impl_->movie){
+        // MenuManager::GetHUDRoot may return null; RemoveCharacter skips the
+        // ActionScript callback in that branch.
+        error.clear();return true;
+    }
+    auto& self=*impl_;
+    return self.movie->menu_action_script(&self,
+        [](void* raw,ui::SwfAsGraph& graph,std::string& nested_error){
+            auto& owner=*static_cast<Impl*>(raw);
+            ui::SwfAsValue root,hud,result;
+            bool callable=false;
+            if(!graph.root_value(root,nested_error)||
+               !graph.find_target(root,"_root.menu_HUD_0",hud,nested_error))return false;
+            // Match GetHUDRoot's null branch. A hidden but present movie still
+            // receives the source callback.
+            if(!hud.identity()){nested_error.clear();return true;}
+            if(!graph.invoke(hud,hud,"completeRefresh",{},result,callable,
+                             nested_error))return false;
+            if(!callable){nested_error="Required source HUD completeRefresh callback is unavailable";return false;}
+            owner.gameplay_hud_usable_refresh.invalidate();
+            nested_error.clear();return true;
         },error);
 }
 std::string OriginalUiSession::consume_menu_sound(){
@@ -3618,6 +4137,202 @@ bool OriginalUiSession::source_combat_text_format_int(std::int32_t string_id,
     return ui::item_text_varargs_v5(pattern.c_str(),&value_argument,1,services,
                                     value,changed,error);
 }
+bool OriginalUiSession::enqueue_source_status_item_pickup(
+    const std::string& item_name,std::int32_t power_count,std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.movie||!self.gameplay_hud||!self.gameplay_hud_bound||
+       item_name.find('\0')!=std::string::npos){
+        error="StatusMsg item pickup requires the retained authored gameplay HUD";return false;
+    }
+    std::string formatted;
+    if(!Impl::item_name_with_palette(self,item_name,power_count,formatted,error))return false;
+    bool start_now=false;
+    if(!self.source_status_messages.enqueue(std::move(formatted),start_now)){
+        error="Retained StatusMsg queue rejected the pickup text";return false;
+    }
+    if(start_now&&!self.gameplay_hud->notify_status_message(error))return false;
+    error.clear();return true;
+}
+bool OriginalUiSession::enqueue_source_status_auto_transmute(
+    const std::string& item_name,std::int32_t power_count,std::int32_t payout,
+    std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.movie||!self.gameplay_hud||!self.gameplay_hud_bound||
+       item_name.find('\0')!=std::string::npos||power_count<0||payout<1){
+        error="StatusMsg AutoTransmute producer requires a valid retained gameplay HUD and item";return false;
+    }
+    static constexpr const char* power_keys[]={"zero","one","two","three","four"};
+    std::uint32_t palette_index=2;
+    if(power_count<5){
+        std::uint32_t raw=0;
+        if(!Impl::constant(&self,"ItemPowerColor",power_keys[power_count],raw,error))return false;
+        std::memcpy(&palette_index,&raw,sizeof(raw));
+        if(static_cast<std::int32_t>(palette_index)<0){
+            error="ItemPowerColor resolved to a negative FontPalette index";return false;
+        }
+    }
+    std::uint32_t text_color=0;
+    if(!ui::font_palette_text_color_at_index_v1(self.font_palette_bytes.data(),
+            self.font_palette_bytes.size(),palette_index,text_color,error)||
+       !self.ensure_localization_ready(error))return false;
+    std::uint32_t raw_string_id=0;
+    if(!Impl::constant(&self,"StrID","ITEMS_AUTO_TRANSMUTE",raw_string_id,error))return false;
+    std::string pattern;
+    if(!self.localization.string_id(raw_string_id,self.text_services(),pattern,error))return false;
+    char color[16]{};
+    std::snprintf(color,sizeof(color),"#%06X",unsigned(text_color&0x00ffffffu));
+    const dh2::data::ItemTextArgumentV5 arguments[]={
+        {0.f,0,color},{0.f,0,item_name.c_str()},{float(payout),payout,nullptr}};
+    Impl::ParseContext parse{self,{}};
+    const ui::HudTextServicesV1 services{&parse,Impl::parsed_text};
+    std::string formatted;bool changed=false;
+    if(!ui::item_text_varargs_v5(pattern.c_str(),arguments,3,services,
+                                 formatted,changed,error))return false;
+    bool start_now=false;
+    if(!self.source_status_messages.enqueue(std::move(formatted),start_now)){
+        error="Retained StatusMsg queue rejected AutoTransmute text";return false;
+    }
+    if(start_now&&!self.gameplay_hud->notify_status_message(error))return false;
+    error.clear();return true;
+}
+bool OriginalUiSession::enqueue_source_status_constant(
+    const char* group,const char* key,std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.movie||!self.gameplay_hud||!self.gameplay_hud_bound||!group||!key){
+        error="StatusMsg localized producer requires the retained authored gameplay HUD";return false;
+    }
+    std::uint32_t string_id=0;
+    if(!Impl::constant(&self,group,key,string_id,error)||
+       !self.ensure_localization_ready(error))return false;
+    std::string text;
+    if(!self.localization.string_id(string_id,self.text_services(),text,error))return false;
+    bool start_now=false;
+    if(!self.source_status_messages.enqueue(std::move(text),start_now)){
+        error="Retained StatusMsg queue rejected localized text";return false;
+    }
+    if(start_now&&!self.gameplay_hud->notify_status_message(error))return false;
+    error.clear();return true;
+}
+bool OriginalUiSession::enqueue_source_dialog(std::int32_t actor_id,std::int32_t style_id,
+    std::int32_t text_string_id,std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||!self.movie){
+        error="Source dialog enqueue requires the retained gameplay HUD session";return false;
+    }
+    // Script_StartDialog::Execute calls DebugSwitches::load/GetSwitch before
+    // testing EnterLocationDialog or constructing the message.
+    if(!self.debug_load(error)||!self.debug_query("isTracingScriptCmd",error))return false;
+    if(!self.ensure_dialog_metadata_ready(error))return false;
+    dh2_pycst_result enter_location{};
+    if(dh2_pycst_get(&self.dialog_constants,"DialogStyles",sizeof("DialogStyles")-1,
+           "EnterLocationDialog",sizeof("EnterLocationDialog")-1,&enter_location)!=0||
+       !enter_location.found){error="DialogStyles.EnterLocationDialog constant is missing";return false;}
+    if(style_id==enter_location.value&&self.source_dialog_messages.active()){
+        // Source Execute flushes the existing queue and returns without
+        // constructing/enqueuing the EnterLocationDialog message.
+        self.source_dialog_messages.flush();error.clear();return true;
+    }
+    ui::SourceDialogMessageQueueV1::Message message;
+    if(!self.source_dialog_string(0,message.title,error)||
+       !self.source_dialog_string(text_string_id,message.text,error)||
+       !self.source_dialog_style_name(style_id,message.style_name,error))return false;
+    if(actor_id>=0){
+        if(static_cast<std::size_t>(actor_id)>=self.dialog_actor_name_ids.size()){
+            error="Source DialogMsg actor index exceeds DialogActors";return false;
+        }
+        if(!self.source_dialog_string(self.dialog_actor_name_ids[static_cast<std::size_t>(actor_id)],
+                                      message.actor_name,error))return false;
+    }
+    message.style=style_id;
+    bool start_now=false;
+    if(!self.source_dialog_messages.enqueue(std::move(message),start_now)){
+        error="Source DialogMsg queue rejected its message";return false;
+    }
+    if(start_now&&!self.movie->action_script(&self,Impl::invoke_source_dialog_start,error))
+        return false;
+    error.clear();return true;
+}
+bool OriginalUiSession::enqueue_source_dialog_id(std::int32_t dialog_id,
+    std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.movie){
+        error="Source dialog ID enqueue requires the retained gameplay HUD session";return false;
+    }
+    // Script_StartDialogID::Execute loads/query-checks the script trace switch,
+    // then resolves a Dialogs row and queues all of its DialogSteps before
+    // invoking the existing SWF StartDialog callback.
+    if(!self.debug_load(error)||!self.debug_query("isTracingScriptCmd",error)||
+       !self.ensure_dialog_metadata_ready(error))return false;
+    if(dialog_id<0||static_cast<std::size_t>(dialog_id)>=self.source_dialog_table.size()){
+        // GetDialogMsgListById returns false after its source assertion for an
+        // invalid index. Execute then completes without queueing a message.
+        error.clear();return true;
+    }
+    const auto& steps=self.source_dialog_table[static_cast<std::size_t>(dialog_id)];
+    if(steps.empty()){error.clear();return true;}
+    std::vector<ui::SourceDialogMessageQueueV1::Message> messages;
+    messages.reserve(steps.size());
+    for(const auto& step:steps){
+        ui::SourceDialogMessageQueueV1::Message message;
+        message.style=static_cast<std::int8_t>(static_cast<std::uint8_t>(step.style));
+        if(step.title>=0&&!self.source_dialog_string(step.title,message.title,error))return false;
+        if(step.text>=0&&!self.source_dialog_string(step.text,message.text,error))return false;
+        if(step.style>=0&&!self.source_dialog_style_name(message.style,message.style_name,error))
+            return false;
+        if(step.actor>=0){
+            if(static_cast<std::size_t>(step.actor)>=self.dialog_actor_name_ids.size()){
+                error="Source DialogStep actor index exceeds DialogActors";return false;
+            }
+            if(!self.source_dialog_string(
+                self.dialog_actor_name_ids[static_cast<std::size_t>(step.actor)],
+                message.actor_name,error))return false;
+        }
+        messages.push_back(std::move(message));
+    }
+    bool start_now=false;
+    for(auto& message:messages){
+        if(!self.source_dialog_messages.enqueue(std::move(message),start_now)){
+            error="Source DialogMsg queue rejected a DialogStep";return false;
+        }
+    }
+    // Execute checks the final queue size after all false-start enqueues; only
+    // a one-message queue causes the source StartDialog callback.
+    if(self.source_dialog_messages.size()==1&&
+       !self.movie->action_script(&self,Impl::invoke_source_dialog_start,error))
+        return false;
+    error.clear();return true;
+}
+bool OriginalUiSession::source_dialog_active(bool& active,std::string& error)const{
+    const auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()){
+        error="Source dialog activity requires the retained gameplay HUD session";return false;
+    }
+    active=self.source_dialog_messages.active();error.clear();return true;
+}
+bool OriginalUiSession::enqueue_source_char_menu_tutorial(std::int32_t string_id,
+    const std::string& frame,const std::string& menu,std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.movie||frame.find('\0')!=std::string::npos||
+       menu.find('\0')!=std::string::npos){
+        error="CharMenuTutorialMsg enqueue requires the retained gameplay CharacterMenu UI";return false;
+    }
+    self.source_char_menu_tutorial_messages.enqueue(string_id,frame,menu);
+    error.clear();return true;
+}
+bool OriginalUiSession::skip_source_char_menu_tutorial(bool skip_all,std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||!self.movie){
+        error="CharMenuTutorialMsg skip requires the retained gameplay CharacterMenu UI";return false;
+    }
+    if(skip_all)self.source_char_menu_tutorial_messages.skip_all();
+    else self.source_char_menu_tutorial_messages.skip_one();
+    error.clear();return true;
+}
 void OriginalUiSession::deactivate(){impl_->front_name_input_active.store(false,std::memory_order_release);impl_->selected=false;}
 bool OriginalUiSession::resume_front_after_start_failure(std::string& error){
     if(impl_->front_screen!="main"||!impl_->loaded){
@@ -3664,7 +4379,7 @@ bool OriginalUiSession::attach_player(const std::string& directory,std::string& 
     impl_->hud_style=hud_style;
     impl_->directory=directory;impl_->live_player=true;impl_->selected=true;impl_->report_frame=true;
     if(!retain_loaded_gameplay_ui){
-        impl_->gameplay_hud_bound=false;impl_->gameplay_hud_pointer=-1;impl_->gameplay_enemy_hud_state={};impl_->gameplay_enemy_hud_player_identity=0;
+        impl_->gameplay_hud_bound=false;impl_->gameplay_hud_pointer=-1;impl_->gameplay_enemy_hud_state={};impl_->gameplay_enemy_hud_player_identity=0;impl_->gameplay_hud_skills_refresh={};
     }else{
         __android_log_print(ANDROID_LOG_INFO,tag,
             "Gameplay HUD binding retained across surface recreation | style %d | movie %p | status %p",
@@ -3697,6 +4412,11 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                 ~Dispatch(){self.input_dispatch_movie=previous_movie;self.input_dispatch_frames=previous_frames;}}
                 dispatch{self,self.input_dispatch_movie,self.input_dispatch_frames};
             self.input_dispatch_movie=active;self.input_dispatch_frames=&active_owner->frames;
+            // Source MenuMerchant::Update clears its NativeMerchantSellItem
+            // one-shot byte every frame before MenuBase::Update advances the
+            // menu. Mirror that cadence so a sale can run again after the next
+            // authored frame while still rejecting duplicate calls in one tick.
+            if(active_name=="menu_Merchant")self.merchant_sell_one_shot_used=false;
             require(active->input_advance(milliseconds,error),"Active menu timeline update failed without a diagnostic");
             const auto hud_rectangle=self.viewport_rectangle();
             const auto menu_rectangle=self.front_rectangle();
@@ -3726,6 +4446,8 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                     "Gameplay SWF timeline update failed without a diagnostic");
         }
         require(self.status->update(sheet,count,character,error),"Status panel update failed without a diagnostic");
+        require(Impl::flush_deferred_faery_hud_skills(self,error),
+                "Deferred active Faery HUD skills refresh failed without a diagnostic");
         if(self.gameplay_hud_active&&self.gameplay_hud_bound&&self.authored_joystick_ready){
             // render_player is called only for the attached local player in
             // the active level. Keep joystick Update on the source HUDControls
@@ -3769,7 +4491,8 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                 require(self.gameplay_hud->update_action_icon(
                             projection.object_of_interest_type,error),
                         "Gameplay HUD action icon update failed without a diagnostic");
-                require(self.gameplay_hud->update(projection.infos,projection.class_id,dpad,error),
+                require(self.gameplay_hud->update(projection.infos,projection.skill_slots,
+                                                 projection.class_id,dpad,error),
                         "Gameplay HUD state update failed without a diagnostic");
                 model_renderer::UiEnemyHudProjectionV1 enemy_projection{};
                 require(model_renderer::ui_player_enemy_hud_projection(

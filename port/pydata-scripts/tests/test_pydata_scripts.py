@@ -62,6 +62,26 @@ class DecoderTests(unittest.TestCase):
         self.assertEqual(resolve_script_id(table.names, "levelonly", start_index=1), 1)
         self.assertEqual(resolve_script_id(table.names, "common", start_index=1), -1)
 
+    def test_character_menu_tutorial_queue_commands(self):
+        enqueue = command(74, string("Skills") + string("menu_Character") +
+                          struct.pack("<i", 341))
+        table = decode_script_table(name_table("TutorialQueue"),
+                                    program_table([enqueue, command(75), command(76)]))
+        commands = table.scripts[0].commands
+        self.assertEqual([item.name for item in commands], [
+            "EnqueueCharMenuTutorialMessage", "SkipCharMenuTutorialMessage",
+            "SkipAllCharMenuTutorialMessages"])
+        self.assertEqual(commands[0].payload, ("Skills", "menu_Character", 341))
+
+    def test_start_dialog_id_uses_one_signed_dialog_index(self):
+        decoded = decode_script_table(
+            name_table("DialogId"),
+            program_table([command(11, struct.pack("<i", -1))]),
+        )
+        item = decoded.scripts[0].commands[0]
+        self.assertEqual(item.name, "StartDialogID")
+        self.assertEqual(item.payload, (-1,))
+
     def test_exec_script_vector_and_non_aligned_bool_layout(self):
         payload = b"\x01" + struct.pack("<iIiiB", 1, 2, -8, 9, 1)
         decoded, consumed = parse_programs(program_table([command(0, payload)]), 1)

@@ -26,7 +26,9 @@ enum AttackService : std::uint32_t {
  attack_list_pop,attack_list_destroy,attack_set_target,
  attack_sync_last_target,attack_can_attack_current,attack_target_dead,
  attack_owner_player,attack_current_in_melee,attack_set_attack_state,
- attack_network_mode,attack_network_send,attack_controllable_dispatch
+ attack_network_mode,attack_network_send,attack_controllable_dispatch,
+ attack_range_parameters,attack_range_list_create,attack_range_list_search,
+ attack_look_at_target,attack_range_melee_fallback
 };
 struct AttackRequest32 {
  std::uint32_t service,argument0,argument1,reserved;
@@ -50,6 +52,8 @@ static_assert(sizeof(AttackTargetList24)==24&&sizeof(AttackRequest32)==32&&sizeo
 // view/progress after effects. Backend identities/lifetimes are caller-owned.
 // No attack-index, last/finisher reset, range acceptance, search or FSM is invented.
 extern "C" int dh2_character_ai_melee_attack(dh2::character::AttackState64*,std::uintptr_t,
+ std::uint32_t,const dh2::character::AttackServices16*);
+extern "C" int dh2_character_ai_range_attack(dh2::character::AttackState64*,std::uintptr_t,
  std::uint32_t,const dh2::character::AttackServices16*);
 extern "C" int dh2_character_cmd_attack(dh2::character::ControllerAttackState32*,
  dh2::character::AttackState64*,std::uintptr_t,const dh2::character::AttackServices16*);

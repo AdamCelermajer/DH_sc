@@ -9,9 +9,9 @@ namespace dh2::ui {
 
 enum class GameplayMenuTransitionActionV1 { cover, hide, show };
 
-// Authored dqcharmenu states constructed by MenuManager::Init. Keep this as
+// Authored gameplay menu states constructed by MenuManager::Init. Keep this as
 // the same allowlist used by the retained native renderer so UI navigation
-// tests can catch a dropped Inventory, Skills or Faery screen.
+// tests can catch a dropped Inventory, Skills, Faery, or death-fade screen.
 inline bool gameplay_menu_state_v1(const std::string& name) {
     return name == "menu_Ingame" || name == "menu_CharacterMenu" ||
         name == "menu_CharacterSheetNew" || name == "menu_CharacterSheetRecovery" ||
@@ -21,8 +21,10 @@ inline bool gameplay_menu_state_v1(const std::string& name) {
         name == "menu_SkillTreeSheetNew" || name == "menu_FaerySheet" ||
         name == "menu_QuestLogSheetNEW" || name == "menu_MapSheet" ||
         name == "menu_Specialisation" || name == "menu_Merchant" ||
+        name == "menu_Loading" ||
         name == "menu_MultiplayerLobbyMulti" || name == "menu_FriendInvitationMulti" ||
-        name == "menu_confirm2";
+        name == "menu_confirm2" || name == "menu_FadeToBlackScreen" ||
+        name == "menu_FadeFromBlackScreen";
 }
 
 struct GameplayMenuTransitionEventV1 {

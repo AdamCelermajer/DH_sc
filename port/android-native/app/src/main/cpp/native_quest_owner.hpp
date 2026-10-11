@@ -5,6 +5,8 @@
 #include "quest_reward_execution_v1.hpp"
 #include "quest_update_completed_v1.hpp"
 #include "quest_compile_v1.hpp"
+#include "quest_objective_list_v1.hpp"
+#include "game_event_manager_owner_v1.hpp"
 #include "fresh_inventory_owned_v4.hpp"
 #include "../../../../../level-world/current_level_quest_event_v1.hpp"
 #include "../../../../../level-world/character_kill_quest_tail_v1.hpp"
@@ -209,6 +211,21 @@ public:
  Owner(std::shared_ptr<data::PlayerSavegameV1>,data::quest_table_bindings_v1::View,Constants);
  ~Owner();
  Owner(const Owner&)=delete;Owner& operator=(const Owner&)=delete;
+ // Borrow the exact ObjectiveList allocator/factory/deleter arena already
+ // used by this Save's Quest lists. GameEventManager uses this to retain its
+ // own lists without creating a second Objective factory or VM.
+ bool objective_list_services(data::quest_objective_list_v1::Services&,
+                              std::string&) const;
+ // Resolve an ObjectiveRef created through those services back to this
+ // owner's one factory Record, including rows owned by GameEventManager.
+ bool resolve_objective_record(const data::quest_objective_list_v1::ObjectiveRef&,
+                               data::quest_objective_factory_v1::Record*&,
+                               std::string&) const;
+ // Exact GameEvent ObjectiveList::IsValid/Eval child predicates over the
+ // same retained factory records used by QEST and the Level event owner.
+ bool game_event_objective_list_predicate_v1(
+                               const data::game_event_manager_owner_v1::Row&,
+                               bool evaluate_done,bool&,std::string&) const;
  bool initialize(std::uint32_t log,std::string&);
  // Source QuestSavegame::CompileQuests(force) over the canonical selected
  // Save log. The owner supplies genuine Quest/Objective/Reward wrappers;
@@ -256,6 +273,11 @@ public:
                           std::string&);
  bool has_state_in_log(std::uint32_t log,std::uint32_t difficulty,
                        std::int32_t state,bool& found,std::string&) const;
+ // Source Quest::Update states currently implemented by the gameplay
+ // dispatcher. Used before SG_Update(true) so unsupported states fail before
+ // force compilation or other visible source effects begin.
+ bool gameplay_log_states_supported(std::uint32_t log,std::uint32_t difficulty,
+                                    std::string&) const;
  // Canonical state-12 completion over this Save's published Quest and its
  // existing RewardList. Gold uses the caller's same Character inventory;
  // Character::_GiveXP and Application time remain explicit providers.
@@ -356,6 +378,17 @@ public:
  bool dispatch_objective_compile_member_v1(
                                        data::quest_compile_v1::Objective&,
                                        const data::quest_compile_v1::MemberCall&,
+                                       const ObjectiveCompileDispatchServicesV1&,
+                                       std::string&);
+ // GameEventManager::ReInit uses the same Save's ObjectiveFactory Record, but
+ // its ObjectiveList is owned by the source Level and has no Quest parent.
+ // This adapter dispatches only the recovered v2Event trigger kinds through
+ // current-Level services and the existing current_level_events registry.
+ bool dispatch_game_event_objective_member_v1(
+                                       std::uintptr_t level_identity,
+                                       std::uintptr_t manager_identity,
+                                       data::game_event_manager_owner_v1::Row&,
+                                       const data::quest_objective_list_v1::MemberCall&,
                                        const ObjectiveCompileDispatchServicesV1&,
                                        std::string&);
  bool register_kill_x_enemies_objective(std::uintptr_t quest_identity,

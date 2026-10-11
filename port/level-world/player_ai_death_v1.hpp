@@ -3,24 +3,20 @@
 #include "character_ai_set_target.hpp"
 #include "character_aggro_cleanup.hpp"
 #include "character_coordinator.hpp"
+#include "character_sm_set_dead_state_v1.hpp"
 #include <string>
 
 namespace dh2::player_ai_death_v1 {
-enum class Animation : std::uint32_t {died,deadly_great_kb,despawn,despawn_great_kb};
 enum class Direction : std::uint32_t {outgoing,incoming};
 enum class Operation : std::uint32_t {
- group_died,ais_died,animation_table,animation_value,stance_mask,anim_stance,
+ group_died,ais_died,anim_stance,
  relations,retain_peer,contains_mirror,erase_mirror,clear_relations,
  notify_deaggro,release_peer,skill_cleanup,spell_cleanup
 };
-// These are the additional canonical SM fields, owned by the same Character
-// projection as Coordinator.state. They are not another state-machine owner.
-struct DeadFields {std::int32_t despawn_sequence=-1;std::uint8_t great_knockback=0;};
 struct Request {
- Operation operation{};Direction direction{};Animation animation{};
+ Operation operation{};Direction direction{};
  std::uintptr_t ai=0,character=0,subject=0,killer=0;
- void* lifetime_handle=nullptr;std::int32_t row=0;
- const char* group=nullptr;const char* key=nullptr;
+ void* lifetime_handle=nullptr;
 };
 struct Reply {
  std::int32_t word=0;std::uint32_t count=0;
@@ -39,7 +35,9 @@ struct Bindings {
  character::Coordinator* coordinator=nullptr;
  character::set_target::OwnerFacts* target_owner=nullptr;
  const character::set_target::Services* target_services=nullptr;
- DeadFields* dead_fields=nullptr;
+ // Reuse the same Character/Coordinator and the canonical SM_SetDeadState
+ // selector; this is a borrowed view, not another state owner.
+ character_sm_set_dead_state_v1::Bindings dead_state{};
  // Full-width canonical GroupInfo slot. Original State.word_34 cannot carry
 // a native pointer. The genuine constructor produces null; nonnull needs
 // actual GroupInfo::OnDied through Backend, before the active AIS is reread.
@@ -67,10 +65,10 @@ public:
 // separate Character::Kill/rewards or outer RaiseAIEvent machine forwarding.
 // The known Player/PlayerIPhone AIS inherits the real empty OnDied leaf. An
 // unknown active AIS needs Backend::ais_died; no Lua OnDied is fabricated.
-// Animation table returns genuine GetCharAnimTableId and current table count;
-// invalid row is the source normal early return, then timer/aggro/cleanup run.
-// animation_value returns the requested current row field. stance_mask reads
-// actual AnimStancedAnim/SL__LIST_IPHONE each time, before conditional stance.
+// dead_state binds the same canonical Character animation tables/constants
+// and Coordinator consumed by character_sm_set_dead_state_v1. AI_SetDead's
+// exact source call is {dead=false,killer=nullptr,force_transition=true};
+// only reached Player Character::GetAnimStance calls use Backend::anim_stance.
 // relations returns current source-order peers and count of the sole map,
 // coherent with ai.tree_7c.count/outgoing or tree_94.count/incoming. Empty must
 // be real. For incoming(false), contains/erase operate on PEER outgoing; clear

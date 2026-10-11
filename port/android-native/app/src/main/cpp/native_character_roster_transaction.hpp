@@ -2,6 +2,7 @@
 
 #include "native_character_list.hpp"
 #include "../../../../../../port/level-world/object_manager_runtime_owner_v1.hpp"
+#include <string_view>
 
 namespace dh2::native::character_roster_transaction {
 
@@ -41,7 +42,8 @@ struct Result {
 // and its GameObject view remain borrowed from their actor owner.
 Status register_after_add(Manager*, CharacterList*, SourceHandle,
                           const ManagerObject*, Character*,
-                          bool duplicate_resolved, Result*) noexcept;
+                          bool duplicate_resolved, Result*,
+                          std::string_view manager_name = {}) noexcept;
 
 // Remove a previously committed pair. Character-list unlink is attempted
 // first so malformed-list failures leave the map entry intact. A valid,

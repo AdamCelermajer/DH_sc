@@ -46,8 +46,8 @@ Status serialize(std::uintptr_t character, const Services* services,
             if (error.empty()) error = "canonical Character field provider failed";
             return Status::provider_failed;
         }
-        if (view.is_player > 1 || view.dead > 1 || view.has_ai > 1 ||
-            view.ai_flag_40 > 1 || view.ai_flag_41 > 1 ||
+        if (view.is_player > 1 || view.dead > 1 || view.has_group_info > 1 ||
+            view.group_flag_40 > 1 || view.group_flag_41 > 1 ||
             !valid_span(view.position, kVectorBytes) ||
             !valid_span(view.rotation, kVectorBytes) ||
             !valid_span(view.vector_1306, kVectorBytes) ||
@@ -75,14 +75,14 @@ Status serialize(std::uintptr_t character, const Services* services,
         }
         constexpr std::size_t fixed_tail = 4 + 4 * kVectorBytes + 1;
         const std::size_t properties = view.is_player ? 0 : 2 * kPropertyBytes;
-        const std::size_t ai_tail = view.has_ai ? 6 : 0;
-        if (properties > UINT32_MAX - game_object.size() - fixed_tail - ai_tail) {
+        const std::size_t group_tail = view.has_group_info ? 6 : 0;
+        if (properties > UINT32_MAX - game_object.size() - fixed_tail - group_tail) {
             error = "Character::Serialize output exceeds source stream size";
             return Status::invalid_view;
         }
 
         std::vector<std::uint8_t> bytes;
-        bytes.reserve(game_object.size() + fixed_tail + properties + ai_tail);
+        bytes.reserve(game_object.size() + fixed_tail + properties + group_tail);
         bytes.insert(bytes.end(), game_object.begin(), game_object.end());
         append_u32(bytes, view.state_machine_state);
         if (!view.is_player) {
@@ -94,16 +94,16 @@ Status serialize(std::uintptr_t character, const Services* services,
         bytes.push_back(view.dead);
         append_span(bytes, view.vector_1306);
         append_span(bytes, view.vector_1309);
-        if (view.has_ai) {
-            append_u32(bytes, static_cast<std::uint32_t>(view.ai_word_36));
-            bytes.push_back(view.ai_flag_40);
-            bytes.push_back(view.ai_flag_41);
+        if (view.has_group_info) {
+            append_u32(bytes, static_cast<std::uint32_t>(view.group_word_36));
+            bytes.push_back(view.group_flag_40);
+            bytes.push_back(view.group_flag_41);
         }
         Result next{};
         next.game_object_bytes = static_cast<std::uint32_t>(game_object.size());
         next.character_bytes = static_cast<std::uint32_t>(bytes.size());
         next.property_blocks = view.is_player ? 0 : 2;
-        next.ai_tail_bytes = static_cast<std::uint32_t>(ai_tail);
+        next.group_info_tail_bytes = static_cast<std::uint32_t>(group_tail);
         output.swap(bytes);
         *result = next;
         error.clear();
@@ -146,11 +146,44 @@ Status serialize_record(const character_runtime_factory_v1::Record& record,
             const bool failed = b.services->read_view(
                 b.services->context, *b.record, view, callback_error);
             if (failed) return true;
-            if (view->has_ai &&
-                !canonical_component(*b.record,
-                    character_constructor_owner_v1::Component::ai)) {
-                callback_error = "Character save AI bytes lack the canonical AI component";
+            const auto* ai = b.record->canonical_ai();
+            if (!ai) {
+                callback_error = "factory Character save has no identity-checked canonical CharAI owner for its GroupInfo slot";
                 return true;
+            }
+            // Character+0x3fc is the source CharAI+0x34 pointer. A non-null
+            // slot must be resolved through the canonical level GroupInfo
+            // owner using this exact retained identity.
+            if (!ai->group_info_identity && view->has_group_info) {
+                callback_error = "factory Character save reports GroupInfo bytes for a null canonical CharAI+0x34 slot";
+                return true;
+            }
+            if (ai->group_info_identity) {
+                if (!b.services->read_group_info_tail) {
+                    callback_error = "factory Character save has a non-null GroupInfo slot but no canonical pointee provider";
+                    return true;
+                }
+                auto word_36 = std::int32_t{};
+                auto flag_40 = std::uint8_t{};
+                auto flag_41 = std::uint8_t{};
+                if (b.services->read_group_info_tail(b.services->context,
+                        ai->group_info_identity, &word_36, &flag_40, &flag_41,
+                        callback_error)) {
+                    if (callback_error.empty())
+                        callback_error = "factory Character canonical GroupInfo provider failed";
+                    return true;
+                }
+                if (view->has_group_info &&
+                    (view->group_word_36 != word_36 ||
+                     view->group_flag_40 != flag_40 ||
+                     view->group_flag_41 != flag_41)) {
+                    callback_error = "factory Character GroupInfo view differs from its canonical pointee owner";
+                    return true;
+                }
+                view->has_group_info = 1;
+                view->group_word_36 = word_36;
+                view->group_flag_40 = flag_40;
+                view->group_flag_41 = flag_41;
             }
             return false;
         },

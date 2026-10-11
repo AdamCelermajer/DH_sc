@@ -56,6 +56,16 @@ template<class Array>std::int32_t allocate_array(std::map<std::uintptr_t,std::un
 }
 bool objective_definition(const of::Record& objective,dh2_quest_objective& value,std::string& error){
  const auto& definition=objective.fields.py_data_c;
+ if(definition.event){
+  if(definition.list||definition.stub||
+     definition.index>=definition.event->triggers.size()){
+   error="Invalid retained GameEvent Objective trigger reference";return false;
+  }
+  const auto& trigger=definition.event->triggers[definition.index];
+  value.common[0]=trigger.type;value.common[1]=trigger.op1;value.common[2]=trigger.op2;
+  value.args[0]=trigger.value1;value.args[1]=trigger.value2;value.args[2]=trigger.value3;
+  value.strings[0]={};value.strings[1]={};error.clear();return true;
+ }
  if(definition.stub){
   if(definition.list||!definition.view||!definition.stub->row||
      definition.view.resolve_stub(definition.stub->row->identity+definition.stub->offset)!=definition.stub||
@@ -73,6 +83,14 @@ bool objective_string(const of::Record& objective,const dh2_quest_objective& def
                       std::size_t index,std::string& value,std::string& error){
  if(index>=2){error="Objective string index is outside the source stub";return false;}
  const auto& pydata=objective.fields.py_data_c;
+ if(pydata.event){
+  if(index>=2||pydata.index>=pydata.event->triggers.size()){
+   error="Objective string lookup has no retained GameEvent trigger";return false;
+  }
+  value=index?pydata.event->triggers[pydata.index].text2:
+             pydata.event->triggers[pydata.index].text1;
+  error.clear();return true;
+ }
  if(!pydata.view){error="Objective string requires its retained immutable pydata View";return false;}
  data::quest_table_bindings_v1::Span span{};
  if(!pydata.view.bytes(definition.strings[index],&span,error))return false;
@@ -97,32 +115,35 @@ struct Owner::Impl {
  struct KillXEnemiesBinding {
   of::Record* objective=nullptr;
   of::Dispatch expected_dispatch=of::Dispatch::kill_enemies;
+  std::uintptr_t level_identity=0,game_event_manager_identity=0;
   std::int32_t event_type=0,match_id=-1,script_id=-1;
   void* script_context=nullptr;
   KillObjectiveStartScript start_script=nullptr;
-  bool attached=false,detach_pending=false,target_marked=false;
+  bool attached=false,detach_pending=false,target_marked=false,game_event_trigger=false;
   static std::int32_t receive(void*,Owner::LevelEventRuntime&,
                               Owner::LevelEvent&,std::string&);
  };
  struct TalkToNpcBinding {
   Owner* owner=nullptr;of::Record* objective=nullptr;
   std::uintptr_t quest_identity=0;
+  std::uintptr_t level_identity=0,game_event_manager_identity=0;
   std::uint32_t ordinal=0;
   std::int32_t event_type=0,target_props_id=-1,target_count=0,script_id=-1;
   void* script_context=nullptr;KillObjectiveStartScript start_script=nullptr;
   void* marker_context=nullptr;TalkObjectiveMarkerV1 marker=nullptr;
-  bool attached=false,detach_pending=false,target_marked=false;
+  bool attached=false,detach_pending=false,target_marked=false,game_event_trigger=false;
   static std::int32_t receive(void*,Owner::LevelEventRuntime&,
                               Owner::LevelEvent&,std::string&);
  };
  struct MoveInZoneBinding {
   Owner* owner=nullptr;of::Record* objective=nullptr;
   std::uintptr_t quest_identity=0,target_identity=0;
+  std::uintptr_t level_identity=0,game_event_manager_identity=0;
   std::uint32_t ordinal=0;
   std::int32_t event_type=0,target_props_id=-1,script_id=-1;
   void* script_context=nullptr;KillObjectiveStartScript start_script=nullptr;
   MoveInZoneCharacterServicesV1 character{};
-  bool attached=false,detach_pending=false;
+  bool attached=false,detach_pending=false,game_event_trigger=false;
   static std::int32_t receive(void*,Owner::LevelEventRuntime&,
                               Owner::LevelEvent&,std::string&);
  };
@@ -241,7 +262,7 @@ struct Owner::Impl {
      !list.children_4->identity||std::uint64_t(std::uint32_t(list.count_0))>list.children_4->slots.size())return nullptr;
   return resolve_objective(list.children_4->slots[ordinal]);
  }
- of::Record* resolve_objective(o::ObjectiveRef* ref){
+ of::Record* resolve_objective(const o::ObjectiveRef* ref){
   if(!ref||!ref->action.identity)return nullptr;
   const auto found=objectives.find(ref->action.identity);
   if(found==objectives.end()||&found->second->ref!=ref)return nullptr;
@@ -407,6 +428,38 @@ std::int32_t Owner::Impl::TalkToNpcBinding::receive(
  if(static_cast<std::int32_t>(objective.quantity_20)<binding.target_count||objective.done_14){
   error.clear();return 0;
  }
+ if(binding.game_event_trigger){
+  // GameEvent Objectives have no Quest parent. SetIsCompleted still owns the
+  // Objective byte and optional source script; GameEvent::Update observes the
+  // completed list and runs the row script afterward.
+  objective.done_14=1;
+  if(binding.script_id>=0&&(!binding.start_script||
+      !binding.start_script(binding.script_context,binding.script_id,error))){
+   if(error.empty())error="GameEvent TalkToNPC completion needs its source script provider";
+   return 1;
+  }
+  if(!binding.detach_pending){
+   bool scheduled=false;
+   const auto status=binding.owner->impl_->current_level_events.delayed_detach(
+       binding.event_type,objective.ref.action.identity,scheduled,error);
+   if(status!=Owner::LevelEventStatus::complete||!scheduled){
+    if(error.empty())error="GameEvent TalkToNPC delayed detach failed";
+    return 1;
+   }
+   binding.detach_pending=true;
+  }
+  if(binding.target_marked){
+   if(!binding.marker||!binding.marker(binding.marker_context,
+       objective.ref.action.identity,&objective.derived_28,
+       binding.target_props_id,
+       TalkObjectiveMarkerOperationV1::unregister_target,0,0,error)){
+    if(error.empty())error="GameEvent TalkToNPC target marker clear failed";
+    return 1;
+   }
+   binding.target_marked=false;
+  }
+  error.clear();return 0;
+ }
  if(!binding.owner->complete_objective(binding.quest_identity,binding.ordinal,
        binding.script_context,binding.start_script,error))return 1;
  // Source Objective_TalkToNPC::Unregister is delayed detach followed by
@@ -472,6 +525,28 @@ std::int32_t Owner::Impl::MoveInZoneBinding::receive(
   }
  }
  auto& objective=*binding.objective;
+ if(binding.game_event_trigger){
+  if(!objective.done_14){
+   objective.done_14=1;
+   if(binding.script_id>=0&&(!binding.start_script||
+       !binding.start_script(binding.script_context,binding.script_id,error))){
+    if(error.empty())error="GameEvent MoveInZone completion needs its source script provider";
+    return 1;
+   }
+  }
+  if(!binding.detach_pending){
+   bool scheduled=false;
+   const auto status=binding.owner->impl_->current_level_events.delayed_detach(
+       binding.event_type,objective.ref.action.identity,scheduled,error);
+   if(status!=Owner::LevelEventStatus::complete||!scheduled){
+    if(error.empty())error="GameEvent MoveInZone delayed detach failed";
+    return 1;
+   }
+   binding.detach_pending=true;
+  }
+  if(!event.flag1)event.flag0=1;
+  error.clear();return 0;
+ }
  if(!objective.done_14&&
     !binding.owner->complete_objective(binding.quest_identity,binding.ordinal,
        binding.script_context,binding.start_script,error))return 1;
@@ -484,6 +559,53 @@ std::int32_t Owner::Impl::MoveInZoneBinding::receive(
 Owner::Owner(std::shared_ptr<data::PlayerSavegameV1> save,data::quest_table_bindings_v1::View definitions,Constants constants):
  impl_(std::make_unique<Impl>(std::move(save),std::move(definitions),std::move(constants))) {}
 Owner::~Owner(){std::string error;if(!close(error))std::terminate();}
+bool Owner::objective_list_services(data::quest_objective_list_v1::Services& out,
+                                    std::string& error)const{
+ if(!impl_||impl_->busy||impl_->closed){error="Native Quest ObjectiveList factory is unavailable";return false;}
+ out=impl_->child_services().objectives;
+ if(!out.allocate||!out.factory||!out.delete_virtual4||!out.deallocate){
+  out={};error="Native Quest ObjectiveList factory bundle is incomplete";return false;
+ }
+ error.clear();return true;
+}
+bool Owner::resolve_objective_record(
+ const data::quest_objective_list_v1::ObjectiveRef& ref,
+ data::quest_objective_factory_v1::Record*& out,std::string& error)const{
+ out=nullptr;
+ if(!impl_||impl_->closed||!ref.action.identity){
+  error="Native Quest Objective factory is unavailable for this reference";return false;
+ }
+ out=impl_->resolve_objective(&ref);
+ if(!out){error="ObjectiveRef is not retained by this Native Quest Objective factory";return false;}
+ error.clear();return true;
+}
+bool Owner::game_event_objective_list_predicate_v1(
+ const data::game_event_manager_owner_v1::Row& row,bool evaluate_done,
+ bool& out,std::string& error)const{
+ out=false;
+ if(!impl_||impl_->closed||!row.identity||!row.definition||
+    row.objectives.count_0<0||
+    (row.objectives.count_0>0&&(!row.objectives.children_4||
+     std::uint64_t(static_cast<std::uint32_t>(row.objectives.count_0))>
+       row.objectives.children_4->slots.size()))){
+  error="GameEvent ObjectiveList predicate requires retained valid child storage";return false;
+ }
+ const auto count=static_cast<std::uint32_t>(row.objectives.count_0);
+ for(std::uint32_t index=0;index<count;++index){
+  const auto* ref=row.objectives.children_4->slots[index];
+  data::quest_objective_factory_v1::Record* record=nullptr;
+  if(!ref||!resolve_objective_record(*ref,record,error)||
+     record->fields.py_data_c.event!=row.definition||
+     record->fields.py_data_c.index>=row.definition->triggers.size()){
+   if(error.empty())error="GameEvent ObjectiveList predicate lost its same-row canonical factory child";
+   return false;
+  }
+  if(evaluate_done?!record->done_14:!record->compiled_8){
+   out=false;error.clear();return true;
+  }
+ }
+ out=true;error.clear();return true;
+}
 bool Owner::initialize(std::uint32_t log,std::string& error){
  if(log>1||impl_->busy||impl_->closed){error="Native Quest owner/log unavailable";return false;}
  impl_->busy=true;struct Guard{Impl& owner;~Guard(){owner.busy=false;}}guard{*impl_};error.clear();
@@ -795,6 +917,29 @@ bool Owner::has_state_in_log(std::uint32_t log,std::uint32_t difficulty,
   auto* quest=impl_->resolve(ref);
   if(!quest){error="Quest state query found a foreign canonical Quest";return false;}
   if(quest->record().state_0==state){found=true;break;}
+ }
+ error.clear();return true;
+}
+bool Owner::gameplay_log_states_supported(std::uint32_t log,
+ std::uint32_t difficulty,std::string& error) const{
+ if(log>1||difficulty>2||impl_->busy||impl_->closed||!impl_->save){
+  error="QuestSavegame::UpdateQuests state audit requires its selected open Save log/difficulty";return false;
+ }
+ const auto& store=log?impl_->save->source_quest_log_118():
+                       impl_->save->source_quest_log_b8();
+ if(!impl_->save->character()||store.character_5c!=impl_->save->character()){
+  error="QuestSavegame::UpdateQuests state audit crossed its bound Character";return false;
+ }
+ for(const auto* ref:store.quests[difficulty]){
+  if(!ref){error="QuestSavegame::UpdateQuests state audit found a null Quest";return false;}
+  auto* quest=impl_->resolve(ref);
+  if(!quest){error="QuestSavegame::UpdateQuests state audit found a foreign Quest";return false;}
+  const auto state=quest->record().state_0;
+  if(state!=6&&state!=12){
+   error="Character::SG_Update(true) reached an unowned Quest::Update state "+
+         std::to_string(state);
+   return false;
+  }
  }
  error.clear();return true;
 }
@@ -1799,6 +1944,109 @@ bool Owner::dispatch_objective_compile_member_v1(
  }
  error="Objective Compile adapter reached an unsupported virtual/member call";return false;
 }
+bool Owner::dispatch_game_event_objective_member_v1(
+ std::uintptr_t level_identity,std::uintptr_t manager_identity,
+ data::game_event_manager_owner_v1::Row& row,const o::MemberCall& call,
+ const ObjectiveCompileDispatchServicesV1& services,std::string& error){
+ if(!impl_||impl_->closed||impl_->busy||!impl_->save||!level_identity||!manager_identity||
+    !row.identity||!row.definition||!call.objective){error="GameEvent Objective dispatch requires a live Save/Level/manager/row/Objective";return false;}
+ auto* objective=impl_->resolve_objective(call.objective);
+ if(!objective||objective->ref.fields!=&objective->fields||
+    objective->ref.action.character_10!=&objective->fields.character_10||
+    objective->fields.py_data_c.event!=row.definition||
+    objective->fields.py_data_c.index>=row.definition->triggers.size()){
+  error="GameEvent Objective is not the trigger record retained by this row and Save's factory";return false;
+ }
+ dh2_quest_objective definition{};
+ if(!objective_definition(*objective,definition,error))return false;
+ const auto& trigger=row.definition->triggers[objective->fields.py_data_c.index];
+ if(trigger.type!=objective->fields.type_4||trigger.type!=definition.common[0]){error="GameEvent Objective trigger selector changed";return false;}
+ const auto type=trigger.type;
+ const bool reset=call.operation==o::MemberOperation::reset_data&&call.virtual_call&&call.function==0x30&&call.encoded_adjustment==1;
+ const bool invalidate=call.operation==o::MemberOperation::invalidate_compile&&!call.virtual_call&&call.function==0x479f70&&call.encoded_adjustment==0;
+ const bool compile=call.operation==o::MemberOperation::compile&&call.virtual_call&&call.function==8&&call.encoded_adjustment==1;
+ const bool register_call=call.operation==o::MemberOperation::register_objectives&&call.virtual_call&&call.function==0x18&&call.encoded_adjustment==1;
+ if(reset){objective->done_14=0;if(objective->dispatch_0==of::Dispatch::kill_enemies)objective->quantity_20=0;error.clear();return true;}
+ if(invalidate){objective->done_14=0;objective->compiled_8=0;error.clear();return true;}
+ if(compile){
+  if(type==0){
+   if(objective->dispatch_0!=of::Dispatch::kill_enemies){error="GameEvent kind 0 has an unexpected Objective factory kind";return false;}
+   const auto& population=services.population.kill_enemies;
+   if(!population.read_current_level_population||population.expected_level_identity!=level_identity){error="GameEvent KillXEnemies requires same-Level population services";return false;}
+   ClearEnemiesPopulationSnapshotV1 snapshot{};
+   const auto expected_event_owner=reinterpret_cast<std::uintptr_t>(this);
+   if(!population.read_current_level_population(population.context,expected_event_owner,level_identity,definition.args[0],snapshot,error))return false;
+   if(snapshot.event_owner_identity!=expected_event_owner||snapshot.level_identity!=level_identity||snapshot.level_id<0||snapshot.loaded_match_count<0){error="GameEvent KillXEnemies population rejected stale Level/Quest-owner identity";return false;}
+   objective->derived_24=objective->fields.py_data_c;objective->derived_2c=static_cast<std::uint32_t>(definition.args[2]);
+   objective->compiled_8=(definition.args[1]!=-1&&definition.args[1]!=snapshot.level_id)||snapshot.loaded_match_count==0||definition.args[2]<=0?0:1;
+   if(objective->compiled_8&&definition.args[2]<=static_cast<std::int32_t>(objective->quantity_20)&&!objective->done_14){
+    objective->done_14=1;if(definition.common[2]>=0&&(!services.start_script||!services.start_script(services.script_context,definition.common[2],error))){if(error.empty())error="GameEvent KillXEnemies requires its ScriptManager provider";return false;}
+   }
+   if(definition.common[2]>=0&&!services.start_script){error="GameEvent KillXEnemies requires its ScriptManager provider";return false;}
+   error.clear();return true;
+  }
+  if(type==4){
+   if(objective->dispatch_0!=of::Dispatch::move_in_zone||!services.object_manager){error="GameEvent MoveInZone requires its native Objective kind and current-Level ObjectManager";return false;}
+   std::string name;if(!objective_string(*objective,definition,1,name,error))return false;
+   auto* target=services.object_manager->find_by_name(name,-1);
+   objective->derived_24=std::int32_t(-1);objective->derived_28=0;objective->compiled_8=0;
+   if(!target){error.clear();return true;}if(!target->identity){error="GameEvent MoveInZone target has no canonical object identity";return false;}
+   if(definition.args[1]!=-1){const auto& population=services.population.kill_enemies;if(!population.read_current_level_population||population.expected_level_identity!=level_identity){error="GameEvent MoveInZone requires same-Level population services";return false;}ClearEnemiesPopulationSnapshotV1 snapshot{};const auto expected_event_owner=reinterpret_cast<std::uintptr_t>(this);if(!population.read_current_level_population(population.context,expected_event_owner,level_identity,definition.args[1],snapshot,error))return false;if(snapshot.event_owner_identity!=expected_event_owner||snapshot.level_identity!=level_identity||snapshot.level_id<0||snapshot.loaded_match_count<0){error="GameEvent MoveInZone rejected stale Level/Quest-owner population data";return false;}if(snapshot.loaded_match_count==0){error.clear();return true;}}
+   objective->derived_24=target->source_handle;objective->derived_28=target->identity;objective->compiled_8=1;
+   if(definition.common[2]>=0&&!services.start_script){error="GameEvent MoveInZone requires its ScriptManager provider";return false;}
+   const auto identity=objective->ref.action.identity;auto prior=impl_->move_in_zone.find(identity);
+   if(prior==impl_->move_in_zone.end()){
+    std::int32_t event_type=-1;if(impl_->constant("v2QuestObjectiveType","MoveInZone",&event_type)||event_type<0){error="Actual MoveInZone event type constant unavailable";return false;}
+    auto binding=std::make_unique<Impl::MoveInZoneBinding>();binding->owner=this;binding->objective=objective;binding->level_identity=level_identity;binding->game_event_manager_identity=manager_identity;binding->event_type=event_type;binding->target_identity=target->identity;binding->target_props_id=definition.args[1];binding->script_id=definition.common[2];binding->script_context=services.script_context;binding->start_script=services.start_script;binding->character=services.move_in_zone_character;binding->game_event_trigger=true;
+    if(!impl_->move_in_zone.emplace(identity,std::move(binding)).second){error="GameEvent MoveInZone receiver metadata collision";return false;}
+   }else if(prior->second->objective!=objective||prior->second->level_identity!=level_identity||prior->second->game_event_manager_identity!=manager_identity||prior->second->target_identity!=target->identity||prior->second->target_props_id!=definition.args[1]||prior->second->script_context!=services.script_context||prior->second->start_script!=services.start_script){error="GameEvent MoveInZone receiver services changed";return false;}
+   error.clear();return true;
+  }
+  if(type==5){
+   if(objective->dispatch_0!=of::Dispatch::talk_to_npc){error="GameEvent kind 5 has an unexpected Objective factory kind";return false;}
+   objective->derived_24=definition.args[0];objective->compiled_8=definition.args[0]!=-1;
+   if(objective->compiled_8&&static_cast<std::int32_t>(objective->quantity_20)>=definition.args[2]&&!objective->done_14){objective->done_14=1;if(definition.common[2]>=0&&(!services.start_script||!services.start_script(services.script_context,definition.common[2],error))){if(error.empty())error="GameEvent TalkToNPC requires its ScriptManager provider";return false;}}
+   if(definition.common[2]>=0&&!services.start_script){error="GameEvent TalkToNPC requires its ScriptManager provider";return false;}
+   error.clear();return true;
+  }
+ }
+ if(register_call){
+  if(!objective->compiled_8){error.clear();return true;}
+  const auto identity=objective->ref.action.identity;
+  if(type==0){
+   if(objective->dispatch_0!=of::Dispatch::kill_enemies){error="GameEvent KillXEnemies Register found unexpected factory kind";return false;}
+   std::int32_t event_type=-1;if(impl_->constant("v2QuestObjectiveType","KillXEnemies",&event_type)||event_type<0){error="Actual KillXEnemies event type constant unavailable";return false;}
+   auto prior=impl_->kill_x_enemies.find(identity);
+   if(prior==impl_->kill_x_enemies.end()){
+    auto binding=std::make_unique<Impl::KillXEnemiesBinding>();binding->objective=objective;binding->level_identity=level_identity;binding->game_event_manager_identity=manager_identity;binding->event_type=event_type;binding->match_id=definition.args[0];binding->script_id=definition.common[2];binding->script_context=services.script_context;binding->start_script=services.start_script;binding->game_event_trigger=true;auto* context=binding.get();
+    if(!impl_->kill_x_enemies.emplace(identity,std::move(binding)).second){error="GameEvent KillXEnemies receiver metadata collision";return false;}
+    bool attached=false;auto status=impl_->current_level_events.attach(event_type,identity,0,context,Impl::KillXEnemiesBinding::receive,attached,error);if(status!=LevelEventStatus::complete||!attached){impl_->kill_x_enemies.erase(identity);if(error.empty())error="GameEvent KillXEnemies EventManager attach failed";return false;}context->attached=true;
+   }else if(prior->second->objective!=objective||prior->second->level_identity!=level_identity||prior->second->game_event_manager_identity!=manager_identity||prior->second->event_type!=event_type||prior->second->match_id!=definition.args[0]||prior->second->script_context!=services.script_context||prior->second->start_script!=services.start_script){error="GameEvent KillXEnemies receiver services changed";return false;}
+   error.clear();return true;
+  }
+  if(type==4){
+   auto found=impl_->move_in_zone.find(identity);if(found==impl_->move_in_zone.end()){error="GameEvent MoveInZone Register requires its compiled target binding";return false;}auto& binding=*found->second;
+   if(!binding.game_event_trigger||binding.objective!=objective||binding.level_identity!=level_identity||binding.game_event_manager_identity!=manager_identity||binding.target_identity!=objective->derived_28){error="GameEvent MoveInZone Register found stale target identity";return false;}
+   if(!binding.attached){bool attached=false;auto status=impl_->current_level_events.attach(binding.event_type,identity,0,&binding,Impl::MoveInZoneBinding::receive,attached,error);if(status!=LevelEventStatus::complete||!attached){if(error.empty())error="GameEvent MoveInZone EventManager attach failed";return false;}binding.attached=true;}error.clear();return true;
+  }
+  if(type==5){
+   if(objective->dispatch_0!=of::Dispatch::talk_to_npc||objective->derived_24.index()!=0){error="GameEvent TalkToNPC Register found invalid target";return false;}
+   auto prior=impl_->talk_to_npc.find(identity);
+   if(prior==impl_->talk_to_npc.end()){
+    std::int32_t event_type=-1;if(impl_->constant("v2QuestObjectiveType","TalkToNPC",&event_type)||event_type<0){error="Actual TalkToNPC event type constant unavailable";return false;}
+    if(definition.common[1]==5&&!services.talk_marker){error="GameEvent TalkToNPC marker requires current-Level marker services";return false;}
+    auto binding=std::make_unique<Impl::TalkToNpcBinding>();binding->owner=this;binding->objective=objective;binding->level_identity=level_identity;binding->game_event_manager_identity=manager_identity;binding->event_type=event_type;binding->target_props_id=std::get<std::int32_t>(objective->derived_24);binding->target_count=definition.args[2];binding->script_id=definition.common[2];binding->script_context=services.script_context;binding->start_script=services.start_script;binding->marker_context=services.talk_marker_context;binding->marker=services.talk_marker;binding->game_event_trigger=true;auto* context=binding.get();
+    if(!impl_->talk_to_npc.emplace(identity,std::move(binding)).second){error="GameEvent TalkToNPC receiver metadata collision";return false;}
+    bool attached=false;auto status=impl_->current_level_events.attach(event_type,identity,0,context,Impl::TalkToNpcBinding::receive,attached,error);if(status!=LevelEventStatus::complete||!attached){impl_->talk_to_npc.erase(identity);if(error.empty())error="GameEvent TalkToNPC EventManager attach failed";return false;}context->attached=true;
+    if(definition.common[1]==5){if(!services.talk_marker(services.talk_marker_context,identity,&objective->derived_28,context->target_props_id,TalkObjectiveMarkerOperationV1::register_target,0,0,error))return false;context->target_marked=true;}
+   }else if(prior->second->objective!=objective||prior->second->level_identity!=level_identity||prior->second->game_event_manager_identity!=manager_identity||prior->second->target_props_id!=std::get<std::int32_t>(objective->derived_24)||prior->second->script_context!=services.script_context||prior->second->start_script!=services.start_script){error="GameEvent TalkToNPC receiver services changed";return false;}
+   error.clear();return true;
+  }
+  error="GameEvent Register reached an unsupported trigger kind";return false;
+ }
+ error="GameEvent Objective adapter received an unsupported source member pointer";return false;
+}
+
 bool Owner::dispatch_objective_compile_member_v1(
  qc::Objective& objective,const qc::MemberCall& call,
  const ObjectiveCompileDispatchServicesV1& services,std::string& error){

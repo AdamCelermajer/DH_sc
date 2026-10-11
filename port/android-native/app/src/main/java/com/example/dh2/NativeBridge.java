@@ -2,6 +2,7 @@ package com.example.dh2;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 final class NativeBridge {
     static { System.loadLibrary("dh2_native"); }
     private static volatile Context applicationContext;
@@ -46,9 +47,12 @@ final class NativeBridge {
     static native boolean menuTextInputActive();
     /** Delivers a GameSWF key code on the GL thread while EnterName is active. */
     static native String menuKey(int gameSwfKeyCode,boolean down);
-    static native int consumeMenuLaunch(int[] request);
+    static native NativeLaunchRequest consumeMenuLaunch();
     static native String startMenuGame(int slot,android.content.res.AssetManager assets,int debugLevelRow,
                                        boolean hasNumericDifficulty,int requestedDifficulty);
+    /** Dispatches one deferred NativeGoToZone request on the GL owner thread. */
+    static native String transitionLevel(String destination,double rawEntryPoint,
+                                         android.content.res.AssetManager assets);
     static native String consumeMenuAudio();
     static native String consumeMenuSound();
     static native String loadTexture(byte[] encoded);

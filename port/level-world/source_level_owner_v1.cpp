@@ -123,6 +123,7 @@ bool Owner::suspend_projection() noexcept {
     if (state_.phase != Phase::active || !state_.renderer_projection) return false;
     state_.renderer_projection = nullptr;
     state_.phase = Phase::suspended;
+    retained_logical_level_ = true;
     floor_world_ = nullptr;
     floor_height_query_ = nullptr;
     floor_query_generation_ = 0;
@@ -149,6 +150,11 @@ bool Owner::begin_teardown() noexcept {
 bool Owner::mark_source_level_caches_cleared() noexcept {
     if (state_.phase != Phase::tearing_down || state_.source_level_caches_cleared ||
         state_.object_manager_flushed) return false;
+    if (character_oid_cache_.level_identity() &&
+        character_oid_cache_.clear_level(state_.source_level,
+            character_oid_cache_.generation()) !=
+                character_oid_cache_v1::Status::complete)
+        return false;
     state_.source_level_caches_cleared = true;
     return true;
 }
@@ -172,6 +178,7 @@ bool Owner::finish_teardown() noexcept {
     if (!object_manager_.empty() && !state_.object_manager_flushed) return false;
     const auto generation = state_.generation;
     state_ = {};
+    retained_logical_level_ = false;
     state_.generation = generation;
     state_.object_manager_flush_count = object_manager_flush_count_;
     state_.object_manager_identity = reinterpret_cast<std::uintptr_t>(&object_manager_);
@@ -206,7 +213,7 @@ bool Owner::bind_native_level(const NativeLevelBinding& binding) noexcept {
         !binding.level_fields || !binding.quest_owner ||
         !binding.player_savegame || !binding.player_character ||
         binding.level_row < 0 || binding.entry_point < 0 ||
-        binding.source_save_slot < 0 ||
+        binding.source_save_slot < 0 || !binding.character_table_size ||
         binding.level_state != 38 || state_.level_row != binding.level_row ||
         state_.entry_point != binding.entry_point ||
         state_.difficulty != binding.difficulty) return false;
@@ -227,6 +234,22 @@ bool Owner::bind_native_level(const NativeLevelBinding& binding) noexcept {
     state_.source_level_savegame = reinterpret_cast<std::uintptr_t>(&level_savegame_identity_);
     state_.canonical_player_savegame = binding.player_savegame;
     state_.source_level_state = binding.level_state;
+    if (!retained_logical_level_) {
+        state_.transition_flag_144 = 0; // Level C1 writes zero at 0x3f3260.
+        state_.application_flag_145 = 0; // Level C1 writes zero at 0x3f3264.
+        state_.loading_callback_guard_198 = 0; // Level C1 writes zero at 0x3f3284.
+        state_.unload_force_f0 = 0;
+        // Level C1 starts these null, then Level::_LoadCamera installs the
+        // CameraLevel and CameraOverview owners. Until those owners are bound,
+        // the live unload values are unknown and queued teardown must fail closed.
+        state_.cleanup_index_74_known = false;
+        state_.cleanup_index_75_known = false;
+        state_.has_cleanup_index_74 = false;
+        state_.has_cleanup_index_75 = false;
+        state_.cleanup_index_74_identity = 0;
+        state_.cleanup_index_75_identity = 0;
+    }
+    retained_logical_level_ = false;
     state_.level_fields = binding.level_fields;
     state_.quest_owner = binding.quest_owner;
     state_.player_character = binding.player_character;
@@ -234,11 +257,122 @@ bool Owner::bind_native_level(const NativeLevelBinding& binding) noexcept {
     state_.entry_point = binding.entry_point;
     state_.difficulty = binding.difficulty;
     state_.source_save_slot = binding.source_save_slot;
+    if (character_oid_cache_.begin_level(state_.source_level,
+            binding.character_table_size) !=
+                character_oid_cache_v1::Status::complete)
+        return false;
     if (binding.pending_script_id_known) {
         state_.pending_script_id = binding.pending_script_id;
         state_.pending_script_id_known = true;
     }
     return true;
+}
+
+bool Owner::publish_level_update_complete(std::uint32_t generation) noexcept {
+    if (state_.phase != Phase::active || !state_.renderer_projection ||
+        !state_.source_level || generation != state_.generation ||
+        state_.source_level_state != 38)
+        return false;
+    // Level::Update writes Level+0x144=1 only after the Level has reached the
+    // loaded state (IDA 0x3f87c8). Keep this transition gate attached to the
+    // same retained source-Level identity and generation.
+    state_.transition_flag_144 = 1;
+    return true;
+}
+
+bool Owner::set_application_flag_145(std::uintptr_t level,
+                                     std::uint8_t value) noexcept {
+    if (value > 1 || state_.phase != Phase::active ||
+        !state_.renderer_projection || level != state_.source_level)
+        return false;
+    state_.application_flag_145 = value;
+    return true;
+}
+
+bool Owner::set_unload_force_f0(std::uintptr_t level,
+                                std::uint8_t value) noexcept {
+    if (value > 1 || state_.phase != Phase::active ||
+        !state_.renderer_projection || level != state_.source_level)
+        return false;
+    state_.unload_force_f0 = value;
+    return true;
+}
+
+bool Owner::set_source_level_state(std::uintptr_t level,
+                                   std::int32_t value) noexcept {
+    if (state_.phase != Phase::active || !level ||
+        state_.source_level != level)
+        return false;
+    state_.source_level_state = value;
+    return true;
+}
+
+bool Owner::begin_checkpoint_load(std::uintptr_t level) noexcept {
+    if (state_.phase != Phase::active || !state_.renderer_projection ||
+        state_.source_level_state != 38 || !level ||
+        level != state_.source_level || state_.checkpoint_load_in_progress)
+        return false;
+    state_.checkpoint_load_in_progress = 1;
+    return true;
+}
+
+bool Owner::finish_checkpoint_load(std::uintptr_t level) noexcept {
+    if (state_.phase != Phase::active || !state_.renderer_projection ||
+        !level || level != state_.source_level ||
+        !state_.checkpoint_load_in_progress)
+        return false;
+    state_.checkpoint_load_in_progress = 0;
+    return true;
+}
+
+bool Owner::reset_is_loaded(std::uintptr_t level) noexcept {
+    if (state_.phase != Phase::active || !state_.renderer_projection ||
+        level != state_.source_level)
+        return false;
+    // Application::LoadLevel calls ResetIsLoaded before the queued GSLevel
+    // handoff. Source ResetIsLoaded clears both Level+0x144 and +0x130.
+    state_.transition_flag_144 = 0;
+    state_.source_level_state = 0;
+    return true;
+}
+
+bool Owner::bind_level_cleanup_owners(std::uintptr_t level,
+                                     std::uintptr_t camera_level,
+                                     std::uintptr_t camera_overview) noexcept {
+    if (state_.phase != Phase::active || !state_.renderer_projection ||
+        level != state_.source_level || !camera_level || !camera_overview ||
+        camera_level == camera_overview ||
+        state_.cleanup_index_74_known || state_.cleanup_index_75_known)
+        return false;
+    state_.cleanup_index_74_identity = camera_level;
+    state_.cleanup_index_75_identity = camera_overview;
+    state_.cleanup_index_74_known = true;
+    state_.cleanup_index_75_known = true;
+    state_.has_cleanup_index_74 = true;
+    state_.has_cleanup_index_75 = true;
+    return true;
+}
+
+bool Owner::clear_level_cleanup_owner(std::uintptr_t level, std::uint32_t index,
+                                     std::uintptr_t owner_identity) noexcept {
+    if (state_.phase != Phase::active || !state_.renderer_projection ||
+        level != state_.source_level || !owner_identity)
+        return false;
+    if (index == 74 && state_.cleanup_index_74_known &&
+        state_.has_cleanup_index_74 &&
+        state_.cleanup_index_74_identity == owner_identity) {
+        state_.has_cleanup_index_74 = false;
+        state_.cleanup_index_74_identity = 0;
+        return true;
+    }
+    if (index == 75 && state_.cleanup_index_75_known &&
+        state_.has_cleanup_index_75 &&
+        state_.cleanup_index_75_identity == owner_identity) {
+        state_.has_cleanup_index_75 = false;
+        state_.cleanup_index_75_identity = 0;
+        return true;
+    }
+    return false;
 }
 
 bool Owner::sg_block_level(std::uintptr_t level, std::uint32_t blocked) noexcept {
@@ -279,6 +413,31 @@ int Owner::set_initial_position_height(std::uint32_t generation,
     if (result == 0) return 0;
     if (result != 1 || !std::isfinite(hit.height)) return -1;
     xyz[2] = hit.height;
+    return 1;
+}
+
+int Owner::query_floor(std::uint32_t generation, const float xyz[3],
+                       std::uint32_t include_special,
+                       navigation::HeightHit* hit,
+                       const navigation::CollisionWorld** world) const noexcept {
+    if (world) *world = nullptr;
+    if (!xyz || !hit || !world || include_special > 1 ||
+        !std::isfinite(xyz[0]) || !std::isfinite(xyz[1]) ||
+        !std::isfinite(xyz[2]) || state_.phase != Phase::active ||
+        !state_.renderer_projection || generation != state_.generation ||
+        !floor_world_ || !floor_height_query_ ||
+        floor_query_generation_ != generation ||
+        state_.floor_query_generation != generation ||
+        !state_.floor_query_bound) return -1;
+    *hit = {};
+    hit->height = xyz[2];
+    *world = floor_world_;
+    const int result = floor_height_query_(hit, floor_world_, xyz,
+                                           include_special);
+    if (result == 0) return 0;
+    if (result != 1 || hit->floor >= floor_world_->floor_count ||
+        hit->room >= floor_world_->room_count || !std::isfinite(hit->height))
+        return -1;
     return 1;
 }
 

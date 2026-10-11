@@ -20,6 +20,13 @@ function __dh2_player_combat(callback_name, attacker, defender)
     return _G[callback_name]({_this = attacker}, {_this = defender})
 end
 )lua";
+constexpr char projectile_identity_transport[] = R"lua(
+function __dh2_player_projectile_delayed(callback_name, target, skill_script)
+    return _G[callback_name]({_this = target}, skill_script)
+end
+)lua";
+int discard_returns(void*,const dh2_script_first_return_v1*,std::uint32_t,
+                    char*,std::size_t){return 0;}
 }
 void VmDeleter::operator()(dh2_script_vm* p)const noexcept{dh2_script_vm_destroy(p);}
 struct Session::Impl {
@@ -30,6 +37,7 @@ struct Session::Impl {
     std::vector<Resource> resources;
     Statistics stats;std::string path,error;Stage stage=Stage::created;bool busy=false;
     bool combat_identity_transport_loaded=false;
+    bool projectile_identity_transport_loaded=false;
     Impl(Vm v,Configuration c):vm(std::move(v)),config(std::move(c)),path(config.initial_path){}
     ~Impl(){busy=true;vm.reset();config.providers.lifetime.reset();dh2_script_alias_destroy(aliases);}
     int failure(char* text,std::size_t size,const char* why){
@@ -306,7 +314,75 @@ int Session::call_all(const char* name,const dh2_script_value* args,std::uint32_
     try{int status=impl_->call_all(name,args,count,observer,context);error=impl_->error;return status;}
     catch(...){error="source callback dependency exception";return -1;}
 }
+int Session::call_projectile_skill(const char* callback_name,
+    const dh2_script_value* set_skill_arguments,std::uint32_t count,
+    std::uintptr_t target_identity,std::uintptr_t projectile_identity,
+    dh2_script_returns_observer_v1 observer,void* context,std::string& error) {
+    auto& s=*impl_;
+    if(s.busy || s.stage!=Stage::character_bound || !set_skill_arguments ||
+       count!=2 || !target_identity || !projectile_identity || !callback_name || !observer ||
+       (std::strcmp(callback_name,"OnDelayedSkill")!=0 &&
+        std::strcmp(callback_name,"OnDelayedSkillCheck")!=0) ||
+       set_skill_arguments[0].type!=DH2_SCRIPT_STRING ||
+       !set_skill_arguments[0].text ||
+       set_skill_arguments[1].type!=DH2_SCRIPT_NUMBER) {
+        error="invalid same-VM projectile skill callback request";return -1;
+    }
+    const char* set_skill_alias=dh2_script_alias_resolve(s.aliases,"SetSkill");
+    if(!set_skill_alias) {
+        error="projectile SetSkill alias is absent";return -1;
+    }
+    Busy busy(s.busy);s.error.clear();
+    try {
+        const std::string set_skill_name(set_skill_alias);
+        const auto discard=dh2_script_vm_call_all_source_v1(
+            s.vm.get(),set_skill_name.c_str(),set_skill_arguments,count,
+            discard_returns,nullptr);
+        s.error=dh2_script_vm_error(s.vm.get());
+        // CharAISkillScript returns zero immediately when SetSkill errors. Its
+        // ReturnValues are cleared before the delayed callback and never gate it.
+        if(discard!=0) {
+            if(discard==-5 && s.error.empty())
+                s.error="required Player SetSkill service failure caught by Lua";
+            error=s.error;return discard;
+        }
+        // Resolve the second source name only after SetSkill has run, so any
+        // alias-table mutation it performs is visible to the delayed call.
+        const char* delayed_alias=dh2_script_alias_resolve(s.aliases,callback_name);
+        if(!delayed_alias) {
+            error="delayed projectile callback alias is absent";return -1;
+        }
+        const std::string delayed_name(delayed_alias);
+        if(!s.projectile_identity_transport_loaded) {
+            const int loaded=dh2_script_vm_load(s.vm.get(),projectile_identity_transport,
+                sizeof(projectile_identity_transport)-1,
+                "player-projectile-identity-transport");
+            if(loaded) {
+                s.error=dh2_script_vm_error(s.vm.get());
+                if(s.error.empty())s.error="Player projectile identity transport load failed";
+                error=s.error;return loaded;
+            }
+            s.projectile_identity_transport_loaded=true;
+        }
+        dh2_script_value arguments[3]{};
+        arguments[0].type=DH2_SCRIPT_STRING;
+        arguments[0].text=delayed_name.c_str();
+        arguments[0].text_bytes=delayed_name.size();
+        arguments[1].type=DH2_SCRIPT_IDENTITY;arguments[1].identity=target_identity;
+        arguments[2].type=DH2_SCRIPT_IDENTITY;arguments[2].identity=projectile_identity;
+        const auto delayed=dh2_script_vm_call_all_source_v1(s.vm.get(),
+            "__dh2_player_projectile_delayed",arguments,3,
+            observer,context);
+        s.error=dh2_script_vm_error(s.vm.get());
+        if(delayed==-5 && s.error.empty())
+            s.error="required Player delayed projectile service failure caught by Lua";
+        error=s.error;return delayed;
+    } catch(...) {
+        error="Player projectile callback dependency exception";return -1;
+    }
+}
 dh2_script_vm* Session::vm()const noexcept{return impl_->vm.get();}
+bool Session::has_source_lua_script()const noexcept{return impl_&&impl_->vm.get()!=nullptr;}
 std::uintptr_t Session::character_identity()const noexcept{return impl_->config.character;}
 std::uintptr_t Session::ais_identity()const noexcept{return impl_->config.ais->ais;}
 Stage Session::stage()const noexcept{return impl_->stage;}

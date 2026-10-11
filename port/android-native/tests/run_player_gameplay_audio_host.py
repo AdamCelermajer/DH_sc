@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -80,8 +81,62 @@ for source_id, (label, filename, uid) in source_rows.items():
         header = pcm.read(12)
     assert header[:4] == b"RIFF" and header[8:12] == b"WAVE"
 
-# Verify the existing JNI/Android path remains connected end-to-end.
+# The production lookup is the complete ordered SDD Sounds name table, not
+# the smaller retained playback catalog. Keep every source row ID exact.
 cpp = APP / "cpp"
+sound_name_header = cpp / "source_sound_names_v1.hpp"
+generated_names = [
+    (int(row_id), json.loads('"' + name + '"'))
+    for row_id, name in re.findall(
+        r'^\s*\{(\d+), "((?:[^"\\]|\\.)*)"\},$',
+        sound_name_header.read_text(encoding="utf-8"), re.M)
+]
+assert generated_names == list(enumerate(sound_names)) and len(generated_names) == 638
+audio_header = (cpp / "player_gameplay_audio.hpp").read_text(encoding="utf-8")
+catalog_block = audio_header.split("inline constexpr std::array<CatalogEntry,51> catalog{{", 1)[1].split("}};", 1)[0]
+catalog_rows = re.findall(
+    r'^\s*\{"([^"]+)","([^"]+)","([^"]+)",(\d+),(\d+)\},$',
+    catalog_block, re.M)
+assert len(catalog_rows) == 51
+for label, source_filename, playback_filename, uid, source_id in catalog_rows:
+    assert int(source_id) < len(sound_names) and sound_names[int(source_id)] == label
+    source_row = xml_sounds[label]
+    assert source_row.get("filename") == source_filename
+    assert source_row.get("uid") == uid
+    assert (APP / f"assets/original-media/gameplay/{playback_filename}").is_file()
+
+animation_manifest_path = APP / "assets/original-media/gameplay/animation-sfx-provenance.json"
+animation_manifest = json.loads(animation_manifest_path.read_text(encoding="utf-8"))
+assert animation_manifest["source_archive"] == "Dungeon-Hunter-2-HD-v1-0-2-cache.zip"
+assert len(animation_manifest["staged"]) == 14 and len(animation_manifest["unavailable"]) == 5
+for row in animation_manifest["staged"]:
+    assert sound_names[row["source_sound_id"]] == row["source_sound_name"]
+    source = xml_sounds[row["source_sound_name"]]
+    assert source.get("uid") == str(row["uid"])
+    assert source.get("filename") == row["filename"]
+    asset = APP / f"assets/original-media/gameplay/{row['filename']}"
+    data = asset.read_bytes()
+    assert len(data) == row["bytes"] and hashlib.sha256(data).hexdigest() == row["sha256"]
+    assert data[:4] == b"RIFF" and data[8:12] == b"WAVE"
+for row in animation_manifest["unavailable"]:
+    assert sound_names[row["source_sound_id"]] == row["source_sound_name"]
+    assert xml_sounds[row["source_sound_name"]].get("uid") == str(row["uid"])
+    assert not (APP / f"assets/original-media/gameplay/{row['filename']}").exists()
+
+script_manifest = json.loads(
+    (APP / "assets/original-media/gameplay/script-sfx-provenance.json").read_text(encoding="utf-8"))
+assert len(script_manifest["script_sound_assets"]) == 10
+for row in script_manifest["script_sound_assets"]:
+    assert sound_names[row["source_sound_id"]] == row["source_sound_name"]
+    source = xml_sounds[row["source_sound_name"]]
+    assert source.get("uid") == str(row["uid"])
+    assert source.get("filename") == row["filename"]
+    asset = APP / f"assets/original-media/gameplay/{row['filename']}"
+    data = asset.read_bytes()
+    assert len(data) == row["bytes"] and hashlib.sha256(data).hexdigest() == row["sha256"]
+    assert data[:4] == b"RIFF" and data[8:12] == b"WAVE"
+
+# Verify the existing JNI/Android path remains connected end-to-end.
 native_skills = (cpp / "native_player_skills.cpp").read_text(encoding="utf-8")
 native_bridge = (cpp / "native_app.cpp").read_text(encoding="utf-8")
 front_audio = (APP / "java/com/example/dh2/FrontAudio.java").read_text(encoding="utf-8")

@@ -142,6 +142,37 @@ int main(int argc, char** argv) {
         require(dh2::world::census_source_characters_with_handles(
                     mlx.data(), mlx.size(), mgps.data(), mgps.size(), handles,
                     character_census, error), error.c_str());
+        std::vector<dh2::world::SourceObjectCensusV1> object_census;
+        require(dh2::world::census_source_objects_with_handles_for_level(
+                    mlx.data(), mlx.size(), "SWAMP", "data/scene/001_swamp.mlx",
+                    mgps.data(), mgps.size(), nullptr, handles, object_census,
+                    error), error.c_str());
+        std::size_t destructible_rows = 0;
+        for (const auto& row : object_census) {
+            if (row.gametype != "DestructibleContainer") continue;
+            ++destructible_rows;
+            if (!(row.template_name == "DestructibleContainer" &&
+                  !row.duplicate_name && row.source_handle >= 0 &&
+                  !row.name.empty() && !row.data_desc.empty() &&
+                  row.data_desc_pydata == "DestructibleContainers" &&
+                  row.target_node.empty()))
+                std::cerr << "DestructibleContainer source row " << row.name
+                          << " template=" << row.template_name
+                          << " data_desc=" << row.data_desc
+                          << " pydata=" << row.data_desc_pydata
+                          << " target_node=" << row.target_node
+                          << " handle=" << row.source_handle
+                          << " duplicate=" << unsigned(row.duplicate_name) << '\n';
+            require(row.template_name == "DestructibleContainer" &&
+                        !row.duplicate_name && row.source_handle >= 0 &&
+                        row.source_module_id == static_cast<std::int32_t>(row.module_index) &&
+                        !row.name.empty() && !row.data_desc.empty() &&
+                        row.data_desc_pydata == "DestructibleContainers" &&
+                        row.target_node.empty(),
+                    "DestructibleContainer census lost its exact source table selector, data_desc, or handle provenance");
+        }
+        require(destructible_rows != 0,
+                "generic source census omitted authored SWAMP DestructibleContainers");
         std::size_t expected_character_occurrences = 0;
         for (const auto& occurrence : handles.occurrences)
             if (occurrence.source.kind == static_cast<dh2::world::RecordKind>(1) &&
@@ -162,6 +193,8 @@ int main(int argc, char** argv) {
         bool global_priest = false;
         bool global_faery = false;
         bool default_non_global_merchant = false;
+        bool authored_group_role_seen = false;
+        bool authored_spawn_view_radius_seen = false;
         for (const auto& row : character_census) {
             const auto found = std::find_if(handles.occurrences.begin(),
                 handles.occurrences.end(), [&](const auto& occurrence) {
@@ -174,6 +207,14 @@ int main(int argc, char** argv) {
                         found->source.name == row.name &&
                         found->duplicate_name == row.duplicate_name,
                     "census row lost exact MGP/handle-ledger provenance");
+            if (row.char_group_role == "Normal" || row.char_group_role == "Leader" ||
+                row.char_group_role == "MasterLeader" || row.char_group_role == "Group")
+                authored_group_role_seen = true;
+            if (row.name == "_prim_Monster_LizManIntro1") {
+                require(row.spawn_view_radius == "400",
+                    "Character MGP census dropped the source spawn_view_radius property");
+                authored_spawn_view_radius_seen = true;
+            }
             if (row.is_global) {
                 ++global_rows;
                 require(row.module_index == 0 &&
@@ -246,8 +287,9 @@ int main(int argc, char** argv) {
         require(supported_rows == actor_sources.size(),
             "source census and supported DACT projection disagree");
         require(global_rows == 2 && global_priest && global_faery &&
-                    default_non_global_merchant,
-            "source-global MGP values or absent-isGlobal default were not preserved");
+                    default_non_global_merchant && authored_group_role_seen &&
+                    authored_spawn_view_radius_seen,
+            "source MGP property values or absent-isGlobal default were not preserved");
         auto duplicate_handles=handles;
         auto duplicate=std::find_if(duplicate_handles.occurrences.begin(),
             duplicate_handles.occurrences.end(),[](const auto& occurrence){

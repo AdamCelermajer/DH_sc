@@ -10,10 +10,12 @@ bool overlap(Range a,Range b){return a.b<b.e&&b.b<a.e;}
 std::int32_t signed_word(std::uint32_t n){std::int32_t out;std::memcpy(&out,&n,4);return out;}
 bool valid(const Bindings& b){return b.ai&&b.ai->identity&&b.ai->owner_04&&b.coordinator&&b.coordinator->bound()&&
     b.ai->owner_04==b.coordinator->owner()&&b.object&&b.object->identity==b.ai->owner_04&&
-    b.controller&&b.properties&&b.view&&b.view->resolved&&b.dead&&b.debug_globals&&b.debug_services;}
+    b.controller&&b.properties&&b.view&&b.view->resolved&&(bool(b.dead)!=bool(b.dead_byte))&&b.debug_globals&&b.debug_services;}
 bool separate(const Bindings& b,Range r){
     const auto clear=[&](const auto* p){Range control;return range(p,control)&&!overlap(control,r);};
-    if(!clear(b.ai)||!clear(b.coordinator)||!clear(b.object)||!clear(b.view)||!clear(b.dead)||!clear(b.debug_globals)||!clear(b.debug_services))return false;
+    if(!clear(b.ai)||!clear(b.coordinator)||!clear(b.object)||!clear(b.view)||
+       (b.dead&&!clear(b.dead))||(b.dead_byte&&!clear(b.dead_byte))||
+       !clear(b.debug_globals)||!clear(b.debug_services))return false;
     for(const auto* sheet:{b.view->defaults,b.view->types,b.view->base,static_cast<const std::int32_t*>(b.view->saved),b.view->gear,static_cast<const std::int32_t*>(b.view->resolved)}){
         const auto at=reinterpret_cast<std::uintptr_t>(sheet);if(!sheet||at%4||at>UINTPTR_MAX-896||overlap(r,{at,at+896}))return false;
     }
@@ -96,7 +98,8 @@ struct Runtime::Call {
         *value=std::uint32_t(s.resolved[q->property]);return 0;
     }
     static int dot_dead(void* raw,std::uintptr_t actor,std::uint32_t* value){
-        auto& s=*static_cast<Call*>(raw);if(actor!=s.character||!value||!s.coherent())return s.fail("Player DoT actor differs");*value=*s.b.dead;return 0;
+        auto& s=*static_cast<Call*>(raw);if(actor!=s.character||!value||!s.coherent())return s.fail("Player DoT actor differs");
+        *value=s.b.dead?*s.b.dead:std::uint32_t(*s.b.dead_byte);return 0;
     }
     static int dot_attack(void* raw,const dt::AttackRequest* q){
         auto& s=*static_cast<Call*>(raw);if(!q||!s.coherent()||q->attacker!=s.character||q->defender!=s.character)return s.fail("Player DoT attack actors differ");

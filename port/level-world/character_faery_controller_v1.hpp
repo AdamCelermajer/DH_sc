@@ -1,11 +1,14 @@
 #pragma once
 
 #include "character_controller_commands.hpp"
+#include "actor_rotation.hpp"
 #include "navigation_objects.hpp"
 #include "navigation_heading.hpp"
+#include "navigation_path.hpp"
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 namespace dh2::character_runtime_factory_v1 { class Record; }
 
@@ -28,9 +31,24 @@ struct State {
     // controller. These are typed adapters consumed by the selected shared
     // navigation kernels, not a second path or Character owner.
     navigation::NavigationObject navigation{};
+    // GameObject::PathTo retains one PathObject on the same Character Record.
+    // The vector is its native-owned segment backing and is rebound after any
+    // storage growth; it does not create another path owner.
+    navigation::PathObject path{};
+    std::vector<navigation::PathSegment> path_storage;
+    std::vector<navigation::PathSegment> path_scratch;
+    // Source GameObject+0x1b4 moving byte, consumed by Stop/UpdatePath.
+    std::uint8_t moving{};
     navigation::HeadingState heading{};
     float destination[3]{};
+    // GameObject::InitFinal source-orders PFWorld::InitObject before the later
+    // GameObject::UpdatePFObject obstacle registration. Keep the initialized
+    // PFObject on this same Record across that boundary.
+    bool navigation_object_initialized{};
     bool navigation_ready{};
+    // GameObject's retained Euler/desired heading and turn direction, carried
+    // by this same Character Record and advanced by the shared rotation kernel.
+    actor::RotationState rotation{};
 };
 
 enum class Status : std::uint8_t {
@@ -64,6 +82,17 @@ Status initialize_navigation(factory::Record&,
     const navigation::CollisionWorld&, navigation::ObstacleRegistry&,
     const float position[3], float physical_radius,
     const float absolute_bounds_xyxy[4], std::string& error);
+
+// The two concrete GameObject::InitFinal calls, split at their source
+// boundary. InitObject retains the same Record PFObject; UpdatePFObject then
+// registers its obstacle in the already-owned Level registry.
+Status initialize_pf_object(factory::Record&,
+    const navigation::CollisionWorld&, const float position[3],
+    float source_extent, std::string& error);
+Status update_pf_object(factory::Record&,
+    const navigation::CollisionWorld&, navigation::ObstacleRegistry&,
+    float physical_radius, const float absolute_bounds_xyxy[4],
+    std::string& error);
 
 // Applies Level placement directly to the same Character PFObject and moves
 // its obstacle parent when height resolution changes floors. This deliberately

@@ -1,0 +1,36 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "architecture": "ARM32",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b9fbc",
+      "size": 720
+    },
+    {
+      "original_symbol": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+      "elf_address": "0x3b31a4",
+      "size": 404
+    },
+    {
+      "original_symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+      "elf_address": "0x3b10b4",
+      "size": 3388
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 188
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory17HasMainHandWeaponEv",
+      "elf_address": "0x3ffe8c",
+      "size": 48
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory16HasOffHandWeaponEv",
+      "elf_address": "0x400158",
+      "size": 68
+    }
+  ]
+}

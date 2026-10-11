@@ -19,6 +19,38 @@ using SourceHandle = std::int32_t;
 
 static_assert(sizeof(SourceHandle) == 4, "source ObjectHandle key is ARM32 int");
 
+// TriggerZoneExitLevel definition and live bytes, retained on its canonical
+// ObjectManager row (source ARM32 byte offsets are in the member names).
+struct TriggerZoneExitLevelV1 {
+    std::int32_t level_list_row_2004{-1};
+    std::int32_t level_id_2008{-1};
+    std::string level_name_2012;
+    std::int32_t entrypoint_id_2036{-1};
+    std::string fasttravel_id_2048;
+    std::int32_t active_players_960{};
+    std::uint8_t fasttravel_unlocked_2072{};
+    std::uint8_t fasttravel_menu_open_2073{};
+    // TriggerZone::setUpdating(false) clears this TriggerZone-owned byte.
+    std::uint8_t trigger_zone_update_state_7b4{};
+    std::uint8_t definition_ready{};
+};
+
+// Mutable Door bytes retained on the same source ObjectManager row. Source
+// offsets match Door::Open/Close/Opened/Closed in libDungeonHunter2.so.
+struct DoorV1 {
+    std::int32_t state_936{};
+    std::uint8_t opened_932{};
+    std::uint8_t door_collision_933{};
+    std::uint8_t animation_busy_940{};
+    std::uint8_t animation_phase_133{};
+    std::uint8_t physical_present_732{};
+    std::uint8_t nav_dead_end_883{};
+    std::uint8_t definition_ready{};
+    // Receipt that GameObject::Deserialize's VisualObject::SyncVisibility
+    // effect is represented by the source zoning predicate at draw time.
+    std::uint8_t visibility_sync_ready{};
+};
+
 // Canonical owned GameObject projection. These fields are the source-backed
 // GameObject facts used by the existing zoning and RoomZone enrollment kernels.
 // The projection is not an overlay on the original ARM32 object.
@@ -38,10 +70,16 @@ struct GameObject {
     std::uint8_t zoning_enabled_2ee{1};
     std::uint8_t in_zone_2f0{};
     std::uint8_t visible_80{1};
+    std::uint8_t visible_80_ready{};
+    // PFObject constructor's +0x1cc word. GameObject::Enabled/Disabled
+    // toggles bit 3 here before updating its PhysicsObject and nav state.
+    std::uint32_t pf_object_flags_1cc{8};
     // ObjectBase::setUpdating and SetVisible write these on the same source
     // row. They are distinct from the ObjectManager update-list membership.
     std::uint8_t updating_85{};
     std::uint8_t deleted_state_82{};
+    // GameObject::Enabled/Disabled writes the inherited +0x373 byte.
+    std::uint8_t game_object_nav_dead_end_373{};
     // ObjectBase constructor's serialized +0x8a enabled byte. This belongs
     // to the same canonical GameObject row; Character construction publishes
     // it only after the source constructor completes.
@@ -62,6 +100,9 @@ struct GameObject {
     std::int32_t trigger_count_3a8{};
     std::int32_t trigger_max_count_3b4{};
     std::int32_t trigger_pending_3b8{};
+    // Trigger::Serialize (+0x3b8 then +0x3b4) source fields are available
+    // only after the canonical Trigger owner publishes this receipt.
+    std::uint8_t trigger_save_state_ready{};
     std::uint8_t trigger_interactive_784{};
     std::uint8_t trigger_interactive_ready{};
     std::uint8_t no_room_member_2f8{};
@@ -72,6 +113,10 @@ struct GameObject {
     // source constructor/runtime path has not supplied these facts for this
     // exact manager row and save adapters must fail closed.
     std::uint8_t save_eligibility_28{};
+    // ObjectBase constructor argument persisted at +0xF4 (GO_IDS). This is
+    // separate from the stable runtime identity and source ObjectHandle.
+    std::uint32_t go_ids_0f4{};
+    std::uint8_t go_ids_0f4_ready{};
     // ObjectBase lifetime lock byte, used by BackupObjectList::_Add/_Clear.
     std::uint8_t locked_29{};
     std::uint8_t locked_29_ready{};
@@ -92,6 +137,23 @@ struct GameObject {
     // The roll belongs to the canonical GameObject row and starts unqueried.
     std::int32_t spawn_probability_result_270{-1};
     std::int32_t spawn_probability_274{100};
+    // ObjectManager::InitPost publishes this only after the same ordered row
+    // completed its virtual +0x1c callback and TestEnableCondition(false).
+    // Save adapters use it as a receipt for the full manager phase.
+    std::uint8_t object_init_post_ready{};
+    // ConditionData embedded in ObjectBase has `tested` bytes at +0xac and
+    // +0xd0. These are retained separately from authored condition strings;
+    // the ordered manager phase publishes their current source values only
+    // after its TestEnableCondition(false) pass for this exact row.
+    std::uint8_t condition_tested_ac{};
+    std::uint8_t condition_tested_d0{};
+    std::uint8_t condition_tested_ac_ready{};
+    std::uint8_t condition_tested_d0_ready{};
+
+    // TriggerZoneExitLevel data belongs to this existing source row; there is
+    // no parallel zone registry or new Level/ObjectManager owner.
+    TriggerZoneExitLevelV1 exit_level{};
+    DoorV1 door{};
 
     // Optional borrowed live fields. When supplied, zoning/enrollment views
     // use these pointers instead of the value snapshot above. This lets a
@@ -242,6 +304,24 @@ public:
                                  std::int32_t max_count,
                                  std::int32_t pending,
                                  std::uint8_t interactive) noexcept;
+    // TriggerZoneExitLevel constructor/InitPost publish authored fields once
+    // on this same canonical ObjectManager row; Update changes its live count
+    // and two source bytes without creating another owner.
+    Status publish_exit_level_definition(Address identity,
+                                         std::int32_t level_list_row,
+                                         std::int32_t level_id,
+                                         std::string_view level_name,
+                                         std::int32_t entrypoint_id,
+                                         std::string_view fasttravel_id) noexcept;
+    Status publish_exit_level_active_players(Address identity,
+                                             std::int32_t active_players) noexcept;
+    Status publish_door_definition(Address identity,std::int32_t state,
+                                   std::uint8_t opened,
+                                   std::uint8_t door_collision,
+                                   std::uint8_t physical_present) noexcept;
+    Status publish_condition_tested(Address identity,
+                                    std::uint8_t tested_ac,
+                                    std::uint8_t tested_d0) noexcept;
 
     // ObjectManager+0x2c active update list and +0x34 Spawn staging list.
     // Call the first only with the result of ObjectBase vtable+0x38 during
@@ -251,6 +331,15 @@ public:
     Status append_init_post_update_object(Address identity,
                                           bool source_is_updatable,
                                           bool* appended) noexcept;
+    // ObjectManager::InitPost +0x44 condition-active list. This is separate
+    // from the +0x2c update list, but remains owned and ordered by this same
+    // canonical ObjectManager projection.
+    Status append_init_post_condition_object(Address identity,
+                                            bool* appended) noexcept;
+    // ObjectManager::InitPost clears its +0x2c, +0x44, and +0x34 lists after
+    // the virtual InitPost/TestEnable pass. Keep that clear on this canonical
+    // owner before the renderer publishes the source-ordered post-init lists.
+    void clear_init_post_lists() noexcept;
     Status stage_spawn_update_object(Address identity,
                                      bool source_is_updatable,
                                      bool* staged) noexcept;
@@ -259,6 +348,16 @@ public:
     // until the next call, matching that one-pass boundary.
     void begin_update_frame() noexcept;
     bool update_object_at(std::size_t index, GameObject** object) noexcept;
+    bool init_post_condition_object_at(std::size_t index,
+                                       Address* identity) const noexcept;
+    // Run the retained ObjectManager+0x44 ConditionData list in its source
+    // insertion order. ObjectManager::Update calls this pass before walking
+    // the +0x2c update list; callbacks must not mutate either list or erase
+    // their current object during traversal.
+    using ConditionUpdateCallback = bool (*)(void*, GameObject*) noexcept;
+    Status visit_condition_objects(void* context,
+                                   ConditionUpdateCallback callback,
+                                   std::size_t* visited) noexcept;
     // Run the caller's existing ObjectBase::Update projection once for each
     // active list node, in native +0x2c order. The callback must not mutate
     // this list or erase its current object during traversal.
@@ -268,6 +367,9 @@ public:
     std::size_t update_object_count() const noexcept { return update_objects_.size(); }
     std::size_t staged_update_object_count() const noexcept {
         return staged_update_objects_.size();
+    }
+    std::size_t init_post_condition_object_count() const noexcept {
+        return init_post_condition_objects_.size();
     }
 
     GameObject* find_by_source_handle(SourceHandle source_handle) noexcept;
@@ -342,7 +444,8 @@ public:
     SourceHandle next_source_handle() const noexcept { return next_source_handle_; }
     bool empty() const noexcept {
         return objects_.empty() && no_room_objects_.empty() && room_objects_.empty() &&
-            update_objects_.empty() && staged_update_objects_.empty();
+            update_objects_.empty() && staged_update_objects_.empty() &&
+            init_post_condition_objects_.empty();
     }
     std::size_t no_room_count() const noexcept { return no_room_objects_.size(); }
     bool no_room_at(std::size_t index, Address* identity) const noexcept;
@@ -361,6 +464,7 @@ private:
     // Exact list order, keyed only through the canonical GameObject identity.
     std::list<Address> update_objects_;
     std::list<Address> staged_update_objects_;
+    std::list<Address> init_post_condition_objects_;
     std::uint32_t visible_room_zone_count_{};
     std::uint8_t network_initialized_1ac_{};
 };

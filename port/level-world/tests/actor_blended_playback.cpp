@@ -49,7 +49,7 @@ void observe(void* raw,actor::BlendedPlayback& p,const actor::BlendedPlaybackEve
         !e.handoff.payload&&e.phase==actor::animator_event&&p.completion.pending,
         "Source animator callback choreography differs");
  }else{
-  check(e.handoff.event_id==0x22&&!e.handoff.payload&&e.phase==actor::sequence_event,"Finite closure handoff differs");
+  check(e.handoff.event_id==0x22&&e.handoff.payload==reinterpret_cast<const char*>(&p.sequence_closed)&&e.phase==actor::sequence_event,"Finite closure latch handoff differs");
   check(!p.scheduler.active()&&p.sequence_closed==1,"Closure not marked before observer");++c.closures;
   if(c.idle_on_close){const auto prior=p.current_clip();c.idle_on_close=false;
    check(p.start(*c.tables,262,*c.random,*c.bank,*c.binding,*c.scene,c.speed,c.error),c.error);

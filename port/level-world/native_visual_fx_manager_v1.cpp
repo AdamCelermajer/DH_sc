@@ -9,6 +9,15 @@
 #include <utility>
 
 namespace dh2::native_visual_fx_manager_v1 {
+
+bool exact_missing_effect_dict_asset(std::string_view diagnostic,
+                                     std::string_view source_path) noexcept {
+    constexpr std::string_view prefix = "Bundled asset missing: actors/";
+    return !source_path.empty() && diagnostic.size() == prefix.size() + source_path.size() &&
+           diagnostic.substr(0, prefix.size()) == prefix &&
+           diagnostic.substr(prefix.size()) == source_path;
+}
+
 namespace {
 constexpr std::size_t kMaxRows = 10000;
 constexpr std::size_t kMaxString = 4096;
@@ -318,9 +327,14 @@ Status Owner::GrabAnimFX(std::int32_t id, void* source_game_object,
         error = "VisualFXManager requires the shared AnimatedFX/scene backend";
         return Status::backend_missing;
     }
-    return start_step_instance(id, 0, 0, selected->loop, true,
-                               selected->type == 2, source_game_object,
-                               nullptr, nullptr, output, error);
+    const auto status = start_step_instance(id, 0, 0, selected->loop, true,
+        selected->type == 2, source_game_object, nullptr, nullptr, nullptr,
+        output, error);
+    if (status == Status::source_no_launch) {
+        error.clear();
+        return Status::ok;
+    }
+    return status;
 }
 
 Status Owner::RegisterFXSetToLoad(std::int32_t id, std::string& error) {
@@ -431,6 +445,7 @@ Status Owner::start_step_instance(std::int32_t id,
                                   bool random_set_entry,
                                   void* source_game_object,
                                   void* target_character,
+                                  void* target_object,
                                   void* animator_character,
                                   void** output, std::string& error,
                                   const SetData* set_data) {
@@ -473,7 +488,18 @@ Status Owner::start_step_instance(std::int32_t id,
             return Status::pool_exhausted;
         }
         void* instance = nullptr;
-        if (!backend_.create(backend_.context, dict_id, path, &instance, error) || !instance) {
+        const auto create_result = backend_.create(
+            backend_.context, dict_id, path, &instance, error);
+        if (create_result == CreateResult::source_no_launch) {
+            if (instance) {
+                backend_.destroy(backend_.context, instance);
+                error = "AnimatedFX create returned an instance with source no-launch";
+                return Status::load_failed;
+            }
+            error.clear();
+            return Status::source_no_launch;
+        }
+        if (create_result != CreateResult::created || !instance) {
             if (error.empty()) error = "AnimatedFX backend did not produce a loaded instance";
             return Status::load_failed;
         }
@@ -555,6 +581,7 @@ Status Owner::start_step_instance(std::int32_t id,
     chosen->sequence_loops_remaining = sequence_loops_remaining;
     chosen->source_game_object = source_game_object;
     chosen->target_character = nullptr;
+    chosen->target_object = nullptr;
     chosen->animator_character = nullptr;
     chosen->set_data = set_data;
     if (target_character) {
@@ -572,6 +599,22 @@ Status Owner::start_step_instance(std::int32_t id,
             return Status::lifecycle_failed;
         }
         chosen->target_character = target_character;
+    }
+    if (target_object) {
+        if (!backend_.bind_target_object ||
+            !backend_.bind_target_object(backend_.context, chosen->instance,
+                                         target_object, error) ||
+            !backend_.sync_irr_data ||
+            !backend_.sync_irr_data(backend_.context, chosen->instance, true, error) ||
+            !backend_.set_visible ||
+            !backend_.set_visible(backend_.context, chosen->instance, true, error)) {
+            if (error.empty()) error = "AnimatedFX next-step GameObject bind failed";
+            std::string reset_error;
+            (void)backend_.reset_for_pool(backend_.context, chosen->instance, reset_error);
+            chosen->active = false;
+            return Status::lifecycle_failed;
+        }
+        chosen->target_object = target_object;
     }
     if (animator_character) {
         if (!backend_.bind_animator_character ||
@@ -665,10 +708,14 @@ Status Owner::dispatch_anim_fx_set_step(SetData& set_data, bool& launched,
     void* instance = nullptr;
     const auto status = start_step_instance(set_data.effect_table_id,
         set_data.step_index, set_data.step_index, set_data.loops_remaining,
-        false, false, set_data.source_game_object, nullptr, nullptr, &instance,
+        false, false, set_data.source_game_object, nullptr, nullptr, nullptr, &instance,
         error, &set_data);
     if (status == Status::pool_exhausted) {
         // PlayAnimFX returns without effect when _GetAnimFX cannot allocate.
+        error.clear();
+        return Status::ok;
+    }
+    if (status == Status::source_no_launch) {
         error.clear();
         return Status::ok;
     }
@@ -752,6 +799,7 @@ Status Owner::DropAnimatedFX(void** instance, std::string& error) {
     slot->active = false;
     slot->source_game_object = nullptr;
     slot->target_character = nullptr;
+    slot->target_object = nullptr;
     slot->animator_character = nullptr;
     slot->set_data = nullptr;
     *instance = nullptr;
@@ -766,6 +814,20 @@ Status Owner::BindCharacter(void* instance, void* character, std::string& error)
         return backend_.bind_game_object ? Status::lifecycle_failed : Status::backend_missing;
     }
     slot->target_character = character;
+    slot->target_object = nullptr;
+    return Status::ok;
+}
+Status Owner::BindTargetObject(void* instance, void* object, std::string& error) {
+    error.clear(); auto* slot = find(instance);
+    if (!slot) { error = "GameObject bind uses an unowned AnimatedFX"; return Status::stale_instance; }
+    if (!object) { error = "GameObject bind requires a source object projection"; return Status::invalid_request; }
+    if (!backend_.bind_target_object ||
+        !backend_.bind_target_object(backend_.context, instance, object, error)) {
+        if (error.empty()) error = "AnimatedFX GameObject binding backend is missing";
+        return backend_.bind_target_object ? Status::lifecycle_failed : Status::backend_missing;
+    }
+    slot->target_character = nullptr;
+    slot->target_object = object;
     return Status::ok;
 }
 Status Owner::BindAnimatorCharacter(void* instance, void* character, std::string& error) {
@@ -802,6 +864,56 @@ Status Owner::ResumeAnimator(void* instance, std::string& error) {
     if (!backend_.resume_animator || !backend_.resume_animator(backend_.context, instance, error)) {
         if (error.empty()) error = "AnimatedFX animator resume backend is missing";
         return backend_.resume_animator ? Status::lifecycle_failed : Status::backend_missing;
+    }
+    return Status::ok;
+}
+
+Status Owner::GetAnimController(void* instance, void** controller,
+                                std::string& error) {
+    error.clear();
+    if (controller) *controller = nullptr;
+    auto* slot = find(instance);
+    if (!controller || !slot) {
+        error = "AnimatedFX controller query uses an invalid instance or output";
+        return slot ? Status::invalid_request : Status::stale_instance;
+    }
+    if (!backend_.get_anim_controller) {
+        error = "AnimatedFX controller query backend is missing";
+        return Status::backend_missing;
+    }
+    void* resolved = nullptr;
+    if (!backend_.get_anim_controller(backend_.context, slot->instance,
+                                      &resolved, error)) {
+        if (error.empty()) error = "AnimatedFX controller query failed";
+        return Status::lifecycle_failed;
+    }
+    slot->anim_controller = resolved;
+    *controller = resolved;
+    return Status::ok; // Source GetAnimController may return null.
+}
+
+Status Owner::PlayAnimControllerClip(void* controller,
+                                     std::uint32_t clip_index,
+                                     bool enabled,
+                                     std::string& error) {
+    error.clear();
+    if (!controller) return Status::ok; // Source method lookup on absent controller is a no-op.
+    auto slot = std::find_if(slots_.begin(), slots_.end(),
+        [controller](const Slot& candidate) {
+            return candidate.anim_controller == controller;
+        });
+    if (slot == slots_.end()) {
+        error = "Animation clip request uses an unowned AnimatedFX controller";
+        return Status::stale_instance;
+    }
+    if (!backend_.play_anim_controller_clip) {
+        error = "AnimatedFX PlayClip backend is missing";
+        return Status::backend_missing;
+    }
+    if (!backend_.play_anim_controller_clip(backend_.context, controller,
+                                           clip_index, enabled, error)) {
+        if (error.empty()) error = "AnimatedFX PlayClip backend failed";
+        return Status::lifecycle_failed;
     }
     return Status::ok;
 }
@@ -847,12 +959,13 @@ Status Owner::advance_sequence_step(void* instance, std::string& error) {
     const auto effect_table_id = current->effect_table_id;
     const auto source_game_object = current->source_game_object;
     const auto target_character = current->target_character;
+    const auto target_object = current->target_object;
     const auto animator_character = current->animator_character;
     void* next_instance = nullptr;
     const auto status = start_step_instance(effect_table_id, next_step, next_step,
         loops_remaining, false, false, source_game_object, target_character,
-        animator_character, &next_instance, error);
-    if (status == Status::pool_exhausted) {
+        target_object, animator_character, &next_instance, error);
+    if (status == Status::pool_exhausted || status == Status::source_no_launch) {
         // Source PlayAnimFXStep simply receives null when _GetAnimFX reaches
         // its per-dictionary cap; no sibling instance is fabricated.
         error.clear();
@@ -946,6 +1059,7 @@ Status Owner::InstallObjectiveMarker(std::uintptr_t* objective_fx_slot,
         return status;
     }
     *objective_fx_slot = reinterpret_cast<std::uintptr_t>(instance);
+    if (!instance) return Status::ok; // Source installs the null Grab result and returns.
     if ((status = BindCharacter(instance, target_character, error)) != Status::ok) return status;
     if ((status = SyncIrrData(instance, true, error)) != Status::ok) return status;
     if ((status = BindAnimatorCharacter(instance, target_character, error)) != Status::ok) return status;

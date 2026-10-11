@@ -218,4 +218,158 @@ const char* dh2_bres_version(const BresView* v) {
         if (!v->bytes[i]) return reinterpret_cast<const char*>(v->bytes + offset);
     return nullptr;
 }
+EmitterError dh2_bres_emitter(const BresView* view, std::int32_t index,
+                              Emitter* out) {
+    if (!view || !view->bytes || !out) return EmitterError::null_input;
+    *out = {};
+    if (index < 0) return EmitterError::index;
+    std::uint32_t count = 0, table = 0, stride = 0;
+    if (!library_span(view, Library::emitter, count, table, stride)
+        || stride != 144) return EmitterError::library;
+    if (static_cast<std::uint32_t>(index) >= count) return EmitterError::index;
+    const auto offset = table + static_cast<std::uint32_t>(index) * stride;
+    if (!span(offset, stride, view->size)) return EmitterError::row;
+    const auto* row = view->bytes + offset;
+    const auto read_float = [view](std::uint32_t at) {
+        const auto bits = word(view->bytes + at);
+        float value = 0;
+        std::memcpy(&value, &bits, sizeof(value));
+        return value;
+    };
+    const auto pointer_target = [view,row](std::uint32_t field,
+                                            std::uint32_t bytes,
+                                            std::uint32_t& target) {
+        target = word(row + field);
+        return target != 0 && span(target, bytes, view->size);
+    };
+    out->row_index = static_cast<std::uint32_t>(index);
+    out->row_offset = offset;
+    out->emitter_type = word(row + 8);
+    out->max_particles = signed32(word(row + 24));
+    out->birth_rate = read_float(offset + 32);
+    out->life = read_float(offset + 40);
+    out->life_variation = read_float(offset + 44);
+    out->target_size = read_float(offset + 48);
+    out->size_variation = read_float(offset + 52);
+    out->size_growth_time = read_float(offset + 56);
+    out->size_fade_time = read_float(offset + 60);
+    out->speed = read_float(offset + 64);
+    out->speed_variation = read_float(offset + 68);
+    out->direction_type = word(row + 72);
+    out->geometry_mode = word(row + 80);
+    out->shape_data_offset = word(row + 84);
+    out->animation_offset = read_float(offset + 92);
+    out->animation_offset_variation = read_float(offset + 96);
+    out->animation_key_mapping_type = word(row + 100);
+    out->animation_length = read_float(offset + 104);
+    out->animation_length_variation = read_float(offset + 108);
+    out->animation_scale_multiplier = read_float(offset + 112);
+    out->animation_scale_variation = read_float(offset + 116);
+    out->spin_time = read_float(offset + 120);
+    out->spin_variation = read_float(offset + 124);
+    out->spin_phase = read_float(offset + 128);
+    out->spin_phase_variation = read_float(offset + 132);
+    out->spin_axis_type = word(row + 136);
+    out->spin_axis_data_offset = word(row + 140);
+
+    // initParticleSystem reads RadiusLength and dimensions through +0x0c:
+    // type 0 uses radius/width/height; types 1 and 2 use radius/height.
+    // Preserve the serialized target as a file offset.
+    if (out->emitter_type <= 2) {
+        const std::uint32_t shape_bytes = out->emitter_type == 0 ? 12U : 8U;
+        if (!pointer_target(12, shape_bytes, out->radius_data_offset))
+            return EmitterError::radius_pointer;
+        out->radius_length = read_float(out->radius_data_offset);
+        if (out->emitter_type == 0) {
+            out->shape_width = read_float(out->radius_data_offset + 4);
+            out->shape_height = read_float(out->radius_data_offset + 8);
+            out->shape_width_present = out->shape_height_present = true;
+        } else {
+            out->shape_height = read_float(out->radius_data_offset + 4);
+            out->shape_height_present = true;
+        }
+    }
+    if (out->direction_type == 1 || out->direction_type == 2) {
+        const auto need = out->direction_type == 1 ? 16U : 8U;
+        if (!pointer_target(76, need, out->direction_data_offset))
+            return EmitterError::direction_pointer;
+        if (out->direction_type == 1) {
+            for (std::uint32_t i = 0; i < 3; ++i)
+                out->direction[i] = read_float(out->direction_data_offset + i * 4);
+            out->direction_variation = read_float(out->direction_data_offset + 12);
+            out->direction_variation_present = true;
+        } else {
+            // Source direction type 2 reads the scalar at vector+4; direction
+            // itself remains at the particle-context default.
+            out->direction_variation = read_float(out->direction_data_offset + 4);
+            out->direction_variation_present = true;
+        }
+    }
+    if (out->spin_axis_type == 1) {
+        if (!pointer_target(140, 16, out->spin_axis_data_offset))
+            return EmitterError::spin_axis_pointer;
+        for (std::uint32_t i = 0; i < 3; ++i)
+            out->spin_axis[i] = read_float(out->spin_axis_data_offset + i * 4);
+        out->spin_axis_variation = read_float(out->spin_axis_data_offset + 12);
+    }
+
+    // createParticleSystem only reads the shape pointer for mode 0. Tags 3/4
+    // use flags at +4 and subtype at +8; the lock-axis branches consume vec3
+    // data at +0x0c and/or +0x18. Other tags are selectors, not dimensions.
+    if (out->geometry_mode == 0) {
+        if (!out->shape_data_offset
+            || !span(out->shape_data_offset, 4, view->size))
+            return EmitterError::shape_pointer;
+        const auto* shape = view->bytes + out->shape_data_offset;
+        out->shape_source_tag = word(shape);
+        if (out->shape_source_tag == 3 || out->shape_source_tag == 4) {
+            if (!span(out->shape_data_offset, 12, view->size))
+                return EmitterError::shape_pointer;
+            out->shape_flags = word(shape + 4);
+            out->shape_subtype = word(shape + 8);
+            const bool use_axis_0 = out->shape_subtype == 1
+                && (out->shape_flags & 2U) != 0;
+            const bool use_axis_1 = (out->shape_subtype == 2)
+                || (out->shape_subtype == 1 && (out->shape_flags & 4U) != 0);
+            if (use_axis_0) {
+                if (!span(out->shape_data_offset + 12, 12, view->size))
+                    return EmitterError::shape_pointer;
+                for (std::uint32_t i = 0; i < 3; ++i)
+                    out->shape_lock_axis_0[i] = read_float(out->shape_data_offset + 12 + i * 4);
+            }
+            if (use_axis_1) {
+                if (!span(out->shape_data_offset + 24, 12, view->size))
+                    return EmitterError::shape_pointer;
+                for (std::uint32_t i = 0; i < 3; ++i)
+                    out->shape_lock_axis_1[i] = read_float(out->shape_data_offset + 24 + i * 4);
+            }
+        }
+    }
+    return EmitterError::ok;
+}
+EmitterError dh2_bres_visual_content(const BresView* view, VisualContent* out) {
+    if (!view || !view->bytes || !out) return EmitterError::null_input;
+    *out = {};
+    const auto read_count = [view](Library kind, std::uint32_t& count) {
+        std::uint32_t offset = 0, stride = 0;
+        return library_span(view, kind, count, offset, stride);
+    };
+    if (!read_count(Library::geometry, out->geometry_count)
+        || !read_count(Library::emitter, out->emitter_count)
+        || !read_count(Library::gnps_emitter, out->gnps_emitter_count)
+        || !read_count(Library::material, out->material_count)
+        || !read_count(Library::effect, out->effect_count)
+        || !read_count(Library::force, out->force_count)
+        || !read_count(Library::coronas, out->coronas_count))
+        return EmitterError::library;
+    const bool geometry = out->geometry_count != 0;
+    const bool particles = out->emitter_count != 0 || out->gnps_emitter_count != 0;
+    if (geometry && particles) out->kind = VisualContentKind::geometry_and_particles;
+    else if (geometry) out->kind = VisualContentKind::geometry;
+    else if (particles) out->kind = VisualContentKind::particles_without_geometry;
+    else if (out->force_count || out->coronas_count)
+        out->kind = VisualContentKind::auxiliary_only;
+    else out->kind = VisualContentKind::no_particles_or_geometry;
+    return EmitterError::ok;
+}
 }

@@ -43,23 +43,46 @@ Status construct(Owner* owner, Identity identity, const Services* services,
             ++result->rolled_back_steps;
         }
         *owner = {};
+        result->object_base_go_ids_f4 = 0;
+        result->object_base_go_ids_f4_ready = false;
         if (error.empty()) error = "Character constructor owner provider failed";
         return Status::service_failed;
     };
 
     for (const auto& step : source_steps) {
         int status = 1;
+        bool object_base_constructed = false;
         try {
-            if (step.action == Action::component)
+            if (step.action == Action::component &&
+                step.value == std::uint32_t(Component::game_object) &&
+                services->construct_object_base) {
+                status = services->construct_object_base(services->context,
+                    identity, step.source_argument, error);
+                if (status == 0) {
+                    object_base_constructed = true;
+                    owner->object_base_go_ids_f4 = step.source_argument;
+                    owner->object_base_go_ids_f4_ready = true;
+                }
+            }
+            if (status == 0 || step.action != Action::component ||
+                step.value != std::uint32_t(Component::game_object) ||
+                !services->construct_object_base) {
+                if (step.action == Action::component)
                 status = services->component(services->context,
                     static_cast<Component>(step.value), identity, error);
-            else
-                status = services->associate(services->context,
-                    static_cast<Association>(step.value), identity, error);
+                else
+                    status = services->associate(services->context,
+                        static_cast<Association>(step.value), identity, error);
+            }
         } catch (...) {
             status = 1;
         }
-        if (status != 0) return fail(step.callsite);
+        if (status != 0) {
+            if (object_base_constructed)
+                services->rollback(services->context, step.action, step.value,
+                                   identity);
+            return fail(step.callsite);
+        }
         completed[count++] = {step.action, step.value};
         ++result->completed_steps;
         if (step.action == Action::association &&
@@ -88,6 +111,8 @@ Status construct(Owner* owner, Identity identity, const Services* services,
     owner->constructor_complete = owner->target_list_bound && owner->controller_bound &&
         owner->registered_states == all_registered_states;
     result->registered_state_mask = owner->registered_states;
+    result->object_base_go_ids_f4 = owner->object_base_go_ids_f4;
+    result->object_base_go_ids_f4_ready = owner->object_base_go_ids_f4_ready;
     if (!owner->constructor_complete) {
         error = "Character constructor owner did not reach its source defaults";
         return fail(0x3a9868);

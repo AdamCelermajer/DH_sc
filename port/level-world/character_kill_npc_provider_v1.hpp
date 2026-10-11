@@ -40,6 +40,15 @@ struct Bindings {
     character_ai_classification::State* classification_state = nullptr;
     const character_ai_classification::Services* classification_services = nullptr;
     Services services{};
+    // Byte-backed variant for a factory Record's actual Character+0x1449
+    // field. Bind exactly one dead representation; this avoids a second
+    // widened dead-state copy for canonical factory Characters. Kept last to
+    // preserve existing positional aggregate initializers.
+    std::uint8_t* dead_byte = nullptr;
+    // Character::Kill stores a non-null Killer at Character+0x144c before
+    // walking its aggro recipients. Canonical factory callers bind this same
+    // Record field; legacy providers may leave it null.
+    std::uintptr_t* killer_144c = nullptr;
 };
 
 struct Snapshot {

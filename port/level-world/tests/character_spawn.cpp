@@ -1,6 +1,7 @@
 #include "character_factory.hpp"
 #include "../object_manager_runtime_owner_v1.hpp"
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdint>
@@ -128,6 +129,30 @@ int main(){
   expect_services(fixture.calls,{init_physical_object,set_animation,raise_event});
   require(fallback.body_present&&fallback.current==3,
           "CSSpawn blur constructs fallback body");
+
+  // CSSpawn::OnInit registers event 50008 -> state12. Its opaque payload
+  // survives _SetState and reaches CSDead::OnFocus LookAt.
+  State dead_from_spawn;dead_from_spawn.current=1;dead_from_spawn.flags=0x2241;
+  dead_from_spawn.body_present=1;dead_from_spawn.animation_override=77;
+  dead_from_spawn.current_animation=99;Facts player_facts=facts;player_facts.is_player=1;
+  fixture.facts=&player_facts;fixture.calls.clear();
+  constexpr std::uint64_t killer_payload=0x400000002ull;
+  require(dh2_character_spawn_dead_transition(&dead_from_spawn,&player_facts,
+          &spawn,killer_payload,&services)==1,
+          "Spawn death event reaches registered state12 transition");
+  require(dead_from_spawn.current==12&&dead_from_spawn.current_animation==77&&
+          dead_from_spawn.animation_override==-1,
+          "Spawn death event focuses Dead on the same state owner");
+  const auto dead_look=std::find_if(fixture.calls.begin(),fixture.calls.end(),
+      [](const Request& request){return request.service==look_at;});
+  require(dead_look!=fixture.calls.end()&&dead_look->argument[0]==1&&
+          dead_look->identity==killer_payload,
+          "Spawn event carries killer payload into CSDead focus");
+  require(fixture.calls.back().service==raise_event&&
+          fixture.calls.back().argument[0]==0x1d&&
+          fixture.calls.back().identity==1,
+          "Spawn death transition reports previous state after focus");
+  fixture.facts=&facts;
 
   // Limbus OnFocus's timer gate uses source facts, and its state update/event
   // body itself never fabricates an Idle transition.

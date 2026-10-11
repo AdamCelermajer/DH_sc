@@ -29,6 +29,39 @@ int main(){
           !can_play_shake_anim({true,true,2,true}),
           "source shake gate permits only the sole local Player character");
 
+    CameraOverviewOwner overview;
+    check(overview.construct({1280,720})&&overview.live()&&!overview.active(),
+          "Level camera construction retains a distinct inactive overview owner");
+    const auto overview_identity=overview.projection_identity();
+    const auto* overview_projection=overview.projection();
+    check(overview_identity!=0&&overview_projection&&
+          reinterpret_cast<std::uintptr_t>(overview_projection)==overview_identity&&
+          overview_projection->scene_node_id==1601003875&&
+          overview_projection->drawable.width==1280&&overview_projection->drawable.height==720&&
+          near(overview_projection->vertical_fov_radians,0.42963001132011414f)&&
+          near(overview_projection->authored_aspect_ratio,1.7778f)&&
+          near(overview_projection->near_clip,15000.0f)&&
+          near(overview_projection->far_clip,25000.0f)&&
+          near(overview_projection->position,{0,0,20000})&&
+          near(overview_projection->up,{0,1,0}),
+          "CameraOverview owns its source constructor camera node/projection parameters");
+    check(overview.resize({2400,1080})&&
+          overview.projection()->drawable.width==2400&&
+          near(overview.projection()->authored_aspect_ratio,1.7778f),
+          "overview retains the live renderer viewport without rewriting source SetData aspect");
+    const GameObjectSample overview_player{77,true,{12,34,56},false,{},false};
+    check(overview.activate(overview_player,400.0f)&&overview.active()&&
+          near(overview.projection()->target,{12,34,400})&&
+          near(overview.projection()->position,{12,34,20400})&&
+          near(overview.projection()->near_clip,15400)&&
+          near(overview.projection()->far_clip,25400),
+          "CameraOverview activation centers on the local Player and PFWorld midpoint");
+    check(!overview.destroy(overview_identity)&&overview.deactivate()&&
+          !overview.active()&&!overview.destroy(overview_identity+1)&&
+          overview.destroy(overview_identity)&&!overview.live()&&
+          overview.projection_identity()==0,
+          "overview must deactivate and match its actual retained projection before Level unload destroys it");
+
     GameObjectSample a{1,true,{2,3,4},true,{10,20,30},false},b{2,true,{50,60,70},false,{},false};
     Owner initialized_owner;
     check(near(initialized_owner.current_zoom(),0.0f)&&near(initialized_owner.target_zoom(),1.0f),

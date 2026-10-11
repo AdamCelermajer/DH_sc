@@ -13,8 +13,10 @@ namespace physical = dh2::physical;
 
 enum class Status : unsigned char {
     complete,
+    already_complete,
     incomplete_record,
     invalid_source_bounds,
+    visual_unavailable,
     already_attached,
     world_unavailable,
     body_creation_failed,
@@ -26,6 +28,16 @@ enum class Status : unsigned char {
 // Collision_Scale owner-bounds producer. The supplied NativeWorld is the
 // already-active Level/actor world; this provider never creates a world.
 Status attach(factory::Record&, physical::NativeWorld&,
+              const physical::CharacterOwnerBounds& source_bounds,
+              std::string& error);
+
+// Character::Revive(..., initPhysicalObject=true) continuation after
+// Character::InitPost has completed its SetPosition/ApplyMeshBox and the
+// same-Record BDAE visual Sync. Reuses the resulting source owner bounds and
+// the already-active actor world; never allocates a second Character, body,
+// or physics world. A repeated call for the same live owner is idempotent and
+// synchronizes the body to the canonical GameObject position.
+Status initialize_from_revive(factory::Record&, physical::NativeWorld&,
               const physical::CharacterOwnerBounds& source_bounds,
               std::string& error);
 

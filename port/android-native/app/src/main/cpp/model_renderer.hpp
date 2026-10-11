@@ -11,9 +11,31 @@
 namespace dh2::character_runtime_factory_v1 { class Record; }
 namespace dh2::native::quests { struct QuestTextServicesV1; }
 namespace model_renderer {
+using DisplayFastTravelServiceV1 = bool (*)(void*,bool,const std::string&,
+    const std::string&,std::int32_t,std::string&);
 using ItemTextServicesFactoryV5 = dh2::data::ItemTextServicesV5 (*)(
  void*,const dh2::data::ItemTable&,const dh2::data::CharacterTable&);
 void bind_item_text_services(void*,ItemTextServicesFactoryV5);
+struct SourceDialogServicesV1 {
+ void* context{};
+ // Returns 1 after source enqueue/flush dispatch, -1 on unavailable owner or
+ // rejected metadata. Dialog source IDs are resolved by OriginalUiSession.
+ int (*enqueue)(void*,std::int32_t actor_id,std::int32_t style_id,
+                std::int32_t text_string_id){};
+ // Returns 1 while the source DialogMsg queue is nonempty, 0 when empty,
+ // and -1 when the retained UI session cannot answer.
+ int (*active)(void*){};
+ // Resolves an original Dialogs pyarray row and enqueues all DialogSteps on
+ // the same retained SWF-backed DialogMsg queue.
+ int (*enqueue_id)(void*,std::int32_t dialog_id){};
+};
+void bind_source_dialog_services(const SourceDialogServicesV1&);
+struct SourceCharMenuTutorialServicesV1 {
+ void* context{};
+ int (*enqueue)(void*,std::int32_t string_id,const char* frame,const char* menu){};
+ int (*skip)(void*,bool skip_all){};
+};
+void bind_source_char_menu_tutorial_services(const SourceCharMenuTutorialServicesV1&);
 // Borrows the retained OriginalUiSession DesignSettingsTable bytes for
 // source DistributeXP scaling; caller keeps that table owner alive.
 void bind_xp_design_settings(const std::uint8_t*,std::size_t);
@@ -25,20 +47,32 @@ void runtime_directory(std::string);
 std::string profile_slot(int);
 bool menu_debug_load(AAssetManager*,std::string&);
 bool menu_debug_query(AAssetManager*,const char*,std::string&);
+bool menu_debug_switch_value(AAssetManager*,const char*,bool&,std::string&);
 bool create_menu_save_slot(AAssetManager*,const std::string&,const std::string&,std::int32_t&,bool&,std::string&,void*,bool (*)(void*,std::uint32_t*,std::string&));
 bool assign_menu_save_slot(std::int32_t slot,std::int32_t ordinal,std::string&);
 bool selected_menu_save_slot(std::int32_t&,std::string&);
 bool select_menu_preview_slot(std::int32_t,bool,std::string&);
+// Rebuilds the current main-menu preview after its source scene is reloaded.
+// An unset selected slot remains an empty preview.
+bool restore_menu_preview(std::string&);
 bool request_menu_start(bool,std::int32_t,std::int32_t&,std::string&);
 bool request_menu_continue(std::int32_t&,std::string&);
 std::string start_menu_game(std::int32_t,AAssetManager*,std::int32_t debug_level_row=-1,
                             bool has_numeric_difficulty=false,std::int32_t requested_difficulty=0);
+// Retain the application's existing UI session for source Level callbacks
+// that use the active HUDRoot. The renderer borrows this process-lifetime owner.
+void bind_gameplay_ui_session(void*) noexcept;
+// Dispatches one typed NativeGoToZone request after the GameSWF callback has
+// unwound, on the same GL thread that owns the renderer and live Level.
+std::string transition_level(const std::string& destination_name,
+                            double raw_entry_point,AAssetManager*,void*,
+                            DisplayFastTravelServiceV1);
 // Source MenuCharMenu_Map::ShowLevelName reads the active LevelList row's
 // localized name ID. Returns -1 when no current world/row is attached.
 std::int32_t ui_current_level_name_id() noexcept;
 std::vector<std::uint8_t> read_asset(AAssetManager*,const std::string&);
 void reset_context();
-void deactivate();
+void deactivate(bool defer_source_level_finish=false);
 // Returns false while retaining the gameplay owner if terminal retirement is
 // blocked by an active source dispatch or borrowed timer/state storage.
 bool unload_game_to_menu(std::string& error);
@@ -110,6 +144,8 @@ struct GameplayPoseSnapshotV1 {
  std::int32_t enemy_index=-1;
  std::array<float,3> enemy_position{};
  std::int32_t enemy_hp=0,enemy_max_hp=0;
+ // Read through the same live reach provider used by player_attack().
+ bool enemy_in_melee_range=false;
 };
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1&,std::string&);
 // Computes a temporary selected-floor route for the desktop input check. It
@@ -226,7 +262,13 @@ struct UiQuestReadV1 {
 // dynamic objective description field is requested.
 bool ui_player_quest_rows(std::uintptr_t,std::vector<UiQuestReadV1>&,std::string&,
                           const dh2::native::quests::QuestTextServicesV1* =nullptr);
+bool ui_player_resolve_current_quest(std::uintptr_t,
+    const std::vector<UiQuestReadV1>& source_order,
+    std::vector<UiQuestReadV1>& displayed_rows,std::string&);
 bool ui_player_save_game(std::uintptr_t,std::string&);
+// Authored NativeReviveAllPlayers action. The implementation snapshots the
+// active source Level generation before calling the canonical PlayerManager.
+bool ui_revive_local_players(std::string&);
 // Authored NativeSaveGame trophy tail, called only after its canonical
 // Player profile save has completed.
 bool ui_player_save_trophy_side_effects(std::uintptr_t,std::string&);
@@ -283,10 +325,16 @@ bool ui_source_merchant_identity(std::int32_t,const std::string&,std::uintptr_t&
 // Character::GetInteractionSpot/AI range kernel accepts the live interaction.
 bool ui_player_merchant_interaction_target(std::string&,std::int32_t&,
                                            std::uintptr_t&,std::string&);
+// Executes Character::Interact against the Player's current source OOI when
+// it is a live in-range Character target. `identity` is zero when no NPC
+// action applies; a nonempty error means the selected source path failed.
+bool ui_player_character_interact_target(std::uintptr_t& identity,
+                                         std::string& error);
 bool ui_source_merchant_inventory_slot(std::int32_t,const std::string&,std::int32_t,
                                        std::vector<UiMerchantItemReadV1>&,std::string&);
-bool ui_source_merchant_item_details(std::int32_t,const std::string&,std::int32_t,
-                                     std::uint32_t,UiItemDetailsReadV1&,std::string&);
+bool ui_source_merchant_item_details(std::uintptr_t,std::int32_t,const std::string&,
+                                     std::int32_t,std::uint32_t,
+                                     UiItemDetailsReadV1&,std::string&);
 bool ui_source_merchant_buy_quote(std::int32_t,const std::string&,std::int32_t,
                                   std::int32_t&,bool&,std::string&);
 // Source NativeMerchantBuyItem status domain: 0 success/no-op, 1 insufficient

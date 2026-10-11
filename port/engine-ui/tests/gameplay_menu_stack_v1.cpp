@@ -66,7 +66,10 @@ int main() {
         require(gameplay_menu_state_v1("menu_CharacterMenu") &&
                     gameplay_menu_state_v1("menu_InventorySheetMain") &&
                     gameplay_menu_state_v1("menu_SkillTreeSheetNew") &&
-                    gameplay_menu_state_v1("menu_FaerySheet"),
+                    gameplay_menu_state_v1("menu_FaerySheet") &&
+                    gameplay_menu_state_v1("menu_Loading") &&
+                    gameplay_menu_state_v1("menu_FadeToBlackScreen") &&
+                    gameplay_menu_state_v1("menu_FadeFromBlackScreen"),
                 "portrait, Inventory, Talents and Faery authored screens must remain reachable");
         require(!gameplay_menu_state_v1("menu_Inventory") &&
                     !gameplay_menu_state_v1("menu_Talents"),

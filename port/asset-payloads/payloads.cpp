@@ -211,6 +211,24 @@ std::uint32_t dh2_animation_segments(const BresView* image) {
     if (!l || !at(*image, word(l + 4), std::uint64_t(word(l)) * 24)) return 0;
     return word(l);
 }
+bool dh2_animation_segment_range(const BresView* image, std::int32_t segment,
+                                 std::int32_t* start_ms, std::int32_t* end_ms) {
+    if (!image || !start_ms || !end_ms || segment < 0
+        || std::uint32_t(segment) >= dh2_animation_segments(image)) return false;
+    const auto* root = at(*image, image->root_offset, 192);
+    if (!root) return false;
+    const auto* library = at(*image, word(root + 48), 8);
+    if (!library) return false;
+    const auto* rows = at(*image, word(library + 4),
+                          std::uint64_t(word(library)) * 24);
+    if (!rows) return false;
+    const auto* row = rows + std::size_t(std::uint32_t(segment)) * 24;
+    const auto state = word(row + 8);
+    if (state > 1) return false;
+    *start_ms = signed_word(word(row));
+    *end_ms = signed_word(word(row + 4));
+    return true;
+}
 Error dh2_animation_open(Animation* out, const BresView* image, std::int32_t animation, std::int32_t segment) {
     if (!out) return Error::argument;
     *out = {};

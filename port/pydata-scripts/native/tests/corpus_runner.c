@@ -238,6 +238,68 @@ static void put_u32(uint8_t *out, uint32_t value) {
     out[3] = (uint8_t)(value >> 24);
 }
 
+static int test_char_menu_tutorial_schema(void) {
+    const uint8_t names[] = {1,0,0,0,1,0,0,0,'T'};
+    uint8_t programs[64] = {0};
+    uint32_t at=0;
+    dh2_script_table table={0};
+    dh2_script_error error={0};
+    put_u32(programs+at,1);at+=4; /* one script */
+    put_u32(programs+at,3);at+=4; /* three tutorial commands */
+    put_u32(programs+at,74);at+=4;
+    put_u32(programs+at,6);at+=4;memcpy(programs+at,"Skills",6);at+=6;
+    put_u32(programs+at,14);at+=4;memcpy(programs+at,"menu_Character",14);at+=14;
+    put_u32(programs+at,341);at+=4;
+    put_u32(programs+at,75);at+=4;
+    put_u32(programs+at,76);at+=4;
+    const dh2_script_error_code code=dh2_script_table_decode(
+        names,sizeof(names),programs,at,&table,&error);
+    check(code==DH2_SCRIPT_OK&&table.script_count==1&&
+          table.scripts[0].command_count==3,
+          "native decoder accepts tutorial enqueue/skip command IDs 74-76");
+    if(code==DH2_SCRIPT_OK){
+        const dh2_script_command* enqueue=&table.scripts[0].commands[0];
+        check(enqueue->command_id==74&&enqueue->field_count==3&&
+              enqueue->fields[0].kind==DH2_SCRIPT_VALUE_STRING&&
+              string_is(enqueue->fields[0].value.string,"Skills")&&
+              string_is(enqueue->fields[1].value.string,"menu_Character")&&
+              enqueue->fields[2].kind==DH2_SCRIPT_VALUE_I32&&
+              enqueue->fields[2].value.i32==341,
+              "native decoder retains frame/menu/string-ID source layout");
+        check(table.scripts[0].commands[1].command_id==75&&
+              table.scripts[0].commands[2].command_id==76,
+              "native decoder distinguishes one/all tutorial skip commands");
+    }
+    dh2_script_table_destroy(&table);
+    return failures==0?0:1;
+}
+
+static int test_start_dialog_id_schema(void) {
+    const uint8_t names[] = {1,0,0,0,1,0,0,0,'T'};
+    uint8_t programs[32] = {0};
+    uint32_t at=0;
+    dh2_script_table table={0};
+    dh2_script_error error={0};
+    put_u32(programs+at,1);at+=4;
+    put_u32(programs+at,1);at+=4;
+    put_u32(programs+at,11);at+=4;
+    put_u32(programs+at,0);at+=4;
+    const dh2_script_error_code code=dh2_script_table_decode(
+        names,sizeof(names),programs,at,&table,&error);
+    check(code==DH2_SCRIPT_OK&&table.script_count==1&&
+          table.scripts[0].command_count==1,
+          "native decoder accepts the source StartDialogID schema");
+    if(code==DH2_SCRIPT_OK){
+        const dh2_script_command* command=&table.scripts[0].commands[0];
+        check(command->command_id==11&&command->field_count==1&&
+              command->fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+              command->fields[0].value.i32==0,
+              "StartDialogID retains its one signed dialog-index field");
+    }
+    dh2_script_table_destroy(&table);
+    return failures==0?0:1;
+}
+
 static int expect_error(const char *label,
                         const uint8_t *names, uint32_t names_size,
                         const uint8_t *programs, uint32_t programs_size,
@@ -361,8 +423,10 @@ static int run_malformed(void) {
 
 int main(int argc, char **argv) {
     if (argc == 2 && strcmp(argv[1], "--malformed") == 0) {
+        if (test_start_dialog_id_schema() != 0) return 1;
+        if (test_char_menu_tutorial_schema() != 0) return 1;
         if (run_malformed() != 0) return 1;
-        printf("native malformed-input checks passed\n");
+        printf("native tutorial schema and malformed-input checks passed\n");
         return 0;
     }
     if (argc != 5) {
@@ -371,6 +435,8 @@ int main(int argc, char **argv) {
         return 2;
     }
     if (run_corpus(argv[1], argv[2], argv[3], argv[4]) != 0) return 1;
+    if (test_start_dialog_id_schema() != 0) return 1;
+    if (test_char_menu_tutorial_schema() != 0) return 1;
     if (run_malformed() != 0) return 1;
     printf("native corpus and malformed-input checks passed\n");
     return 0;

@@ -1,4 +1,5 @@
 #include "../character_runtime_factory_v1.hpp"
+#include "../character_script_summon_v1.hpp"
 #include "../character_init_post_nonplayer_v1.hpp"
 #include "../character_gameplay_save_v1.hpp"
 #include "../character_kill_death_tail_v1.hpp"
@@ -80,6 +81,7 @@ struct Fixture {
     bool inventory_retired_before_controllable_rollback = false;
     std::vector<aggro::Character*> characters;
     std::array<std::uint64_t, factory::component_count> owner_tokens{};
+    bool dynamic_table_metadata_seen_during_ctor{};
     std::vector<int> nonplayer_init_post_calls;
     factory::Record* nonplayer_record{};
     factory::Owner* factory_owner{};
@@ -236,6 +238,13 @@ static int component(void* context, ctor::Component component_id,
     fixture.calls.push_back(100 + static_cast<int>(component_id));
     assert(slot->character_record &&
            slot->character_record->character.identity == identity);
+    if (slot->character_record->dynamic_character_table_id >= 0 &&
+        component_id == ctor::Component::properties) {
+        fixture.dynamic_table_metadata_seen_during_ctor =
+            slot->character_record->dynamic_character_table_id == 42 &&
+            slot->character_record->dynamic_character_table_name ==
+                "Swamp_Moth_Type1";
+    }
     slot->canonical_owner = &fixture.owner_tokens[static_cast<std::size_t>(component_id)];
     assert(identity != 0);
     return 0;
@@ -473,6 +482,66 @@ static aggro::GameObject aggro_object(float x) {
     return object;
 }
 
+struct SummonFlowFixture {
+    std::vector<int> calls;
+    factory::Record* record{};
+};
+static int summon_prepare(void* raw,
+        const dh2::character_script_summon_v1::Request& request,
+        dh2::character_script_summon_v1::Placement* placement, std::string&) {
+    auto& f=*static_cast<SummonFlowFixture*>(raw);
+    assert(placement && request.container_identity==0xabc &&
+        request.arguments.character_table_oid==42 &&
+        request.arguments.request_spawn_state==1 &&
+        (request.arguments.offset==std::array<float,3>{0.f,0.f,0.f}) &&
+        request.arguments.relative_to_summoner==1);
+    f.calls.push_back(1);
+    placement->position={10.f,20.f,30.f};
+    placement->rotation={0.f,0.f,0.f};
+    placement->floor_hit=true;
+    return 0;
+}
+static int summon_properties(void* raw, factory::Record& record, std::string&) {
+    auto& f=*static_cast<SummonFlowFixture*>(raw);
+    assert(record.dynamic_character_table_id==42 && !record.source_properties_ready());
+    f.record=&record;f.calls.push_back(2);return 0;
+}
+static int summon_position(void* raw, factory::Record& record,
+        const float xyz[3], std::string&) {
+    auto& f=*static_cast<SummonFlowFixture*>(raw);
+    assert(&record==f.record&&xyz[0]==10.f&&xyz[1]==20.f&&xyz[2]==30.f&&
+           record.source_properties_ready());
+    record.game_object.world_x=xyz[0];record.game_object.world_y=xyz[1];
+    f.calls.push_back(3);return 0;
+}
+static int summon_rotation(void* raw, factory::Record& record,
+        const float xyz[3], std::string&) {
+    auto& f=*static_cast<SummonFlowFixture*>(raw);
+    assert(&record==f.record&&xyz[0]==0.f&&xyz[1]==0.f&&xyz[2]==0.f);
+    f.calls.push_back(4);return 0;
+}
+static int summon_flag(void* raw, factory::Record& record, std::string&) {
+    auto& f=*static_cast<SummonFlowFixture*>(raw);assert(&record==f.record);
+    f.calls.push_back(5);return 0;
+}
+static int summon_room(void* raw, std::uintptr_t container,
+        factory::Record& record, std::string&) {
+    auto& f=*static_cast<SummonFlowFixture*>(raw);
+    assert(container==0xabc&&&record==f.record);f.calls.push_back(6);return 0;
+}
+static int summon_no_room(void* raw, factory::Record& record, std::string&) {
+    auto& f=*static_cast<SummonFlowFixture*>(raw);assert(&record==f.record);
+    f.calls.push_back(7);return 0;
+}
+static int summon_zone(void* raw, factory::Record& record, std::string&) {
+    auto& f=*static_cast<SummonFlowFixture*>(raw);assert(&record==f.record);
+    f.calls.push_back(8);return 0;
+}
+static int summon_state(void* raw, factory::Record& record, std::string&) {
+    auto& f=*static_cast<SummonFlowFixture*>(raw);assert(&record==f.record);
+    f.calls.push_back(9);return 0;
+}
+
 int main() {
     manager::Owner objects;
     Fixture fixture;
@@ -485,6 +554,19 @@ int main() {
     assert(owner.create(41, game_object(3), aggro_object(3), services(fixture),
                         &first, &result, error) == factory::Status::complete);
     assert(first && result.constructor.registered_state_count == 20);
+    assert(first->source_reaction_gate_14fc == -1.0f);
+    assert(first->game_object.save_facts_ready == 1 &&
+           first->game_object.save_eligibility_28 == 1);
+    const std::array<std::uint32_t, 3> zero_vector{};
+    assert(first->serialized_constructor_fields_ready &&
+           first->serialized_dead_1449 == 0 &&
+           first->quick_save_position_1468 == zero_vector &&
+           first->revive_position_1474 == zero_vector &&
+           first->game_object.serialized_flag_8a_ready == 1 &&
+           first->game_object.serialized_flag_8a == 1);
+    assert(first->hit_for_constructor_fields_ready &&
+           first->hit_for_low_health_armed_1448 == 1 &&
+           first->hit_for_lifecycle_11c == 0);
     assert(result.constructor.registered_state_mask == ctor::all_registered_states);
     assert(result.object_registered && result.character_listed);
     assert(first->character.object == &first->aggro_object);
@@ -720,10 +802,14 @@ int main() {
     assert(npc_post::run_effect_chain(*npc_record, ai_tables,
         missing_effect_service, &effect_result, error) ==
         npc_post::EffectChainStatus::service_unavailable);
-    assert(!npc_record->source_anim_fx_base_ready &&
-           npc_record->nonplayer_init_post_effects_stage == 0 &&
+    assert(npc_record->source_anim_fx_base_ready &&
+           npc_record->nonplayer_init_post_effects_stage == 3 &&
            npc_record->nonplayer_init_post_effects_attempted == 0xff &&
-           effect_fixture.calls.empty());
+           effect_result.completed_operations == 3 &&
+           (effect_fixture.calls == std::vector<npc_post::EffectOperation>{
+               npc_post::EffectOperation::grab_anim_fx,
+               npc_post::EffectOperation::register_character_fx_table,
+               npc_post::EffectOperation::set_animation_set}));
     const npc_post::EffectChainServices effect_services{
         &effect_fixture, &effect_read_fx_base, &effect_grab_anim_fx,
         &effect_register, &effect_set_animation, &effect_init_sounds};
@@ -731,7 +817,7 @@ int main() {
         effect_services, &effect_result, error) ==
         npc_post::EffectChainStatus::complete);
     assert(effect_result.complete && effect_result.completed_operations == 4 &&
-           effect_result.provider_calls == 5 && effect_result.ai_id == 1 &&
+           effect_result.provider_calls == 1 && effect_result.ai_id == 1 &&
            effect_result.character_identity == npc_record->character.identity &&
            effect_result.animator_identity == reinterpret_cast<std::uintptr_t>(
                npc_record->components.find(ctor::Component::animator)) &&
@@ -842,7 +928,8 @@ int main() {
     dh2::character_ai_initialization::State delayed_ai{};
     delayed_ai.identity = reinterpret_cast<std::uintptr_t>(&delayed_ai);
     delayed_ai.owner_04 = delayed_npc->character.identity;
-    delayed_ai.byte_24 = 1;
+    // CharAI C1 starts +0x24 at zero; the delayed-load bit is the distinct
+    // Character+0x3ec projection written by Character::InitPost.
     delayed_npc->components.slots[static_cast<std::size_t>(ctor::Component::ai)]
         .canonical_owner = &delayed_ai;
     data::AiTables delayed_tables;
@@ -904,6 +991,80 @@ int main() {
     assert(selected_factory.retire(71, &result, error) == factory::Status::complete);
     assert(selected_roster.owned_nodes() == 0 && selected_objects.object_count() == 0);
 
-    std::puts("{\"stable_owner\":true,\"constructor_order\":true,\"kill_field_14e4_constructor_projection\":true,\"source_item_inventory_constructor\":true,\"net_state_pair\":true,\"canonical_timer_fsm_owner\":true,\"nonplayer_init_post_prefix\":true,\"nonplayer_ai_postload_branch\":true,\"nonplayer_init_post_fx_animation_sound_chain\":true,\"script_created_character_flag\":true,\"script_created_kill_objective_gate\":true,\"init_final_gated\":true,\"source_save_slot_null_and_player_mask2\":true,\"registered_states\":20,\"manager_roster_publication\":true,\"constructor_and_roster_rollback\":true,\"staged_lifecycle_order\":true,\"premature_stage_rejection\":true,\"lifecycle_failure_retry\":true,\"lifecycle_idempotence\":true,\"faery_session_retirement_gate\":true,\"retirement\":true,\"native_roster_adapter\":true}");
+    // CreateNPC has no authored MGP handle. It still constructs one ordinary
+    // Character Record, then publishes its source-generated name and the next
+    // ObjectManager key on the same manager/roster owners.
+    manager::Owner failed_dynamic_objects;
+    Fixture failed_dynamic_fixture;
+    failed_dynamic_fixture.fail_state = 5;
+    factory::Owner failed_dynamic_factory(failed_dynamic_objects,
+                                          roster(failed_dynamic_fixture));
+    failed_dynamic_fixture.factory_owner = &failed_dynamic_factory;
+    factory::Record* failed_dynamic_npc = nullptr;
+    std::string failed_dynamic_name;
+    assert(failed_dynamic_factory.create_script_npc(42, "Swamp_Moth_Type1",
+        game_object(9), aggro_object(9), services(failed_dynamic_fixture),
+        &failed_dynamic_npc, &result, failed_dynamic_name, error) ==
+        factory::Status::constructor_failed);
+    assert(!failed_dynamic_npc && failed_dynamic_name == "NPC_0001" &&
+        failed_dynamic_objects.next_source_handle() == 1 &&
+        failed_dynamic_objects.object_count() == 0 &&
+        failed_dynamic_fixture.characters.empty());
+
+    Fixture dynamic_fixture;
+    factory::Record* dynamic_npc = nullptr;
+    std::string dynamic_name;
+    assert(selected_factory.create_script_npc(42, "Swamp_Moth_Type1",
+        game_object(9), aggro_object(9), services(dynamic_fixture),
+        &dynamic_npc, &result, dynamic_name, error) == factory::Status::complete);
+    assert(dynamic_npc && dynamic_name == "NPC_0002" &&
+        dynamic_npc->source_handle == 72 &&
+        dynamic_npc->dynamic_character_table_id == 42 &&
+        dynamic_npc->dynamic_character_table_name == "Swamp_Moth_Type1" &&
+        dynamic_fixture.dynamic_table_metadata_seen_during_ctor &&
+        dynamic_npc->source_script_created_539 == 1 &&
+        dynamic_npc->game_object.name == dynamic_name &&
+        selected_objects.find_by_name(dynamic_name) &&
+        selected_objects.find_by_name(dynamic_name)->identity ==
+            dynamic_npc->character.identity &&
+        selected_roster.contains_identity(dynamic_npc->character.identity,
+                                           &occurrences) && occurrences == 1 &&
+        !dynamic_npc->source_properties_ready() &&
+        dynamic_npc->property_id_13c8 == -1 &&
+        dynamic_npc->template_id_13ca == -1);
+    assert(selected_factory.retire(72, &result, error) == factory::Status::complete);
+    assert(selected_objects.object_count() == 0 && selected_roster.owned_nodes() == 0);
+
+    // The typed _Summon helper composes one factory Record with the source
+    // property, placement, room-fallback, and optional Spawn-state order.
+    manager::Owner summon_objects;
+    Fixture summon_factory_fixture;
+    factory::Owner summon_factory(summon_objects, roster(summon_factory_fixture));
+    dh2::character_script_summon_v1::Request summon_request{};
+    summon_request.container_identity=0xabc;
+    summon_request.arguments={42,1,{0.f,0.f,0.f},1};
+    summon_request.character_table_name="Swamp_Moth_Type1";
+    SummonFlowFixture summon_fixture{};
+    dh2::character_script_summon_v1::Services summon_services{
+        &summon_fixture,&summon_prepare,&summon_properties,&summon_position,
+        &summon_rotation,&summon_flag,&summon_room,&summon_no_room,
+        &summon_zone,&summon_state};
+    dh2::character_script_summon_v1::Result summon_result{};
+    assert(dh2::character_script_summon_v1::summon(summon_factory,
+        summon_request,game_object(0),aggro_object(0),services(summon_factory_fixture),
+        summon_services,&summon_result,error)==
+        dh2::character_script_summon_v1::Status::complete);
+    assert(summon_result.reached==dh2::character_script_summon_v1::Stage::complete&&
+        summon_result.character_identity==summon_fixture.record->character.identity&&
+        summon_result.floor_hit&&summon_result.no_room_fallback&&
+        summon_result.spawn_state_requested&&
+        summon_fixture.calls==std::vector<int>({1,2,3,4,5,6,7,8,9})&&
+        summon_factory.size()==1&&summon_objects.object_count()==1&&
+        summon_factory_fixture.characters.size()==1);
+    assert(summon_factory.retire(summon_fixture.record->source_handle,
+        &result,error)==factory::Status::complete);
+    assert(summon_objects.object_count()==0&&summon_factory_fixture.characters.empty());
+
+    std::puts("{\"stable_owner\":true,\"constructor_order\":true,\"kill_field_14e4_constructor_projection\":true,\"source_item_inventory_constructor\":true,\"net_state_pair\":true,\"canonical_timer_fsm_owner\":true,\"nonplayer_init_post_prefix\":true,\"nonplayer_ai_postload_branch\":true,\"nonplayer_init_post_fx_animation_sound_chain\":true,\"script_created_character_flag\":true,\"script_created_kill_objective_gate\":true,\"init_final_gated\":true,\"source_save_slot_null_and_player_mask2\":true,\"registered_states\":20,\"manager_roster_publication\":true,\"constructor_and_roster_rollback\":true,\"staged_lifecycle_order\":true,\"premature_stage_rejection\":true,\"lifecycle_failure_retry\":true,\"lifecycle_idempotence\":true,\"faery_session_retirement_gate\":true,\"retirement\":true,\"native_roster_adapter\":true,\"dynamic_script_npc_same_owner\":true,\"script_summon_order\":true}");
     return 0;
 }

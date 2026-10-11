@@ -81,6 +81,13 @@ public:
     // Same source alias and one Lua call; observes all source ReturnValues.
     int call_all(const char*,const dh2_script_value*,std::uint32_t,
                  dh2_script_returns_observer_v1,void*,std::string& error);
+    // Source _ProjectileHit/_Check on this same Player VM. The caller supplies
+    // Args at script+0x0c; dispatch uses target UserData at Projectile+0x3cc
+    // and then the Projectile Pointer. Every delayed
+    // ReturnValues entry is delivered once, in source order, to the observer.
+    int call_projectile_skill(const char*,const dh2_script_value*,std::uint32_t,
+        std::uintptr_t target_identity,std::uintptr_t projectile_identity,
+        dh2_script_returns_observer_v1,void*,std::string& error);
     int initialize_vcb(ais_player_init_vcb::Result*,std::string& error);
     // Source AISDefault::OnCombatResults call through this Session's retained
     // Player AIS VM. The caller applies the attack first and checks the source
@@ -91,6 +98,9 @@ public:
         ais_combat_result_dispatch_v1::Callback,
         std::uintptr_t attacker,std::uintptr_t defender,std::string& error);
     dh2_script_vm* vm()const noexcept;
+    // Exact presence of this owner's source LuaScript/VM pointer; independent
+    // of alias/load readiness and never a substitute for the owner checks.
+    bool has_source_lua_script()const noexcept;
     std::uintptr_t character_identity()const noexcept;
     std::uintptr_t ais_identity()const noexcept;
     Stage stage()const noexcept;

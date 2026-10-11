@@ -9,6 +9,7 @@
 #include <cstring>
 #include <cctype>
 #include <cstdlib>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -323,6 +324,62 @@ extern "C" int dh2_world_compile_static_layout(const std::uint8_t* mlx,
     }
     *output_size = required;
     dh2_world_free(&source);
+    return 1;
+}
+
+extern "C" int dh2_world_source_module_refs(const std::uint8_t* mlx,
+    std::size_t mlx_size, const char* level_name, const char* source_path,
+    dh2_world_source_module_ref* output, std::size_t output_capacity,
+    std::size_t* output_count, char* error, std::size_t error_capacity) {
+    if (output_count) *output_count = 0;
+    if (error && error_capacity) error[0] = 0;
+    if (!mlx || !mlx_size || !level_name || !*level_name || !source_path ||
+        !output_count || ((!output) != (output_capacity == 0))) {
+        set_error(error, error_capacity, "Missing authored Module reference input/output");
+        return 0;
+    }
+
+    SourceOwner owner;
+    dh2::world::Diagnostic diagnostic{};
+    const auto status = dh2_world_import_level(&owner.level, level_name,
+        source_path, mlx, mlx_size, &diagnostic);
+    if (status != dh2::world::Error::ok) {
+        set_error(error, error_capacity, diagnostic.message);
+        return 0;
+    }
+    const auto count = static_cast<std::size_t>(owner.level.module_count);
+    if (!count || count > 256) {
+        set_error(error, error_capacity,
+            "Authored Module reference count is outside the runtime limit");
+        return 0;
+    }
+    *output_count = count;
+    if (!output) return 1;
+    if (output_capacity < count) {
+        *output_count = 0;
+        set_error(error, error_capacity,
+            "Authored Module reference output is too small");
+        return 0;
+    }
+
+    std::vector<dh2_world_source_module_ref> result(count);
+    for (std::size_t i = 0; i < count; ++i) {
+        const auto& source = owner.level.modules[i];
+        auto& target = result[i];
+        target.module_index = static_cast<std::uint32_t>(i);
+        if (!copy_source_text(target.name, sizeof(target.name),
+                              source.record.name) ||
+            !copy_source_text(target.mgp_path, sizeof(target.mgp_path),
+                              source.cache_mgp) ||
+            !copy_source_text(target.mvp_path, sizeof(target.mvp_path),
+                              source.cache_mvp)) {
+            *output_count = 0;
+            set_error(error, error_capacity,
+                "Authored Module identity or normalized cache path exceeds its bound");
+            return 0;
+        }
+    }
+    std::memcpy(output, result.data(), result.size() * sizeof(result[0]));
     return 1;
 }
 
@@ -769,6 +826,9 @@ extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
         const auto* spawn_probability = dh2_world_field(&object, "spawn_prob");
         const auto* auto_spawn = dh2_world_field(&object, "auto_spawn");
         const auto* ai_state = dh2_world_field(&object, "ai_state");
+        const auto* char_group = dh2_world_field(&object, "char_group");
+        const auto* char_group_role = dh2_world_field(&object, "char_group_role");
+        const auto* spawn_view_radius = dh2_world_field(&object, "spawn_view_radius");
         const auto* is_global = dh2_world_field(&object, "isGlobal");
         if (!copy_source_text(row.name, sizeof(row.name), object.name) ||
             !copy_source_text(row.character, sizeof(row.character), character) ||
@@ -780,7 +840,10 @@ extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
             !copy_source_text(row.script, sizeof(row.script), script) ||
             !copy_source_text(row.spawn_probability, sizeof(row.spawn_probability), spawn_probability) ||
             !copy_source_text(row.auto_spawn, sizeof(row.auto_spawn), auto_spawn) ||
-            !copy_source_text(row.ai_state, sizeof(row.ai_state), ai_state)) {
+            !copy_source_text(row.ai_state, sizeof(row.ai_state), ai_state) ||
+            !copy_source_text(row.char_group, sizeof(row.char_group), char_group) ||
+            !copy_source_text(row.char_group_role, sizeof(row.char_group_role), char_group_role) ||
+            !copy_source_text(row.spawn_view_radius, sizeof(row.spawn_view_radius), spawn_view_radius)) {
             set_error(error, error_capacity, "Source Character identity/activation field exceeds census bounds");
             return 0;
         }
@@ -923,7 +986,23 @@ extern "C" int dh2_world_census_source_objects(const std::uint8_t* mlx,
         }
         dh2_world_source_object_row row{};
         row.module_index = object.module_index;
+        if (object.module_index > static_cast<std::uint32_t>(
+                std::numeric_limits<std::int32_t>::max())) {
+            set_error(error, error_capacity,
+                      "Generic source MGP Module ID exceeds the runtime signed field");
+            return 0;
+        }
+        row.source_module_id = static_cast<std::int32_t>(object.module_index);
         row.source_record = object.source_record;
+        const auto* data_desc_pydata = dh2_world_field(&object, "data_desc_pydata");
+        // DestructibleContainer::GetDataId (0x3a11c0) dispatches directly to
+        // Arrays::GetMemberIDByString<Arrays::DestructibleContainers> using
+        // the authored data_desc. Its MGP rows therefore have no explicit
+        // data_desc_pydata member; retain the table selected by that source
+        // class virtual instead of treating the absent XML field as unknown.
+        if ((!data_desc_pydata || !*data_desc_pydata) && object.gametype &&
+            !std::strcmp(object.gametype, "DestructibleContainer"))
+            data_desc_pydata = "DestructibleContainers";
         if (!copy_source_text(row.name, sizeof(row.name), object.name) ||
             !copy_source_text(row.gametype, sizeof(row.gametype), object.gametype) ||
             !copy_source_text(row.template_name, sizeof(row.template_name),
@@ -932,8 +1011,38 @@ extern "C" int dh2_world_census_source_objects(const std::uint8_t* mlx,
                               dh2_world_field(&object, "activate_cond")) ||
             !copy_source_text(row.deactivate_condition, sizeof(row.deactivate_condition),
                               dh2_world_field(&object, "deactivate_cond")) ||
+            !copy_source_text(row.spawn_probability, sizeof(row.spawn_probability),
+                              dh2_world_field(&object, "spawn_prob")) ||
+            !copy_source_text(row.min_difficulty, sizeof(row.min_difficulty),
+                              dh2_world_field(&object, "min_difficulty")) ||
+            !copy_source_text(row.is_demo_only, sizeof(row.is_demo_only),
+                              dh2_world_field(&object, "is_demo_only")) ||
             !copy_source_text(row.dimensions, sizeof(row.dimensions),
-                              dh2_world_field(&object, "dimensions"))) {
+                              dh2_world_field(&object, "dimensions")) ||
+            !copy_source_text(row.data_desc, sizeof(row.data_desc),
+                              dh2_world_field(&object, "data_desc")) ||
+            !copy_source_text(row.door_data, sizeof(row.door_data),
+                              dh2_world_field(&object, "data")) ||
+            !copy_source_text(row.door_opened, sizeof(row.door_opened),
+                              dh2_world_field(&object, "opened")) ||
+            !copy_source_text(row.door_collision, sizeof(row.door_collision),
+                              dh2_world_field(&object, "door_collision")) ||
+            !copy_source_text(row.data_desc_pydata, sizeof(row.data_desc_pydata),
+                              data_desc_pydata) ||
+            !copy_source_text(row.level_id, sizeof(row.level_id),
+                              dh2_world_field(&object, "levelID")) ||
+            !copy_source_text(row.level_name, sizeof(row.level_name),
+                              dh2_world_field(&object, "levelName")) ||
+            !copy_source_text(row.entrypoint_id, sizeof(row.entrypoint_id),
+                              dh2_world_field(&object, "entrypointID")) ||
+            !copy_source_text(row.fasttravel, sizeof(row.fasttravel),
+                              dh2_world_field(&object, "fasttravel")) ||
+            !copy_source_text(row.skip_checkpoint, sizeof(row.skip_checkpoint),
+                              dh2_world_field(&object, "skip_checkpoint")) ||
+            !copy_source_text(row.visible, sizeof(row.visible),
+                              dh2_world_field(&object, "visible")) ||
+            !copy_source_text(row.target_node, sizeof(row.target_node),
+                              dh2_world_field(&object, "target_node"))) {
             set_error(error, error_capacity, "Generic source MGP identity/condition field exceeds census bounds");
             return 0;
         }

@@ -208,12 +208,15 @@ final class FrontAudio {
         if(gameplayMusic!=null)gameplayMusic.setVolume(gain);
     }
     private void fadeNativeMusic(int durationMs,boolean pauseAtEnd){
+        fadeNativeMusic(durationMs,pauseAtEnd,false);
+    }
+    private void fadeNativeMusic(int durationMs,boolean pauseAtEnd,boolean stopAtEnd){
         if(nativeMusicFade!=null){nativeMusicFade.cancel();nativeMusicFade=null;}
-        if(!pauseAtEnd){
+        if(!pauseAtEnd&&!stopAtEnd){
             if(gameplayMusic!=null)gameplayMusic.setPlaybackEnabled(resumed&&focused);
             if(current!=null&&requested&&resumed&&focused&&!current.isPlaying())current.start();
         }
-        ValueAnimator fade=ValueAnimator.ofFloat(nativeMusicGain,pauseAtEnd?0f:1f);
+        ValueAnimator fade=ValueAnimator.ofFloat(nativeMusicGain,(pauseAtEnd||stopAtEnd)?0f:1f);
         nativeMusicFade=fade;fade.setDuration(durationMs);fade.setInterpolator(new LinearInterpolator());
         fade.addUpdateListener(animation->{
             nativeMusicGain=(float)animation.getAnimatedValue();applyNativeMusicVolume();
@@ -225,10 +228,15 @@ final class FrontAudio {
                 if(nativeMusicFade!=fade)return;
                 nativeMusicFade=null;
                 if(cancelled)return;
-                nativeMusicGain=pauseAtEnd?0f:1f;applyNativeMusicVolume();
+                nativeMusicGain=(pauseAtEnd||stopAtEnd)?0f:1f;applyNativeMusicVolume();
                 if(pauseAtEnd){
                     if(gameplayMusic!=null)gameplayMusic.setPlaybackEnabled(false);
                     if(current!=null&&current.isPlaying())current.pause();
+                }
+                if(stopAtEnd){
+                    releaseGameplayMusic();releaseTitleMusic();
+                    nativeAudioPaused=false;nativeMusicPaused=false;
+                    nativeMusicGain=1f;applyNativeMusicVolume();
                 }
                 updateGameplayMusicPlayback();updateTitleMusicPlayback();
             }
@@ -278,6 +286,18 @@ final class FrontAudio {
                 int soundId=Integer.parseInt(fields[3]),fadeMs=Integer.parseInt(fields[4]);
                 if(soundId<0||soundId>65535){Log.e("DH2Front","Invalid native gameplay stop command: "+command);return;}
                 stopSound(owner,soundId,fadeMs);
+            }else if(fields.length==3&&fields[0].equals("dh2fx")&&fields[1].equals("stopAll")){
+                int fadeMs=Integer.parseInt(fields[2]);
+                if(fadeMs<0||fadeMs>60000){Log.e("DH2Front","Invalid native stop-all duration: "+command);return;}
+                if(fadeMs==0){
+                    stopEffects();releaseGameplayMusic();releaseTitleMusic();
+                    nativeAudioPaused=false;nativeMusicPaused=false;nativeMusicGain=1f;
+                    applyNativeMusicVolume();
+                }else{
+                    for(ActiveEffect effect:new ArrayList<>(effects))fadeEffect(effect,fadeMs,0f);
+                    fadeNativeMusic(fadeMs,false,true);
+                }
+                Log.i("DH2Front","Source stopped all active audio voices | fade_ms="+fadeMs);
             }else Log.e("DH2Front","Invalid native gameplay audio command: "+command);
         }catch(NumberFormatException e){Log.e("DH2Front","Invalid native gameplay audio number: "+command,e);}
     }

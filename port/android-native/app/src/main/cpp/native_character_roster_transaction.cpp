@@ -5,7 +5,7 @@ namespace dh2::native::character_roster_transaction {
 Status register_after_add(Manager* manager, CharacterList* characters,
                           SourceHandle handle, const ManagerObject* object,
                           Character* character, bool duplicate_resolved,
-                          Result* result) noexcept {
+                          Result* result, std::string_view manager_name) noexcept {
     if (!result) return Status::invalid_argument;
     *result = {};
     if (duplicate_resolved) {
@@ -35,7 +35,9 @@ Status register_after_add(Manager* manager, CharacterList* characters,
     }
 
     dh2::object_manager_runtime_owner_v1::GameObject* stored = nullptr;
-    result->manager_status = manager->add_object(handle, *object, &stored);
+    result->manager_status = manager_name.empty()
+        ? manager->add_object(handle, *object, &stored)
+        : manager->add_named_object(handle, manager_name, *object, &stored);
     if (result->manager_status !=
             dh2::object_manager_runtime_owner_v1::Status::ok || !stored) {
         result->status = Status::object_manager_failed;

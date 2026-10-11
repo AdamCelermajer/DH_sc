@@ -89,6 +89,18 @@ int main(int argc, char** argv) {
         require(load_skill_tables({records.data(), records.size()},
                                   {names.data(), names.size()},
                                   {schema.data(), schema.size()}, tables, error));
+        {
+            PlayerSavegameV1 sync;
+            constexpr std::uintptr_t identity=UINT64_C(0x1234567800000099);
+            require(sync.source_quest_sync_20()==0);
+            sync.set_character(identity);
+            require(!sync.source_quest_sync_update(identity,true) &&
+                    sync.source_quest_sync_20()==0);
+            require(!sync.source_quest_sync_update(identity+1,false) &&
+                    sync.source_quest_sync_20()==0);
+            require(sync.source_quest_sync_update(identity,false) &&
+                    sync.source_quest_sync_20()==1);
+        }
         std::size_t header_at = 4;
         const auto cases = read_word(gold, header_at);
         std::uint32_t comparisons = 0;

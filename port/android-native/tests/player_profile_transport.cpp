@@ -159,6 +159,18 @@ void gameplay_assembly_case(const std::filesystem::path& root,
    },error));
  const auto committed=read(primary);require(committed!=original&&read(primary.string()+".bak")==original);
  require(save.get()==save_identity&&&transport.loader()==loader&&profile.identity==profile_identity);
+ {
+  const auto qest=profile.campaign.payload("QEST");require(qest.size>0);
+  Raw checkpoint_image;put(checkpoint_image,1);put(checkpoint_image,std::uint32_t(qest.size));
+  checkpoint_image.insert(checkpoint_image.end(),{'Q','E','S','T'});
+  checkpoint_image.insert(checkpoint_image.end(),qest.data,qest.data+qest.size);
+  const auto campaign_bytes=profile.campaign.bytes();
+  require(transport.load_checkpoint_quests(checkpoint_image,error));
+  require(save.get()==save_identity&&profile.identity==profile_identity&&
+          &transport.loader()==loader&&profile.campaign.bytes()==campaign_bytes&&
+          transport.loader().profile().campaign.bytes()==campaign_bytes&&
+          quest_owner->owns_save(save.get()));
+ }
  require(profile.campaign.bytes()==committed&&transport.loader().profile().campaign.bytes()==committed);
  require(inventory->add_fixed_loot(165,inventory_services,error));
  require(!inventory->items().empty());

@@ -21,12 +21,16 @@ struct SourceStep {
     Action action;
     std::uint32_t value;
     std::uint32_t callsite;
+    // Constructor argument forwarded by the source call when this component
+    // is constructed. Character::Character passes GO_IDS=0 into GameObject /
+    // ObjectBase at the first source step.
+    std::uint32_t source_argument{};
 };
 
 // Ordered calls from Character::Character at 0x3a9340. Components and links
 // are borrowed semantic owner services, never embedded-object memory overlays.
 inline constexpr SourceStep source_steps[] = {
-    {Action::component, std::uint32_t(Component::game_object), 0x3a9354},
+    {Action::component, std::uint32_t(Component::game_object), 0x3a9354, 0},
     {Action::component, std::uint32_t(Component::controllable), 0x3a9368},
     {Action::component, std::uint32_t(Component::inventory), 0x3a9378},
     {Action::component, std::uint32_t(Component::timers), 0x3a9394},
@@ -59,6 +63,11 @@ struct Services {
     int (*register_state)(void*, Identity, std::uint32_t, std::string&) = nullptr;
     // Undo a successful provider operation, in reverse source order.
     void (*rollback)(void*, Action, std::uint32_t, Identity) noexcept = nullptr;
+    // Optional typed implementation of the ObjectBase construction nested in
+    // the GameObject component. When bound, this receives the exact GO_IDS
+    // constructor argument before the generic component adoption callback.
+    int (*construct_object_base)(void*, Identity, std::uint32_t go_ids,
+                                 std::string&) = nullptr;
 };
 
 struct Owner {
@@ -67,6 +76,8 @@ struct Owner {
     bool target_list_bound = false;
     bool controller_bound = false;
     bool constructor_complete = false;
+    std::uint32_t object_base_go_ids_f4{};
+    bool object_base_go_ids_f4_ready{};
 };
 
 enum class Status : std::uint8_t {
@@ -78,6 +89,8 @@ struct Result {
     std::uint32_t registered_state_count = 0;
     std::uint32_t registered_state_mask = 0;
     std::uint32_t failed_callsite = 0;
+    std::uint32_t object_base_go_ids_f4{};
+    bool object_base_go_ids_f4_ready{};
 };
 
 Status construct(Owner*, Identity, const Services*, Result*, std::string&);

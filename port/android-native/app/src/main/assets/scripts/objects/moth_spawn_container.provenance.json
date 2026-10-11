@@ -1,0 +1,8 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/objects/moth_spawn_container.luac",
+  "asset": "scripts/objects/moth_spawn_container.luac",
+  "bytes": 1538,
+  "sha256": "68c87e4eb16ec991e0929be9e1bb71e93e9606c966b46848ee88edba32508d93",
+  "scope": "Original per-GameObject ExternalScript used by DestructibleContainer data row Script=moth_spawn_container."
+}

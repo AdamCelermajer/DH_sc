@@ -28,6 +28,9 @@ struct Resource {
  animation::Player animation;
  std::vector<Primitive> primitives;
  unsigned removed_helpers=0,triangles=0;
+ // Set only by the exact source Character no-geometry loader. Scene and
+ // animation data remain validated; there are simply no drawable primitives.
+ bool intentional_empty_visual=false;
 };
 // Development descriptor preserves authored placements and original table
 // links. v1 covers automatic direct actors; v2 can also retain resolved direct
@@ -37,6 +40,12 @@ bool load_records(const std::uint8_t*,std::size_t,unsigned rooms,const data::Cha
 // states through game-data/animation_tables.hpp instead. Empty means decor.
 std::string idle_clip(const std::string& model);
 bool load_resource(const std::uint8_t* model,std::size_t model_size,const std::uint8_t* clip,std::size_t clip_size,Resource&,std::string&);
+// Source Character whose authored BRES has a valid scene graph but no geometry.
+// It still loads/validates the scene and animation; this does not accept broken
+// meshes or empty decor resources.
+bool load_intentional_empty_character_visual(const std::uint8_t* model,
+ std::size_t model_size,const std::uint8_t* clip,std::size_t clip_size,
+ Resource&,std::string&);
 // v69 original controller IDs selected from immutable modular item resources.
 // Requires each requested controller exactly once; no equipment grant/store.
 bool load_modular_resource(const std::uint8_t* model,std::size_t model_size,

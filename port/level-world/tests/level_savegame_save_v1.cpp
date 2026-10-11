@@ -43,10 +43,10 @@ int main() {
     state.local_player_is_host = 1;
     check(save::run(&state, &fixture.services, &result, error) == save::Status::saved &&
           fixture.calls == 2, "online host could not save");
-    state.application_gate_719 = 1;
+    state.player_manager_gate_719 = 1;
     check(save::run(&state, &fixture.services, &result, error) == save::Status::skipped &&
-          fixture.calls == 2, "Application+0x719 source gate was ignored");
-    state.application_gate_719 = 0;
+          fixture.calls == 2, "PlayerManager+0x719 source gate was ignored");
+    state.player_manager_gate_719 = 0;
     state.savegame = 0;
     check(save::run(&state, &fixture.services, &result, error) == save::Status::skipped &&
           fixture.calls == 2, "null Savegame identity dispatched saveAll");

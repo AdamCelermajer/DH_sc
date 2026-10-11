@@ -97,6 +97,10 @@ bool AuthoredGameplayHudV1::refresh_action_icon(std::string& error){
  if(style_<0){error="Authored HUD is not bound";return false;}
  return invoke("_root","FillActionIcon",{SwfAsValue::number(action_icon_)},error);
 }
+bool AuthoredGameplayHudV1::complete_refresh(std::string& error){
+ if(style_<0){error="PlayerManager completeRefresh requires the bound authored HUD";return false;}
+ return invoke("_root.menu_HUD_0","completeRefresh",{},error);
+}
 bool AuthoredGameplayHudV1::display(std::string& error){if(style_<0){error="Authored HUD is not bound";return false;}return with_authored_hud_edge_layout_v6(movie_,*this,[this](std::string& e){return movie_.display_source_clip(elements_.c_str(),e);},error);}
 bool AuthoredGameplayHudV1::enemy_visible(bool value,std::string& error){
  if(style_<0){error="Authored HUD is not bound";return false;}
@@ -140,7 +144,8 @@ bool AuthoredGameplayHudV1::enemy_bar_is_sprite(bool& result,std::string& error)
   return true;
  },error);
 }
-bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,std::int32_t cls,bool dpad,std::string& error){
+bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,
+ const std::array<std::int32_t,3>& skill_slots,std::int32_t cls,bool dpad,std::string& error){
  if(style_<0){error="Authored HUD is not bound";return false;}
  struct Text{const std::string path;const std::string value;};Text text{controls_[2]+".cnt.value",std::to_string(infos[14])};
  if(!movie_.action_script(&text,[](void* p,SwfAsGraph& g,std::string& e){auto& q=*static_cast<Text*>(p);SwfAsValue root,value;bool accepted{};
@@ -163,11 +168,25 @@ bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,std:
     if(!g.to_number(id,number,e)){if(e.empty())e="Fixed-layout HUD SlotId is not numeric";return false;}
     *q.slot=number>=0&&number<=2?static_cast<unsigned>(number):0;return true;},error))return false;
   }
-  // FastUpdate owns only the cooldown/Grey projection. setSkillsButtons and
-  // onButtonSet own the button's visibility and selected icon; changing that
-  // visibility here exposes blank icons for empty Save slots.
-  if(!frame(controls_[4+n]+".CoolDown",std::max(infos[8+slot*2]-1,0),error)||
-     !movie_.set_visible((controls_[4+n]+".Grey").c_str(),!infos[9+slot*2],error))return false;
+  if(style_>1){
+   // The authored onPush hides an unassigned fixed-layout button, but leaves
+   // its btimg child visible on placeholder frame zero. Keep the button shell
+   // reachable and preserve that authored child for empty Save slots; onPush
+   // remains the only producer of an assigned skill icon frame.
+   // Fixed layouts may assign the three visual buttons to Save slots in a
+   // different order. Use the same authored SlotId selected above for both
+   // availability and cooldown/usable projection.
+   if(!movie_.set_visible(controls_[4+n].c_str(),true,error)||
+      !movie_.set_visible((controls_[4+n]+".btimg").c_str(),true,error))return false;
+  }
+  // FastUpdate owns cooldown/Grey projection; source onPush owns icon frames.
+  // Use the same Save slot for empty-state cooldown and usability values so a
+  // cleared slot cannot retain stale projection data.
+  const bool assigned=skill_slots[slot]>=0;
+  const auto cooldown=assigned?infos[8+slot*2]:0;
+  const bool usable=assigned&&infos[9+slot*2]!=0;
+  if(!frame(controls_[4+n]+".CoolDown",std::max(cooldown-1,0),error)||
+     !movie_.set_visible((controls_[4+n]+".Grey").c_str(),!usable,error))return false;
  }
  return true;
 }

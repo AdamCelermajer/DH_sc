@@ -39,11 +39,16 @@ struct GeneratedCryptFaerySourceV1 {
   std::string object_type;
   std::string template_name;
   std::string character;
+  std::string activate_condition;
+  std::string deactivate_condition;
   std::int32_t ai_table_id = -1;
   std::int32_t animation_table_id = -1;
   std::int32_t character_model_dictionary_index = -1;
   std::string character_model_path;
   std::int32_t faery_list_table_id = -1;
+  // Retained MGP `spawn_prob`; CheckSpawnProbability consumes the canonical
+  // ObjectManager GameObject threshold rather than a Faery-local cache.
+  std::int32_t spawn_probability = 100;
   float authored_world_transform[9] = {};
 };
 

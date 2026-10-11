@@ -10,7 +10,8 @@ struct State {
     std::uint8_t gate_39{};
     std::uint32_t online{};
     std::uint32_t local_player_is_host{};
-    std::uint32_t application_gate_719{};
+    // PlayerManager byte at +0x719, read only for online local-host saves.
+    std::uint32_t player_manager_gate_719{};
 };
 
 struct Services {

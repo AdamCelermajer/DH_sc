@@ -80,8 +80,16 @@ int main() {
     check(prior_category && prior_category->slots[reuse.slot_index].shell_identity == 101,
           "the selected source slot retains its stable ItemObject shell");
     canonical_inventory.push_back(201); // V4 move transferred the same identity.
+    std::uintptr_t effective_receiver = 0;
+    check(bind_receiver(&owner, 101, 0xabc, &effective_receiver, error) ==
+              Status::complete && effective_receiver == 0xabc,
+          "InitAgain stores a nonnull receiver Character on the pooled shell");
     check(de_spawn(&owner, 101, 201, error) == Status::complete,
           "Interact de-spawns the shell after the canonical V4 transfer");
+    check(bind_receiver(&owner, 101, 0, &effective_receiver, error) ==
+              Status::complete && effective_receiver == 0xabc &&
+              receiver_for_shell(&owner, 101) == 0xabc,
+          "DeSpawn and null receiver reuse preserve ItemObject +0x3bc");
     check(canonical_inventory.size() == 1 && canonical_inventory.front() == 201 &&
           !enabled(&owner, 201),
           "de-spawn clears only the pooled reference; transferred Item stays owned once");

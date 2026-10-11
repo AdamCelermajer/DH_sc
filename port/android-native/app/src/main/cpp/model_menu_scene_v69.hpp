@@ -173,6 +173,15 @@ std::string load_menu_background(AAssetManager* assets){
     const auto report=load(bytes.data(),bytes.size(),assets);
     if(report.find("3D upload OK")!=0)return report;
     menu_background=true;menu_preview_assets=assets;
+    // EGL/context recreation releases the preview's GPU resources but keeps
+    // the source-selected save slot. Rebuild that same visual projection once
+    // with the newly loaded scene/asset owner; doing it here avoids retrying a
+    // failed or intentionally absent profile on every rendered frame.
+    if(menu_preview_selection.slot>=0){
+      std::string preview_error;
+      if(!restore_menu_preview(preview_error))
+        throw std::runtime_error("MainMenu selected Character preview restore failed: "+preview_error);
+    }
     for(const auto& batch:draws)if(batch.material.effect_file=="GL_Diffuse_L1_VC_iPhone.bdae"&&
         batch.material.gles2_technique=="L1_Vc_Al_----_----_----_----")
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original menu material alpha connected | material %s | technique %s | alpha source blue replacement | lighting pending",

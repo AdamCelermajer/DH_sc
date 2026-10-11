@@ -16,7 +16,12 @@ extern "C" int dh2_test_floor_height(dh2::navigation::HeightHit* hit,
     ++floor_query_calls;
     if (world != expected_floor_world) return -1;
     floor_query_include_special = special;
-    if (floor_query_result == 1) hit->height = floor_query_height;
+    if (floor_query_result == 1) {
+        hit->height = floor_query_height;
+        hit->room = 0;
+        hit->floor = 0;
+        hit->hit = 1;
+    }
     else if (floor_query_result == 0) hit->height = -999.f; // caller must ignore miss output
     return floor_query_result;
 }
@@ -89,9 +94,42 @@ int main() {
     int level_fields{};
     const owner::NativeLevelBinding binding{&level_fields, calls.qest_owner,
         reinterpret_cast<std::uintptr_t>(&canonical_save), canonical_save.character(),
-        23, 0, 0, 38, 0, false, canonical_save.slot(), 5};
+        23, 0, 0, 38, 0, false, canonical_save.slot(), 5, 64};
     check(lifecycle.bind_native_level(binding), "Crypt/Save/QEST source owners did not bind");
+    const auto initial_bound=lifecycle.snapshot();
+    check(initial_bound.transition_flag_144==0 &&
+          initial_bound.application_flag_145==0 &&
+          initial_bound.loading_callback_guard_198==0 &&
+          initial_bound.unload_force_f0==0 &&
+          !initial_bound.cleanup_index_74_known &&
+          !initial_bound.cleanup_index_75_known &&
+          !initial_bound.has_cleanup_index_74 && !initial_bound.has_cleanup_index_75 &&
+          !lifecycle.publish_level_update_complete(initial_bound.generation+1) &&
+          lifecycle.publish_level_update_complete(initial_bound.generation) &&
+          lifecycle.snapshot().transition_flag_144==1,
+          "Level+0x144 did not retain the source ctor-zero/update-one writes by generation");
+    check(!lifecycle.begin_checkpoint_load(initial_bound.source_level+1) &&
+          lifecycle.begin_checkpoint_load(initial_bound.source_level) &&
+          lifecycle.snapshot().checkpoint_load_in_progress==1 &&
+          !lifecycle.begin_checkpoint_load(initial_bound.source_level) &&
+          !lifecycle.finish_checkpoint_load(initial_bound.source_level+1) &&
+          lifecycle.finish_checkpoint_load(initial_bound.source_level) &&
+          lifecycle.snapshot().checkpoint_load_in_progress==0,
+          "Level::LoadCheckpoint +0xf4 gate did not retain exact Level identity/order");
     const auto bound=lifecycle.snapshot();
+    check(lifecycle.bind_level_cleanup_owners(bound.source_level,0x710,0x720) &&
+          lifecycle.snapshot().cleanup_index_74_known &&
+          lifecycle.snapshot().cleanup_index_75_known &&
+          lifecycle.snapshot().has_cleanup_index_74 &&
+          lifecycle.snapshot().has_cleanup_index_75 &&
+          !lifecycle.clear_level_cleanup_owner(bound.source_level+1,74,0x710) &&
+          lifecycle.clear_level_cleanup_owner(bound.source_level,74,0x710) &&
+          !lifecycle.snapshot().has_cleanup_index_74 &&
+          lifecycle.snapshot().has_cleanup_index_75 &&
+          !lifecycle.clear_level_cleanup_owner(bound.source_level,75,0x710) &&
+          lifecycle.clear_level_cleanup_owner(bound.source_level,75,0x720) &&
+          !lifecycle.snapshot().has_cleanup_index_75,
+          "Level cleanup indexes did not bind and retire their exact camera owner identities");
     if(!(bound.source_gslevel && bound.source_level && bound.source_level_savegame &&
           bound.source_level_savegame!=reinterpret_cast<std::uintptr_t>(&canonical_save) &&
           bound.canonical_player_savegame==reinterpret_cast<std::uintptr_t>(&canonical_save) &&
@@ -99,6 +137,8 @@ int main() {
           bound.level_row==23 && bound.entry_point==0 && bound.difficulty==0 &&
           bound.source_save_slot==0 && lifecycle.level_savegame().constructed() &&
           lifecycle.level_savegame().filename()=="dh2_000_0_005_023_level.savegame" &&
+          lifecycle.character_oid_cache().level_identity()==bound.source_level &&
+          lifecycle.character_oid_cache().character_table_size()==64 &&
           bound.pending_script_id_known && bound.pending_script_id==-1))
       std::fprintf(stderr,"bind identities gs=%zx lev=%zx lsg=%zx save=%zx fields=%p/%p q=%p/%p row=%d entry=%d diff=%d\n",std::size_t(bound.source_gslevel),std::size_t(bound.source_level),std::size_t(bound.source_level_savegame),std::size_t(bound.canonical_player_savegame),bound.level_fields,&level_fields,bound.quest_owner,calls.qest_owner,bound.level_row,bound.entry_point,bound.difficulty);
     check(bound.source_gslevel && bound.source_level && bound.source_level_savegame &&
@@ -118,7 +158,11 @@ int main() {
           lifecycle.level_savegame().gate_39()==1 &&
           !lifecycle.sg_block_level(bound.source_level,2),
           "SG_BlockLevel did not update only the bound Savegame gate byte");
-    dh2::navigation::CollisionWorld floor_world{};
+    const std::uint32_t floor_ids[]{0};
+    const dh2::navigation::CollisionRoom rooms[]{{{}, floor_ids, 1, 0, 0}};
+    const dh2::navigation::CollisionFloor floors[]{{nullptr, {3, 0}}};
+    dh2::navigation::CollisionWorld floor_world{
+        rooms, floors, 1, 1, {}};
     expected_floor_world = &floor_world;
     check(!lifecycle.bind_floor_query(nullptr, dh2_test_floor_height),
           "missing borrowed collision world was accepted");
@@ -129,13 +173,20 @@ int main() {
           initial_position[2] == floor_query_height && floor_query_calls == 1 &&
           floor_query_include_special == 0,
           "floor query did not use filtered source semantics and apply the hit height");
+    dh2::navigation::HeightHit projectile_floor{};
+    const dh2::navigation::CollisionWorld* projectile_floor_world{};
+    check(lifecycle.query_floor(bound.generation, initial_position, 1,
+              &projectile_floor, &projectile_floor_world) == 1 &&
+          projectile_floor_world == &floor_world && projectile_floor.floor == 0 &&
+          floor_query_include_special == 1 && floor_query_calls == 2,
+          "projectile floor query did not preserve the same Level and include-special argument");
     floor_query_result = 0;
     initial_position[2] = 17.f;
     check(lifecycle.set_initial_position_height(bound.generation, initial_position) == 0 &&
           initial_position[2] == 17.f,
           "floor miss changed the caller's original Z");
     check(lifecycle.set_initial_position_height(bound.generation + 1, initial_position) == -1 &&
-          floor_query_calls == 2,
+          floor_query_calls == 3,
           "stale Character generation reached the floor provider");
     floor_query_result = 1;
     q.level=bound.source_level; q.level_savegame=bound.source_level_savegame;
@@ -161,7 +212,7 @@ int main() {
         bound.source_level_savegame,0,0,0,0};
     check(lifecycle.save_level_objects(&source_save_state,&disabled_menu,1,0,
           nullptr,&publisher,&sr,&level_result,error)==save::Status::saved &&
-          calls.published_name=="dh2_000_0_000_023_level.savegame" &&
+          calls.published_name=="dh2_000_0_005_023_level.savegame" &&
           level_result.object_rows==1 && level_result.saved_objects==0 &&
           calls.published_image.size()==28 && calls.published_image[0]==2 &&
           calls.published_image[8]=='I' && calls.published_image[9]=='N' &&
@@ -183,8 +234,13 @@ int main() {
           lifecycle.begin_source_load() && lifecycle.publish_projection(&projection),
           "retained logical level did not rebind after EGL recreation");
     check(lifecycle.bind_native_level(binding), "retained Save/QEST owners did not rebind");
-    check(lifecycle.level_savegame().last_image()==saved_image,
-          "same Level Savegame bind discarded its last INFO/OBJS image");
+    check(lifecycle.level_savegame().last_image()==saved_image &&
+          lifecycle.snapshot().transition_flag_144==1,
+          "same Level rebind discarded its INFO/OBJS image or loaded-state byte");
+    dh2::character_oid_cache_v1::Result oid_result{};
+    check(lifecycle.character_oid_cache().add_char_oid(9, 2, &oid_result)==
+              dh2::character_oid_cache_v1::Status::complete && oid_result.value==2,
+          "active Level did not own Character OID cache updates");
     check(lifecycle.bind_floor_query(&floor_world, dh2_test_floor_height),
           "rebound selected Level floor query did not bind");
     dh2::object_manager_runtime_owner_v1::GameObject duplicate_name{};
@@ -205,6 +261,18 @@ int main() {
           "exact-name lookup did not advance after source-handle removal");
     check(lifecycle.quick_save(&q, 1, &quick_services, &qr, error)==quick::Status::saved,
           "rebound projection lost its source save chain");
+    check(!lifecycle.set_application_flag_145(bound.source_level+1,1) &&
+          lifecycle.set_application_flag_145(bound.source_level,1) &&
+          lifecycle.set_unload_force_f0(bound.source_level,1) &&
+          lifecycle.snapshot().application_flag_145==1 &&
+          lifecycle.snapshot().unload_force_f0==1 &&
+          lifecycle.reset_is_loaded(bound.source_level) &&
+          !lifecycle.set_source_level_state(bound.source_level+1,1) &&
+          lifecycle.set_source_level_state(bound.source_level,0) &&
+          lifecycle.snapshot().transition_flag_144==0 &&
+          lifecycle.snapshot().source_level_state==0 &&
+          lifecycle.snapshot().unload_force_f0==1,
+          "Application load/reset did not retain source Level transition fields by identity");
     lifecycle.begin_teardown();
     check(lifecycle.set_initial_position_height(bound.generation, initial_position) == -1,
           "teardown left a borrowed floor query usable");
@@ -217,6 +285,7 @@ int main() {
           "ObjectManager::Flush ran before source Level cache clear");
     check(lifecycle.mark_source_level_caches_cleared() &&
           !lifecycle.mark_source_level_caches_cleared() &&
+          lifecycle.character_oid_cache().level_identity()==0 &&
           lifecycle.object_manager().find_by_name("MainMenu")!=nullptr,
           "source cache-clear boundary was not ordered before manager flush");
     check(lifecycle.flush_object_manager_after_source_level_clear() &&

@@ -113,6 +113,12 @@ public:
  // Production assembly from this transport's retained same-Save bindings.
  // Missing writer owners fail before profile publication.
  bool save_gameplay(std::string&);
+ // PlayerSavegame::SG_LoadCheckpoint reaches SG_Load(16), which reads QEST
+ // from its temporary checkpoint profile while retaining this exact Save,
+ // +8 profile owner, transport, and Quest owner. The campaign borrow is
+ // restored before return on success or failure.
+ bool load_checkpoint_quests(const std::vector<std::uint8_t>&,
+                             std::string&);
  data::PlayerSaveLoadOwnerV1& loader() noexcept;
  const Receipt& receipt()const noexcept;
 };

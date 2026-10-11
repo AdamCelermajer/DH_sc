@@ -9,21 +9,22 @@ struct Dispatch {
     bool failed{};
 };
 
-void invoke(void* raw, character::AnimationAIState96* state,
+std::int32_t invoke(void* raw, character::AnimationAIState96* state,
             const character::AnimationAIRequest32* request,
             character::AnimationAIResponse16* response) {
     auto& dispatch = *static_cast<Dispatch*>(raw);
     ++dispatch.result.ai_service_calls;
     if (!state || !request || !response) {
         dispatch.failed = true;
-        return;
+        return -1;
     }
     if (request->service != character::ai_controller_move_to) {
         try {
-            dispatch.binding.ai_services.invoke(
+            const auto status=dispatch.binding.ai_services.invoke(
                 dispatch.binding.ai_services.context, state, request, response);
-        } catch (...) { dispatch.failed = true; }
-        return;
+            if(status!=0)dispatch.failed=true;
+            return status;
+        } catch (...) { dispatch.failed = true;return -1; }
     }
 
     ++dispatch.result.move_to_calls;
@@ -33,13 +34,14 @@ void invoke(void* raw, character::AnimationAIState96* state,
         state->owner != dispatch.binding.controller->owner ||
         state->controller != dispatch.binding.controller->controller) {
         dispatch.failed = true;
-        return;
+        return -1;
     }
     const auto status = dh2_character_controller_character(
         dispatch.binding.controller, character::controller_move_object,
         request->payload, &dispatch.binding.control_services);
     dispatch.result.controller_status = static_cast<std::uint32_t>(status);
     if (status != 1) dispatch.failed = true;
+    return status==1?0:-1;
 }
 
 } // namespace

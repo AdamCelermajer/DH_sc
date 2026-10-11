@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <vector>
 
 namespace dh2::native::ui {
@@ -81,6 +82,31 @@ inline const typename Rows::value_type* find_quest_journal_row_by_id_v1(
         const Rows& rows, std::int32_t quest_id) {
     for (const auto& row : rows) if (row.id == quest_id) return &row;
     return nullptr;
+}
+
+// GetQuestFunctor (0x440080) is shared by NativeGetQuestCount and
+// NativeGetQuestIDsInRange. Its exact selection order is source-visible:
+// DisplayAllQuestInLog selects every non-debug Quest; otherwise
+// DisplayAllDebugOnlyQuestInLog selects debug Quests; otherwise only the
+// literal predicate "Closed" selects state > 12, with every other string
+// selecting states 6..12 (0x43b4f0, 0x43b514). Quest::IsDebug (0x47f850)
+// is priority == v2QuestPriority.Debug.
+struct QuestJournalPredicateV1 {
+    bool display_all_non_debug = false;
+    bool display_debug_only = false;
+    std::int32_t debug_priority = -1;
+};
+
+template<class Row>
+inline bool quest_journal_matches_v1(const Row& row, const char* predicate,
+                                     const QuestJournalPredicateV1& policy) {
+    const bool debug = row.priority == policy.debug_priority;
+    if (policy.display_all_non_debug) return !debug;
+    if (policy.display_debug_only) return debug;
+    if (debug) return false;
+    return predicate && std::strcmp(predicate, "Closed") == 0
+        ? row.state > 12
+        : row.state >= 6 && row.state <= 12;
 }
 
 } // namespace dh2::native::ui

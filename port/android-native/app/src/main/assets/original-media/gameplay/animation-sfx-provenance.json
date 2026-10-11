@@ -1,0 +1,189 @@
+{
+  "source_archive": "Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "source_sound_names_report": "reports/pydata-array-name-trace.json",
+  "source_audio_catalog": "recovered/assets/source-data/com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds_he.xml",
+  "staged": [
+    {
+      "marker": "sfx_sfx_cs_earth_troll_intro_spawn",
+      "source_sound_name": "sfx_cs_earth_troll_intro_spawn",
+      "source_sound_id": 338,
+      "uid": 434,
+      "filename": "sfx_cutscene_earth_troll_spawn.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_troll_spawn.wav",
+      "sha256": "3cff1c0c1efd30c9d065fa50f307a960ab17827e34c6df7a3b862771d3c8bb53",
+      "bytes": 310744
+    },
+    {
+      "marker": "sfx_sfx_cs_swampking_death",
+      "source_sound_name": "sfx_cs_swampking_death",
+      "source_sound_id": 341,
+      "uid": 435,
+      "filename": "sfx_cutscene_swamp_king_die.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_king_die.wav",
+      "sha256": "3322eb1bb020e2449c986f888736690e1d9772392774f4083973cff0881328f6",
+      "bytes": 289496
+    },
+    {
+      "marker": "sfx_sfx_cutscene_final_outro",
+      "source_sound_name": "sfx_cutscene_final_outro",
+      "source_sound_id": 356,
+      "uid": 458,
+      "filename": "sfx_cutscene_final_outro.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_outro.wav",
+      "sha256": "8ad00012eda5be318458a41ffe1bcfb46ee100ac8b5bb4f2bbe4908012c9fcd2",
+      "bytes": 1028412
+    },
+    {
+      "marker": "sfx_sfx_cutscene_swamp_intro_cave_troll_1",
+      "source_sound_name": "sfx_cutscene_swamp_intro_cave_troll_1",
+      "source_sound_id": 365,
+      "uid": 436,
+      "filename": "sfx_cutscene_swamp_intro_cave_troll_1.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_cave_troll_1.wav",
+      "sha256": "ac85e1ac37f5ec1be42d5acd70dc352702cf02fd63003825e81e17f3e652fd44",
+      "bytes": 807936
+    },
+    {
+      "marker": "sfx_sfx_cutscene_swamp_intro_cave_troll_2",
+      "source_sound_name": "sfx_cutscene_swamp_intro_cave_troll_2",
+      "source_sound_id": 366,
+      "uid": 437,
+      "filename": "sfx_cutscene_swamp_intro_cave_troll_2.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_cave_troll_2.wav",
+      "sha256": "2c5a4458c3951d369f545cee80296451409050fd7f015e495109dd1aba62c470",
+      "bytes": 359840
+    },
+    {
+      "marker": "sfx_sfx_cutscene_swamp_intro_faerie",
+      "source_sound_name": "sfx_cutscene_swamp_intro_faerie",
+      "source_sound_id": 367,
+      "uid": 438,
+      "filename": "sfx_cutscene_swamp_intro_faerie.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_faerie.wav",
+      "sha256": "e9be91ab616fb53101c0feeec4846ed5d153e158c988d2640928069a44d9c298",
+      "bytes": 744956
+    },
+    {
+      "marker": "sfx_sfx_cutscene_swamp_intro_rene_thunder",
+      "source_sound_name": "sfx_cutscene_swamp_intro_rene_thunder",
+      "source_sound_id": 368,
+      "uid": 439,
+      "filename": "sfx_cutscene_swamp_intro_rene_thunder.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_rene_thunder.wav",
+      "sha256": "df8c34d863faff3698051447e7962bf7334bd9da7b819d22cfd180e017316770",
+      "bytes": 736652
+    },
+    {
+      "marker": "sfx_sfx_mc_shoot_arrow",
+      "source_sound_name": "sfx_mc_shoot_arrow",
+      "source_sound_id": 491,
+      "uid": 28,
+      "filename": "sfx_mc_shoot_arrow.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mc_shoot_arrow.wav",
+      "sha256": "3adde0fb0212ab482e8e9ee6ce02760465510274adad0558e2f0edb6fc336346",
+      "bytes": 49146
+    },
+    {
+      "marker": "sfx_sfx_skill_rogue_arc_burst_shot",
+      "source_sound_name": "sfx_skill_rogue_arc_burst_shot",
+      "source_sound_id": 542,
+      "uid": 137,
+      "filename": "sfx_skill_rogue_arc_burst_shot.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_burst_shot.wav",
+      "sha256": "67b65a6fb519bb37a30259341fc51d6fa2d0cd1f8c1fe5faf7364c83a6bde8c6",
+      "bytes": 110944
+    },
+    {
+      "marker": "sfx_sfx_skill_rogue_arc_maim_shot",
+      "source_sound_name": "sfx_skill_rogue_arc_maim_shot",
+      "source_sound_id": 543,
+      "uid": 136,
+      "filename": "sfx_skill_rogue_arc_maim_shot.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_maim_shot.wav",
+      "sha256": "2b07aa5bba8fdfd664324ee64f18791159447f21ab8ad80267e494bc45520074",
+      "bytes": 77316
+    },
+    {
+      "marker": "sfx_sfx_skill_rogue_arc_pierce_shot",
+      "source_sound_name": "sfx_skill_rogue_arc_pierce_shot",
+      "source_sound_id": 544,
+      "uid": 135,
+      "filename": "sfx_skill_rogue_arc_pierce_shot.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_pierce_shot.wav",
+      "sha256": "4ce818fd5f7ef79e2147ffcfcf7960b1ce8fd1d3605fe078f239615144c1128f",
+      "bytes": 74748
+    },
+    {
+      "marker": "sfx_sfx_skill_rogue_arc_rain_of_arrows",
+      "source_sound_name": "sfx_skill_rogue_arc_rain_of_arrows",
+      "source_sound_id": 545,
+      "uid": 134,
+      "filename": "sfx_skill_rogue_arc_rain_of_arrows.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_rain_of_arrows.wav",
+      "sha256": "6cfa00a1ab5381888f8c96dc62da16d0b36eda88dc9c4acd73d643ead3e95762",
+      "bytes": 69400
+    },
+    {
+      "marker": "sfx_sfx_skill_rogue_arc_venom_shot",
+      "source_sound_name": "sfx_skill_rogue_arc_venom_shot",
+      "source_sound_id": 546,
+      "uid": 138,
+      "filename": "sfx_skill_rogue_arc_venom_shot.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_venom_shot.wav",
+      "sha256": "4a7d77f2207a54d9b9b7669e1843752db6c1f42cc8419ec62a8525773878e8a6",
+      "bytes": 90246
+    },
+    {
+      "marker": "sfx_sfx_skill_rogue_desert_pinwheel",
+      "source_sound_name": "sfx_skill_rogue_desert_pinwheel",
+      "source_sound_id": 551,
+      "uid": 133,
+      "filename": "sfx_skill_rogue_desert_pinwheel.wav",
+      "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_desert_pinwheel.wav",
+      "sha256": "400d08ffb7fd92c26fc0f7b82c566678dd8b120cfc5bdb2fc6d980f05a3a3cb3",
+      "bytes": 144240
+    }
+  ],
+  "unavailable": [
+    {
+      "marker": "sfx_QueenAttack",
+      "source_sound_name": "QueenAttack",
+      "source_sound_id": 161,
+      "uid": 380,
+      "filename": "sfx_dark_queen_attack.wav",
+      "status": "source WAV absent from local cache ZIP"
+    },
+    {
+      "marker": "sfx_sfx_lizardman_die",
+      "source_sound_name": "sfx_lizardman_die",
+      "source_sound_id": 476,
+      "uid": 285,
+      "filename": "sfx_lizardman_die.wav",
+      "status": "source WAV absent from local cache ZIP"
+    },
+    {
+      "marker": "sfx_sfx_serpent_attack",
+      "source_sound_name": "sfx_serpent_attack",
+      "source_sound_id": 514,
+      "uid": 314,
+      "filename": "sfx_serpent_attack.wav",
+      "status": "source WAV absent from local cache ZIP"
+    },
+    {
+      "marker": "sfx_sfx_serpent_intimidate_3",
+      "source_sound_name": "sfx_serpent_intimidate_3",
+      "source_sound_id": 520,
+      "uid": 320,
+      "filename": "sfx_serpent_intimidate_3.wav",
+      "status": "source WAV absent from local cache ZIP"
+    },
+    {
+      "marker": "sfx_sfx_serpent_spawn",
+      "source_sound_name": "sfx_serpent_spawn",
+      "source_sound_id": 522,
+      "uid": 310,
+      "filename": "sfx_serpent_spawn.wav",
+      "status": "source WAV absent from local cache ZIP"
+    }
+  ]
+}

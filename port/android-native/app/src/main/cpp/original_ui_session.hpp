@@ -11,9 +11,13 @@ namespace dh2::android_ui {
 // This is only an asynchronous delivery record; PlayerInfo/save/profile remain
 // owned by the existing native runtime.
 struct NativeStartGameIntentV1 {
+    enum class Kind : std::int32_t { start_game = 0, level_transition = 1 };
     std::int32_t slot{-1};
     bool has_numeric_difficulty{};
     std::int32_t requested_difficulty{};
+    Kind kind{Kind::start_game};
+    std::string destination_name;
+    double raw_entry_point{};
 };
 // Synchronous borrowed source services. Creation publishes a result only after
 // the original caller reaches persistence; invalid class is success/no-result.
@@ -40,6 +44,9 @@ struct FrontRuntimeServices {
     // Source NativeSaveGame resolves this local Character and calls its same
     // PlayerSavegame::SG_Save owner synchronously on the GL/UI thread.
     bool (*save_game)(void*,std::uintptr_t character,std::string&){};
+    // NativeReviveAllPlayers is an authored zero-argument HUD action. The
+    // retained renderer provides the current source-level generation check.
+    bool (*revive_local_players)(void*,std::string&){};
     // NativeLockZoom/NativeUnlockZoom mutate +134 on the currently bound
     // CameraLevel; CameraLevel itself remains owned by the world renderer.
     void (*camera_zoom_lock)(void*,bool locked){};
@@ -55,6 +62,11 @@ public:
     bool initialize(AAssetManager*,std::string&);
     void bind_front_runtime(const FrontRuntimeServices&);
     bool consume_launch_request(NativeStartGameIntentV1& request);
+    // Source MenuManager::DisplayFastTravel callback invoked by
+    // NativeGoToZone after its save/slot/difficulty prefix has completed.
+    bool display_fast_travel(bool source_flag,const std::string& level_name,
+        const std::string& repeated_level_name,std::int32_t entry_point,
+        std::string& error);
     // Consume the authored gameplay HUD's deferred main-menu request after
     // the current SWF input dispatch has unwound.
     bool consume_gameplay_main_menu_request() noexcept;
@@ -85,6 +97,14 @@ public:
                                    std::string&);
     bool source_combat_text_format_int(std::int32_t string_id,std::int32_t argument,
                                        std::string&,std::string&);
+    // Source ItemObject::Interact StatusMsg producers and the authored HUD
+    // queue share this retained session and canonical StringManager.
+    bool enqueue_source_status_item_pickup(const std::string& item_name,
+        std::int32_t power_count,std::string& error);
+    bool enqueue_source_status_auto_transmute(const std::string& item_name,
+        std::int32_t power_count,std::int32_t payout,std::string& error);
+    bool enqueue_source_status_constant(const char* group,const char* key,
+        std::string& error);
     bool render(int width,int height,std::string&);
     std::string consume_menu_sound(); // GL owner thread; drains one source request
     std::string consume_menu_audio(); // GL owner -> Android audio control delivery
@@ -105,9 +125,32 @@ public:
     // Android system Back uses the same live gameplay menu owner as the
     // authored NativeBackToHud callback; it never reloads the selected level.
     bool back_to_hud(std::string&);
+    // Retained source MultiMenuManager overlay used while a gameplay Level is
+    // leaving/loading. These calls target the existing shared menu symbol in
+    // dqcharmenu's imported dqshared movie and preserve the live HUD/session.
+    bool push_source_loading_menu(std::string&);
+    bool pop_source_loading_menu(std::string&);
+    bool source_loading_menu_visible(bool&,std::string&);
+    // Retained source MenuMessageManager<DialogMsg, 1>. Text, actor names,
+    // and style labels resolve through this session's existing StringManager
+    // and PyDataConstants views; no second queue or VM is created.
+    bool enqueue_source_dialog(std::int32_t actor_id,std::int32_t style_id,
+        std::int32_t text_string_id,std::string& error);
+    // StartDialogID expands one source Dialogs row into the existing
+    // MenuMessageManager<DialogMsg, 1> queue and starts it only if idle.
+    bool enqueue_source_dialog_id(std::int32_t dialog_id,std::string& error);
+    bool source_dialog_active(bool& active,std::string& error) const;
+    // ScriptManager commands 74/75/76 and the authored Native callbacks share
+    // the retained CharacterMenu tutorial queue owned by this UI session.
+    bool enqueue_source_char_menu_tutorial(std::int32_t string_id,
+        const std::string& frame,const std::string& menu,std::string& error);
+    bool skip_source_char_menu_tutorial(bool skip_all,std::string& error);
     // GSLevel::Dtor hides menu_HUD_0 on the retained movie before deleting
     // the old Level. This does not destroy the UI session or pop other menus.
     bool close_source_hud(std::string&);
+    // PlayerManager::RemoveCharacter's RenderFX::InvokeASCallback tail on the
+    // retained authored gameplay movie. Succeeds as a no-op when HUDRoot is absent.
+    bool complete_source_hud_refresh(std::string&);
     bool active() const;
     bool overlays_player() const;
     void deactivate();

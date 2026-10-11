@@ -121,6 +121,27 @@ bool format_filename(std::uint32_t source_arg0, std::int32_t source_arg1,
     return true;
 }
 
+bool format_checkpoint_filename(std::int32_t source_save_slot,
+                                std::int32_t source_difficulty,
+                                std::string& output, std::string& error) {
+    if (source_save_slot < 0 || source_difficulty < 0 || source_difficulty > 2) {
+        error = "LevelSavegame checkpoint filename requires the active slot and difficulty";
+        return false;
+    }
+    char buffer[64]{};
+    const int size = std::snprintf(buffer, sizeof(buffer),
+        "dh2_%03u_%01u_single_level.checkpoint",
+        static_cast<unsigned>(source_save_slot),
+        static_cast<unsigned>(source_difficulty));
+    if (size < 0 || static_cast<std::size_t>(size) >= sizeof(buffer)) {
+        error = "LevelSavegame checkpoint filename exceeds source buffer";
+        return false;
+    }
+    output.assign(buffer, static_cast<std::size_t>(size));
+    error.clear();
+    return true;
+}
+
 bool serialize_game_object(const GameObjectFields* fields,
                            std::vector<std::uint8_t>& output,
                            std::string& error) {
@@ -140,6 +161,70 @@ bool serialize_game_object(const GameObjectFields* fields,
         return true;
     } catch (...) {
         error = "GameObject::Serialize output allocation failed";
+        return false;
+    }
+}
+
+bool serialize_trigger(const TriggerFields* fields,
+                       std::vector<std::uint8_t>& output,
+                       std::string& error) {
+    if (!fields) {
+        error = "Trigger::Serialize requires its canonical source fields";
+        return false;
+    }
+    try {
+        std::vector<std::uint8_t> bytes;
+        if (!serialize_game_object(&fields->game_object, bytes, error))
+            return false;
+        append_u32(bytes, static_cast<std::uint32_t>(fields->pending_3b8));
+        append_u32(bytes, static_cast<std::uint32_t>(fields->max_count_3b4));
+        output.swap(bytes);
+        error.clear();
+        return true;
+    } catch (...) {
+        error = "Trigger::Serialize output allocation failed";
+        return false;
+    }
+}
+
+bool serialize_container(const ContainerFields* fields,
+                         std::vector<std::uint8_t>& output,
+                         std::string& error) {
+    if (!fields || fields->state_394 > 4) {
+        error = "Container::Serialize requires a valid source +0x394 state";
+        return false;
+    }
+    try {
+        std::vector<std::uint8_t> bytes;
+        if (!serialize_game_object(&fields->game_object, bytes, error))
+            return false;
+        bytes.push_back(fields->state_394);
+        output.swap(bytes);
+        error.clear();
+        return true;
+    } catch (...) {
+        error = "Container::Serialize output allocation failed";
+        return false;
+    }
+}
+
+bool serialize_door(const DoorFields* fields,
+                    std::vector<std::uint8_t>& output,
+                    std::string& error) {
+    if (!fields || fields->state_3a8 < 0 || fields->state_3a8 > 3) {
+        error = "Door::Serialize requires a valid source +0x3a8 DoorStates value";
+        return false;
+    }
+    try {
+        std::vector<std::uint8_t> bytes;
+        if (!serialize_game_object(&fields->game_object, bytes, error))
+            return false;
+        append_u32(bytes, static_cast<std::uint32_t>(fields->state_3a8));
+        output.swap(bytes);
+        error.clear();
+        return true;
+    } catch (...) {
+        error = "Door::Serialize output allocation failed";
         return false;
     }
 }
@@ -199,6 +284,73 @@ bool serialize_savegame(const Section* sections, std::size_t count,
         error = "LevelSavegame section assembly failed";
         return false;
     }
+}
+
+bool read_savegame_info_word(const std::uint8_t* image, std::size_t image_size,
+                             std::int32_t& info_word, std::string& error) {
+    const auto read_u32 = [image, image_size](std::size_t offset,
+                                              std::uint32_t& value) {
+        if (!image || offset > image_size || image_size - offset < 4) return false;
+        value = static_cast<std::uint32_t>(image[offset]) |
+            (static_cast<std::uint32_t>(image[offset + 1]) << 8) |
+            (static_cast<std::uint32_t>(image[offset + 2]) << 16) |
+            (static_cast<std::uint32_t>(image[offset + 3]) << 24);
+        return true;
+    };
+    std::uint32_t section_count = 0;
+    if (!image || image_size < 4 || !read_u32(0, section_count) ||
+        section_count != 2) {
+        error = "LevelSavegame Load requires its exact two-section source image";
+        return false;
+    }
+    bool found_info = false, found_objects = false;
+    std::int32_t next_info = 0;
+    std::size_t cursor = 4;
+    for (std::uint32_t i = 0; i < section_count; ++i) {
+        std::uint32_t payload_size = 0;
+        if (!read_u32(cursor, payload_size) || cursor > image_size - 4) {
+            error = "LevelSavegame Load section header is truncated";
+            return false;
+        }
+        cursor += 4;
+        if (image_size - cursor < 4 || payload_size > image_size - cursor - 4) {
+            error = "LevelSavegame Load section payload is truncated";
+            return false;
+        }
+        const bool is_info = std::memcmp(image + cursor, "INFO", 4) == 0;
+        const bool is_objects = std::memcmp(image + cursor, "OBJS", 4) == 0;
+        cursor += 4;
+        if (is_info) {
+            if (found_info || payload_size != 4) {
+                error = "LevelSavegame Load INFO registration is duplicate or malformed";
+                return false;
+            }
+            std::uint32_t raw = 0;
+            if (!read_u32(cursor, raw)) {
+                error = "LevelSavegame Load INFO word is truncated";
+                return false;
+            }
+            std::memcpy(&next_info, &raw, sizeof(next_info));
+            found_info = true;
+        } else if (is_objects) {
+            if (found_objects) {
+                error = "LevelSavegame Load OBJS registration is duplicated";
+                return false;
+            }
+            found_objects = true;
+        } else {
+            error = "LevelSavegame Load image contains an unsupported section";
+            return false;
+        }
+        cursor += payload_size;
+    }
+    if (cursor != image_size || !found_info || !found_objects) {
+        error = "LevelSavegame Load image has trailing bytes or missing INFO/OBJS";
+        return false;
+    }
+    info_word = next_info;
+    error.clear();
+    return true;
 }
 
 bool Owner::construct(std::string source_filename, std::int32_t info_word,
@@ -274,6 +426,26 @@ SaveStatus Owner::save_all(const Object* objects, std::size_t count,
     *output = result;
     error.clear();
     return SaveStatus::saved;
+}
+
+bool Owner::load_image(const std::uint8_t* image, std::size_t image_size,
+                       std::string& error) {
+    if (!constructed_) {
+        error = "LevelSavegame Load requires the retained constructed owner";
+        return false;
+    }
+    std::int32_t next_info = 0;
+    if (!read_savegame_info_word(image, image_size, next_info, error)) return false;
+    try {
+        std::vector<std::uint8_t> candidate(image, image + image_size);
+        image_.swap(candidate);
+        info_word_ = next_info;
+        error.clear();
+        return true;
+    } catch (...) {
+        error = "LevelSavegame Load could not retain the source image";
+        return false;
+    }
 }
 
 void Owner::destroy() noexcept {

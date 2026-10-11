@@ -3,7 +3,7 @@
   "source_member_prefix": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/",
   "schema": "recovered/native/decompiled/libDungeonHunter2.so/functions-009.pseudo.c: v2Event::read (ELF 0x4ebc38); functions-011.pseudo.c: v2QuestObjectiveStub::read (ELF 0x514818)",
   "production_use": "functions-006.pseudo.c: GameEventManager::Load (ELF 0x489e5c), GameEvent::AssignPyData (0x489568), and GameEventManager::Update (0x4798c8)",
-  "update_contract": "GameEvent::Update (ELF 0x489408): Inactive -> ObjectiveList::IsValid -> Active; Active -> ObjectiveList::Eval -> Completed; Completed invokes the source Script name with StartScript(id,-1,false). Current port has a RaiseAsync receiver registry inside native::quests::Owner, but no GameEvent row/state/Objectives owner. v2_event_update_kernel_v1 is stateless and requires borrowed canonical-owner callbacks; it is not production-wired.",
+  "update_contract": "GameEvent::Update (ELF 0x479408): Inactive -> ObjectiveList::IsValid (0x47a498) -> Active; Active -> ObjectiveList::Eval (0x47a444) -> Completed; Completed commits state then ExecScript (0x4793a4) calls StartScript(id,-1,false). GameEventManager::Update is 0x4798c8 and Level::Update calls it at 0x3f8478 after SG_Update(false), before physics at 0x3f84c8.",
   "row_count": 66,
   "packed_size": 5082,
   "inputs": {

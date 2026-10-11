@@ -14,6 +14,8 @@ struct Fixture {
     std::vector<std::uint32_t> operations;
     std::vector<std::uint32_t> rollbacks;
     std::uint32_t fail_state = UINT32_MAX;
+    std::uint32_t go_ids = UINT32_MAX;
+    std::uint32_t object_base_calls = 0;
 };
 std::uint32_t encode(ctor::Action action, std::uint32_t value) {
     return (std::uint32_t(action) << 24) | value;
@@ -38,6 +40,14 @@ int register_state(void* raw, ctor::Identity, std::uint32_t state,
     f.operations.push_back(encode(ctor::Action::state, state));
     return state == f.fail_state ? 1 : 0;
 }
+int construct_object_base(void* raw, ctor::Identity identity,
+                          std::uint32_t go_ids, std::string&) {
+    auto& f = *static_cast<Fixture*>(raw);
+    if (!identity) return 1;
+    f.go_ids = go_ids;
+    ++f.object_base_calls;
+    return 0;
+}
 void rollback(void* raw, ctor::Action action, std::uint32_t value,
               ctor::Identity) noexcept {
     static_cast<Fixture*>(raw)->rollbacks.push_back(encode(action, value));
@@ -61,7 +71,8 @@ int main() {
                     "embedded constructor or association order changed");
 
         Fixture f;
-        ctor::Services services{&f, component, associate, register_state, rollback};
+        ctor::Services services{&f, component, associate, register_state, rollback,
+                                construct_object_base};
         ctor::Owner owner{};
         ctor::Result result{};
         std::string error;
@@ -72,7 +83,12 @@ int main() {
                     owner.target_list_bound && owner.controller_bound &&
                     owner.registered_states == ctor::all_registered_states &&
                     result.registered_state_count == 20 &&
-                    result.registered_state_mask == ctor::all_registered_states,
+                    result.registered_state_mask == ctor::all_registered_states &&
+                    owner.object_base_go_ids_f4_ready &&
+                    owner.object_base_go_ids_f4 == 0 &&
+                    result.object_base_go_ids_f4_ready &&
+                    result.object_base_go_ids_f4 == 0 &&
+                    f.object_base_calls == 1 && f.go_ids == 0,
                 "constructor defaults or all 20 source states are incomplete");
         require(f.operations.size() == 38 && f.operations[18] == 0x02000000u &&
                     f.operations[37] == 0x02000013u,

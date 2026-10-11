@@ -81,6 +81,7 @@ public:
         // +0xb8/+0x118; each QuestSavegame C1 writes +0x44[3] to one.
         level_name_fields_.quest_wordfc.fill(1);
         level_name_fields_.quest_word15c.fill(1);
+        source_quest_sync_20_ = 0;
     }
     PlayerSavegameV1(const PlayerSavegameV1&) = delete;
     PlayerSavegameV1& operator=(const PlayerSavegameV1&) = delete;
@@ -211,6 +212,17 @@ public:
     std::int32_t class_id() const noexcept { return class_; }
     const std::string& name() const noexcept { return name_; }
     std::uintptr_t character() const noexcept { return character_; }
+    // Offline PlayerSavegame::SG_TryQuestSync stores this byte before
+    // UpdateQuests. It is the canonical Save+0x14 state, initialized by C1.
+    std::uint8_t source_quest_sync_20() const noexcept { return source_quest_sync_20_; }
+    bool source_quest_sync_update(std::uintptr_t expected_character,
+                                  bool online) noexcept {
+        if (online || !expected_character || character_ != expected_character ||
+            quest_log_b8_.character_5c != expected_character ||
+            quest_log_118_.character_5c != expected_character) return false;
+        source_quest_sync_20_ = 1;
+        return true;
+    }
     const SavedLevelNameFieldsV1& level_name_fields() const noexcept { return level_name_fields_; }
     // Sole canonical backing for embedded source QuestSavegame +0x44[3].
     std::array<std::int32_t,3>& quest_log_b8_act_words_v1() noexcept { return level_name_fields_.quest_wordfc; }
@@ -255,6 +267,7 @@ private:
     std::int32_t class_{-1};
     std::string name_;
     std::uintptr_t character_{};
+    std::uint8_t source_quest_sync_20_{};
     bool skills_initialized_{};
     std::vector<SavedSkill8V1> skills_;
     std::array<std::map<std::int32_t, std::uint32_t>, 2> slots_;

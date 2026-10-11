@@ -1,12 +1,15 @@
 {
   "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
-  "scope": "one bounded CharAI OnEnemySpotted gate and late selected AIS dispatch; dependency evidence is not additional implemented bodies; no native wiring",
+  "scope": "bounded CharAI OnEnemySpotted gate plus the separately ported GroupInfo callback and current renderer event-9 adapter; dependency evidence is not additional implemented bodies",
   "implementation": {
     "source": ["port/level-world/character_enemy_spotted.hpp", "port/level-world/character_enemy_spotted.cpp"],
     "tests": ["port/level-world/tests/character_enemy_spotted.cpp", "port/level-world/tests/run_character_enemy_spotted_host.py"],
     "new_bounded_gate_implementations": 1,
     "new_full_native_body_claims": 0,
-    "native_wired": false,
+    "native_wired": true,
+    "native_compile_verified": false,
+    "group_info_implementation": ["port/level-world/character_group_info_owner_v1.hpp", "port/level-world/character_group_info_owner_v1.cpp"],
+    "native_adapter": "port/android-native/app/src/main/cpp/model_renderer.cpp; current source-backed provider coverage is limited to retained native ObjectActor/SpawnOwner and supported combat/AIS providers",
     "diagnostic_subsystem": "optional explicit service; omitted when absent",
     "lifetime_and_reentry_guards": "port ownership policy, not original object layout"
   },
@@ -28,7 +31,7 @@
   ],
   "functions": [
     {"original_symbol":"_ZN6CharAI14OnEnemySpottedEP9Character", "elf_address":"0x3d14b4", "size":480, "sha256":"62c6f8a1f642e082b96bdb6d4667d3bf6ad25e524ddd41aa3da2f4864a5172d3", "scope":"bounded gate and late dispatch; diagnostic/canary bodies excluded"},
-    {"original_symbol":"_ZN6CharAI9GroupInfo14OnEnemySpottedEP9CharacterS2_", "elf_address":"0x3d27cc", "size":616, "sha256":"a3bd805a32fe4a2c183443a24791d785de286b5838ce2fae9cf12153d430c6e7", "scope":"external group callback evidence"},
+    {"original_symbol":"_ZN6CharAI9GroupInfo14OnEnemySpottedEP9CharacterS2_", "elf_address":"0x3d27cc", "size":616, "sha256":"a3bd805a32fe4a2c183443a24791d785de286b5838ce2fae9cf12153d430c6e7", "scope":"source body ported in character_group_info_owner_v1; renderer wiring present, full native compile not yet verified"},
     {"original_symbol":"_ZNK16CharStateMachine20SM_IsAwaitingToSpawnEv", "elf_address":"0x3c0230", "size":24, "sha256":"9c84b7e9a22ca895a54266c1e32ba749e1e3afb08f001790d6a112896ace8494", "scope":"actual source predicate; real leaf executes in oracle"},
     {"original_symbol":"_ZNK16CharStateMachine13SM_IsInLimbusEv", "elf_address":"0x3c01c0", "size":20, "sha256":"9a5a7da0e51a2036859e2a5634b8b29dce869733922178f3d9f15430b7c2b3a7", "scope":"real leaf executes in oracle"},
     {"original_symbol":"_ZNK16CharStateMachine11SM_GetStateEv", "elf_address":"0x3c01ac", "size":20, "sha256":"4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743", "scope":"real current state getter executes in oracle"},
