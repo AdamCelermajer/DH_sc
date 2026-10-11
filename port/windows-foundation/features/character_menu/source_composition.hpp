@@ -19,6 +19,10 @@ struct SourcePageProviderV1 {
     std::function<bool(std::string&)> ready;
     std::function<bool(Frame&, std::string&)> append;
     std::function<bool(float authored_x, float authored_y, std::string&)> release;
+    // Discard this provider's subpages after an accepted tab selection, including
+    // reselecting the active tab (authored NativePopAllAbove + NativePushMenu).
+    // Optional for pages without subpages; must be nonthrowing and idempotent.
+    std::function<void()> leave;
 };
 
 inline bool dispatch_source_stat_training_v1(
@@ -259,7 +263,11 @@ public:
                 return false;
             }
         }
-        return presenter.select(tab, error);
+        const auto previous = index(presenter.tab());
+        if (!presenter.select(tab, error)) return false;
+        if (previous < state_->pages.size() && state_->pages[previous].leave)
+            state_->pages[previous].leave();
+        return true;
     }
 
     // Chain with any already registered root content callback. Each feature
