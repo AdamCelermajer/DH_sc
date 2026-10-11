@@ -47,7 +47,7 @@ void test_builders_and_registry() {
         block("TriggerZoneExitLevel", "exit_gated", {{"levelName", "SWAMP"}, {"entrypointID", "13"}, {"activate_cond", "QuestDone_Witch"}}),
         block("TriggerZoneExitLevel", "exit_missing", {{"levelName", "NO_SUCH_LEVEL"}}),
         block("TriggerZoneExitLevel", "exit_procedural", {{"levelName", "SWAMP_CAVE_WITCH_A"}, {"entrypointID", "6"}}),
-        block("CheckpointZone", "cp", {}),
+        block("CheckpointZone", "cp", {}, 12.5f, -4.0f, 7.25f),
         block("QuestMoveInZone", "quest", {}),
         block("TriggerZone", "plain", {{"script", "X"}}),
     };
@@ -78,7 +78,10 @@ void test_builders_and_registry() {
     const auto& sphere = zones[set.find("exit_sphere")];
     check(!sphere.built && sphere.note.find("only Block") != std::string::npos, "non-Block shape is reported");
 
-    check(zones[set.find("cp")].kind == ZoneKind::checkpoint && zones[set.find("cp")].built, "checkpoint zone is built");
+    const auto& checkpoint = zones[set.find("cp")];
+    check(checkpoint.kind == ZoneKind::checkpoint && checkpoint.built, "checkpoint zone is built");
+    check(checkpoint.source_position == std::array<float,3>{12.5f,-4.0f,7.25f},
+          "checkpoint preserves its authored source position as a separate value for the checkpoint key");
     check(!zones[set.find("quest")].built && zones[set.find("quest")].kind == ZoneKind::delegated_quest, "QuestMoveInZone is delegated");
     check(set.built_count(ZoneKind::level_exit) == 3 && set.built_count(ZoneKind::checkpoint) == 1, "built counts");
     check(!set.notices().empty(), "rejected zones are kept in notices");

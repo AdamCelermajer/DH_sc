@@ -88,6 +88,10 @@ struct ExitZone {
     int entry_id = 0;             // entrypointID (level_exit)
     std::string fast_travel;      // authored fasttravel id (display/unlock key, informational here)
     std::string condition;        // authored condition name; empty = unconditional
+    // Translation from the original placed declaration. CheckpointZone stores
+    // this exact source zone position as the checkpoint key; it is distinct
+    // from both the oriented contact-box center and the player's revive point.
+    std::array<float, 3> source_position{};
     campaign_host::TriggerZoneBox box;
     bool inside = false;          // last fed contact fact
     bool built = false;           // false = reported in notices(), never fed

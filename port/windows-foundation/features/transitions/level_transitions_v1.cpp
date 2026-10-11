@@ -149,6 +149,7 @@ bool ExitZoneSet::build(const std::vector<ActorDefinition>& declarations,
         zone.name = declaration.name;
         zone.gametype = declaration.gametype;
         zone.source = declaration.sourcePath + "::" + declaration.name;
+        zone.source_position = {declaration.placement[12], declaration.placement[13], declaration.placement[14]};
         std::string reason;
         const bool ok = (*builder)(declaration, levels, zone, reason);
         if (!ok) {
