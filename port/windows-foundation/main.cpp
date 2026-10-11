@@ -435,6 +435,10 @@ struct Options {
     std::vector<std::pair<std::string,int>> leverUseRequests; // P17 DOORS: --lever-use DECLARATION@FRAME (debug use of a lever, default off)
     double fixedStep = 0;
     bool probe = false, timeline = false, saveNow = false, resumeGame = false;
+    // B086: Continue. resumeLevelWorld = set at start (menu route) when the profile's level-world save is valid: the frame-0
+    // restore reads it instead of --game-save.
+    bool resumeLevelWorld = false;
+    int quitFrame = -1; // B086 test aid: --quit-frame N takes the same exit path as closing the window (Application::Quit quick save)
     bool movable=false, sourceCamera=false, hud=false, freshPlayer=false;
     bool combatText=false;
     std::optional<bool> staticActorAnchor;
@@ -710,6 +714,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--combat-retained-phase") o.combat.profiles[value()].retainedPhaseClock=true;
         else if(arg=="--combat-source-combo") o.combat.profiles[value()].sourceCombo=true;
         else if(arg=="--resume-game") {o.loadFrame=0;o.resumeGame=true;} // P17 VERIFY17: continue from --game-save at frame 0 (F9 rule)
+        else if(arg=="--quit-frame") {o.quitFrame=std::stoi(value());if(o.quitFrame<0)throw std::runtime_error("Quit frame must be nonnegative");} // B086 test aid
         else if(arg=="--save-frame") {o.saveFrame=std::stoi(value());if(o.saveFrame<0)throw std::runtime_error("Save frame must be nonnegative");}
         else if(arg=="--load-frame") {o.loadFrame=std::stoi(value());if(o.loadFrame<0)throw std::runtime_error("Load frame must be nonnegative");}
         else if(arg=="--character-name") o.characterName=value();
@@ -1283,6 +1288,26 @@ int main(int argc,char** argv) {
             if(!f::load_character(options.save,state,error)) throw std::runtime_error("Save: "+error);
             // The direct bootstrap below regenerates starter gear from the live actor; drop the file copy so slots are not duplicated.
             state.equipment.clear();state.inventory.clear();
+        }
+        // B086 Continue. The source menu Continue (MenuBase::FS_ContinueGame 0x420e64) starts the profile's level with the load flag, and
+        // Level state 0x21 then runs LevelSavegame::Load: the saved world AND the player's position come back. The save is written by
+        // Application::Quit 0x323bc4 / GoToMainMenu 0x32c1f4 (Level::QuickSave, skipped for a dead hero) and by scripts/checkpoints.
+        // Here the level-world save of this profile is validated (same level, same profile identity) and, when valid, the verified
+        // frame-0 restore (--resume-game, VERIFY17) replays it. A missing/foreign/unreadable save starts the level fresh.
+        if(frontendStarted&&!options.resumeGame&&options.transitionEntryId<0&&!options.save.empty()&&!options.level.empty()) {
+            const auto resumeWorldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
+            std::error_code resumeExists;
+            if(!fs::exists(resumeWorldPath,resumeExists))std::cout<<"Continue level world status=none level="<<options.level.generic_string()<<'\n';
+            else {
+                f::GameSave resumeSnapshot;std::string resumeError;
+                if(!f::load_game(resumeWorldPath,resumeSnapshot,resumeError))std::cout<<"Continue level world status=unreadable detail="<<resumeError<<'\n';
+                else if(resumeSnapshot.level_uri!=options.level.generic_string())std::cout<<"Continue level world status=other_level saved="<<resumeSnapshot.level_uri<<'\n';
+                else if(resumeSnapshot.character.id!=state.id)std::cout<<"Continue level world status=other_profile\n";
+                else {
+                    options.loadFrame=0;options.resumeGame=true;options.resumeLevelWorld=true;
+                    std::cout<<"Continue level world status=valid level="<<options.level.generic_string()<<" actors="<<resumeSnapshot.actors.size()<<" path="<<resumeWorldPath.generic_string()<<'\n';
+                }
+            }
         }
         if(!frontendStarted&&options.freshPlayer&&options.hud&&!options.meleeBindings.empty()) {
             if(options.actorRow!=options.combat.playerProfileId)throw std::runtime_error("Direct skill bank requires the same source player class");
@@ -1946,13 +1971,14 @@ int main(int argc,char** argv) {
         initializeCombat();
         // P17 TRANSITIONS2: LevelSavegame rule. The world kept for this level on its last visit (killed actors, opened containers,
         // object states) is restored; the controlled actor is placed at the arrival entry, not at its saved position (Level::_LoadPlayer).
-        const auto saveLevelWorld=[&](const char* reason,std::string& e)->bool {
+        const auto saveLevelWorld=[&](const char* reason,std::string& e,f::GameSave* keep=nullptr)->bool {
             if(!combatSession||options.save.empty())return true;
             f::GameSave worldSnapshot;
             if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),worldSnapshot,e))return false;
             const auto worldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
             for(const auto& pa:worldSnapshot.actors)if(pa.actor.id==worldSnapshot.controlled_actor_id)std::cout<<"Level world snapshot actor position="<<pa.actor.transform.position[0]<<","<<pa.actor.transform.position[1]<<","<<pa.actor.transform.position[2]<<" reason="<<reason<<"\n";
             if(!f::save_game(worldPath,worldSnapshot,e))return false;
+            if(keep)*keep=worldSnapshot; // B086: the resume point also rewrites the profile from this exact snapshot
             std::cout<<"Level world saved reason="<<reason<<" level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
             return true;
         };
@@ -5397,8 +5423,37 @@ int main(int argc,char** argv) {
                          <<','<<a.transform.position[2]<<" hp="<<a.health<<" dead="<<(a.is_dead()?1:0)<<'\n';
             }
         };
+        // B086: the resume point. Source Application::Quit (0x323bc4) and GoToMainMenu (0x32c1f4) run Level::QuickSave (0x3f059c: only
+        // for a LIVE hero, Level state 38) and then SG_Save the profile; the next Continue restores that level save (world + position).
+        // A cutscene that blocks saving, a dead hero or a rejected checkpoint keeps the previous level save (never a half state).
+        // Returns 1 saved, 0 skipped for good (dead hero, cutscene, profile write failure), -1 rejected for now (an active action
+        // such as an attack window blocks the checkpoint): the quit path retries for a short grace period.
+        bool quitPending=false,quitDone=false;int quitDeadline=0;
+        const auto saveResumePoint=[&](const char* reason)->int {
+            if(!combatSession||options.save.empty())return 0;
+            const auto* hero=combatSession->actor(combatSession->player_id());
+            if(!hero||!hero->alive()){std::cout<<"Resume point skipped reason="<<reason<<" detail=hero_dead\n";return 0;}
+            if(campaignHost.enabled()&&campaignHost.save_blocked()){std::cout<<"Resume point skipped reason="<<reason<<" detail=cutscene_blocks_saving\n";return 0;}
+            std::string e;
+            if((skillCastCoordinator&&!skillCastCoordinator->checkpoint_v1(*combatSession,e))||!combatSession->validate_lifecycle_checkpoint(e))return -1;
+            if(options.campaignTriggers&&!campaignHost.persist_lifecycle(*combatSession->world(),e))return -1;
+            stampSaveMetadata(state,options.level.generic_string());
+            f::GameSave snapshot;
+            if(!saveLevelWorld(reason,e,&snapshot))return -1;
+            if(!f::save_character(options.save,snapshot.character,e)){std::cout<<"Resume point profile save failed reason="<<reason<<" detail="<<e<<'\n';return 0;}
+            std::cout<<"Resume point saved reason="<<reason<<" level="<<options.level.generic_string()<<" HP="<<snapshot.character.stats.health<<'\n';
+            return 1;
+        };
         dh::foundation::FramePacer framePacer; // B066: deadline pacing replaces sleep(1) (a 15.6 ms tick on Windows)
-        while(!window.should_close()) {
+        while(!window.should_close()||(quitPending&&!quitDone)) {
+            // B086 Application::Quit: closing the window (or --quit-frame) quick-saves the level world and the profile first. An active
+            // action can reject the checkpoint for a moment; the game keeps running up to 90 frames until the save is accepted.
+            if(!returnToFrontend&&(window.should_close()||(options.quitFrame>=0&&drawn>=options.quitFrame))) {
+                if(!quitPending){quitPending=true;quitDeadline=drawn+90;std::cout<<"Quit requested frame="<<drawn<<'\n';}
+                const int quitResult=saveResumePoint("quit");
+                if(quitResult==-1)std::cout<<"Resume point retry frame="<<drawn<<'\n';
+                if(quitResult>=0||drawn>=quitDeadline){quitDone=true;break;}
+            }
             dh::foundation::perf::FramePerf::get().begin_frame(); // B062: unclamped per-phase timing, DH_PERF=1
             framePacer.begin(); // B066
             if(options.hud&&combatSession)bindEquipmentPage();
@@ -5636,6 +5691,7 @@ int main(int argc,char** argv) {
                     if(!f::frontend::menu_return::commit_v1(ticket,*skillCastCoordinator,options.level.generic_string(),options.liveSave,options.save,state,receipt,saveError)||!receipt.may_return_to_frontend)
                         throw std::runtime_error("Pause main-menu save: "+saveError);
                     std::cout<<"Pause main-menu save prefix frame="<<drawn<<" HP="<<state.stats.health<<" MP="<<state.stats.resource<<" profile="<<options.save.generic_string()<<" levelSaved="<<receipt.level_saved<<'\n';
+                    if(receipt.level_saved)saveResumePoint("main-menu"); // B086: GoToMainMenu quick save, so the next Continue resumes here
                 } else {
                     // A transient world program is not serializable here. Its
                     // stable profile remains independently persistable.
@@ -6009,7 +6065,12 @@ int main(int argc,char** argv) {
                 scriptRoutes.clear(); // restored actor bindings must not inherit an earlier session's movement goals
                 if(options.combatText)combatText.clear_for_reload();
                 if(combatSession) {
-                    f::GameSave snapshot;if(!f::load_game(options.liveSave,snapshot,error))throw std::runtime_error("Read live save: "+error);
+                    // B086: the Continue restore at the start frame reads the profile's level-world save (validated at startup);
+                    // an explicit F9/R reload later reads the live checkpoint save as before.
+                    const bool continueRestore=options.resumeLevelWorld&&drawn==options.loadFrame;
+                    const auto restorePath=continueRestore?f::transitions::level_world_path(options.save,options.level.generic_string()):options.liveSave;
+                    if(continueRestore)std::cout<<"Continue restore frame="<<drawn<<" path="<<restorePath.generic_string()<<'\n';
+                    f::GameSave snapshot;if(!f::load_game(restorePath,snapshot,error))throw std::runtime_error("Read live save: "+error);
                     if(!combatSession->detach_for_restore([&](std::string& e) {
                         retireSourceEffects();
                         clearNativeBodies();
@@ -7646,6 +7707,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
             options.combat.diagnosticRngSeed=launchOptions.combat.diagnosticRngSeed;
             options.startMode="swamp";
             options.freshPlayer=false;
+            if(options.resumeLevelWorld){options.resumeLevelWorld=false;options.resumeGame=false;options.loadFrame=-1;} // B086: the Continue restore belongs to the first session only
             options.verifyFrontendCreation=false;options.verifyFrontendSlots=false;
             transitionFrameBase=drawn;
             continue;
