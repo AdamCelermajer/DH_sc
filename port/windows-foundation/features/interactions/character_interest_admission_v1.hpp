@@ -1,4 +1,6 @@
 #pragma once
+#include "../../actor_state.hpp"
+#include "../../../game-data/ai.hpp"
 #include <cstdint>
 
 namespace dh::foundation {
@@ -14,6 +16,16 @@ struct CharacterInterestAdmissionV1 {
     int owner_state{}, candidate_state{};
     std::int32_t owner_word4884{}, candidate_word4880{};
 };
+// IsSummoned0x3a30ac reads CharType5 only; pool ownership is not a type.
+// Relationships0x3d511c/0x3d574c read current actor faction where bound.
+inline void project_character_interest_identity_v1(CharacterInterestAdmissionV1& s,int source_type,
+    int initial_faction,const ActorState* live,const ActorState& viewer,const dh2::data::AiTables& tables) noexcept {
+    s.faery=source_type==3;s.summoned=source_type==5;s.monster=source_type==4;s.candidate_is_player=source_type==1;
+    s.friend_to_viewer=s.enemy_to_viewer=s.viewer_friend_to_candidate=s.viewer_enemy_to_candidate=false;
+    const int faction=live?live->faction_id:initial_faction;
+    if(faction>=0&&std::size_t(faction)<tables.factions.size())for(const auto& r:tables.factions[faction])if(r.id==viewer.faction_id){s.friend_to_viewer=r.value>0;s.enemy_to_viewer=r.value<0;break;}
+    if(viewer.faction_id>=0&&std::size_t(viewer.faction_id)<tables.factions.size())for(const auto& r:tables.factions[viewer.faction_id])if(r.id==faction){s.viewer_friend_to_candidate=r.value>0;s.viewer_enemy_to_candidate=r.value<0;break;}
+}
 inline bool character_interest_interactive_v1(const CharacterInterestAdmissionV1& s) noexcept {
     if(s.dead5193 && s.friend_to_viewer && !s.monster)return true;
     return !s.deleted129 && s.enabled138 && !s.faery && !s.summoned && !s.dead5193 &&

@@ -97,6 +97,26 @@ int main() {
     status.candidate_state=16;rejected("dead-friendly candidate state16 rejected by mask8");status.candidate_state=3;
     status.owner_state=15;rejected("dead-friendly owner state15 rejected by mask8");status.owner_state=3;
     status.monster=true;rejected("dead monster does not take dead-friendly interactive exception");
+    // Source IsSummoned is a type query. A pool membership has no authority
+    // over admission; changing actual source type to5 does.
+    ActorState live_npc,live_viewer;live_npc.faction_id=1;live_viewer.faction_id=0;
+    dh2::data::AiTables factions;factions.factions={{{1,1},{2,-1}},{{0,1}},{{0,-1}}};
+    status={};status.enabled138=true;status.interactive1045=true;status.flags1312=0x2380;
+    status.registered_talk762=true;status.viewer_is_player=true;
+    const bool pool_owned=true; // separate despawn/reward owner; intentionally not an identity input
+    project_character_interest_identity_v1(status,2,1,&live_npc,live_viewer,factions);
+    check(pool_owned&&selected()==200&&!status.summoned,"pooled source type2 NPC retains registered talk admission");
+    project_character_interest_identity_v1(status,5,1,&live_npc,live_viewer,factions);
+    check(selected()==201&&status.summoned,"actual source type5 NPC is rejected before registered talk mask");
+    status.registered_talk762=false;
+    project_character_interest_identity_v1(status,2,1,&live_npc,live_viewer,factions);
+    check(selected()==201&&status.friend_to_viewer&&status.viewer_friend_to_candidate,"current friendly faction rejects unregistered NPC");
+    live_npc.faction_id=2;
+    project_character_interest_identity_v1(status,2,1,&live_npc,live_viewer,factions);
+    check(selected()==200&&status.enemy_to_viewer&&status.viewer_enemy_to_candidate&&!status.friend_to_viewer,
+          "changed bound faction admits living enemy and refreshes both relationship directions");
+    project_character_interest_identity_v1(status,2,1,nullptr,live_viewer,factions);
+    check(selected()==201&&status.friend_to_viewer&&status.viewer_friend_to_candidate,"population-only NPC uses resolved initial faction fallback");
     std::printf("%s\n", failures == 0 ? "interactable registry tests passed" : "interactable registry tests FAILED");
     return failures == 0 ? 0 : 1;
 }

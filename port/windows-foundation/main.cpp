@@ -4584,21 +4584,17 @@ int main(int argc,char** argv) {
             const auto* self=combatSession?combatSession->actor(viewer):nullptr;
             const auto* world=combatSession?combatSession->world():nullptr;
             if(!placed||kind==npcInterestTypes.end()||!self||!world)return false;
+            const auto* live=combatSession->actor(id);
             f::CharacterInterestAdmissionV1 s;
             s.enabled138=placed->enabled;s.interactive1045=true;s.flags1312=0x2380;
-            s.faery=kind->second.first==3;s.summoned=kind->second.first==5||spawnPool.owns(id);s.monster=kind->second.first==4;
-            s.viewer_is_player=viewer==combatSession->player_id();s.candidate_is_player=kind->second.first==1;
+            f::project_character_interest_identity_v1(s,kind->second.first,kind->second.second,live,*self,world->factions());
+            s.viewer_is_player=viewer==combatSession->player_id();
             s.owner_state=combatSession->original_actor_state(viewer);s.candidate_state=3;
             s.merchant=merchantActors.count(id)!=0;
             const auto identity=questActorIdentity.find(id);
             s.registered_talk762=questRuntime&&identity!=questActorIdentity.end()&&questRuntime->talk_objective_registered(identity->second.first);
-            // Source relationships use the candidate's faction for IsInteractive/GetInteractionType.
-            const auto& factions=world->factions().factions;
-            const int faction=kind->second.second;
-            if(faction>=0&&std::size_t(faction)<factions.size())for(const auto& relation:factions[faction])if(relation.id==self->faction_id){s.friend_to_viewer=relation.value>0;s.enemy_to_viewer=relation.value<0;break;}
-            if(self->faction_id>=0&&std::size_t(self->faction_id)<factions.size())for(const auto& relation:factions[self->faction_id])if(relation.id==faction){s.viewer_friend_to_candidate=relation.value>0;s.viewer_enemy_to_candidate=relation.value<0;break;}
             out.position={placed->transform[12],placed->transform[13],placed->transform[14]};
-            if(const auto* live=combatSession->actor(id)) {
+            if(live) {
                 out.position=live->source_target_position184.value_or(live->transform.position);
                 out.radius=world->target_radius(*live);s.dead5193=live->is_dead();s.candidate_state=combatSession->original_actor_state(id);
                 if(const auto* lifecycle=actorLifecycle.status(id))s.flags1312=lifecycle->flags;
