@@ -56,8 +56,24 @@ int main() {
         presenter.close();
         check(!composition.select(presenter, Tab::equipment, error) && leave_calls == 2,
               "closed menu dispatched provider leave");
+        error = "stale previous action error";
+        check(composition.release(presenter, 0.f, 0.f, 480, 320, error) == Action::none &&
+              error.empty() && release_calls == 0 && leave_calls == 2,
+              "closed menu dispatched a hidden page body release");
         presenter.open();
         check(composition.select(presenter, Tab::equipment, error), error.c_str());
+        check(composition.release(presenter, 19.f, 20.f, 480, 320, error) == Action::close && !presenter.is_open(),
+              "queued Close did not retire the menu");
+        check(composition.release(presenter, 0.f, 0.f, 480, 320, error) == Action::none &&
+              composition.release(presenter, 245.f, 18.f, 480, 320, error) == Action::none &&
+              error.empty() && release_calls == 0 && leave_calls == 2,
+              "release queued after Close dispatched a hidden provider or leave callback");
+        presenter.open();
+        check(composition.select(presenter, Tab::equipment, error), error.c_str());
+        presenter.close_guard = [] { return false; };
+        check(composition.release(presenter, 19.f, 20.f, 480, 320, error) == Action::close && presenter.is_open(),
+              "close guard refusal retired the still-open menu");
+        presenter.close_guard = {};
 
         // Instantiate the generic release path as well as page selection.
         // This consumer deliberately never registers a NativeStats action;

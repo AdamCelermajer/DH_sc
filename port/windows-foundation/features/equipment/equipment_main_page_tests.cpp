@@ -117,13 +117,14 @@ int main(int argc, char** argv) {
             character_menu::SourceCompositionV1 composition(owner);
             character_menu::SourcePageProviderV1 provider;
             bool ready = true;
+            unsigned releases = 0, leaves = 0;
             provider.owner = owner;
             provider.ready = [&](std::string& e) { e = ready ? "" : "unready"; return ready; };
             provider.append = [&](character_menu::Frame& f, std::string& e) {
                 return page.content(character_menu::Tab::equipment, f, e);
             };
-            provider.release = [&](float x, float y, std::string& e) { return page.release(x, y, command, e); };
-            provider.leave = [&]() noexcept { page.leave_page(); };
+            provider.release = [&](float x, float y, std::string& e) { ++releases; return page.release(x, y, command, e); };
+            provider.leave = [&]() noexcept { ++leaves; page.leave_page(); };
             check(composition.register_page(character_menu::Tab::equipment, provider, error), error);
             character_menu::Presenter menu; menu.open();
             check(composition.select(menu, character_menu::Tab::equipment, error), error);
@@ -151,6 +152,34 @@ int main(int argc, char** argv) {
                 check(details.is_open() && equipment.selected_instance().empty(), "B095 empty category fixture failed");
                 check(click(245.f, 18.f) == character_menu::Action::equipment && !details.is_open(),
                       "B095 empty category did not return to global page");
+                const auto before_releases = releases, before_leaves = leaves;
+                // Process two already-captured clicks in order: Close first, then
+                // a source slot/body or tab. A hidden provider must not see them.
+                check(click(19.f, 20.f) == character_menu::Action::close && !menu.is_open(),
+                      "B095 queued Close did not close the menu");
+                error = "stale previous error";
+                check(click(slot_x, slot_y) == character_menu::Action::none && error.empty() &&
+                      click(245.f, 18.f) == character_menu::Action::none && !details.is_open() &&
+                      releases == before_releases && leaves == before_leaves,
+                      "B095 queued release after Close reopened hidden Details or dispatched leave");
+                menu.open();
+                check(composition.select(menu, character_menu::Tab::equipment, error), error);
+                click(slot_x, slot_y);
+                check(details.is_open() && equipment.selected_instance() == "suit-instance", error);
+                menu.close();
+                const auto& hidden_equip = *std::find_if(inventory::original_inventory_details().actions.begin(),
+                    inventory::original_inventory_details().actions.end(), [](const auto& hit) {
+                        return hit.action == inventory::DetailAction::equip;
+                    });
+                const auto closed_releases = releases, closed_leaves = leaves;
+                check(click((hidden_equip.triangles[0].x + hidden_equip.triangles[1].x + hidden_equip.triangles[2].x) / 3,
+                            (hidden_equip.triangles[0].y + hidden_equip.triangles[1].y + hidden_equip.triangles[2].y) / 3) ==
+                      character_menu::Action::none && details.is_open() && equipment.selected_instance() == "suit-instance" &&
+                      releases == closed_releases && leaves == closed_leaves && character.equipment.empty(),
+                      "B095 explicit closed release equipped an item through hidden Details");
+                menu.open();
+                check(composition.select(menu, character_menu::Tab::equipment, error), error);
+                click(245.f, 18.f); // accepted active tab still clears the retained subpage
                 check(character.inventory.size() == 1 && character.inventory[0].instance_id == "suit-instance" &&
                       character.inventory[0].quantity == 1 && character.equipment.empty(),
                       "B095 navigation mutated inventory or equipped an item");

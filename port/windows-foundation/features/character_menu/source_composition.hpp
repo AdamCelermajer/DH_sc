@@ -308,6 +308,9 @@ public:
     // tabs directly and would bypass the preselection readiness gate.
     Action release(Presenter& presenter, float screen_x, float screen_y,
                    int width, int height, std::string& error) const {
+        // Close/Escape can retire the modal before another captured release is
+        // drained. A hit-test miss must not dispatch to that hidden page owner.
+        if (!presenter.is_open()) { error.clear(); return Action::none; }
         if (width <= 0 || height <= 0) {
             error = "Source menu release requires positive viewport dimensions";
             return Action::none;
