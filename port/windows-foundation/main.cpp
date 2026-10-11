@@ -6937,10 +6937,11 @@ int main(int argc,char** argv) {
                             embeddedActorTried[key]=modelPath;
                             std::vector<std::uint8_t> raw;
                             try{raw=assets.read(modelPath);}catch(const std::exception&){raw.clear();}
+                            const bool readable=!raw.empty();
                             std::string reason;
-                            if(!raw.empty()&&embeddedActorFx.attach(key,modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
+                            if(readable&&embeddedActorFx.attach(key,modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
                                 std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<modelPath<<'\n';
-                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<modelPath<<": "<<(raw.empty()?std::string("unreadable"):reason)<<'\n';
+                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<modelPath<<": "<<(!readable?std::string("unreadable"):reason)<<'\n';
                         }
                         if(!embeddedActorFx.attached(key))continue;
                         std::int32_t sourceMs=0;
