@@ -972,6 +972,7 @@ struct NativeCryptRoomRuntime {
  static std::int32_t transition_service(void*,
      const dh2::crypt_room_zone_owner_v1::TransitionRequest*,std::uint32_t*);
  static bool object_init_post_service(void*,GameObject&);
+ static bool object_init_post_service_body(void*,GameObject&);
  static bool test_enable_condition_service(void*,GameObject&,bool);
  static bool test_disable_condition_service(void*,GameObject&,bool);
  static bool update_condition_object_service(void*,GameObject*) noexcept;
@@ -4558,7 +4559,30 @@ bool NativeCryptRoomRuntime::append_active_object_service(
 }
 
 
+// Name the exact row and branch when a provider path fails silently or
+// throws; the ObjectManager driver only records the numeric status.
 bool NativeCryptRoomRuntime::object_init_post_service(void* raw,GameObject& row) {
+ auto* context=static_cast<NativeCryptRoomInitPostContext*>(raw);
+ if(!context||!context->runtime||!context->error)return false;
+ auto& error=*context->error;
+ bool ok=false;
+ try {ok=object_init_post_service_body(raw,row);}
+ catch(const std::exception& exception){error=std::string("threw: ")+exception.what();}
+ catch(...){error="threw a non-standard exception";}
+ if(!ok) {
+  const bool faery=std::any_of(context->runtime->faeries.begin(),context->runtime->faeries.end(),
+      [&](const auto& owner){return owner.identity==row.identity;});
+  const auto actor=context->runtime->actors.find(row.identity);
+  const char* branch=faery?"faery":row.identity==context->runtime->player_identity?"player":
+      actor!=context->runtime->actors.end()&&actor->second?"actor":"object";
+  error="InitPost "+std::string(branch)+" row '"+row.name+"' handle "+
+      std::to_string(row.source_handle)+" module "+std::to_string(row.source_module_index)+
+      " go_ids "+std::to_string(row.go_ids_0f4)+": "+
+      (error.empty()?std::string("provider returned false without a reason"):error);
+ }
+ return ok;
+}
+bool NativeCryptRoomRuntime::object_init_post_service_body(void* raw,GameObject& row) {
  auto* context=static_cast<NativeCryptRoomInitPostContext*>(raw);
  if(!context||!context->runtime||!context->error)return false;
  auto& runtime=*context->runtime;
