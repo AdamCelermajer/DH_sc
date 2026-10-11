@@ -444,6 +444,8 @@ public:
     // A successful call means the command was processed; original admission,
     // range and cooldown rules may legitimately leave the actor idle.
     bool request_actor_attack(ActorId,ActorId target,double dt,std::string& error);
+    // False for a bound animation-only (script/presentation) actor: it has no attack IDs and request_actor_attack would reject it.
+    bool admits_combat_commands(ActorId) const;
     bool script_kill_actor(ActorId,std::string& error);
     bool script_death_event(ActorId,std::string& error);
     bool script_move_handoff(ActorId,std::string& error);

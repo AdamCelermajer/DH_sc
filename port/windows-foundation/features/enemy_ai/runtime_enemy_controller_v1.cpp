@@ -395,6 +395,8 @@ bool RuntimeEnemyControllerV1::update(CombatSession& session, double dt, std::st
         const auto* traits = world->traits(id);
         const auto* owner_props = world->combat_properties(id);
         if (!traits || traits->is_player || !owner_props) continue;
+        // Animation-only source actors (scripted/presentation visuals) have no attack IDs and never run the monster controller.
+        if (!session.admits_combat_commands(id)) continue;
         const auto* ai = dh2::data::ai_props(*tables, owner_props->sheets.resolved[1]);
         if (!ai || ai->script != "monster") continue;
 

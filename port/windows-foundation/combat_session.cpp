@@ -1626,6 +1626,11 @@ bool CombatSession::select_next_player_target(ActorId& selected,std::string& err
     if(!refresh_actor_combat_permissions(error))return false;
     return s.cycle_player_target(selected,error);
 }
+bool CombatSession::admits_combat_commands(ActorId actor) const {
+    if(!impl_||impl_->detached)return false;
+    const auto found=impl_->entries.find(actor);
+    return found!=impl_->entries.end()&&!found->second.animationOnly;
+}
 bool CombatSession::request_actor_attack(ActorId actor,ActorId target,double dt,std::string& error){
     error.clear();
     if(!impl_||impl_->detached||!impl_->entries.count(actor)){
