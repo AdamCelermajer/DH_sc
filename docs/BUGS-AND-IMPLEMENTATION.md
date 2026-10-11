@@ -257,3 +257,4 @@ Only root accepts a release. Preview11 (FD850478) is accepted; do not modify tha
 | B082 | Death: black screen, no visible try-again / return-to-checkpoint; hero death animation. | OPEN, session assigned | fresh Sonnet session |
 | B083 | A skill (slot 2) was not usable. | OPEN, session assigned | fresh Sonnet session |
 | B085 | Breaking a vase: no sound, no sword animation. | OPEN, session assigned | fresh Sonnet session |
+| B086 | Quit and relaunch: the hero is placed wrongly beside the cages and cannot move (shot-7). | OPEN, session assigned | fresh Sonnet session |
