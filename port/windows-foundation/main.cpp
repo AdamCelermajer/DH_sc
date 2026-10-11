@@ -4064,9 +4064,8 @@ int main(int argc,char** argv) {
             if(!runtimeAudio) {std::cout<<"Quest banner sound "<<cue<<" status=no_audio_runtime frame="<<drawn<<"\n";return;}
             std::string soundError;
             const auto ordinal=runtimeAudio->play_named_ui_sound(cue,soundError);
-                     <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"
-";
             std::cout<<"Quest banner sound "<<cue<<" ordinal="<<ordinal<<" status="<<(ordinal<0?(soundError.empty()?"absent_in_sound_table":"failed"):"submitted")
+                     <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
             questCuePending=(ordinal<0&&soundError.find("device clock")!=std::string::npos)?cue:nullptr;
         };
         questBanners.on_shown=[&](bool completed){playQuestCue(completed?"QuestComplete":"QuestNew");};
