@@ -388,6 +388,15 @@ bool RuntimeSessionAudioV1::play_named_plain(const char* name,std::string& error
     return false;
 }
 
+// NativePlaySoundFX: Arrays::GetMemberIDByString<Sounds>(name) then VoxSoundManager::PlayMenu (a miss is a source no-op).
+NamedUiCueResultV1 RuntimeSessionAudioV1::play_named_ui_sound(const char* name,std::string& error) {
+    error.clear();
+    if(!host_)return {};
+    // script_play_plain deliberately accepts missing assets as silent script
+    // no-ops. Event diagnostics require the actual command/voice distinction.
+    return host_->submit_named_ui_sound(name,error);
+}
+
 bool RuntimeSessionAudioV1::script_stop_plain(std::int32_t ordinal,int fade_ms,std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     return host_->stop_script_plain_sound(ordinal,fade_ms,error);

@@ -2,6 +2,7 @@
 
 #include "runtime_combat_audio_v1.hpp"
 #include "music_voice_v1.hpp"
+#include "named_ui_cue_v1.hpp"
 #include "feature_audio.hpp"
 #include "windows_source_session_control_v1.hpp"
 #include "../../../engine-audio/integration-v42/audio_native_session_v42.hpp"
@@ -118,6 +119,8 @@ public:
     // v20 SCRIPTSVC: Script_PlaySound plain (VoxSoundManager::Play, a4 = delay ms, loop from the XML emitter) and
     // Script_StopSound plain (VoxSoundManager::Stop, fade ms). ordinal<0 is a source no-op. Uses the same producer.
     bool submit_script_plain_sound(std::int32_t source_ordinal,int delay_ms,std::string& error);
+    // Named event diagnostics preserve missing-sample/no-output distinctions.
+    NamedUiCueResultV1 submit_named_ui_sound(const char* name,std::string& error);
     bool stop_script_plain_sound(std::int32_t source_ordinal,int fade_ms,std::string& error);
     // Producer-thread source settings, initialized from the exact fresh
     // emitter defaults and updated only when the current source DSP changes.
