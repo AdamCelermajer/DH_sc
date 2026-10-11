@@ -5603,11 +5603,9 @@ int main(int argc,char** argv) {
                     const auto releasedAction=characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
                     if(f::character_menu::is_stat_page_action(releasedAction)) {
                         // B111: btn*Tab.on_clicked = NativePopMenu + NativePushMenu(menu_CharacterSheet<Page>) + NativePlaySoundFX("MenuSelect").
-                        std::cout<<"Character menu Statistics sub-page="<<int(characterMenu.stat_page())<<" frame="<<drawn<<'
-';
+                        std::cout<<"Character menu Statistics sub-page="<<int(characterMenu.stat_page())<<" frame="<<drawn<<"\n";
                         std::string soundError;
-                        if(runtimeAudio&&!runtimeAudio->play_named_plain("MenuSelect",soundError))std::cerr<<"Character menu MenuSelect sound diagnostic: "<<soundError<<'
-';
+                        if(runtimeAudio&&!runtimeAudio->play_named_plain("MenuSelect",soundError))std::cerr<<"Character menu MenuSelect sound diagnostic: "<<soundError<<"\n";
                     }
                     // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
                     if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n';
