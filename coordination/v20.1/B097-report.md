@@ -36,6 +36,10 @@ The paired actual coordinator regression restores the same GameSave/live sheets,
 
 Build wrapper exit0. Full172 CTests:170pass; known worktree session_skill_binding52 failed and campaign_host82 hit timeout123.63s during parallel load. Focused82 rerun without source change PASS0.84s (`ctest-campaign-rerun.log`), giving171/172 aggregate with only the documented52 failure remaining. Preserve the original full log rather than hiding the timeout. `git diff --check` passes.
 
+Independent reviewer `/root/b097_review` strictly compiled and ran the final source consumer in its own `fix097-review/cast-output` scratch: PASS exact gold/current-rank bounds, mana/empty/duplicate branches and existing Warrior/Rogue matrix. It independently inspected original394-397.5, accepted baseline, rank1, trained rank2 and Continue/reload captures and verified the frozen executable SHA. Review of this standalone portion passes; full normal cast verdict remains conditional on B083.
+
+Additional original caller/gate audit: `_SkillCombatRoll`0x3b9fbc bounds-checks actual class SkillList position and nonnull target user data, resolves GetCharSkill, and reads flags+28/element+20. The dual-weapon flag0x800000 admits separate main/off weapon attacks only when the corresponding weapon exists; BashDown's actual0x00335535 lacks that flag, so the unarmed source fixture legitimately reaches its single result. Character targets call F_SkillAttack then F_ApplyResult; compatible non-character type8 uses its virtual destructible consumer. `AI_IsSkillUsable`0x3d8358 requires loaded script process, in-range nonnull script, not casting and no noninterruptible active skill before OnSkillCheck_Usable. The rank patch adds no bypass to these target/class/weapon/owner gates; B083 owns the unresolved host object/hurt admission changes.
+
 Branch fix/b097 (from v20.1/integrate). Headsplitter = SkillTable row 7 `BashDown`, script `prince_warrior_bashdown`, class `Skill_Warrior_BashDown` (class row 215).
 
 ## Root cause (observed by running the real class tables)
