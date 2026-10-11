@@ -46,4 +46,5 @@ The reusable fixture generator `coordination/v20.1/b112_runtime_fixtures.py` sta
 
 Inspected before quest-near1280x720 frame260: prisoner visible with speech-bubble HUD, no ! or green ring. Inspected before merchant-near1280x720 frame260: standing merchant visible, sword HUD, no bag or green ring. These reproduce supplied shots8/18. Assets point at the same read-only B100 asset root for both comparisons, so missing rings are source-path omissions in acceptedv20, not absence of art in the comparison. Repeated Space300/550 offers no merchant action in acceptedv20.
 
-Additional original anchor consumer inspected: `AnimatedFX::Update`0x493050 (pseudocode declaration line288795; address to verify against function heading) removes its anchor for virtual+52 dead or anchor+129 disabled. Merchant update checks visible+138, not an invented selection gate. Existing renderer actor alive/enabled guards support that visible invariant; full disabled/dead production branch not yet exercised here.
+Additional original anchor consumer inspected: `AnimatedFX::Update`0x492f68 (pseudocode declaration line288795) removes its anchor for virtual+52 dead or anchor+129 disabled. Merchant update checks visible+138, not an invented selection gate. Existing renderer actor alive/enabled guards support that visible invariant; full disabled/dead production branch not yet exercised here.
+
