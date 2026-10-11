@@ -44,15 +44,15 @@ export('back_art','btn_Back',223,0)
 export('error_art','MerchantErrorPopup',250,labels[250]['hide']-1)
 def hit(child_name,sprite):
     p,m=child(child_name);hp=swf.placed_path(sprites[sprite],'hitzone');hm=swf.multiply(m,hp['matrix'])
-    return numbers([c for v in vertices(hit_shapes[82],hm) for c in v[:2]])
+    return 'std::vector<float>'+numbers([c for v in vertices(hit_shapes[82],hm) for c in v[:2]])
 def hit_back():
     p,m=child('btn_Back');art=[];tx=[]
     walk(p['character'],m,'btn_Back',art,tx,0,'equipment',True)
     xs=[v[0] for _,_,vs in art for v in vs];ys=[v[1] for _,_,vs in art for v in vs]
     x0,x1,y0,y1=min(xs),max(xs),min(ys),max(ys)
-    return numbers([x0,y0,x1,y0,x1,y1,x0,y0,x1,y1,x0,y1])
+    return 'std::vector<float>'+numbers([x0,y0,x1,y0,x1,y1,x0,y0,x1,y1,x0,y1])
 lines.append('const MerchantArt& merchant_art(){static const MerchantArt art{title_art,tab_buy_idle,tab_buy_on,tab_sell_idle,tab_sell_on,action_idle,action_disabled,potions_idle,back_art,error_art,')
-lines.append('{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}};return art;}')
+lines.append('{{'+hit('btn_Buy',227)+','+hit('btn_Sell',227)+','+hit('btn_Action',202)+','+hit('btn_BuyPotions',215)+','+hit_back()+'}}};return art;}')
 lines.append('}')
 (here.parent/'merchant_art.cpp').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 print('ok',len(lines))

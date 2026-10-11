@@ -398,7 +398,7 @@ target_sources(foundation_frontend PRIVATE features/menu_metadata/menu_metadata_
 target_link_libraries(foundation_frontend PUBLIC foundation_data ${DH2_PLATFORM_LIBRARIES})
 target_include_directories(foundation_frontend PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
-target_link_libraries(dh-foundation PRIVATE foundation_frontend foundation_map_visit) # P16 map: RoomZone tracker + Map page model
+target_link_libraries(dh-foundation PRIVATE foundation_frontend foundation_map_visit foundation_merchant) # P16 map: RoomZone tracker + Map page model
 if(MINGW)
   add_link_options(-static)
   target_link_options(dh-foundation PRIVATE -static)
@@ -1188,3 +1188,10 @@ add_executable(source_actor_placement_tests tests/source_actor_placement_tests.c
 add_test(NAME source_actor_placement COMMAND source_actor_placement_tests)
 add_executable(source_fx_version_overrides_tests tests/source_fx_version_overrides_tests.cpp)
 add_test(NAME source_fx_version_overrides COMMAND source_fx_version_overrides_tests)
+
+# B110: merchant shop (model + Details-panel UI composition + exported menu_Merchant chrome)
+add_library(foundation_merchant STATIC features/merchant/merchant_shop_v1.cpp features/merchant/merchant_shop_ui_v1.cpp features/merchant/merchant_art.cpp)
+target_link_libraries(foundation_merchant PUBLIC foundation_data foundation_runtime_loot)
+add_executable(merchant_shop_v1_tests features/merchant/merchant_shop_v1_tests.cpp)
+target_link_libraries(merchant_shop_v1_tests PRIVATE foundation_merchant)
+add_test(NAME merchant_shop_v1 COMMAND merchant_shop_v1_tests)
