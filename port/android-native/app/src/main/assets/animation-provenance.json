@@ -534,6 +534,270 @@
       "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/lizardman/animations/big_lizardman_walk_01.bdae",
       "bytes": 12624,
       "sha256": "0dc81dd2dabc3fa0b6a25eb3456489442ad3a4736b87f57932a985812b35aa16"
+    },
+    {
+      "asset": "actors/lizardman_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/lizardman/animations/lizardman_attack_01.bdae",
+      "bytes": 11520,
+      "sha256": "6013cf3fc40bedebd08bf1315ecdd78a0899acb04ea85af3157f6b7a27c23993"
+    },
+    {
+      "asset": "actors/lizardman_dying_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/lizardman/animations/lizardman_dying_01.bdae",
+      "bytes": 12292,
+      "sha256": "d71cde5d2ce5e18bde7c3d5542c63016ccc2c9900d22f48e6ce048ffd06ea8a8"
+    },
+    {
+      "asset": "actors/lizardman_idle_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/lizardman/animations/lizardman_idle_01.bdae",
+      "bytes": 35556,
+      "sha256": "c9c64c805495459da201947f19eb4dbae598e1f8843d0054f8c09dbec5b407f6"
+    },
+    {
+      "asset": "actors/lizardman_post_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/lizardman/animations/lizardman_post_attack_01.bdae",
+      "bytes": 8076,
+      "sha256": "7842a020af319c8d678153b1241322c652c1feb97be4c546bd61629a89f6a863"
+    },
+    {
+      "asset": "actors/lizardman_pre_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/lizardman/animations/lizardman_pre_attack_01.bdae",
+      "bytes": 6696,
+      "sha256": "25b0cd37c2156298affcd337036ed987a60737b0de5b6a2e5cde1b3d0e9e61b1"
+    },
+    {
+      "asset": "actors/lizardman_walk_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/lizardman/animations/lizardman_walk_01.bdae",
+      "bytes": 13536,
+      "sha256": "8d687c16a9424285f495aba63ee623af2d37b1c0d8629e9cc7cd22373528b896"
+    },
+    {
+      "asset": "actors/moth_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/animations/moth_attack_01.bdae",
+      "bytes": 17264,
+      "sha256": "dbf8f7964563775e18e13c874a8710cce457664e4b269c438800b5bb0a59c82b"
+    },
+    {
+      "asset": "actors/moth_dying_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/animations/moth_dying_01.bdae",
+      "bytes": 16944,
+      "sha256": "369c261a9a1b6691e1f4dcf4c9b7f36635a0f6c9f0766000afc22807055f48ab"
+    },
+    {
+      "asset": "actors/moth_idle_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/animations/moth_idle_01.bdae",
+      "bytes": 15896,
+      "sha256": "0f9a37ef7e97f5834e6fa083fb80a59c8d21fdea4c8c6cc96268f3215479179d"
+    },
+    {
+      "asset": "actors/moth_idle_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/animations/moth_idle_02.bdae",
+      "bytes": 15936,
+      "sha256": "16cd25cabb373b319185dcdd66cdd373de9cb2f8f9368afa0546a4ae29f501fa"
+    },
+    {
+      "asset": "actors/moth_post_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/animations/moth_post_attack_01.bdae",
+      "bytes": 18244,
+      "sha256": "79ead2c3a542309d27f9b35ecb39e86ce4d03ebdbb8c2adf0d39e3e1d7b71ac1"
+    },
+    {
+      "asset": "actors/moth_pre_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/animations/moth_pre_attack_01.bdae",
+      "bytes": 17088,
+      "sha256": "8909bbbc32deb1ec8df5411f9a849e861d0d365795243adf628011dcf8b5ac5d"
+    },
+    {
+      "asset": "actors/moth_spawn.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/animations/moth_spawn.bdae",
+      "bytes": 23008,
+      "sha256": "9e195bcf0964c33c08e9f3ab19b4fd3b1d965f27b8b83ed1863783151efa6f29"
+    },
+    {
+      "asset": "actors/moth_walk_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/animations/moth_walk_01.bdae",
+      "bytes": 16928,
+      "sha256": "4413061ff7fd54dd4e08a58327beb84a3d5540162d20bb19a1b8870795e402fe"
+    },
+    {
+      "asset": "actors/moth_walk_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/animations/moth_walk_02.bdae",
+      "bytes": 16772,
+      "sha256": "e101727d3288b8bd5eaaf4057aab5dd14584512f845ed09f633c31a8dea69eea"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    {
+      "asset": "actors/prince_1hand_pre_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    {
+      "asset": "actors/prince_1hand_pre_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    {
+      "asset": "actors/prince_walk_1hand.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "asset": "actors/prisoner_idle_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/npcs/animations/prisoner_idle_01.bdae",
+      "bytes": 17100,
+      "sha256": "9d8765263fefe58f6cfa264c98aa050739df2a95acdaa1dacb8846dfd4b1593e"
+    },
+    {
+      "asset": "actors/prisoner_idle_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/npcs/animations/prisoner_idle_02.bdae",
+      "bytes": 18500,
+      "sha256": "15d8c26f5a826d01f7b5925189167290e998b39c8a8d9c479a6cf9496c90c5de"
+    },
+    {
+      "asset": "actors/prisoner_idle_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/npcs/animations/prisoner_idle_03.bdae",
+      "bytes": 25448,
+      "sha256": "e4ba7c824ea589c90f7640beffed30f7e2f868eaab993729899c6048fc88b3d0"
+    },
+    {
+      "asset": "actors/troll_swamp_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_attack_01.bdae",
+      "bytes": 9048,
+      "sha256": "d1345421b868849cc4498b2617c03c8ec4d53de73e70ff7378df7ef9cc472687"
+    },
+    {
+      "asset": "actors/troll_swamp_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_attack_02.bdae",
+      "bytes": 8564,
+      "sha256": "54b0d19d01d127cf3f9a815212e04f57f92e5a68583cec65826b86dba0a50dce"
+    },
+    {
+      "asset": "actors/troll_swamp_attack_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_attack_03.bdae",
+      "bytes": 7908,
+      "sha256": "44afc27fd8d02531295e1a533e974e890d7ae91137c60a65c4254a18b4758c96"
+    },
+    {
+      "asset": "actors/troll_swamp_dying.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_dying.bdae",
+      "bytes": 16676,
+      "sha256": "80b16a1ae23980871e6395e70148e22699cae4a82e6c5668eb168e16a25b440f"
+    },
+    {
+      "asset": "actors/troll_swamp_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_idle.bdae",
+      "bytes": 15676,
+      "sha256": "aeb1e742afb36365b853a26154fbc9b778e0a30a95b1a452083db13db2e732ae"
+    },
+    {
+      "asset": "actors/troll_swamp_post_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_post_attack_01.bdae",
+      "bytes": 8500,
+      "sha256": "0cf117e758f3718f7bcf4d1374ffc2223fab0ec60fe4adcd58efe627e454d93b"
+    },
+    {
+      "asset": "actors/troll_swamp_post_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_post_attack_02.bdae",
+      "bytes": 9184,
+      "sha256": "49400018d974eb23e5fee6b8e19d9335d9249489a54804f3ee047c557cfe48aa"
+    },
+    {
+      "asset": "actors/troll_swamp_post_attack_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_post_attack_03.bdae",
+      "bytes": 9720,
+      "sha256": "3bcda01f87f63c749108c8a2e44b0e99362c57455386043c0eed7709eb28cee1"
+    },
+    {
+      "asset": "actors/troll_swamp_pre_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_pre_attack_01.bdae",
+      "bytes": 8164,
+      "sha256": "5fa8a2884d03ab9af4a568fd7e717cc47b49fa6f6ce397958b6f53c5e5275e97"
+    },
+    {
+      "asset": "actors/troll_swamp_pre_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_pre_attack_02.bdae",
+      "bytes": 7928,
+      "sha256": "cd451b064e475a04009404f6ff804649354ae69ce93b39563d547db3c6d7c003"
+    },
+    {
+      "asset": "actors/troll_swamp_pre_attack_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_pre_attack_03.bdae",
+      "bytes": 7896,
+      "sha256": "f74bb845165e6234e43a88b0e7019484cdaa6340b49a3b611aea51f46ef0a2a2"
+    },
+    {
+      "asset": "actors/troll_swamp_walk.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_walk.bdae",
+      "bytes": 11808,
+      "sha256": "2ccbad1d1de5b5c994475a7761b981791f58e8bd9e7699bee898df8a282fedcb"
+    },
+    {
+      "asset": "actors/troll_swamp_water_spawn.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/animations/troll_swamp_water_spawn.bdae",
+      "bytes": 24084,
+      "sha256": "3a2392dad16d97a7ad09f2b35ddbacb49a6ad2f0bdd83c9f1d08eac559bb4468"
+    },
+    {
+      "asset": "actors/priest_good.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/npcs/priest_good.bdae",
+      "bytes": 42136,
+      "sha256": "880ed0be28e158dc62779a1fd5f9874cbd39fb68edc31af69972aceb8979e8bf"
+    },
+    {
+      "asset": "actors/troll_swamp.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/troll/troll_swamp.bdae",
+      "bytes": 70344,
+      "sha256": "fd5d995cc2ff52d21d87b2f28fd1cb10f054e4206db6811bf019502430091a98"
+    },
+    {
+      "asset": "actors/lizardman.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/lizardman/lizardman.bdae",
+      "bytes": 68540,
+      "sha256": "acd6ff9ce6f2bad967cbdd8f015536304980443333fb3b7f8c735a450911acde"
+    },
+    {
+      "asset": "actors/moth.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/moth/moth.bdae",
+      "bytes": 73432,
+      "sha256": "c1ef1fef10e8ae846845734d1808eabe8acd219ad2f0d0b710dc70a9dcafbc7c"
+    },
+    {
+      "asset": "actors/invisible_man.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/invisible_man/invisible_man.bdae",
+      "bytes": 960,
+      "sha256": "30a4c5431d8b53137f8eb1d87c9a166d13df5438a92fec2c14c4fa8781843d7e"
+    },
+    {
+      "asset": "actors/edward_with_weapon.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/npcs/edward_with_weapon.bdae",
+      "bytes": 118864,
+      "sha256": "8dda01234f264e28d88cf7f8af426c7be48bb331f979bf38cf3ce4743e5ee413"
     }
   ],
   "idle_states": [
@@ -852,5 +1116,163 @@
   "character_count": 80,
   "clip_path_count": 1447,
   "serialized_bytes": 72812,
-  "policy": "Native original initial idle selection and speed; shared resource clock and development seed 1. Idle completion re-selection, blending, AI and combat pending."
+  "policy": "Native original initial idle selection and speed; shared resource clock and development seed 1. Idle completion re-selection, blending, AI and combat pending.",
+  "swamp_direct_character_resource_closure": {
+    "source_tables": [
+      7,
+      34,
+      42,
+      47,
+      51,
+      52,
+      53,
+      56,
+      70,
+      73,
+      79
+    ],
+    "states": [
+      "Idle",
+      "Walk",
+      "Attack",
+      "Died",
+      "Spawn"
+    ],
+    "model_anim_pairs": [
+      [
+        "edward_with_weapon",
+        47
+      ],
+      [
+        "invisible_man",
+        47
+      ],
+      [
+        "lizardman",
+        34
+      ],
+      [
+        "lizardman_big",
+        7
+      ],
+      [
+        "moth",
+        42
+      ],
+      [
+        "priest_good",
+        47
+      ],
+      [
+        "prisoner",
+        51
+      ],
+      [
+        "prisoner",
+        52
+      ],
+      [
+        "prisoner",
+        53
+      ],
+      [
+        "prisoner",
+        56
+      ],
+      [
+        "prisoner",
+        79
+      ],
+      [
+        "swampking",
+        70
+      ],
+      [
+        "troll_swamp",
+        73
+      ]
+    ],
+    "clip_ids": [
+      23,
+      24,
+      26,
+      32,
+      33,
+      34,
+      36,
+      37,
+      40,
+      43,
+      806,
+      811,
+      817,
+      818,
+      822,
+      828,
+      832,
+      874,
+      880,
+      886,
+      887,
+      891,
+      893,
+      896,
+      900,
+      901,
+      926,
+      934,
+      935,
+      937,
+      955,
+      956,
+      957,
+      958,
+      959,
+      960,
+      962,
+      964,
+      965,
+      966,
+      967,
+      968,
+      969,
+      970,
+      972,
+      1023,
+      1040,
+      1041,
+      1114,
+      1126,
+      1127,
+      1128,
+      1129,
+      1315,
+      1316,
+      1317,
+      1321,
+      1328,
+      1330,
+      1331,
+      1332,
+      1333,
+      1334,
+      1335,
+      1337,
+      1338,
+      1357,
+      1358,
+      1359,
+      1363,
+      1370,
+      1371,
+      1372,
+      1373,
+      1375,
+      1376,
+      1377,
+      1383,
+      1384
+    ],
+    "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679"
+  }
 }

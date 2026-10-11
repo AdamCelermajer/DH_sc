@@ -150,6 +150,12 @@
       "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/menugraphics06.tga",
       "bytes": 32828,
       "sha256": "9e56c4e9bba6167997ca94ed83abd9304a832f40f5984bcd63f5f14f9f6ec65c"
+    },
+    {
+      "name": "atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "bytes": 524348,
+      "sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309"
     }
   ]
 }
