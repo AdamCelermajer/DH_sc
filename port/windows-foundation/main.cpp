@@ -63,6 +63,7 @@
 #include "features/loot/runtime_session_death_rewards_v1.hpp"
 // P16 QUESTS: thin quest runtime and the generic quest event bus (raise_quest_event).
 #include "features/quest_runtime/quest_runtime_v1.hpp"
+#include "features/quest_runtime/quest_npc_marker_v1.hpp"
 #include "features/quest_runtime/quest_events_v1.hpp"
 #include "features/quest_runtime/quest_conditions_v1.hpp" // OPENING2: named activation conditions
 #include "features/conditions/condition_watch_v1.hpp" // P17 CONDITIONS: authored v2Conditions evaluator + flip watch
@@ -2170,10 +2171,19 @@ int main(int argc,char** argv) {
             } else std::cout<<"Level world restore status=none level="<<options.level.generic_string()<<'\n';
         }
         f::OriginalScene targetMarker;f::OriginalActorLabels actorLabels;f::HudGlyphFont targetFont;
+        f::OriginalScene questMarker[2]; // B087: quest-giver "!" over NPC heads (DesignSettings QuestMarker / QuestMarkerSecondary); [1] may stay empty (falls back to [0])
         if(combatSession&&options.hud) {
             const auto& markers=f::original_target_marker_art();const auto marker=std::find_if(markers.begin(),markers.end(),[](const auto& art){return art.interaction_type==8;});
             if(marker==markers.end()||!f::decode_original_scene(f::read_content(assets,marker->model_uri),targetMarker,error))throw std::runtime_error("Original attack marker: "+error);
             for(auto& range:targetMarker.mesh.ranges)range.material.lightingEnabled=!marker->self_illum;
+            for(int variant=0;variant<2;++variant) { // B087: quest_marker.bdae (effect 137), quest_marker_blue.bdae (effect 138)
+                const char* uri=variant?"data/3D/interface/quest_marker_blue.bdae":"data/3D/interface/quest_marker.bdae";
+                std::string markerError;
+                try {
+                    if(!f::decode_original_scene(f::read_content(assets,uri),questMarker[variant],markerError)){std::cout<<"Quest marker "<<uri<<" not decoded: "<<markerError<<'\n';questMarker[variant]=f::OriginalScene();}
+                    else for(auto& range:questMarker[variant].mesh.ranges)range.material.lightingEnabled=false;
+                } catch(const std::exception& ex) {std::cout<<"Quest marker "<<uri<<" unavailable: "<<ex.what()<<'\n';questMarker[variant]=f::OriginalScene();}
+            }
             if(!targetFont.load(assets.resolve("data/Fontin SmallCaps.ttf"),error)||!actorLabels.load(assets,"original-cache/data",0,error))throw std::runtime_error("Original target text: "+error);
         }
         auto visualStep=[&](double seconds) {
@@ -3340,6 +3350,7 @@ int main(int argc,char** argv) {
             for(auto& range:attached.visual.mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
         }
         for(std::size_t i=0;i<targetMarker.materials.size();++i)targetMarker.mesh.ranges[i].material.texture=loadTexture(targetMarker.materials[i].diffuse,targetMarker.materials[i].alphaMap);
+        for(auto& marker:questMarker)for(std::size_t i=0;i<marker.materials.size()&&i<marker.mesh.ranges.size();++i)marker.mesh.ranges[i].material.texture=loadTexture(marker.materials[i].diffuse,marker.materials[i].alphaMap); // B087
         };
         // P16 containers: bind the original textures of each container visual (same rule as actors).
         for(const auto& view:containerRuntime.views())if(view.visual)for(std::size_t i=0;i<view.visual->mutable_meshes().size();++i){
@@ -6922,6 +6933,26 @@ int main(int argc,char** argv) {
                 const auto original=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& actor){return actor.definition.stableId==target->id;});
                 if(original!=population.actors().end()){placement[0]=std::hypot(original->transform[0],original->transform[1]);placement[5]=std::hypot(original->transform[4],original->transform[5]);placement[10]=original->transform[10];}
                 queue.submit(targetMarker.mesh,placement);
+            }
+            // B087: quest-giver marker (Objective_TalkToNPC::InstallObjectiveMarker 0x47d8e8): one "!" over the first placed
+            // Character of each TalkToNPC objective's CharacterTable row while its quest is available/active (features/quest_runtime).
+            if(questRuntime&&questTable&&combatSession&&!questActorIdentity.empty()) {
+                for(const auto& marker:f::quest_runtime::quest_npc_markers_v1(*questTable,*questRuntime)) {
+                    const auto& art=(marker.secondary&&!questMarker[1].mesh.vertices.empty())?questMarker[1]:questMarker[0];
+                    if(art.mesh.vertices.empty())continue;
+                    for(const auto& placed:population.actors()) {
+                        const auto identity=questActorIdentity.find(placed.definition.stableId);
+                        if(identity==questActorIdentity.end()||identity->second.first!=marker.npc_row)continue;
+                        if(!placed.enabled)break;
+                        auto placement=f::identity();placement[12]=placed.definition.placement[12];placement[13]=placed.definition.placement[13];placement[14]=placed.definition.placement[14];
+                        if(const auto* live=combatSession->actor(placed.definition.stableId)){if(!live->alive())break;placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];}
+                        // the marker mesh (z 2..568) carries its own height above the character origin (AnimatedFX attached at the NPC, 0x47d8e8)
+                        queue.submit(art.mesh,placement);
+                        static std::set<std::pair<int,int>> loggedQuestMarkers;
+                        if(loggedQuestMarkers.insert({marker.quest_row,marker.npc_row}).second)std::cout<<"Quest marker drawn quest_row="<<marker.quest_row<<" npc_row="<<marker.npc_row<<" secondary="<<marker.secondary<<" at="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" frame="<<(drawn+1)<<" mesh_min="<<art.minimum.x<<','<<art.minimum.y<<','<<art.minimum.z<<" mesh_max="<<art.maximum.x<<','<<art.maximum.y<<','<<art.maximum.z<<" verts="<<art.mesh.vertices.size()<<'\n';
+                        break;
+                    }
+                }
             }
             // B075: a destructible OOI (source type 8, Character FX[8] "attack" circle, CONTEXT report 1.3) gets the same ring under it
             // as an enemy target. Only unbroken destructibles are OOI candidates; chests (type 0) need their own circle art (not drawn).
