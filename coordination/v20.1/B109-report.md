@@ -1,6 +1,6 @@
 # B109 (and B107): Bogwitch Cavern exit area and the cavern render wrongly
 
-Status: three general fixes implemented and tested; B109 remains OPEN pending independent visual review of remaining arch shape/scale and wall appearance differences. Worker `/root/b109_cavern` retains follow-up ownership; root assigns the fresh reviewer. Historical HANDOFF below is superseded by this verification section.
+Status superseded by root: user explicitly confirms rendering fixed in the supplied B113 screenshot. Material transport repair8b1eb74c/tip1a3e199f re-reviewed READY FOR SCOPED INTEGRATION WITH CAVEATS; merged into integration. Final combined frozen checks remain a release gate. Earlier arch/wall appearance gaps below remain fidelity caveats, not unaccepted user bug gates. Travel text/presentation is separately owned as B113. Historical HANDOFF below is superseded by this verification section.
 
 ## Implemented and verified checkpoint (2026-10-12)
 
