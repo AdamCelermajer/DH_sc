@@ -102,6 +102,9 @@ int main(int argc,char** argv){try{
     combat.sheets.resolved[202]=dual_before;
     character.inventory.push_back({"potion","Potion0",1});check(menu.select_slot(9,error),error);
     check(menu.view_for_selected_slot(menu_view,error),error);check(menu_view.size()==1&&menu_view.front().definition_id=="Potion0","Source category9 valuables projection differs");
+    {auto& potion_words=table.rows[dh2::data::item_id(table,"Potion0")].record.words;const auto saved=potion_words[29];potion_words[29]=99; // unmet level requirement
+     check(menu.view_for_selected_slot(menu_view,error),error);check(menu_view.size()==1&&menu_view.front().requirements_met,"B081: category9 potion row flagged unmet (red X)");
+     potion_words[29]=saved;}
     check(!menu.unequip_selected_slot(error),"Source valuables category became equipment slot9");
     check(menu.select_slot(1,error),error);check(menu.select_instance("sword2",error),error);
     check(menu.equip_selected(error),error);check(publications==2,"Selected-slot action did not publish exactly once");

@@ -49,7 +49,9 @@ bool Presenter::view(std::vector<OwnedSelection>& output,std::string& error)cons
             else if(target==-2)row.applicable_to_selected_slot=slot_==5||slot_==6;
             else row.applicable_to_selected_slot=target==-4&&slot_==1;
         }
-        row.requirements_met=equipment_equippable_by(*item,properties_,options_.online_requirements_bypass,options_.player_class_id);
+        // B081: NativeInvGetItemsListForSlot (0044bb94) sets ItemEquippable = (slot==Count) || IsEquippableBy, so the
+        // valuables/potions category (slot 9) is never 'unmet': its rows keep the Status clip "Empty" (no red X).
+        row.requirements_met=slot_==9||equipment_equippable_by(*item,properties_,options_.online_requirements_bypass,options_.player_class_id);
         for(const auto& binding:owner_.equipment)if(binding.item_instance_id==owned.instance_id)row.equipped=true;
         constexpr unsigned indexes[]{19,149,150,151,152};
         for(unsigned i=0;i<5;++i){row.required[i]=item->record.words[29+i];row.actual[i]=character_menu::source_stat_integer(properties_.resolved[indexes[i]]);}
